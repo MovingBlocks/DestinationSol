@@ -25,6 +25,7 @@ public class SolCmp {
   private float myAccum = 0;
   private SolGame myGame;
 
+  //commented by NoiseDoll
   public SolCmp() {
     myMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
 
