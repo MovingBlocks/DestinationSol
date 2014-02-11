@@ -1,0 +1,30 @@
+package com.miloshpetrov.sol2.desktop;
+
+import com.badlogic.gdx.Files;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.miloshpetrov.sol2.SolAppListener;
+import com.miloshpetrov.sol2.game.DebugAspects;
+import com.miloshpetrov.sol2.menu.ResoReader;
+
+public class SolDesktop {
+  public static void main(String[] argv) {
+    ResoReader.Data d = ResoReader.read();
+
+    LwjglApplicationConfiguration c = new LwjglApplicationConfiguration();
+    c.width = d.x;
+    c.height = d.y;
+    c.fullscreen = d.fs;
+    c.title = "Sol";
+    c.addIcon("res/icon.png", Files.FileType.Internal);
+
+    if (DebugAspects.MOBILE) {
+      c.width = 640;
+      c.height = 480;
+      c.fullscreen = false;
+    }
+
+    new LwjglApplication(new SolAppListener(), c);
+  }
+
+}
