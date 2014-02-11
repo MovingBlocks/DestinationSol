@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="solSrc">
+    <output-path>$PROJECT_DIR$/out/artifacts/</output-path>
+    <root id="archive" name="solSrc.jar">
+      <element id="dir-copy" path="$PROJECT_DIR$/main/src" />
+    </root>
+  </artifact>
+</component>

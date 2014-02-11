@@ -1,0 +1,56 @@
+
+bullets fly thru
+
+bullets too narrow on phone
+get rid of generated white texture
+strange shard speeds
+
+far ship delayed pos calc?
+explorers should avoid tough enemies
+remember consumed angles on planet
+
+===================== REST =======================================================================
+
+
+BG 3.0:
+  create self-repetitive nebulae, always draw 4 of them
+  use starChunkMan?
+
+BUGS
+  check if there are objects inside planet.
+
+ARCHITECTURE
+  arcSin -> arcToAngle(hordeLen, r) -> 180*hordeLen/(pi*r)
+  arcSin -> angularWidthOfSphere(r, dist) -> arcSin(r/dist)
+  arcSin -> angularWidthOfTangentSpan(spanLen, dist) -> arcTan(spanLen/dist)
+
+FEATURES
+  asteroids should fall apart + in atm
+  "new" mark in the inventory
+  persistent ship amt ctrlr
+  ship traces reusable?
+  save
+  better ship smoke
+  make buttons size based on real screen size + test on tablets
+  better collision prediction (multipoint)
+  try using shaders
+
+PERF
+  use circles instead of polys
+  PartMan should use pool
+  string reuse
+  autoboxing? (boolean is OK)
+
+CLEANNESS
+  make ChunkMan distances constants
+  less or equal in ChunkMan
+
+DISPOSE
++ BitmapFont
+- ParticleEffect
++ Pixmap
++ Shape
++ SpriteBatch
++ Texture
+  TextureAtlas
++ World

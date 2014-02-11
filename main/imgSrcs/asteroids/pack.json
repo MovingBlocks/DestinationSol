@@ -1,0 +1,6 @@
+{
+  minWidth: 256,
+  minHeight: 256,
+  maxWidth: 256,
+  maxHeight: 256,
+}
