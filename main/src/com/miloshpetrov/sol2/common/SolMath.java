@@ -6,6 +6,9 @@ import com.badlogic.gdx.utils.Pool;
 
 import java.util.List;
 
+/**
+ * A class with helpful mathematical functions
+ */
 public class SolMath {
   public static final float PI = MathUtils.PI;
   public static float radDeg = MathUtils.radDeg;
@@ -27,11 +30,21 @@ public class SolMath {
     return a < 0f ? -a : a;
   }
 
+  /**
+   * Use this method when you want some value to gradually transform to the desired value.
+   * @param src actual value
+   * @param dst desired value
+   * @param spd speed of change
+   * @return a new value that is closer to the desired one
+   */
   public static float approach(float src, float dst, float spd) {
     if (dst - spd <= src && src <= dst + spd) return dst;
     return src < dst ? src + spd : src - spd;
   }
 
+  /**
+   * Same as {@code approach()}, but in the radial coordinates. That is, 170 degrees would move to -10 by growing through 175 degrees
+   */
   public static float approachAngle(float src, float dst, float spd) {
     float diff = norm(dst - src);
     float da = abs(diff);
@@ -39,6 +52,9 @@ public class SolMath {
     return diff > 0 ? src + spd : src - spd;
   }
 
+  /**
+   * Normalizes the angle
+   */
   @Norm
   public static float norm(float a) {
     while (a <= -180) a += 360;
@@ -46,10 +62,18 @@ public class SolMath {
     return a;
   }
 
+  /**
+   * Returns a random float v such that -minMax <= v && v < minMax
+   * @param minMax a positive value
+   */
   public static float rnd(float minMax) {
     return rnd(-minMax, minMax);
   }
 
+
+  /**
+   * Returns a random float v such that min <= v && v < max. Min shouldn't equal to max
+   */
   public static float rnd(float min, float max) {
     float res = max;
     if (min == max) throw new RuntimeException("intRnd min equals max " + min);
@@ -59,10 +83,19 @@ public class SolMath {
     return res;
   }
 
+  /**
+   * Returns a random int v such that 0 <= v && v < max.
+   * @param max a positive value
+   */
   public static int intRnd(int max) {
     return intRnd(0, max);
   }
 
+  /**
+   * Returns a random int v such that max*perc <= v && v < max.
+   * @param perc should be >= 0 and < 1
+   * @param max a positive value
+   */
   public static int intRnd(float perc, int max) {
     int r = max;
     int min = (int) (max * perc);
@@ -71,24 +104,39 @@ public class SolMath {
     return r;
   }
 
+  /**
+   * Clamps the value (returns min if val < min, max if max < val, val otherwise)
+   */
   public static float clamp(float val, float min, float max) {
     return MathUtils.clamp(val, min, max);
   }
 
+  /**
+   * Modifies the given vector so it has the given angle and length. The resulting vector angle may slightly differ from a given one.
+   */
   public static void fromAl(Vector2 vec, float angle, float len) {
     fromAl(vec, angle, len, false);
   }
 
+  /**
+   * Modifies the given vector so it has the given angle and length. If not {@code precice}, the resulting vector angle may slightly differ from a given one, in the cost of performance.
+   */
   public static void fromAl(Vector2 vec, float angle, float len, boolean precise) {
     vec.set(len, 0);
     rotate(vec, angle, precise);
   }
 
+  /**
+   * Builds a bound vector with the given angle and length.
+   */
   @Bound
   public static Vector2 fromAl(float angle, float len) {
     return fromAl(angle, len, false);
   }
 
+  /**
+   * Builds a bound vector with the given angle and length. If not {@code precice}, the resulting vector angle may slightly differ from a given one, in the cost of performance.
+   */
   @Bound
   public static Vector2 fromAl(float angle, float len, boolean precise) {
     Vector2 vec = getVec();
@@ -96,11 +144,17 @@ public class SolMath {
     return vec;
   }
 
+  /**
+   * @return a new bound copy of src
+   */
   @Bound
   public static Vector2 getVec(Vector2 src) {
     return getVec(src.x, src.y);
   }
 
+  /**
+   * @return a new bound vector
+   */
   @Bound
   public static Vector2 getVec(float x, float y) {
     VECTORS_TAKEN++;
@@ -109,36 +163,60 @@ public class SolMath {
     return v;
   }
 
+  /**
+   * frees the bound vector. Don't use this vector after freeing!
+   */
   public static void free(Vector2 v) {
     VECTORS_TAKEN--;
     vs.free(v);
   }
 
+  /**
+   * @return a new bound vector
+   */
   @Bound
   public static Vector2 getVec() {
     return getVec(0, 0);
   }
 
+  /**
+   * generates a random number between 0 and 1 and returns true if it is less than v, false otherwise
+   */
   public static boolean test(float v) {
     return rnd(0, 1) < v;
   }
 
+  /**
+   * Nicely logs a vector into the console
+   */
   public static void log(Vector2 pos) {
     System.out.println((int)pos.x + " " + (int)pos.y);
   }
 
+  /**
+   * @return approximate cos of a degrees
+   */
   public static float cos(float a) {
     return MathUtils.cosDeg(a);
   }
 
+  /**
+   * @return approximate sin of a degrees
+   */
   public static float sin(float a) {
     return MathUtils.sinDeg(a);
   }
 
+  /**
+   * nicely logs a float into the console
+   */
   public static void log(float f) {
     System.out.println(f);
   }
 
+  /**
+   * converts relPos (a position in a relative coordinate system defined by baseAngle and basePos) to the absolute position
+   */
   @Bound
   public static Vector2 toWorld(Vector2 relPos, float baseAngle, Vector2 basePos) {
     Vector2 v = getVec();
@@ -146,12 +224,18 @@ public class SolMath {
     return v;
   }
 
+  /**
+   * converts relPos (a position in a relative coordinate system defined by baseAngle and basePos) to the absolute position (which is written to pos)
+   */
   public static void toWorld(Vector2 pos, Vector2 relPos, float baseAngle, Vector2 basePos) {
     pos.set(relPos);
     rotate(pos, baseAngle);
     pos.add(basePos);
   }
 
+  /**
+   * converts pos (a position in an absolute coordinate system) to the position in the relative system of coordinates (defined by baseAngle and basePos)
+   */
   @Bound
   public static Vector2 toRel(Vector2 pos, float baseAngle, Vector2 basePos) {
     Vector2 v = getVec();
@@ -159,12 +243,19 @@ public class SolMath {
     return v;
   }
 
+  /**
+   * converts pos (a position in an absolute coordinate system) to the position in the relative system of coordinates
+   * (defined by baseAngle and basePos) (which is written to relPos)
+   */
   public static void toRel(Vector2 pos, Vector2 relPos, float baseAngle, Vector2 basePos) {
     relPos.set(pos);
     relPos.sub(basePos);
     rotate(relPos, -baseAngle);
   }
 
+  /**
+   * rotates a vector to an angle. if not precise, works faster, but the actual angle might slightly differ from the given one
+   */
   public static void rotate(Vector2 v, float angle, boolean precise) {
     if (precise) {
       v.rotate(angle);
@@ -179,10 +270,17 @@ public class SolMath {
     }
   }
 
+
+  /**
+   * rotates a vector to an angle. The actual angle might slightly differ from the given one
+   */
   public static void rotate(Vector2 v, float angle) {
     rotate(v, angle, false);
   }
 
+  /**
+   * @return a new bound vector that is a substraction (to - from)
+   */
   @Bound
   public static Vector2 distVec(Vector2 from, Vector2 to) {
     Vector2 v = getVec(to);
@@ -190,6 +288,9 @@ public class SolMath {
     return v;
   }
 
+  /**
+   * @return a length of a projection of a vector onto a line defined by angle
+   */
   public static float project(Vector2 v, float angle) {
     float angleDiff = angle - SolMath.angle(v);
     return v.len() * cos(angleDiff);
@@ -199,21 +300,37 @@ public class SolMath {
     return (float) Math.sqrt(v);
   }
 
+  /**
+   * @return approximate angle between 2 vectors. may be negative.
+   */
   public static float angle(Vector2 from, Vector2 to) {
     return angle(from, to, false);
   }
 
+  /**
+   * @return angle between 2 vectors. may be negative. if not precise, approximation is returned
+   */
   public static float angle(Vector2 from, Vector2 to, boolean precise) {
     tmp.set(to);
     tmp.sub(from);
     return angle(tmp, precise);
   }
 
+  /**
+   * @return angle of a vector. if not precise, approximation is returned.
+   * (1, 0) is right and 0 degrees
+   * (0, 1) is down and 90 degrees
+   * (-1, 0) is left and 180 degrees
+   * (0, -1) is up and -90 degrees
+   */
   public static float angle(Vector2 v, boolean precise) {
     if (precise) return v.angle();
     else return MathUtils.atan2(v.y, v.x) * radDeg;
   }
 
+  /**
+   * @return angle of a vector. approximation is returned.
+   */
   public static float angle(Vector2 v) {
     return angle(v, false);
   }
@@ -249,6 +366,9 @@ public class SolMath {
     return angle / 180 * PI * r;
   }
 
+  /**
+   * @return a random element of a list
+   */
   public static <T> T elemRnd(List<T> list) {
     int idx = intRnd(list.size());
     return list.get(idx);
@@ -258,6 +378,9 @@ public class SolMath {
     if (SolMath.VECTORS_TAKEN != 0) throw new RuntimeException("vectors " + SolMath.VECTORS_TAKEN + ", blame on " + o);
   }
 
+  /**
+   * @return solution of a quadratic equation. if 2 solutions possible, the greater is returned.
+   */
   public static float genQuad(float a, float b, float c) {
     if (a == 0) return genLin(b, c);
     float disc = b * b - 4 * a * c;
