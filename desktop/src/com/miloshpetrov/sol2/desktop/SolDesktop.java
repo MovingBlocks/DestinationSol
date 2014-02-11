@@ -6,9 +6,15 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.miloshpetrov.sol2.SolAppListener;
 import com.miloshpetrov.sol2.game.DebugAspects;
 import com.miloshpetrov.sol2.menu.ResoReader;
+import com.miloshpetrov.sol2.soundtest.SoundTestListener;
 
 public class SolDesktop {
   public static void main(String[] argv) {
+    if (true) {
+      new LwjglApplication(new SoundTestListener(), "sound test", 800, 600, false);
+      return;
+    }
+
     ResoReader.Data d = ResoReader.read();
 
     LwjglApplicationConfiguration c = new LwjglApplicationConfiguration();
