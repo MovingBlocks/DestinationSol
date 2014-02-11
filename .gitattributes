@@ -334,6 +334,8 @@ main/src/com/miloshpetrov/sol2/menu/ResoReader.java -text
 main/src/com/miloshpetrov/sol2/menu/ResoScreen.java -text
 main/src/com/miloshpetrov/sol2/save/SaveData.java -text
 main/src/com/miloshpetrov/sol2/save/SaveMan.java -text
+main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java -text
+main/src/com/miloshpetrov/sol2/soundtest/SoundTestListener.java -text
 main/src/com/miloshpetrov/sol2/ui/DebugCollector.java -text
 main/src/com/miloshpetrov/sol2/ui/FontSize.java -text
 main/src/com/miloshpetrov/sol2/ui/SolInputMan.java -text
