@@ -15,9 +15,9 @@ class SoundTestCmp {
   private final Vector2 myPos = new Vector2(.5f, .5f);
   private Color c = new Color(myPos.x, myPos.y, 0, 1f);
   private boolean start = false;
-  private float play_time = 0f;
-  private float delta = 0f;
+  private float play_time = 1f;
   private float radius = .05f;
+  private boolean isMousePressed = false;
 
   private float myAccum;
 
@@ -27,8 +27,7 @@ class SoundTestCmp {
 
   // this method is called externally as often as possible
   public void render() {
-    delta = Gdx.graphics.getDeltaTime();
-    myAccum += delta;
+    myAccum += Gdx.graphics.getDeltaTime();
     // we want to call the update() method 60 times per second or so, therefore these checks are needed
     while (myAccum > Const.REAL_TIME_STEP) {
       // in this method we update the game state
@@ -51,20 +50,18 @@ class SoundTestCmp {
     updatePos();
     updateSound();
     change_color();
-    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) //if pressed mouse button - init circle auto-morphing
+    if (!(this.isMousePressed) && play_time < 1f) //full animation lasts 1 second
     {
-      start = true;
+      change_radius(Const.REAL_TIME_STEP);
+    }
+
+    if (!(this.isMousePressed) && Gdx.input.isButtonPressed(Input.Buttons.LEFT)) //if pressed mouse button - init circle auto-morphing
+    {
       play_time = 0f;
       radius = .05f;
+      this.isMousePressed = true;
     }
-    if (start && play_time <= 1f) //full animation lasts 1 second
-    {
-      change_radius(delta);
-    }
-    else
-    {
-      start = false;
-    }
+    else this.isMousePressed = false;
   }
 
   private void updatePos() {
