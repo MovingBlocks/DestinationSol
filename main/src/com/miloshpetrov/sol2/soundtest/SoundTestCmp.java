@@ -2,6 +2,8 @@ package com.miloshpetrov.sol2.soundtest;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.math.Vector2;
@@ -12,17 +14,23 @@ class SoundTestCmp {
   private static final float SPD = .5f;
 
   private final UiDrawer myUiDrawer;
+  private Music myMusic;
+  private Sound mySound1, mySound2;
+  private long myS1 = 0;
+  private long myS2 = 0;
   private final Vector2 myPos = new Vector2(.5f, .5f);
-  private Color c = new Color(myPos.x, myPos.y, 0, 1f);
-  private boolean start = false;
-  private float play_time = 1f;
-  private float radius = .05f;
-  private boolean isMousePressed = false;
+  private Color myColor = new Color(myPos.x, myPos.y, 0, 1f);
+  private float myPlayTime = 1f;
+  private float myRadius = .05f;
+  private boolean MousePressed = false;
 
   private float myAccum;
 
   SoundTestCmp() {
     myUiDrawer = new UiDrawer();
+    myMusic = Gdx.audio.newMusic(Gdx.files.internal("res/sounds/ambiance1.mp3"));
+    mySound1 = Gdx.audio.newSound(Gdx.files.internal("res/sounds/sample1.wav"));
+    mySound2 = Gdx.audio.newSound(Gdx.files.internal("res/sounds/sample2.wav"));
   }
 
   // this method is called externally as often as possible
@@ -42,26 +50,31 @@ class SoundTestCmp {
     // clearing the screen from the previous frame
     Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
     myUiDrawer.begin();
-    myUiDrawer.drawCircle(myPos, radius, c);
+    myUiDrawer.drawCircle(myPos, myRadius, myColor);
     myUiDrawer.end();
   }
 
   private void update() {
     updatePos();
+    //start music
+    if (!myMusic.isPlaying()) {myMusic.setVolume(1); myMusic.setLooping(true); myMusic.play();};
     updateSound();
-    change_color();
-    if (!(this.isMousePressed) && play_time < 1f) //full animation lasts 1 second
+    changeColor();
+    if (!(this.MousePressed) && myPlayTime < 1f) //full animation lasts 1 second
     {
-      change_radius(Const.REAL_TIME_STEP);
+      changeRadius(Const.REAL_TIME_STEP);
     }
+    else myRadius = .05f;
 
-    if (!(this.isMousePressed) && Gdx.input.isButtonPressed(Input.Buttons.LEFT)) //if pressed mouse button - init circle auto-morphing
+    if (!(this.MousePressed) && Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+    //if pressed mouse button - init circle auto-morphing and start sound sample
     {
-      play_time = 0f;
-      radius = .05f;
-      this.isMousePressed = true;
+      myPlayTime = 0f;
+      myRadius = .05f;
+      this.MousePressed = true;
+      myS1 = mySound1.play(.7f, myPos.x, 0f);
     }
-    else this.isMousePressed = false;
+    else this.MousePressed = false;
   }
 
   private void updatePos() {
@@ -75,24 +88,24 @@ class SoundTestCmp {
     myPos.x += spd;
   }
 
-  private void change_color() {
-    c.set(myPos.x, myPos.y, 0, 1f);
+  private void changeColor() {
+    myColor.set(myPos.x, myPos.y, 0, 1f);
   }
 
-  private void change_radius(float d_time)
+  private void changeRadius(float dTime)
   {
-    if (play_time <= .5f) //incrementing within half a second
+    if (myPlayTime < .5f) //incrementing within half a second
     {
-      radius += d_time * 0.1f; //amount of change in passed time
+      myRadius += dTime * 0.1f; //amount of change in passed time
     }
     else //decrementing after
     {
-      radius -= d_time * 0.1f;
+      myRadius -= dTime * 0.1f;
     }
-    play_time += d_time;
+    myPlayTime += dTime;
   }
 
   private void updateSound() {
-
+    if(myS1 != 0) mySound1.setPitch(myS1, myPos.x); //changes pitch by position
   }
 }

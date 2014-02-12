@@ -13,6 +13,7 @@
 .idea/misc.xml -text
 .idea/modules.xml -text
 .idea/scopes/scope_settings.xml -text
+.idea/uiDesigner.xml -text
 .idea/vcs.xml -text
 .idea/workspace.xml -text
 desktop/desktop.iml -text
@@ -156,6 +157,8 @@ main/imgSrcs/skies/Thumbs.db -text
 main/imgSrcs/skies/cloud_1.png -text
 main/imgSrcs/ui/cursor.png -text
 main/libs/gdx-natives.jar -text
+main/libs/gdx-openal-sources.jar -text
+main/libs/gdx-openal.jar -text
 main/libs/gdx-sources.jar -text
 main/libs/gdx.jar -text
 main/main.iml -text
@@ -194,6 +197,11 @@ main/res/paths/loot.json -text
 main/res/paths/misc.json -text
 main/res/paths/projectiles.json -text
 main/res/paths/shards.json -text
+main/res/sounds/ambiance1.mp3 -text
+main/res/sounds/sample1.wav -text
+main/res/sounds/sample2.wav -text
+main/res/sounds/sample3.wav -text
+main/res/sounds/sample4.wav -text
 main/src/META-INF/MANIFEST.MF -text
 main/src/SolAppListener.gwt.xml -text
 main/src/com/miloshpetrov/sol2/CommonDrawer.java -text
