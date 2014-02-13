@@ -12,19 +12,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="9137fd64-d1f4-4daf-a4a8-60761d6a0181" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\ambiance1.mp3" afterPath="" />
-      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\sample1.wav" afterPath="" />
-      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\sample2.wav" afterPath="" />
-      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\sample3.wav" afterPath="" />
-      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\sample4.wav" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="D:\j\sol\main\res\sounds\zones\drums0.wav" afterPath="$PROJECT_DIR$/main/res/sounds/zones/drum_0.wav" />
-      <change type="MOVED" beforePath="D:\j\sol\main\res\sounds\zones\drums1.wav" afterPath="$PROJECT_DIR$/main/res/sounds/zones/drum_1.wav" />
-      <change type="MOVED" beforePath="D:\j\sol\main\res\sounds\zones\sample0.wav" afterPath="$PROJECT_DIR$/main/res/sounds/zones/pad_0.wav" />
-      <change type="MOVED" beforePath="D:\j\sol\main\res\sounds\zones\sample1.wav" afterPath="$PROJECT_DIR$/main/res/sounds/zones/pad_1.wav" />
-      <change type="MOVED" beforePath="D:\j\sol\main\res\sounds\zones\sample2.wav" afterPath="$PROJECT_DIR$/main/res/sounds/zones/pad_2.wav" />
-      <change type="MOVED" beforePath="D:\j\sol\main\res\sounds\zones\sample3.wav" afterPath="$PROJECT_DIR$/main/res/sounds/zones/pad_3.wav" />
     </list>
     <ignored path="metagun-whole.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -97,8 +86,10 @@
       <file leaf-file-name="SoundTestCmp.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="84" column="25" selection-start="2418" selection-end="2418" vertical-scroll-proportion="0.63538873" vertical-offset="733" max-vertical-offset="2548">
-              <folding />
+            <state line="156" column="0" selection-start="4240" selection-end="4240" vertical-scroll-proportion="0.9544236" vertical-offset="1940" max-vertical-offset="3381">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -161,8 +152,8 @@
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/desktop/desktop.iml" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/Norm.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/SolMath.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/Bound.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/SolMath.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java" />
       </list>
     </option>
@@ -757,7 +748,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="restart on tut end" />
     <MESSAGE value="better art pt 1" />
     <MESSAGE value="better shards" />
     <MESSAGE value="better art, map grid, force beacons etc" />
@@ -782,7 +772,8 @@
     <MESSAGE value="testing music generation" />
     <MESSAGE value="slightly better delay calc" />
     <MESSAGE value="preparations for theme 1 test" />
-    <option name="LAST_COMMIT_MESSAGE" value="preparations for theme 1 test" />
+    <MESSAGE value="so much to change just to add the debug info" />
+    <option name="LAST_COMMIT_MESSAGE" value="so much to change just to add the debug info" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1018,11 +1009,6 @@
         <state line="74" column="34" selection-start="2744" selection-end="2744" vertical-scroll-proportion="0.0" vertical-offset="986" max-vertical-offset="4707" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/SolMath.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="380" column="5" selection-start="10085" selection-end="10085" vertical-scroll-proportion="0.4075067" vertical-offset="6003" max-vertical-offset="7444" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/Bound.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="0" selection-start="493" selection-end="493" vertical-scroll-proportion="0.29624665" vertical-offset="0" max-vertical-offset="950" />
@@ -1056,10 +1042,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/SolMath.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="372" column="34" selection-start="9917" selection-end="9917" vertical-scroll-proportion="0.11394102" vertical-offset="6086" max-vertical-offset="7444">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="25" selection-start="2418" selection-end="2418" vertical-scroll-proportion="0.63538873" vertical-offset="733" max-vertical-offset="2548">
-          <folding />
+        <state line="156" column="0" selection-start="4240" selection-end="4240" vertical-scroll-proportion="0.9544236" vertical-offset="1940" max-vertical-offset="3381">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
