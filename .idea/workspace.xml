@@ -11,416 +11,9 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="9137fd64-d1f4-4daf-a4a8-60761d6a0181" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/asteroids/0.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/shards/0.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/asteroids/1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/shards/1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/shards/2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/src/META-INF" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/META-INF" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/asteroids/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/farBg/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/guns/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/hulls/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/junks/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/misc/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/particles/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/projectiles/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/skies/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/armor.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/asteroid" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/asteroids" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/mapObjs/atm.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/bg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/farBg/bigStar.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/guns/bolter.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/bolter.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/projectiles/bolter.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/projectiles/bullet.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/bulletClip.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/particles/bulletColl.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/hulls/bus.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/bus.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/chunk" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/skies/cloud_1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/src/com" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/copyright" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/hulls/corvette.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/corvette.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/ui/cursor.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/deco" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/src/com/miloshpetrov/sol2/desktop" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/misc/door.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/dra" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/hulls/dragon.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/dragon.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/hulls/drome.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/drome.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/ehar.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/particles/emitters.lnk" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/emitters" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/engine.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/farBg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/farBg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/farJunks" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/fd_0.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/fd_1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/ff_0.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/ff_1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/particles/flame.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/fonts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/misc/forceBeacon.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/libs/gdx-backend-lwjgl-natives.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/libs/gdx-backend-lwjgl-sources.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/libs/gdx-backend-lwjgl.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/libs/gdx-natives.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/libs/gdx-sources.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/tools/gdx-tools.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/libs/gdx.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/misc/grad.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/grass_0.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/grass_1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/grass_2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/ground.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/hulls/guardie.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/guardie.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/guns" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/hulls/hawk.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/hawk.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/hulls" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/hulls/hummer.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/hummer.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/hulls/hunter.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/hunter.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/icon.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/paths/imgSrcs.lnk" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/infinity.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/farJunks/junk_1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/junks/junk_1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/farJunks/junk_2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/junks/junk_2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/farJunks/junk_3.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/farJunks/junk_4.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/junks" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/laani.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/libs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/libs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/life.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/particles/lightCircle.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/particles/lightHalo.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/fonts/main_0.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/mapObjs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/master.pdn" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/menu" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/src/com/miloshpetrov" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/guns/miniGun.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/miniGun.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/misc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/money.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/more.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/farBg/nebulae2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/hulls/orbiter.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/orbiter.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/particle" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/particles" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/paths" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/mapObjs/planet.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/mapObjs/planetCore.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/projectiles" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/repairItem.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/projectiles/rocket.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/rocketClip.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/guns/rocketLauncher.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/rocketLauncher.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/save" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/scopes" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/shards" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/shield.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/misc/shield.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/skies" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/skull.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/sloMoCharge.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/guns/slowGun.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/slowGun.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/farBg/smallStar.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/particles/smoke.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/tools/sol.ico" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol10.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol11.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol12.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol13.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol14.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol15.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol17.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol18.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/src/com/miloshpetrov/sol2" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol3.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol4.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol5.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol6.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol7.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol8.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol9.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/particles/spark.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/src" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/mapObjs/star.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/starPort.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/misc/starPort.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/hulls/station.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/station.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/misc/tishch.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/misc/title.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/tools" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/tools" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/misc/transcendent.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/tree_0.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/tree_1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/tree_2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/tree_3.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/hulls/truck.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/truck.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/ud_0.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/ud_1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/uf_0.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/uf_1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/ui" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/uu_0.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/uu_1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/hulls/vanguard.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/vanguard.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/wait.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/misc/whiteTex.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/.name" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/AiPilot.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/Armor.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/asteroid/Asteroid.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/asteroid/AsteroidBuilder.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/BattleDestProvider.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/BigObjAvoider.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/BorderDrawer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/Bound.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Bullet.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/BulletClip.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/BuyItems.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/CamRotStrategy.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/ChangeShip.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/chunk/ChunkFiller.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/chunk/ChunkMan.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/Col.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/CommonDrawer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/Const.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/Consumed.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/DebugAspects.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/DebugCol.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/DebugCollector.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/Dir.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/Door.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/dra/Dra.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/dra/DraLevel.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/dra/DraMan.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/dra/DrasObj.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/Drawer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/EngineItem.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/ExplorerDestProvider.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/asteroid/FarAsteroid.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/farBg/FarBgMan.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/farBg/FarBgManOld.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/dra/FarDras.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/FarObj.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/FarPlanetSprites.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/FarShip.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/FarSky.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/FarTileObj.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/FontSize.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/ForceBeacon.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/Fraction.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/FractionMan.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/GalaxyFiller.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/GameScreens.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/GridDrawer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/Guardian.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfig.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunItem.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunMount.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/menu/HalpScreen.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/HullConfig.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/HullConfigs.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/InventoryOperations.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/InventoryScreen.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ItemContainer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ItemMan.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/LandingPlaceFinder.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/particle/LightObj.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/particle/LightSrc.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/Loot.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/LootBuilder.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/src/META-INF/MANIFEST.MF" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/META-INF/MANIFEST.MF" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/MainScreen.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/menu/MainScreen.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/MapDrawer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/MapScreen.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/menu/MenuLayout.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/MenuScreen.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/menu/MenuScreens.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/MoneyItem.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/MoveDestProvider.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/Mover.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/NoDestProvider.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/Norm.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ObjMan.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/menu/OptionsScreen.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/OrbiterDestProvider.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/particle/PartMan.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/particle/ParticleSrc.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/PathLoader.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/Pilot.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/Planet.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetBind.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetMan.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetObjsBuilder.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetSprites.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/PlayerPilot.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Projectile.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBuilder.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileFactory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/dra/RectSprite.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/RemoveController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/RepairItem.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/menu/ResoReader.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/menu/ResoScreen.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/RightPaneLayout.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Rocket.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/RocketClip.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/save/SaveData.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/save/SaveMan.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/SellItems.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/Shard.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ShardBuilder.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/Shield.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/ShipBuilder.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/ShipEngine.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/ShipHull.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ShipItem.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/ShipRepairer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/Shooter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/ShowInventory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/Sky.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/SloMoCharge.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/SmallObjAvoider.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/SolAppListener.gwt.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolAppListener.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolCam.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolCmp.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolContactFilter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolContactListener.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/src/com/miloshpetrov/sol2/desktop/SolDesktop.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolGame.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/SolGun.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/SolInputMan.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/SolInputProcessor.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/SolItem.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/SolLayouts.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/SolMath.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolObj.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/SolShip.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/SolSystem.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/SolUiControl.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/SolUiScreen.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/StarPort.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/SurfDir.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/SystemsBuilder.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/TalkScreen.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/TexDrawer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/TexMan.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/Tile.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/TileMan.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/TileObj.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/TileObjBuilder.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/TradeMan.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/TutMan.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/UiDrawer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/WarnDrawer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/paths/asteroids.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/deskLib.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/desktop.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/emitters/explInner.p" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/emitters/explosion.p" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/emitters/flame.p" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/graphics.ini" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/paths/grounds.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/paths/hulls.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/desktop/tools/l4jcfg.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/paths/loot.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/fonts/main.fnt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/main.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/mainLib.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/paths/misc.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/tools/pack.bat" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/pack.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/asteroids/pack.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/pack.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/farJunks/pack.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/guns/pack.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/hulls/pack.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/icons/pack.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/junks/pack.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/mapObjs/pack.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/misc/pack.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/particles/pack.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/projectiles/pack.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/shards/pack.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/paths/projectiles.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/rusya.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/paths/shards.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/emitters/smoke.p" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/imgs/sol.atlas" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/sol.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/solDesktop.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/solSrc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/emitters/spark.p" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/tools/todo.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    <list default="true" readonly="true" id="9137fd64-d1f4-4daf-a4a8-60761d6a0181" name="Default" comment="game content">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="metagun-whole.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -490,10 +83,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="0.png" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/main/imgSrcs/shards/0.png">
-          <provider selected="true" editor-type-id="images">
-            <state />
+      <file leaf-file-name="SoundTestCmp.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="47" selection-start="614" selection-end="614" vertical-scroll-proportion="0.13672923" vertical-offset="0" max-vertical-offset="3364">
+              <folding />
+            </state>
           </provider>
         </entry>
       </file>
@@ -507,16 +102,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/MenuScreen.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/SolInputMan.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/ForceBeacon.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/dra/DraMan.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/GridDrawer.java" />
-        <option value="$PROJECT_DIR$/main/res/fonts/r-2014.fnt" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/particle/LightSrc.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/particle/LightObj.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/SolGun.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBuilder.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/particle/PartMan.java" />
         <option value="$PROJECT_DIR$/main/res/emitters/explInner.p" />
         <option value="$PROJECT_DIR$/main/res/emitters/explosion.p" />
@@ -540,7 +125,6 @@
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/dra/DraLevel.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/HullConfigs.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/CommonDrawer.java" />
-        <option value="$PROJECT_DIR$/desktop/src/com/miloshpetrov/sol2/desktop/SolDesktop.java" />
         <option value="$PROJECT_DIR$/main/graphics.ini" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/FontSize.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/DebugAspects.java" />
@@ -554,16 +138,27 @@
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/chunk/ChunkFiller.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ShardBuilder.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/TutMan.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolGame.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/GalaxyFiller.java" />
         <option value="$PROJECT_DIR$/main/tools/todo.txt" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/Const.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolGame.java" />
+        <option value="$PROJECT_DIR$/desktop/src/com/miloshpetrov/sol2/desktop/SolDesktop.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTest.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestListener.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolAppListener.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolCmp.java" />
+        <option value="$PROJECT_DIR$/.idea/workspace.xml" />
+        <option value="$PROJECT_DIR$/desktop/desktop.iml" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/Norm.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/SolMath.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/Bound.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1378" />
-    <option name="height" value="780" />
+    <option name="width" value="1366" />
+    <option name="height" value="768" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -607,6 +202,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -615,15 +212,141 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Destination Sol 2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Destination Sol 2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Destination Sol 2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sol2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Destination Sol 2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sol2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="soundtest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Destination Sol 2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Destination Sol 2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sounds" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Destination Sol 2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sounds" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="zones" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Destination Sol 2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="desktop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="GenerateAntBuildDialog.generateIdeaHomeProperty" value="false" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="options.splitter.main.proportions" value="0.3" />
@@ -631,18 +354,18 @@
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="GenerateAntBuildDialog.inclineRuntiemClasspath" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../solSvn" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../solArt" />
     <property name="GWT.GenerateCompileReport.Module" value="com.miloshpetrov.sol.GwtDefinition" />
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="destination_sol_2" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
-    <property name="FullScreen" value="false" />
+    <property name="FullScreen" value="true" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2" />
     <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="ChangesBrowser.SHOW_FLATTEN" value="true" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
@@ -691,6 +414,12 @@
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="com.miloshpetrov.sol" />
     </key>
+    <key name="IntroduceConstantDialog.RECENTS_KEY">
+      <recent name="com.miloshpetrov.sol2.game.item.Shield" />
+      <recent name="com.miloshpetrov.sol2.game.screens.MapDrawer" />
+      <recent name="com.miloshpetrov.sol.SolShip" />
+      <recent name="com.miloshpetrov.sol.RepairItem" />
+    </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="com.miloshpetrov.sol2.Const" />
       <recent name="com.miloshpetrov.sol2.ui.FontSize" />
@@ -698,23 +427,10 @@
       <recent name="com.miloshpetrov.sol2.game.screens.TalkScreen" />
       <recent name="com.miloshpetrov.sol2.game.item.BulletClip" />
     </key>
-    <key name="IntroduceConstantDialog.RECENTS_KEY">
-      <recent name="com.miloshpetrov.sol2.game.item.Shield" />
-      <recent name="com.miloshpetrov.sol2.game.screens.MapDrawer" />
-      <recent name="com.miloshpetrov.sol.SolShip" />
-      <recent name="com.miloshpetrov.sol.RepairItem" />
-    </key>
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.miloshpetrov.sol2.game.input" />
       <recent name="com.miloshpetrov.sol2.game" />
       <recent name="com.miloshpetrov.sol" />
-    </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="com.miloshpetrov.sol2.game.item" />
-      <recent name="com.miloshpetrov.sol2" />
-      <recent name="com.miloshpetrov.sol2.game.dra" />
-      <recent name="com.miloshpetrov.sol2.game.particle" />
-      <recent name="com.miloshpetrov.sol2.game.asteroid" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\j\sol\main\imgSrcs\icons" />
@@ -722,6 +438,13 @@
       <recent name="D:\j\sol\desktop\src" />
       <recent name="D:\j\sol\main\src" />
       <recent name="D:\j\sol\desktop\tools" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.miloshpetrov.sol2.game.item" />
+      <recent name="com.miloshpetrov.sol2" />
+      <recent name="com.miloshpetrov.sol2.game.dra" />
+      <recent name="com.miloshpetrov.sol2.game.particle" />
+      <recent name="com.miloshpetrov.sol2.game.asteroid" />
     </key>
   </component>
   <component name="RestoreUpdateTree">
@@ -739,7 +462,6 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="UPDATED" />
-            <PATH vcs="svn" revision="3">D:\j\sol</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Created" />
@@ -747,6 +469,8 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="CREATED" />
+            <PATH vcs="svn" revision="12">D:\j\sol\main\res\sounds\zones\drums0.wav</PATH>
+            <PATH vcs="svn" revision="12">D:\j\sol\main\res\sounds\zones\drums1.wav</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Deleted" />
@@ -902,7 +626,12 @@
       <Port>5050</Port>
     </configuration>
   </component>
-  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="ShelveChangesManager" show_recycled="false">
+    <changelist date="1392192825050">
+      <option name="PATH" value="C:\Users\rusya\.IdeaIC13\config\shelf\adfv.patch" />
+      <option name="DESCRIPTION" value="adfv" />
+    </changelist>
+  </component>
   <component name="SliceManager">
     <option name="analysisUIOptions">
       <AnalysisUIOptions />
@@ -933,6 +662,18 @@
         <SvnCopyRootSimple>
           <option name="myVcsRoot" value="D:\j\sol" />
           <option name="myCopyRoot" value="D:\j\sol" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\j\sol\.idea" />
+          <option name="myCopyRoot" value="D:\j\sol\.idea" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\j\sol\desktop" />
+          <option name="myCopyRoot" value="D:\j\sol\desktop" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\j\sol\main" />
+          <option name="myCopyRoot" value="D:\j\sol\main" />
         </SvnCopyRootSimple>
       </list>
     </option>
@@ -974,21 +715,22 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1378" height="780" extended-state="0" />
-    <editor active="false" />
+    <frame x="0" y="0" width="1366" height="768" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32859176" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.38483548" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.3708166" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4283802" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39625168" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32904148" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32991204" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32797858" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32797858" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32859176" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32892805" sideWeight="0.571835" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39625168" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32991204" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32904148" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.42775393" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32859176" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32869694" sideWeight="0.571835" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4283802" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.32991204" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="100" y="100" width="1164" height="568" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -998,9 +740,9 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.24963397" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="SVN Properties" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3168044" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.42775393" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1022,9 +764,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="star ports finished" />
-    <MESSAGE value="inventory controls" />
-    <MESSAGE value="all is accessible thru keyboard" />
     <MESSAGE value="tutorial" />
     <MESSAGE value="better tutorial" />
     <MESSAGE value="version bump" />
@@ -1047,7 +786,10 @@
     <MESSAGE value="minor fixes" />
     <MESSAGE value="tut improved + minor fixes" />
     <MESSAGE value="game content" />
-    <option name="LAST_COMMIT_MESSAGE" value="game content" />
+    <MESSAGE value="sound test stub" />
+    <MESSAGE value="SolMath JavaDocs" />
+    <MESSAGE value="adfv" />
+    <option name="LAST_COMMIT_MESSAGE" value="adfv" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1061,64 +803,9 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/main/res/emitters/explInner.p">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="138" column="31" selection-start="1981" selection-end="1998" vertical-scroll-proportion="0.33287102" vertical-offset="2106" max-vertical-offset="3067" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/res/emitters/explosion.p">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="138" column="0" selection-start="1991" selection-end="1991" vertical-scroll-proportion="0.33287102" vertical-offset="2106" max-vertical-offset="3067" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/res/emitters/flame.p">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="167" column="0" selection-start="2393" selection-end="2393" vertical-scroll-proportion="0.64216363" vertical-offset="2376" max-vertical-offset="3560" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/res/emitters/smoke.p">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="136" column="0" selection-start="1949" selection-end="1949" vertical-scroll-proportion="0.64216363" vertical-offset="1849" max-vertical-offset="3033" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/res/emitters/spark.p">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="124" column="13" selection-start="1790" selection-end="1790" vertical-scroll-proportion="0.3592233" vertical-offset="1849" max-vertical-offset="3033" />
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/main/libs/gdx-sources.jar!/com/badlogic/gdx/math/Vector2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="13" selection-start="1004" selection-end="1004" vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="6798" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/PathLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="288" column="33" selection-start="9904" selection-end="9904" vertical-scroll-proportion="0.07372654" vertical-offset="4620" max-vertical-offset="5608" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetObjsBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="60" selection-start="2182" selection-end="2182" vertical-scroll-proportion="0.4463807" vertical-offset="364" max-vertical-offset="5982" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/LandingPlaceFinder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="28" selection-start="1231" selection-end="1231" vertical-scroll-proportion="0.25067025" vertical-offset="289" max-vertical-offset="1545" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetMan.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="24" selection-start="3026" selection-end="3026" vertical-scroll-proportion="0.18766756" vertical-offset="1543" max-vertical-offset="2480" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/res/paths/hulls.json">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="21264" selection-start="21264" selection-end="21264" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="733" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/HullConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="13" selection-start="211" selection-end="211" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="1596" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/imgSrcs/hulls/drome.png">
@@ -1189,11 +876,6 @@
     <entry file="file://$PROJECT_DIR$/main/graphics.ini">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="6" selection-start="6" selection-end="6" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="738" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/desktop/src/com/miloshpetrov/sol2/desktop/SolDesktop.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="21" selection-start="689" selection-end="689" vertical-scroll-proportion="0.3016086" vertical-offset="30" max-vertical-offset="1154" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/FontSize.java">
@@ -1271,11 +953,6 @@
         <state line="239" column="46" selection-start="7833" selection-end="7833" vertical-scroll-proportion="0.024355302" vertical-offset="3791" max-vertical-offset="7294" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/SolMath.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="125" column="21" selection-start="2997" selection-end="2997" vertical-scroll-proportion="0.0" vertical-offset="1972" max-vertical-offset="5305" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ShardBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="35" column="17" selection-start="1172" selection-end="1172" vertical-scroll-proportion="0.252149" vertical-offset="266" max-vertical-offset="1412" />
@@ -1284,11 +961,6 @@
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/TutMan.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="55" column="5" selection-start="2563" selection-end="2563" vertical-scroll-proportion="-0.1461318" vertical-offset="935" max-vertical-offset="3826" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="105" column="37" selection-start="3992" selection-end="3992" vertical-scroll-proportion="0.024355302" vertical-offset="1445" max-vertical-offset="4931" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/GalaxyFiller.java">
@@ -1310,7 +982,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/MainScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="34" selection-start="3331" selection-end="3331" vertical-scroll-proportion="0.3409742" vertical-offset="850" max-vertical-offset="6104">
+        <state line="78" column="34" selection-start="3331" selection-end="3331" vertical-scroll-proportion="0.3409742" vertical-offset="850" max-vertical-offset="6104" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="321" column="3" selection-start="8943" selection-end="8943" vertical-scroll-proportion="0.28686327" vertical-offset="4002" max-vertical-offset="4979" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolAppListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="11" selection-start="366" selection-end="366" vertical-scroll-proportion="0.25603217" vertical-offset="149" max-vertical-offset="1375" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/desktop/src/com/miloshpetrov/sol2/desktop/SolDesktop.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="36" selection-start="517" selection-end="517" vertical-scroll-proportion="0.15951742" vertical-offset="0" max-vertical-offset="1239" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="13" selection-start="372" selection-end="372" vertical-scroll-proportion="0.41018766" vertical-offset="34" max-vertical-offset="1392">
           <folding />
         </state>
       </provider>
@@ -1318,6 +1010,64 @@
     <entry file="file://$PROJECT_DIR$/main/imgSrcs/shards/0.png">
       <provider selected="true" editor-type-id="images">
         <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="826" column="8" selection-start="48945" selection-end="48945" vertical-scroll-proportion="0.28649387" vertical-offset="13832" max-vertical-offset="18974" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/desktop/desktop.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="0" selection-start="607" selection-end="607" vertical-scroll-proportion="0.34182304" vertical-offset="0" max-vertical-offset="984" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/Norm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="0" selection-start="80" selection-end="304" vertical-scroll-proportion="0.18230563" vertical-offset="0" max-vertical-offset="933" />
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/main/libs/gdx-sources.jar!/com/badlogic/gdx/math/MathUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="74" column="34" selection-start="2744" selection-end="2744" vertical-scroll-proportion="0.0" vertical-offset="986" max-vertical-offset="4707" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/SolMath.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="380" column="5" selection-start="10085" selection-end="10085" vertical-scroll-proportion="0.4075067" vertical-offset="6003" max-vertical-offset="7444" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/Bound.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="0" selection-start="493" selection-end="493" vertical-scroll-proportion="0.29624665" vertical-offset="0" max-vertical-offset="950" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/HullConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="13" selection-start="211" selection-end="211" vertical-scroll-proportion="-0.09115282" vertical-offset="136" max-vertical-offset="1596">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/main/libs/gdx-sources.jar!/com/badlogic/gdx/utils/TimeUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="27" selection-start="1243" selection-end="1243" vertical-scroll-proportion="0.29624665" vertical-offset="0" max-vertical-offset="1018">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolCmp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="3" selection-start="2097" selection-end="2175" vertical-scroll-proportion="0.28686327" vertical-offset="823" max-vertical-offset="2548">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="47" selection-start="614" selection-end="614" vertical-scroll-proportion="0.13672923" vertical-offset="0" max-vertical-offset="3364">
+          <folding />
+        </state>
       </provider>
     </entry>
   </component>
@@ -1383,6 +1133,7 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
