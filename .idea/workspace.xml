@@ -11,9 +11,20 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="9137fd64-d1f4-4daf-a4a8-60761d6a0181" name="Default" comment="game content">
+    <list default="true" readonly="true" id="9137fd64-d1f4-4daf-a4a8-60761d6a0181" name="Default" comment="">
+      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\ambiance1.mp3" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\sample1.wav" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\sample2.wav" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\sample3.wav" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\sample4.wav" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="D:\j\sol\main\res\sounds\zones\drums0.wav" afterPath="$PROJECT_DIR$/main/res/sounds/zones/drum_0.wav" />
+      <change type="MOVED" beforePath="D:\j\sol\main\res\sounds\zones\drums1.wav" afterPath="$PROJECT_DIR$/main/res/sounds/zones/drum_1.wav" />
+      <change type="MOVED" beforePath="D:\j\sol\main\res\sounds\zones\sample0.wav" afterPath="$PROJECT_DIR$/main/res/sounds/zones/pad_0.wav" />
+      <change type="MOVED" beforePath="D:\j\sol\main\res\sounds\zones\sample1.wav" afterPath="$PROJECT_DIR$/main/res/sounds/zones/pad_1.wav" />
+      <change type="MOVED" beforePath="D:\j\sol\main\res\sounds\zones\sample2.wav" afterPath="$PROJECT_DIR$/main/res/sounds/zones/pad_2.wav" />
+      <change type="MOVED" beforePath="D:\j\sol\main\res\sounds\zones\sample3.wav" afterPath="$PROJECT_DIR$/main/res/sounds/zones/pad_3.wav" />
     </list>
     <ignored path="metagun-whole.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -86,7 +97,7 @@
       <file leaf-file-name="SoundTestCmp.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="47" selection-start="614" selection-end="614" vertical-scroll-proportion="0.13672923" vertical-offset="0" max-vertical-offset="3364">
+            <state line="84" column="25" selection-start="2418" selection-end="2418" vertical-scroll-proportion="0.63538873" vertical-offset="733" max-vertical-offset="2548">
               <folding />
             </state>
           </provider>
@@ -307,24 +318,6 @@
               <option name="myItemId" value="sounds" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Destination Sol 2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sounds" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="zones" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
@@ -462,6 +455,8 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="UPDATED" />
+            <PATH vcs="svn" revision="16">D:\j\sol\main\res\sounds\zones\drums0.wav</PATH>
+            <PATH vcs="svn" revision="16">D:\j\sol\main\res\sounds\zones\drums1.wav</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Created" />
@@ -469,8 +464,6 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="CREATED" />
-            <PATH vcs="svn" revision="12">D:\j\sol\main\res\sounds\zones\drums0.wav</PATH>
-            <PATH vcs="svn" revision="12">D:\j\sol\main\res\sounds\zones\drums1.wav</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Deleted" />
@@ -764,9 +757,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="tutorial" />
-    <MESSAGE value="better tutorial" />
-    <MESSAGE value="version bump" />
     <MESSAGE value="restart on tut end" />
     <MESSAGE value="better art pt 1" />
     <MESSAGE value="better shards" />
@@ -789,7 +779,10 @@
     <MESSAGE value="sound test stub" />
     <MESSAGE value="SolMath JavaDocs" />
     <MESSAGE value="adfv" />
-    <option name="LAST_COMMIT_MESSAGE" value="adfv" />
+    <MESSAGE value="testing music generation" />
+    <MESSAGE value="slightly better delay calc" />
+    <MESSAGE value="preparations for theme 1 test" />
+    <option name="LAST_COMMIT_MESSAGE" value="preparations for theme 1 test" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -973,13 +966,6 @@
         <state line="15" column="12" selection-start="325" selection-end="325" vertical-scroll-proportion="0.1704871" vertical-offset="136" max-vertical-offset="1616" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/Const.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="44" selection-start="687" selection-end="687" vertical-scroll-proportion="0.3409742" vertical-offset="0" max-vertical-offset="970">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/MainScreen.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="78" column="34" selection-start="3331" selection-end="3331" vertical-scroll-proportion="0.3409742" vertical-offset="850" max-vertical-offset="6104" />
@@ -1063,9 +1049,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/Const.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="28" selection-start="475" selection-end="475" vertical-scroll-proportion="0.22788204" vertical-offset="0" max-vertical-offset="1018">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="47" selection-start="614" selection-end="614" vertical-scroll-proportion="0.13672923" vertical-offset="0" max-vertical-offset="3364">
+        <state line="84" column="25" selection-start="2418" selection-end="2418" vertical-scroll-proportion="0.63538873" vertical-offset="733" max-vertical-offset="2548">
           <folding />
         </state>
       </provider>
