@@ -24,7 +24,8 @@ class SoundTestCmp {
   private final DebugCollector myDebugCollector;
   private final Vector2 myPos;
   private final Color myColor;
-  private final Map<String, List<Sound>> mySamples;
+  private final Map<String, List<SolSample>> mySamples;
+  private final List<SolSample> myCurrSamples;
 
   private float myAccum;
   private long myLastPlayTime;
@@ -34,8 +35,8 @@ class SoundTestCmp {
     myDebugCollector = new DebugCollector();
     myPos = new Vector2(.5f, .5f);
     myColor = new Color(myPos.x, myPos.y, 0, 1f);
-    mySamples = new HashMap<String, List<Sound>>();
-
+    mySamples = new HashMap<String, List<SolSample>>();
+    myCurrSamples = new ArrayList<SolSample>();
 
     FileHandle themeDir = Gdx.files.internal("res/sounds/zones");
     for (FileHandle fh : themeDir.list()) {
@@ -43,12 +44,20 @@ class SoundTestCmp {
       String[] parts = name.split("_");
       if (parts.length < 2) continue;
       String cat = parts[0];
-      List<Sound> catSamples = mySamples.get(cat);
+      String idxStr = parts[1];
+      int idx;
+      try {
+        idx = Integer.parseInt(idxStr);
+      } catch (NumberFormatException e) {
+        continue;
+      }
+      List<SolSample> catSamples = mySamples.get(cat);
       if (catSamples == null) {
-        catSamples = new ArrayList<Sound>();
+        catSamples = new ArrayList<SolSample>();
         mySamples.put(cat, catSamples);
       }
-      catSamples.add(Gdx.audio.newSound(fh));
+      SolSample smp = new SolSample(cat, idx, Gdx.audio.newSound(fh));
+      catSamples.add(smp);
     }
   }
 
@@ -73,21 +82,29 @@ class SoundTestCmp {
     myDebugCollector.update();
 
     updateMusic();
-    debug(DEBUG_MUSIC_DIFF);
     updatePos();
     changeColor();
   }
 
   private void updateMusic() {
+    debug("delay:", DEBUG_MUSIC_DIFF);
+    for (SolSample s : myCurrSamples) {
+      debug(s.cat, ":", s.idx);
+    }
+
     long now = TimeUtils.millis();
     long diff = now - myLastPlayTime - SAMPLE_LENGTH;
     if (diff < -Const.REAL_TIME_STEP / 2) return;
     myLastPlayTime = now;
     DEBUG_MUSIC_DIFF = diff;
 
-    for (List<Sound> catSamples : mySamples.values()) {
-      SolMath.elemRnd(catSamples).play();
+    myCurrSamples.clear();
+    for (List<SolSample> catSamples : mySamples.values()) {
+      SolSample sample = SolMath.elemRnd(catSamples);
+      sample.s.play();
+      myCurrSamples.add(sample);
     }
+    Collections.sort(myCurrSamples);
   }
 
   public void debug(Object ... objs) {
@@ -96,18 +113,18 @@ class SoundTestCmp {
 
   private void updatePos() {
     float spd = 0;
-    if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+    if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && 0 < myPos.x) {
       spd = -SPD;
-    } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+    } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && myPos.x < myUiDrawer.r) {
       spd = SPD;
     }
     spd *= Const.REAL_TIME_STEP;
     myPos.x += spd;
 
     spd = 0;
-    if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+    if (Gdx.input.isKeyPressed(Input.Keys.UP) && 0 < myPos.y) {
       spd = -SPD;
-    } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+    } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && myPos.y < 1) {
       spd = SPD;
     }
     spd *= Const.REAL_TIME_STEP;
@@ -115,6 +132,25 @@ class SoundTestCmp {
   }
 
   private void changeColor() {
-    myColor.set(myPos.x, myPos.y, 0, 1f);
+    myColor.set(myPos.x, myPos.y, 1, 1f);
+  }
+
+  private static class SolSample implements Comparable<SolSample> {
+    public final String cat;
+    public final int idx;
+    public final Sound s;
+
+    private SolSample(String cat, int idx, Sound s) {
+      this.cat = cat;
+      this.idx = idx;
+      this.s = s;
+    }
+
+    @Override
+    public int compareTo(SolSample o) {
+      int r = cat.compareTo(o.cat);
+      if (r != 0) return r;
+      return idx - o.idx;
+    }
   }
 }
