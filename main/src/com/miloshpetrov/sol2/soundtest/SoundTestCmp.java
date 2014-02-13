@@ -35,7 +35,7 @@ class SoundTestCmp {
 
   private float myAccum;
   private long myLastPlayTime;
-  private long DEBUG_DELAY;
+  private long DEBUG_MUSIC_DIFF;
 
   SoundTestCmp() {
     myUiDrawer = new UiDrawer();
@@ -81,7 +81,7 @@ class SoundTestCmp {
     myDebugCollector.update();
 
     updateMusic();
-    debug(DEBUG_DELAY);
+    debug(DEBUG_MUSIC_DIFF);
     updatePos();
     //start music
 //    if (!myMusic.isPlaying()) {myMusic.setVolume(1); myMusic.setLooping(true); myMusic.play();};
@@ -106,9 +106,9 @@ class SoundTestCmp {
 
   private void updateMusic() {
     long now = TimeUtils.millis();
-    long delay = now - myLastPlayTime - SAMPLE_LENGTH;
-    if (delay < 0) return;
-    DEBUG_DELAY = delay;
+    long diff = now - myLastPlayTime - SAMPLE_LENGTH;
+    if (diff < -Const.REAL_TIME_STEP / 2) return;
+    DEBUG_MUSIC_DIFF = diff;
 
     float vPosPerc = SolMath.clamp(myPos.x / myUiDrawer.r, 0, .99f);
     int zoneIdx = (int) (vPosPerc * ZONE_V_COUNT);
