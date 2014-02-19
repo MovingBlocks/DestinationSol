@@ -19,6 +19,7 @@ import com.miloshpetrov.sol2.game.planet.PlanetMan;
 import com.miloshpetrov.sol2.game.projectile.ProjectileBuilder;
 import com.miloshpetrov.sol2.game.screens.GameScreens;
 import com.miloshpetrov.sol2.game.ship.*;
+import com.miloshpetrov.sol2.game.sound.SoundMan;
 import com.miloshpetrov.sol2.save.SaveData;
 
 public class SolGame {
@@ -48,6 +49,7 @@ public class SolGame {
   private final ItemMan myItemMan;
   private final TradeMan myTradeMan;
   private final StarPort.Builder myStarPortBuilder;
+  private final SoundMan mySoundMan;
 
   private SolShip myHero;
   private float myTimeStep;
@@ -59,6 +61,7 @@ public class SolGame {
     myCmp = cmp;
     myTut = tut;
     Drawer drawer = new Drawer();
+    mySoundMan = new SoundMan();
     myDraMan = new DraMan(drawer);
     myCam = new SolCam(drawer.r);
     myScreens = new GameScreens(drawer.r, cmp);
@@ -74,7 +77,7 @@ public class SolGame {
     myProjectileBuilder = new ProjectileBuilder();
     myLootBuilder = new LootBuilder();
     myShipBuilder = new ShipBuilder();
-    myItemMan = new ItemMan(myTexMan);
+    myItemMan = new ItemMan(myTexMan, mySoundMan);
     myHullConfigs = new HullConfigs(myShipBuilder, texMan);
     myFractionMan = new FractionMan(myTexMan);
     myFarBgMan = new FarBgMan();
@@ -319,5 +322,9 @@ public class SolGame {
 
   public GridDrawer getGridDrawer() {
     return myGridDrawer;
+  }
+
+  public SoundMan getSoundMan() {
+    return mySoundMan;
   }
 }

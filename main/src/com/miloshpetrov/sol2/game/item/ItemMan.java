@@ -1,9 +1,9 @@
 package com.miloshpetrov.sol2.game.item;
 
-import com.miloshpetrov.sol2.SolCmp;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.gun.GunConfigs;
+import com.miloshpetrov.sol2.game.sound.SoundMan;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,12 +16,12 @@ public class ItemMan {
   public final EngineItem.Configs engineConfigs;
   private final ArrayList<SolItem> myL;
 
-  public ItemMan(TexMan texMan) {
+  public ItemMan(TexMan texMan, SoundMan soundMan) {
     myM = new HashMap<String, SolItem>();
 
     gunConfigs = new GunConfigs(texMan);
     armorConfigs = new Armor.Configs();
-    Shield.Config.loadConfigs(this);
+    Shield.Config.loadConfigs(this, soundMan);
     engineConfigs = new EngineItem.Configs();
 
     myM.put("e", engineConfigs.std.example);
@@ -67,8 +67,7 @@ public class ItemMan {
         if (SolMath.test(chance)) {
           SolItem example = myM.get(name);
           if (example == null) {
-            SolCmp.fatalError("unknown item " + name + "@" + parts[0] + "@" + rec + "@" + items);
-            return;
+            throw new AssertionError("unknown item " + name + "@" + parts[0] + "@" + rec + "@" + items);
           }
           SolItem item = example.copy();
           c.add(item);
@@ -84,7 +83,7 @@ public class ItemMan {
   public void registerItem(String itemCode, SolItem example) {
     SolItem existing = myM.get(itemCode);
     if (existing != null) {
-      SolCmp.fatalError("2 item types registered for item code " + itemCode + ":\n" + existing + " and " + example);
+      throw new AssertionError("2 item types registered for item code " + itemCode + ":\n" + existing + " and " + example);
     }
     myM.put(itemCode, example);
   }

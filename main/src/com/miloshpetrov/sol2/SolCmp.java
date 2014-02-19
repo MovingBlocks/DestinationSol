@@ -13,7 +13,6 @@ import com.miloshpetrov.sol2.save.SaveMan;
 import com.miloshpetrov.sol2.ui.*;
 
 public class SolCmp {
-  private static String FATAL_ERROR;
 
   private final SolInputMan myInputMan;
   private final UiDrawer myUiDrawer;
@@ -23,6 +22,7 @@ public class SolCmp {
   private final TexMan myTexMan;
   private final SolLayouts myLayouts;
   private final boolean myMobile;
+  private String myFatalError;
 
   private float myAccum = 0;
   private SolGame myGame;
@@ -46,14 +46,22 @@ public class SolCmp {
   public void render() {
     myAccum += Gdx.graphics.getDeltaTime();
     while (myAccum > Const.REAL_TIME_STEP) {
-      update();
+      safeUpdate();
       myAccum -= Const.REAL_TIME_STEP;
     }
     draw();
   }
 
+  private void safeUpdate() {
+    if (myFatalError != null) return;
+    try {
+      update();
+    } catch (Throwable t) {
+      myFatalError = "A fatal error occurred:\n" + t.getMessage();
+    }
+  }
+
   private void update() {
-    if (FATAL_ERROR != null) return;
     myDebugCollector.update();
     debug("Fps: ", Gdx.graphics.getFramesPerSecond());
     debug("Version: " + Const.VERSION);
@@ -70,9 +78,9 @@ public class SolCmp {
     myUiDrawer.begin();
     myInputMan.draw(myUiDrawer, this);
     myDebugCollector.draw(myUiDrawer);
-    if (FATAL_ERROR != null) {
+    if (myFatalError != null) {
       myUiDrawer.draw(myUiDrawer.whiteTex, myUiDrawer.r, .5f, 0, 0, 0, .25f, 0, Col.B75);
-      myUiDrawer.drawString(FATAL_ERROR, myUiDrawer.r/2, .5f, FontSize.MENU, true, Col.W);
+      myUiDrawer.drawString(myFatalError, myUiDrawer.r / 2, .5f, FontSize.MENU, true, Col.W);
     }
     myUiDrawer.end();
   }
@@ -129,10 +137,5 @@ public class SolCmp {
 
   public boolean isMobile() {
     return DebugAspects.MOBILE || myMobile;
-  }
-
-  public static void fatalError(String errorMsg) {
-    if (FATAL_ERROR == null) FATAL_ERROR = "A fatal error occurred:\n" + errorMsg;
-    else FATAL_ERROR += "\n" + errorMsg;
   }
 }

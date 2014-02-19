@@ -7,6 +7,8 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.ship.ShipHull;
+import com.miloshpetrov.sol2.game.sound.SolSounds;
+import com.miloshpetrov.sol2.game.sound.SoundMan;
 
 public class Shield implements SolItem {
   public static final float SIZE_PERC = .7f;
@@ -71,6 +73,7 @@ public class Shield implements SolItem {
 
   public float absorb(SolGame game, float dmg, Vector2 pos, ShipHull hull) {
     if (dmg <= 0) return 0;
+    game.getSoundMan().play(game, myConfig.sounds, pos);
     myIdleTime = 0f;
     if (myLife > 0) {
       game.getPartMan().shieldSpark(game, pos, hull);
@@ -88,21 +91,23 @@ public class Shield implements SolItem {
     public final String displayName;
     public final int price;
     public final String desc;
+    public final SolSounds sounds;
     public final Shield example;
     public float maxLife;
     public float myMaxIdleTime = 2;
     public float regenSpd;
 
-    private Config(int maxLife, String displayName, int price, String desc) {
+    private Config(int maxLife, String displayName, int price, String desc, SolSounds sounds) {
       this.maxLife = maxLife;
       this.displayName = displayName;
       this.price = price;
       this.desc = desc;
+      this.sounds = sounds;
       regenSpd = this.maxLife / 3;
       example = new Shield(this);
     }
 
-    public static void loadConfigs(ItemMan itemMan) {
+    public static void loadConfigs(ItemMan itemMan, SoundMan soundMan) {
       JsonReader r = new JsonReader();
       JsonValue parsed = r.parse(Gdx.files.internal(ItemMan.ITEM_CONFIGS_DIR + "shields.json"));
       for (JsonValue sh : parsed) {
@@ -110,8 +115,9 @@ public class Shield implements SolItem {
         String displayName = sh.getString("displayName");
         int price = sh.getInt("price");
         String desc = sh.getString("desc");
-
-        Config config = new Config(maxLife, displayName, price, desc);
+        String soundsDir = sh.getString("sounds");
+        SolSounds sounds = soundMan.getSounds(soundsDir);
+        Config config = new Config(maxLife, displayName, price, desc, sounds);
         itemMan.registerItem(sh.name(), config.example);
       }
 
