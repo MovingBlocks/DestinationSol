@@ -14,6 +14,7 @@ import java.util.List;
 
 public class SoundMan {
   public static final String DIR = "res/sounds/";
+  public static final float MAX_SPACE_DIST = 1f;
   public final HashMap<String, SolSounds> mySounds;
 
   public SoundMan() {
@@ -25,10 +26,8 @@ public class SoundMan {
     if (res != null) return res;
     res = new SolSounds();
     mySounds.put(relPath, res);
-    FileHandle atmDir = Gdx.files.internal(DIR + relPath + "/atm");
-    fillSounds(res.atm, atmDir);
-    FileHandle spaceDir = Gdx.files.internal(DIR + relPath + "/space");
-    fillSounds(res.space, spaceDir);
+    FileHandle dir = Gdx.files.internal(DIR + relPath);
+    fillSounds(res.atm, dir);
     return res;
   }
 
@@ -43,10 +42,19 @@ public class SoundMan {
 
   public void play(SolGame game, SolSounds sounds, Vector2 pos) {
     Planet np = game.getPlanetMan().getNearestPlanet();
-    boolean atm = game.getCam().getPos().dst(np.getPos()) < np.getFullHeight();
-    List<Sound> list = atm ? sounds.atm : sounds.space;
-    if (list.isEmpty()) return;
-    Sound sound = SolMath.elemRnd(list);
-    sound.play(/*todo params*/);
+    Vector2 camPos = game.getCam().getPos();
+    boolean atm = camPos.dst(np.getPos()) < np.getFullHeight();
+    if (sounds.atm.isEmpty()) return;
+    Sound sound = SolMath.elemRnd(sounds.atm);
+    float vol;
+    float pitch = SolMath.rnd(.95f, 1.05f);
+    if (atm) {
+      vol = 1; // todo
+    } else {
+      float dst = pos.dst(camPos);
+      vol = 1 - SolMath.clamp(dst / MAX_SPACE_DIST, 0, 1);
+      pitch = .75f * vol + .25f;
+    }
+    sound.play(vol, pitch, 0);
   }
 }

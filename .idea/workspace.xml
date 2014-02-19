@@ -12,13 +12,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="9137fd64-d1f4-4daf-a4a8-60761d6a0181" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/bigShield/atm/4.wav" />
-      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\bigShield\space\4.wav" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/DebugAspects.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/DebugAspects.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/DebugCollector.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/DebugCollector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolCmp.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolCmp.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/explosion/0.wav" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/guns/miniGun/reload/0.wav" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/guns/miniGun/shoot/0.wav" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/guns/rocketLauncher/reload/0.wav" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/guns/rocketLauncher/shoot/0.wav" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/guns/slowGun/0.wav" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/shield/0.wav" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/guns/miniGun/shoot/1.wav" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/guns/slowGun/1.wav" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/shield/1.wav" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/bigShield/2.wav" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/guns/slowGun/2.wav" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/bigShield/3.wav" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/bigShield/4.wav" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/explosion" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/guns" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/guns/miniGun" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/guns/miniGun/reload" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/guns/rocketLauncher/reload" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/guns/rocketLauncher" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/guns/miniGun/shoot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/guns/rocketLauncher/shoot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/sounds/guns/slowGun" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\shield\atm\0.wav" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\shield\space\1.wav" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\bigShield\atm\2.wav" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\bigShield\atm\3.wav" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\bigShield\atm\4.wav" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\bigShield\atm" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\shield\atm" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\bigShield\space" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\sounds\shield\space" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SolSounds.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SolSounds.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SoundMan.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SoundMan.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="metagun-whole.iws" />
@@ -89,10 +116,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="DebugCollector.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/DebugCollector.java">
+      <file leaf-file-name="SoundMan.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SoundMan.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="32" selection-start="879" selection-end="879" vertical-scroll-proportion="0.45576409" vertical-offset="17" max-vertical-offset="1579">
+            <state line="44" column="44" selection-start="1502" selection-end="1502" vertical-scroll-proportion="0.58981234" vertical-offset="138" max-vertical-offset="1579">
               <folding />
             </state>
           </provider>
@@ -148,7 +175,6 @@
         <option value="$PROJECT_DIR$/desktop/src/com/miloshpetrov/sol2/desktop/SolDesktop.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/UiDrawer.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/Planet.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SolSounds.java" />
         <option value="$PROJECT_DIR$/main/res/configs/items/shields.json" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ItemMan.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/DebugAspects.java" />
@@ -157,8 +183,9 @@
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolGame.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolCmp.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SoundMan.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/DebugCollector.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SolSounds.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SoundMan.java" />
       </list>
     </option>
   </component>
@@ -695,8 +722,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="guardie" />
-    <MESSAGE value="station" />
     <MESSAGE value="star port" />
     <MESSAGE value="drome" />
     <MESSAGE value="vanguard" />
@@ -720,7 +745,9 @@
     <MESSAGE value="shield configs moved to json" />
     <MESSAGE value="shield sounds" />
     <MESSAGE value="basic logging" />
-    <option name="LAST_COMMIT_MESSAGE" value="basic logging" />
+    <MESSAGE value="unified atm &amp; space sounds" />
+    <MESSAGE value="merged atm &amp; space sounds" />
+    <option name="LAST_COMMIT_MESSAGE" value="merged atm &amp; space sounds" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -880,13 +907,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="35" selection-start="300" selection-end="300" vertical-scroll-proportion="0.13672923" vertical-offset="0" max-vertical-offset="1256">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/UiDrawer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="9" selection-start="348" selection-end="348" vertical-scroll-proportion="0.15951742" vertical-offset="0" max-vertical-offset="1817">
@@ -925,13 +945,6 @@
     <entry file="file://$PROJECT_DIR$/main/imgSrcs/pack.json">
       <provider selected="true" editor-type-id="text-editor">
         <state line="15" column="34" selection-start="314" selection-end="314" vertical-scroll-proportion="0.3243968" vertical-offset="13" max-vertical-offset="1222">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SolSounds.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="19" selection-start="244" selection-end="244" vertical-scroll-proportion="0.18230563" vertical-offset="0" max-vertical-offset="950">
           <folding />
         </state>
       </provider>
@@ -992,13 +1005,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/Shield.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="109" column="23" selection-start="2661" selection-end="2661" vertical-scroll-proportion="0.27882037" vertical-offset="1339" max-vertical-offset="2565">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ItemMan.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="12" selection-start="601" selection-end="601" vertical-scroll-proportion="0.27345845" vertical-offset="0" max-vertical-offset="2157">
@@ -1027,16 +1033,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SoundMan.java">
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/DebugCollector.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="3" selection-start="1409" selection-end="1409" vertical-scroll-proportion="0.43297586" vertical-offset="204" max-vertical-offset="1443">
+        <state line="26" column="32" selection-start="879" selection-end="879" vertical-scroll-proportion="0.45576409" vertical-offset="17" max-vertical-offset="1579">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/DebugCollector.java">
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="32" selection-start="879" selection-end="879" vertical-scroll-proportion="0.45576409" vertical-offset="17" max-vertical-offset="1579">
+        <state line="11" column="28" selection-start="397" selection-end="397" vertical-scroll-proportion="0.11394102" vertical-offset="68" max-vertical-offset="1256">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/Shield.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="109" column="23" selection-start="2661" selection-end="2661" vertical-scroll-proportion="0.0" vertical-offset="1547" max-vertical-offset="2565">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SolSounds.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="0" selection-start="190" selection-end="190" vertical-scroll-proportion="0.13672923" vertical-offset="0" max-vertical-offset="916">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SoundMan.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="44" selection-start="1502" selection-end="1502" vertical-scroll-proportion="0.58981234" vertical-offset="138" max-vertical-offset="1579">
           <folding />
         </state>
       </provider>

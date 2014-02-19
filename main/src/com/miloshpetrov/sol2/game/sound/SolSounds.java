@@ -7,10 +7,8 @@ import java.util.List;
 
 public class SolSounds {
   public final List<Sound> atm;
-  public final List<Sound> space;
 
   public SolSounds() {
     this.atm = new ArrayList<Sound>();
-    this.space = new ArrayList<Sound>();
   }
 }
