@@ -10,7 +10,7 @@ import com.miloshpetrov.sol2.soundtest.SoundTestListener;
 
 public class SolDesktop {
   public static void main(String[] argv) {
-    if (true) {
+    if (false) {
       new LwjglApplication(new SoundTestListener(), "sound test", 800, 600, false);
       return;
     }

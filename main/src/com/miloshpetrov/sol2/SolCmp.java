@@ -3,6 +3,7 @@ package com.miloshpetrov.sol2;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
+import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.DebugAspects;
 import com.miloshpetrov.sol2.game.SolGame;
@@ -24,6 +25,7 @@ public class SolCmp {
 
   private float myAccum = 0;
   private SolGame myGame;
+  private String myFatalError;
 
   //commented by NoiseDoll
   public SolCmp() {
@@ -51,6 +53,7 @@ public class SolCmp {
   }
 
   private void update() {
+    if (myFatalError != null) return;
     myDebugCollector.update();
     debug("Fps: ", Gdx.graphics.getFramesPerSecond());
     debug("Version: " + Const.VERSION);
@@ -67,6 +70,10 @@ public class SolCmp {
     myUiDrawer.begin();
     myInputMan.draw(myUiDrawer, this);
     myDebugCollector.draw(myUiDrawer);
+    if (myFatalError != null) {
+      myUiDrawer.draw(myUiDrawer.whiteTex, myUiDrawer.r, .5f, 0, 0, 0, .25f, 0, Col.B75);
+      myUiDrawer.drawString(myFatalError, myUiDrawer.r/2, .5f, FontSize.MENU, true, Col.W);
+    }
     myUiDrawer.end();
   }
 
@@ -122,5 +129,10 @@ public class SolCmp {
 
   public boolean isMobile() {
     return DebugAspects.MOBILE || myMobile;
+  }
+
+  public void fatalError(String errorMsg) {
+    if (myFatalError == null) myFatalError = "A fatal error occurred:\n" + errorMsg;
+    else myFatalError += "\n" + errorMsg;
   }
 }

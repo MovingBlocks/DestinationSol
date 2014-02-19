@@ -9,7 +9,7 @@ import com.miloshpetrov.sol2.TexDrawer;
 public class UiDrawer implements TexDrawer {
 
   public static final int UI_RAD_TO_POINTS = 300;
-  public static final float FONT_SIZE = .02f;
+  private static final float FONT_SIZE = .02f;
 
   public final Matrix4 straightMtx;
   public final float uiLineWidth;
