@@ -13,6 +13,7 @@ import com.miloshpetrov.sol2.save.SaveMan;
 import com.miloshpetrov.sol2.ui.*;
 
 public class SolCmp {
+  private static String FATAL_ERROR;
 
   private final SolInputMan myInputMan;
   private final UiDrawer myUiDrawer;
@@ -25,7 +26,6 @@ public class SolCmp {
 
   private float myAccum = 0;
   private SolGame myGame;
-  private String myFatalError;
 
   //commented by NoiseDoll
   public SolCmp() {
@@ -53,7 +53,7 @@ public class SolCmp {
   }
 
   private void update() {
-    if (myFatalError != null) return;
+    if (FATAL_ERROR != null) return;
     myDebugCollector.update();
     debug("Fps: ", Gdx.graphics.getFramesPerSecond());
     debug("Version: " + Const.VERSION);
@@ -70,9 +70,9 @@ public class SolCmp {
     myUiDrawer.begin();
     myInputMan.draw(myUiDrawer, this);
     myDebugCollector.draw(myUiDrawer);
-    if (myFatalError != null) {
+    if (FATAL_ERROR != null) {
       myUiDrawer.draw(myUiDrawer.whiteTex, myUiDrawer.r, .5f, 0, 0, 0, .25f, 0, Col.B75);
-      myUiDrawer.drawString(myFatalError, myUiDrawer.r/2, .5f, FontSize.MENU, true, Col.W);
+      myUiDrawer.drawString(FATAL_ERROR, myUiDrawer.r/2, .5f, FontSize.MENU, true, Col.W);
     }
     myUiDrawer.end();
   }
@@ -131,8 +131,8 @@ public class SolCmp {
     return DebugAspects.MOBILE || myMobile;
   }
 
-  public void fatalError(String errorMsg) {
-    if (myFatalError == null) myFatalError = "A fatal error occurred:\n" + errorMsg;
-    else myFatalError += "\n" + errorMsg;
+  public static void fatalError(String errorMsg) {
+    if (FATAL_ERROR == null) FATAL_ERROR = "A fatal error occurred:\n" + errorMsg;
+    else FATAL_ERROR += "\n" + errorMsg;
   }
 }

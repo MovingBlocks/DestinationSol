@@ -1,6 +1,9 @@
 package com.miloshpetrov.sol2.game.item;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.ship.ShipHull;
@@ -81,18 +84,6 @@ public class Shield implements SolItem {
     return dmg;
   }
   
-  public static class Configs {
-    public final Config std;
-    public final Config med;
-    public final Config big;
-
-    public Configs() {
-      std = new Config(10, "Small Shield", 40, "Poorly rotects from projectiles");
-      med = new Config(20, "Shield", 100, "Protects from projectiles");
-      big = new Config(30, "Big Shield", 150, "Greatly protects from projectiles");
-    }
-  }
-
   public static class Config {
     public final String displayName;
     public final int price;
@@ -111,5 +102,19 @@ public class Shield implements SolItem {
       example = new Shield(this);
     }
 
+    public static void loadConfigs(ItemMan itemMan) {
+      JsonReader r = new JsonReader();
+      JsonValue parsed = r.parse(Gdx.files.internal(ItemMan.ITEM_CONFIGS_DIR + "shields.json"));
+      for (JsonValue sh : parsed) {
+        int maxLife = sh.getInt("maxLife");
+        String displayName = sh.getString("displayName");
+        int price = sh.getInt("price");
+        String desc = sh.getString("desc");
+
+        Config config = new Config(maxLife, displayName, price, desc);
+        itemMan.registerItem(sh.name(), config.example);
+      }
+
+    }
   }
 }
