@@ -10,6 +10,7 @@ public class DebugAspects {
   public static final boolean BOX2D = false;
   public static final boolean PLANETS = false;
   public static final boolean VALS = true;
+  public static final boolean WARNINGS = true;
   public static final float GRID_SZ = 0;
   public static final boolean TO_STRING = false;
   public static final boolean NO_OBJS = false;

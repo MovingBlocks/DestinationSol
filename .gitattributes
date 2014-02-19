@@ -200,7 +200,7 @@ main/res/paths/projectiles.json -text
 main/res/paths/shards.json -text
 main/res/sounds/bigShield/atm/2.wav -text
 main/res/sounds/bigShield/atm/3.wav -text
-main/res/sounds/bigShield/space/4.wav -text
+main/res/sounds/bigShield/atm/4.wav -text
 main/res/sounds/shield/atm/0.wav -text
 main/res/sounds/shield/space/1.wav -text
 main/res/sounds/zones/Drums_0.wav -text
