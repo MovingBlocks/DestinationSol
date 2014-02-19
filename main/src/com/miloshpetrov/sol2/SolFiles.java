@@ -7,6 +7,7 @@ public class SolFiles {
   public static String REPO_PATH;
 
   public static FileHandle readOnly(String path) {
-    return Gdx.files.internal(path);
+    if (REPO_PATH == null) return Gdx.files.internal(path);
+    return Gdx.files.absolute(REPO_PATH + "/main/" + path);
   }
 }

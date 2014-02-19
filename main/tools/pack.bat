@@ -1,1 +1,0 @@
-java -cp main/libs/gdx.jar;main/tools/gdx-tools.jar com.badlogic.gdx.tools.imagepacker.TexturePacker2 main/imgSrcs main/res/imgs sol
