@@ -1,6 +1,5 @@
 package com.miloshpetrov.sol2.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.miloshpetrov.sol2.Const;
@@ -160,7 +159,7 @@ public class StarPort implements SolObj {
     private final PathLoader myLoader;
 
     public Builder() {
-      myLoader = new PathLoader(Gdx.files.internal("res/paths/misc.json"));
+      myLoader = new PathLoader("misc");
     }
 
     public StarPort build(SolGame game, Planet from, Planet to, boolean secondary) {

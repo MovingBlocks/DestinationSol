@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.miloshpetrov.sol2.Const;
+import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.ui.DebugCollector;
 import com.miloshpetrov.sol2.ui.UiDrawer;
@@ -36,7 +37,7 @@ class SoundTestCmp {
     mySamples = new HashMap<String, List<SolSample>>();
     myCurrSamples = new ArrayList<SolSample>();
 
-    FileHandle themeDir = Gdx.files.internal("res/sounds/zones");
+    FileHandle themeDir = SolFiles.readOnly("res/sounds/zones");
     for (FileHandle fh : themeDir.list()) {
       String name = fh.nameWithoutExtension();
       String[] parts = name.split("_");

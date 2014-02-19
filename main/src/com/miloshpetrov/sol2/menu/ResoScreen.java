@@ -14,7 +14,7 @@ public class ResoScreen implements SolUiScreen {
   private final SolUiControl myCloseCtrl;
   private final SolUiControl myResoCtrl;
   private final SolUiControl myFsCtrl;
-  private final ResoReader.Data myD;
+  private final SettingsReader.Data myD;
 
   public ResoScreen(MenuLayout menuLayout) {
     myControls = new ArrayList<SolUiControl>();
@@ -31,7 +31,7 @@ public class ResoScreen implements SolUiScreen {
     myCloseCtrl.setDisplayName("Back");
     myControls.add(myCloseCtrl);
 
-    myD = Gdx.app.getType() == Application.ApplicationType.Desktop ? ResoReader.read() : null;
+    myD = Gdx.app.getType() == Application.ApplicationType.Desktop ? SettingsReader.read() : null;
   }
 
   @Override
@@ -50,12 +50,12 @@ public class ResoScreen implements SolUiScreen {
     myResoCtrl.setDisplayName(myD.x + "x" + myD.y);
     if (myResoCtrl.isJustOff()) {
       myD.advance();
-      ResoReader.write(myD);
+      SettingsReader.write(myD);
     }
     myFsCtrl.setDisplayName(myD.fs ? "Fullscreen" : "Windowed");
     if (myFsCtrl.isJustOff()) {
       myD.fs = !myD.fs;
-      ResoReader.write(myD);
+      SettingsReader.write(myD);
     }
   }
 

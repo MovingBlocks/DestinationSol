@@ -1,6 +1,5 @@
 package com.miloshpetrov.sol2;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
@@ -18,7 +17,7 @@ public class TexMan {
   public final TextureAtlas.AtlasRegion whiteTex;
 
   public TexMan() {
-    myAtlas = new TextureAtlas(Gdx.files.internal("res/imgs/sol.atlas"));
+    myAtlas = new TextureAtlas(SolFiles.readOnly("res/imgs/sol.atlas"));
     for (TextureAtlas.AtlasRegion r : myAtlas.getRegions()) {
       r.flip(false, true);
     }

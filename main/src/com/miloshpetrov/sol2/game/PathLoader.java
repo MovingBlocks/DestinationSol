@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.Const;
+import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.dra.*;
@@ -37,7 +38,8 @@ public class PathLoader {
   // Ctors
   // -------------------------------------------------------------------------
 
-  public PathLoader(FileHandle file) {
+  public PathLoader(String fileName) {
+    FileHandle file = SolFiles.readOnly("res/paths/" + fileName + ".json");
     if (file == null) throw new NullPointerException("file is null");
     model = readJson(file.readString());
   }

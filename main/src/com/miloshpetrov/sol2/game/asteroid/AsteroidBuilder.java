@@ -1,6 +1,5 @@
 package com.miloshpetrov.sol2.game.asteroid;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -21,7 +20,7 @@ public class AsteroidBuilder {
   private final PathLoader myPathLoader;
 
   public AsteroidBuilder() {
-    myPathLoader = new PathLoader(Gdx.files.internal("res/paths/asteroids.json"));
+    myPathLoader = new PathLoader("asteroids");
   }
 
   // doesn't consume pos

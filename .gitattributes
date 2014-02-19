@@ -24,7 +24,6 @@ desktop/src/META-INF/MANIFEST.MF -text
 desktop/src/com/miloshpetrov/sol2/desktop/SolDesktop.java -text
 desktop/tools/l4jcfg.xml -text
 desktop/tools/sol.ico -text
-main/graphics.ini -text
 main/imgSrcs/asteroids/0.png -text
 main/imgSrcs/asteroids/1.png -text
 main/imgSrcs/asteroids/Thumbs.db -text
@@ -224,12 +223,14 @@ main/res/sounds/zones/Pianorhyme_1.wav -text
 main/res/sounds/zones/Pianorhyme_2.wav -text
 main/res/sounds/zones/Pianorhyme_3.wav -text
 main/res/sounds/zones/readme.txt -text
+main/settings.ini -text
 main/src/META-INF/MANIFEST.MF -text
 main/src/SolAppListener.gwt.xml -text
 main/src/com/miloshpetrov/sol2/CommonDrawer.java -text
 main/src/com/miloshpetrov/sol2/Const.java -text
 main/src/com/miloshpetrov/sol2/SolAppListener.java -text
 main/src/com/miloshpetrov/sol2/SolCmp.java -text
+main/src/com/miloshpetrov/sol2/SolFiles.java -text
 main/src/com/miloshpetrov/sol2/TexDrawer.java -text
 main/src/com/miloshpetrov/sol2/TexMan.java -text
 main/src/com/miloshpetrov/sol2/common/Bound.java -text
@@ -362,8 +363,8 @@ main/src/com/miloshpetrov/sol2/menu/MainScreen.java -text
 main/src/com/miloshpetrov/sol2/menu/MenuLayout.java -text
 main/src/com/miloshpetrov/sol2/menu/MenuScreens.java -text
 main/src/com/miloshpetrov/sol2/menu/OptionsScreen.java -text
-main/src/com/miloshpetrov/sol2/menu/ResoReader.java -text
 main/src/com/miloshpetrov/sol2/menu/ResoScreen.java -text
+main/src/com/miloshpetrov/sol2/menu/SettingsReader.java -text
 main/src/com/miloshpetrov/sol2/save/SaveData.java -text
 main/src/com/miloshpetrov/sol2/save/SaveMan.java -text
 main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java -text
