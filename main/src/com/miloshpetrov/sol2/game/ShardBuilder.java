@@ -1,6 +1,5 @@
 package com.miloshpetrov.sol2.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -22,7 +21,7 @@ public class ShardBuilder {
   private final PathLoader myPathLoader;
 
   public ShardBuilder() {
-    myPathLoader = new PathLoader(Gdx.files.internal("res/paths/shards.json"));
+    myPathLoader = new PathLoader("shards");
   }
 
   public void buildExplosionShards(SolGame game, Vector2 pos, Vector2 baseSpd, float size) {

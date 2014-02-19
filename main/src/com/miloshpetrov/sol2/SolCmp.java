@@ -132,4 +132,5 @@ public class SolCmp {
   public boolean isMobile() {
     return DebugAspects.MOBILE || myMobile;
   }
+
 }

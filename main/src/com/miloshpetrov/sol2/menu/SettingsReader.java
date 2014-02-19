@@ -10,20 +10,23 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class ResoReader {
-  private ResoReader() {}
+public class SettingsReader {
+
+  public static final String FILE_NAME = "settings.ini";
+
+  private SettingsReader() {}
 
   public static Data read() {
     Data r = new Data(800, 600, false);
 
     String lines = "";
     try {
-      byte[] encoded = Files.readAllBytes(Paths.get("graphics.ini"));
+      byte[] encoded = Files.readAllBytes(Paths.get(FILE_NAME));
       lines = Charset.defaultCharset().decode(ByteBuffer.wrap(encoded)).toString();
     } catch (IOException ignore) {
     }
 
-    File file = new File("graphics.ini");
+    File file = new File(FILE_NAME);
     if (file.exists()) {
       for (String line : lines.split("\n")) {
         String[] sides = line.split("=");
@@ -39,6 +42,9 @@ public class ResoReader {
         if ("fullscreen".equals(key)) {
           r.fs = Boolean.parseBoolean(val);
         }
+        if ("repoPath".equals(key)) {
+          r.repoPath = val;
+        }
       }
 
     }
@@ -47,7 +53,8 @@ public class ResoReader {
 
   public static void write(Data d) {
     String val = "x=" + d.x + "\ny=" + d.y + "\nfullscreen=" + d.fs;
-    FileHandle file = Gdx.files.local("graphics.ini");
+    if (d.repoPath != null) val += "\nrepoPath=" + d.repoPath;
+    FileHandle file = Gdx.files.local(FILE_NAME);
     file.writeString(val, false);
   }
 
@@ -55,6 +62,7 @@ public class ResoReader {
     public int x;
     public int y;
     public boolean fs;
+    public String repoPath;
 
     public Data(int x, int y, boolean fs) {
       this.x = x;

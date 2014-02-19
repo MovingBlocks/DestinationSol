@@ -24,7 +24,7 @@ public class CommonDrawer {
     mySpriteBatch = new SpriteBatch();
     whiteTex = getWhiteTex();
 
-    myFont = new BitmapFont(Gdx.files.internal("res/fonts/main.fnt"), true);
+    myFont = new BitmapFont(SolFiles.readOnly("res/fonts/main.fnt"), true);
     myFont.setUseIntegerPositions(false);
     myOrigFontHeight = myFont.getXHeight();
   }

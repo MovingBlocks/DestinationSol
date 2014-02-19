@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
+import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.planet.Planet;
@@ -26,7 +27,7 @@ public class SoundMan {
     if (res != null) return res;
     res = new SolSounds();
     mySounds.put(relPath, res);
-    FileHandle dir = Gdx.files.internal(DIR + relPath);
+    FileHandle dir = SolFiles.readOnly(DIR + relPath);
     fillSounds(res.atm, dir);
     return res;
   }

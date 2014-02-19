@@ -4,8 +4,9 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.miloshpetrov.sol2.SolAppListener;
+import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.game.DebugAspects;
-import com.miloshpetrov.sol2.menu.ResoReader;
+import com.miloshpetrov.sol2.menu.SettingsReader;
 import com.miloshpetrov.sol2.soundtest.SoundTestListener;
 
 public class SolDesktop {
@@ -15,7 +16,8 @@ public class SolDesktop {
       return;
     }
 
-    ResoReader.Data d = ResoReader.read();
+    SettingsReader.Data d = SettingsReader.read();
+    SolFiles.REPO_PATH = d.repoPath;
 
     LwjglApplicationConfiguration c = new LwjglApplicationConfiguration();
     c.width = d.x;

@@ -1,6 +1,5 @@
 package com.miloshpetrov.sol2.game.ship;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -25,7 +24,7 @@ public class ShipBuilder {
   private final PathLoader myPathLoader;
 
   public ShipBuilder() {
-    myPathLoader = new PathLoader(Gdx.files.internal("res/paths/hulls.json"));
+    myPathLoader = new PathLoader("hulls");
   }
 
   public SolShip buildNew(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot,

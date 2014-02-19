@@ -1,9 +1,9 @@
 package com.miloshpetrov.sol2.game.item;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.ship.ShipHull;
@@ -109,7 +109,7 @@ public class Shield implements SolItem {
 
     public static void loadConfigs(ItemMan itemMan, SoundMan soundMan) {
       JsonReader r = new JsonReader();
-      JsonValue parsed = r.parse(Gdx.files.internal(ItemMan.ITEM_CONFIGS_DIR + "shields.json"));
+      JsonValue parsed = r.parse(SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "shields.json"));
       for (JsonValue sh : parsed) {
         int maxLife = sh.getInt("maxLife");
         String displayName = sh.getString("displayName");
@@ -120,7 +120,6 @@ public class Shield implements SolItem {
         Config config = new Config(maxLife, displayName, price, desc, sounds);
         itemMan.registerItem(sh.name(), config.example);
       }
-
     }
   }
 }

@@ -1,10 +1,10 @@
 package com.miloshpetrov.sol2.game.particle;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
@@ -38,7 +38,7 @@ public class PartMan {
   }
 
   private ParticleEmitter loadEmitter(final String name, TexMan texMan) {
-    FileHandle effectFile = Gdx.files.internal("res/emitters/" + name + ".p");
+    FileHandle effectFile = SolFiles.readOnly("res/emitters/" + name + ".p");
     InputStream input = effectFile.read();
     BufferedReader reader = null;
     ParticleEmitter emitter;

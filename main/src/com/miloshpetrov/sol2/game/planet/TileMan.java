@@ -1,6 +1,5 @@
 package com.miloshpetrov.sol2.game.planet;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -19,7 +18,7 @@ public class TileMan {
   }
 
   private void fillTiles(TexMan texMan) {
-    PathLoader pathLoader = new PathLoader(Gdx.files.internal("res/paths/grounds.json"));
+    PathLoader pathLoader = new PathLoader("grounds");
     PathLoader.Model paths = pathLoader.getInternalModel();
 
     for (SurfDir from : SurfDir.values()) {
