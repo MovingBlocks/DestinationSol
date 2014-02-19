@@ -1,0 +1,25 @@
+{
+  s: {
+    maxLife: 10,
+    displayName: "Small Shield",
+    price: 40,
+    desc: "Poorly protects from projectiles",
+    sounds: "shield"
+  },
+
+  sMed: {
+    maxLife: 20,
+    displayName: Shield,
+    price: 100,
+    desc: "Protects from projectiles",
+    sounds: "shield"
+  },
+
+  sBig: {
+    maxLife: 30,
+    displayName: "Big Shield",
+    price: 150,
+    desc: "Greatly protects from projectiles",
+    sounds: "bigShield"
+  }
+}

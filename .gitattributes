@@ -162,6 +162,7 @@ main/libs/gdx-openal.jar -text
 main/libs/gdx-sources.jar -text
 main/libs/gdx.jar -text
 main/main.iml -text
+main/res/configs/items/shields.json -text
 main/res/emitters/explInner.p -text
 main/res/emitters/explosion.p -text
 main/res/emitters/flame.p -text
@@ -197,6 +198,11 @@ main/res/paths/loot.json -text
 main/res/paths/misc.json -text
 main/res/paths/projectiles.json -text
 main/res/paths/shards.json -text
+main/res/sounds/bigShield/atm/2.wav -text
+main/res/sounds/bigShield/atm/3.wav -text
+main/res/sounds/bigShield/space/4.wav -text
+main/res/sounds/shield/atm/0.wav -text
+main/res/sounds/shield/space/1.wav -text
 main/res/sounds/zones/Drums_0.wav -text
 main/res/sounds/zones/Drums_1.wav -text
 main/res/sounds/zones/Drums_2.wav -text
@@ -340,6 +346,8 @@ main/src/com/miloshpetrov/sol2/game/ship/ShipEngine.java -text
 main/src/com/miloshpetrov/sol2/game/ship/ShipHull.java -text
 main/src/com/miloshpetrov/sol2/game/ship/ShipRepairer.java -text
 main/src/com/miloshpetrov/sol2/game/ship/SolShip.java -text
+main/src/com/miloshpetrov/sol2/game/sound/SolSounds.java -text
+main/src/com/miloshpetrov/sol2/game/sound/SoundMan.java -text
 main/src/com/miloshpetrov/sol2/menu/HalpScreen.java -text
 main/src/com/miloshpetrov/sol2/menu/MainScreen.java -text
 main/src/com/miloshpetrov/sol2/menu/MenuLayout.java -text
