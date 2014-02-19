@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.game.item;
 
+import com.miloshpetrov.sol2.SolCmp;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.gun.GunConfigs;
@@ -8,20 +9,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ItemMan {
+  public static final String ITEM_CONFIGS_DIR = "res/configs/items/";
   public final GunConfigs gunConfigs;
   private final HashMap<String,SolItem> myM;
   public final Armor.Configs armorConfigs;
-  public final Shield.Configs shieldConfigs;
   public final EngineItem.Configs engineConfigs;
   private final ArrayList<SolItem> myL;
 
   public ItemMan(TexMan texMan) {
+    myM = new HashMap<String, SolItem>();
+
     gunConfigs = new GunConfigs(texMan);
     armorConfigs = new Armor.Configs();
-    shieldConfigs = new Shield.Configs();
+    Shield.Config.loadConfigs(this);
     engineConfigs = new EngineItem.Configs();
-
-    myM = new HashMap<String, SolItem>();
 
     myM.put("e", engineConfigs.std.example);
     myM.put("eBig", engineConfigs.big.example);
@@ -35,10 +36,6 @@ public class ItemMan {
     myM.put("a", armorConfigs.std.example);
     myM.put("aBig", armorConfigs.big.example);
     myM.put("aMed", armorConfigs.med.example);
-
-    myM.put("s", shieldConfigs.std.example);
-    myM.put("sBig", shieldConfigs.big.example);
-    myM.put("sMed", shieldConfigs.med.example);
 
     myM.put("b", BulletClip.EXAMPLE);
     myM.put("r", RocketClip.EXAMPLE);
@@ -68,8 +65,12 @@ public class ItemMan {
       }
       for (int i = 0; i < amt; i++) {
         if (SolMath.test(chance)) {
-          SolItem item = myM.get(name).copy();
-          if (item == null) throw new AssertionError("unknown item " + name + "@" + parts[0] + "@" + rec + "@" + items);
+          SolItem example = myM.get(name);
+          if (example == null) {
+            SolCmp.fatalError("unknown item " + name + "@" + parts[0] + "@" + rec + "@" + items);
+            return;
+          }
+          SolItem item = example.copy();
           c.add(item);
         }
       }
@@ -78,5 +79,13 @@ public class ItemMan {
 
   public SolItem random() {
     return myL.get(SolMath.intRnd(myM.size())).copy();
+  }
+
+  public void registerItem(String itemCode, SolItem example) {
+    SolItem existing = myM.get(itemCode);
+    if (existing != null) {
+      SolCmp.fatalError("2 item types registered for item code " + itemCode + ":\n" + existing + " and " + example);
+    }
+    myM.put(itemCode, example);
   }
 }
