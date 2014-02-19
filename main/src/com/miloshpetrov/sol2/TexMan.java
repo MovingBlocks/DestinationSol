@@ -19,7 +19,8 @@ public class TexMan {
   private final TexProvider myTexProvider;
 
   public TexMan() {
-    myTexProvider = SolFiles.REPO_PATH == null ? new AtlasBasedProvider() : new DevProvider();
+    FileHandle atlasFile = SolFiles.readOnly("res/imgs/sol.atlas");
+    myTexProvider = atlasFile.exists() ? new AtlasBasedProvider(atlasFile) : new DevProvider();
     whiteTex = myTexProvider.getTex("misc/whiteTex");
     myPacks = new HashMap<String, Array<TextureAtlas.AtlasRegion>>();
     myTexs = new HashMap<String, TextureAtlas.AtlasRegion>();
@@ -86,8 +87,8 @@ public class TexMan {
   private static class AtlasBasedProvider implements TexProvider {
     private final TextureAtlas myAtlas;
 
-    private AtlasBasedProvider() {
-      myAtlas = new TextureAtlas(SolFiles.readOnly("res/imgs/sol.atlas"), true);
+    private AtlasBasedProvider(FileHandle atlasFile) {
+      myAtlas = new TextureAtlas(atlasFile, true);
     }
 
     @Override
@@ -113,7 +114,7 @@ public class TexMan {
 
   private class DevProvider implements TexProvider {
 
-    public static final String PREF = "/imgSrcs/";
+    public static final String PREF = "imgSrcs/";
     public static final String SUFF = ".png";
 
     @Override
