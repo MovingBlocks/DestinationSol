@@ -24,7 +24,11 @@ public class SolDesktop {
     c.height = d.y;
     c.fullscreen = d.fs;
     c.title = "Sol";
-    c.addIcon("res/icon.png", Files.FileType.Internal);
+    if (SolFiles.REPO_PATH == null) {
+      c.addIcon("res/icon.png", Files.FileType.Internal);
+    } else {
+      c.addIcon(SolFiles.REPO_PATH + "/main/res/icon.png", Files.FileType.Absolute);
+    }
 
     if (DebugAspects.MOBILE) {
       c.width = 640;

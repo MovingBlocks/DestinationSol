@@ -1,5 +1,7 @@
 package com.miloshpetrov.sol2;
 
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
@@ -10,18 +12,15 @@ import java.util.Map;
 
 public class TexMan {
   public static final String ICONS_DIR = "icons/";
-  private final TextureAtlas myAtlas;
   private final Map<String, TextureAtlas.AtlasRegion> myTexs;
   private final Map<TextureAtlas.AtlasRegion,TextureAtlas.AtlasRegion> myFlipped;
   private final Map<String, Array<TextureAtlas.AtlasRegion>> myPacks;
   public final TextureAtlas.AtlasRegion whiteTex;
+  private final TexProvider myTexProvider;
 
   public TexMan() {
-    myAtlas = new TextureAtlas(SolFiles.readOnly("res/imgs/sol.atlas"));
-    for (TextureAtlas.AtlasRegion r : myAtlas.getRegions()) {
-      r.flip(false, true);
-    }
-    whiteTex = myAtlas.findRegion("misc/whiteTex");
+    myTexProvider = SolFiles.REPO_PATH == null ? new AtlasBasedProvider() : new DevProvider();
+    whiteTex = myTexProvider.getTex("misc/whiteTex");
     myPacks = new HashMap<String, Array<TextureAtlas.AtlasRegion>>();
     myTexs = new HashMap<String, TextureAtlas.AtlasRegion>();
     myFlipped = new HashMap<TextureAtlas.AtlasRegion, TextureAtlas.AtlasRegion>();
@@ -44,7 +43,7 @@ public class TexMan {
   public TextureAtlas.AtlasRegion getTex(String name) {
     TextureAtlas.AtlasRegion r = myTexs.get(name);
     if (r != null) return r;
-    r = myAtlas.findRegion(name);
+    r = myTexProvider.getTex(name);
     if (r == null) throw new RuntimeException("texture not found: " + name);
     myTexs.put(name, r);
     return r;
@@ -53,7 +52,7 @@ public class TexMan {
   public Array<TextureAtlas.AtlasRegion> getPack(String name) {
     Array<TextureAtlas.AtlasRegion> r = myPacks.get(name);
     if (r != null) return r;
-    r = myAtlas.findRegions(name);
+    r = myTexProvider.getTexs(name);
     if (r.size == 0) throw new RuntimeException("textures not found: " + name);
     myPacks.put(name, r);
     return r;
@@ -70,10 +69,93 @@ public class TexMan {
   }
 
   public Sprite createSprite(String name) {
-    return myAtlas.createSprite(name);
+    return myTexProvider.createSprite(name);
   }
 
   public void dispose() {
-    myAtlas.dispose();
+    myTexProvider.dispose();
+  }
+
+  private static interface TexProvider {
+    TextureAtlas.AtlasRegion getTex(String name);
+    void dispose();
+    Sprite createSprite(String name);
+    Array<TextureAtlas.AtlasRegion> getTexs(String name);
+  }
+
+  private static class AtlasBasedProvider implements TexProvider {
+    private final TextureAtlas myAtlas;
+
+    private AtlasBasedProvider() {
+      myAtlas = new TextureAtlas(SolFiles.readOnly("res/imgs/sol.atlas"), true);
+    }
+
+    @Override
+    public TextureAtlas.AtlasRegion getTex(String name) {
+      return myAtlas.findRegion(name);
+    }
+
+    @Override
+    public void dispose() {
+      myAtlas.dispose();
+    }
+
+    @Override
+    public Sprite createSprite(String name) {
+      return myAtlas.createSprite(name);
+    }
+
+    @Override
+    public Array<TextureAtlas.AtlasRegion> getTexs(String name) {
+      return myAtlas.findRegions(name);
+    }
+  }
+
+  private class DevProvider implements TexProvider {
+
+    public static final String PREF = "/imgSrcs/";
+    public static final String SUFF = ".png";
+
+    @Override
+    public TextureAtlas.AtlasRegion getTex(String name) {
+      FileHandle fh = SolFiles.readOnly(PREF + name + SUFF);
+      return newTex(fh);
+    }
+
+    private TextureAtlas.AtlasRegion newTex(FileHandle fh) {
+      Texture tex = new Texture(fh);
+      TextureAtlas.AtlasRegion res = new TextureAtlas.AtlasRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
+      res.flip(false, true);
+      return res;
+    }
+
+    @Override
+    public void dispose() {
+      // forget it
+    }
+
+    @Override
+    public Sprite createSprite(String name) {
+      Texture tex = new Texture(SolFiles.readOnly(PREF + name + SUFF));
+      return new Sprite(tex);
+    }
+
+    @Override
+    public Array<TextureAtlas.AtlasRegion> getTexs(String name) {
+      FileHandle file = SolFiles.readOnly(PREF + name + SUFF);
+      FileHandle dir = file.parent();
+      String baseName = file.nameWithoutExtension();
+      Array<TextureAtlas.AtlasRegion> res = new Array<TextureAtlas.AtlasRegion>();
+      for (FileHandle fh : dir.list()) {
+        if (fh.isDirectory()) continue;
+        String fhName = fh.nameWithoutExtension();
+        String[] parts = fhName.split("_");
+        if (parts.length != 2) continue;
+        if (!parts[0].equals(baseName)) continue;
+        // todo check that the rest is number;
+        res.add(newTex(fh));
+      }
+      return res;
+    }
   }
 }

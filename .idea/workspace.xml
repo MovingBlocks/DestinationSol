@@ -11,27 +11,44 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="9137fd64-d1f4-4daf-a4a8-60761d6a0181" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolFiles.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/asteroid/AsteroidBuilder.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/asteroid/AsteroidBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/CommonDrawer.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/CommonDrawer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/particle/PartMan.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/particle/PartMan.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/PathLoader.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/PathLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBuilder.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/menu/ResoScreen.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/menu/ResoScreen.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ShardBuilder.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ShardBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/Shield.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/Shield.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/ShipBuilder.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/ShipBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolCmp.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolCmp.java" />
+    <list default="true" readonly="true" id="9137fd64-d1f4-4daf-a4a8-60761d6a0181" name="Default" comment="repo-bound build ready!">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/farBgBig" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/farBg/pack.json" />
+      <change type="DELETED" beforePath="D:\j\sol\main\tools\pack.bat" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\tools\gdx-tools.jar" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol.atlas" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol10.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol11.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol12.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol13.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol14.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol15.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol16.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol17.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol18.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol2.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol3.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol4.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol5.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol6.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol7.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol8.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\res\imgs\sol9.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/imgSrcs/guns/bolter.png" afterPath="$PROJECT_DIR$/main/imgSrcs/guns/bolter.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/imgSrcs/projectiles/bullet.png" afterPath="$PROJECT_DIR$/main/imgSrcs/projectiles/bullet.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/imgSrcs/particles/bulletColl.png" afterPath="$PROJECT_DIR$/main/imgSrcs/particles/bulletColl.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/imgSrcs/particles/flame.png" afterPath="$PROJECT_DIR$/main/imgSrcs/particles/flame.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/imgSrcs/guns/rocketLauncher.png" afterPath="$PROJECT_DIR$/main/imgSrcs/guns/rocketLauncher.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/imgSrcs/particles/smoke.png" afterPath="$PROJECT_DIR$/main/imgSrcs/particles/smoke.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/farBg/FarBgManOld.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/farBg/FarBgManOld.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/desktop/src/com/miloshpetrov/sol2/desktop/SolDesktop.java" afterPath="$PROJECT_DIR$/desktop/src/com/miloshpetrov/sol2/desktop/SolDesktop.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SoundMan.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SoundMan.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/StarPort.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/StarPort.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolFiles.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolFiles.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/TexMan.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/TexMan.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/TileMan.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/TileMan.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/settings.ini" afterPath="$PROJECT_DIR$/main/settings.ini" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="D:\j\sol\main\src\com\miloshpetrov\sol2\menu\ResoReader.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/menu/SettingsReader.java" />
-      <change type="MOVED" beforePath="D:\j\sol\main\graphics.ini" afterPath="$PROJECT_DIR$/main/settings.ini" />
+      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\farBg\nebulae2.png" afterPath="$PROJECT_DIR$/main/imgSrcs/farBgBig/nebulae2.png" />
     </list>
     <ignored path="metagun-whole.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -101,10 +118,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SettingsReader.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/menu/SettingsReader.java">
+      <file leaf-file-name="settings.ini" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main/settings.ini">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="57" column="33" selection-start="1573" selection-end="1573" vertical-scroll-proportion="0.5013405" vertical-offset="459" max-vertical-offset="2089">
+            <state line="3" column="17" selection-start="47" selection-end="47" vertical-scroll-proportion="0.07073509" vertical-offset="0" max-vertical-offset="755">
               <folding />
             </state>
           </provider>
@@ -120,9 +137,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/SellItems.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/InventoryScreen.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/dra/DraLevel.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/HullConfigs.java" />
         <option value="$PROJECT_DIR$/main/graphics.ini" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/FontSize.java" />
@@ -161,16 +175,19 @@
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/TileMan.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolCmp.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/menu/SettingsReader.java" />
-        <option value="$PROJECT_DIR$/desktop/src/com/miloshpetrov/sol2/desktop/SolDesktop.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolFileProvider.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolFiles.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/CommonDrawer.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/particle/PartMan.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SoundMan.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/Shield.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/PathLoader.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolFiles.java" />
+        <option value="$PROJECT_DIR$/main/settings.ini" />
+        <option value="$PROJECT_DIR$/desktop/src/com/miloshpetrov/sol2/desktop/SolDesktop.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/TexMan.java" />
+        <option value="$PROJECT_DIR$/main/imgSrcs/farBg/pack.json" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/farBg/FarBgManOld.java" />
       </list>
     </option>
   </component>
@@ -248,7 +265,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="tools" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -263,10 +280,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sol2" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -285,86 +298,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="sol2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="menu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Destination Sol 2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Destination Sol 2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sounds" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zones" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Destination Sol 2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sounds" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Destination Sol 2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="configs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="items" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -388,6 +321,60 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="imgSrcs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="farJunks" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Destination Sol 2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="imgSrcs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="farBgBig" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Destination Sol 2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="imgSrcs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="farBg" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Destination Sol 2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="desktop" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -400,7 +387,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="GenerateAntBuildDialog.generateIdeaHomeProperty" value="false" />
-    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="options.splitter.main.proportions" value="0.3" />
@@ -420,7 +407,7 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game" />
-    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
+    <property name="options.lastSelected" value="preferences.externalTools" />
     <property name="ChangesBrowser.SHOW_FLATTEN" value="true" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -459,11 +446,11 @@
       <recent name="com.miloshpetrov.sol2.menu" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\j\sol\main\imgSrcs\farBg" />
       <recent name="D:\j\sol\main\imgSrcs\misc" />
       <recent name="D:\j\sol\main\imgSrcs\icons" />
       <recent name="D:\j\sol\main\imgSrcs\projectiles" />
       <recent name="D:\j\sol\main\imgSrcs\guns" />
-      <recent name="D:\j\sol\main\imgSrcs\hulls" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="com.miloshpetrov.sol" />
@@ -495,11 +482,11 @@
       <recent name="com.miloshpetrov.sol2.game.asteroid" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\j\sol\main\imgSrcs\farBgBig" />
       <recent name="D:\j\sol\main\imgSrcs\icons" />
       <recent name="D:\j\sol\main\imgSrcs\particles" />
       <recent name="D:\j\sol\desktop\src" />
       <recent name="D:\j\sol\main\src" />
-      <recent name="D:\j\sol\desktop\tools" />
     </key>
   </component>
   <component name="RunManager" selected="Application.SolDesktop">
@@ -707,8 +694,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="star port" />
-    <MESSAGE value="drome" />
     <MESSAGE value="vanguard" />
     <MESSAGE value="hunter" />
     <MESSAGE value="truck + improvs" />
@@ -732,7 +717,10 @@
     <MESSAGE value="basic logging" />
     <MESSAGE value="unified atm &amp; space sounds" />
     <MESSAGE value="merged atm &amp; space sounds" />
-    <option name="LAST_COMMIT_MESSAGE" value="merged atm &amp; space sounds" />
+    <MESSAGE value="preparations for repo-bound build" />
+    <MESSAGE value="repo-bound build ready!" />
+    <option name="LAST_COMMIT_MESSAGE" value="repo-bound build ready!" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -746,53 +734,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/main/tools/todo.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="12" selection-start="325" selection-end="325" vertical-scroll-proportion="0.1704871" vertical-offset="136" max-vertical-offset="1616" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/MainScreen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="34" selection-start="3331" selection-end="3331" vertical-scroll-proportion="0.3409742" vertical-offset="850" max-vertical-offset="6104" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="13" selection-start="372" selection-end="372" vertical-scroll-proportion="0.41018766" vertical-offset="34" max-vertical-offset="1392">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/imgSrcs/shards/0.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="826" column="8" selection-start="48945" selection-end="48945" vertical-scroll-proportion="0.28649387" vertical-offset="13832" max-vertical-offset="18974" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/desktop/desktop.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="0" selection-start="607" selection-end="607" vertical-scroll-proportion="0.34182304" vertical-offset="0" max-vertical-offset="984" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/Norm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="0" selection-start="80" selection-end="304" vertical-scroll-proportion="0.18230563" vertical-offset="0" max-vertical-offset="933" />
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/main/libs/gdx-sources.jar!/com/badlogic/gdx/math/MathUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="34" selection-start="2744" selection-end="2744" vertical-scroll-proportion="0.0" vertical-offset="986" max-vertical-offset="4707" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/Bound.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="493" selection-end="493" vertical-scroll-proportion="0.29624665" vertical-offset="0" max-vertical-offset="950" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/HullConfig.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="13" selection-start="211" selection-end="211" vertical-scroll-proportion="-0.09115282" vertical-offset="136" max-vertical-offset="1596" />
@@ -983,13 +924,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/TileMan.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="51" selection-start="590" selection-end="590" vertical-scroll-proportion="0.11394102" vertical-offset="153" max-vertical-offset="1681">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolAppListener.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="16" selection-start="193" selection-end="193" vertical-scroll-proportion="0.20509383" vertical-offset="0" max-vertical-offset="1375">
@@ -1011,23 +945,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/desktop/src/com/miloshpetrov/sol2/desktop/SolDesktop.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="20" selection-start="708" selection-end="708" vertical-scroll-proportion="0.23324397" vertical-offset="30" max-vertical-offset="1256">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/CommonDrawer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="26" column="46" selection-start="739" selection-end="739" vertical-scroll-proportion="0.41018766" vertical-offset="51" max-vertical-offset="2650">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/particle/PartMan.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="46" selection-start="1628" selection-end="1628" vertical-scroll-proportion="0.022788204" vertical-offset="408" max-vertical-offset="2956">
           <folding />
         </state>
       </provider>
@@ -1060,23 +980,107 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/TexMan.java">
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/menu/SettingsReader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="45" selection-start="730" selection-end="730" vertical-scroll-proportion="0.022788204" vertical-offset="204" max-vertical-offset="1970">
+        <state line="57" column="33" selection-start="1573" selection-end="1573" vertical-scroll-proportion="0.5013405" vertical-offset="459" max-vertical-offset="2089">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolFiles.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="11" selection-start="225" selection-end="235" vertical-scroll-proportion="0.18230563" vertical-offset="0" max-vertical-offset="916">
+        <state line="12" column="1" selection-start="339" selection-end="339" vertical-scroll-proportion="0.25067025" vertical-offset="0" max-vertical-offset="933">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/menu/SettingsReader.java">
+    <entry file="jar://$PROJECT_DIR$/desktop/libs/gdx-backend-lwjgl.jar!/com/badlogic/gdx/backends/lwjgl/LwjglApplicationConfiguration.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="33" selection-start="1573" selection-end="1573" vertical-scroll-proportion="0.5013405" vertical-offset="459" max-vertical-offset="2089">
+        <state line="36" column="14" selection-start="1079" selection-end="1079" vertical-scroll-proportion="0.38280165" vertical-offset="319" max-vertical-offset="1486">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/desktop/src/com/miloshpetrov/sol2/desktop/SolDesktop.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="65" selection-start="784" selection-end="784" vertical-scroll-proportion="0.23324397" vertical-offset="64" max-vertical-offset="1324">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/main/libs/gdx-sources.jar!/com/badlogic/gdx/graphics/g2d/TextureAtlas.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="311" column="34" selection-start="11063" selection-end="11063" vertical-scroll-proportion="0.0" vertical-offset="4556" max-vertical-offset="11252">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/TileMan.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="36" selection-start="1175" selection-end="1175" vertical-scroll-proportion="0.5924933" vertical-offset="0" max-vertical-offset="1681">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/Drawer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="19" selection-start="1351" selection-end="1351" vertical-scroll-proportion="0.27345845" vertical-offset="510" max-vertical-offset="1630">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/main/libs/gdx-sources.jar!/com/badlogic/gdx/graphics/g2d/ParticleEmitter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="13" selection-start="1170" selection-end="1170" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="20857">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/particle/PartMan.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="67" column="17" selection-start="2720" selection-end="2720" vertical-scroll-proportion="0.41018766" vertical-offset="578" max-vertical-offset="2956">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/main/libs/gdx-sources.jar!/com/badlogic/gdx/graphics/g2d/SpriteBatch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="690" column="43" selection-start="23547" selection-end="23547" vertical-scroll-proportion="0.3324397" vertical-offset="10955" max-vertical-offset="20619">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/TexMan.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="145" column="37" selection-start="4511" selection-end="4511" vertical-scroll-proportion="0.5013405" vertical-offset="1955" max-vertical-offset="3330">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/imgSrcs/farJunks/pack.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="1" selection-start="73" selection-end="73" vertical-scroll-proportion="0.11394102" vertical-offset="0" max-vertical-offset="814">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/imgSrcs/farBg/pack.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="1" selection-start="69" selection-end="69" vertical-scroll-proportion="0.11394102" vertical-offset="0" max-vertical-offset="814">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/farBg/FarBgManOld.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="37" selection-start="677" selection-end="677" vertical-scroll-proportion="0.06836461" vertical-offset="136" max-vertical-offset="1749">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/settings.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="17" selection-start="47" selection-end="47" vertical-scroll-proportion="0.07073509" vertical-offset="0" max-vertical-offset="755">
           <folding />
         </state>
       </provider>

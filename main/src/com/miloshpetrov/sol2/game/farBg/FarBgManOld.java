@@ -20,7 +20,7 @@ public class FarBgManOld {
   private final Color myNebTint;
 
   public FarBgManOld(TexMan texMan) {
-    myNebTex = texMan.getTex("farBg/nebulae2", SolMath.test(.5f));
+    myNebTex = texMan.getTex("farBgBig/nebulae2", SolMath.test(.5f));
     myNebAngle = SolMath.rnd(180);
     myStars = new ArrayList<FarBgStar>();
     for (int i = 0; i < 400; i++) {
