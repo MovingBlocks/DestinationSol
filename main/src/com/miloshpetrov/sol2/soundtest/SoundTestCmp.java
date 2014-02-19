@@ -21,7 +21,6 @@ class SoundTestCmp {
   private static long DEBUG_MUSIC_DIFF;
 
   private final UiDrawer myUiDrawer;
-  private final DebugCollector myDebugCollector;
   private final Vector2 myPos;
   private final Color myColor;
   private final Map<String, List<SolSample>> mySamples;
@@ -32,7 +31,6 @@ class SoundTestCmp {
 
   SoundTestCmp() {
     myUiDrawer = new UiDrawer();
-    myDebugCollector = new DebugCollector();
     myPos = new Vector2(.5f, .5f);
     myColor = new Color(myPos.x, myPos.y, 0, 1f);
     mySamples = new HashMap<String, List<SolSample>>();
@@ -74,12 +72,12 @@ class SoundTestCmp {
     Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
     myUiDrawer.begin();
     myUiDrawer.drawCircle(myPos, .05f, myColor);
-    myDebugCollector.draw(myUiDrawer);
+    DebugCollector.draw(myUiDrawer);
     myUiDrawer.end();
   }
 
   private void update() {
-    myDebugCollector.update();
+    DebugCollector.update();
 
     updateMusic();
     updatePos();
@@ -108,7 +106,7 @@ class SoundTestCmp {
   }
 
   public void debug(Object ... objs) {
-    myDebugCollector.debug(objs);
+    DebugCollector.debug(objs);
   }
 
   private void updatePos() {

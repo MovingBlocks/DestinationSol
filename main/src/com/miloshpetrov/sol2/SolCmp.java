@@ -16,7 +16,6 @@ public class SolCmp {
 
   private final SolInputMan myInputMan;
   private final UiDrawer myUiDrawer;
-  private final DebugCollector myDebugCollector;
   private final MenuScreens myMenuScreens;
   private final SaveMan mySaveMan;
   private final TexMan myTexMan;
@@ -33,7 +32,6 @@ public class SolCmp {
 
 
     myUiDrawer = new UiDrawer();
-    myDebugCollector = new DebugCollector();
     myTexMan = new TexMan();
     myInputMan = new SolInputMan(myTexMan, myUiDrawer.r);
     mySaveMan = new SaveMan();
@@ -62,9 +60,9 @@ public class SolCmp {
   }
 
   private void update() {
-    myDebugCollector.update();
-    debug("Fps: ", Gdx.graphics.getFramesPerSecond());
-    debug("Version: " + Const.VERSION);
+    DebugCollector.update();
+    DebugCollector.debug("Fps: ", Gdx.graphics.getFramesPerSecond());
+    DebugCollector.debug("Version: " + Const.VERSION);
     myInputMan.update(this);
     if (myGame != null) myGame.update();
     SolMath.checkVectorsTaken(null);
@@ -77,16 +75,12 @@ public class SolCmp {
     }
     myUiDrawer.begin();
     myInputMan.draw(myUiDrawer, this);
-    myDebugCollector.draw(myUiDrawer);
+    DebugCollector.draw(myUiDrawer);
     if (myFatalError != null) {
       myUiDrawer.draw(myUiDrawer.whiteTex, myUiDrawer.r, .5f, 0, 0, 0, .25f, 0, Col.B75);
       myUiDrawer.drawString(myFatalError, myUiDrawer.r / 2, .5f, FontSize.MENU, true, Col.W);
     }
     myUiDrawer.end();
-  }
-
-  public void debug(Object ... objs) {
-    myDebugCollector.debug(objs);
   }
 
   public void startNewGame(boolean tut) {

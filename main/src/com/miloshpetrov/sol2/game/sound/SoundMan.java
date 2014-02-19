@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.planet.Planet;
+import com.miloshpetrov.sol2.ui.DebugCollector;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,12 +38,14 @@ public class SoundMan {
       Sound sound = Gdx.audio.newSound(soundFile);
       list.add(sound);
     }
+    if (list.isEmpty()) DebugCollector.warn("found no sounds in " + dir);
   }
 
   public void play(SolGame game, SolSounds sounds, Vector2 pos) {
     Planet np = game.getPlanetMan().getNearestPlanet();
     boolean atm = game.getCam().getPos().dst(np.getPos()) < np.getFullHeight();
     List<Sound> list = atm ? sounds.atm : sounds.space;
+    if (list.isEmpty()) return;
     Sound sound = SolMath.elemRnd(list);
     sound.play(/*todo params*/);
   }
