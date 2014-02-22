@@ -65,7 +65,9 @@ public class SolGame {
     myScreens = new GameScreens(drawer.r, cmp);
     myTexMan = texMan;
     myFarBgManOld = new FarBgManOld(myTexMan);
-    myPlanetMan = new PlanetMan(myTexMan);
+    myShipBuilder = new ShipBuilder();
+    myHullConfigs = new HullConfigs(myShipBuilder, texMan);
+    myPlanetMan = new PlanetMan(myTexMan, myHullConfigs);
     SolContactListener contactListener = new SolContactListener(this);
     myObjMan = new ObjMan(contactListener);
     myGridDrawer = new GridDrawer();
@@ -73,9 +75,7 @@ public class SolGame {
     myPartMan = new PartMan(myTexMan);
     myAsteroidBuilder = new AsteroidBuilder();
     myLootBuilder = new LootBuilder();
-    myShipBuilder = new ShipBuilder();
     myItemMan = new ItemMan(myTexMan, mySoundMan);
-    myHullConfigs = new HullConfigs(myShipBuilder, texMan);
     myFractionMan = new FractionMan(myTexMan);
     myFarBgMan = new FarBgMan();
     myMapDrawer = new MapDrawer(myTexMan);

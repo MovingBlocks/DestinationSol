@@ -31,8 +31,6 @@ public class PlanetObjsBuilder {
   private static final float DECO_PACK_SZ = 5f;
   private static final float DECO_PACK_ANGULAR_WIDTH = 360 * DECO_PACK_SZ / (2 * SolMath.PI * Const.MAX_GROUND_HEIGHT);
 
-  public static final float ORBITER_DENSITY = .01f;
-  public static final float GROUND_ENEMY_DENSITY = .45f;
 
   public float createPlanetObjs(SolGame game, Planet planet) {
     if (DebugAspects.NO_OBJS) return 0;
@@ -49,18 +47,25 @@ public class PlanetObjsBuilder {
     ArrayList<Float> takenAngles = new ArrayList<Float>();
     SolShip b = buildGroundBase(game, planet, takenAngles);
     game.getObjMan().addObjNow(game, b);
+    float gh = planet.getGroundHeight();
 
-    int groundEnemyCount = (int) (GROUND_ENEMY_DENSITY * planet.getGroundHeight());
-    for (int i = 0; i < groundEnemyCount; i++) {
-      SolShip e = buildGroundEnemy(game, planet, takenAngles);
-      game.getObjMan().addObjDelayed(e);
+    PlanetConfig config = planet.getConfig();
+    for (PlanetEnemyConfig ge : config.groundEnemies) {
+      int count = (int) (ge.density * gh);
+      for (int i = 0; i < count; i++) {
+        SolShip e = buildGroundEnemy(game, planet, takenAngles, ge);
+        game.getObjMan().addObjDelayed(e);
+      }
+
     }
 
-    int orbitEnemyCount = (int) (ORBITER_DENSITY * planet.getGroundHeight() * Const.ATM_HEIGHT) ;
-    for (int i = 0; i < orbitEnemyCount; i++) {
-      float heightPerc = .6f * i / orbitEnemyCount + .2f;
-      SolShip e = buildOrbitEnemy(game, planet, heightPerc);
-      game.getObjMan().addObjDelayed(e);
+    for (PlanetEnemyConfig oe : config.orbitEnemies) {
+      int count = (int) (oe.density * gh * Const.ATM_HEIGHT);
+      for (int i = 0; i < count; i++) {
+        float heightPerc = .6f * i / count + .2f;
+        SolShip e = buildOrbitEnemy(game, planet, heightPerc, oe);
+        game.getObjMan().addObjDelayed(e);
+      }
     }
   }
 
@@ -274,9 +279,8 @@ public class PlanetObjsBuilder {
     return buildGroundShip(game, planet, config, "bo", "", Fraction.LAANI, takenAngles);
   }
 
-  private SolShip buildGroundEnemy(SolGame game, Planet planet, ArrayList<Float> takenAngles) {
-    HullConfig config = game.getHullConfigs().getConfig("hummer");
-    return buildGroundShip(game, planet, config, "e bo|sg|mg rep s|sMed:.1 b:.7:2 r:.7:1", null, Fraction.EHAR, takenAngles);
+  private SolShip buildGroundEnemy(SolGame game, Planet planet, ArrayList<Float> takenAngles, PlanetEnemyConfig ge) {
+        return buildGroundShip(game, planet, ge.hull, ge.items, null, Fraction.EHAR, takenAngles);
   }
 
   public SolShip buildGroundShip(SolGame game, Planet planet, HullConfig hullConfig, String ic, String tc,
@@ -300,11 +304,7 @@ public class PlanetObjsBuilder {
       null, false, 30f, tc);
   }
 
-  public SolShip buildOrbitEnemy(SolGame cmp, Planet planet, float heightPerc) {
-    return buildOrbiter1(cmp, planet, heightPerc);
-  }
-
-  public SolShip buildOrbiter1(SolGame game, Planet planet, float heightPerc) {
+  public SolShip buildOrbitEnemy(SolGame game, Planet planet, float heightPerc, PlanetEnemyConfig oe) {
     float height = planet.getGroundHeight() + heightPerc * Const.ATM_HEIGHT;
     Vector2 pos = new Vector2();
     SolMath.fromAl(pos, SolMath.rnd(180), height);
@@ -322,8 +322,7 @@ public class PlanetObjsBuilder {
     OrbiterDestProvider dp = new OrbiterDestProvider(planet, height, cw);
     Pilot provider = new AiPilot(dp, false, Fraction.EHAR, true, null, detectionDist);
 
-    HullConfig config = game.getHullConfigs().getConfig("corvette");
-    return game.getShipBuilder().buildNew(game, pos, spd, 0, 0, provider, "e s:.2 a:.3 bo sloMo:.7:3 rep:.4", config, true, false,
+    return game.getShipBuilder().buildNew(game, pos, spd, 0, 0, provider, oe.items, oe.hull, true, false,
       null, true, 40f, null);
    }
 }

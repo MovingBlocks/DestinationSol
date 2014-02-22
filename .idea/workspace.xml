@@ -11,43 +11,14 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="9137fd64-d1f4-4daf-a4a8-60761d6a0181" name="Default" comment="planets.json in progress">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/paths/grounds" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/rocky" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/rocky" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/DecoConfig.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetConfig.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetConfigs.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetEnemyConfig.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/res/configs/planets.json" />
-      <change type="DELETED" beforePath="D:\j\sol\main\src\com\miloshpetrov\sol2\game\planet\TileMan.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\j\sol\main\imgSrcs\grounds\master.pdn" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/Planet.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/Planet.java" />
+    <list default="true" readonly="true" id="9137fd64-d1f4-4daf-a4a8-60761d6a0181" name="Default" comment="planets.json complete">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetConfigs.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetConfigs.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetEnemyConfig.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetEnemyConfig.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetMan.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetMan.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetObjsBuilder.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetObjsBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/SystemsBuilder.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/SystemsBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolGame.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolGame.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/res/configs/planets.json" afterPath="$PROJECT_DIR$/main/res/configs/planets.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\deco\Thumbs.db" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/rocky/Thumbs.db" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\deco\pack.json" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/rocky/pack.json" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\grounds\Thumbs.db" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/rocky/Thumbs.db" />
-      <change type="MOVED" beforePath="D:\j\sol\main\res\paths\grounds.json" afterPath="$PROJECT_DIR$/main/res/paths/grounds/rocky.json" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\grounds\fd_0.png" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/rocky/fd_0.png" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\grounds\fd_1.png" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/rocky/fd_1.png" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\grounds\ff_0.png" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/rocky/ff_0.png" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\grounds\ff_1.png" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/rocky/ff_1.png" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\deco\grass_0.png" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/rocky/grass_0.png" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\deco\grass_1.png" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/rocky/grass_1.png" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\deco\grass_2.png" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/rocky/grass_2.png" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\deco\tree_0.png" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/rocky/tree_0.png" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\deco\tree_1.png" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/rocky/tree_1.png" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\deco\tree_2.png" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/rocky/tree_2.png" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\deco\tree_3.png" afterPath="$PROJECT_DIR$/main/imgSrcs/deco/rocky/tree_3.png" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\grounds\ud_0.png" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/rocky/ud_0.png" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\grounds\ud_1.png" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/rocky/ud_1.png" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\grounds\uf_0.png" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/rocky/uf_0.png" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\grounds\uf_1.png" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/rocky/uf_1.png" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\grounds\uu_0.png" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/rocky/uu_0.png" />
-      <change type="MOVED" beforePath="D:\j\sol\main\imgSrcs\grounds\uu_1.png" afterPath="$PROJECT_DIR$/main/imgSrcs/grounds/rocky/uu_1.png" />
     </list>
     <ignored path="metagun-whole.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -117,10 +88,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="planets.json" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/main/res/configs/planets.json">
+      <file leaf-file-name="PlanetConfigs.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetConfigs.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="21" selection-start="386" selection-end="386" vertical-scroll-proportion="0.347185" vertical-offset="115" max-vertical-offset="1324">
+            <state line="47" column="0" selection-start="2006" selection-end="2006" vertical-scroll-proportion="0.4302949" vertical-offset="308" max-vertical-offset="2497">
               <folding />
             </state>
           </provider>
@@ -173,20 +144,20 @@
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/HullConfig.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/SolMath.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/HullConfigs.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolGame.java" />
         <option value="$PROJECT_DIR$/main/res/configs/folks.json" />
         <option value="$PROJECT_DIR$/main/res/configs/planets/default.json" />
         <option value="$PROJECT_DIR$/main/res/configs/planets/rocky.json" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetMan.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/SystemsBuilder.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/TileMan.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/Planet.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/DecoConfig.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetEnemyConfig.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetObjsBuilder.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetConfig.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetConfigs.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetObjsBuilder.java" />
         <option value="$PROJECT_DIR$/main/res/configs/planets.json" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetEnemyConfig.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolGame.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetMan.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetConfigs.java" />
       </list>
     </option>
   </component>
@@ -749,7 +720,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="testing music generation" />
     <MESSAGE value="slightly better delay calc" />
     <MESSAGE value="preparations for theme 1 test" />
     <MESSAGE value="so much to change just to add the debug info" />
@@ -774,7 +744,8 @@
     <MESSAGE value="guns &amp; clips &amp; projectiles moved to json" />
     <MESSAGE value="ships.json basics" />
     <MESSAGE value="planets.json in progress" />
-    <option name="LAST_COMMIT_MESSAGE" value="planets.json in progress" />
+    <MESSAGE value="planets.json complete" />
+    <option name="LAST_COMMIT_MESSAGE" value="planets.json complete" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -856,7 +827,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/MainScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="261" column="61" selection-start="9784" selection-end="9800" vertical-scroll-proportion="0.13672923" vertical-offset="4063" max-vertical-offset="6152" />
+        <state line="261" column="61" selection-start="9784" selection-end="9800" vertical-scroll-proportion="0.13672923" vertical-offset="4063" max-vertical-offset="6152">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/SolGun.java">
@@ -1002,20 +975,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/HullConfigs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="32" selection-start="1673" selection-end="1673" vertical-scroll-proportion="0.5469169" vertical-offset="102" max-vertical-offset="4724">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="16" selection-start="2275" selection-end="2275" vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="4979">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/AiPilot.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="96" column="22" selection-start="3477" selection-end="3477" vertical-scroll-proportion="0.6809651" vertical-offset="1005" max-vertical-offset="3704">
@@ -1058,23 +1017,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetEnemyConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="1" selection-start="195" selection-end="195" vertical-scroll-proportion="0.13672923" vertical-offset="0" max-vertical-offset="848">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/Planet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="41" column="0" selection-start="1335" selection-end="1335" vertical-scroll-proportion="0.3324397" vertical-offset="330" max-vertical-offset="2565">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetObjsBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="211" column="67" selection-start="7957" selection-end="7957" vertical-scroll-proportion="0.26407507" vertical-offset="3169" max-vertical-offset="6050">
           <folding />
         </state>
       </provider>
@@ -1093,23 +1038,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetMan.java">
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetObjsBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="43" selection-end="43" vertical-scroll-proportion="0.022788204" vertical-offset="0" max-vertical-offset="2446">
+        <state line="55" column="0" selection-start="2106" selection-end="2106" vertical-scroll-proportion="0.022788204" vertical-offset="697" max-vertical-offset="6033">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetConfigs.java">
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetEnemyConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="69" selection-start="638" selection-end="638" vertical-scroll-proportion="0.15951742" vertical-offset="68" max-vertical-offset="2276">
+        <state line="9" column="14" selection-start="235" selection-end="235" vertical-scroll-proportion="0.18230563" vertical-offset="17" max-vertical-offset="984">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/res/configs/planets.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="21" selection-start="386" selection-end="386" vertical-scroll-proportion="0.347185" vertical-offset="115" max-vertical-offset="1324">
+        <state line="3" column="0" selection-start="31" selection-end="31" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="1324">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/HullConfigs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="49" selection-start="1226" selection-end="1226" vertical-scroll-proportion="0.38739946" vertical-offset="102" max-vertical-offset="4724">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="23" selection-start="2652" selection-end="2652" vertical-scroll-proportion="0.15951742" vertical-offset="731" max-vertical-offset="4979">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetMan.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="26" selection-start="752" selection-end="752" vertical-scroll-proportion="0.20509383" vertical-offset="51" max-vertical-offset="2446">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/PlanetConfigs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="0" selection-start="2006" selection-end="2006" vertical-scroll-proportion="0.4302949" vertical-offset="308" max-vertical-offset="2497">
           <folding />
         </state>
       </provider>

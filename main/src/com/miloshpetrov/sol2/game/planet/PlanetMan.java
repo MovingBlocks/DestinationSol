@@ -6,6 +6,7 @@ import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
+import com.miloshpetrov.sol2.game.ship.HullConfigs;
 import com.miloshpetrov.sol2.save.SaveData;
 
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ public class PlanetMan {
   private final PlanetConfigs myPlanetConfigs;
   private Planet myNearestPlanet;
 
-  public PlanetMan(TexMan texMan) {
-    myPlanetConfigs = new PlanetConfigs(texMan);
+  public PlanetMan(TexMan texMan, HullConfigs hullConfigs) {
+    myPlanetConfigs = new PlanetConfigs(texMan, hullConfigs);
 
     mySystems = new ArrayList<SolSystem>();
     myPlanets = new ArrayList<Planet>();
