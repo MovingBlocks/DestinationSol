@@ -28,6 +28,8 @@ public class GunConfigs {
     ProjectileFactory.BulletFactory miniGunFac = new ProjectileFactory.BulletFactory(bulletTex, BULLET_W, 8f, false, true);
     miniGun = new GunConfig(1, 10, 6, 1, .1f, 1, miniGunFac, .24f, "miniGun", "Minigun", true, texMan, 150, "", 0, 2); //20
 
-    rocketLauncher = new GunConfig(1, 30, 6, 3, .4f, 2.5f, new ProjectileFactory.RocketFactory(), .2f, "rocketLauncher", "Rocket Launcher", false, texMan, 200, "", 0, 10); //25
+    TextureAtlas.AtlasRegion rocketTex = texMan.getTex("projectiles/rocket");
+    ProjectileFactory.BulletFactory rocketFac = new ProjectileFactory.BulletFactory(rocketTex, .15f, 5.5f, true, false);
+    rocketLauncher = new GunConfig(1, 30, 6, 3, .4f, 2.5f, rocketFac, .2f, "rocketLauncher", "Rocket Launcher", false, texMan, 200, "", 0, 10); //25
   }
 }

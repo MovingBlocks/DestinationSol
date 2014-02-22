@@ -8,7 +8,6 @@ import com.miloshpetrov.sol2.game.dra.Dra;
 import com.miloshpetrov.sol2.game.dra.DraMan;
 import com.miloshpetrov.sol2.game.particle.LightSrc;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
-import com.miloshpetrov.sol2.game.ship.SolShip;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +93,7 @@ public class Rocket implements Projectile {
   @Override
   public void receiveAcc(Vector2 acc, SolGame game) {
     Vector2 f = SolMath.getVec(acc);
-    f.mul(myBody.getMass());
+    f.scl(myBody.getMass());
     myBody.applyForceToCenter(f, true);
     SolMath.free(f);
   }
@@ -145,13 +144,7 @@ public class Rocket implements Projectile {
   }
 
   public boolean shouldCollide(Object o) {
-    if (o instanceof SolShip) {
-      return ((SolShip) o).getPilot().getFraction() != myFraction;
-    }
-    if (o instanceof Rocket) {
-      return ((Rocket) o).myFraction != myFraction;
-    }
-    return true;
+    return false;
   }
 
   public Fraction getFraction() {

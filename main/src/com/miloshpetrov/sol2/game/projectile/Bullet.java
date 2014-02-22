@@ -3,7 +3,8 @@ package com.miloshpetrov.sol2.game.projectile;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
@@ -16,66 +17,60 @@ import java.util.List;
 
 public class Bullet implements Projectile {
 
-  private final Vector2 myPos;
-  private final Vector2 mySpd;
   private final ArrayList<Dra> myDras;
-  private final MyRayBack myRayBack;
-  private final Fraction myFraction;
   private final float myDmg;
   private final float myRadius;
   private final boolean myExplode;
+  private final ProjectileBody myBody;
+  private final Fraction myFraction;
 
   public Bullet(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpd, Fraction fraction, float dmg,
-    TextureAtlas.AtlasRegion tex, float size, float spdLen, boolean explode, boolean stretch)
+    TextureAtlas.AtlasRegion tex, float sz, float spdLen, boolean explode, boolean stretch)
   {
     myDmg = dmg;
-    myPos = new Vector2(muzzlePos);
-    mySpd = new Vector2();
-    SolMath.fromAl(mySpd, angle, spdLen);
-    mySpd.add(gunSpd);
     myDras = new ArrayList<Dra>();
     Dra dra;
     if (stretch) {
-      dra = new MyDra(this, tex, size);
+      dra = new MyDra(this, tex, sz);
     } else {
-      dra = new RectSprite(tex, size, 0, 0, new Vector2(), DraLevel.PROJECTILES, 0, 0, Col.W);
+      dra = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.PROJECTILES, 0, 0, Col.W);
     }
     myDras.add(dra);
-    myRayBack = new MyRayBack();
-    myFraction = fraction;
     myRadius = spdLen * Const.REAL_TIME_STEP;
     myExplode = explode;
+    myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, fraction, spdLen, this);
+    myFraction = fraction;
   }
 
   @Override
   public void update(SolGame game) {
-    if (myRayBack.obstacle != null) return;
-    Vector2 prevPos = SolMath.getVec(myPos);
-    Vector2 diff = SolMath.getVec(mySpd);
-    diff.scl(game.getTimeStep());
-    myPos.add(diff);
-    SolMath.free(diff);
-    game.getObjMan().getWorld().rayCast(myRayBack, prevPos, myPos);
-    SolMath.free(prevPos);
-    if (myRayBack.obstacle != null) {
-      if (myExplode) {
-        game.getPartMan().explode(myRayBack.collPoint, game, false);
-      } else {
-        game.getPartMan().spark(myRayBack.collPoint, game);
+    myBody.update(game);
+    Object obstacle = myBody.getObstacle();
+    if (obstacle != null) {
+      explode(game);
+      if (obstacle instanceof SolObj) {
+        ((SolObj) obstacle).receiveDmg(myDmg, game, myBody.getPos());
       }
-      if (myRayBack.obstacle instanceof SolObj) {
-        ((SolObj) myRayBack.obstacle).receiveDmg(myDmg, game, myRayBack.collPoint);
-      }
+    }
+  }
+
+  private void explode(SolGame game) {
+    Vector2 pos = myBody.getPos();
+    if (myExplode) {
+      game.getPartMan().explode(pos, game, false);
+    } else {
+      game.getPartMan().spark(pos, game);
     }
   }
 
   @Override
   public boolean shouldBeRemoved(SolGame game) {
-    return myRayBack.obstacle != null;
+    return myBody.getObstacle() != null;
   }
 
   @Override
   public void onRemove(SolGame game) {
+    myBody.onRemove(game);
   }
 
   @Override
@@ -85,6 +80,7 @@ public class Bullet implements Projectile {
 
   @Override
   public void receiveDmg(float dmg, SolGame game, Vector2 pos) {
+    explode(game);
   }
 
   @Override
@@ -94,15 +90,12 @@ public class Bullet implements Projectile {
 
   @Override
   public void receiveAcc(Vector2 acc, SolGame game) {
-    Vector2 diff = SolMath.getVec(acc);
-    diff.mul(game.getTimeStep());
-    mySpd.add(diff);
-    SolMath.free(diff);
+    myBody.receiveAcc(acc, game);
   }
 
   @Override
   public Vector2 getPos() {
-    return myPos;
+    return myBody.getPos();
   }
 
   @Override
@@ -117,18 +110,19 @@ public class Bullet implements Projectile {
 
   @Override
   public float getAngle() {
-    return SolMath.angle(mySpd);
+    return myBody.getAngle();
   }
 
   @Override
   public Vector2 getSpd() {
-    return mySpd;
+    return myBody.getSpd();
   }
 
   @Override
   public void handleContact(SolObj other, Contact contact, ContactImpulse impulse, boolean isA, float absImpulse,
     SolGame game)
   {
+    myBody.handleContact(other, contact, impulse, isA, absImpulse, game);
   }
 
   @Override
@@ -136,30 +130,20 @@ public class Bullet implements Projectile {
     return null;
   }
 
-  private class MyRayBack implements RayCastCallback {
-    public Object obstacle;
-    public Vector2 collPoint;
-
-    private MyRayBack() {
-      collPoint = new Vector2();
-    }
-
-    @Override
-    public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-      if (fixture.getFilterData().categoryBits == 0) return -1;
-      Object o = fixture.getBody().getUserData();
-      if (o instanceof SolShip && ((SolShip) o).getPilot().getFraction() == myFraction) {
-        return -1;
-      }
-      if (o instanceof Rocket && ((Rocket) o).getFraction() == myFraction) {
-        return -1;
-      }
-      obstacle = o;
-      collPoint.set(point);
-
-      return 0;
-    }
+  public Fraction getFraction() {
+    return myFraction;
   }
+
+  public boolean shouldCollide(Object o) {
+    if (o instanceof SolShip) {
+      return ((SolShip) o).getPilot().getFraction() != myFraction;
+    }
+    if (o instanceof Bullet) {
+      return ((Bullet) o).myFraction != myFraction;
+    }
+    return true;
+  }
+
 
   private static class MyDra implements Dra {
     private final Bullet myBullet;
@@ -208,10 +192,10 @@ public class Bullet implements Projectile {
     @Override
     public void draw(Drawer drawer, SolGame game) {
       float h = myWidth;
-      Vector2 pos = myBullet.myPos;
-      float w = myBullet.mySpd.len() * game.getTimeStep();
+      Vector2 pos = myBullet.getPos();
+      float w = myBullet.getSpd().len() * game.getTimeStep();
       if (w < h) w = h;
-      drawer.draw(myTex, w, h, w, h / 2, pos.x, pos.y, SolMath.angle(myBullet.mySpd), Col.LG);
+      drawer.draw(myTex, w, h, w, h / 2, pos.x, pos.y, SolMath.angle(myBullet.getSpd()), Col.LG);
     }
 
     @Override
@@ -224,4 +208,5 @@ public class Bullet implements Projectile {
       return false;
     }
   }
+
 }
