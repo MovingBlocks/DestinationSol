@@ -56,6 +56,7 @@ public class SolCmp {
       update();
     } catch (Throwable t) {
       myFatalError = "A fatal error occurred:\n" + t.getMessage();
+      t.printStackTrace();
     }
   }
 

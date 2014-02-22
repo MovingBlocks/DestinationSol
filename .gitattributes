@@ -162,7 +162,10 @@ main/libs/gdx-openal.jar -text
 main/libs/gdx-sources.jar -text
 main/libs/gdx.jar -text
 main/main.iml -text
+main/res/configs/items/clips.json -text
+main/res/configs/items/guns.json -text
 main/res/configs/items/shields.json -text
+main/res/configs/projectiles.json -text
 main/res/emitters/explInner.p -text
 main/res/emitters/explosion.p -text
 main/res/emitters/flame.p -text

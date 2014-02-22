@@ -1,5 +1,9 @@
 package com.miloshpetrov.sol2.game.item;
 
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
+import com.miloshpetrov.sol2.SolFiles;
+
 public class ClipConfig {
   public final String iconName;
   public final int price;
@@ -18,8 +22,16 @@ public class ClipConfig {
   }
 
   public static void load(ItemMan itemMan) {
-    //load here
-    itemMan.registerItem("b", new ClipConfig("bulletClip", 30, "Bullets", 60, "bullets").example);
-    itemMan.registerItem("r", new ClipConfig("rocketClip", 70, "Rockets", 6, "rockets").example);
+    JsonReader r = new JsonReader();
+    JsonValue parsed = r.parse(SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "clips.json"));
+    for (JsonValue sh : parsed) {
+      String iconName = sh.getString("iconName");
+      int price = sh.getInt("price");
+      String displayName = sh.getString("displayName");
+      String descSuf = sh.getString("descSuf");
+      int size = sh.getInt("size");
+      ClipConfig config = new ClipConfig(iconName, price, displayName, size, descSuf);
+      itemMan.registerItem(sh.name(), config.example);
+    }
   }
 }
