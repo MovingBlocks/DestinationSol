@@ -241,7 +241,7 @@ public class MapDrawer {
 
   private static float getDps(GunItem g, boolean fixed) {
     if (g == null || !g.canShoot()) return 0;
-    float projSpd = g.config.factory.getProjSpd();
+    float projSpd = g.config.projConfig.spdLen;
     float hitPerc = SolMath.clamp(projSpd - 4, 0, 4) / 4;
     if (fixed) hitPerc *= .7f;
     return g.config.dps * hitPerc;

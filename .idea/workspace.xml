@@ -12,19 +12,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="9137fd64-d1f4-4daf-a4a8-60761d6a0181" name="Default" comment="renamings">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileConfig.java" />
-      <change type="DELETED" beforePath="D:\j\sol\main\src\com\miloshpetrov\sol2\game\projectile\Bullet.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\j\sol\main\src\com\miloshpetrov\sol2\game\projectile\ProjectileBuilder.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\j\sol\main\src\com\miloshpetrov\sol2\game\projectile\ProjectileFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\j\sol\main\src\com\miloshpetrov\sol2\game\projectile\Rocket.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/BallProjectileBody.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/BallProjectileBody.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ClipConfig.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ClipItem.java" />
+      <change type="DELETED" beforePath="D:\j\sol\main\src\com\miloshpetrov\sol2\game\item\BulletClip.java" afterPath="" />
+      <change type="DELETED" beforePath="D:\j\sol\main\src\com\miloshpetrov\sol2\game\item\RocketClip.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfig.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfig.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/PointProjectileBody.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/PointProjectileBody.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Projectile.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Projectile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolContactFilter.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolContactFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolGame.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolGame.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunMount.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunMount.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ItemMan.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ItemMan.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/MainScreen.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/MainScreen.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/MapDrawer.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/MapDrawer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileConfig.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/Shooter.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/Shooter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/SolGun.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/SolGun.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/SolItem.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/SolItem.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/SolShip.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/SolShip.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="metagun-whole.iws" />
@@ -95,10 +97,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Projectile.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Projectile.java">
+      <file leaf-file-name="ClipConfig.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ClipConfig.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="0" selection-start="1031" selection-end="1031" vertical-scroll-proportion="0.31903484" vertical-offset="0" max-vertical-offset="4384">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1137">
               <folding />
             </state>
           </provider>
@@ -114,14 +116,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/.idea/workspace.xml" />
-        <option value="$PROJECT_DIR$/desktop/desktop.iml" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/Norm.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/Bound.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/UiDrawer.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/Planet.java" />
-        <option value="$PROJECT_DIR$/main/res/configs/items/shields.json" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ItemMan.java" />
         <option value="C:/Program Files (x86)/Java/jdk1.7.0_45/src.zip!/java/util/Map.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/DebugCollector.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SolSounds.java" />
@@ -144,10 +138,8 @@
         <option value="$PROJECT_DIR$/main/settings.ini" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/TexMan.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolFiles.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfig.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunMount.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/MapDrawer.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/Shooter.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SoundMan.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/DebugAspects.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBuilder.java" />
@@ -161,10 +153,20 @@
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolGame.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileFactory.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/BulletFactory.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/SolGun.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Bullet.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Projectile.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/SolItem.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/RocketClip.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/Shooter.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ClipItem.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfig.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/MainScreen.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/SolGun.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/SolShip.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileConfig.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ItemMan.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ClipConfig.java" />
       </list>
     </option>
   </component>
@@ -643,21 +645,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files (x86)/Java/jdk1.7.0_45/src.zip!/java/util/HashMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="702" column="21" selection-start="25221" selection-end="25221" vertical-scroll-proportion="0.3324397" vertical-offset="11295" max-vertical-offset="20534" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ItemMan.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="12" selection-start="601" selection-end="601" vertical-scroll-proportion="0.27345845" vertical-offset="0" max-vertical-offset="2157" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/DebugCollector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="32" selection-start="879" selection-end="879" vertical-scroll-proportion="0.45576409" vertical-offset="17" max-vertical-offset="1579" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SolSounds.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="0" selection-start="190" selection-end="190" vertical-scroll-proportion="0.13672923" vertical-offset="0" max-vertical-offset="916" />
@@ -792,20 +779,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/BulletClip.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="20" selection-start="62" selection-end="62" vertical-scroll-proportion="0.04557641" vertical-offset="0" max-vertical-offset="1358">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="9" selection-start="878" selection-end="878" vertical-scroll-proportion="0.0" vertical-offset="425" max-vertical-offset="1800">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunMount.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="32" column="80" selection-start="1121" selection-end="1121" vertical-scroll-proportion="0.022788204" vertical-offset="391" max-vertical-offset="1698">
@@ -816,13 +789,6 @@
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/MapDrawer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="243" column="36" selection-start="9753" selection-end="9753" vertical-scroll-proportion="0.06836461" vertical-offset="3774" max-vertical-offset="4962">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/Shooter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="39" selection-start="1174" selection-end="1174" vertical-scroll-proportion="0.29624665" vertical-offset="391" max-vertical-offset="2582">
           <folding />
         </state>
       </provider>
@@ -844,13 +810,6 @@
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBody.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="16" column="19" selection-start="516" selection-end="516" vertical-scroll-proportion="0.27345845" vertical-offset="0" max-vertical-offset="967">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/SolShip.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="5" selection-start="3170" selection-end="3170" vertical-scroll-proportion="0.43297586" vertical-offset="901" max-vertical-offset="7342">
           <folding />
         </state>
       </provider>
@@ -904,30 +863,86 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/SolGun.java">
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Projectile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="11" selection-start="1605" selection-end="1605" vertical-scroll-proportion="0.47855228" vertical-offset="153" max-vertical-offset="2038">
+        <state line="29" column="0" selection-start="1031" selection-end="1031" vertical-scroll-proportion="0.31903484" vertical-offset="0" max-vertical-offset="4384">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileConfig.java">
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/SolItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="13" selection-start="212" selection-end="212" vertical-scroll-proportion="0.09115282" vertical-offset="0" max-vertical-offset="1341">
+        <state line="10" column="2" selection-start="212" selection-end="212" vertical-scroll-proportion="0.15951742" vertical-offset="51" max-vertical-offset="916">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/Shooter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="38" selection-start="1107" selection-end="1107" vertical-scroll-proportion="0.45576409" vertical-offset="221" max-vertical-offset="2582">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ClipItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="33" selection-start="529" selection-end="529" vertical-scroll-proportion="0.47855228" vertical-offset="0" max-vertical-offset="1324">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="46" selection-start="1715" selection-end="1715" vertical-scroll-proportion="0.5067024" vertical-offset="115" max-vertical-offset="1290">
+        <state line="29" column="26" selection-start="1490" selection-end="1490" vertical-scroll-proportion="0.5294906" vertical-offset="47" max-vertical-offset="1341">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Projectile.java">
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="0" selection-start="1031" selection-end="1031" vertical-scroll-proportion="0.31903484" vertical-offset="0" max-vertical-offset="4384">
+        <state line="26" column="25" selection-start="912" selection-end="912" vertical-scroll-proportion="0.22788204" vertical-offset="221" max-vertical-offset="1834">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/MainScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="261" column="61" selection-start="9784" selection-end="9800" vertical-scroll-proportion="0.13672923" vertical-offset="4063" max-vertical-offset="6152">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/SolGun.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="84" selection-start="2597" selection-end="2597" vertical-scroll-proportion="0.022788204" vertical-offset="816" max-vertical-offset="2038">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/SolShip.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="129" column="61" selection-start="4591" selection-end="4591" vertical-scroll-proportion="0.11394102" vertical-offset="1853" max-vertical-offset="7342">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="3" selection-start="813" selection-end="813" vertical-scroll-proportion="0.4839142" vertical-offset="81" max-vertical-offset="1205">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ItemMan.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="4" selection-start="952" selection-end="952" vertical-scroll-proportion="0.37801608" vertical-offset="126" max-vertical-offset="2242">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ClipConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1137">
           <folding />
         </state>
       </provider>

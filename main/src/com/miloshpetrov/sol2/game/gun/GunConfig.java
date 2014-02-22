@@ -2,6 +2,7 @@ package com.miloshpetrov.sol2.game.gun;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.game.item.ClipConfig;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfig;
 
 public class GunConfig {
@@ -13,7 +14,7 @@ public class GunConfig {
   public final float maxReloadTime;
   public final float gunLength;
   public final String displayName;
-  public final ProjectileConfig factory;
+  public final ProjectileConfig projConfig;
   public final TextureAtlas.AtlasRegion tex;
   public final boolean lightOnShot;
   public final String itemTexName;
@@ -23,11 +24,13 @@ public class GunConfig {
   public final float dmg;
   public final float dps;
   public final GunItem example;
+  public final ClipConfig clipConf;
 
   public GunConfig(float minAngleVar, float maxAngleVar, float angleVarDamp, float angleVarPerShot,
     float timeBetweenShots,
-    float maxReloadTime, ProjectileConfig factory, float gunLength, String texName, String displayName,
-    boolean lightOnShot, TexMan texMan, int price, String descBase, int infiniteClipSize, float dmg) {
+    float maxReloadTime, ProjectileConfig projConfig, float gunLength, String texName, String displayName,
+    boolean lightOnShot, TexMan texMan, int price, String descBase, int infiniteClipSize, float dmg,
+    ClipConfig clipConf) {
 
     tex = texMan.getTex("guns/" + texName);
 
@@ -38,13 +41,15 @@ public class GunConfig {
     this.angleVarPerShot = angleVarPerShot;
     this.timeBetweenShots = timeBetweenShots;
     this.maxReloadTime = maxReloadTime;
-    this.factory = factory;
+    this.projConfig = projConfig;
     this.gunLength = gunLength;
     this.displayName = displayName;
     this.lightOnShot = lightOnShot;
     this.itemTexName = texName;
     this.price = price;
     this.infiniteClipSize = infiniteClipSize;
+    this.clipConf = clipConf;
+
     dps = dmg / timeBetweenShots;
     this.desc = makeDesc(descBase);
     example = new GunItem(this, 0, 0);

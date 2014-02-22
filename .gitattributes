@@ -274,7 +274,8 @@ main/src/com/miloshpetrov/sol2/game/input/PlayerPilot.java -text
 main/src/com/miloshpetrov/sol2/game/input/Shooter.java -text
 main/src/com/miloshpetrov/sol2/game/input/SmallObjAvoider.java -text
 main/src/com/miloshpetrov/sol2/game/item/Armor.java -text
-main/src/com/miloshpetrov/sol2/game/item/BulletClip.java -text
+main/src/com/miloshpetrov/sol2/game/item/ClipConfig.java -text
+main/src/com/miloshpetrov/sol2/game/item/ClipItem.java -text
 main/src/com/miloshpetrov/sol2/game/item/EngineItem.java -text
 main/src/com/miloshpetrov/sol2/game/item/ItemContainer.java -text
 main/src/com/miloshpetrov/sol2/game/item/ItemMan.java -text
@@ -282,7 +283,6 @@ main/src/com/miloshpetrov/sol2/game/item/Loot.java -text
 main/src/com/miloshpetrov/sol2/game/item/LootBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/item/MoneyItem.java -text
 main/src/com/miloshpetrov/sol2/game/item/RepairItem.java -text
-main/src/com/miloshpetrov/sol2/game/item/RocketClip.java -text
 main/src/com/miloshpetrov/sol2/game/item/Shield.java -text
 main/src/com/miloshpetrov/sol2/game/item/ShipItem.java -text
 main/src/com/miloshpetrov/sol2/game/item/SloMoCharge.java -text

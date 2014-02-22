@@ -31,7 +31,7 @@ public class GunMount {
     if (!myFixed && nearestEnemy != null) {
 //      myRelGunAngle = SolMath.angle(creator.getPos(), nearestEnemy.getPos()) - shipAngle;
       Vector2 mountPos = SolMath.toWorld(myRelPos, shipAngle, creator.getPos());
-      float shootAngle = Shooter.calcShootAngle(mountPos, creator.getSpd(), nearestEnemy.getPos(), nearestEnemy.getSpd(), myGun.getConfig().factory.getProjSpd());
+      float shootAngle = Shooter.calcShootAngle(mountPos, creator.getSpd(), nearestEnemy.getPos(), nearestEnemy.getSpd(), myGun.getConfig().projConfig.spdLen);
       SolMath.free(mountPos);
       if (shootAngle == shootAngle) myRelGunAngle = shootAngle - shipAngle;
     }

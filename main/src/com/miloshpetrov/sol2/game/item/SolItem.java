@@ -7,4 +7,5 @@ public interface SolItem {
   String getDesc();
   SolItem copy();
   boolean isSame(SolItem item);
+
 }

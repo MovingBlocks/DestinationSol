@@ -1,8 +1,6 @@
 package com.miloshpetrov.sol2.game.projectile;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.miloshpetrov.sol2.game.item.BulletClip;
-import com.miloshpetrov.sol2.game.item.SolItem;
 
 public class ProjectileConfig {
 
@@ -26,21 +24,5 @@ public class ProjectileConfig {
     this.physSize = physSize;
     this.hasFlame = hasFlame;
     this.smokeOnExplosion = smokeOnExplosion;
-  }
-
-  public float getProjSpd() {
-    return spdLen;
-  }
-
-  public int getAmmoPerClip() {
-    return BulletClip.AMMO_PER_CLIP;
-  }
-
-  public String getClipTexName() {
-    return BulletClip.TEX_NAME;
-  }
-
-  public SolItem getClipExample() {
-    return BulletClip.EXAMPLE;
   }
 }

@@ -40,7 +40,7 @@ public class SolGun {
     float bulletAngle = gunAngle;
     bulletAngle += SolMath.rnd(myCurrAngleVar);
     myCoolDown += myItem.config.timeBetweenShots;
-    Projectile proj = new Projectile(game, bulletAngle, muzzlePos, gunSpd, fraction, myItem.config.dmg, myItem.config.factory);
+    Projectile proj = new Projectile(game, bulletAngle, muzzlePos, gunSpd, fraction, myItem.config.dmg, myItem.config.projConfig);
     game.getObjMan().addObjDelayed(proj);
     myItem.ammo--;
   }
@@ -59,13 +59,13 @@ public class SolGun {
     float ts = game.getTimeStep();
     int ics = myItem.config.infiniteClipSize;
     if (myItem.ammo <= 0 && myItem.reloadAwait <= 0) {
-      if (ics != 0 || ic != null && ic.tryConsumeItem(myItem.config.factory.getClipExample())) {
+      if (ics != 0 || ic != null && ic.tryConsumeItem(myItem.config.clipConf.example)) {
         myItem.reloadAwait = myItem.config.maxReloadTime;
       }
     } else if (myItem.reloadAwait > 0) {
       myItem.reloadAwait -= ts;
       if (myItem.reloadAwait <= 0) {
-        myItem.ammo = ics == 0 ? myItem.config.factory.getAmmoPerClip() : ics;
+        myItem.ammo = ics == 0 ? myItem.config.clipConf.size : ics;
       }
     }
 
