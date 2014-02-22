@@ -16,7 +16,6 @@ import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.PartMan;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.planet.PlanetMan;
-import com.miloshpetrov.sol2.game.projectile.ProjectileBuilder;
 import com.miloshpetrov.sol2.game.screens.GameScreens;
 import com.miloshpetrov.sol2.game.ship.*;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
@@ -35,7 +34,6 @@ public class SolGame {
   private final ChunkMan myChunkMan;
   private final PartMan myPartMan;
   private final AsteroidBuilder myAsteroidBuilder;
-  private final ProjectileBuilder myProjectileBuilder;
   private final LootBuilder myLootBuilder;
   private final ShipBuilder myShipBuilder;
   private final HullConfigs myHullConfigs;
@@ -74,7 +72,6 @@ public class SolGame {
     myChunkMan = new ChunkMan();
     myPartMan = new PartMan(myTexMan);
     myAsteroidBuilder = new AsteroidBuilder();
-    myProjectileBuilder = new ProjectileBuilder();
     myLootBuilder = new LootBuilder();
     myShipBuilder = new ShipBuilder();
     myItemMan = new ItemMan(myTexMan, mySoundMan);
@@ -234,10 +231,6 @@ public class SolGame {
 
   public AsteroidBuilder getAsteroidBuilder() {
     return myAsteroidBuilder;
-  }
-
-  public ProjectileBuilder getProjectileBuilder() {
-    return myProjectileBuilder;
   }
 
   public LootBuilder getLootBuilder() {

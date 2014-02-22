@@ -15,7 +15,7 @@ public class BallProjectileBody implements ProjectileBody {
   private float myAngle;
   private Object myObstacle;
 
-  public BallProjectileBody(SolGame game, Vector2 pos, float angle, Bullet projectile, float physSize, Vector2 gunSpd,
+  public BallProjectileBody(SolGame game, Vector2 pos, float angle, Projectile projectile, float physSize, Vector2 gunSpd,
     float spdLen) {
     myBody = buildBall(game, pos, angle, projectile, physSize, gunSpd, spdLen);
     myPos = new Vector2();
@@ -29,7 +29,7 @@ public class BallProjectileBody implements ProjectileBody {
     mySpd.set(myBody.getLinearVelocity());
   }
 
-  private static Body buildBall(SolGame game, Vector2 pos, float angle, Bullet projectile, float physSize, Vector2 gunSpd,
+  private static Body buildBall(SolGame game, Vector2 pos, float angle, Projectile projectile, float physSize, Vector2 gunSpd,
     float spdLen) {
     BodyDef bd = new BodyDef();
     bd.type = BodyDef.BodyType.DynamicBody;

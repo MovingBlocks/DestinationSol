@@ -12,12 +12,13 @@ public class PointProjectileBody implements ProjectileBody {
   private final MyRayBack myRayBack;
 
   public PointProjectileBody(float angle, Vector2 muzzlePos, Vector2 gunSpd, float spdLen,
-    Bullet bullet) {
+    Projectile projectile)
+  {
     myPos = new Vector2(muzzlePos);
     mySpd = new Vector2();
     SolMath.fromAl(mySpd, angle, spdLen);
     mySpd.add(gunSpd);
-    myRayBack = new MyRayBack(bullet);
+    myRayBack = new MyRayBack(projectile);
   }
 
   @Override
@@ -74,12 +75,12 @@ public class PointProjectileBody implements ProjectileBody {
 
 
   private static class MyRayBack implements RayCastCallback {
-    public final Bullet bullet;
+    public final Projectile myProjectile;
     public Object obstacle;
     public final Vector2 collPoint;
 
-    private MyRayBack(Bullet bullet) {
-      this.bullet = bullet;
+    private MyRayBack(Projectile projectile) {
+      this.myProjectile = projectile;
       collPoint = new Vector2();
     }
 
@@ -87,7 +88,7 @@ public class PointProjectileBody implements ProjectileBody {
     public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
       if (fixture.getFilterData().categoryBits == 0) return -1;
       Object o = fixture.getBody().getUserData();
-      if (!bullet.shouldCollide(o)) return -1;
+      if (!myProjectile.shouldCollide(o)) return -1;
       obstacle = o;
       collPoint.set(point);
       return 0;
