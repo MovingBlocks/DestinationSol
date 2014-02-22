@@ -11,9 +11,10 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="9137fd64-d1f4-4daf-a4a8-60761d6a0181" name="Default" comment="minor polishing">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/TexMan.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/TexMan.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/settings.ini" afterPath="$PROJECT_DIR$/main/settings.ini" />
+    <list default="true" readonly="true" id="9137fd64-d1f4-4daf-a4a8-60761d6a0181" name="Default" comment="removed projectiles.json">
+      <change type="DELETED" beforePath="D:\j\sol\main\res\paths\projectiles.json" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/DebugAspects.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/DebugAspects.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBuilder.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBuilder.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="metagun-whole.iws" />
@@ -84,10 +85,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TexMan.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/TexMan.java">
+      <file leaf-file-name="ProjectileBuilder.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="112" column="3" selection-start="3571" selection-end="3571" vertical-scroll-proportion="0.36461127" vertical-offset="1496" max-vertical-offset="3347">
+            <state line="23" column="16" selection-start="910" selection-end="910" vertical-scroll-proportion="0.27345845" vertical-offset="0" max-vertical-offset="1494">
               <folding />
             </state>
           </provider>
@@ -103,15 +104,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/HullConfigs.java" />
-        <option value="$PROJECT_DIR$/main/graphics.ini" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/FontSize.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/screens/MainScreen.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/Door.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/MapDrawer.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Bullet.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/chunk/ChunkFiller.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/TutMan.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/GalaxyFiller.java" />
         <option value="$PROJECT_DIR$/main/tools/todo.txt" />
@@ -128,13 +120,11 @@
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/Planet.java" />
         <option value="$PROJECT_DIR$/main/res/configs/items/shields.json" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ItemMan.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/DebugAspects.java" />
         <option value="C:/Program Files (x86)/Java/jdk1.7.0_45/src.zip!/java/util/Map.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolGame.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/DebugCollector.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SolSounds.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/asteroid/AsteroidBuilder.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBuilder.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ShardBuilder.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/ShipBuilder.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/StarPort.java" />
@@ -154,6 +144,17 @@
         <option value="$PROJECT_DIR$/main/settings.ini" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/TexMan.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolFiles.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfig.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunMount.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/MapDrawer.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/Shooter.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/SolGun.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileFactory.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Rocket.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolContactFilter.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/DebugAspects.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBuilder.java" />
       </list>
     </option>
   </component>
@@ -245,7 +246,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -259,43 +260,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="sol2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Destination Sol 2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="imgSrcs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Destination Sol 2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="imgSrcs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="misc" />
+              <option name="myItemId" value="paths" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -311,8 +280,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -577,19 +546,18 @@
     <frame x="0" y="0" width="1366" height="768" extended-state="0" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32797858" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.3708166" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4283802" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39625168" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32904148" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32991204" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32797858" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32797858" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32859176" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32869694" sideWeight="0.571835" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39625168" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32991204" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32904148" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4283802" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32797858" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.32991204" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="100" y="100" width="1164" height="568" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -602,6 +570,7 @@
       <window_info id="SVN Properties" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3168044" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4283802" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -610,7 +579,7 @@
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
-    <option name="RECENTLY_FILTERED_USERS">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
       <collection />
     </option>
   </component>
@@ -624,7 +593,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="hunter" />
     <MESSAGE value="truck + improvs" />
     <MESSAGE value="bus" />
     <MESSAGE value="icons + forgotten bus path update" />
@@ -649,7 +617,8 @@
     <MESSAGE value="preparations for repo-bound build" />
     <MESSAGE value="repo-bound build ready!" />
     <MESSAGE value="minor polishing" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor polishing" />
+    <MESSAGE value="removed projectiles.json" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed projectiles.json" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -664,110 +633,34 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/HullConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="13" selection-start="211" selection-end="211" vertical-scroll-proportion="-0.09115282" vertical-offset="136" max-vertical-offset="1596" />
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/main/libs/gdx-sources.jar!/com/badlogic/gdx/utils/TimeUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="27" selection-start="1243" selection-end="1243" vertical-scroll-proportion="0.29624665" vertical-offset="0" max-vertical-offset="1018" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/Const.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="28" selection-start="475" selection-end="475" vertical-scroll-proportion="0.22788204" vertical-offset="0" max-vertical-offset="1018">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/common/SolMath.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="372" column="34" selection-start="9917" selection-end="9917" vertical-scroll-proportion="0.11394102" vertical-offset="6086" max-vertical-offset="7444" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="9" selection-start="845" selection-end="845" vertical-scroll-proportion="0.5469169" vertical-offset="0" max-vertical-offset="1766">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/UiDrawer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="9" selection-start="348" selection-end="348" vertical-scroll-proportion="0.15951742" vertical-offset="0" max-vertical-offset="1817">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/Planet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="0" selection-start="1789" selection-end="1789" vertical-scroll-proportion="0.25067025" vertical-offset="646" max-vertical-offset="2497">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/SolShip.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="239" column="46" selection-start="7833" selection-end="7833" vertical-scroll-proportion="0.0" vertical-offset="3808" max-vertical-offset="7342">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/main/libs/gdx-sources.jar!/com/badlogic/gdx/utils/JsonReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="879" selection-end="879" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="12017">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/imgSrcs/pack.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="34" selection-start="314" selection-end="314" vertical-scroll-proportion="0.3243968" vertical-offset="13" max-vertical-offset="1222">
-          <folding />
-        </state>
+        <state line="15" column="34" selection-start="314" selection-end="314" vertical-scroll-proportion="0.3243968" vertical-offset="13" max-vertical-offset="1222" />
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/main/libs/gdx-sources.jar!/com/badlogic/gdx/files/FileHandle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="22" selection-start="3450" selection-end="3450" vertical-scroll-proportion="0.0" vertical-offset="1003" max-vertical-offset="11439">
-          <folding />
-        </state>
+        <state line="91" column="22" selection-start="3450" selection-end="3450" vertical-scroll-proportion="0.0" vertical-offset="1003" max-vertical-offset="11439" />
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/main/libs/gdx-sources.jar!/com/badlogic/gdx/Audio.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="21" selection-start="3377" selection-end="3377" vertical-scroll-proportion="0.0" vertical-offset="952" max-vertical-offset="1885">
-          <folding />
-        </state>
+        <state line="75" column="21" selection-start="3377" selection-end="3377" vertical-scroll-proportion="0.0" vertical-offset="952" max-vertical-offset="1885" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/res/configs/items/shields.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1137">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/DebugAspects.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="38" selection-start="407" selection-end="407" vertical-scroll-proportion="0.27345845" vertical-offset="0" max-vertical-offset="1120">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1137" />
       </provider>
     </entry>
     <entry file="jar://C:/Program Files (x86)/Java/jdk1.7.0_45/src.zip!/java/util/Set.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="127" column="16" selection-start="4651" selection-end="4651" vertical-scroll-proportion="0.0" vertical-offset="1768" max-vertical-offset="6883">
-          <folding />
-        </state>
+        <state line="127" column="16" selection-start="4651" selection-end="4651" vertical-scroll-proportion="0.0" vertical-offset="1768" max-vertical-offset="6883" />
       </provider>
     </entry>
     <entry file="jar://C:/Program Files (x86)/Java/jdk1.7.0_45/src.zip!/java/util/Iterator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="17" selection-start="982" selection-end="982" vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="1817">
-          <folding />
-        </state>
+        <state line="51" column="17" selection-start="982" selection-end="982" vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="1817" />
       </provider>
     </entry>
     <entry file="jar://C:/Program Files (x86)/Java/jdk1.7.0_45/src.zip!/java/util/Map.java">
@@ -779,184 +672,112 @@
     </entry>
     <entry file="jar://C:/Program Files (x86)/Java/jdk1.7.0_45/src.zip!/java/util/HashMap.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="702" column="21" selection-start="25221" selection-end="25221" vertical-scroll-proportion="0.3324397" vertical-offset="11295" max-vertical-offset="20534">
-          <folding />
-        </state>
+        <state line="702" column="21" selection-start="25221" selection-end="25221" vertical-scroll-proportion="0.3324397" vertical-offset="11295" max-vertical-offset="20534" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/ItemMan.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="12" selection-start="601" selection-end="601" vertical-scroll-proportion="0.27345845" vertical-offset="0" max-vertical-offset="2157">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="28" selection-start="3120" selection-end="3120" vertical-scroll-proportion="0.5013405" vertical-offset="629" max-vertical-offset="5047">
-          <folding />
-        </state>
+        <state line="18" column="12" selection-start="601" selection-end="601" vertical-scroll-proportion="0.27345845" vertical-offset="0" max-vertical-offset="2157" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/DebugCollector.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="32" selection-start="879" selection-end="879" vertical-scroll-proportion="0.45576409" vertical-offset="17" max-vertical-offset="1579">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="28" selection-start="397" selection-end="397" vertical-scroll-proportion="0.11394102" vertical-offset="68" max-vertical-offset="1256">
-          <folding />
-        </state>
+        <state line="26" column="32" selection-start="879" selection-end="879" vertical-scroll-proportion="0.45576409" vertical-offset="17" max-vertical-offset="1579" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SolSounds.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="190" selection-end="190" vertical-scroll-proportion="0.13672923" vertical-offset="0" max-vertical-offset="916">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="46" selection-start="641" selection-end="641" vertical-scroll-proportion="0.022788204" vertical-offset="119" max-vertical-offset="1256">
-          <folding />
-        </state>
+        <state line="9" column="0" selection-start="190" selection-end="190" vertical-scroll-proportion="0.13672923" vertical-offset="0" max-vertical-offset="916" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/asteroid/AsteroidBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="28" selection-start="737" selection-end="737" vertical-scroll-proportion="0.0" vertical-offset="238" max-vertical-offset="1324">
-          <folding />
-        </state>
+        <state line="22" column="28" selection-start="737" selection-end="737" vertical-scroll-proportion="0.0" vertical-offset="238" max-vertical-offset="1324" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ShardBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="41" selection-start="804" selection-end="804" vertical-scroll-proportion="0.022788204" vertical-offset="238" max-vertical-offset="1460">
-          <folding />
-        </state>
+        <state line="23" column="41" selection-start="804" selection-end="804" vertical-scroll-proportion="0.022788204" vertical-offset="238" max-vertical-offset="1460" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/ship/ShipBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="27" selection-start="920" selection-end="920" vertical-scroll-proportion="0.023192361" vertical-offset="153" max-vertical-offset="3776">
-          <folding />
-        </state>
+        <state line="26" column="27" selection-start="920" selection-end="920" vertical-scroll-proportion="0.023192361" vertical-offset="153" max-vertical-offset="3776" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/StarPort.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="161" column="29" selection-start="3817" selection-end="3817" vertical-scroll-proportion="0.022788204" vertical-offset="2312" max-vertical-offset="6084">
-          <folding />
-        </state>
+        <state line="161" column="29" selection-start="3817" selection-end="3817" vertical-scroll-proportion="0.022788204" vertical-offset="2312" max-vertical-offset="6084" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolAppListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="16" selection-start="193" selection-end="193" vertical-scroll-proportion="0.20509383" vertical-offset="0" max-vertical-offset="1375">
-          <folding />
-        </state>
+        <state line="9" column="16" selection-start="193" selection-end="193" vertical-scroll-proportion="0.20509383" vertical-offset="0" max-vertical-offset="1375" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolCmp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="9" selection-start="891" selection-end="891" vertical-scroll-proportion="0.11394102" vertical-offset="238" max-vertical-offset="2701">
-          <folding />
-        </state>
+        <state line="29" column="9" selection-start="891" selection-end="891" vertical-scroll-proportion="0.11394102" vertical-offset="238" max-vertical-offset="2701" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/menu/ResoScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="24" selection-start="1774" selection-end="1774" vertical-scroll-proportion="0.5241287" vertical-offset="442" max-vertical-offset="1970">
-          <folding />
-        </state>
+        <state line="57" column="24" selection-start="1774" selection-end="1774" vertical-scroll-proportion="0.5241287" vertical-offset="442" max-vertical-offset="1970" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/CommonDrawer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="46" selection-start="739" selection-end="739" vertical-scroll-proportion="0.41018766" vertical-offset="51" max-vertical-offset="2650">
-          <folding />
-        </state>
+        <state line="26" column="46" selection-start="739" selection-end="739" vertical-scroll-proportion="0.41018766" vertical-offset="51" max-vertical-offset="2650" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="0" selection-start="1224" selection-end="1224" vertical-scroll-proportion="-0.022788204" vertical-offset="425" max-vertical-offset="3126">
-          <folding />
-        </state>
+        <state line="38" column="0" selection-start="1224" selection-end="1224" vertical-scroll-proportion="-0.022788204" vertical-offset="425" max-vertical-offset="3126" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/sound/SoundMan.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="35" selection-start="933" selection-end="933" vertical-scroll-proportion="0.022788204" vertical-offset="289" max-vertical-offset="1579">
-          <folding />
-        </state>
+        <state line="29" column="35" selection-start="933" selection-end="933" vertical-scroll-proportion="0.022788204" vertical-offset="289" max-vertical-offset="1579" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/Shield.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="111" column="47" selection-start="2807" selection-end="2807" vertical-scroll-proportion="0.022788204" vertical-offset="1564" max-vertical-offset="2548">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/PathLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="36" selection-start="1367" selection-end="1367" vertical-scroll-proportion="0.022788204" vertical-offset="476" max-vertical-offset="5625">
-          <folding />
-        </state>
+        <state line="111" column="47" selection-start="2807" selection-end="2807" vertical-scroll-proportion="0.022788204" vertical-offset="1564" max-vertical-offset="2548" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/menu/SettingsReader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="33" selection-start="1573" selection-end="1573" vertical-scroll-proportion="0.5013405" vertical-offset="459" max-vertical-offset="2089">
-          <folding />
-        </state>
+        <state line="57" column="33" selection-start="1573" selection-end="1573" vertical-scroll-proportion="0.5013405" vertical-offset="459" max-vertical-offset="2089" />
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/desktop/libs/gdx-backend-lwjgl.jar!/com/badlogic/gdx/backends/lwjgl/LwjglApplicationConfiguration.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="14" selection-start="1079" selection-end="1079" vertical-scroll-proportion="0.38280165" vertical-offset="319" max-vertical-offset="1486">
-          <folding />
-        </state>
+        <state line="36" column="14" selection-start="1079" selection-end="1079" vertical-scroll-proportion="0.38280165" vertical-offset="319" max-vertical-offset="1486" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/desktop/src/com/miloshpetrov/sol2/desktop/SolDesktop.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="65" selection-start="784" selection-end="784" vertical-scroll-proportion="0.23324397" vertical-offset="64" max-vertical-offset="1324">
-          <folding />
-        </state>
+        <state line="21" column="65" selection-start="784" selection-end="784" vertical-scroll-proportion="0.23324397" vertical-offset="64" max-vertical-offset="1324" />
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/main/libs/gdx-sources.jar!/com/badlogic/gdx/graphics/g2d/TextureAtlas.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="311" column="34" selection-start="11063" selection-end="11063" vertical-scroll-proportion="0.0" vertical-offset="4556" max-vertical-offset="11252">
-          <folding />
-        </state>
+        <state line="311" column="34" selection-start="11063" selection-end="11063" vertical-scroll-proportion="0.0" vertical-offset="4556" max-vertical-offset="11252" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/planet/TileMan.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="36" selection-start="1175" selection-end="1175" vertical-scroll-proportion="0.5924933" vertical-offset="0" max-vertical-offset="1681">
-          <folding />
-        </state>
+        <state line="32" column="36" selection-start="1175" selection-end="1175" vertical-scroll-proportion="0.5924933" vertical-offset="0" max-vertical-offset="1681" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/Drawer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="19" selection-start="1351" selection-end="1351" vertical-scroll-proportion="0.27345845" vertical-offset="510" max-vertical-offset="1630">
-          <folding />
-        </state>
+        <state line="47" column="19" selection-start="1351" selection-end="1351" vertical-scroll-proportion="0.27345845" vertical-offset="510" max-vertical-offset="1630" />
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/main/libs/gdx-sources.jar!/com/badlogic/gdx/graphics/g2d/ParticleEmitter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="13" selection-start="1170" selection-end="1170" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="20857">
-          <folding />
-        </state>
+        <state line="31" column="13" selection-start="1170" selection-end="1170" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="20857" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/particle/PartMan.java">
@@ -968,49 +789,133 @@
     </entry>
     <entry file="jar://$PROJECT_DIR$/main/libs/gdx-sources.jar!/com/badlogic/gdx/graphics/g2d/SpriteBatch.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="690" column="43" selection-start="23547" selection-end="23547" vertical-scroll-proportion="0.3324397" vertical-offset="10955" max-vertical-offset="20619">
-          <folding />
-        </state>
+        <state line="690" column="43" selection-start="23547" selection-end="23547" vertical-scroll-proportion="0.3324397" vertical-offset="10955" max-vertical-offset="20619" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/imgSrcs/farJunks/pack.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="1" selection-start="73" selection-end="73" vertical-scroll-proportion="0.11394102" vertical-offset="0" max-vertical-offset="814">
-          <folding />
-        </state>
+        <state line="5" column="1" selection-start="73" selection-end="73" vertical-scroll-proportion="0.11394102" vertical-offset="0" max-vertical-offset="814" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/imgSrcs/farBg/pack.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="1" selection-start="69" selection-end="69" vertical-scroll-proportion="0.11394102" vertical-offset="0" max-vertical-offset="814">
-          <folding />
-        </state>
+        <state line="5" column="1" selection-start="69" selection-end="69" vertical-scroll-proportion="0.11394102" vertical-offset="0" max-vertical-offset="814" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/farBg/FarBgManOld.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="37" selection-start="677" selection-end="677" vertical-scroll-proportion="0.06836461" vertical-offset="136" max-vertical-offset="1749">
-          <folding />
-        </state>
+        <state line="21" column="37" selection-start="677" selection-end="677" vertical-scroll-proportion="0.06836461" vertical-offset="136" max-vertical-offset="1749" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/settings.ini">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="11" selection-start="41" selection-end="41" vertical-scroll-proportion="0.07073509" vertical-offset="0" max-vertical-offset="755">
-          <folding />
-        </state>
+        <state line="3" column="11" selection-start="41" selection-end="41" vertical-scroll-proportion="0.07073509" vertical-offset="0" max-vertical-offset="755" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolFiles.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="37" selection-start="311" selection-end="311" vertical-scroll-proportion="0.20509383" vertical-offset="0" max-vertical-offset="933">
-          <folding />
-        </state>
+        <state line="10" column="37" selection-start="311" selection-end="311" vertical-scroll-proportion="0.20509383" vertical-offset="0" max-vertical-offset="933" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/TexMan.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="112" column="3" selection-start="3571" selection-end="3571" vertical-scroll-proportion="0.36461127" vertical-offset="1496" max-vertical-offset="3347">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3347">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/item/BulletClip.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="20" selection-start="62" selection-end="62" vertical-scroll-proportion="0.04557641" vertical-offset="0" max-vertical-offset="1358">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="9" selection-start="878" selection-end="878" vertical-scroll-proportion="0.0" vertical-offset="425" max-vertical-offset="1800">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="174" selection-start="1810" selection-end="1810" vertical-scroll-proportion="0.5294906" vertical-offset="81" max-vertical-offset="1256">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunMount.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="80" selection-start="1121" selection-end="1121" vertical-scroll-proportion="0.022788204" vertical-offset="391" max-vertical-offset="1698">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/MapDrawer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="243" column="36" selection-start="9753" selection-end="9753" vertical-scroll-proportion="0.06836461" vertical-offset="3774" max-vertical-offset="4962">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/Shooter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="39" selection-start="1174" selection-end="1174" vertical-scroll-proportion="0.29624665" vertical-offset="391" max-vertical-offset="2582" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/SolGun.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="44" selection-start="1647" selection-end="1647" vertical-scroll-proportion="0.45576409" vertical-offset="170" max-vertical-offset="2038">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="0" selection-start="1413" selection-end="1413" vertical-scroll-proportion="0.5214477" vertical-offset="240" max-vertical-offset="1715">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolContactFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="0" selection-start="656" selection-end="656" vertical-scroll-proportion="0.41018766" vertical-offset="0" max-vertical-offset="1035">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/DebugAspects.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="45" selection-start="862" selection-end="862" vertical-scroll-proportion="0.47855228" vertical-offset="0" max-vertical-offset="1120">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="110" column="31" selection-start="4231" selection-end="4231" vertical-scroll-proportion="0.0" vertical-offset="1530" max-vertical-offset="5047">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Rocket.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="13" selection-start="1068" selection-end="1068" vertical-scroll-proportion="0.34182304" vertical-offset="119" max-vertical-offset="3058">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/PathLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="280" column="3" selection-start="9691" selection-end="10019" vertical-scroll-proportion="0.04557641" vertical-offset="4488" max-vertical-offset="5625">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="16" selection-start="910" selection-end="910" vertical-scroll-proportion="0.27345845" vertical-offset="0" max-vertical-offset="1494">
           <folding />
         </state>
       </provider>

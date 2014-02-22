@@ -177,7 +177,6 @@ main/res/paths/hulls.json -text
 main/res/paths/imgSrcs.lnk -text
 main/res/paths/loot.json -text
 main/res/paths/misc.json -text
-main/res/paths/projectiles.json -text
 main/res/paths/shards.json -text
 main/res/sounds/bigShield/2.wav -text
 main/res/sounds/bigShield/3.wav -text
