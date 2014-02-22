@@ -1,0 +1,36 @@
+{
+  rocky: {
+    minGrav: 0.4,
+    maxGrav: 0.5,
+    deco: {
+      grass: {
+        density: 0.3,
+        szMin: 0.1,
+        szMax: 0.2,
+        orig: "0 0.5",
+        allowFlip: false,
+      },
+      tree: {
+        density: 0.5,
+        szMin: 0.2,
+        szMax: 0.6,
+        orig: "0 0.5",
+        allowFlip: true,
+      },
+    },
+    groundEnemies: [
+      {
+        hull: hummer,
+        items: "e bo a",
+        guardedBy: [],
+      },
+    ],
+    orbitEnemies: [
+      {
+        hull: corvette,
+        items: "e bo",
+        guardedBy: [],
+      }
+    ],
+  },
+}

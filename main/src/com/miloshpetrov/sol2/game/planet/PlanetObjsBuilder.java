@@ -85,8 +85,7 @@ public class PlanetObjsBuilder {
 
     // fill slots
     Tile[][] slots = new Tile[cols][ROWS];
-    TileMan tileMan = game.getPlanetMan().getTileMan();
-    fillSlots(tileMan, slots, cols);
+    fillSlots(planet.getConfig(), slots, cols);
 
 
     // create ground
@@ -105,7 +104,7 @@ public class PlanetObjsBuilder {
     return minR;
   }
 
-  private void fillSlots(TileMan tileMan, Tile[][] slots, int cols) {
+  private void fillSlots(PlanetConfig planetConfig, Tile[][] slots, int cols) {
     float[] ds0 = new float[cols];
     float desiredMin = 0;
     float desiredMax = (1 - PURE_GROUND_PERC) * ROWS;
@@ -147,7 +146,7 @@ public class PlanetObjsBuilder {
           to = SurfDir.UP;
         }
         if (from == SurfDir.DOWN && to == SurfDir.DOWN) continue;
-        slots[col][row] = tileMan.groundTiles.get(from).get(to).get(SolMath.test(.5f) ? 0 : 1);
+        slots[col][row] = planetConfig.groundTiles.get(from).get(to).get(SolMath.test(.5f) ? 0 : 1);
       }
     }
   }
@@ -208,8 +207,11 @@ public class PlanetObjsBuilder {
     Vector2 planetPos = planet.getPos();
     float planetAngle = planet.getAngle();
     Map<Vector2, List<Dra>> collector = new HashMap<Vector2, List<Dra>>();
-    addDeco0(game, groundHeight, planetPos, "deco/tree", .5f, .2f, .6f, 0, .5f, true, collector);
-    addDeco0(game, groundHeight, planetPos, "deco/grass", 3f, .1f, .2f, 0, .5f, false, collector);
+    PlanetConfig config = planet.getConfig();
+    for (DecoConfig dc : config.deco) {
+      addDeco0(game, groundHeight, planetPos, "deco/" + config.name + "/" + dc.texName, dc.density, dc.szMin, dc.szMax,
+        dc.orig.x, dc.orig.y, dc.allowFlip, collector);
+    }
 
     for (Map.Entry<Vector2, List<Dra>> e : collector.entrySet()) {
       Vector2 packPos = e.getKey();
