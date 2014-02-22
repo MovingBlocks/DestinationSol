@@ -4,20 +4,20 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
-import com.miloshpetrov.sol2.game.*;
+import com.miloshpetrov.sol2.game.SolGame;
+import com.miloshpetrov.sol2.game.SolObj;
 
 public class BallProjectileBody implements ProjectileBody {
   private final Body myBody;
   private final Vector2 myPos;
   private final Vector2 mySpd;
-  private final Fraction myFraction;
 
   private float myAngle;
   private Object myObstacle;
 
-  public BallProjectileBody(SolGame game, Fraction fraction, Vector2 pos, float angle, Bullet projectile, float radius) {
-    myFraction = fraction;
-    myBody = buildBall(game, pos, angle, projectile, radius);
+  public BallProjectileBody(SolGame game, Vector2 pos, float angle, Bullet projectile, float physSize, Vector2 gunSpd,
+    float spdLen) {
+    myBody = buildBall(game, pos, angle, projectile, physSize, gunSpd, spdLen);
     myPos = new Vector2();
     mySpd = new Vector2();
     setParamsFromBody();
@@ -29,19 +29,22 @@ public class BallProjectileBody implements ProjectileBody {
     mySpd.set(myBody.getLinearVelocity());
   }
 
-  private Body buildBall(SolGame game, Vector2 pos, float angle, Bullet projectile, float radius) {
+  private static Body buildBall(SolGame game, Vector2 pos, float angle, Bullet projectile, float physSize, Vector2 gunSpd,
+    float spdLen) {
     BodyDef bd = new BodyDef();
     bd.type = BodyDef.BodyType.DynamicBody;
     bd.angle = angle * SolMath.degRad;
     bd.angularDamping = 0;
     bd.position.set(pos);
     bd.linearDamping = 0;
+    SolMath.fromAl(bd.linearVelocity, angle, spdLen);
+    bd.linearVelocity.add(gunSpd);
     Body body = game.getObjMan().getWorld().createBody(bd);
     FixtureDef fd = new FixtureDef();
     fd.density = 1;
     fd.friction = Const.FRICTION;
     fd.shape = new CircleShape();
-    fd.shape.setRadius(radius);
+    fd.shape.setRadius(physSize/2);
     body.createFixture(fd);
     fd.shape.dispose();
     body.setUserData(projectile);

@@ -46,18 +46,21 @@ public interface ProjectileFactory {
     private final float mySz;
     private final float mySpdLen;
     private final boolean myExplode;
+    private final float myPhysSize;
     private boolean myStretch;
 
-    public BulletFactory(TextureAtlas.AtlasRegion tex, float sz, float spdLen, boolean explode, boolean stretch) {
+    public BulletFactory(TextureAtlas.AtlasRegion tex, float sz, float spdLen, boolean explode, boolean stretch,
+      float physSize) {
       myTex = tex;
       mySz = sz;
       mySpdLen = spdLen;
       myExplode = explode;
       myStretch = stretch;
+      myPhysSize = physSize;
     }
 
     public Projectile create(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpd, Fraction fraction, float dmg) {
-      return new Bullet(game, angle, muzzlePos, gunSpd, fraction, dmg, myTex, mySz, mySpdLen, myExplode, myStretch);
+      return new Bullet(game, angle, muzzlePos, gunSpd, fraction, dmg, myTex, mySz, mySpdLen, myExplode, myStretch, myPhysSize);
     }
 
     @Override
