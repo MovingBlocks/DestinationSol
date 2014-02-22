@@ -83,7 +83,7 @@ public class ChunkFiller {
     float detectionDist = game.getCam().getSpaceViewDist();
     Pilot provider = new AiPilot(new NoDestProvider(), false, Fraction.EHAR, true, null, detectionDist);
 
-    HullConfig config = game.getHullConfigs().hawk;
+    HullConfig config = game.getHullConfigs().getConfig("hawk");
     return game.getShipBuilder().buildNew(game, pos, new Vector2(spd), 0, rotSpd, provider, "wbo s:.1 b:.3 rep:.5", config, false, false,
       remover, false, 20f, null);
   }
@@ -94,7 +94,7 @@ public class ChunkFiller {
     float detectionDist = game.getCam().getSpaceViewDist();
     Pilot provider = new AiPilot(new NoDestProvider(), false, Fraction.EHAR, true, null, detectionDist);
 
-    HullConfig config = game.getHullConfigs().dragon;
+    HullConfig config = game.getHullConfigs().getConfig("dragon");
     return game.getShipBuilder().buildNew(game, pos, new Vector2(spd), 0, rotSpd, provider, "mg|sg rl|bo:.3 b:.7:4 r:.5:2 rep:.8", config, false, false,
       remover, true, 100f, null);
   }

@@ -18,7 +18,7 @@ public class ShipItem implements SolItem {
 
   @Override
   public String getTexName() {
-    return myConfig.name;
+    return myConfig.texName;
   }
 
   @Override

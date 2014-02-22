@@ -97,8 +97,8 @@ public class SolGame {
 
   private ItemContainer createChangeShips(HullConfigs hullConfigs) {
     ItemContainer res = new ItemContainer();
-    res.add(new ShipItem(hullConfigs.orbiter, "Orbiter", "A cool ship", 300));
-    res.add(new ShipItem(hullConfigs.vanguard, "Vanguard", "Cooler ship", 600));
+    res.add(new ShipItem(hullConfigs.getConfig("orbiter"), "Orbiter", "A cool ship", 300));
+    res.add(new ShipItem(hullConfigs.getConfig("vanguard"), "Vanguard", "Cooler ship", 600));
     return res;
   }
 
@@ -106,11 +106,11 @@ public class SolGame {
     Vector2 pos = myGalaxyFiller.getPlayerSpawnPos(this);
     Pilot pip = new PlayerPilot(myScreens.mainScreen);
     boolean god = DebugAspects.GOD_MODE;
-    HullConfig config = myHullConfigs.guardie;
+    HullConfig config = myHullConfigs.getConfig("guardie");
     String items = "bo s a e rep:1:2 sloMo:1:2";
     int money = 20;
     if (god) {
-      config = myHullConfigs.vanguard;
+      config = myHullConfigs.getConfig("vanguard");
       items = "mg rl sBig aBig e rep:1:6 sloMo:1:6 b:1:6 r:1:6";
       money = 1000;
     }

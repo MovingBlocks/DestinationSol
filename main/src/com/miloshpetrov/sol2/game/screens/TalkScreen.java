@@ -61,7 +61,7 @@ public class TalkScreen implements SolUiScreen {
       return;
     }
 
-    boolean sellsShips = myTarget.getHull().config == g.getHullConfigs().station;
+    boolean sellsShips = myTarget.getHull().config == g.getHullConfigs().getConfig("station");
     myShipsCtrl.setEnabled(sellsShips);
 
     InventoryScreen is = g.getScreens().inventoryScreen;

@@ -8,14 +8,14 @@ import java.util.ArrayList;
 
 public class HullConfig {
   public static final float MIN_IDLE_DIST = .8f;
-  public final String name;
+  public final String texName;
   public final float size;
   public final int maxLife;
-  public final Vector2 e1RelPos;
-  public final Vector2 e2RelPos;
-  public final Vector2 g1RelPos;
-  public final Vector2 g2RelPos;
-  public final ArrayList<Vector2> lightSrcRelPoss;
+  public final Vector2 e1Pos;
+  public final Vector2 e2Pos;
+  public final Vector2 g1Pos;
+  public final Vector2 g2Pos;
+  public final ArrayList<Vector2> lightSrcPoss;
   public final float durability;
   public final boolean hasBase;
   public final ArrayList<Vector2> forceBeaconPoss;
@@ -23,24 +23,24 @@ public class HullConfig {
   public final TextureAtlas.AtlasRegion icon;
   public final Type type;
 
-  public HullConfig(String name, float size, int maxLife, Vector2 e1RelPos, Vector2 e2RelPos, Vector2 g1RelPos,
-    Vector2 g2RelPos, ArrayList<Vector2> lightSrcRelPoss,
+  public HullConfig(String texName, float size, int maxLife, Vector2 e1Pos, Vector2 e2Pos, Vector2 g1Pos,
+    Vector2 g2Pos, ArrayList<Vector2> lightSrcPoss,
     float durability, boolean hasBase, ArrayList<Vector2> forceBeaconPoss, ArrayList<Vector2> doorPoss, TexMan texMan,
     Type type)
   {
-    this.name = name;
+    this.texName = texName;
     this.size = size;
     this.maxLife = maxLife;
-    this.e1RelPos = e1RelPos;
-    this.e2RelPos = e2RelPos;
-    this.g1RelPos = g1RelPos;
-    this.g2RelPos = g2RelPos;
-    this.lightSrcRelPoss = lightSrcRelPoss;
+    this.e1Pos = e1Pos;
+    this.e2Pos = e2Pos;
+    this.g1Pos = g1Pos;
+    this.g2Pos = g2Pos;
+    this.lightSrcPoss = lightSrcPoss;
     this.forceBeaconPoss = forceBeaconPoss;
     this.durability = durability;
     this.hasBase = hasBase;
     this.doorPoss = doorPoss;
-    this.icon = texMan.getTex(TexMan.ICONS_DIR + this.name);
+    this.icon = texMan.getTex(TexMan.ICONS_DIR + this.texName);
     this.type = type;
   }
 
@@ -50,6 +50,13 @@ public class HullConfig {
   }
 
   public static enum Type {
-    STD, BIG, STATION
+    STD, BIG, STATION;
+
+    public static Type forValue(String type) {
+      if ("std".equals(type)) return STD;
+      if ("big".equals(type)) return BIG;
+      if ("station".equals(type)) return STATION;
+      return null;
+    }
   }
 }

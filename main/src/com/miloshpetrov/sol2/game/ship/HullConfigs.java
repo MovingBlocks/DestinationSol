@@ -1,39 +1,60 @@
 package com.miloshpetrov.sol2.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
+import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.common.SolMath;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HullConfigs {
-  public static final float DUR_HARD = 3f;
-  public static final float DUR_SOFT = .7f;
-  public final HullConfig corvette;
-  public final HullConfig hawk;
-  public final HullConfig dragon;
-  public final HullConfig bus;
-  public final HullConfig hummer;
-  public final HullConfig orbiter;
-  public final HullConfig hunter;
-  public final HullConfig vanguard;
-  public final HullConfig guardie;
-  public final HullConfig truck;
-  public final HullConfig drome;
-  public final HullConfig station;
+  private final HashMap<String,HullConfig> myConfigs;
 
   public HullConfigs(ShipBuilder shipBuilder, TexMan texMan) {
-    corvette = getCorvette(shipBuilder, texMan);
-    hawk = getHawk(shipBuilder, texMan);
-    dragon = getDragon(shipBuilder, texMan);
-    bus = getBus(shipBuilder, texMan);
-    hummer = getHummer(shipBuilder, texMan);
-    orbiter = getOrbiter(shipBuilder, texMan);
-    hunter = getHunter(shipBuilder, texMan);
-    vanguard = getVanguard(shipBuilder, texMan);
-    guardie = getGuardie(shipBuilder, texMan);
-    truck = getTruck(shipBuilder, texMan);
-    drome = getDrome(shipBuilder, texMan);
-    station = getStation(shipBuilder, texMan);
+    myConfigs = new HashMap<String, HullConfig>();
+
+
+    JsonReader r = new JsonReader();
+    JsonValue parsed = r.parse(SolFiles.readOnly("res/configs/ships.json"));
+    for (JsonValue sh : parsed) {
+      String texName = sh.getString("texName");
+      float size = sh.getFloat("size");
+      int maxLife = sh.getInt("maxLife");
+      Vector2 e1Pos = SolMath.readV2(sh, "e1Pos");
+      Vector2 e2Pos = SolMath.readV2(sh, "e2Pos");
+      Vector2 g1Pos = SolMath.readV2(sh, "g1Pos");
+      Vector2 g2Pos = SolMath.readV2(sh, "g2Pos");
+      ArrayList<Vector2> lightSrcPoss = SolMath.readV2List(sh, "lightSrcPoss");
+      float durability = sh.getFloat("durability");
+      boolean hasBase = sh.getBoolean("hasBase");
+      ArrayList<Vector2> forceBeaconPoss = SolMath.readV2List(sh, "forceBeaconPoss");
+      ArrayList<Vector2> doorPoss = SolMath.readV2List(sh, "doorPoss");
+      HullConfig.Type type = HullConfig.Type.forValue(sh.getString("type"));
+      HullConfig c = new HullConfig(texName, size, maxLife, e1Pos, e2Pos, g1Pos, g2Pos, lightSrcPoss, durability,
+        hasBase, forceBeaconPoss, doorPoss, texMan, type);
+      process(c, shipBuilder);
+      myConfigs.put(sh.name, c);
+    }
+
+
+    myConfigs.put("corvette", getCorvette(shipBuilder, texMan));
+    myConfigs.put("hawk", getHawk(shipBuilder, texMan));
+    myConfigs.put("dragon", getDragon(shipBuilder, texMan));
+    myConfigs.put("hummer", getHummer(shipBuilder, texMan));
+    myConfigs.put("orbiter", getOrbiter(shipBuilder, texMan));
+    myConfigs.put("hunter", getHunter(shipBuilder, texMan));
+    myConfigs.put("vanguard", getVanguard(shipBuilder, texMan));
+    myConfigs.put("guardie", getGuardie(shipBuilder, texMan));
+    myConfigs.put("truck", getTruck(shipBuilder, texMan));
+    myConfigs.put("drome", getDrome(shipBuilder, texMan));
+    myConfigs.put("station", getStation(shipBuilder, texMan));
+  }
+
+  public HullConfig getConfig(String name) {
+    return myConfigs.get(name);
   }
 
   private HullConfig getHawk(ShipBuilder shipBuilder, TexMan texMan) {
@@ -48,7 +69,7 @@ public class HullConfigs {
     ArrayList<Vector2> beacons = new ArrayList<Vector2>();
     ArrayList<Vector2> doors = new ArrayList<Vector2>();
 
-    HullConfig cfg = new HullConfig("hawk", .8f, 8, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, DUR_HARD, false, beacons, doors, texMan, HullConfig.Type.STD);
+    HullConfig cfg = new HullConfig("hawk", .8f, 8, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, 3f, false, beacons, doors, texMan, HullConfig.Type.STD);
     process(cfg, shipBuilder);
     return cfg;
   }
@@ -64,7 +85,7 @@ public class HullConfigs {
     ArrayList<Vector2> beacons = new ArrayList<Vector2>();
     ArrayList<Vector2> doors = new ArrayList<Vector2>();
 
-    HullConfig cfg = new HullConfig("hummer", .8f, 10, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, DUR_HARD, false, beacons, doors, texMan, HullConfig.Type.STD);
+    HullConfig cfg = new HullConfig("hummer", .8f, 10, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, 3f, false, beacons, doors, texMan, HullConfig.Type.STD);
     process(cfg, shipBuilder);
     return cfg;
   }
@@ -80,7 +101,7 @@ public class HullConfigs {
     ArrayList<Vector2> beacons = new ArrayList<Vector2>();
     ArrayList<Vector2> doorPoss = new ArrayList<Vector2>();
 
-    HullConfig cfg = new HullConfig("corvette", .5f, 13, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, DUR_SOFT, true, beacons, doorPoss, texMan, HullConfig.Type.STD);
+    HullConfig cfg = new HullConfig("corvette", .5f, 13, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, .7f, true, beacons, doorPoss, texMan, HullConfig.Type.STD);
     process(cfg, shipBuilder);
     return cfg;
   }
@@ -95,7 +116,7 @@ public class HullConfigs {
     ArrayList<Vector2> beacons = new ArrayList<Vector2>();
     ArrayList<Vector2> doors = new ArrayList<Vector2>();
 
-    HullConfig cfg = new HullConfig("guardie", .4f, 20, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, DUR_SOFT, true, beacons, doors, texMan, HullConfig.Type.STD);
+    HullConfig cfg = new HullConfig("guardie", .4f, 20, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, .7f, true, beacons, doors, texMan, HullConfig.Type.STD);
     process(cfg, shipBuilder);
     return cfg;
   }
@@ -110,7 +131,7 @@ public class HullConfigs {
     ArrayList<Vector2> beacons = new ArrayList<Vector2>();
     ArrayList<Vector2> doors = new ArrayList<Vector2>();
 
-    HullConfig cfg = new HullConfig("orbiter", .5f, 50, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, DUR_SOFT, true, beacons, doors, texMan, HullConfig.Type.STD);
+    HullConfig cfg = new HullConfig("orbiter", .5f, 50, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, .7f, true, beacons, doors, texMan, HullConfig.Type.STD);
     process(cfg, shipBuilder);
     return cfg;
   }
@@ -125,7 +146,7 @@ public class HullConfigs {
     ArrayList<Vector2> beacons = new ArrayList<Vector2>();
     ArrayList<Vector2> doorPoss = new ArrayList<Vector2>();
 
-    HullConfig cfg = new HullConfig("hunter", 1f, 60, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, DUR_SOFT, true, beacons, doorPoss, texMan, HullConfig.Type.STD);
+    HullConfig cfg = new HullConfig("hunter", 1f, 60, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, .7f, true, beacons, doorPoss, texMan, HullConfig.Type.STD);
     process(cfg, shipBuilder);
     return cfg;
   }
@@ -140,7 +161,7 @@ public class HullConfigs {
     ArrayList<Vector2> beacons = new ArrayList<Vector2>();
     ArrayList<Vector2> doors = new ArrayList<Vector2>();
 
-    HullConfig cfg = new HullConfig("truck", 2f, 60, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, DUR_HARD, true, beacons, doors, texMan, HullConfig.Type.BIG);
+    HullConfig cfg = new HullConfig("truck", 2f, 60, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, 3f, true, beacons, doors, texMan, HullConfig.Type.BIG);
     process(cfg, shipBuilder);
     return cfg;
   }
@@ -155,7 +176,7 @@ public class HullConfigs {
     ArrayList<Vector2> beacons = new ArrayList<Vector2>();
     ArrayList<Vector2> doors = new ArrayList<Vector2>();
 
-    HullConfig cfg = new HullConfig("vanguard", .9f, 80, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, DUR_SOFT, true, beacons, doors, texMan, HullConfig.Type.STD);
+    HullConfig cfg = new HullConfig("vanguard", .9f, 80, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, .7f, true, beacons, doors, texMan, HullConfig.Type.STD);
     process(cfg, shipBuilder);
     return cfg;
   }
@@ -170,26 +191,7 @@ public class HullConfigs {
     ArrayList<Vector2> beacons = new ArrayList<Vector2>();
     ArrayList<Vector2> doors = new ArrayList<Vector2>();
 
-    HullConfig cfg = new HullConfig("dragon", 1.5f, 90, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, DUR_HARD, false, beacons, doors, texMan, HullConfig.Type.STD);
-    process(cfg, shipBuilder);
-    return cfg;
-  }
-
-  private HullConfig getBus(ShipBuilder shipBuilder, TexMan texMan) {
-    Vector2 gun1Pos = new Vector2(.75f, .5f);
-    Vector2 gun2Pos = new Vector2(.28f, .5f);
-    Vector2 engine1Pos = new Vector2(.09f, .28f);
-    Vector2 engine2Pos = new Vector2(.09f, .72f);
-
-    ArrayList<Vector2> lights = new ArrayList<Vector2>();
-    ArrayList<Vector2> beacons = new ArrayList<Vector2>();
-    beacons.add(new Vector2(.50f, .25f));
-    beacons.add(new Vector2(.50f, .75f));
-    ArrayList<Vector2> doors = new ArrayList<Vector2>();
-    doors.add(new Vector2(.50f, .13f));
-    doors.add(new Vector2(.50f, .87f));
-
-    HullConfig cfg = new HullConfig("bus", 3.5f, 100, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, DUR_HARD, false, beacons, doors, texMan, HullConfig.Type.BIG);
+    HullConfig cfg = new HullConfig("dragon", 1.5f, 90, engine1Pos, engine2Pos, gun1Pos, gun2Pos, lights, 3f, false, beacons, doors, texMan, HullConfig.Type.STD);
     process(cfg, shipBuilder);
     return cfg;
   }
@@ -229,12 +231,12 @@ public class HullConfigs {
   }
 
   private void process(HullConfig config, ShipBuilder shipBuilder) {
-    Vector2 o = shipBuilder.getOrigin(config.name);
-    config.g1RelPos.sub(o).scl(config.size);
-    config.g2RelPos.sub(o).scl(config.size);
-    config.e1RelPos.sub(o).scl(config.size);
-    config.e2RelPos.sub(o).scl(config.size);
-    for (Vector2 pos : config.lightSrcRelPoss) pos.sub(o).scl(config.size);
+    Vector2 o = shipBuilder.getOrigin(config.texName);
+    config.g1Pos.sub(o).scl(config.size);
+    config.g2Pos.sub(o).scl(config.size);
+    config.e1Pos.sub(o).scl(config.size);
+    config.e2Pos.sub(o).scl(config.size);
+    for (Vector2 pos : config.lightSrcPoss) pos.sub(o).scl(config.size);
     for (Vector2 pos : config.forceBeaconPoss) pos.sub(o).scl(config.size);
     for (Vector2 pos : config.doorPoss) pos.sub(o).scl(config.size);
   }

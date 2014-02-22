@@ -127,7 +127,7 @@ public class ShipHull {
       myEngine = null;
     }
     if (ei != null) {
-      myEngine = new ShipEngine(game, ei, config.e1RelPos, config.e2RelPos);
+      myEngine = new ShipEngine(game, ei, config.e1Pos, config.e2Pos);
       List<Dra> dras1 = myEngine.getDras();
       dras.addAll(dras1);
       game.getDraMan().addAll(dras1);
