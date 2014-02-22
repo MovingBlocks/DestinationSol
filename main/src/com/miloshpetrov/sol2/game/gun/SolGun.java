@@ -40,7 +40,7 @@ public class SolGun {
     float bulletAngle = gunAngle;
     bulletAngle += SolMath.rnd(myCurrAngleVar);
     myCoolDown += myItem.config.timeBetweenShots;
-    Projectile proj = myItem.config.factory.create(game, bulletAngle, muzzlePos, gunSpd, fraction, myItem.config.dmg);
+    Projectile proj = new Projectile(game, bulletAngle, muzzlePos, gunSpd, fraction, myItem.config.dmg, myItem.config.factory);
     game.getObjMan().addObjDelayed(proj);
     myItem.ammo--;
   }

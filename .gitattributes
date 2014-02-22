@@ -309,13 +309,10 @@ main/src/com/miloshpetrov/sol2/game/planet/TileMan.java -text
 main/src/com/miloshpetrov/sol2/game/planet/TileObj.java -text
 main/src/com/miloshpetrov/sol2/game/planet/TileObjBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/projectile/BallProjectileBody.java -text
-main/src/com/miloshpetrov/sol2/game/projectile/Bullet.java -text
 main/src/com/miloshpetrov/sol2/game/projectile/PointProjectileBody.java -text
 main/src/com/miloshpetrov/sol2/game/projectile/Projectile.java -text
 main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBody.java -text
-main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBuilder.java -text
-main/src/com/miloshpetrov/sol2/game/projectile/ProjectileFactory.java -text
-main/src/com/miloshpetrov/sol2/game/projectile/Rocket.java -text
+main/src/com/miloshpetrov/sol2/game/projectile/ProjectileConfig.java -text
 main/src/com/miloshpetrov/sol2/game/screens/BorderDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/screens/BuyItems.java -text
 main/src/com/miloshpetrov/sol2/game/screens/ChangeShip.java -text

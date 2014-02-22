@@ -2,7 +2,7 @@ package com.miloshpetrov.sol2.game.gun;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.miloshpetrov.sol2.TexMan;
-import com.miloshpetrov.sol2.game.projectile.ProjectileFactory;
+import com.miloshpetrov.sol2.game.projectile.ProjectileConfig;
 
 public class GunConfig {
   public final float minAngleVar;
@@ -13,7 +13,7 @@ public class GunConfig {
   public final float maxReloadTime;
   public final float gunLength;
   public final String displayName;
-  public final ProjectileFactory factory;
+  public final ProjectileConfig factory;
   public final TextureAtlas.AtlasRegion tex;
   public final boolean lightOnShot;
   public final String itemTexName;
@@ -26,7 +26,7 @@ public class GunConfig {
 
   public GunConfig(float minAngleVar, float maxAngleVar, float angleVarDamp, float angleVarPerShot,
     float timeBetweenShots,
-    float maxReloadTime, ProjectileFactory factory, float gunLength, String texName, String displayName,
+    float maxReloadTime, ProjectileConfig factory, float gunLength, String texName, String displayName,
     boolean lightOnShot, TexMan texMan, int price, String descBase, int infiniteClipSize, float dmg) {
 
     tex = texMan.getTex("guns/" + texName);
