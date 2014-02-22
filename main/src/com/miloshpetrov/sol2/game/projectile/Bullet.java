@@ -10,6 +10,8 @@ import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.*;
+import com.miloshpetrov.sol2.game.particle.LightSrc;
+import com.miloshpetrov.sol2.game.particle.ParticleSrc;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 import java.util.ArrayList;
@@ -23,9 +25,13 @@ public class Bullet implements Projectile {
   private final boolean myExplode;
   private final ProjectileBody myBody;
   private final Fraction myFraction;
+  private final ParticleSrc myFlameSrc;
+  private final LightSrc myLightSrc;
+  private final boolean mySmokeOnExplosion;
 
   public Bullet(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpd, Fraction fraction, float dmg,
-    TextureAtlas.AtlasRegion tex, float sz, float spdLen, boolean explode, boolean stretch, float physSize)
+    TextureAtlas.AtlasRegion tex, float sz, float spdLen, boolean explode, boolean stretch, float physSize,
+    boolean hasFlame, boolean smokeOnExplosion)
   {
     myDmg = dmg;
     myDras = new ArrayList<Dra>();
@@ -44,6 +50,17 @@ public class Bullet implements Projectile {
       myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, spdLen, this);
     }
     myFraction = fraction;
+    if (hasFlame) {
+      myFlameSrc = game.getPartMan().buildFlameSrc(game, new Vector2());
+      myFlameSrc.setWorking(true);
+      myDras.add(myFlameSrc);
+      myLightSrc = new LightSrc(game, .25f, true, 1f, new Vector2());
+      myLightSrc.collectDras(myDras);
+    } else {
+      myFlameSrc = null;
+      myLightSrc = null;
+    }
+    mySmokeOnExplosion = smokeOnExplosion;
   }
 
   @Override
@@ -55,13 +72,18 @@ public class Bullet implements Projectile {
       if (obstacle instanceof SolObj) {
         ((SolObj) obstacle).receiveDmg(myDmg, game, myBody.getPos());
       }
+    } else {
+      if (myFlameSrc != null) {
+        myFlameSrc.setSpd(myBody.getSpd());
+        myLightSrc.update(true, myBody.getAngle(), game);
+      }
     }
   }
 
   private void explode(SolGame game) {
     Vector2 pos = myBody.getPos();
     if (myExplode) {
-      game.getPartMan().explode(pos, game, false);
+      game.getPartMan().explode(pos, game, mySmokeOnExplosion);
     } else {
       game.getPartMan().spark(pos, game);
     }
@@ -74,6 +96,9 @@ public class Bullet implements Projectile {
 
   @Override
   public void onRemove(SolGame game) {
+    if (myFlameSrc != null) {
+      game.getPartMan().finish(game, myFlameSrc, myBody.getPos());
+    }
     myBody.onRemove(game);
   }
 

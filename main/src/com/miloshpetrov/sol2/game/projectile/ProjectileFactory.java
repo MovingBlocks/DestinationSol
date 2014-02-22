@@ -47,20 +47,24 @@ public interface ProjectileFactory {
     private final float mySpdLen;
     private final boolean myExplode;
     private final float myPhysSize;
+    private final boolean myHasFlame;
+    private final boolean mySmokeOnExplosion;
     private boolean myStretch;
 
     public BulletFactory(TextureAtlas.AtlasRegion tex, float sz, float spdLen, boolean explode, boolean stretch,
-      float physSize) {
+      float physSize, boolean hasFlame, boolean smokeOnExplosion) {
       myTex = tex;
       mySz = sz;
       mySpdLen = spdLen;
       myExplode = explode;
       myStretch = stretch;
       myPhysSize = physSize;
+      myHasFlame = hasFlame;
+      mySmokeOnExplosion = smokeOnExplosion;
     }
 
     public Projectile create(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpd, Fraction fraction, float dmg) {
-      return new Bullet(game, angle, muzzlePos, gunSpd, fraction, dmg, myTex, mySz, mySpdLen, myExplode, myStretch, myPhysSize);
+      return new Bullet(game, angle, muzzlePos, gunSpd, fraction, dmg, myTex, mySz, mySpdLen, myExplode, myStretch, myPhysSize, myHasFlame, mySmokeOnExplosion);
     }
 
     @Override
