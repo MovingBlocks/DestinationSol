@@ -21,15 +21,15 @@
     groundEnemies: [
       {
         hull: hummer,
-        items: "e bo a",
-        guardedBy: [],
+        items: "e bo|sg|mg rep s|sMed:.1 b:.7:2 r:.7:1",
+        density: 0.45,
       },
     ],
     orbitEnemies: [
       {
         hull: corvette,
-        items: "e bo",
-        guardedBy: [],
+        items: "e s:.2 a:.3 bo sloMo:.7:3 rep:.4",
+        density: 0.01,
       }
     ],
   },

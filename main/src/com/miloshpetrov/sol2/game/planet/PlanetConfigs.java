@@ -7,13 +7,15 @@ import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.PathLoader;
+import com.miloshpetrov.sol2.game.ship.HullConfig;
+import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 import java.util.*;
 
 public class PlanetConfigs {
   private final Map<String, PlanetConfig> myConfigs;
 
-  public PlanetConfigs(TexMan texMan) {
+  public PlanetConfigs(TexMan texMan, HullConfigs hullConfigs) {
     myConfigs = new HashMap<String, PlanetConfig>();
 
     JsonReader r = new JsonReader();
@@ -22,13 +24,26 @@ public class PlanetConfigs {
       float minGrav = sh.getFloat("minGrav");
       float maxGrav = sh.getFloat("maxGrav");
       List<DecoConfig> deco = loadDecoConfigs(sh);
-      ArrayList<PlanetEnemyConfig> groundEnemies = new ArrayList<PlanetEnemyConfig>();
-      ArrayList<PlanetEnemyConfig> orbitEnemies = new ArrayList<PlanetEnemyConfig>();
+      ArrayList<PlanetEnemyConfig> groundEnemies = loadEnemiyConfigs(sh.get("groundEnemies"), hullConfigs);
+      ArrayList<PlanetEnemyConfig> orbitEnemies = loadEnemiyConfigs(sh.get("orbitEnemies"), hullConfigs);
       HashMap<SurfDir, Map<SurfDir, List<Tile>>> groundTiles = new HashMap<SurfDir, Map<SurfDir, List<Tile>>>();
       fillTiles(texMan, groundTiles, sh.name);
       PlanetConfig c = new PlanetConfig(sh.name, minGrav, maxGrav, deco, groundEnemies, orbitEnemies, groundTiles);
       myConfigs.put(sh.name, c);
     }
+  }
+
+  private ArrayList<PlanetEnemyConfig> loadEnemiyConfigs(JsonValue enemies, HullConfigs hullConfigs) {
+    ArrayList<PlanetEnemyConfig> res = new ArrayList<PlanetEnemyConfig>();
+    for (JsonValue e : enemies) {
+      String hullName = e.getString("hull");
+      HullConfig hull = hullConfigs.getConfig(hullName);
+      String items = e.getString("items");
+      float density = e.getFloat("density");
+      PlanetEnemyConfig c = new PlanetEnemyConfig(hull, items, density);
+      res.add(c);
+    }
+    return res;
   }
 
   private List<DecoConfig> loadDecoConfigs(JsonValue planetConfig) {
