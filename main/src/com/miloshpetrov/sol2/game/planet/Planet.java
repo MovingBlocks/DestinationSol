@@ -10,14 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Planet {
-  private static final float GRAV_CONST = .4f;
-
   private final SolSystem mySys;
   private final Vector2 myPos;
   private final float myDist;
   private final float myToSysRotSpd;
   private final float myRotSpd;
   private final float myGroundHeight;
+  private final PlanetConfig myConfig;
   private final float myGravConst;
   private final List<Vector2> myLps;
   private boolean myObjsCreated;
@@ -27,7 +26,7 @@ public class Planet {
   private float myMinGroundHeight;
 
   public Planet(SolSystem sys, float angleToSys, float dist, float angle, float toSysRotSpd, float rotSpd,
-    float groundHeight, boolean objsCreated) {
+    float groundHeight, boolean objsCreated, PlanetConfig config) {
     mySys = sys;
     myAngleToSys = angleToSys;
     myDist = dist;
@@ -35,10 +34,11 @@ public class Planet {
     myToSysRotSpd = toSysRotSpd;
     myRotSpd = rotSpd;
     myGroundHeight = groundHeight;
+    myConfig = config;
     myMinGroundHeight = myGroundHeight;
     myObjsCreated = objsCreated;
     myPos = new Vector2();
-    myGravConst = GRAV_CONST * myGroundHeight * myGroundHeight;
+    myGravConst = SolMath.rnd(config.minGrav, config.maxGrav) * myGroundHeight * myGroundHeight;
     myLps = new ArrayList<Vector2>();
     setSecondaryParams();
   }
@@ -129,5 +129,9 @@ public class Planet {
 
   public boolean isNearGround(Vector2 pos) {
     return myPos.dst(pos) - myGroundHeight < .25f * Const.ATM_HEIGHT;
+  }
+
+  public PlanetConfig getConfig() {
+    return myConfig;
   }
 }

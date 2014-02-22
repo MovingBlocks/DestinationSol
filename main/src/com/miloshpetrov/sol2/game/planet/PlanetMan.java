@@ -13,12 +13,12 @@ import java.util.ArrayList;
 public class PlanetMan {
   private final ArrayList<SolSystem> mySystems;
   private final ArrayList<Planet> myPlanets;
-  private final TileMan myTileMan;
   private final LandingPlaceFinder myLandingPlaceFinder;
+  private final PlanetConfigs myPlanetConfigs;
   private Planet myNearestPlanet;
 
   public PlanetMan(TexMan texMan) {
-    myTileMan = new TileMan(texMan);
+    myPlanetConfigs = new PlanetConfigs(texMan);
 
     mySystems = new ArrayList<SolSystem>();
     myPlanets = new ArrayList<Planet>();
@@ -30,7 +30,7 @@ public class PlanetMan {
       mySystems.addAll(sd.systems);
       myPlanets.addAll(sd.planets);
     } else {
-      new SystemsBuilder().build(mySystems, myPlanets);
+      new SystemsBuilder().build(mySystems, myPlanets, myPlanetConfigs);
     }
   }
 
@@ -99,10 +99,6 @@ public class PlanetMan {
       }
 
     }
-  }
-
-  public TileMan getTileMan() {
-    return myTileMan;
   }
 
   public ArrayList<Planet> getPlanets() {
