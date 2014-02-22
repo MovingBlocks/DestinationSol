@@ -11,10 +11,11 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="9137fd64-d1f4-4daf-a4a8-60761d6a0181" name="Default" comment="removed projectiles.json">
-      <change type="DELETED" beforePath="D:\j\sol\main\res\paths\projectiles.json" afterPath="" />
+    <list default="true" readonly="true" id="9137fd64-d1f4-4daf-a4a8-60761d6a0181" name="Default" comment="projectile unification 1: bullet can draw normal sprites">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Bullet.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Bullet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/DebugAspects.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/DebugAspects.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBuilder.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileFactory.java" afterPath="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileFactory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="metagun-whole.iws" />
@@ -85,10 +86,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ProjectileBuilder.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBuilder.java">
+      <file leaf-file-name="Bullet.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Bullet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="16" selection-start="910" selection-end="910" vertical-scroll-proportion="0.27345845" vertical-offset="0" max-vertical-offset="1494">
+            <state line="43" column="9" selection-start="1440" selection-end="1440" vertical-scroll-proportion="0.7064343" vertical-offset="0" max-vertical-offset="4146">
               <folding />
             </state>
           </provider>
@@ -104,7 +105,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/ui/TutMan.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/GalaxyFiller.java" />
         <option value="$PROJECT_DIR$/main/tools/todo.txt" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/Const.java" />
@@ -145,16 +145,17 @@
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/TexMan.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/SolFiles.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfig.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunMount.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/MapDrawer.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/Shooter.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/SolGun.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileFactory.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Rocket.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolContactFilter.java" />
-        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/DebugAspects.java" />
         <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBuilder.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Bullet.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileFactory.java" />
+        <option value="$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/DebugAspects.java" />
       </list>
     </option>
   </component>
@@ -546,18 +547,19 @@
     <frame x="0" y="0" width="1366" height="768" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32797858" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.3708166" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4283802" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39625168" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32904148" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32991204" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32797858" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32797858" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32859176" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32869694" sideWeight="0.571835" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39625168" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32991204" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32904148" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4283802" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32797858" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.32991204" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="100" y="100" width="1164" height="568" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -570,7 +572,6 @@
       <window_info id="SVN Properties" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3168044" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4283802" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -593,7 +594,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="truck + improvs" />
     <MESSAGE value="bus" />
     <MESSAGE value="icons + forgotten bus path update" />
     <MESSAGE value="font yea" />
@@ -618,7 +618,8 @@
     <MESSAGE value="repo-bound build ready!" />
     <MESSAGE value="minor polishing" />
     <MESSAGE value="removed projectiles.json" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed projectiles.json" />
+    <MESSAGE value="projectile unification 1: bullet can draw normal sprites" />
+    <option name="LAST_COMMIT_MESSAGE" value="projectile unification 1: bullet can draw normal sprites" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -633,11 +634,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/main/imgSrcs/pack.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="34" selection-start="314" selection-end="314" vertical-scroll-proportion="0.3243968" vertical-offset="13" max-vertical-offset="1222" />
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/main/libs/gdx-sources.jar!/com/badlogic/gdx/files/FileHandle.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="91" column="22" selection-start="3450" selection-end="3450" vertical-scroll-proportion="0.0" vertical-offset="1003" max-vertical-offset="11439" />
@@ -838,13 +834,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="174" selection-start="1810" selection-end="1810" vertical-scroll-proportion="0.5294906" vertical-offset="81" max-vertical-offset="1256">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunMount.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="32" column="80" selection-start="1121" selection-end="1121" vertical-scroll-proportion="0.022788204" vertical-offset="391" max-vertical-offset="1698">
@@ -861,7 +850,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/input/Shooter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="39" selection-start="1174" selection-end="1174" vertical-scroll-proportion="0.29624665" vertical-offset="391" max-vertical-offset="2582" />
+        <state line="40" column="39" selection-start="1174" selection-end="1174" vertical-scroll-proportion="0.29624665" vertical-offset="391" max-vertical-offset="2582">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/SolGun.java">
@@ -871,23 +862,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="0" selection-start="1413" selection-end="1413" vertical-scroll-proportion="0.5214477" vertical-offset="240" max-vertical-offset="1715">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/SolContactFilter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="0" selection-start="656" selection-end="656" vertical-scroll-proportion="0.41018766" vertical-offset="0" max-vertical-offset="1035">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/DebugAspects.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="45" selection-start="862" selection-end="862" vertical-scroll-proportion="0.47855228" vertical-offset="0" max-vertical-offset="1120">
           <folding />
         </state>
       </provider>
@@ -915,7 +892,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="16" selection-start="910" selection-end="910" vertical-scroll-proportion="0.27345845" vertical-offset="0" max-vertical-offset="1494">
+        <state line="23" column="0" selection-start="894" selection-end="894" vertical-scroll-proportion="0.27345845" vertical-offset="0" max-vertical-offset="1494">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="118" selection-start="1264" selection-end="1264" vertical-scroll-proportion="0.39276138" vertical-offset="81" max-vertical-offset="1256">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/ProjectileFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="24" selection-start="1694" selection-end="1694" vertical-scroll-proportion="0.22788204" vertical-offset="612" max-vertical-offset="1800">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/DebugAspects.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="46" selection-start="863" selection-end="863" vertical-scroll-proportion="0.47855228" vertical-offset="0" max-vertical-offset="1120">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/src/com/miloshpetrov/sol2/game/projectile/Bullet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="9" selection-start="1440" selection-end="1440" vertical-scroll-proportion="0.7064343" vertical-offset="0" max-vertical-offset="4146">
           <folding />
         </state>
       </provider>

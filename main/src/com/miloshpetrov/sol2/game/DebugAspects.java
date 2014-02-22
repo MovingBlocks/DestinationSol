@@ -19,5 +19,5 @@ public class DebugAspects {
   public static final boolean DIRECT_CAM_CONTROL = false;
   public static final boolean DETAILED_MAP = false;
   public static final boolean MOBILE = false;
-  public static final boolean GOD_MODE = true;
+  public static final boolean GOD_MODE = false;
 }
