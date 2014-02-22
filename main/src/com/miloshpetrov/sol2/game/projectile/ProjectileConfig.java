@@ -25,4 +25,5 @@ public class ProjectileConfig {
     this.hasFlame = hasFlame;
     this.smokeOnExplosion = smokeOnExplosion;
   }
+
 }

@@ -118,9 +118,9 @@ public class SolGame {
     if (myTut) {
       myHero.getHull().setEngine(this, myHero, null);
       ItemContainer ic = myHero.getItemContainer();
-      GunItem secondary = myItemMan.gunConfigs.weakBolter.example.copy();
+      GunItem secondary = (GunItem)myItemMan.getExample("wbo").copy();
       ic.add(secondary);
-      GunItem slowGun = myItemMan.gunConfigs.slowGun.example.copy();
+      GunItem slowGun = (GunItem)myItemMan.getExample("sg").copy();
       ic.add(slowGun);
       myHero.getHull().getGunMount(true).setGun(this, myHero, secondary);
       int toAdd = 2 * Const.ITEMS_PER_PAGE - ic.size();

@@ -17,7 +17,8 @@ public class ClipConfig {
     this.example = new ClipItem(this);
   }
 
-  public static void loadConfigs(ItemMan itemMan) {
+  public static void load(ItemMan itemMan) {
+    //load here
     itemMan.registerItem("b", new ClipConfig("bulletClip", 30, "Bullets", 60, "bullets").example);
     itemMan.registerItem("r", new ClipConfig("rocketClip", 70, "Rockets", 6, "rockets").example);
   }

@@ -2,7 +2,8 @@ package com.miloshpetrov.sol2.game.item;
 
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.SolMath;
-import com.miloshpetrov.sol2.game.gun.GunConfigs;
+import com.miloshpetrov.sol2.game.gun.GunConfig;
+import com.miloshpetrov.sol2.game.projectile.ProjectileConfigs;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 
 import java.util.ArrayList;
@@ -10,32 +11,27 @@ import java.util.HashMap;
 
 public class ItemMan {
   public static final String ITEM_CONFIGS_DIR = "res/configs/items/";
-  public final GunConfigs gunConfigs;
   private final HashMap<String,SolItem> myM;
   public final Armor.Configs armorConfigs;
   public final EngineItem.Configs engineConfigs;
   private final ArrayList<SolItem> myL;
+  public final ProjectileConfigs projConfigs;
 
   public ItemMan(TexMan texMan, SoundMan soundMan) {
     myM = new HashMap<String, SolItem>();
+    projConfigs = new ProjectileConfigs(texMan);
 
-    armorConfigs = new Armor.Configs();
     Shield.Config.loadConfigs(this, soundMan);
-    engineConfigs = new EngineItem.Configs();
 
+    engineConfigs = new EngineItem.Configs();
     myM.put("e", engineConfigs.std.example);
     myM.put("eBig", engineConfigs.big.example);
 
 
-    ClipConfig.loadConfigs(this);
-    gunConfigs = new GunConfigs(texMan, this);
+    ClipConfig.load(this);
+    GunConfig.load(texMan, this);
 
-    myM.put("wbo", gunConfigs.weakBolter.example);
-    myM.put("bo", gunConfigs.bolter.example);
-    myM.put("sg", gunConfigs.slowGun.example);
-    myM.put("mg", gunConfigs.miniGun.example);
-    myM.put("rl", gunConfigs.rocketLauncher.example);
-
+    armorConfigs = new Armor.Configs();
     myM.put("a", armorConfigs.std.example);
     myM.put("aBig", armorConfigs.big.example);
     myM.put("aMed", armorConfigs.med.example);
