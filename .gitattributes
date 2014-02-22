@@ -256,7 +256,6 @@ main/src/com/miloshpetrov/sol2/game/dra/RectSprite.java -text
 main/src/com/miloshpetrov/sol2/game/farBg/FarBgMan.java -text
 main/src/com/miloshpetrov/sol2/game/farBg/FarBgManOld.java -text
 main/src/com/miloshpetrov/sol2/game/gun/GunConfig.java -text
-main/src/com/miloshpetrov/sol2/game/gun/GunConfigs.java -text
 main/src/com/miloshpetrov/sol2/game/gun/GunItem.java -text
 main/src/com/miloshpetrov/sol2/game/gun/GunMount.java -text
 main/src/com/miloshpetrov/sol2/game/gun/SolGun.java -text
@@ -313,6 +312,7 @@ main/src/com/miloshpetrov/sol2/game/projectile/PointProjectileBody.java -text
 main/src/com/miloshpetrov/sol2/game/projectile/Projectile.java -text
 main/src/com/miloshpetrov/sol2/game/projectile/ProjectileBody.java -text
 main/src/com/miloshpetrov/sol2/game/projectile/ProjectileConfig.java -text
+main/src/com/miloshpetrov/sol2/game/projectile/ProjectileConfigs.java -text
 main/src/com/miloshpetrov/sol2/game/screens/BorderDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/screens/BuyItems.java -text
 main/src/com/miloshpetrov/sol2/game/screens/ChangeShip.java -text

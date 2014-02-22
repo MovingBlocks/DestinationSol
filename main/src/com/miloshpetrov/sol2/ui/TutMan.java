@@ -133,7 +133,7 @@ public class TutMan {
   }
 
   private boolean itemsUse2(SolGame g) {
-    boolean slowGunSelected = g.getItemMan().gunConfigs.slowGun.example.isSame(g.getScreens().inventoryScreen.getSelected());
+    boolean slowGunSelected = g.getItemMan().getExample("sg").isSame(g.getScreens().inventoryScreen.getSelected());
     return slowGunSelected && g.getScreens().inventoryScreen.showInventory.eq2Ctrl.isJustOff();
   }
 
