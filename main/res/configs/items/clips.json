@@ -1,0 +1,16 @@
+{
+  b: {
+    iconName: bulletClip,
+    price: 30,
+    displayName: Bullets,
+    descSuf: bullets,
+    size: 60,
+  },
+  r: {
+    iconName: rocketClip,
+    price: 70,
+    displayName: Rockets,
+    descSuf: rockets,
+    size: 6,
+  },
+}

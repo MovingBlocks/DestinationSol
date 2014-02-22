@@ -1,6 +1,9 @@
 package com.miloshpetrov.sol2.game.gun;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
+import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfig;
@@ -66,30 +69,30 @@ public class GunConfig {
   }
 
   public static void load(TexMan texMan, ItemMan itemMan) {
-
-    // load here
-    ClipConfig bulletClipConf = ((ClipItem)itemMan.getExample("b")).getConfig();
-    ClipConfig rocketClipConf = ((ClipItem)itemMan.getExample("r")).getConfig();
-
-    ProjectileConfig weakBolterFac = itemMan.projConfigs.find("weakBolter");
-    GunConfig weakBolter = new GunConfig(1, 30, 6, 2, .8f, 2.5f, weakBolterFac, .12f, "bolter", "Weak Bolter", true, texMan, 15, "", 12, 2, null);
-
-    ProjectileConfig bolterFac = itemMan.projConfigs.find("bolter");
-    GunConfig bolter = new GunConfig(1, 30, 6, 2, .4f, 2.5f, bolterFac, .16f, "bolter", "Bolter", true, texMan, 30, "", 15, 3, null);
-
-    ProjectileConfig slowGunFac = itemMan.projConfigs.find("slowGun");
-    GunConfig slowGun = new GunConfig(1, 10, 6, 1, .2f, 1, slowGunFac, .24f, "slowGun", "Slow Gun", true, texMan, 50, "", 0, 2, bulletClipConf);
-
-    ProjectileConfig miniGunFac = itemMan.projConfigs.find("miniGun");
-    GunConfig miniGun = new GunConfig(1, 10, 6, 1, .1f, 1, miniGunFac, .24f, "miniGun", "Minigun", true, texMan, 150, "", 0, 2, bulletClipConf);
-
-    ProjectileConfig rocketFac = itemMan.projConfigs.find("rocket");
-    GunConfig rocketLauncher = new GunConfig(1, 30, 6, 3, .4f, 2.5f, rocketFac, .2f, "rocketLauncher", "Rocket Launcher", false, texMan, 200, "", 0, 10, rocketClipConf);
-
-    itemMan.registerItem("wbo", weakBolter.example);
-    itemMan.registerItem("bo", bolter.example);
-    itemMan.registerItem("sg", slowGun.example);
-    itemMan.registerItem("mg", miniGun.example);
-    itemMan.registerItem("rl", rocketLauncher.example);
+    JsonReader r = new JsonReader();
+    JsonValue parsed = r.parse(SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "guns.json"));
+    for (JsonValue sh : parsed) {
+      float minAngleVar = sh.getFloat("minAngleVar");
+      float maxAngleVar = sh.getFloat("maxAngleVar");
+      float angleVarDamp = sh.getFloat("angleVarDamp");
+      float angleVarPerShot = sh.getFloat("angleVarPerShot");
+      float timeBetweenShots = sh.getFloat("timeBetweenShots");
+      float maxReloadTime = sh.getFloat("maxReloadTime");
+      String projectileName = sh.getString("projectileName");
+      ProjectileConfig projConfig = itemMan.projConfigs.find(projectileName);
+      float gunLength = sh.getFloat("gunLength");
+      String texName = sh.getString("texName");
+      String displayName = sh.getString("displayName");
+      boolean lightOnShot = sh.getBoolean("lightOnShot");
+      int price = sh.getInt("price");
+      String descBase = sh.getString("descBase");
+      int infiniteClipSize = sh.getInt("infiniteClipSize");
+      float dmg = sh.getFloat("dmg");
+      String clipName = sh.getString("clipName");
+      ClipConfig clipConf = clipName.isEmpty() ? null : ((ClipItem)itemMan.getExample(clipName)).getConfig();
+      GunConfig c = new GunConfig(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots, maxReloadTime, projConfig,
+        gunLength, texName, displayName, lightOnShot, texMan, price, descBase, infiniteClipSize, dmg, clipConf);
+      itemMan.registerItem(sh.name, c.example);
+    }
   }
 }
