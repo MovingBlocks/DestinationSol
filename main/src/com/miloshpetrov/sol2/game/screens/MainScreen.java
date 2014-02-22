@@ -252,15 +252,15 @@ public class MainScreen implements SolUiScreen {
     uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, col0, y, 0, Col.W);
     int ics = g.config.infiniteClipSize;
     if (g.reloadAwait <= 0) {
-      int maxAmmo = ics == 0 ? g.config.factory.getAmmoPerClip() : ics;
+      int maxAmmo = ics == 0 ? g.config.clipConf.size : ics;
       float ammoPerc = g.ammo * 1f / maxAmmo;
       drawBar(uiDrawer, texMan, col1, y, ammoPerc);
     } else {
       drawWait(uiDrawer, col1, y);
     }
     if (ics == 0) {
-      int clipCount = hero.getItemContainer().count(g.config.factory.getClipExample());
-      String clipTexName = g.config.factory.getClipTexName();
+      int clipCount = hero.getItemContainer().count(g.config.clipConf.example);
+      String clipTexName = g.config.clipConf.iconName;
       drawIcons(uiDrawer, texMan, clipTexName, col2, y, clipCount);
     } else {
       uiDrawer.draw(myInfinityTex, ICON_SZ, ICON_SZ, 0, 0, col2, y, 0, Col.W);

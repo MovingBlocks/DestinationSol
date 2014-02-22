@@ -19,13 +19,16 @@ public class ItemMan {
   public ItemMan(TexMan texMan, SoundMan soundMan) {
     myM = new HashMap<String, SolItem>();
 
-    gunConfigs = new GunConfigs(texMan);
     armorConfigs = new Armor.Configs();
     Shield.Config.loadConfigs(this, soundMan);
     engineConfigs = new EngineItem.Configs();
 
     myM.put("e", engineConfigs.std.example);
     myM.put("eBig", engineConfigs.big.example);
+
+
+    ClipConfig.loadConfigs(this);
+    gunConfigs = new GunConfigs(texMan, this);
 
     myM.put("wbo", gunConfigs.weakBolter.example);
     myM.put("bo", gunConfigs.bolter.example);
@@ -37,8 +40,6 @@ public class ItemMan {
     myM.put("aBig", armorConfigs.big.example);
     myM.put("aMed", armorConfigs.med.example);
 
-    myM.put("b", BulletClip.EXAMPLE);
-    myM.put("r", RocketClip.EXAMPLE);
 
     myM.put("rep", RepairItem.EXAMPLE);
     myM.put("sloMo", SloMoCharge.EXAMPLE);
@@ -65,7 +66,7 @@ public class ItemMan {
       }
       for (int i = 0; i < amt; i++) {
         if (SolMath.test(chance)) {
-          SolItem example = myM.get(name);
+          SolItem example = getExample(name);
           if (example == null) {
             throw new AssertionError("unknown item " + name + "@" + parts[0] + "@" + rec + "@" + items);
           }
@@ -76,12 +77,16 @@ public class ItemMan {
     }
   }
 
+  public SolItem getExample(String name) {
+    return myM.get(name);
+  }
+
   public SolItem random() {
     return myL.get(SolMath.intRnd(myM.size())).copy();
   }
 
   public void registerItem(String itemCode, SolItem example) {
-    SolItem existing = myM.get(itemCode);
+    SolItem existing = getExample(itemCode);
     if (existing != null) {
       throw new AssertionError("2 item types registered for item code " + itemCode + ":\n" + existing + " and " + example);
     }

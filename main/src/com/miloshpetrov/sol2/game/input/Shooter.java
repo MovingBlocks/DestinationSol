@@ -35,10 +35,10 @@ public class Shooter {
     float projSpd = 0;
     boolean prefSecond = false;
     if (g1 != null) {
-      projSpd = g1.config.factory.getProjSpd();
+      projSpd = g1.config.projConfig.spdLen;
     }
     if (g2 != null) {
-      float g2PS = g2.config.factory.getProjSpd();
+      float g2PS = g2.config.projConfig.spdLen;
       if (projSpd < g2PS) {
         projSpd = g2PS;
         prefSecond = true;

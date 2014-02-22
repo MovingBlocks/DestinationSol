@@ -122,12 +122,12 @@ public class SolShip implements SolObj {
       return myItemContainer.count(RepairItem.EXAMPLE) >= TRADE_AFTER;
     }
     GunItem g1 = myHull.getGunMount(false).getGun();
-    if (g1 != null && g1.config.infiniteClipSize == 0 && g1.config.factory.getClipExample().isSame(i)) {
-      return myItemContainer.count(g1.config.factory.getClipExample()) >= TRADE_AFTER;
+    if (g1 != null && g1.config.infiniteClipSize == 0 && g1.config.clipConf.example.isSame(i)) {
+      return myItemContainer.count(g1.config.clipConf.example) >= TRADE_AFTER;
     }
     GunItem g2 = myHull.getGunMount(true).getGun();
-    if (g2 != null && g2.config.infiniteClipSize == 0 && g2.config.factory.getClipExample().isSame(i)) {
-      return myItemContainer.count(g2.config.factory.getClipExample()) >= TRADE_AFTER;
+    if (g2 != null && g2.config.infiniteClipSize == 0 && g2.config.clipConf.example.isSame(i)) {
+      return myItemContainer.count(g2.config.clipConf.example) >= TRADE_AFTER;
     }
     return true;
   }
