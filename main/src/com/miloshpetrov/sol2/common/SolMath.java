@@ -2,8 +2,10 @@ package com.miloshpetrov.sol2.common;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Pool;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -400,5 +402,26 @@ public class SolMath {
     if (b == 0) return c == 0 ? 0 : Float.NaN;
     float res = -c / b;
     return res < 0 ? Float.NaN : res;
+  }
+
+
+  public static Vector2 readV2(JsonValue v, String name) {
+    return doReadV2(v.getString(name));
+  }
+
+  private static Vector2 doReadV2(String encoded) {
+    String[] parts = encoded.split(" ");
+    float x = Float.parseFloat(parts[0]);
+    float y = Float.parseFloat(parts[1]);
+    return new Vector2(x, y);
+  }
+
+  public static ArrayList<Vector2> readV2List(JsonValue v, String name) {
+    ArrayList<Vector2> res = new ArrayList<Vector2>();
+    for (JsonValue vv : v.get(name)) {
+      Vector2 vec = doReadV2(vv.asString());
+      res.add(vec);
+    }
+    return res;
   }
 }

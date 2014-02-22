@@ -268,11 +268,13 @@ public class PlanetObjsBuilder {
   }
 
   private SolShip buildGroundBase(SolGame game, Planet planet, ArrayList<Float> takenAngles) {
-    return buildGroundShip(game, planet, game.getHullConfigs().drome, "bo", "", Fraction.LAANI, takenAngles);
+    HullConfig config = game.getHullConfigs().getConfig("drome");
+    return buildGroundShip(game, planet, config, "bo", "", Fraction.LAANI, takenAngles);
   }
 
   private SolShip buildGroundEnemy(SolGame game, Planet planet, ArrayList<Float> takenAngles) {
-    return buildGroundShip(game, planet, game.getHullConfigs().hummer, "e bo|sg|mg rep s|sMed:.1 b:.7:2 r:.7:1", null, Fraction.EHAR, takenAngles);
+    HullConfig config = game.getHullConfigs().getConfig("hummer");
+    return buildGroundShip(game, planet, config, "e bo|sg|mg rep s|sMed:.1 b:.7:2 r:.7:1", null, Fraction.EHAR, takenAngles);
   }
 
   public SolShip buildGroundShip(SolGame game, Planet planet, HullConfig hullConfig, String ic, String tc,
@@ -318,7 +320,7 @@ public class PlanetObjsBuilder {
     OrbiterDestProvider dp = new OrbiterDestProvider(planet, height, cw);
     Pilot provider = new AiPilot(dp, false, Fraction.EHAR, true, null, detectionDist);
 
-    HullConfig config = game.getHullConfigs().corvette;
+    HullConfig config = game.getHullConfigs().getConfig("corvette");
     return game.getShipBuilder().buildNew(game, pos, spd, 0, 0, provider, "e s:.2 a:.3 bo sloMo:.7:3 rep:.4", config, true, false,
       null, true, 40f, null);
    }

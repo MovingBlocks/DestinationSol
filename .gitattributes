@@ -166,6 +166,7 @@ main/res/configs/items/clips.json -text
 main/res/configs/items/guns.json -text
 main/res/configs/items/shields.json -text
 main/res/configs/projectiles.json -text
+main/res/configs/ships.json -text
 main/res/emitters/explInner.p -text
 main/res/emitters/explosion.p -text
 main/res/emitters/flame.p -text

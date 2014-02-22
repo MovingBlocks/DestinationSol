@@ -43,7 +43,7 @@ public class GalaxyFiller {
       SolMath.fromAl(stationPos, SolMath.rnd(180), stationDist);
       stationPos.add(sys.getPos());
 
-      HullConfig config = game.getHullConfigs().station;
+      HullConfig config = game.getHullConfigs().getConfig("station");
       float detectionDist = game.getCam().getSpaceViewDist();
       Pilot pilot = new AiPilot(new NoDestProvider(), true, Fraction.LAANI, true, "station", detectionDist);
 
@@ -102,7 +102,7 @@ public class GalaxyFiller {
     Fraction frac = target.getPilot().getFraction();
     boolean isLaani = frac == Fraction.LAANI;
     HullConfigs configs = game.getHullConfigs();
-    HullConfig config = isLaani ? configs.vanguard : configs.guardie;
+    HullConfig config = isLaani ? configs.getConfig("vanguard") : configs.getConfig("guardie");
     Guardian dp = new Guardian(game, isLaani ? 2f : 5f, target, config);
     float detectionDist = game.getCam().getSpaceViewDist() * 2;
     Pilot pilot = new AiPilot(dp, true, frac, false, null, detectionDist);
@@ -115,7 +115,7 @@ public class GalaxyFiller {
   private void createMerch(SolGame game) {
     Vector2 merchPos = getEmptySpace(game);
     if (merchPos == null) return;
-    HullConfig config = game.getHullConfigs().bus;
+    HullConfig config = game.getHullConfigs().getConfig("bus");
     MoveDestProvider dp = new ExplorerDestProvider(game, merchPos, false, 2f, config, 1.5f);
     float detectionDist = game.getCam().getSpaceViewDist();
     Pilot pilot = new AiPilot(dp, true, Fraction.LAANI, false, "merchant", detectionDist);
@@ -130,7 +130,7 @@ public class GalaxyFiller {
     if (pos == null) return;
 
     HullConfigs configs = game.getHullConfigs();
-    HullConfig config = isLaani ? configs.orbiter : configs.hunter;
+    HullConfig config = isLaani ? configs.getConfig("orbiter") : configs.getConfig("hunter");
     MoveDestProvider dp = new ExplorerDestProvider(game, pos, true, 4f, config, .75f);
     float detectionDist = game.getCam().getSpaceViewDist();
     Pilot pilot = new AiPilot(dp, true, isLaani ? Fraction.LAANI : Fraction.EHAR, false, isLaani ? null : "hunter", detectionDist * 2);
@@ -144,7 +144,7 @@ public class GalaxyFiller {
     Vector2 pos = getEmptySpace(game);
     if (pos == null) return;
 
-    HullConfig config = game.getHullConfigs().truck;
+    HullConfig config = game.getHullConfigs().getConfig("truck");
     MoveDestProvider dp = new ExplorerDestProvider(game, pos, false, 2f, config, .75f);
     float detectionDist = game.getCam().getSpaceViewDist();
     Pilot pilot = new AiPilot(dp, true, Fraction.EHAR, false, "enemy trader", detectionDist);
