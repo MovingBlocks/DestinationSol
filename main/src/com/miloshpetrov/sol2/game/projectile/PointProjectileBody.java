@@ -3,14 +3,15 @@ package com.miloshpetrov.sol2.game.projectile;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.miloshpetrov.sol2.common.SolMath;
-import com.miloshpetrov.sol2.game.*;
+import com.miloshpetrov.sol2.game.SolGame;
+import com.miloshpetrov.sol2.game.SolObj;
 
 public class PointProjectileBody implements ProjectileBody {
   private final Vector2 myPos;
   private final Vector2 mySpd;
   private final MyRayBack myRayBack;
 
-  public PointProjectileBody(float angle, Vector2 muzzlePos, Vector2 gunSpd, Fraction fraction, float spdLen,
+  public PointProjectileBody(float angle, Vector2 muzzlePos, Vector2 gunSpd, float spdLen,
     Bullet bullet) {
     myPos = new Vector2(muzzlePos);
     mySpd = new Vector2();

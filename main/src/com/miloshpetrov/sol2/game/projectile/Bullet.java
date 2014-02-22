@@ -25,7 +25,7 @@ public class Bullet implements Projectile {
   private final Fraction myFraction;
 
   public Bullet(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpd, Fraction fraction, float dmg,
-    TextureAtlas.AtlasRegion tex, float sz, float spdLen, boolean explode, boolean stretch)
+    TextureAtlas.AtlasRegion tex, float sz, float spdLen, boolean explode, boolean stretch, float physSize)
   {
     myDmg = dmg;
     myDras = new ArrayList<Dra>();
@@ -38,7 +38,11 @@ public class Bullet implements Projectile {
     myDras.add(dra);
     myRadius = spdLen * Const.REAL_TIME_STEP;
     myExplode = explode;
-    myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, fraction, spdLen, this);
+    if (physSize > 0) {
+      myBody = new BallProjectileBody(game, muzzlePos, angle, this, physSize, gunSpd, spdLen);
+    } else {
+      myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, spdLen, this);
+    }
     myFraction = fraction;
   }
 
