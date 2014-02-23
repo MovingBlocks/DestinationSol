@@ -21,8 +21,13 @@
     groundEnemies: [
       {
         hull: hummer,
-        items: "e bo|sg|mg rep s|sMed:.1 b:.7:2 r:.7:1",
+        items: "bo|sg|mg rep s|sMed:.1 b:.7:2 r:.7:1",
         density: 0.45,
+      },
+      {
+        hull: guardie,
+        items: "e bo|sg s:.1 b:.7:2",
+        density: 0.15,
       },
     ],
     orbitEnemies: [
