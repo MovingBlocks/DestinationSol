@@ -5,6 +5,10 @@ import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
 
 public class NoDestProvider implements MoveDestProvider {
+
+  public NoDestProvider() {
+  }
+
   @Override
   public Vector2 getDest() {
     return null;
@@ -31,6 +35,6 @@ public class NoDestProvider implements MoveDestProvider {
 
   @Override
   public Boolean shouldBattle(boolean canShoot) {
-    return null;
+    return true;
   }
 }

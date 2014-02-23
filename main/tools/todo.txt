@@ -1,13 +1,51 @@
 
-bullets fly thru
+SPACE LABYRINTHS:
+  labyrinths should be outside systems
+  labyrinths should have exterior space with deco & unique enemies
 
-bullets too narrow on phone
-get rid of generated white texture
-strange shard speeds
+PLANET LABYRINTHS:
+  there should be no gravity inside planet
+  cam should be fixed
+  unique enemies of station type
 
-far ship delayed pos calc?
-explorers should avoid tough enemies
-remember consumed angles on planet
+ASTEROID CLUSTERS:
+  should be instead of planets
+  should have unique enemies
+  asteroids should take damage, fall apart and burn in atmosphere
+
+FEATURES:
+  moar items
+  moar ships
+  moar planet types
+  hardness
+  slower planet rotation
+  enemy stations, woohoo!
+
+SOUND EVENTS:
+  todo list
+
+ARCHITECTURE:
+  rotate all ship images (and properly create on-ground enemies)
+  get rid of generated white texture
+  far ship positions should be calculated on demand?
+  arcSin -> arcToAngle(hordeLen, r) -> 180*hordeLen/(pi*r)
+  arcSin -> angularWidthOfSphere(r, dist) -> arcSin(r/dist)
+  arcSin -> angularWidthOfTangentSpan(spanLen, dist) -> arcTan(spanLen/dist)
+
+BUGS:
+  bullets fly thru ships sometimes -- blame shields... needs better understanding of Box2D categories
+  bullets are too narrow on phone -- use realLineWidth() as a minimum width
+  strange shard speeds
+  multiple enemies spawn in one point on planet
+  ships somehow get inside planet.
+
+UI:
+  new UI
+  "new" mark in the inventory
+
+???
+  remember consumed angles on planet
+
 
 ===================== REST =======================================================================
 
@@ -17,17 +55,13 @@ BG 3.0:
   use starChunkMan?
 
 BUGS
-  check if there are objects inside planet.
 
 ARCHITECTURE
-  arcSin -> arcToAngle(hordeLen, r) -> 180*hordeLen/(pi*r)
-  arcSin -> angularWidthOfSphere(r, dist) -> arcSin(r/dist)
-  arcSin -> angularWidthOfTangentSpan(spanLen, dist) -> arcTan(spanLen/dist)
+  ships & farShips & starPorts make mess in MapDrawer -- unify under one interface?
 
 FEATURES
-  asteroids should fall apart + in atm
-  "new" mark in the inventory
-  persistent ship amt ctrlr
+  respawn enemies?
+  explorers should avoid tough enemies
   ship traces reusable?
   save
   better ship smoke
@@ -46,11 +80,11 @@ CLEANNESS
   less or equal in ChunkMan
 
 DISPOSE
-+ BitmapFont
-- ParticleEffect
-+ Pixmap
-+ Shape
-+ SpriteBatch
-+ Texture
+  BitmapFont
+  ParticleEffect
+  Pixmap
+  Shape
+  SpriteBatch
+  Texture
   TextureAtlas
-+ World
+  World
