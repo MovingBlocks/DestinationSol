@@ -1,0 +1,25 @@
+{
+	a: {
+		displayName: "Light Armor",
+		price: 30,
+		perc: 0.1,
+		descBase: "Reduces all damage by %s%%",
+		sounds: "armor"		
+	},
+	
+	aMed: {
+		displayName: "Medium Armor",
+		price: 60,
+		perc: 0.2,
+		descBase: "Reduces all damage by %s%%",
+		sounds: "armor"		
+	},
+	
+	aBig: {
+		displayName: "Heavy Armor",
+		price: 100,
+		perc: 0.3,
+		descBase: "Reduces all damage by %s%%",
+		sounds: "armor"		
+	},
+}
