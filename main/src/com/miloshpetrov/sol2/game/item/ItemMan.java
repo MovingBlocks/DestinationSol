@@ -12,7 +12,6 @@ import java.util.HashMap;
 public class ItemMan {
   public static final String ITEM_CONFIGS_DIR = "res/configs/items/";
   private final HashMap<String,SolItem> myM;
-  public final Armor.Configs armorConfigs;
   public final EngineItem.Configs engineConfigs;
   private final ArrayList<SolItem> myL;
   public final ProjectileConfigs projConfigs;
@@ -22,6 +21,7 @@ public class ItemMan {
     projConfigs = new ProjectileConfigs(texMan);
 
     Shield.Config.loadConfigs(this, soundMan);
+    Armor.Config.loadConfigs(this, soundMan);
 
     engineConfigs = new EngineItem.Configs();
     myM.put("e", engineConfigs.std.example);
@@ -30,12 +30,6 @@ public class ItemMan {
 
     ClipConfig.load(this);
     GunConfig.load(texMan, this);
-
-    armorConfigs = new Armor.Configs();
-    myM.put("a", armorConfigs.std.example);
-    myM.put("aBig", armorConfigs.big.example);
-    myM.put("aMed", armorConfigs.med.example);
-
 
     myM.put("rep", RepairItem.EXAMPLE);
     myM.put("sloMo", SloMoCharge.EXAMPLE);
