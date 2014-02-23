@@ -1,5 +1,11 @@
 package com.miloshpetrov.sol2.game.item;
 
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
+import com.miloshpetrov.sol2.SolFiles;
+import com.miloshpetrov.sol2.game.sound.SolSounds;
+import com.miloshpetrov.sol2.game.sound.SoundMan;
+
 public class Armor implements SolItem {
   private final Config myConfig;
 
@@ -41,31 +47,38 @@ public class Armor implements SolItem {
     return myConfig.perc;
   }
 
-  public static class Configs {
-    public final Config std;
-    public final Config med;
-    public final Config big;
-
-    public Configs() {
-      std = new Config(.1f, "Light Armor", 30);
-      med = new Config(.2f, "Medium Armor", 60);
-      big = new Config(.3f, "Heavy Armor", 100);
-    }
-  }
-
   public static class Config {
     public final String displayName;
-    public final float price;
+    public final int price;
     public final float perc;
     public final String desc;
+    public final SolSounds sounds;
     public final Armor example;
 
-    private Config(float perc, String displayName, float price) {
+    private Config(String displayName, int price, float perc, String descBase, SolSounds sounds)
+    {
       this.displayName = displayName;
       this.price = price;
       this.perc = perc;
-      desc = "Reduces all damage by " + (int)(perc * 100) + "%";
-      example = new Armor(this);
+      this.desc = String.format(descBase, (int)(perc * 100));
+      this.sounds = sounds;
+      this.example = new Armor(this);
+    }
+
+    public static void loadConfigs(ItemMan itemMan, SoundMan soundMan)
+    {
+      JsonReader r = new JsonReader();
+      JsonValue parsed = r.parse(SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "armors.json"));
+      for (JsonValue sh : parsed) {
+        String displayName = sh.getString("displayName");
+        int price = sh.getInt("price");
+        float perc = sh.getFloat("perc");
+        String descBase = sh.getString("descBase");
+        String soundsDir = sh.getString("sounds");
+        SolSounds sounds = soundMan.getSounds(soundsDir);
+        Config config = new Config(displayName, price, perc, descBase, sounds);
+        itemMan.registerItem(sh.name(), config.example);
+      }
     }
   }
 }
