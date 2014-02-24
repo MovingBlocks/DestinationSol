@@ -163,6 +163,7 @@ main/libs/gdx.jar -text
 main/main.iml -text
 main/res/configs/items/armors.json -text
 main/res/configs/items/clips.json -text
+main/res/configs/items/engines.json -text
 main/res/configs/items/guns.json -text
 main/res/configs/items/shields.json -text
 main/res/configs/planets.json -text

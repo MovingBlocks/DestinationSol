@@ -1,0 +1,23 @@
+{
+	e: {
+		displayName: "Engine",
+		price: 10,
+		desc: "A standard engine",
+		rotAcc: 515.0,
+		acc: 2.0,
+		maxRotSpd: 230.0,
+		big: false,
+		sounds: "engine",
+	},
+	
+	eBig: {
+		displayName: "Big Engine",
+		price: 50,
+		desc: "Suitable for big ships only",
+		rotAcc: 100.0,
+		acc: 2.0,
+		maxRotSpd: 40.0,
+		big: true,
+		sounds: "engine",
+	},
+}
