@@ -123,7 +123,7 @@ public class SolCam {
     Vector2 v = SolMath.getVec();
     if (l != r) v.x = SolMath.toInt(r);
     if (d != u) v.y = SolMath.toInt(d);
-    v.mul(MOVE_SPD * game.getTimeStep());
+    v.scl(MOVE_SPD * game.getTimeStep());
     SolMath.rotate(v, myAngle);
     myPos.add(v);
     SolMath.free(v);
@@ -169,9 +169,9 @@ public class SolCam {
     Vector2 dl = SolMath.getVec(-wOver2, hOver2);
     SolMath.rotate(dl, myAngle);
     Vector2 ul = SolMath.getVec(dr);
-    ul.mul(-1);
+    ul.scl(-1);
     Vector2 ur = SolMath.getVec(dl);
-    ur.mul(-1);
+    ur.scl(-1);
     dr.add(myPos);
     dl.add(myPos);
     ul.add(myPos);

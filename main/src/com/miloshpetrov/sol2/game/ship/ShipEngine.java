@@ -54,9 +54,9 @@ public class ShipEngine {
     boolean spdOk = spd.len() < Const.MAX_MOVE_SPD || SolMath.angleDiff(SolMath.angle(spd), shipAngle) > 90;
     boolean working = provider.isUp() && spdOk;
 
-    EngineItem.Config e = myItem.config;
+    EngineItem e = myItem;
     if (working) {
-      Vector2 v = SolMath.fromAl(shipAngle, body.getMass() * e.acc);
+      Vector2 v = SolMath.fromAl(shipAngle, body.getMass() * e.getAac());
       body.applyForceToCenter(v, true);
       SolMath.free(v);
     }
@@ -64,10 +64,10 @@ public class ShipEngine {
     float desiredRotSpd = 0;
     boolean l = provider.isLeft();
     boolean r = provider.isRight();
-    if (-e.maxRotSpd < rotSpd && rotSpd < e.maxRotSpd && l != r) {
-      desiredRotSpd = SolMath.toInt(r) * e.maxRotSpd;
+    if (-e.getMaxRotSpd() < rotSpd && rotSpd < e.getMaxRotSpd() && l != r) {
+      desiredRotSpd = SolMath.toInt(r) * e.getMaxRotSpd();
     }
-    body.setAngularVelocity(SolMath.degRad * SolMath.approach(rotSpd, desiredRotSpd, e.rotAcc * cmp.getTimeStep()));
+    body.setAngularVelocity(SolMath.degRad * SolMath.approach(rotSpd, desiredRotSpd, e.getRotAcc() * cmp.getTimeStep()));
     return working;
   }
 

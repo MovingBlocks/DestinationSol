@@ -138,7 +138,7 @@ public class TutMan {
   }
 
   private boolean itemsUse(SolGame g) {
-    boolean engineSelected = g.getItemMan().engineConfigs.std.example.isSame(g.getScreens().inventoryScreen.getSelected());
+    boolean engineSelected = g.getItemMan().getExample("e").isSame(g.getScreens().inventoryScreen.getSelected());
     return engineSelected && g.getScreens().inventoryScreen.showInventory.eq1Ctrl.isJustOff();
   }
 
