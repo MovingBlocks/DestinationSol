@@ -142,7 +142,7 @@ public class SolShip implements SolObj {
 
   public float getAcc() {
     EngineItem e = myHull.getEngine();
-    return e == null ? 0 : e.config.acc;
+    return e == null ? 0 : e.getAac();
   }
 
   @Override
@@ -326,7 +326,7 @@ public class SolShip implements SolObj {
 
   public float getRotAcc() {
     EngineItem e = myHull.getEngine();
-    return e == null ? 0 : e.config.rotAcc;
+    return e == null ? 0 : e.getRotAcc();
   }
 
   public ShipHull getHull() {
@@ -337,7 +337,7 @@ public class SolShip implements SolObj {
     float angle = myHull.getAngle();
     EngineItem e = myHull.getEngine();
     float ad = SolMath.angleDiff(angle, destAngle);
-    return ad/e.config.maxRotSpd;
+    return ad/e.getMaxRotSpd();
   }
 
   public boolean maybeEquip(SolGame game, SolItem item, boolean equip) {
@@ -348,7 +348,7 @@ public class SolShip implements SolObj {
     if (!secondarySlot) {
       if (item instanceof EngineItem) {
         EngineItem ei = (EngineItem) item;
-        boolean ok = ei.config.big == (myHull.config.type == HullConfig.Type.BIG);
+        boolean ok = ei.getBig() == (myHull.config.type == HullConfig.Type.BIG);
         if (ok && equip) myHull.setEngine(game, this, ei);
         return ok;
       }
