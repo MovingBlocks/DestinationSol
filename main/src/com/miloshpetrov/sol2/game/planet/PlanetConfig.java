@@ -1,7 +1,8 @@
 package com.miloshpetrov.sol2.game.planet;
 
+import com.miloshpetrov.sol2.TexMan;
+
 import java.util.List;
-import java.util.Map;
 
 public class PlanetConfig {
   public final String name;
@@ -10,10 +11,11 @@ public class PlanetConfig {
   public final List<DecoConfig> deco;
   public final List<PlanetEnemyConfig> groundEnemies;
   public final List<PlanetEnemyConfig> orbitEnemies;
-  public final Map<SurfDir, Map<SurfDir, List<Tile>>> groundTiles;
+  public final PlanetTiles planetTiles;
 
-  public PlanetConfig(String name, float minGrav, float maxGrav, List<DecoConfig> deco, List<PlanetEnemyConfig> groundEnemies,
-    List<PlanetEnemyConfig> orbitEnemies, Map<SurfDir, Map<SurfDir, List<Tile>>> groundTiles)
+  public PlanetConfig(String name, float minGrav, float maxGrav, List<DecoConfig> deco,
+    List<PlanetEnemyConfig> groundEnemies,
+    List<PlanetEnemyConfig> orbitEnemies, TexMan texMan)
   {
     this.name = name;
     this.minGrav = minGrav;
@@ -21,6 +23,6 @@ public class PlanetConfig {
     this.deco = deco;
     this.groundEnemies = groundEnemies;
     this.orbitEnemies = orbitEnemies;
-    this.groundTiles = groundTiles;
+    planetTiles = new PlanetTiles(texMan, name);
   }
 }

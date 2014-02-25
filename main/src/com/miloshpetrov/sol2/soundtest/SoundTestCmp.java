@@ -8,9 +8,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.miloshpetrov.sol2.Const;
-import com.miloshpetrov.sol2.SolFiles;
+import com.miloshpetrov.sol2.*;
+import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.game.planet.*;
 import com.miloshpetrov.sol2.ui.DebugCollector;
 import com.miloshpetrov.sol2.ui.UiDrawer;
 
@@ -26,6 +27,7 @@ class SoundTestCmp {
   private final Color myColor;
   private final Map<String, List<SolSample>> mySamples;
   private final List<SolSample> myCurrSamples;
+  private final Tile[][] myTileMap;
 
   private float myAccum;
   private long myLastPlayTime;
@@ -58,6 +60,10 @@ class SoundTestCmp {
       SolSample smp = new SolSample(cat, idx, Gdx.audio.newSound(fh));
       catSamples.add(smp);
     }
+
+    TexMan texMan = new TexMan();
+    PlanetConfig pc = new PlanetConfig("rocky", 0, 0, null, null, null, texMan);
+    myTileMap = new GroundBuilder(pc, 40, 20).build();
   }
 
   public void render() {
@@ -72,9 +78,41 @@ class SoundTestCmp {
   private void draw() {
     Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
     myUiDrawer.begin();
-    myUiDrawer.drawCircle(myPos, .05f, myColor);
+//    myUiDrawer.drawCircle(myPos, .05f, myColor);
+    drawTileMap();
     DebugCollector.draw(myUiDrawer);
     myUiDrawer.end();
+  }
+
+  private void drawTileMap() {
+    float sz = .03f;
+    for (int col = 0; col < myTileMap.length; col++) {
+      Tile[] rows = myTileMap[col];
+      for (int row = 0; row < rows.length; row++) {
+        Tile t = rows[row];
+        if (t == null) continue;
+        drawDebugTile(t, sz, col, row);
+      }
+    }
+  }
+
+  private void drawDebugTile(Tile t, float sz, int col, int row) {
+    float x = (col + 1) * sz;
+    float y = (row + 1) * sz;
+//        myUiDrawer.draw(t.reg, sz*2, sz*2, 0, 0, x, y, 0, Col.W);
+    float szh = sz / 2;
+    if (t.from == SurfDir.FWD || t.from == SurfDir.UP) {
+      if (t.from == SurfDir.UP) drawQuarterTile(szh, x-szh, y-szh);
+      drawQuarterTile(szh, x-szh, y);
+    }
+    if (t.to == SurfDir.FWD || t.to == SurfDir.UP) {
+      if (t.to == SurfDir.UP) drawQuarterTile(szh, x, y-szh);
+      drawQuarterTile(szh, x, y);
+    }
+  }
+
+  private void drawQuarterTile(float szh, float x, float v) {
+    myUiDrawer.draw(myUiDrawer.whiteTex, szh, szh, 0, 0, x, v, 0, Col.W50);
   }
 
   private void update() {
@@ -100,7 +138,7 @@ class SoundTestCmp {
     myCurrSamples.clear();
     for (List<SolSample> catSamples : mySamples.values()) {
       SolSample sample = SolMath.elemRnd(catSamples);
-      sample.s.play();
+//      sample.s.play();
       myCurrSamples.add(sample);
     }
     Collections.sort(myCurrSamples);

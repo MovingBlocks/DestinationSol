@@ -3,17 +3,15 @@ SPACE LABYRINTHS:
   labyrinths should be outside systems
   labyrinths should have exterior space with deco & unique enemies
 
-PLANET LABYRINTHS:
-  there should be no gravity inside planet
-  cam should be fixed
-  unique enemies of station type
-
 ASTEROID CLUSTERS:
   should be instead of planets
   should have unique enemies
   asteroids should take damage, fall apart and burn in atmosphere
 
 FEATURES:
+  stars
+  brakes
+  hummers as stations
   moar items
   moar ships
   moar planet types
@@ -60,6 +58,7 @@ ARCHITECTURE
   ships & farShips & starPorts make mess in MapDrawer -- unify under one interface?
 
 FEATURES
+  planet labyrinths?
   respawn enemies?
   explorers should avoid tough enemies
   ship traces reusable?
