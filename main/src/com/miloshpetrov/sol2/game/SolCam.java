@@ -231,4 +231,8 @@ public class SolCam {
     if (hHalf < SolMath.abs(rp.y)) return false;
     return true;
   }
+
+  public float getDebugFontSize() {
+    return .04f * getRealZoom();
+  }
 }

@@ -3,7 +3,7 @@ package com.miloshpetrov.sol2.game.planet;
 import com.miloshpetrov.sol2.common.SolMath;
 
 public class GroundBuilder {
-  private static final float PURE_GROUND_PERC = .5f;
+  private static final float PURE_GROUND_PERC = .333f;
 
   private final PlanetConfig myConfig;
   private final int myCols;

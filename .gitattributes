@@ -228,6 +228,7 @@ main/src/com/miloshpetrov/sol2/common/Col.java -text
 main/src/com/miloshpetrov/sol2/common/Consumed.java -text
 main/src/com/miloshpetrov/sol2/common/DebugCol.java -text
 main/src/com/miloshpetrov/sol2/common/Norm.java -text
+main/src/com/miloshpetrov/sol2/common/Nullable.java -text
 main/src/com/miloshpetrov/sol2/common/SolMath.java -text
 main/src/com/miloshpetrov/sol2/game/CamRotStrategy.java -text
 main/src/com/miloshpetrov/sol2/game/DebugAspects.java -text
@@ -351,6 +352,8 @@ main/src/com/miloshpetrov/sol2/game/ship/ShipEngine.java -text
 main/src/com/miloshpetrov/sol2/game/ship/ShipHull.java -text
 main/src/com/miloshpetrov/sol2/game/ship/ShipRepairer.java -text
 main/src/com/miloshpetrov/sol2/game/ship/SolShip.java -text
+main/src/com/miloshpetrov/sol2/game/sound/DebugHint.java -text
+main/src/com/miloshpetrov/sol2/game/sound/DebugHintDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/sound/SolSounds.java -text
 main/src/com/miloshpetrov/sol2/game/sound/SoundMan.java -text
 main/src/com/miloshpetrov/sol2/menu/HalpScreen.java -text

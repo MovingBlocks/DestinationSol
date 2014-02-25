@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.game.item;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
@@ -88,7 +89,8 @@ public class EngineItem implements SolItem {
 
     public static void loadConfigs(ItemMan itemMan, SoundMan soundMan) {
       JsonReader r = new JsonReader();
-      JsonValue parsed = r.parse(SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "engines.json"));
+      FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "engines.json");
+      JsonValue parsed = r.parse(configFile);
       for (JsonValue sh : parsed) {
         String displayName = sh.getString("displayName");
         int price = sh.getInt("price");
@@ -98,7 +100,7 @@ public class EngineItem implements SolItem {
         float maxRotSpd = sh.getFloat("maxRotSpd");
         boolean big = sh.getBoolean("big");
         String soundsDir = sh.getString("sounds");
-        SolSounds sounds = soundMan.getSounds(soundsDir);
+        SolSounds sounds = soundMan.getSounds(soundsDir, configFile);
         Config config = new Config(displayName, price, desc, rotAcc, acc, maxRotSpd, big, sounds);
         itemMan.registerItem(sh.name(), config.example);
       }

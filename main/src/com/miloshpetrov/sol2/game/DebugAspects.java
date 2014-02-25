@@ -20,5 +20,7 @@ public class DebugAspects {
   public static final boolean DETAILED_MAP = false;
   public static final boolean MOBILE = false;
   public static final boolean GOD_MODE = true;
-  public static final boolean NO_SOUND = true;
+  public static final boolean NO_SOUND = false;
+  public static final boolean DRAW_SOUND = true;
+  public static final boolean SOUND_IN_SPACE = true;
 }
