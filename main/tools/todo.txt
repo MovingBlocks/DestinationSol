@@ -9,6 +9,7 @@ ASTEROID CLUSTERS:
   asteroids should take damage, fall apart and burn in atmosphere
 
 FEATURES:
+  smooth camera rotation + sometimes camera does 360 when leaving a planet
   stars
   brakes
   hummers as stations
@@ -23,6 +24,7 @@ SOUND EVENTS:
   todo list
 
 ARCHITECTURE:
+  read debug aspects from a file, move REPO_PATH into DebugAspects
   rotate all ship images (and properly create on-ground enemies)
   get rid of generated white texture
   far ship positions should be calculated on demand?
@@ -31,6 +33,7 @@ ARCHITECTURE:
   arcSin -> angularWidthOfTangentSpan(spanLen, dist) -> arcTan(spanLen/dist)
 
 BUGS:
+  planet tiles and stations movement method creates glitches
   bullets fly thru ships sometimes -- blame shields... needs better understanding of Box2D categories
   bullets are too narrow on phone -- use realLineWidth() as a minimum width
   strange shard speeds

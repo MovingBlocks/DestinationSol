@@ -163,8 +163,7 @@ public class ObjMan {
   }
 
   private void drawDebugStrings(Drawer drawer, SolGame game) {
-    float camZoom = game.getCam().getRealZoom();
-    float fontSize = .06f * camZoom;
+    float fontSize = game.getCam().getDebugFontSize();
     for (SolObj o : myObjs) {
       Vector2 pos = o.getPos();
       String ds = o.toDebugString();

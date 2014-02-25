@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.game.item;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
@@ -7,6 +8,7 @@ import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.ship.ShipHull;
+import com.miloshpetrov.sol2.game.ship.SolShip;
 import com.miloshpetrov.sol2.game.sound.SolSounds;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 
@@ -71,11 +73,12 @@ public class Shield implements SolItem {
     return myConfig.maxLife;
   }
 
-  public float absorb(SolGame game, float dmg, Vector2 pos, ShipHull hull) {
+  public float absorb(SolGame game, float dmg, Vector2 pos, SolShip ship) {
     if (dmg <= 0) return 0;
-    game.getSoundMan().play(game, myConfig.sounds, pos);
+    game.getSoundMan().play(game, myConfig.sounds, pos, ship);
     myIdleTime = 0f;
     if (myLife > 0) {
+      ShipHull hull = ship.getHull();
       game.getPartMan().shieldSpark(game, pos, hull);
     }
     if (myLife >= dmg) {
@@ -109,14 +112,15 @@ public class Shield implements SolItem {
 
     public static void loadConfigs(ItemMan itemMan, SoundMan soundMan) {
       JsonReader r = new JsonReader();
-      JsonValue parsed = r.parse(SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "shields.json"));
+      FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "shields.json");
+      JsonValue parsed = r.parse(configFile);
       for (JsonValue sh : parsed) {
         int maxLife = sh.getInt("maxLife");
         String displayName = sh.getString("displayName");
         int price = sh.getInt("price");
         String desc = sh.getString("desc");
         String soundsDir = sh.getString("sounds");
-        SolSounds sounds = soundMan.getSounds(soundsDir);
+        SolSounds sounds = soundMan.getSounds(soundsDir, configFile);
         Config config = new Config(maxLife, displayName, price, desc, sounds);
         itemMan.registerItem(sh.name(), config.example);
       }

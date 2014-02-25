@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.game.item;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
@@ -68,14 +69,15 @@ public class Armor implements SolItem {
     public static void loadConfigs(ItemMan itemMan, SoundMan soundMan)
     {
       JsonReader r = new JsonReader();
-      JsonValue parsed = r.parse(SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "armors.json"));
+      FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "armors.json");
+      JsonValue parsed = r.parse(configFile);
       for (JsonValue sh : parsed) {
         String displayName = sh.getString("displayName");
         int price = sh.getInt("price");
         float perc = sh.getFloat("perc");
         String descBase = sh.getString("descBase");
         String soundsDir = sh.getString("sounds");
-        SolSounds sounds = soundMan.getSounds(soundsDir);
+        SolSounds sounds = soundMan.getSounds(soundsDir, configFile);
         Config config = new Config(displayName, price, perc, descBase, sounds);
         itemMan.registerItem(sh.name(), config.example);
       }

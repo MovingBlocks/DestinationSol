@@ -277,7 +277,7 @@ public class SolShip implements SolObj {
   @Override
   public void receiveDmg(float dmg, SolGame game, Vector2 pos) {
     if (pos != null && myShield != null) {
-      dmg = myShield.absorb(game, dmg, pos, myHull);
+      dmg = myShield.absorb(game, dmg, pos, this);
     }
     if (myArmor != null) dmg *= (1 - myArmor.getPerc());
 

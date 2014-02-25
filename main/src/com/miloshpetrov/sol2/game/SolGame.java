@@ -157,6 +157,7 @@ public class SolGame {
     myDraMan.update(this);
     myTradeMan.update(this);
     myMapDrawer.update(this);
+    mySoundMan.update(this);
 
     myHero = null;
     myTranscendentHero = null;
