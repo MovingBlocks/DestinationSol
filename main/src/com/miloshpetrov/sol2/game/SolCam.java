@@ -103,8 +103,8 @@ public class SolCam {
       myCam.zoom = mapDrawer.getZoom();
       return;
     }
-    if (DebugAspects.ZOOM != 0) {
-      myCam.zoom = DebugAspects.ZOOM;
+    if (DebugAspects.ZOOM_OVERRIDE != 0) {
+      myCam.zoom = DebugAspects.ZOOM_OVERRIDE;
       return;
     }
     myCam.zoom = myZoom;

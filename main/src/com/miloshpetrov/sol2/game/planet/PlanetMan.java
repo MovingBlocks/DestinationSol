@@ -87,7 +87,7 @@ public class PlanetMan {
   }
 
   public void drawDebug(Drawer drawer, SolGame game) {
-    if (DebugAspects.PLANETS) {
+    if (DebugAspects.PLANET_BORDERS) {
       float lineWidth = game.getCam().getRealLineWidth();
       for (Planet p : myPlanets) {
         Vector2 pos = p.getPos();

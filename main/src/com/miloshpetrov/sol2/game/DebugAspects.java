@@ -1,26 +1,41 @@
 package com.miloshpetrov.sol2.game;
 
 import com.badlogic.gdx.math.Vector2;
+import com.miloshpetrov.sol2.menu.IniReader;
 
 public class DebugAspects {
-
-  public static final float ZOOM = 0;
-  public static final boolean OBJECTS = false;
-  public static final boolean DRAS = false;
-  public static final boolean BOX2D = false;
-  public static final boolean PLANETS = false;
-  public static final boolean VALS = true;
-  public static final boolean WARNINGS = true;
-  public static final float GRID_SZ = 0;
-  public static final boolean TO_STRING = false;
-  public static final boolean NO_OBJS = false;
   public static final Vector2 DEBUG_POINT = new Vector2();
-  public static final float DEBUG_SLOWDOWN = 1f;
-  public static final boolean DIRECT_CAM_CONTROL = false;
-  public static final boolean DETAILED_MAP = false;
-  public static final boolean MOBILE = false;
-  public static final boolean GOD_MODE = true;
-  public static final boolean NO_SOUND = false;
-  public static final boolean DRAW_SOUND = true;
-  public static final boolean SOUND_IN_SPACE = true;
+
+  public static float ZOOM_OVERRIDE = 0;
+  public static boolean OBJECT_BORDERS = false;
+  public static boolean DRA_BORDERS = false;
+  public static boolean PHYSIC_BODIES = false;
+  public static boolean PLANET_BORDERS = false;
+  public static boolean STATS = false;
+  public static boolean WARNINGS = false;
+  public static float GRID_SZ = 0;
+  public static boolean TO_STRING = false;
+  public static boolean NO_OBJS = false;
+  public static float DEBUG_SLOWDOWN = 1f;
+  public static boolean DIRECT_CAM_CONTROL = false;
+  public static boolean DETAILED_MAP = false;
+  public static boolean MOBILE = false;
+  public static boolean GOD_MODE = false;
+  public static boolean NO_SOUND = false;
+  public static boolean SOUND_DEBUG = false;
+  public static boolean SOUND_IN_SPACE = false;
+  public static String REPO_PATH;
+
+  public static void read() {
+    IniReader r = new IniReader("debugOptions.ini");
+    ZOOM_OVERRIDE = r.f("zoomOverride", ZOOM_OVERRIDE);
+    STATS = r.b("stats", STATS);
+    WARNINGS = r.b("warnings", WARNINGS);
+    GOD_MODE = r.b("godMode", GOD_MODE);
+    NO_SOUND = r.b("noSound", NO_SOUND);
+    SOUND_DEBUG = r.b("soundDebug", SOUND_DEBUG);
+    SOUND_IN_SPACE = r.b("soundInSpace", SOUND_IN_SPACE);
+    REPO_PATH = r.s("repoPath", REPO_PATH);
+    // and so on
+  }
 }
