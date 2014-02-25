@@ -148,14 +148,14 @@ public class ObjMan {
   }
 
   public void drawDebug(Drawer drawer, SolGame game) {
-    if (DebugAspects.OBJECTS) {
+    if (DebugAspects.OBJECT_BORDERS) {
       drawDebug0(drawer, game);
     }
     if (DebugAspects.TO_STRING) {
       drawDebugStrings(drawer, game);
     }
 
-    if (DebugAspects.BOX2D) {
+    if (DebugAspects.PHYSIC_BODIES) {
       drawer.end();
       myDr.render(myWorld, game.getCam().getMtx());
       drawer.begin(game);

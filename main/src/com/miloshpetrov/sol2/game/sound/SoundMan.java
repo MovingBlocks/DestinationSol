@@ -67,7 +67,7 @@ public class SoundMan {
     }
     if (vol <= 0) return;
 
-    if (DebugAspects.DRAW_SOUND) {
+    if (DebugAspects.SOUND_DEBUG) {
       myHintDrawer.add(debugSource, pos, sounds.getDebugString());
     }
     if (sounds.sounds.isEmpty()) return;
@@ -76,11 +76,11 @@ public class SoundMan {
   }
 
   public void drawDebug(Drawer drawer, SolGame game) {
-    if (DebugAspects.DRAW_SOUND) myHintDrawer.draw(drawer, game);
+    if (DebugAspects.SOUND_DEBUG) myHintDrawer.draw(drawer, game);
   }
 
   public void update(SolGame game) {
-    if (DebugAspects.DRAW_SOUND) myHintDrawer.update(game);
+    if (DebugAspects.SOUND_DEBUG) myHintDrawer.update(game);
   }
 
 }

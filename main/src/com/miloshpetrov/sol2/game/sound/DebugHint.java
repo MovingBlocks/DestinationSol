@@ -1,14 +1,15 @@
 package com.miloshpetrov.sol2.game.sound;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.game.*;
 
 import java.util.*;
 
 public class DebugHint {
   private static final long MAX_AWAIT = 3000;
+  public static final Color COL = new Color(0, .7f, .7f, 1);
   private final Vector2 myPos;
   private final Map<String, Long> myMsgs;
 
@@ -63,6 +64,6 @@ public class DebugHint {
 
   public void draw(Drawer drawer, SolGame game) {
     float fontSz = game.getCam().getDebugFontSize();
-    drawer.drawString(myMsg, myPos.x, myPos.y, fontSz, false, Col.W);
+    drawer.drawString(myMsg, myPos.x, myPos.y, fontSz, false, COL);
   }
 }

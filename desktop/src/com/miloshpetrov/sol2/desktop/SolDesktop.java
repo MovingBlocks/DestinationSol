@@ -4,9 +4,8 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.miloshpetrov.sol2.SolAppListener;
-import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.game.DebugAspects;
-import com.miloshpetrov.sol2.menu.SettingsReader;
+import com.miloshpetrov.sol2.menu.GameOptions;
 import com.miloshpetrov.sol2.soundtest.SoundTestListener;
 
 public class SolDesktop {
@@ -16,18 +15,18 @@ public class SolDesktop {
       return;
     }
 
-    SettingsReader.Data d = SettingsReader.read();
-    SolFiles.REPO_PATH = d.repoPath;
+    DebugAspects.read();
+    GameOptions d = new GameOptions();
 
     LwjglApplicationConfiguration c = new LwjglApplicationConfiguration();
     c.width = d.x;
     c.height = d.y;
-    c.fullscreen = d.fs;
+    c.fullscreen = d.fullscreen;
     c.title = "Sol";
-    if (SolFiles.REPO_PATH == null) {
+    if (DebugAspects.REPO_PATH == null) {
       c.addIcon("res/icon.png", Files.FileType.Internal);
     } else {
-      c.addIcon(SolFiles.REPO_PATH + "/main/res/icon.png", Files.FileType.Absolute);
+      c.addIcon(DebugAspects.REPO_PATH + "/main/res/icon.png", Files.FileType.Absolute);
     }
 
     if (DebugAspects.MOBILE) {

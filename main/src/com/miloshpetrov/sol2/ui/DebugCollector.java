@@ -20,7 +20,7 @@ public class DebugCollector {
   }
 
   public static void debug(Object ... objs) {
-    if (!DebugAspects.VALS) return;
+    if (!DebugAspects.STATS) return;
     for (Object o : objs) {
       myDebugStrings.append(String.valueOf(o)).append(" ");
     }

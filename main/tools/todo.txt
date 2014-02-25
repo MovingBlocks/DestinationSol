@@ -24,7 +24,6 @@ SOUND EVENTS:
   todo list
 
 ARCHITECTURE:
-  read debug aspects from a file, move REPO_PATH into DebugAspects
   rotate all ship images (and properly create on-ground enemies)
   get rid of generated white texture
   far ship positions should be calculated on demand?

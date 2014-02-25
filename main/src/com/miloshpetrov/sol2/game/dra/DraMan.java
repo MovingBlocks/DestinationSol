@@ -110,7 +110,7 @@ public class DraMan {
       }
     }
 
-    if (DebugAspects.DRAS) {
+    if (DebugAspects.DRA_BORDERS) {
       for (Map<Texture, List<Dra>> map : myDras.values()) {
         for (List<Dra> dras : map.values()) {
           for (Dra dra : dras) {
@@ -136,7 +136,7 @@ public class DraMan {
   }
 
   public void update(SolGame game) {
-    if (DebugAspects.VALS) {
+    if (DebugAspects.STATS) {
       int count = 0;
       for (Map<Texture, List<Dra>> map : myDras.values()) {
         for (List<Dra> dras : map.values()) {

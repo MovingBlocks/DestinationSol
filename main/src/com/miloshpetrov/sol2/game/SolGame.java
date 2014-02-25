@@ -190,7 +190,7 @@ public class SolGame {
     if (DebugAspects.GRID_SZ > 0) myGridDrawer.draw(drawer, this, DebugAspects.GRID_SZ);
     myPlanetMan.drawDebug(drawer, this);
     myObjMan.drawDebug(drawer, this);
-    if (DebugAspects.ZOOM != 0) myCam.drawDebug(drawer);
+    if (DebugAspects.ZOOM_OVERRIDE != 0) myCam.drawDebug(drawer);
     Vector2 dp = DebugAspects.DEBUG_POINT;
     if (dp.x != 0 || dp.y != 0) {
       float sz = myCam.getRealLineWidth() * 5;

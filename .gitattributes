@@ -24,6 +24,7 @@ desktop/src/META-INF/MANIFEST.MF -text
 desktop/src/com/miloshpetrov/sol2/desktop/SolDesktop.java -text
 desktop/tools/l4jcfg.xml -text
 desktop/tools/sol.ico -text
+main/debugOptions.ini -text
 main/imgSrcs/asteroids/0.png -text
 main/imgSrcs/asteroids/1.png -text
 main/imgSrcs/asteroids/Thumbs.db -text
@@ -356,13 +357,14 @@ main/src/com/miloshpetrov/sol2/game/sound/DebugHint.java -text
 main/src/com/miloshpetrov/sol2/game/sound/DebugHintDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/sound/SolSounds.java -text
 main/src/com/miloshpetrov/sol2/game/sound/SoundMan.java -text
+main/src/com/miloshpetrov/sol2/menu/GameOptions.java -text
 main/src/com/miloshpetrov/sol2/menu/HalpScreen.java -text
+main/src/com/miloshpetrov/sol2/menu/IniReader.java -text
 main/src/com/miloshpetrov/sol2/menu/MainScreen.java -text
 main/src/com/miloshpetrov/sol2/menu/MenuLayout.java -text
 main/src/com/miloshpetrov/sol2/menu/MenuScreens.java -text
 main/src/com/miloshpetrov/sol2/menu/OptionsScreen.java -text
 main/src/com/miloshpetrov/sol2/menu/ResoScreen.java -text
-main/src/com/miloshpetrov/sol2/menu/SettingsReader.java -text
 main/src/com/miloshpetrov/sol2/save/SaveData.java -text
 main/src/com/miloshpetrov/sol2/save/SaveMan.java -text
 main/src/com/miloshpetrov/sol2/soundtest/SoundTestCmp.java -text
