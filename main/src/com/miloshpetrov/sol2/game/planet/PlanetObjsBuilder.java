@@ -17,7 +17,6 @@ import java.util.*;
 
 public class PlanetObjsBuilder {
   private static final int ROWS = 6;
-  private static final float PURE_GROUND_PERC = .333f;
   private static final float TOP_TILE_SZ = 2f;
 
   private static final float MAX_CLOUD_PIECE_SZ = 1.5f;
@@ -88,17 +87,14 @@ public class PlanetObjsBuilder {
     }
     float minR = radii[ROWS - 1] - tileSizes[ROWS - 1] / 2;
 
-    // fill slots
-    Tile[][] slots = new Tile[cols][ROWS];
-    fillSlots(planet.getConfig(), slots, cols);
-
+    Tile[][] tileMap = new GroundBuilder(planet.getConfig(), cols, ROWS).build();
 
     // create ground
     for (int row = 0; row < ROWS; row++) {
       float tileDist = radii[row];
       float tileSize = tileSizes[row];
       for (int col = 0; col < cols; col++) {
-        Tile tile = slots[col][row];
+        Tile tile = tileMap[col][row];
         if (tile == null) continue;
         float toPlanetRelAngle = 360f * col / cols;
         TileObj to = new TileObjBuilder().build(game, tileSize, toPlanetRelAngle, tileDist, tile, planet);
@@ -107,53 +103,6 @@ public class PlanetObjsBuilder {
     }
 
     return minR;
-  }
-
-  private void fillSlots(PlanetConfig planetConfig, Tile[][] slots, int cols) {
-    float[] ds0 = new float[cols];
-    float desiredMin = 0;
-    float desiredMax = (1 - PURE_GROUND_PERC) * ROWS;
-
-    for (int x = 0; x < cols; x++) {
-      ds0[x] = SolMath.rnd(desiredMin, desiredMax);
-    }
-    float[] ds = new float[cols];
-    float min = Float.MAX_VALUE;
-    float max = Float.MIN_VALUE;
-    for (int x = 0; x < cols; x++) {
-      float prev = x == 0 ? ds0[cols - 1] : ds0[x - 1];
-      float next = x == cols - 1 ? ds0[0] : ds0[x + 1];
-      ds[x] = .5f * .5f * (prev + next) + .5f * ds0[x];
-      if (ds[x] < min) min = ds[x];
-      if (max < ds[x]) max = ds[x];
-    }
-    float shift = min - desiredMin;
-    float mul = (desiredMax - desiredMin) / (max - min);
-    for (int x = 0; x < cols; x++) {
-      ds[x] = mul * (ds[x] - shift);
-    }
-
-    int nextD = (int) ds[0];
-    for (int col = 0; col < cols; col++) {
-      int prevD = nextD;
-      nextD = col == cols - 1 ? (int) ds[0] : (int) ds[col];
-      for (int row = 0; row < ROWS; row++) {
-        SurfDir from = SurfDir.FWD;
-        SurfDir to = SurfDir.FWD;
-        if (row < prevD) {
-          from = SurfDir.DOWN;
-        } else if (row > prevD) {
-          from = SurfDir.UP;
-        }
-        if (row < nextD) {
-          to = SurfDir.DOWN;
-        } else if (row > nextD) {
-          to = SurfDir.UP;
-        }
-        if (from == SurfDir.DOWN && to == SurfDir.DOWN) continue;
-        slots[col][row] = planetConfig.groundTiles.get(from).get(to).get(SolMath.test(.5f) ? 0 : 1);
-      }
-    }
   }
 
   private void createClouds(SolGame game, Planet planet) {

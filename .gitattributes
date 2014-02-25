@@ -303,6 +303,7 @@ main/src/com/miloshpetrov/sol2/game/planet/DecoConfig.java -text
 main/src/com/miloshpetrov/sol2/game/planet/FarPlanetSprites.java -text
 main/src/com/miloshpetrov/sol2/game/planet/FarSky.java -text
 main/src/com/miloshpetrov/sol2/game/planet/FarTileObj.java -text
+main/src/com/miloshpetrov/sol2/game/planet/GroundBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/planet/LandingPlaceFinder.java -text
 main/src/com/miloshpetrov/sol2/game/planet/Planet.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetBind.java -text
@@ -312,6 +313,7 @@ main/src/com/miloshpetrov/sol2/game/planet/PlanetEnemyConfig.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetMan.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetObjsBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetSprites.java -text
+main/src/com/miloshpetrov/sol2/game/planet/PlanetTiles.java -text
 main/src/com/miloshpetrov/sol2/game/planet/Sky.java -text
 main/src/com/miloshpetrov/sol2/game/planet/SolSystem.java -text
 main/src/com/miloshpetrov/sol2/game/planet/SurfDir.java -text
