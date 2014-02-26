@@ -1,4 +1,12 @@
 
+SolFiles should display files that aren't used by the game
+add solWin to repo (and somehow check if versions equal)
+set jsons to nonexistent folders
+mention json in "empty sound folder" warning
+
+texMan should use a dummy texture if file is not found ("file missing")
+display texture info on click
+
 SPACE LABYRINTHS:
   labyrinths should be outside systems
   labyrinths should have exterior space with deco & unique enemies
@@ -20,7 +28,7 @@ FEATURES:
   slower planet rotation
   enemy stations, woohoo!
 
-SOUND EVENTS:
+SOUND:
   todo list
 
 ARCHITECTURE:

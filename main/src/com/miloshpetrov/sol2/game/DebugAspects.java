@@ -3,6 +3,9 @@ package com.miloshpetrov.sol2.game;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.menu.IniReader;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class DebugAspects {
   public static final Vector2 DEBUG_POINT = new Vector2();
 
@@ -24,9 +27,12 @@ public class DebugAspects {
   public static boolean NO_SOUND = false;
   public static boolean SOUND_DEBUG = false;
   public static boolean SOUND_IN_SPACE = false;
-  public static String REPO_PATH;
+  public static String DEV_ROOT_PATH;
 
   public static void read() {
+    boolean devBuild = Files.exists(Paths.get("devBuild"));
+    if (devBuild) DEV_ROOT_PATH = "../trunk/main/"; // supposing that solWin is in the same direcrory where trunk is.
+
     IniReader r = new IniReader("debugOptions.ini");
     ZOOM_OVERRIDE = r.f("zoomOverride", ZOOM_OVERRIDE);
     STATS = r.b("stats", STATS);
@@ -35,7 +41,6 @@ public class DebugAspects {
     NO_SOUND = r.b("noSound", NO_SOUND);
     SOUND_DEBUG = r.b("soundDebug", SOUND_DEBUG);
     SOUND_IN_SPACE = r.b("soundInSpace", SOUND_IN_SPACE);
-    REPO_PATH = r.s("repoPath", REPO_PATH);
     // and so on
   }
 }
