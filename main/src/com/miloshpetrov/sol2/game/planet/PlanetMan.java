@@ -74,7 +74,7 @@ public class PlanetMan {
           len = groundHeight;
         }
         float g = np.getGravConst() / len / len;
-        grav.mul(g);
+        grav.scl(g);
         obj.receiveAcc(grav, game);
       }
       SolMath.free(grav);

@@ -76,7 +76,7 @@ public class PathLoader {
     RigidBodyModel rbModel = model.rigidBodies.get(name);
     if (rbModel == null) throw new RuntimeException("Name '" + name + "' was not found.");
 
-    Vector2 origin = tmpV.set(rbModel.origin).mul(scale);
+    Vector2 origin = tmpV.set(rbModel.origin).scl(scale);
 
     int polyCount = rbModel.polys.size();
     for (int i = 0; i < polyCount; i++) {
@@ -86,7 +86,7 @@ public class PathLoader {
       int pointCount = points.length;
       for (int ii = 0; ii < pointCount; ii++) {
         Vector2 origPoint = poly.vertices.get(pointCount - ii - 1);
-        points[ii] = newVec(origPoint).mul(scale);
+        points[ii] = newVec(origPoint).scl(scale);
         points[ii].sub(origin);
       }
 
@@ -100,7 +100,7 @@ public class PathLoader {
     int circleCount = rbModel.circles.size();
     for (int i = 0; i < circleCount; i++) {
       CircleModel circle = rbModel.circles.get(i);
-      Vector2 center = newVec(circle.center).mul(scale).sub(origin);
+      Vector2 center = newVec(circle.center).scl(scale).sub(origin);
       float radius = circle.radius * scale;
 
       tmpCircleShape.setPosition(center);
@@ -131,7 +131,7 @@ public class PathLoader {
   public Vector2 getOrigin(String name, float scale) {
     RigidBodyModel rbModel = model.rigidBodies.get(name);
     if (rbModel == null) throw new RuntimeException("Name '" + name + "' was not found.");
-    tmpV.set(rbModel.origin).mul(scale);
+    tmpV.set(rbModel.origin).scl(scale);
     return tmpV;
   }
 

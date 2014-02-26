@@ -38,7 +38,7 @@ public class TileObjBuilder {
     List<Vector2> points  = new ArrayList<Vector2>();
     for (Vector2 curr : tile.points) {
       Vector2 v = new Vector2(curr);
-      v.mul(spriteSz);
+      v.scl(spriteSz);
       points.add(v);
     }
     Vector2[] v = points.toArray(new Vector2[]{});

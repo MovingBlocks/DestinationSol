@@ -38,7 +38,8 @@ public class SoundMan {
   }
 
   private void fillSounds(List<Sound> list, FileHandle dir) {
-    if (!dir.isDirectory()) throw new AssertionError("Can't load sound: can't find directory " + dir);
+    //try empty dirs
+    //if (!dir.isDirectory()) throw new AssertionError("Can't load sound: can't find directory " + dir);
     for (FileHandle soundFile : dir.list()) {
       String ext = soundFile.extension();
       if (ext.equals("wav") || ext.equals("mp3") || ext.equals("ogg")) //filter by supported audio files

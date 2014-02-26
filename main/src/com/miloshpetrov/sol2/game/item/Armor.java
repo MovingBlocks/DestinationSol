@@ -48,6 +48,8 @@ public class Armor implements SolItem {
     return myConfig.perc;
   }
 
+  public SolSounds getSounds() { return myConfig.sounds; }
+
   public static class Config {
     public final String displayName;
     public final int price;
