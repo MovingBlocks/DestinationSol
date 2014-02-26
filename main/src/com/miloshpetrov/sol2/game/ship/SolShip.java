@@ -169,7 +169,7 @@ public class SolShip implements SolObj {
   private void updateShield(SolGame game) {
     if (myShield != null) {
       if (myItemContainer.contains(myShield)) {
-        myShield.update(game);
+        myShield.update(game, this);
       } else {
         myShield = null;
       }

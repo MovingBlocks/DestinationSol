@@ -202,6 +202,9 @@ main/res/sounds/guns/slowGun/1.wav -text
 main/res/sounds/guns/slowGun/2.wav -text
 main/res/sounds/shield/0.wav -text
 main/res/sounds/shield/1.wav -text
+main/res/sounds/shield/absorb/0.wav -text
+main/res/sounds/shield/absorb/1.wav -text
+main/res/sounds/shield/regen/0.wav -text
 main/res/sounds/zones/Drums_0.wav -text
 main/res/sounds/zones/Drums_1.wav -text
 main/res/sounds/zones/Drums_2.wav -text

@@ -76,7 +76,7 @@ public class Loot implements SolObj {
 
   @Override
   public void receiveAcc(Vector2 acc, SolGame game) {
-    myBody.applyForceToCenter(acc.mul(myBody.getMass()), true);
+    myBody.applyForceToCenter(acc.scl(myBody.getMass()), true);
   }
 
   @Override
