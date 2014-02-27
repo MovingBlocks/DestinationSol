@@ -1,6 +1,4 @@
 
-sounds for other damage types
-
 warn about unused sounds
 
 add solWin to repo (and somehow check if versions equal)
@@ -38,6 +36,7 @@ FEATURES:
   enemy stations, woohoo!
 
 SOUND:
+  sounds for other damage types
   todo list
 
 ARCHITECTURE:
