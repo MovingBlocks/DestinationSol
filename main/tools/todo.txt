@@ -1,12 +1,8 @@
 
-warn about unused sounds
 
 add solWin to repo (and somehow check if versions equal)
 
 
-
-
-mount type in ship cfg
 
 ARTIST-FRIENDLY VERSION
   texMan should use a dummy texture if file is not found ("file missing")
@@ -23,6 +19,7 @@ ASTEROID CLUSTERS:
   asteroids should take dmg, fall apart and burn in atmosphere
 
 FEATURES:
+  add mount type to ship cfg
   loot should be pulled more gently
   smooth camera rotation + sometimes camera does 360 when leaving a planet
   stars
@@ -74,6 +71,7 @@ BUGS
 
 ARCHITECTURE
   ships & farShips & starPorts make mess in MapDrawer -- unify under one interface?
+  warn about unused sounds
 
 FEATURES
   planet labyrinths?

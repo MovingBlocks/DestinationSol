@@ -4,8 +4,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.miloshpetrov.sol2.SolFiles;
-import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.game.DmgType;
 import com.miloshpetrov.sol2.game.sound.SolSound;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
@@ -20,7 +19,7 @@ public class ProjectileConfigs {
   public ProjectileConfigs(TexMan texMan, SoundMan soundMan) {
     myConfigs = new HashMap<String, ProjectileConfig>();
     JsonReader r = new JsonReader();
-    FileHandle configFile = SolFiles.readOnly("res/configs/projectiles.json");
+    FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "projectiles.json");
     JsonValue parsed = r.parse(configFile);
     for (JsonValue sh : parsed) {
       String texName = "projectiles/" + sh.getString("texName");

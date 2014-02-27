@@ -173,13 +173,17 @@ public class GalaxyFiller {
   }
 
 
-  public Vector2 getPlayerSpawnPos(SolGame game) {
+  public Vector2 getPlayerSpawnPos(SolGame game, boolean nearPlanet) {
     Vector2 pos = new Vector2();
-    SolMath.fromAl(pos, 90, myMainStation.getHull().config.size/2);
-    pos.add(myMainStation.getPos());
-//    Planet p = game.getPlanetMan().getPlanets().get(0);
-//    pos.add(p.getPos());
-//    pos.x += p.getFullHeight();
+
+    if (nearPlanet) {
+      Planet p = game.getPlanetMan().getPlanets().get(0);
+      pos.set(p.getPos());
+      pos.x += p.getFullHeight();
+    } else {
+      SolMath.fromAl(pos, 90, myMainStation.getHull().config.size / 2);
+      pos.add(myMainStation.getPos());
+    }
     return pos;
   }
 

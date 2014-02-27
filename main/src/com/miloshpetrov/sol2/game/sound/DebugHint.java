@@ -31,7 +31,7 @@ public class DebugHint {
   private void rebuild() {
     StringBuilder sb = new StringBuilder();
     for (String msg : myMsgs.keySet()) {
-      sb.append(msg).append("\n\n");
+      sb.append(msg).append("\n");
     }
     myMsg = sb.toString();
   }

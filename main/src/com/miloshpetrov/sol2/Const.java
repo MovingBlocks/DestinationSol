@@ -14,4 +14,5 @@ public class Const {
   public final static float PLANET_GAP = 8f;
   public static final String VERSION = "0.07";
   public static final float FRICTION = .5f;
+  public static final String CONFIGS_DIR = "res/configs/";
 }

@@ -168,6 +168,7 @@ main/res/configs/items/engines.json -text
 main/res/configs/items/guns.json -text
 main/res/configs/items/shields.json -text
 main/res/configs/planets.json -text
+main/res/configs/playerSpawn.json -text
 main/res/configs/projectiles.json -text
 main/res/configs/ships.json -text
 main/res/emitters/explInner.p -text
@@ -250,6 +251,7 @@ main/src/com/miloshpetrov/sol2/game/GridDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/MapDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/ObjMan.java -text
 main/src/com/miloshpetrov/sol2/game/PathLoader.java -text
+main/src/com/miloshpetrov/sol2/game/PlayerSpawnConfig.java -text
 main/src/com/miloshpetrov/sol2/game/RemoveController.java -text
 main/src/com/miloshpetrov/sol2/game/Shard.java -text
 main/src/com/miloshpetrov/sol2/game/ShardBuilder.java -text

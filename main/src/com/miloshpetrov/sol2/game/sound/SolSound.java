@@ -23,7 +23,7 @@ public class SolSound {
   public String getDebugString() {
     StringBuilder sb = new StringBuilder();
     if (sounds.isEmpty()) sb.append("EMPTY ");
-    sb.append(dir).append(" ( from ").append(definedBy).append(')');
+    sb.append(dir).append(" (from ").append(definedBy).append(')');
     return sb.toString();
   }
 }
