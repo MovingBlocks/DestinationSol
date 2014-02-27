@@ -12,7 +12,7 @@ public interface SolObj {
   boolean shouldBeRemoved(SolGame game);
   void onRemove(SolGame game);
   float getRadius();
-  void receiveDmg(float dmg, SolGame game, Vector2 pos);
+  void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType);
   boolean receivesGravity();
   void receiveAcc(Vector2 acc, SolGame game);
   Vector2 getPos();

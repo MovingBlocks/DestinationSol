@@ -1,11 +1,16 @@
 
-SolFiles should display files that aren't used by the game
-add solWin to repo (and somehow check if versions equal)
-set jsons to nonexistent folders
-mention json in "empty sound folder" warning
+looped sounds with loop time
+volume should depend on distance
+warn about unused sounds
 
-texMan should use a dummy texture if file is not found ("file missing")
-display texture info on click
+add solWin to repo (and somehow check if versions equal)
+
+mount type in ship cfg
+
+ARTIST-FRIENDLY VERSION
+  texMan should use a dummy texture if file is not found ("file missing")
+  display texture info on click
+  warn about unused images
 
 SPACE LABYRINTHS:
   labyrinths should be outside systems
@@ -14,9 +19,10 @@ SPACE LABYRINTHS:
 ASTEROID CLUSTERS:
   should be instead of planets
   should have unique enemies
-  asteroids should take damage, fall apart and burn in atmosphere
+  asteroids should take dmg, fall apart and burn in atmosphere
 
 FEATURES:
+  loot should be pulled more gently
   smooth camera rotation + sometimes camera does 360 when leaving a planet
   stars
   brakes

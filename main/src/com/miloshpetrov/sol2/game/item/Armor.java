@@ -4,7 +4,8 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
-import com.miloshpetrov.sol2.game.sound.SolSounds;
+import com.miloshpetrov.sol2.game.DmgType;
+import com.miloshpetrov.sol2.game.sound.SolSound;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 
 public class Armor implements SolItem {
@@ -48,23 +49,28 @@ public class Armor implements SolItem {
     return myConfig.perc;
   }
 
-  public SolSounds getSounds() { return myConfig.sounds; }
+  public SolSound getDmgSound(DmgType dmgType) {
+    switch (dmgType) {
+      case BULLET: return myConfig.bulletDmgSound;
+    }
+    return null;
+  }
 
   public static class Config {
     public final String displayName;
     public final int price;
     public final float perc;
     public final String desc;
-    public final SolSounds sounds;
+    public final SolSound bulletDmgSound;
     public final Armor example;
 
-    private Config(String displayName, int price, float perc, String descBase, SolSounds sounds)
+    private Config(String displayName, int price, float perc, String descBase, SolSound bulletDmgSound)
     {
       this.displayName = displayName;
       this.price = price;
       this.perc = perc;
       this.desc = String.format(descBase, (int)(perc * 100));
-      this.sounds = sounds;
+      this.bulletDmgSound = bulletDmgSound;
       this.example = new Armor(this);
     }
 
@@ -78,9 +84,9 @@ public class Armor implements SolItem {
         int price = sh.getInt("price");
         float perc = sh.getFloat("perc");
         String descBase = sh.getString("descBase");
-        String soundsDir = sh.getString("sounds");
-        SolSounds sounds = soundMan.getSounds(soundsDir, configFile);
-        Config config = new Config(displayName, price, perc, descBase, sounds);
+        String hitSoundDir = sh.getString("bulletDmgSound");
+        SolSound hitSound = soundMan.getSound(hitSoundDir, configFile);
+        Config config = new Config(displayName, price, perc, descBase, hitSound);
         itemMan.registerItem(sh.name(), config.example);
       }
     }

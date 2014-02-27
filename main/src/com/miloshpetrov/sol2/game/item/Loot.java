@@ -65,7 +65,7 @@ public class Loot implements SolObj {
   }
 
   @Override
-  public void receiveDmg(float dmg, SolGame game, Vector2 pos) {
+  public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
     myLife -= dmg;
   }
 
@@ -108,7 +108,7 @@ public class Loot implements SolObj {
   public void handleContact(SolObj other, Contact contact, ContactImpulse impulse, boolean isA, float absImpulse,
     SolGame game) {
     float dmg = absImpulse / myBody.getMass() / DURABILITY;
-    receiveDmg((int) dmg, game, null);
+    receiveDmg((int) dmg, game, null, DmgType.CRASH);
   }
 
   @Override
