@@ -1,5 +1,4 @@
 
-gun sounds
 sounds for other damage types
 
 warn about unused sounds

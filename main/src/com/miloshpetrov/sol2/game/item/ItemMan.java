@@ -24,7 +24,7 @@ public class ItemMan {
     EngineItem.Config.loadConfigs(this, soundMan);
 
     ClipConfig.load(this);
-    GunConfig.load(texMan, this);
+    GunConfig.load(texMan, this, soundMan);
 
     myM.put("rep", RepairItem.EXAMPLE);
     myM.put("sloMo", SloMoCharge.EXAMPLE);

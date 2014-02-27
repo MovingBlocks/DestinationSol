@@ -16,6 +16,8 @@
     infiniteClipSize: 12,
     dmg: 2,
     clipName: "",
+    shootSound: "guns/weakBolter/shoot",
+    reloadSound: "guns/weakBolter/reload",
   },
   bo: {
     minAngleVar: 1,
@@ -34,7 +36,9 @@
     infiniteClipSize: 15,
     dmg: 3,
     clipName: "",
-  },
+    shootSound: "guns/bolter/shoot",
+    reloadSound: "guns/bolter/reload",
+    },
   sg: {
     minAngleVar: 1,
     maxAngleVar: 10,
@@ -52,7 +56,9 @@
     infiniteClipSize: 0,
     dmg: 2,
     clipName: b,
-  },
+    shootSound: "guns/slowGun/shoot",
+    reloadSound: "guns/slowGun/reload",
+    },
   mg: {
     minAngleVar: 1,
     maxAngleVar: 10,
@@ -70,6 +76,8 @@
     infiniteClipSize: 0,
     dmg: 2,
     clipName: b,
+    shootSound: "guns/miniGun/shoot",
+    reloadSound: "guns/miniGun/reload",
   },
   rl: {
     minAngleVar: 1,
@@ -88,5 +96,7 @@
     infiniteClipSize: 0,
     dmg: 10,
     clipName: r,
+    shootSound: "guns/rocketLauncher/shoot",
+    reloadSound: "guns/rocketLauncher/reload",
   },
 }
