@@ -194,6 +194,14 @@ main/res/sounds/engines/medWork/2.wav -text
 main/res/sounds/engines/medWork/3.wav -text
 main/res/sounds/engines/medWork/4.wav -text
 main/res/sounds/engines/medWork/params.txt -text
+main/res/sounds/guns/miniGun/reload/0.wav -text
+main/res/sounds/guns/miniGun/shoot/0.wav -text
+main/res/sounds/guns/miniGun/shoot/1.wav -text
+main/res/sounds/guns/rocketLauncher/reload/0.wav -text
+main/res/sounds/guns/rocketLauncher/shoot/0.wav -text
+main/res/sounds/guns/slowGun/shoot/0.wav -text
+main/res/sounds/guns/slowGun/shoot/1.wav -text
+main/res/sounds/guns/slowGun/shoot/2.wav -text
 main/res/sounds/shields/big/absorb/0.wav -text
 main/res/sounds/shields/big/absorb/1.wav -text
 main/res/sounds/shields/big/absorb/2.wav -text
