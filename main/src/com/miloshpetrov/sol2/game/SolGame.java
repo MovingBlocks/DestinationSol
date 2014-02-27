@@ -51,6 +51,7 @@ public class SolGame {
 
   private SolShip myHero;
   private float myTimeStep;
+  private float myTime;
   private boolean myPaused;
   private final GalaxyFiller myGalaxyFiller;
   private StarPort.Transcendent myTranscendentHero;
@@ -149,6 +150,7 @@ public class SolGame {
 
     myTimeStep = Const.REAL_TIME_STEP * DebugAspects.DEBUG_SLOWDOWN;
     if (myHero != null) myTimeStep *= myHero.getSloMoFactor();
+    myTime += myTimeStep;
 
     myCam.update(this);
     myPlanetMan.update(this);
@@ -320,5 +322,9 @@ public class SolGame {
 
   public SoundMan getSoundMan() {
     return mySoundMan;
+  }
+
+  public float getTime() {
+    return myTime;
   }
 }

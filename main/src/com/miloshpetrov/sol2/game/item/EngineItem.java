@@ -90,8 +90,7 @@ public class EngineItem implements SolItem {
         float maxRotSpd = sh.getFloat("maxRotSpd");
         boolean big = sh.getBoolean("big");
         String workSoundDir = sh.getString("workSound");
-        SolSound workSound = soundMan.getSound(workSoundDir, configFile);
-//        sh.getFloat()
+        SolSound workSound = soundMan.getLoopedSound(workSoundDir, configFile);
         Config config = new Config(displayName, price, desc, rotAcc, acc, maxRotSpd, big, workSound);
         itemMan.registerItem(sh.name(), config.example);
       }
