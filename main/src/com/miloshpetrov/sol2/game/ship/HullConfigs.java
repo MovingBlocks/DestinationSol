@@ -3,8 +3,7 @@ package com.miloshpetrov.sol2.game.ship;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.miloshpetrov.sol2.SolFiles;
-import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.SolMath;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class HullConfigs {
 
 
     JsonReader r = new JsonReader();
-    JsonValue parsed = r.parse(SolFiles.readOnly("res/configs/ships.json"));
+    JsonValue parsed = r.parse(SolFiles.readOnly(Const.CONFIGS_DIR + "ships.json"));
     for (JsonValue sh : parsed) {
       String texName = sh.getString("texName");
       float size = sh.getFloat("size");

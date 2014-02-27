@@ -48,6 +48,7 @@ public class SolGame {
   private final TradeMan myTradeMan;
   private final StarPort.Builder myStarPortBuilder;
   private final SoundMan mySoundMan;
+  private final PlayerSpawnConfig myPlayerSpawnConfig;
 
   private SolShip myHero;
   private float myTimeStep;
@@ -85,6 +86,7 @@ public class SolGame {
     myChangeShips = createChangeShips(myHullConfigs);
     myTradeMan = new TradeMan();
     myStarPortBuilder = new StarPort.Builder();
+    myPlayerSpawnConfig = PlayerSpawnConfig.load(myHullConfigs);
 
     // from this point we're ready!
     myPlanetMan.fill(sd);
@@ -104,12 +106,12 @@ public class SolGame {
   }
 
   private void createPlayer() {
-    Vector2 pos = myGalaxyFiller.getPlayerSpawnPos(this);
+    Vector2 pos = myGalaxyFiller.getPlayerSpawnPos(this, myPlayerSpawnConfig.nearPlanet);
     Pilot pip = new PlayerPilot(myScreens.mainScreen);
     boolean god = DebugAspects.GOD_MODE;
-    HullConfig config = myHullConfigs.getConfig("guardie");
-    String items = "bo s a e rep:1:2 sloMo:1:2";
-    int money = 20;
+    HullConfig config = myPlayerSpawnConfig.hullConfig;
+    String items = myPlayerSpawnConfig.items;
+    int money = myPlayerSpawnConfig.money;
     if (god) {
       config = myHullConfigs.getConfig("vanguard");
       items = "mg rl sBig aBig e rep:1:6 sloMo:1:6 b:1:6 r:1:6";
@@ -327,4 +329,5 @@ public class SolGame {
   public float getTime() {
     return myTime;
   }
+
 }

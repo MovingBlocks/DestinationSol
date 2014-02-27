@@ -3,8 +3,7 @@ package com.miloshpetrov.sol2.game.planet;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.miloshpetrov.sol2.SolFiles;
-import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
@@ -18,7 +17,7 @@ public class PlanetConfigs {
     myConfigs = new HashMap<String, PlanetConfig>();
 
     JsonReader r = new JsonReader();
-    JsonValue parsed = r.parse(SolFiles.readOnly("res/configs/planets.json"));
+    JsonValue parsed = r.parse(SolFiles.readOnly(Const.CONFIGS_DIR + "planets.json"));
     for (JsonValue sh : parsed) {
       float minGrav = sh.getFloat("minGrav");
       float maxGrav = sh.getFloat("maxGrav");

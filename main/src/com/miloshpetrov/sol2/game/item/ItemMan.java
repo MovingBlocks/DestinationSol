@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.game.item;
 
+import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.gun.GunConfig;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ItemMan {
-  public static final String ITEM_CONFIGS_DIR = "res/configs/items/";
+  public static final String ITEM_CONFIGS_DIR = Const.CONFIGS_DIR + "items/";
   private final HashMap<String,SolItem> myM;
   private final ArrayList<SolItem> myL;
   public final ProjectileConfigs projConfigs;
