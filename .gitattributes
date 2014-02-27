@@ -193,6 +193,7 @@ main/res/sounds/engines/medWork/1.wav -text
 main/res/sounds/engines/medWork/2.wav -text
 main/res/sounds/engines/medWork/3.wav -text
 main/res/sounds/engines/medWork/4.wav -text
+main/res/sounds/engines/medWork/params.txt -text
 main/res/sounds/shields/big/absorb/0.wav -text
 main/res/sounds/shields/big/absorb/1.wav -text
 main/res/sounds/shields/big/absorb/2.wav -text

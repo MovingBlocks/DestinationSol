@@ -1,6 +1,8 @@
 
-looped sounds with loop time
-volume should depend on distance
+gun sounds
+projectile sounds
+sounds for other damage types
+
 warn about unused sounds
 
 add solWin to repo (and somehow check if versions equal)
@@ -85,6 +87,7 @@ FEATURES
   try using shaders
 
 PERF
+  use objFloatMap in soundMan
   use circles instead of polys
   PartMan should use pool
   string reuse

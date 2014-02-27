@@ -9,12 +9,14 @@ public class SolSound {
   public final List<Sound> sounds;
   public final String dir;
   public final String definedBy;
-  public final long loopTime;
+  public final float loopTime;
+  public final float volume;
 
-  public SolSound(String dir, String definedBy, long loopTime) {
+  public SolSound(String dir, String definedBy, float loopTime, float volume) {
     this.dir = dir;
     this.definedBy = definedBy;
     this.loopTime = loopTime;
+    this.volume = volume;
     this.sounds = new ArrayList<Sound>();
   }
 
