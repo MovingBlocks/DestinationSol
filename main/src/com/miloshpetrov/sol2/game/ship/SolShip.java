@@ -12,7 +12,6 @@ import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
 import com.miloshpetrov.sol2.game.planet.Planet;
-import com.miloshpetrov.sol2.game.sound.SolSound;
 
 import java.util.List;
 
@@ -282,8 +281,7 @@ public class SolShip implements SolObj {
     }
     if (myArmor != null) {
       dmg *= (1 - myArmor.getPerc());
-      SolSound sound = myArmor.getDmgSound(dmgType);
-      if (sound != null) game.getSoundMan().play(game, sound, pos, null);
+      game.getSoundMan().play(game, myArmor.getDmgSound(dmgType), pos, null);
     }
 
     boolean wasAlive = myHull.life > 0;

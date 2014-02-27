@@ -1,11 +1,13 @@
 
 gun sounds
-projectile sounds
 sounds for other damage types
 
 warn about unused sounds
 
 add solWin to repo (and somehow check if versions equal)
+
+
+
 
 mount type in ship cfg
 

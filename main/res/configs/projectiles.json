@@ -9,6 +9,7 @@
     hasFlame: false,
     smokeOnExplosion: false,
     dmgType: energy,
+    collisionSound: "projectiles/weakBolter",
   },
   bolterCharge: {
     texName: bolter,
@@ -20,6 +21,7 @@
     hasFlame: false,
     smokeOnExplosion: false,
     dmgType: energy,
+    collisionSound: "projectiles/bolter",
   },
   bullet: {
     texName: bullet,
@@ -31,6 +33,7 @@
     hasFlame: false,
     smokeOnExplosion: false,
     dmgType: bullet,
+    collisionSound: "projectiles/bullet",
   },
   rocket: {
     texName: rocket,
@@ -42,5 +45,6 @@
     hasFlame: true,
     smokeOnExplosion: true,
     dmgType: explosion,
+    collisionSound: "",
   },
 }

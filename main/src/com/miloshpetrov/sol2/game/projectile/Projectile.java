@@ -68,10 +68,12 @@ public class Projectile implements SolObj {
     myBody.update(game);
     Object obstacle = myBody.getObstacle();
     if (obstacle != null) {
-      explode(game);
+      finish(game);
+      Vector2 pos = myBody.getPos();
       if (obstacle instanceof SolObj) {
-        ((SolObj) obstacle).receiveDmg(myDmg, game, myBody.getPos(), myConfig.dmgType);
+        ((SolObj) obstacle).receiveDmg(myDmg, game, pos, myConfig.dmgType);
       }
+      game.getSoundMan().play(game, myConfig.collisionSound, pos, null);
     } else {
       if (myFlameSrc != null) {
         myFlameSrc.setSpd(myBody.getSpd());
@@ -80,7 +82,7 @@ public class Projectile implements SolObj {
     }
   }
 
-  private void explode(SolGame game) {
+  private void finish(SolGame game) {
     myShouldRemove = true;
     Vector2 pos = myBody.getPos();
     if (myConfig.explode) {
@@ -110,7 +112,7 @@ public class Projectile implements SolObj {
 
   @Override
   public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
-    explode(game);
+    finish(game);
   }
 
   @Override
