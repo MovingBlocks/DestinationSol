@@ -17,7 +17,7 @@ public class ItemMan {
 
   public ItemMan(TexMan texMan, SoundMan soundMan) {
     myM = new HashMap<String, SolItem>();
-    projConfigs = new ProjectileConfigs(texMan);
+    projConfigs = new ProjectileConfigs(texMan, soundMan);
 
     Shield.Config.loadConfigs(this, soundMan);
     Armor.Config.loadConfigs(this, soundMan);

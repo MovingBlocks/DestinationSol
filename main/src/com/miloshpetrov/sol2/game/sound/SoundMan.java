@@ -37,7 +37,8 @@ public class SoundMan {
     return getSound0(relPath, configFile, false);
   }
 
-  public SolSound getSound0(String relPath, @Nullable FileHandle configFile, boolean looped) {
+  private SolSound getSound0(String relPath, @Nullable FileHandle configFile, boolean looped) {
+    if (relPath.isEmpty()) return null;
     SolSound res = mySounds.get(relPath);
     if (res != null) return res;
 
@@ -45,9 +46,9 @@ public class SoundMan {
     String dirPath = DIR + relPath;
     String paramsPath = dirPath + "/params.txt";
     FileHandle dir = SolFiles.readOnly(dirPath);
-    float[] sp = loadSoundParams(paramsPath);
-    float loopTime = sp[1];
-    float volume = sp[0];
+    float[] params = loadSoundParams(paramsPath);
+    float loopTime = params[1];
+    float volume = params[0];
     res = new SolSound(dir.toString(), definedBy, loopTime, volume);
     mySounds.put(relPath, res);
     fillSounds(res.sounds, dir);
@@ -90,6 +91,7 @@ public class SoundMan {
    * @param source bearer of a sound. Must not be null for looped sounds
    */
   public void play(SolGame game, SolSound sound, @Nullable Vector2 pos, @Nullable SolObj source) {
+    if (sound == null) return;
     if (DebugAspects.NO_SOUND) return;
     float time = game.getTime();
 
