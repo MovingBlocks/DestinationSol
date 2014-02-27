@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.game.gun;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
@@ -7,6 +8,8 @@ import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfig;
+import com.miloshpetrov.sol2.game.sound.SolSound;
+import com.miloshpetrov.sol2.game.sound.SoundMan;
 
 public class GunConfig {
   public final float minAngleVar;
@@ -28,12 +31,17 @@ public class GunConfig {
   public final float dps;
   public final GunItem example;
   public final ClipConfig clipConf;
+  public final SolSound shootSound;
+  public final SolSound reloadSound;
 
   public GunConfig(float minAngleVar, float maxAngleVar, float angleVarDamp, float angleVarPerShot,
     float timeBetweenShots,
     float maxReloadTime, ProjectileConfig projConfig, float gunLength, String texName, String displayName,
     boolean lightOnShot, TexMan texMan, int price, String descBase, int infiniteClipSize, float dmg,
-    ClipConfig clipConf) {
+    ClipConfig clipConf, SolSound shootSound, SolSound reloadSound)
+  {
+    this.shootSound = shootSound;
+    this.reloadSound = reloadSound;
 
     tex = texMan.getTex("guns/" + texName);
 
@@ -68,9 +76,10 @@ public class GunConfig {
     return sb.toString();
   }
 
-  public static void load(TexMan texMan, ItemMan itemMan) {
+  public static void load(TexMan texMan, ItemMan itemMan, SoundMan soundMan) {
     JsonReader r = new JsonReader();
-    JsonValue parsed = r.parse(SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "guns.json"));
+    FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "guns.json");
+    JsonValue parsed = r.parse(configFile);
     for (JsonValue sh : parsed) {
       float minAngleVar = sh.getFloat("minAngleVar");
       float maxAngleVar = sh.getFloat("maxAngleVar");
@@ -90,8 +99,12 @@ public class GunConfig {
       float dmg = sh.getFloat("dmg");
       String clipName = sh.getString("clipName");
       ClipConfig clipConf = clipName.isEmpty() ? null : ((ClipItem)itemMan.getExample(clipName)).getConfig();
+      String reloadSoundPath = sh.getString("reloadSound");
+      String shootSoundPath = sh.getString("shootSound");
+      SolSound reloadSound = soundMan.getSound(reloadSoundPath, configFile);
+      SolSound shootSound = soundMan.getSound(shootSoundPath, configFile);
       GunConfig c = new GunConfig(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots, maxReloadTime, projConfig,
-        gunLength, texName, displayName, lightOnShot, texMan, price, descBase, infiniteClipSize, dmg, clipConf);
+        gunLength, texName, displayName, lightOnShot, texMan, price, descBase, infiniteClipSize, dmg, clipConf, shootSound, reloadSound);
       itemMan.registerItem(sh.name, c.example);
     }
   }

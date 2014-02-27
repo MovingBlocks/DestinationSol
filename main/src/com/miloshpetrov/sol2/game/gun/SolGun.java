@@ -35,7 +35,7 @@ public class SolGun {
     return myDras;
   }
 
-  private void shoot(Vector2 gunSpd, SolGame game, float gunAngle, Vector2 muzzlePos, Fraction fraction) {
+  private void shoot(Vector2 gunSpd, SolGame game, float gunAngle, Vector2 muzzlePos, Fraction fraction, SolObj creator) {
     myCurrAngleVar = SolMath.approach(myCurrAngleVar, myItem.config.maxAngleVar, myItem.config.angleVarPerShot);
     float bulletAngle = gunAngle;
     bulletAngle += SolMath.rnd(myCurrAngleVar);
@@ -43,6 +43,7 @@ public class SolGun {
     Projectile proj = new Projectile(game, bulletAngle, muzzlePos, gunSpd, fraction, myItem.config.dmg, myItem.config.projConfig);
     game.getObjMan().addObjDelayed(proj);
     myItem.ammo--;
+    game.getSoundMan().play(game, myItem.config.shootSound, muzzlePos, creator);
   }
 
   public void update(ItemContainer ic, SolGame game, float gunAngle, SolObj creator, boolean shouldShoot, Fraction fraction) {
@@ -61,6 +62,7 @@ public class SolGun {
     if (myItem.ammo <= 0 && myItem.reloadAwait <= 0) {
       if (ics != 0 || ic != null && ic.tryConsumeItem(myItem.config.clipConf.example)) {
         myItem.reloadAwait = myItem.config.maxReloadTime;
+        game.getSoundMan().play(game, myItem.config.reloadSound, muzzlePos, creator);
       }
     } else if (myItem.reloadAwait > 0) {
       myItem.reloadAwait -= ts;
@@ -74,7 +76,7 @@ public class SolGun {
     boolean shot = shouldShoot && myCoolDown <= 0 && myItem.ammo > 0;
     if (shot) {
       Vector2 gunSpd = creator.getSpd();
-      shoot(gunSpd, game, gunAngle, muzzlePos, fraction);
+      shoot(gunSpd, game, gunAngle, muzzlePos, fraction, creator);
     } else {
       myCurrAngleVar = SolMath.approach(myCurrAngleVar, myItem.config.minAngleVar, myItem.config.angleVarDamp * ts);
     }
