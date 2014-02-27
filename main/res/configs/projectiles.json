@@ -8,6 +8,7 @@
     physSize: 0,
     hasFlame: false,
     smokeOnExplosion: false,
+    dmgType: energy,
   },
   bolterCharge: {
     texName: bolter,
@@ -18,6 +19,7 @@
     physSize: 0,
     hasFlame: false,
     smokeOnExplosion: false,
+    dmgType: energy,
   },
   bullet: {
     texName: bullet,
@@ -28,6 +30,7 @@
     physSize: 0,
     hasFlame: false,
     smokeOnExplosion: false,
+    dmgType: bullet,
   },
   rocket: {
     texName: rocket,
@@ -38,5 +41,6 @@
     physSize: 0.1,
     hasFlame: true,
     smokeOnExplosion: true,
+    dmgType: explosion,
   },
 }

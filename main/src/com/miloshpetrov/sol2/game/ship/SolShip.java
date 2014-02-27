@@ -12,6 +12,7 @@ import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
 import com.miloshpetrov.sol2.game.planet.Planet;
+import com.miloshpetrov.sol2.game.sound.SolSound;
 
 import java.util.List;
 
@@ -84,7 +85,7 @@ public class SolShip implements SolObj {
       Fixture f = isA ? contact.getFixtureA() : contact.getFixtureB();
       float dmg = absImpulse / myHull.getBody().getMass() / myHull.config.durability;
       if (f == myHull.getBase()) dmg *= BASE_DUR_MOD;
-      receiveDmg((int) dmg, game, null);
+      receiveDmg((int) dmg, game, null, DmgType.CRASH);
     }
   }
 
@@ -275,11 +276,15 @@ public class SolShip implements SolObj {
   }
 
   @Override
-  public void receiveDmg(float dmg, SolGame game, Vector2 pos) {
+  public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
     if (pos != null && myShield != null) {
       dmg = myShield.absorb(game, dmg, pos, this);
     }
-    if (myArmor != null) dmg *= (1 - myArmor.getPerc());
+    if (myArmor != null) {
+      dmg *= (1 - myArmor.getPerc());
+      SolSound sound = myArmor.getDmgSound(dmgType);
+      if (sound != null) game.getSoundMan().play(game, sound, pos, null);
+    }
 
     boolean wasAlive = myHull.life > 0;
     myHull.life -= dmg;
@@ -348,7 +353,7 @@ public class SolShip implements SolObj {
     if (!secondarySlot) {
       if (item instanceof EngineItem) {
         EngineItem ei = (EngineItem) item;
-        boolean ok = ei.getBig() == (myHull.config.type == HullConfig.Type.BIG);
+        boolean ok = ei.isBig() == (myHull.config.type == HullConfig.Type.BIG);
         if (ok && equip) myHull.setEngine(game, this, ei);
         return ok;
       }

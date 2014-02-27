@@ -17,23 +17,35 @@ import java.util.List;
 public class SoundMan {
   public static final String DIR = "res/sounds/";
   public static final float MAX_SPACE_DIST = 1f;
-  public final HashMap<String, SolSounds> mySounds;
+  public final HashMap<String, SolSound> mySounds;
   private final DebugHintDrawer myHintDrawer;
 
   public SoundMan() {
-    mySounds = new HashMap<String, SolSounds>();
+    mySounds = new HashMap<String, SolSound>();
     myHintDrawer = new DebugHintDrawer();
   }
 
-  public SolSounds getSounds(String relPath, @Nullable FileHandle configFile) {
-    SolSounds res = mySounds.get(relPath);
+  public SolSound getSound(String relPath, @Nullable FileHandle configFile) {
+    return getSound(relPath, configFile, -1);
+  }
+
+  public SolSound getSound(String relPath, @Nullable FileHandle configFile, long loopTime) {
+    SolSound res = mySounds.get(relPath);
     if (res != null) return res;
 
     String definedBy = configFile == null ? "hardcoded" : configFile.path();
     FileHandle dir = SolFiles.readOnly(DIR + relPath);
-    res = new SolSounds(dir.toString(), definedBy);
+    res = new SolSound(dir.toString(), definedBy, loopTime);
     mySounds.put(relPath, res);
     fillSounds(res.sounds, dir);
+
+    if (res.sounds.isEmpty()) {
+      String warnMsg = "found no sounds in " + dir;
+      if (configFile != null) {
+        warnMsg += " (defined in " + configFile.path() + ")";
+      }
+      DebugCollector.warn(warnMsg);
+    }
     return res;
   }
 
@@ -48,11 +60,20 @@ public class SoundMan {
         list.add(sound);
       }
     }
-    if (list.isEmpty()) DebugCollector.warn("found no sounds in " + dir);
   }
 
-  public void play(SolGame game, SolSounds sounds, Vector2 pos, SolObj debugSource) {
+  /**
+   * Plays a sound. Either pos or source must not be null.
+   * @param pos position of a sound. If null, source.getPos() will be used
+   * @param source bearer of a sound. Must not be null for looped sounds
+   */
+  public void play(SolGame game, SolSound sounds, @Nullable Vector2 pos, @Nullable SolObj source) {
     if (DebugAspects.NO_SOUND) return;
+    if (pos == null) {
+      if (source == null) return;
+      pos = source.getPos();
+    }
+    if (source == null && sounds.loopTime > 0) throw new AssertionError("looped sound without source object: " + sounds.dir);
 
     Planet np = game.getPlanetMan().getNearestPlanet();
     Vector2 camPos = game.getCam().getPos();
@@ -69,7 +90,7 @@ public class SoundMan {
     if (vol <= 0) return;
 
     if (DebugAspects.SOUND_DEBUG) {
-      myHintDrawer.add(debugSource, pos, sounds.getDebugString());
+      myHintDrawer.add(source, pos, sounds.getDebugString());
     }
     if (sounds.sounds.isEmpty()) return;
     Sound sound = SolMath.elemRnd(sounds.sounds);

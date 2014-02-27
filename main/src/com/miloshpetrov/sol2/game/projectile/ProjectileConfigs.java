@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.game.DmgType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +28,8 @@ public class ProjectileConfigs {
       boolean hasFlame = sh.getBoolean("hasFlame");
       boolean smokeOnExplosion = sh.getBoolean("smokeOnExplosion");
       boolean stretch = sh.getBoolean("stretch");
-      ProjectileConfig c = new ProjectileConfig(tex, sz, spdLen, explode, stretch, physSize, hasFlame, smokeOnExplosion);
+      DmgType dmgType = DmgType.forName(sh.getString("dmgType"));
+      ProjectileConfig c = new ProjectileConfig(tex, sz, spdLen, explode, stretch, physSize, hasFlame, smokeOnExplosion, dmgType);
       myConfigs.put(sh.name, c);
     }
   }

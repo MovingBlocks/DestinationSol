@@ -60,7 +60,7 @@ public class GunConfig {
 
   private String makeDesc(String descBase) {
     StringBuilder sb = new StringBuilder(descBase);
-    sb.append("\nDamage: ").append(dps).append("/s");
+    sb.append("\nDmg: ").append(dps).append("/s");
     sb.append("\nReload: ").append(maxReloadTime).append("s");
     if (infiniteClipSize != 0) {
       sb.append("\nInfinite ammo");

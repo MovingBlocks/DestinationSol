@@ -60,7 +60,7 @@ public class PlanetSprites implements SolObj {
   }
 
   @Override
-  public void receiveDmg(float dmg, SolGame game, Vector2 pos) {
+  public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
   }
 
   @Override

@@ -4,7 +4,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
-import com.miloshpetrov.sol2.game.sound.SolSounds;
+import com.miloshpetrov.sol2.game.sound.SolSound;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 
 public class EngineItem implements SolItem {
@@ -37,22 +37,7 @@ public class EngineItem implements SolItem {
   public float getRotAcc() { return myConfig.rotAcc; }
   public float getAac() { return myConfig.acc; }
   public float getMaxRotSpd() { return myConfig.maxRotSpd; }
-  public boolean getBig() { return myConfig.big; }
-
-  /*@Override
-  public String getDisplayName() {
-    return myConfig.big ? "Big Engine" : "Engine";
-  }
-
-  @Override
-  public float getPrice() {
-    return myConfig.big ? 50 : 10;
-  }
-
-  @Override
-  public String getDesc() {
-    return myConfig.big ? "Suitable for big ships only" : "A standard engine";
-  }*/
+  public boolean isBig() { return myConfig.big; }
 
   @Override
   public SolItem copy() {
@@ -64,6 +49,11 @@ public class EngineItem implements SolItem {
     return item instanceof EngineItem && ((EngineItem) item).myConfig == myConfig;
   }
 
+  public SolSound getWorkSound() {
+    return myConfig.workSound;
+  }
+
+
   public static class Config {
     public final String displayName;
     public final int price;
@@ -72,10 +62,10 @@ public class EngineItem implements SolItem {
     public final float acc;
     public final float maxRotSpd;
     public final boolean big;
-    public final SolSounds sounds;
+    public final SolSound workSound;
     public final EngineItem example;
 
-    private Config(String displayName, int price, String desc, float rotAcc, float acc, float maxRotSpd, boolean big, SolSounds sounds){
+    private Config(String displayName, int price, String desc, float rotAcc, float acc, float maxRotSpd, boolean big, SolSound workSound){
       this.displayName = displayName;
       this.price = price;
       this.desc = desc;
@@ -83,7 +73,7 @@ public class EngineItem implements SolItem {
       this.acc = acc;
       this.maxRotSpd = maxRotSpd;
       this.big = big;
-      this.sounds = sounds;
+      this.workSound = workSound;
       this.example = new EngineItem(this);
     }
 
@@ -99,36 +89,12 @@ public class EngineItem implements SolItem {
         float acc = sh.getFloat("acc");
         float maxRotSpd = sh.getFloat("maxRotSpd");
         boolean big = sh.getBoolean("big");
-        String soundsDir = sh.getString("sounds");
-        SolSounds sounds = soundMan.getSounds(soundsDir, configFile);
-        Config config = new Config(displayName, price, desc, rotAcc, acc, maxRotSpd, big, sounds);
+        String workSoundDir = sh.getString("workSound");
+        SolSound workSound = soundMan.getSound(workSoundDir, configFile);
+//        sh.getFloat()
+        Config config = new Config(displayName, price, desc, rotAcc, acc, maxRotSpd, big, workSound);
         itemMan.registerItem(sh.name(), config.example);
       }
     }
   }
-/*  public static class Configs {
-    public final Config std;
-    public final Config big;
-
-    public Configs() {
-      std = new Config(2f, 230f, 515f, false);
-      big = new Config(2f, 40f, 100f, true);
-    }
-  }
-
-  public static class Config {
-    public final float rotAcc;
-    public final float acc;
-    public final float maxRotSpd;
-    public final boolean big;
-    public final EngineItem example;
-
-    private Config(float acc, float maxRotSpd, float rotAcc, boolean big) {
-      this.acc = acc;
-      this.maxRotSpd = maxRotSpd;
-      this.rotAcc = rotAcc;
-      this.big = big;
-      example = new EngineItem(this);
-    }
-  }*/
 }

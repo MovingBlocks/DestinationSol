@@ -4,8 +4,8 @@
     displayName: "Small Shield",
     price: 40,
     desc: "Poorly protects from projectiles",
-    sndAbsorb: "shield/absorb",
-	sndRegen:  "shield/regen"
+    absorbSound: "shields/small/absorb",
+	regenSound:  "shields/small/regen"
   },
 
   sMed: {
@@ -13,8 +13,8 @@
     displayName: Shield,
     price: 100,
     desc: "Protects from projectiles",
-    sndAbsorb: "shield/absorb",
-	sndRegen:  "shield/regen"
+    absorbSound: "shields/med/absorb",
+	regenSound:  "shields/med/regen"
   },
 
   sBig: {
@@ -22,7 +22,7 @@
     displayName: "Big Shield",
     price: 150,
     desc: "Greatly protects from projectiles",
-    sndAbsorb: "bigShield/absorb",
-	sndRegen:  "bigShield/regen"
+    absorbSound: "shields/big/absorb",
+	regenSound:  "shields/big/regen"
   }
 }

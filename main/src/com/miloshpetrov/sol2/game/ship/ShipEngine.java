@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
+import com.miloshpetrov.sol2.game.SolObj;
 import com.miloshpetrov.sol2.game.dra.Dra;
 import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.item.EngineItem;
@@ -38,7 +39,7 @@ public class ShipEngine {
     return myDras;
   }
 
-  public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 spd) {
+  public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 spd, SolObj owner) {
     boolean working = applyInput(game, angle, provider, body, spd);
 
     myFlameSrc1.setSpd(spd);
@@ -48,6 +49,9 @@ public class ShipEngine {
 
     myLightSrc1.update(working, angle, game);
     myLightSrc2.update(working, angle, game);
+    if (working) {
+//      game.getSoundMan().play(game, myItem.getWorkSound(), owner.getPos(), owner);
+    }
   }
 
   private boolean applyInput(SolGame cmp, float shipAngle, Pilot provider, Body body, Vector2 spd) {

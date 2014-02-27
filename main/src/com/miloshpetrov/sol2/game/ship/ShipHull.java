@@ -77,7 +77,7 @@ public class ShipHull {
 
     if (myEngine != null) {
       if (container.contains(myEngine.getItem())) {
-        myEngine.update(myAngle, game, provider, myBody, mySpd);
+        myEngine.update(myAngle, game, provider, myBody, mySpd, ship);
       } else {
         setEngine(game, ship, null);
       }

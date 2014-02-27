@@ -70,7 +70,7 @@ public class Projectile implements SolObj {
     if (obstacle != null) {
       explode(game);
       if (obstacle instanceof SolObj) {
-        ((SolObj) obstacle).receiveDmg(myDmg, game, myBody.getPos());
+        ((SolObj) obstacle).receiveDmg(myDmg, game, myBody.getPos(), myConfig.dmgType);
       }
     } else {
       if (myFlameSrc != null) {
@@ -109,7 +109,7 @@ public class Projectile implements SolObj {
   }
 
   @Override
-  public void receiveDmg(float dmg, SolGame game, Vector2 pos) {
+  public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
     explode(game);
   }
 
