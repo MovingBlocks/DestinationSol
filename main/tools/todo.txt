@@ -43,6 +43,7 @@ ARCHITECTURE:
   arcSin -> arcToAngle(hordeLen, r) -> 180*hordeLen/(pi*r)
   arcSin -> angularWidthOfSphere(r, dist) -> arcSin(r/dist)
   arcSin -> angularWidthOfTangentSpan(spanLen, dist) -> arcTan(spanLen/dist)
+  get rid of Dra.getTex0. But this would require reusing AtlasTexs used by emitters
 
 BUGS:
   planet tiles and stations movement method creates glitches

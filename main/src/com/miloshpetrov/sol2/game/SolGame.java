@@ -6,6 +6,7 @@ import com.miloshpetrov.sol2.common.DebugCol;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.asteroid.AsteroidBuilder;
 import com.miloshpetrov.sol2.game.chunk.ChunkMan;
+import com.miloshpetrov.sol2.game.dra.DraDebugger;
 import com.miloshpetrov.sol2.game.dra.DraMan;
 import com.miloshpetrov.sol2.game.farBg.FarBgMan;
 import com.miloshpetrov.sol2.game.farBg.FarBgManOld;
@@ -50,6 +51,7 @@ public class SolGame {
   private final StarPort.Builder myStarPortBuilder;
   private final SoundMan mySoundMan;
   private final PlayerSpawnConfig myPlayerSpawnConfig;
+  private final DraDebugger myDraDebugger;
 
   private SolShip myHero;
   private float myTimeStep;
@@ -88,6 +90,7 @@ public class SolGame {
     myTradeMan = new TradeMan();
     myStarPortBuilder = new StarPort.Builder();
     myPlayerSpawnConfig = PlayerSpawnConfig.load(myHullConfigs);
+    myDraDebugger = new DraDebugger();
 
     // from this point we're ready!
     myPlanetMan.fill(sd);
@@ -149,6 +152,8 @@ public class SolGame {
   }
 
   public void update() {
+    myDraDebugger.update(this);
+
     if (myPaused) return;
 
     myTimeStep = Const.REAL_TIME_STEP * DebugAspects.DEBUG_SLOWDOWN;
