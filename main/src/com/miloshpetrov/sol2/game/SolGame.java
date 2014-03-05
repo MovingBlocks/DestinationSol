@@ -20,6 +20,7 @@ import com.miloshpetrov.sol2.game.screens.GameScreens;
 import com.miloshpetrov.sol2.game.ship.*;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 import com.miloshpetrov.sol2.save.SaveData;
+import com.miloshpetrov.sol2.ui.DebugCollector;
 
 public class SolGame {
 
@@ -258,12 +259,13 @@ public class SolGame {
     return myHullConfigs;
   }
 
-  public void pause() {
-    myPaused = true;
+  public boolean isPaused() {
+    return myPaused;
   }
 
-  public void resume() {
-    myPaused = false;
+  public void setPaused(boolean paused) {
+    myPaused = paused;
+    DebugCollector.warn(myPaused ? "game paused" : "game resumed");
   }
 
   public void respawn() {

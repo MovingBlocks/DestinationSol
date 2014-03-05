@@ -39,6 +39,7 @@ public class MainScreen implements SolUiScreen {
   private final TextureAtlas.AtlasRegion myWaitTex;
   public final SolUiControl talkCtrl;
   private final TextureAtlas.AtlasRegion myShieldTex;
+  private final SolUiControl myPauseCtrl;
 
   public MainScreen(float r, RightPaneLayout rightPaneLayout, SolCmp cmp) {
     myControls = new ArrayList<SolUiControl>();
@@ -84,6 +85,8 @@ public class MainScreen implements SolUiScreen {
     talkCtrl = new SolUiControl(rightPaneLayout.buttonRect(3), Input.Keys.T);
     talkCtrl.setDisplayName("Talk");
     myControls.add(talkCtrl);
+    myPauseCtrl = new SolUiControl(null, Input.Keys.P);
+    myControls.add(myPauseCtrl);
 
 
     myWarnDrawer = new WarnDrawer(r);
@@ -166,6 +169,10 @@ public class MainScreen implements SolUiScreen {
     }
 
     updateTalk(game);
+
+    if (myPauseCtrl.isJustOff()) {
+      game.setPaused(!game.isPaused());
+    }
   }
 
   private void updateTalk(SolGame game) {
