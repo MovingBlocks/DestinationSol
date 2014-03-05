@@ -120,13 +120,14 @@ public class TexMan {
     @Override
     public TextureAtlas.AtlasRegion getTex(String name) {
       FileHandle fh = SolFiles.readOnly(PREF + name + SUFF);
-      return newTex(fh);
+      return newTex(fh, name);
     }
 
-    private TextureAtlas.AtlasRegion newTex(FileHandle fh) {
+    private TextureAtlas.AtlasRegion newTex(FileHandle fh, String name) {
       Texture tex = new Texture(fh);
       TextureAtlas.AtlasRegion res = new TextureAtlas.AtlasRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
       res.flip(false, true);
+      res.name = name;
       return res;
     }
 
@@ -154,7 +155,7 @@ public class TexMan {
         if (parts.length != 2) continue;
         if (!parts[0].equals(baseName)) continue;
         // todo check that the rest is number;
-        res.add(newTex(fh));
+        res.add(newTex(fh, name));
       }
       return res;
     }

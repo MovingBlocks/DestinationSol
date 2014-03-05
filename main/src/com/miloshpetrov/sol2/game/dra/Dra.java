@@ -1,13 +1,13 @@
 package com.miloshpetrov.sol2.game.dra;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.game.Drawer;
-import com.miloshpetrov.sol2.game.SolGame;
-import com.miloshpetrov.sol2.game.SolObj;
+import com.miloshpetrov.sol2.game.*;
 
 public interface Dra {
-  Texture getTex();
+  Texture getTex0();
+  TextureAtlas.AtlasRegion getTex();
   DraLevel getLevel();
   // called on every update from manager
   void update(SolGame game, SolObj o);

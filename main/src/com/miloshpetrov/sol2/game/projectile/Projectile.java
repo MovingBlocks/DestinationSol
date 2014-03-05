@@ -189,8 +189,13 @@ public class Projectile implements SolObj {
     }
 
     @Override
-    public Texture getTex() {
+    public Texture getTex0() {
       return myTex.getTexture();
+    }
+
+    @Override
+    public TextureAtlas.AtlasRegion getTex() {
+      return myTex;
     }
 
     @Override

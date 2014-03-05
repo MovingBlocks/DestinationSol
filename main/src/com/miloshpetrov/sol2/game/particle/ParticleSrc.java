@@ -2,6 +2,7 @@ package com.miloshpetrov.sol2.game.particle;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
@@ -125,8 +126,13 @@ public class ParticleSrc implements Dra {
   }
 
   @Override
-  public Texture getTex() {
+  public Texture getTex0() {
     return myEmitter.getSprite().getTexture();
+  }
+
+  @Override
+  public TextureAtlas.AtlasRegion getTex() {
+    return null;
   }
 
   public boolean isContinuous() {

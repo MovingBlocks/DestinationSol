@@ -2,8 +2,7 @@ package com.miloshpetrov.sol2.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
@@ -234,5 +233,12 @@ public class SolCam {
 
   public float getDebugFontSize() {
     return .04f * getRealZoom();
+  }
+
+  public void screenToWorld(Vector2 pos) {
+    Vector3 res = new Vector3(pos, 0);
+    myCam.unproject(res);
+    pos.x = res.x;
+    pos.y = res.y;
   }
 }

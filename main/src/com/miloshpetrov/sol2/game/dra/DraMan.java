@@ -2,6 +2,7 @@ package com.miloshpetrov.sol2.game.dra;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.common.DebugCol;
 import com.miloshpetrov.sol2.game.*;
@@ -10,7 +11,7 @@ import java.util.*;
 
 public class DraMan {
   private final Map<DraLevel, Map<Texture, List<Dra>>> myDras;
-  private final Map<Dra, Boolean> myInCam;
+  private final Set<Dra> myInCam;
   private final Drawer myDrawer;
 
   public DraMan(Drawer drawer) {
@@ -19,7 +20,7 @@ public class DraMan {
     for (DraLevel l : DraLevel.values()) {
       myDras.put(l, new HashMap<Texture, List<Dra>>());
     }
-    myInCam = new HashMap<Dra, Boolean>();
+    myInCam = new HashSet<Dra>();
   }
 
   public void objRemoved(SolObj o) {
@@ -31,7 +32,7 @@ public class DraMan {
     for (Dra dra : dras) {
       DraLevel l = dra.getLevel();
       Map<Texture, List<Dra>> map = myDras.get(l);
-      Texture tex = dra.getTex();
+      Texture tex = dra.getTex0();
       List<Dra> set = map.get(tex);
       if (set == null) continue;
       set.remove(dra);
@@ -49,7 +50,7 @@ public class DraMan {
     for (Dra dra : dras) {
       DraLevel l = dra.getLevel();
       Map<Texture, List<Dra>> map = myDras.get(l);
-      Texture tex = dra.getTex();
+      Texture tex = dra.getTex0();
       List<Dra> set = map.get(tex);
       if (set == null) {
         set = new ArrayList<Dra>();
@@ -59,7 +60,7 @@ public class DraMan {
         continue;
       }
       set.add(dra);
-      myInCam.put(dra, false);
+      myInCam.remove(dra);
     }
   }
 
@@ -86,14 +87,14 @@ public class DraMan {
       boolean objInCam = isInCam(objPos, r, camPos, draLevelViewDist);
       for (Dra dra : dras) {
         if (!objInCam || !dra.isEnabled()) {
-          myInCam.put(dra, false);
+          myInCam.remove(dra);
           continue;
         }
         dra.prepare(o);
         Vector2 draPos = dra.getPos();
         float rr = dra.getRadius();
         boolean draInCam = isInCam(draPos, rr, camPos, draLevelViewDist);
-        myInCam.put(dra, draInCam);
+        if (draInCam) myInCam.add(dra); else myInCam.remove(dra);
       }
     }
 
@@ -102,7 +103,7 @@ public class DraMan {
       Map<Texture, List<Dra>> map = e.getValue();
       for (List<Dra> dras : map.values()) {
         for (Dra dra : dras) {
-          if (myInCam.get(dra)) dra.draw(myDrawer, game);
+          if (myInCam.contains(dra)) dra.draw(myDrawer, game);
         }
       }
       if (draLevel.depth <= 1) {
@@ -126,7 +127,7 @@ public class DraMan {
 
   private void drawDebug(Drawer drawer, SolGame game, Dra dra) {
     float lineWidth = game.getCam().getRealLineWidth();
-    Color col = myInCam.get(dra) ? DebugCol.DRA : DebugCol.DRA_OUT;
+    Color col = myInCam.contains(dra) ? DebugCol.DRA : DebugCol.DRA_OUT;
     Vector2 pos = dra.getPos();
     drawer.drawCircle(pos, dra.getRadius(), col, lineWidth);
   }
@@ -159,11 +160,20 @@ public class DraMan {
   }
 
   public boolean isInCam(Dra dra) {
-    Boolean res = myInCam.get(dra);
-    return res != null && res;
+    return myInCam.contains(dra);
   }
 
   public void dispose() {
     myDrawer.dispose();
+  }
+
+  public void collectTexs(Collection<TextureAtlas.AtlasRegion> collector, Vector2 pos) {
+    for (Dra dra : myInCam) {
+      if (.5f * dra.getRadius() < dra.getPos().dst(pos)) continue;
+      TextureAtlas.AtlasRegion tex = dra.getTex();
+      if (tex == null) continue;
+      collector.add(tex);
+    }
+
   }
 }

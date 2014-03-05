@@ -3,7 +3,6 @@ package com.miloshpetrov.sol2.game.dra;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.common.Consumed;
 import com.miloshpetrov.sol2.common.SolMath;
@@ -19,7 +18,7 @@ public class RectSprite implements Dra {
 
   private final float myOrigPercX;
   private final float myOrigPercY;
-  private final TextureRegion myTex;
+  private final TextureAtlas.AtlasRegion myTex;
   private final DraLevel myLevel;
   private final Vector2 myPos;
   private final float myRotSpd;
@@ -73,8 +72,13 @@ public class RectSprite implements Dra {
     myRadius = SolMath.sqrt(rx * rx + ry * ry);
   }
 
-  public Texture getTex() {
+  public Texture getTex0() {
     return myTex.getTexture();
+  }
+
+  @Override
+  public TextureAtlas.AtlasRegion getTex() {
+    return myTex;
   }
 
   public DraLevel getLevel() {
