@@ -127,6 +127,7 @@ main/imgSrcs/misc/Thumbs.db -text
 main/imgSrcs/misc/door.png -text
 main/imgSrcs/misc/forceBeacon.png -text
 main/imgSrcs/misc/grad.png -text
+main/imgSrcs/misc/missing.png -text
 main/imgSrcs/misc/pack.json -text
 main/imgSrcs/misc/shield.png -text
 main/imgSrcs/misc/starPort.png -text
@@ -224,13 +225,16 @@ main/res/sounds/zones/readme.txt -text
 main/settings.ini -text
 main/src/META-INF/MANIFEST.MF -text
 main/src/SolAppListener.gwt.xml -text
+main/src/com/miloshpetrov/sol2/AtlasTexProvider.java -text
 main/src/com/miloshpetrov/sol2/CommonDrawer.java -text
 main/src/com/miloshpetrov/sol2/Const.java -text
+main/src/com/miloshpetrov/sol2/DevTexProvider.java -text
 main/src/com/miloshpetrov/sol2/SolAppListener.java -text
 main/src/com/miloshpetrov/sol2/SolCmp.java -text
 main/src/com/miloshpetrov/sol2/SolFiles.java -text
 main/src/com/miloshpetrov/sol2/TexDrawer.java -text
 main/src/com/miloshpetrov/sol2/TexMan.java -text
+main/src/com/miloshpetrov/sol2/TexProvider.java -text
 main/src/com/miloshpetrov/sol2/common/Bound.java -text
 main/src/com/miloshpetrov/sol2/common/Col.java -text
 main/src/com/miloshpetrov/sol2/common/Consumed.java -text
