@@ -1,7 +1,6 @@
 package com.miloshpetrov.sol2;
 
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
@@ -20,7 +19,7 @@ public class TexMan {
 
   public TexMan() {
     FileHandle atlasFile = SolFiles.readOnly("res/imgs/sol.atlas");
-    myTexProvider = atlasFile.exists() ? new AtlasBasedProvider(atlasFile) : new DevProvider();
+    myTexProvider = atlasFile.exists() ? new AtlasTexProvider(atlasFile) : new DevTexProvider();
     whiteTex = myTexProvider.getTex("misc/whiteTex");
     myPacks = new HashMap<String, Array<TextureAtlas.AtlasRegion>>();
     myTexs = new HashMap<String, TextureAtlas.AtlasRegion>();
@@ -77,87 +76,4 @@ public class TexMan {
     myTexProvider.dispose();
   }
 
-  private static interface TexProvider {
-    TextureAtlas.AtlasRegion getTex(String name);
-    void dispose();
-    Sprite createSprite(String name);
-    Array<TextureAtlas.AtlasRegion> getTexs(String name);
-  }
-
-  private static class AtlasBasedProvider implements TexProvider {
-    private final TextureAtlas myAtlas;
-
-    private AtlasBasedProvider(FileHandle atlasFile) {
-      myAtlas = new TextureAtlas(atlasFile, true);
-    }
-
-    @Override
-    public TextureAtlas.AtlasRegion getTex(String name) {
-      return myAtlas.findRegion(name);
-    }
-
-    @Override
-    public void dispose() {
-      myAtlas.dispose();
-    }
-
-    @Override
-    public Sprite createSprite(String name) {
-      return myAtlas.createSprite(name);
-    }
-
-    @Override
-    public Array<TextureAtlas.AtlasRegion> getTexs(String name) {
-      return myAtlas.findRegions(name);
-    }
-  }
-
-  private class DevProvider implements TexProvider {
-
-    public static final String PREF = "imgSrcs/";
-    public static final String SUFF = ".png";
-
-    @Override
-    public TextureAtlas.AtlasRegion getTex(String name) {
-      FileHandle fh = SolFiles.readOnly(PREF + name + SUFF);
-      return newTex(fh, name);
-    }
-
-    private TextureAtlas.AtlasRegion newTex(FileHandle fh, String name) {
-      Texture tex = new Texture(fh);
-      TextureAtlas.AtlasRegion res = new TextureAtlas.AtlasRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
-      res.flip(false, true);
-      res.name = name;
-      return res;
-    }
-
-    @Override
-    public void dispose() {
-      // forget it
-    }
-
-    @Override
-    public Sprite createSprite(String name) {
-      Texture tex = new Texture(SolFiles.readOnly(PREF + name + SUFF));
-      return new Sprite(tex);
-    }
-
-    @Override
-    public Array<TextureAtlas.AtlasRegion> getTexs(String name) {
-      FileHandle file = SolFiles.readOnly(PREF + name + SUFF);
-      FileHandle dir = file.parent();
-      String baseName = file.nameWithoutExtension();
-      Array<TextureAtlas.AtlasRegion> res = new Array<TextureAtlas.AtlasRegion>();
-      for (FileHandle fh : dir.list()) {
-        if (fh.isDirectory()) continue;
-        String fhName = fh.nameWithoutExtension();
-        String[] parts = fhName.split("_");
-        if (parts.length != 2) continue;
-        if (!parts[0].equals(baseName)) continue;
-        // todo check that the rest is number;
-        res.add(newTex(fh, name));
-      }
-      return res;
-    }
-  }
 }

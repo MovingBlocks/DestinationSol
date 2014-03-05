@@ -1,13 +1,6 @@
 
-
-add solWin to repo (and somehow check if versions equal)
-
-
-
-ARTIST-FRIENDLY VERSION
-  texMan should use a dummy texture if file is not found ("file missing")
   display texture info on click
-  warn about unused images
+  move texture info to configs, point to non-existent files
 
 SPACE LABYRINTHS:
   labyrinths should be outside systems
@@ -37,13 +30,13 @@ SOUND:
   todo list
 
 ARCHITECTURE:
+  path loading for missing hulls
   rotate all ship images (and properly create on-ground enemies)
   get rid of generated white texture
   far ship positions should be calculated on demand?
   arcSin -> arcToAngle(hordeLen, r) -> 180*hordeLen/(pi*r)
   arcSin -> angularWidthOfSphere(r, dist) -> arcSin(r/dist)
   arcSin -> angularWidthOfTangentSpan(spanLen, dist) -> arcTan(spanLen/dist)
-  get rid of Dra.getTex0. But this would require reusing AtlasTexs used by emitters
 
 BUGS:
   planet tiles and stations movement method creates glitches
@@ -73,6 +66,9 @@ BUGS
 ARCHITECTURE
   ships & farShips & starPorts make mess in MapDrawer -- unify under one interface?
   warn about unused sounds
+  warn about unused images
+  replace AtlasRegion with SolTex, latter shouldn't extend
+  get rid of Dra.getTex0. But this would require reusing solTex used by emitters
 
 FEATURES
   planet labyrinths?
