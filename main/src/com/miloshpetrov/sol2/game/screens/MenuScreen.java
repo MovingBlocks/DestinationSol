@@ -38,19 +38,19 @@ public class MenuScreen implements SolUiScreen {
   @Override
   public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
     SolGame g = cmp.getGame();
-    g.pause();
+    g.setPaused(true);
     SolInputMan im = cmp.getInputMan();
     if (myRespawnCtrl.isJustOff()) {
       g.respawn();
       im.setScreen(cmp, g.getScreens().mainScreen);
-      g.resume();
+      g.setPaused(false);
     }
     if (myExitCtrl.isJustOff()) {
       cmp.finishGame();
       im.setScreen(cmp, cmp.getMenuScreens().main);
     }
     if (myCloseCtrl.isJustOff()) {
-      g.resume();
+      g.setPaused(false);
       im.setScreen(cmp, g.getScreens().mainScreen);
     }
   }
