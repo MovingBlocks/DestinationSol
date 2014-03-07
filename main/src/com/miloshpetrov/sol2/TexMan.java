@@ -20,7 +20,7 @@ public class TexMan {
   public TexMan() {
     FileHandle atlasFile = SolFiles.readOnly("res/imgs/sol.atlas");
     myTexProvider = atlasFile.exists() ? new AtlasTexProvider(atlasFile) : new DevTexProvider();
-    whiteTex = myTexProvider.getTex("misc/whiteTex");
+    whiteTex = myTexProvider.getTex("misc/whiteTex", null);
     myPacks = new HashMap<String, Array<TextureAtlas.AtlasRegion>>();
     myTexs = new HashMap<String, TextureAtlas.AtlasRegion>();
     myFlipped = new HashMap<TextureAtlas.AtlasRegion, TextureAtlas.AtlasRegion>();
@@ -29,7 +29,7 @@ public class TexMan {
   public TextureAtlas.AtlasRegion getFlipped(TextureAtlas.AtlasRegion tex) {
     TextureAtlas.AtlasRegion r = myFlipped.get(tex);
     if (r != null) return r;
-    r = new TextureAtlas.AtlasRegion(tex);
+    r = myTexProvider.getCopy(tex);
     r.flip(true, false);
     myFlipped.put(tex, r);
     return r;
@@ -43,7 +43,7 @@ public class TexMan {
   public TextureAtlas.AtlasRegion getTex(String name) {
     TextureAtlas.AtlasRegion r = myTexs.get(name);
     if (r != null) return r;
-    r = myTexProvider.getTex(name);
+    r = myTexProvider.getTex(name, null);
     if (r == null) throw new RuntimeException("texture not found: " + name);
     myTexs.put(name, r);
     return r;
@@ -52,7 +52,7 @@ public class TexMan {
   public Array<TextureAtlas.AtlasRegion> getPack(String name) {
     Array<TextureAtlas.AtlasRegion> r = myPacks.get(name);
     if (r != null) return r;
-    r = myTexProvider.getTexs(name);
+    r = myTexProvider.getTexs(name, null);
     if (r.size == 0) throw new RuntimeException("textures not found: " + name);
     myPacks.put(name, r);
     return r;

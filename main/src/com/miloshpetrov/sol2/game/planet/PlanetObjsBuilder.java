@@ -163,7 +163,7 @@ public class PlanetObjsBuilder {
     Map<Vector2, List<Dra>> collector = new HashMap<Vector2, List<Dra>>();
     PlanetConfig config = planet.getConfig();
     for (DecoConfig dc : config.deco) {
-      addDeco0(game, groundHeight, planetPos, "deco/" + config.name + "/" + dc.texName, dc.density, dc.szMin, dc.szMax,
+      addDeco0(game, groundHeight, planetPos, "deco/" + config.configName + "/" + dc.texName, dc.density, dc.szMin, dc.szMax,
         dc.orig.x, dc.orig.y, dc.allowFlip, collector);
     }
 
