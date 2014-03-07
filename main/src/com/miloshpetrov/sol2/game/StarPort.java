@@ -167,7 +167,7 @@ public class StarPort implements SolObj {
       Vector2 pos = getDesiredPos(from, to, false);
       ArrayList<Dra> dras = new ArrayList<Dra>();
       Body body = myLoader.getBodyAndSprite(game, "misc", "starPort", SIZE,
-        BodyDef.BodyType.KinematicBody, new Vector2(pos), angle, dras, 10f, DraLevel.BIG_BODIES);
+        BodyDef.BodyType.KinematicBody, new Vector2(pos), angle, dras, 10f, DraLevel.BIG_BODIES, null);
       SolMath.free(pos);
       return new StarPort(from, to, body, dras, secondary);
     }

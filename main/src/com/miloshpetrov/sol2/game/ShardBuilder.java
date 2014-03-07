@@ -38,7 +38,7 @@ public class ShardBuilder {
     ArrayList<Dra> dras = new ArrayList<Dra>();
     float scale = SolMath.rnd(MIN_SCALE, MAX_SCALE);
     Body body = myPathLoader.getBodyAndSprite(game, "shards", String.valueOf(modelNr), scale,
-      BodyDef.BodyType.DynamicBody, pos, SolMath.rnd(180), dras, ShipBuilder.SHIP_DENSITY, DraLevel.BODIES);
+      BodyDef.BodyType.DynamicBody, pos, SolMath.rnd(180), dras, ShipBuilder.SHIP_DENSITY, DraLevel.BODIES, null);
 
     body.setAngularVelocity(SolMath.rnd(MAX_ROT_SPD));
     Vector2 spd = SolMath.fromAl(SolMath.rnd(180), MAX_SPD);

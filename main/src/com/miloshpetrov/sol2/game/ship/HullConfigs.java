@@ -34,9 +34,10 @@ public class HullConfigs {
       ArrayList<Vector2> forceBeaconPoss = SolMath.readV2List(sh, "forceBeaconPoss");
       ArrayList<Vector2> doorPoss = SolMath.readV2List(sh, "doorPoss");
       HullConfig.Type type = HullConfig.Type.forValue(sh.getString("type"));
+      TextureAtlas.AtlasRegion tex = texMan.getTex("hulls/" + texName, configFile);
       TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + texName, configFile);
       HullConfig c = new HullConfig(texName, size, maxLife, e1Pos, e2Pos, g1Pos, g2Pos, lightSrcPoss, durability,
-        hasBase, forceBeaconPoss, doorPoss, type, icon);
+        hasBase, forceBeaconPoss, doorPoss, type, icon, tex);
       process(c, shipBuilder);
       myConfigs.put(sh.name, c);
     }

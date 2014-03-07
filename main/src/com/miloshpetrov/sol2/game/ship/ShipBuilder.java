@@ -84,7 +84,8 @@ public class ShipBuilder {
     ArrayList<Dra> dras) {
     BodyDef.BodyType bodyType = hullConfig.type == HullConfig.Type.STATION ? BodyDef.BodyType.KinematicBody : BodyDef.BodyType.DynamicBody;
     DraLevel level = hullConfig.type == HullConfig.Type.STD ? DraLevel.BODIES : DraLevel.BIG_BODIES;
-    Body body = myPathLoader.getBodyAndSprite(game, "hulls", hullConfig.texName, hullConfig.size, bodyType, pos, angle, dras, SHIP_DENSITY, level);
+    Body body = myPathLoader.getBodyAndSprite(game, "hulls", hullConfig.texName, hullConfig.size, bodyType, pos, angle,
+      dras, SHIP_DENSITY, level, hullConfig.tex);
     Fixture shieldFixture = createShieldFixture(hullConfig, body);
 
     GunMount m1 = new GunMount(hullConfig.g1Pos, mount1Fixed);
