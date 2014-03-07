@@ -2,6 +2,10 @@
   display texture info on click
   move texture info to configs, point to non-existent files
 
+
+  planet config should have it all, json should point to dirs with deco & clouds & grounds
+  ItemMan should store item icons
+
 SPACE LABYRINTHS:
   labyrinths should be outside systems
   labyrinths should have exterior space with deco & unique enemies

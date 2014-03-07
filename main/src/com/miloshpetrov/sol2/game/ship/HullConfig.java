@@ -2,7 +2,6 @@ package com.miloshpetrov.sol2.game.ship;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.TexMan;
 
 import java.util.ArrayList;
 
@@ -25,8 +24,8 @@ public class HullConfig {
 
   public HullConfig(String texName, float size, int maxLife, Vector2 e1Pos, Vector2 e2Pos, Vector2 g1Pos,
     Vector2 g2Pos, ArrayList<Vector2> lightSrcPoss,
-    float durability, boolean hasBase, ArrayList<Vector2> forceBeaconPoss, ArrayList<Vector2> doorPoss, TexMan texMan,
-    Type type)
+    float durability, boolean hasBase, ArrayList<Vector2> forceBeaconPoss, ArrayList<Vector2> doorPoss,
+    Type type, TextureAtlas.AtlasRegion icon)
   {
     this.texName = texName;
     this.size = size;
@@ -40,7 +39,7 @@ public class HullConfig {
     this.durability = durability;
     this.hasBase = hasBase;
     this.doorPoss = doorPoss;
-    this.icon = texMan.getTex(TexMan.ICONS_DIR + this.texName);
+    this.icon = icon;
     this.type = type;
   }
 

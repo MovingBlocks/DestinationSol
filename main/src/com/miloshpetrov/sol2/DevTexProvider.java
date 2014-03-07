@@ -18,12 +18,12 @@ class DevTexProvider implements TexProvider {
   }
 
   @Override
-  public TextureAtlas.AtlasRegion getTex(String name) {
+  public TextureAtlas.AtlasRegion getTex(String name, FileHandle configFile) {
     FileHandle fh = SolFiles.readOnly(PREF + name + SUFF);
-    return newTex(fh, name);
+    return newTex(fh, name, configFile);
   }
 
-  private TextureAtlas.AtlasRegion newTex(FileHandle fh, String name) {
+  private TextureAtlas.AtlasRegion newTex(FileHandle fh, String name, FileHandle configFile) {
     Texture tex;
     if (fh.exists()) {
       tex = new Texture(fh);
@@ -31,10 +31,7 @@ class DevTexProvider implements TexProvider {
       tex = myMissingTex;
       DebugCollector.warn("texture not found:", fh);
     }
-    SolTex res = new SolTex(tex);
-    res.flip(false, true);
-    res.name = name;
-    return res;
+    return new SolTex(tex, name);
   }
 
   @Override
@@ -49,7 +46,7 @@ class DevTexProvider implements TexProvider {
   }
 
   @Override
-  public Array<TextureAtlas.AtlasRegion> getTexs(String name) {
+  public Array<TextureAtlas.AtlasRegion> getTexs(String name, FileHandle configFile) {
     FileHandle file = SolFiles.readOnly(PREF + name + SUFF);
     FileHandle dir = file.parent();
     String baseName = file.nameWithoutExtension();
@@ -61,14 +58,22 @@ class DevTexProvider implements TexProvider {
       if (parts.length != 2) continue;
       if (!parts[0].equals(baseName)) continue;
       // todo check that the rest is number;
-      res.add(newTex(fh, name));
+      res.add(newTex(fh, name, configFile));
     }
     return res;
   }
 
+  @Override
+  public TextureAtlas.AtlasRegion getCopy(TextureAtlas.AtlasRegion tex) {
+    SolTex st = (SolTex) tex;
+    return new SolTex(st.getTexture(), st.name);
+  }
+
   public static class SolTex extends TextureAtlas.AtlasRegion {
-    public SolTex(Texture tex) {
+    public SolTex(Texture tex, String name) {
       super(tex, 0, 0, tex.getWidth(), tex.getHeight());
+      flip(false, true);
+      this.name = name;
     }
   }
 }

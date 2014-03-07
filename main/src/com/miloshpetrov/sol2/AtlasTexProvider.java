@@ -13,7 +13,7 @@ class AtlasTexProvider implements TexProvider {
   }
 
   @Override
-  public TextureAtlas.AtlasRegion getTex(String name) {
+  public TextureAtlas.AtlasRegion getTex(String name, FileHandle configFile) {
     return myAtlas.findRegion(name);
   }
 
@@ -28,7 +28,12 @@ class AtlasTexProvider implements TexProvider {
   }
 
   @Override
-  public Array<TextureAtlas.AtlasRegion> getTexs(String name) {
+  public Array<TextureAtlas.AtlasRegion> getTexs(String name, FileHandle configFile) {
     return myAtlas.findRegions(name);
+  }
+
+  @Override
+  public TextureAtlas.AtlasRegion getCopy(TextureAtlas.AtlasRegion tex) {
+    return new TextureAtlas.AtlasRegion(tex);
   }
 }

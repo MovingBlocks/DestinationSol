@@ -37,13 +37,13 @@ public class GunConfig {
   public GunConfig(float minAngleVar, float maxAngleVar, float angleVarDamp, float angleVarPerShot,
     float timeBetweenShots,
     float maxReloadTime, ProjectileConfig projConfig, float gunLength, String texName, String displayName,
-    boolean lightOnShot, TexMan texMan, int price, String descBase, int infiniteClipSize, float dmg,
-    ClipConfig clipConf, SolSound shootSound, SolSound reloadSound)
+    boolean lightOnShot, int price, String descBase, int infiniteClipSize, float dmg,
+    ClipConfig clipConf, SolSound shootSound, SolSound reloadSound, TextureAtlas.AtlasRegion tex)
   {
     this.shootSound = shootSound;
     this.reloadSound = reloadSound;
 
-    tex = texMan.getTex("guns/" + texName);
+    this.tex = tex;
 
     this.dmg = dmg;
     this.maxAngleVar = maxAngleVar;
@@ -103,8 +103,9 @@ public class GunConfig {
       String shootSoundPath = sh.getString("shootSound");
       SolSound reloadSound = soundMan.getSound(reloadSoundPath, configFile);
       SolSound shootSound = soundMan.getSound(shootSoundPath, configFile);
+      TextureAtlas.AtlasRegion tex = texMan.getTex("guns/" + texName);
       GunConfig c = new GunConfig(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots, maxReloadTime, projConfig,
-        gunLength, texName, displayName, lightOnShot, texMan, price, descBase, infiniteClipSize, dmg, clipConf, shootSound, reloadSound);
+        gunLength, texName, displayName, lightOnShot, price, descBase, infiniteClipSize, dmg, clipConf, shootSound, reloadSound, tex);
       itemMan.registerItem(sh.name, c.example);
     }
   }

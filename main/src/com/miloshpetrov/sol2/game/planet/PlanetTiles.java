@@ -13,20 +13,20 @@ public class PlanetTiles {
 
   private final Map<SurfDir,Map<SurfDir,List<Tile>>> myGroundTiles;
 
-  public PlanetTiles(TexMan texMan, String planetName) {
+  public PlanetTiles(TexMan texMan, String configName) {
     myGroundTiles = new HashMap<SurfDir, Map<SurfDir, List<Tile>>>();
-    loadGround(texMan, planetName);
-//    loadEntrances(texMan, planetName);
+    loadGround(texMan, configName);
+//    loadEntrances(texMan, configName);
   }
 
-  private void loadEntrances(TexMan texMan, String planetName) {
-    String folder = "dungeons/" + planetName;
+  private void loadEntrances(TexMan texMan, String configName) {
+    String folder = "dungeons/" + configName;
     PathLoader pathLoader = new PathLoader(folder);
     PathLoader.Model paths = pathLoader.getInternalModel();
   }
 
-  private void loadGround(TexMan texMan, String name) {
-    String folder = "grounds/" + name;
+  private void loadGround(TexMan texMan, String configName) {
+    String folder = "grounds/" + configName;
     PathLoader pathLoader = new PathLoader(folder);
     PathLoader.Model paths = pathLoader.getInternalModel();
 
