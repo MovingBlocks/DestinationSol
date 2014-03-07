@@ -1,16 +1,13 @@
 package com.miloshpetrov.sol2.game.item;
 
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.miloshpetrov.sol2.game.SolGame;
+
 public class SloMoCharge implements SolItem {
-  public static final String TEX_NAME = "sloMoCharge";
   public static final SloMoCharge EXAMPLE = new SloMoCharge();
 
   private SloMoCharge() {
-  }
-
-  @Override
-  public String getTexName() {
-    return TEX_NAME;
   }
 
   @Override
@@ -36,5 +33,10 @@ public class SloMoCharge implements SolItem {
   @Override
   public boolean isSame(SolItem item) {
     return item instanceof SloMoCharge;
+  }
+
+  @Override
+  public TextureAtlas.AtlasRegion getIcon(SolGame game) {
+    return game.getItemMan().sloMoChargeIcon;
   }
 }

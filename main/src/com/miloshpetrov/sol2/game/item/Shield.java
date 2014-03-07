@@ -1,10 +1,12 @@
 package com.miloshpetrov.sol2.game.item;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
+import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.SolObj;
@@ -40,11 +42,6 @@ public class Shield implements SolItem {
   }
 
   @Override
-  public String getTexName() {
-    return "shield";
-  }
-
-  @Override
   public String getDisplayName() {
     return myConfig.displayName;
   }
@@ -67,6 +64,11 @@ public class Shield implements SolItem {
   @Override
   public boolean isSame(SolItem item) {
     return item instanceof Shield && ((Shield) item).myConfig == myConfig;
+  }
+
+  @Override
+  public TextureAtlas.AtlasRegion getIcon(SolGame game) {
+    return myConfig.icon;
   }
 
   public float getLife() {
@@ -101,22 +103,25 @@ public class Shield implements SolItem {
     public final SolSound absorbSound;
     public final SolSound regenSound;
     public final Shield example;
-    public float maxLife;
-    public float myMaxIdleTime = 2;
-    public float regenSpd;
+    public final float maxLife;
+    public final float myMaxIdleTime = 2;
+    public final float regenSpd;
+    public final TextureAtlas.AtlasRegion icon;
 
-    private Config(int maxLife, String displayName, int price, String desc, SolSound absorbSound, SolSound regenSound) {
+    private Config(int maxLife, String displayName, int price, String desc, SolSound absorbSound, SolSound regenSound,
+      TextureAtlas.AtlasRegion icon) {
       this.maxLife = maxLife;
       this.displayName = displayName;
       this.price = price;
       this.desc = desc;
       this.absorbSound = absorbSound;
       this.regenSound = regenSound;
+      this.icon = icon;
       regenSpd = this.maxLife / 3;
       example = new Shield(this);
     }
 
-    public static void loadConfigs(ItemMan itemMan, SoundMan soundMan) {
+    public static void loadConfigs(ItemMan itemMan, SoundMan soundMan, TexMan texMan) {
       JsonReader r = new JsonReader();
       FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "shields.json");
       JsonValue parsed = r.parse(configFile);
@@ -129,7 +134,8 @@ public class Shield implements SolItem {
         SolSound absorbSound = soundMan.getSound(soundDir, configFile);
         soundDir = sh.getString("regenSound");
         SolSound regenSound = soundMan.getSound(soundDir, configFile);
-        Config config = new Config(maxLife, displayName, price, desc, absorbSound, regenSound);
+        TextureAtlas.AtlasRegion icon = texMan.getTex("icons/shield");
+        Config config = new Config(maxLife, displayName, price, desc, absorbSound, regenSound, icon);
         itemMan.registerItem(sh.name(), config.example);
       }
     }

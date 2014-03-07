@@ -1,5 +1,7 @@
 package com.miloshpetrov.sol2.game.item;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
 
 public class ShipItem implements SolItem {
@@ -14,11 +16,6 @@ public class ShipItem implements SolItem {
     myConfig = config;
     myPrice = price;
     myDesc = desc;
-  }
-
-  @Override
-  public String getTexName() {
-    return myConfig.texName;
   }
 
   @Override
@@ -44,6 +41,11 @@ public class ShipItem implements SolItem {
   @Override
   public boolean isSame(SolItem item) {
     return item instanceof ShipItem && ((ShipItem) item).myConfig == myConfig;
+  }
+
+  @Override
+  public TextureAtlas.AtlasRegion getIcon(SolGame game) {
+    return myConfig.icon;
   }
 
   public HullConfig getConfig() {

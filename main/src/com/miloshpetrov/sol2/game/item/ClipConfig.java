@@ -1,27 +1,30 @@
 package com.miloshpetrov.sol2.game.item;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
+import com.miloshpetrov.sol2.TexMan;
 
 public class ClipConfig {
-  public final String iconName;
   public final int price;
   public final String displayName;
   public final String desc;
   public final int size;
   public final ClipItem example;
+  public final TextureAtlas.AtlasRegion icon;
 
-  public ClipConfig(String iconName, int price, String displayName, int size, String descSuff) {
-    this.iconName = iconName;
+  public ClipConfig(int price, String displayName, int size, String descSuff,
+    TextureAtlas.AtlasRegion icon) {
     this.price = price;
     this.displayName = displayName;
     this.size = size;
+    this.icon = icon;
     this.desc = "A clip of " + size + " " + descSuff;
     this.example = new ClipItem(this);
   }
 
-  public static void load(ItemMan itemMan) {
+  public static void load(ItemMan itemMan, TexMan texMan) {
     JsonReader r = new JsonReader();
     JsonValue parsed = r.parse(SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "clips.json"));
     for (JsonValue sh : parsed) {
@@ -30,7 +33,8 @@ public class ClipConfig {
       String displayName = sh.getString("displayName");
       String descSuf = sh.getString("descSuf");
       int size = sh.getInt("size");
-      ClipConfig config = new ClipConfig(iconName, price, displayName, size, descSuf);
+      TextureAtlas.AtlasRegion icon = texMan.getTex("icons/" + iconName);
+      ClipConfig config = new ClipConfig(price, displayName, size, descSuf, icon);
       itemMan.registerItem(sh.name(), config.example);
     }
   }

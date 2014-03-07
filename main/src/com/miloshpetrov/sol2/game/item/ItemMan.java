@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.game.item;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.SolMath;
@@ -15,17 +16,24 @@ public class ItemMan {
   private final HashMap<String,SolItem> myM;
   private final ArrayList<SolItem> myL;
   public final ProjectileConfigs projConfigs;
+  public final TextureAtlas.AtlasRegion moneyIcon;
+  public final TextureAtlas.AtlasRegion repairIcon;
+  public final TextureAtlas.AtlasRegion sloMoChargeIcon;
 
   public ItemMan(TexMan texMan, SoundMan soundMan) {
+    moneyIcon = texMan.getTex("icons/money");
+    repairIcon = texMan.getTex("icons/repairItem");
+    sloMoChargeIcon = texMan.getTex("icons/sloMoCharge");
+
     myM = new HashMap<String, SolItem>();
     projConfigs = new ProjectileConfigs(texMan, soundMan);
 
-    Shield.Config.loadConfigs(this, soundMan);
-    Armor.Config.loadConfigs(this, soundMan);
-    EngineItem.Config.loadConfigs(this, soundMan);
+    Shield.Config.loadConfigs(this, soundMan, texMan);
+    Armor.Config.loadConfigs(this, soundMan, texMan);
+    EngineItem.Config.loadConfigs(this, soundMan, texMan);
 
-    ClipConfig.load(this);
-    GunConfig.load(texMan, this, soundMan);
+    ClipConfig.load(this, texMan);
+    GunConfig.load(texMan, this, soundMan, texMan);
 
     myM.put("rep", RepairItem.EXAMPLE);
     myM.put("sloMo", SloMoCharge.EXAMPLE);

@@ -1,22 +1,20 @@
 package com.miloshpetrov.sol2.game.item;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
+import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.sound.SolSound;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 
 public class EngineItem implements SolItem {
-  public static final String TEX_NAME = "engine";
   private final Config myConfig;
 
   private EngineItem(Config config) {
     myConfig = config;
-  }
-
-  public String getTexName() {
-    return TEX_NAME;
   }
 
   @Override
@@ -49,6 +47,11 @@ public class EngineItem implements SolItem {
     return item instanceof EngineItem && ((EngineItem) item).myConfig == myConfig;
   }
 
+  @Override
+  public TextureAtlas.AtlasRegion getIcon(SolGame game) {
+    return myConfig.icon;
+  }
+
   public SolSound getWorkSound() {
     return myConfig.workSound;
   }
@@ -64,8 +67,10 @@ public class EngineItem implements SolItem {
     public final boolean big;
     public final SolSound workSound;
     public final EngineItem example;
+    public final TextureAtlas.AtlasRegion icon;
 
-    private Config(String displayName, int price, String desc, float rotAcc, float acc, float maxRotSpd, boolean big, SolSound workSound){
+    private Config(String displayName, int price, String desc, float rotAcc, float acc, float maxRotSpd, boolean big,
+      SolSound workSound, TextureAtlas.AtlasRegion icon){
       this.displayName = displayName;
       this.price = price;
       this.desc = desc;
@@ -74,10 +79,11 @@ public class EngineItem implements SolItem {
       this.maxRotSpd = maxRotSpd;
       this.big = big;
       this.workSound = workSound;
+      this.icon = icon;
       this.example = new EngineItem(this);
     }
 
-    public static void loadConfigs(ItemMan itemMan, SoundMan soundMan) {
+    public static void loadConfigs(ItemMan itemMan, SoundMan soundMan, TexMan texMan) {
       JsonReader r = new JsonReader();
       FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "engines.json");
       JsonValue parsed = r.parse(configFile);
@@ -91,7 +97,8 @@ public class EngineItem implements SolItem {
         boolean big = sh.getBoolean("big");
         String workSoundDir = sh.getString("workSound");
         SolSound workSound = soundMan.getLoopedSound(workSoundDir, configFile);
-        Config config = new Config(displayName, price, desc, rotAcc, acc, maxRotSpd, big, workSound);
+        TextureAtlas.AtlasRegion icon = texMan.getTex("icons/engine");
+        Config config = new Config(displayName, price, desc, rotAcc, acc, maxRotSpd, big, workSound, icon);
         itemMan.registerItem(sh.name(), config.example);
       }
     }

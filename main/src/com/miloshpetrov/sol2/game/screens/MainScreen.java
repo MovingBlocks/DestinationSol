@@ -237,7 +237,8 @@ public class MainScreen implements SolUiScreen {
       float lifePerc = hero.getLife() / hero.getHull().config.maxLife;
       drawBar(uiDrawer, texMan, col1, row, lifePerc);
       int repairKitCount = hero.getItemContainer().count(RepairItem.EXAMPLE);
-      drawIcons(uiDrawer, texMan, RepairItem.TEX_NAME, col2, row, repairKitCount);
+      ItemMan itemMan = cmp.getGame().getItemMan();
+      drawIcons(uiDrawer, col2, row, repairKitCount, itemMan.repairIcon);
 
       row += ICON_SZ;
       boolean consumed = drawGunStat(uiDrawer, texMan, hero, false, col0, col1, col2, row);
@@ -245,7 +246,7 @@ public class MainScreen implements SolUiScreen {
       consumed = drawGunStat(uiDrawer, texMan, hero, true, col0, col1, col2, row);
       if (consumed) row += ICON_SZ;
       int sloMoCount = hero.getItemContainer().count(SloMoCharge.EXAMPLE);
-      drawIcons(uiDrawer, texMan, SloMoCharge.TEX_NAME, col0, row, sloMoCount);
+      drawIcons(uiDrawer, col0, row, sloMoCount, itemMan.sloMoChargeIcon);
     }
   }
 
@@ -254,7 +255,7 @@ public class MainScreen implements SolUiScreen {
   {
     GunItem g = hero.getHull().getGunMount(secondary).getGun();
     if (g == null) return false;
-    TextureAtlas.AtlasRegion tex = texMan.getTex(TexMan.ICONS_DIR + g.config.itemTexName);
+    TextureAtlas.AtlasRegion tex = g.config.icon;
 
     uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, col0, y, 0, Col.W);
     int ics = g.config.infiniteClipSize;
@@ -267,8 +268,7 @@ public class MainScreen implements SolUiScreen {
     }
     if (ics == 0) {
       int clipCount = hero.getItemContainer().count(g.config.clipConf.example);
-      String clipTexName = g.config.clipConf.iconName;
-      drawIcons(uiDrawer, texMan, clipTexName, col2, y, clipCount);
+      drawIcons(uiDrawer, col2, y, clipCount, g.config.clipConf.icon);
     } else {
       uiDrawer.draw(myInfinityTex, ICON_SZ, ICON_SZ, 0, 0, col2, y, 0, Col.W);
     }
@@ -286,8 +286,7 @@ public class MainScreen implements SolUiScreen {
     uiDrawer.draw(texMan.whiteTex, BAR_SZ * perc, h, 0, 0, x, y, 0, Col.LG);
   }
 
-  private void drawIcons(UiDrawer uiDrawer, TexMan texMan, String texName, float x, float y, int count) {
-    TextureAtlas.AtlasRegion tex = texMan.getTex(TexMan.ICONS_DIR + texName);
+  private void drawIcons(UiDrawer uiDrawer, float x, float y, int count, TextureAtlas.AtlasRegion tex) {
     int excess = count - MAX_ICON_COUNT;
     int iconCount = excess > 0 ? MAX_ICON_COUNT : count;
     for (int i = 0; i < iconCount; i++) {

@@ -1,15 +1,13 @@
 package com.miloshpetrov.sol2.game.item;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.miloshpetrov.sol2.game.SolGame;
+
 public class ClipItem implements SolItem {
   private final ClipConfig myConfig;
 
   public ClipItem(ClipConfig config) {
     myConfig = config;
-  }
-
-  @Override
-  public String getTexName() {
-    return myConfig.iconName;
   }
 
   @Override
@@ -39,5 +37,10 @@ public class ClipItem implements SolItem {
   @Override
   public boolean isSame(SolItem item) {
     return item instanceof com.miloshpetrov.sol2.game.item.ClipItem && ((com.miloshpetrov.sol2.game.item.ClipItem) item).myConfig == myConfig;
+  }
+
+  @Override
+  public TextureAtlas.AtlasRegion getIcon(SolGame game) {
+    return myConfig.icon;
   }
 }

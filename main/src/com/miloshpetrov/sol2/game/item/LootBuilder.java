@@ -3,7 +3,6 @@ package com.miloshpetrov.sol2.game.item;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.dra.*;
@@ -20,10 +19,8 @@ public class LootBuilder {
 
   // set spd & rot spd
   public Loot build(SolGame game, Vector2 pos, SolItem item, Vector2 spd, int life, float rotSpd) {
-    String name = item.getTexName();
     List<Dra> dras = new ArrayList<Dra>();
-    TexMan texMan = game.getTexMan();
-    TextureAtlas.AtlasRegion tex = texMan.getTex(TexMan.ICONS_DIR + name);
+    TextureAtlas.AtlasRegion tex = item.getIcon(game);
     RectSprite s = new RectSprite(tex, SZ, 0, 0, new Vector2(), DraLevel.GUNS, 0, 0, Col.W);
     dras.add(s);
     Body b = buildBody(game, pos);
