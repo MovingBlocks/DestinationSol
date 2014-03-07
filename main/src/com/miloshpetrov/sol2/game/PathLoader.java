@@ -277,7 +277,7 @@ public class PathLoader {
   }
 
   public Body getBodyAndSprite(SolGame game, String packName, String name, float scale, BodyDef.BodyType type,
-    Vector2 pos, float angle, List<Dra> dras, float density, DraLevel level)
+    Vector2 pos, float angle, List<Dra> dras, float density, DraLevel level, TextureAtlas.AtlasRegion tex)
   {
     BodyDef bd = new BodyDef();
     bd.type = type;
@@ -293,8 +293,10 @@ public class PathLoader {
     attachFixture(body, pathName, fd, scale);
 
     Vector2 orig = getOrigin(pathName, 1);
-    String imgName = packName + "/" + name;
-    TextureAtlas.AtlasRegion tex = game.getTexMan().getTex(imgName, null);
+    if (tex == null) {
+      String imgName = packName + "/" + name;
+      tex = game.getTexMan().getTex(imgName, null);
+    }
     RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, Col.W);
     dras.add(s);
     return body;

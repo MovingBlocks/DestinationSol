@@ -1,5 +1,4 @@
 
-  hull tex is still hard-coded
 
 SPACE LABYRINTHS:
   labyrinths should be outside systems
@@ -15,7 +14,7 @@ FEATURES:
   add mount type to ship cfg
   loot should be pulled more gently
   smooth camera rotation + sometimes camera does 360 when leaving a planet
-  stars
+  heat from stars + new damage type
   brakes
   hummers as stations
   moar items
@@ -27,7 +26,11 @@ FEATURES:
 
 SOUND:
   sounds for other damage types
+  sound for null armor
   todo list
+
+???
+  remember consumed angles on planet
 
 ARCHITECTURE:
   path loading for missing hulls
@@ -51,10 +54,6 @@ BUGS:
 UI:
   new UI
   "new" mark in the inventory
-
-???
-  remember consumed angles on planet
-
 
 ===================== REST =======================================================================
 
