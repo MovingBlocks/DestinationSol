@@ -106,14 +106,16 @@ public class PlanetObjsBuilder {
   }
 
   private void createClouds(SolGame game, Planet planet) {
+    ArrayList<TextureAtlas.AtlasRegion> cloudTexs = planet.getConfig().cloudTexs;
+    if (cloudTexs.isEmpty()) return;
     int cloudCount = SolMath.intRnd(.7f, (int) (CLOUD_DENSITY * Const.ATM_HEIGHT * planet.getGroundHeight()));
     for (int i = 0; i < cloudCount; i++) {
-      PlanetSprites cloud = createCloud(game.getTexMan(), planet);
+      PlanetSprites cloud = createCloud(planet, cloudTexs, game.getTexMan());
       game.getObjMan().addObjDelayed(cloud);
     }
   }
 
-  private PlanetSprites createCloud(TexMan texMan, Planet planet) {
+  private PlanetSprites createCloud(Planet planet, ArrayList<TextureAtlas.AtlasRegion> cloudTexs, TexMan texMan) {
     float distPerc = SolMath.rnd(0, 1);
     float dist = planet.getGroundHeight() - TOP_TILE_SZ + .9f * Const.ATM_HEIGHT * distPerc;
     float angle = SolMath.rnd(180);
@@ -126,7 +128,7 @@ public class PlanetObjsBuilder {
 
     int pieceCount = (int) (sizePerc * MAX_CLOUD_PIECE_COUNT);
     for (int i = 0; i < pieceCount; i++) {
-      RectSprite s = createCloudSprite(texMan, maxAngleShift, maxDistShift, dist);
+      RectSprite s = createCloudSprite(cloudTexs, maxAngleShift, maxDistShift, dist, texMan);
       dras.add(s);
     }
     float rotSpd = SolMath.rnd(.1f, 1) * SolMath.arcSin(MAX_CLOUD_LINEAR_SPD / dist);
@@ -134,10 +136,13 @@ public class PlanetObjsBuilder {
     return new PlanetSprites(planet, angle, dist, dras, rotSpd);
   }
 
-  private RectSprite createCloudSprite(TexMan texMan, float maxAngleShift, float maxDistShift,
-    float baseDist) {
+  private RectSprite createCloudSprite(ArrayList<TextureAtlas.AtlasRegion> cloudTexs,
+    float maxAngleShift,
+    float maxDistShift, float baseDist, TexMan texMan)
+  {
 
-    TextureAtlas.AtlasRegion tex = texMan.getRndTex("skies/cloud", null);
+    TextureAtlas.AtlasRegion tex = SolMath.elemRnd(cloudTexs);
+    if (SolMath.test(.5f)) tex = texMan.getFlipped(tex);
     float angleShiftRel = SolMath.rnd(1);
     float distPerc = 1 - SolMath.abs(angleShiftRel);
     float sz = .5f * (1 + distPerc) * MAX_CLOUD_PIECE_SZ;
@@ -163,8 +168,7 @@ public class PlanetObjsBuilder {
     Map<Vector2, List<Dra>> collector = new HashMap<Vector2, List<Dra>>();
     PlanetConfig config = planet.getConfig();
     for (DecoConfig dc : config.deco) {
-      addDeco0(game, groundHeight, planetPos, "deco/" + config.configName + "/" + dc.texName, dc.density, dc.szMin, dc.szMax,
-        dc.orig.x, dc.orig.y, dc.allowFlip, collector);
+      addDeco0(game, groundHeight, planetPos, collector, dc);
     }
 
     for (Map.Entry<Vector2, List<Dra>> e : collector.entrySet()) {
@@ -177,9 +181,8 @@ public class PlanetObjsBuilder {
     }
   }
 
-  private void addDeco0(SolGame game, float groundHeight, Vector2 planetPos, String texName,
-    float decoDensity, float szMin, float szMax, float origX, float origY, boolean allowFlip,
-    Map<Vector2, List<Dra>> collector)
+  private void addDeco0(SolGame game, float groundHeight, Vector2 planetPos,
+    Map<Vector2, List<Dra>> collector, DecoConfig dc)
   {
     World w = game.getObjMan().getWorld();
 
@@ -195,7 +198,7 @@ public class PlanetObjsBuilder {
       }
     };
 
-    int decoCount = (int) (2 * SolMath.PI * groundHeight * decoDensity);
+    int decoCount = (int) (2 * SolMath.PI * groundHeight * dc.density);
     for (int i = 0; i < decoCount; i++) {
       float decoAngle = SolMath.rnd(180);
       SolMath.fromAl(rayCasted, decoAngle, groundHeight, true);
@@ -210,9 +213,12 @@ public class PlanetObjsBuilder {
       SolMath.rotate(decoRelPos, -baseAngle - 90, true);
       float decoRelAngle = decoAngle - baseAngle;
 
-      float decoSz = SolMath.rnd(szMin, szMax);
-      TextureAtlas.AtlasRegion decoTex = game.getTexMan().getRndTex(texName, allowFlip ? null : false);
-      RectSprite s = new RectSprite(decoTex, decoSz, origX, origY, decoRelPos, DraLevel.DECO, decoRelAngle, 0, Col.W);
+      float decoSz = SolMath.rnd(dc.szMin, dc.szMax);
+
+      TextureAtlas.AtlasRegion decoTex = SolMath.elemRnd(dc.texs);
+      if (dc.allowFlip) decoTex = game.getTexMan().getFlipped(decoTex);
+
+      RectSprite s = new RectSprite(decoTex, decoSz, dc.orig.x, dc.orig.y, decoRelPos, DraLevel.DECO, decoRelAngle, 0, Col.W);
       List<Dra> ss = collector.get(basePos);
       if (ss == null) {
         ss = new ArrayList<Dra>();

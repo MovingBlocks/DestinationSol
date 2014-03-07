@@ -1,7 +1,8 @@
 package com.miloshpetrov.sol2.game.planet;
 
-import com.miloshpetrov.sol2.TexMan;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlanetConfig {
@@ -12,10 +13,11 @@ public class PlanetConfig {
   public final List<PlanetEnemyConfig> groundEnemies;
   public final List<PlanetEnemyConfig> orbitEnemies;
   public final PlanetTiles planetTiles;
+  public final ArrayList<TextureAtlas.AtlasRegion> cloudTexs;
 
   public PlanetConfig(String configName, float minGrav, float maxGrav, List<DecoConfig> deco,
     List<PlanetEnemyConfig> groundEnemies,
-    List<PlanetEnemyConfig> orbitEnemies, TexMan texMan)
+    List<PlanetEnemyConfig> orbitEnemies, ArrayList<TextureAtlas.AtlasRegion> cloudTexs, PlanetTiles planetTiles)
   {
     this.configName = configName;
     this.minGrav = minGrav;
@@ -23,6 +25,7 @@ public class PlanetConfig {
     this.deco = deco;
     this.groundEnemies = groundEnemies;
     this.orbitEnemies = orbitEnemies;
-    planetTiles = new PlanetTiles(texMan, configName);
+    this.cloudTexs = cloudTexs;
+    this.planetTiles = planetTiles;
   }
 }
