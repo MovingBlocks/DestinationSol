@@ -23,7 +23,6 @@ public class GunConfig {
   public final ProjectileConfig projConfig;
   public final TextureAtlas.AtlasRegion tex;
   public final boolean lightOnShot;
-  public final String itemTexName;
   public final int price;
   public final String desc;
   public final int infiniteClipSize;
@@ -33,12 +32,14 @@ public class GunConfig {
   public final ClipConfig clipConf;
   public final SolSound shootSound;
   public final SolSound reloadSound;
+  public final TextureAtlas.AtlasRegion icon;
 
   public GunConfig(float minAngleVar, float maxAngleVar, float angleVarDamp, float angleVarPerShot,
     float timeBetweenShots,
-    float maxReloadTime, ProjectileConfig projConfig, float gunLength, String texName, String displayName,
+    float maxReloadTime, ProjectileConfig projConfig, float gunLength, String displayName,
     boolean lightOnShot, int price, String descBase, int infiniteClipSize, float dmg,
-    ClipConfig clipConf, SolSound shootSound, SolSound reloadSound, TextureAtlas.AtlasRegion tex)
+    ClipConfig clipConf, SolSound shootSound, SolSound reloadSound, TextureAtlas.AtlasRegion tex,
+    TextureAtlas.AtlasRegion icon)
   {
     this.shootSound = shootSound;
     this.reloadSound = reloadSound;
@@ -56,10 +57,10 @@ public class GunConfig {
     this.gunLength = gunLength;
     this.displayName = displayName;
     this.lightOnShot = lightOnShot;
-    this.itemTexName = texName;
     this.price = price;
     this.infiniteClipSize = infiniteClipSize;
     this.clipConf = clipConf;
+    this.icon = icon;
 
     dps = dmg / timeBetweenShots;
     this.desc = makeDesc(descBase);
@@ -76,7 +77,7 @@ public class GunConfig {
     return sb.toString();
   }
 
-  public static void load(TexMan texMan, ItemMan itemMan, SoundMan soundMan) {
+  public static void load(TexMan texMan, ItemMan itemMan, SoundMan soundMan, TexMan man) {
     JsonReader r = new JsonReader();
     FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "guns.json");
     JsonValue parsed = r.parse(configFile);
@@ -104,8 +105,9 @@ public class GunConfig {
       SolSound reloadSound = soundMan.getSound(reloadSoundPath, configFile);
       SolSound shootSound = soundMan.getSound(shootSoundPath, configFile);
       TextureAtlas.AtlasRegion tex = texMan.getTex("guns/" + texName);
+      TextureAtlas.AtlasRegion icon = texMan.getTex("icons/" + texName);
       GunConfig c = new GunConfig(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots, maxReloadTime, projConfig,
-        gunLength, texName, displayName, lightOnShot, price, descBase, infiniteClipSize, dmg, clipConf, shootSound, reloadSound, tex);
+        gunLength, displayName, lightOnShot, price, descBase, infiniteClipSize, dmg, clipConf, shootSound, reloadSound, tex, icon);
       itemMan.registerItem(sh.name, c.example);
     }
   }

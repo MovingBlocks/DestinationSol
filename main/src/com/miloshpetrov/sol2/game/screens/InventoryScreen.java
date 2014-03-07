@@ -178,8 +178,7 @@ public class InventoryScreen implements SolUiScreen {
       if (itemCount <= itemIdx) continue;
       SolUiControl itemCtrl = myItemCtrls[i];
       SolItem item = ic.get(itemIdx);
-      String n = item.getTexName();
-      TextureAtlas.AtlasRegion tex = texMan.getTex(TexMan.ICONS_DIR + n);
+      TextureAtlas.AtlasRegion tex = item.getIcon(game);
       Rectangle rect = itemCtrl.getScreenArea();
       float rowCenterY = rect.y + rect.height / 2;
       uiDrawer.draw(tex, imgSz, imgSz, imgSz/2, imgSz/2, rect.x + equiWidth + imgWidth/2, rowCenterY, 0, Col.W);

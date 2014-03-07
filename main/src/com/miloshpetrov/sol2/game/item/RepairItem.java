@@ -1,17 +1,14 @@
 package com.miloshpetrov.sol2.game.item;
 
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.miloshpetrov.sol2.game.SolGame;
+
 public class RepairItem implements SolItem {
   public static final int LIFE_AMT = 20;
-  public static final String TEX_NAME = "repairItem";
   public static final SolItem EXAMPLE = new RepairItem();
 
   private RepairItem() {
-  }
-
-  @Override
-  public String getTexName() {
-    return TEX_NAME;
   }
 
   @Override
@@ -37,5 +34,10 @@ public class RepairItem implements SolItem {
   @Override
   public boolean isSame(SolItem item) {
     return item instanceof RepairItem;
+  }
+
+  @Override
+  public TextureAtlas.AtlasRegion getIcon(SolGame game) {
+    return game.getItemMan().repairIcon;
   }
 }

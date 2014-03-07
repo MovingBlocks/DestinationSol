@@ -1,5 +1,7 @@
 package com.miloshpetrov.sol2.game.gun;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.item.SolItem;
 
 public class GunItem implements SolItem {
@@ -12,11 +14,6 @@ public class GunItem implements SolItem {
     this.config = config;
     this.ammo = ammo;
     this.reloadAwait = reloadAwait;
-  }
-
-  @Override
-  public String getTexName() {
-    return config.itemTexName;
   }
 
   @Override
@@ -42,6 +39,11 @@ public class GunItem implements SolItem {
   @Override
   public boolean isSame(SolItem item) {
     return item instanceof GunItem && ((GunItem) item).config == config;
+  }
+
+  @Override
+  public TextureAtlas.AtlasRegion getIcon(SolGame game) {
+    return config.icon;
   }
 
   public boolean canShoot() {
