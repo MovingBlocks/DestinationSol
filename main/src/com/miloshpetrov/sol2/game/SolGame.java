@@ -22,6 +22,7 @@ import com.miloshpetrov.sol2.game.ship.*;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 import com.miloshpetrov.sol2.save.SaveData;
 import com.miloshpetrov.sol2.ui.DebugCollector;
+import com.miloshpetrov.sol2.ui.UiDrawer;
 
 public class SolGame {
 
@@ -337,4 +338,7 @@ public class SolGame {
     return myTime;
   }
 
+  public void drawDebugUi(UiDrawer uiDrawer) {
+    myDraDebugger.draw(uiDrawer, this);
+  }
 }
