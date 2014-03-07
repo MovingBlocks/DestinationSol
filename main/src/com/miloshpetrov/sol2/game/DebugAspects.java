@@ -28,6 +28,7 @@ public class DebugAspects {
   public static boolean SOUND_DEBUG = false;
   public static boolean SOUND_IN_SPACE = false;
   public static String DEV_ROOT_PATH;
+  public static boolean TEX_INFO = false;
 
   public static void read() {
     boolean devBuild = Files.exists(Paths.get("devBuild"));
@@ -41,6 +42,7 @@ public class DebugAspects {
     NO_SOUND = r.b("noSound", NO_SOUND);
     SOUND_DEBUG = r.b("soundDebug", SOUND_DEBUG);
     SOUND_IN_SPACE = r.b("soundInSpace", SOUND_IN_SPACE);
+    TEX_INFO = r.b("texInfo", TEX_INFO);
     // and so on
   }
 }

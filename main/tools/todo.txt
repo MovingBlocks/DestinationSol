@@ -1,6 +1,4 @@
 
-  display texture info on click
-  debug aspect
   hull tex is still hard-coded
 
 SPACE LABYRINTHS:
@@ -13,6 +11,7 @@ ASTEROID CLUSTERS:
   asteroids should take dmg, fall apart and burn in atmosphere
 
 FEATURES:
+  random encounters
   add mount type to ship cfg
   loot should be pulled more gently
   smooth camera rotation + sometimes camera does 360 when leaving a planet
@@ -40,6 +39,8 @@ ARCHITECTURE:
   arcSin -> angularWidthOfTangentSpan(spanLen, dist) -> arcTan(spanLen/dist)
 
 BUGS:
+  greater ground battle dist
+  dynamic AI shoot angle
   planet tiles and stations movement method creates glitches
   bullets fly thru ships sometimes -- blame shields... needs better understanding of Box2D categories
   bullets are too narrow on phone -- use realLineWidth() as a minimum width
