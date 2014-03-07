@@ -4,8 +4,9 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.Array;
 import com.miloshpetrov.sol2.ui.DebugCollector;
+
+import java.util.ArrayList;
 
 class DevTexProvider implements TexProvider {
 
@@ -46,11 +47,11 @@ class DevTexProvider implements TexProvider {
   }
 
   @Override
-  public Array<TextureAtlas.AtlasRegion> getTexs(String name, FileHandle configFile) {
+  public ArrayList<TextureAtlas.AtlasRegion> getTexs(String name, FileHandle configFile) {
     FileHandle file = SolFiles.readOnly(PREF + name + SUFF);
     FileHandle dir = file.parent();
     String baseName = file.nameWithoutExtension();
-    Array<TextureAtlas.AtlasRegion> res = new Array<TextureAtlas.AtlasRegion>();
+    ArrayList<TextureAtlas.AtlasRegion> res = new ArrayList<TextureAtlas.AtlasRegion>();
     for (FileHandle fh : dir.list()) {
       if (fh.isDirectory()) continue;
       String fhName = fh.nameWithoutExtension();

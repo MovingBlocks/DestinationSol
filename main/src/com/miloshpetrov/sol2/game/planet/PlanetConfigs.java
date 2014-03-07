@@ -1,5 +1,7 @@
 package com.miloshpetrov.sol2.game.planet;
 
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
@@ -17,14 +19,19 @@ public class PlanetConfigs {
     myConfigs = new HashMap<String, PlanetConfig>();
 
     JsonReader r = new JsonReader();
-    JsonValue parsed = r.parse(SolFiles.readOnly(Const.CONFIGS_DIR + "planets.json"));
+    FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "planets.json");
+    JsonValue parsed = r.parse(configFile);
     for (JsonValue sh : parsed) {
       float minGrav = sh.getFloat("minGrav");
       float maxGrav = sh.getFloat("maxGrav");
-      List<DecoConfig> deco = loadDecoConfigs(sh);
+      List<DecoConfig> deco = loadDecoConfigs(sh, texMan, configFile);
       ArrayList<PlanetEnemyConfig> groundEnemies = loadEnemiyConfigs(sh.get("groundEnemies"), hullConfigs);
       ArrayList<PlanetEnemyConfig> orbitEnemies = loadEnemiyConfigs(sh.get("orbitEnemies"), hullConfigs);
-      PlanetConfig c = new PlanetConfig(sh.name, minGrav, maxGrav, deco, groundEnemies, orbitEnemies, texMan);
+      String skyPackName = sh.getString("skyTexs");
+      ArrayList<TextureAtlas.AtlasRegion> cloudTexs = texMan.getPack(skyPackName);
+      String groundFolder = sh.getString("groundTexs");
+      PlanetTiles planetTiles = new PlanetTiles(texMan, groundFolder, configFile);
+      PlanetConfig c = new PlanetConfig(sh.name, minGrav, maxGrav, deco, groundEnemies, orbitEnemies, cloudTexs, planetTiles);
       myConfigs.put(sh.name, c);
     }
   }
@@ -42,7 +49,7 @@ public class PlanetConfigs {
     return res;
   }
 
-  private List<DecoConfig> loadDecoConfigs(JsonValue planetConfig) {
+  private List<DecoConfig> loadDecoConfigs(JsonValue planetConfig, TexMan texMan, FileHandle configFile) {
     ArrayList<DecoConfig> res = new ArrayList<DecoConfig>();
     for (JsonValue deco : planetConfig.get("deco")) {
       float density = deco.getFloat("density");
@@ -50,7 +57,9 @@ public class PlanetConfigs {
       float szMax = deco.getFloat("szMax");
       Vector2 orig = SolMath.readV2(deco, "orig");
       boolean allowFlip = deco.getBoolean("allowFlip");
-      DecoConfig c = new DecoConfig(deco.name, density, szMin, szMax, orig, allowFlip);
+      String texName = planetConfig.getString("decoTexs") + "/" + deco.name;
+      ArrayList<TextureAtlas.AtlasRegion> texs = texMan.getPack(texName);
+      DecoConfig c = new DecoConfig(density, szMin, szMax, orig, allowFlip, texs);
       res.add(c);
     }
     return res;

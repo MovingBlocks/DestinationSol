@@ -2,6 +2,9 @@
   rocky: {
     minGrav: 0.4,
     maxGrav: 0.5,
+    groundTexs: "grounds/rocky",
+    decoTexs: "deco/rocky",
+    skyTexs: "skies/cloud",
     deco: {
       grass: {
         density: 0.3,

@@ -1,8 +1,8 @@
 package com.miloshpetrov.sol2.game.planet;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.PathLoader;
@@ -13,21 +13,13 @@ public class PlanetTiles {
 
   private final Map<SurfDir,Map<SurfDir,List<Tile>>> myGroundTiles;
 
-  public PlanetTiles(TexMan texMan, String configName) {
+  public PlanetTiles(TexMan texMan, String groundFolder, FileHandle configFile) {
     myGroundTiles = new HashMap<SurfDir, Map<SurfDir, List<Tile>>>();
-    loadGround(texMan, configName);
-//    loadEntrances(texMan, configName);
+    loadGround(texMan, groundFolder, configFile);
   }
 
-  private void loadEntrances(TexMan texMan, String configName) {
-    String folder = "dungeons/" + configName;
-    PathLoader pathLoader = new PathLoader(folder);
-    PathLoader.Model paths = pathLoader.getInternalModel();
-  }
-
-  private void loadGround(TexMan texMan, String configName) {
-    String folder = "grounds/" + configName;
-    PathLoader pathLoader = new PathLoader(folder);
+  private void loadGround(TexMan texMan, String groundFolder, FileHandle configFile) {
+    PathLoader pathLoader = new PathLoader(groundFolder);
     PathLoader.Model paths = pathLoader.getInternalModel();
 
     for (SurfDir from : SurfDir.values()) {
@@ -39,19 +31,19 @@ public class PlanetTiles {
         String fromL = from.getLetter();
         String toL = to.getLetter();
         String tileDescName = inverted ? toL + fromL : fromL + toL;
-        ArrayList<Tile> tileVariants = buildTiles(texMan, paths, inverted, tileDescName, folder, from, to);
+        ArrayList<TextureAtlas.AtlasRegion> texs = texMan.getPack(groundFolder + "/" + tileDescName);
+        ArrayList<Tile> tileVariants = buildTiles(texMan, paths, inverted, tileDescName, from, to, texs);
         fromMap.put(to, tileVariants);
       }
     }
   }
 
   private ArrayList<Tile> buildTiles(TexMan texMan, PathLoader.Model paths, boolean inverted, String tileDescName,
-    String folder, SurfDir from, SurfDir to)
+    SurfDir from, SurfDir to, ArrayList<TextureAtlas.AtlasRegion> texs)
   {
-    Array<TextureAtlas.AtlasRegion> regs = texMan.getPack(folder + "/" + tileDescName);
     ArrayList<Tile> tileVariants = new ArrayList<Tile>();
     int i = 0;
-    for (TextureAtlas.AtlasRegion reg : regs) {
+    for (TextureAtlas.AtlasRegion reg : texs) {
       if (inverted) {
         reg = texMan.getFlipped(reg);
       }
