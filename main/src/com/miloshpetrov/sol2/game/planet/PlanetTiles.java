@@ -31,7 +31,7 @@ public class PlanetTiles {
         String fromL = from.getLetter();
         String toL = to.getLetter();
         String tileDescName = inverted ? toL + fromL : fromL + toL;
-        ArrayList<TextureAtlas.AtlasRegion> texs = texMan.getPack(groundFolder + "/" + tileDescName);
+        ArrayList<TextureAtlas.AtlasRegion> texs = texMan.getPack(groundFolder + "/" + tileDescName, configFile);
         ArrayList<Tile> tileVariants = buildTiles(texMan, paths, inverted, tileDescName, from, to, texs);
         fromMap.put(to, tileVariants);
       }

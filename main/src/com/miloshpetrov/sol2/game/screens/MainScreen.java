@@ -93,10 +93,10 @@ public class MainScreen implements SolUiScreen {
     myBorderDrawer = new BorderDrawer(r, cmp);
 
     TexMan texMan = cmp.getTexMan();
-    myLifeTex = texMan.getTex(TexMan.ICONS_DIR + "life");
-    myShieldTex = texMan.getTex(TexMan.ICONS_DIR + "shield");
-    myInfinityTex = texMan.getTex(TexMan.ICONS_DIR + "infinity");
-    myWaitTex = texMan.getTex(TexMan.ICONS_DIR + "wait");
+    myLifeTex = texMan.getTex(TexMan.ICONS_DIR + "life", null);
+    myShieldTex = texMan.getTex(TexMan.ICONS_DIR + "shield", null);
+    myInfinityTex = texMan.getTex(TexMan.ICONS_DIR + "infinity", null);
+    myWaitTex = texMan.getTex(TexMan.ICONS_DIR + "wait", null);
   }
 
   public static void maybeDrawHeight(UiDrawer drawer, SolCmp cmp) {

@@ -20,7 +20,7 @@ public class FarBgManOld {
   private final Color myNebTint;
 
   public FarBgManOld(TexMan texMan) {
-    myNebTex = texMan.getTex("farBgBig/nebulae2", SolMath.test(.5f));
+    myNebTex = texMan.getTex("farBgBig/nebulae2", SolMath.test(.5f), null);
     myNebAngle = SolMath.rnd(180);
     myStars = new ArrayList<FarBgStar>();
     for (int i = 0; i < 400; i++) {
@@ -56,7 +56,7 @@ public class FarBgManOld {
       myShiftPerc = new Vector2(SolMath.rnd(1), SolMath.rnd(1));
       myPos = new Vector2();
       boolean small = SolMath.test(.9f);
-      myTex = texMan.getTex(small ? "farBg/smallStar" : "farBg/bigStar");
+      myTex = texMan.getTex(small ? "farBg/smallStar" : "farBg/bigStar", null);
       mySzPerc = small ? .001f : .03f * SolMath.rnd(.5f, 1);
       myTint = Col.W25;
     }

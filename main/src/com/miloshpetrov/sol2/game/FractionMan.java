@@ -19,7 +19,7 @@ public class FractionMan {
     myIcons = new EnumMap<Fraction, TextureAtlas.AtlasRegion>(Fraction.class);
     for (Fraction f : Fraction.values()) {
       String iconName = TexMan.ICONS_DIR + f.getName();
-      TextureAtlas.AtlasRegion icon = texMan.getTex(iconName);
+      TextureAtlas.AtlasRegion icon = texMan.getTex(iconName, null);
       myIcons.put(f, icon);
     }
     myRayBack = new MyRayBack();

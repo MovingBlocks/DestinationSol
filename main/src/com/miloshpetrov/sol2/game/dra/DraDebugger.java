@@ -3,6 +3,7 @@ package com.miloshpetrov.sol2.game.dra;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.miloshpetrov.sol2.DevTexProvider;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.ui.DebugCollector;
 
@@ -18,7 +19,6 @@ public class DraDebugger {
 
   public void update(SolGame game) {
     maybeCollectTexs(game);
-
   }
 
   private void maybeCollectTexs(SolGame game) {
@@ -29,7 +29,7 @@ public class DraDebugger {
     game.getDraMan().collectTexs(myCollector, cursorPos);
 
     for (TextureAtlas.AtlasRegion tex : myCollector) {
-      DebugCollector.warn(tex.name);
+      DebugCollector.warn(tex.name + " defined by: " + ((DevTexProvider.SolTex)tex).definedBy);
     }
   }
 }

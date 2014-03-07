@@ -132,7 +132,7 @@ public class ChunkFiller {
     for (int i = 0; i < count; i++) {
       Vector2 junkPos = getRndPos(chunk);
 
-      TextureAtlas.AtlasRegion tex = game.getTexMan().getRndTex("junks/junk", false);
+      TextureAtlas.AtlasRegion tex = game.getTexMan().getRndTex("junks/junk", false, null);
       float sz = SolMath.rnd(.3f, 1) * JUNK_MAX_SZ;
       float rotSpd = SolMath.rnd(JUNK_MAX_ROT_SPD);
       RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.JUNK, SolMath.rnd(180), rotSpd, Col.G);
@@ -163,7 +163,7 @@ public class ChunkFiller {
     if (count == 0) return;
     TexMan texMan = game.getTexMan();
     for (int i = 0; i < count; i++) {
-      TextureAtlas.AtlasRegion tex = texMan.getRndTex("farJunks/junk", false);
+      TextureAtlas.AtlasRegion tex = texMan.getRndTex("farJunks/junk", false, null);
       float sz = SolMath.rnd(.3f, 1) * FAR_JUNK_MAX_SZ;
       Vector2 junkPos = getRndPos(chunk);
       junkPos.sub(packPos);

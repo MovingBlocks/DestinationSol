@@ -134,7 +134,7 @@ public class Shield implements SolItem {
         SolSound absorbSound = soundMan.getSound(soundDir, configFile);
         soundDir = sh.getString("regenSound");
         SolSound regenSound = soundMan.getSound(soundDir, configFile);
-        TextureAtlas.AtlasRegion icon = texMan.getTex("icons/shield");
+        TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + "shield", null);
         Config config = new Config(maxLife, displayName, price, desc, absorbSound, regenSound, icon);
         itemMan.registerItem(sh.name(), config.example);
       }

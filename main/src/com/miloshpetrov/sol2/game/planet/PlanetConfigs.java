@@ -28,7 +28,7 @@ public class PlanetConfigs {
       ArrayList<PlanetEnemyConfig> groundEnemies = loadEnemiyConfigs(sh.get("groundEnemies"), hullConfigs);
       ArrayList<PlanetEnemyConfig> orbitEnemies = loadEnemiyConfigs(sh.get("orbitEnemies"), hullConfigs);
       String skyPackName = sh.getString("skyTexs");
-      ArrayList<TextureAtlas.AtlasRegion> cloudTexs = texMan.getPack(skyPackName);
+      ArrayList<TextureAtlas.AtlasRegion> cloudTexs = texMan.getPack(skyPackName, configFile);
       String groundFolder = sh.getString("groundTexs");
       PlanetTiles planetTiles = new PlanetTiles(texMan, groundFolder, configFile);
       PlanetConfig c = new PlanetConfig(sh.name, minGrav, maxGrav, deco, groundEnemies, orbitEnemies, cloudTexs, planetTiles);
@@ -58,7 +58,7 @@ public class PlanetConfigs {
       Vector2 orig = SolMath.readV2(deco, "orig");
       boolean allowFlip = deco.getBoolean("allowFlip");
       String texName = planetConfig.getString("decoTexs") + "/" + deco.name;
-      ArrayList<TextureAtlas.AtlasRegion> texs = texMan.getPack(texName);
+      ArrayList<TextureAtlas.AtlasRegion> texs = texMan.getPack(texName, configFile);
       DecoConfig c = new DecoConfig(density, szMin, szMax, orig, allowFlip, texs);
       res.add(c);
     }

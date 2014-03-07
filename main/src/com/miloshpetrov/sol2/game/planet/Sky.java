@@ -25,7 +25,7 @@ public class Sky implements SolObj {
 
     myFill = new RectSprite(game.getTexMan().whiteTex, 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, Col.col(.5f, 1));
     myDras.add(myFill);
-    myGrad = new RectSprite(game.getTexMan().getTex("misc/grad"), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, Col.col(.5f, 1));
+    myGrad = new RectSprite(game.getTexMan().getTex("misc/grad", null), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, Col.col(.5f, 1));
     myDras.add(myGrad);
   }
 

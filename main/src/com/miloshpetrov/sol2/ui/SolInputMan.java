@@ -38,7 +38,7 @@ public class SolInputMan {
     myFlashPtr = new Ptr();
     myMousePrevPos = new Vector2();
     Gdx.input.setCursorCatched(true);
-    myCursorTex = texMan.getTex("ui/cursor");
+    myCursorTex = texMan.getTex("ui/cursor", null);
     myScreens = new ArrayList<SolUiScreen>();
     myToRemove = new ArrayList<SolUiScreen>();
     myToAdd = new ArrayList<SolUiScreen>();

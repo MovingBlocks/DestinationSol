@@ -34,7 +34,7 @@ public class PartMan {
     mySparkEmitter = loadEmitter("spark", texMan);
     mySmokeEmitter = loadEmitter("smoke", texMan);
     myExplInnerEmitter = loadEmitter("explInner", texMan);
-    myShieldTex = texMan.getTex("misc/shield");
+    myShieldTex = texMan.getTex("misc/shield", null);
   }
 
   private ParticleEmitter loadEmitter(final String name, TexMan texMan) {

@@ -8,7 +8,7 @@ import com.miloshpetrov.sol2.ui.DebugCollector;
 
 import java.util.ArrayList;
 
-class DevTexProvider implements TexProvider {
+public class DevTexProvider implements TexProvider {
 
   public static final String PREF = "imgSrcs/";
   public static final String SUFF = ".png";
@@ -32,7 +32,8 @@ class DevTexProvider implements TexProvider {
       tex = myMissingTex;
       DebugCollector.warn("texture not found:", fh);
     }
-    return new SolTex(tex, name);
+    String definedBy = configFile == null ? "hardcoded" : configFile.toString();
+    return new SolTex(tex, name, definedBy);
   }
 
   @Override
@@ -67,12 +68,15 @@ class DevTexProvider implements TexProvider {
   @Override
   public TextureAtlas.AtlasRegion getCopy(TextureAtlas.AtlasRegion tex) {
     SolTex st = (SolTex) tex;
-    return new SolTex(st.getTexture(), st.name);
+    return new SolTex(st.getTexture(), st.name, st.definedBy);
   }
 
   public static class SolTex extends TextureAtlas.AtlasRegion {
-    public SolTex(Texture tex, String name) {
+    public final String definedBy;
+
+    public SolTex(Texture tex, String name, String definedBy) {
       super(tex, 0, 0, tex.getWidth(), tex.getHeight());
+      this.definedBy = definedBy;
       flip(false, true);
       this.name = name;
     }
