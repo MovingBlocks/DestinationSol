@@ -21,9 +21,9 @@ public class ItemMan {
   public final TextureAtlas.AtlasRegion sloMoChargeIcon;
 
   public ItemMan(TexMan texMan, SoundMan soundMan) {
-    moneyIcon = texMan.getTex("icons/money");
-    repairIcon = texMan.getTex("icons/repairItem");
-    sloMoChargeIcon = texMan.getTex("icons/sloMoCharge");
+    moneyIcon = texMan.getTex(TexMan.ICONS_DIR + "money", null);
+    repairIcon = texMan.getTex(TexMan.ICONS_DIR + "repairItem", null);
+    sloMoChargeIcon = texMan.getTex(TexMan.ICONS_DIR + "sloMoCharge", null);
 
     myM = new HashMap<String, SolItem>();
     projConfigs = new ProjectileConfigs(texMan, soundMan);

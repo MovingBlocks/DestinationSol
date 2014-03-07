@@ -33,32 +33,32 @@ public class TexMan {
     return r;
   }
 
-  public TextureAtlas.AtlasRegion getTex(String name, boolean flipped) {
-    TextureAtlas.AtlasRegion r = getTex(name);
+  public TextureAtlas.AtlasRegion getTex(String name, boolean flipped, FileHandle configFile) {
+    TextureAtlas.AtlasRegion r = getTex(name, configFile);
     return flipped ? getFlipped(r) : r;
   }
 
-  public TextureAtlas.AtlasRegion getTex(String name) {
+  public TextureAtlas.AtlasRegion getTex(String name, FileHandle configFile) {
     TextureAtlas.AtlasRegion r = myTexs.get(name);
     if (r != null) return r;
-    r = myTexProvider.getTex(name, null);
+    r = myTexProvider.getTex(name, configFile);
     if (r == null) throw new RuntimeException("texture not found: " + name);
     myTexs.put(name, r);
     return r;
   }
 
-  public ArrayList<TextureAtlas.AtlasRegion> getPack(String name) {
+  public ArrayList<TextureAtlas.AtlasRegion> getPack(String name, FileHandle configFile) {
     ArrayList<TextureAtlas.AtlasRegion> r = myPacks.get(name);
     if (r != null) return r;
-    r = myTexProvider.getTexs(name, null);
+    r = myTexProvider.getTexs(name, configFile);
     if (r.size() == 0) throw new RuntimeException("textures not found: " + name);
     myPacks.put(name, r);
     return r;
   }
 
-  public TextureAtlas.AtlasRegion getRndTex(String name, Boolean flipped) {
+  public TextureAtlas.AtlasRegion getRndTex(String name, Boolean flipped, FileHandle configFile) {
     if (flipped == null) flipped = SolMath.test(.5f);
-    ArrayList<TextureAtlas.AtlasRegion> pack = getPack(name);
+    ArrayList<TextureAtlas.AtlasRegion> pack = getPack(name, configFile);
     TextureAtlas.AtlasRegion r = SolMath.elemRnd(pack);
     if (flipped) {
       r = getFlipped(r);

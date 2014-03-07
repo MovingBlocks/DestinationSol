@@ -36,14 +36,14 @@ public class MapDrawer {
   private float myTime;
 
   public MapDrawer(TexMan texMan) {
-    myIconBg = texMan.getTex(TexMan.ICONS_DIR + "bg");
-    myGroundTex = texMan.getTex(TexMan.ICONS_DIR + "ground");
-    myAtmTex = texMan.getTex("mapObjs/atm");
-    myPlanetTex = texMan.getTex("mapObjs/planet");
-    myPlanetCoreTex = texMan.getTex("mapObjs/planetCore");
-    myStarTex = texMan.getTex("mapObjs/star");
-    mySkullTex = texMan.getTex("icons/skull");
-    myStarPortTex = texMan.getTex("icons/starPort");
+    myIconBg = texMan.getTex(TexMan.ICONS_DIR + "bg", null);
+    myGroundTex = texMan.getTex(TexMan.ICONS_DIR + "ground", null);
+    myAtmTex = texMan.getTex("mapObjs/atm", null);
+    myPlanetTex = texMan.getTex("mapObjs/planet", null);
+    myPlanetCoreTex = texMan.getTex("mapObjs/planetCore", null);
+    myStarTex = texMan.getTex("mapObjs/star", null);
+    mySkullTex = texMan.getTex(TexMan.ICONS_DIR + "skull", null);
+    myStarPortTex = texMan.getTex(TexMan.ICONS_DIR + "starPort", null);
     myZoom = MAX_ZOOM / MUL_FACTOR / MUL_FACTOR;
   }
 

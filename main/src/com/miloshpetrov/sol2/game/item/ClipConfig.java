@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.game.item;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
@@ -26,14 +27,15 @@ public class ClipConfig {
 
   public static void load(ItemMan itemMan, TexMan texMan) {
     JsonReader r = new JsonReader();
-    JsonValue parsed = r.parse(SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "clips.json"));
+    FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "clips.json");
+    JsonValue parsed = r.parse(configFile);
     for (JsonValue sh : parsed) {
       String iconName = sh.getString("iconName");
       int price = sh.getInt("price");
       String displayName = sh.getString("displayName");
       String descSuf = sh.getString("descSuf");
       int size = sh.getInt("size");
-      TextureAtlas.AtlasRegion icon = texMan.getTex("icons/" + iconName);
+      TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + iconName, configFile);
       ClipConfig config = new ClipConfig(price, displayName, size, descSuf, icon);
       itemMan.registerItem(sh.name(), config.example);
     }

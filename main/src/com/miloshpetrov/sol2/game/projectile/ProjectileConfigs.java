@@ -23,7 +23,7 @@ public class ProjectileConfigs {
     JsonValue parsed = r.parse(configFile);
     for (JsonValue sh : parsed) {
       String texName = "projectiles/" + sh.getString("texName");
-      TextureAtlas.AtlasRegion tex = texMan.getTex(texName);
+      TextureAtlas.AtlasRegion tex = texMan.getTex(texName, configFile);
       float sz = sh.getFloat("sz");
       float spdLen = sh.getFloat("spdLen");
       boolean explode = sh.getBoolean("explode");

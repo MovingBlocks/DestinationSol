@@ -24,10 +24,10 @@ public class LightSrc {
   /** doesn't consume relPos
    */
   public LightSrc(SolGame game, float sz, boolean hasHalo, float intensity, Vector2 relPos) {
-    TextureAtlas.AtlasRegion tex = game.getTexMan().getTex("particles/lightCircle");
+    TextureAtlas.AtlasRegion tex = game.getTexMan().getTex("particles/lightCircle", null);
     mySz = sz;
     myCircle = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DraLevel.PART_BG_0, 0, 0, Col.W);
-    tex = game.getTexMan().getTex("particles/lightHalo");
+    tex = game.getTexMan().getTex("particles/lightHalo", null);
     myHalo = hasHalo ? new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DraLevel.PART_FG_0, 0, 0, Col.W) : null;
     myIntensity = intensity;
     myFadeTime = DEFAULT_FADE_TIME;

@@ -294,7 +294,7 @@ public class PathLoader {
 
     Vector2 orig = getOrigin(pathName, 1);
     String imgName = packName + "/" + name;
-    TextureAtlas.AtlasRegion tex = game.getTexMan().getTex(imgName);
+    TextureAtlas.AtlasRegion tex = game.getTexMan().getTex(imgName, null);
     RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, Col.W);
     dras.add(s);
     return body;
