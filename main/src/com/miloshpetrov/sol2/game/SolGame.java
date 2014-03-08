@@ -111,7 +111,7 @@ public class SolGame {
   }
 
   private void createPlayer() {
-    Vector2 pos = myGalaxyFiller.getPlayerSpawnPos(this, myPlayerSpawnConfig.nearPlanet);
+    Vector2 pos = myGalaxyFiller.getPlayerSpawnPos(this, myPlayerSpawnConfig.mySpawnPlace);
     Pilot pip = new PlayerPilot(myScreens.mainScreen);
     boolean god = DebugAspects.GOD_MODE;
     HullConfig config = myPlayerSpawnConfig.hullConfig;

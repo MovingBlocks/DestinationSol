@@ -9,6 +9,8 @@ import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.gun.GunMount;
 import com.miloshpetrov.sol2.game.item.Armor;
 import com.miloshpetrov.sol2.game.item.Shield;
+import com.miloshpetrov.sol2.game.maze.Maze;
+import com.miloshpetrov.sol2.game.maze.MazeBuilder;
 import com.miloshpetrov.sol2.game.planet.*;
 import com.miloshpetrov.sol2.game.ship.*;
 
@@ -28,6 +30,7 @@ public class MapDrawer {
   private final TextureAtlas.AtlasRegion myPlanetTex;
   private final TextureAtlas.AtlasRegion myPlanetCoreTex;
   private final TextureAtlas.AtlasRegion myStarTex;
+  private final TextureAtlas.AtlasRegion myMazeTex;
   private final TextureAtlas.AtlasRegion mySkullTex;
   private final TextureAtlas.AtlasRegion myStarPortTex;
   private boolean myToggled;
@@ -42,6 +45,7 @@ public class MapDrawer {
     myPlanetTex = texMan.getTex("mapObjs/planet", null);
     myPlanetCoreTex = texMan.getTex("mapObjs/planetCore", null);
     myStarTex = texMan.getTex("mapObjs/star", null);
+    myMazeTex = texMan.getTex("mapObjs/maze", null);
     mySkullTex = texMan.getTex(TexMan.ICONS_DIR + "skull", null);
     myStarPortTex = texMan.getTex(TexMan.ICONS_DIR + "starPort", null);
     myZoom = MAX_ZOOM / MUL_FACTOR / MUL_FACTOR;
@@ -63,13 +67,25 @@ public class MapDrawer {
 
     drawer.begin(game);
     game.getGridDrawer().draw(drawer, game, GRID_SZ);
-    drawPlanets(drawer, game, iconSz, viewDist, np, camPos);
+    drawPlanets(drawer, game, viewDist, np, camPos);
+    drawMazes(drawer, game, viewDist, np, camPos);
     drawStarNodes(drawer, game, viewDist, camPos, starNodeW);
     drawIcons(drawer, game, iconSz, viewDist, fractionMan, hero, camPos);
     drawer.end();
   }
 
-  private void drawPlanets(Drawer drawer, SolGame game, float iconSz, float viewDist, Planet np, Vector2 camPos) {
+  private void drawMazes(Drawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos) {
+    ArrayList<Maze> mazes = game.getPlanetMan().getMazes();
+    for (Maze maze : mazes) {
+      Vector2 mazePos = maze.getPos();
+      float rad = maze.getRadius() - MazeBuilder.BORDER;
+      if (viewDist < camPos.dst(mazePos) - rad) continue;
+      drawer.draw(myMazeTex, 2 * rad, 2 * rad, rad, rad, mazePos.x, mazePos.y, 0, Col.W);
+    }
+
+  }
+
+  private void drawPlanets(Drawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos) {
     ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
     for (SolSystem sys : systems) {
       drawer.drawCircle(sys.getPos(), sys.getRadius(), Col.W25, game.getCam().getRealLineWidth());

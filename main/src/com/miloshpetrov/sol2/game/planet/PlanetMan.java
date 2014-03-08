@@ -6,6 +6,8 @@ import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
+import com.miloshpetrov.sol2.game.maze.Maze;
+import com.miloshpetrov.sol2.game.maze.MazeConfigs;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 import com.miloshpetrov.sol2.save.SaveData;
 
@@ -16,12 +18,16 @@ public class PlanetMan {
   private final ArrayList<Planet> myPlanets;
   private final LandingPlaceFinder myLandingPlaceFinder;
   private final PlanetConfigs myPlanetConfigs;
+  private final MazeConfigs myMazeConfigs;
+  private final ArrayList<Maze> myMazes;
   private Planet myNearestPlanet;
 
   public PlanetMan(TexMan texMan, HullConfigs hullConfigs) {
     myPlanetConfigs = new PlanetConfigs(texMan, hullConfigs);
+    myMazeConfigs = new MazeConfigs();
 
     mySystems = new ArrayList<SolSystem>();
+    myMazes = new ArrayList<Maze>();
     myPlanets = new ArrayList<Planet>();
     myLandingPlaceFinder = new LandingPlaceFinder();
   }
@@ -31,7 +37,7 @@ public class PlanetMan {
       mySystems.addAll(sd.systems);
       myPlanets.addAll(sd.planets);
     } else {
-      new SystemsBuilder().build(mySystems, myPlanets, myPlanetConfigs);
+      new SystemsBuilder().build(mySystems, myPlanets, myPlanetConfigs, myMazeConfigs, myMazes);
     }
   }
 
@@ -39,6 +45,9 @@ public class PlanetMan {
     Vector2 camPos = game.getCam().getPos();
     for (Planet p : myPlanets) {
       p.update(game);
+    }
+    for (Maze m : myMazes) {
+      m.update(game);
     }
 
     myNearestPlanet = getNearestPlanet(camPos);
@@ -112,5 +121,9 @@ public class PlanetMan {
 
   public Vector2 findLandingPlace(SolGame game, Planet p, ArrayList<Float> takenAngles) {
     return myLandingPlaceFinder.find(game, p, takenAngles);
+  }
+
+  public ArrayList<Maze> getMazes() {
+    return myMazes;
   }
 }

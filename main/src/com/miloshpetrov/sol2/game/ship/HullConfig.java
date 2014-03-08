@@ -51,12 +51,18 @@ public class HullConfig {
   }
 
   public static enum Type {
-    STD, BIG, STATION;
+    STD("std"), BIG("big"), STATION("station");
 
-    public static Type forValue(String type) {
-      if ("std".equals(type)) return STD;
-      if ("big".equals(type)) return BIG;
-      if ("station".equals(type)) return STATION;
+    private final String myName;
+
+    Type(String name) {
+      myName = name;
+    }
+
+    public static Type forName(String name) {
+      for (Type t : Type.values()) {
+        if (t.myName.equals(name)) return t;
+      }
       return null;
     }
   }

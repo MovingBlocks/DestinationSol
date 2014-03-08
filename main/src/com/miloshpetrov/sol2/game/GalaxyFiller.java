@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.input.*;
+import com.miloshpetrov.sol2.game.maze.Maze;
 import com.miloshpetrov.sol2.game.planet.*;
 import com.miloshpetrov.sol2.game.ship.*;
 
@@ -173,16 +174,20 @@ public class GalaxyFiller {
   }
 
 
-  public Vector2 getPlayerSpawnPos(SolGame game, boolean nearPlanet) {
+  public Vector2 getPlayerSpawnPos(SolGame game, PlayerSpawnConfig.SpawnPlace spawnPlace) {
     Vector2 pos = new Vector2();
 
-    if (nearPlanet) {
+    if (spawnPlace == PlayerSpawnConfig.SpawnPlace.PLANET) {
       Planet p = game.getPlanetMan().getPlanets().get(0);
       pos.set(p.getPos());
       pos.x += p.getFullHeight();
-    } else {
+    } else if (spawnPlace == PlayerSpawnConfig.SpawnPlace.STATION) {
       SolMath.fromAl(pos, 90, myMainStation.getHull().config.size / 2);
       pos.add(myMainStation.getPos());
+    } else {
+      Maze m = game.getPlanetMan().getMazes().get(0);
+      pos.set(m.getPos());
+      pos.x += m.getRadius();
     }
     return pos;
   }
