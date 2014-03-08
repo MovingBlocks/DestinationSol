@@ -24,7 +24,7 @@ public class PlanetMan {
 
   public PlanetMan(TexMan texMan, HullConfigs hullConfigs) {
     myPlanetConfigs = new PlanetConfigs(texMan, hullConfigs);
-    myMazeConfigs = new MazeConfigs();
+    myMazeConfigs = new MazeConfigs(texMan, hullConfigs);
 
     mySystems = new ArrayList<SolSystem>();
     myMazes = new ArrayList<Maze>();
