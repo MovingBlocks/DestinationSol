@@ -1,6 +1,7 @@
 package com.miloshpetrov.sol2.game.maze;
 
 import com.miloshpetrov.sol2.game.ship.HullConfig;
+import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 public class MazeEnemyConfig {
   public final HullConfig hull;
@@ -13,7 +14,9 @@ public class MazeEnemyConfig {
     this.density = density;
   }
 
-  public static MazeEnemyConfig load() {
-    return new MazeEnemyConfig(null, "", 3);
+  public static MazeEnemyConfig load(boolean boss, HullConfigs hullConfigs) {
+    HullConfig hull = hullConfigs.getConfig(boss ? "hunter" : "guardie");
+    String items = "e wbo";
+    return new MazeEnemyConfig(hull, items, 3);
   }
 }

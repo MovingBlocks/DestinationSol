@@ -124,6 +124,10 @@ main/imgSrcs/mapObjs/pack.json -text
 main/imgSrcs/mapObjs/planet.png -text
 main/imgSrcs/mapObjs/planetCore.png -text
 main/imgSrcs/mapObjs/star.png -text
+main/imgSrcs/mazeTiles/junk/borderPass_1.png -text
+main/imgSrcs/mazeTiles/junk/borderWall_1.png -text
+main/imgSrcs/mazeTiles/junk/innerPass_1.png -text
+main/imgSrcs/mazeTiles/junk/innerWall_1.png -text
 main/imgSrcs/misc/Thumbs.db -text
 main/imgSrcs/misc/door.png -text
 main/imgSrcs/misc/forceBeacon.png -text
