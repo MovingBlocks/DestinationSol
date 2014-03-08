@@ -13,13 +13,13 @@ public class PlayerSpawnConfig {
   public final HullConfig hullConfig;
   public final String items;
   public final int money;
-  public final boolean nearPlanet;
+  public final SpawnPlace mySpawnPlace;
 
-  public PlayerSpawnConfig(HullConfig hullConfig, String items, int money, boolean nearPlanet) {
+  public PlayerSpawnConfig(HullConfig hullConfig, String items, int money, SpawnPlace spawnPlace) {
     this.hullConfig = hullConfig;
     this.items = items;
     this.money = money;
-    this.nearPlanet = nearPlanet;
+    this.mySpawnPlace = spawnPlace;
   }
 
   public static PlayerSpawnConfig load(HullConfigs hullConfigs) {
@@ -30,7 +30,24 @@ public class PlayerSpawnConfig {
     HullConfig hullConfig = hullConfigs.getConfig(hull);
     String items = sh.getString("items");
     int money = sh.getInt("money");
-    boolean nearPlanet = sh.getBoolean("nearPlanet");
-    return new PlayerSpawnConfig(hullConfig, items, money, nearPlanet);
+    String spawnPlaceStr = sh.getString("spawnPlace");
+    SpawnPlace spawnPlace = SpawnPlace.forName(spawnPlaceStr);
+    return new PlayerSpawnConfig(hullConfig, items, money, spawnPlace);
+  }
+
+  public static enum SpawnPlace {
+    STATION("station"), PLANET("planet"), MAZE("maze");
+    private final String myName;
+
+    SpawnPlace(String name) {
+      myName = name;
+    }
+
+    public static SpawnPlace forName(String name) {
+      for (SpawnPlace t : SpawnPlace.values()) {
+        if (t.myName.equals(name)) return t;
+      }
+      return null;
+    }
   }
 }

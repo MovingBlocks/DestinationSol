@@ -119,6 +119,7 @@ main/imgSrcs/junks/junk_1.png -text
 main/imgSrcs/junks/junk_2.png -text
 main/imgSrcs/junks/pack.json -text
 main/imgSrcs/mapObjs/atm.png -text
+main/imgSrcs/mapObjs/maze.png -text
 main/imgSrcs/mapObjs/pack.json -text
 main/imgSrcs/mapObjs/planet.png -text
 main/imgSrcs/mapObjs/planetCore.png -text
@@ -311,6 +312,14 @@ main/src/com/miloshpetrov/sol2/game/item/Shield.java -text
 main/src/com/miloshpetrov/sol2/game/item/ShipItem.java -text
 main/src/com/miloshpetrov/sol2/game/item/SloMoCharge.java -text
 main/src/com/miloshpetrov/sol2/game/item/SolItem.java -text
+main/src/com/miloshpetrov/sol2/game/maze/Maze.java -text
+main/src/com/miloshpetrov/sol2/game/maze/MazeBuilder.java -text
+main/src/com/miloshpetrov/sol2/game/maze/MazeConfig.java -text
+main/src/com/miloshpetrov/sol2/game/maze/MazeConfigs.java -text
+main/src/com/miloshpetrov/sol2/game/maze/MazeData.java -text
+main/src/com/miloshpetrov/sol2/game/maze/MazeDataBuilder.java -text
+main/src/com/miloshpetrov/sol2/game/maze/MazeEnemyConfig.java -text
+main/src/com/miloshpetrov/sol2/game/maze/MazeTile.java -text
 main/src/com/miloshpetrov/sol2/game/particle/LightObj.java -text
 main/src/com/miloshpetrov/sol2/game/particle/LightSrc.java -text
 main/src/com/miloshpetrov/sol2/game/particle/PartMan.java -text
