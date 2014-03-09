@@ -21,7 +21,7 @@ public class MazeTile {
     String texName = inner ? "inner" : "border";
     texName += wall ? "Wall" : "Pass";
     texName += "_1";
-    TextureAtlas.AtlasRegion tex = texMan.getTex(texName, SolMath.test(.5f), null);
+    TextureAtlas.AtlasRegion tex = texMan.getTex("mazeTiles/junk/" + texName, SolMath.test(.5f), null);
     ArrayList<List<Vector2>> points = new ArrayList<List<Vector2>>();
     if (wall) {
       ArrayList<Vector2> wallPoints = new ArrayList<Vector2>();

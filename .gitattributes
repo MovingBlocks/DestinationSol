@@ -320,10 +320,11 @@ main/src/com/miloshpetrov/sol2/game/maze/Maze.java -text
 main/src/com/miloshpetrov/sol2/game/maze/MazeBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/maze/MazeConfig.java -text
 main/src/com/miloshpetrov/sol2/game/maze/MazeConfigs.java -text
-main/src/com/miloshpetrov/sol2/game/maze/MazeData.java -text
-main/src/com/miloshpetrov/sol2/game/maze/MazeDataBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/maze/MazeEnemyConfig.java -text
+main/src/com/miloshpetrov/sol2/game/maze/MazeLayout.java -text
+main/src/com/miloshpetrov/sol2/game/maze/MazeLayoutBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/maze/MazeTile.java -text
+main/src/com/miloshpetrov/sol2/game/maze/MazeTileObj.java -text
 main/src/com/miloshpetrov/sol2/game/particle/LightObj.java -text
 main/src/com/miloshpetrov/sol2/game/particle/LightSrc.java -text
 main/src/com/miloshpetrov/sol2/game/particle/PartMan.java -text
