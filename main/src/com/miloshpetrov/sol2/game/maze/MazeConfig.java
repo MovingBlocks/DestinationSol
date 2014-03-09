@@ -30,13 +30,13 @@ public class MazeConfig {
     innerWalls.add(iw);
     ArrayList<MazeTile> innerPasses = new ArrayList<MazeTile>();
     MazeTile iw2 = MazeTile.load(texMan, false, true);
-    innerWalls.add(iw2);
+    innerPasses.add(iw2);
     ArrayList<MazeTile> borderWalls = new ArrayList<MazeTile>();
     MazeTile bw = MazeTile.load(texMan, true, false);
-    innerWalls.add(bw);
+    borderWalls.add(bw);
     ArrayList<MazeTile> borderPasses = new ArrayList<MazeTile>();
     MazeTile bw2 = MazeTile.load(texMan, false, false);
-    innerWalls.add(bw2);
+    borderPasses.add(bw2);
 
     ArrayList<MazeEnemyConfig> outerEnemies = new ArrayList<MazeEnemyConfig>();
     MazeEnemyConfig ec = MazeEnemyConfig.load(false, hullConfigs);

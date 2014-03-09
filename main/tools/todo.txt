@@ -1,8 +1,9 @@
 
 
-SPACE LABYRINTHS:
-  labyrinths should be outside systems
-  labyrinths should have exterior space with deco & unique enemies
+labyrinths should have exterior space with deco & unique enemies
+don't spawn standard enemies outside of systems
+
+
 
 ASTEROID CLUSTERS:
   should be instead of planets
