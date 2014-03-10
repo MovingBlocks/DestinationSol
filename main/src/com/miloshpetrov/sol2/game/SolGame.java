@@ -77,7 +77,7 @@ public class SolGame {
     SolContactListener contactListener = new SolContactListener(this);
     myObjMan = new ObjMan(contactListener);
     myGridDrawer = new GridDrawer();
-    myChunkMan = new ChunkMan();
+    myChunkMan = new ChunkMan(myHullConfigs, myTexMan);
     myPartMan = new PartMan(myTexMan);
     myAsteroidBuilder = new AsteroidBuilder();
     myLootBuilder = new LootBuilder();

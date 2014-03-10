@@ -1,8 +1,13 @@
 
+isPlaceEmpty should consider mazes and special encounters?
 
-labyrinths should have exterior space with deco & unique enemies
-don't spawn standard enemies outside of systems
+farJunk density should fade gradually
 
+shipConfig should have:
+  money,
+  hasRepairer,
+  mountFixeds
++ add this all to planet enemy configs + space enemy configs
 
 
 ASTEROID CLUSTERS:

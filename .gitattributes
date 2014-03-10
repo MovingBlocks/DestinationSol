@@ -43,11 +43,12 @@ main/imgSrcs/farBg/bigStar.png -text
 main/imgSrcs/farBg/pack.json -text
 main/imgSrcs/farBg/smallStar.png -text
 main/imgSrcs/farBgBig/nebulae2.png -text
-main/imgSrcs/farJunks/junk_1.png -text
-main/imgSrcs/farJunks/junk_2.png -text
-main/imgSrcs/farJunks/junk_3.png -text
-main/imgSrcs/farJunks/junk_4.png -text
+main/imgSrcs/farJunks/maze_1.png -text
 main/imgSrcs/farJunks/pack.json -text
+main/imgSrcs/farJunks/sys_1.png -text
+main/imgSrcs/farJunks/sys_2.png -text
+main/imgSrcs/farJunks/sys_3.png -text
+main/imgSrcs/farJunks/sys_4.png -text
 main/imgSrcs/grounds/rocky/Thumbs.db -text
 main/imgSrcs/grounds/rocky/fd_0.png -text
 main/imgSrcs/grounds/rocky/fd_1.png -text
@@ -115,9 +116,9 @@ main/imgSrcs/icons/truck.png -text
 main/imgSrcs/icons/vanguard.png -text
 main/imgSrcs/icons/wait.png -text
 main/imgSrcs/junks/Thumbs.db -text
-main/imgSrcs/junks/junk_1.png -text
-main/imgSrcs/junks/junk_2.png -text
 main/imgSrcs/junks/pack.json -text
+main/imgSrcs/junks/sys_1.png -text
+main/imgSrcs/junks/sys_2.png -text
 main/imgSrcs/mapObjs/atm.png -text
 main/imgSrcs/mapObjs/maze.png -text
 main/imgSrcs/mapObjs/pack.json -text
@@ -177,6 +178,7 @@ main/res/configs/items/shields.json -text
 main/res/configs/planets.json -text
 main/res/configs/playerSpawn.json -text
 main/res/configs/projectiles.json -text
+main/res/configs/spaceObjs.json -text
 main/res/emitters/explInner.p -text
 main/res/emitters/explosion.p -text
 main/res/emitters/flame.p -text
@@ -264,6 +266,7 @@ main/src/com/miloshpetrov/sol2/game/PlayerSpawnConfig.java -text
 main/src/com/miloshpetrov/sol2/game/RemoveController.java -text
 main/src/com/miloshpetrov/sol2/game/Shard.java -text
 main/src/com/miloshpetrov/sol2/game/ShardBuilder.java -text
+main/src/com/miloshpetrov/sol2/game/ShipConfig.java -text
 main/src/com/miloshpetrov/sol2/game/SolCam.java -text
 main/src/com/miloshpetrov/sol2/game/SolContactFilter.java -text
 main/src/com/miloshpetrov/sol2/game/SolContactListener.java -text
@@ -276,6 +279,7 @@ main/src/com/miloshpetrov/sol2/game/asteroid/AsteroidBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/asteroid/FarAsteroid.java -text
 main/src/com/miloshpetrov/sol2/game/chunk/ChunkFiller.java -text
 main/src/com/miloshpetrov/sol2/game/chunk/ChunkMan.java -text
+main/src/com/miloshpetrov/sol2/game/chunk/SpaceObjConfig.java -text
 main/src/com/miloshpetrov/sol2/game/dra/Dra.java -text
 main/src/com/miloshpetrov/sol2/game/dra/DraDebugger.java -text
 main/src/com/miloshpetrov/sol2/game/dra/DraLevel.java -text
@@ -320,7 +324,6 @@ main/src/com/miloshpetrov/sol2/game/maze/Maze.java -text
 main/src/com/miloshpetrov/sol2/game/maze/MazeBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/maze/MazeConfig.java -text
 main/src/com/miloshpetrov/sol2/game/maze/MazeConfigs.java -text
-main/src/com/miloshpetrov/sol2/game/maze/MazeEnemyConfig.java -text
 main/src/com/miloshpetrov/sol2/game/maze/MazeLayout.java -text
 main/src/com/miloshpetrov/sol2/game/maze/MazeLayoutBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/maze/MazeTile.java -text
@@ -339,7 +342,6 @@ main/src/com/miloshpetrov/sol2/game/planet/Planet.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetBind.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetConfig.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetConfigs.java -text
-main/src/com/miloshpetrov/sol2/game/planet/PlanetEnemyConfig.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetMan.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetObjsBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetSprites.java -text

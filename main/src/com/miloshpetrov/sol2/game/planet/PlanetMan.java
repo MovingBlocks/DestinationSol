@@ -126,4 +126,30 @@ public class PlanetMan {
   public ArrayList<Maze> getMazes() {
     return myMazes;
   }
+
+  public SolSystem getNearestSystem(Vector2 pos) {
+    float minDst = Float.MAX_VALUE;
+    SolSystem res = null;
+    for (SolSystem s : mySystems) {
+      float dst = pos.dst(s.getPos());
+      if (dst < minDst) {
+        minDst = dst;
+        res = s;
+      }
+    }
+    return res;
+  }
+
+  public Maze getNearestMaze(Vector2 pos) {
+    float minDst = Float.MAX_VALUE;
+    Maze res = null;
+    for (Maze m : myMazes) {
+      float dst = pos.dst(m.getPos());
+      if (dst < minDst) {
+        minDst = dst;
+        res = m;
+      }
+    }
+    return res;
+  }
 }

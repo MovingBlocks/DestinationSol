@@ -2,23 +2,23 @@ package com.miloshpetrov.sol2.game.chunk;
 
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
+import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.RemoveController;
 import com.miloshpetrov.sol2.game.SolGame;
+import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 public class ChunkMan {
   private final Set<Vector2> myActiveChunks;
   private final RemoveController myRemover;
   private final ChunkFiller myFiller;
 
-  public ChunkMan() {
+  public ChunkMan(HullConfigs hullConfigs, TexMan texMan) {
     myActiveChunks = new HashSet<Vector2>();
     myRemover = new MyRemover();
-    myFiller = new ChunkFiller();
+    myFiller = new ChunkFiller(hullConfigs, texMan);
   }
 
   public void update(SolGame game) {
