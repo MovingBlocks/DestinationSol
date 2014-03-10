@@ -1,7 +1,7 @@
 package com.miloshpetrov.sol2.game;
 
 public enum DmgType {
-  BULLET("bullet"), ENEGRY("energy"), EXPLOSION("explosion"), CRASH("crash");
+  BULLET("bullet"), ENERGY("energy"), EXPLOSION("explosion"), CRASH("crash");
   private final String myName;
 
   DmgType(String name) {

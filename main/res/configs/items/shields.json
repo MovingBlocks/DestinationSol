@@ -5,7 +5,8 @@
     price: 40,
     desc: "Poorly protects from projectiles",
     absorbSound: "shields/small/absorb",
-	regenSound:  "shields/small/regen"
+	regenSound:  "shields/small/regen",
+	iconDir: "icons/shield"
   },
 
   sMed: {
@@ -14,7 +15,8 @@
     price: 100,
     desc: "Protects from projectiles",
     absorbSound: "shields/med/absorb",
-	regenSound:  "shields/med/regen"
+	regenSound:  "shields/med/regen",
+	iconDir: "icons/shield"
   },
 
   sBig: {
@@ -23,6 +25,7 @@
     price: 150,
     desc: "Greatly protects from projectiles",
     absorbSound: "shields/big/absorb",
-	regenSound:  "shields/big/regen"
+	regenSound:  "shields/big/regen",
+	iconDir: "icons/shield"
   }
 }

@@ -97,7 +97,7 @@ public class EngineItem implements SolItem {
         boolean big = sh.getBoolean("big");
         String workSoundDir = sh.getString("workSound");
         SolSound workSound = soundMan.getLoopedSound(workSoundDir, configFile);
-        TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + "engine", null);
+        TextureAtlas.AtlasRegion icon = texMan.getTex(sh.getString("iconDir"), null);
         Config config = new Config(displayName, price, desc, rotAcc, acc, maxRotSpd, big, workSound, icon);
         itemMan.registerItem(sh.name(), config.example);
       }

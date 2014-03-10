@@ -92,7 +92,7 @@ public class Armor implements SolItem {
         String descBase = sh.getString("descBase");
         String hitSoundDir = sh.getString("bulletDmgSound");
         SolSound hitSound = soundMan.getSound(hitSoundDir, configFile);
-        TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + "armor", null);
+        TextureAtlas.AtlasRegion icon = texMan.getTex(sh.getString("iconDir"), null);
         Config config = new Config(displayName, price, perc, descBase, hitSound, icon);
         itemMan.registerItem(sh.name(), config.example);
       }

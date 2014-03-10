@@ -4,7 +4,8 @@
 		price: 30,
 		perc: 0.1,
 		descBase: "Reduces all damage by %s%%",
-		bulletDmgSound: "armors/smallHit"
+		bulletDmgSound: "armors/smallHit",
+		iconDir: "icons/armor"
 	},
 	
 	aMed: {
@@ -12,7 +13,8 @@
 		price: 60,
 		perc: 0.2,
 		descBase: "Reduces all damage by %s%%",
-		bulletDmgSound: "armors/medBulletD"
+		bulletDmgSound: "armors/medBulletD",
+		iconDir: "icons/armor"
 	},
 	
 	aBig: {
@@ -20,6 +22,7 @@
 		price: 100,
 		perc: 0.3,
 		descBase: "Reduces all damage by %s%%",
-		bulletDmgSound: "armors/bigHit"
+		bulletDmgSound: "armors/bigHit",
+		iconDir: "icons/armor"
 	},
 }

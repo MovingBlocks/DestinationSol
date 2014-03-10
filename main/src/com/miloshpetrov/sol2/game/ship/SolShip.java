@@ -97,6 +97,7 @@ public class SolShip implements SolObj {
   }
 
   private boolean tryCollectLoot(SolObj obj) {
+    //todo: play pickup sound
     if (!(obj instanceof Loot)) return false;
     if (!myPilot.collectsItems()) return false;
     Loot loot = (Loot) obj;
