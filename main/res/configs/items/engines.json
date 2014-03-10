@@ -8,6 +8,7 @@
 		maxRotSpd: 230.0,
 		big: false,
 		workSound: "engines/medWork",
+		iconDir: "icons/engine"
 	},
 	
 	eBig: {
@@ -19,5 +20,6 @@
 		maxRotSpd: 40.0,
 		big: true,
 		workSound: "engines/bigWork",
+		iconDir: "icons/engine"
 	},
 }
