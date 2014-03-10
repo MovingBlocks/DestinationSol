@@ -12,6 +12,9 @@ import com.miloshpetrov.sol2.save.SaveData;
 import com.miloshpetrov.sol2.save.SaveMan;
 import com.miloshpetrov.sol2.ui.*;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 public class SolCmp {
 
   private final SolInputMan myInputMan;
@@ -21,7 +24,8 @@ public class SolCmp {
   private final TexMan myTexMan;
   private final SolLayouts myLayouts;
   private final boolean myMobile;
-  private String myFatalError;
+  private String myFatalErrorMsg;
+  private String myFatalErrorTrace;
 
   private float myAccum = 0;
   private SolGame myGame;
@@ -50,12 +54,16 @@ public class SolCmp {
   }
 
   private void safeUpdate() {
-    if (myFatalError != null) return;
+    if (myFatalErrorMsg != null) return;
     try {
       update();
     } catch (Throwable t) {
-      myFatalError = "A fatal error occurred:\n" + t.getMessage();
       t.printStackTrace();
+      myFatalErrorMsg = "A fatal error occurred:\n" + t.getMessage();
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
+      t.printStackTrace(pw);
+      myFatalErrorTrace = sw.toString();
     }
   }
 
@@ -79,9 +87,10 @@ public class SolCmp {
     if (myGame != null) {
       myGame.drawDebugUi(myUiDrawer);
     }
-    if (myFatalError != null) {
+    if (myFatalErrorMsg != null) {
       myUiDrawer.draw(myUiDrawer.whiteTex, myUiDrawer.r, .5f, 0, 0, 0, .25f, 0, Col.B75);
-      myUiDrawer.drawString(myFatalError, myUiDrawer.r / 2, .5f, FontSize.MENU, true, Col.W);
+      myUiDrawer.drawString(myFatalErrorMsg, myUiDrawer.r / 2, .5f, FontSize.MENU, true, Col.W);
+      myUiDrawer.drawString(myFatalErrorTrace, .2f * myUiDrawer.r, .6f, FontSize.DEBUG, false, Col.W);
     }
     myUiDrawer.end();
   }

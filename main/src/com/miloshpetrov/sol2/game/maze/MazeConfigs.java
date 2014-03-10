@@ -14,5 +14,4 @@ public class MazeConfigs {
     MazeConfig c = MazeConfig.load(texMan, hullConfigs);
     configs.add(c);
   }
-
 }

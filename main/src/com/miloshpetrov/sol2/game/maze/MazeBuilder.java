@@ -11,6 +11,11 @@ public class MazeBuilder {
   public static final float TILE_SZ = 4f;
 
   public void build(SolGame game, Maze maze) {
+    buildMaze(game, maze);
+    buildEnemies(game, maze);
+  }
+
+  public void buildMaze(SolGame game, Maze maze) {
     float rad = maze.getRadius() - BORDER;
     Vector2 mazePos = maze.getPos();
     int sz = (int) (rad * 2 / TILE_SZ);
@@ -62,6 +67,11 @@ public class MazeBuilder {
         }
       }
     }
+  }
+
+  private void buildEnemies(SolGame game, Maze maze) {
+    MazeConfig config = maze.getConfig();
+//    config.outerEnemies
   }
 
 

@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.SolMath;
-import com.miloshpetrov.sol2.game.ship.HullConfig;
+import com.miloshpetrov.sol2.game.ShipConfig;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 import java.util.*;
@@ -25,8 +25,8 @@ public class PlanetConfigs {
       float minGrav = sh.getFloat("minGrav");
       float maxGrav = sh.getFloat("maxGrav");
       List<DecoConfig> deco = loadDecoConfigs(sh, texMan, configFile);
-      ArrayList<PlanetEnemyConfig> groundEnemies = loadEnemiyConfigs(sh.get("groundEnemies"), hullConfigs);
-      ArrayList<PlanetEnemyConfig> orbitEnemies = loadEnemiyConfigs(sh.get("orbitEnemies"), hullConfigs);
+      ArrayList<ShipConfig> groundEnemies = ShipConfig.load(sh.get("groundEnemies"), hullConfigs);
+      ArrayList<ShipConfig> orbitEnemies = ShipConfig.load(sh.get("orbitEnemies"), hullConfigs);
       String skyPackName = sh.getString("skyTexs");
       ArrayList<TextureAtlas.AtlasRegion> cloudTexs = texMan.getPack(skyPackName, configFile);
       String groundFolder = sh.getString("groundTexs");
@@ -34,19 +34,6 @@ public class PlanetConfigs {
       PlanetConfig c = new PlanetConfig(sh.name, minGrav, maxGrav, deco, groundEnemies, orbitEnemies, cloudTexs, planetTiles);
       myConfigs.put(sh.name, c);
     }
-  }
-
-  private ArrayList<PlanetEnemyConfig> loadEnemiyConfigs(JsonValue enemies, HullConfigs hullConfigs) {
-    ArrayList<PlanetEnemyConfig> res = new ArrayList<PlanetEnemyConfig>();
-    for (JsonValue e : enemies) {
-      String hullName = e.getString("hull");
-      HullConfig hull = hullConfigs.getConfig(hullName);
-      String items = e.getString("items");
-      float density = e.getFloat("density");
-      PlanetEnemyConfig c = new PlanetEnemyConfig(hull, items, density);
-      res.add(c);
-    }
-    return res;
   }
 
   private List<DecoConfig> loadDecoConfigs(JsonValue planetConfig, TexMan texMan, FileHandle configFile) {

@@ -49,7 +49,7 @@ public class PlanetObjsBuilder {
     float gh = planet.getGroundHeight();
 
     PlanetConfig config = planet.getConfig();
-    for (PlanetEnemyConfig ge : config.groundEnemies) {
+    for (ShipConfig ge : config.groundEnemies) {
       int count = (int) (ge.density * gh);
       for (int i = 0; i < count; i++) {
         SolShip e = buildGroundEnemy(game, planet, takenAngles, ge);
@@ -58,7 +58,7 @@ public class PlanetObjsBuilder {
 
     }
 
-    for (PlanetEnemyConfig oe : config.orbitEnemies) {
+    for (ShipConfig oe : config.orbitEnemies) {
       int count = (int) (oe.density * gh * Const.ATM_HEIGHT);
       for (int i = 0; i < count; i++) {
         float heightPerc = .6f * i / count + .2f;
@@ -234,7 +234,7 @@ public class PlanetObjsBuilder {
     return buildGroundShip(game, planet, config, "bo", "", Fraction.LAANI, takenAngles);
   }
 
-  private SolShip buildGroundEnemy(SolGame game, Planet planet, ArrayList<Float> takenAngles, PlanetEnemyConfig ge) {
+  private SolShip buildGroundEnemy(SolGame game, Planet planet, ArrayList<Float> takenAngles, ShipConfig ge) {
         return buildGroundShip(game, planet, ge.hull, ge.items, null, Fraction.EHAR, takenAngles);
   }
 
@@ -259,7 +259,7 @@ public class PlanetObjsBuilder {
       null, false, 30f, tc);
   }
 
-  public SolShip buildOrbitEnemy(SolGame game, Planet planet, float heightPerc, PlanetEnemyConfig oe) {
+  public SolShip buildOrbitEnemy(SolGame game, Planet planet, float heightPerc, ShipConfig oe) {
     float height = planet.getGroundHeight() + heightPerc * Const.ATM_HEIGHT;
     Vector2 pos = new Vector2();
     SolMath.fromAl(pos, SolMath.rnd(180), height);

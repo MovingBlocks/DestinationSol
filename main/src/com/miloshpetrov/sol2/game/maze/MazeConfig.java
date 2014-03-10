@@ -1,6 +1,8 @@
 package com.miloshpetrov.sol2.game.maze;
 
 import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.game.ShipConfig;
+import com.miloshpetrov.sol2.game.ship.HullConfig;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 import java.util.ArrayList;
@@ -10,11 +12,11 @@ public class MazeConfig {
   public final ArrayList<MazeTile> innerPasses;
   public final ArrayList<MazeTile> borderWalls;
   public final ArrayList<MazeTile> borderPasses;
-  public final ArrayList<MazeEnemyConfig> outerEnemies;
-  public final ArrayList<MazeEnemyConfig> bosses;
+  public final ArrayList<ShipConfig> outerEnemies;
+  public final ArrayList<ShipConfig> bosses;
 
   public MazeConfig(ArrayList<MazeTile> innerWalls, ArrayList<MazeTile> innerPasses, ArrayList<MazeTile> borderWalls,
-    ArrayList<MazeTile> borderPasses, ArrayList<MazeEnemyConfig> outerEnemies, ArrayList<MazeEnemyConfig> bosses)
+    ArrayList<MazeTile> borderPasses, ArrayList<ShipConfig> outerEnemies, ArrayList<ShipConfig> bosses)
   {
     this.innerWalls = innerWalls;
     this.innerPasses = innerPasses;
@@ -38,12 +40,18 @@ public class MazeConfig {
     MazeTile bw2 = MazeTile.load(texMan, false, false);
     borderPasses.add(bw2);
 
-    ArrayList<MazeEnemyConfig> outerEnemies = new ArrayList<MazeEnemyConfig>();
-    MazeEnemyConfig ec = MazeEnemyConfig.load(false, hullConfigs);
+    ArrayList<ShipConfig> outerEnemies = new ArrayList<ShipConfig>();
+    ShipConfig ec = loadMazeEnemies(false, hullConfigs);
     outerEnemies.add(ec);
-    ArrayList<MazeEnemyConfig> bosses = new ArrayList<MazeEnemyConfig>();
-    MazeEnemyConfig bc = MazeEnemyConfig.load(true, hullConfigs);
+    ArrayList<ShipConfig> bosses = new ArrayList<ShipConfig>();
+    ShipConfig bc = loadMazeEnemies(true, hullConfigs);
     bosses.add(bc);
     return new MazeConfig(innerWalls, innerPasses, borderWalls, borderPasses, outerEnemies, bosses);
+  }
+
+  public static ShipConfig loadMazeEnemies(boolean boss, HullConfigs hullConfigs) {
+    HullConfig hull = hullConfigs.getConfig(boss ? "hunter" : "guardie");
+    String items = "e wbo";
+    return new ShipConfig(hull, items, 3);
   }
 }
