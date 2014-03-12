@@ -15,7 +15,8 @@ public class DevTexProvider implements TexProvider {
   private final Texture myMissingTex;
 
   DevTexProvider() {
-    myMissingTex = new Texture("imgSrcs/misc/missing.png");
+    FileHandle missingFile = SolFiles.readOnly("imgSrcs/misc/missing.png");
+    myMissingTex = new Texture(missingFile);
   }
 
   @Override
