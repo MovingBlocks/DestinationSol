@@ -4,7 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
 
+/**
+ * Just stays wherever it is, but maneuvers
+ */
 public class NoDestProvider implements MoveDestProvider {
+
+  public static final float DESIRED_SPD_LEN = 3f;
 
   public NoDestProvider() {
   }
@@ -21,7 +26,7 @@ public class NoDestProvider implements MoveDestProvider {
 
   @Override
   public float getDesiredSpdLen() {
-    return 0;
+    return DESIRED_SPD_LEN;
   }
 
   @Override
@@ -34,7 +39,7 @@ public class NoDestProvider implements MoveDestProvider {
   }
 
   @Override
-  public Boolean shouldBattle(boolean canShoot) {
-    return true;
+  public Boolean shouldManeuver(boolean canShoot) {
+    return canShoot ? true : null;
   }
 }

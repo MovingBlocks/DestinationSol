@@ -8,6 +8,9 @@ import com.miloshpetrov.sol2.game.ship.*;
 
 import java.util.List;
 
+/**
+ * Flies near the given ship. When the ship is destroyed, stays near the place where it was destroyed
+ */
 public class Guardian implements MoveDestProvider {
   private final Pilot myTargetPilot;
   private final Vector2 myDest;
@@ -97,7 +100,7 @@ public class Guardian implements MoveDestProvider {
   }
 
   @Override
-  public Boolean shouldBattle(boolean canShoot) {
+  public Boolean shouldManeuver(boolean canShoot) {
     return true;
   }
 }

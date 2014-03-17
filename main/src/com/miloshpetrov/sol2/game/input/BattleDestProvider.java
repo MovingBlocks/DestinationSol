@@ -6,7 +6,7 @@ import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public class BattleDestProvider {
-  public static final float BATTLE_DIST_PERC = .4f;
+  public static final float GROUND_BATTLE_DIST_PERC = .6f;
   private final Vector2 myDest;
   private boolean myStopNearDest;
   private final boolean myCw;
@@ -17,6 +17,7 @@ public class BattleDestProvider {
   }
 
   public Vector2 getDest(SolShip ship, SolShip enemy, float shootDist, Planet np, boolean battle) {
+    if (!battle) throw new AssertionError("can't flee yet!");
     float prefAngle;
     Vector2 enemyPos = enemy.getPos();
     if (!np.isNearGround(enemyPos)) {
@@ -29,7 +30,7 @@ public class BattleDestProvider {
     } else {
       prefAngle = SolMath.angle(np.getPos(), enemyPos);
       myStopNearDest = true;
-      SolMath.fromAl(myDest, prefAngle, BATTLE_DIST_PERC * shootDist);
+      SolMath.fromAl(myDest, prefAngle, GROUND_BATTLE_DIST_PERC * shootDist);
       myDest.add(enemyPos);
     }
     return myDest;

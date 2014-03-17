@@ -10,6 +10,9 @@ import com.miloshpetrov.sol2.game.ship.HullConfig;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Flies from planet to planet, stays on the planet ground or in atmosphere for some time, then flies to the next planet
+ */
 public class ExplorerDestProvider implements MoveDestProvider {
   public static final int MAX_AWAIT_ON_PLANET = 30;
   private final Vector2 myDest;
@@ -83,9 +86,9 @@ public class ExplorerDestProvider implements MoveDestProvider {
   }
 
   @Override
-  public Boolean shouldBattle(boolean canShoot) {
-    if (!myAggressive || !canShoot) return null;
-    return true;
+  public Boolean shouldManeuver(boolean canShoot) {
+    if (myAggressive && canShoot) return true;
+    return null;
   }
 
   @Override

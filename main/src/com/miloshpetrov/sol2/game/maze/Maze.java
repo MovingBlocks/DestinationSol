@@ -32,6 +32,9 @@ public class Maze {
     return myPos;
   }
 
+  /**
+   * @return the full radius including the exterior border.
+   */
   public float getRadius() {
     return myRadius;
   }
