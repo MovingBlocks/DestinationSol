@@ -48,7 +48,7 @@ public class MazeBuilder {
             tiles = inner ? config.innerPasses : config.borderPasses;
           }
           MazeTile tile = SolMath.elemRnd(tiles);
-          MazeTileObj mto = builder.build(game, tile, tilePos, tileAngle);
+          MazeTileObj mto = builder.build(game, tile, tilePos, tileAngle, SolMath.test(.5f));
           game.getObjMan().addObjDelayed(mto);
         }
 
@@ -66,7 +66,7 @@ public class MazeBuilder {
             tiles = inner ? config.innerPasses : config.borderPasses;
           }
           MazeTile tile = SolMath.elemRnd(tiles);
-          MazeTileObj mto = builder.build(game, tile, tilePos, tileAngle);
+          MazeTileObj mto = builder.build(game, tile, tilePos, tileAngle, SolMath.test(.5f));
           game.getObjMan().addObjDelayed(mto);
         }
       }

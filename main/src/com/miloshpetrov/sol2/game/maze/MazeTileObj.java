@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.game.maze;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.miloshpetrov.sol2.Const;
@@ -18,14 +19,16 @@ public class MazeTileObj implements SolObj {
   private final float myAngle;
   private final float myRadius;
   private final MazeTile myTile;
+  private final boolean myFlipped;
 
-  public MazeTileObj(MazeTile tile, List<Dra> dras, Body body, Vector2 pos, float angle) {
+  public MazeTileObj(MazeTile tile, List<Dra> dras, Body body, Vector2 pos, float angle, boolean flipped) {
     myTile = tile;
     myDras = dras;
     myBody = body;
     myPos = pos;
     myAngle = angle;
     myRadius = DraMan.radiusFromDras(dras);
+    myFlipped = flipped;
   }
 
   @Override
@@ -67,7 +70,7 @@ public class MazeTileObj implements SolObj {
 
   @Override
   public FarObj toFarObj() {
-    return new MyFar(myTile, myAngle, myPos, myRadius);
+    return new MyFar(myTile, myAngle, myPos, myRadius, myFlipped);
   }
 
   @Override
@@ -102,12 +105,14 @@ public class MazeTileObj implements SolObj {
     private final float myAngle;
     private final Vector2 myPos;
     private final float myRadius;
+    private final boolean myFlipped;
 
-    public MyFar(MazeTile tile, float angle, Vector2 pos, float radius) {
+    public MyFar(MazeTile tile, float angle, Vector2 pos, float radius, boolean flipped) {
       myTile = tile;
       myAngle = angle;
       myPos = pos;
       myRadius = radius;
+      myFlipped = flipped;
     }
 
     @Override
@@ -117,7 +122,7 @@ public class MazeTileObj implements SolObj {
 
     @Override
     public SolObj toObj(SolGame game) {
-      return new Builder().build(game, myTile, myPos, myAngle);
+      return new Builder().build(game, myTile, myPos, myAngle, myFlipped);
     }
 
     @Override
@@ -141,17 +146,19 @@ public class MazeTileObj implements SolObj {
   }
 
   public static class Builder {
-    public MazeTileObj build(SolGame game, MazeTile tile, Vector2 pos, float angle) {
+    public MazeTileObj build(SolGame game, MazeTile tile, Vector2 pos, float angle, boolean flipped) {
       List<Dra> dras = new ArrayList<Dra>();
-      RectSprite s = new RectSprite(tile.tex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DraLevel.DECO, 0, 0, Col.W);
+      TextureAtlas.AtlasRegion tex = tile.tex;
+      if (flipped) tex = game.getTexMan().getFlipped(tex);
+      RectSprite s = new RectSprite(tex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DraLevel.DECO, 0, 0, Col.W);
       dras.add(s);
-      Body body = buildBody(game, angle, pos, tile);
-      MazeTileObj res = new MazeTileObj(tile, dras, body, pos, angle);
+      Body body = buildBody(game, angle, pos, tile, flipped);
+      MazeTileObj res = new MazeTileObj(tile, dras, body, pos, angle, flipped);
       body.setUserData(res);
       return res;
     }
 
-    private Body buildBody(SolGame game, float angle, Vector2 pos, MazeTile tile) {
+    private Body buildBody(SolGame game, float angle, Vector2 pos, MazeTile tile, boolean flipped) {
       BodyDef def = new BodyDef();
       def.type = BodyDef.BodyType.KinematicBody;
       def.position.set(pos);
@@ -162,9 +169,12 @@ public class MazeTileObj implements SolObj {
       for (List<Vector2> pts : tile.points) {
         ChainShape shape = new ChainShape();
         List<Vector2> points  = new ArrayList<Vector2>();
-        for (Vector2 curr : pts) {
+        int sz = pts.size();
+        for (int i = 0; i < sz; i++) {
+          Vector2 curr = pts.get(flipped ? sz - i - 1 : i);
           Vector2 v = new Vector2(curr);
           v.add(-.5f, -.5f);
+          if (flipped) v.x *= -1;
           v.scl(MazeBuilder.TILE_SZ);
           points.add(v);
         }

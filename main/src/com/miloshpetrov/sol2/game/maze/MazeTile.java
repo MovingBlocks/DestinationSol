@@ -25,10 +25,10 @@ public class MazeTile {
     ArrayList<List<Vector2>> points = new ArrayList<List<Vector2>>();
     if (wall) {
       ArrayList<Vector2> wallPoints = new ArrayList<Vector2>();
-      wallPoints.add(new Vector2(0, .45f));
+      wallPoints.add(new Vector2(0, .4f));
       wallPoints.add(new Vector2(1, .45f));
       wallPoints.add(new Vector2(1, .55f));
-      wallPoints.add(new Vector2(0, .55f));
+      wallPoints.add(new Vector2(0, .6f));
       points.add(wallPoints);
     }
     return new MazeTile(tex, points);
