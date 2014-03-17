@@ -2,8 +2,8 @@ package com.miloshpetrov.sol2.game.maze;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.TexMan;
-import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.game.PathLoader;
+import com.miloshpetrov.sol2.ui.DebugCollector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +17,16 @@ public class MazeTile {
     this.points = points;
   }
 
-  public static MazeTile load(TexMan texMan, boolean wall, boolean inner) {
-    String texName = inner ? "inner" : "border";
-    texName += wall ? "Wall" : "Pass";
-    texName += "_1";
-    TextureAtlas.AtlasRegion tex = texMan.getTex("mazeTiles/junk/" + texName, SolMath.test(.5f), null);
+  public static MazeTile load(TextureAtlas.AtlasRegion tex, PathLoader.Model paths, boolean wall, String pathEntryName) {
     ArrayList<List<Vector2>> points = new ArrayList<List<Vector2>>();
-    if (wall) {
+    PathLoader.RigidBodyModel tilePaths = paths.rigidBodies.get(pathEntryName);
+    List<PathLoader.PolygonModel> shapes = tilePaths == null ? new ArrayList<PathLoader.PolygonModel>() : tilePaths.shapes;
+    for (PathLoader.PolygonModel shape : shapes) {
+      List<Vector2> vertices = new ArrayList<Vector2>(shape.vertices);
+      points.add(vertices);
+    }
+    if (points.isEmpty() && wall) {
+      DebugCollector.warn("found no paths for " + pathEntryName);
       ArrayList<Vector2> wallPoints = new ArrayList<Vector2>();
       wallPoints.add(new Vector2(0, .4f));
       wallPoints.add(new Vector2(1, .45f));

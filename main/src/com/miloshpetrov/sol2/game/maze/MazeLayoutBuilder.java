@@ -4,7 +4,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 
 public class MazeLayoutBuilder {
   public static final float HOLE_PERC = .2f;
-  public static final float WALL_PERC = .6f;
+  public static final float WALL_PERC = .5f;
   private final int mySz;
   private final boolean[][] myInners;
   private final boolean[][] myHoles;
