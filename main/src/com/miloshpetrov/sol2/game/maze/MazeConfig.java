@@ -1,8 +1,11 @@
 package com.miloshpetrov.sol2.game.maze;
 
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.game.PathLoader;
 import com.miloshpetrov.sol2.game.ShipConfig;
-import com.miloshpetrov.sol2.game.ship.HullConfig;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 import java.util.ArrayList;
@@ -28,35 +31,35 @@ public class MazeConfig {
     this.bosses = bosses;
   }
 
-  public static MazeConfig load(TexMan texMan, HullConfigs hullConfigs) {
-    ArrayList<MazeTile> innerWalls = new ArrayList<MazeTile>();
-    MazeTile iw = MazeTile.load(texMan, true, true);
-    innerWalls.add(iw);
-    ArrayList<MazeTile> innerPasses = new ArrayList<MazeTile>();
-    MazeTile iw2 = MazeTile.load(texMan, false, true);
-    innerPasses.add(iw2);
-    ArrayList<MazeTile> borderWalls = new ArrayList<MazeTile>();
-    MazeTile bw = MazeTile.load(texMan, true, false);
-    borderWalls.add(bw);
-    ArrayList<MazeTile> borderPasses = new ArrayList<MazeTile>();
-    MazeTile bw2 = MazeTile.load(texMan, false, false);
-    borderPasses.add(bw2);
+  public static MazeConfig load(TexMan texMan, HullConfigs hullConfigs, JsonValue mazeNode, FileHandle configFile) {
+    String dirName = "mazeTiles/" + mazeNode.name + "/";
+    PathLoader pathLoader = new PathLoader("mazes/" + mazeNode.name);
+    PathLoader.Model paths = pathLoader.getInternalModel();
 
-    ArrayList<ShipConfig> outerEnemies = new ArrayList<ShipConfig>();
-    ShipConfig ec = loadMazeEnemies(false, hullConfigs, false);
-    outerEnemies.add(ec);
-    ArrayList<ShipConfig> innerEnemies = new ArrayList<ShipConfig>();
-    ShipConfig ic = loadMazeEnemies(true, hullConfigs, false);
-    innerEnemies.add(ic);
-    ArrayList<ShipConfig> bosses = new ArrayList<ShipConfig>();
-    ShipConfig bc = loadMazeEnemies(false, hullConfigs, true);
-    bosses.add(bc);
+    ArrayList<MazeTile> innerWalls = new ArrayList<MazeTile>();
+    buildTiles(texMan, configFile, dirName, paths, innerWalls, "innerWall", true);
+    ArrayList<MazeTile> innerPasses = new ArrayList<MazeTile>();
+    buildTiles(texMan, configFile, dirName, paths, innerPasses, "innerPass", false);
+    ArrayList<MazeTile> borderWalls = new ArrayList<MazeTile>();
+    buildTiles(texMan, configFile, dirName, paths, borderWalls, "borderWall", true);
+    ArrayList<MazeTile> borderPasses = new ArrayList<MazeTile>();
+    buildTiles(texMan, configFile, dirName, paths, borderPasses, "borderPass", false);
+
+    ArrayList<ShipConfig> outerEnemies = ShipConfig.loadList(mazeNode.get("outerEnemies"), hullConfigs);
+    ArrayList<ShipConfig> innerEnemies = ShipConfig.loadList(mazeNode.get("innerEnemies"), hullConfigs);
+    ArrayList<ShipConfig> bosses = ShipConfig.loadList(mazeNode.get("bosses"), hullConfigs);
     return new MazeConfig(innerWalls, innerPasses, borderWalls, borderPasses, outerEnemies, innerEnemies, bosses);
   }
 
-  public static ShipConfig loadMazeEnemies(boolean inner, HullConfigs hullConfigs, boolean boss) {
-    HullConfig hull = hullConfigs.getConfig(boss ? "dragon" : inner ? "hunter" : "guardie");
-    String items = "e wbo";
-    return new ShipConfig(hull, items, inner ? .01f : .03f);
+  private static void buildTiles(TexMan texMan, FileHandle configFile, String dirName, PathLoader.Model paths,
+    ArrayList<MazeTile> list, String tileType, boolean wall)
+  {
+    ArrayList<TextureAtlas.AtlasRegion> iwTexs = texMan.getPack(dirName + tileType, configFile);
+    for (int i = 0; i < iwTexs.size(); i++) {
+      TextureAtlas.AtlasRegion tex = iwTexs.get(i);
+      String pathEntry = tex.name + "_" + i + ".png";
+      MazeTile iw = MazeTile.load(tex, paths, wall, pathEntry);
+      list.add(iw);
+    }
   }
 }

@@ -1,6 +1,9 @@
 package com.miloshpetrov.sol2.game.maze;
 
-import com.miloshpetrov.sol2.TexMan;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
+import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 import java.util.ArrayList;
@@ -11,7 +14,13 @@ public class MazeConfigs {
 
   public MazeConfigs(TexMan texMan, HullConfigs hullConfigs) {
     configs = new ArrayList<MazeConfig>();
-    MazeConfig c = MazeConfig.load(texMan, hullConfigs);
-    configs.add(c);
+
+    JsonReader r = new JsonReader();
+    FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "mazes.json");
+    JsonValue mazesNode = r.parse(configFile);
+    for (JsonValue mazeNode : mazesNode) {
+      MazeConfig c = MazeConfig.load(texMan, hullConfigs, mazeNode, configFile);
+      configs.add(c);
+    }
   }
 }
