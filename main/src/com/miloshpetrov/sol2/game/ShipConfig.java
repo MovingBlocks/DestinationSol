@@ -17,16 +17,20 @@ public class ShipConfig {
     this.density = density;
   }
 
-  public static ArrayList<ShipConfig> load(JsonValue shipListJson, HullConfigs hullConfigs) {
+  public static ArrayList<ShipConfig> loadList(JsonValue shipListJson, HullConfigs hullConfigs) {
     ArrayList<ShipConfig> res = new ArrayList<ShipConfig>();
     for (JsonValue shipNode : shipListJson) {
-      String hullName = shipNode.getString("hull");
-      HullConfig hull = hullConfigs.getConfig(hullName);
-      String items = shipNode.getString("items");
-      float density = shipNode.getFloat("density");
-      ShipConfig c = new ShipConfig(hull, items, density);
+      ShipConfig c = load(hullConfigs, shipNode);
       res.add(c);
     }
     return res;
+  }
+
+  private static ShipConfig load(HullConfigs hullConfigs, JsonValue shipNode) {
+    String hullName = shipNode.getString("hull");
+    HullConfig hull = hullConfigs.getConfig(hullName);
+    String items = shipNode.getString("items");
+    float density = shipNode.getFloat("density");
+    return new ShipConfig(hull, items, density);
   }
 }

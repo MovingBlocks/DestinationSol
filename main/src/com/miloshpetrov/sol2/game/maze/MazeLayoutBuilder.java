@@ -4,13 +4,15 @@ import com.miloshpetrov.sol2.common.SolMath;
 
 public class MazeLayoutBuilder {
   private final int mySz;
-  private final boolean[][] myCells;
+  private final boolean[][] myInners;
+  private final boolean[][] myHoles;
   private final boolean[][] myRight;
   private final boolean[][] myDown;
 
   public MazeLayoutBuilder(int sz) {
     mySz = sz;
-    myCells = new boolean[mySz][mySz];
+    myInners = new boolean[mySz][mySz];
+    myHoles = new boolean[mySz][mySz];
     myRight = new boolean[mySz][mySz];
     myDown = new boolean[mySz][mySz];
   }
@@ -18,11 +20,18 @@ public class MazeLayoutBuilder {
   public MazeLayout build() {
     for (int i = 0; i < mySz; i++) {
       for (int j = 0; j < mySz; j++) {
-        myCells[i][j] = SolMath.test(.5f);
+        myInners[i][j] = isOk(i, j) && SolMath.test(.5f);
         myRight[i][j] = SolMath.test(.5f);
         myDown[i][j] = SolMath.test(.5f);
       }
     }
-    return new MazeLayout(myCells, myRight, myDown);
+    return new MazeLayout(myInners, myHoles, myRight, myDown);
+  }
+
+  private boolean isOk(int i, int j) {
+    int ii = i - mySz / 2;
+    int jj = j - mySz / 2;
+    float dist = SolMath.sqrt(ii * ii + jj * jj);
+    return dist < mySz/2;
   }
 }
