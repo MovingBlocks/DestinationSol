@@ -4,6 +4,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 
 public class MazeLayoutBuilder {
   public static final float HOLE_PERC = .2f;
+  public static final float WALL_PERC = .6f;
   private final int mySz;
   private final boolean[][] myInners;
   private final boolean[][] myHoles;
@@ -20,13 +21,50 @@ public class MazeLayoutBuilder {
 
   public MazeLayout build() {
     setInners();
-    for (int i = 0; i < mySz; i++) {
-      for (int j = 0; j < mySz; j++) {
-        myRight[i][j] = SolMath.test(.5f);
-        myDown[i][j] = SolMath.test(.5f);
+    for (int col = 0; col < mySz; col++) {
+      for (int row = 0; row < mySz; row++) {
+        boolean inner = myInners[col][row];
+        boolean rInner = col < mySz - 1 && myInners[col + 1][row];
+        boolean dInner = row < mySz - 1 && myInners[col][row + 1];
+        myRight[col][row] = (inner || rInner) && SolMath.test(WALL_PERC);
+        myDown[col][row] = (inner || dInner) && SolMath.test(WALL_PERC);
       }
     }
+    makeAllAccessible();
     return new MazeLayout(myInners, myHoles, myRight, myDown);
+  }
+
+  private void makeAllAccessible() {
+    int[][] steps = new int[mySz][mySz];
+    expandPath(steps, 0, 0, 0);
+    for (int col = 0; col < mySz; col++) {
+      for (int row = 0; row < mySz; row++) {
+        if (steps[col][row] != 0) continue;
+        int lStep = 0;
+        if (col > 0) lStep = steps[col-1][row];
+        int uStep = 0;
+        if (row > 0) uStep = steps[col][row-1];
+        int step;
+        if (lStep < uStep) {
+          myDown[col][row-1] = false;
+          step = uStep;
+        } else {
+          myRight[col-1][row] = false;
+          step = lStep;
+        }
+        expandPath(steps, col, row, step);
+      }
+    }
+  }
+
+  private void expandPath(int[][] steps, int col, int row, int prevStep) {
+    if (steps[col][row] > 0) return;
+    int step = prevStep + 1;
+    steps[col][row] = step;
+    if (col > 0 && !myRight[col-1][row]) expandPath(steps, col-1, row, step);
+    if (row > 0 && !myDown[col][row-1]) expandPath(steps, col, row-1, step);
+    if (col < mySz-1 && !myRight[col][row]) expandPath(steps, col+1, row, step);
+    if (row < mySz-1 && !myDown[col][row]) expandPath(steps, col, row+1, step);
   }
 
   private void setInners() {
