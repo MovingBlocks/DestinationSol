@@ -6,6 +6,9 @@ import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
 
+/**
+ * Flies in the planet orbit
+ */
 public class OrbiterDestProvider implements MoveDestProvider {
   private final Planet myPlanet;
   private final float myDesiredSpd;
@@ -50,7 +53,7 @@ public class OrbiterDestProvider implements MoveDestProvider {
   }
 
   @Override
-  public Boolean shouldBattle(boolean canShoot) {
+  public Boolean shouldManeuver(boolean canShoot) {
     return null;
   }
 }

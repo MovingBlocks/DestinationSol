@@ -54,7 +54,7 @@ public class AiPilot implements Pilot {
     boolean hasEngine = ship.getHull().getEngine() != null;
     if (hasEngine) {
       Boolean battle = null;
-      if (nearestEnemy != null) battle = myDestProvider.shouldBattle(canShoot);
+      if (nearestEnemy != null) battle = myDestProvider.shouldManeuver(canShoot);
       if (battle != null) {
         dest = myBattleDestProvider.getDest(ship, nearestEnemy, shootDist, np, battle);
         shouldStopNearDest = myBattleDestProvider.shouldStopNearDest();

@@ -1,8 +1,6 @@
 
 isPlaceEmpty should consider mazes and special encounters?
 
-farJunk density should fade gradually
-
 shipConfig should have:
   money,
   hasRepairer,
@@ -17,10 +15,11 @@ ASTEROID CLUSTERS:
 
 FEATURES:
   random encounters
+  heat from stars + new damage type
+  farJunk density should fade gradually
   add mount type to ship cfg
   loot should be pulled more gently
   smooth camera rotation + sometimes camera does 360 when leaving a planet
-  heat from stars + new damage type
   brakes
   hummers as stations
   moar items

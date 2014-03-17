@@ -13,16 +13,18 @@ public class MazeConfig {
   public final ArrayList<MazeTile> borderWalls;
   public final ArrayList<MazeTile> borderPasses;
   public final ArrayList<ShipConfig> outerEnemies;
+  public final ArrayList<ShipConfig> innerEnemies;
   public final ArrayList<ShipConfig> bosses;
 
   public MazeConfig(ArrayList<MazeTile> innerWalls, ArrayList<MazeTile> innerPasses, ArrayList<MazeTile> borderWalls,
-    ArrayList<MazeTile> borderPasses, ArrayList<ShipConfig> outerEnemies, ArrayList<ShipConfig> bosses)
+    ArrayList<MazeTile> borderPasses, ArrayList<ShipConfig> outerEnemies, ArrayList<ShipConfig> innerEnemies, ArrayList<ShipConfig> bosses)
   {
     this.innerWalls = innerWalls;
     this.innerPasses = innerPasses;
     this.borderWalls = borderWalls;
     this.borderPasses = borderPasses;
     this.outerEnemies = outerEnemies;
+    this.innerEnemies = innerEnemies;
     this.bosses = bosses;
   }
 
@@ -43,15 +45,18 @@ public class MazeConfig {
     ArrayList<ShipConfig> outerEnemies = new ArrayList<ShipConfig>();
     ShipConfig ec = loadMazeEnemies(false, hullConfigs);
     outerEnemies.add(ec);
+    ArrayList<ShipConfig> innerEnemies = new ArrayList<ShipConfig>();
+    ShipConfig ic = loadMazeEnemies(false, hullConfigs);
+    outerEnemies.add(ic);
     ArrayList<ShipConfig> bosses = new ArrayList<ShipConfig>();
     ShipConfig bc = loadMazeEnemies(true, hullConfigs);
     bosses.add(bc);
-    return new MazeConfig(innerWalls, innerPasses, borderWalls, borderPasses, outerEnemies, bosses);
+    return new MazeConfig(innerWalls, innerPasses, borderWalls, borderPasses, outerEnemies, innerEnemies, bosses);
   }
 
   public static ShipConfig loadMazeEnemies(boolean boss, HullConfigs hullConfigs) {
     HullConfig hull = hullConfigs.getConfig(boss ? "hunter" : "guardie");
     String items = "e wbo";
-    return new ShipConfig(hull, items, 3);
+    return new ShipConfig(hull, items, .1f);
   }
 }

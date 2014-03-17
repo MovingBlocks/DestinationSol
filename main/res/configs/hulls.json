@@ -168,7 +168,7 @@
     hasBase: false,
     forceBeaconPoss: [],
     doorPoss: [],
-    type: std,
+    type: station,
     name: "Hummer",
     desc: "Hummer",
     price: 200,
