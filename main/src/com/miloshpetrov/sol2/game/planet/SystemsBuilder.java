@@ -14,7 +14,7 @@ public class SystemsBuilder {
   public static final int PLANET_COUNT = 5;
   public static final float PLANET_SPD = .4f;
   private static final float GROUND_SPD = .4f;
-  private static final float MAX_MAZE_RADIUS = 40f;
+  private static final float MAX_MAZE_RADIUS = 35f;
   private static final float MAZE_GAP = 10f;
 
   public List<SolSystem> build(List<SolSystem> systems, List<Planet> planets, PlanetConfigs planetConfigs,
@@ -34,7 +34,7 @@ public class SystemsBuilder {
         sysLeft--;
       } else {
         MazeConfig mc = SolMath.elemRnd(mazeConfigs.configs);
-        float mazeRadius = SolMath.rnd(.5f, 1) * MAX_MAZE_RADIUS;
+        float mazeRadius = SolMath.rnd(.7f, 1) * MAX_MAZE_RADIUS;
         Vector2 pos = getBodyPos(systems, mazes, mazeRadius + MAZE_GAP);
         Maze m = new Maze(mc, pos, mazeRadius);
         mazes.add(m);

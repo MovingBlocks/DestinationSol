@@ -24,6 +24,6 @@ public class SpaceObjConfig {
     farJunkTexs = texMan.getPack(farJunkTexDirStr, configFile);
     farJunkDensity = json.getFloat("farJunkDensity");
     JsonValue enemiesJson = json.get("enemies");
-    enemies = ShipConfig.load(enemiesJson, hullConfigs);
+    enemies = ShipConfig.loadList(enemiesJson, hullConfigs);
   }
 }

@@ -1,12 +1,14 @@
 package com.miloshpetrov.sol2.game.maze;
 
 public class MazeLayout {
-  public final boolean[][] cells;
+  public final boolean[][] inners;
+  public final boolean[][] holes;
   public final boolean[][] right;
   public final boolean[][] down;
 
-  public MazeLayout(boolean[][] cells, boolean[][] right, boolean[][] down) {
-    this.cells = cells;
+  public MazeLayout(boolean[][] inners, boolean[][] holes, boolean[][] right, boolean[][] down) {
+    this.inners = inners;
+    this.holes = holes;
     this.right = right;
     this.down = down;
   }

@@ -43,20 +43,20 @@ public class MazeConfig {
     borderPasses.add(bw2);
 
     ArrayList<ShipConfig> outerEnemies = new ArrayList<ShipConfig>();
-    ShipConfig ec = loadMazeEnemies(false, hullConfigs);
+    ShipConfig ec = loadMazeEnemies(false, hullConfigs, false);
     outerEnemies.add(ec);
     ArrayList<ShipConfig> innerEnemies = new ArrayList<ShipConfig>();
-    ShipConfig ic = loadMazeEnemies(false, hullConfigs);
-    outerEnemies.add(ic);
+    ShipConfig ic = loadMazeEnemies(true, hullConfigs, false);
+    innerEnemies.add(ic);
     ArrayList<ShipConfig> bosses = new ArrayList<ShipConfig>();
-    ShipConfig bc = loadMazeEnemies(true, hullConfigs);
+    ShipConfig bc = loadMazeEnemies(false, hullConfigs, true);
     bosses.add(bc);
     return new MazeConfig(innerWalls, innerPasses, borderWalls, borderPasses, outerEnemies, innerEnemies, bosses);
   }
 
-  public static ShipConfig loadMazeEnemies(boolean boss, HullConfigs hullConfigs) {
-    HullConfig hull = hullConfigs.getConfig(boss ? "hunter" : "guardie");
+  public static ShipConfig loadMazeEnemies(boolean inner, HullConfigs hullConfigs, boolean boss) {
+    HullConfig hull = hullConfigs.getConfig(boss ? "dragon" : inner ? "hunter" : "guardie");
     String items = "e wbo";
-    return new ShipConfig(hull, items, .1f);
+    return new ShipConfig(hull, items, inner ? .01f : .03f);
   }
 }
