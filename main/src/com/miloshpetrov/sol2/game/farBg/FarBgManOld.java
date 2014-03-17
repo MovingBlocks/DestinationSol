@@ -35,7 +35,7 @@ public class FarBgManOld {
     Vector2 camPos = cam.getPos();
     float nebPerc = (camPos.dst(np.getPos()) - np.getGroundHeight()) / (4 * Const.ATM_HEIGHT);
     nebPerc = SolMath.clamp(nebPerc, 0, 1);
-    myNebTint.a = .1f + nebPerc * .6f;
+    myNebTint.a = nebPerc;
 
     float vd = cam.getViewDist();
     drawer.draw(myNebTex, vd * 2, vd * 2, vd, vd, camPos.x, camPos.y, myNebAngle, myNebTint);
