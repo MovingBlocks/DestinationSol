@@ -3,8 +3,8 @@
     texName: station,
     size: 8,
     maxLife: 200,
-    g1Pos: "0.82 0.82",
-    g2Pos: "0.5 0.7",
+    g1Pos: "0.21 0.70",
+    g2Pos: "0.79 0.70",
     e1Pos: "0 0",
     e2Pos: "0 0",
     lightSrcPoss: [
