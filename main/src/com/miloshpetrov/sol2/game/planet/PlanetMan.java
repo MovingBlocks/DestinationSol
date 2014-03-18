@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class PlanetMan {
   private final ArrayList<SolSystem> mySystems;
   private final ArrayList<Planet> myPlanets;
+  private final ArrayList<SystemBelt> myBelts;
   private final LandingPlaceFinder myLandingPlaceFinder;
   private final PlanetConfigs myPlanetConfigs;
   private final MazeConfigs myMazeConfigs;
@@ -29,6 +30,7 @@ public class PlanetMan {
     mySystems = new ArrayList<SolSystem>();
     myMazes = new ArrayList<Maze>();
     myPlanets = new ArrayList<Planet>();
+    myBelts = new ArrayList<SystemBelt>();
     myLandingPlaceFinder = new LandingPlaceFinder();
   }
 
@@ -37,7 +39,7 @@ public class PlanetMan {
       mySystems.addAll(sd.systems);
       myPlanets.addAll(sd.planets);
     } else {
-      new SystemsBuilder().build(mySystems, myPlanets, myPlanetConfigs, myMazeConfigs, myMazes);
+      new SystemsBuilder().build(mySystems, myPlanets, myBelts, myPlanetConfigs, myMazeConfigs, myMazes);
     }
   }
 
@@ -113,6 +115,10 @@ public class PlanetMan {
 
   public ArrayList<Planet> getPlanets() {
     return myPlanets;
+  }
+
+  public ArrayList<SystemBelt> getBelts() {
+    return myBelts;
   }
 
   public ArrayList<SolSystem> getSystems() {

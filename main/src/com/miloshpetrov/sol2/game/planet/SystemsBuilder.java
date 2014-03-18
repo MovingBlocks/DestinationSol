@@ -17,7 +17,8 @@ public class SystemsBuilder {
   private static final float MAX_MAZE_RADIUS = 35f;
   private static final float MAZE_GAP = 10f;
 
-  public List<SolSystem> build(List<SolSystem> systems, List<Planet> planets, PlanetConfigs planetConfigs,
+  public List<SolSystem> build(List<SolSystem> systems, List<Planet> planets, ArrayList<SystemBelt> belts,
+    PlanetConfigs planetConfigs,
     MazeConfigs mazeConfigs, ArrayList<Maze> mazes)
   {
     int sysLeft = SYS_COUNT;
@@ -29,7 +30,7 @@ public class SystemsBuilder {
         List<Float> ghs = generatePlanetGhs();
         float sysRadius = calcSysRadius(ghs);
         Vector2 pos = getBodyPos(systems, mazes, sysRadius);
-        SolSystem s = createSystem(ghs, pos, planets, planetConfigs, sysRadius);
+        SolSystem s = createSystem(ghs, pos, planets, belts, planetConfigs, sysRadius);
         systems.add(s);
         sysLeft--;
       } else {
@@ -93,7 +94,8 @@ public class SystemsBuilder {
     }
   }
 
-  private SolSystem createSystem(List<Float> ghs, Vector2 sysPos, List<Planet> planets, PlanetConfigs planetConfigs,
+  private SolSystem createSystem(List<Float> ghs, Vector2 sysPos, List<Planet> planets, ArrayList<SystemBelt> belts,
+    PlanetConfigs planetConfigs,
     float sysRadius)
   {
     SolSystem s = new SolSystem(sysPos);
@@ -102,10 +104,16 @@ public class SystemsBuilder {
     for (Float gh : ghs) {
       float reserved = Const.PLANET_GAP + Const.ATM_HEIGHT + gh;
       planetDist += reserved;
-      PlanetConfig planetConfig = planetConfigs.getRandom();
-      Planet p = createPlanet(planetDist, s, gh, planetConfig);
-      planets.add(p);
-      s.getPlanets().add(p);
+      if (SolMath.test(.8f)) {
+        PlanetConfig planetConfig = planetConfigs.getRandom();
+        Planet p = createPlanet(planetDist, s, gh, planetConfig);
+        planets.add(p);
+        s.getPlanets().add(p);
+      } else {
+        SystemBelt belt = new SystemBelt(gh, planetDist);
+        belts.add(belt);
+        s.getBelts().add(belt);
+      }
       planetDist += reserved;
     }
     if (SolMath.abs(sysRadius - planetDist) > .1f) throw new AssertionError(sysRadius + " " + planetDist);
@@ -117,4 +125,5 @@ public class SystemsBuilder {
     float rotSpd = SolMath.arcSin(GROUND_SPD / groundHeight)  * SolMath.toInt(SolMath.test(.5f));
     return new Planet(s, SolMath.rnd(180), planetDist, SolMath.rnd(180), toSysRotSpd, rotSpd, groundHeight, false, planetConfig);
   }
+
 }

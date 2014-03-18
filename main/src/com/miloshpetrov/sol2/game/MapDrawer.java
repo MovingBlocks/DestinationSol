@@ -33,6 +33,7 @@ public class MapDrawer {
   private final TextureAtlas.AtlasRegion myMazeTex;
   private final TextureAtlas.AtlasRegion mySkullTex;
   private final TextureAtlas.AtlasRegion myStarPortTex;
+  private final TextureAtlas.AtlasRegion myBeltTex;
   private boolean myToggled;
   private final TextureAtlas.AtlasRegion myIconBg;
   private float myZoom;
@@ -48,6 +49,7 @@ public class MapDrawer {
     myMazeTex = texMan.getTex("mapObjs/maze", null);
     mySkullTex = texMan.getTex(TexMan.ICONS_DIR + "skull", null);
     myStarPortTex = texMan.getTex(TexMan.ICONS_DIR + "starPort", null);
+    myBeltTex = texMan.getTex("mapObjs/asteroids", null);
     myZoom = MAX_ZOOM / MUL_FACTOR / MUL_FACTOR;
   }
 
@@ -95,6 +97,20 @@ public class MapDrawer {
       float rad = Const.SUN_RADIUS;
       if (viewDist < camPos.dst(sysPos) - rad) continue;
       drawer.draw(myStarTex, 2 * rad, 2 * rad, rad, rad, sysPos.x, sysPos.y, 0, Col.W);
+
+      Vector2 beltIconPos = SolMath.getVec();
+      for (SystemBelt belt : sys.getBelts()) {
+        float beltRad = belt.getRadius();
+        float halfWidth = belt.getHalfWidth();
+        int beltIconCount = (int) (.1f * beltRad);
+        for (int i = 0; i < beltIconCount; i++) {
+          float angle = 360f * i / beltIconCount;
+          SolMath.fromAl(beltIconPos, angle, beltRad);
+          beltIconPos.add(sysPos);
+          drawer.draw(myBeltTex, 2 * halfWidth, 2 * halfWidth, halfWidth, halfWidth, beltIconPos.x, beltIconPos.y, angle * 3, Col.W);
+        }
+      }
+      SolMath.free(beltIconPos);
     }
 
     for (Planet planet : game.getPlanetMan().getPlanets()) {

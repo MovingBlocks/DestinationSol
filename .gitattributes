@@ -119,6 +119,7 @@ main/imgSrcs/junks/Thumbs.db -text
 main/imgSrcs/junks/pack.json -text
 main/imgSrcs/junks/sys_0.png -text
 main/imgSrcs/junks/sys_1.png -text
+main/imgSrcs/mapObjs/asteroids.png -text
 main/imgSrcs/mapObjs/atm.png -text
 main/imgSrcs/mapObjs/maze.png -text
 main/imgSrcs/mapObjs/pack.json -text
@@ -351,6 +352,7 @@ main/src/com/miloshpetrov/sol2/game/planet/PlanetTiles.java -text
 main/src/com/miloshpetrov/sol2/game/planet/Sky.java -text
 main/src/com/miloshpetrov/sol2/game/planet/SolSystem.java -text
 main/src/com/miloshpetrov/sol2/game/planet/SurfDir.java -text
+main/src/com/miloshpetrov/sol2/game/planet/SystemBelt.java -text
 main/src/com/miloshpetrov/sol2/game/planet/SystemsBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/planet/Tile.java -text
 main/src/com/miloshpetrov/sol2/game/planet/TileObj.java -text

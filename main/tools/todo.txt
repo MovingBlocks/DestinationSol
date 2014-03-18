@@ -1,5 +1,4 @@
 
-isPlaceEmpty should consider mazes and special encounters?
 
 shipConfig should have:
   money,
@@ -14,7 +13,6 @@ ASTEROID CLUSTERS:
   asteroids should take dmg, fall apart and burn in atmosphere
 
 FEATURES:
-  random encounters
   heat from stars + new damage type
   farJunk density should fade gradually
   add mount type to ship cfg
@@ -47,6 +45,7 @@ ARCHITECTURE:
   arcSin -> angularWidthOfTangentSpan(spanLen, dist) -> arcTan(spanLen/dist)
 
 BUGS:
+  isPlaceEmpty should consider mazes and special encounters?
   greater ground battle dist
   dynamic AI shoot angle
   planet tiles and stations movement method creates glitches
@@ -77,6 +76,8 @@ ARCHITECTURE
   get rid of Dra.getTex0. But this would require reusing solTex used by emitters
 
 FEATURES
+  damaged ship hulls in place of exploded ships
+  random encounters
   planet labyrinths?
   respawn enemies?
   explorers should avoid tough enemies
