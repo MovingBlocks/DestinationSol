@@ -2,31 +2,40 @@
 
 IN PROGRESS:
   asteroids should take dmg, fall apart and burn in atmosphere
+  heat from stars + new damage type
 
 
 FEATURES:
-  heat from stars + new damage type
-  loot should be pulled more gently
   hardness
   brakes
+  loot should be pulled more gently
   path loading for missing hulls
   get rid of generated white texture
   far ship positions should be calculated on demand?
+  arcSin -> arcToAngle(hordeLen, r) -> 180*hordeLen/(pi*r)
+  arcSin -> angularWidthOfSphere(r, dist) -> arcSin(r/dist)
+  arcSin -> angularWidthOfTangentSpan(spanLen, dist) -> arcTan(spanLen/dist)
+  asteroid clusters should have bigger asteroids
+  smooth camera rotation + sometimes camera does 360 when leaving a planet
 
 
 TRIVIAL:
+  rotate all ship images (and properly create on-ground enemies)
   shipConfig should have:
     money,
     hasRepairer,
     mountFixeds
     + add this all to planet enemy configs + space enemy configs
-  asteroid clusters should have bigger asteroids
-  smooth camera rotation + sometimes camera does 360 when leaving a planet
   slower planet rotation
-  arcSin -> arcToAngle(hordeLen, r) -> 180*hordeLen/(pi*r)
-  arcSin -> angularWidthOfSphere(r, dist) -> arcSin(r/dist)
-  arcSin -> angularWidthOfTangentSpan(spanLen, dist) -> arcTan(spanLen/dist)
-  rotate all ship images (and properly create on-ground enemies)
+
+
+SOUND:
+  sound for armors being hit with each damage type
+  sound for null armor being hit with each damage type
+  sound for collisions for ground
+  sound for collisions for metal
+  sound for ground being hit with each damage type
+  todo list
 
 
 CONTENT:
@@ -37,26 +46,15 @@ CONTENT:
   enemy stations with guardians
 
 
-SOUND:
-  sounds for other damage types
-  sound for null armor
-  todo list
-
-
-???
-  remember consumed angles on planet
-
-
 BUGS:
   isPlaceEmpty should consider mazes and special encounters?
-  greater ground battle dist
   dynamic AI shoot angle
   planet tiles and stations movement method creates glitches
   bullets fly thru ships sometimes -- blame shields... needs better understanding of Box2D categories
   bullets are too narrow on phone -- use realLineWidth() as a minimum width
   strange shard speeds
-  multiple enemies spawn in one point on planet
-  ships somehow get inside planet.
+  multiple enemies spawn in one point on planet --   remember consumed angles on planet
+  ships somehow get inside planet -- blame the current movement method?
 
 
 UI:
