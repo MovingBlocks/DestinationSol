@@ -148,7 +148,7 @@ public class ChunkFiller {
       float sz = SolMath.rnd(.3f, 1) * FAR_JUNK_MAX_SZ;
       Vector2 junkPos = getRndPos(chunk);
       junkPos.sub(chCenter);
-      RectSprite s = new RectSprite(tex, sz, 0, 0, junkPos, draLevel, SolMath.rnd(180), SolMath.rnd(FAR_JUNK_MAX_ROT_SPD), Col.DG);
+      RectSprite s = new RectSprite(tex, sz, 0, 0, junkPos, draLevel, SolMath.rnd(180), SolMath.rnd(FAR_JUNK_MAX_ROT_SPD), Col.G);
       dras.add(s);
     }
     DrasObj so = new DrasObj(dras, new Vector2(chCenter), new Vector2(), remover, false, true);
@@ -167,7 +167,7 @@ public class ChunkFiller {
       if (SolMath.test(.5f)) tex = game.getTexMan().getFlipped(tex);
       float sz = SolMath.rnd(.3f, 1) * JUNK_MAX_SZ;
       float rotSpd = SolMath.rnd(JUNK_MAX_ROT_SPD);
-      RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.JUNK, SolMath.rnd(180), rotSpd, Col.G);
+      RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.JUNK, SolMath.rnd(180), rotSpd, Col.LG);
       ArrayList<Dra> dras = new ArrayList<Dra>();
       dras.add(s);
 
@@ -186,7 +186,7 @@ public class ChunkFiller {
     for (int i = 0; i < count; i++) {
       Vector2 dustPos = getRndPos(chunk);
       dustPos.sub(chCenter);
-      RectSprite s = new RectSprite(tex, DUST_SZ, 0, 0, dustPos, DraLevel.JUNK, 0, 0, Col.G);
+      RectSprite s = new RectSprite(tex, DUST_SZ, 0, 0, dustPos, DraLevel.JUNK, 0, 0, Col.W);
       dras.add(s);
     }
     DrasObj so = new DrasObj(dras, chCenter, new Vector2(), remover, false, true);
