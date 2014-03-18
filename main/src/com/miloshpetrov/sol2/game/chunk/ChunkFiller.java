@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class ChunkFiller {
   public static final float DUST_DENSITY = .2f;
   public static final float ASTEROID_DENSITY = .004f;
+  private static final float BELT_A_DENSITY = .1f;
 
   public static final float JUNK_MAX_SZ = .3f;
   public static final float JUNK_MAX_ROT_SPD = 45f;
@@ -33,6 +34,7 @@ public class ChunkFiller {
   public static final float ENEMY_MAX_SPD = .3f;
   public static final float ENEMY_MAX_ROT_SPD = 1f;
   public static final float DUST_SZ = .02f;
+  private static final float MAZE_ZONE_BORDER = 20;
   private final SpaceObjConfig mySysConfig;
   private final SpaceObjConfig myMazeConfig;
   private final SpaceObjConfig myBeltConfig;
@@ -57,46 +59,60 @@ public class ChunkFiller {
     chCenter.add(Const.CHUNK_SIZE / 2, Const.CHUNK_SIZE / 2);
     fillDust(game, chunk, chCenter, remover);
 
-    SpaceObjConfig conf = getConfig(game, chCenter);
+    float[] densityMul = {1};
+    SpaceObjConfig conf = getConfig(game, chCenter, densityMul);
 
-    fillFarJunk(game, chunk, chCenter, remover, DraLevel.FAR_BG_3, conf);
-    fillFarJunk(game, chunk, chCenter, remover, DraLevel.FAR_BG_2, conf);
-    fillFarJunk(game, chunk, chCenter, remover, DraLevel.FAR_BG_1, conf);
+    fillFarJunk(game, chunk, chCenter, remover, DraLevel.FAR_BG_3, conf, densityMul[0]);
+    fillFarJunk(game, chunk, chCenter, remover, DraLevel.FAR_BG_2, conf, densityMul[0]);
+    fillFarJunk(game, chunk, chCenter, remover, DraLevel.FAR_BG_1, conf, densityMul[0]);
     fillJunk(game, chunk, remover, conf);
 
     if (conf == mySysConfig) {
       Vector2 startPos = game.getGalaxyFiller().getMainStation().getPos();
       float dst = chCenter.dst(startPos);
       if (dst > Const.CHUNK_SIZE) {
-        fillAsteroids(game, chunk, remover);
+        fillAsteroids(game, chunk, remover, false);
         for (ShipConfig enemyConf : conf.enemies) {
           fillEnemies(game, chunk, remover, enemyConf);
         }
       }
-    } // belt enemies & asteroids here
-  }
-
-  private SpaceObjConfig getConfig(SolGame game, Vector2 chCenter) {
-    PlanetMan pm = game.getPlanetMan();
-    SolSystem sys = pm.getNearestSystem(chCenter);
-    SpaceObjConfig conf;
-    if (sys.getPos().dst(chCenter) < sys.getRadius()) {
-      // check star, belt;
-      Planet p = pm.getNearestPlanet(chCenter);
-      if (p.getPos().dst(chCenter) < p.getFullHeight() + Const.CHUNK_SIZE) {
-        conf = null;
-      } else {
-        conf = mySysConfig;
-      }
-    } else {
-      Maze m = pm.getNearestMaze(chCenter);
-      if (m.getPos().dst(chCenter) < m.getRadius()) {
-        conf = myMazeConfig;
-      } else {
-        conf = null;
+    } else if (conf == myBeltConfig) {
+      fillAsteroids(game, chunk, remover, true);
+      for (ShipConfig enemyConf : conf.enemies) {
+        fillEnemies(game, chunk, remover, enemyConf);
       }
     }
-    return conf;
+  }
+
+  private SpaceObjConfig getConfig(SolGame game, Vector2 chCenter, float[] densityMul) {
+    PlanetMan pm = game.getPlanetMan();
+    SolSystem sys = pm.getNearestSystem(chCenter);
+    float toSys = sys.getPos().dst(chCenter);
+    if (toSys < sys.getRadius()) {
+      // check star;
+      for (SystemBelt belt : sys.getBelts()) {
+        if (belt.contains(chCenter)) {
+          return myBeltConfig;
+        }
+      }
+      Planet p = pm.getNearestPlanet(chCenter);
+      float toPlanet = p.getPos().dst(chCenter);
+      if (toPlanet < p.getFullHeight() + Const.CHUNK_SIZE) {
+        return null;
+      }
+      float perc = toSys / sys.getRadius() * 2;
+      if (perc > 1) perc = 2 - perc;
+      densityMul[0] = perc;
+      return mySysConfig;
+    }
+    Maze m = pm.getNearestMaze(chCenter);
+    float dst = m.getPos().dst(chCenter);
+    float zoneRad = m.getRadius() + MAZE_ZONE_BORDER;
+    if (dst < zoneRad) {
+      densityMul[0] = 1 - dst / zoneRad;
+      return myMazeConfig;
+    }
+    return null;
   }
 
   private void fillEnemies(SolGame game, Vector2 chunk, RemoveController remover, ShipConfig enemyConf) {
@@ -121,8 +137,9 @@ public class ChunkFiller {
       remover, false, 20f, null);
   }
 
-  private void fillAsteroids(SolGame game, Vector2 chunk, RemoveController remover) {
-    int count = getEntityCount(ASTEROID_DENSITY);
+  private void fillAsteroids(SolGame game, Vector2 chunk, RemoveController remover, boolean forBelt) {
+    float density = forBelt ? BELT_A_DENSITY : ASTEROID_DENSITY;
+    int count = getEntityCount(density);
     if (count == 0) return;
     for (int i = 0; i < count; i++) {
       Vector2 asteroidPos = getRndPos(chunk);
@@ -134,10 +151,10 @@ public class ChunkFiller {
   }
 
   private void fillFarJunk(SolGame game, Vector2 chunk, Vector2 chCenter, RemoveController remover, DraLevel draLevel,
-    SpaceObjConfig conf)
+    SpaceObjConfig conf, float densityMul)
   {
     if (conf == null) return;
-    int count = getEntityCount(conf.farJunkDensity);
+    int count = getEntityCount(conf.farJunkDensity * densityMul);
     if (count == 0) return;
 
     ArrayList<Dra> dras = new ArrayList<Dra>();

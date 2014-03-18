@@ -16,6 +16,7 @@ public class SystemsBuilder {
   private static final float GROUND_SPD = .4f;
   private static final float MAX_MAZE_RADIUS = 35f;
   private static final float MAZE_GAP = 10f;
+  private static final float BELT_HALF_WIDTH = 20f;
 
   public List<SolSystem> build(List<SolSystem> systems, List<Planet> planets, ArrayList<SystemBelt> belts,
     PlanetConfigs planetConfigs,
@@ -48,7 +49,12 @@ public class SystemsBuilder {
   private List<Float> generatePlanetGhs() {
     ArrayList<Float> res = new ArrayList<Float>();
     for (int i = 0; i < PLANET_COUNT; i++) {
-      float gh = SolMath.rnd(.5f, 1) * Const.MAX_GROUND_HEIGHT;
+      float gh;
+      if (SolMath.test(.8f)) {
+        gh = SolMath.rnd(.5f, 1) * Const.MAX_GROUND_HEIGHT;
+      } else {
+        gh = -BELT_HALF_WIDTH;
+      }
       res.add(gh);
     }
     return res;
@@ -59,10 +65,15 @@ public class SystemsBuilder {
     r += Const.SUN_RADIUS;
     for (Float gh : ghs) {
       r += Const.PLANET_GAP;
-      r += Const.ATM_HEIGHT;
-      r += gh;
-      r += gh;
-      r += Const.ATM_HEIGHT;
+      if (gh > 0) {
+        r += Const.ATM_HEIGHT;
+        r += gh;
+        r += gh;
+        r += Const.ATM_HEIGHT;
+      } else {
+        r -= gh;
+        r -= gh;
+      }
       r += Const.PLANET_GAP;
     }
     return r;
@@ -102,15 +113,20 @@ public class SystemsBuilder {
     s.setRadius(sysRadius);
     float planetDist = Const.SUN_RADIUS;
     for (Float gh : ghs) {
-      float reserved = Const.PLANET_GAP + Const.ATM_HEIGHT + gh;
+      float reserved;
+      if (gh > 0) {
+        reserved = Const.PLANET_GAP + Const.ATM_HEIGHT + gh;
+      } else {
+        reserved = Const.PLANET_GAP - gh;
+      }
       planetDist += reserved;
-      if (SolMath.test(.8f)) {
+      if (gh > 0) {
         PlanetConfig planetConfig = planetConfigs.getRandom();
         Planet p = createPlanet(planetDist, s, gh, planetConfig);
         planets.add(p);
         s.getPlanets().add(p);
       } else {
-        SystemBelt belt = new SystemBelt(gh, planetDist);
+        SystemBelt belt = new SystemBelt(-gh, planetDist, s);
         belts.add(belt);
         s.getBelts().add(belt);
       }

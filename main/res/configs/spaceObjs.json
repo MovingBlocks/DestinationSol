@@ -27,8 +27,14 @@
   asteroidBelt: {
     junkTexs: "junks/sys",
     junkDensity: 0.06,
-    farJunkTexs: "farJunks/sys",
+    farJunkTexs: "farJunks/belt",
     farJunkDensity: 0.01,
-    enemies: [],
+    enemies: [
+      {
+        hull: guardie,
+        items: "wbo s:.1 b:.3 rep:.5",
+        density: 0.01,
+      },
+    ],
   }
 }
