@@ -10,7 +10,6 @@ import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.asteroid.Asteroid;
-import com.miloshpetrov.sol2.game.asteroid.AsteroidBuilder;
 import com.miloshpetrov.sol2.game.dra.*;
 import com.miloshpetrov.sol2.game.input.*;
 import com.miloshpetrov.sol2.game.maze.Maze;
@@ -22,7 +21,13 @@ import java.util.ArrayList;
 public class ChunkFiller {
   public static final float DUST_DENSITY = .2f;
   public static final float ASTEROID_DENSITY = .004f;
-  private static final float BELT_A_DENSITY = .1f;
+  public static final float MIN_SYS_A_SZ = .5f;
+  public static final float MAX_SYS_A_SZ = 1.5f;
+  public static final float MIN_BELT_A_SZ = .5f;
+  public static final float MAX_BELT_A_SZ = 3.5f;
+  private static final float MAX_A_SPD = .2f;
+
+  private static final float BELT_A_DENSITY = .08f;
 
   public static final float JUNK_MAX_SZ = .3f;
   public static final float JUNK_MAX_ROT_SPD = 45f;
@@ -144,8 +149,13 @@ public class ChunkFiller {
     for (int i = 0; i < count; i++) {
       Vector2 asteroidPos = getRndPos(chunk);
       if (!game.isPlaceEmpty(asteroidPos)) continue;
-      int modelNr = SolMath.intRnd(AsteroidBuilder.VARIANT_COUNT);
-      Asteroid a = game.getAsteroidBuilder().build(game, asteroidPos, modelNr, remover);
+      float minSz = forBelt ? MIN_BELT_A_SZ : MIN_SYS_A_SZ;
+      float maxSz = forBelt ? MAX_BELT_A_SZ : MAX_SYS_A_SZ;
+      float sz = SolMath.rnd(minSz, maxSz);
+      Vector2 spd = new Vector2();
+      SolMath.fromAl(spd, SolMath.rnd(180), MAX_A_SPD);
+
+      Asteroid a = game.getAsteroidBuilder().buildNew(game, asteroidPos, spd, sz, remover);
       game.getObjMan().addObjDelayed(a);
     }
   }

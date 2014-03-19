@@ -2,6 +2,6 @@
   hull: guardie,
   items: "bo s a e rep:1:2 sloMo:1:2",
   money: 20,
-  spawnPlace: maze,
+  spawnPlace: planet,
   __spawnPlaceOptions: [station, planet, maze],
 }

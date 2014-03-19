@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import java.util.ArrayList;
 
 interface TexProvider {
-  TextureAtlas.AtlasRegion getTex(String name, FileHandle configFile);
+  TextureAtlas.AtlasRegion getTex(String fullName, FileHandle configFile);
   void dispose();
   Sprite createSprite(String name);
   ArrayList<TextureAtlas.AtlasRegion> getTexs(String name, FileHandle configFile);

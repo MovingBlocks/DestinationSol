@@ -14,8 +14,8 @@ class AtlasTexProvider implements TexProvider {
   }
 
   @Override
-  public TextureAtlas.AtlasRegion getTex(String name, FileHandle configFile) {
-    return myAtlas.findRegion(name);
+  public TextureAtlas.AtlasRegion getTex(String fullName, FileHandle configFile) {
+    return myAtlas.findRegion(fullName);
   }
 
   @Override
