@@ -111,6 +111,8 @@ public class DraMan {
       }
     }
 
+    game.getPlanetMan().drawSun(game, myDrawer);
+
     if (DebugAspects.DRA_BORDERS) {
       for (Map<Texture, List<Dra>> map : myDras.values()) {
         for (List<Dra> dras : map.values()) {

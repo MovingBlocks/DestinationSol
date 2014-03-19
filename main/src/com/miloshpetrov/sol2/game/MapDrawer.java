@@ -95,8 +95,9 @@ public class MapDrawer {
     for (SolSystem sys : systems) {
       Vector2 sysPos = sys.getPos();
       float rad = Const.SUN_RADIUS;
-      if (viewDist < camPos.dst(sysPos) - rad) continue;
-      drawer.draw(myStarTex, 2 * rad, 2 * rad, rad, rad, sysPos.x, sysPos.y, 0, Col.W);
+      if (camPos.dst(sysPos) - rad < viewDist) {
+        drawer.draw(myStarTex, 2 * rad, 2 * rad, rad, rad, sysPos.x, sysPos.y, 0, Col.W);
+      }
 
       Vector2 beltIconPos = SolMath.getVec();
       for (SystemBelt belt : sys.getBelts()) {
