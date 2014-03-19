@@ -38,12 +38,12 @@ public class TexMan {
     return flipped ? getFlipped(r) : r;
   }
 
-  public TextureAtlas.AtlasRegion getTex(String name, FileHandle configFile) {
-    TextureAtlas.AtlasRegion r = myTexs.get(name);
+  public TextureAtlas.AtlasRegion getTex(String fullName, FileHandle configFile) {
+    TextureAtlas.AtlasRegion r = myTexs.get(fullName);
     if (r != null) return r;
-    r = myTexProvider.getTex(name, configFile);
-    if (r == null) throw new RuntimeException("texture not found: " + name);
-    myTexs.put(name, r);
+    r = myTexProvider.getTex(fullName, configFile);
+    if (r == null) throw new RuntimeException("texture not found: " + fullName);
+    myTexs.put(fullName, r);
     return r;
   }
 

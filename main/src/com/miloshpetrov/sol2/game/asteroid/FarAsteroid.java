@@ -1,31 +1,40 @@
 package com.miloshpetrov.sol2.game.asteroid;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.game.*;
 
 public class FarAsteroid implements FarObj {
-  private final int myModelNr;
   private final Vector2 myPos;
   private final float myAngle;
   private final RemoveController myRemoveController;
   private final float myRadius;
+  private final float mySz;
+  private final Vector2 mySpd;
+  private final float myRotSpd;
+  private final TextureAtlas.AtlasRegion myTex;
 
-  public FarAsteroid(int modelNr, Vector2 pos, float angle, RemoveController removeController, float radius) {
-    myModelNr = modelNr;
+  public FarAsteroid(TextureAtlas.AtlasRegion tex, Vector2 pos, float angle, RemoveController removeController, float radius,
+    float sz, Vector2 spd, float rotSpd)
+  {
+    myTex = tex;
     myPos = pos;
     myAngle = angle;
     myRemoveController = removeController;
     myRadius = radius;
+    mySz = sz;
+    mySpd = spd;
+    myRotSpd = rotSpd;
   }
 
   @Override
   public boolean shouldBeRemoved(SolGame game) {
-    return myRemoveController.shouldRemove(myPos);
+    return myRemoveController != null && myRemoveController.shouldRemove(myPos);
   }
 
   @Override
   public SolObj toObj(SolGame game) {
-    return game.getAsteroidBuilder().build(game, myPos, myModelNr, myRemoveController);
+    return game.getAsteroidBuilder().build(game, myPos, myTex, mySz, myAngle, myRotSpd, mySpd, myRemoveController);
   }
 
   @Override

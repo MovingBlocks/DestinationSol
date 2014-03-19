@@ -74,7 +74,9 @@ public class PathLoader {
    */
   public void attachFixture(Body body, String name, FixtureDef fd, float scale) {
     RigidBodyModel rbModel = model.rigidBodies.get(name);
-    if (rbModel == null) throw new RuntimeException("Name '" + name + "' was not found.");
+    if (rbModel == null) {
+      throw new RuntimeException("Name '" + name + "' was not found.");
+    }
 
     Vector2 origin = tmpV.set(rbModel.origin).scl(scale);
 
@@ -276,7 +278,7 @@ public class PathLoader {
     vectorPool.add(v);
   }
 
-  public Body getBodyAndSprite(SolGame game, String packName, String name, float scale, BodyDef.BodyType type,
+  public Body getBodyAndSprite(SolGame game, String texDirName, String texName, float scale, BodyDef.BodyType type,
     Vector2 pos, float angle, List<Dra> dras, float density, DraLevel level, TextureAtlas.AtlasRegion tex)
   {
     BodyDef bd = new BodyDef();
@@ -289,12 +291,12 @@ public class PathLoader {
     FixtureDef fd = new FixtureDef();
     fd.density = density;
     fd.friction = Const.FRICTION;
-    String pathName = name + ".png";
+    String pathName = texName + ".png";
     attachFixture(body, pathName, fd, scale);
 
     Vector2 orig = getOrigin(pathName, 1);
     if (tex == null) {
-      String imgName = packName + "/" + name;
+      String imgName = texDirName + "/" + texName;
       tex = game.getTexMan().getTex(imgName, null);
     }
     RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, Col.W);

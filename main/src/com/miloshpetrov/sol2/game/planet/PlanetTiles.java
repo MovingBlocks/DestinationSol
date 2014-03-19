@@ -42,12 +42,11 @@ public class PlanetTiles {
     SurfDir from, SurfDir to, ArrayList<TextureAtlas.AtlasRegion> texs)
   {
     ArrayList<Tile> tileVariants = new ArrayList<Tile>();
-    int i = 0;
-    for (TextureAtlas.AtlasRegion reg : texs) {
+    for (TextureAtlas.AtlasRegion tex : texs) {
       if (inverted) {
-        reg = texMan.getFlipped(reg);
+        tex = texMan.getFlipped(tex);
       }
-      String tileName = tileDescName + "_" + i + ".png";
+      String tileName = tileDescName + "_" + tex.index + ".png";
       List<Vector2> points = new ArrayList<Vector2>();
       PathLoader.RigidBodyModel tilePaths = paths.rigidBodies.get(tileName);
       List<PathLoader.PolygonModel> shapes = tilePaths == null ? null : tilePaths.shapes;
@@ -62,8 +61,7 @@ public class PlanetTiles {
           points.add(point);
         }
       }
-      tileVariants.add(new Tile(reg, points, from, to));
-      i++;
+      tileVariants.add(new Tile(tex, points, from, to));
     }
     return tileVariants;
   }

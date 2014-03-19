@@ -20,12 +20,12 @@ public class DevTexProvider implements TexProvider {
   }
 
   @Override
-  public TextureAtlas.AtlasRegion getTex(String name, FileHandle configFile) {
-    FileHandle fh = SolFiles.readOnly(PREF + name + SUFF);
-    return newTex(fh, name, configFile);
+  public TextureAtlas.AtlasRegion getTex(String fullName, FileHandle configFile) {
+    FileHandle fh = SolFiles.readOnly(PREF + fullName + SUFF);
+    return newTex(fh, fullName, -1, configFile);
   }
 
-  private TextureAtlas.AtlasRegion newTex(FileHandle fh, String name, FileHandle configFile) {
+  private TextureAtlas.AtlasRegion newTex(FileHandle fh, String name, int idx, FileHandle configFile) {
     Texture tex;
     if (fh.exists()) {
       tex = new Texture(fh);
@@ -34,7 +34,7 @@ public class DevTexProvider implements TexProvider {
       DebugCollector.warn("texture not found:", fh);
     }
     String definedBy = configFile == null ? "hardcoded" : configFile.toString();
-    return new SolTex(tex, name, definedBy);
+    return new SolTex(tex, name, idx, definedBy);
   }
 
   @Override
@@ -60,8 +60,8 @@ public class DevTexProvider implements TexProvider {
       String[] parts = fhName.split("_");
       if (parts.length != 2) continue;
       if (!parts[0].equals(baseName)) continue;
-      // todo check that the rest is number;
-      res.add(newTex(fh, name, configFile));
+      int idx = Integer.parseInt(parts[1]);
+      res.add(newTex(fh, name, idx, configFile));
     }
     return res;
   }
@@ -69,14 +69,15 @@ public class DevTexProvider implements TexProvider {
   @Override
   public TextureAtlas.AtlasRegion getCopy(TextureAtlas.AtlasRegion tex) {
     SolTex st = (SolTex) tex;
-    return new SolTex(st.getTexture(), st.name, st.definedBy);
+    return new SolTex(st.getTexture(), st.name, st.index, st.definedBy);
   }
 
   public static class SolTex extends TextureAtlas.AtlasRegion {
     public final String definedBy;
 
-    public SolTex(Texture tex, String name, String definedBy) {
+    public SolTex(Texture tex, String name, int idx, String definedBy) {
       super(tex, 0, 0, tex.getWidth(), tex.getHeight());
+      this.index = idx;
       this.definedBy = definedBy;
       flip(false, true);
       this.name = name;

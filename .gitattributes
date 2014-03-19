@@ -25,10 +25,10 @@ desktop/src/com/miloshpetrov/sol2/desktop/SolDesktop.java -text
 desktop/tools/l4jcfg.xml -text
 desktop/tools/sol.ico -text
 main/debugOptions.ini -text
-main/imgSrcs/asteroids/0.png -text
-main/imgSrcs/asteroids/1.png -text
 main/imgSrcs/asteroids/Thumbs.db -text
 main/imgSrcs/asteroids/pack.json -text
+main/imgSrcs/asteroids/sys_0.png -text
+main/imgSrcs/asteroids/sys_1.png -text
 main/imgSrcs/deco/rocky/Thumbs.db -text
 main/imgSrcs/deco/rocky/grass_0.png -text
 main/imgSrcs/deco/rocky/grass_1.png -text
@@ -158,10 +158,10 @@ main/imgSrcs/projectiles/bolter.png -text
 main/imgSrcs/projectiles/bullet.png -text
 main/imgSrcs/projectiles/pack.json -text
 main/imgSrcs/projectiles/rocket.png -text
-main/imgSrcs/shards/0.png -text
-main/imgSrcs/shards/1.png -text
-main/imgSrcs/shards/2.png -text
 main/imgSrcs/shards/pack.json -text
+main/imgSrcs/shards/shard_0.png -text
+main/imgSrcs/shards/shard_1.png -text
+main/imgSrcs/shards/shard_2.png -text
 main/imgSrcs/skies/Thumbs.db -text
 main/imgSrcs/skies/cloud_0.png -text
 main/imgSrcs/ui/cursor.png -text

@@ -79,13 +79,13 @@ public class SolGame {
     myGridDrawer = new GridDrawer();
     myChunkMan = new ChunkMan(myHullConfigs, myTexMan);
     myPartMan = new PartMan(myTexMan);
-    myAsteroidBuilder = new AsteroidBuilder();
+    myAsteroidBuilder = new AsteroidBuilder(myTexMan);
     myLootBuilder = new LootBuilder();
     myItemMan = new ItemMan(myTexMan, mySoundMan);
     myFractionMan = new FractionMan(myTexMan);
     myFarBgMan = new FarBgMan();
     myMapDrawer = new MapDrawer(myTexMan);
-    myShardBuilder = new ShardBuilder();
+    myShardBuilder = new ShardBuilder(myTexMan);
     myGalaxyFiller = new GalaxyFiller();
     myChangeShips = createChangeShips(myHullConfigs);
     myTradeMan = new TradeMan();

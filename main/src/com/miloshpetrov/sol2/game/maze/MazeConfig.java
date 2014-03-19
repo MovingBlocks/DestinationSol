@@ -55,9 +55,8 @@ public class MazeConfig {
     ArrayList<MazeTile> list, String tileType, boolean wall)
   {
     ArrayList<TextureAtlas.AtlasRegion> iwTexs = texMan.getPack(dirName + tileType, configFile);
-    for (int i = 0; i < iwTexs.size(); i++) {
-      TextureAtlas.AtlasRegion tex = iwTexs.get(i);
-      String pathEntry = tex.name + "_" + i + ".png";
+    for (TextureAtlas.AtlasRegion tex : iwTexs) {
+      String pathEntry = tex.name + "_" + tex.index + ".png";
       MazeTile iw = MazeTile.load(tex, paths, wall, pathEntry);
       list.add(iw);
     }

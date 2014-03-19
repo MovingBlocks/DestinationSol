@@ -90,7 +90,7 @@ public class SolMath {
    * @param max a positive value
    */
   public static int intRnd(int max) {
-    return intRnd(0, max);
+    return intRnd(0f, max);
   }
 
   /**
@@ -104,6 +104,13 @@ public class SolMath {
     if (min == max) throw new RuntimeException("intRnd min equals max " + min);
     while (r == max) r = MathUtils.random(min, max);
     return r;
+  }
+
+  /**
+   * Returns a random int v such that min <= v && v <= max
+   */
+  public static int intRnd(int min, int max) {
+    return MathUtils.random(min,max);
   }
 
   /**
