@@ -352,6 +352,7 @@ main/src/com/miloshpetrov/sol2/game/planet/PlanetSprites.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetTiles.java -text
 main/src/com/miloshpetrov/sol2/game/planet/Sky.java -text
 main/src/com/miloshpetrov/sol2/game/planet/SolSystem.java -text
+main/src/com/miloshpetrov/sol2/game/planet/SunSingleton.java -text
 main/src/com/miloshpetrov/sol2/game/planet/SurfDir.java -text
 main/src/com/miloshpetrov/sol2/game/planet/SystemBelt.java -text
 main/src/com/miloshpetrov/sol2/game/planet/SystemsBuilder.java -text
@@ -367,6 +368,7 @@ main/src/com/miloshpetrov/sol2/game/projectile/ProjectileConfigs.java -text
 main/src/com/miloshpetrov/sol2/game/screens/BorderDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/screens/BuyItems.java -text
 main/src/com/miloshpetrov/sol2/game/screens/ChangeShip.java -text
+main/src/com/miloshpetrov/sol2/game/screens/CollisionWarnDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/screens/GameScreens.java -text
 main/src/com/miloshpetrov/sol2/game/screens/InventoryOperations.java -text
 main/src/com/miloshpetrov/sol2/game/screens/InventoryScreen.java -text
@@ -376,8 +378,8 @@ main/src/com/miloshpetrov/sol2/game/screens/MenuScreen.java -text
 main/src/com/miloshpetrov/sol2/game/screens/RightPaneLayout.java -text
 main/src/com/miloshpetrov/sol2/game/screens/SellItems.java -text
 main/src/com/miloshpetrov/sol2/game/screens/ShowInventory.java -text
+main/src/com/miloshpetrov/sol2/game/screens/SunWarnDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/screens/TalkScreen.java -text
-main/src/com/miloshpetrov/sol2/game/screens/WarnDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/ship/Door.java -text
 main/src/com/miloshpetrov/sol2/game/ship/FarShip.java -text
 main/src/com/miloshpetrov/sol2/game/ship/ForceBeacon.java -text

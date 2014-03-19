@@ -15,7 +15,6 @@ public class SolSystem {
     myPos = new Vector2(pos);
     myPlanets = new ArrayList<Planet>();
     myBelts = new ArrayList<SystemBelt>();
-
   }
 
   public ArrayList<Planet> getPlanets() {

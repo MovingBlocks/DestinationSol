@@ -11,18 +11,18 @@ import com.miloshpetrov.sol2.game.ship.SolShip;
 import com.miloshpetrov.sol2.ui.FontSize;
 import com.miloshpetrov.sol2.ui.UiDrawer;
 
-public class WarnDrawer {
+public class CollisionWarnDrawer {
   private final RayCastCallback myWarnCallback = new MyRayBack();
   private final Rectangle myWarn;
-  private boolean showWarn;
+  private boolean myShowWarn;
   private SolShip myHero;
 
-  public WarnDrawer(float r) {
+  public CollisionWarnDrawer(float r) {
     myWarn = new Rectangle(.4f * r, 0, .2f * r, .1f);
   }
 
   public void update(SolGame game) {
-    showWarn = false;
+    myShowWarn = false;
     myHero = game.getHero();
     if (myHero == null) return;
     Vector2 pos = myHero.getPos();
@@ -43,9 +43,9 @@ public class WarnDrawer {
   }
 
   public void draw(UiDrawer drawer) {
-    if (!showWarn) return;
+    if (!myShowWarn) return;
     drawer.draw(myWarn, Col.G);
-    drawer.drawString("object near", myWarn.x, myWarn.y, FontSize.MENU, false, Col.W);
+    drawer.drawString("Object Near", myWarn.x, myWarn.y, FontSize.MENU, false, Col.W);
   }
 
   private class MyRayBack implements RayCastCallback {
@@ -55,7 +55,7 @@ public class WarnDrawer {
       if (myHero == o) {
         return -1;
       }
-      showWarn = true;
+      myShowWarn = true;
       return 0;
     }
   }

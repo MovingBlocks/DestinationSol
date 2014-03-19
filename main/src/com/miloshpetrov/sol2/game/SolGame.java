@@ -161,8 +161,8 @@ public class SolGame {
     if (myHero != null) myTimeStep *= myHero.getSloMoFactor();
     myTime += myTimeStep;
 
-    myCam.update(this);
     myPlanetMan.update(this);
+    myCam.update(this);
     myChunkMan.update(this);
     myObjMan.update(this);
     myDraMan.update(this);

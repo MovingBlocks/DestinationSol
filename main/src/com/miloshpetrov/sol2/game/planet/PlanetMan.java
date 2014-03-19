@@ -2,6 +2,7 @@ package com.miloshpetrov.sol2.game.planet;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
@@ -14,6 +15,7 @@ import com.miloshpetrov.sol2.save.SaveData;
 import java.util.ArrayList;
 
 public class PlanetMan {
+
   private final ArrayList<SolSystem> mySystems;
   private final ArrayList<Planet> myPlanets;
   private final ArrayList<SystemBelt> myBelts;
@@ -21,6 +23,7 @@ public class PlanetMan {
   private final PlanetConfigs myPlanetConfigs;
   private final MazeConfigs myMazeConfigs;
   private final ArrayList<Maze> myMazes;
+  private final SunSingleton mySunSingleton;
   private Planet myNearestPlanet;
 
   public PlanetMan(TexMan texMan, HullConfigs hullConfigs) {
@@ -32,6 +35,7 @@ public class PlanetMan {
     myPlanets = new ArrayList<Planet>();
     myBelts = new ArrayList<SystemBelt>();
     myLandingPlaceFinder = new LandingPlaceFinder();
+    mySunSingleton = new SunSingleton(texMan);
   }
 
   public void fill(SaveData sd) {
@@ -53,7 +57,9 @@ public class PlanetMan {
     }
 
     myNearestPlanet = getNearestPlanet(camPos);
-    applyGrav(game);
+
+    SolSystem nearestSys = getNearestSystem(camPos);
+    applyGrav(game, nearestSys);
   }
 
   public Planet getNearestPlanet(Vector2 pos) {
@@ -69,26 +75,51 @@ public class PlanetMan {
     return res;
   }
 
-  private void applyGrav(SolGame game) {
-    if (myNearestPlanet == null) return;
-    Planet np = myNearestPlanet;
+  private void applyGrav(SolGame game, SolSystem nearestSys) {
+    float npGh = myNearestPlanet.getGroundHeight();
+    float npFh = myNearestPlanet.getFullHeight();
+    Vector2 npPos = myNearestPlanet.getPos();
+    Vector2 sysPos = nearestSys.getPos();
+    float npGravConst = myNearestPlanet.getGravConst();
 
     for (SolObj obj : game.getObjMan().getObjs()) {
       if (!obj.receivesGravity()) continue;
-      Vector2 grav = SolMath.getVec(np.getPos());
-      grav.sub(obj.getPos());
-      float len = grav.len();
-      float groundHeight = np.getGroundHeight();
-      if (len <= np.getFullHeight()) {
-        grav.nor();
-        if (len < groundHeight) {
-          len = groundHeight;
-        }
-        float g = np.getGravConst() / len / len;
-        grav.scl(g);
-        obj.receiveAcc(grav, game);
+
+      Vector2 objPos = obj.getPos();
+      float minDist;
+      Vector2 srcPos;
+      float gravConst;
+      boolean onPlanet;
+      float toNp = npPos.dst(objPos);
+      float toSys = sysPos.dst(objPos);
+      if (toNp < npFh) {
+        minDist = npGh;
+        srcPos = npPos;
+        gravConst = npGravConst;
+        onPlanet = true;
+      } else if (toSys < Const.SUN_RADIUS) {
+        minDist = SunSingleton.SUN_HOT_RAD;
+        srcPos = sysPos;
+        gravConst = SunSingleton.GRAV_CONST;
+        onPlanet = false;
+      } else {
+        continue;
       }
+
+      Vector2 grav = SolMath.getVec(srcPos);
+      grav.sub(objPos);
+      float len = grav.len();
+      grav.nor();
+      if (len < minDist) {
+        len = minDist;
+      }
+      float g = gravConst / len / len;
+      grav.scl(g);
+      obj.receiveAcc(grav, game);
       SolMath.free(grav);
+      if (!onPlanet) {
+        mySunSingleton.doDmg(game, obj, toSys);
+      }
     }
 
   }
@@ -158,4 +189,9 @@ public class PlanetMan {
     }
     return res;
   }
+
+  public void drawSun(SolGame game, Drawer drawer) {
+    mySunSingleton.draw(game, drawer);
+  }
+
 }

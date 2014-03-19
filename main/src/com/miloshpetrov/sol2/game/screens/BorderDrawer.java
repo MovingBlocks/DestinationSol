@@ -8,8 +8,7 @@ import com.miloshpetrov.sol2.SolCmp;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
-import com.miloshpetrov.sol2.game.planet.Planet;
-import com.miloshpetrov.sol2.game.planet.PlanetMan;
+import com.miloshpetrov.sol2.game.planet.*;
 import com.miloshpetrov.sol2.game.ship.FarShip;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 import com.miloshpetrov.sol2.ui.UiDrawer;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
 
 public class BorderDrawer {
 
-  private static final float MAX_DRAW_DIST = Const.SUN_RADIUS * 3;
+  private static final float MAX_DRAW_DIST = (Const.MAX_GROUND_HEIGHT + Const.ATM_HEIGHT) * 2;
   public static final float TISHCH_SZ = .025f;
   public static final float BORDER_ICON_SZ = .12f;
   public static final float MAX_ICON_DIST = Const.ATM_HEIGHT;
@@ -129,17 +128,23 @@ public class BorderDrawer {
 
     float camAngle = cam.getAngle();
     for (Planet p : pMan.getPlanets()) {
-      Vector2 pPos = p.getPos();
-      float dst = pPos.dst(camPos);
-      float radius = p.getGroundHeight();
-      float distPerc = (dst - radius) / MAX_DRAW_DIST;
-      if (distPerc < 1) {
-        float relAngle = SolMath.angle(camPos, pPos, true) - camAngle;
-        float angularWHalf = SolMath.arcSin(radius / dst);
-        apply(distPerc, angularWHalf, relAngle);
-      }
+      Vector2 objPos = p.getPos();
+      float objRad = p.getGroundHeight();
+      apply0(camPos, camAngle, objPos, objRad);
     }
+    SolSystem sys = pMan.getNearestSystem(camPos);
+    apply0(camPos, camAngle, sys.getPos(), SunSingleton.SUN_HOT_RAD);
     for (Tishch t : myTishches) t.draw(drawer);
+  }
+
+  private void apply0(Vector2 camPos, float camAngle, Vector2 objPos, float objRad) {
+    float dst = objPos.dst(camPos);
+    float distPerc = (dst - objRad) / MAX_DRAW_DIST;
+    if (distPerc < 1) {
+      float relAngle = SolMath.angle(camPos, objPos, true) - camAngle;
+      float angularWHalf = SolMath.arcSin(objRad / dst);
+      apply(distPerc, angularWHalf, relAngle);
+    }
   }
 
   private void apply(float distPerc, float angularWHalf, float relAngle) {

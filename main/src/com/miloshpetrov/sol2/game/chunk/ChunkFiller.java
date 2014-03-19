@@ -94,7 +94,7 @@ public class ChunkFiller {
     SolSystem sys = pm.getNearestSystem(chCenter);
     float toSys = sys.getPos().dst(chCenter);
     if (toSys < sys.getRadius()) {
-      // check star;
+      if (toSys < Const.SUN_RADIUS) return null;
       for (SystemBelt belt : sys.getBelts()) {
         if (belt.contains(chCenter)) {
           return myBeltConfig;

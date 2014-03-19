@@ -1,14 +1,11 @@
 
 
-IN PROGRESS:
-  stars
-  heat from stars on all
-
 
 
 FEATURES:
   hardness
   brakes
+  config file for trade ships & space stations & explorers
   loot should be pulled more gently
   path loading for missing hulls
   get rid of generated white texture
@@ -18,6 +15,7 @@ FEATURES:
   arcSin -> angularWidthOfTangentSpan(spanLen, dist) -> arcTan(spanLen/dist)
   asteroid clusters should have bigger asteroids
   smooth camera rotation + sometimes camera does 360 when leaving a planet
+  sky should change color in the sunset
 
 
 TRIVIAL:
@@ -27,10 +25,12 @@ TRIVIAL:
     hasRepairer,
     mountFixeds
     + add this all to planet enemy configs + space enemy configs
-  slower planet rotation
   burning particle effect
   dust particle effect on ateroid split
   starports should be on different distances from planet center, since now they overlap
+  black filler inside planets, also lower planet tiles should have darker tint
+  there should be only one asteroid belt per system, in the center
+  slower planet rotation
 
 
 SOUND:

@@ -28,7 +28,8 @@ public class MainScreen implements SolUiScreen {
   private final SolUiControl myDownCtrl;
   public final SolUiControl myShootCtrl;
   private final SolUiControl myShoot2Ctrl;
-  private final WarnDrawer myWarnDrawer;
+  private final CollisionWarnDrawer myCollisionWarnDrawer;
+  private final SunWarnDrawer mySunWarnDrawer;
   private final SolUiControl mySpecCtrl;
   private final SolUiControl myMenuCtrl;
   public final SolUiControl mapCtrl;
@@ -89,7 +90,8 @@ public class MainScreen implements SolUiScreen {
     myControls.add(myPauseCtrl);
 
 
-    myWarnDrawer = new WarnDrawer(r);
+    myCollisionWarnDrawer = new CollisionWarnDrawer(r);
+    mySunWarnDrawer = new SunWarnDrawer(r);
     myBorderDrawer = new BorderDrawer(r, cmp);
 
     TexMan texMan = cmp.getTexMan();
@@ -135,7 +137,8 @@ public class MainScreen implements SolUiScreen {
     GameScreens screens = game.getScreens();
     SolShip hero = game.getHero();
 
-    myWarnDrawer.update(game);
+    myCollisionWarnDrawer.update(game);
+    mySunWarnDrawer.update(game);
 
     if (myMenuCtrl.isJustOff()) {
       inputMan.setScreen(cmp, screens.menuScreen);
@@ -214,7 +217,8 @@ public class MainScreen implements SolUiScreen {
   public void drawPre(UiDrawer uiDrawer, SolCmp cmp) {
     maybeDrawHeight(uiDrawer, cmp);
     myBorderDrawer.draw(uiDrawer, cmp);
-    myWarnDrawer.draw(uiDrawer);
+    myCollisionWarnDrawer.draw(uiDrawer);
+    mySunWarnDrawer.draw(uiDrawer);
 
     SolShip hero = cmp.getGame().getHero();
     if (hero != null) {

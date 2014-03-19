@@ -1,4 +1,4 @@
-package com.miloshpetrov.sol2.game.planet;
+  package com.miloshpetrov.sol2.game.planet;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -24,7 +24,7 @@ public class Sky implements SolObj {
     myDras = new ArrayList<Dra>();
 
     myFill = new RectSprite(game.getTexMan().whiteTex, 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, Col.col(.5f, 1));
-    myDras.add(myFill);
+//    myDras.add(myFill);
     myGrad = new RectSprite(game.getTexMan().getTex("misc/grad", null), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, Col.col(.5f, 1));
     myDras.add(myGrad);
   }
