@@ -2,10 +2,10 @@ package com.miloshpetrov.sol2.game.projectile;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.SolObj;
+import com.miloshpetrov.sol2.game.asteroid.AsteroidBuilder;
 
 public class BallProjectileBody implements ProjectileBody {
   private final Body myBody;
@@ -17,9 +17,15 @@ public class BallProjectileBody implements ProjectileBody {
 
   public BallProjectileBody(SolGame game, Vector2 pos, float angle, Projectile projectile, float physSize, Vector2 gunSpd,
     float spdLen) {
-    myBody = buildBall(game, pos, angle, projectile, physSize, gunSpd, spdLen);
-    myPos = new Vector2();
+    myBody = AsteroidBuilder.buildBall(game, pos, angle, physSize / 2, 1);
+
     mySpd = new Vector2();
+    SolMath.fromAl(mySpd, angle, spdLen);
+    mySpd.add(gunSpd);
+    myBody.setLinearVelocity(mySpd);
+    myBody.setUserData(projectile);
+
+    myPos = new Vector2();
     setParamsFromBody();
   }
 
@@ -27,28 +33,6 @@ public class BallProjectileBody implements ProjectileBody {
     myPos.set(myBody.getPosition());
     myAngle = myBody.getAngle() * SolMath.radDeg;
     mySpd.set(myBody.getLinearVelocity());
-  }
-
-  private static Body buildBall(SolGame game, Vector2 pos, float angle, Projectile projectile, float physSize, Vector2 gunSpd,
-    float spdLen) {
-    BodyDef bd = new BodyDef();
-    bd.type = BodyDef.BodyType.DynamicBody;
-    bd.angle = angle * SolMath.degRad;
-    bd.angularDamping = 0;
-    bd.position.set(pos);
-    bd.linearDamping = 0;
-    SolMath.fromAl(bd.linearVelocity, angle, spdLen);
-    bd.linearVelocity.add(gunSpd);
-    Body body = game.getObjMan().getWorld().createBody(bd);
-    FixtureDef fd = new FixtureDef();
-    fd.density = 1;
-    fd.friction = Const.FRICTION;
-    fd.shape = new CircleShape();
-    fd.shape.setRadius(physSize/2);
-    body.createFixture(fd);
-    fd.shape.dispose();
-    body.setUserData(projectile);
-    return body;
   }
 
   @Override

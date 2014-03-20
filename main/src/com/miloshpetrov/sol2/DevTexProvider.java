@@ -4,6 +4,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.miloshpetrov.sol2.game.DebugAspects;
 import com.miloshpetrov.sol2.ui.DebugCollector;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class DevTexProvider implements TexProvider {
       tex = new Texture(fh);
     } else {
       tex = myMissingTex;
-      DebugCollector.warn("texture not found:", fh);
+      if (DebugAspects.TEX_DEBUG) DebugCollector.warn("texture not found:", fh);
     }
     String definedBy = configFile == null ? "hardcoded" : configFile.toString();
     return new SolTex(tex, name, idx, definedBy);

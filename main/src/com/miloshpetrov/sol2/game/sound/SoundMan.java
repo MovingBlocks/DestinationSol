@@ -59,7 +59,7 @@ public class SoundMan {
       if (configFile != null) {
         warnMsg += " (defined in " + configFile.path() + ")";
       }
-      DebugCollector.warn(warnMsg);
+      if (DebugAspects.SOUND_DEBUG) DebugCollector.warn(warnMsg);
     }
     return res;
   }

@@ -155,7 +155,7 @@ public class ObjMan {
       drawDebugStrings(drawer, game);
     }
 
-    if (DebugAspects.PHYSIC_BODIES) {
+    if (DebugAspects.PHYSICS_DEBUG) {
       drawer.end();
       myDr.render(myWorld, game.getCam().getMtx());
       drawer.begin(game);
