@@ -1,4 +1,3 @@
-  config file for trade ships & space stations & explorers
 
   hardness
 
@@ -6,9 +5,8 @@
 
 FEATURES:
   brakes?
-  loot should be pulled more gently
+  loot should be pulled more gently: just apply force
   smooth camera rotation + sometimes camera does 360 when leaving a planet
-  trading
 
 
 TRIVIAL:
