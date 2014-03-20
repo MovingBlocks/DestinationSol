@@ -14,15 +14,13 @@ import java.util.List;
 public class Guardian implements MoveDestProvider {
   private final Pilot myTargetPilot;
   private final Vector2 myDest;
-  private final float myDesiredSpd;
   private final float myAngle;
 
   private SolShip myTarget;
   private FarShip myFarTarget;
 
-  public Guardian(SolGame game, float desiredSpd, SolShip target, HullConfig hullConfig) {
+  public Guardian(SolGame game, SolShip target, HullConfig hullConfig) {
     myTargetPilot = target.getPilot();
-    myDesiredSpd = desiredSpd;
     myDest = new Vector2();
     myAngle = SolMath.rnd(180);
     setDest(game, target.getPos(), target.getHull().config.size, hullConfig);
@@ -40,7 +38,7 @@ public class Guardian implements MoveDestProvider {
 
   @Override
   public float getDesiredSpdLen() {
-    return myDesiredSpd;
+    return NoDestProvider.DESIRED_SPD_LEN;
   }
 
   @Override

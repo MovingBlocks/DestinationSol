@@ -6,7 +6,46 @@
       farJunkTexs: "farJunks/sys",
       farJunkDensity: 0.01,
     },
-    enemies: [
+    constantAllies: [
+      {
+        hull: station,
+        items: "mg rl r:1:4",
+        density: 0.2,
+        guard: {
+          hull: vanguard,
+          items: "e b:1:4 r:1:2 rl|mg sBig aBig",
+          density: 3,
+        }
+      },
+      {
+        hull: orbiter,
+        items: "e b:1:4 rep:.8:2 bo|mg sMed|sBig:.5 aMed|aBig:.3",
+        density: 1,
+      },
+      {
+        hull: bus,
+        items: "mg rl eBig aBig sBig b:1:4 r:1:4 rep:1:4",
+        density: 0.3,
+      },
+    ],
+    constantEnemies: [
+      {
+        hull: hunter,
+        items: "e b:1:4 rep:.8:2 bo|mg sMed|sBig:.5 aMed|aBig:.3",
+        density: 1,
+      },
+      {
+        hull: truck,
+        items: "eBig bo s|sMed",
+        density: 1,
+        guard: {
+          hull: guardie,
+          items: "e b:1:2 bo|sg s|sMed:.2 a:.2 rep:.4",
+          density: 3,
+        }
+      },
+    ],
+    temporaryEnemies: [
       {
         hull: hawk,
         items: "wbo s:.1 b:.3 rep:.5",

@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.game.PathLoader;
 import com.miloshpetrov.sol2.game.ShipConfig;
-import com.miloshpetrov.sol2.game.chunk.SpaceEnvironmentConfig;
+import com.miloshpetrov.sol2.game.chunk.SpaceEnvConfig;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 import java.util.ArrayList;
@@ -19,11 +19,11 @@ public class MazeConfig {
   public final ArrayList<ShipConfig> outerEnemies;
   public final ArrayList<ShipConfig> innerEnemies;
   public final ArrayList<ShipConfig> bosses;
-  public final SpaceEnvironmentConfig envConfig;
+  public final SpaceEnvConfig envConfig;
 
   public MazeConfig(ArrayList<MazeTile> innerWalls, ArrayList<MazeTile> innerPasses, ArrayList<MazeTile> borderWalls,
     ArrayList<MazeTile> borderPasses, ArrayList<ShipConfig> outerEnemies, ArrayList<ShipConfig> innerEnemies,
-    ArrayList<ShipConfig> bosses, SpaceEnvironmentConfig envConfig)
+    ArrayList<ShipConfig> bosses, SpaceEnvConfig envConfig)
   {
     this.innerWalls = innerWalls;
     this.innerPasses = innerPasses;
@@ -53,7 +53,7 @@ public class MazeConfig {
     ArrayList<ShipConfig> innerEnemies = ShipConfig.loadList(mazeNode.get("innerEnemies"), hullConfigs);
     ArrayList<ShipConfig> bosses = ShipConfig.loadList(mazeNode.get("bosses"), hullConfigs);
 
-    SpaceEnvironmentConfig envConfig = new SpaceEnvironmentConfig(mazeNode.get("environment"), texMan, configFile);
+    SpaceEnvConfig envConfig = new SpaceEnvConfig(mazeNode.get("environment"), texMan, configFile);
 
     return new MazeConfig(innerWalls, innerPasses, borderWalls, borderPasses, outerEnemies, innerEnemies, bosses, envConfig);
   }

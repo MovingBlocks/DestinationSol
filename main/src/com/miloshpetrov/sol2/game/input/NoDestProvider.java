@@ -9,7 +9,7 @@ import com.miloshpetrov.sol2.game.ship.HullConfig;
  */
 public class NoDestProvider implements MoveDestProvider {
 
-  public static final float DESIRED_SPD_LEN = 3f;
+  public static final float DESIRED_SPD_LEN = 4f;
 
   public NoDestProvider() {
   }

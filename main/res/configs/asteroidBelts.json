@@ -6,7 +6,7 @@
       farJunkTexs: "farJunks/belt",
       farJunkDensity: 0.01,
     },
-    enemies: [
+    temporaryEnemies: [
       {
         hull: guardie,
         items: "wbo s:.1 b:.3 rep:.5",

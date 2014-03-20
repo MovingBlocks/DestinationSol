@@ -51,7 +51,7 @@ public class ChunkFiller {
     fillDust(game, chunk, chCenter, remover);
 
     float[] densityMul = {1};
-    SpaceEnvironmentConfig conf = getConfig(game, chCenter, densityMul, chunk, remover);
+    SpaceEnvConfig conf = getConfig(game, chCenter, densityMul, chunk, remover);
 
     fillFarJunk(game, chunk, chCenter, remover, DraLevel.FAR_BG_3, conf, densityMul[0]);
     fillFarJunk(game, chunk, chCenter, remover, DraLevel.FAR_BG_2, conf, densityMul[0]);
@@ -60,7 +60,7 @@ public class ChunkFiller {
 
   }
 
-  private SpaceEnvironmentConfig getConfig(SolGame game, Vector2 chCenter, float[] densityMul, Vector2 chunk,
+  private SpaceEnvConfig getConfig(SolGame game, Vector2 chCenter, float[] densityMul, Vector2 chunk,
     RemoveController remover) {
     PlanetMan pm = game.getPlanetMan();
     SolSystem sys = pm.getNearestSystem(chCenter);
@@ -71,7 +71,7 @@ public class ChunkFiller {
         if (belt.contains(chCenter)) {
           fillAsteroids(game, chunk, remover, true);
           SysConfig beltConfig = belt.getConfig();
-          for (ShipConfig enemyConf : beltConfig.enemies) {
+          for (ShipConfig enemyConf : beltConfig.tempEnemies) {
             fillEnemies(game, chunk, remover, enemyConf);
           }
           return beltConfig.envConfig;
@@ -104,7 +104,7 @@ public class ChunkFiller {
     float dst = chCenter.dst(startPos);
     if (dst > Const.CHUNK_SIZE) {
       fillAsteroids(game, chunk, remover, false);
-      for (ShipConfig enemyConf : conf.enemies) {
+      for (ShipConfig enemyConf : conf.tempEnemies) {
         fillEnemies(game, chunk, remover, enemyConf);
       }
     }
@@ -151,7 +151,7 @@ public class ChunkFiller {
   }
 
   private void fillFarJunk(SolGame game, Vector2 chunk, Vector2 chCenter, RemoveController remover, DraLevel draLevel,
-    SpaceEnvironmentConfig conf, float densityMul)
+    SpaceEnvConfig conf, float densityMul)
   {
     if (conf == null) return;
     int count = getEntityCount(conf.farJunkDensity * densityMul);
@@ -172,7 +172,7 @@ public class ChunkFiller {
     game.getObjMan().addObjDelayed(so);
   }
 
-  private void fillJunk(SolGame game, Vector2 chunk, RemoveController remover, SpaceEnvironmentConfig conf) {
+  private void fillJunk(SolGame game, Vector2 chunk, RemoveController remover, SpaceEnvConfig conf) {
     if (conf == null) return;
     int count = getEntityCount(conf.junkDensity);
     if (count == 0) return;
