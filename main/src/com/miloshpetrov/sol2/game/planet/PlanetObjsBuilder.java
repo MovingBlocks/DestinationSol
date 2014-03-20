@@ -230,8 +230,8 @@ public class PlanetObjsBuilder {
   }
 
   private SolShip buildGroundBase(SolGame game, Planet planet, ArrayList<Float> takenAngles) {
-    HullConfig config = game.getHullConfigs().getConfig("drome");
-    return buildGroundShip(game, planet, config, "bo", "", Fraction.LAANI, takenAngles);
+    ShipConfig cfg = planet.getConfig().stationConfig;
+    return buildGroundShip(game, planet, cfg.hull, cfg.items, "", Fraction.LAANI, takenAngles);
   }
 
   private SolShip buildGroundEnemy(SolGame game, Planet planet, ArrayList<Float> takenAngles, ShipConfig ge) {
