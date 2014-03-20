@@ -1,7 +1,7 @@
 * text=auto !eol
-/fd.png -text
-/ff.png -text
+/fd_0.png -text
+/ff_0.png -text
 /readme.txt -text
-/ud.png -text
-/uf.png -text
-/uu.png -text
+/ud_0.png -text
+/uf_0.png -text
+/uu_0.png -text
