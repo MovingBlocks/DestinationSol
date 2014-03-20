@@ -30,7 +30,7 @@ public class ShipConfig {
     String hullName = shipNode.getString("hull");
     HullConfig hull = hullConfigs.getConfig(hullName);
     String items = shipNode.getString("items");
-    float density = shipNode.hasChild("density") ? shipNode.getFloat("density") : -1;
+    float density = shipNode.getFloat("density", -1);
     return new ShipConfig(hull, items, density);
   }
 }
