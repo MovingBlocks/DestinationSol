@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class AsteroidBuilder {
   private static final float MAX_A_ROT_SPD = .5f;
   private static final float MAX_BALL_SZ = .2f;
+  public static final float DENSITY = 10f;
 
   private final PathLoader myPathLoader;
   private final ArrayList<TextureAtlas.AtlasRegion> myTexs;
@@ -37,9 +38,9 @@ public class AsteroidBuilder {
     Body body;
     if (MAX_BALL_SZ < sz) {
       body = myPathLoader.getBodyAndSprite(game, "asteroids", removePath(tex.name) + "_" + tex.index, sz,
-        BodyDef.BodyType.DynamicBody, pos, angle, dras, 10f, DraLevel.BODIES, tex);
+        BodyDef.BodyType.DynamicBody, pos, angle, dras, DENSITY, DraLevel.BODIES, tex);
     } else {
-      body = buildBall(game, pos, angle, sz);
+      body = buildBall(game, pos, angle, sz/2, DENSITY);
       RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.BODIES, 0, 0, Col.W);
       dras.add(s);
     }
@@ -56,7 +57,7 @@ public class AsteroidBuilder {
     return parts[parts.length - 1];
   }
 
-  private static Body buildBall(SolGame game, Vector2 pos, float angle, float physSize) {
+  public static Body buildBall(SolGame game, Vector2 pos, float angle, float rad, float density) {
     BodyDef bd = new BodyDef();
     bd.type = BodyDef.BodyType.DynamicBody;
     bd.angle = angle * SolMath.degRad;
@@ -65,10 +66,10 @@ public class AsteroidBuilder {
     bd.linearDamping = 0;
     Body body = game.getObjMan().getWorld().createBody(bd);
     FixtureDef fd = new FixtureDef();
-    fd.density = 1;
+    fd.density = density;
     fd.friction = Const.FRICTION;
     fd.shape = new CircleShape();
-    fd.shape.setRadius(physSize / 2);
+    fd.shape.setRadius(rad);
     body.createFixture(fd);
     fd.shape.dispose();
     return body;

@@ -12,7 +12,6 @@ FEATURES:
   brakes
   config file for trade ships & space stations & explorers
   loot should be pulled more gently
-  path loading for missing hulls
   far ship positions should be calculated on demand?
   smooth camera rotation + sometimes camera does 360 when leaving a planet
   sky should change color in the sunset

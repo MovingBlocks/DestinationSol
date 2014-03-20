@@ -24,7 +24,7 @@ public class DraDebugger {
   }
 
   public void update(SolGame game) {
-    if (!DebugAspects.TEX_INFO) return;
+    if (!DebugAspects.TEX_DEBUG) return;
     maybeCollectTexs(game);
   }
 

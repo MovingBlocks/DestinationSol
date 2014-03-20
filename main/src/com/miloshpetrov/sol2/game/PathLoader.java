@@ -13,6 +13,7 @@ import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.dra.*;
+import com.miloshpetrov.sol2.ui.DebugCollector;
 
 import java.util.*;
 
@@ -72,10 +73,10 @@ public class PathLoader {
    * @param fd The fixture parameters to apply to the created body fixture.
    * @param scale The desired scale of the body. The default width is 1.
    */
-  public void attachFixture(Body body, String name, FixtureDef fd, float scale) {
+  public boolean attachFixture(Body body, String name, FixtureDef fd, float scale) {
     RigidBodyModel rbModel = model.rigidBodies.get(name);
     if (rbModel == null) {
-      throw new RuntimeException("Name '" + name + "' was not found.");
+      return false;
     }
 
     Vector2 origin = tmpV.set(rbModel.origin).scl(scale);
@@ -112,6 +113,7 @@ public class PathLoader {
 
       free(center);
     }
+    return true;
   }
 
   /**
@@ -132,8 +134,12 @@ public class PathLoader {
    */
   public Vector2 getOrigin(String name, float scale) {
     RigidBodyModel rbModel = model.rigidBodies.get(name);
-    if (rbModel == null) throw new RuntimeException("Name '" + name + "' was not found.");
-    tmpV.set(rbModel.origin).scl(scale);
+    if (rbModel == null) {
+      tmpV.set(.5f, .5f);
+    } else {
+      tmpV.set(rbModel.origin);
+    }
+    tmpV.scl(scale);
     return tmpV;
   }
 
@@ -278,6 +284,13 @@ public class PathLoader {
     vectorPool.add(v);
   }
 
+  /**
+   * This needs refactoring...
+   * @param texDirName used only to load a texture
+   * @param texName used both to load a texture and to load a path from the path file. should be just a file name without a path or extension
+   * @param dras a texture will be added here
+   * @param tex pass if you already have a texture.. So hacky!
+   */
   public Body getBodyAndSprite(SolGame game, String texDirName, String texName, float scale, BodyDef.BodyType type,
     Vector2 pos, float angle, List<Dra> dras, float density, DraLevel level, TextureAtlas.AtlasRegion tex)
   {
@@ -292,9 +305,17 @@ public class PathLoader {
     fd.density = density;
     fd.friction = Const.FRICTION;
     String pathName = texName + ".png";
-    attachFixture(body, pathName, fd, scale);
+    Vector2 orig;
+    boolean found = attachFixture(body, pathName, fd, scale);
+    if (!found) {
+      if (DebugAspects.PHYSICS_DEBUG) DebugCollector.warn("Could not find physics data for " + texDirName + "/" + texName);
+      fd.shape = new CircleShape();
+      fd.shape.setRadius(scale/2);
+      body.createFixture(fd);
+      fd.shape.dispose();
+    }
 
-    Vector2 orig = getOrigin(pathName, 1);
+    orig = getOrigin(pathName, 1);
     if (tex == null) {
       String imgName = texDirName + "/" + texName;
       tex = game.getTexMan().getTex(imgName, null);

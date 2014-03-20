@@ -12,7 +12,7 @@ public class DebugAspects {
   public static float ZOOM_OVERRIDE = 0;
   public static boolean OBJECT_BORDERS = false;
   public static boolean DRA_BORDERS = false;
-  public static boolean PHYSIC_BODIES = false;
+  public static boolean PHYSICS_DEBUG = false;
   public static boolean PLANET_BORDERS = false;
   public static boolean STATS = false;
   public static boolean WARNINGS = false;
@@ -28,21 +28,25 @@ public class DebugAspects {
   public static boolean SOUND_DEBUG = false;
   public static boolean SOUND_IN_SPACE = false;
   public static String DEV_ROOT_PATH;
-  public static boolean TEX_INFO = false;
+  public static boolean TEX_DEBUG = false;
 
   public static void read() {
     boolean devBuild = Files.exists(Paths.get("devBuild"));
     if (devBuild) DEV_ROOT_PATH = "../trunk/main/"; // supposing that solWin is in the same direcrory where trunk is.
 
     IniReader r = new IniReader("debugOptions.ini");
+
     ZOOM_OVERRIDE = r.f("zoomOverride", ZOOM_OVERRIDE);
     STATS = r.b("stats", STATS);
     WARNINGS = r.b("warnings", WARNINGS);
     GOD_MODE = r.b("godMode", GOD_MODE);
     NO_SOUND = r.b("noSound", NO_SOUND);
+
     SOUND_DEBUG = r.b("soundDebug", SOUND_DEBUG);
     SOUND_IN_SPACE = r.b("soundInSpace", SOUND_IN_SPACE);
-    TEX_INFO = r.b("texInfo", TEX_INFO);
-    // and so on
+
+    TEX_DEBUG = r.b("texDebug", TEX_DEBUG);
+
+    PHYSICS_DEBUG = r.b("physicsDebug", PHYSICS_DEBUG);
   }
 }
