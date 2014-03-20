@@ -348,8 +348,12 @@ public class SolMath {
     return (float) Math.asin(val) * radDeg;
   }
 
-  public static float hordeToAnlge(float hordeLen, float r) {
-    return 180 * hordeLen /(PI * r);
+  public static float angularWidthOfSphere(float radius, float dist) {
+    return arcSin(radius/dist);
+  }
+
+  public static float arcToAngle(float hordeLen, float radius) {
+    return 180 * hordeLen / (PI * radius);
   }
 
   public static float hypotenuse(float a, float b) {

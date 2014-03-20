@@ -137,8 +137,8 @@ public class SystemsBuilder {
   }
 
   private Planet createPlanet(float planetDist, SolSystem s, float groundHeight, PlanetConfig planetConfig) {
-    float toSysRotSpd = SolMath.arcSin(PLANET_SPD / planetDist) * SolMath.toInt(SolMath.test(.5f));
-    float rotSpd = SolMath.arcSin(GROUND_SPD / groundHeight)  * SolMath.toInt(SolMath.test(.5f));
+    float toSysRotSpd = SolMath.arcToAngle(PLANET_SPD, planetDist) * SolMath.toInt(SolMath.test(.5f));
+    float rotSpd = SolMath.arcToAngle(GROUND_SPD, groundHeight)  * SolMath.toInt(SolMath.test(.5f));
     return new Planet(s, SolMath.rnd(180), planetDist, SolMath.rnd(180), toSysRotSpd, rotSpd, groundHeight, false, planetConfig);
   }
 

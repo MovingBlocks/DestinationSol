@@ -123,7 +123,7 @@ public class PlanetObjsBuilder {
     ArrayList<Dra> dras = new ArrayList<Dra>();
     float sizePerc = SolMath.rnd(.2f, 1);
     float linearWidth = sizePerc * (distPerc + .5f) * AVG_CLOUD_LINEAR_WIDTH;
-    float maxAngleShift = SolMath.arcSin(linearWidth / 2 / dist) * 2;
+    float maxAngleShift = SolMath.arcToAngle(linearWidth, dist);
     float maxDistShift = (1 - distPerc) * MAX_CLOUD_PIECE_DIST_SHIFT;
 
     int pieceCount = (int) (sizePerc * MAX_CLOUD_PIECE_COUNT);
@@ -131,7 +131,7 @@ public class PlanetObjsBuilder {
       RectSprite s = createCloudSprite(cloudTexs, maxAngleShift, maxDistShift, dist, texMan);
       dras.add(s);
     }
-    float rotSpd = SolMath.rnd(.1f, 1) * SolMath.arcSin(MAX_CLOUD_LINEAR_SPD / dist);
+    float rotSpd = SolMath.rnd(.1f, 1) * SolMath.arcToAngle(MAX_CLOUD_LINEAR_SPD, dist);
 
     return new PlanetSprites(planet, angle, dist, dras, rotSpd);
   }
@@ -242,13 +242,15 @@ public class PlanetObjsBuilder {
     Fraction fraction, ArrayList<Float> takenAngles)
   {
     Vector2 pos = game.getPlanetMan().findLandingPlace(game, planet, takenAngles);
-    float aboveGround = hullConfig.size * (hullConfig.type == HullConfig.Type.STATION ? .25f : .5f);
+    boolean station = hullConfig.type == HullConfig.Type.STATION;
+    float aboveGround = hullConfig.size * (station ? .25f : .5f);
     float height = pos.len();
     pos.scl((height + aboveGround)/height);
     SolMath.toWorld(pos, pos, planet.getAngle(), planet.getPos());
 
     Vector2 toPlanet = SolMath.getVec(planet.getPos()).sub(pos);
-    float angle = toPlanet.angle() - 90;
+    float angle = SolMath.angle(toPlanet) - 180;
+    if (station) angle += 90;
     Vector2 spd = new Vector2(toPlanet).nor();
     SolMath.free(toPlanet);
 
