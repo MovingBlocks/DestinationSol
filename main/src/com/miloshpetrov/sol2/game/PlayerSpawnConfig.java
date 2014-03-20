@@ -8,15 +8,12 @@ import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 public class PlayerSpawnConfig {
-
-  public final int money;
   public final SpawnPlace mySpawnPlace;
   public final ShipConfig mainStation;
   public final ShipConfig shipConfig;
 
-  public PlayerSpawnConfig(int money, SpawnPlace spawnPlace, ShipConfig shipConfig, ShipConfig mainStation) {
+  public PlayerSpawnConfig(SpawnPlace spawnPlace, ShipConfig shipConfig, ShipConfig mainStation) {
     this.shipConfig = shipConfig;
-    this.money = money;
     this.mySpawnPlace = spawnPlace;
     this.mainStation = mainStation;
   }
@@ -27,11 +24,10 @@ public class PlayerSpawnConfig {
     JsonValue mainNode = r.parse(configFile);
     JsonValue playerNode = mainNode.get("player");
     ShipConfig shipConfig = ShipConfig.load(hullConfigs, playerNode.get("ship"));
-    int money = playerNode.getInt("money");
     String spawnPlaceStr = playerNode.getString("spawnPlace");
     SpawnPlace spawnPlace = SpawnPlace.forName(spawnPlaceStr);
     ShipConfig mainStation = ShipConfig.load(hullConfigs, mainNode.get("mainStation"));
-    return new PlayerSpawnConfig(money, spawnPlace, shipConfig, mainStation);
+    return new PlayerSpawnConfig(spawnPlace, shipConfig, mainStation);
   }
 
   public static enum SpawnPlace {

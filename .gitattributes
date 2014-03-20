@@ -202,6 +202,7 @@ main/res/paths/shards.json -text
 main/res/sounds/armors/bigHit/0.wav -text
 main/res/sounds/armors/bigHit/1.wav -text
 main/res/sounds/armors/bigHit/2.wav -text
+main/res/sounds/asteroid/impact/asteroid_impact0.wav -text
 main/res/sounds/engines/medWork/0.wav -text
 main/res/sounds/engines/medWork/1.wav -text
 main/res/sounds/engines/medWork/2.wav -text
@@ -222,6 +223,7 @@ main/res/sounds/shields/big/absorb/2.wav -text
 main/res/sounds/shields/big/absorb/3.wav -text
 main/res/sounds/shields/big/absorb/4.wav -text
 main/res/sounds/shields/big/regen/0.wav -text
+main/res/sounds/ship/impact/ship_imact0.wav -text
 main/res/sounds/zones/Drums_0.wav -text
 main/res/sounds/zones/Drums_1.wav -text
 main/res/sounds/zones/Drums_2.wav -text

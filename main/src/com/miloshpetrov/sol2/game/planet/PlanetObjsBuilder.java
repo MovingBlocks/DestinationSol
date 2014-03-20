@@ -231,19 +231,25 @@ public class PlanetObjsBuilder {
 
   private SolShip buildGroundBase(SolGame game, Planet planet, ArrayList<Float> takenAngles) {
     ShipConfig cfg = planet.getConfig().stationConfig;
-    return buildGroundShip(game, planet, cfg.hull, cfg.items, "", Fraction.LAANI, takenAngles);
+    return buildGroundShip(game, planet, cfg, "", Fraction.LAANI, takenAngles);
   }
 
   private SolShip buildGroundEnemy(SolGame game, Planet planet, ArrayList<Float> takenAngles, ShipConfig ge) {
-        return buildGroundShip(game, planet, ge.hull, ge.items, null, Fraction.EHAR, takenAngles);
+        return buildGroundShip(game, planet, ge, null, Fraction.EHAR, takenAngles);
   }
 
-  public SolShip buildGroundShip(SolGame game, Planet planet, HullConfig hullConfig, String ic, String tc,
+  public SolShip buildGroundShip(SolGame game, Planet planet, ShipConfig ge, String tc,
     Fraction fraction, ArrayList<Float> takenAngles)
   {
     Vector2 pos = game.getPlanetMan().findLandingPlace(game, planet, takenAngles);
-    boolean station = hullConfig.type == HullConfig.Type.STATION;
-    float aboveGround = hullConfig.size * (station ? .25f : .5f);
+    boolean station = ge.hull.type == HullConfig.Type.STATION;
+    float aboveGround = ge.hull.size * (station ? .25f : .5f);
+    String ic = ge.items;
+    boolean mountFixed1, mountFixed2, hasRepairer;
+    mountFixed1 = ge.isMountFixed1;
+    mountFixed2 = ge.isMountFixed2;
+    hasRepairer = ge.hasRepairer;
+    int money = ge.money;
     float height = pos.len();
     pos.scl((height + aboveGround)/height);
     SolMath.toWorld(pos, pos, planet.getAngle(), planet.getPos());
@@ -257,8 +263,8 @@ public class PlanetObjsBuilder {
     float detectionDist = game.getCam().getGroundViewDist() * 2;
     Pilot provider = new AiPilot(new NoDestProvider(), false, fraction, true, null, detectionDist);
 
-    return game.getShipBuilder().buildNew(game, pos, spd, angle, 0, provider, ic, hullConfig, false, false,
-      null, false, 30f, tc);
+    return game.getShipBuilder().buildNew(game, pos, spd, angle, 0, provider, ic, ge.hull, mountFixed1, mountFixed2,
+      null, hasRepairer, money, tc);
   }
 
   public SolShip buildOrbitEnemy(SolGame game, Planet planet, float heightPerc, ShipConfig oe) {
@@ -279,7 +285,13 @@ public class PlanetObjsBuilder {
     OrbiterDestProvider dp = new OrbiterDestProvider(planet, height, cw);
     Pilot provider = new AiPilot(dp, false, Fraction.EHAR, true, null, detectionDist);
 
-    return game.getShipBuilder().buildNew(game, pos, spd, 0, 0, provider, oe.items, oe.hull, true, false,
-      null, true, 40f, null);
+    boolean mountFixed1, mountFixed2, hasRepairer;
+    mountFixed1 = oe.isMountFixed1;
+    mountFixed2 = oe.isMountFixed2;
+    hasRepairer = oe.hasRepairer;
+    int money = oe.money;
+
+    return game.getShipBuilder().buildNew(game, pos, spd, 0, 0, provider, oe.items, oe.hull, mountFixed1, mountFixed2,
+      null, hasRepairer, money, null);
    }
 }

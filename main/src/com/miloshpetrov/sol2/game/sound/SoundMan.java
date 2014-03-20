@@ -89,8 +89,9 @@ public class SoundMan {
    * Plays a sound. Either pos or source must not be null.
    * @param pos position of a sound. If null, source.getPos() will be used
    * @param source bearer of a sound. Must not be null for looped sounds
+   * @param volMul multiplier for sound volume
    */
-  public void play(SolGame game, SolSound sound, @Nullable Vector2 pos, @Nullable SolObj source) {
+  public void play(SolGame game, SolSound sound, @Nullable Vector2 pos, @Nullable SolObj source, float volMul) {
     if (sound == null) return;
     if (DebugAspects.NO_SOUND) return;
     float time = game.getTime();
@@ -123,7 +124,17 @@ public class SoundMan {
     }
     if (sound.sounds.isEmpty()) return;
     Sound sound0 = SolMath.elemRnd(sound.sounds);
+    vol *= volMul;
     sound0.play(vol, pitch, 0);
+  }
+
+/**
+ * Plays a sound. Either pos or source must not be null.
+ * @param pos position of a sound. If null, source.getPos() will be used
+ * @param source bearer of a sound. Must not be null for looped sounds
+ */
+  public void play(SolGame game, SolSound sound, @Nullable Vector2 pos, @Nullable SolObj source){
+    this.play(game, sound, pos, source, 1f);
   }
 
   private boolean skipLooped(SolObj source, SolSound sound, float time) {

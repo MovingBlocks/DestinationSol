@@ -25,11 +25,19 @@
       {
         hull: hummer,
         items: "bo|sg|mg rep s|sMed:.1 b:.7:2 r:.7:1",
+		money: 30,
+		repairer: false,
+		mountfixed1: false,
+		mountfixed2: false,
         density: 0.45,
       },
       {
         hull: guardie,
         items: "e bo|sg s:.1 b:.7:2",
+		money: 30,
+		repairer: false,
+		mountfixed1: false,
+		mountfixed2: false,
         density: 0.15,
       },
     ],
@@ -37,12 +45,20 @@
       {
         hull: corvette,
         items: "e s:.2 a:.3 bo sloMo:.7:3 rep:.4",
+		money: 40,
+		repairer: true,
+		mountfixed1: true,
+		mountfixed2: false,
         density: 0.01,
       }
     ],
     station: {
       hull: drome,
       items: "bo",
+	  money: 30,
+	  repairer: false,
+	  mountfixed1: false,
+	  mountfixed2: false,
     }
   },
 }

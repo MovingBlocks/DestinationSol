@@ -10,6 +10,10 @@
       {
         hull: guardie,
         items: "wbo s:.1 b:.3 rep:.5",
+		money: 20,
+		repairer: false,
+		mountfixed1: false,
+		mountfixed2: false,
         density: 0.01,
       },
     ],

@@ -47,7 +47,7 @@ public class AsteroidBuilder {
     body.setAngularVelocity(rotSpd);
     body.setLinearVelocity(spd);
 
-    Asteroid res = new Asteroid(tex, body, sz, removeController, dras);
+    Asteroid res = new Asteroid(game, tex, body, sz, removeController, dras);
     body.setUserData(res);
     return res;
   }
