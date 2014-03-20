@@ -11,23 +11,27 @@ public class PlayerSpawnConfig {
 
   public final int money;
   public final SpawnPlace mySpawnPlace;
+  public final ShipConfig mainStation;
   public final ShipConfig shipConfig;
 
-  public PlayerSpawnConfig(int money, SpawnPlace spawnPlace, ShipConfig shipConfig) {
+  public PlayerSpawnConfig(int money, SpawnPlace spawnPlace, ShipConfig shipConfig, ShipConfig mainStation) {
     this.shipConfig = shipConfig;
     this.money = money;
     this.mySpawnPlace = spawnPlace;
+    this.mainStation = mainStation;
   }
 
   public static PlayerSpawnConfig load(HullConfigs hullConfigs) {
     JsonReader r = new JsonReader();
     FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "playerSpawn.json");
-    JsonValue sh = r.parse(configFile);
-    ShipConfig shipConfig = ShipConfig.load(hullConfigs, sh.get("ship"));
-    int money = sh.getInt("money");
-    String spawnPlaceStr = sh.getString("spawnPlace");
+    JsonValue mainNode = r.parse(configFile);
+    JsonValue playerNode = mainNode.get("player");
+    ShipConfig shipConfig = ShipConfig.load(hullConfigs, playerNode.get("ship"));
+    int money = playerNode.getInt("money");
+    String spawnPlaceStr = playerNode.getString("spawnPlace");
     SpawnPlace spawnPlace = SpawnPlace.forName(spawnPlaceStr);
-    return new PlayerSpawnConfig(money, spawnPlace, shipConfig);
+    ShipConfig mainStation = ShipConfig.load(hullConfigs, mainNode.get("mainStation"));
+    return new PlayerSpawnConfig(money, spawnPlace, shipConfig, mainStation);
   }
 
   public static enum SpawnPlace {

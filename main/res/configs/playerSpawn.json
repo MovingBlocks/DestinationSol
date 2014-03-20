@@ -1,9 +1,20 @@
 {
-  ship: {
-    hull: guardie,
-    items: "bo s a e rep:1:2 sloMo:1:2",
+  __readme__: "for player.spawnPlace, use one of the following: station, planet, maze",
+  player: {
+    ship: {
+        hull: guardie,
+        items: "bo s a e rep:1:2 sloMo:1:2",
+      },
+      money: 20,
+      spawnPlace: station,
   },
-  money: 20,
-  spawnPlace: planet,
-  __spawnPlaceOptions: [station, planet, maze],
+  mainStation: {
+    hull: station,
+    items: "mg rl r:1:4",
+    guard: {
+      hull: vanguard,
+      items: "e b:1:4 r:1:2 rl|mg sBig aBig",
+      density: 3,
+    }
+  },
 }

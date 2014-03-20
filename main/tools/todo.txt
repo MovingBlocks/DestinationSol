@@ -1,4 +1,3 @@
-
   config file for trade ships & space stations & explorers
 
   hardness
@@ -31,6 +30,7 @@ TRIVIAL:
   there should be only one asteroid belt per system, in the center
   slower planet rotation
   sky should change color in the sunset
+  add pointer to asteroid textures in SystemConfig json
 
 
 SOUND:
@@ -48,9 +48,22 @@ CONTENT:
   moar ships
   moar planet types
   enemy stations with guardians
-  EMP with the power param -- first eat shields, then disable controls for the rest of the charge power
-  teleporter -- teleports you around enemy, but not near planets or stations (otherwise bugs possible)
 
+
+MO FEATURES:
+  ship unique abilities:
+    EMP with the power param -- first eat shields, then disable controls for the rest of the charge power
+    teleporter -- teleports you around enemy, but not near planets or stations (otherwise bugs possible)
+    ??
+
+  trading:
+    jsons will have tradeItems, that would resolve in the list of items
+    ships will start with half of that items
+    ships will slowly generate new items from that list
+    ships will not generate if they already possess item (or 5 if clips)
+  trading ships:
+    jsons will have tradeShips
+    the rest is the same as for items
 
 BUGS:
   isPlaceEmpty should consider mazes and special encounters?

@@ -24,7 +24,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
   private boolean myDestIsLanding;
   private final float myHoverPerc;
 
-  public ExplorerDestProvider(SolGame game, Vector2 pos, boolean aggressive, float desiredSpdLen, HullConfig config, float hoverPerc) {
+  public ExplorerDestProvider(SolGame game, Vector2 pos, boolean aggressive, HullConfig config, float hoverPerc) {
     myDest = new Vector2();
     myHoverPerc = hoverPerc;
     float minDst = Float.MAX_VALUE;
@@ -38,7 +38,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
     calcRelDest(config);
     myAwaitOnPlanet = MAX_AWAIT_ON_PLANET;
     myAggressive = aggressive;
-    myDesiredSpdLen = desiredSpdLen;
+    myDesiredSpdLen = config.type == HullConfig.Type.BIG ? 2 : 4;
   }
 
   private void calcRelDest(HullConfig hullConfig) {

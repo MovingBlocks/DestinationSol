@@ -7,13 +7,13 @@ import com.miloshpetrov.sol2.TexMan;
 
 import java.util.ArrayList;
 
-public class SpaceEnvironmentConfig {
+public class SpaceEnvConfig {
   public final ArrayList<TextureAtlas.AtlasRegion> junkTexs;
   public final float junkDensity;
   public final ArrayList<TextureAtlas.AtlasRegion> farJunkTexs;
   public final float farJunkDensity;
 
-  public SpaceEnvironmentConfig(JsonValue json, TexMan texMan, FileHandle configFile) {
+  public SpaceEnvConfig(JsonValue json, TexMan texMan, FileHandle configFile) {
     String junkTexDirStr = json.getString("junkTexs");
     junkTexs = texMan.getPack(junkTexDirStr, configFile);
     junkDensity = json.getFloat("junkDensity");
