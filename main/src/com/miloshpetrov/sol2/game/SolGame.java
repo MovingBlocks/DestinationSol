@@ -114,8 +114,8 @@ public class SolGame {
     Vector2 pos = myGalaxyFiller.getPlayerSpawnPos(this, myPlayerSpawnConfig.mySpawnPlace);
     Pilot pip = new PlayerPilot(myScreens.mainScreen);
     boolean god = DebugAspects.GOD_MODE;
-    HullConfig config = myPlayerSpawnConfig.hullConfig;
-    String items = myPlayerSpawnConfig.items;
+    HullConfig config = myPlayerSpawnConfig.shipConfig.hull;
+    String items = myPlayerSpawnConfig.shipConfig.items;
     int money = myPlayerSpawnConfig.money;
     if (god) {
       config = myHullConfigs.getConfig("vanguard");

@@ -6,9 +6,10 @@
 
 
 FEATURES:
-  brakes
+  brakes?
   loot should be pulled more gently
   smooth camera rotation + sometimes camera does 360 when leaving a planet
+  trading
 
 
 TRIVIAL:

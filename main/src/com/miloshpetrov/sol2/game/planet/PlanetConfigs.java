@@ -27,11 +27,12 @@ public class PlanetConfigs {
       List<DecoConfig> deco = loadDecoConfigs(sh, texMan, configFile);
       ArrayList<ShipConfig> groundEnemies = ShipConfig.loadList(sh.get("groundEnemies"), hullConfigs);
       ArrayList<ShipConfig> orbitEnemies = ShipConfig.loadList(sh.get("orbitEnemies"), hullConfigs);
+      ShipConfig stationConfig = ShipConfig.load(hullConfigs, sh.get("station"));
       String skyPackName = sh.getString("skyTexs");
       ArrayList<TextureAtlas.AtlasRegion> cloudTexs = texMan.getPack(skyPackName, configFile);
       String groundFolder = sh.getString("groundTexs");
       PlanetTiles planetTiles = new PlanetTiles(texMan, groundFolder, configFile);
-      PlanetConfig c = new PlanetConfig(sh.name, minGrav, maxGrav, deco, groundEnemies, orbitEnemies, cloudTexs, planetTiles);
+      PlanetConfig c = new PlanetConfig(sh.name, minGrav, maxGrav, deco, groundEnemies, orbitEnemies, cloudTexs, planetTiles, stationConfig);
       myConfigs.put(sh.name, c);
     }
   }

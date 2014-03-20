@@ -62,7 +62,7 @@ class SoundTestCmp {
     }
 
     TexMan texMan = new TexMan();
-    PlanetConfig pc = new PlanetConfig("rocky", 0, 0, null, null, null, null, new PlanetTiles(texMan, "grounds/" + "rocky", null));
+    PlanetConfig pc = new PlanetConfig("rocky", 0, 0, null, null, null, null, new PlanetTiles(texMan, "grounds/" + "rocky", null), null);
     myTileMap = new GroundBuilder(pc, 40, 20).build();
   }
 

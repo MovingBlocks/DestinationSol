@@ -40,5 +40,9 @@
         density: 0.01,
       }
     ],
+    station: {
+      hull: drome,
+      items: "bo",
+    }
   },
 }

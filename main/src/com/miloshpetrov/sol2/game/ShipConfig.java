@@ -26,11 +26,11 @@ public class ShipConfig {
     return res;
   }
 
-  private static ShipConfig load(HullConfigs hullConfigs, JsonValue shipNode) {
+  public static ShipConfig load(HullConfigs hullConfigs, JsonValue shipNode) {
     String hullName = shipNode.getString("hull");
     HullConfig hull = hullConfigs.getConfig(hullName);
     String items = shipNode.getString("items");
-    float density = shipNode.getFloat("density");
+    float density = shipNode.hasChild("density") ? shipNode.getFloat("density") : -1;
     return new ShipConfig(hull, items, density);
   }
 }

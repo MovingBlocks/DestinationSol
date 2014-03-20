@@ -14,11 +14,13 @@ public class PlanetConfig {
   public final List<ShipConfig> groundEnemies;
   public final List<ShipConfig> orbitEnemies;
   public final PlanetTiles planetTiles;
+  public final ShipConfig stationConfig;
   public final ArrayList<TextureAtlas.AtlasRegion> cloudTexs;
 
   public PlanetConfig(String configName, float minGrav, float maxGrav, List<DecoConfig> deco,
     List<ShipConfig> groundEnemies,
-    List<ShipConfig> orbitEnemies, ArrayList<TextureAtlas.AtlasRegion> cloudTexs, PlanetTiles planetTiles)
+    List<ShipConfig> orbitEnemies, ArrayList<TextureAtlas.AtlasRegion> cloudTexs, PlanetTiles planetTiles,
+    ShipConfig stationConfig)
   {
     this.configName = configName;
     this.minGrav = minGrav;
@@ -28,5 +30,6 @@ public class PlanetConfig {
     this.orbitEnemies = orbitEnemies;
     this.cloudTexs = cloudTexs;
     this.planetTiles = planetTiles;
+    this.stationConfig = stationConfig;
   }
 }

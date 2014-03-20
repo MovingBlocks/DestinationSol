@@ -1,6 +1,8 @@
 {
-  hull: guardie,
-  items: "bo s a e rep:1:2 sloMo:1:2",
+  ship: {
+    hull: guardie,
+    items: "bo s a e rep:1:2 sloMo:1:2",
+  },
   money: 20,
   spawnPlace: planet,
   __spawnPlaceOptions: [station, planet, maze],

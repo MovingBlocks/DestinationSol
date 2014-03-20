@@ -5,19 +5,16 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.SolFiles;
-import com.miloshpetrov.sol2.game.ship.HullConfig;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 public class PlayerSpawnConfig {
 
-  public final HullConfig hullConfig;
-  public final String items;
   public final int money;
   public final SpawnPlace mySpawnPlace;
+  public final ShipConfig shipConfig;
 
-  public PlayerSpawnConfig(HullConfig hullConfig, String items, int money, SpawnPlace spawnPlace) {
-    this.hullConfig = hullConfig;
-    this.items = items;
+  public PlayerSpawnConfig(int money, SpawnPlace spawnPlace, ShipConfig shipConfig) {
+    this.shipConfig = shipConfig;
     this.money = money;
     this.mySpawnPlace = spawnPlace;
   }
@@ -26,13 +23,11 @@ public class PlayerSpawnConfig {
     JsonReader r = new JsonReader();
     FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "playerSpawn.json");
     JsonValue sh = r.parse(configFile);
-    String hull = sh.getString("hull");
-    HullConfig hullConfig = hullConfigs.getConfig(hull);
-    String items = sh.getString("items");
+    ShipConfig shipConfig = ShipConfig.load(hullConfigs, sh.get("ship"));
     int money = sh.getInt("money");
     String spawnPlaceStr = sh.getString("spawnPlace");
     SpawnPlace spawnPlace = SpawnPlace.forName(spawnPlaceStr);
-    return new PlayerSpawnConfig(hullConfig, items, money, spawnPlace);
+    return new PlayerSpawnConfig(money, spawnPlace, shipConfig);
   }
 
   public static enum SpawnPlace {

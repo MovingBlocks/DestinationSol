@@ -18,7 +18,6 @@
       {
         hull: dragon,
         items: "bo|sg|mg rep s|sMed:.1 b:.7:2 r:.7:1",
-        density: 0,
       },
     ],
   },
