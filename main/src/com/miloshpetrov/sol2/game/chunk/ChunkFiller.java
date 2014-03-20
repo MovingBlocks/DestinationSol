@@ -1,11 +1,9 @@
 package com.miloshpetrov.sol2.game.chunk;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
-import com.miloshpetrov.sol2.*;
+import com.miloshpetrov.sol2.Const;
+import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
@@ -40,20 +38,8 @@ public class ChunkFiller {
   public static final float ENEMY_MAX_ROT_SPD = 1f;
   public static final float DUST_SZ = .02f;
   private static final float MAZE_ZONE_BORDER = 20;
-  private final SpaceObjConfig mySysConfig;
-  private final SpaceObjConfig myMazeConfig;
-  private final SpaceObjConfig myBeltConfig;
 
   public ChunkFiller(HullConfigs hullConfigs, TexMan texMan) {
-    JsonReader r = new JsonReader();
-    FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "spaceObjs.json");
-    JsonValue parsed = r.parse(configFile);
-    JsonValue sysJson = parsed.get("sys");
-    mySysConfig = new SpaceObjConfig(sysJson, hullConfigs, texMan, configFile);
-    JsonValue mazeJson = parsed.get("maze");
-    myMazeConfig = new SpaceObjConfig(mazeJson, hullConfigs, texMan, configFile);
-    JsonValue beltJson = parsed.get("asteroidBelt");
-    myBeltConfig = new SpaceObjConfig(beltJson, hullConfigs, texMan, configFile);
   }
 
 
@@ -65,31 +51,17 @@ public class ChunkFiller {
     fillDust(game, chunk, chCenter, remover);
 
     float[] densityMul = {1};
-    SpaceObjConfig conf = getConfig(game, chCenter, densityMul);
+    SpaceEnvironmentConfig conf = getConfig(game, chCenter, densityMul, chunk, remover);
 
     fillFarJunk(game, chunk, chCenter, remover, DraLevel.FAR_BG_3, conf, densityMul[0]);
     fillFarJunk(game, chunk, chCenter, remover, DraLevel.FAR_BG_2, conf, densityMul[0]);
     fillFarJunk(game, chunk, chCenter, remover, DraLevel.FAR_BG_1, conf, densityMul[0]);
     fillJunk(game, chunk, remover, conf);
 
-    if (conf == mySysConfig) {
-      Vector2 startPos = game.getGalaxyFiller().getMainStation().getPos();
-      float dst = chCenter.dst(startPos);
-      if (dst > Const.CHUNK_SIZE) {
-        fillAsteroids(game, chunk, remover, false);
-        for (ShipConfig enemyConf : conf.enemies) {
-          fillEnemies(game, chunk, remover, enemyConf);
-        }
-      }
-    } else if (conf == myBeltConfig) {
-      fillAsteroids(game, chunk, remover, true);
-      for (ShipConfig enemyConf : conf.enemies) {
-        fillEnemies(game, chunk, remover, enemyConf);
-      }
-    }
   }
 
-  private SpaceObjConfig getConfig(SolGame game, Vector2 chCenter, float[] densityMul) {
+  private SpaceEnvironmentConfig getConfig(SolGame game, Vector2 chCenter, float[] densityMul, Vector2 chunk,
+    RemoveController remover) {
     PlanetMan pm = game.getPlanetMan();
     SolSystem sys = pm.getNearestSystem(chCenter);
     float toSys = sys.getPos().dst(chCenter);
@@ -97,7 +69,12 @@ public class ChunkFiller {
       if (toSys < Const.SUN_RADIUS) return null;
       for (SystemBelt belt : sys.getBelts()) {
         if (belt.contains(chCenter)) {
-          return myBeltConfig;
+          fillAsteroids(game, chunk, remover, true);
+          SysConfig beltConfig = belt.getConfig();
+          for (ShipConfig enemyConf : beltConfig.enemies) {
+            fillEnemies(game, chunk, remover, enemyConf);
+          }
+          return beltConfig.envConfig;
         }
       }
       Planet p = pm.getNearestPlanet(chCenter);
@@ -108,16 +85,29 @@ public class ChunkFiller {
       float perc = toSys / sys.getRadius() * 2;
       if (perc > 1) perc = 2 - perc;
       densityMul[0] = perc;
-      return mySysConfig;
+      SysConfig sysConfig = sys.getConfig();
+      fillForSys(game, chCenter, chunk, remover, sysConfig);
+      return sysConfig.envConfig;
     }
     Maze m = pm.getNearestMaze(chCenter);
     float dst = m.getPos().dst(chCenter);
     float zoneRad = m.getRadius() + MAZE_ZONE_BORDER;
     if (dst < zoneRad) {
       densityMul[0] = 1 - dst / zoneRad;
-      return myMazeConfig;
+      return m.getConfig().envConfig;
     }
     return null;
+  }
+
+  private void fillForSys(SolGame game, Vector2 chCenter, Vector2 chunk, RemoveController remover, SysConfig conf) {
+    Vector2 startPos = game.getGalaxyFiller().getMainStation().getPos();
+    float dst = chCenter.dst(startPos);
+    if (dst > Const.CHUNK_SIZE) {
+      fillAsteroids(game, chunk, remover, false);
+      for (ShipConfig enemyConf : conf.enemies) {
+        fillEnemies(game, chunk, remover, enemyConf);
+      }
+    }
   }
 
   private void fillEnemies(SolGame game, Vector2 chunk, RemoveController remover, ShipConfig enemyConf) {
@@ -161,7 +151,7 @@ public class ChunkFiller {
   }
 
   private void fillFarJunk(SolGame game, Vector2 chunk, Vector2 chCenter, RemoveController remover, DraLevel draLevel,
-    SpaceObjConfig conf, float densityMul)
+    SpaceEnvironmentConfig conf, float densityMul)
   {
     if (conf == null) return;
     int count = getEntityCount(conf.farJunkDensity * densityMul);
@@ -182,7 +172,7 @@ public class ChunkFiller {
     game.getObjMan().addObjDelayed(so);
   }
 
-  private void fillJunk(SolGame game, Vector2 chunk, RemoveController remover, SpaceObjConfig conf) {
+  private void fillJunk(SolGame game, Vector2 chunk, RemoveController remover, SpaceEnvironmentConfig conf) {
     if (conf == null) return;
     int count = getEntityCount(conf.junkDensity);
     if (count == 0) return;

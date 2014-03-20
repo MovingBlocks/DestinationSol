@@ -24,10 +24,12 @@ public class PlanetMan {
   private final MazeConfigs myMazeConfigs;
   private final ArrayList<Maze> myMazes;
   private final SunSingleton mySunSingleton;
+  private final SysConfigs mySysConfigs;
   private Planet myNearestPlanet;
 
   public PlanetMan(TexMan texMan, HullConfigs hullConfigs) {
     myPlanetConfigs = new PlanetConfigs(texMan, hullConfigs);
+    mySysConfigs = new SysConfigs(texMan, hullConfigs);
     myMazeConfigs = new MazeConfigs(texMan, hullConfigs);
 
     mySystems = new ArrayList<SolSystem>();
@@ -43,7 +45,7 @@ public class PlanetMan {
       mySystems.addAll(sd.systems);
       myPlanets.addAll(sd.planets);
     } else {
-      new SystemsBuilder().build(mySystems, myPlanets, myBelts, myPlanetConfigs, myMazeConfigs, myMazes);
+      new SystemsBuilder().build(mySystems, myPlanets, myBelts, myPlanetConfigs, myMazeConfigs, myMazes, mySysConfigs);
     }
   }
 

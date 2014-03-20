@@ -9,9 +9,11 @@ public class SolSystem {
   private final Vector2 myPos;
   private final ArrayList<Planet> myPlanets;
   private final ArrayList<SystemBelt> myBelts;
+  private final SysConfig myConfig;
   private float myRadius;
 
-  public SolSystem(Vector2 pos) {
+  public SolSystem(Vector2 pos, SysConfig config) {
+    myConfig = config;
     myPos = new Vector2(pos);
     myPlanets = new ArrayList<Planet>();
     myBelts = new ArrayList<SystemBelt>();
@@ -35,5 +37,9 @@ public class SolSystem {
 
   public float getRadius() {
     return myRadius;
+  }
+
+  public SysConfig getConfig() {
+    return myConfig;
   }
 }
