@@ -6,10 +6,10 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.input.*;
 import com.miloshpetrov.sol2.game.maze.Maze;
 import com.miloshpetrov.sol2.game.planet.*;
-import com.miloshpetrov.sol2.game.ship.*;
+import com.miloshpetrov.sol2.game.ship.HullConfig;
+import com.miloshpetrov.sol2.game.ship.SolShip;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class GalaxyFiller {
   private SolShip myMainStation;
@@ -17,47 +17,66 @@ public class GalaxyFiller {
   public GalaxyFiller() {
   }
 
-  public void fill(SolGame game) {
-    PlanetMan planetMan = game.getPlanetMan();
-    ArrayList<Planet> planets = planetMan.getPlanets();
-    int shipAmt = planets.size() / 2;
-    for (int i = 0; i < shipAmt; i++) {
-      createExplorer(game, true);
-      createExplorer(game, false);
-      createTrader(game);
+  private Vector2 getPosForStation(SolSystem sys) {
+    Planet p = SolMath.elemRnd(sys.getPlanets());
+    float stationDist = p.getDist() + p.getFullHeight() + Const.PLANET_GAP;
+    Vector2 stationPos = new Vector2();
+    SolMath.fromAl(stationPos, SolMath.rnd(180), stationDist);
+    stationPos.add(p.getSys().getPos());
+    return stationPos;
+  }
+
+  private SolShip build(SolGame game, ShipConfig cfg, Fraction frac, boolean fixedAngle, SolSystem sys) {
+    HullConfig hullConf = cfg.hull;
+
+    MoveDestProvider dp;
+    Vector2 pos;
+    float detectionDist = game.getCam().getSpaceViewDist();
+    if (hullConf.type == HullConfig.Type.STATION) {
+      pos = getPosForStation(sys);
+      dp = new NoDestProvider();
+    } else {
+      pos = getEmptySpace(game, sys);
+      boolean isBig = hullConf.type == HullConfig.Type.BIG;
+      dp = new ExplorerDestProvider(game, pos, !isBig, hullConf, isBig ? 1.5f : .75f);
+      if (isBig) detectionDist *= 2;
     }
-
-    for (int i = 0; i < 3; i++) {
-      createMerch(game);
-    }
-
-    HashSet<SolSystem> filled = new HashSet<SolSystem>();
-    for (Planet p : planets) {
-      SolSystem sys = p.getSys();
-      if (filled.contains(sys)) continue;
-      float r = sys.getRadius();
-      float dist = p.getDist();
-      if (dist < r * .3f || r * .6f < dist) continue;
-      filled.add(sys);
-      float stationDist = dist + p.getFullHeight() + Const.PLANET_GAP;
-      Vector2 stationPos = new Vector2();
-      SolMath.fromAl(stationPos, SolMath.rnd(180), stationDist);
-      stationPos.add(sys.getPos());
-
-      HullConfig config = game.getHullConfigs().getConfig("station");
-      float detectionDist = game.getCam().getSpaceViewDist();
-      Pilot pilot = new AiPilot(new NoDestProvider(), true, Fraction.LAANI, true, "station", detectionDist);
-
-      float angle = myMainStation == null ? 0 : SolMath.rnd(180);
-      SolShip s = game.getShipBuilder().buildNew(game, stationPos, null, angle, 0, pilot, "mg rl r:1:4", config, false, false, null, true, 300f, "");
-      game.getObjMan().addObjDelayed(s);
-      for (int j = 0; j < 4; j++) {
-        createGuard(game, s);
+    Pilot pilot = new AiPilot(dp, true, frac, true, "something", detectionDist);
+    float angle = fixedAngle ? 0 : SolMath.rnd(180);
+    SolShip s = game.getShipBuilder().buildNew(game, pos, null, angle, 0, pilot, cfg.items, hullConf, false, false, null, true, 300f, null);
+    game.getObjMan().addObjDelayed(s);
+    ShipConfig guardConf = cfg.guard;
+    if (guardConf != null) {
+      for (int i = 0; i < guardConf.density; i++) {
+        createGuard(game, s, guardConf, frac);
       }
-      if (myMainStation == null) myMainStation = s;
     }
+    return s;
+  }
 
+  public void fill(SolGame game) {
     createStarPorts(game);
+    ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
+
+    ShipConfig mainStationCfg = game.getPlayerSpawnConfig().mainStation;
+    myMainStation = build(game, mainStationCfg, Fraction.LAANI, true, systems.get(0));
+
+    for (SolSystem sys : systems) {
+      SysConfig sysConfig = sys.getConfig();
+      int planetCount = sys.getPlanets().size();
+      for (ShipConfig shipConfig : sysConfig.constAllies) {
+        int count = (int)(shipConfig.density * planetCount);
+        for (int i = 0; i < count; i++) {
+          build(game, shipConfig, Fraction.LAANI, false, sys);
+        }
+      }
+      for (ShipConfig shipConfig : sysConfig.constEnemies) {
+        int count = (int)(shipConfig.density * planetCount);
+        for (int i = 0; i < count; i++) {
+          build(game, shipConfig, Fraction.EHAR, false, sys);
+        }
+      }
+    }
   }
 
   private void createStarPorts(SolGame game) {
@@ -99,80 +118,27 @@ public class GalaxyFiller {
     game.getObjMan().addObjDelayed(sp);
   }
 
-  private void createGuard(SolGame game, SolShip target) {
-    Fraction frac = target.getPilot().getFraction();
-    boolean isLaani = frac == Fraction.LAANI;
-    HullConfigs configs = game.getHullConfigs();
-    HullConfig config = isLaani ? configs.getConfig("vanguard") : configs.getConfig("guardie");
-    Guardian dp = new Guardian(game, target, config);
+  private void createGuard(SolGame game, SolShip target, ShipConfig guardConf, Fraction frac) {
+    Guardian dp = new Guardian(game, target, guardConf.hull);
     float detectionDist = game.getCam().getSpaceViewDist() * 2;
     Pilot pilot = new AiPilot(dp, true, frac, false, null, detectionDist);
 
-    String items = isLaani ? "e b:1:4 r:1:2 rl|mg sBig aBig" : "e b:1:2 bo|sg s|sMed:.2 a:.2 rep:.4";
-    SolShip e = game.getShipBuilder().buildNew(game, dp.getDest(), null, SolMath.rnd(180), 0, pilot, items, config, true, true, null, false, 50f, null);
+    SolShip e = game.getShipBuilder().buildNew(game, dp.getDest(), null, SolMath.rnd(180), 0, pilot, guardConf.items,
+      guardConf.hull, true, true, null, false, 50f, null);
     game.getObjMan().addObjDelayed(e);
   }
 
-  private void createMerch(SolGame game) {
-    Vector2 merchPos = getEmptySpace(game);
-    if (merchPos == null) return;
-    HullConfig config = game.getHullConfigs().getConfig("bus");
-    MoveDestProvider dp = new ExplorerDestProvider(game, merchPos, false, config, 1.5f);
-    float detectionDist = game.getCam().getSpaceViewDist();
-    Pilot pilot = new AiPilot(dp, true, Fraction.LAANI, false, "merchant", detectionDist);
-
-    SolShip s = game.getShipBuilder().buildNew(game, merchPos, null, 0, 0, pilot, "mg rl eBig aBig sBig b:1:4 r:1:4 rep:1:4", config, false, false, null,
-      true, 300f, "");
-    game.getObjMan().addObjDelayed(s);
-  }
-
-  private void createExplorer(SolGame game, boolean isLaani) {
-    Vector2 pos = getEmptySpace(game);
-    if (pos == null) return;
-
-    HullConfigs configs = game.getHullConfigs();
-    HullConfig config = isLaani ? configs.getConfig("orbiter") : configs.getConfig("hunter");
-    MoveDestProvider dp = new ExplorerDestProvider(game, pos, true, config, .75f);
-    float detectionDist = game.getCam().getSpaceViewDist();
-    Pilot pilot = new AiPilot(dp, true, isLaani ? Fraction.LAANI : Fraction.EHAR, false, isLaani ? null : "hunter", detectionDist * 2);
-
-    String items = "e b:1:4 rep:.8:2 bo|mg sMed|sBig:.5 aMed|aBig:.3";
-    SolShip e = game.getShipBuilder().buildNew(game, pos, null, 0, 0, pilot, items, config, true, true, null, true, 50f, null);
-    game.getObjMan().addObjDelayed(e);
-  }
-
-  private void createTrader(SolGame game) {
-    Vector2 pos = getEmptySpace(game);
-    if (pos == null) return;
-
-    HullConfig config = game.getHullConfigs().getConfig("truck");
-    MoveDestProvider dp = new ExplorerDestProvider(game, pos, false, config, .75f);
-    float detectionDist = game.getCam().getSpaceViewDist();
-    Pilot pilot = new AiPilot(dp, true, Fraction.EHAR, false, "enemy trader", detectionDist);
-
-    SolShip e = game.getShipBuilder().buildNew(game, pos, null, 0, 0, pilot, "eBig bo s|sMed", config, false, true, null, true, 200f, "");
-    game.getObjMan().addObjDelayed(e);
-
-    for (int j = 0; j < 3; j++) {
-        createGuard(game, e);
-    }
-  }
-
-  private Vector2 getEmptySpace(SolGame game) {
-    ArrayList<SolSystem> ss = game.getPlanetMan().getSystems();
-    SolSystem s = SolMath.elemRnd(ss);
+  private Vector2 getEmptySpace(SolGame game, SolSystem s) {
     Vector2 res = new Vector2();
     Vector2 sPos = s.getPos();
     float sRadius = s.getRadius();
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 100; i++) {
       res.set(SolMath.rnd(sRadius), SolMath.rnd(sRadius)).add(sPos);
       if (game.isPlaceEmpty(res)) return res;
     }
-
-    return null;
+    throw new AssertionError("could not generate ship positoin");
   }
-
 
   public Vector2 getPlayerSpawnPos(SolGame game, PlayerSpawnConfig.SpawnPlace spawnPlace) {
     Vector2 pos = new Vector2();

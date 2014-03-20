@@ -341,4 +341,8 @@ public class SolGame {
   public void drawDebugUi(UiDrawer uiDrawer) {
     myDraDebugger.draw(uiDrawer, this);
   }
+
+  public PlayerSpawnConfig getPlayerSpawnConfig() {
+    return myPlayerSpawnConfig;
+  }
 }
