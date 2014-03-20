@@ -128,8 +128,13 @@ public class ChunkFiller {
     float detectionDist = game.getCam().getSpaceViewDist();
     Pilot provider = new AiPilot(new NoDestProvider(), false, Fraction.EHAR, true, null, detectionDist);
     HullConfig config = enemyConf.hull;
-    return game.getShipBuilder().buildNew(game, pos, spd, 0, rotSpd, provider, enemyConf.items, config, false, false,
-      remover, false, 20f, null);
+    boolean mountFixed1, mountFixed2, hasRepairer;
+    mountFixed1 = enemyConf.isMountFixed1;
+    mountFixed2 = enemyConf.isMountFixed2;
+    hasRepairer = enemyConf.hasRepairer;
+    int money = enemyConf.money;
+    return game.getShipBuilder().buildNew(game, pos, spd, 0, rotSpd, provider, enemyConf.items, config, mountFixed1, mountFixed2,
+      remover, hasRepairer, money, null);
   }
 
   private void fillAsteroids(SolGame game, Vector2 chunk, RemoveController remover, boolean forBelt) {
