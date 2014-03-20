@@ -1,5 +1,11 @@
 {
   junk: {
+    environment: {
+      junkTexs: "junks/sys",
+      junkDensity: 0.06,
+      farJunkTexs: "farJunks/maze",
+      farJunkDensity: 0.01,
+    },
     outerEnemies: [
       {
         hull: corvette,

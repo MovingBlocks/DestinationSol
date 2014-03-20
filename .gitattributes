@@ -171,6 +171,7 @@ main/libs/gdx-openal.jar -text
 main/libs/gdx-sources.jar -text
 main/libs/gdx.jar -text
 main/main.iml -text
+main/res/configs/asteroidBelts.json -text
 main/res/configs/hulls.json -text
 main/res/configs/items/armors.json -text
 main/res/configs/items/clips.json -text
@@ -181,7 +182,7 @@ main/res/configs/mazes.json -text
 main/res/configs/planets.json -text
 main/res/configs/playerSpawn.json -text
 main/res/configs/projectiles.json -text
-main/res/configs/spaceObjs.json -text
+main/res/configs/systems.json -text
 main/res/emitters/explInner.p -text
 main/res/emitters/explosion.p -text
 main/res/emitters/flame.p -text
@@ -283,7 +284,7 @@ main/src/com/miloshpetrov/sol2/game/asteroid/AsteroidBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/asteroid/FarAsteroid.java -text
 main/src/com/miloshpetrov/sol2/game/chunk/ChunkFiller.java -text
 main/src/com/miloshpetrov/sol2/game/chunk/ChunkMan.java -text
-main/src/com/miloshpetrov/sol2/game/chunk/SpaceObjConfig.java -text
+main/src/com/miloshpetrov/sol2/game/chunk/SpaceEnvironmentConfig.java -text
 main/src/com/miloshpetrov/sol2/game/dra/Dra.java -text
 main/src/com/miloshpetrov/sol2/game/dra/DraDebugger.java -text
 main/src/com/miloshpetrov/sol2/game/dra/DraLevel.java -text
@@ -354,6 +355,8 @@ main/src/com/miloshpetrov/sol2/game/planet/Sky.java -text
 main/src/com/miloshpetrov/sol2/game/planet/SolSystem.java -text
 main/src/com/miloshpetrov/sol2/game/planet/SunSingleton.java -text
 main/src/com/miloshpetrov/sol2/game/planet/SurfDir.java -text
+main/src/com/miloshpetrov/sol2/game/planet/SysConfig.java -text
+main/src/com/miloshpetrov/sol2/game/planet/SysConfigs.java -text
 main/src/com/miloshpetrov/sol2/game/planet/SystemBelt.java -text
 main/src/com/miloshpetrov/sol2/game/planet/SystemsBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/planet/Tile.java -text

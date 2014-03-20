@@ -1,0 +1,22 @@
+{
+  standard: {
+    environment: {
+      junkTexs: "junks/sys",
+      junkDensity: 0.06,
+      farJunkTexs: "farJunks/sys",
+      farJunkDensity: 0.01,
+    },
+    enemies: [
+      {
+        hull: hawk,
+        items: "wbo s:.1 b:.3 rep:.5",
+        density: 0.001,
+      },
+      {
+        hull: dragon,
+        items: "mg|sg rl|bo:.3 b:.7:4 r:.5:2 rep:.8",
+        density: 0.0003,
+      },
+    ],
+  },
+}

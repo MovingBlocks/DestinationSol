@@ -20,7 +20,7 @@ public class SystemsBuilder {
 
   public List<SolSystem> build(List<SolSystem> systems, List<Planet> planets, ArrayList<SystemBelt> belts,
     PlanetConfigs planetConfigs,
-    MazeConfigs mazeConfigs, ArrayList<Maze> mazes)
+    MazeConfigs mazeConfigs, ArrayList<Maze> mazes, SysConfigs sysConfigs)
   {
     int sysLeft = SYS_COUNT;
     int mazesLeft = MAZE_COUNT;
@@ -31,7 +31,7 @@ public class SystemsBuilder {
         List<Float> ghs = generatePlanetGhs();
         float sysRadius = calcSysRadius(ghs);
         Vector2 pos = getBodyPos(systems, mazes, sysRadius);
-        SolSystem s = createSystem(ghs, pos, planets, belts, planetConfigs, sysRadius);
+        SolSystem s = createSystem(ghs, pos, planets, belts, planetConfigs, sysRadius, sysConfigs);
         systems.add(s);
         sysLeft--;
       } else {
@@ -107,9 +107,10 @@ public class SystemsBuilder {
 
   private SolSystem createSystem(List<Float> ghs, Vector2 sysPos, List<Planet> planets, ArrayList<SystemBelt> belts,
     PlanetConfigs planetConfigs,
-    float sysRadius)
+    float sysRadius, SysConfigs sysConfigs)
   {
-    SolSystem s = new SolSystem(sysPos);
+    SysConfig sysConfig = sysConfigs.getRandom();
+    SolSystem s = new SolSystem(sysPos, sysConfig);
     s.setRadius(sysRadius);
     float planetDist = Const.SUN_RADIUS;
     for (Float gh : ghs) {
@@ -126,7 +127,8 @@ public class SystemsBuilder {
         planets.add(p);
         s.getPlanets().add(p);
       } else {
-        SystemBelt belt = new SystemBelt(-gh, planetDist, s);
+        SysConfig beltConfig = sysConfigs.getRandomBelt();
+        SystemBelt belt = new SystemBelt(-gh, planetDist, s, beltConfig);
         belts.add(belt);
         s.getBelts().add(belt);
       }

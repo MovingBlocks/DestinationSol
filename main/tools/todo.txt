@@ -48,6 +48,8 @@ CONTENT:
   moar ships
   moar planet types
   enemy stations with guardians
+  EMP with the power param -- first eat shields, then disable controls for the rest of the charge power
+  teleporter -- teleports you around enemy, but not near planets or stations (otherwise bugs possible)
 
 
 BUGS:
