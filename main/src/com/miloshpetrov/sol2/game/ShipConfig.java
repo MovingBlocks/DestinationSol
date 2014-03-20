@@ -10,11 +10,13 @@ public class ShipConfig {
   public final HullConfig hull;
   public final String items;
   public final float density;
+  public final ShipConfig guard;
 
-  public ShipConfig(HullConfig hull, String items, float density) {
+  public ShipConfig(HullConfig hull, String items, float density, ShipConfig guard) {
     this.hull = hull;
     this.items = items;
     this.density = density;
+    this.guard = guard;
   }
 
   public static ArrayList<ShipConfig> loadList(JsonValue shipListJson, HullConfigs hullConfigs) {
@@ -31,6 +33,12 @@ public class ShipConfig {
     HullConfig hull = hullConfigs.getConfig(hullName);
     String items = shipNode.getString("items");
     float density = shipNode.getFloat("density", -1);
-    return new ShipConfig(hull, items, density);
+    ShipConfig guard;
+    if (shipNode.hasChild("guard")) {
+      guard = load(hullConfigs, shipNode.get("guard"));
+    } else {
+      guard = null;
+    }
+    return new ShipConfig(hull, items, density, guard);
   }
 }
