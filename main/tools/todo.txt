@@ -1,34 +1,17 @@
 
-  hardness
-
-
 
 FEATURES:
+  hardness
   brakes?
-  loot should be pulled more gently: just apply force
-  smooth camera rotation + sometimes camera does 360 when leaving a planet
 
 
-TRIVIAL:
-  Guardian DestProvider should be able to guard not only a ship, but also Vector2 targetPos
-  shipConfig should have:
-    money,
-    hasRepairer,
-    mountFixeds
-    + add this all to planet enemy configs + space enemy configs
-  get rid of generated white texture -- use the one of texMan
-  add colors.json where an artist could define:
-    dust color
-    in-game sun color
-    ???
-  burning particle effect
-  dust particle effect on asteroid split
-  starports should be on different distances from planet center, since now they overlap
-  black filler inside planets, also lower planet tiles should have darker tint
-  there should be only one asteroid belt per system, in the center
-  slower planet rotation
-  sky should change color in the sunset
-  add pointer to asteroid textures in SystemConfig json
+CONTENT:
+  moar items
+  ship unique abilities:
+    EMP with the power param -- first eat shields, then disable controls for the rest of the charge power
+    teleporter -- teleports you around enemy, but not near planets or stations (otherwise bugs possible)
+    ??
+  add pointer to asteroid textures in SystemConfig json?
 
 
 SOUND:
@@ -40,32 +23,53 @@ SOUND:
   todo list
 
 
-CONTENT:
-  asteroid belts should have unique enemies
-  moar items
-  moar ships
-  moar planet types
-  enemy stations with guardians
-
-
-MO FEATURES:
-  ship unique abilities:
-    EMP with the power param -- first eat shields, then disable controls for the rest of the charge power
-    teleporter -- teleports you around enemy, but not near planets or stations (otherwise bugs possible)
-    ??
-
-  trading:
-    jsons will have tradeItems, that would resolve in the list of items
-    ships will start with half of that items
-    ships will slowly generate new items from that list
-    ships will not generate if they already possess item (or 5 if clips)
+TRADING:
+  jsons will have tradeItems, that would resolve in the list of items
+  ships will start with half of that items
+  ships will slowly generate new items from that list
+  ships will not generate if they already possess item (or 5 if clips)
   trading ships:
     jsons will have tradeShips
     the rest is the same as for items
 
-BUGS:
-  isPlaceEmpty should consider mazes and special encounters?
+
+TRIVIAL:
+  sky should change color in the sunset -- there should be config in planet, defining day and dawn colors?
+  add colors.json where an artist could define:
+    dust color
+    in-game sun color
+    sky color? or should it be per planet?
+    ???
+  burning particle effect
+  dust particle effect on asteroid split
+  black filler inside planets, also lower planet tiles should have darker tint
+
+
+UI:
+  new UI
+  "new" mark in the inventory
+
+
++++++++++++FROM THIS POINT, NO NEW CONTENT IS ADDED TO THE GAME
+
+
+FEATURES:
   dynamic AI shoot angle
+  loot should be pulled more gently: just apply force
+  smooth camera rotation + sometimes camera does 360 when leaving a planet
+  get rid of generated white texture -- use the one of texMan
+
+
+TRIVIAL:
+  Guardian DestProvider should be able to guard not only a ship, but also Vector2 targetPos
+  starports should be on differernt distances from planet center, since now they overlap
+  there should be only one asteroid belt per system, near the center
+  mainStation should be in the center of the system
+  slower planet rotation
+
+
+BUGS:
+  isPlaceEmpty should consider mazes and special encounters? or should it consider every daym thing?
   planet tiles and stations movement method creates glitches
   bullets fly thru ships sometimes -- blame shields... needs better understanding of Box2D categories
   bullets are too narrow on phone -- use realLineWidth() as a minimum width
@@ -78,10 +82,6 @@ PERF:
   use circles instead of polys
   far ship positions should be calculated on demand?
 
-
-UI:
-  new UI
-  "new" mark in the inventory
 
 ===================== REST =======================================================================
 
