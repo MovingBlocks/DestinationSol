@@ -14,11 +14,11 @@
         allowFlip: false,
       },
       tree: {
-        density: 0.5,
-        szMin: 0.2,
-        szMax: 0.6,
+        density: 0.4,
+        szMin: 0.6,
+        szMax: 0.7,
         orig: "0 0.5",
-        allowFlip: true,
+        allowFlip: FALSE,
       },
     },
     groundEnemies: [
