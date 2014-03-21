@@ -63,7 +63,7 @@
 		mountfixed2: false,
         density: 1,
         guard: {
-          hull: guardie,
+          hull: dagger,
           items: "e b:1:2 bo|sg s|sMed:.2 a:.2 rep:.4",
 		  money: 50,
 		  repairer: false,
