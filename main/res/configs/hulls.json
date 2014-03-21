@@ -1,4 +1,22 @@
 {
+  beetle: {
+    texName: beetle,
+    size: 0.4,
+    maxLife: 13,
+    g1Pos: "0.3 0.28",
+    g2Pos: "0.3 0.72",
+    e1Pos: "0.1 0.47",
+    e2Pos: "0.1 0.53",
+    lightSrcPoss: [],
+    durability: 0.7,
+    hasBase: true,
+    forceBeaconPoss: [],
+    doorPoss: [],
+    type: std,
+    name: "Beetle",
+    desc: "desc",
+    price: 150,
+  },
   station: {
     texName: station,
     size: 8,

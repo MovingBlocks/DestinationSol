@@ -8,7 +8,7 @@
     },
     temporaryEnemies: [
       {
-        hull: guardie,
+        hull: beetle,
         items: "wbo s:.1 b:.3 rep:.5",
 		money: 20,
 		repairer: false,
