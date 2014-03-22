@@ -15,8 +15,8 @@
       },
       tree: {
         density: 0.4,
-        szMin: 0.6,
-        szMax: 0.7,
+        szMin: 0.7,
+        szMax: 0.8,
         orig: "0 0.5",
         allowFlip: FALSE,
       },
