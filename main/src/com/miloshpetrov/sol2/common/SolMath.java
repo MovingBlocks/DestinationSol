@@ -120,6 +120,10 @@ public class SolMath {
     return MathUtils.clamp(val, min, max);
   }
 
+  public static float clamp(float val) {
+    return clamp(val, 0, 1);
+  }
+
   /**
    * Modifies the given vector so it has the given angle and length. The resulting vector angle may slightly differ from a given one.
    */

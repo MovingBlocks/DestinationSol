@@ -39,7 +39,7 @@ public interface CamRotStrategy {
       float toObjLen = toObj.len();
       float toObjAngle = SolMath.norm(toObj.angle() - 90);
       float perc = (fh - toObjLen) / SMOOTH_HEIGHT;
-      perc = SolMath.clamp(perc, 0, 1);
+      perc = SolMath.clamp(perc);
       SolMath.free(toObj);
       return toObjAngle * perc;
     }

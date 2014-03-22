@@ -4,7 +4,21 @@
     maxGrav: 0.5,
     groundTexs: "grounds/rocky",
     decoTexs: "deco/rocky",
-    skyTexs: "skies/cloud",
+    cloudTexs: "skies/cloud",
+    sky: {
+      dawnColor: {
+        h: 0,
+        s: 0.5,
+        b: 1,
+        a: 1,
+      },
+      dayColor: {
+        h: 0.6,
+        s: 0.4,
+        b: 1,
+        a: 1,
+      },
+    },
     deco: {
       grass: {
         density: 0.3,

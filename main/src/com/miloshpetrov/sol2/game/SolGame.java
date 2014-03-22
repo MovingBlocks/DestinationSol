@@ -348,4 +348,5 @@ public class SolGame {
   public PlayerSpawnConfig getPlayerSpawnConfig() {
     return myPlayerSpawnConfig;
   }
+
 }
