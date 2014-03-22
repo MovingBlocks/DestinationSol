@@ -169,6 +169,7 @@ main/imgSrcs/shards/shard_2.png -text
 main/imgSrcs/skies/Thumbs.db -text
 main/imgSrcs/skies/cloud_0.png -text
 main/imgSrcs/skies/cloud_1.png -text
+main/imgSrcs/skies/cloud_2.png -text
 main/imgSrcs/ui/cursor.png -text
 main/libs/gdx-natives.jar -text
 main/libs/gdx-openal-sources.jar -text
