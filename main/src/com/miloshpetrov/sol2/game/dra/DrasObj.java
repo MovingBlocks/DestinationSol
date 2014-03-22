@@ -55,7 +55,7 @@ public class DrasObj implements SolObj {
         Vector2 draPos = dra.getPos();
         float gradSz = .25f * Const.ATM_HEIGHT;
         float distPerc = (draPos.dst(npPos) - npgh - Const.ATM_HEIGHT) / gradSz;
-        distPerc = SolMath.clamp(distPerc, 0, 1);
+        distPerc = SolMath.clamp(distPerc);
         ((RectSprite) dra).tint.a = distPerc;
       }
     } else if (myMaxFadeTime > 0) {

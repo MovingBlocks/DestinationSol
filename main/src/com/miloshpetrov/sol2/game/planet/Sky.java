@@ -18,15 +18,18 @@ public class Sky implements SolObj {
   private final RectSprite myFill;
   private final RectSprite myGrad;
   private final ArrayList<Dra> myDras;
+  private final ColorSpan mySkySpan;
 
   public Sky(SolGame game, Planet planet) {
     myPlanet = planet;
     myDras = new ArrayList<Dra>();
 
     myFill = new RectSprite(game.getTexMan().whiteTex, 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, Col.col(.5f, 1));
-//    myDras.add(myFill);
+    myDras.add(myFill);
     myGrad = new RectSprite(game.getTexMan().getTex("misc/grad", null), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, Col.col(.5f, 1));
     myDras.add(myGrad);
+    SkyConfig config = planet.getConfig().skyConfig;
+    mySkySpan = ColorSpan.rgb(config.dawnHsba, config.dayHsba);
   }
 
   @Override
@@ -42,10 +45,14 @@ public class Sky implements SolObj {
     float angleToCam = SolMath.angle(planetPos, camPos);
     float angleToSun = SolMath.angle(planetPos, sysPos);
     float dayPerc = 1 - SolMath.angleDiff(angleToCam, angleToSun) / 180;
-    float gradTransp = 3 * dayPerc;
-    float fillTransp = gradTransp - 1;
-    myGrad.tint.a = SolMath.clamp(gradTransp, 0, 1) * distPerc;
-    myFill.tint.a = SolMath.clamp(fillTransp, 0, 1) * distPerc * .9f;
+    float skyIntensity = SolMath.clamp(1 - ((1 - dayPerc) / .75f));
+    float skyColorPerc = SolMath.clamp((skyIntensity - .5f) * 2f + .5f);
+    mySkySpan.set(skyColorPerc, myGrad.tint);
+    mySkySpan.set(skyColorPerc, myFill.tint);
+    float gradPerc = SolMath.clamp(2 * skyIntensity);
+    float fillPerc = SolMath.clamp(2 * (skyIntensity - .5f));
+    myGrad.tint.a = gradPerc * distPerc;
+    myFill.tint.a = fillPerc * SolMath.clamp(1 - (1 - distPerc) * 2) * .37f;
 
     float viewDist = game.getCam().getViewDist();
     float sz = 2 * viewDist;

@@ -1,8 +1,13 @@
 package com.miloshpetrov.sol2.game.planet;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
+import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.common.SolMath;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DecoConfig {
@@ -21,5 +26,21 @@ public class DecoConfig {
     this.orig = orig;
     this.allowFlip = allowFlip;
     this.texs = texs;
+  }
+
+  static List<DecoConfig> load(JsonValue planetConfig, TexMan texMan, FileHandle configFile) {
+    ArrayList<DecoConfig> res = new ArrayList<DecoConfig>();
+    for (JsonValue deco : planetConfig.get("deco")) {
+      float density = deco.getFloat("density");
+      float szMin = deco.getFloat("szMin");
+      float szMax = deco.getFloat("szMax");
+      Vector2 orig = SolMath.readV2(deco, "orig");
+      boolean allowFlip = deco.getBoolean("allowFlip");
+      String texName = planetConfig.getString("decoTexs") + "/" + deco.name;
+      ArrayList<TextureAtlas.AtlasRegion> texs = texMan.getPack(texName, configFile);
+      DecoConfig c = new DecoConfig(density, szMin, szMax, orig, allowFlip, texs);
+      res.add(c);
+    }
+    return res;
   }
 }

@@ -9,7 +9,7 @@
 		mountfixed1: true,
 		mountfixed2: true,
       },
-      spawnPlace: station,
+      spawnPlace: planet,
   },
   mainStation: {
     hull: station,

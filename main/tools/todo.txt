@@ -1,5 +1,6 @@
 
 
+
 FEATURES:
   hardness
   brakes?
@@ -34,11 +35,9 @@ TRADING:
 
 
 TRIVIAL:
-  sky should change color in the sunset -- there should be config in planet, defining day and dawn colors?
   add colors.json where an artist could define:
     dust color
     in-game sun color
-    sky color? or should it be per planet?
     ???
   burning particle effect
   dust particle effect on asteroid split

@@ -261,6 +261,7 @@ main/src/com/miloshpetrov/sol2/common/Norm.java -text
 main/src/com/miloshpetrov/sol2/common/Nullable.java -text
 main/src/com/miloshpetrov/sol2/common/SolMath.java -text
 main/src/com/miloshpetrov/sol2/game/CamRotStrategy.java -text
+main/src/com/miloshpetrov/sol2/game/ColorSpan.java -text
 main/src/com/miloshpetrov/sol2/game/DebugAspects.java -text
 main/src/com/miloshpetrov/sol2/game/Dir.java -text
 main/src/com/miloshpetrov/sol2/game/DmgType.java -text
@@ -270,6 +271,7 @@ main/src/com/miloshpetrov/sol2/game/Fraction.java -text
 main/src/com/miloshpetrov/sol2/game/FractionMan.java -text
 main/src/com/miloshpetrov/sol2/game/GalaxyFiller.java -text
 main/src/com/miloshpetrov/sol2/game/GridDrawer.java -text
+main/src/com/miloshpetrov/sol2/game/HsbSpan.java -text
 main/src/com/miloshpetrov/sol2/game/MapDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/ObjMan.java -text
 main/src/com/miloshpetrov/sol2/game/PathLoader.java -text
@@ -358,6 +360,7 @@ main/src/com/miloshpetrov/sol2/game/planet/PlanetObjsBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetSprites.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetTiles.java -text
 main/src/com/miloshpetrov/sol2/game/planet/Sky.java -text
+main/src/com/miloshpetrov/sol2/game/planet/SkyConfig.java -text
 main/src/com/miloshpetrov/sol2/game/planet/SolSystem.java -text
 main/src/com/miloshpetrov/sol2/game/planet/SunSingleton.java -text
 main/src/com/miloshpetrov/sol2/game/planet/SurfDir.java -text
