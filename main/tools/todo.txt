@@ -1,17 +1,50 @@
-
-
-ITEMS:
+ENGINES:
+  engines.json:
+    effect
+    workSound
+    size should be told from hull size
   hide engine items
-    noEngine: true
 
-  new projectiles.json params:
+
+SOUND:
+  ! sound for armors being hit with bullet, energy
+  sound for null armor being hit with bullet, energy
+  sound for collisions for ground, metal
+  ship explosion sound
+  asteroid crack sound
+  sound for ground being hit with bullet, energy
+  force field work sound
+  journey in and out, working
+  burning sound
+  
+
+PARTICLE FRAMEWORK:
+  sized, multiple....
+  hard-coded:
+    explosion - sized
+    energy explosion - sized
+    bullet sparks
+    ship smoke -- multiple, random place on ship
+    burning -- multiple, with smoke and reaction to gravity
+    asteroid crack dust -- with size
+    star journey
+    star ports
+    shield particle???
+  hulls.json 
+    engineEffect - sized
+  projectiles.json:
     trailEffect
     bodyEffect
-    explosionEffects
+    
+
+ITEMS:
+  projectiles.json:
     isGuided
     particlesPerShot
   shotgun
   bombs
+
+  shield orbiting blips
 
   ship unique abilities:
     EM field:
@@ -30,15 +63,6 @@ ITEMS:
     ??
 
 
-SOUND:
-  sound for armors being hit with each damage type
-  sound for null armor being hit with each damage type
-  sound for collisions for ground
-  sound for collisions for metal
-  sound for ground being hit with each damage type
-  todo list
-
-
 TRADING:
   jsons will have tradeItems, that would resolve in the list of items
   ships will start with half of that items
@@ -50,15 +74,11 @@ TRADING:
 
 
 TRIVIAL:
-  add pointer to asteroid textures in SystemConfig json?
   add colors.json where an artist could define:
     dust color
     in-game sun color
     ???
-  burning particle effect
-  dust particle effect on asteroid split
-  star port journey particles
-  force beacon particles
+  force beacon textures
   black filler inside planets, also lower planet tiles should have darker tint
 
 
@@ -68,13 +88,13 @@ TRIVIAL:
 FEATURES:
   brakes?
   dynamic AI shoot angle
+  Guardian DestProvider should be able to guard not only a ship, but also Vector2 targetPos
   loot should be pulled more gently: just apply force
   smooth camera rotation + sometimes camera does 360 when leaving a planet
   get rid of generated white texture -- use the one of texMan
 
 
 TRIVIAL:
-  Guardian DestProvider should be able to guard not only a ship, but also Vector2 targetPos
   starports should be on differernt distances from planet center, since now they overlap
   there should be only one asteroid belt per system, near the center
   mainStation should be in the center of the system
@@ -94,7 +114,6 @@ BUGS:
 PERF:
   use circles instead of polys
   far ship positions should be calculated on demand?
-
 
 FEATURES:
   hardness
