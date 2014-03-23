@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.game.DebugAspects;
 import com.miloshpetrov.sol2.game.PathLoader;
+import com.miloshpetrov.sol2.ui.DebugCollector;
 
 import java.util.*;
 
@@ -48,22 +50,45 @@ public class PlanetTiles {
       }
       String tileName = tileDescName + "_" + tex.index + ".png";
       List<Vector2> points = new ArrayList<Vector2>();
-      PathLoader.RigidBodyModel tilePaths = paths.rigidBodies.get(tileName);
+      List<Vector2> rawPoints;
+      PathLoader.RigidBodyModel tilePaths = paths == null ? null : paths.rigidBodies.get(tileName);
       List<PathLoader.PolygonModel> shapes = tilePaths == null ? null : tilePaths.shapes;
       if (shapes != null && !shapes.isEmpty()) {
-        PathLoader.PolygonModel shape = shapes.get(0);
-        List<Vector2> vertices = shape.vertices;
-        int sz = vertices.size();
-        for (int j = 0; j < sz; j++) {
-          Vector2 v = vertices.get(inverted ? sz - j - 1 : j);
-          Vector2 point = new Vector2(v.x - .5f, v.y - .5f);
-          if (inverted) point.x *= -1;
-          points.add(point);
-        }
+        rawPoints = shapes.get(0).vertices;
+      } else {
+        rawPoints = getDefaultRawPoints(inverted ? to : from, inverted ? from : to, tileName);
+      }
+      int sz = rawPoints.size();
+      for (int j = 0; j < sz; j++) {
+        Vector2 v = rawPoints.get(inverted ? sz - j - 1 : j);
+        Vector2 point = new Vector2(v.x - .5f, v.y - .5f);
+        if (inverted) point.x *= -1;
+        points.add(point);
       }
       tileVariants.add(new Tile(tex, points, from, to));
     }
     return tileVariants;
+  }
+
+  private List<Vector2> getDefaultRawPoints(SurfDir from, SurfDir to, String tileName) {
+    ArrayList<Vector2> res = new ArrayList<Vector2>();
+    if (from == SurfDir.UP && to == SurfDir.UP) return res;
+    if (DebugAspects.PHYSICS_DEBUG) DebugCollector.warn("no path found for ", tileName);
+    res.add(new Vector2(.25f, .75f));
+    if (from == SurfDir.FWD) {
+      res.add(new Vector2(.25f, .5f));
+    } else {
+      res.add(new Vector2(.25f, .25f));
+      res.add(new Vector2(.5f, .25f));
+    }
+    res.add(new Vector2(.5f, .5f));
+    if (to == SurfDir.FWD) {
+      res.add(new Vector2(.75f, .5f));
+      res.add(new Vector2(.75f, .75f));
+    } else {
+      res.add(new Vector2(.5f, .75f));
+    }
+    return res;
   }
 
   public Tile getGround(SurfDir from, SurfDir to) {

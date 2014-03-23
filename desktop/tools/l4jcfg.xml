@@ -2,7 +2,7 @@
   <dontWrapJar>true</dontWrapJar>
   <headerType>gui</headerType>
   <jar>libs\solDesktop.jar</jar>
-  <outfile>D:\j\sol\out\artifacts\solWin\sol.exe</outfile>
+  <outfile>D:\j\solBranches\repo\solWin\sol.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir></chdir>

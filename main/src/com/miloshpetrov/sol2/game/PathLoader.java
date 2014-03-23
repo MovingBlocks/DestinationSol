@@ -41,8 +41,11 @@ public class PathLoader {
 
   public PathLoader(String fileName) {
     FileHandle file = SolFiles.readOnly("res/paths/" + fileName + ".json");
-    if (file == null) throw new NullPointerException("file is null");
-    model = readJson(file.readString());
+    if (file.exists()) {
+      model = readJson(file.readString());
+    } else {
+      model = new Model();
+    }
   }
 
   // -------------------------------------------------------------------------

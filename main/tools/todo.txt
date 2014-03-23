@@ -3,7 +3,6 @@
 
 FEATURES:
   hardness
-  brakes?
 
 
 CONTENT:
@@ -53,6 +52,7 @@ UI:
 
 
 FEATURES:
+  brakes?
   dynamic AI shoot angle
   loot should be pulled more gently: just apply force
   smooth camera rotation + sometimes camera does 360 when leaving a planet
