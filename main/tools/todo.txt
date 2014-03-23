@@ -1,17 +1,33 @@
 
 
+ITEMS:
+  hide engine items
+    noEngine: true
 
-FEATURES:
-  hardness
+  new projectiles.json params:
+    trailEffect
+    bodyEffect
+    explosionEffects
+    isGuided
+    particlesPerShot
+  shotgun
+  bombs
 
-
-CONTENT:
-  moar items
   ship unique abilities:
-    EMP with the power param -- first eat shields, then disable controls for the rest of the charge power
-    teleporter -- teleports you around enemy, but not near planets or stations (otherwise bugs possible)
+    EM field:
+      disable ship controls
+      duration
+      particle
+    Blabla field:
+      reduce shield power
+      amount
+    Force field:
+      knock everything back
+      amount
+    teleporter:
+      teleports you around enemy, but not near planets or stations (otherwise bugs possible)
+      max angle: from 15 to 180
     ??
-  add pointer to asteroid textures in SystemConfig json?
 
 
 SOUND:
@@ -34,18 +50,16 @@ TRADING:
 
 
 TRIVIAL:
+  add pointer to asteroid textures in SystemConfig json?
   add colors.json where an artist could define:
     dust color
     in-game sun color
     ???
   burning particle effect
   dust particle effect on asteroid split
+  star port journey particles
+  force beacon particles
   black filler inside planets, also lower planet tiles should have darker tint
-
-
-UI:
-  new UI
-  "new" mark in the inventory
 
 
 +++++++++++FROM THIS POINT, NO NEW CONTENT IS ADDED TO THE GAME
@@ -80,6 +94,15 @@ BUGS:
 PERF:
   use circles instead of polys
   far ship positions should be calculated on demand?
+
+
+FEATURES:
+  hardness
+
+
+UI:
+  new UI
+  "new" mark in the inventory
 
 
 ===================== REST =======================================================================
