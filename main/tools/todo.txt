@@ -8,7 +8,7 @@ PARTICLE FRAMEWORK:
     bullet sparks
     ship smoke -- multiple, random place on ship
     burning -- multiple, with smoke and reaction to gravity
-    asteroid crack dust -- with size
+    asteroid crack dust -- sized
     star journey
     star ports
     shield particle???
