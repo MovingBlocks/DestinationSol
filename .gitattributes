@@ -188,6 +188,7 @@ main/res/configs/mazes.json -text
 main/res/configs/planets.json -text
 main/res/configs/playerSpawn.json -text
 main/res/configs/projectiles.json -text
+main/res/configs/specialSounds.json -text
 main/res/configs/systems.json -text
 main/res/emitters/explInner.p -text
 main/res/emitters/explosion.p -text
@@ -408,6 +409,7 @@ main/src/com/miloshpetrov/sol2/game/sound/DebugHint.java -text
 main/src/com/miloshpetrov/sol2/game/sound/DebugHintDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/sound/SolSound.java -text
 main/src/com/miloshpetrov/sol2/game/sound/SoundMan.java -text
+main/src/com/miloshpetrov/sol2/game/sound/SpecialSounds.java -text
 main/src/com/miloshpetrov/sol2/menu/GameOptions.java -text
 main/src/com/miloshpetrov/sol2/menu/HalpScreen.java -text
 main/src/com/miloshpetrov/sol2/menu/IniReader.java -text
