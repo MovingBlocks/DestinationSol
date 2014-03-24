@@ -85,7 +85,7 @@ public class Shield implements SolItem {
     if (myLife > 0) {
       ShipHull hull = ship.getHull();
       game.getPartMan().shieldSpark(game, pos, hull);
-      game.getSoundMan().play(game, myConfig.absorbSound, pos, null);
+      game.getSoundMan().play(game, myConfig.absorbSound, null, ship);
     }
     if (myLife >= dmg) {
       myLife -= dmg;

@@ -58,7 +58,7 @@ public class PointProjectileBody implements ProjectileBody {
   }
 
   @Override
-  public Object getObstacle() {
+  public SolObj getObstacle() {
     return myRayBack.obstacle;
   }
 
@@ -76,7 +76,7 @@ public class PointProjectileBody implements ProjectileBody {
 
   private static class MyRayBack implements RayCastCallback {
     public final Projectile myProjectile;
-    public Object obstacle;
+    public SolObj obstacle;
     public final Vector2 collPoint;
 
     private MyRayBack(Projectile projectile) {
@@ -87,7 +87,7 @@ public class PointProjectileBody implements ProjectileBody {
     @Override
     public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
       if (fixture.getFilterData().categoryBits == 0) return -1;
-      Object o = fixture.getBody().getUserData();
+      SolObj o = (SolObj) fixture.getBody().getUserData();
       if (!myProjectile.shouldCollide(o)) return -1;
       obstacle = o;
       collPoint.set(point);

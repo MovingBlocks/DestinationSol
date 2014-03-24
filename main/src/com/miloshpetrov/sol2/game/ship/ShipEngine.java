@@ -50,7 +50,7 @@ public class ShipEngine {
     myLightSrc1.update(working, angle, game);
     myLightSrc2.update(working, angle, game);
     if (working) {
-      game.getSoundMan().play(game, myItem.getWorkSound(), owner.getPos(), owner);
+      game.getSoundMan().play(game, myItem.getWorkSound(), null, owner);
     }
   }
 

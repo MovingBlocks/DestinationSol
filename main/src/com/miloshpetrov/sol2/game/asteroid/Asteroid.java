@@ -120,7 +120,7 @@ public class Asteroid implements SolObj {
 
   private void maybeSplit(SolGame game) {
     if (myLife > 0 || MIN_SPLIT_SZ > mySize) return;
-    game.getSoundMan().play(game, game.getSpecialSounds().asteroidSplit, myPos, this);
+    game.getSoundMan().play(game, game.getSpecialSounds().asteroidSplit, null, this);
     float sclSum = 0;
     while (sclSum < .7f * mySize * mySize) {
       Vector2 newPos = new Vector2();

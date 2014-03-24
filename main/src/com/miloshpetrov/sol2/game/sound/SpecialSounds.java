@@ -54,13 +54,13 @@ public class SpecialSounds {
     if (metal == null) return;
     SolSound sound = dmgSound(metal, dmgType);
     if (sound == null) return;
-    game.getSoundMan().play(game, sound, pos, null);
+    game.getSoundMan().play(game, sound, null, o);
   }
 
   public void playColl(SolGame game, float absImpulse, SolObj o, Vector2 pos) {
     if (o == null || absImpulse < .1f) return;
     Boolean metal = o.isMetal();
     if (metal == null) return;
-    game.getSoundMan().play(game, metal ? metalColl : rockColl, pos, null, absImpulse * Const.IMPULSE_TO_COLL_VOL);
+    game.getSoundMan().play(game, metal ? metalColl : rockColl, null, o, absImpulse * Const.IMPULSE_TO_COLL_VOL);
   }
 }

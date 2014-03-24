@@ -25,8 +25,8 @@ public class SolContactListener implements ContactListener {
 
   @Override
   public void postSolve(Contact contact, ContactImpulse impulse) {
-    SolObj soa = ObjMan.asSolObj(contact.getFixtureA().getBody().getUserData());
-    SolObj sob = ObjMan.asSolObj(contact.getFixtureB().getBody().getUserData());
+    SolObj soa = (SolObj) contact.getFixtureA().getBody().getUserData();
+    SolObj sob = (SolObj) contact.getFixtureB().getBody().getUserData();
     if (soa == null && sob == null) return;
 
     float absImpulse = calcAbsImpulse(impulse);

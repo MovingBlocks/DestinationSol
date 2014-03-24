@@ -11,7 +11,7 @@ public interface ProjectileBody {
   Vector2 getSpd();
   void receiveAcc(Vector2 acc, SolGame game);
   void onRemove(SolGame game);
-  Object getObstacle();
+  SolObj getObstacle();
   float getAngle();
   void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse, SolGame game, Vector2 collPos);
 }
