@@ -1,8 +1,4 @@
 
-check all receive dmg
-
-ASK:
-  landscape types?
 
 PARTICLE FRAMEWORK:
   sized, multiple....
@@ -21,7 +17,7 @@ PARTICLE FRAMEWORK:
   projectiles.json:
     trailEffect
     bodyEffect
-    
+
 
 ITEMS:
   projectiles.json:
@@ -47,6 +43,10 @@ ITEMS:
       teleports you around enemy, but not near planets or stations (otherwise bugs possible)
       max angle: from 15 to 180
     ??
+
+
+ASK:
+  landscape types?
 
 
 TRADING:
