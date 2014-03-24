@@ -1,7 +1,6 @@
 
 SOUND:
-  sound for null armor being hit with bullet, energy
-  sound for ground being hit with bullet, energy
+  fix notes
   ship explosion sound
   force field work sound
   journey in and out, working

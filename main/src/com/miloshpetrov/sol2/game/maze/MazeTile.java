@@ -12,13 +12,16 @@ import java.util.List;
 public class MazeTile {
   public final TextureAtlas.AtlasRegion tex;
   public final List<List<Vector2>> points;
+  public final boolean metal;
 
-  public MazeTile(TextureAtlas.AtlasRegion tex, List<List<Vector2>> points) {
+  public MazeTile(TextureAtlas.AtlasRegion tex, List<List<Vector2>> points, boolean metal) {
     this.tex = tex;
     this.points = points;
+    this.metal = metal;
   }
 
-  public static MazeTile load(TextureAtlas.AtlasRegion tex, PathLoader.Model paths, boolean wall, String pathEntryName) {
+  public static MazeTile load(TextureAtlas.AtlasRegion tex, PathLoader.Model paths, boolean wall, String pathEntryName,
+    boolean metal) {
     ArrayList<List<Vector2>> points = new ArrayList<List<Vector2>>();
     PathLoader.RigidBodyModel tilePaths = paths.rigidBodies.get(pathEntryName);
     List<PathLoader.PolygonModel> shapes = tilePaths == null ? new ArrayList<PathLoader.PolygonModel>() : tilePaths.shapes;
@@ -35,6 +38,6 @@ public class MazeTile {
       wallPoints.add(new Vector2(0, .6f));
       points.add(wallPoints);
     }
-    return new MazeTile(tex, points);
+    return new MazeTile(tex, points, metal);
   }
 }

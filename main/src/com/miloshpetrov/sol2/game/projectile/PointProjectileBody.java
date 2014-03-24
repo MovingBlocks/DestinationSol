@@ -68,8 +68,8 @@ public class PointProjectileBody implements ProjectileBody {
   }
 
   @Override
-  public void handleContact(SolObj other, Contact contact, ContactImpulse impulse, boolean isA, float absImpulse,
-    SolGame game)
+  public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
+    SolGame game, Vector2 collPos)
   {
   }
 

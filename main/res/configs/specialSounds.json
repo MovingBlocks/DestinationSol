@@ -1,5 +1,11 @@
 {
   rockCollision: "asteroid/impact",
+  rockBulletHit: "rock/bulletHit",
+  rockEnergyHit: "rock/energyHit",
+
   metalCollision: "ship/impact",
+  metalBulletHit: "metal/bulletHit",
+  metalEnergyHit: "metal/energyHit",
+
   asteroidSplit: "asteroid/split",
 }

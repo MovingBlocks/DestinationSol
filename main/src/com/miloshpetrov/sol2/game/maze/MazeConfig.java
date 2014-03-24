@@ -40,31 +40,31 @@ public class MazeConfig {
     PathLoader pathLoader = new PathLoader("mazes/" + mazeNode.name);
     PathLoader.Model paths = pathLoader.getInternalModel();
 
+    boolean metal = mazeNode.getBoolean("isMetal");
     ArrayList<MazeTile> innerWalls = new ArrayList<MazeTile>();
-    buildTiles(texMan, configFile, dirName, paths, innerWalls, "innerWall", true);
+    buildTiles(texMan, configFile, dirName, paths, innerWalls, "innerWall", true, metal);
     ArrayList<MazeTile> innerPasses = new ArrayList<MazeTile>();
-    buildTiles(texMan, configFile, dirName, paths, innerPasses, "innerPass", false);
+    buildTiles(texMan, configFile, dirName, paths, innerPasses, "innerPass", false, metal);
     ArrayList<MazeTile> borderWalls = new ArrayList<MazeTile>();
-    buildTiles(texMan, configFile, dirName, paths, borderWalls, "borderWall", true);
+    buildTiles(texMan, configFile, dirName, paths, borderWalls, "borderWall", true, metal);
     ArrayList<MazeTile> borderPasses = new ArrayList<MazeTile>();
-    buildTiles(texMan, configFile, dirName, paths, borderPasses, "borderPass", false);
+    buildTiles(texMan, configFile, dirName, paths, borderPasses, "borderPass", false, metal);
 
     ArrayList<ShipConfig> outerEnemies = ShipConfig.loadList(mazeNode.get("outerEnemies"), hullConfigs);
     ArrayList<ShipConfig> innerEnemies = ShipConfig.loadList(mazeNode.get("innerEnemies"), hullConfigs);
     ArrayList<ShipConfig> bosses = ShipConfig.loadList(mazeNode.get("bosses"), hullConfigs);
 
     SpaceEnvConfig envConfig = new SpaceEnvConfig(mazeNode.get("environment"), texMan, configFile);
-
     return new MazeConfig(innerWalls, innerPasses, borderWalls, borderPasses, outerEnemies, innerEnemies, bosses, envConfig);
   }
 
   private static void buildTiles(TexMan texMan, FileHandle configFile, String dirName, PathLoader.Model paths,
-    ArrayList<MazeTile> list, String tileType, boolean wall)
+    ArrayList<MazeTile> list, String tileType, boolean wall, boolean metal)
   {
     ArrayList<TextureAtlas.AtlasRegion> iwTexs = texMan.getPack(dirName + tileType, configFile);
     for (TextureAtlas.AtlasRegion tex : iwTexs) {
       String pathEntry = tex.name + "_" + tex.index + ".png";
-      MazeTile iw = MazeTile.load(tex, paths, wall, pathEntry);
+      MazeTile iw = MazeTile.load(tex, paths, wall, pathEntry, metal);
       list.add(iw);
     }
   }

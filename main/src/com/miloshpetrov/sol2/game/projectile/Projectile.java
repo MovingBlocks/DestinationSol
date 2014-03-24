@@ -3,7 +3,6 @@ package com.miloshpetrov.sol2.game.projectile;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.Col;
@@ -151,14 +150,19 @@ public class Projectile implements SolObj {
   }
 
   @Override
-  public void handleContact(SolObj other, Contact contact, ContactImpulse impulse, boolean isA, float absImpulse,
-    SolGame game)
+  public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
+    SolGame game, Vector2 collPos)
   {
-    myBody.handleContact(other, contact, impulse, isA, absImpulse, game);
+    myBody.handleContact(other, impulse, isA, absImpulse, game, collPos);
   }
 
   @Override
   public String toDebugString() {
+    return null;
+  }
+
+  @Override
+  public Boolean isMetal() {
     return null;
   }
 

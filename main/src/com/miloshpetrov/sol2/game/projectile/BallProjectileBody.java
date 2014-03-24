@@ -1,7 +1,8 @@
 package com.miloshpetrov.sol2.game.projectile;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.SolObj;
@@ -75,12 +76,12 @@ public class BallProjectileBody implements ProjectileBody {
   }
 
   @Override
-  public void handleContact(SolObj other, Contact contact, ContactImpulse impulse, boolean isA, float absImpulse,
-    SolGame game)
+  public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
+    SolGame game, Vector2 collPos)
   {
     if (myObstacle != null) return;
     if (other != null) {
-      myPos.set(contact.getWorldManifold().getPoints()[0]);
+      myPos.set(collPos);
       myObstacle = other;
     }
   }
