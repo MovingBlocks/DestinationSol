@@ -360,6 +360,7 @@ public class SolShip implements SolObj {
   public boolean maybeEquip(SolGame game, SolItem item, boolean secondarySlot, boolean equip) {
     if (!secondarySlot) {
       if (item instanceof EngineItem) {
+        if (true) throw new AssertionError("no engine item support for now");
         EngineItem ei = (EngineItem) item;
         boolean ok = ei.isBig() == (myHull.config.type == HullConfig.Type.BIG);
         if (ok && equip) myHull.setEngine(game, this, ei);
@@ -393,6 +394,7 @@ public class SolShip implements SolObj {
   public boolean maybeUnequip(SolGame game, SolItem item, boolean secondarySlot, boolean unequip) {
     if (!secondarySlot) {
       if (myHull.getEngine() == item) {
+        if (true) throw new AssertionError("engine items not supported");
         if (unequip) myHull.setEngine(game, this, null);
         return true;
       }

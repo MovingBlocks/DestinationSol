@@ -60,6 +60,7 @@ public class GalaxyFiller {
   }
 
   public void fill(SolGame game) {
+    if (DebugAspects.NO_OBJS) return;
     createStarPorts(game);
     ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
 

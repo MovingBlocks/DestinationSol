@@ -19,6 +19,7 @@ public class ItemMan {
   public final TextureAtlas.AtlasRegion moneyIcon;
   public final TextureAtlas.AtlasRegion repairIcon;
   public final TextureAtlas.AtlasRegion sloMoChargeIcon;
+  private final EngineItem.Configs myEngineConfigs;
 
   public ItemMan(TexMan texMan, SoundMan soundMan) {
     moneyIcon = texMan.getTex(TexMan.ICONS_DIR + "money", null);
@@ -27,10 +28,10 @@ public class ItemMan {
 
     myM = new HashMap<String, SolItem>();
     projConfigs = new ProjectileConfigs(texMan, soundMan);
+    myEngineConfigs = EngineItem.Configs.load(soundMan, texMan);
 
     Shield.Config.loadConfigs(this, soundMan, texMan);
     Armor.Config.loadConfigs(this, soundMan, texMan);
-    EngineItem.Config.loadConfigs(this, soundMan, texMan);
 
     ClipConfig.load(this, texMan);
     GunConfig.load(texMan, this, soundMan, texMan);
@@ -85,5 +86,9 @@ public class ItemMan {
       throw new AssertionError("2 item types registered for item code " + itemCode + ":\n" + existing + " and " + example);
     }
     myM.put(itemCode, example);
+  }
+
+  public EngineItem.Configs getEngineConfigs() {
+    return myEngineConfigs;
   }
 }

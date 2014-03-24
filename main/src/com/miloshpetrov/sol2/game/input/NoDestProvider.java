@@ -40,6 +40,6 @@ public class NoDestProvider implements MoveDestProvider {
 
   @Override
   public Boolean shouldManeuver(boolean canShoot) {
-    return canShoot ? true : null;
+    return null;
   }
 }

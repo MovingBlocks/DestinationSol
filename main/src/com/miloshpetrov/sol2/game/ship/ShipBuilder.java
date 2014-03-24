@@ -43,7 +43,10 @@ public class ShipBuilder {
       tc = new ItemContainer();
       itemMan.fillContainer(tc, items);
     }
-    SolShip ship = build(game, pos, spd, angle, rotSpd, pilot, ic, hullConfig, hullConfig.maxLife, mount1Fixed, mount2Fixed, null, null, removeController, null, repairer, money, tc, null, null);
+    EngineItem.Config ec = hullConfig.engineConfig;
+    EngineItem ei = ec == null ? null : ec.example.copy();
+    SolShip ship = build(game, pos, spd, angle, rotSpd, pilot, ic, hullConfig, hullConfig.maxLife, mount1Fixed, mount2Fixed,
+      null, null, removeController, ei, repairer, money, tc, null, null);
     boolean g1eq = false;
     for (SolItem item : ic) {
       boolean isGun = item instanceof GunItem;

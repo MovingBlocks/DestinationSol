@@ -3,7 +3,7 @@
   player: {
     ship: {
         hull: guardie,
-        items: "bo s a e rep:1:2 sloMo:1:2",
+        items: "bo s a rep:1:2 sloMo:1:2",
 		money: 20,
 		repairer: true,
 		mountfixed1: true,
@@ -20,7 +20,7 @@
 	mountfixed2: false,
     guard: {
       hull: vanguard,
-      items: "e b:1:4 r:1:2 rl|mg sBig aBig",
+      items: "b:1:4 r:1:2 rl|mg sBig aBig",
 	  money: 50,
 	  repairer: false,
 	  mountfixed1: true,

@@ -1,10 +1,3 @@
-ENGINES:
-  engines.json:
-    effect
-    workSound
-    size should be told from hull size
-  hide engine items
-
 
 SOUND:
   ! sound for armors being hit with bullet, energy
@@ -89,6 +82,7 @@ FEATURES:
   brakes?
   dynamic AI shoot angle
   Guardian DestProvider should be able to guard not only a ship, but also Vector2 targetPos
+  ground ships should use Guardian DestProvider
   loot should be pulled more gently: just apply force
   smooth camera rotation + sometimes camera does 360 when leaving a planet
   get rid of generated white texture -- use the one of texMan
