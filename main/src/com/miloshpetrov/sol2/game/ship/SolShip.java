@@ -288,6 +288,7 @@ public class SolShip implements SolObj {
     if (pos != null && myShield != null) {
       dmg = myShield.absorb(game, dmg, pos, this);
     }
+    if (dmg <= 0) return;
     if (myArmor != null) {
       dmg *= (1 - myArmor.getPerc());
     }

@@ -8,26 +8,34 @@ import java.util.*;
 
 public class DebugHintDrawer {
   private final Map<SolObj, DebugHint> myTracedNotes;
-  private final List<DebugHint> myFreeNotes;
+  private final Map<Vector2, DebugHint> myFreeNotes;
 
   public DebugHintDrawer() {
     myTracedNotes = new HashMap<SolObj, DebugHint>();
-    myFreeNotes = new ArrayList<DebugHint>();
+    myFreeNotes = new HashMap<Vector2, DebugHint>();
   }
 
   public void add(@Nullable SolObj owner, Vector2 pos, String value) {
-    DebugHint note = myTracedNotes.get(owner);
-    if (note == null) {
-      note = new DebugHint(owner, pos);
-      if (owner != null) myTracedNotes.put(owner, note);
-      else myFreeNotes.add(note);
+    DebugHint dh;
+    if (owner == null) {
+      dh = myFreeNotes.get(pos);
+      if (dh == null) {
+        dh = new DebugHint(null, pos);
+        myFreeNotes.put(pos, dh);
+      }
+    } else {
+      dh = myTracedNotes.get(owner);
+      if (dh == null) {
+        dh = new DebugHint(owner, pos);
+        myTracedNotes.put(owner, dh);
+      }
     }
-    note.add(value);
+    dh.add(value);
   }
 
   public void update(SolGame game) {
     updateEach(game, myTracedNotes.values().iterator());
-    updateEach(game, myFreeNotes.iterator());
+    updateEach(game, myFreeNotes.values().iterator());
   }
 
   private void updateEach(SolGame game, Iterator<DebugHint> it) {
@@ -40,7 +48,7 @@ public class DebugHintDrawer {
 
   public void draw(Drawer drawer, SolGame game) {
     for (DebugHint n : myTracedNotes.values()) n.draw(drawer, game);
-    for (DebugHint n : myFreeNotes) n.draw(drawer, game);
+    for (DebugHint n : myFreeNotes.values()) n.draw(drawer, game);
   }
 
 }

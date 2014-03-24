@@ -1,6 +1,5 @@
 
 SOUND:
-  fix notes
   ship explosion sound
   force field work sound
   journey in and out, working
