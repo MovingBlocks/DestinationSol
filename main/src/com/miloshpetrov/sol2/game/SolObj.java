@@ -1,7 +1,6 @@
 package com.miloshpetrov.sol2.game;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.miloshpetrov.sol2.common.Nullable;
 import com.miloshpetrov.sol2.game.dra.Dra;
@@ -21,6 +20,8 @@ public interface SolObj {
   List<Dra> getDras();
   float getAngle();
   Vector2 getSpd();
-  void handleContact(SolObj other, Contact contact, ContactImpulse impulse, boolean isA, float absImpulse, SolGame game);
+  void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse, SolGame game,
+    Vector2 collPos);
   String toDebugString();
+  Boolean isMetal();
 }

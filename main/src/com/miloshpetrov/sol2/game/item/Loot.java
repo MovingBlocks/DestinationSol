@@ -1,7 +1,8 @@
 package com.miloshpetrov.sol2.game.item;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
@@ -105,15 +106,21 @@ public class Loot implements SolObj {
   }
 
   @Override
-  public void handleContact(SolObj other, Contact contact, ContactImpulse impulse, boolean isA, float absImpulse,
-    SolGame game) {
+  public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
+    SolGame game, Vector2 collPos)
+  {
     float dmg = absImpulse / myBody.getMass() / DURABILITY;
-    receiveDmg((int) dmg, game, null, DmgType.CRASH);
+    receiveDmg((int) dmg, game, collPos, DmgType.CRASH);
   }
 
   @Override
   public String toDebugString() {
     return null;
+  }
+
+  @Override
+  public Boolean isMetal() {
+    return true;
   }
 
   public void maybePulled(Vector2 toPos, float radius) {

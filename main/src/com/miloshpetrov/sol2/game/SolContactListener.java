@@ -1,13 +1,10 @@
 package com.miloshpetrov.sol2.game;
 
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
 import com.miloshpetrov.sol2.common.SolMath;
 
 public class SolContactListener implements ContactListener {
-
   private final SolGame myGame;
 
   public SolContactListener(SolGame game) {
@@ -32,6 +29,19 @@ public class SolContactListener implements ContactListener {
     SolObj sob = ObjMan.asSolObj(contact.getFixtureB().getBody().getUserData());
     if (soa == null && sob == null) return;
 
+    float absImpulse = calcAbsImpulse(impulse);
+    Vector2 collPos = contact.getWorldManifold().getPoints()[0];
+    if (soa != null) {
+      soa.handleContact(sob, impulse, true, absImpulse, myGame, collPos);
+    }
+    if (sob != null) {
+      sob.handleContact(soa, impulse, false, absImpulse, myGame, collPos);
+    }
+    myGame.getSpecialSounds().playColl(myGame, absImpulse, soa, collPos);
+    myGame.getSpecialSounds().playColl(myGame, absImpulse, sob, collPos);
+  }
+
+  private float calcAbsImpulse(ContactImpulse impulse) {
     float absImpulse = 0;
     int pointCount = impulse.getCount();
     float[] normImpulses = impulse.getNormalImpulses();
@@ -40,7 +50,6 @@ public class SolContactListener implements ContactListener {
       normImpulse = SolMath.abs(normImpulse);
       if (absImpulse < normImpulse) absImpulse = normImpulse;
     }
-    if (soa != null) soa.handleContact(sob, contact, impulse, true, absImpulse, myGame);
-    if (sob != null) sob.handleContact(soa, contact, impulse, false, absImpulse, myGame);
+    return absImpulse;
   }
 }

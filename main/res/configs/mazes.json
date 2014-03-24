@@ -1,5 +1,6 @@
 {
   junk: {
+    isMetal: false,
     environment: {
       junkTexs: "junks/sys",
       junkDensity: 0.06,

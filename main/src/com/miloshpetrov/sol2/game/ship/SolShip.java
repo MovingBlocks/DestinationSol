@@ -2,7 +2,6 @@ package com.miloshpetrov.sol2.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
@@ -13,6 +12,7 @@ import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
 import com.miloshpetrov.sol2.game.planet.Planet;
+import com.miloshpetrov.sol2.game.sound.SolSound;
 
 import java.util.List;
 
@@ -79,16 +79,15 @@ public class SolShip implements SolObj {
   }
 
   @Override
-  public void handleContact(SolObj other, Contact contact, ContactImpulse impulse, boolean isA, float absImpulse, SolGame game) {
+  public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
+    SolGame game, Vector2 collPos)
+  {
     if (tryCollectLoot(other)) return;
     if (myHull.config.type != HullConfig.Type.STATION) {
-      Fixture f = isA ? contact.getFixtureA() : contact.getFixtureB();
+      Fixture f = null; // restore?
       float dmg = absImpulse / myHull.getBody().getMass() / myHull.config.durability;
       if (f == myHull.getBase()) dmg *= BASE_DUR_MOD;
       receiveDmg((int) dmg, game, null, DmgType.CRASH);
-      if (absImpulse >= .1f) {
-        game.getSoundMan().play(game, game.getSpecialSounds().metalColl, this.getPos(), this, absImpulse * Const.IMPULSE_TO_COLL_VOL);
-      }
     }
   }
 
@@ -98,6 +97,11 @@ public class SolShip implements SolObj {
     if (myShield == null) r = "no shield\n"; else r = myShield.getLife() + "\n";
     r += myHull.getShieldFixture().getFilterData().categoryBits;
     return r;
+  }
+
+  @Override
+  public Boolean isMetal() {
+    return true;
   }
 
   private boolean tryCollectLoot(SolObj obj) {
@@ -286,14 +290,23 @@ public class SolShip implements SolObj {
     }
     if (myArmor != null) {
       dmg *= (1 - myArmor.getPerc());
-      game.getSoundMan().play(game, myArmor.getDmgSound(dmgType), pos, null);
     }
+    playDmgSound(game, pos, dmgType);
 
     boolean wasAlive = myHull.life > 0;
     myHull.life -= dmg;
     if (wasAlive && myHull.life <= 0) {
       game.getPartMan().explode(getPos(), game, true);
       game.getPartMan().explode(getPos(), game, true);
+    }
+  }
+
+  private void playDmgSound(SolGame game, Vector2 pos, DmgType dmgType) {
+    if (myArmor != null) {
+      SolSound sound = myArmor.getDmgSound(dmgType);
+      game.getSoundMan().play(game, sound, pos, null);
+    } else {
+      game.getSpecialSounds().playDmg(game, this, pos, dmgType);
     }
   }
 
