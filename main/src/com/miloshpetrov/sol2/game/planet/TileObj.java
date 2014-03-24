@@ -84,6 +84,7 @@ public class TileObj implements SolObj {
 
   @Override
   public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
+    game.getSpecialSounds().playDmg(game, this, pos, dmgType);
   }
 
   @Override

@@ -3,6 +3,7 @@ package com.miloshpetrov.sol2.game;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.game.projectile.Projectile;
 
 public class SolContactListener implements ContactListener {
   private final SolGame myGame;
@@ -37,8 +38,8 @@ public class SolContactListener implements ContactListener {
     if (sob != null) {
       sob.handleContact(soa, impulse, false, absImpulse, myGame, collPos);
     }
-    myGame.getSpecialSounds().playColl(myGame, absImpulse, soa, collPos);
-    myGame.getSpecialSounds().playColl(myGame, absImpulse, sob, collPos);
+    if (!(sob instanceof Projectile)) myGame.getSpecialSounds().playColl(myGame, absImpulse, soa, collPos);
+    if (!(soa instanceof Projectile)) myGame.getSpecialSounds().playColl(myGame, absImpulse, sob, collPos);
   }
 
   private float calcAbsImpulse(ContactImpulse impulse) {
