@@ -9,7 +9,6 @@ import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
 import com.miloshpetrov.sol2.game.dra.DraMan;
 import com.miloshpetrov.sol2.game.planet.TileObj;
-import com.miloshpetrov.sol2.game.sound.SolSound;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +32,6 @@ public class Asteroid implements SolObj {
   private float myAngle;
   private float myLife;
   private float mySize;
-  private SolSound splitSound;
-  private SolSound impactSound;
 
 
   public Asteroid(SolGame game, TextureAtlas.AtlasRegion tex, Body body, float size, RemoveController removeController, ArrayList<Dra> dras) {
@@ -48,8 +45,6 @@ public class Asteroid implements SolObj {
     mySpd = new Vector2();
     myRadius = DraMan.radiusFromDras(myDras);
     setParamsFromBody();
-    this.splitSound = game.getSoundMan().getSound("asteroid/split",null);
-    this.impactSound = game.getSoundMan().getSound("asteroid/impact",null);
   }
 
   @Override
@@ -89,7 +84,7 @@ public class Asteroid implements SolObj {
     }
     receiveDmg(dmg, game, null, DmgType.CRASH);
     if (absImpulse >= .1f) {
-      game.getSoundMan().play(game, this.impactSound, myPos, this, absImpulse * Const.IMPULSE_TO_VOLUME);
+      game.getSoundMan().play(game, game.getSpecialSounds().rockColl, myPos, this, absImpulse * Const.IMPULSE_TO_COLL_VOL);
     }
   }
 
@@ -122,7 +117,7 @@ public class Asteroid implements SolObj {
 
   private void maybeSplit(SolGame game) {
     if (myLife > 0 || MIN_SPLIT_SZ > mySize) return;
-    game.getSoundMan().play(game, this.splitSound, myPos, this);
+    game.getSoundMan().play(game, game.getSpecialSounds().asteroidSplit, myPos, this);
     float sclSum = 0;
     while (sclSum < .7f * mySize * mySize) {
       Vector2 newPos = new Vector2();

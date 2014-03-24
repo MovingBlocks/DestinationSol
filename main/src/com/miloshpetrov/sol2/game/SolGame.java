@@ -20,6 +20,7 @@ import com.miloshpetrov.sol2.game.planet.PlanetMan;
 import com.miloshpetrov.sol2.game.screens.GameScreens;
 import com.miloshpetrov.sol2.game.ship.*;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
+import com.miloshpetrov.sol2.game.sound.SpecialSounds;
 import com.miloshpetrov.sol2.save.SaveData;
 import com.miloshpetrov.sol2.ui.DebugCollector;
 import com.miloshpetrov.sol2.ui.UiDrawer;
@@ -53,6 +54,7 @@ public class SolGame {
   private final SoundMan mySoundMan;
   private final PlayerSpawnConfig myPlayerSpawnConfig;
   private final DraDebugger myDraDebugger;
+  private final SpecialSounds mySpecialSounds;
 
   private SolShip myHero;
   private float myTimeStep;
@@ -66,6 +68,7 @@ public class SolGame {
     myTut = tut;
     Drawer drawer = new Drawer();
     mySoundMan = new SoundMan();
+    mySpecialSounds = new SpecialSounds(mySoundMan);
     myDraMan = new DraMan(drawer);
     myCam = new SolCam(drawer.r);
     myScreens = new GameScreens(drawer.r, cmp);
@@ -348,4 +351,7 @@ public class SolGame {
     return myPlayerSpawnConfig;
   }
 
+  public SpecialSounds getSpecialSounds() {
+    return mySpecialSounds;
+  }
 }

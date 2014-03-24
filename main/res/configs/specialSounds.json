@@ -1,0 +1,5 @@
+{
+  rockCollision: "asteroid/impact",
+  metalCollision: "ship/impact",
+  asteroidSplit: "asteroid/split",
+}

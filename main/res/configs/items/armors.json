@@ -1,28 +1,31 @@
 {
-	a: {
-		displayName: "Light Armor",
-		price: 30,
-		perc: 0.1,
-		descBase: "Reduces all damage by %s%%",
-		bulletDmgSound: "armors/smallHit",
-		iconDir: "icons/armor"
-	},
-	
-	aMed: {
-		displayName: "Medium Armor",
-		price: 60,
-		perc: 0.2,
-		descBase: "Reduces all damage by %s%%",
-		bulletDmgSound: "armors/medBulletD",
-		iconDir: "icons/armor"
-	},
-	
-	aBig: {
-		displayName: "Heavy Armor",
-		price: 100,
-		perc: 0.3,
-		descBase: "Reduces all damage by %s%%",
-		bulletDmgSound: "armors/bigHit",
-		iconDir: "icons/armor"
-	},
+  a: {
+    displayName: "Light Armor",
+    price: 30,
+    perc: 0.1,
+    descBase: "Reduces all damage by %s%%",
+    bulletDmgSound: "armors/smallHit",
+    energyDmgSound: "armors/smallHitEnergy",
+    iconDir: "icons/armor"
+  },
+  
+  aMed: {
+    displayName: "Medium Armor",
+    price: 60,
+    perc: 0.2,
+    descBase: "Reduces all damage by %s%%",
+    bulletDmgSound: "armors/medBulletD",
+    energyDmgSound: "armors/smallHitEnergy",
+    iconDir: "icons/armor"
+  },
+  
+  aBig: {
+    displayName: "Heavy Armor",
+    price: 100,
+    perc: 0.3,
+    descBase: "Reduces all damage by %s%%",
+    bulletDmgSound: "armors/bigHit",
+    energyDmgSound: "armors/smallHitEnergy",
+    iconDir: "icons/armor"
+  },
 }

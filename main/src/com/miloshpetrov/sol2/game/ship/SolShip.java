@@ -13,7 +13,6 @@ import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
 import com.miloshpetrov.sol2.game.planet.Planet;
-import com.miloshpetrov.sol2.game.sound.SolSound;
 
 import java.util.List;
 
@@ -40,8 +39,6 @@ public class SolShip implements SolObj {
   private float myIdleTime;
   private Armor myArmor;
 
-  private SolSound impactSound;
-
 
   public SolShip(SolGame game, Pilot pilot, ShipHull hull, RemoveController removeController, List<Dra> dras,
     ItemContainer container, ShipRepairer repairer, float money, ItemContainer tradeContainer, Shield shield,
@@ -61,8 +58,6 @@ public class SolShip implements SolObj {
     myMoney = money;
     myShield = shield;
     myArmor = armor;
-
-    this.impactSound = game.getSoundMan().getSound("ship/impact",null);
   }
 
   @Override
@@ -92,7 +87,7 @@ public class SolShip implements SolObj {
       if (f == myHull.getBase()) dmg *= BASE_DUR_MOD;
       receiveDmg((int) dmg, game, null, DmgType.CRASH);
       if (absImpulse >= .1f) {
-        game.getSoundMan().play(game, impactSound, this.getPos(), this, absImpulse * Const.IMPULSE_TO_VOLUME);
+        game.getSoundMan().play(game, game.getSpecialSounds().metalColl, this.getPos(), this, absImpulse * Const.IMPULSE_TO_COLL_VOL);
       }
     }
   }
