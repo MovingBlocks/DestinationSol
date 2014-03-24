@@ -1,10 +1,4 @@
 
-SOUND:
-  ship explosion sound
-  force field work sound
-  journey in and out, working
-  burning sound
-  
 
 PARTICLE FRAMEWORK:
   sized, multiple....
@@ -68,6 +62,9 @@ TRIVIAL:
     ???
   force beacon textures
   black filler inside planets, also lower planet tiles should have darker tint
+  force field work sound
+  star journey in and out, working
+  burning sound
 
 
 +++++++++++FROM THIS POINT, NO NEW CONTENT IS ADDED TO THE GAME
