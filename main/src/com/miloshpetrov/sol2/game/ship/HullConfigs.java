@@ -7,6 +7,8 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.game.item.EngineItem;
+import com.miloshpetrov.sol2.game.item.ItemMan;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,32 +16,39 @@ import java.util.HashMap;
 public class HullConfigs {
   private final HashMap<String,HullConfig> myConfigs;
 
-  public HullConfigs(ShipBuilder shipBuilder, TexMan texMan) {
+  public HullConfigs(ShipBuilder shipBuilder, TexMan texMan, ItemMan itemMan) {
     myConfigs = new HashMap<String, HullConfig>();
 
     JsonReader r = new JsonReader();
     FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "hulls.json");
     JsonValue parsed = r.parse(configFile);
-    for (JsonValue sh : parsed) {
-      String texName = sh.getString("texName");
-      float size = sh.getFloat("size");
-      int maxLife = sh.getInt("maxLife");
-      Vector2 e1Pos = SolMath.readV2(sh, "e1Pos");
-      Vector2 e2Pos = SolMath.readV2(sh, "e2Pos");
-      Vector2 g1Pos = SolMath.readV2(sh, "g1Pos");
-      Vector2 g2Pos = SolMath.readV2(sh, "g2Pos");
-      ArrayList<Vector2> lightSrcPoss = SolMath.readV2List(sh, "lightSrcPoss");
-      float durability = sh.getFloat("durability");
-      boolean hasBase = sh.getBoolean("hasBase");
-      ArrayList<Vector2> forceBeaconPoss = SolMath.readV2List(sh, "forceBeaconPoss");
-      ArrayList<Vector2> doorPoss = SolMath.readV2List(sh, "doorPoss");
-      HullConfig.Type type = HullConfig.Type.forName(sh.getString("type"));
+    for (JsonValue hullNode : parsed) {
+      String texName = hullNode.getString("texName");
+      float size = hullNode.getFloat("size");
+      int maxLife = hullNode.getInt("maxLife");
+      Vector2 e1Pos = SolMath.readV2(hullNode, "e1Pos");
+      Vector2 e2Pos = SolMath.readV2(hullNode, "e2Pos");
+      Vector2 g1Pos = SolMath.readV2(hullNode, "g1Pos");
+      Vector2 g2Pos = SolMath.readV2(hullNode, "g2Pos");
+      ArrayList<Vector2> lightSrcPoss = SolMath.readV2List(hullNode, "lightSrcPoss");
+      float durability = hullNode.getFloat("durability");
+      boolean hasBase = hullNode.getBoolean("hasBase");
+      ArrayList<Vector2> forceBeaconPoss = SolMath.readV2List(hullNode, "forceBeaconPoss");
+      ArrayList<Vector2> doorPoss = SolMath.readV2List(hullNode, "doorPoss");
+      HullConfig.Type type = HullConfig.Type.forName(hullNode.getString("type"));
       TextureAtlas.AtlasRegion tex = texMan.getTex("hulls/" + texName, configFile);
       TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + texName, configFile);
+      String engineStr = hullNode.getString("engine", null);
+      EngineItem.Config ec = itemMan.getEngineConfigs().get(engineStr);
+      if (ec != null) {
+        if (type == HullConfig.Type.STATION || ec.big != (type == HullConfig.Type.BIG)) {
+          throw new AssertionError("incompatible engine in hull " + hullNode.name);
+        }
+      }
       HullConfig c = new HullConfig(texName, size, maxLife, e1Pos, e2Pos, g1Pos, g2Pos, lightSrcPoss, durability,
-        hasBase, forceBeaconPoss, doorPoss, type, icon, tex);
+        hasBase, forceBeaconPoss, doorPoss, type, icon, tex, ec);
       process(c, shipBuilder);
-      myConfigs.put(sh.name, c);
+      myConfigs.put(hullNode.name, c);
     }
   }
 

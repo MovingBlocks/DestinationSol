@@ -2,6 +2,7 @@ package com.miloshpetrov.sol2.game.ship;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.miloshpetrov.sol2.game.item.EngineItem;
 
 import java.util.ArrayList;
 
@@ -22,11 +23,12 @@ public class HullConfig {
   public final TextureAtlas.AtlasRegion icon;
   public final Type type;
   public final TextureAtlas.AtlasRegion tex;
+  public final EngineItem.Config engineConfig;
 
   public HullConfig(String texName, float size, int maxLife, Vector2 e1Pos, Vector2 e2Pos, Vector2 g1Pos,
     Vector2 g2Pos, ArrayList<Vector2> lightSrcPoss,
     float durability, boolean hasBase, ArrayList<Vector2> forceBeaconPoss, ArrayList<Vector2> doorPoss,
-    Type type, TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex)
+    Type type, TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, EngineItem.Config engineConfig)
   {
     this.texName = texName;
     this.size = size;
@@ -43,6 +45,7 @@ public class HullConfig {
     this.icon = icon;
     this.type = type;
     this.tex = tex;
+    this.engineConfig = engineConfig;
   }
 
   public float getMaxIdleDist() {

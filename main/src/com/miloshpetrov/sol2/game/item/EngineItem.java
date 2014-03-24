@@ -10,6 +10,8 @@ import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.sound.SolSound;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 
+import java.util.HashMap;
+
 public class EngineItem implements SolItem {
   private final Config myConfig;
 
@@ -38,7 +40,7 @@ public class EngineItem implements SolItem {
   public boolean isBig() { return myConfig.big; }
 
   @Override
-  public SolItem copy() {
+  public EngineItem copy() {
     return new EngineItem(myConfig);
   }
 
@@ -83,24 +85,39 @@ public class EngineItem implements SolItem {
       this.example = new EngineItem(this);
     }
 
-    public static void loadConfigs(ItemMan itemMan, SoundMan soundMan, TexMan texMan) {
+    private static Config load(SoundMan soundMan, FileHandle configFile, JsonValue sh) {
+      boolean big = sh.getBoolean("big");
+      float rotAcc = big ? 100f : 515f;
+      float acc = 2f;
+      float maxRotSpd = big ? 40f : 230f;
+      String workSoundDir = sh.getString("workSound");
+      SolSound workSound = soundMan.getLoopedSound(workSoundDir, configFile);
+      // load effect here
+      return new Config(null, 0, null, rotAcc, acc, maxRotSpd, big, workSound, null);
+    }
+  }
+
+  public static class Configs {
+    private final HashMap<String, Config> myConfigs;
+
+    public Configs(HashMap<String, Config> configs) {
+      myConfigs = configs;
+    }
+
+    public static Configs load(SoundMan soundMan, TexMan texMan) {
+      HashMap<String, Config> configs = new HashMap<String, Config>();
       JsonReader r = new JsonReader();
       FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "engines.json");
       JsonValue parsed = r.parse(configFile);
       for (JsonValue sh : parsed) {
-        String displayName = sh.getString("displayName");
-        int price = sh.getInt("price");
-        String desc = sh.getString("desc");
-        float rotAcc = sh.getFloat("rotAcc");
-        float acc = sh.getFloat("acc");
-        float maxRotSpd = sh.getFloat("maxRotSpd");
-        boolean big = sh.getBoolean("big");
-        String workSoundDir = sh.getString("workSound");
-        SolSound workSound = soundMan.getLoopedSound(workSoundDir, configFile);
-        TextureAtlas.AtlasRegion icon = texMan.getTex(sh.getString("iconDir"), null);
-        Config config = new Config(displayName, price, desc, rotAcc, acc, maxRotSpd, big, workSound, icon);
-        itemMan.registerItem(sh.name(), config.example);
+        Config config = Config.load(soundMan, configFile, sh);
+        configs.put(sh.name(), config);
       }
+      return new Configs(configs);
+    }
+
+    public Config get(String name) {
+      return myConfigs.get(name);
     }
   }
 }
