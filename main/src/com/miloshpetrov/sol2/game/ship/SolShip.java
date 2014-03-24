@@ -297,8 +297,10 @@ public class SolShip implements SolObj {
     boolean wasAlive = myHull.life > 0;
     myHull.life -= dmg;
     if (wasAlive && myHull.life <= 0) {
-      game.getPartMan().explode(getPos(), game, true);
-      game.getPartMan().explode(getPos(), game, true);
+      Vector2 shipPos = getPos();
+      game.getPartMan().explode(shipPos, game, true);
+      game.getPartMan().explode(shipPos, game, true);
+      game.getSoundMan().play(game, game.getSpecialSounds().shipExplosion, shipPos, null);
     }
   }
 
