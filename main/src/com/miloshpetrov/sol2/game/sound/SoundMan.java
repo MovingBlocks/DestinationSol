@@ -92,14 +92,12 @@ public class SoundMan {
    * @param volMul multiplier for sound volume
    */
   public void play(SolGame game, SolSound sound, @Nullable Vector2 pos, @Nullable SolObj source, float volMul) {
+    if ((source == null) == (pos == null)) throw new AssertionError("pass either pos or source");
     if (sound == null) return;
     if (DebugAspects.NO_SOUND) return;
     float time = game.getTime();
 
-    if (pos == null) {
-      if (source == null) return;
-      pos = source.getPos();
-    }
+    if (pos == null) pos = source.getPos();
     if (source == null && sound.loopTime > 0) throw new AssertionError("looped sound without source object: " + sound.dir);
 
     Planet np = game.getPlanetMan().getNearestPlanet();

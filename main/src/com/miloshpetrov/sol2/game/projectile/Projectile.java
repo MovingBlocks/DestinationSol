@@ -65,14 +65,12 @@ public class Projectile implements SolObj {
   @Override
   public void update(SolGame game) {
     myBody.update(game);
-    Object obstacle = myBody.getObstacle();
+    SolObj obstacle = myBody.getObstacle();
     if (obstacle != null) {
       finish(game);
       Vector2 pos = myBody.getPos();
-      if (obstacle instanceof SolObj) {
-        ((SolObj) obstacle).receiveDmg(myDmg, game, pos, myConfig.dmgType);
-      }
-      game.getSoundMan().play(game, myConfig.collisionSound, pos, null);
+      obstacle.receiveDmg(myDmg, game, pos, myConfig.dmgType);
+      game.getSoundMan().play(game, myConfig.collisionSound, null, obstacle);
     } else {
       if (myFlameSrc != null) {
         myFlameSrc.setSpd(myBody.getSpd());
@@ -170,7 +168,7 @@ public class Projectile implements SolObj {
     return myFraction;
   }
 
-  public boolean shouldCollide(Object o) {
+  public boolean shouldCollide(SolObj o) {
     if (o instanceof SolShip) {
       return ((SolShip) o).getPilot().getFraction() != myFraction;
     }

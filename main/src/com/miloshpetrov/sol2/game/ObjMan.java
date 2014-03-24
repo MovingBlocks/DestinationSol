@@ -212,10 +212,6 @@ public class ObjMan {
     return myWorld;
   }
 
-  public static SolObj asSolObj(Object o) {
-    return o instanceof SolObj ? (SolObj)o : null;
-  }
-
   public void resetDelays() {
     for (FarObjData data : myFarObjDelays.values()) {
       data.delay = 0;

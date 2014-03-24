@@ -1,4 +1,8 @@
 
+check all receive dmg
+
+ASK:
+  landscape types?
 
 PARTICLE FRAMEWORK:
   sized, multiple....
@@ -56,6 +60,7 @@ TRADING:
 
 
 TRIVIAL:
+  better sky colors
   add colors.json where an artist could define:
     dust color
     in-game sun color
@@ -98,6 +103,7 @@ BUGS:
 
 
 PERF:
+  build everything as far
   use circles instead of polys
   far ship positions should be calculated on demand?
 

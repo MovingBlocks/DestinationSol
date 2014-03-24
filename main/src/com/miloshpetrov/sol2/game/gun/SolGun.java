@@ -43,7 +43,7 @@ public class SolGun {
     Projectile proj = new Projectile(game, bulletAngle, muzzlePos, gunSpd, fraction, myItem.config.dmg, myItem.config.projConfig);
     game.getObjMan().addObjDelayed(proj);
     myItem.ammo--;
-    game.getSoundMan().play(game, myItem.config.shootSound, muzzlePos, creator);
+    game.getSoundMan().play(game, myItem.config.shootSound, null, creator);
   }
 
   public void update(ItemContainer ic, SolGame game, float gunAngle, SolObj creator, boolean shouldShoot, Fraction fraction) {
@@ -62,7 +62,7 @@ public class SolGun {
     if (myItem.ammo <= 0 && myItem.reloadAwait <= 0) {
       if (ics != 0 || ic != null && ic.tryConsumeItem(myItem.config.clipConf.example)) {
         myItem.reloadAwait = myItem.config.maxReloadTime;
-        game.getSoundMan().play(game, myItem.config.reloadSound, muzzlePos, creator);
+        game.getSoundMan().play(game, myItem.config.reloadSound, null, creator);
       }
     } else if (myItem.reloadAwait > 0) {
       myItem.reloadAwait -= ts;

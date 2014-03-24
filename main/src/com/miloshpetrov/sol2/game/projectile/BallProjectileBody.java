@@ -14,7 +14,7 @@ public class BallProjectileBody implements ProjectileBody {
   private final Vector2 mySpd;
 
   private float myAngle;
-  private Object myObstacle;
+  private SolObj myObstacle;
 
   public BallProjectileBody(SolGame game, Vector2 pos, float angle, Projectile projectile, float physSize, Vector2 gunSpd,
     float spdLen) {
@@ -66,7 +66,7 @@ public class BallProjectileBody implements ProjectileBody {
   }
 
   @Override
-  public Object getObstacle() {
+  public SolObj getObstacle() {
     return myObstacle;
   }
 

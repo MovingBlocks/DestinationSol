@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
+import com.miloshpetrov.sol2.game.SolObj;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 import com.miloshpetrov.sol2.ui.FontSize;
 import com.miloshpetrov.sol2.ui.UiDrawer;
@@ -51,7 +52,7 @@ public class CollisionWarnDrawer {
   private class MyRayBack implements RayCastCallback {
     @Override
     public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-      Object o = fixture.getBody().getUserData();
+      SolObj o = (SolObj) fixture.getBody().getUserData();
       if (myHero == o) {
         return -1;
       }

@@ -74,7 +74,7 @@ public class FractionMan {
 
     @Override
     public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-      Object o = fixture.getBody().getUserData();
+      SolObj o = (SolObj) fixture.getBody().getUserData();
       if (o == shipFrom || o == shipTo) {
         return -1;
       }
