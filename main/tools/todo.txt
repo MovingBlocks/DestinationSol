@@ -1,22 +1,23 @@
 
+smart source finish on ship remove, asteroid remove
+projectiles should build explosion objects themselves
 
-PARTICLE FRAMEWORK:
-  sized, multiple....
-  hard-coded:
-    explosion - sized
-    energy explosion - sized
-    bullet sparks
-    ship smoke -- multiple, random place on ship
-    burning -- multiple, with smoke and reaction to gravity
-    asteroid crack dust -- sized
-    star journey
-    star ports
-    shield particle???
-  hulls.json 
-    engineEffect - sized
-  projectiles.json:
-    trailEffect
-    bodyEffect
+Special Effects, receives size, uses no ECs:
+  smoke
+  fire
+  asteroid split
+  ship explosion
+  star journey
+  star ports
+
+hulls.json
+  engineEffect
+projectiles.json:
+  trailEffect
+  bodyEffect
+  collisionEffects
+
+
 
 
 ITEMS:
