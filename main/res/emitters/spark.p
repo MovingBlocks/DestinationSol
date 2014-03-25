@@ -2,8 +2,8 @@ tralala
 - Delay -
 active: false
 - Duration - 
-lowMin: 2000.0
-lowMax: 2000.0
+lowMin: 200.0
+lowMax: 200.0
 - Count - 
 min: 0
 max: 200
@@ -19,20 +19,18 @@ scaling1: 1.0
 scaling2: 0.0
 timelineCount: 3
 timeline0: 0.0
-timeline1: 0.047945205
-timeline2: 0.048945203
+timeline1: 0.5068493
+timeline2: 0.5078493
 - Life - 
 lowMin: 0.0
 lowMax: 0.0
 highMin: 300.0
 highMax: 300.0
 relative: false
-scalingCount: 2
+scalingCount: 1
 scaling0: 1.0
-scaling1: 1.0
-timelineCount: 2
+timelineCount: 1
 timeline0: 0.0
-timeline1: 1.0
 - Life Offset - 
 active: false
 - X Offset - 
@@ -62,13 +60,13 @@ scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
 - Scale - 
-lowMin: 0.02
-lowMax: 0.02
-highMin: 0.0
-highMax: 0.0
-relative: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: 0.02
+highMax: 0.02
+relative: false
 scalingCount: 1
-scaling0: 0.0
+scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
 - Velocity - 
@@ -77,7 +75,7 @@ lowMin: 0.0
 lowMax: 0.0
 highMin: 2.0
 highMax: 4.0
-relative: true
+relative: false
 scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
@@ -88,22 +86,13 @@ lowMin: 0.0
 lowMax: 0.0
 highMin: -180.0
 highMax: 180.0
-relative: true
+relative: false
 scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
 - Rotation - 
-active: true
-lowMin: -180.0
-lowMax: 180.0
-highMin: 0.0
-highMax: 0.0
-relative: true
-scalingCount: 1
-scaling0: 0.0
-timelineCount: 1
-timeline0: 0.0
+active: false
 - Wind - 
 active: false
 - Gravity - 

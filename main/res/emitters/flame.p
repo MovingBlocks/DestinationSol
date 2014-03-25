@@ -10,8 +10,8 @@ max: 200
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 50.0
-highMax: 50.0
+highMin: 300.0
+highMax: 300.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -63,7 +63,7 @@ scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
 - Spawn Shape - 
-shape: point
+shape: square
 - Spawn Width - 
 lowMin: 0.0
 lowMax: 0.0
@@ -77,22 +77,22 @@ timeline0: 0.0
 - Spawn Height - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 0.0
-highMax: 0.0
+highMin: 1.0
+highMax: 1.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
 - Scale - 
-lowMin: 0.0
-lowMax: 0.0
+lowMin: 0.02
+lowMax: 0.02
 highMin: 0.1
 highMax: 0.1
 relative: false
 scalingCount: 2
 scaling0: 1.0
-scaling1: 0.21568628
+scaling1: 0.0
 timelineCount: 2
 timeline0: 0.0
 timeline1: 1.0
@@ -102,7 +102,7 @@ lowMin: 0.0
 lowMax: 0.0
 highMin: 2.0
 highMax: 6.0
-relative: true
+relative: false
 scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
@@ -128,7 +128,7 @@ lowMin: 0.0
 lowMax: 0.0
 highMin: 180.0
 highMax: -180.0
-relative: true
+relative: false
 scalingCount: 2
 scaling0: 0.0
 scaling1: 1.0
@@ -160,7 +160,7 @@ timeline0: 0.0
 timeline1: 1.0
 - Options - 
 attached: false
-continuous: false
+continuous: true
 aligned: false
 additive: false
 behind: false
