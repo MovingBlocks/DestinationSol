@@ -7,4 +7,12 @@
     effectFile: fire,
     tex: flame,
   },
+  shipExplosionSmoke: {
+    effectFile: explosion,
+    tex: smoke,
+  },
+  shipExplosionFire: {
+    effectFile: explInner,
+    tex: flame,
+  },
 }

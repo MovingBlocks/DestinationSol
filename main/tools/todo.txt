@@ -1,16 +1,10 @@
 
 
-Special Effects, receives size, uses no ECs:
-  ship explosion
-  asteroid split
-  star journey
-  star ports
-
 projectiles.json:
+  projectiles should build explosion objects themselves
   trailEffect
   bodyEffect
   collisionEffects
-  projectiles should build explosion objects themselves
 
 
 
@@ -53,6 +47,12 @@ TRADING:
   trading ships:
     jsons will have tradeShips
     the rest is the same as for items
+
+
+PARTICLES:
+  asteroid split
+  star journey
+  star ports
 
 
 TRIVIAL:

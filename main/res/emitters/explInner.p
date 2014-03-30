@@ -10,8 +10,8 @@ max: 400
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 800.0
-highMax: 800.0
+highMin: 3200.0
+highMax: 3200.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -71,8 +71,8 @@ timeline0: 0.0
 active: true
 lowMin: 0.0
 lowMax: 0.2
-highMin: 0.0
-highMax: 4.0
+highMin: 1.0
+highMax: 10.0
 relative: true
 scalingCount: 2
 scaling0: 1.0

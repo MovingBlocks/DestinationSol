@@ -13,9 +13,9 @@ import com.miloshpetrov.sol2.game.ship.ShipHull;
 import java.util.ArrayList;
 
 public class PartMan {
-  public static final float EXPL_LIGHT_MAX_DIST = .2f;
   public static final float EXPL_LIGHT_MAX_SZ = .4f;
   public static final float EXPL_LIGHT_MAX_FADE_TIME = .8f;
+  public static final float SZ_TO_BLINK_COUNT = 18f;
   private final TextureAtlas.AtlasRegion myShieldTex;
 
   public PartMan(TexMan texMan) {
@@ -30,14 +30,15 @@ public class PartMan {
     game.getObjMan().addObjDelayed(o);
   }
 
-  public void explode(Vector2 pos, SolGame game, boolean withSmoke) {
-    for (int i = 0; i < 3; i++) {
+  public void blinks(Vector2 pos, SolGame game, float sz) {
+    int count = (int) (SZ_TO_BLINK_COUNT * sz * sz);
+    for (int i = 0; i < count; i++) {
       Vector2 lightPos = new Vector2();
-      SolMath.fromAl(lightPos, SolMath.rnd(180), SolMath.rnd(0, EXPL_LIGHT_MAX_DIST));
+      SolMath.fromAl(lightPos, SolMath.rnd(180), SolMath.rnd(0, sz /2));
       lightPos.add(pos);
-      float sz = SolMath.rnd(.5f, 1) * EXPL_LIGHT_MAX_SZ;
+      float lightSz = SolMath.rnd(.5f, 1) * EXPL_LIGHT_MAX_SZ;
       float fadeTime = SolMath.rnd(.5f, 1) * EXPL_LIGHT_MAX_FADE_TIME;
-      LightObj light = new LightObj(game, sz, true, 1, lightPos, fadeTime);
+      LightObj light = new LightObj(game, lightSz, true, 1, lightPos, fadeTime);
       game.getObjMan().addObjDelayed(light);
     }
   }
