@@ -7,6 +7,8 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.game.SolGame;
+import com.miloshpetrov.sol2.game.particle.EffectConfig;
+import com.miloshpetrov.sol2.game.particle.EffectTypes;
 import com.miloshpetrov.sol2.game.sound.SolSound;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 
@@ -58,6 +60,10 @@ public class EngineItem implements SolItem {
     return myConfig.workSound;
   }
 
+  public EffectConfig getEffectConfig() {
+    return myConfig.effectConfig;
+  }
+
 
   public static class Config {
     public final String displayName;
@@ -70,9 +76,11 @@ public class EngineItem implements SolItem {
     public final SolSound workSound;
     public final EngineItem example;
     public final TextureAtlas.AtlasRegion icon;
+    public final EffectConfig effectConfig;
 
     private Config(String displayName, int price, String desc, float rotAcc, float acc, float maxRotSpd, boolean big,
-      SolSound workSound, TextureAtlas.AtlasRegion icon){
+      SolSound workSound, TextureAtlas.AtlasRegion icon, EffectConfig effectConfig)
+    {
       this.displayName = displayName;
       this.price = price;
       this.desc = desc;
@@ -82,18 +90,22 @@ public class EngineItem implements SolItem {
       this.big = big;
       this.workSound = workSound;
       this.icon = icon;
+      this.effectConfig = effectConfig;
       this.example = new EngineItem(this);
     }
 
-    private static Config load(SoundMan soundMan, FileHandle configFile, JsonValue sh) {
+    private static Config load(SoundMan soundMan, FileHandle configFile, JsonValue sh, EffectTypes effectTypes,
+      TexMan texMan)
+    {
       boolean big = sh.getBoolean("big");
       float rotAcc = big ? 100f : 515f;
       float acc = 2f;
       float maxRotSpd = big ? 40f : 230f;
       String workSoundDir = sh.getString("workSound");
       SolSound workSound = soundMan.getLoopedSound(workSoundDir, configFile);
-      // load effect here
-      return new Config(null, 0, null, rotAcc, acc, maxRotSpd, big, workSound, null);
+      JsonValue effectNode = sh.get("effect");
+      EffectConfig effectConfig = EffectConfig.load(effectNode, effectTypes, texMan, configFile);
+      return new Config(null, 0, null, rotAcc, acc, maxRotSpd, big, workSound, null, effectConfig);
     }
   }
 
@@ -104,13 +116,13 @@ public class EngineItem implements SolItem {
       myConfigs = configs;
     }
 
-    public static Configs load(SoundMan soundMan, TexMan texMan) {
+    public static Configs load(SoundMan soundMan, TexMan texMan, EffectTypes effectTypes) {
       HashMap<String, Config> configs = new HashMap<String, Config>();
       JsonReader r = new JsonReader();
       FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "engines.json");
       JsonValue parsed = r.parse(configFile);
       for (JsonValue sh : parsed) {
-        Config config = Config.load(soundMan, configFile, sh);
+        Config config = Config.load(soundMan, configFile, sh, effectTypes, texMan);
         configs.put(sh.name(), config);
       }
       return new Configs(configs);

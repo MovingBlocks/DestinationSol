@@ -1,5 +1,4 @@
 
-smart source finish on ship remove, asteroid remove
 projectiles should build explosion objects themselves
 
 Special Effects, receives size, uses no ECs:
@@ -10,8 +9,6 @@ Special Effects, receives size, uses no ECs:
   star journey
   star ports
 
-hulls.json
-  engineEffect
 projectiles.json:
   trailEffect
   bodyEffect
@@ -71,7 +68,7 @@ TRIVIAL:
   force field work sound
   star journey in and out, working
   burning sound
-
+  move engine effects to hull?
 
 +++++++++++FROM THIS POINT, NO NEW CONTENT IS ADDED TO THE GAME
 
@@ -90,7 +87,6 @@ TRIVIAL:
   starports should be on differernt distances from planet center, since now they overlap
   there should be only one asteroid belt per system, near the center
   mainStation should be in the center of the system
-  slower planet rotation
 
 
 BUGS:
@@ -106,6 +102,7 @@ BUGS:
 PERF:
   build everything as far
   use circles instead of polys
+  get rid of getVec, use static vectors, 3 should be enough
   far ship positions should be calculated on demand?
 
 FEATURES:
@@ -141,7 +138,6 @@ FEATURES
   explorers should avoid tough enemies
   ship traces reusable?
   save
-  better ship smoke
   make buttons size based on real screen size + test on tablets
   better collision prediction (multipoint)
   try using shaders

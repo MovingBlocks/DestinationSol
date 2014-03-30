@@ -198,6 +198,7 @@ main/res/configs/mazes.json -text
 main/res/configs/planets.json -text
 main/res/configs/playerSpawn.json -text
 main/res/configs/projectiles.json -text
+main/res/configs/specialEffects.json -text
 main/res/configs/specialSounds.json -text
 main/res/configs/systems.json -text
 main/res/emitters/explInner.p -text
@@ -354,10 +355,14 @@ main/src/com/miloshpetrov/sol2/game/maze/MazeLayout.java -text
 main/src/com/miloshpetrov/sol2/game/maze/MazeLayoutBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/maze/MazeTile.java -text
 main/src/com/miloshpetrov/sol2/game/maze/MazeTileObj.java -text
+main/src/com/miloshpetrov/sol2/game/particle/EffectConfig.java -text
+main/src/com/miloshpetrov/sol2/game/particle/EffectType.java -text
+main/src/com/miloshpetrov/sol2/game/particle/EffectTypes.java -text
 main/src/com/miloshpetrov/sol2/game/particle/LightObj.java -text
 main/src/com/miloshpetrov/sol2/game/particle/LightSrc.java -text
 main/src/com/miloshpetrov/sol2/game/particle/PartMan.java -text
 main/src/com/miloshpetrov/sol2/game/particle/ParticleSrc.java -text
+main/src/com/miloshpetrov/sol2/game/particle/SpecialEffects.java -text
 main/src/com/miloshpetrov/sol2/game/planet/DecoConfig.java -text
 main/src/com/miloshpetrov/sol2/game/planet/FarPlanetSprites.java -text
 main/src/com/miloshpetrov/sol2/game/planet/FarSky.java -text

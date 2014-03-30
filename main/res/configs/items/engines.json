@@ -1,13 +1,23 @@
 {
-	std: {
-		maxRotSpd: 230.0,
-		big: false,
-		workSound: "engines/medWork",
-	},
-	
-	big: {
-		maxRotSpd: 40.0,
-		big: true,
-		workSound: "engines/bigWork",
-	},
+  std: {
+    maxRotSpd: 230.0,
+    big: false,
+    workSound: "engines/medWork",
+    engineEffect: {
+      effectFile: flame,
+      size: 0.07,
+      tex: flame,
+    },
+  },
+  
+  big: {
+    maxRotSpd: 40.0,
+    big: true,
+    workSound: "engines/bigWork",
+    effect: {
+      effectFile: flame,
+      size: 0.35,
+      tex: flame,
+    },
+  },
 }

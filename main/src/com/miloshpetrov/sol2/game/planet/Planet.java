@@ -90,12 +90,28 @@ public class Planet {
   }
 
   @Bound
-  public Vector2 getSmokeSpd(Vector2 pos) {
-    if (getFullHeight() < myPos.dst(pos)) return null;
+  public Vector2 getAdjustedEffectSpd(Vector2 pos, Vector2 spd) {
     Vector2 r = SolMath.getVec();
-    r.set(pos);
-    r.sub(myPos);
-    SolMath.fromAl(r, r.angle(), .3f);
+    Vector2 up = SolMath.distVec(myPos, pos);
+    float dst = up.len();
+    if (dst == 0 || getFullHeight() < dst) {
+      r.set(spd);
+      SolMath.free(up);
+      return r;
+    }
+    float smokeConst = 1.5f * myGravConst;
+    if (dst < myGroundHeight) {
+      up.scl(smokeConst / dst / myGroundHeight / myGroundHeight);
+      r.set(up);
+      SolMath.free(up);
+      return r;
+    }
+    r.set(spd);
+    float spdPerc = (dst - myGroundHeight) / Const.ATM_HEIGHT;
+    r.scl(spdPerc);
+    up.scl(smokeConst / dst / dst / dst);
+    r.add(up);
+    SolMath.free(up);
     return r;
   }
 

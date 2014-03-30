@@ -50,7 +50,7 @@ public class SolShip implements SolObj {
     myHull = hull;
     myItemContainer = container;
     myTradeContainer = tradeContainer;
-    mySmokeSrc = game.getPartMan().buildSmokeSrc(game, new Vector2());
+    mySmokeSrc = game.getSpecialEffects().buildSmoke(new Vector2(), myHull.config.size * .3f);
     myDras.add(mySmokeSrc);
     myRadius = DraMan.radiusFromDras(myDras);
     mySloMoFactor = 1f;
@@ -217,16 +217,11 @@ public class SolShip implements SolObj {
   }
 
   private void updateSmokeSrc(SolGame game) {
+    if (!mySmokeSrc.isWorking()) return;
     Planet np = game.getPlanetMan().getNearestPlanet();
-    if (np != null) {
-      Vector2 smokeSpd = np.getSmokeSpd(myHull.getPos());
-      if (smokeSpd != null) {
-        mySmokeSrc.setSpd(smokeSpd);
-        SolMath.free(smokeSpd);
-        return;
-      }
-    }
-    mySmokeSrc.setSpd(myHull.getSpd());
+    Vector2 smokeSpd = np.getAdjustedEffectSpd(myHull.getPos(), myHull.getSpd());
+    mySmokeSrc.setSpd(smokeSpd);
+    SolMath.free(smokeSpd);
   }
 
   private void pullDroppedItems(SolGame game) {

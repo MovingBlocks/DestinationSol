@@ -7,6 +7,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.SolObj;
 import com.miloshpetrov.sol2.game.dra.Dra;
+import com.miloshpetrov.sol2.game.dra.DraLevel;
 import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.item.EngineItem;
 import com.miloshpetrov.sol2.game.particle.*;
@@ -25,9 +26,10 @@ public class ShipEngine {
   public ShipEngine(SolGame game, EngineItem ei, Vector2 e1RelPos, Vector2 e2RelPos) {
     myItem = ei;
     myDras = new ArrayList<Dra>();
-    myFlameSrc1 = game.getPartMan().buildFlameSrc(game, new Vector2(e1RelPos));
+    EffectConfig ec = myItem.getEffectConfig();
+    myFlameSrc1 = new ParticleSrc(ec.effectType, ec.sz, DraLevel.PART_BG_0, e1RelPos, ec.tex);
     myDras.add(myFlameSrc1);
-    myFlameSrc2 = game.getPartMan().buildFlameSrc(game, new Vector2(e2RelPos));
+    myFlameSrc2 = new ParticleSrc(ec.effectType, ec.sz, DraLevel.PART_BG_0, e2RelPos, ec.tex);
     myDras.add(myFlameSrc2);
     myLightSrc1 = new LightSrc(game, .2f, true, .7f, new Vector2(e1RelPos));
     myLightSrc1.collectDras(myDras);
