@@ -8,8 +8,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.SolMath;
-import com.miloshpetrov.sol2.game.SolGame;
-import com.miloshpetrov.sol2.game.SolObj;
+import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.ship.ShipHull;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 import com.miloshpetrov.sol2.game.sound.SolSound;
@@ -79,7 +78,8 @@ public class Shield implements SolItem {
     return myConfig.maxLife;
   }
 
-  public float absorb(SolGame game, float dmg, Vector2 pos, SolShip ship) {
+  public float absorb(SolGame game, float dmg, Vector2 pos, SolShip ship, DmgType dmgType) {
+    if (dmgType == DmgType.FIRE || dmgType == DmgType.CRASH) return dmg;
     if (dmg <= 0) return 0;
     myIdleTime = 0f;
     if (myLife > 0) {

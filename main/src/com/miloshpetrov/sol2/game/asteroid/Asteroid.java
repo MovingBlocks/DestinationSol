@@ -8,6 +8,8 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
 import com.miloshpetrov.sol2.game.dra.DraMan;
+import com.miloshpetrov.sol2.game.particle.ParticleSrc;
+import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.planet.TileObj;
 
 import java.util.ArrayList;
@@ -29,6 +31,9 @@ public class Asteroid implements SolObj {
   private final TextureAtlas.AtlasRegion myTex;
   private final RemoveController myRemoveController;
   private final float myRadius;
+  private final ParticleSrc mySmokeSrc;
+  private final ParticleSrc myFireSrc;
+
   private float myAngle;
   private float myLife;
   private float mySize;
@@ -44,6 +49,11 @@ public class Asteroid implements SolObj {
     myPos = new Vector2();
     mySpd = new Vector2();
     myRadius = DraMan.radiusFromDras(myDras);
+    List<ParticleSrc> effs = game.getSpecialEffects().buildFireSmoke(size);
+    mySmokeSrc = effs.get(0);
+    myFireSrc = effs.get(1);
+    myDras.add(mySmokeSrc);
+    myDras.add(myFireSrc);
     setParamsFromBody();
   }
 
@@ -98,7 +108,26 @@ public class Asteroid implements SolObj {
 
   @Override
   public void update(SolGame game) {
+    boolean burning = updateInAtm(game);
+    mySmokeSrc.setWorking(burning);
+    myFireSrc.setWorking(burning);
     setParamsFromBody();
+  }
+
+  private boolean updateInAtm(SolGame game) {
+    Planet np = game.getPlanetMan().getNearestPlanet();
+    float dst = np.getPos().dst(myPos);
+    if (np.getFullHeight() < dst) return false;
+    if (MIN_BURN_SZ >= mySize) return false;
+
+    float dmg = myBody.getLinearVelocity().len() * SPD_TO_ATM_DMG * game.getTimeStep();
+    receiveDmg(dmg, game, null, DmgType.FIRE);
+
+    Vector2 spd = np.getAdjustedEffectSpd(myPos, mySpd);
+    mySmokeSrc.setSpd(spd);
+    myFireSrc.setSpd(spd);
+    SolMath.free(spd);
+    return true;
   }
 
   private void setParamsFromBody() {
@@ -114,6 +143,8 @@ public class Asteroid implements SolObj {
 
   @Override
   public void onRemove(SolGame game) {
+    game.getPartMan().finish(game, mySmokeSrc, myPos);
+    game.getPartMan().finish(game, myFireSrc, myPos);
     myBody.getWorld().destroyBody(myBody);
     maybeSplit(game);
   }
@@ -157,10 +188,6 @@ public class Asteroid implements SolObj {
   public void receiveAcc(Vector2 acc, SolGame game) {
     acc.scl(myBody.getMass());
     myBody.applyForceToCenter(acc, true);
-    if (MIN_BURN_SZ < mySize) {
-      float dmg = myBody.getLinearVelocity().len() * SPD_TO_ATM_DMG * game.getTimeStep();
-      this.receiveDmg(dmg, game, null, DmgType.FIRE); //todo: fire sprite here
-    }
   }
 
   public float getLife() {

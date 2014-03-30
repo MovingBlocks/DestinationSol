@@ -20,6 +20,9 @@ public class EffectConfig {
   }
 
   public static EffectConfig load(JsonValue node, EffectTypes types, TexMan texMan, FileHandle configFile) {
+    if (node == null) {
+      throw new AssertionError("");
+    }
     String effectFileName = node.getString("effectFile");
     EffectType effectType = types.forName(effectFileName);
     float sz = node.getFloat("size", 1);

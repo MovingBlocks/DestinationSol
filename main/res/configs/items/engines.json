@@ -3,7 +3,7 @@
     maxRotSpd: 230.0,
     big: false,
     workSound: "engines/medWork",
-    engineEffect: {
+    effect: {
       effectFile: flame,
       size: 0.07,
       tex: flame,

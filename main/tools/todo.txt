@@ -1,11 +1,8 @@
 
-projectiles should build explosion objects themselves
 
 Special Effects, receives size, uses no ECs:
-  smoke
-  fire
-  asteroid split
   ship explosion
+  asteroid split
   star journey
   star ports
 
@@ -13,6 +10,7 @@ projectiles.json:
   trailEffect
   bodyEffect
   collisionEffects
+  projectiles should build explosion objects themselves
 
 
 
