@@ -5,6 +5,7 @@ import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.gun.GunConfig;
+import com.miloshpetrov.sol2.game.particle.EffectTypes;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfigs;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 
@@ -21,14 +22,14 @@ public class ItemMan {
   public final TextureAtlas.AtlasRegion sloMoChargeIcon;
   private final EngineItem.Configs myEngineConfigs;
 
-  public ItemMan(TexMan texMan, SoundMan soundMan) {
+  public ItemMan(TexMan texMan, SoundMan soundMan, EffectTypes effectTypes) {
     moneyIcon = texMan.getTex(TexMan.ICONS_DIR + "money", null);
     repairIcon = texMan.getTex(TexMan.ICONS_DIR + "repairItem", null);
     sloMoChargeIcon = texMan.getTex(TexMan.ICONS_DIR + "sloMoCharge", null);
 
     myM = new HashMap<String, SolItem>();
     projConfigs = new ProjectileConfigs(texMan, soundMan);
-    myEngineConfigs = EngineItem.Configs.load(soundMan, texMan);
+    myEngineConfigs = EngineItem.Configs.load(soundMan, texMan, effectTypes);
 
     Shield.Config.loadConfigs(this, soundMan, texMan);
     Armor.Config.loadConfigs(this, soundMan, texMan);

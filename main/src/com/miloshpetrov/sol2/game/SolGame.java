@@ -14,7 +14,7 @@ import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.input.PlayerPilot;
 import com.miloshpetrov.sol2.game.item.*;
-import com.miloshpetrov.sol2.game.particle.PartMan;
+import com.miloshpetrov.sol2.game.particle.*;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.planet.PlanetMan;
 import com.miloshpetrov.sol2.game.screens.GameScreens;
@@ -55,6 +55,8 @@ public class SolGame {
   private final PlayerSpawnConfig myPlayerSpawnConfig;
   private final DraDebugger myDraDebugger;
   private final SpecialSounds mySpecialSounds;
+  private final EffectTypes myEffectTypes;
+  private final SpecialEffects mySpecialEffects;
 
   private SolShip myHero;
   private float myTimeStep;
@@ -75,7 +77,9 @@ public class SolGame {
     myTexMan = texMan;
     myFarBgManOld = new FarBgManOld(myTexMan);
     myShipBuilder = new ShipBuilder();
-    myItemMan = new ItemMan(myTexMan, mySoundMan);
+    myEffectTypes = new EffectTypes();
+    mySpecialEffects = new SpecialEffects(myEffectTypes, myTexMan);
+    myItemMan = new ItemMan(myTexMan, mySoundMan, myEffectTypes);
     myHullConfigs = new HullConfigs(myShipBuilder, texMan, myItemMan);
     myPlanetMan = new PlanetMan(myTexMan, myHullConfigs);
     SolContactListener contactListener = new SolContactListener(this);
@@ -353,5 +357,9 @@ public class SolGame {
 
   public SpecialSounds getSpecialSounds() {
     return mySpecialSounds;
+  }
+
+  public SpecialEffects getSpecialEffects() {
+    return mySpecialEffects;
   }
 }

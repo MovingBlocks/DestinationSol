@@ -13,7 +13,7 @@ public class SystemsBuilder {
   public static final int MAZE_COUNT = SYS_COUNT * 2;
   public static final int PLANET_COUNT = 5;
   public static final float PLANET_SPD = .4f;
-  private static final float GROUND_SPD = .4f;
+  private static final float GROUND_SPD = .2f;
   private static final float MAX_MAZE_RADIUS = 35f;
   private static final float MAZE_GAP = 10f;
   private static final float BELT_HALF_WIDTH = 20f;

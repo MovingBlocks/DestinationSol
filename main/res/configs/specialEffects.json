@@ -1,0 +1,6 @@
+{
+  smoke: {
+    effectFile: smoke,
+    tex: smoke,
+  },
+}
