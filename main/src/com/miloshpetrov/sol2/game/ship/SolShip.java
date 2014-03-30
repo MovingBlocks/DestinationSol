@@ -19,15 +19,18 @@ import java.util.List;
 public class SolShip implements SolObj {
   public static final float BASE_DUR_MOD = .3f;
   public static final float PULL_DIST = 2f;
-  public static final float SMOKE_PERC = .5f;
+  public static final float SMOKE_PERC = .6f;
+  public static final float FIRE_PERC = .3f;
   private static final float SLO_MO_CHG_SPD = .03f;
   private static final int TRADE_AFTER = 3;
+  public static final float MAX_FIRE_AWAIT = 1f;
 
   private final Pilot myPilot;
   private final ItemContainer myItemContainer;
   private final ItemContainer myTradeContainer;
   private final ShipHull myHull;
   private final ParticleSrc mySmokeSrc;
+  private final ParticleSrc myFireSrc;
   private final RemoveController myRemoveController;
   private final List<Dra> myDras;
   private final float myRadius;
@@ -38,6 +41,7 @@ public class SolShip implements SolObj {
   private float mySloMoFactor;
   private float myIdleTime;
   private Armor myArmor;
+  private float myFireAwait;
 
 
   public SolShip(SolGame game, Pilot pilot, ShipHull hull, RemoveController removeController, List<Dra> dras,
@@ -50,8 +54,11 @@ public class SolShip implements SolObj {
     myHull = hull;
     myItemContainer = container;
     myTradeContainer = tradeContainer;
-    mySmokeSrc = game.getSpecialEffects().buildSmoke(new Vector2(), myHull.config.size * .3f);
+    List<ParticleSrc> effs = game.getSpecialEffects().buildFireSmoke(myHull.config.size);
+    mySmokeSrc = effs.get(0);
+    myFireSrc = effs.get(1);
     myDras.add(mySmokeSrc);
+    myDras.add(myFireSrc);
     myRadius = DraMan.radiusFromDras(myDras);
     mySloMoFactor = 1f;
     myRepairer = repairer;
@@ -87,7 +94,7 @@ public class SolShip implements SolObj {
       Fixture f = null; // restore?
       float dmg = absImpulse / myHull.getBody().getMass() / myHull.config.durability;
       if (f == myHull.getBase()) dmg *= BASE_DUR_MOD;
-      receiveDmg((int) dmg, game, null, DmgType.CRASH);
+      receiveDmg((int) dmg, game, collPos, DmgType.CRASH);
     }
   }
 
@@ -160,7 +167,7 @@ public class SolShip implements SolObj {
     myPilot.update(game, this, nearestEnemy);
     pullDroppedItems(game);
     myHull.update(game, myItemContainer, myPilot, this, nearestEnemy);
-    updateSmokeSrc(game);
+    updateFireSmokeSrc(game);
 
     updateSloMo(game);
     updateIdleTime(game);
@@ -172,7 +179,10 @@ public class SolShip implements SolObj {
       myHull.life += myRepairer.tryRepair(game, myItemContainer, myHull.life, myHull.config);
     }
 
-    mySmokeSrc.setWorking(myHull.life < SMOKE_PERC * myHull.config.maxLife);
+    float ts = game.getTimeStep();
+    if (myFireAwait > 0) myFireAwait -= ts;
+    mySmokeSrc.setWorking(myFireAwait > 0 || myHull.life < SMOKE_PERC * myHull.config.maxLife);
+    myFireSrc.setWorking(myFireAwait > 0 || myHull.life < FIRE_PERC * myHull.config.maxLife);
   }
 
   private void updateShield(SolGame game) {
@@ -216,12 +226,13 @@ public class SolShip implements SolObj {
     return mySloMoFactor == 1f && myItemContainer != null && myItemContainer.count(SloMoCharge.EXAMPLE) > 0;
   }
 
-  private void updateSmokeSrc(SolGame game) {
-    if (!mySmokeSrc.isWorking()) return;
+  private void updateFireSmokeSrc(SolGame game) {
+    if (!mySmokeSrc.isWorking() && !myFireSrc.isWorking()) return;
     Planet np = game.getPlanetMan().getNearestPlanet();
-    Vector2 smokeSpd = np.getAdjustedEffectSpd(myHull.getPos(), myHull.getSpd());
-    mySmokeSrc.setSpd(smokeSpd);
-    SolMath.free(smokeSpd);
+    Vector2 spd = np.getAdjustedEffectSpd(myHull.getPos(), myHull.getSpd());
+    mySmokeSrc.setSpd(spd);
+    myFireSrc.setSpd(spd);
+    SolMath.free(spd);
   }
 
   private void pullDroppedItems(SolGame game) {
@@ -246,6 +257,7 @@ public class SolShip implements SolObj {
     }
     myHull.onRemove(game);
     game.getPartMan().finish(game, mySmokeSrc, myHull.getPos());
+    game.getPartMan().finish(game, myFireSrc, myHull.getPos());
   }
 
   private void throwLoot(SolGame game) {
@@ -280,8 +292,8 @@ public class SolShip implements SolObj {
 
   @Override
   public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
-    if (pos != null && myShield != null) {
-      dmg = myShield.absorb(game, dmg, pos, this);
+    if (myShield != null) {
+      dmg = myShield.absorb(game, dmg, pos, this, dmgType);
     }
     if (dmg <= 0) return;
     if (myArmor != null) {
@@ -297,6 +309,7 @@ public class SolShip implements SolObj {
       game.getPartMan().explode(shipPos, game, true);
       game.getSoundMan().play(game, game.getSpecialSounds().shipExplosion, null, this);
     }
+    if (dmgType == DmgType.FIRE) myFireAwait = MAX_FIRE_AWAIT;
   }
 
   private void playDmgSound(SolGame game, Vector2 pos, DmgType dmgType) {

@@ -3,4 +3,8 @@
     effectFile: smoke,
     tex: smoke,
   },
+  fire: {
+    effectFile: fire,
+    tex: flame,
+  },
 }

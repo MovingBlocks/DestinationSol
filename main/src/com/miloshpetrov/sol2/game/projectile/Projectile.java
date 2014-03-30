@@ -51,7 +51,7 @@ public class Projectile implements SolObj {
     }
     myFraction = fraction;
     if (myConfig.hasFlame) {
-      myFlameSrc = game.getSpecialEffects().buildSmoke(new Vector2(), 1);
+      myFlameSrc = game.getSpecialEffects().buildFireSmoke(1).get(0);
       myFlameSrc.setWorking(true);
       myDras.add(myFlameSrc);
       myLightSrc = new LightSrc(game, .25f, true, 1f, new Vector2());
