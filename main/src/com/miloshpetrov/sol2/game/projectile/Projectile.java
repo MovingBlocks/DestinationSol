@@ -83,7 +83,7 @@ public class Projectile implements SolObj {
     myShouldRemove = true;
     Vector2 pos = myBody.getPos();
     if (myConfig.explode) {
-      game.getPartMan().explode(pos, game, myConfig.smokeOnExplosion);
+      game.getPartMan().blinks(pos, game, .4f);
     } else {
       game.getPartMan().spark(pos, game);
     }

@@ -305,8 +305,7 @@ public class SolShip implements SolObj {
     myHull.life -= dmg;
     if (wasAlive && myHull.life <= 0) {
       Vector2 shipPos = getPos();
-      game.getPartMan().explode(shipPos, game, true);
-      game.getPartMan().explode(shipPos, game, true);
+      game.getSpecialEffects().explodeShip(game, shipPos, myHull.config.size);
       game.getSoundMan().play(game, game.getSpecialSounds().shipExplosion, null, this);
     }
     if (dmgType == DmgType.FIRE) myFireAwait = MAX_FIRE_AWAIT;

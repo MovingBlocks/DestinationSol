@@ -60,7 +60,7 @@ public class ParticleSrc implements Dra {
     ParticleEmitter.SpawnShapeValue sh = myEmitter.getSpawnShape();
     if (sh.getShape() == ParticleEmitter.SpawnShape.point) {
       ParticleEmitter.ScaledNumericValue vel = myEmitter.getVelocity();
-      vel.setHighMax(vel.getHighMax() * sz);
+      vel.setHigh(vel.getHighMin() * sz, vel.getHighMax() * sz);
     } else if (sh.getShape() == ParticleEmitter.SpawnShape.ellipse) {
       mulVal(myEmitter.getSpawnWidth(), sz);
       mulVal(myEmitter.getSpawnHeight(), sz);
