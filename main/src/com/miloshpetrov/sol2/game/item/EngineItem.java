@@ -103,8 +103,7 @@ public class EngineItem implements SolItem {
       float maxRotSpd = big ? 40f : 230f;
       String workSoundDir = sh.getString("workSound");
       SolSound workSound = soundMan.getLoopedSound(workSoundDir, configFile);
-      JsonValue effectNode = sh.get("effect");
-      EffectConfig effectConfig = EffectConfig.load(effectNode, effectTypes, texMan, configFile);
+      EffectConfig effectConfig = EffectConfig.load(sh.get("effect"), effectTypes, texMan, configFile);
       return new Config(null, 0, null, rotAcc, acc, maxRotSpd, big, workSound, null, effectConfig);
     }
   }

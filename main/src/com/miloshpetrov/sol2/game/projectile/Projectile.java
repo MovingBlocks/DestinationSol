@@ -9,8 +9,7 @@ import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.*;
-import com.miloshpetrov.sol2.game.particle.LightSrc;
-import com.miloshpetrov.sol2.game.particle.ParticleSrc;
+import com.miloshpetrov.sol2.game.particle.*;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 import java.util.ArrayList;
@@ -23,7 +22,8 @@ public class Projectile implements SolObj {
   private final float myRadius;
   private final ProjectileBody myBody;
   private final Fraction myFraction;
-  private final ParticleSrc myFlameSrc;
+  private final ParticleSrc myBodyEffect;
+  private final ParticleSrc myTrailEffect;
   private final LightSrc myLightSrc;
   private final ProjectileConfig myConfig;
 
@@ -38,9 +38,9 @@ public class Projectile implements SolObj {
 
     Dra dra;
     if (myConfig.stretch) {
-      dra = new MyDra(this, myConfig.tex, myConfig.sz);
+      dra = new MyDra(this, myConfig.tex, myConfig.texSz);
     } else {
-      dra = new RectSprite(myConfig.tex, myConfig.sz, 0, 0, new Vector2(), DraLevel.PROJECTILES, 0, 0, Col.W);
+      dra = new RectSprite(myConfig.tex, myConfig.texSz, 0, 0, new Vector2(), DraLevel.PROJECTILES, 0, 0, Col.W);
     }
     myDras.add(dra);
     myRadius = myConfig.spdLen * Const.REAL_TIME_STEP;
@@ -50,16 +50,26 @@ public class Projectile implements SolObj {
       myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, myConfig.spdLen, this);
     }
     myFraction = fraction;
-    if (myConfig.hasFlame) {
-      myFlameSrc = game.getSpecialEffects().buildFireSmoke(1).get(0);
-      myFlameSrc.setWorking(true);
-      myDras.add(myFlameSrc);
-      myLightSrc = new LightSrc(game, .25f, true, 1f, new Vector2());
+    myBodyEffect = buildEffect(game, myConfig.bodyEffect, DraLevel.PART_BG_0, null);
+    myTrailEffect = buildEffect(game, myConfig.trailEffect, DraLevel.PART_BG_0, null);
+    if (myConfig.lightSz > 0) {
+      myLightSrc = new LightSrc(game, myConfig.lightSz, true, 1f, new Vector2());
       myLightSrc.collectDras(myDras);
     } else {
-      myFlameSrc = null;
       myLightSrc = null;
     }
+  }
+
+  private ParticleSrc buildEffect(SolGame game, EffectConfig ec, DraLevel draLevel, Vector2 pos) {
+    if (ec == null) return null;
+    ParticleSrc res = new ParticleSrc(ec.effectType, ec.sz, draLevel, new Vector2(), ec.tex);
+    if (res.isContinuous()) {
+      res.setWorking(true);
+      myDras.add(res);
+    } else {
+      game.getPartMan().finish(game, res, pos);
+    }
+    return res;
   }
 
   @Override
@@ -72,20 +82,18 @@ public class Projectile implements SolObj {
       obstacle.receiveDmg(myDmg, game, pos, myConfig.dmgType);
       game.getSoundMan().play(game, myConfig.collisionSound, null, obstacle);
     } else {
-      if (myFlameSrc != null) {
-        myFlameSrc.setSpd(myBody.getSpd());
-        myLightSrc.update(true, myBody.getAngle(), game);
-      }
+      if (myBodyEffect != null) myBodyEffect.setSpd(myBody.getSpd());
+      if (myLightSrc != null) myLightSrc.update(true, myBody.getAngle(), game);
     }
   }
 
   private void finish(SolGame game) {
     myShouldRemove = true;
     Vector2 pos = myBody.getPos();
-    if (myConfig.explode) {
-      game.getPartMan().blinks(pos, game, .4f);
-    } else {
-      game.getPartMan().spark(pos, game);
+    buildEffect(game, myConfig.collisionEffect1, DraLevel.PART_FG_0, pos);
+    buildEffect(game, myConfig.collisionEffect2, DraLevel.PART_FG_1, pos);
+    if (myConfig.collisionEffect2 != null) {
+      game.getPartMan().blinks(pos, game, myConfig.collisionEffect2.sz);
     }
   }
 
@@ -96,9 +104,9 @@ public class Projectile implements SolObj {
 
   @Override
   public void onRemove(SolGame game) {
-    if (myFlameSrc != null) {
-      game.getPartMan().finish(game, myFlameSrc, myBody.getPos());
-    }
+    Vector2 pos = myBody.getPos();
+    if (myBodyEffect != null) game.getPartMan().finish(game, myBodyEffect, pos);
+    if (myTrailEffect != null) game.getPartMan().finish(game, myTrailEffect, pos);
     myBody.onRemove(game);
   }
 

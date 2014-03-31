@@ -43,10 +43,6 @@ public class PartMan {
     }
   }
 
-  public void spark(Vector2 pos, SolGame game) {
-  }
-
-
   public void shieldSpark(SolGame game, Vector2 pos, ShipHull hull) {
     Vector2 hullPos = hull.getPos();
     float shieldRadius = hull.config.size * Shield.SIZE_PERC;
