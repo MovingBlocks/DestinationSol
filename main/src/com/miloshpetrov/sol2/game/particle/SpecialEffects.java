@@ -28,21 +28,21 @@ public class SpecialEffects {
     myShipExplFire = EffectConfig.load(node.get("shipExplosionFire"), effectTypes, texMan, configFile);
   }
 
-  public List<ParticleSrc> buildFireSmoke(float objSz) {
+  public List<ParticleSrc> buildFireSmoke(float objSz, SolGame game, Vector2 pos, Vector2 spd) {
     ArrayList<ParticleSrc> res = new ArrayList<ParticleSrc>();
     float sz = objSz * .3f;
-    ParticleSrc smoke = new ParticleSrc(mySmoke.effectType, sz, DraLevel.PART_FG_0, new Vector2(), mySmoke.tex);
+    ParticleSrc smoke = new ParticleSrc(mySmoke, sz, DraLevel.PART_FG_0, new Vector2(), true, game, pos, spd);
     res.add(smoke);
-    ParticleSrc fire = new ParticleSrc(myFire.effectType, sz, DraLevel.PART_FG_1, new Vector2(), myFire.tex);
+    ParticleSrc fire = new ParticleSrc(myFire, sz, DraLevel.PART_FG_1, new Vector2(), true, game, pos, spd);
     res.add(fire);
     return res;
   }
 
   public void explodeShip(SolGame game, Vector2 pos, float sz) {
     PartMan pm = game.getPartMan();
-    ParticleSrc smoke = new ParticleSrc(myShipExplSmoke.effectType, 2 * sz, DraLevel.PART_FG_0, new Vector2(), myShipExplSmoke.tex);
+    ParticleSrc smoke = new ParticleSrc(myShipExplSmoke, 2 * sz, DraLevel.PART_FG_0, new Vector2(), false, game, pos, Vector2.Zero);
     pm.finish(game, smoke, pos);
-    ParticleSrc fire = new ParticleSrc(myShipExplFire.effectType, .7f * sz, DraLevel.PART_FG_1, new Vector2(), myShipExplFire.tex);
+    ParticleSrc fire = new ParticleSrc(myShipExplFire, .7f * sz, DraLevel.PART_FG_1, new Vector2(), false, game, pos, Vector2.Zero);
     pm.finish(game, fire, pos);
     pm.blinks(pos, game, sz);
   }

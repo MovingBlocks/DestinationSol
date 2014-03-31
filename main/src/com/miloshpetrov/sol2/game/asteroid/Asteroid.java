@@ -49,12 +49,12 @@ public class Asteroid implements SolObj {
     myPos = new Vector2();
     mySpd = new Vector2();
     myRadius = DraMan.radiusFromDras(myDras);
-    List<ParticleSrc> effs = game.getSpecialEffects().buildFireSmoke(size);
+    setParamsFromBody();
+    List<ParticleSrc> effs = game.getSpecialEffects().buildFireSmoke(size, game, myPos, mySpd);
     mySmokeSrc = effs.get(0);
     myFireSrc = effs.get(1);
     myDras.add(mySmokeSrc);
     myDras.add(myFireSrc);
-    setParamsFromBody();
   }
 
   @Override
@@ -80,7 +80,7 @@ public class Asteroid implements SolObj {
 
   @Override
   public Vector2 getSpd() {
-    return myBody.getLinearVelocity();
+    return mySpd;
   }
 
   @Override
@@ -122,11 +122,6 @@ public class Asteroid implements SolObj {
 
     float dmg = myBody.getLinearVelocity().len() * SPD_TO_ATM_DMG * game.getTimeStep();
     receiveDmg(dmg, game, null, DmgType.FIRE);
-
-    Vector2 spd = np.getAdjustedEffectSpd(myPos, mySpd);
-    mySmokeSrc.setSpd(spd);
-    myFireSrc.setSpd(spd);
-    SolMath.free(spd);
     return true;
   }
 

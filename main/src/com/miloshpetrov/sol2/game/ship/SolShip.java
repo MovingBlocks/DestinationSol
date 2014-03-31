@@ -11,7 +11,6 @@ import com.miloshpetrov.sol2.game.gun.GunMount;
 import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
-import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.sound.SolSound;
 
 import java.util.List;
@@ -54,7 +53,7 @@ public class SolShip implements SolObj {
     myHull = hull;
     myItemContainer = container;
     myTradeContainer = tradeContainer;
-    List<ParticleSrc> effs = game.getSpecialEffects().buildFireSmoke(myHull.config.size);
+    List<ParticleSrc> effs = game.getSpecialEffects().buildFireSmoke(myHull.config.size, game, myHull.getPos(), myHull.getSpd());
     mySmokeSrc = effs.get(0);
     myFireSrc = effs.get(1);
     myDras.add(mySmokeSrc);
@@ -167,7 +166,6 @@ public class SolShip implements SolObj {
     myPilot.update(game, this, nearestEnemy);
     pullDroppedItems(game);
     myHull.update(game, myItemContainer, myPilot, this, nearestEnemy);
-    updateFireSmokeSrc(game);
 
     updateSloMo(game);
     updateIdleTime(game);
@@ -224,15 +222,6 @@ public class SolShip implements SolObj {
 
   public boolean canUseSpec() {
     return mySloMoFactor == 1f && myItemContainer != null && myItemContainer.count(SloMoCharge.EXAMPLE) > 0;
-  }
-
-  private void updateFireSmokeSrc(SolGame game) {
-    if (!mySmokeSrc.isWorking() && !myFireSrc.isWorking()) return;
-    Planet np = game.getPlanetMan().getNearestPlanet();
-    Vector2 spd = np.getAdjustedEffectSpd(myHull.getPos(), myHull.getSpd());
-    mySmokeSrc.setSpd(spd);
-    myFireSrc.setSpd(spd);
-    SolMath.free(spd);
   }
 
   private void pullDroppedItems(SolGame game) {

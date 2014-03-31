@@ -1,12 +1,12 @@
 
-lighterThanAir param somewhere
-
 ITEMS:
   projectiles.json:
     isGuided
     particlesPerShot
   shotgun
   bombs
+
+  bigger money items
 
   shield orbiting blips
 
@@ -25,7 +25,15 @@ ITEMS:
       teleports you around enemy, but not near planets or stations (otherwise bugs possible)
       max angle: from 15 to 180
     ??
+    sounds and effects
 
+SOUND:
+  environment sounds!
+  burning
+  force field work
+  star journey in and out, working
+  no ammo
+  projectile work sound
 
 ASK:
   landscape types?
@@ -55,9 +63,6 @@ TRIVIAL:
     ???
   force beacon textures
   black filler inside planets, also lower planet tiles should have darker tint
-  force field work sound
-  star journey in and out, working
-  burning sound
   move engine effects to hull?
 
 +++++++++++FROM THIS POINT, NO NEW CONTENT IS ADDED TO THE GAME
