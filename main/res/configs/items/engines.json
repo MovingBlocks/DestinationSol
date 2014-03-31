@@ -6,7 +6,7 @@
     effect: {
       effectFile: flame,
       size: 0.07,
-      tex: flame,
+      tex: fire,
     },
   },
   
@@ -17,7 +17,7 @@
     effect: {
       effectFile: flame,
       size: 0.35,
-      tex: flame,
+      tex: fire,
     },
   },
 }

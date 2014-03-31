@@ -160,7 +160,7 @@ main/imgSrcs/misc/whiteTex.png -text
 main/imgSrcs/pack.json -text
 main/imgSrcs/particles/Thumbs.db -text
 main/imgSrcs/particles/bulletColl.png -text
-main/imgSrcs/particles/flame.png -text
+main/imgSrcs/particles/fire.png -text
 main/imgSrcs/particles/lightCircle.png -text
 main/imgSrcs/particles/lightHalo.png -text
 main/imgSrcs/particles/pack.json -text
@@ -200,8 +200,8 @@ main/res/configs/projectiles.json -text
 main/res/configs/specialEffects.json -text
 main/res/configs/specialSounds.json -text
 main/res/configs/systems.json -text
-main/res/emitters/explInner.p -text
-main/res/emitters/explosion.p -text
+main/res/emitters/explFire.p -text
+main/res/emitters/explSmoke.p -text
 main/res/emitters/fire.p -text
 main/res/emitters/flame.p -text
 main/res/emitters/smoke.p -text

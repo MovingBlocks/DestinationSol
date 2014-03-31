@@ -5,14 +5,14 @@
   },
   fire: {
     effectFile: fire,
-    tex: flame,
+    tex: fire,
   },
   shipExplosionSmoke: {
-    effectFile: explosion,
+    effectFile: explSmoke,
     tex: smoke,
   },
   shipExplosionFire: {
-    effectFile: explInner,
-    tex: flame,
+    effectFile: explFire,
+    tex: fire,
   },
 }
