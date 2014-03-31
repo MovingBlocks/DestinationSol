@@ -50,8 +50,8 @@ public class Projectile implements SolObj {
       myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, myConfig.spdLen, this);
     }
     myFraction = fraction;
-    myBodyEffect = buildEffect(game, myConfig.bodyEffect, DraLevel.PART_BG_0, null);
-    myTrailEffect = buildEffect(game, myConfig.trailEffect, DraLevel.PART_BG_0, null);
+    myBodyEffect = buildEffect(game, myConfig.bodyEffect, DraLevel.PART_BG_0, null, true);
+    myTrailEffect = buildEffect(game, myConfig.trailEffect, DraLevel.PART_BG_0, null, false);
     if (myConfig.lightSz > 0) {
       myLightSrc = new LightSrc(game, myConfig.lightSz, true, 1f, new Vector2());
       myLightSrc.collectDras(myDras);
@@ -60,9 +60,9 @@ public class Projectile implements SolObj {
     }
   }
 
-  private ParticleSrc buildEffect(SolGame game, EffectConfig ec, DraLevel draLevel, Vector2 pos) {
+  private ParticleSrc buildEffect(SolGame game, EffectConfig ec, DraLevel draLevel, Vector2 pos, boolean inheritsSpd) {
     if (ec == null) return null;
-    ParticleSrc res = new ParticleSrc(ec.effectType, ec.sz, draLevel, new Vector2(), ec.tex);
+    ParticleSrc res = new ParticleSrc(ec, -1, draLevel, new Vector2(), inheritsSpd, game, pos, myBody.getSpd());
     if (res.isContinuous()) {
       res.setWorking(true);
       myDras.add(res);
@@ -82,7 +82,6 @@ public class Projectile implements SolObj {
       obstacle.receiveDmg(myDmg, game, pos, myConfig.dmgType);
       game.getSoundMan().play(game, myConfig.collisionSound, null, obstacle);
     } else {
-      if (myBodyEffect != null) myBodyEffect.setSpd(myBody.getSpd());
       if (myLightSrc != null) myLightSrc.update(true, myBody.getAngle(), game);
     }
   }
@@ -90,8 +89,8 @@ public class Projectile implements SolObj {
   private void finish(SolGame game) {
     myShouldRemove = true;
     Vector2 pos = myBody.getPos();
-    buildEffect(game, myConfig.collisionEffect1, DraLevel.PART_FG_0, pos);
-    buildEffect(game, myConfig.collisionEffect2, DraLevel.PART_FG_1, pos);
+    buildEffect(game, myConfig.collisionEffect1, DraLevel.PART_FG_0, pos, false);
+    buildEffect(game, myConfig.collisionEffect2, DraLevel.PART_FG_1, pos, false);
     if (myConfig.collisionEffect2 != null) {
       game.getPartMan().blinks(pos, game, myConfig.collisionEffect2.sz);
     }

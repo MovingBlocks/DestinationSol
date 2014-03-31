@@ -2,14 +2,17 @@
   smoke: {
     effectFile: smoke,
     tex: smoke,
+    floatsUp: true,
   },
   fire: {
     effectFile: fire,
     tex: fire,
+    floatsUp: true,
   },
   shipExplosionSmoke: {
     effectFile: explSmoke,
     tex: smoke,
+    floatsUp: true,
   },
   shipExplosionFire: {
     effectFile: explFire,

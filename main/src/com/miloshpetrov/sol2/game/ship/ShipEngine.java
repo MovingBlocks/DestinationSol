@@ -23,13 +23,15 @@ public class ShipEngine {
   private final EngineItem myItem;
   private final List<Dra> myDras;
 
-  public ShipEngine(SolGame game, EngineItem ei, Vector2 e1RelPos, Vector2 e2RelPos) {
+  public ShipEngine(SolGame game, EngineItem ei, Vector2 e1RelPos, Vector2 e2RelPos, SolShip ship) {
     myItem = ei;
     myDras = new ArrayList<Dra>();
     EffectConfig ec = myItem.getEffectConfig();
-    myFlameSrc1 = new ParticleSrc(ec.effectType, ec.sz, DraLevel.PART_BG_0, e1RelPos, ec.tex);
+    Vector2 shipPos = ship.getPos();
+    Vector2 shipSpd = ship.getSpd();
+    myFlameSrc1 = new ParticleSrc(ec, -1, DraLevel.PART_BG_0, e1RelPos, true, game, shipPos, shipSpd);
     myDras.add(myFlameSrc1);
-    myFlameSrc2 = new ParticleSrc(ec.effectType, ec.sz, DraLevel.PART_BG_0, e2RelPos, ec.tex);
+    myFlameSrc2 = new ParticleSrc(ec, -1, DraLevel.PART_BG_0, e2RelPos, true, game, shipPos, shipSpd);
     myDras.add(myFlameSrc2);
     myLightSrc1 = new LightSrc(game, .2f, true, .7f, new Vector2(e1RelPos));
     myLightSrc1.collectDras(myDras);
@@ -44,8 +46,6 @@ public class ShipEngine {
   public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 spd, SolObj owner) {
     boolean working = applyInput(game, angle, provider, body, spd);
 
-    myFlameSrc1.setSpd(spd);
-    myFlameSrc2.setSpd(spd);
     myFlameSrc1.setWorking(working);
     myFlameSrc2.setWorking(working);
 

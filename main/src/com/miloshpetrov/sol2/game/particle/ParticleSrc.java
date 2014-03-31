@@ -7,6 +7,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
 import com.miloshpetrov.sol2.game.dra.DraLevel;
+import com.miloshpetrov.sol2.game.planet.Planet;
 
 public class ParticleSrc implements Dra {
   public static final float MOVING_AREA_THRESH = 1f;
@@ -17,21 +18,26 @@ public class ParticleSrc implements Dra {
   private final DraLevel myDraLevel;
   private final Vector2 myRelPos;
   private final Vector2 myOrigRelPos;
-  private final TextureAtlas.AtlasRegion myTex;
   private final float myAreaSz;
+  private final EffectConfig myConfig;
+  private final boolean myInheritsSpd;
 
   private Vector2 myPos;
   private boolean myWorking;
   private float myTimeSincePosChange;
+  private boolean myFloatedUp;
 
-  public ParticleSrc(EffectType effectType, float sz, DraLevel draLevel, Vector2 relPos, TextureAtlas.AtlasRegion tex) {
-    myEmitter = effectType.newEmitter();
+  public ParticleSrc(EffectConfig config, float sz, DraLevel draLevel, Vector2 relPos, boolean inheritsSpd,
+    SolGame game, Vector2 basePos, Vector2 baseSpd)
+  {
+    myConfig = config;
+    myEmitter = myConfig.effectType.newEmitter();
     myDraLevel = draLevel;
     myRelPos = new Vector2(relPos);
     myOrigRelPos = new Vector2(relPos);
-    myTex = tex;
     myPos = new Vector2();
 
+    if (sz < 0) sz = config.sz;
     if (sz > 0 && myEmitter.getSpawnShape().getShape() == ParticleEmitter.SpawnShape.point &&
       myEmitter.getVelocity().getHighMax() < MOVING_AREA_THRESH)
     {
@@ -40,18 +46,24 @@ public class ParticleSrc implements Dra {
       if (sz > 0) applySz(sz);
       myAreaSz = 0;
     }
-    myEmitter.setSprite(new Sprite(myTex.getTexture()));
+    myEmitter.setSprite(new Sprite(myConfig.tex.getTexture()));
 
     myOrigSpdAngle = new ParticleEmitter.ScaledNumericValue();
     transferAngle(myEmitter.getAngle(), myOrigSpdAngle, 0f);
     myOrigRot = new ParticleEmitter.ScaledNumericValue();
     transferAngle(myEmitter.getRotation(), myOrigRot, 0f);
 
-    if (!myEmitter.isContinuous()) {
-      myEmitter.start();
-    } else {
-      // this is needed because continuous effects are initially started
+    myInheritsSpd = inheritsSpd;
+    updateSpd(game, baseSpd, basePos);
+
+    if (myConfig.effectType.continuous) {
+      // making it continuous after setting initial speed
+      myEmitter.setContinuous(true);
+      // this is needed because making effect continuous starts it
       myEmitter.allowCompletion();
+      // ... and still initial speed is not applied. : (
+    } else {
+      myEmitter.start();
     }
   }
 
@@ -80,7 +92,7 @@ public class ParticleSrc implements Dra {
   }
 
   public void setWorking(boolean working) {
-    if (!myEmitter.isContinuous()) throw new AssertionError("only continuous emitters can start working");
+    if (!isContinuous()) throw new AssertionError("only continuous emitters can start working");
     if (myWorking == working) return;
     myWorking = working;
     if (myWorking) myEmitter.start();
@@ -100,7 +112,26 @@ public class ParticleSrc implements Dra {
     fixSpeedBug(ts);
     myEmitter.setPosition(myPos.x, myPos.y);
     setAngle(baseAngle);
+    updateSpd(game, o.getSpd(), o.getPos());
     myEmitter.update(ts);
+  }
+
+  private void updateSpd(SolGame game, Vector2 baseSpd, Vector2 basePos) {
+    if (isContinuous()) {
+      if (!isWorking()) return;
+    } else {
+      if (myFloatedUp) return;
+      myFloatedUp = true;
+    }
+    if (!myInheritsSpd) baseSpd = Vector2.Zero;
+    if (!myConfig.floatsUp) {
+      setSpd(baseSpd);
+      return;
+    }
+    Planet np = game.getPlanetMan().getNearestPlanet();
+    Vector2 spd = np.getAdjustedEffectSpd(basePos, baseSpd);
+    setSpd(spd);
+    SolMath.free(spd);
   }
 
   private void maybeSwitchRelPos(SolGame game) {
@@ -126,8 +157,7 @@ public class ParticleSrc implements Dra {
     }
   }
 
-  public void setSpd(Vector2 spd) {
-    if (spd == null) return;
+  private void setSpd(Vector2 spd) {
     ParticleEmitter.ScaledNumericValue w = myEmitter.getWind();
     w.setActive(true);
     w.setHigh(spd.x);
@@ -179,19 +209,23 @@ public class ParticleSrc implements Dra {
 
   @Override
   public Texture getTex0() {
-    return myTex.getTexture();
+    return myConfig.tex.getTexture();
   }
 
   @Override
   public TextureAtlas.AtlasRegion getTex() {
-    return myTex;
+    return myConfig.tex;
   }
 
   public boolean isContinuous() {
-    return myEmitter.isContinuous();
+    return myConfig.effectType.continuous;
   }
 
   public boolean isWorking() {
     return myWorking;
+  }
+
+  public boolean shouldFloatUp() {
+    return myConfig.floatsUp;
   }
 }

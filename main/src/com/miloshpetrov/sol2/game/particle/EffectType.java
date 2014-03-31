@@ -8,9 +8,12 @@ import java.io.*;
 
 public class EffectType {
   private final ParticleEmitter myEmitter;
+  public final boolean continuous;
 
   public EffectType(String fileName) {
     myEmitter = loadEmitter(fileName);
+    continuous = myEmitter.isContinuous();
+    myEmitter.setContinuous(false);
   }
 
   private static ParticleEmitter loadEmitter(final String fileName) {
