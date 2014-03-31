@@ -8,9 +8,9 @@
     dmgType: energy,
     collisionSound: "projectiles/weakBolter",
     collisionEffect1: {
-      effectFile: explInner,
+      effectFile: explFire,
       size: 0.2,
-      tex: flame,
+      tex: fire,
     },
   },
   bolterCharge: {
@@ -22,9 +22,9 @@
     dmgType: energy,
     collisionSound: "projectiles/bolter",
     collisionEffect1: {
-      effectFile: explInner,
+      effectFile: explFire,
       size: 0.3,
-      tex: flame,
+      tex: fire,
     },
   },
   bullet: {
@@ -57,17 +57,17 @@
     bodyEffect: {
       effectFile: flame,
       size: 0.15,
-      tex: flame,
+      tex: fire,
     },
     collisionEffect1: {
-      effectFile: explosion,
+      effectFile: explSmoke,
       size: 0.6,
       tex: smoke,
     },
     collisionEffect2: {
-      effectFile: explInner,
+      effectFile: explFire,
       size: 0.4,
-      tex: flame,
+      tex: fire,
     },
   },
 }
