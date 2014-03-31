@@ -20,12 +20,10 @@ public class EffectConfig {
   }
 
   public static EffectConfig load(JsonValue node, EffectTypes types, TexMan texMan, FileHandle configFile) {
-    if (node == null) {
-      throw new AssertionError("");
-    }
+    if (node == null) return null;
     String effectFileName = node.getString("effectFile");
     EffectType effectType = types.forName(effectFileName);
-    float sz = node.getFloat("size", 1);
+    float sz = node.getFloat("size", 0);
     String texName = node.getString("tex");
     TextureAtlas.AtlasRegion tex = texMan.getTex("particles/" + texName, configFile);
     return new EffectConfig(effectType, sz, tex);

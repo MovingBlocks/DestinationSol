@@ -28,7 +28,7 @@ public class ItemMan {
     sloMoChargeIcon = texMan.getTex(TexMan.ICONS_DIR + "sloMoCharge", null);
 
     myM = new HashMap<String, SolItem>();
-    projConfigs = new ProjectileConfigs(texMan, soundMan);
+    projConfigs = new ProjectileConfigs(texMan, soundMan, effectTypes);
     myEngineConfigs = EngineItem.Configs.load(soundMan, texMan, effectTypes);
 
     Shield.Config.loadConfigs(this, soundMan, texMan);

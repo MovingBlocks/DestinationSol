@@ -22,8 +22,7 @@ public class SpecialEffects {
     JsonReader r = new JsonReader();
     FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "specialEffects.json");
     JsonValue node = r.parse(configFile);
-    JsonValue smokeNode = node.get("smoke");
-    mySmoke = EffectConfig.load(smokeNode, effectTypes, texMan, configFile);
+    mySmoke = EffectConfig.load(node.get("smoke"), effectTypes, texMan, configFile);
     myFire = EffectConfig.load(node.get("fire"), effectTypes, texMan, configFile);
     myShipExplSmoke = EffectConfig.load(node.get("shipExplosionSmoke"), effectTypes, texMan, configFile);
     myShipExplFire = EffectConfig.load(node.get("shipExplosionFire"), effectTypes, texMan, configFile);
@@ -41,10 +40,10 @@ public class SpecialEffects {
 
   public void explodeShip(SolGame game, Vector2 pos, float sz) {
     PartMan pm = game.getPartMan();
-    ParticleSrc smoke = new ParticleSrc(myShipExplSmoke.effectType, sz, DraLevel.PART_FG_0, new Vector2(), myShipExplSmoke.tex);
+    ParticleSrc smoke = new ParticleSrc(myShipExplSmoke.effectType, 2 * sz, DraLevel.PART_FG_0, new Vector2(), myShipExplSmoke.tex);
     pm.finish(game, smoke, pos);
-    ParticleSrc fire = new ParticleSrc(myShipExplFire.effectType, .5f * sz, DraLevel.PART_FG_1, new Vector2(), myShipExplFire.tex);
+    ParticleSrc fire = new ParticleSrc(myShipExplFire.effectType, .7f * sz, DraLevel.PART_FG_1, new Vector2(), myShipExplFire.tex);
     pm.finish(game, fire, pos);
-    pm.blinks(pos, game, .3f * sz);
+    pm.blinks(pos, game, sz);
   }
 }

@@ -1,13 +1,6 @@
 
-
-projectiles.json:
-  projectiles should build explosion objects themselves
-  trailEffect
-  bodyEffect
-  collisionEffects
-
-
-
+rename effects and texs
+lighterThanAir param somewhere
 
 ITEMS:
   projectiles.json:

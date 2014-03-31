@@ -32,12 +32,12 @@ public class ParticleSrc implements Dra {
     myTex = tex;
     myPos = new Vector2();
 
-    if (myEmitter.getSpawnShape().getShape() == ParticleEmitter.SpawnShape.point &&
+    if (sz > 0 && myEmitter.getSpawnShape().getShape() == ParticleEmitter.SpawnShape.point &&
       myEmitter.getVelocity().getHighMax() < MOVING_AREA_THRESH)
     {
       myAreaSz = sz;
     } else {
-      applySz(sz);
+      if (sz > 0) applySz(sz);
       myAreaSz = 0;
     }
     myEmitter.setSprite(new Sprite(myTex.getTexture()));
