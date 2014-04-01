@@ -256,6 +256,10 @@
     desc: "desc",
     price: 200,
     engine: std,
+    ability: {
+      type: sloMo,
+      factor: 0.4,
+    },
   },
   corvette: {
     texName: corvette,

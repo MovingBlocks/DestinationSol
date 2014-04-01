@@ -24,11 +24,13 @@ public class HullConfig {
   public final Type type;
   public final TextureAtlas.AtlasRegion tex;
   public final EngineItem.Config engineConfig;
+  public final AbilityConfig ability;
 
   public HullConfig(String texName, float size, int maxLife, Vector2 e1Pos, Vector2 e2Pos, Vector2 g1Pos,
     Vector2 g2Pos, ArrayList<Vector2> lightSrcPoss,
     float durability, boolean hasBase, ArrayList<Vector2> forceBeaconPoss, ArrayList<Vector2> doorPoss,
-    Type type, TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, EngineItem.Config engineConfig)
+    Type type, TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, EngineItem.Config engineConfig,
+    AbilityConfig ability)
   {
     this.texName = texName;
     this.size = size;
@@ -46,6 +48,7 @@ public class HullConfig {
     this.type = type;
     this.tex = tex;
     this.engineConfig = engineConfig;
+    this.ability = ability;
   }
 
   public float getMaxIdleDist() {

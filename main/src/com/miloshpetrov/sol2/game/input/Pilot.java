@@ -13,7 +13,7 @@ public interface Pilot {
   boolean isShoot();
   boolean isShoot2();
   boolean collectsItems();
-  boolean isSpec();
+  boolean isAbility();
   Fraction getFraction();
   boolean shootsAtObstacles();
   float getDetectionDist();
@@ -22,7 +22,7 @@ public interface Pilot {
 
   public static final class Utils {
     public static boolean isIdle(Pilot p) {
-      return !(p.isUp() || p.isLeft() || p.isRight() || p.isShoot() || p.isShoot2() || p.isSpec());
+      return !(p.isUp() || p.isLeft() || p.isRight() || p.isShoot() || p.isShoot2() || p.isAbility());
     }
   }
 }

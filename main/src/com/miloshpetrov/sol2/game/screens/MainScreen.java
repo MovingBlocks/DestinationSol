@@ -10,6 +10,7 @@ import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.planet.Planet;
+import com.miloshpetrov.sol2.game.ship.ShipAbility;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 import com.miloshpetrov.sol2.ui.*;
 
@@ -30,7 +31,7 @@ public class MainScreen implements SolUiScreen {
   private final SolUiControl myShoot2Ctrl;
   private final CollisionWarnDrawer myCollisionWarnDrawer;
   private final SunWarnDrawer mySunWarnDrawer;
-  private final SolUiControl mySpecCtrl;
+  private final SolUiControl myAbilityCtrl;
   private final SolUiControl myMenuCtrl;
   public final SolUiControl mapCtrl;
   private final BorderDrawer myBorderDrawer;
@@ -69,9 +70,9 @@ public class MainScreen implements SolUiScreen {
     myShoot2Ctrl = new SolUiControl(showButtons ? btn(col1, rowN0) : null, Input.Keys.CONTROL_LEFT);
     myShoot2Ctrl.setDisplayName("Secondary");
     myControls.add(myShoot2Ctrl);
-    mySpecCtrl = new SolUiControl(showButtons ? btn(colN0, rowN1) : null, Input.Keys.SHIFT_LEFT);
-    mySpecCtrl.setDisplayName("Special");
-    myControls.add(mySpecCtrl);
+    myAbilityCtrl = new SolUiControl(showButtons ? btn(colN0, rowN1) : null, Input.Keys.SHIFT_LEFT);
+    myAbilityCtrl.setDisplayName("Special");
+    myControls.add(myAbilityCtrl);
 
 
     myMenuCtrl = new SolUiControl(rightPaneLayout.buttonRect(0), Input.Keys.ESCAPE);
@@ -153,7 +154,7 @@ public class MainScreen implements SolUiScreen {
     myShootCtrl.setEnabled(g1 != null && g1.ammo > 0);
     GunItem g2 = hero == null ? null : hero.getHull().getGunMount(true).getGun();
     myShoot2Ctrl.setEnabled(g2 != null && g2.ammo > 0);
-    mySpecCtrl.setEnabled(hero != null && hero.canUseSpec());
+    myAbilityCtrl.setEnabled(hero != null && hero.canUseAbility());
 
 
     if (mapCtrl.isJustOff()) {
@@ -249,8 +250,13 @@ public class MainScreen implements SolUiScreen {
       if (consumed) row += ICON_SZ;
       consumed = drawGunStat(uiDrawer, texMan, hero, true, col0, col1, col2, row);
       if (consumed) row += ICON_SZ;
-      int sloMoCount = hero.getItemContainer().count(SloMoCharge.EXAMPLE);
-      drawIcons(uiDrawer, col0, row, sloMoCount, itemMan.sloMoChargeIcon);
+
+      ShipAbility ability = hero.getAbility();
+      if (ability != null) {
+        SolItem example = ability.getAmmoExample();
+        int abilityAmmoCount = hero.getItemContainer().count(example);
+        drawIcons(uiDrawer, col0, row, abilityAmmoCount, example.getIcon(cmp.getGame()));
+      }
     }
   }
 
@@ -338,8 +344,8 @@ public class MainScreen implements SolUiScreen {
     return myShoot2Ctrl.isOn();
   }
 
-  public boolean isSpec() {
-    return mySpecCtrl.isOn();
+  public boolean isAbility() {
+    return myAbilityCtrl.isOn();
   }
 
 }

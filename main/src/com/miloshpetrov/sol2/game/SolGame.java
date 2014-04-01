@@ -168,7 +168,13 @@ public class SolGame {
     if (myPaused) return;
 
     myTimeStep = Const.REAL_TIME_STEP * DebugAspects.DEBUG_SLOWDOWN;
-    if (myHero != null) myTimeStep *= myHero.getSloMoFactor();
+    if (myHero != null) {
+      ShipAbility ability = myHero.getAbility();
+      if (ability instanceof SloMo) {
+        float factor = ((SloMo) ability).getFactor();
+        myTimeStep *= factor;
+      }
+    }
     myTime += myTimeStep;
 
     myPlanetMan.update(this);
