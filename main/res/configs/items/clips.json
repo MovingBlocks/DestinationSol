@@ -6,6 +6,13 @@
     descSuf: bullets,
     size: 60,
   },
+  shells: {
+    iconName: shellClip,
+    price: 30,
+    displayName: Shells,
+    descSuf: shells,
+    size: 12,
+  },
   r: {
     iconName: rocketClip,
     price: 70,

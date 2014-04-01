@@ -1,7 +1,5 @@
 
 ITEMS:
-  projectilesPerShot
-  shotgun
   bombs
 
   bigger money items
