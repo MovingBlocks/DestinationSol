@@ -7,6 +7,7 @@ import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.*;
 import com.miloshpetrov.sol2.game.item.ItemContainer;
 import com.miloshpetrov.sol2.game.particle.LightSrc;
+import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.projectile.Projectile;
 
 import java.util.ArrayList;
@@ -36,15 +37,23 @@ public class SolGun {
   }
 
   private void shoot(Vector2 gunSpd, SolGame game, float gunAngle, Vector2 muzzlePos, Fraction fraction, SolObj creator) {
-    myCurrAngleVar = SolMath.approach(myCurrAngleVar, myItem.config.maxAngleVar, myItem.config.angleVarPerShot);
+    float shootAngle = gunAngle;
+    if (myItem.config.projConfig.towardsGround) {
+      Planet np = game.getPlanetMan().getNearestPlanet();
+      Vector2 npPos = np.getPos();
+      if (muzzlePos.dst(npPos) < np.getFullHeight()) {
+        shootAngle = SolMath.angle(muzzlePos, npPos);
+      }
+    }
 
+    myCurrAngleVar = SolMath.approach(myCurrAngleVar, myItem.config.maxAngleVar, myItem.config.angleVarPerShot);
     boolean multiple = myItem.config.projectilesPerShot > 1;
     for (int i = 0; i < myItem.config.projectilesPerShot; i++) {
-      float bulletAngle = gunAngle + SolMath.rnd(myCurrAngleVar);
+      float bulletAngle = shootAngle;
+      if(myCurrAngleVar > 0) bulletAngle += SolMath.rnd(myCurrAngleVar);
       Projectile proj = new Projectile(game, bulletAngle, muzzlePos, gunSpd, fraction, myItem.config.dmg, myItem.config.projConfig, multiple);
       game.getObjMan().addObjDelayed(proj);
     }
-
     myCoolDown += myItem.config.timeBetweenShots;
     myItem.ammo--;
     game.getSoundMan().play(game, myItem.config.shootSound, null, creator);

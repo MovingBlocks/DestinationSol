@@ -20,4 +20,11 @@
     descSuf: rockets,
     size: 6,
   },
+  bombs: {
+    iconName: bombClip,
+    price: 70,
+    displayName: Bombs,
+    descSuf: bombs,
+    size: 8,
+  },
 }

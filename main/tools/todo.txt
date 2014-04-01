@@ -1,7 +1,5 @@
 
 ITEMS:
-  bombs
-
   bigger money items
 
   shield orbiting blips
