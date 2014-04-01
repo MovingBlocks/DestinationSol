@@ -18,12 +18,14 @@ public class ItemMan {
   private final ArrayList<SolItem> myL;
   public final ProjectileConfigs projConfigs;
   public final TextureAtlas.AtlasRegion moneyIcon;
+  public final TextureAtlas.AtlasRegion bigMoneyIcon;
   public final TextureAtlas.AtlasRegion repairIcon;
   public final TextureAtlas.AtlasRegion sloMoChargeIcon;
   private final EngineItem.Configs myEngineConfigs;
 
   public ItemMan(TexMan texMan, SoundMan soundMan, EffectTypes effectTypes) {
     moneyIcon = texMan.getTex(TexMan.ICONS_DIR + "money", null);
+    bigMoneyIcon = texMan.getTex(TexMan.ICONS_DIR + "bigMoney", null);
     repairIcon = texMan.getTex(TexMan.ICONS_DIR + "repairItem", null);
     sloMoChargeIcon = texMan.getTex(TexMan.ICONS_DIR + "sloMoCharge", null);
 

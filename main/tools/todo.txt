@@ -1,7 +1,5 @@
 
 ITEMS:
-  bigger money items
-
   shield orbiting blips
 
   ship unique abilities:
@@ -33,16 +31,6 @@ ASK:
   landscape types?
 
 
-TRADING:
-  jsons will have tradeItems, that would resolve in the list of items
-  ships will start with half of that items
-  ships will slowly generate new items from that list
-  ships will not generate if they already possess item (or 5 if clips)
-  trading ships:
-    jsons will have tradeShips
-    the rest is the same as for items
-
-
 PARTICLES:
   asteroid split
   star journey
@@ -50,6 +38,8 @@ PARTICLES:
 
 
 TRIVIAL:
+  there should be only one asteroid belt per system, near the center
+  mainStation should be in the center of the system
   better sky colors
   add colors.json where an artist could define:
     dust color
@@ -62,6 +52,17 @@ TRIVIAL:
 +++++++++++FROM THIS POINT, NO NEW CONTENT IS ADDED TO THE GAME
 
 
+BUGS:
+  starports should be on differernt distances from planet center, since now they overlap
+  isPlaceEmpty should consider mazes and special encounters? or should it consider every daym thing?
+  planet tiles and stations movement method creates glitches
+  bullets fly thru ships sometimes -- blame shields... needs better understanding of Box2D categories
+  bullets are too narrow on phone -- use realLineWidth() as a minimum width
+  strange shard speeds
+  multiple enemies spawn in one point on planet --   remember consumed angles on planet
+  ships somehow get inside planet -- blame the current movement method?
+
+
 FEATURES:
   brakes?
   dynamic AI shoot angle
@@ -72,27 +73,22 @@ FEATURES:
   get rid of generated white texture -- use the one of texMan
 
 
-TRIVIAL:
-  starports should be on differernt distances from planet center, since now they overlap
-  there should be only one asteroid belt per system, near the center
-  mainStation should be in the center of the system
-
-
-BUGS:
-  isPlaceEmpty should consider mazes and special encounters? or should it consider every daym thing?
-  planet tiles and stations movement method creates glitches
-  bullets fly thru ships sometimes -- blame shields... needs better understanding of Box2D categories
-  bullets are too narrow on phone -- use realLineWidth() as a minimum width
-  strange shard speeds
-  multiple enemies spawn in one point on planet --   remember consumed angles on planet
-  ships somehow get inside planet -- blame the current movement method?
-
-
 PERF:
   build everything as far
   use circles instead of polys
   get rid of getVec, use static vectors, 3 should be enough
   far ship positions should be calculated on demand?
+
+
+TRADING:
+  jsons will have tradeItems, that would resolve in the list of items
+  ships will start with half of that items
+  ships will slowly generate new items from that list
+  ships will not generate if they already possess item (or 5 if clips)
+  trading ships:
+    jsons will have tradeShips
+    the rest is the same as for items
+
 
 FEATURES:
   hardness

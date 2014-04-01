@@ -4,11 +4,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.miloshpetrov.sol2.game.SolGame;
 
 public class MoneyItem implements SolItem {
-
   public static final int AMT = 10;
-  public static final MoneyItem EXAMPLE = new MoneyItem();
+  public static final int BIG_AMT = 10 * AMT;
+  public static final MoneyItem EXAMPLE = new MoneyItem(false);
+  public static final MoneyItem BIG_EXAMPLE = new MoneyItem(true);
 
-  private MoneyItem() {
+  private final boolean myBig;
+
+  private MoneyItem(boolean big) {
+    myBig = big;
   }
 
   @Override
@@ -18,7 +22,7 @@ public class MoneyItem implements SolItem {
 
   @Override
   public float getPrice() {
-    return AMT;
+    return myBig ? BIG_AMT : AMT;
   }
 
   @Override
@@ -28,16 +32,16 @@ public class MoneyItem implements SolItem {
 
   @Override
   public SolItem copy() {
-    return new MoneyItem();
+    return new MoneyItem(myBig);
   }
 
   @Override
   public boolean isSame(SolItem item) {
-    return item instanceof MoneyItem;
+    return item instanceof MoneyItem && ((MoneyItem) item).myBig == myBig;
   }
 
   @Override
   public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-    return game.getItemMan().moneyIcon;
+    return myBig ? game.getItemMan().bigMoneyIcon : game.getItemMan().moneyIcon;
   }
 }

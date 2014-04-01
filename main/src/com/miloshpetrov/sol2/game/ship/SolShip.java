@@ -260,9 +260,17 @@ public class SolShip implements SolObj {
       if (SolMath.test(1 - dropChance)) continue;
       throwLoot0(game, item);
     }
-    for (int i = 0; i < myMoney; i += MoneyItem.AMT) {
-      if (SolMath.test(.5f)) continue;
-      throwLoot0(game, MoneyItem.EXAMPLE.copy());
+    float thrMoney = myMoney * SolMath.rnd(.3f, .7f);
+    while (thrMoney > MoneyItem.AMT) {
+      MoneyItem example;
+      if (thrMoney > MoneyItem.BIG_AMT) {
+        example = MoneyItem.BIG_EXAMPLE;
+        thrMoney -= MoneyItem.BIG_AMT;
+      } else {
+        example = MoneyItem.EXAMPLE;
+        thrMoney -= MoneyItem.AMT;
+      }
+      throwLoot0(game, example.copy());
     }
   }
 
