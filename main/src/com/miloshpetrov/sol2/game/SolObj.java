@@ -24,4 +24,5 @@ public interface SolObj {
     Vector2 collPos);
   String toDebugString();
   Boolean isMetal();
+  boolean hasBody();
 }

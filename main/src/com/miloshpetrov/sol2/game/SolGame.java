@@ -302,7 +302,16 @@ public class SolGame {
 
   public boolean isPlaceEmpty(Vector2 pos) {
     Planet np = myPlanetMan.getNearestPlanet(pos);
-    return np.getFullHeight() < np.getPos().dst(pos);
+    boolean inPlanet = np.getPos().dst(pos) < np.getFullHeight();
+    if (inPlanet) return false;
+    for (SolObj o : myObjMan.getObjs()) {
+      if (!o.hasBody()) continue;
+      if (pos.dst(o.getPos()) < o.getRadius()) {
+        return false;
+      }
+    }
+    // iterate over far objects?
+    return true;
   }
 
   public MapDrawer getMapDrawer() {

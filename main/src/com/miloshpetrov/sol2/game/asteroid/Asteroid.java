@@ -107,6 +107,11 @@ public class Asteroid implements SolObj {
   }
 
   @Override
+  public boolean hasBody() {
+    return true;
+  }
+
+  @Override
   public void update(SolGame game) {
     boolean burning = updateInAtm(game);
     mySmokeSrc.setWorking(burning);

@@ -124,6 +124,11 @@ public class Loot implements SolObj {
     return true;
   }
 
+  @Override
+  public boolean hasBody() {
+    return true;
+  }
+
   public void maybePulled(Vector2 toPos, float radius) {
     Vector2 v = SolMath.getVec(toPos);
     v.sub(getPos());

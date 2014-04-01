@@ -423,6 +423,7 @@ main/src/com/miloshpetrov/sol2/game/ship/ShipHull.java -text
 main/src/com/miloshpetrov/sol2/game/ship/ShipRepairer.java -text
 main/src/com/miloshpetrov/sol2/game/ship/SloMo.java -text
 main/src/com/miloshpetrov/sol2/game/ship/SolShip.java -text
+main/src/com/miloshpetrov/sol2/game/ship/Teleport.java -text
 main/src/com/miloshpetrov/sol2/game/sound/DebugHint.java -text
 main/src/com/miloshpetrov/sol2/game/sound/DebugHintDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/sound/SolSound.java -text

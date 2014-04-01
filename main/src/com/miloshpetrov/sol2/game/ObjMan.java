@@ -89,6 +89,7 @@ public class ObjMan {
         myFarToRemove.add(fo);
       }
     }
+    addRemove(game);
   }
 
   private void addRemove(SolGame game) {

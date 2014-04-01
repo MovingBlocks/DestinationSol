@@ -191,6 +191,11 @@ public class Projectile implements SolObj {
     return null;
   }
 
+  @Override
+  public boolean hasBody() {
+    return true;
+  }
+
   public Fraction getFraction() {
     return myFraction;
   }

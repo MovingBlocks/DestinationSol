@@ -137,6 +137,11 @@ public class TileObj implements SolObj {
     return false;
   }
 
+  @Override
+  public boolean hasBody() {
+    return true;
+  }
+
   public Planet getPlanet() {
     return myPlanet;
   }

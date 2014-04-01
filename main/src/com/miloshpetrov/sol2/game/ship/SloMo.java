@@ -28,7 +28,7 @@ public class SloMo implements ShipAbility {
   }
 
   @Override
-  public boolean update(SolGame game, boolean tryToUse) {
+  public boolean update(SolGame game, SolShip owner, boolean tryToUse) {
     if (tryToUse) {
       myFactor = myMaxFactor;
       return true;

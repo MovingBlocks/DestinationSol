@@ -137,6 +137,11 @@ public class StarPort implements SolObj {
     return true;
   }
 
+  @Override
+  public boolean hasBody() {
+    return true;
+  }
+
   private void setParamsFromBody() {
     myPos.set(myBody.getPosition());
     myAngle = myBody.getAngle() * SolMath.radDeg;
@@ -369,6 +374,11 @@ public class StarPort implements SolObj {
     @Override
     public Boolean isMetal() {
       return null;
+    }
+
+    @Override
+    public boolean hasBody() {
+      return false;
     }
   }
 }
