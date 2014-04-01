@@ -1,8 +1,6 @@
 
 ITEMS:
-  projectiles.json:
-    isGuided
-    particlesPerShot
+  projectilesPerShot
   shotgun
   bombs
 

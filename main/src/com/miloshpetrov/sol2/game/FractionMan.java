@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.game.input.Pilot;
+import com.miloshpetrov.sol2.game.projectile.Projectile;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 import java.util.EnumMap;
@@ -30,14 +31,21 @@ public class FractionMan {
     float detectionDist = pilot.getDetectionDist();
     if (detectionDist <= 0) return null;
     Fraction f = pilot.getFraction();
-    Vector2 shipPos = ship.getPos();
+    return getNearestEnemy(game, detectionDist, f, ship.getPos());
+  }
+
+  public SolShip getNearestEnemy(SolGame game, Projectile proj) {
+    return getNearestEnemy(game, Float.MAX_VALUE, proj.getFraction(), proj.getPos());
+  }
+
+  private SolShip getNearestEnemy(SolGame game, float detectionDist, Fraction f, Vector2 pos) {
     SolShip res = null;
     float minDst = detectionDist;
     for (SolObj o : game.getObjMan().getObjs()) {
       if (!(o instanceof SolShip)) continue;
       SolShip ship2 = (SolShip) o;
       if (!areEnemies(f, ship2.getPilot().getFraction())) continue;
-      float dst = ship2.getPos().dst(shipPos);
+      float dst = ship2.getPos().dst(pos);
       if (minDst < dst)  continue;
       minDst = dst;
       res = ship2;
