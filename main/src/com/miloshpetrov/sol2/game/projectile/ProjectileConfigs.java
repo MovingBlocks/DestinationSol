@@ -38,8 +38,9 @@ public class ProjectileConfigs {
       EffectConfig bodyEffect = EffectConfig.load(sh.get("bodyEffect"), effectTypes, texMan, configFile);
       EffectConfig collisionEffect1 = EffectConfig.load(sh.get("collisionEffect1"), effectTypes, texMan, configFile);
       EffectConfig collisionEffect2 = EffectConfig.load(sh.get("collisionEffect2"), effectTypes, texMan, configFile);
+      boolean guided = sh.getBoolean("guided", false);
       ProjectileConfig c = new ProjectileConfig(tex, texSz, spdLen, stretch, physSize, dmgType, collisionSound,
-        lightSz, trailEffect, bodyEffect, collisionEffect1, collisionEffect2);
+        lightSz, trailEffect, bodyEffect, collisionEffect1, collisionEffect2, guided);
       myConfigs.put(sh.name, c);
     }
   }

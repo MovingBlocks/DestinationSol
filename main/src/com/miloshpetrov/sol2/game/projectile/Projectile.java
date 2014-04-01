@@ -17,6 +17,8 @@ import java.util.List;
 
 public class Projectile implements SolObj {
 
+  private static final float MIN_ANGLE_TO_GUIDE = 2f;
+  private static final float GUIDE_ROT = 90;
   private final ArrayList<Dra> myDras;
   private final float myDmg;
   private final float myRadius;
@@ -77,16 +79,31 @@ public class Projectile implements SolObj {
     myBody.update(game);
     SolObj obstacle = myBody.getObstacle();
     if (obstacle != null) {
-      finish(game);
-      Vector2 pos = myBody.getPos();
-      obstacle.receiveDmg(myDmg, game, pos, myConfig.dmgType);
-      game.getSoundMan().play(game, myConfig.collisionSound, null, obstacle);
-    } else {
-      if (myLightSrc != null) myLightSrc.update(true, myBody.getAngle(), game);
+      collided(game);
+      obstacle.receiveDmg(myDmg, game, myBody.getPos(), myConfig.dmgType);
+      return;
     }
+    if (myLightSrc != null) myLightSrc.update(true, myBody.getAngle(), game);
+    if (myConfig.guided) adjustSpd(game);
   }
 
-  private void finish(SolGame game) {
+  private void adjustSpd(SolGame game) {
+    SolShip ne = game.getFractionMan().getNearestEnemy(game, this);
+    if (ne == null) return;
+    float toEnemy = SolMath.angle(getPos(), ne.getPos());
+    Vector2 spd = getSpd();
+    float spdAngle = SolMath.angle(spd);
+    float diffAngle = SolMath.norm(toEnemy - spdAngle);
+    if (SolMath.abs(diffAngle) < MIN_ANGLE_TO_GUIDE) return;
+    float rot = game.getTimeStep() * GUIDE_ROT;
+    diffAngle = SolMath.clamp(diffAngle, -rot, rot);
+    Vector2 newSpd = SolMath.getVec(spd);
+    SolMath.rotate(newSpd, diffAngle);
+    myBody.setSpd(newSpd);
+    SolMath.free(newSpd);
+  }
+
+  private void collided(SolGame game) {
     myShouldRemove = true;
     Vector2 pos = myBody.getPos();
     buildEffect(game, myConfig.collisionEffect1, DraLevel.PART_FG_0, pos, false);
@@ -94,6 +111,7 @@ public class Projectile implements SolObj {
     if (myConfig.collisionEffect2 != null) {
       game.getPartMan().blinks(pos, game, myConfig.collisionEffect2.sz);
     }
+    game.getSoundMan().play(game, myConfig.collisionSound, null, this);
   }
 
   @Override
@@ -116,7 +134,7 @@ public class Projectile implements SolObj {
 
   @Override
   public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
-    finish(game);
+    collided(game);
   }
 
   @Override

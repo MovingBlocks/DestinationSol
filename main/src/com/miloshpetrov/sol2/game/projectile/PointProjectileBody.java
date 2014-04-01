@@ -73,6 +73,11 @@ public class PointProjectileBody implements ProjectileBody {
   {
   }
 
+  @Override
+  public void setSpd(Vector2 spd) {
+    mySpd.set(spd);
+  }
+
 
   private static class MyRayBack implements RayCastCallback {
     public final Projectile myProjectile;

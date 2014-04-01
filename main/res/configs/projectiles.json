@@ -48,7 +48,8 @@
     stretch: false,
     physSize: 0.1,
     dmgType: explosion,
-    collisionSound: "",
+    collisionSound: "explosion",
+    guided: true,
     lightSz: 0.25,
     trailEffect: {
       effectFile: smoke,

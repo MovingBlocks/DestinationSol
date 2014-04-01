@@ -19,10 +19,11 @@ public class ProjectileConfig {
   public final EffectConfig bodyEffect;
   public final EffectConfig collisionEffect1;
   public final EffectConfig collisionEffect2;
+  public final boolean guided;
 
   public ProjectileConfig(TextureAtlas.AtlasRegion tex, float texSz, float spdLen, boolean stretch,
     float physSize, DmgType dmgType, SolSound collisionSound, float lightSz, EffectConfig trailEffect,
-    EffectConfig bodyEffect, EffectConfig collisionEffect1, EffectConfig collisionEffect2)
+    EffectConfig bodyEffect, EffectConfig collisionEffect1, EffectConfig collisionEffect2, boolean guided)
   {
     this.tex = tex;
     this.texSz = texSz;
@@ -36,6 +37,7 @@ public class ProjectileConfig {
     this.bodyEffect = bodyEffect;
     this.collisionEffect1 = collisionEffect1;
     this.collisionEffect2 = collisionEffect2;
+    this.guided = guided;
   }
 
 }

@@ -85,4 +85,10 @@ public class BallProjectileBody implements ProjectileBody {
       myObstacle = other;
     }
   }
+
+  @Override
+  public void setSpd(Vector2 spd) {
+    myBody.setLinearVelocity(spd);
+    mySpd.set(spd);
+  }
 }
