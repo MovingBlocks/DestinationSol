@@ -7,6 +7,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.gun.GunConfig;
 import com.miloshpetrov.sol2.game.particle.EffectTypes;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfigs;
+import com.miloshpetrov.sol2.game.ship.SloMo;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class ItemMan {
     GunConfig.load(texMan, this, soundMan, texMan);
 
     myM.put("rep", RepairItem.EXAMPLE);
-    myM.put("sloMo", SloMoCharge.EXAMPLE);
+    myM.put("sloMo", SloMo.Ammo.EXAMPLE);
 
     myL = new ArrayList<SolItem>(myM.values());
   }

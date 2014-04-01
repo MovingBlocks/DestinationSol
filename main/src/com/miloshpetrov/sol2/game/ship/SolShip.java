@@ -20,7 +20,6 @@ public class SolShip implements SolObj {
   public static final float PULL_DIST = 2f;
   public static final float SMOKE_PERC = .6f;
   public static final float FIRE_PERC = .3f;
-  private static final float SLO_MO_CHG_SPD = .03f;
   private static final int TRADE_AFTER = 3;
   public static final float MAX_FIRE_AWAIT = 1f;
 
@@ -34,14 +33,14 @@ public class SolShip implements SolObj {
   private final List<Dra> myDras;
   private final float myRadius;
   private final ShipRepairer myRepairer;
+  private final ShipAbility myAbility;
+
   private Shield myShield;
   private float myMoney;
-
-  private float mySloMoFactor;
   private float myIdleTime;
   private Armor myArmor;
   private float myFireAwait;
-
+  private float myAbilityAwait;
 
   public SolShip(SolGame game, Pilot pilot, ShipHull hull, RemoveController removeController, List<Dra> dras,
     ItemContainer container, ShipRepairer repairer, float money, ItemContainer tradeContainer, Shield shield,
@@ -59,11 +58,12 @@ public class SolShip implements SolObj {
     myDras.add(mySmokeSrc);
     myDras.add(myFireSrc);
     myRadius = DraMan.radiusFromDras(myDras);
-    mySloMoFactor = 1f;
     myRepairer = repairer;
     myMoney = money;
     myShield = shield;
     myArmor = armor;
+    AbilityConfig ac = myHull.config.ability;
+    myAbility = ac == null ? null : ac.build();
   }
 
   @Override
@@ -167,7 +167,7 @@ public class SolShip implements SolObj {
     pullDroppedItems(game);
     myHull.update(game, myItemContainer, myPilot, this, nearestEnemy);
 
-    updateSloMo(game);
+    updateAbility(game);
     updateIdleTime(game);
     updateShield(game);
     if (myArmor != null && !myItemContainer.contains(myArmor)) myArmor = null;
@@ -181,6 +181,19 @@ public class SolShip implements SolObj {
     if (myFireAwait > 0) myFireAwait -= ts;
     mySmokeSrc.setWorking(myFireAwait > 0 || myHull.life < SMOKE_PERC * myHull.config.maxLife);
     myFireSrc.setWorking(myFireAwait > 0 || myHull.life < FIRE_PERC * myHull.config.maxLife);
+  }
+
+  private void updateAbility(SolGame game) {
+    if (myAbility == null) return;
+    if (myAbilityAwait > 0) {
+      myAbilityAwait -= game.getTimeStep();
+    }
+    boolean tryToUse = myPilot.isAbility() && canUseAbility();
+    boolean used = myAbility.update(game, tryToUse);
+    if (used) {
+      myItemContainer.tryConsumeItem(myAbility.getAmmoExample());
+      myAbilityAwait = myAbility.getRechargeTime();
+    }
   }
 
   private void updateShield(SolGame game) {
@@ -210,18 +223,11 @@ public class SolShip implements SolObj {
     }
   }
 
-  private void updateSloMo(SolGame game) {
-    float ts = game.getTimeStep();
-    if (myPilot.isSpec() && canUseSpec()) {
-      myItemContainer.tryConsumeItem(SloMoCharge.EXAMPLE);
-      mySloMoFactor = .4f;
-    } else {
-      mySloMoFactor = SolMath.approach(mySloMoFactor, 1, SLO_MO_CHG_SPD * ts);
-    }
-  }
-
-  public boolean canUseSpec() {
-    return mySloMoFactor == 1f && myItemContainer != null && myItemContainer.count(SloMoCharge.EXAMPLE) > 0;
+  public boolean canUseAbility() {
+    if (myAbility == null || myAbilityAwait > 0) return false;
+    SolItem example = myAbility.getAmmoExample();
+    if (example == null) return true;
+    return myItemContainer.count(example) > 0;
   }
 
   private void pullDroppedItems(SolGame game) {
@@ -342,10 +348,6 @@ public class SolShip implements SolObj {
     return myHull.life;
   }
 
-  public float getSloMoFactor() {
-    return mySloMoFactor;
-  }
-
   public Pilot getPilot() {
     return myPilot;
   }
@@ -452,5 +454,9 @@ public class SolShip implements SolObj {
 
   public Armor getArmor() {
     return myArmor;
+  }
+
+  public ShipAbility getAbility() {
+    return myAbility;
   }
 }

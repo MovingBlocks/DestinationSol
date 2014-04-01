@@ -71,7 +71,7 @@ FEATURES:
   loot should be pulled more gently: just apply force
   smooth camera rotation + sometimes camera does 360 when leaving a planet
   get rid of generated white texture -- use the one of texMan
-
+  enemies sholuld use abilities
 
 PERF:
   build everything as far

@@ -118,7 +118,7 @@ public class AiPilot implements Pilot {
   }
 
   @Override
-  public boolean isSpec() {
+  public boolean isAbility() {
     return false;
   }
 

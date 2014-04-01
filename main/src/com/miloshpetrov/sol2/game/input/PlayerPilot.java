@@ -50,8 +50,8 @@ public class PlayerPilot implements Pilot {
   }
 
   @Override
-  public boolean isSpec() {
-    return myScreen.isSpec();
+  public boolean isAbility() {
+    return myScreen.isAbility();
   }
 
   @Override

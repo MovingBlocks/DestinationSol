@@ -346,7 +346,6 @@ main/src/com/miloshpetrov/sol2/game/item/MoneyItem.java -text
 main/src/com/miloshpetrov/sol2/game/item/RepairItem.java -text
 main/src/com/miloshpetrov/sol2/game/item/Shield.java -text
 main/src/com/miloshpetrov/sol2/game/item/ShipItem.java -text
-main/src/com/miloshpetrov/sol2/game/item/SloMoCharge.java -text
 main/src/com/miloshpetrov/sol2/game/item/SolItem.java -text
 main/src/com/miloshpetrov/sol2/game/maze/Maze.java -text
 main/src/com/miloshpetrov/sol2/game/maze/MazeBuilder.java -text
@@ -411,15 +410,18 @@ main/src/com/miloshpetrov/sol2/game/screens/SellItems.java -text
 main/src/com/miloshpetrov/sol2/game/screens/ShowInventory.java -text
 main/src/com/miloshpetrov/sol2/game/screens/SunWarnDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/screens/TalkScreen.java -text
+main/src/com/miloshpetrov/sol2/game/ship/AbilityConfig.java -text
 main/src/com/miloshpetrov/sol2/game/ship/Door.java -text
 main/src/com/miloshpetrov/sol2/game/ship/FarShip.java -text
 main/src/com/miloshpetrov/sol2/game/ship/ForceBeacon.java -text
 main/src/com/miloshpetrov/sol2/game/ship/HullConfig.java -text
 main/src/com/miloshpetrov/sol2/game/ship/HullConfigs.java -text
+main/src/com/miloshpetrov/sol2/game/ship/ShipAbility.java -text
 main/src/com/miloshpetrov/sol2/game/ship/ShipBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/ship/ShipEngine.java -text
 main/src/com/miloshpetrov/sol2/game/ship/ShipHull.java -text
 main/src/com/miloshpetrov/sol2/game/ship/ShipRepairer.java -text
+main/src/com/miloshpetrov/sol2/game/ship/SloMo.java -text
 main/src/com/miloshpetrov/sol2/game/ship/SolShip.java -text
 main/src/com/miloshpetrov/sol2/game/sound/DebugHint.java -text
 main/src/com/miloshpetrov/sol2/game/sound/DebugHintDrawer.java -text
