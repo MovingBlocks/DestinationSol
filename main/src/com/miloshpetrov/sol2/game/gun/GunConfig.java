@@ -95,7 +95,7 @@ public class GunConfig {
       float gunLength = sh.getFloat("gunLength");
       String texName = sh.getString("texName");
       String displayName = sh.getString("displayName");
-      boolean lightOnShot = sh.getBoolean("lightOnShot");
+      boolean lightOnShot = sh.getBoolean("lightOnShot", false);
       int price = sh.getInt("price");
       String descBase = sh.getString("descBase");
       int infiniteClipSize = sh.getInt("infiniteClipSize", 0);

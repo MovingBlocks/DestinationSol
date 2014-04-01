@@ -29,7 +29,7 @@ public class ProjectileConfigs {
       float texSz = sh.getFloat("texSz");
       float spdLen = sh.getFloat("spdLen");
       float physSize = sh.getFloat("physSize");
-      boolean stretch = sh.getBoolean("stretch");
+      boolean stretch = sh.getBoolean("stretch", false);
       DmgType dmgType = DmgType.forName(sh.getString("dmgType"));
       String collisionSoundPath = sh.getString("collisionSound");
       SolSound collisionSound = soundMan.getSound(collisionSoundPath, configFile);
@@ -39,8 +39,9 @@ public class ProjectileConfigs {
       EffectConfig collisionEffect1 = EffectConfig.load(sh.get("collisionEffect1"), effectTypes, texMan, configFile);
       EffectConfig collisionEffect2 = EffectConfig.load(sh.get("collisionEffect2"), effectTypes, texMan, configFile);
       boolean guided = sh.getBoolean("guided", false);
+      boolean towardsGround = sh.getBoolean("towardsGround", false);
       ProjectileConfig c = new ProjectileConfig(tex, texSz, spdLen, stretch, physSize, dmgType, collisionSound,
-        lightSz, trailEffect, bodyEffect, collisionEffect1, collisionEffect2, guided);
+        lightSz, trailEffect, bodyEffect, collisionEffect1, collisionEffect2, guided, towardsGround);
       myConfigs.put(sh.name, c);
     }
   }
