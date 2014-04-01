@@ -32,7 +32,7 @@ public class Projectile implements SolObj {
   private boolean myShouldRemove;
 
   public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpd, Fraction fraction, float dmg,
-    ProjectileConfig config)
+    ProjectileConfig config, boolean varySpd)
   {
     myDmg = dmg;
     myDras = new ArrayList<Dra>();
@@ -45,11 +45,13 @@ public class Projectile implements SolObj {
       dra = new RectSprite(myConfig.tex, myConfig.texSz, 0, 0, new Vector2(), DraLevel.PROJECTILES, 0, 0, Col.W);
     }
     myDras.add(dra);
-    myRadius = myConfig.spdLen * Const.REAL_TIME_STEP;
+    float spdLen = myConfig.spdLen;
+    if (varySpd) spdLen *= SolMath.rnd(.9f, 1.1f);
+    myRadius = spdLen * Const.REAL_TIME_STEP;
     if (myConfig.physSize > 0) {
-      myBody = new BallProjectileBody(game, muzzlePos, angle, this, myConfig.physSize, gunSpd, myConfig.spdLen);
+      myBody = new BallProjectileBody(game, muzzlePos, angle, this, myConfig.physSize, gunSpd, spdLen);
     } else {
-      myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, myConfig.spdLen, this);
+      myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, spdLen, this);
     }
     myFraction = fraction;
     myBodyEffect = buildEffect(game, myConfig.bodyEffect, DraLevel.PART_BG_0, null, true);

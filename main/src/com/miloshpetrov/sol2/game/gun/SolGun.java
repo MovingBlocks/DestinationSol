@@ -37,11 +37,15 @@ public class SolGun {
 
   private void shoot(Vector2 gunSpd, SolGame game, float gunAngle, Vector2 muzzlePos, Fraction fraction, SolObj creator) {
     myCurrAngleVar = SolMath.approach(myCurrAngleVar, myItem.config.maxAngleVar, myItem.config.angleVarPerShot);
-    float bulletAngle = gunAngle;
-    bulletAngle += SolMath.rnd(myCurrAngleVar);
+
+    boolean multiple = myItem.config.projectilesPerShot > 1;
+    for (int i = 0; i < myItem.config.projectilesPerShot; i++) {
+      float bulletAngle = gunAngle + SolMath.rnd(myCurrAngleVar);
+      Projectile proj = new Projectile(game, bulletAngle, muzzlePos, gunSpd, fraction, myItem.config.dmg, myItem.config.projConfig, multiple);
+      game.getObjMan().addObjDelayed(proj);
+    }
+
     myCoolDown += myItem.config.timeBetweenShots;
-    Projectile proj = new Projectile(game, bulletAngle, muzzlePos, gunSpd, fraction, myItem.config.dmg, myItem.config.projConfig);
-    game.getObjMan().addObjDelayed(proj);
     myItem.ammo--;
     game.getSoundMan().play(game, myItem.config.shootSound, null, creator);
   }
