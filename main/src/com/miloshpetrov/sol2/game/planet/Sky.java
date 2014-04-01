@@ -136,4 +136,9 @@ public class Sky implements SolObj {
   public Boolean isMetal() {
     return null;
   }
+
+  @Override
+  public boolean hasBody() {
+    return false;
+  }
 }

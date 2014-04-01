@@ -1,4 +1,7 @@
 
+max angle: from 15 to 180
+
+
 ITEMS:
   shield orbiting blips
 
@@ -13,11 +16,11 @@ ITEMS:
     Force field:
       knock everything back
       amount
-    teleporter:
-      teleports you around enemy, but not near planets or stations (otherwise bugs possible)
-      max angle: from 15 to 180
-    ??
+
     sounds and effects
+    rejection sound
+    no ammo sound
+
 
 SOUND:
   environment sounds!
@@ -26,6 +29,7 @@ SOUND:
   star journey in and out, working
   no ammo
   projectile work sound
+
 
 ASK:
   landscape types?
@@ -48,6 +52,7 @@ TRIVIAL:
   force beacon textures
   black filler inside planets, also lower planet tiles should have darker tint
   move engine effects to hull?
+
 
 +++++++++++FROM THIS POINT, NO NEW CONTENT IS ADDED TO THE GAME
 
@@ -72,6 +77,7 @@ FEATURES:
   smooth camera rotation + sometimes camera does 360 when leaving a planet
   get rid of generated white texture -- use the one of texMan
   enemies sholuld use abilities
+  getNearestEnemy should consider enemy size... And many other places should negate ship sizes from dst...
 
 PERF:
   build everything as far
@@ -106,8 +112,6 @@ BG 3.0:
   create self-repetitive nebulae, always draw 4 of them
   use starChunkMan?
 
-BUGS
-
 ARCHITECTURE
   ships & farShips & starPorts make mess in MapDrawer -- unify under one interface?
   warn about unused sounds
@@ -116,6 +120,7 @@ ARCHITECTURE
   get rid of Dra.getTex0. But this would require reusing solTex used by emitters
 
 FEATURES
+  moar abilities
   damaged ship hulls in place of exploded ships
   random encounters
   planet labyrinths?

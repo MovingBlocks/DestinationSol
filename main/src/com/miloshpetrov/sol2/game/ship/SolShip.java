@@ -64,6 +64,7 @@ public class SolShip implements SolObj {
     myArmor = armor;
     AbilityConfig ac = myHull.config.ability;
     myAbility = ac == null ? null : ac.build();
+    if (myAbility != null) myAbilityAwait = myAbility.getRechargeTime();
   }
 
   @Override
@@ -107,6 +108,11 @@ public class SolShip implements SolObj {
 
   @Override
   public Boolean isMetal() {
+    return true;
+  }
+
+  @Override
+  public boolean hasBody() {
     return true;
   }
 
@@ -181,6 +187,10 @@ public class SolShip implements SolObj {
     if (myFireAwait > 0) myFireAwait -= ts;
     mySmokeSrc.setWorking(myFireAwait > 0 || myHull.life < SMOKE_PERC * myHull.config.maxLife);
     myFireSrc.setWorking(myFireAwait > 0 || myHull.life < FIRE_PERC * myHull.config.maxLife);
+
+    if (myAbility instanceof Teleport) {
+      ((Teleport) myAbility).maybeTeleport(game, this);
+    }
   }
 
   private void updateAbility(SolGame game) {
@@ -189,9 +199,10 @@ public class SolShip implements SolObj {
       myAbilityAwait -= game.getTimeStep();
     }
     boolean tryToUse = myPilot.isAbility() && canUseAbility();
-    boolean used = myAbility.update(game, tryToUse);
+    boolean used = myAbility.update(game, this, tryToUse);
     if (used) {
-      myItemContainer.tryConsumeItem(myAbility.getAmmoExample());
+      SolItem example = myAbility.getAmmoExample();
+      if (example != null) myItemContainer.tryConsumeItem(example);
       myAbilityAwait = myAbility.getRechargeTime();
     }
   }

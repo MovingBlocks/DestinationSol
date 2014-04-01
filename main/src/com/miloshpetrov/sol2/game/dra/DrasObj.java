@@ -147,6 +147,11 @@ public class DrasObj implements SolObj {
     return null;
   }
 
+  @Override
+  public boolean hasBody() {
+    return false;
+  }
+
   public void fade(float fadeTime) {
     myMaxFadeTime = fadeTime;
     myFadeTime = fadeTime;

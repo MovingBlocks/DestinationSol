@@ -50,6 +50,7 @@ public class SolCam {
     float life = 0;
 
     SolShip hero = game.getHero();
+    float ts = game.getTimeStep();
     if (hero == null) {
       StarPort.Transcendent trans = game.getTranscendentHero();
       if (trans == null) {
@@ -61,7 +62,18 @@ public class SolCam {
         myPos.set(trans.getPos());
       }
     } else {
-      myPos.set(hero.getPos());
+      Vector2 heroPos = hero.getPos();
+      if (myZoom * VIEWPORT_HEIGHT < heroPos.dst(myPos)) {
+        myPos.set(heroPos);
+      } else {
+        Vector2 moveDiff = SolMath.getVec(hero.getSpd());
+        moveDiff.scl(ts);
+        myPos.add(moveDiff);
+        SolMath.free(moveDiff);
+        float moveSpd = MOVE_SPD * ts;
+        myPos.x = SolMath.approach(myPos.x, heroPos.x, moveSpd);
+        myPos.y = SolMath.approach(myPos.y, heroPos.y, moveSpd);
+      }
       life = hero.getLife();
 
       float spd = hero.getSpd().len();
@@ -80,7 +92,7 @@ public class SolCam {
       float shakeDiff = .1f * MAX_SHAKE * (myPrevHeroLife - life);
       myShake = SolMath.approach(myShake, MAX_SHAKE, shakeDiff);
     } else {
-      myShake = SolMath.approach(myShake, 0, SHAKE_DAMP * game.getTimeStep());
+      myShake = SolMath.approach(myShake, 0, SHAKE_DAMP * ts);
     }
     myPrevHeroLife = life;
 
@@ -92,7 +104,7 @@ public class SolCam {
     myAngle = myCamRotStrategy.getRotation(myPos, game);
     applyAngle();
 
-    myZoom = SolMath.approach(myZoom, desiredZoom, ZOOM_CHG_SPD * game.getTimeStep());
+    myZoom = SolMath.approach(myZoom, desiredZoom, ZOOM_CHG_SPD * ts);
     applyZoom(game.getMapDrawer());
     myCam.update();
   }

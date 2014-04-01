@@ -112,4 +112,9 @@ public class PlanetSprites implements SolObj {
     return false;
   }
 
+  @Override
+  public boolean hasBody() {
+    return false;
+  }
+
 }

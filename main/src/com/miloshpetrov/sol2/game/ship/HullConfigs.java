@@ -58,6 +58,7 @@ public class HullConfigs {
     if (abNode == null) return null;
     String type = abNode.getString("type");
     if ("sloMo".equals(type)) return SloMo.Config.load(abNode);
+    if ("teleport".equals(type)) return Teleport.Config.load(abNode);
     return null;
   }
 

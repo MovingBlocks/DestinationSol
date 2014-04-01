@@ -105,6 +105,11 @@ public class MazeTileObj implements SolObj {
     return myTile.metal;
   }
 
+  @Override
+  public boolean hasBody() {
+    return true;
+  }
+
   private static class MyFar implements FarObj {
 
     private final MazeTile myTile;

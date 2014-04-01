@@ -69,6 +69,11 @@ public class Shard implements SolObj {
   }
 
   @Override
+  public boolean hasBody() {
+    return true;
+  }
+
+  @Override
   public void update(SolGame game) {
     setParamsFromBody();
   }

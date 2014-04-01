@@ -257,7 +257,7 @@
     price: 200,
     engine: std,
     ability: {
-      type: sloMo,
+      type: teleport,
       factor: 0.4,
     },
   },

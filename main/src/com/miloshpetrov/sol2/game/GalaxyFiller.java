@@ -147,7 +147,7 @@ public class GalaxyFiller {
       res.set(SolMath.rnd(sRadius), SolMath.rnd(sRadius)).add(sPos);
       if (game.isPlaceEmpty(res)) return res;
     }
-    throw new AssertionError("could not generate ship positoin");
+    throw new AssertionError("could not generate ship position");
   }
 
   public Vector2 getPlayerSpawnPos(SolGame game, PlayerSpawnConfig.SpawnPlace spawnPlace) {
