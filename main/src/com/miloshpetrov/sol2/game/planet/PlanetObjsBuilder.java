@@ -44,7 +44,10 @@ public class PlanetObjsBuilder {
 
   private void createEnemies(SolGame game, Planet planet) {
     ArrayList<Float> takenAngles = new ArrayList<Float>();
-    SolShip b = buildGroundBase(game, planet, takenAngles);
+
+    ShipConfig cfg = planet.getConfig().stationConfig;
+    SolShip b = buildGroundShip(game, planet, cfg, "", Fraction.LAANI, takenAngles);
+
     game.getObjMan().addObjNow(game, b);
     float gh = planet.getGroundHeight();
 
@@ -52,7 +55,7 @@ public class PlanetObjsBuilder {
     for (ShipConfig ge : config.groundEnemies) {
       int count = (int) (ge.density * gh);
       for (int i = 0; i < count; i++) {
-        SolShip e = buildGroundEnemy(game, planet, takenAngles, ge);
+        SolShip e = buildGroundShip(game, planet, ge, null, Fraction.EHAR, takenAngles);
         game.getObjMan().addObjDelayed(e);
       }
 
@@ -227,15 +230,6 @@ public class PlanetObjsBuilder {
       ss.add(s);
       SolMath.free(basePos);
     }
-  }
-
-  private SolShip buildGroundBase(SolGame game, Planet planet, ArrayList<Float> takenAngles) {
-    ShipConfig cfg = planet.getConfig().stationConfig;
-    return buildGroundShip(game, planet, cfg, "", Fraction.LAANI, takenAngles);
-  }
-
-  private SolShip buildGroundEnemy(SolGame game, Planet planet, ArrayList<Float> takenAngles, ShipConfig ge) {
-        return buildGroundShip(game, planet, ge, null, Fraction.EHAR, takenAngles);
   }
 
   public SolShip buildGroundShip(SolGame game, Planet planet, ShipConfig ge, String tc,
