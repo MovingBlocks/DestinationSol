@@ -7,7 +7,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.gun.GunConfig;
 import com.miloshpetrov.sol2.game.particle.EffectTypes;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfigs;
-import com.miloshpetrov.sol2.game.ship.SloMo;
+import com.miloshpetrov.sol2.game.ship.AbilityCharge;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 
 import java.util.ArrayList;
@@ -21,27 +21,24 @@ public class ItemMan {
   public final TextureAtlas.AtlasRegion moneyIcon;
   public final TextureAtlas.AtlasRegion bigMoneyIcon;
   public final TextureAtlas.AtlasRegion repairIcon;
-  public final TextureAtlas.AtlasRegion sloMoChargeIcon;
   private final EngineItem.Configs myEngineConfigs;
 
   public ItemMan(TexMan texMan, SoundMan soundMan, EffectTypes effectTypes) {
     moneyIcon = texMan.getTex(TexMan.ICONS_DIR + "money", null);
     bigMoneyIcon = texMan.getTex(TexMan.ICONS_DIR + "bigMoney", null);
     repairIcon = texMan.getTex(TexMan.ICONS_DIR + "repairItem", null);
-    sloMoChargeIcon = texMan.getTex(TexMan.ICONS_DIR + "sloMoCharge", null);
-
     myM = new HashMap<String, SolItem>();
     projConfigs = new ProjectileConfigs(texMan, soundMan, effectTypes);
     myEngineConfigs = EngineItem.Configs.load(soundMan, texMan, effectTypes);
 
     Shield.Config.loadConfigs(this, soundMan, texMan);
     Armor.Config.loadConfigs(this, soundMan, texMan);
+    AbilityCharge.Config.load(this, texMan);
 
     ClipConfig.load(this, texMan);
     GunConfig.load(texMan, this, soundMan, texMan);
 
     myM.put("rep", RepairItem.EXAMPLE);
-    myM.put("sloMo", SloMo.Ammo.EXAMPLE);
 
     myL = new ArrayList<SolItem>(myM.values());
   }

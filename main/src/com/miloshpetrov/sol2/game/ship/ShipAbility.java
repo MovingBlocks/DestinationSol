@@ -5,7 +5,7 @@ import com.miloshpetrov.sol2.game.item.SolItem;
 
 public interface ShipAbility {
   boolean update(SolGame game, SolShip owner, boolean tryToUse);
-  public SolItem getAmmoExample();
+  public SolItem getChargeExample();
   public float getRechargeTime();
 
 }

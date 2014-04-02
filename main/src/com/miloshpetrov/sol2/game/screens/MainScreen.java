@@ -252,10 +252,10 @@ public class MainScreen implements SolUiScreen {
       if (consumed) row += ICON_SZ;
 
       ShipAbility ability = hero.getAbility();
-      SolItem abilityAmmoEx = ability == null ? null : ability.getAmmoExample();
-      if (abilityAmmoEx != null) {
-        int abilityAmmoCount = hero.getItemContainer().count(abilityAmmoEx);
-        drawIcons(uiDrawer, col0, row, abilityAmmoCount, abilityAmmoEx.getIcon(cmp.getGame()));
+      SolItem abilityChargeEx = ability == null ? null : ability.getChargeExample();
+      if (abilityChargeEx != null) {
+        int abilityChargeCount = hero.getItemContainer().count(abilityChargeEx);
+        drawIcons(uiDrawer, col0, row, abilityChargeCount, abilityChargeEx.getIcon(cmp.getGame()));
       }
     }
   }

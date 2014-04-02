@@ -1,35 +1,30 @@
 
-max angle: from 15 to 180
+
+ship unique abilities:
+  EM field:
+    disable ship controls
+    duration
+  Blabla field:
+    reduce shield power
+    amount
+  Force field:
+    knock everything back
+    amount
 
 
-ITEMS:
-  shield orbiting blips
-
-  ship unique abilities:
-    EM field:
-      disable ship controls
-      duration
-      particle
-    Blabla field:
-      reduce shield power
-      amount
-    Force field:
-      knock everything back
-      amount
-
-    sounds and effects
-    rejection sound
-    no ammo sound
+shield orbiting blips
 
 
 SOUND:
-  environment sounds!
+  environment!
   burning
   force field work
   star journey in and out, working
   no ammo
-  projectile work sound
-
+  projectile work
+  item pick up
+  ability rejection
+  no ability charge
 
 ASK:
   landscape types?
@@ -39,7 +34,7 @@ PARTICLES:
   asteroid split
   star journey
   star ports
-
+  ability effects
 
 TRIVIAL:
   there should be only one asteroid belt per system, near the center
@@ -66,7 +61,7 @@ BUGS:
   strange shard speeds
   multiple enemies spawn in one point on planet --   remember consumed angles on planet
   ships somehow get inside planet -- blame the current movement method?
-
+  farBg appears to late...
 
 FEATURES:
   brakes?
@@ -78,6 +73,7 @@ FEATURES:
   get rid of generated white texture -- use the one of texMan
   enemies sholuld use abilities
   getNearestEnemy should consider enemy size... And many other places should negate ship sizes from dst...
+  drop items + sound
 
 PERF:
   build everything as far
@@ -91,9 +87,10 @@ TRADING:
   ships will start with half of that items
   ships will slowly generate new items from that list
   ships will not generate if they already possess item (or 5 if clips)
-  trading ships:
+  ships to buy:
     jsons will have tradeShips
     the rest is the same as for items
+  ships to hire
 
 
 FEATURES:
