@@ -257,8 +257,8 @@
     price: 200,
     engine: std,
     ability: {
-      type: knockBack,
-      force: 200,
+      type: emWave,
+      duration: 4,
       rechargeTime: 5,
     },
   },

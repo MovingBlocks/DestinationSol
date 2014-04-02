@@ -8,6 +8,7 @@ import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.item.SolItem;
 
 public class Teleport implements ShipAbility {
+  public static final int MAX_RADIUS = 4;
   private final Vector2 myNewPos;
   private final Config myConfig;
   private boolean myShouldTeleport;
@@ -24,7 +25,7 @@ public class Teleport implements ShipAbility {
     if (!tryToUse) return false;
     Vector2 pos = owner.getPos();
     Fraction frac = owner.getPilot().getFraction();
-    SolShip ne = game.getFractionMan().getNearestEnemy(game, 4, frac, pos);
+    SolShip ne = game.getFractionMan().getNearestEnemy(game, MAX_RADIUS, frac, pos);
     if (ne == null) return false;
     Vector2 nePos = ne.getPos();
     for (int i = 0; i < 5; i++) {

@@ -1,12 +1,8 @@
 
 
-ship unique abilities:
-  EM field:
-    disable ship controls
-    duration
-  Blabla field:
-    reduce shield power
-    amount
+UnShield:
+  reduce shield power
+  amount
 
 
 shield orbiting blips
@@ -16,12 +12,17 @@ SOUND:
   environment!
   burning
   force field work
-  star journey in and out, working
+  star journey:
+   start
+   finish
+   working
   no ammo
   projectile work
   item pick up
-  ability rejection
-  no ability charge
+  ability:
+    activation
+    rejection
+    out of charges
 
 ASK:
   landscape types?
@@ -31,7 +32,7 @@ PARTICLES:
   asteroid split
   star journey
   star ports
-  ability effects
+  abilities
 
 TRIVIAL:
   there should be only one asteroid belt per system, near the center

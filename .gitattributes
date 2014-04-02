@@ -414,6 +414,7 @@ main/src/com/miloshpetrov/sol2/game/screens/TalkScreen.java -text
 main/src/com/miloshpetrov/sol2/game/ship/AbilityCharge.java -text
 main/src/com/miloshpetrov/sol2/game/ship/AbilityConfig.java -text
 main/src/com/miloshpetrov/sol2/game/ship/Door.java -text
+main/src/com/miloshpetrov/sol2/game/ship/EmWave.java -text
 main/src/com/miloshpetrov/sol2/game/ship/FarShip.java -text
 main/src/com/miloshpetrov/sol2/game/ship/ForceBeacon.java -text
 main/src/com/miloshpetrov/sol2/game/ship/HullConfig.java -text

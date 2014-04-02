@@ -41,6 +41,7 @@ public class SolShip implements SolObj {
   private Armor myArmor;
   private float myFireAwait;
   private float myAbilityAwait;
+  private float myControlEnableAwait;
 
   public SolShip(SolGame game, Pilot pilot, ShipHull hull, RemoveController removeController, List<Dra> dras,
     ItemContainer container, ShipRepairer repairer, float money, ItemContainer tradeContainer, Shield shield,
@@ -179,7 +180,7 @@ public class SolShip implements SolObj {
     if (myArmor != null && !myItemContainer.contains(myArmor)) myArmor = null;
     game.getTradeMan().manage(game, myTradeContainer, myHull.config);
 
-    if (myRepairer != null && myIdleTime > ShipRepairer.REPAIR_AWAIT) {
+    if (isControlsEnabled() && myRepairer != null && myIdleTime > ShipRepairer.REPAIR_AWAIT) {
       myHull.life += myRepairer.tryRepair(game, myItemContainer, myHull.life, myHull.config);
     }
 
@@ -187,6 +188,8 @@ public class SolShip implements SolObj {
     if (myFireAwait > 0) myFireAwait -= ts;
     mySmokeSrc.setWorking(myFireAwait > 0 || myHull.life < SMOKE_PERC * myHull.config.maxLife);
     myFireSrc.setWorking(myFireAwait > 0 || myHull.life < FIRE_PERC * myHull.config.maxLife);
+
+    if (!isControlsEnabled()) myControlEnableAwait -= ts;
 
     if (myAbility instanceof Teleport) {
       ((Teleport) myAbility).maybeTeleport(game, this);
@@ -198,7 +201,7 @@ public class SolShip implements SolObj {
     if (myAbilityAwait > 0) {
       myAbilityAwait -= game.getTimeStep();
     }
-    boolean tryToUse = myPilot.isAbility() && canUseAbility();
+    boolean tryToUse = isControlsEnabled() && myPilot.isAbility() && canUseAbility();
     boolean used = myAbility.update(game, this, tryToUse);
     if (used) {
       SolItem example = myAbility.getChargeExample();
@@ -469,5 +472,13 @@ public class SolShip implements SolObj {
 
   public ShipAbility getAbility() {
     return myAbility;
+  }
+
+  public void disableControls(float duration) {
+    myControlEnableAwait = duration;
+  }
+
+  public boolean isControlsEnabled() {
+    return myControlEnableAwait <= 0;
   }
 }

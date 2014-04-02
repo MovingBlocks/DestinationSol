@@ -2,17 +2,16 @@ package com.miloshpetrov.sol2.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
-import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.SolObj;
 import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.item.SolItem;
 
-public class KnockBack implements ShipAbility {
+public class EmWave implements ShipAbility {
   public static final int MAX_RADIUS = 4;
   private final Config myConfig;
 
-  public KnockBack(Config config) {
+  public EmWave(Config config) {
     myConfig = config;
   }
 
@@ -31,50 +30,41 @@ public class KnockBack implements ShipAbility {
     if (!tryToUse) return false;
     Vector2 ownerPos = owner.getPos();
     for (SolObj o : game.getObjMan().getObjs()) {
-      if (!o.receivesGravity() || o == owner) continue;
+      if (!(o instanceof SolShip) || o == owner) continue;
+      SolShip oShip = (SolShip) o;
+      if (!game.getFractionMan().areEnemies(oShip, owner)) continue;
       Vector2 oPos = o.getPos();
       float dst = oPos.dst(ownerPos);
-      if (dst == 0) continue; // O__o
-      float perc = getPerc(dst, MAX_RADIUS);
+      float perc = KnockBack.getPerc(dst, MAX_RADIUS);
       if (perc <= 0) continue;
-      Vector2 toO = SolMath.distVec(ownerPos, oPos);
-      float accLen = myConfig.force * perc;
-      toO.scl(accLen / dst);
-      o.receiveAcc(toO, game);
-      SolMath.free(toO);
+      float duration = perc * myConfig.duration;
+      oShip.disableControls(duration);
     }
     return true;
-  }
-
-  public static float getPerc(float dst, float radius) {
-    if (radius < dst) return 0;
-    float rHalf = radius / 2;
-    if (dst < rHalf) return 1;
-    return 1 - (dst - rHalf) / rHalf;
   }
 
 
   public static class Config implements AbilityConfig {
     public final float rechargeTime;
     private final SolItem chargeExample;
-    public final float force;
+    public final float duration;
 
-    public Config(float rechargeTime, SolItem chargeExample, float force) {
+    public Config(float rechargeTime, SolItem chargeExample, float duration) {
       this.rechargeTime = rechargeTime;
       this.chargeExample = chargeExample;
-      this.force = force;
+      this.duration = duration;
     }
 
     @Override
     public ShipAbility build() {
-      return new KnockBack(this);
+      return new EmWave(this);
     }
 
     public static AbilityConfig load(JsonValue abNode, ItemMan itemMan) {
       float rechargeTime = abNode.getFloat("rechargeTime");
-      float force = abNode.getFloat("force");
-      SolItem chargeExample = itemMan.getExample("knockBackCharge");
-      return new Config(rechargeTime, chargeExample, force);
+      float duration = abNode.getFloat("duration");
+      SolItem chargeExample = itemMan.getExample("emWaveCharge");
+      return new Config(rechargeTime, chargeExample, duration);
     }
   }
 }

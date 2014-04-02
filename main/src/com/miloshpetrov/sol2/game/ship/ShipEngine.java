@@ -43,8 +43,10 @@ public class ShipEngine {
     return myDras;
   }
 
-  public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 spd, SolObj owner) {
-    boolean working = applyInput(game, angle, provider, body, spd);
+  public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 spd, SolObj owner,
+    boolean controlsEnabled)
+  {
+    boolean working = applyInput(game, angle, provider, body, spd, controlsEnabled);
 
     myFlameSrc1.setWorking(working);
     myFlameSrc2.setWorking(working);
@@ -56,9 +58,11 @@ public class ShipEngine {
     }
   }
 
-  private boolean applyInput(SolGame cmp, float shipAngle, Pilot provider, Body body, Vector2 spd) {
+  private boolean applyInput(SolGame cmp, float shipAngle, Pilot provider, Body body, Vector2 spd,
+    boolean controlsEnabled)
+  {
     boolean spdOk = spd.len() < Const.MAX_MOVE_SPD || SolMath.angleDiff(SolMath.angle(spd), shipAngle) > 90;
-    boolean working = provider.isUp() && spdOk;
+    boolean working = controlsEnabled && provider.isUp() && spdOk;
 
     EngineItem e = myItem;
     if (working) {
@@ -68,8 +72,8 @@ public class ShipEngine {
     }
     float rotSpd = body.getAngularVelocity() * SolMath.radDeg;
     float desiredRotSpd = 0;
-    boolean l = provider.isLeft();
-    boolean r = provider.isRight();
+    boolean l = controlsEnabled && provider.isLeft();
+    boolean r = controlsEnabled && provider.isRight();
     if (-e.getMaxRotSpd() < rotSpd && rotSpd < e.getMaxRotSpd() && l != r) {
       desiredRotSpd = SolMath.toInt(r) * e.getMaxRotSpd();
     }

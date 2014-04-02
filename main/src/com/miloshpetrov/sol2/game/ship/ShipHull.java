@@ -74,18 +74,19 @@ public class ShipHull {
 
   public void update(SolGame game, ItemContainer container, Pilot provider, SolShip ship, SolShip nearestEnemy) {
     setParamsFromBody();
+    boolean controlsEnabled = ship.isControlsEnabled();
 
     if (myEngine != null) {
       if (true || container.contains(myEngine.getItem())) {
-        myEngine.update(myAngle, game, provider, myBody, mySpd, ship);
+        myEngine.update(myAngle, game, provider, myBody, mySpd, ship, controlsEnabled);
       } else {
         setEngine(game, ship, null);
       }
     }
 
     Fraction fraction = ship.getPilot().getFraction();
-    myGunMount1.update(container, game, myAngle, ship, provider.isShoot(), nearestEnemy, fraction);
-    myGunMount2.update(container, game, myAngle, ship, provider.isShoot2(), nearestEnemy, fraction);
+    myGunMount1.update(container, game, myAngle, ship, controlsEnabled && provider.isShoot(), nearestEnemy, fraction);
+    myGunMount2.update(container, game, myAngle, ship, controlsEnabled && provider.isShoot2(), nearestEnemy, fraction);
 
     for (LightSrc src : myLightSrcs) src.update(true, myAngle, game);
 
