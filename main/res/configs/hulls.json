@@ -257,9 +257,9 @@
     price: 200,
     engine: std,
     ability: {
-      type: teleport,
-      angle: 90,
-      rechargeTime: 1,
+      type: knockBack,
+      force: 200,
+      rechargeTime: 5,
     },
   },
   corvette: {

@@ -418,6 +418,7 @@ main/src/com/miloshpetrov/sol2/game/ship/FarShip.java -text
 main/src/com/miloshpetrov/sol2/game/ship/ForceBeacon.java -text
 main/src/com/miloshpetrov/sol2/game/ship/HullConfig.java -text
 main/src/com/miloshpetrov/sol2/game/ship/HullConfigs.java -text
+main/src/com/miloshpetrov/sol2/game/ship/KnockBack.java -text
 main/src/com/miloshpetrov/sol2/game/ship/ShipAbility.java -text
 main/src/com/miloshpetrov/sol2/game/ship/ShipBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/ship/ShipEngine.java -text
