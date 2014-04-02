@@ -11,4 +11,10 @@
     displayName: "Teleport Charge",
     desc: "Use on ships with Teleport ability",
   },
+  knockBackCharge: {
+    iconName: knockBackCharge,
+    price: 30,
+    displayName: "knockBack Charge",
+    desc: "Use on ships with knockBack ability",
+  },
 }

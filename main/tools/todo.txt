@@ -7,9 +7,6 @@ ship unique abilities:
   Blabla field:
     reduce shield power
     amount
-  Force field:
-    knock everything back
-    amount
 
 
 shield orbiting blips
