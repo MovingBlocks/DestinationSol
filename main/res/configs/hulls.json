@@ -258,7 +258,8 @@
     engine: std,
     ability: {
       type: teleport,
-      factor: 0.4,
+      angle: 90,
+      rechargeTime: 1,
     },
   },
   corvette: {

@@ -201,7 +201,7 @@ public class SolShip implements SolObj {
     boolean tryToUse = myPilot.isAbility() && canUseAbility();
     boolean used = myAbility.update(game, this, tryToUse);
     if (used) {
-      SolItem example = myAbility.getAmmoExample();
+      SolItem example = myAbility.getChargeExample();
       if (example != null) myItemContainer.tryConsumeItem(example);
       myAbilityAwait = myAbility.getRechargeTime();
     }
@@ -236,7 +236,7 @@ public class SolShip implements SolObj {
 
   public boolean canUseAbility() {
     if (myAbility == null || myAbilityAwait > 0) return false;
-    SolItem example = myAbility.getAmmoExample();
+    SolItem example = myAbility.getChargeExample();
     if (example == null) return true;
     return myItemContainer.count(example) > 0;
   }

@@ -1,0 +1,14 @@
+{
+  sloMoCharge: {
+    iconName: sloMoCharge,
+    price: 30,
+    displayName: "Slo Mo Charge",
+    desc: "Use on ships with Slo Mo ability",
+  },
+  teleportCharge: {
+    iconName: teleportCharge,
+    price: 30,
+    displayName: "Teleport Charge",
+    desc: "Use on ships with Teleport ability",
+  },
+}

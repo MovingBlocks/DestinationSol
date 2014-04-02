@@ -3,7 +3,7 @@
   player: {
     ship: {
         hull: guardie,
-        items: "bo s a rep:1:2 sloMo:1:2",
+        items: "bo s a rep:1:2 teleportCharge:1:6",
 		money: 20,
 		repairer: true,
 		mountfixed1: true,
