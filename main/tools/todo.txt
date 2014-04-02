@@ -1,8 +1,32 @@
 
 
-shield orbiting blips
+there should be only one asteroid belt per system, near the center
+mainStation should be in the center of the system
+get rid of generated white texture -- use the one of texMan
+loot should be pulled more gently: just apply force
+dynamic AI shoot angle
+planet tiles and stations movement method creates glitches
+bullets fly thru ships sometimes -- blame shields... needs better understanding of Box2D categories
+strange shard speeds
+multiple enemies spawn in one point on planet --   remember consumed angles on planet
+Guardian DestProvider should be able to guard not only a ship, but also Vector2 targetPos
+smooth camera rotation + sometimes camera does 360 when leaving a planet
+ground ships should use Guardian DestProvider
+brakes?
+enemies should use abilities
+drop items
+getNearestEnemy should consider enemy size... And many other places should negate ship sizes from dst...
+farBg appears too late...
+starports should be on differernt distances from planet center, since now they overlap
+ships somehow get inside planet -- blame the current movement method?
 
-neutral ships
+
+PERF:
+  build everything as far
+  use circles instead of polys
+  get rid of getVec, use static vectors, 3 should be enough
+  far ship positions should be calculated on demand?
+
 
 SOUND:
   environment!
@@ -14,61 +38,40 @@ SOUND:
    working
   no ammo
   projectile work
-  item pick up
+  items:
+    pick up
+    drop
   ability:
     activation
     rejection
     out of charges
 
-ASK:
-  landscape types?
-
 
 PARTICLES:
-  asteroid split
-  star journey
-  star ports
+  asteroid split: should use explSmoke effect with some special texture
+  star ports: replace static energy lines with some nice effects.. Probably 4 similar from each side & something in the center
+  star journey: replace static image with some nice effect
   abilities
 
-TRIVIAL:
-  there should be only one asteroid belt per system, near the center
-  mainStation should be in the center of the system
+
+DISCUSS:
+  landscape types?
+  shield orbiting blips: use some static pulsating texture that will fade away with shield life?
   better sky colors?
-  force beacon textures
-  black filler inside planets, also lower planet tiles should have darker tint
 
 
-+++++++++++FROM THIS POINT, NO NEW CONTENT IS ADDED TO THE GAME
-
-
-BUGS:
-  starports should be on differernt distances from planet center, since now they overlap
-  isPlaceEmpty should consider mazes and special encounters? or should it consider every daym thing?
-  planet tiles and stations movement method creates glitches
-  bullets fly thru ships sometimes -- blame shields... needs better understanding of Box2D categories
+BORING:
+  force beacon: replace static texture with moving ones
+  black filler inside planets + lower planet tiles should have darker tint
   bullets are too narrow on phone -- use realLineWidth() as a minimum width
-  strange shard speeds
-  multiple enemies spawn in one point on planet --   remember consumed angles on planet
-  ships somehow get inside planet -- blame the current movement method?
-  farBg appears to late...
 
-FEATURES:
-  brakes?
-  dynamic AI shoot angle
-  Guardian DestProvider should be able to guard not only a ship, but also Vector2 targetPos
-  ground ships should use Guardian DestProvider
-  loot should be pulled more gently: just apply force
-  smooth camera rotation + sometimes camera does 360 when leaving a planet
-  get rid of generated white texture -- use the one of texMan
-  enemies sholuld use abilities
-  getNearestEnemy should consider enemy size... And many other places should negate ship sizes from dst...
-  drop items + sound
 
-PERF:
-  build everything as far
-  use circles instead of polys
-  get rid of getVec, use static vectors, 3 should be enough
-  far ship positions should be calculated on demand?
+++++++++++++++++++++++++++++++++++++++ AFTER ALL CONTENT IS IN THE GAME
+
+
+BALANCE:
+  neutral ships
+  hardness
 
 
 TRADING:
@@ -80,10 +83,6 @@ TRADING:
     jsons will have tradeShips
     the rest is the same as for items
   ships to hire
-
-
-FEATURES:
-  hardness
 
 
 UI:
