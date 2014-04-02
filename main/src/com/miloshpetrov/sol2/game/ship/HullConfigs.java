@@ -60,6 +60,7 @@ public class HullConfigs {
     if ("sloMo".equals(type)) return SloMo.Config.load(abNode, itemMan);
     if ("teleport".equals(type)) return Teleport.Config.load(abNode, itemMan);
     if ("knockBack".equals(type)) return KnockBack.Config.load(abNode, itemMan);
+    if ("emWave".equals(type)) return EmWave.Config.load(abNode, itemMan);
     return null;
   }
 

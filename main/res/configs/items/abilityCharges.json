@@ -17,4 +17,10 @@
     displayName: "knockBack Charge",
     desc: "Use on ships with knockBack ability",
   },
+  emWaveCharge: {
+    iconName: emWaveCharge,
+    price: 30,
+    displayName: "emWave Charge",
+    desc: "Use on ships with emWave ability",
+  },
 }
