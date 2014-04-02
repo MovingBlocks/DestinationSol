@@ -1,12 +1,8 @@
 
 
-UnShield:
-  reduce shield power
-  amount
-
-
 shield orbiting blips
 
+neutral ships
 
 SOUND:
   environment!
@@ -37,14 +33,9 @@ PARTICLES:
 TRIVIAL:
   there should be only one asteroid belt per system, near the center
   mainStation should be in the center of the system
-  better sky colors
-  add colors.json where an artist could define:
-    dust color
-    in-game sun color
-    ???
+  better sky colors?
   force beacon textures
   black filler inside planets, also lower planet tiles should have darker tint
-  move engine effects to hull?
 
 
 +++++++++++FROM THIS POINT, NO NEW CONTENT IS ADDED TO THE GAME

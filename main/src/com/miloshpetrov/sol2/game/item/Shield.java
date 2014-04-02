@@ -95,7 +95,11 @@ public class Shield implements SolItem {
     myLife = 0;
     return dmg;
   }
-  
+
+  public void setLife(float life) {
+    myLife = life;
+  }
+
   public static class Config {
     public final String displayName;
     public final int price;

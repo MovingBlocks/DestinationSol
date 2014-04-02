@@ -257,8 +257,8 @@
     price: 200,
     engine: std,
     ability: {
-      type: emWave,
-      duration: 4,
+      type: unShield,
+      amount: 40,
       rechargeTime: 5,
     },
   },
