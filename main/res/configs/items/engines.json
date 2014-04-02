@@ -1,6 +1,5 @@
 {
   std: {
-    maxRotSpd: 230.0,
     big: false,
     workSound: "engines/medWork",
     effect: {
@@ -11,7 +10,6 @@
   },
   
   big: {
-    maxRotSpd: 40.0,
     big: true,
     workSound: "engines/bigWork",
     effect: {

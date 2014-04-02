@@ -23,4 +23,10 @@
     displayName: "emWave Charge",
     desc: "Use on ships with emWave ability",
   },
+  unShieldCharge: {
+    iconName: unShieldCharge,
+    price: 30,
+    displayName: "unShield Charge",
+    desc: "Use on ships with unShield ability",
+  },
 }
