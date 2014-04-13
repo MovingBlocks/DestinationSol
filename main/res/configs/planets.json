@@ -61,7 +61,7 @@
         items: "s:.2 a:.3 bombGun bombs:1:2 sloMoCharge:.7:3 rep:.4",
 		money: 40,
 		repairer: true,
-		mountfixed1: true,
+		mountfixed1: false,
 		mountfixed2: false,
         density: 0.01,
       }

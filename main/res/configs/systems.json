@@ -30,8 +30,8 @@
         items: "b:1:4 rep:.8:2 bo|mg sMed|sBig:.5 aMed|aBig:.3",
 		money: 300,
 		repairer: true,
-		mountfixed1: false,
-		mountfixed2: false,
+		mountfixed1: true,
+		mountfixed2: true,
         density: 1,
       },
       {
@@ -50,8 +50,8 @@
         items: "b:1:4 rep:.8:2 bo|mg sMed|sBig:.5 aMed|aBig:.3",
 		money: 300,
 		repairer: true,
-		mountfixed1: false,
-		mountfixed2: false,
+		mountfixed1: true,
+		mountfixed2: true,
         density: 1,
       },
       {
