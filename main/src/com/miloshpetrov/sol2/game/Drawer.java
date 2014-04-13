@@ -4,8 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.CommonDrawer;
-import com.miloshpetrov.sol2.TexDrawer;
+import com.miloshpetrov.sol2.*;
 
 public class Drawer implements TexDrawer {
   public static final int RAD_TO_POINTS = 8;
@@ -13,8 +12,8 @@ public class Drawer implements TexDrawer {
   public final float r;
   private final CommonDrawer myDrawer;
 
-  public Drawer() {
-    myDrawer = new CommonDrawer();
+  public Drawer(TexMan texMan) {
+    myDrawer = new CommonDrawer(texMan);
     r = myDrawer.r;
   }
 

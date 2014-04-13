@@ -3,8 +3,7 @@ package com.miloshpetrov.sol2.ui;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.*;
-import com.miloshpetrov.sol2.CommonDrawer;
-import com.miloshpetrov.sol2.TexDrawer;
+import com.miloshpetrov.sol2.*;
 
 public class UiDrawer implements TexDrawer {
 
@@ -18,10 +17,10 @@ public class UiDrawer implements TexDrawer {
   public final TextureRegion whiteTex;
   public final Rectangle filler;
 
-  public UiDrawer() {
-    myDrawer = new CommonDrawer();
+  public UiDrawer(TexMan texMan) {
+    myDrawer = new CommonDrawer(texMan);
     r = myDrawer.r;
-    whiteTex = myDrawer.whiteTex;
+    whiteTex = texMan.whiteTex;
     uiLineWidth = 1 / myDrawer.h;
     straightMtx = new Matrix4().setToOrtho2D(0, 1, myDrawer.r, -1);
     myDrawer.setMtx(straightMtx);

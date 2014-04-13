@@ -68,7 +68,7 @@ public class SolGame {
   public SolGame(SolCmp cmp, SaveData sd, TexMan texMan, boolean tut) {
     myCmp = cmp;
     myTut = tut;
-    Drawer drawer = new Drawer();
+    Drawer drawer = new Drawer(texMan);
     mySoundMan = new SoundMan();
     mySpecialSounds = new SpecialSounds(mySoundMan);
     myDraMan = new DraMan(drawer);
