@@ -69,7 +69,8 @@ public class AiPilot implements Pilot {
 
     Vector2 enemyPos = nearestEnemy == null ? null : nearestEnemy.getPos();
     Vector2 enemySpd = nearestEnemy == null ? null : nearestEnemy.getSpd();
-    myShooter.update(ship, enemyPos, moverActive, canShoot, enemySpd, shootDist);
+    float enemySz = nearestEnemy == null ? 0 : nearestEnemy.getHull().config.size;
+    myShooter.update(ship, enemyPos, moverActive, canShoot, enemySpd, shootDist, enemySz);
     if (hasEngine && !moverActive && !isShooterRotated()) {
       myMover.rotateOnIdle(ship, np, dest, shouldStopNearDest, maxIdleDist);
     }

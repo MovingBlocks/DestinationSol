@@ -1,5 +1,4 @@
 
-dynamic AI shoot angle
 planet tiles and stations movement method creates glitches -- maybe angles are not precise?
 bullets fly thru ships sometimes -- blame shields... needs better understanding of Box2D categories
 strange shard speeds

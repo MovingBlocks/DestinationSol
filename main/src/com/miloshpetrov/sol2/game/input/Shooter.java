@@ -8,7 +8,6 @@ import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public class Shooter {
 
-  public static final float MAX_AD_TO_SHOOT = 15f;
   public static final float E_SPD_PERC = .3f;
   private boolean myShoot;
   private boolean myShoot2;
@@ -19,14 +18,16 @@ public class Shooter {
   }
 
   public void update(SolShip ship, Vector2 enemyPos, boolean dontRotate, boolean canShoot, Vector2 enemySpd,
-    float shootDist)
+    float shootDist, float enemySz)
   {
     myLeft = false;
     myRight = false;
     myShoot = false;
     myShoot2 = false;
     Vector2 shipPos = ship.getPos();
-    if (enemyPos == null || !canShoot || shootDist < enemyPos.dst(shipPos)) return;
+    if (enemyPos == null || !canShoot) return;
+    float toEnemyDst = enemyPos.dst(shipPos);
+    if (shootDist < toEnemyDst) return;
 
     GunItem g1 = processGun(ship, false);
     GunItem g2 = processGun(ship, true);
@@ -50,8 +51,15 @@ public class Shooter {
     float shootAngle = calcShootAngle(gunPos, ship.getSpd(), enemyPos, enemySpd, projSpd);
     SolMath.free(gunPos);
     if (shootAngle != shootAngle) return;
+    {
+      // ok this is a hack
+      float toShip = SolMath.angle(enemyPos, shipPos);
+      float toGun = SolMath.angle(enemyPos, gunPos);
+      shootAngle += toGun - toShip;
+    }
     float shipAngle = ship.getAngle();
-    if (SolMath.angleDiff(shootAngle, shipAngle) < MAX_AD_TO_SHOOT) {
+    float maxAngleDiff = SolMath.angularWidthOfSphere(enemySz / 2, toEnemyDst) + 10f;
+    if (SolMath.angleDiff(shootAngle, shipAngle) < maxAngleDiff) {
       myShoot = true;
       myShoot2 = true;
       return;
