@@ -17,7 +17,8 @@ public class Loot implements SolObj {
   public static final float MAX_SPD = .6f;
   public static final int MAX_LIFE = 6;
   public static final float DURABILITY = 70f;
-  public static final float PULL_SPD = 1f;
+  public static final float PULL_DESIRED_SPD = 1f;
+  public static final float PULL_FORCE = 1f;
   private final SolItem myItem;
   private final List<Dra> myDras;
   private final LightSrc myLightSrc;
@@ -130,14 +131,22 @@ public class Loot implements SolObj {
     return true;
   }
 
-  public void maybePulled(Vector2 toPos, float radius) {
-    Vector2 v = SolMath.getVec(toPos);
-    v.sub(getPos());
-    if (v.len() < radius) {
-      SolMath.fromAl(v, v.angle(), PULL_SPD);
-      myBody.setLinearVelocity(v);
+  public void maybePulled(Vector2 pullerPos, float radius) {
+    Vector2 toPuller = SolMath.getVec(pullerPos);
+    toPuller.sub(getPos());
+    float pullerDist = toPuller.len();
+    if (0 < pullerDist && pullerDist < radius) {
+      toPuller.scl(PULL_DESIRED_SPD /pullerDist);
+      Vector2 spd = myBody.getLinearVelocity();
+      Vector2 spdDiff = SolMath.distVec(spd, toPuller);
+      float spdDiffLen = spdDiff.len();
+      if (spdDiffLen > 0) {
+        spdDiff.scl(PULL_FORCE / spdDiffLen);
+        myBody.applyForceToCenter(spdDiff, true);
+      }
+      SolMath.free(spdDiff);
     }
-    SolMath.free(v);
+    SolMath.free(toPuller);
   }
 
   public SolItem getItem() {

@@ -129,7 +129,7 @@ public class SolGame {
     boolean isMountFixed2 = myPlayerSpawnConfig.shipConfig.isMountFixed2;
     if (god) {
       config = myHullConfigs.getConfig("vanguard");
-      items = "mg rl sBig aBig rep:1:6 sloMo:1:6 b:1:6 r:1:6";
+      items = "mg rl sBig aBig rep:1:6 sloMoCharge:1:6 b:1:6 r:1:6";
       money = 1000;
     }
     myHero = myShipBuilder.buildNew(this, new Vector2(pos), null, 0, 0, pip, items, config, isMountFixed1, isMountFixed2, null, hasRepairer, money, null);
