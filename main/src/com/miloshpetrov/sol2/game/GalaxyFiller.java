@@ -17,8 +17,15 @@ public class GalaxyFiller {
   public GalaxyFiller() {
   }
 
-  private Vector2 getPosForStation(SolSystem sys) {
-    Planet p = SolMath.elemRnd(sys.getPlanets());
+  private Vector2 getPosForStation(SolSystem sys, boolean mainStation) {
+    Planet p;
+    ArrayList<Planet> planets = sys.getPlanets();
+    if (mainStation) {
+      int idx = (int) SolMath.rnd(.25f, .75f) * planets.size();
+      p = planets.get(idx);
+    } else {
+      p = SolMath.elemRnd(planets);
+    }
     float stationDist = p.getDist() + p.getFullHeight() + Const.PLANET_GAP;
     Vector2 stationPos = new Vector2();
     SolMath.fromAl(stationPos, SolMath.rnd(180), stationDist);
@@ -26,14 +33,14 @@ public class GalaxyFiller {
     return stationPos;
   }
 
-  private SolShip build(SolGame game, ShipConfig cfg, Fraction frac, boolean fixedAngle, SolSystem sys) {
+  private SolShip build(SolGame game, ShipConfig cfg, Fraction frac, boolean mainStation, SolSystem sys) {
     HullConfig hullConf = cfg.hull;
 
     MoveDestProvider dp;
     Vector2 pos;
     float detectionDist = game.getCam().getSpaceViewDist();
     if (hullConf.type == HullConfig.Type.STATION) {
-      pos = getPosForStation(sys);
+      pos = getPosForStation(sys, mainStation);
       dp = new NoDestProvider();
     } else {
       pos = getEmptySpace(game, sys);
@@ -42,7 +49,7 @@ public class GalaxyFiller {
       if (isBig) detectionDist *= 2;
     }
     Pilot pilot = new AiPilot(dp, true, frac, true, "something", detectionDist);
-    float angle = fixedAngle ? 0 : SolMath.rnd(180);
+    float angle = mainStation ? 0 : SolMath.rnd(180);
     boolean mountFixed1, mountFixed2, hasRepairer;
     mountFixed1 = cfg.isMountFixed1;
     mountFixed2 = cfg.isMountFixed2;

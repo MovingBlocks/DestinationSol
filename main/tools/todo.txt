@@ -1,7 +1,4 @@
 
-improve teleport -- transfer body instantly
-there should be only one asteroid belt per system, near the center
-mainStation should be in the center of the system
 get rid of generated white texture -- use the one of texMan
 loot should be pulled more gently: just apply force
 dynamic AI shoot angle
@@ -127,6 +124,7 @@ PERF
   autoboxing? (boolean is OK)
 
 CLEANNESS
+  improve teleport -- transfer body instantly via setTransform()
   make ChunkMan distances constants
   less or equal in ChunkMan
 

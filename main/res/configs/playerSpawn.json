@@ -3,13 +3,13 @@
   player: {
     ship: {
         hull: guardie,
-        items: "bo s a rep:1:2 knockBackCharge:1:6",
+        items: "bo s a rep:1:2 teleportCharge:1:6",
 		money: 20,
 		repairer: true,
 		mountfixed1: true,
 		mountfixed2: true,
       },
-      spawnPlace: planet,
+      spawnPlace: station,
   },
   mainStation: {
     hull: station,
