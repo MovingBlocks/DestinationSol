@@ -127,7 +127,7 @@ public class MazeBuilder {
     ShipBuilder sb = game.getShipBuilder();
     float viewDist = game.getCam().getSpaceViewDist();
     if (inner) viewDist *= .2f;
-    Pilot pilot = new AiPilot(new NoDestProvider(), false, Fraction.EHAR, true, null, viewDist);
+    Pilot pilot = new AiPilot(new StillGuard(pos, game), false, Fraction.EHAR, true, null, viewDist);
     boolean mountFixed1, mountFixed2, hasRepairer;
     mountFixed1 = e.isMountFixed1;
     mountFixed2 = e.isMountFixed2;

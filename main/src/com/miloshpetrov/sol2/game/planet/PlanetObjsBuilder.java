@@ -255,7 +255,7 @@ public class PlanetObjsBuilder {
     SolMath.free(toPlanet);
 
     float detectionDist = game.getCam().getGroundViewDist() * 2;
-    Pilot provider = new AiPilot(new NoDestProvider(), false, fraction, true, null, detectionDist);
+    Pilot provider = new AiPilot(new StillGuard(pos, game), false, fraction, true, null, detectionDist);
 
     return game.getShipBuilder().buildNew(game, pos, spd, angle, 0, provider, ic, ge.hull, mountFixed1, mountFixed2,
       null, hasRepairer, money, tc);

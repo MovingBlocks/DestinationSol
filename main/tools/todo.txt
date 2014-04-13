@@ -1,6 +1,4 @@
 
-Guardian DestProvider should be able to guard not only a ship, but also Vector2 targetPos
-ground ships should use Guardian DestProvider
 smooth camera rotation + sometimes camera does 360 when leaving a planet
 multiple enemies spawn in one point on planet --   remember consumed angles on planet
 
