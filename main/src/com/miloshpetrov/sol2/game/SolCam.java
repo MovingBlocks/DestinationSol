@@ -9,6 +9,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.screens.MainScreen;
 import com.miloshpetrov.sol2.game.ship.SolShip;
+import com.miloshpetrov.sol2.ui.DebugCollector;
 
 public class SolCam {
   private static final float VIEWPORT_HEIGHT = 5f;
@@ -19,6 +20,7 @@ public class SolCam {
 
   private static final float MAX_SHAKE = .07f;
   private static final float SHAKE_DAMP = MAX_SHAKE;
+  public static final float CAM_ROT_SPD = 90f;
 
   private final CamRotStrategy myCamRotStrategy;
   private final OrthographicCamera myCam;
@@ -101,7 +103,9 @@ public class SolCam {
     applyPos(pos.x, pos.y);
     SolMath.free(pos);
 
-    myAngle = myCamRotStrategy.getRotation(myPos, game);
+    float desiredAngle = myCamRotStrategy.getRotation(myPos, game);
+    float rotSpd = CAM_ROT_SPD * ts;
+    myAngle = SolMath.approachAngle(myAngle, desiredAngle, rotSpd);
     applyAngle();
 
     myZoom = SolMath.approach(myZoom, desiredZoom, ZOOM_CHG_SPD * ts);

@@ -1,5 +1,4 @@
 
-smooth camera rotation + sometimes camera does 360 when leaving a planet
 multiple enemies spawn in one point on planet --   remember consumed angles on planet
 
 strange shard speeds
