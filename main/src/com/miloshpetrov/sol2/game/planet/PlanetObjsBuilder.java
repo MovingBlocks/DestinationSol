@@ -246,7 +246,7 @@ public class PlanetObjsBuilder {
     int money = ge.money;
     float height = pos.len();
     pos.scl((height + aboveGround)/height);
-    SolMath.toWorld(pos, pos, planet.getAngle(), planet.getPos());
+    SolMath.toWorld(pos, pos, planet.getAngle(), planet.getPos(), false);
 
     Vector2 toPlanet = SolMath.getVec(planet.getPos()).sub(pos);
     float angle = SolMath.angle(toPlanet) - 180;

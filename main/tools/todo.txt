@@ -1,18 +1,17 @@
 
-planet tiles and stations movement method creates glitches -- maybe angles are not precise?
 bullets fly thru ships sometimes -- blame shields... needs better understanding of Box2D categories
-strange shard speeds
+getNearestEnemy should consider enemy size... And many other places should negate ship sizes from dst...
 multiple enemies spawn in one point on planet --   remember consumed angles on planet
 Guardian DestProvider should be able to guard not only a ship, but also Vector2 targetPos
 smooth camera rotation + sometimes camera does 360 when leaving a planet
 ground ships should use Guardian DestProvider
-brakes?
 enemies should use abilities
+
+strange shard speeds
+brakes?
 drop items
-getNearestEnemy should consider enemy size... And many other places should negate ship sizes from dst...
 farBg appears too late...
 starports should be on differernt distances from planet center, since now they overlap
-ships somehow get inside planet -- blame the current movement method?
 
 
 PERF:

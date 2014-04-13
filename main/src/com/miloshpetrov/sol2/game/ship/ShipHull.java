@@ -95,9 +95,9 @@ public class ShipHull {
     for (Door door : myDoors) door.update(game, ship);
 
     if (myPlanetBind != null) {
-      float fps = 1 / game.getTimeStep();
       Vector2 spd = SolMath.getVec();
-      myPlanetBind.setDiff(spd, myPos);
+      myPlanetBind.setDiff(spd, myPos, true);
+      float fps = 1 / game.getTimeStep();
       spd.scl(fps);
       myBody.setLinearVelocity(spd);
       SolMath.free(spd);

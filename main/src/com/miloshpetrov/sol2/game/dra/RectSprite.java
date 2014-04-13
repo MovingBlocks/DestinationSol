@@ -92,7 +92,7 @@ public class RectSprite implements Dra {
   public void prepare(SolObj o) {
     float baseAngle = o.getAngle();
     Vector2 basePos = o.getPos();
-    SolMath.toWorld(myPos, relPos, baseAngle, basePos);
+    SolMath.toWorld(myPos, relPos, baseAngle, basePos, false);
     myAngle = relAngle + baseAngle;
   }
 
