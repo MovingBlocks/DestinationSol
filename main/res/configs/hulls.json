@@ -257,7 +257,8 @@
     price: 200,
     engine: std,
     ability: {
-      type: unShield,
+      type: knockBack,
+      force: 2000,
       amount: 40,
       rechargeTime: 5,
     },

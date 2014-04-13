@@ -1,11 +1,11 @@
 
-
+improve teleport -- transfer body instantly
 there should be only one asteroid belt per system, near the center
 mainStation should be in the center of the system
 get rid of generated white texture -- use the one of texMan
 loot should be pulled more gently: just apply force
 dynamic AI shoot angle
-planet tiles and stations movement method creates glitches
+planet tiles and stations movement method creates glitches -- maybe angles are not precise?
 bullets fly thru ships sometimes -- blame shields... needs better understanding of Box2D categories
 strange shard speeds
 multiple enemies spawn in one point on planet --   remember consumed angles on planet
@@ -26,6 +26,7 @@ PERF:
   use circles instead of polys
   get rid of getVec, use static vectors, 3 should be enough
   far ship positions should be calculated on demand?
+  test on every object preloaded
 
 
 SOUND:
@@ -64,6 +65,7 @@ BORING:
   force beacon: replace static texture with moving ones
   black filler inside planets + lower planet tiles should have darker tint
   bullets are too narrow on phone -- use realLineWidth() as a minimum width
+  set pitch to all played sounds if game time is changed
 
 
 ++++++++++++++++++++++++++++++++++++++ AFTER ALL CONTENT IS IN THE GAME
@@ -72,6 +74,7 @@ BORING:
 BALANCE:
   neutral ships
   hardness
+  move mazes closer?
 
 
 TRADING:

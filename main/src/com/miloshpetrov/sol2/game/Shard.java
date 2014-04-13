@@ -108,9 +108,9 @@ public class Shard implements SolObj {
   }
 
   @Override
-  public void receiveAcc(Vector2 acc, SolGame game) {
-    acc.scl(myBody.getMass());
-    myBody.applyForceToCenter(acc, true);
+  public void receiveForce(Vector2 force, SolGame game, boolean acc) {
+    if (acc) force.scl(myBody.getMass());
+    myBody.applyForceToCenter(force, true);
   }
 
 }

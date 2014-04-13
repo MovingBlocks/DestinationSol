@@ -31,7 +31,7 @@ public class KnockBack implements ShipAbility {
     if (!tryToUse) return false;
     Vector2 ownerPos = owner.getPos();
     for (SolObj o : game.getObjMan().getObjs()) {
-      if (!o.receivesGravity() || o == owner) continue;
+      if (o == owner || !o.receivesGravity()) continue;
       Vector2 oPos = o.getPos();
       float dst = oPos.dst(ownerPos);
       if (dst == 0) continue; // O__o
@@ -40,7 +40,7 @@ public class KnockBack implements ShipAbility {
       Vector2 toO = SolMath.distVec(ownerPos, oPos);
       float accLen = myConfig.force * perc;
       toO.scl(accLen / dst);
-      o.receiveAcc(toO, game);
+      o.receiveForce(toO, game, false);
       SolMath.free(toO);
     }
     return true;

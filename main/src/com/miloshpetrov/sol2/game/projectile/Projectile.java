@@ -145,8 +145,8 @@ public class Projectile implements SolObj {
   }
 
   @Override
-  public void receiveAcc(Vector2 acc, SolGame game) {
-    myBody.receiveAcc(acc, game);
+  public void receiveForce(Vector2 force, SolGame game, boolean acc) {
+    myBody.receiveForce(force, game, acc);
   }
 
   @Override

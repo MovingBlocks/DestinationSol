@@ -117,7 +117,7 @@ public class PlanetMan {
       }
       float g = gravConst / len / len;
       grav.scl(g);
-      obj.receiveAcc(grav, game);
+      obj.receiveForce(grav, game, true);
       SolMath.free(grav);
       if (!onPlanet) {
         mySunSingleton.doDmg(game, obj, toSys);

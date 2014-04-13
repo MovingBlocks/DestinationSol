@@ -9,7 +9,7 @@ public interface ProjectileBody {
   void update(SolGame game);
   Vector2 getPos();
   Vector2 getSpd();
-  void receiveAcc(Vector2 acc, SolGame game);
+  void receiveForce(Vector2 force, SolGame game, boolean acc);
   void onRemove(SolGame game);
   SolObj getObstacle();
   float getAngle();

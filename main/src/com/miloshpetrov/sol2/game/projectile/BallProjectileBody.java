@@ -53,11 +53,9 @@ public class BallProjectileBody implements ProjectileBody {
   }
 
   @Override
-  public void receiveAcc(Vector2 acc, SolGame game) {
-    Vector2 f = SolMath.getVec(acc);
-    f.scl(myBody.getMass());
-    myBody.applyForceToCenter(f, true);
-    SolMath.free(f);
+  public void receiveForce(Vector2 force, SolGame game, boolean acc) {
+    if (acc) force.scl(myBody.getMass());
+    myBody.applyForceToCenter(force, true);
   }
 
   @Override

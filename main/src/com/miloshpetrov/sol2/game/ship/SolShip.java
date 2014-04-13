@@ -343,10 +343,10 @@ public class SolShip implements SolObj {
   }
 
   @Override
-  public void receiveAcc(Vector2 acc, SolGame game) {
+  public void receiveForce(Vector2 force, SolGame game, boolean acc) {
     Body body = myHull.getBody();
-    acc.scl(body.getMass());
-    body.applyForceToCenter(acc, true);
+    if (acc) force.scl(body.getMass());
+    body.applyForceToCenter(force, true);
   }
 
   public ItemContainer getItemContainer() {
