@@ -257,9 +257,10 @@
     price: 200,
     engine: std,
     ability: {
-      type: knockBack,
+      type: teleport,
       force: 2000,
       amount: 40,
+      angle: 90,
       rechargeTime: 5,
     },
   },
