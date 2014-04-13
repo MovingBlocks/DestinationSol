@@ -101,10 +101,7 @@ public class SolShip implements SolObj {
 
   @Override
   public String toDebugString() {
-    String r;
-    if (myShield == null) r = "no shield\n"; else r = myShield.getLife() + "\n";
-    r += myHull.getShieldFixture().getFilterData().categoryBits;
-    return r;
+    return "";
   }
 
   @Override
@@ -217,14 +214,6 @@ public class SolShip implements SolObj {
       } else {
         myShield = null;
       }
-    }
-    boolean active = myShield != null && myShield.getLife() > 0;
-    Fixture sf = myHull.getShieldFixture();
-    boolean wasActive = sf.getFilterData().categoryBits != 0;
-    if (active != wasActive) {
-      Filter f = new Filter();
-      f.categoryBits = active ? (short)1 : 0;
-      sf.setFilterData(f);
     }
   }
 

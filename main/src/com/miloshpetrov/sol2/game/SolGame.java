@@ -83,13 +83,13 @@ public class SolGame {
     myHullConfigs = new HullConfigs(myShipBuilder, texMan, myItemMan);
     myPlanetMan = new PlanetMan(myTexMan, myHullConfigs);
     SolContactListener contactListener = new SolContactListener(this);
-    myObjMan = new ObjMan(contactListener);
+    myFractionMan = new FractionMan(myTexMan);
+    myObjMan = new ObjMan(contactListener, myFractionMan);
     myGridDrawer = new GridDrawer();
     myChunkMan = new ChunkMan(myHullConfigs, myTexMan);
     myPartMan = new PartMan(myTexMan);
     myAsteroidBuilder = new AsteroidBuilder(myTexMan);
     myLootBuilder = new LootBuilder();
-    myFractionMan = new FractionMan(myTexMan);
     myFarBgMan = new FarBgMan();
     myMapDrawer = new MapDrawer(myTexMan);
     myShardBuilder = new ShardBuilder(myTexMan);

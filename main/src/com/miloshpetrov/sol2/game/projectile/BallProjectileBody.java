@@ -2,10 +2,8 @@ package com.miloshpetrov.sol2.game.projectile;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
-import com.miloshpetrov.sol2.game.SolObj;
 import com.miloshpetrov.sol2.game.asteroid.AsteroidBuilder;
 
 public class BallProjectileBody implements ProjectileBody {
@@ -14,7 +12,6 @@ public class BallProjectileBody implements ProjectileBody {
   private final Vector2 mySpd;
 
   private float myAngle;
-  private SolObj myObstacle;
 
   public BallProjectileBody(SolGame game, Vector2 pos, float angle, Projectile projectile, float physSize, Vector2 gunSpd,
     float spdLen) {
@@ -38,7 +35,6 @@ public class BallProjectileBody implements ProjectileBody {
 
   @Override
   public void update(SolGame game) {
-    if (myObstacle != null) return;
     setParamsFromBody();
   }
 
@@ -64,24 +60,8 @@ public class BallProjectileBody implements ProjectileBody {
   }
 
   @Override
-  public SolObj getObstacle() {
-    return myObstacle;
-  }
-
-  @Override
   public float getAngle() {
     return myAngle;
-  }
-
-  @Override
-  public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
-    SolGame game, Vector2 collPos)
-  {
-    if (myObstacle != null) return;
-    if (other != null) {
-      myPos.set(collPos);
-      myObstacle = other;
-    }
   }
 
   @Override
