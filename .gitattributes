@@ -335,6 +335,7 @@ main/src/com/miloshpetrov/sol2/game/input/Pilot.java -text
 main/src/com/miloshpetrov/sol2/game/input/PlayerPilot.java -text
 main/src/com/miloshpetrov/sol2/game/input/Shooter.java -text
 main/src/com/miloshpetrov/sol2/game/input/SmallObjAvoider.java -text
+main/src/com/miloshpetrov/sol2/game/input/StillGuard.java -text
 main/src/com/miloshpetrov/sol2/game/item/Armor.java -text
 main/src/com/miloshpetrov/sol2/game/item/ClipConfig.java -text
 main/src/com/miloshpetrov/sol2/game/item/ClipItem.java -text

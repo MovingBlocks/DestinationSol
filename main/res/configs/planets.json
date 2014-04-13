@@ -96,7 +96,26 @@
       },
     },
     deco: {},
-    groundEnemies: [],
+    groundEnemies: [
+      {
+        hull: hummer,
+        items: "bo|sg|mg rep s|sMed:.1 b:.7:2 r:.7:1",
+		money: 30,
+		repairer: false,
+		mountfixed1: false,
+		mountfixed2: false,
+        density: 0.45,
+      },
+      {
+        hull: guardie,
+        items: "bo|sg s:.1 b:.7:2",
+		money: 30,
+		repairer: false,
+		mountfixed1: true,
+		mountfixed2: true,
+        density: 0.15,
+      },
+    ],
     orbitEnemies: [],
     station: {
       hull: drome,

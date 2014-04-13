@@ -9,7 +9,7 @@ import com.miloshpetrov.sol2.game.ship.*;
 import java.util.List;
 
 /**
- * Flies near the given ship. When the ship is destroyed, stays near the place where it was destroyed
+ * Flies near the given ship. When the ship is destroyed, floats
  */
 public class Guardian implements MoveDestProvider {
   private final Pilot myTargetPilot;
