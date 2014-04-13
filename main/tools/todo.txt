@@ -1,5 +1,4 @@
 
-get rid of generated white texture -- use the one of texMan
 loot should be pulled more gently: just apply force
 dynamic AI shoot angle
 planet tiles and stations movement method creates glitches -- maybe angles are not precise?

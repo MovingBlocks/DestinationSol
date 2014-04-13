@@ -1,10 +1,9 @@
 package com.miloshpetrov.sol2;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
-import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 
 public class CommonDrawer {
@@ -17,25 +16,16 @@ public class CommonDrawer {
   private final BitmapFont myFont;
   private final float myOrigFontHeight;
 
-  public CommonDrawer() {
+  public CommonDrawer(TexMan texMan) {
     w = Gdx.graphics.getWidth();
     h = Gdx.graphics.getHeight();
     r = w / h;
     mySpriteBatch = new SpriteBatch();
-    whiteTex = getWhiteTex();
+    whiteTex = texMan.whiteTex;
 
     myFont = new BitmapFont(SolFiles.readOnly("res/fonts/main.fnt"), true);
     myFont.setUseIntegerPositions(false);
     myOrigFontHeight = myFont.getXHeight();
-  }
-
-  private TextureRegion getWhiteTex() {
-    Pixmap pm = new Pixmap(1, 1, Pixmap.Format.RGBA4444);
-    pm.setColor(Col.W);
-    pm.fill();
-    Texture tex = new Texture(pm);
-    pm.dispose();
-    return new TextureRegion(tex);
   }
 
   public void setMtx(Matrix4 mtx) {
@@ -107,7 +97,6 @@ public class CommonDrawer {
   }
 
   public void dispose() {
-    whiteTex.getTexture().dispose();
     mySpriteBatch.dispose();
     myFont.dispose();
   }

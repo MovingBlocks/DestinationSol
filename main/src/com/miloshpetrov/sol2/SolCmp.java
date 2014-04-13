@@ -34,8 +34,8 @@ public class SolCmp {
   public SolCmp() {
     myMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
 
-    myUiDrawer = new UiDrawer();
     myTexMan = new TexMan();
+    myUiDrawer = new UiDrawer(myTexMan);
     myInputMan = new SolInputMan(myTexMan, myUiDrawer.r);
     mySaveMan = new SaveMan();
     myLayouts = new SolLayouts(myUiDrawer.r);

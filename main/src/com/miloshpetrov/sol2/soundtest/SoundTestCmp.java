@@ -33,7 +33,8 @@ class SoundTestCmp {
   private long myLastPlayTime;
 
   SoundTestCmp() {
-    myUiDrawer = new UiDrawer();
+    TexMan texMan = new TexMan();
+    myUiDrawer = new UiDrawer(texMan);
     myPos = new Vector2(.5f, .5f);
     myColor = new Color(myPos.x, myPos.y, 0, 1f);
     mySamples = new HashMap<String, List<SolSample>>();
@@ -61,7 +62,6 @@ class SoundTestCmp {
       catSamples.add(smp);
     }
 
-    TexMan texMan = new TexMan();
     PlanetConfig pc = new PlanetConfig("rocky", 0, 0, null, null, null, null, new PlanetTiles(texMan, "grounds/" + "rocky", null), null, null);
     myTileMap = new GroundBuilder(pc, 40, 20).build();
   }
