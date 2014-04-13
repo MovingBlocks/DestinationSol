@@ -158,7 +158,7 @@ public class AiPilot implements Pilot {
         myPlanetBind = PlanetBind.tryBind(game, shipPos, angle);
       }
       if (myPlanetBind != null) {
-        myPlanetBind.setDiff(spd, shipPos);
+        myPlanetBind.setDiff(spd, shipPos, false);
         spd.scl(1/game.getTimeStep());
         angle += myPlanetBind.getAngleDiff(angle);
       }

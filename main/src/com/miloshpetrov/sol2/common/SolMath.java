@@ -233,16 +233,16 @@ public class SolMath {
   @Bound
   public static Vector2 toWorld(Vector2 relPos, float baseAngle, Vector2 basePos) {
     Vector2 v = getVec();
-    toWorld(v, relPos, baseAngle, basePos);
+    toWorld(v, relPos, baseAngle, basePos, false);
     return v;
   }
 
   /**
    * converts relPos (a position in a relative coordinate system defined by baseAngle and basePos) to the absolute position (which is written to pos)
    */
-  public static void toWorld(Vector2 pos, Vector2 relPos, float baseAngle, Vector2 basePos) {
+  public static void toWorld(Vector2 pos, Vector2 relPos, float baseAngle, Vector2 basePos, boolean precise) {
     pos.set(relPos);
-    rotate(pos, baseAngle);
+    rotate(pos, baseAngle, precise);
     pos.add(basePos);
   }
 

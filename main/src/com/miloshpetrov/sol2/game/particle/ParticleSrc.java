@@ -107,7 +107,7 @@ public class ParticleSrc implements Dra {
     maybeSwitchRelPos(game);
     Vector2 basePos = o.getPos();
     float baseAngle = o.getAngle();
-    SolMath.toWorld(myPos, myRelPos, baseAngle, basePos);
+    SolMath.toWorld(myPos, myRelPos, baseAngle, basePos, false);
     float ts = game.getTimeStep();
     fixSpeedBug(ts);
     myEmitter.setPosition(myPos.x, myPos.y);

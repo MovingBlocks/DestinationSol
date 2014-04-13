@@ -17,8 +17,8 @@ public class PlanetBind {
     myRelAngle = angle - planetAngle;
   }
 
-  public void setDiff(Vector2 diff, Vector2 pos) {
-    SolMath.toWorld(diff, myRelPos, myPlanet.getAngle(), myPlanet.getPos());
+  public void setDiff(Vector2 diff, Vector2 pos, boolean precise) {
+    SolMath.toWorld(diff, myRelPos, myPlanet.getAngle(), myPlanet.getPos(), precise);
     diff.sub(pos);
   }
 

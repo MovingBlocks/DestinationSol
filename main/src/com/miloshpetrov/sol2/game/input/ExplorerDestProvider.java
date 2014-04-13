@@ -82,7 +82,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
       calcRelDest(hullConfig);
     }
 
-    SolMath.toWorld(myDest, myRelDest, myPlanet.getAngle(), myPlanet.getPos());
+    SolMath.toWorld(myDest, myRelDest, myPlanet.getAngle(), myPlanet.getPos(), false);
   }
 
   @Override
