@@ -1,7 +1,7 @@
 package com.miloshpetrov.sol2;
 
 public class Const {
-  public static final float ATM_HEIGHT = 17f;
+  public static final float ATM_HEIGHT = 14f;
   public static final float MAX_SKY_HEIGHT_FROM_GROUND = 1.5f * ATM_HEIGHT;
   public static final float MAX_GROUND_HEIGHT = 25f;
   public static final float SUN_RADIUS = 2f * (MAX_GROUND_HEIGHT + ATM_HEIGHT);

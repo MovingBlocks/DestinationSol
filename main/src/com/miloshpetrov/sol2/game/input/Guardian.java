@@ -23,7 +23,7 @@ public class Guardian implements MoveDestProvider {
     myTargetPilot = target.getPilot();
     myDest = new Vector2();
     myAngle = SolMath.rnd(180);
-    setDest(game, target.getPos(), target.getHull().config.size, hullConfig);
+    setDest(game, target.getPos(), target.getHull().config.approxRadius, hullConfig);
   }
 
   @Override
@@ -51,16 +51,16 @@ public class Guardian implements MoveDestProvider {
     updateTarget(game);
     myDest.set(shipPos);
     Vector2 targetPos;
-    float targetSize;
+    float targetApproxRad;
     if (myTarget == null) {
       if (myFarTarget == null) return;
       targetPos = myFarTarget.getPos();
-      targetSize = myFarTarget.getHullConfig().size;
+      targetApproxRad = myFarTarget.getHullConfig().approxRadius;
     } else {
       targetPos = myTarget.getPos();
-      targetSize = myTarget.getHull().config.size;
+      targetApproxRad = myTarget.getHull().config.approxRadius;
     }
-    setDest(game, targetPos, targetSize, hullConfig);
+    setDest(game, targetPos, targetApproxRad, hullConfig);
   }
 
   public void updateTarget(SolGame game) {
@@ -87,13 +87,13 @@ public class Guardian implements MoveDestProvider {
     }
   }
 
-  private void setDest(SolGame game, Vector2 targetPos, float targetSize, HullConfig hullConfig) {
+  private void setDest(SolGame game, Vector2 targetPos, float targetApproxRad, HullConfig hullConfig) {
     Planet np = game.getPlanetMan().getNearestPlanet(targetPos);
     float desiredAngle = myAngle;
     if (np.isNearGround(targetPos)) {
       desiredAngle = SolMath.angle(np.getPos(), targetPos);
     }
-    SolMath.fromAl(myDest, desiredAngle, targetSize/2 + 2 + hullConfig.size/2);
+    SolMath.fromAl(myDest, desiredAngle, targetApproxRad + 2 + hullConfig.approxRadius);
     myDest.add(targetPos);
   }
 
