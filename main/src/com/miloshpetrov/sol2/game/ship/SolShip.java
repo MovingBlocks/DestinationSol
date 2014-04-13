@@ -119,6 +119,7 @@ public class SolShip implements SolObj {
     if (!(obj instanceof Loot)) return false;
     if (!myPilot.collectsItems()) return false;
     Loot loot = (Loot) obj;
+    if (loot.getOwner() == this) return false;
     SolItem i = loot.getItem();
     if (i == null) return false;
     if (i instanceof MoneyItem) {
@@ -168,7 +169,7 @@ public class SolShip implements SolObj {
   public void update(SolGame game) {
     SolShip nearestEnemy = game.getFractionMan().getNearestEnemy(game, this);
     myPilot.update(game, this, nearestEnemy);
-    pullDroppedItems(game);
+    pullLoot(game);
     myHull.update(game, myItemContainer, myPilot, this, nearestEnemy);
 
     updateAbility(game);
@@ -233,12 +234,12 @@ public class SolShip implements SolObj {
     return myItemContainer.count(example) > 0;
   }
 
-  private void pullDroppedItems(SolGame game) {
+  private void pullLoot(SolGame game) {
     if (!myPilot.collectsItems() || !myItemContainer.canAdd()) return;
     Vector2 pos = getPos();
     for (SolObj obj : game.getObjMan().getObjs()) {
       if (!(obj instanceof Loot)) continue;
-      ((Loot) obj).maybePulled(pos, PULL_DIST + myHull.config.approxRadius);
+      ((Loot) obj).maybePulled(this, pos, PULL_DIST + myHull.config.approxRadius);
     }
   }
 
@@ -251,23 +252,23 @@ public class SolShip implements SolObj {
   public void onRemove(SolGame game) {
     if (myHull.life <= 0) {
       game.getShardBuilder().buildExplosionShards(game, myHull.getPos(), myHull.getSpd(), myHull.config.size);
-      throwLoot(game);
+      throwAllLoot(game);
     }
     myHull.onRemove(game);
     game.getPartMan().finish(game, mySmokeSrc, myHull.getPos());
     game.getPartMan().finish(game, myFireSrc, myHull.getPos());
   }
 
-  private void throwLoot(SolGame game) {
+  private void throwAllLoot(SolGame game) {
     for (SolItem item : myItemContainer) {
       float dropChance = maybeUnequip(game, item, false) ? .2f : .8f;
       if (SolMath.test(1 - dropChance)) continue;
-      throwLoot0(game, item);
+      throwLoot(game, item, true);
     }
     if (myTradeContainer != null) for (SolItem item : myTradeContainer) {
       float dropChance = .8f;
       if (SolMath.test(1 - dropChance)) continue;
-      throwLoot0(game, item);
+      throwLoot(game, item, true);
     }
     float thrMoney = myMoney * SolMath.rnd(.3f, .7f);
     while (thrMoney > MoneyItem.AMT) {
@@ -279,15 +280,27 @@ public class SolShip implements SolObj {
         example = MoneyItem.EXAMPLE;
         thrMoney -= MoneyItem.AMT;
       }
-      throwLoot0(game, example.copy());
+      throwLoot(game, example.copy(), true);
     }
   }
 
-  private void throwLoot0(SolGame game, SolItem item) {
+  private void throwLoot(SolGame game, SolItem item, boolean onDeath) {
     Vector2 lootSpd = new Vector2();
-    SolMath.fromAl(lootSpd, SolMath.rnd(180), SolMath.rnd(0, Loot.MAX_SPD));
+    float spdAngle;
+    float spdLen;
+    Vector2 pos = new Vector2();
+    if (onDeath) {
+      spdAngle = SolMath.rnd(180);
+      spdLen = SolMath.rnd(0, Loot.MAX_SPD);
+    } else {
+      spdAngle = getAngle();
+      spdLen = Loot.MAX_SPD * 1.5f;
+      SolMath.fromAl(pos, spdAngle, myHull.config.approxRadius);
+    }
+    SolMath.fromAl(lootSpd, spdAngle, spdLen);
     lootSpd.add(myHull.getSpd());
-    Loot l = game.getLootBuilder().build(game, myHull.getPos(), item, lootSpd, Loot.MAX_LIFE, SolMath.rnd(Loot.MAX_ROT_SPD));
+    pos.add(myHull.getPos());
+    Loot l = game.getLootBuilder().build(game, pos, item, lootSpd, Loot.MAX_LIFE, SolMath.rnd(Loot.MAX_ROT_SPD), this);
     game.getObjMan().addObjDelayed(l);
   }
 
@@ -469,5 +482,10 @@ public class SolShip implements SolObj {
 
   public boolean isControlsEnabled() {
     return myControlEnableAwait <= 0;
+  }
+
+  public void dropItem(SolGame game, SolItem item) {
+    myItemContainer.remove(item);
+    throwLoot(game, item, false);
   }
 }

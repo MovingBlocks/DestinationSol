@@ -24,7 +24,7 @@ public class TutMan {
     myMsgs.put(6, "Press I to see your inventory");
     myMsgs.put(7, "In the inventory, press DOWN to select next item");
     myMsgs.put(8, "In the inventory, press LEFT to see next page");
-    myMsgs.put(9, "In the inventory, press D to destroy the item");
+    myMsgs.put(9, "In the inventory, press D to drop the item");
     myMsgs.put(10, "In the inventory, select \"Engine\" and press SPACE to start using it");
     myMsgs.put(11, "In the inventory, select \"Slow Gun\" and press CTRL to start using it as a secondary weapon");
     myMsgs.put(12, "Press I or ESC to close the inventory");
@@ -74,7 +74,7 @@ public class TutMan {
     case 6: return itemsOpen(g);
     case 7: return itemsDown(g);
     case 8: return itemsLeft(g);
-    case 9: return itemsDestroy(g);
+    case 9: return itemsDrop(g);
     case 10: return itemsUse(g);
     case 11: return itemsUse2(g);
     case 12: return itemsClose(g);
@@ -142,8 +142,8 @@ public class TutMan {
     return engineSelected && g.getScreens().inventoryScreen.showInventory.eq1Ctrl.isJustOff();
   }
 
-  private boolean itemsDestroy(SolGame g) {
-    return g.getScreens().inventoryScreen.showInventory.destroyCtrl.isJustOff();
+  private boolean itemsDrop(SolGame g) {
+    return g.getScreens().inventoryScreen.showInventory.dropCtrl.isJustOff();
   }
 
   private boolean itemsDown(SolGame g) {
