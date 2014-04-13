@@ -40,11 +40,10 @@ public class PointProjectileBody implements ProjectileBody {
   }
 
   @Override
-  public void receiveAcc(Vector2 acc, SolGame game) {
-    Vector2 diff = SolMath.getVec(acc);
-    diff.scl(game.getTimeStep());
-    mySpd.add(diff);
-    SolMath.free(diff);
+  public void receiveForce(Vector2 force, SolGame game, boolean acc) {
+    force.scl(game.getTimeStep());
+    if (acc) force.scl(.1f);
+    mySpd.add(force);
   }
 
   @Override

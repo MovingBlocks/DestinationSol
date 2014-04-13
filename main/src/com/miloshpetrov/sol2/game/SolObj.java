@@ -14,7 +14,7 @@ public interface SolObj {
   float getRadius();
   void receiveDmg(float dmg, SolGame game, @Nullable Vector2 pos, DmgType dmgType);
   boolean receivesGravity();
-  void receiveAcc(Vector2 acc, SolGame game);
+  void receiveForce(Vector2 force, SolGame game, boolean acc);
   Vector2 getPos();
   FarObj toFarObj();
   List<Dra> getDras();

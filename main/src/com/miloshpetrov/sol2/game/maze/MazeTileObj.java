@@ -61,7 +61,7 @@ public class MazeTileObj implements SolObj {
   }
 
   @Override
-  public void receiveAcc(Vector2 acc, SolGame game) {
+  public void receiveForce(Vector2 force, SolGame game, boolean acc) {
   }
 
   @Override
