@@ -128,7 +128,6 @@ public class ShipBuilder {
     FixtureDef shieldDef = new FixtureDef();
     shieldDef.shape = shieldShape;
     shieldDef.isSensor = true;
-    shieldDef.filter.categoryBits = 0;
     Fixture shieldFixture = body.createFixture(shieldDef);
     shieldShape.dispose();
     return shieldFixture;

@@ -12,18 +12,17 @@ public class PointProjectileBody implements ProjectileBody {
   private final MyRayBack myRayBack;
 
   public PointProjectileBody(float angle, Vector2 muzzlePos, Vector2 gunSpd, float spdLen,
-    Projectile projectile)
+    Projectile projectile, SolGame game)
   {
     myPos = new Vector2(muzzlePos);
     mySpd = new Vector2();
     SolMath.fromAl(mySpd, angle, spdLen);
     mySpd.add(gunSpd);
-    myRayBack = new MyRayBack(projectile);
+    myRayBack = new MyRayBack(projectile, game);
   }
 
   @Override
   public void update(SolGame game) {
-    if (myRayBack.obstacle != null) return;
     Vector2 prevPos = SolMath.getVec(myPos);
     Vector2 diff = SolMath.getVec(mySpd);
     diff.scl(game.getTimeStep());
@@ -31,7 +30,6 @@ public class PointProjectileBody implements ProjectileBody {
     SolMath.free(diff);
     game.getObjMan().getWorld().rayCast(myRayBack, prevPos, myPos);
     SolMath.free(prevPos);
-    if (myRayBack.obstacle != null) myPos.set(myRayBack.collPoint);
   }
 
   @Override
@@ -57,19 +55,8 @@ public class PointProjectileBody implements ProjectileBody {
   }
 
   @Override
-  public SolObj getObstacle() {
-    return myRayBack.obstacle;
-  }
-
-  @Override
   public float getAngle() {
     return SolMath.angle(mySpd);
-  }
-
-  @Override
-  public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
-    SolGame game, Vector2 collPos)
-  {
   }
 
   @Override
@@ -78,24 +65,24 @@ public class PointProjectileBody implements ProjectileBody {
   }
 
 
-  private static class MyRayBack implements RayCastCallback {
-    public final Projectile myProjectile;
-    public SolObj obstacle;
-    public final Vector2 collPoint;
+  private class MyRayBack implements RayCastCallback {
 
-    private MyRayBack(Projectile projectile) {
-      this.myProjectile = projectile;
-      collPoint = new Vector2();
+    private final Projectile myProjectile;
+    private final SolGame myGame;
+
+    private MyRayBack(Projectile projectile, SolGame game) {
+      myProjectile = projectile;
+      myGame = game;
     }
 
     @Override
     public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-      if (fixture.getFilterData().categoryBits == 0) return -1;
       SolObj o = (SolObj) fixture.getBody().getUserData();
-      if (!myProjectile.shouldCollide(o)) return -1;
-      obstacle = o;
-      collPoint.set(point);
-      return 0;
+      if (myProjectile.maybeCollide(o, fixture, myGame.getFractionMan())) {
+        myPos.set(point);
+        return 0;
+      }
+      return -1;
     }
   }
 }

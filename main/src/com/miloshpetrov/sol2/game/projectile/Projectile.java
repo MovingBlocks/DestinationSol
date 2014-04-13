@@ -4,11 +4,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.*;
+import com.miloshpetrov.sol2.game.item.Shield;
 import com.miloshpetrov.sol2.game.particle.*;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
@@ -30,6 +32,7 @@ public class Projectile implements SolObj {
   private final ProjectileConfig myConfig;
 
   private boolean myShouldRemove;
+  private SolObj myObstacle;
 
   public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpd, Fraction fraction, float dmg,
     ProjectileConfig config, boolean varySpd)
@@ -51,7 +54,7 @@ public class Projectile implements SolObj {
     if (myConfig.physSize > 0) {
       myBody = new BallProjectileBody(game, muzzlePos, angle, this, myConfig.physSize, gunSpd, spdLen);
     } else {
-      myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, spdLen, this);
+      myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, spdLen, this, game);
     }
     myFraction = fraction;
     myBodyEffect = buildEffect(game, myConfig.bodyEffect, DraLevel.PART_BG_0, null, true);
@@ -79,10 +82,9 @@ public class Projectile implements SolObj {
   @Override
   public void update(SolGame game) {
     myBody.update(game);
-    SolObj obstacle = myBody.getObstacle();
-    if (obstacle != null) {
+    if (myObstacle != null) {
       collided(game);
-      obstacle.receiveDmg(myDmg, game, myBody.getPos(), myConfig.dmgType);
+      myObstacle.receiveDmg(myDmg, game, myBody.getPos(), myConfig.dmgType);
       return;
     }
     if (myLightSrc != null) myLightSrc.update(true, myBody.getAngle(), game);
@@ -178,7 +180,6 @@ public class Projectile implements SolObj {
   public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
     SolGame game, Vector2 collPos)
   {
-    myBody.handleContact(other, impulse, isA, absImpulse, game, collPos);
   }
 
   @Override
@@ -200,13 +201,18 @@ public class Projectile implements SolObj {
     return myFraction;
   }
 
-  public boolean shouldCollide(SolObj o) {
+  public boolean maybeCollide(SolObj o, Fixture f, FractionMan fractionMan) {
     if (o instanceof SolShip) {
-      return ((SolShip) o).getPilot().getFraction() != myFraction;
+      SolShip s = (SolShip) o;
+      if (!fractionMan.areEnemies(s.getPilot().getFraction(), myFraction)) return false;
+      if (s.getHull().getShieldFixture() == f) {
+        Shield shield = s.getShield();
+        if (shield == null || shield.getLife() <= 0) return false;
+      }
+    } else if (o instanceof Projectile) {
+      if (!fractionMan.areEnemies(((Projectile) o).myFraction, myFraction)) return false;
     }
-    if (o instanceof Projectile) {
-      return ((Projectile) o).myFraction != myFraction;
-    }
+    myObstacle = o;
     return true;
   }
 

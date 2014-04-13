@@ -50,6 +50,8 @@ public class ShardBuilder {
     body.setLinearVelocity(spd);
     SolMath.free(spd);
 
-    return new Shard(body, dras);
+    Shard shard = new Shard(body, dras);
+    body.setUserData(shard);
+    return shard;
   }
 }

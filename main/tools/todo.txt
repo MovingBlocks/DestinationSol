@@ -1,5 +1,4 @@
 
-bullets fly thru ships sometimes -- blame shields... needs better understanding of Box2D categories
 getNearestEnemy should consider enemy size... And many other places should negate ship sizes from dst...
 multiple enemies spawn in one point on planet --   remember consumed angles on planet
 Guardian DestProvider should be able to guard not only a ship, but also Vector2 targetPos

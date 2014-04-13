@@ -23,7 +23,7 @@ public class ObjMan {
   private float myFarEndDist;
   private float myFarBeginDist;
 
-  public ObjMan(SolContactListener contactListener) {
+  public ObjMan(SolContactListener contactListener, FractionMan fractionMan) {
     myObjs = new ArrayList<SolObj>();
     myToRemove = new HashSet<SolObj>();
     myToAdd = new HashSet<SolObj>();
@@ -32,7 +32,7 @@ public class ObjMan {
     myFarToAdd = new HashSet<FarObj>();
     myWorld = new World(new Vector2(0, 0), true);
     myWorld.setContactListener(contactListener);
-    myWorld.setContactFilter(new SolContactFilter());
+    myWorld.setContactFilter(new SolContactFilter(fractionMan));
     myDr = new Box2DDebugRenderer();
     myFarObjDelays = new HashMap<FarObj, FarObjData>();
   }

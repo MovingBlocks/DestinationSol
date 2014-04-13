@@ -28,16 +28,11 @@ public class SolContactListener implements ContactListener {
   public void postSolve(Contact contact, ContactImpulse impulse) {
     SolObj soa = (SolObj) contact.getFixtureA().getBody().getUserData();
     SolObj sob = (SolObj) contact.getFixtureB().getBody().getUserData();
-    if (soa == null && sob == null) return;
 
     float absImpulse = calcAbsImpulse(impulse);
     Vector2 collPos = contact.getWorldManifold().getPoints()[0];
-    if (soa != null) {
-      soa.handleContact(sob, impulse, true, absImpulse, myGame, collPos);
-    }
-    if (sob != null) {
-      sob.handleContact(soa, impulse, false, absImpulse, myGame, collPos);
-    }
+    soa.handleContact(sob, impulse, true, absImpulse, myGame, collPos);
+    sob.handleContact(soa, impulse, false, absImpulse, myGame, collPos);
     if (!(sob instanceof Projectile)) myGame.getSpecialSounds().playColl(myGame, absImpulse, soa, collPos);
     if (!(soa instanceof Projectile)) myGame.getSpecialSounds().playColl(myGame, absImpulse, sob, collPos);
   }
