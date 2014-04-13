@@ -16,7 +16,7 @@ public class ShowInventory implements InventoryOperations {
   private final List<SolUiControl> myControls;
   public final SolUiControl eq1Ctrl;
   public final SolUiControl eq2Ctrl;
-  public final SolUiControl destroyCtrl;
+  public final SolUiControl dropCtrl;
 
   public ShowInventory(InventoryScreen inventoryScreen) {
     myControls = new ArrayList<SolUiControl>();
@@ -29,9 +29,9 @@ public class ShowInventory implements InventoryOperations {
     eq2Ctrl.setDisplayName("Eq2");
     myControls.add(eq2Ctrl);
 
-    destroyCtrl = new SolUiControl(inventoryScreen.itemCtrl(2), Input.Keys.D);
-    destroyCtrl.setDisplayName("Destroy");
-    myControls.add(destroyCtrl);
+    dropCtrl = new SolUiControl(inventoryScreen.itemCtrl(2), Input.Keys.D);
+    dropCtrl.setDisplayName("Drop");
+    myControls.add(dropCtrl);
   }
 
   @Override
@@ -50,17 +50,17 @@ public class ShowInventory implements InventoryOperations {
     eq1Ctrl.setEnabled(false);
     eq2Ctrl.setDisplayName("---");
     eq2Ctrl.setEnabled(false);
-    destroyCtrl.setEnabled(false);
+    dropCtrl.setEnabled(false);
 
     if (selected == null || hero == null) {
       return;
     }
 
-    destroyCtrl.setEnabled(true);
-    if (destroyCtrl.isJustOff()) {
+    dropCtrl.setEnabled(true);
+    if (dropCtrl.isJustOff()) {
       ItemContainer ic = hero.getItemContainer();
       is.setSelected(ic.getNext(selected));
-      ic.remove(selected);
+      hero.dropItem(cmp.getGame(), selected);
       return;
     }
 

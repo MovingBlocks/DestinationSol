@@ -1,8 +1,5 @@
 
 multiple enemies spawn in one point on planet -- remember consumed angles on planet
-
-brakes?
-drop items
 farBg appears too late...
 
 
@@ -46,6 +43,7 @@ DISCUSS:
 
 
 BORING:
+  brakes?
   force beacon: replace static texture with moving ones
   black filler inside planets + lower planet tiles should have darker tint
   bullets are too narrow on phone -- use realLineWidth() as a minimum width

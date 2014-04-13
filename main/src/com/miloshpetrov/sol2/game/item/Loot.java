@@ -8,6 +8,7 @@ import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
 import com.miloshpetrov.sol2.game.dra.DraMan;
 import com.miloshpetrov.sol2.game.particle.LightSrc;
+import com.miloshpetrov.sol2.game.ship.SolShip;
 
 import java.util.List;
 
@@ -19,22 +20,27 @@ public class Loot implements SolObj {
   public static final float DURABILITY = 70f;
   public static final float PULL_DESIRED_SPD = 1f;
   public static final float PULL_FORCE = .5f;
+  public static final float MAX_OWNER_AWAIT = 4f;
   private final SolItem myItem;
   private final List<Dra> myDras;
   private final LightSrc myLightSrc;
   private final float myRadius;
   private final Vector2 myPos;
-
   private final Body myBody;
+
+  private SolShip myOwner;
+  private float myOwnerAwait;
   private int myLife;
   private float myAngle;
 
-  public Loot(SolItem item, Body body, int life, List<Dra> dras, LightSrc ls) {
+  public Loot(SolItem item, Body body, int life, List<Dra> dras, LightSrc ls, SolShip owner) {
     myBody = body;
     myLife = life;
     myItem = item;
     myDras = dras;
     myLightSrc = ls;
+    myOwner = owner;
+    myOwnerAwait = MAX_OWNER_AWAIT;
     myRadius = DraMan.radiusFromDras(myDras);
     myPos = new Vector2();
     setParamsFromBody();
@@ -44,6 +50,10 @@ public class Loot implements SolObj {
   public void update(SolGame game) {
     setParamsFromBody();
     myLightSrc.update(true, myAngle, game);
+    if (myOwnerAwait > 0) {
+      myOwnerAwait -= game.getTimeStep();
+      if (myOwnerAwait <= 0) myOwner = null;
+    }
   }
 
   private void setParamsFromBody() {
@@ -131,7 +141,8 @@ public class Loot implements SolObj {
     return true;
   }
 
-  public void maybePulled(Vector2 pullerPos, float radius) {
+  public void maybePulled(SolShip ship, Vector2 pullerPos, float radius) {
+    if (ship == myOwner) return;
     Vector2 toPuller = SolMath.getVec(pullerPos);
     toPuller.sub(getPos());
     float pullerDist = toPuller.len();
@@ -155,5 +166,9 @@ public class Loot implements SolObj {
 
   public void setLife(int life) {
     myLife = life;
+  }
+
+  public SolShip getOwner() {
+    return myOwner;
   }
 }
