@@ -1,18 +1,13 @@
 
-multiple enemies spawn in one point on planet --   remember consumed angles on planet
+multiple enemies spawn in one point on planet -- remember consumed angles on planet
 
-strange shard speeds
-enemies should use abilities
 brakes?
 drop items
 farBg appears too late...
-starports should be on differernt distances from planet center, since now they overlap
-split orbiters to highOrbiter & lowOrbiter
 
 
 PERF:
   build everything as far + SG.isPlaceEmpty should iterate over far objs
-  use circles instead of polys
   get rid of getVec, use static vectors, 3 should be enough
   far ship positions should be calculated on demand?
   test on every object preloaded
@@ -55,6 +50,10 @@ BORING:
   black filler inside planets + lower planet tiles should have darker tint
   bullets are too narrow on phone -- use realLineWidth() as a minimum width
   set pitch to all played sounds if game time is changed
+  starports should be on differernt distances from planet center, since now they overlap
+  split orbiters to highOrbiter & lowOrbiter
+  enemies should use abilities
+  use circles instead of polys where possible
 
 
 ++++++++++++++++++++++++++++++++++++++ AFTER ALL CONTENT IS IN THE GAME
