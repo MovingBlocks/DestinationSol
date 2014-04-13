@@ -20,17 +20,19 @@ public class BattleDestProvider {
     if (!battle) throw new AssertionError("can't flee yet!");
     float prefAngle;
     Vector2 enemyPos = enemy.getPos();
+    float approxRad = ship.getHull().config.approxRadius;
+    float enemyApproxRad = enemy.getHull().config.approxRadius;
     if (!np.isNearGround(enemyPos)) {
       float toShipAngle = SolMath.angle(enemyPos, ship.getPos());
       float a = toShipAngle + 90 * SolMath.toInt(myCw);
-      float len = ship.getHull().config.size/2 + .25f + enemy.getHull().config.size/2;
+      float len = approxRad + .25f + enemyApproxRad;
       SolMath.fromAl(myDest, a, len);
       myDest.add(enemyPos);
       myStopNearDest = false;
     } else {
       prefAngle = SolMath.angle(np.getPos(), enemyPos);
       myStopNearDest = true;
-      SolMath.fromAl(myDest, prefAngle, GROUND_BATTLE_DIST_PERC * shootDist);
+      SolMath.fromAl(myDest, prefAngle, approxRad + GROUND_BATTLE_DIST_PERC * shootDist + enemyApproxRad);
       myDest.add(enemyPos);
     }
     return myDest;

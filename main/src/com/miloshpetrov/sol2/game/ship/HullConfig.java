@@ -25,6 +25,7 @@ public class HullConfig {
   public final TextureAtlas.AtlasRegion tex;
   public final EngineItem.Config engineConfig;
   public final AbilityConfig ability;
+  public final float approxRadius;
 
   public HullConfig(String texName, float size, int maxLife, Vector2 e1Pos, Vector2 e2Pos, Vector2 g1Pos,
     Vector2 g2Pos, ArrayList<Vector2> lightSrcPoss,
@@ -34,6 +35,7 @@ public class HullConfig {
   {
     this.texName = texName;
     this.size = size;
+    this.approxRadius = .4f * size;
     this.maxLife = maxLife;
     this.e1Pos = e1Pos;
     this.e2Pos = e2Pos;

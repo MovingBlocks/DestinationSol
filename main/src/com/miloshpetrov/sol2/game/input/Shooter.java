@@ -18,7 +18,7 @@ public class Shooter {
   }
 
   public void update(SolShip ship, Vector2 enemyPos, boolean dontRotate, boolean canShoot, Vector2 enemySpd,
-    float shootDist, float enemySz)
+    float shootDist, float enemyApproxRad)
   {
     myLeft = false;
     myRight = false;
@@ -27,7 +27,7 @@ public class Shooter {
     Vector2 shipPos = ship.getPos();
     if (enemyPos == null || !canShoot) return;
     float toEnemyDst = enemyPos.dst(shipPos);
-    if (shootDist < toEnemyDst) return;
+    if (shootDist + enemyApproxRad < toEnemyDst) return;
 
     GunItem g1 = processGun(ship, false);
     GunItem g2 = processGun(ship, true);
@@ -58,7 +58,7 @@ public class Shooter {
       shootAngle += toGun - toShip;
     }
     float shipAngle = ship.getAngle();
-    float maxAngleDiff = SolMath.angularWidthOfSphere(enemySz / 2, toEnemyDst) + 10f;
+    float maxAngleDiff = SolMath.angularWidthOfSphere(enemyApproxRad, toEnemyDst) + 10f;
     if (SolMath.angleDiff(shootAngle, shipAngle) < maxAngleDiff) {
       myShoot = true;
       myShoot2 = true;

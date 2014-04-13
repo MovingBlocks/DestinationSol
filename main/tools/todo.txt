@@ -1,20 +1,20 @@
 
-getNearestEnemy should consider enemy size... And many other places should negate ship sizes from dst...
-multiple enemies spawn in one point on planet --   remember consumed angles on planet
 Guardian DestProvider should be able to guard not only a ship, but also Vector2 targetPos
-smooth camera rotation + sometimes camera does 360 when leaving a planet
 ground ships should use Guardian DestProvider
-enemies should use abilities
+smooth camera rotation + sometimes camera does 360 when leaving a planet
+multiple enemies spawn in one point on planet --   remember consumed angles on planet
 
 strange shard speeds
+enemies should use abilities
 brakes?
 drop items
 farBg appears too late...
 starports should be on differernt distances from planet center, since now they overlap
+split orbiters to highOrbiter & lowOrbiter
 
 
 PERF:
-  build everything as far
+  build everything as far + SG.isPlaceEmpty should iterate over far objs
   use circles instead of polys
   get rid of getVec, use static vectors, 3 should be enough
   far ship positions should be calculated on demand?

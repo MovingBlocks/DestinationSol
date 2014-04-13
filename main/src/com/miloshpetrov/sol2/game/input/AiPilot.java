@@ -48,6 +48,7 @@ public class AiPilot implements Pilot {
     boolean canShoot = canShoot0(ship);
     Planet np = game.getPlanetMan().getNearestPlanet();
     float shootDist = np.isNearGround(shipPos) ? game.getCam().getGroundViewDist() : game.getCam().getSpaceViewDist();
+    shootDist += hullConfig.approxRadius;
 
     Vector2 dest = null;
     boolean shouldStopNearDest = false;
@@ -69,8 +70,8 @@ public class AiPilot implements Pilot {
 
     Vector2 enemyPos = nearestEnemy == null ? null : nearestEnemy.getPos();
     Vector2 enemySpd = nearestEnemy == null ? null : nearestEnemy.getSpd();
-    float enemySz = nearestEnemy == null ? 0 : nearestEnemy.getHull().config.size;
-    myShooter.update(ship, enemyPos, moverActive, canShoot, enemySpd, shootDist, enemySz);
+    float enemyApproxRad = nearestEnemy == null ? 0 : nearestEnemy.getHull().config.approxRadius;
+    myShooter.update(ship, enemyPos, moverActive, canShoot, enemySpd, shootDist, enemyApproxRad);
     if (hasEngine && !moverActive && !isShooterRotated()) {
       myMover.rotateOnIdle(ship, np, dest, shouldStopNearDest, maxIdleDist);
     }

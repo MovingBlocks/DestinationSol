@@ -238,7 +238,7 @@ public class SolShip implements SolObj {
     Vector2 pos = getPos();
     for (SolObj obj : game.getObjMan().getObjs()) {
       if (!(obj instanceof Loot)) continue;
-      ((Loot) obj).maybePulled(pos, PULL_DIST + myHull.config.size/2);
+      ((Loot) obj).maybePulled(pos, PULL_DIST + myHull.config.approxRadius);
     }
   }
 
