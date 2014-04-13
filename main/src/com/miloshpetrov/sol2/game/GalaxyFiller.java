@@ -135,12 +135,11 @@ public class GalaxyFiller {
     Guardian dp = new Guardian(game, target, guardConf.hull);
     float detectionDist = game.getCam().getSpaceViewDist() * 2;
     Pilot pilot = new AiPilot(dp, true, frac, false, null, detectionDist);
-    boolean mountFixed1, mountFixed2, hasRepairer;
-    mountFixed1 = guardConf.isMountFixed1;
-    mountFixed2 = guardConf.isMountFixed2;
-    hasRepairer = guardConf.hasRepairer;
+    boolean mountFixed1 = guardConf.isMountFixed1;
+    boolean mountFixed2 = guardConf.isMountFixed2;
+    boolean hasRepairer = guardConf.hasRepairer;
     int money = guardConf.money;
-    SolShip e = game.getShipBuilder().buildNew(game, dp.getDest(), null, SolMath.rnd(180), 0, pilot, guardConf.items,
+    SolShip e = game.getShipBuilder().buildNew(game, dp.getDest(), null, dp.getAngle(), 0, pilot, guardConf.items,
       guardConf.hull, mountFixed1, mountFixed2, null, hasRepairer, money, null);
     game.getObjMan().addObjDelayed(e);
   }

@@ -101,4 +101,8 @@ public class Guardian implements MoveDestProvider {
   public Boolean shouldManeuver(boolean canShoot) {
     return true;
   }
+
+  public float getAngle() {
+    return myAngle;
+  }
 }
