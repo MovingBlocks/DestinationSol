@@ -19,7 +19,7 @@ public class PlanetMan {
   private final ArrayList<SolSystem> mySystems;
   private final ArrayList<Planet> myPlanets;
   private final ArrayList<SystemBelt> myBelts;
-  private final LandingPlaceFinder myLandingPlaceFinder;
+  private final FlatPlaceFinder myFlatPlaceFinder;
   private final PlanetConfigs myPlanetConfigs;
   private final MazeConfigs myMazeConfigs;
   private final ArrayList<Maze> myMazes;
@@ -36,7 +36,7 @@ public class PlanetMan {
     myMazes = new ArrayList<Maze>();
     myPlanets = new ArrayList<Planet>();
     myBelts = new ArrayList<SystemBelt>();
-    myLandingPlaceFinder = new LandingPlaceFinder();
+    myFlatPlaceFinder = new FlatPlaceFinder();
     mySunSingleton = new SunSingleton(texMan);
   }
 
@@ -158,8 +158,9 @@ public class PlanetMan {
     return mySystems;
   }
 
-  public Vector2 findLandingPlace(SolGame game, Planet p, ArrayList<Float> takenAngles) {
-    return myLandingPlaceFinder.find(game, p, takenAngles);
+  public Vector2 findFlatPlace(SolGame game, Planet p, PlanetObjsBuilder.ConsumedAngles takenAngles,
+    float objHalfWidth) {
+    return myFlatPlaceFinder.find(game, p, takenAngles, objHalfWidth);
   }
 
   public ArrayList<Maze> getMazes() {

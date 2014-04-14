@@ -43,7 +43,7 @@ public class PlanetObjsBuilder {
   }
 
   private void createEnemies(SolGame game, Planet planet) {
-    ArrayList<Float> takenAngles = new ArrayList<Float>();
+    ConsumedAngles takenAngles = new ConsumedAngles();
 
     ShipConfig cfg = planet.getConfig().stationConfig;
     SolShip b = buildGroundShip(game, planet, cfg, "", Fraction.LAANI, takenAngles);
@@ -188,6 +188,7 @@ public class PlanetObjsBuilder {
     Map<Vector2, List<Dra>> collector, DecoConfig dc)
   {
     World w = game.getObjMan().getWorld();
+    ConsumedAngles consumed = new ConsumedAngles();
 
     final Vector2 rayCasted = new Vector2();
     RayCastCallback rcc = new RayCastCallback() {
@@ -203,7 +204,18 @@ public class PlanetObjsBuilder {
 
     int decoCount = (int) (2 * SolMath.PI * groundHeight * dc.density);
     for (int i = 0; i < decoCount; i++) {
-      float decoAngle = SolMath.rnd(180);
+      float decoSz = SolMath.rnd(dc.szMin, dc.szMax);
+      float angularHalfWidth = SolMath.angularWidthOfSphere(decoSz / 2, groundHeight);
+
+      float decoAngle = 0;
+      for (int j = 0; j < 5; j++) {
+        decoAngle = SolMath.rnd(180);
+        if (!consumed.isConsumed(decoAngle, angularHalfWidth)) {
+          consumed.add(decoAngle, angularHalfWidth);
+          break;
+        }
+      }
+
       SolMath.fromAl(rayCasted, decoAngle, groundHeight, true);
       rayCasted.add(planetPos);
       w.rayCast(rcc, rayCasted, planetPos);
@@ -216,7 +228,6 @@ public class PlanetObjsBuilder {
       SolMath.rotate(decoRelPos, -baseAngle - 90, true);
       float decoRelAngle = decoAngle - baseAngle;
 
-      float decoSz = SolMath.rnd(dc.szMin, dc.szMax);
 
       TextureAtlas.AtlasRegion decoTex = SolMath.elemRnd(dc.texs);
       if (dc.allowFlip) decoTex = game.getTexMan().getFlipped(decoTex);
@@ -233,9 +244,9 @@ public class PlanetObjsBuilder {
   }
 
   public SolShip buildGroundShip(SolGame game, Planet planet, ShipConfig ge, String tc,
-    Fraction fraction, ArrayList<Float> takenAngles)
+    Fraction fraction, ConsumedAngles takenAngles)
   {
-    Vector2 pos = game.getPlanetMan().findLandingPlace(game, planet, takenAngles);
+    Vector2 pos = game.getPlanetMan().findFlatPlace(game, planet, takenAngles, ge.hull.approxRadius);
     boolean station = ge.hull.type == HullConfig.Type.STATION;
     float aboveGround = ge.hull.size * (station ? .25f : .5f);
     String ic = ge.items;
@@ -287,5 +298,30 @@ public class PlanetObjsBuilder {
 
     return game.getShipBuilder().buildNew(game, pos, spd, 0, 0, provider, oe.items, oe.hull, mountFixed1, mountFixed2,
       null, hasRepairer, money, null);
-   }
+  }
+
+  public static class ConsumedAngles {
+    private final List<Float> myAngles;
+    private final List<Float> myHalfWidths;
+
+    public ConsumedAngles() {
+      myAngles = new ArrayList<Float>();
+      myHalfWidths = new ArrayList<Float>();
+    }
+
+    public boolean isConsumed(float angle, float objAngularHalfWidth) {
+      int sz = myAngles.size();
+      for (int i = 0; i < sz; i++) {
+        Float a = myAngles.get(i);
+        Float hw = myHalfWidths.get(i);
+        if (SolMath.angleDiff(angle, a) < hw + objAngularHalfWidth) return true;
+      }
+      return false;
+    }
+
+    public void add(float angle, float hw) {
+      myAngles.add(angle);
+      myHalfWidths.add(hw);
+    }
+  }
 }
