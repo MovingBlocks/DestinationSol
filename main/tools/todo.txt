@@ -1,11 +1,5 @@
 
 
-farBg appears too late:
-  chunkman should have a separate set for chunks filled far
-  make ChunkMan distances constants
-  less or equal in ChunkMan
-
-
 PERF:
   build everything as far + SG.isPlaceEmpty should iterate over far objs
   get rid of getVec, use static vectors, 3 should be enough
