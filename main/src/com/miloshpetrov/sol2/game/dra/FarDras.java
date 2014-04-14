@@ -50,4 +50,8 @@ public class FarDras implements FarObj {
   public String toDebugString() {
     return null;
   }
+
+  public List<Dra> getDras() {
+    return myDras;
+  }
 }

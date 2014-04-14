@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.*;
-import com.miloshpetrov.sol2.game.dra.Dra;
+import com.miloshpetrov.sol2.game.dra.*;
 import com.miloshpetrov.sol2.save.SaveData;
 
 import java.util.*;
@@ -136,6 +136,10 @@ public class ObjMan {
       return false;
     }
     float r = fo.getRadius();
+    if (fo instanceof FarDras) {
+      List<Dra> dras = ((FarDras)fo).getDras();
+      if (dras != null && dras.size() > 0) r *= dras.get(0).getLevel().depth;
+    }
     float dst = fo.getPos().dst(camPos) - r;
     if (dst < myFarEndDist) return true;
     fod.delay = (dst - myFarEndDist) / (2 * Const.MAX_MOVE_SPD);
@@ -144,6 +148,8 @@ public class ObjMan {
 
   private boolean isFar(SolObj o, Vector2 camPos) {
     float r = o.getRadius();
+    List<Dra> dras = o.getDras();
+    if (dras != null && dras.size() > 0) r *= dras.get(0).getLevel().depth;
     float dst = o.getPos().dst(camPos) - r;
     return myFarBeginDist < dst;
   }

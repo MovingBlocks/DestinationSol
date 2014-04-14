@@ -138,7 +138,7 @@ public class ParticleSrc implements Dra {
     if (myAreaSz == 0) return;
     float ts = game.getTimeStep();
     myTimeSincePosChange += ts;
-    if (myTimeSincePosChange < MAX_TIME_BETWEEN_POS_CHANGE) return;
+    if (!myWorking || myTimeSincePosChange < MAX_TIME_BETWEEN_POS_CHANGE) return;
     myTimeSincePosChange = 0;
     SolMath.fromAl(myRelPos, SolMath.rnd(180), SolMath.rnd(0, myAreaSz));
     myRelPos.add(myOrigRelPos);

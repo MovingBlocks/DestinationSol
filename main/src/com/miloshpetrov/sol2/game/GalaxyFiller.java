@@ -157,16 +157,16 @@ public class GalaxyFiller {
   }
 
   public Vector2 getPlayerSpawnPos(SolGame game, PlayerSpawnConfig.SpawnPlace spawnPlace) {
-    Vector2 pos = new Vector2();
+    Vector2 pos = new Vector2(Const.SUN_RADIUS * 2, 0);
 
     if (spawnPlace == PlayerSpawnConfig.SpawnPlace.PLANET) {
       Planet p = game.getPlanetMan().getPlanets().get(0);
       pos.set(p.getPos());
       pos.x += p.getFullHeight();
-    } else if (spawnPlace == PlayerSpawnConfig.SpawnPlace.STATION) {
+    } else if (spawnPlace == PlayerSpawnConfig.SpawnPlace.STATION && myMainStation != null) {
       SolMath.fromAl(pos, 90, myMainStation.getHull().config.size / 2);
       pos.add(myMainStation.getPos());
-    } else {
+    } else if (spawnPlace == PlayerSpawnConfig.SpawnPlace.MAZE) {
       Maze m = game.getPlanetMan().getMazes().get(0);
       pos.set(m.getPos());
       pos.x += m.getRadius();
