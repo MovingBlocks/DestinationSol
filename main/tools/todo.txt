@@ -1,6 +1,9 @@
 
-multiple enemies spawn in one point on planet -- remember consumed angles on planet
-farBg appears too late...
+
+farBg appears too late:
+  chunkman should have a separate set for chunks filled far
+  make ChunkMan distances constants
+  less or equal in ChunkMan
 
 
 PERF:
@@ -52,7 +55,7 @@ BORING:
   split orbiters to highOrbiter & lowOrbiter
   enemies should use abilities
   use circles instead of polys where possible
-
+  ships sometimes get inside tiles
 
 ++++++++++++++++++++++++++++++++++++++ AFTER ALL CONTENT IS IN THE GAME
 
@@ -114,8 +117,6 @@ PERF
 
 CLEANNESS
   improve teleport -- transfer body instantly via setTransform()
-  make ChunkMan distances constants
-  less or equal in ChunkMan
 
 DISPOSE
   BitmapFont

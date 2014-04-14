@@ -64,7 +64,7 @@ public class Planet {
 
   private void fillLangingPlaces(SolGame game) {
     for (int i = 0; i < 10; i++) {
-      Vector2 lp = game.getPlanetMan().findLandingPlace(game, this, null);
+      Vector2 lp = game.getPlanetMan().findFlatPlace(game, this, null, 0);
       myLps.add(lp);
     }
   }

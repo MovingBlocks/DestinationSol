@@ -6,9 +6,7 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 
-import java.util.ArrayList;
-
-public class LandingPlaceFinder {
+public class FlatPlaceFinder {
   private final Vector2 myVec = new Vector2();
   private float myDeviation;
 
@@ -24,22 +22,17 @@ public class LandingPlaceFinder {
     }
   };
 
-  public Vector2 find(SolGame game, Planet p, ArrayList<Float> takenAngles) {
+  public Vector2 find(SolGame game, Planet p, PlanetObjsBuilder.ConsumedAngles takenAngles, float objHalfWidth) {
     Vector2 pPos = p.getPos();
 
     Vector2 res = new Vector2(pPos);
     float minDeviation = 90;
+    float resAngle = 0;
+    float objAngularHalfWidth = SolMath.angularWidthOfSphere(objHalfWidth, p.getGroundHeight());
 
     for (int i = 0; i < 20; i++) {
       float angle = SolMath.rnd(180);
-      boolean angleTaken = false;
-      if (takenAngles != null) for (Float ta : takenAngles) {
-        if (SolMath.angleDiff(angle, ta) < 1) {
-          angleTaken = true;
-          break;
-        }
-      }
-      if (angleTaken) continue;
+      if (takenAngles != null && takenAngles.isConsumed(angle, objAngularHalfWidth)) continue;
       myDeviation = angle;
       SolMath.fromAl(myVec, angle, p.getFullHeight());
       myVec.add(pPos);
@@ -47,9 +40,11 @@ public class LandingPlaceFinder {
       if (myDeviation < minDeviation) {
         res.set(myVec);
         minDeviation = myDeviation;
+        resAngle = angle;
       }
     }
 
+    if (takenAngles != null) takenAngles.add(resAngle, objAngularHalfWidth);
     res.sub(pPos);
     SolMath.rotate(res, -p.getAngle());
     return res;
