@@ -1,27 +1,22 @@
 package com.miloshpetrov.sol2.game.planet;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.JsonValue;
+import com.miloshpetrov.sol2.common.ColUtil;
 
 public class SkyConfig {
-  public final float[] dawnHsba;
-  public final float[] dayHsba;
+  public final Color dawn;
+  public final Color day;
 
-  public SkyConfig(float[] dawnHsba, float[] dayHsba) {
-    this.dawnHsba = dawnHsba;
-    this.dayHsba = dayHsba;
+  public SkyConfig(Color dawnHsba, Color dayHsba) {
+    this.dawn = dawnHsba;
+    this.day = dayHsba;
   }
 
   public static SkyConfig load(JsonValue skyNode) {
-    float[] dawnHsba = loadHsba(skyNode.get("dawnColor"));
-    float[] dayHsba = loadHsba(skyNode.get("dayColor"));
-    return new SkyConfig(dawnHsba, dayHsba);
+    Color dawn = ColUtil.load(skyNode.getString("dawnColor"));
+    Color day = ColUtil.load(skyNode.getString("dayColor"));
+    return new SkyConfig(dawn, day);
   }
 
-  private static float[] loadHsba(JsonValue node) {
-    float h = node.getFloat("h");
-    float s = node.getFloat("s");
-    float b = node.getFloat("b");
-    float a = node.getFloat("a");
-    return new float[] {h, s, b, a};
-  }
 }

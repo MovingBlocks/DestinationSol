@@ -271,6 +271,7 @@ main/src/com/miloshpetrov/sol2/TexMan.java -text
 main/src/com/miloshpetrov/sol2/TexProvider.java -text
 main/src/com/miloshpetrov/sol2/common/Bound.java -text
 main/src/com/miloshpetrov/sol2/common/Col.java -text
+main/src/com/miloshpetrov/sol2/common/ColUtil.java -text
 main/src/com/miloshpetrov/sol2/common/Consumed.java -text
 main/src/com/miloshpetrov/sol2/common/DebugCol.java -text
 main/src/com/miloshpetrov/sol2/common/Norm.java -text

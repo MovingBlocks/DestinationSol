@@ -6,18 +6,8 @@
     decoTexs: "deco/rocky",
     cloudTexs: "skies/cloud",
     sky: {
-      dawnColor: {
-        h: 0,
-        s: 0.5,
-        b: 1,
-        a: 1,
-      },
-      dayColor: {
-        h: 0.6,
-        s: 0.4,
-        b: 1,
-        a: 1,
-      },
+      dawnColor: "hsb 0 .5 1",
+      dayColor: "hsb .6 .4 1",
     },
     deco: {
       grass: {
@@ -82,18 +72,8 @@
     decoTexs: "deco/frozen",
     cloudTexs: "skies/cloud",
     sky: {
-      dawnColor: {
-        h: 0,
-        s: 0.5,
-        b: 1,
-        a: 1,
-      },
-      dayColor: {
-        h: 0.6,
-        s: 0.4,
-        b: 1,
-        a: 1,
-      },
+      dawnColor: "hsb 0 .5 1",
+      dayColor: "hsb .6 .4 1",
     },
     deco: {},
     groundEnemies: [

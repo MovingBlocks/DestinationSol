@@ -3,19 +3,23 @@
     effectFile: smoke,
     tex: smoke,
     floatsUp: true,
+    tint: ".2 .2 .2",
   },
   fire: {
     effectFile: fire,
     tex: fire,
     floatsUp: true,
+    tint: "1 .7 0",
   },
   shipExplosionSmoke: {
     effectFile: explSmoke,
     tex: smoke,
     floatsUp: true,
+    tint: ".2 .2 .2",
   },
   shipExplosionFire: {
     effectFile: explFire,
     tex: fire,
+    tint: "1 .7 0",
   },
 }

@@ -131,7 +131,7 @@ timeline1: 1.0
 attached: false
 continuous: true
 aligned: false
-additive: false
+additive: true
 behind: false
 - Image Path -
 D:\j\sol\main\imgSrcs\particles\fire.png

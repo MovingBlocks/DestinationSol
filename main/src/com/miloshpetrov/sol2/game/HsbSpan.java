@@ -1,7 +1,7 @@
 package com.miloshpetrov.sol2.game;
 
 import com.badlogic.gdx.graphics.Color;
-import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.common.*;
 
 public class HsbSpan extends ColorSpan {
   private final float[] myHsbaStart;
@@ -19,7 +19,7 @@ public class HsbSpan extends ColorSpan {
     float sat = midVal(1, perc);
     float br = midVal(2, perc);
     float a = midVal(3, perc);
-    Util.fromHSB(hue, sat, br, a, col);
+    ColUtil.fromHSB(hue, sat, br, a, col);
   }
 
   private float midVal(int idx, float perc) {

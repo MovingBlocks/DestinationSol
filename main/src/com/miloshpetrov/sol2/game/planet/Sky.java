@@ -28,7 +28,7 @@ public class Sky implements SolObj {
     myGrad = new RectSprite(game.getTexMan().getTex("misc/grad", null), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, Col.col(.5f, 1));
     myDras.add(myGrad);
     SkyConfig config = planet.getConfig().skyConfig;
-    mySkySpan = ColorSpan.rgb(config.dawnHsba, config.dayHsba);
+    mySkySpan = ColorSpan.rgb(config.dawn, config.day);
   }
 
   @Override
