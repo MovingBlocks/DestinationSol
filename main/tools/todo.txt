@@ -1,4 +1,7 @@
 
+lights
+set pitch to all played sounds if game time is changed
+
 
 PERF:
   build everything as far + SG.isPlaceEmpty should iterate over far objs
@@ -40,11 +43,10 @@ DISCUSS:
 
 
 BORING:
-  brakes?
+  item pickup blip
   force beacon: replace static texture with moving ones
   black filler inside planets + lower planet tiles should have darker tint
   bullets are too narrow on phone -- use realLineWidth() as a minimum width
-  set pitch to all played sounds if game time is changed
   starports should be on differernt distances from planet center, since now they overlap
   split orbiters to highOrbiter & lowOrbiter
   enemies should use abilities
@@ -52,13 +54,6 @@ BORING:
   ships sometimes get inside tiles
 
 ++++++++++++++++++++++++++++++++++++++ AFTER ALL CONTENT IS IN THE GAME
-
-
-BALANCE:
-  neutral ships
-  hardness
-  move mazes closer?
-
 
 TRADING:
   jsons will have tradeItems, that would resolve in the list of items
@@ -71,10 +66,21 @@ TRADING:
   ships to hire
 
 
+BALANCE:
+  energy weaker vs armor, bullet weaker against shield
+  neutral ships?
+  hardness
+  unfixed mount
+  move mazes closer?
+  brakes?
+
+
 UI:
   new UI
   "new" mark in the inventory
-
+  control types
+  split item icons from ui icons
+  ui dra man
 
 ===================== REST =======================================================================
 

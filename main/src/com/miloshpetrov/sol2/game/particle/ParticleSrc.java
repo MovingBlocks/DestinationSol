@@ -47,6 +47,10 @@ public class ParticleSrc implements Dra {
       myAreaSz = 0;
     }
     myEmitter.setSprite(new Sprite(myConfig.tex.getTexture()));
+    float[] tint = myEmitter.getTint().getColors();
+    tint[0] = config.tint.r;
+    tint[1] = config.tint.g;
+    tint[2] = config.tint.b;
 
     myOrigSpdAngle = new ParticleEmitter.ScaledNumericValue();
     transferAngle(myEmitter.getAngle(), myOrigSpdAngle, 0f);
@@ -79,6 +83,11 @@ public class ParticleSrc implements Dra {
     } else {
       throw new AssertionError("unsupported effect spawn shape");
     }
+  }
+
+  private void setVal(ParticleEmitter.ScaledNumericValue val, float v) {
+    val.setHigh(v, v);
+    val.setLow(v, v);
   }
 
   private void mulVal(ParticleEmitter.ScaledNumericValue val, float mul) {
