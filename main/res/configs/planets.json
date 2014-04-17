@@ -45,17 +45,18 @@
         density: 0.15,
       },
     ],
-    orbitEnemies: [
+    highOrbitEnemies: [
       {
         hull: corvette,
-        items: "s:.2 a:.3 bombGun bombs:1:2 sloMoCharge:.7:3 rep:.4",
+        items: "s:.2 a:.3 bo sloMoCharge:.7:3 rep:.4",
 		money: 40,
 		repairer: true,
-		mountFixed1: false,
-		mountFixed2: false,
-        density: 0.01,
+		mountFixed1: true,
+		mountFixed2: true,
+        density: 0.03,
       }
     ],
+    lowOrbitEnemies: [],
     station: {
       hull: drome,
       items: "bo",
@@ -96,7 +97,8 @@
         density: 0.15,
       },
     ],
-    orbitEnemies: [],
+    highOrbitEnemies: [],
+    lowOrbitEnemies: [],
     station: {
       hull: drome,
       items: "bo",
