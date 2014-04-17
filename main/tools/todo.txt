@@ -1,5 +1,4 @@
 
-set pitch to all played sounds if game time is changed
 
 PERF:
   build everything as far + SG.isPlaceEmpty should iterate over far objs
@@ -50,6 +49,7 @@ BORING:
   enemies should use abilities
   use circles instead of polys where possible
   ships sometimes get inside tiles
+  set pitch to all played sounds if game time is changed
 
 ++++++++++++++++++++++++++++++++++++++ AFTER ALL CONTENT IS IN THE GAME
 
@@ -85,7 +85,7 @@ UI:
 
 BG 3.0:
   create self-repetitive nebulae, always draw 4 of them
-  use starChunkMan?
+  use another chunk layer for stars
 
 ARCHITECTURE
   ships & farShips & starPorts make mess in MapDrawer -- unify under one interface?

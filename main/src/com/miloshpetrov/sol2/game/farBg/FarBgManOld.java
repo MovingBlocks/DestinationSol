@@ -5,8 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.TexMan;
-import com.miloshpetrov.sol2.common.Col;
-import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.common.*;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.planet.Planet;
 
@@ -55,10 +54,11 @@ public class FarBgManOld {
     private FarBgStar(TexMan texMan) {
       myShiftPerc = new Vector2(SolMath.rnd(1), SolMath.rnd(1));
       myPos = new Vector2();
-      boolean small = SolMath.test(.9f);
-      myTex = texMan.getTex(small ? "farBg/smallStar" : "farBg/bigStar", null);
-      mySzPerc = small ? .001f : .03f * SolMath.rnd(.5f, 1);
-      myTint = Col.W25;
+      boolean small = SolMath.test(.8f);
+      myTex = texMan.getTex("farBg/bigStar", null);
+      mySzPerc = (small ? .01f : .04f) * SolMath.rnd(.5f, 1);
+      myTint = new Color();
+      ColUtil.fromHSB(SolMath.rnd(0, 1), .25f, 1, .7f, myTint);
     }
 
     public void draw(Drawer drawer, float vd, Vector2 camPos, float camAngle) {
