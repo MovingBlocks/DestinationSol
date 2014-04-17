@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.game.particle;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.miloshpetrov.sol2.game.*;
@@ -17,9 +18,9 @@ public class LightObj implements SolObj {
   private final Vector2 myPos;
 
   // consumes pos
-  public LightObj(SolGame game, float sz, boolean hasHalo, float intensity, Vector2 pos, float fadeTime) {
+  public LightObj(SolGame game, float sz, boolean hasHalo, float intensity, Vector2 pos, float fadeTime, Color col) {
     myPos = pos;
-    myLightSrc = new LightSrc(game, sz, hasHalo, intensity, new Vector2());
+    myLightSrc = new LightSrc(game, sz, hasHalo, intensity, new Vector2(), col);
     myLightSrc.setFadeTime(fadeTime);
     myLightSrc.setWorking();
     myDras = new ArrayList<Dra>();

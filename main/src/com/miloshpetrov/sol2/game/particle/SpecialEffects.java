@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.*;
+import com.miloshpetrov.sol2.game.GameCols;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.dra.DraLevel;
 
@@ -18,14 +19,14 @@ public class SpecialEffects {
   private final EffectConfig myShipExplSmoke;
   private final EffectConfig myShipExplFire;
 
-  public SpecialEffects(EffectTypes effectTypes, TexMan texMan) {
+  public SpecialEffects(EffectTypes effectTypes, TexMan texMan, GameCols cols) {
     JsonReader r = new JsonReader();
     FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "specialEffects.json");
     JsonValue node = r.parse(configFile);
-    mySmoke = EffectConfig.load(node.get("smoke"), effectTypes, texMan, configFile);
-    myFire = EffectConfig.load(node.get("fire"), effectTypes, texMan, configFile);
-    myShipExplSmoke = EffectConfig.load(node.get("shipExplosionSmoke"), effectTypes, texMan, configFile);
-    myShipExplFire = EffectConfig.load(node.get("shipExplosionFire"), effectTypes, texMan, configFile);
+    mySmoke = EffectConfig.load(node.get("smoke"), effectTypes, texMan, configFile, cols);
+    myFire = EffectConfig.load(node.get("fire"), effectTypes, texMan, configFile, cols);
+    myShipExplSmoke = EffectConfig.load(node.get("shipExplosionSmoke"), effectTypes, texMan, configFile, cols);
+    myShipExplFire = EffectConfig.load(node.get("shipExplosionFire"), effectTypes, texMan, configFile, cols);
   }
 
   public List<ParticleSrc> buildFireSmoke(float objSz, SolGame game, Vector2 pos, Vector2 spd) {

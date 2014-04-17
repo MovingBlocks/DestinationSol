@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.game.gun;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
@@ -9,6 +10,7 @@ import com.miloshpetrov.sol2.game.item.ItemContainer;
 import com.miloshpetrov.sol2.game.particle.LightSrc;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.projectile.Projectile;
+import com.miloshpetrov.sol2.game.projectile.ProjectileConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,15 @@ public class SolGun {
 
   public SolGun(SolGame game, GunItem item, Vector2 relPos) {
     myItem = item;
-    myLightSrc = myItem.config.lightOnShot ? new LightSrc(game, .25f, true, 1f, Vector2.Zero) : null;
+    if (myItem.config.lightOnShot) {
+      Color lightCol = Col.W;
+      ProjectileConfig projConfig = myItem.config.projConfig;
+      if (projConfig.bodyEffect != null) lightCol = projConfig.bodyEffect.tint;
+      else if (projConfig.collisionEffect != null) lightCol = projConfig.collisionEffect.tint;
+      myLightSrc = new LightSrc(game, .25f, true, 1f, Vector2.Zero, lightCol);
+    } else {
+      myLightSrc = null;
+    }
     myRelPos = new Vector2(relPos);
     mySprite = new RectSprite(myItem.config.tex, myItem.config.gunLength * 2, 0, 0, new Vector2(relPos), DraLevel.GUNS, 0, 0, Col.W);
     myDras = new ArrayList<Dra>();

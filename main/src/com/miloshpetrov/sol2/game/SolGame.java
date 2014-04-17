@@ -57,6 +57,7 @@ public class SolGame {
   private final SpecialSounds mySpecialSounds;
   private final EffectTypes myEffectTypes;
   private final SpecialEffects mySpecialEffects;
+  private final GameCols myCols;
 
   private SolShip myHero;
   private float myTimeStep;
@@ -69,6 +70,7 @@ public class SolGame {
     myCmp = cmp;
     myTut = tut;
     Drawer drawer = new Drawer(texMan);
+    myCols = new GameCols();
     mySoundMan = new SoundMan();
     mySpecialSounds = new SpecialSounds(mySoundMan);
     myDraMan = new DraMan(drawer);
@@ -78,10 +80,10 @@ public class SolGame {
     myFarBgManOld = new FarBgManOld(myTexMan);
     myShipBuilder = new ShipBuilder();
     myEffectTypes = new EffectTypes();
-    mySpecialEffects = new SpecialEffects(myEffectTypes, myTexMan);
-    myItemMan = new ItemMan(myTexMan, mySoundMan, myEffectTypes);
+    mySpecialEffects = new SpecialEffects(myEffectTypes, myTexMan, myCols);
+    myItemMan = new ItemMan(myTexMan, mySoundMan, myEffectTypes, myCols);
     myHullConfigs = new HullConfigs(myShipBuilder, texMan, myItemMan);
-    myPlanetMan = new PlanetMan(myTexMan, myHullConfigs);
+    myPlanetMan = new PlanetMan(myTexMan, myHullConfigs, myCols);
     SolContactListener contactListener = new SolContactListener(this);
     myFractionMan = new FractionMan(myTexMan);
     myObjMan = new ObjMan(contactListener, myFractionMan);
@@ -376,5 +378,9 @@ public class SolGame {
 
   public SpecialEffects getSpecialEffects() {
     return mySpecialEffects;
+  }
+
+  public GameCols getCols() {
+    return myCols;
   }
 }
