@@ -379,6 +379,7 @@ main/src/com/miloshpetrov/sol2/game/planet/Planet.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetBind.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetConfig.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetConfigs.java -text
+main/src/com/miloshpetrov/sol2/game/planet/PlanetCoreSingleton.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetMan.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetObjsBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/planet/PlanetSprites.java -text

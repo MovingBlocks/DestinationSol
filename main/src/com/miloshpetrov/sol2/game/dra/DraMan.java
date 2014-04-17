@@ -109,9 +109,12 @@ public class DraMan {
       if (draLevel.depth <= 1) {
         game.drawDebug(myDrawer);
       }
+      if (draLevel == DraLevel.ATM) {
+        game.getPlanetMan().drawPlanetCoreHack(game, myDrawer);
+      }
     }
 
-    game.getPlanetMan().drawSun(game, myDrawer);
+    game.getPlanetMan().drawSunHack(game, myDrawer);
 
     if (DebugAspects.DRA_BORDERS) {
       for (Map<Texture, List<Dra>> map : myDras.values()) {
