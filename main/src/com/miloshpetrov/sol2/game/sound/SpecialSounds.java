@@ -18,6 +18,7 @@ public class SpecialSounds {
   public final SolSound rockEnergyHit;
   public final SolSound asteroidCrack;
   public final SolSound shipExplosion;
+  public final SolSound burning;
 
   public SpecialSounds(SoundMan soundMan) {
     JsonReader r = new JsonReader();
@@ -31,6 +32,7 @@ public class SpecialSounds {
     rockEnergyHit = getSound("rockEnergyHit", soundMan, configFile, node);
     asteroidCrack = getSound("asteroidCrack", soundMan, configFile, node);
     shipExplosion = getSound("shipExplosion", soundMan, configFile, node);
+    burning = getSound("burning", soundMan, configFile, node);
   }
 
   private SolSound getSound(String paramName, SoundMan soundMan, FileHandle configFile, JsonValue node) {

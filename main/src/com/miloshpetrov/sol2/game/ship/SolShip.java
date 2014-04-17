@@ -185,7 +185,11 @@ public class SolShip implements SolObj {
     float ts = game.getTimeStep();
     if (myFireAwait > 0) myFireAwait -= ts;
     mySmokeSrc.setWorking(myFireAwait > 0 || myHull.life < SMOKE_PERC * myHull.config.maxLife);
-    myFireSrc.setWorking(myFireAwait > 0 || myHull.life < FIRE_PERC * myHull.config.maxLife);
+    boolean onFire = myFireAwait > 0 || myHull.life < FIRE_PERC * myHull.config.maxLife;
+    myFireSrc.setWorking(onFire);
+    if (onFire) {
+      game.getSoundMan().play(game, game.getSpecialSounds().burning, null, this);
+    }
 
     if (!isControlsEnabled()) myControlEnableAwait -= ts;
 
