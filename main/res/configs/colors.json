@@ -1,6 +1,7 @@
 {
   fire: "1 .7 .1",
   smoke: ".2 .2 .2",
+  dust: ".6 .5 .4",
   white: "1 1 1",
   hullLights: ".8 .8 1",
 }

@@ -18,6 +18,7 @@ public class SpecialEffects {
   private final EffectConfig myFire;
   private final EffectConfig myShipExplSmoke;
   private final EffectConfig myShipExplFire;
+  private final EffectConfig myAsteroidDust;
 
   public SpecialEffects(EffectTypes effectTypes, TexMan texMan, GameCols cols) {
     JsonReader r = new JsonReader();
@@ -27,6 +28,7 @@ public class SpecialEffects {
     myFire = EffectConfig.load(node.get("fire"), effectTypes, texMan, configFile, cols);
     myShipExplSmoke = EffectConfig.load(node.get("shipExplosionSmoke"), effectTypes, texMan, configFile, cols);
     myShipExplFire = EffectConfig.load(node.get("shipExplosionFire"), effectTypes, texMan, configFile, cols);
+    myAsteroidDust = EffectConfig.load(node.get("asteroidDust"), effectTypes, texMan, configFile, cols);
   }
 
   public List<ParticleSrc> buildFireSmoke(float objSz, SolGame game, Vector2 pos, Vector2 spd) {
@@ -46,5 +48,11 @@ public class SpecialEffects {
     ParticleSrc fire = new ParticleSrc(myShipExplFire, .7f * sz, DraLevel.PART_FG_1, new Vector2(), false, game, pos, Vector2.Zero);
     pm.finish(game, fire, pos);
     pm.blinks(pos, game, sz);
+  }
+
+  public void asteroidDust(SolGame game, Vector2 pos, Vector2 spd, float size) {
+    PartMan pm = game.getPartMan();
+    ParticleSrc smoke = new ParticleSrc(myAsteroidDust, size, DraLevel.PART_FG_0, new Vector2(), true, game, pos, spd);
+    pm.finish(game, smoke, pos);
   }
 }

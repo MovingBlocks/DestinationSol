@@ -7,6 +7,6 @@
   metalBulletHit: "metal/bulletHit",
   metalEnergyHit: "metal/energyHit",
 
-  asteroidSplit: "asteroid/split",
+  asteroidCrack: "asteroid/crack",
   shipExplosion: "ship/explosion",
 }

@@ -16,7 +16,7 @@ public class SpecialSounds {
   public final SolSound rockColl;
   public final SolSound rockBulletHit;
   public final SolSound rockEnergyHit;
-  public final SolSound asteroidSplit;
+  public final SolSound asteroidCrack;
   public final SolSound shipExplosion;
 
   public SpecialSounds(SoundMan soundMan) {
@@ -29,7 +29,7 @@ public class SpecialSounds {
     rockColl = getSound("rockCollision", soundMan, configFile, node);
     rockBulletHit = getSound("rockBulletHit", soundMan, configFile, node);
     rockEnergyHit = getSound("rockEnergyHit", soundMan, configFile, node);
-    asteroidSplit = getSound("asteroidSplit", soundMan, configFile, node);
+    asteroidCrack = getSound("asteroidCrack", soundMan, configFile, node);
     shipExplosion = getSound("shipExplosion", soundMan, configFile, node);
   }
 
