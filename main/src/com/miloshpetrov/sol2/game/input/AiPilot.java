@@ -1,6 +1,7 @@
 package com.miloshpetrov.sol2.game.input;
 
 import com.badlogic.gdx.math.Vector2;
+import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.Fraction;
 import com.miloshpetrov.sol2.game.SolGame;
@@ -47,7 +48,7 @@ public class AiPilot implements Pilot {
 
     boolean canShoot = canShoot0(ship);
     Planet np = game.getPlanetMan().getNearestPlanet();
-    float shootDist = np.isNearGround(shipPos) ? game.getCam().getGroundViewDist() : game.getCam().getSpaceViewDist();
+    float shootDist = np.isNearGround(shipPos) ? Const.AI_SHOOT_DIST_GROUND : Const.AI_SHOOT_DIST_SPACE;
     shootDist += hullConfig.approxRadius;
 
     Vector2 dest = null;

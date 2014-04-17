@@ -129,7 +129,7 @@ public class ChunkFiller {
     Vector2 spd = new Vector2();
     SolMath.fromAl(spd, SolMath.rnd(180), SolMath.rnd(0, ENEMY_MAX_SPD));
     float rotSpd = SolMath.rnd(ENEMY_MAX_ROT_SPD);
-    float detectionDist = game.getCam().getSpaceViewDist();
+    float detectionDist = Const.AI_DET_DIST_SPACE;
     Pilot provider = new AiPilot(new NoDestProvider(), false, Fraction.EHAR, true, null, detectionDist);
     HullConfig config = enemyConf.hull;
     boolean mountFixed1, mountFixed2, hasRepairer;

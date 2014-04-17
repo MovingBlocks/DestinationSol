@@ -265,7 +265,7 @@ public class PlanetObjsBuilder {
     Vector2 spd = new Vector2(toPlanet).nor();
     SolMath.free(toPlanet);
 
-    float detectionDist = game.getCam().getGroundViewDist() * 2;
+    float detectionDist = Const.AI_DET_DIST_GROUND;
     Pilot provider = new AiPilot(new StillGuard(pos, game), false, fraction, true, null, detectionDist);
 
     return game.getShipBuilder().buildNew(game, pos, spd, angle, 0, provider, ic, ge.hull, mountFixed1, mountFixed2,
@@ -285,7 +285,7 @@ public class PlanetObjsBuilder {
     Vector2 v = SolMath.distVec(pos, planetPos);
     SolMath.rotate(spd, v.angle());
     SolMath.free(v);
-    float detectionDist = game.getCam().getSpaceViewDist();
+    float detectionDist = Const.AI_DET_DIST_SPACE;
 
     OrbiterDestProvider dp = new OrbiterDestProvider(planet, height, cw);
     Pilot provider = new AiPilot(dp, false, Fraction.EHAR, true, null, detectionDist);

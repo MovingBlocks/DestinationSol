@@ -9,7 +9,6 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.screens.MainScreen;
 import com.miloshpetrov.sol2.game.ship.SolShip;
-import com.miloshpetrov.sol2.ui.DebugCollector;
 
 public class SolCam {
   private static final float VIEWPORT_HEIGHT = 5f;
@@ -34,7 +33,7 @@ public class SolCam {
   public SolCam(float r) {
     myCamRotStrategy = new CamRotStrategy.ToPlanet();
     myCam = new OrthographicCamera(VIEWPORT_HEIGHT * r, -VIEWPORT_HEIGHT);
-    myZoom = Const.MED_ZOOM;
+    myZoom = calcZoom(Const.CAM_VIEW_DIST_GROUND);
     myPos = new Vector2();
   }
 
@@ -42,13 +41,9 @@ public class SolCam {
     return myCam.combined;
   }
 
-  public float getZoom() {
-    return myZoom;
-  }
-
   public void update(SolGame game) {
 
-    float desiredZoom = 1;
+    float desiredVd = Const.CAM_VIEW_DIST_GROUND;
     float life = 0;
 
     SolShip hero = game.getHero();
@@ -60,7 +55,7 @@ public class SolCam {
           applyInput(game);
         }
       } else {
-        desiredZoom = Const.MED_ZOOM;
+        desiredVd = Const.CAM_VIEW_DIST_SPACE;
         myPos.set(trans.getPos());
       }
     } else {
@@ -80,14 +75,14 @@ public class SolCam {
 
       float spd = hero.getSpd().len();
 
-      desiredZoom = Const.MED_ZOOM;
+      desiredVd = Const.CAM_VIEW_DIST_SPACE;
       Planet np = game.getPlanetMan().getNearestPlanet(myPos);
       if (np.getFullHeight() < np.getPos().dst(myPos) && MAX_ZOOM_SPD < spd) {
-        desiredZoom = Const.MAX_ZOOM;
+        desiredVd = Const.CAM_VIEW_DIST_JOURNEY;
+      } else if (np.isNearGround(myPos) && spd < MED_ZOOM_SPD) {
+        desiredVd = Const.CAM_VIEW_DIST_GROUND;
       }
-      else if (np.isNearGround(myPos) && spd < MED_ZOOM_SPD) {
-        desiredZoom = 1;
-      }
+      desiredVd += hero.getHull().config.approxRadius;
     }
 
     if (life < myPrevHeroLife) {
@@ -108,9 +103,15 @@ public class SolCam {
     myAngle = SolMath.approachAngle(myAngle, desiredAngle, rotSpd);
     applyAngle();
 
+    float desiredZoom = calcZoom(desiredVd);
     myZoom = SolMath.approach(myZoom, desiredZoom, ZOOM_CHG_SPD * ts);
     applyZoom(game.getMapDrawer());
     myCam.update();
+  }
+
+  private float calcZoom(float vd) {
+    float h = vd * SolMath.sqrt(2);
+    return h / VIEWPORT_HEIGHT;
   }
 
   private void applyZoom(MapDrawer mapDrawer) {
@@ -153,14 +154,6 @@ public class SolCam {
 
   public float getViewDist() {
     return getViewDist(myZoom);
-  }
-
-  public float getGroundViewDist() {
-    return .4f * getViewDist(1);
-  }
-
-  public float getSpaceViewDist() {
-    return .8f * getViewDist(Const.MED_ZOOM);
   }
 
   public float getViewDist(float zoom) {

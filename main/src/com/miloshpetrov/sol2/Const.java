@@ -6,8 +6,6 @@ public class Const {
   public static final float MAX_GROUND_HEIGHT = 25f;
   public static final float SUN_RADIUS = 2f * (MAX_GROUND_HEIGHT + ATM_HEIGHT);
   public static final float MAX_MOVE_SPD = 8f;
-  public static final float MAX_ZOOM = 2.5f;
-  public static final float MED_ZOOM = 1.5f;
   public static final float REAL_TIME_STEP = 1.0f / 60.0f;
   public static final float CHUNK_SIZE = 20f;
   public static final int ITEMS_PER_PAGE = 8;
@@ -16,4 +14,12 @@ public class Const {
   public static final float FRICTION = .5f;
   public static final String CONFIGS_DIR = "res/configs/";
   public static final float IMPULSE_TO_COLL_VOL = 2f;
+
+  public static final float CAM_VIEW_DIST_GROUND = 3.3f;
+  public static final float AI_SHOOT_DIST_GROUND = CAM_VIEW_DIST_GROUND * .4f;
+  public static final float AI_DET_DIST_GROUND = CAM_VIEW_DIST_GROUND * 1.2f;
+  public static final float CAM_VIEW_DIST_SPACE = 5.1f;
+  public static final float AI_SHOOT_DIST_SPACE = CAM_VIEW_DIST_SPACE * .8f;
+  public static final float AI_DET_DIST_SPACE = CAM_VIEW_DIST_SPACE * 1.2f;
+  public static final float CAM_VIEW_DIST_JOURNEY = 8.6f;
 }

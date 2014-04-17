@@ -38,15 +38,22 @@ public class GalaxyFiller {
 
     MoveDestProvider dp;
     Vector2 pos;
-    float detectionDist = game.getCam().getSpaceViewDist();
+    float detectionDist = Const.AI_DET_DIST_SPACE;
+    String tradeItems;
     if (hullConf.type == HullConfig.Type.STATION) {
       pos = getPosForStation(sys, mainStation);
       dp = new NoDestProvider();
+      tradeItems = "";
     } else {
       pos = getEmptySpace(game, sys);
       boolean isBig = hullConf.type == HullConfig.Type.BIG;
       dp = new ExplorerDestProvider(game, pos, !isBig, hullConf, isBig ? 1.5f : .75f);
-      if (isBig) detectionDist *= 2;
+      if (isBig) {
+        tradeItems = "";
+      } else {
+        detectionDist *= 1.5;
+        tradeItems = null;
+      }
     }
     Pilot pilot = new AiPilot(dp, true, frac, true, "something", detectionDist);
     float angle = mainStation ? 0 : SolMath.rnd(180);
@@ -55,7 +62,7 @@ public class GalaxyFiller {
     mountFixed2 = cfg.isMountFixed2;
     hasRepairer = cfg.hasRepairer;
     int money = cfg.money;
-    SolShip s = game.getShipBuilder().buildNew(game, pos, null, angle, 0, pilot, cfg.items, hullConf, mountFixed1, mountFixed2, null, hasRepairer, money, null);
+    SolShip s = game.getShipBuilder().buildNew(game, pos, null, angle, 0, pilot, cfg.items, hullConf, mountFixed1, mountFixed2, null, hasRepairer, money, tradeItems);
     game.getObjMan().addObjDelayed(s);
     ShipConfig guardConf = cfg.guard;
     if (guardConf != null) {
@@ -133,7 +140,7 @@ public class GalaxyFiller {
 
   private void createGuard(SolGame game, SolShip target, ShipConfig guardConf, Fraction frac) {
     Guardian dp = new Guardian(game, target, guardConf.hull);
-    float detectionDist = game.getCam().getSpaceViewDist() * 2;
+    float detectionDist = Const.AI_DET_DIST_SPACE;
     Pilot pilot = new AiPilot(dp, true, frac, false, null, detectionDist);
     boolean mountFixed1 = guardConf.isMountFixed1;
     boolean mountFixed2 = guardConf.isMountFixed2;

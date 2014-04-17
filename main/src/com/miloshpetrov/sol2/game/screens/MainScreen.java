@@ -189,6 +189,7 @@ public class MainScreen implements SolUiScreen {
 
     SolShip target = null;
     float minDist = TalkScreen.MAX_TALK_DIST;
+    float har = hero.getHull().config.approxRadius;
     for (SolObj o : game.getObjMan().getObjs()) {
       if (!(o instanceof SolShip)) continue;
       SolShip ship = (SolShip) o;
@@ -196,7 +197,8 @@ public class MainScreen implements SolUiScreen {
       ItemContainer tc = ship.getTradeContainer();
       if (tc == null) continue;
       float dst = ship.getPos().dst(hero.getPos());
-      if (minDist < dst) continue;
+      float ar = ship.getHull().config.approxRadius;
+      if (minDist < dst - har - ar) continue;
       target = ship;
       minDist = dst;
     }
