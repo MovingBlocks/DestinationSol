@@ -9,7 +9,6 @@ PERF:
 
 SOUND:
   environment!
-  burning
   force field work
   star journey:
    start
@@ -36,11 +35,11 @@ DISCUSS:
   landscape types?
   shield orbiting blips: use some static pulsating texture that will fade away with shield life?
   better sky colors?
+  item pickup blip
+  force beacon: replace static texture with moving ones
 
 
 BORING:
-  item pickup blip
-  force beacon: replace static texture with moving ones
   black filler inside planets + lower planet tiles should have darker tint
   bullets are too narrow on phone -- use realLineWidth() as a minimum width
   starports should be on differernt distances from planet center, since now they overlap

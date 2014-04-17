@@ -9,4 +9,6 @@
 
   asteroidCrack: "asteroid/crack",
   shipExplosion: "ship/explosion",
+
+  burning: "misc/burning",
 }
