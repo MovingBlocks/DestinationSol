@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.game.GameCols;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.particle.EffectConfig;
 import com.miloshpetrov.sol2.game.particle.EffectTypes;
@@ -95,7 +96,7 @@ public class EngineItem implements SolItem {
     }
 
     private static Config load(SoundMan soundMan, FileHandle configFile, JsonValue sh, EffectTypes effectTypes,
-      TexMan texMan)
+      TexMan texMan, GameCols cols)
     {
       boolean big = sh.getBoolean("big");
       float rotAcc = big ? 100f : 515f;
@@ -103,7 +104,7 @@ public class EngineItem implements SolItem {
       float maxRotSpd = big ? 40f : 230f;
       String workSoundDir = sh.getString("workSound");
       SolSound workSound = soundMan.getLoopedSound(workSoundDir, configFile);
-      EffectConfig effectConfig = EffectConfig.load(sh.get("effect"), effectTypes, texMan, configFile);
+      EffectConfig effectConfig = EffectConfig.load(sh.get("effect"), effectTypes, texMan, configFile, cols);
       return new Config(null, 0, null, rotAcc, acc, maxRotSpd, big, workSound, null, effectConfig);
     }
   }
@@ -115,13 +116,13 @@ public class EngineItem implements SolItem {
       myConfigs = configs;
     }
 
-    public static Configs load(SoundMan soundMan, TexMan texMan, EffectTypes effectTypes) {
+    public static Configs load(SoundMan soundMan, TexMan texMan, EffectTypes effectTypes, GameCols cols) {
       HashMap<String, Config> configs = new HashMap<String, Config>();
       JsonReader r = new JsonReader();
       FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "engines.json");
       JsonValue parsed = r.parse(configFile);
       for (JsonValue sh : parsed) {
-        Config config = Config.load(soundMan, configFile, sh, effectTypes, texMan);
+        Config config = Config.load(soundMan, configFile, sh, effectTypes, texMan, cols);
         configs.put(sh.name(), config);
       }
       return new Configs(configs);

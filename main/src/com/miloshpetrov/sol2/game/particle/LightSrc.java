@@ -1,9 +1,9 @@
 package com.miloshpetrov.sol2.game.particle;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.common.Col;
-import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.common.*;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.dra.*;
 
@@ -23,12 +23,18 @@ public class LightSrc {
 
   /** doesn't consume relPos
    */
-  public LightSrc(SolGame game, float sz, boolean hasHalo, float intensity, Vector2 relPos) {
+  public LightSrc(SolGame game, float sz, boolean hasHalo, float intensity, Vector2 relPos, Color col) {
     TextureAtlas.AtlasRegion tex = game.getTexMan().getTex("particles/lightCircle", null);
     mySz = sz;
-    myCircle = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DraLevel.PART_BG_0, 0, 0, Col.W);
+    myCircle = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DraLevel.PART_BG_0, 0, 0, col);
     tex = game.getTexMan().getTex("particles/lightHalo", null);
-    myHalo = hasHalo ? new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DraLevel.PART_FG_0, 0, 0, Col.W) : null;
+    if (hasHalo) {
+      Color haloCol = new Color(col);
+      ColUtil.changeBrightness(haloCol, .8f);
+      myHalo = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DraLevel.PART_FG_0, 0, 0, haloCol);
+    } else {
+      myHalo = null;
+    }
     myIntensity = intensity;
     myFadeTime = DEFAULT_FADE_TIME;
   }

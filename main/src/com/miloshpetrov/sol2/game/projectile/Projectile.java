@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.game.projectile;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -60,7 +61,9 @@ public class Projectile implements SolObj {
     myBodyEffect = buildEffect(game, myConfig.bodyEffect, DraLevel.PART_BG_0, null, true);
     myTrailEffect = buildEffect(game, myConfig.trailEffect, DraLevel.PART_BG_0, null, false);
     if (myConfig.lightSz > 0) {
-      myLightSrc = new LightSrc(game, myConfig.lightSz, true, 1f, new Vector2());
+      Color col = Col.W;
+      if (myBodyEffect != null) col = myConfig.bodyEffect.tint;
+      myLightSrc = new LightSrc(game, myConfig.lightSz, true, 1f, new Vector2(), col);
       myLightSrc.collectDras(myDras);
     } else {
       myLightSrc = null;
@@ -110,10 +113,10 @@ public class Projectile implements SolObj {
   private void collided(SolGame game) {
     myShouldRemove = true;
     Vector2 pos = myBody.getPos();
-    buildEffect(game, myConfig.collisionEffect1, DraLevel.PART_FG_0, pos, false);
-    buildEffect(game, myConfig.collisionEffect2, DraLevel.PART_FG_1, pos, false);
-    if (myConfig.collisionEffect2 != null) {
-      game.getPartMan().blinks(pos, game, myConfig.collisionEffect2.sz);
+    buildEffect(game, myConfig.collisionEffect, DraLevel.PART_FG_1, pos, false);
+    buildEffect(game, myConfig.collisionEffectBg, DraLevel.PART_FG_0, pos, false);
+    if (myConfig.collisionEffectBg != null) {
+      game.getPartMan().blinks(pos, game, myConfig.collisionEffectBg.sz);
     }
     game.getSoundMan().play(game, myConfig.collisionSound, null, this);
   }

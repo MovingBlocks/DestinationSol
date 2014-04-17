@@ -1,7 +1,6 @@
 
-lights
+improve zooming
 set pitch to all played sounds if game time is changed
-
 
 PERF:
   build everything as far + SG.isPlaceEmpty should iterate over far objs

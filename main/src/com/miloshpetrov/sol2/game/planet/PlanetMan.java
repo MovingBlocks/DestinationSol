@@ -27,8 +27,8 @@ public class PlanetMan {
   private final SysConfigs mySysConfigs;
   private Planet myNearestPlanet;
 
-  public PlanetMan(TexMan texMan, HullConfigs hullConfigs) {
-    myPlanetConfigs = new PlanetConfigs(texMan, hullConfigs);
+  public PlanetMan(TexMan texMan, HullConfigs hullConfigs, GameCols cols) {
+    myPlanetConfigs = new PlanetConfigs(texMan, hullConfigs, cols);
     mySysConfigs = new SysConfigs(texMan, hullConfigs);
     myMazeConfigs = new MazeConfigs(texMan, hullConfigs);
 

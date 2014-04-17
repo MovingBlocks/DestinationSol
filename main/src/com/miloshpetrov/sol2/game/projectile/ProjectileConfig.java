@@ -17,14 +17,14 @@ public class ProjectileConfig {
   public final float lightSz;
   public final EffectConfig trailEffect;
   public final EffectConfig bodyEffect;
-  public final EffectConfig collisionEffect1;
-  public final EffectConfig collisionEffect2;
+  public final EffectConfig collisionEffect;
+  public final EffectConfig collisionEffectBg;
   public final boolean guided;
   public final boolean towardsGround;
 
   public ProjectileConfig(TextureAtlas.AtlasRegion tex, float texSz, float spdLen, boolean stretch,
     float physSize, DmgType dmgType, SolSound collisionSound, float lightSz, EffectConfig trailEffect,
-    EffectConfig bodyEffect, EffectConfig collisionEffect1, EffectConfig collisionEffect2, boolean guided,
+    EffectConfig bodyEffect, EffectConfig collisionEffect, EffectConfig collisionEffectBg, boolean guided,
     boolean towardsGround)
   {
     this.tex = tex;
@@ -37,8 +37,8 @@ public class ProjectileConfig {
     this.lightSz = lightSz;
     this.trailEffect = trailEffect;
     this.bodyEffect = bodyEffect;
-    this.collisionEffect1 = collisionEffect1;
-    this.collisionEffect2 = collisionEffect2;
+    this.collisionEffect = collisionEffect;
+    this.collisionEffectBg = collisionEffectBg;
     this.guided = guided;
     this.towardsGround = towardsGround;
   }

@@ -109,4 +109,18 @@ public class ColUtil {
     }
     return res;
   }
+
+  public static void changeBrightness(Color c, float b) {
+    if (b > 0) {
+      float bi = 1 - b;
+      c.r = 1 - bi * (1 - c.r);
+      c.g = 1 - bi * (1 - c.g);
+      c.b = 1 - bi * (1 - c.b);
+      return;
+    }
+    float bi = 1 + b;
+    c.r *= bi;
+    c.g *= bi;
+    c.b *= bi;
+  }
 }

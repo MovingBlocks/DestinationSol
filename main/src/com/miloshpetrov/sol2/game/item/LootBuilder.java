@@ -27,7 +27,7 @@ public class LootBuilder {
     Body b = buildBody(game, pos);
     b.setLinearVelocity(spd);
     b.setAngularVelocity(rotSpd);
-    LightSrc ls = new LightSrc(game, .3f, false, .5f, new Vector2());
+    LightSrc ls = new LightSrc(game, .3f, false, .5f, new Vector2(), Col.W);
     ls.collectDras(dras);
     Loot loot = new Loot(item, b, life, dras, ls, owner);
     b.setUserData(loot);

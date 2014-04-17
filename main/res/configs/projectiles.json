@@ -6,7 +6,7 @@
     physSize: 0,
     dmgType: energy,
     collisionSound: "projectiles/weakBolter",
-    collisionEffect1: {
+    collisionEffect: {
       effectFile: explFire,
       size: 0.2,
       tex: fire,
@@ -20,7 +20,7 @@
     physSize: 0,
     dmgType: energy,
     collisionSound: "projectiles/bolter",
-    collisionEffect1: {
+    collisionEffect: {
       effectFile: explFire,
       size: 0.3,
       tex: fire,
@@ -35,11 +35,11 @@
     physSize: 0,
     dmgType: bullet,
     collisionSound: "projectiles/bullet",
-    collisionEffect1: {
+    collisionEffect: {
       effectFile: spark,
       size: 0.5,
       tex: spark,
-      tint: "1 1 1",
+      tint: white,
     },
   },
   rocket: {
@@ -55,26 +55,26 @@
       effectFile: smoke,
       tex: smoke,
       floatsUp: true,
-      tint: ".2 .2 .2",
+      tint: smoke,
     },
     bodyEffect: {
       effectFile: flame,
       size: 0.15,
       tex: fire,
-      tint: "1 .7 0",
+      tint: fire,
     },
-    collisionEffect1: {
+    collisionEffectBg: {
       effectFile: explSmoke,
       size: 0.6,
       tex: smoke,
       floatsUp: true,
-      tint: ".2 .2 .2",
+      tint: smoke,
     },
-    collisionEffect2: {
+    collisionEffect: {
       effectFile: explFire,
       size: 0.4,
       tex: fire,
-      tint: "1 .7 0",
+      tint: fire,
     },
   },
   bomb: {
@@ -85,18 +85,18 @@
     dmgType: explosion,
     towardsGround: true,
     collisionSound: "explosion",
-    collisionEffect1: {
+    collisionEffectBg: {
       effectFile: explSmoke,
       size: 0.6,
       tex: smoke,
       floatsUp: true,
-       tint: ".2 .2 .2",
+       tint: smoke,
    },
-    collisionEffect2: {
+    collisionEffect: {
       effectFile: explFire,
       size: 0.4,
       tex: fire,
-      tint: "1 .7 0",
+      tint: fire,
     },
   },
 }

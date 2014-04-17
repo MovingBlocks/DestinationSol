@@ -4,6 +4,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.game.GameCols;
 import com.miloshpetrov.sol2.game.ShipConfig;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
@@ -39,7 +40,7 @@ public class PlanetConfig {
     this.skyConfig = skyConfig;
   }
 
-  static PlanetConfig load(TexMan texMan, HullConfigs hullConfigs, FileHandle configFile, JsonValue sh) {
+  static PlanetConfig load(TexMan texMan, HullConfigs hullConfigs, FileHandle configFile, JsonValue sh, GameCols cols) {
     float minGrav = sh.getFloat("minGrav");
     float maxGrav = sh.getFloat("maxGrav");
     List<DecoConfig> deco = DecoConfig.load(sh, texMan, configFile);
@@ -50,7 +51,7 @@ public class PlanetConfig {
     ArrayList<TextureAtlas.AtlasRegion> cloudTexs = texMan.getPack(cloudPackName, configFile);
     String groundFolder = sh.getString("groundTexs");
     PlanetTiles planetTiles = new PlanetTiles(texMan, groundFolder, configFile);
-    SkyConfig skyConfig = SkyConfig.load(sh.get("sky"));
+    SkyConfig skyConfig = SkyConfig.load(sh.get("sky"), cols);
     return new PlanetConfig(sh.name, minGrav, maxGrav, deco, groundEnemies, orbitEnemies, cloudTexs, planetTiles, stationConfig, skyConfig);
   }
 }

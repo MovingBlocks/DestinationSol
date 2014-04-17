@@ -188,6 +188,7 @@ main/libs/gdx-sources.jar -text
 main/libs/gdx.jar -text
 main/main.iml -text
 main/res/configs/asteroidBelts.json -text
+main/res/configs/colors.json -text
 main/res/configs/hulls.json -text
 main/res/configs/items/abilityCharges.json -text
 main/res/configs/items/armors.json -text
@@ -287,6 +288,7 @@ main/src/com/miloshpetrov/sol2/game/FarObj.java -text
 main/src/com/miloshpetrov/sol2/game/Fraction.java -text
 main/src/com/miloshpetrov/sol2/game/FractionMan.java -text
 main/src/com/miloshpetrov/sol2/game/GalaxyFiller.java -text
+main/src/com/miloshpetrov/sol2/game/GameCols.java -text
 main/src/com/miloshpetrov/sol2/game/GridDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/HsbSpan.java -text
 main/src/com/miloshpetrov/sol2/game/MapDrawer.java -text

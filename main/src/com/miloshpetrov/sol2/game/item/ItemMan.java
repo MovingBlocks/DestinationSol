@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.game.GameCols;
 import com.miloshpetrov.sol2.game.gun.GunConfig;
 import com.miloshpetrov.sol2.game.particle.EffectTypes;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfigs;
@@ -23,13 +24,13 @@ public class ItemMan {
   public final TextureAtlas.AtlasRegion repairIcon;
   private final EngineItem.Configs myEngineConfigs;
 
-  public ItemMan(TexMan texMan, SoundMan soundMan, EffectTypes effectTypes) {
+  public ItemMan(TexMan texMan, SoundMan soundMan, EffectTypes effectTypes, GameCols cols) {
     moneyIcon = texMan.getTex(TexMan.ICONS_DIR + "money", null);
     bigMoneyIcon = texMan.getTex(TexMan.ICONS_DIR + "bigMoney", null);
     repairIcon = texMan.getTex(TexMan.ICONS_DIR + "repairItem", null);
     myM = new HashMap<String, SolItem>();
-    projConfigs = new ProjectileConfigs(texMan, soundMan, effectTypes);
-    myEngineConfigs = EngineItem.Configs.load(soundMan, texMan, effectTypes);
+    projConfigs = new ProjectileConfigs(texMan, soundMan, effectTypes, cols);
+    myEngineConfigs = EngineItem.Configs.load(soundMan, texMan, effectTypes, cols);
 
     Shield.Config.loadConfigs(this, soundMan, texMan);
     Armor.Config.loadConfigs(this, soundMan, texMan);
