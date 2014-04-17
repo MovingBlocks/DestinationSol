@@ -41,8 +41,8 @@ public class ShipConfig {
     int money = shipNode.getInt("money");
     boolean hasRepairer, isMountFixed1, isMountFixed2;
     hasRepairer = shipNode.getBoolean("repairer");
-    isMountFixed1 = shipNode.getBoolean("mountfixed1");
-    isMountFixed2 = shipNode.getBoolean("mountfixed2");
+    isMountFixed1 = shipNode.getBoolean("mountFixed1");
+    isMountFixed2 = shipNode.getBoolean("mountFixed2");
     float density = shipNode.getFloat("density", -1);
     ShipConfig guard;
     if (shipNode.hasChild("guard")) {

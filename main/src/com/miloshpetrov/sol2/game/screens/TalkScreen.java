@@ -75,8 +75,9 @@ public class TalkScreen implements SolUiScreen {
   }
 
   public boolean isTargetFar(SolShip hero) {
-    return hero == null || myTarget == null || myTarget.getLife() <= 0 ||
-      MAX_TALK_DIST < myTarget.getPos().dst(hero.getPos());
+    if (hero == null || myTarget == null || myTarget.getLife() <= 0) return true;
+    float dst = myTarget.getPos().dst(hero.getPos()) - hero.getHull().config.approxRadius - myTarget.getHull().config.approxRadius;
+    return MAX_TALK_DIST < dst;
   }
 
   @Override
