@@ -22,4 +22,9 @@
     tex: fire,
     tint: fire,
   },
+  asteroidDust: {
+    effectFile: explSmoke,
+    tex: fire,
+    tint: dust,
+  }
 }

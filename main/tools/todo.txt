@@ -27,7 +27,6 @@ SOUND:
 
 
 PARTICLES:
-  asteroid split: should use explSmoke effect with some special texture
   star ports: replace static energy lines with some nice effects.. Probably 4 similar from each side & something in the center
   star journey: replace static image with some nice effect
   abilities
@@ -79,6 +78,7 @@ UI:
   control types
   split item icons from ui icons
   ui dra man
+  item color categories
 
 ===================== REST =======================================================================
 

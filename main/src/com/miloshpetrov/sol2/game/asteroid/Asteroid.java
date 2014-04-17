@@ -146,12 +146,15 @@ public class Asteroid implements SolObj {
     game.getPartMan().finish(game, mySmokeSrc, myPos);
     game.getPartMan().finish(game, myFireSrc, myPos);
     myBody.getWorld().destroyBody(myBody);
-    maybeSplit(game);
+    if (myLife <= 0) {
+      game.getSpecialEffects().asteroidDust(game, myPos, mySpd, mySize);
+      game.getSoundMan().play(game, game.getSpecialSounds().asteroidCrack, null, this);
+      maybeSplit(game);
+    }
   }
 
   private void maybeSplit(SolGame game) {
-    if (myLife > 0 || MIN_SPLIT_SZ > mySize) return;
-    game.getSoundMan().play(game, game.getSpecialSounds().asteroidSplit, null, this);
+    if (MIN_SPLIT_SZ > mySize) return;
     float sclSum = 0;
     while (sclSum < .7f * mySize * mySize) {
       Vector2 newPos = new Vector2();
