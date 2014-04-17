@@ -58,15 +58,31 @@ public class PlanetObjsBuilder {
         SolShip e = buildGroundShip(game, planet, ge, null, Fraction.EHAR, takenAngles);
         game.getObjMan().addObjDelayed(e);
       }
-
     }
 
-    for (ShipConfig oe : config.orbitEnemies) {
-      int count = (int) (oe.density * gh * Const.ATM_HEIGHT);
+    buildOrbitEnemies(game, planet, gh, .2f, .2f, config.lowOrbitEnemies);
+    buildOrbitEnemies(game, planet, gh, .4f, .4f, config.highOrbitEnemies);
+  }
+
+  private void buildOrbitEnemies(SolGame game, Planet planet, float gh, float offsetPerc, float atmPerc,
+    List<ShipConfig> configs)
+  {
+    if (configs.isEmpty()) return;
+    HashMap<ShipConfig, Integer> counts = new HashMap<ShipConfig, Integer>();
+    int totalCount = 0;
+    for (ShipConfig oe : configs) {
+      int count = (int) (atmPerc * oe.density * gh * Const.ATM_HEIGHT);
+      counts.put(oe, count);
+      totalCount += count;
+    }
+    float stepPerc = atmPerc / totalCount;
+    float heightPerc = offsetPerc;
+    for (ShipConfig oe : configs) {
+      int count = counts.get(oe);
       for (int i = 0; i < count; i++) {
-        float heightPerc = .6f * i / count + .2f;
         SolShip e = buildOrbitEnemy(game, planet, heightPerc, oe);
         game.getObjMan().addObjDelayed(e);
+        heightPerc += stepPerc;
       }
     }
   }

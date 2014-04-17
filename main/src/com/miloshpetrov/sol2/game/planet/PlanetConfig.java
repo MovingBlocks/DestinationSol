@@ -17,15 +17,17 @@ public class PlanetConfig {
   public final float maxGrav;
   public final List<DecoConfig> deco;
   public final List<ShipConfig> groundEnemies;
-  public final List<ShipConfig> orbitEnemies;
+  public final List<ShipConfig> highOrbitEnemies;
   public final PlanetTiles planetTiles;
   public final ShipConfig stationConfig;
   public final SkyConfig skyConfig;
   public final ArrayList<TextureAtlas.AtlasRegion> cloudTexs;
+  public final ArrayList<ShipConfig> lowOrbitEnemies;
 
   public PlanetConfig(String configName, float minGrav, float maxGrav, List<DecoConfig> deco,
     List<ShipConfig> groundEnemies,
-    List<ShipConfig> orbitEnemies, ArrayList<TextureAtlas.AtlasRegion> cloudTexs, PlanetTiles planetTiles,
+    List<ShipConfig> highOrbitEnemies, ArrayList<ShipConfig> lowOrbitEnemies,
+    ArrayList<TextureAtlas.AtlasRegion> cloudTexs, PlanetTiles planetTiles,
     ShipConfig stationConfig, SkyConfig skyConfig)
   {
     this.configName = configName;
@@ -33,7 +35,8 @@ public class PlanetConfig {
     this.maxGrav = maxGrav;
     this.deco = deco;
     this.groundEnemies = groundEnemies;
-    this.orbitEnemies = orbitEnemies;
+    this.highOrbitEnemies = highOrbitEnemies;
+    this.lowOrbitEnemies = lowOrbitEnemies;
     this.cloudTexs = cloudTexs;
     this.planetTiles = planetTiles;
     this.stationConfig = stationConfig;
@@ -45,13 +48,14 @@ public class PlanetConfig {
     float maxGrav = sh.getFloat("maxGrav");
     List<DecoConfig> deco = DecoConfig.load(sh, texMan, configFile);
     ArrayList<ShipConfig> groundEnemies = ShipConfig.loadList(sh.get("groundEnemies"), hullConfigs);
-    ArrayList<ShipConfig> orbitEnemies = ShipConfig.loadList(sh.get("orbitEnemies"), hullConfigs);
+    ArrayList<ShipConfig> highOrbitEnemies = ShipConfig.loadList(sh.get("highOrbitEnemies"), hullConfigs);
+    ArrayList<ShipConfig> lowOrbitEnemies = ShipConfig.loadList(sh.get("lowOrbitEnemies"), hullConfigs);
     ShipConfig stationConfig = ShipConfig.load(hullConfigs, sh.get("station"));
     String cloudPackName = sh.getString("cloudTexs");
     ArrayList<TextureAtlas.AtlasRegion> cloudTexs = texMan.getPack(cloudPackName, configFile);
     String groundFolder = sh.getString("groundTexs");
     PlanetTiles planetTiles = new PlanetTiles(texMan, groundFolder, configFile);
     SkyConfig skyConfig = SkyConfig.load(sh.get("sky"), cols);
-    return new PlanetConfig(sh.name, minGrav, maxGrav, deco, groundEnemies, orbitEnemies, cloudTexs, planetTiles, stationConfig, skyConfig);
+    return new PlanetConfig(sh.name, minGrav, maxGrav, deco, groundEnemies, highOrbitEnemies, lowOrbitEnemies, cloudTexs, planetTiles, stationConfig, skyConfig);
   }
 }
