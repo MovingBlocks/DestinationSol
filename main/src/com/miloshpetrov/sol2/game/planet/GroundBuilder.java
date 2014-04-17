@@ -3,7 +3,7 @@ package com.miloshpetrov.sol2.game.planet;
 import com.miloshpetrov.sol2.common.SolMath;
 
 public class GroundBuilder {
-  private static final float PURE_GROUND_PERC = .333f;
+  private static final int PURE_GROUND_ROWS = 0;
 
   private final PlanetConfig myConfig;
   private final int myCols;
@@ -22,12 +22,13 @@ public class GroundBuilder {
   public Tile[][] build() {
     float[] ds0 = new float[myCols];
     float desiredMin = 0;
-    float desiredMax = (1 - PURE_GROUND_PERC) * myRows;
+    float desiredMax = myRows - PURE_GROUND_ROWS;
 
     for (int x = 0; x < myCols; x++) {
       ds0[x] = SolMath.rnd(desiredMin, desiredMax);
     }
     float[] ds = new float[myCols];
+    // smoothing
     float min = Float.MAX_VALUE;
     float max = Float.MIN_VALUE;
     for (int x = 0; x < myCols; x++) {
@@ -38,7 +39,7 @@ public class GroundBuilder {
       if (max < ds[x]) max = ds[x];
     }
     float shift = min - desiredMin;
-    float mul = (desiredMax - desiredMin) / (max - min);
+    float mul = (desiredMax - .01f - desiredMin) / (max - min);
     for (int x = 0; x < myCols; x++) {
       ds[x] = mul * (ds[x] - shift);
     }
@@ -93,7 +94,7 @@ public class GroundBuilder {
   }
 
   private void buildNode(int col) {
-    int row = SolMath.intRnd(1 - .5f * PURE_GROUND_PERC, myRows);
+    int row = myRows - SolMath.intRnd(0, PURE_GROUND_ROWS / 2);
     buildTunnel(col, row, true);
     buildTunnel(col, row, false);
   }

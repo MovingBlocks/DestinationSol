@@ -40,7 +40,6 @@ DISCUSS:
 
 
 BORING:
-  black filler inside planets + lower planet tiles should have darker tint
   bullets are too narrow on phone -- use realLineWidth() as a minimum width
   starports should be on differernt distances from planet center, since now they overlap
   split orbiters to highOrbiter & lowOrbiter

@@ -25,6 +25,7 @@ public class PlanetMan {
   private final ArrayList<Maze> myMazes;
   private final SunSingleton mySunSingleton;
   private final SysConfigs mySysConfigs;
+  private final PlanetCoreSingleton myPlanetCore;
   private Planet myNearestPlanet;
 
   public PlanetMan(TexMan texMan, HullConfigs hullConfigs, GameCols cols) {
@@ -38,6 +39,7 @@ public class PlanetMan {
     myBelts = new ArrayList<SystemBelt>();
     myFlatPlaceFinder = new FlatPlaceFinder();
     mySunSingleton = new SunSingleton(texMan);
+    myPlanetCore = new PlanetCoreSingleton(texMan);
   }
 
   public void fill(SaveData sd) {
@@ -193,8 +195,12 @@ public class PlanetMan {
     return res;
   }
 
-  public void drawSun(SolGame game, Drawer drawer) {
+  public void drawSunHack(SolGame game, Drawer drawer) {
     mySunSingleton.draw(game, drawer);
+  }
+
+  public void drawPlanetCoreHack(SolGame game, Drawer drawer) {
+    myPlanetCore.draw(game, drawer);
   }
 
 }

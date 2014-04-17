@@ -10,7 +10,7 @@
     outerEnemies: [
       {
         hull: corvette,
-        items: "s:.2 a:.3 bo sloMo:.7:3 rep:.4",
+        items: "s:.2 a:.3 bo sloMoCharge:.7:3 rep:.4",
 		money: 20,
 		repairer: false,
 		mountFixed1: true,

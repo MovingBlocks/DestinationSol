@@ -16,7 +16,7 @@ import com.miloshpetrov.sol2.game.ship.SolShip;
 import java.util.*;
 
 public class PlanetObjsBuilder {
-  private static final int ROWS = 6;
+  private static final int ROWS = 4;
   private static final float TOP_TILE_SZ = 2f;
 
   private static final float MAX_CLOUD_PIECE_SZ = 1.5f;
