@@ -36,6 +36,9 @@ public class BallProjectileBody implements ProjectileBody {
   @Override
   public void update(SolGame game) {
     setParamsFromBody();
+    float spdAngle = SolMath.angle(mySpd);
+    float diff = SolMath.norm(spdAngle - myAngle);
+    myBody.setAngularVelocity(diff / game.getTimeStep() * SolMath.degRad);
   }
 
   @Override

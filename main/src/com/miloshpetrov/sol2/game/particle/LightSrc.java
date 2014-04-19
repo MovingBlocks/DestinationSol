@@ -26,12 +26,12 @@ public class LightSrc {
   public LightSrc(SolGame game, float sz, boolean hasHalo, float intensity, Vector2 relPos, Color col) {
     TextureAtlas.AtlasRegion tex = game.getTexMan().getTex("particles/lightCircle", null);
     mySz = sz;
-    myCircle = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DraLevel.PART_BG_0, 0, 0, col);
+    myCircle = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DraLevel.PART_BG_0, 0, 0, col, true);
     tex = game.getTexMan().getTex("particles/lightHalo", null);
     if (hasHalo) {
       Color haloCol = new Color(col);
       ColUtil.changeBrightness(haloCol, .8f);
-      myHalo = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DraLevel.PART_FG_0, 0, 0, haloCol);
+      myHalo = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DraLevel.PART_FG_0, 0, 0, haloCol, true);
     } else {
       myHalo = null;
     }

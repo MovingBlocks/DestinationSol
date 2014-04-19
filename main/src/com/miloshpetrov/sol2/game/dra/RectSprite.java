@@ -30,12 +30,14 @@ public class RectSprite implements Dra {
   private float myRadius;
   private float myAngle;
   private boolean myEnabled;
+  private final boolean myAdditive;
 
   /**
    * consumes relPos, doesn't consume Color
    * */
-  public RectSprite(TextureAtlas.AtlasRegion tex, float texSz, float origPercX, float origPercY, @Consumed Vector2 relPos, DraLevel level,
-    float relAngle, float rotSpd, Color tint) {
+  public RectSprite(TextureAtlas.AtlasRegion tex, float texSz, float origPercX, float origPercY,
+    @Consumed Vector2 relPos, DraLevel level,
+    float relAngle, float rotSpd, Color tint, boolean additive) {
     if (tex == null) throw new IllegalArgumentException("tex is null");
     myTex = tex;
     myOrigPercX = origPercX;
@@ -52,6 +54,7 @@ public class RectSprite implements Dra {
     this.tint = new Color(tint);
 
     setTexSz(texSz);
+    myAdditive = additive;
   }
 
   public void setTexSz(float texSz) {
@@ -117,7 +120,9 @@ public class RectSprite implements Dra {
       x = (x - camPos.x) / myLevel.depth + camPos.x;
       y = (y - camPos.y) / myLevel.depth + camPos.y;
     }
+    drawer.setAdditive(myAdditive);
     drawer.draw(myTex, myTexSzX, myTexSzY, myOrigX, myOrigY, x, y, myAngle, tint);
+    drawer.setAdditive(false);
   }
 
   public boolean isEnabled() {

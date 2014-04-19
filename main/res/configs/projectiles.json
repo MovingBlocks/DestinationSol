@@ -10,7 +10,7 @@
       effectFile: explFire,
       size: 0.2,
       tex: fire,
-      tint: "127 255 127",
+      tint: "180 20 120",
     },
   },
   bolterCharge: {
@@ -24,7 +24,7 @@
       effectFile: explFire,
       size: 0.3,
       tex: fire,
-      tint: "0 255 0",
+      tint: "90 10 60",
     },
   },
   bullet: {
@@ -45,6 +45,7 @@
   rocket: {
     texName: rocket,
     texSz: 0.15,
+    texOrig: "-.5 0",
     spdLen: 4,
     physSize: 0.1,
     dmgType: explosion,

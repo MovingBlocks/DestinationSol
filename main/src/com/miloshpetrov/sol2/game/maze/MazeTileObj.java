@@ -161,7 +161,7 @@ public class MazeTileObj implements SolObj {
       List<Dra> dras = new ArrayList<Dra>();
       TextureAtlas.AtlasRegion tex = tile.tex;
       if (flipped) tex = game.getTexMan().getFlipped(tex);
-      RectSprite s = new RectSprite(tex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DraLevel.DECO, 0, 0, Col.W);
+      RectSprite s = new RectSprite(tex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DraLevel.DECO, 0, 0, Col.W, false);
       dras.add(s);
       Body body = buildBody(game, angle, pos, tile, flipped);
       MazeTileObj res = new MazeTileObj(tile, dras, body, pos, angle, flipped);

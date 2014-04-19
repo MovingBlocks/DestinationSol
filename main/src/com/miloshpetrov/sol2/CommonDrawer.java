@@ -2,6 +2,7 @@ package com.miloshpetrov.sol2;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
 import com.miloshpetrov.sol2.common.SolMath;
@@ -105,5 +106,9 @@ public class CommonDrawer {
     return mySpriteBatch;
   }
 
+  public void setAdditive(boolean additive) {
+    int dstFunc = additive ? GL10.GL_ONE : GL10.GL_ONE_MINUS_SRC_ALPHA;
+    mySpriteBatch.setBlendFunction(GL10.GL_SRC_ALPHA, dstFunc);
+  }
 }
 

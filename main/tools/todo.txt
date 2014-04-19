@@ -1,7 +1,4 @@
 
-better colors
-lights should be additive
-
 enemies should use abilities
 abilities:
   activation sound

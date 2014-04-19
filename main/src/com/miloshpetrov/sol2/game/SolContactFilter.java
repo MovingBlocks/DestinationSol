@@ -22,6 +22,6 @@ public class SolContactFilter implements ContactFilter {
     Projectile proj = (Projectile)(aIsProj ? oA : oB);
     SolObj o = aIsProj ? oB : oA;
     Fixture f = aIsProj ? fixtureB : fixtureA;
-    return proj.maybeCollide(o, f, myFractionMan);
+    return proj.shouldCollide(o, f, myFractionMan);
   }
 }

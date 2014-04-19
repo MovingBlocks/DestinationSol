@@ -46,7 +46,7 @@ public class Projectile implements SolObj {
     if (myConfig.stretch) {
       dra = new MyDra(this, myConfig.tex, myConfig.texSz);
     } else {
-      dra = new RectSprite(myConfig.tex, myConfig.texSz, 0, 0, new Vector2(), DraLevel.PROJECTILES, 0, 0, Col.W);
+      dra = new RectSprite(myConfig.tex, myConfig.texSz, myConfig.origin.x, myConfig.origin.y, new Vector2(), DraLevel.PROJECTILES, 0, 0, Col.W, false);
     }
     myDras.add(dra);
     float spdLen = myConfig.spdLen;
@@ -204,7 +204,7 @@ public class Projectile implements SolObj {
     return myFraction;
   }
 
-  public boolean maybeCollide(SolObj o, Fixture f, FractionMan fractionMan) {
+  public boolean shouldCollide(SolObj o, Fixture f, FractionMan fractionMan) {
     if (o instanceof SolShip) {
       SolShip s = (SolShip) o;
       if (!fractionMan.areEnemies(s.getPilot().getFraction(), myFraction)) return false;
@@ -215,8 +215,11 @@ public class Projectile implements SolObj {
     } else if (o instanceof Projectile) {
       if (!fractionMan.areEnemies(((Projectile) o).myFraction, myFraction)) return false;
     }
-    myObstacle = o;
     return true;
+  }
+
+  public void setObstacle(SolObj o) {
+    myObstacle = o;
   }
 
 
@@ -287,6 +290,7 @@ public class Projectile implements SolObj {
     public boolean okToRemove() {
       return false;
     }
+
   }
 
 }

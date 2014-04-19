@@ -36,7 +36,7 @@ public class SolGun {
       myLightSrc = null;
     }
     myRelPos = new Vector2(relPos);
-    mySprite = new RectSprite(myItem.config.tex, myItem.config.gunLength * 2, 0, 0, new Vector2(relPos), DraLevel.GUNS, 0, 0, Col.W);
+    mySprite = new RectSprite(myItem.config.tex, myItem.config.gunLength * 2, 0, 0, new Vector2(relPos), DraLevel.GUNS, 0, 0, Col.W, false);
     myDras = new ArrayList<Dra>();
     myDras.add(mySprite);
     if (myLightSrc != null) myLightSrc.collectDras(myDras);

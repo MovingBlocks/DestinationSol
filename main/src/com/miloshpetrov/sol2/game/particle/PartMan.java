@@ -47,7 +47,7 @@ public class PartMan {
     Vector2 hullPos = hull.getPos();
     float shieldRadius = hull.config.size * Shield.SIZE_PERC;
     float toEdge = SolMath.angle(hullPos, pos);
-    RectSprite s = new RectSprite(myShieldTex, shieldRadius*2, 0, 0, new Vector2(), DraLevel.PART_FG_0, toEdge, 0, Col.W);
+    RectSprite s = new RectSprite(myShieldTex, shieldRadius*2, 0, 0, new Vector2(), DraLevel.PART_FG_0, toEdge, 0, Col.W, false);
     ArrayList<Dra> dras = new ArrayList<Dra>();
     dras.add(s);
     DrasObj o = new DrasObj(dras, new Vector2(hullPos), new Vector2(hull.getSpd()), null, false, false);

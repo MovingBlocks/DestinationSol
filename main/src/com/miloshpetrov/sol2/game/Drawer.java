@@ -55,4 +55,8 @@ public class Drawer implements TexDrawer {
   public void dispose() {
     myDrawer.dispose();
   }
+
+  public void setAdditive(boolean additive) {
+    myDrawer.setAdditive(additive);
+  }
 }

@@ -103,7 +103,9 @@ public class DraMan {
       Map<Texture, List<Dra>> map = e.getValue();
       for (List<Dra> dras : map.values()) {
         for (Dra dra : dras) {
-          if (myInCam.contains(dra)) dra.draw(myDrawer, game);
+          if (myInCam.contains(dra)) {
+            dra.draw(myDrawer, game);
+          }
         }
       }
       if (draLevel.depth <= 1) {

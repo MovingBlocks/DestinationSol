@@ -1,6 +1,7 @@
 package com.miloshpetrov.sol2.game.projectile;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.game.DmgType;
 import com.miloshpetrov.sol2.game.particle.EffectConfig;
 import com.miloshpetrov.sol2.game.sound.SolSound;
@@ -21,11 +22,12 @@ public class ProjectileConfig {
   public final EffectConfig collisionEffectBg;
   public final boolean guided;
   public final boolean towardsGround;
+  public final Vector2 origin;
 
   public ProjectileConfig(TextureAtlas.AtlasRegion tex, float texSz, float spdLen, boolean stretch,
     float physSize, DmgType dmgType, SolSound collisionSound, float lightSz, EffectConfig trailEffect,
     EffectConfig bodyEffect, EffectConfig collisionEffect, EffectConfig collisionEffectBg, boolean guided,
-    boolean towardsGround)
+    boolean towardsGround, Vector2 origin)
   {
     this.tex = tex;
     this.texSz = texSz;
@@ -41,6 +43,7 @@ public class ProjectileConfig {
     this.collisionEffectBg = collisionEffectBg;
     this.guided = guided;
     this.towardsGround = towardsGround;
+    this.origin = origin;
   }
 
 }

@@ -421,10 +421,10 @@ public class SolMath {
 
 
   public static Vector2 readV2(JsonValue v, String name) {
-    return doReadV2(v.getString(name));
+    return readV2(v.getString(name));
   }
 
-  private static Vector2 doReadV2(String encoded) {
+  public static Vector2 readV2(String encoded) {
     String[] parts = encoded.split(" ");
     float x = Float.parseFloat(parts[0]);
     float y = Float.parseFloat(parts[1]);
@@ -434,7 +434,7 @@ public class SolMath {
   public static ArrayList<Vector2> readV2List(JsonValue v, String name) {
     ArrayList<Vector2> res = new ArrayList<Vector2>();
     for (JsonValue vv : v.get(name)) {
-      Vector2 vec = doReadV2(vv.asString());
+      Vector2 vec = readV2(vv.asString());
       res.add(vec);
     }
     return res;
