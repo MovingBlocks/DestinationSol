@@ -6,6 +6,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.Fraction;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.gun.GunItem;
+import com.miloshpetrov.sol2.game.gun.GunMount;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.planet.PlanetBind;
 import com.miloshpetrov.sol2.game.ship.*;
@@ -46,9 +47,11 @@ public class AiPilot implements Pilot {
     float maxIdleDist = hullConfig.getMaxIdleDist();
     myDestProvider.update(game, shipPos, maxIdleDist, hullConfig);
 
-    boolean canShoot = canShoot0(ship);
+    Boolean canShoot = canShoot0(ship);
+    boolean canShootUnfixed = canShoot == null;
+    if (canShootUnfixed) canShoot = true;
     Planet np = game.getPlanetMan().getNearestPlanet();
-    float shootDist = np.isNearGround(shipPos) ? Const.AI_SHOOT_DIST_GROUND : Const.AI_SHOOT_DIST_SPACE;
+    float shootDist = canShootUnfixed && np.isNearGround(shipPos) ? Const.AI_SHOOT_DIST_GROUND : Const.AI_SHOOT_DIST_SPACE;
     shootDist += hullConfig.approxRadius;
 
     Vector2 dest = null;
@@ -78,11 +81,13 @@ public class AiPilot implements Pilot {
     }
   }
 
-  private boolean canShoot0(SolShip ship) {
-    GunItem g1 = ship.getHull().getGunMount(false).getGun();
-    if (g1 != null && g1.canShoot()) return true;
-    GunItem g2 = ship.getHull().getGunMount(true).getGun();
-    if (g2 != null && (g2.canShoot())) return true;
+  private Boolean canShoot0(SolShip ship) {
+    GunMount m1 = ship.getHull().getGunMount(false);
+    GunItem g1 = m1.getGun();
+    if (g1 != null && g1.canShoot()) return !m1.isFixed() ? null : true;
+    GunMount m2 = ship.getHull().getGunMount(true);
+    GunItem g2 = m2.getGun();
+    if (g2 != null && (g2.canShoot())) return !m2.isFixed() ? null : true;
     return false;
   }
 
@@ -186,6 +191,11 @@ public class AiPilot implements Pilot {
     newPos.add(shipPos);
     farShip.setPos(newPos);
     SolMath.free(newPos);
+  }
+
+  @Override
+  public String toDebugString() {
+    return "moverActive: " + myMover.isActive();
   }
 
 }

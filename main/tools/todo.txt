@@ -1,49 +1,49 @@
 
+better colors
+lights should be additive
 
-PERF:
-  build everything as far + SG.isPlaceEmpty should iterate over far objs
-  get rid of getVec, use static vectors, 3 should be enough
-  far ship positions should be calculated on demand?
-  test on every object preloaded
+enemies should use abilities
+abilities:
+  activation sound
+  rejection sound
+  effects
+
+
+prepare for video
+video
+republish
 
 
 SOUND:
-  environment!
   force field work
   star journey:
    start
    finish
    working
-  no ammo
   projectile work
-  items:
-    pick up
-    drop
-  ability:
-    activation
-    rejection
-    out of charges
+  item drop sound
+  out of ammo
+  out of ability charges
 
 
 PARTICLES:
   star ports: replace static energy lines with some nice effects.. Probably 4 similar from each side & something in the center
   star journey: replace static image with some nice effect
-  abilities
-
-
-enemies should use abilities
-
-
-DISCUSS:
-  landscape types?
   shield orbiting blips: use some static pulsating texture that will fade away with shield life?
   item pickup blip
   force beacon: replace static texture with moving ones
 
 
-++++++++++++++++++++++++++++++++++++++ AFTER ALL CONTENT IS IN THE GAME
 
+
+++++++++++++++++++++++++++++++++++++++ AFTER ALL ART IS IN THE GAME
+
+landscape types?
 use circles instead of polys where possible
+item pick up sound
+environment sounds
+add content
+
 
 TRADING:
   jsons will have tradeItems, that would resolve in the list of items
@@ -76,6 +76,7 @@ UI:
   ui dra man
   item color categories
   warn about dangerous enemy near
+  inventory category filtering
 
 
 EH:
@@ -83,6 +84,16 @@ EH:
   update pitch to all played sounds if game time is changed? or just properly set initial pitch
   ships sometimes get inside tiles
   starports should be on differernt distances from planet center, since now they overlap
+
+
+PERF:
+  build everything as far + SG.isPlaceEmpty should iterate over far objs
+  get rid of getVec, use static vectors, 3 should be enough
+  far ship positions should be calculated on demand?
+  test on every object preloaded
+
+
+
 
 ===================== REST =======================================================================
 

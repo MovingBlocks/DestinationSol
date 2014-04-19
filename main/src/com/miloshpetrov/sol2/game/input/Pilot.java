@@ -19,6 +19,7 @@ public interface Pilot {
   float getDetectionDist();
   String getMapHint();
   void updateFar(SolGame game, FarShip farShip);
+  String toDebugString();
 
   public static final class Utils {
     public static boolean isIdle(Pilot p) {

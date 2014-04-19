@@ -60,8 +60,8 @@ public class PlanetObjsBuilder {
       }
     }
 
-    buildOrbitEnemies(game, planet, gh, .2f, .2f, config.lowOrbitEnemies);
-    buildOrbitEnemies(game, planet, gh, .4f, .4f, config.highOrbitEnemies);
+    buildOrbitEnemies(game, planet, gh, 0, .2f, config.lowOrbitEnemies);
+    buildOrbitEnemies(game, planet, gh, .2f, .6f, config.highOrbitEnemies);
   }
 
   private void buildOrbitEnemies(SolGame game, Planet planet, float gh, float offsetPerc, float atmPerc,
@@ -281,7 +281,7 @@ public class PlanetObjsBuilder {
     Vector2 spd = new Vector2(toPlanet).nor();
     SolMath.free(toPlanet);
 
-    float detectionDist = Const.AI_DET_DIST_GROUND;
+    float detectionDist = Const.AI_DET_DIST;
     Pilot provider = new AiPilot(new StillGuard(pos, game), false, fraction, true, null, detectionDist);
 
     return game.getShipBuilder().buildNew(game, pos, spd, angle, 0, provider, ic, ge.hull, mountFixed1, mountFixed2,
@@ -301,7 +301,7 @@ public class PlanetObjsBuilder {
     Vector2 v = SolMath.distVec(pos, planetPos);
     SolMath.rotate(spd, v.angle());
     SolMath.free(v);
-    float detectionDist = Const.AI_DET_DIST_SPACE;
+    float detectionDist = Const.AI_DET_DIST;
 
     OrbiterDestProvider dp = new OrbiterDestProvider(planet, height, cw);
     Pilot provider = new AiPilot(dp, false, Fraction.EHAR, true, null, detectionDist);

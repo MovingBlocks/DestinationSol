@@ -10,7 +10,7 @@
       effectFile: explFire,
       size: 0.2,
       tex: fire,
-      tint: ".5 1 .5",
+      tint: "127 255 127",
     },
   },
   bolterCharge: {
@@ -24,7 +24,7 @@
       effectFile: explFire,
       size: 0.3,
       tex: fire,
-      tint: "0 1 0",
+      tint: "0 255 0",
     },
   },
   bullet: {
@@ -39,7 +39,7 @@
       effectFile: spark,
       size: 0.5,
       tex: spark,
-      tint: white,
+      tint: fire,
     },
   },
   rocket: {
