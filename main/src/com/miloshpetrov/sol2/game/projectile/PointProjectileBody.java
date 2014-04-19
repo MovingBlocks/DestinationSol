@@ -78,8 +78,9 @@ public class PointProjectileBody implements ProjectileBody {
     @Override
     public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
       SolObj o = (SolObj) fixture.getBody().getUserData();
-      if (myProjectile.maybeCollide(o, fixture, myGame.getFractionMan())) {
+      if (myProjectile.shouldCollide(o, fixture, myGame.getFractionMan())) {
         myPos.set(point);
+        myProjectile.setObstacle(o);
         return 0;
       }
       return -1;

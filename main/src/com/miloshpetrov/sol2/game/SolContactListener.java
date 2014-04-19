@@ -14,6 +14,15 @@ public class SolContactListener implements ContactListener {
 
   @Override
   public void beginContact(Contact contact) {
+    SolObj oA = (SolObj) contact.getFixtureA().getBody().getUserData();
+    SolObj oB = (SolObj) contact.getFixtureB().getBody().getUserData();
+
+    boolean aIsProj = oA instanceof Projectile;
+    if (!aIsProj && !(oB instanceof Projectile)) return;
+
+    Projectile proj = (Projectile)(aIsProj ? oA : oB);
+    SolObj o = aIsProj ? oB : oA;
+    proj.setObstacle(o);
   }
 
   @Override

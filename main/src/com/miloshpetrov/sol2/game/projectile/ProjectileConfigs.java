@@ -2,9 +2,11 @@ package com.miloshpetrov.sol2.game.projectile;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.*;
+import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.DmgType;
 import com.miloshpetrov.sol2.game.GameCols;
 import com.miloshpetrov.sol2.game.particle.EffectConfig;
@@ -41,8 +43,9 @@ public class ProjectileConfigs {
       EffectConfig collisionEffectBg = EffectConfig.load(sh.get("collisionEffectBg"), effectTypes, texMan, configFile, cols);
       boolean guided = sh.getBoolean("guided", false);
       boolean towardsGround = sh.getBoolean("towardsGround", false);
+      Vector2 origin = SolMath.readV2(sh.getString("texOrig", "0 0"));
       ProjectileConfig c = new ProjectileConfig(tex, texSz, spdLen, stretch, physSize, dmgType, collisionSound,
-        lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg, guided, towardsGround);
+        lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg, guided, towardsGround, origin);
       myConfigs.put(sh.name, c);
     }
   }

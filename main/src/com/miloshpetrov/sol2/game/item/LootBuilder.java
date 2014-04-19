@@ -22,7 +22,7 @@ public class LootBuilder {
   public Loot build(SolGame game, Vector2 pos, SolItem item, Vector2 spd, int life, float rotSpd, SolShip owner) {
     List<Dra> dras = new ArrayList<Dra>();
     TextureAtlas.AtlasRegion tex = item.getIcon(game);
-    RectSprite s = new RectSprite(tex, SZ, 0, 0, new Vector2(), DraLevel.GUNS, 0, 0, Col.W);
+    RectSprite s = new RectSprite(tex, SZ, 0, 0, new Vector2(), DraLevel.GUNS, 0, 0, Col.W, false);
     dras.add(s);
     Body b = buildBody(game, pos);
     b.setLinearVelocity(spd);

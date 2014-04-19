@@ -271,7 +271,7 @@ public class StarPort implements SolObj {
       myPos = new Vector2(ship.getPos());
       myDestPos = new Vector2();
 
-      RectSprite s = new RectSprite(texMan.getTex("misc/transcendent", null), TRAN_SZ, TRAN_SZ, 0, new Vector2(), DraLevel.BODIES, 0, 0, Col.W);
+      RectSprite s = new RectSprite(texMan.getTex("misc/transcendent", null), TRAN_SZ, TRAN_SZ, 0, new Vector2(), DraLevel.BODIES, 0, 0, Col.W, false);
       myDras = new ArrayList<Dra>();
       myDras.add(s);
       myRadius = DraMan.radiusFromDras(myDras);

@@ -20,7 +20,7 @@ public class ForceBeacon {
   public ForceBeacon(SolGame game, Vector2 relPos) {
     myRelPos = relPos;
     TextureAtlas.AtlasRegion tex = game.getTexMan().getTex("misc/forceBeacon", null);
-    myTex = new RectSprite(tex, .2f, 0, 0, new Vector2(relPos), DraLevel.PART_FG_0, 0, 60, Col.W);
+    myTex = new RectSprite(tex, .2f, 0, 0, new Vector2(relPos), DraLevel.PART_FG_0, 0, 60, Col.W, false);
     myPrevPos = new Vector2();
   }
 
