@@ -101,7 +101,7 @@ public class SolShip implements SolObj {
 
   @Override
   public String toDebugString() {
-    return "";
+    return myPilot.toDebugString();
   }
 
   @Override

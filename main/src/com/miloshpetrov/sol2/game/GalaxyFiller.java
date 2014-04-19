@@ -38,7 +38,7 @@ public class GalaxyFiller {
 
     MoveDestProvider dp;
     Vector2 pos;
-    float detectionDist = Const.AI_DET_DIST_SPACE;
+    float detectionDist = Const.AI_DET_DIST;
     String tradeItems;
     if (hullConf.type == HullConfig.Type.STATION) {
       pos = getPosForStation(sys, mainStation);
@@ -140,7 +140,7 @@ public class GalaxyFiller {
 
   private void createGuard(SolGame game, SolShip target, ShipConfig guardConf, Fraction frac) {
     Guardian dp = new Guardian(game, target, guardConf.hull);
-    float detectionDist = Const.AI_DET_DIST_SPACE;
+    float detectionDist = Const.AI_DET_DIST;
     Pilot pilot = new AiPilot(dp, true, frac, false, null, detectionDist);
     boolean mountFixed1 = guardConf.isMountFixed1;
     boolean mountFixed2 = guardConf.isMountFixed2;

@@ -96,16 +96,16 @@ public class ColUtil {
     boolean hsb = "hsb".equals(parts[0]);
     int idx = hsb ? 1 : 0;
 
-    float v1 = Float.parseFloat(parts[idx++]);
-    float v2 = Float.parseFloat(parts[idx++]);
-    float v3 = Float.parseFloat(parts[idx++]);
+    int v1 = Integer.parseInt(parts[idx++]);
+    int v2 = Integer.parseInt(parts[idx++]);
+    int v3 = Integer.parseInt(parts[idx++]);
     float a = 1;
-    if (parts.length > idx) a = Float.parseFloat(parts[idx]);
+    if (parts.length > idx) a = Integer.parseInt(parts[idx]) / 255f;
     Color res = new Color();
     if (hsb) {
-      fromHSB(v1, v2, v3, a, res);
+      fromHSB(v1/360f, v2/100f, v3/100f, a, res);
     } else {
-      res.set(v1, v2, v3, a);
+      res.set(v1/255f, v2/255f, v3/255f, a);
     }
     return res;
   }

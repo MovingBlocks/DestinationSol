@@ -6,7 +6,6 @@ import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public class BattleDestProvider {
-  public static final float GROUND_BATTLE_DIST_PERC = .6f;
   private final Vector2 myDest;
   private boolean myStopNearDest;
   private final boolean myCw;
@@ -31,8 +30,8 @@ public class BattleDestProvider {
       myStopNearDest = false;
     } else {
       prefAngle = SolMath.angle(np.getPos(), enemyPos);
-      myStopNearDest = true;
-      SolMath.fromAl(myDest, prefAngle, approxRad + GROUND_BATTLE_DIST_PERC * shootDist + enemyApproxRad);
+      myStopNearDest = false;
+      SolMath.fromAl(myDest, prefAngle, .5f * shootDist + enemyApproxRad);
       myDest.add(enemyPos);
     }
     return myDest;

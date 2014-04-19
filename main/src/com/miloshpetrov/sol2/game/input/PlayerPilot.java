@@ -77,4 +77,9 @@ public class PlayerPilot implements Pilot {
   @Override
   public void updateFar(SolGame game, FarShip farShip) {
   }
+
+  @Override
+  public String toDebugString() {
+    return "";
+  }
 }

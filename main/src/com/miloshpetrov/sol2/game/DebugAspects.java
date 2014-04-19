@@ -37,8 +37,10 @@ public class DebugAspects {
     IniReader r = new IniReader("debugOptions.ini");
 
     ZOOM_OVERRIDE = r.f("zoomOverride", ZOOM_OVERRIDE);
+    PHYSICS_DEBUG = r.b("physicsDebug", PHYSICS_DEBUG);
     STATS = r.b("stats", STATS);
     WARNINGS = r.b("warnings", WARNINGS);
+    TO_STRING = r.b("toString", TO_STRING);
     GOD_MODE = r.b("godMode", GOD_MODE);
     NO_SOUND = r.b("noSound", NO_SOUND);
 
@@ -47,6 +49,5 @@ public class DebugAspects {
 
     TEX_DEBUG = r.b("texDebug", TEX_DEBUG);
 
-    PHYSICS_DEBUG = r.b("physicsDebug", PHYSICS_DEBUG);
   }
 }

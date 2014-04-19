@@ -126,7 +126,7 @@ public class MazeBuilder {
   private void buildEnemy(Vector2 pos, SolGame game, ShipConfig e, boolean inner) {
     float angle = SolMath.rnd(180);
     ShipBuilder sb = game.getShipBuilder();
-    float viewDist = Const.AI_DET_DIST_SPACE;
+    float viewDist = Const.AI_DET_DIST;
     if (inner) viewDist *= .2f;
     Pilot pilot = new AiPilot(new StillGuard(pos, game), false, Fraction.EHAR, true, null, viewDist);
     boolean mountFixed1, mountFixed2, hasRepairer;
