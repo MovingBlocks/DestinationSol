@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.game.AbilityCommonConfigs;
 import com.miloshpetrov.sol2.game.item.EngineItem;
 import com.miloshpetrov.sol2.game.item.ItemMan;
 
@@ -16,7 +17,7 @@ import java.util.HashMap;
 public class HullConfigs {
   private final HashMap<String,HullConfig> myConfigs;
 
-  public HullConfigs(ShipBuilder shipBuilder, TexMan texMan, ItemMan itemMan) {
+  public HullConfigs(ShipBuilder shipBuilder, TexMan texMan, ItemMan itemMan, AbilityCommonConfigs abilityCommonConfigs) {
     myConfigs = new HashMap<String, HullConfig>();
 
     JsonReader r = new JsonReader();
@@ -45,7 +46,7 @@ public class HullConfigs {
           throw new AssertionError("incompatible engine in hull " + hullNode.name);
         }
       }
-      AbilityConfig ability = loadAbility(hullNode, itemMan);
+      AbilityConfig ability = loadAbility(hullNode, itemMan, abilityCommonConfigs);
       HullConfig c = new HullConfig(texName, size, maxLife, e1Pos, e2Pos, g1Pos, g2Pos, lightSrcPoss, durability,
         hasBase, forceBeaconPoss, doorPoss, type, icon, tex, ec, ability);
       process(c, shipBuilder);
@@ -53,15 +54,15 @@ public class HullConfigs {
     }
   }
 
-  private AbilityConfig loadAbility(JsonValue hullNode, ItemMan itemMan) {
+  private AbilityConfig loadAbility(JsonValue hullNode, ItemMan itemMan, AbilityCommonConfigs abilityCommonConfigs) {
     JsonValue abNode = hullNode.get("ability");
     if (abNode == null) return null;
     String type = abNode.getString("type");
-    if ("sloMo".equals(type)) return SloMo.Config.load(abNode, itemMan);
-    if ("teleport".equals(type)) return Teleport.Config.load(abNode, itemMan);
-    if ("knockBack".equals(type)) return KnockBack.Config.load(abNode, itemMan);
-    if ("emWave".equals(type)) return EmWave.Config.load(abNode, itemMan);
-    if ("unShield".equals(type)) return UnShield.Config.load(abNode, itemMan);
+    if ("sloMo".equals(type)) return SloMo.Config.load(abNode, itemMan, abilityCommonConfigs.sloMo);
+    if ("teleport".equals(type)) return Teleport.Config.load(abNode, itemMan, abilityCommonConfigs.teleport);
+    if ("knockBack".equals(type)) return KnockBack.Config.load(abNode, itemMan, abilityCommonConfigs.knockBack);
+    if ("emWave".equals(type)) return EmWave.Config.load(abNode, itemMan, abilityCommonConfigs.emWave);
+    if ("unShield".equals(type)) return UnShield.Config.load(abNode, itemMan, abilityCommonConfigs.unShield);
     return null;
   }
 

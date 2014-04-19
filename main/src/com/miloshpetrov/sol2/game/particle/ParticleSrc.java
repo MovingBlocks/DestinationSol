@@ -38,13 +38,23 @@ public class ParticleSrc implements Dra {
     myPos = new Vector2();
 
     if (sz < 0) sz = config.sz;
-    if (sz > 0 && myEmitter.getSpawnShape().getShape() == ParticleEmitter.SpawnShape.point &&
-      myEmitter.getVelocity().getHighMax() < MOVING_AREA_THRESH)
-    {
-      myAreaSz = sz;
-    } else {
-      if (sz > 0) applySz(sz);
+
+    boolean point = myEmitter.getSpawnShape().getShape() == ParticleEmitter.SpawnShape.point;
+    boolean expl = MOVING_AREA_THRESH < myEmitter.getVelocity().getHighMax();
+    boolean single = myEmitter.getEmission().getHighMax() == 1;
+
+    if (!point) {
+      mulVal(myEmitter.getEmission(), sz * sz);
+      mulVal(myEmitter.getSpawnWidth(), sz);
+      mulVal(myEmitter.getSpawnHeight(), sz);
       myAreaSz = 0;
+    } else if (expl) {
+      mulVal(myEmitter.getEmission(), sz * sz);
+      ParticleEmitter.ScaledNumericValue vel = myEmitter.getVelocity();
+      vel.setHigh(vel.getHighMin() * sz, vel.getHighMax() * sz);
+      myAreaSz = 0;
+    } else {
+      myAreaSz = sz;
     }
     myEmitter.setSprite(new Sprite(myConfig.tex.getTexture()));
     float[] tint = myEmitter.getTint().getColors();
@@ -68,20 +78,6 @@ public class ParticleSrc implements Dra {
       // ... and still initial speed is not applied. : (
     } else {
       myEmitter.start();
-    }
-  }
-
-  private void applySz(float sz) {
-    mulVal(myEmitter.getEmission(), sz * sz);
-    ParticleEmitter.SpawnShapeValue sh = myEmitter.getSpawnShape();
-    if (sh.getShape() == ParticleEmitter.SpawnShape.point) {
-      ParticleEmitter.ScaledNumericValue vel = myEmitter.getVelocity();
-      vel.setHigh(vel.getHighMin() * sz, vel.getHighMax() * sz);
-    } else if (sh.getShape() == ParticleEmitter.SpawnShape.ellipse) {
-      mulVal(myEmitter.getSpawnWidth(), sz);
-      mulVal(myEmitter.getSpawnHeight(), sz);
-    } else {
-      throw new AssertionError("unsupported effect spawn shape");
     }
   }
 
@@ -232,9 +228,5 @@ public class ParticleSrc implements Dra {
 
   public boolean isWorking() {
     return myWorking;
-  }
-
-  public boolean shouldFloatUp() {
-    return myConfig.floatsUp;
   }
 }

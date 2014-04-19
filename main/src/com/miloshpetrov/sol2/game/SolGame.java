@@ -58,6 +58,7 @@ public class SolGame {
   private final EffectTypes myEffectTypes;
   private final SpecialEffects mySpecialEffects;
   private final GameCols myCols;
+  private final AbilityCommonConfigs myAbilityCommonConfigs;
 
   private SolShip myHero;
   private float myTimeStep;
@@ -82,7 +83,8 @@ public class SolGame {
     myEffectTypes = new EffectTypes();
     mySpecialEffects = new SpecialEffects(myEffectTypes, myTexMan, myCols);
     myItemMan = new ItemMan(myTexMan, mySoundMan, myEffectTypes, myCols);
-    myHullConfigs = new HullConfigs(myShipBuilder, texMan, myItemMan);
+    myAbilityCommonConfigs = new AbilityCommonConfigs(myEffectTypes, myTexMan, myCols);
+    myHullConfigs = new HullConfigs(myShipBuilder, texMan, myItemMan, myAbilityCommonConfigs);
     myPlanetMan = new PlanetMan(myTexMan, myHullConfigs, myCols);
     SolContactListener contactListener = new SolContactListener(this);
     myFractionMan = new FractionMan(myTexMan);

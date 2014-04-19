@@ -1,9 +1,10 @@
 
-enemies should use abilities
 abilities:
   activation sound
   rejection sound
-  effects
+  complete effects
+
+enemies should use abilities
 
 
 prepare for video

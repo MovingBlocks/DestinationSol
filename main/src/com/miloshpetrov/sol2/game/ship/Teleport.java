@@ -70,22 +70,24 @@ public class Teleport implements ShipAbility {
     private final float angle;
     private final SolItem chargeExample;
     private final float rechargeTime;
+    private final AbilityCommonConfig cc;
 
-    public Config(float angle, SolItem chargeExample, float rechargeTime) {
+    public Config(float angle, SolItem chargeExample, float rechargeTime, AbilityCommonConfig cc) {
       this.angle = angle;
       this.chargeExample = chargeExample;
       this.rechargeTime = rechargeTime;
+      this.cc = cc;
     }
 
     public ShipAbility build() {
       return new Teleport(this);
     }
 
-    public static AbilityConfig load(JsonValue abNode, ItemMan itemMan) {
+    public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig cc) {
       float angle = abNode.getFloat("angle");
       SolItem chargeExample = itemMan.getExample("teleportCharge");
       float rechargeTime = abNode.getFloat("rechargeTime");
-      return new Config(angle, chargeExample, rechargeTime);
+      return new Config(angle, chargeExample, rechargeTime, cc);
     }
   }
 }
