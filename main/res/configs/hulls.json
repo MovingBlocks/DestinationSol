@@ -257,11 +257,12 @@
     price: 200,
     engine: std,
     ability: {
-      type: teleport,
+      type: sloMo,
       force: 2000,
       amount: 40,
       angle: 90,
       rechargeTime: 5,
+      factor: 0.5,
     },
   },
   corvette: {

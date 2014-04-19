@@ -1,0 +1,37 @@
+{
+  sloMo: {
+    effect: {
+      effectFile: shipAbility,
+      tex: sloMo,
+      tint: fire,
+    },
+  },
+  teleport: {
+    effect: {
+      effectFile: shipAbility,
+      tex: sloMo,
+      tint: fire,
+    },
+  },
+  knockBack: {
+    effect: {
+      effectFile: shipAbility,
+      tex: sloMo,
+      tint: fire,
+    },
+  },
+  emWave: {
+    effect: {
+      effectFile: shipAbility,
+      tex: sloMo,
+      tint: fire,
+    },
+  },
+  unShield: {
+    effect: {
+      effectFile: shipAbility,
+      tex: sloMo,
+      tint: fire,
+    },
+  },
+}

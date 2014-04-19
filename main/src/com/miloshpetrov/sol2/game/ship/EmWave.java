@@ -2,8 +2,7 @@ package com.miloshpetrov.sol2.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
-import com.miloshpetrov.sol2.game.SolGame;
-import com.miloshpetrov.sol2.game.SolObj;
+import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.item.SolItem;
 
@@ -60,7 +59,7 @@ public class EmWave implements ShipAbility {
       return new EmWave(this);
     }
 
-    public static AbilityConfig load(JsonValue abNode, ItemMan itemMan) {
+    public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig emWave) {
       float rechargeTime = abNode.getFloat("rechargeTime");
       float duration = abNode.getFloat("duration");
       SolItem chargeExample = itemMan.getExample("emWaveCharge");

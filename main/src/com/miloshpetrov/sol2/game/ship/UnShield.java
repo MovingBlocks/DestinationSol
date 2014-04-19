@@ -2,8 +2,7 @@ package com.miloshpetrov.sol2.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
-import com.miloshpetrov.sol2.game.SolGame;
-import com.miloshpetrov.sol2.game.SolObj;
+import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.item.*;
 
 public class UnShield implements ShipAbility {
@@ -64,7 +63,7 @@ public class UnShield implements ShipAbility {
       return new UnShield(this);
     }
 
-    public static AbilityConfig load(JsonValue abNode, ItemMan itemMan) {
+    public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig unShield) {
       float rechargeTime = abNode.getFloat("rechargeTime");
       float amount = abNode.getFloat("amount");
       SolItem chargeExample = itemMan.getExample("unShieldCharge");
