@@ -90,7 +90,10 @@ public class SolShip implements SolObj {
   public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
     SolGame game, Vector2 collPos)
   {
-    if (tryCollectLoot(other)) return;
+    if (tryCollectLoot(other)) {
+      ((Loot)other).pickedUp(game, this);
+      return;
+    }
     if (myHull.config.type != HullConfig.Type.STATION) {
       Fixture f = null; // restore?
       float dmg = absImpulse / myHull.getBody().getMass() / myHull.config.durability;
@@ -115,7 +118,6 @@ public class SolShip implements SolObj {
   }
 
   private boolean tryCollectLoot(SolObj obj) {
-    //todo: play pickup sound
     if (!(obj instanceof Loot)) return false;
     if (!myPilot.collectsItems()) return false;
     Loot loot = (Loot) obj;
@@ -124,15 +126,11 @@ public class SolShip implements SolObj {
     if (i == null) return false;
     if (i instanceof MoneyItem) {
       myMoney += i.getPrice();
-      loot.setLife(0);
       return true;
     }
     ItemContainer c = shouldTrade(i) ? myTradeContainer : myItemContainer;
     boolean canAdd = c.canAdd();
-    if (canAdd) {
-      loot.setLife(0);
-      c.add(i);
-    }
+    if (canAdd) c.add(i);
     return canAdd;
   }
 

@@ -1,4 +1,12 @@
 
+force beacon: replace static texture with moving ones
+force field work sound
+
+prepare for video
+video
+republish
+
+
 abilities:
   activation sound
   rejection sound
@@ -7,13 +15,7 @@ abilities:
 enemies should use abilities
 
 
-prepare for video
-video
-republish
-
-
 SOUND:
-  force field work
   star journey:
    start
    finish
@@ -28,8 +30,6 @@ PARTICLES:
   star ports: replace static energy lines with some nice effects.. Probably 4 similar from each side & something in the center
   star journey: replace static image with some nice effect
   shield orbiting blips: use some static pulsating texture that will fade away with shield life?
-  item pickup blip
-  force beacon: replace static texture with moving ones
 
 
 
