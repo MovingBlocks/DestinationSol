@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LootBuilder {
-  public static final float SZ = .12f;
 
   public LootBuilder() {
   }
@@ -22,7 +21,7 @@ public class LootBuilder {
   public Loot build(SolGame game, Vector2 pos, SolItem item, Vector2 spd, int life, float rotSpd, SolShip owner) {
     List<Dra> dras = new ArrayList<Dra>();
     TextureAtlas.AtlasRegion tex = item.getIcon(game);
-    RectSprite s = new RectSprite(tex, SZ, 0, 0, new Vector2(), DraLevel.GUNS, 0, 0, Col.W, false);
+    RectSprite s = new RectSprite(tex, Loot.SZ, 0, 0, new Vector2(), DraLevel.GUNS, 0, 0, Col.W, false);
     dras.add(s);
     Body b = buildBody(game, pos);
     b.setLinearVelocity(spd);
@@ -43,7 +42,7 @@ public class LootBuilder {
     bd.linearDamping = 0;
     Body body = game.getObjMan().getWorld().createBody(bd);
     PolygonShape shape = new PolygonShape();
-    shape.setAsBox(SZ/2, SZ/2);
+    shape.setAsBox(Loot.SZ/2, Loot.SZ/2);
     body.createFixture(shape, .5f);
     shape.dispose();
     return body;

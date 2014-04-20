@@ -21,6 +21,7 @@ public class Loot implements SolObj {
   public static final float PULL_DESIRED_SPD = 1f;
   public static final float PULL_FORCE = .5f;
   public static final float MAX_OWNER_AWAIT = 4f;
+  public static final float SZ = .12f;
   private final SolItem myItem;
   private final List<Dra> myDras;
   private final LightSrc myLightSrc;
@@ -170,5 +171,15 @@ public class Loot implements SolObj {
 
   public SolShip getOwner() {
     return myOwner;
+  }
+
+  public void pickedUp(SolGame game, SolShip ship) {
+    myLife = 0;
+    Vector2 spd = new Vector2(ship.getPos());
+    spd.sub(myPos);
+    float fadeTime = .25f;
+    spd.scl(1 / fadeTime);
+    spd.add(ship.getSpd());
+    game.getPartMan().blip(game, myPos, myAngle, SZ, fadeTime, spd, myItem.getIcon(game));
   }
 }
