@@ -79,7 +79,7 @@ UI:
 
 EH:
   bullets are too narrow on phone -- use realLineWidth() as a minimum width
-  update pitch to all played sounds if game time is changed? or just properly set initial pitch
+  update pitch to all played sounds if game time is changed?
   ships sometimes get inside tiles
   starports should be on differernt distances from planet center, since now they overlap
 

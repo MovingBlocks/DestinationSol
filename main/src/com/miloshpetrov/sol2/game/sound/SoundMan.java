@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
+import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.common.Nullable;
 import com.miloshpetrov.sol2.common.SolMath;
@@ -17,7 +18,6 @@ import java.util.*;
 public class SoundMan {
   public static final String DIR = "res/sounds/";
   public static final float MAX_SPACE_DIST = 1f;
-  private static final float MAX_VOL_RADIUS = 2;
 
   private final HashMap<String, SolSound> mySounds;
   private final DebugHintDrawer myHintDrawer;
@@ -93,36 +93,33 @@ public class SoundMan {
    */
   public void play(SolGame game, SolSound sound, @Nullable Vector2 pos, @Nullable SolObj source, float volMul) {
     if ((source == null) == (pos == null)) throw new AssertionError("pass either pos or source");
+    if (source == null && sound.loopTime > 0) throw new AssertionError("looped sound without source object: " + sound.dir);
     if (sound == null) return;
     if (DebugAspects.NO_SOUND) return;
-    float time = game.getTime();
 
     if (pos == null) pos = source.getPos();
-    if (source == null && sound.loopTime > 0) throw new AssertionError("looped sound without source object: " + sound.dir);
 
+    // vol
     Planet np = game.getPlanetMan().getNearestPlanet();
     Vector2 camPos = game.getCam().getPos();
-    boolean atm = camPos.dst(np.getPos()) < np.getFullHeight();
+    float camToAtmDst = camPos.dst(np.getPos()) - np.getGroundHeight() - Const.ATM_HEIGHT/2;
+    float airPerc = SolMath.clamp(1 - camToAtmDst / (Const.ATM_HEIGHT/2));
+    if (DebugAspects.SOUND_IN_SPACE) airPerc = 1;
+    float maxSoundDist = 1 + airPerc * Const.CAM_VIEW_DIST_GROUND;
     float dst = pos.dst(camPos);
-    float vol = 1;
-    if (MAX_VOL_RADIUS < dst) {
-      vol /= dst;
-    }
-    float pitch = SolMath.rnd(.95f, 1.05f);
-    if (!atm && !DebugAspects.SOUND_IN_SPACE) {
-      vol = 1 - SolMath.clamp(dst / MAX_SPACE_DIST, 0, 1);
-      pitch = .75f * vol + .25f;
-    }
-    vol *= sound.volume;
+    float distMul = SolMath.clamp(1 - dst / maxSoundDist);
+    float vol = sound.volume * volMul * distMul;
     if (vol <= 0) return;
 
-    if (skipLooped(source, sound, time)) return;
+    //pitch
+    float pitch = SolMath.rnd(.95f, 1.05f) * game.getTimeFactor();
+
+    if (skipLooped(source, sound, game.getTime())) return;
     if (DebugAspects.SOUND_DEBUG) {
       myHintDrawer.add(source, pos, sound.getDebugString());
     }
     if (sound.sounds.isEmpty()) return;
     Sound sound0 = SolMath.elemRnd(sound.sounds);
-    vol *= volMul;
     sound0.play(vol, pitch, 0);
   }
 
