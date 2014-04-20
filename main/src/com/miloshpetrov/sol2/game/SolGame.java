@@ -66,6 +66,7 @@ public class SolGame {
   private boolean myPaused;
   private final GalaxyFiller myGalaxyFiller;
   private StarPort.Transcendent myTranscendentHero;
+  private float myTimeFactor;
 
   public SolGame(SolCmp cmp, SaveData sd, TexMan texMan, boolean tut) {
     myCmp = cmp;
@@ -105,6 +106,7 @@ public class SolGame {
     myDraDebugger = new DraDebugger();
 
     // from this point we're ready!
+    myTimeFactor = 1;
     myPlanetMan.fill(sd);
     myObjMan.fill(this, sd);
     if (sd == null) {
@@ -171,14 +173,15 @@ public class SolGame {
 
     if (myPaused) return;
 
-    myTimeStep = Const.REAL_TIME_STEP * DebugAspects.DEBUG_SLOWDOWN;
+    myTimeFactor = DebugAspects.DEBUG_SLOWDOWN;
     if (myHero != null) {
       ShipAbility ability = myHero.getAbility();
       if (ability instanceof SloMo) {
         float factor = ((SloMo) ability).getFactor();
-        myTimeStep *= factor;
+        myTimeFactor *= factor;
       }
     }
+    myTimeStep = Const.REAL_TIME_STEP * myTimeFactor;
     myTime += myTimeStep;
 
     myPlanetMan.update(this);
@@ -384,5 +387,9 @@ public class SolGame {
 
   public GameCols getCols() {
     return myCols;
+  }
+
+  public float getTimeFactor() {
+    return myTimeFactor;
   }
 }
