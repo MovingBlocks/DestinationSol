@@ -26,4 +26,8 @@ public class SolSound {
     sb.append(dir).append(" (from ").append(definedBy).append(')');
     return sb.toString();
   }
+
+  public void requireLooped() {
+    if (loopTime <= 0 && !sounds.isEmpty()) throw new AssertionError("sound " + dir + " must be looped");
+  }
 }

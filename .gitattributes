@@ -148,7 +148,6 @@ main/imgSrcs/mazeTiles/junk/innerPass_0.png -text
 main/imgSrcs/mazeTiles/junk/innerWall_0.png -text
 main/imgSrcs/misc/Thumbs.db -text
 main/imgSrcs/misc/door.png -text
-main/imgSrcs/misc/forceBeacon.png -text
 main/imgSrcs/misc/grad.png -text
 main/imgSrcs/misc/missing.png -text
 main/imgSrcs/misc/pack.json -text
@@ -163,6 +162,7 @@ main/imgSrcs/pack.json -text
 main/imgSrcs/particles/Thumbs.db -text
 main/imgSrcs/particles/bulletColl.png -text
 main/imgSrcs/particles/fire.png -text
+main/imgSrcs/particles/forceBeacon.png -text
 main/imgSrcs/particles/lightCircle.png -text
 main/imgSrcs/particles/lightHalo.png -text
 main/imgSrcs/particles/pack.json -text
@@ -210,6 +210,7 @@ main/res/emitters/explFire.p -text
 main/res/emitters/explSmoke.p -text
 main/res/emitters/fire.p -text
 main/res/emitters/flame.p -text
+main/res/emitters/forceBeacon.p -text
 main/res/emitters/shipAbility.p -text
 main/res/emitters/smoke.p -text
 main/res/emitters/spark.p -text

@@ -1,12 +1,12 @@
 package com.miloshpetrov.sol2.game.ship;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
-import com.miloshpetrov.sol2.game.dra.*;
+import com.miloshpetrov.sol2.game.dra.Dra;
 import com.miloshpetrov.sol2.game.input.Pilot;
+import com.miloshpetrov.sol2.game.particle.ParticleSrc;
+import com.miloshpetrov.sol2.game.sound.SolSound;
 
 import java.util.List;
 
@@ -15,17 +15,17 @@ public class ForceBeacon {
   public static final float MAX_PULL_DIST = .5f;
   private final Vector2 myRelPos;
   private final Vector2 myPrevPos;
-  private final RectSprite myTex;
+  private final ParticleSrc myEffect;
 
-  public ForceBeacon(SolGame game, Vector2 relPos) {
+  public ForceBeacon(SolGame game, Vector2 relPos, Vector2 basePos, Vector2 baseSpd) {
     myRelPos = relPos;
-    TextureAtlas.AtlasRegion tex = game.getTexMan().getTex("misc/forceBeacon", null);
-    myTex = new RectSprite(tex, .2f, 0, 0, new Vector2(relPos), DraLevel.PART_FG_0, 0, 60, Col.W, false);
+    myEffect = game.getSpecialEffects().buildForceBeacon(.75f, game, relPos, basePos, baseSpd);
+    myEffect.setWorking(true);
     myPrevPos = new Vector2();
   }
 
   public void collectDras(List<Dra> dras) {
-    dras.add(myTex);
+    dras.add(myEffect);
   }
 
   public void update(SolGame game, Vector2 basePos, float baseAngle, SolShip ship) {
@@ -38,13 +38,13 @@ public class ForceBeacon {
     SolMath.free(pos);
   }
 
-  public static SolShip pullShips(SolGame game, SolShip excludedShip, Vector2 ownPos, Vector2 ownSpd, Fraction frac,
+  public static SolShip pullShips(SolGame game, SolObj owner, Vector2 ownPos, Vector2 ownSpd, Fraction frac,
     float maxPullDist)
   {
     SolShip res = null;
     float minLen = Float.MAX_VALUE;
     for (SolObj o : game.getObjMan().getObjs()) {
-      if (o == excludedShip) continue;
+      if (o == owner) continue;
       if (!(o instanceof SolShip)) continue;
       SolShip ship = (SolShip) o;
       Pilot pilot = ship.getPilot();
@@ -62,6 +62,10 @@ public class ForceBeacon {
         }
       }
       SolMath.free(toMe);
+    }
+    if (res != null) {
+      SolSound sound = game.getSpecialSounds().forceBeaconWork;
+      game.getSoundMan().play(game, sound, null, owner);
     }
     return res;
   }

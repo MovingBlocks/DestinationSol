@@ -10,8 +10,9 @@ import com.miloshpetrov.sol2.game.dra.DraLevel;
 import com.miloshpetrov.sol2.game.planet.Planet;
 
 public class ParticleSrc implements Dra {
-  public static final float MOVING_AREA_THRESH = 1f;
+  public static final float JUMP_SPD_TRESH = 1f;
   public static final float MAX_TIME_BETWEEN_POS_CHANGE = .25f;
+  private static final float JUMP_SZ_THRESH = .7f;
   private final ParticleEmitter myEmitter;
   private final ParticleEmitter.ScaledNumericValue myOrigSpdAngle;
   private final ParticleEmitter.ScaledNumericValue myOrigRot;
@@ -39,19 +40,23 @@ public class ParticleSrc implements Dra {
 
     if (sz < 0) sz = config.sz;
 
-    boolean point = myEmitter.getSpawnShape().getShape() == ParticleEmitter.SpawnShape.point;
-    boolean expl = MOVING_AREA_THRESH < myEmitter.getVelocity().getHighMax();
-    boolean single = myEmitter.getEmission().getHighMax() == 1;
+    boolean hasArea = myEmitter.getSpawnShape().getShape() != ParticleEmitter.SpawnShape.point;
+    boolean movesFast = JUMP_SPD_TRESH < myEmitter.getVelocity().getHighMax();
+    boolean bigScale = JUMP_SZ_THRESH < myEmitter.getScale().getHighMax();
 
-    if (!point) {
+    if (hasArea) {
       mulVal(myEmitter.getEmission(), sz * sz);
       mulVal(myEmitter.getSpawnWidth(), sz);
       mulVal(myEmitter.getSpawnHeight(), sz);
       myAreaSz = 0;
-    } else if (expl) {
+    } else if (movesFast) {
       mulVal(myEmitter.getEmission(), sz * sz);
       ParticleEmitter.ScaledNumericValue vel = myEmitter.getVelocity();
       vel.setHigh(vel.getHighMin() * sz, vel.getHighMax() * sz);
+      myAreaSz = 0;
+    } else if (bigScale) {
+      ParticleEmitter.ScaledNumericValue scale = myEmitter.getScale();
+      scale.setHigh(scale.getHighMin() * sz, scale.getHighMax() * sz);
       myAreaSz = 0;
     } else {
       myAreaSz = sz;

@@ -19,6 +19,7 @@ public class SpecialEffects {
   private final EffectConfig myShipExplSmoke;
   private final EffectConfig myShipExplFire;
   private final EffectConfig myAsteroidDust;
+  private final EffectConfig myForceBeacon;
 
   public SpecialEffects(EffectTypes effectTypes, TexMan texMan, GameCols cols) {
     JsonReader r = new JsonReader();
@@ -29,6 +30,7 @@ public class SpecialEffects {
     myShipExplSmoke = EffectConfig.load(node.get("shipExplosionSmoke"), effectTypes, texMan, configFile, cols);
     myShipExplFire = EffectConfig.load(node.get("shipExplosionFire"), effectTypes, texMan, configFile, cols);
     myAsteroidDust = EffectConfig.load(node.get("asteroidDust"), effectTypes, texMan, configFile, cols);
+    myForceBeacon = EffectConfig.load(node.get("forceBeacon"), effectTypes, texMan, configFile, cols);
   }
 
   public List<ParticleSrc> buildFireSmoke(float objSz, SolGame game, Vector2 pos, Vector2 spd) {
@@ -54,5 +56,9 @@ public class SpecialEffects {
     PartMan pm = game.getPartMan();
     ParticleSrc smoke = new ParticleSrc(myAsteroidDust, size, DraLevel.PART_FG_0, new Vector2(), true, game, pos, spd);
     pm.finish(game, smoke, pos);
+  }
+
+  public ParticleSrc buildForceBeacon(float sz, SolGame game, Vector2 relPos, Vector2 basePos, Vector2 spd) {
+    return new ParticleSrc(myForceBeacon, sz, DraLevel.PART_FG_0, relPos, false, game, basePos, spd);
   }
 }
