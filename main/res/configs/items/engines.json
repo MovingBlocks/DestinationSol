@@ -9,6 +9,16 @@
       tint: "133 168 245",
     },
   },
+  pirate: {
+    big: false,
+    workSound: "engines/medWork",
+    effect: {
+      effectFile: flame,
+      size: 0.07,
+      tex: smoke,
+      tint: fire,
+    },
+  },
   
   big: {
     big: true,

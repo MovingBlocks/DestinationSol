@@ -20,8 +20,8 @@
           items: "b:1:4 r:1:2 rl|mg sBig aBig",
 		  money: 50,
 		  repairer: false,
-		  mountFixed1: true,
-		  mountFixed2: true,
+		  mountFixed1: false,
+		  mountFixed2: false,
           density: 3,
         }
       },

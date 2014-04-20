@@ -15,9 +15,9 @@ public class Const {
   public static final String CONFIGS_DIR = "res/configs/";
   public static final float IMPULSE_TO_COLL_VOL = 2f;
 
-  public static final float CAM_VIEW_DIST_GROUND = 3.3f;
+  public static final float CAM_VIEW_DIST_GROUND = 2.8f;
   public static final float AI_SHOOT_DIST_GROUND = CAM_VIEW_DIST_GROUND * .4f;
-  public static final float CAM_VIEW_DIST_SPACE = 5.1f;
+  public static final float CAM_VIEW_DIST_SPACE = 4.5f;
   public static final float AI_SHOOT_DIST_SPACE = CAM_VIEW_DIST_SPACE * .8f;
   public static final float AI_DET_DIST = CAM_VIEW_DIST_SPACE * 1.2f;
   public static final float CAM_VIEW_DIST_JOURNEY = 8.6f;
