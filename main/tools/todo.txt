@@ -1,13 +1,13 @@
 
+new engine for hunter
 fix paths
-fix positions
-ground core tex
 better guns fo trader
 
-sounds
+ground core tex
 force beacon texture
 
-prepare for video
+sounds
+
 video
 republish
 

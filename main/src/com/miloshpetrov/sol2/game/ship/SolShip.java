@@ -414,8 +414,11 @@ public class SolShip implements SolObj {
     }
     if (item instanceof GunItem) {
       if (equip) {
-        if (myHull.getGunMount(!secondarySlot).getGun() == item) myHull.getGunMount(!secondarySlot).setGun(game, this, null);
-        myHull.getGunMount(secondarySlot).setGun(game, this, (GunItem) item);
+        if (myHull.getGunMount(!secondarySlot).getGun() == item) {
+          myHull.getGunMount(!secondarySlot).setGun(game, this, null, false);
+        }
+        boolean under = secondarySlot ? myHull.config.g2UnderShip : myHull.config.g1UnderShip;
+        myHull.getGunMount(secondarySlot).setGun(game, this, (GunItem) item, under);
       }
       return true;
     }
@@ -444,7 +447,7 @@ public class SolShip implements SolObj {
     }
     GunMount m = myHull.getGunMount(secondarySlot);
     if (m.getGun() == item) {
-      if (unequip) m.setGun(game, this, null);
+      if (unequip) m.setGun(game, this, null, false);
       return true;
     }
     return false;

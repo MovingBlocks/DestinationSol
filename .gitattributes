@@ -76,6 +76,7 @@ main/imgSrcs/guns/bolter.png -text
 main/imgSrcs/guns/miniGun.png -text
 main/imgSrcs/guns/pack.json -text
 main/imgSrcs/guns/rocketLauncher.png -text
+main/imgSrcs/guns/rocketLauncherS.png -text
 main/imgSrcs/guns/shotGun.png -text
 main/imgSrcs/guns/slowGun.png -text
 main/imgSrcs/hulls/Thumbs.db -text
@@ -123,6 +124,7 @@ main/imgSrcs/icons/pack.json -text
 main/imgSrcs/icons/repairItem.png -text
 main/imgSrcs/icons/rocketClip.png -text
 main/imgSrcs/icons/rocketLauncher.png -text
+main/imgSrcs/icons/rocketLauncherS.png -text
 main/imgSrcs/icons/shellClip.png -text
 main/imgSrcs/icons/shield.png -text
 main/imgSrcs/icons/shotGun.png -text

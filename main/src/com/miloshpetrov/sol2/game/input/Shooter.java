@@ -8,7 +8,7 @@ import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public class Shooter {
 
-  public static final float E_SPD_PERC = .3f;
+  public static final float E_SPD_PERC = .5f; // 0 means that target speed is not considered, 1 means that it's fully considered
   private boolean myShoot;
   private boolean myShoot2;
   private boolean myRight;

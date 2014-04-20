@@ -47,8 +47,10 @@ public class HullConfigs {
         }
       }
       AbilityConfig ability = loadAbility(hullNode, itemMan, abilityCommonConfigs);
+      boolean g1UnderShip = hullNode.getBoolean("g1UnderShip", false);
+      boolean g2UnderShip = hullNode.getBoolean("g2UnderShip", false);
       HullConfig c = new HullConfig(texName, size, maxLife, e1Pos, e2Pos, g1Pos, g2Pos, lightSrcPoss, durability,
-        hasBase, forceBeaconPoss, doorPoss, type, icon, tex, ec, ability);
+        hasBase, forceBeaconPoss, doorPoss, type, icon, tex, ec, ability, g1UnderShip, g2UnderShip);
       process(c, shipBuilder);
       myConfigs.put(hullNode.name, c);
     }

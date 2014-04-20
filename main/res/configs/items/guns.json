@@ -81,7 +81,7 @@
     maxReloadTime: 2.5,
     projectileName: rocket,
     gunLength: 0.2,
-    texName: rocketLauncher,
+    texName: rocketLauncherS,
     displayName: "Rocket Launcher",
     price: 200,
     descBase: "",
