@@ -174,7 +174,7 @@ public class ChunkFiller {
       float sz = SolMath.rnd(.3f, 1) * FAR_JUNK_MAX_SZ;
       Vector2 junkPos = getRndPos(chCenter);
       junkPos.sub(chCenter);
-      RectSprite s = new RectSprite(tex, sz, 0, 0, junkPos, draLevel, SolMath.rnd(180), SolMath.rnd(FAR_JUNK_MAX_ROT_SPD), Col.G, false);
+      RectSprite s = new RectSprite(tex, sz, 0, 0, junkPos, draLevel, SolMath.rnd(180), SolMath.rnd(FAR_JUNK_MAX_ROT_SPD), Col.DDG, false);
       dras.add(s);
     }
     DrasObj so = new DrasObj(dras, new Vector2(chCenter), new Vector2(), remover, false, true);

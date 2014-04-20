@@ -1,7 +1,5 @@
 
-new engine for hunter
 fix paths
-better guns fo trader
 
 ground core tex
 force beacon texture

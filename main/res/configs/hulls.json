@@ -182,7 +182,7 @@
     name: "Hunter",
     desc: "desc",
     price: 200,
-    engine: std,
+    engine: pirate,
   },
   orbiter: {
     texName: orbiter,
