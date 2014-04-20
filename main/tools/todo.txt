@@ -1,6 +1,4 @@
 
-fix paths
-
 ground core tex
 force beacon texture
 
@@ -9,6 +7,12 @@ sounds
 video
 republish
 
+
+=================================
+
+get rid of loot paths & shard paths
+
+explorer can't fight with dragon, why?
 
 refactor radius things:
   objs should have no radius? -- check if someone uses radius other than dra radius
