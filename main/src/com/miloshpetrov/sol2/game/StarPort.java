@@ -50,7 +50,7 @@ public class StarPort implements SolObj {
     float desiredAngle = SolMath.angle(myFrom.getPos(), myTo.getPos());
     myBody.setAngularVelocity((desiredAngle - myAngle) * SolMath.degRad * fps/4);
 
-    SolShip ship = ForceBeacon.pullShips(game, null, myPos, null, null, .4f * SIZE);
+    SolShip ship = ForceBeacon.pullShips(game, this, myPos, null, null, .4f * SIZE);
     if (ship != null && ship.getMoney() >= FARE && ship.getPos().dst(myPos) < .05f * SIZE) {
       ship.setMoney(ship.getMoney() - FARE);
       Transcendent t = new Transcendent(game.getTexMan(), ship, myFrom, myTo);

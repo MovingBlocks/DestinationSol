@@ -11,6 +11,7 @@ import com.miloshpetrov.sol2.game.dra.DraLevel;
 import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.item.EngineItem;
 import com.miloshpetrov.sol2.game.particle.*;
+import com.miloshpetrov.sol2.game.sound.SolSound;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,8 @@ public class ShipEngine {
     myLightSrc1.update(working, angle, game);
     myLightSrc2.update(working, angle, game);
     if (working) {
-      game.getSoundMan().play(game, myItem.getWorkSound(), null, owner);
+      SolSound sound = myItem.getWorkSound();
+      game.getSoundMan().play(game, sound, null, owner);
     }
   }
 

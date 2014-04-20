@@ -26,5 +26,10 @@
     effectFile: explSmoke,
     tex: fire,
     tint: dust,
-  }
+  },
+  forceBeacon: {
+    effectFile: forceBeacon,
+    tex: forceBeacon,
+    tint: white,
+  },
 }

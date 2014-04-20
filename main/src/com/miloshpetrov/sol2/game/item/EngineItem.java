@@ -90,6 +90,7 @@ public class EngineItem implements SolItem {
       this.maxRotSpd = maxRotSpd;
       this.big = big;
       this.workSound = workSound;
+      workSound.requireLooped();
       this.icon = icon;
       this.effectConfig = effectConfig;
       this.example = new EngineItem(this);

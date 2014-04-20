@@ -102,8 +102,8 @@ public class ShipBuilder {
     }
 
     ArrayList<ForceBeacon> beacons = new ArrayList<ForceBeacon>();
-    for (Vector2 p : hullConfig.forceBeaconPoss) {
-      ForceBeacon fb = new ForceBeacon(game, p);
+    for (Vector2 relPos : hullConfig.forceBeaconPoss) {
+      ForceBeacon fb = new ForceBeacon(game, relPos, pos, spd);
       fb.collectDras(dras);
       beacons.add(fb);
     }

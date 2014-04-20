@@ -19,25 +19,24 @@ public class SpecialSounds {
   public final SolSound asteroidCrack;
   public final SolSound shipExplosion;
   public final SolSound burning;
+  public final SolSound forceBeaconWork;
 
   public SpecialSounds(SoundMan soundMan) {
     JsonReader r = new JsonReader();
     FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "specialSounds.json");
     JsonValue node = r.parse(configFile);
-    metalColl = getSound("metalCollision", soundMan, configFile, node);
-    metalBulletHit = getSound("metalBulletHit", soundMan, configFile, node);
-    metalEnergyHit = getSound("metalEnergyHit", soundMan, configFile, node);
-    rockColl = getSound("rockCollision", soundMan, configFile, node);
-    rockBulletHit = getSound("rockBulletHit", soundMan, configFile, node);
-    rockEnergyHit = getSound("rockEnergyHit", soundMan, configFile, node);
-    asteroidCrack = getSound("asteroidCrack", soundMan, configFile, node);
-    shipExplosion = getSound("shipExplosion", soundMan, configFile, node);
-    burning = getSound("burning", soundMan, configFile, node);
-  }
-
-  private SolSound getSound(String paramName, SoundMan soundMan, FileHandle configFile, JsonValue node) {
-    String dir = node.getString(paramName);
-    return soundMan.getSound(dir, configFile);
+    metalColl = soundMan.getSound(node.getString("metalCollision"), configFile);
+    metalBulletHit = soundMan.getSound(node.getString("metalBulletHit"), configFile);
+    metalEnergyHit = soundMan.getSound(node.getString("metalEnergyHit"), configFile);
+    rockColl = soundMan.getSound(node.getString("rockCollision"), configFile);
+    rockBulletHit = soundMan.getSound(node.getString("rockBulletHit"), configFile);
+    rockEnergyHit = soundMan.getSound(node.getString("rockEnergyHit"), configFile);
+    asteroidCrack = soundMan.getSound(node.getString("asteroidCrack"), configFile);
+    shipExplosion = soundMan.getSound(node.getString("shipExplosion"), configFile);
+    burning = soundMan.getSound(node.getString("burning"), configFile);
+    burning.requireLooped();
+    forceBeaconWork = soundMan.getSound(node.getString("forceBeaconWork"), configFile);
+    forceBeaconWork.requireLooped();
   }
 
   public SolSound dmgSound(boolean forMetal, DmgType dmgType) {

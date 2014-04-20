@@ -1,6 +1,6 @@
 
-force beacon: replace static texture with moving ones
-force field work sound
+sounds
+force beacon texture
 
 prepare for video
 video
@@ -27,7 +27,9 @@ SOUND:
 
 
 PARTICLES:
-  star ports: replace static energy lines with some nice effects.. Probably 4 similar from each side & something in the center
+  star ports:
+    replace static energy lines with 4 particle effects
+    put big forceBeacon in the center
   star journey: replace static image with some nice effect
   shield orbiting blips: use some static pulsating texture that will fade away with shield life?
 

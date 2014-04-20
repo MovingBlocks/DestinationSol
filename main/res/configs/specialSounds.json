@@ -11,4 +11,6 @@
   shipExplosion: "ship/explosion",
 
   burning: "misc/burning",
+
+  forceBeaconWork: "misc/forceBeaconWork",
 }
