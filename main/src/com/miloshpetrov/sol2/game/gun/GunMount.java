@@ -52,6 +52,7 @@ public class GunMount {
       myGun = null;
     }
     if (gunItem != null) {
+
       myGun = new SolGun(game, gunItem, myRelPos);
       List<Dra> dras1 = myGun.getDras();
       dras.addAll(dras1);

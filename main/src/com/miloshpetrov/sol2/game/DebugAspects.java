@@ -41,6 +41,7 @@ public class DebugAspects {
     STATS = r.b("stats", STATS);
     WARNINGS = r.b("warnings", WARNINGS);
     TO_STRING = r.b("toString", TO_STRING);
+    DEBUG_SLOWDOWN = r.f("debugSlowdown", DEBUG_SLOWDOWN);
     GOD_MODE = r.b("godMode", GOD_MODE);
     NO_SOUND = r.b("noSound", NO_SOUND);
 

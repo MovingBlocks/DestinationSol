@@ -73,8 +73,8 @@
     decoTexs: "deco/frozen",
     cloudTexs: "skies/cloud",
     sky: {
-      dawnColor: "hsb 0 50 100",
-      dayColor: "hsb 216 40 100",
+      dawnColor: "hsb 125 50 100",
+      dayColor: "hsb 125 40 100",
     },
     deco: {},
     groundEnemies: [
