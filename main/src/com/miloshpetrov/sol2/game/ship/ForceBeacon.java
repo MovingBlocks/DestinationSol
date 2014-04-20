@@ -19,7 +19,7 @@ public class ForceBeacon {
 
   public ForceBeacon(SolGame game, Vector2 relPos, Vector2 basePos, Vector2 baseSpd) {
     myRelPos = relPos;
-    myEffect = game.getSpecialEffects().buildForceBeacon(.75f, game, relPos, basePos, baseSpd);
+    myEffect = game.getSpecialEffects().buildForceBeacon(.6f, game, relPos, basePos, baseSpd);
     myEffect.setWorking(true);
     myPrevPos = new Vector2();
   }
