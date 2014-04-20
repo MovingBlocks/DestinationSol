@@ -10,8 +10,8 @@ max: 200
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 1.0
-highMax: 1.0
+highMin: 4.0
+highMax: 4.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -20,8 +20,8 @@ timeline0: 0.0
 - Life - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 4000.0
-highMax: 4000.0
+highMin: 1000.0
+highMax: 1000.0
 relative: false
 scalingCount: 2
 scaling0: 1.0

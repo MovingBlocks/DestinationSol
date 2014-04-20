@@ -24,7 +24,7 @@ public class PlanetCoreSingleton {
     float gh = p.getMinGroundHeight();
     if (toCamLen < gh + vd) {
       float sz = gh;
-      drawer.draw(myTex, sz *2, sz *2, sz, sz, pPos.x, pPos.y, 0, Col.W);
+      drawer.draw(myTex, sz *2, sz *2, sz, sz, pPos.x, pPos.y, p.getAngle(), Col.W);
     }
   }
 }

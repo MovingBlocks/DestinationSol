@@ -1,7 +1,4 @@
 
-ground core tex
-force beacon texture
-
 sounds
 
 video
@@ -11,7 +8,7 @@ republish
 =================================
 
 get rid of loot paths & shard paths
-
+objects sometimes appear too late, why?
 explorer can't fight with dragon, why?
 
 refactor radius things:
