@@ -75,10 +75,10 @@ public class ShipBuilder {
       hull.setEngine(game, ship, engine);
     }
     if (gun1 != null) {
-      hull.getGunMount(false).setGun(game, ship, gun1);
+      hull.getGunMount(false).setGun(game, ship, gun1, hullConfig.g1UnderShip);
     }
     if (gun2 != null) {
-      hull.getGunMount(true).setGun(game, ship, gun2);
+      hull.getGunMount(true).setGun(game, ship, gun2, hullConfig.g1UnderShip);
     }
     return ship;
   }

@@ -24,7 +24,7 @@ public class SolGun {
   private float myCoolDown;
   private float myCurrAngleVar;
 
-  public SolGun(SolGame game, GunItem item, Vector2 relPos) {
+  public SolGun(SolGame game, GunItem item, Vector2 relPos, boolean underShip) {
     myItem = item;
     if (myItem.config.lightOnShot) {
       Color lightCol = Col.W;
@@ -36,7 +36,8 @@ public class SolGun {
       myLightSrc = null;
     }
     myRelPos = new Vector2(relPos);
-    mySprite = new RectSprite(myItem.config.tex, myItem.config.gunLength * 2, 0, 0, new Vector2(relPos), DraLevel.GUNS, 0, 0, Col.W, false);
+    DraLevel level = underShip ? DraLevel.U_GUNS : DraLevel.GUNS;
+    mySprite = new RectSprite(myItem.config.tex, myItem.config.gunLength * 2, 0, 0, new Vector2(relPos), level, 0, 0, Col.W, false);
     myDras = new ArrayList<Dra>();
     myDras.add(mySprite);
     if (myLightSrc != null) myLightSrc.collectDras(myDras);

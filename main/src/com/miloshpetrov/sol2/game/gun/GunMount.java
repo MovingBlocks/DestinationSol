@@ -24,7 +24,7 @@ public class GunMount {
   public void update(ItemContainer ic, SolGame game, float shipAngle, SolObj creator, boolean shouldShoot, SolShip nearestEnemy, Fraction fraction) {
     if (myGun == null) return;
     if (!ic.contains(myGun.getItem())) {
-      setGun(game, creator, null);
+      setGun(game, creator, null, false);
       return;
     }
 
@@ -43,7 +43,7 @@ public class GunMount {
     return myGun == null ? null : myGun.getItem();
   }
 
-  public void setGun(SolGame game, SolObj o, GunItem gunItem) {
+  public void setGun(SolGame game, SolObj o, GunItem gunItem, boolean underShip) {
     List<Dra> dras = o.getDras();
     if (myGun != null) {
       List<Dra> dras1 = myGun.getDras();
@@ -52,8 +52,7 @@ public class GunMount {
       myGun = null;
     }
     if (gunItem != null) {
-
-      myGun = new SolGun(game, gunItem, myRelPos);
+      myGun = new SolGun(game, gunItem, myRelPos, underShip);
       List<Dra> dras1 = myGun.getDras();
       dras.addAll(dras1);
       game.getDraMan().addAll(dras1);

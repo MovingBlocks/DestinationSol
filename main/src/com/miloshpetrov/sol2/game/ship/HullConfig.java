@@ -26,15 +26,19 @@ public class HullConfig {
   public final EngineItem.Config engineConfig;
   public final AbilityConfig ability;
   public final float approxRadius;
+  public final boolean g1UnderShip;
+  public final boolean g2UnderShip;
 
   public HullConfig(String texName, float size, int maxLife, Vector2 e1Pos, Vector2 e2Pos, Vector2 g1Pos,
     Vector2 g2Pos, ArrayList<Vector2> lightSrcPoss,
     float durability, boolean hasBase, ArrayList<Vector2> forceBeaconPoss, ArrayList<Vector2> doorPoss,
     Type type, TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, EngineItem.Config engineConfig,
-    AbilityConfig ability)
+    AbilityConfig ability, boolean g1UnderShip, boolean g2UnderShip)
   {
     this.texName = texName;
     this.size = size;
+    this.g1UnderShip = g1UnderShip;
+    this.g2UnderShip = g2UnderShip;
     this.approxRadius = .4f * size;
     this.maxLife = maxLife;
     this.e1Pos = e1Pos;
