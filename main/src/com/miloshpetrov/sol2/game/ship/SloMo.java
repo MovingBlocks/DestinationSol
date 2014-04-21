@@ -9,6 +9,8 @@ import com.miloshpetrov.sol2.game.dra.DraLevel;
 import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.item.SolItem;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
+import com.miloshpetrov.sol2.game.sound.SolSound;
+import com.miloshpetrov.sol2.game.sound.SoundMan;
 
 public class SloMo implements ShipAbility {
   private static final float SLO_MO_CHG_SPD = .03f;
@@ -38,6 +40,7 @@ public class SloMo implements ShipAbility {
       Vector2 pos = owner.getPos();
       ParticleSrc src = new ParticleSrc(myConfig.cc.effect, 1, DraLevel.PART_BG_0, new Vector2(), true, game, pos, owner.getSpd());
       game.getPartMan().finish(game, src, pos);
+      game.getSoundMan().play(game, myConfig.activateSound, null, owner);
       return true;
     }
     float ts = game.getTimeStep();
@@ -55,12 +58,16 @@ public class SloMo implements ShipAbility {
     public final float rechargeTime;
     private final SolItem chargeExample;
     private final AbilityCommonConfig cc;
+    private final SolSound activateSound;
 
-    public Config(float factor, float rechargeTime, SolItem chargeExample, AbilityCommonConfig cc) {
+    public Config(float factor, float rechargeTime, SolItem chargeExample, AbilityCommonConfig cc,
+      SolSound activateSound)
+    {
       this.factor = factor;
       this.rechargeTime = rechargeTime;
       this.chargeExample = chargeExample;
       this.cc = cc;
+      this.activateSound = activateSound;
     }
 
     @Override
@@ -68,11 +75,12 @@ public class SloMo implements ShipAbility {
       return new SloMo(this);
     }
 
-    public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig cc) {
+    public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig cc, SoundMan soundMan) {
       float factor = abNode.getFloat("factor");
       float rechargeTime = abNode.getFloat("rechargeTime");
       SolItem chargeExample = itemMan.getExample("sloMoCharge");
-      return new Config(factor, rechargeTime, chargeExample, cc);
+      SolSound activateSound = soundMan.getSound("abitilies/sloMo/activate", null);
+      return new Config(factor, rechargeTime, chargeExample, cc, activateSound);
     }
   }
 }

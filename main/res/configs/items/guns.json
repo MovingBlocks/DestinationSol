@@ -15,8 +15,8 @@
     infiniteClipSize: 12,
     dmg: 2,
     clipName: "",
-    shootSound: "guns/weakBolter/shoot",
-    reloadSound: "guns/weakBolter/reload",
+    shootSound: "guns/bolter/shoot",
+    reloadSound: "guns/bolter/reload",
   },
   bo: {
     maxAngleVar: 30,

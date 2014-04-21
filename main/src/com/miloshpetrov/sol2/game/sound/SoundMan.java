@@ -17,7 +17,6 @@ import java.util.*;
 
 public class SoundMan {
   public static final String DIR = "res/sounds/";
-  public static final float MAX_SPACE_DIST = 1f;
 
   private final HashMap<String, SolSound> mySounds;
   private final DebugHintDrawer myHintDrawer;
@@ -105,7 +104,7 @@ public class SoundMan {
     float camToAtmDst = camPos.dst(np.getPos()) - np.getGroundHeight() - Const.ATM_HEIGHT/2;
     float airPerc = SolMath.clamp(1 - camToAtmDst / (Const.ATM_HEIGHT/2));
     if (DebugAspects.SOUND_IN_SPACE) airPerc = 1;
-    float maxSoundDist = 1 + airPerc * Const.CAM_VIEW_DIST_GROUND;
+    float maxSoundDist = 1 + 1.5f * airPerc * Const.CAM_VIEW_DIST_GROUND;
     float dst = pos.dst(camPos);
     float distMul = SolMath.clamp(1 - dst / maxSoundDist);
     float vol = sound.volume * volMul * distMul;

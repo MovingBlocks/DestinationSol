@@ -85,7 +85,7 @@ public class SolGame {
     mySpecialEffects = new SpecialEffects(myEffectTypes, myTexMan, myCols);
     myItemMan = new ItemMan(myTexMan, mySoundMan, myEffectTypes, myCols);
     myAbilityCommonConfigs = new AbilityCommonConfigs(myEffectTypes, myTexMan, myCols);
-    myHullConfigs = new HullConfigs(myShipBuilder, texMan, myItemMan, myAbilityCommonConfigs);
+    myHullConfigs = new HullConfigs(myShipBuilder, texMan, myItemMan, myAbilityCommonConfigs, mySoundMan);
     myPlanetMan = new PlanetMan(myTexMan, myHullConfigs, myCols);
     SolContactListener contactListener = new SolContactListener(this);
     myFractionMan = new FractionMan(myTexMan);
