@@ -20,6 +20,7 @@ public class SpecialSounds {
   public final SolSound shipExplosion;
   public final SolSound burning;
   public final SolSound forceBeaconWork;
+  public final SolSound doorMove;
 
   public SpecialSounds(SoundMan soundMan) {
     JsonReader r = new JsonReader();
@@ -37,6 +38,7 @@ public class SpecialSounds {
     burning.requireLooped();
     forceBeaconWork = soundMan.getSound(node.getString("forceBeaconWork"), configFile);
     forceBeaconWork.requireLooped();
+    doorMove = soundMan.getSound(node.getString("doorMove"), configFile);
   }
 
   public SolSound dmgSound(boolean forMetal, DmgType dmgType) {
@@ -55,13 +57,13 @@ public class SpecialSounds {
     if (metal == null) return;
     SolSound sound = dmgSound(metal, dmgType);
     if (sound == null) return;
-    game.getSoundMan().play(game, sound, null, o);
+    game.getSoundMan().play(game, sound, pos, o);
   }
 
   public void playColl(SolGame game, float absImpulse, SolObj o, Vector2 pos) {
     if (o == null || absImpulse < .1f) return;
     Boolean metal = o.isMetal();
     if (metal == null) return;
-    game.getSoundMan().play(game, metal ? metalColl : rockColl, null, o, absImpulse * Const.IMPULSE_TO_COLL_VOL);
+    game.getSoundMan().play(game, metal ? metalColl : rockColl, pos, o, absImpulse * Const.IMPULSE_TO_COLL_VOL);
   }
 }

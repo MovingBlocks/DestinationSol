@@ -256,6 +256,8 @@ main/res/sounds/metal/bulletHit/1.wav -text
 main/res/sounds/metal/bulletHit/2.wav -text
 main/res/sounds/metal/collision/0.wav -text
 main/res/sounds/misc/asteroidCrack/asteroidCrack.wav -text
+main/res/sounds/misc/doorMove/params.txt -text
+main/res/sounds/misc/doorMove/powerOn.wav -text
 main/res/sounds/misc/forceBeaconWork/forceBeacon.wav -text
 main/res/sounds/misc/forceBeaconWork/params.txt -text
 main/res/sounds/misc/shipExplosion/explosion.wav -text

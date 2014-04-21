@@ -79,7 +79,7 @@ public class SloMo implements ShipAbility {
       float factor = abNode.getFloat("factor");
       float rechargeTime = abNode.getFloat("rechargeTime");
       SolItem chargeExample = itemMan.getExample("sloMoCharge");
-      SolSound activateSound = soundMan.getSound("abitilies/sloMo/activate", null);
+      SolSound activateSound = soundMan.getSound("abilities/sloMo/activate", null);
       return new Config(factor, rechargeTime, chargeExample, cc, activateSound);
     }
   }

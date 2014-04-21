@@ -13,4 +13,6 @@
   burning: "misc/burning",
 
   forceBeaconWork: "misc/forceBeaconWork",
+
+  doorMove: "misc/doorMove",
 }

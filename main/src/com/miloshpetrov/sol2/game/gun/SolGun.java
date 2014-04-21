@@ -67,7 +67,7 @@ public class SolGun {
     }
     myCoolDown += myItem.config.timeBetweenShots;
     myItem.ammo--;
-    game.getSoundMan().play(game, myItem.config.shootSound, null, creator);
+    game.getSoundMan().play(game, myItem.config.shootSound, muzzlePos, creator);
   }
 
   public void update(ItemContainer ic, SolGame game, float gunAngle, SolObj creator, boolean shouldShoot, Fraction fraction) {

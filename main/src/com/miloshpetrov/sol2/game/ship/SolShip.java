@@ -335,7 +335,7 @@ public class SolShip implements SolObj {
   private void playDmgSound(SolGame game, Vector2 pos, DmgType dmgType) {
     if (myArmor != null) {
       SolSound sound = myArmor.getDmgSound(dmgType);
-      game.getSoundMan().play(game, sound, null, this);
+      game.getSoundMan().play(game, sound, pos, this);
     } else {
       game.getSpecialSounds().playDmg(game, this, pos, dmgType);
     }

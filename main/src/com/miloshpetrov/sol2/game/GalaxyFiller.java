@@ -6,8 +6,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.input.*;
 import com.miloshpetrov.sol2.game.maze.Maze;
 import com.miloshpetrov.sol2.game.planet.*;
-import com.miloshpetrov.sol2.game.ship.HullConfig;
-import com.miloshpetrov.sol2.game.ship.SolShip;
+import com.miloshpetrov.sol2.game.ship.*;
 
 import java.util.ArrayList;
 
@@ -177,6 +176,16 @@ public class GalaxyFiller {
       Maze m = game.getPlanetMan().getMazes().get(0);
       pos.set(m.getPos());
       pos.x += m.getRadius();
+    } else if (spawnPlace == PlayerSpawnConfig.SpawnPlace.TRADER) {
+      HullConfig cfg = game.getHullConfigs().getConfig("bus");
+      for (FarObj fo : game.getObjMan().getFarObjs()) {
+        if (!(fo instanceof FarShip)) continue;
+        if (((FarShip) fo).getHullConfig() != cfg) continue;
+        pos.set(fo.getPos());
+        pos.add(cfg.approxRadius * 2, 0);
+        break;
+      }
+
     }
     return pos;
   }
