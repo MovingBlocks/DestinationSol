@@ -31,7 +31,7 @@ public class PlayerSpawnConfig {
   }
 
   public static enum SpawnPlace {
-    STATION("station"), PLANET("planet"), MAZE("maze");
+    STATION("station"), PLANET("planet"), MAZE("maze"), TRADER("trader");
     private final String myName;
 
     SpawnPlace(String name) {

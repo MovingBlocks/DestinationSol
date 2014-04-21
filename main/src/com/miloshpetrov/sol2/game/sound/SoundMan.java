@@ -91,7 +91,7 @@ public class SoundMan {
    * @param volMul multiplier for sound volume
    */
   public void play(SolGame game, SolSound sound, @Nullable Vector2 pos, @Nullable SolObj source, float volMul) {
-    if ((source == null) == (pos == null)) throw new AssertionError("pass either pos or source");
+    if (source == null && pos == null) throw new AssertionError("pass either pos or source");
     if (source == null && sound.loopTime > 0) throw new AssertionError("looped sound without source object: " + sound.dir);
     if (sound == null) return;
     if (DebugAspects.NO_SOUND) return;

@@ -6,7 +6,6 @@ import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
 import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
-import com.miloshpetrov.sol2.game.sound.SolSound;
 
 import java.util.List;
 
@@ -56,16 +55,13 @@ public class ForceBeacon {
         if (toMeLen > 1) toMe.scl(1/toMeLen);
         if (ownSpd != null) toMe.add(ownSpd);
         ship.getHull().getBody().setLinearVelocity(toMe);
+        game.getSoundMan().play(game, game.getSpecialSounds().forceBeaconWork, ownPos, owner);
         if (toMeLen < minLen) {
           res = ship;
           minLen = toMeLen;
         }
       }
       SolMath.free(toMe);
-    }
-    if (res != null) {
-      SolSound sound = game.getSpecialSounds().forceBeaconWork;
-      game.getSoundMan().play(game, sound, null, owner);
     }
     return res;
   }

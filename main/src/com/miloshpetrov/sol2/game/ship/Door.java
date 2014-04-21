@@ -32,10 +32,12 @@ public class Door {
     if (shouldOpen) {
       myOpenAwait = MAX_OPEN_AWAIT;
       myJoint.setMotorSpeed(SPD_LEN);
+      game.getSoundMan().play(game, game.getSpecialSounds().doorMove, doorPos, ship);
     } else if (myOpenAwait > 0) {
       myOpenAwait -= game.getTimeStep();
       if (myOpenAwait < 0) {
         myJoint.setMotorSpeed(-SPD_LEN);
+        game.getSoundMan().play(game, game.getSpecialSounds().doorMove, doorPos, ship);
       }
     }
 

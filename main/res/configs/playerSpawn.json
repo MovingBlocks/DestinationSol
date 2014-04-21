@@ -1,5 +1,5 @@
 {
-  __readme__: "for player.spawnPlace, use one of the following: station, planet, maze",
+  __readme__: "for player.spawnPlace, use one of the following: station, planet, maze, trader",
   player: {
     ship: {
         hull: guardie,
@@ -9,7 +9,7 @@
 		mountFixed1: true,
 		mountFixed2: true,
       },
-      spawnPlace: planet,
+      spawnPlace: trader,
   },
   mainStation: {
     hull: station,

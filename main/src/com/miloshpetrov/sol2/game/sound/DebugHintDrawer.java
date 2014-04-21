@@ -26,7 +26,7 @@ public class DebugHintDrawer {
     } else {
       dh = myTracedNotes.get(owner);
       if (dh == null) {
-        dh = new DebugHint(owner, pos);
+        dh = new DebugHint(owner, owner.getPos());
         myTracedNotes.put(owner, dh);
       }
     }

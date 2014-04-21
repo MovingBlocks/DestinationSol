@@ -57,7 +57,7 @@ public class ShipEngine {
     myLightSrc2.update(working, angle, game);
     if (working) {
       SolSound sound = myItem.getWorkSound();
-      game.getSoundMan().play(game, sound, null, owner);
+      game.getSoundMan().play(game, sound, myFlameSrc1.getPos(), owner); // hack with pos
     }
   }
 
