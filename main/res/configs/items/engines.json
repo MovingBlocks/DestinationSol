@@ -22,7 +22,7 @@
   
   big: {
     big: true,
-    workSound: "engines/bigWork",
+    workSound: "engines/medWork",
     effect: {
       effectFile: flame,
       size: 0.3,

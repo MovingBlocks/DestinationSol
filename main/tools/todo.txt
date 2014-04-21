@@ -1,12 +1,13 @@
 
-sounds
-
+licensing
 video
 republish
 
 
 =================================
 
+sound volumes should be kept in one map file
+fix ability effect size since now sz works good
 get rid of loot paths & shard paths
 objects sometimes appear too late, why?
 explorer can't fight with dragon, why?
@@ -34,6 +35,7 @@ SOUND:
   item drop sound
   out of ammo
   out of ability charges
+  burning
 
 
 PARTICLES:

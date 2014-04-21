@@ -4,7 +4,7 @@
     price: 30,
     perc: 0.1,
     descBase: "Reduces all damage by %s%%",
-    bulletDmgSound: "armors/smallHit",
+    bulletDmgSound: "metal/bulletHit",
     energyDmgSound: "armors/smallHitEnergy",
     iconDir: "icons/armor"
   },
@@ -14,7 +14,7 @@
     price: 60,
     perc: 0.2,
     descBase: "Reduces all damage by %s%%",
-    bulletDmgSound: "armors/medBulletD",
+    bulletDmgSound: "metal/bulletHit",
     energyDmgSound: "armors/smallHitEnergy",
     iconDir: "icons/armor"
   },
@@ -24,7 +24,7 @@
     price: 100,
     perc: 0.3,
     descBase: "Reduces all damage by %s%%",
-    bulletDmgSound: "armors/bigHit",
+    bulletDmgSound: "metal/bulletHit",
     energyDmgSound: "armors/smallHitEnergy",
     iconDir: "icons/armor"
   },
