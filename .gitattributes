@@ -230,6 +230,7 @@ main/res/paths/loot.json -text
 main/res/paths/mazes/junk.json -text
 main/res/paths/misc.json -text
 main/res/paths/shards.json -text
+main/res/sounds/abilities/sloMo/activate/sloMo.wav -text
 main/res/sounds/engines/medWork/0.wav -text
 main/res/sounds/engines/medWork/1.wav -text
 main/res/sounds/engines/medWork/2.wav -text

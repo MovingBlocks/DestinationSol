@@ -1,16 +1,11 @@
 
-licensing
-video
-republish
-
-
-=================================
-
-sound volumes should be kept in one map file
 fix ability effect size since now sz works good
+smoke should keep moving
+dragons always spawn with angle = 0
 get rid of loot paths & shard paths
 objects sometimes appear too late, why?
 explorer can't fight with dragon, why?
+sound volumes should be kept in one map file?
 
 refactor radius things:
   objs should have no radius? -- check if someone uses radius other than dra radius
@@ -103,7 +98,7 @@ PERF:
   get rid of getVec, use static vectors, 3 should be enough
   far ship positions should be calculated on demand?
   test on every object preloaded
-
+  cache body masses
 
 
 

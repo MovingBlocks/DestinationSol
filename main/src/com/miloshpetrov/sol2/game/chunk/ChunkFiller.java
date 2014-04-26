@@ -22,10 +22,10 @@ public class ChunkFiller {
   public static final float MIN_SYS_A_SZ = .5f;
   public static final float MAX_SYS_A_SZ = 1.5f;
   public static final float MIN_BELT_A_SZ = .5f;
-  public static final float MAX_BELT_A_SZ = 3.5f;
+  public static final float MAX_BELT_A_SZ = 3f;
   private static final float MAX_A_SPD = .2f;
 
-  private static final float BELT_A_DENSITY = .08f;
+  private static final float BELT_A_DENSITY = .06f;
 
   public static final float JUNK_MAX_SZ = .3f;
   public static final float JUNK_MAX_ROT_SPD = 45f;
@@ -75,7 +75,7 @@ public class ChunkFiller {
           if (!farBg) fillAsteroids(game, remover, true, chCenter);
           SysConfig beltConfig = belt.getConfig();
           for (ShipConfig enemyConf : beltConfig.tempEnemies) {
-            if (!farBg) fillEnemies(game, remover, enemyConf, chCenter);
+            if (!farBg) fillEnemies(game, remover, enemyConf, chCenter, true);
           }
           return beltConfig.envConfig;
         }
@@ -109,28 +109,31 @@ public class ChunkFiller {
     if (dst > Const.CHUNK_SIZE) {
       fillAsteroids(game, remover, false, chCenter);
       for (ShipConfig enemyConf : conf.tempEnemies) {
-        fillEnemies(game, remover, enemyConf, chCenter);
+        fillEnemies(game, remover, enemyConf, chCenter, false);
       }
     }
   }
 
-  private void fillEnemies(SolGame game, RemoveController remover, ShipConfig enemyConf, Vector2 chCenter) {
+  private void fillEnemies(SolGame game, RemoveController remover, ShipConfig enemyConf, Vector2 chCenter, boolean moving) {
     int count = getEntityCount(enemyConf.density);
     if (count == 0) return;
     for (int i = 0; i < count; i++) {
       Vector2 enemyPos = getRndPos(chCenter);
-      SolShip ship = buildSpaceEnemy(game, enemyPos, remover, enemyConf);
+      SolShip ship = buildSpaceEnemy(game, enemyPos, remover, enemyConf, moving);
       if (ship != null) game.getObjMan().addObjDelayed(ship);
     }
   }
 
-  public SolShip buildSpaceEnemy(SolGame game, Vector2 pos, RemoveController remover, ShipConfig enemyConf) {
+  public SolShip buildSpaceEnemy(SolGame game, Vector2 pos, RemoveController remover, ShipConfig enemyConf,
+    boolean moving)
+  {
     if (!game.isPlaceEmpty(pos)) return null;
     Vector2 spd = new Vector2();
     SolMath.fromAl(spd, SolMath.rnd(180), SolMath.rnd(0, ENEMY_MAX_SPD));
     float rotSpd = SolMath.rnd(ENEMY_MAX_ROT_SPD);
     float detectionDist = Const.AI_DET_DIST;
-    Pilot provider = new AiPilot(new NoDestProvider(), false, Fraction.EHAR, true, null, detectionDist);
+    MoveDestProvider dp = moving ? new StillGuard(pos, game) : new NoDestProvider();
+    Pilot provider = new AiPilot(dp, false, Fraction.EHAR, true, null, detectionDist);
     HullConfig config = enemyConf.hull;
     boolean mountFixed1, mountFixed2, hasRepairer;
     mountFixed1 = enemyConf.isMountFixed1;

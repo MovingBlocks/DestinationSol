@@ -10,11 +10,14 @@ public class BallProjectileBody implements ProjectileBody {
   private final Body myBody;
   private final Vector2 myPos;
   private final Vector2 mySpd;
+  private final float myAcc;
 
   private float myAngle;
 
-  public BallProjectileBody(SolGame game, Vector2 pos, float angle, Projectile projectile, float physSize, Vector2 gunSpd,
-    float spdLen) {
+  public BallProjectileBody(SolGame game, Vector2 pos, float angle, Projectile projectile, float physSize,
+    Vector2 gunSpd,
+    float spdLen, float acc)
+  {
     myBody = AsteroidBuilder.buildBall(game, pos, angle, physSize / 2, 1);
 
     mySpd = new Vector2();
@@ -24,6 +27,7 @@ public class BallProjectileBody implements ProjectileBody {
     myBody.setUserData(projectile);
 
     myPos = new Vector2();
+    myAcc = acc;
     setParamsFromBody();
   }
 
@@ -36,9 +40,11 @@ public class BallProjectileBody implements ProjectileBody {
   @Override
   public void update(SolGame game) {
     setParamsFromBody();
-    float spdAngle = SolMath.angle(mySpd);
-    float diff = SolMath.norm(spdAngle - myAngle);
-    myBody.setAngularVelocity(diff / game.getTimeStep() * SolMath.degRad);
+    if (myAcc > 0) {
+      Vector2 force = SolMath.fromAl(myAngle, myAcc * myBody.getMass());
+      myBody.applyForceToCenter(force, true);
+      SolMath.free(force);
+    }
   }
 
   @Override
@@ -68,8 +74,8 @@ public class BallProjectileBody implements ProjectileBody {
   }
 
   @Override
-  public void setSpd(Vector2 spd) {
-    myBody.setLinearVelocity(spd);
-    mySpd.set(spd);
+  public void changeAngle(float diff) {
+    myAngle += diff;
+    myBody.setTransform(myPos, myAngle * SolMath.degRad);
   }
 }

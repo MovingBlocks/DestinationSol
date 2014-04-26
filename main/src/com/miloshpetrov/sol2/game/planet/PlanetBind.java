@@ -22,8 +22,8 @@ public class PlanetBind {
     diff.sub(pos);
   }
 
-  public float getAngleDiff(float angle) {
-    return myPlanet.getAngle() + myRelAngle - angle;
+  public float getDesiredAngle() {
+    return myPlanet.getAngle() + myRelAngle;
   }
 
   public static PlanetBind tryBind(SolGame game, Vector2 pos, float angle) {

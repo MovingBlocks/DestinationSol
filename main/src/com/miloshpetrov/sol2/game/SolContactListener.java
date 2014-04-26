@@ -22,7 +22,7 @@ public class SolContactListener implements ContactListener {
 
     Projectile proj = (Projectile)(aIsProj ? oA : oB);
     SolObj o = aIsProj ? oB : oA;
-    proj.setObstacle(o);
+    proj.setObstacle(o, myGame);
   }
 
   @Override

@@ -23,11 +23,12 @@ public class ProjectileConfig {
   public final boolean guided;
   public final boolean towardsGround;
   public final Vector2 origin;
+  public final float acc;
 
   public ProjectileConfig(TextureAtlas.AtlasRegion tex, float texSz, float spdLen, boolean stretch,
     float physSize, DmgType dmgType, SolSound collisionSound, float lightSz, EffectConfig trailEffect,
     EffectConfig bodyEffect, EffectConfig collisionEffect, EffectConfig collisionEffectBg, boolean guided,
-    boolean towardsGround, Vector2 origin)
+    boolean towardsGround, Vector2 origin, float acc)
   {
     this.tex = tex;
     this.texSz = texSz;
@@ -44,6 +45,7 @@ public class ProjectileConfig {
     this.guided = guided;
     this.towardsGround = towardsGround;
     this.origin = origin;
+    this.acc = acc;
   }
 
 }
