@@ -35,7 +35,7 @@ public class ChunkFiller {
   public static final float FAR_JUNK_MAX_ROT_SPD = 10f;
 
   public static final float ENEMY_MAX_SPD = .3f;
-  public static final float ENEMY_MAX_ROT_SPD = 1f;
+  public static final float ENEMY_MAX_ROT_SPD = 15f;
   public static final float DUST_SZ = .02f;
   private static final float MAZE_ZONE_BORDER = 20;
 
@@ -140,7 +140,8 @@ public class ChunkFiller {
     mountFixed2 = enemyConf.isMountFixed2;
     hasRepairer = enemyConf.hasRepairer;
     int money = enemyConf.money;
-    return game.getShipBuilder().buildNew(game, pos, spd, 0, rotSpd, provider, enemyConf.items, config, mountFixed1, mountFixed2,
+    float angle = SolMath.rnd(180);
+    return game.getShipBuilder().buildNew(game, pos, spd, angle, rotSpd, provider, enemyConf.items, config, mountFixed1, mountFixed2,
       remover, hasRepairer, money, null);
   }
 

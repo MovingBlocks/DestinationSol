@@ -77,7 +77,8 @@ public class SolShip implements SolObj {
   public FarShip toFarObj() {
     GunMount m1 = myHull.getGunMount(false);
     GunMount m2 = myHull.getGunMount(true);
-    return new FarShip(myHull.getPos(), myHull.getSpd(), myHull.getAngle(), myHull.getBody().getAngularVelocity(), myPilot, myItemContainer, myHull.config, myHull.life,
+    float rotSpd = myHull.getBody().getAngularVelocity() * SolMath.radDeg;
+    return new FarShip(myHull.getPos(), myHull.getSpd(), myHull.getAngle(), rotSpd, myPilot, myItemContainer, myHull.config, myHull.life,
       m1.isFixed(), m2.isFixed(), m1.getGun(), m2.getGun(), myRadius, myRemoveController, myHull.getEngine(), myRepairer, myMoney, myTradeContainer, myShield, myArmor);
   }
 
@@ -167,7 +168,6 @@ public class SolShip implements SolObj {
   public void update(SolGame game) {
     SolShip nearestEnemy = game.getFractionMan().getNearestEnemy(game, this);
     myPilot.update(game, this, nearestEnemy);
-    pullLoot(game);
     myHull.update(game, myItemContainer, myPilot, this, nearestEnemy);
 
     updateAbility(game);
@@ -236,13 +236,8 @@ public class SolShip implements SolObj {
     return myItemContainer.count(example) > 0;
   }
 
-  private void pullLoot(SolGame game) {
-    if (!myPilot.collectsItems() || !myItemContainer.canAdd()) return;
-    Vector2 pos = getPos();
-    for (SolObj obj : game.getObjMan().getObjs()) {
-      if (!(obj instanceof Loot)) continue;
-      ((Loot) obj).maybePulled(this, pos, PULL_DIST + myHull.config.approxRadius);
-    }
+  public float getPullDist() {
+    return PULL_DIST + myHull.config.approxRadius;
   }
 
   @Override

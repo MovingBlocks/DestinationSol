@@ -4,6 +4,7 @@
       effectFile: shipAbility,
       tex: sloMo,
       tint: fire,
+      size: 5,
     },
   },
   teleport: {

@@ -38,7 +38,7 @@ public class SloMo implements ShipAbility {
     if (tryToUse) {
       myFactor = myConfig.factor;
       Vector2 pos = owner.getPos();
-      ParticleSrc src = new ParticleSrc(myConfig.cc.effect, 1, DraLevel.PART_BG_0, new Vector2(), true, game, pos, owner.getSpd());
+      ParticleSrc src = new ParticleSrc(myConfig.cc.effect, -1, DraLevel.PART_BG_0, new Vector2(), true, game, pos, owner.getSpd());
       game.getPartMan().finish(game, src, pos);
       game.getSoundMan().play(game, myConfig.activateSound, null, owner);
       return true;

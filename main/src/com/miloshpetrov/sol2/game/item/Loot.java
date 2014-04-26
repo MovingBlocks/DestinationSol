@@ -55,6 +55,21 @@ public class Loot implements SolObj {
       myOwnerAwait -= game.getTimeStep();
       if (myOwnerAwait <= 0) myOwner = null;
     }
+    SolShip puller = null;
+    float minDist = Float.MAX_VALUE;
+    for (SolObj o : game.getObjMan().getObjs()) {
+      if (!(o instanceof SolShip)) continue;
+      SolShip ship = (SolShip) o;
+      if (!ship.getPilot().collectsItems()) continue;
+      if (!ship.getItemContainer().canAdd()) continue;
+      float dst = ship.getPos().dst(myPos);
+      if (minDist < dst) continue;
+      puller = ship;
+      minDist = dst;
+    }
+    if (puller != null) {
+      maybePulled(puller, puller.getPos(), puller.getPullDist());
+    }
   }
 
   private void setParamsFromBody() {
