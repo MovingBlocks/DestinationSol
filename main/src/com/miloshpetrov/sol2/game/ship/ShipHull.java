@@ -101,7 +101,7 @@ public class ShipHull {
       spd.scl(fps);
       myBody.setLinearVelocity(spd);
       SolMath.free(spd);
-      myBody.setAngularVelocity(myPlanetBind.getAngleDiff(myAngle) * SolMath.degRad * fps);
+      myBody.setTransform(myPos, myPlanetBind.getDesiredAngle() * SolMath.degRad);
     }
   }
 

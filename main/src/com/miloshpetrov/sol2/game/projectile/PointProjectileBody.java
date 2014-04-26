@@ -10,19 +10,25 @@ public class PointProjectileBody implements ProjectileBody {
   private final Vector2 myPos;
   private final Vector2 mySpd;
   private final MyRayBack myRayBack;
+  private final float myAcc;
 
   public PointProjectileBody(float angle, Vector2 muzzlePos, Vector2 gunSpd, float spdLen,
-    Projectile projectile, SolGame game)
+    Projectile projectile, SolGame game, float acc)
   {
     myPos = new Vector2(muzzlePos);
     mySpd = new Vector2();
     SolMath.fromAl(mySpd, angle, spdLen);
     mySpd.add(gunSpd);
     myRayBack = new MyRayBack(projectile, game);
+    myAcc = acc;
   }
 
   @Override
   public void update(SolGame game) {
+    if (myAcc > 0) {
+      float spdLen = mySpd.len();
+      mySpd.scl((spdLen + myAcc) / spdLen);
+    }
     Vector2 prevPos = SolMath.getVec(myPos);
     Vector2 diff = SolMath.getVec(mySpd);
     diff.scl(game.getTimeStep());
@@ -51,7 +57,6 @@ public class PointProjectileBody implements ProjectileBody {
 
   @Override
   public void onRemove(SolGame game) {
-
   }
 
   @Override
@@ -60,8 +65,8 @@ public class PointProjectileBody implements ProjectileBody {
   }
 
   @Override
-  public void setSpd(Vector2 spd) {
-    mySpd.set(spd);
+  public void changeAngle(float diff) {
+    SolMath.rotate(mySpd, diff);
   }
 
 
@@ -80,7 +85,7 @@ public class PointProjectileBody implements ProjectileBody {
       SolObj o = (SolObj) fixture.getBody().getUserData();
       if (myProjectile.shouldCollide(o, fixture, myGame.getFractionMan())) {
         myPos.set(point);
-        myProjectile.setObstacle(o);
+        myProjectile.setObstacle(o, myGame);
         return 0;
       }
       return -1;

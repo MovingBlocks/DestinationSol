@@ -44,8 +44,9 @@ public class ProjectileConfigs {
       boolean guided = sh.getBoolean("guided", false);
       boolean towardsGround = sh.getBoolean("towardsGround", false);
       Vector2 origin = SolMath.readV2(sh.getString("texOrig", "0 0"));
+      float acc = sh.getFloat("acceleration", 0);
       ProjectileConfig c = new ProjectileConfig(tex, texSz, spdLen, stretch, physSize, dmgType, collisionSound,
-        lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg, guided, towardsGround, origin);
+        lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg, guided, towardsGround, origin, acc);
       myConfigs.put(sh.name, c);
     }
   }

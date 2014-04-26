@@ -21,7 +21,7 @@ import java.util.List;
 public class Projectile implements SolObj {
 
   private static final float MIN_ANGLE_TO_GUIDE = 2f;
-  private static final float GUIDE_ROT = 90;
+  private static final float GUIDE_ROT_SPD = 360;
   private final ArrayList<Dra> myDras;
   private final float myDmg;
   private final float myRadius;
@@ -53,9 +53,9 @@ public class Projectile implements SolObj {
     if (varySpd) spdLen *= SolMath.rnd(.9f, 1.1f);
     myRadius = spdLen * Const.REAL_TIME_STEP;
     if (myConfig.physSize > 0) {
-      myBody = new BallProjectileBody(game, muzzlePos, angle, this, myConfig.physSize, gunSpd, spdLen);
+      myBody = new BallProjectileBody(game, muzzlePos, angle, this, myConfig.physSize, gunSpd, spdLen, myConfig.acc);
     } else {
-      myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, spdLen, this, game);
+      myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, spdLen, this, game, myConfig.acc);
     }
     myFraction = fraction;
     myBodyEffect = buildEffect(game, myConfig.bodyEffect, DraLevel.PART_BG_0, null, true);
@@ -98,16 +98,12 @@ public class Projectile implements SolObj {
     SolShip ne = game.getFractionMan().getNearestEnemy(game, this);
     if (ne == null) return;
     float toEnemy = SolMath.angle(getPos(), ne.getPos());
-    Vector2 spd = getSpd();
-    float spdAngle = SolMath.angle(spd);
-    float diffAngle = SolMath.norm(toEnemy - spdAngle);
+    float angle = getAngle();
+    float diffAngle = SolMath.norm(toEnemy - angle);
     if (SolMath.abs(diffAngle) < MIN_ANGLE_TO_GUIDE) return;
-    float rot = game.getTimeStep() * GUIDE_ROT;
+    float rot = game.getTimeStep() * GUIDE_ROT_SPD;
     diffAngle = SolMath.clamp(diffAngle, -rot, rot);
-    Vector2 newSpd = SolMath.getVec(spd);
-    SolMath.rotate(newSpd, diffAngle);
-    myBody.setSpd(newSpd);
-    SolMath.free(newSpd);
+    myBody.changeAngle(diffAngle);
   }
 
   private void collided(SolGame game) {
@@ -218,7 +214,12 @@ public class Projectile implements SolObj {
     return true;
   }
 
-  public void setObstacle(SolObj o) {
+  public void setObstacle(SolObj o, SolGame game) {
+    if (o instanceof SolShip) {
+      Fraction f = ((SolShip) o).getPilot().getFraction();
+      // happens for some strange reason : /
+      if (!game.getFractionMan().areEnemies(f, myFraction)) return;
+    }
     myObstacle = o;
   }
 
