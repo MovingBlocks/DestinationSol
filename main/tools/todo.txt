@@ -1,7 +1,4 @@
 
-fix ability effect size since now sz works good
-smoke should keep moving
-dragons always spawn with angle = 0
 get rid of loot paths & shard paths
 objects sometimes appear too late, why?
 explorer can't fight with dragon, why?
@@ -16,9 +13,9 @@ refactor radius things:
 abilities:
   activation sound
   rejection sound
-  complete effects
-
-enemies should use abilities
+  effects
+  fix ability effect size since now sz works good
+  enemies should use abilities
 
 
 SOUND:

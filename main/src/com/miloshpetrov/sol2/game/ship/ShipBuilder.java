@@ -118,7 +118,7 @@ public class ShipBuilder {
     Fixture base = getBase(hullConfig.hasBase, body);
     ShipHull hull = new ShipHull(game, hullConfig, body, m1, m2, base, lCs, life, beacons, doors, shieldFixture);
     body.setLinearVelocity(spd);
-    body.setAngularVelocity(rotSpd);
+    body.setAngularVelocity(rotSpd * SolMath.degRad);
     return hull;
   }
 

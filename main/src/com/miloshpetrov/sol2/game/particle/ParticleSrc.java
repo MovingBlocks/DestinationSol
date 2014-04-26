@@ -38,7 +38,7 @@ public class ParticleSrc implements Dra {
     myOrigRelPos = new Vector2(relPos);
     myPos = new Vector2();
 
-    if (sz < 0) sz = config.sz;
+    if (sz <= 0) sz = config.sz;
 
     boolean hasArea = myEmitter.getSpawnShape().getShape() != ParticleEmitter.SpawnShape.point;
     boolean movesFast = JUMP_SPD_TRESH < myEmitter.getVelocity().getHighMax();

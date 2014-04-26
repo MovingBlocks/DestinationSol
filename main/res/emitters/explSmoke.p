@@ -71,8 +71,8 @@ timeline0: 0.0
 timeline1: 1.0
 - Velocity - 
 active: true
-lowMin: 0.0
-lowMax: 0.2
+lowMin: 0.3
+lowMax: 0.3
 highMin: 1.0
 highMax: 10.0
 relative: true
