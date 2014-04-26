@@ -226,10 +226,8 @@ main/res/paths/asteroids.json -text
 main/res/paths/grounds/rocky.json -text
 main/res/paths/hulls.json -text
 main/res/paths/imgSrcs.lnk -text
-main/res/paths/loot.json -text
 main/res/paths/mazes/junk.json -text
 main/res/paths/misc.json -text
-main/res/paths/shards.json -text
 main/res/sounds/abilities/sloMo/activate/sloMo.wav -text
 main/res/sounds/engines/medWork/0.wav -text
 main/res/sounds/engines/medWork/1.wav -text

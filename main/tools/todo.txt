@@ -1,9 +1,4 @@
 
-get rid of loot paths & shard paths
-objects sometimes appear too late, why?
-explorer can't fight with dragon, why?
-sound volumes should be kept in one map file?
-
 refactor radius things:
   objs should have no radius? -- check if someone uses radius other than dra radius
   DraMan should have a map of Dra radii and update them from time to time
@@ -16,6 +11,10 @@ abilities:
   effects
   fix ability effect size since now sz works good
   enemies should use abilities
+
+  objects sometimes appear too late, why?
+  explorer can't fight with dragon, why?
+  sound volumes should be kept in one map file?
 
 
 SOUND:
