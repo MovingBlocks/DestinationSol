@@ -5,7 +5,6 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
-import com.miloshpetrov.sol2.game.dra.DraMan;
 import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.gun.GunMount;
 import com.miloshpetrov.sol2.game.input.Pilot;
@@ -31,7 +30,6 @@ public class SolShip implements SolObj {
   private final ParticleSrc myFireSrc;
   private final RemoveController myRemoveController;
   private final List<Dra> myDras;
-  private final float myRadius;
   private final ShipRepairer myRepairer;
   private final ShipAbility myAbility;
 
@@ -58,7 +56,6 @@ public class SolShip implements SolObj {
     myFireSrc = effs.get(1);
     myDras.add(mySmokeSrc);
     myDras.add(myFireSrc);
-    myRadius = DraMan.radiusFromDras(myDras);
     myRepairer = repairer;
     myMoney = money;
     myShield = shield;
@@ -79,7 +76,7 @@ public class SolShip implements SolObj {
     GunMount m2 = myHull.getGunMount(true);
     float rotSpd = myHull.getBody().getAngularVelocity() * SolMath.radDeg;
     return new FarShip(myHull.getPos(), myHull.getSpd(), myHull.getAngle(), rotSpd, myPilot, myItemContainer, myHull.config, myHull.life,
-      m1.isFixed(), m2.isFixed(), m1.getGun(), m2.getGun(), myRadius, myRemoveController, myHull.getEngine(), myRepairer, myMoney, myTradeContainer, myShield, myArmor);
+      m1.isFixed(), m2.isFixed(), m1.getGun(), m2.getGun(), myRemoveController, myHull.getEngine(), myRepairer, myMoney, myTradeContainer, myShield, myArmor);
   }
 
   @Override
@@ -299,11 +296,6 @@ public class SolShip implements SolObj {
     pos.add(myHull.getPos());
     Loot l = game.getLootBuilder().build(game, pos, item, lootSpd, Loot.MAX_LIFE, SolMath.rnd(Loot.MAX_ROT_SPD), this);
     game.getObjMan().addObjDelayed(l);
-  }
-
-  @Override
-  public float getRadius() {
-    return myRadius;
   }
 
   @Override

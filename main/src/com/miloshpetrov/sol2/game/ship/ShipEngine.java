@@ -2,7 +2,6 @@ package com.miloshpetrov.sol2.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.SolObj;
@@ -64,7 +63,7 @@ public class ShipEngine {
   private boolean applyInput(SolGame cmp, float shipAngle, Pilot provider, Body body, Vector2 spd,
     boolean controlsEnabled)
   {
-    boolean spdOk = spd.len() < Const.MAX_MOVE_SPD || SolMath.angleDiff(SolMath.angle(spd), shipAngle) > 90;
+    boolean spdOk = SolMath.canAccelerate(shipAngle, spd);
     boolean working = controlsEnabled && provider.isUp() && spdOk;
 
     EngineItem e = myItem;

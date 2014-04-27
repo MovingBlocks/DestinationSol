@@ -11,7 +11,6 @@ public interface SolObj {
   void update(SolGame game);
   boolean shouldBeRemoved(SolGame game);
   void onRemove(SolGame game);
-  float getRadius();
   void receiveDmg(float dmg, SolGame game, @Nullable Vector2 pos, DmgType dmgType);
   boolean receivesGravity();
   void receiveForce(Vector2 force, SolGame game, boolean acc);

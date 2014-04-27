@@ -5,7 +5,6 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
-import com.miloshpetrov.sol2.game.dra.DraMan;
 
 import java.util.List;
 
@@ -17,7 +16,6 @@ public class PlanetSprites implements SolObj {
   private final List<Dra> myDras;
   private final float myToPlanetRotSpd;
   private final Vector2 myPos;
-  private final float myRadius;
   private float myAngle;
 
   public PlanetSprites(Planet planet, float relAngleToPlanet, float dist, List<Dra> dras, float toPlanetRotSpd) {
@@ -27,7 +25,6 @@ public class PlanetSprites implements SolObj {
     myDras = dras;
     myToPlanetRotSpd = toPlanetRotSpd;
     myPos = new Vector2();
-    myRadius = DraMan.radiusFromDras(myDras);
     setDependentParams();
   }
 
@@ -54,11 +51,6 @@ public class PlanetSprites implements SolObj {
   }
 
   @Override
-  public float getRadius() {
-    return myRadius;
-  }
-
-  @Override
   public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
   }
 
@@ -78,7 +70,7 @@ public class PlanetSprites implements SolObj {
 
   @Override
   public FarObj toFarObj() {
-    return new FarPlanetSprites(myPlanet, myRelAngleToPlanet, myDist, myDras, myRadius, myToPlanetRotSpd);
+    return new FarPlanetSprites(myPlanet, myRelAngleToPlanet, myDist, myDras, myToPlanetRotSpd);
   }
 
   @Override

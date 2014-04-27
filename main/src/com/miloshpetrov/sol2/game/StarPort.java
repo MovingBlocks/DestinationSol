@@ -22,7 +22,6 @@ public class StarPort implements SolObj {
   private final Planet myFrom;
   private final Planet myTo;
   private final ArrayList<Dra> myDras;
-  private final float myRadius;
   private float myAngle;
   private final boolean mySecondary;
 
@@ -32,7 +31,6 @@ public class StarPort implements SolObj {
     myDras = dras;
     myBody = body;
     myPos = new Vector2();
-    myRadius = DraMan.radiusFromDras(myDras);
     setParamsFromBody();
     mySecondary = secondary;
   }
@@ -76,11 +74,6 @@ public class StarPort implements SolObj {
   }
 
   @Override
-  public float getRadius() {
-    return myRadius;
-  }
-
-  @Override
   public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
     game.getSpecialSounds().playDmg(game, this, pos, dmgType);
   }
@@ -102,7 +95,7 @@ public class StarPort implements SolObj {
 
   @Override
   public FarObj toFarObj() {
-    return new MyFar(myFrom, myTo, myPos, myRadius, mySecondary);
+    return new MyFar(myFrom, myTo, myPos, mySecondary);
   }
 
   @Override
@@ -189,15 +182,13 @@ public class StarPort implements SolObj {
     private final Planet myFrom;
     private final Planet myTo;
     private final Vector2 myPos;
-    private final float myRadius;
     private final boolean mySecondary;
     private float myAngle;
 
-    public MyFar(Planet from, Planet to, Vector2 pos, float radius, boolean secondary) {
+    public MyFar(Planet from, Planet to, Vector2 pos, boolean secondary) {
       myFrom = from;
       myTo = to;
       myPos = new Vector2(pos);
-      myRadius = radius;
       mySecondary = secondary;
     }
 
@@ -222,7 +213,7 @@ public class StarPort implements SolObj {
 
     @Override
     public float getRadius() {
-      return myRadius;
+      return SIZE/2;
     }
 
     @Override
@@ -257,7 +248,6 @@ public class StarPort implements SolObj {
     private final Planet myFrom;
     private final Planet myTo;
     private final Vector2 myPos;
-    private final float myRadius;
     private final Vector2 myDestPos;
     private final ArrayList<Dra> myDras;
     private final FarShip myShip;
@@ -274,7 +264,6 @@ public class StarPort implements SolObj {
       RectSprite s = new RectSprite(texMan.getTex("misc/transcendent", null), TRAN_SZ, TRAN_SZ, 0, new Vector2(), DraLevel.BODIES, 0, 0, Col.W, false);
       myDras = new ArrayList<Dra>();
       myDras.add(s);
-      myRadius = DraMan.radiusFromDras(myDras);
     }
 
     public FarShip getShip() {
@@ -314,11 +303,6 @@ public class StarPort implements SolObj {
 
     @Override
     public void onRemove(SolGame game) {
-    }
-
-    @Override
-    public float getRadius() {
-      return myRadius;
     }
 
     @Override

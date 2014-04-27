@@ -5,7 +5,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.dra.Dra;
-import com.miloshpetrov.sol2.game.dra.DraMan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +15,12 @@ public class Shard implements SolObj {
   private final Body myBody;
   private final Vector2 myPos;
   private final ArrayList<Dra> myDras;
-  private final float myRadius;
   private float myAngle;
 
   public Shard(Body body, ArrayList<Dra> dras) {
     myDras = dras;
     myBody = body;
     myPos = new Vector2();
-    myRadius = DraMan.radiusFromDras(myDras);
     setParamsFromBody();
   }
 
@@ -91,11 +88,6 @@ public class Shard implements SolObj {
   @Override
   public void onRemove(SolGame game) {
     myBody.getWorld().destroyBody(myBody);
-  }
-
-  @Override
-  public float getRadius() {
-    return myRadius;
   }
 
   @Override

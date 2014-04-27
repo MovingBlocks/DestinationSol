@@ -17,7 +17,6 @@ public class MazeTileObj implements SolObj {
   private final Body myBody;
   private final Vector2 myPos;
   private final float myAngle;
-  private final float myRadius;
   private final MazeTile myTile;
   private final boolean myFlipped;
 
@@ -27,7 +26,6 @@ public class MazeTileObj implements SolObj {
     myBody = body;
     myPos = pos;
     myAngle = angle;
-    myRadius = DraMan.radiusFromDras(dras);
     myFlipped = flipped;
   }
 
@@ -43,11 +41,6 @@ public class MazeTileObj implements SolObj {
   @Override
   public void onRemove(SolGame game) {
     if (myBody != null) myBody.getWorld().destroyBody(myBody);
-  }
-
-  @Override
-  public float getRadius() {
-    return myRadius;
   }
 
   @Override
@@ -71,7 +64,7 @@ public class MazeTileObj implements SolObj {
 
   @Override
   public FarObj toFarObj() {
-    return new MyFar(myTile, myAngle, myPos, myRadius, myFlipped);
+    return new MyFar(myTile, myAngle, myPos, myFlipped);
   }
 
   @Override
@@ -115,14 +108,12 @@ public class MazeTileObj implements SolObj {
     private final MazeTile myTile;
     private final float myAngle;
     private final Vector2 myPos;
-    private final float myRadius;
     private final boolean myFlipped;
 
-    public MyFar(MazeTile tile, float angle, Vector2 pos, float radius, boolean flipped) {
+    public MyFar(MazeTile tile, float angle, Vector2 pos, boolean flipped) {
       myTile = tile;
       myAngle = angle;
       myPos = pos;
-      myRadius = radius;
       myFlipped = flipped;
     }
 
@@ -142,7 +133,7 @@ public class MazeTileObj implements SolObj {
 
     @Override
     public float getRadius() {
-      return myRadius;
+      return MazeBuilder.TILE_SZ/2;
     }
 
     @Override

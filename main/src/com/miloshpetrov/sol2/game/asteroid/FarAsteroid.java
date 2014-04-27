@@ -8,20 +8,18 @@ public class FarAsteroid implements FarObj {
   private final Vector2 myPos;
   private final float myAngle;
   private final RemoveController myRemoveController;
-  private final float myRadius;
   private final float mySz;
   private final Vector2 mySpd;
   private final float myRotSpd;
   private final TextureAtlas.AtlasRegion myTex;
 
-  public FarAsteroid(TextureAtlas.AtlasRegion tex, Vector2 pos, float angle, RemoveController removeController, float radius,
+  public FarAsteroid(TextureAtlas.AtlasRegion tex, Vector2 pos, float angle, RemoveController removeController,
     float sz, Vector2 spd, float rotSpd)
   {
     myTex = tex;
     myPos = pos;
     myAngle = angle;
     myRemoveController = removeController;
-    myRadius = radius;
     mySz = sz;
     mySpd = spd;
     myRotSpd = rotSpd;
@@ -43,7 +41,7 @@ public class FarAsteroid implements FarObj {
 
   @Override
   public float getRadius() {
-    return myRadius;
+    return mySz;
   }
 
   @Override

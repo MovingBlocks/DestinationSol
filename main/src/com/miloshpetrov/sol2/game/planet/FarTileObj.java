@@ -9,16 +9,16 @@ public class FarTileObj implements FarObj {
   private final float myToPlanetAngle;
   private final float myDist;
   private final float mySize;
-  private final float myRadius;
   private final Tile myTile;
   private final Vector2 myPos;
+  private final float myRadius;
 
-  public FarTileObj(Planet planet, float toPlanetAngle, float dist, float size, float radius, Tile tile) {
+  public FarTileObj(Planet planet, float toPlanetAngle, float dist, float size, Tile tile) {
     myPlanet = planet;
     myToPlanetAngle = toPlanetAngle;
     myDist = dist;
     mySize = size;
-    myRadius = radius;
+    myRadius = SolMath.sqrt(2) * mySize;
     myTile = tile;
     myPos = new Vector2();
   }

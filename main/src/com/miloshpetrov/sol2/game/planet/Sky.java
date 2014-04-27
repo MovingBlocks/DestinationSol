@@ -79,11 +79,6 @@ public class Sky implements SolObj {
   }
 
   @Override
-  public float getRadius() {
-    return myPlanet.getGroundHeight() + Const.MAX_SKY_HEIGHT_FROM_GROUND;
-  }
-
-  @Override
   public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
   }
 

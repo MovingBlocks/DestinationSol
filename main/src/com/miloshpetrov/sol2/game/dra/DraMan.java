@@ -78,9 +78,10 @@ public class DraMan {
     Vector2 camPos = cam.getPos();
     float viewDist = cam.getViewDist();
 
-    for (SolObj o : game.getObjMan().getObjs()) {
+    ObjMan objMan = game.getObjMan();
+    for (SolObj o : objMan.getObjs()) {
       Vector2 objPos = o.getPos();
-      float r = o.getRadius();
+      float r = objMan.getRadius(o);
       List<Dra> dras = o.getDras();
       float draLevelViewDist = viewDist;
       if (dras.size() > 0) draLevelViewDist *= dras.get(0).getLevel().depth;
@@ -159,8 +160,7 @@ public class DraMan {
   public static float radiusFromDras(List<Dra> dras) {
     float r = 0;
     for (Dra dra : dras) {
-      float rr = 0;
-      rr = dra.getRelPos().len() + dra.getRadius();
+      float rr = dra.getRelPos().len() + dra.getRadius();
       if (r < rr) r = rr;
     }
     return r;

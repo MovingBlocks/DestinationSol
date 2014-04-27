@@ -7,7 +7,6 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
-import com.miloshpetrov.sol2.game.dra.DraMan;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.planet.TileObj;
@@ -30,7 +29,6 @@ public class Asteroid implements SolObj {
   private final ArrayList<Dra> myDras;
   private final TextureAtlas.AtlasRegion myTex;
   private final RemoveController myRemoveController;
-  private final float myRadius;
   private final ParticleSrc mySmokeSrc;
   private final ParticleSrc myFireSrc;
 
@@ -48,7 +46,6 @@ public class Asteroid implements SolObj {
     myLife = SZ_TO_LIFE * mySize;
     myPos = new Vector2();
     mySpd = new Vector2();
-    myRadius = DraMan.radiusFromDras(myDras);
     setParamsFromBody();
     List<ParticleSrc> effs = game.getSpecialEffects().buildFireSmoke(size, game, myPos, mySpd);
     mySmokeSrc = effs.get(0);
@@ -65,7 +62,7 @@ public class Asteroid implements SolObj {
   @Override
   public FarObj toFarObj() {
     float rotSpd = myBody.getAngularVelocity();
-    return new FarAsteroid(myTex, myPos, myAngle, myRemoveController, myRadius, mySize, mySpd, rotSpd);
+    return new FarAsteroid(myTex, myPos, myAngle, myRemoveController, mySize, mySpd, rotSpd);
   }
 
   @Override
@@ -169,11 +166,6 @@ public class Asteroid implements SolObj {
       game.getObjMan().addObjDelayed(a);
       sclSum += a.mySize * a.mySize;
     }
-  }
-
-  @Override
-  public float getRadius() {
-    return myRadius;
   }
 
   @Override

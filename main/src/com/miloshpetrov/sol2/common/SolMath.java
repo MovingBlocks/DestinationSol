@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Pool;
+import com.miloshpetrov.sol2.Const;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -438,5 +439,9 @@ public class SolMath {
       res.add(vec);
     }
     return res;
+  }
+
+  public static boolean canAccelerate(float accAngle, Vector2 spd) {
+    return spd.len() < Const.MAX_MOVE_SPD || angleDiff(angle(spd), accAngle) > 90;
   }
 }

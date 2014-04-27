@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
-import com.miloshpetrov.sol2.game.dra.DraMan;
 import com.miloshpetrov.sol2.game.particle.LightSrc;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
@@ -25,7 +24,6 @@ public class Loot implements SolObj {
   private final SolItem myItem;
   private final List<Dra> myDras;
   private final LightSrc myLightSrc;
-  private final float myRadius;
   private final Vector2 myPos;
   private final Body myBody;
 
@@ -42,7 +40,6 @@ public class Loot implements SolObj {
     myLightSrc = ls;
     myOwner = owner;
     myOwnerAwait = MAX_OWNER_AWAIT;
-    myRadius = DraMan.radiusFromDras(myDras);
     myPos = new Vector2();
     setParamsFromBody();
   }
@@ -85,11 +82,6 @@ public class Loot implements SolObj {
   @Override
   public void onRemove(SolGame game) {
     myBody.getWorld().destroyBody(myBody);
-  }
-
-  @Override
-  public float getRadius() {
-    return myRadius;
   }
 
   @Override
