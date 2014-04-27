@@ -21,7 +21,6 @@ public class FarShip implements FarObj {
   private final boolean myMount2Fixed;
   private final GunItem myGun1;
   private final GunItem myGun2;
-  private final float myRadius;
   private final RemoveController myRemoveController;
   private final EngineItem myEngine;
   private ShipRepairer myRepairer;
@@ -30,7 +29,7 @@ public class FarShip implements FarObj {
 
   public FarShip(Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot, ItemContainer container,
     HullConfig hullConfig, float life, boolean mount1Fixed,
-    boolean mount2Fixed, GunItem gun1, GunItem gun2, float radius, RemoveController removeController, EngineItem engine,
+    boolean mount2Fixed, GunItem gun1, GunItem gun2, RemoveController removeController, EngineItem engine,
     ShipRepairer repairer, float money, ItemContainer tradeContainer, Shield shield, Armor armor)
   {
     myPos = pos;
@@ -45,7 +44,6 @@ public class FarShip implements FarObj {
     myMount2Fixed = mount2Fixed;
     myGun1 = gun1;
     myGun2 = gun2;
-    myRadius = radius;
     myRemoveController = removeController;
     myEngine = engine;
     myRepairer = repairer;
@@ -75,7 +73,7 @@ public class FarShip implements FarObj {
 
   @Override
   public float getRadius() {
-    return myRadius;
+    return myHullConfig.approxRadius;
   }
 
   @Override

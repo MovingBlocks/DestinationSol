@@ -40,7 +40,7 @@ public class BallProjectileBody implements ProjectileBody {
   @Override
   public void update(SolGame game) {
     setParamsFromBody();
-    if (myAcc > 0) {
+    if (myAcc > 0 && SolMath.canAccelerate(myAngle, mySpd)) {
       Vector2 force = SolMath.fromAl(myAngle, myAcc * myBody.getMass());
       myBody.applyForceToCenter(force, true);
       SolMath.free(force);

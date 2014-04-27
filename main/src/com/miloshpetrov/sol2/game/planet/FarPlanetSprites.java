@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
+import com.miloshpetrov.sol2.game.dra.DraMan;
 
 import java.util.List;
 
@@ -16,13 +17,13 @@ public class FarPlanetSprites implements FarObj {
   private final float myToPlanetRotSpd;
   private Vector2 myPos;
 
-  public FarPlanetSprites(Planet planet, float relAngleToPlanet, float dist, List<Dra> dras, float radius,
+  public FarPlanetSprites(Planet planet, float relAngleToPlanet, float dist, List<Dra> dras,
     float toPlanetRotSpd) {
     myPlanet = planet;
     myRelAngleToPlanet = relAngleToPlanet;
     myDist = dist;
     myDras = dras;
-    myRadius = radius;
+    myRadius = DraMan.radiusFromDras(myDras);
     myToPlanetRotSpd = toPlanetRotSpd;
     myPos = new Vector2();
   }

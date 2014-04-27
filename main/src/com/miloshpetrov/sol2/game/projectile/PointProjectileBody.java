@@ -2,6 +2,7 @@ package com.miloshpetrov.sol2.game.projectile;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.SolObj;
@@ -25,9 +26,11 @@ public class PointProjectileBody implements ProjectileBody {
 
   @Override
   public void update(SolGame game) {
-    if (myAcc > 0) {
+    if (myAcc > 0 && SolMath.canAccelerate(myAcc, mySpd)) {
       float spdLen = mySpd.len();
-      mySpd.scl((spdLen + myAcc) / spdLen);
+      if (spdLen < Const.MAX_MOVE_SPD) {
+        mySpd.scl((spdLen + myAcc) / spdLen);
+      }
     }
     Vector2 prevPos = SolMath.getVec(myPos);
     Vector2 diff = SolMath.getVec(mySpd);

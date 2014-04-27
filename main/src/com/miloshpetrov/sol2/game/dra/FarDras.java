@@ -13,12 +13,13 @@ public class FarDras implements FarObj {
   private final float myRadius;
   private final boolean myHideOnPlanet;
 
-  public FarDras(List<Dra> dras, Vector2 pos, Vector2 spd, RemoveController removeController, float radius, boolean hideOnPlanet) {
+  public FarDras(List<Dra> dras, Vector2 pos, Vector2 spd, RemoveController removeController,
+    boolean hideOnPlanet) {
     myDras = dras;
     myPos = pos;
     mySpd = spd;
     myRemoveController = removeController;
-    myRadius = radius;
+    myRadius = DraMan.radiusFromDras(myDras);
     myHideOnPlanet = hideOnPlanet;
   }
 

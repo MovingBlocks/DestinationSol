@@ -201,17 +201,18 @@ public class MapDrawer {
   }
 
   private void drawNpGround(Drawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos) {
-    for (SolObj o : game.getObjMan().getObjs()) {
+    ObjMan objMan = game.getObjMan();
+    for (SolObj o : objMan.getObjs()) {
       if (!(o instanceof TileObj)) continue;
       Vector2 oPos = o.getPos();
       if (viewDist < camPos.dst(oPos)) continue;
       TileObj to = (TileObj) o;
       if (to.getPlanet() != np) continue;
-      float sz = to.getRadius();
+      float sz = objMan.getRadius(to);
       drawer.draw(myGroundTex, sz, sz, sz/2, sz/2, oPos.x, oPos.y, to.getAngle(), Col.W);
     }
 
-    for (FarObj o : game.getObjMan().getFarObjs()) {
+    for (FarObj o : objMan.getFarObjs()) {
       if (!(o instanceof FarTileObj)) continue;
       Vector2 oPos = o.getPos();
       if (viewDist < camPos.dst(oPos)) continue;

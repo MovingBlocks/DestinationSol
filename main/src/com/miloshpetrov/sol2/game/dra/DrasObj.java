@@ -17,7 +17,6 @@ public class DrasObj implements SolObj {
   private final boolean myHideOnPlanet;
   private final Vector2 myMoveDiff;
   private final List<Dra> myDras;
-  private final float myRadius;
   private final boolean myTemporary;
 
   private float myMaxFadeTime;
@@ -30,7 +29,6 @@ public class DrasObj implements SolObj {
     myRemoveController = removeController;
     myHideOnPlanet = hideOnPlanet;
     myMoveDiff = new Vector2();
-    myRadius = DraMan.radiusFromDras(myDras);
     myTemporary = temporary;
 
     myMaxFadeTime = -1;
@@ -89,11 +87,6 @@ public class DrasObj implements SolObj {
   }
 
   @Override
-  public float getRadius() {
-    return myRadius;
-  }
-
-  @Override
   public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
   }
 
@@ -113,7 +106,7 @@ public class DrasObj implements SolObj {
 
   @Override
   public FarObj toFarObj() {
-    return myTemporary ? null : new FarDras(myDras, myPos, mySpd, myRemoveController, myRadius, myHideOnPlanet);
+    return myTemporary ? null : new FarDras(myDras, myPos, mySpd, myRemoveController, myHideOnPlanet);
   }
 
   @Override

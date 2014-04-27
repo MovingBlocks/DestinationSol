@@ -11,6 +11,7 @@ import com.miloshpetrov.sol2.save.SaveData;
 import java.util.*;
 
 public class ObjMan {
+  private static final float MAX_RADIUS_RECALC_AWAIT = 1f;
   private final List<SolObj> myObjs;
   private final Set<SolObj> myToRemove;
   private final Set<SolObj> myToAdd;
@@ -20,8 +21,11 @@ public class ObjMan {
   private final Map<FarObj, FarObjData> myFarObjDelays;
   private final World myWorld;
   private final Box2DDebugRenderer myDr;
+  private final HashMap<SolObj, Float> myRadii;
+
   private float myFarEndDist;
   private float myFarBeginDist;
+  private float myRadiusRecalcAwait;
 
   public ObjMan(SolContactListener contactListener, FractionMan fractionMan) {
     myObjs = new ArrayList<SolObj>();
@@ -35,6 +39,7 @@ public class ObjMan {
     myWorld.setContactFilter(new SolContactFilter(fractionMan));
     myDr = new Box2DDebugRenderer();
     myFarObjDelays = new HashMap<FarObj, FarObjData>();
+    myRadii = new HashMap<SolObj, Float>();
   }
 
   public void fill(SolGame game, SaveData sd) {
@@ -58,6 +63,14 @@ public class ObjMan {
     myFarEndDist = 1.5f * cam.getViewDist();
     myFarBeginDist = 1.33f * myFarEndDist;
 
+    boolean recalcRad = false;
+    if (myRadiusRecalcAwait > 0) {
+      myRadiusRecalcAwait -= ts;
+    } else {
+      myRadiusRecalcAwait = MAX_RADIUS_RECALC_AWAIT;
+      recalcRad = true;
+    }
+
     for (SolObj o : myObjs) {
       o.update(game);
       SolMath.checkVectorsTaken(o);
@@ -73,7 +86,9 @@ public class ObjMan {
         FarObj fo = o.toFarObj();
         if (fo != null) myFarToAdd.add(fo);
         myToRemove.add(o);
+        continue;
       }
+      if (recalcRad) recalcRadius(o);
     }
 
     for (FarObj fo : myFarObjs) {
@@ -90,6 +105,17 @@ public class ObjMan {
       }
     }
     addRemove(game);
+  }
+
+  private void recalcRadius(SolObj o) {
+    float rad = DraMan.radiusFromDras(o.getDras());
+    myRadii.put(o, rad);
+  }
+
+  public float getRadius(SolObj o) {
+    Float res = myRadii.get(o);
+    if (res == null) throw new AssertionError("no radius for " + o);
+    return res + Const.MAX_MOVE_SPD * (MAX_RADIUS_RECALC_AWAIT - myRadiusRecalcAwait);
   }
 
   private void addRemove(SolGame game) {
@@ -119,6 +145,7 @@ public class ObjMan {
 
   private void removeObjNow(SolGame game, SolObj o) {
     myObjs.remove(o);
+    myRadii.remove(o);
     o.onRemove(game);
     game.getDraMan().objRemoved(o);
   }
@@ -126,6 +153,7 @@ public class ObjMan {
   public void addObjNow(SolGame game, SolObj o) {
     if (myObjs.contains(o)) throw new AssertionError();
     myObjs.add(o);
+    recalcRadius(o);
     game.getDraMan().objAdded(o);
   }
 
@@ -147,7 +175,7 @@ public class ObjMan {
   }
 
   private boolean isFar(SolObj o, Vector2 camPos) {
-    float r = o.getRadius();
+    float r = getRadius(o);
     List<Dra> dras = o.getDras();
     if (dras != null && dras.size() > 0) r *= dras.get(0).getLevel().depth;
     float dst = o.getPos().dst(camPos) - r;
@@ -187,7 +215,7 @@ public class ObjMan {
     float lineWidth = game.getCam().getRealLineWidth();
     for (SolObj o : myObjs) {
       Vector2 pos = o.getPos();
-      float r = o.getRadius();
+      float r = getRadius(o);
       drawer.drawCircle(pos, r, DebugCol.OBJ, lineWidth);
       drawer.drawLine(pos.x, pos.y, o.getAngle(), r, DebugCol.OBJ, lineWidth);
     }

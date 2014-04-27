@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
-import com.miloshpetrov.sol2.game.dra.DraMan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,6 @@ public class LightObj implements SolObj {
 
   private final LightSrc myLightSrc;
   private final ArrayList<Dra> myDras;
-  private final float myRadius;
   private final Vector2 myPos;
 
   // consumes pos
@@ -25,7 +23,6 @@ public class LightObj implements SolObj {
     myLightSrc.setWorking();
     myDras = new ArrayList<Dra>();
     myLightSrc.collectDras(myDras);
-    myRadius = DraMan.radiusFromDras(myDras);
   }
 
   @Override
@@ -40,11 +37,6 @@ public class LightObj implements SolObj {
 
   @Override
   public void onRemove(SolGame game) {
-  }
-
-  @Override
-  public float getRadius() {
-    return myRadius;
   }
 
   @Override

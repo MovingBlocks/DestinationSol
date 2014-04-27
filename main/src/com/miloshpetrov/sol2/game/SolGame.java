@@ -313,7 +313,7 @@ public class SolGame {
     if (inPlanet) return false;
     for (SolObj o : myObjMan.getObjs()) {
       if (!o.hasBody()) continue;
-      if (pos.dst(o.getPos()) < o.getRadius()) {
+      if (pos.dst(o.getPos()) < myObjMan.getRadius(o)) {
         return false;
       }
     }

@@ -6,8 +6,7 @@ import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
-import com.miloshpetrov.sol2.game.dra.DraLevel;
-import com.miloshpetrov.sol2.game.dra.RectSprite;
+import com.miloshpetrov.sol2.game.dra.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
 public class TileObjBuilder {
   public TileObj build(SolGame game, float sz, float toPlanetRelAngle, float dist, Tile tile, Planet planet) {
     float spriteSz = sz * 2;
-    RectSprite sprite = new RectSprite(tile.tex, spriteSz, 0, 0, new Vector2(), DraLevel.GROUND, 0, 0f, Col.G, false);
+    RectSprite sprite = new RectSprite(tile.tex, spriteSz, 0, 0, new Vector2(), DraLevel.GROUND, 0, 0f, Col.W, false);
     Body body = null;
     if (tile.points.size() > 0) {
       body = buildBody(game, toPlanetRelAngle, dist, tile, planet, spriteSz);

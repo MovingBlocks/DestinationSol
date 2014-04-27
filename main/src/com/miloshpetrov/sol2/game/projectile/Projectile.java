@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
@@ -24,7 +23,6 @@ public class Projectile implements SolObj {
   private static final float GUIDE_ROT_SPD = 360;
   private final ArrayList<Dra> myDras;
   private final float myDmg;
-  private final float myRadius;
   private final ProjectileBody myBody;
   private final Fraction myFraction;
   private final ParticleSrc myBodyEffect;
@@ -51,7 +49,6 @@ public class Projectile implements SolObj {
     myDras.add(dra);
     float spdLen = myConfig.spdLen;
     if (varySpd) spdLen *= SolMath.rnd(.9f, 1.1f);
-    myRadius = spdLen * Const.REAL_TIME_STEP;
     if (myConfig.physSize > 0) {
       myBody = new BallProjectileBody(game, muzzlePos, angle, this, myConfig.physSize, gunSpd, spdLen, myConfig.acc);
     } else {
@@ -91,10 +88,11 @@ public class Projectile implements SolObj {
       return;
     }
     if (myLightSrc != null) myLightSrc.update(true, myBody.getAngle(), game);
-    if (myConfig.guided) adjustSpd(game);
+    maybeGuide(game);
   }
 
-  private void adjustSpd(SolGame game) {
+  private void maybeGuide(SolGame game) {
+    if (!myConfig.guided) return;
     SolShip ne = game.getFractionMan().getNearestEnemy(game, this);
     if (ne == null) return;
     float toEnemy = SolMath.angle(getPos(), ne.getPos());
@@ -128,11 +126,6 @@ public class Projectile implements SolObj {
     if (myBodyEffect != null) game.getPartMan().finish(game, myBodyEffect, pos);
     if (myTrailEffect != null) game.getPartMan().finish(game, myTrailEffect, pos);
     myBody.onRemove(game);
-  }
-
-  @Override
-  public float getRadius() {
-    return myRadius;
   }
 
   @Override
@@ -270,7 +263,7 @@ public class Projectile implements SolObj {
 
     @Override
     public float getRadius() {
-      return myProjectile.myRadius;
+      return myProjectile.myConfig.texSz/2;
     }
 
     @Override

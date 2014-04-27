@@ -36,7 +36,7 @@ public class FractionMan {
   }
 
   public SolShip getNearestEnemy(SolGame game, Projectile proj) {
-    return getNearestEnemy(game, Float.MAX_VALUE, proj.getFraction(), proj.getPos());
+    return getNearestEnemy(game, game.getCam().getViewDist(), proj.getFraction(), proj.getPos());
   }
 
   public SolShip getNearestEnemy(SolGame game, float detectionDist, Fraction f, Vector2 pos) {

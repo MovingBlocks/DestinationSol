@@ -3,6 +3,8 @@ package com.miloshpetrov.sol2.game.particle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.BoundingBox;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
@@ -13,6 +15,7 @@ public class ParticleSrc implements Dra {
   public static final float JUMP_SPD_TRESH = 1f;
   public static final float MAX_TIME_BETWEEN_POS_CHANGE = .25f;
   private static final float JUMP_SZ_THRESH = .7f;
+  public static final float MAX_BB_RECALC_AWAIT = .5f;
   private final ParticleEmitter myEmitter;
   private final ParticleEmitter.ScaledNumericValue myOrigSpdAngle;
   private final ParticleEmitter.ScaledNumericValue myOrigRot;
@@ -27,6 +30,8 @@ public class ParticleSrc implements Dra {
   private boolean myWorking;
   private float myTimeSincePosChange;
   private boolean myFloatedUp;
+  private float myBbRecalcAwait;
+  private final BoundingBox myBb;
 
   public ParticleSrc(EffectConfig config, float sz, DraLevel draLevel, Vector2 relPos, boolean inheritsSpd,
     SolGame game, Vector2 basePos, Vector2 baseSpd)
@@ -84,6 +89,7 @@ public class ParticleSrc implements Dra {
     } else {
       myEmitter.start();
     }
+    myBb = myEmitter.getBoundingBox();
   }
 
   private void setVal(ParticleEmitter.ScaledNumericValue val, float v) {
@@ -124,6 +130,13 @@ public class ParticleSrc implements Dra {
     setAngle(baseAngle);
     updateSpd(game, o.getSpd(), o.getPos());
     myEmitter.update(ts);
+
+    if (myBbRecalcAwait > 0) {
+      myBbRecalcAwait -= game.getTimeStep();
+    } else {
+      myBbRecalcAwait = MAX_BB_RECALC_AWAIT;
+      myEmitter.getBoundingBox();
+    }
   }
 
   private void updateSpd(SolGame game, Vector2 baseSpd, Vector2 basePos) {
@@ -194,11 +207,10 @@ public class ParticleSrc implements Dra {
 
   @Override
   public float getRadius() {
-//    Vector3 c = myBb.getCenter();
-//    float toCenter = myPos.dst(c.x, c.y);
-//    float radius = myBb.getDimensions().len() / 2;
-//    return toCenter + radius;
-    return 1;
+    Vector3 c = myBb.getCenter();
+    float toCenter = myPos.dst(c.x, c.y);
+    float radius = myBb.getDimensions().len() / 2;
+    return radius > 0 ? toCenter + radius : 0;
   }
 
   @Override

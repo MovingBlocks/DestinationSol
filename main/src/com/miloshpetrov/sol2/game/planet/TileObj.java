@@ -18,7 +18,6 @@ public class TileObj implements SolObj {
   private final List<Dra> myDras;
   private final Body myBody;
   private final Vector2 myPos;
-  private final float myRadius;
 
   // for far objs {
   private final float mySize;
@@ -39,7 +38,6 @@ public class TileObj implements SolObj {
     myPos = new Vector2();
 
     myDras.add(sprite);
-    myRadius = DraMan.radiusFromDras(myDras);
     setDependentParams();
   }
 
@@ -76,11 +74,6 @@ public class TileObj implements SolObj {
   }
 
   @Override
-  public float getRadius() {
-    return myRadius;
-  }
-
-  @Override
   public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
     game.getSpecialSounds().playDmg(game, this, pos, dmgType);
   }
@@ -101,7 +94,7 @@ public class TileObj implements SolObj {
 
   @Override
   public FarObj toFarObj() {
-    return new FarTileObj(myPlanet, myToPlanetRelAngle, myDist, mySize, myRadius, myTile);
+    return new FarTileObj(myPlanet, myToPlanetRelAngle, myDist, mySize, myTile);
   }
 
   @Override

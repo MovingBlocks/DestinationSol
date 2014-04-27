@@ -7,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class DebugAspects {
+  public static String DEV_ROOT_PATH;
+
   public static final Vector2 DEBUG_POINT = new Vector2();
 
   public static float ZOOM_OVERRIDE = 0;
@@ -27,7 +29,6 @@ public class DebugAspects {
   public static boolean NO_SOUND = false;
   public static boolean SOUND_DEBUG = false;
   public static boolean SOUND_IN_SPACE = false;
-  public static String DEV_ROOT_PATH;
   public static boolean TEX_DEBUG = false;
 
   public static void read() {
@@ -37,18 +38,23 @@ public class DebugAspects {
     IniReader r = new IniReader("debugOptions.ini");
 
     ZOOM_OVERRIDE = r.f("zoomOverride", ZOOM_OVERRIDE);
+    OBJECT_BORDERS = r.b("objectBorders", OBJECT_BORDERS);
+    DRA_BORDERS = r.b("draBorders", DRA_BORDERS);
     PHYSICS_DEBUG = r.b("physicsDebug", PHYSICS_DEBUG);
+    PLANET_BORDERS = r.b("planetBorders", PLANET_BORDERS);
     STATS = r.b("stats", STATS);
     WARNINGS = r.b("warnings", WARNINGS);
+    GRID_SZ = r.f("gridSz", GRID_SZ);
     TO_STRING = r.b("toString", TO_STRING);
+    NO_OBJS = r.b("noObjs", NO_OBJS);
     DEBUG_SLOWDOWN = r.f("debugSlowdown", DEBUG_SLOWDOWN);
+    DIRECT_CAM_CONTROL = r.b("directCamControl", DIRECT_CAM_CONTROL);
+    DETAILED_MAP = r.b("detailedMap", DETAILED_MAP);
+    MOBILE = r.b("mobile", MOBILE);
     GOD_MODE = r.b("godMode", GOD_MODE);
     NO_SOUND = r.b("noSound", NO_SOUND);
-
     SOUND_DEBUG = r.b("soundDebug", SOUND_DEBUG);
     SOUND_IN_SPACE = r.b("soundInSpace", SOUND_IN_SPACE);
-
     TEX_DEBUG = r.b("texDebug", TEX_DEBUG);
-
   }
 }
