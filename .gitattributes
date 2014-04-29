@@ -147,8 +147,17 @@ main/imgSrcs/mapObjs/pack.json -text
 main/imgSrcs/mapObjs/planet.png -text
 main/imgSrcs/mapObjs/planetCore.png -text
 main/imgSrcs/mapObjs/star.png -text
+main/imgSrcs/mazeTiles/junk/a_0.png -text
+main/imgSrcs/mazeTiles/junk/b_0.png -text
 main/imgSrcs/mazeTiles/junk/borderPass_0.png -text
 main/imgSrcs/mazeTiles/junk/borderWall_0.png -text
+main/imgSrcs/mazeTiles/junk/c_0.png -text
+main/imgSrcs/mazeTiles/junk/d_0.png -text
+main/imgSrcs/mazeTiles/junk/e_0.png -text
+main/imgSrcs/mazeTiles/junk/f_0.png -text
+main/imgSrcs/mazeTiles/junk/g_0.png -text
+main/imgSrcs/mazeTiles/junk/h_0.png -text
+main/imgSrcs/mazeTiles/junk/i_0.png -text
 main/imgSrcs/mazeTiles/junk/innerPass_0.png -text
 main/imgSrcs/mazeTiles/junk/innerWall_0.png -text
 main/imgSrcs/misc/Thumbs.db -text
