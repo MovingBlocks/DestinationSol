@@ -1,6 +1,9 @@
 
+objects jump on the planet surface (and on the planet stations)
+dmg effects should reflect dmg amt
+
 objects sometimes appear too late, why?
-explorer can't fight with dragon, why?
+explorer can't fight with dragon, why? -- battle movements should be improved
 
 abilities:
   activation sound

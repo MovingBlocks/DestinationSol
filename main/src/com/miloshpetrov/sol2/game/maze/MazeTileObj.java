@@ -151,9 +151,15 @@ public class MazeTileObj implements SolObj {
     public MazeTileObj build(SolGame game, MazeTile tile, Vector2 pos, float angle, boolean flipped) {
       List<Dra> dras = new ArrayList<Dra>();
       TextureAtlas.AtlasRegion tex = tile.tex;
-      if (flipped) tex = game.getTexMan().getFlipped(tex);
-      RectSprite s = new RectSprite(tex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DraLevel.DECO, 0, 0, Col.W, false);
+      TextureAtlas.AtlasRegion bgTex = tile.bgTex;
+      if (flipped) {
+        tex = game.getTexMan().getFlipped(tex);
+        bgTex = game.getTexMan().getFlipped(bgTex);
+      }
+      RectSprite s = new RectSprite(tex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DraLevel.GROUND, 0, 0, Col.W, false);
       dras.add(s);
+      RectSprite s2 = new RectSprite(bgTex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DraLevel.DECO, 0, 0, Col.W, false);
+      dras.add(s2);
       Body body = buildBody(game, angle, pos, tile, flipped);
       MazeTileObj res = new MazeTileObj(tile, dras, body, pos, angle, flipped);
       body.setUserData(res);
