@@ -13,6 +13,7 @@ import com.miloshpetrov.sol2.game.dra.*;
 import com.miloshpetrov.sol2.game.item.Shield;
 import com.miloshpetrov.sol2.game.particle.*;
 import com.miloshpetrov.sol2.game.ship.SolShip;
+import com.miloshpetrov.sol2.game.sound.SolSound;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,6 +90,8 @@ public class Projectile implements SolObj {
     }
     if (myLightSrc != null) myLightSrc.update(true, myBody.getAngle(), game);
     maybeGuide(game);
+    SolSound ws = myConfig.workSound;
+    game.getSoundMan().play(game, ws, null, this);
   }
 
   private void maybeGuide(SolGame game) {

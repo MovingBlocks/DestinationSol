@@ -45,8 +45,9 @@ public class ProjectileConfigs {
       boolean towardsGround = sh.getBoolean("towardsGround", false);
       Vector2 origin = SolMath.readV2(sh.getString("texOrig", "0 0"));
       float acc = sh.getFloat("acceleration", 0);
+      SolSound workSound = soundMan.getLoopedSound(sh.getString("workSound", ""), configFile);
       ProjectileConfig c = new ProjectileConfig(tex, texSz, spdLen, stretch, physSize, dmgType, collisionSound,
-        lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg, guided, towardsGround, origin, acc);
+        lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg, guided, towardsGround, origin, acc, workSound);
       myConfigs.put(sh.name, c);
     }
   }

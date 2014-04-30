@@ -1,26 +1,16 @@
 
-
-SOUND:
-  star journey:
-   start
-   finish
-   working
-  projectile work
-  item drop sound
-
-
-PARTICLES:
-  star ports:
-    replace static energy lines with 4 particle effects
-    put big forceBeacon in the center
-  star journey: replace static image with some nice effect
-
+star ports:
+  replace static energy lines with 4 particle effects
+  put big forceBeacon in the center
+star journey:
+  replace static image with some nice effect
+  start finish working sounds
 
 ships sometimes get inside tiles
 starports should be on differernt distances from planet center, since now they overlap
 bullets are too narrow on phone -- use realLineWidth() as a minimum width
 environment sounds
-
+skyline should slightly tilt towards the sun
 
 ++++++++++++++++++++++++++++++++++++++ AFTER ALL ART IS IN THE GAME
 

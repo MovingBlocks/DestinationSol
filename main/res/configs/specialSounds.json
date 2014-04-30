@@ -21,4 +21,6 @@
 
   controlDisabled: "misc/controlDisabled",
   controlEnabled: "misc/doorMove",
+
+  lootThrow: "misc/lootThrow",
 }

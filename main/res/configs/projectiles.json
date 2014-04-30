@@ -50,6 +50,7 @@
     physSize: 0.1,
     dmgType: explosion,
     collisionSound: "misc/shipExplosion",
+    workSound: "engines/medWork",
     guided: true,
     lightSz: 0.25,
     acceleration: 4,

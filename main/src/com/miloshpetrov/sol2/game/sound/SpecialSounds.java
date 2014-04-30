@@ -25,6 +25,7 @@ public class SpecialSounds {
   public final SolSound abilityRefused;
   public final SolSound controlDisabled;
   public final SolSound controlEnabled;
+  public final SolSound lootThrow;
 
   public SpecialSounds(SoundMan soundMan) {
     JsonReader r = new JsonReader();
@@ -47,6 +48,7 @@ public class SpecialSounds {
     abilityRefused = soundMan.getSound(node.getString("abilityRefused"), configFile);
     controlDisabled = soundMan.getSound(node.getString("controlDisabled"), configFile);
     controlEnabled = soundMan.getSound(node.getString("controlEnabled"), configFile);
+    lootThrow = soundMan.getSound(node.getString("lootThrow"), configFile);
   }
 
   public SolSound dmgSound(boolean forMetal, DmgType dmgType) {
