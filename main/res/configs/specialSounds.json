@@ -15,4 +15,7 @@
   forceBeaconWork: "misc/forceBeaconWork",
 
   doorMove: "misc/doorMove",
+
+  abilityRecharged: "misc/abilityRecharged",
+  abilityRefused: "misc/abilityRefused",
 }

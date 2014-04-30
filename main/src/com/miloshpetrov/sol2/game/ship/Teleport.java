@@ -53,6 +53,11 @@ public class Teleport implements ShipAbility {
     return myConfig.rechargeTime;
   }
 
+  @Override
+  public AbilityCommonConfig getCommonConfig() {
+    return myConfig.cc;
+  }
+
   public void maybeTeleport(SolGame game, SolShip owner) {
     if (!myShouldTeleport) return;
 
