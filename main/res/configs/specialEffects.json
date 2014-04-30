@@ -11,6 +11,11 @@
     floatsUp: true,
     tint: fire,
   },
+  electricity: {
+    effectFile: electricity,
+    tex: electricity,
+    tint: white,
+  },
   shipExplosionSmoke: {
     effectFile: explSmoke,
     tex: smoke,

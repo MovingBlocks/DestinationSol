@@ -44,7 +44,7 @@ public class EmWave implements ShipAbility {
       float perc = KnockBack.getPerc(dst, MAX_RADIUS);
       if (perc <= 0) continue;
       float duration = perc * myConfig.duration;
-      oShip.disableControls(duration);
+      oShip.disableControls(duration, game);
     }
     ParticleSrc src = new ParticleSrc(myConfig.cc.effect, MAX_RADIUS, DraLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero);
     game.getPartMan().finish(game, src, ownerPos);
