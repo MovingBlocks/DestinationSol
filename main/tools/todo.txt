@@ -1,8 +1,6 @@
 
-dmg effects should reflect dmg amt
 
 objects sometimes appear too late, why?
-explorer can't fight with dragon, why? -- battle movements should be improved
 
 abilities:
   activation sound
@@ -94,7 +92,7 @@ PERF:
   far ship positions should be calculated on demand?
   test on every object preloaded
   cache body masses
-
+  when searching for nearest, compare dstSquared
 
 
 ===================== REST =======================================================================
@@ -122,6 +120,7 @@ FEATURES
   try using shaders
   better sky colors?
   varying maze tile sizes
+  dmg effects should reflect dmg amt
 
 PERF
   use objFloatMap in soundMan
