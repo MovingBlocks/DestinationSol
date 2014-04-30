@@ -178,6 +178,7 @@ main/imgSrcs/misc/whiteTex.png -text
 main/imgSrcs/pack.json -text
 main/imgSrcs/particles/Thumbs.db -text
 main/imgSrcs/particles/bulletColl.png -text
+main/imgSrcs/particles/electricity.png -text
 main/imgSrcs/particles/emWave.png -text
 main/imgSrcs/particles/fire.png -text
 main/imgSrcs/particles/forceBeacon.png -text
@@ -227,6 +228,7 @@ main/res/configs/specialEffects.json -text
 main/res/configs/specialSounds.json -text
 main/res/configs/systems.json -text
 main/res/emitters/areaShipAbility.p -text
+main/res/emitters/electricity.p -text
 main/res/emitters/explFire.p -text
 main/res/emitters/explSmoke.p -text
 main/res/emitters/fire.p -text
@@ -271,6 +273,7 @@ main/res/sounds/metal/bulletHit/1.wav -text
 main/res/sounds/metal/bulletHit/2.wav -text
 main/res/sounds/metal/collision/0.wav -text
 main/res/sounds/misc/asteroidCrack/asteroidCrack.wav -text
+main/res/sounds/misc/controlDisabled/powerOff.wav -text
 main/res/sounds/misc/doorMove/params.txt -text
 main/res/sounds/misc/doorMove/powerOn.wav -text
 main/res/sounds/misc/forceBeaconWork/forceBeacon.wav -text

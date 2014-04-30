@@ -23,6 +23,8 @@ public class SpecialSounds {
   public final SolSound doorMove;
   public final SolSound abilityRecharged;
   public final SolSound abilityRefused;
+  public final SolSound controlDisabled;
+  public final SolSound controlEnabled;
 
   public SpecialSounds(SoundMan soundMan) {
     JsonReader r = new JsonReader();
@@ -43,6 +45,8 @@ public class SpecialSounds {
     doorMove = soundMan.getSound(node.getString("doorMove"), configFile);
     abilityRecharged = soundMan.getSound(node.getString("abilityRecharged"), configFile);
     abilityRefused = soundMan.getSound(node.getString("abilityRefused"), configFile);
+    controlDisabled = soundMan.getSound(node.getString("controlDisabled"), configFile);
+    controlEnabled = soundMan.getSound(node.getString("controlEnabled"), configFile);
   }
 
   public SolSound dmgSound(boolean forMetal, DmgType dmgType) {

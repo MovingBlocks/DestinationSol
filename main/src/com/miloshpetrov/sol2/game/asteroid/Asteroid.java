@@ -47,7 +47,7 @@ public class Asteroid implements SolObj {
     myPos = new Vector2();
     mySpd = new Vector2();
     setParamsFromBody();
-    List<ParticleSrc> effs = game.getSpecialEffects().buildFireSmoke(size, game, myPos, mySpd);
+    List<ParticleSrc> effs = game.getSpecialEffects().buildBodyEffs(size/2, game, myPos, mySpd);
     mySmokeSrc = effs.get(0);
     myFireSrc = effs.get(1);
     myDras.add(mySmokeSrc);

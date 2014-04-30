@@ -264,7 +264,7 @@
     price: 200,
     engine: std,
     ability: {
-      type: sloMo,
+      type: emWave,
       force: 2000,
       amount: 40,
       angle: 90,

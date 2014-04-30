@@ -16,6 +16,7 @@ public class SpecialEffects {
 
   private final EffectConfig mySmoke;
   private final EffectConfig myFire;
+  private final EffectConfig myElectricity;
   private final EffectConfig myShipExplSmoke;
   private final EffectConfig myShipExplFire;
   private final EffectConfig myAsteroidDust;
@@ -27,19 +28,22 @@ public class SpecialEffects {
     JsonValue node = r.parse(configFile);
     mySmoke = EffectConfig.load(node.get("smoke"), effectTypes, texMan, configFile, cols);
     myFire = EffectConfig.load(node.get("fire"), effectTypes, texMan, configFile, cols);
+    myElectricity = EffectConfig.load(node.get("electricity"), effectTypes, texMan, configFile, cols);
     myShipExplSmoke = EffectConfig.load(node.get("shipExplosionSmoke"), effectTypes, texMan, configFile, cols);
     myShipExplFire = EffectConfig.load(node.get("shipExplosionFire"), effectTypes, texMan, configFile, cols);
     myAsteroidDust = EffectConfig.load(node.get("asteroidDust"), effectTypes, texMan, configFile, cols);
     myForceBeacon = EffectConfig.load(node.get("forceBeacon"), effectTypes, texMan, configFile, cols);
   }
 
-  public List<ParticleSrc> buildFireSmoke(float objSz, SolGame game, Vector2 pos, Vector2 spd) {
+  public List<ParticleSrc> buildBodyEffs(float objRad, SolGame game, Vector2 pos, Vector2 spd) {
     ArrayList<ParticleSrc> res = new ArrayList<ParticleSrc>();
-    float sz = objSz * .3f;
+    float sz = objRad * .9f;
     ParticleSrc smoke = new ParticleSrc(mySmoke, sz, DraLevel.PART_FG_0, new Vector2(), true, game, pos, spd);
     res.add(smoke);
     ParticleSrc fire = new ParticleSrc(myFire, sz, DraLevel.PART_FG_1, new Vector2(), true, game, pos, spd);
     res.add(fire);
+    ParticleSrc elec = new ParticleSrc(myElectricity, objRad * 1.2f, DraLevel.PART_FG_1, new Vector2(), true, game, pos, spd);
+    res.add(elec);
     return res;
   }
 

@@ -28,6 +28,7 @@ public class SolShip implements SolObj {
   private final ShipHull myHull;
   private final ParticleSrc mySmokeSrc;
   private final ParticleSrc myFireSrc;
+  private final ParticleSrc myElectricitySrc;
   private final RemoveController myRemoveController;
   private final List<Dra> myDras;
   private final ShipRepairer myRepairer;
@@ -51,11 +52,13 @@ public class SolShip implements SolObj {
     myHull = hull;
     myItemContainer = container;
     myTradeContainer = tradeContainer;
-    List<ParticleSrc> effs = game.getSpecialEffects().buildFireSmoke(myHull.config.size, game, myHull.getPos(), myHull.getSpd());
+    List<ParticleSrc> effs = game.getSpecialEffects().buildBodyEffs(myHull.config.approxRadius, game, myHull.getPos(), myHull.getSpd());
     mySmokeSrc = effs.get(0);
     myFireSrc = effs.get(1);
+    myElectricitySrc = effs.get(2);
     myDras.add(mySmokeSrc);
     myDras.add(myFireSrc);
+    myDras.add(myElectricitySrc);
     myRepairer = repairer;
     myMoney = money;
     myShield = shield;
@@ -186,7 +189,11 @@ public class SolShip implements SolObj {
       game.getSoundMan().play(game, game.getSpecialSounds().burning, null, this);
     }
 
-    if (!isControlsEnabled()) myControlEnableAwait -= ts;
+    if (!isControlsEnabled()) {
+      myControlEnableAwait -= ts;
+      if (isControlsEnabled()) game.getSoundMan().play(game, game.getSpecialSounds().controlEnabled, null, this);
+    }
+    myElectricitySrc.setWorking(!isControlsEnabled());
 
     if (myAbility instanceof Teleport) {
       ((Teleport) myAbility).maybeTeleport(game, this);
@@ -476,7 +483,8 @@ public class SolShip implements SolObj {
     return myAbility;
   }
 
-  public void disableControls(float duration) {
+  public void disableControls(float duration, SolGame game) {
+    game.getSoundMan().play(game, game.getSpecialSounds().controlDisabled, null, this);
     myControlEnableAwait = duration;
   }
 
