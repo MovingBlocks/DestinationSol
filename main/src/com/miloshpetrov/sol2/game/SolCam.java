@@ -62,6 +62,7 @@ public class SolCam {
       Vector2 heroPos = hero.getPos();
       if (myZoom * VIEWPORT_HEIGHT < heroPos.dst(myPos)) {
         myPos.set(heroPos);
+        game.getObjMan().resetDelays();
       } else {
         Vector2 moveDiff = SolMath.getVec(hero.getSpd());
         moveDiff.scl(ts);

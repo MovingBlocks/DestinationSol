@@ -50,7 +50,7 @@ public class Planet {
 
     setSecondaryParams();
     Vector2 camPos = game.getCam().getPos();
-    if (!myObjsCreated && camPos.dst(myPos) < getFullHeight() + Const.MAX_SKY_HEIGHT_FROM_GROUND) {
+    if (!myObjsCreated && camPos.dst(myPos) < getGroundHeight() + Const.MAX_SKY_HEIGHT_FROM_GROUND) {
       myMinGroundHeight = new PlanetObjsBuilder().createPlanetObjs(game, this);
       fillLangingPlaces(game);
       myObjsCreated = true;
