@@ -21,18 +21,25 @@ public class BattleDestProvider {
     Vector2 enemyPos = enemy.getPos();
     float approxRad = ship.getHull().config.approxRadius;
     float enemyApproxRad = enemy.getHull().config.approxRadius;
-    if (!np.isNearGround(enemyPos)) {
-      float toShipAngle = SolMath.angle(enemyPos, ship.getPos());
-      float a = toShipAngle + 90 * SolMath.toInt(myCw);
-      float len = approxRad + .25f + enemyApproxRad;
-      SolMath.fromAl(myDest, a, len);
-      myDest.add(enemyPos);
-      myStopNearDest = false;
-    } else {
+    if (np.isNearGround(enemyPos)) {
       prefAngle = SolMath.angle(np.getPos(), enemyPos);
       myStopNearDest = false;
       SolMath.fromAl(myDest, prefAngle, .5f * shootDist + enemyApproxRad);
       myDest.add(enemyPos);
+    } else {
+      Vector2 shipPos = ship.getPos();
+      float dst = enemyPos.dst(shipPos);
+      if (dst < enemyApproxRad + approxRad + approxRad) {
+        myDest.set(shipPos);
+        myStopNearDest = false;
+      } else {
+        float toShipAngle = SolMath.angle(enemyPos, shipPos);
+        float a = toShipAngle + 90 * SolMath.toInt(myCw);
+        float len = approxRad + .25f + enemyApproxRad;
+        SolMath.fromAl(myDest, a, len);
+        myDest.add(enemyPos);
+        myStopNearDest = true;
+      }
     }
     return myDest;
   }
