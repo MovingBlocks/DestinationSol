@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.game.ship;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.common.SolMath;
@@ -54,6 +55,12 @@ public class Teleport implements ShipAbility {
 
   public void maybeTeleport(SolGame game, SolShip owner) {
     if (!myShouldTeleport) return;
+
+    TextureAtlas.AtlasRegion tex = game.getTexMan().getTex("misc/teleportBlip", false, null);
+    float blipSz = owner.getHull().config.approxRadius * 3;
+    game.getPartMan().blip(game, owner.getPos(), SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
+    game.getPartMan().blip(game, myNewPos, SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
+
     FarShip ship = owner.toFarObj();
     game.getObjMan().removeObjDelayed(owner);
     ship.setPos(myNewPos);

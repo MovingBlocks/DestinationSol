@@ -270,6 +270,7 @@
       angle: 90,
       rechargeTime: 5,
       factor: 0.5,
+      duration: 3,
     },
   },
   corvette: {

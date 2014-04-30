@@ -4,8 +4,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
+import com.miloshpetrov.sol2.game.dra.DraLevel;
 import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.item.SolItem;
+import com.miloshpetrov.sol2.game.particle.ParticleSrc;
 
 public class KnockBack implements ShipAbility {
   public static final int MAX_RADIUS = 4;
@@ -42,6 +44,8 @@ public class KnockBack implements ShipAbility {
       o.receiveForce(toO, game, false);
       SolMath.free(toO);
     }
+    ParticleSrc src = new ParticleSrc(myConfig.cc.effect, MAX_RADIUS, DraLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero);
+    game.getPartMan().finish(game, src, ownerPos);
     return true;
   }
 
@@ -57,11 +61,13 @@ public class KnockBack implements ShipAbility {
     public final float rechargeTime;
     private final SolItem chargeExample;
     public final float force;
+    public final AbilityCommonConfig cc;
 
-    public Config(float rechargeTime, SolItem chargeExample, float force) {
+    public Config(float rechargeTime, SolItem chargeExample, float force, AbilityCommonConfig cc) {
       this.rechargeTime = rechargeTime;
       this.chargeExample = chargeExample;
       this.force = force;
+      this.cc = cc;
     }
 
     @Override
@@ -69,11 +75,11 @@ public class KnockBack implements ShipAbility {
       return new KnockBack(this);
     }
 
-    public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig knockBack) {
+    public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig cc) {
       float rechargeTime = abNode.getFloat("rechargeTime");
       float force = abNode.getFloat("force");
       SolItem chargeExample = itemMan.getExample("knockBackCharge");
-      return new Config(rechargeTime, chargeExample, force);
+      return new Config(rechargeTime, chargeExample, force, cc);
     }
   }
 }

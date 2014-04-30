@@ -17,7 +17,7 @@ public class AbilityCommonConfigs {
     JsonReader r = new JsonReader();
     FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "abilities.json");
     JsonValue node = r.parse(configFile);
-    teleport = AbilityCommonConfig.load(node.get("teleport"), effectTypes, texMan, cols, configFile);
+    teleport = null;
     emWave = AbilityCommonConfig.load(node.get("emWave"), effectTypes, texMan, cols, configFile);
     unShield = AbilityCommonConfig.load(node.get("unShield"), effectTypes, texMan, cols, configFile);
     knockBack = AbilityCommonConfig.load(node.get("knockBack"), effectTypes, texMan, cols, configFile);

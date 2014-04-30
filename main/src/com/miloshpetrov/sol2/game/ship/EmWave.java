@@ -3,8 +3,10 @@ package com.miloshpetrov.sol2.game.ship;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.game.*;
+import com.miloshpetrov.sol2.game.dra.DraLevel;
 import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.item.SolItem;
+import com.miloshpetrov.sol2.game.particle.ParticleSrc;
 
 public class EmWave implements ShipAbility {
   public static final int MAX_RADIUS = 4;
@@ -39,6 +41,8 @@ public class EmWave implements ShipAbility {
       float duration = perc * myConfig.duration;
       oShip.disableControls(duration);
     }
+    ParticleSrc src = new ParticleSrc(myConfig.cc.effect, MAX_RADIUS, DraLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero);
+    game.getPartMan().finish(game, src, ownerPos);
     return true;
   }
 
@@ -47,11 +51,13 @@ public class EmWave implements ShipAbility {
     public final float rechargeTime;
     private final SolItem chargeExample;
     public final float duration;
+    private final AbilityCommonConfig cc;
 
-    public Config(float rechargeTime, SolItem chargeExample, float duration) {
+    public Config(float rechargeTime, SolItem chargeExample, float duration, AbilityCommonConfig cc) {
       this.rechargeTime = rechargeTime;
       this.chargeExample = chargeExample;
       this.duration = duration;
+      this.cc = cc;
     }
 
     @Override
@@ -59,11 +65,11 @@ public class EmWave implements ShipAbility {
       return new EmWave(this);
     }
 
-    public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig emWave) {
+    public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig cc) {
       float rechargeTime = abNode.getFloat("rechargeTime");
       float duration = abNode.getFloat("duration");
       SolItem chargeExample = itemMan.getExample("emWaveCharge");
-      return new Config(rechargeTime, chargeExample, duration);
+      return new Config(rechargeTime, chargeExample, duration, cc);
     }
   }
 }
