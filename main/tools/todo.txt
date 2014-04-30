@@ -1,5 +1,4 @@
 
-objects jump on the planet surface (and on the planet stations)
 dmg effects should reflect dmg amt
 
 objects sometimes appear too late, why?
@@ -12,7 +11,6 @@ abilities:
   fix ability effect size since now sz works good
   enemies should use abilities
 
-sound volumes should be kept in one map file?
 
 
 SOUND:
@@ -78,7 +76,10 @@ UI:
   item color categories
   warn about dangerous enemy near
   inventory category filtering
-
+  planet name announcement on approach
+  blip when warning
+  "dangerous enemy near" warning
+  voice assistant?
 
 EH:
   bullets are too narrow on phone -- use realLineWidth() as a minimum width
@@ -109,6 +110,7 @@ ARCHITECTURE
   warn about unused images
   replace AtlasRegion with SolTex, latter shouldn't extend
   get rid of Dra.getTex0. But this would require reusing solTex used by emitters
+  sound volumes should be kept in one map file?
 
 FEATURES
   damaged ship hulls in place of exploded ships
@@ -119,6 +121,7 @@ FEATURES
   better collision prediction (multipoint)
   try using shaders
   better sky colors?
+  varying maze tile sizes
 
 PERF
   use objFloatMap in soundMan

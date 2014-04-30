@@ -52,7 +52,9 @@ public class TileObj implements SolObj {
       spd.div(ts);
       myBody.setLinearVelocity(spd);
       SolMath.free(spd);
-      myBody.setTransform(myPos, myAngle * SolMath.degRad);
+      float bodyAngle = myBody.getAngle() * SolMath.radDeg;
+      float av = SolMath.norm(myAngle - bodyAngle) * SolMath.degRad / ts;
+      myBody.setAngularVelocity(av);
     }
   }
 
