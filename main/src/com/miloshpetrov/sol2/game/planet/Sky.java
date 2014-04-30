@@ -18,21 +18,35 @@ public class Sky implements SolObj {
   private final RectSprite myGrad;
   private final ArrayList<Dra> myDras;
   private final ColorSpan mySkySpan;
+  private final Vector2 myPos;
 
   public Sky(SolGame game, Planet planet) {
     myPlanet = planet;
     myDras = new ArrayList<Dra>();
 
-    myFill = new RectSprite(game.getTexMan().whiteTex, 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, Col.col(.5f, 1), false);
+    myFill = new RectSprite(game.getTexMan().whiteTex, 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, Col.col(.5f, 0), false);
     myDras.add(myFill);
-    myGrad = new RectSprite(game.getTexMan().getTex("misc/grad", null), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, Col.col(.5f, 1), false);
+    myGrad = new RectSprite(game.getTexMan().getTex("misc/grad", null), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, Col.col(.5f, 0), false);
     myDras.add(myGrad);
     SkyConfig config = planet.getConfig().skyConfig;
     mySkySpan = ColorSpan.rgb(config.dawn, config.day);
+    myPos = new Vector2();
+    updatePos(game);
+  }
+
+  private void updatePos(SolGame game) {
+    Vector2 camPos = game.getCam().getPos();
+    Vector2 planetPos = myPlanet.getPos();
+    if (planetPos.dst(camPos) < myPlanet.getGroundHeight() + Const.MAX_SKY_HEIGHT_FROM_GROUND) {
+      myPos.set(camPos);
+      return;
+    }
+    myPos.set(planetPos);
   }
 
   @Override
   public void update(SolGame game) {
+    updatePos(game);
 
     Vector2 planetPos = myPlanet.getPos();
     Vector2 camPos = game.getCam().getPos();
@@ -58,15 +72,8 @@ public class Sky implements SolObj {
     myGrad.setTexSz(sz);
     myFill.setTexSz(sz);
 
-    Vector2 relPos = SolMath.getVec(camPos);
-    relPos.sub(planetPos);
-    myGrad.relPos.set(relPos);
-    myFill.relPos.set(relPos);
-    SolMath.free(relPos);
-
     boolean simpleGrad = true;
     myGrad.relAngle = SolMath.angle(camPos, simpleGrad ? planetPos : sysPos) + 90;
-
   }
 
   @Override
@@ -93,7 +100,7 @@ public class Sky implements SolObj {
 
   @Override
   public Vector2 getPos() {
-    return myPlanet.getPos();
+    return myPos;
   }
 
   @Override

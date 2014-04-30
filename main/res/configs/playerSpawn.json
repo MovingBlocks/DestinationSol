@@ -9,7 +9,7 @@
 		mountFixed1: true,
 		mountFixed2: true,
       },
-      spawnPlace: maze,
+      spawnPlace: planet,
   },
   mainStation: {
     hull: station,

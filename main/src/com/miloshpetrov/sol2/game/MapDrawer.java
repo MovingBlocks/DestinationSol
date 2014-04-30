@@ -208,7 +208,7 @@ public class MapDrawer {
       if (viewDist < camPos.dst(oPos)) continue;
       TileObj to = (TileObj) o;
       if (to.getPlanet() != np) continue;
-      float sz = objMan.getRadius(to);
+      float sz = to.getSz();
       drawer.draw(myGroundTex, sz, sz, sz/2, sz/2, oPos.x, oPos.y, to.getAngle(), Col.W);
     }
 
@@ -218,7 +218,7 @@ public class MapDrawer {
       if (viewDist < camPos.dst(oPos)) continue;
       FarTileObj to = (FarTileObj) o;
       if (to.getPlanet() != np) continue;
-      float sz = to.getRadius();
+      float sz = to.getSz();
       drawer.draw(myGroundTex, sz, sz, sz/2, sz/2, oPos.x, oPos.y, to.getAngle(), Col.W);
     }
   }

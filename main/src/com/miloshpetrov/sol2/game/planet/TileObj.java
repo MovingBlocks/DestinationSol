@@ -138,4 +138,8 @@ public class TileObj implements SolObj {
   public Planet getPlanet() {
     return myPlanet;
   }
+
+  public float getSz() {
+    return mySize;
+  }
 }

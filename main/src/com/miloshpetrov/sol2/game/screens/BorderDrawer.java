@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class BorderDrawer {
 
   private static final float MAX_DRAW_DIST = (Const.MAX_GROUND_HEIGHT + Const.ATM_HEIGHT) * 2;
-  public static final float TISHCH_SZ = .025f;
+  public static final float TISHCH_SZ = .02f;
   public static final float BORDER_ICON_SZ = .12f;
   public static final float MAX_ICON_DIST = Const.ATM_HEIGHT;
   private final ArrayList<Tishch> myTishches;
@@ -129,7 +129,7 @@ public class BorderDrawer {
     float camAngle = cam.getAngle();
     for (Planet p : pMan.getPlanets()) {
       Vector2 objPos = p.getPos();
-      float objRad = p.getGroundHeight();
+      float objRad = p.getFullHeight();
       apply0(camPos, camAngle, objPos, objRad);
     }
     SolSystem sys = pMan.getNearestSystem(camPos);
