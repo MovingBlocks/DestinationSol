@@ -26,6 +26,11 @@ public class UnShield implements ShipAbility {
   }
 
   @Override
+  public AbilityCommonConfig getCommonConfig() {
+    return myConfig.cc;
+  }
+
+  @Override
   public boolean update(SolGame game, SolShip owner, boolean tryToUse) {
     if (!tryToUse) return false;
     Vector2 ownerPos = owner.getPos();

@@ -10,7 +10,7 @@ import com.miloshpetrov.sol2.game.gun.GunMount;
 import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
-import com.miloshpetrov.sol2.game.sound.SolSound;
+import com.miloshpetrov.sol2.game.sound.*;
 
 import java.util.List;
 
@@ -195,8 +195,13 @@ public class SolShip implements SolObj {
 
   private void updateAbility(SolGame game) {
     if (myAbility == null) return;
+    SoundMan soundMan = game.getSoundMan();
+    SpecialSounds sounds = game.getSpecialSounds();
     if (myAbilityAwait > 0) {
       myAbilityAwait -= game.getTimeStep();
+      if (myAbilityAwait <= 0) {
+        soundMan.play(game, sounds.abilityRecharged, null, this);
+      }
     }
     boolean tryToUse = isControlsEnabled() && myPilot.isAbility() && canUseAbility();
     boolean used = myAbility.update(game, this, tryToUse);
@@ -204,7 +209,10 @@ public class SolShip implements SolObj {
       SolItem example = myAbility.getChargeExample();
       if (example != null) myItemContainer.tryConsumeItem(example);
       myAbilityAwait = myAbility.getRechargeTime();
+      AbilityCommonConfig cc = myAbility.getCommonConfig();
+      soundMan.play(game, cc.activatedSound, null, this);
     }
+    if (tryToUse && !used) soundMan.play(game, sounds.abilityRefused, null, this);
   }
 
   private void updateShield(SolGame game) {

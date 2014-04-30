@@ -34,13 +34,17 @@ public class SloMo implements ShipAbility {
   }
 
   @Override
+  public AbilityCommonConfig getCommonConfig() {
+    return myConfig.cc;
+  }
+
+  @Override
   public boolean update(SolGame game, SolShip owner, boolean tryToUse) {
     if (tryToUse) {
       myFactor = myConfig.factor;
       Vector2 pos = owner.getPos();
       ParticleSrc src = new ParticleSrc(myConfig.cc.effect, -1, DraLevel.PART_BG_0, new Vector2(), true, game, pos, owner.getSpd());
       game.getPartMan().finish(game, src, pos);
-      game.getSoundMan().play(game, myConfig.activateSound, null, owner);
       return true;
     }
     float ts = game.getTimeStep();
@@ -58,16 +62,13 @@ public class SloMo implements ShipAbility {
     public final float rechargeTime;
     private final SolItem chargeExample;
     private final AbilityCommonConfig cc;
-    private final SolSound activateSound;
 
-    public Config(float factor, float rechargeTime, SolItem chargeExample, AbilityCommonConfig cc,
-      SolSound activateSound)
+    public Config(float factor, float rechargeTime, SolItem chargeExample, AbilityCommonConfig cc)
     {
       this.factor = factor;
       this.rechargeTime = rechargeTime;
       this.chargeExample = chargeExample;
       this.cc = cc;
-      this.activateSound = activateSound;
     }
 
     @Override
@@ -80,7 +81,7 @@ public class SloMo implements ShipAbility {
       float rechargeTime = abNode.getFloat("rechargeTime");
       SolItem chargeExample = itemMan.getExample("sloMoCharge");
       SolSound activateSound = soundMan.getSound("abilities/sloMo/activate", null);
-      return new Config(factor, rechargeTime, chargeExample, cc, activateSound);
+      return new Config(factor, rechargeTime, chargeExample, cc);
     }
   }
 }

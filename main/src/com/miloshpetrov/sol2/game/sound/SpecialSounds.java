@@ -21,6 +21,8 @@ public class SpecialSounds {
   public final SolSound burning;
   public final SolSound forceBeaconWork;
   public final SolSound doorMove;
+  public final SolSound abilityRecharged;
+  public final SolSound abilityRefused;
 
   public SpecialSounds(SoundMan soundMan) {
     JsonReader r = new JsonReader();
@@ -39,6 +41,8 @@ public class SpecialSounds {
     forceBeaconWork = soundMan.getSound(node.getString("forceBeaconWork"), configFile);
     forceBeaconWork.requireLooped();
     doorMove = soundMan.getSound(node.getString("doorMove"), configFile);
+    abilityRecharged = soundMan.getSound(node.getString("abilityRecharged"), configFile);
+    abilityRefused = soundMan.getSound(node.getString("abilityRefused"), configFile);
   }
 
   public SolSound dmgSound(boolean forMetal, DmgType dmgType) {
