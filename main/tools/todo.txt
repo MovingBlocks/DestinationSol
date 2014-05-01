@@ -1,16 +1,8 @@
 
-star ports:
-  put big forceBeacon in the center
-  what's with the sound
-star journey:
-  replace static image with some nice effect
-  start + finish + working sounds
 
-ships sometimes get inside tiles
-starports should be on differernt distances from planet center, since now they overlap
-bullets are too narrow on phone -- use realLineWidth() as a minimum width
-environment sounds
 skyline should slightly tilt towards the sun
+starports should be on differernt distances from planet center, since now they overlap
+ships sometimes get inside tiles
 
 ++++++++++++++++++++++++++++++++++++++ AFTER ALL ART IS IN THE GAME
 
@@ -56,20 +48,20 @@ UI:
   ability recharge
 
 PERF:
+  pack textures, launch on android to ensure that everything works
   build everything as far + SG.isPlaceEmpty should iterate over far objs
   get rid of getVec, use static vectors, 3 should be enough
   far ship positions should be calculated on demand?
   test on every object preloaded
   cache body masses
+  cache other frequently used values: cam.realLineWidth?
   compare dstSq instead of dst
   use circles instead of polys where possible
   split images into more folders:
     ship abilities from regular effects
+    often used vs rarely used
   skip emitter ops if they're not working
 
-OPTIONAL:
-  out of ability charges sound
-  out of ammo sound
 
 ===================== REST =======================================================================
 
@@ -87,18 +79,21 @@ ARCHITECTURE
   sound volumes should be kept in one map file?
 
 FEATURES
+  out of ability charges sound
+  out of ammo sound
+  environment sounds
+  shield orbiting blips: use some static pulsating texture that will fade away with shield life?
+  dmg effects should reflect dmg amt
+  varying maze tile sizes
+  make buttons size based on real screen size + test on tablets
+  better sky colors?
+  ship traces reusable?
+  update pitch to all played sounds if game time is changed?
   damaged ship hulls in place of exploded ships
   random encounters
-  planet labyrinths?
-  ship traces reusable?
-  make buttons size based on real screen size + test on tablets
   better collision prediction (multipoint)
+  planet labyrinths?
   try using shaders
-  better sky colors?
-  varying maze tile sizes
-  dmg effects should reflect dmg amt
-  update pitch to all played sounds if game time is changed?
-  shield orbiting blips: use some static pulsating texture that will fade away with shield life?
 
 PERF
   use objFloatMap in soundMan

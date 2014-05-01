@@ -272,6 +272,8 @@ public class Projectile implements SolObj {
     @Override
     public void draw(Drawer drawer, SolGame game) {
       float h = myWidth;
+      float minH = game.getCam().getRealLineWidth();
+      if (h < minH) h = minH;
       Vector2 pos = myProjectile.getPos();
       float w = myProjectile.getSpd().len() * game.getTimeStep();
       if (w < h) w = h;

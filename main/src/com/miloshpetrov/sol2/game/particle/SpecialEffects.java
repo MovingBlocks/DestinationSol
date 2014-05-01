@@ -22,6 +22,7 @@ public class SpecialEffects {
   private final EffectConfig myAsteroidDust;
   private final EffectConfig myForceBeacon;
   public final EffectConfig starPortFlow;
+  public final EffectConfig transcendentWork;
 
   public SpecialEffects(EffectTypes effectTypes, TexMan texMan, GameCols cols) {
     JsonReader r = new JsonReader();
@@ -35,6 +36,7 @@ public class SpecialEffects {
     myAsteroidDust = EffectConfig.load(node.get("asteroidDust"), effectTypes, texMan, configFile, cols);
     myForceBeacon = EffectConfig.load(node.get("forceBeacon"), effectTypes, texMan, configFile, cols);
     starPortFlow = EffectConfig.load(node.get("starPortFlow"), effectTypes, texMan, configFile, cols);
+    transcendentWork = EffectConfig.load(node.get("transcendentWork"), effectTypes, texMan, configFile, cols);
   }
 
   public List<ParticleSrc> buildBodyEffs(float objRad, SolGame game, Vector2 pos, Vector2 spd) {

@@ -238,6 +238,7 @@ main/res/emitters/knockBack.p -text
 main/res/emitters/smoke.p -text
 main/res/emitters/spark.p -text
 main/res/emitters/starPortFlow.p -text
+main/res/emitters/transcendentWork.p -text
 main/res/fonts/main.fnt -text
 main/res/fonts/main_0.png -text
 main/res/icon.png -text
