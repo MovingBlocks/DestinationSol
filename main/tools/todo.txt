@@ -1,12 +1,13 @@
 
 
-ships sometimes get inside tiles
-starports should be on differernt distances from planet center, since now they overlap
+add all the content!
 
-++++++++++++++++++++++++++++++++++++++ AFTER ALL ART IS IN THE GAME
+sand planet
+lifeless planet / omit sky colors
 
-landscape types?
+landscape types? -- or just varying number of rows
 item pick up sound
+item color categories
 
 TRADING:
   jsons will have tradeItems, that would resolve in the list of items
@@ -37,14 +38,14 @@ UI:
   control types
   split item icons from ui icons
   ui dra man
-  item color categories
   warn about dangerous enemy near
   inventory category filtering
   planet name announcement on approach
   blip when warning
   "dangerous enemy near" warning
   voice assistant?
-  ability recharge
+  ability recharge ui
+  fading compass on planet
 
 PERF:
   pack textures, launch on android to ensure that everything works
@@ -86,6 +87,7 @@ FEATURES
   varying maze tile sizes
   make buttons size based on real screen size + test on tablets
   better sky colors?
+  starports should be on differernt distances from planet center, since now they overlap
   ship traces reusable?
   update pitch to all played sounds if game time is changed?
   damaged ship hulls in place of exploded ships

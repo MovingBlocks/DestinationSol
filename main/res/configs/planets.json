@@ -108,4 +108,27 @@
 	  mountFixed2: false,
     }
   },
+  desert: {
+    minGrav: 0.4,
+    maxGrav: 0.5,
+    groundTexs: "grounds/desert",
+    decoTexs: "deco/desert",
+    cloudTexs: "skies/cloud",
+    sky: {
+      dawnColor: "hsb 200 50 100",
+      dayColor: "hsb 200 40 100",
+    },
+    deco: {},
+    groundEnemies: [],
+    highOrbitEnemies: [],
+    lowOrbitEnemies: [],
+    station: {
+      hull: drome,
+      items: "bo",
+	  money: 30,
+	  repairer: false,
+	  mountFixed1: false,
+	  mountFixed2: false,
+    }
+  },
 }
