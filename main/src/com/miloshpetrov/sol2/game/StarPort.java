@@ -6,6 +6,7 @@ import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.*;
 import com.miloshpetrov.sol2.game.dra.*;
+import com.miloshpetrov.sol2.game.particle.*;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.*;
 
@@ -18,6 +19,7 @@ public class StarPort implements SolObj {
   public static final int SIZE = 8;
   public static final float FARE = 10f;
   private final Body myBody;
+  private final ArrayList<LightSrc> myLights;
   private final Vector2 myPos;
   private final Planet myFrom;
   private final Planet myTo;
@@ -25,11 +27,12 @@ public class StarPort implements SolObj {
   private float myAngle;
   private final boolean mySecondary;
 
-  public StarPort(Planet from, Planet to, Body body, ArrayList<Dra> dras, boolean secondary) {
+  public StarPort(Planet from, Planet to, Body body, ArrayList<Dra> dras, boolean secondary, ArrayList<LightSrc> lights) {
     myFrom = from;
     myTo = to;
     myDras = dras;
     myBody = body;
+    myLights = lights;
     myPos = new Vector2();
     setParamsFromBody();
     mySecondary = secondary;
@@ -56,6 +59,10 @@ public class StarPort implements SolObj {
       objMan.addObjDelayed(t);
       objMan.removeObjDelayed(ship);
     }
+    for (LightSrc l : myLights) {
+      l.update(true, myAngle, game);
+    }
+
   }
 
   public boolean isSecondary() {
@@ -159,6 +166,7 @@ public class StarPort implements SolObj {
   }
 
   public static class Builder {
+    public static final float FLOW_DIST = .26f;
     private final PathLoader myLoader;
 
     public Builder() {
@@ -172,9 +180,26 @@ public class StarPort implements SolObj {
       Body body = myLoader.getBodyAndSprite(game, "misc", "starPort", SIZE,
         BodyDef.BodyType.KinematicBody, new Vector2(pos), angle, dras, 10f, DraLevel.BIG_BODIES, null);
       SolMath.free(pos);
-      StarPort sp = new StarPort(from, to, body, dras, secondary);
+      ArrayList<LightSrc> lights = new ArrayList<LightSrc>();
+      addFlow(game, pos, dras, 0, lights);
+      addFlow(game, pos, dras, 90, lights);
+      addFlow(game, pos, dras, -90, lights);
+      addFlow(game, pos, dras, 180, lights);
+      StarPort sp = new StarPort(from, to, body, dras, secondary, lights);
       body.setUserData(sp);
       return sp;
+    }
+
+    private void addFlow(SolGame game, Vector2 pos, ArrayList<Dra> dras, float angle, ArrayList<LightSrc> lights) {
+      EffectConfig flow = game.getSpecialEffects().starPortFlow;
+      Vector2 relPos = new Vector2();
+      SolMath.fromAl(relPos, angle, -FLOW_DIST * SIZE);
+      ParticleSrc f1 = new ParticleSrc(flow, FLOW_DIST * SIZE, DraLevel.PART_BG_1, relPos, false, game, pos, Vector2.Zero, angle);
+      f1.setWorking(true);
+      dras.add(f1);
+      LightSrc light = new LightSrc(game, .6f, true, 1, relPos, flow.tint);
+      light.collectDras(dras);
+      lights.add(light);
     }
   }
 

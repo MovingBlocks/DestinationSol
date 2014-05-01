@@ -49,7 +49,7 @@ public class KnockBack implements ShipAbility {
       o.receiveForce(toO, game, false);
       SolMath.free(toO);
     }
-    ParticleSrc src = new ParticleSrc(myConfig.cc.effect, MAX_RADIUS, DraLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero);
+    ParticleSrc src = new ParticleSrc(myConfig.cc.effect, MAX_RADIUS, DraLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
     game.getPartMan().finish(game, src, ownerPos);
     return true;
   }
