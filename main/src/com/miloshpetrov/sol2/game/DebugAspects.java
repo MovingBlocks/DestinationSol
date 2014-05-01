@@ -30,6 +30,7 @@ public class DebugAspects {
   public static boolean SOUND_DEBUG = false;
   public static boolean SOUND_IN_SPACE = false;
   public static boolean TEX_DEBUG = false;
+  public static String FORCE_PLANET_TYPE = "";
 
   public static void read() {
     boolean devBuild = Files.exists(Paths.get("devBuild"));
@@ -56,5 +57,6 @@ public class DebugAspects {
     SOUND_DEBUG = r.b("soundDebug", SOUND_DEBUG);
     SOUND_IN_SPACE = r.b("soundInSpace", SOUND_IN_SPACE);
     TEX_DEBUG = r.b("texDebug", TEX_DEBUG);
+    FORCE_PLANET_TYPE = r.s("forcePlanetType", FORCE_PLANET_TYPE);
   }
 }
