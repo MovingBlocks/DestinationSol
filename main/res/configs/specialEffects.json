@@ -37,4 +37,9 @@
     tex: forceBeacon,
     tint: white,
   },
+  starPortFlow: {
+    effectFile: starPortFlow,
+    tex: fire,
+    tint: white,
+  }
 }

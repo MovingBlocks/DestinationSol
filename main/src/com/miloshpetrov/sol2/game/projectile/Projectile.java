@@ -70,7 +70,7 @@ public class Projectile implements SolObj {
 
   private ParticleSrc buildEffect(SolGame game, EffectConfig ec, DraLevel draLevel, Vector2 pos, boolean inheritsSpd) {
     if (ec == null) return null;
-    ParticleSrc res = new ParticleSrc(ec, -1, draLevel, new Vector2(), inheritsSpd, game, pos, myBody.getSpd());
+    ParticleSrc res = new ParticleSrc(ec, -1, draLevel, new Vector2(), inheritsSpd, game, pos, myBody.getSpd(), 0);
     if (res.isContinuous()) {
       res.setWorking(true);
       myDras.add(res);

@@ -46,7 +46,7 @@ public class EmWave implements ShipAbility {
       float duration = perc * myConfig.duration;
       oShip.disableControls(duration, game);
     }
-    ParticleSrc src = new ParticleSrc(myConfig.cc.effect, MAX_RADIUS, DraLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero);
+    ParticleSrc src = new ParticleSrc(myConfig.cc.effect, MAX_RADIUS, DraLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
     game.getPartMan().finish(game, src, ownerPos);
     return true;
   }

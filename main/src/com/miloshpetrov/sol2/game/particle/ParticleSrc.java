@@ -12,7 +12,7 @@ import com.miloshpetrov.sol2.game.dra.DraLevel;
 import com.miloshpetrov.sol2.game.planet.Planet;
 
 public class ParticleSrc implements Dra {
-  public static final float JUMP_SPD_TRESH = 1f;
+  public static final float JUMP_SPD_TRESH = .9f;
   public static final float MAX_TIME_BETWEEN_POS_CHANGE = .25f;
   private static final float JUMP_SZ_THRESH = .7f;
   public static final float MAX_BB_RECALC_AWAIT = .5f;
@@ -24,6 +24,7 @@ public class ParticleSrc implements Dra {
   private final Vector2 myOrigRelPos;
   private final float myAreaSz;
   private final EffectConfig myConfig;
+  private final float myRelAngle;
   private final boolean myInheritsSpd;
 
   private Vector2 myPos;
@@ -34,7 +35,7 @@ public class ParticleSrc implements Dra {
   private final BoundingBox myBb;
 
   public ParticleSrc(EffectConfig config, float sz, DraLevel draLevel, Vector2 relPos, boolean inheritsSpd,
-    SolGame game, Vector2 basePos, Vector2 baseSpd)
+    SolGame game, Vector2 basePos, Vector2 baseSpd, float relAngle)
   {
     myConfig = config;
     myEmitter = myConfig.effectType.newEmitter();
@@ -42,6 +43,7 @@ public class ParticleSrc implements Dra {
     myRelPos = new Vector2(relPos);
     myOrigRelPos = new Vector2(relPos);
     myPos = new Vector2();
+    myRelAngle = relAngle;
 
     if (sz <= 0) sz = config.sz;
 
@@ -172,7 +174,8 @@ public class ParticleSrc implements Dra {
     myPos.y -= myEmitter.getGravity().getLowMin() * ts;
   }
 
-  private void setAngle(float angle) {
+  private void setAngle(float baseAngle) {
+    float angle = baseAngle + myRelAngle;
     transferAngle(myOrigSpdAngle, myEmitter.getAngle(), angle);
     boolean includeSpriteAngle = true;
     if (includeSpriteAngle) {

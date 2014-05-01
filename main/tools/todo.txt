@@ -1,10 +1,10 @@
 
 star ports:
-  replace static energy lines with 4 particle effects
   put big forceBeacon in the center
+  what's with the sound
 star journey:
   replace static image with some nice effect
-  start finish working sounds
+  start + finish + working sounds
 
 ships sometimes get inside tiles
 starports should be on differernt distances from planet center, since now they overlap

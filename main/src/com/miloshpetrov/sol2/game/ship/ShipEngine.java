@@ -29,9 +29,9 @@ public class ShipEngine {
     EffectConfig ec = myItem.getEffectConfig();
     Vector2 shipPos = ship.getPos();
     Vector2 shipSpd = ship.getSpd();
-    myFlameSrc1 = new ParticleSrc(ec, -1, DraLevel.PART_BG_0, e1RelPos, true, game, shipPos, shipSpd);
+    myFlameSrc1 = new ParticleSrc(ec, -1, DraLevel.PART_BG_0, e1RelPos, true, game, shipPos, shipSpd, 0);
     myDras.add(myFlameSrc1);
-    myFlameSrc2 = new ParticleSrc(ec, -1, DraLevel.PART_BG_0, e2RelPos, true, game, shipPos, shipSpd);
+    myFlameSrc2 = new ParticleSrc(ec, -1, DraLevel.PART_BG_0, e2RelPos, true, game, shipPos, shipSpd, 0);
     myDras.add(myFlameSrc2);
     float lightSz = ec.sz * 2.5f;
     myLightSrc1 = new LightSrc(game, lightSz, true, .7f, new Vector2(e1RelPos), ec.tint);
