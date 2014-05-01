@@ -1,9 +1,9 @@
 package com.miloshpetrov.sol2.game;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.miloshpetrov.sol2.Const;
-import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.*;
 import com.miloshpetrov.sol2.game.dra.*;
 import com.miloshpetrov.sol2.game.particle.*;
@@ -54,15 +54,23 @@ public class StarPort implements SolObj {
     SolShip ship = ForceBeacon.pullShips(game, this, myPos, null, null, .4f * SIZE);
     if (ship != null && ship.getMoney() >= FARE && ship.getPos().dst(myPos) < .05f * SIZE) {
       ship.setMoney(ship.getMoney() - FARE);
-      Transcendent t = new Transcendent(game.getTexMan(), ship, myFrom, myTo);
+      Transcendent t = new Transcendent(ship, myFrom, myTo, game);
       ObjMan objMan = game.getObjMan();
       objMan.addObjDelayed(t);
+      blip(game, ship);
+      game.getSoundMan().play(game, game.getSpecialSounds().transcendentCreated, null, t);
       objMan.removeObjDelayed(ship);
     }
     for (LightSrc l : myLights) {
       l.update(true, myAngle, game);
     }
 
+  }
+
+  private static void blip(SolGame game, SolShip ship) {
+    TextureAtlas.AtlasRegion tex = game.getTexMan().getTex(Teleport.TEX_PATH, false, null);
+    float blipSz = ship.getHull().config.approxRadius * 10;
+    game.getPartMan().blip(game, ship.getPos(), SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
   }
 
   public boolean isSecondary() {
@@ -166,7 +174,7 @@ public class StarPort implements SolObj {
   }
 
   public static class Builder {
-    public static final float FLOW_DIST = .26f;
+    public static final float FLOW_DIST = .26f * SIZE;
     private final PathLoader myLoader;
 
     public Builder() {
@@ -185,6 +193,9 @@ public class StarPort implements SolObj {
       addFlow(game, pos, dras, 90, lights);
       addFlow(game, pos, dras, -90, lights);
       addFlow(game, pos, dras, 180, lights);
+      ParticleSrc force = game.getSpecialEffects().buildForceBeacon(FLOW_DIST * 1.5f, game, new Vector2(), pos, Vector2.Zero);
+      force.setWorking(true);
+      dras.add(force);
       StarPort sp = new StarPort(from, to, body, dras, secondary, lights);
       body.setUserData(sp);
       return sp;
@@ -193,8 +204,8 @@ public class StarPort implements SolObj {
     private void addFlow(SolGame game, Vector2 pos, ArrayList<Dra> dras, float angle, ArrayList<LightSrc> lights) {
       EffectConfig flow = game.getSpecialEffects().starPortFlow;
       Vector2 relPos = new Vector2();
-      SolMath.fromAl(relPos, angle, -FLOW_DIST * SIZE);
-      ParticleSrc f1 = new ParticleSrc(flow, FLOW_DIST * SIZE, DraLevel.PART_BG_1, relPos, false, game, pos, Vector2.Zero, angle);
+      SolMath.fromAl(relPos, angle, -FLOW_DIST);
+      ParticleSrc f1 = new ParticleSrc(flow, FLOW_DIST, DraLevel.PART_BG_1, relPos, false, game, pos, Vector2.Zero, angle);
       f1.setWorking(true);
       dras.add(f1);
       LightSrc light = new LightSrc(game, .6f, true, 1, relPos, flow.tint);
@@ -276,19 +287,30 @@ public class StarPort implements SolObj {
     private final Vector2 myDestPos;
     private final ArrayList<Dra> myDras;
     private final FarShip myShip;
+    private final Vector2 mySpd;
+    private final LightSrc myLight;
 
     private float myAngle;
+    private final ParticleSrc myEff;
 
-    public Transcendent(TexMan texMan, SolShip ship, Planet from, Planet to) {
+    public Transcendent(SolShip ship, Planet from, Planet to, SolGame game) {
       myShip = ship.toFarObj();
       myFrom = from;
       myTo = to;
       myPos = new Vector2(ship.getPos());
+      mySpd = new Vector2();
       myDestPos = new Vector2();
 
-      RectSprite s = new RectSprite(texMan.getTex("misc/transcendent", null), TRAN_SZ, TRAN_SZ, 0, new Vector2(), DraLevel.BODIES, 0, 0, Col.W, false);
+      RectSprite s = new RectSprite(game.getTexMan().getTex("misc/transcendent", null), TRAN_SZ, .3f, 0, new Vector2(), DraLevel.BODIES, 0, 0, Col.W, false);
       myDras = new ArrayList<Dra>();
       myDras.add(s);
+      EffectConfig eff = game.getSpecialEffects().transcendentWork;
+      myEff = new ParticleSrc(eff, TRAN_SZ, DraLevel.PART_BG_1, new Vector2(), true, game, myPos, Vector2.Zero, 0);
+      myEff.setWorking(true);
+      myDras.add(myEff);
+      myLight = new LightSrc(game, .6f * TRAN_SZ, true, .5f, new Vector2(), eff.tint);
+      myLight.collectDras(myDras);
+      setDependentParams();
     }
 
     public FarShip getShip() {
@@ -297,16 +319,10 @@ public class StarPort implements SolObj {
 
     @Override
     public void update(SolGame game) {
+      setDependentParams();
+
       float ts = game.getTimeStep();
-
-      Vector2 toPos = myTo.getPos();
-      float nodeAngle = SolMath.angle(toPos, myFrom.getPos());
-      SolMath.fromAl(myDestPos, nodeAngle, myTo.getFullHeight() + DIST_FROM_PLANET + SIZE/2);
-      myDestPos.add(toPos);
-
-
-      myAngle = SolMath.angle(myPos, myDestPos);
-      Vector2 moveDiff = SolMath.fromAl(myAngle, Const.MAX_MOVE_SPD * 2); //hack again : (
+      Vector2 moveDiff = SolMath.getVec(mySpd);
       moveDiff.scl(ts);
       myPos.add(moveDiff);
       SolMath.free(moveDiff);
@@ -316,9 +332,24 @@ public class StarPort implements SolObj {
         objMan.removeObjDelayed(this);
         myShip.setPos(myPos);
         myShip.setSpd(new Vector2());
-        SolObj ship = myShip.toObj(game);
+        SolShip ship = myShip.toObj(game);
         objMan.addObjDelayed(ship);
+        blip(game, ship);
+        game.getSoundMan().play(game, game.getSpecialSounds().transcendentFinished, null, this);
+        game.getObjMan().resetDelays(); // because of the hacked speed
+      } else {
+        game.getSoundMan().play(game, game.getSpecialSounds().transcendentMove, null, this);
+        myLight.update(true, myAngle, game);
       }
+    }
+
+    private void setDependentParams() {
+      Vector2 toPos = myTo.getPos();
+      float nodeAngle = SolMath.angle(toPos, myFrom.getPos());
+      SolMath.fromAl(myDestPos, nodeAngle, myTo.getFullHeight() + DIST_FROM_PLANET + SIZE/2);
+      myDestPos.add(toPos);
+      myAngle = SolMath.angle(myPos, myDestPos);
+      SolMath.fromAl(mySpd, myAngle, Const.MAX_MOVE_SPD * 2); //hack again : (
     }
 
     @Override
@@ -328,6 +359,7 @@ public class StarPort implements SolObj {
 
     @Override
     public void onRemove(SolGame game) {
+      game.getPartMan().finish(game, myEff, myPos);
     }
 
     @Override
@@ -366,7 +398,7 @@ public class StarPort implements SolObj {
 
     @Override
     public Vector2 getSpd() {
-      return null;
+      return mySpd;
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.miloshpetrov.sol2.game.item.SolItem;
 
 public class Teleport implements ShipAbility {
   public static final int MAX_RADIUS = 4;
+  public static final String TEX_PATH = "misc/teleportBlip";
   private final Vector2 myNewPos;
   private final Config myConfig;
   private boolean myShouldTeleport;
@@ -61,7 +62,7 @@ public class Teleport implements ShipAbility {
   public void maybeTeleport(SolGame game, SolShip owner) {
     if (!myShouldTeleport) return;
 
-    TextureAtlas.AtlasRegion tex = game.getTexMan().getTex("misc/teleportBlip", false, null);
+    TextureAtlas.AtlasRegion tex = game.getTexMan().getTex(TEX_PATH, false, null);
     float blipSz = owner.getHull().config.approxRadius * 3;
     game.getPartMan().blip(game, owner.getPos(), SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
     game.getPartMan().blip(game, myNewPos, SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);

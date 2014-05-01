@@ -23,4 +23,8 @@
   controlEnabled: "misc/doorMove",
 
   lootThrow: "misc/lootThrow",
+
+  transcendentCreated: "misc/transcendentCreated",
+  transcendentFinished: "misc/transcendentFinished",
+  transcendentMove: "misc/transcendentMove",
 }

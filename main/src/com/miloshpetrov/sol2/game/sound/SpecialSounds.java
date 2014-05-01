@@ -26,6 +26,9 @@ public class SpecialSounds {
   public final SolSound controlDisabled;
   public final SolSound controlEnabled;
   public final SolSound lootThrow;
+  public final SolSound transcendentCreated;
+  public final SolSound transcendentFinished;
+  public final SolSound transcendentMove;
 
   public SpecialSounds(SoundMan soundMan) {
     JsonReader r = new JsonReader();
@@ -49,6 +52,9 @@ public class SpecialSounds {
     controlDisabled = soundMan.getSound(node.getString("controlDisabled"), configFile);
     controlEnabled = soundMan.getSound(node.getString("controlEnabled"), configFile);
     lootThrow = soundMan.getSound(node.getString("lootThrow"), configFile);
+    transcendentCreated = soundMan.getSound(node.getString("transcendentCreated"), configFile);
+    transcendentFinished = soundMan.getSound(node.getString("transcendentFinished"), configFile);
+    transcendentMove = soundMan.getLoopedSound(node.getString("transcendentMove"), configFile);
   }
 
   public SolSound dmgSound(boolean forMetal, DmgType dmgType) {

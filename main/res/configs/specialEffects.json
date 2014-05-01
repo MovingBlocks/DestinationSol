@@ -41,5 +41,10 @@
     effectFile: starPortFlow,
     tex: fire,
     tint: white,
-  }
+  },
+  transcendentWork: {
+    effectFile: transcendentWork,
+    tex: fire,
+    tint: white,
+  },
 }
