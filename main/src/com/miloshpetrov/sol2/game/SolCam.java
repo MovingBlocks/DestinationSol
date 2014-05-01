@@ -162,6 +162,9 @@ public class SolCam {
     return .5f * VIEWPORT_HEIGHT * SolMath.sqrt(1 + r * r) * zoom;
   }
 
+  /**
+   * @return angle of a vector pointing right on screen
+   */
   public float getAngle() {
     return myAngle;
   }

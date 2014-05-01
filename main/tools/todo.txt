@@ -1,8 +1,7 @@
 
 
-skyline should slightly tilt towards the sun
-starports should be on differernt distances from planet center, since now they overlap
 ships sometimes get inside tiles
+starports should be on differernt distances from planet center, since now they overlap
 
 ++++++++++++++++++++++++++++++++++++++ AFTER ALL ART IS IN THE GAME
 

@@ -49,7 +49,8 @@ public class Sky implements SolObj {
     updatePos(game);
 
     Vector2 planetPos = myPlanet.getPos();
-    Vector2 camPos = game.getCam().getPos();
+    SolCam cam = game.getCam();
+    Vector2 camPos = cam.getPos();
     float distPerc = 1 - (planetPos.dst(camPos) - myPlanet.getGroundHeight()) / Const.MAX_SKY_HEIGHT_FROM_GROUND;
     if (distPerc < 0) return;
     if (1 < distPerc) distPerc = 1;
@@ -67,13 +68,16 @@ public class Sky implements SolObj {
     myGrad.tint.a = gradPerc * distPerc;
     myFill.tint.a = fillPerc * SolMath.clamp(1 - (1 - distPerc) * 2) * .37f;
 
-    float viewDist = game.getCam().getViewDist();
+    float viewDist = cam.getViewDist();
     float sz = 2 * viewDist;
     myGrad.setTexSz(sz);
     myFill.setTexSz(sz);
 
-    boolean simpleGrad = true;
-    myGrad.relAngle = SolMath.angle(camPos, simpleGrad ? planetPos : sysPos) + 90;
+    float angleCamToSun = angleToCam - angleToSun;
+    float relAngle;
+    if (SolMath.abs(SolMath.norm(angleCamToSun)) < 90) relAngle = angleToCam + 180 + angleCamToSun;
+    else relAngle = angleToCam - angleCamToSun;
+    myGrad.relAngle = relAngle + 90;
   }
 
   @Override
