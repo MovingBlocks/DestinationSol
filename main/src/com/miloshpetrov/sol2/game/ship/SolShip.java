@@ -21,6 +21,7 @@ public class SolShip implements SolObj {
   public static final float FIRE_PERC = .3f;
   private static final int TRADE_AFTER = 3;
   public static final float MAX_FIRE_AWAIT = 1f;
+  private static final float ENERGY_DMG_FACTOR = .7f;
 
   private final Pilot myPilot;
   private final ItemContainer myItemContainer;
@@ -320,6 +321,7 @@ public class SolShip implements SolObj {
       dmg = myShield.absorb(game, dmg, pos, this, dmgType);
     }
     if (dmg <= 0) return;
+    if (dmgType == DmgType.ENERGY) dmg *= ENERGY_DMG_FACTOR;
     if (myArmor != null) {
       dmg *= (1 - myArmor.getPerc());
     }

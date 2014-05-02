@@ -1,4 +1,9 @@
 
+weapons with knockback
+weapons with EM charge
+unstoppable ball projectiles (waves) -- should be sensors??
+
+
 systemConfig:
   temporaryInnerEnemies
   isHard: true
@@ -6,13 +11,6 @@ planetConfig:
   isHard: true
 belt: isHard
 
-guided bombs -- get rid of towardsGround, instead pass spd:-1
-weapons with knockback
-weapons with EM charge
-unstoppable ball projectiles (waves) -- should be sensors??
-
-calculate weapon dangerousness: consider emCharge, knockback, guidedness, number of projectiles
-energy weaker vs armor, bullet weaker against shield
 enemies should use abilities
 item pick up sound
 item color categories
@@ -52,6 +50,7 @@ UI:
   hardness options:
     unfixed mount
     brakes
+  calculate weapon dangerousness: consider emCharge, knockback, guidedness, number of projectiles
 
 PERF:
   pack textures, launch on android to ensure that everything works

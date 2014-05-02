@@ -83,10 +83,10 @@
   bomb: {
     texName: bomb,
     texSz: 0.15,
-    spdLen: 1,
+    spdLen: 0,
     physSize: 0.1,
     dmgType: explosion,
-    towardsGround: true,
+    zeroAbsSpd: true,
     collisionSound: "misc/shipExplosion",
     collisionEffectBg: {
       effectFile: explSmoke,

@@ -42,12 +42,12 @@ public class ProjectileConfigs {
       EffectConfig collisionEffect = EffectConfig.load(sh.get("collisionEffect"), effectTypes, texMan, configFile, cols);
       EffectConfig collisionEffectBg = EffectConfig.load(sh.get("collisionEffectBg"), effectTypes, texMan, configFile, cols);
       boolean guided = sh.getBoolean("guided", false);
-      boolean towardsGround = sh.getBoolean("towardsGround", false);
+      boolean zeroAbsSpd = sh.getBoolean("zeroAbsSpd", false);
       Vector2 origin = SolMath.readV2(sh.getString("texOrig", "0 0"));
       float acc = sh.getFloat("acceleration", 0);
       SolSound workSound = soundMan.getLoopedSound(sh.getString("workSound", ""), configFile);
       ProjectileConfig c = new ProjectileConfig(tex, texSz, spdLen, stretch, physSize, dmgType, collisionSound,
-        lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg, guided, towardsGround, origin, acc, workSound);
+        lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg, guided, zeroAbsSpd, origin, acc, workSound);
       myConfigs.put(sh.name, c);
     }
   }

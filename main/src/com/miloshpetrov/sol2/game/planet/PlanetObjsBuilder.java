@@ -60,8 +60,8 @@ public class PlanetObjsBuilder {
       }
     }
 
-    buildOrbitEnemies(game, planet, gh, 0, .2f, config.lowOrbitEnemies);
-    buildOrbitEnemies(game, planet, gh, .2f, .6f, config.highOrbitEnemies);
+    buildOrbitEnemies(game, planet, gh, 0, .1f, config.lowOrbitEnemies);
+    buildOrbitEnemies(game, planet, gh, .1f, .6f, config.highOrbitEnemies);
   }
 
   private void buildOrbitEnemies(SolGame game, Planet planet, float gh, float offsetPerc, float atmPerc,

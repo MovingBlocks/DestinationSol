@@ -16,6 +16,7 @@ import com.miloshpetrov.sol2.game.sound.SoundMan;
 
 public class Shield implements SolItem {
   public static final float SIZE_PERC = .7f;
+  private static final float BULLET_DMG_FACTOR = .7f;
   private final Config myConfig;
   private float myLife;
   private float myIdleTime;
@@ -87,6 +88,7 @@ public class Shield implements SolItem {
       game.getPartMan().shieldSpark(game, pos, hull);
       game.getSoundMan().play(game, myConfig.absorbSound, pos, ship);
     }
+    if (dmgType == DmgType.BULLET) dmg *= BULLET_DMG_FACTOR;
     if (myLife >= dmg) {
       myLife -= dmg;
       return 0;
