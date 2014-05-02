@@ -150,4 +150,8 @@ public class Planet {
   public PlanetConfig getConfig() {
     return myConfig;
   }
+
+  public float getToSysRotSpd() {
+    return myToSysRotSpd;
+  }
 }

@@ -19,15 +19,17 @@ public class GalaxyFiller {
   private Vector2 getPosForStation(SolSystem sys, boolean mainStation) {
     Planet p;
     ArrayList<Planet> planets = sys.getPlanets();
+    float angleToSun;
     if (mainStation) {
-      int idx = (int) SolMath.rnd(.25f, .75f) * planets.size();
-      p = planets.get(idx);
+      p = planets.get(planets.size() - 2);
+      angleToSun = p.getAngleToSys() + 20 * SolMath.toInt(p.getToSysRotSpd() > 0);
     } else {
       p = SolMath.elemRnd(planets);
+      angleToSun = SolMath.rnd(180);
     }
     float stationDist = p.getDist() + p.getFullHeight() + Const.PLANET_GAP;
     Vector2 stationPos = new Vector2();
-    SolMath.fromAl(stationPos, SolMath.rnd(180), stationDist);
+    SolMath.fromAl(stationPos, angleToSun, stationDist);
     stationPos.add(p.getSys().getPos());
     return stationPos;
   }
@@ -46,7 +48,7 @@ public class GalaxyFiller {
     } else {
       pos = getEmptySpace(game, sys);
       boolean isBig = hullConf.type == HullConfig.Type.BIG;
-      dp = new ExplorerDestProvider(game, pos, !isBig, hullConf, isBig ? 1.5f : .75f);
+      dp = new ExplorerDestProvider(game, pos, !isBig, hullConf, isBig ? 1.5f : .75f, sys);
       if (isBig) {
         tradeItems = "";
       } else {
@@ -156,7 +158,8 @@ public class GalaxyFiller {
     float sRadius = s.getRadius();
 
     for (int i = 0; i < 100; i++) {
-      res.set(SolMath.rnd(sRadius), SolMath.rnd(sRadius)).add(sPos);
+      SolMath.fromAl(res, SolMath.rnd(180), SolMath.rnd(sRadius));
+      res.add(sPos);
       if (game.isPlaceEmpty(res)) return res;
     }
     throw new AssertionError("could not generate ship position");

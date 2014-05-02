@@ -5,6 +5,7 @@ import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.planet.Planet;
+import com.miloshpetrov.sol2.game.planet.SolSystem;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
 
 import java.util.ArrayList;
@@ -18,13 +19,17 @@ public class ExplorerDestProvider implements MoveDestProvider {
   private final Vector2 myDest;
   private final boolean myAggressive;
   private final float myDesiredSpdLen;
+  private final SolSystem mySys;
   private Vector2 myRelDest;
   private Planet myPlanet;
   private float myAwaitOnPlanet;
   private boolean myDestIsLanding;
   private final float myHoverPerc;
 
-  public ExplorerDestProvider(SolGame game, Vector2 pos, boolean aggressive, HullConfig config, float hoverPerc) {
+  public ExplorerDestProvider(SolGame game, Vector2 pos, boolean aggressive, HullConfig config, float hoverPerc,
+    SolSystem sys)
+  {
+    mySys = sys;
     myDest = new Vector2();
     myHoverPerc = hoverPerc;
     float minDst = Float.MAX_VALUE;
@@ -71,7 +76,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
       if (myAwaitOnPlanet > 0) {
         myAwaitOnPlanet -= game.getTimeStep();
       } else {
-        ArrayList<Planet> ps = game.getPlanetMan().getPlanets();
+        ArrayList<Planet> ps = mySys.getPlanets();
         myPlanet = SolMath.elemRnd(ps);
         calcRelDest(hullConfig);
         myAwaitOnPlanet = MAX_AWAIT_ON_PLANET;
