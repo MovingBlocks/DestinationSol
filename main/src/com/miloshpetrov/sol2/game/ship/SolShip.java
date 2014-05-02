@@ -487,8 +487,8 @@ public class SolShip implements SolObj {
   }
 
   public void disableControls(float duration, SolGame game) {
-    game.getSoundMan().play(game, game.getSpecialSounds().controlDisabled, null, this);
-    myControlEnableAwait = duration;
+    if (myControlEnableAwait <= 0) game.getSoundMan().play(game, game.getSpecialSounds().controlDisabled, null, this);
+    myControlEnableAwait += duration;
   }
 
   public boolean isControlsEnabled() {

@@ -10,6 +10,7 @@ import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.*;
+import com.miloshpetrov.sol2.game.gun.GunConfig;
 import com.miloshpetrov.sol2.game.item.Shield;
 import com.miloshpetrov.sol2.game.particle.*;
 import com.miloshpetrov.sol2.game.ship.SolShip;
@@ -23,21 +24,21 @@ public class Projectile implements SolObj {
   private static final float MIN_ANGLE_TO_GUIDE = 2f;
   private static final float GUIDE_ROT_SPD = 360;
   private final ArrayList<Dra> myDras;
-  private final float myDmg;
   private final ProjectileBody myBody;
   private final Fraction myFraction;
   private final ParticleSrc myBodyEffect;
   private final ParticleSrc myTrailEffect;
   private final LightSrc myLightSrc;
   private final ProjectileConfig myConfig;
+  private final GunConfig myGunConfig;
 
   private boolean myShouldRemove;
   private SolObj myObstacle;
 
-  public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpd, Fraction fraction, float dmg,
-    ProjectileConfig config, boolean varySpd)
+  public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpd, Fraction fraction,
+    ProjectileConfig config, boolean varySpd, GunConfig gunConfig)
   {
-    myDmg = dmg;
+    myGunConfig = gunConfig;
     myDras = new ArrayList<Dra>();
     myConfig = config;
 
@@ -51,7 +52,7 @@ public class Projectile implements SolObj {
     float spdLen = myConfig.spdLen;
     if (varySpd) spdLen *= SolMath.rnd(.9f, 1.1f);
     if (myConfig.physSize > 0) {
-      myBody = new BallProjectileBody(game, muzzlePos, angle, this, myConfig.physSize, gunSpd, spdLen, myConfig.acc);
+      myBody = new BallProjectileBody(game, muzzlePos, angle, this, gunSpd, spdLen, myConfig);
     } else {
       myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, spdLen, this, game, myConfig.acc);
     }
@@ -85,7 +86,8 @@ public class Projectile implements SolObj {
     myBody.update(game);
     if (myObstacle != null) {
       collided(game);
-      myObstacle.receiveDmg(myDmg, game, myBody.getPos(), myConfig.dmgType);
+      myObstacle.receiveDmg(myGunConfig.dmg, game, myBody.getPos(), myConfig.dmgType);
+      if (myGunConfig.emTime > 0 && myObstacle instanceof SolShip) ((SolShip) myObstacle).disableControls(myGunConfig.emTime, game);
       return;
     }
     if (myLightSrc != null) myLightSrc.update(true, myBody.getAngle(), game);
@@ -138,7 +140,7 @@ public class Projectile implements SolObj {
 
   @Override
   public boolean receivesGravity() {
-    return true;
+    return !myConfig.massless;
   }
 
   @Override
@@ -217,6 +219,10 @@ public class Projectile implements SolObj {
       if (!game.getFractionMan().areEnemies(f, myFraction)) return;
     }
     myObstacle = o;
+  }
+
+  public boolean isMassless() {
+    return myConfig.massless;
   }
 
 

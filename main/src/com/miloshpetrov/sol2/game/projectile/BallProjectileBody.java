@@ -14,11 +14,11 @@ public class BallProjectileBody implements ProjectileBody {
 
   private float myAngle;
 
-  public BallProjectileBody(SolGame game, Vector2 pos, float angle, Projectile projectile, float physSize,
-    Vector2 gunSpd,
-    float spdLen, float acc)
+  public BallProjectileBody(SolGame game, Vector2 pos, float angle, Projectile projectile,
+    Vector2 gunSpd, float spdLen, ProjectileConfig config)
   {
-    myBody = AsteroidBuilder.buildBall(game, pos, angle, physSize / 2, 1);
+    float density = config.density == -1 ? 1 : config.density;
+    myBody = AsteroidBuilder.buildBall(game, pos, angle, config.physSize / 2, density, config.massless);
 
     mySpd = new Vector2();
     SolMath.fromAl(mySpd, angle, spdLen);
@@ -27,7 +27,7 @@ public class BallProjectileBody implements ProjectileBody {
     myBody.setUserData(projectile);
 
     myPos = new Vector2();
-    myAcc = acc;
+    myAcc = config.acc;
     setParamsFromBody();
   }
 

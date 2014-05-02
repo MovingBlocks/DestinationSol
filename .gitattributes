@@ -201,8 +201,10 @@ main/imgSrcs/particles/unShield.png -text
 main/imgSrcs/projectiles/Thumbs.db -text
 main/imgSrcs/projectiles/bolter.png -text
 main/imgSrcs/projectiles/bullet.png -text
+main/imgSrcs/projectiles/cannonBall.png -text
 main/imgSrcs/projectiles/pack.json -text
 main/imgSrcs/projectiles/rocket.png -text
+main/imgSrcs/projectiles/wave.png -text
 main/imgSrcs/shards/pack.json -text
 main/imgSrcs/shards/shard_0.png -text
 main/imgSrcs/shards/shard_1.png -text

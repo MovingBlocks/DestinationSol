@@ -1,9 +1,4 @@
 
-weapons with knockback
-weapons with EM charge
-unstoppable ball projectiles (waves) -- should be sensors??
-
-
 systemConfig:
   temporaryInnerEnemies
   isHard: true
