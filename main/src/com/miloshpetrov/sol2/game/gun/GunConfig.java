@@ -34,13 +34,14 @@ public class GunConfig {
   public final SolSound reloadSound;
   public final TextureAtlas.AtlasRegion icon;
   public final int projectilesPerShot;
+  public final float emTime;
 
   public GunConfig(float minAngleVar, float maxAngleVar, float angleVarDamp, float angleVarPerShot,
     float timeBetweenShots,
     float maxReloadTime, ProjectileConfig projConfig, float gunLength, String displayName,
     boolean lightOnShot, int price, String descBase, int infiniteClipSize, float dmg,
     ClipConfig clipConf, SolSound shootSound, SolSound reloadSound, TextureAtlas.AtlasRegion tex,
-    TextureAtlas.AtlasRegion icon, int projectilesPerShot)
+    TextureAtlas.AtlasRegion icon, int projectilesPerShot, float emTime)
   {
     this.shootSound = shootSound;
     this.reloadSound = reloadSound;
@@ -63,6 +64,7 @@ public class GunConfig {
     this.clipConf = clipConf;
     this.icon = icon;
     this.projectilesPerShot = projectilesPerShot;
+    this.emTime = emTime;
 
     dps = dmg * projectilesPerShot / timeBetweenShots;
     this.desc = makeDesc(descBase);
@@ -110,8 +112,10 @@ public class GunConfig {
       TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + texName, configFile);
       int projectilesPerShot = sh.getInt("projectilesPerShot", 1);
       if (projectilesPerShot < 1) throw new AssertionError("projectiles per shot");
+      float emTime = sh.getFloat("emTime", 0);
+      float density = sh.getFloat("density", -1);
       GunConfig c = new GunConfig(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots, maxReloadTime, projConfig,
-        gunLength, displayName, lightOnShot, price, descBase, infiniteClipSize, dmg, clipConf, shootSound, reloadSound, tex, icon, projectilesPerShot);
+        gunLength, displayName, lightOnShot, price, descBase, infiniteClipSize, dmg, clipConf, shootSound, reloadSound, tex, icon, projectilesPerShot, emTime);
       itemMan.registerItem(sh.name, c.example);
     }
   }

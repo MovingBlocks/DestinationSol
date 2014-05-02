@@ -25,11 +25,13 @@ public class ProjectileConfig {
   public final Vector2 origin;
   public final float acc;
   public final SolSound workSound;
+  public final boolean massless;
+  public final float density;
 
   public ProjectileConfig(TextureAtlas.AtlasRegion tex, float texSz, float spdLen, boolean stretch,
     float physSize, DmgType dmgType, SolSound collisionSound, float lightSz, EffectConfig trailEffect,
     EffectConfig bodyEffect, EffectConfig collisionEffect, EffectConfig collisionEffectBg, boolean guided,
-    boolean zeroAbsSpd, Vector2 origin, float acc, SolSound workSound)
+    boolean zeroAbsSpd, Vector2 origin, float acc, SolSound workSound, boolean massless, float density)
   {
     this.tex = tex;
     this.texSz = texSz;
@@ -48,6 +50,10 @@ public class ProjectileConfig {
     this.origin = origin;
     this.acc = acc;
     this.workSound = workSound;
+    this.massless = massless;
+    this.density = density;
+    if (physSize == 0 && massless) throw new AssertionError("only projectiles with physSize > 0 can be massless");
+    if (density > 0 && (physSize == 0 || massless)) throw new AssertionError();
   }
 
 }

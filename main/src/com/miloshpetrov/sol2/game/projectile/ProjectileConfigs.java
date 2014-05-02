@@ -46,8 +46,10 @@ public class ProjectileConfigs {
       Vector2 origin = SolMath.readV2(sh.getString("texOrig", "0 0"));
       float acc = sh.getFloat("acceleration", 0);
       SolSound workSound = soundMan.getLoopedSound(sh.getString("workSound", ""), configFile);
+      boolean bodyless = sh.getBoolean("massless", false);
+      float density = sh.getFloat("density", -1);
       ProjectileConfig c = new ProjectileConfig(tex, texSz, spdLen, stretch, physSize, dmgType, collisionSound,
-        lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg, guided, zeroAbsSpd, origin, acc, workSound);
+        lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg, guided, zeroAbsSpd, origin, acc, workSound, bodyless, density);
       myConfigs.put(sh.name, c);
     }
   }

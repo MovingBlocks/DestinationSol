@@ -1,4 +1,34 @@
 {
+  cannonBall: {
+    texName: cannonBall,
+    texSz: 0.15,
+    spdLen: 3,
+    physSize: 0.15,
+    dmgType: bullet,
+    density: 20,
+    collisionSound: "projectiles/waveCollision",
+    collisionEffect: {
+      effectFile: explFire,
+      size: 0.2,
+      tex: fire,
+      tint: "180 20 120",
+    },
+  },
+  wave: {
+    texName: wave,
+    texSz: 0.4,
+    spdLen: 5,
+    physSize: 0.4,
+    dmgType: energy,
+    massless: true,
+    collisionSound: "projectiles/waveCollision",
+    collisionEffect: {
+      effectFile: explFire,
+      size: 0.2,
+      tex: fire,
+      tint: "180 20 120",
+    },
+  },
   weakBolterCharge: {
     texName: bolter,
     texSz: 0.12,

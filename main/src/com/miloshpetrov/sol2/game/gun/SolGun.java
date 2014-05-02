@@ -57,7 +57,7 @@ public class SolGun {
     for (int i = 0; i < myItem.config.projectilesPerShot; i++) {
       float bulletAngle = gunAngle;
       if(myCurrAngleVar > 0) bulletAngle += SolMath.rnd(myCurrAngleVar);
-      Projectile proj = new Projectile(game, bulletAngle, muzzlePos, baseSpd, fraction, myItem.config.dmg, myItem.config.projConfig, multiple);
+      Projectile proj = new Projectile(game, bulletAngle, muzzlePos, baseSpd, fraction, myItem.config.projConfig, multiple, myItem.config);
       game.getObjMan().addObjDelayed(proj);
     }
     myCoolDown += myItem.config.timeBetweenShots;

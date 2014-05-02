@@ -40,7 +40,7 @@ public class AsteroidBuilder {
       body = myPathLoader.getBodyAndSprite(game, "asteroids", removePath(tex.name) + "_" + tex.index, sz,
         BodyDef.BodyType.DynamicBody, pos, angle, dras, DENSITY, DraLevel.BODIES, tex);
     } else {
-      body = buildBall(game, pos, angle, sz/2, DENSITY);
+      body = buildBall(game, pos, angle, sz/2, DENSITY, false);
       RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.BODIES, 0, 0, Col.W, false);
       dras.add(s);
     }
@@ -57,7 +57,7 @@ public class AsteroidBuilder {
     return parts[parts.length - 1];
   }
 
-  public static Body buildBall(SolGame game, Vector2 pos, float angle, float rad, float density) {
+  public static Body buildBall(SolGame game, Vector2 pos, float angle, float rad, float density, boolean sensor) {
     BodyDef bd = new BodyDef();
     bd.type = BodyDef.BodyType.DynamicBody;
     bd.angle = angle * SolMath.degRad;
@@ -70,6 +70,7 @@ public class AsteroidBuilder {
     fd.friction = Const.FRICTION;
     fd.shape = new CircleShape();
     fd.shape.setRadius(rad);
+    fd.isSensor = sensor;
     body.createFixture(fd);
     fd.shape.dispose();
     return body;
