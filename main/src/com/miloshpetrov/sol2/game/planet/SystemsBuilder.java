@@ -51,7 +51,7 @@ public class SystemsBuilder {
     ArrayList<Float> res = new ArrayList<Float>();
     boolean beltCreated = false;
     for (int i = 0; i < PLANET_COUNT; i++) {
-      boolean createBelt = !beltCreated && .3f * PLANET_COUNT < i && i < .7f * PLANET_COUNT && SolMath.test(.5f);
+      boolean createBelt = !beltCreated && 0 < i && i < .5f * PLANET_COUNT && SolMath.test(.5f);
       float gh;
       if (!createBelt) {
         gh = SolMath.rnd(.5f, 1) * Const.MAX_GROUND_HEIGHT;

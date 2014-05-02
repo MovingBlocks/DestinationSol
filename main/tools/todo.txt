@@ -1,11 +1,19 @@
 
+systemConfig:
+  temporaryInnerEnemies
+  isHard: true
+planetConfig:
+  isHard: true
+belt: isHard
 
-add all the content!
+guided bombs -- get rid of towardsGround, instead pass spd:-1
+weapons with knockback
+weapons with EM charge
+unstoppable ball projectiles (waves) -- should be sensors??
 
-sand planet
-lifeless planet / omit sky colors
-
-landscape types? -- or just varying number of rows
+calculate weapon dangerousness: consider emCharge, knockback, guidedness, number of projectiles
+energy weaker vs armor, bullet weaker against shield
+enemies should use abilities
 item pick up sound
 item color categories
 
@@ -20,16 +28,11 @@ TRADING:
   ships to hire
 
 
-BALANCE:
-  energy weaker vs armor, bullet weaker against shield
-  neutral ships?
-  hardness
-  unfixed mount
-  brakes?
-  respawn enemies?
-  save?
-  explorers should avoid tough enemies?
-  enemies should use abilities
+DEPENDS ON GAME LENGTH:
+  respawn enemies
+  save
+  reincarnate
+  explorers should avoid tough enemies
 
 
 UI:
@@ -46,13 +49,16 @@ UI:
   voice assistant?
   ability recharge ui
   fading compass on planet
+  hardness options:
+    unfixed mount
+    brakes
 
 PERF:
   pack textures, launch on android to ensure that everything works
+  test on every object preloaded
   build everything as far + SG.isPlaceEmpty should iterate over far objs
   get rid of getVec, use static vectors, 3 should be enough
   far ship positions should be calculated on demand?
-  test on every object preloaded
   cache body masses
   cache other frequently used values: cam.realLineWidth?
   compare dstSq instead of dst
@@ -61,7 +67,7 @@ PERF:
     ship abilities from regular effects
     often used vs rarely used
   skip emitter ops if they're not working
-
+  if something can be recalculated rarely, do so
 
 ===================== REST =======================================================================
 
