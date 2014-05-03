@@ -1,4 +1,7 @@
 
+big explorers should stay higher in atmosphere
+
+
 systemConfig:
   temporaryInnerEnemies
   isHard: true

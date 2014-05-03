@@ -1,0 +1,118 @@
+Name: CIVILIANS
+Description: Peaceful ships doing their own business. Mostly related to trading.
+Color: Any
+Ship design: Any
+Ability: None
+Seen in:
+  Space:
+    traders (truck.png)
+    research outposts
+    stations
+  Planets:
+    trade posts (drome.png)
+    merchant posts
+Unique equipment prefix: None
+Unique equipment description: Basic bullet weapons, energy weapons, shields, armor
+
+
+Name: EMPIRE
+Description: A fraction of a player. Good guys hanging around in space and fighting evil.
+Color: White
+Ship design: Resemble aircraft, have wings, are in good condition
+Ability: Time Slow Down
+Seen in:
+  Space:
+    small ships -- guards of civilian ships (guardie.png)
+    small ships -- explorers (orbiter.png),
+    medium ships -- station guards (vanguard.png),
+    big ships -- explorers
+    stations (station.png),
+Unique equipment prefix: Imperial XXX
+Unique equipment description: Better versions of standard equipment, basic rockets
+
+
+Name: PIRATES
+Description: Basic bad guys seen in 1st system and green planets
+Color: Brown/Grey
+Ship design: Low-quality hand-made ships made from crap and details of other ships
+Ability: None
+Seen in:
+  Space:
+    turrets
+    small ships -- station guards
+    medium ships -- hunters
+    stations,
+  Green planet:
+    turrets
+    small ships
+    medium ships -- orbiters
+Unique equipment prefix: Pirate XXX
+Unique equipment description: Worse versions of everything
+
+
+Name: TECHIES
+Description: Advanced bad guys seen in frozen planets (only in 1st systems)
+Color: Metallic grey
+Ship design: Blade-like
+Ability: UnShield (drains shield energy)
+Seen in:
+  Frozen planet:
+    turrets (hummer.png)
+    small ships
+    medium ships -- orbiters (corvette.png)
+Unique equipment prefix: Advanced XXX
+Unique equipment description: Best versions of energy weapons, shields
+
+
+Name: MINERS
+Description: Bad guys seen in mazes and asteroid belts
+Color: Red
+Ship design: Should resemble electric instruments -- drills, chainsaws etc.
+Ability: KnockBack (knocks everything back)
+Seen in:
+  Asteroid belt:
+    small ships
+    medium ships
+  Maze:
+    turrets -- inner enemies
+    small ships -- inner enemies
+    medium ships -- outer enemies
+    big ship -- boss
+Unique equipment prefix: Advanced XXX
+Unique equipment description: Best versions of rockets, also special weapon that knocks back
+
+
+Name: DESERT CLAN
+Description: Tough bad guys seen in desert planets and space of 2nd system
+Color: Brown/Grey
+Ship design: Should resemble works of brass or copper -- cezve, lamps, etc
+Ability: teleport (teleports ship around its enemy to avoid projectiles and just for fun)
+Seen in:
+  Space:
+    turrets
+    small ships -- station guards
+    medium ships -- hunters (hunter.png)
+    big ships(dragon.png)
+    small ships(beetle.png)
+    small outposts(hawk.png)
+    stations
+  Desert planet:
+    turrets
+    small ships
+    medium ships -- orbiters
+Unique equipment prefix: Advanced XXX
+Unique equipment description: Best versions of bullet weapons, armor
+
+
+Name: ALIENS
+Description: Toughest guys seen in junk planets (only in 2nd system)
+Color: Black
+Ship design: ??
+Ability: emWave (disables controls of your ship for some time)
+Seen in:
+  Desert planet:
+    turrets
+    small ships
+    medium ships -- orbiters
+Unique equipment prefix: Alien XXX
+Unique equipment description: emGun, best energy weapons, shields, armor
