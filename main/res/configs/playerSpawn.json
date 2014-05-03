@@ -2,14 +2,14 @@
   __readme__: "for player.spawnPlace, use one of the following: station, planet, maze, trader",
   player: {
     ship: {
-        hull: guardie,
+        hull: pirateSmall,
         items: "cannon rl s a r:1:2 shells:1:3 rep:1:2 emWaveCharge:1:6",
 		money: 20,
 		repairer: true,
 		mountFixed1: true,
 		mountFixed2: true,
       },
-      spawnPlace: maze,
+      spawnPlace: planet,
   },
   mainStation: {
     hull: station,

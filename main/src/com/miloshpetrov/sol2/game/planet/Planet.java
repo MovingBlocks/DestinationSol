@@ -99,7 +99,7 @@ public class Planet {
       SolMath.free(up);
       return r;
     }
-    float smokeConst = 1.5f * myGravConst;
+    float smokeConst = 1.2f * myGravConst;
     if (dst < myGroundHeight) {
       up.scl(smokeConst / dst / myGroundHeight / myGroundHeight);
       r.set(up);
