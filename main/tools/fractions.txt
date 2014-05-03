@@ -33,7 +33,7 @@ Unique equipment description: Better versions of standard equipment, basic rocke
 
 Name: PIRATES
 Description: Basic bad guys seen in 1st system and green planets
-Color: Grey?
+Color: Red + Grey?
 Ship design: Low-quality hand-made ships made from crap and details of other ships, highly asymmetrical
 Ability: None
 Seen in:
@@ -69,7 +69,7 @@ Unique equipment description: Best versions of energy weapons, shields
 
 Name: MINERS
 Description: Bad guys seen in mazes and asteroid belts
-Color: Red + Metal
+Color: Construction yellow + Metal?
 Ship design: Should resemble electric instruments -- drills, chainsaws etc.
 Ability: KnockBack (knocks everything back)
 Seen in:
