@@ -135,6 +135,7 @@ public class Projectile implements SolObj {
 
   @Override
   public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
+    if (myConfig.density > 0) return;
     collided(game);
   }
 
@@ -203,6 +204,7 @@ public class Projectile implements SolObj {
       SolShip s = (SolShip) o;
       if (!fractionMan.areEnemies(s.getPilot().getFraction(), myFraction)) return false;
       if (s.getHull().getShieldFixture() == f) {
+        if (myConfig.density > 0) return false;
         Shield shield = s.getShield();
         if (shield == null || shield.getLife() <= 0) return false;
       }
@@ -213,6 +215,7 @@ public class Projectile implements SolObj {
   }
 
   public void setObstacle(SolObj o, SolGame game) {
+    if (myConfig.density > 0) return;
     if (o instanceof SolShip) {
       Fraction f = ((SolShip) o).getPilot().getFraction();
       // happens for some strange reason : /
