@@ -1,8 +1,3 @@
-simplify orbiter.png
-miners
-aliens
-pirates
-
 Name: CIVILIANS
 Description: Peaceful ships doing their own business. Mostly related to trading.
 Color: Any
@@ -28,7 +23,7 @@ Ability: Time Slow Down
 Seen in:
   Space:
     small ships -- guards of civilian ships (guardie.png)
-    small ships -- explorers (orbiter.png),
+    small ships -- explorers (orbiter.png -- needs simplification),
     medium ships -- station guards (vanguard.png),
     big ships -- explorers (frigate.png)
     stations (station.png),
@@ -38,43 +33,43 @@ Unique equipment description: Better versions of standard equipment, basic rocke
 
 Name: PIRATES
 Description: Basic bad guys seen in 1st system and green planets
-Color: Brown/Grey
-Ship design: Low-quality hand-made ships made from crap and details of other ships
+Color: Grey?
+Ship design: Low-quality hand-made ships made from crap and details of other ships, highly asymmetrical
 Ability: None
 Seen in:
   Space:
-    turrets
-    small ships -- truck guards
-    medium ships -- hunters, station guards
-    big ships -- trucks
-    stations
+    turrets (pirateSpaceTurret.png)
+    small ships -- truck guards (pirateSmall.png)
+    medium ships -- hunters, station guards (pirateMedium.png)
+    big ships -- trucks (pirateTruck.png)
+    stations (pirateSpaceStation.png)
   Green planet:
-    turrets
-    small ships
-    medium ships -- orbiters
-    stations -- bosses
+    turrets (piratePlanetTurret.png)
+    small ships (pirateSmall.png)
+    medium ships -- orbiters (pirateMedium.png)
+    stations -- bosses (piratePlanetStation.png)
 Unique equipment prefix: Pirate XXX
 Unique equipment description: Worse versions of everything
 
 
 Name: TECHIES
 Description: Advanced bad guys seen in frozen planets (only in 1st systems)
-Color: Metallic grey
+Color: Metallic blue-ish grey
 Ship design: Blade-like
 Ability: UnShield (drains shield energy)
 Seen in:
   Frozen planet:
     turrets (hummer.png)
-    small ships (blade.png)
+    small ships (dagger.png, blade.png)
     medium ships -- orbiters (corvette.png)
-    stations -- bosses
+    stations -- bosses (techiePlanetStation.png)
 Unique equipment prefix: Advanced XXX
 Unique equipment description: Best versions of energy weapons, shields
 
 
 Name: MINERS
 Description: Bad guys seen in mazes and asteroid belts
-Color: Red
+Color: Red + Metal
 Ship design: Should resemble electric instruments -- drills, chainsaws etc.
 Ability: KnockBack (knocks everything back)
 Seen in:
@@ -92,7 +87,7 @@ Unique equipment description: Best versions of rockets, also special weapon that
 
 Name: DESERT CLAN
 Description: Tough bad guys seen in desert planets and space of 2nd system
-Color: Brown/Grey
+Color: Copper/Brass
 Ship design: Should resemble works of brass or copper -- cezve, lamps, etc
 Ability: teleport (teleports ship around its enemy to avoid projectiles and just for fun)
 Seen in:
@@ -104,8 +99,8 @@ Seen in:
     stations
   Desert planet:
     turrets
-    small ships
-    medium ships -- orbiters
+    small ships(beetle.png)
+    medium ships -- orbiters(hunter.png)
     stations -- bosses
 Unique equipment prefix: Advanced XXX
 Unique equipment description: Best versions of bullet weapons, armor
