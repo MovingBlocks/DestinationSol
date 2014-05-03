@@ -1,3 +1,8 @@
+simplify orbiter.png
+miners
+aliens
+pirates
+
 Name: CIVILIANS
 Description: Peaceful ships doing their own business. Mostly related to trading.
 Color: Any
@@ -5,12 +10,12 @@ Ship design: Any
 Ability: None
 Seen in:
   Space:
-    traders (truck.png)
-    research outposts
-    stations
+    big ships -- trucks (truck.png)
+    big ships -- traders (bus.png)
+    research bases (researchBase.png)
   Planets:
     trade posts (drome.png)
-    merchant posts
+    merchant posts (merchBase.png)
 Unique equipment prefix: None
 Unique equipment description: Basic bullet weapons, energy weapons, shields, armor
 
@@ -25,7 +30,7 @@ Seen in:
     small ships -- guards of civilian ships (guardie.png)
     small ships -- explorers (orbiter.png),
     medium ships -- station guards (vanguard.png),
-    big ships -- explorers
+    big ships -- explorers (frigate.png)
     stations (station.png),
 Unique equipment prefix: Imperial XXX
 Unique equipment description: Better versions of standard equipment, basic rockets
@@ -39,13 +44,15 @@ Ability: None
 Seen in:
   Space:
     turrets
-    small ships -- station guards
-    medium ships -- hunters
-    stations,
+    small ships -- truck guards
+    medium ships -- hunters, station guards
+    big ships -- trucks
+    stations
   Green planet:
     turrets
     small ships
     medium ships -- orbiters
+    stations -- bosses
 Unique equipment prefix: Pirate XXX
 Unique equipment description: Worse versions of everything
 
@@ -58,8 +65,9 @@ Ability: UnShield (drains shield energy)
 Seen in:
   Frozen planet:
     turrets (hummer.png)
-    small ships
+    small ships (blade.png)
     medium ships -- orbiters (corvette.png)
+    stations -- bosses
 Unique equipment prefix: Advanced XXX
 Unique equipment description: Best versions of energy weapons, shields
 
@@ -89,17 +97,16 @@ Ship design: Should resemble works of brass or copper -- cezve, lamps, etc
 Ability: teleport (teleports ship around its enemy to avoid projectiles and just for fun)
 Seen in:
   Space:
-    turrets
-    small ships -- station guards
+    turrets (hawk.png)
+    small ships(beetle.png)
     medium ships -- hunters (hunter.png)
     big ships(dragon.png)
-    small ships(beetle.png)
-    small outposts(hawk.png)
     stations
   Desert planet:
     turrets
     small ships
     medium ships -- orbiters
+    stations -- bosses
 Unique equipment prefix: Advanced XXX
 Unique equipment description: Best versions of bullet weapons, armor
 
@@ -114,5 +121,6 @@ Seen in:
     turrets
     small ships
     medium ships -- orbiters
+    stations -- bosses
 Unique equipment prefix: Alien XXX
 Unique equipment description: emGun, best energy weapons, shields, armor
