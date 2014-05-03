@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.game.DebugAspects;
 import com.miloshpetrov.sol2.game.PathLoader;
+import com.miloshpetrov.sol2.game.asteroid.AsteroidBuilder;
 import com.miloshpetrov.sol2.ui.DebugCollector;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class MazeTile {
     boolean metal, TextureAtlas.AtlasRegion bgTex)
   {
     ArrayList<List<Vector2>> points = new ArrayList<List<Vector2>>();
-    PathLoader.RigidBodyModel tilePaths = paths.rigidBodies.get(pathEntryName);
+    PathLoader.RigidBodyModel tilePaths = paths.rigidBodies.get(AsteroidBuilder.removePath(pathEntryName));
     List<PathLoader.PolygonModel> shapes = tilePaths == null ? new ArrayList<PathLoader.PolygonModel>() : tilePaths.shapes;
     for (PathLoader.PolygonModel shape : shapes) {
       List<Vector2> vertices = new ArrayList<Vector2>(shape.vertices);
