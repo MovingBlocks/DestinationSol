@@ -1,4 +1,5 @@
 
+move spawnPlace to debugOptions
 small ships should only have 1 mount!
 big explorers should stay higher in atmosphere
 

@@ -177,6 +177,10 @@
     groundTexs: "grounds/junk",
     decoTexs: "deco/junk",
     cloudTexs: "skies/darkCloud",
+    sky: {
+      dawnColor: "hsb 0 0 50",
+      dayColor: "hsb 0 0 75",
+    },
     deco: {
       shard: {
         density: 0.3,
