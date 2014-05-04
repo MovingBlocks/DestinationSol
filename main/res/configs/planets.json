@@ -27,7 +27,7 @@
     },
     groundEnemies: [
       {
-        hull: hummer,
+        hull: piratePlanetTurret,
         items: "bo|sg|mg rep s|sMed:.1 b:.7:2 r:.7:1",
 		money: 30,
 		repairer: false,
@@ -36,7 +36,7 @@
         density: 0.45,
       },
       {
-        hull: guardie,
+        hull: pirateSmall,
         items: "bo|sg s:.1 b:.7:2",
 		money: 30,
 		repairer: false,
@@ -47,8 +47,8 @@
     ],
     highOrbitEnemies: [
       {
-        hull: corvette,
-        items: "s:.2 a:.3 bombGun bombs:1:3 sloMoCharge:.7:3 rep:.4",
+        hull: pirateMedium,
+        items: "s:.2 a:.3 wbo sloMoCharge:.7:3 rep:.4",
 		money: 40,
 		repairer: true,
 		mountFixed1: true,
@@ -58,7 +58,7 @@
     ],
     lowOrbitEnemies: [
       {
-        hull: corvette,
+        hull: pirateMedium,
         items: "s:.2 a:.3 bombGun bombs:1:3 sloMoCharge:.7:3 rep:.4",
 		money: 40,
 		repairer: true,
@@ -106,7 +106,7 @@
         density: 0.45,
       },
       {
-        hull: guardie,
+        hull: dagger,
         items: "bo|sg s:.1 b:.7:2",
 		money: 30,
 		repairer: false,
@@ -115,8 +115,28 @@
         density: 0.15,
       },
     ],
-    highOrbitEnemies: [],
-    lowOrbitEnemies: [],
+    highOrbitEnemies: [
+      {
+        hull: corvette,
+        items: "s:.2 a:.3 wbo sloMoCharge:.7:3 rep:.4",
+		money: 40,
+		repairer: true,
+		mountFixed1: true,
+		mountFixed2: true,
+        density: 0.03,
+      }
+    ],
+    lowOrbitEnemies: [
+      {
+        hull: corvette,
+        items: "s:.2 a:.3 bombGun bombs:1:3 sloMoCharge:.7:3 rep:.4",
+		money: 40,
+		repairer: true,
+		mountFixed1: true,
+		mountFixed2: true,
+        density: 0.1,
+      },
+    ],
     station: {
       hull: drome,
       items: "bo",
@@ -159,9 +179,48 @@
         allowFlip: true,
       },
     },
-    groundEnemies: [],
-    highOrbitEnemies: [],
-    lowOrbitEnemies: [],
+    groundEnemies: [
+      {
+        hull: desertPlanetTurret,
+        items: "bo|sg|mg rep s|sMed:.1 b:.7:2 r:.7:1",
+		money: 30,
+		repairer: false,
+		mountFixed1: false,
+		mountFixed2: false,
+        density: 0.45,
+      },
+      {
+        hull: beetle,
+        items: "bo|sg s:.1 b:.7:2",
+		money: 30,
+		repairer: false,
+		mountFixed1: true,
+		mountFixed2: true,
+        density: 0.15,
+      },
+    ],
+    highOrbitEnemies: [
+      {
+        hull: hunter,
+        items: "s:.2 a:.3 wbo sloMoCharge:.7:3 rep:.4",
+		money: 40,
+		repairer: true,
+		mountFixed1: true,
+		mountFixed2: true,
+        density: 0.03,
+      }
+    ],
+    lowOrbitEnemies: [
+      {
+        hull: hunter,
+        items: "s:.2 a:.3 bombGun bombs:1:3 sloMoCharge:.7:3 rep:.4",
+		money: 40,
+		repairer: true,
+		mountFixed1: true,
+		mountFixed2: true,
+        density: 0.1,
+      },
+    ],
     station: {
       hull: drome,
       items: "bo",
@@ -190,8 +249,47 @@
         allowFlip: true,
       },
     },
-    groundEnemies: [],
-    highOrbitEnemies: [],
-    lowOrbitEnemies: [],
+    groundEnemies: [
+      {
+        hull: alienTurret,
+        items: "bo|sg|mg rep s|sMed:.1 b:.7:2 r:.7:1",
+		money: 30,
+		repairer: false,
+		mountFixed1: false,
+		mountFixed2: false,
+        density: 0.45,
+      },
+      {
+        hull: alienSmall,
+        items: "bo|sg s:.1 b:.7:2",
+		money: 30,
+		repairer: false,
+		mountFixed1: true,
+		mountFixed2: true,
+        density: 0.15,
+      },
+    ],
+    highOrbitEnemies: [
+      {
+        hull: alienMedium,
+        items: "s:.2 a:.3 wbo sloMoCharge:.7:3 rep:.4",
+		money: 40,
+		repairer: true,
+		mountFixed1: true,
+		mountFixed2: true,
+        density: 0.03,
+      }
+    ],
+    lowOrbitEnemies: [
+      {
+        hull: alienMedium,
+        items: "s:.2 a:.3 bombGun bombs:1:3 sloMoCharge:.7:3 rep:.4",
+		money: 40,
+		repairer: true,
+		mountFixed1: true,
+		mountFixed2: true,
+        density: 0.1,
+      },
+    ],
   },
 }

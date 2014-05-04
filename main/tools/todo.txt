@@ -1,5 +1,8 @@
 
 engines
+transcendent particles varying life
+starPort special particle texture
+unfixed mount is too unbalanced -- increase shooter accuracy and increase angleVar when unfixed?
 
 systemConfig:
   temporaryInnerEnemies
