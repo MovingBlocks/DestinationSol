@@ -91,11 +91,13 @@ public class Planet {
 
   @Bound
   public Vector2 getAdjustedEffectSpd(Vector2 pos, Vector2 spd) {
-    Vector2 r = SolMath.getVec();
+    Vector2 r = SolMath.getVec(spd);
+    if (myConfig.skyConfig == null) {
+      return r;
+    }
     Vector2 up = SolMath.distVec(myPos, pos);
     float dst = up.len();
     if (dst == 0 || getFullHeight() < dst) {
-      r.set(spd);
       SolMath.free(up);
       return r;
     }
@@ -106,7 +108,6 @@ public class Planet {
       SolMath.free(up);
       return r;
     }
-    r.set(spd);
     float spdPerc = (dst - myGroundHeight) / Const.ATM_HEIGHT;
     r.scl(spdPerc);
     up.scl(smokeConst / dst / dst / dst);

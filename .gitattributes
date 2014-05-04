@@ -29,6 +29,15 @@ main/imgSrcs/asteroids/Thumbs.db -text
 main/imgSrcs/asteroids/pack.json -text
 main/imgSrcs/asteroids/sys_0.png -text
 main/imgSrcs/asteroids/sys_1.png -text
+main/imgSrcs/deco/desert/cactus_0.png -text
+main/imgSrcs/deco/desert/cactus_1.png -text
+main/imgSrcs/deco/desert/remnant_0.png -text
+main/imgSrcs/deco/desert/tree_0.png -text
+main/imgSrcs/deco/desert/tree_1.png -text
+main/imgSrcs/deco/frozen/tree_0.png -text
+main/imgSrcs/deco/frozen/tree_3.png -text
+main/imgSrcs/deco/junk/shard_0.png -text
+main/imgSrcs/deco/junk/shard_1.png -text
 main/imgSrcs/deco/rocky/Thumbs.db -text
 main/imgSrcs/deco/rocky/grass_0.png -text
 main/imgSrcs/deco/rocky/grass_1.png -text
@@ -67,6 +76,11 @@ main/imgSrcs/grounds/frozen/uf_0.png -text
 main/imgSrcs/grounds/frozen/uf_1.png -text
 main/imgSrcs/grounds/frozen/uu_0.png -text
 main/imgSrcs/grounds/frozen/uu_1.png -text
+main/imgSrcs/grounds/junk/fd_0.png -text
+main/imgSrcs/grounds/junk/ff_0.png -text
+main/imgSrcs/grounds/junk/ud_0.png -text
+main/imgSrcs/grounds/junk/uf_0.png -text
+main/imgSrcs/grounds/junk/uu_0.png -text
 main/imgSrcs/grounds/rocky/Thumbs.db -text
 main/imgSrcs/grounds/rocky/fd_0.png -text
 main/imgSrcs/grounds/rocky/fd_1.png -text
@@ -224,6 +238,9 @@ main/imgSrcs/skies/Thumbs.db -text
 main/imgSrcs/skies/cloud_0.png -text
 main/imgSrcs/skies/cloud_1.png -text
 main/imgSrcs/skies/cloud_2.png -text
+main/imgSrcs/skies/darkCloud_0.png -text
+main/imgSrcs/skies/darkCloud_1.png -text
+main/imgSrcs/skies/darkCloud_2.png -text
 main/imgSrcs/ui/cursor.png -text
 main/libs/gdx-natives.jar -text
 main/libs/gdx-openal-sources.jar -text

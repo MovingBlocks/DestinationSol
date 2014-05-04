@@ -36,8 +36,10 @@ public class PlanetObjsBuilder {
     float minR = createGround(game, planet);
     createClouds(game, planet);
     createDeco(game, planet);
-    Sky sky = new Sky(game, planet);
-    game.getObjMan().addObjDelayed(sky);
+    if (planet.getConfig().skyConfig != null) {
+      Sky sky = new Sky(game, planet);
+      game.getObjMan().addObjDelayed(sky);
+    }
     createEnemies(game, planet);
     return minR;
   }
@@ -46,9 +48,11 @@ public class PlanetObjsBuilder {
     ConsumedAngles takenAngles = new ConsumedAngles();
 
     ShipConfig cfg = planet.getConfig().stationConfig;
-    SolShip b = buildGroundShip(game, planet, cfg, "", Fraction.LAANI, takenAngles);
+    if (cfg != null) {
+      SolShip b = buildGroundShip(game, planet, cfg, "", Fraction.LAANI, takenAngles);
+      game.getObjMan().addObjNow(game, b);
+    }
 
-    game.getObjMan().addObjNow(game, b);
     float gh = planet.getGroundHeight();
 
     PlanetConfig config = planet.getConfig();

@@ -1,4 +1,5 @@
 
+small ships should only have 1 mount!
 big explorers should stay higher in atmosphere
 
 
@@ -82,6 +83,7 @@ ARCHITECTURE
   sound volumes should be kept in one map file?
 
 FEATURES
+  decorative houses on planets
   out of ability charges sound
   out of ammo sound
   environment sounds
