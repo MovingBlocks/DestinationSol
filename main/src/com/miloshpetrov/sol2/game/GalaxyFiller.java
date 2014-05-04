@@ -48,7 +48,7 @@ public class GalaxyFiller {
     } else {
       pos = getEmptySpace(game, sys);
       boolean isBig = hullConf.type == HullConfig.Type.BIG;
-      dp = new ExplorerDestProvider(game, pos, !isBig, hullConf, isBig ? 1.5f : .75f, sys);
+      dp = new ExplorerDestProvider(game, pos, !isBig, hullConf, sys);
       if (isBig) {
         tradeItems = "";
       } else {
@@ -172,7 +172,7 @@ public class GalaxyFiller {
       Planet p = game.getPlanetMan().getPlanets().get(0);
       pos.set(p.getPos());
       pos.x += p.getFullHeight();
-    } else if ("station".equals(DebugAspects.SPAWN_PLACE) && myMainStation != null) {
+    } else if (DebugAspects.SPAWN_PLACE.isEmpty() && myMainStation != null) {
       SolMath.fromAl(pos, 90, myMainStation.getHull().config.size / 2);
       pos.add(myMainStation.getPos());
     } else if ("maze".equals(DebugAspects.SPAWN_PLACE)) {

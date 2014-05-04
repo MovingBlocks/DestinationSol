@@ -75,6 +75,7 @@ public class Shooter {
   // returns gun if it's fixed & can shoot
   private GunItem processGun(SolShip ship, boolean second) {
     GunMount mount = ship.getHull().getGunMount(second);
+    if (mount == null) return null;
     GunItem g = mount.getGun();
     if (!mount.isFixed() || g != null && g.config.projConfig.zeroAbsSpd) {
       if (second) myShoot2 = true; else myShoot = true;

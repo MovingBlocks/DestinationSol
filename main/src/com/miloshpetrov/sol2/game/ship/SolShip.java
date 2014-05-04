@@ -79,8 +79,10 @@ public class SolShip implements SolObj {
     GunMount m1 = myHull.getGunMount(false);
     GunMount m2 = myHull.getGunMount(true);
     float rotSpd = myHull.getBody().getAngularVelocity() * SolMath.radDeg;
+    boolean m2Fixed = m2 != null && m2.isFixed();
+    GunItem g2 = m2 == null ? null : m2.getGun();
     return new FarShip(myHull.getPos(), myHull.getSpd(), myHull.getAngle(), rotSpd, myPilot, myItemContainer, myHull.config, myHull.life,
-      m1.isFixed(), m2.isFixed(), m1.getGun(), m2.getGun(), myRemoveController, myHull.getEngine(), myRepairer, myMoney, myTradeContainer, myShield, myArmor);
+      m1.isFixed(), m2Fixed, m1.getGun(), g2, myRemoveController, myHull.getEngine(), myRepairer, myMoney, myTradeContainer, myShield, myArmor);
   }
 
   @Override
@@ -145,7 +147,8 @@ public class SolShip implements SolObj {
     if (g1 != null && g1.config.infiniteClipSize == 0 && g1.config.clipConf.example.isSame(i)) {
       return myItemContainer.count(g1.config.clipConf.example) >= TRADE_AFTER;
     }
-    GunItem g2 = myHull.getGunMount(true).getGun();
+    GunMount m2 = myHull.getGunMount(true);
+    GunItem g2 = m2 == null ? null : m2.getGun();
     if (g2 != null && g2.config.infiniteClipSize == 0 && g2.config.clipConf.example.isSame(i)) {
       return myItemContainer.count(g2.config.clipConf.example) >= TRADE_AFTER;
     }
@@ -418,14 +421,16 @@ public class SolShip implements SolObj {
       }
     }
     if (item instanceof GunItem) {
-      if (equip) {
-        if (myHull.getGunMount(!secondarySlot).getGun() == item) {
-          myHull.getGunMount(!secondarySlot).setGun(game, this, null, false);
+      GunMount mount = myHull.getGunMount(secondarySlot);
+      if (equip && mount != null) {
+        GunMount anotherMount = myHull.getGunMount(!secondarySlot);
+        if (anotherMount != null && anotherMount.getGun() == item) {
+          anotherMount.setGun(game, this, null, false);
         }
         boolean under = secondarySlot ? myHull.config.g2UnderShip : myHull.config.g1UnderShip;
-        myHull.getGunMount(secondarySlot).setGun(game, this, (GunItem) item, under);
+        mount.setGun(game, this, (GunItem) item, under);
       }
-      return true;
+      return mount != null;
     }
     return false;
   }
@@ -451,7 +456,7 @@ public class SolShip implements SolObj {
       }
     }
     GunMount m = myHull.getGunMount(secondarySlot);
-    if (m.getGun() == item) {
+    if (m != null && m.getGun() == item) {
       if (unequip) m.setGun(game, this, null, false);
       return true;
     }

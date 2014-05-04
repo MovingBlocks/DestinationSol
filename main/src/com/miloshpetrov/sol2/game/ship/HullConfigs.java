@@ -30,16 +30,19 @@ public class HullConfigs {
       String texName = hullNode.getString("texName");
       float size = hullNode.getFloat("size");
       int maxLife = hullNode.getInt("maxLife");
-      Vector2 e1Pos = SolMath.readV2(hullNode, "e1Pos");
-      Vector2 e2Pos = SolMath.readV2(hullNode, "e2Pos");
+      String e1PosS = hullNode.getString("e1Pos", null);
+      Vector2 e1Pos = e1PosS == null ? new Vector2() : SolMath.readV2(e1PosS);
+      String e2PosS = hullNode.getString("e2Pos", null);
+      Vector2 e2Pos = e2PosS == null ? new Vector2() : SolMath.readV2(e2PosS);
       Vector2 g1Pos = SolMath.readV2(hullNode, "g1Pos");
-      Vector2 g2Pos = SolMath.readV2(hullNode, "g2Pos");
+      String g2PosStr = hullNode.getString("g2Pos", null);
+      Vector2 g2Pos = g2PosStr == null ? null : SolMath.readV2(g2PosStr);
       ArrayList<Vector2> lightSrcPoss = SolMath.readV2List(hullNode, "lightSrcPoss");
-      float durability = hullNode.getFloat("durability");
-      boolean hasBase = hullNode.getBoolean("hasBase");
+      boolean hasBase = hullNode.getBoolean("hasBase", false);
       ArrayList<Vector2> forceBeaconPoss = SolMath.readV2List(hullNode, "forceBeaconPoss");
       ArrayList<Vector2> doorPoss = SolMath.readV2List(hullNode, "doorPoss");
       HullConfig.Type type = HullConfig.Type.forName(hullNode.getString("type"));
+      float durability = type == HullConfig.Type.BIG ? 3 : .7f;
       TextureAtlas.AtlasRegion tex = texMan.getTex("hulls/" + texName, configFile);
       TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + texName, configFile);
       String engineStr = hullNode.getString("engine", null);
@@ -80,7 +83,7 @@ public class HullConfigs {
   private void process(HullConfig config, ShipBuilder shipBuilder) {
     Vector2 o = shipBuilder.getOrigin(config.texName);
     config.g1Pos.sub(o).scl(config.size);
-    config.g2Pos.sub(o).scl(config.size);
+    if (config.g2Pos != null) config.g2Pos.sub(o).scl(config.size);
     config.e1Pos.sub(o).scl(config.size);
     config.e2Pos.sub(o).scl(config.size);
     for (Vector2 pos : config.lightSrcPoss) pos.sub(o).scl(config.size);

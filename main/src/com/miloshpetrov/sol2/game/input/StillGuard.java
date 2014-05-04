@@ -1,7 +1,9 @@
 package com.miloshpetrov.sol2.game.input;
 
 import com.badlogic.gdx.math.Vector2;
+import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.game.ShipConfig;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.planet.PlanetBind;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
@@ -9,11 +11,13 @@ import com.miloshpetrov.sol2.game.ship.HullConfig;
 public class StillGuard implements MoveDestProvider {
 
   private final PlanetBind myPlanetBind;
+  private final float myDesiredSpdLen;
   private Vector2 myDest;
 
-  public StillGuard(Vector2 target, SolGame game) {
+  public StillGuard(Vector2 target, SolGame game, ShipConfig sc) {
     myDest = new Vector2(target);
     myPlanetBind = PlanetBind.tryBind(game, myDest, 0);
+    myDesiredSpdLen = sc.hull.type == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
   }
 
   @Override
@@ -28,7 +32,7 @@ public class StillGuard implements MoveDestProvider {
 
   @Override
   public float getDesiredSpdLen() {
-    return NoDestProvider.DESIRED_SPD_LEN;
+    return myDesiredSpdLen;
   }
 
   @Override

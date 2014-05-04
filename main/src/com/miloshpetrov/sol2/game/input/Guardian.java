@@ -1,6 +1,7 @@
 package com.miloshpetrov.sol2.game.input;
 
 import com.badlogic.gdx.math.Vector2;
+import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.planet.Planet;
@@ -38,7 +39,7 @@ public class Guardian implements MoveDestProvider {
 
   @Override
   public float getDesiredSpdLen() {
-    return NoDestProvider.DESIRED_SPD_LEN;
+    return Const.DEFAULT_AI_SPD;
   }
 
   @Override

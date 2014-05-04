@@ -24,14 +24,11 @@ public class ExplorerDestProvider implements MoveDestProvider {
   private Planet myPlanet;
   private float myAwaitOnPlanet;
   private boolean myDestIsLanding;
-  private final float myHoverPerc;
 
-  public ExplorerDestProvider(SolGame game, Vector2 pos, boolean aggressive, HullConfig config, float hoverPerc,
-    SolSystem sys)
+  public ExplorerDestProvider(SolGame game, Vector2 pos, boolean aggressive, HullConfig config, SolSystem sys)
   {
     mySys = sys;
     myDest = new Vector2();
-    myHoverPerc = hoverPerc;
     float minDst = Float.MAX_VALUE;
     for (Planet p : game.getPlanetMan().getPlanets()) {
       float dst = p.getPos().dst(pos);
@@ -43,7 +40,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
     calcRelDest(config);
     myAwaitOnPlanet = MAX_AWAIT_ON_PLANET;
     myAggressive = aggressive;
-    myDesiredSpdLen = config.type == HullConfig.Type.BIG ? 2 : 4;
+    myDesiredSpdLen = config.type == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
   }
 
   private void calcRelDest(HullConfig hullConfig) {
@@ -51,7 +48,8 @@ public class ExplorerDestProvider implements MoveDestProvider {
     if (lps.size() > 0) {
       myRelDest = new Vector2(SolMath.elemRnd(lps));
       float len = myRelDest.len();
-      myRelDest.scl((len + myHoverPerc * hullConfig.size)/len);
+      float aboveGround = hullConfig.type == HullConfig.Type.BIG ? Const.ATM_HEIGHT * .75f : .75f * hullConfig.size;
+      myRelDest.scl((len + aboveGround)/len);
       myDestIsLanding = true;
     } else {
       myRelDest = new Vector2();

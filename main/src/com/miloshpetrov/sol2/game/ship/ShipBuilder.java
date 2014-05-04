@@ -92,7 +92,7 @@ public class ShipBuilder {
     Fixture shieldFixture = createShieldFixture(hullConfig, body);
 
     GunMount m1 = new GunMount(hullConfig.g1Pos, mount1Fixed);
-    GunMount m2 = new GunMount(hullConfig.g2Pos, mount2Fixed);
+    GunMount m2 = hullConfig.g2Pos == null ? null : new GunMount(hullConfig.g2Pos, mount2Fixed);
 
     List<LightSrc> lCs = new ArrayList<LightSrc>();
     for (Vector2 p : hullConfig.lightSrcPoss) {

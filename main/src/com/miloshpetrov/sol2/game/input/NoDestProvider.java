@@ -1,6 +1,7 @@
 package com.miloshpetrov.sol2.game.input;
 
 import com.badlogic.gdx.math.Vector2;
+import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
 
@@ -8,8 +9,6 @@ import com.miloshpetrov.sol2.game.ship.HullConfig;
  * Just stays wherever it is, but maneuvers
  */
 public class NoDestProvider implements MoveDestProvider {
-
-  public static final float DESIRED_SPD_LEN = 4f;
 
   public NoDestProvider() {
   }
@@ -26,7 +25,7 @@ public class NoDestProvider implements MoveDestProvider {
 
   @Override
   public float getDesiredSpdLen() {
-    return DESIRED_SPD_LEN;
+    return Const.DEFAULT_AI_SPD;
   }
 
   @Override

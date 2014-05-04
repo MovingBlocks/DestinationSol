@@ -8,6 +8,7 @@ import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.gun.GunItem;
+import com.miloshpetrov.sol2.game.gun.GunMount;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.ShipAbility;
@@ -152,7 +153,11 @@ public class MainScreen implements SolUiScreen {
 
     GunItem g1 = hero == null ? null : hero.getHull().getGunMount(false).getGun();
     myShootCtrl.setEnabled(g1 != null && g1.ammo > 0);
-    GunItem g2 = hero == null ? null : hero.getHull().getGunMount(true).getGun();
+    GunItem g2 = null;
+    if (hero != null) {
+      GunMount m2 = hero.getHull().getGunMount(true);
+      if (m2 != null) g2 = m2.getGun();
+    }
     myShoot2Ctrl.setEnabled(g2 != null && g2.ammo > 0);
     myAbilityCtrl.setEnabled(hero != null && hero.canUseAbility());
 
@@ -265,7 +270,9 @@ public class MainScreen implements SolUiScreen {
   private boolean drawGunStat(UiDrawer uiDrawer, TexMan texMan, SolShip hero, boolean secondary, float col0, float col1,
     float col2, float y)
   {
-    GunItem g = hero.getHull().getGunMount(secondary).getGun();
+    GunMount mount = hero.getHull().getGunMount(secondary);
+    if (mount == null) return false;
+    GunItem g = mount.getGun();
     if (g == null) return false;
     TextureAtlas.AtlasRegion tex = g.config.icon;
 

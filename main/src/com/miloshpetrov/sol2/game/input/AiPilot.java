@@ -86,6 +86,7 @@ public class AiPilot implements Pilot {
     GunItem g1 = m1.getGun();
     if (g1 != null && g1.canShoot()) return !m1.isFixed() ? null : true;
     GunMount m2 = ship.getHull().getGunMount(true);
+    if (m2 == null) return false;
     GunItem g2 = m2.getGun();
     if (g2 != null && (g2.canShoot())) return !m2.isFixed() ? null : true;
     return false;

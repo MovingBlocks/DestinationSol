@@ -268,15 +268,17 @@ public class PlanetObjsBuilder {
   {
     Vector2 pos = game.getPlanetMan().findFlatPlace(game, planet, takenAngles, ge.hull.approxRadius);
     boolean station = ge.hull.type == HullConfig.Type.STATION;
-    float aboveGround = ge.hull.size * (station ? .25f : .5f);
     String ic = ge.items;
     boolean mountFixed1, mountFixed2, hasRepairer;
     mountFixed1 = ge.isMountFixed1;
     mountFixed2 = ge.isMountFixed2;
     hasRepairer = ge.hasRepairer;
     int money = ge.money;
-    float height = pos.len();
-    pos.scl((height + aboveGround)/height);
+    if (!station) {
+      float height = pos.len();
+      float aboveGround = ge.hull.size * .25f;
+      pos.scl((height + aboveGround)/height);
+    }
     SolMath.toWorld(pos, pos, planet.getAngle(), planet.getPos(), false);
 
     Vector2 toPlanet = SolMath.getVec(planet.getPos()).sub(pos);
@@ -286,7 +288,7 @@ public class PlanetObjsBuilder {
     SolMath.free(toPlanet);
 
     float detectionDist = Const.AI_DET_DIST;
-    Pilot provider = new AiPilot(new StillGuard(pos, game), false, fraction, true, null, detectionDist);
+    Pilot provider = new AiPilot(new StillGuard(pos, game, ge), false, fraction, true, null, detectionDist);
 
     return game.getShipBuilder().buildNew(game, pos, spd, angle, 0, provider, ic, ge.hull, mountFixed1, mountFixed2,
       null, hasRepairer, money, tc);

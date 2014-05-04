@@ -86,7 +86,7 @@ public class ShipHull {
 
     Fraction fraction = ship.getPilot().getFraction();
     myGunMount1.update(container, game, myAngle, ship, controlsEnabled && provider.isShoot(), nearestEnemy, fraction);
-    myGunMount2.update(container, game, myAngle, ship, controlsEnabled && provider.isShoot2(), nearestEnemy, fraction);
+    if (myGunMount2 != null) myGunMount2.update(container, game, myAngle, ship, controlsEnabled && provider.isShoot2(), nearestEnemy, fraction);
 
     for (LightSrc src : myLightSrcs) src.update(true, myAngle, game);
 
