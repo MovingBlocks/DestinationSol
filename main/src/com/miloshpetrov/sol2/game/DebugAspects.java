@@ -31,6 +31,7 @@ public class DebugAspects {
   public static boolean SOUND_IN_SPACE = false;
   public static boolean TEX_DEBUG = false;
   public static String FORCE_PLANET_TYPE = "";
+  public static String FORCE_SYSTEM_TYPE = "";
   public static String SPAWN_PLACE = "";
 
   public static void read() {
@@ -58,6 +59,8 @@ public class DebugAspects {
     SOUND_DEBUG = r.b("soundDebug", SOUND_DEBUG);
     SOUND_IN_SPACE = r.b("soundInSpace", SOUND_IN_SPACE);
     TEX_DEBUG = r.b("texDebug", TEX_DEBUG);
+    FORCE_PLANET_TYPE = r.s("forcePlanetType", FORCE_PLANET_TYPE);
+    FORCE_SYSTEM_TYPE = r.s("forceSystemType", FORCE_SYSTEM_TYPE);
     SPAWN_PLACE = r.s("spawnPlace", SPAWN_PLACE);
   }
 }

@@ -50,4 +50,7 @@ public class SysConfigs {
     return SolMath.elemRnd(new ArrayList<SysConfig>(myBeltConfigs.values()));
   }
 
+  public SysConfig getConfig(String name) {
+    return myConfigs.get(name);
+  }
 }

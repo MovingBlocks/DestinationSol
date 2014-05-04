@@ -113,7 +113,8 @@ public class SystemsBuilder {
     PlanetConfigs planetConfigs,
     float sysRadius, SysConfigs sysConfigs)
   {
-    SysConfig sysConfig = sysConfigs.getRandom();
+    String st = DebugAspects.FORCE_SYSTEM_TYPE;
+    SysConfig sysConfig = st.isEmpty() ? sysConfigs.getRandom() : sysConfigs.getConfig(st);
     SolSystem s = new SolSystem(sysPos, sysConfig);
     s.setRadius(sysRadius);
     float planetDist = Const.SUN_RADIUS;
