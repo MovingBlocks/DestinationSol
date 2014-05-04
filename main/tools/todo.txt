@@ -36,8 +36,6 @@ UI:
   "new" mark in the inventory
   control types
   split item icons from ui icons
-  ui dra man
-  warn about dangerous enemy near
   inventory category filtering
   planet name announcement on approach
   blip when warning
@@ -52,9 +50,11 @@ UI:
 
 PERF:
   pack textures, launch on android to ensure that everything works
-  test on every object preloaded
+  stress test on every object preloaded
+  map and ui should carefully draw. implement some class that helps to store values
+  texture packing is needed
   build everything as far + SG.isPlaceEmpty should iterate over far objs
-  get rid of getVec, use static vectors, 3 should be enough
+  optimize getVec? but don't remove, cuz freeing helps fix bugs
   far ship positions should be calculated on demand?
   cache body masses
   cache other frequently used values: cam.realLineWidth?
