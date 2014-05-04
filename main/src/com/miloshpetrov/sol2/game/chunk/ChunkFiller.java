@@ -51,7 +51,7 @@ public class ChunkFiller {
     chCenter.add(Const.CHUNK_SIZE / 2, Const.CHUNK_SIZE / 2);
 
     float[] densityMul = {1};
-    SpaceEnvConfig conf = getConfig(game, chCenter, densityMul, chunk, remover, farBg);
+    SpaceEnvConfig conf = getConfig(game, chCenter, densityMul, remover, farBg);
     if (farBg) {
       fillFarJunk(game, chCenter, remover, DraLevel.FAR_BG_3, conf, densityMul[0]);
       fillFarJunk(game, chCenter, remover, DraLevel.FAR_BG_2, conf, densityMul[0]);
@@ -63,7 +63,7 @@ public class ChunkFiller {
 
   }
 
-  private SpaceEnvConfig getConfig(SolGame game, Vector2 chCenter, float[] densityMul, Vector2 chunk,
+  private SpaceEnvConfig getConfig(SolGame game, Vector2 chCenter, float[] densityMul,
     RemoveController remover, boolean farBg) {
     PlanetMan pm = game.getPlanetMan();
     SolSystem sys = pm.getNearestSystem(chCenter);
@@ -89,7 +89,7 @@ public class ChunkFiller {
       if (perc > 1) perc = 2 - perc;
       densityMul[0] = perc;
       SysConfig sysConfig = sys.getConfig();
-      if (!farBg) fillForSys(game, chCenter, chunk, remover, sysConfig);
+      if (!farBg) fillForSys(game, chCenter, remover, sysConfig);
       return sysConfig.envConfig;
     }
     Maze m = pm.getNearestMaze(chCenter);
@@ -102,7 +102,7 @@ public class ChunkFiller {
     return null;
   }
 
-  private void fillForSys(SolGame game, Vector2 chCenter, Vector2 chunk, RemoveController remover, SysConfig conf) {
+  private void fillForSys(SolGame game, Vector2 chCenter, RemoveController remover, SysConfig conf) {
     SolShip mainStation = game.getGalaxyFiller().getMainStation();
     Vector2 startPos = mainStation == null ? new Vector2() : mainStation.getPos();
     float dst = chCenter.dst(startPos);
@@ -132,7 +132,7 @@ public class ChunkFiller {
     SolMath.fromAl(spd, SolMath.rnd(180), SolMath.rnd(0, ENEMY_MAX_SPD));
     float rotSpd = SolMath.rnd(ENEMY_MAX_ROT_SPD);
     float detectionDist = Const.AI_DET_DIST;
-    MoveDestProvider dp = moving ? new StillGuard(pos, game) : new NoDestProvider();
+    MoveDestProvider dp = new StillGuard(pos, game, enemyConf);
     Pilot provider = new AiPilot(dp, false, Fraction.EHAR, true, null, detectionDist);
     HullConfig config = enemyConf.hull;
     boolean mountFixed1, mountFixed2, hasRepairer;

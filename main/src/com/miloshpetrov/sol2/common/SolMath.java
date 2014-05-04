@@ -432,10 +432,12 @@ public class SolMath {
     return new Vector2(x, y);
   }
 
-  public static ArrayList<Vector2> readV2List(JsonValue v, String name) {
+  public static ArrayList<Vector2> readV2List(JsonValue parentNode, String name) {
     ArrayList<Vector2> res = new ArrayList<Vector2>();
-    for (JsonValue vv : v.get(name)) {
-      Vector2 vec = readV2(vv.asString());
+    JsonValue listNode = parentNode.get(name);
+    if (listNode == null) return res;
+    for (JsonValue vNode : listNode) {
+      Vector2 vec = readV2(vNode.asString());
       res.add(vec);
     }
     return res;

@@ -266,7 +266,9 @@ public class MapDrawer {
     ShipHull h = s.getHull();
     GunMount m1 = s.getHull().getGunMount(false);
     GunMount m2 = s.getHull().getGunMount(true);
-    return getDps(m1.getGun(), m1.isFixed()) + getDps(m2.getGun(), m2.isFixed());
+    float dps1 = getDps(m1.getGun(), m1.isFixed());
+    float dps2 = m2 == null ? 0 : getDps(m2.getGun(), m2.isFixed());
+    return dps1 + dps2;
   }
 
   public static float getDps(FarShip s) {
