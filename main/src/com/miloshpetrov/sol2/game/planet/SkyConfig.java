@@ -14,6 +14,7 @@ public class SkyConfig {
   }
 
   public static SkyConfig load(JsonValue skyNode, GameCols cols) {
+    if (skyNode == null) return null;
     Color dawn = cols.load(skyNode.getString("dawnColor"));
     Color day = cols.load(skyNode.getString("dayColor"));
     return new SkyConfig(dawn, day);

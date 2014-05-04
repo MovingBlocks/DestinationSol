@@ -35,6 +35,7 @@ public class ShipConfig {
   }
 
   public static ShipConfig load(HullConfigs hullConfigs, JsonValue shipNode) {
+    if (shipNode == null) return null;
     String hullName = shipNode.getString("hull");
     HullConfig hull = hullConfigs.getConfig(hullName);
     String items = shipNode.getString("items");
