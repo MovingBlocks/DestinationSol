@@ -99,10 +99,13 @@ public class SoundMan {
     if (pos == null) pos = source.getPos();
 
     // vol
-    Planet np = game.getPlanetMan().getNearestPlanet();
     Vector2 camPos = game.getCam().getPos();
-    float camToAtmDst = camPos.dst(np.getPos()) - np.getGroundHeight() - Const.ATM_HEIGHT/2;
-    float airPerc = SolMath.clamp(1 - camToAtmDst / (Const.ATM_HEIGHT/2));
+    float airPerc = 0;
+    Planet np = game.getPlanetMan().getNearestPlanet();
+    if (np.getConfig().skyConfig != null) {
+      float camToAtmDst = camPos.dst(np.getPos()) - np.getGroundHeight() - Const.ATM_HEIGHT/2;
+      airPerc = SolMath.clamp(1 - camToAtmDst / (Const.ATM_HEIGHT / 2));
+    }
     if (DebugAspects.SOUND_IN_SPACE) airPerc = 1;
     float maxSoundDist = 1 + 1.5f * airPerc * Const.CAM_VIEW_DIST_GROUND;
     float dst = pos.dst(camPos);
