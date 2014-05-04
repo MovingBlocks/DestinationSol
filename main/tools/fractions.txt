@@ -7,10 +7,8 @@ Seen in:
   Space:
     big ships -- trucks (truck.png)
     big ships -- traders (bus.png)
-    research bases (researchBase.png - TODO)
   Planets:
     trade posts (drome.png)
-    merchant posts (merchBase.png - TODO)
 Unique equipment prefix: None
 Unique equipment description: Basic bullet weapons, energy weapons, shields, armor
 
@@ -42,12 +40,10 @@ Seen in:
     small ships -- truck guards (pirateSmall.png)
     medium ships -- hunters, station guards (pirateMedium.png TODO)
     big ships -- trucks (pirateTruck.png TODO)
-    stations (pirateSpaceStation.png TODO)
   Green planet:
     turrets (piratePlanetTurret.png)
     small ships (pirateSmall.png)
     medium ships -- orbiters (pirateMedium.png)
-    stations -- bosses (piratePlanetStation.png TODO)
 Unique equipment prefix: Pirate XXX
 Unique equipment description: Worse versions of everything
 
@@ -62,7 +58,6 @@ Seen in:
     turrets (hummer.png TODO add a stand)
     small ships (dagger.png)
     medium ships -- orbiters (corvette.png)
-    stations -- bosses (techiePlanetStation.png TODO)
 Unique equipment prefix: Advanced XXX
 Unique equipment description: Best versions of energy weapons, shields
 
@@ -97,26 +92,23 @@ Seen in:
     small ships(beetle.png)
     medium ships -- hunters (hunter.png)
     big ships(dragon.png)
-    stations TODO
   Desert planet:
-    turrets TODO
+    turrets (desertPlanetTurret.png -- TODO)
     small ships(beetle.png)
     medium ships -- orbiters(hunter.png)
-    stations -- bosses TODO
 Unique equipment prefix: Advanced XXX
 Unique equipment description: Best versions of bullet weapons, armor
 
 
-Name: ALIENS -- TODO
+Name: ALIENS
 Description: Toughest guys seen in junk planets (only in 2nd system)
 Color: Black
 Ship design: ??
 Ability: emWave (disables controls of your ship for some time)
 Seen in:
   Desert planet:
-    turrets
-    small ships
-    medium ships -- orbiters
-    stations -- bosses
+    turrets(alienTurret.png TODO)
+    small ships (alienSmall.png TODO)
+    medium ships -- orbiters (alienMedium.png TODO)
 Unique equipment prefix: Alien XXX
 Unique equipment description: emGun, best energy weapons, shields, armor

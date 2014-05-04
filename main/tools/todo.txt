@@ -83,6 +83,7 @@ ARCHITECTURE
   sound volumes should be kept in one map file?
 
 FEATURES
+  boss-like stations on planets and space
   decorative houses on planets
   out of ability charges sound
   out of ammo sound
