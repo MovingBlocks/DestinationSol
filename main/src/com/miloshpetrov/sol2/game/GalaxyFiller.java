@@ -165,21 +165,21 @@ public class GalaxyFiller {
     throw new AssertionError("could not generate ship position");
   }
 
-  public Vector2 getPlayerSpawnPos(SolGame game, PlayerSpawnConfig.SpawnPlace spawnPlace) {
+  public Vector2 getPlayerSpawnPos(SolGame game) {
     Vector2 pos = new Vector2(Const.SUN_RADIUS * 2, 0);
 
-    if (spawnPlace == PlayerSpawnConfig.SpawnPlace.PLANET) {
+    if ("planet".equals(DebugAspects.SPAWN_PLACE)) {
       Planet p = game.getPlanetMan().getPlanets().get(0);
       pos.set(p.getPos());
       pos.x += p.getFullHeight();
-    } else if (spawnPlace == PlayerSpawnConfig.SpawnPlace.STATION && myMainStation != null) {
+    } else if ("station".equals(DebugAspects.SPAWN_PLACE) && myMainStation != null) {
       SolMath.fromAl(pos, 90, myMainStation.getHull().config.size / 2);
       pos.add(myMainStation.getPos());
-    } else if (spawnPlace == PlayerSpawnConfig.SpawnPlace.MAZE) {
+    } else if ("maze".equals(DebugAspects.SPAWN_PLACE)) {
       Maze m = game.getPlanetMan().getMazes().get(0);
       pos.set(m.getPos());
       pos.x += m.getRadius();
-    } else if (spawnPlace == PlayerSpawnConfig.SpawnPlace.TRADER) {
+    } else if ("trader".equals(DebugAspects.SPAWN_PLACE)) {
       HullConfig cfg = game.getHullConfigs().getConfig("bus");
       for (FarObj fo : game.getObjMan().getFarObjs()) {
         if (!(fo instanceof FarShip)) continue;

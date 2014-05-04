@@ -69,13 +69,13 @@ Ship design: Should resemble electric instruments -- drills, chainsaws etc.
 Ability: KnockBack (knocks everything back)
 Seen in:
   Asteroid belt:
-    small ships
-    medium ships
+    small ships (minerSmall.png -- TODO)
+    medium ships (minerMedium.png -- TODO)
   Maze:
-    turrets -- inner enemies
+    turrets -- inner enemies(minerTurret.png -- TODO)
     small ships -- inner enemies
     medium ships -- outer enemies
-    medium ship -- boss
+    medium ship -- boss  (minerBoss.png -- TODO)
     chests?
 Unique equipment prefix: Advanced XXX
 Unique equipment description: Best versions of rockets, also special weapon that knocks back

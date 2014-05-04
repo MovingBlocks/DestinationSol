@@ -1,8 +1,10 @@
 
-move spawnPlace to debugOptions
+draw better concepts on stubs
+add stubs to the game
+
+remove spawnPlace from playerSpawn.json
 small ships should only have 1 mount!
 big explorers should stay higher in atmosphere
-
 
 systemConfig:
   temporaryInnerEnemies

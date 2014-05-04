@@ -116,6 +116,10 @@ main/imgSrcs/hulls/guardie.png -text
 main/imgSrcs/hulls/hawk.png -text
 main/imgSrcs/hulls/hummer.png -text
 main/imgSrcs/hulls/hunter.png -text
+main/imgSrcs/hulls/minerBoss.png -text
+main/imgSrcs/hulls/minerMedium.png -text
+main/imgSrcs/hulls/minerSmall.png -text
+main/imgSrcs/hulls/minerTurret.png -text
 main/imgSrcs/hulls/orbiter.png -text
 main/imgSrcs/hulls/pack.json -text
 main/imgSrcs/hulls/pirateMedium.png -text
