@@ -1,0 +1,66 @@
+METAL OBJECT COLLISION
+metal object (ships, stations) colliding with something
+note: this sound is not played when projectile hits the object, only when object collides with another object
+
+ROCK OBJECT COLLISION
+rock object (asteroid, planet ground, maze wall) colliding with something
+note: this sound is not played when projectile hits the object, only when object collides with another object
+
+ASTEROID CRACK
+asteroid is cracked into smaller pieces and produces dust
+
+DOOR ACTIVATION
+door starting to move -- a door motor has started working (can be seen on trader ship)
+may resemble a sound of elevator
+
+FORCE FIELD WORKING
+is heard in the ship when the ship is being pulled with the force field (near star port or trader ship)
+may sound as something sci-fi, pew pew
+looped
+needs fixing -- now it's being played only when super close to the destination
+
+PROJECTILE WORK SOUND
+some projectiles may produce sound while they fly: rocket engine sound, energy projectiles may sound somehow, too
+looped
+
+PROJECTILE COLLISION SOUND
+some projectiles should produce sound when they reach a target: rocket explosions, energy blips, etc.
+note: surfaces being hit can also produce sounds depending on the projectile type they were hit with. This way, when projectile hits something, 2 sounds are played:
+1. projectile collision sound
+2. surface being hit by the specified projectile type.
+
+SHIELD STARTED REGENERATING
+when shield was damaged but started regenerating. Different shield types can have different sounds.
+
+SHIELD ABSORBED DAMAGE
+occurs every time shield absorbs damage from projectile. Different shield types can have different sounds.
+
+SHIP ENGINE WORK
+is played when ship engine is on and ship gains acceleration. Different engine types can have different sounds. There should be one that sounds like a truck engine. And 3 types that sound like, eh, space rocket?
+
+GUN SHOOT
+there would be wide variety of guns, but all of them can be divided in 3 categories: bullet-based, energy-based, rocked-based. Plus 2 special types: energy charge that disables ship controls and a gun that shoots with heavy "nails" that don't do damage but apply force to enemy.
+
+GUN RECHARGE
+
+OBJECT BURNING
+asteroids burn in atmosphere and ships burn when they're heavily damaged.
+looped
+
+SHIP CONTROLS DISABLED
+there's a weapon that can disable controls of enemy ships for some time. Should sound like engines turning off -- as if all devices on the ship are disabled by some charge
+
+SHIP CONTROLS ENABLED
+should sound like everything in the ship is turned on again
+
+SHIP ABILITY ACTIVATED
+some ships have special one-off abilities: teleport, slow down, knock everything back, etc. Different ability types can have different sounds.
+
+SHIP ABILITY RECHARGED
+After using ship ability, ship needs some time to recharge it.
+
+SHIP ABILITY FAILED TO ACTIVATE
+sometimes abilities can't be used
+
+
+to be continued
