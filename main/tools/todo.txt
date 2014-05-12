@@ -1,8 +1,12 @@
 
-engines
+object collision sounds should consider nails
+ground zoom in maze
+landscape types
+engines + smoke engine
 transcendent particles varying life
 starPort special particle texture
-unfixed mount is too unbalanced -- increase shooter accuracy and increase angleVar when unfixed?
+unfixed mount is too unbalanced -- mount type should be hull param + strong guns should be always fixed
+force beacon sound should sound in ship?
 
 systemConfig:
   temporaryInnerEnemies
