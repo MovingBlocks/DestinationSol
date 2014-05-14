@@ -92,8 +92,8 @@ public class ShipBuilder {
       dras, SHIP_DENSITY, level, hullConfig.tex);
     Fixture shieldFixture = createShieldFixture(hullConfig, body);
 
-    GunMount m1 = new GunMount(hullConfig.g1Pos, hullConfig.mount1Fixed);
-    GunMount m2 = hullConfig.g2Pos == null ? null : new GunMount(hullConfig.g2Pos, hullConfig.mount2Fixed);
+    GunMount m1 = new GunMount(hullConfig.g1Pos, hullConfig.mount1CanFix);
+    GunMount m2 = hullConfig.g2Pos == null ? null : new GunMount(hullConfig.g2Pos, hullConfig.mount2CanFix);
 
     List<LightSrc> lCs = new ArrayList<LightSrc>();
     for (Vector2 p : hullConfig.lightSrcPoss) {

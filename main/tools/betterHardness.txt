@@ -24,7 +24,7 @@ CONFIG STRUCTURE:
 HARDNESS ALGORITHM:
   think in terms of DamagePerSecond:
     weapon had theoretical DPS
-    if mount is fixed, multiply that to .2
+    if gun is fixed, multiply that to .2
     multiply by x/6 where x is time enemy would stand against its own damage
     if density is higher than view dist, multiply by density factor
     if grav, multiply by grav factor
