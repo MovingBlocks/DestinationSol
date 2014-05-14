@@ -40,4 +40,8 @@ public class MercItem implements SolItem {
   public TextureAtlas.AtlasRegion getIcon(SolGame game) {
     return myConfig.hull.icon;
   }
+
+  public ShipConfig getConfig() {
+    return myConfig;
+  }
 }

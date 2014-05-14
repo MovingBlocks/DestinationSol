@@ -13,6 +13,8 @@ import java.util.List;
  * Flies near the given ship. When the ship is destroyed, floats
  */
 public class Guardian implements MoveDestProvider {
+  public static final float DIST = 1f;
+
   private final Pilot myTargetPilot;
   private final Vector2 myDest;
   private final float myAngle;
@@ -39,7 +41,7 @@ public class Guardian implements MoveDestProvider {
 
   @Override
   public float getDesiredSpdLen() {
-    return Const.DEFAULT_AI_SPD;
+    return Const.MAX_MOVE_SPD;
   }
 
   @Override
@@ -94,7 +96,7 @@ public class Guardian implements MoveDestProvider {
     if (np.isNearGround(targetPos)) {
       desiredAngle = SolMath.angle(np.getPos(), targetPos);
     }
-    SolMath.fromAl(myDest, desiredAngle, targetApproxRad + 2 + hullConfig.approxRadius);
+    SolMath.fromAl(myDest, desiredAngle, targetApproxRad + DIST + hullConfig.approxRadius);
     myDest.add(targetPos);
   }
 

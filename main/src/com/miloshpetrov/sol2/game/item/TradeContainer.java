@@ -43,4 +43,8 @@ public class TradeContainer {
   public ItemContainer getShips() {
     return myConfig.hulls;
   }
+
+  public ItemContainer getMercs() {
+    return myConfig.mercs;
+  }
 }
