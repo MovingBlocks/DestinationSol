@@ -6,7 +6,7 @@
     physSize: 0.15,
     dmgType: bullet,
     density: 20,
-    collisionSound: "projectiles/waveCollision",
+    collisionSound: "",
     collisionEffect: {
       effectFile: explFire,
       size: 0.2,

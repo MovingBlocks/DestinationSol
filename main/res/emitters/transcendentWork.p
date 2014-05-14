@@ -71,8 +71,8 @@ timeline1: 1.0
 active: true
 lowMin: 0.0
 lowMax: 0.0
-highMin: 4.0
-highMax: 4.0
+highMin: 2.0
+highMax: 6.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -134,4 +134,4 @@ aligned: false
 additive: true
 behind: false
 - Image Path -
-D:\j\sol\main\imgSrcs\particles\fire.png
+D:\j\sol\main\imgSrcs\particles\forceTail.png
