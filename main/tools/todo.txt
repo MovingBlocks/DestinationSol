@@ -1,37 +1,36 @@
 
-ships to hire
+split item icons from ui icons??
+
+guardians should ignore enemies if they're far from targets
 enemies should use abilities
 reincarnate with part of items
+control types
+brakes
+ability recharge ui
+planet name announcement on approach
+fading compass on planet
+"new" mark in the inventory
+calculate weapon dangerousness: consider emCharge, knockback, guidedness, number of projectiles
 
 
-systemConfig:
-  temporaryInnerEnemies
-  isHard: true
-planetConfig:
-  isHard: true
-belt: isHard
-
-item pick up sound
-item color categories
-
-
-UI:
-  new UI
-  "new" mark in the inventory
-  control types
-  split item icons from ui icons
-  inventory category filtering
-  planet name announcement on approach
+UI SOUND:
   blip when warning
   "dangerous enemy near" warning
   voice assistant?
-  ability recharge ui
-  fading compass on planet
-  hardness options:
-    ship with initial mount that can fix
-    brakes
-  calculate weapon dangerousness: consider emCharge, knockback, guidedness, number of projectiles
 
+
+CONTENT:
+  systemConfig:
+    temporaryInnerEnemies
+    isHard: true
+  planetConfig:
+    isHard: true
+  belt: isHard
+
+  item pick up sound
+  item color categories
+
+new ui style
 
 DEPENDS ON GAME LENGTH:
   save
@@ -73,6 +72,7 @@ ARCHITECTURE
   sound volumes should be kept in one map file?
 
 FEATURES
+  inventory category filtering
   boss-like stations on planets and space
   decorative houses on planets
   out of ability charges sound

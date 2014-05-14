@@ -118,5 +118,5 @@ big ships:
   empire frigate
 stations:
   civilian space research station
-  civilian planet merch base
+  civilian planet mercenary base
   space & planet enemy bases

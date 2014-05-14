@@ -29,6 +29,7 @@ public class InventoryScreen implements SolUiScreen {
   public final BuyItems buyItems;
   public final SellItems sellItems;
   public final ChangeShip changeShip;
+  public final HireShips hireShips;
 
   private final List<SolUiControl> myControls;
   private final Rectangle myArea;
@@ -89,6 +90,7 @@ public class InventoryScreen implements SolUiScreen {
     buyItems = new BuyItems(this);
     sellItems = new SellItems(this);
     changeShip = new ChangeShip(this);
+    hireShips = new HireShips(this);
   }
 
   @Override

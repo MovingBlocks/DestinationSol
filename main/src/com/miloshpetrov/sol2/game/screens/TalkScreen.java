@@ -19,6 +19,7 @@ public class TalkScreen implements SolUiScreen {
   private final SolUiControl mySellCtrl;
   private final SolUiControl myBuyCtrl;
   private final SolUiControl myShipsCtrl;
+  private final SolUiControl myHireCtrl;
   private final Rectangle myBg;
   private final SolUiControl myCloseCtrl;
   private SolShip myTarget;
@@ -38,7 +39,11 @@ public class TalkScreen implements SolUiScreen {
     myShipsCtrl.setDisplayName("Change Ship");
     myControls.add(myShipsCtrl);
 
-    myCloseCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), Input.Keys.ESCAPE);
+    myHireCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), Input.Keys.H);
+    myHireCtrl.setDisplayName("Hire");
+    myControls.add(myHireCtrl);
+
+    myCloseCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), Input.Keys.ESCAPE);
     myCloseCtrl.setDisplayName("Close");
     myControls.add(myCloseCtrl);
 
@@ -63,12 +68,15 @@ public class TalkScreen implements SolUiScreen {
 
     boolean sellsShips = myTarget.getHull().config == g.getHullConfigs().getConfig("station");
     myShipsCtrl.setEnabled(sellsShips);
+    myHireCtrl.setEnabled(sellsShips);
 
     InventoryScreen is = g.getScreens().inventoryScreen;
     boolean sell = mySellCtrl.isJustOff();
     boolean buy = myBuyCtrl.isJustOff();
-    if (sell || buy || myShipsCtrl.isJustOff()) {
-      is.setOperations(sell ? is.sellItems : buy ? is.buyItems : is.changeShip);
+    boolean sellShips = myShipsCtrl.isJustOff();
+    boolean hire = myHireCtrl.isJustOff();
+    if (sell || buy || sellShips || hire) {
+      is.setOperations(sell ? is.sellItems : buy ? is.buyItems : sellShips ? is.changeShip : is.hireShips);
       inputMan.setScreen(cmp, g.getScreens().mainScreen);
       inputMan.addScreen(cmp, is);
     }
