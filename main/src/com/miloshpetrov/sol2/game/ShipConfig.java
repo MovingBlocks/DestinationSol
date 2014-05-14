@@ -10,17 +10,16 @@ public class ShipConfig {
   public final HullConfig hull;
   public final String items;
   public final int money;
-  public final boolean hasRepairer, isMountFixed1, isMountFixed2;
+  public final boolean hasRepairer;
   public final float density;
   public final ShipConfig guard;
 
-  public ShipConfig(HullConfig hull, String items, int money, boolean hasRepairer, boolean isMountFixed1, boolean isMountFixed2, float density, ShipConfig guard) {
+  public ShipConfig(HullConfig hull, String items, int money, boolean hasRepairer,
+    float density, ShipConfig guard) {
     this.hull = hull;
     this.items = items;
     this.money = money;
     this.hasRepairer = hasRepairer;
-    this.isMountFixed1 = isMountFixed1;
-    this.isMountFixed2 = isMountFixed2;
     this.density = density;
     this.guard = guard;
   }
@@ -40,10 +39,8 @@ public class ShipConfig {
     HullConfig hull = hullConfigs.getConfig(hullName);
     String items = shipNode.getString("items");
     int money = shipNode.getInt("money");
-    boolean hasRepairer, isMountFixed1, isMountFixed2;
+    boolean hasRepairer;
     hasRepairer = shipNode.getBoolean("repairer");
-    isMountFixed1 = shipNode.getBoolean("mountFixed1");
-    isMountFixed2 = shipNode.getBoolean("mountFixed2");
     float density = shipNode.getFloat("density", -1);
     ShipConfig guard;
     if (shipNode.hasChild("guard")) {
@@ -51,6 +48,6 @@ public class ShipConfig {
     } else {
       guard = null;
     }
-    return new ShipConfig(hull, items, money, hasRepairer, isMountFixed1, isMountFixed2, density, guard);
+    return new ShipConfig(hull, items, money, hasRepairer, density, guard);
   }
 }

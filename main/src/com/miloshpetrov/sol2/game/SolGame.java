@@ -131,14 +131,12 @@ public class SolGame {
     String items = myPlayerSpawnConfig.shipConfig.items;
     int money = myPlayerSpawnConfig.shipConfig.money;
     boolean hasRepairer = myPlayerSpawnConfig.shipConfig.hasRepairer;
-    boolean isMountFixed1 = myPlayerSpawnConfig.shipConfig.isMountFixed1;
-    boolean isMountFixed2 = myPlayerSpawnConfig.shipConfig.isMountFixed2;
     if (god) {
       config = myHullConfigs.getConfig("vanguard");
       items = "mg rl sBig aBig rep:1:6 sloMoCharge:1:6 b:1:6 r:1:6";
       money = 1000;
     }
-    myHero = myShipBuilder.buildNew(this, new Vector2(pos), null, 0, 0, pip, items, config, isMountFixed1, isMountFixed2, null, hasRepairer, money, null);
+    myHero = myShipBuilder.buildNew(this, new Vector2(pos), null, 0, 0, pip, items, config, null, hasRepairer, money, null);
     if (myTut) {
       myHero.getHull().setEngine(this, myHero, null);
       ItemContainer ic = myHero.getItemContainer();

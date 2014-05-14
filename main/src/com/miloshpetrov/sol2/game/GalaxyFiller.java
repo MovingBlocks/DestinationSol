@@ -58,12 +58,10 @@ public class GalaxyFiller {
     }
     Pilot pilot = new AiPilot(dp, true, frac, true, "something", detectionDist);
     float angle = mainStation ? 0 : SolMath.rnd(180);
-    boolean mountFixed1, mountFixed2, hasRepairer;
-    mountFixed1 = cfg.isMountFixed1;
-    mountFixed2 = cfg.isMountFixed2;
+    boolean hasRepairer;
     hasRepairer = cfg.hasRepairer;
     int money = cfg.money;
-    SolShip s = game.getShipBuilder().buildNew(game, pos, null, angle, 0, pilot, cfg.items, hullConf, mountFixed1, mountFixed2, null, hasRepairer, money, tradeItems);
+    SolShip s = game.getShipBuilder().buildNew(game, pos, null, angle, 0, pilot, cfg.items, hullConf, null, hasRepairer, money, tradeItems);
     game.getObjMan().addObjDelayed(s);
     ShipConfig guardConf = cfg.guard;
     if (guardConf != null) {
@@ -143,12 +141,10 @@ public class GalaxyFiller {
     Guardian dp = new Guardian(game, target, guardConf.hull);
     float detectionDist = Const.AI_DET_DIST;
     Pilot pilot = new AiPilot(dp, true, frac, false, null, detectionDist);
-    boolean mountFixed1 = guardConf.isMountFixed1;
-    boolean mountFixed2 = guardConf.isMountFixed2;
     boolean hasRepairer = guardConf.hasRepairer;
     int money = guardConf.money;
     SolShip e = game.getShipBuilder().buildNew(game, dp.getDest(), null, dp.getAngle(), 0, pilot, guardConf.items,
-      guardConf.hull, mountFixed1, mountFixed2, null, hasRepairer, money, null);
+      guardConf.hull, null, hasRepairer, money, null);
     game.getObjMan().addObjDelayed(e);
   }
 

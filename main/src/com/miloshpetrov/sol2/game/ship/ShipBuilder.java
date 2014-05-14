@@ -29,7 +29,7 @@ public class ShipBuilder {
 
   public SolShip buildNew(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot,
     String items, HullConfig hullConfig,
-    boolean mount1Fixed, boolean mount2Fixed, RemoveController removeController,
+    RemoveController removeController,
     boolean hasRepairer, float money, String tradeItems)
   {
     ItemMan itemMan = game.getItemMan();
@@ -45,7 +45,7 @@ public class ShipBuilder {
     }
     EngineItem.Config ec = hullConfig.engineConfig;
     EngineItem ei = ec == null ? null : ec.example.copy();
-    SolShip ship = build(game, pos, spd, angle, rotSpd, pilot, ic, hullConfig, hullConfig.maxLife, mount1Fixed, mount2Fixed,
+    SolShip ship = build(game, pos, spd, angle, rotSpd, pilot, ic, hullConfig, hullConfig.maxLife,
       null, null, removeController, ei, repairer, money, tc, null, null);
     boolean g1eq = false;
     for (SolItem item : ic) {
@@ -62,11 +62,11 @@ public class ShipBuilder {
 
   public SolShip build(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot,
     ItemContainer container, HullConfig hullConfig, float life,
-    boolean mount1Fixed, boolean mount2Fixed, GunItem gun1, GunItem gun2, RemoveController removeController,
+    GunItem gun1, GunItem gun2, RemoveController removeController,
     EngineItem engine, ShipRepairer repairer, float money, ItemContainer tradeContainer, Shield shield, Armor armor)
   {
     ArrayList<Dra> dras = new ArrayList<Dra>();
-    ShipHull hull = buildHull(game, pos, spd, angle, rotSpd, hullConfig, life, mount1Fixed, mount2Fixed, dras);
+    ShipHull hull = buildHull(game, pos, spd, angle, rotSpd, hullConfig, life, dras);
     SolShip ship = new SolShip(game, pilot, hull, removeController, dras, container, repairer, money, tradeContainer, shield, armor);
     hull.getBody().setUserData(ship);
     for (Door door : hull.getDoors()) door.getBody().setUserData(ship);
@@ -83,16 +83,17 @@ public class ShipBuilder {
     return ship;
   }
 
-  private ShipHull buildHull(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, HullConfig hullConfig, float life, boolean mount1Fixed, boolean mount2Fixed,
-    ArrayList<Dra> dras) {
+  private ShipHull buildHull(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, HullConfig hullConfig,
+    float life, ArrayList<Dra> dras)
+  {
     BodyDef.BodyType bodyType = hullConfig.type == HullConfig.Type.STATION ? BodyDef.BodyType.KinematicBody : BodyDef.BodyType.DynamicBody;
     DraLevel level = hullConfig.type == HullConfig.Type.STD ? DraLevel.BODIES : DraLevel.BIG_BODIES;
     Body body = myPathLoader.getBodyAndSprite(game, "hulls", hullConfig.texName, hullConfig.size, bodyType, pos, angle,
       dras, SHIP_DENSITY, level, hullConfig.tex);
     Fixture shieldFixture = createShieldFixture(hullConfig, body);
 
-    GunMount m1 = new GunMount(hullConfig.g1Pos, mount1Fixed);
-    GunMount m2 = hullConfig.g2Pos == null ? null : new GunMount(hullConfig.g2Pos, mount2Fixed);
+    GunMount m1 = new GunMount(hullConfig.g1Pos, hullConfig.mount1Fixed);
+    GunMount m2 = hullConfig.g2Pos == null ? null : new GunMount(hullConfig.g2Pos, hullConfig.mount2Fixed);
 
     List<LightSrc> lCs = new ArrayList<LightSrc>();
     for (Vector2 p : hullConfig.lightSrcPoss) {

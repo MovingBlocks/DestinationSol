@@ -6,8 +6,6 @@
       items: "cannon rl s a r:1:2 shells:1:3 rep:1:2 emWaveCharge:1:6",
       money: 20,
       repairer: true,
-      mountFixed1: true,
-      mountFixed2: true,
     },
   },
   mainStation: {
@@ -15,15 +13,11 @@
     items: "mg rl r:1:4",
 	money: 300,
 	repairer: true,
-	mountFixed1: false,
-	mountFixed2: false,
     guard: {
       hull: vanguard,
       items: "b:1:4 r:1:2 rl|mg sBig aBig",
 	  money: 50,
 	  repairer: false,
-	  mountFixed1: true,
-	  mountFixed2: true,
       density: 3,
     }
   },
