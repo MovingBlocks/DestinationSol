@@ -43,24 +43,6 @@
 		mountFixed2: false,
         density: 0.3,
       },
-      {
-        hull: truck,
-        items: "bo s|sMed",
-        money: 300,
-        repairer: true,
-        mountFixed1: false,
-        mountFixed2: false,
-        density: 1,
-        guard: {
-          hull: guardie,
-          items: "b:1:2 bo|sg s|sMed:.2 a:.2 rep:.4",
-          money: 50,
-          repairer: false,
-          mountFixed1: true,
-          mountFixed2: true,
-          density: 3,
-        }
-      },
     ],
     constantEnemies: [
       {
@@ -73,7 +55,7 @@
         density: 1,
       },
       {
-        hull: pirateTruck,
+        hull: truck,
         items: "bo s|sMed",
 		money: 300,
 		repairer: true,

@@ -5,6 +5,8 @@
     groundTexs: "grounds/rocky",
     decoTexs: "deco/rocky",
     cloudTexs: "skies/cloud",
+    rowCount: 4,
+    smoothLandscape: true,
     sky: {
       dawnColor: "hsb 0 50 100",
       dayColor: "hsb 216 40 100",
@@ -79,6 +81,8 @@
   frozen: {
     minGrav: 0.4,
     maxGrav: 0.5,
+    rowCount: 4,
+    smoothLandscape: true,
     groundTexs: "grounds/frozen",
     decoTexs: "deco/frozen",
     cloudTexs: "skies/cloud",
@@ -152,6 +156,8 @@
     groundTexs: "grounds/desert",
     decoTexs: "deco/desert",
     cloudTexs: "skies/cloud",
+    rowCount: 2,
+    smoothLandscape: true,
     sky: {
       dawnColor: "hsb 200 50 100",
       dayColor: "hsb 200 40 100",
@@ -236,6 +242,7 @@
     groundTexs: "grounds/junk",
     decoTexs: "deco/junk",
     cloudTexs: "skies/darkCloud",
+    rowCount: 4,
     sky: {
       dawnColor: "hsb 0 0 50",
       dayColor: "hsb 0 0 75",

@@ -5,7 +5,6 @@ Ship design: Any
 Ability: None
 Seen in:
   Space:
-    big ships -- trucks (truck.png)
     big ships -- traders (bus.png)
   Planets:
     trade posts (drome.png)
@@ -23,7 +22,6 @@ Seen in:
     small ships -- guards of civilian ships (guardie.png)
     small ships -- explorers (orbiter.png -- TODO needs simplification),
     medium ships -- station guards (vanguard.png),
-    big ships -- explorers (frigate.png TODO)
     stations (station.png),
 Unique equipment prefix: Imperial XXX
 Unique equipment description: Better versions of standard equipment, basic rockets
@@ -39,7 +37,7 @@ Seen in:
     turrets (pirateSpaceTurret.png TODO)
     small ships -- truck guards (pirateSmall.png)
     medium ships -- hunters, station guards (pirateMedium.png)
-    big ships -- trucks (pirateTruck.png TODO)
+    big ships -- trucks (truck.png TODO -- add red colors)
   Green planet:
     turrets (piratePlanetTurret.png)
     small ships (pirateSmall.png)
@@ -100,6 +98,8 @@ Unique equipment prefix: Advanced XXX
 Unique equipment description: Best versions of bullet weapons, armor
 
 
+=============================== NICE TO HAVE:
+
 Name: ALIENS
 Description: Toughest guys seen in junk planets (only in 2nd system)
 Color: Black
@@ -112,3 +112,11 @@ Seen in:
     medium ships -- orbiters (alienMedium.png TODO)
 Unique equipment prefix: Alien XXX
 Unique equipment description: emGun, best energy weapons, shields, armor
+
+big ships:
+  civilian trader
+  empire frigate
+stations:
+  civilian space research station
+  civilian planet merch base
+  space & planet enemy bases

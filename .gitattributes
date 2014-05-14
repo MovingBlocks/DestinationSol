@@ -111,7 +111,6 @@ main/imgSrcs/hulls/dagger.png -text
 main/imgSrcs/hulls/desertPlanetTurret.png -text
 main/imgSrcs/hulls/dragon.png -text
 main/imgSrcs/hulls/drome.png -text
-main/imgSrcs/hulls/frigate.png -text
 main/imgSrcs/hulls/guardie.png -text
 main/imgSrcs/hulls/hawk.png -text
 main/imgSrcs/hulls/hummer.png -text
@@ -126,7 +125,6 @@ main/imgSrcs/hulls/pirateMedium.png -text
 main/imgSrcs/hulls/piratePlanetTurret.png -text
 main/imgSrcs/hulls/pirateSmall.png -text
 main/imgSrcs/hulls/pirateSpaceTurret.png -text
-main/imgSrcs/hulls/pirateTruck.png -text
 main/imgSrcs/hulls/station.png -text
 main/imgSrcs/hulls/truck.png -text
 main/imgSrcs/hulls/vanguard.png -text
@@ -278,6 +276,7 @@ main/res/emitters/flame.p -text
 main/res/emitters/forceBeacon.p -text
 main/res/emitters/knockBack.p -text
 main/res/emitters/smoke.p -text
+main/res/emitters/smokeEngine.p -text
 main/res/emitters/spark.p -text
 main/res/emitters/starPortFlow.p -text
 main/res/emitters/transcendentWork.p -text

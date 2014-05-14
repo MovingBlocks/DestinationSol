@@ -1,6 +1,4 @@
 
-landscape types
-engines + smoke engine
 unfixed mount is too unbalanced -- mount type should be hull param + strong guns should be always fixed
 
 systemConfig:
