@@ -82,7 +82,7 @@ public class SolShip implements SolObj {
     boolean m2Fixed = m2 != null && m2.isFixed();
     GunItem g2 = m2 == null ? null : m2.getGun();
     return new FarShip(myHull.getPos(), myHull.getSpd(), myHull.getAngle(), rotSpd, myPilot, myItemContainer, myHull.config, myHull.life,
-      m1.isFixed(), m2Fixed, m1.getGun(), g2, myRemoveController, myHull.getEngine(), myRepairer, myMoney, myTradeContainer, myShield, myArmor);
+      m1.getGun(), g2, myRemoveController, myHull.getEngine(), myRepairer, myMoney, myTradeContainer, myShield, myArmor);
   }
 
   @Override

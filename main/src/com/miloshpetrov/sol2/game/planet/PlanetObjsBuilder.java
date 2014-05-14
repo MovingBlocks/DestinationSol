@@ -268,9 +268,7 @@ public class PlanetObjsBuilder {
     Vector2 pos = game.getPlanetMan().findFlatPlace(game, planet, takenAngles, ge.hull.approxRadius);
     boolean station = ge.hull.type == HullConfig.Type.STATION;
     String ic = ge.items;
-    boolean mountFixed1, mountFixed2, hasRepairer;
-    mountFixed1 = ge.isMountFixed1;
-    mountFixed2 = ge.isMountFixed2;
+    boolean hasRepairer;
     hasRepairer = ge.hasRepairer;
     int money = ge.money;
     if (!station) {
@@ -289,7 +287,7 @@ public class PlanetObjsBuilder {
     float detectionDist = Const.AI_DET_DIST;
     Pilot provider = new AiPilot(new StillGuard(pos, game, ge), false, fraction, true, null, detectionDist);
 
-    return game.getShipBuilder().buildNew(game, pos, spd, angle, 0, provider, ic, ge.hull, mountFixed1, mountFixed2,
+    return game.getShipBuilder().buildNew(game, pos, spd, angle, 0, provider, ic, ge.hull,
       null, hasRepairer, money, tc);
   }
 
@@ -311,13 +309,11 @@ public class PlanetObjsBuilder {
     OrbiterDestProvider dp = new OrbiterDestProvider(planet, height, cw);
     Pilot provider = new AiPilot(dp, false, Fraction.EHAR, true, null, detectionDist);
 
-    boolean mountFixed1, mountFixed2, hasRepairer;
-    mountFixed1 = oe.isMountFixed1;
-    mountFixed2 = oe.isMountFixed2;
+    boolean hasRepairer;
     hasRepairer = oe.hasRepairer;
     int money = oe.money;
 
-    return game.getShipBuilder().buildNew(game, pos, spd, 0, 0, provider, oe.items, oe.hull, mountFixed1, mountFixed2,
+    return game.getShipBuilder().buildNew(game, pos, spd, 0, 0, provider, oe.items, oe.hull,
       null, hasRepairer, money, null);
   }
 

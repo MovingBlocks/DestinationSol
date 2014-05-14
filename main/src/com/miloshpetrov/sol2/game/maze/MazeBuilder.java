@@ -129,12 +129,10 @@ public class MazeBuilder {
     float viewDist = Const.AI_DET_DIST;
     if (inner) viewDist *= .2f;
     Pilot pilot = new AiPilot(new StillGuard(pos, game, e), false, Fraction.EHAR, true, null, viewDist);
-    boolean mountFixed1, mountFixed2, hasRepairer;
-    mountFixed1 = e.isMountFixed1;
-    mountFixed2 = e.isMountFixed2;
+    boolean hasRepairer;
     hasRepairer = e.hasRepairer;
     int money = e.money;
-    SolShip s = sb.buildNew(game, pos, new Vector2(), angle, 0, pilot, e.items, e.hull, mountFixed1, mountFixed2, null, hasRepairer, money, null);
+    SolShip s = sb.buildNew(game, pos, new Vector2(), angle, 0, pilot, e.items, e.hull, null, hasRepairer, money, null);
     game.getObjMan().addObjDelayed(s);
   }
 

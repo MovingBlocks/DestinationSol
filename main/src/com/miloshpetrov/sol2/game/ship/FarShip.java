@@ -17,8 +17,6 @@ public class FarShip implements FarObj {
   private final ItemContainer myContainer;
   private final HullConfig myHullConfig;
   private float myLife;
-  private final boolean myMount1Fixed;
-  private final boolean myMount2Fixed;
   private final GunItem myGun1;
   private final GunItem myGun2;
   private final RemoveController myRemoveController;
@@ -28,8 +26,8 @@ public class FarShip implements FarObj {
   private final ItemContainer myTradeContainer;
 
   public FarShip(Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot, ItemContainer container,
-    HullConfig hullConfig, float life, boolean mount1Fixed,
-    boolean mount2Fixed, GunItem gun1, GunItem gun2, RemoveController removeController, EngineItem engine,
+    HullConfig hullConfig, float life,
+    GunItem gun1, GunItem gun2, RemoveController removeController, EngineItem engine,
     ShipRepairer repairer, float money, ItemContainer tradeContainer, Shield shield, Armor armor)
   {
     myPos = pos;
@@ -40,8 +38,6 @@ public class FarShip implements FarObj {
     myContainer = container;
     myHullConfig = hullConfig;
     myLife = life;
-    myMount1Fixed = mount1Fixed;
-    myMount2Fixed = mount2Fixed;
     myGun1 = gun1;
     myGun2 = gun2;
     myRemoveController = removeController;
@@ -60,7 +56,7 @@ public class FarShip implements FarObj {
 
   @Override
   public SolShip toObj(SolGame game) {
-    return game.getShipBuilder().build(game, myPos, mySpd, myAngle, myRotSpd, myPilot, myContainer, myHullConfig, myLife, myMount1Fixed, myMount2Fixed, myGun1,
+    return game.getShipBuilder().build(game, myPos, mySpd, myAngle, myRotSpd, myPilot, myContainer, myHullConfig, myLife, myGun1,
       myGun2, myRemoveController, myEngine, myRepairer, myMoney, myTradeContainer, myShield, myArmor);
   }
 
@@ -135,6 +131,6 @@ public class FarShip implements FarObj {
   }
 
   public boolean isMountFixed(boolean sec) {
-    return sec ? myMount2Fixed : myMount1Fixed;
+    return sec ? myHullConfig.mount2Fixed : myHullConfig.mount1Fixed;
   }
 }

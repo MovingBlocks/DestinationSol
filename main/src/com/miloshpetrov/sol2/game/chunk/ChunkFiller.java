@@ -135,13 +135,11 @@ public class ChunkFiller {
     MoveDestProvider dp = new StillGuard(pos, game, enemyConf);
     Pilot provider = new AiPilot(dp, false, Fraction.EHAR, true, null, detectionDist);
     HullConfig config = enemyConf.hull;
-    boolean mountFixed1, mountFixed2, hasRepairer;
-    mountFixed1 = enemyConf.isMountFixed1;
-    mountFixed2 = enemyConf.isMountFixed2;
+    boolean hasRepairer;
     hasRepairer = enemyConf.hasRepairer;
     int money = enemyConf.money;
     float angle = SolMath.rnd(180);
-    return game.getShipBuilder().buildNew(game, pos, spd, angle, rotSpd, provider, enemyConf.items, config, mountFixed1, mountFixed2,
+    return game.getShipBuilder().buildNew(game, pos, spd, angle, rotSpd, provider, enemyConf.items, config,
       remover, hasRepairer, money, null);
   }
 
