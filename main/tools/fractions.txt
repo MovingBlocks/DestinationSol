@@ -38,7 +38,7 @@ Seen in:
   Space:
     turrets (pirateSpaceTurret.png TODO)
     small ships -- truck guards (pirateSmall.png)
-    medium ships -- hunters, station guards (pirateMedium.png TODO)
+    medium ships -- hunters, station guards (pirateMedium.png)
     big ships -- trucks (pirateTruck.png TODO)
   Green planet:
     turrets (piratePlanetTurret.png)
@@ -62,17 +62,17 @@ Unique equipment prefix: Advanced XXX
 Unique equipment description: Best versions of energy weapons, shields
 
 
-Name: MINERS -- TODO
+Name: MINERS
 Description: Bad guys seen in mazes and asteroid belts
 Color: Construction yellow + Metal? (should look good with the blue maze crystals)
 Ship design: Should resemble electric instruments -- drills, chainsaws etc.
 Ability: KnockBack (knocks everything back)
 Seen in:
   Asteroid belt:
-    small ships (minerSmall.png -- TODO)
-    medium ships (minerMedium.png -- TODO)
+    small ships (minerSmall.png)
+    medium ships (minerMedium.png)
   Maze:
-    turrets -- inner enemies(minerTurret.png -- TODO)
+    turrets -- inner enemies(minerTurret.png)
     small ships -- inner enemies
     medium ships -- outer enemies
     medium ship -- boss  (minerBoss.png -- TODO)

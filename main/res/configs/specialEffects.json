@@ -39,12 +39,12 @@
   },
   starPortFlow: {
     effectFile: starPortFlow,
-    tex: fire,
+    tex: forceTail,
     tint: white,
   },
   transcendentWork: {
     effectFile: transcendentWork,
-    tex: fire,
+    tex: forceTail,
     tint: white,
   },
 }

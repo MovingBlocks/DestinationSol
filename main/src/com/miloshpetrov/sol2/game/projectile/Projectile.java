@@ -208,7 +208,9 @@ public class Projectile implements SolObj {
         Shield shield = s.getShield();
         if (shield == null || shield.getLife() <= 0) return false;
       }
-    } else if (o instanceof Projectile) {
+      return true;
+    }
+    if (o instanceof Projectile) {
       if (!fractionMan.areEnemies(((Projectile) o).myFraction, myFraction)) return false;
     }
     return true;
@@ -226,6 +228,10 @@ public class Projectile implements SolObj {
 
   public boolean isMassless() {
     return myConfig.massless;
+  }
+
+  public ProjectileConfig getConfig() {
+    return myConfig;
   }
 
 

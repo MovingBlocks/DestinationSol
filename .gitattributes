@@ -218,6 +218,7 @@ main/imgSrcs/particles/electricity.png -text
 main/imgSrcs/particles/emWave.png -text
 main/imgSrcs/particles/fire.png -text
 main/imgSrcs/particles/forceBeacon.png -text
+main/imgSrcs/particles/forceTail.png -text
 main/imgSrcs/particles/knockBack.png -text
 main/imgSrcs/particles/lightCircle.png -text
 main/imgSrcs/particles/lightHalo.png -text
