@@ -7,6 +7,8 @@ import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.ShipConfig;
 import com.miloshpetrov.sol2.game.chunk.SpaceEnvConfig;
+import com.miloshpetrov.sol2.game.item.ItemMan;
+import com.miloshpetrov.sol2.game.item.TradeConfig;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 import java.util.*;
@@ -15,15 +17,17 @@ public class SysConfigs {
   private final Map<String, SysConfig> myConfigs;
   private final Map<String, SysConfig> myBeltConfigs;
 
-  public SysConfigs(TexMan texMan, HullConfigs hullConfigs) {
+  public SysConfigs(TexMan texMan, HullConfigs hullConfigs, ItemMan itemMan) {
     myConfigs = new HashMap<String, SysConfig>();
     myBeltConfigs = new HashMap<String, SysConfig>();
 
-    load(texMan, hullConfigs, myConfigs, "systems.json");
-    load(texMan, hullConfigs, myBeltConfigs, "asteroidBelts.json");
+    load(texMan, hullConfigs, myConfigs, "systems.json", itemMan);
+    load(texMan, hullConfigs, myBeltConfigs, "asteroidBelts.json", itemMan);
   }
 
-  private void load(TexMan texMan, HullConfigs hullConfigs, Map<String, SysConfig> configs, String configName) {
+  private void load(TexMan texMan, HullConfigs hullConfigs, Map<String, SysConfig> configs, String configName,
+    ItemMan itemMan)
+  {
     JsonReader r = new JsonReader();
     FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + configName);
     JsonValue parsed = r.parse(configFile);
@@ -37,7 +41,8 @@ public class SysConfigs {
         constEnemies = ShipConfig.loadList(sh.get("constantEnemies"), hullConfigs);
         constAllies = ShipConfig.loadList(sh.get("constantAllies"), hullConfigs);
       }
-      SysConfig c = new SysConfig(sh.name, tempEnemies, envConfig, constEnemies, constAllies);
+      TradeConfig tradeConfig = TradeConfig.load(itemMan, sh.get("trading"), hullConfigs);
+      SysConfig c = new SysConfig(sh.name, tempEnemies, envConfig, constEnemies, constAllies, tradeConfig);
       configs.put(sh.name, c);
     }
   }

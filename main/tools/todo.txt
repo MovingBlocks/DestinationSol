@@ -1,4 +1,9 @@
 
+ships to hire
+enemies should use abilities
+reincarnate with part of items
+
+
 systemConfig:
   temporaryInnerEnemies
   isHard: true
@@ -6,26 +11,8 @@ planetConfig:
   isHard: true
 belt: isHard
 
-enemies should use abilities
 item pick up sound
 item color categories
-
-TRADING:
-  jsons will have tradeItems, that would resolve in the list of items
-  ships will start with half of that items
-  ships will slowly generate new items from that list
-  ships will not generate if they already possess item (or 5 if clips)
-  ships to buy:
-    jsons will have tradeShips
-    the rest is the same as for items
-  ships to hire
-
-
-DEPENDS ON GAME LENGTH:
-  respawn enemies
-  save
-  reincarnate
-  explorers should avoid tough enemies
 
 
 UI:
@@ -44,6 +31,13 @@ UI:
     ship with initial mount that can fix
     brakes
   calculate weapon dangerousness: consider emCharge, knockback, guidedness, number of projectiles
+
+
+DEPENDS ON GAME LENGTH:
+  save
+  respawn enemies
+  explorers should avoid tough enemies
+
 
 PERF:
   pack textures, launch on android to ensure that everything works
@@ -106,6 +100,7 @@ PERF
 
 CLEANNESS
   improve teleport -- transfer body instantly via setTransform()
+  get rid of Pilot.getMapHint
 
 DISPOSE
   BitmapFont

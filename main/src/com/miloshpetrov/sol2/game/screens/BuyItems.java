@@ -26,7 +26,7 @@ public class BuyItems implements InventoryOperations {
 
   @Override
   public ItemContainer getItems(SolGame game) {
-    return game.getScreens().talkScreen.getTarget().getTradeContainer();
+    return game.getScreens().talkScreen.getTarget().getTradeContainer().getItems();
   }
 
   @Override
@@ -61,7 +61,7 @@ public class BuyItems implements InventoryOperations {
     buyCtrl.setEnabled(enabled);
     if (!enabled) return;
     if (buyCtrl.isJustOff()) {
-      target.getTradeContainer().remove(selected);
+      target.getTradeContainer().getItems().remove(selected);
       hero.getItemContainer().add(selected);
       hero.setMoney(hero.getMoney() - selected.getPrice());
     }

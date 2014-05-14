@@ -30,7 +30,7 @@ public class ShipBuilder {
   public SolShip buildNew(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot,
     String items, HullConfig hullConfig,
     RemoveController removeController,
-    boolean hasRepairer, float money, String tradeItems)
+    boolean hasRepairer, float money, TradeConfig tradeConfig)
   {
     ItemMan itemMan = game.getItemMan();
     if (spd == null) spd = new Vector2();
@@ -38,11 +38,7 @@ public class ShipBuilder {
     itemMan.fillContainer(ic, items);
 
     ShipRepairer repairer = hasRepairer ? new ShipRepairer() : null;
-    ItemContainer tc = null;
-    if (tradeItems != null) {
-      tc = new ItemContainer();
-      itemMan.fillContainer(tc, items);
-    }
+    TradeContainer tc = tradeConfig == null ? null : new TradeContainer(tradeConfig);
     EngineItem.Config ec = hullConfig.engineConfig;
     EngineItem ei = ec == null ? null : ec.example.copy();
     SolShip ship = build(game, pos, spd, angle, rotSpd, pilot, ic, hullConfig, hullConfig.maxLife,
@@ -63,7 +59,7 @@ public class ShipBuilder {
   public SolShip build(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot,
     ItemContainer container, HullConfig hullConfig, float life,
     GunItem gun1, GunItem gun2, RemoveController removeController,
-    EngineItem engine, ShipRepairer repairer, float money, ItemContainer tradeContainer, Shield shield, Armor armor)
+    EngineItem engine, ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield, Armor armor)
   {
     ArrayList<Dra> dras = new ArrayList<Dra>();
     ShipHull hull = buildHull(game, pos, spd, angle, rotSpd, hullConfig, life, dras);

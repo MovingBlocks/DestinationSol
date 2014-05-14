@@ -1,6 +1,7 @@
 package com.miloshpetrov.sol2.game.item;
 
 import com.miloshpetrov.sol2.Const;
+import com.miloshpetrov.sol2.common.SolMath;
 
 import java.util.*;
 
@@ -64,6 +65,10 @@ public class ItemContainer implements Iterable<SolItem> {
     int idx = myItems.indexOf(selected) + 1;
     if (idx <= 0 || idx >= size()) return null;
     return myItems.get(idx);
+  }
+
+  public SolItem getRandom() {
+    return SolMath.elemRnd(myItems);
   }
 
   private class Itr implements Iterator<SolItem> {

@@ -47,9 +47,7 @@ public class SolGame {
   private final FractionMan myFractionMan;
   private final MapDrawer myMapDrawer;
   private final ShardBuilder myShardBuilder;
-  private final ItemContainer myChangeShips;
   private final ItemMan myItemMan;
-  private final TradeMan myTradeMan;
   private final StarPort.Builder myStarPortBuilder;
   private final SoundMan mySoundMan;
   private final PlayerSpawnConfig myPlayerSpawnConfig;
@@ -86,7 +84,7 @@ public class SolGame {
     myItemMan = new ItemMan(myTexMan, mySoundMan, myEffectTypes, myCols);
     myAbilityCommonConfigs = new AbilityCommonConfigs(myEffectTypes, myTexMan, myCols, mySoundMan);
     myHullConfigs = new HullConfigs(myShipBuilder, texMan, myItemMan, myAbilityCommonConfigs, mySoundMan);
-    myPlanetMan = new PlanetMan(myTexMan, myHullConfigs, myCols);
+    myPlanetMan = new PlanetMan(myTexMan, myHullConfigs, myCols, myItemMan);
     SolContactListener contactListener = new SolContactListener(this);
     myFractionMan = new FractionMan(myTexMan);
     myObjMan = new ObjMan(contactListener, myFractionMan);
@@ -99,8 +97,6 @@ public class SolGame {
     myMapDrawer = new MapDrawer(myTexMan);
     myShardBuilder = new ShardBuilder(myTexMan);
     myGalaxyFiller = new GalaxyFiller();
-    myChangeShips = createChangeShips(myHullConfigs);
-    myTradeMan = new TradeMan();
     myStarPortBuilder = new StarPort.Builder();
     myPlayerSpawnConfig = PlayerSpawnConfig.load(myHullConfigs);
     myDraDebugger = new DraDebugger();
@@ -114,13 +110,6 @@ public class SolGame {
       createPlayer();
     }
     SolMath.checkVectorsTaken(null);
-  }
-
-  private ItemContainer createChangeShips(HullConfigs hullConfigs) {
-    ItemContainer res = new ItemContainer();
-    res.add(new ShipItem(hullConfigs.getConfig("orbiter"), "Orbiter", "A cool ship", 300));
-    res.add(new ShipItem(hullConfigs.getConfig("vanguard"), "Vanguard", "Cooler ship", 600));
-    return res;
   }
 
   private void createPlayer() {
@@ -187,7 +176,6 @@ public class SolGame {
     myChunkMan.update(this);
     myObjMan.update(this);
     myDraMan.update(this);
-    myTradeMan.update(this);
     myMapDrawer.update(this);
     mySoundMan.update(this);
 
@@ -333,14 +321,6 @@ public class SolGame {
 
   public GalaxyFiller getGalaxyFiller() {
     return myGalaxyFiller;
-  }
-
-  public ItemContainer getChangeShips() {
-    return myChangeShips;
-  }
-
-  public TradeMan getTradeMan() {
-    return myTradeMan;
   }
 
   public StarPort.Builder getStarPortBuilder() {

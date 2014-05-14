@@ -8,7 +8,6 @@ import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.gun.GunItem;
-import com.miloshpetrov.sol2.game.gun.GunMount;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.ShipAbility;
@@ -195,8 +194,7 @@ public class MainScreen implements SolUiScreen {
       if (!(o instanceof SolShip)) continue;
       SolShip ship = (SolShip) o;
       if (fracMan.areEnemies(hero, ship)) continue;
-      ItemContainer tc = ship.getTradeContainer();
-      if (tc == null) continue;
+      if (ship.getTradeContainer() == null) continue;
       float dst = ship.getPos().dst(hero.getPos());
       float ar = ship.getHull().config.approxRadius;
       if (minDist < dst - har - ar) continue;

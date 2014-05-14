@@ -10,6 +10,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.*;
 import com.miloshpetrov.sol2.game.input.*;
+import com.miloshpetrov.sol2.game.item.TradeConfig;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
@@ -48,7 +49,7 @@ public class PlanetObjsBuilder {
 
     ShipConfig cfg = planet.getConfig().stationConfig;
     if (cfg != null) {
-      SolShip b = buildGroundShip(game, planet, cfg, "", Fraction.LAANI, takenAngles);
+      SolShip b = buildGroundShip(game, planet, cfg, planet.getConfig().tradeConfig, Fraction.LAANI, takenAngles);
       game.getObjMan().addObjNow(game, b);
     }
 
@@ -262,7 +263,7 @@ public class PlanetObjsBuilder {
     }
   }
 
-  public SolShip buildGroundShip(SolGame game, Planet planet, ShipConfig ge, String tc,
+  public SolShip buildGroundShip(SolGame game, Planet planet, ShipConfig ge, TradeConfig tc,
     Fraction fraction, ConsumedAngles takenAngles)
   {
     Vector2 pos = game.getPlanetMan().findFlatPlace(game, planet, takenAngles, ge.hull.approxRadius);

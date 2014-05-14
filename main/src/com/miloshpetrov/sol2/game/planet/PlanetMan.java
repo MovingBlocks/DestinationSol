@@ -7,6 +7,7 @@ import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
+import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.maze.Maze;
 import com.miloshpetrov.sol2.game.maze.MazeConfigs;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
@@ -28,9 +29,9 @@ public class PlanetMan {
   private final PlanetCoreSingleton myPlanetCore;
   private Planet myNearestPlanet;
 
-  public PlanetMan(TexMan texMan, HullConfigs hullConfigs, GameCols cols) {
-    myPlanetConfigs = new PlanetConfigs(texMan, hullConfigs, cols);
-    mySysConfigs = new SysConfigs(texMan, hullConfigs);
+  public PlanetMan(TexMan texMan, HullConfigs hullConfigs, GameCols cols, ItemMan itemMan) {
+    myPlanetConfigs = new PlanetConfigs(texMan, hullConfigs, cols, itemMan);
+    mySysConfigs = new SysConfigs(texMan, hullConfigs, itemMan);
     myMazeConfigs = new MazeConfigs(texMan, hullConfigs);
 
     mySystems = new ArrayList<SolSystem>();

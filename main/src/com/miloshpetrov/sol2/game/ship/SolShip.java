@@ -25,7 +25,7 @@ public class SolShip implements SolObj {
 
   private final Pilot myPilot;
   private final ItemContainer myItemContainer;
-  private final ItemContainer myTradeContainer;
+  private final TradeContainer myTradeContainer;
   private final ShipHull myHull;
   private final ParticleSrc mySmokeSrc;
   private final ParticleSrc myFireSrc;
@@ -44,7 +44,7 @@ public class SolShip implements SolObj {
   private float myControlEnableAwait;
 
   public SolShip(SolGame game, Pilot pilot, ShipHull hull, RemoveController removeController, List<Dra> dras,
-    ItemContainer container, ShipRepairer repairer, float money, ItemContainer tradeContainer, Shield shield,
+    ItemContainer container, ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
     Armor armor)
   {
     myRemoveController = removeController;
@@ -128,7 +128,7 @@ public class SolShip implements SolObj {
       myMoney += i.getPrice();
       return true;
     }
-    ItemContainer c = shouldTrade(i) ? myTradeContainer : myItemContainer;
+    ItemContainer c = shouldTrade(i) ? myTradeContainer.getItems() : myItemContainer;
     boolean canAdd = c.canAdd();
     if (canAdd) c.add(i);
     return canAdd;
@@ -173,7 +173,7 @@ public class SolShip implements SolObj {
     updateIdleTime(game);
     updateShield(game);
     if (myArmor != null && !myItemContainer.contains(myArmor)) myArmor = null;
-    game.getTradeMan().manage(game, myTradeContainer, myHull.config);
+    if (myTradeContainer != null) myTradeContainer.update(game, myHull.config);
 
     if (isControlsEnabled() && myRepairer != null && myIdleTime > ShipRepairer.REPAIR_AWAIT) {
       myHull.life += myRepairer.tryRepair(game, myItemContainer, myHull.life, myHull.config);
@@ -273,7 +273,7 @@ public class SolShip implements SolObj {
       if (SolMath.test(1 - dropChance)) continue;
       throwLoot(game, item, true);
     }
-    if (myTradeContainer != null) for (SolItem item : myTradeContainer) {
+    if (myTradeContainer != null) for (SolItem item : myTradeContainer.getItems()) {
       float dropChance = .8f;
       if (SolMath.test(1 - dropChance)) continue;
       throwLoot(game, item, true);
@@ -463,7 +463,7 @@ public class SolShip implements SolObj {
     return myMoney;
   }
 
-  public ItemContainer getTradeContainer() {
+  public TradeContainer getTradeContainer() {
     return myTradeContainer;
   }
 

@@ -27,7 +27,7 @@ public class ChangeShip implements InventoryOperations {
 
   @Override
   public ItemContainer getItems(SolGame game) {
-    return game.getChangeShips();
+    return game.getScreens().talkScreen.getTarget().getTradeContainer().getShips();
   }
 
   @Override
