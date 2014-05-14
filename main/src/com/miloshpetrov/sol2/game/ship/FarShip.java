@@ -130,7 +130,7 @@ public class FarShip implements FarObj {
     return myLife;
   }
 
-  public boolean isMountFixed(boolean sec) {
-    return sec ? myHullConfig.mount2Fixed : myHullConfig.mount1Fixed;
+  public boolean mountCanFix(boolean sec) {
+    return sec ? myHullConfig.mount2CanFix : myHullConfig.mount1CanFix;
   }
 }

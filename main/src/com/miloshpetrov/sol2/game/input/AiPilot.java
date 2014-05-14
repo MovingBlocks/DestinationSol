@@ -82,13 +82,10 @@ public class AiPilot implements Pilot {
   }
 
   private Boolean canShoot0(SolShip ship) {
-    GunMount m1 = ship.getHull().getGunMount(false);
-    GunItem g1 = m1.getGun();
-    if (g1 != null && g1.canShoot()) return !m1.isFixed() ? null : true;
-    GunMount m2 = ship.getHull().getGunMount(true);
-    if (m2 == null) return false;
-    GunItem g2 = m2.getGun();
-    if (g2 != null && (g2.canShoot())) return !m2.isFixed() ? null : true;
+    GunItem g1 = ship.getHull().getGun(false);
+    if (g1 != null && g1.canShoot()) return !g1.config.fixed ? null : true;
+    GunItem g2 = ship.getHull().getGun(true);;
+    if (g2 != null && (g2.canShoot())) return !g2.config.fixed ? null : true;
     return false;
   }
 

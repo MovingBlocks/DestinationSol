@@ -76,13 +76,9 @@ public class SolShip implements SolObj {
 
   @Override
   public FarShip toFarObj() {
-    GunMount m1 = myHull.getGunMount(false);
-    GunMount m2 = myHull.getGunMount(true);
     float rotSpd = myHull.getBody().getAngularVelocity() * SolMath.radDeg;
-    boolean m2Fixed = m2 != null && m2.isFixed();
-    GunItem g2 = m2 == null ? null : m2.getGun();
     return new FarShip(myHull.getPos(), myHull.getSpd(), myHull.getAngle(), rotSpd, myPilot, myItemContainer, myHull.config, myHull.life,
-      m1.getGun(), g2, myRemoveController, myHull.getEngine(), myRepairer, myMoney, myTradeContainer, myShield, myArmor);
+      myHull.getGun(false), myHull.getGun(true), myRemoveController, myHull.getEngine(), myRepairer, myMoney, myTradeContainer, myShield, myArmor);
   }
 
   @Override
@@ -143,12 +139,11 @@ public class SolShip implements SolObj {
     if (i instanceof RepairItem) {
       return myItemContainer.count(RepairItem.EXAMPLE) >= TRADE_AFTER;
     }
-    GunItem g1 = myHull.getGunMount(false).getGun();
+    GunItem g1 = myHull.getGun(false);
     if (g1 != null && g1.config.infiniteClipSize == 0 && g1.config.clipConf.example.isSame(i)) {
       return myItemContainer.count(g1.config.clipConf.example) >= TRADE_AFTER;
     }
-    GunMount m2 = myHull.getGunMount(true);
-    GunItem g2 = m2 == null ? null : m2.getGun();
+    GunItem g2 = myHull.getGun(true);
     if (g2 != null && g2.config.infiniteClipSize == 0 && g2.config.clipConf.example.isSame(i)) {
       return myItemContainer.count(g2.config.clipConf.example) >= TRADE_AFTER;
     }
@@ -365,11 +360,6 @@ public class SolShip implements SolObj {
     return myItemContainer;
   }
 
-  public GunItem getGun(boolean gun2) {
-    GunMount m = myHull.getGunMount(gun2);
-    return m.getGun();
-  }
-
   public float getLife() {
     return myHull.life;
   }
@@ -421,16 +411,18 @@ public class SolShip implements SolObj {
       }
     }
     if (item instanceof GunItem) {
+      GunItem gun = (GunItem) item;
       GunMount mount = myHull.getGunMount(secondarySlot);
-      if (equip && mount != null) {
+      boolean canEquip = mount != null && (!gun.config.fixed || mount.canFix());
+      if (canEquip && equip) {
         GunMount anotherMount = myHull.getGunMount(!secondarySlot);
         if (anotherMount != null && anotherMount.getGun() == item) {
           anotherMount.setGun(game, this, null, false);
         }
         boolean under = secondarySlot ? myHull.config.g2UnderShip : myHull.config.g1UnderShip;
-        mount.setGun(game, this, (GunItem) item, under);
+        mount.setGun(game, this, gun, under);
       }
-      return mount != null;
+      return canEquip;
     }
     return false;
   }

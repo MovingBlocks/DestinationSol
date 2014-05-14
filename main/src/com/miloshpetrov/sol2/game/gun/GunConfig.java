@@ -35,13 +35,14 @@ public class GunConfig {
   public final TextureAtlas.AtlasRegion icon;
   public final int projectilesPerShot;
   public final float emTime;
+  public final boolean fixed;
 
   public GunConfig(float minAngleVar, float maxAngleVar, float angleVarDamp, float angleVarPerShot,
     float timeBetweenShots,
     float maxReloadTime, ProjectileConfig projConfig, float gunLength, String displayName,
     boolean lightOnShot, int price, String descBase, int infiniteClipSize, float dmg,
     ClipConfig clipConf, SolSound shootSound, SolSound reloadSound, TextureAtlas.AtlasRegion tex,
-    TextureAtlas.AtlasRegion icon, int projectilesPerShot, float emTime)
+    TextureAtlas.AtlasRegion icon, int projectilesPerShot, float emTime, boolean fixed)
   {
     this.shootSound = shootSound;
     this.reloadSound = reloadSound;
@@ -65,6 +66,7 @@ public class GunConfig {
     this.icon = icon;
     this.projectilesPerShot = projectilesPerShot;
     this.emTime = emTime;
+    this.fixed = fixed;
 
     dps = dmg * projectilesPerShot / timeBetweenShots;
     this.desc = makeDesc(descBase);
@@ -113,9 +115,9 @@ public class GunConfig {
       int projectilesPerShot = sh.getInt("projectilesPerShot", 1);
       if (projectilesPerShot < 1) throw new AssertionError("projectiles per shot");
       float emTime = sh.getFloat("emTime", 0);
-      float density = sh.getFloat("density", -1);
+      boolean fixed = sh.getBoolean("fixed", false);
       GunConfig c = new GunConfig(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots, maxReloadTime, projConfig,
-        gunLength, displayName, lightOnShot, price, descBase, infiniteClipSize, dmg, clipConf, shootSound, reloadSound, tex, icon, projectilesPerShot, emTime);
+        gunLength, displayName, lightOnShot, price, descBase, infiniteClipSize, dmg, clipConf, shootSound, reloadSound, tex, icon, projectilesPerShot, emTime, fixed);
       itemMan.registerItem(sh.name, c.example);
     }
   }

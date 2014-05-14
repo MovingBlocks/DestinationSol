@@ -1,6 +1,4 @@
 
-unfixed mount is too unbalanced -- mount type should be hull param + strong guns should be always fixed
-
 systemConfig:
   temporaryInnerEnemies
   isHard: true
@@ -43,7 +41,7 @@ UI:
   ability recharge ui
   fading compass on planet
   hardness options:
-    unfixed mount
+    ship with initial mount that can fix
     brakes
   calculate weapon dangerousness: consider emCharge, knockback, guidedness, number of projectiles
 

@@ -7,6 +7,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.Fraction;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.dra.Dra;
+import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.gun.GunMount;
 import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.item.EngineItem;
@@ -70,6 +71,12 @@ public class ShipHull {
 
   public GunMount getGunMount(boolean second) {
     return second ? myGunMount2 : myGunMount1;
+  }
+
+  public GunItem getGun(boolean second) {
+    GunMount m = getGunMount(second);
+    if (m == null) return null;
+    return m.getGun();
   }
 
   public void update(SolGame game, ItemContainer container, Pilot provider, SolShip ship, SolShip nearestEnemy) {

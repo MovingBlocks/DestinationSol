@@ -12,13 +12,13 @@ import java.util.List;
 
 public class GunMount {
   private final Vector2 myRelPos;
-  private final boolean myFixed;
+  private final boolean myCanFix;
   private SolGun myGun;
   private float myRelGunAngle;
 
-  public GunMount(Vector2 relPos, boolean fixed) {
+  public GunMount(Vector2 relPos, boolean canFix) {
     myRelPos = relPos;
-    myFixed = fixed;
+    myCanFix = canFix;
   }
 
   public void update(ItemContainer ic, SolGame game, float shipAngle, SolObj creator, boolean shouldShoot, SolShip nearestEnemy, Fraction fraction) {
@@ -28,7 +28,7 @@ public class GunMount {
       return;
     }
 
-    if (!myFixed && nearestEnemy != null) {
+    if (!myCanFix && nearestEnemy != null) {
 //      myRelGunAngle = SolMath.angle(creator.getPos(), nearestEnemy.getPos()) - shipAngle;
       Vector2 mountPos = SolMath.toWorld(myRelPos, shipAngle, creator.getPos());
       float shootAngle = Shooter.calcShootAngle(mountPos, creator.getSpd(), nearestEnemy.getPos(), nearestEnemy.getSpd(), myGun.getConfig().projConfig.spdLen);
@@ -52,6 +52,7 @@ public class GunMount {
       myGun = null;
     }
     if (gunItem != null) {
+      if (gunItem.config.fixed && !myCanFix) throw new AssertionError();
       myGun = new SolGun(game, gunItem, myRelPos, underShip);
       List<Dra> dras1 = myGun.getDras();
       dras.addAll(dras1);
@@ -59,8 +60,8 @@ public class GunMount {
     }
   }
 
-  public boolean isFixed() {
-    return myFixed;
+  public boolean canFix() {
+    return myCanFix;
   }
 
   public Vector2 getRelPos() {

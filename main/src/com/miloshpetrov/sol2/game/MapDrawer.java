@@ -6,7 +6,6 @@ import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.gun.GunItem;
-import com.miloshpetrov.sol2.game.gun.GunMount;
 import com.miloshpetrov.sol2.game.item.Armor;
 import com.miloshpetrov.sol2.game.item.Shield;
 import com.miloshpetrov.sol2.game.maze.Maze;
@@ -263,23 +262,22 @@ public class MapDrawer {
   }
 
   public static float getDps(SolShip s) {
-    ShipHull h = s.getHull();
-    GunMount m1 = s.getHull().getGunMount(false);
-    GunMount m2 = s.getHull().getGunMount(true);
-    float dps1 = getDps(m1.getGun(), m1.isFixed());
-    float dps2 = m2 == null ? 0 : getDps(m2.getGun(), m2.isFixed());
+    GunItem g1 = s.getHull().getGun(false);
+    float dps1 = getDps(g1);
+    GunItem g2 = s.getHull().getGun(true);
+    float dps2 = getDps(g2);
     return dps1 + dps2;
   }
 
   public static float getDps(FarShip s) {
-    return getDps(s.getGun(false), s.isMountFixed(false)) + getDps(s.getGun(true), s.isMountFixed(true));
+    return getDps(s.getGun(false)) + getDps(s.getGun(true));
   }
 
-  private static float getDps(GunItem g, boolean fixed) {
+  private static float getDps(GunItem g) {
     if (g == null || !g.canShoot()) return 0;
     float projSpd = g.config.projConfig.spdLen;
     float hitPerc = SolMath.clamp(projSpd - 4, 0, 4) / 4;
-    if (fixed) hitPerc *= .7f;
+    if (g.config.fixed) hitPerc *= .7f;
     return g.config.dps * hitPerc;
   }
 

@@ -3,7 +3,6 @@ package com.miloshpetrov.sol2.game.input;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.gun.GunItem;
-import com.miloshpetrov.sol2.game.gun.GunMount;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public class Shooter {
@@ -74,14 +73,12 @@ public class Shooter {
   
   // returns gun if it's fixed & can shoot
   private GunItem processGun(SolShip ship, boolean second) {
-    GunMount mount = ship.getHull().getGunMount(second);
-    if (mount == null) return null;
-    GunItem g = mount.getGun();
-    if (!mount.isFixed() || g != null && g.config.projConfig.zeroAbsSpd) {
-      if (second) myShoot2 = true; else myShoot = true;
-      return null;
-    }
-    return g != null && g.ammo > 0 ? g : null;
+    GunItem g = ship.getHull().getGun(second);
+    if (g == null || g.ammo <= 0) return null;
+    if (g.config.fixed && !g.config.projConfig.zeroAbsSpd) return g;
+
+    if (second) myShoot2 = true; else myShoot = true;
+    return null;
   }
 
   public boolean isShoot() {
