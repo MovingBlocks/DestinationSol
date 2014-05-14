@@ -28,21 +28,14 @@ public class GroundBuilder {
       ds0[x] = SolMath.rnd(desiredMin, desiredMax);
     }
     float[] ds = new float[myCols];
-    // smoothing
-    float min = Float.MAX_VALUE;
-    float max = Float.MIN_VALUE;
-    for (int x = 0; x < myCols; x++) {
-      float prev = x == 0 ? ds0[myCols - 1] : ds0[x - 1];
-      float next = x == myCols - 1 ? ds0[0] : ds0[x + 1];
-      ds[x] = .5f * .5f * (prev + next) + .5f * ds0[x];
-      if (ds[x] < min) min = ds[x];
-      if (max < ds[x]) max = ds[x];
+    if (myConfig.smoothLandscape) {
+      smooth(ds0, desiredMin, desiredMax, ds);
+    } else {
+      for (int i = 0; i < ds0.length; i++) {
+        ds[i] = ds0[i];
+      }
     }
-    float shift = min - desiredMin;
-    float mul = (desiredMax - .01f - desiredMin) / (max - min);
-    for (int x = 0; x < myCols; x++) {
-      ds[x] = mul * (ds[x] - shift);
-    }
+
 
     int nextD = (int) ds[0];
     for (int col = 0; col < myCols; col++) {
@@ -66,6 +59,24 @@ public class GroundBuilder {
       }
     }
     return myMap;
+  }
+
+  private void smooth(float[] ds0, float desiredMin, float desiredMax, float[] ds) {
+    // smoothing
+    float min = Float.MAX_VALUE;
+    float max = Float.MIN_VALUE;
+    for (int x = 0; x < myCols; x++) {
+      float prev = x == 0 ? ds0[myCols - 1] : ds0[x - 1];
+      float next = x == myCols - 1 ? ds0[0] : ds0[x + 1];
+      ds[x] = .5f * .5f * (prev + next) + .5f * ds0[x];
+      if (ds[x] < min) min = ds[x];
+      if (max < ds[x]) max = ds[x];
+    }
+    float shift = min - desiredMin;
+    float mul = (desiredMax - .01f - desiredMin) / (max - min);
+    for (int x = 0; x < myCols; x++) {
+      ds[x] = mul * (ds[x] - shift);
+    }
   }
 
   private void createDungeon() {

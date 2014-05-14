@@ -23,12 +23,14 @@ public class PlanetConfig {
   public final SkyConfig skyConfig;
   public final ArrayList<TextureAtlas.AtlasRegion> cloudTexs;
   public final ArrayList<ShipConfig> lowOrbitEnemies;
+  public final int rowCount;
+  public final boolean smoothLandscape;
 
   public PlanetConfig(String configName, float minGrav, float maxGrav, List<DecoConfig> deco,
     List<ShipConfig> groundEnemies,
     List<ShipConfig> highOrbitEnemies, ArrayList<ShipConfig> lowOrbitEnemies,
     ArrayList<TextureAtlas.AtlasRegion> cloudTexs, PlanetTiles planetTiles,
-    ShipConfig stationConfig, SkyConfig skyConfig)
+    ShipConfig stationConfig, SkyConfig skyConfig, int rowCount, boolean smoothLandscape)
   {
     this.configName = configName;
     this.minGrav = minGrav;
@@ -41,6 +43,8 @@ public class PlanetConfig {
     this.planetTiles = planetTiles;
     this.stationConfig = stationConfig;
     this.skyConfig = skyConfig;
+    this.rowCount = rowCount;
+    this.smoothLandscape = smoothLandscape;
   }
 
   static PlanetConfig load(TexMan texMan, HullConfigs hullConfigs, FileHandle configFile, JsonValue sh, GameCols cols) {
@@ -56,6 +60,8 @@ public class PlanetConfig {
     String groundFolder = sh.getString("groundTexs");
     PlanetTiles planetTiles = new PlanetTiles(texMan, groundFolder, configFile);
     SkyConfig skyConfig = SkyConfig.load(sh.get("sky"), cols);
-    return new PlanetConfig(sh.name, minGrav, maxGrav, deco, groundEnemies, highOrbitEnemies, lowOrbitEnemies, cloudTexs, planetTiles, stationConfig, skyConfig);
+    int rowCount = sh.getInt("rowCount");
+    boolean smoothLandscape = sh.getBoolean("smoothLandscape", false);
+    return new PlanetConfig(sh.name, minGrav, maxGrav, deco, groundEnemies, highOrbitEnemies, lowOrbitEnemies, cloudTexs, planetTiles, stationConfig, skyConfig, rowCount, smoothLandscape);
   }
 }

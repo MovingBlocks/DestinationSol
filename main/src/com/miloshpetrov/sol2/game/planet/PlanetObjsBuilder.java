@@ -16,7 +16,6 @@ import com.miloshpetrov.sol2.game.ship.SolShip;
 import java.util.*;
 
 public class PlanetObjsBuilder {
-  private static final int ROWS = 4;
   private static final float TOP_TILE_SZ = 2f;
 
   private static final float MAX_CLOUD_PIECE_SZ = 1.5f;
@@ -96,24 +95,24 @@ public class PlanetObjsBuilder {
     float maxR = planet.getGroundHeight() - TOP_TILE_SZ / 2;
     int cols = (int)(2 * SolMath.PI * maxR / TOP_TILE_SZ);
     if (cols <= 0) throw new RuntimeException("eh");
-
+    int rows = planet.getConfig().rowCount;
 
     // helper arrays
-    float[] radii = new float[ROWS];
-    float[] tileSizes = new float[ROWS];
+    float[] radii = new float[rows];
+    float[] tileSizes = new float[rows];
     float currRadius = maxR;
-    for (int row = 0; row < ROWS; row++) {
+    for (int row = 0; row < rows; row++) {
       float tileSize = 2 * SolMath.PI * currRadius / cols;
       radii[row] = currRadius;
       tileSizes[row] = tileSize;
       currRadius -= tileSize;
     }
-    float minR = radii[ROWS - 1] - tileSizes[ROWS - 1] / 2;
+    float minR = radii[rows - 1] - tileSizes[rows - 1] / 2;
 
-    Tile[][] tileMap = new GroundBuilder(planet.getConfig(), cols, ROWS).build();
+    Tile[][] tileMap = new GroundBuilder(planet.getConfig(), cols, rows).build();
 
     // create ground
-    for (int row = 0; row < ROWS; row++) {
+    for (int row = 0; row < rows; row++) {
       float tileDist = radii[row];
       float tileSize = tileSizes[row];
       for (int col = 0; col < cols; col++) {

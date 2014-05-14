@@ -19,6 +19,16 @@
       tint: fire,
     },
   },
+  miner: {
+    big: false,
+    workSound: "engines/medWork",
+    effect: {
+      effectFile: smokeEngine,
+      size: 0.07,
+      tex: smoke,
+      tint: smoke,
+    },
+  },
   
   big: {
     big: true,
