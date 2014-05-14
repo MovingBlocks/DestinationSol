@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.input.*;
+import com.miloshpetrov.sol2.game.item.TradeConfig;
 import com.miloshpetrov.sol2.game.maze.Maze;
 import com.miloshpetrov.sol2.game.planet.*;
 import com.miloshpetrov.sol2.game.ship.*;
@@ -40,20 +41,19 @@ public class GalaxyFiller {
     MoveDestProvider dp;
     Vector2 pos;
     float detectionDist = Const.AI_DET_DIST;
-    String tradeItems;
+    TradeConfig tradeConfig = null;
     if (hullConf.type == HullConfig.Type.STATION) {
       pos = getPosForStation(sys, mainStation);
       dp = new NoDestProvider();
-      tradeItems = "";
+      tradeConfig = sys.getConfig().tradeConfig;
     } else {
       pos = getEmptySpace(game, sys);
       boolean isBig = hullConf.type == HullConfig.Type.BIG;
       dp = new ExplorerDestProvider(game, pos, !isBig, hullConf, sys);
       if (isBig) {
-        tradeItems = "";
+        tradeConfig = sys.getConfig().tradeConfig;
       } else {
         detectionDist *= 1.5;
-        tradeItems = null;
       }
     }
     Pilot pilot = new AiPilot(dp, true, frac, true, "something", detectionDist);
@@ -61,7 +61,7 @@ public class GalaxyFiller {
     boolean hasRepairer;
     hasRepairer = cfg.hasRepairer;
     int money = cfg.money;
-    SolShip s = game.getShipBuilder().buildNew(game, pos, null, angle, 0, pilot, cfg.items, hullConf, null, hasRepairer, money, tradeItems);
+    SolShip s = game.getShipBuilder().buildNew(game, pos, null, angle, 0, pilot, cfg.items, hullConf, null, hasRepairer, money, tradeConfig);
     game.getObjMan().addObjDelayed(s);
     ShipConfig guardConf = cfg.guard;
     if (guardConf != null) {

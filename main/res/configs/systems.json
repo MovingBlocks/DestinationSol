@@ -75,6 +75,21 @@
         density: 0.0003,
       },
     ],
+    trading: {
+      items: "bo b rep",
+      ships: "guardie orbiter",
+      mercenaries: [
+        {
+          hull: pirateSmall,
+          items: "wbo s:.1 b:.3 rep:.5",
+          money: 20,
+          repairer: true,
+          hirePrice: 100,
+          displayName: "A Mighty Pirate",
+          desc: desc,
+        },
+      ],
+    }
   },
   hard: {
     environment: {

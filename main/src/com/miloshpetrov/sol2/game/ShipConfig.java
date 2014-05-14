@@ -13,19 +13,26 @@ public class ShipConfig {
   public final boolean hasRepairer;
   public final float density;
   public final ShipConfig guard;
+  public final float hirePrice;
+  public final String displayName;
+  public final String desc;
 
   public ShipConfig(HullConfig hull, String items, int money, boolean hasRepairer,
-    float density, ShipConfig guard) {
+    float density, ShipConfig guard, float hirePrice, String displayName, String desc) {
     this.hull = hull;
     this.items = items;
     this.money = money;
     this.hasRepairer = hasRepairer;
     this.density = density;
     this.guard = guard;
+    this.hirePrice = hirePrice;
+    this.displayName = displayName;
+    this.desc = desc;
   }
 
   public static ArrayList<ShipConfig> loadList(JsonValue shipListJson, HullConfigs hullConfigs) {
     ArrayList<ShipConfig> res = new ArrayList<ShipConfig>();
+    if (shipListJson == null) return res;
     for (JsonValue shipNode : shipListJson) {
       ShipConfig c = load(hullConfigs, shipNode);
       res.add(c);
@@ -48,6 +55,10 @@ public class ShipConfig {
     } else {
       guard = null;
     }
-    return new ShipConfig(hull, items, money, hasRepairer, density, guard);
+    float hirePrice = shipNode.getFloat("hirePrice", 0);
+    String displayName = shipNode.getString("displayName", null);
+    String desc = shipNode.getString("desc", null);
+    return new ShipConfig(hull, items, money, hasRepairer, density, guard, hirePrice, displayName, desc);
   }
+
 }

@@ -23,12 +23,12 @@ public class FarShip implements FarObj {
   private final EngineItem myEngine;
   private ShipRepairer myRepairer;
   private float myMoney;
-  private final ItemContainer myTradeContainer;
+  private final TradeContainer myTradeContainer;
 
   public FarShip(Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot, ItemContainer container,
     HullConfig hullConfig, float life,
     GunItem gun1, GunItem gun2, RemoveController removeController, EngineItem engine,
-    ShipRepairer repairer, float money, ItemContainer tradeContainer, Shield shield, Armor armor)
+    ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield, Armor armor)
   {
     myPos = pos;
     mySpd = spd;
@@ -63,7 +63,7 @@ public class FarShip implements FarObj {
   @Override
   public void update(SolGame game) {
     myPilot.updateFar(game, this);
-    game.getTradeMan().manage(game, myTradeContainer, myHullConfig);
+    if (myTradeContainer != null) myTradeContainer.update(game, myHullConfig);
     if (myRepairer != null) myLife += myRepairer.tryRepair(game, myContainer, myLife, myHullConfig);
   }
 

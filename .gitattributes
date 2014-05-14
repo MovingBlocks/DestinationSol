@@ -399,7 +399,6 @@ main/src/com/miloshpetrov/sol2/game/SolContactListener.java -text
 main/src/com/miloshpetrov/sol2/game/SolGame.java -text
 main/src/com/miloshpetrov/sol2/game/SolObj.java -text
 main/src/com/miloshpetrov/sol2/game/StarPort.java -text
-main/src/com/miloshpetrov/sol2/game/TradeMan.java -text
 main/src/com/miloshpetrov/sol2/game/asteroid/Asteroid.java -text
 main/src/com/miloshpetrov/sol2/game/asteroid/AsteroidBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/asteroid/FarAsteroid.java -text
@@ -441,11 +440,14 @@ main/src/com/miloshpetrov/sol2/game/item/ItemContainer.java -text
 main/src/com/miloshpetrov/sol2/game/item/ItemMan.java -text
 main/src/com/miloshpetrov/sol2/game/item/Loot.java -text
 main/src/com/miloshpetrov/sol2/game/item/LootBuilder.java -text
+main/src/com/miloshpetrov/sol2/game/item/MercItem.java -text
 main/src/com/miloshpetrov/sol2/game/item/MoneyItem.java -text
 main/src/com/miloshpetrov/sol2/game/item/RepairItem.java -text
 main/src/com/miloshpetrov/sol2/game/item/Shield.java -text
 main/src/com/miloshpetrov/sol2/game/item/ShipItem.java -text
 main/src/com/miloshpetrov/sol2/game/item/SolItem.java -text
+main/src/com/miloshpetrov/sol2/game/item/TradeConfig.java -text
+main/src/com/miloshpetrov/sol2/game/item/TradeContainer.java -text
 main/src/com/miloshpetrov/sol2/game/maze/Maze.java -text
 main/src/com/miloshpetrov/sol2/game/maze/MazeBuilder.java -text
 main/src/com/miloshpetrov/sol2/game/maze/MazeConfig.java -text

@@ -59,7 +59,7 @@ public class SellItems implements InventoryOperations {
       cmp.getInputMan().setScreen(cmp, game.getScreens().mainScreen);
       return;
     }
-    boolean enabled = selected != null && target.getTradeContainer().canAdd();
+    boolean enabled = selected != null && target.getTradeContainer().getItems().canAdd();
     sellCtrl.setDisplayName(enabled ? "Sell" : "---");
     sellCtrl.setEnabled(enabled);
     if (!enabled) return;
@@ -67,7 +67,7 @@ public class SellItems implements InventoryOperations {
       ItemContainer ic = hero.getItemContainer();
       is.setSelected(ic.getNext(selected));
       ic.remove(selected);
-      target.getTradeContainer().add(selected);
+      target.getTradeContainer().getItems().add(selected);
       hero.setMoney(hero.getMoney() + selected.getPrice() * PERC);
     }
   }

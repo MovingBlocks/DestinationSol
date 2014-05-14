@@ -39,7 +39,7 @@ public class ChunkFiller {
   public static final float DUST_SZ = .02f;
   private static final float MAZE_ZONE_BORDER = 20;
 
-  public ChunkFiller(HullConfigs hullConfigs, TexMan texMan) {
+  public ChunkFiller() {
   }
 
 
@@ -75,7 +75,7 @@ public class ChunkFiller {
           if (!farBg) fillAsteroids(game, remover, true, chCenter);
           SysConfig beltConfig = belt.getConfig();
           for (ShipConfig enemyConf : beltConfig.tempEnemies) {
-            if (!farBg) fillEnemies(game, remover, enemyConf, chCenter, true);
+            if (!farBg) fillEnemies(game, remover, enemyConf, chCenter);
           }
           return beltConfig.envConfig;
         }
@@ -109,23 +109,22 @@ public class ChunkFiller {
     if (dst > Const.CHUNK_SIZE) {
       fillAsteroids(game, remover, false, chCenter);
       for (ShipConfig enemyConf : conf.tempEnemies) {
-        fillEnemies(game, remover, enemyConf, chCenter, false);
+        fillEnemies(game, remover, enemyConf, chCenter);
       }
     }
   }
 
-  private void fillEnemies(SolGame game, RemoveController remover, ShipConfig enemyConf, Vector2 chCenter, boolean moving) {
+  private void fillEnemies(SolGame game, RemoveController remover, ShipConfig enemyConf, Vector2 chCenter) {
     int count = getEntityCount(enemyConf.density);
     if (count == 0) return;
     for (int i = 0; i < count; i++) {
       Vector2 enemyPos = getRndPos(chCenter);
-      SolShip ship = buildSpaceEnemy(game, enemyPos, remover, enemyConf, moving);
+      SolShip ship = buildSpaceEnemy(game, enemyPos, remover, enemyConf);
       if (ship != null) game.getObjMan().addObjDelayed(ship);
     }
   }
 
-  public SolShip buildSpaceEnemy(SolGame game, Vector2 pos, RemoveController remover, ShipConfig enemyConf,
-    boolean moving)
+  public SolShip buildSpaceEnemy(SolGame game, Vector2 pos, RemoveController remover, ShipConfig enemyConf)
   {
     if (!game.isPlaceEmpty(pos)) return null;
     Vector2 spd = new Vector2();

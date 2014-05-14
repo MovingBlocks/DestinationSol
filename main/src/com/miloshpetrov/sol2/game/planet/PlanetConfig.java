@@ -6,6 +6,8 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.game.GameCols;
 import com.miloshpetrov.sol2.game.ShipConfig;
+import com.miloshpetrov.sol2.game.item.ItemMan;
+import com.miloshpetrov.sol2.game.item.TradeConfig;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 import java.util.ArrayList;
@@ -25,12 +27,13 @@ public class PlanetConfig {
   public final ArrayList<ShipConfig> lowOrbitEnemies;
   public final int rowCount;
   public final boolean smoothLandscape;
+  public final TradeConfig tradeConfig;
 
   public PlanetConfig(String configName, float minGrav, float maxGrav, List<DecoConfig> deco,
     List<ShipConfig> groundEnemies,
     List<ShipConfig> highOrbitEnemies, ArrayList<ShipConfig> lowOrbitEnemies,
     ArrayList<TextureAtlas.AtlasRegion> cloudTexs, PlanetTiles planetTiles,
-    ShipConfig stationConfig, SkyConfig skyConfig, int rowCount, boolean smoothLandscape)
+    ShipConfig stationConfig, SkyConfig skyConfig, int rowCount, boolean smoothLandscape, TradeConfig tradeConfig)
   {
     this.configName = configName;
     this.minGrav = minGrav;
@@ -45,9 +48,11 @@ public class PlanetConfig {
     this.skyConfig = skyConfig;
     this.rowCount = rowCount;
     this.smoothLandscape = smoothLandscape;
+    this.tradeConfig = tradeConfig;
   }
 
-  static PlanetConfig load(TexMan texMan, HullConfigs hullConfigs, FileHandle configFile, JsonValue sh, GameCols cols) {
+  static PlanetConfig load(TexMan texMan, HullConfigs hullConfigs, FileHandle configFile, JsonValue sh, GameCols cols,
+    ItemMan itemMan) {
     float minGrav = sh.getFloat("minGrav");
     float maxGrav = sh.getFloat("maxGrav");
     List<DecoConfig> deco = DecoConfig.load(sh, texMan, configFile);
@@ -62,6 +67,7 @@ public class PlanetConfig {
     SkyConfig skyConfig = SkyConfig.load(sh.get("sky"), cols);
     int rowCount = sh.getInt("rowCount");
     boolean smoothLandscape = sh.getBoolean("smoothLandscape", false);
-    return new PlanetConfig(sh.name, minGrav, maxGrav, deco, groundEnemies, highOrbitEnemies, lowOrbitEnemies, cloudTexs, planetTiles, stationConfig, skyConfig, rowCount, smoothLandscape);
+    TradeConfig tradeConfig = TradeConfig.load(itemMan, sh.get("trading"), null);
+    return new PlanetConfig(sh.name, minGrav, maxGrav, deco, groundEnemies, highOrbitEnemies, lowOrbitEnemies, cloudTexs, planetTiles, stationConfig, skyConfig, rowCount, smoothLandscape, tradeConfig);
   }
 }
