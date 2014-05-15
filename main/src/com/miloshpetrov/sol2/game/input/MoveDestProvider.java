@@ -3,6 +3,7 @@ package com.miloshpetrov.sol2.game.input;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
+import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public interface MoveDestProvider {
   Vector2 getDest();
@@ -21,6 +22,6 @@ public interface MoveDestProvider {
    * if null is returned, the ship will move as if there's no enemy near
    * note that the ship will always shoot if there's enemy ahead of it (or if it has unfixed gun)
    */
-  Boolean shouldManeuver(boolean canShoot);
+  Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround);
 
 }

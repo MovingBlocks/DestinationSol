@@ -7,6 +7,7 @@ import com.miloshpetrov.sol2.game.ShipConfig;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.planet.PlanetBind;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
+import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public class StillGuard implements MoveDestProvider {
 
@@ -51,7 +52,7 @@ public class StillGuard implements MoveDestProvider {
   }
 
   @Override
-  public Boolean shouldManeuver(boolean canShoot) {
+  public Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround) {
     return true;
   }
 }

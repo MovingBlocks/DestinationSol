@@ -7,6 +7,7 @@ import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.planet.SolSystem;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
+import com.miloshpetrov.sol2.game.ship.SolShip;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +90,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
   }
 
   @Override
-  public Boolean shouldManeuver(boolean canShoot) {
+  public Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround) {
     if (myAggressive && canShoot) return true;
     return null;
   }

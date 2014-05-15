@@ -50,7 +50,8 @@ public class AiPilot implements Pilot {
     boolean canShootUnfixed = canShoot == null;
     if (canShootUnfixed) canShoot = true;
     Planet np = game.getPlanetMan().getNearestPlanet();
-    float shootDist = canShootUnfixed && np.isNearGround(shipPos) ? Const.AI_SHOOT_DIST_GROUND : Const.AI_SHOOT_DIST_SPACE;
+    boolean nearGround = np.isNearGround(shipPos);
+    float shootDist = canShootUnfixed && nearGround ? Const.AI_SHOOT_DIST_GROUND : Const.AI_SHOOT_DIST_SPACE;
     shootDist += hullConfig.approxRadius;
 
     Vector2 dest = null;
@@ -58,7 +59,7 @@ public class AiPilot implements Pilot {
     boolean hasEngine = ship.getHull().getEngine() != null;
     if (hasEngine) {
       Boolean battle = null;
-      if (nearestEnemy != null) battle = myDestProvider.shouldManeuver(canShoot);
+      if (nearestEnemy != null) battle = myDestProvider.shouldManeuver(canShoot, nearestEnemy, nearGround);
       if (battle != null) {
         dest = myBattleDestProvider.getDest(ship, nearestEnemy, shootDist, np, battle);
         shouldStopNearDest = myBattleDestProvider.shouldStopNearDest();
