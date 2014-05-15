@@ -1,18 +1,14 @@
 
-fading compass on planet
-ability recharge ui
-"dangerous enemy near" warning
-
 control types
 
-"new" mark in the inventory
-split item icons from ui icons from ship icons
-enemies should use abilities
 
-
-UI SOUND:
-  blip when warning
-  voice assistant?
+new ui:
+  "new" mark in the inventory
+  fading compass on planet
+  "dangerous enemy near" warning
+  warning priorities
+  sounds:
+    warning blip
 
 
 CONTENT:
@@ -22,13 +18,13 @@ CONTENT:
   planetConfig:
     isHard: true
   belt: isHard
-
   item pick up sound
   item color categories
 
-new ui style
 
 DEPENDS ON GAME LENGTH:
+  ability ammo?
+    enemies should use abilities?
   save
   respawn enemies
   explorers should avoid tough enemies
@@ -37,6 +33,7 @@ DEPENDS ON GAME LENGTH:
 PERF:
   pack textures, launch on android to ensure that everything works
   stress test on every object preloaded
+  split item icons from ui icons from ship icons
   map and ui should carefully draw. implement some class that helps to store values
   texture packing is needed
   build everything as far + SG.isPlaceEmpty should iterate over far objs
@@ -81,6 +78,7 @@ FEATURES
   make buttons size based on real screen size + test on tablets
   better sky colors?
   starports should be on differernt distances from planet center, since now they overlap
+  voice warnings
   ship traces reusable?
   update pitch to all played sounds if game time is changed?
   damaged ship hulls in place of exploded ships
