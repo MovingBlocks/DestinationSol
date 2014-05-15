@@ -1,5 +1,4 @@
 
-reincarnate with part of items
 control types
 brakes
 ability recharge ui
