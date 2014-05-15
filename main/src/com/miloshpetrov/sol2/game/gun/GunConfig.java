@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfig;
 import com.miloshpetrov.sol2.game.sound.SolSound;
@@ -68,9 +69,28 @@ public class GunConfig {
     this.emTime = emTime;
     this.fixed = fixed;
 
-    dps = dmg * projectilesPerShot / timeBetweenShots;
     this.desc = makeDesc(descBase);
+    dps = calcDps();
     example = new GunItem(this, 0, 0);
+  }
+
+  private float calcDps() {
+    float projDmg = dmg;
+    if (emTime > 0) projDmg = 15;
+    else if (projConfig.density > 0) projDmg = 5;
+
+    float projHitChance = (projConfig.spdLen + projConfig.acc) / 4;
+    if (projConfig.guided) projHitChance += .3f;
+    float sz = projConfig.physSize;
+    if (sz > 0) projHitChance += sz * .5f;
+    projHitChance = SolMath.clamp(projHitChance, .1f, 1);
+    projDmg *= projHitChance;
+
+    float shotDmg = projDmg;
+    if (projectilesPerShot > 1) shotDmg *= projectilesPerShot / 2;
+
+    float shootTimePerc = fixed ? .2f : 1f;
+    return shotDmg * shootTimePerc / timeBetweenShots;
   }
 
   private String makeDesc(String descBase) {
