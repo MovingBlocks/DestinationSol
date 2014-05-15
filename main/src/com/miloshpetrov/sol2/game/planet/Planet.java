@@ -17,6 +17,7 @@ public class Planet {
   private final float myRotSpd;
   private final float myGroundHeight;
   private final PlanetConfig myConfig;
+  private final String myName;
   private final float myGravConst;
   private final List<Vector2> myLps;
   private boolean myObjsCreated;
@@ -26,7 +27,8 @@ public class Planet {
   private float myMinGroundHeight;
 
   public Planet(SolSystem sys, float angleToSys, float dist, float angle, float toSysRotSpd, float rotSpd,
-    float groundHeight, boolean objsCreated, PlanetConfig config) {
+    float groundHeight, boolean objsCreated, PlanetConfig config, String name)
+  {
     mySys = sys;
     myAngleToSys = angleToSys;
     myDist = dist;
@@ -35,6 +37,7 @@ public class Planet {
     myRotSpd = rotSpd;
     myGroundHeight = groundHeight;
     myConfig = config;
+    myName = name;
     myMinGroundHeight = myGroundHeight;
     myObjsCreated = objsCreated;
     myPos = new Vector2();
@@ -154,5 +157,9 @@ public class Planet {
 
   public float getToSysRotSpd() {
     return myToSysRotSpd;
+  }
+
+  public String getName() {
+    return myName;
   }
 }

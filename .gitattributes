@@ -261,11 +261,13 @@ main/res/configs/items/engines.json -text
 main/res/configs/items/guns.json -text
 main/res/configs/items/shields.json -text
 main/res/configs/mazes.json -text
+main/res/configs/planetNames.txt -text
 main/res/configs/planets.json -text
 main/res/configs/playerSpawn.json -text
 main/res/configs/projectiles.json -text
 main/res/configs/specialEffects.json -text
 main/res/configs/specialSounds.json -text
+main/res/configs/systemNames.txt -text
 main/res/configs/systems.json -text
 main/res/emitters/areaShipAbility.p -text
 main/res/emitters/electricity.p -text
@@ -397,6 +399,7 @@ main/src/com/miloshpetrov/sol2/game/SolCam.java -text
 main/src/com/miloshpetrov/sol2/game/SolContactFilter.java -text
 main/src/com/miloshpetrov/sol2/game/SolContactListener.java -text
 main/src/com/miloshpetrov/sol2/game/SolGame.java -text
+main/src/com/miloshpetrov/sol2/game/SolNames.java -text
 main/src/com/miloshpetrov/sol2/game/SolObj.java -text
 main/src/com/miloshpetrov/sol2/game/StarPort.java -text
 main/src/com/miloshpetrov/sol2/game/asteroid/Asteroid.java -text
@@ -513,6 +516,7 @@ main/src/com/miloshpetrov/sol2/game/screens/SellItems.java -text
 main/src/com/miloshpetrov/sol2/game/screens/ShowInventory.java -text
 main/src/com/miloshpetrov/sol2/game/screens/SunWarnDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/screens/TalkScreen.java -text
+main/src/com/miloshpetrov/sol2/game/screens/ZoneNameAnnouncer.java -text
 main/src/com/miloshpetrov/sol2/game/ship/AbilityCharge.java -text
 main/src/com/miloshpetrov/sol2/game/ship/AbilityConfig.java -text
 main/src/com/miloshpetrov/sol2/game/ship/Door.java -text

@@ -9,7 +9,7 @@ import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.item.*;
-import com.miloshpetrov.sol2.game.planet.Planet;
+import com.miloshpetrov.sol2.game.planet.*;
 import com.miloshpetrov.sol2.game.ship.ShipAbility;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 import com.miloshpetrov.sol2.ui.*;
@@ -31,6 +31,7 @@ public class MainScreen implements SolUiScreen {
   private final SolUiControl myShoot2Ctrl;
   private final CollisionWarnDrawer myCollisionWarnDrawer;
   private final SunWarnDrawer mySunWarnDrawer;
+  private final ZoneNameAnnouncer myZoneNameAnnouncer;
   private final SolUiControl myAbilityCtrl;
   private final SolUiControl myMenuCtrl;
   public final SolUiControl mapCtrl;
@@ -93,6 +94,7 @@ public class MainScreen implements SolUiScreen {
 
     myCollisionWarnDrawer = new CollisionWarnDrawer(r);
     mySunWarnDrawer = new SunWarnDrawer(r);
+    myZoneNameAnnouncer = new ZoneNameAnnouncer();
     myBorderDrawer = new BorderDrawer(r, cmp);
 
     TexMan texMan = cmp.getTexMan();
@@ -140,6 +142,7 @@ public class MainScreen implements SolUiScreen {
 
     myCollisionWarnDrawer.update(game);
     mySunWarnDrawer.update(game);
+    myZoneNameAnnouncer.update(game);
 
     if (myMenuCtrl.isJustOff()) {
       inputMan.setScreen(cmp, screens.menuScreen);
@@ -221,6 +224,7 @@ public class MainScreen implements SolUiScreen {
     myBorderDrawer.draw(uiDrawer, cmp);
     myCollisionWarnDrawer.draw(uiDrawer);
     mySunWarnDrawer.draw(uiDrawer);
+    myZoneNameAnnouncer.draw(uiDrawer);
 
     SolShip hero = cmp.getGame().getHero();
     if (hero != null) {
