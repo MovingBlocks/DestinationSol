@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.item.*;
@@ -260,7 +261,11 @@ public class MainScreen implements SolUiScreen {
       SolItem abilityChargeEx = ability == null ? null : ability.getChargeExample();
       if (abilityChargeEx != null) {
         int abilityChargeCount = hero.getItemContainer().count(abilityChargeEx);
-        drawIcons(uiDrawer, col0, row, abilityChargeCount, abilityChargeEx.getIcon(cmp.getGame()));
+        TextureAtlas.AtlasRegion icon = abilityChargeEx.getIcon(cmp.getGame());
+        uiDrawer.draw(icon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
+        float chargePerc = 1 - SolMath.clamp(hero.getAbilityAwait() / ability.getRechargeTime());
+        drawBar(uiDrawer, texMan, col1, row, chargePerc);
+        drawIcons(uiDrawer, col2, row, abilityChargeCount, icon);
       }
     }
   }

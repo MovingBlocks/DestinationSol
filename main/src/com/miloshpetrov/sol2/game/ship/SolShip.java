@@ -507,4 +507,8 @@ public class SolShip implements SolObj {
     myItemContainer.remove(item);
     throwLoot(game, item, false);
   }
+
+  public float getAbilityAwait() {
+    return myAbilityAwait;
+  }
 }
