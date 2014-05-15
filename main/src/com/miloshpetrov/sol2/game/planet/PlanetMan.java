@@ -43,12 +43,12 @@ public class PlanetMan {
     myPlanetCore = new PlanetCoreSingleton(texMan);
   }
 
-  public void fill(SaveData sd) {
+  public void fill(SaveData sd, SolNames names) {
     if (sd != null) {
       mySystems.addAll(sd.systems);
       myPlanets.addAll(sd.planets);
     } else {
-      new SystemsBuilder().build(mySystems, myPlanets, myBelts, myPlanetConfigs, myMazeConfigs, myMazes, mySysConfigs);
+      new SystemsBuilder().build(mySystems, myPlanets, myBelts, myPlanetConfigs, myMazeConfigs, myMazes, mySysConfigs, names);
     }
   }
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.DebugAspects;
+import com.miloshpetrov.sol2.game.SolNames;
 import com.miloshpetrov.sol2.game.maze.*;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class SystemsBuilder {
 
   public List<SolSystem> build(List<SolSystem> systems, List<Planet> planets, ArrayList<SystemBelt> belts,
     PlanetConfigs planetConfigs,
-    MazeConfigs mazeConfigs, ArrayList<Maze> mazes, SysConfigs sysConfigs)
+    MazeConfigs mazeConfigs, ArrayList<Maze> mazes, SysConfigs sysConfigs, SolNames names)
   {
     int sysLeft = SYS_COUNT;
     int mazesLeft = MAZE_COUNT;
@@ -32,7 +33,7 @@ public class SystemsBuilder {
         List<Float> ghs = generatePlanetGhs();
         float sysRadius = calcSysRadius(ghs);
         Vector2 pos = getBodyPos(systems, mazes, sysRadius);
-        SolSystem s = createSystem(ghs, pos, planets, belts, planetConfigs, sysRadius, sysConfigs);
+        SolSystem s = createSystem(ghs, pos, planets, belts, planetConfigs, sysRadius, sysConfigs, names);
         systems.add(s);
         sysLeft--;
       } else {
@@ -111,11 +112,12 @@ public class SystemsBuilder {
 
   private SolSystem createSystem(List<Float> ghs, Vector2 sysPos, List<Planet> planets, ArrayList<SystemBelt> belts,
     PlanetConfigs planetConfigs,
-    float sysRadius, SysConfigs sysConfigs)
+    float sysRadius, SysConfigs sysConfigs, SolNames names)
   {
     String st = DebugAspects.FORCE_SYSTEM_TYPE;
     SysConfig sysConfig = st.isEmpty() ? sysConfigs.getRandom() : sysConfigs.getConfig(st);
-    SolSystem s = new SolSystem(sysPos, sysConfig);
+    String name = SolMath.elemRnd(names.systems);
+    SolSystem s = new SolSystem(sysPos, sysConfig, name);
     s.setRadius(sysRadius);
     float planetDist = Const.SUN_RADIUS;
     for (Float gh : ghs) {
@@ -129,7 +131,7 @@ public class SystemsBuilder {
       if (gh > 0) {
         String pt = DebugAspects.FORCE_PLANET_TYPE;
         PlanetConfig planetConfig = pt.isEmpty() ? planetConfigs.getRandom() : planetConfigs.getConfig(pt);
-        Planet p = createPlanet(planetDist, s, gh, planetConfig);
+        Planet p = createPlanet(planetDist, s, gh, planetConfig, names);
         planets.add(p);
         s.getPlanets().add(p);
       } else {
@@ -144,10 +146,12 @@ public class SystemsBuilder {
     return s;
   }
 
-  private Planet createPlanet(float planetDist, SolSystem s, float groundHeight, PlanetConfig planetConfig) {
+  private Planet createPlanet(float planetDist, SolSystem s, float groundHeight, PlanetConfig planetConfig,
+    SolNames names) {
     float toSysRotSpd = SolMath.arcToAngle(PLANET_SPD, planetDist) * SolMath.toInt(SolMath.test(.5f));
     float rotSpd = SolMath.arcToAngle(GROUND_SPD, groundHeight)  * SolMath.toInt(SolMath.test(.5f));
-    return new Planet(s, SolMath.rnd(180), planetDist, SolMath.rnd(180), toSysRotSpd, rotSpd, groundHeight, false, planetConfig);
+    String name = SolMath.elemRnd(names.planets);
+    return new Planet(s, SolMath.rnd(180), planetDist, SolMath.rnd(180), toSysRotSpd, rotSpd, groundHeight, false, planetConfig, name);
   }
 
 }

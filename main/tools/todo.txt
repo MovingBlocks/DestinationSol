@@ -1,7 +1,7 @@
 
-planet name announcement on approach
 fading compass on planet
 ability recharge ui
+"dangerous enemy near" warning
 
 control types
 
@@ -12,7 +12,6 @@ enemies should use abilities
 
 UI SOUND:
   blip when warning
-  "dangerous enemy near" warning
   voice assistant?
 
 

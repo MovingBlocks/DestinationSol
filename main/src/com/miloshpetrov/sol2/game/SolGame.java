@@ -61,6 +61,7 @@ public class SolGame {
   private final GameCols myCols;
   private final AbilityCommonConfigs myAbilityCommonConfigs;
   private final List<SolItem> myRespawnItems;
+  private final SolNames myNames;
 
   private SolShip myHero;
   private float myTimeStep;
@@ -89,6 +90,7 @@ public class SolGame {
     myItemMan = new ItemMan(myTexMan, mySoundMan, myEffectTypes, myCols);
     myAbilityCommonConfigs = new AbilityCommonConfigs(myEffectTypes, myTexMan, myCols, mySoundMan);
     myHullConfigs = new HullConfigs(myShipBuilder, texMan, myItemMan, myAbilityCommonConfigs, mySoundMan);
+    myNames = new SolNames();
     myPlanetMan = new PlanetMan(myTexMan, myHullConfigs, myCols, myItemMan);
     SolContactListener contactListener = new SolContactListener(this);
     myFractionMan = new FractionMan(myTexMan);
@@ -109,7 +111,7 @@ public class SolGame {
 
     // from this point we're ready!
     myTimeFactor = 1;
-    myPlanetMan.fill(sd);
+    myPlanetMan.fill(sd, myNames);
     myObjMan.fill(this, sd);
     if (sd == null) {
       myGalaxyFiller.fill(this);
