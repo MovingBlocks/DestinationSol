@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
+import com.miloshpetrov.sol2.game.ship.SolShip;
 
 /**
  * Just stays wherever it is, but maneuvers
@@ -38,7 +39,7 @@ public class NoDestProvider implements MoveDestProvider {
   }
 
   @Override
-  public Boolean shouldManeuver(boolean canShoot) {
+  public Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround) {
     return null;
   }
 }

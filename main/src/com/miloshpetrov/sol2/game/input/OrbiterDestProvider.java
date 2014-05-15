@@ -5,6 +5,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
+import com.miloshpetrov.sol2.game.ship.SolShip;
 
 /**
  * Flies in the planet orbit
@@ -53,7 +54,7 @@ public class OrbiterDestProvider implements MoveDestProvider {
   }
 
   @Override
-  public Boolean shouldManeuver(boolean canShoot) {
+  public Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround) {
     return null;
   }
 }
