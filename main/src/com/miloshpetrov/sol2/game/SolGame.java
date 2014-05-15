@@ -25,6 +25,9 @@ import com.miloshpetrov.sol2.save.SaveData;
 import com.miloshpetrov.sol2.ui.DebugCollector;
 import com.miloshpetrov.sol2.ui.UiDrawer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SolGame {
 
   private final GameScreens myScreens;
@@ -57,6 +60,7 @@ public class SolGame {
   private final SpecialEffects mySpecialEffects;
   private final GameCols myCols;
   private final AbilityCommonConfigs myAbilityCommonConfigs;
+  private final List<SolItem> myRespawnItems;
 
   private SolShip myHero;
   private float myTimeStep;
@@ -65,6 +69,7 @@ public class SolGame {
   private final GalaxyFiller myGalaxyFiller;
   private StarPort.Transcendent myTranscendentHero;
   private float myTimeFactor;
+  private float myRespawnMoney;
 
   public SolGame(SolCmp cmp, SaveData sd, TexMan texMan, boolean tut) {
     myCmp = cmp;
@@ -100,6 +105,7 @@ public class SolGame {
     myStarPortBuilder = new StarPort.Builder();
     myPlayerSpawnConfig = PlayerSpawnConfig.load(myHullConfigs);
     myDraDebugger = new DraDebugger();
+    myRespawnItems = new ArrayList<SolItem>();
 
     // from this point we're ready!
     myTimeFactor = 1;
@@ -117,8 +123,9 @@ public class SolGame {
     Pilot pip = new PlayerPilot(myScreens.mainScreen);
     boolean god = DebugAspects.GOD_MODE;
     HullConfig config = myPlayerSpawnConfig.shipConfig.hull;
-    String items = myPlayerSpawnConfig.shipConfig.items;
-    int money = myPlayerSpawnConfig.shipConfig.money;
+    String items = myRespawnItems.isEmpty() ? myPlayerSpawnConfig.shipConfig.items : "";
+    float money = myRespawnMoney == 0 ? myPlayerSpawnConfig.shipConfig.money : myRespawnMoney;
+    myRespawnMoney = 0;
     boolean hasRepairer = myPlayerSpawnConfig.shipConfig.hasRepairer;
     if (god) {
       config = myHullConfigs.getConfig("vanguard");
@@ -126,6 +133,11 @@ public class SolGame {
       money = 1000;
     }
     myHero = myShipBuilder.buildNew(this, new Vector2(pos), null, 0, 0, pip, items, config, null, hasRepairer, money, null);
+    for (SolItem i : myRespawnItems) {
+      myHero.getItemContainer().add(i);
+    }
+    myRespawnItems.clear();
+
     if (myTut) {
       myHero.getHull().setEngine(this, myHero, null);
       ItemContainer ic = myHero.getItemContainer();
@@ -369,5 +381,13 @@ public class SolGame {
 
   public float getTimeFactor() {
     return myTimeFactor;
+  }
+
+  public void addRespawnItem(SolItem item) {
+    myRespawnItems.add(item);
+  }
+
+  public void setRespawnMoney(float money) {
+    myRespawnMoney = money;
   }
 }

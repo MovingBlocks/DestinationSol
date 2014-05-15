@@ -45,6 +45,7 @@ public class ItemMan {
   }
 
   public void fillContainer(ItemContainer c, String items) {
+    if (items.isEmpty()) return;
     for (String rec : items.split(" ")) {
       String[] parts = rec.split(":");
       if (parts.length == 0) continue;
