@@ -1,11 +1,11 @@
 
-control types
-brakes
-ability recharge ui
 planet name announcement on approach
 fading compass on planet
+ability recharge ui
+
+control types
+
 "new" mark in the inventory
-calculate weapon dangerousness: consider emCharge, knockback, guidedness, number of projectiles
 split item icons from ui icons from ship icons
 enemies should use abilities
 
@@ -69,6 +69,7 @@ ARCHITECTURE
   sound volumes should be kept in one map file?
 
 FEATURES
+  brakes
   inventory category filtering
   boss-like stations on planets and space
   decorative houses on planets

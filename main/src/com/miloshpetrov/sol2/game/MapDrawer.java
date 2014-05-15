@@ -275,10 +275,7 @@ public class MapDrawer {
 
   private static float getDps(GunItem g) {
     if (g == null || !g.canShoot()) return 0;
-    float projSpd = g.config.projConfig.spdLen;
-    float hitPerc = SolMath.clamp(projSpd - 4, 0, 4) / 4;
-    if (g.config.fixed) hitPerc *= .7f;
-    return g.config.dps * hitPerc;
+    return g.config.dps;
   }
 
   public static float getToughness(SolShip s) {
