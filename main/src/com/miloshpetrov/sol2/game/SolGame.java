@@ -11,8 +11,7 @@ import com.miloshpetrov.sol2.game.dra.DraMan;
 import com.miloshpetrov.sol2.game.farBg.FarBgMan;
 import com.miloshpetrov.sol2.game.farBg.FarBgManOld;
 import com.miloshpetrov.sol2.game.gun.GunItem;
-import com.miloshpetrov.sol2.game.input.UiControlledPilot;
-import com.miloshpetrov.sol2.game.input.Pilot;
+import com.miloshpetrov.sol2.game.input.*;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.*;
 import com.miloshpetrov.sol2.game.planet.Planet;
@@ -21,6 +20,7 @@ import com.miloshpetrov.sol2.game.screens.GameScreens;
 import com.miloshpetrov.sol2.game.ship.*;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 import com.miloshpetrov.sol2.game.sound.SpecialSounds;
+import com.miloshpetrov.sol2.menu.GameOptions;
 import com.miloshpetrov.sol2.save.SaveData;
 import com.miloshpetrov.sol2.ui.DebugCollector;
 import com.miloshpetrov.sol2.ui.UiDrawer;
@@ -62,6 +62,7 @@ public class SolGame {
   private final AbilityCommonConfigs myAbilityCommonConfigs;
   private final List<SolItem> myRespawnItems;
   private final SolNames myNames;
+  private final BeaconHandler myBeaconHandler;
 
   private SolShip myHero;
   private float myTimeStep;
@@ -108,6 +109,7 @@ public class SolGame {
     myPlayerSpawnConfig = PlayerSpawnConfig.load(myHullConfigs);
     myDraDebugger = new DraDebugger();
     myRespawnItems = new ArrayList<SolItem>();
+    myBeaconHandler = new BeaconHandler(texMan);
 
     // from this point we're ready!
     myTimeFactor = 1;
@@ -122,7 +124,13 @@ public class SolGame {
 
   private void createPlayer() {
     Vector2 pos = myGalaxyFiller.getPlayerSpawnPos(this);
-    Pilot pip = new UiControlledPilot(myScreens.mainScreen);
+    Pilot pilot;
+    if (myCmp.getOptions().controlType == GameOptions.CONTROL_MOUSE) {
+      myBeaconHandler.init(this, pos);
+      pilot = new AiPilot(new MouseDestProvider(), true, Fraction.LAANI, false, "you", Const.AI_DET_DIST);
+    } else {
+      pilot = new UiControlledPilot(myScreens.mainScreen);
+    }
     boolean god = DebugAspects.GOD_MODE;
     HullConfig config = myPlayerSpawnConfig.shipConfig.hull;
     String items = myRespawnItems.isEmpty() ? myPlayerSpawnConfig.shipConfig.items : "";
@@ -134,7 +142,7 @@ public class SolGame {
       items = "mg rl sBig aBig rep:1:6 sloMoCharge:1:6 b:1:6 r:1:6";
       money = 1000;
     }
-    myHero = myShipBuilder.buildNew(this, new Vector2(pos), null, 0, 0, pip, items, config, null, hasRepairer, money, null);
+    myHero = myShipBuilder.buildNew(this, new Vector2(pos), null, 0, 0, pilot, items, config, null, hasRepairer, money, null);
     for (SolItem i : myRespawnItems) {
       myHero.getItemContainer().add(i);
     }
@@ -192,6 +200,7 @@ public class SolGame {
     myDraMan.update(this);
     myMapDrawer.update(this);
     mySoundMan.update(this);
+    myBeaconHandler.update(this);
 
     myHero = null;
     myTranscendentHero = null;
@@ -391,5 +400,9 @@ public class SolGame {
 
   public void setRespawnMoney(float money) {
     myRespawnMoney = money;
+  }
+
+  public BeaconHandler getBeaconHandler() {
+    return myBeaconHandler;
   }
 }

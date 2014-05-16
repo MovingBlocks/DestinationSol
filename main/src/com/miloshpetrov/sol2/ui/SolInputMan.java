@@ -163,6 +163,7 @@ public class SolInputMan {
         myCurrCursor = myUiCursor;
       } else {
         myCurrCursor = game.getScreens().mainScreen.shipControl.getInGameTex();
+        if (myCurrCursor == null) myCurrCursor = myUiCursor;
       }
       return;
     }
@@ -237,6 +238,10 @@ public class SolInputMan {
     public float y;
     public boolean pressed;
     public boolean prevPressed;
+
+    public boolean isJustPressed() {
+      return pressed && !prevPressed;
+    }
   }
 
 }

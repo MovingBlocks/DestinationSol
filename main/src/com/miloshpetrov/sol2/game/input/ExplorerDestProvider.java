@@ -70,7 +70,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
   }
 
   @Override
-  public void update(SolGame game, Vector2 shipPos, float maxIdleDist, HullConfig hullConfig) {
+  public void update(SolGame game, Vector2 shipPos, float maxIdleDist, HullConfig hullConfig, SolShip nearestEnemy) {
     if (myDest.dst(shipPos) < maxIdleDist) {
       if (myAwaitOnPlanet > 0) {
         myAwaitOnPlanet -= game.getTimeStep();

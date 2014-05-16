@@ -197,6 +197,9 @@ main/imgSrcs/mazeTiles/junk/wall_4.png -text
 main/imgSrcs/mazeTiles/junk/wall_5.png -text
 main/imgSrcs/mazeTiles/junk/wall_6.png -text
 main/imgSrcs/misc/Thumbs.db -text
+main/imgSrcs/misc/beaconAttack.png -text
+main/imgSrcs/misc/beaconFollow.png -text
+main/imgSrcs/misc/beaconMove.png -text
 main/imgSrcs/misc/door.png -text
 main/imgSrcs/misc/grad.png -text
 main/imgSrcs/misc/missing.png -text
@@ -244,6 +247,9 @@ main/imgSrcs/skies/darkCloud_0.png -text
 main/imgSrcs/skies/darkCloud_1.png -text
 main/imgSrcs/skies/darkCloud_2.png -text
 main/imgSrcs/ui/cursor.png -text
+main/imgSrcs/ui/cursorAttack.png -text
+main/imgSrcs/ui/cursorFollow.png -text
+main/imgSrcs/ui/cursorMove.png -text
 main/imgSrcs/ui/cursorTarget.png -text
 main/libs/gdx-natives.jar -text
 main/libs/gdx-openal-sources.jar -text
@@ -375,6 +381,7 @@ main/src/com/miloshpetrov/sol2/common/Nullable.java -text
 main/src/com/miloshpetrov/sol2/common/SolMath.java -text
 main/src/com/miloshpetrov/sol2/game/AbilityCommonConfig.java -text
 main/src/com/miloshpetrov/sol2/game/AbilityCommonConfigs.java -text
+main/src/com/miloshpetrov/sol2/game/BeaconHandler.java -text
 main/src/com/miloshpetrov/sol2/game/CamRotStrategy.java -text
 main/src/com/miloshpetrov/sol2/game/ColorSpan.java -text
 main/src/com/miloshpetrov/sol2/game/DebugAspects.java -text
@@ -427,6 +434,7 @@ main/src/com/miloshpetrov/sol2/game/input/BattleDestProvider.java -text
 main/src/com/miloshpetrov/sol2/game/input/BigObjAvoider.java -text
 main/src/com/miloshpetrov/sol2/game/input/ExplorerDestProvider.java -text
 main/src/com/miloshpetrov/sol2/game/input/Guardian.java -text
+main/src/com/miloshpetrov/sol2/game/input/MouseDestProvider.java -text
 main/src/com/miloshpetrov/sol2/game/input/MoveDestProvider.java -text
 main/src/com/miloshpetrov/sol2/game/input/Mover.java -text
 main/src/com/miloshpetrov/sol2/game/input/NoDestProvider.java -text
@@ -516,6 +524,7 @@ main/src/com/miloshpetrov/sol2/game/screens/RightPaneLayout.java -text
 main/src/com/miloshpetrov/sol2/game/screens/SellItems.java -text
 main/src/com/miloshpetrov/sol2/game/screens/ShipKbControl.java -text
 main/src/com/miloshpetrov/sol2/game/screens/ShipMixedControl.java -text
+main/src/com/miloshpetrov/sol2/game/screens/ShipMouseControl.java -text
 main/src/com/miloshpetrov/sol2/game/screens/ShipUiControl.java -text
 main/src/com/miloshpetrov/sol2/game/screens/ShowInventory.java -text
 main/src/com/miloshpetrov/sol2/game/screens/SunWarnDrawer.java -text

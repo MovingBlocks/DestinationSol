@@ -1,5 +1,7 @@
 
-ai hero control
+beacon handler improvements
+ai improvements
+
 smarter respawn: save things on manual respawn
 
 new ui:
