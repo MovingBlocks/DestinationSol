@@ -23,6 +23,7 @@ public class SolCam {
 
   private final CamRotStrategy myCamRotStrategy;
   private final OrthographicCamera myCam;
+  private final Vector3 myTmpVec;
 
   private float myPrevHeroLife;
   private float myShake;
@@ -35,6 +36,7 @@ public class SolCam {
     myCam = new OrthographicCamera(VIEWPORT_HEIGHT * r, -VIEWPORT_HEIGHT);
     myZoom = calcZoom(Const.CAM_VIEW_DIST_GROUND);
     myPos = new Vector2();
+    myTmpVec = new Vector3();
   }
 
   public Matrix4 getMtx() {
@@ -249,9 +251,9 @@ public class SolCam {
   }
 
   public void screenToWorld(Vector2 pos) {
-    Vector3 res = new Vector3(pos, 0);
-    myCam.unproject(res);
-    pos.x = res.x;
-    pos.y = res.y;
+    myTmpVec.set(pos, 0);
+    myCam.unproject(myTmpVec);
+    pos.x = myTmpVec.x;
+    pos.y = myTmpVec.y;
   }
 }

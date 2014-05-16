@@ -91,7 +91,7 @@ public class TutMan {
   }
 
   private boolean spaceJustOff(SolGame g) {
-    return g.getScreens().mainScreen.myShootCtrl.isJustOff();
+    return true /*g.getScreens().mainScreen.myShootCtrl.isJustOff()*/;
   }
 
   private boolean buySellClose(SolGame g) {

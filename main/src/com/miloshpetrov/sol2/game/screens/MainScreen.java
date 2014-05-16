@@ -10,9 +10,10 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.item.*;
-import com.miloshpetrov.sol2.game.planet.*;
+import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.ShipAbility;
 import com.miloshpetrov.sol2.game.ship.SolShip;
+import com.miloshpetrov.sol2.menu.GameOptions;
 import com.miloshpetrov.sol2.ui.*;
 
 import java.util.ArrayList;
@@ -22,61 +23,37 @@ public class MainScreen implements SolUiScreen {
   public static final float ICON_SZ = .03f;
   public static final float BAR_SZ = ICON_SZ * 5;
   public static final int MAX_ICON_COUNT = 3;
-  private final List<SolUiControl> myControls;
   public static final float CELL_SZ = .2f;
-  private final SolUiControl myLeftCtrl;
-  private final SolUiControl myRightCtrl;
-  private final SolUiControl myUpCtrl;
-  private final SolUiControl myDownCtrl;
-  public final SolUiControl myShootCtrl;
-  private final SolUiControl myShoot2Ctrl;
+
+  private final List<SolUiControl> myControls;
   private final CollisionWarnDrawer myCollisionWarnDrawer;
   private final SunWarnDrawer mySunWarnDrawer;
   private final ZoneNameAnnouncer myZoneNameAnnouncer;
-  private final SolUiControl myAbilityCtrl;
-  private final SolUiControl myMenuCtrl;
-  public final SolUiControl mapCtrl;
   private final BorderDrawer myBorderDrawer;
-  private final SolUiControl myInvCtrl;
   private final TextureAtlas.AtlasRegion myLifeTex;
   private final TextureAtlas.AtlasRegion myInfinityTex;
   private final TextureAtlas.AtlasRegion myWaitTex;
-  public final SolUiControl talkCtrl;
   private final TextureAtlas.AtlasRegion myShieldTex;
+  public final ShipUiControl shipControl;
+
+  private final SolUiControl myMenuCtrl;
+  public final SolUiControl mapCtrl;
+  private final SolUiControl myInvCtrl;
+  public final SolUiControl talkCtrl;
   private final SolUiControl myPauseCtrl;
+
 
   public MainScreen(float r, RightPaneLayout rightPaneLayout, SolCmp cmp) {
     myControls = new ArrayList<SolUiControl>();
 
-    float col0 = 0;
-    float col1 = col0 + CELL_SZ;
-    float colN0 = r - CELL_SZ;
-    float colN1 = colN0 - CELL_SZ;
-    float rowN0 = 1 - CELL_SZ;
-    float rowN1 = rowN0 - CELL_SZ;
-    boolean showButtons = cmp.isMobile();
-    myLeftCtrl = new SolUiControl(showButtons ? btn(colN1, rowN0) : null, Input.Keys.LEFT);
-    myLeftCtrl.setDisplayName("Left");
-    myControls.add(myLeftCtrl);
-    myRightCtrl = new SolUiControl(showButtons ? btn(colN0, rowN0) : null, Input.Keys.RIGHT);
-    myRightCtrl.setDisplayName("Right");
-    myControls.add(myRightCtrl);
-    myUpCtrl = new SolUiControl(showButtons ? btn(col0, rowN0) : null, Input.Keys.UP);
-    myUpCtrl.setDisplayName("Up");
-    myControls.add(myUpCtrl);
-    myDownCtrl = new SolUiControl(null, Input.Keys.DOWN);
-    myControls.add(myDownCtrl);
-    myShootCtrl = new SolUiControl(showButtons ? btn(col0, rowN1) : null, Input.Keys.SPACE);
-    myShootCtrl.setDisplayName("Primary");
-    myControls.add(myShootCtrl);
-    myShoot2Ctrl = new SolUiControl(showButtons ? btn(col1, rowN0) : null, Input.Keys.CONTROL_LEFT);
-    myShoot2Ctrl.setDisplayName("Secondary");
-    myControls.add(myShoot2Ctrl);
-    myAbilityCtrl = new SolUiControl(showButtons ? btn(colN0, rowN1) : null, Input.Keys.SHIFT_LEFT);
-    myAbilityCtrl.setDisplayName("Special");
-    myControls.add(myAbilityCtrl);
-
-
+    int ct = cmp.getOptions().controlType;
+    if (ct == GameOptions.CONTROL_KB) {
+      shipControl = new ShipKbControl(cmp, r, myControls);
+    } else if (ct == GameOptions.CONTROL_MIXED) {
+      shipControl = new ShipMixedControl(cmp, myControls);
+    } else {
+      shipControl = null;
+    }
     myMenuCtrl = new SolUiControl(rightPaneLayout.buttonRect(0), Input.Keys.ESCAPE);
     myMenuCtrl.setDisplayName("Menu");
     myControls.add(myMenuCtrl);
@@ -124,7 +101,7 @@ public class MainScreen implements SolUiScreen {
     drawer.draw(drawer.whiteTex, size * 3, size, (float) 0, (float) 0, (float) 0, y, (float) 0, Col.W);
   }
 
-  private Rectangle btn(float x, float y) {
+  public static Rectangle btn(float x, float y) {
     float gap = .02f;
     return new Rectangle(x + gap, y + gap, CELL_SZ - gap * 2, CELL_SZ - gap*2);
   }
@@ -149,17 +126,7 @@ public class MainScreen implements SolUiScreen {
       inputMan.setScreen(cmp, screens.menuScreen);
     }
 
-    boolean hasEngine = hero != null && hero.getHull().getEngine() != null;
-    myUpCtrl.setEnabled(hasEngine);
-    myLeftCtrl.setEnabled(hasEngine);
-    myRightCtrl.setEnabled(hasEngine);
-
-    GunItem g1 = hero == null ? null : hero.getHull().getGun(false);
-    myShootCtrl.setEnabled(g1 != null && g1.ammo > 0);
-    GunItem g2 = hero != null ? hero.getHull().getGun(true) : null;
-    myShoot2Ctrl.setEnabled(g2 != null && g2.ammo > 0);
-    myAbilityCtrl.setEnabled(hero != null && hero.canUseAbility());
-
+    if (shipControl != null) shipControl.update(cmp);
 
     if (mapCtrl.isJustOff()) {
       inputMan.setScreen(cmp, screens.mapScreen);
@@ -331,31 +298,31 @@ public class MainScreen implements SolUiScreen {
   }
 
   public boolean isLeft() {
-    return myLeftCtrl.isOn();
+    return shipControl.isLeft();
   }
 
   public boolean isRight() {
-    return myRightCtrl.isOn();
+    return shipControl.isRight();
   }
 
   public boolean isUp() {
-    return myUpCtrl.isOn();
+    return shipControl.isUp();
   }
 
   public boolean isDown() {
-    return myDownCtrl.isOn();
+    return shipControl.isDown();
   }
 
   public boolean isShoot() {
-    return myShootCtrl.isOn();
+    return shipControl.isShoot();
   }
 
   public boolean isShoot2() {
-    return myShoot2Ctrl.isOn();
+    return shipControl.isShoot2();
   }
 
   public boolean isAbility() {
-    return myAbilityCtrl.isOn();
+    return shipControl.isAbility();
   }
 
 }

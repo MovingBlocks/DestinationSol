@@ -244,6 +244,7 @@ main/imgSrcs/skies/darkCloud_0.png -text
 main/imgSrcs/skies/darkCloud_1.png -text
 main/imgSrcs/skies/darkCloud_2.png -text
 main/imgSrcs/ui/cursor.png -text
+main/imgSrcs/ui/cursorTarget.png -text
 main/libs/gdx-natives.jar -text
 main/libs/gdx-openal-sources.jar -text
 main/libs/gdx-openal.jar -text
@@ -431,10 +432,10 @@ main/src/com/miloshpetrov/sol2/game/input/Mover.java -text
 main/src/com/miloshpetrov/sol2/game/input/NoDestProvider.java -text
 main/src/com/miloshpetrov/sol2/game/input/OrbiterDestProvider.java -text
 main/src/com/miloshpetrov/sol2/game/input/Pilot.java -text
-main/src/com/miloshpetrov/sol2/game/input/PlayerPilot.java -text
 main/src/com/miloshpetrov/sol2/game/input/Shooter.java -text
 main/src/com/miloshpetrov/sol2/game/input/SmallObjAvoider.java -text
 main/src/com/miloshpetrov/sol2/game/input/StillGuard.java -text
+main/src/com/miloshpetrov/sol2/game/input/UiControlledPilot.java -text
 main/src/com/miloshpetrov/sol2/game/item/Armor.java -text
 main/src/com/miloshpetrov/sol2/game/item/ClipConfig.java -text
 main/src/com/miloshpetrov/sol2/game/item/ClipItem.java -text
@@ -513,6 +514,9 @@ main/src/com/miloshpetrov/sol2/game/screens/MapScreen.java -text
 main/src/com/miloshpetrov/sol2/game/screens/MenuScreen.java -text
 main/src/com/miloshpetrov/sol2/game/screens/RightPaneLayout.java -text
 main/src/com/miloshpetrov/sol2/game/screens/SellItems.java -text
+main/src/com/miloshpetrov/sol2/game/screens/ShipKbControl.java -text
+main/src/com/miloshpetrov/sol2/game/screens/ShipMixedControl.java -text
+main/src/com/miloshpetrov/sol2/game/screens/ShipUiControl.java -text
 main/src/com/miloshpetrov/sol2/game/screens/ShowInventory.java -text
 main/src/com/miloshpetrov/sol2/game/screens/SunWarnDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/screens/TalkScreen.java -text

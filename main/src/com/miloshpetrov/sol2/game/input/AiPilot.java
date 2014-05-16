@@ -196,4 +196,9 @@ public class AiPilot implements Pilot {
     return "moverActive: " + myMover.isActive();
   }
 
+  @Override
+  public boolean isPlayer() {
+    return false;
+  }
+
 }

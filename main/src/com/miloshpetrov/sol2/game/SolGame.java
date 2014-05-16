@@ -11,8 +11,8 @@ import com.miloshpetrov.sol2.game.dra.DraMan;
 import com.miloshpetrov.sol2.game.farBg.FarBgMan;
 import com.miloshpetrov.sol2.game.farBg.FarBgManOld;
 import com.miloshpetrov.sol2.game.gun.GunItem;
+import com.miloshpetrov.sol2.game.input.UiControlledPilot;
 import com.miloshpetrov.sol2.game.input.Pilot;
-import com.miloshpetrov.sol2.game.input.PlayerPilot;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.*;
 import com.miloshpetrov.sol2.game.planet.Planet;
@@ -122,7 +122,7 @@ public class SolGame {
 
   private void createPlayer() {
     Vector2 pos = myGalaxyFiller.getPlayerSpawnPos(this);
-    Pilot pip = new PlayerPilot(myScreens.mainScreen);
+    Pilot pip = new UiControlledPilot(myScreens.mainScreen);
     boolean god = DebugAspects.GOD_MODE;
     HullConfig config = myPlayerSpawnConfig.shipConfig.hull;
     String items = myRespawnItems.isEmpty() ? myPlayerSpawnConfig.shipConfig.items : "";
@@ -199,7 +199,7 @@ public class SolGame {
       if ((obj instanceof SolShip)) {
         SolShip ship = (SolShip) obj;
         Pilot prov = ship.getPilot();
-        if (prov instanceof PlayerPilot) {
+        if (prov.isPlayer()) {
           myHero = ship;
           break;
         }
@@ -207,7 +207,7 @@ public class SolGame {
       if (obj instanceof StarPort.Transcendent) {
         StarPort.Transcendent trans = (StarPort.Transcendent) obj;
         FarShip ship = trans.getShip();
-        if (ship.getPilot() instanceof PlayerPilot) {
+        if (ship.getPilot().isPlayer()) {
           myTranscendentHero = trans;
           break;
         }

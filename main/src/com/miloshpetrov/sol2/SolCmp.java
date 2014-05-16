@@ -7,6 +7,7 @@ import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.DebugAspects;
 import com.miloshpetrov.sol2.game.SolGame;
+import com.miloshpetrov.sol2.menu.GameOptions;
 import com.miloshpetrov.sol2.menu.MenuScreens;
 import com.miloshpetrov.sol2.save.SaveData;
 import com.miloshpetrov.sol2.save.SaveMan;
@@ -24,15 +25,17 @@ public class SolCmp {
   private final TexMan myTexMan;
   private final SolLayouts myLayouts;
   private final boolean myMobile;
+  private final GameOptions myOptions;
+
   private String myFatalErrorMsg;
   private String myFatalErrorTrace;
 
   private float myAccum = 0;
   private SolGame myGame;
 
-  //commented by NoiseDoll
   public SolCmp() {
     myMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
+    myOptions = new GameOptions();
 
     myTexMan = new TexMan();
     myUiDrawer = new UiDrawer(myTexMan);
@@ -145,4 +148,7 @@ public class SolCmp {
     return DebugAspects.MOBILE || myMobile;
   }
 
+  public GameOptions getOptions() {
+    return myOptions;
+  }
 }

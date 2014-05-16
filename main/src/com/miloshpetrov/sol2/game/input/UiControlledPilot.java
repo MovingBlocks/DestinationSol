@@ -7,11 +7,11 @@ import com.miloshpetrov.sol2.game.screens.MainScreen;
 import com.miloshpetrov.sol2.game.ship.FarShip;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
-public class PlayerPilot implements Pilot {
+public class UiControlledPilot implements Pilot {
 
   private final MainScreen myScreen;
 
-  public PlayerPilot(MainScreen screen) {
+  public UiControlledPilot(MainScreen screen) {
     myScreen = screen;
   }
 
@@ -81,5 +81,10 @@ public class PlayerPilot implements Pilot {
   @Override
   public String toDebugString() {
     return "";
+  }
+
+  @Override
+  public boolean isPlayer() {
+    return true;
   }
 }

@@ -12,6 +12,7 @@ public class OptionsScreen implements SolUiScreen {
   private final SolUiControl myHalpCtrl;
   private final SolUiControl myBackCtrl;
   private final SolUiControl myResoCtrl;
+  private final SolUiControl myControlTypeCtrl;
 
   public OptionsScreen(MenuLayout menuLayout, boolean mobile) {
 
@@ -22,12 +23,16 @@ public class OptionsScreen implements SolUiScreen {
     myResoCtrl.setEnabled(Gdx.app.getType() == Application.ApplicationType.Desktop);
     myControls.add(myResoCtrl);
 
-    myHalpCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1));
+    myControlTypeCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1));
+    myControlTypeCtrl.setDisplayName("Control Type");
+    myControls.add(myControlTypeCtrl);
+
+    myHalpCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2));
     myHalpCtrl.setDisplayName("Controls");
     myHalpCtrl.setEnabled(!mobile);
     myControls.add(myHalpCtrl);
 
-    myBackCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), Input.Keys.ESCAPE);
+    myBackCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), Input.Keys.ESCAPE);
     myBackCtrl.setDisplayName("Back");
     myControls.add(myBackCtrl);
   }
@@ -43,6 +48,16 @@ public class OptionsScreen implements SolUiScreen {
     MenuScreens screens = cmp.getMenuScreens();
     if (myResoCtrl.isJustOff()) {
       im.setScreen(cmp, screens.resoScreen);
+    }
+
+    boolean mobile = cmp.isMobile();
+    int ct = cmp.getOptions().controlType;
+    String ctName = mobile ? "Buttons" : "Keyboard";
+    if (ct == GameOptions.CONTROL_MIXED) ctName = "Keyboard + Mouse";
+    if (ct == GameOptions.CONTROL_MOUSE) ctName = mobile ? "Screen" : "Mouse";
+    myControlTypeCtrl.setDisplayName("Controls: " + ctName);
+    if (myControlTypeCtrl.isJustOff()) {
+      cmp.getOptions().advanceControlType(mobile);
     }
     if (myHalpCtrl.isJustOff()) {
       im.setScreen(cmp, screens.halpScreen);
