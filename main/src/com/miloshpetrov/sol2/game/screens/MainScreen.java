@@ -52,7 +52,7 @@ public class MainScreen implements SolUiScreen {
     } else if (ct == GameOptions.CONTROL_MIXED) {
       shipControl = new ShipMixedControl(cmp, myControls);
     } else {
-      shipControl = null;
+      shipControl = new ShipMouseControl(cmp);
     }
     myMenuCtrl = new SolUiControl(rightPaneLayout.buttonRect(0), Input.Keys.ESCAPE);
     myMenuCtrl.setDisplayName("Menu");

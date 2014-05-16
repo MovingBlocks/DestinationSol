@@ -50,7 +50,7 @@ public class Guardian implements MoveDestProvider {
   }
 
   @Override
-  public void update(SolGame game, Vector2 shipPos, float maxIdleDist, HullConfig hullConfig) {
+  public void update(SolGame game, Vector2 shipPos, float maxIdleDist, HullConfig hullConfig, SolShip nearestEnemy) {
     updateTarget(game);
     myDest.set(shipPos);
     Vector2 targetPos;

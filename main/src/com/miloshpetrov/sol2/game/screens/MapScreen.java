@@ -40,8 +40,9 @@ public class MapScreen implements SolUiScreen {
     boolean justClosed = myCloseCtrl.isJustOff();
     MapDrawer mapDrawer = g.getMapDrawer();
     mapDrawer.setToggled(!justClosed);
+    SolInputMan im = cmp.getInputMan();
     if (justClosed) {
-      cmp.getInputMan().setScreen(cmp, g.getScreens().mainScreen);
+      im.setScreen(cmp, g.getScreens().mainScreen);
     }
     boolean zoomIn = zoomInCtrl.isJustOff();
     if (zoomIn || zoomOutCtrl.isJustOff()) {
@@ -50,6 +51,8 @@ public class MapScreen implements SolUiScreen {
     float mapZoom = mapDrawer.getZoom();
     zoomInCtrl.setEnabled(mapZoom != MapDrawer.MIN_ZOOM);
     zoomOutCtrl.setEnabled(mapZoom != MapDrawer.MAX_ZOOM);
+    ShipUiControl sc = g.getScreens().mainScreen.shipControl;
+    if (sc instanceof ShipMouseControl) sc.update(cmp);
   }
 
   @Override

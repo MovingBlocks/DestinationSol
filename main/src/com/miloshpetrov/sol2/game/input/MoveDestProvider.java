@@ -14,7 +14,7 @@ public interface MoveDestProvider {
    */
   float getDesiredSpdLen();
   boolean shouldStopNearDest();
-  void update(SolGame game, Vector2 shipPos, float maxIdleDist, HullConfig hullConfig);
+  void update(SolGame game, Vector2 shipPos, float maxIdleDist, HullConfig hullConfig, SolShip nearestEnemy);
 
   /**
    * if true is returned, the ship will move in battle pattern around the enemy and try to face enemy with weapons

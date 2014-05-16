@@ -46,7 +46,7 @@ public class OrbiterDestProvider implements MoveDestProvider {
   }
 
   @Override
-  public void update(SolGame game, Vector2 shipPos, float maxIdleDist, HullConfig hullConfig) {
+  public void update(SolGame game, Vector2 shipPos, float maxIdleDist, HullConfig hullConfig, SolShip nearestEnemy) {
     Vector2 pPos = myPlanet.getPos();
     float destAngle = SolMath.angle(pPos, shipPos) + 5 * SolMath.toInt(myCw);
     SolMath.fromAl(myDest, destAngle, myHeight);

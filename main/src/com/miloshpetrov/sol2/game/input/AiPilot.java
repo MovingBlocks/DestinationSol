@@ -44,7 +44,7 @@ public class AiPilot implements Pilot {
     Vector2 shipPos = ship.getPos();
     HullConfig hullConfig = ship.getHull().config;
     float maxIdleDist = hullConfig.getMaxIdleDist();
-    myDestProvider.update(game, shipPos, maxIdleDist, hullConfig);
+    myDestProvider.update(game, shipPos, maxIdleDist, hullConfig, nearestEnemy);
 
     Boolean canShoot = canShoot0(ship);
     boolean canShootUnfixed = canShoot == null;
@@ -153,7 +153,7 @@ public class AiPilot implements Pilot {
     Vector2 shipPos = farShip.getPos();
     HullConfig hullConfig = farShip.getHullConfig();
     float maxIdleDist = hullConfig.getMaxIdleDist();
-    myDestProvider.update(game, shipPos, maxIdleDist, hullConfig);
+    myDestProvider.update(game, shipPos, maxIdleDist, hullConfig, null);
     Vector2 dest = myDestProvider.getDest();
 
     Vector2 spd = farShip.getSpd();
@@ -198,7 +198,7 @@ public class AiPilot implements Pilot {
 
   @Override
   public boolean isPlayer() {
-    return false;
+    return myDestProvider instanceof MouseDestProvider;
   }
 
 }
