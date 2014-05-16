@@ -20,6 +20,7 @@ public interface Pilot {
   String getMapHint();
   void updateFar(SolGame game, FarShip farShip);
   String toDebugString();
+  boolean isPlayer();
 
   public static final class Utils {
     public static boolean isIdle(Pilot p) {

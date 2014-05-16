@@ -7,8 +7,8 @@ import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
 import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.gun.GunMount;
+import com.miloshpetrov.sol2.game.input.UiControlledPilot;
 import com.miloshpetrov.sol2.game.input.Pilot;
-import com.miloshpetrov.sol2.game.input.PlayerPilot;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
 import com.miloshpetrov.sol2.game.sound.*;
@@ -269,7 +269,7 @@ public class SolShip implements SolObj {
   }
 
   private void throwAllLoot(SolGame game) {
-    boolean isPlayer = myPilot instanceof PlayerPilot;
+    boolean isPlayer = myPilot.isPlayer();
     for (SolItem item : myItemContainer) {
       if (isPlayer && SolMath.test(.5f)) {
         game.addRespawnItem(item);

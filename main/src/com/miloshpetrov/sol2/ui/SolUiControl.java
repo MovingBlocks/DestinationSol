@@ -148,4 +148,8 @@ public class SolUiControl {
   public Rectangle getScreenArea() {
     return myScreenArea;
   }
+
+  public boolean isMouseHover() {
+    return myMouseHover;
+  }
 }

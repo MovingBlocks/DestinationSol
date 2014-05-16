@@ -2,10 +2,13 @@ package com.miloshpetrov.sol2.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.game.SolGame;
+import com.miloshpetrov.sol2.menu.GameOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +24,14 @@ public class SolInputMan {
   private final List<SolUiScreen> myToAdd;
   private final Ptr[] myPtrs;
   private final Ptr myFlashPtr;
+  private final Vector2 myMousePos;
   private final Vector2 myMousePrevPos;
   private final TutMan myTutMan;
   private float myMouseIdleTime;
-  private final TextureAtlas.AtlasRegion myCursorTex;
+  private final TextureAtlas.AtlasRegion myUiCursor;
 
-  private boolean myCursorShown;
+  private TextureAtlas.AtlasRegion myCurrCursor;
+  private boolean myMouseOnUi;
 
   public SolInputMan(TexMan texMan, float r) {
     myPtrs = new Ptr[POINTER_COUNT];
@@ -36,9 +41,10 @@ public class SolInputMan {
     SolInputProcessor sip = new SolInputProcessor(this);
     Gdx.input.setInputProcessor(sip);
     myFlashPtr = new Ptr();
+    myMousePos = new Vector2();
     myMousePrevPos = new Vector2();
     Gdx.input.setCursorCatched(true);
-    myCursorTex = texMan.getTex("ui/cursor", null);
+    myUiCursor = texMan.getTex("ui/cursor", null);
     myScreens = new ArrayList<SolUiScreen>();
     myToRemove = new ArrayList<SolUiScreen>();
     myToAdd = new ArrayList<SolUiScreen>();
@@ -102,23 +108,19 @@ public class SolInputMan {
 
     updatePtrs();
 
-    if (!mobile) {
-      if (myMousePrevPos.epsilonEquals(myPtrs[0].x, myPtrs[0].y, 0)) {
-        myMouseIdleTime += Const.REAL_TIME_STEP;
-        myCursorShown = myMouseIdleTime < CURSOR_SHOW_TIME;
-      } else {
-        myCursorShown = true;
-        myMouseIdleTime = 0;
-        myMousePrevPos.set(myPtrs[0].x, myPtrs[0].y);
-      }
-    }
-
     boolean consumed = false;
+    myMouseOnUi = false;
     for (SolUiScreen screen : myScreens) {
       boolean consumedNow = false;
       for (SolUiControl c : screen.getControls()) {
-        c.update(myPtrs, myCursorShown, !consumed);
-        if (c.isOn()) consumedNow = true;
+        c.update(myPtrs, myCurrCursor != null, !consumed);
+        if (c.isOn()) {
+          consumedNow = true;
+        }
+        Rectangle area = c.getScreenArea();
+        if (area != null && area.contains(myMousePos)) {
+          myMouseOnUi = true;
+        }
       }
       if (consumedNow) consumed = true;
       if (!consumed) {
@@ -129,10 +131,17 @@ public class SolInputMan {
           }
         }
       }
+      if (screen.isCursorOnBg(myPtrs[0])) myMouseOnUi = true;
       screen.updateCustom(cmp, myPtrs);
     }
 
+    updateCursor(cmp);
+    addRemoveScreens();
 
+    myTutMan.update(cmp);
+  }
+
+  private void addRemoveScreens() {
     for (SolUiScreen screen : myToRemove) {
       myScreens.remove(screen);
     }
@@ -143,8 +152,28 @@ public class SolInputMan {
       myScreens.add(0, screen);
     }
     myToAdd.clear();
+  }
 
-    myTutMan.update(cmp);
+  private void updateCursor(SolCmp cmp) {
+    if (cmp.isMobile()) return;
+    myMousePos.set(myPtrs[0].x, myPtrs[0].y);
+    if (cmp.getOptions().controlType != GameOptions.CONTROL_KB) {
+      SolGame game = cmp.getGame();
+      if (game == null || myMouseOnUi) {
+        myCurrCursor = myUiCursor;
+      } else {
+        myCurrCursor = game.getScreens().mainScreen.shipControl.getInGameTex();
+      }
+      return;
+    }
+    if (myMousePrevPos.epsilonEquals(myMousePos, 0)) {
+      myMouseIdleTime += Const.REAL_TIME_STEP;
+      myCurrCursor = myMouseIdleTime < CURSOR_SHOW_TIME ? myUiCursor : null;
+    } else {
+      myCurrCursor = myUiCursor;
+      myMouseIdleTime = 0;
+      myMousePrevPos.set(myMousePos);
+    }
   }
 
   private void maybeFixMousePos() {
@@ -186,11 +215,22 @@ public class SolInputMan {
 
     myTutMan.draw(uiDrawer, cmp);
 
-    if (myCursorShown) {
-      uiDrawer.draw(myCursorTex, CURSOR_SZ, CURSOR_SZ, CURSOR_SZ/2, CURSOR_SZ/2, myPtrs[0].x, myPtrs[0].y, 0, Col.W);
+    if (myCurrCursor != null) {
+      uiDrawer.draw(myCurrCursor, CURSOR_SZ, CURSOR_SZ, CURSOR_SZ/2, CURSOR_SZ/2, myMousePos.x, myMousePos.y, 0, Col.W);
     }
   }
 
+  public Vector2 getMousePos() {
+    return myMousePos;
+  }
+
+  public Ptr[] getPtrs() {
+    return myPtrs;
+  }
+
+  public boolean isMouseOnUi() {
+    return myMouseOnUi;
+  }
 
   public static class Ptr {
     public float x;

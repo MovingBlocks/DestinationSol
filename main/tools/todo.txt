@@ -1,6 +1,6 @@
 
-control types
-
+ai hero control
+smarter respawn: save things on manual respawn
 
 new ui:
   "new" mark in the inventory
@@ -9,6 +9,7 @@ new ui:
   warning priorities
   sounds:
     warning blip
+  tutorial should consider new control types
 
 
 CONTENT:
