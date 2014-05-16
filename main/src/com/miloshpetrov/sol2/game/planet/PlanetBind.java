@@ -31,4 +31,8 @@ public class PlanetBind {
     if (!np.isNearGround(pos)) return null;
     return new PlanetBind(np, pos, angle);
   }
+
+  public Planet getPlanet() {
+    return myPlanet;
+  }
 }

@@ -1,6 +1,10 @@
 
-beacon handler improvements
+beacon map obj
+far ship target isn't persisted
+fade when player is near
+
 ai improvements
+shooter should consider guided weapons, acceleration
 
 smarter respawn: save things on manual respawn
 

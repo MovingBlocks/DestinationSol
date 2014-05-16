@@ -19,7 +19,7 @@ public class MapDrawer {
   public static final float MIN_ZOOM = 8f;
   public static final float MUL_FACTOR = 2f;
   public static final float MAX_ZOOM = 512f;
-  public static final float ICON_SZ = .04f;
+  public static final float ICON_RAD = .02f;
   public static final float STAR_NODE_SZ = .003f;
   private static final float MAX_TIME = .75f;
   public static final float INNER_ICON_PERC = .6f;
@@ -58,7 +58,7 @@ public class MapDrawer {
 
   public void draw(Drawer drawer, SolGame game) {
     SolCam cam = game.getCam();
-    float iconSz = cam.getViewHeight(myZoom) * ICON_SZ;
+    float iconSz = getIconRadius(cam) * 2;
     float starNodeW = cam.getViewHeight(myZoom) * STAR_NODE_SZ;
     float viewDist = cam.getViewDist(myZoom);
     FractionMan fractionMan = game.getFractionMan();
@@ -73,6 +73,10 @@ public class MapDrawer {
     drawStarNodes(drawer, game, viewDist, camPos, starNodeW);
     drawIcons(drawer, game, iconSz, viewDist, fractionMan, hero, camPos);
     drawer.end();
+  }
+
+  public float getIconRadius(SolCam cam) {
+    return cam.getViewHeight(myZoom) * ICON_RAD;
   }
 
   private void drawMazes(Drawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos) {
