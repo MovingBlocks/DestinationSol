@@ -7,6 +7,7 @@ import com.miloshpetrov.sol2.SolCmp;
 import com.miloshpetrov.sol2.game.BeaconHandler;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.ship.SolShip;
+import com.miloshpetrov.sol2.ui.SolInputMan;
 
 public class ShipMouseControl implements ShipUiControl {
   private final TextureAtlas.AtlasRegion myMoveCursor;
@@ -31,8 +32,10 @@ public class ShipMouseControl implements ShipUiControl {
     if (h != null) {
       myMouseWorldPos.set(Gdx.input.getX(), Gdx.input.getY());
       g.getCam().screenToWorld(myMouseWorldPos);
-      boolean clicked = cmp.getInputMan().getPtrs()[0].isJustPressed();
-      BeaconHandler.Action a = g.getBeaconHandler().processMouse(g, myMouseWorldPos, clicked);
+      SolInputMan im = cmp.getInputMan();
+      boolean clicked = im.getPtrs()[0].isJustPressed();
+      boolean onMap = im.isScreenOn(g.getScreens().mapScreen);
+      BeaconHandler.Action a = g.getBeaconHandler().processMouse(g, myMouseWorldPos, clicked, onMap);
       if (a == BeaconHandler.Action.ATTACK) {
         myCursor = myAttackCursor;
       } else if (a == BeaconHandler.Action.FOLLOW) {
