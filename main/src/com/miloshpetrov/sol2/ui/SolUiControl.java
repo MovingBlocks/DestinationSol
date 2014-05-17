@@ -112,11 +112,11 @@ public class SolUiControl {
 
   public void drawButton(UiDrawer uiDrawer, SolCmp cmp) {
     if (myScreenArea == null) return;
-    Color tint = Col.UI_DARKEST;
+    Color tint = Col.UI_INACTIVE;
     if (myEnabled) {
       if (isOn()) tint = Col.UI_LIGHT;
       else if (myMouseHover) tint = Col.UI_MED;
-      else tint = Col.UI_INACTIVE;
+      else tint = Col.UI_DARK;
     }
     uiDrawer.draw(myScreenArea, tint);
   }

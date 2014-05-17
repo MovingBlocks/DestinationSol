@@ -1,13 +1,12 @@
 
 new ui:
+  better planet ground on map
+
   "new" mark in the inventory
   fading compass on planet
-  warning priorities
+
   sounds:
     warning blip
-  tutorial should consider new control type
-
-  new title
 
 
 CONTENT:
@@ -17,6 +16,7 @@ CONTENT:
   planetConfig:
     isHard: true
   belt: isHard
+  new title
   item pick up sound
   item color categories
 
@@ -47,6 +47,12 @@ PERF:
     often used vs rarely used
   skip emitter ops if they're not working
   if something can be recalculated rarely, do so
+
+
+IN THE END:
+  tutorial should consider new control type
+  make title bigger
+
 
 ===================== REST =======================================================================
 

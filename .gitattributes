@@ -178,6 +178,7 @@ main/imgSrcs/mapObjs/atm.png -text
 main/imgSrcs/mapObjs/beaconAttack.png -text
 main/imgSrcs/mapObjs/beaconFollow.png -text
 main/imgSrcs/mapObjs/beaconMove.png -text
+main/imgSrcs/mapObjs/gridLine.png -text
 main/imgSrcs/mapObjs/maze.png -text
 main/imgSrcs/mapObjs/pack.json -text
 main/imgSrcs/mapObjs/planet.png -text
