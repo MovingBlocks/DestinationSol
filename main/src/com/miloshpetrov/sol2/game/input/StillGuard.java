@@ -14,11 +14,13 @@ public class StillGuard implements MoveDestProvider {
   private final PlanetBind myPlanetBind;
   private final float myDesiredSpdLen;
   private Vector2 myDest;
+  private Vector2 myDestSpd;
 
   public StillGuard(Vector2 target, SolGame game, ShipConfig sc) {
     myDest = new Vector2(target);
     myPlanetBind = PlanetBind.tryBind(game, myDest, 0);
     myDesiredSpdLen = sc.hull.type == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
+    myDestSpd = new Vector2();
   }
 
   @Override
@@ -48,11 +50,17 @@ public class StillGuard implements MoveDestProvider {
       myPlanetBind.setDiff(diff, shipPos, false);
       myDest.add(diff);
       SolMath.free(diff);
+      myPlanetBind.getPlanet().calcSpdAtPos(myDestSpd, myDest);
     }
   }
 
   @Override
   public Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround) {
     return true;
+  }
+
+  @Override
+  public Vector2 getDestSpd() {
+    return myDestSpd;
   }
 }

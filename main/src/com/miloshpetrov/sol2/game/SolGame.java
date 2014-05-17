@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.DebugCol;
@@ -233,10 +234,15 @@ public class SolGame {
     myPlanetMan.drawDebug(drawer, this);
     myObjMan.drawDebug(drawer, this);
     if (DebugAspects.ZOOM_OVERRIDE != 0) myCam.drawDebug(drawer);
-    Vector2 dp = DebugAspects.DEBUG_POINT;
+    drawDebugPoint(drawer, DebugAspects.DEBUG_POINT, DebugCol.POINT);
+    drawDebugPoint(drawer, DebugAspects.DEBUG_POINT2, DebugCol.POINT2);
+    drawDebugPoint(drawer, DebugAspects.DEBUG_POINT3, DebugCol.POINT3);
+  }
+
+  private void drawDebugPoint(Drawer drawer, Vector2 dp, Color col) {
     if (dp.x != 0 || dp.y != 0) {
       float sz = myCam.getRealLineWidth() * 5;
-      drawer.draw(myTexMan.whiteTex, sz, sz, sz / 2, sz / 2, dp.x, dp.y, 0, DebugCol.POINT);
+      drawer.draw(myTexMan.whiteTex, sz, sz, sz / 2, sz / 2, dp.x, dp.y, 0, col);
     }
   }
 

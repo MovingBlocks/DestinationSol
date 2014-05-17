@@ -18,14 +18,14 @@ import java.util.ArrayList;
 
 public class ChunkFiller {
   public static final float DUST_DENSITY = .2f;
-  public static final float ASTEROID_DENSITY = .004f;
+  public static final float ASTEROID_DENSITY = .007f;
   public static final float MIN_SYS_A_SZ = .5f;
   public static final float MAX_SYS_A_SZ = 1.5f;
   public static final float MIN_BELT_A_SZ = .5f;
   public static final float MAX_BELT_A_SZ = 3f;
   private static final float MAX_A_SPD = .2f;
 
-  private static final float BELT_A_DENSITY = .06f;
+  private static final float BELT_A_DENSITY = .04f;
 
   public static final float JUNK_MAX_SZ = .3f;
   public static final float JUNK_MAX_ROT_SPD = 45f;

@@ -35,9 +35,9 @@ public class GameOptions {
 
   public void advanceControlType(boolean mobile) {
     if (controlType == CONTROL_KB) {
-      controlType = mobile ? CONTROL_MOUSE : CONTROL_MIXED;
-    } else if (controlType == CONTROL_MIXED) {
-      controlType = CONTROL_MOUSE;
+      controlType = mobile && false ? CONTROL_MOUSE : CONTROL_MIXED;
+//    } else if (controlType == CONTROL_MIXED) {
+//      controlType = CONTROL_MOUSE;
     } else {
       controlType = CONTROL_KB;
     }

@@ -113,6 +113,11 @@ public class Guardian implements MoveDestProvider {
     return true;
   }
 
+  @Override
+  public Vector2 getDestSpd() {
+    return myTarget == null ? Vector2.Zero : myTarget.getSpd();
+  }
+
   public float getAngle() {
     return myAngle;
   }

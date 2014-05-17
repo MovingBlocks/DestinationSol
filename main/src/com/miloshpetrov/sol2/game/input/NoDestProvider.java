@@ -42,4 +42,9 @@ public class NoDestProvider implements MoveDestProvider {
   public Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround) {
     return null;
   }
+
+  @Override
+  public Vector2 getDestSpd() {
+    return Vector2.Zero;
+  }
 }

@@ -1,9 +1,6 @@
 
-ai improvements:
-  consider the speed of target
-  shooter should consider guided weapons, acceleration
-
-smarter respawn: save things on manual respawn
+shooter should consider guided weapons, acceleration
+smarter respawn: save money only
 
 new ui:
   "new" mark in the inventory

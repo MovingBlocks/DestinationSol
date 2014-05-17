@@ -2,7 +2,6 @@ package com.miloshpetrov.sol2.game.input;
 
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.common.SolMath;
-import com.miloshpetrov.sol2.game.DebugAspects;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
@@ -35,7 +34,6 @@ public class BattleDestProvider {
       float len = approxRad + .5f * shootDist + enemyApproxRad;
       SolMath.fromAl(myDest, a, len);
       myDest.add(enemyPos);
-      DebugAspects.DEBUG_POINT.set(myDest);
       myStopNearDest = false;
     }
     return myDest;
