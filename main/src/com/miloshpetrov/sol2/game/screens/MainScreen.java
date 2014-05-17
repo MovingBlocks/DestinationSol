@@ -24,6 +24,8 @@ public class MainScreen implements SolUiScreen {
   public static final float BAR_SZ = ICON_SZ * 5;
   public static final int MAX_ICON_COUNT = 3;
   public static final float CELL_SZ = .2f;
+  public static final float H_PAD = .005f;
+  public static final float V_PAD = H_PAD * 2;
 
   private final List<SolUiControl> myControls;
   private final CollisionWarnDrawer myCollisionWarnDrawer;
@@ -198,17 +200,17 @@ public class MainScreen implements SolUiScreen {
     if (hero != null) {
       TexMan texMan = cmp.getTexMan();
 
-      float row = BorderDrawer.TISHCH_SZ;
-      float col0 = BorderDrawer.TISHCH_SZ;
-      float col1 = BorderDrawer.TISHCH_SZ + ICON_SZ;
-      float col2 = col1 + BAR_SZ;
+      float row = BorderDrawer.TISHCH_SZ + V_PAD;
+      float col0 = BorderDrawer.TISHCH_SZ + H_PAD;
+      float col1 = col0 + ICON_SZ + H_PAD;
+      float col2 = col1 + BAR_SZ + H_PAD;
 
       Shield shield = hero.getShield();
       if (shield != null) {
         uiDrawer.draw(myShieldTex, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
         float shieldPerc = shield.getLife() / shield.getMaxLife();
         drawBar(uiDrawer, texMan, col1, row, shieldPerc);
-        row += ICON_SZ;
+        row += ICON_SZ + V_PAD;
       }
 
       uiDrawer.draw(myLifeTex, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
@@ -218,11 +220,11 @@ public class MainScreen implements SolUiScreen {
       ItemMan itemMan = cmp.getGame().getItemMan();
       drawIcons(uiDrawer, col2, row, repairKitCount, itemMan.repairIcon);
 
-      row += ICON_SZ;
+      row += ICON_SZ + V_PAD;
       boolean consumed = drawGunStat(uiDrawer, texMan, hero, false, col0, col1, col2, row);
-      if (consumed) row += ICON_SZ;
+      if (consumed) row += ICON_SZ + V_PAD;
       consumed = drawGunStat(uiDrawer, texMan, hero, true, col0, col1, col2, row);
-      if (consumed) row += ICON_SZ;
+      if (consumed) row += ICON_SZ + V_PAD;
 
       ShipAbility ability = hero.getAbility();
       SolItem abilityChargeEx = ability == null ? null : ability.getChargeExample();
@@ -267,10 +269,8 @@ public class MainScreen implements SolUiScreen {
   }
 
   private void drawBar(UiDrawer uiDrawer, TexMan texMan, float x, float y, float perc) {
-    float h = ICON_SZ * .6f;
-    y += ICON_SZ * .2f;
-    uiDrawer.draw(texMan.whiteTex, BAR_SZ, h, 0, 0, x, y, 0, Col.G);
-    uiDrawer.draw(texMan.whiteTex, BAR_SZ * perc, h, 0, 0, x, y, 0, Col.LG);
+    uiDrawer.draw(texMan.whiteTex, BAR_SZ, ICON_SZ, 0, 0, x, y, 0, Col.UI_INACTIVE);
+    uiDrawer.draw(texMan.whiteTex, BAR_SZ * perc, ICON_SZ, 0, 0, x, y, 0, Col.UI_LIGHT);
   }
 
   private void drawIcons(UiDrawer uiDrawer, float x, float y, int count, TextureAtlas.AtlasRegion tex) {
@@ -278,7 +278,7 @@ public class MainScreen implements SolUiScreen {
     int iconCount = excess > 0 ? MAX_ICON_COUNT : count;
     for (int i = 0; i < iconCount; i++) {
       uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, x, y, 0, Col.W);
-      x += ICON_SZ;
+      x += ICON_SZ + H_PAD;
     }
     if (excess > 0) uiDrawer.drawString("+" + excess, x, y + .25f * ICON_SZ, FontSize.HUD, false, Col.W); // hack!
   }

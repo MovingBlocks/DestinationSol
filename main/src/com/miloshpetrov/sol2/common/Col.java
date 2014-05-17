@@ -19,6 +19,11 @@ public class Col {
   public static final Color W50 = col(1, .5f);
   public static final Color W = col(1, 1);
 
+  public static final Color UI_DARKEST = new Color(0, .75f, 1, .05f);
+  public static final Color UI_INACTIVE = new Color(0, .75f, 1, .15f);
+  public static final Color UI_MED = new Color(0, .75f, 1, .25f);
+  public static final Color UI_LIGHT = new Color(0, .75f, 1, .5f);
+
   public static Color col(float b, float t) {
     return new Color(b, b, b, t);
   }

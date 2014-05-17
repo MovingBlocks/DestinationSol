@@ -9,30 +9,24 @@ import java.util.List;
 
 public class OptionsScreen implements SolUiScreen {
   private final ArrayList<SolUiControl> myControls;
-  private final SolUiControl myHalpCtrl;
   private final SolUiControl myBackCtrl;
   private final SolUiControl myResoCtrl;
   private final SolUiControl myControlTypeCtrl;
 
-  public OptionsScreen(MenuLayout menuLayout, boolean mobile) {
+  public OptionsScreen(MenuLayout menuLayout) {
 
     myControls = new ArrayList<SolUiControl>();
 
-    myResoCtrl = new SolUiControl(menuLayout.buttonRect(-1, 0));
+    myResoCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2));
     myResoCtrl.setDisplayName("Resolution");
     myResoCtrl.setEnabled(Gdx.app.getType() == Application.ApplicationType.Desktop);
     myControls.add(myResoCtrl);
 
-    myControlTypeCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1));
+    myControlTypeCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3));
     myControlTypeCtrl.setDisplayName("Control Type");
-    if (!mobile) myControls.add(myControlTypeCtrl);
+    myControls.add(myControlTypeCtrl);
 
-    myHalpCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2));
-    myHalpCtrl.setDisplayName("Controls");
-    myHalpCtrl.setEnabled(!mobile);
-    myControls.add(myHalpCtrl);
-
-    myBackCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), Input.Keys.ESCAPE);
+    myBackCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), Input.Keys.ESCAPE);
     myBackCtrl.setDisplayName("Back");
     myControls.add(myBackCtrl);
   }
@@ -50,17 +44,13 @@ public class OptionsScreen implements SolUiScreen {
       im.setScreen(cmp, screens.resoScreen);
     }
 
-    boolean mobile = cmp.isMobile();
     int ct = cmp.getOptions().controlType;
-    String ctName = mobile ? "Buttons" : "Keyboard";
-    if (ct == GameOptions.CONTROL_MIXED) ctName = "Keyboard + Mouse";
-    if (ct == GameOptions.CONTROL_MOUSE) ctName = mobile ? "Screen" : "Mouse";
+    String ctName = "Keyboard";
+    if (ct == GameOptions.CONTROL_MIXED) ctName = "KB + Mouse";
+    if (ct == GameOptions.CONTROL_MOUSE) ctName = "Mouse";
     myControlTypeCtrl.setDisplayName("Controls: " + ctName);
     if (myControlTypeCtrl.isJustOff()) {
-      cmp.getOptions().advanceControlType(mobile);
-    }
-    if (myHalpCtrl.isJustOff()) {
-      im.setScreen(cmp, screens.halpScreen);
+      cmp.getOptions().advanceControlType(false);
     }
     if (myBackCtrl.isJustOff()) {
       im.setScreen(cmp, screens.main);

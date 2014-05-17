@@ -2,11 +2,12 @@
 new ui:
   "new" mark in the inventory
   fading compass on planet
-  "dangerous enemy near" warning
   warning priorities
   sounds:
     warning blip
   tutorial should consider new control type
+
+  new title
 
 
 CONTENT:
@@ -63,6 +64,7 @@ ARCHITECTURE
   sound volumes should be kept in one map file?
 
 FEATURES
+  "dangerous enemy near" warning
   brakes
   inventory category filtering
   boss-like stations on planets and space

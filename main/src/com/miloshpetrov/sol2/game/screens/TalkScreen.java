@@ -47,7 +47,7 @@ public class TalkScreen implements SolUiScreen {
     myCloseCtrl.setDisplayName("Close");
     myControls.add(myCloseCtrl);
 
-    myBg = menuLayout.bg(-1, 4);
+    myBg = menuLayout.bg(-1, 5);
   }
 
   @Override
