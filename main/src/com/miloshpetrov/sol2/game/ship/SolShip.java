@@ -7,7 +7,6 @@ import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
 import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.gun.GunMount;
-import com.miloshpetrov.sol2.game.input.UiControlledPilot;
 import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
@@ -269,12 +268,7 @@ public class SolShip implements SolObj {
   }
 
   private void throwAllLoot(SolGame game) {
-    boolean isPlayer = myPilot.isPlayer();
     for (SolItem item : myItemContainer) {
-      if (isPlayer && SolMath.test(.5f)) {
-        game.addRespawnItem(item);
-        continue;
-      }
       float dropChance = maybeUnequip(game, item, false) ? .2f : .8f;
       if (SolMath.test(1 - dropChance)) continue;
       throwLoot(game, item, true);
@@ -284,8 +278,8 @@ public class SolShip implements SolObj {
       if (SolMath.test(1 - dropChance)) continue;
       throwLoot(game, item, true);
     }
-    if (isPlayer) {
-      float toRespawn = .5f * myMoney;
+    if (myPilot.isPlayer()) {
+      float toRespawn = SolGame.RESPAWN_MONEY_PERC * myMoney;
       game.setRespawnMoney(toRespawn);
       myMoney -= toRespawn;
     }

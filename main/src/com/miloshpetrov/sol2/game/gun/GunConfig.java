@@ -80,7 +80,7 @@ public class GunConfig {
     else if (projConfig.density > 0) projDmg = 5;
 
     float projHitChance = (projConfig.spdLen + projConfig.acc) / 4;
-    if (projConfig.guided) projHitChance += .3f;
+    if (projConfig.guideRotSpd > 0) projHitChance += .3f;
     float sz = projConfig.physSize;
     if (sz > 0) projHitChance += sz * .5f;
     projHitChance = SolMath.clamp(projHitChance, .1f, 1);

@@ -41,7 +41,7 @@ public class ProjectileConfigs {
       EffectConfig bodyEffect = EffectConfig.load(sh.get("bodyEffect"), effectTypes, texMan, configFile, cols);
       EffectConfig collisionEffect = EffectConfig.load(sh.get("collisionEffect"), effectTypes, texMan, configFile, cols);
       EffectConfig collisionEffectBg = EffectConfig.load(sh.get("collisionEffectBg"), effectTypes, texMan, configFile, cols);
-      boolean guided = sh.getBoolean("guided", false);
+      float guideRotSpd = sh.getFloat("guideRotSpd", 0);
       boolean zeroAbsSpd = sh.getBoolean("zeroAbsSpd", false);
       Vector2 origin = SolMath.readV2(sh.getString("texOrig", "0 0"));
       float acc = sh.getFloat("acceleration", 0);
@@ -49,7 +49,7 @@ public class ProjectileConfigs {
       boolean bodyless = sh.getBoolean("massless", false);
       float density = sh.getFloat("density", -1);
       ProjectileConfig c = new ProjectileConfig(tex, texSz, spdLen, stretch, physSize, dmgType, collisionSound,
-        lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg, guided, zeroAbsSpd, origin, acc, workSound, bodyless, density);
+        lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg, zeroAbsSpd, origin, acc, workSound, bodyless, density, guideRotSpd);
       myConfigs.put(sh.name, c);
     }
   }

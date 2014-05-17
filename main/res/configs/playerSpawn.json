@@ -4,7 +4,7 @@
     ship: {
       hull: guardie,
       items: "sg s a r:1:2 b:1:4 rep:1:2 emWaveCharge:1:6",
-      money: 2000,
+      money: 20,
       repairer: true,
     },
   },
