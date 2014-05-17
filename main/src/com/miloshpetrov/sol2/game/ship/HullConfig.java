@@ -68,6 +68,9 @@ public class HullConfig {
     this.ability = ability;
   }
 
+  /**
+   * @return maximum distance between destination and ship position that is considered acceptable
+   */
   public float getMaxIdleDist() {
     float res = .4f * size;
     return res < MIN_IDLE_DIST ? MIN_IDLE_DIST : res;

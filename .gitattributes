@@ -434,10 +434,10 @@ main/src/com/miloshpetrov/sol2/game/gun/GunMount.java -text
 main/src/com/miloshpetrov/sol2/game/gun/SolGun.java -text
 main/src/com/miloshpetrov/sol2/game/input/AiPilot.java -text
 main/src/com/miloshpetrov/sol2/game/input/BattleDestProvider.java -text
+main/src/com/miloshpetrov/sol2/game/input/BeaconDestProvider.java -text
 main/src/com/miloshpetrov/sol2/game/input/BigObjAvoider.java -text
 main/src/com/miloshpetrov/sol2/game/input/ExplorerDestProvider.java -text
 main/src/com/miloshpetrov/sol2/game/input/Guardian.java -text
-main/src/com/miloshpetrov/sol2/game/input/MouseDestProvider.java -text
 main/src/com/miloshpetrov/sol2/game/input/MoveDestProvider.java -text
 main/src/com/miloshpetrov/sol2/game/input/Mover.java -text
 main/src/com/miloshpetrov/sol2/game/input/NoDestProvider.java -text

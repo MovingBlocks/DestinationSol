@@ -7,12 +7,14 @@ import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
-public class MouseDestProvider implements MoveDestProvider {
+public class BeaconDestProvider implements MoveDestProvider {
+  public static final float STOP_AWAIT = .1f;
   private final Vector2 myDest;
 
   private Boolean myShouldManeuver;
+  private boolean myShouldStopNearDest;
 
-  public MouseDestProvider() {
+  public BeaconDestProvider() {
     myDest = new Vector2();
   }
 
@@ -25,6 +27,7 @@ public class MouseDestProvider implements MoveDestProvider {
     if (nearestEnemy != null && a == BeaconHandler.Action.ATTACK) {
       if (shipPos.dst(myDest) < shipPos.dst(nearestEnemy.getPos()) + .1f) myShouldManeuver = true;
     }
+    myShouldStopNearDest = STOP_AWAIT < game.getTime() - bh.getClickTime();
   }
 
   @Override
@@ -49,6 +52,6 @@ public class MouseDestProvider implements MoveDestProvider {
 
   @Override
   public boolean shouldStopNearDest() {
-    return true;
+    return myShouldStopNearDest;
   }
 }

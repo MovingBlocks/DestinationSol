@@ -127,7 +127,7 @@ public class SolGame {
     Pilot pilot;
     if (myCmp.getOptions().controlType == GameOptions.CONTROL_MOUSE) {
       myBeaconHandler.init(this, pos);
-      pilot = new AiPilot(new MouseDestProvider(), true, Fraction.LAANI, false, "you", Const.AI_DET_DIST);
+      pilot = new AiPilot(new BeaconDestProvider(), true, Fraction.LAANI, false, "you", Const.AI_DET_DIST);
     } else {
       pilot = new UiControlledPilot(myScreens.mainScreen);
     }

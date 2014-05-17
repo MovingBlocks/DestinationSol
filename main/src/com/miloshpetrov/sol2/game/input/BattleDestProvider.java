@@ -2,13 +2,14 @@ package com.miloshpetrov.sol2.game.input;
 
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.game.DebugAspects;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public class BattleDestProvider {
   private final Vector2 myDest;
   private boolean myStopNearDest;
-  private final boolean myCw;
+  private boolean myCw;
 
   public BattleDestProvider() {
     myDest = new Vector2();
@@ -16,6 +17,7 @@ public class BattleDestProvider {
   }
 
   public Vector2 getDest(SolShip ship, SolShip enemy, float shootDist, Planet np, boolean battle) {
+    if (SolMath.test(.001f)) myCw = !myCw;
     if (!battle) throw new AssertionError("can't flee yet!");
     float prefAngle;
     Vector2 enemyPos = enemy.getPos();
@@ -28,18 +30,13 @@ public class BattleDestProvider {
       myDest.add(enemyPos);
     } else {
       Vector2 shipPos = ship.getPos();
-      float dst = enemyPos.dst(shipPos);
-      if (dst < enemyApproxRad + approxRad + approxRad) {
-        myDest.set(shipPos);
-        myStopNearDest = false;
-      } else {
-        float toShipAngle = SolMath.angle(enemyPos, shipPos);
-        float a = toShipAngle + 90 * SolMath.toInt(myCw);
-        float len = approxRad + .25f + enemyApproxRad;
-        SolMath.fromAl(myDest, a, len);
-        myDest.add(enemyPos);
-        myStopNearDest = true;
-      }
+      float toShipAngle = SolMath.angle(enemyPos, shipPos);
+      float a = toShipAngle + 90 * SolMath.toInt(myCw);
+      float len = approxRad + .5f * shootDist + enemyApproxRad;
+      SolMath.fromAl(myDest, a, len);
+      myDest.add(enemyPos);
+      DebugAspects.DEBUG_POINT.set(myDest);
+      myStopNearDest = false;
     }
     return myDest;
   }
