@@ -25,7 +25,6 @@ public class MapDrawer {
   private static final float MAX_TIME = .75f;
   public static final float INNER_ICON_PERC = .6f;
   public static final float GRID_SZ = 40f;
-  private final TextureAtlas.AtlasRegion myGroundTex;
   private final TextureAtlas.AtlasRegion myAtmTex;
   private final TextureAtlas.AtlasRegion myPlanetTex;
   private final TextureAtlas.AtlasRegion myPlanetCoreTex;
@@ -44,7 +43,6 @@ public class MapDrawer {
 
   public MapDrawer(TexMan texMan) {
     myIconBg = texMan.getTex(TexMan.ICONS_DIR + "bg", null);
-    myGroundTex = texMan.getTex(TexMan.ICONS_DIR + "ground", null);
     myAtmTex = texMan.getTex("mapObjs/atm", null);
     myPlanetTex = texMan.getTex("mapObjs/planet", null);
     myPlanetCoreTex = texMan.getTex("mapObjs/planetCore", null);
@@ -222,6 +220,7 @@ public class MapDrawer {
 
   private void drawNpGround(Drawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos) {
     ObjMan objMan = game.getObjMan();
+    TextureAtlas.AtlasRegion wt = game.getTexMan().whiteTex;
     for (SolObj o : objMan.getObjs()) {
       if (!(o instanceof TileObj)) continue;
       Vector2 oPos = o.getPos();
@@ -229,7 +228,7 @@ public class MapDrawer {
       TileObj to = (TileObj) o;
       if (to.getPlanet() != np) continue;
       float sz = to.getSz();
-      drawer.draw(myGroundTex, sz, sz, sz/2, sz/2, oPos.x, oPos.y, to.getAngle(), Col.W);
+      drawPlanetTile(to.getTile(), sz, drawer, wt, oPos, to.getAngle());
     }
 
     for (FarObj o : objMan.getFarObjs()) {
@@ -239,7 +238,7 @@ public class MapDrawer {
       FarTileObj to = (FarTileObj) o;
       if (to.getPlanet() != np) continue;
       float sz = to.getSz();
-      drawer.draw(myGroundTex, sz, sz, sz/2, sz/2, oPos.x, oPos.y, to.getAngle(), Col.W);
+      drawPlanetTile(to.getTile(), sz, drawer, wt, oPos, to.getAngle());
     }
   }
 
@@ -313,6 +312,18 @@ public class MapDrawer {
     if (armor != null) r /= (1 - armor.getPerc());
     if (shield != null) r += shield.getLife() * 1.2f;
     return r;
+  }
+
+  private void drawPlanetTile(Tile t, float sz, Drawer drawer, TextureAtlas.AtlasRegion wt, Vector2 p, float angle) {
+    float szh = .6f * sz;
+    if (t.from == SurfDir.FWD || t.from == SurfDir.UP) {
+      if (t.from == SurfDir.UP) drawer.draw(wt, szh, szh, 0, szh, p.x, p.y, angle, Col.W);
+      drawer.draw(wt, szh, szh, 0, 0, p.x, p.y, angle, Col.W);
+    }
+    if (t.to == SurfDir.FWD || t.to == SurfDir.UP) {
+      if (t.to == SurfDir.UP) drawer.draw(wt, szh, szh, szh, szh, p.x, p.y, angle, Col.W);
+      drawer.draw(wt, szh, szh, szh, 0, p.x, p.y, angle, Col.W);
+    }
   }
 
   public TextureAtlas.AtlasRegion getStarPortTex() {

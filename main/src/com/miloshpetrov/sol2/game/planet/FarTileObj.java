@@ -44,7 +44,7 @@ public class FarTileObj implements FarObj {
 
   @Override
   public Vector2 getPos() {
-    SolMath.fromAl(myPos, getAngle(), myDist);
+    SolMath.fromAl(myPos, myPlanet.getAngle() + myToPlanetAngle, myDist);
     myPos.add(myPlanet.getPos());
     return myPos;
   }
@@ -55,7 +55,7 @@ public class FarTileObj implements FarObj {
   }
 
   public float getAngle() {
-    return myPlanet.getAngle() + myToPlanetAngle;
+    return myPlanet.getAngle() + myToPlanetAngle + 90;
   }
 
   public Planet getPlanet() {
@@ -65,5 +65,9 @@ public class FarTileObj implements FarObj {
 
   public float getSz() {
     return mySize;
+  }
+
+  public Tile getTile() {
+    return myTile;
   }
 }
