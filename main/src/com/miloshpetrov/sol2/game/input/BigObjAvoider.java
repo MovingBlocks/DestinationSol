@@ -23,6 +23,7 @@ public class BigObjAvoider {
     for (Planet p : game.getPlanetMan().getPlanets()) {
       Vector2 objPos = p.getPos();
       float objRad = p.getFullHeight();
+      if (dest.dst(objPos) < objRad) objRad = p.getGroundHeight();
       myProj.set(objPos);
       myProj.sub(from);
       SolMath.rotate(myProj, -toDestAngle);

@@ -33,7 +33,7 @@ public class ShipMouseControl implements ShipUiControl {
       myMouseWorldPos.set(Gdx.input.getX(), Gdx.input.getY());
       g.getCam().screenToWorld(myMouseWorldPos);
       SolInputMan im = cmp.getInputMan();
-      boolean clicked = im.getPtrs()[0].isJustPressed();
+      boolean clicked = im.getPtrs()[0].pressed;
       boolean onMap = im.isScreenOn(g.getScreens().mapScreen);
       BeaconHandler.Action a = g.getBeaconHandler().processMouse(g, myMouseWorldPos, clicked, onMap);
       if (a == BeaconHandler.Action.ATTACK) {

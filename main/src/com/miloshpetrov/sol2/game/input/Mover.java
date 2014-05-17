@@ -8,11 +8,11 @@ import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public class Mover {
-  public static final float MAX_SPD_DEVIATION = .5f;
-  public static final float MAX_SPD_DEVIATION_NEAR_DEST = .1f;
-  public static final float MIN_MOVE_AAD = 5f;
-  public static final float MIN_ANGLE_TO_ACC = 25f;
-  public static final float MIN_PLANET_MOVE_AAD = 15f;
+  public static final float MIN_MOVE_AAD = 1f;
+  public static final float MIN_ANGLE_TO_ACC = 5f;
+  public static final float MIN_PLANET_MOVE_AAD = 1f;
+  public static final float MAX_ABS_SPD_DEV = .1f;
+  public static final float MAX_REL_SPD_DEV = .05f;
   private final BigObjAvoider myBigObjAvoider;
   private final SmallObjAvoider mySmallObjAvoider;
   private boolean myUp;
@@ -27,7 +27,8 @@ public class Mover {
     myDesiredSpd = new Vector2();
   }
 
-  public void update(SolGame game, SolShip ship, Vector2 dest, MoveDestProvider destProvider, Planet np, float maxIdleDist, boolean hasEngine) {
+  public void update(SolGame game, SolShip ship, Vector2 dest, Planet np,
+    float maxIdleDist, boolean hasEngine, boolean avoidBigObjs, float desiredSpdLen, boolean stopNearDest) {
     myUp = false;
     myLeft = false;
     myRight = false;
@@ -37,20 +38,16 @@ public class Mover {
     Vector2 shipPos = ship.getPos();
 
     float toDestLen = shipPos.dst(dest);
-    boolean stopNearDest = destProvider.shouldStopNearDest();
-    float maxDeviation;
 
-    if (stopNearDest && toDestLen < maxIdleDist) {
-      updateDesiredSpdNearDest(dest, ship, np);
-      maxDeviation = MAX_SPD_DEVIATION_NEAR_DEST;
+    if (maxIdleDist < toDestLen || !stopNearDest) {
+      updateDesiredSpd(game, ship, dest, toDestLen, stopNearDest, np, avoidBigObjs, desiredSpdLen);
     } else {
-      updateDesiredSpd(game, ship, dest, toDestLen, stopNearDest, destProvider, np);
-      maxDeviation = MAX_SPD_DEVIATION;
+      updateDesiredSpdOnDest(dest, ship, np);
     }
 
     Vector2 shipSpd = ship.getSpd();
     float spdDeviation = shipSpd.dst(myDesiredSpd);
-    if (spdDeviation < maxDeviation) return;
+    if (spdDeviation < MAX_ABS_SPD_DEV || spdDeviation < MAX_REL_SPD_DEV * shipSpd.len()) return;
 
     float shipAngle = ship.getAngle();
     float rotSpd = ship.getRotSpd();
@@ -65,15 +62,15 @@ public class Mover {
     }
   }
 
-  private void updateDesiredSpd(SolGame game, SolShip ship, Vector2 dest, float toDestLen, boolean stopNearDest, MoveDestProvider destProvider, Planet np) {
-    boolean avoidBigObjs = destProvider.shouldAvoidBigObjs();
-    float desiredSpdLen = destProvider.getDesiredSpdLen();
+  private void updateDesiredSpd(SolGame game, SolShip ship, Vector2 dest, float toDestLen, boolean stopNearDest,
+    Planet np, boolean avoidBigObjs, float desiredSpdLen)
+  {
     float toDestAngle = getToDestAngle(game, ship, dest, avoidBigObjs, np);
     if (stopNearDest) {
       float tangentSpd = SolMath.project(ship.getSpd(), toDestAngle);
-      float breakWay = tangentSpd * tangentSpd / ship.getAcc() / 2;
       float turnWay = tangentSpd * ship.calcTimeToTurn(toDestAngle + 180);
-      boolean needsToBreak = toDestLen < turnWay + breakWay;
+      float breakWay = tangentSpd * tangentSpd / ship.getAcc() / 2;
+      boolean needsToBreak = toDestLen < .5f * tangentSpd + turnWay + breakWay;
       if (needsToBreak) {
         myDesiredSpd.set(0, 0);
         return;
@@ -109,13 +106,14 @@ public class Mover {
     }
   }
 
-  private void updateDesiredSpdNearDest(Vector2 dest, SolShip ship, Planet np) {
+  private void updateDesiredSpdOnDest(Vector2 dest, SolShip ship, Planet np) {
     myDesiredSpd.set(0, 0);
-    if (np != null && np.getPos().dst(ship.getPos()) < np.getFullHeight()) {
+    if (np.getPos().dst(ship.getPos()) < np.getFullHeight()) {
       updateDesiredSpdOnPlanet(np, dest, ship);
     }
   }
 
+  // todo move this to mdp.getDestSpd()
   private void updateDesiredSpdOnPlanet(Planet p, Vector2 dest, SolShip ship) {
     Vector2 toDest = SolMath.distVec(p.getPos(), dest);
     float fromPlanetAngle = SolMath.angle(toDest);

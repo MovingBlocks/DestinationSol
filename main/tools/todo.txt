@@ -1,6 +1,7 @@
 
-ai improvements
-shooter should consider guided weapons, acceleration
+ai improvements:
+  consider the speed of target
+  shooter should consider guided weapons, acceleration
 
 smarter respawn: save things on manual respawn
 

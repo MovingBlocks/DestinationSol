@@ -31,6 +31,7 @@ public class BeaconHandler {
   private FarShip myFarTarget;
   private Action myCurrAction;
   private PlanetBind myPlanetBind;
+  private float myClickTime;
 
   public BeaconHandler(TexMan texMan) {
     TextureAtlas.AtlasRegion attackTex = texMan.getTex("misc/beaconAttack", null);
@@ -175,6 +176,7 @@ public class BeaconHandler {
     if (clicked) {
       applyAction(action);
       getPos0().set(pos);
+      myClickTime = g.getTime();
     }
     return action;
   }
@@ -194,14 +196,16 @@ public class BeaconHandler {
 
   private Pilot findPilotInPos(SolGame g, Vector2 pos, boolean onMap, boolean clicked) {
     ObjMan om = g.getObjMan();
+    SolShip h = g.getHero();
     float iconRad = onMap ? g.getMapDrawer().getIconRadius(g.getCam()) : 0;
     for (SolObj o : om.getObjs()) {
-      if (!(o instanceof SolShip)) continue;
-      float dst = o.getPos().dst(pos);
+      if (o == h || !(o instanceof SolShip)) continue;
       SolShip s = (SolShip) o;
+      Pilot pilot = s.getPilot();
+      if (onMap && pilot.getMapHint() == null) continue;
+      float dst = o.getPos().dst(pos);
       float rad = iconRad == 0 ? s.getHull().config.size : iconRad;
       if (dst < rad) {
-        Pilot pilot = s.getPilot();
         if (clicked) {
           myTargetPilot = pilot;
           myTarget = s;
@@ -211,11 +215,12 @@ public class BeaconHandler {
     }
     for (FarObj fo : om.getFarObjs()) {
       if (!(fo instanceof FarShip)) continue;
-      float dst = fo.getPos().dst(pos);
       FarShip s = (FarShip) fo;
+      Pilot pilot = s.getPilot();
+      if (onMap && pilot.getMapHint() == null) continue;
+      float dst = fo.getPos().dst(pos);
       float rad = iconRad == 0 ? s.getHullConfig().approxRadius : iconRad;
       if (dst < rad) {
-        Pilot pilot = s.getPilot();
         if (clicked) {
           myTargetPilot = pilot;
           myFarTarget = s;
@@ -237,6 +242,10 @@ public class BeaconHandler {
 
   public Action getCurrAction() {
     return myCurrAction;
+  }
+
+  public float getClickTime() {
+    return myClickTime;
   }
 
   public static enum Action {

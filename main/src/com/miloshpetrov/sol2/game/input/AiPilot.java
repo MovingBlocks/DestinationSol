@@ -12,6 +12,7 @@ import com.miloshpetrov.sol2.game.ship.*;
 
 public class AiPilot implements Pilot {
 
+  public static final float MAX_BATTLE_SPD = 2f;
   private final MoveDestProvider myDestProvider;
   private final boolean myCollectsItems;
   private final Mover myMover;
@@ -56,6 +57,8 @@ public class AiPilot implements Pilot {
 
     Vector2 dest = null;
     boolean shouldStopNearDest = false;
+    boolean avoidBigObjs = false;
+    float desiredSpdLen = myDestProvider.getDesiredSpdLen();
     boolean hasEngine = ship.getHull().getEngine() != null;
     if (hasEngine) {
       Boolean battle = null;
@@ -63,13 +66,15 @@ public class AiPilot implements Pilot {
       if (battle != null) {
         dest = myBattleDestProvider.getDest(ship, nearestEnemy, shootDist, np, battle);
         shouldStopNearDest = myBattleDestProvider.shouldStopNearDest();
+        if (MAX_BATTLE_SPD < desiredSpdLen) desiredSpdLen = MAX_BATTLE_SPD;
       } else {
         dest = myDestProvider.getDest();
         shouldStopNearDest = myDestProvider.shouldStopNearDest();
+        avoidBigObjs = myDestProvider.shouldAvoidBigObjs();
       }
     }
 
-    myMover.update(game, ship, dest, myDestProvider, np, maxIdleDist, hasEngine);
+    myMover.update(game, ship, dest, np, maxIdleDist, hasEngine, avoidBigObjs, desiredSpdLen, shouldStopNearDest);
     boolean moverActive = myMover.isActive();
 
     Vector2 enemyPos = nearestEnemy == null ? null : nearestEnemy.getPos();
@@ -198,7 +203,7 @@ public class AiPilot implements Pilot {
 
   @Override
   public boolean isPlayer() {
-    return myDestProvider instanceof MouseDestProvider;
+    return myDestProvider instanceof BeaconDestProvider;
   }
 
 }
