@@ -1,11 +1,9 @@
 
 new ui:
-  better planet ground on map
-
   "new" mark in the inventory
   fading compass on planet
 
-  sounds:
+ sounds:
     warning blip
 
 

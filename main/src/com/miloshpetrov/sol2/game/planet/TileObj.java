@@ -142,4 +142,8 @@ public class TileObj implements SolObj {
   public float getSz() {
     return mySize;
   }
+
+  public Tile getTile() {
+    return myTile;
+  }
 }
