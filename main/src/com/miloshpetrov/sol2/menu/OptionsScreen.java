@@ -25,7 +25,7 @@ public class OptionsScreen implements SolUiScreen {
 
     myControlTypeCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1));
     myControlTypeCtrl.setDisplayName("Control Type");
-    myControls.add(myControlTypeCtrl);
+    if (!mobile) myControls.add(myControlTypeCtrl);
 
     myHalpCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2));
     myHalpCtrl.setDisplayName("Controls");

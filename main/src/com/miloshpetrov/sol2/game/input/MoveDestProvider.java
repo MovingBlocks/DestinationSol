@@ -24,4 +24,5 @@ public interface MoveDestProvider {
    */
   Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround);
 
+  Vector2 getDestSpd();
 }

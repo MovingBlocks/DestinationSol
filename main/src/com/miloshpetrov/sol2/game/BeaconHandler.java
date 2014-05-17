@@ -32,6 +32,8 @@ public class BeaconHandler {
   private Action myCurrAction;
   private PlanetBind myPlanetBind;
   private float myClickTime;
+  private Vector2 mySpd;
+  private boolean myInitialized;
 
   public BeaconHandler(TexMan texMan) {
     TextureAtlas.AtlasRegion attackTex = texMan.getTex("misc/beaconAttack", null);
@@ -41,6 +43,7 @@ public class BeaconHandler {
     TextureAtlas.AtlasRegion moveTex = texMan.getTex("misc/beaconMove", null);
     myMoveSprite = new RectSprite(moveTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
     myTargetRelPos = new Vector2();
+    mySpd = new Vector2();
   }
 
   public void init(SolGame game, Vector2 pos) {
@@ -50,10 +53,13 @@ public class BeaconHandler {
     dras.add(myMoveSprite);
     myD = new DrasObj(dras, new Vector2(pos), new Vector2(), null, false, false);
     game.getObjMan().addObjDelayed(myD);
+    myInitialized = true;
   }
 
   public void update(SolGame game) {
+    if (!myInitialized) return;
     updateD(game);
+    mySpd.set(0, 0);
     if (maybeUpdateTargetPos(game)) return;
     maybeUpdatePlanetPos(game);
   }
@@ -68,6 +74,7 @@ public class BeaconHandler {
     myPlanetBind.setDiff(vec, beaconPos, false);
     beaconPos.add(vec);
     SolMath.free(vec);
+    myPlanetBind.getPlanet().calcSpdAtPos(mySpd, beaconPos);
   }
 
   private boolean maybeUpdateTargetPos(SolGame game) {
@@ -76,6 +83,7 @@ public class BeaconHandler {
     Vector2 beaconPos = getPos0();
     if (myTarget != null) {
       SolMath.toWorld(beaconPos, myTargetRelPos, myTarget.getAngle(), myTarget.getPos(), false);
+      mySpd.set(myTarget.getSpd());
     } else {
       beaconPos.set(myFarTarget.getPos());
     }
@@ -246,6 +254,10 @@ public class BeaconHandler {
 
   public float getClickTime() {
     return myClickTime;
+  }
+
+  public Vector2 getSpd() {
+    return mySpd;
   }
 
   public static enum Action {

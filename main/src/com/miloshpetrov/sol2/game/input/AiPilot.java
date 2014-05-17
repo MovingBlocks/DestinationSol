@@ -3,8 +3,7 @@ package com.miloshpetrov.sol2.game.input;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
-import com.miloshpetrov.sol2.game.Fraction;
-import com.miloshpetrov.sol2.game.SolGame;
+import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.planet.PlanetBind;
@@ -56,6 +55,7 @@ public class AiPilot implements Pilot {
     shootDist += hullConfig.approxRadius;
 
     Vector2 dest = null;
+    Vector2 destSpd = null;
     boolean shouldStopNearDest = false;
     boolean avoidBigObjs = false;
     float desiredSpdLen = myDestProvider.getDesiredSpdLen();
@@ -66,15 +66,18 @@ public class AiPilot implements Pilot {
       if (battle != null) {
         dest = myBattleDestProvider.getDest(ship, nearestEnemy, shootDist, np, battle);
         shouldStopNearDest = myBattleDestProvider.shouldStopNearDest();
+        destSpd = nearestEnemy.getSpd();
         if (MAX_BATTLE_SPD < desiredSpdLen) desiredSpdLen = MAX_BATTLE_SPD;
+        desiredSpdLen += destSpd.len();
       } else {
         dest = myDestProvider.getDest();
+        destSpd = myDestProvider.getDestSpd();
         shouldStopNearDest = myDestProvider.shouldStopNearDest();
         avoidBigObjs = myDestProvider.shouldAvoidBigObjs();
       }
     }
 
-    myMover.update(game, ship, dest, np, maxIdleDist, hasEngine, avoidBigObjs, desiredSpdLen, shouldStopNearDest);
+    myMover.update(game, ship, dest, np, maxIdleDist, hasEngine, avoidBigObjs, desiredSpdLen, shouldStopNearDest, destSpd);
     boolean moverActive = myMover.isActive();
 
     Vector2 enemyPos = nearestEnemy == null ? null : nearestEnemy.getPos();
@@ -89,7 +92,7 @@ public class AiPilot implements Pilot {
   private Boolean canShoot0(SolShip ship) {
     GunItem g1 = ship.getHull().getGun(false);
     if (g1 != null && g1.canShoot()) return !g1.config.fixed ? null : true;
-    GunItem g2 = ship.getHull().getGun(true);;
+    GunItem g2 = ship.getHull().getGun(true);
     if (g2 != null && (g2.canShoot())) return !g2.config.fixed ? null : true;
     return false;
   }

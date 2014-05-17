@@ -162,4 +162,13 @@ public class Planet {
   public String getName() {
     return myName;
   }
+
+  public void calcSpdAtPos(Vector2 spd, Vector2 pos) {
+    Vector2 toPos = SolMath.distVec(myPos, pos);
+    float fromPlanetAngle = SolMath.angle(toPos);
+    float hSpdLen = SolMath.angleToArc(myRotSpd, toPos.len());
+    SolMath.free(toPos);
+    spd.set(0, hSpdLen);
+    SolMath.rotate(spd, fromPlanetAngle);
+  }
 }

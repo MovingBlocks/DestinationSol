@@ -3,6 +3,7 @@ package com.miloshpetrov.sol2.game.input;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.game.DebugAspects;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.SolShip;
@@ -28,7 +29,8 @@ public class Mover {
   }
 
   public void update(SolGame game, SolShip ship, Vector2 dest, Planet np,
-    float maxIdleDist, boolean hasEngine, boolean avoidBigObjs, float desiredSpdLen, boolean stopNearDest) {
+    float maxIdleDist, boolean hasEngine, boolean avoidBigObjs, float desiredSpdLen, boolean stopNearDest,
+    Vector2 destSpd) {
     myUp = false;
     myLeft = false;
     myRight = false;
@@ -39,10 +41,10 @@ public class Mover {
 
     float toDestLen = shipPos.dst(dest);
 
-    if (maxIdleDist < toDestLen || !stopNearDest) {
-      updateDesiredSpd(game, ship, dest, toDestLen, stopNearDest, np, avoidBigObjs, desiredSpdLen);
+    if (toDestLen < maxIdleDist && stopNearDest) {
+      myDesiredSpd.set(destSpd);
     } else {
-      updateDesiredSpdOnDest(dest, ship, np);
+      updateDesiredSpd(game, ship, dest, toDestLen, stopNearDest, np, avoidBigObjs, desiredSpdLen, destSpd);
     }
 
     Vector2 shipSpd = ship.getSpd();
@@ -63,7 +65,7 @@ public class Mover {
   }
 
   private void updateDesiredSpd(SolGame game, SolShip ship, Vector2 dest, float toDestLen, boolean stopNearDest,
-    Planet np, boolean avoidBigObjs, float desiredSpdLen)
+    Planet np, boolean avoidBigObjs, float desiredSpdLen, Vector2 destSpd)
   {
     float toDestAngle = getToDestAngle(game, ship, dest, avoidBigObjs, np);
     if (stopNearDest) {
@@ -72,7 +74,7 @@ public class Mover {
       float breakWay = tangentSpd * tangentSpd / ship.getAcc() / 2;
       boolean needsToBreak = toDestLen < .5f * tangentSpd + turnWay + breakWay;
       if (needsToBreak) {
-        myDesiredSpd.set(0, 0);
+        myDesiredSpd.set(destSpd);
         return;
       }
     }
@@ -104,24 +106,6 @@ public class Mover {
     if (ntt != null) {
       if (ntt) myRight = true; else myLeft = true;
     }
-  }
-
-  private void updateDesiredSpdOnDest(Vector2 dest, SolShip ship, Planet np) {
-    myDesiredSpd.set(0, 0);
-    if (np.getPos().dst(ship.getPos()) < np.getFullHeight()) {
-      updateDesiredSpdOnPlanet(np, dest, ship);
-    }
-  }
-
-  // todo move this to mdp.getDestSpd()
-  private void updateDesiredSpdOnPlanet(Planet p, Vector2 dest, SolShip ship) {
-    Vector2 toDest = SolMath.distVec(p.getPos(), dest);
-    float fromPlanetAngle = SolMath.angle(toDest);
-    float hSpdLen = SolMath.angleToArc(p.getRotSpd(), toDest.len());
-    SolMath.free(toDest);
-    float vSpdLen = SolMath.project(ship.getSpd(), fromPlanetAngle);
-    myDesiredSpd.set(vSpdLen, hSpdLen);
-    SolMath.rotate(myDesiredSpd, fromPlanetAngle);
   }
 
   private float getToDestAngle(SolGame game, SolShip ship, Vector2 dest, boolean avoidBigObjs, Planet np) {

@@ -10,6 +10,8 @@ public class DebugAspects {
   public static String DEV_ROOT_PATH;
 
   public static final Vector2 DEBUG_POINT = new Vector2();
+  public static final Vector2 DEBUG_POINT2 = new Vector2();
+  public static final Vector2 DEBUG_POINT3 = new Vector2();
 
   public static float ZOOM_OVERRIDE = 0;
   public static boolean OBJECT_BORDERS = false;

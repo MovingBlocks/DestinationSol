@@ -13,9 +13,11 @@ public class BeaconDestProvider implements MoveDestProvider {
 
   private Boolean myShouldManeuver;
   private boolean myShouldStopNearDest;
+  private Vector2 myDestSpd;
 
   public BeaconDestProvider() {
     myDest = new Vector2();
+    myDestSpd = new Vector2();
   }
 
   @Override
@@ -28,6 +30,7 @@ public class BeaconDestProvider implements MoveDestProvider {
       if (shipPos.dst(myDest) < shipPos.dst(nearestEnemy.getPos()) + .1f) myShouldManeuver = true;
     }
     myShouldStopNearDest = STOP_AWAIT < game.getTime() - bh.getClickTime();
+    myDestSpd.set(bh.getSpd());
   }
 
   @Override
@@ -38,6 +41,11 @@ public class BeaconDestProvider implements MoveDestProvider {
   @Override
   public Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround) {
     return myShouldManeuver;
+  }
+
+  @Override
+  public Vector2 getDestSpd() {
+    return myDestSpd;
   }
 
   @Override

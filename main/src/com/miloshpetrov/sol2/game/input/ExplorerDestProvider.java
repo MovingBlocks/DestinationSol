@@ -25,6 +25,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
   private Planet myPlanet;
   private float myAwaitOnPlanet;
   private boolean myDestIsLanding;
+  private Vector2 myDestSpd;
 
   public ExplorerDestProvider(SolGame game, Vector2 pos, boolean aggressive, HullConfig config, SolSystem sys)
   {
@@ -42,6 +43,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
     myAwaitOnPlanet = MAX_AWAIT_ON_PLANET;
     myAggressive = aggressive;
     myDesiredSpdLen = config.type == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
+    myDestSpd = new Vector2();
   }
 
   private void calcRelDest(HullConfig hullConfig) {
@@ -87,12 +89,18 @@ public class ExplorerDestProvider implements MoveDestProvider {
     }
 
     SolMath.toWorld(myDest, myRelDest, myPlanet.getAngle(), myPlanet.getPos(), false);
+    myPlanet.calcSpdAtPos(myDestSpd, myDest);
   }
 
   @Override
   public Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround) {
     if (myAggressive && canShoot) return true;
     return null;
+  }
+
+  @Override
+  public Vector2 getDestSpd() {
+    return myDestSpd;
   }
 
   @Override
