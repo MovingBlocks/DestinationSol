@@ -557,7 +557,6 @@ main/src/com/miloshpetrov/sol2/game/sound/SolSound.java -text
 main/src/com/miloshpetrov/sol2/game/sound/SoundMan.java -text
 main/src/com/miloshpetrov/sol2/game/sound/SpecialSounds.java -text
 main/src/com/miloshpetrov/sol2/menu/GameOptions.java -text
-main/src/com/miloshpetrov/sol2/menu/HalpScreen.java -text
 main/src/com/miloshpetrov/sol2/menu/IniReader.java -text
 main/src/com/miloshpetrov/sol2/menu/MainScreen.java -text
 main/src/com/miloshpetrov/sol2/menu/MenuLayout.java -text

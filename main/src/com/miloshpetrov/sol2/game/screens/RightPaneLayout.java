@@ -13,7 +13,7 @@ public class RightPaneLayout {
     btnH = .07f;
     rowH = 1.3f * btnH;
     row0 = .1f;
-    btnW = 2 * btnH;
+    btnW = 3 * btnH;
     col0 = r - btnW;
   }
 
