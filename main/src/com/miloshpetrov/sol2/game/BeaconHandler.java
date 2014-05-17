@@ -7,7 +7,6 @@ import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.dra.*;
 import com.miloshpetrov.sol2.game.input.Pilot;
-import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.planet.PlanetBind;
 import com.miloshpetrov.sol2.game.ship.FarShip;
 import com.miloshpetrov.sol2.game.ship.SolShip;
@@ -40,7 +39,6 @@ public class BeaconHandler {
     myFollowSprite = new RectSprite(followTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
     TextureAtlas.AtlasRegion moveTex = texMan.getTex("misc/beaconMove", null);
     myMoveSprite = new RectSprite(moveTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
-    myCurrAction = Action.MOVE;
     myTargetRelPos = new Vector2();
   }
 
@@ -94,7 +92,7 @@ public class BeaconHandler {
       for (FarObj fo : farObjs) {
         if (!(fo instanceof FarShip)) continue;
         FarShip ship = (FarShip) fo;
-        if (ship.getPilot() != myAttackSprite) continue;
+        if (ship.getPilot() != myTargetPilot) continue;
         myFarTarget = ship;
         return;
       }
@@ -107,7 +105,7 @@ public class BeaconHandler {
     for (SolObj o : objs) {
       if ((o instanceof SolShip)) {
         SolShip ship = (SolShip) o;
-        if (ship.getPilot() != myAttackSprite) continue;
+        if (ship.getPilot() != myTargetPilot) continue;
         myTarget = ship;
         return;
       }
@@ -201,7 +199,7 @@ public class BeaconHandler {
       if (!(o instanceof SolShip)) continue;
       float dst = o.getPos().dst(pos);
       SolShip s = (SolShip) o;
-      float rad = iconRad == 0 ? s.getHull().config.approxRadius : iconRad;
+      float rad = iconRad == 0 ? s.getHull().config.size : iconRad;
       if (dst < rad) {
         Pilot pilot = s.getPilot();
         if (clicked) {

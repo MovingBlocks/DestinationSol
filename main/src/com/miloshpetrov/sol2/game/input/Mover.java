@@ -10,9 +10,9 @@ import com.miloshpetrov.sol2.game.ship.SolShip;
 public class Mover {
   public static final float MAX_SPD_DEVIATION = .5f;
   public static final float MAX_SPD_DEVIATION_NEAR_DEST = .1f;
-  public static final float MIN_AAD = 5f;
+  public static final float MIN_MOVE_AAD = 5f;
   public static final float MIN_ANGLE_TO_ACC = 25f;
-  public static final float AAD_ON_IDLE_ON_PLANET = 15f;
+  public static final float MIN_PLANET_MOVE_AAD = 15f;
   private final BigObjAvoider myBigObjAvoider;
   private final SmallObjAvoider mySmallObjAvoider;
   private boolean myUp;
@@ -59,7 +59,7 @@ public class Mover {
     float desiredAngle = SolMath.angle(shipSpd, myDesiredSpd);
     float angleDiff = SolMath.angleDiff(desiredAngle, shipAngle);
     myUp = angleDiff < MIN_ANGLE_TO_ACC;
-    Boolean ntt = needsToTurn(shipAngle, desiredAngle, rotSpd, rotAcc);
+    Boolean ntt = needsToTurn(shipAngle, desiredAngle, rotSpd, rotAcc, MIN_MOVE_AAD);
     if (ntt != null) {
       if (ntt) myRight = true; else myLeft = true;
     }
@@ -95,12 +95,12 @@ public class Mover {
       if (np.getFullHeight() < dstToPlanet) return; // stopping in space, don't care of angle
       // stopping on planet
       desiredAngle = SolMath.angle(np.getPos(), shipPos);
-      allowedAngleDiff = AAD_ON_IDLE_ON_PLANET;
+      allowedAngleDiff = MIN_PLANET_MOVE_AAD;
     } else {
       // flying somewhere
       if (dstToPlanet < np.getFullHeight() + Const.ATM_HEIGHT) return; // near planet, don't care of angle
       desiredAngle = SolMath.angle(ship.getSpd());
-      allowedAngleDiff = MIN_AAD;
+      allowedAngleDiff = MIN_MOVE_AAD;
     }
 
     Boolean ntt = needsToTurn(shipAngle, desiredAngle, ship.getRotSpd(), ship.getRotAcc(), allowedAngleDiff);
@@ -136,11 +136,7 @@ public class Mover {
     return toDestAngle;
   }
 
-  public static Boolean needsToTurn(float angle, float destAngle, float rotSpd, float rotAcc) {
-    return needsToTurn(angle, destAngle, rotSpd, rotAcc, MIN_AAD);
-  }
-
-  private static Boolean needsToTurn(float angle, float destAngle, float rotSpd, float rotAcc, float allowedAngleDiff) {
+  public static Boolean needsToTurn(float angle, float destAngle, float rotSpd, float rotAcc, float allowedAngleDiff) {
     if (SolMath.angleDiff(destAngle, angle) < allowedAngleDiff) return null;
 
     float breakWay = rotSpd * rotSpd / rotAcc / 2;

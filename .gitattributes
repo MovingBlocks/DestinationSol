@@ -175,6 +175,9 @@ main/imgSrcs/junks/sys_0.png -text
 main/imgSrcs/junks/sys_1.png -text
 main/imgSrcs/mapObjs/asteroids.png -text
 main/imgSrcs/mapObjs/atm.png -text
+main/imgSrcs/mapObjs/beaconAttack.png -text
+main/imgSrcs/mapObjs/beaconFollow.png -text
+main/imgSrcs/mapObjs/beaconMove.png -text
 main/imgSrcs/mapObjs/maze.png -text
 main/imgSrcs/mapObjs/pack.json -text
 main/imgSrcs/mapObjs/planet.png -text

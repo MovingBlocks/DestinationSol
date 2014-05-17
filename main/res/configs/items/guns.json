@@ -97,6 +97,7 @@
     reloadSound: "guns/bolter/reload",
     },
   sg: {
+    fixed: true,
     maxAngleVar: 10,
     angleVarDamp: 6,
     angleVarPerShot: 1,

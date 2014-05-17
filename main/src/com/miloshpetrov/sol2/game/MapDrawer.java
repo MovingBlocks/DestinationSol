@@ -1,6 +1,7 @@
 package com.miloshpetrov.sol2.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.Col;
@@ -33,6 +34,9 @@ public class MapDrawer {
   private final TextureAtlas.AtlasRegion mySkullTex;
   private final TextureAtlas.AtlasRegion myStarPortTex;
   private final TextureAtlas.AtlasRegion myBeltTex;
+  private final TextureAtlas.AtlasRegion myBeaconAttackTex;
+  private final TextureAtlas.AtlasRegion myBeaconMoveTex;
+  private final TextureAtlas.AtlasRegion myBeaconFollowTex;
   private boolean myToggled;
   private final TextureAtlas.AtlasRegion myIconBg;
   private float myZoom;
@@ -49,6 +53,9 @@ public class MapDrawer {
     mySkullTex = texMan.getTex(TexMan.ICONS_DIR + "skull", null);
     myStarPortTex = texMan.getTex(TexMan.ICONS_DIR + "starPort", null);
     myBeltTex = texMan.getTex("mapObjs/asteroids", null);
+    myBeaconAttackTex = texMan.getTex("mapObjs/beaconAttack", null);
+    myBeaconMoveTex = texMan.getTex("mapObjs/beaconMove", null);
+    myBeaconFollowTex = texMan.getTex("mapObjs/beaconFollow", null);
     myZoom = MAX_ZOOM / MUL_FACTOR / MUL_FACTOR;
   }
 
@@ -166,6 +173,16 @@ public class MapDrawer {
         StarPort.MyFar sp = (StarPort.MyFar) o;
         drawStarPortIcon(drawer, iconSz, sp.getFrom(), sp.getTo());
       }
+    }
+    BeaconHandler bh = game.getBeaconHandler();
+    BeaconHandler.Action bhAction = bh.getCurrAction();
+    if (bhAction != null) {
+      Vector2 beaconPos = bh.getPos();
+      TextureRegion icon = myBeaconMoveTex;
+      if (bhAction == BeaconHandler.Action.ATTACK) icon = myBeaconAttackTex;
+      else if (bhAction == BeaconHandler.Action.FOLLOW) icon = myBeaconFollowTex;
+      float beaconSz = iconSz * 1.5f;
+      drawer.draw(icon, beaconSz, beaconSz, beaconSz/2, beaconSz/2, beaconPos.x, beaconPos.y, 0, Col.W);
     }
   }
 

@@ -8,6 +8,7 @@ import com.miloshpetrov.sol2.game.ship.SolShip;
 public class Shooter {
 
   public static final float E_SPD_PERC = .6f; // 0 means that target speed is not considered, 1 means that it's fully considered
+  public static final float MIN_SHOOT_AAD = 1f;
   private boolean myShoot;
   private boolean myShoot2;
   private boolean myRight;
@@ -65,7 +66,7 @@ public class Shooter {
     }
 
     if (dontRotate) return;
-    Boolean ntt = Mover.needsToTurn(shipAngle, shootAngle, ship.getRotSpd(), ship.getRotAcc());
+    Boolean ntt = Mover.needsToTurn(shipAngle, shootAngle, ship.getRotSpd(), ship.getRotAcc(), MIN_SHOOT_AAD);
     if (ntt != null) {
       if (ntt) myRight = true; else myLeft = true;
     }

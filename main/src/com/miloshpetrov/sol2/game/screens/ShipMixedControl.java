@@ -8,6 +8,7 @@ import com.miloshpetrov.sol2.SolCmp;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.input.Mover;
+import com.miloshpetrov.sol2.game.input.Shooter;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 import com.miloshpetrov.sol2.ui.SolInputMan;
 import com.miloshpetrov.sol2.ui.SolUiControl;
@@ -49,7 +50,7 @@ class ShipMixedControl implements ShipUiControl {
       myMouseWorldPos.set(Gdx.input.getX(), Gdx.input.getY());
       g.getCam().screenToWorld(myMouseWorldPos);
       float desiredAngle = SolMath.angle(h.getPos(), myMouseWorldPos);
-      Boolean ntt = Mover.needsToTurn(h.getAngle(), desiredAngle, h.getRotSpd(), h.getRotAcc());
+      Boolean ntt = Mover.needsToTurn(h.getAngle(), desiredAngle, h.getRotSpd(), h.getRotAcc(), Shooter.MIN_SHOOT_AAD);
       if (ntt != null) {
         if (ntt) myRight = true; else myLeft = true;
       }
