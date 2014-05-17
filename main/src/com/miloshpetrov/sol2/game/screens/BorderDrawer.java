@@ -172,7 +172,7 @@ public class BorderDrawer {
       Vector2 pos = new Vector2(x, y);
       Vector2 centah = new Vector2(r / 2, .5f);
       myAngle = SolMath.angle(centah, pos, true);
-      myCol = Col.col(1, 1);
+      myCol = new Color(Col.UI_DARK);
     }
 
     public void draw(UiDrawer drawer) {

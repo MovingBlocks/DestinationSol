@@ -94,7 +94,7 @@ public class SolGame {
     SolContactListener contactListener = new SolContactListener(this);
     myFractionMan = new FractionMan(myTexMan);
     myObjMan = new ObjMan(contactListener, myFractionMan);
-    myGridDrawer = new GridDrawer();
+    myGridDrawer = new GridDrawer(texMan);
     myChunkMan = new ChunkMan(myHullConfigs, myTexMan);
     myPartMan = new PartMan(myTexMan);
     myAsteroidBuilder = new AsteroidBuilder(myTexMan);

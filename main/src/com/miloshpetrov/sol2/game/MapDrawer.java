@@ -92,7 +92,7 @@ public class MapDrawer {
       Vector2 mazePos = maze.getPos();
       float rad = maze.getRadius() - MazeBuilder.BORDER;
       if (viewDist < camPos.dst(mazePos) - rad) continue;
-      drawer.draw(myMazeTex, 2 * rad, 2 * rad, rad, rad, mazePos.x, mazePos.y, 0, Col.W);
+      drawer.draw(myMazeTex, 2 * rad, 2 * rad, rad, rad, mazePos.x, mazePos.y, 45, Col.W);
     }
 
   }
@@ -100,7 +100,7 @@ public class MapDrawer {
   private void drawPlanets(Drawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos) {
     ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
     for (SolSystem sys : systems) {
-      drawer.drawCircle(sys.getPos(), sys.getRadius(), Col.W25, game.getCam().getRealLineWidth());
+      drawer.drawCircle(sys.getPos(), sys.getRadius(), Col.UI_MED, game.getCam().getRealLineWidth());
     }
     for (SolSystem sys : systems) {
       Vector2 sysPos = sys.getPos();
@@ -113,7 +113,7 @@ public class MapDrawer {
       for (SystemBelt belt : sys.getBelts()) {
         float beltRad = belt.getRadius();
         float halfWidth = belt.getHalfWidth();
-        int beltIconCount = (int) (.1f * beltRad);
+        int beltIconCount = (int) (.12f * beltRad);
         for (int i = 0; i < beltIconCount; i++) {
           float angle = 360f * i / beltIconCount;
           SolMath.fromAl(beltIconPos, angle, beltRad);
@@ -128,7 +128,7 @@ public class MapDrawer {
       Vector2 planetPos = planet.getPos();
       float fh = planet.getFullHeight();
       if (viewDist < camPos.dst(planetPos) - fh) continue;
-      drawer.draw(myAtmTex, 2*fh, 2*fh, fh, fh, planetPos.x, planetPos.y, 0, Col.G);
+      drawer.draw(myAtmTex, 2*fh, 2*fh, fh, fh, planetPos.x, planetPos.y, 0, Col.UI_DARK);
       if (planet == np && np.isObjsCreated()) {
         float gh = planet.getMinGroundHeight();
         drawer.draw(myPlanetCoreTex, 2*gh, 2*gh, gh, gh, planetPos.x, planetPos.y, planet.getAngle(), Col.W);
@@ -215,7 +215,7 @@ public class MapDrawer {
   private void drawStarNode(Drawer drawer, Planet from, Planet to, float starNodeW) {
     Vector2 pos1 = StarPort.getDesiredPos(from, to, false);
     Vector2 pos2 = StarPort.getDesiredPos(to, from, false);
-    drawer.drawLine(pos1, pos2, Col.W25, starNodeW);
+    drawer.drawLine(pos1, pos2, Col.UI_LIGHT, starNodeW);
     SolMath.free(pos1);
     SolMath.free(pos2);
   }
@@ -253,7 +253,7 @@ public class MapDrawer {
       icon = mySkullTex;
       angle = 0;
     }
-    drawer.draw(myIconBg, iconSz, iconSz, iconSz/2, iconSz/2, pos.x, pos.y, 0, Col.W);
+    drawer.draw(myIconBg, iconSz, iconSz, iconSz/2, iconSz/2, pos.x, pos.y, 0, Col.UI_LIGHT);
     iconSz *= INNER_ICON_PERC;
     drawer.draw(icon, iconSz, iconSz, iconSz/2, iconSz/2, pos.x, pos.y, angle, enemy ? Col.B : Col.W);
   }

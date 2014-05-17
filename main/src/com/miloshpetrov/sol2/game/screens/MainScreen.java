@@ -269,7 +269,7 @@ public class MainScreen implements SolUiScreen {
   }
 
   private void drawBar(UiDrawer uiDrawer, TexMan texMan, float x, float y, float perc) {
-    uiDrawer.draw(texMan.whiteTex, BAR_SZ, ICON_SZ, 0, 0, x, y, 0, Col.UI_INACTIVE);
+    uiDrawer.draw(texMan.whiteTex, BAR_SZ, ICON_SZ, 0, 0, x, y, 0, Col.UI_DARK);
     uiDrawer.draw(texMan.whiteTex, BAR_SZ * perc, ICON_SZ, 0, 0, x, y, 0, Col.UI_LIGHT);
   }
 
