@@ -244,7 +244,7 @@
   hawk: {
     texName: hawk,
     size: 0.8,
-    maxLife: 8,
+    maxLife: 20,
     g1Pos: "0.5 0.5",
     lightSrcPoss: [
       ".25 .5",
@@ -262,7 +262,7 @@
   pirateSpaceTurret: {
     texName: pirateSpaceTurret,
     size: 0.8,
-    maxLife: 8,
+    maxLife: 20,
     g1Pos: "0.5 0.5",
     type: std,
   },
