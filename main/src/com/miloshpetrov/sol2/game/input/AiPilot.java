@@ -5,6 +5,7 @@ import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.gun.GunItem;
+import com.miloshpetrov.sol2.game.item.EngineItem;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.planet.PlanetBind;
 import com.miloshpetrov.sol2.game.ship.*;
@@ -166,13 +167,15 @@ public class AiPilot implements Pilot {
 
     Vector2 spd = farShip.getSpd();
     float angle = farShip.getAngle();
-    if (dest == null || farShip.getEngine() == null) {
+    EngineItem engine = farShip.getEngine();
+    float ts = game.getTimeStep();
+    if (dest == null || engine == null) {
       if (myPlanetBind == null) {
         myPlanetBind = PlanetBind.tryBind(game, shipPos, angle);
       }
       if (myPlanetBind != null) {
         myPlanetBind.setDiff(spd, shipPos, false);
-        spd.scl(1/game.getTimeStep());
+        spd.scl(1/ ts);
         angle = myPlanetBind.getDesiredAngle();
       }
     } else {
@@ -181,10 +184,11 @@ public class AiPilot implements Pilot {
         spd.set(0, 0);
         // what about angle?
       } else {
-        angle = SolMath.angle(shipPos, dest);
+        float desiredAngle = SolMath.angle(shipPos, dest);
         if (myDestProvider.shouldAvoidBigObjs()) {
-          angle = myMover.getBigObjAvoider().avoid(game, shipPos, dest, angle);
+          desiredAngle = myMover.getBigObjAvoider().avoid(game, shipPos, dest, desiredAngle);
         }
+        angle = SolMath.approachAngle(angle, desiredAngle, engine.getMaxRotSpd() * ts);
         SolMath.fromAl(spd, angle, myDestProvider.getDesiredSpdLen());
       }
     }
@@ -193,7 +197,7 @@ public class AiPilot implements Pilot {
     farShip.setAngle(angle);
 
     Vector2 newPos = SolMath.getVec(spd);
-    newPos.scl(game.getTimeStep());
+    newPos.scl(ts);
     newPos.add(shipPos);
     farShip.setPos(newPos);
     SolMath.free(newPos);
