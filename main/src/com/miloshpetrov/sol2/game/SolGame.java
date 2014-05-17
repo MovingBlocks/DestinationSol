@@ -26,11 +26,9 @@ import com.miloshpetrov.sol2.save.SaveData;
 import com.miloshpetrov.sol2.ui.DebugCollector;
 import com.miloshpetrov.sol2.ui.UiDrawer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SolGame {
 
+  public static final float RESPAWN_MONEY_PERC = .5f;
   private final GameScreens myScreens;
   private final SolCam myCam;
   private final ObjMan myObjMan;
@@ -61,7 +59,6 @@ public class SolGame {
   private final SpecialEffects mySpecialEffects;
   private final GameCols myCols;
   private final AbilityCommonConfigs myAbilityCommonConfigs;
-  private final List<SolItem> myRespawnItems;
   private final SolNames myNames;
   private final BeaconHandler myBeaconHandler;
 
@@ -109,7 +106,6 @@ public class SolGame {
     myStarPortBuilder = new StarPort.Builder();
     myPlayerSpawnConfig = PlayerSpawnConfig.load(myHullConfigs);
     myDraDebugger = new DraDebugger();
-    myRespawnItems = new ArrayList<SolItem>();
     myBeaconHandler = new BeaconHandler(texMan);
 
     // from this point we're ready!
@@ -134,7 +130,7 @@ public class SolGame {
     }
     boolean god = DebugAspects.GOD_MODE;
     HullConfig config = myPlayerSpawnConfig.shipConfig.hull;
-    String items = myRespawnItems.isEmpty() ? myPlayerSpawnConfig.shipConfig.items : "";
+    String items = myPlayerSpawnConfig.shipConfig.items;
     float money = myRespawnMoney == 0 ? myPlayerSpawnConfig.shipConfig.money : myRespawnMoney;
     myRespawnMoney = 0;
     boolean hasRepairer = myPlayerSpawnConfig.shipConfig.hasRepairer;
@@ -144,10 +140,6 @@ public class SolGame {
       money = 1000;
     }
     myHero = myShipBuilder.buildNew(this, new Vector2(pos), null, 0, 0, pilot, items, config, null, hasRepairer, money, null);
-    for (SolItem i : myRespawnItems) {
-      myHero.getItemContainer().add(i);
-    }
-    myRespawnItems.clear();
 
     if (myTut) {
       myHero.getHull().setEngine(this, myHero, null);
@@ -313,6 +305,7 @@ public class SolGame {
 
   public void respawn() {
     if (myHero != null) {
+      myRespawnMoney = RESPAWN_MONEY_PERC * myHero.getMoney();
       myObjMan.removeObjDelayed(myHero);
     }
     createPlayer();
@@ -398,10 +391,6 @@ public class SolGame {
 
   public float getTimeFactor() {
     return myTimeFactor;
-  }
-
-  public void addRespawnItem(SolItem item) {
-    myRespawnItems.add(item);
   }
 
   public void setRespawnMoney(float money) {

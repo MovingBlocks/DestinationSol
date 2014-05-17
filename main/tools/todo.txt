@@ -1,7 +1,4 @@
 
-shooter should consider guided weapons, acceleration
-smarter respawn: save money only
-
 new ui:
   "new" mark in the inventory
   fading compass on planet
@@ -9,7 +6,7 @@ new ui:
   warning priorities
   sounds:
     warning blip
-  tutorial should consider new control types
+  tutorial should consider new control type
 
 
 CONTENT:

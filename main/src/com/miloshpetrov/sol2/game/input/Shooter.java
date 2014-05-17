@@ -34,19 +34,20 @@ public class Shooter {
     if (g1 == null && g2 == null) return;
 
     float projSpd = 0;
-    boolean prefSecond = false;
+    GunItem g = null;
     if (g1 != null) {
-      projSpd = g1.config.projConfig.spdLen;
+      projSpd = g1.config.projConfig.spdLen + g1.config.projConfig.acc; // for simplicity
+      g = g1;
     }
     if (g2 != null) {
-      float g2PS = g2.config.projConfig.spdLen;
+      float g2PS = g2.config.projConfig.spdLen + g1.config.projConfig.acc; // for simplicity
       if (projSpd < g2PS) {
         projSpd = g2PS;
-        prefSecond = true;
+        g = g2;
       }
     }
 
-    Vector2 gunRelPos = ship.getHull().getGunMount(prefSecond).getRelPos();
+    Vector2 gunRelPos = ship.getHull().getGunMount(g == g2).getRelPos();
     Vector2 gunPos = SolMath.toWorld(gunRelPos, ship.getAngle(), shipPos);
     float shootAngle = calcShootAngle(gunPos, ship.getSpd(), enemyPos, enemySpd, projSpd);
     SolMath.free(gunPos);
@@ -59,6 +60,7 @@ public class Shooter {
     }
     float shipAngle = ship.getAngle();
     float maxAngleDiff = SolMath.angularWidthOfSphere(enemyApproxRad, toEnemyDst) + 10f;
+    if (projSpd > 0 && g.config.projConfig.guideRotSpd > 0) maxAngleDiff += g.config.projConfig.guideRotSpd * toEnemyDst / projSpd;
     if (SolMath.angleDiff(shootAngle, shipAngle) < maxAngleDiff) {
       myShoot = true;
       myShoot2 = true;

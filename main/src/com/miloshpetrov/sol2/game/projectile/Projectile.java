@@ -22,7 +22,6 @@ import java.util.List;
 public class Projectile implements SolObj {
 
   private static final float MIN_ANGLE_TO_GUIDE = 2f;
-  private static final float GUIDE_ROT_SPD = 360;
   private final ArrayList<Dra> myDras;
   private final ProjectileBody myBody;
   private final Fraction myFraction;
@@ -97,14 +96,14 @@ public class Projectile implements SolObj {
   }
 
   private void maybeGuide(SolGame game) {
-    if (!myConfig.guided) return;
+    if (myConfig.guideRotSpd == 0) return;
     SolShip ne = game.getFractionMan().getNearestEnemy(game, this);
     if (ne == null) return;
     float toEnemy = SolMath.angle(getPos(), ne.getPos());
     float angle = getAngle();
     float diffAngle = SolMath.norm(toEnemy - angle);
     if (SolMath.abs(diffAngle) < MIN_ANGLE_TO_GUIDE) return;
-    float rot = game.getTimeStep() * GUIDE_ROT_SPD;
+    float rot = game.getTimeStep() * myConfig.guideRotSpd;
     diffAngle = SolMath.clamp(diffAngle, -rot, rot);
     myBody.changeAngle(diffAngle);
   }

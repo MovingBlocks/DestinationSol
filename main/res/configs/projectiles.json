@@ -81,7 +81,7 @@
     dmgType: explosion,
     collisionSound: "misc/shipExplosion",
     workSound: "engines/medWork",
-    guided: true,
+    guideRotSpd: 180,
     lightSz: 0.25,
     acceleration: 4,
     trailEffect: {
