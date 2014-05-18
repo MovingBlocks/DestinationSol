@@ -24,7 +24,7 @@ public class Col {
   public static final Color UI_MED = new Color(0, .75f, 1, .25f);
   public static final Color UI_LIGHT = new Color(0, .75f, 1, .5f);
   public static final Color UI_GROUND = new Color(0, .56f, .75f, 1f);
-  public static final Color UI_WARN = new Color(1, .75f, 0, 1);
+  public static final Color UI_WARN = new Color(1, .5f, 0, .5f);
 
   public static Color col(float b, float t) {
     return new Color(b, b, b, t);
