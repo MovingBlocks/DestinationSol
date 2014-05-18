@@ -23,6 +23,7 @@ public class Col {
   public static final Color UI_DARK = new Color(0, .75f, 1, .17f);
   public static final Color UI_MED = new Color(0, .75f, 1, .25f);
   public static final Color UI_LIGHT = new Color(0, .75f, 1, .5f);
+  public static final Color UI_GROUND = new Color(0, .56f, .75f, 1f);
 
   public static Color col(float b, float t) {
     return new Color(b, b, b, t);

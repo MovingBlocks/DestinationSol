@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -125,9 +126,10 @@ public class MapDrawer {
     for (Planet planet : game.getPlanetMan().getPlanets()) {
       Vector2 planetPos = planet.getPos();
       float fh = planet.getFullHeight();
-      if (viewDist < camPos.dst(planetPos) - fh) continue;
+      float dstToPlanetAtm = camPos.dst(planetPos) - fh;
+      if (viewDist < dstToPlanetAtm) continue;
       drawer.draw(myAtmTex, 2*fh, 2*fh, fh, fh, planetPos.x, planetPos.y, 0, Col.UI_DARK);
-      if (planet == np && np.isObjsCreated()) {
+      if (dstToPlanetAtm < 0) {
         float gh = planet.getMinGroundHeight();
         drawer.draw(myPlanetCoreTex, 2*gh, 2*gh, gh, gh, planetPos.x, planetPos.y, planet.getAngle(), Col.W);
         drawNpGround(drawer, game, viewDist, np, camPos);
@@ -223,20 +225,20 @@ public class MapDrawer {
     TextureAtlas.AtlasRegion wt = game.getTexMan().whiteTex;
     for (SolObj o : objMan.getObjs()) {
       if (!(o instanceof TileObj)) continue;
-      Vector2 oPos = o.getPos();
-      if (viewDist < camPos.dst(oPos)) continue;
       TileObj to = (TileObj) o;
       if (to.getPlanet() != np) continue;
+      Vector2 oPos = o.getPos();
+      if (viewDist < camPos.dst(oPos)) continue;
       float sz = to.getSz();
       drawPlanetTile(to.getTile(), sz, drawer, wt, oPos, to.getAngle());
     }
 
     for (FarObj o : objMan.getFarObjs()) {
       if (!(o instanceof FarTileObj)) continue;
-      Vector2 oPos = o.getPos();
-      if (viewDist < camPos.dst(oPos)) continue;
       FarTileObj to = (FarTileObj) o;
       if (to.getPlanet() != np) continue;
+      Vector2 oPos = o.getPos();
+      if (viewDist < camPos.dst(oPos)) continue;
       float sz = to.getSz();
       drawPlanetTile(to.getTile(), sz, drawer, wt, oPos, to.getAngle());
     }
@@ -316,13 +318,14 @@ public class MapDrawer {
 
   private void drawPlanetTile(Tile t, float sz, Drawer drawer, TextureAtlas.AtlasRegion wt, Vector2 p, float angle) {
     float szh = .6f * sz;
+    Color col = t.from == SurfDir.UP && t.to == SurfDir.UP ? Col.W : Col.UI_GROUND;
     if (t.from == SurfDir.FWD || t.from == SurfDir.UP) {
-      if (t.from == SurfDir.UP) drawer.draw(wt, szh, szh, 0, szh, p.x, p.y, angle, Col.W);
-      drawer.draw(wt, szh, szh, 0, 0, p.x, p.y, angle, Col.W);
+      if (t.from == SurfDir.UP) drawer.draw(wt, szh, szh, 0, 0, p.x, p.y, angle - 90, col);
+      drawer.draw(wt, szh, szh, 0, 0, p.x, p.y, angle, col);
     }
     if (t.to == SurfDir.FWD || t.to == SurfDir.UP) {
-      if (t.to == SurfDir.UP) drawer.draw(wt, szh, szh, szh, szh, p.x, p.y, angle, Col.W);
-      drawer.draw(wt, szh, szh, szh, 0, p.x, p.y, angle, Col.W);
+      if (t.to == SurfDir.UP) drawer.draw(wt, szh, szh, 0, 0, p.x, p.y, angle + 180, col);
+      drawer.draw(wt, szh, szh, 0, 0, p.x, p.y, angle + 90, col);
     }
   }
 
