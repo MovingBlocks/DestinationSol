@@ -74,4 +74,9 @@ public class ResoScreen implements SolUiScreen {
 
   }
 
+  @Override
+  public void blurCustom(SolCmp cmp) {
+
+  }
+
 }

@@ -99,4 +99,9 @@ public class ChangeShip implements InventoryOperations {
   public void drawPost(UiDrawer uiDrawer, SolCmp cmp) {
 
   }
+
+  @Override
+  public void blurCustom(SolCmp cmp) {
+
+  }
 }

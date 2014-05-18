@@ -8,15 +8,17 @@ import java.util.*;
 public class ItemContainer implements Iterable<SolItem> {
   private static final int CAP = 5 * Const.ITEMS_PER_PAGE;
   private List<SolItem> myItems;
+  private Set<SolItem> myNewItems;
 
   public ItemContainer() {
     myItems = new ArrayList<SolItem>();
+    myNewItems = new HashSet<SolItem>();
   }
 
   public boolean tryConsumeItem(SolItem example) {
     for (SolItem item : myItems) {
       if (!example.isSame(item)) continue;
-      myItems.remove(item);
+      remove(item);
       return true;
     }
     return false;
@@ -38,6 +40,7 @@ public class ItemContainer implements Iterable<SolItem> {
     if (size() >= CAP) throw new AssertionError("container is full");
     if (myItems.contains(item)) throw new AssertionError();
     myItems.add(0, item);
+    myNewItems.add(item);
   }
 
   @Override
@@ -59,6 +62,7 @@ public class ItemContainer implements Iterable<SolItem> {
 
   public void remove(SolItem item) {
     myItems.remove(item);
+    myNewItems.remove(item);
   }
 
   public SolItem getNext(SolItem selected) {
@@ -69,6 +73,22 @@ public class ItemContainer implements Iterable<SolItem> {
 
   public SolItem getRandom() {
     return SolMath.elemRnd(myItems);
+  }
+
+  public boolean isNew(SolItem item) {
+    return myNewItems.contains(item);
+  }
+
+  public void seen(SolItem item) {
+    myNewItems.remove(item);
+  }
+
+  public void seenAll() {
+    myNewItems.clear();
+  }
+
+  public boolean hasNew() {
+    return !myNewItems.isEmpty();
   }
 
   private class Itr implements Iterator<SolItem> {

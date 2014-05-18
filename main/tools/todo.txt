@@ -1,9 +1,6 @@
 
-new ui:
-  "new" mark in the inventory
-
- sounds:
-    warning blip
+UI sounds:
+  warning blip
 
 fix planet station origins
 
@@ -48,7 +45,7 @@ PERF:
 
 
 IN THE END:
-  tutorial should consider new control type
+  tutorial should consider new control type, also mobile, also highlight buttons
   make title bigger
 
 

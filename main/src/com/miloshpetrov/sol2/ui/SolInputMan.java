@@ -1,6 +1,7 @@
 package com.miloshpetrov.sol2.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -18,6 +19,7 @@ public class SolInputMan {
   private static final int POINTER_COUNT = 4;
   private static final float CURSOR_SHOW_TIME = 3;
   public static final float CURSOR_SZ = .07f;
+  public static final float WARN_PERC_GROWTH_TIME = 1f;
 
   private final List<SolUiScreen> myScreens;
   private final List<SolUiScreen> myToRemove;
@@ -29,9 +31,12 @@ public class SolInputMan {
   private final TutMan myTutMan;
   private float myMouseIdleTime;
   private final TextureAtlas.AtlasRegion myUiCursor;
+  private final Color myWarnCol;
 
   private TextureAtlas.AtlasRegion myCurrCursor;
   private boolean myMouseOnUi;
+  private float myWarnPerc;
+  private boolean myWarnPercGrows;
 
   public SolInputMan(TexMan texMan, float r) {
     myPtrs = new Ptr[POINTER_COUNT];
@@ -49,6 +54,7 @@ public class SolInputMan {
     myToRemove = new ArrayList<SolUiScreen>();
     myToAdd = new ArrayList<SolUiScreen>();
     myTutMan = new TutMan(r);
+    myWarnCol = new Color(Col.UI_WARN);
   }
 
   public void maybeFlashPressed(int keyCode) {
@@ -75,7 +81,7 @@ public class SolInputMan {
 
   public void setScreen(SolCmp cmp, SolUiScreen screen) {
     for (SolUiScreen oldScreen : myScreens) {
-      removeScreen(oldScreen);
+      removeScreen(oldScreen, cmp);
     }
     addScreen(cmp, screen);
   }
@@ -85,11 +91,12 @@ public class SolInputMan {
     screen.onAdd(cmp);
   }
 
-  private void removeScreen(SolUiScreen screen) {
+  private void removeScreen(SolUiScreen screen, SolCmp cmp) {
     myToRemove.add(screen);
     for (SolUiControl c : screen.getControls()) {
       c.blur();
     }
+    screen.blurCustom(cmp);
   }
 
   public boolean isScreenOn(SolUiScreen screen) {
@@ -137,8 +144,19 @@ public class SolInputMan {
 
     updateCursor(cmp);
     addRemoveScreens();
+    updateWarnPerc();
 
     myTutMan.update(cmp);
+  }
+
+  private void updateWarnPerc() {
+    float dif = SolMath.toInt(myWarnPercGrows) * Const.REAL_TIME_STEP / WARN_PERC_GROWTH_TIME;
+    myWarnPerc += dif;
+    if (myWarnPerc < 0 || 1 < myWarnPerc) {
+      myWarnPerc = SolMath.clamp(myWarnPerc);
+      myWarnPercGrows = !myWarnPercGrows;
+    }
+    myWarnCol.a = myWarnPerc * .5f;
   }
 
   private void addRemoveScreens() {
@@ -205,11 +223,11 @@ public class SolInputMan {
 
       List<SolUiControl> ctrls = screen.getControls();
       for (SolUiControl ctrl : ctrls) {
-        ctrl.drawButton(uiDrawer, cmp);
+        ctrl.drawButton(uiDrawer, cmp, myWarnCol);
       }
 
       for (SolUiControl ctrl : ctrls) {
-        ctrl.drawDisplayName(uiDrawer, cmp);
+        ctrl.drawDisplayName(uiDrawer);
       }
       screen.drawPost(uiDrawer, cmp);
     }
@@ -243,5 +261,4 @@ public class SolInputMan {
       return pressed && !prevPressed;
     }
   }
-
 }

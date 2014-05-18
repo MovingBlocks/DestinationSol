@@ -75,4 +75,9 @@ public class OptionsScreen implements SolUiScreen {
   @Override
   public void drawPost(UiDrawer uiDrawer, SolCmp cmp) {
   }
+
+  @Override
+  public void blurCustom(SolCmp cmp) {
+
+  }
 }
