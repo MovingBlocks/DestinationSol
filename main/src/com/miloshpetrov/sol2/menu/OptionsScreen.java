@@ -17,16 +17,16 @@ public class OptionsScreen implements SolUiScreen {
 
     myControls = new ArrayList<SolUiControl>();
 
-    myResoCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2));
+    myResoCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
     myResoCtrl.setDisplayName("Resolution");
     myResoCtrl.setEnabled(Gdx.app.getType() == Application.ApplicationType.Desktop);
     myControls.add(myResoCtrl);
 
-    myControlTypeCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3));
+    myControlTypeCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
     myControlTypeCtrl.setDisplayName("Control Type");
     myControls.add(myControlTypeCtrl);
 
-    myBackCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), Input.Keys.ESCAPE);
+    myBackCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, Input.Keys.ESCAPE);
     myBackCtrl.setDisplayName("Back");
     myControls.add(myBackCtrl);
   }

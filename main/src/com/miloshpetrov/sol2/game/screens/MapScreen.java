@@ -18,13 +18,13 @@ public class MapScreen implements SolUiScreen {
   public MapScreen(RightPaneLayout rightPaneLayout) {
     myControls = new ArrayList<SolUiControl>();
 
-    myCloseCtrl = new SolUiControl(rightPaneLayout.buttonRect(1), Input.Keys.TAB, Input.Keys.ESCAPE);
+    myCloseCtrl = new SolUiControl(rightPaneLayout.buttonRect(1), true, Input.Keys.TAB, Input.Keys.ESCAPE);
     myCloseCtrl.setDisplayName("Close");
     myControls.add(myCloseCtrl);
-    zoomInCtrl = new SolUiControl(rightPaneLayout.buttonRect(2), Input.Keys.UP);
+    zoomInCtrl = new SolUiControl(rightPaneLayout.buttonRect(2), true, Input.Keys.UP);
     zoomInCtrl.setDisplayName("Zoom In");
     myControls.add(zoomInCtrl);
-    zoomOutCtrl = new SolUiControl(rightPaneLayout.buttonRect(3), Input.Keys.DOWN);
+    zoomOutCtrl = new SolUiControl(rightPaneLayout.buttonRect(3), true, Input.Keys.DOWN);
     zoomOutCtrl.setDisplayName("Zoom Out");
     myControls.add(zoomOutCtrl);
   }

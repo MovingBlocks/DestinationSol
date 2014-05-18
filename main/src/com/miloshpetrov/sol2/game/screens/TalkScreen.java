@@ -27,23 +27,23 @@ public class TalkScreen implements SolUiScreen {
   public TalkScreen(MenuLayout menuLayout) {
     myControls = new ArrayList<SolUiControl>();
 
-    mySellCtrl = new SolUiControl(menuLayout.buttonRect(-1, 0), Input.Keys.S);
+    mySellCtrl = new SolUiControl(menuLayout.buttonRect(-1, 0), true, Input.Keys.S);
     mySellCtrl.setDisplayName("Sell");
     myControls.add(mySellCtrl);
 
-    myBuyCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), Input.Keys.B);
+    myBuyCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.B);
     myBuyCtrl.setDisplayName("Buy");
     myControls.add(myBuyCtrl);
 
-    myShipsCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), Input.Keys.C);
+    myShipsCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, Input.Keys.C);
     myShipsCtrl.setDisplayName("Change Ship");
     myControls.add(myShipsCtrl);
 
-    myHireCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), Input.Keys.H);
+    myHireCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true, Input.Keys.H);
     myHireCtrl.setDisplayName("Hire");
     myControls.add(myHireCtrl);
 
-    myCloseCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), Input.Keys.ESCAPE);
+    myCloseCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, Input.Keys.ESCAPE);
     myCloseCtrl.setDisplayName("Close");
     myControls.add(myCloseCtrl);
 

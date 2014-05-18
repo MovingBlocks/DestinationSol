@@ -21,15 +21,15 @@ public class ShowInventory implements InventoryOperations {
   public ShowInventory(InventoryScreen inventoryScreen) {
     myControls = new ArrayList<SolUiControl>();
 
-    eq1Ctrl = new SolUiControl(inventoryScreen.itemCtrl(0), Input.Keys.SPACE);
+    eq1Ctrl = new SolUiControl(inventoryScreen.itemCtrl(0), true, Input.Keys.SPACE);
     eq1Ctrl.setDisplayName("Eq");
     myControls.add(eq1Ctrl);
 
-    eq2Ctrl = new SolUiControl(inventoryScreen.itemCtrl(1), Input.Keys.CONTROL_LEFT);
+    eq2Ctrl = new SolUiControl(inventoryScreen.itemCtrl(1), true, Input.Keys.CONTROL_LEFT);
     eq2Ctrl.setDisplayName("Eq2");
     myControls.add(eq2Ctrl);
 
-    dropCtrl = new SolUiControl(inventoryScreen.itemCtrl(2), Input.Keys.D);
+    dropCtrl = new SolUiControl(inventoryScreen.itemCtrl(2), true, Input.Keys.D);
     dropCtrl.setDisplayName("Drop");
     myControls.add(dropCtrl);
   }

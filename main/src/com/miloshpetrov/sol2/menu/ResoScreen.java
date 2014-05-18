@@ -18,15 +18,15 @@ public class ResoScreen implements SolUiScreen {
   public ResoScreen(MenuLayout menuLayout) {
     myControls = new ArrayList<SolUiControl>();
 
-    myResoCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), Input.Keys.ESCAPE);
+    myResoCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, Input.Keys.ESCAPE);
     myResoCtrl.setDisplayName("Resolution");
     myControls.add(myResoCtrl);
 
-    myFsCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), Input.Keys.ESCAPE);
+    myFsCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true, Input.Keys.ESCAPE);
     myFsCtrl.setDisplayName("Fullscreen");
     myControls.add(myFsCtrl);
 
-    myCloseCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), Input.Keys.ESCAPE);
+    myCloseCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, Input.Keys.ESCAPE);
     myCloseCtrl.setDisplayName("Back");
     myControls.add(myCloseCtrl);
   }

@@ -108,7 +108,7 @@ public class Guardian implements MoveDestProvider {
     } else if (myFarTarget != null) {
       targetPos = myFarTarget.getPos();
     }
-    float maxManeuverDist = nearGround ? Const.CAM_VIEW_DIST_GROUND : Const.CAM_VIEW_DIST_SPACE;
+    float maxManeuverDist = 2 * (nearGround ? Const.CAM_VIEW_DIST_GROUND : Const.CAM_VIEW_DIST_SPACE);
     if (targetPos != null && maxManeuverDist < targetPos.dst(nearestEnemy.getPos())) return null;
     return true;
   }

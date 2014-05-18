@@ -24,7 +24,7 @@ public class HireShips implements InventoryOperations {
   public HireShips(InventoryScreen inventoryScreen) {
     myControls = new ArrayList<SolUiControl>();
 
-    myBuyCtrl = new SolUiControl(inventoryScreen.itemCtrl(0), Input.Keys.SPACE);
+    myBuyCtrl = new SolUiControl(inventoryScreen.itemCtrl(0), true, Input.Keys.SPACE);
     myBuyCtrl.setDisplayName("Hire");
     myControls.add(myBuyCtrl);
   }

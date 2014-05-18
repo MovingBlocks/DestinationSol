@@ -1,8 +1,8 @@
 
-UI sounds:
-  warning blip
-
 fix planet station origins
+mouse control + map = rotation
+build everything as far + SG.isPlaceEmpty should iterate over far objs
+ships get stuck in ground
 
 CONTENT:
   systemConfig:
@@ -30,7 +30,6 @@ PERF:
   split item icons from ui icons from ship icons
   map and ui should carefully draw. implement some class that helps to store values
   texture packing is needed
-  build everything as far + SG.isPlaceEmpty should iterate over far objs
   optimize getVec? but don't remove, cuz freeing helps fix bugs
   far ship positions should be calculated on demand?
   cache body masses

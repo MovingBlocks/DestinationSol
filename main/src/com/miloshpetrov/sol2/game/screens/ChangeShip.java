@@ -20,7 +20,7 @@ public class ChangeShip implements InventoryOperations {
   public ChangeShip(InventoryScreen inventoryScreen) {
     myControls = new ArrayList<SolUiControl>();
 
-    myBuyCtrl = new SolUiControl(inventoryScreen.itemCtrl(0), Input.Keys.SPACE);
+    myBuyCtrl = new SolUiControl(inventoryScreen.itemCtrl(0), true, Input.Keys.SPACE);
     myBuyCtrl.setDisplayName("Change");
     myControls.add(myBuyCtrl);
   }

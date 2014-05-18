@@ -24,20 +24,20 @@ public class MainScreen implements SolUiScreen {
   public MainScreen(MenuLayout menuLayout, SaveMan saveMan, TexMan texMan, boolean mobile) {
     myControls = new ArrayList<SolUiControl>();
 
-    myTutCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1));
+    myTutCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
     myTutCtrl.setDisplayName("Tutorial");
     myTutCtrl.setEnabled(!mobile);
     myControls.add(myTutCtrl);
 
-    myNewGameCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), Input.Keys.SPACE);
+    myNewGameCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, Input.Keys.SPACE);
     myNewGameCtrl.setDisplayName("New Game");
     myControls.add(myNewGameCtrl);
 
-    myOptionsCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3));
+    myOptionsCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
     myOptionsCtrl.setDisplayName("Options");
     myControls.add(myOptionsCtrl);
 
-    myExitCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4));
+    myExitCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true);
     myExitCtrl.setDisplayName("Exit");
     myControls.add(myExitCtrl);
 

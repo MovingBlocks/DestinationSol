@@ -20,7 +20,7 @@ public class SellItems implements InventoryOperations {
   public SellItems(InventoryScreen inventoryScreen) {
     myControls = new ArrayList<SolUiControl>();
 
-    sellCtrl = new SolUiControl(inventoryScreen.itemCtrl(0), Input.Keys.SPACE);
+    sellCtrl = new SolUiControl(inventoryScreen.itemCtrl(0), true, Input.Keys.SPACE);
     sellCtrl.setDisplayName("Sell");
     myControls.add(sellCtrl);
   }

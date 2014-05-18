@@ -19,13 +19,13 @@ public class MenuScreen implements SolUiScreen {
   public MenuScreen(MenuLayout menuLayout) {
     myControls = new ArrayList<SolUiControl>();
 
-    myRespawnCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2));
+    myRespawnCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
     myRespawnCtrl.setDisplayName("Respawn");
     myControls.add(myRespawnCtrl);
-    myExitCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3));
+    myExitCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
     myExitCtrl.setDisplayName("Exit");
     myControls.add(myExitCtrl);
-    myCloseCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), Input.Keys.ESCAPE);
+    myCloseCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, Input.Keys.ESCAPE);
     myCloseCtrl.setDisplayName("Close");
     myControls.add(myCloseCtrl);
   }

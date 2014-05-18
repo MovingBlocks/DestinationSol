@@ -24,8 +24,10 @@ public class SolUiControl {
 
   private boolean myMouseHover;
   private int myWarnCount;
+  private final boolean myWithSound;
 
-  public SolUiControl(Rectangle screenArea, int ... keys) {
+  public SolUiControl(Rectangle screenArea, boolean withSound, int... keys) {
+    myWithSound = withSound;
     myKeys = keys == null ? new int[0] : keys;
     myScreenArea = screenArea;
   }
@@ -47,17 +49,20 @@ public class SolUiControl {
     return pressed;
   }
 
-  public void update(SolInputMan.Ptr[] ptrs, boolean cursorShown, boolean canBePressed) {
+  public void update(SolInputMan.Ptr[] ptrs, boolean cursorShown, boolean canBePressed, SolInputMan inputMan) {
     if (!myEnabled) canBePressed = false;
     updateKeys(canBePressed);
     updateArea(ptrs, canBePressed);
-    updateHover(ptrs, cursorShown);
+    updateHover(ptrs, cursorShown, inputMan);
+    if (myWithSound && isJustOff()) inputMan.playClick();
     if (myWarnCount > 0) myWarnCount--;
   }
 
-  private void updateHover(SolInputMan.Ptr[] ptrs, boolean cursorShown) {
+  private void updateHover(SolInputMan.Ptr[] ptrs, boolean cursorShown, SolInputMan inputMan) {
     if (myScreenArea == null || myAreaPressed || ptrs[0].pressed) return;
+    boolean prev = myMouseHover;
     myMouseHover = cursorShown && myScreenArea.contains(ptrs[0].x, ptrs[0].y);
+    if (myWithSound && myMouseHover && !prev) inputMan.playHover();
   }
 
   private void updateKeys(boolean canBePressed) {
