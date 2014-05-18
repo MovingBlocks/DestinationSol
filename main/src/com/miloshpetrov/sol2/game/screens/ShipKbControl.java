@@ -27,24 +27,24 @@ public class ShipKbControl implements ShipUiControl {
     float rowN0 = 1 - MainScreen.CELL_SZ;
     float rowN1 = rowN0 - MainScreen.CELL_SZ;
 
-    myLeftCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN1, rowN0) : null, Input.Keys.LEFT);
+    myLeftCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN1, rowN0) : null, false, Input.Keys.LEFT);
     myLeftCtrl.setDisplayName("Left");
     controls.add(myLeftCtrl);
-    myRightCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN0, rowN0) : null, Input.Keys.RIGHT);
+    myRightCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN0, rowN0) : null, false, Input.Keys.RIGHT);
     myRightCtrl.setDisplayName("Right");
     controls.add(myRightCtrl);
-    myUpCtrl = new SolUiControl(showButtons ? MainScreen.btn(col0, rowN0) : null, Input.Keys.UP);
+    myUpCtrl = new SolUiControl(showButtons ? MainScreen.btn(col0, rowN0) : null, false, Input.Keys.UP);
     myUpCtrl.setDisplayName("Up");
     controls.add(myUpCtrl);
-    myDownCtrl = new SolUiControl(null, Input.Keys.DOWN);
+    myDownCtrl = new SolUiControl(null, true, Input.Keys.DOWN);
     controls.add(myDownCtrl);
-    myShootCtrl = new SolUiControl(showButtons ? MainScreen.btn(col0, rowN1) : null, Input.Keys.SPACE);
+    myShootCtrl = new SolUiControl(showButtons ? MainScreen.btn(col0, rowN1) : null, false, Input.Keys.SPACE);
     myShootCtrl.setDisplayName("Primary");
     controls.add(myShootCtrl);
-    myShoot2Ctrl = new SolUiControl(showButtons ? MainScreen.btn(col1, rowN0) : null, Input.Keys.CONTROL_LEFT);
+    myShoot2Ctrl = new SolUiControl(showButtons ? MainScreen.btn(col1, rowN0) : null, false, Input.Keys.CONTROL_LEFT);
     myShoot2Ctrl.setDisplayName("Secondary");
     controls.add(myShoot2Ctrl);
-    myAbilityCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN0, rowN1) : null, Input.Keys.SHIFT_LEFT);
+    myAbilityCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN0, rowN1) : null, false, Input.Keys.SHIFT_LEFT);
     myAbilityCtrl.setDisplayName("Special");
     controls.add(myAbilityCtrl);
   }

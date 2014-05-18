@@ -19,7 +19,7 @@ public class BuyItems implements InventoryOperations {
   public BuyItems(InventoryScreen inventoryScreen) {
     myControls = new ArrayList<SolUiControl>();
 
-    buyCtrl = new SolUiControl(inventoryScreen.itemCtrl(0), Input.Keys.SPACE);
+    buyCtrl = new SolUiControl(inventoryScreen.itemCtrl(0), true, Input.Keys.SPACE);
     buyCtrl.setDisplayName("Buy");
     myControls.add(buyCtrl);
   }

@@ -351,6 +351,8 @@ main/res/sounds/shields/big/absorb/4.wav -text
 main/res/sounds/shields/big/absorb/params.txt -text
 main/res/sounds/shields/big/regen/0.wav -text
 main/res/sounds/shields/big/regen/params.txt -text
+main/res/sounds/ui/uiClick2.wav -text
+main/res/sounds/ui/uiHover.wav -text
 main/res/sounds/zones/Drums_0.wav -text
 main/res/sounds/zones/Drums_1.wav -text
 main/res/sounds/zones/Drums_2.wav -text

@@ -1,6 +1,7 @@
 package com.miloshpetrov.sol2.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
@@ -29,6 +30,8 @@ public class SolInputMan {
   private final Vector2 myMousePos;
   private final Vector2 myMousePrevPos;
   private final TutMan myTutMan;
+  private final Sound myClickSound;
+  private final Sound myHoverSound;
   private float myMouseIdleTime;
   private final TextureAtlas.AtlasRegion myUiCursor;
   private final Color myWarnCol;
@@ -55,6 +58,8 @@ public class SolInputMan {
     myToAdd = new ArrayList<SolUiScreen>();
     myTutMan = new TutMan(r);
     myWarnCol = new Color(Col.UI_WARN);
+    myClickSound = Gdx.audio.newSound(SolFiles.readOnly("res/sounds/ui/uiClick2.wav"));
+    myHoverSound = Gdx.audio.newSound(SolFiles.readOnly("res/sounds/ui/uiHover.wav"));
   }
 
   public void maybeFlashPressed(int keyCode) {
@@ -120,7 +125,7 @@ public class SolInputMan {
     for (SolUiScreen screen : myScreens) {
       boolean consumedNow = false;
       for (SolUiControl c : screen.getControls()) {
-        c.update(myPtrs, myCurrCursor != null, !consumed);
+        c.update(myPtrs, myCurrCursor != null, !consumed, this);
         if (c.isOn()) {
           consumedNow = true;
         }
@@ -249,6 +254,14 @@ public class SolInputMan {
 
   public boolean isMouseOnUi() {
     return myMouseOnUi;
+  }
+
+  public void playHover() {
+    myHoverSound.play(.7f, .7f, 0);
+  }
+
+  public void playClick() {
+    myHoverSound.play(.7f, .9f, 0);
   }
 
   public static class Ptr {

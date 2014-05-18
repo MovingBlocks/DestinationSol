@@ -30,9 +30,9 @@ class ShipMixedControl implements ShipUiControl {
   public ShipMixedControl(SolCmp cmp, List<SolUiControl> controls) {
     myCursor = cmp.getTexMan().getTex("ui/cursorTarget", null);
     myMouseWorldPos = new Vector2();
-    myUpCtrl = new SolUiControl(null, Input.Keys.W);
+    myUpCtrl = new SolUiControl(null, false, Input.Keys.W);
     controls.add(myUpCtrl);
-    myDownCtrl = new SolUiControl(null, Input.Keys.S);
+    myDownCtrl = new SolUiControl(null, false, Input.Keys.S);
     controls.add(myDownCtrl);
   }
 

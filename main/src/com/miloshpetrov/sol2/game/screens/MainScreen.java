@@ -59,19 +59,19 @@ public class MainScreen implements SolUiScreen {
     } else {
       shipControl = new ShipMouseControl(cmp);
     }
-    myMenuCtrl = new SolUiControl(rightPaneLayout.buttonRect(0), Input.Keys.ESCAPE);
+    myMenuCtrl = new SolUiControl(rightPaneLayout.buttonRect(0), true, Input.Keys.ESCAPE);
     myMenuCtrl.setDisplayName("Menu");
     myControls.add(myMenuCtrl);
-    mapCtrl = new SolUiControl(rightPaneLayout.buttonRect(1), Input.Keys.TAB);
+    mapCtrl = new SolUiControl(rightPaneLayout.buttonRect(1), true, Input.Keys.TAB);
     mapCtrl.setDisplayName("Map");
     myControls.add(mapCtrl);
-    myInvCtrl = new SolUiControl(rightPaneLayout.buttonRect(2), Input.Keys.I);
+    myInvCtrl = new SolUiControl(rightPaneLayout.buttonRect(2), true, Input.Keys.I);
     myInvCtrl.setDisplayName("Items");
     myControls.add(myInvCtrl);
-    talkCtrl = new SolUiControl(rightPaneLayout.buttonRect(3), Input.Keys.T);
+    talkCtrl = new SolUiControl(rightPaneLayout.buttonRect(3), true, Input.Keys.T);
     talkCtrl.setDisplayName("Talk");
     myControls.add(talkCtrl);
-    myPauseCtrl = new SolUiControl(null, Input.Keys.P);
+    myPauseCtrl = new SolUiControl(null, true, Input.Keys.P);
     myControls.add(myPauseCtrl);
 
 

@@ -64,11 +64,11 @@ public class InventoryScreen implements SolUiScreen {
     myListHeaderPos = new Vector2(col0 + HEADER_TEXT_OFFS, row + HEADER_TEXT_OFFS); // offset hack
     float listCtrlW = contentW * .15f;
     Rectangle nextArea = new Rectangle(col0 + contentW - listCtrlW, row, listCtrlW, headerH);
-    myNextCtrl = new SolUiControl(nextArea, Input.Keys.RIGHT);
+    myNextCtrl = new SolUiControl(nextArea, true, Input.Keys.RIGHT);
     myNextCtrl.setDisplayName(">");
     myControls.add(myNextCtrl);
     Rectangle prevArea = new Rectangle(nextArea.x - SMALL_GAP - listCtrlW, row, listCtrlW, headerH);
-    myPrevCtrl = new SolUiControl(prevArea, Input.Keys.LEFT);
+    myPrevCtrl = new SolUiControl(prevArea, true, Input.Keys.LEFT);
     myPrevCtrl.setDisplayName("<");
     myControls.add(myPrevCtrl);
     row += headerH + SMALL_GAP;
@@ -79,7 +79,7 @@ public class InventoryScreen implements SolUiScreen {
     myItemCtrls = new SolUiControl[Const.ITEMS_PER_PAGE];
     for (int i = 0; i < Const.ITEMS_PER_PAGE; i++) {
       Rectangle itemR = new Rectangle(col0, row, contentW, itemRowH);
-      SolUiControl itemCtrl = new SolUiControl(itemR);
+      SolUiControl itemCtrl = new SolUiControl(itemR, true);
       myItemCtrls[i] = itemCtrl;
       myControls.add(itemCtrl);
       row += itemRowH + SMALL_GAP;
@@ -98,7 +98,7 @@ public class InventoryScreen implements SolUiScreen {
     // whole
     myArea = new Rectangle(col0 - bgGap, row0 - bgGap, contentW + bgGap * 2, row - row0 + bgGap * 2);
 
-    myCloseCtrl = new SolUiControl(itemCtrl(3), Input.Keys.ESCAPE);
+    myCloseCtrl = new SolUiControl(itemCtrl(3), true, Input.Keys.ESCAPE);
     myCloseCtrl.setDisplayName("Close");
     myControls.add(myCloseCtrl);
 
@@ -107,9 +107,9 @@ public class InventoryScreen implements SolUiScreen {
     sellItems = new SellItems(this);
     changeShip = new ChangeShip(this);
     hireShips = new HireShips(this);
-    myUpCtrl = new SolUiControl(null, Input.Keys.UP);
+    myUpCtrl = new SolUiControl(null, true, Input.Keys.UP);
     myControls.add(myUpCtrl);
-    downCtrl = new SolUiControl(null, Input.Keys.DOWN);
+    downCtrl = new SolUiControl(null, true, Input.Keys.DOWN);
     myControls.add(downCtrl);
   }
 
