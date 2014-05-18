@@ -14,7 +14,7 @@ public class MenuLayout {
   public MenuLayout(float r) {
     btnW = .25f * r;
     btnH = .1f;
-    myPad = .2f * btnH;
+    myPad = .1f * btnH;
     rowH = btnH + myPad;
     colCenter = .5f * r - btnW / 2;
     row0 = 1 - myPad - 5 * rowH;

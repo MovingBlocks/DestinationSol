@@ -26,7 +26,7 @@ public class MainScreen implements SolUiScreen {
   public static final int MAX_ICON_COUNT = 3;
   public static final float CELL_SZ = .2f;
   public static final float H_PAD = .005f;
-  public static final float V_PAD = H_PAD * 2;
+  public static final float V_PAD = H_PAD;
 
   private final List<SolUiControl> myControls;
   private final CollisionWarnDrawer myCollisionWarnDrawer;
@@ -245,7 +245,10 @@ public class MainScreen implements SolUiScreen {
         float chargePerc = 1 - SolMath.clamp(hero.getAbilityAwait() / ability.getRechargeTime());
         drawBar(uiDrawer, texMan, col1, row, chargePerc);
         drawIcons(uiDrawer, col2, row, abilityChargeCount, icon);
+        row += ICON_SZ + V_PAD;
       }
+      uiDrawer.draw(cmp.getGame().getItemMan().moneyIcon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
+      drawRowText(uiDrawer, col1, row, hero.getMoney() + "");
     }
   }
 
@@ -290,7 +293,13 @@ public class MainScreen implements SolUiScreen {
       uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, x, y, 0, Col.W);
       x += ICON_SZ + H_PAD;
     }
-    if (excess > 0) uiDrawer.drawString("+" + excess, x, y + .25f * ICON_SZ, FontSize.HUD, false, Col.W); // hack!
+    if (excess > 0) {
+      drawRowText(uiDrawer, x, y, "+" + excess);
+    }
+  }
+
+  private void drawRowText(UiDrawer uiDrawer, float x, float y, String text) {
+    uiDrawer.drawString(text, x, y + .25f * ICON_SZ, FontSize.HUD, false, Col.W); // hack!
   }
 
   @Override

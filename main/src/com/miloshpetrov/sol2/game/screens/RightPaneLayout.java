@@ -11,7 +11,7 @@ public class RightPaneLayout {
 
   public RightPaneLayout(float r) {
     btnH = .07f;
-    rowH = 1.3f * btnH;
+    rowH = 1.1f * btnH;
     row0 = .1f;
     btnW = 3 * btnH;
     col0 = r - btnW;
