@@ -3,27 +3,26 @@ package com.miloshpetrov.sol2.game.screens;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.item.ItemContainer;
 import com.miloshpetrov.sol2.game.item.SolItem;
-import com.miloshpetrov.sol2.game.ship.SolShip;
+import com.miloshpetrov.sol2.menu.MenuLayout;
 import com.miloshpetrov.sol2.ui.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryScreen implements SolUiScreen {
-  public static final float LIST_PERC = .6f;
-  public static final float LIST_CTRL_PERC = .1f;
-  public static final float DETAIL_H_PERC = .3f;
-  public static final float DETAIL_W_PERC = .7f;
+  public static final ItemContainer EMPTY_CONTAINER = new ItemContainer();
   private static final int BTN_ROWS = 4;
 
   private static final float EQUI_COL_PERC = .1f;
   private static final float IMG_COL_PERC = .1f;
   private static final float PRICE_COL_PERC = .2f;
+  public static final float HEADER_TEXT_OFFS = .005f;
 
   public final ShowInventory showInventory;
   public final BuyItems buyItems;
@@ -42,55 +41,76 @@ public class InventoryScreen implements SolUiScreen {
   private final SolUiControl myCloseCtrl;
   private final SolUiControl myUpCtrl;
   public final SolUiControl downCtrl;
+  private final Vector2 myDetailHeaderPos;
 
   private InventoryOperations myOperations;
   private int myPage;
   private SolItem mySelected;
+  private final Vector2 myListHeaderPos;
+  public static final float SMALL_GAP = .004f;
 
   public InventoryScreen(float r) {
-    myArea = new Rectangle(r/2 - .4f, .2f, .8f, .6f);
-    myListArea = new Rectangle(myArea.x, myArea.y, myArea.width, myArea.height * LIST_PERC);
-    float listCtrlH = myArea.height * LIST_CTRL_PERC;
-    myDetailArea = new Rectangle(myArea.x, myArea.y + myListArea.height + listCtrlH, myArea.width * DETAIL_W_PERC, myArea.height * DETAIL_H_PERC);
-    myItemCtrlArea = new Rectangle(myDetailArea.x + myDetailArea.width, myDetailArea.y, myArea.width * (1 - DETAIL_W_PERC), myDetailArea.height);
-
     myControls = new ArrayList<SolUiControl>();
 
-    float listCtrlW = myListArea.width * .2f;
-    Rectangle presArea = new Rectangle(myListArea.x + myListArea.width * .6f, myListArea.y + myListArea.height, listCtrlW, listCtrlH / 2);
-    myPrevCtrl = new SolUiControl(presArea, Input.Keys.LEFT);
-    myPrevCtrl.setDisplayName("<");
-    myControls.add(myPrevCtrl);
+    float contentW = .8f;
+    float col0 = r / 2 - contentW / 2;
+    float row0 = .2f;
+    float row = row0;
+    float bgGap = MenuLayout.BG_BORDER;
+    float bigGap = SMALL_GAP * 6;
+    float headerH = .03f;
 
-    Rectangle nextArea = new Rectangle(myListArea.x + myListArea.width * .6f + listCtrlW, myListArea.y + myListArea.height, listCtrlW, listCtrlH / 2);
+    // list header & controls
+    myListHeaderPos = new Vector2(col0 + HEADER_TEXT_OFFS, row + HEADER_TEXT_OFFS); // offset hack
+    float listCtrlW = contentW * .15f;
+    Rectangle nextArea = new Rectangle(col0 + contentW - listCtrlW, row, listCtrlW, headerH);
     myNextCtrl = new SolUiControl(nextArea, Input.Keys.RIGHT);
     myNextCtrl.setDisplayName(">");
     myControls.add(myNextCtrl);
+    Rectangle prevArea = new Rectangle(nextArea.x - SMALL_GAP - listCtrlW, row, listCtrlW, headerH);
+    myPrevCtrl = new SolUiControl(prevArea, Input.Keys.LEFT);
+    myPrevCtrl.setDisplayName("<");
+    myControls.add(myPrevCtrl);
+    row += headerH + SMALL_GAP;
+
+    // list
+    float itemRowH = .04f;
+    float listRow0 = row;
+    myItemCtrls = new SolUiControl[Const.ITEMS_PER_PAGE];
+    for (int i = 0; i < Const.ITEMS_PER_PAGE; i++) {
+      Rectangle itemR = new Rectangle(col0, row, contentW, itemRowH);
+      SolUiControl itemCtrl = new SolUiControl(itemR);
+      myItemCtrls[i] = itemCtrl;
+      myControls.add(itemCtrl);
+      row += itemRowH + SMALL_GAP;
+    }
+    myListArea = new Rectangle(col0, row, contentW, row - SMALL_GAP - listRow0);
+    row += bigGap;
+
+    // detail header & area
+    myDetailHeaderPos = new Vector2(col0 + HEADER_TEXT_OFFS, row + HEADER_TEXT_OFFS); // offset hack
+    row += headerH + SMALL_GAP;
+    float itemCtrlAreaW = contentW * .4f;
+    myItemCtrlArea = new Rectangle(col0 + contentW - itemCtrlAreaW, row, itemCtrlAreaW, .2f);
+    myDetailArea = new Rectangle(col0, row, contentW - itemCtrlAreaW - SMALL_GAP, myItemCtrlArea.height);
+    row += myDetailArea.height;
+
+    // whole
+    myArea = new Rectangle(col0 - bgGap, row0 - bgGap, contentW + bgGap * 2, row - row0 + bgGap * 2);
 
     myCloseCtrl = new SolUiControl(itemCtrl(3), Input.Keys.ESCAPE);
     myCloseCtrl.setDisplayName("Close");
     myControls.add(myCloseCtrl);
-
-    myUpCtrl = new SolUiControl(null, Input.Keys.UP);
-    myControls.add(myUpCtrl);
-
-    downCtrl = new SolUiControl(null, Input.Keys.DOWN);
-    myControls.add(downCtrl);
-
-    myItemCtrls = new SolUiControl[Const.ITEMS_PER_PAGE];
-    float itemH = myListArea.height / Const.ITEMS_PER_PAGE;
-    for (int i = 0; i < Const.ITEMS_PER_PAGE; i++) {
-      Rectangle itemR = new Rectangle(myListArea.x, myListArea.y + itemH * i, myListArea.width, itemH);
-      SolUiControl itemCtrl = new SolUiControl(itemR);
-      myItemCtrls[i] = itemCtrl;
-      myControls.add(itemCtrl);
-    }
 
     showInventory = new ShowInventory(this);
     buyItems = new BuyItems(this);
     sellItems = new SellItems(this);
     changeShip = new ChangeShip(this);
     hireShips = new HireShips(this);
+    myUpCtrl = new SolUiControl(null, Input.Keys.UP);
+    myControls.add(myUpCtrl);
+    downCtrl = new SolUiControl(null, Input.Keys.DOWN);
+    myControls.add(downCtrl);
   }
 
   @Override
@@ -107,6 +127,7 @@ public class InventoryScreen implements SolUiScreen {
     if (myNextCtrl.isJustOff()) myPage++;
 
     ItemContainer ic = myOperations.getItems(cmp.getGame());
+    if (ic == null) ic = EMPTY_CONTAINER;
     int itemCount = ic.size();
     int pageCount = itemCount / Const.ITEMS_PER_PAGE;
     if (pageCount == 0 || pageCount * Const.ITEMS_PER_PAGE < itemCount) pageCount += 1;
@@ -164,9 +185,9 @@ public class InventoryScreen implements SolUiScreen {
 
   @Override
   public void drawPost(UiDrawer uiDrawer, SolCmp cmp) {
+    uiDrawer.drawString("Items:", myListHeaderPos.x, myListHeaderPos.y, FontSize.WINDOW, false, Col.W);
     SolGame game = cmp.getGame();
     ItemContainer ic = myOperations.getItems(game);
-    TexMan texMan = cmp.getTexMan();
     float equiWidth = myListArea.width * EQUI_COL_PERC;
     float imgWidth = myListArea.width * IMG_COL_PERC;
     float rowH = myItemCtrls[0].getScreenArea().height;
@@ -193,14 +214,10 @@ public class InventoryScreen implements SolUiScreen {
       }
     }
 
+    uiDrawer.draw(myDetailArea, Col.UI_INACTIVE);
+    uiDrawer.drawString("Selected Item:", myDetailHeaderPos.x, myDetailHeaderPos.y, FontSize.WINDOW, false, Col.W);
     if (mySelected != null) {
-      uiDrawer.drawString(mySelected.getDesc(), myDetailArea.x + myDetailArea.width/2, myDetailArea.y + myDetailArea.height/2, FontSize.WINDOW, true, Col.W);
-    }
-
-    SolShip h = cmp.getGame().getHero();
-    if (h != null) {
-      int money = (int) h.getMoney();
-      uiDrawer.drawString("$" + money, myListArea.x, myListArea.y + myListArea.height + myNextCtrl.getScreenArea().height/2, FontSize.WINDOW, false, Col.W);
+      uiDrawer.drawString(mySelected.getDesc(), myDetailArea.x + .015f, myDetailArea.y + .015f, FontSize.WINDOW, false, Col.W);
     }
   }
 
@@ -209,8 +226,8 @@ public class InventoryScreen implements SolUiScreen {
   }
 
   public Rectangle itemCtrl(int row) {
-    float h = myItemCtrlArea.height / BTN_ROWS;
-    return new Rectangle(myItemCtrlArea.x, myItemCtrlArea.y + h * row, myItemCtrlArea.width, h);
+    float h = (myItemCtrlArea.height - SMALL_GAP * (BTN_ROWS - 1)) / BTN_ROWS;
+    return new Rectangle(myItemCtrlArea.x, myItemCtrlArea.y + (h + SMALL_GAP) * row, myItemCtrlArea.width, h);
   }
 
   public SolItem getSelected() {
