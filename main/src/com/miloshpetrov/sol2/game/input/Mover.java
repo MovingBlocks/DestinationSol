@@ -3,7 +3,6 @@ package com.miloshpetrov.sol2.game.input;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
-import com.miloshpetrov.sol2.game.DebugAspects;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.SolShip;
@@ -41,7 +40,8 @@ public class Mover {
 
     float toDestLen = shipPos.dst(dest);
 
-    if (toDestLen < maxIdleDist && stopNearDest) {
+    if (toDestLen < maxIdleDist) {
+      if (!stopNearDest) return;
       myDesiredSpd.set(destSpd);
     } else {
       updateDesiredSpd(game, ship, dest, toDestLen, stopNearDest, np, avoidBigObjs, desiredSpdLen, destSpd);

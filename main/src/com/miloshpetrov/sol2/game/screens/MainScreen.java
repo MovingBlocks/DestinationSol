@@ -248,7 +248,7 @@ public class MainScreen implements SolUiScreen {
         row += ICON_SZ + V_PAD;
       }
       uiDrawer.draw(cmp.getGame().getItemMan().moneyIcon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
-      drawRowText(uiDrawer, col1, row, hero.getMoney() + "");
+      drawRowText(uiDrawer, col1, row, (int) hero.getMoney() + "");
     }
   }
 

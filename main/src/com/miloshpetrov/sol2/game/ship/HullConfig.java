@@ -7,7 +7,6 @@ import com.miloshpetrov.sol2.game.item.EngineItem;
 import java.util.ArrayList;
 
 public class HullConfig {
-  public static final float MIN_IDLE_DIST = .8f;
   public final String texName;
   public final float size;
   public final int maxLife;
@@ -66,14 +65,6 @@ public class HullConfig {
     this.tex = tex;
     this.engineConfig = engineConfig;
     this.ability = ability;
-  }
-
-  /**
-   * @return maximum distance between destination and ship position that is considered acceptable
-   */
-  public float getMaxIdleDist() {
-    float res = .4f * size;
-    return res < MIN_IDLE_DIST ? MIN_IDLE_DIST : res;
   }
 
   public static enum Type {

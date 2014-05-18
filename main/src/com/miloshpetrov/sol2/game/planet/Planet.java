@@ -25,6 +25,7 @@ public class Planet {
   private float myAngleToSys;
   private float myAngle;
   private float myMinGroundHeight;
+  private Vector2 mySpd;
 
   public Planet(SolSystem sys, float angleToSys, float dist, float angle, float toSysRotSpd, float rotSpd,
     float groundHeight, boolean objsCreated, PlanetConfig config, String name)
@@ -41,6 +42,7 @@ public class Planet {
     myMinGroundHeight = myGroundHeight;
     myObjsCreated = objsCreated;
     myPos = new Vector2();
+    mySpd = new Vector2();
     myGravConst = SolMath.rnd(config.minGrav, config.maxGrav) * myGroundHeight * myGroundHeight;
     myLps = new ArrayList<Vector2>();
     setSecondaryParams();
@@ -63,6 +65,9 @@ public class Planet {
   private void setSecondaryParams() {
     SolMath.fromAl(myPos, myAngleToSys, myDist, true);
     myPos.add(mySys.getPos());
+    float spdLen = SolMath.angleToArc(myToSysRotSpd, myDist);
+    float spdAngle = myAngleToSys + 90;
+    SolMath.fromAl(mySpd, spdAngle, spdLen);
   }
 
   private void fillLangingPlaces(SolGame game) {
@@ -168,7 +173,7 @@ public class Planet {
     float fromPlanetAngle = SolMath.angle(toPos);
     float hSpdLen = SolMath.angleToArc(myRotSpd, toPos.len());
     SolMath.free(toPos);
-    spd.set(0, hSpdLen);
-    SolMath.rotate(spd, fromPlanetAngle);
+    SolMath.fromAl(spd, fromPlanetAngle + 90, hSpdLen);
+    spd.add(mySpd);
   }
 }
