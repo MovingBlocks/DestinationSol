@@ -40,7 +40,7 @@ public class Shooter {
       g = g1;
     }
     if (g2 != null) {
-      float g2PS = g2.config.projConfig.spdLen + g1.config.projConfig.acc; // for simplicity
+      float g2PS = g2.config.projConfig.spdLen + g2.config.projConfig.acc; // for simplicity
       if (projSpd < g2PS) {
         projSpd = g2PS;
         g = g2;

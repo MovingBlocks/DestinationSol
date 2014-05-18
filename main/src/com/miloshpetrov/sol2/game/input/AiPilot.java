@@ -3,7 +3,8 @@ package com.miloshpetrov.sol2.game.input;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
-import com.miloshpetrov.sol2.game.*;
+import com.miloshpetrov.sol2.game.Fraction;
+import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.item.EngineItem;
 import com.miloshpetrov.sol2.game.planet.Planet;
@@ -13,6 +14,8 @@ import com.miloshpetrov.sol2.game.ship.*;
 public class AiPilot implements Pilot {
 
   public static final float MAX_BATTLE_SPD = 2f;
+  public static final float MIN_IDLE_DIST = .8f;
+  public static final float MAX_GROUND_BATTLE_SPD = .7f;
   private final MoveDestProvider myDestProvider;
   private final boolean myCollectsItems;
   private final Mover myMover;
@@ -44,7 +47,7 @@ public class AiPilot implements Pilot {
     myPlanetBind = null;
     Vector2 shipPos = ship.getPos();
     HullConfig hullConfig = ship.getHull().config;
-    float maxIdleDist = hullConfig.getMaxIdleDist();
+    float maxIdleDist = getMaxIdleDist(hullConfig);
     myDestProvider.update(game, shipPos, maxIdleDist, hullConfig, nearestEnemy);
 
     Boolean canShoot = canShoot0(ship);
@@ -68,7 +71,8 @@ public class AiPilot implements Pilot {
         dest = myBattleDestProvider.getDest(ship, nearestEnemy, shootDist, np, battle);
         shouldStopNearDest = myBattleDestProvider.shouldStopNearDest();
         destSpd = nearestEnemy.getSpd();
-        if (MAX_BATTLE_SPD < desiredSpdLen) desiredSpdLen = MAX_BATTLE_SPD;
+        float maxBattleSpd = nearGround ? MAX_GROUND_BATTLE_SPD : MAX_BATTLE_SPD;
+        if (maxBattleSpd < desiredSpdLen) desiredSpdLen = maxBattleSpd;
         desiredSpdLen += destSpd.len();
       } else {
         dest = myDestProvider.getDest();
@@ -88,6 +92,12 @@ public class AiPilot implements Pilot {
     if (hasEngine && !moverActive && !isShooterRotated()) {
       myMover.rotateOnIdle(ship, np, dest, shouldStopNearDest, maxIdleDist);
     }
+  }
+
+  private float getMaxIdleDist(HullConfig hullConfig) {
+    float maxIdleDist = hullConfig.approxRadius;
+    if (maxIdleDist < MIN_IDLE_DIST) maxIdleDist = MIN_IDLE_DIST;
+    return maxIdleDist;
   }
 
   private Boolean canShoot0(SolShip ship) {
@@ -161,7 +171,7 @@ public class AiPilot implements Pilot {
   public void updateFar(SolGame game, FarShip farShip) {
     Vector2 shipPos = farShip.getPos();
     HullConfig hullConfig = farShip.getHullConfig();
-    float maxIdleDist = hullConfig.getMaxIdleDist();
+    float maxIdleDist = getMaxIdleDist(hullConfig);
     myDestProvider.update(game, shipPos, maxIdleDist, hullConfig, null);
     Vector2 dest = myDestProvider.getDest();
 
