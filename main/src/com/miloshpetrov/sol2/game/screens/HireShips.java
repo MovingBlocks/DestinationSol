@@ -109,4 +109,9 @@ public class HireShips implements InventoryOperations {
   public void drawPost(UiDrawer uiDrawer, SolCmp cmp) {
 
   }
+
+  @Override
+  public void blurCustom(SolCmp cmp) {
+
+  }
 }

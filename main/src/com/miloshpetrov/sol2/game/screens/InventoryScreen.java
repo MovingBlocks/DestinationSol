@@ -140,6 +140,7 @@ public class InventoryScreen implements SolUiScreen {
     if (!ic.contains(mySelected)) mySelected = null;
     int selIdx = -1;
     int offset = myPage * Const.ITEMS_PER_PAGE;
+    boolean hNew = showingHeroItems();
     for (int i = 0; i < myItemCtrls.length; i++) {
       SolUiControl itemCtrl = myItemCtrls[i];
       int itemIdx = offset + i;
@@ -147,6 +148,7 @@ public class InventoryScreen implements SolUiScreen {
       itemCtrl.setEnabled(ctrlEnabled);
       if (!ctrlEnabled) continue;
       SolItem item = ic.get(itemIdx);
+      if (hNew && ic.isNew(item)) itemCtrl.enableWarn();
       if (itemCtrl.isJustOff()) {
         mySelected = item;
       }
@@ -165,6 +167,7 @@ public class InventoryScreen implements SolUiScreen {
       mySelected = ic.get(selIdx);
       if (selIdx >= offset + Const.ITEMS_PER_PAGE) myPage++;
     }
+    if (mySelected != null) ic.seen(mySelected);
   }
 
   @Override
@@ -188,6 +191,7 @@ public class InventoryScreen implements SolUiScreen {
     uiDrawer.drawString("Items:", myListHeaderPos.x, myListHeaderPos.y, FontSize.WINDOW, false, Col.W);
     SolGame game = cmp.getGame();
     ItemContainer ic = myOperations.getItems(game);
+    if (ic == null) ic = EMPTY_CONTAINER;
     float equiWidth = myListArea.width * EQUI_COL_PERC;
     float imgWidth = myListArea.width * IMG_COL_PERC;
     float rowH = myItemCtrls[0].getScreenArea().height;
@@ -219,6 +223,18 @@ public class InventoryScreen implements SolUiScreen {
     if (mySelected != null) {
       uiDrawer.drawString(mySelected.getDesc(), myDetailArea.x + .015f, myDetailArea.y + .015f, FontSize.WINDOW, false, Col.W);
     }
+  }
+
+  @Override
+  public void blurCustom(SolCmp cmp) {
+    if (!showingHeroItems()) return;
+    SolGame game = cmp.getGame();
+    ItemContainer items = myOperations.getItems(game);
+    if (items != null) items.seenAll();
+  }
+
+  private boolean showingHeroItems() {
+    return myOperations == showInventory || myOperations == sellItems;
   }
 
   public void setOperations(InventoryOperations operations) {

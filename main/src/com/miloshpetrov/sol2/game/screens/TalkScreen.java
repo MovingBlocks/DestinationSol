@@ -106,6 +106,11 @@ public class TalkScreen implements SolUiScreen {
   public void drawPost(UiDrawer uiDrawer, SolCmp cmp) {
   }
 
+  @Override
+  public void blurCustom(SolCmp cmp) {
+
+  }
+
   public void setTarget(SolShip target) {
     myTarget = target;
   }

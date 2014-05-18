@@ -145,6 +145,9 @@ public class MainScreen implements SolUiScreen {
     }
 
     myInvCtrl.setEnabled(hero != null);
+    if (hero != null && !inputMan.isScreenOn(screens.inventoryScreen)) {
+      if (hero.getItemContainer().hasNew()) myInvCtrl.enableWarn();
+    }
     if (myInvCtrl.isJustOff()) {
       InventoryScreen is = screens.inventoryScreen;
       boolean isOn = inputMan.isScreenOn(is);
@@ -314,6 +317,11 @@ public class MainScreen implements SolUiScreen {
 
   @Override
   public void drawPost(UiDrawer uiDrawer, SolCmp cmp) {
+  }
+
+  @Override
+  public void blurCustom(SolCmp cmp) {
+
   }
 
   public boolean isLeft() {

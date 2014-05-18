@@ -16,4 +16,6 @@ public interface SolUiScreen {
   void onAdd(SolCmp cmp);
 
   void drawPost(UiDrawer uiDrawer, SolCmp cmp);
+
+  void blurCustom(SolCmp cmp);
 }

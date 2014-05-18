@@ -23,6 +23,7 @@ public class SolUiControl {
   private boolean myAreaJustUnpressed;
 
   private boolean myMouseHover;
+  private int myWarnCount;
 
   public SolUiControl(Rectangle screenArea, int ... keys) {
     myKeys = keys == null ? new int[0] : keys;
@@ -48,11 +49,10 @@ public class SolUiControl {
 
   public void update(SolInputMan.Ptr[] ptrs, boolean cursorShown, boolean canBePressed) {
     if (!myEnabled) canBePressed = false;
-
     updateKeys(canBePressed);
     updateArea(ptrs, canBePressed);
-
     updateHover(ptrs, cursorShown);
+    if (myWarnCount > 0) myWarnCount--;
   }
 
   private void updateHover(SolInputMan.Ptr[] ptrs, boolean cursorShown) {
@@ -110,7 +110,7 @@ public class SolUiControl {
     myDisplayName = displayName;
   }
 
-  public void drawButton(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawButton(UiDrawer uiDrawer, SolCmp cmp, Color warnCol) {
     if (myScreenArea == null) return;
     Color tint = Col.UI_INACTIVE;
     if (myEnabled) {
@@ -119,9 +119,12 @@ public class SolUiControl {
       else tint = Col.UI_DARK;
     }
     uiDrawer.draw(myScreenArea, tint);
+    if (myWarnCount > 0) {
+      uiDrawer.draw(myScreenArea, warnCol);
+    }
   }
 
-  public void drawDisplayName(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawDisplayName(UiDrawer uiDrawer) {
     if (myScreenArea == null) return;
     Color tint = myEnabled ? Col.W : Col.G;
     uiDrawer.drawString(myDisplayName, myScreenArea.x + myScreenArea.width/2, myScreenArea.y + myScreenArea.height/2,
@@ -151,5 +154,9 @@ public class SolUiControl {
 
   public boolean isMouseHover() {
     return myMouseHover;
+  }
+
+  public void enableWarn() {
+    myWarnCount = 2;
   }
 }

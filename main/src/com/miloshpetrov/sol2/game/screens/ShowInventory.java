@@ -105,6 +105,11 @@ public class ShowInventory implements InventoryOperations {
   }
 
   @Override
+  public void blurCustom(SolCmp cmp) {
+
+  }
+
+  @Override
   public ItemContainer getItems(SolGame game) {
     SolShip h = game.getHero();
     return h == null ? null : h.getItemContainer();
