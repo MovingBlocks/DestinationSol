@@ -1,6 +1,7 @@
 package com.miloshpetrov.sol2.game.screens;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -36,13 +37,15 @@ public class MainScreen implements SolUiScreen {
   private final TextureAtlas.AtlasRegion myInfinityTex;
   private final TextureAtlas.AtlasRegion myWaitTex;
   private final TextureAtlas.AtlasRegion myShieldTex;
-  public final ShipUiControl shipControl;
+  private final TextureAtlas.AtlasRegion myCompassTex;
 
+  public final ShipUiControl shipControl;
   private final SolUiControl myMenuCtrl;
   public final SolUiControl mapCtrl;
   private final SolUiControl myInvCtrl;
   public final SolUiControl talkCtrl;
   private final SolUiControl myPauseCtrl;
+  private final Color myCompassTint;
 
 
   public MainScreen(float r, RightPaneLayout rightPaneLayout, SolCmp cmp) {
@@ -82,25 +85,32 @@ public class MainScreen implements SolUiScreen {
     myShieldTex = texMan.getTex(TexMan.ICONS_DIR + "shield", null);
     myInfinityTex = texMan.getTex(TexMan.ICONS_DIR + "infinity", null);
     myWaitTex = texMan.getTex(TexMan.ICONS_DIR + "wait", null);
+    myCompassTex = texMan.getTex("misc/compass", null);
+    myCompassTint = Col.col(1, 0);
   }
 
-  public static void maybeDrawHeight(UiDrawer drawer, SolCmp cmp) {
+  public void maybeDrawHeight(UiDrawer drawer, SolCmp cmp) {
     SolGame game = cmp.getGame();
     Planet np = game.getPlanetMan().getNearestPlanet();
-    Vector2 camPos = game.getCam().getPos();
+    SolCam cam = game.getCam();
+    Vector2 camPos = cam.getPos();
     if (np != null && np.getPos().dst(camPos) < np.getFullHeight()) {
-      drawHeight(drawer, np, camPos);
+      drawHeight(drawer, np, camPos, cam.getAngle());
     }
   }
 
-  private static void drawHeight(UiDrawer drawer, Planet np, Vector2 camPos) {
+  private void drawHeight(UiDrawer drawer, Planet np, Vector2 camPos, float camAngle) {
     float toPlanet = camPos.dst(np.getPos());
     toPlanet -= np.getGroundHeight();
     if (Const.ATM_HEIGHT < toPlanet) return;
     float perc = toPlanet / Const.ATM_HEIGHT;
-    float y = (1 - perc);
-    float size = 1f / 60;
-    drawer.draw(drawer.whiteTex, size * 3, size, (float) 0, (float) 0, (float) 0, y, (float) 0, Col.W);
+    float sz = .08f;
+    float maxY = 1 - sz/2;
+    float y = 1 - perc;
+    myCompassTint.a = SolMath.clamp(1.5f * y);
+    if (maxY < y) y = maxY;
+    float angle = np.getAngle() - camAngle;
+    drawer.draw(myCompassTex, sz, sz, sz/2, sz/2, sz/2, y, angle, myCompassTint);
   }
 
   public static Rectangle btn(float x, float y) {

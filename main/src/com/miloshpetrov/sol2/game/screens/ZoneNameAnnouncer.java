@@ -37,6 +37,6 @@ public class ZoneNameAnnouncer {
 
   public void draw(UiDrawer uiDrawer) {
     if (myCol.a <= 0) return;
-    uiDrawer.drawString(myZone, uiDrawer.r/2, .15f, FontSize.MENU * 2, true, myCol);
+    uiDrawer.drawString(myZone, uiDrawer.r/2, .15f, FontSize.MENU * 1.5f, true, myCol);
   }
 }

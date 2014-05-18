@@ -1,11 +1,11 @@
 
 new ui:
   "new" mark in the inventory
-  fading compass on planet
 
  sounds:
     warning blip
 
+fix planet station origins
 
 CONTENT:
   systemConfig:
