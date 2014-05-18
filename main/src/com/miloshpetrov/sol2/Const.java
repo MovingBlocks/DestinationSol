@@ -10,7 +10,7 @@ public class Const {
   public static final float CHUNK_SIZE = 20f;
   public static final int ITEMS_PER_PAGE = 8;
   public final static float PLANET_GAP = 8f;
-  public static final String VERSION = "0.07";
+  public static final String VERSION = "0.8";
   public static final float FRICTION = .5f;
   public static final String CONFIGS_DIR = "res/configs/";
   public static final float IMPULSE_TO_COLL_VOL = 2f;

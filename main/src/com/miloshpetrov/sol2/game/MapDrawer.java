@@ -254,9 +254,9 @@ public class MapDrawer {
       icon = mySkullTex;
       angle = 0;
     }
-    drawer.draw(myIconBg, iconSz, iconSz, iconSz/2, iconSz/2, pos.x, pos.y, 0, Col.UI_LIGHT);
+    drawer.draw(myIconBg, iconSz, iconSz, iconSz/2, iconSz/2, pos.x, pos.y, 0, enemy ? Col.UI_WARN : Col.UI_LIGHT);
     iconSz *= INNER_ICON_PERC;
-    drawer.draw(icon, iconSz, iconSz, iconSz/2, iconSz/2, pos.x, pos.y, angle, enemy ? Col.B : Col.W);
+    drawer.draw(icon, iconSz, iconSz, iconSz/2, iconSz/2, pos.x, pos.y, angle, Col.W);
   }
 
   private boolean isTough(float heroToughness, Object shipHack) {

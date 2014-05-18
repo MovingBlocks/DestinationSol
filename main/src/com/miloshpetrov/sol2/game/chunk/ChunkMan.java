@@ -7,7 +7,6 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.RemoveController;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
-import com.miloshpetrov.sol2.ui.DebugCollector;
 
 import java.util.*;
 
@@ -43,8 +42,6 @@ public class ChunkMan {
       clearFarChunks(myBgFilledChunks, MIN_BG_REMOVE_DIST);
       addNewChunks(myBgFilledChunks, MAX_BG_FILL_DIST, game);
     }
-    DebugCollector.debug("chunks", myFilledChunks.size());
-    DebugCollector.debug("bgChunks", myBgFilledChunks.size());
   }
 
   private boolean updateCurrChunk(Vector2 pos) {

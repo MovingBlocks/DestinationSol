@@ -73,9 +73,12 @@ public class SolCmp {
   private void update() {
     DebugCollector.update();
     DebugCollector.debug("Fps: ", Gdx.graphics.getFramesPerSecond());
-    DebugCollector.debug("Version: " + Const.VERSION);
     myInputMan.update(this);
-    if (myGame != null) myGame.update();
+    if (myGame == null) {
+      DebugCollector.debug("Version: " + Const.VERSION);
+    } else {
+      myGame.update();
+    }
     SolMath.checkVectorsTaken(null);
   }
 
