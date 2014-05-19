@@ -1,8 +1,13 @@
 
+SG.isPlaceEmpty should iterate over far objs
+
+mouse control vs repair
+check sun radius in map
+ships spawn in sun
 fix planet station origins
 mouse control + map = rotation
-build everything as far + SG.isPlaceEmpty should iterate over far objs
-ships get stuck in ground
+ships get stuck in ground -- perhaps due to different conversion radii
+bg in title screen
 
 CONTENT:
   systemConfig:
@@ -46,7 +51,17 @@ PERF:
 IN THE END:
   tutorial should consider new control type, also mobile, also highlight buttons
   make title bigger
-
+  demo
+  check licenses:
+    in-game:
+      font
+      sounds
+      libgdx
+      box 2d
+      java distro
+    in internet:
+      sf
+      markets vs open source
 
 ===================== REST =======================================================================
 

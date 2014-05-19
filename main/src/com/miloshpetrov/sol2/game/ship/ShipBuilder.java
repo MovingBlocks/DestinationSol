@@ -9,8 +9,7 @@ import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.*;
-import com.miloshpetrov.sol2.game.gun.GunItem;
-import com.miloshpetrov.sol2.game.gun.GunMount;
+import com.miloshpetrov.sol2.game.gun.*;
 import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.LightSrc;
@@ -25,6 +24,48 @@ public class ShipBuilder {
 
   public ShipBuilder() {
     myPathLoader = new PathLoader("hulls");
+  }
+
+  public FarShip buildNewFar(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot,
+    String items, HullConfig hullConfig,
+    RemoveController removeController,
+    boolean hasRepairer, float money, TradeConfig tradeConfig)
+  {
+
+    if (spd == null) spd = new Vector2();
+    ItemContainer ic = new ItemContainer();
+    game.getItemMan().fillContainer(ic, items);
+    EngineItem.Config ec = hullConfig.engineConfig;
+    EngineItem ei = ec == null ? null : ec.example.copy();
+    TradeContainer tc = tradeConfig == null ? null : new TradeContainer(tradeConfig);
+
+
+    GunItem g1 = null;
+    GunItem g2 = null;
+    Shield shield = null;
+    Armor armor = null;
+    for (SolItem i : ic) {
+      if (i instanceof Shield) {
+        shield = (Shield) i;
+        continue;
+      }
+      if (i instanceof Armor) {
+        armor = (Armor) i;
+        continue;
+      }
+      if (i instanceof GunItem) {
+        GunItem g = (GunItem) i;
+        if (g1 != null) {
+          if (hullConfig.g2Pos != null && (hullConfig.mount2CanFix || !g.config.fixed)) g2 = g;
+          continue;
+        }
+        if (hullConfig.mount1CanFix || !g.config.fixed) g1 = g;
+        continue;
+      }
+    }
+
+    return new FarShip(new Vector2(pos), new Vector2(spd), angle, rotSpd, pilot, ic, hullConfig, hullConfig.maxLife,
+      g1, g2, removeController, ei, hasRepairer ? new ShipRepairer() : null, money, tc, shield, armor);
   }
 
   public SolShip buildNew(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot,

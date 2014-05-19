@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.*;
 import com.miloshpetrov.sol2.game.dra.*;
+import com.miloshpetrov.sol2.game.planet.FarTileObj;
 import com.miloshpetrov.sol2.save.SaveData;
 
 import java.util.*;
@@ -256,6 +257,10 @@ public class ObjMan {
 
   public List<FarObj> getFarObjs() {
     return myFarObjs;
+  }
+
+  public void addFarObjDelayed(FarObj fo) {
+    myFarToAdd.add(fo);
   }
 
   public static class FarObjData {

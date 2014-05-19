@@ -5,8 +5,7 @@ import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.input.*;
-import com.miloshpetrov.sol2.game.ship.ShipBuilder;
-import com.miloshpetrov.sol2.game.ship.SolShip;
+import com.miloshpetrov.sol2.game.ship.*;
 
 import java.util.ArrayList;
 
@@ -49,8 +48,8 @@ public class MazeBuilder {
             tiles = inner ? config.innerPasses : config.borderPasses;
           }
           MazeTile tile = SolMath.elemRnd(tiles);
-          MazeTileObj mto = builder.build(game, tile, tilePos, tileAngle, SolMath.test(.5f));
-          game.getObjMan().addObjDelayed(mto);
+          MazeTileObj.MyFar mto = new MazeTileObj.MyFar(tile, tileAngle, new Vector2(tilePos), SolMath.test(.5f));
+          game.getObjMan().addFarObjDelayed(mto);
         }
 
         boolean dInner = col > 0 && row < mySz - 1 && layout.inners[col][row + 1];
@@ -67,8 +66,8 @@ public class MazeBuilder {
             tiles = inner ? config.innerPasses : config.borderPasses;
           }
           MazeTile tile = SolMath.elemRnd(tiles);
-          MazeTileObj mto = builder.build(game, tile, tilePos, tileAngle, SolMath.test(.5f));
-          game.getObjMan().addObjDelayed(mto);
+          MazeTileObj.MyFar mto = new MazeTileObj.MyFar(tile, tileAngle, new Vector2(tilePos), SolMath.test(.5f));
+          game.getObjMan().addFarObjDelayed(mto);
         }
       }
     }
@@ -132,8 +131,8 @@ public class MazeBuilder {
     boolean hasRepairer;
     hasRepairer = e.hasRepairer;
     int money = e.money;
-    SolShip s = sb.buildNew(game, pos, new Vector2(), angle, 0, pilot, e.items, e.hull, null, hasRepairer, money, null);
-    game.getObjMan().addObjDelayed(s);
+    FarShip s = sb.buildNewFar(game, pos, new Vector2(), angle, 0, pilot, e.items, e.hull, null, hasRepairer, money, null);
+    game.getObjMan().addFarObjDelayed(s);
   }
 
 

@@ -103,7 +103,7 @@ public class MazeTileObj implements SolObj {
     return true;
   }
 
-  private static class MyFar implements FarObj {
+  public static class MyFar implements FarObj {
 
     private final MazeTile myTile;
     private final float myAngle;

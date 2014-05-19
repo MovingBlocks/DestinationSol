@@ -22,11 +22,11 @@ public class Guardian implements MoveDestProvider {
   private SolShip myTarget;
   private FarShip myFarTarget;
 
-  public Guardian(SolGame game, SolShip target, HullConfig hullConfig) {
-    myTargetPilot = target.getPilot();
+  public Guardian(SolGame game, HullConfig hullConfig, Pilot targetPilot, Vector2 targetPos, HullConfig targetHc) {
+    myTargetPilot = targetPilot;
     myDest = new Vector2();
     myAngle = SolMath.rnd(180);
-    setDest(game, target.getPos(), target.getHull().config.approxRadius, hullConfig);
+    setDest(game, targetPos, targetHc.approxRadius, hullConfig);
   }
 
   @Override
