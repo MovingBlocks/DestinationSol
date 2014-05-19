@@ -12,7 +12,8 @@ import com.miloshpetrov.sol2.game.ship.*;
 import java.util.ArrayList;
 
 public class GalaxyFiller {
-  private SolShip myMainStation;
+  private Vector2 myMainStationPos;
+  private HullConfig myMainStationHc;
 
   public GalaxyFiller() {
   }
@@ -35,7 +36,7 @@ public class GalaxyFiller {
     return stationPos;
   }
 
-  private SolShip build(SolGame game, ShipConfig cfg, Fraction frac, boolean mainStation, SolSystem sys) {
+  private FarShip build(SolGame game, ShipConfig cfg, Fraction frac, boolean mainStation, SolSystem sys) {
     HullConfig hullConf = cfg.hull;
 
     MoveDestProvider dp;
@@ -61,8 +62,8 @@ public class GalaxyFiller {
     boolean hasRepairer;
     hasRepairer = cfg.hasRepairer;
     int money = cfg.money;
-    SolShip s = game.getShipBuilder().buildNew(game, pos, null, angle, 0, pilot, cfg.items, hullConf, null, hasRepairer, money, tradeConfig);
-    game.getObjMan().addObjDelayed(s);
+    FarShip s = game.getShipBuilder().buildNewFar(game, pos, null, angle, 0, pilot, cfg.items, hullConf, null, hasRepairer, money, tradeConfig);
+    game.getObjMan().addFarObjDelayed(s);
     ShipConfig guardConf = cfg.guard;
     if (guardConf != null) {
       for (int i = 0; i < guardConf.density; i++) {
@@ -78,7 +79,9 @@ public class GalaxyFiller {
     ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
 
     ShipConfig mainStationCfg = game.getPlayerSpawnConfig().mainStation;
-    myMainStation = build(game, mainStationCfg, Fraction.LAANI, true, systems.get(0));
+    FarShip mainStation = build(game, mainStationCfg, Fraction.LAANI, true, systems.get(0));
+    myMainStationPos = new Vector2(mainStation.getPos());
+    myMainStationHc = mainStation.getHullConfig();
 
     for (SolSystem sys : systems) {
       SysConfig sysConfig = sys.getConfig();
@@ -131,21 +134,25 @@ public class GalaxyFiller {
 
   private void link(SolGame game, Planet a, Planet b) {
     if (a == b) throw new AssertionError();
-    StarPort sp = game.getStarPortBuilder().build(game, a, b, false);
-    game.getObjMan().addObjDelayed(sp);
-    sp = game.getStarPortBuilder().build(game, b, a, true);
-    game.getObjMan().addObjDelayed(sp);
+    Vector2 aPos = StarPort.getDesiredPos(a, b, false);
+    StarPort.MyFar sp = new StarPort.MyFar(a, b, aPos, false);
+    SolMath.free(aPos);
+    game.getObjMan().addFarObjDelayed(sp);
+    Vector2 bPos = StarPort.getDesiredPos(b, a, false);
+    sp = new StarPort.MyFar(b, a, bPos, false);
+    SolMath.free(bPos);
+    game.getObjMan().addFarObjDelayed(sp);
   }
 
-  private void createGuard(SolGame game, SolShip target, ShipConfig guardConf, Fraction frac) {
-    Guardian dp = new Guardian(game, target, guardConf.hull);
+  private void createGuard(SolGame game, FarShip target, ShipConfig guardConf, Fraction frac) {
+    Guardian dp = new Guardian(game, guardConf.hull, target.getPilot(), target.getPos(), target.getHullConfig());
     float detectionDist = Const.AI_DET_DIST;
     Pilot pilot = new AiPilot(dp, true, frac, false, null, detectionDist);
     boolean hasRepairer = guardConf.hasRepairer;
     int money = guardConf.money;
-    SolShip e = game.getShipBuilder().buildNew(game, dp.getDest(), null, dp.getAngle(), 0, pilot, guardConf.items,
+    FarShip e = game.getShipBuilder().buildNewFar(game, dp.getDest(), null, dp.getAngle(), 0, pilot, guardConf.items,
       guardConf.hull, null, hasRepairer, money, null);
-    game.getObjMan().addObjDelayed(e);
+    game.getObjMan().addFarObjDelayed(e);
   }
 
   private Vector2 getEmptySpace(SolGame game, SolSystem s) {
@@ -168,9 +175,9 @@ public class GalaxyFiller {
       Planet p = game.getPlanetMan().getPlanets().get(0);
       pos.set(p.getPos());
       pos.x += p.getFullHeight();
-    } else if (DebugAspects.SPAWN_PLACE.isEmpty() && myMainStation != null) {
-      SolMath.fromAl(pos, 90, myMainStation.getHull().config.size / 2);
-      pos.add(myMainStation.getPos());
+    } else if (DebugAspects.SPAWN_PLACE.isEmpty() && myMainStationPos != null) {
+      SolMath.fromAl(pos, 90, myMainStationHc.size / 2);
+      pos.add(myMainStationPos);
     } else if ("maze".equals(DebugAspects.SPAWN_PLACE)) {
       Maze m = game.getPlanetMan().getMazes().get(0);
       pos.set(m.getPos());
@@ -189,8 +196,8 @@ public class GalaxyFiller {
     return pos;
   }
 
-  public SolShip getMainStation() {
-    return myMainStation;
+  public Vector2 getMainStationPos() {
+    return myMainStationPos;
   }
 
 }

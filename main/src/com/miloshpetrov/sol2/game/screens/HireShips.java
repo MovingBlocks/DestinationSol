@@ -72,7 +72,7 @@ public class HireShips implements InventoryOperations {
 
   private void hireShip(SolGame game, SolShip hero, MercItem selected) {
     ShipConfig config = selected.getConfig();
-    Guardian dp = new Guardian(game, hero, config.hull);
+    Guardian dp = new Guardian(game, config.hull, hero.getPilot(), hero.getPos(), hero.getHull().config);
     AiPilot pilot = new AiPilot(dp, true, Fraction.LAANI, false, "Merc", Const.AI_DET_DIST);
     Vector2 pos = getPos(game, hero, config.hull);
     SolShip merc = game.getShipBuilder().buildNew(game, pos, new Vector2(), 0, 0, pilot, config.items, config.hull, null, true, config.money, null);

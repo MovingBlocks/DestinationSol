@@ -11,8 +11,7 @@ import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.*;
 import com.miloshpetrov.sol2.game.input.*;
 import com.miloshpetrov.sol2.game.item.TradeConfig;
-import com.miloshpetrov.sol2.game.ship.HullConfig;
-import com.miloshpetrov.sol2.game.ship.SolShip;
+import com.miloshpetrov.sol2.game.ship.*;
 
 import java.util.*;
 
@@ -49,8 +48,8 @@ public class PlanetObjsBuilder {
 
     ShipConfig cfg = planet.getConfig().stationConfig;
     if (cfg != null) {
-      SolShip b = buildGroundShip(game, planet, cfg, planet.getConfig().tradeConfig, Fraction.LAANI, takenAngles);
-      game.getObjMan().addObjNow(game, b);
+      FarShip b = buildGroundShip(game, planet, cfg, planet.getConfig().tradeConfig, Fraction.LAANI, takenAngles);
+      game.getObjMan().addFarObjDelayed(b);
     }
 
     float gh = planet.getGroundHeight();
@@ -59,8 +58,8 @@ public class PlanetObjsBuilder {
     for (ShipConfig ge : config.groundEnemies) {
       int count = (int) (ge.density * gh);
       for (int i = 0; i < count; i++) {
-        SolShip e = buildGroundShip(game, planet, ge, null, Fraction.EHAR, takenAngles);
-        game.getObjMan().addObjDelayed(e);
+        FarShip e = buildGroundShip(game, planet, ge, null, Fraction.EHAR, takenAngles);
+        game.getObjMan().addFarObjDelayed(e);
       }
     }
 
@@ -84,8 +83,8 @@ public class PlanetObjsBuilder {
     for (ShipConfig oe : configs) {
       int count = counts.get(oe);
       for (int i = 0; i < count; i++) {
-        SolShip e = buildOrbitEnemy(game, planet, heightPerc, oe);
-        game.getObjMan().addObjDelayed(e);
+        FarShip e = buildOrbitEnemy(game, planet, heightPerc, oe);
+        game.getObjMan().addFarObjDelayed(e);
         heightPerc += stepPerc;
       }
     }
@@ -120,8 +119,13 @@ public class PlanetObjsBuilder {
         Tile tile = tileMap[col][row];
         if (tile == null) continue;
         float toPlanetRelAngle = 360f * col / cols;
-        TileObj to = new TileObjBuilder().build(game, tileSize, toPlanetRelAngle, tileDist, tile, planet);
-        game.getObjMan().addObjNow(game, to);
+        if (tile.points.isEmpty()) {
+          FarTileObj fto = new FarTileObj(planet, toPlanetRelAngle, tileDist, tileSize, tile);
+          game.getObjMan().addFarObjDelayed(fto);
+        } else {
+          TileObj to = new TileObjBuilder().build(game, tileSize, toPlanetRelAngle, tileDist, tile, planet);
+          game.getObjMan().addObjNow(game, to);
+        }
       }
     }
 
@@ -133,12 +137,12 @@ public class PlanetObjsBuilder {
     if (cloudTexs.isEmpty()) return;
     int cloudCount = SolMath.intRnd(.7f, (int) (CLOUD_DENSITY * Const.ATM_HEIGHT * planet.getGroundHeight()));
     for (int i = 0; i < cloudCount; i++) {
-      PlanetSprites cloud = createCloud(planet, cloudTexs, game.getTexMan());
-      game.getObjMan().addObjDelayed(cloud);
+      FarPlanetSprites cloud = createCloud(planet, cloudTexs, game.getTexMan());
+      game.getObjMan().addFarObjDelayed(cloud);
     }
   }
 
-  private PlanetSprites createCloud(Planet planet, ArrayList<TextureAtlas.AtlasRegion> cloudTexs, TexMan texMan) {
+  private FarPlanetSprites createCloud(Planet planet, ArrayList<TextureAtlas.AtlasRegion> cloudTexs, TexMan texMan) {
     float distPerc = SolMath.rnd(0, 1);
     float dist = planet.getGroundHeight() - TOP_TILE_SZ + .9f * Const.ATM_HEIGHT * distPerc;
     float angle = SolMath.rnd(180);
@@ -156,7 +160,7 @@ public class PlanetObjsBuilder {
     }
     float rotSpd = SolMath.rnd(.1f, 1) * SolMath.arcToAngle(MAX_CLOUD_LINEAR_SPD, dist);
 
-    return new PlanetSprites(planet, angle, dist, dras, rotSpd);
+    return new FarPlanetSprites(planet, angle, dist, dras, rotSpd);
   }
 
   private RectSprite createCloudSprite(ArrayList<TextureAtlas.AtlasRegion> cloudTexs,
@@ -199,8 +203,8 @@ public class PlanetObjsBuilder {
       List<Dra> ss = e.getValue();
       float packAngle = SolMath.angle(planetPos, packPos, true) - planetAngle;
       float packDist = packPos.dst(planetPos);
-      PlanetSprites ps = new PlanetSprites(planet, packAngle, packDist, ss, 0);
-      game.getObjMan().addObjDelayed(ps);
+      FarPlanetSprites ps = new FarPlanetSprites(planet, packAngle, packDist, ss, 0);
+      game.getObjMan().addFarObjDelayed(ps);
     }
   }
 
@@ -263,7 +267,8 @@ public class PlanetObjsBuilder {
     }
   }
 
-  public SolShip buildGroundShip(SolGame game, Planet planet, ShipConfig ge, TradeConfig tc,
+  public FarShip buildGroundShip(SolGame game, Planet planet, ShipConfig ge,
+    TradeConfig tc,
     Fraction fraction, ConsumedAngles takenAngles)
   {
     Vector2 pos = game.getPlanetMan().findFlatPlace(game, planet, takenAngles, ge.hull.approxRadius);
@@ -288,11 +293,11 @@ public class PlanetObjsBuilder {
     float detectionDist = Const.AI_DET_DIST;
     Pilot provider = new AiPilot(new StillGuard(pos, game, ge), false, fraction, true, null, detectionDist);
 
-    return game.getShipBuilder().buildNew(game, pos, spd, angle, 0, provider, ic, ge.hull,
+    return game.getShipBuilder().buildNewFar(game, pos, spd, angle, 0, provider, ic, ge.hull,
       null, hasRepairer, money, tc);
   }
 
-  public SolShip buildOrbitEnemy(SolGame game, Planet planet, float heightPerc, ShipConfig oe) {
+  public FarShip buildOrbitEnemy(SolGame game, Planet planet, float heightPerc, ShipConfig oe) {
     float height = planet.getGroundHeight() + heightPerc * Const.ATM_HEIGHT;
     Vector2 pos = new Vector2();
     SolMath.fromAl(pos, SolMath.rnd(180), height);
@@ -314,7 +319,7 @@ public class PlanetObjsBuilder {
     hasRepairer = oe.hasRepairer;
     int money = oe.money;
 
-    return game.getShipBuilder().buildNew(game, pos, spd, 0, 0, provider, oe.items, oe.hull,
+    return game.getShipBuilder().buildNewFar(game, pos, spd, 0, 0, provider, oe.items, oe.hull,
       null, hasRepairer, money, null);
   }
 

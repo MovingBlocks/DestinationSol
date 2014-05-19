@@ -7,7 +7,7 @@ import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
-import com.miloshpetrov.sol2.game.asteroid.Asteroid;
+import com.miloshpetrov.sol2.game.asteroid.FarAsteroid;
 import com.miloshpetrov.sol2.game.dra.*;
 import com.miloshpetrov.sol2.game.input.*;
 import com.miloshpetrov.sol2.game.maze.Maze;
@@ -103,8 +103,8 @@ public class ChunkFiller {
   }
 
   private void fillForSys(SolGame game, Vector2 chCenter, RemoveController remover, SysConfig conf) {
-    SolShip mainStation = game.getGalaxyFiller().getMainStation();
-    Vector2 startPos = mainStation == null ? new Vector2() : mainStation.getPos();
+    Vector2 mainStationPos = game.getGalaxyFiller().getMainStationPos();
+    Vector2 startPos = mainStationPos == null ? new Vector2() : mainStationPos;
     float dst = chCenter.dst(startPos);
     if (dst > Const.CHUNK_SIZE) {
       fillAsteroids(game, remover, false, chCenter);
@@ -119,12 +119,13 @@ public class ChunkFiller {
     if (count == 0) return;
     for (int i = 0; i < count; i++) {
       Vector2 enemyPos = getRndPos(chCenter);
-      SolShip ship = buildSpaceEnemy(game, enemyPos, remover, enemyConf);
-      if (ship != null) game.getObjMan().addObjDelayed(ship);
+      FarShip ship = buildSpaceEnemy(game, enemyPos, remover, enemyConf);
+      if (ship != null) game.getObjMan().addFarObjDelayed(ship);
     }
   }
 
-  public SolShip buildSpaceEnemy(SolGame game, Vector2 pos, RemoveController remover, ShipConfig enemyConf)
+  public FarShip buildSpaceEnemy(SolGame game, Vector2 pos, RemoveController remover,
+    ShipConfig enemyConf)
   {
     if (!game.isPlaceEmpty(pos)) return null;
     Vector2 spd = new Vector2();
@@ -138,7 +139,7 @@ public class ChunkFiller {
     hasRepairer = enemyConf.hasRepairer;
     int money = enemyConf.money;
     float angle = SolMath.rnd(180);
-    return game.getShipBuilder().buildNew(game, pos, spd, angle, rotSpd, provider, enemyConf.items, config,
+    return game.getShipBuilder().buildNewFar(game, pos, spd, angle, rotSpd, provider, enemyConf.items, config,
       remover, hasRepairer, money, null);
   }
 
@@ -155,8 +156,8 @@ public class ChunkFiller {
       Vector2 spd = new Vector2();
       SolMath.fromAl(spd, SolMath.rnd(180), MAX_A_SPD);
 
-      Asteroid a = game.getAsteroidBuilder().buildNew(game, asteroidPos, spd, sz, remover);
-      game.getObjMan().addObjDelayed(a);
+      FarAsteroid a = game.getAsteroidBuilder().buildNewFar(game, asteroidPos, spd, sz, remover);
+      game.getObjMan().addFarObjDelayed(a);
     }
   }
 
@@ -178,8 +179,8 @@ public class ChunkFiller {
       RectSprite s = new RectSprite(tex, sz, 0, 0, junkPos, draLevel, SolMath.rnd(180), SolMath.rnd(FAR_JUNK_MAX_ROT_SPD), Col.DDG, false);
       dras.add(s);
     }
-    DrasObj so = new DrasObj(dras, new Vector2(chCenter), new Vector2(), remover, false, true);
-    game.getObjMan().addObjDelayed(so);
+    FarDras so = new FarDras(dras, new Vector2(chCenter), new Vector2(), remover, true);
+    game.getObjMan().addFarObjDelayed(so);
   }
 
   private void fillJunk(SolGame game, RemoveController remover, SpaceEnvConfig conf, Vector2 chCenter) {
@@ -200,8 +201,8 @@ public class ChunkFiller {
 
       Vector2 spd = new Vector2();
       SolMath.fromAl(spd, SolMath.rnd(180), SolMath.rnd(JUNK_MAX_SPD_LEN));
-      DrasObj so = new DrasObj(dras, junkPos, spd, remover, false, true);
-      game.getObjMan().addObjDelayed(so);
+      FarDras so = new FarDras(dras, junkPos, spd, remover, true);
+      game.getObjMan().addFarObjDelayed(so);
     }
   }
 
@@ -216,8 +217,8 @@ public class ChunkFiller {
       RectSprite s = new RectSprite(tex, DUST_SZ, 0, 0, dustPos, DraLevel.JUNK, 0, 0, Col.W, false);
       dras.add(s);
     }
-    DrasObj so = new DrasObj(dras, chCenter, new Vector2(), remover, false, true);
-    game.getObjMan().addObjDelayed(so);
+    FarDras so = new FarDras(dras, chCenter, new Vector2(), remover, true);
+    game.getObjMan().addFarObjDelayed(so);
   }
 
   private Vector2 getRndPos(Vector2 chCenter) {
