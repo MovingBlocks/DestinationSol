@@ -118,16 +118,16 @@ public class ChunkFiller {
     int count = getEntityCount(enemyConf.density);
     if (count == 0) return;
     for (int i = 0; i < count; i++) {
-      Vector2 enemyPos = getRndPos(chCenter);
+      Vector2 enemyPos = getFreeRndPos(game, chCenter);
       FarShip ship = buildSpaceEnemy(game, enemyPos, remover, enemyConf);
-      if (ship != null) game.getObjMan().addFarObjDelayed(ship);
+      if (ship != null) game.getObjMan().addFarObjNow(ship);
     }
   }
 
   public FarShip buildSpaceEnemy(SolGame game, Vector2 pos, RemoveController remover,
     ShipConfig enemyConf)
   {
-    if (!game.isPlaceEmpty(pos)) return null;
+    if (pos == null) return null;
     Vector2 spd = new Vector2();
     SolMath.fromAl(spd, SolMath.rnd(180), SolMath.rnd(0, ENEMY_MAX_SPD));
     float rotSpd = SolMath.rnd(ENEMY_MAX_ROT_SPD);
@@ -148,8 +148,8 @@ public class ChunkFiller {
     int count = getEntityCount(density);
     if (count == 0) return;
     for (int i = 0; i < count; i++) {
-      Vector2 asteroidPos = getRndPos(chCenter);
-      if (!game.isPlaceEmpty(asteroidPos)) continue;
+      Vector2 asteroidPos = getFreeRndPos(game, chCenter);
+      if (asteroidPos == null) continue;
       float minSz = forBelt ? MIN_BELT_A_SZ : MIN_SYS_A_SZ;
       float maxSz = forBelt ? MAX_BELT_A_SZ : MAX_SYS_A_SZ;
       float sz = SolMath.rnd(minSz, maxSz);
@@ -157,7 +157,7 @@ public class ChunkFiller {
       SolMath.fromAl(spd, SolMath.rnd(180), MAX_A_SPD);
 
       FarAsteroid a = game.getAsteroidBuilder().buildNewFar(game, asteroidPos, spd, sz, remover);
-      game.getObjMan().addFarObjDelayed(a);
+      game.getObjMan().addFarObjNow(a);
     }
   }
 
@@ -180,7 +180,7 @@ public class ChunkFiller {
       dras.add(s);
     }
     FarDras so = new FarDras(dras, new Vector2(chCenter), new Vector2(), remover, true);
-    game.getObjMan().addFarObjDelayed(so);
+    game.getObjMan().addFarObjNow(so);
   }
 
   private void fillJunk(SolGame game, RemoveController remover, SpaceEnvConfig conf, Vector2 chCenter) {
@@ -202,7 +202,7 @@ public class ChunkFiller {
       Vector2 spd = new Vector2();
       SolMath.fromAl(spd, SolMath.rnd(180), SolMath.rnd(JUNK_MAX_SPD_LEN));
       FarDras so = new FarDras(dras, junkPos, spd, remover, true);
-      game.getObjMan().addFarObjDelayed(so);
+      game.getObjMan().addFarObjNow(so);
     }
   }
 
@@ -218,7 +218,17 @@ public class ChunkFiller {
       dras.add(s);
     }
     FarDras so = new FarDras(dras, chCenter, new Vector2(), remover, true);
-    game.getObjMan().addFarObjDelayed(so);
+    game.getObjMan().addFarObjNow(so);
+  }
+
+  private Vector2 getFreeRndPos(SolGame g, Vector2 chCenter) {
+    Vector2 pos = new Vector2(chCenter);
+    for (int i = 0; i < 100; i++) {
+      pos.x += SolMath.rnd(Const.CHUNK_SIZE/2);
+      pos.y += SolMath.rnd(Const.CHUNK_SIZE/2);
+      if (g.isPlaceEmpty(pos)) return pos;
+    }
+    return null;
   }
 
   private Vector2 getRndPos(Vector2 chCenter) {

@@ -53,4 +53,9 @@ public class FarAsteroid implements FarObj {
   public String toDebugString() {
     return null;
   }
+
+  @Override
+  public boolean hasBody() {
+    return true;
+  }
 }

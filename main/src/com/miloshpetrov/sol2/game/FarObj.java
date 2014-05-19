@@ -9,4 +9,5 @@ public interface FarObj {
   float getRadius();
   Vector2 getPos();
   String toDebugString();
+  boolean hasBody();
 }

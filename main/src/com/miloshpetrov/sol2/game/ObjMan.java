@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.*;
 import com.miloshpetrov.sol2.game.dra.*;
-import com.miloshpetrov.sol2.game.planet.FarTileObj;
 import com.miloshpetrov.sol2.save.SaveData;
 
 import java.util.*;
@@ -17,8 +16,6 @@ public class ObjMan {
   private final Set<SolObj> myToRemove;
   private final Set<SolObj> myToAdd;
   private final List<FarObj> myFarObjs;
-  private final Set<FarObj> myFarToAdd;
-  private final Set<FarObj> myFarToRemove;
   private final Map<FarObj, FarObjData> myFarObjDelays;
   private final World myWorld;
   private final Box2DDebugRenderer myDr;
@@ -33,8 +30,6 @@ public class ObjMan {
     myToRemove = new HashSet<SolObj>();
     myToAdd = new HashSet<SolObj>();
     myFarObjs = new ArrayList<FarObj>();
-    myFarToRemove = new HashSet<FarObj>();
-    myFarToAdd = new HashSet<FarObj>();
     myWorld = new World(new Vector2(0, 0), true);
     myWorld.setContactListener(contactListener);
     myWorld.setContactFilter(new SolContactFilter(fractionMan));
@@ -45,7 +40,9 @@ public class ObjMan {
 
   public void fill(SolGame game, SaveData sd) {
     if (sd != null) {
-      myFarToAdd.addAll(sd.farObjs);
+      for (FarObj fo : sd.farObjs) {
+        addFarObjNow(fo);
+      }
     } else {
       // build initial objs
 //      addObjNow(game, new SolObj.Test(game, new Vector2(), 0));
@@ -85,24 +82,27 @@ public class ObjMan {
       }
       if (isFar(o, camPos)) {
         FarObj fo = o.toFarObj();
-        if (fo != null) myFarToAdd.add(fo);
+        if (fo != null) addFarObjNow(fo);
         myToRemove.add(o);
         continue;
       }
       if (recalcRad) recalcRadius(o);
     }
 
-    for (FarObj fo : myFarObjs) {
+    for (Iterator<FarObj> it = myFarObjs.iterator(); it.hasNext(); ) {
+      FarObj fo = it.next();
       fo.update(game);
       SolMath.checkVectorsTaken(fo);
       if (fo.shouldBeRemoved(game)) {
-        myFarToRemove.add(fo);
+        it.remove();
+        myFarObjDelays.remove(fo);
         continue;
       }
       if (isNear(fo, camPos, ts)) {
         SolObj o = fo.toObj(game);
         myToAdd.add(o);
-        myFarToRemove.add(fo);
+        it.remove();
+        myFarObjDelays.remove(fo);
       }
     }
     addRemove(game);
@@ -129,19 +129,6 @@ public class ObjMan {
       addObjNow(game, o);
     }
     myToAdd.clear();
-
-    for (FarObj fo : myFarToRemove) {
-      myFarObjs.remove(fo);
-      myFarObjDelays.remove(fo);
-    }
-    myFarToRemove.clear();
-
-    for (FarObj fo : myFarToAdd) {
-      if (myFarObjs.contains(fo)) throw new AssertionError();
-      myFarObjs.add(fo);
-      myFarObjDelays.put(fo, new FarObjData());
-    }
-    myFarToAdd.clear();
   }
 
   private void removeObjNow(SolGame game, SolObj o) {
@@ -240,10 +227,6 @@ public class ObjMan {
     myToRemove.add(obj);
   }
 
-  public void removeFarObjDelayed(FarObj obj) {
-    myFarToRemove.add(obj);
-  }
-
   public World getWorld() {
     return myWorld;
   }
@@ -259,8 +242,9 @@ public class ObjMan {
     return myFarObjs;
   }
 
-  public void addFarObjDelayed(FarObj fo) {
-    myFarToAdd.add(fo);
+  public void addFarObjNow(FarObj fo) {
+    myFarObjs.add(fo);
+    myFarObjDelays.put(fo, new FarObjData());
   }
 
   public static class FarObjData {

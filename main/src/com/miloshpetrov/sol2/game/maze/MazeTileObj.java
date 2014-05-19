@@ -145,6 +145,11 @@ public class MazeTileObj implements SolObj {
     public String toDebugString() {
       return null;
     }
+
+    @Override
+    public boolean hasBody() {
+      return true;
+    }
   }
 
   public static class Builder {

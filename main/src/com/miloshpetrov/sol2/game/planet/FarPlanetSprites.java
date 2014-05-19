@@ -59,4 +59,9 @@ public class FarPlanetSprites implements FarObj {
   public String toDebugString() {
     return null;
   }
+
+  @Override
+  public boolean hasBody() {
+    return false;
+  }
 }

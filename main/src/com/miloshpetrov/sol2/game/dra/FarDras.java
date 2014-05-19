@@ -52,6 +52,11 @@ public class FarDras implements FarObj {
     return null;
   }
 
+  @Override
+  public boolean hasBody() {
+    return false;
+  }
+
   public List<Dra> getDras() {
     return myDras;
   }

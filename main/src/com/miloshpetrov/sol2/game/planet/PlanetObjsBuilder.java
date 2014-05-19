@@ -49,7 +49,7 @@ public class PlanetObjsBuilder {
     ShipConfig cfg = planet.getConfig().stationConfig;
     if (cfg != null) {
       FarShip b = buildGroundShip(game, planet, cfg, planet.getConfig().tradeConfig, Fraction.LAANI, takenAngles);
-      game.getObjMan().addFarObjDelayed(b);
+      game.getObjMan().addFarObjNow(b);
     }
 
     float gh = planet.getGroundHeight();
@@ -59,7 +59,7 @@ public class PlanetObjsBuilder {
       int count = (int) (ge.density * gh);
       for (int i = 0; i < count; i++) {
         FarShip e = buildGroundShip(game, planet, ge, null, Fraction.EHAR, takenAngles);
-        game.getObjMan().addFarObjDelayed(e);
+        game.getObjMan().addFarObjNow(e);
       }
     }
 
@@ -84,7 +84,7 @@ public class PlanetObjsBuilder {
       int count = counts.get(oe);
       for (int i = 0; i < count; i++) {
         FarShip e = buildOrbitEnemy(game, planet, heightPerc, oe);
-        game.getObjMan().addFarObjDelayed(e);
+        game.getObjMan().addFarObjNow(e);
         heightPerc += stepPerc;
       }
     }
@@ -121,7 +121,7 @@ public class PlanetObjsBuilder {
         float toPlanetRelAngle = 360f * col / cols;
         if (tile.points.isEmpty()) {
           FarTileObj fto = new FarTileObj(planet, toPlanetRelAngle, tileDist, tileSize, tile);
-          game.getObjMan().addFarObjDelayed(fto);
+          game.getObjMan().addFarObjNow(fto);
         } else {
           TileObj to = new TileObjBuilder().build(game, tileSize, toPlanetRelAngle, tileDist, tile, planet);
           game.getObjMan().addObjNow(game, to);
@@ -138,7 +138,7 @@ public class PlanetObjsBuilder {
     int cloudCount = SolMath.intRnd(.7f, (int) (CLOUD_DENSITY * Const.ATM_HEIGHT * planet.getGroundHeight()));
     for (int i = 0; i < cloudCount; i++) {
       FarPlanetSprites cloud = createCloud(planet, cloudTexs, game.getTexMan());
-      game.getObjMan().addFarObjDelayed(cloud);
+      game.getObjMan().addFarObjNow(cloud);
     }
   }
 
@@ -204,7 +204,7 @@ public class PlanetObjsBuilder {
       float packAngle = SolMath.angle(planetPos, packPos, true) - planetAngle;
       float packDist = packPos.dst(planetPos);
       FarPlanetSprites ps = new FarPlanetSprites(planet, packAngle, packDist, ss, 0);
-      game.getObjMan().addFarObjDelayed(ps);
+      game.getObjMan().addFarObjNow(ps);
     }
   }
 
