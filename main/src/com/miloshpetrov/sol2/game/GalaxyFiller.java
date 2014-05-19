@@ -63,7 +63,7 @@ public class GalaxyFiller {
     hasRepairer = cfg.hasRepairer;
     int money = cfg.money;
     FarShip s = game.getShipBuilder().buildNewFar(game, pos, null, angle, 0, pilot, cfg.items, hullConf, null, hasRepairer, money, tradeConfig);
-    game.getObjMan().addFarObjDelayed(s);
+    game.getObjMan().addFarObjNow(s);
     ShipConfig guardConf = cfg.guard;
     if (guardConf != null) {
       for (int i = 0; i < guardConf.density; i++) {
@@ -137,11 +137,11 @@ public class GalaxyFiller {
     Vector2 aPos = StarPort.getDesiredPos(a, b, false);
     StarPort.MyFar sp = new StarPort.MyFar(a, b, aPos, false);
     SolMath.free(aPos);
-    game.getObjMan().addFarObjDelayed(sp);
+    game.getObjMan().addFarObjNow(sp);
     Vector2 bPos = StarPort.getDesiredPos(b, a, false);
     sp = new StarPort.MyFar(b, a, bPos, false);
     SolMath.free(bPos);
-    game.getObjMan().addFarObjDelayed(sp);
+    game.getObjMan().addFarObjNow(sp);
   }
 
   private void createGuard(SolGame game, FarShip target, ShipConfig guardConf, Fraction frac) {
@@ -152,7 +152,7 @@ public class GalaxyFiller {
     int money = guardConf.money;
     FarShip e = game.getShipBuilder().buildNewFar(game, dp.getDest(), null, dp.getAngle(), 0, pilot, guardConf.items,
       guardConf.hull, null, hasRepairer, money, null);
-    game.getObjMan().addFarObjDelayed(e);
+    game.getObjMan().addFarObjNow(e);
   }
 
   private Vector2 getEmptySpace(SolGame game, SolSystem s) {

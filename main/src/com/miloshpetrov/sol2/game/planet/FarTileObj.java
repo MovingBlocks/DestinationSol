@@ -54,6 +54,11 @@ public class FarTileObj implements FarObj {
     return null;
   }
 
+  @Override
+  public boolean hasBody() {
+    return true;
+  }
+
   public float getAngle() {
     return myPlanet.getAngle() + myToPlanetAngle + 90;
   }

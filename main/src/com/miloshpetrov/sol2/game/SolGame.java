@@ -15,8 +15,7 @@ import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.input.*;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.*;
-import com.miloshpetrov.sol2.game.planet.Planet;
-import com.miloshpetrov.sol2.game.planet.PlanetMan;
+import com.miloshpetrov.sol2.game.planet.*;
 import com.miloshpetrov.sol2.game.screens.GameScreens;
 import com.miloshpetrov.sol2.game.ship.*;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
@@ -319,13 +318,20 @@ public class SolGame {
     Planet np = myPlanetMan.getNearestPlanet(pos);
     boolean inPlanet = np.getPos().dst(pos) < np.getFullHeight();
     if (inPlanet) return false;
+    SolSystem ns = myPlanetMan.getNearestSystem(pos);
+    if (ns.getPos().dst(pos) < SunSingleton.SUN_HOT_RAD) return false;
     for (SolObj o : myObjMan.getObjs()) {
       if (!o.hasBody()) continue;
       if (pos.dst(o.getPos()) < myObjMan.getRadius(o)) {
         return false;
       }
     }
-    // iterate over far objects?
+    for (FarObj o : myObjMan.getFarObjs()) {
+      if (!o.hasBody()) continue;
+      if (pos.dst(o.getPos()) < o.getRadius()) {
+        return false;
+      }
+    }
     return true;
   }
 

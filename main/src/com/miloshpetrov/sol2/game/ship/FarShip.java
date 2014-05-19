@@ -82,6 +82,11 @@ public class FarShip implements FarObj {
     return null;
   }
 
+  @Override
+  public boolean hasBody() {
+    return true;
+  }
+
   public void setPos(Vector2 pos) {
     myPos.set(pos);
   }

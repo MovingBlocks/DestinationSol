@@ -262,6 +262,11 @@ public class StarPort implements SolObj {
       return null;
     }
 
+    @Override
+    public boolean hasBody() {
+      return true;
+    }
+
     public Planet getFrom() {
       return myFrom;
     }

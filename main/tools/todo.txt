@@ -1,9 +1,5 @@
 
-SG.isPlaceEmpty should iterate over far objs
-
 mouse control vs repair
-check sun radius in map
-ships spawn in sun
 fix planet station origins
 mouse control + map = rotation
 ships get stuck in ground -- perhaps due to different conversion radii
