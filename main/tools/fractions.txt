@@ -41,7 +41,7 @@ Seen in:
   Green planet:
     turrets (piratePlanetTurret.png)
     small ships (pirateSmall.png)
-    medium ships -- orbiters (pirateMedium.png)
+    medium ships -- orbiters (pirateOrbiter.png TODO)
 Unique equipment prefix: Pirate XXX
 Unique equipment description: Worse versions of everything
 
@@ -93,7 +93,7 @@ Seen in:
   Desert planet:
     turrets (desertPlanetTurret.png -- TODO)
     small ships(beetle.png)
-    medium ships -- orbiters(hunter.png)
+    medium ships -- orbiters(bomber.png)
 Unique equipment prefix: Advanced XXX
 Unique equipment description: Best versions of bullet weapons, armor
 

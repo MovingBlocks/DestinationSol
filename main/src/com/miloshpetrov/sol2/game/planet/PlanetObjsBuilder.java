@@ -254,7 +254,7 @@ public class PlanetObjsBuilder {
 
 
       TextureAtlas.AtlasRegion decoTex = SolMath.elemRnd(dc.texs);
-      if (dc.allowFlip) decoTex = game.getTexMan().getFlipped(decoTex);
+      if (dc.allowFlip && SolMath.test(.5f)) decoTex = game.getTexMan().getFlipped(decoTex);
 
       RectSprite s = new RectSprite(decoTex, decoSz, dc.orig.x, dc.orig.y, decoRelPos, DraLevel.DECO, decoRelAngle, 0, Col.W, false);
       List<Dra> ss = collector.get(basePos);

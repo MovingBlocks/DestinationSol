@@ -62,7 +62,7 @@ public class Teleport implements ShipAbility {
   public void maybeTeleport(SolGame game, SolShip owner) {
     if (!myShouldTeleport) return;
 
-    TextureAtlas.AtlasRegion tex = game.getTexMan().getTex(TEX_PATH, false, null);
+    TextureAtlas.AtlasRegion tex = game.getTexMan().getTex(TEX_PATH, null);
     float blipSz = owner.getHull().config.approxRadius * 3;
     game.getPartMan().blip(game, owner.getPos(), SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
     game.getPartMan().blip(game, myNewPos, SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);

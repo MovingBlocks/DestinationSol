@@ -1,9 +1,9 @@
 
-lighter fd dark sand
-smoother edges
+trees on frozen
+
 
 far ship positions should be calculated on demand?
-
+em bombs on Frozen
 
 BUGS:
   mouse control vs repair
