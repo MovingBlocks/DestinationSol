@@ -144,9 +144,9 @@
     },
     deco: {
       tree: {
-        density: 0.3,
-        szMin: 0.7,
-        szMax: 0.8,
+        density: 0.25,
+        szMin: 0.5,
+        szMax: 0.7,
         orig: "0 0.5",
         allowFlip: false,
       },
@@ -154,12 +154,12 @@
         density: 0.05,
         szMin: 1,
         szMax: 1.1,
-        orig: "0 0.5",
+        orig: "0 0.3",
         allowFlip: true,
       },
       cactus: {
-        density: 0.4,
-        szMin: 0.3,
+        density: 0.5,
+        szMin: 0.2,
         szMax: 0.4,
         orig: "0 0.5",
         allowFlip: true,
