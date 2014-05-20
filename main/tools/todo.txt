@@ -1,9 +1,18 @@
 
-mouse control vs repair
-fix planet station origins
-mouse control + map = rotation
-ships get stuck in ground -- perhaps due to different conversion radii
-bg in title screen
+lighter fd dark sand
+smoother edges
+
+far ship positions should be calculated on demand?
+
+
+BUGS:
+  mouse control vs repair
+  fix planet station origins
+  mouse control + map = rotation
+  ships get stuck in ground -- perhaps due to different conversion radii
+  make title bigger
+  bg in title screen
+
 
 CONTENT:
   systemConfig:
@@ -25,28 +34,35 @@ DEPENDS ON GAME LENGTH:
   explorers should avoid tough enemies
 
 
-PERF:
+TEST ANDROID RUN:
   pack textures, launch on android to ensure that everything works
-  stress test on every object preloaded
-  split item icons from ui icons from ship icons
+
+
+PERF:
   map and ui should carefully draw. implement some class that helps to store values
-  texture packing is needed
-  optimize getVec? but don't remove, cuz freeing helps fix bugs
-  far ship positions should be calculated on demand?
-  cache body masses
-  cache other frequently used values: cam.realLineWidth?
-  compare dstSq instead of dst
-  use circles instead of polys where possible
+  cache frequently used values:
+    body masses
+    cam.realLineWidth?
+    some other calculated stuff
   split images into more folders:
     ship abilities from regular effects
     often used vs rarely used
   skip emitter ops if they're not working
-  if something can be recalculated rarely, do so
+  use circles instead of polys where possible
+
+
+ANDROID RUN 2:
+  stress test on every object preloaded
+
+
+PERF OPTIONAL:
+  split item icons from ui icons from ship icons
+  optimize getVec? but don't remove, cuz freeing helps fix bugs
+  compare dstSq instead of dst -- maybe not needed, iterating through object is only quadratic
 
 
 IN THE END:
   tutorial should consider new control type, also mobile, also highlight buttons
-  make title bigger
   demo
   check licenses:
     in-game:

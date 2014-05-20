@@ -136,7 +136,7 @@
     groundTexs: "grounds/desert",
     decoTexs: "deco/desert",
     cloudTexs: "skies/cloud",
-    rowCount: 2,
+    rowCount: 3,
     smoothLandscape: true,
     sky: {
       dawnColor: "hsb 200 50 100",
