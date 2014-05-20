@@ -8,9 +8,9 @@ import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public class Mover {
-  public static final float MIN_MOVE_AAD = 1f;
+  public static final float MIN_MOVE_AAD = 2f;
   public static final float MIN_ANGLE_TO_ACC = 5f;
-  public static final float MIN_PLANET_MOVE_AAD = 1f;
+  public static final float MIN_PLANET_MOVE_AAD = 2f;
   public static final float MAX_ABS_SPD_DEV = .1f;
   public static final float MAX_REL_SPD_DEV = .05f;
   private final BigObjAvoider myBigObjAvoider;
