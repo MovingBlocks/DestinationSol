@@ -1,37 +1,42 @@
 
 trees on frozen
+simplify orbiter.png
+add a stand to hummer
 
-
-far ship positions should be calculated on demand?
-em bombs on Frozen
-
-BUGS:
-  mouse control vs repair
-  fix planet station origins
-  mouse control + map = rotation
-  ships get stuck in ground -- perhaps due to different conversion radii
-  make title bigger
-  bg in title screen
+pirateSpaceTurret
+piratePlanetTurret
+desertPlanetTurret
 
 
 CONTENT:
+  GUNS!
+    em bombs on Frozen
+  ARMOR
+  SHIELDS
+  ability ammo?
   systemConfig:
     temporaryInnerEnemies
     isHard: true
   planetConfig:
     isHard: true
   belt: isHard
+
+
+MISC:
+  far ship positions should be calculated on demand?
+  mouse control vs repair
+  fix planet station origins
+  mouse control + map = rotation
+  ships get stuck in ground -- perhaps due to different conversion radii
+  make title bigger
+  bg in title screen
+  enemies should use abilities
   new title
   item pick up sound
   item color categories
 
 
-DEPENDS ON GAME LENGTH:
-  ability ammo?
-    enemies should use abilities?
-  save
-  respawn enemies
-  explorers should avoid tough enemies
+BALANCING
 
 
 TEST ANDROID RUN:
@@ -112,6 +117,9 @@ FEATURES
   random encounters
   better collision prediction (multipoint)
   planet labyrinths?
+  save?
+  respawn enemies
+  explorers should avoid tough enemies
   try using shaders
 
 PERF
