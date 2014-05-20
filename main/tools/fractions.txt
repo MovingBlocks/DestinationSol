@@ -31,17 +31,17 @@ Name: PIRATES
 Description: Basic bad guys seen in 1st system and green planets
 Color: Red + Grey?
 Ship design: Low-quality hand-made ships made from crap and details of other ships, highly asymmetrical
-Ability: None
+Ability: UnShield (drains shield energy)
 Seen in:
   Space:
     turrets (pirateSpaceTurret.png TODO)
     small ships -- truck guards (pirateSmall.png)
     medium ships -- hunters, station guards (pirateMedium.png)
-    big ships -- trucks (truck.png TODO -- add red colors)
+    big ships -- trucks (truck.png)
   Green planet:
-    turrets (piratePlanetTurret.png)
+    turrets (piratePlanetTurret.png -- TODO)
     small ships (pirateSmall.png)
-    medium ships -- orbiters (pirateOrbiter.png TODO)
+    medium ships -- orbiters (pirateOrbiter.png)
 Unique equipment prefix: Pirate XXX
 Unique equipment description: Worse versions of everything
 
@@ -50,14 +50,14 @@ Name: TECHIES
 Description: Advanced bad guys seen in frozen planets (only in 1st systems)
 Color: Metallic blue-ish grey
 Ship design: Blade-like
-Ability: UnShield (drains shield energy)
+Ability: Teleport around enemy
 Seen in:
   Frozen planet:
     turrets (hummer.png TODO add a stand)
     small ships (dagger.png)
     medium ships -- orbiters (corvette.png)
 Unique equipment prefix: Advanced XXX
-Unique equipment description: Best versions of energy weapons, shields
+Unique equipment description: Best versions of energy weapons, shields, em
 
 
 Name: MINERS
@@ -73,7 +73,7 @@ Seen in:
     turrets -- inner enemies(minerTurret.png)
     small ships -- inner enemies
     medium ships -- outer enemies
-    medium ship -- boss  (minerBoss.png -- TODO)
+    medium ship -- boss  (minerBoss.png)
     chests?
 Unique equipment prefix: Advanced XXX
 Unique equipment description: Best versions of rockets, also special weapon that knocks back
@@ -99,19 +99,6 @@ Unique equipment description: Best versions of bullet weapons, armor
 
 
 =============================== NICE TO HAVE:
-
-Name: ALIENS
-Description: Toughest guys seen in junk planets (only in 2nd system)
-Color: Black
-Ship design: ??
-Ability: emWave (disables controls of your ship for some time)
-Seen in:
-  Desert planet:
-    turrets(alienTurret.png TODO)
-    small ships (alienSmall.png TODO)
-    medium ships -- orbiters (alienMedium.png TODO)
-Unique equipment prefix: Alien XXX
-Unique equipment description: emGun, best energy weapons, shields, armor
 
 big ships:
   civilian trader
