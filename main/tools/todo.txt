@@ -1,12 +1,11 @@
 
-desertPlanetTurret
-
+paths & sizes
 
 CONTENT:
   GUNS & projectiles!
     em bombs on Frozen
-  ARMOR
   SHIELDS
+  ARMOR
   ability ammo?
   systemConfig:
     temporaryInnerEnemies
