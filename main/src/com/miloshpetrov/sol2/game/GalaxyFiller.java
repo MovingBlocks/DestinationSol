@@ -74,7 +74,7 @@ public class GalaxyFiller {
   }
 
   public void fill(SolGame game) {
-    if (DebugAspects.NO_OBJS) return;
+    if (DebugOptions.NO_OBJS) return;
     createStarPorts(game);
     ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
 
@@ -171,18 +171,18 @@ public class GalaxyFiller {
   public Vector2 getPlayerSpawnPos(SolGame game) {
     Vector2 pos = new Vector2(Const.SUN_RADIUS * 2, 0);
 
-    if ("planet".equals(DebugAspects.SPAWN_PLACE)) {
+    if ("planet".equals(DebugOptions.SPAWN_PLACE)) {
       Planet p = game.getPlanetMan().getPlanets().get(0);
       pos.set(p.getPos());
       pos.x += p.getFullHeight();
-    } else if (DebugAspects.SPAWN_PLACE.isEmpty() && myMainStationPos != null) {
+    } else if (DebugOptions.SPAWN_PLACE.isEmpty() && myMainStationPos != null) {
       SolMath.fromAl(pos, 90, myMainStationHc.size / 2);
       pos.add(myMainStationPos);
-    } else if ("maze".equals(DebugAspects.SPAWN_PLACE)) {
+    } else if ("maze".equals(DebugOptions.SPAWN_PLACE)) {
       Maze m = game.getPlanetMan().getMazes().get(0);
       pos.set(m.getPos());
       pos.x += m.getRadius();
-    } else if ("trader".equals(DebugAspects.SPAWN_PLACE)) {
+    } else if ("trader".equals(DebugOptions.SPAWN_PLACE)) {
       HullConfig cfg = game.getHullConfigs().getConfig("bus");
       for (FarObj fo : game.getObjMan().getFarObjs()) {
         if (!(fo instanceof FarShip)) continue;

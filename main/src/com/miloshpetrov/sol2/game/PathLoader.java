@@ -311,7 +311,7 @@ public class PathLoader {
     Vector2 orig;
     boolean found = attachFixture(body, pathName, fd, scale);
     if (!found) {
-      if (DebugAspects.PHYSICS_DEBUG) DebugCollector.warn("Could not find physics data for " + texDirName + "/" + texName);
+      DebugOptions.MISSING_PHYSICS_ACTION.handle("Could not find physics data for " + texDirName + "/" + texName);
       fd.shape = new CircleShape();
       fd.shape.setRadius(scale/2);
       body.createFixture(fd);

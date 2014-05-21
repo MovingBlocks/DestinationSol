@@ -44,7 +44,7 @@ public class ChunkFiller {
 
 
   public void fill(SolGame game, Vector2 chunk, RemoveController remover, boolean farBg) {
-    if (DebugAspects.NO_OBJS) return;
+    if (DebugOptions.NO_OBJS) return;
 
     Vector2 chCenter = new Vector2(chunk);
     chCenter.scl(Const.CHUNK_SIZE);

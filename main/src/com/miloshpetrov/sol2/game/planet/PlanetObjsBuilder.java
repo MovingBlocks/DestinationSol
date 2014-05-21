@@ -31,7 +31,7 @@ public class PlanetObjsBuilder {
 
 
   public float createPlanetObjs(SolGame game, Planet planet) {
-    if (DebugAspects.NO_OBJS) return 0;
+    if (DebugOptions.NO_OBJS) return 0;
     float minR = createGround(game, planet);
     createClouds(game, planet);
     createDeco(game, planet);

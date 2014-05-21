@@ -2,7 +2,7 @@ package com.miloshpetrov.sol2.ui;
 
 import com.badlogic.gdx.utils.TimeUtils;
 import com.miloshpetrov.sol2.common.Col;
-import com.miloshpetrov.sol2.game.DebugAspects;
+import com.miloshpetrov.sol2.game.DebugOptions;
 import com.miloshpetrov.sol2.game.screens.BorderDrawer;
 
 import java.util.*;
@@ -20,7 +20,7 @@ public class DebugCollector {
   }
 
   public static void debug(Object ... objs) {
-    if (!DebugAspects.STATS) return;
+    if (!DebugOptions.MISC_INFO) return;
     for (Object o : objs) {
       myDebugStrings.append(String.valueOf(o)).append(" ");
     }
@@ -28,7 +28,7 @@ public class DebugCollector {
   }
 
   public static void warn(Object ... objs) {
-    if (!DebugAspects.WARNINGS) return;
+    if (!DebugOptions.SHOW_WARNINGS) return;
     StringBuilder sb = new StringBuilder("WARNING: ");
     for (Object o : objs) {
       sb.append(String.valueOf(o)).append(" ");

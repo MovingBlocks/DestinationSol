@@ -127,18 +127,11 @@ public class SolGame {
     } else {
       pilot = new UiControlledPilot(myScreens.mainScreen);
     }
-    boolean god = DebugAspects.GOD_MODE;
-    HullConfig config = myPlayerSpawnConfig.shipConfig.hull;
-    String items = myPlayerSpawnConfig.shipConfig.items;
-    float money = myRespawnMoney == 0 ? myPlayerSpawnConfig.shipConfig.money : myRespawnMoney;
+    ShipConfig shipConfig = DebugOptions.GOD_MODE ? myPlayerSpawnConfig.godShipConfig : myPlayerSpawnConfig.shipConfig;
+    float money = myRespawnMoney == 0 ? shipConfig.money : myRespawnMoney;
     myRespawnMoney = 0;
-    boolean hasRepairer = myPlayerSpawnConfig.shipConfig.hasRepairer;
-    if (god) {
-      config = myHullConfigs.getConfig("vanguard");
-      items = "mg rl sBig aBig rep:1:6 sloMoCharge:1:6 b:1:6 r:1:6";
-      money = 1000;
-    }
-    myHero = myShipBuilder.buildNew(this, new Vector2(pos), null, 0, 0, pilot, items, config, null, hasRepairer, money, null);
+    myHero = myShipBuilder.buildNew(this, new Vector2(pos), null, 0, 0, pilot, shipConfig.items,
+      shipConfig.hull, null, shipConfig.hasRepairer, money, null);
 
     if (myTut) {
       myHero.getHull().setEngine(this, myHero, null);
@@ -147,7 +140,7 @@ public class SolGame {
       ic.add(secondary);
       GunItem slowGun = (GunItem)myItemMan.getExample("sg").copy();
       ic.add(slowGun);
-      myHero.getHull().getGunMount(true).setGun(this, myHero, secondary, config.g2UnderShip);
+      myHero.getHull().getGunMount(true).setGun(this, myHero, secondary, shipConfig.hull.g2UnderShip);
       int toAdd = 2 * Const.ITEMS_PER_PAGE - ic.size();
       for (int i = 0; i < toAdd; i++) {
         ic.add(myItemMan.random());
@@ -174,7 +167,7 @@ public class SolGame {
 
     if (myPaused) return;
 
-    myTimeFactor = DebugAspects.DEBUG_SLOWDOWN;
+    myTimeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
     if (myHero != null) {
       ShipAbility ability = myHero.getAbility();
       if (ability instanceof SloMo) {
@@ -221,13 +214,13 @@ public class SolGame {
   }
 
   public void drawDebug(Drawer drawer) {
-    if (DebugAspects.GRID_SZ > 0) myGridDrawer.draw(drawer, this, DebugAspects.GRID_SZ);
+    if (DebugOptions.GRID_SZ > 0) myGridDrawer.draw(drawer, this, DebugOptions.GRID_SZ);
     myPlanetMan.drawDebug(drawer, this);
     myObjMan.drawDebug(drawer, this);
-    if (DebugAspects.ZOOM_OVERRIDE != 0) myCam.drawDebug(drawer);
-    drawDebugPoint(drawer, DebugAspects.DEBUG_POINT, DebugCol.POINT);
-    drawDebugPoint(drawer, DebugAspects.DEBUG_POINT2, DebugCol.POINT2);
-    drawDebugPoint(drawer, DebugAspects.DEBUG_POINT3, DebugCol.POINT3);
+    if (DebugOptions.ZOOM_OVERRIDE != 0) myCam.drawDebug(drawer);
+    drawDebugPoint(drawer, DebugOptions.DEBUG_POINT, DebugCol.POINT);
+    drawDebugPoint(drawer, DebugOptions.DEBUG_POINT2, DebugCol.POINT2);
+    drawDebugPoint(drawer, DebugOptions.DEBUG_POINT3, DebugCol.POINT3);
   }
 
   private void drawDebugPoint(Drawer drawer, Vector2 dp, Color col) {

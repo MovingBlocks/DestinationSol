@@ -2,7 +2,7 @@ package com.miloshpetrov.sol2.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.miloshpetrov.sol2.game.DebugAspects;
+import com.miloshpetrov.sol2.game.DebugOptions;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -18,7 +18,7 @@ public class IniReader {
   public IniReader(String fileName) {
     myVals = new HashMap<String, String>();
     String lines = "";
-    if (DebugAspects.DEV_ROOT_PATH != null) fileName = DebugAspects.DEV_ROOT_PATH + fileName;
+    if (DebugOptions.DEV_ROOT_PATH != null) fileName = DebugOptions.DEV_ROOT_PATH + fileName;
     try {
       byte[] encoded = Files.readAllBytes(Paths.get(fileName));
       lines = Charset.defaultCharset().decode(ByteBuffer.wrap(encoded)).toString();
@@ -26,6 +26,10 @@ public class IniReader {
     }
 
     for (String line : lines.split("\n")) {
+      int commentStart = line.indexOf('#');
+      if (commentStart > 0) {
+        line = line.substring(commentStart);
+      }
       String[] sides = line.split("=");
       if (sides.length < 2) continue;
       String key = sides[0].trim();

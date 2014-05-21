@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.DevTexProvider;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.DebugCol;
-import com.miloshpetrov.sol2.game.DebugAspects;
+import com.miloshpetrov.sol2.game.DebugOptions;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.ui.FontSize;
 import com.miloshpetrov.sol2.ui.UiDrawer;
@@ -24,7 +24,7 @@ public class DraDebugger {
   }
 
   public void update(SolGame game) {
-    if (!DebugAspects.TEX_DEBUG) return;
+    if (!DebugOptions.TEX_INFO) return;
     maybeCollectTexs(game);
   }
 
