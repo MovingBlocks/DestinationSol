@@ -39,7 +39,7 @@ Seen in:
     medium ships -- hunters, station guards (pirateMedium.png)
     big ships -- trucks (truck.png)
   Green planet:
-    turrets (piratePlanetTurret.png -- TODO)
+    turrets (piratePlanetTurret.png)
     small ships (pirateSmall.png)
     medium ships -- orbiters (pirateOrbiter.png)
 Unique equipment prefix: Pirate XXX
@@ -91,7 +91,7 @@ Seen in:
     medium ships -- hunters (hunter.png)
     big ships(dragon.png)
   Desert planet:
-    turrets (desertPlanetTurret.png -- TODO)
+    turrets (desertPlanetTurret.png)
     small ships(beetle.png)
     medium ships -- orbiters(bomber.png)
 Unique equipment prefix: Advanced XXX
