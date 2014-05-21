@@ -1,15 +1,11 @@
 
-trees on frozen
-simplify orbiter.png
-add a stand to hummer
-
 pirateSpaceTurret
 piratePlanetTurret
 desertPlanetTurret
 
 
 CONTENT:
-  GUNS!
+  GUNS & projectiles!
     em bombs on Frozen
   ARMOR
   SHIELDS
@@ -22,6 +18,14 @@ CONTENT:
   belt: isHard
 
 
+DRAWING:
+  electricity particle
+  ui icons
+  trees on frozen
+  ability effects
+  new title
+
+
 MISC:
   far ship positions should be calculated on demand?
   mouse control vs repair
@@ -31,7 +35,6 @@ MISC:
   make title bigger
   bg in title screen
   enemies should use abilities
-  new title
   item pick up sound
   item color categories
 

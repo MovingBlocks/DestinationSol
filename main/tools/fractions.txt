@@ -20,7 +20,7 @@ Ability: Time Slow Down
 Seen in:
   Space:
     small ships -- guards of civilian ships (guardie.png)
-    small ships -- explorers (orbiter.png -- TODO needs simplification),
+    small ships -- explorers (orbiter.png),
     medium ships -- station guards (vanguard.png),
     stations (station.png),
 Unique equipment prefix: Imperial XXX
@@ -53,7 +53,7 @@ Ship design: Blade-like
 Ability: Teleport around enemy
 Seen in:
   Frozen planet:
-    turrets (hummer.png TODO add a stand)
+    turrets (hummer.png)
     small ships (dagger.png)
     medium ships -- orbiters (corvette.png)
 Unique equipment prefix: Advanced XXX
