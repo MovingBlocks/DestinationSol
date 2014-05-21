@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
-import com.miloshpetrov.sol2.game.DebugAspects;
+import com.miloshpetrov.sol2.game.DebugOptions;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.menu.GameOptions;
 import com.miloshpetrov.sol2.menu.MenuScreens;
@@ -24,7 +24,7 @@ public class SolCmp {
   private final SaveMan mySaveMan;
   private final TexMan myTexMan;
   private final SolLayouts myLayouts;
-  private final boolean myMobile;
+  private final boolean myReallyMobile;
   private final GameOptions myOptions;
 
   private String myFatalErrorMsg;
@@ -34,7 +34,7 @@ public class SolCmp {
   private SolGame myGame;
 
   public SolCmp() {
-    myMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
+    myReallyMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
     myOptions = new GameOptions();
 
     myTexMan = new TexMan();
@@ -148,7 +148,7 @@ public class SolCmp {
   }
 
   public boolean isMobile() {
-    return DebugAspects.MOBILE || myMobile;
+    return DebugOptions.EMULATE_MOBILE || myReallyMobile;
   }
 
   public GameOptions getOptions() {

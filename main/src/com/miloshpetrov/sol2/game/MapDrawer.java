@@ -151,7 +151,7 @@ public class MapDrawer {
       if ((o instanceof SolShip)) {
         SolShip ship = (SolShip) o;
         String hint = ship.getPilot().getMapHint();
-        if (hint == null && !DebugAspects.DETAILED_MAP) continue;
+        if (hint == null && !DebugOptions.DETAILED_MAP) continue;
         drawObjIcon(drawer, iconSz, oPos, ship.getAngle(), fractionMan, hero, ship.getPilot().getFraction(), heroToughness, o, ship.getHull().config.icon);
       }
       if ((o instanceof StarPort)) {
@@ -166,7 +166,7 @@ public class MapDrawer {
       if ((o instanceof FarShip)) {
         FarShip ship = (FarShip) o;
         String hint = ship.getPilot().getMapHint();
-        if (hint == null && !DebugAspects.DETAILED_MAP) continue;
+        if (hint == null && !DebugOptions.DETAILED_MAP) continue;
         drawObjIcon(drawer, iconSz, oPos, ship.getAngle(), fractionMan, hero, ship.getPilot().getFraction(), heroToughness, o, ship.getHullConfig().icon);
       }
       if ((o instanceof StarPort.MyFar)) {

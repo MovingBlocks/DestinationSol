@@ -7,6 +7,12 @@
       money: 20,
       repairer: true,
     },
+    godModeShip: {
+      hull: vanguard,
+      items: "mg rl sBig aBig rep:1:6 sloMoCharge:1:6 b:1:6 r:1:6",
+      money: 1000,
+      repairer: true,
+    },
   },
   mainStation: {
     hull: station,

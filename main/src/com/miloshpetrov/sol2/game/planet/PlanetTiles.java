@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.SolMath;
-import com.miloshpetrov.sol2.game.DebugAspects;
+import com.miloshpetrov.sol2.game.DebugOptions;
 import com.miloshpetrov.sol2.game.PathLoader;
 import com.miloshpetrov.sol2.ui.DebugCollector;
 
@@ -73,7 +73,7 @@ public class PlanetTiles {
   private List<Vector2> getDefaultRawPoints(SurfDir from, SurfDir to, String tileName) {
     ArrayList<Vector2> res = new ArrayList<Vector2>();
     if (from == SurfDir.UP && to == SurfDir.UP) return res;
-    if (DebugAspects.PHYSICS_DEBUG) DebugCollector.warn("no path found for ", tileName);
+    DebugOptions.MISSING_PHYSICS_ACTION.handle("no path found for " + tileName);
     res.add(new Vector2(.25f, .75f));
     if (from == SurfDir.FWD) {
       res.add(new Vector2(.25f, .5f));

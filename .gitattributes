@@ -394,7 +394,7 @@ main/src/com/miloshpetrov/sol2/game/AbilityCommonConfigs.java -text
 main/src/com/miloshpetrov/sol2/game/BeaconHandler.java -text
 main/src/com/miloshpetrov/sol2/game/CamRotStrategy.java -text
 main/src/com/miloshpetrov/sol2/game/ColorSpan.java -text
-main/src/com/miloshpetrov/sol2/game/DebugAspects.java -text
+main/src/com/miloshpetrov/sol2/game/DebugOptions.java -text
 main/src/com/miloshpetrov/sol2/game/Dir.java -text
 main/src/com/miloshpetrov/sol2/game/DmgType.java -text
 main/src/com/miloshpetrov/sol2/game/Drawer.java -text
@@ -406,6 +406,7 @@ main/src/com/miloshpetrov/sol2/game/GameCols.java -text
 main/src/com/miloshpetrov/sol2/game/GridDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/HsbSpan.java -text
 main/src/com/miloshpetrov/sol2/game/MapDrawer.java -text
+main/src/com/miloshpetrov/sol2/game/MissingResourceAction.java -text
 main/src/com/miloshpetrov/sol2/game/ObjMan.java -text
 main/src/com/miloshpetrov/sol2/game/PathLoader.java -text
 main/src/com/miloshpetrov/sol2/game/PlayerSpawnConfig.java -text

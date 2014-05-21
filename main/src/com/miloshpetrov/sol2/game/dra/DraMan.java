@@ -119,7 +119,7 @@ public class DraMan {
 
     game.getPlanetMan().drawSunHack(game, myDrawer);
 
-    if (DebugAspects.DRA_BORDERS) {
+    if (DebugOptions.DRAW_DRA_BORDERS) {
       for (Map<Texture, List<Dra>> map : myDras.values()) {
         for (List<Dra> dras : map.values()) {
           for (Dra dra : dras) {
@@ -145,7 +145,7 @@ public class DraMan {
   }
 
   public void update(SolGame game) {
-    if (DebugAspects.STATS) {
+    if (DebugOptions.MISC_INFO) {
       int count = 0;
       for (Map<Texture, List<Dra>> map : myDras.values()) {
         for (List<Dra> dras : map.values()) {

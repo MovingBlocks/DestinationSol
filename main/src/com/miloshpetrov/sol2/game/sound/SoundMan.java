@@ -11,7 +11,6 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.menu.IniReader;
-import com.miloshpetrov.sol2.ui.DebugCollector;
 
 import java.util.*;
 
@@ -58,7 +57,7 @@ public class SoundMan {
       if (configFile != null) {
         warnMsg += " (defined in " + configFile.path() + ")";
       }
-      if (DebugAspects.SOUND_DEBUG) DebugCollector.warn(warnMsg);
+      DebugOptions.MISSING_SOUND_ACTION.handle(warnMsg);
     }
     return res;
   }
@@ -94,7 +93,6 @@ public class SoundMan {
     if (source == null && pos == null) throw new AssertionError("pass either pos or source");
     if (source == null && sound.loopTime > 0) throw new AssertionError("looped sound without source object: " + sound.dir);
     if (sound == null) return;
-    if (DebugAspects.NO_SOUND) return;
 
     if (pos == null) pos = source.getPos();
 
@@ -106,7 +104,7 @@ public class SoundMan {
       float camToAtmDst = camPos.dst(np.getPos()) - np.getGroundHeight() - Const.ATM_HEIGHT/2;
       airPerc = SolMath.clamp(1 - camToAtmDst / (Const.ATM_HEIGHT / 2));
     }
-    if (DebugAspects.SOUND_IN_SPACE) airPerc = 1;
+    if (DebugOptions.SOUND_IN_SPACE) airPerc = 1;
     float maxSoundDist = 1 + 1.5f * airPerc * Const.CAM_VIEW_DIST_GROUND;
     float dst = pos.dst(camPos);
     float distMul = SolMath.clamp(1 - dst / maxSoundDist);
@@ -117,10 +115,11 @@ public class SoundMan {
     float pitch = SolMath.rnd(.95f, 1.05f) * game.getTimeFactor();
 
     if (skipLooped(source, sound, game.getTime())) return;
-    if (DebugAspects.SOUND_DEBUG) {
+    if (DebugOptions.SOUND_INFO) {
       myHintDrawer.add(source, pos, sound.getDebugString());
     }
     if (sound.sounds.isEmpty()) return;
+    if (DebugOptions.NO_SOUND) return;
     Sound sound0 = SolMath.elemRnd(sound.sounds);
     sound0.play(vol, pitch, 0);
   }
@@ -155,11 +154,11 @@ public class SoundMan {
   }
 
   public void drawDebug(Drawer drawer, SolGame game) {
-    if (DebugAspects.SOUND_DEBUG) myHintDrawer.draw(drawer, game);
+    if (DebugOptions.SOUND_INFO) myHintDrawer.draw(drawer, game);
   }
 
   public void update(SolGame game) {
-    if (DebugAspects.SOUND_DEBUG) myHintDrawer.update(game);
+    if (DebugOptions.SOUND_INFO) myHintDrawer.update(game);
     cleanLooped(game);
   }
 

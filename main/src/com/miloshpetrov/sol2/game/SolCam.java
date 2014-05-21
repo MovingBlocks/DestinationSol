@@ -53,7 +53,7 @@ public class SolCam {
     if (hero == null) {
       StarPort.Transcendent trans = game.getTranscendentHero();
       if (trans == null) {
-        if (DebugAspects.DIRECT_CAM_CONTROL) {
+        if (DebugOptions.DIRECT_CAM_CONTROL) {
           applyInput(game);
         }
       } else {
@@ -122,8 +122,8 @@ public class SolCam {
       myCam.zoom = mapDrawer.getZoom();
       return;
     }
-    if (DebugAspects.ZOOM_OVERRIDE != 0) {
-      myCam.zoom = DebugAspects.ZOOM_OVERRIDE;
+    if (DebugOptions.ZOOM_OVERRIDE != 0) {
+      myCam.zoom = DebugOptions.ZOOM_OVERRIDE;
       return;
     }
     myCam.zoom = myZoom;

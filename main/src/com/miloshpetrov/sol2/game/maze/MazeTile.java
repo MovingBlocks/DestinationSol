@@ -2,7 +2,7 @@ package com.miloshpetrov.sol2.game.maze;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.game.DebugAspects;
+import com.miloshpetrov.sol2.game.DebugOptions;
 import com.miloshpetrov.sol2.game.PathLoader;
 import com.miloshpetrov.sol2.game.asteroid.AsteroidBuilder;
 import com.miloshpetrov.sol2.ui.DebugCollector;
@@ -36,7 +36,7 @@ public class MazeTile {
       points.add(vertices);
     }
     if (points.isEmpty() && wall) {
-      if (DebugAspects.PHYSICS_DEBUG) DebugCollector.warn("found no paths for " + pathEntryName);
+      DebugOptions.MISSING_PHYSICS_ACTION.handle("found no paths for " + pathEntryName);
       ArrayList<Vector2> wallPoints = new ArrayList<Vector2>();
       wallPoints.add(new Vector2(0, .4f));
       wallPoints.add(new Vector2(1, .45f));

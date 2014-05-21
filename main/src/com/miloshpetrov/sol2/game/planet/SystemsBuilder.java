@@ -3,7 +3,7 @@ package com.miloshpetrov.sol2.game.planet;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
-import com.miloshpetrov.sol2.game.DebugAspects;
+import com.miloshpetrov.sol2.game.DebugOptions;
 import com.miloshpetrov.sol2.game.SolNames;
 import com.miloshpetrov.sol2.game.maze.*;
 
@@ -114,7 +114,7 @@ public class SystemsBuilder {
     PlanetConfigs planetConfigs,
     float sysRadius, SysConfigs sysConfigs, SolNames names)
   {
-    String st = DebugAspects.FORCE_SYSTEM_TYPE;
+    String st = DebugOptions.FORCE_SYSTEM_TYPE;
     SysConfig sysConfig = st.isEmpty() ? sysConfigs.getRandom() : sysConfigs.getConfig(st);
     String name = SolMath.elemRnd(names.systems);
     SolSystem s = new SolSystem(sysPos, sysConfig, name);
@@ -129,7 +129,7 @@ public class SystemsBuilder {
       }
       planetDist += reserved;
       if (gh > 0) {
-        String pt = DebugAspects.FORCE_PLANET_TYPE;
+        String pt = DebugOptions.FORCE_PLANET_TYPE;
         PlanetConfig planetConfig = pt.isEmpty() ? planetConfigs.getRandom() : planetConfigs.getConfig(pt);
         Planet p = createPlanet(planetDist, s, gh, planetConfig, names);
         planets.add(p);
