@@ -1,5 +1,4 @@
 
-pirateSpaceTurret
 piratePlanetTurret
 desertPlanetTurret
 
@@ -47,6 +46,8 @@ TEST ANDROID RUN:
 
 
 PERF:
+  remove unnecessary files
+  resize some textures down
   map and ui should carefully draw. implement some class that helps to store values
   cache frequently used values:
     body masses
