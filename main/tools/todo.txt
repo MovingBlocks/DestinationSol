@@ -1,18 +1,14 @@
 
-fix planet station origins
-
-CONTENT:
-  paths
-  sizes
-  GUNS & projectiles!
-    em bombs on Frozen
-    give guns full names
-  SHIELDS
-  ARMOR
+get rid of mandatory hasRepairer
+sizes
+GUNS & projectiles!
+  em bombs on Frozen
+  give items full names
+SHIELDS
+ARMOR
 
 
 INITIAL BALANCE:
-  get rid of mandatory hasRepairer
   systemConfig:
     temporaryInnerEnemies
     isHard: true
@@ -44,6 +40,7 @@ MISC:
   enemies should use abilities
   item pick up sound
   item color categories
+  improve physics paths
 
 
 TEST ANDROID RUN:

@@ -88,6 +88,8 @@ public class HullConfigs {
 
   private void process(HullConfig config, ShipBuilder shipBuilder) {
     Vector2 o = shipBuilder.getOrigin(config.texName);
+    config.origin.set(o);
+    config.origin.scl(config.size);
     config.g1Pos.sub(o).scl(config.size);
     if (config.g2Pos != null) config.g2Pos.sub(o).scl(config.size);
     config.e1Pos.sub(o).scl(config.size);

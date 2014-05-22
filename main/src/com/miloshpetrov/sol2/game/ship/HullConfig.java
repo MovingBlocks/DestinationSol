@@ -32,6 +32,7 @@ public class HullConfig {
   public final String displayName;
   public final float price;
   public final String desc;
+  public final Vector2 origin = new Vector2();
 
   public HullConfig(String texName, float size, int maxLife, Vector2 e1Pos, Vector2 e2Pos, Vector2 g1Pos,
     Vector2 g2Pos, ArrayList<Vector2> lightSrcPoss,

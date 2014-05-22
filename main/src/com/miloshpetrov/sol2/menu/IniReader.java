@@ -27,8 +27,8 @@ public class IniReader {
 
     for (String line : lines.split("\n")) {
       int commentStart = line.indexOf('#');
-      if (commentStart > 0) {
-        line = line.substring(commentStart);
+      if (commentStart >= 0) {
+        line = line.substring(0, commentStart);
       }
       String[] sides = line.split("=");
       if (sides.length < 2) continue;

@@ -277,11 +277,14 @@ public class PlanetObjsBuilder {
     boolean hasRepairer;
     hasRepairer = ge.hasRepairer;
     int money = ge.money;
-    if (!station) {
-      float height = pos.len();
-      float aboveGround = ge.hull.size * .25f;
-      pos.scl((height + aboveGround)/height);
+    float height = pos.len();
+    float aboveGround;
+    if (station) {
+      aboveGround = ge.hull.size * .75f - ge.hull.origin.y;
+    } else {
+      aboveGround = ge.hull.approxRadius;
     }
+    pos.scl((height + aboveGround)/height);
     SolMath.toWorld(pos, pos, planet.getAngle(), planet.getPos(), false);
 
     Vector2 toPlanet = SolMath.getVec(planet.getPos()).sub(pos);
