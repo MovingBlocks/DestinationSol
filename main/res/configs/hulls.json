@@ -1,26 +1,4 @@
 {
-  alienSmall: {
-    texName: alienSmall,
-    size: 0.4,
-    maxLife: 22,
-    g1Pos: "0.25 0.15",
-    g2Pos: "0.25 0.85",
-    e1Pos: "0.1 0.47",
-    e2Pos: "0.1 0.53",
-    type: std,
-    engine: std,
-  },
-  alienMedium: {
-    texName: alienMedium,
-    size: 0.4,
-    maxLife: 22,
-    g1Pos: "0.25 0.15",
-    g2Pos: "0.25 0.85",
-    e1Pos: "0.1 0.47",
-    e2Pos: "0.1 0.53",
-    type: std,
-    engine: std,
-  },
   dagger: {
     texName: dagger,
     size: 0.4,
@@ -243,14 +221,6 @@
     size: 0.8,
     maxLife: 10,
     g1Pos: "0.5 0.4",
-    type: station,
-  },
-  alienTurret: {
-    texName: alienTurret,
-    size: 0.8,
-    maxLife: 10,
-    g1Pos: "0.5 0.4",
-    g2Pos: "0 0",
     type: station,
   },
   desertPlanetTurret: {
