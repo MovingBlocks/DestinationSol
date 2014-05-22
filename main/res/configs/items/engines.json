@@ -1,15 +1,25 @@
 {
-  std: {
+  imperial: {
     big: false,
     workSound: "engines/medWork",
     effect: {
       effectFile: flame,
       size: 0.07,
       tex: fire,
-      tint: "133 168 245",
+      tint: "hsb 140 20 65",
     },
   },
   pirate: {
+    big: false,
+    workSound: "engines/medWork",
+    effect: {
+      effectFile: flame,
+      size: 0.07,
+      tex: fire,
+      tint: "hsb 8 75 100",
+    },
+  },
+  desert: {
     big: false,
     workSound: "engines/medWork",
     effect: {
@@ -29,15 +39,45 @@
       tint: smoke,
     },
   },
-  
-  big: {
+  techie: {
+    big: false,
+    workSound: "engines/medWork",
+    effect: {
+      effectFile: techieEngine,
+      size: 0.07,
+      tex: techieTrail,
+      tint: white,
+    },
+  },
+
+  imperialBig: {
     big: true,
     workSound: "engines/medWork",
     effect: {
       effectFile: flame,
       size: 0.3,
       tex: fire,
-      tint: "133 168 245",
+      tint: "hsb 140 20 65",
+    },
+  },
+  pirateBig: {
+    big: true,
+    workSound: "engines/medWork",
+    effect: {
+      effectFile: flame,
+      size: 0.3,
+      tex: fire,
+      tint: "hsb 8 75 100",
+    },
+  },
+  desertBig: {
+    big: true,
+    workSound: "engines/medWork",
+    effect: {
+      effectFile: flame,
+      size: 0.3,
+      tex: smoke,
+      tint: fire,
     },
   },
 }

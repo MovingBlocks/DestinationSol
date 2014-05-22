@@ -13,7 +13,7 @@
     name: "Dagger",
     desc: "desc",
     price: 250,
-    engine: std,
+    engine: techie,
   },
   minerSmall: {
     texName: minerSmall,
@@ -42,7 +42,7 @@
     name: "Beetle",
     desc: "desc",
     price: 150,
-    engine: std,
+    engine: desert,
   },
   station: {
     texName: station,
@@ -85,7 +85,7 @@
       "0.5 0.87",
     ],
     type: big,
-    engine: big,
+    engine: imperialBig,
   },
   dragon: {
     texName: dragon,
@@ -96,7 +96,7 @@
     e1Pos: "0 0.3",
     e2Pos: "0 0.7",
     type: big,
-    engine: big,
+    engine: desertBig,
   },
   vanguard: {
     texName: vanguard,
@@ -110,7 +110,7 @@
     name: "vanguard",
     desc: "desc",
     price: 200,
-    engine: std,
+    engine: imperial,
   },
   minerBoss: {
     texName: minerBoss,
@@ -132,7 +132,7 @@
     e1Pos: "0.04 0.4",
     e2Pos: "0.04 0.6",
     type: big,
-    engine: big,
+    engine: pirateBig,
   },
   hunter: {
     texName: hunter,
@@ -146,7 +146,7 @@
     name: "Hunter",
     desc: "desc",
     price: 200,
-    engine: pirate,
+    engine: desert,
   },
   bomber: {
     texName: bomber,
@@ -159,7 +159,7 @@
     name: "Bomber",
     desc: "desc",
     price: 200,
-    engine: pirate,
+    engine: desert,
   },
   minerMedium: {
     texName: minerMedium,
@@ -199,7 +199,7 @@
     name: "Orbiter",
     desc: "desc",
     price: 200,
-    engine: std,
+    engine: imperial,
   },
   pirateOrbiter: {
     texName: pirateOrbiter,
@@ -214,7 +214,7 @@
     name: "Orbiter",
     desc: "desc",
     price: 200,
-    engine: std,
+    engine: pirate,
   },
   hummer: {
     texName: hummer,
@@ -276,7 +276,7 @@
     name: "Small Guardian",
     desc: "desc",
     price: 200,
-    engine: std,
+    engine: imperial,
     ability: {
       type: emWave,
       force: 2000,
@@ -301,7 +301,7 @@
     name: "Small Pirate",
     desc: "desc",
     price: 200,
-    engine: std,
+    engine: pirate,
   },
   corvette: {
     texName: corvette,
@@ -317,6 +317,6 @@
     name: "Corvette",
     desc: "desc",
     price: 200,
-    engine: std,
+    engine: techie,
   },
 }

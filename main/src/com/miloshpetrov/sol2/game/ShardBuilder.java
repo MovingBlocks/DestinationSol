@@ -24,7 +24,7 @@ public class ShardBuilder {
   private final ArrayList<TextureAtlas.AtlasRegion> myTexs;
 
   public ShardBuilder(TexMan texMan) {
-    myPathLoader = new PathLoader("shards");
+    myPathLoader = new PathLoader("misc");
     myTexs = texMan.getPack("shards/shard", null);
   }
 
