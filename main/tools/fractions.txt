@@ -29,7 +29,7 @@ Unique equipment description: Better versions of standard equipment, basic rocke
 
 Name: PIRATES
 Description: Basic bad guys seen in 1st system and green planets
-Color: Red + Grey?
+Color: Red + Grey
 Ship design: Low-quality hand-made ships made from crap and details of other ships, highly asymmetrical
 Ability: UnShield (drains shield energy)
 Seen in:
@@ -46,18 +46,23 @@ Unique equipment prefix: Pirate XXX
 Unique equipment description: Worse versions of everything
 
 
-Name: TECHIES
-Description: Advanced bad guys seen in frozen planets (only in 1st systems)
-Color: Metallic blue-ish grey
-Ship design: Blade-like
-Ability: Teleport around enemy
+Name: DESERT CLAN
+Description: Tough bad guys seen in desert planets and space of 2nd system
+Color: Copper/Brass
+Ship design: Should resemble works of brass or copper -- cezve, lamps, etc
+Ability: teleport (teleports ship around its enemy to avoid projectiles and just for fun)
 Seen in:
-  Frozen planet:
-    turrets (hummer.png)
-    small ships (dagger.png)
-    medium ships -- orbiters (corvette.png)
+  Space:
+    turrets (hawk.png)
+    small ships(beetle.png)
+    medium ships -- hunters (hunter.png)
+    big ships(dragon.png)
+  Desert planet:
+    turrets (desertPlanetTurret.png)
+    small ships(beetle.png)
+    medium ships -- orbiters(bomber.png)
 Unique equipment prefix: Advanced XXX
-Unique equipment description: Best versions of energy weapons, shields, em
+Unique equipment description: Best versions of bullet weapons, armor
 
 
 Name: MINERS
@@ -79,23 +84,18 @@ Unique equipment prefix: Advanced XXX
 Unique equipment description: Best versions of rockets, also special weapon that knocks back
 
 
-Name: DESERT CLAN
-Description: Tough bad guys seen in desert planets and space of 2nd system
-Color: Copper/Brass
-Ship design: Should resemble works of brass or copper -- cezve, lamps, etc
-Ability: teleport (teleports ship around its enemy to avoid projectiles and just for fun)
+Name: TECHIES
+Description: Advanced bad guys seen in frozen planets (only in 1st systems)
+Color: Metallic blue-ish grey
+Ship design: Blade-like
+Ability: EM charge
 Seen in:
-  Space:
-    turrets (hawk.png)
-    small ships(beetle.png)
-    medium ships -- hunters (hunter.png)
-    big ships(dragon.png)
-  Desert planet:
-    turrets (desertPlanetTurret.png)
-    small ships(beetle.png)
-    medium ships -- orbiters(bomber.png)
+  Frozen planet:
+    turrets (hummer.png)
+    small ships (dagger.png)
+    medium ships -- orbiters (corvette.png)
 Unique equipment prefix: Advanced XXX
-Unique equipment description: Best versions of bullet weapons, armor
+Unique equipment description: Best versions of energy weapons, shields, em
 
 
 =============================== NICE TO HAVE:

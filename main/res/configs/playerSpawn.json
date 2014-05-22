@@ -2,7 +2,7 @@
   __readme__: "for player.spawnPlace, use one of the following: station, planet, maze, trader",
   player: {
     ship: {
-      hull: guardie,
+      hull: dagger,
       items: "sg s a r:1:2 b:1:4 rep:1:2 emWaveCharge:1:6",
       money: 20,
       repairer: true,

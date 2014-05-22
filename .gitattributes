@@ -217,6 +217,7 @@ main/imgSrcs/particles/pack.json -text
 main/imgSrcs/particles/sloMo.png -text
 main/imgSrcs/particles/smoke.png -text
 main/imgSrcs/particles/spark.png -text
+main/imgSrcs/particles/techieTrail.png -text
 main/imgSrcs/particles/unShield.png -text
 main/imgSrcs/projectiles/bolter.png -text
 main/imgSrcs/projectiles/bullet.png -text
@@ -274,6 +275,7 @@ main/res/emitters/smoke.p -text
 main/res/emitters/smokeEngine.p -text
 main/res/emitters/spark.p -text
 main/res/emitters/starPortFlow.p -text
+main/res/emitters/techieEngine.p -text
 main/res/emitters/transcendentWork.p -text
 main/res/fonts/main.fnt -text
 main/res/fonts/main_0.png -text
