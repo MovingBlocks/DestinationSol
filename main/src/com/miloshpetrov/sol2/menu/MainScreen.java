@@ -41,7 +41,7 @@ public class MainScreen implements SolUiScreen {
     myExitCtrl.setDisplayName("Exit");
     myControls.add(myExitCtrl);
 
-    myTitleTex = texMan.getTex("misc/title", null);
+    myTitleTex = texMan.getTex("ui/title", null);
   }
 
   public List<SolUiControl> getControls() {
