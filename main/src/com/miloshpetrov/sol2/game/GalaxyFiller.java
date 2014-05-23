@@ -60,7 +60,7 @@ public class GalaxyFiller {
     Pilot pilot = new AiPilot(dp, true, frac, true, "something", detectionDist);
     float angle = mainStation ? 0 : SolMath.rnd(180);
     boolean hasRepairer;
-    hasRepairer = cfg.hasRepairer;
+    hasRepairer = frac == Fraction.LAANI;
     int money = cfg.money;
     FarShip s = game.getShipBuilder().buildNewFar(game, pos, null, angle, 0, pilot, cfg.items, hullConf, null, hasRepairer, money, tradeConfig);
     game.getObjMan().addFarObjNow(s);
@@ -148,7 +148,7 @@ public class GalaxyFiller {
     Guardian dp = new Guardian(game, guardConf.hull, target.getPilot(), target.getPos(), target.getHullConfig());
     float detectionDist = Const.AI_DET_DIST;
     Pilot pilot = new AiPilot(dp, true, frac, false, null, detectionDist);
-    boolean hasRepairer = guardConf.hasRepairer;
+    boolean hasRepairer = frac == Fraction.LAANI;
     int money = guardConf.money;
     FarShip e = game.getShipBuilder().buildNewFar(game, dp.getDest(), null, dp.getAngle(), 0, pilot, guardConf.items,
       guardConf.hull, null, hasRepairer, money, null);

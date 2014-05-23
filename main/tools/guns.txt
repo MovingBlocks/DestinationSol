@@ -1,0 +1,68 @@
+fixed == faster
+
+plasmaGun = Pirate Plasma Gun
+blaster
+gun = Machine Gun
+fixedGun = Heavy Machine Gun
+shotGun
+f missileLauncher
+cannon
+f rocketLauncher
+f railGun
+f missilePad
+fixedPlasmaGun = Plasma Gun
+f nailGun
+fixedBlaster = Heavy Blaster
+fixedShotGun = Heavy Shotgun
+emGun
+fixedEmGun = Heavy EM Gun
+fixedCannon = Heavy Cannon
+waveGun
+
++ 3 types of bombs
+
+EMPIRE:
+common weapons:
+  blaster
+  gun
+  fixedGun
+  cannon
+  f rocketLauncher
+  fixedPlasmaGun
+unique weapons:
+  shotGun
+  fixedShotGun
+
+PIRATES:
+common weapons:
+  blaster
+  gun
+  fixedPlasmaGun
+unique weapons:
+  plasmaGun
+
+DESERT CLAN:
+common weapons:
+  gun
+  fixedGun
+  cannon
+unique weapons:
+  f railGun
+  fixedCannon
+
+MINERS:
+common weapons:
+  f rocketLauncher
+unique weapons: 
+  f missileLauncher
+  f nailGun
+  f missilePad
+
+TECHIES:
+common weapons:
+  fixedPlasmaGun
+unique weapons:
+  fixedBlaster
+  emGun
+  fixedEmGun
+  waveGun

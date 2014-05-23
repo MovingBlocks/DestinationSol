@@ -131,7 +131,7 @@ public class SolGame {
     float money = myRespawnMoney == 0 ? shipConfig.money : myRespawnMoney;
     myRespawnMoney = 0;
     myHero = myShipBuilder.buildNew(this, new Vector2(pos), null, 0, 0, pilot, shipConfig.items,
-      shipConfig.hull, null, shipConfig.hasRepairer, money, null);
+      shipConfig.hull, null, true, money, null);
 
     if (myTut) {
       myHero.getHull().setEngine(this, myHero, null);

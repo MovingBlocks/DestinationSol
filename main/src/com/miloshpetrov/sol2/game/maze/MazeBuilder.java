@@ -129,9 +129,8 @@ public class MazeBuilder {
     if (inner) viewDist *= .2f;
     Pilot pilot = new AiPilot(new StillGuard(pos, game, e), false, Fraction.EHAR, true, null, viewDist);
     boolean hasRepairer;
-    hasRepairer = e.hasRepairer;
     int money = e.money;
-    FarShip s = sb.buildNewFar(game, pos, new Vector2(), angle, 0, pilot, e.items, e.hull, null, hasRepairer, money, null);
+    FarShip s = sb.buildNewFar(game, pos, new Vector2(), angle, 0, pilot, e.items, e.hull, null, false, money, null);
     game.getObjMan().addFarObjNow(s);
   }
 

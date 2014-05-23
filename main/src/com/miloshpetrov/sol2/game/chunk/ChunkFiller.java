@@ -135,12 +135,10 @@ public class ChunkFiller {
     MoveDestProvider dp = new StillGuard(pos, game, enemyConf);
     Pilot provider = new AiPilot(dp, false, Fraction.EHAR, true, null, detectionDist);
     HullConfig config = enemyConf.hull;
-    boolean hasRepairer;
-    hasRepairer = enemyConf.hasRepairer;
     int money = enemyConf.money;
     float angle = SolMath.rnd(180);
     return game.getShipBuilder().buildNewFar(game, pos, spd, angle, rotSpd, provider, enemyConf.items, config,
-      remover, hasRepairer, money, null);
+      remover, false, money, null);
   }
 
   private void fillAsteroids(SolGame game, RemoveController remover, boolean forBelt, Vector2 chCenter) {

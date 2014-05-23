@@ -9,52 +9,45 @@
     constantAllies: [
       {
         hull: station,
-        items: "mg rl r:1:4",
-		money: 300,
+        items: "",
 		repairer: true,
         density: 0.2,
         guard: {
           hull: vanguard,
-          items: "b:1:4 r:1:2 rl|mg sBig aBig",
+          items: "",
 		  money: 50,
-		  repairer: false,
           density: 3,
         }
       },
       {
         hull: orbiter,
-        items: "b:1:4 rep:.8:2 bo|mg sMed|sBig:.5 aMed|aBig:.3",
-		money: 300,
-		repairer: true,
+        items: "",
+		money: 100,
         density: 1,
       },
       {
         hull: bus,
-        items: "mg rl aBig sBig b:1:4 r:1:4 rep:1:4",
-		money: 300,
-		repairer: true,
+        items: "",
+		money: 100,
         density: 0.3,
       },
     ],
     constantEnemies: [
       {
-        hull: pirateMedium,
-        items: "b:1:4 rep:.8:2 bo|mg sMed|sBig:.5 aMed|aBig:.3",
-		money: 300,
-		repairer: true,
+        hull: pirateSmall,
+        items: "",
+		money: 100,
         density: 1,
       },
       {
         hull: truck,
-        items: "bo s|sMed",
-		money: 300,
-		repairer: true,
+        items: "",
+		money: 200,
         density: 1,
         guard: {
           hull: pirateSmall,
-          items: "b:1:2 bo|sg s|sMed:.2 a:.2 rep:.4",
+          items: "",
 		  money: 50,
-		  repairer: false,
           density: 3,
         }
       },
@@ -62,17 +55,9 @@
     temporaryEnemies: [
       {
         hull: pirateSpaceTurret,
-        items: "wbo s:.1 b:.3 rep:.5",
+        items: "",
 		money: 20,
-		repairer: false,
         density: 0.001,
-      },
-      {
-        hull: pirateSmall,
-        items: "mg|sg rl|bo:.3 b:.7:4 r:.5:2 rep:.8",
-		money: 20,
-		repairer: false,
-        density: 0.0003,
       },
     ],
     trading: {
@@ -81,9 +66,8 @@
       mercenaries: [
         {
           hull: pirateSmall,
-          items: "wbo s:.1 b:.3 rep:.5",
+          items: "",
           money: 20,
-          repairer: true,
           hirePrice: 100,
           displayName: "A Mighty Pirate",
           desc: desc,
@@ -101,55 +85,37 @@
     constantAllies: [
       {
         hull: station,
-        items: "mg rl r:1:4",
+        items: "",
 		money: 300,
 		repairer: true,
         density: 0.2,
         guard: {
           hull: vanguard,
-          items: "b:1:4 r:1:2 rl|mg sBig aBig",
+          items: "",
 		  money: 50,
-		  repairer: false,
           density: 3,
         }
-      },
-      {
-        hull: orbiter,
-        items: "b:1:4 rep:.8:2 bo|mg sMed|sBig:.5 aMed|aBig:.3",
-		money: 300,
-		repairer: true,
-        density: 1,
-      },
-      {
-        hull: bus,
-        items: "mg rl aBig sBig b:1:4 r:1:4 rep:1:4",
-		money: 300,
-		repairer: true,
-        density: 0.3,
       },
     ],
     constantEnemies: [
       {
         hull: hunter,
-        items: "b:1:4 rep:.8:2 bo|mg sMed|sBig:.5 aMed|aBig:.3",
-		money: 300,
-		repairer: true,
+        items: "",
+		money: 100,
         density: 1,
       },
     ],
     temporaryEnemies: [
       {
         hull: hawk,
-        items: "wbo s:.1 b:.3 rep:.5",
+        items: "",
 		money: 20,
-		repairer: false,
         density: 0.001,
       },
       {
-        hull: dragon,
-        items: "mg|sg rl|bo:.3 b:.7:4 r:.5:2 rep:.8",
+        hull: beetle,
+        items: "",
 		money: 20,
-		repairer: false,
         density: 0.0003,
       },
     ],
