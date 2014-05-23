@@ -1,25 +1,27 @@
 fixed == faster
 
-plasmaGun = Pirate Plasma Gun
-blaster
-gun = Machine Gun
-fixedGun = Heavy Machine Gun
-shotGun
-f missileLauncher
-cannon
-f rocketLauncher
-f railGun
-f missilePad
-fixedPlasmaGun = Plasma Gun
-f nailGun
-fixedBlaster = Heavy Blaster
-fixedShotGun = Heavy Shotgun
-emGun
-fixedEmGun = Heavy EM Gun
-fixedCannon = Heavy Cannon
-waveGun
+plasmaGun = Pirate Plasma Gun / plasmaClip
+miner / mineClip
+blaster / infinite
+bombGun / bombClip
+gun = Machine Gun / bulletClip
+fixedGun = Heavy Machine Gun / bulletClip
+shotGun / shellClip
+fixedBombGun / bombClip
+f missileLauncher / missileClip
+cannon / slugClip
+f rocketLauncher / rocketClip
+f railGun / railClip
+f missilePad / missileClip
+fixedPlasmaGun = Plasma Gun / plasmaClip
+f nailGun / nailClip
+fixedBlaster = Heavy Blaster / infinite
+fixedShotGun = Heavy Shotgun / shellClip
+emGun / infinite
+fixedEmGun = Heavy EM Gun / infinite
+fixedCannon = Heavy Cannon / slugClip
+waveGun / infinite
 
-+ 3 types of bombs
 
 EMPIRE:
 common weapons:

@@ -10,34 +10,30 @@
     outerEnemies: [
       {
         hull: minerMedium,
-        items: "s:.2 a:.3 bo sloMoCharge:.7:3 rep:.4",
+        items: "",
 		money: 20,
-		repairer: false,
         density: 0.03,
       }
     ],
     innerEnemies: [
       {
         hull: minerTurret,
-        items: "bo|sg|mg rep s|sMed:.1 b:.7:2 r:.7:1",
+        items: "",
 		money: 20,
-		repairer: false,
         density: 0.01,
       },
       {
         hull: minerSmall,
-        items: "bo|sg|mg rep s|sMed:.1 b:.7:2 r:.7:1",
+        items: "",
 		money: 20,
-		repairer: false,
         density: 0.01,
       },
     ],
     bosses: [
       {
         hull: minerBoss,
-        items: "bo|sg|mg rep s|sMed:.1 b:.7:2 r:.7:1",
+        items: "",
 		money: 20,
-		repairer: false,
       },
     ],
   },

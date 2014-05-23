@@ -37,7 +37,7 @@ public class ItemMan {
     AbilityCharge.Config.load(this, texMan);
 
     ClipConfig.load(this, texMan);
-    GunConfig.load(texMan, this, soundMan, texMan);
+    GunConfig.load(texMan, this, soundMan);
 
     myM.put("rep", RepairItem.EXAMPLE);
 

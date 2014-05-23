@@ -10,7 +10,6 @@ import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.*;
-import com.miloshpetrov.sol2.game.gun.GunConfig;
 import com.miloshpetrov.sol2.game.item.Shield;
 import com.miloshpetrov.sol2.game.particle.*;
 import com.miloshpetrov.sol2.game.ship.SolShip;
@@ -29,15 +28,13 @@ public class Projectile implements SolObj {
   private final ParticleSrc myTrailEffect;
   private final LightSrc myLightSrc;
   private final ProjectileConfig myConfig;
-  private final GunConfig myGunConfig;
 
   private boolean myShouldRemove;
   private SolObj myObstacle;
 
   public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpd, Fraction fraction,
-    ProjectileConfig config, boolean varySpd, GunConfig gunConfig)
+    ProjectileConfig config, boolean varySpd)
   {
-    myGunConfig = gunConfig;
     myDras = new ArrayList<Dra>();
     myConfig = config;
 
@@ -85,8 +82,8 @@ public class Projectile implements SolObj {
     myBody.update(game);
     if (myObstacle != null) {
       collided(game);
-      myObstacle.receiveDmg(myGunConfig.dmg, game, myBody.getPos(), myConfig.dmgType);
-      if (myGunConfig.emTime > 0 && myObstacle instanceof SolShip) ((SolShip) myObstacle).disableControls(myGunConfig.emTime, game);
+      myObstacle.receiveDmg(myConfig.dmg, game, myBody.getPos(), myConfig.dmgType);
+      if (myConfig.emTime > 0 && myObstacle instanceof SolShip) ((SolShip) myObstacle).disableControls(myConfig.emTime, game);
       return;
     }
     if (myLightSrc != null) myLightSrc.update(true, myBody.getAngle(), game);

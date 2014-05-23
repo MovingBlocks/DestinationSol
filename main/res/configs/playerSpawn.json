@@ -2,28 +2,24 @@
   __readme__: "for player.spawnPlace, use one of the following: station, planet, maze, trader",
   player: {
     ship: {
-      hull: dagger,
-      items: "sg s a r:1:2 b:1:4 rep:1:2 emWaveCharge:1:6",
+      hull: guardie,
+      items: "",
       money: 20,
-      repairer: true,
     },
     godModeShip: {
       hull: vanguard,
-      items: "mg rl sBig aBig rep:1:6 sloMoCharge:1:6 b:1:6 r:1:6",
+      items: "",
       money: 1000,
-      repairer: true,
     },
   },
   mainStation: {
     hull: station,
-    items: "mg rl r:1:4",
+    items: "",
 	money: 300,
-	repairer: true,
     guard: {
       hull: vanguard,
-      items: "b:1:4 r:1:2 rl|mg sBig aBig",
+      items: "",
 	  money: 50,
-	  repairer: false,
       density: 3,
     }
   },

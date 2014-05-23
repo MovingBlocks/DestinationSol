@@ -31,7 +31,7 @@ public class ProjectileConfigs {
       TextureAtlas.AtlasRegion tex = texMan.getTex(texName, configFile);
       float texSz = sh.getFloat("texSz");
       float spdLen = sh.getFloat("spdLen");
-      float physSize = sh.getFloat("physSize");
+      float physSize = sh.getFloat("physSize", 0);
       boolean stretch = sh.getBoolean("stretch", false);
       DmgType dmgType = DmgType.forName(sh.getString("dmgType"));
       String collisionSoundPath = sh.getString("collisionSound");
@@ -48,8 +48,10 @@ public class ProjectileConfigs {
       SolSound workSound = soundMan.getLoopedSound(sh.getString("workSound", ""), configFile);
       boolean bodyless = sh.getBoolean("massless", false);
       float density = sh.getFloat("density", -1);
+      float dmg = sh.getFloat("dmg");
+      float emTime = sh.getFloat("emTime", 0);
       ProjectileConfig c = new ProjectileConfig(tex, texSz, spdLen, stretch, physSize, dmgType, collisionSound,
-        lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg, zeroAbsSpd, origin, acc, workSound, bodyless, density, guideRotSpd);
+        lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg, zeroAbsSpd, origin, acc, workSound, bodyless, density, guideRotSpd, dmg, emTime);
       myConfigs.put(sh.name, c);
     }
   }
