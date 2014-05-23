@@ -8,8 +8,6 @@ Seen in:
     big ships -- traders (bus.png)
   Planets:
     trade posts (drome.png)
-Unique equipment prefix: None
-Unique equipment description: Basic bullet weapons, energy weapons, shields, armor
 
 
 Name: EMPIRE
@@ -23,8 +21,6 @@ Seen in:
     small ships -- explorers (orbiter.png),
     medium ships -- station guards (vanguard.png),
     stations (station.png),
-Unique equipment prefix: Imperial XXX
-Unique equipment description: Better versions of standard equipment, basic rockets
 
 
 Name: PIRATES
@@ -42,8 +38,6 @@ Seen in:
     turrets (piratePlanetTurret.png)
     small ships (pirateSmall.png)
     medium ships -- orbiters (pirateOrbiter.png)
-Unique equipment prefix: Pirate XXX
-Unique equipment description: Worse versions of everything
 
 
 Name: DESERT CLAN
@@ -61,8 +55,6 @@ Seen in:
     turrets (desertPlanetTurret.png)
     small ships(beetle.png)
     medium ships -- orbiters(bomber.png)
-Unique equipment prefix: Advanced XXX
-Unique equipment description: Best versions of bullet weapons, armor
 
 
 Name: MINERS
@@ -80,8 +72,6 @@ Seen in:
     medium ships -- outer enemies
     medium ship -- boss  (minerBoss.png)
     chests?
-Unique equipment prefix: Advanced XXX
-Unique equipment description: Best versions of rockets, also special weapon that knocks back
 
 
 Name: TECHIES
@@ -94,8 +84,6 @@ Seen in:
     turrets (hummer.png)
     small ships (dagger.png)
     medium ships -- orbiters (corvette.png)
-Unique equipment prefix: Advanced XXX
-Unique equipment description: Best versions of energy weapons, shields, em
 
 
 =============================== NICE TO HAVE:

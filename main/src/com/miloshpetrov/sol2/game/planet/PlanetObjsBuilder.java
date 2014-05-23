@@ -275,7 +275,7 @@ public class PlanetObjsBuilder {
     boolean station = ge.hull.type == HullConfig.Type.STATION;
     String ic = ge.items;
     boolean hasRepairer;
-    hasRepairer = ge.hasRepairer;
+    hasRepairer = fraction == Fraction.LAANI;
     int money = ge.money;
     float height = pos.len();
     float aboveGround;
@@ -319,11 +319,10 @@ public class PlanetObjsBuilder {
     Pilot provider = new AiPilot(dp, false, Fraction.EHAR, true, null, detectionDist);
 
     boolean hasRepairer;
-    hasRepairer = oe.hasRepairer;
     int money = oe.money;
 
     return game.getShipBuilder().buildNewFar(game, pos, spd, 0, 0, provider, oe.items, oe.hull,
-      null, hasRepairer, money, null);
+      null, false, money, null);
   }
 
   public static class ConsumedAngles {

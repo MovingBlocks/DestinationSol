@@ -10,19 +10,17 @@ public class ShipConfig {
   public final HullConfig hull;
   public final String items;
   public final int money;
-  public final boolean hasRepairer;
   public final float density;
   public final ShipConfig guard;
   public final float hirePrice;
   public final String displayName;
   public final String desc;
 
-  public ShipConfig(HullConfig hull, String items, int money, boolean hasRepairer,
+  public ShipConfig(HullConfig hull, String items, int money,
     float density, ShipConfig guard, float hirePrice, String displayName, String desc) {
     this.hull = hull;
     this.items = items;
     this.money = money;
-    this.hasRepairer = hasRepairer;
     this.density = density;
     this.guard = guard;
     this.hirePrice = hirePrice;
@@ -45,9 +43,7 @@ public class ShipConfig {
     String hullName = shipNode.getString("hull");
     HullConfig hull = hullConfigs.getConfig(hullName);
     String items = shipNode.getString("items");
-    int money = shipNode.getInt("money");
-    boolean hasRepairer;
-    hasRepairer = shipNode.getBoolean("repairer");
+    int money = shipNode.getInt("money", 0);
     float density = shipNode.getFloat("density", -1);
     ShipConfig guard;
     if (shipNode.hasChild("guard")) {
@@ -58,7 +54,7 @@ public class ShipConfig {
     float hirePrice = shipNode.getFloat("hirePrice", 0);
     String displayName = shipNode.getString("displayName", null);
     String desc = shipNode.getString("desc", null);
-    return new ShipConfig(hull, items, money, hasRepairer, density, guard, hirePrice, displayName, desc);
+    return new ShipConfig(hull, items, money, density, guard, hirePrice, displayName, desc);
   }
 
 }

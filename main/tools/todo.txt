@@ -1,4 +1,5 @@
 
+
 get rid of mandatory hasRepairer
 sizes
 GUNS & projectiles!
@@ -6,6 +7,7 @@ GUNS & projectiles!
   give items full names
 SHIELDS
 ARMOR
+ability charges
 
 
 INITIAL BALANCE:
@@ -19,7 +21,8 @@ INITIAL BALANCE:
 
 
 UI:
-  dangerous regions & planets
+  dangerous regions & planets (2 radii for each)
+    create method to check the theoretical difficulty of enemies
 
 
 DRAWING:
@@ -31,9 +34,15 @@ DRAWING:
 
 
 MISC:
+  smarter rocket guide
+  better far ship update -- looks like it's not accurate now, guardians fly too fast
+  ammo count in inv -- implement map, isSame should return false on all stateful objects, check isSame usages
+  longer planet turret shoot dist -- should be just like anybody's else
+  unfixed mounts should point forward when no enemy
+  auto fill ships with ammo & ability charges
   far ship positions should be calculated on demand?
-  mouse control vs repair
-  mouse control + map = rotation
+  ship rotation shouldn't affect repair
+  ship rotates on map when controlled by mouse
   ships get stuck in ground -- perhaps due to different conversion radii
   make title bigger
   bg in title screen
@@ -58,6 +67,7 @@ PERF:
     body masses
     cam.realLineWidth?
     some other calculated stuff
+    object's distance to np, to cam?
   skip emitter ops if they're not working
   use circles instead of polys where possible
 
