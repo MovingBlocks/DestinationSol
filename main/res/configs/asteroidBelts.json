@@ -9,10 +9,9 @@
     temporaryEnemies: [
       {
         hull: minerSmall,
-        items: "wbo s:.1 b:.3 rep:.5",
+        items: "",
 		money: 20,
-		repairer: false,
-        density: 0.01,
+        density: 0.005,
       },
     ],
   }

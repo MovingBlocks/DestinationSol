@@ -8,18 +8,6 @@
     },
     constantAllies: [
       {
-        hull: station,
-        items: "",
-		repairer: true,
-        density: 0.2,
-        guard: {
-          hull: vanguard,
-          items: "",
-		  money: 50,
-          density: 3,
-        }
-      },
-      {
         hull: orbiter,
         items: "",
 		money: 100,
@@ -30,6 +18,18 @@
         items: "",
 		money: 100,
         density: 0.3,
+      },
+      {
+        hull: station,
+        items: "",
+		repairer: true,
+        density: 0.2,
+        guard: {
+          hull: vanguard,
+          items: "",
+		  money: 50,
+          density: 3,
+        }
       },
     ],
     constantEnemies: [
@@ -60,6 +60,20 @@
         density: 0.001,
       },
     ],
+    innerTemporaryEnemies: {
+      {
+        hull: pirateSpaceTurret,
+        items: "",
+        money: 20,
+        density: 0.001,
+      },
+      {
+        hull: pirateMedium,
+        items: "",
+        money: 20,
+        density: 0.0003,
+      },
+    }
     trading: {
       items: "bo b rep",
       ships: "guardie orbiter",
@@ -119,5 +133,19 @@
         density: 0.0003,
       },
     ],
+    innerTemporaryEnemies: [
+      {
+        hull: hawk,
+        items: "",
+		money: 20,
+        density: 0.001,
+      },
+      {
+        hull: dragon,
+        items: "",
+		money: 20,
+        density: 0.0003,
+      },
+    ]
   },
 }

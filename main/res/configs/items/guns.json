@@ -33,7 +33,6 @@
     descBase: "",
     infiniteClipSize: 12,
     dmg: 0,
-    emTime: 1,
     clipName: "",
     shootSound: "guns/waveGun/shoot",
     reloadSound: "guns/waveGun/reload",

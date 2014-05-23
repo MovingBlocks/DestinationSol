@@ -21,7 +21,7 @@ INITIAL BALANCE:
 
 
 UI:
-  dangerous regions & planets (2 radii for each)
+  dangerous system regions (3 radii) & planets (2 radii)
     create method to check the theoretical difficulty of enemies
 
 

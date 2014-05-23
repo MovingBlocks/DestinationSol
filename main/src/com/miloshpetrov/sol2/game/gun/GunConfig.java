@@ -27,7 +27,6 @@ public class GunConfig {
   public final int price;
   public final String desc;
   public final int infiniteClipSize;
-  public final float dmg;
   public final float dps;
   public final GunItem example;
   public final ClipConfig clipConf;
@@ -35,22 +34,20 @@ public class GunConfig {
   public final SolSound reloadSound;
   public final TextureAtlas.AtlasRegion icon;
   public final int projectilesPerShot;
-  public final float emTime;
   public final boolean fixed;
 
   public GunConfig(float minAngleVar, float maxAngleVar, float angleVarDamp, float angleVarPerShot,
     float timeBetweenShots,
     float maxReloadTime, ProjectileConfig projConfig, float gunLength, String displayName,
-    boolean lightOnShot, int price, String descBase, int infiniteClipSize, float dmg,
+    boolean lightOnShot, int price, String descBase, int infiniteClipSize,
     ClipConfig clipConf, SolSound shootSound, SolSound reloadSound, TextureAtlas.AtlasRegion tex,
-    TextureAtlas.AtlasRegion icon, int projectilesPerShot, float emTime, boolean fixed)
+    TextureAtlas.AtlasRegion icon, int projectilesPerShot, boolean fixed)
   {
     this.shootSound = shootSound;
     this.reloadSound = reloadSound;
 
     this.tex = tex;
 
-    this.dmg = dmg;
     this.maxAngleVar = maxAngleVar;
     this.minAngleVar = minAngleVar;
     this.angleVarDamp = angleVarDamp;
@@ -66,7 +63,6 @@ public class GunConfig {
     this.clipConf = clipConf;
     this.icon = icon;
     this.projectilesPerShot = projectilesPerShot;
-    this.emTime = emTime;
     this.fixed = fixed;
 
     this.desc = makeDesc(descBase);
@@ -75,8 +71,8 @@ public class GunConfig {
   }
 
   private float calcDps() {
-    float projDmg = dmg;
-    if (emTime > 0) projDmg = 15;
+    float projDmg = projConfig.dmg;
+    if (projConfig.emTime > 0) projDmg = 15;
     else if (projConfig.density > 0) projDmg = 5;
 
     float projHitChance = (projConfig.spdLen + projConfig.acc) / 4;
@@ -103,7 +99,7 @@ public class GunConfig {
     return sb.toString();
   }
 
-  public static void load(TexMan texMan, ItemMan itemMan, SoundMan soundMan, TexMan man) {
+  public static void load(TexMan texMan, ItemMan itemMan, SoundMan soundMan) {
     JsonReader r = new JsonReader();
     FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "guns.json");
     JsonValue parsed = r.parse(configFile);
@@ -123,7 +119,6 @@ public class GunConfig {
       int price = sh.getInt("price");
       String descBase = sh.getString("descBase");
       int infiniteClipSize = sh.getInt("infiniteClipSize", 0);
-      float dmg = sh.getFloat("dmg");
       String clipName = sh.getString("clipName");
       ClipConfig clipConf = clipName.isEmpty() ? null : ((ClipItem)itemMan.getExample(clipName)).getConfig();
       String reloadSoundPath = sh.getString("reloadSound");
@@ -134,10 +129,9 @@ public class GunConfig {
       TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + texName, configFile);
       int projectilesPerShot = sh.getInt("projectilesPerShot", 1);
       if (projectilesPerShot < 1) throw new AssertionError("projectiles per shot");
-      float emTime = sh.getFloat("emTime", 0);
       boolean fixed = sh.getBoolean("fixed", false);
       GunConfig c = new GunConfig(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots, maxReloadTime, projConfig,
-        gunLength, displayName, lightOnShot, price, descBase, infiniteClipSize, dmg, clipConf, shootSound, reloadSound, tex, icon, projectilesPerShot, emTime, fixed);
+        gunLength, displayName, lightOnShot, price, descBase, infiniteClipSize, clipConf, shootSound, reloadSound, tex, icon, projectilesPerShot, fixed);
       itemMan.registerItem(sh.name, c.example);
     }
   }
