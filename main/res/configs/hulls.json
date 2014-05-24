@@ -14,17 +14,12 @@
     size: 0.4,
     maxLife: 20,
     type: std,
-    price: 200,
 
     texName: pirateSmall,
     g1Pos: "0.52 0.2",
     g1UnderShip: true,
-    g2Pos: "0.52 0.8",
-    g2UnderShip: true,
     e1Pos: "0.15 0.47",
     e2Pos: "0.15 0.53",
-    name: "Small Pirate",
-    desc: "desc",
     engine: pirate,
   },
 
@@ -67,7 +62,6 @@
     texName: pirateOrbiter,
     g1Pos: "0.25 0.25",
     g1UnderShip: true,
-    g2Pos: "0.4 0.97",
     e1Pos: "0.1 0.63",
     e2Pos: "0.1 0.73",
     name: "Orbiter",
@@ -84,7 +78,6 @@
 
     texName: piratePlanetTurret,
     g1Pos: "0.5 0.4",
-    g2Pos: "0 0",
   },
 
 
@@ -94,6 +87,7 @@
     maxLife: 60,
     type: std,
     price: 200,
+    mount1CanFix: true,
 
     texName: bomber,
     g1Pos: "0.22 0.32",
@@ -113,7 +107,6 @@
 
     texName: desertPlanetTurret,
     g1Pos: "0.5 0.4",
-    g2Pos: "0 0",
   },
 
 
@@ -123,11 +116,11 @@
     maxLife: 50,
     type: std,
     price: 200,
+    mount1CanFix: true,
 
     texName: orbiter,
     g1Pos: "0.25 0.25",
     g1UnderShip: true,
-    g2Pos: "0.4 0.97",
     e1Pos: "0.1 0.63",
     e2Pos: "0.1 0.73",
     name: "Orbiter",
@@ -144,7 +137,6 @@
 
     texName: truck,
     g1Pos: "0.77 0.5",
-    g2Pos: "0 0",
     e1Pos: "0.04 0.4",
     e2Pos: "0.04 0.6",
     engine: pirateBig,
@@ -156,12 +148,13 @@
     size: 0.4,
     maxLife: 22,
     type: std,
+    mount1CanFix: true,
+    mount2CanFix: true,
 
     texName: minerSmall,
     g1Pos: "0.25 0.15",
     g1UnderShip: true,
     g2Pos: "0.25 0.85",
-    g2UnderShip: true,
     e1Pos: "0.1 0.47",
     e2Pos: "0.1 0.53",
     engine: miner,
@@ -174,6 +167,8 @@
     maxLife: 13,
     type: std,
     price: 150,
+    mount1CanFix: true,
+    mount2CanFix: true,
 
     texName: beetle,
     g1Pos: "0.45 0.15",
@@ -193,10 +188,10 @@
     size: 1,
     maxLife: 60,
     type: std,
+    mount1CanFix: true,
 
     texName: minerMedium,
     g1Pos: "0.22 0.32",
-    g2Pos: "0.22 0.68",
     e1Pos: "0.02 0.31",
     e2Pos: "0.02 0.69",
     engine: miner,
@@ -249,6 +244,7 @@
     size: 0.8,
     maxLife: 8,
     type: std,
+    mount1CanFix: true,
 
     texName: minerTurret,
     g1Pos: "0.5 0.5",
@@ -262,7 +258,8 @@
     type: std,
 
     texName: hawk,
-    g1Pos: "0.5 0.5",
+    g1Pos: "0.4 0.5",
+    g1Pos: "0.6 0.5",
     lightSrcPoss: [
       ".25 .5",
       ".75 .5",
@@ -275,6 +272,8 @@
     size: 0.4,
     maxLife: 22,
     type: std,
+    mount1CanFix: true,
+    mount2CanFix: true,
 
     texName: dagger,
     g1Pos: "0.25 0.15",
@@ -292,6 +291,8 @@
     size: 0.5,
     maxLife: 13,
     type: std,
+    mount1CanFix: true,
+    mount2CanFix: true,
 
     texName: corvette,
     g1Pos: ".7 0.25",
@@ -310,6 +311,8 @@
     maxLife: 60,
     type: std,
     price: 200,
+    mount1CanFix: true,
+    mount2CanFix: true,
 
     texName: hunter,
     g1Pos: "0.22 0.32",
@@ -328,6 +331,7 @@
     maxLife: 80,
     type: std,
     price: 200,
+    mount1CanFix: true,
 
     texName: vanguard,
     g1Pos: "0.66 0.33",
@@ -345,6 +349,8 @@
     size: 0.9,
     maxLife: 80,
     type: std,
+    mount1CanFix: true,
+    mount2CanFix: true,
 
     texName: minerBoss,
     g1Pos: "0.66 0.33",
@@ -362,7 +368,8 @@
     type: station,
 
     texName: hummer,
-    g1Pos: "0.5 0.4",
+    g1Pos: "0.4 0.4",
+    g2Pos: "0.6 0.4",
   },
 
 
@@ -371,6 +378,8 @@
     size: 1.5,
     maxLife: 90,
     type: big,
+    mount1CanFix: true,
+    mount2CanFix: true,
 
     texName: dragon,
     g1Pos: "0.37 0.18",
@@ -389,7 +398,6 @@
 
     texName: drome,
     g1Pos: "0.24 0.9",
-    g2Pos: "0 0",
     lightSrcPoss: [
       "0.43 0.23",
       "0.87 0.23",
