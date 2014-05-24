@@ -21,12 +21,10 @@ public class GunConfig {
   public final float maxReloadTime;
   public final float gunLength;
   public final String displayName;
-  public final ProjectileConfig projConfig;
   public final TextureAtlas.AtlasRegion tex;
   public final boolean lightOnShot;
   public final int price;
   public final String desc;
-  public final int infiniteClipSize;
   public final float dps;
   public final GunItem example;
   public final ClipConfig clipConf;
@@ -38,8 +36,8 @@ public class GunConfig {
 
   public GunConfig(float minAngleVar, float maxAngleVar, float angleVarDamp, float angleVarPerShot,
     float timeBetweenShots,
-    float maxReloadTime, ProjectileConfig projConfig, float gunLength, String displayName,
-    boolean lightOnShot, int price, String descBase, int infiniteClipSize,
+    float maxReloadTime, float gunLength, String displayName,
+    boolean lightOnShot, int price, String descBase,
     ClipConfig clipConf, SolSound shootSound, SolSound reloadSound, TextureAtlas.AtlasRegion tex,
     TextureAtlas.AtlasRegion icon, int projectilesPerShot, boolean fixed)
   {
@@ -54,12 +52,10 @@ public class GunConfig {
     this.angleVarPerShot = angleVarPerShot;
     this.timeBetweenShots = timeBetweenShots;
     this.maxReloadTime = maxReloadTime;
-    this.projConfig = projConfig;
     this.gunLength = gunLength;
     this.displayName = displayName;
     this.lightOnShot = lightOnShot;
     this.price = price;
-    this.infiniteClipSize = infiniteClipSize;
     this.clipConf = clipConf;
     this.icon = icon;
     this.projectilesPerShot = projectilesPerShot;
@@ -71,13 +67,14 @@ public class GunConfig {
   }
 
   private float calcDps() {
-    float projDmg = projConfig.dmg;
-    if (projConfig.emTime > 0) projDmg = 15;
-    else if (projConfig.density > 0) projDmg = 5;
+    ProjectileConfig pc = clipConf.projConfig;
+    float projDmg = pc.dmg;
+    if (pc.emTime > 0) projDmg = 15;
+    else if (pc.density > 0) projDmg = 5;
 
-    float projHitChance = (projConfig.spdLen + projConfig.acc) / 4;
-    if (projConfig.guideRotSpd > 0) projHitChance += .3f;
-    float sz = projConfig.physSize;
+    float projHitChance = (pc.spdLen + pc.acc) / 4;
+    if (pc.guideRotSpd > 0) projHitChance += .3f;
+    float sz = pc.physSize;
     if (sz > 0) projHitChance += sz * .5f;
     projHitChance = SolMath.clamp(projHitChance, .1f, 1);
     projDmg *= projHitChance;
@@ -93,7 +90,7 @@ public class GunConfig {
     StringBuilder sb = new StringBuilder(descBase);
     sb.append("\nDmg: ").append(dps).append("/s");
     sb.append("\nReload: ").append(maxReloadTime).append("s");
-    if (infiniteClipSize != 0) {
+    if (clipConf.infinite) {
       sb.append("\nInfinite ammo");
     }
     return sb.toString();
@@ -110,15 +107,12 @@ public class GunConfig {
       float angleVarPerShot = sh.getFloat("angleVarPerShot");
       float timeBetweenShots = sh.getFloat("timeBetweenShots");
       float maxReloadTime = sh.getFloat("maxReloadTime");
-      String projectileName = sh.getString("projectileName");
-      ProjectileConfig projConfig = itemMan.projConfigs.find(projectileName);
       float gunLength = sh.getFloat("gunLength");
       String texName = sh.getString("texName");
       String displayName = sh.getString("displayName");
       boolean lightOnShot = sh.getBoolean("lightOnShot", false);
       int price = sh.getInt("price");
       String descBase = sh.getString("descBase");
-      int infiniteClipSize = sh.getInt("infiniteClipSize", 0);
       String clipName = sh.getString("clipName");
       ClipConfig clipConf = clipName.isEmpty() ? null : ((ClipItem)itemMan.getExample(clipName)).getConfig();
       String reloadSoundPath = sh.getString("reloadSound");
@@ -130,8 +124,8 @@ public class GunConfig {
       int projectilesPerShot = sh.getInt("projectilesPerShot", 1);
       if (projectilesPerShot < 1) throw new AssertionError("projectiles per shot");
       boolean fixed = sh.getBoolean("fixed", false);
-      GunConfig c = new GunConfig(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots, maxReloadTime, projConfig,
-        gunLength, displayName, lightOnShot, price, descBase, infiniteClipSize, clipConf, shootSound, reloadSound, tex, icon, projectilesPerShot, fixed);
+      GunConfig c = new GunConfig(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots, maxReloadTime,
+        gunLength, displayName, lightOnShot, price, descBase, clipConf, shootSound, reloadSound, tex, icon, projectilesPerShot, fixed);
       itemMan.registerItem(sh.name, c.example);
     }
   }

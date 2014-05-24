@@ -27,7 +27,7 @@ public class SolGun {
     myItem = item;
     if (myItem.config.lightOnShot) {
       Color lightCol = Col.W;
-      ProjectileConfig projConfig = myItem.config.projConfig;
+      ProjectileConfig projConfig = myItem.config.clipConf.projConfig;
       if (projConfig.bodyEffect != null) lightCol = projConfig.bodyEffect.tint;
       else if (projConfig.collisionEffect != null) lightCol = projConfig.collisionEffect.tint;
       myLightSrc = new LightSrc(game, .25f, true, 1f, Vector2.Zero, lightCol);
@@ -48,7 +48,7 @@ public class SolGun {
 
   private void shoot(Vector2 gunSpd, SolGame game, float gunAngle, Vector2 muzzlePos, Fraction fraction, SolObj creator) {
     Vector2 baseSpd = gunSpd;
-    if (myItem.config.projConfig.zeroAbsSpd) {
+    if (myItem.config.clipConf.projConfig.zeroAbsSpd) {
       baseSpd = Vector2.Zero;
     }
 
@@ -57,7 +57,7 @@ public class SolGun {
     for (int i = 0; i < myItem.config.projectilesPerShot; i++) {
       float bulletAngle = gunAngle;
       if(myCurrAngleVar > 0) bulletAngle += SolMath.rnd(myCurrAngleVar);
-      Projectile proj = new Projectile(game, bulletAngle, muzzlePos, baseSpd, fraction, myItem.config.projConfig, multiple);
+      Projectile proj = new Projectile(game, bulletAngle, muzzlePos, baseSpd, fraction, myItem.config.clipConf.projConfig, multiple);
       game.getObjMan().addObjDelayed(proj);
     }
     myCoolDown += myItem.config.timeBetweenShots;
@@ -77,16 +77,15 @@ public class SolGun {
     SolMath.free(muzzleRelPos);
 
     float ts = game.getTimeStep();
-    int ics = myItem.config.infiniteClipSize;
     if (myItem.ammo <= 0 && myItem.reloadAwait <= 0) {
-      if (ics != 0 || ic != null && ic.tryConsumeItem(myItem.config.clipConf.example)) {
+      if (myItem.config.clipConf.infinite || ic != null && ic.tryConsumeItem(myItem.config.clipConf.example)) {
         myItem.reloadAwait = myItem.config.maxReloadTime;
         game.getSoundMan().play(game, myItem.config.reloadSound, null, creator);
       }
     } else if (myItem.reloadAwait > 0) {
       myItem.reloadAwait -= ts;
       if (myItem.reloadAwait <= 0) {
-        myItem.ammo = ics == 0 ? myItem.config.clipConf.size : ics;
+        myItem.ammo = myItem.config.clipConf.size;
       }
     }
 

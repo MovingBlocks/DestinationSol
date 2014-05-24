@@ -3,6 +3,7 @@ package com.miloshpetrov.sol2.game.input;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.gun.GunItem;
+import com.miloshpetrov.sol2.game.projectile.ProjectileConfig;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public class Shooter {
@@ -36,11 +37,13 @@ public class Shooter {
     float projSpd = 0;
     GunItem g = null;
     if (g1 != null) {
-      projSpd = g1.config.projConfig.spdLen + g1.config.projConfig.acc; // for simplicity
+      ProjectileConfig projConfig = g1.config.clipConf.projConfig;
+      projSpd = projConfig.spdLen + projConfig.acc; // for simplicity
       g = g1;
     }
     if (g2 != null) {
-      float g2PS = g2.config.projConfig.spdLen + g2.config.projConfig.acc; // for simplicity
+      ProjectileConfig projConfig = g2.config.clipConf.projConfig;
+      float g2PS = projConfig.spdLen + projConfig.acc; // for simplicity
       if (projSpd < g2PS) {
         projSpd = g2PS;
         g = g2;
@@ -60,7 +63,8 @@ public class Shooter {
     }
     float shipAngle = ship.getAngle();
     float maxAngleDiff = SolMath.angularWidthOfSphere(enemyApproxRad, toEnemyDst) + 10f;
-    if (projSpd > 0 && g.config.projConfig.guideRotSpd > 0) maxAngleDiff += g.config.projConfig.guideRotSpd * toEnemyDst / projSpd;
+    ProjectileConfig projConfig = g.config.clipConf.projConfig;
+    if (projSpd > 0 && projConfig.guideRotSpd > 0) maxAngleDiff += projConfig.guideRotSpd * toEnemyDst / projSpd;
     if (SolMath.angleDiff(shootAngle, shipAngle) < maxAngleDiff) {
       myShoot = true;
       myShoot2 = true;
@@ -78,7 +82,7 @@ public class Shooter {
   private GunItem processGun(SolShip ship, boolean second) {
     GunItem g = ship.getHull().getGun(second);
     if (g == null || g.ammo <= 0) return null;
-    if (g.config.fixed && !g.config.projConfig.zeroAbsSpd) return g;
+    if (g.config.fixed && !g.config.clipConf.projConfig.zeroAbsSpd) return g;
 
     if (second) myShoot2 = true; else myShoot = true;
     return null;
