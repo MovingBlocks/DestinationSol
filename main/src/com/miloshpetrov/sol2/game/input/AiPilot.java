@@ -7,6 +7,7 @@ import com.miloshpetrov.sol2.game.Fraction;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.item.EngineItem;
+import com.miloshpetrov.sol2.game.item.SolItem;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.planet.PlanetBind;
 import com.miloshpetrov.sol2.game.ship.*;
@@ -25,6 +26,7 @@ public class AiPilot implements Pilot {
   private final String myMapHint;
   private final BattleDestProvider myBattleDestProvider;
   private final float myDetectionDist;
+  private final AbilityUpdater myAbilityUpdater;
 
   private PlanetBind myPlanetBind;
 
@@ -40,10 +42,12 @@ public class AiPilot implements Pilot {
     myFraction = fraction;
     myShootAtObstacles = shootAtObstacles;
     myMapHint = mapHint;
+    myAbilityUpdater = new AbilityUpdater();
   }
 
   @Override
   public void update(SolGame game, SolShip ship, SolShip nearestEnemy) {
+    myAbilityUpdater.update(ship, nearestEnemy);
     myPlanetBind = null;
     Vector2 shipPos = ship.getPos();
     HullConfig hullConfig = ship.getHull().config;
@@ -68,7 +72,7 @@ public class AiPilot implements Pilot {
       Boolean battle = null;
       if (nearestEnemy != null) battle = myDestProvider.shouldManeuver(canShoot, nearestEnemy, nearGround);
       if (battle != null) {
-        dest = myBattleDestProvider.getDest(ship, nearestEnemy, shootDist, np, battle);
+        dest = myBattleDestProvider.getDest(ship, nearestEnemy, shootDist, np, battle, game.getTimeStep());
         shouldStopNearDest = myBattleDestProvider.shouldStopNearDest();
         destSpd = nearestEnemy.getSpd();
         float maxBattleSpd = nearGround ? MAX_GROUND_BATTLE_SPD : MAX_BATTLE_SPD;
@@ -144,7 +148,7 @@ public class AiPilot implements Pilot {
 
   @Override
   public boolean isAbility() {
-    return false;
+    return myAbilityUpdater.isAbility();
   }
 
   @Override
@@ -223,4 +227,32 @@ public class AiPilot implements Pilot {
     return myDestProvider instanceof BeaconDestProvider;
   }
 
+  public static class AbilityUpdater {
+    private final float myAbilityUseStartPerc;
+    private final int myChargesToKeep;
+
+    private boolean myAbility;
+
+    public AbilityUpdater() {
+      myAbilityUseStartPerc = SolMath.rnd(.3f, .7f);
+      myChargesToKeep = SolMath.intRnd(1, 2);
+    }
+
+    public void update(SolShip ship, SolShip nearestEnemy) {
+      myAbility = false;
+      if (nearestEnemy == null) return;
+      ShipAbility ability = ship.getAbility();
+      if (ability == null) return;
+      if (ship.getHull().config.maxLife * myAbilityUseStartPerc < ship.getLife()) return;
+      SolItem ex = ability.getChargeExample();
+      if (ex != null) {
+        if (ship.getItemContainer().count(ex) <= myChargesToKeep) return;
+      }
+      myAbility = true;
+    }
+
+    public boolean isAbility() {
+      return myAbility;
+    }
+  }
 }

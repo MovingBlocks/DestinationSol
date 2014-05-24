@@ -78,7 +78,7 @@ Name: TECHIES
 Description: Advanced bad guys seen in frozen planets (only in 1st systems)
 Color: Metallic blue-ish grey
 Ship design: Blade-like
-Ability: EM charge
+Ability: EM wave
 Seen in:
   Frozen planet:
     turrets (hummer.png)

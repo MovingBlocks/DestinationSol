@@ -1,7 +1,6 @@
 
 ui icon placeholders
 auto fill ships with ammo & ability charges
-enemies should use abilities
 systemConfig:
   temporaryInnerEnemies
   isHard: true
@@ -67,7 +66,7 @@ ANDROID RUN 2:
 
 
 PERF OPTIONAL:
-  split item icons from ui icons from ship icons
+  split ship icons from the rest
   optimize getVec? but don't remove, cuz freeing helps fix bugs
   compare dstSq instead of dst -- maybe not needed, iterating through object is only quadratic
 

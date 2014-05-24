@@ -6,17 +6,25 @@ import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public class BattleDestProvider {
+  public static final float MIN_DIR_CHANGE_AWAIT = 5f;
+  public static final float MAX_DIR_CHANGE_AWAIT = 10f;
   private final Vector2 myDest;
+
   private boolean myStopNearDest;
   private boolean myCw;
+  private float myDirChangeAwait;
 
   public BattleDestProvider() {
     myDest = new Vector2();
     myCw = SolMath.test(.5f);
   }
 
-  public Vector2 getDest(SolShip ship, SolShip enemy, float shootDist, Planet np, boolean battle) {
-    if (SolMath.test(.001f)) myCw = !myCw;
+  public Vector2 getDest(SolShip ship, SolShip enemy, float shootDist, Planet np, boolean battle, float ts) {
+    myDirChangeAwait -= ts;
+    if (myDirChangeAwait <= 0) {
+      myCw = !myCw;
+      myDirChangeAwait = SolMath.rnd(MIN_DIR_CHANGE_AWAIT, MAX_DIR_CHANGE_AWAIT);
+    }
     if (!battle) throw new AssertionError("can't flee yet!");
     float prefAngle;
     Vector2 enemyPos = enemy.getPos();
