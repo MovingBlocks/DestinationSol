@@ -197,7 +197,10 @@ main/imgSrcs/misc/grad.png -text
 main/imgSrcs/misc/missing.png -text
 main/imgSrcs/misc/pack.json -text
 main/imgSrcs/misc/planetCore.png -text
-main/imgSrcs/misc/shield.png -text
+main/imgSrcs/misc/shield1.png -text
+main/imgSrcs/misc/shield2.png -text
+main/imgSrcs/misc/shield3.png -text
+main/imgSrcs/misc/shield4.png -text
 main/imgSrcs/misc/starPort.png -text
 main/imgSrcs/misc/teleportBlip.png -text
 main/imgSrcs/misc/tishch.png -text
