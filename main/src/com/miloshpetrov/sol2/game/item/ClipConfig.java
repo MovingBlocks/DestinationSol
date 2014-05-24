@@ -38,7 +38,7 @@ public class ClipConfig {
     FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "clips.json");
     JsonValue parsed = r.parse(configFile);
     for (JsonValue sh : parsed) {
-      String projectileName = sh.getString("projectileName");
+      String projectileName = sh.getString("projectile");
       ProjectileConfig projConfig = itemMan.projConfigs.find(projectileName);
       boolean infinite = sh.getBoolean("infinite", false);
       int size = sh.getInt("size");

@@ -5,7 +5,7 @@
     price: 30,
 
     iconName: plasmaClip,
-    displayName: Plasma Cells,
+    displayName: "Plasma Cells",
     descSuf: cells,
   },
 
@@ -85,7 +85,7 @@
     size: 6,
     price: 70,
 
-    displayName: Cannon Slugs,
+    displayName: "Cannon Slugs",
     descSuf: slugs,
     iconName: slugClip,
   },
@@ -109,7 +109,7 @@
     size: 8,
     price: 70,
 
-    displayName: Railgun Bullets,
+    displayName: "Railgun Bullets",
     descSuf: bullets,
     iconName: railClip,
   },
@@ -121,7 +121,7 @@
     size: 24,
     price: 70,
 
-    displayName: Miner Nails,
+    displayName: "Miner Nails",
     descSuf: nails,
     iconName: nailClip,
   },

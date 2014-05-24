@@ -15,6 +15,7 @@ UI:
 
 
 DRAWING:
+  better pirateOrbiter
   guns
   projectiles
   electricity particle
