@@ -324,8 +324,8 @@ public class SolShip implements SolObj {
       dmg = myShield.absorb(game, dmg, pos, this, dmgType);
     }
     if (dmg <= 0) return;
-    if (dmgType == DmgType.ENERGY) dmg *= ENERGY_DMG_FACTOR;
     if (myArmor != null) {
+      if (dmgType == DmgType.ENERGY) dmg *= ENERGY_DMG_FACTOR;
       dmg *= (1 - myArmor.getPerc());
     }
     playDmgSound(game, pos, dmgType);

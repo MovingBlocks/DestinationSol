@@ -1,31 +1,51 @@
 {
-  a: {
-    displayName: "Light Armor",
+  a1: {
     price: 30,
     perc: 0.1,
-    descBase: "Reduces all damage by %s%%",
+
+    displayName: "Light Armor",
+    icon: "armor1"
+
     bulletDmgSound: "metal/bulletHit",
     energyDmgSound: "armors/smallHitEnergy",
-    iconDir: "icons/armor"
   },
-  
-  aMed: {
-    displayName: "Medium Armor",
+
+
+
+  a2: {
     price: 60,
     perc: 0.2,
-    descBase: "Reduces all damage by %s%%",
+
+    displayName: "Medium Armor",
+    icon: "armor2"
+
     bulletDmgSound: "metal/bulletHit",
     energyDmgSound: "armors/smallHitEnergy",
-    iconDir: "icons/armor"
   },
-  
-  aBig: {
-    displayName: "Heavy Armor",
+
+
+
+  a3: {
     price: 100,
     perc: 0.3,
-    descBase: "Reduces all damage by %s%%",
+
+    displayName: "Heavy Armor",
+    iconDir: "armor3"
+
     bulletDmgSound: "metal/bulletHit",
     energyDmgSound: "armors/smallHitEnergy",
-    iconDir: "icons/armor"
+  },
+
+
+
+  a4: {
+    price: 100,
+    perc: 0.4,
+
+    displayName: "Advanced Armor",
+    iconDir: "armor4"
+
+    bulletDmgSound: "metal/bulletHit",
+    energyDmgSound: "armors/smallHitEnergy",
   },
 }

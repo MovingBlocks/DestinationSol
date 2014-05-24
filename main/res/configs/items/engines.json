@@ -1,83 +1,119 @@
 {
   imperial: {
     big: false,
-    workSound: "engines/medWork",
+
     effect: {
       effectFile: flame,
       size: 0.07,
       tex: fire,
       tint: "hsb 140 20 65",
     },
+
+    workSound: "engines/medWork",
   },
+
+
+
   pirate: {
     big: false,
-    workSound: "engines/medWork",
+
     effect: {
       effectFile: flame,
       size: 0.07,
       tex: fire,
       tint: "hsb 8 75 100",
     },
+
+    workSound: "engines/medWork",
   },
+
+
+
   desert: {
     big: false,
-    workSound: "engines/medWork",
+
     effect: {
       effectFile: flame,
       size: 0.07,
       tex: smoke,
       tint: fire,
     },
+
+    workSound: "engines/medWork",
   },
+
+
+
   miner: {
     big: false,
-    workSound: "engines/medWork",
+
     effect: {
       effectFile: smokeEngine,
       size: 0.07,
       tex: smoke,
       tint: smoke,
     },
+
+    workSound: "engines/medWork",
   },
+
+
+
   techie: {
     big: false,
-    workSound: "engines/medWork",
+
     effect: {
       effectFile: techieEngine,
       size: 0.07,
       tex: techieTrail,
       tint: white,
     },
+
+    workSound: "engines/medWork",
   },
+
+
 
   imperialBig: {
     big: true,
-    workSound: "engines/medWork",
+
     effect: {
       effectFile: flame,
       size: 0.3,
       tex: fire,
       tint: "hsb 140 20 65",
     },
+
+    workSound: "engines/medWork",
   },
+
+
+
   pirateBig: {
     big: true,
-    workSound: "engines/medWork",
+
     effect: {
       effectFile: flame,
       size: 0.3,
       tex: fire,
       tint: "hsb 8 75 100",
     },
+
+    workSound: "engines/medWork",
   },
+
+
+
   desertBig: {
     big: true,
-    workSound: "engines/medWork",
+
     effect: {
       effectFile: flame,
       size: 0.3,
       tex: smoke,
       tint: fire,
     },
+
+    workSound: "engines/medWork",
   },
 }

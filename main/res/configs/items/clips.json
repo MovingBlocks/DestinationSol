@@ -3,86 +3,126 @@
     projectile: plasma,
     size: 60,
     price: 30,
+
     iconName: plasmaClip,
     displayName: Plasma Cells,
     descSuf: cells,
   },
+
+
+
   mineClip: {
     projectile: mine,
     size: 6,
     price: 30,
-    iconName: mineClip,
+
     displayName: Mines,
     descSuf: mines,
+    iconName: mineClip,
   },
+
+
+
   blasterClip: {
     projectile: blast,
     infinite: true,
     size: 20,
   },
+
+
+
   bombClip: {
     projectile: bomb,
     size: 6,
     price: 30,
-    iconName: bombClip,
+
     displayName: Bombs,
     descSuf: bombs,
+    iconName: bombClip,
   },
+
+
+
   bulletClip: {
     projectile: bullet,
     size: 60,
     price: 30,
-    iconName: bulletClip,
+
     displayName: Bullets,
     descSuf: bullets,
+    iconName: bulletClip,
   },
+
+
+
   shells: {
     projectile: bullet,
     projectilesPerShot: 4,
     size: 12,
     price: 30,
-    iconName: shellClip,
+
     displayName: Shells,
     descSuf: shells,
+    iconName: shellClip,
   },
+
+
+
   missileClip: {
     projectile: missile,
     size: 6,
     price: 70,
-    iconName: missileClip,
+
     displayName: Missiles,
     descSuf: missiles,
+    iconName: missileClip,
   },
+
+
+
   slugClip: {
     projectile: slug,
     size: 6,
     price: 70,
-    iconName: slugClip,
+
     displayName: Cannon Slugs,
     descSuf: slugs,
+    iconName: slugClip,
   },
+
+
+
   rocketClip: {
     projectile: rocket,
     size: 6,
     price: 70,
-    iconName: rocketClip,
+
     displayName: Rockets,
     descSuf: rockets,
+    iconName: rocketClip,
   },
+
+
+
   railClip: {
     projectile: rail,
     size: 8,
     price: 70,
-    iconName: railClip,
+
     displayName: Railgun Bullets,
     descSuf: bullets,
+    iconName: railClip,
   },
+
+
+
   nailClip: {
     projectile: nail,
     size: 24,
     price: 70,
-    iconName: nailClip,
+
     displayName: Miner Nails,
     descSuf: nails,
+    iconName: nailClip,
   },
 }

@@ -1,31 +1,59 @@
 {
-  s: {
+  s1: {
     maxLife: 10,
-    displayName: "Small Shield",
     price: 40,
+
+    displayName: "Small Shield",
     desc: "Poorly protects from projectiles",
+    icon: shield1,
+    tex: shield1,
+
     absorbSound: "shields/big/absorb",
     regenSound:  "shields/big/regen",
-    iconDir: "icons/shield"
   },
 
-  sMed: {
+
+
+  s2: {
     maxLife: 20,
-    displayName: Shield,
     price: 100,
+
+    displayName: Shield,
     desc: "Protects from projectiles",
+    icon: shield2,
+    tex: shield2,
+
     absorbSound: "shields/big/absorb",
     regenSound:  "shields/big/regen",
-    iconDir: "icons/shield"
   },
 
-  sBig: {
+
+
+  s3: {
     maxLife: 30,
-    displayName: "Big Shield",
     price: 150,
+
+    displayName: "Big Shield",
     desc: "Greatly protects from projectiles",
+    icon: shield3,
+    tex: shield3,
+
     absorbSound: "shields/big/absorb",
     regenSound:  "shields/big/regen",
-    iconDir: "icons/shield"
+  }
+
+
+
+  s4: {
+    maxLife: 40,
+    price: 150,
+
+    displayName: "Advanced Shield",
+    desc: "Best protection from projectiles",
+    tex: shield4,
+    icon: shield4,
+
+    absorbSound: "shields/big/absorb",
+    regenSound:  "shields/big/regen",
   }
 }

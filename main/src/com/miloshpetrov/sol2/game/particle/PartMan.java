@@ -2,7 +2,6 @@ package com.miloshpetrov.sol2.game.particle;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
@@ -16,10 +15,8 @@ public class PartMan {
   public static final float EXPL_LIGHT_MAX_SZ = .4f;
   public static final float EXPL_LIGHT_MAX_FADE_TIME = .8f;
   public static final float SZ_TO_BLINK_COUNT = 18f;
-  private final TextureAtlas.AtlasRegion myShieldTex;
 
-  public PartMan(TexMan texMan) {
-    myShieldTex = texMan.getTex("misc/shield", null);
+  public PartMan() {
   }
 
   public void finish(SolGame game, ParticleSrc src, Vector2 basePos) {
@@ -43,11 +40,11 @@ public class PartMan {
     }
   }
 
-  public void shieldSpark(SolGame game, Vector2 collPos, ShipHull hull) {
+  public void shieldSpark(SolGame game, Vector2 collPos, ShipHull hull, TextureAtlas.AtlasRegion shieldTex) {
     Vector2 pos = hull.getPos();
     float angle = SolMath.angle(pos, collPos);
     float sz = hull.config.size * Shield.SIZE_PERC * 2;
-    blip(game, pos, angle, sz, .5f, hull.getSpd(), myShieldTex);
+    blip(game, pos, angle, sz, .5f, hull.getSpd(), shieldTex);
   }
 
   public void blip(SolGame game, Vector2 pos, float angle, float sz, float fadeTime, Vector2 spd,
