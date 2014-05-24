@@ -1,23 +1,17 @@
 
-
-get rid of mandatory hasRepairer
-sizes
-GUNS & projectiles!
-  em bombs on Frozen
-  give items full names
+GUNS
 SHIELDS
 ARMOR
 ability charges
 
 
 INITIAL BALANCE:
+  hull sizes
   systemConfig:
     temporaryInnerEnemies
     isHard: true
   planetConfig:
     isHard: true
-  belt: isHard
-  ability ammo?
 
 
 UI:
@@ -26,6 +20,7 @@ UI:
 
 
 DRAWING:
+  projectiles
   electricity particle
   ui icons
   trees on frozen
@@ -34,7 +29,7 @@ DRAWING:
 
 
 MISC:
-  smarter rocket guide
+  smarter missile guide
   better far ship update -- looks like it's not accurate now, guardians fly too fast
   ammo count in inv -- implement map, isSame should return false on all stateful objects, check isSame usages
   longer planet turret shoot dist -- should be just like anybody's else

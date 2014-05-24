@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.game.projectile.ProjectileConfig;
 
 public class ClipConfig {
   public final int price;
@@ -14,9 +15,14 @@ public class ClipConfig {
   public final int size;
   public final ClipItem example;
   public final TextureAtlas.AtlasRegion icon;
+  public final ProjectileConfig projConfig;
+  public final boolean infinite;
 
-  public ClipConfig(int price, String displayName, int size, String descSuff,
-    TextureAtlas.AtlasRegion icon) {
+  public ClipConfig(ProjectileConfig projConfig, boolean infinite, int price, String displayName, int size,
+    String descSuff, TextureAtlas.AtlasRegion icon)
+  {
+    this.projConfig = projConfig;
+    this.infinite = infinite;
     this.price = price;
     this.displayName = displayName;
     this.size = size;
@@ -30,13 +36,23 @@ public class ClipConfig {
     FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "clips.json");
     JsonValue parsed = r.parse(configFile);
     for (JsonValue sh : parsed) {
-      String iconName = sh.getString("iconName");
-      int price = sh.getInt("price");
-      String displayName = sh.getString("displayName");
-      String descSuf = sh.getString("descSuf");
+      String projectileName = sh.getString("projectileName");
+      ProjectileConfig projConfig = itemMan.projConfigs.find(projectileName);
+      boolean infinite = sh.getBoolean("infinite", false);
       int size = sh.getInt("size");
-      TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + iconName, configFile);
-      ClipConfig config = new ClipConfig(price, displayName, size, descSuf, icon);
+
+      int price = 0;
+      String displayName = "";
+      String descSuf = "";
+      TextureAtlas.AtlasRegion icon = null;
+      if (!infinite) {
+        String iconName = sh.getString("iconName");
+        price = sh.getInt("price");
+        displayName = sh.getString("displayName");
+        descSuf = sh.getString("descSuf");
+        icon = texMan.getTex(TexMan.ICONS_DIR + iconName, configFile);
+      }
+      ClipConfig config = new ClipConfig(projConfig, infinite, price, displayName, size, descSuf, icon);
       itemMan.registerItem(sh.name(), config.example);
     }
   }

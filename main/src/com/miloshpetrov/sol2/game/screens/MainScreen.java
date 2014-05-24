@@ -263,15 +263,14 @@ public class MainScreen implements SolUiScreen {
     TextureAtlas.AtlasRegion tex = g.config.icon;
 
     uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, col0, y, 0, Col.W);
-    int ics = g.config.infiniteClipSize;
     if (g.reloadAwait <= 0) {
-      int maxAmmo = ics == 0 ? g.config.clipConf.size : ics;
+      int maxAmmo = g.config.clipConf.size;
       float ammoPerc = g.ammo * 1f / maxAmmo;
       drawBar(uiDrawer, texMan, col1, y, ammoPerc);
     } else {
       drawWait(uiDrawer, col1, y);
     }
-    if (ics == 0) {
+    if (!g.config.clipConf.infinite) {
       int clipCount = hero.getItemContainer().count(g.config.clipConf.example);
       drawIcons(uiDrawer, col2, y, clipCount, g.config.clipConf.icon);
     } else {
