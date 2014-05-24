@@ -85,7 +85,7 @@ public class Shield implements SolItem {
     myIdleTime = 0f;
     if (myLife > 0) {
       ShipHull hull = ship.getHull();
-      game.getPartMan().shieldSpark(game, pos, hull);
+      game.getPartMan().shieldSpark(game, pos, hull, myConfig.tex);
       game.getSoundMan().play(game, myConfig.absorbSound, pos, ship);
     }
     if (dmgType == DmgType.BULLET) dmg *= BULLET_DMG_FACTOR;
@@ -113,9 +113,10 @@ public class Shield implements SolItem {
     public final float myMaxIdleTime = 2;
     public final float regenSpd;
     public final TextureAtlas.AtlasRegion icon;
+    public TextureAtlas.AtlasRegion tex;
 
     private Config(int maxLife, String displayName, int price, String desc, SolSound absorbSound, SolSound regenSound,
-      TextureAtlas.AtlasRegion icon) {
+      TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex) {
       this.maxLife = maxLife;
       this.displayName = displayName;
       this.price = price;
@@ -123,6 +124,7 @@ public class Shield implements SolItem {
       this.absorbSound = absorbSound;
       this.regenSound = regenSound;
       this.icon = icon;
+      this.tex = tex;
       regenSpd = this.maxLife / 3;
       example = new Shield(this);
     }
@@ -140,8 +142,9 @@ public class Shield implements SolItem {
         SolSound absorbSound = soundMan.getSound(soundDir, configFile);
         soundDir = sh.getString("regenSound");
         SolSound regenSound = soundMan.getSound(soundDir, configFile);
-        TextureAtlas.AtlasRegion icon = texMan.getTex(sh.getString("iconDir"), null);
-        Config config = new Config(maxLife, displayName, price, desc, absorbSound, regenSound, icon);
+        TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + sh.getString("icon"), configFile);
+        TextureAtlas.AtlasRegion tex = texMan.getTex(sh.getString("tex"), configFile);
+        Config config = new Config(maxLife, displayName, price, desc, absorbSound, regenSound, icon, tex);
         itemMan.registerItem(sh.name(), config.example);
       }
     }

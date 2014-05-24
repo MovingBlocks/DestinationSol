@@ -1,9 +1,8 @@
 
 GUNS
-SHIELDS
-ARMOR
 ability charges
 
+ui icon placeholders
 
 INITIAL BALANCE:
   hull sizes

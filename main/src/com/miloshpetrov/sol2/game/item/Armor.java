@@ -70,7 +70,7 @@ public class Armor implements SolItem {
     public final TextureAtlas.AtlasRegion icon;
     public final SolSound energyDmgSound;
 
-    private Config(String displayName, int price, float perc, String descBase, SolSound bulletDmgSound,
+    private Config(String displayName, int price, float perc, SolSound bulletDmgSound,
       TextureAtlas.AtlasRegion icon, SolSound energyDmgSound)
     {
       this.displayName = displayName;
@@ -78,7 +78,7 @@ public class Armor implements SolItem {
       this.perc = perc;
       this.icon = icon;
       this.energyDmgSound = energyDmgSound;
-      this.desc = String.format(descBase, (int)(perc * 100));
+      this.desc = "Reduces damage by " + (int)(perc * 100) + "%";
       this.bulletDmgSound = bulletDmgSound;
       this.example = new Armor(this);
     }
@@ -92,13 +92,12 @@ public class Armor implements SolItem {
         String displayName = sh.getString("displayName");
         int price = sh.getInt("price");
         float perc = sh.getFloat("perc");
-        String descBase = sh.getString("descBase");
         String bulletDmgSoundDir = sh.getString("bulletDmgSound");
         String energyDmgSoundDir = sh.getString("energyDmgSound");
         SolSound bulletDmgSound = soundMan.getSound(bulletDmgSoundDir, configFile);
         SolSound energyDmgSound = soundMan.getSound(energyDmgSoundDir, configFile);
-        TextureAtlas.AtlasRegion icon = texMan.getTex(sh.getString("iconDir"), null);
-        Config config = new Config(displayName, price, perc, descBase, bulletDmgSound, icon, energyDmgSound);
+        TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + sh.getString("icon"), configFile);
+        Config config = new Config(displayName, price, perc, bulletDmgSound, icon, energyDmgSound);
         itemMan.registerItem(sh.name(), config.example);
       }
     }

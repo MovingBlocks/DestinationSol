@@ -95,7 +95,7 @@ public class SolGame {
     myObjMan = new ObjMan(contactListener, myFractionMan);
     myGridDrawer = new GridDrawer(texMan);
     myChunkMan = new ChunkMan(myHullConfigs, myTexMan);
-    myPartMan = new PartMan(myTexMan);
+    myPartMan = new PartMan();
     myAsteroidBuilder = new AsteroidBuilder(myTexMan);
     myLootBuilder = new LootBuilder();
     myFarBgMan = new FarBgMan();
