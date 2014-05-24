@@ -27,6 +27,7 @@
         allowFlip: true,
       },
     },
+
     highOrbitEnemies: [
       {
         hull: pirateOrbiter,
@@ -63,6 +64,9 @@
 	  money: 30,
     }
   },
+
+
+
   desert: {
     minGrav: 0.4,
     maxGrav: 0.5,
@@ -98,6 +102,7 @@
         allowFlip: true,
       },
     },
+
     highOrbitEnemies: [
       {
         hull: bomber,
@@ -134,6 +139,9 @@
 	  money: 30,
     }
   },
+
+
+
   frozen: {
     minGrav: 0.4,
     maxGrav: 0.5,
@@ -155,6 +163,7 @@
         allowFlip: true,
       },
     },
+
     highOrbitEnemies: [
       {
         hull: corvette,
