@@ -6,30 +6,43 @@
       tint: fire,
       size: 5,
     },
+
     activatedSound: "abilities/sloMo/activate",
   },
+
+
+
   knockBack: {
     effect: {
       effectFile: knockBack,
       tex: knockBack,
       tint: "50 200 250",
     },
+
     activatedSound: "abilities/knockBackActivated",
   },
+
+
+
   emWave: {
     effect: {
       effectFile: areaShipAbility,
       tex: emWave,
       tint: "0 255 0",
     },
+
     activatedSound: "abilities/emWaveActivated",
   },
+
+
+
   unShield: {
     effect: {
       effectFile: areaShipAbility,
       tex: unShield,
       tint: "0 100 255",
     },
+
     activatedSound: "abilities/unShieldActivated",
   },
 }

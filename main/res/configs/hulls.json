@@ -1,77 +1,233 @@
 {
-  dagger: {
-    texName: dagger,
-    size: 0.4,
-    maxLife: 22,
-    g1Pos: "0.25 0.15",
-    g1UnderShip: true,
-    g2Pos: "0.25 0.85",
-    g2UnderShip: true,
-    e1Pos: "0.1 0.47",
-    e2Pos: "0.1 0.53",
+  pirateSpaceTurret: {
+    size: 0.8,
+    maxLife: 20,
     type: std,
-    name: "Dagger",
-    desc: "desc",
-    price: 250,
-    engine: techie,
+
+    texName: pirateSpaceTurret,
+    g1Pos: "0.5 0.5",
   },
+
+
+
+  pirateSmall: {
+    size: 0.4,
+    maxLife: 20,
+    type: std,
+    price: 200,
+
+    texName: pirateSmall,
+    g1Pos: "0.52 0.2",
+    g1UnderShip: true,
+    g2Pos: "0.52 0.8",
+    g2UnderShip: true,
+    e1Pos: "0.15 0.47",
+    e2Pos: "0.15 0.53",
+    name: "Small Pirate",
+    desc: "desc",
+    engine: pirate,
+  },
+
+
+
+  guardie: {
+    size: 0.4,
+    maxLife: 20,
+    type: std,
+    price: 200,
+
+    ability: {
+      type: emWave,
+      force: 2000,
+      amount: 40,
+      angle: 90,
+      rechargeTime: 5,
+      factor: 0.5,
+      duration: 3,
+    },
+
+    texName: guardie,
+    g1Pos: "0.52 0.2",
+    g1UnderShip: true,
+    e1Pos: "0.15 0.47",
+    e2Pos: "0.15 0.53",
+    name: "Small Guardian",
+    desc: "desc",
+    engine: imperial,
+  },
+
+
+
+  pirateOrbiter: {
+    size: 0.8,
+    maxLife: 50,
+    type: std,
+    price: 200,
+
+    texName: pirateOrbiter,
+    g1Pos: "0.25 0.25",
+    g1UnderShip: true,
+    g2Pos: "0.4 0.97",
+    e1Pos: "0.1 0.63",
+    e2Pos: "0.1 0.73",
+    name: "Orbiter",
+    desc: "desc",
+    engine: pirate,
+  },
+
+
+
+  piratePlanetTurret: {
+    size: 0.8,
+    maxLife: 10,
+    type: station,
+
+    texName: piratePlanetTurret,
+    g1Pos: "0.5 0.4",
+    g2Pos: "0 0",
+  },
+
+
+
+  bomber: {
+    size: 0.6,
+    maxLife: 60,
+    type: std,
+    price: 200,
+
+    texName: bomber,
+    g1Pos: "0.22 0.32",
+    e1Pos: "0.02 0.31",
+    e2Pos: "0.02 0.69",
+    name: "Bomber",
+    desc: "desc",
+    engine: desert,
+  },
+
+
+
+  desertPlanetTurret: {
+    size: 0.8,
+    maxLife: 10,
+    type: station,
+
+    texName: desertPlanetTurret,
+    g1Pos: "0.5 0.4",
+    g2Pos: "0 0",
+  },
+
+
+
+  orbiter: {
+    size: 0.5,
+    maxLife: 50,
+    type: std,
+    price: 200,
+
+    texName: orbiter,
+    g1Pos: "0.25 0.25",
+    g1UnderShip: true,
+    g2Pos: "0.4 0.97",
+    e1Pos: "0.1 0.63",
+    e2Pos: "0.1 0.73",
+    name: "Orbiter",
+    desc: "desc",
+    engine: imperial,
+  },
+
+
+
+  truck: {
+    size: 2,
+    maxLife: 60,
+    type: big,
+
+    texName: truck,
+    g1Pos: "0.77 0.5",
+    g2Pos: "0 0",
+    e1Pos: "0.04 0.4",
+    e2Pos: "0.04 0.6",
+    engine: pirateBig,
+  },
+
+
+
   minerSmall: {
-    texName: minerSmall,
     size: 0.4,
     maxLife: 22,
+    type: std,
+
+    texName: minerSmall,
     g1Pos: "0.25 0.15",
     g1UnderShip: true,
     g2Pos: "0.25 0.85",
     g2UnderShip: true,
     e1Pos: "0.1 0.47",
     e2Pos: "0.1 0.53",
-    type: std,
     engine: miner,
   },
+
+
+
   beetle: {
-    texName: beetle,
     size: 0.4,
     maxLife: 13,
+    type: std,
+    price: 150,
+
+    texName: beetle,
     g1Pos: "0.45 0.15",
     g1UnderShip: true,
     g2Pos: "0.45 0.85",
     g2UnderShip: true,
     e1Pos: "0.1 0.47",
     e2Pos: "0.1 0.53",
-    type: std,
     name: "Beetle",
     desc: "desc",
-    price: 150,
     engine: desert,
   },
-  station: {
-    texName: station,
-    size: 8,
-    maxLife: 200,
-    g1Pos: "0.21 0.70",
-    g2Pos: "0.79 0.70",
-    lightSrcPoss: [
-      "0.26 0.93",
-      "0.73 0.93",
-    ],
-    type: station,
+
+
+
+  minerMedium: {
+    size: 1,
+    maxLife: 60,
+    type: std,
+
+    texName: minerMedium,
+    g1Pos: "0.22 0.32",
+    g2Pos: "0.22 0.68",
+    e1Pos: "0.02 0.31",
+    e2Pos: "0.02 0.69",
+    engine: miner,
   },
-  drome: {
-    texName: drome,
-    size: 2,
-    maxLife: 100,
-    g1Pos: "0.24 0.9",
-    g2Pos: "0 0",
-    lightSrcPoss: [
-      "0.43 0.23",
-      "0.87 0.23",
-    ],
-    type: station,
+
+
+
+  pirateMedium: {
+    size: 1,
+    maxLife: 60,
+    type: std,
+    price: 200,
+
+    texName: pirateMedium,
+    g1Pos: "0.22 0.32",
+    g2Pos: "0.22 0.68",
+    e1Pos: "0.02 0.31",
+    e2Pos: "0.02 0.69",
+    name: "Pirate Medium lol",
+    desc: "desc",
+    engine: pirate,
   },
+
+
+
   bus: {
-    texName: bus,
     size: 3.5,
     maxLife: 100,
+    type: big,
+
+    texName: bus,
     g1Pos: "0.64 0.5",
     g2Pos: "0.36 0.5",
     e1Pos: "0.07 0.38",
@@ -84,239 +240,175 @@
       "0.5 0.13",
       "0.5 0.87",
     ],
-    type: big,
     engine: imperialBig,
   },
-  dragon: {
-    texName: dragon,
-    size: 1.5,
-    maxLife: 90,
-    g1Pos: "0.37 0.18",
-    g2Pos: "0.3 0.74",
-    e1Pos: "0 0.3",
-    e2Pos: "0 0.7",
-    type: big,
-    engine: desertBig,
-  },
-  vanguard: {
-    texName: vanguard,
-    size: 0.9,
-    maxLife: 80,
-    g1Pos: "0.66 0.33",
-    g2Pos: "0.66 0.66",
-    e1Pos: "0.13 0.38",
-    e2Pos: "0.13 0.6",
-    type: std,
-    name: "vanguard",
-    desc: "desc",
-    price: 200,
-    engine: imperial,
-  },
-  minerBoss: {
-    texName: minerBoss,
-    size: 0.9,
-    maxLife: 80,
-    g1Pos: "0.66 0.33",
-    g2Pos: "0.66 0.66",
-    e1Pos: "0.13 0.38",
-    e2Pos: "0.13 0.6",
-    type: std,
-    engine: miner,
-  },
-  truck: {
-    texName: truck,
-    size: 2,
-    maxLife: 60,
-    g1Pos: "0.77 0.5",
-    g2Pos: "0 0",
-    e1Pos: "0.04 0.4",
-    e2Pos: "0.04 0.6",
-    type: big,
-    engine: pirateBig,
-  },
-  hunter: {
-    texName: hunter,
-    size: 1,
-    maxLife: 60,
-    g1Pos: "0.22 0.32",
-    g2Pos: "0.22 0.68",
-    e1Pos: "0.02 0.31",
-    e2Pos: "0.02 0.69",
-    type: std,
-    name: "Hunter",
-    desc: "desc",
-    price: 200,
-    engine: desert,
-  },
-  bomber: {
-    texName: bomber,
-    size: 0.6,
-    maxLife: 60,
-    g1Pos: "0.22 0.32",
-    e1Pos: "0.02 0.31",
-    e2Pos: "0.02 0.69",
-    type: std,
-    name: "Bomber",
-    desc: "desc",
-    price: 200,
-    engine: desert,
-  },
-  minerMedium: {
-    texName: minerMedium,
-    size: 1,
-    maxLife: 60,
-    g1Pos: "0.22 0.32",
-    g2Pos: "0.22 0.68",
-    e1Pos: "0.02 0.31",
-    e2Pos: "0.02 0.69",
-    type: std,
-    engine: miner,
-  },
-  pirateMedium: {
-    texName: pirateMedium,
-    size: 1,
-    maxLife: 60,
-    g1Pos: "0.22 0.32",
-    g2Pos: "0.22 0.68",
-    e1Pos: "0.02 0.31",
-    e2Pos: "0.02 0.69",
-    type: std,
-    name: "Pirate Medium lol",
-    desc: "desc",
-    price: 200,
-    engine: pirate,
-  },
-  orbiter: {
-    texName: orbiter,
-    size: 0.5,
-    maxLife: 50,
-    g1Pos: "0.25 0.25",
-    g1UnderShip: true,
-    g2Pos: "0.4 0.97",
-    e1Pos: "0.1 0.63",
-    e2Pos: "0.1 0.73",
-    type: std,
-    name: "Orbiter",
-    desc: "desc",
-    price: 200,
-    engine: imperial,
-  },
-  pirateOrbiter: {
-    texName: pirateOrbiter,
+
+
+
+  minerTurret: {
     size: 0.8,
-    maxLife: 50,
-    g1Pos: "0.25 0.25",
-    g1UnderShip: true,
-    g2Pos: "0.4 0.97",
-    e1Pos: "0.1 0.63",
-    e2Pos: "0.1 0.73",
+    maxLife: 8,
     type: std,
-    name: "Orbiter",
-    desc: "desc",
-    price: 200,
-    engine: pirate,
+
+    texName: minerTurret,
+    g1Pos: "0.5 0.5",
   },
-  hummer: {
-    texName: hummer,
-    size: 0.8,
-    maxLife: 10,
-    g1Pos: "0.5 0.4",
-    type: station,
-  },
-  desertPlanetTurret: {
-    texName: desertPlanetTurret,
-    size: 0.8,
-    maxLife: 10,
-    g1Pos: "0.5 0.4",
-    g2Pos: "0 0",
-    type: station,
-  },
-  piratePlanetTurret: {
-    texName: piratePlanetTurret,
-    size: 0.8,
-    maxLife: 10,
-    g1Pos: "0.5 0.4",
-    g2Pos: "0 0",
-    type: station,
-  },
+
+
+
   hawk: {
-    texName: hawk,
     size: 0.8,
     maxLife: 20,
+    type: std,
+
+    texName: hawk,
     g1Pos: "0.5 0.5",
     lightSrcPoss: [
       ".25 .5",
       ".75 .5",
     ],
-    type: std,
   },
-  minerTurret: {
-    texName: minerTurret,
-    size: 0.8,
-    maxLife: 8,
-    g1Pos: "0.5 0.5",
-    type: std,
-  },
-  pirateSpaceTurret: {
-    texName: pirateSpaceTurret,
-    size: 0.8,
-    maxLife: 20,
-    g1Pos: "0.5 0.5",
-    type: std,
-  },
-  guardie: {
-    texName: guardie,
+
+
+
+  dagger: {
     size: 0.4,
-    maxLife: 20,
-    g1Pos: "0.52 0.2",
-    g1UnderShip: true,
-    e1Pos: "0.15 0.47",
-    e2Pos: "0.15 0.53",
+    maxLife: 22,
     type: std,
-    name: "Small Guardian",
-    desc: "desc",
-    price: 200,
-    engine: imperial,
-    ability: {
-      type: emWave,
-      force: 2000,
-      amount: 40,
-      angle: 90,
-      rechargeTime: 5,
-      factor: 0.5,
-      duration: 3,
-    },
-  },
-  pirateSmall: {
-    texName: pirateSmall,
-    size: 0.4,
-    maxLife: 20,
-    g1Pos: "0.52 0.2",
+
+    texName: dagger,
+    g1Pos: "0.25 0.15",
     g1UnderShip: true,
-    g2Pos: "0.52 0.8",
+    g2Pos: "0.25 0.85",
     g2UnderShip: true,
-    e1Pos: "0.15 0.47",
-    e2Pos: "0.15 0.53",
-    type: std,
-    name: "Small Pirate",
-    desc: "desc",
-    price: 200,
-    engine: pirate,
+    e1Pos: "0.1 0.47",
+    e2Pos: "0.1 0.53",
+    engine: techie,
   },
+
+
+
   corvette: {
-    texName: corvette,
     size: 0.5,
     maxLife: 13,
+    type: std,
+
+    texName: corvette,
     g1Pos: ".7 0.25",
     g1UnderShip: true,
     g2Pos: ".7 0.75",
     g2UnderShip: true,
     e1Pos: "0.5 0.15",
     e2Pos: "0.5 0.85",
-    type: std,
-    name: "Corvette",
-    desc: "desc",
-    price: 200,
     engine: techie,
+  },
+
+
+
+  hunter: {
+    size: 1,
+    maxLife: 60,
+    type: std,
+    price: 200,
+
+    texName: hunter,
+    g1Pos: "0.22 0.32",
+    g2Pos: "0.22 0.68",
+    e1Pos: "0.02 0.31",
+    e2Pos: "0.02 0.69",
+    name: "Hunter",
+    desc: "desc",
+    engine: desert,
+  },
+
+
+
+  vanguard: {
+    size: 0.9,
+    maxLife: 80,
+    type: std,
+    price: 200,
+
+    texName: vanguard,
+    g1Pos: "0.66 0.33",
+    g2Pos: "0.66 0.66",
+    e1Pos: "0.13 0.38",
+    e2Pos: "0.13 0.6",
+    name: "vanguard",
+    desc: "desc",
+    engine: imperial,
+  },
+
+
+
+  minerBoss: {
+    size: 0.9,
+    maxLife: 80,
+    type: std,
+
+    texName: minerBoss,
+    g1Pos: "0.66 0.33",
+    g2Pos: "0.66 0.66",
+    e1Pos: "0.13 0.38",
+    e2Pos: "0.13 0.6",
+    engine: miner,
+  },
+
+
+
+  hummer: {
+    size: 0.8,
+    maxLife: 10,
+    type: station,
+
+    texName: hummer,
+    g1Pos: "0.5 0.4",
+  },
+
+
+
+  dragon: {
+    size: 1.5,
+    maxLife: 90,
+    type: big,
+
+    texName: dragon,
+    g1Pos: "0.37 0.18",
+    g2Pos: "0.3 0.74",
+    e1Pos: "0 0.3",
+    e2Pos: "0 0.7",
+    engine: desertBig,
+  },
+
+
+
+  drome: {
+    size: 2,
+    maxLife: 100,
+    type: station,
+
+    texName: drome,
+    g1Pos: "0.24 0.9",
+    g2Pos: "0 0",
+    lightSrcPoss: [
+      "0.43 0.23",
+      "0.87 0.23",
+    ],
+  },
+
+
+
+  station: {
+    size: 8,
+    maxLife: 200,
+    type: station,
+
+    texName: station,
+    g1Pos: "0.21 0.70",
+    g2Pos: "0.79 0.70",
+    lightSrcPoss: [
+      "0.26 0.93",
+      "0.73 0.93",
+    ],
   },
 }

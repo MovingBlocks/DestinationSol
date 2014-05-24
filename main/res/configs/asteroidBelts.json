@@ -6,6 +6,7 @@
       farJunkTexs: "farJunks/belt",
       farJunkDensity: 0.01,
     },
+
     temporaryEnemies: [
       {
         hull: minerSmall,
