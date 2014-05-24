@@ -316,7 +316,7 @@
 
 
 
-  fixedBlaster:
+  fixedBlaster: {
     fixed: true,
     maxAngleVar: 30,
     angleVarDamp: 6,

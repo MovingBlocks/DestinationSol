@@ -117,7 +117,7 @@
 
 
   orbiter: {
-    size: 0.5,
+    size: 0.7,
     maxLife: 50,
     type: std,
     price: 200,
@@ -155,7 +155,7 @@
 
 
   minerSmall: {
-    size: 0.4,
+    size: 0.7,
     maxLife: 22,
     type: std,
     mount1CanFix: true,
@@ -178,7 +178,7 @@
 
 
   beetle: {
-    size: 0.4,
+    size: 0.8,
     maxLife: 13,
     type: std,
     price: 150,
@@ -205,7 +205,7 @@
 
 
   minerMedium: {
-    size: 1,
+    size: 0.9,
     maxLife: 60,
     type: std,
     mount1CanFix: true,
@@ -299,7 +299,7 @@
 
 
   dagger: {
-    size: 0.4,
+    size: 0.7,
     maxLife: 22,
     type: std,
     mount1CanFix: true,
@@ -318,7 +318,7 @@
 
 
   corvette: {
-    size: 0.5,
+    size: 1,
     maxLife: 13,
     type: std,
     mount1CanFix: true,
@@ -337,7 +337,7 @@
 
 
   hunter: {
-    size: 1,
+    size: 1.1,
     maxLife: 60,
     type: std,
     price: 200,
@@ -362,7 +362,7 @@
 
 
   vanguard: {
-    size: 0.9,
+    size: 1.2,
     maxLife: 80,
     type: std,
     price: 200,
@@ -386,7 +386,7 @@
 
 
   minerBoss: {
-    size: 0.9,
+    size: 1.3,
     maxLife: 80,
     type: std,
     mount1CanFix: true,
@@ -408,7 +408,7 @@
 
 
   hummer: {
-    size: 0.8,
+    size: 1.1,
     maxLife: 10,
     type: station,
 
@@ -420,7 +420,7 @@
 
 
   dragon: {
-    size: 1.5,
+    size: 1.6,
     maxLife: 90,
     type: big,
     mount1CanFix: true,
@@ -442,7 +442,7 @@
 
 
   drome: {
-    size: 2,
+    size: 2.5,
     maxLife: 100,
     type: station,
 

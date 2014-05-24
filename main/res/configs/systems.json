@@ -77,7 +77,7 @@
     ],
 
     trading: {
-      items: "bo b rep",
+      items: "",
       ships: "guardie orbiter",
       mercenaries: [
         {
@@ -155,7 +155,7 @@
     ],
 
     trading: {
-      items: "bo b rep",
+      items: "",
       ships: "guardie orbiter",
       mercenaries: [
         {

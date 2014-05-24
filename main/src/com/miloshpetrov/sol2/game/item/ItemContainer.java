@@ -37,6 +37,7 @@ public class ItemContainer implements Iterable<SolItem> {
   }
 
   public void add(SolItem item) {
+    if (item == null) throw new AssertionError();
     if (size() >= CAP) throw new AssertionError("container is full");
     if (myItems.contains(item)) throw new AssertionError();
     myItems.add(0, item);
@@ -72,7 +73,7 @@ public class ItemContainer implements Iterable<SolItem> {
   }
 
   public SolItem getRandom() {
-    return SolMath.elemRnd(myItems);
+    return myItems.isEmpty() ? null : SolMath.elemRnd(myItems);
   }
 
   public boolean isNew(SolItem item) {

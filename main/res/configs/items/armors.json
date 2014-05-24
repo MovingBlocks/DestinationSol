@@ -4,7 +4,7 @@
     perc: 0.1,
 
     displayName: "Light Armor",
-    icon: "armor1"
+    icon: "armor1",
 
     bulletDmgSound: "metal/bulletHit",
     energyDmgSound: "armors/smallHitEnergy",
@@ -17,7 +17,7 @@
     perc: 0.2,
 
     displayName: "Medium Armor",
-    icon: "armor2"
+    icon: "armor2",
 
     bulletDmgSound: "metal/bulletHit",
     energyDmgSound: "armors/smallHitEnergy",
@@ -30,7 +30,7 @@
     perc: 0.3,
 
     displayName: "Heavy Armor",
-    iconDir: "armor3"
+    icon: "armor3",
 
     bulletDmgSound: "metal/bulletHit",
     energyDmgSound: "armors/smallHitEnergy",
@@ -43,7 +43,7 @@
     perc: 0.4,
 
     displayName: "Advanced Armor",
-    iconDir: "armor4"
+    icon: "armor4",
 
     bulletDmgSound: "metal/bulletHit",
     energyDmgSound: "armors/smallHitEnergy",

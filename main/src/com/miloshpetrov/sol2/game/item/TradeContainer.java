@@ -32,7 +32,8 @@ public class TradeContainer {
       myItems.remove(myItems.get(SolMath.intRnd(myItems.size())));
     }
     for (int i = 0; i < amt; i++) {
-      myItems.add(myConfig.items.getRandom().copy());
+      SolItem itemOrig = myConfig.items.getRandom();
+      if (itemOrig != null) myItems.add(itemOrig.copy());
     }
   }
 

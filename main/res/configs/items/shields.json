@@ -40,7 +40,7 @@
 
     absorbSound: "shields/big/absorb",
     regenSound:  "shields/big/regen",
-  }
+  },
 
 
 
@@ -55,5 +55,5 @@
 
     absorbSound: "shields/big/absorb",
     regenSound:  "shields/big/regen",
-  }
+  },
 }
