@@ -1,17 +1,13 @@
 
-GUNS
 ui icon placeholders
 auto fill ships with ammo & ability charges
 enemies should use abilities
-
-
-INITIAL BALANCE:
-  hull sizes
-  systemConfig:
-    temporaryInnerEnemies
-    isHard: true
-  planetConfig:
-    isHard: true
+systemConfig:
+  temporaryInnerEnemies
+  isHard: true
+planetConfig:
+  isHard: true
+hull sizes, g e positions
 
 
 UI:
@@ -20,6 +16,7 @@ UI:
 
 
 DRAWING:
+  guns
   projectiles
   electricity particle
   ui icons
