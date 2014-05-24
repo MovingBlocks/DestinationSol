@@ -1,7 +1,7 @@
 
-better pirateOrbiter
-ui icons
-hull sizes, g e positions
+make pirateOrbiter better
+draw ui icons
+set hull g e positions
 
 UI:
   dangerous system regions (3 radii) & planets (2 radii)

@@ -30,7 +30,7 @@
 
 
 
-  guardie: {
+  imperialSmall: {
     size: 0.4,
     maxLife: 20,
     type: std,
@@ -41,7 +41,7 @@
       rechargeTime: 5,
     },
 
-    texName: guardie,
+    texName: imperialSmall,
     g1Pos: "0.52 0.2",
     g1UnderShip: true,
     e1Pos: "0.15 0.47",
@@ -87,14 +87,14 @@
 
 
 
-  bomber: {
+  desertOrbiter: {
     size: 0.6,
     maxLife: 60,
     type: std,
     price: 200,
     mount1CanFix: true,
 
-    texName: bomber,
+    texName: desertOrbiter,
     g1Pos: "0.22 0.32",
     e1Pos: "0.02 0.31",
     e2Pos: "0.02 0.69",
@@ -116,7 +116,7 @@
 
 
 
-  orbiter: {
+  imperialMedium: {
     size: 0.7,
     maxLife: 50,
     type: std,
@@ -128,7 +128,7 @@
       rechargeTime: 5,
     },
 
-    texName: orbiter,
+    texName: imperialMedium,
     g1Pos: "0.25 0.25",
     g1UnderShip: true,
     e1Pos: "0.1 0.63",
@@ -177,7 +177,7 @@
 
 
 
-  beetle: {
+  desertSmall: {
     size: 0.8,
     maxLife: 13,
     type: std,
@@ -190,7 +190,7 @@
       rechargeTime: 7,
     },
 
-    texName: beetle,
+    texName: desertSmall,
     g1Pos: "0.45 0.15",
     g1UnderShip: true,
     g2Pos: "0.45 0.85",
@@ -282,12 +282,12 @@
 
 
 
-  hawk: {
+  desertSpaceTurret: {
     size: 0.8,
     maxLife: 20,
     type: std,
 
-    texName: hawk,
+    texName: desertSpaceTurret,
     g1Pos: "0.4 0.5",
     g1Pos: "0.6 0.5",
     lightSrcPoss: [
@@ -298,14 +298,14 @@
 
 
 
-  dagger: {
+  techieSmall: {
     size: 0.7,
     maxLife: 22,
     type: std,
     mount1CanFix: true,
     mount2CanFix: true,
 
-    texName: dagger,
+    texName: techieSmall,
     g1Pos: "0.25 0.15",
     g1UnderShip: true,
     g2Pos: "0.25 0.85",
@@ -317,14 +317,14 @@
 
 
 
-  corvette: {
+  techieOrbiter: {
     size: 1,
     maxLife: 13,
     type: std,
     mount1CanFix: true,
     mount2CanFix: true,
 
-    texName: corvette,
+    texName: techieOrbiter,
     g1Pos: ".7 0.25",
     g1UnderShip: true,
     g2Pos: ".7 0.75",
@@ -336,7 +336,7 @@
 
 
 
-  hunter: {
+  desertMedium: {
     size: 1.1,
     maxLife: 60,
     type: std,
@@ -349,7 +349,7 @@
       rechargeTime: 7,
     },
 
-    texName: hunter,
+    texName: desertMedium,
     g1Pos: "0.22 0.32",
     g2Pos: "0.22 0.68",
     e1Pos: "0.02 0.31",
@@ -361,7 +361,7 @@
 
 
 
-  vanguard: {
+  imperialBig: {
     size: 1.2,
     maxLife: 80,
     type: std,
@@ -373,7 +373,7 @@
       rechargeTime: 5,
     },
 
-    texName: vanguard,
+    texName: imperialBig,
     g1Pos: "0.66 0.33",
     g2Pos: "0.66 0.66",
     e1Pos: "0.13 0.38",
@@ -407,19 +407,19 @@
 
 
 
-  hummer: {
+  techiePlanetTurret: {
     size: 1.1,
     maxLife: 10,
     type: station,
 
-    texName: hummer,
+    texName: techiePlanetTurret,
     g1Pos: "0.4 0.4",
     g2Pos: "0.6 0.4",
   },
 
 
 
-  dragon: {
+  desertBoss: {
     size: 1.6,
     maxLife: 90,
     type: big,
@@ -431,7 +431,7 @@
       rechargeTime: 7,
     },
 
-    texName: dragon,
+    texName: desertBoss,
     g1Pos: "0.37 0.18",
     g2Pos: "0.3 0.74",
     e1Pos: "0 0.3",

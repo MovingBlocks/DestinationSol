@@ -17,9 +17,9 @@ Ship design: Resemble aircraft, have wings, are in good condition
 Ability: Time Slow Down
 Seen in:
   Space:
-    small ships -- guards of civilian ships (guardie.png)
-    small ships -- explorers (orbiter.png),
-    medium ships -- station guards (vanguard.png),
+    small ships -- guards of civilian ships (imperialSmall.png)
+    small ships -- explorers (imperialMedium.png),
+    medium ships -- station guards (imperialBig.png),
     stations (station.png),
 
 
@@ -47,14 +47,14 @@ Ship design: Should resemble works of brass or copper -- cezve, lamps, etc
 Ability: teleport (teleports ship around its enemy to avoid projectiles and just for fun)
 Seen in:
   Space:
-    turrets (hawk.png)
-    small ships(beetle.png)
-    medium ships -- hunters (hunter.png)
-    big ships(dragon.png)
+    turrets (desertSpaceTurret.png)
+    small ships(desertSmall.png)
+    medium ships -- hunters (desertMedium.png)
+    big ships(desertBoss.png)
   Desert planet:
     turrets (desertPlanetTurret.png)
-    small ships(beetle.png)
-    medium ships -- orbiters(bomber.png)
+    small ships(desertSmall.png)
+    medium ships -- orbiters(desertOrbiter.png)
 
 
 Name: MINERS
@@ -81,9 +81,9 @@ Ship design: Blade-like
 Ability: EM wave
 Seen in:
   Frozen planet:
-    turrets (hummer.png)
-    small ships (dagger.png)
-    medium ships -- orbiters (corvette.png)
+    turrets (techiePlanetTurret.png)
+    small ships (techieSmall.png)
+    medium ships -- orbiters (techieOrbiter.png)
 
 
 =============================== NICE TO HAVE:

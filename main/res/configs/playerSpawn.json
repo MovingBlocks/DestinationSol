@@ -2,12 +2,12 @@
   __readme__: "for player.spawnPlace, use one of the following: station, planet, maze, trader",
   player: {
     ship: {
-      hull: guardie,
+      hull: imperialSmall,
       items: "gun s1 a1",
       money: 20,
     },
     godModeShip: {
-      hull: vanguard,
+      hull: imperialBig,
       items: "",
       money: 1000,
     },
@@ -17,7 +17,7 @@
     items: "",
 	money: 300,
     guard: {
-      hull: vanguard,
+      hull: imperialBig,
       items: "",
 	  money: 50,
       density: 3,
