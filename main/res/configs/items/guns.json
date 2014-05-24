@@ -1,176 +1,46 @@
 {
-  cannon: {
+  plasmaGun: {
     maxAngleVar: 30,
     angleVarDamp: 6,
     angleVarPerShot: 2,
     timeBetweenShots: 0.8,
     maxReloadTime: 2.5,
-    projectileName: cannonBall,
-    gunLength: 0.12,
-    texName: waveGun,
-    displayName: "Wave Gun",
-    lightOnShot: true,
     price: 15,
-    descBase: "",
-    infiniteClipSize: 12,
-    dmg: 1,
-    clipName: "",
-    shootSound: "guns/waveGun/shoot",
-    reloadSound: "guns/waveGun/reload",
-  },
-  emGun: {
-    maxAngleVar: 30,
-    angleVarDamp: 6,
-    angleVarPerShot: 2,
-    timeBetweenShots: 0.8,
-    maxReloadTime: 2.5,
-    projectileName: wave,
-    gunLength: 0.12,
-    texName: waveGun,
-    displayName: "Wave Gun",
-    lightOnShot: true,
-    price: 15,
-    descBase: "",
-    infiniteClipSize: 12,
-    dmg: 0,
-    clipName: "",
-    shootSound: "guns/waveGun/shoot",
-    reloadSound: "guns/waveGun/reload",
-  },
-  waveGun: {
-    maxAngleVar: 30,
-    angleVarDamp: 6,
-    angleVarPerShot: 2,
-    timeBetweenShots: 0.8,
-    maxReloadTime: 2.5,
-    projectileName: wave,
-    gunLength: 0.12,
-    texName: waveGun,
-    displayName: "Wave Gun",
-    lightOnShot: true,
-    price: 15,
-    descBase: "",
-    infiniteClipSize: 12,
-    dmg: 2,
-    clipName: "",
-    shootSound: "guns/waveGun/shoot",
-    reloadSound: "guns/waveGun/reload",
-  },
-  wbo: {
-    maxAngleVar: 30,
-    angleVarDamp: 6,
-    angleVarPerShot: 2,
-    timeBetweenShots: 0.8,
-    maxReloadTime: 2.5,
-    projectileName: weakBolterCharge,
+    clipName: plasmaClip,
+
     gunLength: 0.12,
     texName: bolter,
     displayName: "Weak Bolter",
     lightOnShot: true,
-    price: 15,
     descBase: "",
-    infiniteClipSize: 12,
-    dmg: 2,
-    clipName: "",
+
     shootSound: "guns/bolter/shoot",
     reloadSound: "guns/bolter/reload",
   },
-  bo: {
-    fixed: true,
+
+
+
+  blaster: {
     maxAngleVar: 30,
     angleVarDamp: 6,
     angleVarPerShot: 2,
     timeBetweenShots: 0.4,
     maxReloadTime: 2.5,
-    projectileName: bolterCharge,
+    price: 30,
+    clipName: blasterClip,
+
     gunLength: 0.16,
     texName: bolter,
     displayName: "Bolter",
     lightOnShot: true,
-    price: 30,
     descBase: "",
-    infiniteClipSize: 15,
-    dmg: 3,
-    clipName: "",
+
     shootSound: "guns/bolter/shoot",
     reloadSound: "guns/bolter/reload",
-    },
-  sg: {
-    fixed: true,
-    maxAngleVar: 10,
-    angleVarDamp: 6,
-    angleVarPerShot: 1,
-    timeBetweenShots: 0.2,
-    maxReloadTime: 1,
-    projectileName: bullet,
-    gunLength: 0.24,
-    texName: slowGun,
-    displayName: "Slow Gun",
-    lightOnShot: true,
-    price: 50,
-    descBase: "",
-    dmg: 2,
-    clipName: b,
-    shootSound: "guns/slowGun/shoot",
-    reloadSound: "guns/slowGun/reload",
-    },
-  mg: {
-    fixed: true,
-    maxAngleVar: 10,
-    angleVarDamp: 6,
-    angleVarPerShot: 1,
-    timeBetweenShots: 0.1,
-    maxReloadTime: 1.5,
-    projectileName: bullet,
-    gunLength: 0.24,
-    texName: miniGun,
-    displayName: "Minigun",
-    lightOnShot: true,
-    price: 150,
-    descBase: "",
-    dmg: 2,
-    clipName: b,
-    shootSound: "guns/miniGun/shoot",
-    reloadSound: "guns/miniGun/reload",
   },
-  rl: {
-    fixed: true,
-    maxAngleVar: 30,
-    angleVarDamp: 6,
-    angleVarPerShot: 3,
-    timeBetweenShots: 0.4,
-    maxReloadTime: 2.5,
-    projectileName: rocket,
-    gunLength: 0.2,
-    texName: rocketLauncherS,
-    displayName: "Rocket Launcher",
-    price: 200,
-    descBase: "",
-    dmg: 10,
-    clipName: r,
-    shootSound: "guns/rocketLauncher/shoot",
-    reloadSound: "guns/rocketLauncher/reload",
-  },
-  shotGun: {
-    fixed: true,
-    maxAngleVar: 10,
-    angleVarDamp: 0,
-    angleVarPerShot: 10,
-    timeBetweenShots: 0.5,
-    maxReloadTime: 2.5,
-    projectileName: bullet,
-    projectilesPerShot: 4,
-    gunLength: 0.2,
-    texName: shotGun,
-    displayName: "Shotgun",
-    lightOnShot: true,
-    price: 200,
-    descBase: "",
-    dmg: 2,
-    clipName: shells,
-    shootSound: "guns/shotGun/shoot",
-    reloadSound: "guns/shotGun/reload",
-  },
+
+
+
   bombGun: {
     fixed: true,
     maxAngleVar: 0,
@@ -178,15 +48,211 @@
     angleVarPerShot: 0,
     timeBetweenShots: 0.5,
     maxReloadTime: 2.5,
-    projectileName: bomb,
+    price: 200,
+    clipName: bombClip,
+
     gunLength: 0.2,
     texName: bombGun,
     displayName: "Bomber",
-    price: 200,
     descBase: "",
-    dmg: 13,
-    clipName: bombs,
+
     shootSound: "guns/bombGun/shoot",
     reloadSound: "guns/bombGun/reload",
   },
+
+
+
+  gun: {
+    fixed: false,
+    maxAngleVar: 10,
+    angleVarDamp: 6,
+    angleVarPerShot: 1,
+    timeBetweenShots: 0.2,
+    maxReloadTime: 1,
+    price: 50,
+    clipName: bulletClip,
+
+    gunLength: 0.24,
+    texName: slowGun,
+    displayName: "Slow Gun",
+    lightOnShot: true,
+    descBase: "",
+
+    shootSound: "guns/slowGun/shoot",
+    reloadSound: "guns/slowGun/reload",
+  },
+
+
+
+  fixedGun: {
+    fixed: true,
+    maxAngleVar: 10,
+    angleVarDamp: 6,
+    angleVarPerShot: 1,
+    timeBetweenShots: 0.1,
+    maxReloadTime: 1.5,
+    price: 150,
+    clipName: bulletClip,
+
+    gunLength: 0.24,
+    texName: miniGun,
+    displayName: "Minigun",
+    lightOnShot: true,
+    descBase: "",
+
+    shootSound: "guns/miniGun/shoot",
+    reloadSound: "guns/miniGun/reload",
+  },
+
+
+
+  shotGun: {
+    fixed: true,
+    maxAngleVar: 10,
+    angleVarDamp: 0,
+    angleVarPerShot: 10,
+    timeBetweenShots: 0.5,
+    maxReloadTime: 2.5,
+    price: 200,
+    clipName: shellClip,
+
+    gunLength: 0.2,
+    texName: shotGun,
+    displayName: "Shotgun",
+    lightOnShot: true,
+    descBase: "",
+
+    shootSound: "guns/shotGun/shoot",
+    reloadSound: "guns/shotGun/reload",
+  },
+
+
+
+  fixedBombGun:
+
+
+
+  missileLauncher:
+
+
+
+  miner:
+
+
+
+  cannon:
+
+
+
+  rocketLauncher: {
+    fixed: true,
+    maxAngleVar: 30,
+    angleVarDamp: 6,
+    angleVarPerShot: 3,
+    timeBetweenShots: 0.4,
+    maxReloadTime: 2.5,
+    price: 200,
+    clipName: rocketClip,
+
+    gunLength: 0.2,
+    texName: rocketLauncherS,
+    displayName: "Rocket Launcher",
+    descBase: "",
+
+    shootSound: "guns/rocketLauncher/shoot",
+    reloadSound: "guns/rocketLauncher/reload",
+  },
+
+
+
+  railGun:
+
+
+
+  missilePad:
+
+
+
+  fixedPlasmaGun:
+
+
+
+  nailGun: {
+    maxAngleVar: 30,
+    angleVarDamp: 6,
+    angleVarPerShot: 2,
+    timeBetweenShots: 0.8,
+    maxReloadTime: 2.5,
+    price: 15,
+    clipName: nailClip,
+
+    gunLength: 0.12,
+    texName: waveGun,
+    displayName: "Wave Gun",
+    lightOnShot: true,
+    descBase: "",
+
+    shootSound: "guns/waveGun/shoot",
+    reloadSound: "guns/waveGun/reload",
+  },
+
+
+
+  fixedBlaster:
+
+
+
+  fixedShotGun:
+
+
+
+  emGun: {
+    maxAngleVar: 30,
+    angleVarDamp: 6,
+    angleVarPerShot: 2,
+    timeBetweenShots: 0.8,
+    maxReloadTime: 2.5,
+    price: 15,
+    clipName: emClip,
+
+    gunLength: 0.12,
+    texName: waveGun,
+    displayName: "Wave Gun",
+    lightOnShot: true,
+    descBase: "",
+    shootSound: "guns/waveGun/shoot",
+    reloadSound: "guns/waveGun/reload",
+  },
+
+
+
+  fixedEmGun:
+
+
+
+  fixedCannon:
+
+
+
+  waveGun: {
+    maxAngleVar: 30,
+    angleVarDamp: 6,
+    angleVarPerShot: 2,
+    timeBetweenShots: 0.8,
+    maxReloadTime: 2.5,
+    price: 15,
+    clipName: waveClip,
+
+    gunLength: 0.12,
+    texName: waveGun,
+    displayName: "Wave Gun",
+    lightOnShot: true,
+    descBase: "",
+
+    shootSound: "guns/waveGun/shoot",
+    reloadSound: "guns/waveGun/reload",
+  },
+
+
+
 }

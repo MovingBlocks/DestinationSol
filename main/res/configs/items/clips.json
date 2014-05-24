@@ -11,18 +11,6 @@
 
 
 
-  mineClip: {
-    projectile: mine,
-    size: 6,
-    price: 30,
-
-    displayName: Mines,
-    descSuf: mines,
-    iconName: mineClip,
-  },
-
-
-
   blasterClip: {
     projectile: blast,
     infinite: true,
@@ -55,7 +43,7 @@
 
 
 
-  shells: {
+  shellClip: {
     projectile: bullet,
     projectilesPerShot: 4,
     size: 12,
@@ -76,6 +64,18 @@
     displayName: Missiles,
     descSuf: missiles,
     iconName: missileClip,
+  },
+
+
+
+  mineClip: {
+    projectile: mine,
+    size: 6,
+    price: 30,
+
+    displayName: Mines,
+    descSuf: mines,
+    iconName: mineClip,
   },
 
 
@@ -124,5 +124,21 @@
     displayName: Miner Nails,
     descSuf: nails,
     iconName: nailClip,
+  },
+
+
+
+  emClip: {
+    projectile: em,
+    infinite: true,
+    size: 20,
+  },
+
+
+
+  waveClip: {
+    projectile: wave,
+    infinite: true,
+    size: 20,
   },
 }

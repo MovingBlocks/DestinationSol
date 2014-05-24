@@ -18,34 +18,6 @@
 
 
 
-  mine: {
-    dmg: 1,
-    dmgType: explosion,
-    spdLen: 0,
-    physSize: 0.1,
-    zeroAbsSpd: true,
-
-    texName: mine,
-    texSz: 0.15,
-    collisionEffectBg: {
-      effectFile: explSmoke,
-      size: 0.6,
-      tex: smoke,
-      floatsUp: true,
-       tint: smoke,
-    },
-    collisionEffect: {
-      effectFile: explFire,
-      size: 0.4,
-      tex: fire,
-      tint: fire,
-    },
-
-    collisionSound: "misc/shipExplosion",
-  },
-
-
-
   blast: {
     dmg: 1,
     dmgType: energy,
@@ -67,7 +39,7 @@
 
 
   bomb: {
-    dmg: 1,
+    dmg: 13,
     dmgType: explosion,
     spdLen: 0,
     physSize: 0.1,
@@ -154,6 +126,34 @@
 
     collisionSound: "misc/shipExplosion",
     workSound: "engines/medWork",
+  },
+
+
+
+  mine: {
+    dmg: 20,
+    dmgType: explosion,
+    spdLen: 0,
+    physSize: 0.1,
+    zeroAbsSpd: true,
+
+    texName: mine,
+    texSz: 0.15,
+    collisionEffectBg: {
+      effectFile: explSmoke,
+      size: 0.6,
+      tex: smoke,
+      floatsUp: true,
+       tint: smoke,
+    },
+    collisionEffect: {
+      effectFile: explFire,
+      size: 0.4,
+      tex: fire,
+      tint: fire,
+    },
+
+    collisionSound: "misc/shipExplosion",
   },
 
 
