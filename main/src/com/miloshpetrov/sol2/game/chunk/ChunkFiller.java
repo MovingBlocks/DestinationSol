@@ -88,9 +88,8 @@ public class ChunkFiller {
       float perc = toSys / sys.getRadius() * 2;
       if (perc > 1) perc = 2 - perc;
       densityMul[0] = perc;
-      SysConfig sysConfig = sys.getConfig();
-      if (!farBg) fillForSys(game, chCenter, remover, sysConfig);
-      return sysConfig.envConfig;
+      if (!farBg) fillForSys(game, chCenter, remover, sys);
+      return sys.getConfig().envConfig;
     }
     Maze m = pm.getNearestMaze(chCenter);
     float dst = m.getPos().dst(chCenter);
@@ -102,13 +101,15 @@ public class ChunkFiller {
     return null;
   }
 
-  private void fillForSys(SolGame game, Vector2 chCenter, RemoveController remover, SysConfig conf) {
+  private void fillForSys(SolGame game, Vector2 chCenter, RemoveController remover, SolSystem sys) {
+    SysConfig conf = sys.getConfig();
     Vector2 mainStationPos = game.getGalaxyFiller().getMainStationPos();
     Vector2 startPos = mainStationPos == null ? new Vector2() : mainStationPos;
     float dst = chCenter.dst(startPos);
     if (dst > Const.CHUNK_SIZE) {
       fillAsteroids(game, remover, false, chCenter);
-      for (ShipConfig enemyConf : conf.tempEnemies) {
+      ArrayList<ShipConfig> enemies = sys.getPos().dst(chCenter) < sys.getInnerRad() ? conf.innerTempEnemies : conf.tempEnemies;
+      for (ShipConfig enemyConf : enemies) {
         fillEnemies(game, remover, enemyConf, chCenter);
       }
     }

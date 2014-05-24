@@ -19,6 +19,7 @@ import java.util.List;
 
 public class ShipBuilder {
   public static final float SHIP_DENSITY = 3f;
+  public static final float AVG_BATTLE_TIME = 20f;
 
   private final PathLoader myPathLoader;
 
@@ -64,37 +65,31 @@ public class ShipBuilder {
       }
     }
 
+    addAbilityCharges(ic, hullConfig);
+    addAmmo(ic, g1);
+
     return new FarShip(new Vector2(pos), new Vector2(spd), angle, rotSpd, pilot, ic, hullConfig, hullConfig.maxLife,
       g1, g2, removeController, ei, hasRepairer ? new ShipRepairer() : null, money, tc, shield, armor);
   }
 
-  public SolShip buildNew(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot,
-    String items, HullConfig hullConfig,
-    RemoveController removeController,
-    boolean hasRepairer, float money, TradeConfig tradeConfig)
-  {
-    ItemMan itemMan = game.getItemMan();
-    if (spd == null) spd = new Vector2();
-    ItemContainer ic = new ItemContainer();
-    itemMan.fillContainer(ic, items);
+  private void addAmmo(ItemContainer ic, GunItem g) {
+    if (g == null) return;
+    GunConfig gc = g.config;
+    ClipConfig cc = gc.clipConf;
+    if (cc.infinite) return;
+    float clipUseTime = cc.size * gc.timeBetweenShots + gc.reloadTime;
+    int count = (int) (AVG_BATTLE_TIME / clipUseTime) + SolMath.intRnd(0, 2);
+    for (int i = 0; i < count; i++) ic.add(cc.example.copy());
+  }
 
-    ShipRepairer repairer = hasRepairer ? new ShipRepairer() : null;
-    TradeContainer tc = tradeConfig == null ? null : new TradeContainer(tradeConfig);
-    EngineItem.Config ec = hullConfig.engineConfig;
-    EngineItem ei = ec == null ? null : ec.example.copy();
-    SolShip ship = build(game, pos, spd, angle, rotSpd, pilot, ic, hullConfig, hullConfig.maxLife,
-      null, null, removeController, ei, repairer, money, tc, null, null);
-    boolean g1eq = false;
-    for (SolItem item : ic) {
-      boolean isGun = item instanceof GunItem;
-      if (g1eq && isGun) {
-        ship.maybeEquip(game, item, true, true);
-        continue;
+  private void addAbilityCharges(ItemContainer ic, HullConfig hc) {
+    if (hc.ability != null) {
+      SolItem ex = hc.ability.getChargeExample();
+      if (ex != null) {
+        int count = (int) (AVG_BATTLE_TIME / hc.ability.getRechargeTime() * SolMath.rnd(.5f, 1)) + SolMath.intRnd(0, 2);
+        for (int i = 0; i < count; i++) ic.add(ex.copy());
       }
-      boolean ok = ship.maybeEquip(game, item, false, true);
-      if (ok && isGun) g1eq = true;
     }
-    return ship;
   }
 
   public SolShip build(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot,

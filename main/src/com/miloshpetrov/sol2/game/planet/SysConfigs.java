@@ -33,6 +33,7 @@ public class SysConfigs {
     JsonValue parsed = r.parse(configFile);
     for (JsonValue sh : parsed) {
       ArrayList<ShipConfig> tempEnemies = ShipConfig.loadList(sh.get("temporaryEnemies"), hullConfigs);
+      ArrayList<ShipConfig> innerTempEnemies = ShipConfig.loadList(sh.get("innerTemporaryEnemies"), hullConfigs);
       SpaceEnvConfig envConfig = new SpaceEnvConfig(sh.get("environment"), texMan, configFile);
 
       ArrayList<ShipConfig> constEnemies = null;
@@ -42,7 +43,7 @@ public class SysConfigs {
         constAllies = ShipConfig.loadList(sh.get("constantAllies"), hullConfigs);
       }
       TradeConfig tradeConfig = TradeConfig.load(itemMan, sh.get("trading"), hullConfigs);
-      SysConfig c = new SysConfig(sh.name, tempEnemies, envConfig, constEnemies, constAllies, tradeConfig);
+      SysConfig c = new SysConfig(sh.name, tempEnemies, envConfig, constEnemies, constAllies, tradeConfig, innerTempEnemies);
       configs.put(sh.name, c);
     }
   }

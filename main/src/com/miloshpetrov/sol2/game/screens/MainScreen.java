@@ -240,12 +240,12 @@ public class MainScreen implements SolUiScreen {
       if (consumed) row += ICON_SZ + V_PAD;
 
       ShipAbility ability = hero.getAbility();
-      SolItem abilityChargeEx = ability == null ? null : ability.getChargeExample();
+      SolItem abilityChargeEx = ability == null ? null : ability.getConfig().getChargeExample();
       if (abilityChargeEx != null) {
         int abilityChargeCount = hero.getItemContainer().count(abilityChargeEx);
         TextureAtlas.AtlasRegion icon = abilityChargeEx.getIcon(cmp.getGame());
         uiDrawer.draw(icon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
-        float chargePerc = 1 - SolMath.clamp(hero.getAbilityAwait() / ability.getRechargeTime());
+        float chargePerc = 1 - SolMath.clamp(hero.getAbilityAwait() / ability.getConfig().getRechargeTime());
         drawBar(uiDrawer, texMan, col1, row, chargePerc);
         drawIcons(uiDrawer, col2, row, abilityChargeCount, icon);
         row += ICON_SZ + V_PAD;

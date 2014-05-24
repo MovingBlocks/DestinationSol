@@ -155,6 +155,7 @@ main/imgSrcs/icons/money.png -text
 main/imgSrcs/icons/more.png -text
 main/imgSrcs/icons/orbiter.png -text
 main/imgSrcs/icons/pack.json -text
+main/imgSrcs/icons/pirateOrbiter.png -text
 main/imgSrcs/icons/repairItem.png -text
 main/imgSrcs/icons/rocketClip.png -text
 main/imgSrcs/icons/rocketLauncher.png -text
@@ -430,6 +431,7 @@ main/src/com/miloshpetrov/sol2/game/gun/GunConfig.java -text
 main/src/com/miloshpetrov/sol2/game/gun/GunItem.java -text
 main/src/com/miloshpetrov/sol2/game/gun/GunMount.java -text
 main/src/com/miloshpetrov/sol2/game/gun/SolGun.java -text
+main/src/com/miloshpetrov/sol2/game/input/AbilityUpdater.java -text
 main/src/com/miloshpetrov/sol2/game/input/AiPilot.java -text
 main/src/com/miloshpetrov/sol2/game/input/BattleDestProvider.java -text
 main/src/com/miloshpetrov/sol2/game/input/BeaconDestProvider.java -text

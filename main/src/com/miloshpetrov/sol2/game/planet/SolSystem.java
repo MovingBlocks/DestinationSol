@@ -11,14 +11,16 @@ public class SolSystem {
   private final ArrayList<SystemBelt> myBelts;
   private final SysConfig myConfig;
   private final String myName;
-  private float myRadius;
+  private final float myRadius;
+  private float myInnerRad;
 
-  public SolSystem(Vector2 pos, SysConfig config, String name) {
+  public SolSystem(Vector2 pos, SysConfig config, String name, float sysRadius) {
     myConfig = config;
     myName = name;
     myPos = new Vector2(pos);
     myPlanets = new ArrayList<Planet>();
     myBelts = new ArrayList<SystemBelt>();
+    myRadius = sysRadius;
   }
 
   public ArrayList<Planet> getPlanets() {
@@ -33,10 +35,6 @@ public class SolSystem {
     return myPos;
   }
 
-  public void setRadius(float radius) {
-    myRadius = radius;
-  }
-
   public float getRadius() {
     return myRadius;
   }
@@ -47,5 +45,15 @@ public class SolSystem {
 
   public String getName() {
     return myName;
+  }
+
+  public void addBelt(SystemBelt belt) {
+    myBelts.add(belt);
+    float newInnerRad = belt.getRadius() - belt.getHalfWidth();
+    if (myInnerRad < newInnerRad) myInnerRad = newInnerRad;
+  }
+
+  public float getInnerRad() {
+    return myInnerRad;
   }
 }
