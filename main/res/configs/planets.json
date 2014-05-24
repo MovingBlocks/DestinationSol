@@ -105,7 +105,7 @@
 
     highOrbitEnemies: [
       {
-        hull: bomber,
+        hull: desertOrbiter,
         items: "",
 		money: 40,
         density: 0.03,
@@ -113,7 +113,7 @@
     ],
     lowOrbitEnemies: [
       {
-        hull: bomber,
+        hull: desertOrbiter,
         items: "",
 		money: 40,
         density: 0.1,
@@ -127,7 +127,7 @@
         density: 0.45,
       },
       {
-        hull: beetle,
+        hull: desertSmall,
         items: "",
 		money: 30,
         density: 0.15,
@@ -166,7 +166,7 @@
 
     highOrbitEnemies: [
       {
-        hull: corvette,
+        hull: techieOrbiter,
         items: "",
 		money: 40,
         density: 0.03,
@@ -174,13 +174,13 @@
     ],
     groundEnemies: [
       {
-        hull: dagger,
+        hull: techieSmall,
         items: "",
 		money: 30,
         density: 0.15,
       },
       {
-        hull: hummer,
+        hull: techiePlanetTurret,
         items: "",
 		money: 30,
         density: 0.45,
