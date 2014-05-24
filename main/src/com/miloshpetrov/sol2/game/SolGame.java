@@ -130,8 +130,8 @@ public class SolGame {
     ShipConfig shipConfig = DebugOptions.GOD_MODE ? myPlayerSpawnConfig.godShipConfig : myPlayerSpawnConfig.shipConfig;
     float money = myRespawnMoney == 0 ? shipConfig.money : myRespawnMoney;
     myRespawnMoney = 0;
-    myHero = myShipBuilder.buildNew(this, new Vector2(pos), null, 0, 0, pilot, shipConfig.items,
-      shipConfig.hull, null, true, money, null);
+    myHero = myShipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, shipConfig.items,
+      shipConfig.hull, null, true, money, null).toObj(this);
 
     if (myTut) {
       myHero.getHull().setEngine(this, myHero, null);

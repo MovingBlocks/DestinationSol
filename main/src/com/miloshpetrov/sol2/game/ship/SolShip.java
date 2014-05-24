@@ -66,7 +66,7 @@ public class SolShip implements SolObj {
     myArmor = armor;
     AbilityConfig ac = myHull.config.ability;
     myAbility = ac == null ? null : ac.build();
-    if (myAbility != null) myAbilityAwait = myAbility.getRechargeTime();
+    if (myAbility != null) myAbilityAwait = myAbility.getConfig().getRechargeTime();
   }
 
   @Override
@@ -212,9 +212,9 @@ public class SolShip implements SolObj {
     boolean tryToUse = isControlsEnabled() && myPilot.isAbility() && canUseAbility();
     boolean used = myAbility.update(game, this, tryToUse);
     if (used) {
-      SolItem example = myAbility.getChargeExample();
+      SolItem example = myAbility.getConfig().getChargeExample();
       if (example != null) myItemContainer.tryConsumeItem(example);
-      myAbilityAwait = myAbility.getRechargeTime();
+      myAbilityAwait = myAbility.getConfig().getRechargeTime();
       AbilityCommonConfig cc = myAbility.getCommonConfig();
       soundMan.play(game, cc.activatedSound, null, this);
     }
@@ -242,7 +242,7 @@ public class SolShip implements SolObj {
 
   public boolean canUseAbility() {
     if (myAbility == null || myAbilityAwait > 0) return false;
-    SolItem example = myAbility.getChargeExample();
+    SolItem example = myAbility.getConfig().getChargeExample();
     if (example == null) return true;
     return myItemContainer.count(example) > 0;
   }

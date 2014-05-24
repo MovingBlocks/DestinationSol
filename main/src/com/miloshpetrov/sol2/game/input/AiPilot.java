@@ -7,16 +7,16 @@ import com.miloshpetrov.sol2.game.Fraction;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.item.EngineItem;
-import com.miloshpetrov.sol2.game.item.SolItem;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.planet.PlanetBind;
 import com.miloshpetrov.sol2.game.ship.*;
 
 public class AiPilot implements Pilot {
 
-  public static final float MAX_BATTLE_SPD = 2f;
   public static final float MIN_IDLE_DIST = .8f;
   public static final float MAX_GROUND_BATTLE_SPD = .7f;
+  public static final float MAX_BATTLE_SPD_BIG = 1f;
+  public static final float MAX_BATTLE_SPD = 2f;
   private final MoveDestProvider myDestProvider;
   private final boolean myCollectsItems;
   private final Mover myMover;
@@ -75,9 +75,10 @@ public class AiPilot implements Pilot {
         dest = myBattleDestProvider.getDest(ship, nearestEnemy, shootDist, np, battle, game.getTimeStep());
         shouldStopNearDest = myBattleDestProvider.shouldStopNearDest();
         destSpd = nearestEnemy.getSpd();
-        float maxBattleSpd = nearGround ? MAX_GROUND_BATTLE_SPD : MAX_BATTLE_SPD;
+        boolean big = hullConfig.type == HullConfig.Type.BIG;
+        float maxBattleSpd = nearGround ? MAX_GROUND_BATTLE_SPD : big ? MAX_BATTLE_SPD_BIG : MAX_BATTLE_SPD;
         if (maxBattleSpd < desiredSpdLen) desiredSpdLen = maxBattleSpd;
-        desiredSpdLen += destSpd.len();
+        if (!big) desiredSpdLen += destSpd.len();
       } else {
         dest = myDestProvider.getDest();
         destSpd = myDestProvider.getDestSpd();
@@ -227,32 +228,4 @@ public class AiPilot implements Pilot {
     return myDestProvider instanceof BeaconDestProvider;
   }
 
-  public static class AbilityUpdater {
-    private final float myAbilityUseStartPerc;
-    private final int myChargesToKeep;
-
-    private boolean myAbility;
-
-    public AbilityUpdater() {
-      myAbilityUseStartPerc = SolMath.rnd(.3f, .7f);
-      myChargesToKeep = SolMath.intRnd(1, 2);
-    }
-
-    public void update(SolShip ship, SolShip nearestEnemy) {
-      myAbility = false;
-      if (nearestEnemy == null) return;
-      ShipAbility ability = ship.getAbility();
-      if (ability == null) return;
-      if (ship.getHull().config.maxLife * myAbilityUseStartPerc < ship.getLife()) return;
-      SolItem ex = ability.getChargeExample();
-      if (ex != null) {
-        if (ship.getItemContainer().count(ex) <= myChargesToKeep) return;
-      }
-      myAbility = true;
-    }
-
-    public boolean isAbility() {
-      return myAbility;
-    }
-  }
 }

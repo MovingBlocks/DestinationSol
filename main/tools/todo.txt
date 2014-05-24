@@ -1,13 +1,7 @@
 
-ui icon placeholders
-auto fill ships with ammo & ability charges
-systemConfig:
-  temporaryInnerEnemies
-  isHard: true
-planetConfig:
-  isHard: true
+better pirateOrbiter
+ui icons
 hull sizes, g e positions
-
 
 UI:
   dangerous system regions (3 radii) & planets (2 radii)
@@ -15,11 +9,9 @@ UI:
 
 
 DRAWING:
-  better pirateOrbiter
   guns
   projectiles
   electricity particle
-  ui icons
   trees on frozen
   ability effects + teleport blip
   new title
@@ -40,6 +32,12 @@ MISC:
   item pick up sound
   item color categories
   improve physics paths
+
+
+systemConfig:
+  isHard: true
+planetConfig:
+  isHard: true
 
 
 TEST ANDROID RUN:

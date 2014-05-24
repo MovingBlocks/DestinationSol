@@ -4,7 +4,7 @@
     angleVarDamp: 6,
     angleVarPerShot: 2,
     timeBetweenShots: 0.8,
-    maxReloadTime: 2.5,
+    reloadTime: 2.5,
     price: 15,
     clipName: plasmaClip,
 
@@ -25,7 +25,7 @@
     angleVarDamp: 6,
     angleVarPerShot: 2,
     timeBetweenShots: 0.4,
-    maxReloadTime: 2.5,
+    reloadTime: 2.5,
     price: 30,
     clipName: blasterClip,
 
@@ -46,7 +46,7 @@
     angleVarDamp: 0,
     angleVarPerShot: 0,
     timeBetweenShots: 0.5,
-    maxReloadTime: 2.5,
+    reloadTime: 2.5,
     price: 200,
     clipName: bombClip,
 
@@ -66,7 +66,7 @@
     angleVarDamp: 6,
     angleVarPerShot: 1,
     timeBetweenShots: 0.2,
-    maxReloadTime: 1,
+    reloadTime: 1,
     price: 50,
     clipName: bulletClip,
 
@@ -88,7 +88,7 @@
     angleVarDamp: 6,
     angleVarPerShot: 1,
     timeBetweenShots: 0.1,
-    maxReloadTime: 1.5,
+    reloadTime: 1.5,
     price: 150,
     clipName: bulletClip,
 
@@ -109,7 +109,7 @@
     angleVarDamp: 0,
     angleVarPerShot: 10,
     timeBetweenShots: 0.5,
-    maxReloadTime: 2.5,
+    reloadTime: 2.5,
     price: 200,
     clipName: shellClip,
 
@@ -131,7 +131,7 @@
     angleVarDamp: 0,
     angleVarPerShot: 0,
     timeBetweenShots: 0.5,
-    maxReloadTime: 2.5,
+    reloadTime: 2.5,
     price: 200,
     clipName: bombClip,
 
@@ -152,7 +152,7 @@
     angleVarDamp: 6,
     angleVarPerShot: 3,
     timeBetweenShots: 0.4,
-    maxReloadTime: 2.5,
+    reloadTime: 2.5,
     price: 200,
     clipName: rocketClip,
 
@@ -172,7 +172,7 @@
     angleVarDamp: 0,
     angleVarPerShot: 0,
     timeBetweenShots: 0.5,
-    maxReloadTime: 2.5,
+    reloadTime: 2.5,
     price: 200,
     clipName: mineClip,
 
@@ -192,7 +192,7 @@
     angleVarDamp: 6,
     angleVarPerShot: 1,
     timeBetweenShots: 0.2,
-    maxReloadTime: 1,
+    reloadTime: 1,
     price: 50,
     clipName: slugClip,
 
@@ -214,7 +214,7 @@
     angleVarDamp: 6,
     angleVarPerShot: 3,
     timeBetweenShots: 0.4,
-    maxReloadTime: 2.5,
+    reloadTime: 2.5,
     price: 200,
     clipName: rocketClip,
 
@@ -235,7 +235,7 @@
     angleVarDamp: 6,
     angleVarPerShot: 1,
     timeBetweenShots: 0.2,
-    maxReloadTime: 1,
+    reloadTime: 1,
     price: 50,
     clipName: railClip,
 
@@ -257,7 +257,7 @@
     angleVarDamp: 6,
     angleVarPerShot: 3,
     timeBetweenShots: 0.4,
-    maxReloadTime: 2.5,
+    reloadTime: 2.5,
     price: 200,
     clipName: missileClip,
 
@@ -278,7 +278,7 @@
     angleVarDamp: 6,
     angleVarPerShot: 2,
     timeBetweenShots: 0.8,
-    maxReloadTime: 2.5,
+    reloadTime: 2.5,
     price: 15,
     clipName: plasmaClip,
 
@@ -300,7 +300,7 @@
     angleVarDamp: 6,
     angleVarPerShot: 2,
     timeBetweenShots: 0.8,
-    maxReloadTime: 2.5,
+    reloadTime: 2.5,
     price: 15,
     clipName: nailClip,
 
@@ -322,7 +322,7 @@
     angleVarDamp: 6,
     angleVarPerShot: 2,
     timeBetweenShots: 0.4,
-    maxReloadTime: 2.5,
+    reloadTime: 2.5,
     price: 30,
     clipName: blasterClip,
 
@@ -344,7 +344,7 @@
     angleVarDamp: 0,
     angleVarPerShot: 10,
     timeBetweenShots: 0.5,
-    maxReloadTime: 2.5,
+    reloadTime: 2.5,
     price: 200,
     clipName: shellClip,
 
@@ -365,7 +365,7 @@
     angleVarDamp: 6,
     angleVarPerShot: 2,
     timeBetweenShots: 0.8,
-    maxReloadTime: 2.5,
+    reloadTime: 2.5,
     price: 15,
     clipName: emClip,
 
@@ -386,7 +386,7 @@
     angleVarDamp: 6,
     angleVarPerShot: 2,
     timeBetweenShots: 0.8,
-    maxReloadTime: 2.5,
+    reloadTime: 2.5,
     price: 15,
     clipName: emClip,
 
@@ -407,7 +407,7 @@
     angleVarDamp: 6,
     angleVarPerShot: 1,
     timeBetweenShots: 0.2,
-    maxReloadTime: 1,
+    reloadTime: 1,
     price: 50,
     clipName: slugClip,
 
@@ -428,7 +428,7 @@
     angleVarDamp: 6,
     angleVarPerShot: 2,
     timeBetweenShots: 0.8,
-    maxReloadTime: 2.5,
+    reloadTime: 2.5,
     price: 15,
     clipName: waveClip,
 

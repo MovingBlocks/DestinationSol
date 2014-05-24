@@ -18,13 +18,8 @@ public class KnockBack implements ShipAbility {
   }
 
   @Override
-  public SolItem getChargeExample() {
-    return myConfig.chargeExample;
-  }
-
-  @Override
-  public float getRechargeTime() {
-    return myConfig.rechargeTime;
+  public AbilityConfig getConfig() {
+    return myConfig;
   }
 
   @Override
@@ -78,6 +73,16 @@ public class KnockBack implements ShipAbility {
     @Override
     public ShipAbility build() {
       return new KnockBack(this);
+    }
+
+    @Override
+    public SolItem getChargeExample() {
+      return chargeExample;
+    }
+
+    @Override
+    public float getRechargeTime() {
+      return rechargeTime;
     }
 
     public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig cc) {

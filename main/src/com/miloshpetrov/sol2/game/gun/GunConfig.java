@@ -18,7 +18,7 @@ public class GunConfig {
   public final float angleVarDamp;
   public final float angleVarPerShot;
   public final float timeBetweenShots;
-  public final float maxReloadTime;
+  public final float reloadTime;
   public final float gunLength;
   public final String displayName;
   public final TextureAtlas.AtlasRegion tex;
@@ -36,7 +36,7 @@ public class GunConfig {
 
   public GunConfig(float minAngleVar, float maxAngleVar, float angleVarDamp, float angleVarPerShot,
     float timeBetweenShots,
-    float maxReloadTime, float gunLength, String displayName,
+    float reloadTime, float gunLength, String displayName,
     boolean lightOnShot, int price, String descBase,
     ClipConfig clipConf, SolSound shootSound, SolSound reloadSound, TextureAtlas.AtlasRegion tex,
     TextureAtlas.AtlasRegion icon, boolean fixed)
@@ -51,7 +51,7 @@ public class GunConfig {
     this.angleVarDamp = angleVarDamp;
     this.angleVarPerShot = angleVarPerShot;
     this.timeBetweenShots = timeBetweenShots;
-    this.maxReloadTime = maxReloadTime;
+    this.reloadTime = reloadTime;
     this.gunLength = gunLength;
     this.displayName = displayName;
     this.lightOnShot = lightOnShot;
@@ -89,7 +89,7 @@ public class GunConfig {
   private String makeDesc(String descBase) {
     StringBuilder sb = new StringBuilder(descBase);
     sb.append("\nDmg: ").append(dps).append("/s");
-    sb.append("\nReload: ").append(maxReloadTime).append("s");
+    sb.append("\nReload: ").append(reloadTime).append("s");
     if (clipConf.infinite) {
       sb.append("\nInfinite ammo");
     }
@@ -106,7 +106,7 @@ public class GunConfig {
       float angleVarDamp = sh.getFloat("angleVarDamp");
       float angleVarPerShot = sh.getFloat("angleVarPerShot");
       float timeBetweenShots = sh.getFloat("timeBetweenShots");
-      float maxReloadTime = sh.getFloat("maxReloadTime");
+      float reloadTime = sh.getFloat("reloadTime");
       float gunLength = sh.getFloat("gunLength");
       String texName = sh.getString("texName");
       String displayName = sh.getString("displayName");
@@ -122,7 +122,7 @@ public class GunConfig {
       TextureAtlas.AtlasRegion tex = texMan.getTex("guns/" + texName, configFile);
       TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + texName, configFile);
       boolean fixed = sh.getBoolean("fixed", false);
-      GunConfig c = new GunConfig(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots, maxReloadTime,
+      GunConfig c = new GunConfig(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots, reloadTime,
         gunLength, displayName, lightOnShot, price, descBase, clipConf, shootSound, reloadSound, tex, icon, fixed);
       itemMan.registerItem(sh.name, c.example);
     }

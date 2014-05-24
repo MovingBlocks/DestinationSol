@@ -117,8 +117,8 @@ public class SystemsBuilder {
     String st = DebugOptions.FORCE_SYSTEM_TYPE;
     SysConfig sysConfig = st.isEmpty() ? sysConfigs.getRandom() : sysConfigs.getConfig(st);
     String name = SolMath.elemRnd(names.systems);
-    SolSystem s = new SolSystem(sysPos, sysConfig, name);
-    s.setRadius(sysRadius);
+    float innerZoneRadius = sysRadius / 2;
+    SolSystem s = new SolSystem(sysPos, sysConfig, name, sysRadius);
     float planetDist = Const.SUN_RADIUS;
     for (Float gh : ghs) {
       float reserved;
@@ -138,7 +138,7 @@ public class SystemsBuilder {
         SysConfig beltConfig = sysConfigs.getRandomBelt();
         SystemBelt belt = new SystemBelt(-gh, planetDist, s, beltConfig);
         belts.add(belt);
-        s.getBelts().add(belt);
+        s.addBelt(belt);
       }
       planetDist += reserved;
     }

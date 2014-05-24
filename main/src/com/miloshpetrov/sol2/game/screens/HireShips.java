@@ -9,8 +9,7 @@ import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.input.AiPilot;
 import com.miloshpetrov.sol2.game.input.Guardian;
 import com.miloshpetrov.sol2.game.item.*;
-import com.miloshpetrov.sol2.game.ship.HullConfig;
-import com.miloshpetrov.sol2.game.ship.SolShip;
+import com.miloshpetrov.sol2.game.ship.*;
 import com.miloshpetrov.sol2.ui.*;
 
 import java.util.ArrayList;
@@ -75,8 +74,8 @@ public class HireShips implements InventoryOperations {
     Guardian dp = new Guardian(game, config.hull, hero.getPilot(), hero.getPos(), hero.getHull().config);
     AiPilot pilot = new AiPilot(dp, true, Fraction.LAANI, false, "Merc", Const.AI_DET_DIST);
     Vector2 pos = getPos(game, hero, config.hull);
-    SolShip merc = game.getShipBuilder().buildNew(game, pos, new Vector2(), 0, 0, pilot, config.items, config.hull, null, true, config.money, null);
-    game.getObjMan().addObjDelayed(merc);
+    FarShip merc = game.getShipBuilder().buildNewFar(game, pos, new Vector2(), 0, 0, pilot, config.items, config.hull, null, true, config.money, null);
+    game.getObjMan().addFarObjNow(merc);
   }
 
   private Vector2 getPos(SolGame game, SolShip hero, HullConfig hull) {
