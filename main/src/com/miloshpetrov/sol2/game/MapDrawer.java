@@ -297,7 +297,7 @@ public class MapDrawer {
 
   private static float getDps(GunItem g) {
     if (g == null || !g.canShoot()) return 0;
-    return g.config.dps;
+    return g.config.meanDps;
   }
 
   public static float getToughness(SolShip s) {

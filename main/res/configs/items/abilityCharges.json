@@ -1,32 +1,49 @@
 {
   sloMoCharge: {
-    iconName: sloMoCharge,
     price: 30,
+
     displayName: "Slo Mo Charge",
     desc: "Use on ships with Slo Mo ability",
+    iconName: sloMoCharge,
   },
+
+
+
   teleportCharge: {
-    iconName: teleportCharge,
     price: 30,
+
     displayName: "Teleport Charge",
     desc: "Use on ships with Teleport ability",
+    iconName: teleportCharge,
   },
+
+
+
   knockBackCharge: {
-    iconName: knockBackCharge,
     price: 30,
+
     displayName: "knockBack Charge",
     desc: "Use on ships with knockBack ability",
+    iconName: knockBackCharge,
   },
+
+
+
   emWaveCharge: {
-    iconName: emWaveCharge,
     price: 30,
+
     displayName: "emWave Charge",
     desc: "Use on ships with emWave ability",
+    iconName: emWaveCharge,
   },
+
+
+
   unShieldCharge: {
-    iconName: unShieldCharge,
     price: 30,
+
     displayName: "unShield Charge",
     desc: "Use on ships with unShield ability",
+    iconName: unShieldCharge,
   },
 }

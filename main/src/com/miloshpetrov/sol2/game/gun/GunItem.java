@@ -49,8 +49,4 @@ public class GunItem implements SolItem {
   public boolean canShoot() {
     return ammo > 0 || reloadAwait > 0;
   }
-
-  public float getDps() {
-    return config.dps;
-  }
 }

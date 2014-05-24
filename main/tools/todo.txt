@@ -1,8 +1,9 @@
 
 GUNS
-ability charges
-
 ui icon placeholders
+auto fill ships with ammo & ability charges
+enemies should use abilities
+
 
 INITIAL BALANCE:
   hull sizes
@@ -33,14 +34,12 @@ MISC:
   ammo count in inv -- implement map, isSame should return false on all stateful objects, check isSame usages
   longer planet turret shoot dist -- should be just like anybody's else
   unfixed mounts should point forward when no enemy
-  auto fill ships with ammo & ability charges
   far ship positions should be calculated on demand?
   ship rotation shouldn't affect repair
   ship rotates on map when controlled by mouse
   ships get stuck in ground -- perhaps due to different conversion radii
   make title bigger
   bg in title screen
-  enemies should use abilities
   item pick up sound
   item color categories
   improve physics paths

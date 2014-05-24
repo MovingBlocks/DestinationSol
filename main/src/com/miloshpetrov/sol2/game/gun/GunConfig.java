@@ -31,15 +31,15 @@ public class GunConfig {
   public final SolSound shootSound;
   public final SolSound reloadSound;
   public final TextureAtlas.AtlasRegion icon;
-  public final int projectilesPerShot;
   public final boolean fixed;
+  public final float meanDps;
 
   public GunConfig(float minAngleVar, float maxAngleVar, float angleVarDamp, float angleVarPerShot,
     float timeBetweenShots,
     float maxReloadTime, float gunLength, String displayName,
     boolean lightOnShot, int price, String descBase,
     ClipConfig clipConf, SolSound shootSound, SolSound reloadSound, TextureAtlas.AtlasRegion tex,
-    TextureAtlas.AtlasRegion icon, int projectilesPerShot, boolean fixed)
+    TextureAtlas.AtlasRegion icon, boolean fixed)
   {
     this.shootSound = shootSound;
     this.reloadSound = reloadSound;
@@ -58,15 +58,15 @@ public class GunConfig {
     this.price = price;
     this.clipConf = clipConf;
     this.icon = icon;
-    this.projectilesPerShot = projectilesPerShot;
     this.fixed = fixed;
 
     this.desc = makeDesc(descBase);
-    dps = calcDps();
+    dps = clipConf.projConfig.dmg * clipConf.projectilesPerShot / timeBetweenShots;
+    meanDps = calcMeanDps();
     example = new GunItem(this, 0, 0);
   }
 
-  private float calcDps() {
+  private float calcMeanDps() {
     ProjectileConfig pc = clipConf.projConfig;
     float projDmg = pc.dmg;
     if (pc.emTime > 0) projDmg = 15;
@@ -80,9 +80,9 @@ public class GunConfig {
     projDmg *= projHitChance;
 
     float shotDmg = projDmg;
-    if (projectilesPerShot > 1) shotDmg *= projectilesPerShot / 2;
+    if (clipConf.projectilesPerShot > 1) shotDmg *= clipConf.projectilesPerShot / 2;
 
-    float shootTimePerc = fixed ? .2f : 1f;
+    float shootTimePerc = fixed ? .3f : 1f;
     return shotDmg * shootTimePerc / timeBetweenShots;
   }
 
@@ -121,11 +121,9 @@ public class GunConfig {
       SolSound shootSound = soundMan.getSound(shootSoundPath, configFile);
       TextureAtlas.AtlasRegion tex = texMan.getTex("guns/" + texName, configFile);
       TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + texName, configFile);
-      int projectilesPerShot = sh.getInt("projectilesPerShot", 1);
-      if (projectilesPerShot < 1) throw new AssertionError("projectiles per shot");
       boolean fixed = sh.getBoolean("fixed", false);
       GunConfig c = new GunConfig(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots, maxReloadTime,
-        gunLength, displayName, lightOnShot, price, descBase, clipConf, shootSound, reloadSound, tex, icon, projectilesPerShot, fixed);
+        gunLength, displayName, lightOnShot, price, descBase, clipConf, shootSound, reloadSound, tex, icon, fixed);
       itemMan.registerItem(sh.name, c.example);
     }
   }
