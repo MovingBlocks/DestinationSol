@@ -1,23 +1,24 @@
 
-make pirateOrbiter better
-draw ui icons
-set hull g e positions
 
-UI:
-  dangerous system regions (3 radii) & planets (2 radii)
-    create method to check the theoretical difficulty of enemies
+DATA:
+  give items
+  set hull g e positions
 
 
 DRAWING:
+  draw ui icons
+  make pirateOrbiter better
   guns
   projectiles
+  ability effects + teleport blip
   electricity particle
   trees on frozen
-  ability effects + teleport blip
   new title
 
 
-MISC:
+CODING:
+  dangerous system regions (3 radii) & planets (2 radii)
+    create method to check the theoretical difficulty of enemies
   smarter missile guide
   better far ship update -- looks like it's not accurate now, guardians fly too fast
   ammo count in inv -- implement map, isSame should return false on all stateful objects, check isSame usages
@@ -27,17 +28,14 @@ MISC:
   ship rotation shouldn't affect repair
   ship rotates on map when controlled by mouse
   ships get stuck in ground -- perhaps due to different conversion radii
-  make title bigger
-  bg in title screen
   item pick up sound
   item color categories
-  improve physics paths
-
-
-systemConfig:
-  isHard: true
-planetConfig:
-  isHard: true
+  systemConfig:
+    isHard: true
+  planetConfig:
+    isHard: true
+  bg in title screen
+  make title bigger
 
 
 TEST ANDROID RUN:
@@ -74,6 +72,7 @@ FINAL BALANCING
 
 
 IN THE END:
+  hardness? armor bonus + brakes
   tutorial should consider new control type, also mobile, also highlight buttons
   demo
   check licenses:
