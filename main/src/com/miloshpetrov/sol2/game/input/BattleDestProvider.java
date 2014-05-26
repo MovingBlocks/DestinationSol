@@ -1,6 +1,7 @@
 package com.miloshpetrov.sol2.game.input;
 
 import com.badlogic.gdx.math.Vector2;
+import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.SolShip;
@@ -19,7 +20,8 @@ public class BattleDestProvider {
     myCw = SolMath.test(.5f);
   }
 
-  public Vector2 getDest(SolShip ship, SolShip enemy, float shootDist, Planet np, boolean battle, float ts) {
+  public Vector2 getDest(SolShip ship, SolShip enemy, Planet np, boolean battle, float ts,
+    boolean canShootUnfixed, boolean nearGround) {
     myDirChangeAwait -= ts;
     if (myDirChangeAwait <= 0) {
       int rnd = SolMath.intRnd(0, 2);
@@ -31,16 +33,20 @@ public class BattleDestProvider {
     Vector2 enemyPos = enemy.getPos();
     float approxRad = ship.getHull().config.approxRadius;
     float enemyApproxRad = enemy.getHull().config.approxRadius;
-    if (np.isNearGround(enemyPos)) {
+
+    if (nearGround) {
       prefAngle = SolMath.angle(np.getPos(), enemyPos);
       myStopNearDest = false;
-      SolMath.fromAl(myDest, prefAngle, .5f * shootDist + enemyApproxRad);
+      float dist = canShootUnfixed ? .9f * Const.AUTO_SHOOT_GROUND : .5f * Const.CAM_VIEW_DIST_GROUND;
+      dist += approxRad + enemyApproxRad;
+      SolMath.fromAl(myDest, prefAngle, dist);
       myDest.add(enemyPos);
     } else {
       Vector2 shipPos = ship.getPos();
       float a = SolMath.angle(enemyPos, shipPos);
       if (myCw != null) a += 90 * SolMath.toInt(myCw);
-      float len = approxRad + .5f * shootDist + enemyApproxRad;
+      float len = canShootUnfixed ? .9f * Const.AUTO_SHOOT_SPACE : .5f * Const.CAM_VIEW_DIST_SPACE;
+      len += approxRad + enemyApproxRad;
       SolMath.fromAl(myDest, a, len);
       myDest.add(enemyPos);
       myStopNearDest = false;

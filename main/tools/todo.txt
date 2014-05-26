@@ -23,8 +23,6 @@ CODING:
   smarter missile guide
   better far ship update -- looks like it's not accurate now, guardians fly too fast
   ammo count in inv -- implement map, isSame should return false on all stateful objects, check isSame usages
-  longer planet turret shoot dist -- should be just like anybody's else
-  unfixed mounts should point forward when no enemy
   far ship positions should be calculated on demand?
   ship rotation shouldn't affect repair
   ship rotates on map when controlled by mouse

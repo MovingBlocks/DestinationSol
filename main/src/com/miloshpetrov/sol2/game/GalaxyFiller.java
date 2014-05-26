@@ -146,8 +146,7 @@ public class GalaxyFiller {
 
   private void createGuard(SolGame game, FarShip target, ShipConfig guardConf, Fraction frac) {
     Guardian dp = new Guardian(game, guardConf.hull, target.getPilot(), target.getPos(), target.getHullConfig());
-    float detectionDist = Const.AI_DET_DIST;
-    Pilot pilot = new AiPilot(dp, true, frac, false, null, detectionDist);
+    Pilot pilot = new AiPilot(dp, true, frac, false, null, Const.AI_DET_DIST);
     boolean hasRepairer = frac == Fraction.LAANI;
     int money = guardConf.money;
     FarShip e = game.getShipBuilder().buildNewFar(game, dp.getDest(), null, dp.getAngle(), 0, pilot, guardConf.items,
