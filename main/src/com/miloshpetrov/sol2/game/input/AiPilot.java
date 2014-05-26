@@ -1,7 +1,6 @@
 package com.miloshpetrov.sol2.game.input;
 
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.Fraction;
 import com.miloshpetrov.sol2.game.SolGame;
@@ -59,8 +58,6 @@ public class AiPilot implements Pilot {
     if (canShootUnfixed) canShoot = true;
     Planet np = game.getPlanetMan().getNearestPlanet();
     boolean nearGround = np.isNearGround(shipPos);
-    float shootDist = canShootUnfixed && nearGround ? Const.AI_SHOOT_DIST_GROUND : Const.AI_SHOOT_DIST_SPACE;
-    shootDist += hullConfig.approxRadius;
 
     Vector2 dest = null;
     Vector2 destSpd = null;
@@ -72,7 +69,7 @@ public class AiPilot implements Pilot {
       Boolean battle = null;
       if (nearestEnemy != null) battle = myDestProvider.shouldManeuver(canShoot, nearestEnemy, nearGround);
       if (battle != null) {
-        dest = myBattleDestProvider.getDest(ship, nearestEnemy, shootDist, np, battle, game.getTimeStep());
+        dest = myBattleDestProvider.getDest(ship, nearestEnemy, np, battle, game.getTimeStep(), canShootUnfixed, nearGround);
         shouldStopNearDest = myBattleDestProvider.shouldStopNearDest();
         destSpd = nearestEnemy.getSpd();
         boolean big = hullConfig.type == HullConfig.Type.BIG;
@@ -93,7 +90,7 @@ public class AiPilot implements Pilot {
     Vector2 enemyPos = nearestEnemy == null ? null : nearestEnemy.getPos();
     Vector2 enemySpd = nearestEnemy == null ? null : nearestEnemy.getSpd();
     float enemyApproxRad = nearestEnemy == null ? 0 : nearestEnemy.getHull().config.approxRadius;
-    myShooter.update(ship, enemyPos, moverActive, canShoot, enemySpd, shootDist, enemyApproxRad);
+    myShooter.update(ship, enemyPos, moverActive, canShoot, enemySpd, enemyApproxRad);
     if (hasEngine && !moverActive && !isShooterRotated()) {
       myMover.rotateOnIdle(ship, np, dest, shouldStopNearDest, maxIdleDist);
     }

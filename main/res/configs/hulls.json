@@ -5,7 +5,7 @@
     type: std,
 
     texName: pirateSpaceTurret,
-    g1Pos: "0.5 0.5",
+    g1Pos: "0.5 0.62",
   },
 
 
@@ -21,10 +21,10 @@
     },
 
     texName: pirateSmall,
-    g1Pos: "0.52 0.2",
+    g1Pos: "0.35 0.2",
     g1UnderShip: true,
-    e1Pos: "0.15 0.47",
-    e2Pos: "0.15 0.53",
+    e1Pos: "0.01 0.5",
+    e2Pos: "0.01 0.5",
     engine: pirate,
   },
 

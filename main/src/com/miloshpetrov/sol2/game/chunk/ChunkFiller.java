@@ -132,9 +132,8 @@ public class ChunkFiller {
     Vector2 spd = new Vector2();
     SolMath.fromAl(spd, SolMath.rnd(180), SolMath.rnd(0, ENEMY_MAX_SPD));
     float rotSpd = SolMath.rnd(ENEMY_MAX_ROT_SPD);
-    float detectionDist = Const.AI_DET_DIST;
     MoveDestProvider dp = new StillGuard(pos, game, enemyConf);
-    Pilot provider = new AiPilot(dp, false, Fraction.EHAR, true, null, detectionDist);
+    Pilot provider = new AiPilot(dp, false, Fraction.EHAR, true, null, Const.AI_DET_DIST);
     HullConfig config = enemyConf.hull;
     int money = enemyConf.money;
     float angle = SolMath.rnd(180);

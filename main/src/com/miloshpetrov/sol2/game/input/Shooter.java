@@ -3,6 +3,7 @@ package com.miloshpetrov.sol2.game.input;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.gun.GunItem;
+import com.miloshpetrov.sol2.game.gun.GunMount;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfig;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
@@ -19,7 +20,7 @@ public class Shooter {
   }
 
   public void update(SolShip ship, Vector2 enemyPos, boolean dontRotate, boolean canShoot, Vector2 enemySpd,
-    float shootDist, float enemyApproxRad)
+    float enemyApproxRad)
   {
     myLeft = false;
     myRight = false;
@@ -28,7 +29,6 @@ public class Shooter {
     Vector2 shipPos = ship.getPos();
     if (enemyPos == null || !canShoot) return;
     float toEnemyDst = enemyPos.dst(shipPos);
-    if (shootDist + enemyApproxRad < toEnemyDst) return;
 
     GunItem g1 = processGun(ship, false);
     GunItem g2 = processGun(ship, true);
@@ -80,11 +80,16 @@ public class Shooter {
   
   // returns gun if it's fixed & can shoot
   private GunItem processGun(SolShip ship, boolean second) {
-    GunItem g = ship.getHull().getGun(second);
+    GunMount mount = ship.getHull().getGunMount(second);
+    if (mount == null) return null;
+    GunItem g = mount.getGun();
     if (g == null || g.ammo <= 0) return null;
-    if (g.config.fixed && !g.config.clipConf.projConfig.zeroAbsSpd) return g;
+    boolean zeroAbsSpd = g.config.clipConf.projConfig.zeroAbsSpd;
 
-    if (second) myShoot2 = true; else myShoot = true;
+    if (!zeroAbsSpd && g.config.fixed) return g;
+    if (zeroAbsSpd || mount.isDetected()) {
+      if (second) myShoot2 = true; else myShoot = true;
+    }
     return null;
   }
 

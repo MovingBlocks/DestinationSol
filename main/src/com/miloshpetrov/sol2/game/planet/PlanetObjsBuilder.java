@@ -63,12 +63,12 @@ public class PlanetObjsBuilder {
       }
     }
 
-    buildOrbitEnemies(game, planet, gh, 0, .1f, config.lowOrbitEnemies);
-    buildOrbitEnemies(game, planet, gh, .1f, .6f, config.highOrbitEnemies);
+    buildOrbitEnemies(game, planet, gh, 0, .1f, config.lowOrbitEnemies, Const.AUTO_SHOOT_SPACE);
+    buildOrbitEnemies(game, planet, gh, .1f, .6f, config.highOrbitEnemies, Const.AI_DET_DIST);
   }
 
   private void buildOrbitEnemies(SolGame game, Planet planet, float gh, float offsetPerc, float atmPerc,
-    List<ShipConfig> configs)
+    List<ShipConfig> configs, float detDist)
   {
     if (configs.isEmpty()) return;
     HashMap<ShipConfig, Integer> counts = new HashMap<ShipConfig, Integer>();
@@ -83,7 +83,7 @@ public class PlanetObjsBuilder {
     for (ShipConfig oe : configs) {
       int count = counts.get(oe);
       for (int i = 0; i < count; i++) {
-        FarShip e = buildOrbitEnemy(game, planet, heightPerc, oe);
+        FarShip e = buildOrbitEnemy(game, planet, heightPerc, oe, detDist);
         game.getObjMan().addFarObjNow(e);
         heightPerc += stepPerc;
       }
@@ -293,14 +293,13 @@ public class PlanetObjsBuilder {
     Vector2 spd = new Vector2(toPlanet).nor();
     SolMath.free(toPlanet);
 
-    float detectionDist = Const.AI_DET_DIST;
-    Pilot provider = new AiPilot(new StillGuard(pos, game, ge), false, fraction, true, null, detectionDist);
+    Pilot provider = new AiPilot(new StillGuard(pos, game, ge), false, fraction, true, null, Const.AI_DET_DIST);
 
     return game.getShipBuilder().buildNewFar(game, pos, spd, angle, 0, provider, ic, ge.hull,
       null, hasRepairer, money, tc);
   }
 
-  public FarShip buildOrbitEnemy(SolGame game, Planet planet, float heightPerc, ShipConfig oe) {
+  public FarShip buildOrbitEnemy(SolGame game, Planet planet, float heightPerc, ShipConfig oe, float detDist) {
     float height = planet.getGroundHeight() + heightPerc * Const.ATM_HEIGHT;
     Vector2 pos = new Vector2();
     SolMath.fromAl(pos, SolMath.rnd(180), height);
@@ -313,12 +312,10 @@ public class PlanetObjsBuilder {
     Vector2 v = SolMath.distVec(pos, planetPos);
     SolMath.rotate(spd, v.angle());
     SolMath.free(v);
-    float detectionDist = Const.AI_DET_DIST;
 
     OrbiterDestProvider dp = new OrbiterDestProvider(planet, height, cw);
-    Pilot provider = new AiPilot(dp, false, Fraction.EHAR, true, null, detectionDist);
+    Pilot provider = new AiPilot(dp, false, Fraction.EHAR, true, null, detDist);
 
-    boolean hasRepairer;
     int money = oe.money;
 
     return game.getShipBuilder().buildNewFar(game, pos, spd, 0, 0, provider, oe.items, oe.hull,

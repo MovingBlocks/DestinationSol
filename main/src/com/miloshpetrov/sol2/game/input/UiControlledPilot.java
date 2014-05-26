@@ -1,6 +1,7 @@
 package com.miloshpetrov.sol2.game.input;
 
 
+import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.game.Fraction;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.screens.MainScreen;
@@ -66,7 +67,7 @@ public class UiControlledPilot implements Pilot {
 
   @Override
   public float getDetectionDist() {
-    return -1;
+    return Const.AUTO_SHOOT_SPACE; // just for unfixed mounts
   }
 
   @Override
