@@ -31,7 +31,7 @@
     highOrbitEnemies: [
       {
         hull: pirateOrbiter,
-        items: "",
+        items: "plasmaGun|blaster",
 		money: 40,
         density: 0.03,
       }
@@ -39,7 +39,7 @@
     lowOrbitEnemies: [
       {
         hull: pirateOrbiter,
-        items: "",
+        items: "bombGun",
 		money: 40,
         density: 0.1,
       },
@@ -47,13 +47,13 @@
     groundEnemies: [
       {
         hull: piratePlanetTurret,
-        items: "",
+        items: "plasmaGun|blaster",
 		money: 30,
         density: 0.45,
       },
       {
         hull: pirateSmall,
-        items: "",
+        items: "blaster|gun",
 		money: 30,
         density: 0.15,
       },
@@ -106,7 +106,7 @@
     highOrbitEnemies: [
       {
         hull: desertOrbiter,
-        items: "",
+        items: "fixedGun",
 		money: 40,
         density: 0.03,
       }
@@ -114,7 +114,7 @@
     lowOrbitEnemies: [
       {
         hull: desertOrbiter,
-        items: "",
+        items: "fixedBombGun",
 		money: 40,
         density: 0.1,
       },
@@ -122,13 +122,13 @@
     groundEnemies: [
       {
         hull: desertPlanetTurret,
-        items: "",
+        items: "gun",
 		money: 30,
         density: 0.45,
       },
       {
         hull: desertSmall,
-        items: "",
+        items: "fixedGun|railGun",
 		money: 30,
         density: 0.15,
       },
@@ -167,7 +167,7 @@
     highOrbitEnemies: [
       {
         hull: techieOrbiter,
-        items: "",
+        items: "fixedPlasmaGun|fixedBlaster fixedPlasmaGun|fixedBlaster|fixedEmGun:.5",
 		money: 40,
         density: 0.03,
       }
@@ -175,13 +175,13 @@
     groundEnemies: [
       {
         hull: techieSmall,
-        items: "",
+        items: "fixedPlasmaGun fixedPlasmaGun|fixedBlaster:.5",
 		money: 30,
         density: 0.15,
       },
       {
         hull: techiePlanetTurret,
-        items: "",
+        items: "waveGun waveGun|emGun",
 		money: 30,
         density: 0.45,
       },

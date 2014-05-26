@@ -1,23 +1,23 @@
 fixed == faster
 
 plasmaGun = Pirate Plasma Gun / plasmaClip
-blaster / infinite
 bombGun / bombClip
+blaster / infinite
+fixedBombGun / bombClip
 gun = Machine Gun / bulletClip
 fixedGun = Heavy Machine Gun / bulletClip
 shotGun / shellClip
-fixedBombGun / bombClip
 f missileLauncher / missileClip
-miner / mineClip
-cannon / slugClip
 f rocketLauncher / rocketClip
 f railGun / railClip
-f missilePad / missileClip
+miner / mineClip
 fixedPlasmaGun = Plasma Gun / plasmaClip
+f missilePad / missileClip
+cannon / slugClip
 f nailGun / nailClip
 fixedBlaster = Heavy Blaster / infinite
-fixedShotGun = Heavy Shotgun / shellClip
 emGun / infinite
+fixedShotGun = Heavy Shotgun / shellClip
 fixedEmGun = Heavy EM Gun / infinite
 fixedCannon = Heavy Cannon / slugClip
 waveGun / infinite
