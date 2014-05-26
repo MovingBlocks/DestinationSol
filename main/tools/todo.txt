@@ -2,20 +2,6 @@
 
 DATA:
   give items
-  set hull g e positions
-
-
-DRAWING:
-  draw ui icons
-  make pirateOrbiter better
-  pirate hull shades
-  guns
-  projectiles
-  ability effects + teleport blip
-  electricity particle
-  trees on frozen
-  new title
-
 
 CODING:
   dangerous system regions (3 radii) & planets (2 radii)
@@ -35,6 +21,17 @@ CODING:
     isHard: true
   bg in title screen
   make title bigger
+
+
+DRAWING:
+  pirate space station hull shades
+  guns
+  projectiles
+  ability effects + teleport blip
+  electricity particle
+  trees on frozen
+  draw ui icons
+  new title
 
 
 TEST ANDROID RUN:
@@ -67,11 +64,11 @@ PERF OPTIONAL:
   compare dstSq instead of dst -- maybe not needed, iterating through object is only quadratic
 
 
-FINAL BALANCING
-
-
 IN THE END:
+  final balancing
+  check paths, g e positions
   hardness? armor bonus + brakes
+  lights
   tutorial should consider new control type, also mobile, also highlight buttons
   demo
   check licenses:

@@ -44,8 +44,8 @@
     texName: imperialSmall,
     g1Pos: "0.52 0.2",
     g1UnderShip: true,
-    e1Pos: "0.15 0.47",
-    e2Pos: "0.15 0.53",
+    e1Pos: "0.14 0.44",
+    e2Pos: "0.14 0.57",
     name: "Small Guardian",
     desc: "desc",
     engine: imperial,
@@ -65,10 +65,10 @@
     },
 
     texName: pirateOrbiter,
-    g1Pos: "0.25 0.25",
+    g1Pos: "0.5 0.8",
     g1UnderShip: true,
-    e1Pos: "0.1 0.63",
-    e2Pos: "0.1 0.73",
+    e1Pos: "0.23 0.42",
+    e2Pos: "0.35 0.61",
     name: "Orbiter",
     desc: "desc",
     engine: pirate,
@@ -95,9 +95,9 @@
     mount1CanFix: true,
 
     texName: desertOrbiter,
-    g1Pos: "0.22 0.32",
-    e1Pos: "0.02 0.31",
-    e2Pos: "0.02 0.69",
+    g1Pos: "0.32 0.32",
+    e1Pos: "0 0.33",
+    e2Pos: "0 0.67",
     name: "Bomber",
     desc: "desc",
     engine: desert,
@@ -111,7 +111,7 @@
     type: station,
 
     texName: desertPlanetTurret,
-    g1Pos: "0.5 0.4",
+    g1Pos: "0.51 0.21",
   },
 
 
@@ -129,10 +129,10 @@
     },
 
     texName: imperialMedium,
-    g1Pos: "0.25 0.25",
+    g1Pos: "0.4 0.2",
     g1UnderShip: true,
-    e1Pos: "0.1 0.63",
-    e2Pos: "0.1 0.73",
+    e1Pos: "0.15 0.52",
+    e2Pos: "0.15 0.62",
     name: "Orbiter",
     desc: "desc",
     engine: imperial,
@@ -147,8 +147,8 @@
 
     texName: truck,
     g1Pos: "0.77 0.5",
-    e1Pos: "0.04 0.4",
-    e2Pos: "0.04 0.6",
+    e1Pos: "0.06 0.4",
+    e2Pos: "0.06 0.6",
     engine: pirateBig,
   },
 
@@ -167,11 +167,11 @@
     },
 
     texName: minerSmall,
-    g1Pos: "0.25 0.15",
-    g1UnderShip: true,
-    g2Pos: "0.25 0.85",
-    e1Pos: "0.1 0.47",
-    e2Pos: "0.1 0.53",
+    g1Pos: "0.75 0.7",
+    g2Pos: "0.92 0.6",
+    g2UnderShip: true,
+    e1Pos: "0.1 0.2",
+    e2Pos: "0.1 0.8",
     engine: miner,
   },
 
@@ -191,12 +191,12 @@
     },
 
     texName: desertSmall,
-    g1Pos: "0.45 0.15",
+    g1Pos: "0.53 0.13",
     g1UnderShip: true,
-    g2Pos: "0.45 0.85",
+    g2Pos: "0.53 0.87",
     g2UnderShip: true,
-    e1Pos: "0.1 0.47",
-    e2Pos: "0.1 0.53",
+    e1Pos: "0.02 0.46",
+    e2Pos: "0.02 0.54",
     name: "Beetle",
     desc: "desc",
     engine: desert,
@@ -216,9 +216,9 @@
     },
 
     texName: minerMedium,
-    g1Pos: "0.22 0.32",
-    e1Pos: "0.02 0.31",
-    e2Pos: "0.02 0.69",
+    g1Pos: "0.65 0.66",
+    e1Pos: "0.2 0.26",
+    e2Pos: "0.2 0.72",
     engine: miner,
   },
 
@@ -236,10 +236,10 @@
     },
 
     texName: pirateMedium,
-    g1Pos: "0.22 0.32",
-    g2Pos: "0.22 0.68",
-    e1Pos: "0.02 0.31",
-    e2Pos: "0.02 0.69",
+    g1Pos: "0.38 0.48",
+    g2Pos: "0.63 0.78",
+    e1Pos: "0.03 0.42",
+    e2Pos: "0.04 0.59",
     name: "Pirate Medium lol",
     desc: "desc",
     engine: pirate,
@@ -255,8 +255,8 @@
     texName: bus,
     g1Pos: "0.64 0.5",
     g2Pos: "0.36 0.5",
-    e1Pos: "0.07 0.38",
-    e2Pos: "0.07 0.62",
+    e1Pos: "0.09 0.38",
+    e2Pos: "0.09 0.62",
     forceBeaconPoss: [
       "0.5 0.25",
       "0.5 0.75",
@@ -288,8 +288,8 @@
     type: std,
 
     texName: desertSpaceTurret,
-    g1Pos: "0.4 0.5",
-    g1Pos: "0.6 0.5",
+    g1Pos: "0.38 0.43",
+    g1Pos: "0.62 0.57",
     lightSrcPoss: [
       ".25 .5",
       ".75 .5",
@@ -306,12 +306,12 @@
     mount2CanFix: true,
 
     texName: techieSmall,
-    g1Pos: "0.25 0.15",
+    g1Pos: "0.38 0.15",
     g1UnderShip: true,
-    g2Pos: "0.25 0.85",
+    g2Pos: "0.38 0.85",
     g2UnderShip: true,
-    e1Pos: "0.1 0.47",
-    e2Pos: "0.1 0.53",
+    e1Pos: "0.1 0.5",
+    e2Pos: "0.1 0.5",
     engine: techie,
   },
 
@@ -325,12 +325,12 @@
     mount2CanFix: true,
 
     texName: techieOrbiter,
-    g1Pos: ".7 0.25",
+    g1Pos: ".54 0.12",
     g1UnderShip: true,
-    g2Pos: ".7 0.75",
+    g2Pos: ".54 0.88",
     g2UnderShip: true,
-    e1Pos: "0.5 0.15",
-    e2Pos: "0.5 0.85",
+    e1Pos: "0.16 0.38",
+    e2Pos: "0.16 0.62",
     engine: techie,
   },
 
@@ -350,8 +350,8 @@
     },
 
     texName: desertMedium,
-    g1Pos: "0.22 0.32",
-    g2Pos: "0.22 0.68",
+    g1Pos: "0.2 0.32",
+    g2Pos: "0.2 0.68",
     e1Pos: "0.02 0.31",
     e2Pos: "0.02 0.69",
     name: "Hunter",
@@ -374,10 +374,10 @@
     },
 
     texName: imperialBig,
-    g1Pos: "0.66 0.33",
-    g2Pos: "0.66 0.66",
-    e1Pos: "0.13 0.38",
-    e2Pos: "0.13 0.6",
+    g1Pos: "0.54 0.26",
+    g2Pos: "0.54 0.74",
+    e1Pos: "0.11 0.43",
+    e2Pos: "0.11 0.57",
     name: "vanguard",
     desc: "desc",
     engine: imperial,
@@ -398,10 +398,10 @@
     },
 
     texName: minerBoss,
-    g1Pos: "0.66 0.33",
-    g2Pos: "0.66 0.66",
-    e1Pos: "0.13 0.38",
-    e2Pos: "0.13 0.6",
+    g1Pos: "0.76 0.26",
+    g2Pos: "0.56 0.73",
+    e1Pos: "0.18 0.3",
+    e2Pos: "0.18 0.7",
     engine: miner,
   },
 
@@ -413,8 +413,8 @@
     type: station,
 
     texName: techiePlanetTurret,
-    g1Pos: "0.4 0.4",
-    g2Pos: "0.6 0.4",
+    g1Pos: "0.5 0.14",
+    g2Pos: "0.5 0.38",
   },
 
 
@@ -434,8 +434,8 @@
     texName: desertBoss,
     g1Pos: "0.37 0.18",
     g2Pos: "0.3 0.74",
-    e1Pos: "0 0.3",
-    e2Pos: "0 0.7",
+    e1Pos: "0 0.25",
+    e2Pos: "0 0.75",
     engine: desertBig,
   },
 
@@ -447,7 +447,7 @@
     type: station,
 
     texName: drome,
-    g1Pos: "0.24 0.9",
+    g1Pos: "0.24 0.2",
     lightSrcPoss: [
       "0.43 0.23",
       "0.87 0.23",
@@ -462,8 +462,8 @@
     type: station,
 
     texName: station,
-    g1Pos: "0.21 0.70",
-    g2Pos: "0.79 0.70",
+    g1Pos: "0.21 0.7",
+    g2Pos: "0.79 0.7",
     lightSrcPoss: [
       "0.26 0.93",
       "0.73 0.93",
