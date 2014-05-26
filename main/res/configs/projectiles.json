@@ -226,7 +226,7 @@
     spdLen: 12,
     physSize: 0.15,
 
-    texName: rail,
+    texName: nail,
     texSz: 0.15,
     collisionEffect: {
       effectFile: spark,

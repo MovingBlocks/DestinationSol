@@ -243,9 +243,9 @@ main/imgSrcs/projectiles/bomb.png -text
 main/imgSrcs/projectiles/bullet.png -text
 main/imgSrcs/projectiles/mine.png -text
 main/imgSrcs/projectiles/missile.png -text
+main/imgSrcs/projectiles/nail.png -text
 main/imgSrcs/projectiles/pack.json -text
 main/imgSrcs/projectiles/plasma.png -text
-main/imgSrcs/projectiles/rail.png -text
 main/imgSrcs/projectiles/rocket.png -text
 main/imgSrcs/projectiles/slug.png -text
 main/imgSrcs/projectiles/wave.png -text
