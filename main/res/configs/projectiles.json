@@ -165,11 +165,24 @@
 
     texName: slug,
     texSz: 0.15,
+    trailEffect: {
+      effectFile: smoke,
+      tex: smoke,
+      floatsUp: true,
+      tint: smoke,
+    },
+    collisionEffectBg: {
+      effectFile: explSmoke,
+      size: 0.3,
+      tex: smoke,
+      floatsUp: true,
+      tint: smoke,
+    },
     collisionEffect: {
-      effectFile: explFire,
-      size: 0.2,
-      tex: fire,
-      tint: "180 20 120",
+      effectFile: spark,
+      size: 1,
+      tex: spark,
+      tint: fire,
     },
 
     collisionSound: "",
@@ -228,6 +241,11 @@
 
     texName: nail,
     texSz: 0.15,
+    trailEffect: {
+      effectFile: railTrail,
+      tex: techieTrail,
+      tint: white,
+    },
     collisionEffect: {
       effectFile: spark,
       size: 0.5,
@@ -258,22 +276,21 @@
   em: {
     dmg: 1,
     dmgType: energy,
-    spdLen: 5,
+    spdLen: 3,
     emTime: 1,
 
     texName: plasma,
     texSz: 0,
-    trailEffect: {
-      effectFile: smoke,
-      tex: smoke,
-      floatsUp: true,
-      tint: smoke,
+    bodyEffect: {
+      effectFile: electricity2,
+      tex: electricity,
+      tint: white,
     },
     collisionEffect: {
       effectFile: explFire,
       size: 0.2,
       tex: fire,
-      tint: "180 20 120",
+      tint: white,
     },
 
     collisionSound: "projectiles/plasmaCollision",

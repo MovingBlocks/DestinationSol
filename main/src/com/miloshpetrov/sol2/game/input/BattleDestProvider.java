@@ -6,12 +6,12 @@ import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public class BattleDestProvider {
-  public static final float MIN_DIR_CHANGE_AWAIT = 5f;
-  public static final float MAX_DIR_CHANGE_AWAIT = 10f;
+  public static final float MIN_DIR_CHANGE_AWAIT = 10f;
+  public static final float MAX_DIR_CHANGE_AWAIT = 15f;
   private final Vector2 myDest;
 
   private boolean myStopNearDest;
-  private boolean myCw;
+  private Boolean myCw;
   private float myDirChangeAwait;
 
   public BattleDestProvider() {
@@ -22,7 +22,8 @@ public class BattleDestProvider {
   public Vector2 getDest(SolShip ship, SolShip enemy, float shootDist, Planet np, boolean battle, float ts) {
     myDirChangeAwait -= ts;
     if (myDirChangeAwait <= 0) {
-      myCw = !myCw;
+      int rnd = SolMath.intRnd(0, 2);
+      myCw = rnd == 0 ? null : rnd == 1;
       myDirChangeAwait = SolMath.rnd(MIN_DIR_CHANGE_AWAIT, MAX_DIR_CHANGE_AWAIT);
     }
     if (!battle) throw new AssertionError("can't flee yet!");
@@ -37,8 +38,8 @@ public class BattleDestProvider {
       myDest.add(enemyPos);
     } else {
       Vector2 shipPos = ship.getPos();
-      float toShipAngle = SolMath.angle(enemyPos, shipPos);
-      float a = toShipAngle + 90 * SolMath.toInt(myCw);
+      float a = SolMath.angle(enemyPos, shipPos);
+      if (myCw != null) a += 90 * SolMath.toInt(myCw);
       float len = approxRad + .5f * shootDist + enemyApproxRad;
       SolMath.fromAl(myDest, a, len);
       myDest.add(enemyPos);

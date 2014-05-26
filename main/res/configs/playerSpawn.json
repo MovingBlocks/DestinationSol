@@ -1,9 +1,8 @@
 {
-  __readme__: "for player.spawnPlace, use one of the following: station, planet, maze, trader",
   player: {
     ship: {
       hull: imperialSmall,
-      items: "gun s1 a1",
+      items: "cannon",
       money: 20,
     },
     godModeShip: {

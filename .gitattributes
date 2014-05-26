@@ -289,12 +289,14 @@ main/res/configs/systemNames.txt -text
 main/res/configs/systems.json -text
 main/res/emitters/areaShipAbility.p -text
 main/res/emitters/electricity.p -text
+main/res/emitters/electricity2.p -text
 main/res/emitters/explFire.p -text
 main/res/emitters/explSmoke.p -text
 main/res/emitters/fire.p -text
 main/res/emitters/flame.p -text
 main/res/emitters/forceBeacon.p -text
 main/res/emitters/knockBack.p -text
+main/res/emitters/railTrail.p -text
 main/res/emitters/smoke.p -text
 main/res/emitters/smokeEngine.p -text
 main/res/emitters/spark.p -text

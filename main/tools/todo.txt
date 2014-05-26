@@ -8,6 +8,7 @@ DATA:
 DRAWING:
   draw ui icons
   make pirateOrbiter better
+  pirate hull shades
   guns
   projectiles
   ability effects + teleport blip
