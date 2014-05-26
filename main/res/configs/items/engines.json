@@ -64,7 +64,6 @@
 
     effect: {
       effectFile: techieEngine,
-      size: 0.07,
       tex: techieTrail,
       tint: white,
     },
