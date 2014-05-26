@@ -37,7 +37,7 @@ public class BattleDestProvider {
     if (nearGround) {
       prefAngle = SolMath.angle(np.getPos(), enemyPos);
       myStopNearDest = false;
-      float dist = canShootUnfixed ? .9f * Const.AUTO_SHOOT_GROUND : .5f * Const.CAM_VIEW_DIST_GROUND;
+      float dist = canShootUnfixed ? .9f * Const.AUTO_SHOOT_GROUND : .75f * Const.CAM_VIEW_DIST_GROUND;
       dist += approxRad + enemyApproxRad;
       SolMath.fromAl(myDest, prefAngle, dist);
       myDest.add(enemyPos);
