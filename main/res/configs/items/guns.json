@@ -8,7 +8,7 @@
     price: 15,
     clipName: plasmaClip,
 
-    gunLength: 0.12,
+    gunLength: 0.14,
     texName: plasmaGun,
     displayName: "Cheap Plasma Gun",
     lightOnShot: true,
@@ -29,7 +29,7 @@
     price: 30,
     clipName: blasterClip,
 
-    gunLength: 0.16,
+    gunLength: 0.14,
     texName: blaster,
     displayName: "Blaster Gun",
     lightOnShot: true,

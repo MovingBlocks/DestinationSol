@@ -11,7 +11,7 @@
     outerEnemies: [
       {
         hull: minerMedium,
-        items: "",
+        items: "missileLauncher|rocketLauncher",
 		money: 20,
         density: 0.03,
       }
@@ -19,13 +19,13 @@
     innerEnemies: [
       {
         hull: minerTurret,
-        items: "",
+        items: "missilePad",
 		money: 20,
         density: 0.01,
       },
       {
         hull: minerSmall,
-        items: "",
+        items: "rocketLauncher|missilePad rocketLauncher|missilePad|nailGun:.5",
 		money: 20,
         density: 0.01,
       },
@@ -33,7 +33,7 @@
     bosses: [
       {
         hull: minerBoss,
-        items: "",
+        items: "nailGun|missilePad nailGun|missilePad",
 		money: 20,
       },
     ],

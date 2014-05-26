@@ -1,7 +1,9 @@
 
+turrets don't shoot, why
 
 DATA:
-  give items
+  give shields and ammo
+  unfixed mounts should be on hull, not wings
 
 CODING:
   dangerous system regions (3 radii) & planets (2 radii)
