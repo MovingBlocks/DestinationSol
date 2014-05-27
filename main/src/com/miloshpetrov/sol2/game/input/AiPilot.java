@@ -173,7 +173,7 @@ public class AiPilot implements Pilot {
   public void updateFar(SolGame game, FarShip farShip) {
     Vector2 shipPos = farShip.getPos();
     HullConfig hullConfig = farShip.getHullConfig();
-    float maxIdleDist = getMaxIdleDist(hullConfig);
+    float maxIdleDist = .05f;
     myDestProvider.update(game, shipPos, maxIdleDist, hullConfig, null);
     Vector2 dest = myDestProvider.getDest();
 
@@ -192,17 +192,18 @@ public class AiPilot implements Pilot {
       }
     } else {
       float toDestLen = shipPos.dst(dest);
+      float desiredAngle;
       if (myDestProvider.shouldStopNearDest() && toDestLen < maxIdleDist) {
         spd.set(myDestProvider.getDestSpd());
-        // what about angle?
+        desiredAngle = angle; // can be improved
       } else {
-        float desiredAngle = SolMath.angle(shipPos, dest);
+        desiredAngle = SolMath.angle(shipPos, dest);
         if (myDestProvider.shouldAvoidBigObjs()) {
           desiredAngle = myMover.getBigObjAvoider().avoid(game, shipPos, dest, desiredAngle);
         }
-        angle = SolMath.approachAngle(angle, desiredAngle, engine.getMaxRotSpd() * ts);
-        SolMath.fromAl(spd, angle, myDestProvider.getDesiredSpdLen());
       }
+      angle = SolMath.approachAngle(angle, desiredAngle, engine.getMaxRotSpd() * ts);
+      SolMath.fromAl(spd, angle, myDestProvider.getDesiredSpdLen());
     }
 
     farShip.setSpd(spd);

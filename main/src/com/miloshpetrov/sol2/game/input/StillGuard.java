@@ -47,7 +47,7 @@ public class StillGuard implements MoveDestProvider {
   public void update(SolGame game, Vector2 shipPos, float maxIdleDist, HullConfig hullConfig, SolShip nearestEnemy) {
     if (myPlanetBind != null) {
       Vector2 diff = SolMath.getVec();
-      myPlanetBind.setDiff(diff, shipPos, false);
+      myPlanetBind.setDiff(diff, myDest, false);
       myDest.add(diff);
       SolMath.free(diff);
       myPlanetBind.getPlanet().calcSpdAtPos(myDestSpd, myDest);
