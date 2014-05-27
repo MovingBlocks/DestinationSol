@@ -7,7 +7,7 @@
     },
     godModeShip: {
       hull: imperialBig,
-      items: "",
+      items: "gun fixedShotGun a4 s4",
       money: 1000,
     },
   },
@@ -17,7 +17,7 @@
 	money: 300,
     guard: {
       hull: imperialBig,
-      items: "gun fixedShotGun",
+      items: "gun fixedShotGun a2|a3 s2|s3",
 	  money: 50,
       density: 3,
     }

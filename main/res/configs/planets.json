@@ -31,7 +31,7 @@
     highOrbitEnemies: [
       {
         hull: pirateOrbiter,
-        items: "plasmaGun|blaster",
+        items: "plasmaGun|blaster s1:.24",
 		money: 40,
         density: 0.03,
       }
@@ -39,7 +39,7 @@
     lowOrbitEnemies: [
       {
         hull: pirateOrbiter,
-        items: "bombGun",
+        items: "bombGun s1:.24",
 		money: 40,
         density: 0.1,
       },
@@ -47,20 +47,20 @@
     groundEnemies: [
       {
         hull: piratePlanetTurret,
-        items: "plasmaGun|blaster",
+        items: "plasmaGun|blaster s1|s2:.36",
 		money: 30,
         density: 0.45,
       },
       {
         hull: pirateSmall,
-        items: "blaster|gun",
+        items: "blaster|gun s1|s2:.5",
 		money: 30,
         density: 0.15,
       },
     ],
     station: {
       hull: drome,
-      items: "",
+      items: "blaster|gun s1",
 	  money: 30,
     }
   },
@@ -106,7 +106,7 @@
     highOrbitEnemies: [
       {
         hull: desertOrbiter,
-        items: "fixedGun",
+        items: "fixedGun a1:.25",
 		money: 40,
         density: 0.03,
       }
@@ -114,7 +114,7 @@
     lowOrbitEnemies: [
       {
         hull: desertOrbiter,
-        items: "fixedBombGun",
+        items: "fixedBombGun a1:.25",
 		money: 40,
         density: 0.1,
       },
@@ -122,20 +122,20 @@
     groundEnemies: [
       {
         hull: desertPlanetTurret,
-        items: "gun",
+        items: "gun a1|a2:.5",
 		money: 30,
         density: 0.45,
       },
       {
         hull: desertSmall,
-        items: "fixedGun|railGun",
+        items: "fixedGun|railGun a2:.75",
 		money: 30,
         density: 0.15,
       },
     ],
     station: {
       hull: drome,
-      items: "",
+      items: "gun|cannon s1",
 	  money: 30,
     }
   },
@@ -167,7 +167,7 @@
     highOrbitEnemies: [
       {
         hull: techieOrbiter,
-        items: "fixedPlasmaGun|fixedBlaster fixedPlasmaGun|fixedBlaster|fixedEmGun:.5",
+        items: "fixedPlasmaGun|fixedBlaster fixedPlasmaGun|fixedBlaster|fixedEmGun:.5 a2:.75 s4",
 		money: 40,
         density: 0.03,
       }
@@ -175,13 +175,13 @@
     groundEnemies: [
       {
         hull: techieSmall,
-        items: "fixedPlasmaGun fixedPlasmaGun|fixedBlaster:.5",
+        items: "fixedPlasmaGun fixedPlasmaGun|fixedBlaster:.5 a2:.5 s3|s4",
 		money: 30,
         density: 0.15,
       },
       {
         hull: techiePlanetTurret,
-        items: "waveGun waveGun|emGun",
+        items: "waveGun waveGun|emGun a3 s4",
 		money: 30,
         density: 0.45,
       },
