@@ -103,7 +103,7 @@ public class SolGame {
     myShardBuilder = new ShardBuilder(myTexMan);
     myGalaxyFiller = new GalaxyFiller();
     myStarPortBuilder = new StarPort.Builder();
-    myPlayerSpawnConfig = PlayerSpawnConfig.load(myHullConfigs);
+    myPlayerSpawnConfig = PlayerSpawnConfig.load(myHullConfigs, myItemMan);
     myDraDebugger = new DraDebugger();
     myBeaconHandler = new BeaconHandler(texMan);
 

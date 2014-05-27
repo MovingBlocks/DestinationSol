@@ -6,9 +6,8 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.TexMan;
-import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.game.HardnessCalc;
 import com.miloshpetrov.sol2.game.item.*;
-import com.miloshpetrov.sol2.game.projectile.ProjectileConfig;
 import com.miloshpetrov.sol2.game.sound.SolSound;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 
@@ -62,28 +61,8 @@ public class GunConfig {
 
     this.desc = makeDesc(descBase);
     dps = clipConf.projConfig.dmg * clipConf.projectilesPerShot / timeBetweenShots;
-    meanDps = calcMeanDps();
+    meanDps = HardnessCalc.getGunMeanDps(this);
     example = new GunItem(this, 0, 0);
-  }
-
-  private float calcMeanDps() {
-    ProjectileConfig pc = clipConf.projConfig;
-    float projDmg = pc.dmg;
-    if (pc.emTime > 0) projDmg = 15;
-    else if (pc.density > 0) projDmg = 5;
-
-    float projHitChance = (pc.spdLen + pc.acc) / 4;
-    if (pc.guideRotSpd > 0) projHitChance += .3f;
-    float sz = pc.physSize;
-    if (sz > 0) projHitChance += sz * .5f;
-    projHitChance = SolMath.clamp(projHitChance, .1f, 1);
-    projDmg *= projHitChance;
-
-    float shotDmg = projDmg;
-    if (clipConf.projectilesPerShot > 1) shotDmg *= clipConf.projectilesPerShot / 2;
-
-    float shootTimePerc = fixed ? .3f : 1f;
-    return shotDmg * shootTimePerc / timeBetweenShots;
   }
 
   private String makeDesc(String descBase) {

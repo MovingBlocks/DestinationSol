@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.SolFiles;
+import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 public class PlayerSpawnConfig {
@@ -18,14 +19,14 @@ public class PlayerSpawnConfig {
     this.godShipConfig = godShipConfig;
   }
 
-  public static PlayerSpawnConfig load(HullConfigs hullConfigs) {
+  public static PlayerSpawnConfig load(HullConfigs hullConfigs, ItemMan itemMan) {
     JsonReader r = new JsonReader();
     FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "playerSpawn.json");
     JsonValue mainNode = r.parse(configFile);
     JsonValue playerNode = mainNode.get("player");
-    ShipConfig shipConfig = ShipConfig.load(hullConfigs, playerNode.get("ship"));
-    ShipConfig godShipConfig = ShipConfig.load(hullConfigs, playerNode.get("godModeShip"));
-    ShipConfig mainStation = ShipConfig.load(hullConfigs, mainNode.get("mainStation"));
+    ShipConfig shipConfig = ShipConfig.load(hullConfigs, playerNode.get("ship"), itemMan);
+    ShipConfig godShipConfig = ShipConfig.load(hullConfigs, playerNode.get("godModeShip"), itemMan);
+    ShipConfig mainStation = ShipConfig.load(hullConfigs, mainNode.get("mainStation"), itemMan);
     return new PlayerSpawnConfig(shipConfig, mainStation, godShipConfig);
   }
 }

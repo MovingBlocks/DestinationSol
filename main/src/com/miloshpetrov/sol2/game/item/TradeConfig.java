@@ -32,7 +32,7 @@ public class TradeConfig {
     }
 
     ItemContainer mercs = new ItemContainer();
-    for (ShipConfig merc : ShipConfig.loadList(tradeNode.get("mercenaries"), hullConfigs)) {
+    for (ShipConfig merc : ShipConfig.loadList(tradeNode.get("mercenaries"), hullConfigs, itemMan)) {
       mercs.add(new MercItem(merc));
     }
 

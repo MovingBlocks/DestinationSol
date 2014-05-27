@@ -32,15 +32,15 @@ public class SysConfigs {
     FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + configName);
     JsonValue parsed = r.parse(configFile);
     for (JsonValue sh : parsed) {
-      ArrayList<ShipConfig> tempEnemies = ShipConfig.loadList(sh.get("temporaryEnemies"), hullConfigs);
-      ArrayList<ShipConfig> innerTempEnemies = ShipConfig.loadList(sh.get("innerTemporaryEnemies"), hullConfigs);
+      ArrayList<ShipConfig> tempEnemies = ShipConfig.loadList(sh.get("temporaryEnemies"), hullConfigs, itemMan);
+      ArrayList<ShipConfig> innerTempEnemies = ShipConfig.loadList(sh.get("innerTemporaryEnemies"), hullConfigs, itemMan);
       SpaceEnvConfig envConfig = new SpaceEnvConfig(sh.get("environment"), texMan, configFile);
 
       ArrayList<ShipConfig> constEnemies = null;
       ArrayList<ShipConfig> constAllies = null;
       if (configs == myConfigs) {
-        constEnemies = ShipConfig.loadList(sh.get("constantEnemies"), hullConfigs);
-        constAllies = ShipConfig.loadList(sh.get("constantAllies"), hullConfigs);
+        constEnemies = ShipConfig.loadList(sh.get("constantEnemies"), hullConfigs, itemMan);
+        constAllies = ShipConfig.loadList(sh.get("constantAllies"), hullConfigs, itemMan);
       }
       TradeConfig tradeConfig = TradeConfig.load(itemMan, sh.get("trading"), hullConfigs);
       SysConfig c = new SysConfig(sh.name, tempEnemies, envConfig, constEnemies, constAllies, tradeConfig, innerTempEnemies);

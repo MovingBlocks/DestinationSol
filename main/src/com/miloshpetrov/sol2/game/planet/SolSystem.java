@@ -1,6 +1,7 @@
 package com.miloshpetrov.sol2.game.planet;
 
 import com.badlogic.gdx.math.Vector2;
+import com.miloshpetrov.sol2.game.HardnessCalc;
 
 import java.util.ArrayList;
 
@@ -12,6 +13,8 @@ public class SolSystem {
   private final SysConfig myConfig;
   private final String myName;
   private final float myRadius;
+  private final float myDps;
+  private final float myInnerDps;
   private float myInnerRad;
 
   public SolSystem(Vector2 pos, SysConfig config, String name, float sysRadius) {
@@ -21,6 +24,8 @@ public class SolSystem {
     myPlanets = new ArrayList<Planet>();
     myBelts = new ArrayList<SystemBelt>();
     myRadius = sysRadius;
+    myDps = HardnessCalc.getSysDps(config, false);
+    myInnerDps = HardnessCalc.getSysDps(config, true);
   }
 
   public ArrayList<Planet> getPlanets() {
@@ -55,5 +60,13 @@ public class SolSystem {
 
   public float getInnerRad() {
     return myInnerRad;
+  }
+
+  public float getDps() {
+    return myDps;
+  }
+
+  public float getInnerDps() {
+    return myInnerDps;
   }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.Bound;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.game.HardnessCalc;
 import com.miloshpetrov.sol2.game.SolGame;
 
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ public class Planet {
   private final String myName;
   private final float myGravConst;
   private final List<Vector2> myLps;
+  private final float myGroundDps;
+  private final float myAtmDps;
   private boolean myObjsCreated;
 
   private float myAngleToSys;
@@ -43,7 +46,10 @@ public class Planet {
     myObjsCreated = objsCreated;
     myPos = new Vector2();
     mySpd = new Vector2();
-    myGravConst = SolMath.rnd(config.minGrav, config.maxGrav) * myGroundHeight * myGroundHeight;
+    float grav = SolMath.rnd(config.minGrav, config.maxGrav);
+    myGravConst = grav * myGroundHeight * myGroundHeight;
+    myGroundDps = HardnessCalc.getGroundDps(myConfig, grav);
+    myAtmDps = HardnessCalc.getAtmDps(myConfig);
     myLps = new ArrayList<Vector2>();
     setSecondaryParams();
   }
@@ -175,5 +181,13 @@ public class Planet {
     SolMath.free(toPos);
     SolMath.fromAl(spd, fromPlanetAngle + 90, hSpdLen);
     spd.add(mySpd);
+  }
+
+  public float getAtmDps() {
+    return myAtmDps;
+  }
+
+  public float getGroundDps() {
+    return myGroundDps;
   }
 }

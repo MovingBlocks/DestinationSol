@@ -56,11 +56,11 @@ public class ShipBuilder {
       }
       if (i instanceof GunItem) {
         GunItem g = (GunItem) i;
-        if (g1 != null) {
-          if (hullConfig.g2Pos != null && (hullConfig.m2Fixed == g.config.fixed)) g2 = g;
+        if (g1 == null && hullConfig.m1Fixed == g.config.fixed) {
+          g1 = g;
           continue;
         }
-        if (hullConfig.m1Fixed == g.config.fixed) g1 = g;
+        if (hullConfig.g2Pos != null && g2 == null && hullConfig.m2Fixed == g.config.fixed) g2 = g;
         continue;
       }
     }

@@ -1,8 +1,8 @@
 
 
 CODING:
-  dangerous system regions (3 radii) & planets (2 radii)
-    create method to check the theoretical difficulty of enemies
+  print guns & enemies ordered by dps
+
   smarter missile guide
   better far ship update -- looks like it's not accurate now, guardians fly too fast
   ammo count in inv -- implement map, isSame should return false on all stateful objects, check isSame usages

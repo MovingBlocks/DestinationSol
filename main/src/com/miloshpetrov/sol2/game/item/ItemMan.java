@@ -45,6 +45,10 @@ public class ItemMan {
   }
 
   public void fillContainer(ItemContainer c, String items) {
+    fillContainer(c, items, true);
+  }
+
+  public void fillContainer(ItemContainer c, String items, boolean considerProbab) {
     if (items.isEmpty()) return;
     for (String rec : items.split(" ")) {
       String[] parts = rec.split(":");
@@ -53,7 +57,7 @@ public class ItemMan {
       String name = names[SolMath.intRnd(names.length)].trim();
 
       float chance = 1;
-      if (parts.length > 1) {
+      if (considerProbab && parts.length > 1) {
         chance = Float.parseFloat(parts[1]);
         if (chance <= 0 || 1 < chance) throw new AssertionError(chance);
       }
