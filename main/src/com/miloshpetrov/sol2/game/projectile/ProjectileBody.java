@@ -11,4 +11,5 @@ public interface ProjectileBody {
   void onRemove(SolGame game);
   float getAngle();
   void changeAngle(float diff);
+  float getDesiredAngle(Vector2 nePos);
 }
