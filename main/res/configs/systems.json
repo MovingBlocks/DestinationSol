@@ -10,13 +10,13 @@
     constantAllies: [
       {
         hull: imperialMedium,
-        items: "fixedGun",
+        items: "fixedGun a1:.5 s1|s1:.5",
 		money: 100,
         density: 1,
       },
       {
         hull: bus,
-        items: "gun gun",
+        items: "gun gun a1|a2 s2|s3",
 		money: 100,
         density: 0.3,
       },
@@ -27,7 +27,7 @@
         density: 0.2,
         guard: {
           hull: imperialBig,
-          items: "gun fixedShotGun",
+          items: "gun fixedShotGun a2|a3 s2|s3",
 		  money: 50,
           density: 3,
         }
@@ -36,18 +36,18 @@
     constantEnemies: [
       {
         hull: pirateSmall,
-        items: "plasmaGun|blaster",
+        items: "plasmaGun|blaster s1:.12",
 		money: 100,
         density: 1,
       },
       {
         hull: truck,
-        items: "gun",
+        items: "gun s2|s3:.74",
 		money: 200,
         density: 1,
         guard: {
           hull: pirateSmall,
-          items: "gun",
+          items: "gun s3:.86",
 		  money: 50,
           density: 3,
         }
@@ -64,13 +64,13 @@
     innerTemporaryEnemies: [
       {
         hull: pirateSpaceTurret,
-        items: "blaster|gun",
+        items: "blaster|gun s2:.62",
         money: 20,
         density: 0.001,
       },
       {
         hull: pirateMedium,
-        items: "gun miner|fixedPlasmaGun:.5",
+        items: "gun miner|fixedPlasmaGun:.5 a1:.25 s3",
         money: 20,
         density: 0.0003,
       },
@@ -111,7 +111,7 @@
         density: 0.2,
         guard: {
           hull: imperialBig,
-          items: "gun fixedShotGun",
+          items: "gun fixedShotGun a2|a3 s2|s3",
 		  money: 50,
           density: 3,
         }
@@ -120,7 +120,7 @@
     constantEnemies: [
       {
         hull: desertMedium,
-        items: "cannon|railGun|fixedCannon cannon|railGun:.5",
+        items: "cannon|railGun|fixedCannon cannon|railGun:.5 a4 s2|s3",
 		money: 100,
         density: 1,
       },
@@ -128,13 +128,13 @@
     temporaryEnemies: [
       {
         hull: desertSpaceTurret,
-        items: "cannon",
+        items: "cannon a2|a3 s1:.25",
 		money: 20,
         density: 0.001,
       },
       {
         hull: desertSmall,
-        items: "fixedGun|railGun miner|cannon:.5",
+        items: "fixedGun|railGun miner|cannon:.5 a3 s1|s2:.5",
 		money: 20,
         density: 0.0003,
       },
@@ -142,13 +142,13 @@
     innerTemporaryEnemies: [
       {
         hull: desertSpaceTurret,
-        items: "cannon cannon",
+        items: "cannon cannon a3|a4 s2:.75",
 		money: 20,
         density: 0.001,
       },
       {
         hull: desertBoss,
-        items: "fixedCannon cannon",
+        items: "fixedCannon cannon a4 s3",
 		money: 20,
         density: 0.0003,
       },

@@ -1,8 +1,5 @@
 
 
-DATA:
-  give shields and ammo
-
 CODING:
   dangerous system regions (3 radii) & planets (2 radii)
     create method to check the theoretical difficulty of enemies

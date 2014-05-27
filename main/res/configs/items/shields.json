@@ -50,8 +50,8 @@
 
     displayName: "Advanced Shield",
     desc: "Best protection from projectiles",
-    tex: shield4,
-    icon: "misc/shield4",
+    icon: shield4,
+    tex: "misc/shield4",
 
     absorbSound: "shields/big/absorb",
     regenSound:  "shields/big/regen",
