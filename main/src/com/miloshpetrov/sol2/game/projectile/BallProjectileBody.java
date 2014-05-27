@@ -78,4 +78,14 @@ public class BallProjectileBody implements ProjectileBody {
     myAngle += diff;
     myBody.setTransform(myPos, myAngle * SolMath.degRad);
   }
+
+  @Override
+  public float getDesiredAngle(Vector2 nePos) {
+    float spdLen = mySpd.len();
+    float toNe = SolMath.angle(myPos, nePos);
+    Vector2 desiredSpd = SolMath.fromAl(toNe, spdLen);
+    float res = SolMath.angle(mySpd, desiredSpd);
+    SolMath.free(desiredSpd);
+    return res;
+  }
 }

@@ -154,11 +154,11 @@
     timeBetweenShots: 0.4,
     reloadTime: 2.5,
     price: 200,
-    clipName: rocketClip,
+    clipName: missileClip,
 
     gunLength: 0.2,
     texName: missileLauncher,
-    displayName: "Rocket Launcher",
+    displayName: "Missile Launcher",
     descBase: "",
 
     shootSound: "guns/rocketLauncher/shoot",

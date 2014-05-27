@@ -72,6 +72,11 @@ public class PointProjectileBody implements ProjectileBody {
     SolMath.rotate(mySpd, diff);
   }
 
+  @Override
+  public float getDesiredAngle(Vector2 nePos) {
+    return SolMath.angle(myPos, nePos);
+  }
+
 
   private class MyRayBack implements RayCastCallback {
 

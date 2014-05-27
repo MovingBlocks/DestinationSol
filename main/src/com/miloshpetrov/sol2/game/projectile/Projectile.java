@@ -96,9 +96,10 @@ public class Projectile implements SolObj {
     if (myConfig.guideRotSpd == 0) return;
     SolShip ne = game.getFractionMan().getNearestEnemy(game, this);
     if (ne == null) return;
-    float toEnemy = SolMath.angle(getPos(), ne.getPos());
+    Vector2 nePos = ne.getPos();
+    float desiredAngle = myBody.getDesiredAngle(nePos);
     float angle = getAngle();
-    float diffAngle = SolMath.norm(toEnemy - angle);
+    float diffAngle = SolMath.norm(desiredAngle - angle);
     if (SolMath.abs(diffAngle) < MIN_ANGLE_TO_GUIDE) return;
     float rot = game.getTimeStep() * myConfig.guideRotSpd;
     diffAngle = SolMath.clamp(diffAngle, -rot, rot);
