@@ -40,16 +40,18 @@ public class HardnessCalc {
     boolean g1Filled = false;
     boolean g2Filled = false;
     float dps = 0;
-    for (SolItem item : ic) {
-      if (!(item instanceof GunItem)) continue;
-      GunItem g = (GunItem) item;
-      if (!g1Filled && sc.hull.m1Fixed == g.config.fixed) {
-        dps += g.config.meanDps;
-        g1Filled = true;
-      }
-      if (sc.hull.g2Pos != null && !g2Filled && sc.hull.m2Fixed == g.config.fixed) {
-        dps += g.config.meanDps;
-        g2Filled = true;
+    for (List<SolItem> group : ic) {
+      for (SolItem item : group) {
+        if (!(item instanceof GunItem)) continue;
+        GunItem g = (GunItem) item;
+        if (!g1Filled && sc.hull.m1Fixed == g.config.fixed) {
+          dps += g.config.meanDps;
+          g1Filled = true;
+        }
+        if (sc.hull.g2Pos != null && !g2Filled && sc.hull.m2Fixed == g.config.fixed) {
+          dps += g.config.meanDps;
+          g2Filled = true;
+        }
       }
     }
     return dps;

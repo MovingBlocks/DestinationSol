@@ -1,6 +1,5 @@
 package com.miloshpetrov.sol2.game.item;
 
-import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
@@ -25,11 +24,11 @@ public class TradeContainer {
     }
 
     myAwait = MAX_AWAIT;
-    int amt = Const.ITEMS_PER_PAGE;
+    int amt = 8;
     if (hullConfig.type != HullConfig.Type.STATION) amt /= 2;
     int excess = myItems.size() - amt;
     for (int i = 0; i < excess; i++) {
-      myItems.remove(myItems.get(SolMath.intRnd(myItems.size())));
+      myItems.remove(myItems.getGroup(SolMath.intRnd(myItems.size())).get(0));
     }
     for (int i = 0; i < amt; i++) {
       SolItem itemOrig = myConfig.items.getRandom();

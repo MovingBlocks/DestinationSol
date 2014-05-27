@@ -129,7 +129,7 @@ public class SolShip implements SolObj {
       return true;
     }
     ItemContainer c = shouldTrade(i) ? myTradeContainer.getItems() : myItemContainer;
-    boolean canAdd = c.canAdd();
+    boolean canAdd = c.canAdd(i);
     if (canAdd) c.add(i);
     return canAdd;
   }
@@ -268,15 +268,21 @@ public class SolShip implements SolObj {
   }
 
   private void throwAllLoot(SolGame game) {
-    for (SolItem item : myItemContainer) {
-      float dropChance = maybeUnequip(game, item, false) ? .2f : .8f;
-      if (SolMath.test(1 - dropChance)) continue;
-      throwLoot(game, item, true);
+    for (List<SolItem> group : myItemContainer) {
+      for (SolItem item : group) {
+        float dropChance = maybeUnequip(game, item, false) ? .2f : .8f;
+        if (SolMath.test(1 - dropChance)) continue;
+        throwLoot(game, item, true);
+      }
     }
-    if (myTradeContainer != null) for (SolItem item : myTradeContainer.getItems()) {
-      float dropChance = .8f;
-      if (SolMath.test(1 - dropChance)) continue;
-      throwLoot(game, item, true);
+    if (myTradeContainer != null) {
+      for (List<SolItem> group : myTradeContainer.getItems()) {
+        for (SolItem item : group) {
+          float dropChance = .8f;
+          if (SolMath.test(1 - dropChance)) continue;
+          throwLoot(game, item, true);
+        }
+      }
     }
     if (myPilot.isPlayer()) {
       float toRespawn = SolGame.RESPAWN_MONEY_PERC * myMoney;

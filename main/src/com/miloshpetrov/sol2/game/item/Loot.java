@@ -58,7 +58,7 @@ public class Loot implements SolObj {
       if (!(o instanceof SolShip)) continue;
       SolShip ship = (SolShip) o;
       if (!ship.getPilot().collectsItems()) continue;
-      if (!ship.getItemContainer().canAdd()) continue;
+      if (!ship.getItemContainer().canAdd(myItem)) continue;
       float dst = ship.getPos().dst(myPos);
       if (minDist < dst) continue;
       puller = ship;

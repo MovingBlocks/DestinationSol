@@ -193,7 +193,7 @@ public class AiPilot implements Pilot {
     } else {
       float toDestLen = shipPos.dst(dest);
       if (myDestProvider.shouldStopNearDest() && toDestLen < maxIdleDist) {
-        spd.set(0, 0);
+        spd.set(myDestProvider.getDestSpd());
         // what about angle?
       } else {
         float desiredAngle = SolMath.angle(shipPos, dest);

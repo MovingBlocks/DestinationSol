@@ -5,18 +5,22 @@ import com.miloshpetrov.sol2.common.SolMath;
 
 import java.util.*;
 
-public class ItemContainer implements Iterable<SolItem> {
-  private static final int CAP = 5 * Const.ITEMS_PER_PAGE;
-  private List<SolItem> myItems;
-  private Set<SolItem> myNewItems;
+public class ItemContainer implements Iterable<List<SolItem>> {
+  private static final int CAP = 2 * Const.ITEMS_PER_PAGE;
+  private static final int CAP_0 = 8;
+
+  private List<List<SolItem>> myGroups;
+  private Set<List<SolItem>> myNewGroups;
+  private int mySize;
 
   public ItemContainer() {
-    myItems = new ArrayList<SolItem>();
-    myNewItems = new HashSet<SolItem>();
+    myGroups = new ArrayList<List<SolItem>>();
+    myNewGroups = new HashSet<List<SolItem>>();
   }
 
   public boolean tryConsumeItem(SolItem example) {
-    for (SolItem item : myItems) {
+    for (List<SolItem> group : myGroups) {
+      SolItem item = group.get(0);
       if (!example.isSame(item)) continue;
       remove(item);
       return true;
@@ -25,82 +29,123 @@ public class ItemContainer implements Iterable<SolItem> {
   }
 
   public int count(SolItem example) {
-    int count = 0;
-    for (SolItem item : myItems) {
-      if (example.isSame(item)) count++;
+    for (List<SolItem> group : myGroups) {
+      SolItem item = group.get(0);
+      if (example.isSame(item)) return group.size();
     }
-    return count;
+    return 0;
   }
 
-  public boolean canAdd() {
-    return size() < CAP;
+  public boolean canAdd(SolItem example) {
+    for (List<SolItem> group : myGroups) {
+      SolItem item = group.get(0);
+      if (item.isSame(example)) return group.size() < CAP_0;
+    }
+    return myGroups.size() < CAP;
   }
 
-  public void add(SolItem item) {
-    if (item == null) throw new AssertionError();
-    if (size() >= CAP) throw new AssertionError("container is full");
-    if (myItems.contains(item)) throw new AssertionError();
-    myItems.add(0, item);
-    myNewItems.add(item);
+  public void add(SolItem addedItem) {
+    if (addedItem == null) throw new AssertionError();
+    for (List<SolItem> group : myGroups) {
+      SolItem item = group.get(0);
+      if (item.isSame(addedItem)) {
+        if (group.size() >= CAP_0) throw new AssertionError();
+        group.add(addedItem);
+        mySize++;
+        return;
+      }
+    }
+    if (myGroups.size() >= CAP) throw new AssertionError();
+    ArrayList<SolItem> group = new ArrayList<SolItem>();
+    group.add(addedItem);
+    myGroups.add(0, group);
+    mySize++;
+    myNewGroups.add(group);
   }
 
   @Override
-  public Iterator<SolItem> iterator() {
+  public Iterator<List<SolItem>> iterator() {
     return new Itr();
   }
 
+  public int groupCount() {
+    return myGroups.size();
+  }
+
   public int size() {
-    return myItems.size();
+    return mySize;
   }
 
   public boolean contains(SolItem item) {
-    return myItems.contains(item);
-  }
-
-  public SolItem get(int idx) {
-    return myItems.get(idx);
+    for (List<SolItem> group : myGroups) {
+      if (group.contains(item)) return true;
+    }
+    return false;
   }
 
   public void remove(SolItem item) {
-    myItems.remove(item);
-    myNewItems.remove(item);
+    List<SolItem> remGroup = null;
+    boolean removed = false;
+    for (List<SolItem> group : myGroups) {
+      removed = group.remove(item);
+      if (group.isEmpty()) remGroup = group;
+      if (removed) break;
+    }
+    if (removed) mySize--;
+    if (remGroup != null) {
+      myGroups.remove(remGroup);
+      myNewGroups.remove(remGroup);
+    }
   }
 
-  public SolItem getNext(SolItem selected) {
-    int idx = myItems.indexOf(selected) + 1;
-    if (idx <= 0 || idx >= size()) return null;
-    return myItems.get(idx);
+  public List<SolItem> getSelectionAfterRemove(List<SolItem> selected) {
+    if (selected.size() > 1) return selected;
+    int idx = myGroups.indexOf(selected) + 1;
+    if (idx <= 0 || idx >= groupCount()) return null;
+    return myGroups.get(idx);
   }
 
   public SolItem getRandom() {
-    return myItems.isEmpty() ? null : SolMath.elemRnd(myItems);
+    return myGroups.isEmpty() ? null : SolMath.elemRnd(SolMath.elemRnd(myGroups));
   }
 
-  public boolean isNew(SolItem item) {
-    return myNewItems.contains(item);
+  public boolean isNew(List<SolItem> group) {
+    return myNewGroups.contains(group);
   }
 
-  public void seen(SolItem item) {
-    myNewItems.remove(item);
+  public void seen(List<SolItem> group) {
+    myNewGroups.remove(group);
   }
 
   public void seenAll() {
-    myNewItems.clear();
+    myNewGroups.clear();
   }
 
   public boolean hasNew() {
-    return !myNewItems.isEmpty();
+    return !myNewGroups.isEmpty();
   }
 
-  private class Itr implements Iterator<SolItem> {
+  public int getCount(int groupIdx) {
+    return myGroups.get(groupIdx).size();
+  }
+
+  public boolean containsGroup(List<SolItem> group) {
+    return myGroups.contains(group);
+  }
+
+  public List<SolItem> getGroup(int groupIdx) {
+    return myGroups.get(groupIdx);
+  }
+
+  private class Itr implements Iterator<List<SolItem>> {
     int myCur;       // index of next element to return
 
     public boolean hasNext() {
-      return myCur != myItems.size();
+      return myCur != myGroups.size();
     }
 
-    public SolItem next() {
-      return myItems.get(myCur++);
+    public List<SolItem> next() {
+      return myGroups.get(myCur++);
     }
 
     @Override

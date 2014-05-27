@@ -143,7 +143,7 @@ public class SolGame {
       GunItem slowGun = (GunItem)myItemMan.getExample("sg").copy();
       ic.add(slowGun);
       myHero.getHull().getGunMount(true).setGun(this, myHero, secondary, shipConfig.hull.g2UnderShip);
-      int toAdd = 2 * Const.ITEMS_PER_PAGE - ic.size();
+      int toAdd = 2 * Const.ITEMS_PER_PAGE - ic.groupCount();
       for (int i = 0; i < toAdd; i++) {
         ic.add(myItemMan.random());
       }

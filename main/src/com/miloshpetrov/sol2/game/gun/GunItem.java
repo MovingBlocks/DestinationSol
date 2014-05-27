@@ -38,7 +38,7 @@ public class GunItem implements SolItem {
 
   @Override
   public boolean isSame(SolItem item) {
-    return item instanceof GunItem && ((GunItem) item).config == config;
+    return false;
   }
 
   @Override
