@@ -5,11 +5,12 @@ CODING:
     isHard: true
   planetConfig:
     isHard: true
+  item & ship stats in inventory
+  softer skull areas
+
+  ships get stuck in ground -- perhaps due to different conversion radii
   bg in title screen
   make title bigger
-  softer skull areas
-  rotation force to save on planet
-  ships get stuck in ground -- perhaps due to different conversion radii
 
 BUGS:
   truck guards sometimes fly too fast
@@ -45,6 +46,9 @@ PERF:
   skip emitter ops if they're not working
   use circles instead of polys where possible
   far ship positions should be calculated on demand?
+
+
+ADD ALL SOUND PLACEHOLDERS
 
 
 ANDROID RUN 2:
