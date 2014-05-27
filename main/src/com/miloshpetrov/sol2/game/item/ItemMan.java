@@ -6,13 +6,13 @@ import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.GameCols;
 import com.miloshpetrov.sol2.game.gun.GunConfig;
+import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.particle.EffectTypes;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfigs;
 import com.miloshpetrov.sol2.game.ship.AbilityCharge;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class ItemMan {
   public static final String ITEM_CONFIGS_DIR = Const.CONFIGS_DIR + "items/";
@@ -97,5 +97,24 @@ public class ItemMan {
 
   public EngineItem.Configs getEngineConfigs() {
     return myEngineConfigs;
+  }
+
+  public void printGuns() {
+    ArrayList<GunConfig> l = new ArrayList<GunConfig>();
+    for (SolItem i : myM.values()) {
+      if (!(i instanceof GunItem)) continue;
+      GunItem g = (GunItem) i;
+      l.add(g.config);
+    }
+    Comparator<GunConfig> cmp = new Comparator<GunConfig>() {
+      public int compare(GunConfig o1, GunConfig o2) {
+        return Float.compare(o1.meanDps, o2.meanDps);
+      }
+    };
+    Collections.sort(l, cmp);
+    for (GunConfig c : l) {
+      System.out.println(c.tex.name + ": " + c.meanDps);
+    }
+
   }
 }

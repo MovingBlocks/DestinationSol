@@ -33,4 +33,8 @@ public class PlanetConfigs {
   public PlanetConfig getRandom() {
     return SolMath.elemRnd(new ArrayList<PlanetConfig>(myConfigs.values()));
   }
+
+  public Map<String, PlanetConfig> getConfigs() {
+    return myConfigs;
+  }
 }

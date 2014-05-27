@@ -1,8 +1,6 @@
 
 
 CODING:
-  print guns & enemies ordered by dps
-
   smarter missile guide
   better far ship update -- looks like it's not accurate now, guardians fly too fast
   ammo count in inv -- implement map, isSame should return false on all stateful objects, check isSame usages

@@ -59,4 +59,12 @@ public class SysConfigs {
   public SysConfig getConfig(String name) {
     return myConfigs.get(name);
   }
+
+  public Map<String, SysConfig> getConfigs() {
+    return myConfigs;
+  }
+
+  public Map<String, SysConfig> getBeltConfigs() {
+    return myBeltConfigs;
+  }
 }

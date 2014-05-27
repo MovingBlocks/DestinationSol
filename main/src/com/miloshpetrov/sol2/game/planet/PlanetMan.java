@@ -8,12 +8,11 @@ import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.item.ItemMan;
-import com.miloshpetrov.sol2.game.maze.Maze;
-import com.miloshpetrov.sol2.game.maze.MazeConfigs;
+import com.miloshpetrov.sol2.game.maze.*;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 import com.miloshpetrov.sol2.save.SaveData;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class PlanetMan {
 
@@ -204,4 +203,44 @@ public class PlanetMan {
     myPlanetCore.draw(game, drawer);
   }
 
+  public void printShips(PlayerSpawnConfig spawn) {
+    ArrayList<ShipConfig> l = new ArrayList<ShipConfig>();
+    for (SysConfig sc : mySysConfigs.getConfigs().values()) {
+      l.addAll(sc.constAllies);
+      l.addAll(sc.constEnemies);
+      l.addAll(sc.tempEnemies);
+      l.addAll(sc.innerTempEnemies);
+    }
+    for (SysConfig sc : mySysConfigs.getBeltConfigs().values()) {
+      l.addAll(sc.tempEnemies);
+    }
+    for (PlanetConfig pc : myPlanetConfigs.getConfigs().values()) {
+      l.addAll(pc.highOrbitEnemies);
+      l.addAll(pc.lowOrbitEnemies);
+      l.addAll(pc.groundEnemies);
+    }
+    for (MazeConfig mc : myMazeConfigs.configs) {
+      l.addAll(mc.outerEnemies);
+      l.addAll(mc.innerEnemies);
+      l.addAll(mc.bosses);
+    }
+    l.add(spawn.shipConfig);
+    l.add(spawn.godShipConfig);
+    l.add(spawn.mainStation);
+    ArrayList<ShipConfig> guards = new ArrayList<ShipConfig>();
+    for (ShipConfig c : l) {
+      if (c.guard != null) guards.add(c.guard);
+    }
+    l.addAll(guards);
+    Comparator<ShipConfig> cmp = new Comparator<ShipConfig>() {
+      public int compare(ShipConfig o1, ShipConfig o2) {
+        return Float.compare(o1.dps, o2.dps);
+      }
+    };
+    Collections.sort(l, cmp);
+    for (ShipConfig c : l) {
+      System.out.println(c.hull.texName + " (" + c.items + "):" + c.dps);
+    }
+
+  }
 }

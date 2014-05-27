@@ -116,6 +116,8 @@ public class SolGame {
       createPlayer();
     }
     SolMath.checkVectorsTaken(null);
+    myItemMan.printGuns();
+    myPlanetMan.printShips(myPlayerSpawnConfig);
   }
 
   private void createPlayer() {
