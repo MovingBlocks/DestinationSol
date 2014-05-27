@@ -137,9 +137,9 @@ public class Shield implements SolItem {
     }
 
     private String makeDesc() {
-      StringBuilder sb = new StringBuilder(displayName);
-      sb.append("\nTakes ").append(maxLife).append(" dmg.");
-      sb.append("\nWeak against energy weapons.");
+      StringBuilder sb = new StringBuilder();
+      sb.append("Takes ").append(maxLife).append(" dmg.");
+      sb.append("\nStrong against bullets.");
       return sb.toString();
     }
 

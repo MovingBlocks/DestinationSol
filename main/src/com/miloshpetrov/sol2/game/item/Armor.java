@@ -85,7 +85,7 @@ public class Armor implements SolItem {
       this.icon = icon;
       this.energyDmgSound = energyDmgSound;
       this.itemType = itemType;
-      this.desc = "Reduces damage by " + (int)(perc * 100) + "%";
+      this.desc = "Reduces damage by " + (int)(perc * 100) + "%.\nStrong against energy weapons.";
       this.bulletDmgSound = bulletDmgSound;
       this.example = new Armor(this);
     }

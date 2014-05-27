@@ -5,7 +5,8 @@ DATA:
 
 
 CODING:
-  item descriptions
+  hull descriptions
+  ai should equip collected stuff
 
 
 DRAWING:
