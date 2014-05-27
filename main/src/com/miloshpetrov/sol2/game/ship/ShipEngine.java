@@ -16,12 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShipEngine {
+  public static final float MAX_RECOVER_ROT_SPD = 5f;
+  public static final float RECOVER_MUL = 15f;
+  public static final float RECOVER_AWAIT = 2f;
+
   private final ParticleSrc myFlameSrc1;
   private final ParticleSrc myFlameSrc2;
   private final LightSrc myLightSrc1;
   private final LightSrc myLightSrc2;
   private final EngineItem myItem;
   private final List<Dra> myDras;
+  private float myRecoverAwait;
 
   public ShipEngine(SolGame game, EngineItem ei, Vector2 e1RelPos, Vector2 e2RelPos, SolShip ship) {
     myItem = ei;
@@ -72,14 +77,24 @@ public class ShipEngine {
       body.applyForceToCenter(v, true);
       SolMath.free(v);
     }
+
+    float ts = cmp.getTimeStep();
     float rotSpd = body.getAngularVelocity() * SolMath.radDeg;
     float desiredRotSpd = 0;
+    float rotAcc = e.getRotAcc();
     boolean l = controlsEnabled && provider.isLeft();
     boolean r = controlsEnabled && provider.isRight();
-    if (-e.getMaxRotSpd() < rotSpd && rotSpd < e.getMaxRotSpd() && l != r) {
+    float absRotSpd = SolMath.abs(rotSpd);
+    if (absRotSpd < e.getMaxRotSpd() && l != r) {
       desiredRotSpd = SolMath.toInt(r) * e.getMaxRotSpd();
+      if (absRotSpd < MAX_RECOVER_ROT_SPD) {
+        if (myRecoverAwait > 0) myRecoverAwait -= ts;
+        if (myRecoverAwait <= 0) rotAcc *= RECOVER_MUL;
+      }
+    } else {
+      myRecoverAwait = RECOVER_AWAIT;
     }
-    body.setAngularVelocity(SolMath.degRad * SolMath.approach(rotSpd, desiredRotSpd, e.getRotAcc() * cmp.getTimeStep()));
+    body.setAngularVelocity(SolMath.degRad * SolMath.approach(rotSpd, desiredRotSpd, rotAcc * ts));
     return working;
   }
 
