@@ -43,7 +43,7 @@ public class ShowInventory implements InventoryOperations {
   public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
     SolGame g = cmp.getGame();
     InventoryScreen is = g.getScreens().inventoryScreen;
-    SolItem selected = is.getSelected();
+    SolItem selItem = is.getSelectedItem();
     SolShip hero = g.getHero();
 
     eq1Ctrl.setDisplayName("---");
@@ -52,22 +52,23 @@ public class ShowInventory implements InventoryOperations {
     eq2Ctrl.setEnabled(false);
     dropCtrl.setEnabled(false);
 
-    if (selected == null || hero == null) {
+    if (selItem == null || hero == null) {
       return;
     }
+
 
     dropCtrl.setEnabled(true);
     if (dropCtrl.isJustOff()) {
       ItemContainer ic = hero.getItemContainer();
-      is.setSelected(ic.getNext(selected));
-      hero.dropItem(cmp.getGame(), selected);
+      is.setSelected(ic.getSelectionAfterRemove(is.getSelected()));
+      hero.dropItem(cmp.getGame(), selItem);
       return;
     }
 
-    Boolean equipped1 = hero.maybeUnequip(g, selected, false, false);
-    boolean canEquip1 = hero.maybeEquip(g, selected, false, false);
-    Boolean equipped2 = hero.maybeUnequip(g, selected, true, false);
-    boolean canEquip2 = hero.maybeEquip(g, selected, true, false);
+    Boolean equipped1 = hero.maybeUnequip(g, selItem, false, false);
+    boolean canEquip1 = hero.maybeEquip(g, selItem, false, false);
+    Boolean equipped2 = hero.maybeUnequip(g, selItem, true, false);
+    boolean canEquip2 = hero.maybeEquip(g, selItem, true, false);
 
     if (equipped1 || canEquip1) {
       eq1Ctrl.setDisplayName(equipped1 ? "Unequip" : canEquip2 ? "Set Primary" : "Equip");
@@ -78,12 +79,12 @@ public class ShowInventory implements InventoryOperations {
       eq2Ctrl.setEnabled(true);
     }
     if (eq1Ctrl.isJustOff()) {
-      if (equipped1) hero.maybeUnequip(g, selected, false, true);
-      else hero.maybeEquip(g, selected, false, true);
+      if (equipped1) hero.maybeUnequip(g, selItem, false, true);
+      else hero.maybeEquip(g, selItem, false, true);
     }
     if (eq2Ctrl.isJustOff()) {
-      if (equipped2) hero.maybeUnequip(g, selected, true, true);
-      else hero.maybeEquip(g, selected, true, true);
+      if (equipped2) hero.maybeUnequip(g, selItem, true, true);
+      else hero.maybeEquip(g, selItem, true, true);
     }
   }
 

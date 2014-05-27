@@ -48,7 +48,6 @@ public class BuyItems implements InventoryOperations {
   public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
     SolGame game = cmp.getGame();
     InventoryScreen is = game.getScreens().inventoryScreen;
-    SolItem selected = is.getSelected();
     SolShip hero = game.getHero();
     TalkScreen talkScreen = game.getScreens().talkScreen;
     SolShip target = talkScreen.getTarget();
@@ -56,14 +55,15 @@ public class BuyItems implements InventoryOperations {
       cmp.getInputMan().setScreen(cmp, game.getScreens().mainScreen);
       return;
     }
-    boolean enabled = selected != null && hero.getMoney() >= selected.getPrice() && hero.getItemContainer().canAdd();
+    SolItem selItem = is.getSelectedItem();
+    boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice() && hero.getItemContainer().canAdd(selItem);
     buyCtrl.setDisplayName(enabled ? "Buy" : "---");
     buyCtrl.setEnabled(enabled);
     if (!enabled) return;
     if (buyCtrl.isJustOff()) {
-      target.getTradeContainer().getItems().remove(selected);
-      hero.getItemContainer().add(selected);
-      hero.setMoney(hero.getMoney() - selected.getPrice());
+      target.getTradeContainer().getItems().remove(selItem);
+      hero.getItemContainer().add(selItem);
+      hero.setMoney(hero.getMoney() - selItem.getPrice());
     }
   }
 

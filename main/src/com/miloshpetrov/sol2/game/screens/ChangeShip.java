@@ -49,7 +49,6 @@ public class ChangeShip implements InventoryOperations {
   public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
     SolGame game = cmp.getGame();
     InventoryScreen is = game.getScreens().inventoryScreen;
-    SolItem selected = is.getSelected();
     SolShip hero = game.getHero();
     TalkScreen talkScreen = game.getScreens().talkScreen;
     SolShip target = talkScreen.getTarget();
@@ -57,13 +56,14 @@ public class ChangeShip implements InventoryOperations {
       cmp.getInputMan().setScreen(cmp, game.getScreens().mainScreen);
       return;
     }
-    boolean enabled = selected != null && hero.getMoney() >= selected.getPrice();
+    SolItem selItem = is.getSelectedItem();
+    boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice();
     myBuyCtrl.setDisplayName(enabled ? "Change" : "---");
     myBuyCtrl.setEnabled(enabled);
     if (!enabled) return;
     if (myBuyCtrl.isJustOff()) {
-      hero.setMoney(hero.getMoney() - selected.getPrice());
-      changeShip(game, hero, (ShipItem) selected);
+      hero.setMoney(hero.getMoney() - selItem.getPrice());
+      changeShip(game, hero, (ShipItem) selItem);
     }
   }
 

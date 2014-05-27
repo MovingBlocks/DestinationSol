@@ -45,23 +45,25 @@ public class ShipBuilder {
     GunItem g2 = null;
     Shield shield = null;
     Armor armor = null;
-    for (SolItem i : ic) {
-      if (i instanceof Shield) {
-        shield = (Shield) i;
-        continue;
-      }
-      if (i instanceof Armor) {
-        armor = (Armor) i;
-        continue;
-      }
-      if (i instanceof GunItem) {
-        GunItem g = (GunItem) i;
-        if (g1 == null && hullConfig.m1Fixed == g.config.fixed) {
-          g1 = g;
+    for (List<SolItem> group : ic) {
+      for (SolItem i : group) {
+        if (i instanceof Shield) {
+          shield = (Shield) i;
           continue;
         }
-        if (hullConfig.g2Pos != null && g2 == null && hullConfig.m2Fixed == g.config.fixed) g2 = g;
-        continue;
+        if (i instanceof Armor) {
+          armor = (Armor) i;
+          continue;
+        }
+        if (i instanceof GunItem) {
+          GunItem g = (GunItem) i;
+          if (g1 == null && hullConfig.m1Fixed == g.config.fixed) {
+            g1 = g;
+            continue;
+          }
+          if (hullConfig.g2Pos != null && g2 == null && hullConfig.m2Fixed == g.config.fixed) g2 = g;
+          continue;
+        }
       }
     }
 
@@ -79,7 +81,9 @@ public class ShipBuilder {
     if (cc.infinite) return;
     float clipUseTime = cc.size * gc.timeBetweenShots + gc.reloadTime;
     int count = 1 + (int) (AVG_BATTLE_TIME / clipUseTime) + SolMath.intRnd(0, 2);
-    for (int i = 0; i < count; i++) ic.add(cc.example.copy());
+    for (int i = 0; i < count; i++) {
+      if (ic.canAdd(cc.example)) ic.add(cc.example.copy());
+    }
   }
 
   private void addAbilityCharges(ItemContainer ic, HullConfig hc) {

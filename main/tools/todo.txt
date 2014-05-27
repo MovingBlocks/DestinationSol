@@ -1,9 +1,6 @@
 
 
 CODING:
-  better far ship update -- looks like it's not accurate now, guardians fly too fast
-  ammo count in inv -- implement map, isSame should return false on all stateful objects, check isSame usages
-  far ship positions should be calculated on demand?
   ship rotation shouldn't affect repair
   ship rotates on map when controlled by mouse
   ships get stuck in ground -- perhaps due to different conversion radii
@@ -15,7 +12,11 @@ CODING:
     isHard: true
   bg in title screen
   make title bigger
+  softer skull areas
 
+
+BUGS:
+  truck guards sometimes fly too fast
 
 DRAWING:
   pirate space station hull shades
@@ -46,6 +47,7 @@ PERF:
     object's distance to np, to cam?
   skip emitter ops if they're not working
   use circles instead of polys where possible
+  far ship positions should be calculated on demand?
 
 
 ANDROID RUN 2:

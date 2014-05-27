@@ -133,12 +133,12 @@ public class TutMan {
   }
 
   private boolean itemsUse2(SolGame g) {
-    boolean slowGunSelected = g.getItemMan().getExample("sg").isSame(g.getScreens().inventoryScreen.getSelected());
+    boolean slowGunSelected = g.getItemMan().getExample("sg").isSame(g.getScreens().inventoryScreen.getSelectedItem());
     return slowGunSelected && g.getScreens().inventoryScreen.showInventory.eq2Ctrl.isJustOff();
   }
 
   private boolean itemsUse(SolGame g) {
-    boolean engineSelected = g.getItemMan().getExample("e").isSame(g.getScreens().inventoryScreen.getSelected());
+    boolean engineSelected = g.getItemMan().getExample("e").isSame(g.getScreens().inventoryScreen.getSelectedItem());
     return engineSelected && g.getScreens().inventoryScreen.showInventory.eq1Ctrl.isJustOff();
   }
 

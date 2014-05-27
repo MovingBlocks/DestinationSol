@@ -63,7 +63,7 @@ public class Shield implements SolItem {
 
   @Override
   public boolean isSame(SolItem item) {
-    return item instanceof Shield && ((Shield) item).myConfig == myConfig;
+    return false;
   }
 
   @Override

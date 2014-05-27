@@ -52,20 +52,20 @@ public class HireShips implements InventoryOperations {
   public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
     SolGame game = cmp.getGame();
     InventoryScreen is = game.getScreens().inventoryScreen;
-    SolItem selected = is.getSelected();
     SolShip hero = game.getHero();
     TalkScreen talkScreen = game.getScreens().talkScreen;
     if (talkScreen.isTargetFar(hero)) {
       cmp.getInputMan().setScreen(cmp, game.getScreens().mainScreen);
       return;
     }
-    boolean enabled = selected != null && hero.getMoney() >= selected.getPrice();
+    SolItem selItem = is.getSelectedItem();
+    boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice();
     myBuyCtrl.setDisplayName(enabled ? "Hire" : "---");
     myBuyCtrl.setEnabled(enabled);
     if (!enabled) return;
     if (myBuyCtrl.isJustOff()) {
-      hero.setMoney(hero.getMoney() - selected.getPrice());
-      hireShip(game, hero, (MercItem) selected);
+      hero.setMoney(hero.getMoney() - selItem.getPrice());
+      hireShip(game, hero, (MercItem) selItem);
     }
   }
 

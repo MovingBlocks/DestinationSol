@@ -40,7 +40,7 @@ public class Armor implements SolItem {
 
   @Override
   public boolean isSame(SolItem item) {
-    return item instanceof Armor && ((Armor) item).myConfig == myConfig;
+    return false;
   }
 
   @Override

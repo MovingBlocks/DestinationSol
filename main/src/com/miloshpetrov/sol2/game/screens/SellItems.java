@@ -51,7 +51,6 @@ public class SellItems implements InventoryOperations {
   public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
     SolGame game = cmp.getGame();
     InventoryScreen is = game.getScreens().inventoryScreen;
-    SolItem selected = is.getSelected();
     TalkScreen talkScreen = game.getScreens().talkScreen;
     SolShip target = talkScreen.getTarget();
     SolShip hero = game.getHero();
@@ -59,16 +58,17 @@ public class SellItems implements InventoryOperations {
       cmp.getInputMan().setScreen(cmp, game.getScreens().mainScreen);
       return;
     }
-    boolean enabled = selected != null && target.getTradeContainer().getItems().canAdd();
+    SolItem selItem = is.getSelectedItem();
+    boolean enabled = selItem != null && target.getTradeContainer().getItems().canAdd(selItem);
     sellCtrl.setDisplayName(enabled ? "Sell" : "---");
     sellCtrl.setEnabled(enabled);
     if (!enabled) return;
     if (sellCtrl.isJustOff()) {
       ItemContainer ic = hero.getItemContainer();
-      is.setSelected(ic.getNext(selected));
-      ic.remove(selected);
-      target.getTradeContainer().getItems().add(selected);
-      hero.setMoney(hero.getMoney() + selected.getPrice() * PERC);
+      is.setSelected(ic.getSelectionAfterRemove(is.getSelected()));
+      ic.remove(selItem);
+      target.getTradeContainer().getItems().add(selItem);
+      hero.setMoney(hero.getMoney() + selItem.getPrice() * PERC);
     }
   }
 
