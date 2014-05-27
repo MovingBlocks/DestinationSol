@@ -41,6 +41,11 @@ public class MercItem implements SolItem {
     return myConfig.hull.icon;
   }
 
+  @Override
+  public SolItemType getItemType() {
+    return ShipItem.EMPTY;
+  }
+
   public ShipConfig getConfig() {
     return myConfig;
   }

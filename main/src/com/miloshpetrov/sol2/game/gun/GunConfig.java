@@ -32,13 +32,14 @@ public class GunConfig {
   public final TextureAtlas.AtlasRegion icon;
   public final boolean fixed;
   public final float meanDps;
+  public final SolItemType itemType;
 
   public GunConfig(float minAngleVar, float maxAngleVar, float angleVarDamp, float angleVarPerShot,
     float timeBetweenShots,
     float reloadTime, float gunLength, String displayName,
     boolean lightOnShot, int price, String descBase,
     ClipConfig clipConf, SolSound shootSound, SolSound reloadSound, TextureAtlas.AtlasRegion tex,
-    TextureAtlas.AtlasRegion icon, boolean fixed)
+    TextureAtlas.AtlasRegion icon, boolean fixed, SolItemType itemType)
   {
     this.shootSound = shootSound;
     this.reloadSound = reloadSound;
@@ -58,6 +59,7 @@ public class GunConfig {
     this.clipConf = clipConf;
     this.icon = icon;
     this.fixed = fixed;
+    this.itemType = itemType;
 
     this.desc = makeDesc(descBase);
     dps = clipConf.projConfig.dmg * clipConf.projectilesPerShot / timeBetweenShots;
@@ -75,7 +77,7 @@ public class GunConfig {
     return sb.toString();
   }
 
-  public static void load(TexMan texMan, ItemMan itemMan, SoundMan soundMan) {
+  public static void load(TexMan texMan, ItemMan itemMan, SoundMan soundMan, SolItemTypes types) {
     JsonReader r = new JsonReader();
     FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "guns.json");
     JsonValue parsed = r.parse(configFile);
@@ -102,7 +104,7 @@ public class GunConfig {
       TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + texName, configFile);
       boolean fixed = sh.getBoolean("fixed", false);
       GunConfig c = new GunConfig(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots, reloadTime,
-        gunLength, displayName, lightOnShot, price, descBase, clipConf, shootSound, reloadSound, tex, icon, fixed);
+        gunLength, displayName, lightOnShot, price, descBase, clipConf, shootSound, reloadSound, tex, icon, fixed, types.gun);
       itemMan.registerItem(sh.name, c.example);
     }
   }

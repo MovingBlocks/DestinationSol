@@ -278,6 +278,7 @@ main/res/configs/items/clips.json -text
 main/res/configs/items/engines.json -text
 main/res/configs/items/guns.json -text
 main/res/configs/items/shields.json -text
+main/res/configs/items/types.json -text
 main/res/configs/mazes.json -text
 main/res/configs/planetNames.txt -text
 main/res/configs/planets.json -text
@@ -464,6 +465,8 @@ main/src/com/miloshpetrov/sol2/game/item/RepairItem.java -text
 main/src/com/miloshpetrov/sol2/game/item/Shield.java -text
 main/src/com/miloshpetrov/sol2/game/item/ShipItem.java -text
 main/src/com/miloshpetrov/sol2/game/item/SolItem.java -text
+main/src/com/miloshpetrov/sol2/game/item/SolItemType.java -text
+main/src/com/miloshpetrov/sol2/game/item/SolItemTypes.java -text
 main/src/com/miloshpetrov/sol2/game/item/TradeConfig.java -text
 main/src/com/miloshpetrov/sol2/game/item/TradeContainer.java -text
 main/src/com/miloshpetrov/sol2/game/maze/Maze.java -text

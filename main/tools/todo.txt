@@ -1,8 +1,6 @@
 
 
 CODING:
-  item pick up sound
-  item color categories
   systemConfig:
     isHard: true
   planetConfig:
@@ -17,6 +15,7 @@ BUGS:
   truck guards sometimes fly too fast
 
 DRAWING:
+  skull areas
   pirate space station hull shades
   guns
   projectiles

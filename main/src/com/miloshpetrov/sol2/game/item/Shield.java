@@ -71,6 +71,11 @@ public class Shield implements SolItem {
     return myConfig.icon;
   }
 
+  @Override
+  public SolItemType getItemType() {
+    return myConfig.itemType;
+  }
+
   public float getLife() {
     return myLife;
   }
@@ -114,9 +119,10 @@ public class Shield implements SolItem {
     public final float regenSpd;
     public final TextureAtlas.AtlasRegion icon;
     public TextureAtlas.AtlasRegion tex;
+    public final SolItemType itemType;
 
     private Config(int maxLife, String displayName, int price, String desc, SolSound absorbSound, SolSound regenSound,
-      TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex) {
+      TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, SolItemType itemType) {
       this.maxLife = maxLife;
       this.displayName = displayName;
       this.price = price;
@@ -125,11 +131,12 @@ public class Shield implements SolItem {
       this.regenSound = regenSound;
       this.icon = icon;
       this.tex = tex;
+      this.itemType = itemType;
       regenSpd = this.maxLife / 3;
       example = new Shield(this);
     }
 
-    public static void loadConfigs(ItemMan itemMan, SoundMan soundMan, TexMan texMan) {
+    public static void loadConfigs(ItemMan itemMan, SoundMan soundMan, TexMan texMan, SolItemTypes types) {
       JsonReader r = new JsonReader();
       FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "shields.json");
       JsonValue parsed = r.parse(configFile);
@@ -144,7 +151,7 @@ public class Shield implements SolItem {
         SolSound regenSound = soundMan.getSound(soundDir, configFile);
         TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + sh.getString("icon"), configFile);
         TextureAtlas.AtlasRegion tex = texMan.getTex(sh.getString("tex"), configFile);
-        Config config = new Config(maxLife, displayName, price, desc, absorbSound, regenSound, icon, tex);
+        Config config = new Config(maxLife, displayName, price, desc, absorbSound, regenSound, icon, tex, types.shield);
         itemMan.registerItem(sh.name(), config.example);
       }
     }

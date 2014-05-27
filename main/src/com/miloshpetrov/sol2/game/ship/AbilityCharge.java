@@ -7,8 +7,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.game.SolGame;
-import com.miloshpetrov.sol2.game.item.ItemMan;
-import com.miloshpetrov.sol2.game.item.SolItem;
+import com.miloshpetrov.sol2.game.item.*;
 
 public class AbilityCharge implements SolItem {
   private final Config myConfig;
@@ -47,21 +46,28 @@ public class AbilityCharge implements SolItem {
     return myConfig.icon;
   }
 
+  @Override
+  public SolItemType getItemType() {
+    return myConfig.itemType;
+  }
+
 
   public static class Config {
     private final TextureAtlas.AtlasRegion icon;
     private final float price;
     private final String displayName;
     private final String desc;
+    public final SolItemType itemType;
 
-    public Config(TextureAtlas.AtlasRegion icon, float price, String displayName, String desc) {
+    public Config(TextureAtlas.AtlasRegion icon, float price, String displayName, String desc, SolItemType itemType) {
       this.icon = icon;
       this.price = price;
       this.displayName = displayName;
       this.desc = desc;
+      this.itemType = itemType;
     }
 
-    public static void load(ItemMan itemMan, TexMan texMan) {
+    public static void load(ItemMan itemMan, TexMan texMan, SolItemTypes types) {
       JsonReader r = new JsonReader();
       FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "abilityCharges.json");
       JsonValue parsed = r.parse(configFile);
@@ -71,7 +77,7 @@ public class AbilityCharge implements SolItem {
         float price = ammoNode.getFloat("price");
         String displayName = ammoNode.getString("displayName");
         String desc = ammoNode.getString("desc");
-        Config c = new Config(icon, price, displayName, desc);
+        Config c = new Config(icon, price, displayName, desc, types.abilityCharge);
         AbilityCharge chargeExample = new AbilityCharge(c);
         itemMan.registerItem(ammoNode.name, chargeExample);
       }

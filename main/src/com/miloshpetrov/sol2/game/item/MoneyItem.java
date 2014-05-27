@@ -6,13 +6,13 @@ import com.miloshpetrov.sol2.game.SolGame;
 public class MoneyItem implements SolItem {
   public static final int AMT = 10;
   public static final int BIG_AMT = 10 * AMT;
-  public static final MoneyItem EXAMPLE = new MoneyItem(false);
-  public static final MoneyItem BIG_EXAMPLE = new MoneyItem(true);
 
   private final boolean myBig;
+  private final SolItemType myItemType;
 
-  private MoneyItem(boolean big) {
+  public MoneyItem(boolean big, SolItemType itemType) {
     myBig = big;
+    myItemType = itemType;
   }
 
   @Override
@@ -32,7 +32,7 @@ public class MoneyItem implements SolItem {
 
   @Override
   public SolItem copy() {
-    return new MoneyItem(myBig);
+    return new MoneyItem(myBig, myItemType);
   }
 
   @Override
@@ -43,5 +43,10 @@ public class MoneyItem implements SolItem {
   @Override
   public TextureAtlas.AtlasRegion getIcon(SolGame game) {
     return myBig ? game.getItemMan().bigMoneyIcon : game.getItemMan().moneyIcon;
+  }
+
+  @Override
+  public SolItemType getItemType() {
+    return myItemType;
   }
 }

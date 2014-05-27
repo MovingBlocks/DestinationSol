@@ -57,6 +57,11 @@ public class EngineItem implements SolItem {
     return myConfig.icon;
   }
 
+  @Override
+  public SolItemType getItemType() {
+    return null;
+  }
+
   public SolSound getWorkSound() {
     return myConfig.workSound;
   }

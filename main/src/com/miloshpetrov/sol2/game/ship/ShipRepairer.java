@@ -15,7 +15,7 @@ public class ShipRepairer {
 
   public float tryRepair(SolGame game, ItemContainer ic, float life, HullConfig config) {
     float ts = game.getTimeStep();
-    if (myRepairPoints <= 0 && ic.tryConsumeItem(RepairItem.EXAMPLE)) {
+    if (myRepairPoints <= 0 && ic.tryConsumeItem(game.getItemMan().getRepairExample())) {
       myRepairPoints = RepairItem.LIFE_AMT;
     }
     if (myRepairPoints > 0 && life < config.maxLife) {

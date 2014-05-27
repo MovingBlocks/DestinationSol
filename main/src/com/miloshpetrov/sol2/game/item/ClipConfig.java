@@ -18,9 +18,10 @@ public class ClipConfig {
   public final ProjectileConfig projConfig;
   public final boolean infinite;
   public final int projectilesPerShot;
+  public final SolItemType itemType;
 
   public ClipConfig(ProjectileConfig projConfig, boolean infinite, int price, String displayName, int size,
-    String descSuff, TextureAtlas.AtlasRegion icon, int projectilesPerShot)
+    String descSuff, TextureAtlas.AtlasRegion icon, int projectilesPerShot, SolItemType itemType)
   {
     this.projConfig = projConfig;
     this.infinite = infinite;
@@ -29,11 +30,12 @@ public class ClipConfig {
     this.size = size;
     this.icon = icon;
     this.projectilesPerShot = projectilesPerShot;
+    this.itemType = itemType;
     this.desc = "A clip of " + size + " " + descSuff;
     this.example = new ClipItem(this);
   }
 
-  public static void load(ItemMan itemMan, TexMan texMan) {
+  public static void load(ItemMan itemMan, TexMan texMan, SolItemTypes types) {
     JsonReader r = new JsonReader();
     FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "clips.json");
     JsonValue parsed = r.parse(configFile);
@@ -56,7 +58,7 @@ public class ClipConfig {
         descSuf = sh.getString("descSuf");
         icon = texMan.getTex(TexMan.ICONS_DIR + iconName, configFile);
       }
-      ClipConfig config = new ClipConfig(projConfig, infinite, price, displayName, size, descSuf, icon, projectilesPerShot);
+      ClipConfig config = new ClipConfig(projConfig, infinite, price, displayName, size, descSuf, icon, projectilesPerShot, types.clip);
       itemMan.registerItem(sh.name(), config.example);
     }
   }
