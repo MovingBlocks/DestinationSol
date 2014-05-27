@@ -85,4 +85,9 @@ public class ShipMouseControl implements ShipUiControl {
   public TextureAtlas.AtlasRegion getInGameTex() {
     return myCursor;
   }
+
+  @Override
+  public void blur() {
+
+  }
 }

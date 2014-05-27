@@ -320,7 +320,7 @@ public class MainScreen implements SolUiScreen {
 
   @Override
   public void blurCustom(SolCmp cmp) {
-
+    shipControl.blur();
   }
 
   public boolean isLeft() {

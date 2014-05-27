@@ -13,4 +13,5 @@ public interface ShipUiControl {
   boolean isShoot2();
   boolean isAbility();
   TextureAtlas.AtlasRegion getInGameTex();
+  void blur();
 }

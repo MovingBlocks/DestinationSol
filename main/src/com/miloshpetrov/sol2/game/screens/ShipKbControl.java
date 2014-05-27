@@ -103,4 +103,9 @@ public class ShipKbControl implements ShipUiControl {
   public TextureAtlas.AtlasRegion getInGameTex() {
     return null;
   }
+
+  @Override
+  public void blur() {
+
+  }
 }

@@ -1,9 +1,6 @@
 
 
 CODING:
-  ship rotation shouldn't affect repair
-  ship rotates on map when controlled by mouse
-  ships get stuck in ground -- perhaps due to different conversion radii
   item pick up sound
   item color categories
   systemConfig:
@@ -13,7 +10,8 @@ CODING:
   bg in title screen
   make title bigger
   softer skull areas
-
+  rotation force to save on planet
+  ships get stuck in ground -- perhaps due to different conversion radii
 
 BUGS:
   truck guards sometimes fly too fast

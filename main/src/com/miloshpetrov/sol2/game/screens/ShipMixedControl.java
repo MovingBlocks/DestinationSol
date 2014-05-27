@@ -38,11 +38,7 @@ class ShipMixedControl implements ShipUiControl {
 
   @Override
   public void update(SolCmp cmp) {
-    myLeft = false;
-    myRight = false;
-    myShoot = false;
-    myShoot2 = false;
-    myAbility = false;
+    blur();
     SolInputMan im = cmp.getInputMan();
     SolGame g = cmp.getGame();
     SolShip h = g.getHero();
@@ -100,5 +96,14 @@ class ShipMixedControl implements ShipUiControl {
   @Override
   public TextureAtlas.AtlasRegion getInGameTex() {
     return myCursor;
+  }
+
+  @Override
+  public void blur() {
+    myLeft = false;
+    myRight = false;
+    myShoot = false;
+    myShoot2 = false;
+    myAbility = false;
   }
 }
