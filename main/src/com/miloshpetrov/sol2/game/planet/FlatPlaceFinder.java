@@ -22,7 +22,7 @@ public class FlatPlaceFinder {
     }
   };
 
-  public Vector2 find(SolGame game, Planet p, PlanetObjsBuilder.ConsumedAngles takenAngles, float objHalfWidth) {
+  public Vector2 find(SolGame game, Planet p, ConsumedAngles takenAngles, float objHalfWidth) {
     Vector2 pPos = p.getPos();
 
     Vector2 res = new Vector2(pPos);

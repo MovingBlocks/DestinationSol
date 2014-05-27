@@ -28,12 +28,15 @@ public class PlanetConfig {
   public final int rowCount;
   public final boolean smoothLandscape;
   public final TradeConfig tradeConfig;
+  public final boolean hardOnly;
+  public final boolean easyOnly;
 
   public PlanetConfig(String configName, float minGrav, float maxGrav, List<DecoConfig> deco,
     List<ShipConfig> groundEnemies,
     List<ShipConfig> highOrbitEnemies, ArrayList<ShipConfig> lowOrbitEnemies,
     ArrayList<TextureAtlas.AtlasRegion> cloudTexs, PlanetTiles planetTiles,
-    ShipConfig stationConfig, SkyConfig skyConfig, int rowCount, boolean smoothLandscape, TradeConfig tradeConfig)
+    ShipConfig stationConfig, SkyConfig skyConfig, int rowCount, boolean smoothLandscape, TradeConfig tradeConfig,
+    boolean hardOnly, boolean easyOnly)
   {
     this.configName = configName;
     this.minGrav = minGrav;
@@ -49,6 +52,8 @@ public class PlanetConfig {
     this.rowCount = rowCount;
     this.smoothLandscape = smoothLandscape;
     this.tradeConfig = tradeConfig;
+    this.hardOnly = hardOnly;
+    this.easyOnly = easyOnly;
   }
 
   static PlanetConfig load(TexMan texMan, HullConfigs hullConfigs, FileHandle configFile, JsonValue sh, GameCols cols,
@@ -68,6 +73,9 @@ public class PlanetConfig {
     int rowCount = sh.getInt("rowCount");
     boolean smoothLandscape = sh.getBoolean("smoothLandscape", false);
     TradeConfig tradeConfig = TradeConfig.load(itemMan, sh.get("trading"), null);
-    return new PlanetConfig(sh.name, minGrav, maxGrav, deco, groundEnemies, highOrbitEnemies, lowOrbitEnemies, cloudTexs, planetTiles, stationConfig, skyConfig, rowCount, smoothLandscape, tradeConfig);
+    boolean hardOnly = sh.getBoolean("hardOnly", false);
+    boolean easyOnly = sh.getBoolean("easyOnly", false);
+    return new PlanetConfig(sh.name, minGrav, maxGrav, deco, groundEnemies, highOrbitEnemies, lowOrbitEnemies, cloudTexs,
+      planetTiles, stationConfig, skyConfig, rowCount, smoothLandscape, tradeConfig, hardOnly, easyOnly);
   }
 }

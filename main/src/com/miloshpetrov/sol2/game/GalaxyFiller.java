@@ -66,8 +66,17 @@ public class GalaxyFiller {
     game.getObjMan().addFarObjNow(s);
     ShipConfig guardConf = cfg.guard;
     if (guardConf != null) {
+      ConsumedAngles ca = new ConsumedAngles();
       for (int i = 0; i < guardConf.density; i++) {
-        createGuard(game, s, guardConf, frac);
+        float guardianAngle = 0;
+        for (int j = 0; j < 5; j++) {
+          guardianAngle = SolMath.rnd(180);
+          if (!ca.isConsumed(guardianAngle, guardConf.hull.approxRadius)) {
+            ca.add(guardianAngle, guardConf.hull.approxRadius);
+            break;
+          }
+        }
+        createGuard(game, s, guardConf, frac, guardianAngle);
       }
     }
     return s;
@@ -144,12 +153,12 @@ public class GalaxyFiller {
     game.getObjMan().addFarObjNow(sp);
   }
 
-  private void createGuard(SolGame game, FarShip target, ShipConfig guardConf, Fraction frac) {
-    Guardian dp = new Guardian(game, guardConf.hull, target.getPilot(), target.getPos(), target.getHullConfig());
+  private void createGuard(SolGame game, FarShip target, ShipConfig guardConf, Fraction frac, float guardRelAngle) {
+    Guardian dp = new Guardian(game, guardConf.hull, target.getPilot(), target.getPos(), target.getHullConfig(), guardRelAngle);
     Pilot pilot = new AiPilot(dp, true, frac, false, null, Const.AI_DET_DIST);
     boolean hasRepairer = frac == Fraction.LAANI;
     int money = guardConf.money;
-    FarShip e = game.getShipBuilder().buildNewFar(game, dp.getDest(), null, dp.getAngle(), 0, pilot, guardConf.items,
+    FarShip e = game.getShipBuilder().buildNewFar(game, dp.getDest(), null, guardRelAngle, 0, pilot, guardConf.items,
       guardConf.hull, null, hasRepairer, money, null);
     game.getObjMan().addFarObjNow(e);
   }

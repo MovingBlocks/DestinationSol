@@ -1,5 +1,6 @@
 {
   rocky: {
+    easyOnly: true,
     minGrav: 0.4,
     maxGrav: 0.6,
     groundTexs: "grounds/rocky",
@@ -143,6 +144,7 @@
 
 
   frozen: {
+    hardOnly: true,
     minGrav: 0.8,
     maxGrav: 1,
     rowCount: 4,

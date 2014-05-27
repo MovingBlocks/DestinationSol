@@ -160,7 +160,7 @@ public class PlanetMan {
     return mySystems;
   }
 
-  public Vector2 findFlatPlace(SolGame game, Planet p, PlanetObjsBuilder.ConsumedAngles takenAngles,
+  public Vector2 findFlatPlace(SolGame game, Planet p, ConsumedAngles takenAngles,
     float objHalfWidth) {
     return myFlatPlaceFinder.find(game, p, takenAngles, objHalfWidth);
   }
