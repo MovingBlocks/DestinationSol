@@ -105,7 +105,7 @@ public class DraMan {
       for (List<Dra> dras : map.values()) {
         for (Dra dra : dras) {
           if (myInCam.contains(dra)) {
-            dra.draw(myDrawer, game);
+            if (!DebugOptions.NO_DRAS) dra.draw(myDrawer, game);
           }
         }
       }
@@ -113,11 +113,11 @@ public class DraMan {
         game.drawDebug(myDrawer);
       }
       if (draLevel == DraLevel.ATM) {
-        game.getPlanetMan().drawPlanetCoreHack(game, myDrawer);
+        if (!DebugOptions.NO_DRAS) game.getPlanetMan().drawPlanetCoreHack(game, myDrawer);
       }
     }
 
-    game.getPlanetMan().drawSunHack(game, myDrawer);
+    if (!DebugOptions.NO_DRAS) game.getPlanetMan().drawSunHack(game, myDrawer);
 
     if (DebugOptions.DRAW_DRA_BORDERS) {
       for (Map<Texture, List<Dra>> map : myDras.values()) {

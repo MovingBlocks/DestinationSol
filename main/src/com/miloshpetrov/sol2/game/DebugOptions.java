@@ -22,6 +22,7 @@ public class DebugOptions {
   public static boolean GOD_MODE = false;
 
   // presentation
+  public static boolean NO_DRAS = false;
   public static float ZOOM_OVERRIDE = 0;
   public static float GRID_SZ = 0;
   public static float GAME_SPEED_MULTIPLIER = 1f;
@@ -55,6 +56,7 @@ public class DebugOptions {
     FORCE_SYSTEM_TYPE = r.s("forceSystemType", FORCE_SYSTEM_TYPE);
     NO_OBJS = r.b("noObjs", NO_OBJS);
     GOD_MODE = r.b("godMode", GOD_MODE);
+    NO_DRAS = r.b("noDras", NO_DRAS);
     ZOOM_OVERRIDE = r.f("zoomOverride", ZOOM_OVERRIDE);
     GRID_SZ = r.f("gridSz", GRID_SZ);
     GAME_SPEED_MULTIPLIER = r.f("gameSpeedMultiplier", GAME_SPEED_MULTIPLIER);
