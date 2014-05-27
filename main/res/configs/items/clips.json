@@ -6,7 +6,7 @@
 
     iconName: plasmaClip,
     displayName: "Plasma Cells",
-    descSuf: cells,
+    plural: cells,
   },
 
 
@@ -25,7 +25,7 @@
     price: 30,
 
     displayName: Bombs,
-    descSuf: bombs,
+    plural: bombs,
     iconName: bombClip,
   },
 
@@ -37,7 +37,7 @@
     price: 30,
 
     displayName: Bullets,
-    descSuf: bullets,
+    plural: bullets,
     iconName: bulletClip,
   },
 
@@ -50,7 +50,7 @@
     price: 30,
 
     displayName: Shells,
-    descSuf: shells,
+    plural: shells,
     iconName: shellClip,
   },
 
@@ -62,7 +62,7 @@
     price: 70,
 
     displayName: Missiles,
-    descSuf: missiles,
+    plural: missiles,
     iconName: missileClip,
   },
 
@@ -74,7 +74,7 @@
     price: 30,
 
     displayName: Mines,
-    descSuf: mines,
+    plural: mines,
     iconName: mineClip,
   },
 
@@ -86,7 +86,7 @@
     price: 70,
 
     displayName: "Cannon Slugs",
-    descSuf: slugs,
+    plural: slugs,
     iconName: slugClip,
   },
 
@@ -98,7 +98,7 @@
     price: 70,
 
     displayName: Rockets,
-    descSuf: rockets,
+    plural: rockets,
     iconName: rocketClip,
   },
 
@@ -110,7 +110,7 @@
     price: 70,
 
     displayName: "Railgun Bullets",
-    descSuf: bullets,
+    plural: "railgun bullets",
     iconName: railClip,
   },
 
@@ -122,7 +122,7 @@
     price: 70,
 
     displayName: "Miner Nails",
-    descSuf: nails,
+    plural: nails,
     iconName: nailClip,
   },
 

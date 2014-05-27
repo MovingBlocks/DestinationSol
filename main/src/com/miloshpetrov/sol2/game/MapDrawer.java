@@ -21,8 +21,10 @@ public class MapDrawer {
   public static final float ICON_RAD = .02f;
   public static final float STAR_NODE_SZ = .003f;
   private static final float MAX_SKULL_TIME = .75f;
+  private static final float MAX_AREA_SKULL_TIME = 2;
   public static final float INNER_ICON_PERC = .6f;
   public static final float GRID_SZ = 40f;
+
   private final TextureAtlas.AtlasRegion myAtmTex;
   private final TextureAtlas.AtlasRegion myPlanetTex;
   private final TextureAtlas.AtlasRegion myPlanetCoreTex;
@@ -34,10 +36,14 @@ public class MapDrawer {
   private final TextureAtlas.AtlasRegion myBeaconAttackTex;
   private final TextureAtlas.AtlasRegion myBeaconMoveTex;
   private final TextureAtlas.AtlasRegion myBeaconFollowTex;
+  private final Color myAreaWarnCol;
+  private final Color myAreaWarnBgCol;
+
   private boolean myToggled;
   private final TextureAtlas.AtlasRegion myIconBg;
   private float myZoom;
   private float mySkullTime;
+  private float myAreaSkullTime;
 
   public MapDrawer(TexMan texMan) {
     myIconBg = texMan.getTex(TexMan.ICONS_DIR + "bg", null);
@@ -53,6 +59,8 @@ public class MapDrawer {
     myBeaconMoveTex = texMan.getTex("mapObjs/beaconMove", null);
     myBeaconFollowTex = texMan.getTex("mapObjs/beaconFollow", null);
     myZoom = MAX_ZOOM / MUL_FACTOR / MUL_FACTOR;
+    myAreaWarnCol = new Color(Col.W);
+    myAreaWarnBgCol = new Color(Col.UI_WARN);
   }
 
   public boolean isToggled() {
@@ -91,7 +99,7 @@ public class MapDrawer {
       if (viewDist < camPos.dst(mazePos) - rad) continue;
       drawer.draw(myMazeTex, 2 * rad, 2 * rad, rad, rad, mazePos.x, mazePos.y, 45, Col.W);
       if (HardnessCalc.isDangerous(heroDmgCap, maze.getDps())) {
-        drawAreaDanger(drawer, rad, mazePos);
+        drawAreaDanger(drawer, rad, mazePos, .75f);
       }
     }
 
@@ -127,7 +135,7 @@ public class MapDrawer {
       SolMath.free(beltIconPos);
       if (dangerRad < sys.getInnerRad() && HardnessCalc.isDangerous(heroDmgCap, sys.getInnerDps())) dangerRad = sys.getInnerRad();
       if (dangerRad > 0) {
-        drawAreaDanger(drawer, dangerRad, sysPos);
+        drawAreaDanger(drawer, dangerRad, sysPos, .5f);
       }
     }
 
@@ -149,16 +157,20 @@ public class MapDrawer {
       float dangerRad = HardnessCalc.isDangerous(heroDmgCap, planet.getAtmDps()) ? fh : 0;
       if (dangerRad < gh && HardnessCalc.isDangerous(heroDmgCap, planet.getGroundDps())) dangerRad = gh;
       if (dangerRad > 0) {
-        drawAreaDanger(drawer, dangerRad, planetPos);
+        drawAreaDanger(drawer, dangerRad, planetPos, .75f);
       }
     }
   }
 
-  private void drawAreaDanger(Drawer drawer, float rad, Vector2 pos) {
-    if (mySkullTime < 0) return;
-    drawer.draw(myIconBg, rad *2, rad *2, rad, rad, pos.x, pos.y, 0, Col.UI_WARN);
+  private void drawAreaDanger(Drawer drawer, float rad, Vector2 pos, float transpMul) {
+    float perc = 2 * myAreaSkullTime / MAX_AREA_SKULL_TIME;
+    if (perc > 1) perc = 2 - perc;
+    float a = SolMath.clamp(perc * transpMul);
+    myAreaWarnBgCol.a = a;
+    myAreaWarnCol.a = a;
+    drawer.draw(myIconBg, rad *2, rad *2, rad, rad, pos.x, pos.y, 0, myAreaWarnBgCol);
     rad *= INNER_ICON_PERC;
-    drawer.draw(mySkullTex, rad *2, rad *2, rad, rad, pos.x, pos.y, 0, Col.W);
+    drawer.draw(mySkullTex, rad *2, rad *2, rad, rad, pos.x, pos.y, 0, myAreaWarnCol);
   }
 
   private void drawIcons(Drawer drawer, SolGame game, float iconSz, float viewDist, FractionMan fractionMan,
@@ -295,6 +307,8 @@ public class MapDrawer {
   public void update(SolGame game) {
     mySkullTime += game.getTimeStep();
     if (mySkullTime > MAX_SKULL_TIME) mySkullTime = -MAX_SKULL_TIME;
+    myAreaSkullTime += game.getTimeStep();
+    if (myAreaSkullTime > MAX_AREA_SKULL_TIME) myAreaSkullTime = 0;
   }
 
   private void drawPlanetTile(Tile t, float sz, Drawer drawer, TextureAtlas.AtlasRegion wt, Vector2 p, float angle) {

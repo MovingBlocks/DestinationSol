@@ -121,12 +121,11 @@ public class Shield implements SolItem {
     public TextureAtlas.AtlasRegion tex;
     public final SolItemType itemType;
 
-    private Config(int maxLife, String displayName, int price, String desc, SolSound absorbSound, SolSound regenSound,
+    private Config(int maxLife, String displayName, int price, SolSound absorbSound, SolSound regenSound,
       TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, SolItemType itemType) {
       this.maxLife = maxLife;
       this.displayName = displayName;
       this.price = price;
-      this.desc = desc;
       this.absorbSound = absorbSound;
       this.regenSound = regenSound;
       this.icon = icon;
@@ -134,6 +133,14 @@ public class Shield implements SolItem {
       this.itemType = itemType;
       regenSpd = this.maxLife / 3;
       example = new Shield(this);
+      this.desc = makeDesc();
+    }
+
+    private String makeDesc() {
+      StringBuilder sb = new StringBuilder(displayName);
+      sb.append("\nTakes ").append(maxLife).append(" dmg.");
+      sb.append("\nWeak against energy weapons.");
+      return sb.toString();
     }
 
     public static void loadConfigs(ItemMan itemMan, SoundMan soundMan, TexMan texMan, SolItemTypes types) {
@@ -144,14 +151,13 @@ public class Shield implements SolItem {
         int maxLife = sh.getInt("maxLife");
         String displayName = sh.getString("displayName");
         int price = sh.getInt("price");
-        String desc = sh.getString("desc");
         String soundDir = sh.getString("absorbSound");
         SolSound absorbSound = soundMan.getSound(soundDir, configFile);
         soundDir = sh.getString("regenSound");
         SolSound regenSound = soundMan.getSound(soundDir, configFile);
         TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + sh.getString("icon"), configFile);
         TextureAtlas.AtlasRegion tex = texMan.getTex(sh.getString("tex"), configFile);
-        Config config = new Config(maxLife, displayName, price, desc, absorbSound, regenSound, icon, tex, types.shield);
+        Config config = new Config(maxLife, displayName, price, absorbSound, regenSound, icon, tex, types.shield);
         itemMan.registerItem(sh.name(), config.example);
       }
     }

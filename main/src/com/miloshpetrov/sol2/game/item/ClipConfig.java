@@ -19,9 +19,10 @@ public class ClipConfig {
   public final boolean infinite;
   public final int projectilesPerShot;
   public final SolItemType itemType;
+  public final String plural;
 
   public ClipConfig(ProjectileConfig projConfig, boolean infinite, int price, String displayName, int size,
-    String descSuff, TextureAtlas.AtlasRegion icon, int projectilesPerShot, SolItemType itemType)
+    String plural, TextureAtlas.AtlasRegion icon, int projectilesPerShot, SolItemType itemType)
   {
     this.projConfig = projConfig;
     this.infinite = infinite;
@@ -31,7 +32,8 @@ public class ClipConfig {
     this.icon = icon;
     this.projectilesPerShot = projectilesPerShot;
     this.itemType = itemType;
-    this.desc = "A clip of " + size + " " + descSuff;
+    this.plural = plural;
+    this.desc = "A clip of " + size + " " + this.plural;
     this.example = new ClipItem(this);
   }
 
@@ -49,16 +51,16 @@ public class ClipConfig {
 
       int price = 0;
       String displayName = "";
-      String descSuf = "";
+      String plural = "";
       TextureAtlas.AtlasRegion icon = null;
       if (!infinite) {
         String iconName = sh.getString("iconName");
         price = sh.getInt("price");
         displayName = sh.getString("displayName");
-        descSuf = sh.getString("descSuf");
+        plural = sh.getString("plural");
         icon = texMan.getTex(TexMan.ICONS_DIR + iconName, configFile);
       }
-      ClipConfig config = new ClipConfig(projConfig, infinite, price, displayName, size, descSuf, icon, projectilesPerShot, types.clip);
+      ClipConfig config = new ClipConfig(projConfig, infinite, price, displayName, size, plural, icon, projectilesPerShot, types.clip);
       itemMan.registerItem(sh.name(), config.example);
     }
   }

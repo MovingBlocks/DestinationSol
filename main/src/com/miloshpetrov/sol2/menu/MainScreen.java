@@ -63,7 +63,8 @@ public class MainScreen implements SolUiScreen {
 
   @Override
   public void drawPre(UiDrawer uiDrawer, SolCmp cmp) {
-    uiDrawer.draw(myTitleTex, .4f, .4f, .2f, .2f, uiDrawer.r/2, .2f, 0, Col.W); //variable
+    float sz = .55f;
+    uiDrawer.draw(myTitleTex, sz, sz, sz/2, sz/2, uiDrawer.r/2, sz/2, 0, Col.W);
   }
 
   @Override
