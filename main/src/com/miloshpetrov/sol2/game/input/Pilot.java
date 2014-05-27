@@ -24,7 +24,7 @@ public interface Pilot {
 
   public static final class Utils {
     public static boolean isIdle(Pilot p) {
-      return !(p.isUp() || p.isLeft() || p.isRight() || p.isShoot() || p.isShoot2() || p.isAbility());
+      return !(p.isUp() || p.isShoot() || p.isShoot2() || p.isAbility());
     }
   }
 }
