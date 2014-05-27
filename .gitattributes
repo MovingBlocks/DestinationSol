@@ -397,6 +397,7 @@ main/src/com/miloshpetrov/sol2/game/FractionMan.java -text
 main/src/com/miloshpetrov/sol2/game/GalaxyFiller.java -text
 main/src/com/miloshpetrov/sol2/game/GameCols.java -text
 main/src/com/miloshpetrov/sol2/game/GridDrawer.java -text
+main/src/com/miloshpetrov/sol2/game/HardnessCalc.java -text
 main/src/com/miloshpetrov/sol2/game/HsbSpan.java -text
 main/src/com/miloshpetrov/sol2/game/MapDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/MissingResourceAction.java -text

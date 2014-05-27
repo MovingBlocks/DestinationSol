@@ -32,7 +32,7 @@ public class PlanetMan {
   public PlanetMan(TexMan texMan, HullConfigs hullConfigs, GameCols cols, ItemMan itemMan) {
     myPlanetConfigs = new PlanetConfigs(texMan, hullConfigs, cols, itemMan);
     mySysConfigs = new SysConfigs(texMan, hullConfigs, itemMan);
-    myMazeConfigs = new MazeConfigs(texMan, hullConfigs);
+    myMazeConfigs = new MazeConfigs(texMan, hullConfigs, itemMan);
 
     mySystems = new ArrayList<SolSystem>();
     myMazes = new ArrayList<Maze>();

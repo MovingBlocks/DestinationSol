@@ -1,18 +1,21 @@
 package com.miloshpetrov.sol2.game.planet;
 
 import com.badlogic.gdx.math.Vector2;
+import com.miloshpetrov.sol2.game.HardnessCalc;
 
 public class SystemBelt {
   private final Float myHalfWidth;
   private final float myRadius;
   private final SolSystem myS;
   private final SysConfig myConfig;
+  private final float myDps;
 
   public SystemBelt(Float halfWidth, float radius, SolSystem s, SysConfig config) {
     myHalfWidth = halfWidth;
     myRadius = radius;
     myS = s;
     myConfig = config;
+    myDps = HardnessCalc.getBeltDps(config);
   }
 
   public float getRadius() {
@@ -30,5 +33,9 @@ public class SystemBelt {
 
   public SysConfig getConfig() {
     return myConfig;
+  }
+
+  public float getDps() {
+    return myDps;
   }
 }

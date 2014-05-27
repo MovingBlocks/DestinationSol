@@ -8,6 +8,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.PathLoader;
 import com.miloshpetrov.sol2.game.ShipConfig;
 import com.miloshpetrov.sol2.game.chunk.SpaceEnvConfig;
+import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 import java.util.ArrayList;
@@ -37,7 +38,9 @@ public class MazeConfig {
     this.envConfig = envConfig;
   }
 
-  public static MazeConfig load(TexMan texMan, HullConfigs hullConfigs, JsonValue mazeNode, FileHandle configFile) {
+  public static MazeConfig load(TexMan texMan, HullConfigs hullConfigs, JsonValue mazeNode, FileHandle configFile,
+    ItemMan itemMan)
+  {
     String dirName = "mazeTiles/" + mazeNode.name + "/";
     PathLoader pathLoader = new PathLoader("mazes/" + mazeNode.name);
     PathLoader.Model paths = pathLoader.getInternalModel();
@@ -56,9 +59,9 @@ public class MazeConfig {
     ArrayList<MazeTile> borderPasses = new ArrayList<MazeTile>();
     buildTiles(paths, borderPasses, false, metal, borderBgs, passTexs);
 
-    ArrayList<ShipConfig> outerEnemies = ShipConfig.loadList(mazeNode.get("outerEnemies"), hullConfigs);
-    ArrayList<ShipConfig> innerEnemies = ShipConfig.loadList(mazeNode.get("innerEnemies"), hullConfigs);
-    ArrayList<ShipConfig> bosses = ShipConfig.loadList(mazeNode.get("bosses"), hullConfigs);
+    ArrayList<ShipConfig> outerEnemies = ShipConfig.loadList(mazeNode.get("outerEnemies"), hullConfigs, itemMan);
+    ArrayList<ShipConfig> innerEnemies = ShipConfig.loadList(mazeNode.get("innerEnemies"), hullConfigs, itemMan);
+    ArrayList<ShipConfig> bosses = ShipConfig.loadList(mazeNode.get("bosses"), hullConfigs, itemMan);
 
     SpaceEnvConfig envConfig = new SpaceEnvConfig(mazeNode.get("environment"), texMan, configFile);
     return new MazeConfig(innerWalls, innerPasses, borderWalls, borderPasses, outerEnemies, innerEnemies, bosses, envConfig);

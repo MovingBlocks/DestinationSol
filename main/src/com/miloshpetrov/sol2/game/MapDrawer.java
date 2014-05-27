@@ -7,9 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
-import com.miloshpetrov.sol2.game.gun.GunItem;
-import com.miloshpetrov.sol2.game.item.Armor;
-import com.miloshpetrov.sol2.game.item.Shield;
 import com.miloshpetrov.sol2.game.maze.Maze;
 import com.miloshpetrov.sol2.game.maze.MazeBuilder;
 import com.miloshpetrov.sol2.game.planet.*;
@@ -23,7 +20,7 @@ public class MapDrawer {
   public static final float MAX_ZOOM = 512f;
   public static final float ICON_RAD = .02f;
   public static final float STAR_NODE_SZ = .003f;
-  private static final float MAX_TIME = .75f;
+  private static final float MAX_SKULL_TIME = .75f;
   public static final float INNER_ICON_PERC = .6f;
   public static final float GRID_SZ = 40f;
   private final TextureAtlas.AtlasRegion myAtmTex;
@@ -40,7 +37,7 @@ public class MapDrawer {
   private boolean myToggled;
   private final TextureAtlas.AtlasRegion myIconBg;
   private float myZoom;
-  private float myTime;
+  private float mySkullTime;
 
   public MapDrawer(TexMan texMan) {
     myIconBg = texMan.getTex(TexMan.ICONS_DIR + "bg", null);
@@ -71,13 +68,14 @@ public class MapDrawer {
     SolShip hero = game.getHero();
     Planet np = game.getPlanetMan().getNearestPlanet();
     Vector2 camPos = cam.getPos();
+    float heroDmgCap = hero == null ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero);
 
     drawer.begin(game);
     game.getGridDrawer().draw(drawer, game, GRID_SZ);
-    drawPlanets(drawer, game, viewDist, np, camPos);
-    drawMazes(drawer, game, viewDist, np, camPos);
+    drawPlanets(drawer, game, viewDist, np, camPos, heroDmgCap);
+    drawMazes(drawer, game, viewDist, np, camPos, heroDmgCap);
     drawStarNodes(drawer, game, viewDist, camPos, starNodeW);
-    drawIcons(drawer, game, iconSz, viewDist, fractionMan, hero, camPos);
+    drawIcons(drawer, game, iconSz, viewDist, fractionMan, hero, camPos, heroDmgCap);
     drawer.end();
   }
 
@@ -85,23 +83,27 @@ public class MapDrawer {
     return cam.getViewHeight(myZoom) * ICON_RAD;
   }
 
-  private void drawMazes(Drawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos) {
+  private void drawMazes(Drawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos, float heroDmgCap) {
     ArrayList<Maze> mazes = game.getPlanetMan().getMazes();
     for (Maze maze : mazes) {
       Vector2 mazePos = maze.getPos();
       float rad = maze.getRadius() - MazeBuilder.BORDER;
       if (viewDist < camPos.dst(mazePos) - rad) continue;
       drawer.draw(myMazeTex, 2 * rad, 2 * rad, rad, rad, mazePos.x, mazePos.y, 45, Col.W);
+      if (HardnessCalc.isDangerous(heroDmgCap, maze.getDps())) {
+        drawAreaDanger(drawer, rad, mazePos);
+      }
     }
 
   }
 
-  private void drawPlanets(Drawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos) {
+  private void drawPlanets(Drawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos, float heroDmgCap) {
     ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
     for (SolSystem sys : systems) {
       drawer.drawCircle(sys.getPos(), sys.getRadius(), Col.UI_MED, game.getCam().getRealLineWidth());
     }
     for (SolSystem sys : systems) {
+      float dangerRad = HardnessCalc.isDangerous(heroDmgCap, sys.getDps()) ? sys.getRadius() : 0;
       Vector2 sysPos = sys.getPos();
       float rad = Const.SUN_RADIUS;
       if (camPos.dst(sysPos) - rad < viewDist) {
@@ -119,8 +121,14 @@ public class MapDrawer {
           beltIconPos.add(sysPos);
           drawer.draw(myBeltTex, 2 * halfWidth, 2 * halfWidth, halfWidth, halfWidth, beltIconPos.x, beltIconPos.y, angle * 3, Col.W);
         }
+        float outerRad = beltRad + halfWidth;
+        if (dangerRad < outerRad && HardnessCalc.isDangerous(heroDmgCap, belt.getDps())) dangerRad = outerRad;
       }
       SolMath.free(beltIconPos);
+      if (dangerRad < sys.getInnerRad() && HardnessCalc.isDangerous(heroDmgCap, sys.getInnerDps())) dangerRad = sys.getInnerRad();
+      if (dangerRad > 0) {
+        drawAreaDanger(drawer, dangerRad, sysPos);
+      }
     }
 
     for (Planet planet : game.getPlanetMan().getPlanets()) {
@@ -129,21 +137,33 @@ public class MapDrawer {
       float dstToPlanetAtm = camPos.dst(planetPos) - fh;
       if (viewDist < dstToPlanetAtm) continue;
       drawer.draw(myAtmTex, 2*fh, 2*fh, fh, fh, planetPos.x, planetPos.y, 0, Col.UI_DARK);
+      float gh;
       if (dstToPlanetAtm < 0) {
-        float gh = planet.getMinGroundHeight();
+        gh = planet.getMinGroundHeight();
         drawer.draw(myPlanetCoreTex, 2*gh, 2*gh, gh, gh, planetPos.x, planetPos.y, planet.getAngle(), Col.W);
         drawNpGround(drawer, game, viewDist, np, camPos);
       } else {
-        float gh = planet.getGroundHeight();
+        gh = planet.getGroundHeight();
         drawer.draw(myPlanetTex, 2*gh, 2*gh, gh, gh, planetPos.x, planetPos.y, planet.getAngle(), Col.W);
+      }
+      float dangerRad = HardnessCalc.isDangerous(heroDmgCap, planet.getAtmDps()) ? fh : 0;
+      if (dangerRad < gh && HardnessCalc.isDangerous(heroDmgCap, planet.getGroundDps())) dangerRad = gh;
+      if (dangerRad > 0) {
+        drawAreaDanger(drawer, dangerRad, planetPos);
       }
     }
   }
 
+  private void drawAreaDanger(Drawer drawer, float rad, Vector2 pos) {
+    if (mySkullTime < 0) return;
+    drawer.draw(myIconBg, rad *2, rad *2, rad, rad, pos.x, pos.y, 0, Col.UI_WARN);
+    rad *= INNER_ICON_PERC;
+    drawer.draw(mySkullTex, rad *2, rad *2, rad, rad, pos.x, pos.y, 0, Col.W);
+  }
+
   private void drawIcons(Drawer drawer, SolGame game, float iconSz, float viewDist, FractionMan fractionMan,
-    SolShip hero, Vector2 camPos)
+    SolShip hero, Vector2 camPos, float heroDmgCap)
   {
-    float heroToughness = hero == null ? Float.MAX_VALUE : MapDrawer.getToughness(hero);
 
     for (SolObj o : game.getObjMan().getObjs()) {
       Vector2 oPos = o.getPos();
@@ -152,7 +172,7 @@ public class MapDrawer {
         SolShip ship = (SolShip) o;
         String hint = ship.getPilot().getMapHint();
         if (hint == null && !DebugOptions.DETAILED_MAP) continue;
-        drawObjIcon(drawer, iconSz, oPos, ship.getAngle(), fractionMan, hero, ship.getPilot().getFraction(), heroToughness, o, ship.getHull().config.icon);
+        drawObjIcon(drawer, iconSz, oPos, ship.getAngle(), fractionMan, hero, ship.getPilot().getFraction(), heroDmgCap, o, ship.getHull().config.icon);
       }
       if ((o instanceof StarPort)) {
         StarPort sp = (StarPort) o;
@@ -167,7 +187,7 @@ public class MapDrawer {
         FarShip ship = (FarShip) o;
         String hint = ship.getPilot().getMapHint();
         if (hint == null && !DebugOptions.DETAILED_MAP) continue;
-        drawObjIcon(drawer, iconSz, oPos, ship.getAngle(), fractionMan, hero, ship.getPilot().getFraction(), heroToughness, o, ship.getHullConfig().icon);
+        drawObjIcon(drawer, iconSz, oPos, ship.getAngle(), fractionMan, hero, ship.getPilot().getFraction(), heroDmgCap, o, ship.getHullConfig().icon);
       }
       if ((o instanceof StarPort.MyFar)) {
         StarPort.MyFar sp = (StarPort.MyFar) o;
@@ -245,24 +265,18 @@ public class MapDrawer {
   }
 
   public void drawObjIcon(TexDrawer drawer, float iconSz, Vector2 pos, float objAngle,
-    FractionMan fractionMan, SolShip hero, Fraction objFrac, float heroToughness,
+    FractionMan fractionMan, SolShip hero, Fraction objFrac, float heroDmgCap,
     Object shipHack, TextureAtlas.AtlasRegion icon)
   {
     boolean enemy = hero != null && fractionMan.areEnemies(objFrac, hero.getPilot().getFraction());
     float angle = objAngle;
-    if (enemy && myTime > 0 && isTough(heroToughness, shipHack)) {
+    if (enemy && mySkullTime > 0 && HardnessCalc.isDangerous(heroDmgCap, shipHack)) {
       icon = mySkullTex;
       angle = 0;
     }
     drawer.draw(myIconBg, iconSz, iconSz, iconSz/2, iconSz/2, pos.x, pos.y, 0, enemy ? Col.UI_WARN : Col.UI_LIGHT);
     iconSz *= INNER_ICON_PERC;
     drawer.draw(icon, iconSz, iconSz, iconSz/2, iconSz/2, pos.x, pos.y, angle, Col.W);
-  }
-
-  private boolean isTough(float heroToughness, Object shipHack) {
-    float dps = shipHack instanceof SolShip ? getDps((SolShip) shipHack) : getDps((FarShip) shipHack);
-    float killTime = heroToughness / dps;
-    return killTime < 5;
   }
 
   public void setToggled(boolean toggled) {
@@ -279,41 +293,8 @@ public class MapDrawer {
   }
 
   public void update(SolGame game) {
-    myTime += game.getTimeStep();
-    if (myTime > MAX_TIME) myTime = -MAX_TIME;
-  }
-
-  public static float getDps(SolShip s) {
-    GunItem g1 = s.getHull().getGun(false);
-    float dps1 = getDps(g1);
-    GunItem g2 = s.getHull().getGun(true);
-    float dps2 = getDps(g2);
-    return dps1 + dps2;
-  }
-
-  public static float getDps(FarShip s) {
-    return getDps(s.getGun(false)) + getDps(s.getGun(true));
-  }
-
-  private static float getDps(GunItem g) {
-    if (g == null || !g.canShoot()) return 0;
-    return g.config.meanDps;
-  }
-
-  public static float getToughness(SolShip s) {
-    ShipHull h = s.getHull();
-    return getToughness(s.getLife(), s.getArmor(), s.getShield());
-  }
-
-  public static float getToughness(FarShip s) {
-    return getToughness(s.getLife(), s.getArmor(), s.getShield());
-  }
-
-  private static float getToughness(float life, Armor armor, Shield shield) {
-    float r = life;
-    if (armor != null) r /= (1 - armor.getPerc());
-    if (shield != null) r += shield.getLife() * 1.2f;
-    return r;
+    mySkullTime += game.getTimeStep();
+    if (mySkullTime > MAX_SKULL_TIME) mySkullTime = -MAX_SKULL_TIME;
   }
 
   private void drawPlanetTile(Tile t, float sz, Drawer drawer, TextureAtlas.AtlasRegion wt, Vector2 p, float angle) {
@@ -332,4 +313,5 @@ public class MapDrawer {
   public TextureAtlas.AtlasRegion getStarPortTex() {
     return myStarPortTex;
   }
+
 }

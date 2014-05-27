@@ -56,10 +56,10 @@ public class PlanetConfig {
     float minGrav = sh.getFloat("minGrav");
     float maxGrav = sh.getFloat("maxGrav");
     List<DecoConfig> deco = DecoConfig.load(sh, texMan, configFile);
-    ArrayList<ShipConfig> groundEnemies = ShipConfig.loadList(sh.get("groundEnemies"), hullConfigs);
-    ArrayList<ShipConfig> highOrbitEnemies = ShipConfig.loadList(sh.get("highOrbitEnemies"), hullConfigs);
-    ArrayList<ShipConfig> lowOrbitEnemies = ShipConfig.loadList(sh.get("lowOrbitEnemies"), hullConfigs);
-    ShipConfig stationConfig = ShipConfig.load(hullConfigs, sh.get("station"));
+    ArrayList<ShipConfig> groundEnemies = ShipConfig.loadList(sh.get("groundEnemies"), hullConfigs, itemMan);
+    ArrayList<ShipConfig> highOrbitEnemies = ShipConfig.loadList(sh.get("highOrbitEnemies"), hullConfigs, itemMan);
+    ArrayList<ShipConfig> lowOrbitEnemies = ShipConfig.loadList(sh.get("lowOrbitEnemies"), hullConfigs, itemMan);
+    ShipConfig stationConfig = ShipConfig.load(hullConfigs, sh.get("station"), itemMan);
     String cloudPackName = sh.getString("cloudTexs");
     ArrayList<TextureAtlas.AtlasRegion> cloudTexs = texMan.getPack(cloudPackName, configFile);
     String groundFolder = sh.getString("groundTexs");
