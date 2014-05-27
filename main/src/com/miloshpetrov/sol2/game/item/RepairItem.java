@@ -6,9 +6,10 @@ import com.miloshpetrov.sol2.game.SolGame;
 
 public class RepairItem implements SolItem {
   public static final int LIFE_AMT = 20;
-  public static final SolItem EXAMPLE = new RepairItem();
+  private final SolItemType myItemType;
 
-  private RepairItem() {
+  public RepairItem(SolItemType itemType) {
+    myItemType = itemType;
   }
 
   @Override
@@ -28,7 +29,7 @@ public class RepairItem implements SolItem {
 
   @Override
   public SolItem copy() {
-    return new RepairItem();
+    return new RepairItem(myItemType);
   }
 
   @Override
@@ -39,5 +40,10 @@ public class RepairItem implements SolItem {
   @Override
   public TextureAtlas.AtlasRegion getIcon(SolGame game) {
     return game.getItemMan().repairIcon;
+  }
+
+  @Override
+  public SolItemType getItemType() {
+    return myItemType;
   }
 }

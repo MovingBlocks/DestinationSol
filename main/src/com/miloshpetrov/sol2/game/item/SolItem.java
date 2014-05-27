@@ -10,4 +10,5 @@ public interface SolItem {
   SolItem copy();
   boolean isSame(SolItem item);
   TextureAtlas.AtlasRegion getIcon(SolGame game);
+  SolItemType getItemType();
 }

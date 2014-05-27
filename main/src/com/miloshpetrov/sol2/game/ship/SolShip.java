@@ -90,7 +90,7 @@ public class SolShip implements SolObj {
   public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
     SolGame game, Vector2 collPos)
   {
-    if (tryCollectLoot(other)) {
+    if (tryCollectLoot(other, game)) {
       ((Loot)other).pickedUp(game, this);
       return;
     }
@@ -117,7 +117,7 @@ public class SolShip implements SolObj {
     return true;
   }
 
-  private boolean tryCollectLoot(SolObj obj) {
+  private boolean tryCollectLoot(SolObj obj, SolGame game) {
     if (!(obj instanceof Loot)) return false;
     if (!myPilot.collectsItems()) return false;
     Loot loot = (Loot) obj;
@@ -128,16 +128,16 @@ public class SolShip implements SolObj {
       myMoney += i.getPrice();
       return true;
     }
-    ItemContainer c = shouldTrade(i) ? myTradeContainer.getItems() : myItemContainer;
+    ItemContainer c = shouldTrade(i, game) ? myTradeContainer.getItems() : myItemContainer;
     boolean canAdd = c.canAdd(i);
     if (canAdd) c.add(i);
     return canAdd;
   }
 
-  private boolean shouldTrade(SolItem i) {
+  private boolean shouldTrade(SolItem i, SolGame game) {
     if (myTradeContainer == null) return false;
     if (i instanceof RepairItem) {
-      return myItemContainer.count(RepairItem.EXAMPLE) >= TRADE_AFTER;
+      return myItemContainer.count(game.getItemMan().getRepairExample()) >= TRADE_AFTER;
     }
     GunItem g1 = myHull.getGun(false);
     if (g1 != null && g1.config.clipConf.example.isSame(i)) {
@@ -293,10 +293,10 @@ public class SolShip implements SolObj {
     while (thrMoney > MoneyItem.AMT) {
       MoneyItem example;
       if (thrMoney > MoneyItem.BIG_AMT) {
-        example = MoneyItem.BIG_EXAMPLE;
+        example = game.getItemMan().moneyItem(true);
         thrMoney -= MoneyItem.BIG_AMT;
       } else {
-        example = MoneyItem.EXAMPLE;
+        example = game.getItemMan().moneyItem(false);
         thrMoney -= MoneyItem.AMT;
       }
       throwLoot(game, example.copy(), true);

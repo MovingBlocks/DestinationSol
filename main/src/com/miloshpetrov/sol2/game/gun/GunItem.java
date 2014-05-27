@@ -3,6 +3,7 @@ package com.miloshpetrov.sol2.game.gun;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.item.SolItem;
+import com.miloshpetrov.sol2.game.item.SolItemType;
 
 public class GunItem implements SolItem {
 
@@ -44,6 +45,11 @@ public class GunItem implements SolItem {
   @Override
   public TextureAtlas.AtlasRegion getIcon(SolGame game) {
     return config.icon;
+  }
+
+  @Override
+  public SolItemType getItemType() {
+    return config.itemType;
   }
 
   public boolean canShoot() {

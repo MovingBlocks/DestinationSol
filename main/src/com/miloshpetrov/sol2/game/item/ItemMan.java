@@ -23,23 +23,28 @@ public class ItemMan {
   public final TextureAtlas.AtlasRegion bigMoneyIcon;
   public final TextureAtlas.AtlasRegion repairIcon;
   private final EngineItem.Configs myEngineConfigs;
+  private final SolItemTypes myTypes;
+  private final RepairItem myRepairExample;
 
   public ItemMan(TexMan texMan, SoundMan soundMan, EffectTypes effectTypes, GameCols cols) {
     moneyIcon = texMan.getTex(TexMan.ICONS_DIR + "money", null);
     bigMoneyIcon = texMan.getTex(TexMan.ICONS_DIR + "bigMoney", null);
     repairIcon = texMan.getTex(TexMan.ICONS_DIR + "repairItem", null);
     myM = new HashMap<String, SolItem>();
+
+    myTypes = new SolItemTypes(soundMan, cols);
     projConfigs = new ProjectileConfigs(texMan, soundMan, effectTypes, cols);
     myEngineConfigs = EngineItem.Configs.load(soundMan, texMan, effectTypes, cols);
 
-    Shield.Config.loadConfigs(this, soundMan, texMan);
-    Armor.Config.loadConfigs(this, soundMan, texMan);
-    AbilityCharge.Config.load(this, texMan);
+    Shield.Config.loadConfigs(this, soundMan, texMan, myTypes);
+    Armor.Config.loadConfigs(this, soundMan, texMan, myTypes);
+    AbilityCharge.Config.load(this, texMan, myTypes);
 
-    ClipConfig.load(this, texMan);
-    GunConfig.load(texMan, this, soundMan);
+    ClipConfig.load(this, texMan, myTypes);
+    GunConfig.load(texMan, this, soundMan, myTypes);
 
-    myM.put("rep", RepairItem.EXAMPLE);
+    myRepairExample = new RepairItem(myTypes.repair);
+    myM.put("rep", myRepairExample);
 
     myL = new ArrayList<SolItem>(myM.values());
   }
@@ -116,5 +121,13 @@ public class ItemMan {
       System.out.println(c.tex.name + ": " + c.meanDps);
     }
 
+  }
+
+  public MoneyItem moneyItem(boolean big) {
+    return new MoneyItem(big, big ? myTypes.bigMoney : myTypes.money);
+  }
+
+  public RepairItem getRepairExample() {
+    return myRepairExample;
   }
 }

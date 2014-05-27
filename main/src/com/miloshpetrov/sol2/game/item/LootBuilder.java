@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.game.item;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -26,7 +27,8 @@ public class LootBuilder {
     Body b = buildBody(game, pos);
     b.setLinearVelocity(spd);
     b.setAngularVelocity(rotSpd);
-    LightSrc ls = new LightSrc(game, .3f, false, .5f, new Vector2(), Col.W);
+    Color col = item.getItemType().color;
+    LightSrc ls = new LightSrc(game, .3f, false, .5f, new Vector2(), col);
     ls.collectDras(dras);
     Loot loot = new Loot(item, b, life, dras, ls, owner);
     b.setUserData(loot);

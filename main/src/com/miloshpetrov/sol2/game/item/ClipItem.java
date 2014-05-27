@@ -43,4 +43,9 @@ public class ClipItem implements SolItem {
   public TextureAtlas.AtlasRegion getIcon(SolGame game) {
     return myConfig.icon;
   }
+
+  @Override
+  public SolItemType getItemType() {
+    return myConfig.itemType;
+  }
 }

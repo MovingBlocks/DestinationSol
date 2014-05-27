@@ -48,6 +48,11 @@ public class Armor implements SolItem {
     return myConfig.icon;
   }
 
+  @Override
+  public SolItemType getItemType() {
+    return myConfig.itemType;
+  }
+
   public float getPerc() {
     return myConfig.perc;
   }
@@ -69,21 +74,23 @@ public class Armor implements SolItem {
     public final Armor example;
     public final TextureAtlas.AtlasRegion icon;
     public final SolSound energyDmgSound;
+    public final SolItemType itemType;
 
     private Config(String displayName, int price, float perc, SolSound bulletDmgSound,
-      TextureAtlas.AtlasRegion icon, SolSound energyDmgSound)
+      TextureAtlas.AtlasRegion icon, SolSound energyDmgSound, SolItemType itemType)
     {
       this.displayName = displayName;
       this.price = price;
       this.perc = perc;
       this.icon = icon;
       this.energyDmgSound = energyDmgSound;
+      this.itemType = itemType;
       this.desc = "Reduces damage by " + (int)(perc * 100) + "%";
       this.bulletDmgSound = bulletDmgSound;
       this.example = new Armor(this);
     }
 
-    public static void loadConfigs(ItemMan itemMan, SoundMan soundMan, TexMan texMan)
+    public static void loadConfigs(ItemMan itemMan, SoundMan soundMan, TexMan texMan, SolItemTypes types)
     {
       JsonReader r = new JsonReader();
       FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "armors.json");
@@ -97,7 +104,7 @@ public class Armor implements SolItem {
         SolSound bulletDmgSound = soundMan.getSound(bulletDmgSoundDir, configFile);
         SolSound energyDmgSound = soundMan.getSound(energyDmgSoundDir, configFile);
         TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + sh.getString("icon"), configFile);
-        Config config = new Config(displayName, price, perc, bulletDmgSound, icon, energyDmgSound);
+        Config config = new Config(displayName, price, perc, bulletDmgSound, icon, energyDmgSound, types.armor);
         itemMan.registerItem(sh.name(), config.example);
       }
     }

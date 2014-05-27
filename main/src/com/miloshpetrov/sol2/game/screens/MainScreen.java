@@ -229,7 +229,7 @@ public class MainScreen implements SolUiScreen {
       uiDrawer.draw(myLifeTex, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
       float lifePerc = hero.getLife() / hero.getHull().config.maxLife;
       drawBar(uiDrawer, texMan, col1, row, lifePerc);
-      int repairKitCount = hero.getItemContainer().count(RepairItem.EXAMPLE);
+      int repairKitCount = hero.getItemContainer().count(cmp.getGame().getItemMan().getRepairExample());
       ItemMan itemMan = cmp.getGame().getItemMan();
       drawIcons(uiDrawer, col2, row, repairKitCount, itemMan.repairIcon);
 
