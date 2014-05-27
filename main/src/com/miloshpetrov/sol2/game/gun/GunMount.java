@@ -7,19 +7,21 @@ import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
 import com.miloshpetrov.sol2.game.input.Shooter;
 import com.miloshpetrov.sol2.game.item.ItemContainer;
+import com.miloshpetrov.sol2.game.ship.HullConfig;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 import java.util.List;
 
 public class GunMount {
   private final Vector2 myRelPos;
-  private final boolean myCanFix;
+  private final boolean myFixed;
   private SolGun myGun;
   private boolean myDetected;
+  private float myRelGunAngle;
 
-  public GunMount(Vector2 relPos, boolean canFix) {
+  public GunMount(Vector2 relPos, boolean fixed) {
     myRelPos = relPos;
-    myCanFix = canFix;
+    myFixed = fixed;
   }
 
   public void update(ItemContainer ic, SolGame game, float shipAngle, SolShip creator, boolean shouldShoot, SolShip nearestEnemy, Fraction fraction) {
@@ -29,9 +31,9 @@ public class GunMount {
       return;
     }
 
-    float relGunAngle = 0;
+    if (creator.getHull().config.type != HullConfig.Type.STATION) myRelGunAngle = 0;
     myDetected = false;
-    if (!myGun.getConfig().fixed && nearestEnemy != null) {
+    if (!myFixed && nearestEnemy != null) {
       Vector2 creatorPos = creator.getPos();
       float dst = creatorPos.dst(nearestEnemy.getPos()) - creator.getHull().config.approxRadius - nearestEnemy.getHull().config.approxRadius;
       float detDst = game.getPlanetMan().getNearestPlanet().isNearGround(creatorPos) ? Const.AUTO_SHOOT_GROUND : Const.AUTO_SHOOT_SPACE;
@@ -39,14 +41,14 @@ public class GunMount {
         Vector2 mountPos = SolMath.toWorld(myRelPos, shipAngle, creatorPos);
         float shootAngle = Shooter.calcShootAngle(mountPos, creator.getSpd(), nearestEnemy.getPos(), nearestEnemy.getSpd(), myGun.getConfig().clipConf.projConfig.spdLen);
         if (shootAngle == shootAngle) {
-          relGunAngle = shootAngle - shipAngle;
+          myRelGunAngle = shootAngle - shipAngle;
           myDetected = true;
         }
         SolMath.free(mountPos);
       }
     }
 
-    float gunAngle = shipAngle + relGunAngle;
+    float gunAngle = shipAngle + myRelGunAngle;
     myGun.update(ic, game, gunAngle, creator, shouldShoot, fraction);
   }
 
@@ -63,7 +65,7 @@ public class GunMount {
       myGun = null;
     }
     if (gunItem != null) {
-      if (gunItem.config.fixed && !myCanFix) throw new AssertionError();
+      if (gunItem.config.fixed != myFixed) throw new AssertionError();
       myGun = new SolGun(game, gunItem, myRelPos, underShip);
       List<Dra> dras1 = myGun.getDras();
       dras.addAll(dras1);
@@ -71,8 +73,8 @@ public class GunMount {
     }
   }
 
-  public boolean canFix() {
-    return myCanFix;
+  public boolean isFixed() {
+    return myFixed;
   }
 
   public Vector2 getRelPos() {

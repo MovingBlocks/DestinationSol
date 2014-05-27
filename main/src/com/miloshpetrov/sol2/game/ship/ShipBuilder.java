@@ -57,10 +57,10 @@ public class ShipBuilder {
       if (i instanceof GunItem) {
         GunItem g = (GunItem) i;
         if (g1 != null) {
-          if (hullConfig.g2Pos != null && (hullConfig.mount2CanFix || !g.config.fixed)) g2 = g;
+          if (hullConfig.g2Pos != null && (hullConfig.m2Fixed == g.config.fixed)) g2 = g;
           continue;
         }
-        if (hullConfig.mount1CanFix || !g.config.fixed) g1 = g;
+        if (hullConfig.m1Fixed == g.config.fixed) g1 = g;
         continue;
       }
     }
@@ -78,7 +78,7 @@ public class ShipBuilder {
     ClipConfig cc = gc.clipConf;
     if (cc.infinite) return;
     float clipUseTime = cc.size * gc.timeBetweenShots + gc.reloadTime;
-    int count = (int) (AVG_BATTLE_TIME / clipUseTime) + SolMath.intRnd(0, 2);
+    int count = 1 + (int) (AVG_BATTLE_TIME / clipUseTime) + SolMath.intRnd(0, 2);
     for (int i = 0; i < count; i++) ic.add(cc.example.copy());
   }
 
@@ -124,8 +124,8 @@ public class ShipBuilder {
       dras, SHIP_DENSITY, level, hullConfig.tex);
     Fixture shieldFixture = createShieldFixture(hullConfig, body);
 
-    GunMount m1 = new GunMount(hullConfig.g1Pos, hullConfig.mount1CanFix);
-    GunMount m2 = hullConfig.g2Pos == null ? null : new GunMount(hullConfig.g2Pos, hullConfig.mount2CanFix);
+    GunMount m1 = new GunMount(hullConfig.g1Pos, hullConfig.m1Fixed);
+    GunMount m2 = hullConfig.g2Pos == null ? null : new GunMount(hullConfig.g2Pos, hullConfig.m2Fixed);
 
     List<LightSrc> lCs = new ArrayList<LightSrc>();
     for (Vector2 p : hullConfig.lightSrcPoss) {

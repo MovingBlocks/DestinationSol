@@ -55,14 +55,13 @@ public class HullConfigs {
       AbilityConfig ability = loadAbility(hullNode, itemMan, abilityCommonConfigs, soundMan);
       boolean g1UnderShip = hullNode.getBoolean("g1UnderShip", false);
       boolean g2UnderShip = hullNode.getBoolean("g2UnderShip", false);
-      boolean defaultCanFix = ec != null;
-      boolean mount1CanFix = hullNode.getBoolean("mount1CanFix", defaultCanFix);
-      boolean mount2CanFix = hullNode.getBoolean("mount2CanFix", defaultCanFix);
+      boolean m1Fixed = hullNode.getBoolean("m1Fixed", false);
+      boolean m2Fixed = hullNode.getBoolean("m2Fixed", false);
       String displayName = hullNode.getString("displayName", "---");
       float price = hullNode.getInt("price", 0);
       String desc = hullNode.getString("desc", "---");
       HullConfig c = new HullConfig(texName, size, maxLife, e1Pos, e2Pos, g1Pos, g2Pos, lightSrcPoss, durability,
-        hasBase, forceBeaconPoss, doorPoss, type, icon, tex, ec, ability, g1UnderShip, g2UnderShip, mount1CanFix, mount2CanFix, displayName, price, desc);
+        hasBase, forceBeaconPoss, doorPoss, type, icon, tex, ec, ability, g1UnderShip, g2UnderShip, m1Fixed, m2Fixed, displayName, price, desc);
       process(c, shipBuilder);
       myConfigs.put(hullNode.name, c);
     }

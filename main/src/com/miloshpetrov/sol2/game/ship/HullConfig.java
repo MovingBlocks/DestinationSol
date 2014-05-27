@@ -27,8 +27,8 @@ public class HullConfig {
   public final float approxRadius;
   public final boolean g1UnderShip;
   public final boolean g2UnderShip;
-  public final boolean mount1CanFix;
-  public final boolean mount2CanFix;
+  public final boolean m1Fixed;
+  public final boolean m2Fixed;
   public final String displayName;
   public final float price;
   public final String desc;
@@ -38,15 +38,15 @@ public class HullConfig {
     Vector2 g2Pos, ArrayList<Vector2> lightSrcPoss,
     float durability, boolean hasBase, ArrayList<Vector2> forceBeaconPoss, ArrayList<Vector2> doorPoss,
     Type type, TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, EngineItem.Config engineConfig,
-    AbilityConfig ability, boolean g1UnderShip, boolean g2UnderShip, boolean mount1CanFix, boolean mount2CanFix,
+    AbilityConfig ability, boolean g1UnderShip, boolean g2UnderShip, boolean m1Fixed, boolean m2Fixed,
     String displayName, float price, String desc)
   {
     this.texName = texName;
     this.size = size;
     this.g1UnderShip = g1UnderShip;
     this.g2UnderShip = g2UnderShip;
-    this.mount1CanFix = mount1CanFix;
-    this.mount2CanFix = mount2CanFix;
+    this.m1Fixed = m1Fixed;
+    this.m2Fixed = m2Fixed;
     this.displayName = displayName;
     this.price = price;
     this.desc = desc;
