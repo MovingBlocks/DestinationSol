@@ -3,7 +3,7 @@
     price: 30,
 
     displayName: "Slo Mo Charge",
-    desc: "Use on ships with Slo Mo ability",
+    desc: "Use on ships with Slo Mo ability.",
     iconName: sloMoCharge,
   },
 
@@ -13,7 +13,7 @@
     price: 30,
 
     displayName: "Teleport Charge",
-    desc: "Use on ships with Teleport ability",
+    desc: "Use on ships with Teleport ability.",
     iconName: teleportCharge,
   },
 
@@ -23,7 +23,7 @@
     price: 30,
 
     displayName: "knockBack Charge",
-    desc: "Use on ships with knockBack ability",
+    desc: "Use on ships with Knockback ability.",
     iconName: knockBackCharge,
   },
 
@@ -33,7 +33,7 @@
     price: 30,
 
     displayName: "emWave Charge",
-    desc: "Use on ships with emWave ability",
+    desc: "Use on ships with EM Wave ability.",
     iconName: emWaveCharge,
   },
 
@@ -43,7 +43,7 @@
     price: 30,
 
     displayName: "unShield Charge",
-    desc: "Use on ships with unShield ability",
+    desc: "Use on ships with Unshield ability.",
     iconName: unShieldCharge,
   },
 }

@@ -70,19 +70,19 @@ public class GunConfig {
   }
 
   private String makeDesc() {
-    StringBuilder sb = new StringBuilder(displayName);
+    StringBuilder sb = new StringBuilder();
     ProjectileConfig pc = clipConf.projConfig;
     if (pc.dmg > 0) {
-      sb.append("\nDmg: ").append(dps).append("/s.");
+      sb.append("Dmg: ").append((int) dps).append("/s.");
       DmgType dmgType = pc.dmgType;
       if (dmgType == DmgType.ENERGY) sb.append("\nWeak against armor.");
       else if (dmgType == DmgType.BULLET) sb.append("\nWeak against shields.");
     } else if (pc.emTime > 0) {
-      sb.append("\nDisables enemy ships for ").append(pc.emTime).append(" s.");
+      sb.append("Disables enemy ships for ").append((int) pc.emTime).append(" s.");
     } else if (pc.density > 0) {
-      sb.append("\nKnocks enemies back.");
+      sb.append("Knocks enemies back.");
     }
-    sb.append("\nReload: ").append(reloadTime).append(" s.");
+    sb.append("\nReload: ").append((int) reloadTime).append(" s.");
     if (clipConf.infinite) {
       sb.append("\nInfinite ammo.");
     } else {

@@ -24,7 +24,7 @@ public class RepairItem implements SolItem {
 
   @Override
   public String getDesc() {
-    return "Stay idle to repair " + LIFE_AMT + " life";
+    return "Stay idle to fix " + LIFE_AMT + " dmg.";
   }
 
   @Override
