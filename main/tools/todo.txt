@@ -1,10 +1,11 @@
 
-CODING:
-  item & ship stats in inventory
-  softer skull areas
+DATA:
+  hull icons
+  balancing
 
-  bg in title screen
-  make title bigger
+
+CODING:
+  item descriptions
 
 
 DRAWING:

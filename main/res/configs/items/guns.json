@@ -12,7 +12,7 @@
     texName: plasmaGun,
     displayName: "Cheap Plasma Gun",
     lightOnShot: true,
-    descBase: "",
+    descBase0: "",
 
     shootSound: "guns/bolter/shoot",
     reloadSound: "guns/bolter/reload",
@@ -33,7 +33,6 @@
     texName: blaster,
     displayName: "Blaster Gun",
     lightOnShot: true,
-    descBase: "",
 
     shootSound: "guns/bolter/shoot",
     reloadSound: "guns/bolter/reload",
@@ -53,7 +52,6 @@
     gunLength: 0.2,
     texName: bombGun,
     displayName: "Bomber",
-    descBase: "",
 
     shootSound: "guns/bombGun/shoot",
     reloadSound: "guns/bombGun/reload",
@@ -74,7 +72,6 @@
     texName: gun,
     displayName: "Machine Gun",
     lightOnShot: true,
-    descBase: "",
 
     shootSound: "guns/slowGun/shoot",
     reloadSound: "guns/slowGun/reload",
@@ -96,7 +93,6 @@
     texName: fixedGun,
     displayName: "Heavy Machine Gun",
     lightOnShot: true,
-    descBase: "",
 
     shootSound: "guns/miniGun/shoot",
     reloadSound: "guns/miniGun/reload",
@@ -117,7 +113,6 @@
     texName: shotGun,
     displayName: "Shotgun",
     lightOnShot: true,
-    descBase: "",
 
     shootSound: "guns/shotGun/shoot",
     reloadSound: "guns/shotGun/reload",
@@ -138,7 +133,6 @@
     gunLength: 0.2,
     texName: fixedBombGun,
     displayName: "Bomber",
-    descBase: "",
 
     shootSound: "guns/bombGun/shoot",
     reloadSound: "guns/bombGun/reload",
@@ -159,7 +153,6 @@
     gunLength: 0.2,
     texName: missileLauncher,
     displayName: "Missile Launcher",
-    descBase: "",
 
     shootSound: "guns/rocketLauncher/shoot",
     reloadSound: "guns/rocketLauncher/reload",
@@ -179,7 +172,6 @@
     gunLength: 0.2,
     texName: miner,
     displayName: "Miner",
-    descBase: "",
 
     shootSound: "guns/bombGun/shoot",
     reloadSound: "guns/bombGun/reload",
@@ -200,7 +192,6 @@
     texName: cannon,
     displayName: "Cannon",
     lightOnShot: true,
-    descBase: "",
 
     shootSound: "guns/slowGun/shoot",
     reloadSound: "guns/slowGun/reload",
@@ -221,7 +212,6 @@
     gunLength: 0.2,
     texName: rocketLauncher,
     displayName: "Rocket Launcher",
-    descBase: "",
 
     shootSound: "guns/rocketLauncher/shoot",
     reloadSound: "guns/rocketLauncher/reload",
@@ -243,7 +233,6 @@
     texName: railGun,
     displayName: "Rail Gun",
     lightOnShot: true,
-    descBase: "",
 
     shootSound: "guns/slowGun/shoot",
     reloadSound: "guns/slowGun/reload",
@@ -264,7 +253,6 @@
     gunLength: 0.2,
     texName: missilePad,
     displayName: "Missile Pad",
-    descBase: "",
 
     shootSound: "guns/rocketLauncher/shoot",
     reloadSound: "guns/rocketLauncher/reload",
@@ -286,7 +274,6 @@
     texName: fixedPlasmaGun,
     displayName: "Plasma Gun",
     lightOnShot: true,
-    descBase: "",
 
     shootSound: "guns/bolter/shoot",
     reloadSound: "guns/bolter/reload",
@@ -308,7 +295,6 @@
     texName: nailGun,
     displayName: "Nail Gun",
     lightOnShot: true,
-    descBase: "",
 
     shootSound: "guns/waveGun/shoot",
     reloadSound: "guns/waveGun/reload",
@@ -330,7 +316,6 @@
     texName: fixedBlaster,
     displayName: "Heavy Blaster",
     lightOnShot: true,
-    descBase: "",
 
     shootSound: "guns/bolter/shoot",
     reloadSound: "guns/bolter/reload",
@@ -352,7 +337,6 @@
     texName: fixedShotGun,
     displayName: "Heavy Shotgun",
     lightOnShot: true,
-    descBase: "",
 
     shootSound: "guns/shotGun/shoot",
     reloadSound: "guns/shotGun/reload",
@@ -373,7 +357,7 @@
     texName: emGun,
     displayName: "EM Gun",
     lightOnShot: true,
-    descBase: "",
+
     shootSound: "guns/waveGun/shoot",
     reloadSound: "guns/waveGun/reload",
   },
@@ -394,7 +378,7 @@
     texName: fixedEmGun,
     displayName: "Heavy EM Gun",
     lightOnShot: true,
-    descBase: "",
+
     shootSound: "guns/waveGun/shoot",
     reloadSound: "guns/waveGun/reload",
   },
@@ -415,7 +399,6 @@
     texName: fixedCannon,
     displayName: "Heavy Cannon",
     lightOnShot: true,
-    descBase: "",
 
     shootSound: "guns/slowGun/shoot",
     reloadSound: "guns/slowGun/reload",
@@ -436,7 +419,6 @@
     texName: waveGun,
     displayName: "Wave Gun",
     lightOnShot: true,
-    descBase: "",
 
     shootSound: "guns/waveGun/shoot",
     reloadSound: "guns/waveGun/reload",

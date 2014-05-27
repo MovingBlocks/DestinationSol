@@ -6,8 +6,10 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.game.DmgType;
 import com.miloshpetrov.sol2.game.HardnessCalc;
 import com.miloshpetrov.sol2.game.item.*;
+import com.miloshpetrov.sol2.game.projectile.ProjectileConfig;
 import com.miloshpetrov.sol2.game.sound.SolSound;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 
@@ -37,7 +39,7 @@ public class GunConfig {
   public GunConfig(float minAngleVar, float maxAngleVar, float angleVarDamp, float angleVarPerShot,
     float timeBetweenShots,
     float reloadTime, float gunLength, String displayName,
-    boolean lightOnShot, int price, String descBase,
+    boolean lightOnShot, int price,
     ClipConfig clipConf, SolSound shootSound, SolSound reloadSound, TextureAtlas.AtlasRegion tex,
     TextureAtlas.AtlasRegion icon, boolean fixed, SolItemType itemType)
   {
@@ -61,18 +63,30 @@ public class GunConfig {
     this.fixed = fixed;
     this.itemType = itemType;
 
-    this.desc = makeDesc(descBase);
     dps = clipConf.projConfig.dmg * clipConf.projectilesPerShot / timeBetweenShots;
     meanDps = HardnessCalc.getGunMeanDps(this);
+    this.desc = makeDesc();
     example = new GunItem(this, 0, 0);
   }
 
-  private String makeDesc(String descBase) {
-    StringBuilder sb = new StringBuilder(descBase);
-    sb.append("\nDmg: ").append(dps).append("/s");
-    sb.append("\nReload: ").append(reloadTime).append("s");
+  private String makeDesc() {
+    StringBuilder sb = new StringBuilder(displayName);
+    ProjectileConfig pc = clipConf.projConfig;
+    if (pc.dmg > 0) {
+      sb.append("\nDmg: ").append(dps).append("/s.");
+      DmgType dmgType = pc.dmgType;
+      if (dmgType == DmgType.ENERGY) sb.append("\nWeak against armor.");
+      else if (dmgType == DmgType.BULLET) sb.append("\nWeak against shields.");
+    } else if (pc.emTime > 0) {
+      sb.append("\nDisables enemy ships for ").append(pc.emTime).append(" s.");
+    } else if (pc.density > 0) {
+      sb.append("\nKnocks enemies back.");
+    }
+    sb.append("\nReload: ").append(reloadTime).append(" s.");
     if (clipConf.infinite) {
-      sb.append("\nInfinite ammo");
+      sb.append("\nInfinite ammo.");
+    } else {
+      sb.append("\nUses ").append(clipConf.plural).append(".");
     }
     return sb.toString();
   }
@@ -93,7 +107,6 @@ public class GunConfig {
       String displayName = sh.getString("displayName");
       boolean lightOnShot = sh.getBoolean("lightOnShot", false);
       int price = sh.getInt("price");
-      String descBase = sh.getString("descBase");
       String clipName = sh.getString("clipName");
       ClipConfig clipConf = clipName.isEmpty() ? null : ((ClipItem)itemMan.getExample(clipName)).getConfig();
       String reloadSoundPath = sh.getString("reloadSound");
@@ -104,7 +117,7 @@ public class GunConfig {
       TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + texName, configFile);
       boolean fixed = sh.getBoolean("fixed", false);
       GunConfig c = new GunConfig(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots, reloadTime,
-        gunLength, displayName, lightOnShot, price, descBase, clipConf, shootSound, reloadSound, tex, icon, fixed, types.gun);
+        gunLength, displayName, lightOnShot, price, clipConf, shootSound, reloadSound, tex, icon, fixed, types.gun);
       itemMan.registerItem(sh.name, c.example);
     }
   }

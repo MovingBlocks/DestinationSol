@@ -85,7 +85,7 @@
 
 
   desertOrbiter: {
-    size: 0.6,
+    size: 0.5,
     maxLife: 60,
     type: std,
     price: 200,
@@ -114,7 +114,7 @@
 
 
   imperialMedium: {
-    size: 0.7,
+    size: 0.6,
     maxLife: 50,
     type: std,
     price: 200,
@@ -152,7 +152,7 @@
 
 
   minerSmall: {
-    size: 0.7,
+    size: 0.6,
     maxLife: 22,
     type: std,
     m1Fixed: true,
@@ -175,7 +175,7 @@
 
 
   desertSmall: {
-    size: 0.8,
+    size: 0.7,
     maxLife: 13,
     type: std,
     price: 150,
@@ -202,7 +202,7 @@
 
 
   minerMedium: {
-    size: 0.9,
+    size: 0.8,
     maxLife: 60,
     type: std,
     m1Fixed: true,
@@ -222,7 +222,7 @@
 
 
   pirateMedium: {
-    size: 1,
+    size: 0.8,
     maxLife: 60,
     type: std,
     price: 200,
@@ -296,7 +296,7 @@
 
 
   techieSmall: {
-    size: 0.7,
+    size: 0.6,
     maxLife: 22,
     type: std,
     m1Fixed: true,
@@ -315,7 +315,7 @@
 
 
   techieOrbiter: {
-    size: 1,
+    size: 0.8,
     maxLife: 13,
     type: std,
     m1Fixed: true,
@@ -334,7 +334,7 @@
 
 
   desertMedium: {
-    size: 1.1,
+    size: 0.9,
     maxLife: 60,
     type: std,
     price: 200,
@@ -358,7 +358,7 @@
 
 
   imperialBig: {
-    size: 1.2,
+    size: 1,
     maxLife: 80,
     type: std,
     price: 200,
