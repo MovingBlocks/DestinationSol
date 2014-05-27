@@ -33,7 +33,7 @@ public class SystemsBuilder {
         List<Float> ghs = generatePlanetGhs();
         float sysRadius = calcSysRadius(ghs);
         Vector2 pos = getBodyPos(systems, mazes, sysRadius);
-        SolSystem s = createSystem(ghs, pos, planets, belts, planetConfigs, sysRadius, sysConfigs, names);
+        SolSystem s = createSystem(ghs, pos, planets, belts, planetConfigs, sysRadius, sysConfigs, names, systems.isEmpty());
         systems.add(s);
         sysLeft--;
       } else {
@@ -112,12 +112,11 @@ public class SystemsBuilder {
 
   private SolSystem createSystem(List<Float> ghs, Vector2 sysPos, List<Planet> planets, ArrayList<SystemBelt> belts,
     PlanetConfigs planetConfigs,
-    float sysRadius, SysConfigs sysConfigs, SolNames names)
+    float sysRadius, SysConfigs sysConfigs, SolNames names, boolean firstSys)
   {
     String st = DebugOptions.FORCE_SYSTEM_TYPE;
-    SysConfig sysConfig = st.isEmpty() ? sysConfigs.getRandom() : sysConfigs.getConfig(st);
+    SysConfig sysConfig = st.isEmpty() ? firstSys ? sysConfigs.getEasy() : sysConfigs.getRandom() : sysConfigs.getConfig(st);
     String name = SolMath.elemRnd(names.systems);
-    float innerZoneRadius = sysRadius / 2;
     SolSystem s = new SolSystem(sysPos, sysConfig, name, sysRadius);
     float planetDist = Const.SUN_RADIUS;
     for (Float gh : ghs) {
@@ -130,7 +129,7 @@ public class SystemsBuilder {
       planetDist += reserved;
       if (gh > 0) {
         String pt = DebugOptions.FORCE_PLANET_TYPE;
-        PlanetConfig planetConfig = pt.isEmpty() ? planetConfigs.getRandom() : planetConfigs.getConfig(pt);
+        PlanetConfig planetConfig = pt.isEmpty() ? planetConfigs.getRandom(sysConfig.hard) : planetConfigs.getConfig(pt);
         Planet p = createPlanet(planetDist, s, gh, planetConfig, names);
         planets.add(p);
         s.getPlanets().add(p);

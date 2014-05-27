@@ -485,6 +485,7 @@ main/src/com/miloshpetrov/sol2/game/particle/LightSrc.java -text
 main/src/com/miloshpetrov/sol2/game/particle/PartMan.java -text
 main/src/com/miloshpetrov/sol2/game/particle/ParticleSrc.java -text
 main/src/com/miloshpetrov/sol2/game/particle/SpecialEffects.java -text
+main/src/com/miloshpetrov/sol2/game/planet/ConsumedAngles.java -text
 main/src/com/miloshpetrov/sol2/game/planet/DecoConfig.java -text
 main/src/com/miloshpetrov/sol2/game/planet/FarPlanetSprites.java -text
 main/src/com/miloshpetrov/sol2/game/planet/FarSky.java -text

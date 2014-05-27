@@ -95,6 +95,7 @@
 
 
   hard: {
+    hard: true,
     environment: {
       junkTexs: "junks/sys",
       junkDensity: 0.06,

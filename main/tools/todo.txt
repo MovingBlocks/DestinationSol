@@ -1,18 +1,11 @@
 
-
 CODING:
-  systemConfig:
-    isHard: true
-  planetConfig:
-    isHard: true
   item & ship stats in inventory
   softer skull areas
 
   bg in title screen
   make title bigger
 
-BUGS:
-  truck guards sometimes fly too fast
 
 DRAWING:
   skull areas

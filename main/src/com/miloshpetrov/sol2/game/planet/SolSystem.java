@@ -25,6 +25,7 @@ public class SolSystem {
     myBelts = new ArrayList<SystemBelt>();
     myRadius = sysRadius;
     myDps = HardnessCalc.getSysDps(config, false);
+    myInnerRad = myRadius/2;
     myInnerDps = HardnessCalc.getSysDps(config, true);
   }
 

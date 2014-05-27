@@ -15,10 +15,11 @@ public class SysConfig {
   public final ArrayList<ShipConfig> constAllies;
   public final TradeConfig tradeConfig;
   public final ArrayList<ShipConfig> innerTempEnemies;
+  public final boolean hard;
 
   public SysConfig(String name, ArrayList<ShipConfig> tempEnemies, SpaceEnvConfig envConfig,
     ArrayList<ShipConfig> constEnemies, ArrayList<ShipConfig> constAllies, TradeConfig tradeConfig,
-    ArrayList<ShipConfig> innerTempEnemies) {
+    ArrayList<ShipConfig> innerTempEnemies, boolean hard) {
     this.name = name;
     this.tempEnemies = tempEnemies;
     this.envConfig = envConfig;
@@ -26,5 +27,6 @@ public class SysConfig {
     this.constAllies = constAllies;
     this.tradeConfig = tradeConfig;
     this.innerTempEnemies = innerTempEnemies;
+    this.hard = hard;
   }
 }

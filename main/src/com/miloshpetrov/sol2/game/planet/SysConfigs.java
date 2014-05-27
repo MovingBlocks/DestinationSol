@@ -43,7 +43,8 @@ public class SysConfigs {
         constAllies = ShipConfig.loadList(sh.get("constantAllies"), hullConfigs, itemMan);
       }
       TradeConfig tradeConfig = TradeConfig.load(itemMan, sh.get("trading"), hullConfigs);
-      SysConfig c = new SysConfig(sh.name, tempEnemies, envConfig, constEnemies, constAllies, tradeConfig, innerTempEnemies);
+      boolean hard = sh.getBoolean("hard", false);
+      SysConfig c = new SysConfig(sh.name, tempEnemies, envConfig, constEnemies, constAllies, tradeConfig, innerTempEnemies, hard);
       configs.put(sh.name, c);
     }
   }
@@ -66,5 +67,12 @@ public class SysConfigs {
 
   public Map<String, SysConfig> getBeltConfigs() {
     return myBeltConfigs;
+  }
+
+  public SysConfig getEasy() {
+    for (SysConfig c : myConfigs.values()) {
+      if (!c.hard) return c;
+    }
+    throw new AssertionError("must have at least one not hard system");
   }
 }

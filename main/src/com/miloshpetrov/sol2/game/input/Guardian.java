@@ -17,15 +17,17 @@ public class Guardian implements MoveDestProvider {
 
   private final Pilot myTargetPilot;
   private final Vector2 myDest;
-  private final float myAngle;
+  private final float myRelAngle;
 
   private SolShip myTarget;
   private FarShip myFarTarget;
 
-  public Guardian(SolGame game, HullConfig hullConfig, Pilot targetPilot, Vector2 targetPos, HullConfig targetHc) {
+  public Guardian(SolGame game, HullConfig hullConfig, Pilot targetPilot, Vector2 targetPos, HullConfig targetHc,
+    float relAngle)
+  {
     myTargetPilot = targetPilot;
     myDest = new Vector2();
-    myAngle = SolMath.rnd(180);
+    myRelAngle = relAngle;
     setDest(game, targetPos, targetHc.approxRadius, hullConfig);
   }
 
@@ -92,7 +94,7 @@ public class Guardian implements MoveDestProvider {
 
   private void setDest(SolGame game, Vector2 targetPos, float targetApproxRad, HullConfig hullConfig) {
     Planet np = game.getPlanetMan().getNearestPlanet(targetPos);
-    float desiredAngle = myAngle;
+    float desiredAngle = myRelAngle;
     if (np.isNearGround(targetPos)) {
       desiredAngle = SolMath.angle(np.getPos(), targetPos);
     }
@@ -118,7 +120,7 @@ public class Guardian implements MoveDestProvider {
     return myTarget == null ? Vector2.Zero : myTarget.getSpd();
   }
 
-  public float getAngle() {
-    return myAngle;
+  public float getRelAngle() {
+    return myRelAngle;
   }
 }
