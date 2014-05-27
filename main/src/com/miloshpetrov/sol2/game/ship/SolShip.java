@@ -418,7 +418,7 @@ public class SolShip implements SolObj {
     if (item instanceof GunItem) {
       GunItem gun = (GunItem) item;
       GunMount mount = myHull.getGunMount(secondarySlot);
-      boolean canEquip = mount != null && (!gun.config.fixed || mount.canFix());
+      boolean canEquip = mount != null && (gun.config.fixed == mount.isFixed());
       if (canEquip && equip) {
         GunMount anotherMount = myHull.getGunMount(!secondarySlot);
         if (anotherMount != null && anotherMount.getGun() == item) {

@@ -134,7 +134,7 @@
       },
       {
         hull: desertSmall,
-        items: "fixedGun|railGun miner|fixedGun|railGun:.5",
+        items: "fixedGun|railGun miner|cannon:.5",
 		money: 20,
         density: 0.0003,
       },
@@ -148,7 +148,7 @@
       },
       {
         hull: desertBoss,
-        items: "fixedCannon cannon|fixedCannon",
+        items: "fixedCannon cannon",
 		money: 20,
         density: 0.0003,
       },

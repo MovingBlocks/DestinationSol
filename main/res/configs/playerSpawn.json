@@ -13,11 +13,11 @@
   },
   mainStation: {
     hull: station,
-    items: "",
+    items: "gun gun",
 	money: 300,
     guard: {
       hull: imperialBig,
-      items: "",
+      items: "gun fixedShotGun",
 	  money: 50,
       density: 3,
     }

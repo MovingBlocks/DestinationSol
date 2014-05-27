@@ -136,7 +136,7 @@
     clipName: bombClip,
 
     gunLength: 0.2,
-    texName: bombGun,
+    texName: fixedBombGun,
     displayName: "Bomber",
     descBase: "",
 
@@ -157,7 +157,7 @@
     clipName: rocketClip,
 
     gunLength: 0.2,
-    texName: rocketLauncherS,
+    texName: missileLauncher,
     displayName: "Rocket Launcher",
     descBase: "",
 
@@ -283,7 +283,7 @@
     clipName: plasmaClip,
 
     gunLength: 0.12,
-    texName: bolter,
+    texName: fixedPlasmaGun,
     displayName: "Plasma Gun",
     lightOnShot: true,
     descBase: "",

@@ -21,8 +21,7 @@
     },
 
     texName: pirateSmall,
-    g1Pos: "0.35 0.2",
-    g1UnderShip: true,
+    g1Pos: "0.43 0.49",
     e1Pos: "0.01 0.5",
     e2Pos: "0.01 0.5",
     engine: pirate,
@@ -42,8 +41,7 @@
     },
 
     texName: imperialSmall,
-    g1Pos: "0.52 0.2",
-    g1UnderShip: true,
+    g1Pos: "0.45 0.5",
     e1Pos: "0.14 0.44",
     e2Pos: "0.14 0.57",
     name: "Small Guardian",
@@ -65,8 +63,7 @@
     },
 
     texName: pirateOrbiter,
-    g1Pos: "0.5 0.8",
-    g1UnderShip: true,
+    g1Pos: "0.47 0.39",
     e1Pos: "0.23 0.42",
     e2Pos: "0.35 0.61",
     name: "Orbiter",
@@ -82,7 +79,7 @@
     type: station,
 
     texName: piratePlanetTurret,
-    g1Pos: "0.5 0.4",
+    g1Pos: "0.52 0.31",
   },
 
 
@@ -92,7 +89,7 @@
     maxLife: 60,
     type: std,
     price: 200,
-    mount1CanFix: true,
+    m1Fixed: true,
 
     texName: desertOrbiter,
     g1Pos: "0.32 0.32",
@@ -121,7 +118,7 @@
     maxLife: 50,
     type: std,
     price: 200,
-    mount1CanFix: true,
+    m1Fixed: true,
     ability: {
       type: sloMo,
       factor: 0.4,
@@ -158,8 +155,8 @@
     size: 0.7,
     maxLife: 22,
     type: std,
-    mount1CanFix: true,
-    mount2CanFix: true,
+    m1Fixed: true,
+    m2Fixed: true,
     ability: {
       type: knockBack,
       force: 45,
@@ -182,8 +179,8 @@
     maxLife: 13,
     type: std,
     price: 150,
-    mount1CanFix: true,
-    mount2CanFix: true,
+    m1Fixed: true,
+    m2Fixed: true,
     ability: {
       type: teleport,
       angle: 45,
@@ -208,7 +205,7 @@
     size: 0.9,
     maxLife: 60,
     type: std,
-    mount1CanFix: true,
+    m1Fixed: true,
     ability: {
       type: knockBack,
       force: 45,
@@ -237,7 +234,7 @@
 
     texName: pirateMedium,
     g1Pos: "0.38 0.48",
-    g2Pos: "0.63 0.78",
+    g2Pos: "0.66 0.34",
     e1Pos: "0.03 0.42",
     e2Pos: "0.04 0.59",
     name: "Pirate Medium lol",
@@ -274,7 +271,7 @@
     size: 0.8,
     maxLife: 8,
     type: std,
-    mount1CanFix: true,
+    m1Fixed: true,
 
     texName: minerTurret,
     g1Pos: "0.5 0.5",
@@ -302,8 +299,8 @@
     size: 0.7,
     maxLife: 22,
     type: std,
-    mount1CanFix: true,
-    mount2CanFix: true,
+    m1Fixed: true,
+    m2Fixed: true,
 
     texName: techieSmall,
     g1Pos: "0.38 0.15",
@@ -321,8 +318,8 @@
     size: 1,
     maxLife: 13,
     type: std,
-    mount1CanFix: true,
-    mount2CanFix: true,
+    m1Fixed: true,
+    m2Fixed: true,
 
     texName: techieOrbiter,
     g1Pos: ".54 0.12",
@@ -341,8 +338,7 @@
     maxLife: 60,
     type: std,
     price: 200,
-    mount1CanFix: true,
-    mount2CanFix: true,
+    m1Fixed: true,
     ability: {
       type: teleport,
       angle: 90,
@@ -366,7 +362,7 @@
     maxLife: 80,
     type: std,
     price: 200,
-    mount1CanFix: true,
+    m1Fixed: true,
     ability: {
       type: sloMo,
       factor: 0.3,
@@ -389,8 +385,8 @@
     size: 1.3,
     maxLife: 80,
     type: std,
-    mount1CanFix: true,
-    mount2CanFix: true,
+    m1Fixed: true,
+    m2Fixed: true,
     ability: {
       type: knockBack,
       force: 45,
@@ -423,8 +419,7 @@
     size: 1.6,
     maxLife: 90,
     type: big,
-    mount1CanFix: true,
-    mount2CanFix: true,
+    m1Fixed: true,
     ability: {
       type: teleport,
       angle: 45,
