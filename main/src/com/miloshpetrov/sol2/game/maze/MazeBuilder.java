@@ -126,9 +126,8 @@ public class MazeBuilder {
     float angle = SolMath.rnd(180);
     ShipBuilder sb = game.getShipBuilder();
     float viewDist = Const.AI_DET_DIST;
-    if (inner) viewDist *= .2f;
+    if (inner) viewDist = TILE_SZ * 1.25f;
     Pilot pilot = new AiPilot(new StillGuard(pos, game, e), false, Fraction.EHAR, true, null, viewDist);
-    boolean hasRepairer;
     int money = e.money;
     FarShip s = sb.buildNewFar(game, pos, new Vector2(), angle, 0, pilot, e.items, e.hull, null, false, money, null);
     game.getObjMan().addFarObjNow(s);

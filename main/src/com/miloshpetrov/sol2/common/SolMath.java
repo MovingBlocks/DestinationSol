@@ -60,6 +60,7 @@ public class SolMath {
    */
   @Norm
   public static float norm(float a) {
+    if (a != a) throw new AssertionError("normalizing NaN angle");
     while (a <= -180) a += 360;
     while (a > 180) a -= 360;
     return a;

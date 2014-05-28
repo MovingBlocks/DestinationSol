@@ -152,7 +152,7 @@
 
 
   minerSmall: {
-    size: 0.6,
+    size: 0.5,
     maxLife: 22,
     type: std,
     m1Fixed: true,
@@ -202,7 +202,7 @@
 
 
   minerMedium: {
-    size: 0.8,
+    size: 1,
     maxLife: 60,
     type: std,
     m1Fixed: true,
@@ -296,7 +296,7 @@
 
 
   techieSmall: {
-    size: 0.6,
+    size: 0.55,
     maxLife: 22,
     type: std,
     m1Fixed: true,

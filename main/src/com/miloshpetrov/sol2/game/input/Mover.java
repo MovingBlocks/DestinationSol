@@ -119,7 +119,7 @@ public class Mover {
   }
 
   public static Boolean needsToTurn(float angle, float destAngle, float rotSpd, float rotAcc, float allowedAngleDiff) {
-    if (SolMath.angleDiff(destAngle, angle) < allowedAngleDiff) return null;
+    if (SolMath.angleDiff(destAngle, angle) < allowedAngleDiff || rotAcc == 0) return null;
 
     float breakWay = rotSpd * rotSpd / rotAcc / 2;
     float angleAfterBreak = angle + breakWay * SolMath.toInt(rotSpd > 0);
