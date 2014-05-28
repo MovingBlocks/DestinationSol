@@ -30,7 +30,7 @@ public class ChunkMan {
     myBgFilledChunks = new HashSet<Vector2>();
     myRemover = new MyRemover(MIN_REMOVE_DIST);
     myBgRemover = new MyRemover(MIN_BG_REMOVE_DIST);
-    myFiller = new ChunkFiller();
+    myFiller = new ChunkFiller(texMan);
   }
 
   public void update(SolGame game) {

@@ -1,9 +1,9 @@
 {
   standard: {
     environment: {
-      junkTexs: "junks/sys",
+      junkTexs: "commonDeco/sysDeco",
       junkDensity: 0.06,
-      farJunkTexs: "farJunks/belt",
+      farJunkTexs: "commonDeco/beltFarBg",
       farJunkDensity: 0.01,
     },
 

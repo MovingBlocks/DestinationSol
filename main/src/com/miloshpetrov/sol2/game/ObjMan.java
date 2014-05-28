@@ -170,7 +170,7 @@ public class ObjMan {
     return myFarBeginDist < dst;
   }
 
-  public void drawDebug(Drawer drawer, SolGame game) {
+  public void drawDebug(GameDrawer drawer, SolGame game) {
     if (DebugOptions.DRAW_OBJ_BORDERS) {
       drawDebug0(drawer, game);
     }
@@ -185,7 +185,7 @@ public class ObjMan {
     }
   }
 
-  private void drawDebugStrings(Drawer drawer, SolGame game) {
+  private void drawDebugStrings(GameDrawer drawer, SolGame game) {
     float fontSize = game.getCam().getDebugFontSize();
     for (SolObj o : myObjs) {
       Vector2 pos = o.getPos();
@@ -199,19 +199,19 @@ public class ObjMan {
     }
   }
 
-  private void drawDebug0(Drawer drawer, SolGame game) {
+  private void drawDebug0(GameDrawer drawer, SolGame game) {
     float lineWidth = game.getCam().getRealLineWidth();
     for (SolObj o : myObjs) {
       Vector2 pos = o.getPos();
       float r = getRadius(o);
-      drawer.drawCircle(pos, r, DebugCol.OBJ, lineWidth);
-      drawer.drawLine(pos.x, pos.y, o.getAngle(), r, DebugCol.OBJ, lineWidth);
+      drawer.drawCircle(drawer.debugWhiteTex, pos, r, DebugCol.OBJ, lineWidth);
+      drawer.drawLine(drawer.debugWhiteTex, pos.x, pos.y, o.getAngle(), r, DebugCol.OBJ, lineWidth);
     }
     for (FarObj fo : myFarObjs) {
-      drawer.drawCircle(fo.getPos(), fo.getRadius(), DebugCol.OBJ_FAR, lineWidth);
+      drawer.drawCircle(drawer.debugWhiteTex, fo.getPos(), fo.getRadius(), DebugCol.OBJ_FAR, lineWidth);
     }
-    drawer.drawCircle(game.getCam().getPos(), myFarBeginDist, Col.W, lineWidth);
-    drawer.drawCircle(game.getCam().getPos(), myFarEndDist, Col.W, lineWidth);
+    drawer.drawCircle(drawer.debugWhiteTex, game.getCam().getPos(), myFarBeginDist, Col.W, lineWidth);
+    drawer.drawCircle(drawer.debugWhiteTex, game.getCam().getPos(), myFarEndDist, Col.W, lineWidth);
   }
 
   public List<SolObj> getObjs() {

@@ -38,8 +38,10 @@ public class ChunkFiller {
   public static final float ENEMY_MAX_ROT_SPD = 15f;
   public static final float DUST_SZ = .02f;
   private static final float MAZE_ZONE_BORDER = 20;
+  private final TextureAtlas.AtlasRegion myDustTex;
 
-  public ChunkFiller() {
+  public ChunkFiller(TexMan texMan) {
+    myDustTex = texMan.getTex("commonDeco/dust", null);
   }
 
 
@@ -53,9 +55,9 @@ public class ChunkFiller {
     float[] densityMul = {1};
     SpaceEnvConfig conf = getConfig(game, chCenter, densityMul, remover, farBg);
     if (farBg) {
-      fillFarJunk(game, chCenter, remover, DraLevel.FAR_BG_3, conf, densityMul[0]);
-      fillFarJunk(game, chCenter, remover, DraLevel.FAR_BG_2, conf, densityMul[0]);
-      fillFarJunk(game, chCenter, remover, DraLevel.FAR_BG_1, conf, densityMul[0]);
+      fillFarJunk(game, chCenter, remover, DraLevel.FAR_DECO_3, conf, densityMul[0]);
+      fillFarJunk(game, chCenter, remover, DraLevel.FAR_DECO_2, conf, densityMul[0]);
+      fillFarJunk(game, chCenter, remover, DraLevel.FAR_DECO_1, conf, densityMul[0]);
       return;
     }
     fillDust(game, chCenter, remover);
@@ -193,7 +195,7 @@ public class ChunkFiller {
       if (SolMath.test(.5f)) tex = game.getTexMan().getFlipped(tex);
       float sz = SolMath.rnd(.3f, 1) * JUNK_MAX_SZ;
       float rotSpd = SolMath.rnd(JUNK_MAX_ROT_SPD);
-      RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.JUNK, SolMath.rnd(180), rotSpd, Col.LG, false);
+      RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.SPACE_DECO, SolMath.rnd(180), rotSpd, Col.LG, false);
       ArrayList<Dra> dras = new ArrayList<Dra>();
       dras.add(s);
 
@@ -208,11 +210,11 @@ public class ChunkFiller {
     ArrayList<Dra> dras = new ArrayList<Dra>();
     int count = getEntityCount(DUST_DENSITY);
     if (count == 0) return;
-    TextureAtlas.AtlasRegion tex = game.getTexMan().whiteTex;
+    TextureAtlas.AtlasRegion tex = myDustTex;
     for (int i = 0; i < count; i++) {
       Vector2 dustPos = getRndPos(chCenter);
       dustPos.sub(chCenter);
-      RectSprite s = new RectSprite(tex, DUST_SZ, 0, 0, dustPos, DraLevel.JUNK, 0, 0, Col.W, false);
+      RectSprite s = new RectSprite(tex, DUST_SZ, 0, 0, dustPos, DraLevel.SPACE_DECO, 0, 0, Col.W, false);
       dras.add(s);
     }
     FarDras so = new FarDras(dras, chCenter, new Vector2(), remover, true);

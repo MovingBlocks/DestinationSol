@@ -2,9 +2,9 @@
   junk: {
     isMetal: false,
     environment: {
-      junkTexs: "junks/sys",
+      junkTexs: "commonDeco/sysDeco",
       junkDensity: 0.06,
-      farJunkTexs: "farJunks/maze",
+      farJunkTexs: "commonDeco/mazeFarBg",
       farJunkDensity: 0.01,
     },
 

@@ -175,7 +175,7 @@ public class SolCam {
     return myPos;
   }
 
-  public void drawDebug(Drawer drawer) {
+  public void drawDebug(GameDrawer drawer) {
     float hOver2 = VIEWPORT_HEIGHT * myZoom / 2;
     float wOver2 = hOver2 * drawer.r;
     Vector2 dr = SolMath.getVec(wOver2, hOver2);
@@ -192,10 +192,10 @@ public class SolCam {
     ur.add(myPos);
 
     float lw = getRealLineWidth();
-    drawer.drawLine(dr, dl, Col.W, lw);
-    drawer.drawLine(dl, ul, Col.W, lw);
-    drawer.drawLine(ul, ur, Col.W, lw);
-    drawer.drawLine(ur, dr, Col.W, lw);
+    drawer.drawLine(drawer.debugWhiteTex, dr, dl, Col.W, lw);
+    drawer.drawLine(drawer.debugWhiteTex, dl, ul, Col.W, lw);
+    drawer.drawLine(drawer.debugWhiteTex, ul, ur, Col.W, lw);
+    drawer.drawLine(drawer.debugWhiteTex, ur, dr, Col.W, lw);
 
     SolMath.free(dr);
     SolMath.free(dl);

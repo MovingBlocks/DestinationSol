@@ -24,9 +24,9 @@ public class Sky implements SolObj {
     myPlanet = planet;
     myDras = new ArrayList<Dra>();
 
-    myFill = new RectSprite(game.getTexMan().whiteTex, 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, Col.col(.5f, 0), false);
+    myFill = new RectSprite(game.getTexMan().getTex("planetStarCommons/whiteTex", null), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, Col.col(.5f, 0), false);
     myDras.add(myFill);
-    myGrad = new RectSprite(game.getTexMan().getTex("misc/grad", null), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, Col.col(.5f, 0), false);
+    myGrad = new RectSprite(game.getTexMan().getTex("planetStarCommons/grad", null), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, Col.col(.5f, 0), false);
     myDras.add(myGrad);
     SkyConfig config = planet.getConfig().skyConfig;
     mySkySpan = ColorSpan.rgb(config.dawn, config.day);

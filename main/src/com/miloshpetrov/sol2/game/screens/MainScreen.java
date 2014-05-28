@@ -83,7 +83,7 @@ public class MainScreen implements SolUiScreen {
     myLifeTex = texMan.getTex(TexMan.ICONS_DIR + "life", null);
     myInfinityTex = texMan.getTex(TexMan.ICONS_DIR + "infinity", null);
     myWaitTex = texMan.getTex(TexMan.ICONS_DIR + "wait", null);
-    myCompassTex = texMan.getTex("misc/compass", null);
+    myCompassTex = texMan.getTex("ui/compass", null);
     myCompassTint = Col.col(1, 0);
   }
 
@@ -283,8 +283,8 @@ public class MainScreen implements SolUiScreen {
   }
 
   private void drawBar(UiDrawer uiDrawer, TexMan texMan, float x, float y, float perc) {
-    uiDrawer.draw(texMan.whiteTex, BAR_SZ, ICON_SZ, 0, 0, x, y, 0, Col.UI_DARK);
-    uiDrawer.draw(texMan.whiteTex, BAR_SZ * perc, ICON_SZ, 0, 0, x, y, 0, Col.UI_LIGHT);
+    uiDrawer.draw(uiDrawer.whiteTex, BAR_SZ, ICON_SZ, 0, 0, x, y, 0, Col.UI_DARK);
+    uiDrawer.draw(uiDrawer.whiteTex, BAR_SZ * perc, ICON_SZ, 0, 0, x, y, 0, Col.UI_LIGHT);
   }
 
   private void drawIcons(UiDrawer uiDrawer, float x, float y, int count, TextureAtlas.AtlasRegion tex) {

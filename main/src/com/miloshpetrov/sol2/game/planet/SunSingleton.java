@@ -15,17 +15,19 @@ public class SunSingleton {
   public static final float GRAV_CONST = 2000;
 
   private final TextureAtlas.AtlasRegion myGradTex;
+  private final TextureAtlas.AtlasRegion myWhiteTex;
   private final Color myGradTint;
   private final Color myFillTint;
 
   public SunSingleton(TexMan texMan) {
-    myGradTex = texMan.getTex("misc/grad", null);
+    myGradTex = texMan.getTex("planetStarCommons/grad", null);
+    myWhiteTex = texMan.getTex("planetStarCommons/whiteTex", null);
     myGradTint = Col.col(1, 1);
     myFillTint = Col.col(1, 1);
   }
 
 
-  public void draw(SolGame game, Drawer drawer) {
+  public void draw(SolGame game, GameDrawer drawer) {
     Vector2 camPos = game.getCam().getPos();
     SolSystem sys = game.getPlanetMan().getNearestSystem(camPos);
     Vector2 toCam = SolMath.getVec(camPos);
@@ -38,7 +40,7 @@ public class SunSingleton {
 
       float sz = 2 * game.getCam().getViewDist();
       float gradAngle = SolMath.angle(toCam) - 90;
-      drawer.draw(game.getTexMan().whiteTex, sz*2, sz*2, sz, sz, camPos.x, camPos.y, 0, myFillTint);
+      drawer.draw(myWhiteTex, sz*2, sz*2, sz, sz, camPos.x, camPos.y, 0, myFillTint);
       drawer.draw(myGradTex, sz*2, sz*2, sz, sz, camPos.x, camPos.y, gradAngle, myGradTint);
     }
     SolMath.free(toCam);

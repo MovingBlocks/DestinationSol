@@ -217,7 +217,7 @@ public class ParticleSrc implements Dra {
   }
 
   @Override
-  public void draw(Drawer drawer, SolGame game) {
+  public void draw(GameDrawer drawer, SolGame game) {
     drawer.draw(myEmitter);
   }
 

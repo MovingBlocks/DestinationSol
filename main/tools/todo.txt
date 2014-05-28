@@ -1,7 +1,13 @@
 
+move trancendent to hulls
+rare big things:
+  starport
+  abilities
+merge misc & particles & projectiles & shards
+
+
 ADD ALL SOUND PLACEHOLDERS
 hull lights
-grav should affect cannon projectiles
 
 
 TEST ANDROID RUN:

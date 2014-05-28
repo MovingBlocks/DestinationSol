@@ -10,11 +10,11 @@ public class PlanetCoreSingleton {
   private final TextureAtlas.AtlasRegion myTex;
 
   public PlanetCoreSingleton(TexMan texMan) {
-    myTex = texMan.getTex("misc/planetCore", null);
+    myTex = texMan.getTex("planetStarCommons/planetCore", null);
   }
 
 
-  public void draw(SolGame game, Drawer drawer) {
+  public void draw(SolGame game, GameDrawer drawer) {
     SolCam cam = game.getCam();
     Vector2 camPos = cam.getPos();
     Planet p = game.getPlanetMan().getNearestPlanet();

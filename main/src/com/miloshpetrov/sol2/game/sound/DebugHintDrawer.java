@@ -46,7 +46,7 @@ public class DebugHintDrawer {
     }
   }
 
-  public void draw(Drawer drawer, SolGame game) {
+  public void draw(GameDrawer drawer, SolGame game) {
     for (DebugHint n : myTracedNotes.values()) n.draw(drawer, game);
     for (DebugHint n : myFreeNotes.values()) n.draw(drawer, game);
   }

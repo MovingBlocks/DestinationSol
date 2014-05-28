@@ -14,7 +14,7 @@ public class GridDrawer {
     myLineTex = texMan.getTex("mapObjs/gridLine", null);
   }
 
-  public void draw(Drawer drawer, SolGame game, float gridSz) {
+  public void draw(GameDrawer drawer, SolGame game, float gridSz) {
     SolCam cam = game.getCam();
     float lw = 3*cam.getRealLineWidth();
     Vector2 camPos = cam.getPos();

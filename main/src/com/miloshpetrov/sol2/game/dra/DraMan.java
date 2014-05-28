@@ -12,9 +12,9 @@ import java.util.*;
 public class DraMan {
   private final Map<DraLevel, Map<Texture, List<Dra>>> myDras;
   private final Set<Dra> myInCam;
-  private final Drawer myDrawer;
+  private final GameDrawer myDrawer;
 
-  public DraMan(Drawer drawer) {
+  public DraMan(GameDrawer drawer) {
     myDrawer = drawer;
     myDras = new EnumMap<DraLevel, Map<Texture, List<Dra>>>(DraLevel.class);
     for (DraLevel l : DraLevel.values()) {
@@ -113,11 +113,13 @@ public class DraMan {
         game.drawDebug(myDrawer);
       }
       if (draLevel == DraLevel.ATM) {
-        if (!DebugOptions.NO_DRAS) game.getPlanetMan().drawPlanetCoreHack(game, myDrawer);
+        if (!DebugOptions.NO_DRAS) {
+          game.getPlanetMan().drawPlanetCoreHack(game, myDrawer);
+          game.getPlanetMan().drawSunHack(game, myDrawer);
+        }
       }
     }
 
-    if (!DebugOptions.NO_DRAS) game.getPlanetMan().drawSunHack(game, myDrawer);
 
     if (DebugOptions.DRAW_DRA_BORDERS) {
       for (Map<Texture, List<Dra>> map : myDras.values()) {
@@ -133,11 +135,11 @@ public class DraMan {
     myDrawer.end();
   }
 
-  private void drawDebug(Drawer drawer, SolGame game, Dra dra) {
+  private void drawDebug(GameDrawer drawer, SolGame game, Dra dra) {
     float lineWidth = game.getCam().getRealLineWidth();
     Color col = myInCam.contains(dra) ? DebugCol.DRA : DebugCol.DRA_OUT;
     Vector2 pos = dra.getPos();
-    drawer.drawCircle(pos, dra.getRadius(), col, lineWidth);
+    drawer.drawCircle(drawer.debugWhiteTex, pos, dra.getRadius(), col, lineWidth);
   }
 
   private boolean isInCam(Vector2 pos, float r, Vector2 camPos, float viewDist) {

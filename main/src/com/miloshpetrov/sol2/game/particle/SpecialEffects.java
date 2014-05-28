@@ -46,7 +46,7 @@ public class SpecialEffects {
     res.add(smoke);
     ParticleSrc fire = new ParticleSrc(myFire, sz, DraLevel.PART_FG_1, new Vector2(), true, game, pos, spd, 0);
     res.add(fire);
-    ParticleSrc elec = new ParticleSrc(myElectricity, objRad * 1.2f, DraLevel.PART_FG_1, new Vector2(), true, game, pos, spd, 0);
+    ParticleSrc elec = new ParticleSrc(myElectricity, objRad * 1.2f, DraLevel.PART_FG_0, new Vector2(), true, game, pos, spd, 0);
     res.add(elec);
     return res;
   }
