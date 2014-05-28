@@ -44,7 +44,7 @@ public class HullConfigs {
       HullConfig.Type type = HullConfig.Type.forName(hullNode.getString("type"));
       float durability = type == HullConfig.Type.BIG ? 3 : .7f;
       TextureAtlas.AtlasRegion tex = texMan.getTex("hulls/" + texName, configFile);
-      TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + texName, configFile);
+      TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.HULL_ICONS_DIR + texName, configFile);
       String engineStr = hullNode.getString("engine", null);
       EngineItem.Config ec = itemMan.getEngineConfigs().get(engineStr);
       if (ec != null) {

@@ -46,14 +46,14 @@ public class MapDrawer {
   private float myAreaSkullTime;
 
   public MapDrawer(TexMan texMan) {
-    myIconBg = texMan.getTex(TexMan.ICONS_DIR + "bg", null);
+    myIconBg = texMan.getTex(TexMan.HULL_ICONS_DIR + "bg", null);
     myAtmTex = texMan.getTex("mapObjs/atm", null);
     myPlanetTex = texMan.getTex("mapObjs/planet", null);
     myPlanetCoreTex = texMan.getTex("mapObjs/planetCore", null);
     myStarTex = texMan.getTex("mapObjs/star", null);
     myMazeTex = texMan.getTex("mapObjs/maze", null);
-    mySkullTex = texMan.getTex(TexMan.ICONS_DIR + "skull", null);
-    myStarPortTex = texMan.getTex(TexMan.ICONS_DIR + "starPort", null);
+    mySkullTex = texMan.getTex(TexMan.HULL_ICONS_DIR + "skull", null);
+    myStarPortTex = texMan.getTex(TexMan.HULL_ICONS_DIR + "starPort", null);
     myBeltTex = texMan.getTex("mapObjs/asteroids", null);
     myBeaconAttackTex = texMan.getTex("mapObjs/beaconAttack", null);
     myBeaconMoveTex = texMan.getTex("mapObjs/beaconMove", null);

@@ -36,7 +36,6 @@ public class MainScreen implements SolUiScreen {
   private final TextureAtlas.AtlasRegion myLifeTex;
   private final TextureAtlas.AtlasRegion myInfinityTex;
   private final TextureAtlas.AtlasRegion myWaitTex;
-  private final TextureAtlas.AtlasRegion myShieldTex;
   private final TextureAtlas.AtlasRegion myCompassTex;
 
   public final ShipUiControl shipControl;
@@ -82,7 +81,6 @@ public class MainScreen implements SolUiScreen {
 
     TexMan texMan = cmp.getTexMan();
     myLifeTex = texMan.getTex(TexMan.ICONS_DIR + "life", null);
-    myShieldTex = texMan.getTex(TexMan.ICONS_DIR + "shield", null);
     myInfinityTex = texMan.getTex(TexMan.ICONS_DIR + "infinity", null);
     myWaitTex = texMan.getTex(TexMan.ICONS_DIR + "wait", null);
     myCompassTex = texMan.getTex("misc/compass", null);
@@ -209,7 +207,8 @@ public class MainScreen implements SolUiScreen {
     mySunWarnDrawer.draw(uiDrawer);
     myZoneNameAnnouncer.draw(uiDrawer);
 
-    SolShip hero = cmp.getGame().getHero();
+    SolGame game = cmp.getGame();
+    SolShip hero = game.getHero();
     if (hero != null) {
       TexMan texMan = cmp.getTexMan();
 
@@ -220,7 +219,7 @@ public class MainScreen implements SolUiScreen {
 
       Shield shield = hero.getShield();
       if (shield != null) {
-        uiDrawer.draw(myShieldTex, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
+        uiDrawer.draw(shield.getIcon(game), ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
         float shieldPerc = shield.getLife() / shield.getMaxLife();
         drawBar(uiDrawer, texMan, col1, row, shieldPerc);
         row += ICON_SZ + V_PAD;
@@ -229,8 +228,8 @@ public class MainScreen implements SolUiScreen {
       uiDrawer.draw(myLifeTex, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
       float lifePerc = hero.getLife() / hero.getHull().config.maxLife;
       drawBar(uiDrawer, texMan, col1, row, lifePerc);
-      int repairKitCount = hero.getItemContainer().count(cmp.getGame().getItemMan().getRepairExample());
-      ItemMan itemMan = cmp.getGame().getItemMan();
+      int repairKitCount = hero.getItemContainer().count(game.getItemMan().getRepairExample());
+      ItemMan itemMan = game.getItemMan();
       drawIcons(uiDrawer, col2, row, repairKitCount, itemMan.repairIcon);
 
       row += ICON_SZ + V_PAD;
@@ -243,14 +242,14 @@ public class MainScreen implements SolUiScreen {
       SolItem abilityChargeEx = ability == null ? null : ability.getConfig().getChargeExample();
       if (abilityChargeEx != null) {
         int abilityChargeCount = hero.getItemContainer().count(abilityChargeEx);
-        TextureAtlas.AtlasRegion icon = abilityChargeEx.getIcon(cmp.getGame());
+        TextureAtlas.AtlasRegion icon = abilityChargeEx.getIcon(game);
         uiDrawer.draw(icon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
         float chargePerc = 1 - SolMath.clamp(hero.getAbilityAwait() / ability.getConfig().getRechargeTime());
         drawBar(uiDrawer, texMan, col1, row, chargePerc);
         drawIcons(uiDrawer, col2, row, abilityChargeCount, icon);
         row += ICON_SZ + V_PAD;
       }
-      uiDrawer.draw(cmp.getGame().getItemMan().moneyIcon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
+      uiDrawer.draw(game.getItemMan().moneyIcon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
       drawRowText(uiDrawer, col1, row, (int) hero.getMoney() + "");
     }
   }
