@@ -1,6 +1,6 @@
 {
   clip: {
-    color: "hsb 0 75 100",
+    color: "hsb 0 100 50",
     pickUpSound: "",
   },
   shield: {
@@ -12,7 +12,7 @@
     pickUpSound: "",
   },
   abilityCharge: {
-    color: "hsb 300 75 100",
+    color: "hsb 300 100 100",
     pickUpSound: "",
   },
   gun: {
@@ -20,7 +20,7 @@
     pickUpSound: "",
   },
   money: {
-    color: "hsb 40 75 100",
+    color: "hsb 40 50 100",
     pickUpSound: "",
   },
   bigMoney: {
