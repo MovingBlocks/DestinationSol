@@ -9,7 +9,7 @@ CODING:
   ai should equip collected stuff
   credits
   grav should affect cannon projectiles
-
+  minerTurret doesn't shoot
 
 DRAWING:
   skull areas
