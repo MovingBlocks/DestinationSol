@@ -16,7 +16,7 @@ public interface Dra {
   Vector2 getPos();
   Vector2 getRelPos();
   float getRadius();
-  void draw(Drawer drawer, SolGame game);
+  void draw(GameDrawer drawer, SolGame game);
   boolean isEnabled();
   boolean okToRemove();
 }

@@ -18,9 +18,9 @@ public class UiDrawer implements TexDrawer {
   public final Rectangle filler;
 
   public UiDrawer(TexMan texMan) {
-    myDrawer = new CommonDrawer(texMan);
+    myDrawer = new CommonDrawer();
     r = myDrawer.r;
-    whiteTex = texMan.whiteTex;
+    whiteTex = texMan.getTex("ui/whiteTex", null);
     uiLineWidth = 1 / myDrawer.h;
     straightMtx = new Matrix4().setToOrtho2D(0, 1, myDrawer.r, -1);
     myDrawer.setMtx(straightMtx);
@@ -46,19 +46,19 @@ public class UiDrawer implements TexDrawer {
   }
 
   public void draw(Rectangle rect, Color tint) {
-    myDrawer.draw(rect, tint);
+    myDrawer.draw(whiteTex, rect, tint);
   }
 
   public void drawCircle(Vector2 center, float radius, Color col) {
-    myDrawer.drawCircle(center, radius, col, uiLineWidth, (int) (radius * UI_RAD_TO_POINTS));
+    myDrawer.drawCircle(whiteTex, center, radius, col, uiLineWidth, (int) (radius * UI_RAD_TO_POINTS));
   }
 
   public void drawLine(float x, float y, float angle, float len, Color col) {
-    myDrawer.drawLine(x, y, angle, len, col, uiLineWidth);
+    myDrawer.drawLine(whiteTex, x, y, angle, len, col, uiLineWidth);
   }
 
   public void drawLine(Vector2 p1, Vector2 p2, Color col) {
-    myDrawer.drawLine(p1, p2, col, uiLineWidth);
+    myDrawer.drawLine(whiteTex, p1, p2, col, uiLineWidth);
   }
 
   public void dispose() {

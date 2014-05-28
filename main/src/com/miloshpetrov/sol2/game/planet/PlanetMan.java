@@ -132,7 +132,7 @@ public class PlanetMan {
     return myNearestPlanet;
   }
 
-  public void drawDebug(Drawer drawer, SolGame game) {
+  public void drawDebug(GameDrawer drawer, SolGame game) {
     if (DebugOptions.DRAW_PLANET_BORDERS) {
       float lineWidth = game.getCam().getRealLineWidth();
       for (Planet p : myPlanets) {
@@ -140,9 +140,9 @@ public class PlanetMan {
         float angle = p.getAngle();
         float fh = p.getFullHeight();
         Color col = p == myNearestPlanet ? Col.W : Col.G;
-        drawer.drawCircle(pos, p.getGroundHeight(), col, lineWidth);
-        drawer.drawCircle(pos, fh, col, lineWidth);
-        drawer.drawLine(pos.x, pos.y, angle, fh, col, lineWidth);
+        drawer.drawCircle(drawer.debugWhiteTex, pos, p.getGroundHeight(), col, lineWidth);
+        drawer.drawCircle(drawer.debugWhiteTex, pos, fh, col, lineWidth);
+        drawer.drawLine(drawer.debugWhiteTex, pos.x, pos.y, angle, fh, col, lineWidth);
       }
 
     }
@@ -195,11 +195,11 @@ public class PlanetMan {
     return res;
   }
 
-  public void drawSunHack(SolGame game, Drawer drawer) {
+  public void drawSunHack(SolGame game, GameDrawer drawer) {
     mySunSingleton.draw(game, drawer);
   }
 
-  public void drawPlanetCoreHack(SolGame game, Drawer drawer) {
+  public void drawPlanetCoreHack(SolGame game, GameDrawer drawer) {
     myPlanetCore.draw(game, drawer);
   }
 

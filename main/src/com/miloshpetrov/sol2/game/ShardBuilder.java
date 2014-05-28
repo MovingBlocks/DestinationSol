@@ -46,7 +46,7 @@ public class ShardBuilder {
     SolMath.fromAl(pos, spdAngle, SolMath.rnd(size));
     pos.add(basePos);
     Body body = myPathLoader.getBodyAndSprite(game, "shards", AsteroidBuilder.removePath(tex.name) + "_" + tex.index, scale,
-      BodyDef.BodyType.DynamicBody, pos, SolMath.rnd(180), dras, ShipBuilder.SHIP_DENSITY, DraLevel.BODIES, null);
+      BodyDef.BodyType.DynamicBody, pos, SolMath.rnd(180), dras, ShipBuilder.SHIP_DENSITY, DraLevel.PROJECTILES, null);
 
     body.setAngularVelocity(SolMath.rnd(MAX_ROT_SPD));
     Vector2 spd = SolMath.fromAl(spdAngle, SolMath.rnd(MAX_SPD));

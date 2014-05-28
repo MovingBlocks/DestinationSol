@@ -13,13 +13,11 @@ public class TexMan {
   private final Map<String, TextureAtlas.AtlasRegion> myTexs;
   private final Map<TextureAtlas.AtlasRegion,TextureAtlas.AtlasRegion> myFlipped;
   private final Map<String, ArrayList<TextureAtlas.AtlasRegion>> myPacks;
-  public final TextureAtlas.AtlasRegion whiteTex;
   private final TexProvider myTexProvider;
 
   public TexMan() {
     FileHandle atlasFile = SolFiles.readOnly("res/imgs/sol.atlas");
     myTexProvider = atlasFile.exists() ? new AtlasTexProvider(atlasFile) : new DevTexProvider();
-    whiteTex = myTexProvider.getTex("misc/whiteTex", null);
     myPacks = new HashMap<String, ArrayList<TextureAtlas.AtlasRegion>>();
     myTexs = new HashMap<String, TextureAtlas.AtlasRegion>();
     myFlipped = new HashMap<TextureAtlas.AtlasRegion, TextureAtlas.AtlasRegion>();

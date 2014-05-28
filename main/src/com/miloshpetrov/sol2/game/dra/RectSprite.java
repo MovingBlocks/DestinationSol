@@ -112,7 +112,7 @@ public class RectSprite implements Dra {
     return myRadius;
   }
 
-  public void draw(Drawer drawer, SolGame game) {
+  public void draw(GameDrawer drawer, SolGame game) {
     float x = myPos.x;
     float y = myPos.y;
     if (myLevel.depth != 1) {

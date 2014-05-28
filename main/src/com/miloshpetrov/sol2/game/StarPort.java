@@ -205,7 +205,7 @@ public class StarPort implements SolObj {
       EffectConfig flow = game.getSpecialEffects().starPortFlow;
       Vector2 relPos = new Vector2();
       SolMath.fromAl(relPos, angle, -FLOW_DIST);
-      ParticleSrc f1 = new ParticleSrc(flow, FLOW_DIST, DraLevel.PART_BG_1, relPos, false, game, pos, Vector2.Zero, angle);
+      ParticleSrc f1 = new ParticleSrc(flow, FLOW_DIST, DraLevel.PART_BG_0, relPos, false, game, pos, Vector2.Zero, angle);
       f1.setWorking(true);
       dras.add(f1);
       LightSrc light = new LightSrc(game, .6f, true, 1, relPos, flow.tint);
@@ -310,7 +310,7 @@ public class StarPort implements SolObj {
       myDras = new ArrayList<Dra>();
       myDras.add(s);
       EffectConfig eff = game.getSpecialEffects().transcendentWork;
-      myEff = new ParticleSrc(eff, TRAN_SZ, DraLevel.PART_BG_1, new Vector2(), true, game, myPos, Vector2.Zero, 0);
+      myEff = new ParticleSrc(eff, TRAN_SZ, DraLevel.PART_BG_0, new Vector2(), true, game, myPos, Vector2.Zero, 0);
       myEff.setWorking(true);
       myDras.add(myEff);
       myLight = new LightSrc(game, .6f * TRAN_SZ, true, .5f, new Vector2(), eff.tint);

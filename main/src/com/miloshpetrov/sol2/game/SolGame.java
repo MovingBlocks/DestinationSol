@@ -73,7 +73,7 @@ public class SolGame {
   public SolGame(SolCmp cmp, SaveData sd, TexMan texMan, boolean tut) {
     myCmp = cmp;
     myTut = tut;
-    Drawer drawer = new Drawer(texMan);
+    GameDrawer drawer = new GameDrawer(texMan);
     myCols = new GameCols();
     mySoundMan = new SoundMan();
     mySpecialSounds = new SpecialSounds(mySoundMan);
@@ -215,7 +215,7 @@ public class SolGame {
     myDraMan.draw(this);
   }
 
-  public void drawDebug(Drawer drawer) {
+  public void drawDebug(GameDrawer drawer) {
     if (DebugOptions.GRID_SZ > 0) myGridDrawer.draw(drawer, this, DebugOptions.GRID_SZ);
     myPlanetMan.drawDebug(drawer, this);
     myObjMan.drawDebug(drawer, this);
@@ -225,10 +225,10 @@ public class SolGame {
     drawDebugPoint(drawer, DebugOptions.DEBUG_POINT3, DebugCol.POINT3);
   }
 
-  private void drawDebugPoint(Drawer drawer, Vector2 dp, Color col) {
+  private void drawDebugPoint(GameDrawer drawer, Vector2 dp, Color col) {
     if (dp.x != 0 || dp.y != 0) {
       float sz = myCam.getRealLineWidth() * 5;
-      drawer.draw(myTexMan.whiteTex, sz, sz, sz / 2, sz / 2, dp.x, dp.y, 0, col);
+      drawer.draw(drawer.debugWhiteTex, sz, sz, sz / 2, sz / 2, dp.x, dp.y, 0, col);
     }
   }
 

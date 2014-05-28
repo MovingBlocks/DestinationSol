@@ -1,20 +1,21 @@
 package com.miloshpetrov.sol2.game;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.*;
 
-public class Drawer implements TexDrawer {
+public class GameDrawer implements TexDrawer {
   public static final int RAD_TO_POINTS = 8;
 
   public final float r;
+  public final TextureAtlas.AtlasRegion debugWhiteTex;
   private final CommonDrawer myDrawer;
 
-  public Drawer(TexMan texMan) {
-    myDrawer = new CommonDrawer(texMan);
+  public GameDrawer(TexMan texMan) {
+    myDrawer = new CommonDrawer();
     r = myDrawer.r;
+    debugWhiteTex = texMan.getTex("ui/whiteTex", null);
   }
 
   public void begin(SolGame game) {
@@ -36,20 +37,20 @@ public class Drawer implements TexDrawer {
     myDrawer.draw(tr, width, height, origX, origY, x, y, rot, tint);
   }
 
-  public void drawLine(float x, float y, float angle, float len, Color col, float width) {
-    myDrawer.drawLine(x, y, angle, len, col, width);
+  public void drawLine(TextureRegion tex, float x, float y, float angle, float len, Color col, float width) {
+    myDrawer.drawLine(tex, x, y, angle, len, col, width);
   }
 
-  public void drawLine(Vector2 p1, Vector2 p2, Color col, float width) {
-    myDrawer.drawLine(p1, p2, col, width);
+  public void drawLine(TextureRegion tex, Vector2 p1, Vector2 p2, Color col, float width) {
+    myDrawer.drawLine(tex, p1, p2, col, width);
   }
 
   public void draw(ParticleEmitter emitter) {
     emitter.draw(myDrawer.getBatch());
   }
 
-  public void drawCircle(Vector2 center, float radius, Color col, float width) {
-    myDrawer.drawCircle(center, radius, col, width, (int) (radius * RAD_TO_POINTS));
+  public void drawCircle(TextureRegion tex, Vector2 center, float radius, Color col, float width) {
+    myDrawer.drawCircle(tex, center, radius, col, width, (int) (radius * RAD_TO_POINTS));
   }
 
   public void dispose() {

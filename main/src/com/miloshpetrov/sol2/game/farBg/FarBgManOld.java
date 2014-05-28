@@ -29,7 +29,7 @@ public class FarBgManOld {
     myNebTint = Col.col(.5f, 1);
   }
 
-  public void draw(Drawer drawer, SolCam cam, SolGame game) {
+  public void draw(GameDrawer drawer, SolCam cam, SolGame game) {
     Planet np = game.getPlanetMan().getNearestPlanet();
     Vector2 camPos = cam.getPos();
     float nebPerc = (camPos.dst(np.getPos()) - np.getGroundHeight()) / (4 * Const.ATM_HEIGHT);
@@ -55,13 +55,13 @@ public class FarBgManOld {
       myShiftPerc = new Vector2(SolMath.rnd(1), SolMath.rnd(1));
       myPos = new Vector2();
       boolean small = SolMath.test(.8f);
-      myTex = texMan.getTex("misc/bigStar", null);
+      myTex = texMan.getTex("commonDeco/bigStar", null);
       mySzPerc = (small ? .01f : .04f) * SolMath.rnd(.5f, 1);
       myTint = new Color();
       ColUtil.fromHSB(SolMath.rnd(0, 1), .25f, 1, .7f, myTint);
     }
 
-    public void draw(Drawer drawer, float vd, Vector2 camPos, float camAngle) {
+    public void draw(GameDrawer drawer, float vd, Vector2 camPos, float camAngle) {
       float sz = vd * mySzPerc;
       myPos.set(myShiftPerc).scl(vd).add(camPos);
       drawer.draw(myTex, sz, sz, sz /2, sz /2, myPos.x, myPos.y, camAngle, myTint);

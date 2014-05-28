@@ -153,7 +153,7 @@ public class SoundMan {
     return playing;
   }
 
-  public void drawDebug(Drawer drawer, SolGame game) {
+  public void drawDebug(GameDrawer drawer, SolGame game) {
     if (DebugOptions.SOUND_INFO) myHintDrawer.draw(drawer, game);
   }
 
