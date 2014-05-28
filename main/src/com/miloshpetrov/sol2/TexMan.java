@@ -9,6 +9,7 @@ import java.util.*;
 
 public class TexMan {
   public static final String ICONS_DIR = "icons/";
+  public static final String HULL_ICONS_DIR = "hullIcons/";
   private final Map<String, TextureAtlas.AtlasRegion> myTexs;
   private final Map<TextureAtlas.AtlasRegion,TextureAtlas.AtlasRegion> myFlipped;
   private final Map<String, ArrayList<TextureAtlas.AtlasRegion>> myPacks;

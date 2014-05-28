@@ -1,6 +1,5 @@
 package com.miloshpetrov.sol2.game;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
@@ -9,20 +8,11 @@ import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.projectile.Projectile;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
-import java.util.EnumMap;
-
 public class FractionMan {
 
-  private final EnumMap<Fraction,TextureAtlas.AtlasRegion> myIcons;
   private final MyRayBack myRayBack;
 
   public FractionMan(TexMan texMan) {
-    myIcons = new EnumMap<Fraction, TextureAtlas.AtlasRegion>(Fraction.class);
-    for (Fraction f : Fraction.values()) {
-      String iconName = TexMan.ICONS_DIR + f.getName();
-      TextureAtlas.AtlasRegion icon = texMan.getTex(iconName, null);
-      myIcons.put(f, icon);
-    }
     myRayBack = new MyRayBack();
   }
 
@@ -60,10 +50,6 @@ public class FractionMan {
     myRayBack.hasObstacle = false;
     game.getObjMan().getWorld().rayCast(myRayBack, shipFrom.getPos(), shipTo.getPos());
     return myRayBack.hasObstacle;
-  }
-
-  public TextureAtlas.AtlasRegion getIcon(Fraction f) {
-    return myIcons.get(f);
   }
 
   public boolean areEnemies(SolShip s1, SolShip s2) {
