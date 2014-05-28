@@ -1,17 +1,33 @@
 
-icons
+ADD ALL SOUND PLACEHOLDERS
+hull lights
+grav should affect cannon projectiles
+
+
+TEST ANDROID RUN:
+  pack textures, launch on android to ensure that everything works
 
 
 DATA:
   balancing
+  check licenses:
+    in-game:
+      font
+      sounds
+      libgdx
+      box 2d
+      java distro
+    in internet:
+      sf
+      markets vs open source
 
 
 CODING:
   hull descriptions
   ai should equip collected stuff
   credits
-  grav should affect cannon projectiles
   minerTurret doesn't shoot
+  tutorial should consider new control type, also mobile, also highlight buttons
 
 
 DRAWING:
@@ -24,10 +40,6 @@ DRAWING:
   trees on frozen
   draw ui icons
   new title
-
-
-TEST ANDROID RUN:
-  pack textures, launch on android to ensure that everything works
 
 
 PERF:
@@ -46,9 +58,6 @@ PERF:
   far ship positions should be calculated on demand?
 
 
-ADD ALL SOUND PLACEHOLDERS
-
-
 ANDROID RUN 2:
   stress test on every object preloaded
 
@@ -57,24 +66,8 @@ PERF OPTIONAL:
   optimize getVec? but don't remove, cuz freeing helps fix bugs
   compare dstSq instead of dst -- maybe not needed, iterating through object is only quadratic
 
-
-IN THE END:
-  final balancing
-  check paths, g e positions
-  hardness? armor bonus + brakes
-  lights
-  tutorial should consider new control type, also mobile, also highlight buttons
-  demo
-  check licenses:
-    in-game:
-      font
-      sounds
-      libgdx
-      box 2d
-      java distro
-    in internet:
-      sf
-      markets vs open source
+polishing
+hardness? armor bonus + brakes
 
 ===================== REST =======================================================================
 
