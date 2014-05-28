@@ -1,6 +1,8 @@
 
+icons
+
+
 DATA:
-  hull icons
   balancing
 
 
@@ -10,6 +12,7 @@ CODING:
   credits
   grav should affect cannon projectiles
   minerTurret doesn't shoot
+
 
 DRAWING:
   skull areas
@@ -40,7 +43,6 @@ PERF:
     some other calculated stuff
     object's distance to np, to cam?
   skip emitter ops if they're not working
-  use circles instead of polys where possible
   far ship positions should be calculated on demand?
 
 
@@ -52,7 +54,6 @@ ANDROID RUN 2:
 
 
 PERF OPTIONAL:
-  split ship icons from the rest
   optimize getVec? but don't remove, cuz freeing helps fix bugs
   compare dstSq instead of dst -- maybe not needed, iterating through object is only quadratic
 

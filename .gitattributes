@@ -164,8 +164,10 @@ main/imgSrcs/icons/armor4.png -text
 main/imgSrcs/icons/bigMoney.png -text
 main/imgSrcs/icons/blaster.png -text
 main/imgSrcs/icons/bulletClip.png -text
+main/imgSrcs/icons/emWaveCharge.png -text
 main/imgSrcs/icons/fixedGun.png -text
 main/imgSrcs/icons/infinity.png -text
+main/imgSrcs/icons/knockBackCharge.png -text
 main/imgSrcs/icons/life.png -text
 main/imgSrcs/icons/money.png -text
 main/imgSrcs/icons/more.png -text
@@ -181,6 +183,8 @@ main/imgSrcs/icons/shield3.png -text
 main/imgSrcs/icons/shield4.png -text
 main/imgSrcs/icons/shotGun.png -text
 main/imgSrcs/icons/sloMoCharge.png -text
+main/imgSrcs/icons/teleportCharge.png -text
+main/imgSrcs/icons/unShieldCharge.png -text
 main/imgSrcs/icons/wait.png -text
 main/imgSrcs/junks/Thumbs.db -text
 main/imgSrcs/junks/pack.json -text
@@ -196,7 +200,9 @@ main/imgSrcs/mapObjs/maze.png -text
 main/imgSrcs/mapObjs/pack.json -text
 main/imgSrcs/mapObjs/planet.png -text
 main/imgSrcs/mapObjs/planetCore.png -text
+main/imgSrcs/mapObjs/skullBig.png -text
 main/imgSrcs/mapObjs/star.png -text
+main/imgSrcs/mapObjs/warnBg.png -text
 main/imgSrcs/mazeTiles/junk/borderBg_0.png -text
 main/imgSrcs/mazeTiles/junk/borderBg_1.png -text
 main/imgSrcs/mazeTiles/junk/innerBg_0.png -text
