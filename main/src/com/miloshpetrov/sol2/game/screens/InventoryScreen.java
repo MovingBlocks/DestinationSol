@@ -212,7 +212,7 @@ public class InventoryScreen implements SolUiScreen {
       TextureAtlas.AtlasRegion tex = item.getIcon(game);
       Rectangle rect = itemCtrl.getScreenArea();
       float rowCenterY = rect.y + rect.height / 2;
-      uiDrawer.draw(uiDrawer.whiteTex, imgSz, imgSz, imgSz/2, imgSz/2, rect.x + imgWidth/2, rowCenterY, 0, item.getItemType().color);
+      uiDrawer.draw(uiDrawer.whiteTex, imgSz, imgSz, imgSz/2, imgSz/2, rect.x + imgWidth/2, rowCenterY, 0, item.getItemType().uiColor);
       uiDrawer.draw(tex, imgSz, imgSz, imgSz/2, imgSz/2, rect.x + imgWidth/2, rowCenterY, 0, Col.W);
       if (myOperations.isUsing(game, item)) uiDrawer.drawString("using", rect.x + imgWidth + equiWidth/2, rowCenterY, FontSize.HINT, true, Col.G);
       uiDrawer.drawString(item.getDisplayName(), rect.x + equiWidth + imgWidth + nameWidth/2, rowCenterY, FontSize.WINDOW, true, mySelected == group ? Col.W : Col.G);
