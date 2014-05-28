@@ -11,7 +11,7 @@ public class GridDrawer {
   private final TextureAtlas.AtlasRegion myLineTex;
 
   public GridDrawer(TexMan texMan) {
-    myLineTex = texMan.getTex("misc/gridLine", null);
+    myLineTex = texMan.getTex("mapObjs/gridLine", null);
   }
 
   public void draw(Drawer drawer, SolGame game, float gridSz) {
