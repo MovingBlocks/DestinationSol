@@ -34,7 +34,7 @@ public class EffectConfig {
     String texName = node.getString("tex");
     boolean floatsUp = node.getBoolean("floatsUp", false);
     Color tint = cols.load(node.getString("tint"));
-    TextureAtlas.AtlasRegion tex = texMan.getTex("particles/" + texName, configFile);
+    TextureAtlas.AtlasRegion tex = texMan.getTex("smallGameObjs/particles/" + texName, configFile);
     return new EffectConfig(effectType, sz, tex, floatsUp, tint);
   }
 

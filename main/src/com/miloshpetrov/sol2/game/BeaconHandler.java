@@ -36,11 +36,11 @@ public class BeaconHandler {
   private boolean myInitialized;
 
   public BeaconHandler(TexMan texMan) {
-    TextureAtlas.AtlasRegion attackTex = texMan.getTex("misc/beaconAttack", null);
+    TextureAtlas.AtlasRegion attackTex = texMan.getTex("smallGameObjs/beaconAttack", null);
     myAttackSprite = new RectSprite(attackTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
-    TextureAtlas.AtlasRegion followTex = texMan.getTex("misc/beaconFollow", null);
+    TextureAtlas.AtlasRegion followTex = texMan.getTex("smallGameObjs/beaconFollow", null);
     myFollowSprite = new RectSprite(followTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
-    TextureAtlas.AtlasRegion moveTex = texMan.getTex("misc/beaconMove", null);
+    TextureAtlas.AtlasRegion moveTex = texMan.getTex("smallGameObjs/beaconMove", null);
     myMoveSprite = new RectSprite(moveTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
     myTargetRelPos = new Vector2();
     mySpd = new Vector2();

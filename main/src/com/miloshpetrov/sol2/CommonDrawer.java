@@ -1,8 +1,7 @@
 package com.miloshpetrov.sol2;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
 import com.miloshpetrov.sol2.common.SolMath;
@@ -15,8 +14,10 @@ public class CommonDrawer {
   private final SpriteBatch mySpriteBatch;
   private final BitmapFont myFont;
   private final float myOrigFontHeight;
+  private final TextureChecker myTextureChecker;
 
   public CommonDrawer() {
+    myTextureChecker = new TextureChecker();
     w = Gdx.graphics.getWidth();
     h = Gdx.graphics.getHeight();
     r = w / h;
@@ -36,11 +37,13 @@ public class CommonDrawer {
   }
 
   public void end() {
+    myTextureChecker.onEnd();
     mySpriteBatch.end();
   }
 
   public void drawString(String s, float x, float y, float fontSize, boolean centered, Color col) {
     if (s == null) return;
+    myTextureChecker.onString(myFont.getRegion().getTexture());
     myFont.setColor(col);
     myFont.setScale(fontSize / myOrigFontHeight);
     if (!centered) {
@@ -58,6 +61,11 @@ public class CommonDrawer {
     float rot, Color tint)
   {
     setTint(tint);
+    if (tr instanceof TextureAtlas.AtlasRegion) {
+      myTextureChecker.onReg((TextureAtlas.AtlasRegion)tr);
+    } else {
+      throw new AssertionError();
+    }
     mySpriteBatch.draw(tr, x - origX, y - origY, origX, origY, width, height, 1, 1, rot);
   }
 
@@ -100,7 +108,8 @@ public class CommonDrawer {
     myFont.dispose();
   }
 
-  public SpriteBatch getBatch() {
+  public SpriteBatch getBatch(Texture texture, TextureAtlas.AtlasRegion tex) {
+    myTextureChecker.onSprite(texture, tex);
     return mySpriteBatch;
   }
 

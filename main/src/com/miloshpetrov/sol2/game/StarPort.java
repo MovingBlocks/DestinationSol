@@ -306,7 +306,7 @@ public class StarPort implements SolObj {
       mySpd = new Vector2();
       myDestPos = new Vector2();
 
-      RectSprite s = new RectSprite(game.getTexMan().getTex("misc/transcendent", null), TRAN_SZ, .3f, 0, new Vector2(), DraLevel.BODIES, 0, 0, Col.W, false);
+      RectSprite s = new RectSprite(game.getTexMan().getTex("smallGameObjs/transcendent", null), TRAN_SZ, .3f, 0, new Vector2(), DraLevel.PROJECTILES, 0, 0, Col.W, false);
       myDras = new ArrayList<Dra>();
       myDras.add(s);
       EffectConfig eff = game.getSpecialEffects().transcendentWork;

@@ -55,7 +55,7 @@ public class FarBgManOld {
       myShiftPerc = new Vector2(SolMath.rnd(1), SolMath.rnd(1));
       myPos = new Vector2();
       boolean small = SolMath.test(.8f);
-      myTex = texMan.getTex("commonDeco/bigStar", null);
+      myTex = texMan.getTex("deco/bigStar", null);
       mySzPerc = (small ? .01f : .04f) * SolMath.rnd(.5f, 1);
       myTint = new Color();
       ColUtil.fromHSB(SolMath.rnd(0, 1), .25f, 1, .7f, myTint);

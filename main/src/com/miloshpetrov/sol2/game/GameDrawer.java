@@ -12,15 +12,18 @@ public class GameDrawer implements TexDrawer {
   public final TextureAtlas.AtlasRegion debugWhiteTex;
   private final CommonDrawer myDrawer;
 
-  public GameDrawer(TexMan texMan) {
-    myDrawer = new CommonDrawer();
+  public GameDrawer(TexMan texMan, CommonDrawer commonDrawer) {
+    myDrawer = commonDrawer;
     r = myDrawer.r;
     debugWhiteTex = texMan.getTex("ui/whiteTex", null);
   }
 
-  public void begin(SolGame game) {
-    myDrawer.setMtx(game.getCam().getMtx());
+  public void begin() {
     myDrawer.begin();
+  }
+
+  public void updateMtx(SolGame game) {
+    myDrawer.setMtx(game.getCam().getMtx());
   }
 
   public void end() {
@@ -45,16 +48,12 @@ public class GameDrawer implements TexDrawer {
     myDrawer.drawLine(tex, p1, p2, col, width);
   }
 
-  public void draw(ParticleEmitter emitter) {
-    emitter.draw(myDrawer.getBatch());
+  public void draw(ParticleEmitter emitter, TextureAtlas.AtlasRegion tex) {
+    emitter.draw(myDrawer.getBatch(emitter.getSprite().getTexture(), tex));
   }
 
   public void drawCircle(TextureRegion tex, Vector2 center, float radius, Color col, float width) {
     myDrawer.drawCircle(tex, center, radius, col, width, (int) (radius * RAD_TO_POINTS));
-  }
-
-  public void dispose() {
-    myDrawer.dispose();
   }
 
   public void setAdditive(boolean additive) {

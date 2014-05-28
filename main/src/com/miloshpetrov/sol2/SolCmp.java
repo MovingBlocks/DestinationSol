@@ -26,6 +26,7 @@ public class SolCmp {
   private final SolLayouts myLayouts;
   private final boolean myReallyMobile;
   private final GameOptions myOptions;
+  private final CommonDrawer myCommonDrawer;
 
   private String myFatalErrorMsg;
   private String myFatalErrorTrace;
@@ -38,7 +39,8 @@ public class SolCmp {
     myOptions = new GameOptions();
 
     myTexMan = new TexMan();
-    myUiDrawer = new UiDrawer(myTexMan);
+    myCommonDrawer = new CommonDrawer();
+    myUiDrawer = new UiDrawer(myTexMan, myCommonDrawer);
     myInputMan = new SolInputMan(myTexMan, myUiDrawer.r);
     mySaveMan = new SaveMan();
     myLayouts = new SolLayouts(myUiDrawer.r);
@@ -84,10 +86,11 @@ public class SolCmp {
 
   private void draw() {
     Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+    myCommonDrawer.begin();
     if (myGame != null) {
       myGame.draw();
     }
-    myUiDrawer.begin();
+    myUiDrawer.updateMtx();
     myInputMan.draw(myUiDrawer, this);
     DebugCollector.draw(myUiDrawer);
     if (myGame != null) {
@@ -98,7 +101,7 @@ public class SolCmp {
       myUiDrawer.drawString(myFatalErrorMsg, myUiDrawer.r / 2, .5f, FontSize.MENU, true, Col.W);
       myUiDrawer.drawString(myFatalErrorTrace, .2f * myUiDrawer.r, .6f, FontSize.DEBUG, false, Col.W);
     }
-    myUiDrawer.end();
+    myCommonDrawer.end();
   }
 
   public void startNewGame(boolean tut) {
@@ -108,7 +111,7 @@ public class SolCmp {
   private void startGame(boolean resume, boolean tut) {
     SaveData sd = null;
     if (resume) sd = mySaveMan.getData();
-    myGame = new SolGame(this, sd, myTexMan, tut);
+    myGame = new SolGame(this, sd, myTexMan, tut, myCommonDrawer);
     myInputMan.setScreen(this, myGame.getScreens().mainScreen);
   }
 
@@ -121,7 +124,7 @@ public class SolCmp {
   }
 
   public void dispose() {
-    myUiDrawer.dispose();
+    myCommonDrawer.dispose();
     if (myGame != null) myGame.dispose();
     myTexMan.dispose();
   }

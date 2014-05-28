@@ -1,17 +1,10 @@
 
-move trancendent to hulls
-rare big things:
-  starport
-  abilities
-merge misc & particles & projectiles & shards
+sound problems on android
+map and ui should carefully draw. implement some class that helps to store values
 
 
 ADD ALL SOUND PLACEHOLDERS
 hull lights
-
-
-TEST ANDROID RUN:
-  pack textures, launch on android to ensure that everything works
 
 
 DATA:
@@ -49,12 +42,6 @@ DRAWING:
 
 
 PERF:
-  texture packing optimizations:
-    split big stations from ships
-    divide particles folder to misc & ship abilities
-    unite asteroids, farJunks, junks and shards in 1 folder
-    move skies to misc
-  map and ui should carefully draw. implement some class that helps to store values
   cache frequently used values:
     body masses
     cam.realLineWidth?

@@ -10,7 +10,7 @@ import com.miloshpetrov.sol2.game.item.SolItem;
 
 public class Teleport implements ShipAbility {
   public static final int MAX_RADIUS = 4;
-  public static final String TEX_PATH = "misc/teleportBlip";
+  public static final String TEX_PATH = "smallGameObjs/teleportBlip";
   private final Vector2 myNewPos;
   private final Config myConfig;
   private boolean myShouldTeleport;
