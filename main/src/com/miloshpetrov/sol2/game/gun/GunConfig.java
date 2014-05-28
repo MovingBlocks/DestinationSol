@@ -113,7 +113,7 @@ public class GunConfig {
       String shootSoundPath = sh.getString("shootSound");
       SolSound reloadSound = soundMan.getSound(reloadSoundPath, configFile);
       SolSound shootSound = soundMan.getSound(shootSoundPath, configFile);
-      TextureAtlas.AtlasRegion tex = texMan.getTex("guns/" + texName, configFile);
+      TextureAtlas.AtlasRegion tex = texMan.getTex("smallGameObjs/guns/" + texName, configFile);
       TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + texName, configFile);
       boolean fixed = sh.getBoolean("fixed", false);
       GunConfig c = new GunConfig(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots, reloadTime,

@@ -8,8 +8,8 @@ import com.miloshpetrov.sol2.common.SolMath;
 import java.util.*;
 
 public class TexMan {
-  public static final String ICONS_DIR = "icons/";
-  public static final String HULL_ICONS_DIR = "hullIcons/";
+  public static final String ICONS_DIR = "ui/icons/";
+  public static final String HULL_ICONS_DIR = "ui/hullIcons/";
   private final Map<String, TextureAtlas.AtlasRegion> myTexs;
   private final Map<TextureAtlas.AtlasRegion,TextureAtlas.AtlasRegion> myFlipped;
   private final Map<String, ArrayList<TextureAtlas.AtlasRegion>> myPacks;

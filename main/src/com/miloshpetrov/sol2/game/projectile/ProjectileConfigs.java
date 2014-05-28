@@ -27,7 +27,7 @@ public class ProjectileConfigs {
     FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "projectiles.json");
     JsonValue parsed = r.parse(configFile);
     for (JsonValue sh : parsed) {
-      String texName = "projectiles/" + sh.getString("texName");
+      String texName = "smallGameObjs/projectiles/" + sh.getString("texName");
       TextureAtlas.AtlasRegion tex = texMan.getTex(texName, configFile);
       float texSz = sh.getFloat("texSz");
       float spdLen = sh.getFloat("spdLen");

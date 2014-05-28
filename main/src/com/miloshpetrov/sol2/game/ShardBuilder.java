@@ -25,7 +25,7 @@ public class ShardBuilder {
 
   public ShardBuilder(TexMan texMan) {
     myPathLoader = new PathLoader("misc");
-    myTexs = texMan.getPack("shards/shard", null);
+    myTexs = texMan.getPack("smallGameObjs/shard", null);
   }
 
   public void buildExplosionShards(SolGame game, Vector2 pos, Vector2 baseSpd, float size) {

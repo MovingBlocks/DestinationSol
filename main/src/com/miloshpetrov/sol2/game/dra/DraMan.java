@@ -73,7 +73,7 @@ public class DraMan {
 
 
     SolCam cam = game.getCam();
-    myDrawer.begin(game);
+    myDrawer.updateMtx(game);
     game.getFarBgManOld().draw(myDrawer, cam, game);
     Vector2 camPos = cam.getPos();
     float viewDist = cam.getViewDist();
@@ -132,7 +132,6 @@ public class DraMan {
     }
 
     game.getSoundMan().drawDebug(myDrawer, game);
-    myDrawer.end();
   }
 
   private void drawDebug(GameDrawer drawer, SolGame game, Dra dra) {
@@ -170,10 +169,6 @@ public class DraMan {
 
   public boolean isInCam(Dra dra) {
     return myInCam.contains(dra);
-  }
-
-  public void dispose() {
-    myDrawer.dispose();
   }
 
   public void collectTexs(Collection<TextureAtlas.AtlasRegion> collector, Vector2 pos) {

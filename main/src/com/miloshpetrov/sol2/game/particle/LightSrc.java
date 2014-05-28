@@ -24,10 +24,10 @@ public class LightSrc {
   /** doesn't consume relPos
    */
   public LightSrc(SolGame game, float sz, boolean hasHalo, float intensity, Vector2 relPos, Color col) {
-    TextureAtlas.AtlasRegion tex = game.getTexMan().getTex("particles/lightCircle", null);
+    TextureAtlas.AtlasRegion tex = game.getTexMan().getTex("smallGameObjs/particles/lightCircle", null);
     mySz = sz;
     myCircle = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DraLevel.PART_BG_0, 0, 0, col, true);
-    tex = game.getTexMan().getTex("particles/lightHalo", null);
+    tex = game.getTexMan().getTex("smallGameObjs/particles/lightHalo", null);
     if (hasHalo) {
       Color haloCol = new Color(col);
       ColUtil.changeBrightness(haloCol, .8f);

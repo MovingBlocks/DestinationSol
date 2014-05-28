@@ -24,6 +24,7 @@ public class MapDrawer {
   private static final float MAX_AREA_SKULL_TIME = 2;
   public static final float INNER_ICON_PERC = .6f;
   public static final float GRID_SZ = 40f;
+  public static final String MAP_TEX_DIR = "mapObjs/";
 
   private final TextureAtlas.AtlasRegion myAtmTex;
   private final TextureAtlas.AtlasRegion myPlanetTex;
@@ -50,23 +51,23 @@ public class MapDrawer {
 
   public MapDrawer(TexMan texMan) {
     myIconBg = texMan.getTex(TexMan.HULL_ICONS_DIR + "bg", null);
-    myWarnAreaBg = texMan.getTex("mapObjs/warnBg", null);
-    myAtmTex = texMan.getTex("mapObjs/atm", null);
-    myPlanetTex = texMan.getTex("mapObjs/planet", null);
-    myPlanetCoreTex = texMan.getTex("mapObjs/planetCore", null);
-    myStarTex = texMan.getTex("mapObjs/star", null);
-    myMazeTex = texMan.getTex("mapObjs/maze", null);
+    myWarnAreaBg = texMan.getTex(MAP_TEX_DIR + "warnBg", null);
+    myAtmTex = texMan.getTex(MAP_TEX_DIR + "atm", null);
+    myPlanetTex = texMan.getTex(MAP_TEX_DIR + "planet", null);
+    myPlanetCoreTex = texMan.getTex(MAP_TEX_DIR + "planetCore", null);
+    myStarTex = texMan.getTex(MAP_TEX_DIR + "star", null);
+    myMazeTex = texMan.getTex(MAP_TEX_DIR + "maze", null);
     mySkullTex = texMan.getTex(TexMan.HULL_ICONS_DIR + "skull", null);
-    mySkullBigTex = texMan.getTex("mapObjs/skullBig", null);
+    mySkullBigTex = texMan.getTex(MAP_TEX_DIR + "skullBig", null);
     myStarPortTex = texMan.getTex(TexMan.HULL_ICONS_DIR + "starPort", null);
-    myBeltTex = texMan.getTex("mapObjs/asteroids", null);
-    myBeaconAttackTex = texMan.getTex("mapObjs/beaconAttack", null);
-    myBeaconMoveTex = texMan.getTex("mapObjs/beaconMove", null);
-    myBeaconFollowTex = texMan.getTex("mapObjs/beaconFollow", null);
+    myBeltTex = texMan.getTex(MAP_TEX_DIR + "asteroids", null);
+    myBeaconAttackTex = texMan.getTex(MAP_TEX_DIR + "beaconAttack", null);
+    myBeaconMoveTex = texMan.getTex(MAP_TEX_DIR + "beaconMove", null);
+    myBeaconFollowTex = texMan.getTex(MAP_TEX_DIR + "beaconFollow", null);
     myZoom = MAX_ZOOM / MUL_FACTOR / MUL_FACTOR;
     myAreaWarnCol = new Color(Col.W);
     myAreaWarnBgCol = new Color(Col.UI_WARN);
-    myWhiteTex = texMan.getTex("mapObjs/whiteTex", null);
+    myWhiteTex = texMan.getTex(MAP_TEX_DIR + "whiteTex", null);
   }
 
   public boolean isToggled() {
@@ -84,13 +85,12 @@ public class MapDrawer {
     Vector2 camPos = cam.getPos();
     float heroDmgCap = hero == null ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero);
 
-    drawer.begin(game);
+    drawer.updateMtx(game);
     game.getGridDrawer().draw(drawer, game, GRID_SZ);
     drawPlanets(drawer, game, viewDist, np, camPos, heroDmgCap);
     drawMazes(drawer, game, viewDist, np, camPos, heroDmgCap);
     drawStarNodes(drawer, game, viewDist, camPos, starNodeW);
     drawIcons(drawer, game, iconSz, viewDist, fractionMan, hero, camPos, heroDmgCap);
-    drawer.end();
   }
 
   public float getIconRadius(SolCam cam) {

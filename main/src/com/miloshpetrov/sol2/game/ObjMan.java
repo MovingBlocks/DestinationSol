@@ -181,7 +181,7 @@ public class ObjMan {
     if (DebugOptions.DRAW_PHYSIC_BORDERS) {
       drawer.end();
       myDr.render(myWorld, game.getCam().getMtx());
-      drawer.begin(game);
+      drawer.begin();
     }
   }
 

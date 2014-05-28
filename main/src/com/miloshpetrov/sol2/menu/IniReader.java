@@ -4,12 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.miloshpetrov.sol2.game.DebugOptions;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
+import java.util.*;
 
 public class IniReader {
 
@@ -17,15 +17,10 @@ public class IniReader {
 
   public IniReader(String fileName) {
     myVals = new HashMap<String, String>();
-    String lines = "";
     if (DebugOptions.DEV_ROOT_PATH != null) fileName = DebugOptions.DEV_ROOT_PATH + fileName;
-    try {
-      byte[] encoded = Files.readAllBytes(Paths.get(fileName));
-      lines = Charset.defaultCharset().decode(ByteBuffer.wrap(encoded)).toString();
-    } catch (IOException ignore) {
-    }
+    List<String> lines = fileToLines(fileName);
 
-    for (String line : lines.split("\n")) {
+    for (String line : lines) {
       int commentStart = line.indexOf('#');
       if (commentStart >= 0) {
         line = line.substring(0, commentStart);
@@ -36,6 +31,30 @@ public class IniReader {
       String val = sides[1].trim();
       myVals.put(key, val);
     }
+  }
+
+  private List<String> fileToLines(String fileName) {
+    ArrayList<String> lines = new ArrayList<String>();
+    try {
+      BufferedReader br = new BufferedReader(new FileReader(fileName));
+      String line = "";
+      while ((line = br.readLine()) != null) {
+        lines.add(line);
+      }
+      br.close();
+    } catch (IOException ignore) {
+    }
+    return lines;
+  }
+
+  private String fileToLines0(String fileName) {
+    String lines = "";
+    try {
+      byte[] encoded = Files.readAllBytes(Paths.get(fileName));
+      lines = Charset.defaultCharset().decode(ByteBuffer.wrap(encoded)).toString();
+    } catch (IOException ignore) {
+    }
+    return lines;
   }
 
   public String s(String key, String def) {

@@ -70,10 +70,10 @@ public class SolGame {
   private float myTimeFactor;
   private float myRespawnMoney;
 
-  public SolGame(SolCmp cmp, SaveData sd, TexMan texMan, boolean tut) {
+  public SolGame(SolCmp cmp, SaveData sd, TexMan texMan, boolean tut, CommonDrawer commonDrawer) {
     myCmp = cmp;
     myTut = tut;
-    GameDrawer drawer = new GameDrawer(texMan);
+    GameDrawer drawer = new GameDrawer(texMan, commonDrawer);
     myCols = new GameCols();
     mySoundMan = new SoundMan();
     mySpecialSounds = new SpecialSounds(mySoundMan);
@@ -116,8 +116,8 @@ public class SolGame {
       createPlayer();
     }
     SolMath.checkVectorsTaken(null);
-    myItemMan.printGuns();
-    myPlanetMan.printShips(myPlayerSpawnConfig);
+//    myItemMan.printGuns();
+//    myPlanetMan.printShips(myPlayerSpawnConfig);
   }
 
   private void createPlayer() {
@@ -156,7 +156,6 @@ public class SolGame {
   }
 
   public void dispose() {
-    myDraMan.dispose();
     myObjMan.dispose();
   }
 

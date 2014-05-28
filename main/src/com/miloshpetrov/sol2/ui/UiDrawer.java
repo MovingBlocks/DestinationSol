@@ -17,8 +17,8 @@ public class UiDrawer implements TexDrawer {
   public final TextureRegion whiteTex;
   public final Rectangle filler;
 
-  public UiDrawer(TexMan texMan) {
-    myDrawer = new CommonDrawer();
+  public UiDrawer(TexMan texMan, CommonDrawer commonDrawer) {
+    myDrawer = commonDrawer;
     r = myDrawer.r;
     whiteTex = texMan.getTex("ui/whiteTex", null);
     uiLineWidth = 1 / myDrawer.h;
@@ -27,12 +27,8 @@ public class UiDrawer implements TexDrawer {
     filler = new Rectangle(0, 0, r, 1);
   }
 
-  public void begin() {
-    myDrawer.begin();
-  }
-
-  public void end() {
-    myDrawer.end();
+  public void updateMtx() {
+    myDrawer.setMtx(straightMtx);
   }
 
   public void drawString(String s, float x, float y, float scale, boolean centered, Color tint) {
@@ -59,9 +55,5 @@ public class UiDrawer implements TexDrawer {
 
   public void drawLine(Vector2 p1, Vector2 p2, Color col) {
     myDrawer.drawLine(whiteTex, p1, p2, col, uiLineWidth);
-  }
-
-  public void dispose() {
-    myDrawer.dispose();
   }
 }
