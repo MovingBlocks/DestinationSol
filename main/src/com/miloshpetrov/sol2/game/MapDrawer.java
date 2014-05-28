@@ -31,28 +31,32 @@ public class MapDrawer {
   private final TextureAtlas.AtlasRegion myStarTex;
   private final TextureAtlas.AtlasRegion myMazeTex;
   private final TextureAtlas.AtlasRegion mySkullTex;
+  private final TextureAtlas.AtlasRegion mySkullBigTex;
   private final TextureAtlas.AtlasRegion myStarPortTex;
   private final TextureAtlas.AtlasRegion myBeltTex;
   private final TextureAtlas.AtlasRegion myBeaconAttackTex;
   private final TextureAtlas.AtlasRegion myBeaconMoveTex;
   private final TextureAtlas.AtlasRegion myBeaconFollowTex;
+  private final TextureAtlas.AtlasRegion myIconBg;
+  private final TextureAtlas.AtlasRegion myWarnAreaBg;
   private final Color myAreaWarnCol;
   private final Color myAreaWarnBgCol;
 
   private boolean myToggled;
-  private final TextureAtlas.AtlasRegion myIconBg;
   private float myZoom;
   private float mySkullTime;
   private float myAreaSkullTime;
 
   public MapDrawer(TexMan texMan) {
     myIconBg = texMan.getTex(TexMan.HULL_ICONS_DIR + "bg", null);
+    myWarnAreaBg = texMan.getTex("mapObjs/warnBg", null);
     myAtmTex = texMan.getTex("mapObjs/atm", null);
     myPlanetTex = texMan.getTex("mapObjs/planet", null);
     myPlanetCoreTex = texMan.getTex("mapObjs/planetCore", null);
     myStarTex = texMan.getTex("mapObjs/star", null);
     myMazeTex = texMan.getTex("mapObjs/maze", null);
     mySkullTex = texMan.getTex(TexMan.HULL_ICONS_DIR + "skull", null);
+    mySkullBigTex = texMan.getTex("mapObjs/skullBig", null);
     myStarPortTex = texMan.getTex(TexMan.HULL_ICONS_DIR + "starPort", null);
     myBeltTex = texMan.getTex("mapObjs/asteroids", null);
     myBeaconAttackTex = texMan.getTex("mapObjs/beaconAttack", null);
@@ -168,9 +172,9 @@ public class MapDrawer {
     float a = SolMath.clamp(perc * transpMul);
     myAreaWarnBgCol.a = a;
     myAreaWarnCol.a = a;
-    drawer.draw(myIconBg, rad *2, rad *2, rad, rad, pos.x, pos.y, 0, myAreaWarnBgCol);
+    drawer.draw(myWarnAreaBg, rad *2, rad *2, rad, rad, pos.x, pos.y, 0, myAreaWarnBgCol);
     rad *= INNER_ICON_PERC;
-    drawer.draw(mySkullTex, rad *2, rad *2, rad, rad, pos.x, pos.y, 0, myAreaWarnCol);
+    drawer.draw(mySkullBigTex, rad *2, rad *2, rad, rad, pos.x, pos.y, 0, myAreaWarnCol);
   }
 
   private void drawIcons(Drawer drawer, SolGame game, float iconSz, float viewDist, FractionMan fractionMan,
