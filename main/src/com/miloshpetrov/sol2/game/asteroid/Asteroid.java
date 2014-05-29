@@ -31,6 +31,7 @@ public class Asteroid implements SolObj {
   private final RemoveController myRemoveController;
   private final ParticleSrc mySmokeSrc;
   private final ParticleSrc myFireSrc;
+  private final float myMass;
 
   private float myAngle;
   private float myLife;
@@ -46,6 +47,7 @@ public class Asteroid implements SolObj {
     myLife = SZ_TO_LIFE * mySize;
     myPos = new Vector2();
     mySpd = new Vector2();
+    myMass = myBody.getMass();
     setParamsFromBody();
     List<ParticleSrc> effs = game.getSpecialEffects().buildBodyEffs(size/2, game, myPos, mySpd);
     mySmokeSrc = effs.get(0);
@@ -88,7 +90,7 @@ public class Asteroid implements SolObj {
     if (other instanceof TileObj && MIN_BURN_SZ < mySize) {
       dmg = myLife;
     } else {
-      dmg = absImpulse / myBody.getMass();
+      dmg = absImpulse / myMass;
     }
     receiveDmg(dmg, game, collPos, DmgType.CRASH);
   }
@@ -181,7 +183,7 @@ public class Asteroid implements SolObj {
 
   @Override
   public void receiveForce(Vector2 force, SolGame game, boolean acc) {
-    if (acc) force.scl(myBody.getMass());
+    if (acc) force.scl(myMass);
     myBody.applyForceToCenter(force, true);
   }
 

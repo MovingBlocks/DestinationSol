@@ -11,6 +11,7 @@ public class BallProjectileBody implements ProjectileBody {
   private final Vector2 myPos;
   private final Vector2 mySpd;
   private final float myAcc;
+  private final float myMass;
 
   private float myAngle;
 
@@ -28,6 +29,7 @@ public class BallProjectileBody implements ProjectileBody {
 
     myPos = new Vector2();
     myAcc = config.acc;
+    myMass = myBody.getMass();
     setParamsFromBody();
   }
 
@@ -41,7 +43,7 @@ public class BallProjectileBody implements ProjectileBody {
   public void update(SolGame game) {
     setParamsFromBody();
     if (myAcc > 0 && SolMath.canAccelerate(myAngle, mySpd)) {
-      Vector2 force = SolMath.fromAl(myAngle, myAcc * myBody.getMass());
+      Vector2 force = SolMath.fromAl(myAngle, myAcc * myMass);
       myBody.applyForceToCenter(force, true);
       SolMath.free(force);
     }
@@ -59,7 +61,7 @@ public class BallProjectileBody implements ProjectileBody {
 
   @Override
   public void receiveForce(Vector2 force, SolGame game, boolean acc) {
-    if (acc) force.scl(myBody.getMass());
+    if (acc) force.scl(myMass);
     myBody.applyForceToCenter(force, true);
   }
 

@@ -26,6 +26,7 @@ public class Loot implements SolObj {
   private final LightSrc myLightSrc;
   private final Vector2 myPos;
   private final Body myBody;
+  private final float myMass;
 
   private SolShip myOwner;
   private float myOwnerAwait;
@@ -41,6 +42,7 @@ public class Loot implements SolObj {
     myOwner = owner;
     myOwnerAwait = MAX_OWNER_AWAIT;
     myPos = new Vector2();
+    myMass = myBody.getMass();
     setParamsFromBody();
   }
 
@@ -97,7 +99,7 @@ public class Loot implements SolObj {
 
   @Override
   public void receiveForce(Vector2 force, SolGame game, boolean acc) {
-    if (acc) force.scl(myBody.getMass());
+    if (acc) force.scl(myMass);
     myBody.applyForceToCenter(force, true);
   }
 
@@ -130,7 +132,7 @@ public class Loot implements SolObj {
   public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
     SolGame game, Vector2 collPos)
   {
-    float dmg = absImpulse / myBody.getMass() / DURABILITY;
+    float dmg = absImpulse / myMass / DURABILITY;
     receiveDmg((int) dmg, game, collPos, DmgType.CRASH);
   }
 

@@ -96,7 +96,7 @@ public class SolShip implements SolObj {
     }
     if (myHull.config.type != HullConfig.Type.STATION) {
       Fixture f = null; // restore?
-      float dmg = absImpulse / myHull.getBody().getMass() / myHull.config.durability;
+      float dmg = absImpulse / myHull.getMass() / myHull.config.durability;
       if (f == myHull.getBase()) dmg *= BASE_DUR_MOD;
       receiveDmg((int) dmg, game, collPos, DmgType.CRASH);
     }
@@ -363,7 +363,7 @@ public class SolShip implements SolObj {
   @Override
   public void receiveForce(Vector2 force, SolGame game, boolean acc) {
     Body body = myHull.getBody();
-    if (acc) force.scl(body.getMass());
+    if (acc) force.scl(myHull.getMass());
     body.applyForceToCenter(force, true);
   }
 

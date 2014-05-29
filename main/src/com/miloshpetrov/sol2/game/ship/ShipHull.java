@@ -30,6 +30,7 @@ public class ShipHull {
   private final Vector2 mySpd;
   private final ArrayList<ForceBeacon> myBeacons;
   private final PlanetBind myPlanetBind;
+  private final float myMass;
 
   public float life;
   private final ArrayList<Door> myDoors;
@@ -55,6 +56,7 @@ public class ShipHull {
     mySpd = new Vector2();
     myBeacons = forceBeacons;
 
+    myMass = myBody.getMass();
     setParamsFromBody();
 
     myPlanetBind = config.type == HullConfig.Type.STATION ? PlanetBind.tryBind(game, myPos, myAngle) : null;
@@ -85,7 +87,7 @@ public class ShipHull {
 
     if (myEngine != null) {
       if (true || container.contains(myEngine.getItem())) {
-        myEngine.update(myAngle, game, provider, myBody, mySpd, ship, controlsEnabled);
+        myEngine.update(myAngle, game, provider, myBody, mySpd, ship, controlsEnabled, myMass);
       } else {
         setEngine(game, ship, null);
       }
@@ -169,5 +171,9 @@ public class ShipHull {
 
   public Fixture getShieldFixture() {
     return myShieldFixture;
+  }
+
+  public float getMass() {
+    return myMass;
   }
 }

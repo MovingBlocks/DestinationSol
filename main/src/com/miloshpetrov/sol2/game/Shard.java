@@ -15,12 +15,15 @@ public class Shard implements SolObj {
   private final Body myBody;
   private final Vector2 myPos;
   private final ArrayList<Dra> myDras;
+  private final float myMass;
+
   private float myAngle;
 
   public Shard(Body body, ArrayList<Dra> dras) {
     myDras = dras;
     myBody = body;
     myPos = new Vector2();
+    myMass = myBody.getMass();
     setParamsFromBody();
   }
 
@@ -101,7 +104,7 @@ public class Shard implements SolObj {
 
   @Override
   public void receiveForce(Vector2 force, SolGame game, boolean acc) {
-    if (acc) force.scl(myBody.getMass());
+    if (acc) force.scl(myMass);
     myBody.applyForceToCenter(force, true);
   }
 
