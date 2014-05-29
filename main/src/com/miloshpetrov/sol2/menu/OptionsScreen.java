@@ -58,8 +58,17 @@ public class OptionsScreen implements SolUiScreen {
   }
 
   @Override
-  public void drawPre(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawBg(UiDrawer uiDrawer, SolCmp cmp) {
 
+  }
+
+  @Override
+  public void drawImgs(UiDrawer uiDrawer, SolCmp cmp) {
+
+  }
+
+  @Override
+  public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
   }
 
   @Override
@@ -70,10 +79,6 @@ public class OptionsScreen implements SolUiScreen {
   @Override
   public void onAdd(SolCmp cmp) {
 
-  }
-
-  @Override
-  public void drawPost(UiDrawer uiDrawer, SolCmp cmp) {
   }
 
   @Override

@@ -46,6 +46,10 @@ public class CollisionWarnDrawer {
   public void draw(UiDrawer drawer) {
     if (!myShowWarn) return;
     drawer.draw(myWarn, Col.UI_WARN);
+  }
+
+  public void drawText(UiDrawer drawer) {
+    if (!myShowWarn) return;
     drawer.drawString("Object Near", myWarn.x + myWarn.width/2, myWarn.y + myWarn.height/2, FontSize.MENU, true, Col.W);
   }
 

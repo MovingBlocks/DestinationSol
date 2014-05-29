@@ -222,19 +222,22 @@ public class SolInputMan {
   public void draw(UiDrawer uiDrawer, SolCmp cmp) {
     for (int i = myScreens.size() - 1; i >= 0; i--) {
       SolUiScreen screen = myScreens.get(i);
-      screen.drawPre(uiDrawer, cmp);
 
+      uiDrawer.setTextMode(false);
+      screen.drawBg(uiDrawer, cmp);
       List<SolUiControl> ctrls = screen.getControls();
       for (SolUiControl ctrl : ctrls) {
         ctrl.drawButton(uiDrawer, cmp, myWarnCol);
       }
+      screen.drawImgs(uiDrawer, cmp);
 
-      screen.drawPost(uiDrawer, cmp);
-
+      uiDrawer.setTextMode(true);
+      screen.drawText(uiDrawer, cmp);
       for (SolUiControl ctrl : ctrls) {
         ctrl.drawDisplayName(uiDrawer);
       }
     }
+    uiDrawer.setTextMode(null);
 
     myTutMan.draw(uiDrawer, cmp);
 

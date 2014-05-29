@@ -90,11 +90,6 @@ public class HireShips implements InventoryOperations {
   }
 
   @Override
-  public void drawPre(UiDrawer uiDrawer, SolCmp cmp) {
-
-  }
-
-  @Override
   public boolean isCursorOnBg(SolInputMan.Ptr ptr) {
     return false;
   }
@@ -105,12 +100,22 @@ public class HireShips implements InventoryOperations {
   }
 
   @Override
-  public void drawPost(UiDrawer uiDrawer, SolCmp cmp) {
+  public void blurCustom(SolCmp cmp) {
 
   }
 
   @Override
-  public void blurCustom(SolCmp cmp) {
+  public void drawBg(UiDrawer uiDrawer, SolCmp cmp) {
+
+  }
+
+  @Override
+  public void drawImgs(UiDrawer uiDrawer, SolCmp cmp) {
+    cmp.getGame();
+  }
+
+  @Override
+  public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
 
   }
 }
