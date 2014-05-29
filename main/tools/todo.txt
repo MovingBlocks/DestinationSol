@@ -1,5 +1,18 @@
 
 
+analyze snapshot:
+  cache frequently used values:
+    object's distance to np, to cam?
+    item container
+  far ship positions should be calculated on demand?
+  optimize getVec? but don't remove, cuz freeing helps fix bugs
+  compare dstSq instead of dst -- maybe not needed, iterating through object is only quadratic
+
+
+ANDROID RUN 2:
+  stress test on every object preloaded
+
+
 DATA:
   balancing
   hull lights
@@ -39,23 +52,10 @@ DRAWING:
   new title
 
 
-PERF:
-  cache frequently used values:
-    some other calculated stuff
-    object's distance to np, to cam?
-  far ship positions should be calculated on demand?
-
-
-ANDROID RUN 2:
-  stress test on every object preloaded
-
-
-PERF OPTIONAL:
-  optimize getVec? but don't remove, cuz freeing helps fix bugs
-  compare dstSq instead of dst -- maybe not needed, iterating through object is only quadratic
-
+add sounds
 polishing
 hardness? armor bonus + brakes
+
 
 ===================== REST =======================================================================
 

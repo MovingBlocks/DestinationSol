@@ -69,11 +69,12 @@ public class Guardian implements MoveDestProvider {
   }
 
   public void updateTarget(SolGame game) {
-    List<SolObj> objs = game.getObjMan().getObjs();
+    ObjMan om = game.getObjMan();
+    List<SolObj> objs = om.getObjs();
     if (myTarget != null && objs.contains(myTarget)) return;
     myTarget = null;
-    List<FarObj> farObjs = game.getObjMan().getFarObjs();
-    if (myFarTarget != null && farObjs.contains(myFarTarget)) return;
+    List<FarObjData> farObjs = om.getFarObjs();
+    if (myFarTarget != null && om.containsFarObj(myFarTarget)) return;
     myFarTarget = null;
 
     for (SolObj o : objs) {
@@ -83,7 +84,8 @@ public class Guardian implements MoveDestProvider {
       myTarget = other;
       return;
     }
-    for (FarObj o : farObjs) {
+    for (FarObjData fod : farObjs) {
+      FarObj o = fod.fo;
       if (!(o instanceof FarShip)) continue;
       FarShip other = (FarShip) o;
       if (other.getPilot() != myTargetPilot) continue;

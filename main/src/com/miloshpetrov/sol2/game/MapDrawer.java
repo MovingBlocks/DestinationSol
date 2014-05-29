@@ -199,7 +199,8 @@ public class MapDrawer {
       }
     }
 
-    for (FarObj o : game.getObjMan().getFarObjs()) {
+    for (FarObjData fod : game.getObjMan().getFarObjs()) {
+      FarObj o = fod.fo;
       Vector2 oPos = o.getPos();
       if (viewDist < camPos.dst(oPos)) continue;
       if ((o instanceof FarShip)) {
@@ -242,7 +243,8 @@ public class MapDrawer {
       drawStarNode(drawer, sp.getFrom(), sp.getTo(), starNodeW);
     }
 
-    for (FarObj o : game.getObjMan().getFarObjs()) {
+    for (FarObjData fod : game.getObjMan().getFarObjs()) {
+      FarObj o = fod.fo;
       if (!(o instanceof StarPort.MyFar)) continue;
       Vector2 oPos = o.getPos();
       if (viewDist < camPos.dst(oPos)) continue;
@@ -271,7 +273,8 @@ public class MapDrawer {
       drawPlanetTile(to.getTile(), sz, drawer, myWhiteTex, oPos, to.getAngle());
     }
 
-    for (FarObj o : objMan.getFarObjs()) {
+    for (FarObjData fod : objMan.getFarObjs()) {
+      FarObj o = fod.fo;
       if (!(o instanceof FarTileObj)) continue;
       FarTileObj to = (FarTileObj) o;
       if (to.getPlanet() != np) continue;

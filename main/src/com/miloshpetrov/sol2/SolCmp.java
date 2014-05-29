@@ -95,12 +95,12 @@ public class SolCmp {
     if (myGame != null) {
       myGame.drawDebugUi(myUiDrawer);
     }
-    DebugCollector.draw(myUiDrawer);
     if (myFatalErrorMsg != null) {
       myUiDrawer.draw(myUiDrawer.whiteTex, myUiDrawer.r, .5f, 0, 0, 0, .25f, 0, Col.B75);
       myUiDrawer.drawString(myFatalErrorMsg, myUiDrawer.r / 2, .5f, FontSize.MENU, true, Col.W);
       myUiDrawer.drawString(myFatalErrorTrace, .2f * myUiDrawer.r, .6f, FontSize.DEBUG, false, Col.W);
     }
+    DebugCollector.draw(myUiDrawer);
     myCommonDrawer.end();
   }
 

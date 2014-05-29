@@ -320,7 +320,8 @@ public class SolGame {
         return false;
       }
     }
-    for (FarObj o : myObjMan.getFarObjs()) {
+    for (FarObjData fod : myObjMan.getFarObjs()) {
+      FarObj o = fod.fo;
       if (!o.hasBody()) continue;
       if (pos.dst(o.getPos()) < o.getRadius()) {
         return false;

@@ -94,11 +94,12 @@ public class BeaconHandler {
     if (myTargetPilot == null) return;
     ObjMan om = game.getObjMan();
     List<SolObj> objs = om.getObjs();
-    List<FarObj> farObjs = om.getFarObjs();
+    List<FarObjData> farObjs = om.getFarObjs();
     if (myTarget != null) {
       if (objs.contains(myTarget)) return;
       myTarget = null;
-      for (FarObj fo : farObjs) {
+      for (FarObjData fod : farObjs) {
+        FarObj fo = fod.fo;
         if (!(fo instanceof FarShip)) continue;
         FarShip ship = (FarShip) fo;
         if (ship.getPilot() != myTargetPilot) continue;
@@ -109,7 +110,7 @@ public class BeaconHandler {
       return;
     }
     if (myFarTarget == null) throw new AssertionError();
-    if (farObjs.contains(myFarTarget)) return;
+    if (om.containsFarObj(myFarTarget)) return;
     myFarTarget = null;
     for (SolObj o : objs) {
       if ((o instanceof SolShip)) {
@@ -125,12 +126,13 @@ public class BeaconHandler {
   private void updateD(SolGame game) {
     ObjMan om = game.getObjMan();
     List<SolObj> objs = om.getObjs();
-    List<FarObj> farObjs = om.getFarObjs();
+    List<FarObjData> farObjs = om.getFarObjs();
 
     if (myD != null) {
       if (objs.contains(myD)) return;
       myD = null;
-      for (FarObj fo : farObjs) {
+      for (FarObjData fod : farObjs) {
+        FarObj fo = fod.fo;
         if (!(fo instanceof FarDras)) continue;
         List<Dra> dras = ((FarDras) fo).getDras();
         if (dras.size() != 3) continue;
@@ -142,7 +144,7 @@ public class BeaconHandler {
       throw new AssertionError();
     }
     if (myFarD == null) throw new AssertionError();
-    if (farObjs.contains(myFarD)) return;
+    if (om.containsFarObj(myFarD)) return;
     myFarD = null;
     for (SolObj o : objs) {
       if ((o instanceof DrasObj)) {
@@ -221,7 +223,8 @@ public class BeaconHandler {
         return pilot;
       }
     }
-    for (FarObj fo : om.getFarObjs()) {
+    for (FarObjData fod : om.getFarObjs()) {
+      FarObj fo = fod.fo;
       if (!(fo instanceof FarShip)) continue;
       FarShip s = (FarShip) fo;
       Pilot pilot = s.getPilot();
