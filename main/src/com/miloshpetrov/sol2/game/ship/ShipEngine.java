@@ -50,9 +50,9 @@ public class ShipEngine {
   }
 
   public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 spd, SolObj owner,
-    boolean controlsEnabled)
+    boolean controlsEnabled, float mass)
   {
-    boolean working = applyInput(game, angle, provider, body, spd, controlsEnabled);
+    boolean working = applyInput(game, angle, provider, body, spd, controlsEnabled, mass);
 
     myFlameSrc1.setWorking(working);
     myFlameSrc2.setWorking(working);
@@ -66,14 +66,14 @@ public class ShipEngine {
   }
 
   private boolean applyInput(SolGame cmp, float shipAngle, Pilot provider, Body body, Vector2 spd,
-    boolean controlsEnabled)
+    boolean controlsEnabled, float mass)
   {
     boolean spdOk = SolMath.canAccelerate(shipAngle, spd);
     boolean working = controlsEnabled && provider.isUp() && spdOk;
 
     EngineItem e = myItem;
     if (working) {
-      Vector2 v = SolMath.fromAl(shipAngle, body.getMass() * e.getAac());
+      Vector2 v = SolMath.fromAl(shipAngle, mass * e.getAac());
       body.applyForceToCenter(v, true);
       SolMath.free(v);
     }

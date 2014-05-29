@@ -41,7 +41,6 @@ DRAWING:
 
 PERF:
   cache frequently used values:
-    body masses
     cam.realLineWidth?
     some other calculated stuff
     object's distance to np, to cam?
