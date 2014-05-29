@@ -45,6 +45,11 @@ public class MainScreen implements SolUiScreen {
   public final SolUiControl talkCtrl;
   private final SolUiControl myPauseCtrl;
   private final Color myCompassTint;
+  private final TextPlace myRepairsText;
+  private final TextPlace myG1AmmoText;
+  private final TextPlace myG2AmmoText;
+  private final TextPlace myChargesText;
+  private final TextPlace myMoneyText;
 
 
   public MainScreen(float r, RightPaneLayout rightPaneLayout, SolCmp cmp) {
@@ -85,6 +90,11 @@ public class MainScreen implements SolUiScreen {
     myWaitTex = texMan.getTex(TexMan.ICONS_DIR + "wait", null);
     myCompassTex = texMan.getTex("ui/compass", null);
     myCompassTint = Col.col(1, 0);
+    myRepairsText = new TextPlace();
+    myG1AmmoText = new TextPlace();
+    myG2AmmoText = new TextPlace();
+    myChargesText = new TextPlace();
+    myMoneyText = new TextPlace();
   }
 
   public void maybeDrawHeight(UiDrawer drawer, SolCmp cmp) {
@@ -199,13 +209,81 @@ public class MainScreen implements SolUiScreen {
     }
   }
 
+  private boolean drawGunStat(UiDrawer uiDrawer, TexMan texMan, SolShip hero, boolean secondary, float col0, float col1,
+    float col2, float y)
+  {
+    GunItem g = hero.getHull().getGun(secondary);
+    if (g == null) return false;
+    TextureAtlas.AtlasRegion tex = g.config.icon;
+
+    uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, col0, y, 0, Col.W);
+    if (g.reloadAwait <= 0) {
+      int maxAmmo = g.config.clipConf.size;
+      float ammoPerc = g.ammo * 1f / maxAmmo;
+      drawBar(uiDrawer, texMan, col1, y, ammoPerc);
+    } else {
+      drawWait(uiDrawer, col1, y);
+    }
+    if (!g.config.clipConf.infinite) {
+      int clipCount = hero.getItemContainer().count(g.config.clipConf.example);
+      drawIcons(uiDrawer, col2, y, clipCount, g.config.clipConf.icon, secondary ? myG2AmmoText : myG1AmmoText);
+    } else {
+      uiDrawer.draw(myInfinityTex, ICON_SZ, ICON_SZ, 0, 0, col2, y, 0, Col.W);
+    }
+    return true;
+  }
+
+  private void drawWait(UiDrawer uiDrawer, float x, float y) {
+    uiDrawer.draw(myWaitTex, ICON_SZ, ICON_SZ, ICON_SZ/2, ICON_SZ/2, x + BAR_SZ/2, y + ICON_SZ/2, 0, Col.W);
+  }
+
+  private void drawBar(UiDrawer uiDrawer, TexMan texMan, float x, float y, float perc) {
+    uiDrawer.draw(uiDrawer.whiteTex, BAR_SZ, ICON_SZ, 0, 0, x, y, 0, Col.UI_DARK);
+    uiDrawer.draw(uiDrawer.whiteTex, BAR_SZ * perc, ICON_SZ, 0, 0, x, y, 0, Col.UI_LIGHT);
+  }
+
+  private void drawIcons(UiDrawer uiDrawer, float x, float y, int count, TextureAtlas.AtlasRegion tex,
+    TextPlace textPlace) {
+    int excess = count - MAX_ICON_COUNT;
+    int iconCount = excess > 0 ? MAX_ICON_COUNT : count;
+    for (int i = 0; i < iconCount; i++) {
+      uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, x, y, 0, Col.W);
+      x += ICON_SZ + H_PAD;
+    }
+    if (excess > 0) {
+      updateTextPlace(x, y, "+" + excess, textPlace);
+    }
+  }
+
+  private void updateTextPlace(float x, float y, String text, TextPlace textPlace) {
+    textPlace.text = text;
+    textPlace.pos.set(x, y + .25f * ICON_SZ);
+  }
+
   @Override
-  public void drawPre(UiDrawer uiDrawer, SolCmp cmp) {
+  public boolean isCursorOnBg(SolInputMan.Ptr ptr) {
+    return false;
+  }
+
+  @Override
+  public void onAdd(SolCmp cmp) {
+
+  }
+
+  @Override
+  public void drawBg(UiDrawer uiDrawer, SolCmp cmp) {
+  }
+
+  @Override
+  public void drawImgs(UiDrawer uiDrawer, SolCmp cmp) {
+    myRepairsText.text = null;
+    myG1AmmoText.text = null;
+    myG2AmmoText.text = null;
+    myChargesText.text = null;
+    myMoneyText.text = null;
+
     maybeDrawHeight(uiDrawer, cmp);
     myBorderDrawer.draw(uiDrawer, cmp);
-    myCollisionWarnDrawer.draw(uiDrawer);
-    mySunWarnDrawer.draw(uiDrawer);
-    myZoneNameAnnouncer.draw(uiDrawer);
 
     SolGame game = cmp.getGame();
     SolShip hero = game.getHero();
@@ -230,7 +308,7 @@ public class MainScreen implements SolUiScreen {
       drawBar(uiDrawer, texMan, col1, row, lifePerc);
       int repairKitCount = hero.getItemContainer().count(game.getItemMan().getRepairExample());
       ItemMan itemMan = game.getItemMan();
-      drawIcons(uiDrawer, col2, row, repairKitCount, itemMan.repairIcon);
+      drawIcons(uiDrawer, col2, row, repairKitCount, itemMan.repairIcon, myRepairsText);
 
       row += ICON_SZ + V_PAD;
       boolean consumed = drawGunStat(uiDrawer, texMan, hero, false, col0, col1, col2, row);
@@ -246,75 +324,28 @@ public class MainScreen implements SolUiScreen {
         uiDrawer.draw(icon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
         float chargePerc = 1 - SolMath.clamp(hero.getAbilityAwait() / ability.getConfig().getRechargeTime());
         drawBar(uiDrawer, texMan, col1, row, chargePerc);
-        drawIcons(uiDrawer, col2, row, abilityChargeCount, icon);
+        drawIcons(uiDrawer, col2, row, abilityChargeCount, icon, myChargesText);
         row += ICON_SZ + V_PAD;
       }
       uiDrawer.draw(game.getItemMan().moneyIcon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
-      drawRowText(uiDrawer, col1, row, (int) hero.getMoney() + "");
+      updateTextPlace(col1, row, (int) hero.getMoney() + "", myMoneyText);
     }
-  }
 
-  private boolean drawGunStat(UiDrawer uiDrawer, TexMan texMan, SolShip hero, boolean secondary, float col0, float col1,
-    float col2, float y)
-  {
-    GunItem g = hero.getHull().getGun(secondary);
-    if (g == null) return false;
-    TextureAtlas.AtlasRegion tex = g.config.icon;
-
-    uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, col0, y, 0, Col.W);
-    if (g.reloadAwait <= 0) {
-      int maxAmmo = g.config.clipConf.size;
-      float ammoPerc = g.ammo * 1f / maxAmmo;
-      drawBar(uiDrawer, texMan, col1, y, ammoPerc);
-    } else {
-      drawWait(uiDrawer, col1, y);
-    }
-    if (!g.config.clipConf.infinite) {
-      int clipCount = hero.getItemContainer().count(g.config.clipConf.example);
-      drawIcons(uiDrawer, col2, y, clipCount, g.config.clipConf.icon);
-    } else {
-      uiDrawer.draw(myInfinityTex, ICON_SZ, ICON_SZ, 0, 0, col2, y, 0, Col.W);
-    }
-    return true;
-  }
-
-  private void drawWait(UiDrawer uiDrawer, float x, float y) {
-    uiDrawer.draw(myWaitTex, ICON_SZ, ICON_SZ, ICON_SZ/2, ICON_SZ/2, x + BAR_SZ/2, y + ICON_SZ/2, 0, Col.W);
-  }
-
-  private void drawBar(UiDrawer uiDrawer, TexMan texMan, float x, float y, float perc) {
-    uiDrawer.draw(uiDrawer.whiteTex, BAR_SZ, ICON_SZ, 0, 0, x, y, 0, Col.UI_DARK);
-    uiDrawer.draw(uiDrawer.whiteTex, BAR_SZ * perc, ICON_SZ, 0, 0, x, y, 0, Col.UI_LIGHT);
-  }
-
-  private void drawIcons(UiDrawer uiDrawer, float x, float y, int count, TextureAtlas.AtlasRegion tex) {
-    int excess = count - MAX_ICON_COUNT;
-    int iconCount = excess > 0 ? MAX_ICON_COUNT : count;
-    for (int i = 0; i < iconCount; i++) {
-      uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, x, y, 0, Col.W);
-      x += ICON_SZ + H_PAD;
-    }
-    if (excess > 0) {
-      drawRowText(uiDrawer, x, y, "+" + excess);
-    }
-  }
-
-  private void drawRowText(UiDrawer uiDrawer, float x, float y, String text) {
-    uiDrawer.drawString(text, x, y + .25f * ICON_SZ, FontSize.HUD, false, Col.W); // hack!
+    myCollisionWarnDrawer.draw(uiDrawer);
+    mySunWarnDrawer.draw(uiDrawer);
   }
 
   @Override
-  public boolean isCursorOnBg(SolInputMan.Ptr ptr) {
-    return false;
-  }
+  public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
+    myRepairsText.draw(uiDrawer);
+    myG1AmmoText.draw(uiDrawer);
+    myG2AmmoText.draw(uiDrawer);
+    myChargesText.draw(uiDrawer);
+    myMoneyText.draw(uiDrawer);
 
-  @Override
-  public void onAdd(SolCmp cmp) {
-
-  }
-
-  @Override
-  public void drawPost(UiDrawer uiDrawer, SolCmp cmp) {
+    myCollisionWarnDrawer.drawText(uiDrawer);
+    mySunWarnDrawer.drawText(uiDrawer);
+    myZoneNameAnnouncer.drawText(uiDrawer);
   }
 
   @Override
@@ -350,4 +381,12 @@ public class MainScreen implements SolUiScreen {
     return shipControl.isAbility();
   }
 
+  public static class TextPlace {
+    public String text;
+    public Vector2 pos = new Vector2();
+
+    public void draw(UiDrawer uiDrawer) {
+      uiDrawer.drawString(text, pos.x, pos.y + .25f * ICON_SZ, FontSize.HUD, false, Col.W); // hack!
+    }
+  }
 }

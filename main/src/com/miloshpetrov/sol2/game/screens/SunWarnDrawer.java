@@ -30,6 +30,10 @@ public class SunWarnDrawer {
   public void draw(UiDrawer uiDrawer) {
     if (!myShowWarn) return;
     uiDrawer.draw(myWarn, Col.UI_WARN);
+  }
+
+  public void drawText(UiDrawer uiDrawer) {
+    if (!myShowWarn) return;
     uiDrawer.drawString("Sun Near", myWarn.x + myWarn.width/2, myWarn.y + myWarn.height/2, FontSize.MENU, true, Col.W);
   }
 }

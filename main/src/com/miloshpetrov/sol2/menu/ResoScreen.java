@@ -1,6 +1,6 @@
 package com.miloshpetrov.sol2.menu;
 
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Input;
 import com.miloshpetrov.sol2.SolCmp;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.ui.*;
@@ -56,7 +56,16 @@ public class ResoScreen implements SolUiScreen {
   }
 
   @Override
-  public void drawPre(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawBg(UiDrawer uiDrawer, SolCmp cmp) {
+  }
+
+  @Override
+  public void drawImgs(UiDrawer uiDrawer, SolCmp cmp) {
+
+  }
+
+  @Override
+  public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
     uiDrawer.drawString("Please restart to apply changes", .5f * uiDrawer.r, .3f, FontSize.MENU, true, Col.W);
   }
 
@@ -67,11 +76,6 @@ public class ResoScreen implements SolUiScreen {
 
   @Override
   public void onAdd(SolCmp cmp) {
-  }
-
-  @Override
-  public void drawPost(UiDrawer uiDrawer, SolCmp cmp) {
-
   }
 
   @Override

@@ -62,12 +62,6 @@ public class MainScreen implements SolUiScreen {
   }
 
   @Override
-  public void drawPre(UiDrawer uiDrawer, SolCmp cmp) {
-    float sz = .55f;
-    uiDrawer.draw(myTitleTex, sz, sz, sz/2, sz/2, uiDrawer.r/2, sz/2, 0, Col.W);
-  }
-
-  @Override
   public boolean isCursorOnBg(SolInputMan.Ptr ptr) {
     return false;
   }
@@ -78,7 +72,17 @@ public class MainScreen implements SolUiScreen {
   }
 
   @Override
-  public void drawPost(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawBg(UiDrawer uiDrawer, SolCmp cmp) {
+  }
+
+  @Override
+  public void drawImgs(UiDrawer uiDrawer, SolCmp cmp) {
+    float sz = .55f;
+    uiDrawer.draw(myTitleTex, sz, sz, sz/2, sz/2, uiDrawer.r/2, sz/2, 0, Col.W);
+  }
+
+  @Override
+  public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
   }
 
   @Override

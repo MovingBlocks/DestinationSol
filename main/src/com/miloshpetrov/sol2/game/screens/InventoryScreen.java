@@ -4,7 +4,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.*;
+import com.miloshpetrov.sol2.Const;
+import com.miloshpetrov.sol2.SolCmp;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.item.ItemContainer;
@@ -173,11 +174,6 @@ public class InventoryScreen implements SolUiScreen {
   }
 
   @Override
-  public void drawPre(UiDrawer uiDrawer, SolCmp cmp) {
-    uiDrawer.draw(myArea, Col.B75);
-  }
-
-  @Override
   public boolean isCursorOnBg(SolInputMan.Ptr ptr) {
     return myArea.contains(ptr.x, ptr.y);
   }
@@ -189,19 +185,21 @@ public class InventoryScreen implements SolUiScreen {
   }
 
   @Override
-  public void drawPost(UiDrawer uiDrawer, SolCmp cmp) {
-    uiDrawer.drawString("Items:", myListHeaderPos.x, myListHeaderPos.y, FontSize.WINDOW, false, Col.W);
+  public void drawBg(UiDrawer uiDrawer, SolCmp cmp) {
+    uiDrawer.draw(myArea, Col.B75);
+  }
+
+  @Override
+  public void drawImgs(UiDrawer uiDrawer, SolCmp cmp) {
     SolGame game = cmp.getGame();
     ItemContainer ic = myOperations.getItems(game);
     if (ic == null) ic = EMPTY_CONTAINER;
-    float imgWidth = myListArea.width * IMG_COL_PERC;
-    float equiWidth = myListArea.width * EQUI_COL_PERC;
-    float rowH = myItemCtrls[0].getScreenArea().height;
-    float imgSz = imgWidth < rowH ? imgWidth : rowH;
-    float priceWidth = myListArea.width * PRICE_COL_PERC;
-    float amtWidth = myListArea.width * AMT_COL_PERC;
-    float nameWidth = myListArea.width - imgSz - equiWidth - priceWidth - amtWidth;
 
+    float imgColW = myListArea.width * IMG_COL_PERC;
+    float rowH = myItemCtrls[0].getScreenArea().height;
+    float imgSz = imgColW < rowH ? imgColW : rowH;
+
+    uiDrawer.draw(myDetailArea, Col.UI_INACTIVE);
     for (int i = 0; i < myItemCtrls.length; i++) {
       int groupIdx = myPage * Const.ITEMS_PER_PAGE + i;
       int groupCount = ic.groupCount();
@@ -212,10 +210,33 @@ public class InventoryScreen implements SolUiScreen {
       TextureAtlas.AtlasRegion tex = item.getIcon(game);
       Rectangle rect = itemCtrl.getScreenArea();
       float rowCenterY = rect.y + rect.height / 2;
-      uiDrawer.draw(uiDrawer.whiteTex, imgSz, imgSz, imgSz/2, imgSz/2, rect.x + imgWidth/2, rowCenterY, 0, item.getItemType().uiColor);
-      uiDrawer.draw(tex, imgSz, imgSz, imgSz/2, imgSz/2, rect.x + imgWidth/2, rowCenterY, 0, Col.W);
-      if (myOperations.isUsing(game, item)) uiDrawer.drawString("using", rect.x + imgWidth + equiWidth/2, rowCenterY, FontSize.HINT, true, Col.G);
-      uiDrawer.drawString(item.getDisplayName(), rect.x + equiWidth + imgWidth + nameWidth/2, rowCenterY, FontSize.WINDOW, true, mySelected == group ? Col.W : Col.G);
+      uiDrawer.draw(uiDrawer.whiteTex, imgSz, imgSz, imgSz/2, imgSz/2, rect.x + imgColW/2, rowCenterY, 0, item.getItemType().uiColor);
+      uiDrawer.draw(tex, imgSz, imgSz, imgSz/2, imgSz/2, rect.x + imgColW/2, rowCenterY, 0, Col.W);
+    }
+  }
+
+  @Override
+  public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
+    SolGame game = cmp.getGame();
+    ItemContainer ic = myOperations.getItems(game);
+    if (ic == null) ic = EMPTY_CONTAINER;
+
+    float imgColW = myListArea.width * IMG_COL_PERC;
+    float equiColW = myListArea.width * EQUI_COL_PERC;
+    float priceWidth = myListArea.width * PRICE_COL_PERC;
+    float amtWidth = myListArea.width * AMT_COL_PERC;
+    float nameWidth = myListArea.width - imgColW - equiColW - priceWidth - amtWidth;
+    for (int i = 0; i < myItemCtrls.length; i++) {
+      int groupIdx = myPage * Const.ITEMS_PER_PAGE + i;
+      int groupCount = ic.groupCount();
+      if (groupCount <= groupIdx) continue;
+      SolUiControl itemCtrl = myItemCtrls[i];
+      List<SolItem> group = ic.getGroup(groupIdx);
+      SolItem item = group.get(0);
+      Rectangle rect = itemCtrl.getScreenArea();
+      float rowCenterY = rect.y + rect.height / 2;
+      if (myOperations.isUsing(game, item)) uiDrawer.drawString("using", rect.x + imgColW + equiColW/2, rowCenterY, FontSize.HINT, true, Col.G);
+      uiDrawer.drawString(item.getDisplayName(), rect.x + equiColW + imgColW + nameWidth/2, rowCenterY, FontSize.WINDOW, true, mySelected == group ? Col.W : Col.G);
       int count = ic.getCount(groupIdx);
       if (count > 1) {
         uiDrawer.drawString("x" + count, rect.x + rect.width - amtWidth/2, rowCenterY, FontSize.WINDOW, true, Col.W);
@@ -227,7 +248,7 @@ public class InventoryScreen implements SolUiScreen {
       }
     }
 
-    uiDrawer.draw(myDetailArea, Col.UI_INACTIVE);
+    uiDrawer.drawString("Items:", myListHeaderPos.x, myListHeaderPos.y, FontSize.WINDOW, false, Col.W);
     uiDrawer.drawString("Selected Item:", myDetailHeaderPos.x, myDetailHeaderPos.y, FontSize.WINDOW, false, Col.W);
     if (mySelected != null) {
       SolItem selItem = mySelected.get(0);

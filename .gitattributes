@@ -727,7 +727,6 @@ main/src/com/miloshpetrov/sol2/ui/SolInputProcessor.java -text
 main/src/com/miloshpetrov/sol2/ui/SolLayouts.java -text
 main/src/com/miloshpetrov/sol2/ui/SolUiControl.java -text
 main/src/com/miloshpetrov/sol2/ui/SolUiScreen.java -text
-main/src/com/miloshpetrov/sol2/ui/TextPlace.java -text
 main/src/com/miloshpetrov/sol2/ui/TutMan.java -text
 main/src/com/miloshpetrov/sol2/ui/UiDrawer.java -text
 main/tools/betterHardness.txt -text

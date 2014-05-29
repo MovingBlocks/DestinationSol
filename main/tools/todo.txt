@@ -40,7 +40,6 @@ DRAWING:
 
 
 PERF:
-  try TextPlace
   cache frequently used values:
     body masses
     cam.realLineWidth?
