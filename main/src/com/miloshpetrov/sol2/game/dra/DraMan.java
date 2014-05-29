@@ -71,7 +71,6 @@ public class DraMan {
       return;
     }
 
-
     SolCam cam = game.getCam();
     myDrawer.updateMtx(game);
     game.getFarBgManOld().draw(myDrawer, cam, game);
@@ -132,6 +131,7 @@ public class DraMan {
     }
 
     game.getSoundMan().drawDebug(myDrawer, game);
+    myDrawer.maybeChangeAdditive(false);
   }
 
   private void drawDebug(GameDrawer drawer, SolGame game, Dra dra) {

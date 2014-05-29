@@ -120,9 +120,11 @@ public class RectSprite implements Dra {
       x = (x - camPos.x) / myLevel.depth + camPos.x;
       y = (y - camPos.y) / myLevel.depth + camPos.y;
     }
-    drawer.setAdditive(myAdditive);
-    drawer.draw(myTex, myTexSzX, myTexSzY, myOrigX, myOrigY, x, y, myAngle, tint);
-    drawer.setAdditive(false);
+    if (myAdditive) {
+      drawer.drawAdditive(myTex, myTexSzX, myTexSzY, myOrigX, myOrigY, x, y, myAngle, tint);
+    } else {
+      drawer.draw(myTex, myTexSzX, myTexSzY, myOrigX, myOrigY, x, y, myAngle, tint);
+    }
   }
 
   public boolean isEnabled() {

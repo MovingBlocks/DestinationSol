@@ -41,10 +41,8 @@ DRAWING:
 
 PERF:
   cache frequently used values:
-    cam.realLineWidth?
     some other calculated stuff
     object's distance to np, to cam?
-  skip emitter ops if they're not working
   far ship positions should be calculated on demand?
 
 

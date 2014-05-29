@@ -11,6 +11,7 @@ import com.miloshpetrov.sol2.game.maze.Maze;
 import com.miloshpetrov.sol2.game.maze.MazeBuilder;
 import com.miloshpetrov.sol2.game.planet.*;
 import com.miloshpetrov.sol2.game.ship.*;
+import com.miloshpetrov.sol2.ui.UiDrawer;
 
 import java.util.ArrayList;
 
@@ -190,7 +191,7 @@ public class MapDrawer {
         SolShip ship = (SolShip) o;
         String hint = ship.getPilot().getMapHint();
         if (hint == null && !DebugOptions.DETAILED_MAP) continue;
-        drawObjIcon(drawer, iconSz, oPos, ship.getAngle(), fractionMan, hero, ship.getPilot().getFraction(), heroDmgCap, o, ship.getHull().config.icon);
+        drawObjIcon(iconSz, oPos, ship.getAngle(), fractionMan, hero, ship.getPilot().getFraction(), heroDmgCap, o, ship.getHull().config.icon, drawer);
       }
       if ((o instanceof StarPort)) {
         StarPort sp = (StarPort) o;
@@ -205,7 +206,7 @@ public class MapDrawer {
         FarShip ship = (FarShip) o;
         String hint = ship.getPilot().getMapHint();
         if (hint == null && !DebugOptions.DETAILED_MAP) continue;
-        drawObjIcon(drawer, iconSz, oPos, ship.getAngle(), fractionMan, hero, ship.getPilot().getFraction(), heroDmgCap, o, ship.getHullConfig().icon);
+        drawObjIcon(iconSz, oPos, ship.getAngle(), fractionMan, hero, ship.getPilot().getFraction(), heroDmgCap, o, ship.getHullConfig().icon, drawer);
       }
       if ((o instanceof StarPort.MyFar)) {
         StarPort.MyFar sp = (StarPort.MyFar) o;
@@ -227,7 +228,7 @@ public class MapDrawer {
   public void drawStarPortIcon(GameDrawer drawer, float iconSz, Planet from, Planet to) {
     float angle = SolMath.angle(from.getPos(), to.getPos());
     Vector2 pos = StarPort.getDesiredPos(from, to, false);
-    drawObjIcon(drawer, iconSz, pos, angle, null, null, null, -1, null, myStarPortTex);
+    drawObjIcon(iconSz, pos, angle, null, null, null, -1, null, myStarPortTex, drawer);
     SolMath.free(pos);
   }
 
@@ -281,9 +282,9 @@ public class MapDrawer {
     }
   }
 
-  public void drawObjIcon(TexDrawer drawer, float iconSz, Vector2 pos, float objAngle,
+  public void drawObjIcon(float iconSz, Vector2 pos, float objAngle,
     FractionMan fractionMan, SolShip hero, Fraction objFrac, float heroDmgCap,
-    Object shipHack, TextureAtlas.AtlasRegion icon)
+    Object shipHack, TextureAtlas.AtlasRegion icon, Object drawerHack)
   {
     boolean enemy = hero != null && fractionMan.areEnemies(objFrac, hero.getPilot().getFraction());
     float angle = objAngle;
@@ -291,9 +292,17 @@ public class MapDrawer {
       icon = mySkullTex;
       angle = 0;
     }
-    drawer.draw(myIconBg, iconSz, iconSz, iconSz/2, iconSz/2, pos.x, pos.y, 0, enemy ? Col.UI_WARN : Col.UI_LIGHT);
-    iconSz *= INNER_ICON_PERC;
-    drawer.draw(icon, iconSz, iconSz, iconSz/2, iconSz/2, pos.x, pos.y, angle, Col.W);
+    float innerIconSz = iconSz * INNER_ICON_PERC;
+
+    if (drawerHack instanceof UiDrawer) {
+      UiDrawer uiDrawer = (UiDrawer) drawerHack;
+      uiDrawer.draw(myIconBg, iconSz, iconSz, iconSz/2, iconSz/2, pos.x, pos.y, 0, enemy ? Col.UI_WARN : Col.UI_LIGHT);
+      uiDrawer.draw(icon, innerIconSz, innerIconSz, innerIconSz/2, innerIconSz/2, pos.x, pos.y, angle, Col.W);
+    } else {
+      GameDrawer gameDrawer = (GameDrawer) drawerHack;
+      gameDrawer.draw(myIconBg, iconSz, iconSz, iconSz/2, iconSz/2, pos.x, pos.y, 0, enemy ? Col.UI_WARN : Col.UI_LIGHT);
+      gameDrawer.draw(icon, innerIconSz, innerIconSz, innerIconSz/2, innerIconSz/2, pos.x, pos.y, angle, Col.W);
+    }
   }
 
   public void setToggled(boolean toggled) {
