@@ -76,7 +76,8 @@ public class BorderDrawer {
       }
     }
 
-    for (FarObj o : g.getObjMan().getFarObjs()) {
+    for (FarObjData fod : g.getObjMan().getFarObjs()) {
+      FarObj o = fod.fo;
       if ((o instanceof FarShip)) {
         FarShip ship = (FarShip) o;
         Vector2 shipPos = ship.getPos();

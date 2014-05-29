@@ -537,6 +537,7 @@ main/src/com/miloshpetrov/sol2/game/DebugOptions.java -text
 main/src/com/miloshpetrov/sol2/game/Dir.java -text
 main/src/com/miloshpetrov/sol2/game/DmgType.java -text
 main/src/com/miloshpetrov/sol2/game/FarObj.java -text
+main/src/com/miloshpetrov/sol2/game/FarObjData.java -text
 main/src/com/miloshpetrov/sol2/game/Fraction.java -text
 main/src/com/miloshpetrov/sol2/game/FractionMan.java -text
 main/src/com/miloshpetrov/sol2/game/GalaxyFiller.java -text

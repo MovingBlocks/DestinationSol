@@ -15,8 +15,7 @@ public class ObjMan {
   private final List<SolObj> myObjs;
   private final Set<SolObj> myToRemove;
   private final Set<SolObj> myToAdd;
-  private final List<FarObj> myFarObjs;
-  private final Map<FarObj, FarObjData> myFarObjDelays;
+  private final List<FarObjData> myFarObjs;
   private final World myWorld;
   private final Box2DDebugRenderer myDr;
   private final HashMap<SolObj, Float> myRadii;
@@ -29,13 +28,19 @@ public class ObjMan {
     myObjs = new ArrayList<SolObj>();
     myToRemove = new HashSet<SolObj>();
     myToAdd = new HashSet<SolObj>();
-    myFarObjs = new ArrayList<FarObj>();
+    myFarObjs = new ArrayList<FarObjData>();
     myWorld = new World(new Vector2(0, 0), true);
     myWorld.setContactListener(contactListener);
     myWorld.setContactFilter(new SolContactFilter(fractionMan));
     myDr = new Box2DDebugRenderer();
-    myFarObjDelays = new HashMap<FarObj, FarObjData>();
     myRadii = new HashMap<SolObj, Float>();
+  }
+
+  public boolean containsFarObj(FarObj fo) {
+    for (FarObjData fod : myFarObjs) {
+      if (fod.fo == fo) return true;
+    }
+    return false;
   }
 
   public void fill(SolGame game, SaveData sd) {
@@ -89,20 +94,19 @@ public class ObjMan {
       if (recalcRad) recalcRadius(o);
     }
 
-    for (Iterator<FarObj> it = myFarObjs.iterator(); it.hasNext(); ) {
-      FarObj fo = it.next();
+    for (Iterator<FarObjData> it = myFarObjs.iterator(); it.hasNext(); ) {
+      FarObjData fod = it.next();
+      FarObj fo = fod.fo;
       fo.update(game);
       SolMath.checkVectorsTaken(fo);
       if (fo.shouldBeRemoved(game)) {
         it.remove();
-        myFarObjDelays.remove(fo);
         continue;
       }
-      if (isNear(fo, camPos, ts)) {
+      if (isNear(fod, camPos, ts)) {
         SolObj o = fo.toObj(game);
         myToAdd.add(o);
         it.remove();
-        myFarObjDelays.remove(fo);
       }
     }
     addRemove(game);
@@ -145,17 +149,13 @@ public class ObjMan {
     game.getDraMan().objAdded(o);
   }
 
-  private boolean isNear(FarObj fo, Vector2 camPos, float ts) {
-    FarObjData fod = myFarObjDelays.get(fo);
+  private boolean isNear(FarObjData fod, Vector2 camPos, float ts) {
     if (fod.delay > 0) {
       fod.delay -= ts;
       return false;
     }
-    float r = fo.getRadius();
-    if (fo instanceof FarDras) {
-      List<Dra> dras = ((FarDras)fo).getDras();
-      if (dras != null && dras.size() > 0) r *= dras.get(0).getLevel().depth;
-    }
+    FarObj fo = fod.fo;
+    float r = fo.getRadius() * fod.depth;
     float dst = fo.getPos().dst(camPos) - r;
     if (dst < myFarEndDist) return true;
     fod.delay = (dst - myFarEndDist) / (2 * Const.MAX_MOVE_SPD);
@@ -192,7 +192,8 @@ public class ObjMan {
       String ds = o.toDebugString();
       if (ds != null) drawer.drawString(ds, pos.x, pos.y, fontSize, true, Col.W);
     }
-    for (FarObj fo : myFarObjs) {
+    for (FarObjData fod : myFarObjs) {
+      FarObj fo = fod.fo;
       Vector2 pos = fo.getPos();
       String ds = fo.toDebugString();
       if (ds != null) drawer.drawString(ds, pos.x, pos.y, fontSize, true, Col.G);
@@ -207,7 +208,8 @@ public class ObjMan {
       drawer.drawCircle(drawer.debugWhiteTex, pos, r, DebugCol.OBJ, lineWidth);
       drawer.drawLine(drawer.debugWhiteTex, pos.x, pos.y, o.getAngle(), r, DebugCol.OBJ, lineWidth);
     }
-    for (FarObj fo : myFarObjs) {
+    for (FarObjData fod : myFarObjs) {
+      FarObj fo = fod.fo;
       drawer.drawCircle(drawer.debugWhiteTex, fo.getPos(), fo.getRadius(), DebugCol.OBJ_FAR, lineWidth);
     }
     drawer.drawCircle(drawer.debugWhiteTex, game.getCam().getPos(), myFarBeginDist, Col.W, lineWidth);
@@ -232,23 +234,24 @@ public class ObjMan {
   }
 
   public void resetDelays() {
-    for (FarObjData data : myFarObjDelays.values()) {
+    for (FarObjData data : myFarObjs) {
       data.delay = 0;
     }
 
   }
 
-  public List<FarObj> getFarObjs() {
+  public List<FarObjData> getFarObjs() {
     return myFarObjs;
   }
 
   public void addFarObjNow(FarObj fo) {
-    myFarObjs.add(fo);
-    myFarObjDelays.put(fo, new FarObjData());
-  }
-
-  public static class FarObjData {
-    public float delay;
+    float depth = 1f;
+    if (fo instanceof FarDras) {
+      List<Dra> dras = ((FarDras)fo).getDras();
+      if (dras != null && dras.size() > 0) depth = dras.get(0).getLevel().depth;
+    }
+    FarObjData fod = new FarObjData(fo, depth);
+    myFarObjs.add(fod);
   }
 
   public void dispose() {

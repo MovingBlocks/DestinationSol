@@ -20,7 +20,6 @@ public class DebugCollector {
   }
 
   public static void debug(Object ... objs) {
-    if (!DebugOptions.MISC_INFO) return;
     for (Object o : objs) {
       myDebugStrings.append(String.valueOf(o)).append(" ");
     }
