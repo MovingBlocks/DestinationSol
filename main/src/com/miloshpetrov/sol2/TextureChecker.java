@@ -32,7 +32,7 @@ public class TextureChecker {
 
   public void onEnd() {
     if (myAwait == 0) {
-      System.out.println("\n\n\n" + myCollected);
+//      System.out.println("\n\n\n" + myCollected);
       myCollected.clear();
       myCurr = null;
       myAwait = 120;

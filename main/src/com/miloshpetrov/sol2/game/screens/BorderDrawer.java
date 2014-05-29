@@ -117,7 +117,7 @@ public class BorderDrawer {
     myTmpVec.scl(mul);
     myTmpVec.add(drawer.r/2, .5f);
 
-    mapDrawer.drawObjIcon(drawer, sz, myTmpVec, objAngle - camAngle, fracMan, hero, objFrac, heroDmgCap, shipHack, icon);
+    mapDrawer.drawObjIcon(sz, myTmpVec, objAngle - camAngle, fracMan, hero, objFrac, heroDmgCap, shipHack, icon, drawer);
   }
 
   private void drawTishches(UiDrawer drawer, SolGame g, SolCam cam, Vector2 camPos) {

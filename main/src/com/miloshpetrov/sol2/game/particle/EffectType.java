@@ -9,11 +9,14 @@ import java.io.*;
 public class EffectType {
   private final ParticleEmitter myEmitter;
   public final boolean continuous;
+  public final boolean additive;
 
   public EffectType(String fileName) {
     myEmitter = loadEmitter(fileName);
     continuous = myEmitter.isContinuous();
     myEmitter.setContinuous(false);
+    additive = myEmitter.isAdditive();
+    myEmitter.setAdditive(false);
   }
 
   private static ParticleEmitter loadEmitter(final String fileName) {

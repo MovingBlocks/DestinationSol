@@ -517,7 +517,6 @@ main/src/com/miloshpetrov/sol2/DevTexProvider.java -text
 main/src/com/miloshpetrov/sol2/SolAppListener.java -text
 main/src/com/miloshpetrov/sol2/SolCmp.java -text
 main/src/com/miloshpetrov/sol2/SolFiles.java -text
-main/src/com/miloshpetrov/sol2/TexDrawer.java -text
 main/src/com/miloshpetrov/sol2/TexMan.java -text
 main/src/com/miloshpetrov/sol2/TexProvider.java -text
 main/src/com/miloshpetrov/sol2/TextureChecker.java -text
