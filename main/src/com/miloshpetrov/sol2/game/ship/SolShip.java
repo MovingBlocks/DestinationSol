@@ -334,7 +334,7 @@ public class SolShip implements SolObj {
       if (dmgType == DmgType.ENERGY) dmg *= ENERGY_DMG_FACTOR;
       dmg *= (1 - myArmor.getPerc());
     }
-    playDmgSound(game, pos, dmgType);
+    playHitSound(game, pos, dmgType);
 
     boolean wasAlive = myHull.life > 0;
     myHull.life -= dmg;
@@ -346,12 +346,12 @@ public class SolShip implements SolObj {
     if (dmgType == DmgType.FIRE) myFireAwait = MAX_FIRE_AWAIT;
   }
 
-  private void playDmgSound(SolGame game, Vector2 pos, DmgType dmgType) {
+  private void playHitSound(SolGame game, Vector2 pos, DmgType dmgType) {
     if (myArmor != null) {
-      SolSound sound = myArmor.getDmgSound(dmgType);
+      SolSound sound = myArmor.getHitSound(dmgType);
       game.getSoundMan().play(game, sound, pos, this);
     } else {
-      game.getSpecialSounds().playDmg(game, this, pos, dmgType);
+      game.getSpecialSounds().playHit(game, this, pos, dmgType);
     }
   }
 

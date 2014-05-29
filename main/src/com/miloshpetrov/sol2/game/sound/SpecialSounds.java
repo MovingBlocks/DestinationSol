@@ -42,10 +42,8 @@ public class SpecialSounds {
     rockEnergyHit = soundMan.getSound(node.getString("rockEnergyHit"), configFile);
     asteroidCrack = soundMan.getSound(node.getString("asteroidCrack"), configFile);
     shipExplosion = soundMan.getSound(node.getString("shipExplosion"), configFile);
-    burning = soundMan.getSound(node.getString("burning"), configFile);
-    burning.requireLooped();
-    forceBeaconWork = soundMan.getSound(node.getString("forceBeaconWork"), configFile);
-    forceBeaconWork.requireLooped();
+    burning = soundMan.getLoopedSound(node.getString("burning"), configFile);
+    forceBeaconWork = soundMan.getLoopedSound(node.getString("forceBeaconWork"), configFile);
     doorMove = soundMan.getSound(node.getString("doorMove"), configFile);
     abilityRecharged = soundMan.getSound(node.getString("abilityRecharged"), configFile);
     abilityRefused = soundMan.getSound(node.getString("abilityRefused"), configFile);
@@ -57,7 +55,7 @@ public class SpecialSounds {
     transcendentMove = soundMan.getLoopedSound(node.getString("transcendentMove"), configFile);
   }
 
-  public SolSound dmgSound(boolean forMetal, DmgType dmgType) {
+  public SolSound hitSound(boolean forMetal, DmgType dmgType) {
     if (dmgType == DmgType.ENERGY) {
       return forMetal ? metalEnergyHit : rockEnergyHit;
     }
@@ -67,11 +65,11 @@ public class SpecialSounds {
     return null;
   }
 
-  public void playDmg(SolGame game, SolObj o, Vector2 pos, DmgType dmgType) {
+  public void playHit(SolGame game, SolObj o, Vector2 pos, DmgType dmgType) {
     if (o == null) return;
     Boolean metal = o.isMetal();
     if (metal == null) return;
-    SolSound sound = dmgSound(metal, dmgType);
+    SolSound sound = hitSound(metal, dmgType);
     if (sound == null) return;
     game.getSoundMan().play(game, sound, pos, o);
   }

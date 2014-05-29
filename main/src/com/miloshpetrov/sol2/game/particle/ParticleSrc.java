@@ -68,7 +68,7 @@ public class ParticleSrc implements Dra {
     } else {
       myAreaSz = sz;
     }
-    myEmitter.setSprite(new Sprite(myConfig.tex.getTexture()));
+    myEmitter.setSprite(new Sprite(myConfig.tex));
     float[] tint = myEmitter.getTint().getColors();
     tint[0] = config.tint.r;
     tint[1] = config.tint.g;

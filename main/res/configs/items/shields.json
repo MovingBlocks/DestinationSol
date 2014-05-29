@@ -7,8 +7,8 @@
     icon: shield1,
     tex: "smallGameObjs/shield1",
 
-    absorbSound: "shields/big/absorb",
-    regenSound:  "shields/big/regen",
+    absorbSound: "shields/shield1/absorb",
+    regenSound:  "shields/shield1/regen",
   },
 
 
@@ -21,8 +21,9 @@
     icon: shield2,
     tex: "smallGameObjs/shield2",
 
-    absorbSound: "shields/big/absorb",
-    regenSound:  "shields/big/regen",
+    absorbSound: "shields/shield1/absorb",
+    absorbSoundPitch: 0.9,
+    regenSound:  "shields/shield1/regen",
   },
 
 
@@ -35,8 +36,9 @@
     icon: shield3,
     tex: "smallGameObjs/shield3",
 
-    absorbSound: "shields/big/absorb",
-    regenSound:  "shields/big/regen",
+    absorbSound: "shields/shield1/absorb",
+    absorbSoundPitch: 0.8,
+    regenSound:  "shields/shield1/regen",
   },
 
 
@@ -49,7 +51,8 @@
     icon: shield4,
     tex: "smallGameObjs/shield4",
 
-    absorbSound: "shields/big/absorb",
-    regenSound:  "shields/big/regen",
+    absorbSound: "shields/shield1/absorb",
+    absorbSoundPitch: 0.7,
+    regenSound:  "shields/shield1/regen",
   },
 }

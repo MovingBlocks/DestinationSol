@@ -30,7 +30,6 @@ public class SolInputMan {
   private final Vector2 myMousePos;
   private final Vector2 myMousePrevPos;
   private final TutMan myTutMan;
-  private final Sound myClickSound;
   private final Sound myHoverSound;
   private float myMouseIdleTime;
   private final TextureAtlas.AtlasRegion myUiCursor;
@@ -58,8 +57,7 @@ public class SolInputMan {
     myToAdd = new ArrayList<SolUiScreen>();
     myTutMan = new TutMan(r);
     myWarnCol = new Color(Col.UI_WARN);
-    myClickSound = Gdx.audio.newSound(SolFiles.readOnly("res/sounds/ui/uiClick2.wav"));
-    myHoverSound = Gdx.audio.newSound(SolFiles.readOnly("res/sounds/ui/uiHover.wav"));
+    myHoverSound = Gdx.audio.newSound(SolFiles.readOnly("res/sounds/ui/uiHover.ogg"));
   }
 
   public void maybeFlashPressed(int keyCode) {
@@ -231,10 +229,11 @@ public class SolInputMan {
         ctrl.drawButton(uiDrawer, cmp, myWarnCol);
       }
 
+      screen.drawPost(uiDrawer, cmp);
+
       for (SolUiControl ctrl : ctrls) {
         ctrl.drawDisplayName(uiDrawer);
       }
-      screen.drawPost(uiDrawer, cmp);
     }
 
     myTutMan.draw(uiDrawer, cmp);
@@ -274,4 +273,5 @@ public class SolInputMan {
       return pressed && !prevPressed;
     }
   }
+
 }

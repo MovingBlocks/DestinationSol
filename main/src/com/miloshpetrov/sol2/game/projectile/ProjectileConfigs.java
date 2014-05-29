@@ -34,8 +34,8 @@ public class ProjectileConfigs {
       float physSize = sh.getFloat("physSize", 0);
       boolean stretch = sh.getBoolean("stretch", false);
       DmgType dmgType = DmgType.forName(sh.getString("dmgType"));
-      String collisionSoundPath = sh.getString("collisionSound");
-      SolSound collisionSound = soundMan.getSound(collisionSoundPath, configFile);
+      String collisionSoundPath = sh.getString("collisionSound", "");
+      SolSound collisionSound = collisionSoundPath.isEmpty() ? null : soundMan.getSound(collisionSoundPath, configFile);
       float lightSz = sh.getFloat("lightSz", 0);
       EffectConfig trailEffect = EffectConfig.load(sh.get("trailEffect"), effectTypes, texMan, configFile, cols);
       EffectConfig bodyEffect = EffectConfig.load(sh.get("bodyEffect"), effectTypes, texMan, configFile, cols);
@@ -45,7 +45,8 @@ public class ProjectileConfigs {
       boolean zeroAbsSpd = sh.getBoolean("zeroAbsSpd", false);
       Vector2 origin = SolMath.readV2(sh.getString("texOrig", "0 0"));
       float acc = sh.getFloat("acceleration", 0);
-      SolSound workSound = soundMan.getLoopedSound(sh.getString("workSound", ""), configFile);
+      String workSoundDir = sh.getString("workSound", "");
+      SolSound workSound = workSoundDir.isEmpty() ? null : soundMan.getLoopedSound(workSoundDir, configFile);
       boolean bodyless = sh.getBoolean("massless", false);
       float density = sh.getFloat("density", -1);
       float dmg = sh.getFloat("dmg");

@@ -7,7 +7,7 @@
       size: 5,
     },
 
-    activatedSound: "abilities/sloMo/activate",
+    activatedSound: "abilities/sloMoActivated",
   },
 
 
@@ -31,7 +31,7 @@
       tint: "0 255 0",
     },
 
-    activatedSound: "abilities/emWaveActivated",
+    activatedSound: "abilities/unShieldActivated",
   },
 
 

@@ -1,5 +1,5 @@
 {
-  rockCollision: "rock/colllision",
+  rockCollision: "rock/collision",
   rockBulletHit: "rock/bulletHit",
   rockEnergyHit: "rock/energyHit",
 
@@ -14,13 +14,13 @@
 
   forceBeaconWork: "misc/forceBeaconWork",
 
-  doorMove: "misc/doorMove",
+  doorMove: "misc/controlEnabled",
 
   abilityRecharged: "misc/abilityRecharged",
   abilityRefused: "misc/abilityRefused",
 
   controlDisabled: "misc/controlDisabled",
-  controlEnabled: "misc/doorMove",
+  controlEnabled: "misc/controlEnabled",
 
   lootThrow: "misc/lootThrow",
 

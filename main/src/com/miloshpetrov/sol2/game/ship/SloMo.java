@@ -9,7 +9,6 @@ import com.miloshpetrov.sol2.game.dra.DraLevel;
 import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.item.SolItem;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
-import com.miloshpetrov.sol2.game.sound.SolSound;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 
 public class SloMo implements ShipAbility {
@@ -85,7 +84,6 @@ public class SloMo implements ShipAbility {
       float factor = abNode.getFloat("factor");
       float rechargeTime = abNode.getFloat("rechargeTime");
       SolItem chargeExample = itemMan.getExample("sloMoCharge");
-      SolSound activateSound = soundMan.getSound("abilities/sloMo/activate", null);
       return new Config(factor, rechargeTime, chargeExample, cc);
     }
   }

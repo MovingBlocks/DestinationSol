@@ -10,14 +10,16 @@ public class SolSound {
   public final String dir;
   public final String definedBy;
   public final float loopTime;
-  public final float volume;
+  public final float baseVolume;
+  public float basePitch;
 
-  public SolSound(String dir, String definedBy, float loopTime, float volume) {
+  public SolSound(String dir, String definedBy, float loopTime, float baseVolume, float basePitch) {
     this.dir = dir;
     this.definedBy = definedBy;
     this.loopTime = loopTime;
-    this.volume = volume;
+    this.baseVolume = baseVolume;
     this.sounds = new ArrayList<Sound>();
+    this.basePitch = basePitch;
   }
 
   public String getDebugString() {
@@ -25,9 +27,5 @@ public class SolSound {
     if (sounds.isEmpty()) sb.append("EMPTY ");
     sb.append(dir).append(" (from ").append(definedBy).append(')');
     return sb.toString();
-  }
-
-  public void requireLooped() {
-    if (loopTime <= 0 && !sounds.isEmpty()) throw new AssertionError("sound " + dir + " must be looped");
   }
 }
