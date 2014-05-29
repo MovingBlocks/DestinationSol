@@ -110,9 +110,10 @@ public class GunConfig {
       String clipName = sh.getString("clipName");
       ClipConfig clipConf = clipName.isEmpty() ? null : ((ClipItem)itemMan.getExample(clipName)).getConfig();
       String reloadSoundPath = sh.getString("reloadSound");
-      String shootSoundPath = sh.getString("shootSound");
       SolSound reloadSound = soundMan.getSound(reloadSoundPath, configFile);
-      SolSound shootSound = soundMan.getSound(shootSoundPath, configFile);
+      String shootSoundPath = sh.getString("shootSound");
+      float shootPitch = sh.getFloat("shootSoundPitch", 1);
+      SolSound shootSound = soundMan.getPitchedSound(shootSoundPath, configFile, shootPitch);
       TextureAtlas.AtlasRegion tex = texMan.getTex("smallGameObjs/guns/" + texName, configFile);
       TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + texName, configFile);
       boolean fixed = sh.getBoolean("fixed", false);

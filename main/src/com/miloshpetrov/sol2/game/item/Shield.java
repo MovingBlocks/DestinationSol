@@ -152,7 +152,8 @@ public class Shield implements SolItem {
         String displayName = sh.getString("displayName");
         int price = sh.getInt("price");
         String soundDir = sh.getString("absorbSound");
-        SolSound absorbSound = soundMan.getSound(soundDir, configFile);
+        float absorbPitch = sh.getFloat("absorbSoundPitch", 1);
+        SolSound absorbSound = soundMan.getPitchedSound(soundDir, configFile, absorbPitch);
         soundDir = sh.getString("regenSound");
         SolSound regenSound = soundMan.getSound(soundDir, configFile);
         TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + sh.getString("icon"), configFile);

@@ -54,7 +54,7 @@
       tint: smoke,
     },
 
-    workSound: "engines/medWork",
+    workSound: "engines/smokeWork",
   },
 
 
@@ -68,7 +68,7 @@
       tint: white,
     },
 
-    workSound: "engines/medWork",
+    workSound: "engines/techieWork",
   },
 
 

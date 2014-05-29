@@ -28,14 +28,18 @@ public class SoundMan {
   }
 
   public SolSound getLoopedSound(String relPath, @Nullable FileHandle configFile) {
-    return getSound0(relPath, configFile, true);
+    return getSound0(relPath, configFile, true, 1);
   }
 
   public SolSound getSound(String relPath, @Nullable FileHandle configFile) {
-    return getSound0(relPath, configFile, false);
+    return getPitchedSound(relPath, configFile, 1);
   }
 
-  private SolSound getSound0(String relPath, @Nullable FileHandle configFile, boolean looped) {
+  public SolSound getPitchedSound(String relPath, @Nullable FileHandle configFile, float basePitch) {
+    return getSound0(relPath, configFile, false, basePitch);
+  }
+
+  private SolSound getSound0(String relPath, @Nullable FileHandle configFile, boolean looped, float basePitch) {
     if (relPath.isEmpty()) return null;
     SolSound res = mySounds.get(relPath);
     if (res != null) return res;
@@ -46,8 +50,8 @@ public class SoundMan {
     FileHandle dir = SolFiles.readOnly(dirPath);
     float[] params = loadSoundParams(paramsPath);
     float loopTime = params[1];
-    float volume = params[0];
-    res = new SolSound(dir.toString(), definedBy, loopTime, volume);
+    float baseVolume = params[0];
+    res = new SolSound(dir.toString(), definedBy, loopTime, baseVolume, basePitch);
     mySounds.put(relPath, res);
     fillSounds(res.sounds, dir);
     boolean empty = res.sounds.isEmpty();
@@ -108,11 +112,11 @@ public class SoundMan {
     float maxSoundDist = 1 + 1.5f * airPerc * Const.CAM_VIEW_DIST_GROUND;
     float dst = pos.dst(camPos);
     float distMul = SolMath.clamp(1 - dst / maxSoundDist);
-    float vol = sound.volume * volMul * distMul;
+    float vol = sound.baseVolume * volMul * distMul;
     if (vol <= 0) return;
 
     //pitch
-    float pitch = SolMath.rnd(.95f, 1.05f) * game.getTimeFactor();
+    float pitch = SolMath.rnd(.95f, 1.05f) * game.getTimeFactor() * sound.basePitch;
 
     if (skipLooped(source, sound, game.getTime())) return;
     if (DebugOptions.SOUND_INFO) {

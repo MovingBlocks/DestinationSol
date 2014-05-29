@@ -14,8 +14,8 @@
     lightOnShot: true,
     descBase0: "",
 
-    shootSound: "guns/bolter/shoot",
-    reloadSound: "guns/bolter/reload",
+    shootSound: "guns/plasmaGun/shoot",
+    reloadSound: "guns/blaster/reload",
   },
 
 
@@ -34,8 +34,8 @@
     displayName: "Blaster Gun",
     lightOnShot: true,
 
-    shootSound: "guns/bolter/shoot",
-    reloadSound: "guns/bolter/reload",
+    shootSound: "guns/blaster/shoot",
+    reloadSound: "guns/blaster/reload",
   },
 
 
@@ -54,7 +54,7 @@
     displayName: "Bomber",
 
     shootSound: "guns/bombGun/shoot",
-    reloadSound: "guns/bombGun/reload",
+    reloadSound: "guns/rocketLauncher/reload",
   },
 
 
@@ -73,8 +73,8 @@
     displayName: "Machine Gun",
     lightOnShot: true,
 
-    shootSound: "guns/slowGun/shoot",
-    reloadSound: "guns/slowGun/reload",
+    shootSound: "guns/gun/shoot",
+    reloadSound: "guns/gun/reload",
   },
 
 
@@ -94,8 +94,8 @@
     displayName: "Heavy Machine Gun",
     lightOnShot: true,
 
-    shootSound: "guns/miniGun/shoot",
-    reloadSound: "guns/miniGun/reload",
+    shootSound: "guns/fixedGun/shoot",
+    reloadSound: "guns/fixedGun/reload",
   },
 
 
@@ -115,7 +115,7 @@
     lightOnShot: true,
 
     shootSound: "guns/shotGun/shoot",
-    reloadSound: "guns/shotGun/reload",
+    reloadSound: "guns/gun/reload",
   },
 
 
@@ -135,7 +135,8 @@
     displayName: "Bomber",
 
     shootSound: "guns/bombGun/shoot",
-    reloadSound: "guns/bombGun/reload",
+    shootSoundPitch: 0.8,
+    reloadSound: "guns/rocketLauncher/reload",
   },
 
 
@@ -155,6 +156,7 @@
     displayName: "Missile Launcher",
 
     shootSound: "guns/rocketLauncher/shoot",
+    shootSoundPitch: 1.2,
     reloadSound: "guns/rocketLauncher/reload",
   },
 
@@ -174,7 +176,8 @@
     displayName: "Miner",
 
     shootSound: "guns/bombGun/shoot",
-    reloadSound: "guns/bombGun/reload",
+    shootSoundPitch: 1.2,
+    reloadSound: "guns/rocketLauncher/reload",
   },
 
 
@@ -193,8 +196,8 @@
     displayName: "Cannon",
     lightOnShot: true,
 
-    shootSound: "guns/slowGun/shoot",
-    reloadSound: "guns/slowGun/reload",
+    shootSound: "guns/cannon/shoot",
+    reloadSound: "guns/gun/reload",
   },
 
 
@@ -234,8 +237,8 @@
     displayName: "Rail Gun",
     lightOnShot: true,
 
-    shootSound: "guns/slowGun/shoot",
-    reloadSound: "guns/slowGun/reload",
+    shootSound: "guns/railGun/shoot",
+    reloadSound: "guns/fixedGun/reload",
   },
 
 
@@ -255,6 +258,7 @@
     displayName: "Missile Pad",
 
     shootSound: "guns/rocketLauncher/shoot",
+    shootSoundPitch: 0.5,
     reloadSound: "guns/rocketLauncher/reload",
   },
 
@@ -275,8 +279,9 @@
     displayName: "Plasma Gun",
     lightOnShot: true,
 
-    shootSound: "guns/bolter/shoot",
-    reloadSound: "guns/bolter/reload",
+    shootSound: "guns/plasmaGun/shoot",
+    shootSoundPitch: 0.8,
+    reloadSound: "guns/blaster/reload",
   },
 
 
@@ -296,8 +301,8 @@
     displayName: "Nail Gun",
     lightOnShot: true,
 
-    shootSound: "guns/waveGun/shoot",
-    reloadSound: "guns/waveGun/reload",
+    shootSound: "guns/nailGun/shoot",
+    reloadSound: "guns/fixedGun/reload",
   },
 
 
@@ -317,8 +322,9 @@
     displayName: "Heavy Blaster",
     lightOnShot: true,
 
-    shootSound: "guns/bolter/shoot",
-    reloadSound: "guns/bolter/reload",
+    shootSound: "guns/blaster/shoot",
+    shootSoundPitch: 0.8,
+    reloadSound: "guns/blaster/reload",
   },
 
 
@@ -339,7 +345,8 @@
     lightOnShot: true,
 
     shootSound: "guns/shotGun/shoot",
-    reloadSound: "guns/shotGun/reload",
+    shootSoundPitch: 0.8,
+    reloadSound: "guns/fixedGun/reload",
   },
 
 
@@ -358,8 +365,8 @@
     displayName: "EM Gun",
     lightOnShot: true,
 
-    shootSound: "guns/waveGun/shoot",
-    reloadSound: "guns/waveGun/reload",
+    shootSound: "guns/emGun/shoot",
+    reloadSound: "guns/blaster/reload",
   },
 
 
@@ -379,8 +386,9 @@
     displayName: "Heavy EM Gun",
     lightOnShot: true,
 
-    shootSound: "guns/waveGun/shoot",
-    reloadSound: "guns/waveGun/reload",
+    shootSound: "guns/emGun/shoot",
+    shootSoundPitch: 0.8,
+    reloadSound: "guns/blaster/reload",
   },
 
 
@@ -400,8 +408,9 @@
     displayName: "Heavy Cannon",
     lightOnShot: true,
 
-    shootSound: "guns/slowGun/shoot",
-    reloadSound: "guns/slowGun/reload",
+    shootSound: "guns/cannon/shoot",
+    shootSoundPitch: 0.8,
+    reloadSound: "guns/fixedGun/reload",
   },
 
 
@@ -421,6 +430,6 @@
     lightOnShot: true,
 
     shootSound: "guns/waveGun/shoot",
-    reloadSound: "guns/waveGun/reload",
+    reloadSound: "guns/blaster/reload",
   },
 }

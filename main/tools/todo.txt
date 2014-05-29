@@ -1,14 +1,8 @@
 
-sound problems on android
-map and ui should carefully draw. implement some class that helps to store values
-
-
-ADD ALL SOUND PLACEHOLDERS
-hull lights
-
 
 DATA:
   balancing
+  hull lights
   check licenses:
     in-game:
       font
@@ -26,7 +20,11 @@ CODING:
   ai should equip collected stuff
   credits
   minerTurret doesn't shoot
-  tutorial should consider new control type, also mobile, also highlight buttons
+  android compatibility:
+    tutorial should consider new control type, also mobile, also highlight buttons
+    problem with ini file reading
+    decide what to do with menu
+    disposition
 
 
 DRAWING:
@@ -42,6 +40,7 @@ DRAWING:
 
 
 PERF:
+  try TextPlace
   cache frequently used values:
     body masses
     cam.realLineWidth?

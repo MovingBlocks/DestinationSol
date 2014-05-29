@@ -33,7 +33,7 @@
       tint: "90 10 60",
     },
 
-    collisionSound: "projectiles/bolterChargeCollision",
+    collisionSound: "projectiles/blastCollision",
   },
 
 
@@ -80,8 +80,6 @@
       tex: spark,
       tint: fire,
     },
-
-    collisionSound: "projectiles/bullet",
   },
 
 
@@ -184,8 +182,6 @@
       tex: spark,
       tint: fire,
     },
-
-    collisionSound: "",
   },
 
 
@@ -252,8 +248,6 @@
       tex: spark,
       tint: fire,
     },
-
-    collisionSound: "projectiles/bullet",
   },
 
 
@@ -267,8 +261,6 @@
 
     texName: nail,
     texSz: 0.15,
-
-    collisionSound: "",
   },
 
 
@@ -293,7 +285,7 @@
       tint: white,
     },
 
-    collisionSound: "projectiles/plasmaCollision",
+    collisionSound: "projectiles/emCollision",
   },
 
 

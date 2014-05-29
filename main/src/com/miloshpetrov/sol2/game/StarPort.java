@@ -90,7 +90,7 @@ public class StarPort implements SolObj {
 
   @Override
   public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
-    game.getSpecialSounds().playDmg(game, this, pos, dmgType);
+    game.getSpecialSounds().playHit(game, this, pos, dmgType);
   }
 
   @Override
@@ -185,7 +185,7 @@ public class StarPort implements SolObj {
       float angle = SolMath.angle(from.getPos(), to.getPos());
       Vector2 pos = getDesiredPos(from, to, false);
       ArrayList<Dra> dras = new ArrayList<Dra>();
-      Body body = myLoader.getBodyAndSprite(game, "misc", "starPort", SIZE,
+      Body body = myLoader.getBodyAndSprite(game, "smallGameObjs", "starPort", SIZE,
         BodyDef.BodyType.KinematicBody, new Vector2(pos), angle, dras, 10f, DraLevel.BIG_BODIES, null);
       SolMath.free(pos);
       ArrayList<LightSrc> lights = new ArrayList<LightSrc>();
@@ -369,7 +369,7 @@ public class StarPort implements SolObj {
 
     @Override
     public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
-      game.getSpecialSounds().playDmg(game, this, pos, dmgType);
+      game.getSpecialSounds().playHit(game, this, pos, dmgType);
     }
 
     @Override

@@ -1,34 +1,34 @@
 {
   clip: {
     color: "hsb 0 100 50",
-    pickUpSound: "",
+    pickUpSound: "itemPickUp/clip",
   },
   shield: {
     color: "hsb 260 100 100",
-    pickUpSound: "",
+    pickUpSound: "itemPickUp/other",
   },
   armor: {
     color: "hsb 60 100 100",
-    pickUpSound: "",
+    pickUpSound: "itemPickUp/other",
   },
   abilityCharge: {
     color: "hsb 300 100 100",
-    pickUpSound: "",
+    pickUpSound: "itemPickUp/other",
   },
   gun: {
     color: "hsb 0 100 100",
-    pickUpSound: "",
+    pickUpSound: "itemPickUp/gun",
   },
   money: {
     color: "hsb 40 50 100",
-    pickUpSound: "",
+    pickUpSound: "itemPickUp/money",
   },
   bigMoney: {
     color: "hsb 40 100 100",
-    pickUpSound: "",
+    pickUpSound: "itemPickUp/money",
   },
   repair: {
     color: "hsb 200 100 100",
-    pickUpSound: "",
+    pickUpSound: "itemPickUp/repair",
   },
 }

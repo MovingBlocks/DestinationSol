@@ -92,10 +92,10 @@ public class SolCmp {
     }
     myUiDrawer.updateMtx();
     myInputMan.draw(myUiDrawer, this);
-    DebugCollector.draw(myUiDrawer);
     if (myGame != null) {
       myGame.drawDebugUi(myUiDrawer);
     }
+    DebugCollector.draw(myUiDrawer);
     if (myFatalErrorMsg != null) {
       myUiDrawer.draw(myUiDrawer.whiteTex, myUiDrawer.r, .5f, 0, 0, 0, .25f, 0, Col.B75);
       myUiDrawer.drawString(myFatalErrorMsg, myUiDrawer.r / 2, .5f, FontSize.MENU, true, Col.W);
