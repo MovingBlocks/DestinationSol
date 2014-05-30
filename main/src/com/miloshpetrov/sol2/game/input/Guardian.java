@@ -77,14 +77,16 @@ public class Guardian implements MoveDestProvider {
     if (myFarTarget != null && om.containsFarObj(myFarTarget)) return;
     myFarTarget = null;
 
-    for (SolObj o : objs) {
+    for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
+      SolObj o = objs.get(i);
       if (!(o instanceof SolShip)) continue;
       SolShip other = (SolShip) o;
       if (other.getPilot() != myTargetPilot) continue;
       myTarget = other;
       return;
     }
-    for (FarObjData fod : farObjs) {
+    for (int i = 0, farObjsSize = farObjs.size(); i < farObjsSize; i++) {
+      FarObjData fod = farObjs.get(i);
       FarObj o = fod.fo;
       if (!(o instanceof FarShip)) continue;
       FarShip other = (FarShip) o;

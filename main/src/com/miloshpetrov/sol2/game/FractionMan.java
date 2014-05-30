@@ -8,6 +8,8 @@ import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.projectile.Projectile;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
+import java.util.List;
+
 public class FractionMan {
 
   private final MyRayBack myRayBack;
@@ -32,12 +34,14 @@ public class FractionMan {
   public SolShip getNearestEnemy(SolGame game, float detectionDist, Fraction f, Vector2 pos) {
     SolShip res = null;
     float minDst = detectionDist;
-    for (SolObj o : game.getObjMan().getObjs()) {
+    List<SolObj> objs = game.getObjMan().getObjs();
+    for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
+      SolObj o = objs.get(i);
       if (!(o instanceof SolShip)) continue;
       SolShip ship2 = (SolShip) o;
       if (!areEnemies(f, ship2.getPilot().getFraction())) continue;
       float dst = ship2.getPos().dst(pos) - ship2.getHull().config.approxRadius;
-      if (minDst < dst)  continue;
+      if (minDst < dst) continue;
       minDst = dst;
       res = ship2;
     }

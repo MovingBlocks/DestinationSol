@@ -14,6 +14,7 @@ import com.miloshpetrov.sol2.game.ship.SolShip;
 import com.miloshpetrov.sol2.ui.UiDrawer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BorderDrawer {
 
@@ -61,7 +62,9 @@ public class BorderDrawer {
     FractionMan fracMan = g.getFractionMan();
     float heroDmgCap = hero == null ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero);
 
-    for (SolObj o : g.getObjMan().getObjs()) {
+    List<SolObj> objs = g.getObjMan().getObjs();
+    for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
+      SolObj o = objs.get(i);
       if ((o instanceof SolShip)) {
         SolShip ship = (SolShip) o;
         Vector2 shipPos = ship.getPos();
@@ -76,7 +79,9 @@ public class BorderDrawer {
       }
     }
 
-    for (FarObjData fod : g.getObjMan().getFarObjs()) {
+    List<FarObjData> farObjs = g.getObjMan().getFarObjs();
+    for (int i = 0, farObjsSize = farObjs.size(); i < farObjsSize; i++) {
+      FarObjData fod = farObjs.get(i);
       FarObj o = fod.fo;
       if ((o instanceof FarShip)) {
         FarShip ship = (FarShip) o;
@@ -125,17 +130,25 @@ public class BorderDrawer {
     PlanetMan pMan = g.getPlanetMan();
     Planet np = pMan.getNearestPlanet();
     if (np != null && np.getPos().dst(camPos) < np.getFullHeight()) return;
-    for (Tishch t : myTishches) t.reset();
+    for (int i = 0, myTishchesSize = myTishches.size(); i < myTishchesSize; i++) {
+      Tishch t = myTishches.get(i);
+      t.reset();
+    }
 
     float camAngle = cam.getAngle();
-    for (Planet p : pMan.getPlanets()) {
+    ArrayList<Planet> planets = pMan.getPlanets();
+    for (int i = 0, planetsSize = planets.size(); i < planetsSize; i++) {
+      Planet p = planets.get(i);
       Vector2 objPos = p.getPos();
       float objRad = p.getFullHeight();
       apply0(camPos, camAngle, objPos, objRad);
     }
     SolSystem sys = pMan.getNearestSystem(camPos);
     apply0(camPos, camAngle, sys.getPos(), SunSingleton.SUN_HOT_RAD);
-    for (Tishch t : myTishches) t.draw(drawer);
+    for (int i = 0, myTishchesSize = myTishches.size(); i < myTishchesSize; i++) {
+      Tishch t = myTishches.get(i);
+      t.draw(drawer);
+    }
   }
 
   private void apply0(Vector2 camPos, float camAngle, Vector2 objPos, float objRad) {
@@ -149,7 +162,8 @@ public class BorderDrawer {
   }
 
   private void apply(float distPerc, float angularWHalf, float relAngle) {
-    for (Tishch t : myTishches) {
+    for (int i = 0, myTishchesSize = myTishches.size(); i < myTishchesSize; i++) {
+      Tishch t = myTishches.get(i);
       if (SolMath.angleDiff(t.myAngle, relAngle) < angularWHalf) {
         t.setDistPerc(distPerc);
       }

@@ -184,7 +184,9 @@ public class MainScreen implements SolUiScreen {
     SolShip target = null;
     float minDist = TalkScreen.MAX_TALK_DIST;
     float har = hero.getHull().config.approxRadius;
-    for (SolObj o : game.getObjMan().getObjs()) {
+    List<SolObj> objs = game.getObjMan().getObjs();
+    for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
+      SolObj o = objs.get(i);
       if (!(o instanceof SolShip)) continue;
       SolShip ship = (SolShip) o;
       if (fracMan.areEnemies(hero, ship)) continue;

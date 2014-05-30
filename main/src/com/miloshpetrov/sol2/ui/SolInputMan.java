@@ -61,9 +61,12 @@ public class SolInputMan {
   }
 
   public void maybeFlashPressed(int keyCode) {
-    for (SolUiScreen screen : myScreens) {
+    for (int i = 0, myScreensSize = myScreens.size(); i < myScreensSize; i++) {
+      SolUiScreen screen = myScreens.get(i);
       boolean consumed = false;
-      for (SolUiControl c : screen.getControls()) {
+      List<SolUiControl> controls = screen.getControls();
+      for (int i1 = 0, controlsSize = controls.size(); i1 < controlsSize; i1++) {
+        SolUiControl c = controls.get(i1);
         if (c.maybeFlashPressed(keyCode)) consumed = true;
       }
       if (consumed) return;
@@ -73,8 +76,11 @@ public class SolInputMan {
 
   public void maybeFlashPressed(int x, int y) {
     setPtrPos(myFlashPtr, x, y);
-    for (SolUiScreen screen : myScreens) {
-      for (SolUiControl c : screen.getControls()) {
+    for (int i = 0, myScreensSize = myScreens.size(); i < myScreensSize; i++) {
+      SolUiScreen screen = myScreens.get(i);
+      List<SolUiControl> controls = screen.getControls();
+      for (int i1 = 0, controlsSize = controls.size(); i1 < controlsSize; i1++) {
+        SolUiControl c = controls.get(i1);
         if (c.maybeFlashPressed(myFlashPtr)) return;
       }
       if (screen.isCursorOnBg(myFlashPtr)) return;
@@ -83,7 +89,8 @@ public class SolInputMan {
   }
 
   public void setScreen(SolCmp cmp, SolUiScreen screen) {
-    for (SolUiScreen oldScreen : myScreens) {
+    for (int i = 0, myScreensSize = myScreens.size(); i < myScreensSize; i++) {
+      SolUiScreen oldScreen = myScreens.get(i);
       removeScreen(oldScreen, cmp);
     }
     addScreen(cmp, screen);
@@ -96,7 +103,9 @@ public class SolInputMan {
 
   private void removeScreen(SolUiScreen screen, SolCmp cmp) {
     myToRemove.add(screen);
-    for (SolUiControl c : screen.getControls()) {
+    List<SolUiControl> controls = screen.getControls();
+    for (int i = 0, controlsSize = controls.size(); i < controlsSize; i++) {
+      SolUiControl c = controls.get(i);
       c.blur();
     }
     screen.blurCustom(cmp);
@@ -120,9 +129,12 @@ public class SolInputMan {
 
     boolean consumed = false;
     myMouseOnUi = false;
-    for (SolUiScreen screen : myScreens) {
+    for (int i = 0, myScreensSize = myScreens.size(); i < myScreensSize; i++) {
+      SolUiScreen screen = myScreens.get(i);
       boolean consumedNow = false;
-      for (SolUiControl c : screen.getControls()) {
+      List<SolUiControl> controls = screen.getControls();
+      for (int i1 = 0, controlsSize = controls.size(); i1 < controlsSize; i1++) {
+        SolUiControl c = controls.get(i1);
         c.update(myPtrs, myCurrCursor != null, !consumed, this);
         if (c.isOn()) {
           consumedNow = true;
@@ -134,7 +146,8 @@ public class SolInputMan {
       }
       if (consumedNow) consumed = true;
       if (!consumed) {
-        for (Ptr ptr : myPtrs) {
+        for (int i1 = 0, myPtrsLength = myPtrs.length; i1 < myPtrsLength; i1++) {
+          Ptr ptr = myPtrs[i1];
           if (ptr.pressed && screen.isCursorOnBg(ptr)) {
             consumed = true;
             break;
@@ -163,12 +176,14 @@ public class SolInputMan {
   }
 
   private void addRemoveScreens() {
-    for (SolUiScreen screen : myToRemove) {
+    for (int i = 0, myToRemoveSize = myToRemove.size(); i < myToRemoveSize; i++) {
+      SolUiScreen screen = myToRemove.get(i);
       myScreens.remove(screen);
     }
     myToRemove.clear();
 
-    for (SolUiScreen screen : myToAdd) {
+    for (int i = 0, myToAddSize = myToAdd.size(); i < myToAddSize; i++) {
+      SolUiScreen screen = myToAdd.get(i);
       if (isScreenOn(screen)) continue;
       myScreens.add(0, screen);
     }
@@ -226,7 +241,8 @@ public class SolInputMan {
       uiDrawer.setTextMode(false);
       screen.drawBg(uiDrawer, cmp);
       List<SolUiControl> ctrls = screen.getControls();
-      for (SolUiControl ctrl : ctrls) {
+      for (int i1 = 0, ctrlsSize = ctrls.size(); i1 < ctrlsSize; i1++) {
+        SolUiControl ctrl = ctrls.get(i1);
         ctrl.drawButton(uiDrawer, cmp, myWarnCol);
       }
       screen.drawImgs(uiDrawer, cmp);

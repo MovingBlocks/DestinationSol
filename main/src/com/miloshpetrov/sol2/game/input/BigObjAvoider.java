@@ -7,6 +7,8 @@ import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.planet.SolSystem;
 
+import java.util.ArrayList;
+
 public class BigObjAvoider {
 
   public static final float MAX_DIST_LEN = 2 * (Const.MAX_GROUND_HEIGHT + Const.ATM_HEIGHT);
@@ -20,7 +22,9 @@ public class BigObjAvoider {
     float toDestLen = from.dst(dest);
     if (toDestLen > MAX_DIST_LEN) toDestLen = MAX_DIST_LEN;
     float res = toDestAngle;
-    for (Planet p : game.getPlanetMan().getPlanets()) {
+    ArrayList<Planet> planets = game.getPlanetMan().getPlanets();
+    for (int i = 0, planetsSize = planets.size(); i < planetsSize; i++) {
+      Planet p = planets.get(i);
       Vector2 objPos = p.getPos();
       float objRad = p.getFullHeight();
       if (dest.dst(objPos) < objRad) objRad = p.getGroundHeight();
@@ -33,7 +37,9 @@ public class BigObjAvoider {
       res = toDestAngle + 45 * SolMath.toInt(myProj.y < 0);
     }
 
-    for (SolSystem sys : game.getPlanetMan().getSystems()) {
+    ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
+    for (int i = 0, systemsSize = systems.size(); i < systemsSize; i++) {
+      SolSystem sys = systems.get(i);
       Vector2 objPos = sys.getPos();
       float objRad = Const.SUN_RADIUS;
       myProj.set(objPos);

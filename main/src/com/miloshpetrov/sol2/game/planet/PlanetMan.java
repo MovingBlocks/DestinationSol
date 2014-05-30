@@ -53,10 +53,12 @@ public class PlanetMan {
 
   public void update(SolGame game) {
     Vector2 camPos = game.getCam().getPos();
-    for (Planet p : myPlanets) {
+    for (int i = 0, myPlanetsSize = myPlanets.size(); i < myPlanetsSize; i++) {
+      Planet p = myPlanets.get(i);
       p.update(game);
     }
-    for (Maze m : myMazes) {
+    for (int i = 0, myMazesSize = myMazes.size(); i < myMazesSize; i++) {
+      Maze m = myMazes.get(i);
       m.update(game);
     }
 
@@ -69,7 +71,8 @@ public class PlanetMan {
   public Planet getNearestPlanet(Vector2 pos) {
     float minDst = Float.MAX_VALUE;
     Planet res = null;
-    for (Planet p : myPlanets) {
+    for (int i = 0, myPlanetsSize = myPlanets.size(); i < myPlanetsSize; i++) {
+      Planet p = myPlanets.get(i);
       float dst = pos.dst(p.getPos());
       if (dst < minDst) {
         minDst = dst;
@@ -86,7 +89,9 @@ public class PlanetMan {
     Vector2 sysPos = nearestSys.getPos();
     float npGravConst = myNearestPlanet.getGravConst();
 
-    for (SolObj obj : game.getObjMan().getObjs()) {
+    List<SolObj> objs = game.getObjMan().getObjs();
+    for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
+      SolObj obj = objs.get(i);
       if (!obj.receivesGravity()) continue;
 
       Vector2 objPos = obj.getPos();
@@ -172,7 +177,8 @@ public class PlanetMan {
   public SolSystem getNearestSystem(Vector2 pos) {
     float minDst = Float.MAX_VALUE;
     SolSystem res = null;
-    for (SolSystem s : mySystems) {
+    for (int i = 0, mySystemsSize = mySystems.size(); i < mySystemsSize; i++) {
+      SolSystem s = mySystems.get(i);
       float dst = pos.dst(s.getPos());
       if (dst < minDst) {
         minDst = dst;
@@ -185,7 +191,8 @@ public class PlanetMan {
   public Maze getNearestMaze(Vector2 pos) {
     float minDst = Float.MAX_VALUE;
     Maze res = null;
-    for (Maze m : myMazes) {
+    for (int i = 0, myMazesSize = myMazes.size(); i < myMazesSize; i++) {
+      Maze m = myMazes.get(i);
       float dst = pos.dst(m.getPos());
       if (dst < minDst) {
         minDst = dst;

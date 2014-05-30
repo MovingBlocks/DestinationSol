@@ -20,7 +20,8 @@ public class DebugCollector {
   }
 
   public static void debug(Object ... objs) {
-    for (Object o : objs) {
+    for (int i = 0, objsLength = objs.length; i < objsLength; i++) {
+      Object o = objs[i];
       myDebugStrings.append(String.valueOf(o)).append(" ");
     }
     myDebugStrings.append("\n");
@@ -29,7 +30,8 @@ public class DebugCollector {
   public static void warn(Object ... objs) {
     if (!DebugOptions.SHOW_WARNINGS) return;
     StringBuilder sb = new StringBuilder("WARNING: ");
-    for (Object o : objs) {
+    for (int i = 0, objsLength = objs.length; i < objsLength; i++) {
+      Object o = objs[i];
       sb.append(String.valueOf(o)).append(" ");
     }
     myWarnings.put(sb.toString(), TimeUtils.millis() + WARN_TIME);

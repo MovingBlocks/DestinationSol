@@ -34,7 +34,8 @@ public class SolUiControl {
 
   public boolean maybeFlashPressed(int keyCode) {
     if (!myEnabled) return false;
-    for (int key : myKeys) {
+    for (int i = 0, myKeysLength = myKeys.length; i < myKeysLength; i++) {
+      int key = myKeys[i];
       if (key != keyCode) continue;
       myKeyFlash = true;
       return true;
@@ -73,7 +74,8 @@ public class SolUiControl {
     } else {
       myKeyPressed = false;
       if (canBePressed) {
-        for (int key : myKeys) {
+        for (int i = 0, myKeysLength = myKeys.length; i < myKeysLength; i++) {
+          int key = myKeys[i];
           if (!Gdx.input.isKeyPressed(key)) continue;
           myKeyPressed = true;
           break;
@@ -91,7 +93,8 @@ public class SolUiControl {
     } else {
       myAreaPressed = false;
       if (canBePressed) {
-        for (SolInputMan.Ptr ptr : ptrs) {
+        for (int i = 0, ptrsLength = ptrs.length; i < ptrsLength; i++) {
+          SolInputMan.Ptr ptr = ptrs[i];
           if (!myScreenArea.contains(ptr.x, ptr.y)) continue;
           myAreaPressed = ptr.pressed;
           myAreaJustUnpressed = !ptr.pressed && ptr.prevPressed;
