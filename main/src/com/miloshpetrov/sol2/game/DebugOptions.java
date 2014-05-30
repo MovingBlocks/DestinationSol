@@ -3,9 +3,6 @@ package com.miloshpetrov.sol2.game;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.menu.IniReader;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 public class DebugOptions {
   public static String DEV_ROOT_PATH;
 
@@ -44,11 +41,8 @@ public class DebugOptions {
   public static MissingResourceAction MISSING_PHYSICS_ACTION;
 
 
-  public static void read() {
-    boolean devBuild = Files.exists(Paths.get("devBuild"));
-    if (devBuild) DEV_ROOT_PATH = "../trunk/main/"; // supposing that solWin is in the same direcrory where trunk is.
-
-    IniReader r = new IniReader("debugOptions.ini");
+  public static void read(boolean mobile) {
+    IniReader r = new IniReader("debugOptions.ini", mobile);
 
     EMULATE_MOBILE = r.b("emulateMobile", EMULATE_MOBILE);
     SPAWN_PLACE = r.s("spawnPlace", SPAWN_PLACE);
