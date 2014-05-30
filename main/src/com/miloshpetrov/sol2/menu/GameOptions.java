@@ -11,8 +11,8 @@ public class GameOptions {
   public boolean fullscreen;
   public int controlType;
 
-  public GameOptions() {
-    IniReader r = new IniReader(FILE_NAME);
+  public GameOptions(boolean handlersReady) {
+    IniReader r = new IniReader(FILE_NAME, handlersReady);
     x = r.i("x", 800);
     y = r.i("y", 600);
     fullscreen = r.b("fullscreen", false);

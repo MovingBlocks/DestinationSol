@@ -1,5 +1,7 @@
 
 
+still slow on android : (
+
 analyze snapshot:
   cache frequently used values:
     object's distance to np, to cam?
@@ -7,10 +9,6 @@ analyze snapshot:
   far ship positions should be calculated on demand?
   optimize getVec? but don't remove, cuz freeing helps fix bugs
   compare dstSq instead of dst -- maybe not needed, iterating through object is only quadratic
-
-
-ANDROID RUN 2:
-  stress test on every object preloaded
 
 
 DATA:
@@ -35,7 +33,6 @@ CODING:
   minerTurret doesn't shoot
   android compatibility:
     tutorial should consider new control type, also mobile, also highlight buttons
-    problem with ini file reading
     decide what to do with menu
     disposition
 

@@ -2,6 +2,7 @@ package com.miloshpetrov.sol2.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.game.DebugOptions;
 
 import java.io.*;
@@ -15,10 +16,10 @@ public class IniReader {
 
   private final HashMap<String,String> myVals;
 
-  public IniReader(String fileName) {
+  public IniReader(String fileName, boolean handlersReady) {
     myVals = new HashMap<String, String>();
     if (DebugOptions.DEV_ROOT_PATH != null) fileName = DebugOptions.DEV_ROOT_PATH + fileName;
-    List<String> lines = fileToLines(fileName);
+    List<String> lines = handlersReady ? fileToLines2(fileName) : fileToLines(fileName);
 
     for (String line : lines) {
       int commentStart = line.indexOf('#');
@@ -31,6 +32,16 @@ public class IniReader {
       String val = sides[1].trim();
       myVals.put(key, val);
     }
+  }
+
+  private List<String> fileToLines2(String fileName) {
+    FileHandle fh = SolFiles.readOnly(fileName);
+    ArrayList<String> res = new ArrayList<String>();
+    if (!fh.exists()) return res;
+    for (String s : fh.readString().split("\n")) {
+      res.add(s);
+    }
+    return res;
   }
 
   private List<String> fileToLines(String fileName) {

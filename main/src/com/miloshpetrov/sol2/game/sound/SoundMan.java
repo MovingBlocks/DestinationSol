@@ -68,7 +68,7 @@ public class SoundMan {
 
   private float[] loadSoundParams(String paramsPath) {
     float[] r = {0, 0};
-    IniReader reader = new IniReader(paramsPath);
+    IniReader reader = new IniReader(paramsPath, true);
     r[0] = reader.f("volume", 1);
     r[1] = reader.f("loopTime", 0);
     return r;

@@ -8,6 +8,8 @@ import com.miloshpetrov.sol2.game.DebugOptions;
 import com.miloshpetrov.sol2.menu.GameOptions;
 import com.miloshpetrov.sol2.soundtest.SoundTestListener;
 
+import java.nio.file.Paths;
+
 public class SolDesktop {
   public static void main(String[] argv) {
     if (false) {
@@ -15,9 +17,11 @@ public class SolDesktop {
       return;
     }
 
-    DebugOptions.read();
-    GameOptions d = new GameOptions();
+    boolean devBuild = java.nio.file.Files.exists(Paths.get("devBuild"));
+    if (devBuild) DebugOptions.DEV_ROOT_PATH = "../trunk/main/"; // supposing that solWin is in the same directory where trunk is.
+    DebugOptions.read(false);
 
+    GameOptions d = new GameOptions(false);
     LwjglApplicationConfiguration c = new LwjglApplicationConfiguration();
     c.width = d.x;
     c.height = d.y;
