@@ -51,12 +51,14 @@ public class SoundMan {
     float[] params = loadSoundParams(paramsPath);
     float loopTime = params[1];
     float baseVolume = params[0];
-    res = new SolSound(dir.toString(), definedBy, loopTime, baseVolume, basePitch);
+    ArrayList<Sound> sounds = new ArrayList<Sound>();
+    boolean[] emptyDirArr = {false};
+    fillSounds(sounds, dir, emptyDirArr);
+    boolean emptyDir = emptyDirArr[0];
+    res = new SolSound(dir.toString(), definedBy, loopTime, baseVolume, basePitch, sounds, emptyDir);
     mySounds.put(relPath, res);
-    fillSounds(res.sounds, dir);
-    boolean empty = res.sounds.isEmpty();
-    if (!empty && looped && loopTime == 0) throw new AssertionError("please specify loopTime value in " + paramsPath);
-    if (empty) {
+    if (!emptyDir && looped && loopTime == 0) throw new AssertionError("please specify loopTime value in " + paramsPath);
+    if (emptyDir) {
       String warnMsg = "found no sounds in " + dir;
       if (configFile != null) {
         warnMsg += " (defined in " + configFile.path() + ")";
@@ -74,13 +76,16 @@ public class SoundMan {
     return r;
   }
 
-  private void fillSounds(List<Sound> list, FileHandle dir) {
+  private void fillSounds(List<Sound> list, FileHandle dir, boolean[] emptyDir) {
+    emptyDir[0] = true;
     //try empty dirs
     //if (!dir.isDirectory()) throw new AssertionError("Can't load sound: can't find directory " + dir);
     for (FileHandle soundFile : dir.list()) {
       String ext = soundFile.extension();
       if (ext.equals("wav") || ext.equals("mp3") || ext.equals("ogg")) //filter by supported audio files
       {
+        emptyDir[0] = false;
+        if (DebugOptions.NO_SOUND) return;
         Sound sound = Gdx.audio.newSound(soundFile);
         list.add(sound);
       }
@@ -123,7 +128,6 @@ public class SoundMan {
       myHintDrawer.add(source, pos, sound.getDebugString());
     }
     if (sound.sounds.isEmpty()) return;
-    if (DebugOptions.NO_SOUND) return;
     Sound sound0 = SolMath.elemRnd(sound.sounds);
     sound0.play(vol, pitch, 0);
   }
