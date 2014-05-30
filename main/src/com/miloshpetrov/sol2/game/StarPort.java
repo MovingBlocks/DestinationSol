@@ -61,7 +61,8 @@ public class StarPort implements SolObj {
       game.getSoundMan().play(game, game.getSpecialSounds().transcendentCreated, null, t);
       objMan.removeObjDelayed(ship);
     }
-    for (LightSrc l : myLights) {
+    for (int i = 0, myLightsSize = myLights.size(); i < myLightsSize; i++) {
+      LightSrc l = myLights.get(i);
       l.update(true, myAngle, game);
     }
 

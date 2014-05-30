@@ -37,7 +37,8 @@ public class ObjMan {
   }
 
   public boolean containsFarObj(FarObj fo) {
-    for (FarObjData fod : myFarObjs) {
+    for (int i = 0, myFarObjsSize = myFarObjs.size(); i < myFarObjsSize; i++) {
+      FarObjData fod = myFarObjs.get(i);
       if (fod.fo == fo) return true;
     }
     return false;
@@ -74,10 +75,13 @@ public class ObjMan {
       recalcRad = true;
     }
 
-    for (SolObj o : myObjs) {
+    for (int i1 = 0, myObjsSize = myObjs.size(); i1 < myObjsSize; i1++) {
+      SolObj o = myObjs.get(i1);
       o.update(game);
       SolMath.checkVectorsTaken(o);
-      for (Dra dra : o.getDras()) {
+      List<Dra> dras = o.getDras();
+      for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
+        Dra dra = dras.get(i);
         dra.update(game, o);
       }
 
@@ -234,7 +238,8 @@ public class ObjMan {
   }
 
   public void resetDelays() {
-    for (FarObjData data : myFarObjs) {
+    for (int i = 0, myFarObjsSize = myFarObjs.size(); i < myFarObjsSize; i++) {
+      FarObjData data = myFarObjs.get(i);
       data.delay = 0;
     }
 

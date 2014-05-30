@@ -97,11 +97,20 @@ public class ShipHull {
     myGunMount1.update(container, game, myAngle, ship, controlsEnabled && provider.isShoot(), nearestEnemy, fraction);
     if (myGunMount2 != null) myGunMount2.update(container, game, myAngle, ship, controlsEnabled && provider.isShoot2(), nearestEnemy, fraction);
 
-    for (LightSrc src : myLightSrcs) src.update(true, myAngle, game);
+    for (int i = 0, myLightSrcsSize = myLightSrcs.size(); i < myLightSrcsSize; i++) {
+      LightSrc src = myLightSrcs.get(i);
+      src.update(true, myAngle, game);
+    }
 
-    for (ForceBeacon b : myBeacons) b.update(game, myPos, myAngle, ship);
+    for (int i = 0, myBeaconsSize = myBeacons.size(); i < myBeaconsSize; i++) {
+      ForceBeacon b = myBeacons.get(i);
+      b.update(game, myPos, myAngle, ship);
+    }
 
-    for (Door door : myDoors) door.update(game, ship);
+    for (int i = 0, myDoorsSize = myDoors.size(); i < myDoorsSize; i++) {
+      Door door = myDoors.get(i);
+      door.update(game, ship);
+    }
 
     if (myPlanetBind != null) {
       Vector2 spd = SolMath.getVec();

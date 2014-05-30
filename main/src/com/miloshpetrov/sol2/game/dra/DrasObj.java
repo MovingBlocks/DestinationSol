@@ -46,7 +46,8 @@ public class DrasObj implements SolObj {
       Vector2 npPos = np.getPos();
       float npgh = np.getGroundHeight();
       DraMan draMan = game.getDraMan();
-      for (Dra dra : myDras) {
+      for (int i = 0, myDrasSize = myDras.size(); i < myDrasSize; i++) {
+        Dra dra = myDras.get(i);
         if (!(dra instanceof RectSprite)) continue;
         if (!draMan.isInCam(dra)) continue;
         Vector2 draPos = dra.getPos();
@@ -58,7 +59,8 @@ public class DrasObj implements SolObj {
     } else if (myMaxFadeTime > 0) {
       myFadeTime -= ts;
       float tintPerc = myFadeTime / myMaxFadeTime;
-      for (Dra dra : myDras) {
+      for (int i = 0, myDrasSize = myDras.size(); i < myDrasSize; i++) {
+        Dra dra = myDras.get(i);
         if (!(dra instanceof RectSprite)) continue;
         ((RectSprite) dra).tint.a = SolMath.clamp(tintPerc, 0, 1);
       }
@@ -71,7 +73,8 @@ public class DrasObj implements SolObj {
     if (myMaxFadeTime > 0 && myFadeTime <= 0) return true;
     if (myTemporary) {
       boolean rem = true;
-      for (Dra dra : myDras) {
+      for (int i = 0, myDrasSize = myDras.size(); i < myDrasSize; i++) {
+        Dra dra = myDras.get(i);
         if (!dra.okToRemove()) {
           rem = false;
           break;

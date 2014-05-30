@@ -25,6 +25,8 @@ import com.miloshpetrov.sol2.save.SaveData;
 import com.miloshpetrov.sol2.ui.DebugCollector;
 import com.miloshpetrov.sol2.ui.UiDrawer;
 
+import java.util.List;
+
 public class SolGame {
 
   public static final float RESPAWN_MONEY_PERC = .5f;
@@ -190,7 +192,9 @@ public class SolGame {
 
     myHero = null;
     myTranscendentHero = null;
-    for (SolObj obj : myObjMan.getObjs()) {
+    List<SolObj> objs = myObjMan.getObjs();
+    for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
+      SolObj obj = objs.get(i);
       if ((obj instanceof SolShip)) {
         SolShip ship = (SolShip) obj;
         Pilot prov = ship.getPilot();
@@ -314,13 +318,17 @@ public class SolGame {
     if (inPlanet) return false;
     SolSystem ns = myPlanetMan.getNearestSystem(pos);
     if (ns.getPos().dst(pos) < SunSingleton.SUN_HOT_RAD) return false;
-    for (SolObj o : myObjMan.getObjs()) {
+    List<SolObj> objs = myObjMan.getObjs();
+    for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
+      SolObj o = objs.get(i);
       if (!o.hasBody()) continue;
       if (pos.dst(o.getPos()) < myObjMan.getRadius(o)) {
         return false;
       }
     }
-    for (FarObjData fod : myObjMan.getFarObjs()) {
+    List<FarObjData> farObjs = myObjMan.getFarObjs();
+    for (int i = 0, farObjsSize = farObjs.size(); i < farObjsSize; i++) {
+      FarObjData fod = farObjs.get(i);
       FarObj o = fod.fo;
       if (!o.hasBody()) continue;
       if (pos.dst(o.getPos()) < o.getRadius()) {

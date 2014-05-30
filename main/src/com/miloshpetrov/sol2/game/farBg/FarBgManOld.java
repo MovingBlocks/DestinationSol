@@ -38,7 +38,8 @@ public class FarBgManOld {
 
     float vd = cam.getViewDist();
     drawer.draw(myNebTex, vd * 2, vd * 2, vd, vd, camPos.x, camPos.y, myNebAngle, myNebTint);
-    for (FarBgStar star : myStars) {
+    for (int i = 0, myStarsSize = myStars.size(); i < myStarsSize; i++) {
+      FarBgStar star = myStars.get(i);
       star.draw(drawer, vd, camPos, cam.getAngle());
     }
   }

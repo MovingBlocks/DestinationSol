@@ -11,6 +11,7 @@ import com.miloshpetrov.sol2.game.dra.RectSprite;
 import com.miloshpetrov.sol2.game.input.Pilot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Door {
   public static final float SPD_LEN = .4f;
@@ -49,7 +50,9 @@ public class Door {
   private boolean shouldOpen(SolGame game, SolShip ship, Vector2 doorPos) {
     Fraction frac = ship.getPilot().getFraction();
     FractionMan fracMan = game.getFractionMan();
-    for (SolObj o : game.getObjMan().getObjs()) {
+    List<SolObj> objs = game.getObjMan().getObjs();
+    for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
+      SolObj o = objs.get(i);
       if (o == ship) continue;
       if (!(o instanceof SolShip)) continue;
       SolShip ship2 = (SolShip) o;

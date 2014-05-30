@@ -29,7 +29,8 @@ public class DraMan {
   }
 
   public void removeAll(List<Dra> dras) {
-    for (Dra dra : dras) {
+    for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
+      Dra dra = dras.get(i);
       DraLevel l = dra.getLevel();
       Map<Texture, List<Dra>> map = myDras.get(l);
       Texture tex = dra.getTex0();
@@ -47,7 +48,8 @@ public class DraMan {
   }
 
   public void addAll(List<Dra> dras) {
-    for (Dra dra : dras) {
+    for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
+      Dra dra = dras.get(i);
       DraLevel l = dra.getLevel();
       Map<Texture, List<Dra>> map = myDras.get(l);
       Texture tex = dra.getTex0();
@@ -85,7 +87,8 @@ public class DraMan {
       float draLevelViewDist = viewDist;
       if (dras.size() > 0) draLevelViewDist *= dras.get(0).getLevel().depth;
       boolean objInCam = isInCam(objPos, r, camPos, draLevelViewDist);
-      for (Dra dra : dras) {
+      for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
+        Dra dra = dras.get(i);
         if (!objInCam || !dra.isEnabled()) {
           myInCam.remove(dra);
           continue;
@@ -94,7 +97,11 @@ public class DraMan {
         Vector2 draPos = dra.getPos();
         float rr = dra.getRadius();
         boolean draInCam = isInCam(draPos, rr, camPos, draLevelViewDist);
-        if (draInCam) myInCam.add(dra); else myInCam.remove(dra);
+        if (draInCam) {
+          myInCam.add(dra);
+        } else {
+          myInCam.remove(dra);
+        }
       }
     }
 
@@ -102,7 +109,8 @@ public class DraMan {
       DraLevel draLevel = e.getKey();
       Map<Texture, List<Dra>> map = e.getValue();
       for (List<Dra> dras : map.values()) {
-        for (Dra dra : dras) {
+        for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
+          Dra dra = dras.get(i);
           if (myInCam.contains(dra)) {
             if (!DebugOptions.NO_DRAS) dra.draw(myDrawer, game);
           }
@@ -123,7 +131,8 @@ public class DraMan {
     if (DebugOptions.DRAW_DRA_BORDERS) {
       for (Map<Texture, List<Dra>> map : myDras.values()) {
         for (List<Dra> dras : map.values()) {
-          for (Dra dra : dras) {
+          for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
+            Dra dra = dras.get(i);
             drawDebug(myDrawer, game, dra);
           }
         }
@@ -160,7 +169,8 @@ public class DraMan {
 
   public static float radiusFromDras(List<Dra> dras) {
     float r = 0;
-    for (Dra dra : dras) {
+    for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
+      Dra dra = dras.get(i);
       float rr = dra.getRelPos().len() + dra.getRadius();
       if (r < rr) r = rr;
     }
