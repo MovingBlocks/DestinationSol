@@ -21,7 +21,7 @@ public class Maze {
 
   public void update(SolGame game) {
     Vector2 camPos = game.getCam().getPos();
-    if (!myObjsCreated) {
+    if (!myObjsCreated && camPos.dst(myPos) < myRadius) {
       new MazeBuilder().build(game, this);
       myObjsCreated = true;
     }
