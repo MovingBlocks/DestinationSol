@@ -41,6 +41,10 @@ public class FarPlanetSprites implements FarObj {
   @Override
   public void update(SolGame game) {
     myRelAngleToPlanet += myToPlanetRotSpd * game.getTimeStep();
+    if (game.getPlanetMan().getNearestPlanet() == myPlanet) {
+      SolMath.fromAl(myPos, myPlanet.getAngle() + myRelAngleToPlanet, myDist);
+      myPos.add(myPlanet.getPos());
+    }
   }
 
   @Override
@@ -50,8 +54,6 @@ public class FarPlanetSprites implements FarObj {
 
   @Override
   public Vector2 getPos() {
-    SolMath.fromAl(myPos, myPlanet.getAngle() + myRelAngleToPlanet, myDist);
-    myPos.add(myPlanet.getPos());
     return myPos;
   }
 
