@@ -213,13 +213,13 @@ public class SolCam {
 
   public float getViewHeight(float zoom) {
     float r = -myCam.viewportHeight * zoom;
-    if (r < 0) throw new RuntimeException();
+    if (r < 0) throw new AssertionError();
     return r;
   }
 
   public float getViewWidth() {
     float r = myCam.viewportWidth * myZoom;
-    if (r < 0) throw new RuntimeException();
+    if (r < 0) throw new AssertionError();
     return r;
   }
 

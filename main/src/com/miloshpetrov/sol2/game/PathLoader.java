@@ -13,7 +13,6 @@ import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.dra.*;
-import com.miloshpetrov.sol2.ui.DebugCollector;
 
 import java.util.*;
 
@@ -124,7 +123,7 @@ public class PathLoader {
    */
   public String getImagePath(String name) {
     RigidBodyModel rbModel = model.rigidBodies.get(name);
-    if (rbModel == null) throw new RuntimeException("Name '" + name + "' was not found.");
+    if (rbModel == null) throw new AssertionError("Name '" + name + "' was not found.");
 
     return rbModel.imagePath;
   }

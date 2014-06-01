@@ -41,7 +41,7 @@ public class TexMan {
     TextureAtlas.AtlasRegion r = myTexs.get(fullName);
     if (r != null) return r;
     r = myTexProvider.getTex(fullName, configFile);
-    if (r == null) throw new RuntimeException("texture not found: " + fullName);
+    if (r == null) throw new AssertionError("texture not found: " + fullName);
     myTexs.put(fullName, r);
     return r;
   }
@@ -50,7 +50,7 @@ public class TexMan {
     ArrayList<TextureAtlas.AtlasRegion> r = myPacks.get(name);
     if (r != null) return r;
     r = myTexProvider.getTexs(name, configFile);
-    if (r.size() == 0) throw new RuntimeException("textures not found: " + name);
+    if (r.size() == 0) throw new AssertionError("textures not found: " + name);
     myPacks.put(name, r);
     return r;
   }
