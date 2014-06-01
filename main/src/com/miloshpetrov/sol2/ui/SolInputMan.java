@@ -249,7 +249,8 @@ public class SolInputMan {
 
       uiDrawer.setTextMode(true);
       screen.drawText(uiDrawer, cmp);
-      for (SolUiControl ctrl : ctrls) {
+      for (int i1 = 0, ctrlsSize = ctrls.size(); i1 < ctrlsSize; i1++) {
+        SolUiControl ctrl = ctrls.get(i1);
         ctrl.drawDisplayName(uiDrawer);
       }
     }

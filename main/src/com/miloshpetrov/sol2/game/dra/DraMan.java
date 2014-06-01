@@ -83,7 +83,9 @@ public class DraMan {
     float viewDist = cam.getViewDist();
 
     ObjMan objMan = game.getObjMan();
-    for (SolObj o : objMan.getObjs()) {
+    List<SolObj> objs = objMan.getObjs();
+    for (int i1 = 0, objsSize = objs.size(); i1 < objsSize; i1++) {
+      SolObj o = objs.get(i1);
       Vector2 objPos = o.getPos();
       float r = objMan.getRadius(o);
       List<Dra> dras = o.getDras();

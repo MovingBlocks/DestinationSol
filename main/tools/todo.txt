@@ -2,15 +2,6 @@
 
 still slow on android : (
 
-Object[]
-char
-DirectFloatBufferU
-String
-ObjectStreamClass.WeakClassKey
-TreeMapEntry
-ArrayList.itr
-
-
 analyze snapshot:
   cache frequently used values:
     object's distance to np, to cam?
