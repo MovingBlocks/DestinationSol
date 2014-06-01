@@ -37,6 +37,7 @@ public class DraDebugger {
   }
 
   public void draw(UiDrawer uiDrawer, SolGame game) {
+    if (!DebugOptions.TEX_INFO) return;
     float y = GAP;
     for (TextureAtlas.AtlasRegion tex : myCollector) {
       float x = GAP;
