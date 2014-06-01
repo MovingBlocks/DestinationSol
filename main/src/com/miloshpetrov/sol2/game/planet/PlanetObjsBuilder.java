@@ -94,7 +94,7 @@ public class PlanetObjsBuilder {
     // helper values
     float maxR = planet.getGroundHeight() - TOP_TILE_SZ / 2;
     int cols = (int)(2 * SolMath.PI * maxR / TOP_TILE_SZ);
-    if (cols <= 0) throw new RuntimeException("eh");
+    if (cols <= 0) throw new AssertionError("eh");
     int rows = planet.getConfig().rowCount;
 
     // helper arrays

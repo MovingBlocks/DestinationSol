@@ -80,7 +80,7 @@ public class SolMath {
    */
   public static float rnd(float min, float max) {
     float res = max;
-    if (min == max) throw new RuntimeException("intRnd min equals max " + min);
+    if (min == max) throw new AssertionError("intRnd min equals max " + min);
     while (res == max) {
       res = MathUtils.random(min, max);
     }
@@ -103,7 +103,7 @@ public class SolMath {
   public static int intRnd(float perc, int max) {
     int r = max;
     int min = (int) (max * perc);
-    if (min == max) throw new RuntimeException("intRnd min equals max " + min);
+    if (min == max) throw new AssertionError("intRnd min equals max " + min);
     while (r == max) r = MathUtils.random(min, max);
     return r;
   }
@@ -394,7 +394,7 @@ public class SolMath {
   }
 
   public static void checkVectorsTaken(Object o) {
-    if (SolMath.VECTORS_TAKEN != 0) throw new RuntimeException("vectors " + SolMath.VECTORS_TAKEN + ", blame on " + o);
+    if (SolMath.VECTORS_TAKEN != 0) throw new AssertionError("vectors " + SolMath.VECTORS_TAKEN + ", blame on " + o);
   }
 
   /**

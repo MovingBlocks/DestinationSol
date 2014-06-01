@@ -38,7 +38,7 @@ public class RectSprite implements Dra {
   public RectSprite(TextureAtlas.AtlasRegion tex, float texSz, float origPercX, float origPercY,
     @Consumed Vector2 relPos, DraLevel level,
     float relAngle, float rotSpd, Color tint, boolean additive) {
-    if (tex == null) throw new IllegalArgumentException("tex is null");
+    if (tex == null) throw new AssertionError("tex is null");
     myTex = tex;
     myOrigPercX = origPercX;
     myOrigPercY = origPercY;

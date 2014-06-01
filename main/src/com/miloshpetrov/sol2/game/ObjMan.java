@@ -13,8 +13,8 @@ import java.util.*;
 public class ObjMan {
   private static final float MAX_RADIUS_RECALC_AWAIT = 1f;
   private final List<SolObj> myObjs;
-  private final Set<SolObj> myToRemove;
-  private final Set<SolObj> myToAdd;
+  private final List<SolObj> myToRemove;
+  private final List<SolObj> myToAdd;
   private final List<FarObjData> myFarObjs;
   private final World myWorld;
   private final Box2DDebugRenderer myDr;
@@ -26,8 +26,8 @@ public class ObjMan {
 
   public ObjMan(SolContactListener contactListener, FractionMan fractionMan) {
     myObjs = new ArrayList<SolObj>();
-    myToRemove = new HashSet<SolObj>();
-    myToAdd = new HashSet<SolObj>();
+    myToRemove = new ArrayList<SolObj>();
+    myToAdd = new ArrayList<SolObj>();
     myFarObjs = new ArrayList<FarObjData>();
     myWorld = new World(new Vector2(0, 0), true);
     myWorld.setContactListener(contactListener);
@@ -86,13 +86,13 @@ public class ObjMan {
       }
 
       if (o.shouldBeRemoved(game)) {
-        myToRemove.add(o);
+        removeObjDelayed(o);
         continue;
       }
       if (isFar(o, camPos)) {
         FarObj fo = o.toFarObj();
         if (fo != null) addFarObjNow(fo);
-        myToRemove.add(o);
+        removeObjDelayed(o);
         continue;
       }
       if (recalcRad) recalcRadius(o);
@@ -109,7 +109,7 @@ public class ObjMan {
       }
       if (isNear(fod, camPos, ts)) {
         SolObj o = fo.toObj(game);
-        myToAdd.add(o);
+        addObjDelayed(o);
         it.remove();
       }
     }
@@ -128,12 +128,14 @@ public class ObjMan {
   }
 
   private void addRemove(SolGame game) {
-    for (SolObj o : myToRemove) {
+    for (int i = 0, myToRemoveSize = myToRemove.size(); i < myToRemoveSize; i++) {
+      SolObj o = myToRemove.get(i);
       removeObjNow(game, o);
     }
     myToRemove.clear();
 
-    for (SolObj o : myToAdd) {
+    for (int i = 0, myToAddSize = myToAdd.size(); i < myToAddSize; i++) {
+      SolObj o = myToAdd.get(i);
       addObjNow(game, o);
     }
     myToAdd.clear();
@@ -147,7 +149,7 @@ public class ObjMan {
   }
 
   public void addObjNow(SolGame game, SolObj o) {
-    if (myObjs.contains(o)) throw new AssertionError();
+    if (DebugOptions.ASSERTIONS && myObjs.contains(o)) throw new AssertionError();
     myObjs.add(o);
     recalcRadius(o);
     game.getDraMan().objAdded(o);
@@ -226,10 +228,12 @@ public class ObjMan {
 
 
   public void addObjDelayed(SolObj p) {
+    if (DebugOptions.ASSERTIONS && myToAdd.contains(p)) throw new AssertionError();
     myToAdd.add(p);
   }
 
   public void removeObjDelayed(SolObj obj) {
+    if (DebugOptions.ASSERTIONS && myToRemove.contains(obj)) throw new AssertionError();
     myToRemove.add(obj);
   }
 
