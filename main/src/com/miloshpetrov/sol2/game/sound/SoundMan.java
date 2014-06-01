@@ -143,7 +143,7 @@ public class SoundMan {
 
   private boolean skipLooped(SolObj source, SolSound sound, float time) {
     if (sound.loopTime == 0) return false;
-    boolean playing = true;
+    boolean playing;
     Map<SolSound, Float> looped = myLoopedSounds.get(source);
     if (looped == null) {
       looped = new HashMap<SolSound, Float>();

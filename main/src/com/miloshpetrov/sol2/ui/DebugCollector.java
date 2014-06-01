@@ -19,22 +19,17 @@ public class DebugCollector {
     drawer.drawString(myDebugStrings.toString(), .5f, BorderDrawer.TISHCH_SZ, FontSize.DEBUG, false, Col.W);
   }
 
-  public static void debug(Object ... objs) {
-    for (int i = 0, objsLength = objs.length; i < objsLength; i++) {
-      Object o = objs[i];
-      myDebugStrings.append(String.valueOf(o)).append(" ");
-    }
-    myDebugStrings.append("\n");
+  public static void debug(String name, String val) {
+    myDebugStrings.append(name).append(": ").append(val).append("\n");
   }
 
-  public static void warn(Object ... objs) {
+  public static void debug(String name, int val) {
+    myDebugStrings.append(name).append(": ").append(val).append("\n");
+  }
+
+  public static void warn(String msg) {
     if (!DebugOptions.SHOW_WARNINGS) return;
-    StringBuilder sb = new StringBuilder("WARNING: ");
-    for (int i = 0, objsLength = objs.length; i < objsLength; i++) {
-      Object o = objs[i];
-      sb.append(String.valueOf(o)).append(" ");
-    }
-    myWarnings.put(sb.toString(), TimeUtils.millis() + WARN_TIME);
+    myWarnings.put(msg, TimeUtils.millis() + WARN_TIME);
   }
 
   public static void update() {
