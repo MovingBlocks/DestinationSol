@@ -94,14 +94,11 @@ public class BeaconHandler {
     if (myTargetPilot == null) return;
     ObjMan om = game.getObjMan();
     List<SolObj> objs = om.getObjs();
-    List<FarObjData> farObjs = om.getFarObjs();
+    List<FarShip> farShips = om.getFarShips();
     if (myTarget != null) {
       if (objs.contains(myTarget)) return;
       myTarget = null;
-      for (FarObjData fod : farObjs) {
-        FarObj fo = fod.fo;
-        if (!(fo instanceof FarShip)) continue;
-        FarShip ship = (FarShip) fo;
+      for (FarShip ship : farShips) {
         if (ship.getPilot() != myTargetPilot) continue;
         myFarTarget = ship;
         return;
@@ -110,7 +107,7 @@ public class BeaconHandler {
       return;
     }
     if (myFarTarget == null) throw new AssertionError();
-    if (om.containsFarObj(myFarTarget)) return;
+    if (om.getFarShips().contains(myFarTarget)) return;
     myFarTarget = null;
     for (SolObj o : objs) {
       if ((o instanceof SolShip)) {
@@ -223,13 +220,10 @@ public class BeaconHandler {
         return pilot;
       }
     }
-    for (FarObjData fod : om.getFarObjs()) {
-      FarObj fo = fod.fo;
-      if (!(fo instanceof FarShip)) continue;
-      FarShip s = (FarShip) fo;
+    for (FarShip s : om.getFarShips()) {
       Pilot pilot = s.getPilot();
       if (onMap && pilot.getMapHint() == null) continue;
-      float dst = fo.getPos().dst(pos);
+      float dst = s.getPos().dst(pos);
       float rad = iconRad == 0 ? s.getHullConfig().approxRadius : iconRad;
       if (dst < rad) {
         if (clicked) {

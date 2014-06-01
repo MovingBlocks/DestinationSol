@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.*;
 import com.miloshpetrov.sol2.game.dra.*;
+import com.miloshpetrov.sol2.game.ship.FarShip;
 import com.miloshpetrov.sol2.save.SaveData;
 
 import java.util.*;
@@ -16,6 +17,8 @@ public class ObjMan {
   private final List<SolObj> myToRemove;
   private final List<SolObj> myToAdd;
   private final List<FarObjData> myFarObjs;
+  private final List<FarShip> myFarShips;
+  private final List<StarPort.MyFar> myFarPorts;
   private final World myWorld;
   private final Box2DDebugRenderer myDr;
   private final HashMap<SolObj, Float> myRadii;
@@ -29,6 +32,8 @@ public class ObjMan {
     myToRemove = new ArrayList<SolObj>();
     myToAdd = new ArrayList<SolObj>();
     myFarObjs = new ArrayList<FarObjData>();
+    myFarShips = new ArrayList<FarShip>();
+    myFarPorts = new ArrayList<StarPort.MyFar>();
     myWorld = new World(new Vector2(0, 0), true);
     myWorld.setContactListener(contactListener);
     myWorld.setContactFilter(new SolContactFilter(fractionMan));
@@ -104,16 +109,22 @@ public class ObjMan {
       fo.update(game);
       SolMath.checkVectorsTaken(fo);
       if (fo.shouldBeRemoved(game)) {
-        it.remove();
+        removeFo(it, fo);
         continue;
       }
       if (isNear(fod, camPos, ts)) {
         SolObj o = fo.toObj(game);
         addObjDelayed(o);
-        it.remove();
+        removeFo(it, fo);
       }
     }
     addRemove(game);
+  }
+
+  private void removeFo(Iterator<FarObjData> it, FarObj fo) {
+    it.remove();
+    if (fo instanceof FarShip) myFarShips.remove(fo);
+    if (fo instanceof StarPort.MyFar) myFarPorts.remove(fo);
   }
 
   private void recalcRadius(SolObj o) {
@@ -261,6 +272,16 @@ public class ObjMan {
     }
     FarObjData fod = new FarObjData(fo, depth);
     myFarObjs.add(fod);
+    if (fo instanceof FarShip) myFarShips.add((FarShip) fo);
+    if (fo instanceof StarPort.MyFar) myFarPorts.add((StarPort.MyFar) fo);
+  }
+
+  public List<FarShip> getFarShips() {
+    return myFarShips;
+  }
+
+  public List<StarPort.MyFar> getFarPorts() {
+    return myFarPorts;
   }
 
   public void dispose() {
