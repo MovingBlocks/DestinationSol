@@ -213,22 +213,19 @@ public class MapDrawer {
       }
     }
 
-    List<FarObjData> farObjs = game.getObjMan().getFarObjs();
-    for (int i = 0, farObjsSize = farObjs.size(); i < farObjsSize; i++) {
-      FarObjData fod = farObjs.get(i);
-      FarObj o = fod.fo;
-      Vector2 oPos = o.getPos();
+    List<FarShip> farShips = game.getObjMan().getFarShips();
+    for (int i = 0, sz = farShips.size(); i < sz; i++) {
+      FarShip ship = farShips.get(i);
+      Vector2 oPos = ship.getPos();
       if (viewDist < camPos.dst(oPos)) continue;
-      if ((o instanceof FarShip)) {
-        FarShip ship = (FarShip) o;
-        String hint = ship.getPilot().getMapHint();
-        if (hint == null && !DebugOptions.DETAILED_MAP) continue;
-        drawObjIcon(iconSz, oPos, ship.getAngle(), fractionMan, hero, ship.getPilot().getFraction(), heroDmgCap, o, ship.getHullConfig().icon, drawer);
-      }
-      if ((o instanceof StarPort.MyFar)) {
-        StarPort.MyFar sp = (StarPort.MyFar) o;
-        drawStarPortIcon(drawer, iconSz, sp.getFrom(), sp.getTo());
-      }
+      String hint = ship.getPilot().getMapHint();
+      if (hint == null && !DebugOptions.DETAILED_MAP) continue;
+      drawObjIcon(iconSz, oPos, ship.getAngle(), fractionMan, hero, ship.getPilot().getFraction(), heroDmgCap, ship, ship.getHullConfig().icon, drawer);
+    }
+    List<StarPort.MyFar> farPorts = game.getObjMan().getFarPorts();
+    for (int i = 0, sz = farPorts.size(); i < sz; i++) {
+      StarPort.MyFar sp = farPorts.get(i);
+      drawStarPortIcon(drawer, iconSz, sp.getFrom(), sp.getTo());
     }
     BeaconHandler bh = game.getBeaconHandler();
     BeaconHandler.Action bhAction = bh.getCurrAction();
@@ -261,14 +258,11 @@ public class MapDrawer {
       drawStarNode(drawer, sp.getFrom(), sp.getTo(), starNodeW);
     }
 
-    List<FarObjData> farObjs = game.getObjMan().getFarObjs();
-    for (int i = 0, farObjsSize = farObjs.size(); i < farObjsSize; i++) {
-      FarObjData fod = farObjs.get(i);
-      FarObj o = fod.fo;
-      if (!(o instanceof StarPort.MyFar)) continue;
-      Vector2 oPos = o.getPos();
+    List<StarPort.MyFar> farPorts = game.getObjMan().getFarPorts();
+    for (int i = 0, sz = farPorts.size(); i < sz; i++) {
+      StarPort.MyFar sp = farPorts.get(i);
+      Vector2 oPos = sp.getPos();
       if (viewDist < camPos.dst(oPos)) continue;
-      StarPort.MyFar sp = (StarPort.MyFar) o;
       if (!sp.isSecondary()) drawStarNode(drawer, sp.getFrom(), sp.getTo(), starNodeW);
     }
   }

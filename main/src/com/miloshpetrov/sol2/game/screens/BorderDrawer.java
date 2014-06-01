@@ -79,24 +79,20 @@ public class BorderDrawer {
       }
     }
 
-    List<FarObjData> farObjs = g.getObjMan().getFarObjs();
-    for (int i = 0, farObjsSize = farObjs.size(); i < farObjsSize; i++) {
-      FarObjData fod = farObjs.get(i);
-      FarObj o = fod.fo;
-      if ((o instanceof FarShip)) {
-        FarShip ship = (FarShip) o;
-        Vector2 shipPos = ship.getPos();
-        Fraction shipFrac = ship.getPilot().getFraction();
-        float shipSize = ship.getHullConfig().size;
-        float shipAngle = ship.getAngle();
-        maybeDrawIcon(drawer, shipPos, cam, shipSize, shipAngle, mapDrawer, fracMan, hero, shipFrac, o, heroDmgCap, ship.getHullConfig().icon);
-      }
-      if ((o instanceof StarPort.MyFar)) {
-        StarPort.MyFar sp = (StarPort.MyFar) o;
-        maybeDrawIcon(drawer, sp.getPos(), cam, StarPort.SIZE, sp.getAngle(), mapDrawer, null, null, null, null, -1, mapDrawer.getStarPortTex());
-      }
+    List<FarShip> farShips = g.getObjMan().getFarShips();
+    for (int i = 0, farObjsSize = farShips.size(); i < farObjsSize; i++) {
+      FarShip ship = farShips.get(i);
+      Vector2 shipPos = ship.getPos();
+      Fraction shipFrac = ship.getPilot().getFraction();
+      float shipSize = ship.getHullConfig().size;
+      float shipAngle = ship.getAngle();
+      maybeDrawIcon(drawer, shipPos, cam, shipSize, shipAngle, mapDrawer, fracMan, hero, shipFrac, ship, heroDmgCap, ship.getHullConfig().icon);
     }
-
+    List<StarPort.MyFar> farPorts = g.getObjMan().getFarPorts();
+    for (int i = 0, sz = farPorts.size(); i < sz; i++) {
+      StarPort.MyFar sp = farPorts.get(i);
+      maybeDrawIcon(drawer, sp.getPos(), cam, StarPort.SIZE, sp.getAngle(), mapDrawer, null, null, null, null, -1, mapDrawer.getStarPortTex());
+    }
   }
 
   private void maybeDrawIcon(UiDrawer drawer, Vector2 pos, SolCam cam, float objSize,
