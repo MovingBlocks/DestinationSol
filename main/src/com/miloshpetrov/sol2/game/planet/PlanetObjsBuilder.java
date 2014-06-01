@@ -310,7 +310,7 @@ public class PlanetObjsBuilder {
     if (!cw) spdLen *= -1;
     Vector2 spd = new Vector2(0, -spdLen);
     Vector2 v = SolMath.distVec(pos, planetPos);
-    SolMath.rotate(spd, v.angle());
+    SolMath.rotate(spd, SolMath.angle(v));
     SolMath.free(v);
 
     OrbiterDestProvider dp = new OrbiterDestProvider(planet, height, cw);

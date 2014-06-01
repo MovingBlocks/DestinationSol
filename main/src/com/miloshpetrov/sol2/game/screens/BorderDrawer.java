@@ -155,7 +155,7 @@ public class BorderDrawer {
     float dst = objPos.dst(camPos);
     float distPerc = (dst - objRad) / MAX_DRAW_DIST;
     if (distPerc < 1) {
-      float relAngle = SolMath.angle(camPos, objPos, true) - camAngle;
+      float relAngle = SolMath.angle(camPos, objPos) - camAngle;
       float angularWHalf = SolMath.angularWidthOfSphere(objRad, dst);
       apply(distPerc, angularWHalf, relAngle);
     }
