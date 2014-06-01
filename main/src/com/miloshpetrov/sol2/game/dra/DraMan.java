@@ -4,21 +4,25 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.OrderedMap;
 import com.miloshpetrov.sol2.common.DebugCol;
 import com.miloshpetrov.sol2.game.*;
 
 import java.util.*;
 
 public class DraMan {
-  private final Map<DraLevel, Map<Texture, List<Dra>>> myDras;
+  private final DraLevel[] myDlVals;
+  private final ArrayList<OrderedMap<Texture, List<Dra>>> myDras;
   private final Set<Dra> myInCam;
   private final GameDrawer myDrawer;
 
   public DraMan(GameDrawer drawer) {
+    myDlVals = DraLevel.values();
     myDrawer = drawer;
-    myDras = new EnumMap<DraLevel, Map<Texture, List<Dra>>>(DraLevel.class);
-    for (DraLevel l : DraLevel.values()) {
-      myDras.put(l, new HashMap<Texture, List<Dra>>());
+    myDras = new ArrayList<OrderedMap<Texture, List<Dra>>>();
+    for (int i = 0, sz = myDlVals.length; i < sz; i++) {
+      myDras.add(new OrderedMap<Texture, List<Dra>>());
     }
     myInCam = new HashSet<Dra>();
   }
@@ -32,12 +36,11 @@ public class DraMan {
     for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
       Dra dra = dras.get(i);
       DraLevel l = dra.getLevel();
-      Map<Texture, List<Dra>> map = myDras.get(l);
+      OrderedMap<Texture, List<Dra>> map = myDras.get(l.ordinal());
       Texture tex = dra.getTex0();
       List<Dra> set = map.get(tex);
       if (set == null) continue;
       set.remove(dra);
-      if (set.isEmpty()) map.remove(tex);
       myInCam.remove(dra);
     }
   }
@@ -51,7 +54,7 @@ public class DraMan {
     for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
       Dra dra = dras.get(i);
       DraLevel l = dra.getLevel();
-      Map<Texture, List<Dra>> map = myDras.get(l);
+      OrderedMap<Texture, List<Dra>> map = myDras.get(l.ordinal());
       Texture tex = dra.getTex0();
       List<Dra> set = map.get(tex);
       if (set == null) {
@@ -105,12 +108,15 @@ public class DraMan {
       }
     }
 
-    for (Map.Entry<DraLevel, Map<Texture, List<Dra>>> e : myDras.entrySet()) {
-      DraLevel draLevel = e.getKey();
-      Map<Texture, List<Dra>> map = e.getValue();
-      for (List<Dra> dras : map.values()) {
-        for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
-          Dra dra = dras.get(i);
+    for (int dlIdx = 0, dlCount = myDlVals.length; dlIdx < dlCount; dlIdx++) {
+      DraLevel draLevel = myDlVals[dlIdx];
+      OrderedMap<Texture, List<Dra>> map = myDras.get(dlIdx);
+      Array<Texture> texs = map.orderedKeys();
+      for (int texIdx = 0, sz = texs.size; texIdx < sz; texIdx++) {
+        Texture tex = texs.get(texIdx);
+        List<Dra> dras = map.get(tex);
+        for (int draIdx = 0, drasSize = dras.size(); draIdx < drasSize; draIdx++) {
+          Dra dra = dras.get(draIdx);
           if (myInCam.contains(dra)) {
             if (!DebugOptions.NO_DRAS) dra.draw(myDrawer, game);
           }
@@ -129,7 +135,7 @@ public class DraMan {
 
 
     if (DebugOptions.DRAW_DRA_BORDERS) {
-      for (Map<Texture, List<Dra>> map : myDras.values()) {
+      for (OrderedMap<Texture, List<Dra>> map : myDras) {
         for (List<Dra> dras : map.values()) {
           for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
             Dra dra = dras.get(i);
@@ -155,16 +161,6 @@ public class DraMan {
   }
 
   public void update(SolGame game) {
-    if (DebugOptions.MISC_INFO) {
-      int count = 0;
-      for (Map<Texture, List<Dra>> map : myDras.values()) {
-        for (List<Dra> dras : map.values()) {
-          for (Dra dra : dras) {
-            count++;
-          }
-        }
-      }
-    }
   }
 
   public static float radiusFromDras(List<Dra> dras) {

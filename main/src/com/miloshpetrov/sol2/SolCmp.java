@@ -75,10 +75,10 @@ public class SolCmp {
 
   private void update() {
     DebugCollector.update();
-    DebugCollector.debug("Fps: ", Gdx.graphics.getFramesPerSecond());
+    DebugCollector.debug("Fps", Gdx.graphics.getFramesPerSecond());
     myInputMan.update(this);
     if (myGame == null) {
-      DebugCollector.debug("Version: " + Const.VERSION);
+      DebugCollector.debug("Version", Const.VERSION);
     } else {
       myGame.update();
     }
