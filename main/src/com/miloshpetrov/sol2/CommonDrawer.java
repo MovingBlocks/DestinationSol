@@ -99,7 +99,7 @@ public class CommonDrawer {
   public void drawLine(TextureRegion tex, Vector2 p1, Vector2 p2, Color col, float width) {
     Vector2 v = SolMath.getVec(p2);
     v.sub(p1);
-    drawLine(tex, p1.x, p1.y, v.angle(), v.len(), col, width);
+    drawLine(tex, p1.x, p1.y, SolMath.angle(v), v.len(), col, width);
     SolMath.free(v);
   }
 

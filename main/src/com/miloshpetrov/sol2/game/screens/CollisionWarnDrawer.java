@@ -30,7 +30,7 @@ public class CollisionWarnDrawer {
     Vector2 spd = myHero.getSpd();
     float acc = myHero.getAcc();
     float spdLen = spd.len();
-    float spdAngle = spd.angle();
+    float spdAngle = SolMath.angle(spd);
     if (acc <= 0 || spdLen < 2 * acc) return;
     // t = v/a;
     // s = att/2 = vv/a/2;
