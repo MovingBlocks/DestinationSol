@@ -38,7 +38,7 @@ public class Guardian implements MoveDestProvider {
 
   @Override
   public boolean shouldAvoidBigObjs() {
-    return true;
+    return false;
   }
 
   @Override

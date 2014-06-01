@@ -1,17 +1,3 @@
-
-
-still slow on android : (
-
-analyze snapshot:
-  cache frequently used values:
-    object's distance to np, to cam?
-    item container
-  delay some calcs:
-    door.shouldOpen
-  far ship positions should be calculated on demand?
-  optimize getVec? but don't remove, cuz freeing helps fix bugs
-  compare dstSq instead of dst -- maybe not needed, iterating through object is only quadratic
-
 DATA:
   balancing
   hull lights

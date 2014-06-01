@@ -16,6 +16,8 @@ public class AiPilot implements Pilot {
   public static final float MAX_GROUND_BATTLE_SPD = .7f;
   public static final float MAX_BATTLE_SPD_BIG = 1f;
   public static final float MAX_BATTLE_SPD = 2f;
+  public static final float MAX_BIND_AWAIT = .25f;
+
   private final MoveDestProvider myDestProvider;
   private final boolean myCollectsItems;
   private final Mover myMover;
@@ -27,6 +29,7 @@ public class AiPilot implements Pilot {
   private final float myDetectionDist;
   private final AbilityUpdater myAbilityUpdater;
 
+  private float myBindAwait;
   private PlanetBind myPlanetBind;
 
   public AiPilot(MoveDestProvider destProvider, boolean collectsItems, Fraction fraction,
@@ -183,7 +186,12 @@ public class AiPilot implements Pilot {
     float ts = game.getTimeStep();
     if (dest == null || engine == null) {
       if (myPlanetBind == null) {
-        myPlanetBind = PlanetBind.tryBind(game, shipPos, angle);
+        if (myBindAwait > 0) {
+          myBindAwait -= ts;
+        } else {
+          myPlanetBind = PlanetBind.tryBind(game, shipPos, angle);
+          myBindAwait = MAX_BIND_AWAIT;
+        }
       }
       if (myPlanetBind != null) {
         myPlanetBind.setDiff(spd, shipPos, false);
