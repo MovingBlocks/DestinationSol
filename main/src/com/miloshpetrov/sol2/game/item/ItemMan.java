@@ -140,6 +140,22 @@ public class ItemMan {
     return myRepairExample;
   }
 
+  public void addAllWeapons(ItemContainer ic) {
+    for (SolItem i : myM.values()) {
+      if (i instanceof ClipItem && !((ClipItem) i).getConfig().infinite) {
+        for (int j = 0; j < ItemContainer.GROUP_CAP; j++) {
+          ic.add(i.copy());
+        }
+      }
+    }
+    for (SolItem i : myM.values()) {
+      if (i instanceof GunItem) {
+        ic.add(i.copy());
+      }
+    }
+
+  }
+
   public static class ItemConfig {
     public final SolItem exmaple;
     public final int amt;

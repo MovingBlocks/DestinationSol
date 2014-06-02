@@ -134,6 +134,7 @@ public class SolGame {
     myRespawnMoney = 0;
     myHero = myShipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, shipConfig.items,
       shipConfig.hull, null, true, money, null).toObj(this);
+    if (DebugOptions.GOD_MODE) myItemMan.addAllWeapons(myHero.getItemContainer());
 
     if (myTut) {
       myHero.getHull().setEngine(this, myHero, null);

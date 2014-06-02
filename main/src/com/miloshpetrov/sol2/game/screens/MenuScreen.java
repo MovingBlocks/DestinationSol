@@ -47,6 +47,7 @@ public class MenuScreen implements SolUiScreen {
     }
     if (myExitCtrl.isJustOff()) {
       cmp.finishGame();
+      im.setScreen(cmp, cmp.getMenuScreens().main);
     }
     if (myCloseCtrl.isJustOff()) {
       g.setPaused(false);
