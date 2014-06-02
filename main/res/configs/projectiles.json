@@ -89,7 +89,7 @@
     dmgType: explosion,
     spdLen: 1,
     physSize: 0.1,
-    guideRotSpd: 90,
+    guideRotSpd: 180,
     acceleration: 4,
 
     texName: missile,

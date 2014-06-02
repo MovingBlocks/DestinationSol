@@ -146,7 +146,7 @@
     maxAngleVar: 30,
     angleVarDamp: 6,
     angleVarPerShot: 3,
-    timeBetweenShots: 0.4,
+    timeBetweenShots: 0.7,
     reloadTime: 2.5,
     price: 200,
     clipName: missileClip,

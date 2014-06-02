@@ -96,8 +96,7 @@ public class Projectile implements SolObj {
     if (myConfig.guideRotSpd == 0) return;
     SolShip ne = game.getFractionMan().getNearestEnemy(game, this);
     if (ne == null) return;
-    Vector2 nePos = ne.getPos();
-    float desiredAngle = myBody.getDesiredAngle(nePos);
+    float desiredAngle = myBody.getDesiredAngle(ne);
     float angle = getAngle();
     float diffAngle = SolMath.norm(desiredAngle - angle);
     if (SolMath.abs(diffAngle) < MIN_ANGLE_TO_GUIDE) return;

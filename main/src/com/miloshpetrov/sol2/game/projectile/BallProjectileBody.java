@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.asteroid.AsteroidBuilder;
+import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public class BallProjectileBody implements ProjectileBody {
   private final Body myBody;
@@ -82,10 +83,12 @@ public class BallProjectileBody implements ProjectileBody {
   }
 
   @Override
-  public float getDesiredAngle(Vector2 nePos) {
+  public float getDesiredAngle(SolShip ne) {
     float spdLen = mySpd.len();
-    float toNe = SolMath.angle(myPos, nePos);
+    if (spdLen < 3) spdLen = 3;
+    float toNe = SolMath.angle(myPos, ne.getPos());
     Vector2 desiredSpd = SolMath.fromAl(toNe, spdLen);
+    desiredSpd.add(ne.getSpd());
     float res = SolMath.angle(mySpd, desiredSpd);
     SolMath.free(desiredSpd);
     return res;
