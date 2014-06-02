@@ -20,6 +20,25 @@
 
 
 
+  bombGun: {
+    maxAngleVar: 0,
+    angleVarDamp: 0,
+    angleVarPerShot: 0,
+    timeBetweenShots: 0.5,
+    reloadTime: 2.5,
+    price: 200,
+    clipName: bombClip,
+
+    gunLength: 0.2,
+    texName: bombGun,
+    displayName: "Bomber",
+
+    shootSound: "guns/bombGun/shoot",
+    reloadSound: "guns/rocketLauncher/reload",
+  },
+
+
+
   blaster: {
     maxAngleVar: 30,
     angleVarDamp: 6,
@@ -40,20 +59,22 @@
 
 
 
-  bombGun: {
+  fixedBombGun: {
+    fixed: true,
     maxAngleVar: 0,
     angleVarDamp: 0,
     angleVarPerShot: 0,
-    timeBetweenShots: 0.5,
+    timeBetweenShots: 0.2,
     reloadTime: 2.5,
     price: 200,
     clipName: bombClip,
 
     gunLength: 0.2,
-    texName: bombGun,
+    texName: fixedBombGun,
     displayName: "Bomber",
 
     shootSound: "guns/bombGun/shoot",
+    shootSoundPitch: 0.8,
     reloadSound: "guns/rocketLauncher/reload",
   },
 
@@ -104,8 +125,8 @@
     maxAngleVar: 10,
     angleVarDamp: 0,
     angleVarPerShot: 10,
-    timeBetweenShots: 0.58,
-    reloadTime: 3,
+    timeBetweenShots: 1.2,
+    reloadTime: 3.5,
     price: 200,
     clipName: shellClip,
 
@@ -116,27 +137,6 @@
 
     shootSound: "guns/shotGun/shoot",
     reloadSound: "guns/gun/reload",
-  },
-
-
-
-  fixedBombGun: {
-    fixed: true,
-    maxAngleVar: 0,
-    angleVarDamp: 0,
-    angleVarPerShot: 0,
-    timeBetweenShots: 0.2,
-    reloadTime: 2.5,
-    price: 200,
-    clipName: bombClip,
-
-    gunLength: 0.2,
-    texName: fixedBombGun,
-    displayName: "Bomber",
-
-    shootSound: "guns/bombGun/shoot",
-    shootSoundPitch: 0.8,
-    reloadSound: "guns/rocketLauncher/reload",
   },
 
 
@@ -182,26 +182,6 @@
 
 
 
-  cannon: {
-    maxAngleVar: 10,
-    angleVarDamp: 6,
-    angleVarPerShot: 1,
-    timeBetweenShots: 1.9,
-    reloadTime: 3,
-    price: 50,
-    clipName: slugClip,
-
-    gunLength: 0.24,
-    texName: cannon,
-    displayName: "Cannon",
-    lightOnShot: true,
-
-    shootSound: "guns/cannon/shoot",
-    reloadSound: "guns/gun/reload",
-  },
-
-
-
   rocketLauncher: {
     fixed: true,
     maxAngleVar: 30,
@@ -243,32 +223,11 @@
 
 
 
-  missilePad: {
-    fixed: true,
-    maxAngleVar: 30,
-    angleVarDamp: 6,
-    angleVarPerShot: 3,
-    timeBetweenShots: 0,
-    reloadTime: 3,
-    price: 200,
-    clipName: missileClip,
-
-    gunLength: 0.2,
-    texName: missilePad,
-    displayName: "Missile Pad",
-
-    shootSound: "guns/rocketLauncher/shoot",
-    shootSoundPitch: 0.5,
-    reloadSound: "guns/rocketLauncher/reload",
-  },
-
-
-
   fixedPlasmaGun: {
     fixed: true,
-    maxAngleVar: 30,
+    maxAngleVar: 10,
     angleVarDamp: 6,
-    angleVarPerShot: 2,
+    angleVarPerShot: 1,
     timeBetweenShots: 0.06,
     reloadTime: 0,
     price: 15,
@@ -286,12 +245,53 @@
 
 
 
+  missilePad: {
+    fixed: true,
+    maxAngleVar: 360,
+    angleVarDamp: 0,
+    angleVarPerShot: 360,
+    timeBetweenShots: 0,
+    reloadTime: 3,
+    price: 200,
+    clipName: missileClip,
+
+    gunLength: 0.2,
+    texName: missilePad,
+    displayName: "Missile Pad",
+
+    shootSound: "guns/rocketLauncher/shoot",
+    shootSoundPitch: 0.5,
+    reloadSound: "guns/rocketLauncher/reload",
+  },
+
+
+
+  cannon: {
+    maxAngleVar: 10,
+    angleVarDamp: 6,
+    angleVarPerShot: 1,
+    timeBetweenShots: 1.9,
+    reloadTime: 3,
+    price: 50,
+    clipName: slugClip,
+
+    gunLength: 0.24,
+    texName: cannon,
+    displayName: "Cannon",
+    lightOnShot: true,
+
+    shootSound: "guns/cannon/shoot",
+    reloadSound: "guns/gun/reload",
+  },
+
+
+
   nailGun: {
     fixed: true,
     maxAngleVar: 30,
     angleVarDamp: 6,
     angleVarPerShot: 2,
-    timeBetweenShots: 0.6,
+    timeBetweenShots: 0.55,
     reloadTime: 1,
     price: 15,
     clipName: nailClip,
@@ -309,9 +309,9 @@
 
   fixedBlaster: {
     fixed: true,
-    maxAngleVar: 30,
+    maxAngleVar: 10,
     angleVarDamp: 6,
-    angleVarPerShot: 2,
+    angleVarPerShot: 1,
     timeBetweenShots: 0.07,
     reloadTime: 0,
     price: 30,
@@ -329,12 +329,32 @@
 
 
 
+  emGun: {
+    maxAngleVar: 30,
+    angleVarDamp: 6,
+    angleVarPerShot: 2,
+    timeBetweenShots: 0,
+    reloadTime: 11,
+    price: 15,
+    clipName: emClip,
+
+    gunLength: 0.12,
+    texName: emGun,
+    displayName: "EM Gun",
+    lightOnShot: true,
+
+    shootSound: "guns/emGun/shoot",
+    reloadSound: "guns/blaster/reload",
+  },
+
+
+
   fixedShotGun: {
     fixed: true,
     maxAngleVar: 10,
     angleVarDamp: 0,
     angleVarPerShot: 10,
-    timeBetweenShots: 0.105,
+    timeBetweenShots: 0.2,
     reloadTime: 0,
     price: 200,
     clipName: shellClip,
@@ -351,33 +371,13 @@
 
 
 
-  emGun: {
-    maxAngleVar: 30,
-    angleVarDamp: 6,
-    angleVarPerShot: 2,
-    timeBetweenShots: 1,
-    reloadTime: 2.5,
-    price: 15,
-    clipName: emClip,
-
-    gunLength: 0.12,
-    texName: emGun,
-    displayName: "EM Gun",
-    lightOnShot: true,
-
-    shootSound: "guns/emGun/shoot",
-    reloadSound: "guns/blaster/reload",
-  },
-
-
-
   fixedEmGun: {
     fixed: true,
     maxAngleVar: 30,
     angleVarDamp: 6,
     angleVarPerShot: 2,
-    timeBetweenShots: 0.8,
-    reloadTime: 1,
+    timeBetweenShots: 0,
+    reloadTime: 3,
     price: 15,
     clipName: emClip,
 
@@ -398,8 +398,8 @@
     maxAngleVar: 10,
     angleVarDamp: 6,
     angleVarPerShot: 1,
-    timeBetweenShots: 0.4,
-    reloadTime: 0.7,
+    timeBetweenShots: 0.46,
+    reloadTime: 0,
     price: 50,
     clipName: slugClip,
 

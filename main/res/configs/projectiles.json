@@ -84,6 +84,24 @@
 
 
 
+  shellBullet: {
+    dmg: 6.5,
+    spdLen: 8,
+    dmgType: bullet,
+
+    texName: bullet,
+    texSz: 0.03,
+    stretch: true,
+    collisionEffect: {
+      effectFile: spark,
+      size: 0.5,
+      tex: spark,
+      tint: fire,
+    },
+  },
+
+
+
   missile: {
     dmg: 8,
     dmgType: explosion,
@@ -235,7 +253,7 @@
     spdLen: 12,
     physSize: 0.15,
 
-    texName: nail,
+    texName: bullet,
     texSz: 0.15,
     trailEffect: {
       effectFile: railTrail,
@@ -253,9 +271,9 @@
 
 
   nail: {
-    dmg: 0,
+    dmg: 22,
     dmgType: bullet,
-    spdLen: 3,
+    spdLen: 6,
     physSize: 0.15,
     density: 20,
 
@@ -293,7 +311,7 @@
   wave: {
     dmg: 21,
     dmgType: energy,
-    physSize: 0.4,
+    physSize: 1.2,
     massless: true,
     spdLen: 5,
 

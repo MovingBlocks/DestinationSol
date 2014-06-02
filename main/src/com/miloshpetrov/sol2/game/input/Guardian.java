@@ -13,7 +13,7 @@ import java.util.List;
  * Flies near the given ship. When the ship is destroyed, floats
  */
 public class Guardian implements MoveDestProvider {
-  public static final float DIST = 1f;
+  public static final float DIST = 1.5f;
 
   private final Pilot myTargetPilot;
   private final Vector2 myDest;

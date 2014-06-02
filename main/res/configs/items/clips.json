@@ -44,8 +44,8 @@
 
 
   shellClip: {
-    projectile: bullet,
-    projectilesPerShot: 9,
+    projectile: shellBullet,
+    projectilesPerShot: 5,
     size: 12,
     price: 30,
 
@@ -131,7 +131,7 @@
   emClip: {
     projectile: em,
     infinite: true,
-    size: 5,
+    size: 1,
   },
 
 

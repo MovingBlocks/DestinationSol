@@ -20,9 +20,10 @@ public class Asteroid implements SolObj {
   public static final float MIN_SPLIT_SZ = .25f;
   public static final float MIN_BURN_SZ = .3f;
 
-  public static final float SZ_TO_LIFE = 40f;
+  public static final float SZ_TO_LIFE = 20f;
   public static final float SPD_TO_ATM_DMG = SZ_TO_LIFE * .11f;
   public static final float MAX_SPLIT_SPD = 1f;
+  private static final float DUR = .5f;
   private final Body myBody;
   private final Vector2 myPos;
   private final Vector2 mySpd;
@@ -90,7 +91,7 @@ public class Asteroid implements SolObj {
     if (other instanceof TileObj && MIN_BURN_SZ < mySize) {
       dmg = myLife;
     } else {
-      dmg = absImpulse / myMass;
+      dmg = absImpulse / myMass / DUR;
     }
     receiveDmg(dmg, game, collPos, DmgType.CRASH);
   }

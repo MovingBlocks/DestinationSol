@@ -1,17 +1,9 @@
-blaster is too slow
-fSg is too fast
-fb & fPg
-wave bigger
-missile pad
-
-gun strengths
 ship strengths
 balancing
 
 
 DATA:
-  durability
-  nail density & speed should match dmg
+  gun sizes
   hull lights
   check licenses:
     in-game:
