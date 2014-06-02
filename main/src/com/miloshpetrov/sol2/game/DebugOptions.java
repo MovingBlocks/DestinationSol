@@ -10,6 +10,7 @@ public class DebugOptions {
   public static final Vector2 DEBUG_POINT2 = new Vector2();
   public static final Vector2 DEBUG_POINT3 = new Vector2();
   public static final boolean ASSERTIONS = false;
+  public static final boolean PRINT_BALANCE = true;
 
   // world initialization
   public static boolean EMULATE_MOBILE = false;

@@ -118,8 +118,6 @@ public class SolGame {
       createPlayer();
     }
     SolMath.checkVectorsTaken(null);
-//    myItemMan.printGuns();
-//    myPlanetMan.printShips(myPlayerSpawnConfig);
   }
 
   private void createPlayer() {
@@ -167,6 +165,11 @@ public class SolGame {
 
   public void update() {
     myDraDebugger.update(this);
+
+    if (DebugOptions.PRINT_BALANCE) {
+      myItemMan.printGuns();
+      myPlanetMan.printShips(myPlayerSpawnConfig);
+    }
 
     if (myPaused) return;
 

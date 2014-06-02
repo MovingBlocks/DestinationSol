@@ -1,7 +1,7 @@
 {
   plasmaClip: {
     projectile: plasma,
-    size: 60,
+    size: 30,
     price: 30,
 
     iconName: plasmaClip,
@@ -21,7 +21,7 @@
 
   bombClip: {
     projectile: bomb,
-    size: 6,
+    size: 10,
     price: 30,
 
     displayName: Bombs,
@@ -45,7 +45,7 @@
 
   shellClip: {
     projectile: bullet,
-    projectilesPerShot: 4,
+    projectilesPerShot: 9,
     size: 12,
     price: 30,
 
@@ -70,7 +70,7 @@
 
   mineClip: {
     projectile: mine,
-    size: 6,
+    size: 10,
     price: 30,
 
     displayName: Mines,
@@ -82,7 +82,7 @@
 
   slugClip: {
     projectile: slug,
-    size: 6,
+    size: 10,
     price: 70,
 
     displayName: "Cannon Slugs",
@@ -94,7 +94,7 @@
 
   rocketClip: {
     projectile: rocket,
-    size: 6,
+    size: 8,
     price: 70,
 
     displayName: Rockets,
@@ -106,7 +106,7 @@
 
   railClip: {
     projectile: rail,
-    size: 8,
+    size: 5,
     price: 70,
 
     displayName: "Railgun Bullets",
@@ -131,7 +131,7 @@
   emClip: {
     projectile: em,
     infinite: true,
-    size: 20,
+    size: 5,
   },
 
 

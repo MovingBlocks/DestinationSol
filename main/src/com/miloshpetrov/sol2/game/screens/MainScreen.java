@@ -133,6 +133,11 @@ public class MainScreen implements SolUiScreen {
 
   @Override
   public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
+    if (DebugOptions.PRINT_BALANCE) {
+      cmp.finishGame();
+      cmp.getInputMan().setScreen(cmp, cmp.getMenuScreens().main);
+      return;
+    }
     SolGame game = cmp.getGame();
     SolInputMan inputMan = cmp.getInputMan();
     GameScreens screens = game.getScreens();

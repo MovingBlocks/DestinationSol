@@ -180,7 +180,6 @@
     type: std,
     price: 150,
     m1Fixed: true,
-    m2Fixed: true,
     ability: {
       type: teleport,
       angle: 45,

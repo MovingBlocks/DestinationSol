@@ -15,43 +15,50 @@ import java.util.List;
 public class HardnessCalc {
 
   public static float getGunMeanDps(GunConfig gunConfig) {
-    ProjectileConfig pc = gunConfig.clipConf.projConfig;
+    ClipConfig cc = gunConfig.clipConf;
+    ProjectileConfig pc = cc.projConfig;
+
     float projDmg = pc.dmg;
-    if (pc.emTime > 0) projDmg = 15;
-    else if (pc.density > 0) projDmg = 5;
+    if (pc.emTime > 0) projDmg = 150;
+    else if (pc.density > 0) projDmg = 55;
 
-    float projHitChance = (pc.spdLen + pc.acc) / 4;
-    if (pc.guideRotSpd > 0) projHitChance += .3f;
-    float sz = pc.physSize;
-    if (sz > 0) projHitChance += sz * .5f;
-    projHitChance = SolMath.clamp(projHitChance, .1f, 1);
-    projDmg *= projHitChance;
+    float projHitChance;
+    if (pc.guideRotSpd > 0) {
+      projHitChance = .9f;
+    } else if (pc.zeroAbsSpd) {
+      projHitChance = 0.1f;
+    } else {
+      projHitChance = (pc.spdLen + pc.acc) / 6;
+      if (pc.physSize > 0) projHitChance += pc.physSize * .5f;
+      projHitChance = SolMath.clamp(projHitChance, .1f, 1);
+      if (gunConfig.fixed) {
+        projHitChance *= .3f;
+      }
+    }
 
-    float shotDmg = projDmg;
-    if (gunConfig.clipConf.projectilesPerShot > 1) shotDmg *= gunConfig.clipConf.projectilesPerShot / 2;
+    float shotDmg = projDmg * projHitChance;
+    if (cc.projectilesPerShot > 1) shotDmg *= cc.projectilesPerShot / 2;
 
-    float shootTimePerc = gunConfig.fixed ? .3f : 1f;
-    return shotDmg * shootTimePerc / gunConfig.timeBetweenShots;
+    float meanTimeBetween = (gunConfig.timeBetweenShots * cc.size + gunConfig.reloadTime) / cc.size;
+    return shotDmg / meanTimeBetween;
   }
 
   public static float getShipConfDps(ShipConfig sc, ItemMan itemMan) {
-    ItemContainer ic = new ItemContainer();
-    itemMan.fillContainer(ic, sc.items, false);
+    List<ItemMan.ItemConfig> parsed = itemMan.parseItems(sc.items);
     boolean g1Filled = false;
     boolean g2Filled = false;
     float dps = 0;
-    for (List<SolItem> group : ic) {
-      for (SolItem item : group) {
-        if (!(item instanceof GunItem)) continue;
-        GunItem g = (GunItem) item;
-        if (!g1Filled && sc.hull.m1Fixed == g.config.fixed) {
-          dps += g.config.meanDps;
-          g1Filled = true;
-        }
-        if (sc.hull.g2Pos != null && !g2Filled && sc.hull.m2Fixed == g.config.fixed) {
-          dps += g.config.meanDps;
-          g2Filled = true;
-        }
+    for (ItemMan.ItemConfig ic : parsed) {
+      SolItem item = ic.exmaple;
+      if (!(item instanceof GunItem)) continue;
+      GunItem g = (GunItem) item;
+      if (!g1Filled && sc.hull.m1Fixed == g.config.fixed) {
+        dps += g.config.meanDps * ic.chance;
+        g1Filled = true;
+      }
+      if (sc.hull.g2Pos != null && !g2Filled && sc.hull.m2Fixed == g.config.fixed) {
+        dps += g.config.meanDps * ic.chance;
+        g2Filled = true;
       }
     }
     return dps;

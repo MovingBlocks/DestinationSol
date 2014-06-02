@@ -1,10 +1,11 @@
-minerTurret doesn't shoot
 gun strengths
 ship strengths
 balancing
 
 
 DATA:
+  durability
+  nail density & speed should match dmg
   hull lights
   check licenses:
     in-game:
@@ -67,6 +68,7 @@ ARCHITECTURE
   sound volumes should be kept in one map file?
 
 FEATURES
+  ship dps should consider abilities
   "dangerous enemy near" warning
   brakes
   inventory category filtering
