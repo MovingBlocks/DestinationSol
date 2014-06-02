@@ -1,8 +1,7 @@
 package com.miloshpetrov.sol2.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.miloshpetrov.sol2.Const;
-import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.GameCols;
 import com.miloshpetrov.sol2.game.gun.GunConfig;
@@ -11,6 +10,7 @@ import com.miloshpetrov.sol2.game.particle.EffectTypes;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfigs;
 import com.miloshpetrov.sol2.game.ship.AbilityCharge;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
+import com.miloshpetrov.sol2.ui.DebugCollector;
 
 import java.util.*;
 
@@ -50,19 +50,32 @@ public class ItemMan {
   }
 
   public void fillContainer(ItemContainer c, String items) {
-    fillContainer(c, items, true);
+    List<ItemConfig> list = parseItems(items);
+    for (ItemConfig ic : list) {
+      for (int i = 0; i < ic.amt; i++) {
+        if (SolMath.test(ic.chance)) {
+          SolItem item = ic.exmaple.copy();
+          c.add(item);
+        }
+      }
+    }
   }
 
-  public void fillContainer(ItemContainer c, String items, boolean considerProbab) {
-    if (items.isEmpty()) return;
+  public List<ItemConfig> parseItems(String items) {
+    ArrayList<ItemConfig> res = new ArrayList<ItemConfig>();
+    if (items.isEmpty()) return res;
     for (String rec : items.split(" ")) {
       String[] parts = rec.split(":");
       if (parts.length == 0) continue;
       String[] names = parts[0].split("\\|");
       String name = names[SolMath.intRnd(names.length)].trim();
+      SolItem example = getExample(name);
+      if (example == null) {
+        throw new AssertionError("unknown item " + name + "@" + parts[0] + "@" + rec + "@" + items);
+      }
 
       float chance = 1;
-      if (considerProbab && parts.length > 1) {
+      if (parts.length > 1) {
         chance = Float.parseFloat(parts[1]);
         if (chance <= 0 || 1 < chance) throw new AssertionError(chance);
       }
@@ -71,17 +84,10 @@ public class ItemMan {
       if (parts.length > 2) {
         amt = Integer.parseInt(parts[2]);
       }
-      for (int i = 0; i < amt; i++) {
-        if (SolMath.test(chance)) {
-          SolItem example = getExample(name);
-          if (example == null) {
-            throw new AssertionError("unknown item " + name + "@" + parts[0] + "@" + rec + "@" + items);
-          }
-          SolItem item = example.copy();
-          c.add(item);
-        }
-      }
+      ItemConfig ic = new ItemConfig(example, amt, chance);
+      res.add(ic);
     }
+    return res;
   }
 
   public SolItem getExample(String name) {
@@ -111,16 +117,19 @@ public class ItemMan {
       GunItem g = (GunItem) i;
       l.add(g.config);
     }
-    Comparator<GunConfig> cmp = new Comparator<GunConfig>() {
+    Comparator<GunConfig> comp = new Comparator<GunConfig>() {
       public int compare(GunConfig o1, GunConfig o2) {
         return Float.compare(o1.meanDps, o2.meanDps);
       }
     };
-    Collections.sort(l, cmp);
+    Collections.sort(l, comp);
+    StringBuilder sb = new StringBuilder();
     for (GunConfig c : l) {
-      System.out.println(c.tex.name + ": " + c.meanDps);
+      sb.append(c.tex.name).append(": ").append(c.meanDps).append("\n");
     }
-
+    String msg = sb.toString();
+    System.out.println(msg);
+    DebugCollector.warn(msg);
   }
 
   public MoneyItem moneyItem(boolean big) {
@@ -129,5 +138,17 @@ public class ItemMan {
 
   public RepairItem getRepairExample() {
     return myRepairExample;
+  }
+
+  public static class ItemConfig {
+    public final SolItem exmaple;
+    public final int amt;
+    public final float chance;
+
+    public ItemConfig(SolItem exmaple, int amt, float chance) {
+      this.exmaple = exmaple;
+      this.amt = amt;
+      this.chance = chance;
+    }
   }
 }

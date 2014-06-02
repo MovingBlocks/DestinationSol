@@ -84,10 +84,15 @@ public class Shooter {
     if (mount == null) return null;
     GunItem g = mount.getGun();
     if (g == null || g.ammo <= 0) return null;
-    boolean zeroAbsSpd = g.config.clipConf.projConfig.zeroAbsSpd;
 
-    if (!zeroAbsSpd && g.config.fixed) return g;
-    if (zeroAbsSpd || mount.isDetected()) {
+    if (g.config.clipConf.projConfig.zeroAbsSpd || g.config.clipConf.projConfig.guideRotSpd > 0) {
+      if (second) myShoot2 = true; else myShoot = true;
+      return null;
+    }
+
+    if (g.config.fixed) return g;
+
+    if (mount.isDetected()) {
       if (second) myShoot2 = true; else myShoot = true;
     }
     return null;

@@ -1,6 +1,6 @@
 {
   plasma: {
-    dmg: 1,
+    dmg: 2.2,
     dmgType: energy,
     spdLen: 6,
 
@@ -19,7 +19,7 @@
 
 
   blast: {
-    dmg: 1,
+    dmg: 4,
     dmgType: energy,
     spdLen: 5,
 
@@ -39,7 +39,7 @@
 
 
   bomb: {
-    dmg: 13,
+    dmg: 23,
     dmgType: explosion,
     spdLen: 0,
     physSize: 0.1,
@@ -67,7 +67,7 @@
 
 
   bullet: {
-    dmg: 1,
+    dmg: 1.7,
     spdLen: 8,
     dmgType: bullet,
 
@@ -85,12 +85,12 @@
 
 
   missile: {
-    dmg: 1,
+    dmg: 8,
     dmgType: explosion,
     spdLen: 1,
     physSize: 0.1,
     guideRotSpd: 180,
-    acceleration: 4,
+    acceleration: 2,
 
     texName: missile,
     texSz: 0.15,
@@ -129,7 +129,7 @@
 
 
   mine: {
-    dmg: 20,
+    dmg: 40,
     dmgType: explosion,
     spdLen: 0,
     physSize: 0.1,
@@ -157,7 +157,7 @@
 
 
   slug: {
-    dmg: 1,
+    dmg: 40,
     dmgType: bullet,
     spdLen: 4,
 
@@ -187,7 +187,7 @@
 
 
   rocket: {
-    dmg: 1,
+    dmg: 20,
     dmgType: explosion,
     spdLen: 1,
     physSize: 0.1,
@@ -230,7 +230,7 @@
 
 
   rail: {
-    dmg: 1,
+    dmg: 80,
     dmgType: bullet,
     spdLen: 12,
     physSize: 0.15,
@@ -266,10 +266,10 @@
 
 
   em: {
-    dmg: 1,
+    dmg: 0,
     dmgType: energy,
-    spdLen: 3,
-    emTime: 1,
+    spdLen: 2,
+    emTime: 2,
 
     texName: plasma,
     texSz: 0,
@@ -291,7 +291,7 @@
 
 
   wave: {
-    dmg: 0,
+    dmg: 10,
     dmgType: energy,
     physSize: 0.4,
     massless: true,

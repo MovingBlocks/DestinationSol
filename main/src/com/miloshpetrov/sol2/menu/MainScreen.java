@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.miloshpetrov.sol2.SolCmp;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.game.DebugOptions;
 import com.miloshpetrov.sol2.save.SaveMan;
 import com.miloshpetrov.sol2.ui.*;
 
@@ -78,7 +79,7 @@ public class MainScreen implements SolUiScreen {
   @Override
   public void drawImgs(UiDrawer uiDrawer, SolCmp cmp) {
     float sz = .55f;
-    uiDrawer.draw(myTitleTex, sz, sz, sz/2, sz/2, uiDrawer.r/2, sz/2, 0, Col.W);
+    if (!DebugOptions.PRINT_BALANCE) uiDrawer.draw(myTitleTex, sz, sz, sz/2, sz/2, uiDrawer.r/2, sz/2, 0, Col.W);
   }
 
   @Override

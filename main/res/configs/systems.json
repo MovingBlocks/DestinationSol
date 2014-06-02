@@ -27,7 +27,7 @@
         density: 0.2,
         guard: {
           hull: imperialBig,
-          items: "gun fixedShotGun a2|a3 s2|s3",
+          items: "fixedGun fixedShotGun a2|a3 s2|s3",
 		  money: 50,
           density: 3,
         }
@@ -135,7 +135,7 @@
       },
       {
         hull: desertSmall,
-        items: "fixedGun|railGun miner|cannon:.5 a3 s1|s2:.5",
+        items: "fixedGun|railGun fixedGun:.5 a3 s1|s2:.5",
 		money: 20,
         density: 0.0003,
       },

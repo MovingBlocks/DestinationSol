@@ -211,6 +211,7 @@ public class PlanetMan {
   }
 
   public void printShips(PlayerSpawnConfig spawn) {
+    if (true) return;
     ArrayList<ShipConfig> l = new ArrayList<ShipConfig>();
     for (SysConfig sc : mySysConfigs.getConfigs().values()) {
       l.addAll(sc.constAllies);
@@ -248,6 +249,6 @@ public class PlanetMan {
     for (ShipConfig c : l) {
       System.out.println(c.hull.texName + " (" + c.items + "):" + c.dps);
     }
-
+    throw new AssertionError();
   }
 }
