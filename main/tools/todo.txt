@@ -1,5 +1,10 @@
+minerTurret doesn't shoot
+gun strengths
+ship strengths
+balancing
+
+
 DATA:
-  balancing
   hull lights
   check licenses:
     in-game:
@@ -14,26 +19,31 @@ DATA:
 
 
 CODING:
-  hull descriptions
-  ai should equip collected stuff
   credits
-  minerTurret doesn't shoot
   android compatibility:
     tutorial should consider new control type, also mobile, also highlight buttons
     decide what to do with menu
     disposition
+  hull descriptions:
+    life
+    mounts
+    abilities
+  ai should equip collected stuff
+  strange line on planet
+  starPort nodes on map look awful
+  map grid looks awful
 
 
 DRAWING:
-  skull areas
-  pirate space station hull shades
+  ability effects + teleport blip
   guns
   projectiles
-  ability effects + teleport blip
   electricity particle
   trees on frozen
   draw ui icons
   new title
+  skull areas
+  pirate space station hull shades
 
 
 add sounds
