@@ -1,8 +1,8 @@
 {
   player: {
     ship: {
-      hull: imperialSmall,
-      items: "blaster a1 s1",
+      hull: imperialMedium,
+      items: "missileLauncher blaster a1 s1",
       money: 20,
     },
     godModeShip: {

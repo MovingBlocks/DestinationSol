@@ -6,6 +6,7 @@ import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.SolObj;
+import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public class PointProjectileBody implements ProjectileBody {
   private final Vector2 myPos;
@@ -73,8 +74,8 @@ public class PointProjectileBody implements ProjectileBody {
   }
 
   @Override
-  public float getDesiredAngle(Vector2 nePos) {
-    return SolMath.angle(myPos, nePos);
+  public float getDesiredAngle(SolShip ne) {
+    return SolMath.angle(myPos, ne.getPos());
   }
 
 
