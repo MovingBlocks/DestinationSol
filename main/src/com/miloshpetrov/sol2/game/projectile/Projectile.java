@@ -81,10 +81,14 @@ public class Projectile implements SolObj {
   public void update(SolGame game) {
     myBody.update(game);
     if (myObstacle != null) {
-      collided(game);
       myObstacle.receiveDmg(myConfig.dmg, game, myBody.getPos(), myConfig.dmgType);
-      if (myConfig.emTime > 0 && myObstacle instanceof SolShip) ((SolShip) myObstacle).disableControls(myConfig.emTime, game);
-      return;
+      if (myConfig.density > 0) {
+        myObstacle = null;
+      } else {
+        collided(game);
+        if (myConfig.emTime > 0 && myObstacle instanceof SolShip) ((SolShip) myObstacle).disableControls(myConfig.emTime, game);
+        return;
+      }
     }
     if (myLightSrc != null) myLightSrc.update(true, myBody.getAngle(), game);
     maybeGuide(game);
@@ -213,7 +217,6 @@ public class Projectile implements SolObj {
   }
 
   public void setObstacle(SolObj o, SolGame game) {
-    if (myConfig.density > 0) return;
     if (o instanceof SolShip) {
       Fraction f = ((SolShip) o).getPilot().getFraction();
       // happens for some strange reason : /

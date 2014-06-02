@@ -19,8 +19,8 @@ public class HardnessCalc {
     ProjectileConfig pc = cc.projConfig;
 
     float projDmg = pc.dmg;
-    if (pc.emTime > 0) projDmg = 75;
-    else if (pc.density > 0) projDmg = 60;
+    if (pc.emTime > 0) projDmg = 600;
+    else if (pc.density > 0) projDmg += 10;
 
     float projHitChance;
     if (pc.guideRotSpd > 0) {
@@ -29,7 +29,7 @@ public class HardnessCalc {
       projHitChance = 0.1f;
     } else {
       projHitChance = (pc.spdLen + pc.acc) / 6;
-      if (pc.physSize > 0) projHitChance += pc.physSize * .5f;
+      if (pc.physSize > 0) projHitChance += pc.physSize;
       projHitChance = SolMath.clamp(projHitChance, .1f, 1);
       if (gunConfig.fixed) {
         projHitChance *= .3f;

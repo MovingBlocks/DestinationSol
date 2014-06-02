@@ -1152,9 +1152,9 @@ smallGameObjs/projectiles/bomb
   index: -1
 smallGameObjs/projectiles/bullet
   rotate: false
-  xy: 704, 648
-  size: 64, 8
-  orig: 64, 8
+  xy: 704, 652
+  size: 64, 4
+  orig: 64, 4
   offset: 0, 0
   index: -1
 smallGameObjs/projectiles/mine
@@ -1222,7 +1222,7 @@ smallGameObjs/shard
   index: 1
 smallGameObjs/shard
   rotate: false
-  xy: 704, 616
+  xy: 704, 620
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
