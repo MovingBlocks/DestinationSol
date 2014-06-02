@@ -6,8 +6,8 @@ import com.miloshpetrov.sol2.common.SolMath;
 import java.util.*;
 
 public class ItemContainer implements Iterable<List<SolItem>> {
-  private static final int CAP = 2 * Const.ITEMS_PER_PAGE;
-  private static final int CAP_0 = 8;
+  private static final int CAP = 8 * Const.ITEMS_PER_PAGE;
+  public static final int GROUP_CAP = 8;
 
   private List<List<SolItem>> myGroups;
   private Set<List<SolItem>> myNewGroups;
@@ -42,7 +42,7 @@ public class ItemContainer implements Iterable<List<SolItem>> {
     for (int i = 0, myGroupsSize = myGroups.size(); i < myGroupsSize; i++) {
       List<SolItem> group = myGroups.get(i);
       SolItem item = group.get(0);
-      if (item.isSame(example)) return group.size() < CAP_0;
+      if (item.isSame(example)) return group.size() < GROUP_CAP;
     }
     return myGroups.size() < CAP;
   }
@@ -53,7 +53,7 @@ public class ItemContainer implements Iterable<List<SolItem>> {
       List<SolItem> group = myGroups.get(i);
       SolItem item = group.get(0);
       if (item.isSame(addedItem)) {
-        if (group.size() >= CAP_0) throw new AssertionError();
+        if (group.size() >= GROUP_CAP) throw new AssertionError();
         group.add(addedItem);
         mySize++;
         return;

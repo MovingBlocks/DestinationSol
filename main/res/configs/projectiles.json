@@ -1,6 +1,6 @@
 {
   plasma: {
-    dmg: 2.2,
+    dmg: 2.6,
     dmgType: energy,
     spdLen: 6,
 
@@ -19,7 +19,7 @@
 
 
   blast: {
-    dmg: 4,
+    dmg: 5,
     dmgType: energy,
     spdLen: 5,
 
@@ -157,7 +157,7 @@
 
 
   slug: {
-    dmg: 40,
+    dmg: 50,
     dmgType: bullet,
     spdLen: 4,
 
@@ -187,7 +187,7 @@
 
 
   rocket: {
-    dmg: 20,
+    dmg: 22.5,
     dmgType: explosion,
     spdLen: 1,
     physSize: 0.1,
@@ -291,7 +291,7 @@
 
 
   wave: {
-    dmg: 10,
+    dmg: 21,
     dmgType: energy,
     physSize: 0.4,
     massless: true,

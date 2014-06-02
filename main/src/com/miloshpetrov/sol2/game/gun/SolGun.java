@@ -81,7 +81,7 @@ public class SolGun {
     float ts = game.getTimeStep();
     if (myItem.ammo <= 0 && myItem.reloadAwait <= 0) {
       if (myItem.config.clipConf.infinite || ic != null && ic.tryConsumeItem(myItem.config.clipConf.example)) {
-        myItem.reloadAwait = myItem.config.reloadTime;
+        myItem.reloadAwait = myItem.config.reloadTime + .0001f;
         game.getSoundMan().play(game, myItem.config.reloadSound, null, creator);
       }
     } else if (myItem.reloadAwait > 0) {

@@ -19,8 +19,8 @@ public class HardnessCalc {
     ProjectileConfig pc = cc.projConfig;
 
     float projDmg = pc.dmg;
-    if (pc.emTime > 0) projDmg = 150;
-    else if (pc.density > 0) projDmg = 55;
+    if (pc.emTime > 0) projDmg = 75;
+    else if (pc.density > 0) projDmg = 60;
 
     float projHitChance;
     if (pc.guideRotSpd > 0) {
