@@ -211,7 +211,7 @@ public class PlanetMan {
     myPlanetCore.draw(game, drawer);
   }
 
-  public void printShips(PlayerSpawnConfig spawn) {
+  public void printShips(PlayerSpawnConfig spawn, ItemMan itemMan) {
     ArrayList<ShipConfig> l = new ArrayList<ShipConfig>();
     for (SysConfig sc : mySysConfigs.getConfigs().values()) {
       l.addAll(sc.constAllies);
@@ -248,7 +248,9 @@ public class PlanetMan {
     Collections.sort(l, cmp);
     StringBuilder sb = new StringBuilder();
     for (ShipConfig c : l) {
-      sb.append(c.hull.texName).append(" (").append(c.items).append("): ").append(c.dps).append("\n");
+      float cap = HardnessCalc.getShipCfgDmgCap(c, itemMan);
+      sb.append(c.hull.texName).append(" (").append(c.items).append("): ")
+        .append(SolMath.nice(c.dps)).append(" ").append(SolMath.nice(cap)).append("\n");
     }
     String msg = sb.toString();
     DebugCollector.warn(msg);

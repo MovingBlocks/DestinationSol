@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.DmgType;
 import com.miloshpetrov.sol2.game.HardnessCalc;
 import com.miloshpetrov.sol2.game.item.*;
@@ -73,16 +74,16 @@ public class GunConfig {
     StringBuilder sb = new StringBuilder();
     ProjectileConfig pc = clipConf.projConfig;
     if (pc.dmg > 0) {
-      sb.append("Dmg: ").append((int) dps).append("/s.");
+      sb.append("Dmg: ").append(SolMath.nice(dps)).append("/s.");
       DmgType dmgType = pc.dmgType;
       if (dmgType == DmgType.ENERGY) sb.append("\nWeak against armor.");
       else if (dmgType == DmgType.BULLET) sb.append("\nWeak against shields.");
     } else if (pc.emTime > 0) {
-      sb.append("Disables enemy ships for ").append((int) pc.emTime).append(" s.");
+      sb.append("Disables enemy ships for ").append(SolMath.nice(pc.emTime)).append(" s.");
     } else if (pc.density > 0) {
       sb.append("Knocks enemies back.");
     }
-    sb.append("\nReload: ").append((int) reloadTime).append(" s.");
+    sb.append("\nReload: ").append(SolMath.nice(reloadTime)).append(" s.");
     if (clipConf.infinite) {
       sb.append("\nInfinite ammo.");
     } else {

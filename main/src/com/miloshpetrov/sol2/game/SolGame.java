@@ -169,7 +169,7 @@ public class SolGame {
 
     if (DebugOptions.PRINT_BALANCE) {
       myItemMan.printGuns();
-      myPlanetMan.printShips(myPlayerSpawnConfig);
+      myPlanetMan.printShips(myPlayerSpawnConfig, myItemMan);
     }
 
     if (myPaused) return;

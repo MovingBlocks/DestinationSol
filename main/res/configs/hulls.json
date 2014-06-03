@@ -1,7 +1,7 @@
 {
   pirateSpaceTurret: {
     size: 0.7,
-    maxLife: 20,
+    maxLife: 26,
     type: std,
 
     texName: pirateSpaceTurret,
@@ -12,7 +12,7 @@
 
   pirateSmall: {
     size: 0.4,
-    maxLife: 20,
+    maxLife: 22,
     type: std,
     ability: {
       type: unShield,
@@ -24,6 +24,8 @@
     g1Pos: "0.43 0.49",
     e1Pos: "0.01 0.5",
     e2Pos: "0.01 0.5",
+    name: "Pirate Small",
+    desc: "desc",
     engine: pirate,
   },
 
@@ -31,7 +33,7 @@
 
   imperialSmall: {
     size: 0.4,
-    maxLife: 20,
+    maxLife: 16,
     type: std,
     price: 200,
     ability: {
@@ -53,7 +55,7 @@
 
   pirateOrbiter: {
     size: 0.76,
-    maxLife: 50,
+    maxLife: 26,
     type: std,
     price: 200,
     ability: {
@@ -75,7 +77,7 @@
 
   piratePlanetTurret: {
     size: 0.8,
-    maxLife: 10,
+    maxLife: 28,
     type: station,
 
     texName: piratePlanetTurret,
@@ -86,7 +88,7 @@
 
   desertOrbiter: {
     size: 0.41,
-    maxLife: 60,
+    maxLife: 38,
     type: std,
     price: 200,
     m1Fixed: true,
@@ -104,7 +106,7 @@
 
   desertPlanetTurret: {
     size: 0.8,
-    maxLife: 10,
+    maxLife: 46,
     type: station,
 
     texName: desertPlanetTurret,
@@ -115,7 +117,7 @@
 
   imperialMedium: {
     size: 0.6,
-    maxLife: 50,
+    maxLife: 54,
     type: std,
     price: 200,
     m1Fixed: true,
@@ -139,7 +141,7 @@
 
   truck: {
     size: 2,
-    maxLife: 60,
+    maxLife: 80,
     type: big,
 
     texName: truck,
@@ -153,7 +155,7 @@
 
   minerSmall: {
     size: 0.48,
-    maxLife: 22,
+    maxLife: 70,
     type: std,
     m1Fixed: true,
     m2Fixed: true,
@@ -176,7 +178,7 @@
 
   desertSmall: {
     size: 0.5,
-    maxLife: 13,
+    maxLife: 65,
     type: std,
     price: 150,
     m1Fixed: true,
@@ -203,7 +205,7 @@
 
   minerMedium: {
     size: 0.84,
-    maxLife: 60,
+    maxLife: 78,
     type: std,
     m1Fixed: true,
     ability: {
@@ -223,7 +225,7 @@
 
   pirateMedium: {
     size: 0.91,
-    maxLife: 60,
+    maxLife: 58,
     type: std,
     m1Fixed: true,
     price: 200,
@@ -247,7 +249,7 @@
 
   bus: {
     size: 3.5,
-    maxLife: 100,
+    maxLife: 120,
     type: big,
 
     texName: bus,
@@ -270,7 +272,7 @@
 
   minerTurret: {
     size: 0.8,
-    maxLife: 8,
+    maxLife: 75,
     type: std,
     m1Fixed: true,
 
@@ -282,7 +284,7 @@
 
   desertSpaceTurret: {
     size: 0.8,
-    maxLife: 20,
+    maxLife: 75,
     type: std,
 
     texName: desertSpaceTurret,
@@ -298,7 +300,7 @@
 
   techieSmall: {
     size: 0.57,
-    maxLife: 22,
+    maxLife: 70,
     type: std,
     m1Fixed: true,
     m2Fixed: true,
@@ -317,7 +319,7 @@
 
   techieOrbiter: {
     size: 0.72,
-    maxLife: 13,
+    maxLife: 65,
     type: std,
     m1Fixed: true,
     m2Fixed: true,
@@ -336,7 +338,7 @@
 
   desertMedium: {
     size: 1,
-    maxLife: 60,
+    maxLife: 70,
     type: std,
     price: 200,
     m1Fixed: true,
@@ -386,7 +388,7 @@
 
   minerBoss: {
     size: 1.7,
-    maxLife: 80,
+    maxLife: 72,
     type: std,
     m1Fixed: true,
     m2Fixed: true,
@@ -408,7 +410,7 @@
 
   techiePlanetTurret: {
     size: 2.1,
-    maxLife: 10,
+    maxLife: 75,
     type: station,
 
     texName: techiePlanetTurret,
@@ -441,7 +443,7 @@
 
   drome: {
     size: 2.5,
-    maxLife: 100,
+    maxLife: 150,
     type: station,
 
     texName: drome,
