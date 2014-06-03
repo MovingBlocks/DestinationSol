@@ -69,6 +69,7 @@ public class ShipBuilder {
 
     addAbilityCharges(ic, hullConfig);
     addAmmo(ic, g1);
+    addAmmo(ic, g2);
 
     return new FarShip(new Vector2(pos), new Vector2(spd), angle, rotSpd, pilot, ic, hullConfig, hullConfig.maxLife,
       g1, g2, removeController, ei, hasRepairer ? new ShipRepairer() : null, money, tc, shield, armor);
