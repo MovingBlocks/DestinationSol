@@ -36,18 +36,18 @@
     constantEnemies: [
       {
         hull: pirateSmall,
-        items: "plasmaGun|blaster s1:.12",
+        items: "plasmaGun s1:.12",
 		money: 100,
         density: 1,
       },
       {
         hull: truck,
-        items: "gun s2|s3:.74",
+        items: "shotGun s2|s3:.74",
 		money: 200,
         density: 1,
         guard: {
           hull: pirateSmall,
-          items: "gun s3:.86",
+          items: "shotGun s3:.86",
 		  money: 50,
           density: 3,
         }
@@ -64,7 +64,7 @@
     innerTemporaryEnemies: [
       {
         hull: pirateSpaceTurret,
-        items: "blaster|gun s2:.62",
+        items: "gun|shotGun s2:.62",
         money: 20,
         density: 0.001,
       },
@@ -112,7 +112,7 @@
         density: 0.2,
         guard: {
           hull: imperialBig,
-          items: "gun fixedShotGun a2|a3 s2|s3",
+          items: "fixedGun fixedShotGun a2|a3 s2|s3",
 		  money: 50,
           density: 3,
         }
@@ -121,7 +121,7 @@
     constantEnemies: [
       {
         hull: desertMedium,
-        items: "railGun|fixedCannon gun|cannon|miner:.5 a4 s2|s3",
+        items: "railGun|fixedCannon fixedGun|railGun:.8 a4 s2|s3",
 		money: 100,
         density: 1,
       },
@@ -135,7 +135,7 @@
       },
       {
         hull: desertSmall,
-        items: "fixedGun|railGun fixedGun:.5 a3 s1|s2:.5",
+        items: "fixedGun|railGun fixedGun|railGun:.8 a3 s1|s2:.5",
 		money: 20,
         density: 0.0003,
       },
@@ -143,7 +143,7 @@
     innerTemporaryEnemies: [
       {
         hull: desertSpaceTurret,
-        items: "cannon cannon a3|a4 s2:.75",
+        items: "cannon gun|cannon:.8 a3|a4 s2:.75",
 		money: 20,
         density: 0.001,
       },

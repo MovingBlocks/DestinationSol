@@ -132,7 +132,7 @@
 
     gunLength: 0.2,
     texName: shotGun,
-    displayName: "Shotgun",
+    displayName: "Pirate Shotgun",
     lightOnShot: true,
 
     shootSound: "guns/shotGun/shoot",
@@ -163,6 +163,7 @@
 
 
   miner: {
+    fixed: true,
     maxAngleVar: 0,
     angleVarDamp: 0,
     angleVarPerShot: 0,
@@ -361,7 +362,7 @@
 
     gunLength: 0.2,
     texName: fixedShotGun,
-    displayName: "Heavy Shotgun",
+    displayName: "Imperial Shotgun",
     lightOnShot: true,
 
     shootSound: "guns/shotGun/shoot",

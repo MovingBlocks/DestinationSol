@@ -8,7 +8,7 @@ fixed == faster
 7  f fixedGun = Heavy Machine Gun / bulletClip
 8    shotGun / shellClip
 9  f missileLauncher / missileClip
-10   miner / mineClip
+10 f miner / mineClip
 11 f rocketLauncher / rocketClip
 12 f railGun / railClip
 13 f fixedPlasmaGun = Plasma Gun / plasmaClip
