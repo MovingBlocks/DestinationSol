@@ -49,7 +49,11 @@ public class HardnessCalc {
       if (!(e instanceof GunItem)) throw new AssertionError("all item options must be of the same type");
       GunItem g = (GunItem) e;
       if (g.config.fixed != fixed) {
-        throw new AssertionError("all gun options must have equal fixed param");
+        String items = "";
+        for (SolItem ex : ic.examples) {
+          items += ex.getDisplayName() + " ";
+        }
+        throw new AssertionError("all gun options must have equal fixed param: " + items);
       }
       dps += g.config.meanDps;
     }
@@ -69,6 +73,7 @@ public class HardnessCalc {
       if (!g1Filled && sc.hull.m1Fixed == g.config.fixed) {
         dps += getItemCfgDps(ic, g.config.fixed);
         g1Filled = true;
+        continue;
       }
       if (sc.hull.g2Pos != null && !g2Filled && sc.hull.m2Fixed == g.config.fixed) {
         dps += getItemCfgDps(ic, g.config.fixed);

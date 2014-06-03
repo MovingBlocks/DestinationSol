@@ -226,6 +226,7 @@ public class PlanetMan {
       l.addAll(pc.highOrbitEnemies);
       l.addAll(pc.lowOrbitEnemies);
       l.addAll(pc.groundEnemies);
+      if (pc.stationConfig != null) l.add(pc.stationConfig);
     }
     for (MazeConfig mc : myMazeConfigs.configs) {
       l.addAll(mc.outerEnemies);
@@ -233,7 +234,6 @@ public class PlanetMan {
       l.addAll(mc.bosses);
     }
     l.add(spawn.shipConfig);
-    l.add(spawn.godShipConfig);
     l.add(spawn.mainStation);
     ArrayList<ShipConfig> guards = new ArrayList<ShipConfig>();
     for (ShipConfig c : l) {

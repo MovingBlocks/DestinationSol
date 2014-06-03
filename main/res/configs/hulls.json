@@ -180,6 +180,7 @@
     type: std,
     price: 150,
     m1Fixed: true,
+    m2Fixed: true,
     ability: {
       type: teleport,
       angle: 45,
@@ -224,6 +225,7 @@
     size: 0.91,
     maxLife: 60,
     type: std,
+    m1Fixed: true,
     price: 200,
     ability: {
       type: unShield,
@@ -232,8 +234,8 @@
     },
 
     texName: pirateMedium,
-    g1Pos: "0.38 0.48",
-    g2Pos: "0.66 0.34",
+    g1Pos: "0.66 0.34",
+    g2Pos: "0.38 0.48",
     e1Pos: "0.03 0.42",
     e2Pos: "0.04 0.59",
     name: "Pirate Medium lol",
@@ -285,7 +287,7 @@
 
     texName: desertSpaceTurret,
     g1Pos: "0.38 0.43",
-    g1Pos: "0.62 0.57",
+    g2Pos: "0.62 0.57",
     lightSrcPoss: [
       ".25 .5",
       ".75 .5",
@@ -338,6 +340,7 @@
     type: std,
     price: 200,
     m1Fixed: true,
+    m2Fixed: true,
     ability: {
       type: teleport,
       angle: 90,
@@ -362,6 +365,7 @@
     type: std,
     price: 200,
     m1Fixed: true,
+    m2Fixed: true,
     ability: {
       type: sloMo,
       factor: 0.3,
