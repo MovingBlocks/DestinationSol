@@ -334,7 +334,7 @@
     angleVarDamp: 6,
     angleVarPerShot: 2,
     timeBetweenShots: 0,
-    reloadTime: 11,
+    reloadTime: 3.6,
     price: 15,
     clipName: emClip,
 
@@ -377,7 +377,7 @@
     angleVarDamp: 6,
     angleVarPerShot: 2,
     timeBetweenShots: 0,
-    reloadTime: 3,
+    reloadTime: 1,
     price: 15,
     clipName: emClip,
 

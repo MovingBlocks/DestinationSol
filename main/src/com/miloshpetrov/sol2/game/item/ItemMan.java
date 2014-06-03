@@ -54,7 +54,7 @@ public class ItemMan {
     for (ItemConfig ic : list) {
       for (int i = 0; i < ic.amt; i++) {
         if (SolMath.test(ic.chance)) {
-          SolItem item = ic.exmaple.copy();
+          SolItem item = SolMath.elemRnd(ic.examples).copy();
           c.add(item);
         }
       }
@@ -68,11 +68,15 @@ public class ItemMan {
       String[] parts = rec.split(":");
       if (parts.length == 0) continue;
       String[] names = parts[0].split("\\|");
-      String name = names[SolMath.intRnd(names.length)].trim();
-      SolItem example = getExample(name);
-      if (example == null) {
-        throw new AssertionError("unknown item " + name + "@" + parts[0] + "@" + rec + "@" + items);
+      ArrayList<SolItem> examples = new ArrayList<SolItem>();
+      for (String name : names) {
+        SolItem example = getExample(name.trim());
+        if (example == null) {
+          throw new AssertionError("unknown item " + name + "@" + parts[0] + "@" + rec + "@" + items);
+        }
+        examples.add(example);
       }
+      if (examples.isEmpty()) throw new AssertionError("no item specified @ " + parts[0] + "@" + rec + "@" + items);
 
       float chance = 1;
       if (parts.length > 1) {
@@ -84,7 +88,7 @@ public class ItemMan {
       if (parts.length > 2) {
         amt = Integer.parseInt(parts[2]);
       }
-      ItemConfig ic = new ItemConfig(example, amt, chance);
+      ItemConfig ic = new ItemConfig(examples, amt, chance);
       res.add(ic);
     }
     return res;
@@ -111,6 +115,7 @@ public class ItemMan {
   }
 
   public void printGuns() {
+    if (true) return;
     ArrayList<GunConfig> l = new ArrayList<GunConfig>();
     for (SolItem i : myM.values()) {
       if (!(i instanceof GunItem)) continue;
@@ -128,7 +133,6 @@ public class ItemMan {
       sb.append(c.tex.name).append(": ").append(c.meanDps).append("\n");
     }
     String msg = sb.toString();
-    System.out.println(msg);
     DebugCollector.warn(msg);
   }
 
@@ -157,12 +161,12 @@ public class ItemMan {
   }
 
   public static class ItemConfig {
-    public final SolItem exmaple;
+    public final List<SolItem> examples;
     public final int amt;
     public final float chance;
 
-    public ItemConfig(SolItem exmaple, int amt, float chance) {
-      this.exmaple = exmaple;
+    public ItemConfig(List<SolItem> examples, int amt, float chance) {
+      this.examples = examples;
       this.amt = amt;
       this.chance = chance;
     }

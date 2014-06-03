@@ -19,7 +19,7 @@ public class HardnessCalc {
     ProjectileConfig pc = cc.projConfig;
 
     float projDmg = pc.dmg;
-    if (pc.emTime > 0) projDmg = 600;
+    if (pc.emTime > 0) projDmg = 200;
     else if (pc.density > 0) projDmg += 10;
 
     float projHitChance;
@@ -43,21 +43,35 @@ public class HardnessCalc {
     return shotDmg / meanTimeBetween;
   }
 
+  private static float getItemCfgDps(ItemMan.ItemConfig ic, boolean fixed) {
+    float dps = 0;
+    for (SolItem e : ic.examples) {
+      if (!(e instanceof GunItem)) throw new AssertionError("all item options must be of the same type");
+      GunItem g = (GunItem) e;
+      if (g.config.fixed != fixed) {
+        throw new AssertionError("all gun options must have equal fixed param");
+      }
+      dps += g.config.meanDps;
+    }
+
+    return dps / ic.examples.size() * ic.chance;
+  }
+
   public static float getShipConfDps(ShipConfig sc, ItemMan itemMan) {
     List<ItemMan.ItemConfig> parsed = itemMan.parseItems(sc.items);
     boolean g1Filled = false;
     boolean g2Filled = false;
     float dps = 0;
     for (ItemMan.ItemConfig ic : parsed) {
-      SolItem item = ic.exmaple;
+      SolItem item = ic.examples.get(0);
       if (!(item instanceof GunItem)) continue;
       GunItem g = (GunItem) item;
       if (!g1Filled && sc.hull.m1Fixed == g.config.fixed) {
-        dps += g.config.meanDps * ic.chance;
+        dps += getItemCfgDps(ic, g.config.fixed);
         g1Filled = true;
       }
       if (sc.hull.g2Pos != null && !g2Filled && sc.hull.m2Fixed == g.config.fixed) {
-        dps += g.config.meanDps * ic.chance;
+        dps += getItemCfgDps(ic, g.config.fixed);
         g2Filled = true;
       }
     }

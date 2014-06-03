@@ -121,7 +121,7 @@
     constantEnemies: [
       {
         hull: desertMedium,
-        items: "cannon|railGun|fixedCannon cannon|railGun:.5 a4 s2|s3",
+        items: "railGun|fixedCannon gun|cannon|miner:.5 a4 s2|s3",
 		money: 100,
         density: 1,
       },

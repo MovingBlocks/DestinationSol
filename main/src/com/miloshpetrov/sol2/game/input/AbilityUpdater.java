@@ -2,8 +2,7 @@ package com.miloshpetrov.sol2.game.input;
 
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.item.SolItem;
-import com.miloshpetrov.sol2.game.ship.ShipAbility;
-import com.miloshpetrov.sol2.game.ship.SolShip;
+import com.miloshpetrov.sol2.game.ship.*;
 
 public class AbilityUpdater {
   private final float myAbilityUseStartPerc;
@@ -26,6 +25,7 @@ public class AbilityUpdater {
     if (ex != null) {
       if (ship.getItemContainer().count(ex) <= myChargesToKeep) return;
     }
+    if (KnockBack.MAX_RADIUS < nearestEnemy.getPos().dst(ship.getPos())) return;
     myAbility = true;
   }
 
