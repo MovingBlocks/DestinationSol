@@ -447,4 +447,12 @@ public class SolMath {
   public static boolean canAccelerate(float accAngle, Vector2 spd) {
     return spd.len() < Const.MAX_MOVE_SPD || angleDiff(angle(spd), accAngle) > 90;
   }
+
+  public static String nice(float v) {
+    int i = (int) (v * 10);
+    int whole = i / 10;
+    int dec = i - 10 * whole;
+    if (dec < 0) dec = -dec;
+    return whole + "." + dec;
+  }
 }

@@ -14,6 +14,8 @@ import java.util.List;
 
 public class HardnessCalc {
 
+  public static final float SHIELD_MUL = 1.2f;
+
   public static float getGunMeanDps(GunConfig gunConfig) {
     ClipConfig cc = gunConfig.clipConf;
     ProjectileConfig pc = cc.projConfig;
@@ -83,6 +85,30 @@ public class HardnessCalc {
     return dps;
   }
 
+  public static float getShipCfgDmgCap(ShipConfig sc, ItemMan itemMan) {
+    List<ItemMan.ItemConfig> parsed = itemMan.parseItems(sc.items);
+    float meanShieldLife = 0;
+    float meanArmorPerc = 0;
+    for (ItemMan.ItemConfig ic : parsed) {
+      SolItem item = ic.examples.get(0);
+      if (meanShieldLife == 0 && item instanceof Shield) {
+        for (SolItem ex : ic.examples) {
+          meanShieldLife += ((Shield) ex).getLife();
+        }
+        meanShieldLife /= ic.examples.size();
+        meanShieldLife *= ic.chance;
+      }
+      if (meanArmorPerc == 0 && item instanceof Armor) {
+        for (SolItem ex : ic.examples) {
+          meanArmorPerc += ((Armor) ex).getPerc();
+        }
+        meanArmorPerc /= ic.examples.size();
+        meanArmorPerc *= ic.chance;
+      }
+    }
+    return sc.hull.maxLife / (1 - meanArmorPerc) + meanShieldLife * SHIELD_MUL;
+  }
+
   private static float getShipConfListDps(List<ShipConfig> ships) {
     float maxDps = 0;
     for (ShipConfig e : ships) {
@@ -142,8 +168,8 @@ public class HardnessCalc {
 
   private static float getDmgCap(float life, Armor armor, Shield shield) {
     float r = life;
-    if (armor != null) r /= (1 - armor.getPerc());
-    if (shield != null) r += shield.getLife() * 1.2f;
+    if (armor != null) r *= 1 / (1 - armor.getPerc());
+    if (shield != null) r += shield.getLife() * SHIELD_MUL;
     return r;
   }
 

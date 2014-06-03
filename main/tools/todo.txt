@@ -1,6 +1,9 @@
-ship strengths
-balancing
-
+ai should equip collected stuff
+hull descriptions:
+  life
+  mounts
+  abilitiesprices
+trading
 
 DATA:
   gun sizes
@@ -24,11 +27,6 @@ CODING:
     tutorial should consider new control type, also mobile, also highlight buttons
     decide what to do with menu
     disposition
-  hull descriptions:
-    life
-    mounts
-    abilities
-  ai should equip collected stuff
   strange line on planet
   starPort nodes on map look awful
   map grid looks awful
