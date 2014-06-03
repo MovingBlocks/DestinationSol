@@ -35,6 +35,7 @@ CODING:
 
 
 DRAWING:
+  techiePlanetTurret
   ability effects + teleport blip
   guns
   projectiles

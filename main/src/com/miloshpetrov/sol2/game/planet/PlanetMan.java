@@ -11,6 +11,7 @@ import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.maze.*;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 import com.miloshpetrov.sol2.save.SaveData;
+import com.miloshpetrov.sol2.ui.DebugCollector;
 
 import java.util.*;
 
@@ -211,7 +212,6 @@ public class PlanetMan {
   }
 
   public void printShips(PlayerSpawnConfig spawn) {
-    if (true) return;
     ArrayList<ShipConfig> l = new ArrayList<ShipConfig>();
     for (SysConfig sc : mySysConfigs.getConfigs().values()) {
       l.addAll(sc.constAllies);
@@ -246,9 +246,11 @@ public class PlanetMan {
       }
     };
     Collections.sort(l, cmp);
+    StringBuilder sb = new StringBuilder();
     for (ShipConfig c : l) {
-      System.out.println(c.hull.texName + " (" + c.items + "):" + c.dps);
+      sb.append(c.hull.texName).append(" (").append(c.items).append("): ").append(c.dps).append("\n");
     }
-    throw new AssertionError();
+    String msg = sb.toString();
+    DebugCollector.warn(msg);
   }
 }
