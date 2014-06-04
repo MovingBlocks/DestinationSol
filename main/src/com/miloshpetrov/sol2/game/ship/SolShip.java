@@ -173,7 +173,7 @@ public class SolShip implements SolObj {
     updateIdleTime(game);
     updateShield(game);
     if (myArmor != null && !myItemContainer.contains(myArmor)) myArmor = null;
-    if (myTradeContainer != null) myTradeContainer.update(game, myHull.config);
+    if (myTradeContainer != null) myTradeContainer.update(game);
 
     if (isControlsEnabled() && myRepairer != null && myIdleTime > ShipRepairer.REPAIR_AWAIT) {
       myHull.life += myRepairer.tryRepair(game, myItemContainer, myHull.life, myHull.config);
