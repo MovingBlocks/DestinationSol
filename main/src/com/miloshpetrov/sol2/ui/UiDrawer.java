@@ -65,7 +65,7 @@ public class UiDrawer {
 
   public void drawLine(Vector2 p1, Vector2 p2, Color col) {
     check();
-    myDrawer.drawLine(whiteTex, p1, p2, col, uiLineWidth);
+    myDrawer.drawLine(whiteTex, p1, p2, col, uiLineWidth, false);
   }
 
   public void setTextMode(Boolean textMode) {

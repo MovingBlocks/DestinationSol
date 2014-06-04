@@ -96,10 +96,10 @@ public class CommonDrawer {
     draw(tex, len, width, 0, width/2, x, y, angle, col);
   }
 
-  public void drawLine(TextureRegion tex, Vector2 p1, Vector2 p2, Color col, float width) {
+  public void drawLine(TextureRegion tex, Vector2 p1, Vector2 p2, Color col, float width, boolean precise) {
     Vector2 v = SolMath.getVec(p2);
     v.sub(p1);
-    drawLine(tex, p1.x, p1.y, SolMath.angle(v), v.len(), col, width);
+    drawLine(tex, p1.x, p1.y, SolMath.angle(v, precise), v.len(), col, width);
     SolMath.free(v);
   }
 

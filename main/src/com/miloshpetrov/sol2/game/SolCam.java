@@ -61,7 +61,7 @@ public class SolCam {
         myPos.set(trans.getPos());
       }
     } else {
-      Vector2 heroPos = hero.getPos();
+      Vector2 heroPos = hero.getHull().getBody().getWorldCenter();
       if (myZoom * VIEWPORT_HEIGHT < heroPos.dst(myPos)) {
         myPos.set(heroPos);
         game.getObjMan().resetDelays();
@@ -192,10 +192,10 @@ public class SolCam {
     ur.add(myPos);
 
     float lw = getRealLineWidth();
-    drawer.drawLine(drawer.debugWhiteTex, dr, dl, Col.W, lw);
-    drawer.drawLine(drawer.debugWhiteTex, dl, ul, Col.W, lw);
-    drawer.drawLine(drawer.debugWhiteTex, ul, ur, Col.W, lw);
-    drawer.drawLine(drawer.debugWhiteTex, ur, dr, Col.W, lw);
+    drawer.drawLine(drawer.debugWhiteTex, dr, dl, Col.W, lw, false);
+    drawer.drawLine(drawer.debugWhiteTex, dl, ul, Col.W, lw, false);
+    drawer.drawLine(drawer.debugWhiteTex, ul, ur, Col.W, lw, false);
+    drawer.drawLine(drawer.debugWhiteTex, ur, dr, Col.W, lw, false);
 
     SolMath.free(dr);
     SolMath.free(dl);

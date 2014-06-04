@@ -166,7 +166,7 @@ public class GalaxyFiller {
   private Vector2 getEmptySpace(SolGame game, SolSystem s) {
     Vector2 res = new Vector2();
     Vector2 sPos = s.getPos();
-    float sRadius = s.getRadius();
+    float sRadius = s.getInnerRad();
 
     for (int i = 0; i < 100; i++) {
       SolMath.fromAl(res, SolMath.rnd(180), SolMath.rnd(sRadius));

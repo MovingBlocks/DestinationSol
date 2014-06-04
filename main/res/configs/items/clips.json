@@ -2,7 +2,7 @@
   plasmaClip: {
     projectile: plasma,
     size: 30,
-    price: 30,
+    price: 20,
 
     iconName: plasmaClip,
     displayName: "Plasma Cells",
@@ -47,7 +47,7 @@
     projectile: shellBullet,
     projectilesPerShot: 5,
     size: 12,
-    price: 30,
+    price: 40,
 
     displayName: Shells,
     plural: shells,
@@ -59,7 +59,7 @@
   missileClip: {
     projectile: missile,
     size: 6,
-    price: 70,
+    price: 50,
 
     displayName: Missiles,
     plural: missiles,
@@ -71,7 +71,7 @@
   mineClip: {
     projectile: mine,
     size: 10,
-    price: 30,
+    price: 50,
 
     displayName: Mines,
     plural: mines,
@@ -83,7 +83,7 @@
   slugClip: {
     projectile: slug,
     size: 10,
-    price: 70,
+    price: 60,
 
     displayName: "Cannon Slugs",
     plural: slugs,

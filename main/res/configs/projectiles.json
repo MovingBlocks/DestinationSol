@@ -72,7 +72,7 @@
     dmgType: bullet,
 
     texName: bullet,
-    texSz: 0.03,
+    texSz: 0.015,
     stretch: true,
     collisionEffect: {
       effectFile: spark,
@@ -90,7 +90,7 @@
     dmgType: bullet,
 
     texName: bullet,
-    texSz: 0.03,
+    texSz: 0.02,
     stretch: true,
     collisionEffect: {
       effectFile: spark,
@@ -254,7 +254,7 @@
     physSize: 0.15,
 
     texName: bullet,
-    texSz: 0.15,
+    texSz: 0.03,
     trailEffect: {
       effectFile: railTrail,
       tex: techieTrail,

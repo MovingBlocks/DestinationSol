@@ -11,13 +11,11 @@
       {
         hull: imperialMedium,
         items: "fixedGun a1:.5 s1|s2:.5",
-		money: 100,
         density: 1,
       },
       {
         hull: bus,
         items: "gun gun a1|a2 s2|s3",
-		money: 100,
         density: 0.3,
       },
       {
@@ -28,7 +26,6 @@
         guard: {
           hull: imperialBig,
           items: "fixedGun fixedShotGun a2|a3 s2|s3",
-		  money: 50,
           density: 3,
         }
       },
@@ -37,18 +34,18 @@
       {
         hull: pirateSmall,
         items: "plasmaGun s1:.12",
-		money: 100,
+		money: 50,
         density: 1,
       },
       {
         hull: truck,
         items: "shotGun s2|s3:.74",
-		money: 200,
+		money: 400,
         density: 1,
         guard: {
           hull: pirateSmall,
           items: "shotGun s3:.86",
-		  money: 50,
+		  money: 80,
           density: 3,
         }
       },
@@ -65,13 +62,13 @@
       {
         hull: pirateSpaceTurret,
         items: "gun|shotGun s2:.62",
-        money: 20,
+        money: 70,
         density: 0.001,
       },
       {
         hull: pirateMedium,
         items: "gun miner|fixedPlasmaGun:.5 a1:.25 s3",
-        money: 20,
+        money: 200,
         density: 0.0003,
       },
     ],
@@ -98,13 +95,11 @@
       {
         hull: station,
         items: "gun cannon",
-		money: 300,
 		repairer: true,
         density: 0.2,
         guard: {
           hull: imperialBig,
           items: "fixedGun fixedShotGun a2|a3 s2|s3",
-		  money: 50,
           density: 3,
         }
       },
@@ -113,7 +108,7 @@
       {
         hull: desertMedium,
         items: "railGun|fixedCannon fixedGun|railGun:.8 a4 s2|s3:.6",
-		money: 100,
+		money: 300,
         density: 1,
       },
     ],
@@ -121,13 +116,13 @@
       {
         hull: desertSpaceTurret,
         items: "cannon a2|a3 s1:.25",
-		money: 20,
+		money: 50,
         density: 0.001,
       },
       {
         hull: desertSmall,
         items: "fixedGun|railGun fixedGun|railGun:.8 a3 s1|s2:.5",
-		money: 20,
+		money: 150,
         density: 0.0003,
       },
     ],
@@ -135,13 +130,13 @@
       {
         hull: desertSpaceTurret,
         items: "cannon gun|cannon:.8 a3|a4 s2:.75",
-		money: 20,
+		money: 100,
         density: 0.001,
       },
       {
         hull: desertBoss,
         items: "fixedCannon cannon a4 s3",
-		money: 20,
+		money: 800,
         density: 0.0003,
       },
     ],
@@ -153,7 +148,7 @@
         {
           hull: imperialMedium,
           items: "",
-          money: 20,
+          money: 200,
         },
       ],
     },

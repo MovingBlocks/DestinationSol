@@ -19,7 +19,7 @@ public class RepairItem implements SolItem {
 
   @Override
   public float getPrice() {
-    return 25;
+    return 40;
   }
 
   @Override

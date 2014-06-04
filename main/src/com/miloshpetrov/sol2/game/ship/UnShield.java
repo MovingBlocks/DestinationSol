@@ -82,7 +82,7 @@ public class UnShield implements ShipAbility {
 
     @Override
     public void appendDesc(StringBuilder sb) {
-      sb.append("Drain ").append(SolMath.nice(amount)).append(" points from enemy shield\n");
+      sb.append("Deal ").append(SolMath.nice(amount)).append(" dmg to enemy shields\n");
     }
 
     public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig cc) {

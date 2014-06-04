@@ -1,4 +1,4 @@
-prices
+railGun is too hardcore
 
 DATA:
   gun sizes
@@ -16,7 +16,8 @@ DATA:
 
 
 CODING:
-  ammo amt text shifted
+  loot pull glitchy
+  sometimes no dust
   gun light pos bug
   credits
   android compatibility:
@@ -24,7 +25,6 @@ CODING:
     decide what to do with menu
     disposition
   strange line on planet
-  starPort nodes on map look awful
   map grid looks awful
 
 

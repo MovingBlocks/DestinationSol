@@ -50,7 +50,16 @@ public class ShipKbControl implements ShipUiControl {
   }
 
   @Override
-  public void update(SolCmp cmp) {
+  public void update(SolCmp cmp, boolean enabled) {
+    if (!enabled) {
+      myUpCtrl.setEnabled(false);
+      myLeftCtrl.setEnabled(false);
+      myRightCtrl.setEnabled(false);
+      myShootCtrl.setEnabled(false);
+      myShoot2Ctrl.setEnabled(false);
+      myAbilityCtrl.setEnabled(false);
+      return;
+    }
     SolShip hero = cmp.getGame().getHero();
     boolean hasEngine = hero != null && hero.getHull().getEngine() != null;
     myUpCtrl.setEnabled(hasEngine);

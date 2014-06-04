@@ -10,6 +10,7 @@ import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
+import com.miloshpetrov.sol2.game.screens.MainScreen;
 import com.miloshpetrov.sol2.menu.GameOptions;
 
 import java.util.ArrayList;
@@ -281,6 +282,10 @@ public class SolInputMan {
 
   public void playClick() {
     myHoverSound.play(.7f, .9f, 0);
+  }
+
+  public SolUiScreen getTopScreen() {
+    return myScreens.isEmpty() ? null : myScreens.get(0);
   }
 
   public static class Ptr {

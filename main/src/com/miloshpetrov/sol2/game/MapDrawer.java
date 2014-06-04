@@ -270,7 +270,7 @@ public class MapDrawer {
   private void drawStarNode(GameDrawer drawer, Planet from, Planet to, float starNodeW) {
     Vector2 pos1 = StarPort.getDesiredPos(from, to, false);
     Vector2 pos2 = StarPort.getDesiredPos(to, from, false);
-    drawer.drawLine(myWhiteTex, pos1, pos2, Col.UI_LIGHT, starNodeW);
+    drawer.drawLine(myWhiteTex, pos1, pos2, Col.UI_LIGHT, starNodeW, true);
     SolMath.free(pos1);
     SolMath.free(pos2);
   }

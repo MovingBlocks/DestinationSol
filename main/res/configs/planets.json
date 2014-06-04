@@ -33,7 +33,7 @@
       {
         hull: pirateOrbiter,
         items: "plasmaGun|blaster s1:.24",
-		money: 40,
+		money: 30,
         density: 0.03,
       }
     ],
@@ -41,7 +41,7 @@
       {
         hull: pirateOrbiter,
         items: "bombGun s1:.24",
-		money: 40,
+		money: 30,
         density: 0.1,
       },
     ],
@@ -55,14 +55,13 @@
       {
         hull: pirateSmall,
         items: "blaster|gun s1|s2:.5",
-		money: 30,
+		money: 50,
         density: 0.15,
       },
     ],
     station: {
       hull: drome,
       items: "blaster|gun s1",
-	  money: 30,
     },
 
     trading: {
@@ -72,7 +71,7 @@
         {
           hull: pirateSmall,
           items: "",
-          money: 20,
+          money: 100,
         },
       ],
     },
@@ -120,7 +119,7 @@
       {
         hull: desertOrbiter,
         items: "fixedGun a1:.25",
-		money: 40,
+		money: 60,
         density: 0.03,
       }
     ],
@@ -128,7 +127,7 @@
       {
         hull: desertOrbiter,
         items: "fixedBombGun a1:.25",
-		money: 40,
+		money: 60,
         density: 0.1,
       },
     ],
@@ -136,30 +135,29 @@
       {
         hull: desertPlanetTurret,
         items: "gun a1|a2:.5",
-		money: 30,
+		money: 80,
         density: 0.45,
       },
       {
         hull: desertSmall,
         items: "fixedGun|railGun a2:.75",
-		money: 30,
+		money: 80,
         density: 0.15,
       },
     ],
     station: {
       hull: drome,
       items: "gun|cannon s1",
-	  money: 30,
     },
 
     trading: {
-      items: "teleportCharge railGun railClip cannon slugClip",
+      items: "teleportCharge fixedGun bulletClip railGun railClip cannon slugClip",
       ships: "desertOrbiter desertSmall desertMedium",
       mercenaries: [
         {
           hull: desertOrbiter,
           items: "",
-          money: 20,
+          money: 150,
         },
       ],
     },
@@ -194,7 +192,7 @@
       {
         hull: techieOrbiter,
         items: "fixedPlasmaGun|fixedBlaster fixedPlasmaGun|fixedBlaster|fixedEmGun:.5 a2:.75 s4",
-		money: 40,
+		money: 150,
         density: 0.03,
       }
     ],
@@ -202,13 +200,13 @@
       {
         hull: techieSmall,
         items: "fixedPlasmaGun fixedPlasmaGun|fixedBlaster:.5 a2:.5 s3|s4",
-		money: 30,
+		money: 200,
         density: 0.15,
       },
       {
         hull: techiePlanetTurret,
         items: "waveGun emGun:.6 a3 s4",
-		money: 30,
+		money: 400,
         density: 0.45,
       },
     ],

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.miloshpetrov.sol2.SolCmp;
 
 public interface ShipUiControl {
-  void update(SolCmp cmp);
+  void update(SolCmp cmp, boolean enabled);
   boolean isLeft();
   boolean isRight();
   boolean isUp();
