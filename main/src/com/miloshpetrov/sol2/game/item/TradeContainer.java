@@ -1,15 +1,11 @@
 package com.miloshpetrov.sol2.game.item;
 
-import com.miloshpetrov.sol2.Const;
-import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
-import com.miloshpetrov.sol2.game.ship.HullConfig;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TradeContainer {
-  private static final float MAX_AWAIT = 60f;
+  private static final float MAX_AWAIT = 180f;
 
   private final TradeConfig myConfig;
   private final ItemContainer myItems;
@@ -21,23 +17,14 @@ public class TradeContainer {
     myItems = new ItemContainer();
   }
 
-  public void update(SolGame game, HullConfig hullConfig) {
+  public void update(SolGame game) {
     if (0 < myAwait) {
       myAwait -= game.getTimeStep();
       return;
     }
 
     myAwait = MAX_AWAIT;
-    int groupsToLeave = Const.ITEM_GROUPS_PER_PAGE;
-    if (hullConfig.type != HullConfig.Type.STATION) groupsToLeave /= 2;
-    int excess = myItems.groupCount() - groupsToLeave;
-    for (int i = 0; i < excess; i++) {
-      List<SolItem> group = myItems.getGroup(SolMath.intRnd(myItems.groupCount()));
-      ArrayList<SolItem> groupCopy = new ArrayList<SolItem>(group);
-      for (SolItem it : groupCopy) {
-        myItems.remove(it);
-      }
-    }
+    myItems.clear();
     List<ItemConfig> items = myConfig.items;
     for (int i1 = 0, sz = items.size(); i1 < sz; i1++) {
       ItemConfig i = items.get(i1);

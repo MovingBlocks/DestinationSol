@@ -63,7 +63,7 @@ public class FarShip implements FarObj {
   @Override
   public void update(SolGame game) {
     myPilot.updateFar(game, this);
-    if (myTradeContainer != null) myTradeContainer.update(game, myHullConfig);
+    if (myTradeContainer != null) myTradeContainer.update(game);
     if (myRepairer != null) myLife += myRepairer.tryRepair(game, myContainer, myLife, myHullConfig);
   }
 

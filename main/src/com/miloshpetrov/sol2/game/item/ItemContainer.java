@@ -143,6 +143,12 @@ public class ItemContainer implements Iterable<List<SolItem>> {
     return myGroups.get(groupIdx);
   }
 
+  public void clear() {
+    myGroups.clear();
+    myNewGroups.clear();
+    mySize = 0;
+  }
+
   private class Itr implements Iterator<List<SolItem>> {
     int myCur;       // index of next element to return
 

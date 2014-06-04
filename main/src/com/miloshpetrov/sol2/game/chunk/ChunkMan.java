@@ -6,7 +6,6 @@ import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.RemoveController;
 import com.miloshpetrov.sol2.game.SolGame;
-import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 import java.util.*;
 
@@ -25,7 +24,7 @@ public class ChunkMan {
   private int myX;
   private int myY;
 
-  public ChunkMan(HullConfigs hullConfigs, TexMan texMan) {
+  public ChunkMan(TexMan texMan) {
     myFilledChunks = new HashSet<Vector2>();
     myBgFilledChunks = new HashSet<Vector2>();
     myRemover = new MyRemover(MIN_REMOVE_DIST);
