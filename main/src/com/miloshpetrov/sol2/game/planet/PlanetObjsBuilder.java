@@ -33,13 +33,13 @@ public class PlanetObjsBuilder {
   public float createPlanetObjs(SolGame game, Planet planet) {
     if (DebugOptions.NO_OBJS) return 0;
     float minR = createGround(game, planet);
-    createClouds(game, planet);
-    createDeco(game, planet);
+//    createClouds(game, planet);
+//    createDeco(game, planet);
     if (planet.getConfig().skyConfig != null) {
       Sky sky = new Sky(game, planet);
       game.getObjMan().addObjDelayed(sky);
     }
-    createEnemies(game, planet);
+//    createEnemies(game, planet);
     return minR;
   }
 

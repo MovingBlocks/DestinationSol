@@ -31,6 +31,7 @@ public class Projectile implements SolObj {
 
   private boolean myShouldRemove;
   private SolObj myObstacle;
+  private boolean myDamageDealt;
 
   public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpd, Fraction fraction,
     ProjectileConfig config, boolean varySpd)
@@ -81,9 +82,10 @@ public class Projectile implements SolObj {
   public void update(SolGame game) {
     myBody.update(game);
     if (myObstacle != null) {
-      myObstacle.receiveDmg(myConfig.dmg, game, myBody.getPos(), myConfig.dmgType);
+      if (!myDamageDealt) myObstacle.receiveDmg(myConfig.dmg, game, myBody.getPos(), myConfig.dmgType);
       if (myConfig.density > 0) {
         myObstacle = null;
+        myDamageDealt = true;
       } else {
         collided(game);
         if (myConfig.emTime > 0 && myObstacle instanceof SolShip) ((SolShip) myObstacle).disableControls(myConfig.emTime, game);

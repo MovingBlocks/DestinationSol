@@ -39,7 +39,7 @@ public class SunSingleton {
       myFillTint.a = SolMath.clamp((closeness - .25f) * 4, 0, 1);
 
       float sz = 2 * game.getCam().getViewDist();
-      float gradAngle = SolMath.angle(toCam) - 90;
+      float gradAngle = SolMath.angle(toCam) + 90;
       drawer.draw(myWhiteTex, sz*2, sz*2, sz, sz, camPos.x, camPos.y, 0, myFillTint);
       drawer.draw(myGradTex, sz*2, sz*2, sz, sz, camPos.x, camPos.y, gradAngle, myGradTint);
     }
