@@ -140,7 +140,7 @@
       },
       {
         hull: desertSmall,
-        items: "fixedGun|railGun a2:.75",
+        items: "fixedGun fixedGun:.3 a2:.75",
 		money: 80,
         density: 0.15,
       },

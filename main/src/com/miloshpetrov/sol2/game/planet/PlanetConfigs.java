@@ -14,11 +14,13 @@ import java.util.*;
 public class PlanetConfigs {
   private final Map<String, PlanetConfig> myConfigs;
   private final List<PlanetConfig> myEasy;
+  private final List<PlanetConfig> myMedium;
   private final List<PlanetConfig> myHard;
 
   public PlanetConfigs(TexMan texMan, HullConfigs hullConfigs, GameCols cols, ItemMan itemMan) {
     myConfigs = new HashMap<String, PlanetConfig>();
     myEasy = new ArrayList<PlanetConfig>();
+    myMedium = new ArrayList<PlanetConfig>();
     myHard = new ArrayList<PlanetConfig>();
 
     JsonReader r = new JsonReader();
@@ -27,8 +29,9 @@ public class PlanetConfigs {
     for (JsonValue sh : parsed) {
       PlanetConfig c = PlanetConfig.load(texMan, hullConfigs, configFile, sh, cols, itemMan);
       myConfigs.put(sh.name, c);
-      if (!c.hardOnly) myEasy.add(c);
-      if (!c.easyOnly) myHard.add(c);
+      if (c.hardOnly) myHard.add(c);
+      else if (c.easyOnly) myEasy.add(c);
+      else myMedium.add(c);
     }
   }
 
@@ -36,8 +39,10 @@ public class PlanetConfigs {
     return myConfigs.get(name);
   }
 
-  public PlanetConfig getRandom(boolean hard) {
-    return SolMath.elemRnd(hard ? myHard : myEasy);
+  public PlanetConfig getRandom(boolean onlyEasy, boolean hard) {
+    if (onlyEasy) return SolMath.elemRnd(myEasy);
+    List<PlanetConfig> cfg = SolMath.test(.5f) ? myMedium : hard ? myHard : myEasy;
+    return SolMath.elemRnd(cfg);
   }
 
   public Map<String, PlanetConfig> getConfigs() {

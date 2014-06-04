@@ -125,6 +125,7 @@ public class InventoryScreen implements SolUiScreen {
   public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
     if (myCloseCtrl.isJustOff()) {
       cmp.getInputMan().setScreen(cmp, cmp.getGame().getScreens().mainScreen);
+      if (myOperations != showInventory) cmp.getInputMan().addScreen(cmp, cmp.getGame().getScreens().talkScreen);
     }
     if (myPrevCtrl.isJustOff()) myPage--;
     if (myNextCtrl.isJustOff()) myPage++;

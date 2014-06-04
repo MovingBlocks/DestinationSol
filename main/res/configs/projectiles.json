@@ -248,7 +248,7 @@
 
 
   rail: {
-    dmg: 80,
+    dmg: 70,
     dmgType: bullet,
     spdLen: 12,
     physSize: 0.15,

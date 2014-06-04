@@ -52,7 +52,7 @@ public class Shooter {
 
     Vector2 gunRelPos = ship.getHull().getGunMount(g == g2).getRelPos();
     Vector2 gunPos = SolMath.toWorld(gunRelPos, ship.getAngle(), shipPos);
-    float shootAngle = calcShootAngle(gunPos, ship.getSpd(), enemyPos, enemySpd, projSpd);
+    float shootAngle = calcShootAngle(gunPos, ship.getSpd(), enemyPos, enemySpd, projSpd, false);
     SolMath.free(gunPos);
     if (shootAngle != shootAngle) return;
     {
@@ -114,9 +114,11 @@ public class Shooter {
     return myRight;
   }
 
-  public static float calcShootAngle(Vector2 gunPos, Vector2 gunSpd, Vector2 ePos, Vector2 eSpd, float projSpd) {
+  public static float calcShootAngle(Vector2 gunPos, Vector2 gunSpd, Vector2 ePos, Vector2 eSpd, float projSpd,
+    boolean sharp)
+  {
     Vector2 eSpdShortened = SolMath.getVec(eSpd);
-    eSpdShortened.scl(E_SPD_PERC);
+    if (!sharp) eSpdShortened.scl(E_SPD_PERC);
     Vector2 relESpd = SolMath.distVec(gunSpd, eSpdShortened);
     SolMath.free(eSpdShortened);
     float rotAngle = SolMath.angle(relESpd);

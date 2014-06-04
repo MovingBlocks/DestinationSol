@@ -1,5 +1,3 @@
-railGun is too hardcore
-
 DATA:
   gun sizes
   hull lights
@@ -16,7 +14,6 @@ DATA:
 
 
 CODING:
-  loot pull glitchy
   sometimes no dust
   gun light pos bug
   credits
@@ -29,6 +26,7 @@ CODING:
 
 
 DRAWING:
+  change dollar sign to unique sign + icons
   techiePlanetTurret
   ability effects + teleport blip
   guns

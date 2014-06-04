@@ -6,8 +6,8 @@ import com.miloshpetrov.sol2.common.SolMath;
 import java.util.*;
 
 public class ItemContainer implements Iterable<List<SolItem>> {
-  private static final int MAX_GROUP_COUNT = 8 * Const.ITEM_GROUPS_PER_PAGE;
-  public static final int MAX_GROUP_SZ = 8;
+  private static final int MAX_GROUP_COUNT = 4 * Const.ITEM_GROUPS_PER_PAGE;
+  public static final int MAX_GROUP_SZ = 30;
 
   private List<List<SolItem>> myGroups;
   private Set<List<SolItem>> myNewGroups;

@@ -10,11 +10,11 @@ fixed == faster
 9  f missileLauncher / missileClip
 10 f miner / mineClip
 11 f rocketLauncher / rocketClip
-12 f railGun / railClip
 13 f fixedPlasmaGun = Plasma Gun / plasmaClip
 14 f missilePad / missileClip
 15   cannon / slugClip
 16 f nailGun / nailClip
+16 f railGun / railClip
 17 f fixedBlaster = Heavy Blaster / infinite
 18   emGun / infinite
 19 f fixedShotGun = Heavy Shotgun / shellClip
