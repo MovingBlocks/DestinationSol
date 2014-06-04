@@ -45,7 +45,7 @@ public class HardnessCalc {
     return shotDmg / meanTimeBetween;
   }
 
-  private static float getItemCfgDps(ItemMan.ItemConfig ic, boolean fixed) {
+  private static float getItemCfgDps(ItemConfig ic, boolean fixed) {
     float dps = 0;
     for (SolItem e : ic.examples) {
       if (!(e instanceof GunItem)) throw new AssertionError("all item options must be of the same type");
@@ -64,11 +64,11 @@ public class HardnessCalc {
   }
 
   public static float getShipConfDps(ShipConfig sc, ItemMan itemMan) {
-    List<ItemMan.ItemConfig> parsed = itemMan.parseItems(sc.items);
+    List<ItemConfig> parsed = itemMan.parseItems(sc.items);
     boolean g1Filled = false;
     boolean g2Filled = false;
     float dps = 0;
-    for (ItemMan.ItemConfig ic : parsed) {
+    for (ItemConfig ic : parsed) {
       SolItem item = ic.examples.get(0);
       if (!(item instanceof GunItem)) continue;
       GunItem g = (GunItem) item;
@@ -86,10 +86,10 @@ public class HardnessCalc {
   }
 
   public static float getShipCfgDmgCap(ShipConfig sc, ItemMan itemMan) {
-    List<ItemMan.ItemConfig> parsed = itemMan.parseItems(sc.items);
+    List<ItemConfig> parsed = itemMan.parseItems(sc.items);
     float meanShieldLife = 0;
     float meanArmorPerc = 0;
-    for (ItemMan.ItemConfig ic : parsed) {
+    for (ItemConfig ic : parsed) {
       SolItem item = ic.examples.get(0);
       if (meanShieldLife == 0 && item instanceof Shield) {
         for (SolItem ex : ic.examples) {

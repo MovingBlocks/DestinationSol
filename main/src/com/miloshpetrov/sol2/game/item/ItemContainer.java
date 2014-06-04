@@ -6,8 +6,8 @@ import com.miloshpetrov.sol2.common.SolMath;
 import java.util.*;
 
 public class ItemContainer implements Iterable<List<SolItem>> {
-  private static final int CAP = 8 * Const.ITEMS_PER_PAGE;
-  public static final int GROUP_CAP = 8;
+  private static final int MAX_GROUP_COUNT = 8 * Const.ITEM_GROUPS_PER_PAGE;
+  public static final int MAX_GROUP_SZ = 8;
 
   private List<List<SolItem>> myGroups;
   private Set<List<SolItem>> myNewGroups;
@@ -42,9 +42,9 @@ public class ItemContainer implements Iterable<List<SolItem>> {
     for (int i = 0, myGroupsSize = myGroups.size(); i < myGroupsSize; i++) {
       List<SolItem> group = myGroups.get(i);
       SolItem item = group.get(0);
-      if (item.isSame(example)) return group.size() < GROUP_CAP;
+      if (item.isSame(example)) return group.size() < MAX_GROUP_SZ;
     }
-    return myGroups.size() < CAP;
+    return myGroups.size() < MAX_GROUP_COUNT;
   }
 
   public void add(SolItem addedItem) {
@@ -53,13 +53,13 @@ public class ItemContainer implements Iterable<List<SolItem>> {
       List<SolItem> group = myGroups.get(i);
       SolItem item = group.get(0);
       if (item.isSame(addedItem)) {
-        if (group.size() >= GROUP_CAP) throw new AssertionError();
+        if (group.size() >= MAX_GROUP_SZ) throw new AssertionError();
         group.add(addedItem);
         mySize++;
         return;
       }
     }
-    if (myGroups.size() >= CAP) throw new AssertionError();
+    if (myGroups.size() >= MAX_GROUP_COUNT) throw new AssertionError();
     ArrayList<SolItem> group = new ArrayList<SolItem>();
     group.add(addedItem);
     myGroups.add(0, group);

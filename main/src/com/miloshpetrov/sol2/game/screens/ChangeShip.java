@@ -51,7 +51,6 @@ public class ChangeShip implements InventoryOperations {
     InventoryScreen is = game.getScreens().inventoryScreen;
     SolShip hero = game.getHero();
     TalkScreen talkScreen = game.getScreens().talkScreen;
-    SolShip target = talkScreen.getTarget();
     if (talkScreen.isTargetFar(hero)) {
       cmp.getInputMan().setScreen(cmp, game.getScreens().mainScreen);
       return;

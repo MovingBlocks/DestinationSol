@@ -77,7 +77,7 @@
     ],
 
     trading: {
-      items: "blaster gun bulletClip:1:8 s1 a1 a2 rep:1:8 sloMoCharge:1:8",
+      items: "rep blaster s1 a1 sloMoCharge gun bulletClip a2",
       ships: "imperialSmall imperialMedium",
       mercenaries: [],
     },
@@ -147,9 +147,15 @@
     ],
 
     trading: {
-      items: "fixedGun fixedShotGun bulletClip:1:8 shellClip:1:8",
-      ships: "imperialSmall imperialMedium",
-      mercenaries: [],
+      items: "rep sloMoCharge fixedGun bulletClip a2 s2 fixedShotGun shellClip a3 s3 ",
+      ships: "imperialMedium imperialBig",
+      mercenaries: [
+        {
+          hull: imperialMedium,
+          items: "",
+          money: 20,
+        },
+      ],
     },
   },
 }

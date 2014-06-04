@@ -601,6 +601,7 @@ main/src/com/miloshpetrov/sol2/game/item/Armor.java -text
 main/src/com/miloshpetrov/sol2/game/item/ClipConfig.java -text
 main/src/com/miloshpetrov/sol2/game/item/ClipItem.java -text
 main/src/com/miloshpetrov/sol2/game/item/EngineItem.java -text
+main/src/com/miloshpetrov/sol2/game/item/ItemConfig.java -text
 main/src/com/miloshpetrov/sol2/game/item/ItemContainer.java -text
 main/src/com/miloshpetrov/sol2/game/item/ItemMan.java -text
 main/src/com/miloshpetrov/sol2/game/item/Loot.java -text

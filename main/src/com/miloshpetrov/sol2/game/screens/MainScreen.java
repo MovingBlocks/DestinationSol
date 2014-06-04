@@ -393,7 +393,7 @@ public class MainScreen implements SolUiScreen {
     public Vector2 pos = new Vector2();
 
     public void draw(UiDrawer uiDrawer) {
-      uiDrawer.drawString(text, pos.x, pos.y + .25f * ICON_SZ, FontSize.HUD, false, Col.W); // hack!
+      uiDrawer.drawString(text, pos.x, pos.y, FontSize.HUD, false, Col.W); // hack!
     }
   }
 }
