@@ -21,7 +21,6 @@ CODING:
     tutorial should consider new control type, also mobile, also highlight buttons
     decide what to do with menu
     disposition
-  strange line on planet
   map grid looks awful
 
 

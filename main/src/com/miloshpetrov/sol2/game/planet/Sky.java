@@ -77,7 +77,7 @@ public class Sky implements SolObj {
     float relAngle;
     if (SolMath.abs(SolMath.norm(angleCamToSun)) < 90) relAngle = angleToCam + 180 + angleCamToSun;
     else relAngle = angleToCam - angleCamToSun;
-    myGrad.relAngle = relAngle + 90;
+    myGrad.relAngle = relAngle - 90;
   }
 
   @Override

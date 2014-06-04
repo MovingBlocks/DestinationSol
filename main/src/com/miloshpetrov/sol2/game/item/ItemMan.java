@@ -147,14 +147,14 @@ public class ItemMan {
   public void addAllWeapons(ItemContainer ic) {
     for (SolItem i : myM.values()) {
       if (i instanceof ClipItem && !((ClipItem) i).getConfig().infinite) {
-        for (int j = 0; j < ItemContainer.MAX_GROUP_SZ; j++) {
+        for (int j = 0; j < 8; j++) {
           ic.add(i.copy());
         }
       }
     }
     for (SolItem i : myM.values()) {
       if (i instanceof GunItem) {
-        ic.add(i.copy());
+        if (ic.canAdd(i)) ic.add(i.copy());
       }
     }
 
