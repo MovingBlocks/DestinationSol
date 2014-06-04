@@ -45,7 +45,7 @@ public class SolCmp {
     myInputMan = new SolInputMan(myTexMan, myUiDrawer.r);
     mySaveMan = new SaveMan();
     myLayouts = new SolLayouts(myUiDrawer.r);
-    myMenuScreens = new MenuScreens(myLayouts, mySaveMan, myTexMan, isMobile());
+    myMenuScreens = new MenuScreens(myLayouts, mySaveMan, myTexMan, isMobile(), myUiDrawer.r);
 
     myInputMan.setScreen(this, myMenuScreens.main);
   }
