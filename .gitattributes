@@ -207,6 +207,7 @@ main/imgSrcs/smallGameObjs/shield2.png -text
 main/imgSrcs/smallGameObjs/shield3.png -text
 main/imgSrcs/smallGameObjs/shield4.png -text
 main/imgSrcs/smallGameObjs/starPort.png -text
+main/imgSrcs/smallGameObjs/targetDetected.png -text
 main/imgSrcs/smallGameObjs/teleportBlip.png -text
 main/imgSrcs/smallGameObjs/transcendent.png -text
 main/imgSrcs/ui/compass.png -text
@@ -548,6 +549,7 @@ main/src/com/miloshpetrov/sol2/game/HardnessCalc.java -text
 main/src/com/miloshpetrov/sol2/game/HsbSpan.java -text
 main/src/com/miloshpetrov/sol2/game/MapDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/MissingResourceAction.java -text
+main/src/com/miloshpetrov/sol2/game/MountDetectDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/ObjMan.java -text
 main/src/com/miloshpetrov/sol2/game/PathLoader.java -text
 main/src/com/miloshpetrov/sol2/game/PlayerSpawnConfig.java -text
