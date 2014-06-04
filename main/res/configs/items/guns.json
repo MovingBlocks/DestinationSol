@@ -5,7 +5,7 @@
     angleVarPerShot: 2,
     timeBetweenShots: 1.1,
     reloadTime: 3,
-    price: 15,
+    price: 30,
     clipName: plasmaClip,
 
     gunLength: 0.14,
@@ -26,7 +26,7 @@
     angleVarPerShot: 0,
     timeBetweenShots: 0.5,
     reloadTime: 2.5,
-    price: 200,
+    price: 40,
     clipName: bombClip,
 
     gunLength: 0.2,
@@ -45,7 +45,7 @@
     angleVarPerShot: 2,
     timeBetweenShots: 0.8,
     reloadTime: 4,
-    price: 30,
+    price: 50,
     clipName: blasterClip,
 
     gunLength: 0.14,
@@ -66,7 +66,7 @@
     angleVarPerShot: 0,
     timeBetweenShots: 0.2,
     reloadTime: 2.5,
-    price: 200,
+    price: 70,
     clipName: bombClip,
 
     gunLength: 0.2,
@@ -86,7 +86,7 @@
     angleVarPerShot: 1,
     timeBetweenShots: 0.24,
     reloadTime: 2,
-    price: 50,
+    price: 120,
     clipName: bulletClip,
 
     gunLength: 0.24,
@@ -107,7 +107,7 @@
     angleVarPerShot: 1,
     timeBetweenShots: 0.07,
     reloadTime: 0,
-    price: 150,
+    price: 220,
     clipName: bulletClip,
 
     gunLength: 0.24,
@@ -127,7 +127,7 @@
     angleVarPerShot: 10,
     timeBetweenShots: 1.2,
     reloadTime: 3.5,
-    price: 200,
+    price: 250,
     clipName: shellClip,
 
     gunLength: 0.2,
@@ -148,7 +148,7 @@
     angleVarPerShot: 3,
     timeBetweenShots: 0.6,
     reloadTime: 1,
-    price: 200,
+    price: 300,
     clipName: missileClip,
 
     gunLength: 0.2,
@@ -169,7 +169,7 @@
     angleVarPerShot: 0,
     timeBetweenShots: 0.25,
     reloadTime: 1.5,
-    price: 200,
+    price: 300,
     clipName: mineClip,
 
     gunLength: 0.2,
@@ -190,7 +190,7 @@
     angleVarPerShot: 3,
     timeBetweenShots: 0.4,
     reloadTime: 1.1,
-    price: 200,
+    price: 350,
     clipName: rocketClip,
 
     gunLength: 0.2,
@@ -210,7 +210,7 @@
     angleVarPerShot: 1,
     timeBetweenShots: 1.5,
     reloadTime: 2.5,
-    price: 50,
+    price: 400,
     clipName: railClip,
 
     gunLength: 0.24,
@@ -231,7 +231,7 @@
     angleVarPerShot: 1,
     timeBetweenShots: 0.06,
     reloadTime: 0,
-    price: 15,
+    price: 450,
     clipName: plasmaClip,
 
     gunLength: 0.12,
@@ -253,7 +253,7 @@
     angleVarPerShot: 360,
     timeBetweenShots: 0,
     reloadTime: 3,
-    price: 200,
+    price: 500,
     clipName: missileClip,
 
     gunLength: 0.2,
@@ -273,7 +273,7 @@
     angleVarPerShot: 1,
     timeBetweenShots: 1.9,
     reloadTime: 3,
-    price: 50,
+    price: 600,
     clipName: slugClip,
 
     gunLength: 0.24,
@@ -294,7 +294,7 @@
     angleVarPerShot: 2,
     timeBetweenShots: 0.55,
     reloadTime: 1,
-    price: 15,
+    price: 700,
     clipName: nailClip,
 
     gunLength: 0.12,
@@ -315,7 +315,7 @@
     angleVarPerShot: 1,
     timeBetweenShots: 0.07,
     reloadTime: 0,
-    price: 30,
+    price: 700,
     clipName: blasterClip,
 
     gunLength: 0.16,
@@ -336,7 +336,7 @@
     angleVarPerShot: 2,
     timeBetweenShots: 0,
     reloadTime: 3.6,
-    price: 15,
+    price: 750,
     clipName: emClip,
 
     gunLength: 0.12,
@@ -357,7 +357,7 @@
     angleVarPerShot: 10,
     timeBetweenShots: 0.2,
     reloadTime: 0,
-    price: 200,
+    price: 800,
     clipName: shellClip,
 
     gunLength: 0.2,
@@ -379,7 +379,7 @@
     angleVarPerShot: 2,
     timeBetweenShots: 0,
     reloadTime: 1,
-    price: 15,
+    price: 850,
     clipName: emClip,
 
     gunLength: 0.12,
@@ -401,7 +401,7 @@
     angleVarPerShot: 1,
     timeBetweenShots: 0.46,
     reloadTime: 0,
-    price: 50,
+    price: 900,
     clipName: slugClip,
 
     gunLength: 0.24,
@@ -422,7 +422,7 @@
     angleVarPerShot: 2,
     timeBetweenShots: 0.8,
     reloadTime: 2.5,
-    price: 15,
+    price: 1000,
     clipName: waveClip,
 
     gunLength: 0.12,

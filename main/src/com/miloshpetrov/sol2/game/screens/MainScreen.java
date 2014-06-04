@@ -151,7 +151,8 @@ public class MainScreen implements SolUiScreen {
       inputMan.setScreen(cmp, screens.menuScreen);
     }
 
-    if (shipControl != null) shipControl.update(cmp);
+    boolean controlsEnabled = inputMan.getTopScreen() == this;
+    shipControl.update(cmp, controlsEnabled);
 
     if (mapCtrl.isJustOff()) {
       inputMan.setScreen(cmp, screens.mapScreen);

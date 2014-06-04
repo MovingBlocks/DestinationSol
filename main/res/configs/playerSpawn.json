@@ -8,17 +8,15 @@
     godModeShip: {
       hull: imperialBig,
       items: "a4 s4",
-      money: 1000,
+      money: 10000,
     },
   },
   mainStation: {
     hull: station,
     items: "gun gun",
-	money: 300,
     guard: {
       hull: imperialBig,
       items: "fixedGun fixedShotGun a2|a3 s2|s3",
-	  money: 50,
       density: 3,
     }
   },

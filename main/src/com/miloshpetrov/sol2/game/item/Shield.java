@@ -138,8 +138,8 @@ public class Shield implements SolItem {
 
     private String makeDesc() {
       StringBuilder sb = new StringBuilder();
-      sb.append("Takes ").append(SolMath.nice(maxLife)).append(" dmg");
-      sb.append("\nStrong against bullets");
+      sb.append("Takes ").append(SolMath.nice(maxLife)).append(" dmg\n");
+      sb.append("Strong against bullets\n");
       return sb.toString();
     }
 

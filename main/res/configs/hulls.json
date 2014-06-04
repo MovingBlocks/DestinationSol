@@ -15,7 +15,7 @@
     maxLife: 22,
     type: std,
     price: 200,
-    hirePrice: 200,
+    hirePrice: 600,
     ability: {
       type: unShield,
       amount: 5,
@@ -57,7 +57,7 @@
     size: 0.76,
     maxLife: 26,
     type: std,
-    price: 200,
+    price: 300,
     ability: {
       type: unShield,
       amount: 8,
@@ -89,7 +89,8 @@
     size: 0.41,
     maxLife: 38,
     type: std,
-    price: 200,
+    price: 400,
+    hirePrice: 1200,
     m1Fixed: true,
 
     texName: desertOrbiter,
@@ -117,7 +118,8 @@
     size: 0.6,
     maxLife: 54,
     type: std,
-    price: 200,
+    price: 600,
+    hirePrice: 2000,
     m1Fixed: true,
     ability: {
       type: sloMo,
@@ -177,7 +179,7 @@
     size: 0.5,
     maxLife: 65,
     type: std,
-    price: 150,
+    price: 800,
     m1Fixed: true,
     m2Fixed: true,
     ability: {
@@ -224,7 +226,7 @@
     maxLife: 58,
     type: std,
     m1Fixed: true,
-    price: 200,
+    price: 800,
     ability: {
       type: unShield,
       amount: 9,
@@ -335,7 +337,7 @@
     size: 1,
     maxLife: 70,
     type: std,
-    price: 200,
+    price: 1200,
     m1Fixed: true,
     m2Fixed: true,
     ability: {
@@ -359,7 +361,7 @@
     size: 1.2,
     maxLife: 80,
     type: std,
-    price: 200,
+    price: 2000,
     m1Fixed: true,
     m2Fixed: true,
     ability: {

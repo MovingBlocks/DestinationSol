@@ -25,7 +25,7 @@ public class ShipMouseControl implements ShipUiControl {
   }
 
   @Override
-  public void update(SolCmp cmp) {
+  public void update(SolCmp cmp, boolean enabled) {
     SolGame g = cmp.getGame();
     SolShip h = g.getHero();
     myCursor = null;

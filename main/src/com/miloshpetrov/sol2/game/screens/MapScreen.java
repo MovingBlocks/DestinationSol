@@ -52,7 +52,7 @@ public class MapScreen implements SolUiScreen {
     zoomInCtrl.setEnabled(mapZoom != MapDrawer.MIN_ZOOM);
     zoomOutCtrl.setEnabled(mapZoom != MapDrawer.MAX_ZOOM);
     ShipUiControl sc = g.getScreens().mainScreen.shipControl;
-    if (sc instanceof ShipMouseControl) sc.update(cmp);
+    if (sc instanceof ShipMouseControl) sc.update(cmp, true);
   }
 
   @Override

@@ -56,9 +56,9 @@ public class GameDrawer {
     myDrawer.drawLine(tex, x, y, angle, len, col, width);
   }
 
-  public void drawLine(TextureRegion tex, Vector2 p1, Vector2 p2, Color col, float width) {
+  public void drawLine(TextureRegion tex, Vector2 p1, Vector2 p2, Color col, float width, boolean precise) {
     maybeChangeAdditive(false);
-    myDrawer.drawLine(tex, p1, p2, col, width);
+    myDrawer.drawLine(tex, p1, p2, col, width, precise);
   }
 
   public void draw(ParticleEmitter emitter, TextureAtlas.AtlasRegion tex, boolean additive) {

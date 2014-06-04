@@ -37,8 +37,9 @@ class ShipMixedControl implements ShipUiControl {
   }
 
   @Override
-  public void update(SolCmp cmp) {
+  public void update(SolCmp cmp, boolean enabled) {
     blur();
+    if (!enabled) return;
     SolInputMan im = cmp.getInputMan();
     SolGame g = cmp.getGame();
     SolShip h = g.getHero();

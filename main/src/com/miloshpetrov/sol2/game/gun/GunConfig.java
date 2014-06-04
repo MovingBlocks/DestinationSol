@@ -73,21 +73,23 @@ public class GunConfig {
   private String makeDesc() {
     StringBuilder sb = new StringBuilder();
     ProjectileConfig pc = clipConf.projConfig;
+    if (!fixed) sb.append("Rotates automatically\n");
     if (pc.dmg > 0) {
-      sb.append("Dmg: ").append(SolMath.nice(dps)).append("/s");
+      sb.append("Dmg: ").append(SolMath.nice(dps)).append("/s\n");
       DmgType dmgType = pc.dmgType;
-      if (dmgType == DmgType.ENERGY) sb.append("\nWeak against armor");
-      else if (dmgType == DmgType.BULLET) sb.append("\nWeak against shields");
+      if (dmgType == DmgType.ENERGY) sb.append("Weak against armor\n");
+      else if (dmgType == DmgType.BULLET) sb.append("Weak against shields\n");
     } else if (pc.emTime > 0) {
-      sb.append("Disables enemy ships for ").append(SolMath.nice(pc.emTime)).append(" s");
-    } else if (pc.density > 0) {
-      sb.append("Knocks enemies back");
+      sb.append("Disables enemy ships for ").append(SolMath.nice(pc.emTime)).append(" s\n");
     }
-    sb.append("\nReload: ").append(SolMath.nice(reloadTime)).append(" s");
+    if (pc.density > 0) {
+      sb.append("Knocks enemies back\n");
+    }
+    sb.append("Reload: ").append(SolMath.nice(reloadTime)).append(" s\n");
     if (clipConf.infinite) {
-      sb.append("\nInfinite ammo");
+      sb.append("Infinite ammo\n");
     } else {
-      sb.append("\nUses ").append(clipConf.plural);
+      sb.append("Uses ").append(clipConf.plural).append("\n");
     }
     return sb.toString();
   }

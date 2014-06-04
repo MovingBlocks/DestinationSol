@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class ExplorerDestProvider implements MoveDestProvider {
   public static final int MAX_AWAIT_ON_PLANET = 30;
+  public static final int LAST_PLANETS_TO_AVOID = 2;
   private final Vector2 myDest;
   private final boolean myAggressive;
   private final float myDesiredSpdLen;
@@ -32,7 +33,9 @@ public class ExplorerDestProvider implements MoveDestProvider {
     mySys = sys;
     myDest = new Vector2();
     float minDst = Float.MAX_VALUE;
-    for (Planet p : game.getPlanetMan().getPlanets()) {
+    ArrayList<Planet> planets = mySys.getPlanets();
+    for (int i = 0, sz = planets.size() - LAST_PLANETS_TO_AVOID; i < sz; i++) {
+      Planet p = planets.get(i);
       float dst = p.getPos().dst(pos);
       if (dst < minDst) {
         minDst = dst;
@@ -78,7 +81,8 @@ public class ExplorerDestProvider implements MoveDestProvider {
         myAwaitOnPlanet -= game.getTimeStep();
       } else {
         ArrayList<Planet> ps = mySys.getPlanets();
-        myPlanet = SolMath.elemRnd(ps);
+        int pIdx = SolMath.intRnd(ps.size() - LAST_PLANETS_TO_AVOID);
+        myPlanet = ps.get(pIdx);
         calcRelDest(hullConfig);
         myAwaitOnPlanet = MAX_AWAIT_ON_PLANET;
       }
