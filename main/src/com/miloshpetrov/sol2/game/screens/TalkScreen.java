@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.miloshpetrov.sol2.SolCmp;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.game.SolGame;
+import com.miloshpetrov.sol2.game.ship.HullConfig;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 import com.miloshpetrov.sol2.menu.MenuLayout;
 import com.miloshpetrov.sol2.ui.*;
@@ -68,7 +69,8 @@ public class TalkScreen implements SolUiScreen {
 
     boolean sellsShips = myTarget.getHull().config == g.getHullConfigs().getConfig("station");
     myShipsCtrl.setEnabled(sellsShips);
-    myHireCtrl.setEnabled(sellsShips);
+    boolean hire1 = myTarget.getHull().config.type == HullConfig.Type.STATION;
+    myHireCtrl.setEnabled(hire1);
 
     InventoryScreen is = g.getScreens().inventoryScreen;
     boolean sell = mySellCtrl.isJustOff();

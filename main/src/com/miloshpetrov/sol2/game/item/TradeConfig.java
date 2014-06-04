@@ -5,12 +5,14 @@ import com.miloshpetrov.sol2.game.ShipConfig;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
+import java.util.*;
+
 public class TradeConfig {
-  public final ItemContainer items;
+  public final List<ItemConfig> items;
   public final ItemContainer hulls;
   public final ItemContainer mercs;
 
-  public TradeConfig(ItemContainer items, ItemContainer hulls, ItemContainer mercs)
+  public TradeConfig(List<ItemConfig> items, ItemContainer hulls, ItemContainer mercs)
   {
     this.items = items;
     this.hulls = hulls;
@@ -21,18 +23,22 @@ public class TradeConfig {
   public static TradeConfig load(ItemMan itemMan, JsonValue tradeNode, HullConfigs hullConfigs) {
     if (tradeNode == null) return null;
     String itemStr = tradeNode.getString("items");
-    ItemContainer items = new ItemContainer();
-    itemMan.fillContainer(items, itemStr);
+    List<ItemConfig> items = itemMan.parseItems(itemStr);
+    Collections.reverse(items);
 
     ItemContainer hulls = new ItemContainer();
     String shipStr = tradeNode.getString("ships", "");
-    for (String hullName : shipStr.split(" ")) {
+    String[] split = shipStr.split(" ");
+    for (int i = split.length - 1; i >= 0; i--) {
+      String hullName = split[i];
       HullConfig hull = hullConfigs.getConfig(hullName);
       hulls.add(new ShipItem(hull));
     }
 
     ItemContainer mercs = new ItemContainer();
-    for (ShipConfig merc : ShipConfig.loadList(tradeNode.get("mercenaries"), hullConfigs, itemMan)) {
+    ArrayList<ShipConfig> loadList = ShipConfig.loadList(tradeNode.get("mercenaries"), hullConfigs, itemMan);
+    for (int i = loadList.size() - 1; i >= 0; i--) {
+      ShipConfig merc = loadList.get(i);
       mercs.add(new MercItem(merc));
     }
 

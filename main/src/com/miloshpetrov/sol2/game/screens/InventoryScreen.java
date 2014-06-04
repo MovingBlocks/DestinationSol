@@ -79,8 +79,8 @@ public class InventoryScreen implements SolUiScreen {
     // list
     float itemRowH = .04f;
     float listRow0 = row;
-    myItemCtrls = new SolUiControl[Const.ITEMS_PER_PAGE];
-    for (int i = 0; i < Const.ITEMS_PER_PAGE; i++) {
+    myItemCtrls = new SolUiControl[Const.ITEM_GROUPS_PER_PAGE];
+    for (int i = 0; i < Const.ITEM_GROUPS_PER_PAGE; i++) {
       Rectangle itemR = new Rectangle(col0, row, contentW, itemRowH);
       SolUiControl itemCtrl = new SolUiControl(itemR, true);
       myItemCtrls[i] = itemCtrl;
@@ -132,8 +132,8 @@ public class InventoryScreen implements SolUiScreen {
     ItemContainer ic = myOperations.getItems(cmp.getGame());
     if (ic == null) ic = EMPTY_CONTAINER;
     int groupCount = ic.groupCount();
-    int pageCount = groupCount / Const.ITEMS_PER_PAGE;
-    if (pageCount == 0 || pageCount * Const.ITEMS_PER_PAGE < groupCount) pageCount += 1;
+    int pageCount = groupCount / Const.ITEM_GROUPS_PER_PAGE;
+    if (pageCount == 0 || pageCount * Const.ITEM_GROUPS_PER_PAGE < groupCount) pageCount += 1;
     if (myPage < 0) myPage = 0;
     if (myPage >= pageCount) myPage = pageCount - 1;
 
@@ -142,7 +142,7 @@ public class InventoryScreen implements SolUiScreen {
 
     if (!ic.containsGroup(mySelected)) mySelected = null;
     int selIdx = -1;
-    int offset = myPage * Const.ITEMS_PER_PAGE;
+    int offset = myPage * Const.ITEM_GROUPS_PER_PAGE;
     boolean hNew = showingHeroItems();
     for (int i = 0; i < myItemCtrls.length; i++) {
       SolUiControl itemCtrl = myItemCtrls[i];
@@ -168,7 +168,7 @@ public class InventoryScreen implements SolUiScreen {
     if (downCtrl.isJustOff() && selIdx < groupCount - 1) {
       selIdx++;
       mySelected = ic.getGroup(selIdx);
-      if (selIdx >= offset + Const.ITEMS_PER_PAGE) myPage++;
+      if (selIdx >= offset + Const.ITEM_GROUPS_PER_PAGE) myPage++;
     }
     if (mySelected != null) ic.seen(mySelected);
   }
@@ -201,7 +201,7 @@ public class InventoryScreen implements SolUiScreen {
 
     uiDrawer.draw(myDetailArea, Col.UI_INACTIVE);
     for (int i = 0; i < myItemCtrls.length; i++) {
-      int groupIdx = myPage * Const.ITEMS_PER_PAGE + i;
+      int groupIdx = myPage * Const.ITEM_GROUPS_PER_PAGE + i;
       int groupCount = ic.groupCount();
       if (groupCount <= groupIdx) continue;
       SolUiControl itemCtrl = myItemCtrls[i];
@@ -227,7 +227,7 @@ public class InventoryScreen implements SolUiScreen {
     float amtWidth = myListArea.width * AMT_COL_PERC;
     float nameWidth = myListArea.width - imgColW - equiColW - priceWidth - amtWidth;
     for (int i = 0; i < myItemCtrls.length; i++) {
-      int groupIdx = myPage * Const.ITEMS_PER_PAGE + i;
+      int groupIdx = myPage * Const.ITEM_GROUPS_PER_PAGE + i;
       int groupCount = ic.groupCount();
       if (groupCount <= groupIdx) continue;
       SolUiControl itemCtrl = myItemCtrls[i];
