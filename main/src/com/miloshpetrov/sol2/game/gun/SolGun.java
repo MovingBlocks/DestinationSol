@@ -37,7 +37,8 @@ public class SolGun {
     }
     myRelPos = new Vector2(relPos);
     DraLevel level = underShip ? DraLevel.U_GUNS : DraLevel.GUNS;
-    mySprite = new RectSprite(myItem.config.tex, myItem.config.gunLength * 2, 0, 0, new Vector2(relPos), level, 0, 0, Col.W, false);
+    float texLen = myItem.config.gunLength / myItem.config.texLenPerc * 2;
+    mySprite = new RectSprite(myItem.config.tex, texLen, 0, 0, new Vector2(relPos), level, 0, 0, Col.W, false);
     myDras = new ArrayList<Dra>();
     myDras.add(mySprite);
     if (myLightSrc != null) myLightSrc.collectDras(myDras);
