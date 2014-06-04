@@ -36,13 +36,14 @@ public class GunConfig {
   public final boolean fixed;
   public final float meanDps;
   public final SolItemType itemType;
+  public final float texLenPerc;
 
   public GunConfig(float minAngleVar, float maxAngleVar, float angleVarDamp, float angleVarPerShot,
     float timeBetweenShots,
     float reloadTime, float gunLength, String displayName,
     boolean lightOnShot, int price,
     ClipConfig clipConf, SolSound shootSound, SolSound reloadSound, TextureAtlas.AtlasRegion tex,
-    TextureAtlas.AtlasRegion icon, boolean fixed, SolItemType itemType)
+    TextureAtlas.AtlasRegion icon, boolean fixed, SolItemType itemType, float texLenPerc)
   {
     this.shootSound = shootSound;
     this.reloadSound = reloadSound;
@@ -63,6 +64,7 @@ public class GunConfig {
     this.icon = icon;
     this.fixed = fixed;
     this.itemType = itemType;
+    this.texLenPerc = texLenPerc;
 
     dps = clipConf.projConfig.dmg * clipConf.projectilesPerShot / timeBetweenShots;
     meanDps = HardnessCalc.getGunMeanDps(this);
@@ -106,6 +108,7 @@ public class GunConfig {
       float timeBetweenShots = sh.getFloat("timeBetweenShots");
       float reloadTime = sh.getFloat("reloadTime");
       float gunLength = sh.getFloat("gunLength");
+      float texLenPerc = sh.getFloat("texLenPerc", 1);
       String texName = sh.getString("texName");
       String displayName = sh.getString("displayName");
       boolean lightOnShot = sh.getBoolean("lightOnShot", false);
@@ -121,7 +124,7 @@ public class GunConfig {
       TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + texName, configFile);
       boolean fixed = sh.getBoolean("fixed", false);
       GunConfig c = new GunConfig(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots, reloadTime,
-        gunLength, displayName, lightOnShot, price, clipConf, shootSound, reloadSound, tex, icon, fixed, types.gun);
+        gunLength, displayName, lightOnShot, price, clipConf, shootSound, reloadSound, tex, icon, fixed, types.gun, texLenPerc);
       itemMan.registerItem(sh.name, c.example);
     }
   }

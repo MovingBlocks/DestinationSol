@@ -1,5 +1,5 @@
 DATA:
-  gun sizes
+  gun sizes + rel sizes
   hull lights
   check licenses:
     in-game:
@@ -14,14 +14,12 @@ DATA:
 
 
 CODING:
-  sometimes no dust
-  gun light pos bug
   credits
   android compatibility:
     tutorial should consider new control type, also mobile, also highlight buttons
     decide what to do with menu
     disposition
-  map grid looks awful
+  sometimes no dust
 
 
 DRAWING:
