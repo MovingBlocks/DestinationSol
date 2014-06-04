@@ -1,4 +1,3 @@
-tutorial should consider new control type, also mobile, also highlight buttons
 disposition
 
 DATA:

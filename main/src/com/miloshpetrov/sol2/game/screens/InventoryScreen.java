@@ -39,9 +39,9 @@ public class InventoryScreen implements SolUiScreen {
   private final Rectangle myDetailArea;
   private final Rectangle myItemCtrlArea;
   private final SolUiControl myPrevCtrl;
-  private final SolUiControl myNextCtrl;
-  private final SolUiControl[] myItemCtrls;
-  private final SolUiControl myCloseCtrl;
+  public final SolUiControl nextCtrl;
+  public final SolUiControl[] itemCtrls;
+  public final SolUiControl closeCtrl;
   private final SolUiControl myUpCtrl;
   public final SolUiControl downCtrl;
   private final Vector2 myDetailHeaderPos;
@@ -67,9 +67,9 @@ public class InventoryScreen implements SolUiScreen {
     myListHeaderPos = new Vector2(col0 + HEADER_TEXT_OFFS, row + HEADER_TEXT_OFFS); // offset hack
     float listCtrlW = contentW * .15f;
     Rectangle nextArea = new Rectangle(col0 + contentW - listCtrlW, row, listCtrlW, headerH);
-    myNextCtrl = new SolUiControl(nextArea, true, Input.Keys.RIGHT);
-    myNextCtrl.setDisplayName(">");
-    myControls.add(myNextCtrl);
+    nextCtrl = new SolUiControl(nextArea, true, Input.Keys.RIGHT);
+    nextCtrl.setDisplayName(">");
+    myControls.add(nextCtrl);
     Rectangle prevArea = new Rectangle(nextArea.x - SMALL_GAP - listCtrlW, row, listCtrlW, headerH);
     myPrevCtrl = new SolUiControl(prevArea, true, Input.Keys.LEFT);
     myPrevCtrl.setDisplayName("<");
@@ -79,11 +79,11 @@ public class InventoryScreen implements SolUiScreen {
     // list
     float itemRowH = .04f;
     float listRow0 = row;
-    myItemCtrls = new SolUiControl[Const.ITEM_GROUPS_PER_PAGE];
+    itemCtrls = new SolUiControl[Const.ITEM_GROUPS_PER_PAGE];
     for (int i = 0; i < Const.ITEM_GROUPS_PER_PAGE; i++) {
       Rectangle itemR = new Rectangle(col0, row, contentW, itemRowH);
       SolUiControl itemCtrl = new SolUiControl(itemR, true);
-      myItemCtrls[i] = itemCtrl;
+      itemCtrls[i] = itemCtrl;
       myControls.add(itemCtrl);
       row += itemRowH + SMALL_GAP;
     }
@@ -101,9 +101,9 @@ public class InventoryScreen implements SolUiScreen {
     // whole
     myArea = new Rectangle(col0 - bgGap, row0 - bgGap, contentW + bgGap * 2, row - row0 + bgGap * 2);
 
-    myCloseCtrl = new SolUiControl(itemCtrl(3), true, Input.Keys.ESCAPE);
-    myCloseCtrl.setDisplayName("Close");
-    myControls.add(myCloseCtrl);
+    closeCtrl = new SolUiControl(itemCtrl(3), true, Input.Keys.ESCAPE);
+    closeCtrl.setDisplayName("Close");
+    myControls.add(closeCtrl);
 
     showInventory = new ShowInventory(this);
     buyItems = new BuyItems(this);
@@ -123,12 +123,12 @@ public class InventoryScreen implements SolUiScreen {
 
   @Override
   public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
-    if (myCloseCtrl.isJustOff()) {
+    if (closeCtrl.isJustOff()) {
       cmp.getInputMan().setScreen(cmp, cmp.getGame().getScreens().mainScreen);
       if (myOperations != showInventory) cmp.getInputMan().addScreen(cmp, cmp.getGame().getScreens().talkScreen);
     }
     if (myPrevCtrl.isJustOff()) myPage--;
-    if (myNextCtrl.isJustOff()) myPage++;
+    if (nextCtrl.isJustOff()) myPage++;
 
     ItemContainer ic = myOperations.getItems(cmp.getGame());
     if (ic == null) ic = EMPTY_CONTAINER;
@@ -139,14 +139,14 @@ public class InventoryScreen implements SolUiScreen {
     if (myPage >= pageCount) myPage = pageCount - 1;
 
     myPrevCtrl.setEnabled(0 < myPage);
-    myNextCtrl.setEnabled(myPage < pageCount - 1);
+    nextCtrl.setEnabled(myPage < pageCount - 1);
 
     if (!ic.containsGroup(mySelected)) mySelected = null;
     int selIdx = -1;
     int offset = myPage * Const.ITEM_GROUPS_PER_PAGE;
     boolean hNew = showingHeroItems();
-    for (int i = 0; i < myItemCtrls.length; i++) {
-      SolUiControl itemCtrl = myItemCtrls[i];
+    for (int i = 0; i < itemCtrls.length; i++) {
+      SolUiControl itemCtrl = itemCtrls[i];
       int groupIdx = offset + i;
       boolean ctrlEnabled = groupIdx < groupCount;
       itemCtrl.setEnabled(ctrlEnabled);
@@ -197,15 +197,15 @@ public class InventoryScreen implements SolUiScreen {
     if (ic == null) ic = EMPTY_CONTAINER;
 
     float imgColW = myListArea.width * IMG_COL_PERC;
-    float rowH = myItemCtrls[0].getScreenArea().height;
+    float rowH = itemCtrls[0].getScreenArea().height;
     float imgSz = imgColW < rowH ? imgColW : rowH;
 
     uiDrawer.draw(myDetailArea, Col.UI_INACTIVE);
-    for (int i = 0; i < myItemCtrls.length; i++) {
+    for (int i = 0; i < itemCtrls.length; i++) {
       int groupIdx = myPage * Const.ITEM_GROUPS_PER_PAGE + i;
       int groupCount = ic.groupCount();
       if (groupCount <= groupIdx) continue;
-      SolUiControl itemCtrl = myItemCtrls[i];
+      SolUiControl itemCtrl = itemCtrls[i];
       List<SolItem> group = ic.getGroup(groupIdx);
       SolItem item = group.get(0);
       TextureAtlas.AtlasRegion tex = item.getIcon(game);
@@ -227,16 +227,16 @@ public class InventoryScreen implements SolUiScreen {
     float priceWidth = myListArea.width * PRICE_COL_PERC;
     float amtWidth = myListArea.width * AMT_COL_PERC;
     float nameWidth = myListArea.width - imgColW - equiColW - priceWidth - amtWidth;
-    for (int i = 0; i < myItemCtrls.length; i++) {
+    for (int i = 0; i < itemCtrls.length; i++) {
       int groupIdx = myPage * Const.ITEM_GROUPS_PER_PAGE + i;
       int groupCount = ic.groupCount();
       if (groupCount <= groupIdx) continue;
-      SolUiControl itemCtrl = myItemCtrls[i];
+      SolUiControl itemCtrl = itemCtrls[i];
       List<SolItem> group = ic.getGroup(groupIdx);
       SolItem item = group.get(0);
       Rectangle rect = itemCtrl.getScreenArea();
       float rowCenterY = rect.y + rect.height / 2;
-      if (myOperations.isUsing(game, item)) uiDrawer.drawString("using", rect.x + imgColW + equiColW/2, rowCenterY, FontSize.HINT, true, Col.G);
+      if (myOperations.isUsing(game, item)) uiDrawer.drawString("using", rect.x + imgColW + equiColW/2, rowCenterY, FontSize.HINT, true, Col.W);
       uiDrawer.drawString(item.getDisplayName(), rect.x + equiColW + imgColW + nameWidth/2, rowCenterY, FontSize.WINDOW, true, mySelected == group ? Col.W : Col.G);
       int count = ic.getCount(groupIdx);
       if (count > 1) {

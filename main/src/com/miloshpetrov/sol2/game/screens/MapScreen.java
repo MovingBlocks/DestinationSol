@@ -11,20 +11,20 @@ import java.util.List;
 
 public class MapScreen implements SolUiScreen {
   private final List<SolUiControl> myControls;
-  private final SolUiControl myCloseCtrl;
+  public final SolUiControl closeCtrl;
   public final SolUiControl zoomInCtrl;
   public final SolUiControl zoomOutCtrl;
 
   public MapScreen(RightPaneLayout rightPaneLayout) {
     myControls = new ArrayList<SolUiControl>();
 
-    myCloseCtrl = new SolUiControl(rightPaneLayout.buttonRect(1), true, Input.Keys.TAB, Input.Keys.ESCAPE);
-    myCloseCtrl.setDisplayName("Close");
-    myControls.add(myCloseCtrl);
-    zoomInCtrl = new SolUiControl(rightPaneLayout.buttonRect(2), true, Input.Keys.UP);
+    closeCtrl = new SolUiControl(rightPaneLayout.buttonRect(1), true, Input.Keys.TAB, Input.Keys.ESCAPE);
+    closeCtrl.setDisplayName("Close");
+    myControls.add(closeCtrl);
+    zoomInCtrl = new SolUiControl(rightPaneLayout.buttonRect(2), true, Input.Keys.UP, Input.Keys.W);
     zoomInCtrl.setDisplayName("Zoom In");
     myControls.add(zoomInCtrl);
-    zoomOutCtrl = new SolUiControl(rightPaneLayout.buttonRect(3), true, Input.Keys.DOWN);
+    zoomOutCtrl = new SolUiControl(rightPaneLayout.buttonRect(3), true, Input.Keys.DOWN, Input.Keys.S);
     zoomOutCtrl.setDisplayName("Zoom Out");
     myControls.add(zoomOutCtrl);
   }
@@ -37,7 +37,7 @@ public class MapScreen implements SolUiScreen {
   @Override
   public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
     SolGame g = cmp.getGame();
-    boolean justClosed = myCloseCtrl.isJustOff();
+    boolean justClosed = closeCtrl.isJustOff();
     MapDrawer mapDrawer = g.getMapDrawer();
     mapDrawer.setToggled(!justClosed);
     SolInputMan im = cmp.getInputMan();

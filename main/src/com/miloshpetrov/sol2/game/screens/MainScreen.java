@@ -41,7 +41,7 @@ public class MainScreen implements SolUiScreen {
   public final ShipUiControl shipControl;
   private final SolUiControl myMenuCtrl;
   public final SolUiControl mapCtrl;
-  private final SolUiControl myInvCtrl;
+  public final SolUiControl invCtrl;
   public final SolUiControl talkCtrl;
   private final SolUiControl myPauseCtrl;
   private final Color myCompassTint;
@@ -69,9 +69,9 @@ public class MainScreen implements SolUiScreen {
     mapCtrl = new SolUiControl(rightPaneLayout.buttonRect(1), true, Input.Keys.TAB);
     mapCtrl.setDisplayName("Map");
     myControls.add(mapCtrl);
-    myInvCtrl = new SolUiControl(rightPaneLayout.buttonRect(2), true, Input.Keys.I);
-    myInvCtrl.setDisplayName("Items");
-    myControls.add(myInvCtrl);
+    invCtrl = new SolUiControl(rightPaneLayout.buttonRect(2), true, Input.Keys.I);
+    invCtrl.setDisplayName("Items");
+    myControls.add(invCtrl);
     talkCtrl = new SolUiControl(rightPaneLayout.buttonRect(3), true, Input.Keys.T);
     talkCtrl.setDisplayName("Talk");
     myControls.add(talkCtrl);
@@ -135,7 +135,6 @@ public class MainScreen implements SolUiScreen {
   public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
     if (DebugOptions.PRINT_BALANCE) {
       cmp.finishGame();
-      cmp.getInputMan().setScreen(cmp, cmp.getMenuScreens().main);
       return;
     }
     SolGame game = cmp.getGame();
@@ -158,11 +157,11 @@ public class MainScreen implements SolUiScreen {
       inputMan.setScreen(cmp, screens.mapScreen);
     }
 
-    myInvCtrl.setEnabled(hero != null);
+    invCtrl.setEnabled(hero != null);
     if (hero != null && !inputMan.isScreenOn(screens.inventoryScreen)) {
-      if (hero.getItemContainer().hasNew()) myInvCtrl.enableWarn();
+      if (hero.getItemContainer().hasNew()) invCtrl.enableWarn();
     }
-    if (myInvCtrl.isJustOff()) {
+    if (invCtrl.isJustOff()) {
       InventoryScreen is = screens.inventoryScreen;
       boolean isOn = inputMan.isScreenOn(is);
       inputMan.setScreen(cmp, screens.mainScreen);

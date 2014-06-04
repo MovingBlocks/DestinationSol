@@ -145,6 +145,7 @@ public class SolCmp {
   public void finishGame() {
     myGame.dispose();
     myGame = null;
+    myInputMan.setScreen(this, myMenuScreens.main);
   }
 
   public TexMan getTexMan() {
