@@ -112,6 +112,9 @@ public class DraMan {
 
     for (int dlIdx = 0, dlCount = myDlVals.length; dlIdx < dlCount; dlIdx++) {
       DraLevel draLevel = myDlVals[dlIdx];
+      if (draLevel == DraLevel.PART_FG_0) {
+        game.getMountDetectDrawer().draw(myDrawer);
+      }
       OrderedMap<Texture, List<Dra>> map = myDras.get(dlIdx);
       Array<Texture> texs = map.orderedKeys();
       for (int texIdx = 0, sz = texs.size; texIdx < sz; texIdx++) {

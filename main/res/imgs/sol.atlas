@@ -879,175 +879,175 @@ smallGameObjs/beaconFollow
   index: -1
 smallGameObjs/beaconMove
   rotate: false
-  xy: 256, 64
+  xy: 384, 192
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 smallGameObjs/door
   rotate: false
-  xy: 384, 192
+  xy: 576, 576
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 smallGameObjs/guns/blaster
   rotate: false
-  xy: 768, 752
+  xy: 576, 496
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
 smallGameObjs/guns/bombGun
   rotate: false
-  xy: 384, 160
+  xy: 640, 608
   size: 64, 32
   orig: 64, 32
   offset: 0, 0
   index: -1
 smallGameObjs/guns/fixedBombGun
   rotate: false
-  xy: 384, 160
+  xy: 640, 608
   size: 64, 32
   orig: 64, 32
   offset: 0, 0
   index: -1
 smallGameObjs/guns/cannon
   rotate: false
-  xy: 384, 144
+  xy: 640, 592
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
 smallGameObjs/guns/emGun
   rotate: false
-  xy: 448, 224
+  xy: 704, 672
   size: 64, 32
   orig: 64, 32
   offset: 0, 0
   index: -1
 smallGameObjs/guns/fixedBlaster
   rotate: false
-  xy: 448, 208
+  xy: 704, 656
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
 smallGameObjs/guns/fixedCannon
   rotate: false
-  xy: 512, 464
+  xy: 768, 720
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
 smallGameObjs/guns/fixedEmGun
   rotate: false
-  xy: 512, 480
+  xy: 768, 736
   size: 64, 32
   orig: 64, 32
   offset: 0, 0
   index: -1
 smallGameObjs/guns/fixedGun
   rotate: false
-  xy: 576, 528
+  xy: 832, 752
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
 smallGameObjs/guns/fixedPlasmaGun
   rotate: false
-  xy: 640, 592
+  xy: 384, 80
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
 smallGameObjs/guns/fixedShotGun
   rotate: false
-  xy: 704, 656
+  xy: 448, 144
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
 smallGameObjs/guns/gun
   rotate: false
-  xy: 768, 736
+  xy: 512, 400
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
 smallGameObjs/guns/miner
   rotate: false
-  xy: 576, 544
+  xy: 384, 96
   size: 64, 32
   orig: 64, 32
   offset: 0, 0
   index: -1
 smallGameObjs/guns/missileLauncher
   rotate: false
-  xy: 832, 752
+  xy: 576, 480
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
 smallGameObjs/guns/missilePad
   rotate: false
-  xy: 640, 608
+  xy: 448, 160
   size: 64, 32
   orig: 64, 32
   offset: 0, 0
   index: -1
 smallGameObjs/guns/nailGun
   rotate: false
-  xy: 384, 128
+  xy: 640, 576
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
 smallGameObjs/guns/plasmaGun
   rotate: false
-  xy: 448, 192
+  xy: 704, 640
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
 smallGameObjs/guns/railGun
   rotate: false
-  xy: 512, 448
+  xy: 768, 704
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
 smallGameObjs/guns/rocketLauncher
   rotate: false
-  xy: 576, 512
+  xy: 832, 736
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
 smallGameObjs/guns/shotGun
   rotate: false
-  xy: 640, 576
+  xy: 896, 752
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
 smallGameObjs/guns/waveGun
   rotate: false
-  xy: 704, 672
+  xy: 512, 416
   size: 64, 32
   orig: 64, 32
   offset: 0, 0
   index: -1
 smallGameObjs/missing
   rotate: false
-  xy: 384, 80
+  xy: 448, 96
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 smallGameObjs/particles/electricity
   rotate: false
-  xy: 384, 96
+  xy: 448, 112
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -1061,7 +1061,7 @@ smallGameObjs/particles/emWave
   index: -1
 smallGameObjs/particles/fire
   rotate: false
-  xy: 832, 736
+  xy: 896, 736
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -1075,7 +1075,7 @@ smallGameObjs/particles/forceBeacon
   index: -1
 smallGameObjs/particles/forceTail
   rotate: false
-  xy: 896, 752
+  xy: 384, 32
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -1089,14 +1089,14 @@ smallGameObjs/particles/knockBack
   index: -1
 smallGameObjs/particles/lightCircle
   rotate: false
-  xy: 512, 512
+  xy: 640, 640
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 smallGameObjs/particles/lightHalo
   rotate: false
-  xy: 576, 576
+  xy: 704, 704
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -1110,21 +1110,21 @@ smallGameObjs/particles/sloMo
   index: -1
 smallGameObjs/particles/smoke
   rotate: false
-  xy: 416, 112
+  xy: 480, 128
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 smallGameObjs/particles/spark
   rotate: false
-  xy: 480, 190
+  xy: 960, 762
   size: 2, 2
   orig: 2, 2
   offset: 0, 0
   index: -1
 smallGameObjs/particles/techieTrail
   rotate: false
-  xy: 448, 144
+  xy: 512, 352
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -1138,91 +1138,91 @@ smallGameObjs/particles/unShield
   index: -1
 smallGameObjs/projectiles/blast
   rotate: false
-  xy: 768, 704
+  xy: 384, 48
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 smallGameObjs/projectiles/bomb
   rotate: false
-  xy: 256, 0
+  xy: 512, 512
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 smallGameObjs/projectiles/bullet
   rotate: false
-  xy: 704, 652
+  xy: 960, 764
   size: 64, 4
   orig: 64, 4
   offset: 0, 0
   index: -1
 smallGameObjs/projectiles/mine
   rotate: false
-  xy: 800, 720
+  xy: 416, 64
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 smallGameObjs/projectiles/missile
   rotate: false
-  xy: 640, 640
+  xy: 384, 128
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 smallGameObjs/projectiles/nail
   rotate: false
-  xy: 448, 160
+  xy: 512, 368
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 smallGameObjs/projectiles/plasma
   rotate: false
-  xy: 512, 416
+  xy: 576, 448
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 smallGameObjs/projectiles/rocket
   rotate: false
-  xy: 704, 704
+  xy: 448, 192
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 smallGameObjs/projectiles/slug
   rotate: false
-  xy: 768, 672
+  xy: 832, 704
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 smallGameObjs/projectiles/wave
   rotate: false
-  xy: 320, 0
+  xy: 576, 512
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 smallGameObjs/shard
   rotate: false
-  xy: 576, 480
+  xy: 640, 544
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 0
 smallGameObjs/shard
   rotate: false
-  xy: 640, 544
+  xy: 704, 608
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 1
 smallGameObjs/shard
   rotate: false
-  xy: 704, 620
+  xy: 768, 672
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -1262,16 +1262,23 @@ smallGameObjs/starPort
   orig: 256, 256
   offset: 0, 0
   index: -1
+smallGameObjs/targetDetected
+  rotate: false
+  xy: 256, 128
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
 smallGameObjs/teleportBlip
   rotate: false
-  xy: 320, 64
+  xy: 512, 448
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 smallGameObjs/transcendent
   rotate: false
-  xy: 256, 128
+  xy: 256, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0

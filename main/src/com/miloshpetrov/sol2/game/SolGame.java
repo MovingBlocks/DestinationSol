@@ -3,8 +3,7 @@ package com.miloshpetrov.sol2.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.*;
-import com.miloshpetrov.sol2.common.DebugCol;
-import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.common.*;
 import com.miloshpetrov.sol2.game.asteroid.AsteroidBuilder;
 import com.miloshpetrov.sol2.game.chunk.ChunkMan;
 import com.miloshpetrov.sol2.game.dra.DraDebugger;
@@ -62,6 +61,7 @@ public class SolGame {
   private final AbilityCommonConfigs myAbilityCommonConfigs;
   private final SolNames myNames;
   private final BeaconHandler myBeaconHandler;
+  private final MountDetectDrawer myMountDetectDrawer;
 
   private SolShip myHero;
   private float myTimeStep;
@@ -108,6 +108,7 @@ public class SolGame {
     myPlayerSpawnConfig = PlayerSpawnConfig.load(myHullConfigs, myItemMan);
     myDraDebugger = new DraDebugger();
     myBeaconHandler = new BeaconHandler(texMan);
+    myMountDetectDrawer = new MountDetectDrawer(texMan);
 
     // from this point we're ready!
     myTimeFactor = 1;
@@ -188,6 +189,7 @@ public class SolGame {
     myPlanetMan.update(this);
     myCam.update(this);
     myChunkMan.update(this);
+    myMountDetectDrawer.update(this);
     myObjMan.update(this);
     myDraMan.update(this);
     myMapDrawer.update(this);
@@ -413,4 +415,9 @@ public class SolGame {
   public BeaconHandler getBeaconHandler() {
     return myBeaconHandler;
   }
+
+  public MountDetectDrawer getMountDetectDrawer() {
+    return myMountDetectDrawer;
+  }
+
 }
