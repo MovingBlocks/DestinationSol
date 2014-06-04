@@ -18,11 +18,11 @@ import java.util.ArrayList;
 
 public class ChunkFiller {
   public static final float DUST_DENSITY = .2f;
-  public static final float ASTEROID_DENSITY = .007f;
+  public static final float ASTEROID_DENSITY = .008f;
   public static final float MIN_SYS_A_SZ = .5f;
-  public static final float MAX_SYS_A_SZ = 1.5f;
-  public static final float MIN_BELT_A_SZ = .5f;
-  public static final float MAX_BELT_A_SZ = 3f;
+  public static final float MAX_SYS_A_SZ = 1.2f;
+  public static final float MIN_BELT_A_SZ = .4f;
+  public static final float MAX_BELT_A_SZ = 2.4f;
   private static final float MAX_A_SPD = .2f;
 
   private static final float BELT_A_DENSITY = .04f;
@@ -156,7 +156,7 @@ public class ChunkFiller {
       Vector2 spd = new Vector2();
       SolMath.fromAl(spd, SolMath.rnd(180), MAX_A_SPD);
 
-      FarAsteroid a = game.getAsteroidBuilder().buildNewFar(game, asteroidPos, spd, sz, remover);
+      FarAsteroid a = game.getAsteroidBuilder().buildNewFar(asteroidPos, spd, sz, remover);
       game.getObjMan().addFarObjNow(a);
     }
   }

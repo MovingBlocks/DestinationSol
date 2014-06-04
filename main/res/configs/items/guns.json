@@ -208,8 +208,8 @@
     maxAngleVar: 10,
     angleVarDamp: 6,
     angleVarPerShot: 1,
-    timeBetweenShots: 1.5,
-    reloadTime: 2.5,
+    timeBetweenShots: 0.85,
+    reloadTime: 2,
     price: 400,
     clipName: railClip,
 

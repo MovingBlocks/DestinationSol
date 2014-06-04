@@ -119,7 +119,8 @@ public class SystemsBuilder {
     String name = SolMath.elemRnd(names.systems);
     SolSystem s = new SolSystem(sysPos, sysConfig, name, sysRadius);
     float planetDist = Const.SUN_RADIUS;
-    for (Float gh : ghs) {
+    for (int idx = 0, sz = ghs.size(); idx < sz; idx++) {
+      Float gh = ghs.get(idx);
       float reserved;
       if (gh > 0) {
         reserved = Const.PLANET_GAP + Const.ATM_HEIGHT + gh;
@@ -129,7 +130,13 @@ public class SystemsBuilder {
       planetDist += reserved;
       if (gh > 0) {
         String pt = DebugOptions.FORCE_PLANET_TYPE;
-        PlanetConfig planetConfig = pt.isEmpty() ? planetConfigs.getRandom(sysConfig.hard) : planetConfigs.getConfig(pt);
+        PlanetConfig planetConfig;
+        if (pt.isEmpty()) {
+          boolean onlyEasy = !sysConfig.hard && sz - 3 < idx;
+          planetConfig = planetConfigs.getRandom(onlyEasy, sysConfig.hard);
+        } else {
+          planetConfig = planetConfigs.getConfig(pt);
+        }
         Planet p = createPlanet(planetDist, s, gh, planetConfig, names);
         planets.add(p);
         s.getPlanets().add(p);

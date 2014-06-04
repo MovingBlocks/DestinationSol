@@ -39,7 +39,8 @@ public class GunMount {
       float detDst = game.getPlanetMan().getNearestPlanet().isNearGround(creatorPos) ? Const.AUTO_SHOOT_GROUND : Const.AUTO_SHOOT_SPACE;
       if (dst < detDst) {
         Vector2 mountPos = SolMath.toWorld(myRelPos, shipAngle, creatorPos);
-        float shootAngle = Shooter.calcShootAngle(mountPos, creator.getSpd(), nearestEnemy.getPos(), nearestEnemy.getSpd(), myGun.getConfig().clipConf.projConfig.spdLen);
+        boolean sharp = creator.getPilot().isPlayer();
+        float shootAngle = Shooter.calcShootAngle(mountPos, creator.getSpd(), nearestEnemy.getPos(), nearestEnemy.getSpd(), myGun.getConfig().clipConf.projConfig.spdLen, sharp);
         if (shootAngle == shootAngle) {
           myRelGunAngle = shootAngle - shipAngle;
           myDetected = true;

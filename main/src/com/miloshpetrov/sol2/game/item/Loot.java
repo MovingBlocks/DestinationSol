@@ -18,7 +18,7 @@ public class Loot implements SolObj {
   public static final int MAX_LIFE = 6;
   public static final float DURABILITY = 70f;
   public static final float PULL_DESIRED_SPD = 1f;
-  public static final float PULL_FORCE = .5f;
+  public static final float PULL_FORCE = .3f;
   public static final float MAX_OWNER_AWAIT = 4f;
   public static final float SZ = .12f;
   private final SolItem myItem;

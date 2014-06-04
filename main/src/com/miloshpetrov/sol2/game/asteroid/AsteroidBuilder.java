@@ -32,7 +32,7 @@ public class AsteroidBuilder {
   }
 
   // doesn't consume pos
-  public FarAsteroid buildNewFar(SolGame game, Vector2 pos, Vector2 spd, float sz, RemoveController removeController) {
+  public FarAsteroid buildNewFar(Vector2 pos, Vector2 spd, float sz, RemoveController removeController) {
     float rotSpd = SolMath.rnd(MAX_A_ROT_SPD);
     return new FarAsteroid(SolMath.elemRnd(myTexs), new Vector2(pos), SolMath.rnd(180), removeController, sz, new Vector2(spd), rotSpd);
   }
