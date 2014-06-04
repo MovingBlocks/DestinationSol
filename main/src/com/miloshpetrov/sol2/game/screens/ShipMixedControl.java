@@ -15,25 +15,34 @@ import com.miloshpetrov.sol2.ui.SolUiControl;
 
 import java.util.List;
 
-class ShipMixedControl implements ShipUiControl {
-  private final SolUiControl myUpCtrl;
+public class ShipMixedControl implements ShipUiControl {
+  public static final int SHOOT_HACK = Input.Keys.NUM_5;
+  public static final int SHOOT_2_HACK = Input.Keys.NUM_6;
+  public static final int ABILITY_HACK = Input.Keys.NUM_7;
+  public final SolUiControl upCtrl;
   private final SolUiControl myDownCtrl;
   private final Vector2 myMouseWorldPos;
   private final TextureAtlas.AtlasRegion myCursor;
+  public final SolUiControl shootCtrl;
+  public final SolUiControl shoot2Ctrl;
+  public final SolUiControl abilityCtrl;
 
   private boolean myRight;
   private boolean myLeft;
-  private boolean myShoot;
-  private boolean myShoot2;
-  private boolean myAbility;
 
   public ShipMixedControl(SolCmp cmp, List<SolUiControl> controls) {
     myCursor = cmp.getTexMan().getTex("ui/cursorTarget", null);
     myMouseWorldPos = new Vector2();
-    myUpCtrl = new SolUiControl(null, false, Input.Keys.W);
-    controls.add(myUpCtrl);
+    upCtrl = new SolUiControl(null, false, Input.Keys.W);
+    controls.add(upCtrl);
     myDownCtrl = new SolUiControl(null, false, Input.Keys.S);
     controls.add(myDownCtrl);
+    shootCtrl = new SolUiControl(null, false, SHOOT_HACK);
+    controls.add(shootCtrl);
+    shoot2Ctrl = new SolUiControl(null, false, SHOOT_2_HACK);
+    controls.add(shoot2Ctrl);
+    abilityCtrl = new SolUiControl(null, false, ABILITY_HACK);
+    controls.add(abilityCtrl);
   }
 
   @Override
@@ -52,9 +61,9 @@ class ShipMixedControl implements ShipUiControl {
         if (ntt) myRight = true; else myLeft = true;
       }
       if (!im.isMouseOnUi()) {
-        myShoot = Gdx.input.isButtonPressed(Input.Buttons.LEFT);
-        myShoot2 = Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
-        myAbility = Gdx.input.isButtonPressed(Input.Buttons.MIDDLE);
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) shootCtrl.maybeFlashPressed(SHOOT_HACK);
+        if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) shoot2Ctrl.maybeFlashPressed(SHOOT_2_HACK);
+        if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) abilityCtrl.maybeFlashPressed(ABILITY_HACK);
       }
     }
   }
@@ -71,7 +80,7 @@ class ShipMixedControl implements ShipUiControl {
 
   @Override
   public boolean isUp() {
-    return myUpCtrl.isOn();
+    return upCtrl.isOn();
   }
 
   @Override
@@ -81,17 +90,17 @@ class ShipMixedControl implements ShipUiControl {
 
   @Override
   public boolean isShoot() {
-    return myShoot;
+    return shootCtrl.isOn();
   }
 
   @Override
   public boolean isShoot2() {
-    return myShoot2;
+    return shoot2Ctrl.isOn();
   }
 
   @Override
   public boolean isAbility() {
-    return myAbility;
+    return abilityCtrl.isOn();
   }
 
   @Override
@@ -103,8 +112,5 @@ class ShipMixedControl implements ShipUiControl {
   public void blur() {
     myLeft = false;
     myRight = false;
-    myShoot = false;
-    myShoot2 = false;
-    myAbility = false;
   }
 }

@@ -15,14 +15,14 @@ import java.util.List;
 
 public class TalkScreen implements SolUiScreen {
 
-  public static final float MAX_TALK_DIST = 2f;
+  public static final float MAX_TALK_DIST = 1f;
   private final List<SolUiControl> myControls;
   private final SolUiControl mySellCtrl;
-  private final SolUiControl myBuyCtrl;
+  public final SolUiControl buyCtrl;
   private final SolUiControl myShipsCtrl;
   private final SolUiControl myHireCtrl;
   private final Rectangle myBg;
-  private final SolUiControl myCloseCtrl;
+  public final SolUiControl closeCtrl;
   private SolShip myTarget;
 
   public TalkScreen(MenuLayout menuLayout) {
@@ -32,9 +32,9 @@ public class TalkScreen implements SolUiScreen {
     mySellCtrl.setDisplayName("Sell");
     myControls.add(mySellCtrl);
 
-    myBuyCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.B);
-    myBuyCtrl.setDisplayName("Buy");
-    myControls.add(myBuyCtrl);
+    buyCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.B);
+    buyCtrl.setDisplayName("Buy");
+    myControls.add(buyCtrl);
 
     myShipsCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, Input.Keys.C);
     myShipsCtrl.setDisplayName("Change Ship");
@@ -44,9 +44,9 @@ public class TalkScreen implements SolUiScreen {
     myHireCtrl.setDisplayName("Hire");
     myControls.add(myHireCtrl);
 
-    myCloseCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, Input.Keys.ESCAPE);
-    myCloseCtrl.setDisplayName("Close");
-    myControls.add(myCloseCtrl);
+    closeCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, Input.Keys.ESCAPE);
+    closeCtrl.setDisplayName("Close");
+    myControls.add(closeCtrl);
 
     myBg = menuLayout.bg(-1, 5);
   }
@@ -61,7 +61,7 @@ public class TalkScreen implements SolUiScreen {
     SolGame g = cmp.getGame();
     SolShip hero = g.getHero();
     SolInputMan inputMan = cmp.getInputMan();
-    if (myCloseCtrl.isJustOff() || isTargetFar(hero))
+    if (closeCtrl.isJustOff() || isTargetFar(hero))
     {
       inputMan.setScreen(cmp, g.getScreens().mainScreen);
       return;
@@ -73,7 +73,7 @@ public class TalkScreen implements SolUiScreen {
 
     InventoryScreen is = g.getScreens().inventoryScreen;
     boolean sell = mySellCtrl.isJustOff();
-    boolean buy = myBuyCtrl.isJustOff();
+    boolean buy = buyCtrl.isJustOff();
     boolean sellShips = myShipsCtrl.isJustOff();
     boolean hire = myHireCtrl.isJustOff();
     if (sell || buy || sellShips || hire) {

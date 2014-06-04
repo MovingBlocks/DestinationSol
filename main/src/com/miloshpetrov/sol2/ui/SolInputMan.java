@@ -10,7 +10,6 @@ import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
-import com.miloshpetrov.sol2.game.screens.MainScreen;
 import com.miloshpetrov.sol2.menu.GameOptions;
 
 import java.util.ArrayList;
@@ -30,7 +29,6 @@ public class SolInputMan {
   private final Ptr myFlashPtr;
   private final Vector2 myMousePos;
   private final Vector2 myMousePrevPos;
-  private final TutMan myTutMan;
   private final Sound myHoverSound;
   private float myMouseIdleTime;
   private final TextureAtlas.AtlasRegion myUiCursor;
@@ -56,7 +54,6 @@ public class SolInputMan {
     myScreens = new ArrayList<SolUiScreen>();
     myToRemove = new ArrayList<SolUiScreen>();
     myToAdd = new ArrayList<SolUiScreen>();
-    myTutMan = new TutMan(r);
     myWarnCol = new Color(Col.UI_WARN);
     myHoverSound = Gdx.audio.newSound(SolFiles.readOnly("res/sounds/ui/uiHover.ogg"));
   }
@@ -159,11 +156,15 @@ public class SolInputMan {
       screen.updateCustom(cmp, myPtrs);
     }
 
+    SolGame game = cmp.getGame();
+    TutMan tutMan = game == null ? null : game.getTutMan();
+    if (tutMan != null && tutMan.isFinished()) {
+      cmp.finishGame();
+    }
+
     updateCursor(cmp);
     addRemoveScreens();
     updateWarnPerc();
-
-    myTutMan.update(cmp);
   }
 
   private void updateWarnPerc() {
@@ -257,7 +258,9 @@ public class SolInputMan {
     }
     uiDrawer.setTextMode(null);
 
-    myTutMan.draw(uiDrawer, cmp);
+    SolGame game = cmp.getGame();
+    TutMan tutMan = game == null ? null : game.getTutMan();
+    if (tutMan != null && getTopScreen() != game.getScreens().menuScreen) tutMan.draw(uiDrawer);
 
     if (myCurrCursor != null) {
       uiDrawer.draw(myCurrCursor, CURSOR_SZ, CURSOR_SZ, CURSOR_SZ/2, CURSOR_SZ/2, myMousePos.x, myMousePos.y, 0, Col.W);

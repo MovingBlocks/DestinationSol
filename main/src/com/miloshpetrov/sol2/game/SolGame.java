@@ -3,14 +3,14 @@ package com.miloshpetrov.sol2.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.*;
-import com.miloshpetrov.sol2.common.*;
+import com.miloshpetrov.sol2.common.DebugCol;
+import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.asteroid.AsteroidBuilder;
 import com.miloshpetrov.sol2.game.chunk.ChunkMan;
 import com.miloshpetrov.sol2.game.dra.DraDebugger;
 import com.miloshpetrov.sol2.game.dra.DraMan;
 import com.miloshpetrov.sol2.game.farBg.FarBgMan;
 import com.miloshpetrov.sol2.game.farBg.FarBgManOld;
-import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.input.*;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.*;
@@ -21,8 +21,7 @@ import com.miloshpetrov.sol2.game.sound.SoundMan;
 import com.miloshpetrov.sol2.game.sound.SpecialSounds;
 import com.miloshpetrov.sol2.menu.GameOptions;
 import com.miloshpetrov.sol2.save.SaveData;
-import com.miloshpetrov.sol2.ui.DebugCollector;
-import com.miloshpetrov.sol2.ui.UiDrawer;
+import com.miloshpetrov.sol2.ui.*;
 
 import java.util.List;
 
@@ -33,7 +32,6 @@ public class SolGame {
   private final SolCam myCam;
   private final ObjMan myObjMan;
   private final SolCmp myCmp;
-  private final boolean myTut;
   private final DraMan myDraMan;
   private final PlanetMan myPlanetMan;
   private final TexMan myTexMan;
@@ -62,6 +60,7 @@ public class SolGame {
   private final SolNames myNames;
   private final BeaconHandler myBeaconHandler;
   private final MountDetectDrawer myMountDetectDrawer;
+  private final TutMan myTutMan;
 
   private SolShip myHero;
   private float myTimeStep;
@@ -74,7 +73,6 @@ public class SolGame {
 
   public SolGame(SolCmp cmp, SaveData sd, TexMan texMan, boolean tut, CommonDrawer commonDrawer) {
     myCmp = cmp;
-    myTut = tut;
     GameDrawer drawer = new GameDrawer(texMan, commonDrawer);
     myCols = new GameCols();
     mySoundMan = new SoundMan();
@@ -82,6 +80,7 @@ public class SolGame {
     myDraMan = new DraMan(drawer);
     myCam = new SolCam(drawer.r);
     myScreens = new GameScreens(drawer.r, cmp);
+    myTutMan = tut ? new TutMan(commonDrawer.r, myScreens, cmp.isMobile()) : null;
     myTexMan = texMan;
     myFarBgManOld = new FarBgManOld(myTexMan);
     myShipBuilder = new ShipBuilder();
@@ -131,25 +130,20 @@ public class SolGame {
       pilot = new UiControlledPilot(myScreens.mainScreen);
     }
     ShipConfig shipConfig = DebugOptions.GOD_MODE ? myPlayerSpawnConfig.godShipConfig : myPlayerSpawnConfig.shipConfig;
-    float money = myRespawnMoney == 0 ? shipConfig.money : myRespawnMoney;
+    float money = myRespawnMoney != 0 ? myRespawnMoney : myTutMan != null ? 200 : shipConfig.money;
     myRespawnMoney = 0;
     myHero = myShipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, shipConfig.items,
       shipConfig.hull, null, true, money, null).toObj(this);
-    if (DebugOptions.GOD_MODE) myItemMan.addAllWeapons(myHero.getItemContainer());
+    ItemContainer ic = myHero.getItemContainer();
+    if (DebugOptions.GOD_MODE) myItemMan.addAllWeapons(ic);
 
-    if (myTut) {
-      myHero.getHull().setEngine(this, myHero, null);
-      ItemContainer ic = myHero.getItemContainer();
-      GunItem secondary = (GunItem)myItemMan.getExample("wbo").copy();
-      ic.add(secondary);
-      GunItem slowGun = (GunItem)myItemMan.getExample("sg").copy();
-      ic.add(slowGun);
-      myHero.getHull().getGunMount(true).setGun(this, myHero, secondary, shipConfig.hull.g2UnderShip);
-      int toAdd = 2 * Const.ITEM_GROUPS_PER_PAGE - ic.groupCount();
-      for (int i = 0; i < toAdd; i++) {
-        ic.add(myItemMan.random());
+    if (myTutMan != null) {
+      for (int i = 0; i < 50; i++) {
+        if (ic.groupCount() > Const.ITEM_GROUPS_PER_PAGE) break;
+        SolItem it = myItemMan.random();
+        if (it.getIcon(this) != null && ic.canAdd(it)) ic.add(it.copy());
       }
-      myHero.setMoney(100);
+      ic.seenAll();
     }
     myCam.setPos(pos);
 
@@ -218,6 +212,8 @@ public class SolGame {
         }
       }
     }
+
+    if (myTutMan != null) myTutMan.update();
   }
 
   public void draw() {
@@ -368,10 +364,6 @@ public class SolGame {
     return myTranscendentHero;
   }
 
-  public boolean isTut() {
-    return myTut;
-  }
-
   public GridDrawer getGridDrawer() {
     return myGridDrawer;
   }
@@ -420,4 +412,7 @@ public class SolGame {
     return myMountDetectDrawer;
   }
 
+  public TutMan getTutMan() {
+    return myTutMan;
+  }
 }
