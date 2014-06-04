@@ -77,18 +77,9 @@
     ],
 
     trading: {
-      items: "",
+      items: "blaster gun bulletClip:1:8 s1 a1 a2 rep:1:8 sloMoCharge:1:8",
       ships: "imperialSmall imperialMedium",
-      mercenaries: [
-        {
-          hull: pirateSmall,
-          items: "",
-          money: 20,
-          hirePrice: 100,
-          displayName: "A Mighty Pirate",
-          desc: desc,
-        },
-      ],
+      mercenaries: [],
     },
   },
 
@@ -156,18 +147,9 @@
     ],
 
     trading: {
-      items: "",
+      items: "fixedGun fixedShotGun bulletClip:1:8 shellClip:1:8",
       ships: "imperialSmall imperialMedium",
-      mercenaries: [
-        {
-          hull: pirateSmall,
-          items: "",
-          money: 20,
-          hirePrice: 100,
-          displayName: "A Mighty Pirate",
-          desc: desc,
-        },
-      ],
+      mercenaries: [],
     },
   },
 }

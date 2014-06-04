@@ -14,6 +14,8 @@
     size: 0.4,
     maxLife: 22,
     type: std,
+    price: 200,
+    hirePrice: 200,
     ability: {
       type: unShield,
       amount: 5,
@@ -24,8 +26,7 @@
     g1Pos: "0.43 0.49",
     e1Pos: "0.01 0.5",
     e2Pos: "0.01 0.5",
-    name: "Pirate Small",
-    desc: "desc",
+    displayName: "Pirate Small",
     engine: pirate,
   },
 
@@ -46,8 +47,7 @@
     g1Pos: "0.45 0.5",
     e1Pos: "0.14 0.44",
     e2Pos: "0.14 0.57",
-    name: "Small Guardian",
-    desc: "desc",
+    displayName: "Small Guardian",
     engine: imperial,
   },
 
@@ -68,8 +68,7 @@
     g1Pos: "0.47 0.39",
     e1Pos: "0.23 0.42",
     e2Pos: "0.35 0.61",
-    name: "Orbiter",
-    desc: "desc",
+    displayName: "Orbiter",
     engine: pirate,
   },
 
@@ -97,8 +96,7 @@
     g1Pos: "0.32 0.32",
     e1Pos: "0 0.33",
     e2Pos: "0 0.67",
-    name: "Bomber",
-    desc: "desc",
+    displayName: "Bomber",
     engine: desert,
   },
 
@@ -132,8 +130,7 @@
     g1UnderShip: true,
     e1Pos: "0.15 0.52",
     e2Pos: "0.15 0.62",
-    name: "Orbiter",
-    desc: "desc",
+    displayName: "Orbiter",
     engine: imperial,
   },
 
@@ -196,8 +193,7 @@
     g2UnderShip: true,
     e1Pos: "0.02 0.46",
     e2Pos: "0.02 0.54",
-    name: "Beetle",
-    desc: "desc",
+    displayName: "Beetle",
     engine: desert,
   },
 
@@ -240,8 +236,7 @@
     g2Pos: "0.38 0.48",
     e1Pos: "0.03 0.42",
     e2Pos: "0.04 0.59",
-    name: "Pirate Medium lol",
-    desc: "desc",
+    displayName: "Pirate Medium lol",
     engine: pirate,
   },
 
@@ -354,8 +349,7 @@
     g2Pos: "0.2 0.68",
     e1Pos: "0.02 0.31",
     e2Pos: "0.02 0.69",
-    name: "Hunter",
-    desc: "desc",
+    displayName: "Hunter",
     engine: desert,
   },
 
@@ -379,8 +373,7 @@
     g2Pos: "0.54 0.74",
     e1Pos: "0.11 0.43",
     e2Pos: "0.11 0.57",
-    name: "vanguard",
-    desc: "desc",
+    displayName: "vanguard",
     engine: imperial,
   },
 

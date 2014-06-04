@@ -13,21 +13,15 @@ public class ShipConfig {
   public final int money;
   public final float density;
   public final ShipConfig guard;
-  public final float hirePrice;
-  public final String displayName;
-  public final String desc;
   public final float dps;
 
   public ShipConfig(HullConfig hull, String items, int money,
-    float density, ShipConfig guard, float hirePrice, String displayName, String desc, ItemMan itemMan) {
+    float density, ShipConfig guard, ItemMan itemMan) {
     this.hull = hull;
     this.items = items;
     this.money = money;
     this.density = density;
     this.guard = guard;
-    this.hirePrice = hirePrice;
-    this.displayName = displayName;
-    this.desc = desc;
     dps = HardnessCalc.getShipConfDps(this, itemMan);
   }
 
@@ -54,10 +48,7 @@ public class ShipConfig {
     } else {
       guard = null;
     }
-    float hirePrice = shipNode.getFloat("hirePrice", 0);
-    String displayName = shipNode.getString("displayName", null);
-    String desc = shipNode.getString("desc", null);
-    return new ShipConfig(hull, items, money, density, guard, hirePrice, displayName, desc, itemMan);
+    return new ShipConfig(hull, items, money, density, guard, itemMan);
   }
 
 }

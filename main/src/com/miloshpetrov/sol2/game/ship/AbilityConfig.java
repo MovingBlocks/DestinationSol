@@ -6,4 +6,5 @@ public interface AbilityConfig {
   public ShipAbility build();
   public SolItem getChargeExample();
   public float getRechargeTime();
+  void appendDesc(StringBuilder sb);
 }

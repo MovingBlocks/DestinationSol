@@ -2,6 +2,7 @@ package com.miloshpetrov.sol2.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
+import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.DraLevel;
 import com.miloshpetrov.sol2.game.item.*;
@@ -77,6 +78,11 @@ public class UnShield implements ShipAbility {
     @Override
     public float getRechargeTime() {
       return rechargeTime;
+    }
+
+    @Override
+    public void appendDesc(StringBuilder sb) {
+      sb.append("Drain ").append(SolMath.nice(amount)).append(" points from enemy shield\n");
     }
 
     public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig cc) {

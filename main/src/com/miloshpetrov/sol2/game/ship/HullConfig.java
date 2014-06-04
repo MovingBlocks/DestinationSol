@@ -31,7 +31,7 @@ public class HullConfig {
   public final boolean m2Fixed;
   public final String displayName;
   public final float price;
-  public final String desc;
+  public final float hirePrice;
   public final Vector2 origin = new Vector2();
 
   public HullConfig(String texName, float size, int maxLife, Vector2 e1Pos, Vector2 e2Pos, Vector2 g1Pos,
@@ -39,7 +39,7 @@ public class HullConfig {
     float durability, boolean hasBase, ArrayList<Vector2> forceBeaconPoss, ArrayList<Vector2> doorPoss,
     Type type, TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, EngineItem.Config engineConfig,
     AbilityConfig ability, boolean g1UnderShip, boolean g2UnderShip, boolean m1Fixed, boolean m2Fixed,
-    String displayName, float price, String desc)
+    String displayName, float price, float hirePrice)
   {
     this.texName = texName;
     this.size = size;
@@ -49,7 +49,7 @@ public class HullConfig {
     this.m2Fixed = m2Fixed;
     this.displayName = displayName;
     this.price = price;
-    this.desc = desc;
+    this.hirePrice = hirePrice;
     this.approxRadius = .4f * size;
     this.maxLife = maxLife;
     this.e1Pos = e1Pos;

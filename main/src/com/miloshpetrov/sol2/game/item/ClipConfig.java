@@ -33,7 +33,7 @@ public class ClipConfig {
     this.projectilesPerShot = projectilesPerShot;
     this.itemType = itemType;
     this.plural = plural;
-    this.desc = size + " " + this.plural + ".";
+    this.desc = size + " " + this.plural;
     this.example = new ClipItem(this);
   }
 

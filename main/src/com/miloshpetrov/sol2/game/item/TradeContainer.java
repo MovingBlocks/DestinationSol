@@ -24,7 +24,7 @@ public class TradeContainer {
     }
 
     myAwait = MAX_AWAIT;
-    int amt = 8;
+    int amt = 16;
     if (hullConfig.type != HullConfig.Type.STATION) amt /= 2;
     int excess = myItems.size() - amt;
     for (int i = 0; i < excess; i++) {
