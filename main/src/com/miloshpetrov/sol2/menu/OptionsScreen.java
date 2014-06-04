@@ -19,10 +19,9 @@ public class OptionsScreen implements SolUiScreen {
 
     myResoCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
     myResoCtrl.setDisplayName("Resolution");
-    myResoCtrl.setEnabled(Gdx.app.getType() == Application.ApplicationType.Desktop);
     myControls.add(myResoCtrl);
 
-    myControlTypeCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
+    myControlTypeCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true, Input.Keys.C);
     myControlTypeCtrl.setDisplayName("Control Type");
     myControls.add(myControlTypeCtrl);
 

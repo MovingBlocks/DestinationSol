@@ -1,6 +1,10 @@
+tutorial should consider new control type, also mobile, also highlight buttons
+disposition
+
 DATA:
   gun sizes + rel sizes
   hull lights
+  credits
   check licenses:
     in-game:
       font
@@ -11,15 +15,6 @@ DATA:
     in internet:
       sf
       markets vs open source
-
-
-CODING:
-  credits
-  android compatibility:
-    tutorial should consider new control type, also mobile, also highlight buttons
-    decide what to do with menu
-    disposition
-  sometimes no dust
 
 
 DRAWING:
@@ -36,6 +31,7 @@ DRAWING:
   pirate space station hull shades
 
 
+sometimes no dust
 add sounds
 polishing
 hardness? armor bonus + brakes
