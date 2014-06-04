@@ -85,6 +85,11 @@ public class KnockBack implements ShipAbility {
       return rechargeTime;
     }
 
+    @Override
+    public void appendDesc(StringBuilder sb) {
+      sb.append("?\n");
+    }
+
     public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig cc) {
       float rechargeTime = abNode.getFloat("rechargeTime");
       float force = abNode.getFloat("force");

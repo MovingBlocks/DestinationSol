@@ -59,9 +59,10 @@ public class HullConfigs {
       boolean m2Fixed = hullNode.getBoolean("m2Fixed", false);
       String displayName = hullNode.getString("displayName", "---");
       float price = hullNode.getInt("price", 0);
-      String desc = hullNode.getString("desc", "---");
+      float hirePrice = hullNode.getFloat("hirePrice", 0);
       HullConfig c = new HullConfig(texName, size, maxLife, e1Pos, e2Pos, g1Pos, g2Pos, lightSrcPoss, durability,
-        hasBase, forceBeaconPoss, doorPoss, type, icon, tex, ec, ability, g1UnderShip, g2UnderShip, m1Fixed, m2Fixed, displayName, price, desc);
+        hasBase, forceBeaconPoss, doorPoss, type, icon, tex, ec, ability, g1UnderShip, g2UnderShip, m1Fixed, m2Fixed,
+        displayName, price, hirePrice);
       process(c, shipBuilder);
       myConfigs.put(hullNode.name, c);
     }

@@ -101,6 +101,11 @@ public class Teleport implements ShipAbility {
       return rechargeTime;
     }
 
+    @Override
+    public void appendDesc(StringBuilder sb) {
+      sb.append("Teleport around enemy");
+    }
+
     public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig cc) {
       float angle = abNode.getFloat("angle");
       SolItem chargeExample = itemMan.getExample("teleportCharge");

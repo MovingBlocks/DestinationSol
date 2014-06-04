@@ -63,7 +63,19 @@
       hull: drome,
       items: "blaster|gun s1",
 	  money: 30,
-    }
+    },
+
+    trading: {
+      items: "plasmaGun plasmaClip:1:3 gun:1:2 bulletClip:1:3 shotGun shellClip:1:3",
+      ships: "pirateSmall pirateOrbiter pirateMedium",
+      mercenaries: [
+        {
+          hull: pirateSmall,
+          items: "",
+          money: 20,
+        },
+      ],
+    },
   },
 
 

@@ -72,7 +72,7 @@ public class PlanetConfig {
     SkyConfig skyConfig = SkyConfig.load(sh.get("sky"), cols);
     int rowCount = sh.getInt("rowCount");
     boolean smoothLandscape = sh.getBoolean("smoothLandscape", false);
-    TradeConfig tradeConfig = TradeConfig.load(itemMan, sh.get("trading"), null);
+    TradeConfig tradeConfig = TradeConfig.load(itemMan, sh.get("trading"), hullConfigs);
     boolean hardOnly = sh.getBoolean("hardOnly", false);
     boolean easyOnly = sh.getBoolean("easyOnly", false);
     return new PlanetConfig(sh.name, minGrav, maxGrav, deco, groundEnemies, highOrbitEnemies, lowOrbitEnemies, cloudTexs,

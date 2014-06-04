@@ -1,8 +1,5 @@
-hull descriptions:
-  life
-  mounts
-  abilitiesprices
 trading
+prices
 
 DATA:
   gun sizes

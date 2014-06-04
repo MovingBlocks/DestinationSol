@@ -6,24 +6,26 @@ import com.miloshpetrov.sol2.game.SolGame;
 
 public class MercItem implements SolItem {
   private final ShipConfig myConfig;
+  private final String myDesc;
 
   public MercItem(ShipConfig config) {
     myConfig = config;
+    myDesc = ShipItem.makeDesc(myConfig.hull);
   }
 
   @Override
   public String getDisplayName() {
-    return myConfig.displayName;
+    return myConfig.hull.displayName;
   }
 
   @Override
   public float getPrice() {
-    return myConfig.hirePrice;
+    return myConfig.hull.hirePrice;
   }
 
   @Override
   public String getDesc() {
-    return myConfig.desc;
+    return myDesc;
   }
 
   @Override

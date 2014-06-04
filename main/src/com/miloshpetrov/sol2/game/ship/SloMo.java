@@ -80,6 +80,11 @@ public class SloMo implements ShipAbility {
       return rechargeTime;
     }
 
+    @Override
+    public void appendDesc(StringBuilder sb) {
+      sb.append("Time slow down to ").append((int) (factor * 100)).append("%\n");
+    }
+
     public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig cc, SoundMan soundMan) {
       float factor = abNode.getFloat("factor");
       float rechargeTime = abNode.getFloat("rechargeTime");
