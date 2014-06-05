@@ -1,4 +1,6 @@
-disposition
+projectiles
+guns
+draw ui icons
 
 DATA:
   gun sizes + rel sizes
@@ -17,14 +19,10 @@ DATA:
 
 
 DRAWING:
-  change dollar sign to unique sign + icons
   techiePlanetTurret
   ability effects + teleport blip
-  guns
-  projectiles
   electricity particle
   trees on frozen
-  draw ui icons
   new title
   skull areas
   pirate space station hull shades
@@ -91,11 +89,14 @@ CLEANNESS
   get rid of Pilot.getMapHint
 
 DISPOSE
-  BitmapFont
-  ParticleEffect
-  Pixmap
-  Shape
-  SpriteBatch
-  Texture
-  TextureAtlas
-  World
+  instantly:
+    Shape
+  cmp:
+    BitmapFont
+    SpriteBatch
+    Pixmap
+    Texture
+    TextureAtlas
+  game:
+    ParticleEffect
+    World
