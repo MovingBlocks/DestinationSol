@@ -30,7 +30,7 @@ public class StillGuard implements MoveDestProvider {
 
   @Override
   public boolean shouldAvoidBigObjs() {
-    return false;
+    return myPlanetBind != null;
   }
 
   @Override

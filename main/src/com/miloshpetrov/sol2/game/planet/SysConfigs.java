@@ -69,9 +69,9 @@ public class SysConfigs {
     return myBeltConfigs;
   }
 
-  public SysConfig getEasy() {
+  public SysConfig getCfg(boolean hard) {
     for (SysConfig c : myConfigs.values()) {
-      if (!c.hard) return c;
+      if (c.hard == hard) return c;
     }
     throw new AssertionError("must have at least one not hard system");
   }

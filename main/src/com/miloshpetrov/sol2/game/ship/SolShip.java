@@ -289,7 +289,7 @@ public class SolShip implements SolObj {
       game.setRespawnMoney(toRespawn);
       myMoney -= toRespawn;
     }
-    float thrMoney = myMoney * SolMath.rnd(.3f, .7f);
+    float thrMoney = myMoney * SolMath.rnd(.2f, .8f);
     while (thrMoney > MoneyItem.AMT) {
       MoneyItem example;
       if (thrMoney > MoneyItem.BIG_AMT) {

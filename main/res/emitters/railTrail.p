@@ -134,4 +134,4 @@ aligned: false
 additive: true
 behind: false
 - Image Path -
-D:\j\sol\main\imgSrcs\particles\techieTrail.png
+D:\j\sol\main\imgSrcs\smallGameObjs\particles\techieTrail.png

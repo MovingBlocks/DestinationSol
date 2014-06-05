@@ -167,4 +167,4 @@ aligned: false
 additive: false
 behind: false
 - Image Path -
-D:\j\sol\main\imgSrcs\particles\smoke.png
+D:\j\sol\main\imgSrcs\smallGameObjs\particles\smoke.png

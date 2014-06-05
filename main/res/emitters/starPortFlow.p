@@ -136,4 +136,4 @@ aligned: false
 additive: true
 behind: false
 - Image Path -
-D:\j\sol\main\imgSrcs\particles\forceTail.png
+D:\j\sol\main\imgSrcs\smallGameObjs\particles\forceTail.png
