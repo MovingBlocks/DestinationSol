@@ -311,6 +311,7 @@ public class SolShip implements SolObj {
     if (onDeath) {
       spdAngle = SolMath.rnd(180);
       spdLen = SolMath.rnd(0, Loot.MAX_SPD);
+      SolMath.fromAl(pos, spdAngle, SolMath.rnd(myHull.config.approxRadius));
     } else {
       spdAngle = getAngle();
       spdLen = Loot.MAX_SPD * 1.5f;

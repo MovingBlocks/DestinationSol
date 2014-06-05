@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
+import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.planet.TileObj;
@@ -157,18 +158,43 @@ public class Asteroid implements SolObj {
     if (MIN_SPLIT_SZ > mySize) return;
     float sclSum = 0;
     while (sclSum < .7f * mySize * mySize) {
-      Vector2 newPos = new Vector2();
-      float relAngle = SolMath.rnd(180);
-      SolMath.fromAl(newPos, relAngle, SolMath.rnd(0, mySize /2));
-      newPos.add(myPos);
+      float spdAngle = SolMath.rnd(180);
       Vector2 spd = new Vector2();
-      SolMath.fromAl(spd, relAngle, SolMath.rnd(0, .5f) *MAX_SPLIT_SPD);
+      SolMath.fromAl(spd, spdAngle, SolMath.rnd(0, .5f) *MAX_SPLIT_SPD);
       spd.add(mySpd);
+      Vector2 newPos = new Vector2();
+      SolMath.fromAl(newPos, spdAngle, SolMath.rnd(0, mySize / 2));
+      newPos.add(myPos);
       float sz = mySize * SolMath.rnd(.25f,.5f);
       Asteroid a = game.getAsteroidBuilder().buildNew(game, newPos, spd, sz, myRemoveController);
       game.getObjMan().addObjDelayed(a);
       sclSum += a.mySize * a.mySize;
     }
+    float thrMoney = mySize * 20f * SolMath.rnd(0, 1);
+
+    while (thrMoney > MoneyItem.AMT) {
+      MoneyItem example;
+      if (thrMoney > MoneyItem.BIG_AMT) {
+        example = game.getItemMan().moneyItem(true);
+        thrMoney -= MoneyItem.BIG_AMT;
+      } else {
+        example = game.getItemMan().moneyItem(false);
+        thrMoney -= MoneyItem.AMT;
+      }
+      throwLoot(game, example.copy());
+    }
+  }
+
+  private void throwLoot(SolGame game, SolItem item) {
+    float spdAngle = SolMath.rnd(180);
+    Vector2 lootSpd = new Vector2();
+    SolMath.fromAl(lootSpd, spdAngle, SolMath.rnd(0, Loot.MAX_SPD));
+    lootSpd.add(mySpd);
+    Vector2 pos = new Vector2();
+    SolMath.fromAl(pos, spdAngle, SolMath.rnd(0, mySize / 2));
+    pos.add(myPos);
+    Loot l = game.getLootBuilder().build(game, pos, item, lootSpd, Loot.MAX_LIFE, SolMath.rnd(Loot.MAX_ROT_SPD), null);
+    game.getObjMan().addObjDelayed(l);
   }
 
   @Override
