@@ -1,33 +1,20 @@
-asteroid mining
-
-DATA:
-  hull lights
-  gun sizes + rel sizes
-  credits
-  check licenses:
-    in-game:
-      font
-      sounds
-      libgdx
-      box 2d
-      java distro
-    in internet:
-      sf
-      markets vs open source
+draw pirate space station hull shades
+draw guns
+draw techiePlanetTurret
+set hull lights
+set gun sizes + rel sizes
 
 
 DRAWING:
-  guns
-  techiePlanetTurret
+  recolor guns
   ability effects + teleport blip
   electricity particle
   trees on frozen
   new title
   skull areas
-  pirate space station hull shades
 
 
-add sounds
+replace sounds
 polishing
 hardness? armor bonus + brakes
 

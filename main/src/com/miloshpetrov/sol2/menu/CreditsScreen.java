@@ -8,8 +8,7 @@ import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.ui.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CreditsScreen implements SolUiScreen {
   public static final float MAX_AWAIT = 6f;
@@ -29,8 +28,51 @@ public class CreditsScreen implements SolUiScreen {
     myColor = Col.col(1, 1);
 
     myPages = new ArrayList<String>();
-    myPages.add("Page 1\n test");
-    myPages.add("Page 2\n test2");
+    String[][] sss = {
+      {
+        "Idea, coding, team lead:",
+        "Milosh Petrov",
+        "",
+        "Drawing:",
+        "Kent C. Jensen",
+        "",
+        "Additional coding:",
+        "Nika \"NoiseDoll\" Burimenko",
+        "",
+        "Additional drawing:",
+        "Julia Nikolaeva"
+      },
+      {
+        "Game engine:",
+        "LibGDX",
+        "",
+        "Platform:",
+        "OpenJDK",
+      },
+      {
+        "Font:",
+        "\"Jet Set\" by Captain Falcon",
+        "",
+        "Sounds:",
+        "Todo",
+      },
+    };
+    for (String[] ss : sss) {
+      StringBuilder page = new StringBuilder();
+      for (String s : ss) {
+        page.append(s).append("\n");
+      }
+      myPages.add(page.toString());
+    }
+
+  }
+
+  private void p(String[] s) {
+    StringBuilder sb = new StringBuilder();
+    for (String s1 : s) {
+      sb.append(s1);
+    }
+    myPages.add(sb.toString());
   }
 
   @Override
