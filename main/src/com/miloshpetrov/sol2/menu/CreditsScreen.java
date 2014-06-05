@@ -67,14 +67,6 @@ public class CreditsScreen implements SolUiScreen {
 
   }
 
-  private void p(String[] s) {
-    StringBuilder sb = new StringBuilder();
-    for (String s1 : s) {
-      sb.append(s1);
-    }
-    myPages.add(sb.toString());
-  }
-
   @Override
   public List<SolUiControl> getControls() {
     return myControls;
@@ -124,6 +116,6 @@ public class CreditsScreen implements SolUiScreen {
 
   @Override
   public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
-    uiDrawer.drawString(myPages.get(myIdx), uiDrawer.r/2, .5f, FontSize.WINDOW, true, myColor);
+    uiDrawer.drawString(myPages.get(myIdx), uiDrawer.r/2, .5f, FontSize.MENU, true, myColor);
   }
 }
