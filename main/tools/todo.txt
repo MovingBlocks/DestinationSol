@@ -41,6 +41,7 @@ BG 3.0:
   use another chunk layer for stars
 
 ARCHITECTURE
+  map uses hull icons (interleaving in drawIcons), world uses item icons
   ships & farShips & starPorts make mess in MapDrawer -- unify under one interface?
   warn about unused sounds
   warn about unused images

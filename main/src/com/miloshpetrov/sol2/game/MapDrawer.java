@@ -54,24 +54,26 @@ public class MapDrawer {
   private float myAreaSkullTime;
 
   public MapDrawer(TexMan texMan) {
-    myIconBg = texMan.getTex(TexMan.HULL_ICONS_DIR + "bg", null);
+    myZoom = MAX_ZOOM / MUL_FACTOR / MUL_FACTOR;
+    myAreaWarnCol = new Color(Col.W);
+    myAreaWarnBgCol = new Color(Col.UI_WARN);
+
     myWarnAreaBg = texMan.getTex(MAP_TEX_DIR + "warnBg", null);
     myAtmTex = texMan.getTex(MAP_TEX_DIR + "atm", null);
     myPlanetTex = texMan.getTex(MAP_TEX_DIR + "planet", null);
     myPlanetCoreTex = texMan.getTex(MAP_TEX_DIR + "planetCore", null);
     myStarTex = texMan.getTex(MAP_TEX_DIR + "star", null);
     myMazeTex = texMan.getTex(MAP_TEX_DIR + "maze", null);
-    mySkullTex = texMan.getTex(TexMan.HULL_ICONS_DIR + "skull", null);
     mySkullBigTex = texMan.getTex(MAP_TEX_DIR + "skullBig", null);
-    myStarPortTex = texMan.getTex(TexMan.HULL_ICONS_DIR + "starPort", null);
     myBeltTex = texMan.getTex(MAP_TEX_DIR + "asteroids", null);
     myBeaconAttackTex = texMan.getTex(MAP_TEX_DIR + "beaconAttack", null);
     myBeaconMoveTex = texMan.getTex(MAP_TEX_DIR + "beaconMove", null);
     myBeaconFollowTex = texMan.getTex(MAP_TEX_DIR + "beaconFollow", null);
-    myZoom = MAX_ZOOM / MUL_FACTOR / MUL_FACTOR;
-    myAreaWarnCol = new Color(Col.W);
-    myAreaWarnBgCol = new Color(Col.UI_WARN);
     myWhiteTex = texMan.getTex(MAP_TEX_DIR + "whiteTex", null);
+
+    myIconBg = texMan.getTex(TexMan.HULL_ICONS_DIR + "bg", null);
+    mySkullTex = texMan.getTex(TexMan.HULL_ICONS_DIR + "skull", null);
+    myStarPortTex = texMan.getTex(TexMan.HULL_ICONS_DIR + "starPort", null);
   }
 
   public boolean isToggled() {
@@ -94,6 +96,8 @@ public class MapDrawer {
     drawPlanets(drawer, game, viewDist, np, camPos, heroDmgCap);
     drawMazes(drawer, game, viewDist, np, camPos, heroDmgCap);
     drawStarNodes(drawer, game, viewDist, camPos, starNodeW);
+
+    // using ui textures
     drawIcons(drawer, game, iconSz, viewDist, fractionMan, hero, camPos, heroDmgCap);
   }
 
@@ -235,7 +239,7 @@ public class MapDrawer {
       if (bhAction == BeaconHandler.Action.ATTACK) icon = myBeaconAttackTex;
       else if (bhAction == BeaconHandler.Action.FOLLOW) icon = myBeaconFollowTex;
       float beaconSz = iconSz * 1.5f;
-      drawer.draw(icon, beaconSz, beaconSz, beaconSz/2, beaconSz/2, beaconPos.x, beaconPos.y, 0, Col.W);
+//      drawer.draw(icon, beaconSz, beaconSz, beaconSz/2, beaconSz/2, beaconPos.x, beaconPos.y, 0, Col.W); interleaving
     }
   }
 
@@ -286,7 +290,7 @@ public class MapDrawer {
       Vector2 oPos = o.getPos();
       if (viewDist < camPos.dst(oPos)) continue;
       float sz = to.getSz();
-      drawPlanetTile(to.getTile(), sz, drawer, myWhiteTex, oPos, to.getAngle());
+      drawPlanetTile(to.getTile(), sz, drawer, oPos, to.getAngle());
     }
 
     List<FarObjData> farObjs = objMan.getFarObjs();
@@ -299,7 +303,7 @@ public class MapDrawer {
       Vector2 oPos = o.getPos();
       if (viewDist < camPos.dst(oPos)) continue;
       float sz = to.getSz();
-      drawPlanetTile(to.getTile(), sz, drawer, myWhiteTex, oPos, to.getAngle());
+      drawPlanetTile(to.getTile(), sz, drawer, oPos, to.getAngle());
     }
   }
 
@@ -346,16 +350,16 @@ public class MapDrawer {
     if (myAreaSkullTime > MAX_AREA_SKULL_TIME) myAreaSkullTime = 0;
   }
 
-  private void drawPlanetTile(Tile t, float sz, GameDrawer drawer, TextureAtlas.AtlasRegion wt, Vector2 p, float angle) {
+  private void drawPlanetTile(Tile t, float sz, GameDrawer drawer, Vector2 p, float angle) {
     float szh = .6f * sz;
     Color col = t.from == SurfDir.UP && t.to == SurfDir.UP ? Col.W : Col.UI_GROUND;
     if (t.from == SurfDir.FWD || t.from == SurfDir.UP) {
-      if (t.from == SurfDir.UP) drawer.draw(wt, szh, szh, 0, 0, p.x, p.y, angle - 90, col);
-      drawer.draw(wt, szh, szh, 0, 0, p.x, p.y, angle, col);
+      if (t.from == SurfDir.UP) drawer.draw(myWhiteTex, szh, szh, 0, 0, p.x, p.y, angle - 90, col);
+      drawer.draw(myWhiteTex, szh, szh, 0, 0, p.x, p.y, angle, col);
     }
     if (t.to == SurfDir.FWD || t.to == SurfDir.UP) {
-      if (t.to == SurfDir.UP) drawer.draw(wt, szh, szh, 0, 0, p.x, p.y, angle + 180, col);
-      drawer.draw(wt, szh, szh, 0, 0, p.x, p.y, angle + 90, col);
+      if (t.to == SurfDir.UP) drawer.draw(myWhiteTex, szh, szh, 0, 0, p.x, p.y, angle + 180, col);
+      drawer.draw(myWhiteTex, szh, szh, 0, 0, p.x, p.y, angle + 90, col);
     }
   }
 
