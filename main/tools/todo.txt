@@ -1,9 +1,8 @@
-guns
 draw ui icons
 
 DATA:
-  gun sizes + rel sizes
   hull lights
+  gun sizes + rel sizes
   credits
   check licenses:
     in-game:
@@ -18,6 +17,7 @@ DATA:
 
 
 DRAWING:
+  guns
   techiePlanetTurret
   ability effects + teleport blip
   electricity particle
