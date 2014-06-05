@@ -21,6 +21,7 @@ public class BallProjectileBody implements ProjectileBody {
   {
     float density = config.density == -1 ? 1 : config.density;
     myBody = AsteroidBuilder.buildBall(game, pos, angle, config.physSize / 2, density, config.massless);
+    if (config.zeroAbsSpd) myBody.setAngularVelocity(15f * SolMath.degRad);
 
     mySpd = new Vector2();
     SolMath.fromAl(mySpd, angle, spdLen);
