@@ -143,8 +143,8 @@ public class SolGame {
         SolItem it = myItemMan.random();
         if (it.getIcon(this) != null && ic.canAdd(it)) ic.add(it.copy());
       }
-      ic.seenAll();
     }
+    ic.seenAll();
     myCam.setPos(pos);
 
     myObjMan.addObjDelayed(myHero);

@@ -65,7 +65,7 @@
     angleVarDamp: 0,
     angleVarPerShot: 0,
     timeBetweenShots: 0.2,
-    reloadTime: 2.5,
+    reloadTime: 1,
     price: 70,
     clipName: bombClip,
 

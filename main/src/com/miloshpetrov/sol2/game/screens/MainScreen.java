@@ -29,8 +29,9 @@ public class MainScreen implements SolUiScreen {
   public static final float V_PAD = H_PAD;
 
   private final List<SolUiControl> myControls;
-  private final CollisionWarnDrawer myCollisionWarnDrawer;
+  private final DmgWarnDrawer myDmgWarnDrawer;
   private final SunWarnDrawer mySunWarnDrawer;
+  private final CollisionWarnDrawer myCollisionWarnDrawer;
   private final ZoneNameAnnouncer myZoneNameAnnouncer;
   private final BorderDrawer myBorderDrawer;
   private final TextureAtlas.AtlasRegion myLifeTex;
@@ -79,8 +80,9 @@ public class MainScreen implements SolUiScreen {
     myControls.add(myPauseCtrl);
 
 
-    myCollisionWarnDrawer = new CollisionWarnDrawer(r);
+    myDmgWarnDrawer = new DmgWarnDrawer(r);
     mySunWarnDrawer = new SunWarnDrawer(r);
+    myCollisionWarnDrawer = new CollisionWarnDrawer(r);
     myZoneNameAnnouncer = new ZoneNameAnnouncer();
     myBorderDrawer = new BorderDrawer(r, cmp);
 
@@ -142,8 +144,9 @@ public class MainScreen implements SolUiScreen {
     GameScreens screens = game.getScreens();
     SolShip hero = game.getHero();
 
-    myCollisionWarnDrawer.update(game);
+    myDmgWarnDrawer.update(game);
     mySunWarnDrawer.update(game);
+    myCollisionWarnDrawer.update(game);
     myZoneNameAnnouncer.update(game);
 
     if (myMenuCtrl.isJustOff()) {
@@ -338,8 +341,9 @@ public class MainScreen implements SolUiScreen {
       updateTextPlace(col1, row, (int) hero.getMoney() + "", myMoneyText);
     }
 
-    myCollisionWarnDrawer.draw(uiDrawer);
+    myDmgWarnDrawer.draw(uiDrawer);
     mySunWarnDrawer.draw(uiDrawer);
+    myCollisionWarnDrawer.draw(uiDrawer);
   }
 
   @Override
@@ -350,8 +354,9 @@ public class MainScreen implements SolUiScreen {
     myChargesText.draw(uiDrawer);
     myMoneyText.draw(uiDrawer);
 
-    myCollisionWarnDrawer.drawText(uiDrawer);
+    myDmgWarnDrawer.drawText(uiDrawer);
     mySunWarnDrawer.drawText(uiDrawer);
+    myCollisionWarnDrawer.drawText(uiDrawer);
     myZoneNameAnnouncer.drawText(uiDrawer);
   }
 
@@ -396,4 +401,5 @@ public class MainScreen implements SolUiScreen {
       uiDrawer.drawString(text, pos.x, pos.y, FontSize.HUD, false, Col.W); // hack!
     }
   }
+
 }

@@ -46,11 +46,15 @@ public class ChunkMan {
   private boolean updateCurrChunk(Vector2 pos) {
     int oldX = myX;
     int oldY = myY;
-    myX = (int)(pos.x / Const.CHUNK_SIZE);
-    if (myX < 0) myX -= 1;
-    myY = (int)(pos.y / Const.CHUNK_SIZE);
-    if (myY < 0) myY -= 1;
+    myX = posToChunkIdx(pos.x);
+    myY = posToChunkIdx(pos.y);
     return oldX != myX || oldY != myY;
+  }
+
+  private int posToChunkIdx(float v) {
+    int i = (int)(v / Const.CHUNK_SIZE);
+    if (v < 0) i -= 1;
+    return i;
   }
 
   private void clearFarChunks(Set<Vector2> chunks, int dist) {
@@ -62,7 +66,7 @@ public class ChunkMan {
     }
   }
 
-  private boolean isChunkFar(int x, int y, float dist) {
+  private boolean isChunkFar(int x, int y, int dist) {
     return x <= myX - dist || myX + dist <= x || y <= myY - dist || myY + dist <= y;
   }
 
@@ -88,8 +92,8 @@ public class ChunkMan {
   }
 
   public boolean isInactive(Vector2 pos, int dist) {
-    int x = (int)(pos.x / Const.CHUNK_SIZE);
-    int y = (int)(pos.y / Const.CHUNK_SIZE);
+    int x = posToChunkIdx(pos.x);
+    int y = posToChunkIdx(pos.y);
     return isChunkFar(x, y, dist);
   }
 

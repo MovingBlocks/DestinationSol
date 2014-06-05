@@ -38,7 +38,7 @@
 
 
   bomb: {
-    dmg: 20,
+    dmg: 16,
     dmgType: explosion,
     spdLen: 0,
     physSize: 0.1,
