@@ -19,7 +19,11 @@ public class CollisionWarnDrawer {
   private SolShip myHero;
 
   public CollisionWarnDrawer(float r) {
-    myWarn = new Rectangle(.4f * r, 0, .2f * r, .1f);
+    myWarn = rect(r);
+  }
+
+  public static Rectangle rect(float r) {
+    return new Rectangle(.4f * r, 0, .2f * r, .1f);
   }
 
   public void update(SolGame game) {

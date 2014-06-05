@@ -671,6 +671,7 @@ main/src/com/miloshpetrov/sol2/game/screens/BorderDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/screens/BuyItems.java -text
 main/src/com/miloshpetrov/sol2/game/screens/ChangeShip.java -text
 main/src/com/miloshpetrov/sol2/game/screens/CollisionWarnDrawer.java -text
+main/src/com/miloshpetrov/sol2/game/screens/DmgWarnDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/screens/GameScreens.java -text
 main/src/com/miloshpetrov/sol2/game/screens/HireShips.java -text
 main/src/com/miloshpetrov/sol2/game/screens/InventoryOperations.java -text

@@ -1,4 +1,4 @@
-heavily damaged alert
+asteroid mining
 
 DATA:
   hull lights
@@ -27,7 +27,6 @@ DRAWING:
   pirate space station hull shades
 
 
-sometimes no dust
 add sounds
 polishing
 hardness? armor bonus + brakes

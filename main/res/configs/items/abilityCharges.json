@@ -1,6 +1,6 @@
 {
   sloMoCharge: {
-    price: 30,
+    price: 20,
 
     displayName: "Slo Mo Charge",
     desc: "Use on ships with Slo Mo ability",

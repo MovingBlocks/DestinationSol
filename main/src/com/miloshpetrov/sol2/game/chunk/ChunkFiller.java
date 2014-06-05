@@ -66,7 +66,8 @@ public class ChunkFiller {
   }
 
   private SpaceEnvConfig getConfig(SolGame game, Vector2 chCenter, float[] densityMul,
-    RemoveController remover, boolean farBg) {
+    RemoveController remover, boolean farBg)
+  {
     PlanetMan pm = game.getPlanetMan();
     SolSystem sys = pm.getNearestSystem(chCenter);
     float toSys = sys.getPos().dst(chCenter);
@@ -82,15 +83,15 @@ public class ChunkFiller {
           return beltConfig.envConfig;
         }
       }
-      Planet p = pm.getNearestPlanet(chCenter);
-      float toPlanet = p.getPos().dst(chCenter);
-      if (toPlanet < p.getFullHeight() + Const.CHUNK_SIZE) {
-        return null;
-      }
       float perc = toSys / sys.getRadius() * 2;
       if (perc > 1) perc = 2 - perc;
       densityMul[0] = perc;
-      if (!farBg) fillForSys(game, chCenter, remover, sys);
+      if (!farBg) {
+        Planet p = pm.getNearestPlanet(chCenter);
+        float toPlanet = p.getPos().dst(chCenter);
+        boolean planetNear = toPlanet < p.getFullHeight() + Const.CHUNK_SIZE;
+        if (!planetNear) fillForSys(game, chCenter, remover, sys);
+      }
       return sys.getConfig().envConfig;
     }
     Maze m = pm.getNearestMaze(chCenter);
