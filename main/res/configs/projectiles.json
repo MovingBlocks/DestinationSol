@@ -25,7 +25,6 @@
 
     texName: blast,
     texSz: 0.15,
-    stretch: true,
     collisionEffect: {
       effectFile: explFire,
       size: 0.3,
