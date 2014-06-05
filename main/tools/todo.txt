@@ -1,17 +1,16 @@
 draw pirate space station hull shades
+draw electricity particle
 draw guns
+set gun sizes + rel sizes
 draw techiePlanetTurret
 set hull lights
-set gun sizes + rel sizes
+draw ability effects + teleport blip
+draw skull areas
 
 
-DRAWING:
-  recolor guns
-  ability effects + teleport blip
-  electricity particle
-  trees on frozen
-  new title
-  skull areas
+draw trees on frozen -- J N
+recolor guns
+draw new title
 
 
 replace sounds
@@ -32,7 +31,7 @@ ARCHITECTURE
   warn about unused sounds
   warn about unused images
   replace AtlasRegion with SolTex, latter shouldn't extend
-  get rid of Dra.getTex0. But this would require reusing solTex used by emitters
+  get rid of Dra.getTex0
   sound volumes should be kept in one map file?
 
 FEATURES
@@ -50,7 +49,7 @@ FEATURES
   varying maze tile sizes
   make buttons size based on real screen size + test on tablets
   better sky colors?
-  starports should be on differernt distances from planet center, since now they overlap
+  star ports should be on different distances from planet center, since now they overlap
   voice warnings
   ship traces reusable?
   update pitch to all played sounds if game time is changed?
@@ -59,7 +58,7 @@ FEATURES
   better collision prediction (multipoint)
   planet labyrinths?
   save?
-  respawn enemies
+  respawn explorers
   explorers should avoid tough enemies
   try using shaders
 
