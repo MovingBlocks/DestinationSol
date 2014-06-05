@@ -33,7 +33,7 @@
       {
         hull: pirateOrbiter,
         items: "plasmaGun|blaster s1:.24",
-		money: 30,
+		money: 40,
         density: 0.03,
       }
     ],
@@ -41,7 +41,7 @@
       {
         hull: pirateOrbiter,
         items: "bombGun s1:.24",
-		money: 30,
+		money: 40,
         density: 0.1,
       },
     ],
@@ -49,19 +49,19 @@
       {
         hull: piratePlanetTurret,
         items: "plasmaGun|blaster s1|s2:.36",
-		money: 30,
+		money: 40,
         density: 0.45,
       },
       {
         hull: pirateSmall,
         items: "blaster|gun s1|s2:.5",
-		money: 50,
+		money: 60,
         density: 0.15,
       },
     ],
     station: {
       hull: drome,
-      items: "blaster|gun s1",
+      items: "blaster|gun s2 rep:1:4",
     },
 
     trading: {

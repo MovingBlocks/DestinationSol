@@ -282,7 +282,7 @@ public class PlanetObjsBuilder {
     if (station) {
       aboveGround = ge.hull.size * .75f - ge.hull.origin.y;
     } else {
-      aboveGround = ge.hull.approxRadius;
+      aboveGround = ge.hull.size;
     }
     pos.scl((height + aboveGround)/height);
     SolMath.toWorld(pos, pos, planet.getAngle(), planet.getPos(), false);

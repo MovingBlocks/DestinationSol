@@ -11,7 +11,7 @@
       {
         hull: imperialMedium,
         items: "fixedGun a1:.5 s1|s2:.5",
-        density: 1,
+        density: 0.5,
       },
       {
         hull: bus,
@@ -22,7 +22,7 @@
         hull: station,
         items: "cannon gun",
 		repairer: true,
-        density: 0.2,
+        density: 0.3,
         guard: {
           hull: imperialBig,
           items: "fixedGun fixedShotGun a2|a3 s2|s3",
@@ -35,13 +35,13 @@
         hull: pirateSmall,
         items: "plasmaGun s1:.12",
 		money: 50,
-        density: 1,
+        density: 0.8,
       },
       {
         hull: truck,
         items: "shotGun s2|s3:.74",
 		money: 400,
-        density: 1,
+        density: 0.6,
         guard: {
           hull: pirateSmall,
           items: "shotGun s3:.86",
@@ -96,7 +96,7 @@
         hull: station,
         items: "gun cannon",
 		repairer: true,
-        density: 0.2,
+        density: 0.3,
         guard: {
           hull: imperialBig,
           items: "fixedGun fixedShotGun a2|a3 s2|s3",
