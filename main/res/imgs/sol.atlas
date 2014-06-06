@@ -441,7 +441,7 @@ hulls/desertMedium
   index: -1
 hulls/desertOrbiter
   rotate: false
-  xy: 768, 704
+  xy: 512, 320
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -455,14 +455,14 @@ hulls/desertPlanetTurret
   index: -1
 hulls/desertSmall
   rotate: false
-  xy: 384, 192
+  xy: 640, 448
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 hulls/desertSpaceTurret
   rotate: false
-  xy: 768, 896
+  xy: 256, 256
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
@@ -476,84 +476,84 @@ hulls/drome
   index: -1
 hulls/imperialBig
   rotate: false
-  xy: 896, 896
+  xy: 384, 384
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 hulls/imperialMedium
   rotate: false
-  xy: 256, 256
+  xy: 512, 512
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 hulls/imperialSmall
   rotate: false
-  xy: 384, 384
+  xy: 640, 640
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 hulls/minerBoss
   rotate: false
-  xy: 512, 512
+  xy: 256, 128
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 hulls/minerMedium
   rotate: false
-  xy: 640, 640
+  xy: 256, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 hulls/minerSmall
   rotate: false
-  xy: 512, 320
+  xy: 768, 576
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 hulls/minerTurret
   rotate: false
-  xy: 640, 448
+  xy: 384, 64
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 hulls/pirateMedium
   rotate: false
-  xy: 768, 768
+  xy: 384, 256
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 hulls/pirateOrbiter
   rotate: false
-  xy: 896, 768
+  xy: 512, 384
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 hulls/piratePlanetTurret
   rotate: false
-  xy: 256, 128
+  xy: 640, 512
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 hulls/pirateSmall
   rotate: false
-  xy: 768, 640
+  xy: 384, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 hulls/pirateSpaceTurret
   rotate: false
-  xy: 256, 0
+  xy: 768, 640
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
@@ -567,28 +567,28 @@ hulls/station
   index: -1
 hulls/techieOrbiter
   rotate: false
-  xy: 384, 256
+  xy: 896, 640
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 hulls/techiePlanetTurret
   rotate: false
-  xy: 512, 384
-  size: 128, 128
-  orig: 128, 128
+  xy: 768, 768
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 hulls/techieSmall
   rotate: false
-  xy: 832, 704
+  xy: 512, 256
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 hulls/truck
   rotate: false
-  xy: 640, 512
+  xy: 384, 128
   size: 128, 128
   orig: 128, 128
   offset: 0, 0

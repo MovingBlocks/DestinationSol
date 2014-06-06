@@ -1,11 +1,8 @@
-set hull lights
 draw ability effects + teleport blip
 draw skull areas
 
 balance:
-  make late ships smaller
-  dST bigger
-  give more life to late ships
+  give more life to late ships, shields stronger, armor
 
 draw trees on frozen -- J N
 recolor guns
