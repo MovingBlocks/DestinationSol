@@ -29,7 +29,7 @@
 
     gunLength: 0.14,
     texName: plasmaGun,
-    displayName: "Cheap Plasma Gun",
+    displayName: "Pirate Plasma Gun",
     lightOnShot: true,
     descBase0: "",
 
@@ -50,7 +50,7 @@
 
     gunLength: 0.14,
     texName: blaster,
-    displayName: "Blaster Gun",
+    displayName: "Blaster",
     lightOnShot: true,
 
     shootSound: "guns/blaster/shoot",
@@ -219,7 +219,7 @@
 
     gunLength: 0.22,
     texName: fixedPlasmaGun,
-    displayName: "Plasma Gun",
+    displayName: "Heavy Plasma Gun",
     lightOnShot: true,
 
     shootSound: "guns/plasmaGun/shoot",
