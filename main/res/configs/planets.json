@@ -88,7 +88,7 @@
     rowCount: 3,
     smoothLandscape: true,
     sky: {
-      dawnColor: "hsb 200 50 100",
+      dawnColor: "hsb 130 50 100",
       dayColor: "hsb 200 40 100",
     },
     deco: {
@@ -175,7 +175,7 @@
     decoTexs: "deco/frozen",
     cloudTexs: "skies/cloud",
     sky: {
-      dawnColor: "hsb 125 50 100",
+      dawnColor: "hsb 50 50 100",
       dayColor: "hsb 125 40 100",
     },
     deco: {

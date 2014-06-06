@@ -1,8 +1,4 @@
 
-sky colors
-ship & gun names
-
-
 
 draw trees on frozen -- J N
 recolor guns

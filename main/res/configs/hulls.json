@@ -26,7 +26,7 @@
     g1Pos: "0.43 0.49",
     e1Pos: "0.01 0.5",
     e2Pos: "0.01 0.5",
-    displayName: "Pirate Small",
+    displayName: "Mosquito",
     engine: pirate,
   },
 
@@ -47,7 +47,7 @@
     g1Pos: "0.45 0.5",
     e1Pos: "0.14 0.44",
     e2Pos: "0.14 0.57",
-    displayName: "Small Guardian",
+    displayName: "Guardian",
     engine: imperial,
   },
 
@@ -132,7 +132,7 @@
     g1UnderShip: true,
     e1Pos: "0.15 0.52",
     e2Pos: "0.15 0.62",
-    displayName: "Orbiter",
+    displayName: "Fighter",
     engine: imperial,
   },
 
@@ -238,7 +238,7 @@
     g2Pos: "0.38 0.48",
     e1Pos: "0.03 0.42",
     e2Pos: "0.04 0.59",
-    displayName: "Pirate Medium lol",
+    displayName: "Wasp",
     engine: pirate,
   },
 
@@ -375,7 +375,7 @@
     g2Pos: "0.54 0.74",
     e1Pos: "0.11 0.43",
     e2Pos: "0.11 0.57",
-    displayName: "vanguard",
+    displayName: "Vanguard",
     engine: imperial,
   },
 
