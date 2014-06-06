@@ -54,6 +54,11 @@ public class Teleport implements ShipAbility {
     return myConfig.cc;
   }
 
+  @Override
+  public float getRadius() {
+    return MAX_RADIUS;
+  }
+
   public void maybeTeleport(SolGame game, SolShip owner) {
     if (!myShouldTeleport) return;
 

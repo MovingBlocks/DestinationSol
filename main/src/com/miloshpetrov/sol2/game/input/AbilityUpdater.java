@@ -25,7 +25,7 @@ public class AbilityUpdater {
     if (ex != null) {
       if (ship.getItemContainer().count(ex) <= myChargesToKeep) return;
     }
-    if (KnockBack.MAX_RADIUS < nearestEnemy.getPos().dst(ship.getPos())) return;
+    if (ability.getRadius() < nearestEnemy.getPos().dst(ship.getPos())) return;
     myAbility = true;
   }
 

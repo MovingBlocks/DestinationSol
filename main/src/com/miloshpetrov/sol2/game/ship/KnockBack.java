@@ -10,7 +10,7 @@ import com.miloshpetrov.sol2.game.item.SolItem;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
 
 public class KnockBack implements ShipAbility {
-  public static final int MAX_RADIUS = 4;
+  public static final int MAX_RADIUS = 8;
   private final Config myConfig;
 
   public KnockBack(Config config) {
@@ -25,6 +25,11 @@ public class KnockBack implements ShipAbility {
   @Override
   public AbilityCommonConfig getCommonConfig() {
     return myConfig.cc;
+  }
+
+  @Override
+  public float getRadius() {
+    return MAX_RADIUS;
   }
 
   @Override

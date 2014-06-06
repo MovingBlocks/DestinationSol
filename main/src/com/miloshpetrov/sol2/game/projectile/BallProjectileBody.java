@@ -81,6 +81,7 @@ public class BallProjectileBody implements ProjectileBody {
   public void changeAngle(float diff) {
     myAngle += diff;
     myBody.setTransform(myPos, myAngle * SolMath.degRad);
+    myBody.setAngularVelocity(0);
   }
 
   @Override

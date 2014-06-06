@@ -21,13 +21,13 @@
         hull: minerTurret,
         items: "missilePad a2:.6 s2:.6",
 		money: 20,
-        density: 0.01,
+        density: 0.005,
       },
       {
         hull: minerSmall,
         items: "rocketLauncher|missilePad rocketLauncher|missilePad|nailGun:.3 a2|a3:.8 s2|s3:.8",
 		money: 20,
-        density: 0.01,
+        density: 0.005,
       },
     ],
     bosses: [
