@@ -43,8 +43,8 @@ public class UnShield implements ShipAbility {
       float perc = KnockBack.getPerc(dst, MAX_RADIUS);
       if (perc <= 0) continue;
       float amount = perc * myConfig.amount;
-      float newLife = shieldLife < amount ? 0 : shieldLife - amount;
-      shield.setLife(newLife);
+      if (shieldLife < amount) amount = shieldLife;
+      oShip.receiveDmg(amount, game, oPos, DmgType.ENERGY);
     }
     ParticleSrc src = new ParticleSrc(myConfig.cc.effect, MAX_RADIUS, DraLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
     game.getPartMan().finish(game, src, ownerPos);

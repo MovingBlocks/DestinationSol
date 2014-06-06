@@ -158,7 +158,7 @@ public class TutMan {
     s("Here's a couple of hints... " + shootKey2, shootCtrl);
     s("Enemies are orange icons, allies are blue", shootCtrl);
     s("Avoid enemies with skull icon", shootCtrl);
-    s("Find or buy shields, armor, weapons; equip them", shootCtrl);
+    s("Find or buy shields, armor, guns; equip them", shootCtrl);
     s("To repair, have repair kits and just stay idle", shootCtrl);
     s("Buy new ships at stations", shootCtrl);
     s("Use Slo Mo charges by pressing SHIFT", shootCtrl);

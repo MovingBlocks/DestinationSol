@@ -46,11 +46,15 @@ public class MainScreen implements SolUiScreen {
   public final SolUiControl talkCtrl;
   private final SolUiControl myPauseCtrl;
   private final Color myCompassTint;
-  private final TextPlace myRepairsText;
-  private final TextPlace myG1AmmoText;
-  private final TextPlace myG2AmmoText;
-  private final TextPlace myChargesText;
-  private final TextPlace myMoneyText;
+  private final TextPlace myLifeTp;
+  private final TextPlace myRepairsExcessTp;
+  private final TextPlace myShieldLifeTp;
+  private final TextPlace myG1AmmoTp;
+  private final TextPlace myG1AmmoExcessTp;
+  private final TextPlace myG2AmmoTp;
+  private final TextPlace myG2AmmoExcessTp;
+  private final TextPlace myChargesExcessTp;
+  private final TextPlace myMoneyExcessTp;
 
 
   public MainScreen(float r, RightPaneLayout rightPaneLayout, SolCmp cmp) {
@@ -92,11 +96,16 @@ public class MainScreen implements SolUiScreen {
     myWaitTex = texMan.getTex(TexMan.ICONS_DIR + "wait", null);
     myCompassTex = texMan.getTex("ui/compass", null);
     myCompassTint = Col.col(1, 0);
-    myRepairsText = new TextPlace();
-    myG1AmmoText = new TextPlace();
-    myG2AmmoText = new TextPlace();
-    myChargesText = new TextPlace();
-    myMoneyText = new TextPlace();
+
+    myLifeTp = new TextPlace(Col.W50);
+    myRepairsExcessTp = new TextPlace(Col.W);
+    myShieldLifeTp = new TextPlace(Col.W50);
+    myG1AmmoTp = new TextPlace(Col.W50);
+    myG1AmmoExcessTp = new TextPlace(Col.W);
+    myG2AmmoTp = new TextPlace(Col.W50);
+    myG2AmmoExcessTp = new TextPlace(Col.W);
+    myChargesExcessTp = new TextPlace(Col.W);
+    myMoneyExcessTp = new TextPlace(Col.W);
   }
 
   public void maybeDrawHeight(UiDrawer drawer, SolCmp cmp) {
@@ -219,7 +228,7 @@ public class MainScreen implements SolUiScreen {
     }
   }
 
-  private boolean drawGunStat(UiDrawer uiDrawer, TexMan texMan, SolShip hero, boolean secondary, float col0, float col1,
+  private boolean drawGunStat(UiDrawer uiDrawer, SolShip hero, boolean secondary, float col0, float col1,
     float col2, float y)
   {
     GunItem g = hero.getHull().getGun(secondary);
@@ -227,16 +236,21 @@ public class MainScreen implements SolUiScreen {
     TextureAtlas.AtlasRegion tex = g.config.icon;
 
     uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, col0, y, 0, Col.W);
-    if (g.reloadAwait <= 0) {
-      int maxAmmo = g.config.clipConf.size;
-      float ammoPerc = g.ammo * 1f / maxAmmo;
-      drawBar(uiDrawer, texMan, col1, y, ammoPerc);
+    float curr;
+    float max;
+    if (g.reloadAwait > 0) {
+      max = g.config.reloadTime;
+      curr = max - g.reloadAwait;
     } else {
-      drawWait(uiDrawer, col1, y);
+      curr = g.ammo;
+      max = g.config.clipConf.size;
     }
+    TextPlace ammoTp = g.reloadAwait > 0 ? null : secondary ? myG2AmmoTp : myG1AmmoTp;
+    drawBar(uiDrawer, col1, y, curr, max, ammoTp);
+    if (g.reloadAwait > 0) drawWait(uiDrawer, col1, y);
     if (!g.config.clipConf.infinite) {
       int clipCount = hero.getItemContainer().count(g.config.clipConf.example);
-      drawIcons(uiDrawer, col2, y, clipCount, g.config.clipConf.icon, secondary ? myG2AmmoText : myG1AmmoText);
+      drawIcons(uiDrawer, col2, y, clipCount, g.config.clipConf.icon, secondary ? myG2AmmoExcessTp : myG1AmmoExcessTp);
     } else {
       uiDrawer.draw(myInfinityTex, ICON_SZ, ICON_SZ, 0, 0, col2, y, 0, Col.W);
     }
@@ -247,9 +261,14 @@ public class MainScreen implements SolUiScreen {
     uiDrawer.draw(myWaitTex, ICON_SZ, ICON_SZ, ICON_SZ/2, ICON_SZ/2, x + BAR_SZ/2, y + ICON_SZ/2, 0, Col.W);
   }
 
-  private void drawBar(UiDrawer uiDrawer, TexMan texMan, float x, float y, float perc) {
+  private void drawBar(UiDrawer uiDrawer, float x, float y, float curr, float max, TextPlace tp) {
+    float perc = curr / max;
     uiDrawer.draw(uiDrawer.whiteTex, BAR_SZ, ICON_SZ, 0, 0, x, y, 0, Col.UI_DARK);
     uiDrawer.draw(uiDrawer.whiteTex, BAR_SZ * perc, ICON_SZ, 0, 0, x, y, 0, Col.UI_LIGHT);
+    if (tp != null && max > 1 && curr > 0) {
+      tp.text = (int) curr + "/" + (int) max;
+      tp.pos.set(x + BAR_SZ/2, y + ICON_SZ/2);
+    }
   }
 
   private void drawIcons(UiDrawer uiDrawer, float x, float y, int count, TextureAtlas.AtlasRegion tex,
@@ -267,7 +286,7 @@ public class MainScreen implements SolUiScreen {
 
   private void updateTextPlace(float x, float y, String text, TextPlace textPlace) {
     textPlace.text = text;
-    textPlace.pos.set(x, y + .25f * ICON_SZ);
+    textPlace.pos.set(x + ICON_SZ/2, y + ICON_SZ/2);
   }
 
   @Override
@@ -286,11 +305,15 @@ public class MainScreen implements SolUiScreen {
 
   @Override
   public void drawImgs(UiDrawer uiDrawer, SolCmp cmp) {
-    myRepairsText.text = null;
-    myG1AmmoText.text = null;
-    myG2AmmoText.text = null;
-    myChargesText.text = null;
-    myMoneyText.text = null;
+    myLifeTp.text = null;
+    myRepairsExcessTp.text = null;
+    myShieldLifeTp.text = null;
+    myG1AmmoTp.text = null;
+    myG1AmmoExcessTp.text = null;
+    myG2AmmoTp.text = null;
+    myG2AmmoExcessTp.text = null;
+    myChargesExcessTp.text = null;
+    myMoneyExcessTp.text = null;
 
     maybeDrawHeight(uiDrawer, cmp);
     myBorderDrawer.draw(uiDrawer, cmp);
@@ -298,8 +321,6 @@ public class MainScreen implements SolUiScreen {
     SolGame game = cmp.getGame();
     SolShip hero = game.getHero();
     if (hero != null) {
-      TexMan texMan = cmp.getTexMan();
-
       float row = BorderDrawer.TISHCH_SZ + V_PAD;
       float col0 = BorderDrawer.TISHCH_SZ + H_PAD;
       float col1 = col0 + ICON_SZ + H_PAD;
@@ -308,22 +329,20 @@ public class MainScreen implements SolUiScreen {
       Shield shield = hero.getShield();
       if (shield != null) {
         uiDrawer.draw(shield.getIcon(game), ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
-        float shieldPerc = shield.getLife() / shield.getMaxLife();
-        drawBar(uiDrawer, texMan, col1, row, shieldPerc);
+        drawBar(uiDrawer, col1, row, shield.getLife(), shield.getMaxLife(), myShieldLifeTp);
         row += ICON_SZ + V_PAD;
       }
 
       uiDrawer.draw(myLifeTex, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
-      float lifePerc = hero.getLife() / hero.getHull().config.maxLife;
-      drawBar(uiDrawer, texMan, col1, row, lifePerc);
+      drawBar(uiDrawer, col1, row, hero.getLife(), hero.getHull().config.maxLife, myLifeTp);
       int repairKitCount = hero.getItemContainer().count(game.getItemMan().getRepairExample());
       ItemMan itemMan = game.getItemMan();
-      drawIcons(uiDrawer, col2, row, repairKitCount, itemMan.repairIcon, myRepairsText);
+      drawIcons(uiDrawer, col2, row, repairKitCount, itemMan.repairIcon, myRepairsExcessTp);
 
       row += ICON_SZ + V_PAD;
-      boolean consumed = drawGunStat(uiDrawer, texMan, hero, false, col0, col1, col2, row);
+      boolean consumed = drawGunStat(uiDrawer, hero, false, col0, col1, col2, row);
       if (consumed) row += ICON_SZ + V_PAD;
-      consumed = drawGunStat(uiDrawer, texMan, hero, true, col0, col1, col2, row);
+      consumed = drawGunStat(uiDrawer, hero, true, col0, col1, col2, row);
       if (consumed) row += ICON_SZ + V_PAD;
 
       ShipAbility ability = hero.getAbility();
@@ -333,12 +352,13 @@ public class MainScreen implements SolUiScreen {
         TextureAtlas.AtlasRegion icon = abilityChargeEx.getIcon(game);
         uiDrawer.draw(icon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
         float chargePerc = 1 - SolMath.clamp(hero.getAbilityAwait() / ability.getConfig().getRechargeTime());
-        drawBar(uiDrawer, texMan, col1, row, chargePerc);
-        drawIcons(uiDrawer, col2, row, abilityChargeCount, icon, myChargesText);
+        drawBar(uiDrawer, col1, row, chargePerc, 1, null);
+        if (chargePerc < 1) drawWait(uiDrawer, col1, row);
+        drawIcons(uiDrawer, col2, row, abilityChargeCount, icon, myChargesExcessTp);
         row += ICON_SZ + V_PAD;
       }
       uiDrawer.draw(game.getItemMan().moneyIcon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
-      updateTextPlace(col1, row, (int) hero.getMoney() + "", myMoneyText);
+      updateTextPlace(col1, row, (int) hero.getMoney() + "", myMoneyExcessTp);
     }
 
     myDmgWarnDrawer.draw(uiDrawer);
@@ -348,11 +368,15 @@ public class MainScreen implements SolUiScreen {
 
   @Override
   public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
-    myRepairsText.draw(uiDrawer);
-    myG1AmmoText.draw(uiDrawer);
-    myG2AmmoText.draw(uiDrawer);
-    myChargesText.draw(uiDrawer);
-    myMoneyText.draw(uiDrawer);
+    myLifeTp.draw(uiDrawer);
+    myRepairsExcessTp.draw(uiDrawer);
+    myShieldLifeTp.draw(uiDrawer);
+    myG1AmmoTp.draw(uiDrawer);
+    myG1AmmoExcessTp.draw(uiDrawer);
+    myG2AmmoTp.draw(uiDrawer);
+    myG2AmmoExcessTp.draw(uiDrawer);
+    myChargesExcessTp.draw(uiDrawer);
+    myMoneyExcessTp.draw(uiDrawer);
 
     myDmgWarnDrawer.drawText(uiDrawer);
     mySunWarnDrawer.drawText(uiDrawer);
@@ -396,9 +420,14 @@ public class MainScreen implements SolUiScreen {
   public static class TextPlace {
     public String text;
     public Vector2 pos = new Vector2();
+    public final Color color;
+
+    public TextPlace(Color col) {
+      color = new Color(col);
+    }
 
     public void draw(UiDrawer uiDrawer) {
-      uiDrawer.drawString(text, pos.x, pos.y, FontSize.HUD, false, Col.W); // hack!
+      uiDrawer.drawString(text, pos.x, pos.y, FontSize.HUD, true, color);
     }
   }
 
