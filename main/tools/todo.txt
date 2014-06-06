@@ -1,6 +1,3 @@
-draw pirate space station hull shades
-draw electricity particle
-draw guns
 set gun sizes + rel sizes
 draw techiePlanetTurret
 set hull lights
