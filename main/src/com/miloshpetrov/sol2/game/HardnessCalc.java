@@ -16,8 +16,8 @@ public class HardnessCalc {
 
   public static final float SHIELD_MUL = 1.2f;
 
-  public static float getGunMeanDps(GunConfig gunConfig) {
-    ClipConfig cc = gunConfig.clipConf;
+  public static float getGunMeanDps(GunConfig gc) {
+    ClipConfig cc = gc.clipConf;
     ProjectileConfig pc = cc.projConfig;
 
     float projDmg = pc.dmg;
@@ -33,16 +33,20 @@ public class HardnessCalc {
       projHitChance = (pc.spdLen + pc.acc) / 6;
       if (pc.physSize > 0) projHitChance += pc.physSize;
       projHitChance = SolMath.clamp(projHitChance, .1f, 1);
-      if (gunConfig.fixed) {
+      if (gc.fixed) {
         projHitChance *= .3f;
       }
     }
 
     float shotDmg = projDmg * projHitChance;
-    if (cc.projectilesPerShot > 1) shotDmg *= cc.projectilesPerShot / 2;
 
-    float meanTimeBetween = (gunConfig.timeBetweenShots * cc.size + gunConfig.reloadTime) / cc.size;
-    return shotDmg / meanTimeBetween;
+    int projectilesPerShot = cc.projectilesPerShot;
+    if (gc.timeBetweenShots == 0) projectilesPerShot = cc.size;
+    if (projectilesPerShot > 1) shotDmg *= .6f * projectilesPerShot;
+
+
+    float timeBetweenShots = gc.timeBetweenShots == 0 ? gc.reloadTime : gc.timeBetweenShots;
+    return shotDmg / timeBetweenShots;
   }
 
   private static float getItemCfgDps(ItemConfig ic, boolean fixed) {

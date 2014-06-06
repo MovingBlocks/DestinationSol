@@ -19,7 +19,7 @@
 
 
   blast: {
-    dmg: 5,
+    dmg: 4.4,
     dmgType: energy,
     spdLen: 5,
 
@@ -38,7 +38,7 @@
 
 
   bomb: {
-    dmg: 16,
+    dmg: 13,
     dmgType: explosion,
     spdLen: 0,
     physSize: 0.1,
@@ -84,7 +84,7 @@
 
 
   shellBullet: {
-    dmg: 6.5,
+    dmg: 3.5,
     spdLen: 8,
     dmgType: bullet,
 
@@ -102,7 +102,7 @@
 
 
   missile: {
-    dmg: 8,
+    dmg: 9,
     dmgType: explosion,
     spdLen: 1,
     physSize: 0.1,
@@ -146,7 +146,7 @@
 
 
   mine: {
-    dmg: 40,
+    dmg: 25,
     dmgType: explosion,
     spdLen: 0,
     physSize: 0.1,
@@ -174,7 +174,7 @@
 
 
   slug: {
-    dmg: 50,
+    dmg: 45,
     dmgType: bullet,
     spdLen: 4,
 
@@ -204,7 +204,7 @@
 
 
   rocket: {
-    dmg: 22.5,
+    dmg: 16,
     dmgType: explosion,
     spdLen: 1,
     physSize: 0.1,
@@ -247,7 +247,7 @@
 
 
   rail: {
-    dmg: 70,
+    dmg: 46,
     dmgType: bullet,
     spdLen: 12,
     physSize: 0.15,
@@ -308,7 +308,7 @@
 
 
   wave: {
-    dmg: 21,
+    dmg: 17,
     dmgType: energy,
     physSize: 1.2,
     massless: true,

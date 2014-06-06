@@ -130,7 +130,7 @@ public class ItemMan {
     Collections.sort(l, comp);
     StringBuilder sb = new StringBuilder();
     for (GunConfig c : l) {
-      sb.append(c.tex.name).append(": ").append(c.meanDps).append("\n");
+      sb.append(c.tex.name).append(": ").append(SolMath.nice(c.meanDps)).append("\n");
     }
     String msg = sb.toString();
     DebugCollector.warn(msg);
