@@ -1,4 +1,4 @@
-set gun sizes + rel sizes
+set gun sizes
 draw techiePlanetTurret
 set hull lights
 draw ability effects + teleport blip
