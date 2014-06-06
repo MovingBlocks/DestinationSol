@@ -1,4 +1,23 @@
 {
+  bombGun: {
+    maxAngleVar: 0,
+    angleVarDamp: 0,
+    angleVarPerShot: 0,
+    timeBetweenShots: 0.8,
+    reloadTime: 2.5,
+    price: 40,
+    clipName: bombClip,
+
+    gunLength: 0.1,
+    texName: bombGun,
+    displayName: "Bomber",
+
+    shootSound: "guns/bombGun/shoot",
+    reloadSound: "guns/rocketLauncher/reload",
+  },
+
+
+
   plasmaGun: {
     maxAngleVar: 30,
     angleVarDamp: 6,
@@ -16,25 +35,6 @@
 
     shootSound: "guns/plasmaGun/shoot",
     reloadSound: "guns/blaster/reload",
-  },
-
-
-
-  bombGun: {
-    maxAngleVar: 0,
-    angleVarDamp: 0,
-    angleVarPerShot: 0,
-    timeBetweenShots: 0.8,
-    reloadTime: 2.5,
-    price: 40,
-    clipName: bombClip,
-
-    gunLength: 0.2,
-    texName: bombGun,
-    displayName: "Bomber",
-
-    shootSound: "guns/bombGun/shoot",
-    reloadSound: "guns/rocketLauncher/reload",
   },
 
 
@@ -69,9 +69,9 @@
     price: 70,
     clipName: bombClip,
 
-    gunLength: 0.2,
+    gunLength: 0.1,
     texName: fixedBombGun,
-    displayName: "Bomber",
+    displayName: "Heavy Bomber",
 
     shootSound: "guns/bombGun/shoot",
     shootSoundPitch: 0.8,
@@ -89,7 +89,7 @@
     price: 120,
     clipName: bulletClip,
 
-    gunLength: 0.24,
+    gunLength: 0.16,
     texLenPerc: 0.7,
     texName: gun,
     displayName: "Machine Gun",
@@ -111,7 +111,7 @@
     price: 220,
     clipName: bulletClip,
 
-    gunLength: 0.24,
+    gunLength: 0.18,
     texName: fixedGun,
     displayName: "Heavy Machine Gun",
     lightOnShot: true,
@@ -131,7 +131,7 @@
     price: 250,
     clipName: shellClip,
 
-    gunLength: 0.2,
+    gunLength: 0.18,
     texLenPerc: 0.9,
     texName: shotGun,
     displayName: "Pirate Shotgun",
@@ -175,7 +175,7 @@
     price: 300,
     clipName: mineClip,
 
-    gunLength: 0.2,
+    gunLength: 0.1,
     texName: miner,
     displayName: "Miner",
 
@@ -196,7 +196,7 @@
     price: 350,
     clipName: rocketClip,
 
-    gunLength: 0.2,
+    gunLength: 0.22,
     texLenPerc: 0.87,
     texName: rocketLauncher,
     displayName: "Rocket Launcher",
@@ -217,7 +217,7 @@
     price: 450,
     clipName: plasmaClip,
 
-    gunLength: 0.12,
+    gunLength: 0.22,
     texName: fixedPlasmaGun,
     displayName: "Plasma Gun",
     lightOnShot: true,
@@ -260,7 +260,7 @@
     price: 500,
     clipName: blasterClip,
 
-    gunLength: 0.16,
+    gunLength: 0.24,
     texName: fixedBlaster,
     displayName: "Heavy Blaster",
     lightOnShot: true,
@@ -282,7 +282,7 @@
     price: 500,
     clipName: shellClip,
 
-    gunLength: 0.2,
+    gunLength: 0.24,
     texName: fixedShotGun,
     displayName: "Imperial Shotgun",
     lightOnShot: true,
@@ -346,7 +346,7 @@
     price: 700,
     clipName: nailClip,
 
-    gunLength: 0.12,
+    gunLength: 0.26,
     texName: nailGun,
     displayName: "Nail Gun",
 
@@ -365,7 +365,7 @@
     price: 750,
     clipName: emClip,
 
-    gunLength: 0.12,
+    gunLength: 0.2,
     texLenPerc: 0.85,
     texName: emGun,
     displayName: "EM Gun",
@@ -387,7 +387,7 @@
     price: 850,
     clipName: emClip,
 
-    gunLength: 0.12,
+    gunLength: 0.24,
     texLenPerc: 0.85,
     texName: fixedEmGun,
     displayName: "Heavy EM Gun",
@@ -410,7 +410,7 @@
     price: 900,
     clipName: slugClip,
 
-    gunLength: 0.24,
+    gunLength: 0.26,
     texName: fixedCannon,
     displayName: "Heavy Cannon",
     lightOnShot: true,
@@ -431,7 +431,7 @@
     price: 1000,
     clipName: waveClip,
 
-    gunLength: 0.12,
+    gunLength: 0.26,
     texLenPerc: 0.87,
     texName: waveGun,
     displayName: "Wave Gun",
