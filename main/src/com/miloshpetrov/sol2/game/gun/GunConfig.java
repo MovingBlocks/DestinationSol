@@ -66,7 +66,7 @@ public class GunConfig {
     this.itemType = itemType;
     this.texLenPerc = texLenPerc;
 
-    dps = clipConf.projConfig.dmg * clipConf.projectilesPerShot / timeBetweenShots;
+    dps = HardnessCalc.getShotDps(this, clipConf.projConfig.dmg);
     meanDps = HardnessCalc.getGunMeanDps(this);
     this.desc = makeDesc();
     example = new GunItem(this, 0, 0);

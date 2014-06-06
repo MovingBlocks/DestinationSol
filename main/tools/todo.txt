@@ -1,8 +1,11 @@
-draw techiePlanetTurret
 set hull lights
 draw ability effects + teleport blip
 draw skull areas
 
+balance:
+  make late ships smaller
+  dST bigger
+  give more life to late ships
 
 draw trees on frozen -- J N
 recolor guns

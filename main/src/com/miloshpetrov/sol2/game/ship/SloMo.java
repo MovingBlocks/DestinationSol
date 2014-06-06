@@ -9,7 +9,6 @@ import com.miloshpetrov.sol2.game.dra.DraLevel;
 import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.item.SolItem;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
-import com.miloshpetrov.sol2.game.sound.SoundMan;
 
 public class SloMo implements ShipAbility {
   private static final float SLO_MO_CHG_SPD = .03f;
@@ -85,7 +84,7 @@ public class SloMo implements ShipAbility {
       sb.append("Time slow down to ").append((int) (factor * 100)).append("%\n");
     }
 
-    public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig cc, SoundMan soundMan) {
+    public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig cc) {
       float factor = abNode.getFloat("factor");
       float rechargeTime = abNode.getFloat("rechargeTime");
       SolItem chargeExample = itemMan.getExample("sloMoCharge");

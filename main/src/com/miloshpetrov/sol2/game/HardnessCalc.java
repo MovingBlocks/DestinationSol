@@ -40,6 +40,11 @@ public class HardnessCalc {
 
     float shotDmg = projDmg * projHitChance;
 
+    return getShotDps(gc, shotDmg);
+  }
+
+  public static float getShotDps(GunConfig gc, float shotDmg) {
+    ClipConfig cc = gc.clipConf;
     int projectilesPerShot = cc.projectilesPerShot;
     if (gc.timeBetweenShots == 0) projectilesPerShot = cc.size;
     if (projectilesPerShot > 1) shotDmg *= .6f * projectilesPerShot;

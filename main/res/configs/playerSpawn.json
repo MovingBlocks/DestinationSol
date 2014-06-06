@@ -6,7 +6,7 @@
       money: 20,
     },
     godModeShip: {
-      hull: desertSmall,
+      hull: imperialBig,
       items: "a4 s4",
       money: 10000,
     },
