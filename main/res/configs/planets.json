@@ -48,7 +48,7 @@
     groundEnemies: [
       {
         hull: piratePlanetTurret,
-        items: "plasmaGun|blaster s1|s2:.36",
+        items: "plasmaGun|blaster s1:.36",
 		money: 40,
         density: 0.45,
       },

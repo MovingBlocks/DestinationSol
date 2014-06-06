@@ -736,5 +736,6 @@ main/src/com/miloshpetrov/sol2/ui/UiDrawer.java -text
 main/tools/betterHardness.txt -text
 main/tools/fractions.txt -text
 main/tools/guns.txt -text
+main/tools/levels.txt -text
 main/tools/sounds.txt -text
 main/tools/todo.txt -text

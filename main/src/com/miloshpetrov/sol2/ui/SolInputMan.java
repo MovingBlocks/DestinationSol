@@ -38,6 +38,7 @@ public class SolInputMan {
   private boolean myMouseOnUi;
   private float myWarnPerc;
   private boolean myWarnPercGrows;
+  private Boolean myScrolledUp;
 
   public SolInputMan(TexMan texMan, float r) {
     myPtrs = new Ptr[POINTER_COUNT];
@@ -165,6 +166,7 @@ public class SolInputMan {
     updateCursor(cmp);
     addRemoveScreens();
     updateWarnPerc();
+    myScrolledUp = null;
   }
 
   private void updateWarnPerc() {
@@ -289,6 +291,14 @@ public class SolInputMan {
 
   public SolUiScreen getTopScreen() {
     return myScreens.isEmpty() ? null : myScreens.get(0);
+  }
+
+  public void scrolled(boolean up) {
+    myScrolledUp = up;
+  }
+
+  public Boolean getScrolledUp() {
+    return myScrolledUp;
   }
 
   public static class Ptr {

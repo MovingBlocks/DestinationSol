@@ -24,6 +24,7 @@ public class TutMan {
     String shootKey2;
     SolUiControl upCtrl;
     SolUiControl leftCtrl;
+    SolUiControl abilityCtrl;
     if (mouseCtrl) {
       ShipMixedControl mixedControl = (ShipMixedControl) main.shipControl;
       shootCtrl = mixedControl.shootCtrl;
@@ -31,11 +32,13 @@ public class TutMan {
       shootKey2 = "(Click LEFT mouse button)";
       upCtrl = mixedControl.upCtrl;
       leftCtrl = null;
+      abilityCtrl = mixedControl.abilityCtrl;
     } else {
       ShipKbControl kbControl = (ShipKbControl) main.shipControl;
       shootCtrl = kbControl.shootCtrl;
       upCtrl = kbControl.upCtrl;
       leftCtrl = kbControl.leftCtrl;
+      abilityCtrl = kbControl.abilityCtrl;
       if (mobile) {
         shootKey = "(PRIMARY button)";
         shootKey2 = "(Press PRIMARY button)";
@@ -62,7 +65,7 @@ public class TutMan {
     }
 
     if (mouseCtrl) {
-      s("Zoom in the map (W key)", screens.mapScreen.zoomInCtrl);
+      s("Zoom in the map (mouse wheel UP)", screens.mapScreen.zoomInCtrl);
     } else if (mobile) {
       s("Zoom in the map", screens.mapScreen.zoomInCtrl);
     } else {
@@ -125,7 +128,7 @@ public class TutMan {
       s("Move forward (UP key). There's no stop!", upCtrl);
     }
 
-    if (mouseCtrl || mobile) {
+    if (mobile) {
       s("Fly closer to the station and talk with it", main.talkCtrl, true);
     } else {
       s("Fly closer to the station and talk with it (T key)", main.talkCtrl, true);
@@ -153,6 +156,14 @@ public class TutMan {
       s("Close the Talk screen", screens.talkScreen.closeCtrl, true);
     } else {
       s("Close the Talk screen (ESCAPE key)", screens.talkScreen.closeCtrl, true);
+    }
+
+    if (mouseCtrl) {
+      s("Use the ability of your ship (MIDDLE mouse button or SHIFT key)", abilityCtrl);
+    } else if (mobile) {
+      s("Use the ability of your ship (ABILITY button)", abilityCtrl);
+    } else {
+      s("Use the ability of your ship (SHIFT key)", abilityCtrl);
     }
 
     s("Here's a couple of hints... " + shootKey2, shootCtrl);

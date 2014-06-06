@@ -45,7 +45,7 @@ public class ShipKbControl implements ShipUiControl {
     shoot2Ctrl.setDisplayName("Secondary");
     controls.add(shoot2Ctrl);
     abilityCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN0, rowN1) : null, false, Input.Keys.SHIFT_LEFT);
-    abilityCtrl.setDisplayName("Special");
+    abilityCtrl.setDisplayName("Ability");
     controls.add(abilityCtrl);
   }
 

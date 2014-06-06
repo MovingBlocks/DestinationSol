@@ -1,0 +1,3 @@
+after 1st planet:
+  pirateSmall|pirateOrbiter
+  gun|shotGun

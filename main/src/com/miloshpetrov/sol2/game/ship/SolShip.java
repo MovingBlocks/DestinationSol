@@ -286,7 +286,7 @@ public class SolShip implements SolObj {
     }
     if (myPilot.isPlayer()) {
       float toRespawn = SolGame.RESPAWN_MONEY_PERC * myMoney;
-      game.setRespawnMoney(toRespawn);
+      game.onHeroDeath();
       myMoney -= toRespawn;
     }
     float thrMoney = myMoney * SolMath.rnd(.2f, .8f);

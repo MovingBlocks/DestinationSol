@@ -41,7 +41,7 @@ public class ShipMixedControl implements ShipUiControl {
     controls.add(shootCtrl);
     shoot2Ctrl = new SolUiControl(null, false, SHOOT_2_HACK);
     controls.add(shoot2Ctrl);
-    abilityCtrl = new SolUiControl(null, false, ABILITY_HACK);
+    abilityCtrl = new SolUiControl(null, false, ABILITY_HACK, Input.Keys.SHIFT_LEFT);
     controls.add(abilityCtrl);
   }
 
