@@ -90,6 +90,7 @@
     clipName: bulletClip,
 
     gunLength: 0.24,
+    texLenPerc: 0.7,
     texName: gun,
     displayName: "Machine Gun",
     lightOnShot: true,
@@ -131,6 +132,7 @@
     clipName: shellClip,
 
     gunLength: 0.2,
+    texLenPerc: 0.9,
     texName: shotGun,
     displayName: "Pirate Shotgun",
     lightOnShot: true,
@@ -152,6 +154,7 @@
     clipName: missileClip,
 
     gunLength: 0.2,
+    texLenPerc: 0.87,
     texName: missileLauncher,
     displayName: "Missile Launcher",
 
@@ -194,6 +197,7 @@
     clipName: rocketClip,
 
     gunLength: 0.2,
+    texLenPerc: 0.87,
     texName: rocketLauncher,
     displayName: "Rocket Launcher",
 
@@ -300,6 +304,7 @@
     clipName: slugClip,
 
     gunLength: 0.24,
+    texLenPerc: 0.85,
     texName: cannon,
     displayName: "Cannon",
     lightOnShot: true,
@@ -344,7 +349,6 @@
     gunLength: 0.12,
     texName: nailGun,
     displayName: "Nail Gun",
-    lightOnShot: true,
 
     shootSound: "guns/nailGun/shoot",
     reloadSound: "guns/fixedGun/reload",
@@ -362,6 +366,7 @@
     clipName: emClip,
 
     gunLength: 0.12,
+    texLenPerc: 0.85,
     texName: emGun,
     displayName: "EM Gun",
     lightOnShot: true,
@@ -383,6 +388,7 @@
     clipName: emClip,
 
     gunLength: 0.12,
+    texLenPerc: 0.85,
     texName: fixedEmGun,
     displayName: "Heavy EM Gun",
     lightOnShot: true,
@@ -426,6 +432,7 @@
     clipName: waveClip,
 
     gunLength: 0.12,
+    texLenPerc: 0.87,
     texName: waveGun,
     displayName: "Wave Gun",
     lightOnShot: true,
