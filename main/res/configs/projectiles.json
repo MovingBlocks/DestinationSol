@@ -66,7 +66,7 @@
 
 
   bullet: {
-    dmg: 1.7,
+    dmg: 1.6,
     spdLen: 8,
     dmgType: bullet,
 
@@ -84,7 +84,7 @@
 
 
   shellBullet: {
-    dmg: 3.5,
+    dmg: 2.9,
     spdLen: 8,
     dmgType: bullet,
 
@@ -146,7 +146,7 @@
 
 
   mine: {
-    dmg: 25,
+    dmg: 20,
     dmgType: explosion,
     spdLen: 0,
     physSize: 0.1,
@@ -174,7 +174,7 @@
 
 
   slug: {
-    dmg: 45,
+    dmg: 33,
     dmgType: bullet,
     spdLen: 4,
 
@@ -247,13 +247,14 @@
 
 
   rail: {
-    dmg: 46,
+    dmg: 37,
     dmgType: bullet,
     spdLen: 12,
     physSize: 0.15,
 
     texName: bullet,
     texSz: 0.03,
+    stretch: true,
     trailEffect: {
       effectFile: railTrail,
       tex: techieTrail,
@@ -270,7 +271,7 @@
 
 
   nail: {
-    dmg: 22,
+    dmg: 14,
     dmgType: bullet,
     spdLen: 6,
     physSize: 0.15,
@@ -308,7 +309,7 @@
 
 
   wave: {
-    dmg: 17,
+    dmg: 13,
     dmgType: energy,
     physSize: 1.2,
     massless: true,

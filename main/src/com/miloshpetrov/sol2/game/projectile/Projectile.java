@@ -18,7 +18,8 @@ import com.miloshpetrov.sol2.game.sound.SolSound;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Projectile implements SolObj {
+public class
+  Projectile implements SolObj {
 
   private static final float MIN_ANGLE_TO_GUIDE = 2f;
   private final ArrayList<Dra> myDras;
@@ -292,7 +293,7 @@ public class Projectile implements SolObj {
       if (h < minH) h = minH;
       Vector2 pos = myProjectile.getPos();
       float w = myProjectile.getSpd().len() * game.getTimeStep();
-      if (w < h) w = h;
+      if (w < 4 * h) w = 4 * h;
       drawer.draw(myTex, w, h, w, h / 2, pos.x, pos.y, SolMath.angle(myProjectile.getSpd()), Col.LG);
     }
 
