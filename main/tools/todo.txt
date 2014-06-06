@@ -1,14 +1,12 @@
-draw big skull
 
 
 draw trees on frozen -- J N
 recolor guns
-draw new title
 
 
 replace sounds
-polishing
-hardness? armor bonus + brakes
+hardness? armor bonus
+brakes?
 
 
 ===================== REST =======================================================================
