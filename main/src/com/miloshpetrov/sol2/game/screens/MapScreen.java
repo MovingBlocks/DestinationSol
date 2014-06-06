@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapScreen implements SolUiScreen {
+  public static final int ZOOM_IN_KEY = Input.Keys.UP;
+  public static final int ZOOM_OUT_KEY = Input.Keys.DOWN;
   private final List<SolUiControl> myControls;
   public final SolUiControl closeCtrl;
   public final SolUiControl zoomInCtrl;
@@ -21,10 +23,10 @@ public class MapScreen implements SolUiScreen {
     closeCtrl = new SolUiControl(rightPaneLayout.buttonRect(1), true, Input.Keys.TAB, Input.Keys.ESCAPE);
     closeCtrl.setDisplayName("Close");
     myControls.add(closeCtrl);
-    zoomInCtrl = new SolUiControl(rightPaneLayout.buttonRect(2), true, Input.Keys.UP);
+    zoomInCtrl = new SolUiControl(rightPaneLayout.buttonRect(2), true, ZOOM_IN_KEY);
     zoomInCtrl.setDisplayName("Zoom In");
     myControls.add(zoomInCtrl);
-    zoomOutCtrl = new SolUiControl(rightPaneLayout.buttonRect(3), true, Input.Keys.DOWN);
+    zoomOutCtrl = new SolUiControl(rightPaneLayout.buttonRect(3), true, ZOOM_OUT_KEY);
     zoomOutCtrl.setDisplayName("Zoom Out");
     myControls.add(zoomOutCtrl);
   }
@@ -44,16 +46,23 @@ public class MapScreen implements SolUiScreen {
     if (justClosed) {
       im.setScreen(cmp, g.getScreens().mainScreen);
     }
-    Boolean scrolledUp = im.getScrolledUp();
     boolean zoomIn = zoomInCtrl.isJustOff();
-    if (zoomIn || zoomOutCtrl.isJustOff() || scrolledUp != null) {
-      mapDrawer.changeZoom(zoomIn || !scrolledUp);
+    if (zoomIn || zoomOutCtrl.isJustOff()) {
+      mapDrawer.changeZoom(zoomIn);
     }
     float mapZoom = mapDrawer.getZoom();
     zoomInCtrl.setEnabled(mapZoom != MapDrawer.MIN_ZOOM);
     zoomOutCtrl.setEnabled(mapZoom != MapDrawer.MAX_ZOOM);
     ShipUiControl sc = g.getScreens().mainScreen.shipControl;
     if (sc instanceof ShipMouseControl) sc.update(cmp, true);
+    Boolean scrolledUp = im.getScrolledUp();
+    if (scrolledUp != null) {
+      if (scrolledUp) {
+        zoomOutCtrl.maybeFlashPressed(ZOOM_OUT_KEY);
+      } else {
+        zoomInCtrl.maybeFlashPressed(ZOOM_IN_KEY);
+      }
+    }
   }
 
   @Override

@@ -1,5 +1,3 @@
-check tut
-reward for cleaning the planet
 
 sky colors
 ship & gun names
@@ -29,6 +27,7 @@ ARCHITECTURE
   sound volumes should be kept in one map file?
 
 FEATURES
+  reward for cleaning the planet
   brakes
   ship dps should consider abilities
   "dangerous enemy near" warning
