@@ -172,7 +172,6 @@ public class TutMan {
     s("Find or buy shields, armor, guns; equip them", shootCtrl);
     s("To repair, have repair kits and just stay idle", shootCtrl);
     s("Buy new ships at stations", shootCtrl);
-    s("Use Slo Mo charges by pressing SHIFT", shootCtrl);
     s("Tutorial complete! " + shootKey2, shootCtrl);
   }
 
