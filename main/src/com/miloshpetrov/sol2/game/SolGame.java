@@ -135,7 +135,7 @@ public class SolGame {
     myHero = myShipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, shipConfig.items,
       shipConfig.hull, null, true, money, null).toObj(this);
     ItemContainer ic = myHero.getItemContainer();
-    if (DebugOptions.GOD_MODE) myItemMan.addAllWeapons(ic);
+    if (DebugOptions.GOD_MODE) myItemMan.addAllGuns(ic);
 
     if (myTutMan != null) {
       for (int i = 0; i < 50; i++) {

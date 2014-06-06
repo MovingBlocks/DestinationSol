@@ -144,7 +144,7 @@ public class ItemMan {
     return myRepairExample;
   }
 
-  public void addAllWeapons(ItemContainer ic) {
+  public void addAllGuns(ItemContainer ic) {
     for (SolItem i : myM.values()) {
       if (i instanceof ClipItem && !((ClipItem) i).getConfig().infinite) {
         for (int j = 0; j < 8; j++) {
