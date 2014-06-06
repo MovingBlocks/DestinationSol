@@ -70,6 +70,7 @@ public class SolGame {
   private StarPort.Transcendent myTranscendentHero;
   private float myTimeFactor;
   private float myRespawnMoney;
+  private HullConfig myRespawnHull;
 
   public SolGame(SolCmp cmp, SaveData sd, TexMan texMan, boolean tut, CommonDrawer commonDrawer) {
     myCmp = cmp;
@@ -131,9 +132,9 @@ public class SolGame {
     }
     ShipConfig shipConfig = DebugOptions.GOD_MODE ? myPlayerSpawnConfig.godShipConfig : myPlayerSpawnConfig.shipConfig;
     float money = myRespawnMoney != 0 ? myRespawnMoney : myTutMan != null ? 200 : shipConfig.money;
-    myRespawnMoney = 0;
+    HullConfig hull = myRespawnHull == null ? shipConfig.hull : myRespawnHull;
     myHero = myShipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, shipConfig.items,
-      shipConfig.hull, null, true, money, null).toObj(this);
+      hull, null, true, money, null).toObj(this);
     ItemContainer ic = myHero.getItemContainer();
     if (DebugOptions.GOD_MODE) myItemMan.addAllGuns(ic);
 
@@ -304,7 +305,7 @@ public class SolGame {
 
   public void respawn() {
     if (myHero != null) {
-      myRespawnMoney = RESPAWN_MONEY_PERC * myHero.getMoney();
+      onHeroDeath();
       myObjMan.removeObjDelayed(myHero);
     }
     createPlayer();
@@ -400,10 +401,6 @@ public class SolGame {
     return myTimeFactor;
   }
 
-  public void setRespawnMoney(float money) {
-    myRespawnMoney = money;
-  }
-
   public BeaconHandler getBeaconHandler() {
     return myBeaconHandler;
   }
@@ -414,5 +411,11 @@ public class SolGame {
 
   public TutMan getTutMan() {
     return myTutMan;
+  }
+
+  public void onHeroDeath() {
+    if (myHero == null) return;
+    myRespawnMoney = RESPAWN_MONEY_PERC * myHero.getMoney();
+    myRespawnHull = myHero.getHull().config;
   }
 }

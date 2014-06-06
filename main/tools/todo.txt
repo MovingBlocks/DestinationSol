@@ -1,12 +1,15 @@
+check tut
+reward for cleaning the planet
+
+sky colors
+ship & gun names
+
 
 
 draw trees on frozen -- J N
 recolor guns
-
-
-replace sounds
 hardness? armor bonus
-brakes?
+replace sounds
 
 
 ===================== REST =======================================================================
@@ -26,6 +29,7 @@ ARCHITECTURE
   sound volumes should be kept in one map file?
 
 FEATURES
+  brakes
   ship dps should consider abilities
   "dangerous enemy near" warning
   brakes

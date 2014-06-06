@@ -91,7 +91,7 @@ public class ShipBuilder {
     if (hc.ability != null) {
       SolItem ex = hc.ability.getChargeExample();
       if (ex != null) {
-        int count = (int) (AVG_BATTLE_TIME / hc.ability.getRechargeTime() * SolMath.rnd(.5f, 1)) + SolMath.intRnd(0, 1);
+        int count = (int) (AVG_BATTLE_TIME / hc.ability.getRechargeTime() * SolMath.rnd(.3f, 1)) + SolMath.intRnd(0, 1);
         for (int i = 0; i < count; i++) ic.add(ex.copy());
       }
     }

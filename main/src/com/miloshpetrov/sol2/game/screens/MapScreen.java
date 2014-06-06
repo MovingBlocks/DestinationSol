@@ -21,10 +21,10 @@ public class MapScreen implements SolUiScreen {
     closeCtrl = new SolUiControl(rightPaneLayout.buttonRect(1), true, Input.Keys.TAB, Input.Keys.ESCAPE);
     closeCtrl.setDisplayName("Close");
     myControls.add(closeCtrl);
-    zoomInCtrl = new SolUiControl(rightPaneLayout.buttonRect(2), true, Input.Keys.UP, Input.Keys.W);
+    zoomInCtrl = new SolUiControl(rightPaneLayout.buttonRect(2), true, Input.Keys.UP);
     zoomInCtrl.setDisplayName("Zoom In");
     myControls.add(zoomInCtrl);
-    zoomOutCtrl = new SolUiControl(rightPaneLayout.buttonRect(3), true, Input.Keys.DOWN, Input.Keys.S);
+    zoomOutCtrl = new SolUiControl(rightPaneLayout.buttonRect(3), true, Input.Keys.DOWN);
     zoomOutCtrl.setDisplayName("Zoom Out");
     myControls.add(zoomOutCtrl);
   }
@@ -44,9 +44,10 @@ public class MapScreen implements SolUiScreen {
     if (justClosed) {
       im.setScreen(cmp, g.getScreens().mainScreen);
     }
+    Boolean scrolledUp = im.getScrolledUp();
     boolean zoomIn = zoomInCtrl.isJustOff();
-    if (zoomIn || zoomOutCtrl.isJustOff()) {
-      mapDrawer.changeZoom(zoomIn);
+    if (zoomIn || zoomOutCtrl.isJustOff() || scrolledUp != null) {
+      mapDrawer.changeZoom(zoomIn || !scrolledUp);
     }
     float mapZoom = mapDrawer.getZoom();
     zoomInCtrl.setEnabled(mapZoom != MapDrawer.MIN_ZOOM);

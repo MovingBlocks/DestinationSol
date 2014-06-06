@@ -352,7 +352,7 @@ public class MapDrawer {
 
   private void drawPlanetTile(Tile t, float sz, GameDrawer drawer, Vector2 p, float angle) {
     float szh = .6f * sz;
-    Color col = t.from == SurfDir.UP && t.to == SurfDir.UP ? Col.W : Col.UI_GROUND;
+    Color col = t.from == SurfDir.UP && t.to == SurfDir.UP ? Col.W : Col.UI_OPAQUE;
     if (t.from == SurfDir.FWD || t.from == SurfDir.UP) {
       if (t.from == SurfDir.UP) drawer.draw(myWhiteTex, szh, szh, 0, 0, p.x, p.y, angle - 90, col);
       drawer.draw(myWhiteTex, szh, szh, 0, 0, p.x, p.y, angle, col);

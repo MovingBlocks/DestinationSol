@@ -49,6 +49,7 @@ public class SolInputProcessor implements InputProcessor {
 
   @Override
   public boolean scrolled(int amount) {
+    myInputMan.scrolled(amount > 0);
     return false;
   }
 }
