@@ -84,9 +84,11 @@ public class Shield implements SolItem {
     return myConfig.maxLife;
   }
 
-  public float absorb(SolGame game, float dmg, Vector2 pos, SolShip ship, DmgType dmgType) {
-    if (dmgType == DmgType.FIRE || dmgType == DmgType.CRASH) return dmg;
-    if (dmg <= 0) return 0;
+  public boolean canAbsorb(DmgType dmgType) {
+    return myLife > 0 && dmgType != DmgType.FIRE && dmgType != DmgType.CRASH;
+  }
+
+  public void absorb(SolGame game, float dmg, Vector2 pos, SolShip ship, DmgType dmgType) {
     myIdleTime = 0f;
     if (myLife > 0) {
       ShipHull hull = ship.getHull();
@@ -94,13 +96,11 @@ public class Shield implements SolItem {
       game.getSoundMan().play(game, myConfig.absorbSound, pos, ship);
     }
     if (dmgType == DmgType.BULLET) dmg *= BULLET_DMG_FACTOR;
-    if (myLife >= dmg) {
-      myLife -= dmg;
-      return 0;
+    if (myLife < dmg) {
+      myLife = 0;
+      return;
     }
-    dmg -= myLife;
-    myLife = 0;
-    return dmg;
+    myLife -= dmg;
   }
 
   public static class Config {

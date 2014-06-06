@@ -1,8 +1,9 @@
+problems with pad
+
+
 draw ability effects + teleport blip
 draw skull areas
 
-balance:
-  give more life to late ships, shields stronger, armor
 
 draw trees on frozen -- J N
 recolor guns

@@ -4,23 +4,23 @@ fixed == faster
 2    plasmaGun = Pirate Plasma Gun / plasmaClip
 4    blaster / infinite
 5  f fixedBombGun / bombClip
-6    gun = Machine Gun / bulletClip
-7  f fixedGun = Heavy Machine Gun / bulletClip
-8    shotGun / shellClip
-9  f missileLauncher / missileClip
-10 f miner / mineClip
-11 f rocketLauncher / rocketClip
-13 f fixedPlasmaGun = Plasma Gun / plasmaClip
-14 f missilePad / missileClip
-15 f fixedBlaster = Heavy Blaster / infinite
-15 f fixedShotGun = Heavy Shotgun / shellClip
-16   cannon / slugClip
-16 f railGun / railClip
-17 f nailGun / nailClip
-18   emGun / infinite
-20 f fixedEmGun = Heavy EM Gun / infinite
-20 f fixedCannon = Heavy Cannon / slugClip
-21   waveGun / infinite
+5    gun = Machine Gun / bulletClip
+6  f fixedGun = Heavy Machine Gun / bulletClip
+7    shotGun / shellClip
+7  f missileLauncher / missileClip
+8  f miner / mineClip
+9  f rocketLauncher / rocketClip
+9  f fixedPlasmaGun = Plasma Gun / plasmaClip
+10 f missilePad / missileClip
+11 f fixedBlaster = Heavy Blaster / infinite
+11 f fixedShotGun = Heavy Shotgun / shellClip
+12   cannon / slugClip
+13 f railGun / railClip
+13 f nailGun / nailClip
+14   emGun / infinite
+15 f fixedEmGun = Heavy EM Gun / infinite
+15 f fixedCannon = Heavy Cannon / slugClip
+16   waveGun / infinite
 
 
 EMPIRE:
