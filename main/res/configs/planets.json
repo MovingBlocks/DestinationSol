@@ -61,11 +61,11 @@
     ],
     station: {
       hull: drome,
-      items: "blaster|gun s2 rep:1:4",
+      items: "gun|shotGun s2 rep:1:4",
     },
 
     trading: {
-      items: "rep plasmaGun plasmaClip shotGun shellClip teleportCharge mineClip bombClip",
+      items: "rep plasmaGun plasmaClip shotGun shellClip mineClip bombClip",
       ships: "pirateSmall pirateOrbiter pirateMedium",
       mercenaries: [
         {
@@ -147,11 +147,11 @@
     ],
     station: {
       hull: drome,
-      items: "gun|cannon s1",
+      items: "shotGun s3 rep:1:4",
     },
 
     trading: {
-      items: "teleportCharge fixedGun bulletClip railClip cannon slugClip bombClip",
+      items: "rep teleportCharge fixedGun bulletClip railClip cannon slugClip bombClip",
       ships: "desertOrbiter desertSmall desertMedium",
       mercenaries: [
         {

@@ -27,7 +27,7 @@ import java.util.List;
 
 public class SolGame {
 
-  public static final float RESPAWN_MONEY_PERC = .5f;
+  public static final float RESPAWN_MONEY_PERC = .75f;
   private final GameScreens myScreens;
   private final SolCam myCam;
   private final ObjMan myObjMan;
