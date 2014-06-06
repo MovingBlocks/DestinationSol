@@ -33,7 +33,7 @@
       {
         hull: pirateOrbiter,
         items: "plasmaGun|blaster s1:.24",
-		money: 40,
+		money: 60,
         density: 0.03,
       }
     ],
@@ -41,7 +41,7 @@
       {
         hull: pirateOrbiter,
         items: "bombGun s1:.24",
-		money: 40,
+		money: 60,
         density: 0.1,
       },
     ],
@@ -119,7 +119,7 @@
       {
         hull: desertOrbiter,
         items: "fixedGun a1:.25",
-		money: 60,
+		money: 80,
         density: 0.03,
       }
     ],
@@ -127,7 +127,7 @@
       {
         hull: desertOrbiter,
         items: "fixedBombGun a1:.25",
-		money: 60,
+		money: 80,
         density: 0.1,
       },
     ],
@@ -192,7 +192,7 @@
       {
         hull: techieOrbiter,
         items: "fixedPlasmaGun|fixedBlaster fixedPlasmaGun|fixedBlaster|fixedEmGun:.5 a2:.75 s4",
-		money: 150,
+		money: 200,
         density: 0.03,
       }
     ],
@@ -200,7 +200,7 @@
       {
         hull: techieSmall,
         items: "fixedPlasmaGun fixedPlasmaGun|fixedBlaster:.5 a2:.5 s3|s4",
-		money: 200,
+		money: 150,
         density: 0.15,
       },
       {
