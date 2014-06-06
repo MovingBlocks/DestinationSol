@@ -202,7 +202,7 @@
 
 
   minerMedium: {
-    size: 0.84,
+    size: 0.82,
     maxLife: 78,
     type: std,
     m1Fixed: true,
@@ -222,7 +222,7 @@
 
 
   pirateMedium: {
-    size: 0.91,
+    size: 0.85,
     maxLife: 58,
     type: std,
     m1Fixed: true,
@@ -268,7 +268,7 @@
 
 
   minerTurret: {
-    size: 0.8,
+    size: 0.9,
     maxLife: 75,
     type: std,
     m1Fixed: true,
@@ -280,7 +280,7 @@
 
 
   desertSpaceTurret: {
-    size: 0.8,
+    size: 1.2,
     maxLife: 75,
     type: std,
 
@@ -288,15 +288,15 @@
     g1Pos: "0.38 0.43",
     g2Pos: "0.62 0.57",
     lightSrcPoss: [
-      ".25 .5",
-      ".75 .5",
+      ".1 .5",
+      ".9 .5",
     ],
   },
 
 
 
   techieSmall: {
-    size: 0.57,
+    size: 0.53,
     maxLife: 70,
     type: std,
     m1Fixed: true,
@@ -315,7 +315,7 @@
 
 
   techieOrbiter: {
-    size: 0.72,
+    size: 0.65,
     maxLife: 65,
     type: std,
     m1Fixed: true,
@@ -334,7 +334,7 @@
 
 
   desertMedium: {
-    size: 1,
+    size: 0.9,
     maxLife: 70,
     type: std,
     price: 1200,
@@ -358,7 +358,7 @@
 
 
   imperialBig: {
-    size: 1.2,
+    size: 1,
     maxLife: 80,
     type: std,
     price: 2000,
@@ -411,6 +411,9 @@
     texName: techiePlanetTurret,
     g1Pos: "0.5 0.14",
     g2Pos: "0.5 0.38",
+    lightSrcPoss: [
+      ".47 .01",
+    ],
   },
 
 
@@ -432,6 +435,10 @@
     e1Pos: "0 0.25",
     e2Pos: "0 0.75",
     engine: desertBig,
+    lightSrcPoss: [
+      ".95 .32",
+      ".95 .68",
+    ],
   },
 
 
@@ -444,8 +451,8 @@
     texName: drome,
     g1Pos: "0.24 0.2",
     lightSrcPoss: [
-      "0.43 0.23",
-      "0.87 0.23",
+      ".44 .33",
+      ".88 .33",
     ],
   },
 
@@ -460,8 +467,8 @@
     g1Pos: "0.21 0.7",
     g2Pos: "0.79 0.7",
     lightSrcPoss: [
-      "0.26 0.93",
-      "0.73 0.93",
+      ".26 .93",
+      ".73 .93",
     ],
   },
 }
