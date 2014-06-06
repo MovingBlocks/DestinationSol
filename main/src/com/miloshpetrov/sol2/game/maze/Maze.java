@@ -1,8 +1,8 @@
 package com.miloshpetrov.sol2.game.maze;
 
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.game.HardnessCalc;
-import com.miloshpetrov.sol2.game.SolGame;
+import com.miloshpetrov.sol2.Const;
+import com.miloshpetrov.sol2.game.*;
 
 public class Maze {
 
@@ -20,8 +20,9 @@ public class Maze {
   }
 
   public void update(SolGame game) {
-    Vector2 camPos = game.getCam().getPos();
-    if (!myObjsCreated && camPos.dst(myPos) < myRadius) {
+    SolCam cam = game.getCam();
+    Vector2 camPos = cam.getPos();
+    if (!myObjsCreated && camPos.dst(myPos) < myRadius + Const.CAM_VIEW_DIST_JOURNEY * 2) {
       new MazeBuilder().build(game, this);
       myObjsCreated = true;
     }

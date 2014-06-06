@@ -160,7 +160,7 @@
     m2Fixed: true,
     ability: {
       type: knockBack,
-      force: 45,
+      force: 100,
       rechargeTime: 10,
     },
 
@@ -208,7 +208,7 @@
     m1Fixed: true,
     ability: {
       type: knockBack,
-      force: 45,
+      force: 100,
       rechargeTime: 10,
     },
 
@@ -389,7 +389,7 @@
     m2Fixed: true,
     ability: {
       type: knockBack,
-      force: 45,
+      force: 150,
       rechargeTime: 10,
     },
 

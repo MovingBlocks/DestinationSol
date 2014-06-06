@@ -27,6 +27,11 @@ public class EmWave implements ShipAbility {
   }
 
   @Override
+  public float getRadius() {
+    return MAX_RADIUS;
+  }
+
+  @Override
   public boolean update(SolGame game, SolShip owner, boolean tryToUse) {
     if (!tryToUse) return false;
     Vector2 ownerPos = owner.getPos();

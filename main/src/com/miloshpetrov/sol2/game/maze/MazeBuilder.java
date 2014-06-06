@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class MazeBuilder {
   public static final float BORDER = 4f;
-  public static final float TILE_SZ = 3f;
+  public static final float TILE_SZ = 3.5f;
   private int mySz;
   private Vector2 myMazePos;
   private float myMazeAngle;

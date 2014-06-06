@@ -249,7 +249,7 @@
   rail: {
     dmg: 37,
     dmgType: bullet,
-    spdLen: 12,
+    spdLen: 15,
     physSize: 0.15,
 
     texName: bullet,

@@ -32,6 +32,11 @@ public class SloMo implements ShipAbility {
   }
 
   @Override
+  public float getRadius() {
+    return Float.MAX_VALUE;
+  }
+
+  @Override
   public boolean update(SolGame game, SolShip owner, boolean tryToUse) {
     if (tryToUse) {
       myFactor = myConfig.factor;

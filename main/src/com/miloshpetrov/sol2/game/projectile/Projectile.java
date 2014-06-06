@@ -101,13 +101,14 @@ public class
 
   private void maybeGuide(SolGame game) {
     if (myConfig.guideRotSpd == 0) return;
+    float ts = game.getTimeStep();
     SolShip ne = game.getFractionMan().getNearestEnemy(game, this);
     if (ne == null) return;
     float desiredAngle = myBody.getDesiredAngle(ne);
     float angle = getAngle();
     float diffAngle = SolMath.norm(desiredAngle - angle);
     if (SolMath.abs(diffAngle) < MIN_ANGLE_TO_GUIDE) return;
-    float rot = game.getTimeStep() * myConfig.guideRotSpd;
+    float rot = ts * myConfig.guideRotSpd;
     diffAngle = SolMath.clamp(diffAngle, -rot, rot);
     myBody.changeAngle(diffAngle);
   }
@@ -220,11 +221,7 @@ public class
   }
 
   public void setObstacle(SolObj o, SolGame game) {
-    if (o instanceof SolShip) {
-      Fraction f = ((SolShip) o).getPilot().getFraction();
-      // happens for some strange reason : /
-      if (!game.getFractionMan().areEnemies(f, myFraction)) return;
-    }
+    if (!shouldCollide(o, null, game.getFractionMan())) return; // happens for some reason when projectile is just created
     myObstacle = o;
   }
 

@@ -1,6 +1,3 @@
-problems with pad
-
-
 draw ability effects + teleport blip
 draw skull areas
 
