@@ -1,5 +1,4 @@
-draw ability effects + teleport blip
-draw skull areas
+draw big skull
 
 
 draw trees on frozen -- J N
