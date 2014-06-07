@@ -140,13 +140,13 @@ public class HardnessCalc {
 
   public static float getMazeDps(MazeConfig c) {
     float outer = getShipConfListDps(c.outerEnemies);
-    float inner = getShipConfListDps(c.outerEnemies);
+    float inner = getShipConfListDps(c.innerEnemies);
     float res = inner < outer ? outer : inner;
     return res * 1.25f;
   }
 
   public static float getBeltDps(SysConfig c) {
-    return 1.4f * getShipConfListDps(c.tempEnemies);
+    return 1.2f * getShipConfListDps(c.tempEnemies);
   }
 
   public static float getSysDps(SysConfig c, boolean inner) {

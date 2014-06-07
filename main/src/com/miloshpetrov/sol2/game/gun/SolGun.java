@@ -9,6 +9,7 @@ import com.miloshpetrov.sol2.game.dra.*;
 import com.miloshpetrov.sol2.game.item.ClipConfig;
 import com.miloshpetrov.sol2.game.item.ItemContainer;
 import com.miloshpetrov.sol2.game.particle.LightSrc;
+import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.projectile.Projectile;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfig;
 
@@ -53,6 +54,11 @@ public class SolGun {
     ClipConfig cc = myItem.config.clipConf;
     if (cc.projConfig.zeroAbsSpd) {
       baseSpd = Vector2.Zero;
+      Planet np = game.getPlanetMan().getNearestPlanet();
+      if (np.isNearGround(muzzlePos)) {
+        baseSpd = new Vector2();
+        np.calcSpdAtPos(baseSpd, muzzlePos);
+      }
     }
 
     myCurrAngleVar = SolMath.approach(myCurrAngleVar, myItem.config.maxAngleVar, myItem.config.angleVarPerShot);

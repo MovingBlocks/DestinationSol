@@ -11,8 +11,8 @@
       {
         hull: minerSmall,
         items: "missileLauncher a1:.2 s1:.2",
-		money: 20,
-        density: 0.003,
+		money: 100,
+        density: 0.002,
       },
     ],
   }

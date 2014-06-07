@@ -222,7 +222,7 @@ public class SolGame {
   }
 
   public void drawDebug(GameDrawer drawer) {
-    if (DebugOptions.GRID_SZ > 0) myGridDrawer.draw(drawer, this, DebugOptions.GRID_SZ);
+    if (DebugOptions.GRID_SZ > 0) myGridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTex);
     myPlanetMan.drawDebug(drawer, this);
     myObjMan.drawDebug(drawer, this);
     if (DebugOptions.ZOOM_OVERRIDE != 0) myCam.drawDebug(drawer);

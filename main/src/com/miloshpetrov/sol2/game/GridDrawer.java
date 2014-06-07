@@ -8,13 +8,10 @@ import com.miloshpetrov.sol2.common.Col;
 
 public class GridDrawer {
 
-  private final TextureAtlas.AtlasRegion myLineTex;
-
   public GridDrawer(TexMan texMan) {
-    myLineTex = texMan.getTex("mapObjs/gridLine", null);
   }
 
-  public void draw(GameDrawer drawer, SolGame game, float gridSz) {
+  public void draw(GameDrawer drawer, SolGame game, float gridSz, TextureAtlas.AtlasRegion tex) {
     SolCam cam = game.getCam();
     float lw = 3*cam.getRealLineWidth();
     Vector2 camPos = cam.getPos();
@@ -24,10 +21,10 @@ public class GridDrawer {
     int count = (int)(viewDist * 2 / gridSz);
     Color col = Col.UI_INACTIVE;
     for (int i = 0; i < count; i++) {
-      drawer.draw(myLineTex, viewDist * 2, lw, 0, lw/2, x, y, 0, col);
-      drawer.draw(myLineTex, viewDist * 2, lw, 0, lw/2, x, y, 90, col);
-      drawer.draw(myLineTex, viewDist * 2, lw, 0, lw/2, x, y, 180, col);
-      drawer.draw(myLineTex, viewDist * 2, lw, 0, lw/2, x, y, -90, col);
+      drawer.draw(tex, lw, viewDist * 2, lw/2, 0, x, y, 0, col);
+      drawer.draw(tex, lw, viewDist * 2, lw/2, 0, x, y, 90, col);
+      drawer.draw(tex, lw, viewDist * 2, lw/2, 0, x, y, 180, col);
+      drawer.draw(tex, lw, viewDist * 2, lw/2, 0, x, y, -90, col);
       x += gridSz;
       y += gridSz;
     }

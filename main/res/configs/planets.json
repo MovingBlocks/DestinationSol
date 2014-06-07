@@ -49,7 +49,7 @@
       {
         hull: piratePlanetTurret,
         items: "plasmaGun|blaster s1:.36",
-		money: 80,
+		money: 110,
         density: 0.45,
       },
       {
@@ -65,7 +65,7 @@
     },
 
     trading: {
-      items: "rep plasmaGun plasmaClip shotGun shellClip mineClip bombClip",
+      items: "rep plasmaClip shotGun shellClip mineClip bombClip missileClip",
       ships: "pirateSmall pirateOrbiter pirateMedium",
       mercenaries: [
         {
@@ -119,7 +119,7 @@
       {
         hull: desertOrbiter,
         items: "fixedGun a1:.25",
-		money: 80,
+		money: 110,
         density: 0.03,
       }
     ],
@@ -127,7 +127,7 @@
       {
         hull: desertOrbiter,
         items: "fixedBombGun a1:.25",
-		money: 80,
+		money: 120,
         density: 0.1,
       },
     ],
@@ -141,7 +141,7 @@
       {
         hull: desertSmall,
         items: "fixedGun fixedGun:.3 a2:.75",
-		money: 80,
+		money: 150,
         density: 0.15,
       },
     ],
