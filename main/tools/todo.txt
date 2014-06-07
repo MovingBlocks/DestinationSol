@@ -1,6 +1,4 @@
 
-close screens on click outside
-
 
 draw trees on frozen -- J N
 recolor guns
