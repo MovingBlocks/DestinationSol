@@ -11,12 +11,12 @@ public class GameOptions {
   public boolean fullscreen;
   public int controlType;
 
-  public GameOptions(boolean handlersReady) {
+  public GameOptions(boolean handlersReady, boolean mobile) {
     IniReader r = new IniReader(FILE_NAME, handlersReady);
     x = r.i("x", 800);
     y = r.i("y", 600);
     fullscreen = r.b("fullscreen", false);
-    controlType = r.i("controlType", CONTROL_KB);
+    controlType = mobile ? CONTROL_KB : r.i("controlType", CONTROL_MIXED);
   }
 
   public void advanceReso() {

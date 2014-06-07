@@ -23,6 +23,10 @@
     color: "hsb 40 50 100",
     pickUpSound: "itemPickUp/money",
   },
+  medMoney: {
+    color: "hsb 40 75 100",
+    pickUpSound: "itemPickUp/money",
+  },
   bigMoney: {
     color: "hsb 40 100 100",
     pickUpSound: "itemPickUp/money",

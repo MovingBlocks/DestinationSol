@@ -11,7 +11,6 @@ import com.miloshpetrov.sol2.game.*;
 public class RectSprite implements Dra {
 
   public final Vector2 relPos;
-  public final Color origTint;
   public final Color tint;
 
   public float relAngle;
@@ -23,6 +22,7 @@ public class RectSprite implements Dra {
   private final Vector2 myPos;
   private final float myRotSpd;
 
+  public float baseAlpha;
   private float myTexSzX;
   private float myTexSzY;
   private float myOrigX;
@@ -50,7 +50,7 @@ public class RectSprite implements Dra {
     myRotSpd = rotSpd;
 
     myEnabled = true;
-    this.origTint = tint;
+    baseAlpha = tint.a;
     this.tint = new Color(tint);
 
     setTexSz(texSz);

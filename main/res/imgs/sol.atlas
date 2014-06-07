@@ -1416,112 +1416,112 @@ ui/hullIcons/imperialSmall
   index: -1
 ui/hullIcons/minerBoss
   rotate: false
-  xy: 192, 192
+  xy: 224, 224
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/hullIcons/minerMedium
   rotate: false
-  xy: 224, 224
+  xy: 256, 256
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/hullIcons/minerSmall
   rotate: false
-  xy: 256, 256
+  xy: 288, 288
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/hullIcons/minerTurret
   rotate: false
-  xy: 288, 288
+  xy: 320, 320
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/hullIcons/pirateMedium
   rotate: false
-  xy: 64, 32
+  xy: 64, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/hullIcons/pirateOrbiter
   rotate: false
-  xy: 64, 0
+  xy: 96, 64
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/hullIcons/piratePlanetTurret
   rotate: false
-  xy: 96, 64
+  xy: 128, 96
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/hullIcons/pirateSmall
   rotate: false
-  xy: 128, 96
+  xy: 160, 128
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/hullIcons/pirateSpaceTurret
   rotate: false
-  xy: 160, 128
+  xy: 192, 160
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/hullIcons/skull
   rotate: false
-  xy: 160, 96
+  xy: 192, 128
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/hullIcons/starPort
   rotate: false
-  xy: 256, 192
+  xy: 288, 224
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/hullIcons/station
   rotate: false
-  xy: 288, 224
+  xy: 320, 256
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/hullIcons/techieOrbiter
   rotate: false
-  xy: 320, 256
+  xy: 352, 288
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/hullIcons/techiePlanetTurret
   rotate: false
-  xy: 352, 288
+  xy: 384, 320
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/hullIcons/techieSmall
   rotate: false
-  xy: 384, 320
+  xy: 416, 352
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/hullIcons/truck
   rotate: false
-  xy: 480, 384
+  xy: 128, 32
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -1687,198 +1687,205 @@ ui/icons/life
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/mineClip
+ui/icons/medMoney
   rotate: false
   xy: 128, 128
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/miner
+ui/icons/mineClip
   rotate: false
   xy: 160, 160
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/missileClip
+ui/icons/miner
   rotate: false
-  xy: 320, 320
+  xy: 192, 192
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/missileLauncher
+ui/icons/missileClip
   rotate: false
   xy: 352, 352
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/missilePad
+ui/icons/missileLauncher
   rotate: false
   xy: 384, 384
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/money
+ui/icons/missilePad
   rotate: false
   xy: 416, 416
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/nailClip
+ui/icons/money
   rotate: false
   xy: 448, 448
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/nailGun
+ui/icons/nailClip
   rotate: false
   xy: 480, 448
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/plasmaClip
+ui/icons/nailGun
   rotate: false
-  xy: 192, 160
+  xy: 64, 32
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/plasmaGun
+ui/icons/plasmaClip
   rotate: false
   xy: 224, 192
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/railClip
+ui/icons/plasmaGun
   rotate: false
   xy: 256, 224
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/railGun
+ui/icons/railClip
   rotate: false
   xy: 288, 256
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/repairItem
+ui/icons/railGun
   rotate: false
   xy: 320, 288
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/rocketClip
+ui/icons/repairItem
   rotate: false
   xy: 352, 320
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/rocketLauncher
+ui/icons/rocketClip
   rotate: false
   xy: 384, 352
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/shellClip
+ui/icons/rocketLauncher
   rotate: false
   xy: 416, 384
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/shield1
+ui/icons/shellClip
   rotate: false
   xy: 448, 416
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/shield2
+ui/icons/shield1
   rotate: false
   xy: 480, 416
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/shield3
+ui/icons/shield2
   rotate: false
   xy: 96, 32
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/shield4
+ui/icons/shield3
   rotate: false
   xy: 96, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/shotGun
+ui/icons/shield4
   rotate: false
   xy: 128, 64
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/sloMoCharge
+ui/icons/shotGun
   rotate: false
-  xy: 192, 128
+  xy: 160, 96
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/slugClip
+ui/icons/sloMoCharge
   rotate: false
   xy: 224, 160
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
+ui/icons/slugClip
+  rotate: false
+  xy: 256, 192
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 ui/icons/teleportCharge
   rotate: false
-  xy: 416, 352
+  xy: 448, 384
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/icons/unShieldCharge
   rotate: false
-  xy: 128, 32
+  xy: 128, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/icons/wait
   rotate: false
-  xy: 128, 0
+  xy: 160, 64
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/icons/waveGun
   rotate: false
-  xy: 160, 64
+  xy: 192, 96
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ui/tishch
   rotate: false
-  xy: 448, 384
+  xy: 480, 384
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -1892,7 +1899,7 @@ ui/title
   index: -1
 ui/whiteTex
   rotate: false
-  xy: 192, 127
+  xy: 224, 159
   size: 1, 1
   orig: 1, 1
   offset: 0, 0

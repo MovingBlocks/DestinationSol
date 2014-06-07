@@ -20,6 +20,7 @@ public class ItemMan {
   private final ArrayList<SolItem> myL;
   public final ProjectileConfigs projConfigs;
   public final TextureAtlas.AtlasRegion moneyIcon;
+  public final TextureAtlas.AtlasRegion medMoneyIcon;
   public final TextureAtlas.AtlasRegion bigMoneyIcon;
   public final TextureAtlas.AtlasRegion repairIcon;
   private final EngineItem.Configs myEngineConfigs;
@@ -28,6 +29,7 @@ public class ItemMan {
 
   public ItemMan(TexMan texMan, SoundMan soundMan, EffectTypes effectTypes, GameCols cols) {
     moneyIcon = texMan.getTex(TexMan.ICONS_DIR + "money", null);
+    medMoneyIcon = texMan.getTex(TexMan.ICONS_DIR + "medMoney", null);
     bigMoneyIcon = texMan.getTex(TexMan.ICONS_DIR + "bigMoney", null);
     repairIcon = texMan.getTex(TexMan.ICONS_DIR + "repairItem", null);
     myM = new HashMap<String, SolItem>();
@@ -136,8 +138,16 @@ public class ItemMan {
     DebugCollector.warn(msg);
   }
 
-  public MoneyItem moneyItem(boolean big) {
-    return new MoneyItem(big, big ? myTypes.bigMoney : myTypes.money);
+  public MoneyItem moneyItem(float amt) {
+    SolItemType t;
+    if (amt == MoneyItem.BIG_AMT) {
+      t = myTypes.bigMoney;
+    } else if (amt == MoneyItem.MED_AMT) {
+      t = myTypes.medMoney;
+    } else {
+      t = myTypes.money;
+    }
+    return new MoneyItem(amt, t);
   }
 
   public RepairItem getRepairExample() {
@@ -157,7 +167,25 @@ public class ItemMan {
         if (ic.canAdd(i)) ic.add(i.copy());
       }
     }
+  }
 
+  public List<MoneyItem> moneyToItems(float amt) {
+    ArrayList<MoneyItem> res = new ArrayList<MoneyItem>();
+    while (amt > MoneyItem.AMT) {
+      MoneyItem example;
+      if (amt > MoneyItem.BIG_AMT) {
+        example = moneyItem(MoneyItem.BIG_AMT);
+        amt -= MoneyItem.BIG_AMT;
+      } else if (amt > MoneyItem.MED_AMT) {
+        example = moneyItem(MoneyItem.MED_AMT);
+        amt -= MoneyItem.MED_AMT;
+      } else {
+        example = moneyItem(MoneyItem.AMT);
+        amt -= MoneyItem.AMT;
+      }
+      res.add(example.copy());
+    }
+    return res;
   }
 
 }

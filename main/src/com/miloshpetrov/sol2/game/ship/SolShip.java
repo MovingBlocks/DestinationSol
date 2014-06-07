@@ -290,16 +290,9 @@ public class SolShip implements SolObj {
       myMoney -= toRespawn;
     }
     float thrMoney = myMoney * SolMath.rnd(.2f, .8f);
-    while (thrMoney > MoneyItem.AMT) {
-      MoneyItem example;
-      if (thrMoney > MoneyItem.BIG_AMT) {
-        example = game.getItemMan().moneyItem(true);
-        thrMoney -= MoneyItem.BIG_AMT;
-      } else {
-        example = game.getItemMan().moneyItem(false);
-        thrMoney -= MoneyItem.AMT;
-      }
-      throwLoot(game, example.copy(), true);
+    List<MoneyItem> moneyItems = game.getItemMan().moneyToItems(thrMoney);
+    for (MoneyItem mi : moneyItems) {
+      throwLoot(game, mi, true);
     }
   }
 

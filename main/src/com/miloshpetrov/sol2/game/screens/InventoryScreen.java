@@ -249,7 +249,7 @@ public class InventoryScreen implements SolUiScreen {
       }
     }
 
-    uiDrawer.drawString("Items:", myListHeaderPos.x, myListHeaderPos.y, FontSize.WINDOW, false, Col.W);
+    uiDrawer.drawString(myOperations.getHeader(), myListHeaderPos.x, myListHeaderPos.y, FontSize.WINDOW, false, Col.W);
     uiDrawer.drawString("Selected Item:", myDetailHeaderPos.x, myDetailHeaderPos.y, FontSize.WINDOW, false, Col.W);
     if (mySelected != null) {
       SolItem selItem = mySelected.get(0);

@@ -44,6 +44,11 @@ public class HireShips implements InventoryOperations {
   }
 
   @Override
+  public String getHeader() {
+    return "Mercenaries:";
+  }
+
+  @Override
   public List<SolUiControl> getControls() {
     return myControls;
   }

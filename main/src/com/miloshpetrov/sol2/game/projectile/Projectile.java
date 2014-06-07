@@ -210,7 +210,7 @@ public class
       if (s.getHull().getShieldFixture() == f) {
         if (myConfig.density > 0) return false;
         Shield shield = s.getShield();
-        if (shield == null || shield.getLife() <= 0) return false;
+        if (shield == null || !shield.canAbsorb(myConfig.dmgType)) return false;
       }
       return true;
     }

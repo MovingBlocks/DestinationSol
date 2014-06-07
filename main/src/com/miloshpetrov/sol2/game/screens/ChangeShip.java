@@ -41,6 +41,11 @@ public class ChangeShip implements InventoryOperations {
   }
 
   @Override
+  public String getHeader() {
+    return "Ships:";
+  }
+
+  @Override
   public List<SolUiControl> getControls() {
     return myControls;
   }

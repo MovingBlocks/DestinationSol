@@ -40,14 +40,25 @@ public class PartMan {
     }
   }
 
-  public void shieldSpark(SolGame game, Vector2 collPos, ShipHull hull, TextureAtlas.AtlasRegion shieldTex) {
+  public void shieldSpark(SolGame game, Vector2 collPos, ShipHull hull, TextureAtlas.AtlasRegion shieldTex, float perc) {
+    if (perc <= 0) return;
     Vector2 pos = hull.getPos();
     float angle = SolMath.angle(pos, collPos);
     float sz = hull.config.size * Shield.SIZE_PERC * 2;
-    blip(game, pos, angle, sz, .5f, hull.getSpd(), shieldTex);
+    float alphaSum = perc * 3;
+    RectSprite s = null;
+    int count = (int) alphaSum + 1;
+    for (int i = 0; i < count; i++) {
+      s = blip(game, pos, angle, sz, .5f, hull.getSpd(), shieldTex);
+    }
+    float lastTint = SolMath.clamp(alphaSum - (int) alphaSum);
+    if (s != null) {
+      s.tint.a = lastTint;
+      s.baseAlpha = lastTint;
+    }
   }
 
-  public void blip(SolGame game, Vector2 pos, float angle, float sz, float fadeTime, Vector2 spd,
+  public RectSprite blip(SolGame game, Vector2 pos, float angle, float sz, float fadeTime, Vector2 spd,
     TextureAtlas.AtlasRegion tex)
   {
     RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.PART_FG_0, angle, 0, Col.W, true);
@@ -56,6 +67,7 @@ public class PartMan {
     DrasObj o = new DrasObj(dras, new Vector2(pos), new Vector2(spd), null, false, false);
     o.fade(fadeTime);
     game.getObjMan().addObjDelayed(o);
+    return s;
   }
 
 }

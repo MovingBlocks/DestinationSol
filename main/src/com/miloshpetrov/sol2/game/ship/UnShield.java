@@ -9,7 +9,7 @@ import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
 
 public class UnShield implements ShipAbility {
-  public static final int MAX_RADIUS = 4;
+  public static final int MAX_RADIUS = 6;
   private final Config myConfig;
 
   public UnShield(Config config) {
@@ -49,7 +49,7 @@ public class UnShield implements ShipAbility {
       if (perc <= 0) continue;
       float amount = perc * myConfig.amount;
       if (shieldLife < amount) amount = shieldLife;
-      oShip.receiveDmg(amount, game, oPos, DmgType.ENERGY);
+      oShip.receiveDmg(amount, game, ownerPos, DmgType.ENERGY);
     }
     ParticleSrc src = new ParticleSrc(myConfig.cc.effect, MAX_RADIUS, DraLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
     game.getPartMan().finish(game, src, ownerPos);

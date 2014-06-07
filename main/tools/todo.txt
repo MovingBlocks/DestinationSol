@@ -1,5 +1,4 @@
 
-
 draw trees on frozen -- J N
 recolor guns
 hardness? armor bonus
@@ -53,6 +52,7 @@ FEATURES
   try using shaders
 
 PERF
+  cache cam dst to np, far sprites can check it
   use events on item addition
   use objFloatMap in soundMan
   PartMan should use pool
