@@ -149,11 +149,13 @@ public class SolInputMan {
       if (!consumed) {
         for (int i1 = 0, myPtrsLength = myPtrs.length; i1 < myPtrsLength; i1++) {
           Ptr ptr = myPtrs[i1];
-          if (ptr.pressed && screen.isCursorOnBg(ptr)) {
+          boolean onBg = screen.isCursorOnBg(ptr);
+          if (ptr.pressed && onBg) {
             clickedOutside = false;
             consumed = true;
             break;
-          } else if (ptr.isJustUnPressed() && !clickOutsideReacted) {
+          }
+          if (!onBg && ptr.isJustUnPressed() && !clickOutsideReacted) {
             clickedOutside = true;
           }
         }

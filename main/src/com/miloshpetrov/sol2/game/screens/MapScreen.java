@@ -1,6 +1,7 @@
 package com.miloshpetrov.sol2.game.screens;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Rectangle;
 import com.miloshpetrov.sol2.SolCmp;
 import com.miloshpetrov.sol2.game.MapDrawer;
 import com.miloshpetrov.sol2.game.SolGame;
@@ -17,16 +18,22 @@ public class MapScreen implements SolUiScreen {
   public final SolUiControl zoomInCtrl;
   public final SolUiControl zoomOutCtrl;
 
-  public MapScreen(RightPaneLayout rightPaneLayout) {
+  public MapScreen(RightPaneLayout rightPaneLayout, boolean mobile, float r) {
     myControls = new ArrayList<SolUiControl>();
 
-    closeCtrl = new SolUiControl(rightPaneLayout.buttonRect(1), true, Input.Keys.TAB, Input.Keys.ESCAPE);
+    Rectangle closeArea = mobile ? MainScreen.btn(0, MainScreen.HELPER_ROW_1, true) : rightPaneLayout.buttonRect(1);
+    closeCtrl = new SolUiControl(closeArea, true, Input.Keys.TAB, Input.Keys.ESCAPE);
     closeCtrl.setDisplayName("Close");
     myControls.add(closeCtrl);
-    zoomInCtrl = new SolUiControl(rightPaneLayout.buttonRect(2), true, ZOOM_IN_KEY);
+    float row0 = 1 - MainScreen.CELL_SZ;
+    float row1 = row0 - MainScreen.CELL_SZ;
+    float colN = r - MainScreen.CELL_SZ;
+    Rectangle zoomInArea = mobile ? MainScreen.btn(0, row1, false) : rightPaneLayout.buttonRect(2);
+    zoomInCtrl = new SolUiControl(zoomInArea, true, ZOOM_IN_KEY);
     zoomInCtrl.setDisplayName("Zoom In");
     myControls.add(zoomInCtrl);
-    zoomOutCtrl = new SolUiControl(rightPaneLayout.buttonRect(3), true, ZOOM_OUT_KEY);
+    Rectangle zoomOutArea = mobile ? MainScreen.btn(0, row0, false) : rightPaneLayout.buttonRect(3);
+    zoomOutCtrl = new SolUiControl(zoomOutArea, true, ZOOM_OUT_KEY);
     zoomOutCtrl.setDisplayName("Zoom Out");
     myControls.add(zoomOutCtrl);
   }

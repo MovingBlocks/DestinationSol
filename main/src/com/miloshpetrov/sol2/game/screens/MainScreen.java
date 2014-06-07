@@ -55,6 +55,8 @@ public class MainScreen implements SolUiScreen {
   private final TextPlace myG2AmmoExcessTp;
   private final TextPlace myChargesExcessTp;
   private final TextPlace myMoneyExcessTp;
+  public static final float HELPER_ROW_1 = 1 - 3f * MainScreen.CELL_SZ;
+  public static final float HELPER_ROW_2 = HELPER_ROW_1 - .5f * MainScreen.CELL_SZ;
 
 
   public MainScreen(float r, RightPaneLayout rightPaneLayout, SolCmp cmp) {
@@ -69,22 +71,20 @@ public class MainScreen implements SolUiScreen {
       shipControl = new ShipMouseControl(cmp);
     }
     boolean mobile = cmp.isMobile();
-    float helperRow1 = 1 - 3f * MainScreen.CELL_SZ;
-    float helperRow2 = helperRow1 - .5f * MainScreen.CELL_SZ;
     float lastCol = r - MainScreen.CELL_SZ;
-    Rectangle menuArea = mobile ? btn(0, helperRow2, true) : rightPaneLayout.buttonRect(0);
+    Rectangle menuArea = mobile ? btn(0, HELPER_ROW_2, true) : rightPaneLayout.buttonRect(0);
     myMenuCtrl = new SolUiControl(menuArea, true, Input.Keys.ESCAPE);
     myMenuCtrl.setDisplayName("Menu");
     myControls.add(myMenuCtrl);
-    Rectangle mapArea = mobile ? btn(0, helperRow1, true) : rightPaneLayout.buttonRect(1);
+    Rectangle mapArea = mobile ? btn(0, HELPER_ROW_1, true) : rightPaneLayout.buttonRect(1);
     mapCtrl = new SolUiControl(mapArea, true, Input.Keys.TAB);
     mapCtrl.setDisplayName("Map");
     myControls.add(mapCtrl);
-    Rectangle invArea = mobile ? btn(lastCol, helperRow1, true) : rightPaneLayout.buttonRect(2);
+    Rectangle invArea = mobile ? btn(lastCol, HELPER_ROW_1, true) : rightPaneLayout.buttonRect(2);
     invCtrl = new SolUiControl(invArea, true, Input.Keys.I);
     invCtrl.setDisplayName("Items");
     myControls.add(invCtrl);
-    Rectangle talkArea = mobile ? btn(lastCol, helperRow2, true) : rightPaneLayout.buttonRect(3);
+    Rectangle talkArea = mobile ? btn(lastCol, HELPER_ROW_2, true) : rightPaneLayout.buttonRect(3);
     talkCtrl = new SolUiControl(talkArea, true, Input.Keys.T);
     talkCtrl.setDisplayName("Talk");
     myControls.add(talkCtrl);
