@@ -71,11 +71,11 @@ public class ShowInventory implements InventoryOperations {
     boolean canEquip2 = hero.maybeEquip(g, selItem, true, false);
 
     if (equipped1 || canEquip1) {
-      eq1Ctrl.setDisplayName(equipped1 ? "Unequip" : canEquip2 ? "Set Primary" : "Equip");
+      eq1Ctrl.setDisplayName(equipped1 ? "Unequip" : canEquip2 ? "As Gun 1" : "Equip");
       eq1Ctrl.setEnabled(true);
     }
     if (equipped2 || canEquip2) {
-      eq2Ctrl.setDisplayName(equipped2 ? "Unequip" : canEquip1 ? "Set Secondary" : "Equip");
+      eq2Ctrl.setDisplayName(equipped2 ? "Unequip" : canEquip1 ? "As Gun 2" : "Equip");
       eq2Ctrl.setEnabled(true);
     }
     if (eq1Ctrl.isJustOff()) {
