@@ -50,7 +50,7 @@ public class BuyItems implements InventoryOperations {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
+  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
     SolGame game = cmp.getGame();
     InventoryScreen is = game.getScreens().inventoryScreen;
     SolShip hero = game.getHero();
@@ -95,6 +95,11 @@ public class BuyItems implements InventoryOperations {
   @Override
   public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
 
+  }
+
+  @Override
+  public boolean reactsToClickOutside() {
+    return false;
   }
 
   @Override

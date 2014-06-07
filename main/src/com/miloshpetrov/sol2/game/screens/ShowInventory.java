@@ -40,7 +40,7 @@ public class ShowInventory implements InventoryOperations {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
+  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
     SolGame g = cmp.getGame();
     InventoryScreen is = g.getScreens().inventoryScreen;
     SolItem selItem = is.getSelectedItem();
@@ -99,6 +99,11 @@ public class ShowInventory implements InventoryOperations {
 
   @Override
   public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
+  }
+
+  @Override
+  public boolean reactsToClickOutside() {
+    return false;
   }
 
   @Override

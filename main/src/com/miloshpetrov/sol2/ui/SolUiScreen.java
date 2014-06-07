@@ -9,7 +9,7 @@ public interface SolUiScreen {
 
   void onAdd(SolCmp cmp);
 
-  void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs);
+  void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside);
 
   boolean isCursorOnBg(SolInputMan.Ptr ptr);
 
@@ -21,4 +21,6 @@ public interface SolUiScreen {
   void drawImgs(UiDrawer uiDrawer, SolCmp cmp);
 
   void drawText(UiDrawer uiDrawer, SolCmp cmp);
+
+  boolean reactsToClickOutside();
 }

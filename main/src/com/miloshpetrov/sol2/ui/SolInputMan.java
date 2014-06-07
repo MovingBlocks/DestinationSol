@@ -128,6 +128,7 @@ public class SolInputMan {
 
     boolean consumed = false;
     myMouseOnUi = false;
+    boolean clickOutsideReacted = false;
     for (int i = 0, myScreensSize = myScreens.size(); i < myScreensSize; i++) {
       SolUiScreen screen = myScreens.get(i);
       boolean consumedNow = false;
@@ -144,17 +145,22 @@ public class SolInputMan {
         }
       }
       if (consumedNow) consumed = true;
+      boolean clickedOutside = false;
       if (!consumed) {
         for (int i1 = 0, myPtrsLength = myPtrs.length; i1 < myPtrsLength; i1++) {
           Ptr ptr = myPtrs[i1];
           if (ptr.pressed && screen.isCursorOnBg(ptr)) {
+            clickedOutside = false;
             consumed = true;
             break;
+          } else if (ptr.isJustUnPressed() && !clickOutsideReacted) {
+            clickedOutside = true;
           }
         }
       }
+      if (clickedOutside && screen.reactsToClickOutside()) clickOutsideReacted = true;
       if (screen.isCursorOnBg(myPtrs[0])) myMouseOnUi = true;
-      screen.updateCustom(cmp, myPtrs);
+      screen.updateCustom(cmp, myPtrs, clickedOutside);
     }
 
     SolGame game = cmp.getGame();
@@ -309,6 +315,10 @@ public class SolInputMan {
 
     public boolean isJustPressed() {
       return pressed && !prevPressed;
+    }
+
+    public boolean isJustUnPressed() {
+      return !pressed && prevPressed;
     }
   }
 

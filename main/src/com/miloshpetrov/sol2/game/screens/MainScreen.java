@@ -153,7 +153,7 @@ public class MainScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
+  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
     if (DebugOptions.PRINT_BALANCE) {
       cmp.finishGame();
       return;
@@ -392,6 +392,11 @@ public class MainScreen implements SolUiScreen {
     mySunWarnDrawer.drawText(uiDrawer);
     myCollisionWarnDrawer.drawText(uiDrawer);
     myZoneNameAnnouncer.drawText(uiDrawer);
+  }
+
+  @Override
+  public boolean reactsToClickOutside() {
+    return false;
   }
 
   @Override

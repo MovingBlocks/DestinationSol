@@ -57,11 +57,11 @@ public class TalkScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
+  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
     SolGame g = cmp.getGame();
     SolShip hero = g.getHero();
     SolInputMan inputMan = cmp.getInputMan();
-    if (closeCtrl.isJustOff() || isTargetFar(hero))
+    if (clickedOutside || closeCtrl.isJustOff() || isTargetFar(hero))
     {
       inputMan.setScreen(cmp, g.getScreens().mainScreen);
       return;
@@ -101,6 +101,11 @@ public class TalkScreen implements SolUiScreen {
 
   @Override
   public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
+  }
+
+  @Override
+  public boolean reactsToClickOutside() {
+    return true;
   }
 
   @Override

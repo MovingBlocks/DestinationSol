@@ -36,7 +36,7 @@ public class OptionsScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
+  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
     SolInputMan im = cmp.getInputMan();
     MenuScreens screens = cmp.getMenuScreens();
     if (myResoCtrl.isJustOff()) {
@@ -68,6 +68,11 @@ public class OptionsScreen implements SolUiScreen {
 
   @Override
   public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
+  }
+
+  @Override
+  public boolean reactsToClickOutside() {
+    return false;
   }
 
   @Override

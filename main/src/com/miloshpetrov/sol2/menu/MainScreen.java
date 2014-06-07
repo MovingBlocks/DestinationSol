@@ -61,7 +61,7 @@ public class MainScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
+  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
     if (myTutCtrl.isJustOff()) {
       cmp.startNewGame(true);
     } else if (myNewGameCtrl.isJustOff()) {
@@ -97,6 +97,11 @@ public class MainScreen implements SolUiScreen {
 
   @Override
   public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
+  }
+
+  @Override
+  public boolean reactsToClickOutside() {
+    return false;
   }
 
   @Override

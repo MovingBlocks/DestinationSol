@@ -37,7 +37,7 @@ public class ResoScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
+  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
     SolInputMan im = cmp.getInputMan();
     if (myCloseCtrl.isJustOff()) {
       im.setScreen(cmp, cmp.getMenuScreens().options);
@@ -67,6 +67,11 @@ public class ResoScreen implements SolUiScreen {
   @Override
   public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
     uiDrawer.drawString("Please restart to apply changes", .5f * uiDrawer.r, .3f, FontSize.MENU, true, Col.W);
+  }
+
+  @Override
+  public boolean reactsToClickOutside() {
+    return false;
   }
 
   @Override
