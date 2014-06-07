@@ -131,4 +131,9 @@ public class ShowInventory implements InventoryOperations {
   public float getPriceMul() {
     return -1;
   }
+
+  @Override
+  public String getHeader() {
+    return "Items:";
+  }
 }

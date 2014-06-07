@@ -37,7 +37,7 @@ public class SolCmp {
   public SolCmp() {
     myReallyMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
     if (myReallyMobile) DebugOptions.read(true);
-    myOptions = new GameOptions(true);
+    myOptions = new GameOptions(true, isMobile());
 
     myTexMan = new TexMan();
     myCommonDrawer = new CommonDrawer();

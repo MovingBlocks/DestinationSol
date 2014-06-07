@@ -40,6 +40,11 @@ public class BuyItems implements InventoryOperations {
   }
 
   @Override
+  public String getHeader() {
+    return "Buy:";
+  }
+
+  @Override
   public List<SolUiControl> getControls() {
     return myControls;
   }

@@ -5,13 +5,14 @@ import com.miloshpetrov.sol2.game.SolGame;
 
 public class MoneyItem implements SolItem {
   public static final int AMT = 10;
+  public static final int MED_AMT = 3 * AMT;
   public static final int BIG_AMT = 10 * AMT;
 
-  private final boolean myBig;
+  private final float myAmt;
   private final SolItemType myItemType;
 
-  public MoneyItem(boolean big, SolItemType itemType) {
-    myBig = big;
+  public MoneyItem(float amt, SolItemType itemType) {
+    myAmt = amt;
     myItemType = itemType;
   }
 
@@ -22,7 +23,7 @@ public class MoneyItem implements SolItem {
 
   @Override
   public float getPrice() {
-    return myBig ? BIG_AMT : AMT;
+    return myAmt;
   }
 
   @Override
@@ -31,18 +32,21 @@ public class MoneyItem implements SolItem {
   }
 
   @Override
-  public SolItem copy() {
-    return new MoneyItem(myBig, myItemType);
+  public MoneyItem copy() {
+    return new MoneyItem(myAmt, myItemType);
   }
 
   @Override
   public boolean isSame(SolItem item) {
-    return item instanceof MoneyItem && ((MoneyItem) item).myBig == myBig;
+    return item instanceof MoneyItem && ((MoneyItem) item).myAmt == myAmt;
   }
 
   @Override
   public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-    return myBig ? game.getItemMan().bigMoneyIcon : game.getItemMan().moneyIcon;
+    ItemMan im = game.getItemMan();
+    if (myAmt == BIG_AMT) return im.bigMoneyIcon;
+    if (myAmt == MED_AMT) return im.medMoneyIcon;
+    return im.moneyIcon;
   }
 
   @Override

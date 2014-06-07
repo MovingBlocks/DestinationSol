@@ -62,7 +62,8 @@ public class DrasObj implements SolObj {
       for (int i = 0, myDrasSize = myDras.size(); i < myDrasSize; i++) {
         Dra dra = myDras.get(i);
         if (!(dra instanceof RectSprite)) continue;
-        ((RectSprite) dra).tint.a = SolMath.clamp(tintPerc, 0, 1);
+        RectSprite rs = (RectSprite) dra;
+        rs.tint.a = SolMath.clamp(tintPerc * rs.baseAlpha);
       }
 
     }

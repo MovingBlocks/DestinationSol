@@ -9,4 +9,5 @@ public interface InventoryOperations extends SolUiScreen {
   ItemContainer getItems(SolGame game);
   boolean isUsing(SolGame game, SolItem item);
   float getPriceMul();
+  String getHeader();
 }

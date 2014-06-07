@@ -33,7 +33,7 @@
       {
         hull: pirateOrbiter,
         items: "plasmaGun|blaster s1:.24",
-		money: 60,
+		money: 40,
         density: 0.03,
       }
     ],
@@ -41,7 +41,7 @@
       {
         hull: pirateOrbiter,
         items: "bombGun s1:.24",
-		money: 60,
+		money: 50,
         density: 0.1,
       },
     ],
@@ -49,7 +49,7 @@
       {
         hull: piratePlanetTurret,
         items: "plasmaGun|blaster s1:.36",
-		money: 40,
+		money: 80,
         density: 0.45,
       },
       {

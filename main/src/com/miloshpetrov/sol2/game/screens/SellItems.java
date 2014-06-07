@@ -43,6 +43,11 @@ public class SellItems implements InventoryOperations {
   }
 
   @Override
+  public String getHeader() {
+    return "Sell:";
+  }
+
+  @Override
   public List<SolUiControl> getControls() {
     return myControls;
   }

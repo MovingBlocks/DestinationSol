@@ -21,22 +21,23 @@ public class SolDesktop {
     if (devBuild) DebugOptions.DEV_ROOT_PATH = "../trunk/main/"; // supposing that solWin is in the same directory where trunk is.
     DebugOptions.read(false);
 
-    GameOptions d = new GameOptions(false);
     LwjglApplicationConfiguration c = new LwjglApplicationConfiguration();
-    c.width = d.x;
-    c.height = d.y;
-    c.fullscreen = d.fullscreen;
+    if (DebugOptions.EMULATE_MOBILE) {
+      c.width = 640;
+      c.height = 480;
+      c.fullscreen = false;
+    } else {
+      GameOptions d = new GameOptions(false, false);
+      c.width = d.x;
+      c.height = d.y;
+      c.fullscreen = d.fullscreen;
+    }
+
     c.title = "Sol";
     if (DebugOptions.DEV_ROOT_PATH == null) {
       c.addIcon("res/icon.png", Files.FileType.Internal);
     } else {
       c.addIcon(DebugOptions.DEV_ROOT_PATH + "res/icon.png", Files.FileType.Absolute);
-    }
-
-    if (DebugOptions.EMULATE_MOBILE) {
-      c.width = 640;
-      c.height = 480;
-      c.fullscreen = false;
     }
 
     new LwjglApplication(new SolAppListener(), c);

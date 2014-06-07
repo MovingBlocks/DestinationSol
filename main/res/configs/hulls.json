@@ -115,7 +115,7 @@
 
 
   imperialMedium: {
-    size: 0.6,
+    size: 0.55,
     maxLife: 54,
     type: std,
     price: 600,

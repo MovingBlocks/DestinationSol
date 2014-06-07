@@ -16,6 +16,7 @@ public class SolItemTypes {
   public final SolItemType abilityCharge;
   public final SolItemType gun;
   public final SolItemType money;
+  public final SolItemType medMoney;
   public final SolItemType bigMoney;
   public final SolItemType repair;
 
@@ -29,6 +30,7 @@ public class SolItemTypes {
     abilityCharge = load("abilityCharge", soundMan, configFile, parsed, cols);
     gun = load("gun", soundMan, configFile, parsed, cols);
     money = load("money", soundMan, configFile, parsed, cols);
+    medMoney = load("medMoney", soundMan, configFile, parsed, cols);
     bigMoney = load("bigMoney", soundMan, configFile, parsed, cols);
     repair = load("repair", soundMan, configFile, parsed, cols);
   }

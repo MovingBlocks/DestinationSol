@@ -9,7 +9,6 @@ import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
-import com.miloshpetrov.sol2.game.ship.ShipHull;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 import com.miloshpetrov.sol2.game.sound.SolSound;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
@@ -89,18 +88,14 @@ public class Shield implements SolItem {
   }
 
   public void absorb(SolGame game, float dmg, Vector2 pos, SolShip ship, DmgType dmgType) {
+    if (!canAbsorb(dmgType) || dmg <= 0) throw new AssertionError();
     myIdleTime = 0f;
-    if (myLife > 0) {
-      ShipHull hull = ship.getHull();
-      game.getPartMan().shieldSpark(game, pos, hull, myConfig.tex);
-      game.getSoundMan().play(game, myConfig.absorbSound, pos, ship);
-    }
     if (dmgType == DmgType.BULLET) dmg *= BULLET_DMG_FACTOR;
-    if (myLife < dmg) {
-      myLife = 0;
-      return;
-    }
-    myLife -= dmg;
+    myLife -= myLife < dmg ? myLife : dmg;
+
+    game.getPartMan().shieldSpark(game, pos, ship.getHull(), myConfig.tex, dmg / myConfig.maxLife);
+    game.getSoundMan().play(game, myConfig.absorbSound, null, ship);
+
   }
 
   public static class Config {

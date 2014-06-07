@@ -38,7 +38,7 @@
 
   unShield: {
     effect: {
-      effectFile: areaShipAbility,
+      effectFile: knockBack,
       tex: unShield,
       tint: "0 100 255",
     },

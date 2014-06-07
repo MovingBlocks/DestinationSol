@@ -37,8 +37,7 @@ public class MainScreen implements SolUiScreen {
     myNewGameCtrl.setDisplayName("New Game");
     myControls.add(myNewGameCtrl);
 
-    myOptionsCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true, Input.Keys.O);
-    myOptionsCtrl.setEnabled(!mobile);
+    myOptionsCtrl = new SolUiControl(mobile ? null : menuLayout.buttonRect(-1, 3), true, Input.Keys.O);
     myOptionsCtrl.setDisplayName("Options");
     myControls.add(myOptionsCtrl);
 
