@@ -24,7 +24,7 @@ public class MainScreen implements SolUiScreen {
   public static final float ICON_SZ = .03f;
   public static final float BAR_SZ = ICON_SZ * 5;
   public static final int MAX_ICON_COUNT = 3;
-  public static final float CELL_SZ = .2f;
+  public static final float CELL_SZ = .17f;
   public static final float H_PAD = .005f;
   public static final float V_PAD = H_PAD;
 
@@ -68,16 +68,24 @@ public class MainScreen implements SolUiScreen {
     } else {
       shipControl = new ShipMouseControl(cmp);
     }
-    myMenuCtrl = new SolUiControl(rightPaneLayout.buttonRect(0), true, Input.Keys.ESCAPE);
+    boolean mobile = cmp.isMobile();
+    float helperRow1 = 1 - 3f * MainScreen.CELL_SZ;
+    float helperRow2 = helperRow1 - .5f * MainScreen.CELL_SZ;
+    float lastCol = r - MainScreen.CELL_SZ;
+    Rectangle menuArea = mobile ? btn(0, helperRow2, true) : rightPaneLayout.buttonRect(0);
+    myMenuCtrl = new SolUiControl(menuArea, true, Input.Keys.ESCAPE);
     myMenuCtrl.setDisplayName("Menu");
     myControls.add(myMenuCtrl);
-    mapCtrl = new SolUiControl(rightPaneLayout.buttonRect(1), true, Input.Keys.TAB);
+    Rectangle mapArea = mobile ? btn(0, helperRow1, true) : rightPaneLayout.buttonRect(1);
+    mapCtrl = new SolUiControl(mapArea, true, Input.Keys.TAB);
     mapCtrl.setDisplayName("Map");
     myControls.add(mapCtrl);
-    invCtrl = new SolUiControl(rightPaneLayout.buttonRect(2), true, Input.Keys.I);
+    Rectangle invArea = mobile ? btn(lastCol, helperRow1, true) : rightPaneLayout.buttonRect(2);
+    invCtrl = new SolUiControl(invArea, true, Input.Keys.I);
     invCtrl.setDisplayName("Items");
     myControls.add(invCtrl);
-    talkCtrl = new SolUiControl(rightPaneLayout.buttonRect(3), true, Input.Keys.T);
+    Rectangle talkArea = mobile ? btn(lastCol, helperRow2, true) : rightPaneLayout.buttonRect(3);
+    talkCtrl = new SolUiControl(talkArea, true, Input.Keys.T);
     talkCtrl.setDisplayName("Talk");
     myControls.add(talkCtrl);
     myPauseCtrl = new SolUiControl(null, true, Input.Keys.P);
@@ -132,9 +140,11 @@ public class MainScreen implements SolUiScreen {
     drawer.draw(myCompassTex, sz, sz, sz/2, sz/2, sz/2, y, angle, myCompassTint);
   }
 
-  public static Rectangle btn(float x, float y) {
-    float gap = .02f;
-    return new Rectangle(x + gap, y + gap, CELL_SZ - gap * 2, CELL_SZ - gap*2);
+  public static Rectangle btn(float x, float y, boolean halfHeight) {
+    float gap = .01f;
+    float cellH = CELL_SZ;
+    if (halfHeight) cellH /= 2;
+    return new Rectangle(x + gap, y + gap, CELL_SZ - gap * 2, cellH - gap * 2);
   }
 
   @Override
