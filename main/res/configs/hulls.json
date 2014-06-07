@@ -154,7 +154,7 @@
 
   minerSmall: {
     size: 0.48,
-    maxLife: 70,
+    maxLife: 60,
     type: std,
     m1Fixed: true,
     m2Fixed: true,

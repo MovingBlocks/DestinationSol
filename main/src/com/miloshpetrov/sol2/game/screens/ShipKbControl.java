@@ -34,7 +34,7 @@ public class ShipKbControl implements ShipUiControl {
     rightCtrl.setDisplayName("Right");
     controls.add(rightCtrl);
     upCtrl = new SolUiControl(showButtons ? MainScreen.btn(col0, rowN0) : null, false, Input.Keys.UP);
-    upCtrl.setDisplayName("Up");
+    upCtrl.setDisplayName("Fwd");
     controls.add(upCtrl);
     myDownCtrl = new SolUiControl(null, true, Input.Keys.DOWN);
     controls.add(myDownCtrl);

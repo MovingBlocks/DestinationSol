@@ -1,4 +1,8 @@
 
+controls not convenient on android: move side buttons closer
+close screens on click outside
+
+
 draw trees on frozen -- J N
 recolor guns
 hardness? armor bonus

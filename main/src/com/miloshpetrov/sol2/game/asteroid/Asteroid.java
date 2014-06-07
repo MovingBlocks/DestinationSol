@@ -170,7 +170,7 @@ public class Asteroid implements SolObj {
       game.getObjMan().addObjDelayed(a);
       sclSum += a.mySize * a.mySize;
     }
-    float thrMoney = mySize * 30f * SolMath.rnd(.3f, 1);
+    float thrMoney = mySize * 40f * SolMath.rnd(.3f, 1);
     List<MoneyItem> moneyItems = game.getItemMan().moneyToItems(thrMoney);
     for (MoneyItem mi : moneyItems) {
       throwLoot(game, mi);

@@ -159,11 +159,11 @@ public class TutMan {
     }
 
     if (mouseCtrl) {
-      s("Use the ability of your ship (MIDDLE mouse button or SHIFT key)", abilityCtrl);
+      s("Use the ability of your ship (MIDDLE mouse button or SHIFT key)", abilityCtrl, true);
     } else if (mobile) {
-      s("Use the ability of your ship (ABILITY button)", abilityCtrl);
+      s("Use the ability of your ship (ABILITY button)", abilityCtrl, true);
     } else {
-      s("Use the ability of your ship (SHIFT key)", abilityCtrl);
+      s("Use the ability of your ship (SHIFT key)", abilityCtrl, true);
     }
 
     s("Here's a couple of hints... " + shootKey2, shootCtrl);

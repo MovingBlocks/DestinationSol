@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ShipBuilder {
   public static final float SHIP_DENSITY = 3f;
-  public static final float AVG_BATTLE_TIME = 20f;
+  public static final float AVG_BATTLE_TIME = 30f;
 
   private final PathLoader myPathLoader;
 
