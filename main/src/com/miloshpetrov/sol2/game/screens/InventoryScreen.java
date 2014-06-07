@@ -122,8 +122,8 @@ public class InventoryScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
-    if (closeCtrl.isJustOff()) {
+  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
+    if (clickedOutside || closeCtrl.isJustOff()) {
       cmp.getInputMan().setScreen(cmp, cmp.getGame().getScreens().mainScreen);
       if (myOperations != showInventory) cmp.getInputMan().addScreen(cmp, cmp.getGame().getScreens().talkScreen);
     }
@@ -256,6 +256,11 @@ public class InventoryScreen implements SolUiScreen {
       String desc = selItem.getDisplayName() + "\n" + selItem.getDesc();
       uiDrawer.drawString(desc, myDetailArea.x + .015f, myDetailArea.y + .015f, FontSize.WINDOW, false, Col.W);
     }
+  }
+
+  @Override
+  public boolean reactsToClickOutside() {
+    return true;
   }
 
   @Override

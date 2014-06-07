@@ -80,7 +80,7 @@ public class CreditsScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs) {
+  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
     if (myCloseCtrl.isJustOff()) {
       cmp.getInputMan().setScreen(cmp, cmp.getMenuScreens().main);
       return;
@@ -117,5 +117,10 @@ public class CreditsScreen implements SolUiScreen {
   @Override
   public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
     uiDrawer.drawString(myPages.get(myIdx), uiDrawer.r/2, .5f, FontSize.MENU, true, myColor);
+  }
+
+  @Override
+  public boolean reactsToClickOutside() {
+    return false;
   }
 }
