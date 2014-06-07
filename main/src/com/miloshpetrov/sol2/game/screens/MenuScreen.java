@@ -70,7 +70,7 @@ public class MenuScreen implements SolUiScreen {
 
   @Override
   public boolean isCursorOnBg(SolInputMan.Ptr ptr) {
-    return false;
+    return true;
   }
 
   @Override

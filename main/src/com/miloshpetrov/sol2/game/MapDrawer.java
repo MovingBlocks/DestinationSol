@@ -45,6 +45,8 @@ public class MapDrawer {
   private final TextureAtlas.AtlasRegion myIconBg;
   private final TextureAtlas.AtlasRegion myWarnAreaBg;
   private final TextureAtlas.AtlasRegion myWhiteTex;
+  private final TextureAtlas.AtlasRegion myLineTex;
+
   private final Color myAreaWarnCol;
   private final Color myAreaWarnBgCol;
 
@@ -70,6 +72,7 @@ public class MapDrawer {
     myBeaconMoveTex = texMan.getTex(MAP_TEX_DIR + "beaconMove", null);
     myBeaconFollowTex = texMan.getTex(MAP_TEX_DIR + "beaconFollow", null);
     myWhiteTex = texMan.getTex(MAP_TEX_DIR + "whiteTex", null);
+    myLineTex = texMan.getTex(MAP_TEX_DIR + "gridLine", null);
 
     myIconBg = texMan.getTex(TexMan.HULL_ICONS_DIR + "bg", null);
     mySkullTex = texMan.getTex(TexMan.HULL_ICONS_DIR + "skull", null);
@@ -92,7 +95,7 @@ public class MapDrawer {
     float heroDmgCap = hero == null ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero);
 
     drawer.updateMtx(game);
-    game.getGridDrawer().draw(drawer, game, GRID_SZ);
+    game.getGridDrawer().draw(drawer, game, GRID_SZ, myLineTex);
     drawPlanets(drawer, game, viewDist, np, camPos, heroDmgCap);
     drawMazes(drawer, game, viewDist, np, camPos, heroDmgCap);
     drawStarNodes(drawer, game, viewDist, camPos, starNodeW);
@@ -124,7 +127,7 @@ public class MapDrawer {
     ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
     for (int i3 = 0, systemsSize1 = systems.size(); i3 < systemsSize1; i3++) {
       SolSystem sys = systems.get(i3);
-      drawer.drawCircle(myWhiteTex, sys.getPos(), sys.getRadius(), Col.UI_MED, game.getCam().getRealLineWidth());
+      drawer.drawCircle(myLineTex, sys.getPos(), sys.getRadius(), Col.UI_MED, game.getCam().getRealLineWidth() * 3);
     }
     for (int i2 = 0, systemsSize = systems.size(); i2 < systemsSize; i2++) {
       SolSystem sys = systems.get(i2);

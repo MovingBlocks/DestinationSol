@@ -635,9 +635,9 @@ mapObjs/beaconMove
   index: -1
 mapObjs/gridLine
   rotate: false
-  xy: 416, 116
-  size: 1, 4
-  orig: 1, 4
+  xy: 416, 119
+  size: 4, 1
+  orig: 4, 1
   offset: 0, 0
   index: -1
 mapObjs/maze

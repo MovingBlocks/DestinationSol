@@ -13,7 +13,7 @@ import java.util.List;
 
 public class SellItems implements InventoryOperations {
 
-  public static float PERC = .7f;
+  public static float PERC = .8f;
   private final ArrayList<SolUiControl> myControls;
   public final SolUiControl sellCtrl;
 

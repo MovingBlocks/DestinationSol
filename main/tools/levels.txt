@@ -1,5 +1,20 @@
+after outer sys:
+  gun?
+
 after 1st planet:
   pirateSmall|pirateOrbiter
   gun|shotGun
 
+after asteroid belt:
+
+after inner sys:
+
 after desert planet:
+
+after maze:
+
+after outer sys 2:
+
+after frozen planet:
+
+after inner sys 2:
