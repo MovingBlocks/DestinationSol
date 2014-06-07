@@ -270,7 +270,7 @@ public class SolShip implements SolObj {
   private void throwAllLoot(SolGame game) {
     for (List<SolItem> group : myItemContainer) {
       for (SolItem item : group) {
-        float dropChance = maybeUnequip(game, item, false) ? .2f : .8f;
+        float dropChance = maybeUnequip(game, item, false) ? .3f : .6f;
         if (SolMath.test(1 - dropChance)) continue;
         throwLoot(game, item, true);
       }
@@ -289,7 +289,7 @@ public class SolShip implements SolObj {
       game.onHeroDeath();
       myMoney -= toRespawn;
     }
-    float thrMoney = myMoney * SolMath.rnd(.2f, .8f);
+    float thrMoney = myMoney * SolMath.rnd(.2f, 1);
     List<MoneyItem> moneyItems = game.getItemMan().moneyToItems(thrMoney);
     for (MoneyItem mi : moneyItems) {
       throwLoot(game, mi, true);
