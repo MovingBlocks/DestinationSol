@@ -142,7 +142,7 @@
     ],
 
     trading: {
-      items: "rep sloMoCharge fixedGun bulletClip a2 s2 fixedShotGun shellClip a3 s3 ",
+      items: "rep sloMoCharge fixedGun bulletClip a2 s2 fixedShotGun shellClip s3",
       ships: "imperialMedium imperialBig",
       mercenaries: [
         {

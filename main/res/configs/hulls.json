@@ -76,7 +76,7 @@
 
   piratePlanetTurret: {
     size: 0.8,
-    maxLife: 28,
+    maxLife: 26,
     type: station,
 
     texName: piratePlanetTurret,

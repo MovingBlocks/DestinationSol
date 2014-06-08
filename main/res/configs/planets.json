@@ -65,7 +65,7 @@
     },
 
     trading: {
-      items: "rep plasmaClip shotGun shellClip mineClip bombClip missileClip",
+      items: "rep plasmaClip shotGun shellClip mineClip bombClip missileClip s2",
       ships: "pirateSmall pirateOrbiter pirateMedium",
       mercenaries: [
         {
@@ -151,7 +151,7 @@
     },
 
     trading: {
-      items: "rep teleportCharge fixedGun bulletClip railClip cannon slugClip bombClip",
+      items: "rep teleportCharge fixedGun bulletClip railClip cannon slugClip bombClip a3",
       ships: "desertOrbiter desertSmall desertMedium",
       mercenaries: [
         {
