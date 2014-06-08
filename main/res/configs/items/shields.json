@@ -1,7 +1,7 @@
 {
   s1: {
     maxLife: 10,
-    price: 30,
+    price: 60,
 
     displayName: "Small Shield",
     icon: shield1,
@@ -15,7 +15,7 @@
 
   s2: {
     maxLife: 20,
-    price: 150,
+    price: 200,
 
     displayName: Shield,
     icon: shield2,
@@ -30,7 +30,7 @@
 
   s3: {
     maxLife: 30,
-    price: 400,
+    price: 500,
 
     displayName: "Big Shield",
     icon: shield3,

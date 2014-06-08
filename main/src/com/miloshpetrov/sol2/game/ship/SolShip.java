@@ -268,26 +268,27 @@ public class SolShip implements SolObj {
   }
 
   private void throwAllLoot(SolGame game) {
+    if (myPilot.isPlayer()) {
+      game.onHeroDeath();
+    }
+
     for (List<SolItem> group : myItemContainer) {
       for (SolItem item : group) {
         float dropChance = maybeUnequip(game, item, false) ? .4f : .6f;
-        if (SolMath.test(1 - dropChance)) continue;
-        throwLoot(game, item, true);
-      }
-    }
-    if (myTradeContainer != null) {
-      for (List<SolItem> group : myTradeContainer.getItems()) {
-        for (SolItem item : group) {
-          float dropChance = .8f;
-          if (SolMath.test(1 - dropChance)) continue;
+        if (SolMath.test(dropChance)) {
           throwLoot(game, item, true);
         }
       }
     }
-    if (myPilot.isPlayer()) {
-      float toRespawn = SolGame.RESPAWN_MONEY_PERC * myMoney;
-      game.onHeroDeath();
-      myMoney -= toRespawn;
+
+    if (myTradeContainer != null) {
+      for (List<SolItem> group : myTradeContainer.getItems()) {
+        for (SolItem item : group) {
+          if (SolMath.test(.6f)) {
+            throwLoot(game, item, true);
+          }
+        }
+      }
     }
     float thrMoney = myMoney * SolMath.rnd(.2f, 1);
     List<MoneyItem> moneyItems = game.getItemMan().moneyToItems(thrMoney);

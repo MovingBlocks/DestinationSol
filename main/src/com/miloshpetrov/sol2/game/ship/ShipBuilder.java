@@ -20,6 +20,7 @@ import java.util.List;
 public class ShipBuilder {
   public static final float SHIP_DENSITY = 3f;
   public static final float AVG_BATTLE_TIME = 30f;
+  public static final float AVG_ALLY_LIFE_TIME = 90f;
 
   private final PathLoader myPathLoader;
 
@@ -67,31 +68,33 @@ public class ShipBuilder {
       }
     }
 
-    addAbilityCharges(ic, hullConfig);
-    addAmmo(ic, g1);
-    addAmmo(ic, g2);
+    addAbilityCharges(ic, hullConfig, pilot);
+    addAmmo(ic, g1, pilot);
+    addAmmo(ic, g2, pilot);
 
     return new FarShip(new Vector2(pos), new Vector2(spd), angle, rotSpd, pilot, ic, hullConfig, hullConfig.maxLife,
       g1, g2, removeController, ei, hasRepairer ? new ShipRepairer() : null, money, tc, shield, armor);
   }
 
-  private void addAmmo(ItemContainer ic, GunItem g) {
+  private void addAmmo(ItemContainer ic, GunItem g, Pilot pilot) {
     if (g == null) return;
     GunConfig gc = g.config;
     ClipConfig cc = gc.clipConf;
     if (cc.infinite) return;
     float clipUseTime = cc.size * gc.timeBetweenShots + gc.reloadTime;
-    int count = 1 + (int) (AVG_BATTLE_TIME / clipUseTime) + SolMath.intRnd(0, 2);
+    float lifeTime = pilot.getFraction() == Fraction.LAANI ? AVG_ALLY_LIFE_TIME : AVG_BATTLE_TIME;
+    int count = 1 + (int) (lifeTime / clipUseTime) + SolMath.intRnd(0, 2);
     for (int i = 0; i < count; i++) {
       if (ic.canAdd(cc.example)) ic.add(cc.example.copy());
     }
   }
 
-  private void addAbilityCharges(ItemContainer ic, HullConfig hc) {
+  private void addAbilityCharges(ItemContainer ic, HullConfig hc, Pilot pilot) {
     if (hc.ability != null) {
       SolItem ex = hc.ability.getChargeExample();
       if (ex != null) {
-        int count = (int) (AVG_BATTLE_TIME / hc.ability.getRechargeTime() * SolMath.rnd(.3f, 1));
+        float lifeTime = pilot.getFraction() == Fraction.LAANI ? AVG_ALLY_LIFE_TIME : AVG_BATTLE_TIME;
+        int count = (int) (lifeTime / hc.ability.getRechargeTime() * SolMath.rnd(.3f, 1));
         for (int i = 0; i < count; i++) ic.add(ex.copy());
       }
     }
@@ -112,10 +115,12 @@ public class ShipBuilder {
       hull.setEngine(game, ship, engine);
     }
     if (gun1 != null) {
-      hull.getGunMount(false).setGun(game, ship, gun1, hullConfig.g1UnderShip);
+      GunMount m1 = hull.getGunMount(false);
+      if (m1.isFixed() == gun1.config.fixed) m1.setGun(game, ship, gun1, hullConfig.g1UnderShip);
     }
     if (gun2 != null) {
-      hull.getGunMount(true).setGun(game, ship, gun2, hullConfig.g2UnderShip);
+      GunMount m2 = hull.getGunMount(true);
+      if (m2.isFixed() == gun2.config.fixed) m2.setGun(game, ship, gun2, hullConfig.g2UnderShip);
     }
     return ship;
   }

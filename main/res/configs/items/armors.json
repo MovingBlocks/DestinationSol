@@ -13,7 +13,7 @@
 
 
   a2: {
-    price: 200,
+    price: 150,
     perc: 0.2,
 
     displayName: "Medium Armor",
@@ -27,7 +27,7 @@
 
 
   a3: {
-    price: 500,
+    price: 400,
     perc: 0.3,
 
     displayName: "Heavy Armor",

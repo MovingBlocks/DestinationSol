@@ -74,7 +74,7 @@
     ],
 
     trading: {
-      items: "rep blaster s1 a1 sloMoCharge gun bulletClip a2",
+      items: "rep blaster s1 a1 sloMoCharge gun bulletClip a2 missileClip plasmaClip",
       ships: "imperialSmall imperialMedium",
       mercenaries: [],
     },
