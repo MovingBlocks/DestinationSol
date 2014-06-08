@@ -23,11 +23,11 @@ import com.miloshpetrov.sol2.menu.GameOptions;
 import com.miloshpetrov.sol2.save.SaveData;
 import com.miloshpetrov.sol2.ui.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SolGame {
 
-  public static final float RESPAWN_MONEY_PERC = .75f;
   private final GameScreens myScreens;
   private final SolCam myCam;
   private final ObjMan myObjMan;
@@ -71,6 +71,7 @@ public class SolGame {
   private float myTimeFactor;
   private float myRespawnMoney;
   private HullConfig myRespawnHull;
+  private final ArrayList<SolItem> myRespawnItems;
 
   public SolGame(SolCmp cmp, SaveData sd, TexMan texMan, boolean tut, CommonDrawer commonDrawer) {
     myCmp = cmp;
@@ -109,6 +110,7 @@ public class SolGame {
     myDraDebugger = new DraDebugger();
     myBeaconHandler = new BeaconHandler(texMan);
     myMountDetectDrawer = new MountDetectDrawer(texMan);
+    myRespawnItems = new ArrayList<SolItem>();
 
     // from this point we're ready!
     myTimeFactor = 1;
@@ -123,6 +125,8 @@ public class SolGame {
 
   private void createPlayer() {
     Vector2 pos = myGalaxyFiller.getPlayerSpawnPos(this);
+    myCam.setPos(pos);
+
     Pilot pilot;
     if (myCmp.getOptions().controlType == GameOptions.CONTROL_MOUSE) {
       myBeaconHandler.init(this, pos);
@@ -130,15 +134,26 @@ public class SolGame {
     } else {
       pilot = new UiControlledPilot(myScreens.mainScreen);
     }
-    ShipConfig shipConfig = DebugOptions.GOD_MODE ? myPlayerSpawnConfig.godShipConfig : myPlayerSpawnConfig.shipConfig;
-    float money = myRespawnMoney != 0 ? myRespawnMoney : myTutMan != null ? 200 : shipConfig.money;
-    HullConfig hull = myRespawnHull == null ? shipConfig.hull : myRespawnHull;
-    myHero = myShipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, shipConfig.items,
-      hull, null, true, money, null).toObj(this);
-    ItemContainer ic = myHero.getItemContainer();
-    if (DebugOptions.GOD_MODE) myItemMan.addAllGuns(ic);
 
-    if (myTutMan != null) {
+    ShipConfig shipConfig = DebugOptions.GOD_MODE ? myPlayerSpawnConfig.godShipConfig : myPlayerSpawnConfig.shipConfig;
+
+    float money = myRespawnMoney != 0 ? myRespawnMoney : myTutMan != null ? 200 : shipConfig.money;
+
+    HullConfig hull = myRespawnHull != null ? myRespawnHull : shipConfig.hull;
+
+    String itemsStr = !myRespawnItems.isEmpty() ? "" : shipConfig.items;
+
+    myHero = myShipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, itemsStr, hull, null, true, money, null).toObj(this);
+
+    ItemContainer ic = myHero.getItemContainer();
+    if (!myRespawnItems.isEmpty()) {
+      for (int i1 = 0, sz = myRespawnItems.size(); i1 < sz; i1++) {
+        SolItem item = myRespawnItems.get(i1);
+        ic.add(item);
+      }
+    } else if (DebugOptions.GOD_MODE) {
+      myItemMan.addAllGuns(ic);
+    } else if (myTutMan != null) {
       for (int i = 0; i < 50; i++) {
         if (ic.groupCount() > Const.ITEM_GROUPS_PER_PAGE) break;
         SolItem it = myItemMan.random();
@@ -146,7 +161,6 @@ public class SolGame {
       }
     }
     ic.seenAll();
-    myCam.setPos(pos);
 
     myObjMan.addObjDelayed(myHero);
     myObjMan.resetDelays();
@@ -415,7 +429,25 @@ public class SolGame {
 
   public void onHeroDeath() {
     if (myHero == null) return;
-    myRespawnMoney = RESPAWN_MONEY_PERC * myHero.getMoney();
+
+    float allMoney = myHero.getMoney();
+    myRespawnMoney = .75f * allMoney;
+    myHero.setMoney(allMoney - myRespawnMoney);
+
     myRespawnHull = myHero.getHull().config;
+
+    myRespawnItems.clear();
+    ItemContainer ic = myHero.getItemContainer();
+    for (List<SolItem> group : ic) {
+      for (SolItem item : group) {
+        boolean equipped = myHero.maybeUnequip(this, item, false);
+        if (equipped || SolMath.test(.75f)) {
+          myRespawnItems.add(item);
+        }
+      }
+    }
+    for (SolItem item : myRespawnItems) {
+      ic.remove(item);
+    }
   }
 }

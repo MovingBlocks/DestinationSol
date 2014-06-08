@@ -1,9 +1,11 @@
 after outer sys:
-  gun?
+  gun
 
 after 1st planet:
-  pirateSmall|pirateOrbiter
-  gun|shotGun
+  pirateOrbiter
+  shotGun
+  a2
+  s2
 
 after asteroid belt:
 
