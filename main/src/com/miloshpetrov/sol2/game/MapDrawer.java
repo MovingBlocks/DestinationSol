@@ -176,7 +176,7 @@ public class MapDrawer {
       drawer.draw(myAtmTex, 2 * fh, 2 * fh, fh, fh, planetPos.x, planetPos.y, 0, Col.UI_DARK);
       float gh;
       if (dstToPlanetAtm < 0) {
-        gh = planet.getMinGroundHeight();
+        gh = planet.getMinGroundHeight() + .5f;
         drawer.draw(myPlanetCoreTex, 2 * gh, 2 * gh, gh, gh, planetPos.x, planetPos.y, planet.getAngle(), Col.W);
         drawNpGround(drawer, game, viewDist, np, camPos);
       } else {
