@@ -10,9 +10,9 @@
     temporaryEnemies: [
       {
         hull: minerSmall,
-        items: "missileLauncher a1:.2 s1:.2",
+        items: "missileLauncher",
 		money: 100,
-        density: 0.0015,
+        density: 0.002,
       },
     ],
   }

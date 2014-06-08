@@ -1,3 +1,4 @@
+lose only 25% of items on death
 
 draw trees on frozen -- J N
 recolor guns

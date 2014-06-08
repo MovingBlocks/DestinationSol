@@ -270,7 +270,7 @@ public class SolShip implements SolObj {
   private void throwAllLoot(SolGame game) {
     for (List<SolItem> group : myItemContainer) {
       for (SolItem item : group) {
-        float dropChance = maybeUnequip(game, item, false) ? .3f : .6f;
+        float dropChance = maybeUnequip(game, item, false) ? .4f : .6f;
         if (SolMath.test(1 - dropChance)) continue;
         throwLoot(game, item, true);
       }
