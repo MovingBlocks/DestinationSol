@@ -140,7 +140,6 @@
     },
 
     collisionSound: "misc/shipExplosion",
-    workSound: "engines/medWork",
   },
 
 
@@ -241,7 +240,6 @@
     },
 
     collisionSound: "misc/shipExplosion",
-    workSound: "engines/medWork",
   },
 
 

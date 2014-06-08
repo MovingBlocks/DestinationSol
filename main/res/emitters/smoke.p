@@ -10,8 +10,8 @@ max: 200
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 25.0
-highMax: 25.0
+highMin: 18.0
+highMax: 18.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -20,8 +20,8 @@ timeline0: 0.0
 - Life - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 3000.0
-highMax: 3000.0
+highMin: 2000.0
+highMax: 2000.0
 relative: false
 scalingCount: 2
 scaling0: 1.0
@@ -74,7 +74,7 @@ active: true
 lowMin: 0.0
 lowMax: 0.0
 highMin: 0.0
-highMax: 0.2
+highMax: 0.14
 relative: true
 scalingCount: 1
 scaling0: 1.0
@@ -93,8 +93,8 @@ timelineCount: 1
 timeline0: 0.0
 - Rotation - 
 active: true
-lowMin: -360.0
-lowMax: 360.0
+lowMin: -180.0
+lowMax: 180.0
 highMin: 0.0
 highMax: 0.0
 relative: false
