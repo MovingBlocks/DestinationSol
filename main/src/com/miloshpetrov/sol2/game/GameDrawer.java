@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.*;
 
 public class GameDrawer {
-  public static final int RAD_TO_POINTS = 8;
 
   public final float r;
   public final TextureAtlas.AtlasRegion debugWhiteTex;
@@ -66,9 +65,9 @@ public class GameDrawer {
     emitter.draw(myDrawer.getBatch(emitter.getSprite().getTexture(), tex));
   }
 
-  public void drawCircle(TextureRegion tex, Vector2 center, float radius, Color col, float width) {
+  public void drawCircle(TextureRegion tex, Vector2 center, float radius, Color col, float width, float vh) {
     maybeChangeAdditive(false);
-    myDrawer.drawCircle(tex, center, radius, col, width, (int) (radius * RAD_TO_POINTS));
+    myDrawer.drawCircle(tex, center, radius, col, width, vh);
   }
 
   public void maybeChangeAdditive(boolean additive) {

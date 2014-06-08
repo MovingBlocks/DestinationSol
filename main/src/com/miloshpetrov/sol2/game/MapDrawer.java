@@ -125,9 +125,12 @@ public class MapDrawer {
 
   private void drawPlanets(GameDrawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos, float heroDmgCap) {
     ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
+    SolCam cam = game.getCam();
+    float circleWidth = cam.getRealLineWidth() * 6;
+    float vh = cam.getViewHeight(myZoom);
     for (int i3 = 0, systemsSize1 = systems.size(); i3 < systemsSize1; i3++) {
       SolSystem sys = systems.get(i3);
-      drawer.drawCircle(myLineTex, sys.getPos(), sys.getRadius(), Col.UI_MED, game.getCam().getRealLineWidth() * 3);
+      drawer.drawCircle(myLineTex, sys.getPos(), sys.getRadius(), Col.UI_MED, circleWidth, vh);
     }
     for (int i2 = 0, systemsSize = systems.size(); i2 < systemsSize; i2++) {
       SolSystem sys = systems.get(i2);

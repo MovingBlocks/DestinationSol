@@ -155,10 +155,11 @@ public class DraMan {
   }
 
   private void drawDebug(GameDrawer drawer, SolGame game, Dra dra) {
-    float lineWidth = game.getCam().getRealLineWidth();
+    SolCam cam = game.getCam();
+    float lineWidth = cam.getRealLineWidth();
     Color col = myInCam.contains(dra) ? DebugCol.DRA : DebugCol.DRA_OUT;
     Vector2 pos = dra.getPos();
-    drawer.drawCircle(drawer.debugWhiteTex, pos, dra.getRadius(), col, lineWidth);
+    drawer.drawCircle(drawer.debugWhiteTex, pos, dra.getRadius(), col, lineWidth, cam.getViewHeight());
   }
 
   private boolean isInCam(Vector2 pos, float r, Vector2 camPos, float viewDist) {

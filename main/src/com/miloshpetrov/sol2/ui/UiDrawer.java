@@ -7,7 +7,6 @@ import com.miloshpetrov.sol2.*;
 
 public class UiDrawer {
 
-  public static final int UI_RAD_TO_POINTS = 300;
   private static final float FONT_SIZE = .02f;
 
   public final Matrix4 straightMtx;
@@ -55,7 +54,7 @@ public class UiDrawer {
 
   public void drawCircle(Vector2 center, float radius, Color col) {
     check();
-    myDrawer.drawCircle(whiteTex, center, radius, col, uiLineWidth, (int) (radius * UI_RAD_TO_POINTS));
+    myDrawer.drawCircle(whiteTex, center, radius, col, uiLineWidth, 1);
   }
 
   public void drawLine(float x, float y, float angle, float len, Color col) {
