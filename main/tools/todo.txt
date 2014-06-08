@@ -1,4 +1,3 @@
-add margins to all images
 
 draw trees on frozen -- J N
 recolor guns

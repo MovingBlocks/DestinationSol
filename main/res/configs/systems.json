@@ -54,7 +54,7 @@
       {
         hull: pirateSpaceTurret,
         items: "plasmaGun",
-		money: 20,
+		money: 40,
         density: 0.0015,
       },
     ],
