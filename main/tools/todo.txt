@@ -1,4 +1,12 @@
-
+add margins to all images
+missile perf:
+  projectiles?
+    code
+    less smoke
+  guiding?
+    code
+  sound?
+    remove loop time caches, pass float[] loopEnd instead
 
 draw trees on frozen -- J N
 recolor guns

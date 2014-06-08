@@ -77,7 +77,9 @@ public class CommonDrawer {
     draw(tex, rect.width, rect.height, (float) 0, (float) 0, rect.x, rect.y, (float) 0, tint);
   }
 
-  public void drawCircle(TextureRegion tex, Vector2 center, float radius, Color col, float width, int pointCount) {
+  public void drawCircle(TextureRegion tex, Vector2 center, float radius, Color col, float width, float vh) {
+    float relRad = radius / vh;
+    int pointCount = (int) (160 * relRad);
     Vector2 pos = SolMath.getVec();
     if (pointCount < 8) pointCount = 8;
     float lineLen = radius * SolMath.PI * 2 / pointCount;

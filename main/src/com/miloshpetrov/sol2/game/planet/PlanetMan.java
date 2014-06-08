@@ -140,14 +140,16 @@ public class PlanetMan {
 
   public void drawDebug(GameDrawer drawer, SolGame game) {
     if (DebugOptions.DRAW_PLANET_BORDERS) {
-      float lineWidth = game.getCam().getRealLineWidth();
+      SolCam cam = game.getCam();
+      float lineWidth = cam.getRealLineWidth();
+      float vh = cam.getViewHeight();
       for (Planet p : myPlanets) {
         Vector2 pos = p.getPos();
         float angle = p.getAngle();
         float fh = p.getFullHeight();
         Color col = p == myNearestPlanet ? Col.W : Col.G;
-        drawer.drawCircle(drawer.debugWhiteTex, pos, p.getGroundHeight(), col, lineWidth);
-        drawer.drawCircle(drawer.debugWhiteTex, pos, fh, col, lineWidth);
+        drawer.drawCircle(drawer.debugWhiteTex, pos, p.getGroundHeight(), col, lineWidth, vh);
+        drawer.drawCircle(drawer.debugWhiteTex, pos, fh, col, lineWidth, vh);
         drawer.drawLine(drawer.debugWhiteTex, pos.x, pos.y, angle, fh, col, lineWidth);
       }
 
