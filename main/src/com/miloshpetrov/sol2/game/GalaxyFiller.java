@@ -94,15 +94,14 @@ public class GalaxyFiller {
 
     for (SolSystem sys : systems) {
       SysConfig sysConfig = sys.getConfig();
-      int planetCount = sys.getPlanets().size();
       for (ShipConfig shipConfig : sysConfig.constAllies) {
-        int count = (int)(shipConfig.density * planetCount);
+        int count = (int)(shipConfig.density);
         for (int i = 0; i < count; i++) {
           build(game, shipConfig, Fraction.LAANI, false, sys);
         }
       }
       for (ShipConfig shipConfig : sysConfig.constEnemies) {
-        int count = (int)(shipConfig.density * planetCount);
+        int count = (int)(shipConfig.density);
         for (int i = 0; i < count; i++) {
           build(game, shipConfig, Fraction.EHAR, false, sys);
         }
