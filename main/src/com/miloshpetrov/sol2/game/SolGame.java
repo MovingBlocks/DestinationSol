@@ -329,10 +329,12 @@ public class SolGame {
     return myFractionMan;
   }
 
-  public boolean isPlaceEmpty(Vector2 pos) {
+  public boolean isPlaceEmpty(Vector2 pos, boolean considerPlanets) {
     Planet np = myPlanetMan.getNearestPlanet(pos);
-    boolean inPlanet = np.getPos().dst(pos) < np.getFullHeight();
-    if (inPlanet) return false;
+    if (considerPlanets) {
+      boolean inPlanet = np.getPos().dst(pos) < np.getFullHeight();
+      if (inPlanet) return false;
+    }
     SolSystem ns = myPlanetMan.getNearestSystem(pos);
     if (ns.getPos().dst(pos) < SunSingleton.SUN_HOT_RAD) return false;
     List<SolObj> objs = myObjMan.getObjs();

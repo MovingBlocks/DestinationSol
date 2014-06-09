@@ -73,7 +73,7 @@ public class ShipEngine {
 
     EngineItem e = myItem;
     if (working) {
-      Vector2 v = SolMath.fromAl(shipAngle, mass * e.getAac());
+      Vector2 v = SolMath.fromAl(shipAngle, mass * e.getAcc());
       body.applyForceToCenter(v, true);
       SolMath.free(v);
     }

@@ -109,7 +109,7 @@ public class ChunkFiller {
     Vector2 mainStationPos = game.getGalaxyFiller().getMainStationPos();
     Vector2 startPos = mainStationPos == null ? new Vector2() : mainStationPos;
     float dst = chCenter.dst(startPos);
-    if (dst > Const.CHUNK_SIZE) {
+    if (Const.CHUNK_SIZE < dst) {
       fillAsteroids(game, remover, false, chCenter);
       ArrayList<ShipConfig> enemies = sys.getPos().dst(chCenter) < sys.getInnerRad() ? conf.innerTempEnemies : conf.tempEnemies;
       for (ShipConfig enemyConf : enemies) {
@@ -227,7 +227,7 @@ public class ChunkFiller {
     for (int i = 0; i < 100; i++) {
       pos.x += SolMath.rnd(Const.CHUNK_SIZE/2);
       pos.y += SolMath.rnd(Const.CHUNK_SIZE/2);
-      if (g.isPlaceEmpty(pos)) return pos;
+      if (g.isPlaceEmpty(pos, true)) return pos;
     }
     return null;
   }

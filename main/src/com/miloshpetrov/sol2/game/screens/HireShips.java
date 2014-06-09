@@ -9,6 +9,7 @@ import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.input.AiPilot;
 import com.miloshpetrov.sol2.game.input.Guardian;
 import com.miloshpetrov.sol2.game.item.*;
+import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.*;
 import com.miloshpetrov.sol2.ui.*;
 
@@ -69,29 +70,42 @@ public class HireShips implements InventoryOperations {
     myBuyCtrl.setEnabled(enabled);
     if (!enabled) return;
     if (myBuyCtrl.isJustOff()) {
-      hero.setMoney(hero.getMoney() - selItem.getPrice());
-      hireShip(game, hero, (MercItem) selItem);
+      boolean hired = hireShip(game, hero, (MercItem) selItem);
+      if (hired) hero.setMoney(hero.getMoney() - selItem.getPrice());
     }
   }
 
-  private void hireShip(SolGame game, SolShip hero, MercItem selected) {
+  private boolean hireShip(SolGame game, SolShip hero, MercItem selected) {
     ShipConfig config = selected.getConfig();
     Guardian dp = new Guardian(game, config.hull, hero.getPilot(), hero.getPos(), hero.getHull().config, SolMath.rnd(180));
     AiPilot pilot = new AiPilot(dp, true, Fraction.LAANI, false, "Merc", Const.AI_DET_DIST);
     Vector2 pos = getPos(game, hero, config.hull);
+    if (pos == null) return false;
     FarShip merc = game.getShipBuilder().buildNewFar(game, pos, new Vector2(), 0, 0, pilot, config.items, config.hull, null, true, config.money, null);
     game.getObjMan().addFarObjNow(merc);
+    return true;
   }
 
   private Vector2 getPos(SolGame game, SolShip hero, HullConfig hull) {
     Vector2 pos = new Vector2();
     float dist = hero.getHull().config.approxRadius + Guardian.DIST + hull.approxRadius;
+    Vector2 heroPos = hero.getPos();
+    Planet np = game.getPlanetMan().getNearestPlanet();
+    boolean nearGround = np.isNearGround(heroPos);
+    float fromPlanet = SolMath.angle(np.getPos(), heroPos);
     for (int i = 0; i < 50; i++) {
-      SolMath.fromAl(pos, SolMath.rnd(180), dist);
-      pos.add(hero.getPos());
-      if (game.isPlaceEmpty(pos)) break;
+      float relAngle;
+      if (nearGround) {
+        relAngle = fromPlanet;
+        if (i != 0) dist += Guardian.DIST;
+      } else {
+        relAngle = SolMath.rnd(180);
+      }
+      SolMath.fromAl(pos, relAngle, dist);
+      pos.add(heroPos);
+      if (game.isPlaceEmpty(pos, false)) return pos;
     }
-    return pos;
+    return null;
   }
 
   @Override

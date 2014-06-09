@@ -105,6 +105,7 @@ public class Guardian implements MoveDestProvider {
 
   @Override
   public Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround) {
+    if (!canShoot) return null;
     Vector2 targetPos = null;
     if (myTarget != null) {
       targetPos = myTarget.getPos();

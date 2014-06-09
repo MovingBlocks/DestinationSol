@@ -85,40 +85,11 @@
 
 
 
-  desertOrbiter: {
-    size: 0.41,
+  imperialMedium: {
+    size: 0.55,
     maxLife: 38,
     type: std,
     price: 400,
-    hirePrice: 1200,
-    m1Fixed: true,
-
-    texName: desertOrbiter,
-    g1Pos: "0.32 0.32",
-    e1Pos: "0 0.33",
-    e2Pos: "0 0.67",
-    displayName: "Bomber",
-    engine: desert,
-  },
-
-
-
-  desertPlanetTurret: {
-    size: 0.8,
-    maxLife: 46,
-    type: station,
-
-    texName: desertPlanetTurret,
-    g1Pos: "0.51 0.21",
-  },
-
-
-
-  imperialMedium: {
-    size: 0.55,
-    maxLife: 54,
-    type: std,
-    price: 600,
     hirePrice: 2000,
     m1Fixed: true,
     ability: {
@@ -134,6 +105,35 @@
     e2Pos: "0.15 0.62",
     displayName: "Fighter",
     engine: imperial,
+  },
+
+
+
+  desertPlanetTurret: {
+    size: 0.8,
+    maxLife: 46,
+    type: station,
+
+    texName: desertPlanetTurret,
+    g1Pos: "0.51 0.21",
+  },
+
+
+
+  desertOrbiter: {
+    size: 0.41,
+    maxLife: 54,
+    type: std,
+    price: 600,
+    hirePrice: 1200,
+    m1Fixed: true,
+
+    texName: desertOrbiter,
+    g1Pos: "0.32 0.32",
+    e1Pos: "0 0.33",
+    e2Pos: "0 0.67",
+    displayName: "Bomber",
+    engine: desert,
   },
 
 
