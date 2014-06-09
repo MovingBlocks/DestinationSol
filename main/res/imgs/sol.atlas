@@ -1124,7 +1124,7 @@ smallGameObjs/particles/spark
   index: -1
 smallGameObjs/particles/techieTrail
   rotate: false
-  xy: 704, 636
+  xy: 704, 638
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -1152,9 +1152,9 @@ smallGameObjs/projectiles/bomb
   index: -1
 smallGameObjs/projectiles/bullet
   rotate: false
-  xy: 704, 668
-  size: 64, 4
-  orig: 64, 4
+  xy: 704, 670
+  size: 64, 2
+  orig: 64, 2
   offset: 0, 0
   index: -1
 smallGameObjs/projectiles/mine

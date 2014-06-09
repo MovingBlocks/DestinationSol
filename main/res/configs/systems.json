@@ -62,7 +62,7 @@
       {
         hull: pirateSpaceTurret,
         items: "gun|shotGun s2:.62",
-        money: 70,
+        money: 100,
         density: 0.001,
       },
       {

@@ -235,7 +235,7 @@ public class AiPilot implements Pilot {
   public void updateFar(SolGame game, FarShip farShip) {
     Vector2 shipPos = farShip.getPos();
     HullConfig hullConfig = farShip.getHullConfig();
-    float maxIdleDist = .05f;
+    float maxIdleDist = getMaxIdleDist(hullConfig);
     myDestProvider.update(game, shipPos, maxIdleDist, hullConfig, null);
     Vector2 dest = myDestProvider.getDest();
 
@@ -260,7 +260,8 @@ public class AiPilot implements Pilot {
     } else {
       float toDestLen = shipPos.dst(dest);
       float desiredAngle;
-      if (myDestProvider.shouldStopNearDest() && toDestLen < maxIdleDist) {
+      float maxIdleDistHack = .05f; // to avoid StillGuards from getting stuck inside ground
+      if (myDestProvider.shouldStopNearDest() && toDestLen < maxIdleDistHack) {
         spd.set(myDestProvider.getDestSpd());
         desiredAngle = angle; // can be improved
       } else {

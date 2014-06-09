@@ -71,7 +71,7 @@
     dmgType: bullet,
 
     texName: bullet,
-    texSz: 0.015,
+    texSz: 0.018,
     stretch: true,
     collisionEffect: {
       effectFile: spark,
@@ -89,7 +89,7 @@
     dmgType: bullet,
 
     texName: bullet,
-    texSz: 0.02,
+    texSz: 0.022,
     stretch: true,
     collisionEffect: {
       effectFile: spark,
@@ -248,7 +248,6 @@
     dmg: 37,
     dmgType: bullet,
     spdLen: 15,
-    physSize: 0.15,
 
     texName: bullet,
     texSz: 0.03,
