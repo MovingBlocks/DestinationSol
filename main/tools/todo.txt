@@ -1,6 +1,5 @@
-packs of clips?
 
-draw trees on frozen -- J N
+draw trees on frozen : (
 recolor guns
 hardness? armor bonus
 replace sounds
