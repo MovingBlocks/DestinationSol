@@ -10,19 +10,19 @@
     constantAllies: [
       {
         hull: imperialMedium,
-        items: "fixedGun a1:.5 s1|s2:.5",
-        density: 0.5,
+        items: "fixedGun a1:.5 s1|s2:.75",
+        density: 2,
       },
       {
         hull: bus,
         items: "gun gun a1|a2 s2|s3",
-        density: 0.3,
+        density: 1,
       },
       {
         hull: station,
         items: "cannon gun",
 		repairer: true,
-        density: 0.3,
+        density: 1,
         guard: {
           hull: imperialBig,
           items: "fixedGun fixedShotGun a2|a3 s2|s3",
@@ -35,13 +35,13 @@
         hull: pirateSmall,
         items: "plasmaGun s1:.12",
 		money: 50,
-        density: 0.8,
+        density: 2,
       },
       {
         hull: truck,
         items: "shotGun s2|s3:.74",
 		money: 400,
-        density: 0.6,
+        density: 1,
         guard: {
           hull: pirateSmall,
           items: "shotGun s3:.86",
@@ -96,7 +96,7 @@
         hull: station,
         items: "gun cannon",
 		repairer: true,
-        density: 0.3,
+        density: 2,
         guard: {
           hull: imperialBig,
           items: "fixedGun fixedShotGun a2|a3 s2|s3",
@@ -109,7 +109,7 @@
         hull: desertMedium,
         items: "railGun|fixedCannon fixedGun|railGun:.8 a4 s2|s3:.6",
 		money: 300,
-        density: 1,
+        density: 3,
       },
     ],
     temporaryEnemies: [

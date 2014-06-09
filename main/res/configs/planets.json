@@ -147,7 +147,7 @@
     ],
     station: {
       hull: drome,
-      items: "shotGun s3 rep:1:4",
+      items: "shotGun s3 a3 rep:1:4",
     },
 
     trading: {

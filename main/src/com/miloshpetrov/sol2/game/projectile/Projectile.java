@@ -286,7 +286,7 @@ public class
     @Override
     public void draw(GameDrawer drawer, SolGame game) {
       float h = myWidth;
-      float minH = game.getCam().getRealLineWidth() * 2;
+      float minH = game.getCam().getRealLineWidth() * 3;
       if (h < minH) h = minH;
       Vector2 pos = myProjectile.getPos();
       float w = myProjectile.getSpd().len() * game.getTimeStep();
