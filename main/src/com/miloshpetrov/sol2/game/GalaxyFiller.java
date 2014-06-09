@@ -171,7 +171,7 @@ public class GalaxyFiller {
     for (int i = 0; i < 100; i++) {
       SolMath.fromAl(res, SolMath.rnd(180), SolMath.rnd(sRadius));
       res.add(sPos);
-      if (game.isPlaceEmpty(res)) return res;
+      if (game.isPlaceEmpty(res, true)) return res;
     }
     throw new AssertionError("could not generate ship position");
   }

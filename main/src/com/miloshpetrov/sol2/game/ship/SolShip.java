@@ -160,7 +160,7 @@ public class SolShip implements SolObj {
 
   public float getAcc() {
     EngineItem e = myHull.getEngine();
-    return e == null ? 0 : e.getAac();
+    return e == null ? 0 : e.getAcc();
   }
 
   @Override

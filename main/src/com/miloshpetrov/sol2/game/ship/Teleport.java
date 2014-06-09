@@ -7,6 +7,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.item.SolItem;
+import com.miloshpetrov.sol2.game.planet.Planet;
 
 public class Teleport implements ShipAbility {
   public static final int MAX_RADIUS = 4;
@@ -30,13 +31,15 @@ public class Teleport implements ShipAbility {
     SolShip ne = game.getFractionMan().getNearestEnemy(game, MAX_RADIUS, frac, pos);
     if (ne == null) return false;
     Vector2 nePos = ne.getPos();
+    Planet np = game.getPlanetMan().getNearestPlanet();
+    if (np.isNearGround(nePos)) return false;
     for (int i = 0; i < 5; i++) {
       myNewPos.set(pos);
       myNewPos.sub(nePos);
       myAngle = myConfig.angle * SolMath.rnd(.5f, 1) * SolMath.toInt(SolMath.test(.5f));
       SolMath.rotate(myNewPos, myAngle);
       myNewPos.add(nePos);
-      if (game.isPlaceEmpty(myNewPos)) {
+      if (game.isPlaceEmpty(myNewPos, false)) {
         myShouldTeleport = true;
         return true;
       }

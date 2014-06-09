@@ -132,10 +132,15 @@ public class ObjMan {
     myRadii.put(o, rad);
   }
 
-  public float getRadius(SolObj o) {
+  public float getPresenceRadius(SolObj o) {
+    Float res = getRadius(o);
+    return res + Const.MAX_MOVE_SPD * (MAX_RADIUS_RECALC_AWAIT - myRadiusRecalcAwait);
+  }
+
+  public Float getRadius(SolObj o) {
     Float res = myRadii.get(o);
     if (res == null) throw new AssertionError("no radius for " + o);
-    return res + Const.MAX_MOVE_SPD * (MAX_RADIUS_RECALC_AWAIT - myRadiusRecalcAwait);
+    return res;
   }
 
   private void addRemove(SolGame game) {
@@ -180,7 +185,7 @@ public class ObjMan {
   }
 
   private boolean isFar(SolObj o, Vector2 camPos) {
-    float r = getRadius(o);
+    float r = getPresenceRadius(o);
     List<Dra> dras = o.getDras();
     if (dras != null && dras.size() > 0) r *= dras.get(0).getLevel().depth;
     float dst = o.getPos().dst(camPos) - r;

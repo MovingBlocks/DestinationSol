@@ -21,6 +21,8 @@ public class SoundMan {
   private final DebugHintDrawer myHintDrawer;
   private final Map<SolObj, Map<SolSound, Float>> myLoopedSounds;
 
+  private float myLoopAwait;
+
   public SoundMan() {
     mySounds = new HashMap<String, SolSound>();
     myHintDrawer = new DebugHintDrawer();
@@ -167,7 +169,11 @@ public class SoundMan {
 
   public void update(SolGame game) {
     if (DebugOptions.SOUND_INFO) myHintDrawer.update(game);
-    cleanLooped(game);
+    myLoopAwait -= game.getTimeStep();
+    if (myLoopAwait <= 0) {
+      myLoopAwait = 30;
+      cleanLooped(game);
+    }
   }
 
   private void cleanLooped(SolGame game) {

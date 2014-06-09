@@ -38,7 +38,7 @@ public class EngineItem implements SolItem {
   }
 
   public float getRotAcc() { return myConfig.rotAcc; }
-  public float getAac() { return myConfig.acc; }
+  public float getAcc() { return myConfig.acc; }
   public float getMaxRotSpd() { return myConfig.maxRotSpd; }
   public boolean isBig() { return myConfig.big; }
 

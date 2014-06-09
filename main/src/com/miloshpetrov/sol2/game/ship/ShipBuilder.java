@@ -20,7 +20,7 @@ import java.util.List;
 public class ShipBuilder {
   public static final float SHIP_DENSITY = 3f;
   public static final float AVG_BATTLE_TIME = 30f;
-  public static final float AVG_ALLY_LIFE_TIME = 90f;
+  public static final float AVG_ALLY_LIFE_TIME = 75f;
 
   private final PathLoader myPathLoader;
 
@@ -93,8 +93,13 @@ public class ShipBuilder {
     if (hc.ability != null) {
       SolItem ex = hc.ability.getChargeExample();
       if (ex != null) {
-        float lifeTime = pilot.getFraction() == Fraction.LAANI ? AVG_ALLY_LIFE_TIME : AVG_BATTLE_TIME;
-        int count = (int) (lifeTime / hc.ability.getRechargeTime() * SolMath.rnd(.3f, 1));
+        int count;
+        if (pilot.isPlayer()) {
+          count = 3;
+        } else {
+          float lifeTime = pilot.getFraction() == Fraction.LAANI ? AVG_ALLY_LIFE_TIME : AVG_BATTLE_TIME;
+          count = (int) (lifeTime / hc.ability.getRechargeTime() * SolMath.rnd(.3f, 1));
+        }
         for (int i = 0; i < count; i++) ic.add(ex.copy());
       }
     }

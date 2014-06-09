@@ -48,6 +48,9 @@ public class CreditsScreen implements SolUiScreen {
         "",
         "Platform:",
         "OpenJDK",
+        "",
+        "Windows wrapper:",
+        "Launch4J"
       },
       {
         "Font:",
