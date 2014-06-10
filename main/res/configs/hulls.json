@@ -127,6 +127,11 @@
     price: 600,
     hirePrice: 800,
     m1Fixed: true,
+    ability: {
+      type: teleport,
+      angle: 90,
+      rechargeTime: 2,
+    },
 
     texName: desertOrbiter,
     g1Pos: "0.32 0.32",
@@ -184,8 +189,8 @@
     m2Fixed: true,
     ability: {
       type: teleport,
-      angle: 45,
-      rechargeTime: 7,
+      angle: 120,
+      rechargeTime: 2,
     },
 
     texName: desertSmall,
@@ -342,8 +347,8 @@
     m2Fixed: true,
     ability: {
       type: teleport,
-      angle: 90,
-      rechargeTime: 7,
+      angle: 180,
+      rechargeTime: 2,
     },
 
     texName: desertMedium,
@@ -425,8 +430,8 @@
     m1Fixed: true,
     ability: {
       type: teleport,
-      angle: 45,
-      rechargeTime: 7,
+      angle: 120,
+      rechargeTime: 2,
     },
 
     texName: desertBoss,
