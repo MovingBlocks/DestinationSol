@@ -29,15 +29,13 @@ public class MainScreen implements SolUiScreen {
   public static final float V_PAD = H_PAD;
 
   private final List<SolUiControl> myControls;
-  private final DmgWarnDrawer myDmgWarnDrawer;
-  private final SunWarnDrawer mySunWarnDrawer;
-  private final CollisionWarnDrawer myCollisionWarnDrawer;
   private final ZoneNameAnnouncer myZoneNameAnnouncer;
   private final BorderDrawer myBorderDrawer;
   private final TextureAtlas.AtlasRegion myLifeTex;
   private final TextureAtlas.AtlasRegion myInfinityTex;
   private final TextureAtlas.AtlasRegion myWaitTex;
   private final TextureAtlas.AtlasRegion myCompassTex;
+  private final List<WarnDrawer> myWarnDrawers;
 
   public final ShipUiControl shipControl;
   private final SolUiControl myMenuCtrl;
@@ -92,9 +90,13 @@ public class MainScreen implements SolUiScreen {
     myControls.add(myPauseCtrl);
 
 
-    myDmgWarnDrawer = new DmgWarnDrawer(r);
-    mySunWarnDrawer = new SunWarnDrawer(r);
-    myCollisionWarnDrawer = new CollisionWarnDrawer(r);
+    myWarnDrawers = new ArrayList<WarnDrawer>();
+    myWarnDrawers.add(new DmgWarnDrawer(r));
+    myWarnDrawers.add(new CollisionWarnDrawer(r));
+    myWarnDrawers.add(new SunWarnDrawer(r));
+    myWarnDrawers.add(new NoShieldWarn(r));
+    myWarnDrawers.add(new NoArmorWarn(r));
+
     myZoneNameAnnouncer = new ZoneNameAnnouncer();
     myBorderDrawer = new BorderDrawer(r, cmp);
 
@@ -163,9 +165,11 @@ public class MainScreen implements SolUiScreen {
     GameScreens screens = game.getScreens();
     SolShip hero = game.getHero();
 
-    myDmgWarnDrawer.update(game);
-    mySunWarnDrawer.update(game);
-    myCollisionWarnDrawer.update(game);
+    for (int i = 0, sz = myWarnDrawers.size(); i < sz; i++) {
+      WarnDrawer wd = myWarnDrawers.get(i);
+      wd.update(game);
+    }
+
     myZoneNameAnnouncer.update(game);
 
     if (myMenuCtrl.isJustOff()) {
@@ -371,9 +375,13 @@ public class MainScreen implements SolUiScreen {
       updateTextPlace(col1, row, (int) hero.getMoney() + "", myMoneyExcessTp);
     }
 
-    myDmgWarnDrawer.draw(uiDrawer);
-    mySunWarnDrawer.draw(uiDrawer);
-    myCollisionWarnDrawer.draw(uiDrawer);
+    for (int i = 0, sz = myWarnDrawers.size(); i < sz; i++) {
+      WarnDrawer wd = myWarnDrawers.get(i);
+      if (wd.show) {
+        wd.draw(uiDrawer);
+        break;
+      }
+    }
   }
 
   @Override
@@ -388,9 +396,14 @@ public class MainScreen implements SolUiScreen {
     myChargesExcessTp.draw(uiDrawer);
     myMoneyExcessTp.draw(uiDrawer);
 
-    myDmgWarnDrawer.drawText(uiDrawer);
-    mySunWarnDrawer.drawText(uiDrawer);
-    myCollisionWarnDrawer.drawText(uiDrawer);
+    for (int i = 0, sz = myWarnDrawers.size(); i < sz; i++) {
+      WarnDrawer wd = myWarnDrawers.get(i);
+      if (wd.show) {
+        wd.drawText(uiDrawer);
+        break;
+      }
+    }
+
     myZoneNameAnnouncer.drawText(uiDrawer);
   }
 
@@ -446,4 +459,25 @@ public class MainScreen implements SolUiScreen {
     }
   }
 
+  private static class NoShieldWarn extends WarnDrawer {
+    public NoShieldWarn(float r) {
+      super(r, "No Shield");
+    }
+    protected boolean shouldWarn(SolGame game) {
+      SolShip h = game.getHero();
+      if (h == null) return false;
+      return h.getShield() == null;
+    }
+  }
+
+  private static class NoArmorWarn extends WarnDrawer {
+    public NoArmorWarn(float r) {
+      super(r, "No Armor");
+    }
+    protected boolean shouldWarn(SolGame game) {
+      SolShip h = game.getHero();
+      if (h == null) return false;
+      return h.getArmor() == null;
+    }
+  }
 }

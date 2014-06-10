@@ -1,5 +1,3 @@
-no armor / no shield warn
-
 stronger smallPirate explorers
 cheaper hiring
 less money on desert
