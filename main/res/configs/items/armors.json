@@ -6,8 +6,9 @@
     displayName: "Light Armor",
     icon: "armor1",
 
-    bulletHitSound: "armor/armor1/bulletHit",
-    energyHitSound: "armor/armor1/energyHit",
+    bulletHitSound: "metal/bulletHit",
+    energyHitSound: "empty",
+    baseSoundPitch: 1,
   },
 
 
@@ -19,8 +20,8 @@
     displayName: "Medium Armor",
     icon: "armor2",
 
-    bulletHitSound: "armor/armor1/bulletHit",
-    energyHitSound: "armor/armor1/energyHit",
+    bulletHitSound: "metal/bulletHit",
+    energyHitSound: "empty",
     baseSoundPitch: 0.9,
   },
 
@@ -33,8 +34,8 @@
     displayName: "Heavy Armor",
     icon: "armor3",
 
-    bulletHitSound: "armor/armor1/bulletHit",
-    energyHitSound: "armor/armor1/energyHit",
+    bulletHitSound: "metal/bulletHit",
+    energyHitSound: "empty",
     baseSoundPitch: 0.8,
   },
 
@@ -47,8 +48,8 @@
     displayName: "Advanced Armor",
     icon: "armor4",
 
-    bulletHitSound: "armor/armor1/bulletHit",
-    energyHitSound: "armor/armor1/energyHit",
+    bulletHitSound: "metal/bulletHit",
+    energyHitSound: "empty",
     baseSoundPitch: 0.7,
 },
 }

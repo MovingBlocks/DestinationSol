@@ -35,7 +35,7 @@ public class SpecialSounds {
     FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "specialSounds.json");
     JsonValue node = r.parse(configFile);
     metalColl = soundMan.getSound(node.getString("metalCollision"), configFile);
-    metalBulletHit = soundMan.getSound(node.getString("metalBulletHit"), configFile);
+    metalBulletHit = soundMan.getPitchedSound(node.getString("metalBulletHit"), configFile, 1.1f);
     metalEnergyHit = soundMan.getSound(node.getString("metalEnergyHit"), configFile);
     rockColl = soundMan.getSound(node.getString("rockCollision"), configFile);
     rockBulletHit = soundMan.getSound(node.getString("rockBulletHit"), configFile);

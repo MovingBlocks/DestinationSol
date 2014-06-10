@@ -8,6 +8,7 @@
     tex: "smallGameObjs/shield1",
 
     absorbSound: "shields/shield1/absorb",
+    absorbSoundPitch: 1.1,
     regenSound:  "shields/shield1/regen",
   },
 
@@ -22,7 +23,7 @@
     tex: "smallGameObjs/shield2",
 
     absorbSound: "shields/shield1/absorb",
-    absorbSoundPitch: 0.9,
+    absorbSoundPitch: 1,
     regenSound:  "shields/shield1/regen",
   },
 
@@ -37,7 +38,7 @@
     tex: "smallGameObjs/shield3",
 
     absorbSound: "shields/shield1/absorb",
-    absorbSoundPitch: 0.8,
+    absorbSoundPitch: 0.9,
     regenSound:  "shields/shield1/regen",
   },
 
@@ -52,7 +53,7 @@
     tex: "smallGameObjs/shield4",
 
     absorbSound: "shields/shield1/absorb",
-    absorbSoundPitch: 0.7,
+    absorbSoundPitch: 0.8,
     regenSound:  "shields/shield1/regen",
   },
 }
