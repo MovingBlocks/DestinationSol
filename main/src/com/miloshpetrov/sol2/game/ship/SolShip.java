@@ -308,7 +308,7 @@ public class SolShip implements SolObj {
       SolMath.fromAl(pos, spdAngle, SolMath.rnd(myHull.config.approxRadius));
     } else {
       spdAngle = getAngle();
-      spdLen = Loot.MAX_SPD * 1.5f;
+      spdLen = 1f;
       SolMath.fromAl(pos, spdAngle, myHull.config.approxRadius);
       game.getSoundMan().play(game, game.getSpecialSounds().lootThrow, pos, this);
     }

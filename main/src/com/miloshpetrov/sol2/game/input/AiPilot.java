@@ -270,7 +270,8 @@ public class AiPilot implements Pilot {
           desiredAngle = myMover.getBigObjAvoider().avoid(game, shipPos, dest, desiredAngle);
         }
         float desiredSpdLen = myDestProvider.getDesiredSpdLen();
-        float spdLen = SolMath.approach(spd.len(), desiredSpdLen, engine.getAcc());
+        float spdLenDiff = engine.getAcc() * ts;
+        float spdLen = SolMath.approach(spd.len(), desiredSpdLen, spdLenDiff);
         if (toDestLen < spdLen) spdLen = toDestLen;
         SolMath.fromAl(spd, desiredAngle, spdLen);
       }
