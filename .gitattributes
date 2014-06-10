@@ -376,6 +376,8 @@ main/res/sounds/armor/armor1/bulletHit/placeHolder1.ogg -text
 main/res/sounds/armor/armor1/energyHit/params.txt -text
 main/res/sounds/armor/armor1/energyHit/placeHolder0.ogg -text
 main/res/sounds/armor/armor1/energyHit/placeHolder1.ogg -text
+main/res/sounds/empty/empty.ogg -text
+main/res/sounds/empty/params.txt -text
 main/res/sounds/engines/medWork/medEngineWork0.ogg -text
 main/res/sounds/engines/medWork/medEngineWork1.ogg -text
 main/res/sounds/engines/medWork/medEngineWork2.ogg -text
@@ -448,9 +450,6 @@ main/res/sounds/metal/bulletHit/metalBulletHit0.ogg -text
 main/res/sounds/metal/bulletHit/metalBulletHit1.ogg -text
 main/res/sounds/metal/bulletHit/metalBulletHit2.ogg -text
 main/res/sounds/metal/collision/metalCollision.ogg -text
-main/res/sounds/metal/energyHit/params.txt -text
-main/res/sounds/metal/energyHit/placeHolder0.ogg -text
-main/res/sounds/metal/energyHit/placeHolder1.ogg -text
 main/res/sounds/misc/abilityRecharged/params.txt -text
 main/res/sounds/misc/abilityRecharged/placeHolder0.ogg -text
 main/res/sounds/misc/abilityRecharged/placeHolder1.ogg -text
@@ -492,9 +491,6 @@ main/res/sounds/projectiles/waveCollision/placeHolder1.ogg -text
 main/res/sounds/rock/bulletHit/rockBulletHit0.ogg -text
 main/res/sounds/rock/bulletHit/rockBulletHit1.ogg -text
 main/res/sounds/rock/collision/rockCollision.ogg -text
-main/res/sounds/rock/energyHit/params.txt -text
-main/res/sounds/rock/energyHit/placeHolder0.ogg -text
-main/res/sounds/rock/energyHit/placeHolder1.ogg -text
 main/res/sounds/shields/shield1/absorb/params.txt -text
 main/res/sounds/shields/shield1/absorb/shield1Absorb1.ogg -text
 main/res/sounds/shields/shield1/regen/params.txt -text
