@@ -1,11 +1,11 @@
 {
   rockCollision: "rock/collision",
   rockBulletHit: "rock/bulletHit",
-  rockEnergyHit: "rock/energyHit",
+  rockEnergyHit: "empty",
 
   metalCollision: "metal/collision",
   metalBulletHit: "metal/bulletHit",
-  metalEnergyHit: "metal/energyHit",
+  metalEnergyHit: "empty",
 
   asteroidCrack: "misc/asteroidCrack",
   shipExplosion: "misc/shipExplosion",
