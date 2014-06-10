@@ -43,7 +43,8 @@ public class SoundMan {
 
   private SolSound getSound0(String relPath, @Nullable FileHandle configFile, boolean looped, float basePitch) {
     if (relPath.isEmpty()) return null;
-    SolSound res = mySounds.get(relPath);
+    String key = relPath + "#" + basePitch;
+    SolSound res = mySounds.get(key);
     if (res != null) return res;
 
     String definedBy = configFile == null ? "hardcoded" : configFile.path();
@@ -58,7 +59,7 @@ public class SoundMan {
     fillSounds(sounds, dir, emptyDirArr);
     boolean emptyDir = emptyDirArr[0];
     res = new SolSound(dir.toString(), definedBy, loopTime, baseVolume, basePitch, sounds, emptyDir);
-    mySounds.put(relPath, res);
+    mySounds.put(key, res);
     if (!emptyDir && looped && loopTime == 0) throw new AssertionError("please specify loopTime value in " + paramsPath);
     if (emptyDir) {
       String warnMsg = "found no sounds in " + dir;

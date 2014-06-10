@@ -1,11 +1,11 @@
 saving
 shield absorb vol should depend on dmg
+item sizes
+fix otherPickUp
 sounds:
-  projectiles
   misc
-  item pick up
+  projectiles
   guns
-  armor
 
 hardness? armor bonus
 
