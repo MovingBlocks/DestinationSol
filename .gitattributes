@@ -689,6 +689,7 @@ main/src/com/miloshpetrov/sol2/game/screens/ShipUiControl.java -text
 main/src/com/miloshpetrov/sol2/game/screens/ShowInventory.java -text
 main/src/com/miloshpetrov/sol2/game/screens/SunWarnDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/screens/TalkScreen.java -text
+main/src/com/miloshpetrov/sol2/game/screens/WarnDrawer.java -text
 main/src/com/miloshpetrov/sol2/game/screens/ZoneNameAnnouncer.java -text
 main/src/com/miloshpetrov/sol2/game/ship/AbilityCharge.java -text
 main/src/com/miloshpetrov/sol2/game/ship/AbilityConfig.java -text
