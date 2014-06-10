@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ForceBeacon {
 
-  public static final float MAX_PULL_DIST = .5f;
+  public static final float MAX_PULL_DIST = .7f;
   private final Vector2 myRelPos;
   private final Vector2 myPrevPos;
   private final ParticleSrc myEffect;
