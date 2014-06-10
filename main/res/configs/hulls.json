@@ -15,7 +15,7 @@
     maxLife: 22,
     type: std,
     price: 200,
-    hirePrice: 600,
+    hirePrice: 400,
     ability: {
       type: unShield,
       amount: 5,
@@ -90,7 +90,7 @@
     maxLife: 38,
     type: std,
     price: 400,
-    hirePrice: 2000,
+    hirePrice: 1600,
     m1Fixed: true,
     ability: {
       type: sloMo,
@@ -125,7 +125,7 @@
     maxLife: 54,
     type: std,
     price: 600,
-    hirePrice: 1200,
+    hirePrice: 1000,
     m1Fixed: true,
 
     texName: desertOrbiter,

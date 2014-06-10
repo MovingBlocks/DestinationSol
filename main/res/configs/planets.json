@@ -119,7 +119,7 @@
       {
         hull: desertOrbiter,
         items: "fixedGun a1:.25",
-		money: 110,
+		money: 80,
         density: 0.03,
       }
     ],
@@ -127,7 +127,7 @@
       {
         hull: desertOrbiter,
         items: "fixedBombGun a1:.25",
-		money: 120,
+		money: 100,
         density: 0.1,
       },
     ],
@@ -141,7 +141,7 @@
       {
         hull: desertSmall,
         items: "fixedGun fixedGun:.3 a2:.75",
-		money: 150,
+		money: 80,
         density: 0.15,
       },
     ],

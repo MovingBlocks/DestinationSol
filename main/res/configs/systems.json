@@ -33,18 +33,18 @@
     constantEnemies: [
       {
         hull: pirateSmall,
-        items: "plasmaGun s1:.12",
-		money: 50,
+        items: "shotGun s3:86",
+		money: 120,
         density: 2,
       },
       {
         hull: truck,
-        items: "shotGun s2|s3:.74",
+        items: "gun s2|s3:.74",
 		money: 400,
         density: 1,
         guard: {
           hull: pirateSmall,
-          items: "shotGun s3:.86",
+          items: "gun|shotGun s2:.62",
 		  money: 80,
           density: 3,
         }
