@@ -10,7 +10,7 @@ public class MercItem implements SolItem {
 
   public MercItem(ShipConfig config) {
     myConfig = config;
-    myDesc = "Has shield and repairers\n" + ShipItem.makeDesc(myConfig.hull);
+    myDesc = "Has a shield and repairers\n" + ShipItem.makeDesc(myConfig.hull);
   }
 
   @Override

@@ -18,7 +18,7 @@ public class AiPilot implements Pilot {
   public static final float MAX_BATTLE_SPD_BIG = 1f;
   public static final float MAX_BATTLE_SPD = 2f;
   public static final float MAX_BIND_AWAIT = .25f;
-  public static final float MAX_RE_EQUIP_AWAIT = 1f;
+  public static final float MAX_RE_EQUIP_AWAIT = 3f;
 
   private final MoveDestProvider myDestProvider;
   private final boolean myCollectsItems;

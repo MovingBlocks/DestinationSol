@@ -113,11 +113,12 @@ public class MapDrawer {
     for (int i = 0, mazesSize = mazes.size(); i < mazesSize; i++) {
       Maze maze = mazes.get(i);
       Vector2 mazePos = maze.getPos();
-      float rad = maze.getRadius() - MazeBuilder.BORDER;
+      float outerRad = maze.getRadius();
+      float rad = outerRad - MazeBuilder.BORDER;
       if (viewDist < camPos.dst(mazePos) - rad) continue;
       drawer.draw(myMazeTex, 2 * rad, 2 * rad, rad, rad, mazePos.x, mazePos.y, 45, Col.W);
       if (HardnessCalc.isDangerous(heroDmgCap, maze.getDps())) {
-        drawAreaDanger(drawer, rad, mazePos, .75f);
+        drawAreaDanger(drawer, outerRad, mazePos, 1);
       }
     }
 
@@ -186,7 +187,7 @@ public class MapDrawer {
       float dangerRad = HardnessCalc.isDangerous(heroDmgCap, planet.getAtmDps()) ? fh : 0;
       if (dangerRad < gh && HardnessCalc.isDangerous(heroDmgCap, planet.getGroundDps())) dangerRad = gh;
       if (dangerRad > 0) {
-        drawAreaDanger(drawer, dangerRad, planetPos, .75f);
+        drawAreaDanger(drawer, dangerRad, planetPos, 1);
       }
     }
   }

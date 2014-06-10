@@ -65,7 +65,7 @@ public class FarBgManOld {
     public void draw(GameDrawer drawer, float vd, Vector2 camPos, float camAngle) {
       float sz = vd * mySzPerc;
       myPos.set(myShiftPerc).scl(vd).add(camPos);
-      drawer.draw(myTex, sz, sz, sz /2, sz /2, myPos.x, myPos.y, camAngle, myTint);
+      drawer.drawAdditive(myTex, sz, sz, sz /2, sz /2, myPos.x, myPos.y, camAngle, myTint);
     }
   }
 }

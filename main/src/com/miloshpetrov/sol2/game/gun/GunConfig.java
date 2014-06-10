@@ -75,7 +75,7 @@ public class GunConfig {
   private String makeDesc() {
     StringBuilder sb = new StringBuilder();
     ProjectileConfig pc = clipConf.projConfig;
-    sb.append(fixed ? "Heavy gun (shoots forward)\n" : "Light gun\n");
+    sb.append(fixed ? "Heavy gun (no rotation)\n" : "Light gun (auto rotation)\n");
     if (pc.dmg > 0) {
       sb.append("Dmg: ").append(SolMath.nice(dps)).append("/s\n");
       DmgType dmgType = pc.dmgType;
