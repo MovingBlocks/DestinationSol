@@ -33,7 +33,7 @@
     constantEnemies: [
       {
         hull: pirateSmall,
-        items: "shotGun s3:86",
+        items: "shotGun s3:.86",
 		money: 120,
         density: 2,
       },

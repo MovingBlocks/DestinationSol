@@ -39,16 +39,16 @@ public class PlanetObjsBuilder {
       Sky sky = new Sky(game, planet);
       game.getObjMan().addObjDelayed(sky);
     }
-    createEnemies(game, planet);
+    createShips(game, planet);
     return minR;
   }
 
-  private void createEnemies(SolGame game, Planet planet) {
+  private void createShips(SolGame game, Planet planet) {
     ConsumedAngles takenAngles = new ConsumedAngles();
 
     ShipConfig cfg = planet.getConfig().stationConfig;
     if (cfg != null) {
-      FarShip b = buildGroundShip(game, planet, cfg, planet.getConfig().tradeConfig, Fraction.LAANI, takenAngles);
+      FarShip b = buildGroundShip(game, planet, cfg, planet.getConfig().tradeConfig, Fraction.LAANI, takenAngles, "Station");
       game.getObjMan().addFarObjNow(b);
     }
 
@@ -58,7 +58,7 @@ public class PlanetObjsBuilder {
     for (ShipConfig ge : config.groundEnemies) {
       int count = (int) (ge.density * gh);
       for (int i = 0; i < count; i++) {
-        FarShip e = buildGroundShip(game, planet, ge, null, Fraction.EHAR, takenAngles);
+        FarShip e = buildGroundShip(game, planet, ge, null, Fraction.EHAR, takenAngles, null);
         game.getObjMan().addFarObjNow(e);
       }
     }
@@ -269,7 +269,7 @@ public class PlanetObjsBuilder {
 
   public FarShip buildGroundShip(SolGame game, Planet planet, ShipConfig ge,
     TradeConfig tc,
-    Fraction fraction, ConsumedAngles takenAngles)
+    Fraction fraction, ConsumedAngles takenAngles, String mapHint)
   {
     Vector2 pos = game.getPlanetMan().findFlatPlace(game, planet, takenAngles, ge.hull.approxRadius);
     boolean station = ge.hull.type == HullConfig.Type.STATION;
@@ -293,7 +293,7 @@ public class PlanetObjsBuilder {
     Vector2 spd = new Vector2(toPlanet).nor();
     SolMath.free(toPlanet);
 
-    Pilot provider = new AiPilot(new StillGuard(pos, game, ge), false, fraction, true, null, Const.AI_DET_DIST);
+    Pilot provider = new AiPilot(new StillGuard(pos, game, ge), false, fraction, true, mapHint, Const.AI_DET_DIST);
 
     return game.getShipBuilder().buildNewFar(game, pos, spd, angle, 0, provider, ic, ge.hull,
       null, hasRepairer, money, tc);
