@@ -1,4 +1,6 @@
+saving
 convert all sounds to mono
+shield absorb vol should depend on dmg
 
 hardness? armor bonus
 
