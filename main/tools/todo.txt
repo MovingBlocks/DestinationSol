@@ -1,3 +1,4 @@
+convert all sounds to mono
 
 hardness? armor bonus
 

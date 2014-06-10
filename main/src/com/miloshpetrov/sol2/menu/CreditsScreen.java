@@ -56,8 +56,8 @@ public class CreditsScreen implements SolUiScreen {
         "Font:",
         "\"Jet Set\" by Captain Falcon",
         "",
-        "Sounds:",
-        "Todo",
+        "Sounds by FreeSound.org users:",
+        "Hanstimm(diesel), Sonidor(techie),",
       },
     };
     for (String[] ss : sss) {
