@@ -20,7 +20,6 @@ import com.miloshpetrov.sol2.game.ship.*;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 import com.miloshpetrov.sol2.game.sound.SpecialSounds;
 import com.miloshpetrov.sol2.menu.GameOptions;
-import com.miloshpetrov.sol2.save.SaveData;
 import com.miloshpetrov.sol2.ui.*;
 
 import java.util.ArrayList;
@@ -73,7 +72,7 @@ public class SolGame {
   private HullConfig myRespawnHull;
   private final ArrayList<SolItem> myRespawnItems;
 
-  public SolGame(SolCmp cmp, SaveData sd, TexMan texMan, boolean tut, CommonDrawer commonDrawer) {
+  public SolGame(SolCmp cmp, boolean usePrevShip, TexMan texMan, boolean tut, CommonDrawer commonDrawer) {
     myCmp = cmp;
     GameDrawer drawer = new GameDrawer(texMan, commonDrawer);
     myCols = new GameCols();
@@ -111,19 +110,18 @@ public class SolGame {
     myBeaconHandler = new BeaconHandler(texMan);
     myMountDetectDrawer = new MountDetectDrawer(texMan);
     myRespawnItems = new ArrayList<SolItem>();
+    myTimeFactor = 1;
 
     // from this point we're ready!
-    myTimeFactor = 1;
-    myPlanetMan.fill(sd, myNames);
-    myObjMan.fill(this, sd);
-    if (sd == null) {
-      myGalaxyFiller.fill(this);
-      createPlayer();
-    }
+    myPlanetMan.fill(myNames);
+    myGalaxyFiller.fill(this);
+    ShipConfig startingShip = usePrevShip ? SaveMan.readShip(myHullConfigs, myItemMan) : null;
+    createPlayer(startingShip);
     SolMath.checkVectorsTaken(null);
   }
 
-  private void createPlayer() {
+  // uh, this needs refactoring
+  private void createPlayer(ShipConfig prevShip) {
     Vector2 pos = myGalaxyFiller.getPlayerSpawnPos(this);
     myCam.setPos(pos);
 
@@ -135,7 +133,14 @@ public class SolGame {
       pilot = new UiControlledPilot(myScreens.mainScreen);
     }
 
-    ShipConfig shipConfig = DebugOptions.GOD_MODE ? myPlayerSpawnConfig.godShipConfig : myPlayerSpawnConfig.shipConfig;
+    ShipConfig shipConfig;
+    if (DebugOptions.GOD_MODE) {
+      shipConfig = myPlayerSpawnConfig.godShipConfig;
+    } else if (prevShip != null) {
+      shipConfig = prevShip;
+    } else {
+      shipConfig = myPlayerSpawnConfig.shipConfig;
+    }
 
     float money = myRespawnMoney != 0 ? myRespawnMoney : myTutMan != null ? 200 : shipConfig.money;
 
@@ -143,7 +148,9 @@ public class SolGame {
 
     String itemsStr = !myRespawnItems.isEmpty() ? "" : shipConfig.items;
 
-    myHero = myShipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, itemsStr, hull, null, true, money, null).toObj(this);
+    boolean giveAmmo = prevShip == null;
+    myHero = myShipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, itemsStr, hull, null, true, money, null, giveAmmo).toObj(this);
+    AiPilot.reEquip(this, myHero);
 
     ItemContainer ic = myHero.getItemContainer();
     if (!myRespawnItems.isEmpty()) {
@@ -166,7 +173,25 @@ public class SolGame {
     myObjMan.resetDelays();
   }
 
-  public void dispose() {
+  public void onGameEnd() {
+    HullConfig hull;
+    float money;
+    ArrayList<SolItem> items;
+    if (myHero != null) {
+      hull = myHero.getHull().config;
+      money = myHero.getMoney();
+      items = new ArrayList<SolItem>();
+      for (List<SolItem> group : myHero.getItemContainer()) {
+        for (SolItem i : group) {
+          items.add(i);
+        }
+      }
+    } else {
+      hull = myRespawnHull;
+      money = myRespawnMoney;
+      items = myRespawnItems;
+    }
+    SaveMan.writeShip(hull, money, items, this);
     myObjMan.dispose();
   }
 
@@ -322,7 +347,7 @@ public class SolGame {
       onHeroDeath();
       myObjMan.removeObjDelayed(myHero);
     }
-    createPlayer();
+    createPlayer(null);
   }
 
   public FractionMan getFractionMan() {

@@ -12,8 +12,7 @@ import com.miloshpetrov.sol2.game.item.EngineItem;
 import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class HullConfigs {
   private final HashMap<String,HullConfig> myConfigs;
@@ -97,5 +96,12 @@ public class HullConfigs {
     for (Vector2 pos : config.lightSrcPoss) pos.sub(o).scl(config.size);
     for (Vector2 pos : config.forceBeaconPoss) pos.sub(o).scl(config.size);
     for (Vector2 pos : config.doorPoss) pos.sub(o).scl(config.size);
+  }
+
+  public String getName(HullConfig hull) {
+    for (Map.Entry<String, HullConfig> e : myConfigs.entrySet()) {
+      if (hull == e.getValue()) return e.getKey();
+    }
+    return "";
   }
 }

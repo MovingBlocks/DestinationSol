@@ -20,9 +20,10 @@ public class ClipConfig {
   public final int projectilesPerShot;
   public final SolItemType itemType;
   public final String plural;
+  public final String code;
 
   public ClipConfig(ProjectileConfig projConfig, boolean infinite, int price, String displayName, int size,
-    String plural, TextureAtlas.AtlasRegion icon, int projectilesPerShot, SolItemType itemType)
+    String plural, TextureAtlas.AtlasRegion icon, int projectilesPerShot, SolItemType itemType, String code)
   {
     this.projConfig = projConfig;
     this.infinite = infinite;
@@ -33,6 +34,7 @@ public class ClipConfig {
     this.projectilesPerShot = projectilesPerShot;
     this.itemType = itemType;
     this.plural = plural;
+    this.code = code;
     this.desc = size + " " + this.plural;
     this.example = new ClipItem(this);
   }
@@ -60,8 +62,9 @@ public class ClipConfig {
         plural = sh.getString("plural");
         icon = texMan.getTex(TexMan.ICONS_DIR + iconName, configFile);
       }
-      ClipConfig config = new ClipConfig(projConfig, infinite, price, displayName, size, plural, icon, projectilesPerShot, types.clip);
-      itemMan.registerItem(sh.name(), config.example);
+      String code = sh.name;
+      ClipConfig config = new ClipConfig(projConfig, infinite, price, displayName, size, plural, icon, projectilesPerShot, types.clip, code);
+      itemMan.registerItem(config.example);
     }
   }
 }

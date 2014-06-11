@@ -71,6 +71,11 @@ public class ShipItem implements SolItem {
     return EMPTY;
   }
 
+  @Override
+  public String getCode() {
+    return null;
+  }
+
   public HullConfig getConfig() {
     return myConfig;
   }

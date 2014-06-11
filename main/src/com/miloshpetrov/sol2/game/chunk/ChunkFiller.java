@@ -141,7 +141,7 @@ public class ChunkFiller {
     int money = enemyConf.money;
     float angle = SolMath.rnd(180);
     return game.getShipBuilder().buildNewFar(game, pos, spd, angle, rotSpd, provider, enemyConf.items, config,
-      remover, false, money, null);
+      remover, false, money, null, true);
   }
 
   private void fillAsteroids(SolGame game, RemoveController remover, boolean forBelt, Vector2 chCenter) {

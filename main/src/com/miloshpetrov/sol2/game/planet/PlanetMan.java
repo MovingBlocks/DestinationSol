@@ -10,7 +10,6 @@ import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.maze.*;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
-import com.miloshpetrov.sol2.save.SaveData;
 import com.miloshpetrov.sol2.ui.DebugCollector;
 
 import java.util.*;
@@ -43,13 +42,8 @@ public class PlanetMan {
     myPlanetCore = new PlanetCoreSingleton(texMan);
   }
 
-  public void fill(SaveData sd, SolNames names) {
-    if (sd != null) {
-      mySystems.addAll(sd.systems);
-      myPlanets.addAll(sd.planets);
-    } else {
-      new SystemsBuilder().build(mySystems, myPlanets, myBelts, myPlanetConfigs, myMazeConfigs, myMazes, mySysConfigs, names);
-    }
+  public void fill(SolNames names) {
+    new SystemsBuilder().build(mySystems, myPlanets, myBelts, myPlanetConfigs, myMazeConfigs, myMazes, mySysConfigs, names);
   }
 
   public void update(SolGame game) {

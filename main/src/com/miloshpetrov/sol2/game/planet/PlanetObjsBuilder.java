@@ -296,7 +296,7 @@ public class PlanetObjsBuilder {
     Pilot provider = new AiPilot(new StillGuard(pos, game, ge), false, fraction, true, mapHint, Const.AI_DET_DIST);
 
     return game.getShipBuilder().buildNewFar(game, pos, spd, angle, 0, provider, ic, ge.hull,
-      null, hasRepairer, money, tc);
+      null, hasRepairer, money, tc, true);
   }
 
   public FarShip buildOrbitEnemy(SolGame game, Planet planet, float heightPerc, ShipConfig oe, float detDist) {
@@ -319,7 +319,7 @@ public class PlanetObjsBuilder {
     int money = oe.money;
 
     return game.getShipBuilder().buildNewFar(game, pos, spd, 0, 0, provider, oe.items, oe.hull,
-      null, false, money, null);
+      null, false, money, null, true);
   }
 
 }

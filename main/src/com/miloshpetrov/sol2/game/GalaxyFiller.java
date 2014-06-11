@@ -62,7 +62,7 @@ public class GalaxyFiller {
     boolean hasRepairer;
     hasRepairer = frac == Fraction.LAANI;
     int money = cfg.money;
-    FarShip s = game.getShipBuilder().buildNewFar(game, pos, null, angle, 0, pilot, cfg.items, hullConf, null, hasRepairer, money, tradeConfig);
+    FarShip s = game.getShipBuilder().buildNewFar(game, pos, null, angle, 0, pilot, cfg.items, hullConf, null, hasRepairer, money, tradeConfig, true);
     game.getObjMan().addFarObjNow(s);
     ShipConfig guardConf = cfg.guard;
     if (guardConf != null) {
@@ -158,7 +158,7 @@ public class GalaxyFiller {
     boolean hasRepairer = frac == Fraction.LAANI;
     int money = guardConf.money;
     FarShip e = game.getShipBuilder().buildNewFar(game, dp.getDest(), null, guardRelAngle, 0, pilot, guardConf.items,
-      guardConf.hull, null, hasRepairer, money, null);
+      guardConf.hull, null, hasRepairer, money, null, true);
     game.getObjMan().addFarObjNow(e);
   }
 

@@ -46,7 +46,7 @@ public class ItemMan {
     GunConfig.load(texMan, this, soundMan, myTypes);
 
     myRepairExample = new RepairItem(myTypes.repair);
-    myM.put("rep", myRepairExample);
+    myM.put(myRepairExample.getCode(), myRepairExample);
 
     myL = new ArrayList<SolItem>(myM.values());
   }
@@ -96,20 +96,21 @@ public class ItemMan {
     return res;
   }
 
-  public SolItem getExample(String name) {
-    return myM.get(name);
+  public SolItem getExample(String code) {
+    return myM.get(code);
   }
 
   public SolItem random() {
     return myL.get(SolMath.intRnd(myM.size())).copy();
   }
 
-  public void registerItem(String itemCode, SolItem example) {
-    SolItem existing = getExample(itemCode);
+  public void registerItem(SolItem example) {
+    String code = example.getCode();
+    SolItem existing = getExample(code);
     if (existing != null) {
-      throw new AssertionError("2 item types registered for item code " + itemCode + ":\n" + existing + " and " + example);
+      throw new AssertionError("2 item types registered for item code " + code + ":\n" + existing + " and " + example);
     }
-    myM.put(itemCode, example);
+    myM.put(code, example);
   }
 
   public EngineItem.Configs getEngineConfigs() {
@@ -187,5 +188,4 @@ public class ItemMan {
     }
     return res;
   }
-
 }

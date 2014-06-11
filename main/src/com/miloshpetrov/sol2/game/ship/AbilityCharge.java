@@ -51,6 +51,11 @@ public class AbilityCharge implements SolItem {
     return myConfig.itemType;
   }
 
+  @Override
+  public String getCode() {
+    return myConfig.code;
+  }
+
 
   public static class Config {
     private final TextureAtlas.AtlasRegion icon;
@@ -58,13 +63,16 @@ public class AbilityCharge implements SolItem {
     private final String displayName;
     private final String desc;
     public final SolItemType itemType;
+    public final String code;
 
-    public Config(TextureAtlas.AtlasRegion icon, float price, String displayName, String desc, SolItemType itemType) {
+    public Config(TextureAtlas.AtlasRegion icon, float price, String displayName, String desc, SolItemType itemType,
+      String code) {
       this.icon = icon;
       this.price = price;
       this.displayName = displayName;
       this.desc = desc;
       this.itemType = itemType;
+      this.code = code;
     }
 
     public static void load(ItemMan itemMan, TexMan texMan, SolItemTypes types) {
@@ -77,9 +85,10 @@ public class AbilityCharge implements SolItem {
         float price = ammoNode.getFloat("price");
         String displayName = ammoNode.getString("displayName");
         String desc = ammoNode.getString("desc");
-        Config c = new Config(icon, price, displayName, desc, types.abilityCharge);
+        String code = ammoNode.name;
+        Config c = new Config(icon, price, displayName, desc, types.abilityCharge, code);
         AbilityCharge chargeExample = new AbilityCharge(c);
-        itemMan.registerItem(ammoNode.name, chargeExample);
+        itemMan.registerItem(chargeExample);
       }
     }
   }

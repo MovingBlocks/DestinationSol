@@ -136,7 +136,7 @@ public class SolInputMan {
       for (int i1 = 0, controlsSize = controls.size(); i1 < controlsSize; i1++) {
         SolUiControl c = controls.get(i1);
         c.update(myPtrs, myCurrCursor != null, !consumed, this);
-        if (c.isOn()) {
+        if (c.isOn() || c.isJustOff()) {
           consumedNow = true;
         }
         Rectangle area = c.getScreenArea();

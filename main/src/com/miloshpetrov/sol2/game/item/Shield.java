@@ -75,6 +75,11 @@ public class Shield implements SolItem {
     return myConfig.itemType;
   }
 
+  @Override
+  public String getCode() {
+    return myConfig.code;
+  }
+
   public float getLife() {
     return myLife;
   }
@@ -111,9 +116,10 @@ public class Shield implements SolItem {
     public final TextureAtlas.AtlasRegion icon;
     public TextureAtlas.AtlasRegion tex;
     public final SolItemType itemType;
+    public final String code;
 
     private Config(int maxLife, String displayName, int price, SolSound absorbSound, SolSound regenSound,
-      TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, SolItemType itemType) {
+      TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, SolItemType itemType, String code) {
       this.maxLife = maxLife;
       this.displayName = displayName;
       this.price = price;
@@ -122,6 +128,7 @@ public class Shield implements SolItem {
       this.icon = icon;
       this.tex = tex;
       this.itemType = itemType;
+      this.code = code;
       regenSpd = this.maxLife / 3;
       example = new Shield(this);
       this.desc = makeDesc();
@@ -149,8 +156,9 @@ public class Shield implements SolItem {
         SolSound regenSound = soundMan.getSound(soundDir, configFile);
         TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + sh.getString("icon"), configFile);
         TextureAtlas.AtlasRegion tex = texMan.getTex(sh.getString("tex"), configFile);
-        Config config = new Config(maxLife, displayName, price, absorbSound, regenSound, icon, tex, types.shield);
-        itemMan.registerItem(sh.name(), config.example);
+        String code = sh.name;
+        Config config = new Config(maxLife, displayName, price, absorbSound, regenSound, icon, tex, types.shield, code);
+        itemMan.registerItem(config.example);
       }
     }
   }

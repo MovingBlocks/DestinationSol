@@ -81,7 +81,7 @@ public class HireShips implements InventoryOperations {
     AiPilot pilot = new AiPilot(dp, true, Fraction.LAANI, false, "Merc", Const.AI_DET_DIST);
     Vector2 pos = getPos(game, hero, config.hull);
     if (pos == null) return false;
-    FarShip merc = game.getShipBuilder().buildNewFar(game, pos, new Vector2(), 0, 0, pilot, config.items, config.hull, null, true, config.money, null);
+    FarShip merc = game.getShipBuilder().buildNewFar(game, pos, new Vector2(), 0, 0, pilot, config.items, config.hull, null, true, config.money, null, true);
     game.getObjMan().addFarObjNow(merc);
     return true;
   }

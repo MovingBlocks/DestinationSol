@@ -48,4 +48,9 @@ public class ClipItem implements SolItem {
   public SolItemType getItemType() {
     return myConfig.itemType;
   }
+
+  @Override
+  public String getCode() {
+    return myConfig.code;
+  }
 }

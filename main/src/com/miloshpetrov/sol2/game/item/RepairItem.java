@@ -46,4 +46,9 @@ public class RepairItem implements SolItem {
   public SolItemType getItemType() {
     return myItemType;
   }
+
+  @Override
+  public String getCode() {
+    return "rep";
+  }
 }

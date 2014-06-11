@@ -8,7 +8,6 @@ import com.miloshpetrov.sol2.SolCmp;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.game.DebugOptions;
-import com.miloshpetrov.sol2.save.SaveMan;
 import com.miloshpetrov.sol2.ui.*;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class MainScreen implements SolUiScreen {
   private final SolUiControl myCreditsCtrl;
   private final TextureAtlas.AtlasRegion myTitleTex;
 
-  public MainScreen(MenuLayout menuLayout, SaveMan saveMan, TexMan texMan, boolean mobile, float r) {
+  public MainScreen(MenuLayout menuLayout, TexMan texMan, boolean mobile, float r) {
     myControls = new ArrayList<SolUiControl>();
 
     myTutCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.T);
@@ -63,15 +62,25 @@ public class MainScreen implements SolUiScreen {
   @Override
   public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
     if (myTutCtrl.isJustOff()) {
-      cmp.startNewGame(true);
-    } else if (myNewGameCtrl.isJustOff()) {
-      cmp.startNewGame(false);
-    } else if (myOptionsCtrl.isJustOff()) {
-      cmp.getInputMan().setScreen(cmp, cmp.getMenuScreens().options);
-    } else if (myExitCtrl.isJustOff()) {
+      cmp.startNewGame(true, false);
+      return;
+    }
+    SolInputMan im = cmp.getInputMan();
+    MenuScreens screens = cmp.getMenuScreens();
+    if (myNewGameCtrl.isJustOff()) {
+      im.setScreen(cmp, screens.newGame);
+      return;
+    }
+    if (myOptionsCtrl.isJustOff()) {
+      im.setScreen(cmp, screens.options);
+      return;
+    }
+    if (myExitCtrl.isJustOff()) {
       Gdx.app.exit();
-    } else if (myCreditsCtrl.isJustOff()) {
-      cmp.getInputMan().setScreen(cmp, cmp.getMenuScreens().credits);
+      return;
+    }
+    if (myCreditsCtrl.isJustOff()) {
+      im.setScreen(cmp, screens.credits);
     }
   }
 
