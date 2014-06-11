@@ -56,7 +56,7 @@ public class MenuScreen implements SolUiScreen {
 
   @Override
   public void drawBg(UiDrawer uiDrawer, SolCmp cmp) {
-    uiDrawer.draw(uiDrawer.filler, Col.B75);
+    uiDrawer.draw(uiDrawer.filler, Col.UI_BG);
   }
 
   @Override

@@ -31,7 +31,7 @@ public class ShipBuilder {
   public FarShip buildNewFar(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot,
     String items, HullConfig hullConfig,
     RemoveController removeController,
-    boolean hasRepairer, float money, TradeConfig tradeConfig)
+    boolean hasRepairer, float money, TradeConfig tradeConfig, boolean giveAmmo)
   {
 
     if (spd == null) spd = new Vector2();
@@ -68,9 +68,11 @@ public class ShipBuilder {
       }
     }
 
-    addAbilityCharges(ic, hullConfig, pilot);
-    addAmmo(ic, g1, pilot);
-    addAmmo(ic, g2, pilot);
+    if (giveAmmo) {
+      addAbilityCharges(ic, hullConfig, pilot);
+      addAmmo(ic, g1, pilot);
+      addAmmo(ic, g2, pilot);
+    }
 
     return new FarShip(new Vector2(pos), new Vector2(spd), angle, rotSpd, pilot, ic, hullConfig, hullConfig.maxLife,
       g1, g2, removeController, ei, hasRepairer ? new ShipRepairer() : null, money, tc, shield, armor);

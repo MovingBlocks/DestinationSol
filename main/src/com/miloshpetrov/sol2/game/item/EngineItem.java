@@ -62,6 +62,11 @@ public class EngineItem implements SolItem {
     return null;
   }
 
+  @Override
+  public String getCode() {
+    return null;
+  }
+
   public SolSound getWorkSound() {
     return myConfig.workSound;
   }

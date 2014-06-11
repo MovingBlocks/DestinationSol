@@ -48,7 +48,7 @@ public class TalkScreen implements SolUiScreen {
     closeCtrl.setDisplayName("Close");
     myControls.add(closeCtrl);
 
-    myBg = menuLayout.bg(-1, 5);
+    myBg = menuLayout.bg(-1, 0, 5);
   }
 
   @Override
@@ -91,7 +91,7 @@ public class TalkScreen implements SolUiScreen {
 
   @Override
   public void drawBg(UiDrawer uiDrawer, SolCmp cmp) {
-    uiDrawer.draw(myBg, Col.B75);
+    uiDrawer.draw(myBg, Col.UI_BG);
   }
 
   @Override

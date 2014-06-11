@@ -2,7 +2,7 @@
   standard: {
     environment: {
       junkTexs: "deco/space/sysDeco",
-      junkDensity: 0.06,
+      junkDensity: 0.03,
       farJunkTexs: "deco/farSpace/sysFarBg",
       farJunkDensity: 0.01,
     },

@@ -3,7 +3,7 @@
     ship: {
       hull: imperialSmall,
       items: "rep:1:3 a1 s1 blaster",
-      money: 1020,
+      money: 20,
     },
     godModeShip: {
       hull: imperialBig,

@@ -48,6 +48,11 @@ public class MercItem implements SolItem {
     return ShipItem.EMPTY;
   }
 
+  @Override
+  public String getCode() {
+    return null;
+  }
+
   public ShipConfig getConfig() {
     return myConfig;
   }

@@ -52,6 +52,11 @@ public class GunItem implements SolItem {
     return config.itemType;
   }
 
+  @Override
+  public String getCode() {
+    return config.code;
+  }
+
   public boolean canShoot() {
     return ammo > 0 || reloadAwait > 0;
   }

@@ -17,11 +17,11 @@ public class OptionsScreen implements SolUiScreen {
 
     myControls = new ArrayList<SolUiControl>();
 
-    myResoCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
+    myResoCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
     myResoCtrl.setDisplayName("Resolution");
     myControls.add(myResoCtrl);
 
-    myControlTypeCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true, Input.Keys.C);
+    myControlTypeCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, Input.Keys.C);
     myControlTypeCtrl.setDisplayName("Control Type");
     myControls.add(myControlTypeCtrl);
 

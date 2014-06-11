@@ -187,7 +187,7 @@ public class InventoryScreen implements SolUiScreen {
 
   @Override
   public void drawBg(UiDrawer uiDrawer, SolCmp cmp) {
-    uiDrawer.draw(myArea, Col.B75);
+    uiDrawer.draw(myArea, Col.UI_BG);
   }
 
   @Override

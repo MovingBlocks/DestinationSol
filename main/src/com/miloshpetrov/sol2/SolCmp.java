@@ -5,12 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
-import com.miloshpetrov.sol2.game.DebugOptions;
-import com.miloshpetrov.sol2.game.SolGame;
+import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.menu.GameOptions;
 import com.miloshpetrov.sol2.menu.MenuScreens;
-import com.miloshpetrov.sol2.save.SaveData;
-import com.miloshpetrov.sol2.save.SaveMan;
 import com.miloshpetrov.sol2.ui.*;
 
 import java.io.PrintWriter;
@@ -21,7 +18,6 @@ public class SolCmp {
   private final SolInputMan myInputMan;
   private final UiDrawer myUiDrawer;
   private final MenuScreens myMenuScreens;
-  private final SaveMan mySaveMan;
   private final TexMan myTexMan;
   private final SolLayouts myLayouts;
   private final boolean myReallyMobile;
@@ -43,9 +39,8 @@ public class SolCmp {
     myCommonDrawer = new CommonDrawer();
     myUiDrawer = new UiDrawer(myTexMan, myCommonDrawer);
     myInputMan = new SolInputMan(myTexMan, myUiDrawer.r);
-    mySaveMan = new SaveMan();
     myLayouts = new SolLayouts(myUiDrawer.r);
-    myMenuScreens = new MenuScreens(myLayouts, mySaveMan, myTexMan, isMobile(), myUiDrawer.r);
+    myMenuScreens = new MenuScreens(myLayouts, myTexMan, isMobile(), myUiDrawer.r);
 
     myInputMan.setScreen(this, myMenuScreens.main);
   }
@@ -97,7 +92,7 @@ public class SolCmp {
       myGame.drawDebugUi(myUiDrawer);
     }
     if (myFatalErrorMsg != null) {
-      myUiDrawer.draw(myUiDrawer.whiteTex, myUiDrawer.r, .5f, 0, 0, 0, .25f, 0, Col.B75);
+      myUiDrawer.draw(myUiDrawer.whiteTex, myUiDrawer.r, .5f, 0, 0, 0, .25f, 0, Col.UI_BG);
       myUiDrawer.drawString(myFatalErrorMsg, myUiDrawer.r / 2, .5f, FontSize.MENU, true, Col.W);
       myUiDrawer.drawString(myFatalErrorTrace, .2f * myUiDrawer.r, .6f, FontSize.DEBUG, false, Col.W);
     }
@@ -105,14 +100,9 @@ public class SolCmp {
     myCommonDrawer.end();
   }
 
-  public void startNewGame(boolean tut) {
-    startGame(false, tut);
-  }
-
-  private void startGame(boolean resume, boolean tut) {
-    SaveData sd = null;
-    if (resume) sd = mySaveMan.getData();
-    myGame = new SolGame(this, sd, myTexMan, tut, myCommonDrawer);
+  public void startNewGame(boolean tut, boolean usePrevShip) {
+    if (myGame != null) throw new AssertionError();
+    myGame = new SolGame(this, usePrevShip, myTexMan, tut, myCommonDrawer);
     myInputMan.setScreen(this, myGame.getScreens().mainScreen);
   }
 
@@ -126,12 +116,8 @@ public class SolCmp {
 
   public void dispose() {
     myCommonDrawer.dispose();
-    if (myGame != null) myGame.dispose();
+    if (myGame != null) myGame.onGameEnd();
     myTexMan.dispose();
-  }
-
-  public void resumeGame() {
-    startGame(true, false);
   }
 
   public SolGame getGame() {
@@ -143,7 +129,7 @@ public class SolCmp {
   }
 
   public void finishGame() {
-    myGame.dispose();
+    myGame.onGameEnd();
     myGame = null;
     myInputMan.setScreen(this, myMenuScreens.main);
   }

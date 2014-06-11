@@ -196,7 +196,7 @@ public class TutMan {
   public void draw(UiDrawer uiDrawer) {
     if (isFinished()) return;
     Step step = mySteps.get(myStepIdx);
-    uiDrawer.draw(myBg, Col.B75);
+    uiDrawer.draw(myBg, Col.UI_BG);
     uiDrawer.drawString(step.text, uiDrawer.r/2, myBg.y + myBg.height/2, FontSize.TUT, true, Col.W);
   }
 

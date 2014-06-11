@@ -26,9 +26,9 @@ public class MenuLayout {
     return new Rectangle(x, y, btnW, btnH);
   }
 
-  public Rectangle bg(int colCount, int rowCount) {
+  public Rectangle bg(int colCount, int startRow, int rowCount) {
     float x = colCount == -1 ? colCenter : .5f; //unfinished
-    float y = row0;
+    float y = row0 + rowH * startRow;
     return new Rectangle(x - BG_BORDER, y - BG_BORDER, btnW + 2 * BG_BORDER, rowH * rowCount - myPad + 2 * BG_BORDER);
   }
 }

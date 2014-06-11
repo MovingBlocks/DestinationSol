@@ -7,7 +7,6 @@ import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.*;
 import com.miloshpetrov.sol2.game.dra.*;
 import com.miloshpetrov.sol2.game.ship.FarShip;
-import com.miloshpetrov.sol2.save.SaveData;
 
 import java.util.*;
 
@@ -47,17 +46,6 @@ public class ObjMan {
       if (fod.fo == fo) return true;
     }
     return false;
-  }
-
-  public void fill(SolGame game, SaveData sd) {
-    if (sd != null) {
-      for (FarObj fo : sd.farObjs) {
-        addFarObjNow(fo);
-      }
-    } else {
-      // build initial objs
-//      addObjNow(game, new SolObj.Test(game, new Vector2(), 0));
-    }
   }
 
   public void update(SolGame game) {

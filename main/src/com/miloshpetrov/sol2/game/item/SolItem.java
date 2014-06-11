@@ -11,4 +11,5 @@ public interface SolItem {
   boolean isSame(SolItem item);
   TextureAtlas.AtlasRegion getIcon(SolGame game);
   SolItemType getItemType();
+  String getCode();
 }

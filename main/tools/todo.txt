@@ -1,13 +1,14 @@
-saving
+
+sound vol option
+dangerous enemy warn
 shield absorb vol should depend on dmg
 item sizes
+
 fix otherPickUp
 sounds:
   misc
   projectiles
   guns
-
-hardness? armor bonus
 
 draw trees on frozen : (
 recolor guns

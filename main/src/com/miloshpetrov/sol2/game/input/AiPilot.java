@@ -109,7 +109,7 @@ public class AiPilot implements Pilot {
     }
   }
 
-  private void reEquip(SolGame game, SolShip ship) {
+  public static void reEquip(SolGame game, SolShip ship) {
     ShipHull hull = ship.getHull();
     GunItem g1 = hull.getGun(false);
     GunItem g2 = hull.getGun(true);
@@ -146,7 +146,7 @@ public class AiPilot implements Pilot {
     }
   }
 
-  private boolean gunIsBetter(GunItem gNew, GunItem g, ItemContainer ic, GunMount m) {
+  private static boolean gunIsBetter(GunItem gNew, GunItem g, ItemContainer ic, GunMount m) {
     if (m.isFixed() != gNew.config.fixed) return false;
     ClipConfig newCc = gNew.config.clipConf;
     boolean newAmmoOk = newCc.infinite || ic.count(newCc.example) > 0;

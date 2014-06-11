@@ -129,7 +129,7 @@ public class MazeBuilder {
     if (inner) viewDist = TILE_SZ * 1.25f;
     Pilot pilot = new AiPilot(new StillGuard(pos, game, e), false, Fraction.EHAR, true, null, viewDist);
     int money = e.money;
-    FarShip s = sb.buildNewFar(game, pos, new Vector2(), angle, 0, pilot, e.items, e.hull, null, false, money, null);
+    FarShip s = sb.buildNewFar(game, pos, new Vector2(), angle, 0, pilot, e.items, e.hull, null, false, money, null, true);
     game.getObjMan().addFarObjNow(s);
   }
 
