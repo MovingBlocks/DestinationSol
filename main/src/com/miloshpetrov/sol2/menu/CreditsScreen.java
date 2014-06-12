@@ -58,7 +58,8 @@ public class CreditsScreen implements SolUiScreen {
         "",
         "Sounds by FreeSound.org users:",
         "Hanstimm (diesel engine), Sonidor (techie engine), Smokum (knockBack effect), Mattpavone (teleport effect)",
-        "Raremess (burning), Dpoggioli (ability recharged)",
+        "Raremess (burning), Dpoggioli (ability recharged), Giddykipper (star journey), TheHadnot (plasma collision)",
+        "Garzul (wave gun)",
       },
     };
     for (String[] ss : sss) {
