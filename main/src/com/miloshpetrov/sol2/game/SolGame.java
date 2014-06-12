@@ -148,9 +148,8 @@ public class SolGame {
 
     String itemsStr = !myRespawnItems.isEmpty() ? "" : shipConfig.items;
 
-    boolean giveAmmo = prevShip == null;
+    boolean giveAmmo = prevShip == null && myRespawnItems.isEmpty();
     myHero = myShipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, itemsStr, hull, null, true, money, null, giveAmmo).toObj(this);
-    AiPilot.reEquip(this, myHero);
 
     ItemContainer ic = myHero.getItemContainer();
     if (!myRespawnItems.isEmpty()) {
@@ -168,6 +167,7 @@ public class SolGame {
       }
     }
     ic.seenAll();
+    AiPilot.reEquip(this, myHero);
 
     myObjMan.addObjDelayed(myHero);
     myObjMan.resetDelays();

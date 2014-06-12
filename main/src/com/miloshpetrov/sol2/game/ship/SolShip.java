@@ -310,13 +310,13 @@ public class SolShip implements SolObj {
       spdAngle = getAngle();
       spdLen = 1f;
       SolMath.fromAl(pos, spdAngle, myHull.config.approxRadius);
-      game.getSoundMan().play(game, game.getSpecialSounds().lootThrow, pos, this);
     }
     SolMath.fromAl(lootSpd, spdAngle, spdLen);
     lootSpd.add(myHull.getSpd());
     pos.add(myHull.getPos());
     Loot l = game.getLootBuilder().build(game, pos, item, lootSpd, Loot.MAX_LIFE, SolMath.rnd(Loot.MAX_ROT_SPD), this);
     game.getObjMan().addObjDelayed(l);
+    if (!onDeath) game.getSoundMan().play(game, game.getSpecialSounds().lootThrow, pos, this);
   }
 
   @Override

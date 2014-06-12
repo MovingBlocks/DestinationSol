@@ -22,7 +22,7 @@
   controlDisabled: "misc/controlDisabled",
   controlEnabled: "misc/controlEnabled",
 
-  lootThrow: "misc/lootThrow",
+  lootThrow: "guns/rocketLauncher/shoot",
 
   transcendentCreated: "misc/transcendentCreated",
   transcendentFinished: "misc/transcendentFinished",
