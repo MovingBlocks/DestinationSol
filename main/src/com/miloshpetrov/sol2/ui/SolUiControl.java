@@ -50,20 +50,22 @@ public class SolUiControl {
     return pressed;
   }
 
-  public void update(SolInputMan.Ptr[] ptrs, boolean cursorShown, boolean canBePressed, SolInputMan inputMan) {
+  public void update(SolInputMan.Ptr[] ptrs, boolean cursorShown, boolean canBePressed, SolInputMan inputMan,
+    SolCmp cmp)
+  {
     if (!myEnabled) canBePressed = false;
     updateKeys(canBePressed);
     updateArea(ptrs, canBePressed);
-    updateHover(ptrs, cursorShown, inputMan);
-    if (myWithSound && isJustOff()) inputMan.playClick();
+    updateHover(ptrs, cursorShown, inputMan, cmp);
+    if (myWithSound && isJustOff()) inputMan.playClick(cmp);
     if (myWarnCount > 0) myWarnCount--;
   }
 
-  private void updateHover(SolInputMan.Ptr[] ptrs, boolean cursorShown, SolInputMan inputMan) {
+  private void updateHover(SolInputMan.Ptr[] ptrs, boolean cursorShown, SolInputMan inputMan, SolCmp cmp) {
     if (myScreenArea == null || myAreaPressed || ptrs[0].pressed) return;
     boolean prev = myMouseHover;
     myMouseHover = cursorShown && myScreenArea.contains(ptrs[0].x, ptrs[0].y);
-    if (myWithSound && myMouseHover && !prev) inputMan.playHover();
+    if (myWithSound && myMouseHover && !prev) inputMan.playHover(cmp);
   }
 
   private void updateKeys(boolean canBePressed) {

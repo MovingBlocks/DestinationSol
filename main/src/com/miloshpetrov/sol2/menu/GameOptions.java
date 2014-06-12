@@ -10,6 +10,7 @@ public class GameOptions {
   public int y;
   public boolean fullscreen;
   public int controlType;
+  public float volMul;
 
   public GameOptions(boolean handlersReady, boolean mobile) {
     IniReader r = new IniReader(FILE_NAME, handlersReady);
@@ -17,6 +18,7 @@ public class GameOptions {
     y = r.i("y", 600);
     fullscreen = r.b("fullscreen", false);
     controlType = mobile ? CONTROL_KB : r.i("controlType", CONTROL_MIXED);
+    volMul = r.f("vol", 1);
   }
 
   public void advanceReso() {
@@ -49,7 +51,20 @@ public class GameOptions {
     save();
   }
 
+  public void advanceVolMul() {
+    if (volMul == 0) {
+      volMul = .33f;
+    } else if (volMul < .4f) {
+      volMul = .66f;
+    } else if (volMul < .7f) {
+      volMul = 1;
+    } else {
+      volMul = 0;
+    }
+    save();
+  }
+
   public void save() {
-    IniReader.write(FILE_NAME, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType);
+    IniReader.write(FILE_NAME, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType, "vol", volMul);
   }
 }
