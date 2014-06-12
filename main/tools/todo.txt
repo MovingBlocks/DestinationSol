@@ -1,14 +1,8 @@
 
-replace plasmaCollision
-gun sounds
-
-to mono
-normalize
+otherPickUp
 volumes
-
-wave projectile bigger explosion + color
-
 draw trees on frozen : (
+
 recolor guns
 
 
