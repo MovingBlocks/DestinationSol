@@ -99,7 +99,8 @@ public class Shield implements SolItem {
     myLife -= myLife < dmg ? myLife : dmg;
 
     game.getPartMan().shieldSpark(game, pos, ship.getHull(), myConfig.tex, dmg / myConfig.maxLife);
-    game.getSoundMan().play(game, myConfig.absorbSound, null, ship);
+    float volMul = SolMath.clamp(4 * dmg / myConfig.maxLife);
+    game.getSoundMan().play(game, myConfig.absorbSound, null, ship, volMul);
 
   }
 

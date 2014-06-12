@@ -439,9 +439,10 @@ main/res/sounds/misc/abilityRefused/params.txt -text
 main/res/sounds/misc/abilityRefused/placeHolder0.ogg -text
 main/res/sounds/misc/abilityRefused/placeHolder1.ogg -text
 main/res/sounds/misc/asteroidCrack/asteroidCrack.ogg -text
+main/res/sounds/misc/burning/burning2.ogg -text
+main/res/sounds/misc/burning/burning3.ogg -text
+main/res/sounds/misc/burning/burning4.ogg -text
 main/res/sounds/misc/burning/params.txt -text
-main/res/sounds/misc/burning/placeHolder0.ogg -text
-main/res/sounds/misc/burning/placeHolder1.ogg -text
 main/res/sounds/misc/controlDisabled/controlDisabled.ogg -text
 main/res/sounds/misc/controlEnabled/controlEnabled.ogg -text
 main/res/sounds/misc/controlEnabled/params.txt -text
