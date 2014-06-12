@@ -1,8 +1,4 @@
 
-replace rocket coll
-
-credits
-
 draw trees on frozen : (
 
 recolor guns
