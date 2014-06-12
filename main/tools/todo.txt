@@ -1,10 +1,8 @@
 
-volumes
-  guns
-  misc
-  projectiles
+replace rocket coll
 
 credits
+
 draw trees on frozen : (
 
 recolor guns
@@ -27,6 +25,7 @@ ARCHITECTURE
   sound volumes should be kept in one map file?
 
 FEATURES
+  implement ground tiles as polygons to avoid getting stuck inside
   reward for cleaning the planet
   brakes
   ship dps should consider abilities

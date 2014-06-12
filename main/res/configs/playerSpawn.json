@@ -1,8 +1,8 @@
 {
   player: {
     ship: {
-      hull: pirateMedium,
-      items: "rep:1:3 a1 s1 fixedGun gun",
+      hull: imperialSmall,
+      items: "rep:1:3 a1 s1 blaster",
       money: 20,
     },
     godModeShip: {

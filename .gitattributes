@@ -390,7 +390,9 @@ main/res/sounds/engines/techieWork/techie2.ogg -text
 main/res/sounds/engines/techieWork/techie3.ogg -text
 main/res/sounds/guns/blaster/shoot/blasterShoot.ogg -text
 main/res/sounds/guns/cannon/shoot/cannonShoot.ogg -text
+main/res/sounds/guns/cannon/shoot/params.txt -text
 main/res/sounds/guns/emGun/shoot/emGun.ogg -text
+main/res/sounds/guns/emGun/shoot/params.txt -text
 main/res/sounds/guns/fixedGun/reload/fixedGunReload.ogg -text
 main/res/sounds/guns/fixedGun/shoot/fixedGunShoot0.ogg -text
 main/res/sounds/guns/fixedGun/shoot/fixedGunShoot1.ogg -text

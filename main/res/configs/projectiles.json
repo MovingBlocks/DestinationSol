@@ -308,12 +308,12 @@
   wave: {
     dmg: 13,
     dmgType: energy,
-    physSize: 1.2,
+    physSize: 0.8,
     massless: true,
     spdLen: 5,
 
     texName: wave,
-    texSz: 0.4,
+    texSz: 0.8,
     collisionEffect: {
       effectFile: explFire,
       size: 0.8,
