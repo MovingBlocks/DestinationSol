@@ -24,7 +24,7 @@
 
   lootThrow: "guns/rocketLauncher/shoot",
 
-  transcendentCreated: "misc/transcendentCreated",
-  transcendentFinished: "misc/transcendentFinished",
+  transcendentCreated: "abilities/teleportActivated",
+  transcendentFinished: "abilities/teleportActivated",
   transcendentMove: "misc/transcendentMove",
 }
