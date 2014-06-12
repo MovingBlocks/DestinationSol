@@ -1,9 +1,12 @@
 
-fix otherPickUp
 sounds:
   misc
   projectiles
   guns
+
+to mono
+normalize
+volumes
 
 draw trees on frozen : (
 recolor guns

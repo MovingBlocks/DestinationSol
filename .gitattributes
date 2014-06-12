@@ -432,12 +432,9 @@ main/res/sounds/metal/bulletHit/metalBulletHit0.ogg -text
 main/res/sounds/metal/bulletHit/metalBulletHit1.ogg -text
 main/res/sounds/metal/bulletHit/metalBulletHit2.ogg -text
 main/res/sounds/metal/collision/metalCollision.ogg -text
+main/res/sounds/misc/abilityRecharged/abilityRecharged.ogg -text
 main/res/sounds/misc/abilityRecharged/params.txt -text
-main/res/sounds/misc/abilityRecharged/placeHolder0.ogg -text
-main/res/sounds/misc/abilityRecharged/placeHolder1.ogg -text
-main/res/sounds/misc/abilityRefused/params.txt -text
-main/res/sounds/misc/abilityRefused/placeHolder0.ogg -text
-main/res/sounds/misc/abilityRefused/placeHolder1.ogg -text
+main/res/sounds/misc/abilityRefused/abilityRefused.ogg -text
 main/res/sounds/misc/asteroidCrack/asteroidCrack.ogg -text
 main/res/sounds/misc/burning/burning2.ogg -text
 main/res/sounds/misc/burning/burning3.ogg -text
@@ -448,9 +445,6 @@ main/res/sounds/misc/controlEnabled/controlEnabled.ogg -text
 main/res/sounds/misc/controlEnabled/params.txt -text
 main/res/sounds/misc/forceBeaconWork/forceBeaconWork.ogg -text
 main/res/sounds/misc/forceBeaconWork/params.txt -text
-main/res/sounds/misc/lootThrow/params.txt -text
-main/res/sounds/misc/lootThrow/placeHolder0.ogg -text
-main/res/sounds/misc/lootThrow/placeHolder1.ogg -text
 main/res/sounds/misc/shipExplosion/shipExplosion.ogg -text
 main/res/sounds/misc/transcendentCreated/params.txt -text
 main/res/sounds/misc/transcendentCreated/placeHolder0.ogg -text
