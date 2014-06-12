@@ -369,6 +369,7 @@ main/res/paths/mazes/junk.json -text
 main/res/paths/misc.json -text
 main/res/sounds/abilities/knockBackActivated/knockBack.ogg -text
 main/res/sounds/abilities/sloMoActivated/sloMoActivated.ogg -text
+main/res/sounds/abilities/teleportActivated/params.txt -text
 main/res/sounds/abilities/teleportActivated/teleport.ogg -text
 main/res/sounds/abilities/unShieldActivated/unshield.ogg -text
 main/res/sounds/empty/empty.ogg -text
@@ -415,6 +416,7 @@ main/res/sounds/metal/collision/metalCollision.ogg -text
 main/res/sounds/misc/abilityRecharged/abilityRecharged.ogg -text
 main/res/sounds/misc/abilityRecharged/params.txt -text
 main/res/sounds/misc/abilityRefused/abilityRefused.ogg -text
+main/res/sounds/misc/abilityRefused/params.txt -text
 main/res/sounds/misc/asteroidCrack/asteroidCrack.ogg -text
 main/res/sounds/misc/burning/burning2.ogg -text
 main/res/sounds/misc/burning/burning3.ogg -text
@@ -432,6 +434,7 @@ main/res/sounds/misc/transcendentMove/transcendentMove2.ogg -text
 main/res/sounds/misc/transcendentMove/transcendentMove3.ogg -text
 main/res/sounds/misc/transcendentMove/transcendentMove4.ogg -text
 main/res/sounds/projectiles/blastCollision/blastCollision.ogg -text
+main/res/sounds/projectiles/blastCollision/params.txt -text
 main/res/sounds/projectiles/bombCollision/bombCollision.ogg -text
 main/res/sounds/projectiles/rocketCollision/rocketCollision.ogg -text
 main/res/sounds/projectiles/waveCollision/waveCollision.ogg -text
