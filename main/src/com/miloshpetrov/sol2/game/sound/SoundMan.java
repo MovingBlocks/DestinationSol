@@ -126,7 +126,7 @@ public class SoundMan {
     if (vol <= 0) return;
 
     //pitch
-    float pitch = SolMath.rnd(.95f, 1.05f) * game.getTimeFactor() * sound.basePitch;
+    float pitch = SolMath.rnd(.97f, 1.03f) * game.getTimeFactor() * sound.basePitch;
 
     if (skipLooped(source, sound, game.getTime())) return;
     if (DebugOptions.SOUND_INFO) {

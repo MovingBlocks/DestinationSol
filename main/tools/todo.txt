@@ -1,6 +1,5 @@
 
 sounds:
-  misc
   projectiles
   guns
 
