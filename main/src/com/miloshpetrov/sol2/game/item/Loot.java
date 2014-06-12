@@ -20,7 +20,6 @@ public class Loot implements SolObj {
   public static final float PULL_DESIRED_SPD = 1f;
   public static final float PULL_FORCE = .1f;
   public static final float MAX_OWNER_AWAIT = 4f;
-  public static final float SZ = .12f;
   private final SolItem myItem;
   private final List<Dra> myDras;
   private final LightSrc myLightSrc;
@@ -191,7 +190,7 @@ public class Loot implements SolObj {
     float fadeTime = .25f;
     spd.scl(1 / fadeTime);
     spd.add(ship.getSpd());
-    game.getPartMan().blip(game, myPos, myAngle, SZ, fadeTime, spd, myItem.getIcon(game));
+    game.getPartMan().blip(game, myPos, myAngle, myItem.getItemType().sz, fadeTime, spd, myItem.getIcon(game));
     game.getSoundMan().play(game, myItem.getItemType().pickUpSound, null, this);
   }
 }
