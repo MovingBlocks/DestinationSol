@@ -1,5 +1,9 @@
 
 volumes
+  guns
+  misc
+  projectiles
+
 credits
 draw trees on frozen : (
 
@@ -75,3 +79,4 @@ DISPOSE
   game:
     ParticleEffect
     World
+    Sound

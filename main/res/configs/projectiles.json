@@ -60,7 +60,7 @@
       tint: fire,
     },
 
-    collisionSound: "projectiles/bombCollision",
+    collisionSound: "misc/shipExplosion",
   },
 
 

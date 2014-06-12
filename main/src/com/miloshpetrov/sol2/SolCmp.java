@@ -118,6 +118,7 @@ public class SolCmp {
     myCommonDrawer.dispose();
     if (myGame != null) myGame.onGameEnd();
     myTexMan.dispose();
+    myInputMan.dispose();
   }
 
   public SolGame getGame() {

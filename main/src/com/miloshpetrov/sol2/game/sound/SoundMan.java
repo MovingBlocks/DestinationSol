@@ -187,4 +187,11 @@ public class SoundMan {
     }
   }
 
+  public void dispose() {
+    for (SolSound ss : mySounds.values()) {
+      for (Sound s : ss.sounds) {
+        s.dispose();
+      }
+    }
+  }
 }

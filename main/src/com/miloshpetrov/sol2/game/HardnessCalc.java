@@ -168,15 +168,15 @@ public class HardnessCalc {
   }
 
   public static float getShipDmgCap(SolShip s) {
-    return getDmgCap(s.getLife(), s.getArmor(), s.getShield());
+    return getDmgCap(s.getHull().config, s.getArmor(), s.getShield());
   }
 
   public static float getFarShipDmgCap(FarShip s) {
-    return getDmgCap(s.getLife(), s.getArmor(), s.getShield());
+    return getDmgCap(s.getHullConfig(), s.getArmor(), s.getShield());
   }
 
-  private static float getDmgCap(float life, Armor armor, Shield shield) {
-    float r = life;
+  private static float getDmgCap(HullConfig hull, Armor armor, Shield shield) {
+    float r = hull.maxLife;
     if (armor != null) r *= 1 / (1 - armor.getPerc());
     if (shield != null) r += shield.getLife() * SHIELD_MUL;
     return r;
