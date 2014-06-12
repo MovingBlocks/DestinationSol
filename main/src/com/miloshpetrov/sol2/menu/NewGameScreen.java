@@ -17,11 +17,11 @@ public class NewGameScreen implements SolUiScreen {
   public NewGameScreen(MenuLayout menuLayout) {
     myControls = new ArrayList<SolUiControl>();
 
-    myPrevCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
+    myPrevCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.SPACE);
     myPrevCtrl.setDisplayName("Previous Ship");
     myControls.add(myPrevCtrl);
 
-    myNewCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, Input.Keys.C);
+    myNewCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
     myNewCtrl.setDisplayName("New Ship");
     myControls.add(myNewCtrl);
 

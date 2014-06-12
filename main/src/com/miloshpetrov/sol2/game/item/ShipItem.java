@@ -7,7 +7,7 @@ import com.miloshpetrov.sol2.game.ship.HullConfig;
 
 public class ShipItem implements SolItem {
 
-  public static final SolItemType EMPTY = new SolItemType(new Color(), null);
+  public static final SolItemType EMPTY = new SolItemType(new Color(), null, 1);
   private final HullConfig myConfig;
   private final String myDesc;
 

@@ -19,6 +19,7 @@ public class SolItemTypes {
   public final SolItemType medMoney;
   public final SolItemType bigMoney;
   public final SolItemType repair;
+  public final SolItemType fixedGun;
 
   public SolItemTypes(SoundMan soundMan, GameCols cols) {
     JsonReader r = new JsonReader();
@@ -29,6 +30,7 @@ public class SolItemTypes {
     armor = load("armor", soundMan, configFile, parsed, cols);
     abilityCharge = load("abilityCharge", soundMan, configFile, parsed, cols);
     gun = load("gun", soundMan, configFile, parsed, cols);
+    fixedGun = load("fixedGun", soundMan, configFile, parsed, cols);
     money = load("money", soundMan, configFile, parsed, cols);
     medMoney = load("medMoney", soundMan, configFile, parsed, cols);
     bigMoney = load("bigMoney", soundMan, configFile, parsed, cols);
@@ -39,6 +41,7 @@ public class SolItemTypes {
     JsonValue node = parsed.get(name);
     Color color = cols.load(node.getString("color"));
     SolSound pickUpSound = soundMan.getSound(node.getString("pickUpSound"), configFile);
-    return new SolItemType(color, pickUpSound);
+    float sz = node.getFloat("sz");
+    return new SolItemType(color, pickUpSound, sz);
   }
 }

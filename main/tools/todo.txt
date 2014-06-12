@@ -1,9 +1,8 @@
 
 sound vol option
 dangerous enemy warn
-shield absorb vol should depend on dmg
-item sizes
 
+shield absorb vol should depend on dmg
 fix otherPickUp
 sounds:
   misc

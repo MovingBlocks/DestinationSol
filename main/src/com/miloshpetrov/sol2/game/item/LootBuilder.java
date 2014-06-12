@@ -22,20 +22,21 @@ public class LootBuilder {
   public Loot build(SolGame game, Vector2 pos, SolItem item, Vector2 spd, int life, float rotSpd, SolShip owner) {
     List<Dra> dras = new ArrayList<Dra>();
     TextureAtlas.AtlasRegion tex = item.getIcon(game);
-    RectSprite s = new RectSprite(tex, Loot.SZ, 0, 0, new Vector2(), DraLevel.GUNS, 0, 0, Col.W, false);
+    float sz = item.getItemType().sz;
+    RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.GUNS, 0, 0, Col.W, false);
     dras.add(s);
-    Body b = buildBody(game, pos);
+    Body b = buildBody(game, pos, sz);
     b.setLinearVelocity(spd);
     b.setAngularVelocity(rotSpd);
     Color col = item.getItemType().color;
-    LightSrc ls = new LightSrc(game, .3f, false, .5f, new Vector2(), col);
+    LightSrc ls = new LightSrc(game, sz + .18f, false, .5f, new Vector2(), col);
     ls.collectDras(dras);
     Loot loot = new Loot(item, b, life, dras, ls, owner);
     b.setUserData(loot);
     return loot;
   }
 
-  private Body buildBody(SolGame game, Vector2 pos) {
+  private Body buildBody(SolGame game, Vector2 pos, float sz) {
     BodyDef bd = new BodyDef();
     bd.type = BodyDef.BodyType.DynamicBody;
     bd.angle = 0;
@@ -44,7 +45,7 @@ public class LootBuilder {
     bd.linearDamping = 0;
     Body body = game.getObjMan().getWorld().createBody(bd);
     PolygonShape shape = new PolygonShape();
-    shape.setAsBox(Loot.SZ/2, Loot.SZ/2);
+    shape.setAsBox(sz /2, sz /2);
     body.createFixture(shape, .5f);
     shape.dispose();
     return body;
