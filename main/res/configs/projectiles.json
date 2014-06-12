@@ -10,7 +10,7 @@
       effectFile: explFire,
       size: 0.2,
       tex: fire,
-      tint: "180 20 120",
+      tint: "120 210 90",
     },
 
     collisionSound: "projectiles/blastCollision",
@@ -29,7 +29,7 @@
       effectFile: explFire,
       size: 0.3,
       tex: fire,
-      tint: "90 10 60",
+      tint: "180 70 200",
     },
 
     collisionSound: "projectiles/blastCollision",

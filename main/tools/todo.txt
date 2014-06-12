@@ -1,6 +1,6 @@
 
-otherPickUp
 volumes
+credits
 draw trees on frozen : (
 
 recolor guns
@@ -26,7 +26,6 @@ FEATURES
   reward for cleaning the planet
   brakes
   ship dps should consider abilities
-  "dangerous enemy near" warning
   brakes
   inventory category filtering
   boss-like stations on planets and space
