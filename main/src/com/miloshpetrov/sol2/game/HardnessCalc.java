@@ -154,7 +154,7 @@ public class HardnessCalc {
   }
 
   private static float getGunDps(GunItem g) {
-    if (g == null || !g.canShoot()) return 0;
+    if (g == null) return 0;
     return g.config.meanDps;
   }
 

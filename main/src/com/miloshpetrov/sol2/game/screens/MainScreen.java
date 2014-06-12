@@ -91,9 +91,10 @@ public class MainScreen implements SolUiScreen {
 
 
     myWarnDrawers = new ArrayList<WarnDrawer>();
-    myWarnDrawers.add(new DmgWarnDrawer(r));
     myWarnDrawers.add(new CollisionWarnDrawer(r));
     myWarnDrawers.add(new SunWarnDrawer(r));
+    myWarnDrawers.add(new EnemyWarn(r));
+    myWarnDrawers.add(new DmgWarnDrawer(r));
     myWarnDrawers.add(new NoShieldWarn(r));
     myWarnDrawers.add(new NoArmorWarn(r));
 
@@ -377,7 +378,7 @@ public class MainScreen implements SolUiScreen {
 
     for (int i = 0, sz = myWarnDrawers.size(); i < sz; i++) {
       WarnDrawer wd = myWarnDrawers.get(i);
-      if (wd.show) {
+      if (wd.drawPerc > 0) {
         wd.draw(uiDrawer);
         break;
       }
@@ -398,7 +399,7 @@ public class MainScreen implements SolUiScreen {
 
     for (int i = 0, sz = myWarnDrawers.size(); i < sz; i++) {
       WarnDrawer wd = myWarnDrawers.get(i);
-      if (wd.show) {
+      if (wd.drawPerc > 0) {
         wd.drawText(uiDrawer);
         break;
       }
@@ -478,6 +479,31 @@ public class MainScreen implements SolUiScreen {
       SolShip h = game.getHero();
       if (h == null) return false;
       return h.getArmor() == null;
+    }
+  }
+
+  private static class EnemyWarn extends WarnDrawer {
+    public EnemyWarn(float r) {
+      super(r, "Dangerous\nEnemy");
+    }
+    protected boolean shouldWarn(SolGame game) {
+      SolShip h = game.getHero();
+      if (h == null) return false;
+      float heroCap = HardnessCalc.getShipDmgCap(h);
+      List<SolObj> objs = game.getObjMan().getObjs();
+      FractionMan fm = game.getFractionMan();
+      SolCam cam = game.getCam();
+      float viewDist = cam.getViewDist();
+      for (int i = 0, sz = objs.size(); i < sz; i++) {
+        SolObj o = objs.get(i);
+        if (!(o instanceof SolShip)) continue;
+        SolShip ship = (SolShip) o;
+        if (!fm.areEnemies(h, ship)) continue;
+        if (viewDist < ship.getPos().dst(h.getPos())) continue;
+        if (!HardnessCalc.isDangerous(heroCap, ship)) continue;
+        return true;
+      }
+      return false;
     }
   }
 }
