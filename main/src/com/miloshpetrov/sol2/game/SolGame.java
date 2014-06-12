@@ -193,6 +193,7 @@ public class SolGame {
     }
     SaveMan.writeShip(hull, money, items, this);
     myObjMan.dispose();
+    mySoundMan.dispose();
   }
 
   public GameScreens getScreens() {

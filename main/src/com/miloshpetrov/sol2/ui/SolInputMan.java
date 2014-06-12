@@ -309,6 +309,10 @@ public class SolInputMan {
     return myScrolledUp;
   }
 
+  public void dispose() {
+    myHoverSound.dispose();
+  }
+
   public static class Ptr {
     public float x;
     public float y;

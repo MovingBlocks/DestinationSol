@@ -394,11 +394,10 @@ main/res/sounds/guns/emGun/shoot/emGun.ogg -text
 main/res/sounds/guns/fixedGun/reload/fixedGunReload.ogg -text
 main/res/sounds/guns/fixedGun/shoot/fixedGunShoot0.ogg -text
 main/res/sounds/guns/fixedGun/shoot/fixedGunShoot1.ogg -text
+main/res/sounds/guns/fixedGun/shoot/params.txt -text
 main/res/sounds/guns/gun/reload/gunReload.ogg -text
 main/res/sounds/guns/gun/reload/params.txt -text
 main/res/sounds/guns/gun/shoot/gunShoot0.ogg -text
-main/res/sounds/guns/gun/shoot/gunShoot1.ogg -text
-main/res/sounds/guns/gun/shoot/gunShoot2.ogg -text
 main/res/sounds/guns/nailGun/shoot/nailGunShoot.ogg -text
 main/res/sounds/guns/rocketLauncher/reload/params.txt -text
 main/res/sounds/guns/rocketLauncher/reload/rocketLauncherReload.ogg -text
@@ -412,6 +411,7 @@ main/res/sounds/itemPickUp/other/otherPickUp.ogg -text
 main/res/sounds/metal/bulletHit/metalBulletHit0.ogg -text
 main/res/sounds/metal/bulletHit/metalBulletHit1.ogg -text
 main/res/sounds/metal/bulletHit/metalBulletHit2.ogg -text
+main/res/sounds/metal/bulletHit/params.txt -text
 main/res/sounds/metal/collision/metalCollision.ogg -text
 main/res/sounds/misc/abilityRecharged/abilityRecharged.ogg -text
 main/res/sounds/misc/abilityRecharged/params.txt -text
@@ -435,11 +435,12 @@ main/res/sounds/misc/transcendentMove/transcendentMove3.ogg -text
 main/res/sounds/misc/transcendentMove/transcendentMove4.ogg -text
 main/res/sounds/projectiles/blastCollision/blastCollision.ogg -text
 main/res/sounds/projectiles/blastCollision/params.txt -text
-main/res/sounds/projectiles/bombCollision/bombCollision.ogg -text
 main/res/sounds/projectiles/rocketCollision/rocketCollision.ogg -text
 main/res/sounds/projectiles/waveCollision/waveCollision.ogg -text
+main/res/sounds/rock/bulletHit/params.txt -text
 main/res/sounds/rock/bulletHit/rockBulletHit0.ogg -text
 main/res/sounds/rock/bulletHit/rockBulletHit1.ogg -text
+main/res/sounds/rock/collision/params.txt -text
 main/res/sounds/rock/collision/rockCollision.ogg -text
 main/res/sounds/shields/shield1/absorb/params.txt -text
 main/res/sounds/shields/shield1/absorb/shield1Absorb1.ogg -text
