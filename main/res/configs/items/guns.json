@@ -353,6 +353,7 @@
     displayName: "Nail Gun",
 
     shootSound: "guns/nailGun/shoot",
+    shootSoundPitch: 1.2,
     reloadSound: "guns/fixedGun/reload",
   },
 

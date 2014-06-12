@@ -1,1 +1,2 @@
-loopTime=1
+volume=.2
+loopTime=.7
