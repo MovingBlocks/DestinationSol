@@ -105,6 +105,8 @@ public class SoundMan {
     if (source == null && pos == null) throw new AssertionError("pass either pos or source");
     if (source == null && sound.loopTime > 0) throw new AssertionError("looped sound without source object: " + sound.dir);
     if (sound == null) return;
+    float globalVolMul = game.getCmp().getOptions().volMul;
+    if (globalVolMul == 0) return;
 
     if (pos == null) pos = source.getPos();
 
@@ -120,7 +122,7 @@ public class SoundMan {
     float maxSoundDist = 1 + 1.5f * airPerc * Const.CAM_VIEW_DIST_GROUND;
     float dst = pos.dst(camPos);
     float distMul = SolMath.clamp(1 - dst / maxSoundDist);
-    float vol = sound.baseVolume * volMul * distMul;
+    float vol = sound.baseVolume * volMul * distMul * globalVolMul;
     if (vol <= 0) return;
 
     //pitch

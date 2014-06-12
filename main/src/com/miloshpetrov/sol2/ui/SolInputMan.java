@@ -135,7 +135,7 @@ public class SolInputMan {
       List<SolUiControl> controls = screen.getControls();
       for (int i1 = 0, controlsSize = controls.size(); i1 < controlsSize; i1++) {
         SolUiControl c = controls.get(i1);
-        c.update(myPtrs, myCurrCursor != null, !consumed, this);
+        c.update(myPtrs, myCurrCursor != null, !consumed, this, cmp);
         if (c.isOn() || c.isJustOff()) {
           consumedNow = true;
         }
@@ -289,12 +289,12 @@ public class SolInputMan {
     return myMouseOnUi;
   }
 
-  public void playHover() {
-    myHoverSound.play(.7f, .7f, 0);
+  public void playHover(SolCmp cmp) {
+    myHoverSound.play(.7f * cmp.getOptions().volMul, .7f, 0);
   }
 
-  public void playClick() {
-    myHoverSound.play(.7f, .9f, 0);
+  public void playClick(SolCmp cmp) {
+    myHoverSound.play(.7f * cmp.getOptions().volMul, .9f, 0);
   }
 
   public SolUiScreen getTopScreen() {
