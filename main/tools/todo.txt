@@ -1,6 +1,4 @@
 
-draw trees on frozen : (
-
 recolor guns
 
 
