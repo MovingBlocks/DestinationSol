@@ -39,12 +39,12 @@
       },
       {
         hull: truck,
-        items: "gun s2|s3:.74",
-		money: 400,
+        items: "shotGun s2|s3:.74",
+		money: 600,
         density: 1,
         guard: {
           hull: pirateSmall,
-          items: "gun|shotGun s2:.62",
+          items: "gun s1:.5",
 		  money: 80,
           density: 3,
         }
@@ -67,7 +67,7 @@
       },
       {
         hull: pirateMedium,
-        items: "gun miner|fixedPlasmaGun:.5 a1:.25 s3",
+        items: "miner|fixedPlasmaGun a1:.25 s3",
         money: 200,
         density: 0.0003,
       },
@@ -121,7 +121,7 @@
       },
       {
         hull: desertSmall,
-        items: "fixedGun|railGun fixedGun|railGun:.8 a3 s1|s2:.5",
+        items: "fixedGun|railGun fixedGun|railGun:.8 a3 s1:.5",
 		money: 150,
         density: 0.0003,
       },

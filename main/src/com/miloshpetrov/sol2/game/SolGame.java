@@ -474,7 +474,7 @@ public class SolGame {
       for (SolItem item : group) {
         boolean equipped = myHero.maybeUnequip(this, item, false);
         if (equipped || SolMath.test(.75f)) {
-          myRespawnItems.add(item);
+          myRespawnItems.add(0, item);
         }
       }
     }

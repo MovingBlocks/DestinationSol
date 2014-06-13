@@ -33,7 +33,7 @@ public class SolDesktop {
       c.fullscreen = d.fullscreen;
     }
 
-    c.title = "Sol";
+    c.title = "Destination Sol";
     if (DebugOptions.DEV_ROOT_PATH == null) {
       c.addIcon("res/icon.png", Files.FileType.Internal);
     } else {

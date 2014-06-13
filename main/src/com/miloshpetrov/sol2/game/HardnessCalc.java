@@ -188,7 +188,11 @@ public class HardnessCalc {
   }
 
   public static boolean isDangerous(float destDmgCap, Object srcObj) {
-    float dps = srcObj instanceof SolShip ? getShipDps((SolShip) srcObj) : getFarShipDps((FarShip) srcObj);
+    float dps = getShipObjDps(srcObj);
     return isDangerous(destDmgCap, dps);
+  }
+
+  public static float getShipObjDps(Object srcObj) {
+    return srcObj instanceof SolShip ? getShipDps((SolShip) srcObj) : getFarShipDps((FarShip) srcObj);
   }
 }

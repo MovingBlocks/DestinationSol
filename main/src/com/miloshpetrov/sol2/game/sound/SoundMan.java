@@ -10,6 +10,7 @@ import com.miloshpetrov.sol2.common.Nullable;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.planet.Planet;
+import com.miloshpetrov.sol2.game.ship.SolShip;
 import com.miloshpetrov.sol2.menu.IniReader;
 
 import java.util.*;
@@ -119,8 +120,10 @@ public class SoundMan {
       airPerc = SolMath.clamp(1 - camToAtmDst / (Const.ATM_HEIGHT / 2));
     }
     if (DebugOptions.SOUND_IN_SPACE) airPerc = 1;
-    float maxSoundDist = 1 + 1.5f * airPerc * Const.CAM_VIEW_DIST_GROUND;
-    float dst = pos.dst(camPos);
+    float maxSoundDist = 1 + 1.5f * Const.CAM_VIEW_DIST_GROUND * airPerc;
+    SolShip hero = game.getHero();
+    float fullSoundRad = hero == null ? 0 : hero.getHull().config.approxRadius;
+    float dst = pos.dst(camPos) - fullSoundRad;
     float distMul = SolMath.clamp(1 - dst / maxSoundDist);
     float vol = sound.baseVolume * volMul * distMul * globalVolMul;
     if (vol <= 0) return;

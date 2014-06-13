@@ -67,7 +67,7 @@
 
   bullet: {
     dmg: 1.6,
-    spdLen: 8,
+    spdLen: 10,
     dmgType: bullet,
 
     texName: bullet,
