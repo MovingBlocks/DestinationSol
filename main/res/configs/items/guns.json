@@ -171,7 +171,7 @@
     maxAngleVar: 0,
     angleVarDamp: 0,
     angleVarPerShot: 0,
-    timeBetweenShots: 0.25,
+    timeBetweenShots: 1,
     reloadTime: 2,
     price: 300,
     clipName: mineClip,

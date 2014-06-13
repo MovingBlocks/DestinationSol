@@ -15,17 +15,21 @@ import java.util.*;
 
 public class SysConfigs {
   private final Map<String, SysConfig> myConfigs;
+  private final Map<String, SysConfig> myHardConfigs;
   private final Map<String, SysConfig> myBeltConfigs;
+  private final Map<String, SysConfig> myHardBeltConfigs;
 
   public SysConfigs(TexMan texMan, HullConfigs hullConfigs, ItemMan itemMan) {
     myConfigs = new HashMap<String, SysConfig>();
+    myHardConfigs = new HashMap<String, SysConfig>();
     myBeltConfigs = new HashMap<String, SysConfig>();
+    myHardBeltConfigs = new HashMap<String, SysConfig>();
 
-    load(texMan, hullConfigs, myConfigs, "systems.json", itemMan);
-    load(texMan, hullConfigs, myBeltConfigs, "asteroidBelts.json", itemMan);
+    load(texMan, hullConfigs, false, "systems.json", itemMan);
+    load(texMan, hullConfigs, true, "asteroidBelts.json", itemMan);
   }
 
-  private void load(TexMan texMan, HullConfigs hullConfigs, Map<String, SysConfig> configs, String configName,
+  private void load(TexMan texMan, HullConfigs hullConfigs, boolean belts, String configName,
     ItemMan itemMan)
   {
     JsonReader r = new JsonReader();
@@ -38,41 +42,50 @@ public class SysConfigs {
 
       ArrayList<ShipConfig> constEnemies = null;
       ArrayList<ShipConfig> constAllies = null;
-      if (configs == myConfigs) {
+      if (!belts) {
         constEnemies = ShipConfig.loadList(sh.get("constantEnemies"), hullConfigs, itemMan);
         constAllies = ShipConfig.loadList(sh.get("constantAllies"), hullConfigs, itemMan);
       }
       TradeConfig tradeConfig = TradeConfig.load(itemMan, sh.get("trading"), hullConfigs);
       boolean hard = sh.getBoolean("hard", false);
       SysConfig c = new SysConfig(sh.name, tempEnemies, envConfig, constEnemies, constAllies, tradeConfig, innerTempEnemies, hard);
+      Map<String, SysConfig> configs = belts ? hard ? myHardBeltConfigs : myBeltConfigs : hard ? myHardConfigs : myConfigs;
       configs.put(sh.name, c);
     }
   }
 
-  public SysConfig getRandom() {
-    return SolMath.elemRnd(new ArrayList<SysConfig>(myConfigs.values()));
-  }
-
-  public SysConfig getRandomBelt() {
-    return SolMath.elemRnd(new ArrayList<SysConfig>(myBeltConfigs.values()));
+  public SysConfig getRandomBelt(boolean hard) {
+    Map<String, SysConfig> config = hard ? myHardBeltConfigs : myBeltConfigs;
+    return SolMath.elemRnd(new ArrayList<SysConfig>(config.values()));
   }
 
   public SysConfig getConfig(String name) {
     return myConfigs.get(name);
   }
 
-  public Map<String, SysConfig> getConfigs() {
-    return myConfigs;
+  public SysConfig getRandomCfg(boolean hard) {
+    Map<String, SysConfig> config = hard ? myHardConfigs : myConfigs;
+    return SolMath.elemRnd(new ArrayList<SysConfig>(config.values()));
   }
 
-  public Map<String, SysConfig> getBeltConfigs() {
-    return myBeltConfigs;
-  }
-
-  public SysConfig getCfg(boolean hard) {
-    for (SysConfig c : myConfigs.values()) {
-      if (c.hard == hard) return c;
+  public void addAllConfigs(ArrayList<ShipConfig> l) {
+    for (SysConfig sc : myConfigs.values()) {
+      l.addAll(sc.constAllies);
+      l.addAll(sc.constEnemies);
+      l.addAll(sc.tempEnemies);
+      l.addAll(sc.innerTempEnemies);
     }
-    throw new AssertionError("must have at least one not hard system");
+    for (SysConfig sc : myHardConfigs.values()) {
+      l.addAll(sc.constAllies);
+      l.addAll(sc.constEnemies);
+      l.addAll(sc.tempEnemies);
+      l.addAll(sc.innerTempEnemies);
+    }
+    for (SysConfig sc : myBeltConfigs.values()) {
+      l.addAll(sc.tempEnemies);
+    }
+    for (SysConfig sc : myHardBeltConfigs.values()) {
+      l.addAll(sc.tempEnemies);
+    }
   }
 }

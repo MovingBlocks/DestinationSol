@@ -114,10 +114,11 @@ public class SystemsBuilder {
     PlanetConfigs planetConfigs,
     float sysRadius, SysConfigs sysConfigs, SolNames names, boolean firstSys)
   {
+    boolean hard = !firstSys;
     String st = DebugOptions.FORCE_SYSTEM_TYPE;
     SysConfig sysConfig;
     if (st.isEmpty()) {
-      sysConfig = sysConfigs.getCfg(!firstSys);
+      sysConfig = sysConfigs.getRandomCfg(hard);
     } else {
       sysConfig = sysConfigs.getConfig(st);
     }
@@ -137,8 +138,8 @@ public class SystemsBuilder {
         String pt = DebugOptions.FORCE_PLANET_TYPE;
         PlanetConfig planetConfig;
         if (pt.isEmpty()) {
-          boolean onlyEasy = !sysConfig.hard && sz - 3 < idx;
-          planetConfig = planetConfigs.getRandom(onlyEasy, sysConfig.hard);
+          boolean inner = planetDist < sysRadius / 2;
+          planetConfig = planetConfigs.getRandom(!inner && !hard, inner && hard);
         } else {
           planetConfig = planetConfigs.getConfig(pt);
         }
@@ -146,7 +147,7 @@ public class SystemsBuilder {
         planets.add(p);
         s.getPlanets().add(p);
       } else {
-        SysConfig beltConfig = sysConfigs.getRandomBelt();
+        SysConfig beltConfig = sysConfigs.getRandomBelt(hard);
         SystemBelt belt = new SystemBelt(-gh, planetDist, s, beltConfig);
         belts.add(belt);
         s.addBelt(belt);

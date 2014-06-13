@@ -39,9 +39,8 @@ public class PlanetConfigs {
     return myConfigs.get(name);
   }
 
-  public PlanetConfig getRandom(boolean onlyEasy, boolean hard) {
-    if (onlyEasy) return SolMath.elemRnd(myEasy);
-    List<PlanetConfig> cfg = SolMath.test(.5f) ? myMedium : hard ? myHard : myEasy;
+  public PlanetConfig getRandom(boolean easy, boolean hard) {
+    List<PlanetConfig> cfg = easy ? myEasy : hard ? myHard : myMedium;
     return SolMath.elemRnd(cfg);
   }
 

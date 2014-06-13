@@ -192,7 +192,7 @@
       {
         hull: techieOrbiter,
         items: "fixedPlasmaGun|fixedBlaster fixedPlasmaGun|fixedBlaster|fixedEmGun:.5 a2:.75 s4",
-		money: 200,
+		money: 140,
         density: 0.03,
       }
     ],
@@ -200,13 +200,13 @@
       {
         hull: techieSmall,
         items: "fixedPlasmaGun fixedPlasmaGun|fixedBlaster:.5 a2:.5 s3|s4",
-		money: 150,
+		money: 120,
         density: 0.15,
       },
       {
         hull: techiePlanetTurret,
         items: "waveGun emGun:.6 a3 s4",
-		money: 400,
+		money: 180,
         density: 0.45,
       },
     ],
