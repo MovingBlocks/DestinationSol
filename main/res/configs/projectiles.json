@@ -206,11 +206,11 @@
     dmg: 16,
     dmgType: explosion,
     spdLen: 1,
-    physSize: 0.1,
+    physSize: 0.13,
     acceleration: 4,
 
     texName: rocket,
-    texSz: 0.15,
+    texSz: 0.2,
     texOrig: "-.5 0",
     lightSz: 0.25,
     trailEffect: {

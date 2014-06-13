@@ -2,9 +2,6 @@
 
 ensure android name is "Destination Sol" or "Dest. Sol"
 
-gun & fixedGun look the same
-recolor guns
-
 
 ===================== PUBLISHING
 
