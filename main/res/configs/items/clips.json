@@ -34,7 +34,7 @@
   bulletClip: {
     projectile: bullet,
     size: 60,
-    price: 30,
+    price: 20,
 
     displayName: Bullets,
     plural: bullets,

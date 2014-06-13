@@ -494,14 +494,15 @@ public class MainScreen implements SolUiScreen {
       FractionMan fm = game.getFractionMan();
       SolCam cam = game.getCam();
       float viewDist = cam.getViewDist();
+      float dps = 0;
       for (int i = 0, sz = objs.size(); i < sz; i++) {
         SolObj o = objs.get(i);
         if (!(o instanceof SolShip)) continue;
         SolShip ship = (SolShip) o;
-        if (!fm.areEnemies(h, ship)) continue;
         if (viewDist < ship.getPos().dst(h.getPos())) continue;
-        if (!HardnessCalc.isDangerous(heroCap, ship)) continue;
-        return true;
+        if (!fm.areEnemies(h, ship)) continue;
+        dps += HardnessCalc.getShipDps(ship);
+        if (HardnessCalc.isDangerous(heroCap, dps)) return true;
       }
       return false;
     }

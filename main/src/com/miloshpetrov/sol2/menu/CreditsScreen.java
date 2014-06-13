@@ -57,11 +57,11 @@ public class CreditsScreen implements SolUiScreen {
         "\"Jet Set\" by Captain Falcon",
         "",
         "Sounds by FreeSound.org users:",
-        "Smokum (knockBack effect), Mattpavone (teleport effect)",
-        "Hanstimm (miner engine), Sonidor (techie engine),",
-        "Isaac200000 (cannon), TheHadnot (EM gun), Garzul (wave gun)",
-        "Dpoggioli (ability recharged), Raremess (burning), Giddykipper (star journey),",
-        "Steveygos93 (rocket explosion)",
+        "Smokum, Mattpavone",
+        "Hanstimm, Sonidor,",
+        "Isaac200000, TheHadnot, Garzul",
+        "Dpoggioli, Raremess, Giddykipper,",
+        "Steveygos93",
       },
     };
     for (String[] ss : sss) {

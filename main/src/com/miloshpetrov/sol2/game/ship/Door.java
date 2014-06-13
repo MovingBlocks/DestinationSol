@@ -29,8 +29,8 @@ public class Door {
 
   public void update(SolGame game, SolShip ship) {
     Vector2 doorPos = getBody().getPosition();
-    boolean shouldOpen = shouldOpen(game, ship, doorPos);
-    if (shouldOpen) {
+    boolean open = myOpenAwait <= 0 && shouldOpen(game, ship, doorPos);
+    if (open) {
       myOpenAwait = MAX_OPEN_AWAIT;
       myJoint.setMotorSpeed(SPD_LEN);
       game.getSoundMan().play(game, game.getSpecialSounds().doorMove, doorPos, ship);

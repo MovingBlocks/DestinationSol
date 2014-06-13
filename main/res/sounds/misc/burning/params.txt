@@ -1,2 +1,2 @@
-volume=0.8
+volume=0.9
 loopTime=0.5

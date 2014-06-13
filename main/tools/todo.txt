@@ -1,14 +1,13 @@
 
-obfuscate all
-lossy png
 
+ensure android name is "Destination Sol" or "Dest. Sol"
 
+gun & fixedGun look the same
 recolor guns
 
 
 ===================== PUBLISHING
 
-check game display name
 read about security keys
 try proguard
 

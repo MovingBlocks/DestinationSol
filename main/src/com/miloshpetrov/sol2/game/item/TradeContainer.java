@@ -29,7 +29,7 @@ public class TradeContainer {
     for (int i1 = 0, sz = items.size(); i1 < sz; i1++) {
       ItemConfig i = items.get(i1);
       SolItem ex = i.examples.get(0);
-      int amt = ex.isSame(ex) ? 8 : 1;
+      int amt = ex.isSame(ex) ? 16 : 1;
       for (int j = 0; j < amt; j++) {
         if (myItems.canAdd(ex)) myItems.add(ex.copy());
       }

@@ -130,7 +130,7 @@
     ability: {
       type: teleport,
       angle: 90,
-      rechargeTime: 2,
+      rechargeTime: 4,
     },
 
     texName: desertOrbiter,
@@ -159,7 +159,7 @@
 
   minerSmall: {
     size: 0.48,
-    maxLife: 60,
+    maxLife: 55,
     type: std,
     m1Fixed: true,
     m2Fixed: true,
@@ -190,13 +190,13 @@
     ability: {
       type: teleport,
       angle: 120,
-      rechargeTime: 2,
+      rechargeTime: 4,
     },
 
     texName: desertSmall,
-    g1Pos: "0.53 0.13",
+    g1Pos: "0.53 0.25",
     g1UnderShip: true,
-    g2Pos: "0.53 0.87",
+    g2Pos: "0.53 0.75",
     g2UnderShip: true,
     e1Pos: "0.02 0.46",
     e2Pos: "0.02 0.54",
@@ -208,7 +208,7 @@
 
   minerMedium: {
     size: 0.82,
-    maxLife: 78,
+    maxLife: 67,
     type: std,
     m1Fixed: true,
     ability: {
@@ -231,7 +231,7 @@
     maxLife: 58,
     type: std,
     m1Fixed: true,
-    price: 800,
+    price: 1000,
     ability: {
       type: unShield,
       amount: 9,
@@ -274,7 +274,7 @@
 
   minerTurret: {
     size: 0.9,
-    maxLife: 75,
+    maxLife: 65,
     type: std,
     m1Fixed: true,
 
@@ -342,13 +342,13 @@
     size: 0.9,
     maxLife: 70,
     type: std,
-    price: 1200,
+    price: 1600,
     m1Fixed: true,
     m2Fixed: true,
     ability: {
       type: teleport,
       angle: 180,
-      rechargeTime: 2,
+      rechargeTime: 4,
     },
 
     texName: desertMedium,
@@ -431,7 +431,7 @@
     ability: {
       type: teleport,
       angle: 120,
-      rechargeTime: 2,
+      rechargeTime: 4,
     },
 
     texName: desertBoss,

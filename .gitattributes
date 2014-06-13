@@ -400,9 +400,11 @@ main/res/sounds/guns/fixedGun/shoot/params.txt -text
 main/res/sounds/guns/gun/reload/gunReload.ogg -text
 main/res/sounds/guns/gun/reload/params.txt -text
 main/res/sounds/guns/gun/shoot/gunShoot0.ogg -text
+main/res/sounds/guns/gun/shoot/params.txt -text
 main/res/sounds/guns/nailGun/shoot/nailGunShoot.ogg -text
 main/res/sounds/guns/rocketLauncher/reload/params.txt -text
 main/res/sounds/guns/rocketLauncher/reload/rocketLauncherReload.ogg -text
+main/res/sounds/guns/rocketLauncher/shoot/params.txt -text
 main/res/sounds/guns/rocketLauncher/shoot/rocketLauncherShoot.ogg -text
 main/res/sounds/guns/shotGun/shoot/params.txt -text
 main/res/sounds/guns/shotGun/shoot/shotGunShoot.ogg -text
