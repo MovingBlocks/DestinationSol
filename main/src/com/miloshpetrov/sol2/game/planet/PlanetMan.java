@@ -210,15 +210,7 @@ public class PlanetMan {
   public void printShips(PlayerSpawnConfig spawn, ItemMan itemMan) {
     if (true) return;
     ArrayList<ShipConfig> l = new ArrayList<ShipConfig>();
-    for (SysConfig sc : mySysConfigs.getConfigs().values()) {
-      l.addAll(sc.constAllies);
-      l.addAll(sc.constEnemies);
-      l.addAll(sc.tempEnemies);
-      l.addAll(sc.innerTempEnemies);
-    }
-    for (SysConfig sc : mySysConfigs.getBeltConfigs().values()) {
-      l.addAll(sc.tempEnemies);
-    }
+    mySysConfigs.addAllConfigs(l);
     for (PlanetConfig pc : myPlanetConfigs.getConfigs().values()) {
       l.addAll(pc.highOrbitEnemies);
       l.addAll(pc.lowOrbitEnemies);

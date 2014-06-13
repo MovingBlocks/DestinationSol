@@ -15,5 +15,25 @@
         density: 0.002,
       },
     ],
-  }
+  },
+
+  hard: {
+    hard: true,
+
+    environment: {
+      junkTexs: "deco/space/sysDeco",
+      junkDensity: 0.06,
+      farJunkTexs: "deco/farSpace/beltFarBg",
+      farJunkDensity: 0.01,
+    },
+
+    temporaryEnemies: [
+      {
+        hull: minerMedium,
+        items: "nailGun",
+		money: 100,
+        density: 0.002,
+      },
+    ],
+  },
 }

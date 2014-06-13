@@ -63,11 +63,17 @@
         hull: pirateSpaceTurret,
         items: "gun|shotGun s2:.62",
         money: 100,
-        density: 0.001,
+        density: 0.0003,
       },
       {
         hull: pirateMedium,
-        items: "miner|fixedPlasmaGun a1:.25 s3",
+        items: "fixedPlasmaGun a1:.25 s3",
+        money: 200,
+        density: 0.0003,
+      },
+      {
+        hull: pirateMedium,
+        items: "gun miner a1:.25 s3",
         money: 200,
         density: 0.0003,
       },
@@ -121,7 +127,7 @@
       },
       {
         hull: desertSmall,
-        items: "fixedGun|railGun fixedGun|railGun:.8 a3 s1:.5",
+        items: "fixedGun|railGun fixedGun:.8 a3 s1:.5",
 		money: 150,
         density: 0.0003,
       },
@@ -137,7 +143,7 @@
         hull: desertBoss,
         items: "fixedCannon cannon a4 s3",
 		money: 800,
-        density: 0.0003,
+        density: 0.0005,
       },
     ],
 

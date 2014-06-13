@@ -90,7 +90,7 @@
     maxLife: 38,
     type: std,
     price: 400,
-    hirePrice: 1200,
+    hirePrice: 700,
     m1Fixed: true,
     ability: {
       type: sloMo,
@@ -125,7 +125,7 @@
     maxLife: 54,
     type: std,
     price: 600,
-    hirePrice: 800,
+    hirePrice: 1000,
     m1Fixed: true,
     ability: {
       type: teleport,
@@ -387,7 +387,7 @@
 
 
   minerBoss: {
-    size: 1.7,
+    size: 1.4,
     maxLife: 72,
     type: std,
     m1Fixed: true,
@@ -409,7 +409,7 @@
 
 
   techiePlanetTurret: {
-    size: 2.1,
+    size: 1.7,
     maxLife: 75,
     type: station,
 
@@ -424,8 +424,8 @@
 
 
   desertBoss: {
-    size: 3,
-    maxLife: 90,
+    size: 1.7,
+    maxLife: 400,
     type: big,
     m1Fixed: true,
     ability: {
@@ -450,7 +450,7 @@
 
   drome: {
     size: 2.5,
-    maxLife: 150,
+    maxLife: 200,
     type: station,
 
     texName: drome,
@@ -465,7 +465,7 @@
 
   station: {
     size: 8,
-    maxLife: 200,
+    maxLife: 400,
     type: station,
 
     texName: station,
