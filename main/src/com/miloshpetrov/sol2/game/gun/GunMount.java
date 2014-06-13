@@ -68,7 +68,7 @@ public class GunMount {
       myGun = null;
     }
     if (gunItem != null) {
-      if (gunItem.config.fixed != myFixed) throw new AssertionError();
+      if (gunItem.config.fixed != myFixed) throw new AssertionError("tried to set gun to incompatible mount");
       myGun = new SolGun(game, gunItem, myRelPos, underShip);
       List<Dra> dras1 = myGun.getDras();
       dras.addAll(dras1);

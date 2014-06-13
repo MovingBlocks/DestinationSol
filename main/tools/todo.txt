@@ -1,6 +1,38 @@
 
+obfuscate all
+lossy png
+
+
 recolor guns
 
+
+===================== PUBLISHING
+
+check game display name
+read about security keys
+try proguard
+
+materials:
+  video
+  screen shots
+  description
+
+platforms:
+  linux-related?
+  game jolt?
+  whosgamingnow.com?
+  indiegamebundles.com?
+  desura.com?
+
+  play market
+  steam greenlight
+  sourceforge
+  libgdx
+  lgdb.org
+  gamedev.ru
+  vk.com/indie_games
+  linux.org.ru
+  reddit
 
 ===================== REST =======================================================================
 

@@ -48,18 +48,18 @@ public class ItemContainer implements Iterable<List<SolItem>> {
   }
 
   public void add(SolItem addedItem) {
-    if (addedItem == null) throw new AssertionError();
+    if (addedItem == null) throw new AssertionError("adding null item");
     for (int i = 0, myGroupsSize = myGroups.size(); i < myGroupsSize; i++) {
       List<SolItem> group = myGroups.get(i);
       SolItem item = group.get(0);
       if (item.isSame(addedItem)) {
-        if (group.size() >= MAX_GROUP_SZ) throw new AssertionError();
+        if (group.size() >= MAX_GROUP_SZ) throw new AssertionError("reached group size limit");
         group.add(addedItem);
         mySize++;
         return;
       }
     }
-    if (myGroups.size() >= MAX_GROUP_COUNT) throw new AssertionError();
+    if (myGroups.size() >= MAX_GROUP_COUNT) throw new AssertionError("reached group count limit");
     ArrayList<SolItem> group = new ArrayList<SolItem>();
     group.add(addedItem);
     myGroups.add(0, group);
@@ -162,7 +162,7 @@ public class ItemContainer implements Iterable<List<SolItem>> {
 
     @Override
     public void remove() {
-      throw new AssertionError();
+      throw new AssertionError("tried to remove via item iterator");
     }
   }
 }

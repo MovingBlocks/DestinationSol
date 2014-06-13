@@ -141,7 +141,7 @@ public class GalaxyFiller {
   }
 
   private void link(SolGame game, Planet a, Planet b) {
-    if (a == b) throw new AssertionError();
+    if (a == b) throw new AssertionError("Linking planet to itself");
     Vector2 aPos = StarPort.getDesiredPos(a, b, false);
     StarPort.MyFar sp = new StarPort.MyFar(a, b, aPos, false);
     SolMath.free(aPos);
