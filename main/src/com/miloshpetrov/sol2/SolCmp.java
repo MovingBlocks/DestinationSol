@@ -101,7 +101,7 @@ public class SolCmp {
   }
 
   public void startNewGame(boolean tut, boolean usePrevShip) {
-    if (myGame != null) throw new AssertionError();
+    if (myGame != null) throw new AssertionError("Starting a new game with unfinished current one");
     myGame = new SolGame(this, usePrevShip, myTexMan, tut, myCommonDrawer);
     myInputMan.setScreen(this, myGame.getScreens().mainScreen);
   }
@@ -145,5 +145,9 @@ public class SolCmp {
 
   public GameOptions getOptions() {
     return myOptions;
+  }
+
+  public void paused() {
+    if (myGame != null) myGame.saveShip();
   }
 }

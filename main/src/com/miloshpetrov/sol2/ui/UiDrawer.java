@@ -32,12 +32,12 @@ public class UiDrawer {
   }
 
   public void drawString(String s, float x, float y, float scale, boolean centered, Color tint) {
-    if (myTextMode != null && !myTextMode) throw new AssertionError();
+    if (myTextMode != null && !myTextMode) throw new AssertionError("drawing text in texture mode");
     myDrawer.drawString(s, x, y, scale * FONT_SIZE, centered, tint);
   }
 
   private void check() {
-    if (myTextMode != null && myTextMode) throw new AssertionError();
+    if (myTextMode != null && myTextMode) throw new AssertionError("drawing texture in text mode");
   }
 
   public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y,

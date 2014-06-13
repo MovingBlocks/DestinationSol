@@ -174,6 +174,12 @@ public class SolGame {
   }
 
   public void onGameEnd() {
+    saveShip();
+    myObjMan.dispose();
+    mySoundMan.dispose();
+  }
+
+  public void saveShip() {
     HullConfig hull;
     float money;
     ArrayList<SolItem> items;
@@ -192,8 +198,6 @@ public class SolGame {
       items = myRespawnItems;
     }
     SaveMan.writeShip(hull, money, items, this);
-    myObjMan.dispose();
-    mySoundMan.dispose();
   }
 
   public GameScreens getScreens() {

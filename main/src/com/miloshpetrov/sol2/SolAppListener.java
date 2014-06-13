@@ -23,7 +23,7 @@ public class SolAppListener implements ApplicationListener {
 
   @Override
   public void pause() {
-    // ignore for now
+    myCmp.paused();
   }
 
   @Override
