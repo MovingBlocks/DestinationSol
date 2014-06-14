@@ -6,6 +6,7 @@ libs/gdx-natives.jar -text
 libs/gdx.jar -text
 libs/sol.jar -text
 libs/solDesktop.jar -text
+/linuxReadMe.txt -text
 lwjre/ASSEMBLY_EXCEPTION -text
 lwjre/LICENSE -text
 lwjre/bin/client/jvm.dll -text
