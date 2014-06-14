@@ -67,15 +67,15 @@
       },
       {
         hull: pirateMedium,
-        items: "fixedPlasmaGun a1:.25 s3",
+        items: "gun miner a1:.25 s3",
         money: 200,
-        density: 0.0003,
+        density: 0.0002,
       },
       {
         hull: pirateMedium,
-        items: "gun miner a1:.25 s3",
+        items: "fixedPlasmaGun a1:.25 s3",
         money: 200,
-        density: 0.0003,
+        density: 0.0004,
       },
     ],
 

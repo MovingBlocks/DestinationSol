@@ -33,7 +33,7 @@
     bosses: [
       {
         hull: minerBoss,
-        items: "nailGun missileLauncher a3 s3",
+        items: "nailGun missileLauncher a2 s2|s3",
 		money: 20,
       },
     ],

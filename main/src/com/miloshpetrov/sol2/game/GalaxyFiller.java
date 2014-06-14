@@ -12,13 +12,14 @@ import com.miloshpetrov.sol2.game.ship.*;
 import java.util.ArrayList;
 
 public class GalaxyFiller {
+  public static final float STATION_CONSUME_SECTOR = 45f;
   private Vector2 myMainStationPos;
   private HullConfig myMainStationHc;
 
   public GalaxyFiller() {
   }
 
-  private Vector2 getPosForStation(SolSystem sys, boolean mainStation) {
+  private Vector2 getPosForStation(SolSystem sys, boolean mainStation, ConsumedAngles angles) {
     Planet p;
     ArrayList<Planet> planets = sys.getPlanets();
     float angleToSun;
@@ -27,8 +28,13 @@ public class GalaxyFiller {
       angleToSun = p.getAngleToSys() + 20 * SolMath.toInt(p.getToSysRotSpd() > 0);
     } else {
       p = SolMath.elemRnd(planets);
-      angleToSun = SolMath.rnd(180);
+      angleToSun = 0;
+      for (int i = 0; i < 10; i++) {
+        angleToSun = SolMath.rnd(180);
+        if (!angles.isConsumed(angleToSun, STATION_CONSUME_SECTOR)) break;
+      }
     }
+    angles.add(angleToSun, STATION_CONSUME_SECTOR);
     float stationDist = p.getDist() + p.getFullHeight() + Const.PLANET_GAP;
     Vector2 stationPos = new Vector2();
     SolMath.fromAl(stationPos, angleToSun, stationDist);
@@ -36,7 +42,9 @@ public class GalaxyFiller {
     return stationPos;
   }
 
-  private FarShip build(SolGame game, ShipConfig cfg, Fraction frac, boolean mainStation, SolSystem sys) {
+  private FarShip build(SolGame game, ShipConfig cfg, Fraction frac, boolean mainStation, SolSystem sys,
+    ConsumedAngles angles)
+  {
     HullConfig hullConf = cfg.hull;
 
     MoveDestProvider dp;
@@ -44,7 +52,7 @@ public class GalaxyFiller {
     float detectionDist = Const.AI_DET_DIST;
     TradeConfig tradeConfig = null;
     if (hullConf.type == HullConfig.Type.STATION) {
-      pos = getPosForStation(sys, mainStation);
+      pos = getPosForStation(sys, mainStation, angles);
       dp = new NoDestProvider();
       tradeConfig = sys.getConfig().tradeConfig;
     } else {
@@ -88,7 +96,8 @@ public class GalaxyFiller {
     ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
 
     ShipConfig mainStationCfg = game.getPlayerSpawnConfig().mainStation;
-    FarShip mainStation = build(game, mainStationCfg, Fraction.LAANI, true, systems.get(0));
+    ConsumedAngles angles = new ConsumedAngles();
+    FarShip mainStation = build(game, mainStationCfg, Fraction.LAANI, true, systems.get(0), angles);
     myMainStationPos = new Vector2(mainStation.getPos());
     myMainStationHc = mainStation.getHullConfig();
 
@@ -97,15 +106,16 @@ public class GalaxyFiller {
       for (ShipConfig shipConfig : sysConfig.constAllies) {
         int count = (int)(shipConfig.density);
         for (int i = 0; i < count; i++) {
-          build(game, shipConfig, Fraction.LAANI, false, sys);
+          build(game, shipConfig, Fraction.LAANI, false, sys, angles);
         }
       }
       for (ShipConfig shipConfig : sysConfig.constEnemies) {
         int count = (int)(shipConfig.density);
         for (int i = 0; i < count; i++) {
-          build(game, shipConfig, Fraction.EHAR, false, sys);
+          build(game, shipConfig, Fraction.EHAR, false, sys, angles);
         }
       }
+      angles = new ConsumedAngles();
     }
   }
 
