@@ -459,8 +459,11 @@ main/src/com/miloshpetrov/sol2/AtlasTexProvider.java -text
 main/src/com/miloshpetrov/sol2/CommonDrawer.java -text
 main/src/com/miloshpetrov/sol2/Const.java -text
 main/src/com/miloshpetrov/sol2/DevTexProvider.java -text
+main/src/com/miloshpetrov/sol2/GameOptions.java -text
+main/src/com/miloshpetrov/sol2/IniReader.java -text
 main/src/com/miloshpetrov/sol2/SolAppListener.java -text
 main/src/com/miloshpetrov/sol2/SolCmp.java -text
+main/src/com/miloshpetrov/sol2/SolFileReader.java -text
 main/src/com/miloshpetrov/sol2/SolFiles.java -text
 main/src/com/miloshpetrov/sol2/TexMan.java -text
 main/src/com/miloshpetrov/sol2/TexProvider.java -text
@@ -660,8 +663,6 @@ main/src/com/miloshpetrov/sol2/game/sound/SolSound.java -text
 main/src/com/miloshpetrov/sol2/game/sound/SoundMan.java -text
 main/src/com/miloshpetrov/sol2/game/sound/SpecialSounds.java -text
 main/src/com/miloshpetrov/sol2/menu/CreditsScreen.java -text
-main/src/com/miloshpetrov/sol2/menu/GameOptions.java -text
-main/src/com/miloshpetrov/sol2/menu/IniReader.java -text
 main/src/com/miloshpetrov/sol2/menu/MainScreen.java -text
 main/src/com/miloshpetrov/sol2/menu/MenuLayout.java -text
 main/src/com/miloshpetrov/sol2/menu/MenuScreens.java -text

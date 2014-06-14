@@ -4,11 +4,15 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.miloshpetrov.sol2.SolAppListener;
+import com.miloshpetrov.sol2.SolFileReader;
 import com.miloshpetrov.sol2.game.DebugOptions;
-import com.miloshpetrov.sol2.menu.GameOptions;
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.soundtest.SoundTestListener;
 
+import java.io.*;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SolDesktop {
   public static void main(String[] argv) {
@@ -19,7 +23,8 @@ public class SolDesktop {
 
     boolean devBuild = java.nio.file.Files.exists(Paths.get("devBuild"));
     if (devBuild) DebugOptions.DEV_ROOT_PATH = "../trunk/main/"; // supposing that solWin is in the same directory where trunk is.
-    DebugOptions.read(false);
+    MyReader reader = new MyReader();
+    DebugOptions.read(reader);
 
     LwjglApplicationConfiguration c = new LwjglApplicationConfiguration();
     if (DebugOptions.EMULATE_MOBILE) {
@@ -27,7 +32,7 @@ public class SolDesktop {
       c.height = 480;
       c.fullscreen = false;
     } else {
-      GameOptions d = new GameOptions(false, false);
+      GameOptions d = new GameOptions(false, reader);
       c.width = d.x;
       c.height = d.y;
       c.fullscreen = d.fullscreen;
@@ -43,4 +48,20 @@ public class SolDesktop {
     new LwjglApplication(new SolAppListener(), c);
   }
 
+  private static class MyReader implements SolFileReader {
+    @Override
+    public List<String> read(String fileName) {
+      ArrayList<String> lines = new ArrayList<String>();
+      try {
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
+        String line = "";
+        while ((line = br.readLine()) != null) {
+          lines.add(line);
+        }
+        br.close();
+      } catch (IOException ignore) {
+      }
+      return lines;
+    }
+  }
 }

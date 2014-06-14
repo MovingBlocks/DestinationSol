@@ -1,11 +1,6 @@
 
-
-ensure android name is "Destination Sol" or "Dest. Sol"
-
-
-===================== PUBLISHING
-
-read about security keys
+shield sounds
+check sound sample rates
 try proguard
 
 materials:
@@ -21,6 +16,7 @@ platforms:
   desura.com?
 
   play market
+    read about security keys
   steam greenlight
   sourceforge
   libgdx

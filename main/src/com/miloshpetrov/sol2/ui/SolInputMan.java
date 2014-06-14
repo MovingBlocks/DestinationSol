@@ -10,7 +10,7 @@ import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
-import com.miloshpetrov.sol2.menu.GameOptions;
+import com.miloshpetrov.sol2.GameOptions;
 
 import java.util.ArrayList;
 import java.util.List;

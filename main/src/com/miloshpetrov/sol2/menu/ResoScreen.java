@@ -1,6 +1,7 @@
 package com.miloshpetrov.sol2.menu;
 
 import com.badlogic.gdx.Input;
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolCmp;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.ui.*;

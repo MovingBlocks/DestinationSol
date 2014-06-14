@@ -19,7 +19,7 @@ import com.miloshpetrov.sol2.game.screens.GameScreens;
 import com.miloshpetrov.sol2.game.ship.*;
 import com.miloshpetrov.sol2.game.sound.SoundMan;
 import com.miloshpetrov.sol2.game.sound.SpecialSounds;
-import com.miloshpetrov.sol2.menu.GameOptions;
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.ui.*;
 
 import java.util.ArrayList;

@@ -14,7 +14,7 @@ import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.ShipAbility;
 import com.miloshpetrov.sol2.game.ship.SolShip;
-import com.miloshpetrov.sol2.menu.GameOptions;
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.ui.*;
 
 import java.util.ArrayList;

@@ -5,7 +5,7 @@ import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.item.SolItem;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
-import com.miloshpetrov.sol2.menu.IniReader;
+import com.miloshpetrov.sol2.IniReader;
 
 import java.util.ArrayList;
 
@@ -23,11 +23,11 @@ public class SaveMan {
   }
 
   public static boolean hasPrevShip() {
-    return SolFiles.readOnly(FILE_NAME).exists();
+    return SolFiles.writable(FILE_NAME).exists();
   }
 
   public static ShipConfig readShip(HullConfigs hullConfigs, ItemMan itemMan) {
-    IniReader ir = new IniReader(FILE_NAME, true);
+    IniReader ir = new IniReader(FILE_NAME, null, false);
     String hullName = ir.s("hull", null);
     if (hullName == null) return null;
     HullConfig hull = hullConfigs.getConfig(hullName);

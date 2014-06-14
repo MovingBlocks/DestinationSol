@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 import com.miloshpetrov.sol2.SolCmp;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.game.SolGame;
-import com.miloshpetrov.sol2.menu.GameOptions;
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.menu.MenuLayout;
 import com.miloshpetrov.sol2.ui.*;
 
