@@ -1,7 +1,8 @@
 package com.miloshpetrov.sol2.game;
 
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.menu.IniReader;
+import com.miloshpetrov.sol2.SolFileReader;
+import com.miloshpetrov.sol2.IniReader;
 
 public class DebugOptions {
   public static String DEV_ROOT_PATH;
@@ -43,8 +44,8 @@ public class DebugOptions {
   public static MissingResourceAction MISSING_PHYSICS_ACTION;
 
 
-  public static void read(boolean mobile) {
-    IniReader r = new IniReader("debugOptions.ini", mobile);
+  public static void read(SolFileReader reader) {
+    IniReader r = new IniReader("debugOptions.ini", reader, true);
 
     EMULATE_MOBILE = r.b("emulateMobile", EMULATE_MOBILE);
     SPAWN_PLACE = r.s("spawnPlace", SPAWN_PLACE);

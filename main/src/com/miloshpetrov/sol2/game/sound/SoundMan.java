@@ -11,7 +11,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.SolShip;
-import com.miloshpetrov.sol2.menu.IniReader;
+import com.miloshpetrov.sol2.IniReader;
 
 import java.util.*;
 
@@ -74,7 +74,7 @@ public class SoundMan {
 
   private float[] loadSoundParams(String paramsPath) {
     float[] r = {0, 0};
-    IniReader reader = new IniReader(paramsPath, true);
+    IniReader reader = new IniReader(paramsPath, null, true);
     r[0] = reader.f("volume", 1);
     r[1] = reader.f("loopTime", 0);
     return r;

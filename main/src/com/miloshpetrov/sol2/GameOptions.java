@@ -1,4 +1,4 @@
-package com.miloshpetrov.sol2.menu;
+package com.miloshpetrov.sol2;
 
 public class GameOptions {
   public static final String FILE_NAME = "settings.ini";
@@ -12,8 +12,8 @@ public class GameOptions {
   public int controlType;
   public float volMul;
 
-  public GameOptions(boolean handlersReady, boolean mobile) {
-    IniReader r = new IniReader(FILE_NAME, handlersReady);
+  public GameOptions(boolean mobile, SolFileReader reader) {
+    IniReader r = new IniReader(FILE_NAME, reader, false);
     x = r.i("x", 800);
     y = r.i("y", 600);
     fullscreen = r.b("fullscreen", false);

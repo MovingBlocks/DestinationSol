@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL10;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
-import com.miloshpetrov.sol2.menu.GameOptions;
 import com.miloshpetrov.sol2.menu.MenuScreens;
 import com.miloshpetrov.sol2.ui.*;
 
@@ -32,8 +31,8 @@ public class SolCmp {
 
   public SolCmp() {
     myReallyMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
-    if (myReallyMobile) DebugOptions.read(true);
-    myOptions = new GameOptions(true, isMobile());
+    if (myReallyMobile) DebugOptions.read(null);
+    myOptions = new GameOptions(isMobile(), null);
 
     myTexMan = new TexMan();
     myCommonDrawer = new CommonDrawer();
