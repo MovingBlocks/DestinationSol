@@ -1,6 +1,5 @@
 
-shield sounds
-check sound sample rates
+try png compression
 try proguard
 
 materials:
