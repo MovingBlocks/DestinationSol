@@ -40,7 +40,7 @@
       {
         hull: truck,
         items: "shotGun s2|s3:.74",
-		money: 600,
+		money: 1000,
         density: 1,
         guard: {
           hull: pirateSmall,
@@ -142,7 +142,7 @@
       {
         hull: desertBoss,
         items: "fixedCannon cannon a4 s3",
-		money: 800,
+		money: 1000,
         density: 0.0005,
       },
     ],

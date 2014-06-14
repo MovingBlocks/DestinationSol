@@ -60,7 +60,9 @@ public class SysConfigs {
   }
 
   public SysConfig getConfig(String name) {
-    return myConfigs.get(name);
+    SysConfig res = myConfigs.get(name);
+    if (res != null) return res;
+    return myHardConfigs.get(name);
   }
 
   public SysConfig getRandomCfg(boolean hard) {

@@ -12,13 +12,13 @@ import com.miloshpetrov.sol2.game.ship.HullConfigs;
 import java.util.*;
 
 public class PlanetConfigs {
-  private final Map<String, PlanetConfig> myConfigs;
+  private final Map<String, PlanetConfig> myAllConfigs;
   private final List<PlanetConfig> myEasy;
   private final List<PlanetConfig> myMedium;
   private final List<PlanetConfig> myHard;
 
   public PlanetConfigs(TexMan texMan, HullConfigs hullConfigs, GameCols cols, ItemMan itemMan) {
-    myConfigs = new HashMap<String, PlanetConfig>();
+    myAllConfigs = new HashMap<String, PlanetConfig>();
     myEasy = new ArrayList<PlanetConfig>();
     myMedium = new ArrayList<PlanetConfig>();
     myHard = new ArrayList<PlanetConfig>();
@@ -28,7 +28,7 @@ public class PlanetConfigs {
     JsonValue parsed = r.parse(configFile);
     for (JsonValue sh : parsed) {
       PlanetConfig c = PlanetConfig.load(texMan, hullConfigs, configFile, sh, cols, itemMan);
-      myConfigs.put(sh.name, c);
+      myAllConfigs.put(sh.name, c);
       if (c.hardOnly) myHard.add(c);
       else if (c.easyOnly) myEasy.add(c);
       else myMedium.add(c);
@@ -36,7 +36,7 @@ public class PlanetConfigs {
   }
 
   public PlanetConfig getConfig(String name) {
-    return myConfigs.get(name);
+    return myAllConfigs.get(name);
   }
 
   public PlanetConfig getRandom(boolean easy, boolean hard) {
@@ -44,7 +44,7 @@ public class PlanetConfigs {
     return SolMath.elemRnd(cfg);
   }
 
-  public Map<String, PlanetConfig> getConfigs() {
-    return myConfigs;
+  public Map<String, PlanetConfig> getAllConfigs() {
+    return myAllConfigs;
   }
 }

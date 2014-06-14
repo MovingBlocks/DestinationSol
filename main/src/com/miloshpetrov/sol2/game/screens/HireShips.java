@@ -97,13 +97,13 @@ public class HireShips implements InventoryOperations {
       float relAngle;
       if (nearGround) {
         relAngle = fromPlanet;
-        if (i != 0) dist += Guardian.DIST;
       } else {
         relAngle = SolMath.rnd(180);
       }
       SolMath.fromAl(pos, relAngle, dist);
       pos.add(heroPos);
       if (game.isPlaceEmpty(pos, false)) return pos;
+      dist += Guardian.DIST;
     }
     return null;
   }

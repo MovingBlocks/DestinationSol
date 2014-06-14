@@ -211,7 +211,7 @@ public class PlanetMan {
     if (true) return;
     ArrayList<ShipConfig> l = new ArrayList<ShipConfig>();
     mySysConfigs.addAllConfigs(l);
-    for (PlanetConfig pc : myPlanetConfigs.getConfigs().values()) {
+    for (PlanetConfig pc : myPlanetConfigs.getAllConfigs().values()) {
       l.addAll(pc.highOrbitEnemies);
       l.addAll(pc.lowOrbitEnemies);
       l.addAll(pc.groundEnemies);
