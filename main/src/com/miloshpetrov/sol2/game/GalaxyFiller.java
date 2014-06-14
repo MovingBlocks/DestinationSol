@@ -60,7 +60,7 @@ public class GalaxyFiller {
       boolean isBig = hullConf.type == HullConfig.Type.BIG;
       dp = new ExplorerDestProvider(game, pos, !isBig, hullConf, sys);
       if (isBig) {
-        tradeConfig = sys.getConfig().tradeConfig;
+        if (frac == Fraction.LAANI) tradeConfig = sys.getConfig().tradeConfig;
       } else {
         detectionDist *= 1.5;
       }
