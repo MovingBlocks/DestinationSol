@@ -11,7 +11,7 @@ public class SolFiles {
   }
 
   public static FileHandle writable(String path) {
-    return getFile(path, true);
+    return getFile(path, false);
   }
 
   public static FileHandle getFile(String path, boolean readOnly) {
