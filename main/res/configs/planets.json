@@ -65,7 +65,7 @@
     },
 
     trading: {
-      items: "rep plasmaClip shotGun shellClip mineClip bombClip missileClip s2",
+      items: "rep plasmaClip shotGun shellClip mineClip bombGun bombClip missileClip s2",
       ships: "pirateSmall pirateOrbiter pirateMedium",
       mercenaries: [
         {
@@ -119,7 +119,7 @@
       {
         hull: desertOrbiter,
         items: "fixedGun a1:.25",
-		money: 80,
+		money: 150,
         density: 0.03,
       }
     ],

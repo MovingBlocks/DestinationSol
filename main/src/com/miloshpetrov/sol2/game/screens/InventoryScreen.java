@@ -183,6 +183,7 @@ public class InventoryScreen implements SolUiScreen {
   public void onAdd(SolCmp cmp) {
     if (myOperations != null) cmp.getInputMan().addScreen(cmp, myOperations);
     myPage = 0;
+    mySelected = null;
   }
 
   @Override
