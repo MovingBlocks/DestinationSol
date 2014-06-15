@@ -1,12 +1,4 @@
 
-try png compression
-try proguard
-
-materials:
-  video
-  screen shots
-  description
-
 platforms:
   linux-related?
   game jolt?
@@ -24,6 +16,15 @@ platforms:
   vk.com/indie_games
   linux.org.ru
   reddit
+
+materials:
+  video
+  screen shots
+  description
+
+final packages:
+  png compression
+  android proguard
 
 ===================== REST =======================================================================
 

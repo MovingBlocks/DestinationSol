@@ -178,7 +178,7 @@ public class HardnessCalc {
   private static float getDmgCap(HullConfig hull, Armor armor, Shield shield) {
     float r = hull.maxLife;
     if (armor != null) r *= 1 / (1 - armor.getPerc());
-    if (shield != null) r += shield.getLife() * SHIELD_MUL;
+    if (shield != null) r += shield.getMaxLife() * SHIELD_MUL;
     return r;
   }
 
