@@ -27,7 +27,8 @@ public class GalaxyFiller {
       p = planets.get(planets.size() - 2);
       angleToSun = p.getAngleToSys() + 20 * SolMath.toInt(p.getToSysRotSpd() > 0);
     } else {
-      p = SolMath.elemRnd(planets);
+      int pIdx = SolMath.intRnd(planets.size() - 1);
+      p = planets.get(pIdx);
       angleToSun = 0;
       for (int i = 0; i < 10; i++) {
         angleToSun = SolMath.rnd(180);
@@ -175,7 +176,7 @@ public class GalaxyFiller {
   private Vector2 getEmptySpace(SolGame game, SolSystem s) {
     Vector2 res = new Vector2();
     Vector2 sPos = s.getPos();
-    float sRadius = s.getInnerRad();
+    float sRadius = s.getConfig().hard ? s.getRadius() : s.getInnerRad();
 
     for (int i = 0; i < 100; i++) {
       SolMath.fromAl(res, SolMath.rnd(180), SolMath.rnd(sRadius));
