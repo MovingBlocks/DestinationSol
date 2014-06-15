@@ -71,7 +71,7 @@
     price: 70,
     clipName: bombClip,
 
-    gunLength: 0.1,
+    gunLength: 0.17,
     texName: fixedBombGun,
     displayName: "Heavy Bomber",
 

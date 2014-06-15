@@ -34,7 +34,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
     myDest = new Vector2();
     float minDst = Float.MAX_VALUE;
     ArrayList<Planet> planets = mySys.getPlanets();
-    for (int i = 0, sz = planets.size() - LAST_PLANETS_TO_AVOID; i < sz; i++) {
+    for (int i = 0, sz = allowedSz(); i < sz; i++) {
       Planet p = planets.get(i);
       float dst = p.getPos().dst(pos);
       if (dst < minDst) {
@@ -47,6 +47,12 @@ public class ExplorerDestProvider implements MoveDestProvider {
     myAggressive = aggressive;
     myDesiredSpdLen = config.type == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
     myDestSpd = new Vector2();
+  }
+
+  private int allowedSz() {
+    int sz = mySys.getPlanets().size();
+    if (!mySys.getConfig().hard) sz -= LAST_PLANETS_TO_AVOID;
+    return sz;
   }
 
   private void calcRelDest(HullConfig hullConfig) {
@@ -81,7 +87,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
         myAwaitOnPlanet -= game.getTimeStep();
       } else {
         ArrayList<Planet> ps = mySys.getPlanets();
-        int pIdx = SolMath.intRnd(ps.size() - LAST_PLANETS_TO_AVOID);
+        int pIdx = SolMath.intRnd(allowedSz());
         myPlanet = ps.get(pIdx);
         calcRelDest(hullConfig);
         myAwaitOnPlanet = MAX_AWAIT_ON_PLANET;

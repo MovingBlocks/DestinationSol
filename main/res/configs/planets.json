@@ -65,7 +65,7 @@
     },
 
     trading: {
-      items: "rep plasmaClip shotGun shellClip mineClip bombGun bombClip missileClip s2",
+      items: "rep plasmaClip shotGun shellClip mineClip bombGun bombClip missileClip s2 unShieldCharge",
       ships: "pirateSmall pirateOrbiter pirateMedium",
       mercenaries: [
         {
