@@ -180,6 +180,7 @@ public class SolGame {
   }
 
   public void saveShip() {
+    if (myTutMan != null) return;
     HullConfig hull;
     float money;
     ArrayList<SolItem> items;
@@ -189,7 +190,7 @@ public class SolGame {
       items = new ArrayList<SolItem>();
       for (List<SolItem> group : myHero.getItemContainer()) {
         for (SolItem i : group) {
-          items.add(i);
+          items.add(0, i);
         }
       }
     } else {
