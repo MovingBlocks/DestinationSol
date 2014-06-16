@@ -2,6 +2,7 @@ package com.miloshpetrov.sol2.game.planet;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.TexMan;
 import com.miloshpetrov.sol2.common.Col;
@@ -9,7 +10,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.maze.*;
-import com.miloshpetrov.sol2.game.ship.HullConfigs;
+import com.miloshpetrov.sol2.game.ship.*;
 import com.miloshpetrov.sol2.ui.DebugCollector;
 
 import java.util.*;
@@ -80,6 +81,7 @@ public class PlanetMan {
   private void applyGrav(SolGame game, SolSystem nearestSys) {
     float npGh = myNearestPlanet.getGroundHeight();
     float npFh = myNearestPlanet.getFullHeight();
+    float npMinH = myNearestPlanet.getMinGroundHeight();
     Vector2 npPos = myNearestPlanet.getPos();
     Vector2 sysPos = nearestSys.getPos();
     float npGravConst = myNearestPlanet.getGravConst();
@@ -97,6 +99,7 @@ public class PlanetMan {
       float toNp = npPos.dst(objPos);
       float toSys = sysPos.dst(objPos);
       if (toNp < npFh) {
+        if (recoverObj(obj, toNp, npMinH)) continue;
         minDist = npGh;
         srcPos = npPos;
         gravConst = npGravConst;
@@ -126,6 +129,29 @@ public class PlanetMan {
       }
     }
 
+  }
+
+  private boolean recoverObj(SolObj obj, float toNp, float npMinH) {
+    if (npMinH < toNp) return false;
+    if (!(obj instanceof SolShip)) return false;
+    SolShip ship = (SolShip) obj;
+    ShipHull hull = ship.getHull();
+    if (hull.config.type == HullConfig.Type.STATION) return false;
+    float fh = myNearestPlanet.getFullHeight();
+    Vector2 npPos = myNearestPlanet.getPos();
+    Vector2 toShip = SolMath.distVec(npPos, ship.getPos());
+    float len = toShip.len();
+    if (len == 0) {
+      toShip.set(0, fh);
+    } else {
+      toShip.scl(fh / len);
+    }
+    toShip.add(npPos);
+    Body body = hull.getBody();
+    body.setTransform(toShip, 0);
+    body.setLinearVelocity(Vector2.Zero);
+    SolMath.free(toShip);
+    return true;
   }
 
   public Planet getNearestPlanet() {
