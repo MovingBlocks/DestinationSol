@@ -2,6 +2,7 @@ package com.miloshpetrov.sol2.game.ship;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
@@ -62,6 +63,7 @@ public class Teleport implements ShipAbility {
     return MAX_RADIUS;
   }
 
+  // can be performed in update
   public void maybeTeleport(SolGame game, SolShip owner) {
     if (!myShouldTeleport) return;
 
@@ -70,16 +72,15 @@ public class Teleport implements ShipAbility {
     game.getPartMan().blip(game, owner.getPos(), SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
     game.getPartMan().blip(game, myNewPos, SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
 
-    FarShip ship = owner.toFarObj();
-    game.getObjMan().removeObjDelayed(owner);
-    ship.setPos(myNewPos);
-    ship.setAngle(ship.getAngle() + myAngle);
-    Vector2 newSpd = SolMath.getVec(ship.getSpd());
+    float newAngle = owner.getAngle() + myAngle;
+    Vector2 newSpd = SolMath.getVec(owner.getSpd());
     SolMath.rotate(newSpd, myAngle);
-    ship.setSpd(newSpd);
+
+    Body body = owner.getHull().getBody();
+    body.setTransform(myNewPos, newAngle * SolMath.degRad);
+    body.setLinearVelocity(newSpd);
+
     SolMath.free(newSpd);
-    SolObj newOwner = ship.toObj(game);
-    game.getObjMan().addObjDelayed(newOwner);
   }
 
   public static class Config implements AbilityConfig {
