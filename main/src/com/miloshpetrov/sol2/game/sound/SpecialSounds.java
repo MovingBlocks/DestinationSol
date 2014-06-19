@@ -46,7 +46,7 @@ public class SpecialSounds {
     forceBeaconWork = soundMan.getLoopedSound(node.getString("forceBeaconWork"), configFile);
     doorMove = soundMan.getSound(node.getString("doorMove"), configFile);
     abilityRecharged = soundMan.getSound(node.getString("abilityRecharged"), configFile);
-    abilityRefused = soundMan.getSound(node.getString("abilityRefused"), configFile);
+    abilityRefused = soundMan.getLoopedSound(node.getString("abilityRefused"), configFile);
     controlDisabled = soundMan.getSound(node.getString("controlDisabled"), configFile);
     controlEnabled = soundMan.getSound(node.getString("controlEnabled"), configFile);
     lootThrow = soundMan.getSound(node.getString("lootThrow"), configFile);

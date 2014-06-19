@@ -122,7 +122,7 @@ public class SystemsBuilder {
     } else {
       sysConfig = sysConfigs.getConfig(st);
     }
-    String name = SolMath.elemRnd(names.systems);
+    String name = firstSys ? SolMath.elemRnd(names.systems) : "Sol"; //hack
     SolSystem s = new SolSystem(sysPos, sysConfig, name, sysRadius);
     float planetDist = Const.SUN_RADIUS;
     for (int idx = 0, sz = ghs.size(); idx < sz; idx++) {

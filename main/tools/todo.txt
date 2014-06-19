@@ -1,5 +1,13 @@
 
-platforms:
+video
+  ask a music guy
+screen shots
+description
+steam greenlight
+gamedev.ru
+
+
+publish:
   linux-related?
   game jolt?
   whosgamingnow.com?
@@ -8,23 +16,13 @@ platforms:
 
   play market
     read about security keys
-  steam greenlight
   sourceforge
   libgdx
   lgdb.org
-  gamedev.ru
   vk.com/indie_games
   linux.org.ru
   reddit
 
-materials:
-  video
-  screen shots
-  description
-
-final packages:
-  png compression
-  android proguard
 
 ===================== REST =======================================================================
 

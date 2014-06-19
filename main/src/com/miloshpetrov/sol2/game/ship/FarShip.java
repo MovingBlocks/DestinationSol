@@ -138,4 +138,12 @@ public class FarShip implements FarObj {
   public boolean mountCanFix(boolean sec) {
     return sec ? myHullConfig.m2Fixed : myHullConfig.m1Fixed;
   }
+
+  public float getMoney() {
+    return myMoney;
+  }
+
+  public ItemContainer getIc() {
+    return myContainer;
+  }
 }
