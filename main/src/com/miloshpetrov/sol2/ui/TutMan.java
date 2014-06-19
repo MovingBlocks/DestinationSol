@@ -42,8 +42,8 @@ public class TutMan {
       leftCtrl = kbControl.leftCtrl;
       abilityCtrl = kbControl.abilityCtrl;
       if (mobile) {
-        shootKey = "(PRIMARY button)";
-        shootKey2 = "(Press PRIMARY button)";
+        shootKey = "(GUN 1 button)";
+        shootKey2 = "(Press GUN 1 button)";
       } else {
         shootKey = "(SPACE key)";
         shootKey2 = "(Press SPACE key)";

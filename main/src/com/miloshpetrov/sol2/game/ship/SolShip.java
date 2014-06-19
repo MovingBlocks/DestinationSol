@@ -269,7 +269,7 @@ public class SolShip implements SolObj {
 
   private void throwAllLoot(SolGame game) {
     if (myPilot.isPlayer()) {
-      game.onHeroDeath();
+      game.beforeHeroDeath();
     }
 
     for (List<SolItem> group : myItemContainer) {

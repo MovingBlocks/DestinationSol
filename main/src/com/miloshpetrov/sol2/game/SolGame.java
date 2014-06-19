@@ -193,6 +193,16 @@ public class SolGame {
           items.add(0, i);
         }
       }
+    } else if (myTranscendentHero != null) {
+      FarShip farH = myTranscendentHero.getShip();
+      hull = farH.getHullConfig();
+      money = farH.getMoney();
+      items = new ArrayList<SolItem>();
+      for (List<SolItem> group : farH.getIc()) {
+        for (SolItem i : group) {
+          items.add(0, i);
+        }
+      }
     } else {
       hull = myRespawnHull;
       money = myRespawnMoney;
@@ -350,8 +360,12 @@ public class SolGame {
 
   public void respawn() {
     if (myHero != null) {
-      onHeroDeath();
+      beforeHeroDeath();
       myObjMan.removeObjDelayed(myHero);
+    } else if (myTranscendentHero != null) {
+      FarShip farH = myTranscendentHero.getShip();
+      setRespawnState(farH.getMoney(), farH.getIc(), farH.getHullConfig());
+      myObjMan.removeObjDelayed(myTranscendentHero);
     }
     createPlayer(null);
   }
@@ -460,27 +474,31 @@ public class SolGame {
     return myTutMan;
   }
 
-  public void onHeroDeath() {
+  public void beforeHeroDeath() {
     if (myHero == null) return;
 
-    float allMoney = myHero.getMoney();
-    myRespawnMoney = .75f * allMoney;
-    myHero.setMoney(allMoney - myRespawnMoney);
-
-    myRespawnHull = myHero.getHull().config;
-
-    myRespawnItems.clear();
+    float money = myHero.getMoney();
     ItemContainer ic = myHero.getItemContainer();
+
+    setRespawnState(money, ic, myHero.getHull().config);
+
+    myHero.setMoney(money - myRespawnMoney);
+    for (SolItem item : myRespawnItems) {
+      ic.remove(item);
+    }
+  }
+
+  private void setRespawnState(float money, ItemContainer ic, HullConfig hullConfig) {
+    myRespawnMoney = .75f * money;
+    myRespawnHull = hullConfig;
+    myRespawnItems.clear();
     for (List<SolItem> group : ic) {
       for (SolItem item : group) {
-        boolean equipped = myHero.maybeUnequip(this, item, false);
+        boolean equipped = myHero == null || myHero.maybeUnequip(this, item, false);
         if (equipped || SolMath.test(.75f)) {
           myRespawnItems.add(0, item);
         }
       }
-    }
-    for (SolItem item : myRespawnItems) {
-      ic.remove(item);
     }
   }
 }
