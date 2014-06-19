@@ -51,6 +51,7 @@ public class SolDesktop {
   private static class MyReader implements SolFileReader {
     @Override
     public List<String> read(String fileName) {
+      if (DebugOptions.DEV_ROOT_PATH != null) fileName = DebugOptions.DEV_ROOT_PATH + fileName;
       ArrayList<String> lines = new ArrayList<String>();
       try {
         BufferedReader br = new BufferedReader(new FileReader(fileName));

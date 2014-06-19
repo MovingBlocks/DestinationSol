@@ -12,7 +12,6 @@ public class IniReader {
 
   public IniReader(String fileName, SolFileReader reader, boolean readOnly) {
     myVals = new HashMap<String, String>();
-    if (DebugOptions.DEV_ROOT_PATH != null) fileName = DebugOptions.DEV_ROOT_PATH + fileName;
     List<String> lines = reader != null ? reader.read(fileName) : fileToLines(fileName, readOnly);
 
     for (String line : lines) {
