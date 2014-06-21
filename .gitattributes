@@ -9,9 +9,11 @@ libs/solDesktop.jar -text
 /linuxReadMe.txt -text
 lwjre/ASSEMBLY_EXCEPTION -text
 lwjre/LICENSE -text
+lwjre/THIRD_PARTY_README -text
 lwjre/bin/client/jvm.dll -text
 lwjre/bin/java.dll -text
 lwjre/bin/javaw.exe -text
+lwjre/bin/msvcr100.dll -text
 lwjre/bin/net.dll -text
 lwjre/bin/nio.dll -text
 lwjre/bin/verify.dll -text
