@@ -1,27 +1,19 @@
 
-video
-  ask a music guy
-screen shots
-description
-steam greenlight
-gamedev.ru
+publish on markit
 
+improve banner on lgdb
+inspect links offered in lgdb
 
-publish:
-  linux-related?
-  game jolt?
-  whosgamingnow.com?
-  indiegamebundles.com?
-  desura.com?
+maybe:
+  gamejolt
+  desura
+  indiedb
 
-  play market
-    read about security keys
-  sourceforge
-  libgdx
-  lgdb.org
+probably not:
+  whosgamingnow.com
+  indiegamebundles.com
   vk.com/indie_games
   linux.org.ru
-  reddit
 
 
 ===================== REST =======================================================================

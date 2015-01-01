@@ -27,6 +27,7 @@ public class MapDrawer {
   private static final float MAX_SKULL_TIME = .75f;
   private static final float MAX_AREA_SKULL_TIME = 2;
   public static final float INNER_ICON_PERC = .6f;
+  public static final float INNER_AREA_ICON_PERC = .7f;
   public static final float GRID_SZ = 40f;
   public static final String MAP_TEX_DIR = "mapObjs/";
 
@@ -184,8 +185,8 @@ public class MapDrawer {
         gh = planet.getGroundHeight();
         drawer.draw(myPlanetTex, 2 * gh, 2 * gh, gh, gh, planetPos.x, planetPos.y, planet.getAngle(), Col.W);
       }
-      float dangerRad = HardnessCalc.isDangerous(heroDmgCap, planet.getAtmDps()) ? fh : 0;
-      if (dangerRad < gh && HardnessCalc.isDangerous(heroDmgCap, planet.getGroundDps())) dangerRad = gh;
+      float dangerRad = HardnessCalc.isDangerous(heroDmgCap, planet.getGroundDps()) ? fh : 0;
+//      if (dangerRad < gh && HardnessCalc.isDangerous(heroDmgCap, planet.getGroundDps())) dangerRad = gh;
       if (dangerRad > 0) {
         drawAreaDanger(drawer, dangerRad, planetPos, 1);
       }
@@ -195,11 +196,12 @@ public class MapDrawer {
   private void drawAreaDanger(GameDrawer drawer, float rad, Vector2 pos, float transpMul) {
     float perc = 2 * myAreaSkullTime / MAX_AREA_SKULL_TIME;
     if (perc > 1) perc = 2 - perc;
+    perc = SolMath.clamp(perc * 2);
     float a = SolMath.clamp(perc * transpMul);
     myAreaWarnBgCol.a = a;
     myAreaWarnCol.a = a;
     drawer.draw(myWarnAreaBg, rad *2, rad *2, rad, rad, pos.x, pos.y, 0, myAreaWarnBgCol);
-    rad *= INNER_ICON_PERC;
+    rad *= INNER_AREA_ICON_PERC;
     drawer.draw(mySkullBigTex, rad *2, rad *2, rad, rad, pos.x, pos.y, 0, myAreaWarnCol);
   }
 

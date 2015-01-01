@@ -242,7 +242,7 @@ public class InventoryScreen implements SolUiScreen {
       SolItem item = group.get(0);
       Rectangle rect = itemCtrl.getScreenArea();
       float rowCenterY = rect.y + rect.height / 2;
-      if (myOperations.isUsing(game, item)) uiDrawer.drawString("using", rect.x + imgColW + equiColW/2, rowCenterY, FontSize.HINT, true, Col.W);
+      if (myOperations.isUsing(game, item)) uiDrawer.drawString("using", rect.x + imgColW + equiColW/2, rowCenterY, FontSize.WINDOW, true, Col.W);
       uiDrawer.drawString(item.getDisplayName(), rect.x + equiColW + imgColW + nameWidth/2, rowCenterY, FontSize.WINDOW, true, mySelected == group ? Col.W : Col.G);
       int count = ic.getCount(groupIdx);
       if (count > 1) {
