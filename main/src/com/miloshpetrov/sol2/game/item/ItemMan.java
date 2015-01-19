@@ -118,7 +118,7 @@ public class ItemMan {
   }
 
   public void printGuns() {
-    if (false) return;
+    if (true) return;
     ArrayList<GunConfig> l = new ArrayList<GunConfig>();
     for (SolItem i : myM.values()) {
       if (!(i instanceof GunItem)) continue;

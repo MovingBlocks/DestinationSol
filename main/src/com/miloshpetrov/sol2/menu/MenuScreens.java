@@ -8,6 +8,7 @@ public class MenuScreens {
   public final OptionsScreen options;
   public final ResoScreen resoScreen;
   public final CreditsScreen credits;
+  public final LoadingScreen loading;
   public final NewGameScreen newGame;
   public final NewShipScreen newShip;
 
@@ -17,6 +18,7 @@ public class MenuScreens {
     options = new OptionsScreen(menuLayout);
     resoScreen = new ResoScreen(menuLayout);
     credits = new CreditsScreen(r);
+    loading = new LoadingScreen();
     newGame = new NewGameScreen(menuLayout);
     newShip = new NewShipScreen(menuLayout);
   }

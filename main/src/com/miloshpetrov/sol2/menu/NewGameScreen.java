@@ -50,12 +50,12 @@ public class NewGameScreen implements SolUiScreen {
       return;
     }
     if (myPrevCtrl.isJustOff()) {
-      cmp.startNewGame(false, true);
+      cmp.loadNewGame(false, true);
       return;
     }
     if (myNewCtrl.isJustOff()) {
       if (!myPrevCtrl.isEnabled()) {
-        cmp.startNewGame(false, false);
+        cmp.loadNewGame(false, false);
       } else {
         im.setScreen(cmp, screens.newShip);
       }

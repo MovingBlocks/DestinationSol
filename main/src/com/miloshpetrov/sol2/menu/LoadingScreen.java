@@ -1,6 +1,5 @@
 package com.miloshpetrov.sol2.menu;
 
-import com.badlogic.gdx.Input;
 import com.miloshpetrov.sol2.SolCmp;
 import com.miloshpetrov.sol2.common.Col;
 import com.miloshpetrov.sol2.ui.*;
@@ -8,20 +7,13 @@ import com.miloshpetrov.sol2.ui.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewShipScreen implements SolUiScreen {
-  private final List<SolUiControl> myControls;
-  private final SolUiControl myOkCtrl;
-  public final SolUiControl myCancelCtrl;
+public class LoadingScreen implements SolUiScreen {
+  private final ArrayList<SolUiControl> myControls;
+  private boolean myTut;
+  private boolean myUsePrevShip;
 
-  public NewShipScreen(MenuLayout menuLayout) {
+  public LoadingScreen() {
     myControls = new ArrayList<SolUiControl>();
-    myOkCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.H);
-    myOkCtrl.setDisplayName("OK");
-    myControls.add(myOkCtrl);
-
-    myCancelCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, Input.Keys.ESCAPE);
-    myCancelCtrl.setDisplayName("Cancel");
-    myControls.add(myCancelCtrl);
   }
 
   @Override
@@ -35,13 +27,7 @@ public class NewShipScreen implements SolUiScreen {
 
   @Override
   public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
-    if (myCancelCtrl.isJustOff()) {
-      cmp.getInputMan().setScreen(cmp, cmp.getMenuScreens().newGame);
-      return;
-    }
-    if (myOkCtrl.isJustOff()) {
-      cmp.loadNewGame(false, false);
-    }
+    cmp.startNewGame(myTut, myUsePrevShip);
   }
 
   @Override
@@ -51,26 +37,28 @@ public class NewShipScreen implements SolUiScreen {
 
   @Override
   public void blurCustom(SolCmp cmp) {
-
   }
 
   @Override
   public void drawBg(UiDrawer uiDrawer, SolCmp cmp) {
-
   }
 
   @Override
   public void drawImgs(UiDrawer uiDrawer, SolCmp cmp) {
-
   }
 
   @Override
   public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
-    uiDrawer.drawString("This will erase your previous ship", .5f * uiDrawer.r, .3f, FontSize.MENU, true, Col.W);
+    uiDrawer.drawString("Loading...", uiDrawer.r/2, .5f, FontSize.MENU, true, Col.W);
   }
 
   @Override
   public boolean reactsToClickOutside() {
     return false;
+  }
+
+  public void setMode(boolean tut, boolean usePrevShip) {
+    myTut = tut;
+    myUsePrevShip = usePrevShip;
   }
 }

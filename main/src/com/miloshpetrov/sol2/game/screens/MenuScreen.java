@@ -31,7 +31,7 @@ public class MenuScreen implements SolUiScreen {
     myExitCtrl.setDisplayName("Exit");
     myControls.add(myExitCtrl);
     myCloseCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, Input.Keys.ESCAPE);
-    myCloseCtrl.setDisplayName("Close");
+    myCloseCtrl.setDisplayName("Resume");
     myControls.add(myCloseCtrl);
   }
 

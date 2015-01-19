@@ -1,19 +1,29 @@
 
-publish on markit
+1.0.2:
+  show version in the bottom corner?
 
-improve banner on lgdb
-inspect links offered in lgdb
 
-maybe:
-  gamejolt
+publication:
+  licence?
+  Google Play: 
+    "also available on PC, looks better on tablets"
+    "seamless" is short desc
+  steam:
+    tags
+    cloud saving
+  rock scissor shotgun
+  space forums
+  improve banner on lgdb
+  inspect links offered in lgdb
+  gamejolt 
   desura
   indiedb
 
-probably not:
-  whosgamingnow.com
-  indiegamebundles.com
-  vk.com/indie_games
-  linux.org.ru
+  maybe:
+    whosgamingnow.com
+    indiegamebundles.com
+    vk.com/indie_games
+    linux.org.ru
 
 
 ===================== REST =======================================================================
@@ -33,11 +43,11 @@ ARCHITECTURE
   sound volumes should be kept in one map file?
 
 FEATURES
+  map zoom with fingers?
   implement ground tiles as polygons to avoid getting stuck inside
   reward for cleaning the planet
   brakes
   ship dps should consider abilities
-  brakes
   inventory category filtering
   boss-like stations on planets and space
   decorative houses on planets
