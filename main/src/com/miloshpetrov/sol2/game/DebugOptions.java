@@ -31,6 +31,7 @@ public class DebugOptions {
   public static boolean NO_SOUND = false;
   public static boolean SOUND_IN_SPACE = false;
   public static boolean SHOW_WARNINGS = false;
+  public static boolean SHOW_FPS = false;
   public static boolean DRAW_OBJ_BORDERS = false;
   public static boolean DRAW_DRA_BORDERS = false;
   public static boolean DRAW_PHYSIC_BORDERS = false;
@@ -62,6 +63,7 @@ public class DebugOptions {
     NO_SOUND = r.b("noSound", NO_SOUND);
     SOUND_IN_SPACE = r.b("soundInSpace", SOUND_IN_SPACE);
     SHOW_WARNINGS = r.b("showWarnings", SHOW_WARNINGS);
+    SHOW_FPS = r.b("showFps", SHOW_FPS);
     DRAW_OBJ_BORDERS = r.b("drawObjBorders", DRAW_OBJ_BORDERS);
     DRAW_DRA_BORDERS = r.b("drawDraBorders", DRAW_DRA_BORDERS);
     DRAW_PHYSIC_BORDERS = r.b("drawPhysicBorders", DRAW_PHYSIC_BORDERS);

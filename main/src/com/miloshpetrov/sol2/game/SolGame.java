@@ -11,6 +11,7 @@ import com.miloshpetrov.sol2.game.dra.DraDebugger;
 import com.miloshpetrov.sol2.game.dra.DraMan;
 import com.miloshpetrov.sol2.game.farBg.FarBgMan;
 import com.miloshpetrov.sol2.game.farBg.FarBgManOld;
+import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.input.*;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.*;
@@ -101,7 +102,7 @@ public class SolGame {
     myAsteroidBuilder = new AsteroidBuilder(myTexMan);
     myLootBuilder = new LootBuilder();
     myFarBgMan = new FarBgMan();
-    myMapDrawer = new MapDrawer(myTexMan);
+    myMapDrawer = new MapDrawer(myTexMan, commonDrawer.h);
     myShardBuilder = new ShardBuilder(myTexMan);
     myGalaxyFiller = new GalaxyFiller();
     myStarPortBuilder = new StarPort.Builder();
@@ -161,9 +162,11 @@ public class SolGame {
       myItemMan.addAllGuns(ic);
     } else if (myTutMan != null) {
       for (int i = 0; i < 50; i++) {
-        if (ic.groupCount() > Const.ITEM_GROUPS_PER_PAGE) break;
+        if (ic.groupCount() > 1.5f * Const.ITEM_GROUPS_PER_PAGE) break;
         SolItem it = myItemMan.random();
-        if (it.getIcon(this) != null && ic.canAdd(it)) ic.add(it.copy());
+        if (!(it instanceof GunItem) && it.getIcon(this) != null && ic.canAdd(it)) {
+          ic.add(it.copy());
+        }
       }
     }
     ic.seenAll();

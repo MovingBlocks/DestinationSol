@@ -62,7 +62,7 @@ public class MainScreen implements SolUiScreen {
   @Override
   public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
     if (myTutCtrl.isJustOff()) {
-      cmp.startNewGame(true, false);
+      cmp.loadNewGame(true, false);
       return;
     }
     SolInputMan im = cmp.getInputMan();

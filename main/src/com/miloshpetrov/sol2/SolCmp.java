@@ -69,11 +69,11 @@ public class SolCmp {
 
   private void update() {
     DebugCollector.update();
-    DebugCollector.debug("Fps", Gdx.graphics.getFramesPerSecond());
+    if (DebugOptions.SHOW_FPS) {
+      DebugCollector.debug("Fps", Gdx.graphics.getFramesPerSecond());
+    }
     myInputMan.update(this);
-    if (myGame == null) {
-      DebugCollector.debug("Version", Const.VERSION);
-    } else {
+    if (myGame != null) {
       myGame.update();
     }
     SolMath.checkVectorsTaken(null);
@@ -96,11 +96,19 @@ public class SolCmp {
       myUiDrawer.drawString(myFatalErrorTrace, .2f * myUiDrawer.r, .6f, FontSize.DEBUG, false, Col.W);
     }
     DebugCollector.draw(myUiDrawer);
+    if (myGame == null) {
+      myUiDrawer.drawString("version: " + Const.VERSION, 0.01f, .98f, FontSize.DEBUG, false, Col.W);
+    }
     myCommonDrawer.end();
   }
 
-  public void startNewGame(boolean tut, boolean usePrevShip) {
+  public void loadNewGame(boolean tut, boolean usePrevShip) {
     if (myGame != null) throw new AssertionError("Starting a new game with unfinished current one");
+    myInputMan.setScreen(this, myMenuScreens.loading);
+    myMenuScreens.loading.setMode(tut, usePrevShip);
+  }
+
+  public void startNewGame(boolean tut, boolean usePrevShip) {
     myGame = new SolGame(this, usePrevShip, myTexMan, tut, myCommonDrawer);
     myInputMan.setScreen(this, myGame.getScreens().mainScreen);
   }
