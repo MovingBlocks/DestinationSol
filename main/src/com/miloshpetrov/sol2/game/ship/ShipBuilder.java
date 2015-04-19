@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJoint;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.*;
@@ -187,7 +187,7 @@ public class ShipBuilder {
     World w = game.getObjMan().getWorld();
     TextureAtlas.AtlasRegion tex = game.getTexMan().getTex("smallGameObjs/door", null);
     PrismaticJoint joint = createDoorJoint(body, w, pos, doorRelPos, angle);
-    RectSprite s = new RectSprite(tex, Door.DOOR_LEN, 0, 0, new Vector2(doorRelPos), DraLevel.BODIES, 0, 0, Col.W, false);
+    RectSprite s = new RectSprite(tex, Door.DOOR_LEN, 0, 0, new Vector2(doorRelPos), DraLevel.BODIES, 0, 0, SolColor.W, false);
     return new Door(joint, s);
   }
 

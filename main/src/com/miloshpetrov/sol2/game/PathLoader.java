@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.SolFiles;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.dra.*;
 
@@ -322,7 +322,7 @@ public class PathLoader {
       String imgName = texDirName + "/" + texName;
       tex = game.getTexMan().getTex(imgName, null);
     }
-    RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, Col.W, false);
+    RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.W, false);
     dras.add(s);
     return body;
   }

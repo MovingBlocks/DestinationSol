@@ -75,7 +75,7 @@ FEATURES
 PERF
   cache cam dst to np, far sprites can check it
   use events on item addition
-  use objFloatMap in soundMan
+  use objFloatMap in soundManager
   PartMan should use pool
   string reuse
   autoboxing? (boolean is OK)

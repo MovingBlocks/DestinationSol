@@ -11,7 +11,7 @@ import com.miloshpetrov.sol2.game.ship.SolShip;
 
 import java.util.List;
 
-public class Loot implements SolObj {
+public class Loot implements SolObject {
 
   public static final int MAX_ROT_SPD = 4;
   public static final float MAX_SPD = .2f;
@@ -55,9 +55,9 @@ public class Loot implements SolObj {
     }
     SolShip puller = null;
     float minDist = Float.MAX_VALUE;
-    List<SolObj> objs = game.getObjMan().getObjs();
+    List<SolObject> objs = game.getObjMan().getObjs();
     for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
-      SolObj o = objs.get(i);
+      SolObject o = objs.get(i);
       if (!(o instanceof SolShip)) continue;
       SolShip ship = (SolShip) o;
       if (!ship.getPilot().collectsItems()) continue;
@@ -130,7 +130,7 @@ public class Loot implements SolObj {
   }
 
   @Override
-  public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
+  public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
     SolGame game, Vector2 collPos)
   {
     float dmg = absImpulse / myMass / DURABILITY;

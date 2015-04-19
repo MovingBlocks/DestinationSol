@@ -14,7 +14,7 @@ import com.miloshpetrov.sol2.game.sound.*;
 
 import java.util.List;
 
-public class SolShip implements SolObj {
+public class SolShip implements SolObject {
   public static final float BASE_DUR_MOD = .3f;
   public static final float PULL_DIST = 2f;
   public static final float SMOKE_PERC = .6f;
@@ -87,7 +87,7 @@ public class SolShip implements SolObj {
   }
 
   @Override
-  public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
+  public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
     SolGame game, Vector2 collPos)
   {
     if (tryCollectLoot(other, game)) {
@@ -117,7 +117,7 @@ public class SolShip implements SolObj {
     return true;
   }
 
-  private boolean tryCollectLoot(SolObj obj, SolGame game) {
+  private boolean tryCollectLoot(SolObject obj, SolGame game) {
     if (!(obj instanceof Loot)) return false;
     if (!myPilot.collectsItems()) return false;
     Loot loot = (Loot) obj;
@@ -201,12 +201,12 @@ public class SolShip implements SolObj {
 
   private void updateAbility(SolGame game) {
     if (myAbility == null) return;
-    SoundMan soundMan = game.getSoundMan();
+    SoundManager soundManager = game.getSoundMan();
     SpecialSounds sounds = game.getSpecialSounds();
     if (myAbilityAwait > 0) {
       myAbilityAwait -= game.getTimeStep();
       if (myAbilityAwait <= 0) {
-        soundMan.play(game, sounds.abilityRecharged, null, this);
+        soundManager.play(game, sounds.abilityRecharged, null, this);
       }
     }
     boolean tryToUse = isControlsEnabled() && myPilot.isAbility() && canUseAbility();
@@ -216,9 +216,9 @@ public class SolShip implements SolObj {
       if (example != null) myItemContainer.tryConsumeItem(example);
       myAbilityAwait = myAbility.getConfig().getRechargeTime();
       AbilityCommonConfig cc = myAbility.getCommonConfig();
-      soundMan.play(game, cc.activatedSound, null, this);
+      soundManager.play(game, cc.activatedSound, null, this);
     }
-    if (tryToUse && !used) soundMan.play(game, sounds.abilityRefused, null, this);
+    if (tryToUse && !used) soundManager.play(game, sounds.abilityRefused, null, this);
   }
 
   private void updateShield(SolGame game) {

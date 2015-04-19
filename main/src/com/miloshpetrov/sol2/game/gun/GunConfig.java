@@ -5,14 +5,14 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
-import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.TextureManager;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.DmgType;
 import com.miloshpetrov.sol2.game.HardnessCalc;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfig;
 import com.miloshpetrov.sol2.game.sound.SolSound;
-import com.miloshpetrov.sol2.game.sound.SoundMan;
+import com.miloshpetrov.sol2.game.sound.SoundManager;
 
 public class GunConfig {
   public final float minAngleVar;
@@ -98,7 +98,7 @@ public class GunConfig {
     return sb.toString();
   }
 
-  public static void load(TexMan texMan, ItemMan itemMan, SoundMan soundMan, SolItemTypes types) {
+  public static void load(TextureManager textureManager, ItemMan itemMan, SoundManager soundManager, SolItemTypes types) {
     JsonReader r = new JsonReader();
     FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "guns.json");
     JsonValue parsed = r.parse(configFile);
@@ -118,12 +118,12 @@ public class GunConfig {
       String clipName = sh.getString("clipName");
       ClipConfig clipConf = clipName.isEmpty() ? null : ((ClipItem)itemMan.getExample(clipName)).getConfig();
       String reloadSoundPath = sh.getString("reloadSound");
-      SolSound reloadSound = soundMan.getSound(reloadSoundPath, configFile);
+      SolSound reloadSound = soundManager.getSound(reloadSoundPath, configFile);
       String shootSoundPath = sh.getString("shootSound");
       float shootPitch = sh.getFloat("shootSoundPitch", 1);
-      SolSound shootSound = soundMan.getPitchedSound(shootSoundPath, configFile, shootPitch);
-      TextureAtlas.AtlasRegion tex = texMan.getTex("smallGameObjs/guns/" + texName, configFile);
-      TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + texName, configFile);
+      SolSound shootSound = soundManager.getPitchedSound(shootSoundPath, configFile, shootPitch);
+      TextureAtlas.AtlasRegion tex = textureManager.getTex("smallGameObjs/guns/" + texName, configFile);
+      TextureAtlas.AtlasRegion icon = textureManager.getTex(TextureManager.ICONS_DIR + texName, configFile);
       boolean fixed = sh.getBoolean("fixed", false);
       String code = sh.name;
       SolItemType itemType = fixed ? types.fixedGun : types.gun;

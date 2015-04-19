@@ -36,7 +36,7 @@ public class KnockBack implements ShipAbility {
   public boolean update(SolGame game, SolShip owner, boolean tryToUse) {
     if (!tryToUse) return false;
     Vector2 ownerPos = owner.getPos();
-    for (SolObj o : game.getObjMan().getObjs()) {
+    for (SolObject o : game.getObjMan().getObjs()) {
       if (o == owner || !o.receivesGravity()) continue;
       Vector2 oPos = o.getPos();
       float dst = oPos.dst(ownerPos);

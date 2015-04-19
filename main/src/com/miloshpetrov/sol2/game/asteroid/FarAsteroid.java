@@ -31,7 +31,7 @@ public class FarAsteroid implements FarObj {
   }
 
   @Override
-  public SolObj toObj(SolGame game) {
+  public SolObject toObj(SolGame game) {
     return game.getAsteroidBuilder().build(game, myPos, myTex, mySz, myAngle, myRotSpd, mySpd, myRemoveController);
   }
 

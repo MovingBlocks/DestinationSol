@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.SolFiles;
-import com.miloshpetrov.sol2.common.ColUtil;
+import com.miloshpetrov.sol2.common.SolColorUtil;
 
 import java.util.HashMap;
 
@@ -38,7 +38,7 @@ public class GameCols {
   }
 
   public Color load(String s) {
-    if (s.contains(" ")) return ColUtil.load(s);
+    if (s.contains(" ")) return SolColorUtil.load(s);
     return get(s);
   }
 }

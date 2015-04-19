@@ -3,7 +3,7 @@ package com.miloshpetrov.sol2.game.chunk;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
-import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.TextureManager;
 
 import java.util.ArrayList;
 
@@ -13,12 +13,12 @@ public class SpaceEnvConfig {
   public final ArrayList<TextureAtlas.AtlasRegion> farJunkTexs;
   public final float farJunkDensity;
 
-  public SpaceEnvConfig(JsonValue json, TexMan texMan, FileHandle configFile) {
+  public SpaceEnvConfig(JsonValue json, TextureManager textureManager, FileHandle configFile) {
     String junkTexDirStr = json.getString("junkTexs");
-    junkTexs = texMan.getPack(junkTexDirStr, configFile);
+    junkTexs = textureManager.getPack(junkTexDirStr, configFile);
     junkDensity = json.getFloat("junkDensity");
     String farJunkTexDirStr = json.getString("farJunkTexs");
-    farJunkTexs = texMan.getPack(farJunkTexDirStr, configFile);
+    farJunkTexs = textureManager.getPack(farJunkTexDirStr, configFile);
     farJunkDensity = json.getFloat("farJunkDensity");
   }
 }

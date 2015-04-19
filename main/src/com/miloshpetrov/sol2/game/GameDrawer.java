@@ -13,10 +13,10 @@ public class GameDrawer {
 
   private boolean myCurrAdditive;
 
-  public GameDrawer(TexMan texMan, CommonDrawer commonDrawer) {
+  public GameDrawer(TextureManager textureManager, CommonDrawer commonDrawer) {
     myDrawer = commonDrawer;
     r = myDrawer.r;
-    debugWhiteTex = texMan.getTex("ui/whiteTex", null);
+    debugWhiteTex = textureManager.getTex("ui/whiteTex", null);
   }
 
   public void begin() {

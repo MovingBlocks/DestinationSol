@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
-import com.miloshpetrov.sol2.game.SolObj;
+import com.miloshpetrov.sol2.game.SolObject;
 import com.miloshpetrov.sol2.game.dra.Dra;
 import com.miloshpetrov.sol2.game.dra.DraLevel;
 import com.miloshpetrov.sol2.game.input.Pilot;
@@ -49,7 +49,7 @@ public class ShipEngine {
     return myDras;
   }
 
-  public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 spd, SolObj owner,
+  public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 spd, SolObject owner,
     boolean controlsEnabled, float mass)
   {
     boolean working = applyInput(game, angle, provider, body, spd, controlsEnabled, mass);

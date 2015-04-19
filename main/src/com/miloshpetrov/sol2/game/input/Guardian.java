@@ -69,8 +69,8 @@ public class Guardian implements MoveDestProvider {
   }
 
   public void updateTarget(SolGame game) {
-    ObjMan om = game.getObjMan();
-    List<SolObj> objs = om.getObjs();
+    ObjectManager om = game.getObjMan();
+    List<SolObject> objs = om.getObjs();
     if (myTarget != null && objs.contains(myTarget)) return;
     myTarget = null;
     List<FarShip> farShips = om.getFarShips();
@@ -78,7 +78,7 @@ public class Guardian implements MoveDestProvider {
     myFarTarget = null;
 
     for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
-      SolObj o = objs.get(i);
+      SolObject o = objs.get(i);
       if (!(o instanceof SolShip)) continue;
       SolShip other = (SolShip) o;
       if (other.getPilot() != myTargetPilot) continue;

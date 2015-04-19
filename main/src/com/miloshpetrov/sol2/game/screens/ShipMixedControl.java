@@ -10,7 +10,7 @@ import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.input.Mover;
 import com.miloshpetrov.sol2.game.input.Shooter;
 import com.miloshpetrov.sol2.game.ship.SolShip;
-import com.miloshpetrov.sol2.ui.SolInputMan;
+import com.miloshpetrov.sol2.ui.SolInputManager;
 import com.miloshpetrov.sol2.ui.SolUiControl;
 
 import java.util.List;
@@ -49,7 +49,7 @@ public class ShipMixedControl implements ShipUiControl {
   public void update(SolCmp cmp, boolean enabled) {
     blur();
     if (!enabled) return;
-    SolInputMan im = cmp.getInputMan();
+    SolInputManager im = cmp.getInputMan();
     SolGame g = cmp.getGame();
     SolShip h = g.getHero();
     if (h != null) {

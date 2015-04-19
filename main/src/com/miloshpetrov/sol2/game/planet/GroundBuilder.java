@@ -42,19 +42,19 @@ public class GroundBuilder {
       int prevD = nextD;
       nextD = col == myCols - 1 ? (int) ds[0] : (int) ds[col];
       for (int row = 0; row < myRows; row++) {
-        SurfDir from = SurfDir.FWD;
-        SurfDir to = SurfDir.FWD;
+        SurfaceDirection from = SurfaceDirection.FWD;
+        SurfaceDirection to = SurfaceDirection.FWD;
         if (row < prevD) {
-          from = SurfDir.DOWN;
+          from = SurfaceDirection.DOWN;
         } else if (row > prevD) {
-          from = SurfDir.UP;
+          from = SurfaceDirection.UP;
         }
         if (row < nextD) {
-          to = SurfDir.DOWN;
+          to = SurfaceDirection.DOWN;
         } else if (row > nextD) {
-          to = SurfDir.UP;
+          to = SurfaceDirection.UP;
         }
-        if (from == SurfDir.DOWN && to == SurfDir.DOWN) continue;
+        if (from == SurfaceDirection.DOWN && to == SurfaceDirection.DOWN) continue;
         myMap[col][row] = myConfig.planetTiles.getGround(from, to);
       }
     }
@@ -134,7 +134,7 @@ public class GroundBuilder {
 
   private boolean isGround(int col, int row) {
     Tile t = myMap[col][row];
-    return t != null && t.from == SurfDir.UP && t.to == SurfDir.UP;
+    return t != null && t.from == SurfaceDirection.UP && t.to == SurfaceDirection.UP;
   }
 
   private int left(int col) {

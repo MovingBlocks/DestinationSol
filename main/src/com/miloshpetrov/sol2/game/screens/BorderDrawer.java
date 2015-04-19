@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.SolCmp;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.planet.*;
@@ -62,9 +62,9 @@ public class BorderDrawer {
     FractionMan fracMan = g.getFractionMan();
     float heroDmgCap = hero == null ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero);
 
-    List<SolObj> objs = g.getObjMan().getObjs();
+    List<SolObject> objs = g.getObjMan().getObjs();
     for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
-      SolObj o = objs.get(i);
+      SolObject o = objs.get(i);
       if ((o instanceof SolShip)) {
         SolShip ship = (SolShip) o;
         Vector2 shipPos = ship.getPos();
@@ -123,7 +123,7 @@ public class BorderDrawer {
   }
 
   private void drawTishches(UiDrawer drawer, SolGame g, SolCam cam, Vector2 camPos) {
-    PlanetMan pMan = g.getPlanetMan();
+    PlanetMananger pMan = g.getPlanetMan();
     Planet np = pMan.getNearestPlanet();
     if (np != null && np.getPos().dst(camPos) < np.getFullHeight()) return;
     for (int i = 0, myTishchesSize = myTishches.size(); i < myTishchesSize; i++) {
@@ -183,7 +183,7 @@ public class BorderDrawer {
       Vector2 pos = new Vector2(x, y);
       Vector2 centah = new Vector2(r / 2, .5f);
       myAngle = SolMath.angle(centah, pos, true);
-      myCol = new Color(Col.UI_DARK);
+      myCol = new Color(SolColor.UI_DARK);
     }
 
     public void draw(UiDrawer drawer) {

@@ -13,7 +13,7 @@ import com.miloshpetrov.sol2.game.ship.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StarPort implements SolObj {
+public class StarPort implements SolObject {
 
   public static final float DIST_FROM_PLANET = Const.PLANET_GAP * .5f;
   public static final int SIZE = 8;
@@ -55,11 +55,11 @@ public class StarPort implements SolObj {
     if (ship != null && ship.getMoney() >= FARE && ship.getPos().dst(myPos) < .05f * SIZE) {
       ship.setMoney(ship.getMoney() - FARE);
       Transcendent t = new Transcendent(ship, myFrom, myTo, game);
-      ObjMan objMan = game.getObjMan();
-      objMan.addObjDelayed(t);
+      ObjectManager objectManager = game.getObjMan();
+      objectManager.addObjDelayed(t);
       blip(game, ship);
       game.getSoundMan().play(game, game.getSpecialSounds().transcendentCreated, null, t);
-      objMan.removeObjDelayed(ship);
+      objectManager.removeObjDelayed(ship);
     }
     for (int i = 0, myLightsSize = myLights.size(); i < myLightsSize; i++) {
       LightSrc l = myLights.get(i);
@@ -130,7 +130,7 @@ public class StarPort implements SolObj {
   }
 
   @Override
-  public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
+  public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
     SolGame game, Vector2 collPos)
   {
 
@@ -235,7 +235,7 @@ public class StarPort implements SolObj {
     }
 
     @Override
-    public SolObj toObj(SolGame game) {
+    public SolObject toObj(SolGame game) {
       return game.getStarPortBuilder().build(game, myFrom, myTo, mySecondary);
     }
 
@@ -285,7 +285,7 @@ public class StarPort implements SolObj {
     }
   }
 
-  public static class Transcendent implements SolObj {
+  public static class Transcendent implements SolObject {
     private static final float TRAN_SZ = 1f;
     private final Planet myFrom;
     private final Planet myTo;
@@ -307,7 +307,7 @@ public class StarPort implements SolObj {
       mySpd = new Vector2();
       myDestPos = new Vector2();
 
-      RectSprite s = new RectSprite(game.getTexMan().getTex("smallGameObjs/transcendent", null), TRAN_SZ, .3f, 0, new Vector2(), DraLevel.PROJECTILES, 0, 0, Col.W, false);
+      RectSprite s = new RectSprite(game.getTexMan().getTex("smallGameObjs/transcendent", null), TRAN_SZ, .3f, 0, new Vector2(), DraLevel.PROJECTILES, 0, 0, SolColor.W, false);
       myDras = new ArrayList<Dra>();
       myDras.add(s);
       EffectConfig eff = game.getSpecialEffects().transcendentWork;
@@ -334,12 +334,12 @@ public class StarPort implements SolObj {
       SolMath.free(moveDiff);
 
       if (myPos.dst(myDestPos) < .5f) {
-        ObjMan objMan = game.getObjMan();
-        objMan.removeObjDelayed(this);
+        ObjectManager objectManager = game.getObjMan();
+        objectManager.removeObjDelayed(this);
         myShip.setPos(myPos);
         myShip.setSpd(new Vector2());
         SolShip ship = myShip.toObj(game);
-        objMan.addObjDelayed(ship);
+        objectManager.addObjDelayed(ship);
         blip(game, ship);
         game.getSoundMan().play(game, game.getSpecialSounds().transcendentFinished, null, this);
         game.getObjMan().resetDelays(); // because of the hacked speed
@@ -408,7 +408,7 @@ public class StarPort implements SolObj {
     }
 
     @Override
-    public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
+    public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
       SolGame game, Vector2 collPos)
     {
     }

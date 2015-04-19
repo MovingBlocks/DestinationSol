@@ -3,7 +3,7 @@ package com.miloshpetrov.sol2.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.TextureManager;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.dra.*;
 import com.miloshpetrov.sol2.game.input.Pilot;
@@ -24,7 +24,7 @@ public class BeaconHandler {
   private final RectSprite myMoveSprite;
   private final Vector2 myTargetRelPos;
 
-  private DrasObj myD;
+  private DrasObject myD;
   private FarDras myFarD;
   private Pilot myTargetPilot;
   private SolShip myTarget;
@@ -35,12 +35,12 @@ public class BeaconHandler {
   private Vector2 mySpd;
   private boolean myInitialized;
 
-  public BeaconHandler(TexMan texMan) {
-    TextureAtlas.AtlasRegion attackTex = texMan.getTex("smallGameObjs/beaconAttack", null);
+  public BeaconHandler(TextureManager textureManager) {
+    TextureAtlas.AtlasRegion attackTex = textureManager.getTex("smallGameObjs/beaconAttack", null);
     myAttackSprite = new RectSprite(attackTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
-    TextureAtlas.AtlasRegion followTex = texMan.getTex("smallGameObjs/beaconFollow", null);
+    TextureAtlas.AtlasRegion followTex = textureManager.getTex("smallGameObjs/beaconFollow", null);
     myFollowSprite = new RectSprite(followTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
-    TextureAtlas.AtlasRegion moveTex = texMan.getTex("smallGameObjs/beaconMove", null);
+    TextureAtlas.AtlasRegion moveTex = textureManager.getTex("smallGameObjs/beaconMove", null);
     myMoveSprite = new RectSprite(moveTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
     myTargetRelPos = new Vector2();
     mySpd = new Vector2();
@@ -51,7 +51,7 @@ public class BeaconHandler {
     dras.add(myAttackSprite);
     dras.add(myFollowSprite);
     dras.add(myMoveSprite);
-    myD = new DrasObj(dras, new Vector2(pos), new Vector2(), null, false, false);
+    myD = new DrasObject(dras, new Vector2(pos), new Vector2(), null, false, false);
     game.getObjMan().addObjDelayed(myD);
     myInitialized = true;
   }
@@ -92,8 +92,8 @@ public class BeaconHandler {
 
   private void updateTarget(SolGame game) {
     if (myTargetPilot == null) return;
-    ObjMan om = game.getObjMan();
-    List<SolObj> objs = om.getObjs();
+    ObjectManager om = game.getObjMan();
+    List<SolObject> objs = om.getObjs();
     List<FarShip> farShips = om.getFarShips();
     if (myTarget != null) {
       if (objs.contains(myTarget)) return;
@@ -109,7 +109,7 @@ public class BeaconHandler {
     if (myFarTarget == null) throw new AssertionError();
     if (om.getFarShips().contains(myFarTarget)) return;
     myFarTarget = null;
-    for (SolObj o : objs) {
+    for (SolObject o : objs) {
       if ((o instanceof SolShip)) {
         SolShip ship = (SolShip) o;
         if (ship.getPilot() != myTargetPilot) continue;
@@ -121,8 +121,8 @@ public class BeaconHandler {
   }
 
   private void updateD(SolGame game) {
-    ObjMan om = game.getObjMan();
-    List<SolObj> objs = om.getObjs();
+    ObjectManager om = game.getObjMan();
+    List<SolObject> objs = om.getObjs();
     List<FarObjData> farObjs = om.getFarObjs();
 
     if (myD != null) {
@@ -143,13 +143,13 @@ public class BeaconHandler {
     if (myFarD == null) throw new AssertionError();
     if (om.containsFarObj(myFarD)) return;
     myFarD = null;
-    for (SolObj o : objs) {
-      if ((o instanceof DrasObj)) {
+    for (SolObject o : objs) {
+      if ((o instanceof DrasObject)) {
         List<Dra> dras = o.getDras();
         if (dras.size() != 3) continue;
         Dra dra = dras.get(0);
         if (dra != myAttackSprite) continue;
-        myD = (DrasObj) o;
+        myD = (DrasObject) o;
         return;
       }
     }
@@ -202,10 +202,10 @@ public class BeaconHandler {
   }
 
   private Pilot findPilotInPos(SolGame g, Vector2 pos, boolean onMap, boolean clicked) {
-    ObjMan om = g.getObjMan();
+    ObjectManager om = g.getObjMan();
     SolShip h = g.getHero();
     float iconRad = onMap ? g.getMapDrawer().getIconRadius(g.getCam()) : 0;
-    for (SolObj o : om.getObjs()) {
+    for (SolObject o : om.getObjs()) {
       if (o == h || !(o instanceof SolShip)) continue;
       SolShip s = (SolShip) o;
       Pilot pilot = s.getPilot();

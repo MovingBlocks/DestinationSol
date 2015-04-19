@@ -88,11 +88,11 @@ public class RectSprite implements Dra {
     return myLevel;
   }
 
-  public void update(SolGame game, SolObj o) {
+  public void update(SolGame game, SolObject o) {
     relAngle += myRotSpd * game.getTimeStep();
   }
 
-  public void prepare(SolObj o) {
+  public void prepare(SolObject o) {
     float baseAngle = o.getAngle();
     Vector2 basePos = o.getPos();
     SolMath.toWorld(myPos, relPos, baseAngle, basePos, false);

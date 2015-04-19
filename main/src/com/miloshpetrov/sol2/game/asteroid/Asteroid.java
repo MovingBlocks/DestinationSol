@@ -10,13 +10,13 @@ import com.miloshpetrov.sol2.game.dra.Dra;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
 import com.miloshpetrov.sol2.game.planet.Planet;
-import com.miloshpetrov.sol2.game.planet.TileObj;
+import com.miloshpetrov.sol2.game.planet.TileObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Asteroid implements SolObj {
+public class Asteroid implements SolObject {
 
   public static final float MIN_SPLIT_SZ = .25f;
   public static final float MIN_BURN_SZ = .3f;
@@ -85,11 +85,11 @@ public class Asteroid implements SolObj {
   }
 
   @Override
-  public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
+  public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
     SolGame game, Vector2 collPos)
   {
     float dmg;
-    if (other instanceof TileObj && MIN_BURN_SZ < mySize) {
+    if (other instanceof TileObject && MIN_BURN_SZ < mySize) {
       dmg = myLife;
     } else {
       dmg = absImpulse / myMass / DUR;

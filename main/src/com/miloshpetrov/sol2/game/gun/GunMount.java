@@ -59,7 +59,7 @@ public class GunMount {
     return myGun == null ? null : myGun.getItem();
   }
 
-  public void setGun(SolGame game, SolObj o, GunItem gunItem, boolean underShip) {
+  public void setGun(SolGame game, SolObject o, GunItem gunItem, boolean underShip) {
     List<Dra> dras = o.getDras();
     if (myGun != null) {
       List<Dra> dras1 = myGun.getDras();

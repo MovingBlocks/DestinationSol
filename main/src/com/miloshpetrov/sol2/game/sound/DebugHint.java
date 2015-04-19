@@ -12,10 +12,10 @@ public class DebugHint {
   private final Vector2 myPos;
   private final Map<String, Long> myMsgs;
 
-  private SolObj myOwner;
+  private SolObject myOwner;
   private String myMsg;
 
-  public DebugHint(SolObj owner, Vector2 pos) {
+  public DebugHint(SolObject owner, Vector2 pos) {
     myOwner = owner;
     myPos = new Vector2(pos);
     myMsgs = new HashMap<String, Long>();

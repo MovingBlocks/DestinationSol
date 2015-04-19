@@ -35,7 +35,7 @@ public class UnShield implements ShipAbility {
   public boolean update(SolGame game, SolShip owner, boolean tryToUse) {
     if (!tryToUse) return false;
     Vector2 ownerPos = owner.getPos();
-    for (SolObj o : game.getObjMan().getObjs()) {
+    for (SolObject o : game.getObjMan().getObjs()) {
       if (!(o instanceof SolShip) || o == owner) continue;
       SolShip oShip = (SolShip) o;
       Shield shield = oShip.getShield();

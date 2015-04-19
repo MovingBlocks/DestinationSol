@@ -3,8 +3,8 @@ package com.miloshpetrov.sol2.game.chunk;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
-import com.miloshpetrov.sol2.TexMan;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.TextureManager;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.asteroid.FarAsteroid;
@@ -40,8 +40,8 @@ public class ChunkFiller {
   private static final float MAZE_ZONE_BORDER = 20;
   private final TextureAtlas.AtlasRegion myDustTex;
 
-  public ChunkFiller(TexMan texMan) {
-    myDustTex = texMan.getTex("deco/space/dust", null);
+  public ChunkFiller(TextureManager textureManager) {
+    myDustTex = textureManager.getTex("deco/space/dust", null);
   }
 
 
@@ -68,7 +68,7 @@ public class ChunkFiller {
   private SpaceEnvConfig getConfig(SolGame game, Vector2 chCenter, float[] densityMul,
     RemoveController remover, boolean farBg)
   {
-    PlanetMan pm = game.getPlanetMan();
+    PlanetMananger pm = game.getPlanetMan();
     SolSystem sys = pm.getNearestSystem(chCenter);
     float toSys = sys.getPos().dst(chCenter);
     if (toSys < sys.getRadius()) {
@@ -170,14 +170,14 @@ public class ChunkFiller {
     if (count == 0) return;
 
     ArrayList<Dra> dras = new ArrayList<Dra>();
-    TexMan texMan = game.getTexMan();
+    TextureManager textureManager = game.getTexMan();
     for (int i = 0; i < count; i++) {
       TextureAtlas.AtlasRegion tex = SolMath.elemRnd(conf.farJunkTexs);
-      if (SolMath.test(.5f)) tex = texMan.getFlipped(tex);
+      if (SolMath.test(.5f)) tex = textureManager.getFlipped(tex);
       float sz = SolMath.rnd(.3f, 1) * FAR_JUNK_MAX_SZ;
       Vector2 junkPos = getRndPos(chCenter);
       junkPos.sub(chCenter);
-      RectSprite s = new RectSprite(tex, sz, 0, 0, junkPos, draLevel, SolMath.rnd(180), SolMath.rnd(FAR_JUNK_MAX_ROT_SPD), Col.DDG, false);
+      RectSprite s = new RectSprite(tex, sz, 0, 0, junkPos, draLevel, SolMath.rnd(180), SolMath.rnd(FAR_JUNK_MAX_ROT_SPD), SolColor.DDG, false);
       dras.add(s);
     }
     FarDras so = new FarDras(dras, new Vector2(chCenter), new Vector2(), remover, true);
@@ -196,7 +196,7 @@ public class ChunkFiller {
       if (SolMath.test(.5f)) tex = game.getTexMan().getFlipped(tex);
       float sz = SolMath.rnd(.3f, 1) * JUNK_MAX_SZ;
       float rotSpd = SolMath.rnd(JUNK_MAX_ROT_SPD);
-      RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.DECO, SolMath.rnd(180), rotSpd, Col.LG, false);
+      RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.DECO, SolMath.rnd(180), rotSpd, SolColor.LG, false);
       ArrayList<Dra> dras = new ArrayList<Dra>();
       dras.add(s);
 
@@ -215,7 +215,7 @@ public class ChunkFiller {
     for (int i = 0; i < count; i++) {
       Vector2 dustPos = getRndPos(chCenter);
       dustPos.sub(chCenter);
-      RectSprite s = new RectSprite(tex, DUST_SZ, 0, 0, dustPos, DraLevel.DECO, 0, 0, Col.W, false);
+      RectSprite s = new RectSprite(tex, DUST_SZ, 0, 0, dustPos, DraLevel.DECO, 0, 0, SolColor.W, false);
       dras.add(s);
     }
     FarDras so = new FarDras(dras, chCenter, new Vector2(), remover, true);

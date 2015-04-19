@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.SolCmp;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.ui.*;
 
@@ -25,7 +25,7 @@ public class CreditsScreen implements SolUiScreen {
     myCloseCtrl = new SolUiControl(MainScreen.creditsBtnRect(r), true, Input.Keys.ESCAPE);
     myCloseCtrl.setDisplayName("Close");
     myControls.add(myCloseCtrl);
-    myColor = Col.col(1, 1);
+    myColor = SolColor.col(1, 1);
 
     myPages = new ArrayList<String>();
     String[][] sss = {
@@ -87,7 +87,7 @@ public class CreditsScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
+  public void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     if (myCloseCtrl.isJustOff()) {
       cmp.getInputMan().setScreen(cmp, cmp.getMenuScreens().main);
       return;
@@ -105,7 +105,7 @@ public class CreditsScreen implements SolUiScreen {
   }
 
   @Override
-  public boolean isCursorOnBg(SolInputMan.Ptr ptr) {
+  public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
     return false;
   }
 

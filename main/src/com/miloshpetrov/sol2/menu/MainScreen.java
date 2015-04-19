@@ -5,8 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.miloshpetrov.sol2.SolCmp;
-import com.miloshpetrov.sol2.TexMan;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.TextureManager;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.game.DebugOptions;
 import com.miloshpetrov.sol2.ui.*;
 
@@ -25,7 +25,7 @@ public class MainScreen implements SolUiScreen {
   private final SolUiControl myCreditsCtrl;
   private final TextureAtlas.AtlasRegion myTitleTex;
 
-  public MainScreen(MenuLayout menuLayout, TexMan texMan, boolean mobile, float r) {
+  public MainScreen(MenuLayout menuLayout, TextureManager textureManager, boolean mobile, float r) {
     myControls = new ArrayList<SolUiControl>();
 
     myTutCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.T);
@@ -48,7 +48,7 @@ public class MainScreen implements SolUiScreen {
     myCreditsCtrl.setDisplayName("Credits");
     myControls.add(myCreditsCtrl);
 
-    myTitleTex = texMan.getTex("ui/title", null);
+    myTitleTex = textureManager.getTex("ui/title", null);
   }
 
   public static Rectangle creditsBtnRect(float r) {
@@ -60,12 +60,12 @@ public class MainScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
+  public void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     if (myTutCtrl.isJustOff()) {
       cmp.loadNewGame(true, false);
       return;
     }
-    SolInputMan im = cmp.getInputMan();
+    SolInputManager im = cmp.getInputMan();
     MenuScreens screens = cmp.getMenuScreens();
     if (myNewGameCtrl.isJustOff()) {
       im.setScreen(cmp, screens.newGame);
@@ -85,7 +85,7 @@ public class MainScreen implements SolUiScreen {
   }
 
   @Override
-  public boolean isCursorOnBg(SolInputMan.Ptr ptr) {
+  public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
     return false;
   }
 
@@ -101,7 +101,7 @@ public class MainScreen implements SolUiScreen {
   @Override
   public void drawImgs(UiDrawer uiDrawer, SolCmp cmp) {
     float sz = .55f;
-    if (!DebugOptions.PRINT_BALANCE) uiDrawer.draw(myTitleTex, sz, sz, sz/2, sz/2, uiDrawer.r/2, sz/2, 0, Col.W);
+    if (!DebugOptions.PRINT_BALANCE) uiDrawer.draw(myTitleTex, sz, sz, sz/2, sz/2, uiDrawer.r/2, sz/2, 0, SolColor.W);
   }
 
   @Override

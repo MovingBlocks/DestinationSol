@@ -2,15 +2,15 @@ package com.miloshpetrov.sol2.game.planet;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.TexMan;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.TextureManager;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.game.*;
 
 public class PlanetCoreSingleton {
   private final TextureAtlas.AtlasRegion myTex;
 
-  public PlanetCoreSingleton(TexMan texMan) {
-    myTex = texMan.getTex("planetStarCommons/planetCore", null);
+  public PlanetCoreSingleton(TextureManager textureManager) {
+    myTex = textureManager.getTex("planetStarCommons/planetCore", null);
   }
 
 
@@ -24,7 +24,7 @@ public class PlanetCoreSingleton {
     float gh = p.getMinGroundHeight();
     if (toCamLen < gh + vd) {
       float sz = gh;
-      drawer.draw(myTex, sz *2, sz *2, sz, sz, pPos.x, pPos.y, p.getAngle(), Col.W);
+      drawer.draw(myTex, sz *2, sz *2, sz, sz, pPos.x, pPos.y, p.getAngle(), SolColor.W);
     }
   }
 }

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.dra.*;
 import com.miloshpetrov.sol2.game.particle.LightSrc;
@@ -23,7 +23,7 @@ public class LootBuilder {
     List<Dra> dras = new ArrayList<Dra>();
     TextureAtlas.AtlasRegion tex = item.getIcon(game);
     float sz = item.getItemType().sz;
-    RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.GUNS, 0, 0, Col.W, false);
+    RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.GUNS, 0, 0, SolColor.W, false);
     dras.add(s);
     Body b = buildBody(game, pos, sz);
     b.setLinearVelocity(spd);

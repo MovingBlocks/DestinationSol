@@ -3,7 +3,7 @@ package com.miloshpetrov.sol2.game.screens;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.miloshpetrov.sol2.Const;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.ui.FontSize;
@@ -23,9 +23,9 @@ public abstract class WarnDrawer {
   public WarnDrawer(float r, String text) {
     myWarn = rect(r);
     myText = text;
-    myBgCol = new Color(Col.UI_WARN);
+    myBgCol = new Color(SolColor.UI_WARN);
     myBgOrigA = myBgCol.a;
-    myTextCol = new Color(Col.W);
+    myTextCol = new Color(SolColor.W);
   }
 
   public static Rectangle rect(float r) {
