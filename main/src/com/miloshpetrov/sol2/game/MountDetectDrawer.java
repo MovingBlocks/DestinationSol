@@ -2,8 +2,8 @@ package com.miloshpetrov.sol2.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.TexMan;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.TextureManager;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public class MountDetectDrawer {
@@ -15,9 +15,9 @@ public class MountDetectDrawer {
   private float myAnimPerc;
   private float myAngle;
 
-  public MountDetectDrawer(TexMan texMan) {
+  public MountDetectDrawer(TextureManager textureManager) {
     myNePos = new Vector2();
-    myTex = texMan.getTex("smallGameObjs/targetDetected", null);
+    myTex = textureManager.getTex("smallGameObjs/targetDetected", null);
   }
 
   public void update(SolGame game) {
@@ -40,6 +40,6 @@ public class MountDetectDrawer {
     float radPerc = myAnimPerc * 2;
     if (radPerc > 1) radPerc = 2 - radPerc;
     float rad = myBaseRad * (1 + .5f * radPerc);
-    drawer.draw(myTex, rad * 2, rad * 2, rad, rad, myNePos.x, myNePos.y, myAngle, Col.W);
+    drawer.draw(myTex, rad * 2, rad * 2, rad, rad, myNePos.x, myNePos.y, myAngle, SolColor.W);
   }
 }

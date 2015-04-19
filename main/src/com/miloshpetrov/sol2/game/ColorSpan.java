@@ -11,14 +11,14 @@ public abstract class ColorSpan {
 
   public static RgbSpan rgb(float[] start, float[] end) {
     Color startC = new Color();
-    ColUtil.fromHSB(start[0], start[1], start[2], start[3], startC);
+    SolColorUtil.fromHSB(start[0], start[1], start[2], start[3], startC);
     Color endC = new Color();
-    ColUtil.fromHSB(end[0], end[1], end[2], end[3], endC);
+    SolColorUtil.fromHSB(end[0], end[1], end[2], end[3], endC);
     return rgb(startC, endC);
   }
 
   public static HsbSpan hsb(Color start, Color end) {
-    return hsb(ColUtil.toHSB(start), ColUtil.toHSB(end));
+    return hsb(SolColorUtil.toHSB(start), SolColorUtil.toHSB(end));
   }
 
   public static HsbSpan hsb(float[] start, float[] end) {

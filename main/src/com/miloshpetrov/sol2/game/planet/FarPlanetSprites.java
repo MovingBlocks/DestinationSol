@@ -34,7 +34,7 @@ public class FarPlanetSprites implements FarObj {
   }
 
   @Override
-  public SolObj toObj(SolGame game) {
+  public SolObject toObj(SolGame game) {
     return new PlanetSprites(myPlanet, myRelAngleToPlanet, myDist, myDras, myToPlanetRotSpd);
   }
 

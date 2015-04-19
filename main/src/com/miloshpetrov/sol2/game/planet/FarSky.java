@@ -17,7 +17,7 @@ public class FarSky implements FarObj {
   }
 
   @Override
-  public SolObj toObj(SolGame game) {
+  public SolObject toObj(SolGame game) {
     return new Sky(game, myPlanet);
   }
 

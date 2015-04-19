@@ -1,7 +1,7 @@
 package com.miloshpetrov.sol2.menu;
 
 import com.miloshpetrov.sol2.SolCmp;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.ui.*;
 
 import java.util.ArrayList;
@@ -26,12 +26,12 @@ public class LoadingScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
+  public void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     cmp.startNewGame(myTut, myUsePrevShip);
   }
 
   @Override
-  public boolean isCursorOnBg(SolInputMan.Ptr ptr) {
+  public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
     return false;
   }
 
@@ -49,7 +49,7 @@ public class LoadingScreen implements SolUiScreen {
 
   @Override
   public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
-    uiDrawer.drawString("Loading...", uiDrawer.r/2, .5f, FontSize.MENU, true, Col.W);
+    uiDrawer.drawString("Loading...", uiDrawer.r/2, .5f, FontSize.MENU, true, SolColor.W);
   }
 
   @Override

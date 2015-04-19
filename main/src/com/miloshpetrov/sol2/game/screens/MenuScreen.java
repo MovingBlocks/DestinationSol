@@ -2,7 +2,7 @@ package com.miloshpetrov.sol2.game.screens;
 
 import com.badlogic.gdx.Input;
 import com.miloshpetrov.sol2.SolCmp;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.menu.MenuLayout;
@@ -41,10 +41,10 @@ public class MenuScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
+  public void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     SolGame g = cmp.getGame();
     g.setPaused(true);
-    SolInputMan im = cmp.getInputMan();
+    SolInputManager im = cmp.getInputMan();
     GameOptions options = cmp.getOptions();
     myVolCtrl.setDisplayName("Volume: " + getVolName(options));
     if (myVolCtrl.isJustOff()) {
@@ -74,7 +74,7 @@ public class MenuScreen implements SolUiScreen {
 
   @Override
   public void drawBg(UiDrawer uiDrawer, SolCmp cmp) {
-    uiDrawer.draw(uiDrawer.filler, Col.UI_BG);
+    uiDrawer.draw(uiDrawer.filler, SolColor.UI_BG);
   }
 
   @Override
@@ -92,7 +92,7 @@ public class MenuScreen implements SolUiScreen {
   }
 
   @Override
-  public boolean isCursorOnBg(SolInputMan.Ptr ptr) {
+  public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
     return true;
   }
 

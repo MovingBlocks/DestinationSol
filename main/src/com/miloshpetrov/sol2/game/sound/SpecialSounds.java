@@ -30,29 +30,29 @@ public class SpecialSounds {
   public final SolSound transcendentFinished;
   public final SolSound transcendentMove;
 
-  public SpecialSounds(SoundMan soundMan) {
+  public SpecialSounds(SoundManager soundManager) {
     JsonReader r = new JsonReader();
     FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "specialSounds.json");
     JsonValue node = r.parse(configFile);
-    metalColl = soundMan.getSound(node.getString("metalCollision"), configFile);
-    metalBulletHit = soundMan.getPitchedSound(node.getString("metalBulletHit"), configFile, 1.1f);
-    metalEnergyHit = soundMan.getSound(node.getString("metalEnergyHit"), configFile);
-    rockColl = soundMan.getSound(node.getString("rockCollision"), configFile);
-    rockBulletHit = soundMan.getSound(node.getString("rockBulletHit"), configFile);
-    rockEnergyHit = soundMan.getSound(node.getString("rockEnergyHit"), configFile);
-    asteroidCrack = soundMan.getSound(node.getString("asteroidCrack"), configFile);
-    shipExplosion = soundMan.getSound(node.getString("shipExplosion"), configFile);
-    burning = soundMan.getLoopedSound(node.getString("burning"), configFile);
-    forceBeaconWork = soundMan.getLoopedSound(node.getString("forceBeaconWork"), configFile);
-    doorMove = soundMan.getSound(node.getString("doorMove"), configFile);
-    abilityRecharged = soundMan.getSound(node.getString("abilityRecharged"), configFile);
-    abilityRefused = soundMan.getLoopedSound(node.getString("abilityRefused"), configFile);
-    controlDisabled = soundMan.getSound(node.getString("controlDisabled"), configFile);
-    controlEnabled = soundMan.getSound(node.getString("controlEnabled"), configFile);
-    lootThrow = soundMan.getSound(node.getString("lootThrow"), configFile);
-    transcendentCreated = soundMan.getSound(node.getString("transcendentCreated"), configFile);
-    transcendentFinished = soundMan.getSound(node.getString("transcendentFinished"), configFile);
-    transcendentMove = soundMan.getLoopedSound(node.getString("transcendentMove"), configFile);
+    metalColl = soundManager.getSound(node.getString("metalCollision"), configFile);
+    metalBulletHit = soundManager.getPitchedSound(node.getString("metalBulletHit"), configFile, 1.1f);
+    metalEnergyHit = soundManager.getSound(node.getString("metalEnergyHit"), configFile);
+    rockColl = soundManager.getSound(node.getString("rockCollision"), configFile);
+    rockBulletHit = soundManager.getSound(node.getString("rockBulletHit"), configFile);
+    rockEnergyHit = soundManager.getSound(node.getString("rockEnergyHit"), configFile);
+    asteroidCrack = soundManager.getSound(node.getString("asteroidCrack"), configFile);
+    shipExplosion = soundManager.getSound(node.getString("shipExplosion"), configFile);
+    burning = soundManager.getLoopedSound(node.getString("burning"), configFile);
+    forceBeaconWork = soundManager.getLoopedSound(node.getString("forceBeaconWork"), configFile);
+    doorMove = soundManager.getSound(node.getString("doorMove"), configFile);
+    abilityRecharged = soundManager.getSound(node.getString("abilityRecharged"), configFile);
+    abilityRefused = soundManager.getLoopedSound(node.getString("abilityRefused"), configFile);
+    controlDisabled = soundManager.getSound(node.getString("controlDisabled"), configFile);
+    controlEnabled = soundManager.getSound(node.getString("controlEnabled"), configFile);
+    lootThrow = soundManager.getSound(node.getString("lootThrow"), configFile);
+    transcendentCreated = soundManager.getSound(node.getString("transcendentCreated"), configFile);
+    transcendentFinished = soundManager.getSound(node.getString("transcendentFinished"), configFile);
+    transcendentMove = soundManager.getLoopedSound(node.getString("transcendentMove"), configFile);
   }
 
   public SolSound hitSound(boolean forMetal, DmgType dmgType) {
@@ -65,7 +65,7 @@ public class SpecialSounds {
     return null;
   }
 
-  public void playHit(SolGame game, SolObj o, Vector2 pos, DmgType dmgType) {
+  public void playHit(SolGame game, SolObject o, Vector2 pos, DmgType dmgType) {
     if (o == null) return;
     Boolean metal = o.isMetal();
     if (metal == null) return;
@@ -74,7 +74,7 @@ public class SpecialSounds {
     game.getSoundMan().play(game, sound, pos, o);
   }
 
-  public void playColl(SolGame game, float absImpulse, SolObj o, Vector2 pos) {
+  public void playColl(SolGame game, float absImpulse, SolObject o, Vector2 pos) {
     if (o == null || absImpulse < .1f) return;
     Boolean metal = o.isMetal();
     if (metal == null) return;

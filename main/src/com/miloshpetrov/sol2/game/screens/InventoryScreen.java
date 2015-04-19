@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.SolCmp;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.item.ItemContainer;
 import com.miloshpetrov.sol2.game.item.SolItem;
@@ -122,7 +122,7 @@ public class InventoryScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
+  public void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     if (clickedOutside) {
       closeCtrl.maybeFlashPressed(Input.Keys.ESCAPE);
       return;
@@ -180,7 +180,7 @@ public class InventoryScreen implements SolUiScreen {
   }
 
   @Override
-  public boolean isCursorOnBg(SolInputMan.Ptr ptr) {
+  public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
     return myArea.contains(ptr.x, ptr.y);
   }
 
@@ -193,7 +193,7 @@ public class InventoryScreen implements SolUiScreen {
 
   @Override
   public void drawBg(UiDrawer uiDrawer, SolCmp cmp) {
-    uiDrawer.draw(myArea, Col.UI_BG);
+    uiDrawer.draw(myArea, SolColor.UI_BG);
   }
 
   @Override
@@ -206,7 +206,7 @@ public class InventoryScreen implements SolUiScreen {
     float rowH = itemCtrls[0].getScreenArea().height;
     float imgSz = imgColW < rowH ? imgColW : rowH;
 
-    uiDrawer.draw(myDetailArea, Col.UI_INACTIVE);
+    uiDrawer.draw(myDetailArea, SolColor.UI_INACTIVE);
     for (int i = 0; i < itemCtrls.length; i++) {
       int groupIdx = myPage * Const.ITEM_GROUPS_PER_PAGE + i;
       int groupCount = ic.groupCount();
@@ -218,7 +218,7 @@ public class InventoryScreen implements SolUiScreen {
       Rectangle rect = itemCtrl.getScreenArea();
       float rowCenterY = rect.y + rect.height / 2;
       uiDrawer.draw(uiDrawer.whiteTex, imgSz, imgSz, imgSz/2, imgSz/2, rect.x + imgColW/2, rowCenterY, 0, item.getItemType().uiColor);
-      uiDrawer.draw(tex, imgSz, imgSz, imgSz/2, imgSz/2, rect.x + imgColW/2, rowCenterY, 0, Col.W);
+      uiDrawer.draw(tex, imgSz, imgSz, imgSz/2, imgSz/2, rect.x + imgColW/2, rowCenterY, 0, SolColor.W);
     }
   }
 
@@ -242,25 +242,25 @@ public class InventoryScreen implements SolUiScreen {
       SolItem item = group.get(0);
       Rectangle rect = itemCtrl.getScreenArea();
       float rowCenterY = rect.y + rect.height / 2;
-      if (myOperations.isUsing(game, item)) uiDrawer.drawString("using", rect.x + imgColW + equiColW/2, rowCenterY, FontSize.WINDOW, true, Col.W);
-      uiDrawer.drawString(item.getDisplayName(), rect.x + equiColW + imgColW + nameWidth/2, rowCenterY, FontSize.WINDOW, true, mySelected == group ? Col.W : Col.G);
+      if (myOperations.isUsing(game, item)) uiDrawer.drawString("using", rect.x + imgColW + equiColW/2, rowCenterY, FontSize.WINDOW, true, SolColor.W);
+      uiDrawer.drawString(item.getDisplayName(), rect.x + equiColW + imgColW + nameWidth/2, rowCenterY, FontSize.WINDOW, true, mySelected == group ? SolColor.W : SolColor.G);
       int count = ic.getCount(groupIdx);
       if (count > 1) {
-        uiDrawer.drawString("x" + count, rect.x + rect.width - amtWidth/2, rowCenterY, FontSize.WINDOW, true, Col.W);
+        uiDrawer.drawString("x" + count, rect.x + rect.width - amtWidth/2, rowCenterY, FontSize.WINDOW, true, SolColor.W);
       }
       float mul = myOperations.getPriceMul();
       if (mul > 0) {
         float price = item.getPrice() * mul;
-        uiDrawer.drawString("$" + (int)price, rect.x + rect.width - amtWidth - priceWidth/2, rowCenterY, FontSize.WINDOW, true, Col.LG);
+        uiDrawer.drawString("$" + (int)price, rect.x + rect.width - amtWidth - priceWidth/2, rowCenterY, FontSize.WINDOW, true, SolColor.LG);
       }
     }
 
-    uiDrawer.drawString(myOperations.getHeader(), myListHeaderPos.x, myListHeaderPos.y, FontSize.WINDOW, false, Col.W);
-    uiDrawer.drawString("Selected Item:", myDetailHeaderPos.x, myDetailHeaderPos.y, FontSize.WINDOW, false, Col.W);
+    uiDrawer.drawString(myOperations.getHeader(), myListHeaderPos.x, myListHeaderPos.y, FontSize.WINDOW, false, SolColor.W);
+    uiDrawer.drawString("Selected Item:", myDetailHeaderPos.x, myDetailHeaderPos.y, FontSize.WINDOW, false, SolColor.W);
     if (mySelected != null && !mySelected.isEmpty()) {
       SolItem selItem = mySelected.get(0);
       String desc = selItem.getDisplayName() + "\n" + selItem.getDesc();
-      uiDrawer.drawString(desc, myDetailArea.x + .015f, myDetailArea.y + .015f, FontSize.WINDOW, false, Col.W);
+      uiDrawer.drawString(desc, myDetailArea.x + .015f, myDetailArea.y + .015f, FontSize.WINDOW, false, SolColor.W);
     }
   }
 

@@ -17,10 +17,10 @@ public class UiDrawer {
   public final Rectangle filler;
   private Boolean myTextMode;
 
-  public UiDrawer(TexMan texMan, CommonDrawer commonDrawer) {
+  public UiDrawer(TextureManager textureManager, CommonDrawer commonDrawer) {
     myDrawer = commonDrawer;
     r = myDrawer.r;
-    whiteTex = texMan.getTex("ui/whiteTex", null);
+    whiteTex = textureManager.getTex("ui/whiteTex", null);
     uiLineWidth = 1 / myDrawer.h;
     straightMtx = new Matrix4().setToOrtho2D(0, 1, myDrawer.r, -1);
     myDrawer.setMtx(straightMtx);

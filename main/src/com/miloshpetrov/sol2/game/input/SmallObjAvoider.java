@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
-import com.miloshpetrov.sol2.game.SolObj;
+import com.miloshpetrov.sol2.game.SolObject;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
@@ -57,7 +57,7 @@ public class SmallObjAvoider {
   private class MyRayBack implements RayCastCallback {
     @Override
     public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-      SolObj o = (SolObj) fixture.getBody().getUserData();
+      SolObject o = (SolObject) fixture.getBody().getUserData();
       if (myShip == o) {
         return -1;
       }

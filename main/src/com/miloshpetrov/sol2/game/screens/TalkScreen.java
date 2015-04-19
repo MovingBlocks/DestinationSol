@@ -3,7 +3,7 @@ package com.miloshpetrov.sol2.game.screens;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.miloshpetrov.sol2.SolCmp;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
 import com.miloshpetrov.sol2.game.ship.SolShip;
@@ -57,14 +57,14 @@ public class TalkScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
+  public void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     if (clickedOutside) {
       closeCtrl.maybeFlashPressed(Input.Keys.ESCAPE);
       return;
     }
     SolGame g = cmp.getGame();
     SolShip hero = g.getHero();
-    SolInputMan inputMan = cmp.getInputMan();
+    SolInputManager inputMan = cmp.getInputMan();
     if (closeCtrl.isJustOff() || isTargetFar(hero))
     {
       inputMan.setScreen(cmp, g.getScreens().mainScreen);
@@ -95,7 +95,7 @@ public class TalkScreen implements SolUiScreen {
 
   @Override
   public void drawBg(UiDrawer uiDrawer, SolCmp cmp) {
-    uiDrawer.draw(myBg, Col.UI_BG);
+    uiDrawer.draw(myBg, SolColor.UI_BG);
   }
 
   @Override
@@ -113,7 +113,7 @@ public class TalkScreen implements SolUiScreen {
   }
 
   @Override
-  public boolean isCursorOnBg(SolInputMan.Ptr ptr) {
+  public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
     return myBg.contains(ptr.x, ptr.y);
   }
 

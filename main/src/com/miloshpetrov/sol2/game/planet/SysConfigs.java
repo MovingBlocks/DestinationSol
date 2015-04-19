@@ -19,17 +19,17 @@ public class SysConfigs {
   private final Map<String, SysConfig> myBeltConfigs;
   private final Map<String, SysConfig> myHardBeltConfigs;
 
-  public SysConfigs(TexMan texMan, HullConfigs hullConfigs, ItemMan itemMan) {
+  public SysConfigs(TextureManager textureManager, HullConfigs hullConfigs, ItemMan itemMan) {
     myConfigs = new HashMap<String, SysConfig>();
     myHardConfigs = new HashMap<String, SysConfig>();
     myBeltConfigs = new HashMap<String, SysConfig>();
     myHardBeltConfigs = new HashMap<String, SysConfig>();
 
-    load(texMan, hullConfigs, false, "systems.json", itemMan);
-    load(texMan, hullConfigs, true, "asteroidBelts.json", itemMan);
+    load(textureManager, hullConfigs, false, "systems.json", itemMan);
+    load(textureManager, hullConfigs, true, "asteroidBelts.json", itemMan);
   }
 
-  private void load(TexMan texMan, HullConfigs hullConfigs, boolean belts, String configName,
+  private void load(TextureManager textureManager, HullConfigs hullConfigs, boolean belts, String configName,
     ItemMan itemMan)
   {
     JsonReader r = new JsonReader();
@@ -38,7 +38,7 @@ public class SysConfigs {
     for (JsonValue sh : parsed) {
       ArrayList<ShipConfig> tempEnemies = ShipConfig.loadList(sh.get("temporaryEnemies"), hullConfigs, itemMan);
       ArrayList<ShipConfig> innerTempEnemies = ShipConfig.loadList(sh.get("innerTemporaryEnemies"), hullConfigs, itemMan);
-      SpaceEnvConfig envConfig = new SpaceEnvConfig(sh.get("environment"), texMan, configFile);
+      SpaceEnvConfig envConfig = new SpaceEnvConfig(sh.get("environment"), textureManager, configFile);
 
       ArrayList<ShipConfig> constEnemies = null;
       ArrayList<ShipConfig> constAllies = null;

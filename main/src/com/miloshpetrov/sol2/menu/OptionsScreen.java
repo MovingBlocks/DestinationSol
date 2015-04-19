@@ -37,11 +37,11 @@ public class OptionsScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
-    SolInputMan im = cmp.getInputMan();
+  public void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
+    SolInputManager im = cmp.getInputMan();
     MenuScreens screens = cmp.getMenuScreens();
     if (myResoCtrl.isJustOff()) {
-      im.setScreen(cmp, screens.resoScreen);
+      im.setScreen(cmp, screens.resolutionScreen);
     }
 
     int ct = cmp.getOptions().controlType;
@@ -77,7 +77,7 @@ public class OptionsScreen implements SolUiScreen {
   }
 
   @Override
-  public boolean isCursorOnBg(SolInputMan.Ptr ptr) {
+  public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
     return false;
   }
 

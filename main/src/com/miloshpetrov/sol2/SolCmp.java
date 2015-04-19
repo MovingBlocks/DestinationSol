@@ -3,7 +3,7 @@ package com.miloshpetrov.sol2;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.menu.MenuScreens;
@@ -11,13 +11,13 @@ import com.miloshpetrov.sol2.ui.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
+//TODO Could someone please figure out what Cmp stands for?!
 public class SolCmp {
 
-  private final SolInputMan myInputMan;
+  private final SolInputManager myInputMan;
   private final UiDrawer myUiDrawer;
   private final MenuScreens myMenuScreens;
-  private final TexMan myTexMan;
+  private final TextureManager myTextureManager;
   private final SolLayouts myLayouts;
   private final boolean myReallyMobile;
   private final GameOptions myOptions;
@@ -34,12 +34,12 @@ public class SolCmp {
     if (myReallyMobile) DebugOptions.read(null);
     myOptions = new GameOptions(isMobile(), null);
 
-    myTexMan = new TexMan();
+    myTextureManager = new TextureManager();
     myCommonDrawer = new CommonDrawer();
-    myUiDrawer = new UiDrawer(myTexMan, myCommonDrawer);
-    myInputMan = new SolInputMan(myTexMan, myUiDrawer.r);
+    myUiDrawer = new UiDrawer(myTextureManager, myCommonDrawer);
+    myInputMan = new SolInputManager(myTextureManager, myUiDrawer.r);
     myLayouts = new SolLayouts(myUiDrawer.r);
-    myMenuScreens = new MenuScreens(myLayouts, myTexMan, isMobile(), myUiDrawer.r);
+    myMenuScreens = new MenuScreens(myLayouts, myTextureManager, isMobile(), myUiDrawer.r);
 
     myInputMan.setScreen(this, myMenuScreens.main);
   }
@@ -91,13 +91,13 @@ public class SolCmp {
       myGame.drawDebugUi(myUiDrawer);
     }
     if (myFatalErrorMsg != null) {
-      myUiDrawer.draw(myUiDrawer.whiteTex, myUiDrawer.r, .5f, 0, 0, 0, .25f, 0, Col.UI_BG);
-      myUiDrawer.drawString(myFatalErrorMsg, myUiDrawer.r / 2, .5f, FontSize.MENU, true, Col.W);
-      myUiDrawer.drawString(myFatalErrorTrace, .2f * myUiDrawer.r, .6f, FontSize.DEBUG, false, Col.W);
+      myUiDrawer.draw(myUiDrawer.whiteTex, myUiDrawer.r, .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
+      myUiDrawer.drawString(myFatalErrorMsg, myUiDrawer.r / 2, .5f, FontSize.MENU, true, SolColor.W);
+      myUiDrawer.drawString(myFatalErrorTrace, .2f * myUiDrawer.r, .6f, FontSize.DEBUG, false, SolColor.W);
     }
     DebugCollector.draw(myUiDrawer);
     if (myGame == null) {
-      myUiDrawer.drawString("version: " + Const.VERSION, 0.01f, .98f, FontSize.DEBUG, false, Col.W);
+      myUiDrawer.drawString("version: " + Const.VERSION, 0.01f, .98f, FontSize.DEBUG, false, SolColor.W);
     }
     myCommonDrawer.end();
   }
@@ -109,11 +109,11 @@ public class SolCmp {
   }
 
   public void startNewGame(boolean tut, boolean usePrevShip) {
-    myGame = new SolGame(this, usePrevShip, myTexMan, tut, myCommonDrawer);
+    myGame = new SolGame(this, usePrevShip, myTextureManager, tut, myCommonDrawer);
     myInputMan.setScreen(this, myGame.getScreens().mainScreen);
   }
 
-  public SolInputMan getInputMan() {
+  public SolInputManager getInputMan() {
     return myInputMan;
   }
 
@@ -124,7 +124,7 @@ public class SolCmp {
   public void dispose() {
     myCommonDrawer.dispose();
     if (myGame != null) myGame.onGameEnd();
-    myTexMan.dispose();
+    myTextureManager.dispose();
     myInputMan.dispose();
   }
 
@@ -142,8 +142,8 @@ public class SolCmp {
     myInputMan.setScreen(this, myMenuScreens.main);
   }
 
-  public TexMan getTexMan() {
-    return myTexMan;
+  public TextureManager getTexMan() {
+    return myTextureManager;
   }
 
   public boolean isMobile() {

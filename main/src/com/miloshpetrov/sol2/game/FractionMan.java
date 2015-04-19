@@ -3,7 +3,7 @@ package com.miloshpetrov.sol2.game;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
-import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.TextureManager;
 import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.projectile.Projectile;
 import com.miloshpetrov.sol2.game.ship.SolShip;
@@ -14,7 +14,7 @@ public class FractionMan {
 
   private final MyRayBack myRayBack;
 
-  public FractionMan(TexMan texMan) {
+  public FractionMan(TextureManager textureManager) {
     myRayBack = new MyRayBack();
   }
 
@@ -34,9 +34,9 @@ public class FractionMan {
   public SolShip getNearestEnemy(SolGame game, float detectionDist, Fraction f, Vector2 pos) {
     SolShip res = null;
     float minDst = detectionDist;
-    List<SolObj> objs = game.getObjMan().getObjs();
+    List<SolObject> objs = game.getObjMan().getObjs();
     for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
-      SolObj o = objs.get(i);
+      SolObject o = objs.get(i);
       if (!(o instanceof SolShip)) continue;
       SolShip ship2 = (SolShip) o;
       if (!areEnemies(f, ship2.getPilot().getFraction())) continue;
@@ -73,7 +73,7 @@ public class FractionMan {
 
     @Override
     public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-      SolObj o = (SolObj) fixture.getBody().getUserData();
+      SolObject o = (SolObject) fixture.getBody().getUserData();
       if (o == shipFrom || o == shipTo) {
         return -1;
       }

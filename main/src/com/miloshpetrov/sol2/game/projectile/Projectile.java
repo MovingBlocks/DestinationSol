@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.*;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class
-  Projectile implements SolObj {
+  Projectile implements SolObject {
 
   private static final float MIN_ANGLE_TO_GUIDE = 2f;
   private final ArrayList<Dra> myDras;
@@ -31,7 +31,7 @@ public class
   private final ProjectileConfig myConfig;
 
   private boolean myShouldRemove;
-  private SolObj myObstacle;
+  private SolObject myObstacle;
   private boolean myDamageDealt;
 
   public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpd, Fraction fraction,
@@ -44,7 +44,7 @@ public class
     if (myConfig.stretch) {
       dra = new MyDra(this, myConfig.tex, myConfig.texSz);
     } else {
-      dra = new RectSprite(myConfig.tex, myConfig.texSz, myConfig.origin.x, myConfig.origin.y, new Vector2(), DraLevel.PROJECTILES, 0, 0, Col.W, false);
+      dra = new RectSprite(myConfig.tex, myConfig.texSz, myConfig.origin.x, myConfig.origin.y, new Vector2(), DraLevel.PROJECTILES, 0, 0, SolColor.W, false);
     }
     myDras.add(dra);
     float spdLen = myConfig.spdLen;
@@ -58,7 +58,7 @@ public class
     myBodyEffect = buildEffect(game, myConfig.bodyEffect, DraLevel.PART_BG_0, null, true);
     myTrailEffect = buildEffect(game, myConfig.trailEffect, DraLevel.PART_BG_0, null, false);
     if (myConfig.lightSz > 0) {
-      Color col = Col.W;
+      Color col = SolColor.W;
       if (myBodyEffect != null) col = myConfig.bodyEffect.tint;
       myLightSrc = new LightSrc(game, myConfig.lightSz, true, 1f, new Vector2(), col);
       myLightSrc.collectDras(myDras);
@@ -179,7 +179,7 @@ public class
   }
 
   @Override
-  public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
+  public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
     SolGame game, Vector2 collPos)
   {
   }
@@ -203,7 +203,7 @@ public class
     return myFraction;
   }
 
-  public boolean shouldCollide(SolObj o, Fixture f, FractionMan fractionMan) {
+  public boolean shouldCollide(SolObject o, Fixture f, FractionMan fractionMan) {
     if (o instanceof SolShip) {
       SolShip s = (SolShip) o;
       if (!fractionMan.areEnemies(s.getPilot().getFraction(), myFraction)) return false;
@@ -220,7 +220,7 @@ public class
     return true;
   }
 
-  public void setObstacle(SolObj o, SolGame game) {
+  public void setObstacle(SolObject o, SolGame game) {
     if (!shouldCollide(o, null, game.getFractionMan())) return; // happens for some reason when projectile is just created
     myObstacle = o;
   }
@@ -261,11 +261,11 @@ public class
     }
 
     @Override
-    public void update(SolGame game, SolObj o) {
+    public void update(SolGame game, SolObject o) {
     }
 
     @Override
-    public void prepare(SolObj o) {
+    public void prepare(SolObject o) {
     }
 
     @Override
@@ -291,7 +291,7 @@ public class
       Vector2 pos = myProjectile.getPos();
       float w = myProjectile.getSpd().len() * game.getTimeStep();
       if (w < 4 * h) w = 4 * h;
-      drawer.draw(myTex, w, h, w, h / 2, pos.x, pos.y, SolMath.angle(myProjectile.getSpd()), Col.LG);
+      drawer.draw(myTex, w, h, w, h / 2, pos.x, pos.y, SolMath.angle(myProjectile.getSpd()), SolColor.LG);
     }
 
     @Override

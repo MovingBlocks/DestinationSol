@@ -14,14 +14,14 @@ public class SolContactListener implements ContactListener {
 
   @Override
   public void beginContact(Contact contact) {
-    SolObj oA = (SolObj) contact.getFixtureA().getBody().getUserData();
-    SolObj oB = (SolObj) contact.getFixtureB().getBody().getUserData();
+    SolObject oA = (SolObject) contact.getFixtureA().getBody().getUserData();
+    SolObject oB = (SolObject) contact.getFixtureB().getBody().getUserData();
 
     boolean aIsProj = oA instanceof Projectile;
     if (!aIsProj && !(oB instanceof Projectile)) return;
 
     Projectile proj = (Projectile)(aIsProj ? oA : oB);
-    SolObj o = aIsProj ? oB : oA;
+    SolObject o = aIsProj ? oB : oA;
     proj.setObstacle(o, myGame);
   }
 
@@ -35,8 +35,8 @@ public class SolContactListener implements ContactListener {
 
   @Override
   public void postSolve(Contact contact, ContactImpulse impulse) {
-    SolObj soa = (SolObj) contact.getFixtureA().getBody().getUserData();
-    SolObj sob = (SolObj) contact.getFixtureB().getBody().getUserData();
+    SolObject soa = (SolObject) contact.getFixtureA().getBody().getUserData();
+    SolObject sob = (SolObject) contact.getFixtureB().getBody().getUserData();
     if (soa instanceof Projectile && ((Projectile) soa).getConfig().density <= 0) return;
     if (sob instanceof Projectile && ((Projectile) sob).getConfig().density <= 0) return;
 

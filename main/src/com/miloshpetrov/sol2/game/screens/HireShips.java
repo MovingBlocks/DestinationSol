@@ -55,7 +55,7 @@ public class HireShips implements InventoryOperations {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
+  public void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     SolGame game = cmp.getGame();
     InventoryScreen is = game.getScreens().inventoryScreen;
     SolShip hero = game.getHero();
@@ -109,7 +109,7 @@ public class HireShips implements InventoryOperations {
   }
 
   @Override
-  public boolean isCursorOnBg(SolInputMan.Ptr ptr) {
+  public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
     return false;
   }
 

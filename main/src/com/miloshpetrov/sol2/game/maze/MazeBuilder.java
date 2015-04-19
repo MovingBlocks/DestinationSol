@@ -29,7 +29,7 @@ public class MazeBuilder {
 
   public MazeLayout buildMaze(SolGame game, Maze maze) {
     MazeLayout layout = new MazeLayoutBuilder(mySz).build();
-    MazeTileObj.Builder builder = new MazeTileObj.Builder();
+    MazeTileObject.Builder builder = new MazeTileObject.Builder();
     MazeConfig config = maze.getConfig();
     for (int col = 0; col < mySz; col++) {
       for (int row = 0; row < mySz; row++) {
@@ -48,7 +48,7 @@ public class MazeBuilder {
             tiles = inner ? config.innerPasses : config.borderPasses;
           }
           MazeTile tile = SolMath.elemRnd(tiles);
-          MazeTileObj.MyFar mto = new MazeTileObj.MyFar(tile, tileAngle, new Vector2(tilePos), SolMath.test(.5f));
+          MazeTileObject.MyFar mto = new MazeTileObject.MyFar(tile, tileAngle, new Vector2(tilePos), SolMath.test(.5f));
           game.getObjMan().addFarObjNow(mto);
         }
 
@@ -66,7 +66,7 @@ public class MazeBuilder {
             tiles = inner ? config.innerPasses : config.borderPasses;
           }
           MazeTile tile = SolMath.elemRnd(tiles);
-          MazeTileObj.MyFar mto = new MazeTileObj.MyFar(tile, tileAngle, new Vector2(tilePos), SolMath.test(.5f));
+          MazeTileObject.MyFar mto = new MazeTileObject.MyFar(tile, tileAngle, new Vector2(tilePos), SolMath.test(.5f));
           game.getObjMan().addFarObjNow(mto);
         }
       }

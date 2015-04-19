@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.game.GameCols;
 import com.miloshpetrov.sol2.game.sound.SolSound;
-import com.miloshpetrov.sol2.game.sound.SoundMan;
+import com.miloshpetrov.sol2.game.sound.SoundManager;
 
 public class SolItemTypes {
   public final SolItemType clip;
@@ -21,26 +21,26 @@ public class SolItemTypes {
   public final SolItemType repair;
   public final SolItemType fixedGun;
 
-  public SolItemTypes(SoundMan soundMan, GameCols cols) {
+  public SolItemTypes(SoundManager soundManager, GameCols cols) {
     JsonReader r = new JsonReader();
     FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "types.json");
     JsonValue parsed = r.parse(configFile);
-    clip = load("clip", soundMan, configFile, parsed, cols);
-    shield = load("shield", soundMan, configFile, parsed, cols);
-    armor = load("armor", soundMan, configFile, parsed, cols);
-    abilityCharge = load("abilityCharge", soundMan, configFile, parsed, cols);
-    gun = load("gun", soundMan, configFile, parsed, cols);
-    fixedGun = load("fixedGun", soundMan, configFile, parsed, cols);
-    money = load("money", soundMan, configFile, parsed, cols);
-    medMoney = load("medMoney", soundMan, configFile, parsed, cols);
-    bigMoney = load("bigMoney", soundMan, configFile, parsed, cols);
-    repair = load("repair", soundMan, configFile, parsed, cols);
+    clip = load("clip", soundManager, configFile, parsed, cols);
+    shield = load("shield", soundManager, configFile, parsed, cols);
+    armor = load("armor", soundManager, configFile, parsed, cols);
+    abilityCharge = load("abilityCharge", soundManager, configFile, parsed, cols);
+    gun = load("gun", soundManager, configFile, parsed, cols);
+    fixedGun = load("fixedGun", soundManager, configFile, parsed, cols);
+    money = load("money", soundManager, configFile, parsed, cols);
+    medMoney = load("medMoney", soundManager, configFile, parsed, cols);
+    bigMoney = load("bigMoney", soundManager, configFile, parsed, cols);
+    repair = load("repair", soundManager, configFile, parsed, cols);
   }
 
-  private SolItemType load(String name, SoundMan soundMan, FileHandle configFile, JsonValue parsed, GameCols cols) {
+  private SolItemType load(String name, SoundManager soundManager, FileHandle configFile, JsonValue parsed, GameCols cols) {
     JsonValue node = parsed.get(name);
     Color color = cols.load(node.getString("color"));
-    SolSound pickUpSound = soundMan.getSound(node.getString("pickUpSound"), configFile);
+    SolSound pickUpSound = soundManager.getSound(node.getString("pickUpSound"), configFile);
     float sz = node.getFloat("sz");
     return new SolItemType(color, pickUpSound, sz);
   }

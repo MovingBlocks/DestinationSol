@@ -2,7 +2,7 @@ package com.miloshpetrov.sol2.menu;
 
 import com.badlogic.gdx.Input;
 import com.miloshpetrov.sol2.SolCmp;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.ui.*;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class NewShipScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
+  public void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     if (myCancelCtrl.isJustOff()) {
       cmp.getInputMan().setScreen(cmp, cmp.getMenuScreens().newGame);
       return;
@@ -45,7 +45,7 @@ public class NewShipScreen implements SolUiScreen {
   }
 
   @Override
-  public boolean isCursorOnBg(SolInputMan.Ptr ptr) {
+  public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
     return false;
   }
 
@@ -66,7 +66,7 @@ public class NewShipScreen implements SolUiScreen {
 
   @Override
   public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
-    uiDrawer.drawString("This will erase your previous ship", .5f * uiDrawer.r, .3f, FontSize.MENU, true, Col.W);
+    uiDrawer.drawString("This will erase your previous ship", .5f * uiDrawer.r, .3f, FontSize.MENU, true, SolColor.W);
   }
 
   @Override

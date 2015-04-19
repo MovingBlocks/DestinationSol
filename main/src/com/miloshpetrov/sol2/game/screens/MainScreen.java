@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.*;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.gun.GunItem;
@@ -101,22 +101,22 @@ public class MainScreen implements SolUiScreen {
     myZoneNameAnnouncer = new ZoneNameAnnouncer();
     myBorderDrawer = new BorderDrawer(r, cmp);
 
-    TexMan texMan = cmp.getTexMan();
-    myLifeTex = texMan.getTex(TexMan.ICONS_DIR + "life", null);
-    myInfinityTex = texMan.getTex(TexMan.ICONS_DIR + "infinity", null);
-    myWaitTex = texMan.getTex(TexMan.ICONS_DIR + "wait", null);
-    myCompassTex = texMan.getTex("ui/compass", null);
-    myCompassTint = Col.col(1, 0);
+    TextureManager textureManager = cmp.getTexMan();
+    myLifeTex = textureManager.getTex(TextureManager.ICONS_DIR + "life", null);
+    myInfinityTex = textureManager.getTex(TextureManager.ICONS_DIR + "infinity", null);
+    myWaitTex = textureManager.getTex(TextureManager.ICONS_DIR + "wait", null);
+    myCompassTex = textureManager.getTex("ui/compass", null);
+    myCompassTint = SolColor.col(1, 0);
 
-    myLifeTp = new TextPlace(Col.W50);
-    myRepairsExcessTp = new TextPlace(Col.W);
-    myShieldLifeTp = new TextPlace(Col.W50);
-    myG1AmmoTp = new TextPlace(Col.W50);
-    myG1AmmoExcessTp = new TextPlace(Col.W);
-    myG2AmmoTp = new TextPlace(Col.W50);
-    myG2AmmoExcessTp = new TextPlace(Col.W);
-    myChargesExcessTp = new TextPlace(Col.W);
-    myMoneyExcessTp = new TextPlace(Col.W);
+    myLifeTp = new TextPlace(SolColor.W50);
+    myRepairsExcessTp = new TextPlace(SolColor.W);
+    myShieldLifeTp = new TextPlace(SolColor.W50);
+    myG1AmmoTp = new TextPlace(SolColor.W50);
+    myG1AmmoExcessTp = new TextPlace(SolColor.W);
+    myG2AmmoTp = new TextPlace(SolColor.W50);
+    myG2AmmoExcessTp = new TextPlace(SolColor.W);
+    myChargesExcessTp = new TextPlace(SolColor.W);
+    myMoneyExcessTp = new TextPlace(SolColor.W);
   }
 
   public void maybeDrawHeight(UiDrawer drawer, SolCmp cmp) {
@@ -156,13 +156,13 @@ public class MainScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
+  public void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     if (DebugOptions.PRINT_BALANCE) {
       cmp.finishGame();
       return;
     }
     SolGame game = cmp.getGame();
-    SolInputMan inputMan = cmp.getInputMan();
+    SolInputManager inputMan = cmp.getInputMan();
     GameScreens screens = game.getScreens();
     SolShip hero = game.getHero();
 
@@ -216,9 +216,9 @@ public class MainScreen implements SolUiScreen {
     SolShip target = null;
     float minDist = TalkScreen.MAX_TALK_DIST;
     float har = hero.getHull().config.approxRadius;
-    List<SolObj> objs = game.getObjMan().getObjs();
+    List<SolObject> objs = game.getObjMan().getObjs();
     for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
-      SolObj o = objs.get(i);
+      SolObject o = objs.get(i);
       if (!(o instanceof SolShip)) continue;
       SolShip ship = (SolShip) o;
       if (fracMan.areEnemies(hero, ship)) continue;
@@ -233,7 +233,7 @@ public class MainScreen implements SolUiScreen {
     if (talkCtrl.isJustOff()) {
       TalkScreen talkScreen = game.getScreens().talkScreen;
       SolCmp cmp = game.getCmp();
-      SolInputMan inputMan = cmp.getInputMan();
+      SolInputManager inputMan = cmp.getInputMan();
       boolean isOn = inputMan.isScreenOn(talkScreen);
       inputMan.setScreen(cmp, this);
       if (!isOn) {
@@ -250,7 +250,7 @@ public class MainScreen implements SolUiScreen {
     if (g == null) return false;
     TextureAtlas.AtlasRegion tex = g.config.icon;
 
-    uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, col0, y, 0, Col.W);
+    uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, col0, y, 0, SolColor.W);
     float curr;
     float max;
     if (g.reloadAwait > 0) {
@@ -267,19 +267,19 @@ public class MainScreen implements SolUiScreen {
       int clipCount = hero.getItemContainer().count(g.config.clipConf.example);
       drawIcons(uiDrawer, col2, y, clipCount, g.config.clipConf.icon, secondary ? myG2AmmoExcessTp : myG1AmmoExcessTp);
     } else {
-      uiDrawer.draw(myInfinityTex, ICON_SZ, ICON_SZ, 0, 0, col2, y, 0, Col.W);
+      uiDrawer.draw(myInfinityTex, ICON_SZ, ICON_SZ, 0, 0, col2, y, 0, SolColor.W);
     }
     return true;
   }
 
   private void drawWait(UiDrawer uiDrawer, float x, float y) {
-    uiDrawer.draw(myWaitTex, ICON_SZ, ICON_SZ, ICON_SZ/2, ICON_SZ/2, x + BAR_SZ/2, y + ICON_SZ/2, 0, Col.W);
+    uiDrawer.draw(myWaitTex, ICON_SZ, ICON_SZ, ICON_SZ/2, ICON_SZ/2, x + BAR_SZ/2, y + ICON_SZ/2, 0, SolColor.W);
   }
 
   private void drawBar(UiDrawer uiDrawer, float x, float y, float curr, float max, TextPlace tp) {
     float perc = curr / max;
-    uiDrawer.draw(uiDrawer.whiteTex, BAR_SZ, ICON_SZ, 0, 0, x, y, 0, Col.UI_DARK);
-    uiDrawer.draw(uiDrawer.whiteTex, BAR_SZ * perc, ICON_SZ, 0, 0, x, y, 0, Col.UI_LIGHT);
+    uiDrawer.draw(uiDrawer.whiteTex, BAR_SZ, ICON_SZ, 0, 0, x, y, 0, SolColor.UI_DARK);
+    uiDrawer.draw(uiDrawer.whiteTex, BAR_SZ * perc, ICON_SZ, 0, 0, x, y, 0, SolColor.UI_LIGHT);
     if (tp != null && max > 1 && curr > 0) {
       tp.text = (int) curr + "/" + (int) max;
       tp.pos.set(x + BAR_SZ/2, y + ICON_SZ/2);
@@ -291,7 +291,7 @@ public class MainScreen implements SolUiScreen {
     int excess = count - MAX_ICON_COUNT;
     int iconCount = excess > 0 ? MAX_ICON_COUNT : count;
     for (int i = 0; i < iconCount; i++) {
-      uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, x, y, 0, Col.W);
+      uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, x, y, 0, SolColor.W);
       x += ICON_SZ + H_PAD;
     }
     if (excess > 0) {
@@ -305,7 +305,7 @@ public class MainScreen implements SolUiScreen {
   }
 
   @Override
-  public boolean isCursorOnBg(SolInputMan.Ptr ptr) {
+  public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
     return false;
   }
 
@@ -343,12 +343,12 @@ public class MainScreen implements SolUiScreen {
 
       Shield shield = hero.getShield();
       if (shield != null) {
-        uiDrawer.draw(shield.getIcon(game), ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
+        uiDrawer.draw(shield.getIcon(game), ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.W);
         drawBar(uiDrawer, col1, row, shield.getLife(), shield.getMaxLife(), myShieldLifeTp);
         row += ICON_SZ + V_PAD;
       }
 
-      uiDrawer.draw(myLifeTex, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
+      uiDrawer.draw(myLifeTex, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.W);
       drawBar(uiDrawer, col1, row, hero.getLife(), hero.getHull().config.maxLife, myLifeTp);
       int repairKitCount = hero.getItemContainer().count(game.getItemMan().getRepairExample());
       ItemMan itemMan = game.getItemMan();
@@ -365,14 +365,14 @@ public class MainScreen implements SolUiScreen {
       if (abilityChargeEx != null) {
         int abilityChargeCount = hero.getItemContainer().count(abilityChargeEx);
         TextureAtlas.AtlasRegion icon = abilityChargeEx.getIcon(game);
-        uiDrawer.draw(icon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
+        uiDrawer.draw(icon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.W);
         float chargePerc = 1 - SolMath.clamp(hero.getAbilityAwait() / ability.getConfig().getRechargeTime());
         drawBar(uiDrawer, col1, row, chargePerc, 1, null);
         if (chargePerc < 1) drawWait(uiDrawer, col1, row);
         drawIcons(uiDrawer, col2, row, abilityChargeCount, icon, myChargesExcessTp);
         row += ICON_SZ + V_PAD;
       }
-      uiDrawer.draw(game.getItemMan().moneyIcon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, Col.W);
+      uiDrawer.draw(game.getItemMan().moneyIcon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.W);
       updateTextPlace(col1, row, (int) hero.getMoney() + "", myMoneyExcessTp);
     }
 
@@ -490,13 +490,13 @@ public class MainScreen implements SolUiScreen {
       SolShip h = game.getHero();
       if (h == null) return false;
       float heroCap = HardnessCalc.getShipDmgCap(h);
-      List<SolObj> objs = game.getObjMan().getObjs();
+      List<SolObject> objs = game.getObjMan().getObjs();
       FractionMan fm = game.getFractionMan();
       SolCam cam = game.getCam();
       float viewDist = cam.getViewDist();
       float dps = 0;
       for (int i = 0, sz = objs.size(); i < sz; i++) {
-        SolObj o = objs.get(i);
+        SolObject o = objs.get(i);
         if (!(o instanceof SolShip)) continue;
         SolShip ship = (SolShip) o;
         if (viewDist < ship.getPos().dst(h.getPos())) continue;

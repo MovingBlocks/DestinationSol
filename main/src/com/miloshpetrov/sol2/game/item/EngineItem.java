@@ -5,13 +5,13 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
-import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.TextureManager;
 import com.miloshpetrov.sol2.game.GameCols;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.particle.EffectConfig;
 import com.miloshpetrov.sol2.game.particle.EffectTypes;
 import com.miloshpetrov.sol2.game.sound.SolSound;
-import com.miloshpetrov.sol2.game.sound.SoundMan;
+import com.miloshpetrov.sol2.game.sound.SoundManager;
 
 import java.util.HashMap;
 
@@ -105,16 +105,16 @@ public class EngineItem implements SolItem {
       this.example = new EngineItem(this);
     }
 
-    private static Config load(SoundMan soundMan, FileHandle configFile, JsonValue sh, EffectTypes effectTypes,
-      TexMan texMan, GameCols cols)
+    private static Config load(SoundManager soundManager, FileHandle configFile, JsonValue sh, EffectTypes effectTypes,
+      TextureManager textureManager, GameCols cols)
     {
       boolean big = sh.getBoolean("big");
       float rotAcc = big ? 100f : 515f;
       float acc = 2f;
       float maxRotSpd = big ? 40f : 230f;
       String workSoundDir = sh.getString("workSound");
-      SolSound workSound = soundMan.getLoopedSound(workSoundDir, configFile);
-      EffectConfig effectConfig = EffectConfig.load(sh.get("effect"), effectTypes, texMan, configFile, cols);
+      SolSound workSound = soundManager.getLoopedSound(workSoundDir, configFile);
+      EffectConfig effectConfig = EffectConfig.load(sh.get("effect"), effectTypes, textureManager, configFile, cols);
       return new Config(null, 0, null, rotAcc, acc, maxRotSpd, big, workSound, null, effectConfig);
     }
   }
@@ -126,13 +126,13 @@ public class EngineItem implements SolItem {
       myConfigs = configs;
     }
 
-    public static Configs load(SoundMan soundMan, TexMan texMan, EffectTypes effectTypes, GameCols cols) {
+    public static Configs load(SoundManager soundManager, TextureManager textureManager, EffectTypes effectTypes, GameCols cols) {
       HashMap<String, Config> configs = new HashMap<String, Config>();
       JsonReader r = new JsonReader();
       FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "engines.json");
       JsonValue parsed = r.parse(configFile);
       for (JsonValue sh : parsed) {
-        Config config = Config.load(soundMan, configFile, sh, effectTypes, texMan, cols);
+        Config config = Config.load(soundManager, configFile, sh, effectTypes, textureManager, cols);
         configs.put(sh.name(), config);
       }
       return new Configs(configs);

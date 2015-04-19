@@ -4,7 +4,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
-import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.TextureManager;
 import com.miloshpetrov.sol2.game.GameCols;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class EffectConfig {
     this.tint = tint;
   }
 
-  public static EffectConfig load(JsonValue node, EffectTypes types, TexMan texMan, FileHandle configFile,
+  public static EffectConfig load(JsonValue node, EffectTypes types, TextureManager textureManager, FileHandle configFile,
     GameCols cols) {
     if (node == null) return null;
     String effectFileName = node.getString("effectFile");
@@ -34,15 +34,15 @@ public class EffectConfig {
     String texName = node.getString("tex");
     boolean floatsUp = node.getBoolean("floatsUp", false);
     Color tint = cols.load(node.getString("tint"));
-    TextureAtlas.AtlasRegion tex = texMan.getTex("smallGameObjs/particles/" + texName, configFile);
+    TextureAtlas.AtlasRegion tex = textureManager.getTex("smallGameObjs/particles/" + texName, configFile);
     return new EffectConfig(effectType, sz, tex, floatsUp, tint);
   }
 
-  public static List<EffectConfig> loadList(JsonValue listNode, EffectTypes types, TexMan texMan, FileHandle configFile,
+  public static List<EffectConfig> loadList(JsonValue listNode, EffectTypes types, TextureManager textureManager, FileHandle configFile,
     GameCols cols) {
     ArrayList<EffectConfig> res = new ArrayList<EffectConfig>();
     for (JsonValue node : listNode) {
-      EffectConfig ec = load(node, types, texMan, configFile, cols);
+      EffectConfig ec = load(node, types, textureManager, configFile, cols);
       res.add(ec);
     }
     return res;

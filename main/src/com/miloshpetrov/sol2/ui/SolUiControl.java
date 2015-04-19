@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.miloshpetrov.sol2.SolCmp;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 
 public class SolUiControl {
   private final int[] myKeys;
@@ -43,14 +43,14 @@ public class SolUiControl {
     return false;
   }
 
-  public boolean maybeFlashPressed(SolInputMan.Ptr ptr) {
+  public boolean maybeFlashPressed(SolInputManager.Ptr ptr) {
     if (!myEnabled) return false;
     boolean pressed = myScreenArea != null && myScreenArea.contains(ptr.x, ptr.y);
     if (pressed) myAreaFlash = true;
     return pressed;
   }
 
-  public void update(SolInputMan.Ptr[] ptrs, boolean cursorShown, boolean canBePressed, SolInputMan inputMan,
+  public void update(SolInputManager.Ptr[] ptrs, boolean cursorShown, boolean canBePressed, SolInputManager inputMan,
     SolCmp cmp)
   {
     if (!myEnabled) canBePressed = false;
@@ -61,7 +61,7 @@ public class SolUiControl {
     if (myWarnCount > 0) myWarnCount--;
   }
 
-  private void updateHover(SolInputMan.Ptr[] ptrs, boolean cursorShown, SolInputMan inputMan, SolCmp cmp) {
+  private void updateHover(SolInputManager.Ptr[] ptrs, boolean cursorShown, SolInputManager inputMan, SolCmp cmp) {
     if (myScreenArea == null || myAreaPressed || ptrs[0].pressed) return;
     boolean prev = myMouseHover;
     myMouseHover = cursorShown && myScreenArea.contains(ptrs[0].x, ptrs[0].y);
@@ -86,7 +86,7 @@ public class SolUiControl {
     }
   }
 
-  private void updateArea(SolInputMan.Ptr[] ptrs, boolean canBePressed) {
+  private void updateArea(SolInputManager.Ptr[] ptrs, boolean canBePressed) {
     if (myScreenArea == null) return;
     myAreaJustUnpressed = false;
     if (myAreaFlash) {
@@ -96,7 +96,7 @@ public class SolUiControl {
       myAreaPressed = false;
       if (canBePressed) {
         for (int i = 0, ptrsLength = ptrs.length; i < ptrsLength; i++) {
-          SolInputMan.Ptr ptr = ptrs[i];
+          SolInputManager.Ptr ptr = ptrs[i];
           if (!myScreenArea.contains(ptr.x, ptr.y)) continue;
           myAreaPressed = ptr.pressed;
           myAreaJustUnpressed = !ptr.pressed && ptr.prevPressed;
@@ -122,11 +122,11 @@ public class SolUiControl {
 
   public void drawButton(UiDrawer uiDrawer, SolCmp cmp, Color warnCol) {
     if (myScreenArea == null) return;
-    Color tint = Col.UI_INACTIVE;
+    Color tint = SolColor.UI_INACTIVE;
     if (myEnabled) {
-      if (isOn()) tint = Col.UI_LIGHT;
-      else if (myMouseHover) tint = Col.UI_MED;
-      else tint = Col.UI_DARK;
+      if (isOn()) tint = SolColor.UI_LIGHT;
+      else if (myMouseHover) tint = SolColor.UI_MED;
+      else tint = SolColor.UI_DARK;
     }
     uiDrawer.draw(myScreenArea, tint);
     if (myWarnCount > 0) {
@@ -136,7 +136,7 @@ public class SolUiControl {
 
   public void drawDisplayName(UiDrawer uiDrawer) {
     if (myScreenArea == null) return;
-    Color tint = myEnabled ? Col.W : Col.G;
+    Color tint = myEnabled ? SolColor.W : SolColor.G;
     uiDrawer.drawString(myDisplayName, myScreenArea.x + myScreenArea.width/2, myScreenArea.y + myScreenArea.height/2,
       FontSize.MENU, true, tint);
   }

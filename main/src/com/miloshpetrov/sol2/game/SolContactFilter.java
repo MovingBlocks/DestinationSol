@@ -13,14 +13,14 @@ public class SolContactFilter implements ContactFilter {
 
   @Override
   public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {
-    SolObj oA = (SolObj) fixtureA.getBody().getUserData();
-    SolObj oB = (SolObj) fixtureB.getBody().getUserData();
+    SolObject oA = (SolObject) fixtureA.getBody().getUserData();
+    SolObject oB = (SolObject) fixtureB.getBody().getUserData();
 
     boolean aIsProj = oA instanceof Projectile;
     if (!aIsProj && !(oB instanceof Projectile)) return true;
 
     Projectile proj = (Projectile)(aIsProj ? oA : oB);
-    SolObj o = aIsProj ? oB : oA;
+    SolObject o = aIsProj ? oB : oA;
     Fixture f = aIsProj ? fixtureB : fixtureA;
     return proj.shouldCollide(o, f, myFractionMan);
   }

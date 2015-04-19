@@ -3,7 +3,7 @@ package com.miloshpetrov.sol2.game.planet;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.miloshpetrov.sol2.Const;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.dra.*;
@@ -12,14 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TileObjBuilder {
-  public TileObj build(SolGame game, float sz, float toPlanetRelAngle, float dist, Tile tile, Planet planet) {
+  public TileObject build(SolGame game, float sz, float toPlanetRelAngle, float dist, Tile tile, Planet planet) {
     float spriteSz = sz * 2;
-    RectSprite sprite = new RectSprite(tile.tex, spriteSz, 0, 0, new Vector2(), DraLevel.GROUND, 0, 0f, Col.W, false);
+    RectSprite sprite = new RectSprite(tile.tex, spriteSz, 0, 0, new Vector2(), DraLevel.GROUND, 0, 0f, SolColor.W, false);
     Body body = null;
     if (tile.points.size() > 0) {
       body = buildBody(game, toPlanetRelAngle, dist, tile, planet, spriteSz);
     }
-    TileObj res = new TileObj(planet, toPlanetRelAngle, dist, sz, sprite, body, tile);
+    TileObject res = new TileObject(planet, toPlanetRelAngle, dist, sz, sprite, body, tile);
     if (body != null) body.setUserData(res);
     return res;
   }

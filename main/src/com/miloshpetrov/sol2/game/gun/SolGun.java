@@ -2,7 +2,7 @@ package com.miloshpetrov.sol2.game.gun;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.*;
@@ -28,7 +28,7 @@ public class SolGun {
   public SolGun(SolGame game, GunItem item, Vector2 relPos, boolean underShip) {
     myItem = item;
     if (myItem.config.lightOnShot) {
-      Color lightCol = Col.W;
+      Color lightCol = SolColor.W;
       ProjectileConfig projConfig = myItem.config.clipConf.projConfig;
       if (projConfig.bodyEffect != null) lightCol = projConfig.bodyEffect.tint;
       else if (projConfig.collisionEffect != null) lightCol = projConfig.collisionEffect.tint;
@@ -39,7 +39,7 @@ public class SolGun {
     myRelPos = new Vector2(relPos);
     DraLevel level = underShip ? DraLevel.U_GUNS : DraLevel.GUNS;
     float texLen = myItem.config.gunLength / myItem.config.texLenPerc * 2;
-    mySprite = new RectSprite(myItem.config.tex, texLen, 0, 0, new Vector2(relPos), level, 0, 0, Col.W, false);
+    mySprite = new RectSprite(myItem.config.tex, texLen, 0, 0, new Vector2(relPos), level, 0, 0, SolColor.W, false);
     myDras = new ArrayList<Dra>();
     myDras.add(mySprite);
     if (myLightSrc != null) myLightSrc.collectDras(myDras);
@@ -49,7 +49,7 @@ public class SolGun {
     return myDras;
   }
 
-  private void shoot(Vector2 gunSpd, SolGame game, float gunAngle, Vector2 muzzlePos, Fraction fraction, SolObj creator) {
+  private void shoot(Vector2 gunSpd, SolGame game, float gunAngle, Vector2 muzzlePos, Fraction fraction, SolObject creator) {
     Vector2 baseSpd = gunSpd;
     ClipConfig cc = myItem.config.clipConf;
     if (cc.projConfig.zeroAbsSpd) {
@@ -74,7 +74,7 @@ public class SolGun {
     game.getSoundMan().play(game, myItem.config.shootSound, muzzlePos, creator);
   }
 
-  public void update(ItemContainer ic, SolGame game, float gunAngle, SolObj creator, boolean shouldShoot, Fraction fraction) {
+  public void update(ItemContainer ic, SolGame game, float gunAngle, SolObject creator, boolean shouldShoot, Fraction fraction) {
     float baseAngle = creator.getAngle();
     Vector2 basePos = creator.getPos();
     float gunRelAngle = gunAngle - baseAngle;

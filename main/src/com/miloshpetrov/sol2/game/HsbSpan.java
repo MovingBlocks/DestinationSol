@@ -19,7 +19,7 @@ public class HsbSpan extends ColorSpan {
     float sat = midVal(1, perc);
     float br = midVal(2, perc);
     float a = midVal(3, perc);
-    ColUtil.fromHSB(hue, sat, br, a, col);
+    SolColorUtil.fromHSB(hue, sat, br, a, col);
   }
 
   private float midVal(int idx, float perc) {

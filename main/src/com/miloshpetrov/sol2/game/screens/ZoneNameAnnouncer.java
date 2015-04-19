@@ -15,7 +15,7 @@ public class ZoneNameAnnouncer {
   private String myText;
 
   public void update(SolGame game) {
-    PlanetMan pm = game.getPlanetMan();
+    PlanetMananger pm = game.getPlanetMan();
     String zone = null;
     String pref = null;
     Vector2 camPos = game.getCam().getPos();
