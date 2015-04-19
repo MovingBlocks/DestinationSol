@@ -6,11 +6,11 @@ import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.DebugCol;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.asteroid.AsteroidBuilder;
-import com.miloshpetrov.sol2.game.chunk.ChunkMan;
+import com.miloshpetrov.sol2.game.chunk.ChunkManager;
 import com.miloshpetrov.sol2.game.dra.DraDebugger;
 import com.miloshpetrov.sol2.game.dra.DraMan;
 import com.miloshpetrov.sol2.game.farBg.FarBgMan;
-import com.miloshpetrov.sol2.game.farBg.FarBgManOld;
+import com.miloshpetrov.sol2.game.farBg.FarBackgroundManagerOld;
 import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.input.*;
 import com.miloshpetrov.sol2.game.item.*;
@@ -18,7 +18,7 @@ import com.miloshpetrov.sol2.game.particle.*;
 import com.miloshpetrov.sol2.game.planet.*;
 import com.miloshpetrov.sol2.game.screens.GameScreens;
 import com.miloshpetrov.sol2.game.ship.*;
-import com.miloshpetrov.sol2.game.sound.SoundMan;
+import com.miloshpetrov.sol2.game.sound.SoundManager;
 import com.miloshpetrov.sol2.game.sound.SpecialSounds;
 import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.ui.*;
@@ -30,12 +30,12 @@ public class SolGame {
 
   private final GameScreens myScreens;
   private final SolCam myCam;
-  private final ObjMan myObjMan;
+  private final ObjectManager myObjectManager;
   private final SolCmp myCmp;
   private final DraMan myDraMan;
-  private final PlanetMan myPlanetMan;
-  private final TexMan myTexMan;
-  private final ChunkMan myChunkMan;
+  private final PlanetMananger myPlanetMananger;
+  private final TextureManager myTextureManager;
+  private final ChunkManager myChunkManager;
   private final PartMan myPartMan;
   private final AsteroidBuilder myAsteroidBuilder;
   private final LootBuilder myLootBuilder;
@@ -43,13 +43,13 @@ public class SolGame {
   private final HullConfigs myHullConfigs;
   private final GridDrawer myGridDrawer;
   private final FarBgMan myFarBgMan;
-  private final FarBgManOld myFarBgManOld;
+  private final FarBackgroundManagerOld myFarBackgroundManagerOld;
   private final FractionMan myFractionMan;
   private final MapDrawer myMapDrawer;
   private final ShardBuilder myShardBuilder;
   private final ItemMan myItemMan;
   private final StarPort.Builder myStarPortBuilder;
-  private final SoundMan mySoundMan;
+  private final SoundManager mySoundManager;
   private final PlayerSpawnConfig myPlayerSpawnConfig;
   private final DraDebugger myDraDebugger;
   private final SpecialSounds mySpecialSounds;
@@ -60,7 +60,7 @@ public class SolGame {
   private final SolNames myNames;
   private final BeaconHandler myBeaconHandler;
   private final MountDetectDrawer myMountDetectDrawer;
-  private final TutMan myTutMan;
+  private final TutorialManager myTutorialManager;
 
   private SolShip myHero;
   private float myTimeStep;
@@ -73,50 +73,50 @@ public class SolGame {
   private HullConfig myRespawnHull;
   private final ArrayList<SolItem> myRespawnItems;
 
-  public SolGame(SolCmp cmp, boolean usePrevShip, TexMan texMan, boolean tut, CommonDrawer commonDrawer) {
+  public SolGame(SolCmp cmp, boolean usePrevShip, TextureManager textureManager, boolean tut, CommonDrawer commonDrawer) {
     myCmp = cmp;
-    GameDrawer drawer = new GameDrawer(texMan, commonDrawer);
+    GameDrawer drawer = new GameDrawer(textureManager, commonDrawer);
     myCols = new GameCols();
-    mySoundMan = new SoundMan();
-    mySpecialSounds = new SpecialSounds(mySoundMan);
+    mySoundManager = new SoundManager();
+    mySpecialSounds = new SpecialSounds(mySoundManager);
     myDraMan = new DraMan(drawer);
     myCam = new SolCam(drawer.r);
     myScreens = new GameScreens(drawer.r, cmp);
-    myTutMan = tut ? new TutMan(commonDrawer.r, myScreens, cmp.isMobile()) : null;
-    myTexMan = texMan;
-    myFarBgManOld = new FarBgManOld(myTexMan);
+    myTutorialManager = tut ? new TutorialManager(commonDrawer.r, myScreens, cmp.isMobile()) : null;
+    myTextureManager = textureManager;
+    myFarBackgroundManagerOld = new FarBackgroundManagerOld(myTextureManager);
     myShipBuilder = new ShipBuilder();
     myEffectTypes = new EffectTypes();
-    mySpecialEffects = new SpecialEffects(myEffectTypes, myTexMan, myCols);
-    myItemMan = new ItemMan(myTexMan, mySoundMan, myEffectTypes, myCols);
-    myAbilityCommonConfigs = new AbilityCommonConfigs(myEffectTypes, myTexMan, myCols, mySoundMan);
-    myHullConfigs = new HullConfigs(myShipBuilder, texMan, myItemMan, myAbilityCommonConfigs, mySoundMan);
+    mySpecialEffects = new SpecialEffects(myEffectTypes, myTextureManager, myCols);
+    myItemMan = new ItemMan(myTextureManager, mySoundManager, myEffectTypes, myCols);
+    myAbilityCommonConfigs = new AbilityCommonConfigs(myEffectTypes, myTextureManager, myCols, mySoundManager);
+    myHullConfigs = new HullConfigs(myShipBuilder, textureManager, myItemMan, myAbilityCommonConfigs, mySoundManager);
     myNames = new SolNames();
-    myPlanetMan = new PlanetMan(myTexMan, myHullConfigs, myCols, myItemMan);
+    myPlanetMananger = new PlanetMananger(myTextureManager, myHullConfigs, myCols, myItemMan);
     SolContactListener contactListener = new SolContactListener(this);
-    myFractionMan = new FractionMan(myTexMan);
-    myObjMan = new ObjMan(contactListener, myFractionMan);
-    myGridDrawer = new GridDrawer(texMan);
-    myChunkMan = new ChunkMan(myTexMan);
+    myFractionMan = new FractionMan(myTextureManager);
+    myObjectManager = new ObjectManager(contactListener, myFractionMan);
+    myGridDrawer = new GridDrawer(textureManager);
+    myChunkManager = new ChunkManager(myTextureManager);
     myPartMan = new PartMan();
-    myAsteroidBuilder = new AsteroidBuilder(myTexMan);
+    myAsteroidBuilder = new AsteroidBuilder(myTextureManager);
     myLootBuilder = new LootBuilder();
     myFarBgMan = new FarBgMan();
-    myMapDrawer = new MapDrawer(myTexMan, commonDrawer.h);
-    myShardBuilder = new ShardBuilder(myTexMan);
+    myMapDrawer = new MapDrawer(myTextureManager, commonDrawer.h);
+    myShardBuilder = new ShardBuilder(myTextureManager);
     myGalaxyFiller = new GalaxyFiller();
     myStarPortBuilder = new StarPort.Builder();
     myPlayerSpawnConfig = PlayerSpawnConfig.load(myHullConfigs, myItemMan);
     myDraDebugger = new DraDebugger();
-    myBeaconHandler = new BeaconHandler(texMan);
-    myMountDetectDrawer = new MountDetectDrawer(texMan);
+    myBeaconHandler = new BeaconHandler(textureManager);
+    myMountDetectDrawer = new MountDetectDrawer(textureManager);
     myRespawnItems = new ArrayList<SolItem>();
     myTimeFactor = 1;
 
     // from this point we're ready!
-    myPlanetMan.fill(myNames);
+    myPlanetMananger.fill(myNames);
     myGalaxyFiller.fill(this);
-    ShipConfig startingShip = usePrevShip ? SaveMan.readShip(myHullConfigs, myItemMan) : null;
+    ShipConfig startingShip = usePrevShip ? SaveManager.readShip(myHullConfigs, myItemMan) : null;
     createPlayer(startingShip);
     SolMath.checkVectorsTaken(null);
   }
@@ -143,7 +143,7 @@ public class SolGame {
       shipConfig = myPlayerSpawnConfig.shipConfig;
     }
 
-    float money = myRespawnMoney != 0 ? myRespawnMoney : myTutMan != null ? 200 : shipConfig.money;
+    float money = myRespawnMoney != 0 ? myRespawnMoney : myTutorialManager != null ? 200 : shipConfig.money;
 
     HullConfig hull = myRespawnHull != null ? myRespawnHull : shipConfig.hull;
 
@@ -160,7 +160,7 @@ public class SolGame {
       }
     } else if (DebugOptions.GOD_MODE) {
       myItemMan.addAllGuns(ic);
-    } else if (myTutMan != null) {
+    } else if (myTutorialManager != null) {
       for (int i = 0; i < 50; i++) {
         if (ic.groupCount() > 1.5f * Const.ITEM_GROUPS_PER_PAGE) break;
         SolItem it = myItemMan.random();
@@ -172,18 +172,18 @@ public class SolGame {
     ic.seenAll();
     AiPilot.reEquip(this, myHero);
 
-    myObjMan.addObjDelayed(myHero);
-    myObjMan.resetDelays();
+    myObjectManager.addObjDelayed(myHero);
+    myObjectManager.resetDelays();
   }
 
   public void onGameEnd() {
     saveShip();
-    myObjMan.dispose();
-    mySoundMan.dispose();
+    myObjectManager.dispose();
+    mySoundManager.dispose();
   }
 
   public void saveShip() {
-    if (myTutMan != null) return;
+    if (myTutorialManager != null) return;
     HullConfig hull;
     float money;
     ArrayList<SolItem> items;
@@ -211,7 +211,7 @@ public class SolGame {
       money = myRespawnMoney;
       items = myRespawnItems;
     }
-    SaveMan.writeShip(hull, money, items, this);
+    SaveManager.writeShip(hull, money, items, this);
   }
 
   public GameScreens getScreens() {
@@ -223,7 +223,7 @@ public class SolGame {
 
     if (DebugOptions.PRINT_BALANCE) {
       myItemMan.printGuns();
-      myPlanetMan.printShips(myPlayerSpawnConfig, myItemMan);
+      myPlanetMananger.printShips(myPlayerSpawnConfig, myItemMan);
     }
 
     if (myPaused) return;
@@ -239,21 +239,21 @@ public class SolGame {
     myTimeStep = Const.REAL_TIME_STEP * myTimeFactor;
     myTime += myTimeStep;
 
-    myPlanetMan.update(this);
+    myPlanetMananger.update(this);
     myCam.update(this);
-    myChunkMan.update(this);
+    myChunkManager.update(this);
     myMountDetectDrawer.update(this);
-    myObjMan.update(this);
+    myObjectManager.update(this);
     myDraMan.update(this);
     myMapDrawer.update(this);
-    mySoundMan.update(this);
+    mySoundManager.update(this);
     myBeaconHandler.update(this);
 
     myHero = null;
     myTranscendentHero = null;
-    List<SolObj> objs = myObjMan.getObjs();
+    List<SolObject> objs = myObjectManager.getObjs();
     for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
-      SolObj obj = objs.get(i);
+      SolObject obj = objs.get(i);
       if ((obj instanceof SolShip)) {
         SolShip ship = (SolShip) obj;
         Pilot prov = ship.getPilot();
@@ -272,7 +272,7 @@ public class SolGame {
       }
     }
 
-    if (myTutMan != null) myTutMan.update();
+    if (myTutorialManager != null) myTutorialManager.update();
   }
 
   public void draw() {
@@ -281,8 +281,8 @@ public class SolGame {
 
   public void drawDebug(GameDrawer drawer) {
     if (DebugOptions.GRID_SZ > 0) myGridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTex);
-    myPlanetMan.drawDebug(drawer, this);
-    myObjMan.drawDebug(drawer, this);
+    myPlanetMananger.drawDebug(drawer, this);
+    myObjectManager.drawDebug(drawer, this);
     if (DebugOptions.ZOOM_OVERRIDE != 0) myCam.drawDebug(drawer);
     drawDebugPoint(drawer, DebugOptions.DEBUG_POINT, DebugCol.POINT);
     drawDebugPoint(drawer, DebugOptions.DEBUG_POINT2, DebugCol.POINT2);
@@ -312,16 +312,16 @@ public class SolGame {
     return myDraMan;
   }
 
-  public ObjMan getObjMan() {
-    return myObjMan;
+  public ObjectManager getObjMan() {
+    return myObjectManager;
   }
 
-  public TexMan getTexMan() {
-    return myTexMan;
+  public TextureManager getTexMan() {
+    return myTextureManager;
   }
 
-  public PlanetMan getPlanetMan() {
-    return myPlanetMan;
+  public PlanetMananger getPlanetMan() {
+    return myPlanetMananger;
   }
 
   public PartMan getPartMan() {
@@ -364,11 +364,11 @@ public class SolGame {
   public void respawn() {
     if (myHero != null) {
       beforeHeroDeath();
-      myObjMan.removeObjDelayed(myHero);
+      myObjectManager.removeObjDelayed(myHero);
     } else if (myTranscendentHero != null) {
       FarShip farH = myTranscendentHero.getShip();
       setRespawnState(farH.getMoney(), farH.getIc(), farH.getHullConfig());
-      myObjMan.removeObjDelayed(myTranscendentHero);
+      myObjectManager.removeObjDelayed(myTranscendentHero);
     }
     createPlayer(null);
   }
@@ -378,22 +378,22 @@ public class SolGame {
   }
 
   public boolean isPlaceEmpty(Vector2 pos, boolean considerPlanets) {
-    Planet np = myPlanetMan.getNearestPlanet(pos);
+    Planet np = myPlanetMananger.getNearestPlanet(pos);
     if (considerPlanets) {
       boolean inPlanet = np.getPos().dst(pos) < np.getFullHeight();
       if (inPlanet) return false;
     }
-    SolSystem ns = myPlanetMan.getNearestSystem(pos);
+    SolSystem ns = myPlanetMananger.getNearestSystem(pos);
     if (ns.getPos().dst(pos) < SunSingleton.SUN_HOT_RAD) return false;
-    List<SolObj> objs = myObjMan.getObjs();
+    List<SolObject> objs = myObjectManager.getObjs();
     for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
-      SolObj o = objs.get(i);
+      SolObject o = objs.get(i);
       if (!o.hasBody()) continue;
-      if (pos.dst(o.getPos()) < myObjMan.getRadius(o)) {
+      if (pos.dst(o.getPos()) < myObjectManager.getRadius(o)) {
         return false;
       }
     }
-    List<FarObjData> farObjs = myObjMan.getFarObjs();
+    List<FarObjData> farObjs = myObjectManager.getFarObjs();
     for (int i = 0, farObjsSize = farObjs.size(); i < farObjsSize; i++) {
       FarObjData fod = farObjs.get(i);
       FarObj o = fod.fo;
@@ -413,8 +413,8 @@ public class SolGame {
     return myShardBuilder;
   }
 
-  public FarBgManOld getFarBgManOld() {
-    return myFarBgManOld;
+  public FarBackgroundManagerOld getFarBgManOld() {
+    return myFarBackgroundManagerOld;
   }
 
   public GalaxyFiller getGalaxyFiller() {
@@ -433,8 +433,8 @@ public class SolGame {
     return myGridDrawer;
   }
 
-  public SoundMan getSoundMan() {
-    return mySoundMan;
+  public SoundManager getSoundMan() {
+    return mySoundManager;
   }
 
   public float getTime() {
@@ -473,8 +473,8 @@ public class SolGame {
     return myMountDetectDrawer;
   }
 
-  public TutMan getTutMan() {
-    return myTutMan;
+  public TutorialManager getTutMan() {
+    return myTutorialManager;
   }
 
   public void beforeHeroDeath() {

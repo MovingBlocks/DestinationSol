@@ -3,7 +3,7 @@ package com.miloshpetrov.sol2.game.planet;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
-import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.TextureManager;
 import com.miloshpetrov.sol2.game.GameCols;
 import com.miloshpetrov.sol2.game.ShipConfig;
 import com.miloshpetrov.sol2.game.item.ItemMan;
@@ -56,19 +56,19 @@ public class PlanetConfig {
     this.easyOnly = easyOnly;
   }
 
-  static PlanetConfig load(TexMan texMan, HullConfigs hullConfigs, FileHandle configFile, JsonValue sh, GameCols cols,
+  static PlanetConfig load(TextureManager textureManager, HullConfigs hullConfigs, FileHandle configFile, JsonValue sh, GameCols cols,
     ItemMan itemMan) {
     float minGrav = sh.getFloat("minGrav");
     float maxGrav = sh.getFloat("maxGrav");
-    List<DecoConfig> deco = DecoConfig.load(sh, texMan, configFile);
+    List<DecoConfig> deco = DecoConfig.load(sh, textureManager, configFile);
     ArrayList<ShipConfig> groundEnemies = ShipConfig.loadList(sh.get("groundEnemies"), hullConfigs, itemMan);
     ArrayList<ShipConfig> highOrbitEnemies = ShipConfig.loadList(sh.get("highOrbitEnemies"), hullConfigs, itemMan);
     ArrayList<ShipConfig> lowOrbitEnemies = ShipConfig.loadList(sh.get("lowOrbitEnemies"), hullConfigs, itemMan);
     ShipConfig stationConfig = ShipConfig.load(hullConfigs, sh.get("station"), itemMan);
     String cloudPackName = sh.getString("cloudTexs");
-    ArrayList<TextureAtlas.AtlasRegion> cloudTexs = texMan.getPack(cloudPackName, configFile);
+    ArrayList<TextureAtlas.AtlasRegion> cloudTexs = textureManager.getPack(cloudPackName, configFile);
     String groundFolder = sh.getString("groundTexs");
-    PlanetTiles planetTiles = new PlanetTiles(texMan, groundFolder, configFile);
+    PlanetTiles planetTiles = new PlanetTiles(textureManager, groundFolder, configFile);
     SkyConfig skyConfig = SkyConfig.load(sh.get("sky"), cols);
     int rowCount = sh.getInt("rowCount");
     boolean smoothLandscape = sh.getBoolean("smoothLandscape", false);

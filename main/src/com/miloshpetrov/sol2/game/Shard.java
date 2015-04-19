@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Shard implements SolObj {
+public class Shard implements SolObject {
 
   private final Body myBody;
   private final Vector2 myPos;
@@ -53,7 +53,7 @@ public class Shard implements SolObj {
   }
 
   @Override
-  public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
+  public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
     SolGame game, Vector2 collPos)
   {
   }

@@ -13,7 +13,7 @@ public class FlatPlaceFinder {
   private final RayCastCallback myRayBack = new RayCastCallback() {
     @Override
     public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-      if (!(fixture.getBody().getUserData() instanceof TileObj)) {
+      if (!(fixture.getBody().getUserData() instanceof TileObject)) {
         return -1;
       }
       myVec.set(point);

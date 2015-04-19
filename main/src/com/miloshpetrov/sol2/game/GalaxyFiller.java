@@ -121,9 +121,9 @@ public class GalaxyFiller {
   }
 
   private void createStarPorts(SolGame game) {
-    PlanetMan planetMan = game.getPlanetMan();
+    PlanetMananger planetMananger = game.getPlanetMan();
     ArrayList<Planet> biggest = new ArrayList<Planet>();
-    for (SolSystem s : planetMan.getSystems()) {
+    for (SolSystem s : planetMananger.getSystems()) {
       float minH = 0;
       Planet biggestP = null;
       int bi = -1;

@@ -8,10 +8,10 @@ import java.util.List;
 public class Tile {
   public final TextureAtlas.AtlasRegion tex;
   public final List<Vector2> points;
-  public final SurfDir to;
-  public final SurfDir from;
+  public final SurfaceDirection to;
+  public final SurfaceDirection from;
 
-  public Tile(TextureAtlas.AtlasRegion tex, List<Vector2> points, SurfDir to, SurfDir from) {
+  public Tile(TextureAtlas.AtlasRegion tex, List<Vector2> points, SurfaceDirection to, SurfaceDirection from) {
     this.tex = tex;
     this.points = points;
     this.to = to;

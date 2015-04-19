@@ -37,14 +37,14 @@ public class ForceBeacon {
     SolMath.free(pos);
   }
 
-  public static SolShip pullShips(SolGame game, SolObj owner, Vector2 ownPos, Vector2 ownSpd, Fraction frac,
+  public static SolShip pullShips(SolGame game, SolObject owner, Vector2 ownPos, Vector2 ownSpd, Fraction frac,
     float maxPullDist)
   {
     SolShip res = null;
     float minLen = Float.MAX_VALUE;
-    List<SolObj> objs = game.getObjMan().getObjs();
+    List<SolObject> objs = game.getObjMan().getObjs();
     for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
-      SolObj o = objs.get(i);
+      SolObject o = objs.get(i);
       if (o == owner) continue;
       if (!(o instanceof SolShip)) continue;
       SolShip ship = (SolShip) o;

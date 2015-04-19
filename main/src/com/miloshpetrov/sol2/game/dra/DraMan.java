@@ -27,7 +27,7 @@ public class DraMan {
     myInCam = new HashSet<Dra>();
   }
 
-  public void objRemoved(SolObj o) {
+  public void objRemoved(SolObject o) {
     List<Dra> dras = o.getDras();
     removeAll(dras);
   }
@@ -45,7 +45,7 @@ public class DraMan {
     }
   }
 
-  public void objAdded(SolObj o) {
+  public void objAdded(SolObject o) {
     List<Dra> dras = o.getDras();
     addAll(dras);
   }
@@ -82,12 +82,12 @@ public class DraMan {
     Vector2 camPos = cam.getPos();
     float viewDist = cam.getViewDist();
 
-    ObjMan objMan = game.getObjMan();
-    List<SolObj> objs = objMan.getObjs();
+    ObjectManager objectManager = game.getObjMan();
+    List<SolObject> objs = objectManager.getObjs();
     for (int i1 = 0, objsSize = objs.size(); i1 < objsSize; i1++) {
-      SolObj o = objs.get(i1);
+      SolObject o = objs.get(i1);
       Vector2 objPos = o.getPos();
-      float r = objMan.getPresenceRadius(o);
+      float r = objectManager.getPresenceRadius(o);
       List<Dra> dras = o.getDras();
       float draLevelViewDist = viewDist;
       if (dras.size() > 0) draLevelViewDist *= dras.get(0).getLevel().depth;

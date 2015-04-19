@@ -44,12 +44,12 @@ public class MapScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
+  public void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     SolGame g = cmp.getGame();
     boolean justClosed = closeCtrl.isJustOff();
     MapDrawer mapDrawer = g.getMapDrawer();
     mapDrawer.setToggled(!justClosed);
-    SolInputMan im = cmp.getInputMan();
+    SolInputManager im = cmp.getInputMan();
     if (justClosed) {
       im.setScreen(cmp, g.getScreens().mainScreen);
     }
@@ -91,7 +91,7 @@ public class MapScreen implements SolUiScreen {
   }
 
   @Override
-  public boolean isCursorOnBg(SolInputMan.Ptr ptr) {
+  public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
     return false;
   }
 

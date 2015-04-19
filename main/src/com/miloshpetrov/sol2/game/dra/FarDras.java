@@ -29,8 +29,8 @@ public class FarDras implements FarObj {
   }
 
   @Override
-  public SolObj toObj(SolGame game) {
-    return new DrasObj(myDras, myPos, mySpd, myRemoveController, false, myHideOnPlanet);
+  public SolObject toObj(SolGame game) {
+    return new DrasObject(myDras, myPos, mySpd, myRemoveController, false, myHideOnPlanet);
   }
 
   @Override

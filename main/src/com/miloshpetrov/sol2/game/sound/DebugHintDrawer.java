@@ -7,15 +7,15 @@ import com.miloshpetrov.sol2.game.*;
 import java.util.*;
 
 public class DebugHintDrawer {
-  private final Map<SolObj, DebugHint> myTracedNotes;
+  private final Map<SolObject, DebugHint> myTracedNotes;
   private final Map<Vector2, DebugHint> myFreeNotes;
 
   public DebugHintDrawer() {
-    myTracedNotes = new HashMap<SolObj, DebugHint>();
+    myTracedNotes = new HashMap<SolObject, DebugHint>();
     myFreeNotes = new HashMap<Vector2, DebugHint>();
   }
 
-  public void add(@Nullable SolObj owner, Vector2 pos, String value) {
+  public void add(@Nullable SolObject owner, Vector2 pos, String value) {
     DebugHint dh;
     if (owner == null) {
       dh = myFreeNotes.get(pos);

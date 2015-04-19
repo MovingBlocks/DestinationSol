@@ -2,7 +2,7 @@ package com.miloshpetrov.sol2.menu;
 
 import com.badlogic.gdx.Input;
 import com.miloshpetrov.sol2.SolCmp;
-import com.miloshpetrov.sol2.game.SaveMan;
+import com.miloshpetrov.sol2.game.SaveManager;
 import com.miloshpetrov.sol2.ui.*;
 
 import java.util.ArrayList;
@@ -38,13 +38,13 @@ public class NewGameScreen implements SolUiScreen {
 
   @Override
   public void onAdd(SolCmp cmp) {
-    myPrevCtrl.setEnabled(SaveMan.hasPrevShip());
+    myPrevCtrl.setEnabled(SaveManager.hasPrevShip());
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside) {
+  public void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     MenuScreens screens = cmp.getMenuScreens();
-    SolInputMan im = cmp.getInputMan();
+    SolInputManager im = cmp.getInputMan();
     if (myBackCtrl.isJustOff()) {
       im.setScreen(cmp, screens.main);
       return;
@@ -63,7 +63,7 @@ public class NewGameScreen implements SolUiScreen {
   }
 
   @Override
-  public boolean isCursorOnBg(SolInputMan.Ptr ptr) {
+  public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
     return true;
   }
 

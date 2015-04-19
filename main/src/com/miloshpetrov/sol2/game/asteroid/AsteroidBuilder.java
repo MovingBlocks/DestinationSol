@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.miloshpetrov.sol2.Const;
-import com.miloshpetrov.sol2.TexMan;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.TextureManager;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.*;
@@ -20,9 +20,9 @@ public class AsteroidBuilder {
   private final PathLoader myPathLoader;
   private final ArrayList<TextureAtlas.AtlasRegion> myTexs;
 
-  public AsteroidBuilder(TexMan texMan) {
+  public AsteroidBuilder(TextureManager textureManager) {
     myPathLoader = new PathLoader("asteroids");
-    myTexs = texMan.getPack("asteroids/sys", null);
+    myTexs = textureManager.getPack("asteroids/sys", null);
   }
 
   // doesn't consume pos
@@ -47,7 +47,7 @@ public class AsteroidBuilder {
         BodyDef.BodyType.DynamicBody, pos, angle, dras, DENSITY, DraLevel.BODIES, tex);
     } else {
       body = buildBall(game, pos, angle, sz/2, DENSITY, false);
-      RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.BODIES, 0, 0, Col.W, false);
+      RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.BODIES, 0, 0, SolColor.W, false);
       dras.add(s);
     }
     body.setAngularVelocity(rotSpd);

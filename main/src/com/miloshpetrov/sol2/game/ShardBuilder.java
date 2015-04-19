@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.TextureManager;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.asteroid.AsteroidBuilder;
 import com.miloshpetrov.sol2.game.dra.Dra;
@@ -23,9 +23,9 @@ public class ShardBuilder {
   private final PathLoader myPathLoader;
   private final ArrayList<TextureAtlas.AtlasRegion> myTexs;
 
-  public ShardBuilder(TexMan texMan) {
+  public ShardBuilder(TextureManager textureManager) {
     myPathLoader = new PathLoader("misc");
-    myTexs = texMan.getPack("smallGameObjs/shard", null);
+    myTexs = textureManager.getPack("smallGameObjs/shard", null);
   }
 
   public void buildExplosionShards(SolGame game, Vector2 pos, Vector2 baseSpd, float size) {

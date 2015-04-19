@@ -24,19 +24,19 @@ public class SpecialEffects {
   public final EffectConfig starPortFlow;
   public final EffectConfig transcendentWork;
 
-  public SpecialEffects(EffectTypes effectTypes, TexMan texMan, GameCols cols) {
+  public SpecialEffects(EffectTypes effectTypes, TextureManager textureManager, GameCols cols) {
     JsonReader r = new JsonReader();
     FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "specialEffects.json");
     JsonValue node = r.parse(configFile);
-    mySmoke = EffectConfig.load(node.get("smoke"), effectTypes, texMan, configFile, cols);
-    myFire = EffectConfig.load(node.get("fire"), effectTypes, texMan, configFile, cols);
-    myElectricity = EffectConfig.load(node.get("electricity"), effectTypes, texMan, configFile, cols);
-    myShipExplSmoke = EffectConfig.load(node.get("shipExplosionSmoke"), effectTypes, texMan, configFile, cols);
-    myShipExplFire = EffectConfig.load(node.get("shipExplosionFire"), effectTypes, texMan, configFile, cols);
-    myAsteroidDust = EffectConfig.load(node.get("asteroidDust"), effectTypes, texMan, configFile, cols);
-    myForceBeacon = EffectConfig.load(node.get("forceBeacon"), effectTypes, texMan, configFile, cols);
-    starPortFlow = EffectConfig.load(node.get("starPortFlow"), effectTypes, texMan, configFile, cols);
-    transcendentWork = EffectConfig.load(node.get("transcendentWork"), effectTypes, texMan, configFile, cols);
+    mySmoke = EffectConfig.load(node.get("smoke"), effectTypes, textureManager, configFile, cols);
+    myFire = EffectConfig.load(node.get("fire"), effectTypes, textureManager, configFile, cols);
+    myElectricity = EffectConfig.load(node.get("electricity"), effectTypes, textureManager, configFile, cols);
+    myShipExplSmoke = EffectConfig.load(node.get("shipExplosionSmoke"), effectTypes, textureManager, configFile, cols);
+    myShipExplFire = EffectConfig.load(node.get("shipExplosionFire"), effectTypes, textureManager, configFile, cols);
+    myAsteroidDust = EffectConfig.load(node.get("asteroidDust"), effectTypes, textureManager, configFile, cols);
+    myForceBeacon = EffectConfig.load(node.get("forceBeacon"), effectTypes, textureManager, configFile, cols);
+    starPortFlow = EffectConfig.load(node.get("starPortFlow"), effectTypes, textureManager, configFile, cols);
+    transcendentWork = EffectConfig.load(node.get("transcendentWork"), effectTypes, textureManager, configFile, cols);
   }
 
   public List<ParticleSrc> buildBodyEffs(float objRad, SolGame game, Vector2 pos, Vector2 spd) {

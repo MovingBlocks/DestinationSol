@@ -4,7 +4,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
-import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.TextureManager;
 import com.miloshpetrov.sol2.common.SolMath;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class DecoConfig {
     this.texs = texs;
   }
 
-  static List<DecoConfig> load(JsonValue planetConfig, TexMan texMan, FileHandle configFile) {
+  static List<DecoConfig> load(JsonValue planetConfig, TextureManager textureManager, FileHandle configFile) {
     ArrayList<DecoConfig> res = new ArrayList<DecoConfig>();
     for (JsonValue deco : planetConfig.get("deco")) {
       float density = deco.getFloat("density");
@@ -37,7 +37,7 @@ public class DecoConfig {
       Vector2 orig = SolMath.readV2(deco, "orig");
       boolean allowFlip = deco.getBoolean("allowFlip");
       String texName = planetConfig.getString("decoTexs") + "/" + deco.name;
-      ArrayList<TextureAtlas.AtlasRegion> texs = texMan.getPack(texName, configFile);
+      ArrayList<TextureAtlas.AtlasRegion> texs = textureManager.getPack(texName, configFile);
       DecoConfig c = new DecoConfig(density, szMin, szMax, orig, allowFlip, texs);
       res.add(c);
     }

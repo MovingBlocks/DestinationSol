@@ -121,7 +121,7 @@ public class ParticleSrc implements Dra {
     return myEmitter.isComplete();
   }
 
-  public void update(SolGame game, SolObj o) {
+  public void update(SolGame game, SolObject o) {
     maybeSwitchRelPos(game);
     Vector2 basePos = o.getPos();
     float baseAngle = o.getAngle();
@@ -195,7 +195,7 @@ public class ParticleSrc implements Dra {
   }
 
   @Override
-  public void prepare(SolObj o) {
+  public void prepare(SolObject o) {
   }
 
   @Override

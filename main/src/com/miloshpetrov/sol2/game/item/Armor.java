@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
-import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.TextureManager;
 import com.miloshpetrov.sol2.game.DmgType;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.sound.SolSound;
-import com.miloshpetrov.sol2.game.sound.SoundMan;
+import com.miloshpetrov.sol2.game.sound.SoundManager;
 
 public class Armor implements SolItem {
   private final Config myConfig;
@@ -97,7 +97,7 @@ public class Armor implements SolItem {
       this.example = new Armor(this);
     }
 
-    public static void loadConfigs(ItemMan itemMan, SoundMan soundMan, TexMan texMan, SolItemTypes types)
+    public static void loadConfigs(ItemMan itemMan, SoundManager soundManager, TextureManager textureManager, SolItemTypes types)
     {
       JsonReader r = new JsonReader();
       FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "armors.json");
@@ -109,9 +109,9 @@ public class Armor implements SolItem {
         String bulletDmgSoundDir = sh.getString("bulletHitSound");
         String energyDmgSoundDir = sh.getString("energyHitSound");
         float basePitch = sh.getFloat("baseSoundPitch", 1);
-        SolSound bulletDmgSound = soundMan.getPitchedSound(bulletDmgSoundDir, configFile, basePitch);
-        SolSound energyDmgSound = soundMan.getPitchedSound(energyDmgSoundDir, configFile, basePitch);
-        TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + sh.getString("icon"), configFile);
+        SolSound bulletDmgSound = soundManager.getPitchedSound(bulletDmgSoundDir, configFile, basePitch);
+        SolSound energyDmgSound = soundManager.getPitchedSound(energyDmgSoundDir, configFile, basePitch);
+        TextureAtlas.AtlasRegion icon = textureManager.getTex(TextureManager.ICONS_DIR + sh.getString("icon"), configFile);
         String code = sh.name;
         Config config = new Config(displayName, price, perc, bulletDmgSound, icon, energyDmgSound, types.armor, code);
         itemMan.registerItem(config.example);

@@ -4,9 +4,9 @@ import com.badlogic.gdx.InputProcessor;
 
 public class SolInputProcessor implements InputProcessor {
 
-  private final SolInputMan myInputMan;
+  private final SolInputManager myInputMan;
 
-  public SolInputProcessor(SolInputMan inputMan) {
+  public SolInputProcessor(SolInputManager inputMan) {
     myInputMan = inputMan;
   }
 

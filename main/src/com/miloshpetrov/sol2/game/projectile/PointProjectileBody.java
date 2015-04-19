@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
-import com.miloshpetrov.sol2.game.SolObj;
+import com.miloshpetrov.sol2.game.SolObject;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public class PointProjectileBody implements ProjectileBody {
@@ -91,7 +91,7 @@ public class PointProjectileBody implements ProjectileBody {
 
     @Override
     public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-      SolObj o = (SolObj) fixture.getBody().getUserData();
+      SolObject o = (SolObject) fixture.getBody().getUserData();
       boolean oIsMassless = o instanceof Projectile && ((Projectile) o).isMassless();
       if (!oIsMassless && myProjectile.shouldCollide(o, fixture, myGame.getFractionMan())) {
         myPos.set(point);

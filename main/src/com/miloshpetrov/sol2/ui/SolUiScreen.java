@@ -9,9 +9,9 @@ public interface SolUiScreen {
 
   void onAdd(SolCmp cmp);
 
-  void updateCustom(SolCmp cmp, SolInputMan.Ptr[] ptrs, boolean clickedOutside);
+  void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside);
 
-  boolean isCursorOnBg(SolInputMan.Ptr ptr);
+  boolean isCursorOnBg(SolInputManager.Ptr ptr);
 
   void blurCustom(SolCmp cmp);
 

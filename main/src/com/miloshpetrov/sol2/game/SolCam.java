@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.*;
 import com.miloshpetrov.sol2.Const;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.screens.MainScreen;
@@ -192,10 +192,10 @@ public class SolCam {
     ur.add(myPos);
 
     float lw = getRealLineWidth();
-    drawer.drawLine(drawer.debugWhiteTex, dr, dl, Col.W, lw, false);
-    drawer.drawLine(drawer.debugWhiteTex, dl, ul, Col.W, lw, false);
-    drawer.drawLine(drawer.debugWhiteTex, ul, ur, Col.W, lw, false);
-    drawer.drawLine(drawer.debugWhiteTex, ur, dr, Col.W, lw, false);
+    drawer.drawLine(drawer.debugWhiteTex, dr, dl, SolColor.W, lw, false);
+    drawer.drawLine(drawer.debugWhiteTex, dl, ul, SolColor.W, lw, false);
+    drawer.drawLine(drawer.debugWhiteTex, ul, ur, SolColor.W, lw, false);
+    drawer.drawLine(drawer.debugWhiteTex, ur, dr, SolColor.W, lw, false);
 
     SolMath.free(dr);
     SolMath.free(dl);

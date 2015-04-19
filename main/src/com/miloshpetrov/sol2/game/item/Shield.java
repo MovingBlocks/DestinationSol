@@ -6,12 +6,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
-import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.TextureManager;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 import com.miloshpetrov.sol2.game.sound.SolSound;
-import com.miloshpetrov.sol2.game.sound.SoundMan;
+import com.miloshpetrov.sol2.game.sound.SoundManager;
 
 public class Shield implements SolItem {
   public static final float SIZE_PERC = .7f;
@@ -25,7 +25,7 @@ public class Shield implements SolItem {
     myLife = myConfig.maxLife;
   }
 
-  public void update(SolGame game, SolObj owner) {
+  public void update(SolGame game, SolObject owner) {
     float ts = game.getTimeStep();
     if (myIdleTime >= myConfig.myMaxIdleTime) {
       if (myLife < myConfig.maxLife) {
@@ -142,7 +142,7 @@ public class Shield implements SolItem {
       return sb.toString();
     }
 
-    public static void loadConfigs(ItemMan itemMan, SoundMan soundMan, TexMan texMan, SolItemTypes types) {
+    public static void loadConfigs(ItemMan itemMan, SoundManager soundManager, TextureManager textureManager, SolItemTypes types) {
       JsonReader r = new JsonReader();
       FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "shields.json");
       JsonValue parsed = r.parse(configFile);
@@ -152,11 +152,11 @@ public class Shield implements SolItem {
         int price = sh.getInt("price");
         String soundDir = sh.getString("absorbSound");
         float absorbPitch = sh.getFloat("absorbSoundPitch", 1);
-        SolSound absorbSound = soundMan.getPitchedSound(soundDir, configFile, absorbPitch);
+        SolSound absorbSound = soundManager.getPitchedSound(soundDir, configFile, absorbPitch);
         soundDir = sh.getString("regenSound");
-        SolSound regenSound = soundMan.getSound(soundDir, configFile);
-        TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.ICONS_DIR + sh.getString("icon"), configFile);
-        TextureAtlas.AtlasRegion tex = texMan.getTex(sh.getString("tex"), configFile);
+        SolSound regenSound = soundManager.getSound(soundDir, configFile);
+        TextureAtlas.AtlasRegion icon = textureManager.getTex(TextureManager.ICONS_DIR + sh.getString("icon"), configFile);
+        TextureAtlas.AtlasRegion tex = textureManager.getTex(sh.getString("tex"), configFile);
         String code = sh.name;
         Config config = new Config(maxLife, displayName, price, absorbSound, regenSound, icon, tex, types.shield, code);
         itemMan.registerItem(config.example);

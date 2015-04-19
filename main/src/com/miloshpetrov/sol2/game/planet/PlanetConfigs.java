@@ -17,7 +17,7 @@ public class PlanetConfigs {
   private final List<PlanetConfig> myMedium;
   private final List<PlanetConfig> myHard;
 
-  public PlanetConfigs(TexMan texMan, HullConfigs hullConfigs, GameCols cols, ItemMan itemMan) {
+  public PlanetConfigs(TextureManager textureManager, HullConfigs hullConfigs, GameCols cols, ItemMan itemMan) {
     myAllConfigs = new HashMap<String, PlanetConfig>();
     myEasy = new ArrayList<PlanetConfig>();
     myMedium = new ArrayList<PlanetConfig>();
@@ -27,7 +27,7 @@ public class PlanetConfigs {
     FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "planets.json");
     JsonValue parsed = r.parse(configFile);
     for (JsonValue sh : parsed) {
-      PlanetConfig c = PlanetConfig.load(texMan, hullConfigs, configFile, sh, cols, itemMan);
+      PlanetConfig c = PlanetConfig.load(textureManager, hullConfigs, configFile, sh, cols, itemMan);
       myAllConfigs.put(sh.name, c);
       if (c.hardOnly) myHard.add(c);
       else if (c.easyOnly) myEasy.add(c);

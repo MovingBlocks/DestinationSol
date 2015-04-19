@@ -3,7 +3,7 @@
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.miloshpetrov.sol2.Const;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.*;
@@ -11,7 +11,7 @@ import com.miloshpetrov.sol2.game.dra.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sky implements SolObj {
+public class Sky implements SolObject {
 
   private final Planet myPlanet;
   private final RectSprite myFill;
@@ -24,9 +24,9 @@ public class Sky implements SolObj {
     myPlanet = planet;
     myDras = new ArrayList<Dra>();
 
-    myFill = new RectSprite(game.getTexMan().getTex("planetStarCommons/whiteTex", null), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, Col.col(.5f, 0), false);
+    myFill = new RectSprite(game.getTexMan().getTex("planetStarCommons/whiteTex", null), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
     myDras.add(myFill);
-    myGrad = new RectSprite(game.getTexMan().getTex("planetStarCommons/grad", null), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, Col.col(.5f, 0), false);
+    myGrad = new RectSprite(game.getTexMan().getTex("planetStarCommons/grad", null), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
     myDras.add(myGrad);
     SkyConfig config = planet.getConfig().skyConfig;
     mySkySpan = ColorSpan.rgb(config.dawn, config.day);
@@ -128,7 +128,7 @@ public class Sky implements SolObj {
   }
 
   @Override
-  public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
+  public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
     SolGame game, Vector2 collPos)
   {
   }

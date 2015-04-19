@@ -9,7 +9,7 @@ import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.particle.EffectTypes;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfigs;
 import com.miloshpetrov.sol2.game.ship.AbilityCharge;
-import com.miloshpetrov.sol2.game.sound.SoundMan;
+import com.miloshpetrov.sol2.game.sound.SoundManager;
 import com.miloshpetrov.sol2.ui.DebugCollector;
 
 import java.util.*;
@@ -27,23 +27,23 @@ public class ItemMan {
   private final SolItemTypes myTypes;
   private final RepairItem myRepairExample;
 
-  public ItemMan(TexMan texMan, SoundMan soundMan, EffectTypes effectTypes, GameCols cols) {
-    moneyIcon = texMan.getTex(TexMan.ICONS_DIR + "money", null);
-    medMoneyIcon = texMan.getTex(TexMan.ICONS_DIR + "medMoney", null);
-    bigMoneyIcon = texMan.getTex(TexMan.ICONS_DIR + "bigMoney", null);
-    repairIcon = texMan.getTex(TexMan.ICONS_DIR + "repairItem", null);
+  public ItemMan(TextureManager textureManager, SoundManager soundManager, EffectTypes effectTypes, GameCols cols) {
+    moneyIcon = textureManager.getTex(TextureManager.ICONS_DIR + "money", null);
+    medMoneyIcon = textureManager.getTex(TextureManager.ICONS_DIR + "medMoney", null);
+    bigMoneyIcon = textureManager.getTex(TextureManager.ICONS_DIR + "bigMoney", null);
+    repairIcon = textureManager.getTex(TextureManager.ICONS_DIR + "repairItem", null);
     myM = new HashMap<String, SolItem>();
 
-    myTypes = new SolItemTypes(soundMan, cols);
-    projConfigs = new ProjectileConfigs(texMan, soundMan, effectTypes, cols);
-    myEngineConfigs = EngineItem.Configs.load(soundMan, texMan, effectTypes, cols);
+    myTypes = new SolItemTypes(soundManager, cols);
+    projConfigs = new ProjectileConfigs(textureManager, soundManager, effectTypes, cols);
+    myEngineConfigs = EngineItem.Configs.load(soundManager, textureManager, effectTypes, cols);
 
-    Shield.Config.loadConfigs(this, soundMan, texMan, myTypes);
-    Armor.Config.loadConfigs(this, soundMan, texMan, myTypes);
-    AbilityCharge.Config.load(this, texMan, myTypes);
+    Shield.Config.loadConfigs(this, soundManager, textureManager, myTypes);
+    Armor.Config.loadConfigs(this, soundManager, textureManager, myTypes);
+    AbilityCharge.Config.load(this, textureManager, myTypes);
 
-    ClipConfig.load(this, texMan, myTypes);
-    GunConfig.load(texMan, this, soundMan, myTypes);
+    ClipConfig.load(this, textureManager, myTypes);
+    GunConfig.load(textureManager, this, soundManager, myTypes);
 
     myRepairExample = new RepairItem(myTypes.repair);
     myM.put(myRepairExample.getCode(), myRepairExample);

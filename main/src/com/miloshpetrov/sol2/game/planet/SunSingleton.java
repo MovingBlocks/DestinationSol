@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
-import com.miloshpetrov.sol2.TexMan;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.TextureManager;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 
@@ -19,11 +19,11 @@ public class SunSingleton {
   private final Color myGradTint;
   private final Color myFillTint;
 
-  public SunSingleton(TexMan texMan) {
-    myGradTex = texMan.getTex("planetStarCommons/grad", null);
-    myWhiteTex = texMan.getTex("planetStarCommons/whiteTex", null);
-    myGradTint = Col.col(1, 1);
-    myFillTint = Col.col(1, 1);
+  public SunSingleton(TextureManager textureManager) {
+    myGradTex = textureManager.getTex("planetStarCommons/grad", null);
+    myWhiteTex = textureManager.getTex("planetStarCommons/whiteTex", null);
+    myGradTint = SolColor.col(1, 1);
+    myFillTint = SolColor.col(1, 1);
   }
 
 
@@ -46,7 +46,7 @@ public class SunSingleton {
     SolMath.free(toCam);
   }
 
-  public void doDmg(SolGame game, SolObj obj, float toSys) {
+  public void doDmg(SolGame game, SolObject obj, float toSys) {
     float dmg = SUN_DMG * game.getTimeStep();
     if (SUN_HOT_RAD < toSys) return;
     obj.receiveDmg(dmg, game, null, DmgType.FIRE);

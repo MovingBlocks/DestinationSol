@@ -30,7 +30,7 @@ public class LightSrc {
     tex = game.getTexMan().getTex("smallGameObjs/particles/lightHalo", null);
     if (hasHalo) {
       Color haloCol = new Color(col);
-      ColUtil.changeBrightness(haloCol, .8f);
+      SolColorUtil.changeBrightness(haloCol, .8f);
       myHalo = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DraLevel.PART_FG_0, 0, 0, haloCol, true);
     } else {
       myHalo = null;

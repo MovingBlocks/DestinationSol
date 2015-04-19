@@ -1,7 +1,7 @@
 package com.miloshpetrov.sol2.ui;
 
 import com.badlogic.gdx.utils.TimeUtils;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.game.DebugOptions;
 import com.miloshpetrov.sol2.game.screens.BorderDrawer;
 
@@ -16,7 +16,7 @@ public class DebugCollector {
   }
 
   public static void draw(UiDrawer drawer) {
-    drawer.drawString(myDebugStrings.toString(), .5f, BorderDrawer.TISHCH_SZ, FontSize.DEBUG, false, Col.W);
+    drawer.drawString(myDebugStrings.toString(), .5f, BorderDrawer.TISHCH_SZ, FontSize.DEBUG, false, SolColor.W);
   }
 
   public static void debug(String name, String val) {

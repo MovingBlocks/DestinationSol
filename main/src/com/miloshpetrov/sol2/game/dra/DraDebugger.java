@@ -3,8 +3,8 @@ package com.miloshpetrov.sol2.game.dra;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.DevTexProvider;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.DevTextureProvider;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.DebugCol;
 import com.miloshpetrov.sol2.game.DebugOptions;
 import com.miloshpetrov.sol2.game.SolGame;
@@ -41,17 +41,17 @@ public class DraDebugger {
     float y = GAP;
     for (TextureAtlas.AtlasRegion tex : myCollector) {
       float x = GAP;
-      uiDrawer.draw(uiDrawer.whiteTex, 5 * TEX_SZ, TEX_SZ + 2 * GAP, 0, 0, x, y, 0, Col.DG);
+      uiDrawer.draw(uiDrawer.whiteTex, 5 * TEX_SZ, TEX_SZ + 2 * GAP, 0, 0, x, y, 0, SolColor.DG);
       y += GAP;
       x += GAP;
       float r = 1f * tex.getTexture().getWidth() / tex.getTexture().getHeight();
       float w = r > 1 ? TEX_SZ : TEX_SZ/r;
       float h = r > 1 ? TEX_SZ/r : TEX_SZ;
-      uiDrawer.draw(tex, w, h, w/2, h/2, x + .5f * TEX_SZ, y + .5f * TEX_SZ, 0, Col.W);
+      uiDrawer.draw(tex, w, h, w/2, h/2, x + .5f * TEX_SZ, y + .5f * TEX_SZ, 0, SolColor.W);
       x += TEX_SZ + GAP;
       uiDrawer.drawString(tex.name, x, y, FontSize.DEBUG, false, DebugCol.TEX_INFO);
       y += .5f * TEX_SZ;
-      String definedBy = ((DevTexProvider.SolTex) tex).definedBy;
+      String definedBy = ((DevTextureProvider.SolTex) tex).definedBy;
       uiDrawer.drawString(definedBy, x, y, FontSize.DEBUG, false, DebugCol.TEX_INFO);
       y += .5f * TEX_SZ + 2 * GAP;
     }

@@ -2,7 +2,7 @@ package com.miloshpetrov.sol2.game.particle;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.common.Col;
+import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.dra.*;
@@ -23,7 +23,7 @@ public class PartMan {
     if (src.isContinuous()) src.setWorking(false);
     ArrayList<Dra> dras = new ArrayList<Dra>();
     dras.add(src);
-    DrasObj o = new DrasObj(dras, new Vector2(basePos), new Vector2(), null, true, false);
+    DrasObject o = new DrasObject(dras, new Vector2(basePos), new Vector2(), null, true, false);
     game.getObjMan().addObjDelayed(o);
   }
 
@@ -35,7 +35,7 @@ public class PartMan {
       lightPos.add(pos);
       float lightSz = SolMath.rnd(.5f, 1) * EXPL_LIGHT_MAX_SZ;
       float fadeTime = SolMath.rnd(.5f, 1) * EXPL_LIGHT_MAX_FADE_TIME;
-      LightObj light = new LightObj(game, lightSz, true, 1, lightPos, fadeTime, game.getCols().fire);
+      LightObject light = new LightObject(game, lightSz, true, 1, lightPos, fadeTime, game.getCols().fire);
       game.getObjMan().addObjDelayed(light);
     }
   }
@@ -61,10 +61,10 @@ public class PartMan {
   public RectSprite blip(SolGame game, Vector2 pos, float angle, float sz, float fadeTime, Vector2 spd,
     TextureAtlas.AtlasRegion tex)
   {
-    RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.PART_FG_0, angle, 0, Col.W, true);
+    RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.PART_FG_0, angle, 0, SolColor.W, true);
     ArrayList<Dra> dras = new ArrayList<Dra>();
     dras.add(s);
-    DrasObj o = new DrasObj(dras, new Vector2(pos), new Vector2(spd), null, false, false);
+    DrasObject o = new DrasObject(dras, new Vector2(pos), new Vector2(spd), null, false, false);
     o.fade(fadeTime);
     game.getObjMan().addObjDelayed(o);
     return s;

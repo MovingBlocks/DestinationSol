@@ -8,7 +8,7 @@ import com.miloshpetrov.sol2.game.dra.Dra;
 
 import java.util.List;
 
-public class PlanetSprites implements SolObj {
+public class PlanetSprites implements SolObject {
 
   private final Planet myPlanet;
   private float myRelAngleToPlanet;
@@ -89,7 +89,7 @@ public class PlanetSprites implements SolObj {
   }
 
   @Override
-  public void handleContact(SolObj other, ContactImpulse impulse, boolean isA, float absImpulse,
+  public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
     SolGame game, Vector2 collPos)
   {
   }

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.SolFiles;
-import com.miloshpetrov.sol2.TexMan;
+import com.miloshpetrov.sol2.TextureManager;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfig;
 
 public class ClipConfig {
@@ -39,7 +39,7 @@ public class ClipConfig {
     this.example = new ClipItem(this);
   }
 
-  public static void load(ItemMan itemMan, TexMan texMan, SolItemTypes types) {
+  public static void load(ItemMan itemMan, TextureManager textureManager, SolItemTypes types) {
     JsonReader r = new JsonReader();
     FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "clips.json");
     JsonValue parsed = r.parse(configFile);
@@ -60,7 +60,7 @@ public class ClipConfig {
         price = sh.getInt("price");
         displayName = sh.getString("displayName");
         plural = sh.getString("plural");
-        icon = texMan.getTex(TexMan.ICONS_DIR + iconName, configFile);
+        icon = textureManager.getTex(TextureManager.ICONS_DIR + iconName, configFile);
       }
       String code = sh.name;
       ClipConfig config = new ClipConfig(projConfig, infinite, price, displayName, size, plural, icon, projectilesPerShot, types.clip, code);

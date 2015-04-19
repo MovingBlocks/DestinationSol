@@ -10,15 +10,15 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.AbilityCommonConfigs;
 import com.miloshpetrov.sol2.game.item.EngineItem;
 import com.miloshpetrov.sol2.game.item.ItemMan;
-import com.miloshpetrov.sol2.game.sound.SoundMan;
+import com.miloshpetrov.sol2.game.sound.SoundManager;
 
 import java.util.*;
 
 public class HullConfigs {
   private final HashMap<String,HullConfig> myConfigs;
 
-  public HullConfigs(ShipBuilder shipBuilder, TexMan texMan, ItemMan itemMan, AbilityCommonConfigs abilityCommonConfigs,
-    SoundMan soundMan)
+  public HullConfigs(ShipBuilder shipBuilder, TextureManager textureManager, ItemMan itemMan, AbilityCommonConfigs abilityCommonConfigs,
+    SoundManager soundManager)
   {
     myConfigs = new HashMap<String, HullConfig>();
 
@@ -42,8 +42,8 @@ public class HullConfigs {
       ArrayList<Vector2> doorPoss = SolMath.readV2List(hullNode, "doorPoss");
       HullConfig.Type type = HullConfig.Type.forName(hullNode.getString("type"));
       float durability = type == HullConfig.Type.BIG ? 3 : .25f;
-      TextureAtlas.AtlasRegion tex = texMan.getTex("hulls/" + texName, configFile);
-      TextureAtlas.AtlasRegion icon = texMan.getTex(TexMan.HULL_ICONS_DIR + texName, configFile);
+      TextureAtlas.AtlasRegion tex = textureManager.getTex("hulls/" + texName, configFile);
+      TextureAtlas.AtlasRegion icon = textureManager.getTex(TextureManager.HULL_ICONS_DIR + texName, configFile);
       String engineStr = hullNode.getString("engine", null);
       EngineItem.Config ec = itemMan.getEngineConfigs().get(engineStr);
       if (ec != null) {
@@ -51,7 +51,7 @@ public class HullConfigs {
           throw new AssertionError("incompatible engine in hull " + hullNode.name);
         }
       }
-      AbilityConfig ability = loadAbility(hullNode, itemMan, abilityCommonConfigs, soundMan);
+      AbilityConfig ability = loadAbility(hullNode, itemMan, abilityCommonConfigs, soundManager);
       boolean g1UnderShip = hullNode.getBoolean("g1UnderShip", false);
       boolean g2UnderShip = hullNode.getBoolean("g2UnderShip", false);
       boolean m1Fixed = hullNode.getBoolean("m1Fixed", false);
@@ -68,7 +68,7 @@ public class HullConfigs {
   }
 
   private AbilityConfig loadAbility(JsonValue hullNode, ItemMan itemMan, AbilityCommonConfigs abilityCommonConfigs,
-    SoundMan soundMan)
+    SoundManager soundManager)
   {
     JsonValue abNode = hullNode.get("ability");
     if (abNode == null) return null;
