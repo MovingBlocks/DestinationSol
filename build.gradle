@@ -1,0 +1,8 @@
+allprojects {
+    apply plugin: "idea"
+
+    version = '1.0'
+    ext {
+        appName = 'DestinationSol'
+    }
+}

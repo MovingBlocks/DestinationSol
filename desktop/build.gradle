@@ -1,0 +1,54 @@
+apply plugin: "java"
+
+sourceCompatibility = 1.7
+sourceSets.main.java.srcDirs = [ "src/" ]
+
+project.ext.mainClassName = "com.miloshpetrov.sol2.desktop.SolDesktop"
+
+dependencies {
+    compile project(":main")
+    compile fileTree(dir: 'libs', include: '*.jar')
+}
+
+task run(type: JavaExec) {
+    dependsOn classes
+
+    main = project.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = project(':main').projectDir
+    ignoreExitValue = true
+}
+
+jar {
+    archiveName = "solDesktop.jar"
+
+    manifest {
+        def manifestClasspath = configurations.runtime.collect {it.getName() }.join(" ")
+        attributes 'Main-Class': project.mainClassName
+        attributes("Class-Path" : manifestClasspath)
+    }
+}
+
+task dist (type: Sync) {
+    description = "Creates an application package for distribution"
+
+    into("$distsDir/app")
+
+    from("$rootDir/launcher")
+
+    into('libs') {
+        from configurations.runtime
+        from jar
+    }
+
+    into('res') {
+        from project(':main').sourceSets.res.resources.srcDirs
+    }
+}
+
+task distZip (type: Zip) {
+    dependsOn dist
+    from "$distsDir/app"
+    archiveName = "DestinationSol.zip"
+}

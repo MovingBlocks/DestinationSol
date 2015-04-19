@@ -1,2 +1,25 @@
-/Thumbs.db
-/syntax:[!!-~]glob
+# Ignore general
+/.*
+!.gitignore
+*~
+._*
+*.bak
+
+# Ignore Gradle
+build/
+
+# Ignore IntelliJ
+/out/
+/**/*.iml
+/*.ipr
+/*.iws
+
+# Ignore Linux
+*.directory
+
+#Ignore OSX
+Icon
+
+#Ignore Windows
+ehthumbs.db
+Thumbs.db
