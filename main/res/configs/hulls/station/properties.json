@@ -1,0 +1,15 @@
+{
+  "size": 8,
+  "maxLife": 400,
+  "type": "station",
+
+  "g1Pos": "0.21 0.7",
+  "g2Pos": "0.79 0.7",
+  "lightSrcPoss": [
+    ".26 .93",
+    ".73 .93"
+  ],
+  "forceBeaconPoss": [
+    "0.505 0.705"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "size": 0.76,
+  "maxLife": 26,
+  "type": "std",
+  "price": 300,
+
+  "ability": {
+    "type": "unShield",
+    "amount": 8,
+    "rechargeTime": 7
+  },
+
+  "g1Pos": "0.47 0.39",
+  "e1Pos": "0.23 0.42",
+  "e2Pos": "0.35 0.61",
+  "displayName": "Orbiter",
+  "engine": "pirate"
+}
