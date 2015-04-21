@@ -1,0 +1,18 @@
+{
+  "size": 0.4,
+  "maxLife": 16,
+  "type": "std",
+  "price": 200,
+
+  "ability": {
+    "type": "sloMo",
+    "factor": 0.5,
+    "rechargeTime": 5
+  },
+
+  "g1Pos": "0.45 0.5",
+  "e1Pos": "0.14 0.44",
+  "e2Pos": "0.14 0.57",
+  "displayName": "Guardian",
+  "engine": "imperial"
+}

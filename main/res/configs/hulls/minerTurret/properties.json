@@ -1,0 +1,8 @@
+{
+  "size": 0.9,
+  "maxLife": 65,
+  "type": "std",
+  "m1Fixed": true,
+
+  "g1Pos": "0.5 0.5"
+}
