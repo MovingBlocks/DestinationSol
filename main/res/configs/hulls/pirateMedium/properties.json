@@ -1,0 +1,20 @@
+{
+  "size": 0.85,
+  "maxLife": 58,
+  "type": "std",
+  "m1Fixed": true,
+  "price": 1000,
+
+  "ability": {
+    "type": "unShield",
+    "amount": 9,
+    "rechargeTime": 6
+  },
+
+  "g1Pos": "0.66 0.34",
+  "g2Pos": "0.38 0.48",
+  "e1Pos": "0.03 0.42",
+  "e2Pos": "0.04 0.59",
+  "displayName": "Wasp",
+  "engine": "pirate"
+}

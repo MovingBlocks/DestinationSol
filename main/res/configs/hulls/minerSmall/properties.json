@@ -1,0 +1,20 @@
+{
+  "size": 0.48,
+  "maxLife": 55,
+  "type": "std",
+  "m1Fixed": true,
+  "m2Fixed": true,
+
+  "ability": {
+    "type": "knockBack",
+    "force": 150,
+    "rechargeTime": 10
+  },
+
+  "g1Pos": "0.75 0.7",
+  "g2Pos": "0.92 0.6",
+  "g2UnderShip": true,
+  "e1Pos": "0.1 0.2",
+  "e2Pos": "0.1 0.8",
+  "engine": "miner"
+}
