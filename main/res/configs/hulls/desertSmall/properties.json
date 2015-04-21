@@ -1,0 +1,23 @@
+{
+  "size": 0.5,
+  "maxLife": 65,
+  "type": "std",
+  "price": 800,
+  "m1Fixed": true,
+  "m2Fixed": true,
+
+  "ability": {
+    "type": "teleport",
+    "angle": 120,
+    "rechargeTime": 4
+  },
+
+  "g1Pos": "0.53 0.25",
+  "g1UnderShip": true,
+  "g2Pos": "0.53 0.75",
+  "g2UnderShip": true,
+  "e1Pos": "0.02 0.46",
+  "e2Pos": "0.02 0.54",
+  "displayName": "Beetle",
+  "engine": "desert"
+}

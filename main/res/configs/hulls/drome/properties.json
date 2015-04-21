@@ -1,0 +1,11 @@
+{
+  "size": 2.5,
+  "maxLife": 200,
+  "type": "station",
+
+  "g1Pos": "0.24 0.2",
+  "lightSrcPoss": [
+    ".44 .33",
+    ".88 .33"
+  ]
+}
