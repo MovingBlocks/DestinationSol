@@ -1,0 +1,21 @@
+{
+  "size": 0.9,
+  "maxLife": 70,
+  "type": "std",
+  "price": 1600,
+  "m1Fixed": true,
+  "m2Fixed": true,
+
+  "ability": {
+    "type": "teleport",
+    "angle": 180,
+    "rechargeTime": 4
+  },
+
+  "g1Pos": "0.2 0.32",
+  "g2Pos": "0.2 0.68",
+  "e1Pos": "0.02 0.31",
+  "e2Pos": "0.02 0.69",
+  "displayName": "Hunter",
+  "engine": "desert"
+}
