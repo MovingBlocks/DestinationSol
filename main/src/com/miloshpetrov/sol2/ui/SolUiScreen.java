@@ -1,26 +1,26 @@
 package com.miloshpetrov.sol2.ui;
 
-import com.miloshpetrov.sol2.SolCmp;
+import com.miloshpetrov.sol2.SolApplication;
 
 import java.util.List;
 
 public interface SolUiScreen {
   List<SolUiControl> getControls();
 
-  void onAdd(SolCmp cmp);
+  void onAdd(SolApplication cmp);
 
-  void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside);
+  void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside);
 
   boolean isCursorOnBg(SolInputManager.Ptr ptr);
 
-  void blurCustom(SolCmp cmp);
+  void blurCustom(SolApplication cmp);
 
 
-  void drawBg(UiDrawer uiDrawer, SolCmp cmp);
+  void drawBg(UiDrawer uiDrawer, SolApplication cmp);
 
-  void drawImgs(UiDrawer uiDrawer, SolCmp cmp);
+  void drawImgs(UiDrawer uiDrawer, SolApplication cmp);
 
-  void drawText(UiDrawer uiDrawer, SolCmp cmp);
+  void drawText(UiDrawer uiDrawer, SolApplication cmp);
 
   boolean reactsToClickOutside();
 }

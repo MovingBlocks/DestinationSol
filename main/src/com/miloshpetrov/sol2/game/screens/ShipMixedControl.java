@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.miloshpetrov.sol2.SolCmp;
+import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.input.Mover;
@@ -30,7 +30,7 @@ public class ShipMixedControl implements ShipUiControl {
   private boolean myRight;
   private boolean myLeft;
 
-  public ShipMixedControl(SolCmp cmp, List<SolUiControl> controls) {
+  public ShipMixedControl(SolApplication cmp, List<SolUiControl> controls) {
     myCursor = cmp.getTexMan().getTex("ui/cursorTarget", null);
     myMouseWorldPos = new Vector2();
     upCtrl = new SolUiControl(null, false, Input.Keys.W);
@@ -46,7 +46,7 @@ public class ShipMixedControl implements ShipUiControl {
   }
 
   @Override
-  public void update(SolCmp cmp, boolean enabled) {
+  public void update(SolApplication cmp, boolean enabled) {
     blur();
     if (!enabled) return;
     SolInputManager im = cmp.getInputMan();

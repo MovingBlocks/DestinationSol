@@ -3,7 +3,7 @@ package com.miloshpetrov.sol2.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
-import com.miloshpetrov.sol2.SolCmp;
+import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.common.SolColor;
 
 public class SolUiControl {
@@ -51,7 +51,7 @@ public class SolUiControl {
   }
 
   public void update(SolInputManager.Ptr[] ptrs, boolean cursorShown, boolean canBePressed, SolInputManager inputMan,
-    SolCmp cmp)
+    SolApplication cmp)
   {
     if (!myEnabled) canBePressed = false;
     updateKeys(canBePressed);
@@ -61,7 +61,7 @@ public class SolUiControl {
     if (myWarnCount > 0) myWarnCount--;
   }
 
-  private void updateHover(SolInputManager.Ptr[] ptrs, boolean cursorShown, SolInputManager inputMan, SolCmp cmp) {
+  private void updateHover(SolInputManager.Ptr[] ptrs, boolean cursorShown, SolInputManager inputMan, SolApplication cmp) {
     if (myScreenArea == null || myAreaPressed || ptrs[0].pressed) return;
     boolean prev = myMouseHover;
     myMouseHover = cursorShown && myScreenArea.contains(ptrs[0].x, ptrs[0].y);
@@ -120,7 +120,7 @@ public class SolUiControl {
     myDisplayName = displayName;
   }
 
-  public void drawButton(UiDrawer uiDrawer, SolCmp cmp, Color warnCol) {
+  public void drawButton(UiDrawer uiDrawer, SolApplication cmp, Color warnCol) {
     if (myScreenArea == null) return;
     Color tint = SolColor.UI_INACTIVE;
     if (myEnabled) {

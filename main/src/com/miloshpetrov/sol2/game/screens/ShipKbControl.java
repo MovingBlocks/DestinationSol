@@ -2,7 +2,7 @@ package com.miloshpetrov.sol2.game.screens;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.miloshpetrov.sol2.SolCmp;
+import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 import com.miloshpetrov.sol2.ui.SolUiControl;
@@ -18,7 +18,7 @@ public class ShipKbControl implements ShipUiControl {
   public final SolUiControl shoot2Ctrl;
   public final SolUiControl abilityCtrl;
 
-  public ShipKbControl(SolCmp cmp, float r, List<SolUiControl> controls) {
+  public ShipKbControl(SolApplication cmp, float r, List<SolUiControl> controls) {
     boolean showButtons = cmp.isMobile();
     float col0 = 0;
     float col1 = col0 + MainScreen.CELL_SZ;
@@ -50,7 +50,7 @@ public class ShipKbControl implements ShipUiControl {
   }
 
   @Override
-  public void update(SolCmp cmp, boolean enabled) {
+  public void update(SolApplication cmp, boolean enabled) {
     if (!enabled) {
       upCtrl.setEnabled(false);
       leftCtrl.setEnabled(false);

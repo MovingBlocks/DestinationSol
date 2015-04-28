@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
-import com.miloshpetrov.sol2.SolCmp;
+import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.TextureManager;
 import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.game.DebugOptions;
@@ -60,7 +60,7 @@ public class MainScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
+  public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     if (myTutCtrl.isJustOff()) {
       cmp.loadNewGame(true, false);
       return;
@@ -90,22 +90,22 @@ public class MainScreen implements SolUiScreen {
   }
 
   @Override
-  public void onAdd(SolCmp cmp) {
+  public void onAdd(SolApplication cmp) {
 
   }
 
   @Override
-  public void drawBg(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
   }
 
   @Override
-  public void drawImgs(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
     float sz = .55f;
     if (!DebugOptions.PRINT_BALANCE) uiDrawer.draw(myTitleTex, sz, sz, sz/2, sz/2, uiDrawer.r/2, sz/2, 0, SolColor.W);
   }
 
   @Override
-  public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
   }
 
   @Override
@@ -114,7 +114,7 @@ public class MainScreen implements SolUiScreen {
   }
 
   @Override
-  public void blurCustom(SolCmp cmp) {
+  public void blurCustom(SolApplication cmp) {
 
   }
 }

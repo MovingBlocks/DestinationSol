@@ -1,6 +1,6 @@
 package com.miloshpetrov.sol2.game.screens;
 
-import com.miloshpetrov.sol2.SolCmp;
+import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.ui.SolLayouts;
 
 public class GameScreens {
@@ -10,7 +10,7 @@ public class GameScreens {
   public final InventoryScreen inventoryScreen;
   public final TalkScreen talkScreen;
 
-  public GameScreens(float r, SolCmp cmp) {
+  public GameScreens(float r, SolApplication cmp) {
     SolLayouts layouts = cmp.getLayouts();
     RightPaneLayout rightPaneLayout = layouts.rightPaneLayout;
     mainScreen = new MainScreen(r, rightPaneLayout, cmp);
