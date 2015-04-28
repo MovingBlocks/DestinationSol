@@ -22,7 +22,7 @@ public class SolDesktop {
     }
 
     boolean devBuild = java.nio.file.Files.exists(Paths.get("devBuild"));
-    if (devBuild) DebugOptions.DEV_ROOT_PATH = "../trunk/main/"; // supposing that solWin is in the same directory where trunk is.
+    if (devBuild) DebugOptions.DEV_ROOT_PATH = "main/"; // supposing that solWin is in the same directory where trunk is.
     MyReader reader = new MyReader();
     DebugOptions.read(reader);
 
