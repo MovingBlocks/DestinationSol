@@ -35,9 +35,7 @@ task dist (type: Sync) {
 
     into("$distsDir/app")
 
-    from("$rootDir/launcher") {
-        exclude('devBuild')
-    }
+    from("$rootDir/launcher")
 
     into('libs') {
         from configurations.runtime
