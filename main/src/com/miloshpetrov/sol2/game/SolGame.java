@@ -31,7 +31,7 @@ public class SolGame {
   private final GameScreens myScreens;
   private final SolCam myCam;
   private final ObjectManager myObjectManager;
-  private final SolCmp myCmp;
+  private final SolApplication myCmp;
   private final DraMan myDraMan;
   private final PlanetMananger myPlanetMananger;
   private final TextureManager myTextureManager;
@@ -73,7 +73,7 @@ public class SolGame {
   private HullConfig myRespawnHull;
   private final ArrayList<SolItem> myRespawnItems;
 
-  public SolGame(SolCmp cmp, boolean usePrevShip, TextureManager textureManager, boolean tut, CommonDrawer commonDrawer) {
+  public SolGame(SolApplication cmp, boolean usePrevShip, TextureManager textureManager, boolean tut, CommonDrawer commonDrawer) {
     myCmp = cmp;
     GameDrawer drawer = new GameDrawer(textureManager, commonDrawer);
     myCols = new GameCols();
@@ -304,7 +304,7 @@ public class SolGame {
     return myCam;
   }
 
-  public SolCmp getCmp() {
+  public SolApplication getCmp() {
     return myCmp;
   }
 

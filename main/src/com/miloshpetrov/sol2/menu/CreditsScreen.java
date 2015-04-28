@@ -3,7 +3,7 @@ package com.miloshpetrov.sol2.menu;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.miloshpetrov.sol2.Const;
-import com.miloshpetrov.sol2.SolCmp;
+import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.ui.*;
@@ -80,14 +80,14 @@ public class CreditsScreen implements SolUiScreen {
   }
 
   @Override
-  public void onAdd(SolCmp cmp) {
+  public void onAdd(SolApplication cmp) {
     myIdx = 0;
     myPerc = 0;
     myColor.a = 0;
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
+  public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     if (myCloseCtrl.isJustOff()) {
       cmp.getInputMan().setScreen(cmp, cmp.getMenuScreens().main);
       return;
@@ -110,19 +110,19 @@ public class CreditsScreen implements SolUiScreen {
   }
 
   @Override
-  public void blurCustom(SolCmp cmp) {
+  public void blurCustom(SolApplication cmp) {
   }
 
   @Override
-  public void drawBg(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
   }
 
   @Override
-  public void drawImgs(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
   }
 
   @Override
-  public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
     uiDrawer.drawString(myPages.get(myIdx), uiDrawer.r/2, .5f, FontSize.MENU, true, myColor);
   }
 
