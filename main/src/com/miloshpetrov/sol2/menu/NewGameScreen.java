@@ -1,7 +1,7 @@
 package com.miloshpetrov.sol2.menu;
 
 import com.badlogic.gdx.Input;
-import com.miloshpetrov.sol2.SolCmp;
+import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.game.SaveManager;
 import com.miloshpetrov.sol2.ui.*;
 
@@ -37,12 +37,12 @@ public class NewGameScreen implements SolUiScreen {
   }
 
   @Override
-  public void onAdd(SolCmp cmp) {
+  public void onAdd(SolApplication cmp) {
     myPrevCtrl.setEnabled(SaveManager.hasPrevShip());
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
+  public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     MenuScreens screens = cmp.getMenuScreens();
     SolInputManager im = cmp.getInputMan();
     if (myBackCtrl.isJustOff()) {
@@ -68,19 +68,19 @@ public class NewGameScreen implements SolUiScreen {
   }
 
   @Override
-  public void blurCustom(SolCmp cmp) {
+  public void blurCustom(SolApplication cmp) {
   }
 
   @Override
-  public void drawBg(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
   }
 
   @Override
-  public void drawImgs(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
   }
 
   @Override
-  public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
   }
 
   @Override

@@ -3,13 +3,15 @@ package com.miloshpetrov.sol2.desktop;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.miloshpetrov.sol2.SolAppListener;
+import com.miloshpetrov.sol2.GameOptions;
+import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.SolFileReader;
 import com.miloshpetrov.sol2.game.DebugOptions;
-import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.soundtest.SoundTestListener;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,7 @@ public class SolDesktop {
             c.addIcon(DebugOptions.DEV_ROOT_PATH + "res/icon.png", Files.FileType.Absolute);
         }
 
-        new LwjglApplication(new SolAppListener(), c);
+        new LwjglApplication(new SolApplication(), c);
     }
 
     private static class MyReader implements SolFileReader {

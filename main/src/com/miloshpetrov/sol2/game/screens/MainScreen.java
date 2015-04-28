@@ -57,7 +57,7 @@ public class MainScreen implements SolUiScreen {
   public static final float HELPER_ROW_2 = HELPER_ROW_1 - .5f * MainScreen.CELL_SZ;
 
 
-  public MainScreen(float r, RightPaneLayout rightPaneLayout, SolCmp cmp) {
+  public MainScreen(float r, RightPaneLayout rightPaneLayout, SolApplication cmp) {
     myControls = new ArrayList<SolUiControl>();
 
     int ct = cmp.getOptions().controlType;
@@ -119,7 +119,7 @@ public class MainScreen implements SolUiScreen {
     myMoneyExcessTp = new TextPlace(SolColor.W);
   }
 
-  public void maybeDrawHeight(UiDrawer drawer, SolCmp cmp) {
+  public void maybeDrawHeight(UiDrawer drawer, SolApplication cmp) {
     SolGame game = cmp.getGame();
     Planet np = game.getPlanetMan().getNearestPlanet();
     SolCam cam = game.getCam();
@@ -156,7 +156,7 @@ public class MainScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
+  public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     if (DebugOptions.PRINT_BALANCE) {
       cmp.finishGame();
       return;
@@ -232,7 +232,7 @@ public class MainScreen implements SolUiScreen {
     talkCtrl.setEnabled(target != null);
     if (talkCtrl.isJustOff()) {
       TalkScreen talkScreen = game.getScreens().talkScreen;
-      SolCmp cmp = game.getCmp();
+      SolApplication cmp = game.getCmp();
       SolInputManager inputMan = cmp.getInputMan();
       boolean isOn = inputMan.isScreenOn(talkScreen);
       inputMan.setScreen(cmp, this);
@@ -310,16 +310,16 @@ public class MainScreen implements SolUiScreen {
   }
 
   @Override
-  public void onAdd(SolCmp cmp) {
+  public void onAdd(SolApplication cmp) {
 
   }
 
   @Override
-  public void drawBg(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
   }
 
   @Override
-  public void drawImgs(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
     myLifeTp.text = null;
     myRepairsExcessTp.text = null;
     myShieldLifeTp.text = null;
@@ -386,7 +386,7 @@ public class MainScreen implements SolUiScreen {
   }
 
   @Override
-  public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
     myLifeTp.draw(uiDrawer);
     myRepairsExcessTp.draw(uiDrawer);
     myShieldLifeTp.draw(uiDrawer);
@@ -414,7 +414,7 @@ public class MainScreen implements SolUiScreen {
   }
 
   @Override
-  public void blurCustom(SolCmp cmp) {
+  public void blurCustom(SolApplication cmp) {
     shipControl.blur();
   }
 

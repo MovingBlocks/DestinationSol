@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
-import com.miloshpetrov.sol2.SolCmp;
+import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.item.ItemContainer;
@@ -122,7 +122,7 @@ public class InventoryScreen implements SolUiScreen {
   }
 
   @Override
-  public void updateCustom(SolCmp cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
+  public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     if (clickedOutside) {
       closeCtrl.maybeFlashPressed(Input.Keys.ESCAPE);
       return;
@@ -185,19 +185,19 @@ public class InventoryScreen implements SolUiScreen {
   }
 
   @Override
-  public void onAdd(SolCmp cmp) {
+  public void onAdd(SolApplication cmp) {
     if (myOperations != null) cmp.getInputMan().addScreen(cmp, myOperations);
     myPage = 0;
     mySelected = null;
   }
 
   @Override
-  public void drawBg(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
     uiDrawer.draw(myArea, SolColor.UI_BG);
   }
 
   @Override
-  public void drawImgs(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
     SolGame game = cmp.getGame();
     ItemContainer ic = myOperations.getItems(game);
     if (ic == null) ic = EMPTY_CONTAINER;
@@ -223,7 +223,7 @@ public class InventoryScreen implements SolUiScreen {
   }
 
   @Override
-  public void drawText(UiDrawer uiDrawer, SolCmp cmp) {
+  public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
     SolGame game = cmp.getGame();
     ItemContainer ic = myOperations.getItems(game);
     if (ic == null) ic = EMPTY_CONTAINER;
@@ -270,7 +270,7 @@ public class InventoryScreen implements SolUiScreen {
   }
 
   @Override
-  public void blurCustom(SolCmp cmp) {
+  public void blurCustom(SolApplication cmp) {
     if (!showingHeroItems()) return;
     SolGame game = cmp.getGame();
     ItemContainer items = myOperations.getItems(game);
