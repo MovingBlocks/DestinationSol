@@ -1,10 +1,10 @@
 package com.miloshpetrov.sol2.game.screens;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.miloshpetrov.sol2.SolCmp;
+import com.miloshpetrov.sol2.SolApplication;
 
 public interface ShipUiControl {
-  void update(SolCmp cmp, boolean enabled);
+  void update(SolApplication cmp, boolean enabled);
   boolean isLeft();
   boolean isRight();
   boolean isUp();

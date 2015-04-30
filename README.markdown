@@ -30,6 +30,8 @@ Weapons and special abilities often need consumables to function (like Bullets o
 
 You can destroy asteroids for easy money, even with the starting ship's ammo-less but weak gun.
 
+Warnings get posted if you get close to dangerous ships or may soon collide with something on your current course. Blue dots along the edge of the screen indicate a planet is nearby.
+
 Controls
 --------
 
@@ -67,8 +69,8 @@ You only need Java installed to run Destination Sol from source. Use Java 7 or 8
 Run any commands in the project root directory
 
 * Download / clone the [source from GitHub](https://github.com/MovingBlocks/DestinationSol)
-* To prepare for IntelliJ run: `gradlew idea`
 * To run from the command line: `gradlew run`
+* To prepare for IntelliJ run: `gradlew idea` then load the generated project files
 * To create a game package for distribution (Windows, Linux, Mac): `gradlew distZip`
 
 Credits
@@ -78,4 +80,4 @@ Original creators: Milosh Petrov, Nika Burimenko, Kent C. Jensen, Julia Nikolaev
 
 Contributors on GitHub: Cervator, PrivateAlpha ... and your name here? :-) More coming!
 
-Apologies in advance for any omissions, contact [Cervator](http://forum.terasology.org/members/cervator.2/) on the forum if you believe you've been missed :-)
+Apologies in advance for any omissions, contact [Cervator](http://forum.terasology.org/members/cervator.2/) if you believe you've been missed :-)
