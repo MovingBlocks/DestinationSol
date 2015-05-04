@@ -2,6 +2,7 @@ package com.miloshpetrov.sol2.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.files.FileManager;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.GameOptions;
 
@@ -56,7 +58,9 @@ public class SolInputManager {
     myToRemove = new ArrayList<SolUiScreen>();
     myToAdd = new ArrayList<SolUiScreen>();
     myWarnCol = new Color(SolColor.UI_WARN);
-    myHoverSound = Gdx.audio.newSound(SolFiles.readOnly("res/sounds/ui/uiHover.ogg"));
+
+    FileHandle hoverSoundFile = FileManager.getInstance().getSoundsDirectory().child("ui").child("uiHover.ogg");
+    myHoverSound = Gdx.audio.newSound(hoverSoundFile);
   }
 
   public void maybeFlashPressed(int keyCode) {

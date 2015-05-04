@@ -9,9 +9,9 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.Const;
-import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.files.FileManager;
 import com.miloshpetrov.sol2.game.dra.*;
 
 import java.util.*;
@@ -39,7 +39,7 @@ public class PathLoader {
   // -------------------------------------------------------------------------
 
   public PathLoader(String fileName) {
-    FileHandle file = SolFiles.readOnly("res/paths/" + fileName + ".json");
+    FileHandle file = FileManager.getInstance().getAssetsDirectory().child("paths").child(fileName + ".json");
     if (file.exists()) {
       model = readJson(file.readString());
     } else {

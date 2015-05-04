@@ -4,9 +4,8 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.miloshpetrov.sol2.Const;
-import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.common.SolColorUtil;
+import com.miloshpetrov.sol2.files.FileManager;
 
 import java.util.HashMap;
 
@@ -19,7 +18,7 @@ public class GameCols {
 
   public GameCols() {
     JsonReader r = new JsonReader();
-    FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "colors.json");
+    FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("colors.json");
     JsonValue node = r.parse(configFile);
     myCols = new HashMap<String, Color>();
     for (JsonValue colVal : node) {

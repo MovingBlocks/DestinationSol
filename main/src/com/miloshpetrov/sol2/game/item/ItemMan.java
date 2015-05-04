@@ -15,7 +15,6 @@ import com.miloshpetrov.sol2.ui.DebugCollector;
 import java.util.*;
 
 public class ItemMan {
-  public static final String ITEM_CONFIGS_DIR = Const.CONFIGS_DIR + "items/";
   private final HashMap<String,SolItem> myM;
   private final ArrayList<SolItem> myL;
   public final ProjectileConfigs projConfigs;

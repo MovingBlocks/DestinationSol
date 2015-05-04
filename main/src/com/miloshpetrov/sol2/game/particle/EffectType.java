@@ -2,7 +2,7 @@ package com.miloshpetrov.sol2.game.particle;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
-import com.miloshpetrov.sol2.SolFiles;
+import com.miloshpetrov.sol2.files.FileManager;
 
 import java.io.*;
 
@@ -20,7 +20,7 @@ public class EffectType {
   }
 
   private static ParticleEmitter loadEmitter(final String fileName) {
-    FileHandle effectFile = SolFiles.readOnly("res/emitters/" + fileName + ".p");
+    FileHandle effectFile = FileManager.getInstance().getAssetsDirectory().child("emitters").child(fileName + ".p");
     InputStream input = effectFile.read();
     BufferedReader reader = new BufferedReader(new InputStreamReader(input), 512);
     ParticleEmitter emitter;

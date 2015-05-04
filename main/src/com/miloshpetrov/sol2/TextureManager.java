@@ -4,6 +4,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.files.FileManager;
 
 import java.util.*;
 
@@ -16,7 +17,7 @@ public class TextureManager {
   private final TextureProvider myTexProvider;
 
   public TextureManager() {
-    FileHandle atlasFile = SolFiles.readOnly("res/imgs/sol.atlas");
+    FileHandle atlasFile = FileManager.getInstance().getImagesDirectory().child("sol.atlas");
     myTexProvider = atlasFile.exists() ? new AtlasTextureProvider(atlasFile) : new DevTextureProvider();
     myPacks = new HashMap<String, ArrayList<TextureAtlas.AtlasRegion>>();
     myTexs = new HashMap<String, TextureAtlas.AtlasRegion>();
