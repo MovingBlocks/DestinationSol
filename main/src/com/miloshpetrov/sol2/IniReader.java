@@ -67,7 +67,7 @@ public class IniReader {
       sb.append(second ? '\n' : '=');
       second = !second;
     }
-    FileHandle file = FileManager.getInstance().getDynamicFiles(fileName);
+    FileHandle file = FileManager.getInstance().getDynamicFile(fileName);
     file.writeString(sb.toString(), false);
   }
 
