@@ -4,9 +4,9 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.TextureManager;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.files.FileManager;
 import com.miloshpetrov.sol2.game.DmgType;
 import com.miloshpetrov.sol2.game.HardnessCalc;
 import com.miloshpetrov.sol2.game.item.*;
@@ -100,7 +100,7 @@ public class GunConfig {
 
   public static void load(TextureManager textureManager, ItemMan itemMan, SoundManager soundManager, SolItemTypes types) {
     JsonReader r = new JsonReader();
-    FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "guns.json");
+    FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("guns.json");
     JsonValue parsed = r.parse(configFile);
     for (JsonValue sh : parsed) {
       float minAngleVar = sh.getFloat("minAngleVar", 0);
