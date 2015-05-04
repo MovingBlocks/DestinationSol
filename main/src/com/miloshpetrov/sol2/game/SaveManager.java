@@ -23,7 +23,7 @@ public class SaveManager {
   }
 
   public static boolean hasPrevShip() {
-    return FileManager.getInstance().getDynamicFiles(FILE_NAME).exists();
+    return FileManager.getInstance().getDynamicFile(FILE_NAME).exists();
   }
 
   public static ShipConfig readShip(HullConfigs hullConfigs, ItemMan itemMan) {

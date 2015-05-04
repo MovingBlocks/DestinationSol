@@ -71,7 +71,7 @@ public final class FileManager {
      * @param filePath The path to the file, relative to the dynamic file directory.
      * @return A file handle to the file.
      */
-    public FileHandle getDynamicFiles(String filePath) {
+    public FileHandle getDynamicFile(String filePath) {
         return getFile(filePath, FileLocation.DYNAMIC_FILES);
     }
 
@@ -81,7 +81,7 @@ public final class FileManager {
      * @param filePath The path to the file, relative to the static file directory.
      * @return A file handle to the file.
      */
-    public FileHandle getStaticFiles(String filePath) {
+    public FileHandle getStaticFile(String filePath) {
         return getFile(filePath, FileLocation.STATIC_FILES);
     }
 
