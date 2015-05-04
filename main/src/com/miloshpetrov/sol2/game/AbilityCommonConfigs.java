@@ -4,6 +4,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.*;
+import com.miloshpetrov.sol2.files.FileManager;
 import com.miloshpetrov.sol2.game.particle.EffectTypes;
 import com.miloshpetrov.sol2.game.sound.SoundManager;
 
@@ -16,7 +17,8 @@ public class AbilityCommonConfigs {
 
   public AbilityCommonConfigs(EffectTypes effectTypes, TextureManager textureManager, GameCols cols, SoundManager soundManager) {
     JsonReader r = new JsonReader();
-    FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "abilities.json");
+
+    FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("abilities.json");
     JsonValue node = r.parse(configFile);
     teleport = AbilityCommonConfig.load(node.get("teleport"), effectTypes, textureManager, cols, configFile, soundManager);
     emWave = AbilityCommonConfig.load(node.get("emWave"), effectTypes, textureManager, cols, configFile, soundManager);
