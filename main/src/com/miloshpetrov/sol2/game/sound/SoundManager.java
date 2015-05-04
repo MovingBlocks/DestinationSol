@@ -51,7 +51,7 @@ public class SoundManager {
     String definedBy = configFile == null ? "hardcoded" : configFile.path();
     String dirPath = DIR + relPath;
     String paramsPath = dirPath + "/params.txt";
-    FileHandle dir = FileManager.getInstance().getStaticFiles(dirPath);
+    FileHandle dir = FileManager.getInstance().getStaticFile(dirPath);
     float[] params = loadSoundParams(paramsPath);
     float loopTime = params[1];
     float baseVolume = params[0];

@@ -16,13 +16,13 @@ public class DevTextureProvider implements TextureProvider {
   private final Texture myMissingTex;
 
   DevTextureProvider() {
-    FileHandle missingFile = FileManager.getInstance().getStaticFiles("imgSrcs/smallGameObjs/missing.png");
+    FileHandle missingFile = FileManager.getInstance().getStaticFile("imgSrcs/smallGameObjs/missing.png");
     myMissingTex = new Texture(missingFile);
   }
 
   @Override
   public TextureAtlas.AtlasRegion getTex(String fullName, FileHandle configFile) {
-    FileHandle fh = FileManager.getInstance().getStaticFiles(PREF + fullName + SUFF);
+    FileHandle fh = FileManager.getInstance().getStaticFile(PREF + fullName + SUFF);
     return newTex(fh, fullName, -1, configFile);
   }
 
@@ -46,13 +46,13 @@ public class DevTextureProvider implements TextureProvider {
 
   @Override
   public Sprite createSprite(String name) {
-    Texture tex = new Texture(FileManager.getInstance().getStaticFiles(PREF + name + SUFF));
+    Texture tex = new Texture(FileManager.getInstance().getStaticFile(PREF + name + SUFF));
     return new Sprite(tex);
   }
 
   @Override
   public ArrayList<TextureAtlas.AtlasRegion> getTexs(String name, FileHandle configFile) {
-    FileHandle file = FileManager.getInstance().getStaticFiles(PREF + name + SUFF);
+    FileHandle file = FileManager.getInstance().getStaticFile(PREF + name + SUFF);
     FileHandle dir = file.parent();
     String baseName = file.nameWithoutExtension();
     ArrayList<TextureAtlas.AtlasRegion> res = new ArrayList<TextureAtlas.AtlasRegion>();
