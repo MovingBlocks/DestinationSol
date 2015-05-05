@@ -215,7 +215,7 @@ public class MainScreen implements SolUiScreen {
 
     SolShip target = null;
     float minDist = TalkScreen.MAX_TALK_DIST;
-    float har = hero.getHull().config.approxRadius;
+    float har = hero.getHull().config.getApproxRadius();
     List<SolObject> objs = game.getObjMan().getObjs();
     for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
       SolObject o = objs.get(i);
@@ -224,7 +224,7 @@ public class MainScreen implements SolUiScreen {
       if (fracMan.areEnemies(hero, ship)) continue;
       if (ship.getTradeContainer() == null) continue;
       float dst = ship.getPos().dst(hero.getPos());
-      float ar = ship.getHull().config.approxRadius;
+      float ar = ship.getHull().config.getApproxRadius();
       if (minDist < dst - har - ar) continue;
       target = ship;
       minDist = dst;
@@ -349,7 +349,7 @@ public class MainScreen implements SolUiScreen {
       }
 
       uiDrawer.draw(myLifeTex, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.W);
-      drawBar(uiDrawer, col1, row, hero.getLife(), hero.getHull().config.maxLife, myLifeTp);
+      drawBar(uiDrawer, col1, row, hero.getLife(), hero.getHull().config.getMaxLife(), myLifeTp);
       int repairKitCount = hero.getItemContainer().count(game.getItemMan().getRepairExample());
       ItemMan itemMan = game.getItemMan();
       drawIcons(uiDrawer, col2, row, repairKitCount, itemMan.repairIcon, myRepairsExcessTp);

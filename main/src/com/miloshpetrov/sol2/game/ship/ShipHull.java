@@ -59,7 +59,7 @@ public class ShipHull {
     myMass = myBody.getMass();
     setParamsFromBody();
 
-    myPlanetBind = config.type == HullConfig.Type.STATION ? PlanetBind.tryBind(game, myPos, myAngle) : null;
+    myPlanetBind = config.getType() == HullConfig.Type.STATION ? PlanetBind.tryBind(game, myPos, myAngle) : null;
 
   }
 
@@ -147,7 +147,7 @@ public class ShipHull {
       myEngine = null;
     }
     if (ei != null) {
-      myEngine = new ShipEngine(game, ei, config.e1Pos, config.e2Pos, ship);
+      myEngine = new ShipEngine(game, ei, config.getE1Pos(), config.getE2Pos(), ship);
       List<Dra> dras1 = myEngine.getDras();
       dras.addAll(dras1);
       game.getDraMan().addAll(dras1);

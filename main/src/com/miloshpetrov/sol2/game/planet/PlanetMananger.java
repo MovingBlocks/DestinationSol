@@ -136,7 +136,7 @@ public class PlanetMananger {
     if (!(obj instanceof SolShip)) return false;
     SolShip ship = (SolShip) obj;
     ShipHull hull = ship.getHull();
-    if (hull.config.type == HullConfig.Type.STATION) return false;
+    if (hull.config.getType() == HullConfig.Type.STATION) return false;
     float fh = myNearestPlanet.getFullHeight();
     Vector2 npPos = myNearestPlanet.getPos();
     Vector2 toShip = SolMath.distVec(npPos, ship.getPos());
@@ -264,7 +264,7 @@ public class PlanetMananger {
     StringBuilder sb = new StringBuilder();
     for (ShipConfig c : l) {
       float cap = HardnessCalc.getShipCfgDmgCap(c, itemMan);
-      sb.append(c.hull.texName).append(" (").append(c.items).append("): ")
+      sb.append(c.hull.getTextureName()).append(" (").append(c.items).append("): ")
         .append(SolMath.nice(c.dps)).append(" ").append(SolMath.nice(cap)).append("\n");
     }
     String msg = sb.toString();

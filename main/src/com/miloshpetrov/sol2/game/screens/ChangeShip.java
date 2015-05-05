@@ -74,11 +74,11 @@ public class ChangeShip implements InventoryOperations {
   private void changeShip(SolGame game, SolShip hero, ShipItem selected) {
     HullConfig newConfig = selected.getConfig();
     ShipHull hull = hero.getHull();
-    EngineItem.Config ec = newConfig.engineConfig;
+    EngineItem.Config ec = newConfig.getEngineConfig();
     EngineItem ei = ec == null ? null : ec.example.copy();
     GunItem g2 = hull.getGun(true);
     SolShip newHero = game.getShipBuilder().build(game, hero.getPos(), new Vector2(), hero.getAngle(), 0, hero.getPilot(),
-      hero.getItemContainer(), newConfig, newConfig.maxLife, hull.getGun(false), g2, null,
+      hero.getItemContainer(), newConfig, newConfig.getMaxLife(), hull.getGun(false), g2, null,
       ei, new ShipRepairer(), hero.getMoney(), hero.getTradeContainer(), hero.getShield(), hero.getArmor());
     game.getObjMan().removeObjDelayed(hero);
     game.getObjMan().addObjDelayed(newHero);
