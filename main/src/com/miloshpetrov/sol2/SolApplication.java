@@ -43,7 +43,7 @@ public class SolApplication implements ApplicationListener {
     if (myReallyMobile) DebugOptions.read(null);
     myOptions = new GameOptions(isMobile(), null);
 
-    myTextureManager = TextureManager.getInstance();
+    myTextureManager = new TextureManager();
     myCommonDrawer = new CommonDrawer();
     myUiDrawer = new UiDrawer(myTextureManager, myCommonDrawer);
     myInputMan = new SolInputManager(myTextureManager, myUiDrawer.r);
@@ -137,7 +137,7 @@ public class SolApplication implements ApplicationListener {
   }
 
   public void startNewGame(boolean tut, boolean usePrevShip) {
-    myGame = new SolGame(this, usePrevShip, textureManager, tut, myCommonDrawer);
+    myGame = new SolGame(this, usePrevShip, myTextureManager, tut, myCommonDrawer);
     myInputMan.setScreen(this, myGame.getScreens().mainScreen);
   }
 
@@ -152,7 +152,7 @@ public class SolApplication implements ApplicationListener {
   public void dispose() {
     myCommonDrawer.dispose();
     if (myGame != null) myGame.onGameEnd();
-    textureManager.dispose();
+    myTextureManager.dispose();
     myInputMan.dispose();
   }
 
@@ -171,7 +171,7 @@ public class SolApplication implements ApplicationListener {
   }
 
   public TextureManager getTexMan() {
-    return textureManager;
+    return myTextureManager;
   }
 
   public boolean isMobile() {

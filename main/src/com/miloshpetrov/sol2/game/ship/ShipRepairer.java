@@ -15,7 +15,7 @@ public class ShipRepairer {
 
   public float tryRepair(SolGame game, ItemContainer ic, float life, HullConfig config) {
     // Don't attempt to repair if already at full health
-    if (life == config.maxLife){
+    if (life == config.getMaxLife()) {
       return 0;
     }
 

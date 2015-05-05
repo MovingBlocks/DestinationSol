@@ -418,175 +418,175 @@ sol7.png
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
-hulls/bus
+main/res/configs/hulls/bus/texture.png
   rotate: false
   xy: 0, 256
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-hulls/desertBoss
+main/res/configs/hulls/desertBoss/texture.png
   rotate: false
   xy: 0, 0
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-hulls/desertMedium
+main/res/configs/hulls/desertMedium/texture.png
   rotate: false
   xy: 256, 384
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-hulls/desertOrbiter
+main/res/configs/hulls/desertOrbiter/texture.png
   rotate: false
   xy: 512, 320
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-hulls/desertPlanetTurret
+main/res/configs/hulls/desertPlanetTurret/texture.png
   rotate: false
   xy: 512, 640
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-hulls/desertSmall
+main/res/configs/hulls/desertSmall/texture.png
   rotate: false
   xy: 640, 448
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-hulls/desertSpaceTurret
+main/res/configs/hulls/desertSpaceTurret/texture.png
   rotate: false
   xy: 256, 256
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-hulls/drome
+main/res/configs/hulls/drome/texture.png
   rotate: false
   xy: 512, 768
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-hulls/imperialBig
+main/res/configs/hulls/imperialBig/texture.png
   rotate: false
   xy: 384, 384
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-hulls/imperialMedium
+main/res/configs/hulls/imperialMedium/texture.png
   rotate: false
   xy: 512, 512
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-hulls/imperialSmall
+main/res/configs/hulls/imperialSmall/texture.png
   rotate: false
   xy: 640, 640
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-hulls/minerBoss
+main/res/configs/hulls/minerBoss/texture.png
   rotate: false
   xy: 256, 128
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-hulls/minerMedium
+main/res/configs/hulls/minerMedium/texture.png
   rotate: false
   xy: 256, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-hulls/minerSmall
+main/res/configs/hulls/minerSmall/texture.png
   rotate: false
   xy: 768, 576
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-hulls/minerTurret
+main/res/configs/hulls/minerTurret/texture.png
   rotate: false
   xy: 384, 64
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-hulls/pirateMedium
+main/res/configs/hulls/pirateMedium/texture.png
   rotate: false
   xy: 384, 256
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-hulls/pirateOrbiter
+main/res/configs/hulls/pirateOrbiter/texture.png
   rotate: false
   xy: 512, 384
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-hulls/piratePlanetTurret
+main/res/configs/hulls/piratePlanetTurret/texture.png
   rotate: false
   xy: 640, 512
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-hulls/pirateSmall
+main/res/configs/hulls/pirateSmall/texture.png
   rotate: false
   xy: 384, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-hulls/pirateSpaceTurret
+main/res/configs/hulls/pirateSpaceTurret/texture.png
   rotate: false
   xy: 768, 640
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-hulls/station
+main/res/configs/hulls/station/texture.png
   rotate: false
   xy: 0, 512
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
-hulls/techieOrbiter
+main/res/configs/hulls/techieOrbiter/texture.png
   rotate: false
   xy: 896, 640
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-hulls/techiePlanetTurret
+main/res/configs/hulls/techiePlanetTurret/texture.png
   rotate: false
   xy: 768, 768
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-hulls/techieSmall
+main/res/configs/hulls/techieSmall/texture.png
   rotate: false
   xy: 512, 256
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-hulls/truck
+main/res/configs/hulls/truck/texture.png
   rotate: false
   xy: 384, 128
   size: 128, 128
