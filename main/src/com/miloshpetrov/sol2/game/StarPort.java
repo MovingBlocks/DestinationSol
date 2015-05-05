@@ -70,7 +70,7 @@ public class StarPort implements SolObject {
 
   private static void blip(SolGame game, SolShip ship) {
     TextureAtlas.AtlasRegion tex = game.getTexMan().getTex(Teleport.TEX_PATH, null);
-    float blipSz = ship.getHull().config.approxRadius * 10;
+    float blipSz = ship.getHull().config.getApproxRadius() * 10;
     game.getPartMan().blip(game, ship.getPos(), SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
   }
 

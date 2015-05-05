@@ -14,7 +14,7 @@ public class DmgWarnDrawer extends WarnDrawer {
     SolShip hero = game.getHero();
     if (hero == null) return false;
     float l = hero.getLife();
-    int ml = hero.getHull().config.maxLife;
+    int ml = hero.getHull().config.getMaxLife();
     return l < ml * .3f;
   }
 }

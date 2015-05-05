@@ -31,12 +31,12 @@ public class GunMount {
       return;
     }
 
-    if (creator.getHull().config.type != HullConfig.Type.STATION) myRelGunAngle = 0;
+    if (creator.getHull().config.getType() != HullConfig.Type.STATION) myRelGunAngle = 0;
     myDetected = false;
     if (!myFixed && nearestEnemy != null) {
       Vector2 creatorPos = creator.getPos();
       Vector2 nePos = nearestEnemy.getPos();
-      float dst = creatorPos.dst(nePos) - creator.getHull().config.approxRadius - nearestEnemy.getHull().config.approxRadius;
+      float dst = creatorPos.dst(nePos) - creator.getHull().config.getApproxRadius() - nearestEnemy.getHull().config.getApproxRadius();
       float detDst = game.getPlanetMan().getNearestPlanet().isNearGround(creatorPos) ? Const.AUTO_SHOOT_GROUND : Const.AUTO_SHOOT_SPACE;
       if (dst < detDst) {
         Vector2 mountPos = SolMath.toWorld(myRelPos, shipAngle, creatorPos);

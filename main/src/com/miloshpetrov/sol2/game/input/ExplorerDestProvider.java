@@ -45,7 +45,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
     calcRelDest(config);
     myAwaitOnPlanet = MAX_AWAIT_ON_PLANET;
     myAggressive = aggressive;
-    myDesiredSpdLen = config.type == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
+    myDesiredSpdLen = config.getType() == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
     myDestSpd = new Vector2();
   }
 
@@ -60,7 +60,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
     if (lps.size() > 0) {
       myRelDest = new Vector2(SolMath.elemRnd(lps));
       float len = myRelDest.len();
-      float aboveGround = hullConfig.type == HullConfig.Type.BIG ? Const.ATM_HEIGHT * .75f : .75f * hullConfig.size;
+      float aboveGround = hullConfig.getType() == HullConfig.Type.BIG ? Const.ATM_HEIGHT * .75f : .75f * hullConfig.getSize();
       myRelDest.scl((len + aboveGround)/len);
       myDestIsLanding = true;
     } else {

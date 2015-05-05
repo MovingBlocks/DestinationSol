@@ -69,7 +69,7 @@ public class FarShip implements FarObj {
 
   @Override
   public float getRadius() {
-    return myHullConfig.approxRadius;
+    return myHullConfig.getApproxRadius();
   }
 
   @Override
@@ -136,7 +136,7 @@ public class FarShip implements FarObj {
   }
 
   public boolean mountCanFix(boolean sec) {
-    return sec ? myHullConfig.m2Fixed : myHullConfig.m1Fixed;
+    return sec ? myHullConfig.m2IsFixed() : myHullConfig.m1IsFixed();
   }
 
   public float getMoney() {

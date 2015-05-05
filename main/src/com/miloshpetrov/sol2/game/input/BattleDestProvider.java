@@ -31,8 +31,8 @@ public class BattleDestProvider {
     if (!battle) throw new AssertionError("can't flee yet!");
     float prefAngle;
     Vector2 enemyPos = enemy.getPos();
-    float approxRad = ship.getHull().config.approxRadius;
-    float enemyApproxRad = enemy.getHull().config.approxRadius;
+    float approxRad = ship.getHull().config.getApproxRadius();
+    float enemyApproxRad = enemy.getHull().config.getApproxRadius();
 
     if (nearGround) {
       prefAngle = SolMath.angle(np.getPos(), enemyPos);
