@@ -4,8 +4,8 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.miloshpetrov.sol2.SolFiles;
 import com.miloshpetrov.sol2.TextureManager;
+import com.miloshpetrov.sol2.files.FileManager;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfig;
 
 public class ClipConfig {
@@ -41,7 +41,7 @@ public class ClipConfig {
 
   public static void load(ItemMan itemMan, TextureManager textureManager, SolItemTypes types) {
     JsonReader r = new JsonReader();
-    FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "clips.json");
+    FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("clips.json");
     JsonValue parsed = r.parse(configFile);
     for (JsonValue sh : parsed) {
       String projectileName = sh.getString("projectile");

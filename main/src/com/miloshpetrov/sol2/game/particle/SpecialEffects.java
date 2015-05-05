@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.*;
+import com.miloshpetrov.sol2.files.FileManager;
 import com.miloshpetrov.sol2.game.GameCols;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.dra.DraLevel;
@@ -26,7 +27,7 @@ public class SpecialEffects {
 
   public SpecialEffects(EffectTypes effectTypes, TextureManager textureManager, GameCols cols) {
     JsonReader r = new JsonReader();
-    FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "specialEffects.json");
+    FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("specialEffects.json");
     JsonValue node = r.parse(configFile);
     mySmoke = EffectConfig.load(node.get("smoke"), effectTypes, textureManager, configFile, cols);
     myFire = EffectConfig.load(node.get("fire"), effectTypes, textureManager, configFile, cols);

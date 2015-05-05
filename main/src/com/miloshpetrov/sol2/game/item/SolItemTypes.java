@@ -4,7 +4,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.miloshpetrov.sol2.SolFiles;
+import com.miloshpetrov.sol2.files.FileManager;
 import com.miloshpetrov.sol2.game.GameCols;
 import com.miloshpetrov.sol2.game.sound.SolSound;
 import com.miloshpetrov.sol2.game.sound.SoundManager;
@@ -23,7 +23,7 @@ public class SolItemTypes {
 
   public SolItemTypes(SoundManager soundManager, GameCols cols) {
     JsonReader r = new JsonReader();
-    FileHandle configFile = SolFiles.readOnly(ItemMan.ITEM_CONFIGS_DIR + "types.json");
+    FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("types.json");
     JsonValue parsed = r.parse(configFile);
     clip = load("clip", soundManager, configFile, parsed, cols);
     shield = load("shield", soundManager, configFile, parsed, cols);

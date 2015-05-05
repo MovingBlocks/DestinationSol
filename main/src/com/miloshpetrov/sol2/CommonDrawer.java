@@ -1,10 +1,12 @@
 package com.miloshpetrov.sol2;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.files.FileManager;
 
 public class CommonDrawer {
   public final float w;
@@ -23,8 +25,10 @@ public class CommonDrawer {
     r = w / h;
     mySpriteBatch = new SpriteBatch();
 
-    myFont = new BitmapFont(SolFiles.readOnly("res/fonts/main.fnt"), true);
+    final FileHandle fontFile = FileManager.getInstance().getFontsDirectory().child("main.fnt");
+    myFont = new BitmapFont(fontFile, true);
     myFont.setUseIntegerPositions(false);
+
     myOrigFontHeight = myFont.getXHeight();
   }
 
