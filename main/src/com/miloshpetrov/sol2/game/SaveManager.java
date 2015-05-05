@@ -1,7 +1,8 @@
 package com.miloshpetrov.sol2.game;
 
 import com.miloshpetrov.sol2.files.FileManager;
-import com.miloshpetrov.sol2.game.item.ItemMan;
+import com.miloshpetrov.sol2.files.HullConfigManager;
+import com.miloshpetrov.sol2.game.item.ItemManager;
 import com.miloshpetrov.sol2.game.item.SolItem;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
@@ -26,7 +27,7 @@ public class SaveManager {
     return FileManager.getInstance().getDynamicFile(FILE_NAME).exists();
   }
 
-  public static ShipConfig readShip(HullConfigs hullConfigs, ItemMan itemMan) {
+  public static ShipConfig readShip(HullConfigManager hullConfigs, ItemManager itemManager) {
     IniReader ir = new IniReader(FILE_NAME, null, false);
     String hullName = ir.s("hull", null);
     if (hullName == null) return null;
@@ -34,6 +35,6 @@ public class SaveManager {
     if (hull == null) return null;
     int money = ir.i("money", 0);
     String itemsStr = ir.s("items", "");
-    return new ShipConfig(hull, itemsStr, money, 1, null, itemMan);
+    return new ShipConfig(hull, itemsStr, money, 1, null, itemManager);
   }
 }

@@ -5,10 +5,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.TextureManager;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.files.HullConfigManager;
 import com.miloshpetrov.sol2.game.PathLoader;
 import com.miloshpetrov.sol2.game.ShipConfig;
 import com.miloshpetrov.sol2.game.chunk.SpaceEnvConfig;
-import com.miloshpetrov.sol2.game.item.ItemMan;
+import com.miloshpetrov.sol2.game.item.ItemManager;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 import java.util.ArrayList;
@@ -38,8 +39,8 @@ public class MazeConfig {
     this.envConfig = envConfig;
   }
 
-  public static MazeConfig load(TextureManager textureManager, HullConfigs hullConfigs, JsonValue mazeNode, FileHandle configFile,
-    ItemMan itemMan)
+  public static MazeConfig load(TextureManager textureManager, HullConfigManager hullConfigs, JsonValue mazeNode, FileHandle configFile,
+    ItemManager itemManager)
   {
     String dirName = "mazeTiles/" + mazeNode.name + "/";
     PathLoader pathLoader = new PathLoader("mazes/" + mazeNode.name);
@@ -59,9 +60,9 @@ public class MazeConfig {
     ArrayList<MazeTile> borderPasses = new ArrayList<MazeTile>();
     buildTiles(paths, borderPasses, false, metal, borderBgs, passTexs);
 
-    ArrayList<ShipConfig> outerEnemies = ShipConfig.loadList(mazeNode.get("outerEnemies"), hullConfigs, itemMan);
-    ArrayList<ShipConfig> innerEnemies = ShipConfig.loadList(mazeNode.get("innerEnemies"), hullConfigs, itemMan);
-    ArrayList<ShipConfig> bosses = ShipConfig.loadList(mazeNode.get("bosses"), hullConfigs, itemMan);
+    ArrayList<ShipConfig> outerEnemies = ShipConfig.loadList(mazeNode.get("outerEnemies"), hullConfigs, itemManager);
+    ArrayList<ShipConfig> innerEnemies = ShipConfig.loadList(mazeNode.get("innerEnemies"), hullConfigs, itemManager);
+    ArrayList<ShipConfig> bosses = ShipConfig.loadList(mazeNode.get("bosses"), hullConfigs, itemManager);
 
     SpaceEnvConfig envConfig = new SpaceEnvConfig(mazeNode.get("environment"), textureManager, configFile);
     return new MazeConfig(innerWalls, innerPasses, borderWalls, borderPasses, outerEnemies, innerEnemies, bosses, envConfig);

@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.DraLevel;
-import com.miloshpetrov.sol2.game.item.ItemMan;
+import com.miloshpetrov.sol2.game.item.ItemManager;
 import com.miloshpetrov.sol2.game.item.SolItem;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
 
@@ -85,10 +85,10 @@ public class EmWave implements ShipAbility {
       sb.append("?\n");
     }
 
-    public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig cc) {
+    public static AbilityConfig load(JsonValue abNode, ItemManager itemManager, AbilityCommonConfig cc) {
       float rechargeTime = abNode.getFloat("rechargeTime");
       float duration = abNode.getFloat("duration");
-      SolItem chargeExample = itemMan.getExample("emWaveCharge");
+      SolItem chargeExample = itemManager.getExample("emWaveCharge");
       return new Config(rechargeTime, chargeExample, duration, cc);
     }
   }

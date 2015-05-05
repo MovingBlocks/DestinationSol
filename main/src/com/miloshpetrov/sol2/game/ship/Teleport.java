@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
-import com.miloshpetrov.sol2.game.item.ItemMan;
+import com.miloshpetrov.sol2.game.item.ItemManager;
 import com.miloshpetrov.sol2.game.item.SolItem;
 import com.miloshpetrov.sol2.game.planet.Planet;
 
@@ -115,9 +115,9 @@ public class Teleport implements ShipAbility {
       sb.append("Teleport around enemy");
     }
 
-    public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig cc) {
+    public static AbilityConfig load(JsonValue abNode, ItemManager itemManager, AbilityCommonConfig cc) {
       float angle = abNode.getFloat("angle");
-      SolItem chargeExample = itemMan.getExample("teleportCharge");
+      SolItem chargeExample = itemManager.getExample("teleportCharge");
       float rechargeTime = abNode.getFloat("rechargeTime");
       return new Config(angle, chargeExample, rechargeTime, cc);
     }

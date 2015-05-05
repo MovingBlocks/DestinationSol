@@ -1,7 +1,6 @@
 package com.miloshpetrov.sol2.game.ship;
 
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
@@ -10,7 +9,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.files.FileManager;
 import com.miloshpetrov.sol2.game.AbilityCommonConfigs;
 import com.miloshpetrov.sol2.game.item.EngineItem;
-import com.miloshpetrov.sol2.game.item.ItemMan;
+import com.miloshpetrov.sol2.game.item.ItemManager;
 import com.miloshpetrov.sol2.game.sound.SoundManager;
 
 import java.util.*;
@@ -30,9 +29,9 @@ public class HullConfigs {
                 : SolMath.readV2(string);
     }
 
-    private static EngineItem.Config readEngineConfig(ItemMan itemMan, JsonValue jsonValue, String name) {
+    private static EngineItem.Config readEngineConfig(ItemManager itemManager, JsonValue jsonValue, String name) {
         String string = jsonValue.getString(name, null);
-        return itemMan.getEngineConfigs().get(string);
+        return itemManager.getEngineConfigs().get(string);
     }
 
     private static void validateEngineConfig(HullConfig.Data hull) {
@@ -49,7 +48,7 @@ public class HullConfigs {
 
     public HullConfigs(ShipBuilder shipBuilder,
                        TextureManager textureManager,
-                       ItemMan itemMan,
+                       ItemManager itemManager,
                        AbilityCommonConfigs abilityCommonConfigs,
                        SoundManager soundManager)
     {
@@ -74,8 +73,8 @@ public class HullConfigs {
             configData.durability = (configData.type == HullConfig.Type.BIG) ? 3 : .25f;
             configData.tex = textureManager.getTex("hulls/" + configData.textureName, configFile);
             configData.icon = textureManager.getTex(TextureManager.HULL_ICONS_DIR + configData.textureName, configFile);
-            configData.engineConfig = readEngineConfig(itemMan, hullNode, "engine");
-            configData.ability = loadAbility(hullNode, itemMan, abilityCommonConfigs, soundManager);
+            configData.engineConfig = readEngineConfig(itemManager, hullNode, "engine");
+            configData.ability = loadAbility(hullNode, itemManager, abilityCommonConfigs, soundManager);
             configData.g1UnderShip = hullNode.getBoolean("g1UnderShip", false);
             configData.g2UnderShip = hullNode.getBoolean("g2UnderShip", false);
             configData.m1Fixed = hullNode.getBoolean("m1Fixed", false);
@@ -93,18 +92,18 @@ public class HullConfigs {
 
     private AbilityConfig loadAbility(
             JsonValue hullNode,
-            ItemMan itemMan,
+            ItemManager itemManager,
             AbilityCommonConfigs abilityCommonConfigs,
             SoundManager soundManager)
     {
         JsonValue abNode = hullNode.get("ability");
         if (abNode == null) return null;
         String type = abNode.getString("type");
-        if ("sloMo".equals(type)) return SloMo.Config.load(abNode, itemMan, abilityCommonConfigs.sloMo);
-        if ("teleport".equals(type)) return Teleport.Config.load(abNode, itemMan, abilityCommonConfigs.teleport);
-        if ("knockBack".equals(type)) return KnockBack.Config.load(abNode, itemMan, abilityCommonConfigs.knockBack);
-        if ("emWave".equals(type)) return EmWave.Config.load(abNode, itemMan, abilityCommonConfigs.emWave);
-        if ("unShield".equals(type)) return UnShield.Config.load(abNode, itemMan, abilityCommonConfigs.unShield);
+        if ("sloMo".equals(type)) return SloMo.Config.load(abNode, itemManager, abilityCommonConfigs.sloMo);
+        if ("teleport".equals(type)) return Teleport.Config.load(abNode, itemManager, abilityCommonConfigs.teleport);
+        if ("knockBack".equals(type)) return KnockBack.Config.load(abNode, itemManager, abilityCommonConfigs.knockBack);
+        if ("emWave".equals(type)) return EmWave.Config.load(abNode, itemManager, abilityCommonConfigs.emWave);
+        if ("unShield".equals(type)) return UnShield.Config.load(abNode, itemManager, abilityCommonConfigs.unShield);
         return null;
     }
 

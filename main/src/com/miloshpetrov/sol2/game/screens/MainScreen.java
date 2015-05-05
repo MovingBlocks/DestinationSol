@@ -351,8 +351,8 @@ public class MainScreen implements SolUiScreen {
       uiDrawer.draw(myLifeTex, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.W);
       drawBar(uiDrawer, col1, row, hero.getLife(), hero.getHull().config.getMaxLife(), myLifeTp);
       int repairKitCount = hero.getItemContainer().count(game.getItemMan().getRepairExample());
-      ItemMan itemMan = game.getItemMan();
-      drawIcons(uiDrawer, col2, row, repairKitCount, itemMan.repairIcon, myRepairsExcessTp);
+      ItemManager itemManager = game.getItemMan();
+      drawIcons(uiDrawer, col2, row, repairKitCount, itemManager.repairIcon, myRepairsExcessTp);
 
       row += ICON_SZ + V_PAD;
       boolean consumed = drawGunStat(uiDrawer, hero, false, col0, col1, col2, row);
