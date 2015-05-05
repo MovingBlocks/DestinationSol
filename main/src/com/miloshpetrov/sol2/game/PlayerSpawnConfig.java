@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.files.FileManager;
 import com.miloshpetrov.sol2.files.HullConfigManager;
 import com.miloshpetrov.sol2.game.item.ItemManager;
-import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 public class PlayerSpawnConfig {
   public final ShipConfig mainStation;

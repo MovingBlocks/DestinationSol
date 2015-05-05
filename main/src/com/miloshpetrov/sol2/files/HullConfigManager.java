@@ -29,12 +29,22 @@ import java.util.Map;
  */
 public final class HullConfigManager {
 
-    public static HullConfigManager getInstance() {
-        if(instance == null) {
-            instance = new HullConfigManager();
-        }
+    public HullConfigManager(ShipBuilder shipBuilder,
+                             FileManager fileManager,
+                             TextureManager textureManager,
+                             ItemManager itemManager,
+                             AbilityCommonConfigs abilityCommonConfigs,
+                             SoundManager soundManager) {
+        this.shipBuilder = shipBuilder;
+        this.fileManager = fileManager;
+        this.textureManager = textureManager;
+        this.soundManager = soundManager;
+        this.itemManager = itemManager;
+        this.abilityCommonConfigs = abilityCommonConfigs;
 
-        return instance;
+        nameToConfigMap = new HashMap<String, HullConfig>();
+        configToNameMap = new HashMap<HullConfig, String>();
+        readHullConfigs();
     }
 
     public HullConfig getConfig(String name) {
@@ -106,7 +116,7 @@ public final class HullConfigManager {
         configData.icon = textureManager.getTex(TextureManager.HULL_ICONS_DIR + configData.textureName, hullConfigDirectory);
 
         validateEngineConfig(configData);
-        process(configData, ShipBuilder.getInstance());
+        process(configData);
 
         return new HullConfig(configData);
     }
@@ -128,7 +138,7 @@ public final class HullConfigManager {
         configData.type = HullConfig.Type.forName(jsonNode.getString("type"));
         configData.durability = (configData.type == HullConfig.Type.BIG) ? 3 : .25f;
         configData.engineConfig = readEngineConfig(itemManager, jsonNode, "engine");
-        configData.ability = loadAbility(jsonNode, itemManager, AbilityCommonConfigs.getInstance(), soundManager);
+        configData.ability = loadAbility(jsonNode, itemManager, abilityCommonConfigs, soundManager);
         configData.g1UnderShip = jsonNode.getBoolean("g1UnderShip", false);
         configData.g2UnderShip = jsonNode.getBoolean("g2UnderShip", false);
         configData.m1Fixed = jsonNode.getBoolean("m1Fixed", false);
@@ -158,7 +168,7 @@ public final class HullConfigManager {
 
     // Seems to offsets all positions by the shipbuilder origin
     // Todo: Find out what this function does and provide a better name.
-    private void process(HullConfig.Data configData, ShipBuilder shipBuilder) {
+    private void process(HullConfig.Data configData) {
         Vector2 builderOrigin = shipBuilder.getOrigin(configData.textureName);
 
         configData.origin.set(builderOrigin)
@@ -194,26 +204,17 @@ public final class HullConfigManager {
         }
     }
 
+    private final ShipBuilder shipBuilder;
     private final FileManager fileManager;
     private final TextureManager textureManager;
     private final ItemManager itemManager;
     private final SoundManager soundManager;
+    private final AbilityCommonConfigs abilityCommonConfigs;
 
     private final Map<String,HullConfig> nameToConfigMap;
     private final Map<HullConfig, String> configToNameMap;
 
-    private HullConfigManager() {
-        fileManager = FileManager.getInstance();
-        textureManager = TextureManager.getInstance();
-        itemManager = ItemManager.getInstance();
-        soundManager = SoundManager.getInstance();
 
-        nameToConfigMap = new HashMap<String, HullConfig>();
-        configToNameMap = new HashMap<HullConfig, String>();
-        readHullConfigs();
-    }
 
     public static final String PROPERTIES_FILE_NAME = "properties.json";
-
-    private static HullConfigManager instance = null;
 }

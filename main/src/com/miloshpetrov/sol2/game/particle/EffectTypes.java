@@ -5,12 +5,8 @@ import java.util.HashMap;
 public class EffectTypes {
     private final HashMap<String, EffectType> myTypes;
 
-    public static EffectTypes getInstance() {
-        if (instance == null) {
-            instance = new EffectTypes();
-        }
-
-        return instance;
+    public EffectTypes() {
+        myTypes = new HashMap<String, EffectType>();
     }
 
     public EffectType forName(String fileName) {
@@ -23,10 +19,4 @@ public class EffectTypes {
 
         return result;
     }
-
-    private EffectTypes() {
-        myTypes = new HashMap<String, EffectType>();
-    }
-
-    private static EffectTypes instance = null;
 }
