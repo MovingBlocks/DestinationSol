@@ -9,7 +9,6 @@ import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.files.FileManager;
 import com.miloshpetrov.sol2.game.AbilityCommonConfigs;
-import com.miloshpetrov.sol2.game.asteroid.FarAsteroid;
 import com.miloshpetrov.sol2.game.item.EngineItem;
 import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.sound.SoundManager;
@@ -17,93 +16,146 @@ import com.miloshpetrov.sol2.game.sound.SoundManager;
 import java.util.*;
 
 public class HullConfigs {
-  private final HashMap<String,HullConfig> myConfigs;
+    private final HashMap<String,HullConfig> hullConfigs;
 
-  public HullConfigs(ShipBuilder shipBuilder, TextureManager textureManager, ItemMan itemMan, AbilityCommonConfigs abilityCommonConfigs,
-    SoundManager soundManager)
-  {
-    myConfigs = new HashMap<String, HullConfig>();
+    private static JsonValue getHullFileParentNode(FileHandle configFile) {
+        final JsonReader jsonReader = new JsonReader();
+        return jsonReader.parse(configFile);
+    }
 
-    JsonReader r = new JsonReader();
-    FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("hulls.json");
-    JsonValue parsed = r.parse(configFile);
-    for (JsonValue hullNode : parsed) {
-      String texName = hullNode.getString("texName");
-      float size = hullNode.getFloat("size");
-      int maxLife = hullNode.getInt("maxLife");
-      String e1PosS = hullNode.getString("e1Pos", null);
-      Vector2 e1Pos = e1PosS == null ? new Vector2() : SolMath.readV2(e1PosS);
-      String e2PosS = hullNode.getString("e2Pos", null);
-      Vector2 e2Pos = e2PosS == null ? new Vector2() : SolMath.readV2(e2PosS);
-      Vector2 g1Pos = SolMath.readV2(hullNode, "g1Pos");
-      String g2PosStr = hullNode.getString("g2Pos", null);
-      Vector2 g2Pos = g2PosStr == null ? null : SolMath.readV2(g2PosStr);
-      ArrayList<Vector2> lightSrcPoss = SolMath.readV2List(hullNode, "lightSrcPoss");
-      boolean hasBase = hullNode.getBoolean("hasBase", false);
-      ArrayList<Vector2> forceBeaconPoss = SolMath.readV2List(hullNode, "forceBeaconPoss");
-      ArrayList<Vector2> doorPoss = SolMath.readV2List(hullNode, "doorPoss");
-      HullConfig.Type type = HullConfig.Type.forName(hullNode.getString("type"));
-      float durability = type == HullConfig.Type.BIG ? 3 : .25f;
-      TextureAtlas.AtlasRegion tex = textureManager.getTex("hulls/" + texName, configFile);
-      TextureAtlas.AtlasRegion icon = textureManager.getTex(TextureManager.HULL_ICONS_DIR + texName, configFile);
-      String engineStr = hullNode.getString("engine", null);
-      EngineItem.Config ec = itemMan.getEngineConfigs().get(engineStr);
-      if (ec != null) {
-        if (type == HullConfig.Type.STATION || ec.big != (type == HullConfig.Type.BIG)) {
-          throw new AssertionError("incompatible engine in hull " + hullNode.name);
+    private static Vector2 readVector2(JsonValue jsonValue, String name, Vector2 defaultValue) {
+        String string = jsonValue.getString(name, null);
+        return (string == null)
+                ? defaultValue
+                : SolMath.readV2(string);
+    }
+
+    private static EngineItem.Config readEngineConfig(ItemMan itemMan, JsonValue jsonValue, String name) {
+        String string = jsonValue.getString(name, null);
+        return itemMan.getEngineConfigs().get(string);
+    }
+
+    private static void validateEngineConfig(HullConfig.Data hull) {
+        if (hull.engineConfig != null) {
+            if (    // stations can't have engines
+                    ( hull.type == HullConfig.Type.STATION ) ||
+                    // the engine size must match the hull size
+                    ( hull.engineConfig.big != (hull.type == HullConfig.Type.BIG) )
+            ) {
+                throw new AssertionError("incompatible engine in hull " + hull.displayName);
+            }
         }
-      }
-      AbilityConfig ability = loadAbility(hullNode, itemMan, abilityCommonConfigs, soundManager);
-      boolean g1UnderShip = hullNode.getBoolean("g1UnderShip", false);
-      boolean g2UnderShip = hullNode.getBoolean("g2UnderShip", false);
-      boolean m1Fixed = hullNode.getBoolean("m1Fixed", false);
-      boolean m2Fixed = hullNode.getBoolean("m2Fixed", false);
-      String displayName = hullNode.getString("displayName", "---");
-      float price = hullNode.getInt("price", 0);
-      float hirePrice = hullNode.getFloat("hirePrice", 0);
-      HullConfig c = new HullConfig(texName, size, maxLife, e1Pos, e2Pos, g1Pos, g2Pos, lightSrcPoss, durability,
-        hasBase, forceBeaconPoss, doorPoss, type, icon, tex, ec, ability, g1UnderShip, g2UnderShip, m1Fixed, m2Fixed,
-        displayName, price, hirePrice);
-      process(c, shipBuilder);
-      myConfigs.put(hullNode.name, c);
     }
-  }
 
-  private AbilityConfig loadAbility(JsonValue hullNode, ItemMan itemMan, AbilityCommonConfigs abilityCommonConfigs,
-    SoundManager soundManager)
-  {
-    JsonValue abNode = hullNode.get("ability");
-    if (abNode == null) return null;
-    String type = abNode.getString("type");
-    if ("sloMo".equals(type)) return SloMo.Config.load(abNode, itemMan, abilityCommonConfigs.sloMo);
-    if ("teleport".equals(type)) return Teleport.Config.load(abNode, itemMan, abilityCommonConfigs.teleport);
-    if ("knockBack".equals(type)) return KnockBack.Config.load(abNode, itemMan, abilityCommonConfigs.knockBack);
-    if ("emWave".equals(type)) return EmWave.Config.load(abNode, itemMan, abilityCommonConfigs.emWave);
-    if ("unShield".equals(type)) return UnShield.Config.load(abNode, itemMan, abilityCommonConfigs.unShield);
-    return null;
-  }
+    public HullConfigs(ShipBuilder shipBuilder,
+                       TextureManager textureManager,
+                       ItemMan itemMan,
+                       AbilityCommonConfigs abilityCommonConfigs,
+                       SoundManager soundManager)
+    {
+        hullConfigs = new HashMap<String, HullConfig>();
+        final FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("hulls.json");
+        final JsonValue parentNode = getHullFileParentNode(configFile);
 
-  public HullConfig getConfig(String name) {
-    return myConfigs.get(name);
-  }
+        for (JsonValue hullNode : parentNode ) {
+            HullConfig.Data configData = new HullConfig.Data();
+            configData.textureName = hullNode.getString("texName");
+            configData.size = hullNode.getFloat("size");
+            configData.maxLife = hullNode.getInt("maxLife");
+            configData.e1Pos = readVector2(hullNode, "e1Pos", new Vector2());
+            configData.e2Pos = readVector2(hullNode, "e2Pos", new Vector2());
+            configData.g1Pos = readVector2(hullNode, "g1Pos", null);
+            configData.g2Pos = readVector2(hullNode, "g2Pos", null);
+            configData.lightSrcPoss = SolMath.readV2List(hullNode, "lightSrcPoss");
+            configData.hasBase = hullNode.getBoolean("hasBase", false);
+            configData.forceBeaconPoss = SolMath.readV2List(hullNode, "forceBeaconPoss");
+            configData.doorPoss = SolMath.readV2List(hullNode, "doorPoss");
+            configData.type = HullConfig.Type.forName(hullNode.getString("type"));
+            configData.durability = (configData.type == HullConfig.Type.BIG) ? 3 : .25f;
+            configData.tex = textureManager.getTex("hulls/" + configData.textureName, configFile);
+            configData.icon = textureManager.getTex(TextureManager.HULL_ICONS_DIR + configData.textureName, configFile);
+            configData.engineConfig = readEngineConfig(itemMan, hullNode, "engine");
+            configData.ability = loadAbility(hullNode, itemMan, abilityCommonConfigs, soundManager);
+            configData.g1UnderShip = hullNode.getBoolean("g1UnderShip", false);
+            configData.g2UnderShip = hullNode.getBoolean("g2UnderShip", false);
+            configData.m1Fixed = hullNode.getBoolean("m1Fixed", false);
+            configData.m2Fixed = hullNode.getBoolean("m2Fixed", false);
+            configData.displayName = hullNode.getString("displayName", "---");
+            configData.price = hullNode.getInt("price", 0);
+            configData.hirePrice = hullNode.getFloat("hirePrice", 0);
 
-  private void process(HullConfig config, ShipBuilder shipBuilder) {
-    Vector2 o = shipBuilder.getOrigin(config.texName);
-    config.origin.set(o);
-    config.origin.scl(config.size);
-    config.g1Pos.sub(o).scl(config.size);
-    if (config.g2Pos != null) config.g2Pos.sub(o).scl(config.size);
-    config.e1Pos.sub(o).scl(config.size);
-    config.e2Pos.sub(o).scl(config.size);
-    for (Vector2 pos : config.lightSrcPoss) pos.sub(o).scl(config.size);
-    for (Vector2 pos : config.forceBeaconPoss) pos.sub(o).scl(config.size);
-    for (Vector2 pos : config.doorPoss) pos.sub(o).scl(config.size);
-  }
+            validateEngineConfig(configData);
+            process(configData, shipBuilder);
 
-  public String getName(HullConfig hull) {
-    for (Map.Entry<String, HullConfig> e : myConfigs.entrySet()) {
-      if (hull == e.getValue()) return e.getKey();
+            hullConfigs.put(hullNode.name, new HullConfig(configData));
+        }
     }
-    return "";
-  }
+
+    private AbilityConfig loadAbility(
+            JsonValue hullNode,
+            ItemMan itemMan,
+            AbilityCommonConfigs abilityCommonConfigs,
+            SoundManager soundManager)
+    {
+        JsonValue abNode = hullNode.get("ability");
+        if (abNode == null) return null;
+        String type = abNode.getString("type");
+        if ("sloMo".equals(type)) return SloMo.Config.load(abNode, itemMan, abilityCommonConfigs.sloMo);
+        if ("teleport".equals(type)) return Teleport.Config.load(abNode, itemMan, abilityCommonConfigs.teleport);
+        if ("knockBack".equals(type)) return KnockBack.Config.load(abNode, itemMan, abilityCommonConfigs.knockBack);
+        if ("emWave".equals(type)) return EmWave.Config.load(abNode, itemMan, abilityCommonConfigs.emWave);
+        if ("unShield".equals(type)) return UnShield.Config.load(abNode, itemMan, abilityCommonConfigs.unShield);
+        return null;
+    }
+
+    public HullConfig getConfig(String name) {
+        return hullConfigs.get(name);
+    }
+
+    // Seems to offsets all positions by the shipbuilder origin
+    // Todo: Find out what this function does and provide a better name.
+    private void process(HullConfig.Data configData, ShipBuilder shipBuilder) {
+        Vector2 builderOrigin = shipBuilder.getOrigin(configData.textureName);
+
+        configData.origin.set(builderOrigin)
+                         .scl(configData.size);
+
+        configData.g1Pos.sub(builderOrigin)
+                        .scl(configData.size);
+
+        if (configData.g2Pos != null) {
+            configData.g2Pos.sub(builderOrigin)
+                            .scl(configData.size);
+        }
+
+        configData.e1Pos.sub(builderOrigin)
+                        .scl(configData.size);
+
+        configData.e2Pos.sub(builderOrigin)
+                        .scl(configData.size);
+
+        for (Vector2 position : configData.lightSrcPoss) {
+            position.sub(builderOrigin)
+                    .scl(configData.size);
+        }
+
+        for (Vector2 position : configData.forceBeaconPoss) {
+            position.sub(builderOrigin)
+                    .scl(configData.size);
+        }
+
+        for (Vector2 position : configData.doorPoss) {
+            position.sub(builderOrigin)
+                    .scl(configData.size);
+        }
+    }
+
+    public String getName(HullConfig hull) {
+        for (Map.Entry<String, HullConfig> e : hullConfigs.entrySet()) {
+            if (hull == e.getValue()) {
+                return e.getKey();
+            }
+        }
+        return "";
+    }
 }

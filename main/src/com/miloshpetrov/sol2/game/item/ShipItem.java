@@ -18,32 +18,32 @@ public class ShipItem implements SolItem {
 
   public static String makeDesc(HullConfig hull) {
     StringBuilder sb = new StringBuilder();
-    sb.append("Takes ").append(hull.maxLife).append(" dmg\n");
-    boolean noG2 = hull.g2Pos == null;
-    if (noG2 || hull.m1Fixed != hull.m2Fixed) {
+    sb.append("Takes ").append(hull.getMaxLife()).append(" dmg\n");
+    boolean noG2 = hull.getG2Pos() == null;
+    if (noG2 || hull.m1IsFixed() != hull.m2IsFixed()) {
       if (noG2) {
-        sb.append(hull.m1Fixed ? "1 heavy gun slot\n" : "1 light gun slot\n");
+        sb.append(hull.m1IsFixed() ? "1 heavy gun slot\n" : "1 light gun slot\n");
       } else {
         sb.append("1 heavy + 1 light gun slots\n");
       }
     } else {
-      sb.append(hull.m1Fixed ? "2 heavy gun slots\n" : "2 light gun slots\n");
+      sb.append(hull.m1IsFixed() ? "2 heavy gun slots\n" : "2 light gun slots\n");
     }
-    if (hull.ability != null) {
+    if (hull.getAbility() != null) {
       sb.append("Ability:\n");
-      hull.ability.appendDesc(sb);
+      hull.getAbility().appendDesc(sb);
     }
     return sb.toString();
   }
 
   @Override
   public String getDisplayName() {
-    return myConfig.displayName;
+    return myConfig.getDisplayName();
   }
 
   @Override
   public float getPrice() {
-    return myConfig.price;
+    return myConfig.getPrice();
   }
 
   @Override
@@ -63,7 +63,7 @@ public class ShipItem implements SolItem {
 
   @Override
   public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-    return myConfig.icon;
+    return myConfig.getIcon();
   }
 
   @Override

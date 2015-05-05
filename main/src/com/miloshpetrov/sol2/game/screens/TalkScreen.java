@@ -71,7 +71,7 @@ public class TalkScreen implements SolUiScreen {
       return;
     }
 
-    boolean station = myTarget.getHull().config.type == HullConfig.Type.STATION;
+    boolean station = myTarget.getHull().config.getType() == HullConfig.Type.STATION;
     myShipsCtrl.setEnabled(station);
     myHireCtrl.setEnabled(station);
 
@@ -89,7 +89,7 @@ public class TalkScreen implements SolUiScreen {
 
   public boolean isTargetFar(SolShip hero) {
     if (hero == null || myTarget == null || myTarget.getLife() <= 0) return true;
-    float dst = myTarget.getPos().dst(hero.getPos()) - hero.getHull().config.approxRadius - myTarget.getHull().config.approxRadius;
+    float dst = myTarget.getPos().dst(hero.getPos()) - hero.getHull().config.getApproxRadius() - myTarget.getHull().config.getApproxRadius();
     return MAX_TALK_DIST < dst;
   }
 

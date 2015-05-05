@@ -28,7 +28,7 @@ public class Guardian implements MoveDestProvider {
     myTargetPilot = targetPilot;
     myDest = new Vector2();
     myRelAngle = relAngle;
-    setDest(game, targetPos, targetHc.approxRadius, hullConfig);
+    setDest(game, targetPos, targetHc.getApproxRadius(), hullConfig);
   }
 
   @Override
@@ -60,10 +60,10 @@ public class Guardian implements MoveDestProvider {
     if (myTarget == null) {
       if (myFarTarget == null) return;
       targetPos = myFarTarget.getPos();
-      targetApproxRad = myFarTarget.getHullConfig().approxRadius;
+      targetApproxRad = myFarTarget.getHullConfig().getApproxRadius();
     } else {
       targetPos = myTarget.getPos();
-      targetApproxRad = myTarget.getHull().config.approxRadius;
+      targetApproxRad = myTarget.getHull().config.getApproxRadius();
     }
     setDest(game, targetPos, targetApproxRad, hullConfig);
   }
@@ -99,7 +99,7 @@ public class Guardian implements MoveDestProvider {
     if (np.isNearGround(targetPos)) {
       desiredAngle = SolMath.angle(np.getPos(), targetPos);
     }
-    SolMath.fromAl(myDest, desiredAngle, targetApproxRad + DIST + hullConfig.approxRadius);
+    SolMath.fromAl(myDest, desiredAngle, targetApproxRad + DIST + hullConfig.getApproxRadius());
     myDest.add(targetPos);
   }
 
