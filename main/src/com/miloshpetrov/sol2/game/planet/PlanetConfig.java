@@ -9,7 +9,6 @@ import com.miloshpetrov.sol2.game.GameColors;
 import com.miloshpetrov.sol2.game.ShipConfig;
 import com.miloshpetrov.sol2.game.item.ItemManager;
 import com.miloshpetrov.sol2.game.item.TradeConfig;
-import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 import java.util.ArrayList;
 import java.util.List;

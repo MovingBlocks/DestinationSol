@@ -10,43 +10,44 @@ import com.miloshpetrov.sol2.files.FileManager;
 import java.util.HashMap;
 
 public class GameColors {
-    public static GameColors getInstance() {
-        if (instance == null) {
-            instance = new GameColors();
+
+    public final Color fire;
+    public final Color smoke;
+    public final Color hullLights;
+
+    private final HashMap<String, Color> colors;
+
+    public GameColors() {
+        JsonReader r = new JsonReader();
+        FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("colors.json");
+        JsonValue node = r.parse(configFile);
+        colors = new HashMap<String, Color>();
+
+        for (JsonValue colVal : node) {
+            Color c = load(colVal.asString());
+            colors.put(colVal.name, c);
         }
 
-        return instance;
+        fire = get("fire");
+        smoke = get("smoke");
+        hullLights = get("hullLights");
     }
 
-  private final HashMap<String, Color> myCols;
-  public final Color fire;
-  public final Color smoke;
-  public final Color hullLights;
+    public Color get(String name) {
+        Color result = colors.get(name);
 
-  private GameColors() {
-    JsonReader r = new JsonReader();
-    FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("colors.json");
-    JsonValue node = r.parse(configFile);
-    myCols = new HashMap<String, Color>();
-    for (JsonValue colVal : node) {
-      Color c = load(colVal.asString());
-      myCols.put(colVal.name, c);
+        if (result == null) {
+            throw new AssertionError("Color " + name + " is not defined.");
+        }
+
+        return result;
     }
-    fire = get("fire");
-    smoke = get("smoke");
-    hullLights = get("hullLights");
-  }
 
-  public Color get(String name) {
-    Color res = myCols.get(name);
-    if (res == null) throw new AssertionError("pls define color " + name);
-    return res;
-  }
+    public Color load(String s) {
+        if (s.contains(" ")) {
+            return SolColorUtil.load(s);
+        }
 
-  public Color load(String s) {
-    if (s.contains(" ")) return SolColorUtil.load(s);
-    return get(s);
-  }
-
-    private static GameColors instance = null;
+        return get(s);
+    }
 }

@@ -18,21 +18,13 @@ import java.util.*;
 public class SoundManager {
   public static final String DIR = "res/sounds/";
 
-    public static SoundManager getInstance() {
-        if (instance == null) {
-            instance = new SoundManager();
-        }
-
-        return instance;
-    }
-
   private final HashMap<String, SolSound> mySounds;
   private final DebugHintDrawer myHintDrawer;
   private final Map<SolObject, Map<SolSound, Float>> myLoopedSounds;
 
   private float myLoopAwait;
 
-  private SoundManager() {
+  public SoundManager() {
     mySounds = new HashMap<String, SolSound>();
     myHintDrawer = new DebugHintDrawer();
     myLoopedSounds = new HashMap<SolObject, Map<SolSound, Float>>();
@@ -205,6 +197,4 @@ public class SoundManager {
       }
     }
   }
-
-    private static SoundManager instance = null;
 }
