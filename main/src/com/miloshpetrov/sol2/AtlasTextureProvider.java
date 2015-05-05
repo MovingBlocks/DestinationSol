@@ -14,6 +14,11 @@ class AtlasTextureProvider implements TextureProvider {
   }
 
   @Override
+  public TextureAtlas.AtlasRegion getTexture(FileHandle textureFile) {
+    return myAtlas.findRegion(textureFile.path());
+  }
+
+    @Override
   public TextureAtlas.AtlasRegion getTex(String fullName, FileHandle configFile) {
     return myAtlas.findRegion(fullName);
   }
