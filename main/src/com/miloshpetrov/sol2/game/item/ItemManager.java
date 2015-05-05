@@ -26,19 +26,7 @@ public class ItemManager {
     private final SolItemTypes myTypes;
     private final RepairItem myRepairExample;
 
-    public static ItemManager getInstance() {
-        if (instance == null) {
-            instance = new ItemManager();
-        }
-
-        return instance;
-    }
-
-    private ItemManager() {
-        TextureManager textureManager = TextureManager.getInstance();
-        SoundManager soundManager = SoundManager.getInstance();
-        EffectTypes effectTypes = EffectTypes.getInstance();
-        GameColors gameColors = GameColors.getInstance();
+    public ItemManager(TextureManager textureManager, SoundManager soundManager, EffectTypes effectTypes, GameColors gameColors) {
 
         moneyIcon = textureManager.getTex(TextureManager.ICONS_DIR + "money", null);
         medMoneyIcon = textureManager.getTex(TextureManager.ICONS_DIR + "medMoney", null);
