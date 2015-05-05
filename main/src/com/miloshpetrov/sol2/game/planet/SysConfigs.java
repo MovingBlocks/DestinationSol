@@ -11,7 +11,6 @@ import com.miloshpetrov.sol2.game.ShipConfig;
 import com.miloshpetrov.sol2.game.chunk.SpaceEnvConfig;
 import com.miloshpetrov.sol2.game.item.ItemManager;
 import com.miloshpetrov.sol2.game.item.TradeConfig;
-import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 import java.util.*;
 
