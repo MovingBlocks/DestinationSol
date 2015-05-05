@@ -18,7 +18,7 @@ public class SolApplication implements ApplicationListener {
   private SolInputManager myInputMan;
   private UiDrawer myUiDrawer;
   private MenuScreens myMenuScreens;
-  private TextureManager myTextureManager;
+  private TextureManager textureManager;
   private SolLayouts myLayouts;
   private boolean myReallyMobile;
   private GameOptions myOptions;
@@ -41,12 +41,12 @@ public class SolApplication implements ApplicationListener {
     if (myReallyMobile) DebugOptions.read(null);
     myOptions = new GameOptions(isMobile(), null);
 
-    myTextureManager = new TextureManager();
+    textureManager = TextureManager.getInstance();
     myCommonDrawer = new CommonDrawer();
-    myUiDrawer = new UiDrawer(myTextureManager, myCommonDrawer);
-    myInputMan = new SolInputManager(myTextureManager, myUiDrawer.r);
+    myUiDrawer = new UiDrawer(textureManager, myCommonDrawer);
+    myInputMan = new SolInputManager(textureManager, myUiDrawer.r);
     myLayouts = new SolLayouts(myUiDrawer.r);
-    myMenuScreens = new MenuScreens(myLayouts, myTextureManager, isMobile(), myUiDrawer.r);
+    myMenuScreens = new MenuScreens(myLayouts, textureManager, isMobile(), myUiDrawer.r);
 
     myInputMan.setScreen(this, myMenuScreens.main);
     myFpsLogger = new FPSLogger();
@@ -135,7 +135,7 @@ public class SolApplication implements ApplicationListener {
   }
 
   public void startNewGame(boolean tut, boolean usePrevShip) {
-    myGame = new SolGame(this, usePrevShip, myTextureManager, tut, myCommonDrawer);
+    myGame = new SolGame(this, usePrevShip, textureManager, tut, myCommonDrawer);
     myInputMan.setScreen(this, myGame.getScreens().mainScreen);
   }
 
@@ -150,7 +150,7 @@ public class SolApplication implements ApplicationListener {
   public void dispose() {
     myCommonDrawer.dispose();
     if (myGame != null) myGame.onGameEnd();
-    myTextureManager.dispose();
+    textureManager.dispose();
     myInputMan.dispose();
   }
 
@@ -169,7 +169,7 @@ public class SolApplication implements ApplicationListener {
   }
 
   public TextureManager getTexMan() {
-    return myTextureManager;
+    return textureManager;
   }
 
   public boolean isMobile() {

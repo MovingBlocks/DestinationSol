@@ -18,13 +18,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShipBuilder {
+
+    public static ShipBuilder getInstance() {
+        if (instance == null) {
+            instance = new ShipBuilder();
+        }
+
+        return instance;
+    }
+
   public static final float SHIP_DENSITY = 3f;
   public static final float AVG_BATTLE_TIME = 30f;
   public static final float AVG_ALLY_LIFE_TIME = 75f;
 
   private final PathLoader myPathLoader;
 
-  public ShipBuilder() {
+  private ShipBuilder() {
     myPathLoader = new PathLoader("hulls");
   }
 
@@ -246,4 +255,6 @@ public class ShipBuilder {
   public Vector2 getOrigin(String name) {
     return myPathLoader.getOrigin(name + ".png", 1);
   }
+
+    private static ShipBuilder instance = null;
 }

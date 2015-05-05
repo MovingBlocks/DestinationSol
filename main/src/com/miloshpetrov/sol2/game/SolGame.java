@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.DebugCol;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.files.HullConfigManager;
 import com.miloshpetrov.sol2.game.asteroid.AsteroidBuilder;
 import com.miloshpetrov.sol2.game.chunk.ChunkManager;
 import com.miloshpetrov.sol2.game.dra.DraDebugger;
@@ -40,14 +41,15 @@ public class SolGame {
   private final AsteroidBuilder myAsteroidBuilder;
   private final LootBuilder myLootBuilder;
   private final ShipBuilder myShipBuilder;
-  private final HullConfigs myHullConfigs;
+  //private final HullConfigs myHullConfigs;
+  private final HullConfigManager myHullConfigs;
   private final GridDrawer myGridDrawer;
   private final FarBgMan myFarBgMan;
   private final FarBackgroundManagerOld myFarBackgroundManagerOld;
   private final FractionMan myFractionMan;
   private final MapDrawer myMapDrawer;
   private final ShardBuilder myShardBuilder;
-  private final ItemMan myItemMan;
+  private final ItemManager myItemManager;
   private final StarPort.Builder myStarPortBuilder;
   private final SoundManager mySoundManager;
   private final PlayerSpawnConfig myPlayerSpawnConfig;
@@ -55,7 +57,7 @@ public class SolGame {
   private final SpecialSounds mySpecialSounds;
   private final EffectTypes myEffectTypes;
   private final SpecialEffects mySpecialEffects;
-  private final GameCols myCols;
+  private final GameColors myCols;
   private final AbilityCommonConfigs myAbilityCommonConfigs;
   private final SolNames myNames;
   private final BeaconHandler myBeaconHandler;
@@ -76,8 +78,8 @@ public class SolGame {
   public SolGame(SolApplication cmp, boolean usePrevShip, TextureManager textureManager, boolean tut, CommonDrawer commonDrawer) {
     myCmp = cmp;
     GameDrawer drawer = new GameDrawer(textureManager, commonDrawer);
-    myCols = new GameCols();
-    mySoundManager = new SoundManager();
+    myCols = GameColors.getInstance();
+    mySoundManager = SoundManager.getInstance();
     mySpecialSounds = new SpecialSounds(mySoundManager);
     myDraMan = new DraMan(drawer);
     myCam = new SolCam(drawer.r);
@@ -85,14 +87,16 @@ public class SolGame {
     myTutorialManager = tut ? new TutorialManager(commonDrawer.r, myScreens, cmp.isMobile()) : null;
     myTextureManager = textureManager;
     myFarBackgroundManagerOld = new FarBackgroundManagerOld(myTextureManager);
-    myShipBuilder = new ShipBuilder();
-    myEffectTypes = new EffectTypes();
+    myShipBuilder = ShipBuilder.getInstance();
+    myEffectTypes = EffectTypes.getInstance();
     mySpecialEffects = new SpecialEffects(myEffectTypes, myTextureManager, myCols);
-    myItemMan = new ItemMan(myTextureManager, mySoundManager, myEffectTypes, myCols);
-    myAbilityCommonConfigs = new AbilityCommonConfigs(myEffectTypes, myTextureManager, myCols, mySoundManager);
-    myHullConfigs = new HullConfigs(myShipBuilder, textureManager, myItemMan, myAbilityCommonConfigs, mySoundManager);
+    myItemManager = ItemManager.getInstance();
+    myAbilityCommonConfigs = AbilityCommonConfigs.getInstance();
+    //myHullConfigs = new HullConfigs(myShipBuilder, textureManager, myItemManager, myAbilityCommonConfigs, mySoundManager);
+
+    myHullConfigs = HullConfigManager.getInstance();
     myNames = new SolNames();
-    myPlanetMananger = new PlanetMananger(myTextureManager, myHullConfigs, myCols, myItemMan);
+    myPlanetMananger = new PlanetMananger(myTextureManager, myHullConfigs, myCols, myItemManager);
     SolContactListener contactListener = new SolContactListener(this);
     myFractionMan = new FractionMan(myTextureManager);
     myObjectManager = new ObjectManager(contactListener, myFractionMan);
@@ -106,7 +110,7 @@ public class SolGame {
     myShardBuilder = new ShardBuilder(myTextureManager);
     myGalaxyFiller = new GalaxyFiller();
     myStarPortBuilder = new StarPort.Builder();
-    myPlayerSpawnConfig = PlayerSpawnConfig.load(myHullConfigs, myItemMan);
+    myPlayerSpawnConfig = PlayerSpawnConfig.load(myHullConfigs, myItemManager);
     myDraDebugger = new DraDebugger();
     myBeaconHandler = new BeaconHandler(textureManager);
     myMountDetectDrawer = new MountDetectDrawer(textureManager);
@@ -116,7 +120,7 @@ public class SolGame {
     // from this point we're ready!
     myPlanetMananger.fill(myNames);
     myGalaxyFiller.fill(this);
-    ShipConfig startingShip = usePrevShip ? SaveManager.readShip(myHullConfigs, myItemMan) : null;
+    ShipConfig startingShip = usePrevShip ? SaveManager.readShip(myHullConfigs, myItemManager) : null;
     createPlayer(startingShip);
     SolMath.checkVectorsTaken(null);
   }
@@ -159,11 +163,11 @@ public class SolGame {
         ic.add(item);
       }
     } else if (DebugOptions.GOD_MODE) {
-      myItemMan.addAllGuns(ic);
+      myItemManager.addAllGuns(ic);
     } else if (myTutorialManager != null) {
       for (int i = 0; i < 50; i++) {
         if (ic.groupCount() > 1.5f * Const.ITEM_GROUPS_PER_PAGE) break;
-        SolItem it = myItemMan.random();
+        SolItem it = myItemManager.random();
         if (!(it instanceof GunItem) && it.getIcon(this) != null && ic.canAdd(it)) {
           ic.add(it.copy());
         }
@@ -220,11 +224,6 @@ public class SolGame {
 
   public void update() {
     myDraDebugger.update(this);
-
-    if (DebugOptions.PRINT_BALANCE) {
-      myItemMan.printGuns();
-      myPlanetMananger.printShips(myPlayerSpawnConfig, myItemMan);
-    }
 
     if (myPaused) return;
 
@@ -344,11 +343,11 @@ public class SolGame {
     return myShipBuilder;
   }
 
-  public ItemMan getItemMan() {
-    return myItemMan;
+  public ItemManager getItemMan() {
+    return myItemManager;
   }
 
-  public HullConfigs getHullConfigs() {
+  public HullConfigManager getHullConfigs() {
     return myHullConfigs;
   }
 
@@ -457,7 +456,7 @@ public class SolGame {
     return mySpecialEffects;
   }
 
-  public GameCols getCols() {
+  public GameColors getCols() {
     return myCols;
   }
 

@@ -9,6 +9,15 @@ import com.miloshpetrov.sol2.files.FileManager;
 import java.util.*;
 
 public class TextureManager {
+
+    public static TextureManager getInstance() {
+        if(instance == null) {
+            instance = new TextureManager();
+        }
+
+        return instance;
+    }
+
   public static final String ICONS_DIR = "ui/icons/";
   public static final String HULL_ICONS_DIR = "ui/hullIcons/";
   private final Map<String, TextureAtlas.AtlasRegion> myTexs;
@@ -16,7 +25,7 @@ public class TextureManager {
   private final Map<String, ArrayList<TextureAtlas.AtlasRegion>> myPacks;
   private final TextureProvider myTexProvider;
 
-  public TextureManager() {
+  private TextureManager() {
     FileHandle atlasFile = FileManager.getInstance().getImagesDirectory().child("sol.atlas");
     myTexProvider = atlasFile.exists() ? new AtlasTextureProvider(atlasFile) : new DevTextureProvider();
     myPacks = new HashMap<String, ArrayList<TextureAtlas.AtlasRegion>>();
@@ -74,4 +83,5 @@ public class TextureManager {
     myTexProvider.dispose();
   }
 
+    private static TextureManager instance;
 }
