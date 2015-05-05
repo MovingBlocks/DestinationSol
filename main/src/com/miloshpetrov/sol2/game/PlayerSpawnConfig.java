@@ -4,7 +4,8 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.files.FileManager;
-import com.miloshpetrov.sol2.game.item.ItemMan;
+import com.miloshpetrov.sol2.files.HullConfigManager;
+import com.miloshpetrov.sol2.game.item.ItemManager;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 public class PlayerSpawnConfig {
@@ -18,14 +19,14 @@ public class PlayerSpawnConfig {
     this.godShipConfig = godShipConfig;
   }
 
-  public static PlayerSpawnConfig load(HullConfigs hullConfigs, ItemMan itemMan) {
+  public static PlayerSpawnConfig load(HullConfigManager hullConfigs, ItemManager itemManager) {
     JsonReader r = new JsonReader();
     FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("playerSpawn.json");
     JsonValue mainNode = r.parse(configFile);
     JsonValue playerNode = mainNode.get("player");
-    ShipConfig shipConfig = ShipConfig.load(hullConfigs, playerNode.get("ship"), itemMan);
-    ShipConfig godShipConfig = ShipConfig.load(hullConfigs, playerNode.get("godModeShip"), itemMan);
-    ShipConfig mainStation = ShipConfig.load(hullConfigs, mainNode.get("mainStation"), itemMan);
+    ShipConfig shipConfig = ShipConfig.load(hullConfigs, playerNode.get("ship"), itemManager);
+    ShipConfig godShipConfig = ShipConfig.load(hullConfigs, playerNode.get("godModeShip"), itemManager);
+    ShipConfig mainStation = ShipConfig.load(hullConfigs, mainNode.get("mainStation"), itemManager);
     return new PlayerSpawnConfig(shipConfig, mainStation, godShipConfig);
   }
 }

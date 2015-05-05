@@ -90,10 +90,10 @@ public class UnShield implements ShipAbility {
       sb.append("Deal ").append(SolMath.nice(amount)).append(" dmg to enemy shields\n");
     }
 
-    public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig cc) {
+    public static AbilityConfig load(JsonValue abNode, ItemManager itemManager, AbilityCommonConfig cc) {
       float rechargeTime = abNode.getFloat("rechargeTime");
       float amount = abNode.getFloat("amount");
-      SolItem chargeExample = itemMan.getExample("unShieldCharge");
+      SolItem chargeExample = itemManager.getExample("unShieldCharge");
       return new Config(rechargeTime, chargeExample, amount, cc);
     }
   }
