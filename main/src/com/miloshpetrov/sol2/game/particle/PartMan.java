@@ -44,7 +44,7 @@ public class PartMan {
     if (perc <= 0) return;
     Vector2 pos = hull.getPos();
     float angle = SolMath.angle(pos, collPos);
-    float sz = hull.config.size * Shield.SIZE_PERC * 2;
+    float sz = hull.config.getSize() * Shield.SIZE_PERC * 2;
     float alphaSum = perc * 3;
     RectSprite s = null;
     int count = (int) alphaSum + 1;

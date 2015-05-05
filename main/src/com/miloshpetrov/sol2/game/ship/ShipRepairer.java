@@ -23,11 +23,11 @@ public class ShipRepairer {
     if (myRepairPoints <= 0 && ic.tryConsumeItem(game.getItemMan().getRepairExample())) {
       myRepairPoints = RepairItem.LIFE_AMT;
     }
-    if (myRepairPoints > 0 && life < config.maxLife) {
+    if (myRepairPoints > 0 && life < config.getMaxLife()) {
       float inc = REPAIR_SPD * ts;
       if (myRepairPoints < inc) inc = myRepairPoints;
       myRepairPoints -= inc;
-      return SolMath.approach(life, inc, config.maxLife);
+      return SolMath.approach(life, inc, config.getMaxLife());
     }
     return 0;
   }

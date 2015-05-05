@@ -31,7 +31,7 @@ public class MountDetectDrawer {
 
   public void setNe(SolShip ne) {
     myNePos.set(ne.getPos());
-    myBaseRad = ne.getHull().config.approxRadius;
+    myBaseRad = ne.getHull().config.getApproxRadius();
     myShouldDraw = true;
   }
 

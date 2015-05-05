@@ -81,12 +81,12 @@ public class HardnessCalc {
       SolItem item = ic.examples.get(0);
       if (!(item instanceof GunItem)) continue;
       GunItem g = (GunItem) item;
-      if (!g1Filled && sc.hull.m1Fixed == g.config.fixed) {
+      if (!g1Filled && sc.hull.m1IsFixed() == g.config.fixed) {
         dps += getItemCfgDps(ic, g.config.fixed);
         g1Filled = true;
         continue;
       }
-      if (sc.hull.g2Pos != null && !g2Filled && sc.hull.m2Fixed == g.config.fixed) {
+      if (sc.hull.getG2Pos() != null && !g2Filled && sc.hull.m2IsFixed() == g.config.fixed) {
         dps += getItemCfgDps(ic, g.config.fixed);
         g2Filled = true;
       }
@@ -115,7 +115,7 @@ public class HardnessCalc {
         meanArmorPerc *= ic.chance;
       }
     }
-    return sc.hull.maxLife / (1 - meanArmorPerc) + meanShieldLife * SHIELD_MUL;
+    return sc.hull.getMaxLife() / (1 - meanArmorPerc) + meanShieldLife * SHIELD_MUL;
   }
 
   private static float getShipConfListDps(List<ShipConfig> ships) {
@@ -176,7 +176,7 @@ public class HardnessCalc {
   }
 
   private static float getDmgCap(HullConfig hull, Armor armor, Shield shield) {
-    float r = hull.maxLife;
+    float r = hull.getMaxLife();
     if (armor != null) r *= 1 / (1 - armor.getPerc());
     if (shield != null) r += shield.getMaxLife() * SHIELD_MUL;
     return r;

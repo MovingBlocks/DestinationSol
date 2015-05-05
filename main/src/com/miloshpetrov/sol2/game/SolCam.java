@@ -85,7 +85,7 @@ public class SolCam {
       } else if (np.isNearGround(myPos) && spd < MED_ZOOM_SPD) {
         desiredVd = Const.CAM_VIEW_DIST_GROUND;
       }
-      desiredVd += hero.getHull().config.approxRadius;
+      desiredVd += hero.getHull().config.getApproxRadius();
     }
 
     if (life < myPrevHeroLife) {
