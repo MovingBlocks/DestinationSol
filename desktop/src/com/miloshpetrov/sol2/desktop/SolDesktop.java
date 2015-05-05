@@ -23,14 +23,18 @@ public class SolDesktop {
             return;
         }
 
+        LwjglApplicationConfiguration c = new LwjglApplicationConfiguration();
         boolean devBuild = java.nio.file.Files.exists(Paths.get("devBuild"));
         if (devBuild) {
             DebugOptions.DEV_ROOT_PATH = "main/"; // Lets the game run from source without a tweaked working directory
+            c.vSyncEnabled = false; //Setting to false disables vertical sync
+            c.foregroundFPS = 0; //disables foreground fps throttling
+            c.backgroundFPS = 0; //disables background fps throttling
         }
         MyReader reader = new MyReader();
         DebugOptions.read(reader);
 
-        LwjglApplicationConfiguration c = new LwjglApplicationConfiguration();
+
         if (DebugOptions.EMULATE_MOBILE) {
             c.width = 640;
             c.height = 480;

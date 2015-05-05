@@ -3,6 +3,7 @@ package com.miloshpetrov.sol2;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL10;
 import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
@@ -22,6 +23,7 @@ public class SolApplication implements ApplicationListener {
   private boolean myReallyMobile;
   private GameOptions myOptions;
   private CommonDrawer myCommonDrawer;
+  private FPSLogger  myFpsLogger;
 
   private String myFatalErrorMsg;
   private String myFatalErrorTrace;
@@ -47,6 +49,7 @@ public class SolApplication implements ApplicationListener {
     myMenuScreens = new MenuScreens(myLayouts, myTextureManager, isMobile(), myUiDrawer.r);
 
     myInputMan.setScreen(this, myMenuScreens.main);
+    myFpsLogger = new FPSLogger();
   }
 
   @Override
@@ -59,6 +62,7 @@ public class SolApplication implements ApplicationListener {
     while (myAccum > Const.REAL_TIME_STEP) {
       safeUpdate();
       myAccum -= Const.REAL_TIME_STEP;
+
     }
     draw();
   }
@@ -91,11 +95,13 @@ public class SolApplication implements ApplicationListener {
     DebugCollector.update();
     if (DebugOptions.SHOW_FPS) {
       DebugCollector.debug("Fps", Gdx.graphics.getFramesPerSecond());
+      myFpsLogger.log();
     }
     myInputMan.update(this);
     if (myGame != null) {
       myGame.update();
     }
+
     SolMath.checkVectorsTaken(null);
   }
 
