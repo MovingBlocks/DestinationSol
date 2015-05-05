@@ -69,9 +69,9 @@ public class BorderDrawer {
         SolShip ship = (SolShip) o;
         Vector2 shipPos = ship.getPos();
         Fraction shipFrac = ship.getPilot().getFraction();
-        float shipSize = ship.getHull().config.size;
+        float shipSize = ship.getHull().config.getSize();
         float shipAngle = ship.getAngle();
-        maybeDrawIcon(drawer, shipPos, cam, shipSize, shipAngle, mapDrawer, fracMan, hero, shipFrac, o, heroDmgCap, ship.getHull().config.icon);
+        maybeDrawIcon(drawer, shipPos, cam, shipSize, shipAngle, mapDrawer, fracMan, hero, shipFrac, o, heroDmgCap, ship.getHull().config.getIcon());
       }
       if ((o instanceof StarPort)) {
         StarPort sp = (StarPort) o;
@@ -84,9 +84,9 @@ public class BorderDrawer {
       FarShip ship = farShips.get(i);
       Vector2 shipPos = ship.getPos();
       Fraction shipFrac = ship.getPilot().getFraction();
-      float shipSize = ship.getHullConfig().size;
+      float shipSize = ship.getHullConfig().getSize();
       float shipAngle = ship.getAngle();
-      maybeDrawIcon(drawer, shipPos, cam, shipSize, shipAngle, mapDrawer, fracMan, hero, shipFrac, ship, heroDmgCap, ship.getHullConfig().icon);
+      maybeDrawIcon(drawer, shipPos, cam, shipSize, shipAngle, mapDrawer, fracMan, hero, shipFrac, ship, heroDmgCap, ship.getHullConfig().getIcon());
     }
     List<StarPort.MyFar> farPorts = g.getObjMan().getFarPorts();
     for (int i = 0, sz = farPorts.size(); i < sz; i++) {

@@ -53,7 +53,7 @@ public class SolShip implements SolObject {
     myHull = hull;
     myItemContainer = container;
     myTradeContainer = tradeContainer;
-    List<ParticleSrc> effs = game.getSpecialEffects().buildBodyEffs(myHull.config.approxRadius, game, myHull.getPos(), myHull.getSpd());
+    List<ParticleSrc> effs = game.getSpecialEffects().buildBodyEffs(myHull.config.getApproxRadius(), game, myHull.getPos(), myHull.getSpd());
     mySmokeSrc = effs.get(0);
     myFireSrc = effs.get(1);
     myElectricitySrc = effs.get(2);
@@ -64,7 +64,7 @@ public class SolShip implements SolObject {
     myMoney = money;
     myShield = shield;
     myArmor = armor;
-    AbilityConfig ac = myHull.config.ability;
+    AbilityConfig ac = myHull.config.getAbility();
     myAbility = ac == null ? null : ac.build();
     if (myAbility != null) myAbilityAwait = myAbility.getConfig().getRechargeTime();
   }
@@ -94,9 +94,9 @@ public class SolShip implements SolObject {
       ((Loot)other).pickedUp(game, this);
       return;
     }
-    if (myHull.config.type != HullConfig.Type.STATION) {
+    if (myHull.config.getType() != HullConfig.Type.STATION) {
       Fixture f = null; // restore?
-      float dmg = absImpulse / myHull.getMass() / myHull.config.durability;
+      float dmg = absImpulse / myHull.getMass() / myHull.config.getDurability();
       if (f == myHull.getBase()) dmg *= BASE_DUR_MOD;
       receiveDmg((int) dmg, game, collPos, DmgType.CRASH);
     }
@@ -181,8 +181,8 @@ public class SolShip implements SolObject {
 
     float ts = game.getTimeStep();
     if (myFireAwait > 0) myFireAwait -= ts;
-    mySmokeSrc.setWorking(myFireAwait > 0 || myHull.life < SMOKE_PERC * myHull.config.maxLife);
-    boolean onFire = myFireAwait > 0 || myHull.life < FIRE_PERC * myHull.config.maxLife;
+    mySmokeSrc.setWorking(myFireAwait > 0 || myHull.life < SMOKE_PERC * myHull.config.getMaxLife());
+    boolean onFire = myFireAwait > 0 || myHull.life < FIRE_PERC * myHull.config.getMaxLife();
     myFireSrc.setWorking(onFire);
     if (onFire) {
       game.getSoundMan().play(game, game.getSpecialSounds().burning, null, this);
@@ -248,7 +248,7 @@ public class SolShip implements SolObject {
   }
 
   public float getPullDist() {
-    return PULL_DIST + myHull.config.approxRadius;
+    return PULL_DIST + myHull.config.getApproxRadius();
   }
 
   @Override
@@ -259,7 +259,7 @@ public class SolShip implements SolObject {
   @Override
   public void onRemove(SolGame game) {
     if (myHull.life <= 0) {
-      game.getShardBuilder().buildExplosionShards(game, myHull.getPos(), myHull.getSpd(), myHull.config.size);
+      game.getShardBuilder().buildExplosionShards(game, myHull.getPos(), myHull.getSpd(), myHull.config.getSize());
       throwAllLoot(game);
     }
     myHull.onRemove(game);
@@ -305,11 +305,11 @@ public class SolShip implements SolObject {
     if (onDeath) {
       spdAngle = SolMath.rnd(180);
       spdLen = SolMath.rnd(0, Loot.MAX_SPD);
-      SolMath.fromAl(pos, spdAngle, SolMath.rnd(myHull.config.approxRadius));
+      SolMath.fromAl(pos, spdAngle, SolMath.rnd(myHull.config.getApproxRadius()));
     } else {
       spdAngle = getAngle();
       spdLen = 1f;
-      SolMath.fromAl(pos, spdAngle, myHull.config.approxRadius);
+      SolMath.fromAl(pos, spdAngle, myHull.config.getApproxRadius());
     }
     SolMath.fromAl(lootSpd, spdAngle, spdLen);
     lootSpd.add(myHull.getSpd());
@@ -336,7 +336,7 @@ public class SolShip implements SolObject {
     myHull.life -= dmg;
     if (wasAlive && myHull.life <= 0) {
       Vector2 shipPos = getPos();
-      game.getSpecialEffects().explodeShip(game, shipPos, myHull.config.size);
+      game.getSpecialEffects().explodeShip(game, shipPos, myHull.config.getSize());
       game.getSoundMan().play(game, game.getSpecialSounds().shipExplosion, null, this);
     }
     if (dmgType == DmgType.FIRE) myFireAwait = MAX_FIRE_AWAIT;
@@ -402,7 +402,7 @@ public class SolShip implements SolObject {
       if (item instanceof EngineItem) {
         if (true) throw new AssertionError("no engine item support for now");
         EngineItem ei = (EngineItem) item;
-        boolean ok = ei.isBig() == (myHull.config.type == HullConfig.Type.BIG);
+        boolean ok = ei.isBig() == (myHull.config.getType() == HullConfig.Type.BIG);
         if (ok && equip) myHull.setEngine(game, this, ei);
         return ok;
       }
@@ -426,7 +426,7 @@ public class SolShip implements SolObject {
         if (anotherMount != null && anotherMount.getGun() == item) {
           anotherMount.setGun(game, this, null, false);
         }
-        boolean under = secondarySlot ? myHull.config.g2UnderShip : myHull.config.g1UnderShip;
+        boolean under = secondarySlot ? myHull.config.g2IsUnderShip() : myHull.config.g1IsUnderShip();
         mount.setGun(game, this, gun, under);
       }
       return canEquip;

@@ -37,7 +37,7 @@ public class ShipBuilder {
     if (spd == null) spd = new Vector2();
     ItemContainer ic = new ItemContainer();
     game.getItemMan().fillContainer(ic, items);
-    EngineItem.Config ec = hullConfig.engineConfig;
+    EngineItem.Config ec = hullConfig.getEngineConfig();
     EngineItem ei = ec == null ? null : ec.example.copy();
     TradeContainer tc = tradeConfig == null ? null : new TradeContainer(tradeConfig);
 
@@ -58,11 +58,11 @@ public class ShipBuilder {
         }
         if (i instanceof GunItem) {
           GunItem g = (GunItem) i;
-          if (g1 == null && hullConfig.m1Fixed == g.config.fixed) {
+          if (g1 == null && hullConfig.m1IsFixed() == g.config.fixed) {
             g1 = g;
             continue;
           }
-          if (hullConfig.g2Pos != null && g2 == null && hullConfig.m2Fixed == g.config.fixed) g2 = g;
+          if (hullConfig.getG2Pos() != null && g2 == null && hullConfig.m2IsFixed() == g.config.fixed) g2 = g;
           continue;
         }
       }
@@ -74,7 +74,7 @@ public class ShipBuilder {
       addAmmo(ic, g2, pilot);
     }
 
-    return new FarShip(new Vector2(pos), new Vector2(spd), angle, rotSpd, pilot, ic, hullConfig, hullConfig.maxLife,
+    return new FarShip(new Vector2(pos), new Vector2(spd), angle, rotSpd, pilot, ic, hullConfig, hullConfig.getMaxLife(),
       g1, g2, removeController, ei, hasRepairer ? new ShipRepairer() : null, money, tc, shield, armor);
   }
 
@@ -92,15 +92,15 @@ public class ShipBuilder {
   }
 
   private void addAbilityCharges(ItemContainer ic, HullConfig hc, Pilot pilot) {
-    if (hc.ability != null) {
-      SolItem ex = hc.ability.getChargeExample();
+    if (hc.getAbility() != null) {
+      SolItem ex = hc.getAbility().getChargeExample();
       if (ex != null) {
         int count;
         if (pilot.isPlayer()) {
           count = 3;
         } else {
           float lifeTime = pilot.getFraction() == Fraction.LAANI ? AVG_ALLY_LIFE_TIME : AVG_BATTLE_TIME;
-          count = (int) (lifeTime / hc.ability.getRechargeTime() * SolMath.rnd(.3f, 1));
+          count = (int) (lifeTime / hc.getAbility().getRechargeTime() * SolMath.rnd(.3f, 1));
         }
         for (int i = 0; i < count; i++) ic.add(ex.copy());
       }
@@ -123,12 +123,12 @@ public class ShipBuilder {
     }
     if (gun1 != null) {
       GunMount m1 = hull.getGunMount(false);
-      if (m1.isFixed() == gun1.config.fixed) m1.setGun(game, ship, gun1, hullConfig.g1UnderShip);
+      if (m1.isFixed() == gun1.config.fixed) m1.setGun(game, ship, gun1, hullConfig.g1IsUnderShip());
     }
     if (gun2 != null) {
       GunMount m2 = hull.getGunMount(true);
       if (m2 != null) {
-        if (m2.isFixed() == gun2.config.fixed) m2.setGun(game, ship, gun2, hullConfig.g2UnderShip);
+        if (m2.isFixed() == gun2.config.fixed) m2.setGun(game, ship, gun2, hullConfig.g2IsUnderShip());
       }
     }
     return ship;
@@ -137,37 +137,37 @@ public class ShipBuilder {
   private ShipHull buildHull(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, HullConfig hullConfig,
     float life, ArrayList<Dra> dras)
   {
-    BodyDef.BodyType bodyType = hullConfig.type == HullConfig.Type.STATION ? BodyDef.BodyType.KinematicBody : BodyDef.BodyType.DynamicBody;
-    DraLevel level = hullConfig.type == HullConfig.Type.STD ? DraLevel.BODIES : DraLevel.BIG_BODIES;
-    Body body = myPathLoader.getBodyAndSprite(game, "hulls", hullConfig.texName, hullConfig.size, bodyType, pos, angle,
-      dras, SHIP_DENSITY, level, hullConfig.tex);
+    BodyDef.BodyType bodyType = hullConfig.getType() == HullConfig.Type.STATION ? BodyDef.BodyType.KinematicBody : BodyDef.BodyType.DynamicBody;
+    DraLevel level = hullConfig.getType() == HullConfig.Type.STD ? DraLevel.BODIES : DraLevel.BIG_BODIES;
+    Body body = myPathLoader.getBodyAndSprite(game, "hulls", hullConfig.getTextureName(), hullConfig.getSize(), bodyType, pos, angle,
+      dras, SHIP_DENSITY, level, hullConfig.getTexture());
     Fixture shieldFixture = createShieldFixture(hullConfig, body);
 
-    GunMount m1 = new GunMount(hullConfig.g1Pos, hullConfig.m1Fixed);
-    GunMount m2 = hullConfig.g2Pos == null ? null : new GunMount(hullConfig.g2Pos, hullConfig.m2Fixed);
+    GunMount m1 = new GunMount(hullConfig.getG1Pos(), hullConfig.m1IsFixed());
+    GunMount m2 = hullConfig.getG2Pos() == null ? null : new GunMount(hullConfig.getG2Pos(), hullConfig.m2IsFixed());
 
     List<LightSrc> lCs = new ArrayList<LightSrc>();
-    for (Vector2 p : hullConfig.lightSrcPoss) {
+    for (Vector2 p : hullConfig.getLightSourcePositions()) {
       LightSrc lc = new LightSrc(game, .35f, true, .7f, p, game.getCols().hullLights);
       lc.collectDras(dras);
       lCs.add(lc);
     }
 
     ArrayList<ForceBeacon> beacons = new ArrayList<ForceBeacon>();
-    for (Vector2 relPos : hullConfig.forceBeaconPoss) {
+    for (Vector2 relPos : hullConfig.getForceBeaconPositions()) {
       ForceBeacon fb = new ForceBeacon(game, relPos, pos, spd);
       fb.collectDras(dras);
       beacons.add(fb);
     }
 
     ArrayList<Door> doors = new ArrayList<Door>();
-    for (Vector2 doorRelPos : hullConfig.doorPoss) {
+    for (Vector2 doorRelPos : hullConfig.getDoorPositions()) {
       Door door = createDoor(game, pos, angle, body, doorRelPos);
       door.collectDras(dras);
       doors.add(door);
     }
 
-    Fixture base = getBase(hullConfig.hasBase, body);
+    Fixture base = getBase(hullConfig.hasBase(), body);
     ShipHull hull = new ShipHull(game, hullConfig, body, m1, m2, base, lCs, life, beacons, doors, shieldFixture);
     body.setLinearVelocity(spd);
     body.setAngularVelocity(rotSpd * SolMath.degRad);
@@ -176,7 +176,7 @@ public class ShipBuilder {
 
   private Fixture createShieldFixture(HullConfig hullConfig, Body body) {
     CircleShape shieldShape = new CircleShape();
-    shieldShape.setRadius(Shield.SIZE_PERC * hullConfig.size);
+    shieldShape.setRadius(Shield.SIZE_PERC * hullConfig.getSize());
     FixtureDef shieldDef = new FixtureDef();
     shieldDef.shape = shieldShape;
     shieldDef.isSensor = true;
