@@ -3,18 +3,30 @@ package com.miloshpetrov.sol2.game.particle;
 import java.util.HashMap;
 
 public class EffectTypes {
-  private final HashMap<String, EffectType> myTypes;
+    private final HashMap<String, EffectType> myTypes;
 
-  public EffectTypes() {
-    myTypes = new HashMap<String, EffectType>();
-  }
+    public static EffectTypes getInstance() {
+        if (instance == null) {
+            instance = new EffectTypes();
+        }
 
-  public EffectType forName(String fileName) {
-    EffectType res = myTypes.get(fileName);
-    if (res != null) return res;
-    res = new EffectType(fileName);
-    myTypes.put(fileName, res);
-    return res;
-  }
+        return instance;
+    }
 
+    public EffectType forName(String fileName) {
+        EffectType result = myTypes.get(fileName);
+
+        if (result == null) {
+            result = new EffectType(fileName);
+            myTypes.put(fileName, result);
+        }
+
+        return result;
+    }
+
+    private EffectTypes() {
+        myTypes = new HashMap<String, EffectType>();
+    }
+
+    private static EffectTypes instance = null;
 }

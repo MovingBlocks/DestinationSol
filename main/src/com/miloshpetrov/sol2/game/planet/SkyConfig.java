@@ -2,7 +2,7 @@ package com.miloshpetrov.sol2.game.planet;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.JsonValue;
-import com.miloshpetrov.sol2.game.GameCols;
+import com.miloshpetrov.sol2.game.GameColors;
 
 public class SkyConfig {
   public final Color dawn;
@@ -13,7 +13,7 @@ public class SkyConfig {
     this.day = dayHsba;
   }
 
-  public static SkyConfig load(JsonValue skyNode, GameCols cols) {
+  public static SkyConfig load(JsonValue skyNode, GameColors cols) {
     if (skyNode == null) return null;
     Color dawn = cols.load(skyNode.getString("dawnColor"));
     Color day = cols.load(skyNode.getString("dayColor"));

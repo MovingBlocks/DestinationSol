@@ -17,7 +17,7 @@ public class AbilityCommonConfig {
     this.activatedSound = activatedSound;
   }
 
-  public static AbilityCommonConfig load(JsonValue node, EffectTypes types, TextureManager textureManager, GameCols cols,
+  public static AbilityCommonConfig load(JsonValue node, EffectTypes types, TextureManager textureManager, GameColors cols,
     FileHandle configFile, SoundManager soundManager)
   {
     EffectConfig ec = EffectConfig.load(node.get("effect"), types, textureManager, configFile, cols);

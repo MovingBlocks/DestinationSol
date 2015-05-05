@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.TextureManager;
-import com.miloshpetrov.sol2.game.GameCols;
+import com.miloshpetrov.sol2.game.GameColors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class EffectConfig {
   }
 
   public static EffectConfig load(JsonValue node, EffectTypes types, TextureManager textureManager, FileHandle configFile,
-    GameCols cols) {
+    GameColors cols) {
     if (node == null) return null;
     String effectFileName = node.getString("effectFile");
     EffectType effectType = types.forName(effectFileName);
@@ -39,7 +39,7 @@ public class EffectConfig {
   }
 
   public static List<EffectConfig> loadList(JsonValue listNode, EffectTypes types, TextureManager textureManager, FileHandle configFile,
-    GameCols cols) {
+    GameColors cols) {
     ArrayList<EffectConfig> res = new ArrayList<EffectConfig>();
     for (JsonValue node : listNode) {
       EffectConfig ec = load(node, types, textureManager, configFile, cols);
