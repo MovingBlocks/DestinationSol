@@ -2,6 +2,7 @@ package com.miloshpetrov.sol2.files;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.TextureManager;
@@ -112,7 +113,7 @@ public final class HullConfigManager {
         String internalName = hullConfigDirectory.nameWithoutExtension();
 
         configData.textureName = internalName;
-        configData.tex = textureManager.getTex("hulls/" + configData.textureName, hullConfigDirectory);
+        configData.tex = textureManager.getTexture(hullConfigDirectory.child(TEXTURE_FILE_NAME));
         configData.icon = textureManager.getTex(TextureManager.HULL_ICONS_DIR + configData.textureName, hullConfigDirectory);
 
         validateEngineConfig(configData);
@@ -138,7 +139,7 @@ public final class HullConfigManager {
         configData.type = HullConfig.Type.forName(jsonNode.getString("type"));
         configData.durability = (configData.type == HullConfig.Type.BIG) ? 3 : .25f;
         configData.engineConfig = readEngineConfig(itemManager, jsonNode, "engine");
-        configData.ability = loadAbility(jsonNode, itemManager, abilityCommonConfigs, soundManager);
+        configData.ability = loadAbility(jsonNode, itemManager, abilityCommonConfigs);
         configData.g1UnderShip = jsonNode.getBoolean("g1UnderShip", false);
         configData.g2UnderShip = jsonNode.getBoolean("g2UnderShip", false);
         configData.m1Fixed = jsonNode.getBoolean("m1Fixed", false);
@@ -146,15 +147,13 @@ public final class HullConfigManager {
         configData.displayName = jsonNode.getString("displayName", "---");
         configData.price = jsonNode.getInt("price", 0);
         configData.hirePrice = jsonNode.getFloat("hirePrice", 0);
-
     }
 
     private AbilityConfig loadAbility(
             JsonValue hullNode,
             ItemManager itemManager,
-            AbilityCommonConfigs abilityCommonConfigs,
-            SoundManager soundManager)
-    {
+            AbilityCommonConfigs abilityCommonConfigs
+    ) {
         JsonValue abNode = hullNode.get("ability");
         if (abNode == null) return null;
         String type = abNode.getString("type");
@@ -214,7 +213,7 @@ public final class HullConfigManager {
     private final Map<String,HullConfig> nameToConfigMap;
     private final Map<HullConfig, String> configToNameMap;
 
-
-
     public static final String PROPERTIES_FILE_NAME = "properties.json";
+    public static final String TEXTURE_FILE_NAME = "texture.png";
+    public static final String ICON_FILE_NAME = "icon.png";
 }

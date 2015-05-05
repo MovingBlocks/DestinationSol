@@ -43,7 +43,7 @@ public class SolApplication implements ApplicationListener {
     if (myReallyMobile) DebugOptions.read(null);
     myOptions = new GameOptions(isMobile(), null);
 
-    textureManager = TextureManager.getInstance();
+    textureManager = new TextureManager();
     myCommonDrawer = new CommonDrawer();
     myUiDrawer = new UiDrawer(textureManager, myCommonDrawer);
     myInputMan = new SolInputManager(textureManager, myUiDrawer.r);
