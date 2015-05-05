@@ -5,7 +5,8 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.files.FileManager;
-import com.miloshpetrov.sol2.game.item.ItemMan;
+import com.miloshpetrov.sol2.files.HullConfigManager;
+import com.miloshpetrov.sol2.game.item.ItemManager;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 import java.util.ArrayList;
@@ -14,14 +15,14 @@ import java.util.List;
 public class MazeConfigs {
   public final List<MazeConfig> configs;
 
-  public MazeConfigs(TextureManager textureManager, HullConfigs hullConfigs, ItemMan itemMan) {
+  public MazeConfigs(TextureManager textureManager, HullConfigManager hullConfigs, ItemManager itemManager) {
     configs = new ArrayList<MazeConfig>();
 
     JsonReader r = new JsonReader();
     FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("mazes.json");
     JsonValue mazesNode = r.parse(configFile);
     for (JsonValue mazeNode : mazesNode) {
-      MazeConfig c = MazeConfig.load(textureManager, hullConfigs, mazeNode, configFile, itemMan);
+      MazeConfig c = MazeConfig.load(textureManager, hullConfigs, mazeNode, configFile, itemManager);
       configs.add(c);
     }
   }

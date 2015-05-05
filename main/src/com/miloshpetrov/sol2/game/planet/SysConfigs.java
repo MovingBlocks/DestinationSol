@@ -6,9 +6,10 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.files.FileManager;
+import com.miloshpetrov.sol2.files.HullConfigManager;
 import com.miloshpetrov.sol2.game.ShipConfig;
 import com.miloshpetrov.sol2.game.chunk.SpaceEnvConfig;
-import com.miloshpetrov.sol2.game.item.ItemMan;
+import com.miloshpetrov.sol2.game.item.ItemManager;
 import com.miloshpetrov.sol2.game.item.TradeConfig;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
@@ -20,34 +21,34 @@ public class SysConfigs {
   private final Map<String, SysConfig> myBeltConfigs;
   private final Map<String, SysConfig> myHardBeltConfigs;
 
-  public SysConfigs(TextureManager textureManager, HullConfigs hullConfigs, ItemMan itemMan) {
+  public SysConfigs(TextureManager textureManager, HullConfigManager hullConfigs, ItemManager itemManager) {
     myConfigs = new HashMap<String, SysConfig>();
     myHardConfigs = new HashMap<String, SysConfig>();
     myBeltConfigs = new HashMap<String, SysConfig>();
     myHardBeltConfigs = new HashMap<String, SysConfig>();
 
-    load(textureManager, hullConfigs, false, "systems.json", itemMan);
-    load(textureManager, hullConfigs, true, "asteroidBelts.json", itemMan);
+    load(textureManager, hullConfigs, false, "systems.json", itemManager);
+    load(textureManager, hullConfigs, true, "asteroidBelts.json", itemManager);
   }
 
-  private void load(TextureManager textureManager, HullConfigs hullConfigs, boolean belts, String configName,
-    ItemMan itemMan)
+  private void load(TextureManager textureManager, HullConfigManager hullConfigs, boolean belts, String configName,
+    ItemManager itemManager)
   {
     JsonReader r = new JsonReader();
     FileHandle configFile = FileManager.getInstance().getConfigDirectory().child(configName);
     JsonValue parsed = r.parse(configFile);
     for (JsonValue sh : parsed) {
-      ArrayList<ShipConfig> tempEnemies = ShipConfig.loadList(sh.get("temporaryEnemies"), hullConfigs, itemMan);
-      ArrayList<ShipConfig> innerTempEnemies = ShipConfig.loadList(sh.get("innerTemporaryEnemies"), hullConfigs, itemMan);
+      ArrayList<ShipConfig> tempEnemies = ShipConfig.loadList(sh.get("temporaryEnemies"), hullConfigs, itemManager);
+      ArrayList<ShipConfig> innerTempEnemies = ShipConfig.loadList(sh.get("innerTemporaryEnemies"), hullConfigs, itemManager);
       SpaceEnvConfig envConfig = new SpaceEnvConfig(sh.get("environment"), textureManager, configFile);
 
       ArrayList<ShipConfig> constEnemies = null;
       ArrayList<ShipConfig> constAllies = null;
       if (!belts) {
-        constEnemies = ShipConfig.loadList(sh.get("constantEnemies"), hullConfigs, itemMan);
-        constAllies = ShipConfig.loadList(sh.get("constantAllies"), hullConfigs, itemMan);
+        constEnemies = ShipConfig.loadList(sh.get("constantEnemies"), hullConfigs, itemManager);
+        constAllies = ShipConfig.loadList(sh.get("constantAllies"), hullConfigs, itemManager);
       }
-      TradeConfig tradeConfig = TradeConfig.load(itemMan, sh.get("trading"), hullConfigs);
+      TradeConfig tradeConfig = TradeConfig.load(itemManager, sh.get("trading"), hullConfigs);
       boolean hard = sh.getBoolean("hard", false);
       SysConfig c = new SysConfig(sh.name, tempEnemies, envConfig, constEnemies, constAllies, tradeConfig, innerTempEnemies, hard);
       Map<String, SysConfig> configs = belts ? hard ? myHardBeltConfigs : myBeltConfigs : hard ? myHardConfigs : myConfigs;

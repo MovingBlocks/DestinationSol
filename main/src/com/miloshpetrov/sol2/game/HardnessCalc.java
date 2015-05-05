@@ -72,8 +72,8 @@ public class HardnessCalc {
     return dps / ic.examples.size() * ic.chance;
   }
 
-  public static float getShipConfDps(ShipConfig sc, ItemMan itemMan) {
-    List<ItemConfig> parsed = itemMan.parseItems(sc.items);
+  public static float getShipConfDps(ShipConfig sc, ItemManager itemManager) {
+    List<ItemConfig> parsed = itemManager.parseItems(sc.items);
     boolean g1Filled = false;
     boolean g2Filled = false;
     float dps = 0;
@@ -94,8 +94,8 @@ public class HardnessCalc {
     return dps;
   }
 
-  public static float getShipCfgDmgCap(ShipConfig sc, ItemMan itemMan) {
-    List<ItemConfig> parsed = itemMan.parseItems(sc.items);
+  public static float getShipCfgDmgCap(ShipConfig sc, ItemManager itemManager) {
+    List<ItemConfig> parsed = itemManager.parseItems(sc.items);
     float meanShieldLife = 0;
     float meanArmorPerc = 0;
     for (ItemConfig ic : parsed) {
