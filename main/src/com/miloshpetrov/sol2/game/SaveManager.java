@@ -5,7 +5,6 @@ import com.miloshpetrov.sol2.files.HullConfigManager;
 import com.miloshpetrov.sol2.game.item.ItemManager;
 import com.miloshpetrov.sol2.game.item.SolItem;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
-import com.miloshpetrov.sol2.game.ship.HullConfigs;
 import com.miloshpetrov.sol2.IniReader;
 
 import java.util.ArrayList;

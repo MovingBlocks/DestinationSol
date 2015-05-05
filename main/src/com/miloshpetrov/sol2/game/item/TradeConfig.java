@@ -4,7 +4,6 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.files.HullConfigManager;
 import com.miloshpetrov.sol2.game.ShipConfig;
 import com.miloshpetrov.sol2.game.ship.HullConfig;
-import com.miloshpetrov.sol2.game.ship.HullConfigs;
 
 import java.util.*;
 
