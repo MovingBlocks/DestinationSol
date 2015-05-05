@@ -122,7 +122,7 @@ public class SoundManager {
     if (DebugOptions.SOUND_IN_SPACE) airPerc = 1;
     float maxSoundDist = 1 + 1.5f * Const.CAM_VIEW_DIST_GROUND * airPerc;
     SolShip hero = game.getHero();
-    float fullSoundRad = hero == null ? 0 : hero.getHull().config.approxRadius;
+    float fullSoundRad = hero == null ? 0 : hero.getHull().config.getApproxRadius();
     float dst = pos.dst(camPos) - fullSoundRad;
     float distMul = SolMath.clamp(1 - dst / maxSoundDist);
     float vol = sound.baseVolume * volMul * distMul * globalVolMul;

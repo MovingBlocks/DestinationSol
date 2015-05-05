@@ -211,7 +211,7 @@ public class BeaconHandler {
       Pilot pilot = s.getPilot();
       if (onMap && pilot.getMapHint() == null) continue;
       float dst = o.getPos().dst(pos);
-      float rad = iconRad == 0 ? s.getHull().config.size : iconRad;
+      float rad = iconRad == 0 ? s.getHull().config.getSize() : iconRad;
       if (dst < rad) {
         if (clicked) {
           myTargetPilot = pilot;
@@ -224,7 +224,7 @@ public class BeaconHandler {
       Pilot pilot = s.getPilot();
       if (onMap && pilot.getMapHint() == null) continue;
       float dst = s.getPos().dst(pos);
-      float rad = iconRad == 0 ? s.getHullConfig().approxRadius : iconRad;
+      float rad = iconRad == 0 ? s.getHullConfig().getApproxRadius() : iconRad;
       if (dst < rad) {
         if (clicked) {
           myTargetPilot = pilot;
