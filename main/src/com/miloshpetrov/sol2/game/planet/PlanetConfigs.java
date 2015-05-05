@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.files.FileManager;
 import com.miloshpetrov.sol2.game.GameCols;
 import com.miloshpetrov.sol2.game.item.ItemMan;
 import com.miloshpetrov.sol2.game.ship.HullConfigs;
@@ -24,7 +25,7 @@ public class PlanetConfigs {
     myHard = new ArrayList<PlanetConfig>();
 
     JsonReader r = new JsonReader();
-    FileHandle configFile = SolFiles.readOnly(Const.CONFIGS_DIR + "planets.json");
+    FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("planets.json");
     JsonValue parsed = r.parse(configFile);
     for (JsonValue sh : parsed) {
       PlanetConfig c = PlanetConfig.load(textureManager, hullConfigs, configFile, sh, cols, itemMan);
