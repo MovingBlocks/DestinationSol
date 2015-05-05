@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.files.FileManager;
-import com.miloshpetrov.sol2.game.GameCols;
+import com.miloshpetrov.sol2.game.GameColors;
 import com.miloshpetrov.sol2.game.sound.SolSound;
 import com.miloshpetrov.sol2.game.sound.SoundManager;
 
@@ -21,7 +21,7 @@ public class SolItemTypes {
   public final SolItemType repair;
   public final SolItemType fixedGun;
 
-  public SolItemTypes(SoundManager soundManager, GameCols cols) {
+  public SolItemTypes(SoundManager soundManager, GameColors cols) {
     JsonReader r = new JsonReader();
     FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("types.json");
     JsonValue parsed = r.parse(configFile);
@@ -37,7 +37,7 @@ public class SolItemTypes {
     repair = load("repair", soundManager, configFile, parsed, cols);
   }
 
-  private SolItemType load(String name, SoundManager soundManager, FileHandle configFile, JsonValue parsed, GameCols cols) {
+  private SolItemType load(String name, SoundManager soundManager, FileHandle configFile, JsonValue parsed, GameColors cols) {
     JsonValue node = parsed.get(name);
     Color color = cols.load(node.getString("color"));
     SolSound pickUpSound = soundManager.getSound(node.getString("pickUpSound"), configFile);
