@@ -2,7 +2,6 @@ package com.miloshpetrov.sol2.files;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.TextureManager;
@@ -35,7 +34,8 @@ public final class HullConfigManager {
                              TextureManager textureManager,
                              ItemManager itemManager,
                              AbilityCommonConfigs abilityCommonConfigs,
-                             SoundManager soundManager) {
+                             SoundManager soundManager
+    ) {
         this.shipBuilder = shipBuilder;
         this.fileManager = fileManager;
         this.textureManager = textureManager;
@@ -112,7 +112,7 @@ public final class HullConfigManager {
 
         String internalName = hullConfigDirectory.nameWithoutExtension();
 
-        configData.textureName = internalName;
+        configData.internalName = internalName;
         configData.tex = textureManager.getTexture(hullConfigDirectory.child(TEXTURE_FILE_NAME));
         configData.icon = textureManager.getTexture(hullConfigDirectory.child(ICON_FILE_NAME));
 
@@ -168,7 +168,7 @@ public final class HullConfigManager {
     // Seems to offsets all positions by the shipbuilder origin
     // Todo: Find out what this function does and provide a better name.
     private void process(HullConfig.Data configData) {
-        Vector2 builderOrigin = shipBuilder.getOrigin(configData.textureName);
+        Vector2 builderOrigin = shipBuilder.getOrigin(configData.internalName);
 
         configData.origin.set(builderOrigin)
                          .scl(configData.size);

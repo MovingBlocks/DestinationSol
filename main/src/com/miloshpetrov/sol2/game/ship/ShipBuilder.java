@@ -1,12 +1,17 @@
 package com.miloshpetrov.sol2.game.ship;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJoint;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.files.FileManager;
+import com.miloshpetrov.sol2.files.HullConfigManager;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.*;
 import com.miloshpetrov.sol2.game.gun.*;
@@ -25,7 +30,7 @@ public class ShipBuilder {
   private final PathLoader myPathLoader;
 
   public ShipBuilder() {
-    myPathLoader = new PathLoader("hulls");
+    myPathLoader = new PathLoader();
   }
 
   public FarShip buildNewFar(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot,
@@ -137,9 +142,15 @@ public class ShipBuilder {
   private ShipHull buildHull(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, HullConfig hullConfig,
     float life, ArrayList<Dra> dras)
   {
+      //TODO: This logic belongs in the HullConfigManager/HullConfig
+      FileHandle hullPropertiesFile =  FileManager.getInstance().getHullsDirectory().child(hullConfig.getInternalName()).child(HullConfigManager.PROPERTIES_FILE_NAME);
+      JsonReader reader = new JsonReader();
+      JsonValue rigidBodyNode = reader.parse(hullPropertiesFile).get("rigidBody");
+      myPathLoader.readJson(rigidBodyNode, hullConfig);
+
     BodyDef.BodyType bodyType = hullConfig.getType() == HullConfig.Type.STATION ? BodyDef.BodyType.KinematicBody : BodyDef.BodyType.DynamicBody;
     DraLevel level = hullConfig.getType() == HullConfig.Type.STD ? DraLevel.BODIES : DraLevel.BIG_BODIES;
-    Body body = myPathLoader.getBodyAndSprite(game, "hulls", hullConfig.getTextureName(), hullConfig.getSize(), bodyType, pos, angle,
+    Body body = myPathLoader.getBodyAndSprite(game, hullConfig, hullConfig.getSize(), bodyType, pos, angle,
       dras, SHIP_DENSITY, level, hullConfig.getTexture());
     Fixture shieldFixture = createShieldFixture(hullConfig, body);
 
