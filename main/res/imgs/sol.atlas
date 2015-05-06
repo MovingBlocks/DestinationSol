@@ -1337,140 +1337,140 @@ ui/hullIcons/bg
   orig: 64, 64
   offset: 0, 0
   index: -1
-ui/hullIcons/bus
+main/res/configs/hulls/bus/icon.png
   rotate: false
   xy: 128, 192
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/desertBoss
+main/res/configs/hulls/desertBoss/icon.png
   rotate: false
   xy: 256, 320
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/desertMedium
+main/res/configs/hulls/desertMedium/icon.png
   rotate: false
   xy: 288, 352
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/desertOrbiter
+main/res/configs/hulls/desertOrbiter/icon.png
   rotate: false
   xy: 320, 384
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/desertPlanetTurret
+main/res/configs/hulls/desertPlanetTurret/icon.png
   rotate: false
   xy: 352, 416
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/desertSmall
+main/res/configs/hulls/desertSmall/icon.png
   rotate: false
   xy: 384, 448
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/desertSpaceTurret
+main/res/configs/hulls/desertSpaceTurret/icon.png
   rotate: false
   xy: 416, 480
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/drome
+main/res/configs/hulls/drome/icon.png
   rotate: false
   xy: 32, 32
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/imperialBig
+main/res/configs/hulls/imperialBig/icon.png
   rotate: false
   xy: 384, 416
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/imperialMedium
+main/res/configs/hulls/imperialMedium/icon.png
   rotate: false
   xy: 416, 448
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/imperialSmall
+main/res/configs/hulls/imperialSmall/icon.png
   rotate: false
   xy: 448, 480
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/minerBoss
+main/res/configs/hulls/minerBoss/icon.png
   rotate: false
   xy: 224, 224
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/minerMedium
+main/res/configs/hulls/minerMedium/icon.png
   rotate: false
   xy: 256, 256
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/minerSmall
+main/res/configs/hulls/minerSmall/icon.png
   rotate: false
   xy: 288, 288
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/minerTurret
+main/res/configs/hulls/minerTurret/icon.png
   rotate: false
   xy: 320, 320
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/pirateMedium
+main/res/configs/hulls/pirateMedium/icon.png
   rotate: false
   xy: 64, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/pirateOrbiter
+main/res/configs/hulls/pirateOrbiter/icon.png
   rotate: false
   xy: 96, 64
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/piratePlanetTurret
+main/res/configs/hulls/piratePlanetTurret/icon.png
   rotate: false
   xy: 128, 96
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/pirateSmall
+main/res/configs/hulls/pirateSmall/icon.png
   rotate: false
   xy: 160, 128
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/pirateSpaceTurret
+main/res/configs/hulls/pirateSpaceTurret/icon.png
   rotate: false
   xy: 192, 160
   size: 32, 32
@@ -1491,35 +1491,35 @@ ui/hullIcons/starPort
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/station
+main/res/configs/hulls/station/icon.png
   rotate: false
   xy: 320, 256
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/techieOrbiter
+main/res/configs/hulls/techieOrbiter/icon.png
   rotate: false
   xy: 352, 288
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/techiePlanetTurret
+main/res/configs/hulls/techiePlanetTurret/icon.png
   rotate: false
   xy: 384, 320
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/techieSmall
+main/res/configs/hulls/techieSmall/icon.png
   rotate: false
   xy: 416, 352
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/hullIcons/truck
+main/res/configs/hulls/truck/icon.png
   rotate: false
   xy: 128, 32
   size: 32, 32
