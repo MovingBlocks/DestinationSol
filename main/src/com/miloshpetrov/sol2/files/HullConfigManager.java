@@ -114,7 +114,7 @@ public final class HullConfigManager {
 
         configData.textureName = internalName;
         configData.tex = textureManager.getTexture(hullConfigDirectory.child(TEXTURE_FILE_NAME));
-        configData.icon = textureManager.getTex(TextureManager.HULL_ICONS_DIR + configData.textureName, hullConfigDirectory);
+        configData.icon = textureManager.getTexture(hullConfigDirectory.child(ICON_FILE_NAME));
 
         validateEngineConfig(configData);
         process(configData);
