@@ -9,8 +9,8 @@ import java.util.List;
 
 public final class HullConfig {
 
-    public String getTextureName() {
-        return data.textureName;
+    public String getInternalName() {
+        return data.internalName;
     }
 
     public float getSize() {
@@ -132,7 +132,7 @@ public final class HullConfig {
 
     public final static class Data {
 
-        public String textureName;
+        public String internalName;
         public float size;
         public int maxLife;
         public Vector2 e1Pos;
@@ -164,7 +164,7 @@ public final class HullConfig {
         }
 
         public Data(Data src) {
-            this.textureName = src.textureName;
+            this.internalName = src.internalName;
             this.size = src.size;
             this.maxLife = src.maxLife;
             this.e1Pos = new Vector2(src.e1Pos);
