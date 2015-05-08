@@ -4,17 +4,22 @@
   "type":"std",
   "price":600,
   "hirePrice":1000,
-  "m1Fixed":true,
   "ability":{
     "type":"teleport",
     "angle":90,
     "rechargeTime":4
   },
-  "g1Pos":"0.32 0.32",
   "e1Pos":"0 0.33",
   "e2Pos":"0 0.67",
   "displayName":"Bomber",
   "engine":"desert",
+  "gunSlots":[
+    {
+      "position":"0.32 0.32",
+      "isUnderneathHull":false,
+      "allowsRotation":false
+    }
+  ],
   "rigidBody":{
     "origin":{
       "x":0.4583333730697632,

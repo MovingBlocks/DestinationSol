@@ -2,8 +2,18 @@
   "size":8,
   "maxLife":400,
   "type":"station",
-  "g1Pos":"0.21 0.7",
-  "g2Pos":"0.79 0.7",
+  "gunSlots":[
+    {
+      "position":"0.21 0.7",
+      "isUnderneathHull":false,
+      "allowsRotation":true
+    },
+    {
+      "position":"0.79 0.7",
+      "isUnderneathHull":false,
+      "allowsRotation":true
+    }
+  ],
   "lightSrcPoss":[
     ".26 .93",
     ".73 .93"

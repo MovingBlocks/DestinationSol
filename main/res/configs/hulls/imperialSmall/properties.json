@@ -8,11 +8,17 @@
     "factor":0.5,
     "rechargeTime":5
   },
-  "g1Pos":"0.45 0.5",
   "e1Pos":"0.14 0.44",
   "e2Pos":"0.14 0.57",
   "displayName":"Guardian",
   "engine":"imperial",
+  "gunSlots":[
+    {
+      "position":"0.45 0.5",
+      "isUnderneathHull":false,
+      "allowsRotation":true
+    }
+  ],
   "rigidBody":{
     "origin":{
       "x":0.6022728681564331,
