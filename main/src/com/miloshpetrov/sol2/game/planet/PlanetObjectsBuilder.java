@@ -12,6 +12,7 @@ import com.miloshpetrov.sol2.game.dra.*;
 import com.miloshpetrov.sol2.game.input.*;
 import com.miloshpetrov.sol2.game.item.TradeConfig;
 import com.miloshpetrov.sol2.game.ship.*;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 
 import java.util.*;
 

@@ -7,7 +7,8 @@ import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
 import com.miloshpetrov.sol2.game.input.Shooter;
 import com.miloshpetrov.sol2.game.item.ItemContainer;
-import com.miloshpetrov.sol2.game.ship.HullConfig;
+import com.miloshpetrov.sol2.game.ship.hulls.GunSlot;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 import java.util.List;
@@ -19,9 +20,9 @@ public class GunMount {
   private boolean myDetected;
   private float myRelGunAngle;
 
-  public GunMount(Vector2 relPos, boolean fixed) {
-    myRelPos = relPos;
-    myFixed = fixed;
+  public GunMount(GunSlot gunSlot) {
+    myRelPos = gunSlot.getPosition();
+    myFixed = !gunSlot.allowsRotation();
   }
 
   public void update(ItemContainer ic, SolGame game, float shipAngle, SolShip creator, boolean shouldShoot, SolShip nearestEnemy, Fraction fraction) {

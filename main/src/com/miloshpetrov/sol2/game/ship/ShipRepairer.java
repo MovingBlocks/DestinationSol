@@ -4,6 +4,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.item.ItemContainer;
 import com.miloshpetrov.sol2.game.item.RepairItem;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 
 public class ShipRepairer {
   public static final float REPAIR_AWAIT = 2f;
