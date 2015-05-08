@@ -2,7 +2,13 @@
   "size":0.7,
   "maxLife":26,
   "type":"std",
-  "g1Pos":"0.5 0.62",
+  "gunSlots":[
+    {
+      "position":"0.5 0.62",
+      "isUnderneathHull":false,
+      "allowsRotation":true
+    }
+  ],
   "rigidBody":{
     "origin":{
       "x":0.549242377281189,

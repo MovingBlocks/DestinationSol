@@ -2,18 +2,26 @@
   "size":1.4,
   "maxLife":72,
   "type":"std",
-  "m1Fixed":true,
-  "m2Fixed":true,
   "ability":{
     "type":"knockBack",
     "force":250,
     "rechargeTime":10
   },
-  "g1Pos":"0.76 0.26",
-  "g2Pos":"0.56 0.73",
   "e1Pos":"0.18 0.3",
   "e2Pos":"0.18 0.7",
   "engine":"miner",
+  "gunSlots":[
+    {
+      "position":"0.76 0.26",
+      "isUnderneathHull":false,
+      "allowsRotation":false
+    },
+    {
+      "position":"0.56 0.73",
+      "isUnderneathHull":false,
+      "allowsRotation":false
+    }
+  ],
   "rigidBody":{
     "origin":{
       "x":0.6022728681564331,

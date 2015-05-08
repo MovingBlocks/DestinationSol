@@ -2,19 +2,28 @@
   "size":0.85,
   "maxLife":58,
   "type":"std",
-  "m1Fixed":true,
   "price":1000,
   "ability":{
     "type":"unShield",
     "amount":9,
     "rechargeTime":6
   },
-  "g1Pos":"0.66 0.34",
-  "g2Pos":"0.38 0.48",
   "e1Pos":"0.03 0.42",
   "e2Pos":"0.04 0.59",
   "displayName":"Wasp",
   "engine":"pirate",
+  "gunSlots":[
+    {
+      "position":"0.66 0.34",
+      "isUnderneathHull":false,
+      "allowsRotation":false
+    },
+    {
+      "position":"0.38 0.48",
+      "isUnderneathHull":false,
+      "allowsRotation":true
+    }
+  ],
   "rigidBody":{
     "origin":{
       "x":0.549242377281189,

@@ -118,24 +118,23 @@ public final class HullConfigManager {
         configData.icon = textureManager.getTexture(hullConfigDirectory.child(ICON_FILE_NAME));
 
         validateEngineConfig(configData);
-        process(configData);
-
-        if(configData.g1Pos != null) {
-            configData.gunSlots.add(new GunSlot(
-                    configData.g1Pos,
-                    configData.g1UnderShip,
-                    !configData.m1Fixed
-            ));
-        }
-        if(configData.g2Pos != null) {
-            configData.gunSlots.add(new GunSlot(
-                    configData.g2Pos,
-                    configData.g2UnderShip,
-                    !configData.m2Fixed
-            ));
-        }
 
         return new HullConfig(configData);
+    }
+
+    private void parseGunSlotList(JsonValue containerNode, HullConfig.Data configData) {
+        Vector2 builderOrigin = shipBuilder.getOrigin(configData.internalName);
+
+        for(JsonValue gunSlotNode: containerNode) {
+            Vector2 position = readVector2(gunSlotNode, "position", null);
+            position.sub(builderOrigin)
+                    .scl(configData.size);
+
+            boolean isUnderneathHull = gunSlotNode.getBoolean("isUnderneathHull", false);
+            boolean allowsRotation = gunSlotNode.getBoolean("allowsRotation", true);
+
+            configData.gunSlots.add(new GunSlot(position, isUnderneathHull, allowsRotation));
+        }
     }
 
     private void readProperties(FileHandle propertiesFile, HullConfig.Data configData) {
@@ -144,10 +143,9 @@ public final class HullConfigManager {
 
         configData.size = jsonNode.getFloat("size");
         configData.maxLife = jsonNode.getInt("maxLife");
+
         configData.e1Pos = readVector2(jsonNode, "e1Pos", new Vector2());
         configData.e2Pos = readVector2(jsonNode, "e2Pos", new Vector2());
-        configData.g1Pos = readVector2(jsonNode, "g1Pos", null);
-        configData.g2Pos = readVector2(jsonNode, "g2Pos", null);
 
         configData.lightSrcPoss = SolMath.readV2List(jsonNode, "lightSrcPoss");
         configData.hasBase = jsonNode.getBoolean("hasBase", false);
@@ -157,13 +155,14 @@ public final class HullConfigManager {
         configData.durability = (configData.type == HullConfig.Type.BIG) ? 3 : .25f;
         configData.engineConfig = readEngineConfig(itemManager, jsonNode, "engine");
         configData.ability = loadAbility(jsonNode, itemManager, abilityCommonConfigs);
-        configData.g1UnderShip = jsonNode.getBoolean("g1UnderShip", false);
-        configData.g2UnderShip = jsonNode.getBoolean("g2UnderShip", false);
-        configData.m1Fixed = jsonNode.getBoolean("m1Fixed", false);
-        configData.m2Fixed = jsonNode.getBoolean("m2Fixed", false);
+
         configData.displayName = jsonNode.getString("displayName", "---");
         configData.price = jsonNode.getInt("price", 0);
         configData.hirePrice = jsonNode.getFloat("hirePrice", 0);
+
+        process(configData);
+
+        parseGunSlotList(jsonNode.get("gunSlots"), configData);
     }
 
     private AbilityConfig loadAbility(
@@ -189,14 +188,6 @@ public final class HullConfigManager {
 
         configData.origin.set(builderOrigin)
                          .scl(configData.size);
-
-        configData.g1Pos.sub(builderOrigin)
-                        .scl(configData.size);
-
-        if (configData.g2Pos != null) {
-            configData.g2Pos.sub(builderOrigin)
-                            .scl(configData.size);
-        }
 
         configData.e1Pos.sub(builderOrigin)
                         .scl(configData.size);
