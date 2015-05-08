@@ -128,11 +128,7 @@ public final class HullConfig {
         public int maxLife;
         public Vector2 e1Pos;
         public Vector2 e2Pos;
-
         public List<GunSlot> gunSlots = new ArrayList<GunSlot>();
-
-        public Vector2 g1Pos;
-        public Vector2 g2Pos;
         public List<Vector2> lightSrcPoss = new ArrayList<Vector2>();
         public float durability;
         public boolean hasBase;
@@ -144,10 +140,6 @@ public final class HullConfig {
         public EngineItem.Config engineConfig;
         public AbilityConfig ability;
         public float approxRadius;
-        public boolean g1UnderShip;
-        public boolean g2UnderShip;
-        public boolean m1Fixed;
-        public boolean m2Fixed;
         public String displayName;
         public float price;
         public float hirePrice;
