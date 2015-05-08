@@ -10,6 +10,8 @@ import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.planet.PlanetBind;
 import com.miloshpetrov.sol2.game.ship.*;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
+import com.miloshpetrov.sol2.game.ship.hulls.Hull;
 
 public class AiPilot implements Pilot {
 
@@ -110,7 +112,7 @@ public class AiPilot implements Pilot {
   }
 
   public static void reEquip(SolGame game, SolShip ship) {
-    ShipHull hull = ship.getHull();
+    Hull hull = ship.getHull();
     GunItem g1 = hull.getGun(false);
     GunItem g2 = hull.getGun(true);
     Shield s = ship.getShield();
