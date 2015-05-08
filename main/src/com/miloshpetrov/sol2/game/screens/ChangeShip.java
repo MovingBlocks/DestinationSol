@@ -7,6 +7,8 @@ import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.ship.*;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
+import com.miloshpetrov.sol2.game.ship.hulls.Hull;
 import com.miloshpetrov.sol2.ui.*;
 
 import java.util.ArrayList;
@@ -73,7 +75,7 @@ public class ChangeShip implements InventoryOperations {
 
   private void changeShip(SolGame game, SolShip hero, ShipItem selected) {
     HullConfig newConfig = selected.getConfig();
-    ShipHull hull = hero.getHull();
+    Hull hull = hero.getHull();
     EngineItem.Config ec = newConfig.getEngineConfig();
     EngineItem ei = ec == null ? null : ec.example.copy();
     GunItem g2 = hull.getGun(true);

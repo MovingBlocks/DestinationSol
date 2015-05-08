@@ -11,7 +11,8 @@ import com.miloshpetrov.sol2.game.item.EngineItem;
 import com.miloshpetrov.sol2.game.item.ItemManager;
 import com.miloshpetrov.sol2.game.ship.AbilityConfig;
 import com.miloshpetrov.sol2.game.ship.EmWave;
-import com.miloshpetrov.sol2.game.ship.HullConfig;
+import com.miloshpetrov.sol2.game.ship.hulls.GunSlot;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 import com.miloshpetrov.sol2.game.ship.KnockBack;
 import com.miloshpetrov.sol2.game.ship.ShipBuilder;
 import com.miloshpetrov.sol2.game.ship.SloMo;
@@ -132,6 +133,9 @@ public final class HullConfigManager {
         configData.e2Pos = readVector2(jsonNode, "e2Pos", new Vector2());
         configData.g1Pos = readVector2(jsonNode, "g1Pos", null);
         configData.g2Pos = readVector2(jsonNode, "g2Pos", null);
+
+
+
         configData.lightSrcPoss = SolMath.readV2List(jsonNode, "lightSrcPoss");
         configData.hasBase = jsonNode.getBoolean("hasBase", false);
         configData.forceBeaconPoss = SolMath.readV2List(jsonNode, "forceBeaconPoss");
@@ -147,6 +151,21 @@ public final class HullConfigManager {
         configData.displayName = jsonNode.getString("displayName", "---");
         configData.price = jsonNode.getInt("price", 0);
         configData.hirePrice = jsonNode.getFloat("hirePrice", 0);
+
+        if(configData.g1Pos != null) {
+            configData.gunSlots.add(new GunSlot(
+                    configData.g1Pos,
+                    configData.g1UnderShip,
+                    configData.m1Fixed
+            ));
+        }
+        if(configData.g2Pos != null) {
+            configData.gunSlots.add(new GunSlot(
+                    configData.g2Pos,
+                    configData.g2UnderShip,
+                    configData.m2Fixed
+            ));
+        }
     }
 
     private AbilityConfig loadAbility(
