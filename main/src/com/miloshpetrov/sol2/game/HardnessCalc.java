@@ -9,6 +9,8 @@ import com.miloshpetrov.sol2.game.planet.PlanetConfig;
 import com.miloshpetrov.sol2.game.planet.SysConfig;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfig;
 import com.miloshpetrov.sol2.game.ship.*;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
+import com.miloshpetrov.sol2.game.ship.hulls.Hull;
 
 import java.util.List;
 
@@ -81,12 +83,12 @@ public class HardnessCalc {
       SolItem item = ic.examples.get(0);
       if (!(item instanceof GunItem)) continue;
       GunItem g = (GunItem) item;
-      if (!g1Filled && sc.hull.m1IsFixed() == g.config.fixed) {
+      if (!g1Filled && !sc.hull.getGunSlot(0).allowsRotation() == g.config.fixed) {
         dps += getItemCfgDps(ic, g.config.fixed);
         g1Filled = true;
         continue;
       }
-      if (sc.hull.getG2Pos() != null && !g2Filled && sc.hull.m2IsFixed() == g.config.fixed) {
+      if (sc.hull.getNrOfGunSlots() > 1 && !g2Filled && !sc.hull.getGunSlot(1).allowsRotation() == g.config.fixed) {
         dps += getItemCfgDps(ic, g.config.fixed);
         g2Filled = true;
       }
@@ -159,7 +161,7 @@ public class HardnessCalc {
   }
 
   public static float getShipDps(SolShip s) {
-    ShipHull h = s.getHull();
+    Hull h = s.getHull();
     return getGunDps(h.getGun(false)) + getGunDps(h.getGun(true));
   }
 

@@ -7,7 +7,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.dra.*;
 import com.miloshpetrov.sol2.game.item.Shield;
-import com.miloshpetrov.sol2.game.ship.ShipHull;
+import com.miloshpetrov.sol2.game.ship.hulls.Hull;
 
 import java.util.ArrayList;
 
@@ -40,7 +40,7 @@ public class PartMan {
     }
   }
 
-  public void shieldSpark(SolGame game, Vector2 collPos, ShipHull hull, TextureAtlas.AtlasRegion shieldTex, float perc) {
+  public void shieldSpark(SolGame game, Vector2 collPos, Hull hull, TextureAtlas.AtlasRegion shieldTex, float perc) {
     if (perc <= 0) return;
     Vector2 pos = hull.getPos();
     float angle = SolMath.angle(pos, collPos);

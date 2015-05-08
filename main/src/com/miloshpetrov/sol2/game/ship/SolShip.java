@@ -10,6 +10,8 @@ import com.miloshpetrov.sol2.game.gun.GunMount;
 import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
+import com.miloshpetrov.sol2.game.ship.hulls.Hull;
 import com.miloshpetrov.sol2.game.sound.*;
 
 import java.util.List;
@@ -26,7 +28,7 @@ public class SolShip implements SolObject {
   private final Pilot myPilot;
   private final ItemContainer myItemContainer;
   private final TradeContainer myTradeContainer;
-  private final ShipHull myHull;
+  private final Hull myHull;
   private final ParticleSrc mySmokeSrc;
   private final ParticleSrc myFireSrc;
   private final ParticleSrc myElectricitySrc;
@@ -43,7 +45,7 @@ public class SolShip implements SolObject {
   private float myAbilityAwait;
   private float myControlEnableAwait;
 
-  public SolShip(SolGame game, Pilot pilot, ShipHull hull, RemoveController removeController, List<Dra> dras,
+  public SolShip(SolGame game, Pilot pilot, Hull hull, RemoveController removeController, List<Dra> dras,
     ItemContainer container, ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
     Armor armor)
   {
@@ -382,7 +384,7 @@ public class SolShip implements SolObject {
     return e == null ? 0 : e.getRotAcc();
   }
 
-  public ShipHull getHull() {
+  public Hull getHull() {
     return myHull;
   }
 
@@ -426,7 +428,8 @@ public class SolShip implements SolObject {
         if (anotherMount != null && anotherMount.getGun() == item) {
           anotherMount.setGun(game, this, null, false);
         }
-        boolean under = secondarySlot ? myHull.config.g2IsUnderShip() : myHull.config.g1IsUnderShip();
+        final int slotNr = secondarySlot ? 1 : 0;
+        boolean under = myHull.config.getGunSlot(slotNr).isUnderneathHull();
         mount.setGun(game, this, gun, under);
       }
       return canEquip;

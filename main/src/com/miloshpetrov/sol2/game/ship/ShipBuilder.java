@@ -18,6 +18,8 @@ import com.miloshpetrov.sol2.game.gun.*;
 import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.LightSrc;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
+import com.miloshpetrov.sol2.game.ship.hulls.Hull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,11 +65,11 @@ public class ShipBuilder {
         }
         if (i instanceof GunItem) {
           GunItem g = (GunItem) i;
-          if (g1 == null && hullConfig.m1IsFixed() == g.config.fixed) {
+          if (g1 == null && hullConfig.getGunSlot(0).allowsRotation() != g.config.fixed) {
             g1 = g;
             continue;
           }
-          if (hullConfig.getG2Pos() != null && g2 == null && hullConfig.m2IsFixed() == g.config.fixed) g2 = g;
+          if (hullConfig.getNrOfGunSlots() > 1 && g2 == null && hullConfig.getGunSlot(1).allowsRotation() != g.config.fixed) g2 = g;
           continue;
         }
       }
@@ -118,7 +120,7 @@ public class ShipBuilder {
     EngineItem engine, ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield, Armor armor)
   {
     ArrayList<Dra> dras = new ArrayList<Dra>();
-    ShipHull hull = buildHull(game, pos, spd, angle, rotSpd, hullConfig, life, dras);
+    Hull hull = buildHull(game, pos, spd, angle, rotSpd, hullConfig, life, dras);
     SolShip ship = new SolShip(game, pilot, hull, removeController, dras, container, repairer, money, tradeContainer, shield, armor);
     hull.getBody().setUserData(ship);
     for (Door door : hull.getDoors()) door.getBody().setUserData(ship);
@@ -127,8 +129,10 @@ public class ShipBuilder {
       hull.setEngine(game, ship, engine);
     }
     if (gun1 != null) {
-      GunMount m1 = hull.getGunMount(false);
-      if (m1.isFixed() == gun1.config.fixed) m1.setGun(game, ship, gun1, hullConfig.g1IsUnderShip());
+      GunMount gunMount0 = hull.getGunMount(false);
+      if (gunMount0.isFixed() == gun1.config.fixed) {
+          gunMount0.setGun(game, ship, gun1, hullConfig.getGunSlot(0).isUnderneathHull());
+      }
     }
     if (gun2 != null) {
       GunMount m2 = hull.getGunMount(true);
@@ -139,7 +143,7 @@ public class ShipBuilder {
     return ship;
   }
 
-  private ShipHull buildHull(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, HullConfig hullConfig,
+  private Hull buildHull(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, HullConfig hullConfig,
     float life, ArrayList<Dra> dras)
   {
       //TODO: This logic belongs in the HullConfigManager/HullConfig
@@ -154,8 +158,11 @@ public class ShipBuilder {
       dras, SHIP_DENSITY, level, hullConfig.getTexture());
     Fixture shieldFixture = createShieldFixture(hullConfig, body);
 
-    GunMount m1 = new GunMount(hullConfig.getG1Pos(), hullConfig.m1IsFixed());
-    GunMount m2 = hullConfig.getG2Pos() == null ? null : new GunMount(hullConfig.getG2Pos(), hullConfig.m2IsFixed());
+
+    GunMount gunMount0 = new GunMount(hullConfig.getGunSlot(0));
+    GunMount gunMount1 = (hullConfig.getNrOfGunSlots() > 1)
+            ? new GunMount(hullConfig.getGunSlot(1))
+            : null;
 
     List<LightSrc> lCs = new ArrayList<LightSrc>();
     for (Vector2 p : hullConfig.getLightSourcePositions()) {
@@ -179,7 +186,7 @@ public class ShipBuilder {
     }
 
     Fixture base = getBase(hullConfig.hasBase(), body);
-    ShipHull hull = new ShipHull(game, hullConfig, body, m1, m2, base, lCs, life, beacons, doors, shieldFixture);
+    Hull hull = new Hull(game, hullConfig, body, gunMount0, gunMount1, base, lCs, life, beacons, doors, shieldFixture);
     body.setLinearVelocity(spd);
     body.setAngularVelocity(rotSpd * SolMath.degRad);
     return hull;
