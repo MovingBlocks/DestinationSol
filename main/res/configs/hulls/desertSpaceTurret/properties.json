@@ -2,8 +2,18 @@
   "size":1.2,
   "maxLife":75,
   "type":"std",
-  "g1Pos":"0.38 0.43",
-  "g2Pos":"0.62 0.57",
+  "gunSlots":[
+    {
+      "position":"0.38 0.43",
+      "isUnderneathHull":false,
+      "allowsRotation":true
+    },
+    {
+      "position":"0.62 0.57",
+      "isUnderneathHull":false,
+      "allowsRotation":true
+    }
+  ],
   "lightSrcPoss":[
     ".1 .5",
     ".9 .5"

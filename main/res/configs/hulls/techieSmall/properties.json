@@ -2,15 +2,21 @@
   "size":0.53,
   "maxLife":70,
   "type":"std",
-  "m1Fixed":true,
-  "m2Fixed":true,
-  "g1Pos":"0.38 0.15",
-  "g1UnderShip":true,
-  "g2Pos":"0.38 0.85",
-  "g2UnderShip":true,
   "e1Pos":"0.1 0.5",
   "e2Pos":"0.1 0.5",
   "engine":"techie",
+  "gunSlots":[
+    {
+      "position":"0.38 0.15",
+      "isUnderneathHull":true,
+      "allowsRotation":false
+    },
+    {
+      "position":"0.38 0.85",
+      "isUnderneathHull":true,
+      "allowsRotation":false
+    }
+  ],
   "rigidBody":{
     "origin":{
       "x":0.598484992980957,

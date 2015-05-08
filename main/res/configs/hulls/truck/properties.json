@@ -2,10 +2,16 @@
   "size":2,
   "maxLife":80,
   "type":"big",
-  "g1Pos":"0.77 0.5",
   "e1Pos":"0.06 0.4",
   "e2Pos":"0.06 0.6",
   "engine":"pirateBig",
+  "gunSlots":[
+    {
+      "position":"0.77 0.5",
+      "isUnderneathHull":false,
+      "allowsRotation":true
+    }
+  ],
   "rigidBody":{
     "origin":{
       "x":0.550000011920929,
