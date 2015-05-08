@@ -9,10 +9,15 @@ import com.miloshpetrov.sol2.game.planet.PlanetConfig;
 import com.miloshpetrov.sol2.game.planet.SysConfig;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfig;
 import com.miloshpetrov.sol2.game.ship.*;
+import com.miloshpetrov.sol2.game.ship.hulls.GunSlot;
 import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 import com.miloshpetrov.sol2.game.ship.hulls.Hull;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class HardnessCalc {
 
@@ -75,24 +80,33 @@ public class HardnessCalc {
   }
 
   public static float getShipConfDps(ShipConfig sc, ItemManager itemManager) {
-    List<ItemConfig> parsed = itemManager.parseItems(sc.items);
-    boolean g1Filled = false;
-    boolean g2Filled = false;
+    final List<ItemConfig> parsedItems = itemManager.parseItems(sc.items);
+    final List<GunSlot> unusedGunSlots = sc.hull.getGunSlotList();
+
     float dps = 0;
-    for (ItemConfig ic : parsed) {
-      SolItem item = ic.examples.get(0);
-      if (!(item instanceof GunItem)) continue;
-      GunItem g = (GunItem) item;
-      if (!g1Filled && !sc.hull.getGunSlot(0).allowsRotation() == g.config.fixed) {
-        dps += getItemCfgDps(ic, g.config.fixed);
-        g1Filled = true;
-        continue;
-      }
-      if (sc.hull.getNrOfGunSlots() > 1 && !g2Filled && !sc.hull.getGunSlot(1).allowsRotation() == g.config.fixed) {
-        dps += getItemCfgDps(ic, g.config.fixed);
-        g2Filled = true;
-      }
+    Iterator<ItemConfig> itemConfigIterator =  parsedItems.iterator();
+
+    while(itemConfigIterator.hasNext() && !unusedGunSlots.isEmpty()) {
+        ItemConfig itemConfig = itemConfigIterator.next();
+        final SolItem item = itemConfig.examples.get(0);
+
+        if (item instanceof GunItem) {
+            final GunItem gunItem = (GunItem) item;
+            final Iterator<GunSlot> gunSlotIterator = unusedGunSlots.listIterator();
+
+            boolean matchingSlotFound = false;
+            while (gunSlotIterator.hasNext() && !matchingSlotFound) {
+                final GunSlot gunSlot = gunSlotIterator.next();
+
+                if (gunItem.config.fixed != gunSlot.allowsRotation()) {
+                    dps += getItemCfgDps(itemConfig, gunItem.config.fixed);
+                    gunSlotIterator.remove();
+                    matchingSlotFound = true;
+                }
+            }
+        }
     }
+
     return dps;
   }
 
