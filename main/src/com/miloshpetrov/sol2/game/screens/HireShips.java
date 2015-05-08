@@ -11,6 +11,7 @@ import com.miloshpetrov.sol2.game.input.Guardian;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.*;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 import com.miloshpetrov.sol2.ui.*;
 
 import java.util.ArrayList;

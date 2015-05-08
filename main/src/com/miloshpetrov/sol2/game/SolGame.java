@@ -20,6 +20,7 @@ import com.miloshpetrov.sol2.game.particle.*;
 import com.miloshpetrov.sol2.game.planet.*;
 import com.miloshpetrov.sol2.game.screens.GameScreens;
 import com.miloshpetrov.sol2.game.ship.*;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 import com.miloshpetrov.sol2.game.sound.SoundManager;
 import com.miloshpetrov.sol2.game.sound.SpecialSounds;
 import com.miloshpetrov.sol2.GameOptions;

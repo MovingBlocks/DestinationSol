@@ -6,6 +6,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.*;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 
 import java.util.List;
 
