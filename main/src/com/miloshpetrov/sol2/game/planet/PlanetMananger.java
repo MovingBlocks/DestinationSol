@@ -12,7 +12,8 @@ import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.item.ItemManager;
 import com.miloshpetrov.sol2.game.maze.*;
 import com.miloshpetrov.sol2.game.ship.*;
-import com.miloshpetrov.sol2.ui.DebugCollector;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
+import com.miloshpetrov.sol2.game.ship.hulls.Hull;
 
 import java.util.*;
 
@@ -136,7 +137,7 @@ public class PlanetMananger {
     if (npMinH < toNp) return false;
     if (!(obj instanceof SolShip)) return false;
     SolShip ship = (SolShip) obj;
-    ShipHull hull = ship.getHull();
+    Hull hull = ship.getHull();
     if (hull.config.getType() == HullConfig.Type.STATION) return false;
     float fh = myNearestPlanet.getFullHeight();
     Vector2 npPos = myNearestPlanet.getPos();
