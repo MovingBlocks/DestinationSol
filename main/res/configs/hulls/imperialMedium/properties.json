@@ -4,18 +4,23 @@
   "type":"std",
   "price":400,
   "hirePrice":700,
-  "m1Fixed":true,
   "ability":{
     "type":"sloMo",
     "factor":0.4,
     "rechargeTime":5
   },
-  "g1Pos":"0.4 0.2",
   "g1UnderShip":true,
   "e1Pos":"0.15 0.52",
   "e2Pos":"0.15 0.62",
   "displayName":"Fighter",
   "engine":"imperial",
+  "gunSlots":[
+    {
+      "position":"0.4 0.2",
+      "isUnderneathHull":false,
+      "allowsRotation":false
+    }
+  ],
   "rigidBody":{
     "origin":{
       "x":0.5303030014038086,

@@ -2,7 +2,13 @@
   "size":0.8,
   "maxLife":46,
   "type":"station",
-  "g1Pos":"0.51 0.21",
+  "gunSlots":[
+    {
+      "position":"0.51 0.21",
+      "isUnderneathHull":false,
+      "allowsRotation":true
+    }
+  ],
   "rigidBody":{
     "origin":{
       "x":0.5199999809265137,
