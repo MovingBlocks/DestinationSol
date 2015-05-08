@@ -2,10 +2,20 @@
   "size":3.5,
   "maxLife":120,
   "type":"big",
-  "g1Pos":"0.64 0.5",
-  "g2Pos":"0.36 0.5",
   "e1Pos":"0.09 0.38",
   "e2Pos":"0.09 0.62",
+  "gunSlots":[
+    {
+      "position":"0.64 0.5",
+      "isUnderneathHull":false,
+      "allowsRotation":true
+    },
+    {
+      "position":"0.36 0.5",
+      "isUnderneathHull":false,
+      "allowsRotation":true
+    }
+  ],
   "forceBeaconPoss":[
     "0.5 0.25",
     "0.5 0.75"
