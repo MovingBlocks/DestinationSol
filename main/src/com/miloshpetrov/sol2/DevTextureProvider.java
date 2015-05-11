@@ -21,6 +21,11 @@ public class DevTextureProvider implements TextureProvider {
   }
 
   @Override
+  public TextureAtlas.AtlasRegion getTexture(FileHandle textureFile) {
+    return newTex(textureFile, textureFile.path(), -1, textureFile);
+  }
+
+  @Override
   public TextureAtlas.AtlasRegion getTex(String fullName, FileHandle configFile) {
     FileHandle fh = FileManager.getInstance().getStaticFile(PREF + fullName + SUFF);
     return newTex(fh, fullName, -1, configFile);

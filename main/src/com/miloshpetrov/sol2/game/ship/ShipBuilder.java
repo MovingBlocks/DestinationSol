@@ -1,18 +1,25 @@
 package com.miloshpetrov.sol2.game.ship;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJoint;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.files.FileManager;
+import com.miloshpetrov.sol2.files.HullConfigManager;
 import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.*;
 import com.miloshpetrov.sol2.game.gun.*;
 import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.particle.LightSrc;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
+import com.miloshpetrov.sol2.game.ship.hulls.Hull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +32,7 @@ public class ShipBuilder {
   private final PathLoader myPathLoader;
 
   public ShipBuilder() {
-    myPathLoader = new PathLoader("hulls");
+    myPathLoader = new PathLoader();
   }
 
   public FarShip buildNewFar(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot,
@@ -37,7 +44,7 @@ public class ShipBuilder {
     if (spd == null) spd = new Vector2();
     ItemContainer ic = new ItemContainer();
     game.getItemMan().fillContainer(ic, items);
-    EngineItem.Config ec = hullConfig.engineConfig;
+    EngineItem.Config ec = hullConfig.getEngineConfig();
     EngineItem ei = ec == null ? null : ec.example.copy();
     TradeContainer tc = tradeConfig == null ? null : new TradeContainer(tradeConfig);
 
@@ -58,11 +65,11 @@ public class ShipBuilder {
         }
         if (i instanceof GunItem) {
           GunItem g = (GunItem) i;
-          if (g1 == null && hullConfig.m1Fixed == g.config.fixed) {
+          if (g1 == null && hullConfig.getGunSlot(0).allowsRotation() != g.config.fixed) {
             g1 = g;
             continue;
           }
-          if (hullConfig.g2Pos != null && g2 == null && hullConfig.m2Fixed == g.config.fixed) g2 = g;
+          if (hullConfig.getNrOfGunSlots() > 1 && g2 == null && hullConfig.getGunSlot(1).allowsRotation() != g.config.fixed) g2 = g;
           continue;
         }
       }
@@ -74,7 +81,7 @@ public class ShipBuilder {
       addAmmo(ic, g2, pilot);
     }
 
-    return new FarShip(new Vector2(pos), new Vector2(spd), angle, rotSpd, pilot, ic, hullConfig, hullConfig.maxLife,
+    return new FarShip(new Vector2(pos), new Vector2(spd), angle, rotSpd, pilot, ic, hullConfig, hullConfig.getMaxLife(),
       g1, g2, removeController, ei, hasRepairer ? new ShipRepairer() : null, money, tc, shield, armor);
   }
 
@@ -92,15 +99,15 @@ public class ShipBuilder {
   }
 
   private void addAbilityCharges(ItemContainer ic, HullConfig hc, Pilot pilot) {
-    if (hc.ability != null) {
-      SolItem ex = hc.ability.getChargeExample();
+    if (hc.getAbility() != null) {
+      SolItem ex = hc.getAbility().getChargeExample();
       if (ex != null) {
         int count;
         if (pilot.isPlayer()) {
           count = 3;
         } else {
           float lifeTime = pilot.getFraction() == Fraction.LAANI ? AVG_ALLY_LIFE_TIME : AVG_BATTLE_TIME;
-          count = (int) (lifeTime / hc.ability.getRechargeTime() * SolMath.rnd(.3f, 1));
+          count = (int) (lifeTime / hc.getAbility().getRechargeTime() * SolMath.rnd(.3f, 1));
         }
         for (int i = 0; i < count; i++) ic.add(ex.copy());
       }
@@ -113,7 +120,7 @@ public class ShipBuilder {
     EngineItem engine, ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield, Armor armor)
   {
     ArrayList<Dra> dras = new ArrayList<Dra>();
-    ShipHull hull = buildHull(game, pos, spd, angle, rotSpd, hullConfig, life, dras);
+    Hull hull = buildHull(game, pos, spd, angle, rotSpd, hullConfig, life, dras);
     SolShip ship = new SolShip(game, pilot, hull, removeController, dras, container, repairer, money, tradeContainer, shield, armor);
     hull.getBody().setUserData(ship);
     for (Door door : hull.getDoors()) door.getBody().setUserData(ship);
@@ -122,51 +129,64 @@ public class ShipBuilder {
       hull.setEngine(game, ship, engine);
     }
     if (gun1 != null) {
-      GunMount m1 = hull.getGunMount(false);
-      if (m1.isFixed() == gun1.config.fixed) m1.setGun(game, ship, gun1, hullConfig.g1UnderShip);
+      GunMount gunMount0 = hull.getGunMount(false);
+      if (gunMount0.isFixed() == gun1.config.fixed) {
+          gunMount0.setGun(game, ship, gun1, hullConfig.getGunSlot(0).isUnderneathHull());
+      }
     }
     if (gun2 != null) {
-      GunMount m2 = hull.getGunMount(true);
-      if (m2.isFixed() == gun2.config.fixed) m2.setGun(game, ship, gun2, hullConfig.g2UnderShip);
+      GunMount gunMount1 = hull.getGunMount(true);
+      if (gunMount1.isFixed() == gun2.config.fixed) {
+          gunMount1.setGun(game, ship, gun2, hullConfig.getGunSlot(1).isUnderneathHull());
+      }
     }
     return ship;
   }
 
-  private ShipHull buildHull(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, HullConfig hullConfig,
+  private Hull buildHull(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, HullConfig hullConfig,
     float life, ArrayList<Dra> dras)
   {
-    BodyDef.BodyType bodyType = hullConfig.type == HullConfig.Type.STATION ? BodyDef.BodyType.KinematicBody : BodyDef.BodyType.DynamicBody;
-    DraLevel level = hullConfig.type == HullConfig.Type.STD ? DraLevel.BODIES : DraLevel.BIG_BODIES;
-    Body body = myPathLoader.getBodyAndSprite(game, "hulls", hullConfig.texName, hullConfig.size, bodyType, pos, angle,
-      dras, SHIP_DENSITY, level, hullConfig.tex);
+      //TODO: This logic belongs in the HullConfigManager/HullConfig
+      FileHandle hullPropertiesFile =  FileManager.getInstance().getHullsDirectory().child(hullConfig.getInternalName()).child(HullConfigManager.PROPERTIES_FILE_NAME);
+      JsonReader reader = new JsonReader();
+      JsonValue rigidBodyNode = reader.parse(hullPropertiesFile).get("rigidBody");
+      myPathLoader.readJson(rigidBodyNode, hullConfig);
+
+    BodyDef.BodyType bodyType = hullConfig.getType() == HullConfig.Type.STATION ? BodyDef.BodyType.KinematicBody : BodyDef.BodyType.DynamicBody;
+    DraLevel level = hullConfig.getType() == HullConfig.Type.STD ? DraLevel.BODIES : DraLevel.BIG_BODIES;
+    Body body = myPathLoader.getBodyAndSprite(game, hullConfig, hullConfig.getSize(), bodyType, pos, angle,
+      dras, SHIP_DENSITY, level, hullConfig.getTexture());
     Fixture shieldFixture = createShieldFixture(hullConfig, body);
 
-    GunMount m1 = new GunMount(hullConfig.g1Pos, hullConfig.m1Fixed);
-    GunMount m2 = hullConfig.g2Pos == null ? null : new GunMount(hullConfig.g2Pos, hullConfig.m2Fixed);
+
+    GunMount gunMount0 = new GunMount(hullConfig.getGunSlot(0));
+    GunMount gunMount1 = (hullConfig.getNrOfGunSlots() > 1)
+            ? new GunMount(hullConfig.getGunSlot(1))
+            : null;
 
     List<LightSrc> lCs = new ArrayList<LightSrc>();
-    for (Vector2 p : hullConfig.lightSrcPoss) {
+    for (Vector2 p : hullConfig.getLightSourcePositions()) {
       LightSrc lc = new LightSrc(game, .35f, true, .7f, p, game.getCols().hullLights);
       lc.collectDras(dras);
       lCs.add(lc);
     }
 
     ArrayList<ForceBeacon> beacons = new ArrayList<ForceBeacon>();
-    for (Vector2 relPos : hullConfig.forceBeaconPoss) {
+    for (Vector2 relPos : hullConfig.getForceBeaconPositions()) {
       ForceBeacon fb = new ForceBeacon(game, relPos, pos, spd);
       fb.collectDras(dras);
       beacons.add(fb);
     }
 
     ArrayList<Door> doors = new ArrayList<Door>();
-    for (Vector2 doorRelPos : hullConfig.doorPoss) {
+    for (Vector2 doorRelPos : hullConfig.getDoorPositions()) {
       Door door = createDoor(game, pos, angle, body, doorRelPos);
       door.collectDras(dras);
       doors.add(door);
     }
 
-    Fixture base = getBase(hullConfig.hasBase, body);
-    ShipHull hull = new ShipHull(game, hullConfig, body, m1, m2, base, lCs, life, beacons, doors, shieldFixture);
+    Fixture base = getBase(hullConfig.hasBase(), body);
+    Hull hull = new Hull(game, hullConfig, body, gunMount0, gunMount1, base, lCs, life, beacons, doors, shieldFixture);
     body.setLinearVelocity(spd);
     body.setAngularVelocity(rotSpd * SolMath.degRad);
     return hull;
@@ -174,7 +194,7 @@ public class ShipBuilder {
 
   private Fixture createShieldFixture(HullConfig hullConfig, Body body) {
     CircleShape shieldShape = new CircleShape();
-    shieldShape.setRadius(Shield.SIZE_PERC * hullConfig.size);
+    shieldShape.setRadius(Shield.SIZE_PERC * hullConfig.getSize());
     FixtureDef shieldDef = new FixtureDef();
     shieldDef.shape = shieldShape;
     shieldDef.isSensor = true;
@@ -246,4 +266,5 @@ public class ShipBuilder {
   public Vector2 getOrigin(String name) {
     return myPathLoader.getOrigin(name + ".png", 1);
   }
+
 }

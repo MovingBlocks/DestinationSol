@@ -11,6 +11,7 @@ import com.miloshpetrov.sol2.game.input.Guardian;
 import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.ship.*;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 import com.miloshpetrov.sol2.ui.*;
 
 import java.util.ArrayList;
@@ -88,7 +89,7 @@ public class HireShips implements InventoryOperations {
 
   private Vector2 getPos(SolGame game, SolShip hero, HullConfig hull) {
     Vector2 pos = new Vector2();
-    float dist = hero.getHull().config.approxRadius + Guardian.DIST + hull.approxRadius;
+    float dist = hero.getHull().config.getApproxRadius() + Guardian.DIST + hull.getApproxRadius();
     Vector2 heroPos = hero.getPos();
     Planet np = game.getPlanetMan().getNearestPlanet();
     boolean nearGround = np.isNearGround(heroPos);

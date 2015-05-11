@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.game.BeaconHandler;
 import com.miloshpetrov.sol2.game.SolGame;
-import com.miloshpetrov.sol2.game.ship.HullConfig;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public class BeaconDestProvider implements MoveDestProvider {

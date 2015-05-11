@@ -6,7 +6,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.ShipConfig;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.planet.PlanetBind;
-import com.miloshpetrov.sol2.game.ship.HullConfig;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public class StillGuard implements MoveDestProvider {
@@ -19,7 +19,7 @@ public class StillGuard implements MoveDestProvider {
   public StillGuard(Vector2 target, SolGame game, ShipConfig sc) {
     myDest = new Vector2(target);
     myPlanetBind = PlanetBind.tryBind(game, myDest, 0);
-    myDesiredSpdLen = sc.hull.type == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
+    myDesiredSpdLen = sc.hull.getType() == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
     myDestSpd = new Vector2();
   }
 

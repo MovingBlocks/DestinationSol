@@ -22,7 +22,7 @@ public class FractionMan {
     Pilot pilot = ship.getPilot();
     float detectionDist = pilot.getDetectionDist();
     if (detectionDist <= 0) return null;
-    detectionDist += ship.getHull().config.approxRadius;
+    detectionDist += ship.getHull().config.getApproxRadius();
     Fraction f = pilot.getFraction();
     return getNearestEnemy(game, detectionDist, f, ship.getPos());
   }
@@ -40,7 +40,7 @@ public class FractionMan {
       if (!(o instanceof SolShip)) continue;
       SolShip ship2 = (SolShip) o;
       if (!areEnemies(f, ship2.getPilot().getFraction())) continue;
-      float dst = ship2.getPos().dst(pos) - ship2.getHull().config.approxRadius;
+      float dst = ship2.getPos().dst(pos) - ship2.getHull().config.getApproxRadius();
       if (minDst < dst) continue;
       minDst = dst;
       res = ship2;

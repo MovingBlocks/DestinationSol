@@ -13,6 +13,7 @@ import com.miloshpetrov.sol2.game.input.*;
 import com.miloshpetrov.sol2.game.maze.Maze;
 import com.miloshpetrov.sol2.game.planet.*;
 import com.miloshpetrov.sol2.game.ship.*;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 
 import java.util.ArrayList;
 

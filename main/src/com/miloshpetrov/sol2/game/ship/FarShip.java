@@ -5,6 +5,7 @@ import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.input.Pilot;
 import com.miloshpetrov.sol2.game.item.*;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 
 public class FarShip implements FarObj {
   private final Vector2 myPos;
@@ -69,7 +70,7 @@ public class FarShip implements FarObj {
 
   @Override
   public float getRadius() {
-    return myHullConfig.approxRadius;
+    return myHullConfig.getApproxRadius();
   }
 
   @Override
@@ -136,7 +137,9 @@ public class FarShip implements FarObj {
   }
 
   public boolean mountCanFix(boolean sec) {
-    return sec ? myHullConfig.m2Fixed : myHullConfig.m1Fixed;
+    final int slotNr = (sec) ? 1 : 0;
+
+    return !myHullConfig.getGunSlot(slotNr).allowsRotation();
   }
 
   public float getMoney() {

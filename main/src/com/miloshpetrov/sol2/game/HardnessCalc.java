@@ -9,8 +9,15 @@ import com.miloshpetrov.sol2.game.planet.PlanetConfig;
 import com.miloshpetrov.sol2.game.planet.SysConfig;
 import com.miloshpetrov.sol2.game.projectile.ProjectileConfig;
 import com.miloshpetrov.sol2.game.ship.*;
+import com.miloshpetrov.sol2.game.ship.hulls.GunSlot;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
+import com.miloshpetrov.sol2.game.ship.hulls.Hull;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class HardnessCalc {
 
@@ -72,30 +79,39 @@ public class HardnessCalc {
     return dps / ic.examples.size() * ic.chance;
   }
 
-  public static float getShipConfDps(ShipConfig sc, ItemMan itemMan) {
-    List<ItemConfig> parsed = itemMan.parseItems(sc.items);
-    boolean g1Filled = false;
-    boolean g2Filled = false;
+  public static float getShipConfDps(ShipConfig sc, ItemManager itemManager) {
+    final List<ItemConfig> parsedItems = itemManager.parseItems(sc.items);
+    final List<GunSlot> unusedGunSlots = sc.hull.getGunSlotList();
+
     float dps = 0;
-    for (ItemConfig ic : parsed) {
-      SolItem item = ic.examples.get(0);
-      if (!(item instanceof GunItem)) continue;
-      GunItem g = (GunItem) item;
-      if (!g1Filled && sc.hull.m1Fixed == g.config.fixed) {
-        dps += getItemCfgDps(ic, g.config.fixed);
-        g1Filled = true;
-        continue;
-      }
-      if (sc.hull.g2Pos != null && !g2Filled && sc.hull.m2Fixed == g.config.fixed) {
-        dps += getItemCfgDps(ic, g.config.fixed);
-        g2Filled = true;
-      }
+    Iterator<ItemConfig> itemConfigIterator =  parsedItems.iterator();
+
+    while(itemConfigIterator.hasNext() && !unusedGunSlots.isEmpty()) {
+        ItemConfig itemConfig = itemConfigIterator.next();
+        final SolItem item = itemConfig.examples.get(0);
+
+        if (item instanceof GunItem) {
+            final GunItem gunItem = (GunItem) item;
+            final Iterator<GunSlot> gunSlotIterator = unusedGunSlots.listIterator();
+
+            boolean matchingSlotFound = false;
+            while (gunSlotIterator.hasNext() && !matchingSlotFound) {
+                final GunSlot gunSlot = gunSlotIterator.next();
+
+                if (gunItem.config.fixed != gunSlot.allowsRotation()) {
+                    dps += getItemCfgDps(itemConfig, gunItem.config.fixed);
+                    gunSlotIterator.remove();
+                    matchingSlotFound = true;
+                }
+            }
+        }
     }
+
     return dps;
   }
 
-  public static float getShipCfgDmgCap(ShipConfig sc, ItemMan itemMan) {
-    List<ItemConfig> parsed = itemMan.parseItems(sc.items);
+  public static float getShipCfgDmgCap(ShipConfig sc, ItemManager itemManager) {
+    List<ItemConfig> parsed = itemManager.parseItems(sc.items);
     float meanShieldLife = 0;
     float meanArmorPerc = 0;
     for (ItemConfig ic : parsed) {
@@ -115,7 +131,7 @@ public class HardnessCalc {
         meanArmorPerc *= ic.chance;
       }
     }
-    return sc.hull.maxLife / (1 - meanArmorPerc) + meanShieldLife * SHIELD_MUL;
+    return sc.hull.getMaxLife() / (1 - meanArmorPerc) + meanShieldLife * SHIELD_MUL;
   }
 
   private static float getShipConfListDps(List<ShipConfig> ships) {
@@ -159,7 +175,7 @@ public class HardnessCalc {
   }
 
   public static float getShipDps(SolShip s) {
-    ShipHull h = s.getHull();
+    Hull h = s.getHull();
     return getGunDps(h.getGun(false)) + getGunDps(h.getGun(true));
   }
 
@@ -176,7 +192,7 @@ public class HardnessCalc {
   }
 
   private static float getDmgCap(HullConfig hull, Armor armor, Shield shield) {
-    float r = hull.maxLife;
+    float r = hull.getMaxLife();
     if (armor != null) r *= 1 / (1 - armor.getPerc());
     if (shield != null) r += shield.getMaxLife() * SHIELD_MUL;
     return r;
