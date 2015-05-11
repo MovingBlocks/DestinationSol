@@ -78,6 +78,6 @@ Credits
 
 Original creators: Milosh Petrov, Nika Burimenko, Kent C. Jensen, Julia Nikolaeva 
 
-Contributors on GitHub: Cervator, PrivateAlpha ... and your name here? :-) More coming!
+Contributors on GitHub: Cervator, PrivateAlpha, theotherjay, Linus ... and your name here? :-) More coming!
 
 Apologies in advance for any omissions, contact [Cervator](http://forum.terasology.org/members/cervator.2/) if you believe you've been missed :-)
