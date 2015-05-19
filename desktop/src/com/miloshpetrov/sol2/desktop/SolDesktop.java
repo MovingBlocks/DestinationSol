@@ -3,6 +3,7 @@ package com.miloshpetrov.sol2.desktop;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.physics.box2d.Box2D;
 import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.SolFileReader;
@@ -19,7 +20,7 @@ import java.util.List;
 public class SolDesktop {
     public static void main(String[] argv) {
         if (false) {
-            new LwjglApplication(new SoundTestListener(), "sound test", 800, 600, false);
+            new LwjglApplication(new SoundTestListener(), "sound test", 800, 600);
             return;
         }
 
@@ -59,6 +60,9 @@ public class SolDesktop {
     private static class MyReader implements SolFileReader {
         @Override
         public List<String> read(String fileName) {
+            // Need to initialise Box2D in new version of lwjgl
+            Box2D.init();
+
             if (DebugOptions.DEV_ROOT_PATH != null) {
                 fileName = DebugOptions.DEV_ROOT_PATH + fileName;
             }
