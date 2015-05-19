@@ -210,9 +210,10 @@ public class ParticleSrc implements Dra {
 
   @Override
   public float getRadius() {
-    Vector3 c = myBb.getCenter();
+    Vector3 c = new Vector3();
+    c = myBb.getCenter(c);
     float toCenter = myPos.dst(c.x, c.y);
-    float radius = myBb.getDimensions().len() / 2;
+    float radius = myBb.getDimensions(c).len() / 2;
     return radius > 0 ? toCenter + radius : 0;
   }
 

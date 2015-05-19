@@ -49,7 +49,7 @@ public class TileObject implements SolObject {
       float ts = game.getTimeStep();
       Vector2 spd = SolMath.getVec(myPos);
       spd.sub(myBody.getPosition());
-      spd.div(ts);
+      spd.scl(1f / ts);
       myBody.setLinearVelocity(spd);
       SolMath.free(spd);
       float bodyAngle = myBody.getAngle() * SolMath.radDeg;

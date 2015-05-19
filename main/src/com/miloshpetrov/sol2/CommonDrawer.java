@@ -17,6 +17,7 @@ public class CommonDrawer {
   private final BitmapFont myFont;
   private final float myOrigFontHeight;
   private final TextureChecker myTextureChecker;
+  private final GlyphLayout layout;
 
   public CommonDrawer() {
     myTextureChecker = new TextureChecker();
@@ -30,6 +31,8 @@ public class CommonDrawer {
     myFont.setUseIntegerPositions(false);
 
     myOrigFontHeight = myFont.getXHeight();
+
+    layout = new GlyphLayout();
   }
 
   public void setMtx(Matrix4 mtx) {
@@ -49,15 +52,18 @@ public class CommonDrawer {
     if (s == null) return;
     myTextureChecker.onString(myFont.getRegion().getTexture());
     myFont.setColor(col);
-    myFont.setScale(fontSize / myOrigFontHeight);
+    myFont.getData().setScale(fontSize / myOrigFontHeight);
     if (!centered) {
-      myFont.drawMultiLine(mySpriteBatch, s, x, y);
+      myFont.draw(mySpriteBatch, s, x, y);
       return;
     }
-    BitmapFont.TextBounds b = myFont.getMultiLineBounds(s);
-    x -= b.width / 2;
-    y -= b.height / 2;
-    myFont.drawMultiLine(mySpriteBatch, s, x, y, b.width, BitmapFont.HAlignment.CENTER);
+
+    // http://www.badlogicgames.com/wordpress/?p=3658
+    layout.reset();
+    layout.setText(myFont, s);
+    x -= layout.width / 2;
+    y -= layout.height / 2;
+    myFont.draw(mySpriteBatch, layout, x, y);
   }
 
 
@@ -120,8 +126,7 @@ public class CommonDrawer {
   }
 
   public void setAdditive(boolean additive) {
-    int dstFunc = additive ? GL10.GL_ONE : GL10.GL_ONE_MINUS_SRC_ALPHA;
-    mySpriteBatch.setBlendFunction(GL10.GL_SRC_ALPHA, dstFunc);
+    int dstFunc = additive ? GL20.GL_ONE : GL20.GL_ONE_MINUS_SRC_ALPHA;
+    mySpriteBatch.setBlendFunction(GL20.GL_SRC_ALPHA, dstFunc);
   }
 }
-
