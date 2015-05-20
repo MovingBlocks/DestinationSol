@@ -125,9 +125,6 @@ public class SolInputManager {
   }
 
   public void update(SolApplication cmp) {
-    boolean mobile = cmp.isMobile();
-    if (!mobile) maybeFixMousePos();
-
     updatePtrs();
 
     boolean consumed = false;
