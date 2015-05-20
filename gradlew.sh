@@ -14,7 +14,7 @@ APP_BASE_NAME=`basename "$0"`
 APP_HOME="`pwd -P`"
 CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
 
-# TODO: Check if Java is installed and report issues about jdk 8
+# TODO: Check if Java is installed
 JAVACMD="java"
 
 # Split up the JVM_OPTS And GRADLE_OPTS values into an array, following the shell quoting and substitution rules
