@@ -73,10 +73,6 @@ Run any commands in the project root directory
 * To prepare for IntelliJ run: `gradlew idea` then load the generated project files
 * To create a game package for distribution (Windows, Linux, Mac): `gradlew distZip`
 
-*Mac OS X Users*  
-* You may need to use Java 7 as there is currently an issue with Java 8.
-* To run from the terminal: ./gradlew.sh run  
-
 Credits
 --------
 
