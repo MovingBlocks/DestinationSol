@@ -11,6 +11,16 @@ public class GameOptions {
   public boolean fullscreen;
   public int controlType;
   public float volMul;
+  public String keyUpMouse;
+  public String keyDownMouse;
+  public String keyUp;
+  public String keyDown;
+  public String keyLeft;
+  public String keyRight;
+  public String keyShoot;
+  public String keyShoot2;
+  public String keyAbility;
+
 
   public GameOptions(boolean mobile, SolFileReader reader) {
     IniReader r = new IniReader(FILE_NAME, reader, false);
@@ -19,6 +29,15 @@ public class GameOptions {
     fullscreen = r.b("fullscreen", false);
     controlType = mobile ? CONTROL_KB : r.i("controlType", CONTROL_MIXED);
     volMul = r.f("vol", 1);
+    keyUpMouse = r.s("keyUpMouse", "W");
+    keyDownMouse = r.s("keyDownMouse", "S");
+    keyUp = r.s("keyUp", ("Up"));
+    keyDown = r.s("keyDown", ("Down"));
+    keyLeft = r.s("keyLeft", "Left");
+    keyRight = r.s("keyRight", "Right");
+    keyShoot = r.s("keyShoot", "Space");
+    keyShoot2 = r.s("keyShoot2", "L-Ctrl");
+    keyAbility = r.s("keyAbility", "L-Shift");
   }
 
   public void advanceReso() {
@@ -65,6 +84,9 @@ public class GameOptions {
   }
 
   public void save() {
-    IniReader.write(FILE_NAME, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType, "vol", volMul);
+    IniReader.write(FILE_NAME, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType, "vol", volMul,
+            "keyUpMouse", keyUpMouse, "keyDownMouse", keyDownMouse, "keyUp", keyUp, "keyDown", keyDown,
+            "keyLeft", keyLeft, "keyRight", keyRight, "keyShoot", keyShoot, "keyShoot2", keyShoot2,
+            "keyAbility", keyAbility);
   }
 }
