@@ -52,9 +52,8 @@ public class InventoryScreen implements SolUiScreen {
   private final Vector2 myListHeaderPos;
   public static final float SMALL_GAP = .004f;
 
-  public InventoryScreen(float r, SolApplication cmp) {
+  public InventoryScreen(float r, GameOptions gameOptions) {
     myControls = new ArrayList<SolUiControl>();
-    GameOptions gameOptions = cmp.getOptions();
 
     float contentW = .8f;
     float col0 = r / 2 - contentW / 2;
@@ -68,11 +67,11 @@ public class InventoryScreen implements SolUiScreen {
     myListHeaderPos = new Vector2(col0 + HEADER_TEXT_OFFS, row + HEADER_TEXT_OFFS); // offset hack
     float listCtrlW = contentW * .15f;
     Rectangle nextArea = new Rectangle(col0 + contentW - listCtrlW, row, listCtrlW, headerH);
-    nextCtrl = new SolUiControl(nextArea, true, cmp.getOptions().getKeyRight());
+    nextCtrl = new SolUiControl(nextArea, true, gameOptions.getKeyRight());
     nextCtrl.setDisplayName(">");
     myControls.add(nextCtrl);
     Rectangle prevArea = new Rectangle(nextArea.x - SMALL_GAP - listCtrlW, row, listCtrlW, headerH);
-    myPrevCtrl = new SolUiControl(prevArea, true, cmp.getOptions().getKeyLeft());
+    myPrevCtrl = new SolUiControl(prevArea, true, gameOptions.getKeyLeft());
     myPrevCtrl.setDisplayName("<");
     myControls.add(myPrevCtrl);
     row += headerH + SMALL_GAP;
