@@ -1,7 +1,7 @@
 package com.miloshpetrov.sol2.game.screens;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.ship.SolShip;
@@ -19,6 +19,7 @@ public class ShipKbControl implements ShipUiControl {
   public final SolUiControl abilityCtrl;
 
   public ShipKbControl(SolApplication cmp, float r, List<SolUiControl> controls) {
+    GameOptions gameOptions = cmp.getOptions();
     boolean showButtons = cmp.isMobile();
     float col0 = 0;
     float col1 = col0 + MainScreen.CELL_SZ;
@@ -27,24 +28,24 @@ public class ShipKbControl implements ShipUiControl {
     float rowN0 = 1 - MainScreen.CELL_SZ;
     float rowN1 = rowN0 - MainScreen.CELL_SZ;
 
-    leftCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN1, rowN0, false) : null, false, cmp.getOptions().getKeyLeft());
+    leftCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN1, rowN0, false) : null, false, gameOptions.getKeyLeft());
     leftCtrl.setDisplayName("Left");
     controls.add(leftCtrl);
-    rightCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN0, rowN0, false) : null, false, cmp.getOptions().getKeyRight());
+    rightCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN0, rowN0, false) : null, false, gameOptions.getKeyRight());
     rightCtrl.setDisplayName("Right");
     controls.add(rightCtrl);
-    upCtrl = new SolUiControl(showButtons ? MainScreen.btn(col0, rowN0, false) : null, false, cmp.getOptions().getKeyUp());
+    upCtrl = new SolUiControl(showButtons ? MainScreen.btn(col0, rowN0, false) : null, false, gameOptions.getKeyUp());
     upCtrl.setDisplayName("Fwd");
     controls.add(upCtrl);
-    myDownCtrl = new SolUiControl(null, true, cmp.getOptions().getKeyDown());
+    myDownCtrl = new SolUiControl(null, true, gameOptions.getKeyDown());
     controls.add(myDownCtrl);
-    shootCtrl = new SolUiControl(showButtons ? MainScreen.btn(col0, rowN1, false) : null, false, cmp.getOptions().getKeyShoot());
+    shootCtrl = new SolUiControl(showButtons ? MainScreen.btn(col0, rowN1, false) : null, false, gameOptions.getKeyShoot());
     shootCtrl.setDisplayName("Gun 1");
     controls.add(shootCtrl);
-    shoot2Ctrl = new SolUiControl(showButtons ? MainScreen.btn(col1, rowN0, false) : null, false, cmp.getOptions().getKeyShoot2());
+    shoot2Ctrl = new SolUiControl(showButtons ? MainScreen.btn(col1, rowN0, false) : null, false, gameOptions.getKeyShoot2());
     shoot2Ctrl.setDisplayName("Gun 2");
     controls.add(shoot2Ctrl);
-    abilityCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN0, rowN1, false) : null, false, cmp.getOptions().getKeyAbility());
+    abilityCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN0, rowN1, false) : null, false, gameOptions.getKeyAbility());
     abilityCtrl.setDisplayName("Ability");
     controls.add(abilityCtrl);
   }

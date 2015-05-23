@@ -22,6 +22,8 @@ public class GameOptions {
   private String keyShoot;
   private String keyShoot2;
   private String keyAbility;
+  private String keyEscape;
+  private String keyMap;
 
 
   public GameOptions(boolean mobile, SolFileReader reader) {
@@ -40,6 +42,8 @@ public class GameOptions {
     keyShoot = r.s("keyShoot", "Space");
     keyShoot2 = r.s("keyShoot2", "L-Ctrl");
     keyAbility = r.s("keyAbility", "L-Shift");
+    keyEscape = r.s("keyEscape", "Escape");
+    keyMap = r.s("keyMap", "Tab");
   }
 
   public void advanceReso() {
@@ -85,46 +89,174 @@ public class GameOptions {
     save();
   }
 
+  /**
+   * Save the configuration settings to file.
+   */
   public void save() {
     IniReader.write(FILE_NAME, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType, "vol", volMul,
             "keyUpMouse", keyUpMouse, "keyDownMouse", keyDownMouse, "keyUp", keyUp, "keyDown", keyDown,
             "keyLeft", keyLeft, "keyRight", keyRight, "keyShoot", keyShoot, "keyShoot2", keyShoot2,
-            "keyAbility", keyAbility);
+            "keyAbility", keyAbility, "keyEscape", keyEscape, "keyMap", keyMap);
   }
 
+  /**
+   * Get the defined key for up when the input controlType is set to CONTROL_MIXED. This includes navigating down in menus.
+   * @return int The keycode as defined in Input.Keys
+   */
   public int getKeyUpMouse() {
     return Input.Keys.valueOf(keyUpMouse);
   }
 
+  /**
+   * Get the defined key for down when the input controlType is set to CONTROL_MIXED.
+   * This includes activating the ship's thrusters and navigating up in menus.
+   * @return int The keycode as defined in Input.Keys
+   */
   public int getKeyDownMouse() {
     return Input.Keys.valueOf(keyDownMouse);
   }
 
+  /**
+   * Get the defined key for up. This includes activating the ship's thrusters and navigating up in menus.
+   * @return int The keycode as defined in Input.Keys
+   */
   public int getKeyUp() {
     return Input.Keys.valueOf(keyUp);
   }
 
+  /**
+   * Get the defined key for down. This includes navigating down in menus.
+   * @return int The keycode as defined in Input.Keys
+   */
   public int getKeyDown() {
     return Input.Keys.valueOf(keyDown);
   }
 
+  /**
+   * Get the defined key for left. This includes rotating the ship left and navigating left in menus.
+   * @return int The keycode as defined in Input.Keys
+   */
   public int getKeyLeft() {
     return Input.Keys.valueOf(keyLeft);
   }
 
+  /**
+   * Get the defined key for right. This includes rotating the ship right and navigating right in menus.
+   * @return int The keycode as defined in Input.Keys
+   */
   public int getKeyRight() {
     return Input.Keys.valueOf(keyRight);
   }
 
+  /**
+   * Get the defined key for shooting the primary weapon.
+   * @return int The keycode as defined in Input.Keys
+   */
   public int getKeyShoot() {
     return Input.Keys.valueOf(keyShoot);
   }
 
+  /**
+   * Get the defined key for shooting the secondary weapon.
+   * @return int The keycode as defined in Input.Keys
+   */
   public int getKeyShoot2() {
     return Input.Keys.valueOf(keyShoot2);
   }
 
+  /**
+   * Get the defined key for activating the ship's special ability.
+   * @return int The keycode as defined in Input.Keys
+   */
   public int getKeyAbility() {
     return Input.Keys.valueOf(keyAbility);
+  }
+
+  /**
+   * Get the defined key for escape. This includes bringing up the in-game menu and exiting in-game menus.
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeyEscape() {
+    return Input.Keys.valueOf(keyEscape);
+  }
+
+  /**
+   * Get the defined key for activating the menu.
+   * This is currently set to the same key as KeyEscape
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeyMenu() {
+    return getKeyEscape();
+  }
+
+  /**
+   * Get the defined key for closing the menu.
+   * This is currently set to the same key as KeyEscape
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeyClose() {
+    return getKeyEscape();
+  }
+
+  /**
+   * Get the defined key for buying items.
+   * This is currently set to the same key as KeyShoot
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeyBuyItem() {
+    return getKeyShoot();
+  }
+
+  /**
+   * Get the defined key for selling items.
+   * This is currently set to the same key as KeyShoot
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeySellItem() {
+    return getKeyShoot();
+  }
+
+  /**
+   * Get the defined key for hiring ships.
+   * This is currently set to the same key as KeyShoot
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeyHireShip() {
+    return getKeyShoot();
+  }
+
+  /**
+   * Get the defined key for changing ships.
+   * This is currently set to the same key as KeyShoot
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeyChangeShip() {
+    return getKeyShoot();
+  }
+
+  /**
+   * Get the defined key for zooming out on the map.
+   * This is currently set to the same key as KeyUp
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeyZoomIn() {
+    return getKeyUp();
+  }
+
+  /**
+   * Get the defined key for zooming out on the map.
+   * This is currently set to the same key as KeyDown
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeyZoomOut() {
+    return getKeyDown();
+  }
+
+  /**
+   * Get the defined key for opening and closing the map.
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeyMap() {
+    return Input.Keys.valueOf(keyMap);
   }
 }

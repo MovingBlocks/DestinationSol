@@ -59,6 +59,7 @@ public class MainScreen implements SolUiScreen {
 
   public MainScreen(float r, RightPaneLayout rightPaneLayout, SolApplication cmp) {
     myControls = new ArrayList<SolUiControl>();
+    GameOptions gameOptions = cmp.getOptions();
 
     int ct = cmp.getOptions().controlType;
     if (ct == GameOptions.CONTROL_KB) {
@@ -71,11 +72,11 @@ public class MainScreen implements SolUiScreen {
     boolean mobile = cmp.isMobile();
     float lastCol = r - MainScreen.CELL_SZ;
     Rectangle menuArea = mobile ? btn(0, HELPER_ROW_2, true) : rightPaneLayout.buttonRect(0);
-    myMenuCtrl = new SolUiControl(menuArea, true, Input.Keys.ESCAPE);
+    myMenuCtrl = new SolUiControl(menuArea, true, gameOptions.getKeyMenu());
     myMenuCtrl.setDisplayName("Menu");
     myControls.add(myMenuCtrl);
     Rectangle mapArea = mobile ? btn(0, HELPER_ROW_1, true) : rightPaneLayout.buttonRect(1);
-    mapCtrl = new SolUiControl(mapArea, true, Input.Keys.TAB);
+    mapCtrl = new SolUiControl(mapArea, true, gameOptions.getKeyMap());
     mapCtrl.setDisplayName("Map");
     myControls.add(mapCtrl);
     Rectangle invArea = mobile ? btn(lastCol, HELPER_ROW_1, true) : rightPaneLayout.buttonRect(2);

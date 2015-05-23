@@ -14,7 +14,7 @@ public class GameScreens {
     SolLayouts layouts = cmp.getLayouts();
     RightPaneLayout rightPaneLayout = layouts.rightPaneLayout;
     mainScreen = new MainScreen(r, rightPaneLayout, cmp);
-    mapScreen = new MapScreen(rightPaneLayout, cmp.isMobile(), r);
+    mapScreen = new MapScreen(rightPaneLayout, cmp.isMobile(), r, cmp.getOptions());
     menuScreen = new MenuScreen(layouts.menuLayout);
     inventoryScreen = new InventoryScreen(r, cmp);
     talkScreen = new TalkScreen(layouts.menuLayout);
