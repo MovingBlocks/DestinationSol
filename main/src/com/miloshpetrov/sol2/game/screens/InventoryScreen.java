@@ -52,7 +52,7 @@ public class InventoryScreen implements SolUiScreen {
   private final Vector2 myListHeaderPos;
   public static final float SMALL_GAP = .004f;
 
-  public InventoryScreen(float r) {
+  public InventoryScreen(float r, SolApplication cmp) {
     myControls = new ArrayList<SolUiControl>();
 
     float contentW = .8f;
@@ -67,11 +67,11 @@ public class InventoryScreen implements SolUiScreen {
     myListHeaderPos = new Vector2(col0 + HEADER_TEXT_OFFS, row + HEADER_TEXT_OFFS); // offset hack
     float listCtrlW = contentW * .15f;
     Rectangle nextArea = new Rectangle(col0 + contentW - listCtrlW, row, listCtrlW, headerH);
-    nextCtrl = new SolUiControl(nextArea, true, Input.Keys.RIGHT);
+    nextCtrl = new SolUiControl(nextArea, true, cmp.getOptions().getKeyRight());
     nextCtrl.setDisplayName(">");
     myControls.add(nextCtrl);
     Rectangle prevArea = new Rectangle(nextArea.x - SMALL_GAP - listCtrlW, row, listCtrlW, headerH);
-    myPrevCtrl = new SolUiControl(prevArea, true, Input.Keys.LEFT);
+    myPrevCtrl = new SolUiControl(prevArea, true, cmp.getOptions().getKeyLeft());
     myPrevCtrl.setDisplayName("<");
     myControls.add(myPrevCtrl);
     row += headerH + SMALL_GAP;
@@ -106,13 +106,13 @@ public class InventoryScreen implements SolUiScreen {
     myControls.add(closeCtrl);
 
     showInventory = new ShowInventory(this);
-    buyItems = new BuyItems(this);
+    buyItems = new BuyItems(this, cmp);
     sellItems = new SellItems(this);
     changeShip = new ChangeShip(this);
     hireShips = new HireShips(this);
-    myUpCtrl = new SolUiControl(null, true, Input.Keys.UP);
+    myUpCtrl = new SolUiControl(null, true, cmp.getOptions().getKeyUp());
     myControls.add(myUpCtrl);
-    downCtrl = new SolUiControl(null, true, Input.Keys.DOWN);
+    downCtrl = new SolUiControl(null, true, cmp.getOptions().getKeyDown());
     myControls.add(downCtrl);
   }
 
