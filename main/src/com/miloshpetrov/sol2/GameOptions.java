@@ -1,5 +1,7 @@
 package com.miloshpetrov.sol2;
 
+import com.badlogic.gdx.Input;
+
 public class GameOptions {
   public static final String FILE_NAME = "settings.ini";
   public static final int CONTROL_KB = 0;
@@ -11,15 +13,15 @@ public class GameOptions {
   public boolean fullscreen;
   public int controlType;
   public float volMul;
-  public String keyUpMouse;
-  public String keyDownMouse;
-  public String keyUp;
-  public String keyDown;
-  public String keyLeft;
-  public String keyRight;
-  public String keyShoot;
-  public String keyShoot2;
-  public String keyAbility;
+  private String keyUpMouse;
+  private String keyDownMouse;
+  private String keyUp;
+  private String keyDown;
+  private String keyLeft;
+  private String keyRight;
+  private String keyShoot;
+  private String keyShoot2;
+  private String keyAbility;
 
 
   public GameOptions(boolean mobile, SolFileReader reader) {
@@ -88,5 +90,41 @@ public class GameOptions {
             "keyUpMouse", keyUpMouse, "keyDownMouse", keyDownMouse, "keyUp", keyUp, "keyDown", keyDown,
             "keyLeft", keyLeft, "keyRight", keyRight, "keyShoot", keyShoot, "keyShoot2", keyShoot2,
             "keyAbility", keyAbility);
+  }
+
+  public int getKeyUpMouse() {
+    return Input.Keys.valueOf(keyUpMouse);
+  }
+
+  public int getKeyDownMouse() {
+    return Input.Keys.valueOf(keyDownMouse);
+  }
+
+  public int getKeyUp() {
+    return Input.Keys.valueOf(keyUp);
+  }
+
+  public int getKeyDown() {
+    return Input.Keys.valueOf(keyDown);
+  }
+
+  public int getKeyLeft() {
+    return Input.Keys.valueOf(keyLeft);
+  }
+
+  public int getKeyRight() {
+    return Input.Keys.valueOf(keyRight);
+  }
+
+  public int getKeyShoot() {
+    return Input.Keys.valueOf(keyShoot);
+  }
+
+  public int getKeyShoot2() {
+    return Input.Keys.valueOf(keyShoot2);
+  }
+
+  public int getKeyAbility() {
+    return Input.Keys.valueOf(keyAbility);
   }
 }

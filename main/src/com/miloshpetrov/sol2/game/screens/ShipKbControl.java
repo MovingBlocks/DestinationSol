@@ -27,24 +27,24 @@ public class ShipKbControl implements ShipUiControl {
     float rowN0 = 1 - MainScreen.CELL_SZ;
     float rowN1 = rowN0 - MainScreen.CELL_SZ;
 
-    leftCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN1, rowN0, false) : null, false, Input.Keys.valueOf(cmp.getOptions().keyLeft));
+    leftCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN1, rowN0, false) : null, false, cmp.getOptions().getKeyLeft());
     leftCtrl.setDisplayName("Left");
     controls.add(leftCtrl);
-    rightCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN0, rowN0, false) : null, false, Input.Keys.valueOf(cmp.getOptions().keyRight));
+    rightCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN0, rowN0, false) : null, false, cmp.getOptions().getKeyRight());
     rightCtrl.setDisplayName("Right");
     controls.add(rightCtrl);
-    upCtrl = new SolUiControl(showButtons ? MainScreen.btn(col0, rowN0, false) : null, false, Input.Keys.valueOf(cmp.getOptions().keyUp));
+    upCtrl = new SolUiControl(showButtons ? MainScreen.btn(col0, rowN0, false) : null, false, cmp.getOptions().getKeyUp());
     upCtrl.setDisplayName("Fwd");
     controls.add(upCtrl);
-    myDownCtrl = new SolUiControl(null, true, Input.Keys.valueOf(cmp.getOptions().keyDown));
+    myDownCtrl = new SolUiControl(null, true, cmp.getOptions().getKeyDown());
     controls.add(myDownCtrl);
-    shootCtrl = new SolUiControl(showButtons ? MainScreen.btn(col0, rowN1, false) : null, false, Input.Keys.valueOf(cmp.getOptions().keyShoot));
+    shootCtrl = new SolUiControl(showButtons ? MainScreen.btn(col0, rowN1, false) : null, false, cmp.getOptions().getKeyShoot());
     shootCtrl.setDisplayName("Gun 1");
     controls.add(shootCtrl);
-    shoot2Ctrl = new SolUiControl(showButtons ? MainScreen.btn(col1, rowN0, false) : null, false, Input.Keys.valueOf(cmp.getOptions().keyShoot2));
+    shoot2Ctrl = new SolUiControl(showButtons ? MainScreen.btn(col1, rowN0, false) : null, false, cmp.getOptions().getKeyShoot2());
     shoot2Ctrl.setDisplayName("Gun 2");
     controls.add(shoot2Ctrl);
-    abilityCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN0, rowN1, false) : null, false, Input.Keys.valueOf(cmp.getOptions().keyAbility));
+    abilityCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN0, rowN1, false) : null, false, cmp.getOptions().getKeyAbility());
     abilityCtrl.setDisplayName("Ability");
     controls.add(abilityCtrl);
   }
