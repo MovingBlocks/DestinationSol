@@ -1,6 +1,5 @@
 package com.miloshpetrov.sol2.game.screens;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
@@ -80,14 +79,14 @@ public class MainScreen implements SolUiScreen {
     mapCtrl.setDisplayName("Map");
     myControls.add(mapCtrl);
     Rectangle invArea = mobile ? btn(lastCol, HELPER_ROW_1, true) : rightPaneLayout.buttonRect(2);
-    invCtrl = new SolUiControl(invArea, true, Input.Keys.I);
+    invCtrl = new SolUiControl(invArea, true, gameOptions.getKeyInventory());
     invCtrl.setDisplayName("Items");
     myControls.add(invCtrl);
     Rectangle talkArea = mobile ? btn(lastCol, HELPER_ROW_2, true) : rightPaneLayout.buttonRect(3);
-    talkCtrl = new SolUiControl(talkArea, true, Input.Keys.T);
+    talkCtrl = new SolUiControl(talkArea, true, gameOptions.getKeyTalk());
     talkCtrl.setDisplayName("Talk");
     myControls.add(talkCtrl);
-    myPauseCtrl = new SolUiControl(null, true, Input.Keys.P);
+    myPauseCtrl = new SolUiControl(null, true, gameOptions.getKeyPause());
     myControls.add(myPauseCtrl);
 
 

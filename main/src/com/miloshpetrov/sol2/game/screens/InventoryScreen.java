@@ -106,7 +106,7 @@ public class InventoryScreen implements SolUiScreen {
     closeCtrl.setDisplayName("Close");
     myControls.add(closeCtrl);
 
-    showInventory = new ShowInventory(this);
+    showInventory = new ShowInventory(this, gameOptions);
     buyItems = new BuyItems(this, gameOptions);
     sellItems = new SellItems(this, gameOptions);
     changeShip = new ChangeShip(this, gameOptions);
