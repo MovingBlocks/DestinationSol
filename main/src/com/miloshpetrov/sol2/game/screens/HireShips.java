@@ -1,8 +1,8 @@
 package com.miloshpetrov.sol2.game.screens;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
@@ -21,10 +21,10 @@ public class HireShips implements InventoryOperations {
   private final ArrayList<SolUiControl> myControls;
   private final SolUiControl myBuyCtrl;
 
-  public HireShips(InventoryScreen inventoryScreen) {
+  public HireShips(InventoryScreen inventoryScreen, GameOptions gameOptions) {
     myControls = new ArrayList<SolUiControl>();
 
-    myBuyCtrl = new SolUiControl(inventoryScreen.itemCtrl(0), true, Input.Keys.SPACE);
+    myBuyCtrl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyHireShip());
     myBuyCtrl.setDisplayName("Hire");
     myControls.add(myBuyCtrl);
   }

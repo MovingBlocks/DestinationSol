@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
@@ -31,17 +32,18 @@ public class ShipMixedControl implements ShipUiControl {
   private boolean myLeft;
 
   public ShipMixedControl(SolApplication cmp, List<SolUiControl> controls) {
+    GameOptions gameOptions = cmp.getOptions();
     myCursor = cmp.getTexMan().getTex("ui/cursorTarget", null);
     myMouseWorldPos = new Vector2();
-    upCtrl = new SolUiControl(null, false, cmp.getOptions().getKeyUpMouse());
+    upCtrl = new SolUiControl(null, false, gameOptions.getKeyUpMouse());
     controls.add(upCtrl);
-    myDownCtrl = new SolUiControl(null, false, cmp.getOptions().getKeyDownMouse());
+    myDownCtrl = new SolUiControl(null, false, gameOptions.getKeyDownMouse());
     controls.add(myDownCtrl);
     shootCtrl = new SolUiControl(null, false, SHOOT_HACK);
     controls.add(shootCtrl);
     shoot2Ctrl = new SolUiControl(null, false, SHOOT_2_HACK);
     controls.add(shoot2Ctrl);
-    abilityCtrl = new SolUiControl(null, false, ABILITY_HACK, Input.Keys.SHIFT_LEFT);
+    abilityCtrl = new SolUiControl(null, false, ABILITY_HACK, gameOptions.getKeyAbility());
     controls.add(abilityCtrl);
   }
 
