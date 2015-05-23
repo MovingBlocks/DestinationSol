@@ -1,6 +1,6 @@
 package com.miloshpetrov.sol2.game.screens;
 
-import com.badlogic.gdx.Input;
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.item.ItemContainer;
@@ -18,18 +18,18 @@ public class ShowInventory implements InventoryOperations {
   public final SolUiControl eq2Ctrl;
   public final SolUiControl dropCtrl;
 
-  public ShowInventory(InventoryScreen inventoryScreen) {
+  public ShowInventory(InventoryScreen inventoryScreen, GameOptions gameOptions) {
     myControls = new ArrayList<SolUiControl>();
 
-    eq1Ctrl = new SolUiControl(inventoryScreen.itemCtrl(0), true, Input.Keys.SPACE);
+    eq1Ctrl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyEquip());
     eq1Ctrl.setDisplayName("Eq");
     myControls.add(eq1Ctrl);
 
-    eq2Ctrl = new SolUiControl(inventoryScreen.itemCtrl(1), true, Input.Keys.CONTROL_LEFT);
+    eq2Ctrl = new SolUiControl(inventoryScreen.itemCtrl(1), true, gameOptions.getKeyEquip2());
     eq2Ctrl.setDisplayName("Eq2");
     myControls.add(eq2Ctrl);
 
-    dropCtrl = new SolUiControl(inventoryScreen.itemCtrl(2), true, Input.Keys.D);
+    dropCtrl = new SolUiControl(inventoryScreen.itemCtrl(2), true, gameOptions.getKeyDrop());
     dropCtrl.setDisplayName("Drop");
     myControls.add(dropCtrl);
   }
