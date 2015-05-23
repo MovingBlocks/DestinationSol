@@ -15,9 +15,9 @@ public class GameScreens {
     RightPaneLayout rightPaneLayout = layouts.rightPaneLayout;
     mainScreen = new MainScreen(r, rightPaneLayout, cmp);
     mapScreen = new MapScreen(rightPaneLayout, cmp.isMobile(), r, cmp.getOptions());
-    menuScreen = new MenuScreen(layouts.menuLayout);
+    menuScreen = new MenuScreen(layouts.menuLayout, cmp.getOptions());
     inventoryScreen = new InventoryScreen(r, cmp);
-    talkScreen = new TalkScreen(layouts.menuLayout);
+    talkScreen = new TalkScreen(layouts.menuLayout, cmp.getOptions());
   }
 
 }

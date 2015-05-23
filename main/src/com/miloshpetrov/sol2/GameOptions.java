@@ -24,6 +24,14 @@ public class GameOptions {
   private String keyAbility;
   private String keyEscape;
   private String keyMap;
+  private String keyInventory;
+  private String keyTalk;
+  private String keyPause;
+  private String keyDrop;
+  private String keySellMenu;
+  private String keyBuyMenu;
+  private String keyChangeShipMenu;
+  private String keyHireShipMenu;
 
 
   public GameOptions(boolean mobile, SolFileReader reader) {
@@ -44,6 +52,14 @@ public class GameOptions {
     keyAbility = r.s("keyAbility", "L-Shift");
     keyEscape = r.s("keyEscape", "Escape");
     keyMap = r.s("keyMap", "Tab");
+    keyInventory = r.s("keyInventory", "I");
+    keyTalk = r.s("keyTalk", "T");
+    keyPause = r.s("keyPause", "P");
+    keyDrop = r.s("keyDrop", "D");
+    keySellMenu = r.s("keySellMenu", "S");
+    keyBuyMenu = r.s("keyBuyMenu", "B");
+    keyChangeShipMenu = r.s("keyChangeShipMenu", "C");
+    keyHireShipMenu = r.s("keyHireShipMenu", "H");
   }
 
   public void advanceReso() {
@@ -96,7 +112,9 @@ public class GameOptions {
     IniReader.write(FILE_NAME, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType, "vol", volMul,
             "keyUpMouse", keyUpMouse, "keyDownMouse", keyDownMouse, "keyUp", keyUp, "keyDown", keyDown,
             "keyLeft", keyLeft, "keyRight", keyRight, "keyShoot", keyShoot, "keyShoot2", keyShoot2,
-            "keyAbility", keyAbility, "keyEscape", keyEscape, "keyMap", keyMap);
+            "keyAbility", keyAbility, "keyEscape", keyEscape, "keyMap", keyMap, "keyInventory", keyInventory,
+            "keyTalk", keyTalk, "keyPause", keyPause, "keyDrop", keyDrop, "keySellMenu", keySellMenu,
+            "keyBuyMenu", keyBuyMenu, "keyChangeShipMenu", keyChangeShipMenu, "keyHireShipMenu", keyHireShipMenu);
   }
 
   /**
@@ -161,6 +179,24 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyShoot2() {
+    return Input.Keys.valueOf(keyShoot2);
+  }
+
+  /**
+   * Get the defined key for equipping and unequipping the primary weapon.
+   * This is currently set to the same key as keyShoot
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeyEquip() {
+    return Input.Keys.valueOf(keyShoot);
+  }
+
+  /**
+   * Get the defined key for equipping and unequipping the secondary weapon.
+   * This is currently set to the same key as keyShoot2
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeyEquip2() {
     return Input.Keys.valueOf(keyShoot2);
   }
 
@@ -258,5 +294,69 @@ public class GameOptions {
    */
   public int getKeyMap() {
     return Input.Keys.valueOf(keyMap);
+  }
+
+  /**
+   * Get the defined key for opening the inventory.
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeyInventory() {
+    return Input.Keys.valueOf(keyInventory);
+  }
+
+  /**
+   * Get the defined key for opening the talk menu.
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeyTalk() {
+    return Input.Keys.valueOf(keyTalk);
+  }
+
+  /**
+   * Get the defined key for pausing and continuing the game.
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeyPause() {
+    return Input.Keys.valueOf(keyPause);
+  }
+
+  /**
+   * Get the defined key for dropping items.
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeyDrop() {
+    return Input.Keys.valueOf(keyDrop);
+  }
+
+  /**
+   * Get the defined key for the sell menu.
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeySellMenu() {
+    return Input.Keys.valueOf(keySellMenu);
+  }
+
+  /**
+   * Get the defined key for the buy menu.
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeyBuyMenu() {
+    return Input.Keys.valueOf(keyBuyMenu);
+  }
+
+  /**
+   * Get the defined key for the change ship menu.
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeyChangeShipMenu() {
+    return Input.Keys.valueOf(keyChangeShipMenu);
+  }
+
+  /**
+   * Get the defined key for the hire ship menu.
+   * @return int The keycode as defined in Input.Keys
+   */
+  public int getKeyHireShipMenu() {
+    return Input.Keys.valueOf(keyHireShipMenu);
   }
 }
