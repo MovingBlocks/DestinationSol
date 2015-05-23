@@ -16,7 +16,7 @@ public class GameScreens {
     mainScreen = new MainScreen(r, rightPaneLayout, cmp);
     mapScreen = new MapScreen(rightPaneLayout, cmp.isMobile(), r, cmp.getOptions());
     menuScreen = new MenuScreen(layouts.menuLayout, cmp.getOptions());
-    inventoryScreen = new InventoryScreen(r, cmp);
+    inventoryScreen = new InventoryScreen(r, cmp.getOptions());
     talkScreen = new TalkScreen(layouts.menuLayout, cmp.getOptions());
   }
 
