@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.TextureManager;
 import com.miloshpetrov.sol2.common.SolColor;
@@ -25,14 +26,14 @@ public class MainScreen implements SolUiScreen {
   private final SolUiControl myCreditsCtrl;
   private final TextureAtlas.AtlasRegion myTitleTex;
 
-  public MainScreen(MenuLayout menuLayout, TextureManager textureManager, boolean mobile, float r) {
+  public MainScreen(MenuLayout menuLayout, TextureManager textureManager, boolean mobile, float r, GameOptions gameOptions) {
     myControls = new ArrayList<SolUiControl>();
 
     myTutCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.T);
     myTutCtrl.setDisplayName("Tutorial");
     myControls.add(myTutCtrl);
 
-    myNewGameCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, Input.Keys.SPACE);
+    myNewGameCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, gameOptions.getKeyShoot());
     myNewGameCtrl.setDisplayName("New Game");
     myControls.add(myNewGameCtrl);
 
