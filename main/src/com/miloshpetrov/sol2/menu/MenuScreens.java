@@ -16,12 +16,12 @@ public class MenuScreens {
   public MenuScreens(SolLayouts layouts, TextureManager textureManager, boolean mobile, float r, GameOptions gameOptions) {
     MenuLayout menuLayout = layouts.menuLayout;
     main = new MainScreen(menuLayout, textureManager, mobile, r);
-    options = new OptionsScreen(menuLayout);
+    options = new OptionsScreen(menuLayout, gameOptions);
     resolutionScreen = new ResolutionScreen(menuLayout, gameOptions);
-    credits = new CreditsScreen(r);
+    credits = new CreditsScreen(r, gameOptions);
     loading = new LoadingScreen();
     newGame = new NewGameScreen(menuLayout, gameOptions);
-    newShip = new NewShipScreen(menuLayout);
+    newShip = new NewShipScreen(menuLayout, gameOptions);
   }
 
 }
