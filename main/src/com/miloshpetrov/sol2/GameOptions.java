@@ -13,25 +13,25 @@ public class GameOptions {
   public boolean fullscreen;
   public int controlType;
   public float volMul;
-  private String keyUpMouse;
-  private String keyDownMouse;
-  private String keyUp;
-  private String keyDown;
-  private String keyLeft;
-  private String keyRight;
-  private String keyShoot;
-  private String keyShoot2;
-  private String keyAbility;
-  private String keyEscape;
-  private String keyMap;
-  private String keyInventory;
-  private String keyTalk;
-  private String keyPause;
-  private String keyDrop;
-  private String keySellMenu;
-  private String keyBuyMenu;
-  private String keyChangeShipMenu;
-  private String keyHireShipMenu;
+  private String keyUpMouseName;
+  private String keyDownMouseName;
+  private String keyUpName;
+  private String keyDownName;
+  private String keyLeftName;
+  private String keyRightName;
+  private String keyShootName;
+  private String keyShoot2Name;
+  private String keyAbilityName;
+  private String keyEscapeName;
+  private String keyMapName;
+  private String keyInventoryName;
+  private String keyTalkName;
+  private String keyPauseName;
+  private String keyDropName;
+  private String keySellMenuName;
+  private String keyBuyMenuName;
+  private String keyChangeShipMenuName;
+  private String keyHireShipMenuName;
 
 
   public GameOptions(boolean mobile, SolFileReader reader) {
@@ -41,25 +41,25 @@ public class GameOptions {
     fullscreen = r.b("fullscreen", false);
     controlType = mobile ? CONTROL_KB : r.i("controlType", CONTROL_MIXED);
     volMul = r.f("vol", 1);
-    keyUpMouse = r.s("keyUpMouse", "W");
-    keyDownMouse = r.s("keyDownMouse", "S");
-    keyUp = r.s("keyUp", ("Up"));
-    keyDown = r.s("keyDown", ("Down"));
-    keyLeft = r.s("keyLeft", "Left");
-    keyRight = r.s("keyRight", "Right");
-    keyShoot = r.s("keyShoot", "Space");
-    keyShoot2 = r.s("keyShoot2", "L-Ctrl");
-    keyAbility = r.s("keyAbility", "L-Shift");
-    keyEscape = r.s("keyEscape", "Escape");
-    keyMap = r.s("keyMap", "Tab");
-    keyInventory = r.s("keyInventory", "I");
-    keyTalk = r.s("keyTalk", "T");
-    keyPause = r.s("keyPause", "P");
-    keyDrop = r.s("keyDrop", "D");
-    keySellMenu = r.s("keySellMenu", "S");
-    keyBuyMenu = r.s("keyBuyMenu", "B");
-    keyChangeShipMenu = r.s("keyChangeShipMenu", "C");
-    keyHireShipMenu = r.s("keyHireShipMenu", "H");
+    keyUpMouseName = r.s("keyUpMouse", "W");
+    keyDownMouseName = r.s("keyDownMouse", "S");
+    keyUpName = r.s("keyUp", ("Up"));
+    keyDownName = r.s("keyDown", ("Down"));
+    keyLeftName = r.s("keyLeft", "Left");
+    keyRightName = r.s("keyRight", "Right");
+    keyShootName = r.s("keyShoot", "Space");
+    keyShoot2Name = r.s("keyShoot2", "L-Ctrl");
+    keyAbilityName = r.s("keyAbility", "L-Shift");
+    keyEscapeName = r.s("keyEscape", "Escape");
+    keyMapName = r.s("keyMap", "Tab");
+    keyInventoryName = r.s("keyInventory", "I");
+    keyTalkName = r.s("keyTalk", "T");
+    keyPauseName = r.s("keyPause", "P");
+    keyDropName = r.s("keyDrop", "D");
+    keySellMenuName = r.s("keySellMenu", "S");
+    keyBuyMenuName = r.s("keyBuyMenu", "B");
+    keyChangeShipMenuName = r.s("keyChangeShipMenu", "C");
+    keyHireShipMenuName = r.s("keyHireShipMenu", "H");
   }
 
   public void advanceReso() {
@@ -110,11 +110,11 @@ public class GameOptions {
    */
   public void save() {
     IniReader.write(FILE_NAME, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType, "vol", volMul,
-            "keyUpMouse", keyUpMouse, "keyDownMouse", keyDownMouse, "keyUp", keyUp, "keyDown", keyDown,
-            "keyLeft", keyLeft, "keyRight", keyRight, "keyShoot", keyShoot, "keyShoot2", keyShoot2,
-            "keyAbility", keyAbility, "keyEscape", keyEscape, "keyMap", keyMap, "keyInventory", keyInventory,
-            "keyTalk", keyTalk, "keyPause", keyPause, "keyDrop", keyDrop, "keySellMenu", keySellMenu,
-            "keyBuyMenu", keyBuyMenu, "keyChangeShipMenu", keyChangeShipMenu, "keyHireShipMenu", keyHireShipMenu);
+            "keyUpMouse", getKeyUpMouseName(), "keyDownMouse", getKeyDownMouseName(), "keyUp", getKeyUpName(), "keyDown", keyDownName,
+            "keyLeft", keyLeftName, "keyRight", keyRightName, "keyShoot", keyShootName, "keyShoot2", getKeyShoot2Name(),
+            "keyAbility", getKeyAbilityName(), "keyEscape", getKeyEscapeName(), "keyMap", keyMapName, "keyInventory", keyInventoryName,
+            "keyTalk", getKeyTalkName(), "keyPause", getKeyPauseName(), "keyDrop", getKeyDropName(), "keySellMenu", getKeySellMenuName(),
+            "keyBuyMenu", getKeyBuyMenuName(), "keyChangeShipMenu", getKeyChangeShipMenuName(), "keyHireShipMenu", getKeyHireShipMenuName());
   }
 
   /**
@@ -122,7 +122,7 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyUpMouse() {
-    return Input.Keys.valueOf(keyUpMouse);
+    return Input.Keys.valueOf(getKeyUpMouseName());
   }
 
   /**
@@ -131,7 +131,25 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyDownMouse() {
-    return Input.Keys.valueOf(keyDownMouse);
+    return Input.Keys.valueOf(getKeyDownMouseName());
+  }
+
+  /**
+   * Get the readable name of the defined key for up when the input controlType is set to CONTROL_MIXED.
+   * This includes navigating down in menus.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyUpMouseName() {
+    return keyUpMouseName;
+  }
+
+  /**
+   * Get the readable name of the defined key for down when the input controlType is set to CONTROL_MIXED.
+   * This includes navigating down in menus.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyDownMouseName() {
+    return keyDownMouseName;
   }
 
   /**
@@ -139,7 +157,16 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyUp() {
-    return Input.Keys.valueOf(keyUp);
+    return Input.Keys.valueOf(getKeyUpName());
+  }
+
+  /**
+   * Get the readable name of the defined key for  up.
+   * This includes activating the ship's thrusters and navigating up in menus.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyUpName() {
+    return keyUpName;
   }
 
   /**
@@ -147,7 +174,15 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyDown() {
-    return Input.Keys.valueOf(keyDown);
+    return Input.Keys.valueOf(keyDownName);
+  }
+
+  /**
+   * Get the readable name of the defined key for down.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyDownName() {
+    return keyDownName;
   }
 
   /**
@@ -155,7 +190,15 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyLeft() {
-    return Input.Keys.valueOf(keyLeft);
+    return Input.Keys.valueOf(keyLeftName);
+  }
+
+  /**
+   * Get the readable name of the defined key for left.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyLeftName() {
+    return keyLeftName;
   }
 
   /**
@@ -163,7 +206,15 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyRight() {
-    return Input.Keys.valueOf(keyRight);
+    return Input.Keys.valueOf(keyRightName);
+  }
+
+  /**
+   * Get the readable name of the defined key for right.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyRightName() {
+    return keyRightName;
   }
 
   /**
@@ -171,7 +222,15 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyShoot() {
-    return Input.Keys.valueOf(keyShoot);
+    return Input.Keys.valueOf(keyShootName);
+  }
+
+  /**
+   * Get the readable name of the defined key for shooting the primary weapon.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyShootName() {
+    return keyShootName;
   }
 
   /**
@@ -179,25 +238,42 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyShoot2() {
-    return Input.Keys.valueOf(keyShoot2);
+    return Input.Keys.valueOf(getKeyShoot2Name());
+  }
+
+  /**
+   * Get the readable name of the defined key for shooting the secondary weapon.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyShoot2Name() {
+    return keyShoot2Name;
   }
 
   /**
    * Get the defined key for equipping and unequipping the primary weapon.
-   * This is currently set to the same key as keyShoot
+   * This is currently set to the same key as keyShootName
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyEquip() {
-    return Input.Keys.valueOf(keyShoot);
+    return Input.Keys.valueOf(keyShootName);
+  }
+
+  /**
+   * Get the defined key for equipping and unequipping the primary weapon.
+   * This is currently set to the same key as keyShootName
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyEquipName() {
+    return getKeyShootName();
   }
 
   /**
    * Get the defined key for equipping and unequipping the secondary weapon.
-   * This is currently set to the same key as keyShoot2
+   * This is currently set to the same key as keyShoot2Name
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyEquip2() {
-    return Input.Keys.valueOf(keyShoot2);
+    return Input.Keys.valueOf(getKeyShoot2Name());
   }
 
   /**
@@ -205,7 +281,16 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyAbility() {
-    return Input.Keys.valueOf(keyAbility);
+    return Input.Keys.valueOf(getKeyAbilityName());
+  }
+
+
+  /**
+   * Get the readable name of the defined key for activating the ship's special ability.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyAbilityName() {
+    return keyAbilityName;
   }
 
   /**
@@ -213,7 +298,16 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyEscape() {
-    return Input.Keys.valueOf(keyEscape);
+    return Input.Keys.valueOf(getKeyEscapeName());
+  }
+
+  /**
+   * Get the readable name of the defined key for escape.
+   * This includes bringing up the in-game menu and exiting in-game menus.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyEscapeName() {
+    return keyEscapeName;
   }
 
   /**
@@ -235,12 +329,30 @@ public class GameOptions {
   }
 
   /**
+   * Get the readable name of the defined key for closing the menu
+   * This is currently set to the same key as KeyEscape
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyCloseName() {
+    return getKeyEscapeName();
+  }
+
+  /**
    * Get the defined key for buying items.
    * This is currently set to the same key as KeyShoot
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyBuyItem() {
     return getKeyShoot();
+  }
+
+  /**
+   * Get the defined key for buying items.
+   * This is currently set to the same key as KeyShoot
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyBuyItemName() {
+    return getKeyShootName();
   }
 
   /**
@@ -280,6 +392,15 @@ public class GameOptions {
   }
 
   /**
+   * Get the readable name of the defined key for zooming out on the map.
+   * This is currently set to the same key as KeyUp
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyZoomInName() {
+    return getKeyUpName();
+  }
+
+  /**
    * Get the defined key for zooming out on the map.
    * This is currently set to the same key as KeyDown
    * @return int The keycode as defined in Input.Keys
@@ -293,7 +414,15 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyMap() {
-    return Input.Keys.valueOf(keyMap);
+    return Input.Keys.valueOf(keyMapName);
+  }
+
+  /**
+   * Get the readable name of the defined key for opening and closing the map.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyMapName() {
+    return keyMapName;
   }
 
   /**
@@ -301,7 +430,15 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyInventory() {
-    return Input.Keys.valueOf(keyInventory);
+    return Input.Keys.valueOf(keyInventoryName);
+  }
+
+  /**
+   * Get the readable name of the defined key for opening the inventory.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyInventoryName() {
+    return keyInventoryName;
   }
 
   /**
@@ -309,7 +446,15 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyTalk() {
-    return Input.Keys.valueOf(keyTalk);
+    return Input.Keys.valueOf(getKeyTalkName());
+  }
+
+  /**
+   * Get the readable name of the defined key for opening the talk menu.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyTalkName() {
+    return keyTalkName;
   }
 
   /**
@@ -317,7 +462,15 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyPause() {
-    return Input.Keys.valueOf(keyPause);
+    return Input.Keys.valueOf(getKeyPauseName());
+  }
+
+  /**
+   * Get the readable name of the defined key for pausing and continuing the game.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyPauseName() {
+    return keyPauseName;
   }
 
   /**
@@ -325,7 +478,15 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyDrop() {
-    return Input.Keys.valueOf(keyDrop);
+    return Input.Keys.valueOf(getKeyDropName());
+  }
+
+  /**
+   * Get the readable name of the defined key for dropping items.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyDropName() {
+    return keyDropName;
   }
 
   /**
@@ -333,7 +494,15 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeySellMenu() {
-    return Input.Keys.valueOf(keySellMenu);
+    return Input.Keys.valueOf(getKeySellMenuName());
+  }
+
+  /**
+   * Get the readable name of the defined key for the sell menu.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeySellMenuName() {
+    return keySellMenuName;
   }
 
   /**
@@ -341,7 +510,15 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyBuyMenu() {
-    return Input.Keys.valueOf(keyBuyMenu);
+    return Input.Keys.valueOf(getKeyBuyMenuName());
+  }
+
+  /**
+   * Get the readable name of the defined key for the buy menu.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyBuyMenuName() {
+    return keyBuyMenuName;
   }
 
   /**
@@ -349,7 +526,15 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyChangeShipMenu() {
-    return Input.Keys.valueOf(keyChangeShipMenu);
+    return Input.Keys.valueOf(getKeyChangeShipMenuName());
+  }
+
+  /**
+   * Get the readable name of the defined key for the change ship menu.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyChangeShipMenuName() {
+    return keyChangeShipMenuName;
   }
 
   /**
@@ -357,6 +542,14 @@ public class GameOptions {
    * @return int The keycode as defined in Input.Keys
    */
   public int getKeyHireShipMenu() {
-    return Input.Keys.valueOf(keyHireShipMenu);
+    return Input.Keys.valueOf(getKeyHireShipMenuName());
+  }
+
+  /**
+   * Get the readable name of the defined key for the hire ship menu.
+   * @return String The readable name as defined in Input.Keys
+   */
+  public String getKeyHireShipMenuName() {
+    return keyHireShipMenuName;
   }
 }
