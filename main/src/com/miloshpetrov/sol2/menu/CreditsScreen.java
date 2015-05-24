@@ -1,8 +1,8 @@
 package com.miloshpetrov.sol2.menu;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.miloshpetrov.sol2.Const;
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
@@ -20,9 +20,9 @@ public class CreditsScreen implements SolUiScreen {
   private int myIdx;
   private float myPerc;
 
-  public CreditsScreen(float r) {
+  public CreditsScreen(float r, GameOptions gameOptions) {
     myControls = new ArrayList<SolUiControl>();
-    myCloseCtrl = new SolUiControl(MainScreen.creditsBtnRect(r), true, Input.Keys.ESCAPE);
+    myCloseCtrl = new SolUiControl(MainScreen.creditsBtnRect(r), true, gameOptions.getKeyEscape());
     myCloseCtrl.setDisplayName("Close");
     myControls.add(myCloseCtrl);
     myColor = SolColor.col(1, 1);
