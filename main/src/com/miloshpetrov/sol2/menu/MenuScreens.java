@@ -15,7 +15,7 @@ public class MenuScreens {
 
   public MenuScreens(SolLayouts layouts, TextureManager textureManager, boolean mobile, float r, GameOptions gameOptions) {
     MenuLayout menuLayout = layouts.menuLayout;
-    main = new MainScreen(menuLayout, textureManager, mobile, r);
+    main = new MainScreen(menuLayout, textureManager, mobile, r, gameOptions);
     options = new OptionsScreen(menuLayout, gameOptions);
     resolutionScreen = new ResolutionScreen(menuLayout, gameOptions);
     credits = new CreditsScreen(r, gameOptions);
