@@ -1,6 +1,6 @@
 package com.miloshpetrov.sol2.menu;
 
-import com.badlogic.gdx.Input;
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.game.SaveManager;
 import com.miloshpetrov.sol2.ui.*;
@@ -14,10 +14,10 @@ public class NewGameScreen implements SolUiScreen {
   private final SolUiControl myPrevCtrl;
   private final SolUiControl myNewCtrl;
 
-  public NewGameScreen(MenuLayout menuLayout) {
+  public NewGameScreen(MenuLayout menuLayout, GameOptions gameOptions) {
     myControls = new ArrayList<SolUiControl>();
 
-    myPrevCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.SPACE);
+    myPrevCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, gameOptions.getKeyShoot());
     myPrevCtrl.setDisplayName("Previous Ship");
     myControls.add(myPrevCtrl);
 
@@ -25,7 +25,7 @@ public class NewGameScreen implements SolUiScreen {
     myNewCtrl.setDisplayName("New Ship");
     myControls.add(myNewCtrl);
 
-    myBackCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, Input.Keys.ESCAPE);
+    myBackCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
     myBackCtrl.setDisplayName("Cancel");
     myControls.add(myBackCtrl);
 

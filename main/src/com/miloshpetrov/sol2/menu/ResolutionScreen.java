@@ -1,6 +1,5 @@
 package com.miloshpetrov.sol2.menu;
 
-import com.badlogic.gdx.Input;
 import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.common.SolColor;
@@ -16,18 +15,18 @@ public class ResolutionScreen implements SolUiScreen {
   private final SolUiControl myResoCtrl;
   private final SolUiControl myFsCtrl;
 
-  public ResolutionScreen(MenuLayout menuLayout) {
+  public ResolutionScreen(MenuLayout menuLayout, GameOptions gameOptions) {
     myControls = new ArrayList<SolUiControl>();
 
-    myResoCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, Input.Keys.ESCAPE);
+    myResoCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
     myResoCtrl.setDisplayName("Resolution");
     myControls.add(myResoCtrl);
 
-    myFsCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true, Input.Keys.ESCAPE);
+    myFsCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
     myFsCtrl.setDisplayName("Fullscreen");
     myControls.add(myFsCtrl);
 
-    myCloseCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, Input.Keys.ESCAPE);
+    myCloseCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
     myCloseCtrl.setDisplayName("Back");
     myControls.add(myCloseCtrl);
   }
