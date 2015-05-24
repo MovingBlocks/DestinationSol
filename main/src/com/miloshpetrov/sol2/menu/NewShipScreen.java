@@ -1,6 +1,7 @@
 package com.miloshpetrov.sol2.menu;
 
 import com.badlogic.gdx.Input;
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.ui.*;
@@ -13,13 +14,13 @@ public class NewShipScreen implements SolUiScreen {
   private final SolUiControl myOkCtrl;
   public final SolUiControl myCancelCtrl;
 
-  public NewShipScreen(MenuLayout menuLayout) {
+  public NewShipScreen(MenuLayout menuLayout, GameOptions gameOptions) {
     myControls = new ArrayList<SolUiControl>();
     myOkCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.H);
     myOkCtrl.setDisplayName("OK");
     myControls.add(myOkCtrl);
 
-    myCancelCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, Input.Keys.ESCAPE);
+    myCancelCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
     myCancelCtrl.setDisplayName("Cancel");
     myControls.add(myCancelCtrl);
   }
