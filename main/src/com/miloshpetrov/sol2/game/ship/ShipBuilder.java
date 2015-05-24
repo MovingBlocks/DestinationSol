@@ -127,7 +127,9 @@ public class ShipBuilder {
     }
     if (gun2 != null) {
       GunMount m2 = hull.getGunMount(true);
-      if (m2.isFixed() == gun2.config.fixed) m2.setGun(game, ship, gun2, hullConfig.g2UnderShip);
+      if (m2 != null) {
+        if (m2.isFixed() == gun2.config.fixed) m2.setGun(game, ship, gun2, hullConfig.g2UnderShip);
+      }
     }
     return ship;
   }
