@@ -73,11 +73,34 @@ Run any commands in the project root directory
 * To prepare for IntelliJ run: `gradlew idea` then load the generated project files
 * To create a game package for distribution (Windows, Linux, Mac): `gradlew distZip`
 
-Credits
---------
+For Android a little extra setup is needed
 
-Original creators: Milosh Petrov, Nika Burimenko, Kent C. Jensen, Julia Nikolaeva 
+* Install the official Android SDK from Google - exact version info is still TODO
+* Make a local.properties in the project root with the path to your SDK. Example: sdk.dir=C\:/Dev/Android/SDK
+* To prepare in IntelliJ go to Project Structure and under Modules click the android "folder" icon and set the SDK
+* In the same window go to Artifacts and add a new Android Application, created from the android module
+* Supply a code signing keystore - may be tricky since we can't exactly hand out the official one for security reasons
+* To run in IntelliJ make sure you have an Android emulator (or USB connection) working then create a run configuration
 
-Contributors on GitHub: Cervator, PrivateAlpha, theotherjay, Linus ... and your name here? :-) More coming!
+Contributors
+------------
+[GitHub contribution stats](https://github.com/MovingBlocks/DestinationSol/graphs/contributors)
+
+*Original creators:*
+
+* [Milosh Petrov](https://github.com/miloshpetrov)
+* [Nika Burimenko](https://github.com/NoiseDoll)
+* Kent C. Jensen
+* Julia Nikolaeva 
+
+*Contributors on GitHub:* 
+
+* [Cervator](https://github.com/Cervator)
+* [PrivateAlpha](https://github.com/PrivateAlpha)
+* [theotherjay](https://github.com/theotherjay)
+* [LinusVanElswijk](https://github.com/LinusVanElswijk)
+* [SimonC4](https://github.com/SimonC4)
+
+... and your name here? :-) More coming!
 
 Apologies in advance for any omissions, contact [Cervator](http://forum.terasology.org/members/cervator.2/) if you believe you've been missed :-)
