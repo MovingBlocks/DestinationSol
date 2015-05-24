@@ -12,10 +12,6 @@ sourceSets {
     }
 }
 
-dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
-}
-
 jar {
     archiveName = "sol.jar"
 
@@ -25,4 +21,8 @@ jar {
             into 'build/classes/main'
         }
     }
+}
+
+eclipse.project {
+    name = appName + "-main"
 }
