@@ -82,7 +82,7 @@ public class SolGame {
     myDraMan = new DraMan(drawer);
     myCam = new SolCam(drawer.r);
     myScreens = new GameScreens(drawer.r, cmp);
-    myTutorialManager = tut ? new TutorialManager(commonDrawer.r, myScreens, cmp.isMobile()) : null;
+    myTutorialManager = tut ? new TutorialManager(commonDrawer.r, myScreens, cmp.isMobile(), cmp.getOptions()) : null;
     myTextureManager = textureManager;
     myFarBackgroundManagerOld = new FarBackgroundManagerOld(myTextureManager);
     myShipBuilder = new ShipBuilder();
