@@ -5,6 +5,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.physics.box2d.Box2D;
 import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.*;
@@ -32,7 +33,8 @@ public class SolApplication implements ApplicationListener {
   private SolGame myGame;
 
   public SolApplication() {
-
+    // Initiate Box2D to make sure natives are loaded early enough
+    Box2D.init();
   }
 
   @Override
