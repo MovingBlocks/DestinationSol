@@ -1,0 +1,2 @@
+volume=.035
+loopTime=0.8

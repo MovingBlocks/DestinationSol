@@ -1,0 +1,70 @@
+fixed == faster
+
+1    bombGun / bombClip
+2    plasmaGun = Pirate Plasma Gun / plasmaClip
+4    blaster / infinite
+5  f fixedBombGun / bombClip
+5    gun = Machine Gun / bulletClip
+6  f fixedGun = Heavy Machine Gun / bulletClip
+7    shotGun / shellClip
+7  f missileLauncher / missileClip
+8  f miner / mineClip
+9  f rocketLauncher / rocketClip
+9  f fixedPlasmaGun = Plasma Gun / plasmaClip
+10 f missilePad / missileClip
+11 f fixedBlaster = Heavy Blaster / infinite
+11 f fixedShotGun = Heavy Shotgun / shellClip
+12   cannon / slugClip
+13 f railGun / railClip
+13 f nailGun / nailClip
+14   emGun / infinite
+15 f fixedEmGun = Heavy EM Gun / infinite
+15 f fixedCannon = Heavy Cannon / slugClip
+16   waveGun / infinite
+
+
+EMPIRE:
+common weapons:
+  blaster
+  gun
+  fixedGun
+  cannon
+  f rocketLauncher
+  fixedPlasmaGun
+unique weapons:
+  shotGun
+  fixedShotGun
+
+PIRATES:
+common weapons:
+  blaster
+  gun
+  fixedPlasmaGun
+unique weapons:
+  plasmaGun
+
+DESERT CLAN:
+common weapons:
+  gun
+  fixedGun
+  cannon
+unique weapons:
+  f railGun
+  fixedCannon
+
+MINERS:
+common weapons:
+  f rocketLauncher
+unique weapons: 
+  f missileLauncher
+  f nailGun
+  f missilePad
+
+TECHIES:
+common weapons:
+  fixedPlasmaGun
+unique weapons:
+  fixedBlaster
+  emGun
+  fixedEmGun
+  waveGun
