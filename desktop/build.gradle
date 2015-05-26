@@ -1,9 +1,8 @@
 apply plugin: "java"
 
 sourceCompatibility = 1.7
-sourceSets.main.java.srcDirs = [ "src/" ]
 
-project.ext.mainClassName = "com.miloshpetrov.sol2.desktop.SolDesktop"
+project.ext.mainClassName = "org.destinationsol.desktop.SolDesktop"
 
 task run(type: JavaExec) {
     dependsOn classes
@@ -11,7 +10,8 @@ task run(type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
-    workingDir = project(':main').projectDir
+    //workingDir = project(':core').projectDir
+    workingDir = project(':core').sourceSets.main.output.classesDir
     ignoreExitValue = true
 }
 
@@ -31,14 +31,11 @@ task dist (type: Sync) {
     into("$distsDir/app")
 
     from("$rootDir/launcher")
+    //from project(':core').sourceSets.main.resources.srcDirs
 
     into('libs') {
         from configurations.runtime
         from jar
-    }
-
-    into('res') {
-        from project(':main').sourceSets.res.resources.srcDirs
     }
 }
 

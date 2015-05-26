@@ -2,27 +2,19 @@ apply plugin: "java"
 
 sourceCompatibility = 1.7
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
 sourceSets {
     main {
-        java.srcDirs = ["src"]
-    }
-    res {
-        resources.srcDirs = ["res"]
+        java {
+            output.classesDir 'build/classes'
+        }
+        output.resourcesDir 'build/classes'
     }
 }
 
 jar {
     archiveName = "sol.jar"
-
-    doFirst {
-        copy {
-            from 'src/SolAppListener.gwt.xml'
-            into 'build/classes/main'
-        }
-    }
 }
 
 eclipse.project {
-    name = appName + "-main"
+    name = appName + "-core"
 }
