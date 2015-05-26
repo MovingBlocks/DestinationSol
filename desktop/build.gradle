@@ -1,14 +1,8 @@
 apply plugin: "java"
 
 sourceCompatibility = 1.7
-sourceSets.main.java.srcDirs = [ "src/" ]
 
-project.ext.mainClassName = "com.miloshpetrov.sol2.desktop.SolDesktop"
-
-dependencies {
-    compile project(":main")
-    compile fileTree(dir: 'libs', include: '*.jar')
-}
+project.ext.mainClassName = "org.destinationsol.desktop.SolDesktop"
 
 task run(type: JavaExec) {
     dependsOn classes
@@ -16,7 +10,8 @@ task run(type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
-    workingDir = project(':main').projectDir
+    //workingDir = project(':core').projectDir
+    workingDir = project(':core').sourceSets.main.output.classesDir
     ignoreExitValue = true
 }
 
@@ -36,14 +31,11 @@ task dist (type: Sync) {
     into("$distsDir/app")
 
     from("$rootDir/launcher")
+    //from project(':core').sourceSets.main.resources.srcDirs
 
     into('libs') {
         from configurations.runtime
         from jar
-    }
-
-    into('res') {
-        from project(':main').sourceSets.res.resources.srcDirs
     }
 }
 
@@ -51,4 +43,23 @@ task distZip (type: Zip) {
     dependsOn dist
     from "$distsDir/app"
     archiveName = "DestinationSol.zip"
+}
+
+// TODO: LibGDX Generated config for Eclipse. Needs adjustment for assets not being in the Android facade
+eclipse {
+    project {
+        name = appName + "-desktop"
+        linkedResource name: 'assets', type: '2', location: 'PARENT-1-PROJECT_LOC/android/assets'
+    }
+}
+
+task afterEclipseImport(description: "Post processing after project generation", group: "IDE") {
+    doLast {
+        def classpath = new XmlParser().parse(file(".classpath"))
+        new Node(classpath, "classpathentry", [ kind: 'src', path: 'assets' ]);
+        def writer = new FileWriter(file(".classpath"))
+        def printer = new XmlNodePrinter(new PrintWriter(writer))
+        printer.setPreserveWhitespace(true)
+        printer.print(classpath)
+    }
 }

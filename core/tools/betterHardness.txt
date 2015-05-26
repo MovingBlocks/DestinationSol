@@ -1,0 +1,51 @@
+remove classes:
+  HullConfigs
+  ShipConfig
+
+CONFIG STRUCTURE:
+  each planet type has:
+    acceptable HD interval
+    associated clan
+    gravity range -- has
+    landscape type
+    allied station hull
+  each clan has:
+    list of hulls
+    weapon prefs (bullet/energy/rocket/special)
+    shield prefs
+    armor prefs
+    ability
+  one clan is allied, system knows its name
+  each system has associated clan
+  each belt has associated clan
+  each maze has associated clan
+  special ship type -- chest?
+
+HARDNESS ALGORITHM:
+  think in terms of DamagePerSecond:
+    weapon had theoretical DPS
+    if gun is fixed, multiply that to .2
+    multiply by x/6 where x is time enemy would stand against its own damage
+    if density is higher than view dist, multiply by density factor
+    if grav, multiply by grav factor
+    if rocky landscape, multiply
+    if asteroids, multiply
+    if maze, multiply
+    this way you have an avg DPS of area
+    let's think that player shouldn't be in places where they can die in 10 seconds
+
+  define global hardness multiplier
+  for each system, define max & min hardness density (HD). each next system should have greater HD
+  planets:
+    planet HD depends on the dist from system center
+    type should be selected randomly among those that accept this HD
+    HD0 = HD / landscape type factor
+    select gravity randomly
+    HD0 /= gravity factor
+    select random density multiplier
+    HD0 /= density factor
+    for each ship:
+      sh (ship hardness) = HD0 * random factor
+      then somehow decide what should a ship contain to have hardness equal to expected
+  systems, belts: similar...
+  loot price of each enemy should depend on HD -- if equipment is bad, add more money and vice versa

@@ -1,0 +1,14 @@
+- update product version
+- pack textures
+- build sol.jar & solDesctop.jar
+- copy solWin, remove devBuild, copy jars & res
+- check if solWin works
+- copy jar & res to android project
+- update android version
+- build signed apk
+- check if apk works
+
+- commit trunk & solWin
+
+- pack zip
+- upload zip & apk

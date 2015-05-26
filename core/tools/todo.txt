@@ -1,0 +1,78 @@
+
+1.0.2:
+  show version in the bottom corner?
+
+
+publication:
+  licence?
+  Google Play: 
+    "also available on PC, looks better on tablets"
+    "seamless" is short desc
+  steam:
+    tags
+    cloud saving
+  rock scissor shotgun
+  space forums
+  improve banner on lgdb
+  inspect links offered in lgdb
+  gamejolt 
+  desura
+  indiedb
+
+  maybe:
+    whosgamingnow.com
+    indiegamebundles.com
+    vk.com/indie_games
+    linux.org.ru
+
+
+===================== REST =======================================================================
+
+
+BG 3.0:
+  create self-repetitive nebulae, always draw 4 of them
+  use another chunk layer for stars
+
+ARCHITECTURE
+  map uses hull icons (interleaving in drawIcons), world uses item icons
+  ships & farShips & starPorts make mess in MapDrawer -- unify under one interface?
+  warn about unused sounds
+  warn about unused images
+  replace AtlasRegion with SolTex, latter shouldn't extend
+  get rid of Dra.getTex0
+  sound volumes should be kept in one map file?
+
+FEATURES
+  implement ground tiles as polygons to avoid getting stuck inside
+  star ports should be on different distances from planet center, since now they overlap
+  ship traces reusable?
+  update pitch to all played sounds if game time is changed?
+  damaged ship hulls in place of exploded ships
+  better collision prediction (multipoint)
+  try using shaders
+
+PERF
+  cache cam dst to np, far sprites can check it
+  use events on item addition
+  use objFloatMap in soundManager
+  PartMan should use pool
+  string reuse
+  autoboxing? (boolean is OK)
+
+CLEANNESS
+  improve teleport -- transfer body instantly via setTransform()
+  get rid of Pilot.getMapHint
+
+DISPOSE
+  instantly:
+    Shape
+  cmp:
+    BitmapFont
+    SpriteBatch
+    Pixmap
+    Texture
+    TextureAtlas
+  game:
+    ParticleEffect
+    World
+    Sound

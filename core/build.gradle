@@ -1,0 +1,20 @@
+apply plugin: "java"
+
+sourceCompatibility = 1.7
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+sourceSets {
+    main {
+        java {
+            output.classesDir 'build/classes'
+        }
+        output.resourcesDir 'build/classes'
+    }
+}
+
+jar {
+    archiveName = "sol.jar"
+}
+
+eclipse.project {
+    name = appName + "-core"
+}
