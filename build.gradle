@@ -25,26 +25,6 @@ allprojects {
     }
 }
 
-project(":desktop") {
-    apply plugin: "java"
-
-    dependencies {
-        compile project(":main")
-        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-    }
-}
-
-project(":main") {
-    apply plugin: "java"
-
-    dependencies {
-        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-    }
-}
-
 tasks.eclipse.doLast {
     delete ".project"
 }
