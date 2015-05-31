@@ -1,1 +1,6 @@
-include 'desktop', 'main', 'android'
+include 'desktop', 'main'
+
+File androidGradle = new File(rootDir, 'android/build.gradle')
+if (androidGradle.exists()) {
+    include 'android'
+}

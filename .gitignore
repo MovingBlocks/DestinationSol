@@ -2,6 +2,9 @@
 hs_err_pid*
 .gradle
 
+## Ignored sub-projects with nested Git roots
+#android
+
 ## GWT
 war/
 html/war/gwt_bree/
