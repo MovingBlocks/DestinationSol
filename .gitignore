@@ -3,7 +3,8 @@ hs_err_pid*
 .gradle
 
 ## Ignored sub-projects with nested Git roots
-#android
+android
+gwt
 
 ## GWT
 war/
@@ -17,11 +18,7 @@ gwt-unitCache/
 www-test/
 .gwt-tmp/
 
-## Android Studio and Intellij and Android in general
-android/libs/armeabi/
-android/libs/armeabi-v7a/
-android/libs/x86/
-android/gen/
+## Intellij
 .idea/
 *.ipr
 *.iws
