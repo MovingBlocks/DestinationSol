@@ -75,12 +75,21 @@ Run any commands in the project root directory
 
 For Android a little extra setup is needed
 
+* Add in the Android code: `gradlew fetchAndroid` and then rerun Gradle once - for instance `gradlew idea` again
 * Install the official Android SDK from Google - exact version info is still TODO
 * Make a local.properties in the project root with the path to your SDK. Example: sdk.dir=C\:/Dev/Android/SDK
 * To prepare in IntelliJ go to Project Structure and under Modules click the android "folder" icon and set the SDK
 * In the same window go to Artifacts and add a new Android Application, created from the android module
-* Supply a code signing keystore - may be tricky since we can't exactly hand out the official one for security reasons
+* Supply a code signing keystore or supply other debug configuration
 * To run in IntelliJ make sure you have an Android emulator (or USB connection) working then create a run configuration
+
+You can also run the Android version via Gradle: `gradlew android` - but need your device setup. Need instructions.
+
+GWT / HTML
+
+LibGDX supports an HTML based facade based on the Google Web Toolkit. Its use isn't all the way implemented yet.
+
+* Add in the code like with Android: `gradlew fetchGwt` then rerun Gradle
 
 Contributors
 ------------
