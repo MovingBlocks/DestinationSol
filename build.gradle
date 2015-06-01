@@ -1,18 +1,10 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        jcenter()
     }
     dependencies {
         // Git plugin for Gradle
         classpath 'org.ajoberstar:gradle-git:0.6.3'
-
-        // Android stuff
-        classpath 'com.android.tools.build:gradle:1.2.3'
-
-        // GWT
-        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
     }
 }
 
@@ -86,11 +78,11 @@ task (fetchGwt, type: GitClone) {
     // Default GitHub account to use. Supply with -PgithubAccount="TargetAccountName" or via gradle.properties
     def githubHome = 'MovingBlocks'
 
-    def destination = file('android')
+    def destination = file('gwt')
 
     // Don't clone this repo if we already have a directory by that name (also determines Gradle UP-TO-DATE)
     enabled = !destination.exists()
-    //println "fetchAndroid requested for $repo from Github under $githubHome - exists already? " + !enabled
+    //println "fetchGwt requested for $repo from Github under $githubHome - exists already? " + !enabled
 
     // Do the actual clone if we don't have the directory already
     if (enabled) {
