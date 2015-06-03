@@ -236,7 +236,7 @@ public class SolInputManager {
     int h = Gdx.graphics.getHeight();
     mouseX = (int)SolMath.clamp(mouseX, 0, w);
     mouseY = (int)SolMath.clamp(mouseY, 0, h);
-    Gdx.input.setCursorPosition(mouseX, h - mouseY);
+    Gdx.input.setCursorPosition(mouseX, mouseY);
   }
 
   private void updatePtrs() {

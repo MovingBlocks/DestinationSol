@@ -165,7 +165,7 @@ public final class HullConfig {
             this.tex = new TextureAtlas.AtlasRegion(src.tex);
             this.engineConfig = src.engineConfig;
             this.ability = (src.ability == null) ? null : src.ability;
-            this.approxRadius = src.approxRadius;
+            this.approxRadius = 0.4f * src.size;
             this.displayName = src.displayName;
             this.price = src.price;
             this.hirePrice = src.hirePrice;
