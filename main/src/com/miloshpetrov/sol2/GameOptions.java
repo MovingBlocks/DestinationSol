@@ -43,8 +43,8 @@ public class GameOptions {
     volMul = r.f("vol", 1);
     keyUpMouseName = r.s("keyUpMouse", "W");
     keyDownMouseName = r.s("keyDownMouse", "S");
-    keyUpName = r.s("keyUp", ("Up"));
-    keyDownName = r.s("keyDown", ("Down"));
+    keyUpName = r.s("keyUp", "Up");
+    keyDownName = r.s("keyDown", "Down");
     keyLeftName = r.s("keyLeft", "Left");
     keyRightName = r.s("keyRight", "Right");
     keyShootName = r.s("keyShoot", "Space");
