@@ -25,8 +25,10 @@ public class MainScreen implements SolUiScreen {
   private final SolUiControl myNewGameCtrl;
   private final SolUiControl myCreditsCtrl;
   private final TextureAtlas.AtlasRegion myTitleTex;
+  private final boolean isMobile;
 
   public MainScreen(MenuLayout menuLayout, TextureManager textureManager, boolean mobile, float r, GameOptions gameOptions) {
+    isMobile = mobile;
     myControls = new ArrayList<SolUiControl>();
 
     myTutCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.T);
@@ -77,6 +79,10 @@ public class MainScreen implements SolUiScreen {
       return;
     }
     if (myExitCtrl.isJustOff()) {
+      // Save the settings on exit, but not on mobile as settings don't exist there.
+      if (isMobile == false) {
+        cmp.getOptions().save();
+      }
       Gdx.app.exit();
       return;
     }
