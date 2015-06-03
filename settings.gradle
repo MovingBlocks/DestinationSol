@@ -1,1 +1,11 @@
 include 'desktop', 'main'
+
+File androidGradle = new File(rootDir, 'android/build.gradle')
+if (androidGradle.exists()) {
+    include 'android'
+}
+
+File gwtGradle = new File(rootDir, 'gwt/build.gradle')
+if (gwtGradle.exists()) {
+    include 'gwt'
+}

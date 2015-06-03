@@ -60,9 +60,6 @@ public class SolDesktop {
     private static class MyReader implements SolFileReader {
         @Override
         public List<String> read(String fileName) {
-            // Need to initialise Box2D in new version of lwjgl
-            Box2D.init();
-
             if (DebugOptions.DEV_ROOT_PATH != null) {
                 fileName = DebugOptions.DEV_ROOT_PATH + fileName;
             }
