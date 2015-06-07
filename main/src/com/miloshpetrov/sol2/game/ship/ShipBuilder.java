@@ -135,9 +135,11 @@ public class ShipBuilder {
       }
     }
     if (gun2 != null) {
-      GunMount m2 = hull.getGunMount(true);
-      if (m2 != null) {
-        if (m2.isFixed() == gun2.config.fixed) m2.setGun(game, ship, gun2, hullConfig.g2IsUnderShip());
+      GunMount gunMount1 = hull.getGunMount(true);
+      if (gunMount1 != null) {
+        if (gunMount1.isFixed() == gun2.config.fixed) {
+          gunMount1.setGun(game, ship, gun2, hullConfig.getGunSlot(1).isUnderneathHull());
+        }
       }
     }
     return ship;
