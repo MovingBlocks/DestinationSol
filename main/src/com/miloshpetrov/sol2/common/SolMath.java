@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.common;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
@@ -79,12 +80,20 @@ public class SolMath {
    * Returns a random float v such that min <= v && v < max. Min shouldn't equal to max
    */
   public static float rnd(float min, float max) {
-    float res = max;
-    if (min == max) throw new AssertionError("intRnd min equals max " + min);
-    while (res == max) {
-      res = MathUtils.random(min, max);
+    float result = max;
+    if (min == max) {
+      Gdx.app.log("SolMath", "rnd was called with bad parameters! Min " + min + " matches max " + max + ", accepting max.");
+      Gdx.app.log("SolMath",  "Please review appropriate code in the stack dump:");
+      for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
+        Gdx.app.log("SolMath", ste.toString());
+      }
+
+      return result;
     }
-    return res;
+    while (result == max) {
+      result = MathUtils.random(min, max);
+    }
+    return result;
   }
 
   /**
