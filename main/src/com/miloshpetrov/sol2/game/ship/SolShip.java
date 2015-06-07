@@ -307,6 +307,7 @@ public class SolShip implements SolObject {
     if (onDeath) {
       spdAngle = SolMath.rnd(180);
       spdLen = SolMath.rnd(0, Loot.MAX_SPD);
+      // TODO: This statement previously caused a crash as getApproxRadius returned 0 - where is it meant to be set / loaded from?
       SolMath.fromAl(pos, spdAngle, SolMath.rnd(myHull.config.getApproxRadius()));
     } else {
       spdAngle = getAngle();
