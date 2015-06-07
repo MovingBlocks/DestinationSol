@@ -142,6 +142,7 @@ public final class HullConfigManager {
         JsonValue jsonNode = jsonReader.parse(propertiesFile);
 
         configData.size = jsonNode.getFloat("size");
+        configData.approxRadius = 0.4f * configData.size;
         configData.maxLife = jsonNode.getInt("maxLife");
 
         configData.e1Pos = readVector2(jsonNode, "e1Pos", new Vector2());
