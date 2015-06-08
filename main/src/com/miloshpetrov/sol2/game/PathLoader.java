@@ -403,7 +403,7 @@ public class PathLoader {
             fd.shape.dispose();
         }
 
-        orig = getOrigin(pathName, 1);
+        orig = hullConfig.getShipBuilderOrigin();
         if (tex == null) {
             String imgName = pathName;
             tex = hullConfig.getTexture();

@@ -123,7 +123,7 @@ public final class HullConfigManager {
     }
 
     private void parseGunSlotList(JsonValue containerNode, HullConfig.Data configData) {
-        Vector2 builderOrigin = shipBuilder.getOrigin(configData.internalName);
+        Vector2 builderOrigin = new Vector2(configData.shipBuilderOrigin);
 
         for(JsonValue gunSlotNode: containerNode) {
             Vector2 position = readVector2(gunSlotNode, "position", null);
@@ -161,6 +161,10 @@ public final class HullConfigManager {
         configData.price = jsonNode.getInt("price", 0);
         configData.hirePrice = jsonNode.getFloat("hirePrice", 0);
 
+        Vector2 tmpV = new Vector2(jsonNode.get("rigidBody").get("origin").getFloat("x"),
+                1 - jsonNode.get("rigidBody").get("origin").getFloat("y"));
+        configData.shipBuilderOrigin.set(tmpV);
+
         process(configData);
 
         parseGunSlotList(jsonNode.get("gunSlots"), configData);
@@ -185,7 +189,7 @@ public final class HullConfigManager {
     // Seems to offsets all positions by the shipbuilder origin
     // Todo: Find out what this function does and provide a better name.
     private void process(HullConfig.Data configData) {
-        Vector2 builderOrigin = shipBuilder.getOrigin(configData.internalName);
+        Vector2 builderOrigin = new Vector2(configData.shipBuilderOrigin);
 
         configData.origin.set(builderOrigin)
                          .scl(configData.size);

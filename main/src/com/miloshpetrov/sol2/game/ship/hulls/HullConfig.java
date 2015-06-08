@@ -104,6 +104,10 @@ public final class HullConfig {
         return new Vector2(data.origin);
     }
 
+    public Vector2 getShipBuilderOrigin() {
+        return new Vector2(data.shipBuilderOrigin);
+    }
+
     private static List<Vector2> deepCopyOf(List<Vector2> src) {
         List<Vector2> returnList = new ArrayList<Vector2>(src.size());
 
@@ -143,7 +147,10 @@ public final class HullConfig {
         public String displayName;
         public float price;
         public float hirePrice;
+        // origin is the value after it has been processed
         public Vector2 origin = new Vector2();
+        // shipBuilderOrigin is the vector loaded from the file
+        public Vector2 shipBuilderOrigin = new Vector2();
 
         public Data() {
 
@@ -170,6 +177,7 @@ public final class HullConfig {
             this.price = src.price;
             this.hirePrice = src.hirePrice;
             this.origin = new Vector2(src.origin);
+            this.shipBuilderOrigin = new Vector2(src.shipBuilderOrigin);
             this.gunSlots.addAll(src.gunSlots);
         }
 
