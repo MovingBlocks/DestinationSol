@@ -9,25 +9,26 @@ import com.miloshpetrov.sol2.files.FileManager;
 import java.util.*;
 
 public class TextureManager {
+
   public static final String ICONS_DIR = "ui/icons/";
   public static final String HULL_ICONS_DIR = "ui/hullIcons/";
-  private final Map<String, TextureAtlas.AtlasRegion> myTexs;
+  private final Map<String, TextureAtlas.AtlasRegion> textureMap;
   private final Map<TextureAtlas.AtlasRegion,TextureAtlas.AtlasRegion> myFlipped;
   private final Map<String, ArrayList<TextureAtlas.AtlasRegion>> myPacks;
-  private final TextureProvider myTexProvider;
+  private final TextureProvider textureProvider;
 
   public TextureManager() {
     FileHandle atlasFile = FileManager.getInstance().getImagesDirectory().child("sol.atlas");
-    myTexProvider = atlasFile.exists() ? new AtlasTextureProvider(atlasFile) : new DevTextureProvider();
+    textureProvider = atlasFile.exists() ? new AtlasTextureProvider(atlasFile) : new DevTextureProvider();
     myPacks = new HashMap<String, ArrayList<TextureAtlas.AtlasRegion>>();
-    myTexs = new HashMap<String, TextureAtlas.AtlasRegion>();
+    textureMap = new HashMap<String, TextureAtlas.AtlasRegion>();
     myFlipped = new HashMap<TextureAtlas.AtlasRegion, TextureAtlas.AtlasRegion>();
   }
 
   public TextureAtlas.AtlasRegion getFlipped(TextureAtlas.AtlasRegion tex) {
     TextureAtlas.AtlasRegion r = myFlipped.get(tex);
     if (r != null) return r;
-    r = myTexProvider.getCopy(tex);
+    r = textureProvider.getCopy(tex);
     r.flip(true, false);
     myFlipped.put(tex, r);
     return r;
@@ -38,19 +39,43 @@ public class TextureManager {
     return flipped ? getFlipped(r) : r;
   }
 
+  /**
+   *
+   * @param fullName
+   * @param configFile
+   * @return
+   * @deprecated This method uses hardcoded locations for the texture files; use the more general
+   *   getTexture method instead.
+   */
+  @Deprecated
   public TextureAtlas.AtlasRegion getTex(String fullName, FileHandle configFile) {
-    TextureAtlas.AtlasRegion r = myTexs.get(fullName);
+    TextureAtlas.AtlasRegion r = textureMap.get(fullName);
     if (r != null) return r;
-    r = myTexProvider.getTex(fullName, configFile);
+    r = textureProvider.getTex(fullName, configFile);
     if (r == null) throw new AssertionError("texture not found: " + fullName);
-    myTexs.put(fullName, r);
+    textureMap.put(fullName, r);
     return r;
+  }
+
+  public TextureAtlas.AtlasRegion getTexture(FileHandle textureFile) {
+    TextureAtlas.AtlasRegion result = textureMap.get(textureFile);
+
+    if (result == null) {
+        result = textureProvider.getTexture(textureFile);
+        textureMap.put(textureFile.path(), result);
+    }
+
+    if (result == null) {
+        throw new AssertionError("texture not found: " + textureFile.path());
+    }
+
+    return result;
   }
 
   public ArrayList<TextureAtlas.AtlasRegion> getPack(String name, FileHandle configFile) {
     ArrayList<TextureAtlas.AtlasRegion> r = myPacks.get(name);
     if (r != null) return r;
-    r = myTexProvider.getTexs(name, configFile);
+    r = textureProvider.getTexs(name, configFile);
     if (r.size() == 0) throw new AssertionError("textures not found: " + name);
     myPacks.put(name, r);
     return r;
@@ -67,11 +92,10 @@ public class TextureManager {
   }
 
   public Sprite createSprite(String name) {
-    return myTexProvider.createSprite(name);
+    return textureProvider.createSprite(name);
   }
 
   public void dispose() {
-    myTexProvider.dispose();
+    textureProvider.dispose();
   }
-
 }

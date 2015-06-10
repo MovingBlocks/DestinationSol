@@ -7,7 +7,8 @@ import com.miloshpetrov.sol2.game.*;
 import com.miloshpetrov.sol2.game.dra.Dra;
 import com.miloshpetrov.sol2.game.input.Shooter;
 import com.miloshpetrov.sol2.game.item.ItemContainer;
-import com.miloshpetrov.sol2.game.ship.HullConfig;
+import com.miloshpetrov.sol2.game.ship.hulls.GunSlot;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 import java.util.List;
@@ -19,9 +20,9 @@ public class GunMount {
   private boolean myDetected;
   private float myRelGunAngle;
 
-  public GunMount(Vector2 relPos, boolean fixed) {
-    myRelPos = relPos;
-    myFixed = fixed;
+  public GunMount(GunSlot gunSlot) {
+    myRelPos = gunSlot.getPosition();
+    myFixed = !gunSlot.allowsRotation();
   }
 
   public void update(ItemContainer ic, SolGame game, float shipAngle, SolShip creator, boolean shouldShoot, SolShip nearestEnemy, Fraction fraction) {
@@ -31,12 +32,12 @@ public class GunMount {
       return;
     }
 
-    if (creator.getHull().config.type != HullConfig.Type.STATION) myRelGunAngle = 0;
+    if (creator.getHull().config.getType() != HullConfig.Type.STATION) myRelGunAngle = 0;
     myDetected = false;
     if (!myFixed && nearestEnemy != null) {
       Vector2 creatorPos = creator.getPos();
       Vector2 nePos = nearestEnemy.getPos();
-      float dst = creatorPos.dst(nePos) - creator.getHull().config.approxRadius - nearestEnemy.getHull().config.approxRadius;
+      float dst = creatorPos.dst(nePos) - creator.getHull().config.getApproxRadius() - nearestEnemy.getHull().config.getApproxRadius();
       float detDst = game.getPlanetMan().getNearestPlanet().isNearGround(creatorPos) ? Const.AUTO_SHOOT_GROUND : Const.AUTO_SHOOT_SPACE;
       if (dst < detDst) {
         Vector2 mountPos = SolMath.toWorld(myRelPos, shipAngle, creatorPos);

@@ -2,7 +2,7 @@ package com.miloshpetrov.sol2.game.input;
 
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.game.SolGame;
-import com.miloshpetrov.sol2.game.ship.HullConfig;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 
 public interface MoveDestProvider {

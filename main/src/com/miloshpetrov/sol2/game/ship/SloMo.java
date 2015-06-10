@@ -6,7 +6,7 @@ import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.AbilityCommonConfig;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.dra.DraLevel;
-import com.miloshpetrov.sol2.game.item.ItemMan;
+import com.miloshpetrov.sol2.game.item.ItemManager;
 import com.miloshpetrov.sol2.game.item.SolItem;
 import com.miloshpetrov.sol2.game.particle.ParticleSrc;
 
@@ -89,10 +89,10 @@ public class SloMo implements ShipAbility {
       sb.append("Time slow down to ").append((int) (factor * 100)).append("%\n");
     }
 
-    public static AbilityConfig load(JsonValue abNode, ItemMan itemMan, AbilityCommonConfig cc) {
+    public static AbilityConfig load(JsonValue abNode, ItemManager itemManager, AbilityCommonConfig cc) {
       float factor = abNode.getFloat("factor");
       float rechargeTime = abNode.getFloat("rechargeTime");
-      SolItem chargeExample = itemMan.getExample("sloMoCharge");
+      SolItem chargeExample = itemManager.getExample("sloMoCharge");
       return new Config(factor, rechargeTime, chargeExample, cc);
     }
   }

@@ -12,6 +12,7 @@ import com.miloshpetrov.sol2.game.dra.*;
 import com.miloshpetrov.sol2.game.input.*;
 import com.miloshpetrov.sol2.game.item.TradeConfig;
 import com.miloshpetrov.sol2.game.ship.*;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 
 import java.util.*;
 
@@ -271,8 +272,8 @@ public class PlanetObjectsBuilder {
     TradeConfig tc,
     Fraction fraction, ConsumedAngles takenAngles, String mapHint)
   {
-    Vector2 pos = game.getPlanetMan().findFlatPlace(game, planet, takenAngles, ge.hull.approxRadius);
-    boolean station = ge.hull.type == HullConfig.Type.STATION;
+    Vector2 pos = game.getPlanetMan().findFlatPlace(game, planet, takenAngles, ge.hull.getApproxRadius());
+    boolean station = ge.hull.getType() == HullConfig.Type.STATION;
     String ic = ge.items;
     boolean hasRepairer;
     hasRepairer = fraction == Fraction.LAANI;
@@ -280,9 +281,9 @@ public class PlanetObjectsBuilder {
     float height = pos.len();
     float aboveGround;
     if (station) {
-      aboveGround = ge.hull.size * .75f - ge.hull.origin.y;
+      aboveGround = ge.hull.getSize() * .75f - ge.hull.getOrigin().y;
     } else {
-      aboveGround = ge.hull.size;
+      aboveGround = ge.hull.getSize();
     }
     pos.scl((height + aboveGround)/height);
     SolMath.toWorld(pos, pos, planet.getAngle(), planet.getPos(), false);

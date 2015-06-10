@@ -228,7 +228,7 @@ public class MapDrawer {
         SolShip ship = (SolShip) o;
         String hint = ship.getPilot().getMapHint();
         if (hint == null && !DebugOptions.DETAILED_MAP) continue;
-        drawObjIcon(iconSz, oPos, ship.getAngle(), fractionMan, hero, ship.getPilot().getFraction(), heroDmgCap, o, ship.getHull().config.icon, drawer);
+        drawObjIcon(iconSz, oPos, ship.getAngle(), fractionMan, hero, ship.getPilot().getFraction(), heroDmgCap, o, ship.getHull().config.getIcon(), drawer);
       }
       if ((o instanceof StarPort)) {
         StarPort sp = (StarPort) o;
@@ -243,7 +243,7 @@ public class MapDrawer {
       if (viewDist < camPos.dst(oPos)) continue;
       String hint = ship.getPilot().getMapHint();
       if (hint == null && !DebugOptions.DETAILED_MAP) continue;
-      drawObjIcon(iconSz, oPos, ship.getAngle(), fractionMan, hero, ship.getPilot().getFraction(), heroDmgCap, ship, ship.getHullConfig().icon, drawer);
+      drawObjIcon(iconSz, oPos, ship.getAngle(), fractionMan, hero, ship.getPilot().getFraction(), heroDmgCap, ship, ship.getHullConfig().getIcon(), drawer);
     }
     List<StarPort.MyFar> farPorts = game.getObjMan().getFarPorts();
     for (int i = 0, sz = farPorts.size(); i < sz; i++) {

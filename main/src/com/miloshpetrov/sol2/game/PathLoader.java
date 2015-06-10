@@ -12,7 +12,9 @@ import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.files.FileManager;
+import com.miloshpetrov.sol2.files.HullConfigManager;
 import com.miloshpetrov.sol2.game.dra.*;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 
 import java.util.*;
 
@@ -38,6 +40,11 @@ public class PathLoader {
   // Ctors
   // -------------------------------------------------------------------------
 
+    /**
+     *
+     * @param fileName
+     * @deprecated this constructor uses hardcoded file paths; use the constructor that just accepts the jsonValue (node) to load from.
+     */
   public PathLoader(String fileName) {
     FileHandle file = FileManager.getInstance().getAssetsDirectory().child("paths").child(fileName + ".json");
     if (file.exists()) {
@@ -45,6 +52,10 @@ public class PathLoader {
     } else {
       model = new Model();
     }
+  }
+
+  public PathLoader() {
+      model = new Model();
   }
 
   // -------------------------------------------------------------------------
@@ -154,6 +165,11 @@ public class PathLoader {
     return model;
   }
 
+  public void readJson(JsonValue rigidBodyNode, HullConfig hullConfig) {
+    RigidBodyModel rigidBodyModel = readRigidBody(rigidBodyNode, hullConfig);
+    model.rigidBodies.put(rigidBodyModel.name, rigidBodyModel);
+  }
+
   // -------------------------------------------------------------------------
   // Json Models
   // -------------------------------------------------------------------------
@@ -181,6 +197,8 @@ public class PathLoader {
     public float radius;
   }
 
+
+
   // -------------------------------------------------------------------------
   // Json reading process
   // -------------------------------------------------------------------------
@@ -199,6 +217,74 @@ public class PathLoader {
 
     return m;
   }
+
+  private RigidBodyModel readRigidBody(JsonValue bodyElem, HullConfig hullConfig) {
+        RigidBodyModel rbModel = new RigidBodyModel();
+        rbModel.name = hullConfig.getInternalName();
+        rbModel.imagePath = FileManager.getInstance().getHullsDirectory().child(hullConfig.getInternalName()).child(HullConfigManager.TEXTURE_FILE_NAME).path();
+
+        JsonValue originElem = bodyElem.get("origin");
+        rbModel.origin.x = originElem.getFloat("x");
+        rbModel.origin.y = 1 - originElem.getFloat("y");
+
+        // polygons
+
+        JsonValue polygonsElem = bodyElem.get("polygons");
+
+        for (int i=0; i<polygonsElem.size; i++) {
+            PolygonModel polygon = new PolygonModel();
+            rbModel.polys.add(polygon);
+
+            JsonValue verticesElem = polygonsElem.get(i);
+            for (int ii=0; ii<verticesElem.size; ii++) {
+                JsonValue vertexElem = verticesElem.get(ii);
+                float x = vertexElem.getFloat("x");
+                float y = 1 - vertexElem.getFloat("y");
+                polygon.vertices.add(new Vector2(x, y));
+            }
+
+            polygon.tmpArray = new Vector2[polygon.vertices.size()];
+        }
+
+        // shapes
+
+        JsonValue shapeElems = bodyElem.get("shapes");
+
+        for (int i=0; i<shapeElems.size; i++) {
+            JsonValue shapeElem = shapeElems.get(i);
+            String type = shapeElem.getString("type");
+            if (!"POLYGON".equals(type)) continue;
+
+            PolygonModel shape = new PolygonModel();
+            rbModel.shapes.add(shape);
+
+            JsonValue verticesElem = shapeElem.get("vertices");
+            for (int ii=0; ii<verticesElem.size; ii++) {
+                JsonValue vertexElem = verticesElem.get(ii);
+                float x = vertexElem.getFloat("x");
+                float y = 1 - vertexElem.getFloat("y");
+                shape.vertices.add(new Vector2(x, y));
+            }
+
+            shape.tmpArray = new Vector2[shape.vertices.size()];
+        }
+
+        // circles
+
+        JsonValue circlesElem = bodyElem.get("circles");
+
+        for (int i=0; i<circlesElem.size; i++) {
+            CircleModel circle = new CircleModel();
+            rbModel.circles.add(circle);
+
+            JsonValue circleElem = circlesElem.get(i);
+            circle.center.x = circleElem.getFloat("cx");
+            circle.center.y = 1 - circleElem.getFloat("cy");
+            circle.radius = circleElem.getFloat("r");
+        }
+
+        return rbModel;
+    }
 
   private RigidBodyModel readRigidBody(JsonValue bodyElem) {
     RigidBodyModel rbModel = new RigidBodyModel();
@@ -285,6 +371,47 @@ public class PathLoader {
   private void free(Vector2 v) {
     vectorPool.add(v);
   }
+
+    /**
+     * This needs refactoring...
+     * @param dras a texture will be added here
+     * @param tex pass if you already have a texture.. So hacky!
+     */
+    public Body getBodyAndSprite(SolGame game, HullConfig hullConfig, float scale, BodyDef.BodyType type,
+                                 Vector2 pos, float angle, List<Dra> dras, float density, DraLevel level, TextureAtlas.AtlasRegion tex)
+    {
+        final String name = hullConfig.getInternalName();
+        final String pathName = FileManager.getInstance().getHullsDirectory().child(hullConfig.getInternalName()).child(HullConfigManager.TEXTURE_FILE_NAME).path();
+
+        BodyDef bd = new BodyDef();
+        bd.type = type;
+        bd.angle = angle * SolMath.degRad;
+        bd.angularDamping = 0;
+        bd.position.set(pos);
+        bd.linearDamping = 0;
+        Body body = game.getObjMan().getWorld().createBody(bd);
+        FixtureDef fd = new FixtureDef();
+        fd.density = density;
+        fd.friction = Const.FRICTION;
+        Vector2 orig;
+        boolean found = attachFixture(body, name, fd, scale);
+        if (!found) {
+            DebugOptions.MISSING_PHYSICS_ACTION.handle("Could not find physics data for " + name);
+            fd.shape = new CircleShape();
+            fd.shape.setRadius(scale/2);
+            body.createFixture(fd);
+            fd.shape.dispose();
+        }
+
+        orig = hullConfig.getShipBuilderOrigin();
+        if (tex == null) {
+            String imgName = pathName;
+            tex = hullConfig.getTexture();
+        }
+        RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.W, false);
+        dras.add(s);
+        return body;
+    }
 
   /**
    * This needs refactoring...
