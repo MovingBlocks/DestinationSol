@@ -1,7 +1,7 @@
 package com.miloshpetrov.sol2.game.screens;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.game.MapDrawer;
 import com.miloshpetrov.sol2.game.SolGame;
@@ -11,29 +11,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapScreen implements SolUiScreen {
-  public static final int ZOOM_IN_KEY = Input.Keys.UP;
-  public static final int ZOOM_OUT_KEY = Input.Keys.DOWN;
   private final List<SolUiControl> myControls;
   public final SolUiControl closeCtrl;
   public final SolUiControl zoomInCtrl;
   public final SolUiControl zoomOutCtrl;
 
-  public MapScreen(RightPaneLayout rightPaneLayout, boolean mobile, float r) {
+  public MapScreen(RightPaneLayout rightPaneLayout, boolean mobile, float r, GameOptions gameOptions) {
     myControls = new ArrayList<SolUiControl>();
 
     Rectangle closeArea = mobile ? MainScreen.btn(0, MainScreen.HELPER_ROW_1, true) : rightPaneLayout.buttonRect(1);
-    closeCtrl = new SolUiControl(closeArea, true, Input.Keys.TAB, Input.Keys.ESCAPE);
+    closeCtrl = new SolUiControl(closeArea, true, gameOptions.getKeyMap(), gameOptions.getKeyClose());
     closeCtrl.setDisplayName("Close");
     myControls.add(closeCtrl);
     float row0 = 1 - MainScreen.CELL_SZ;
     float row1 = row0 - MainScreen.CELL_SZ;
     float colN = r - MainScreen.CELL_SZ;
     Rectangle zoomInArea = mobile ? MainScreen.btn(0, row1, false) : rightPaneLayout.buttonRect(2);
-    zoomInCtrl = new SolUiControl(zoomInArea, true, ZOOM_IN_KEY);
+    zoomInCtrl = new SolUiControl(zoomInArea, true, gameOptions.getKeyZoomIn());
     zoomInCtrl.setDisplayName("Zoom In");
     myControls.add(zoomInCtrl);
     Rectangle zoomOutArea = mobile ? MainScreen.btn(0, row0, false) : rightPaneLayout.buttonRect(3);
-    zoomOutCtrl = new SolUiControl(zoomOutArea, true, ZOOM_OUT_KEY);
+    zoomOutCtrl = new SolUiControl(zoomOutArea, true, gameOptions.getKeyZoomOut());
     zoomOutCtrl.setDisplayName("Zoom Out");
     myControls.add(zoomOutCtrl);
   }
@@ -46,6 +44,7 @@ public class MapScreen implements SolUiScreen {
   @Override
   public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     SolGame g = cmp.getGame();
+    GameOptions gameOptions = cmp.getOptions();
     boolean justClosed = closeCtrl.isJustOff();
     MapDrawer mapDrawer = g.getMapDrawer();
     mapDrawer.setToggled(!justClosed);
@@ -65,9 +64,9 @@ public class MapScreen implements SolUiScreen {
     Boolean scrolledUp = im.getScrolledUp();
     if (scrolledUp != null) {
       if (scrolledUp) {
-        zoomOutCtrl.maybeFlashPressed(ZOOM_OUT_KEY);
+        zoomOutCtrl.maybeFlashPressed(gameOptions.getKeyZoomOut());
       } else {
-        zoomInCtrl.maybeFlashPressed(ZOOM_IN_KEY);
+        zoomInCtrl.maybeFlashPressed(gameOptions.getKeyZoomIn());
       }
     }
   }

@@ -1,10 +1,10 @@
 package com.miloshpetrov.sol2.game.screens;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.game.SolGame;
@@ -52,7 +52,7 @@ public class InventoryScreen implements SolUiScreen {
   private final Vector2 myListHeaderPos;
   public static final float SMALL_GAP = .004f;
 
-  public InventoryScreen(float r) {
+  public InventoryScreen(float r, GameOptions gameOptions) {
     myControls = new ArrayList<SolUiControl>();
 
     float contentW = .8f;
@@ -67,11 +67,11 @@ public class InventoryScreen implements SolUiScreen {
     myListHeaderPos = new Vector2(col0 + HEADER_TEXT_OFFS, row + HEADER_TEXT_OFFS); // offset hack
     float listCtrlW = contentW * .15f;
     Rectangle nextArea = new Rectangle(col0 + contentW - listCtrlW, row, listCtrlW, headerH);
-    nextCtrl = new SolUiControl(nextArea, true, Input.Keys.RIGHT);
+    nextCtrl = new SolUiControl(nextArea, true, gameOptions.getKeyRight());
     nextCtrl.setDisplayName(">");
     myControls.add(nextCtrl);
     Rectangle prevArea = new Rectangle(nextArea.x - SMALL_GAP - listCtrlW, row, listCtrlW, headerH);
-    myPrevCtrl = new SolUiControl(prevArea, true, Input.Keys.LEFT);
+    myPrevCtrl = new SolUiControl(prevArea, true, gameOptions.getKeyLeft());
     myPrevCtrl.setDisplayName("<");
     myControls.add(myPrevCtrl);
     row += headerH + SMALL_GAP;
@@ -101,18 +101,18 @@ public class InventoryScreen implements SolUiScreen {
     // whole
     myArea = new Rectangle(col0 - bgGap, row0 - bgGap, contentW + bgGap * 2, row - row0 + bgGap * 2);
 
-    closeCtrl = new SolUiControl(itemCtrl(3), true, Input.Keys.ESCAPE);
+    closeCtrl = new SolUiControl(itemCtrl(3), true, gameOptions.getKeyClose());
     closeCtrl.setDisplayName("Close");
     myControls.add(closeCtrl);
 
-    showInventory = new ShowInventory(this);
-    buyItems = new BuyItems(this);
-    sellItems = new SellItems(this);
-    changeShip = new ChangeShip(this);
-    hireShips = new HireShips(this);
-    myUpCtrl = new SolUiControl(null, true, Input.Keys.UP);
+    showInventory = new ShowInventory(this, gameOptions);
+    buyItems = new BuyItems(this, gameOptions);
+    sellItems = new SellItems(this, gameOptions);
+    changeShip = new ChangeShip(this, gameOptions);
+    hireShips = new HireShips(this, gameOptions);
+    myUpCtrl = new SolUiControl(null, true, gameOptions.getKeyUp());
     myControls.add(myUpCtrl);
-    downCtrl = new SolUiControl(null, true, Input.Keys.DOWN);
+    downCtrl = new SolUiControl(null, true, gameOptions.getKeyDown());
     myControls.add(downCtrl);
   }
 
@@ -124,7 +124,7 @@ public class InventoryScreen implements SolUiScreen {
   @Override
   public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     if (clickedOutside) {
-      closeCtrl.maybeFlashPressed(Input.Keys.ESCAPE);
+      closeCtrl.maybeFlashPressed(cmp.getOptions().getKeyClose());
       return;
     }
     if (closeCtrl.isJustOff()) {

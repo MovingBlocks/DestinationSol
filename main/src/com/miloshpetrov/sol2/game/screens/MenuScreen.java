@@ -1,6 +1,5 @@
 package com.miloshpetrov.sol2.game.screens;
 
-import com.badlogic.gdx.Input;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.game.SolGame;
@@ -18,7 +17,7 @@ public class MenuScreen implements SolUiScreen {
   private final SolUiControl myRespawnCtrl;
   private final SolUiControl myVolCtrl;
 
-  public MenuScreen(MenuLayout menuLayout) {
+  public MenuScreen(MenuLayout menuLayout, GameOptions gameOptions) {
     myControls = new ArrayList<SolUiControl>();
 
     myVolCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
@@ -30,7 +29,7 @@ public class MenuScreen implements SolUiScreen {
     myExitCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
     myExitCtrl.setDisplayName("Exit");
     myControls.add(myExitCtrl);
-    myCloseCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, Input.Keys.ESCAPE);
+    myCloseCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyClose());
     myCloseCtrl.setDisplayName("Resume");
     myControls.add(myCloseCtrl);
   }

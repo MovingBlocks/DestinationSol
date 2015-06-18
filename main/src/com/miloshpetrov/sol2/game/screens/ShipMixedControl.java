@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.SolGame;
@@ -16,9 +17,6 @@ import com.miloshpetrov.sol2.ui.SolUiControl;
 import java.util.List;
 
 public class ShipMixedControl implements ShipUiControl {
-  public static final int SHOOT_HACK = Input.Keys.NUM_5;
-  public static final int SHOOT_2_HACK = Input.Keys.NUM_6;
-  public static final int ABILITY_HACK = Input.Keys.NUM_7;
   public final SolUiControl upCtrl;
   private final SolUiControl myDownCtrl;
   private final Vector2 myMouseWorldPos;
@@ -31,22 +29,24 @@ public class ShipMixedControl implements ShipUiControl {
   private boolean myLeft;
 
   public ShipMixedControl(SolApplication cmp, List<SolUiControl> controls) {
+    GameOptions gameOptions = cmp.getOptions();
     myCursor = cmp.getTexMan().getTex("ui/cursorTarget", null);
     myMouseWorldPos = new Vector2();
-    upCtrl = new SolUiControl(null, false, Input.Keys.W);
+    upCtrl = new SolUiControl(null, false, gameOptions.getKeyUpMouse());
     controls.add(upCtrl);
-    myDownCtrl = new SolUiControl(null, false, Input.Keys.S);
+    myDownCtrl = new SolUiControl(null, false, gameOptions.getKeyDownMouse());
     controls.add(myDownCtrl);
-    shootCtrl = new SolUiControl(null, false, SHOOT_HACK);
+    shootCtrl = new SolUiControl(null, false, gameOptions.getKeyShoot());
     controls.add(shootCtrl);
-    shoot2Ctrl = new SolUiControl(null, false, SHOOT_2_HACK);
+    shoot2Ctrl = new SolUiControl(null, false, gameOptions.getKeyShoot2());
     controls.add(shoot2Ctrl);
-    abilityCtrl = new SolUiControl(null, false, ABILITY_HACK, Input.Keys.SHIFT_LEFT);
+    abilityCtrl = new SolUiControl(null, false, gameOptions.getKeyAbility());
     controls.add(abilityCtrl);
   }
 
   @Override
   public void update(SolApplication cmp, boolean enabled) {
+    GameOptions gameOptions = cmp.getOptions();
     blur();
     if (!enabled) return;
     SolInputManager im = cmp.getInputMan();
@@ -61,9 +61,9 @@ public class ShipMixedControl implements ShipUiControl {
         if (ntt) myRight = true; else myLeft = true;
       }
       if (!im.isMouseOnUi()) {
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) shootCtrl.maybeFlashPressed(SHOOT_HACK);
-        if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) shoot2Ctrl.maybeFlashPressed(SHOOT_2_HACK);
-        if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) abilityCtrl.maybeFlashPressed(ABILITY_HACK);
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) shootCtrl.maybeFlashPressed(gameOptions.getKeyShoot());
+        if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) shoot2Ctrl.maybeFlashPressed(gameOptions.getKeyShoot2());
+        if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) abilityCtrl.maybeFlashPressed(gameOptions.getKeyAbility());
       }
     }
   }
