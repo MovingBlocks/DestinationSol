@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.menu;
 
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.TextureManager;
 import com.miloshpetrov.sol2.ui.SolLayouts;
 
@@ -12,15 +13,15 @@ public class MenuScreens {
   public final NewGameScreen newGame;
   public final NewShipScreen newShip;
 
-  public MenuScreens(SolLayouts layouts, TextureManager textureManager, boolean mobile, float r) {
+  public MenuScreens(SolLayouts layouts, TextureManager textureManager, boolean mobile, float r, GameOptions gameOptions) {
     MenuLayout menuLayout = layouts.menuLayout;
-    main = new MainScreen(menuLayout, textureManager, mobile, r);
-    options = new OptionsScreen(menuLayout);
-    resolutionScreen = new ResolutionScreen(menuLayout);
-    credits = new CreditsScreen(r);
+    main = new MainScreen(menuLayout, textureManager, mobile, r, gameOptions);
+    options = new OptionsScreen(menuLayout, gameOptions);
+    resolutionScreen = new ResolutionScreen(menuLayout, gameOptions);
+    credits = new CreditsScreen(r, gameOptions);
     loading = new LoadingScreen();
-    newGame = new NewGameScreen(menuLayout);
-    newShip = new NewShipScreen(menuLayout);
+    newGame = new NewGameScreen(menuLayout, gameOptions);
+    newShip = new NewShipScreen(menuLayout, gameOptions);
   }
 
 }

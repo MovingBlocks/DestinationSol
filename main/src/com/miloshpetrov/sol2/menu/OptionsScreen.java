@@ -14,7 +14,7 @@ public class OptionsScreen implements SolUiScreen {
   private final SolUiControl myResoCtrl;
   private final SolUiControl myControlTypeCtrl;
 
-  public OptionsScreen(MenuLayout menuLayout) {
+  public OptionsScreen(MenuLayout menuLayout, GameOptions gameOptions) {
 
     myControls = new ArrayList<SolUiControl>();
 
@@ -26,7 +26,7 @@ public class OptionsScreen implements SolUiScreen {
     myControlTypeCtrl.setDisplayName("Control Type");
     myControls.add(myControlTypeCtrl);
 
-    myBackCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, Input.Keys.ESCAPE);
+    myBackCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
     myBackCtrl.setDisplayName("Back");
     myControls.add(myBackCtrl);
   }

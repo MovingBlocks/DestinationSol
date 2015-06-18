@@ -1,6 +1,6 @@
 package com.miloshpetrov.sol2.game.screens;
 
-import com.badlogic.gdx.Input;
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.item.ItemContainer;
@@ -16,10 +16,10 @@ public class BuyItems implements InventoryOperations {
   private final ArrayList<SolUiControl> myControls;
   public final SolUiControl buyCtrl;
 
-  public BuyItems(InventoryScreen inventoryScreen) {
+  public BuyItems(InventoryScreen inventoryScreen, GameOptions gameOptions) {
     myControls = new ArrayList<SolUiControl>();
 
-    buyCtrl = new SolUiControl(inventoryScreen.itemCtrl(0), true, Input.Keys.SPACE);
+    buyCtrl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyBuyItem());
     buyCtrl.setDisplayName("Buy");
     myControls.add(buyCtrl);
   }
