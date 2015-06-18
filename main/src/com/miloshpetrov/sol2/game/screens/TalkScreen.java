@@ -1,7 +1,7 @@
 package com.miloshpetrov.sol2.game.screens;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
+import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.game.SolGame;
@@ -25,26 +25,26 @@ public class TalkScreen implements SolUiScreen {
   public final SolUiControl closeCtrl;
   private SolShip myTarget;
 
-  public TalkScreen(MenuLayout menuLayout) {
+  public TalkScreen(MenuLayout menuLayout, GameOptions gameOptions) {
     myControls = new ArrayList<SolUiControl>();
 
-    mySellCtrl = new SolUiControl(menuLayout.buttonRect(-1, 0), true, Input.Keys.S);
+    mySellCtrl = new SolUiControl(menuLayout.buttonRect(-1, 0), true, gameOptions.getKeySellMenu());
     mySellCtrl.setDisplayName("Sell");
     myControls.add(mySellCtrl);
 
-    buyCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.B);
+    buyCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, gameOptions.getKeyBuyMenu());
     buyCtrl.setDisplayName("Buy");
     myControls.add(buyCtrl);
 
-    myShipsCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, Input.Keys.C);
+    myShipsCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, gameOptions.getKeyChangeShipMenu());
     myShipsCtrl.setDisplayName("Change Ship");
     myControls.add(myShipsCtrl);
 
-    myHireCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true, Input.Keys.H);
+    myHireCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true, gameOptions.getKeyHireShipMenu());
     myHireCtrl.setDisplayName("Hire");
     myControls.add(myHireCtrl);
 
-    closeCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, Input.Keys.ESCAPE);
+    closeCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyClose());
     closeCtrl.setDisplayName("Close");
     myControls.add(closeCtrl);
 
@@ -59,7 +59,7 @@ public class TalkScreen implements SolUiScreen {
   @Override
   public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     if (clickedOutside) {
-      closeCtrl.maybeFlashPressed(Input.Keys.ESCAPE);
+      closeCtrl.maybeFlashPressed(cmp.getOptions().getKeyClose());
       return;
     }
     SolGame g = cmp.getGame();
