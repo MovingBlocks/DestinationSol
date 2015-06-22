@@ -1,6 +1,9 @@
 package com.miloshpetrov.sol2;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
+
 
 public class GameOptions {
   public static final String FILE_NAME = "settings.ini";
@@ -34,6 +37,8 @@ public class GameOptions {
   private String keyHireShipMenuName;
 
 
+  private int resPos = -1;
+
   public GameOptions(boolean mobile, SolFileReader reader) {
     IniReader r = new IniReader(FILE_NAME, reader, false);
     x = r.i("x", 800);
@@ -63,16 +68,19 @@ public class GameOptions {
   }
 
   public void advanceReso() {
-    if (x == 800) {
-      x = 1024;
-      y = 768;
-    } else if (x == 1024) {
-      x = 1366;
-      y = 768;
-    } else {
-      x = 800;
-      y = 600;
+    // Get the resolutions that are supported
+    Graphics.DisplayMode displayModes[] = Gdx.graphics.getDisplayModes();
+
+    // resPos is static, so increment to display next resolution
+    resPos++;
+    if (resPos >= displayModes.length) {
+      resPos = 0;
     }
+
+    // display the next supported resolution
+    x = displayModes[resPos].width;
+    y = displayModes[resPos].height;
+
     save();
   }
 
