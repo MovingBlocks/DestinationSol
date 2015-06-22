@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 
+import java.util.Iterator;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class GameOptions {
   public static final String FILE_NAME = "settings.ini";
@@ -36,8 +39,8 @@ public class GameOptions {
   private String keyChangeShipMenuName;
   private String keyHireShipMenuName;
 
-
-  private int resPos = -1;
+  private SortedSet<String> supportedResolutions = new TreeSet<String>();
+  private Iterator<String> resolutionIterator = null;
 
   public GameOptions(boolean mobile, SolFileReader reader) {
     IniReader r = new IniReader(FILE_NAME, reader, false);
@@ -68,18 +71,29 @@ public class GameOptions {
   }
 
   public void advanceReso() {
-    // Get the resolutions that are supported
-    Graphics.DisplayMode displayModes[] = Gdx.graphics.getDisplayModes();
+    if (resolutionIterator == null) {
+      // Initialize resolution choices - get the resolutions that are supported
+      Graphics.DisplayMode displayModes[] = Gdx.graphics.getDisplayModes();
 
-    // resPos is static, so increment to display next resolution
-    resPos++;
-    if (resPos >= displayModes.length) {
-      resPos = 0;
+      for (Graphics.DisplayMode d : displayModes) {
+        supportedResolutions.add(d.width + "x" + d.height);
+      }
+
+      resolutionIterator = supportedResolutions.iterator();
     }
 
-    // display the next supported resolution
-    x = displayModes[resPos].width;
-    y = displayModes[resPos].height;
+    String nextResolution;
+    if (resolutionIterator.hasNext()) {
+      nextResolution = resolutionIterator.next();
+    } else {
+      // Probably somehow possible to get no entries at all which would crash, but then we're doomed anyway
+      resolutionIterator = supportedResolutions.iterator();
+      nextResolution = resolutionIterator.next();
+    }
+
+    // TODO: Probably should validate, but then there are still many things we should probably add! :-)
+    x = Integer.parseInt(nextResolution.substring(0, nextResolution.indexOf("x")));
+    y = Integer.parseInt(nextResolution.substring(nextResolution.indexOf("x") + 1, nextResolution.length()));
 
     save();
   }
