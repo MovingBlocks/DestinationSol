@@ -1,5 +1,6 @@
 package com.miloshpetrov.sol2.menu;
 
+import com.badlogic.gdx.Gdx;
 import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.common.SolColor;
@@ -40,6 +41,8 @@ public class ResolutionScreen implements SolUiScreen {
   public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     SolInputManager im = cmp.getInputMan();
     if (myCloseCtrl.isJustOff()) {
+      GameOptions options = cmp.getOptions();
+      Gdx.graphics.setDisplayMode(options.x, options.y, options.fullscreen);
       im.setScreen(cmp, cmp.getMenuScreens().options);
       return;
     }
