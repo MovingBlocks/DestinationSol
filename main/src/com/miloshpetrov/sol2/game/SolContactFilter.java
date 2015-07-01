@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2.game;
+package com.miloshpetrov.sol2.game;
 
 import com.badlogic.gdx.physics.box2d.ContactFilter;
 import com.badlogic.gdx.physics.box2d.Fixture;

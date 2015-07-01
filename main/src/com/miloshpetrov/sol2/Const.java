@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2;
+package com.miloshpetrov.sol2;
 
 public class Const {
   public static final float ATM_HEIGHT = 14f;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2.save;
+package com.miloshpetrov.sol2.save;
 
 import com.miloshpetrov.sol2.game.FarObj;
 import com.miloshpetrov.sol2.game.planet.Planet;

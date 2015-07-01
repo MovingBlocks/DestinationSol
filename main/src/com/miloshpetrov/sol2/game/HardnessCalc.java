@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2.game;
+package com.miloshpetrov.sol2.game;
 
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.gun.GunConfig;

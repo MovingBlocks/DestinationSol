@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2.ui;
+package com.miloshpetrov.sol2.ui;
 
 import com.miloshpetrov.sol2.game.screens.RightPaneLayout;
 import com.miloshpetrov.sol2.menu.MenuLayout;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2.game.particle;
+package com.miloshpetrov.sol2.game.particle;
 
 import java.util.HashMap;
 

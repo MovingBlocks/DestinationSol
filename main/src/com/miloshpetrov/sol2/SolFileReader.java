@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2;
+package com.miloshpetrov.sol2;
 
 import java.util.List;
 

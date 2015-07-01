@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2.ui;
+package com.miloshpetrov.sol2.ui;
 
 import com.badlogic.gdx.utils.TimeUtils;
 import com.miloshpetrov.sol2.common.SolColor;

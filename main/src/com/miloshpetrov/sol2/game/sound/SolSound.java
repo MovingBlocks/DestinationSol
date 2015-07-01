@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2.game.sound;
+package com.miloshpetrov.sol2.game.sound;
 
 import com.badlogic.gdx.audio.Sound;
 

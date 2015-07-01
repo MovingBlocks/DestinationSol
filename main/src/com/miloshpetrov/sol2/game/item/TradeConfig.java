@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2.game.item;
+package com.miloshpetrov.sol2.game.item;
 
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.game.ShipConfig;

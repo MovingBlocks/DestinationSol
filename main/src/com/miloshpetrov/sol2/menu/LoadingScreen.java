@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2.menu;
+package com.miloshpetrov.sol2.menu;
 
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.common.SolColor;

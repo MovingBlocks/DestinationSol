@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2.game.screens;
+package com.miloshpetrov.sol2.game.screens;
 
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.ui.SolLayouts;

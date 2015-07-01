@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2.ui;
+package com.miloshpetrov.sol2.ui;
 
 public class FontSize {
   public static final float TUT = 1.3f;

@@ -21,7 +21,7 @@
  * - View tasks for this project: $ gradlew tasks
  */
  
- buildscript {
+buildscript {
     repositories {
         mavenCentral()
     }

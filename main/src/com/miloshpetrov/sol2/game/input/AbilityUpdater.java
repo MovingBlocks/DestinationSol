@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2.game.input;
+package com.miloshpetrov.sol2.game.input;
 
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.game.item.SolItem;

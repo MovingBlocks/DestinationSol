@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2.game.input;
+package com.miloshpetrov.sol2.game.input;
 
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.game.SolGame;

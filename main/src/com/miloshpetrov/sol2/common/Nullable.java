@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2.common;
+package com.miloshpetrov.sol2.common;
 
 import java.lang.annotation.Documented;
 

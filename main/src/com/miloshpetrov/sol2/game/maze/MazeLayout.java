@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2.game.maze;
+package com.miloshpetrov.sol2.game.maze;
 
 public class MazeLayout {
   public final boolean[][] inners;

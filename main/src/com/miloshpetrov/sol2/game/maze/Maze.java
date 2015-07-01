@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2.game.maze;
+package com.miloshpetrov.sol2.game.maze;
 
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.Const;
