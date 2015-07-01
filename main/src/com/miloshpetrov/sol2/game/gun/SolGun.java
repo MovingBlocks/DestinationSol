@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- package com.miloshpetrov.sol2.game.gun;
+package com.miloshpetrov.sol2.game.gun;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
