@@ -1,7 +1,7 @@
 {
   "size":0.8,
   "maxLife":26,
-  "type":"std",
+  "type":"station",
   "gunSlots":[
     {
       "position":"0.52 0.31",
