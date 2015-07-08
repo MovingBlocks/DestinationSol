@@ -1,10 +1,10 @@
 {
-  "size":0.7,
+  "size":0.8,
   "maxLife":26,
-  "type":"std",
+  "type":"station",
   "gunSlots":[
     {
-      "position":"0.5 0.62",
+      "position":"0.52 0.31",
       "isUnderneathHull":false,
       "allowsRotation":true
     }
