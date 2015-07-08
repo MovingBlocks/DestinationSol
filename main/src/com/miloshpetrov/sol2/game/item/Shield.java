@@ -142,7 +142,7 @@ public class Shield implements SolItem {
       return sb.toString();
     }
 
-    public static void loadConfigs(ItemMan itemMan, SoundManager soundManager, TextureManager textureManager, SolItemTypes types) {
+    public static void loadConfigs(ItemManager itemManager, SoundManager soundManager, TextureManager textureManager, SolItemTypes types) {
       JsonReader r = new JsonReader();
       FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("shields.json");
       JsonValue parsed = r.parse(configFile);
@@ -159,7 +159,7 @@ public class Shield implements SolItem {
         TextureAtlas.AtlasRegion tex = textureManager.getTex(sh.getString("tex"), configFile);
         String code = sh.name;
         Config config = new Config(maxLife, displayName, price, absorbSound, regenSound, icon, tex, types.shield, code);
-        itemMan.registerItem(config.example);
+        itemManager.registerItem(config.example);
       }
     }
   }

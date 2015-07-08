@@ -20,7 +20,7 @@ public class AbilityUpdater {
     if (nearestEnemy == null) return;
     ShipAbility ability = ship.getAbility();
     if (ability == null) return;
-    if (ship.getHull().config.maxLife * myAbilityUseStartPerc < ship.getLife()) return;
+    if (ship.getHull().config.getMaxLife() * myAbilityUseStartPerc < ship.getLife()) return;
     SolItem ex = ability.getConfig().getChargeExample();
     if (ex != null) {
       if (ship.getItemContainer().count(ex) <= myChargesToKeep) return;

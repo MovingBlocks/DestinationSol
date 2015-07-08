@@ -8,6 +8,7 @@ import com.miloshpetrov.sol2.game.item.TradeConfig;
 import com.miloshpetrov.sol2.game.maze.Maze;
 import com.miloshpetrov.sol2.game.planet.*;
 import com.miloshpetrov.sol2.game.ship.*;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 
 import java.util.ArrayList;
 
@@ -52,13 +53,13 @@ public class GalaxyFiller {
     Vector2 pos;
     float detectionDist = Const.AI_DET_DIST;
     TradeConfig tradeConfig = null;
-    if (hullConf.type == HullConfig.Type.STATION) {
+    if (hullConf.getType() == HullConfig.Type.STATION) {
       pos = getPosForStation(sys, mainStation, angles);
       dp = new NoDestProvider();
       tradeConfig = sys.getConfig().tradeConfig;
     } else {
       pos = getEmptySpace(game, sys);
-      boolean isBig = hullConf.type == HullConfig.Type.BIG;
+      boolean isBig = hullConf.getType() == HullConfig.Type.BIG;
       dp = new ExplorerDestProvider(game, pos, !isBig, hullConf, sys);
       if (isBig) {
         if (frac == Fraction.LAANI) tradeConfig = sys.getConfig().tradeConfig;
@@ -80,8 +81,8 @@ public class GalaxyFiller {
         float guardianAngle = 0;
         for (int j = 0; j < 5; j++) {
           guardianAngle = SolMath.rnd(180);
-          if (!ca.isConsumed(guardianAngle, guardConf.hull.approxRadius)) {
-            ca.add(guardianAngle, guardConf.hull.approxRadius);
+          if (!ca.isConsumed(guardianAngle, guardConf.hull.getApproxRadius())) {
+            ca.add(guardianAngle, guardConf.hull.getApproxRadius());
             break;
           }
         }
@@ -194,7 +195,7 @@ public class GalaxyFiller {
       pos.set(p.getPos());
       pos.x += p.getFullHeight();
     } else if (DebugOptions.SPAWN_PLACE.isEmpty() && myMainStationPos != null) {
-      SolMath.fromAl(pos, 90, myMainStationHc.size / 2);
+      SolMath.fromAl(pos, 90, myMainStationHc.getSize() / 2);
       pos.add(myMainStationPos);
     } else if ("maze".equals(DebugOptions.SPAWN_PLACE)) {
       Maze m = game.getPlanetMan().getMazes().get(0);
@@ -207,7 +208,7 @@ public class GalaxyFiller {
         if (!(fo instanceof FarShip)) continue;
         if (((FarShip) fo).getHullConfig() != cfg) continue;
         pos.set(fo.getPos());
-        pos.add(cfg.approxRadius * 2, 0);
+        pos.add(cfg.getApproxRadius() * 2, 0);
         break;
       }
 

@@ -15,12 +15,12 @@ public class MercItem implements SolItem {
 
   @Override
   public String getDisplayName() {
-    return myConfig.hull.displayName;
+    return myConfig.hull.getDisplayName();
   }
 
   @Override
   public float getPrice() {
-    return myConfig.hull.hirePrice;
+    return myConfig.hull.getHirePrice();
   }
 
   @Override
@@ -40,7 +40,7 @@ public class MercItem implements SolItem {
 
   @Override
   public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-    return myConfig.hull.icon;
+    return myConfig.hull.getIcon();
   }
 
   @Override

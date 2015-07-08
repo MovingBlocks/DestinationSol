@@ -1,9 +1,9 @@
 package com.miloshpetrov.sol2.game.item;
 
 import com.badlogic.gdx.utils.JsonValue;
+import com.miloshpetrov.sol2.files.HullConfigManager;
 import com.miloshpetrov.sol2.game.ShipConfig;
-import com.miloshpetrov.sol2.game.ship.HullConfig;
-import com.miloshpetrov.sol2.game.ship.HullConfigs;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 
 import java.util.*;
 
@@ -20,10 +20,10 @@ public class TradeConfig {
   }
 
 
-  public static TradeConfig load(ItemMan itemMan, JsonValue tradeNode, HullConfigs hullConfigs) {
+  public static TradeConfig load(ItemManager itemManager, JsonValue tradeNode, HullConfigManager hullConfigs) {
     if (tradeNode == null) return null;
     String itemStr = tradeNode.getString("items");
-    List<ItemConfig> items = itemMan.parseItems(itemStr);
+    List<ItemConfig> items = itemManager.parseItems(itemStr);
     Collections.reverse(items);
 
     ItemContainer hulls = new ItemContainer();
@@ -36,7 +36,7 @@ public class TradeConfig {
     }
 
     ItemContainer mercs = new ItemContainer();
-    ArrayList<ShipConfig> loadList = ShipConfig.loadList(tradeNode.get("mercenaries"), hullConfigs, itemMan);
+    ArrayList<ShipConfig> loadList = ShipConfig.loadList(tradeNode.get("mercenaries"), hullConfigs, itemManager);
     for (int i = loadList.size() - 1; i >= 0; i--) {
       ShipConfig merc = loadList.get(i);
       mercs.add(new MercItem(merc));

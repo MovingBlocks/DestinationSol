@@ -5,7 +5,7 @@ import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.game.SolGame;
-import com.miloshpetrov.sol2.game.ship.HullConfig;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
 import com.miloshpetrov.sol2.game.ship.SolShip;
 import com.miloshpetrov.sol2.menu.MenuLayout;
 import com.miloshpetrov.sol2.ui.*;
@@ -71,7 +71,7 @@ public class TalkScreen implements SolUiScreen {
       return;
     }
 
-    boolean station = myTarget.getHull().config.type == HullConfig.Type.STATION;
+    boolean station = myTarget.getHull().config.getType() == HullConfig.Type.STATION;
     myShipsCtrl.setEnabled(station);
     myHireCtrl.setEnabled(station);
 
@@ -89,7 +89,7 @@ public class TalkScreen implements SolUiScreen {
 
   public boolean isTargetFar(SolShip hero) {
     if (hero == null || myTarget == null || myTarget.getLife() <= 0) return true;
-    float dst = myTarget.getPos().dst(hero.getPos()) - hero.getHull().config.approxRadius - myTarget.getHull().config.approxRadius;
+    float dst = myTarget.getPos().dst(hero.getPos()) - hero.getHull().config.getApproxRadius() - myTarget.getHull().config.getApproxRadius();
     return MAX_TALK_DIST < dst;
   }
 

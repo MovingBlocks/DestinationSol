@@ -97,7 +97,7 @@ public class Armor implements SolItem {
       this.example = new Armor(this);
     }
 
-    public static void loadConfigs(ItemMan itemMan, SoundManager soundManager, TextureManager textureManager, SolItemTypes types)
+    public static void loadConfigs(ItemManager itemManager, SoundManager soundManager, TextureManager textureManager, SolItemTypes types)
     {
       JsonReader r = new JsonReader();
       FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("armors.json");
@@ -114,7 +114,7 @@ public class Armor implements SolItem {
         TextureAtlas.AtlasRegion icon = textureManager.getTex(TextureManager.ICONS_DIR + sh.getString("icon"), configFile);
         String code = sh.name;
         Config config = new Config(displayName, price, perc, bulletDmgSound, icon, energyDmgSound, types.armor, code);
-        itemMan.registerItem(config.example);
+        itemManager.registerItem(config.example);
       }
     }
   }

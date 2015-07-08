@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.miloshpetrov.sol2.TextureManager;
 import com.miloshpetrov.sol2.files.FileManager;
-import com.miloshpetrov.sol2.game.GameCols;
+import com.miloshpetrov.sol2.game.GameColors;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.particle.EffectConfig;
 import com.miloshpetrov.sol2.game.particle.EffectTypes;
@@ -106,7 +106,7 @@ public class EngineItem implements SolItem {
     }
 
     private static Config load(SoundManager soundManager, FileHandle configFile, JsonValue sh, EffectTypes effectTypes,
-      TextureManager textureManager, GameCols cols)
+      TextureManager textureManager, GameColors cols)
     {
       boolean big = sh.getBoolean("big");
       float rotAcc = big ? 100f : 515f;
@@ -126,7 +126,7 @@ public class EngineItem implements SolItem {
       myConfigs = configs;
     }
 
-    public static Configs load(SoundManager soundManager, TextureManager textureManager, EffectTypes effectTypes, GameCols cols) {
+    public static Configs load(SoundManager soundManager, TextureManager textureManager, EffectTypes effectTypes, GameColors cols) {
       HashMap<String, Config> configs = new HashMap<String, Config>();
       JsonReader r = new JsonReader();
       FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("engines.json");

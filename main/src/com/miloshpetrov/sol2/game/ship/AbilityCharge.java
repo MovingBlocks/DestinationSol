@@ -75,7 +75,7 @@ public class AbilityCharge implements SolItem {
       this.code = code;
     }
 
-    public static void load(ItemMan itemMan, TextureManager textureManager, SolItemTypes types) {
+    public static void load(ItemManager itemManager, TextureManager textureManager, SolItemTypes types) {
       JsonReader r = new JsonReader();
       FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("abilityCharges.json");
       JsonValue parsed = r.parse(configFile);
@@ -88,7 +88,7 @@ public class AbilityCharge implements SolItem {
         String code = ammoNode.name;
         Config c = new Config(icon, price, displayName, desc, types.abilityCharge, code);
         AbilityCharge chargeExample = new AbilityCharge(c);
-        itemMan.registerItem(chargeExample);
+        itemManager.registerItem(chargeExample);
       }
     }
   }
