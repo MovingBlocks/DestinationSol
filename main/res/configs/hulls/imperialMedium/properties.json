@@ -9,7 +9,6 @@
     "factor":0.4,
     "rechargeTime":5
   },
-  "g1UnderShip":true,
   "e1Pos":"0.15 0.52",
   "e2Pos":"0.15 0.62",
   "displayName":"Fighter",
@@ -17,7 +16,7 @@
   "gunSlots":[
     {
       "position":"0.4 0.2",
-      "isUnderneathHull":false,
+      "isUnderneathHull":true,
       "allowsRotation":false
     }
   ],
