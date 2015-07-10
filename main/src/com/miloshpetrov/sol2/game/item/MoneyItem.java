@@ -43,7 +43,7 @@ public class MoneyItem implements SolItem {
 
   @Override
   public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-    ItemMan im = game.getItemMan();
+    ItemManager im = game.getItemMan();
     if (myAmt == BIG_AMT) return im.bigMoneyIcon;
     if (myAmt == MED_AMT) return im.medMoneyIcon;
     return im.moneyIcon;

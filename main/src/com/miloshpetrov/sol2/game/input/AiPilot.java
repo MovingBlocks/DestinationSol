@@ -10,6 +10,8 @@ import com.miloshpetrov.sol2.game.item.*;
 import com.miloshpetrov.sol2.game.planet.Planet;
 import com.miloshpetrov.sol2.game.planet.PlanetBind;
 import com.miloshpetrov.sol2.game.ship.*;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
+import com.miloshpetrov.sol2.game.ship.hulls.Hull;
 
 public class AiPilot implements Pilot {
 
@@ -78,7 +80,7 @@ public class AiPilot implements Pilot {
         dest = myBattleDestProvider.getDest(ship, nearestEnemy, np, battle, game.getTimeStep(), canShootUnfixed, nearGround);
         shouldStopNearDest = myBattleDestProvider.shouldStopNearDest();
         destSpd = nearestEnemy.getSpd();
-        boolean big = hullConfig.type == HullConfig.Type.BIG;
+        boolean big = hullConfig.getType() == HullConfig.Type.BIG;
         float maxBattleSpd = nearGround ? MAX_GROUND_BATTLE_SPD : big ? MAX_BATTLE_SPD_BIG : MAX_BATTLE_SPD;
         if (maxBattleSpd < desiredSpdLen) desiredSpdLen = maxBattleSpd;
         if (!big) desiredSpdLen += destSpd.len();
@@ -95,7 +97,7 @@ public class AiPilot implements Pilot {
 
     Vector2 enemyPos = nearestEnemy == null ? null : nearestEnemy.getPos();
     Vector2 enemySpd = nearestEnemy == null ? null : nearestEnemy.getSpd();
-    float enemyApproxRad = nearestEnemy == null ? 0 : nearestEnemy.getHull().config.approxRadius;
+    float enemyApproxRad = nearestEnemy == null ? 0 : nearestEnemy.getHull().config.getApproxRadius();
     myShooter.update(ship, enemyPos, moverActive, canShoot, enemySpd, enemyApproxRad);
     if (hasEngine && !moverActive && !isShooterRotated()) {
       myMover.rotateOnIdle(ship, np, dest, shouldStopNearDest, maxIdleDist);
@@ -110,7 +112,7 @@ public class AiPilot implements Pilot {
   }
 
   public static void reEquip(SolGame game, SolShip ship) {
-    ShipHull hull = ship.getHull();
+    Hull hull = ship.getHull();
     GunItem g1 = hull.getGun(false);
     GunItem g2 = hull.getGun(true);
     Shield s = ship.getShield();
@@ -159,7 +161,7 @@ public class AiPilot implements Pilot {
   }
 
   private float getMaxIdleDist(HullConfig hullConfig) {
-    float maxIdleDist = hullConfig.approxRadius;
+    float maxIdleDist = hullConfig.getApproxRadius();
     if (maxIdleDist < MIN_IDLE_DIST) maxIdleDist = MIN_IDLE_DIST;
     return maxIdleDist;
   }

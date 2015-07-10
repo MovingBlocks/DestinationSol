@@ -7,11 +7,13 @@ import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.TextureManager;
 import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
+import com.miloshpetrov.sol2.files.HullConfigManager;
 import com.miloshpetrov.sol2.game.*;
-import com.miloshpetrov.sol2.game.item.ItemMan;
+import com.miloshpetrov.sol2.game.item.ItemManager;
 import com.miloshpetrov.sol2.game.maze.*;
 import com.miloshpetrov.sol2.game.ship.*;
-import com.miloshpetrov.sol2.ui.DebugCollector;
+import com.miloshpetrov.sol2.game.ship.hulls.HullConfig;
+import com.miloshpetrov.sol2.game.ship.hulls.Hull;
 
 import java.util.*;
 
@@ -29,10 +31,10 @@ public class PlanetMananger {
   private final PlanetCoreSingleton myPlanetCore;
   private Planet myNearestPlanet;
 
-  public PlanetMananger(TextureManager textureManager, HullConfigs hullConfigs, GameCols cols, ItemMan itemMan) {
-    myPlanetConfigs = new PlanetConfigs(textureManager, hullConfigs, cols, itemMan);
-    mySysConfigs = new SysConfigs(textureManager, hullConfigs, itemMan);
-    myMazeConfigs = new MazeConfigs(textureManager, hullConfigs, itemMan);
+  public PlanetMananger(TextureManager textureManager, HullConfigManager hullConfigs, GameColors cols, ItemManager itemManager) {
+    myPlanetConfigs = new PlanetConfigs(textureManager, hullConfigs, cols, itemManager);
+    mySysConfigs = new SysConfigs(textureManager, hullConfigs, itemManager);
+    myMazeConfigs = new MazeConfigs(textureManager, hullConfigs, itemManager);
 
     mySystems = new ArrayList<SolSystem>();
     myMazes = new ArrayList<Maze>();
@@ -135,8 +137,8 @@ public class PlanetMananger {
     if (npMinH < toNp) return false;
     if (!(obj instanceof SolShip)) return false;
     SolShip ship = (SolShip) obj;
-    ShipHull hull = ship.getHull();
-    if (hull.config.type == HullConfig.Type.STATION) return false;
+    Hull hull = ship.getHull();
+    if (hull.config.getType() == HullConfig.Type.STATION) return false;
     float fh = myNearestPlanet.getFullHeight();
     Vector2 npPos = myNearestPlanet.getPos();
     Vector2 toShip = SolMath.distVec(npPos, ship.getPos());
@@ -231,43 +233,5 @@ public class PlanetMananger {
 
   public void drawPlanetCoreHack(SolGame game, GameDrawer drawer) {
     myPlanetCore.draw(game, drawer);
-  }
-
-  public void printShips(PlayerSpawnConfig spawn, ItemMan itemMan) {
-    if (true) return;
-    ArrayList<ShipConfig> l = new ArrayList<ShipConfig>();
-    mySysConfigs.addAllConfigs(l);
-    for (PlanetConfig pc : myPlanetConfigs.getAllConfigs().values()) {
-      l.addAll(pc.highOrbitEnemies);
-      l.addAll(pc.lowOrbitEnemies);
-      l.addAll(pc.groundEnemies);
-      if (pc.stationConfig != null) l.add(pc.stationConfig);
-    }
-    for (MazeConfig mc : myMazeConfigs.configs) {
-      l.addAll(mc.outerEnemies);
-      l.addAll(mc.innerEnemies);
-      l.addAll(mc.bosses);
-    }
-    l.add(spawn.shipConfig);
-    l.add(spawn.mainStation);
-    ArrayList<ShipConfig> guards = new ArrayList<ShipConfig>();
-    for (ShipConfig c : l) {
-      if (c.guard != null) guards.add(c.guard);
-    }
-    l.addAll(guards);
-    Comparator<ShipConfig> cmp = new Comparator<ShipConfig>() {
-      public int compare(ShipConfig o1, ShipConfig o2) {
-        return Float.compare(o1.dps, o2.dps);
-      }
-    };
-    Collections.sort(l, cmp);
-    StringBuilder sb = new StringBuilder();
-    for (ShipConfig c : l) {
-      float cap = HardnessCalc.getShipCfgDmgCap(c, itemMan);
-      sb.append(c.hull.texName).append(" (").append(c.items).append("): ")
-        .append(SolMath.nice(c.dps)).append(" ").append(SolMath.nice(cap)).append("\n");
-    }
-    String msg = sb.toString();
-    DebugCollector.warn(msg);
   }
 }
