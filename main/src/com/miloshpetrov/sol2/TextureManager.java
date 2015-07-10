@@ -15,11 +15,12 @@ public class TextureManager {
   private final Map<String, TextureAtlas.AtlasRegion> textureMap;
   private final Map<TextureAtlas.AtlasRegion,TextureAtlas.AtlasRegion> myFlipped;
   private final Map<String, ArrayList<TextureAtlas.AtlasRegion>> myPacks;
-  private final TextureProvider textureProvider;
+  private final TextureProvider textureProvider, textureProviderStaticFiles;
 
   public TextureManager() {
     FileHandle atlasFile = FileManager.getInstance().getImagesDirectory().child("sol.atlas");
-    textureProvider = atlasFile.exists() ? new AtlasTextureProvider(atlasFile) : new DevTextureProvider();
+    textureProviderStaticFiles = new DevTextureProvider();
+    textureProvider = new AtlasTextureProvider(atlasFile);
     myPacks = new HashMap<String, ArrayList<TextureAtlas.AtlasRegion>>();
     textureMap = new HashMap<String, TextureAtlas.AtlasRegion>();
     myFlipped = new HashMap<TextureAtlas.AtlasRegion, TextureAtlas.AtlasRegion>();
@@ -61,8 +62,13 @@ public class TextureManager {
     TextureAtlas.AtlasRegion result = textureMap.get(textureFile);
 
     if (result == null) {
-        result = textureProvider.getTexture(textureFile);
-        textureMap.put(textureFile.path(), result);
+      result = textureProvider.getTexture(textureFile);
+      textureMap.put(textureFile.path(), result);
+    }
+
+    if (result == null) {
+      result = textureProviderStaticFiles.getTexture(textureFile);
+      textureMap.put(textureFile.path(), result);
     }
 
     if (result == null) {
