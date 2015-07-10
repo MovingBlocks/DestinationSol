@@ -16,8 +16,9 @@ public class DevTextureProvider implements TextureProvider {
   private final Texture myMissingTex;
 
   DevTextureProvider() {
-    FileHandle missingFile = FileManager.getInstance().getStaticFile("imgSrcs/smallGameObjs/missing.png");
-    myMissingTex = new Texture(missingFile);
+    //FileHandle missingFile = FileManager.getInstance().getStaticFile("imgSrcs/smallGameObjs/missing.png");
+    //myMissingTex = new Texture(missingFile);
+    myMissingTex = null;
   }
 
   @Override
