@@ -13,6 +13,7 @@ public class GameOptions {
   public static final int CONTROL_KB = 0;
   public static final int CONTROL_MIXED = 1;
   public static final int CONTROL_MOUSE = 2;
+  public static final int CONTROL_CONTROLLER = 3;
 
   public int x;
   public int y;
@@ -38,6 +39,19 @@ public class GameOptions {
   private String keyBuyMenuName;
   private String keyChangeShipMenuName;
   private String keyHireShipMenuName;
+  private int controllerAxisShoot;
+  private int controllerAxisShoot2;
+  private int controllerAxisAbility;
+  private int controllerAxisLeftRight;
+  private boolean isControllerAxisLeftRightInverted;
+  private int controllerAxisUpDown;
+  private boolean isControllerAxisUpDownInverted;
+  private int controllerButtonShoot;
+  private int controllerButtonShoot2;
+  private int controllerButtonAbility;
+  private int controllerButtonLeft;
+  private int controllerButtonRight;
+  private int controllerButtonUp;
 
   private SortedSet<String> supportedResolutions = new TreeSet<String>();
   private Iterator<String> resolutionIterator = null;
@@ -68,6 +82,19 @@ public class GameOptions {
     keyBuyMenuName = r.s("keyBuyMenu", "B");
     keyChangeShipMenuName = r.s("keyChangeShipMenu", "C");
     keyHireShipMenuName = r.s("keyHireShipMenu", "H");
+    controllerAxisShoot = r.i("controllerAxisShoot", 1);
+    controllerAxisShoot2 = r.i("controllerAxisShoot2", 0);
+    controllerAxisAbility = r.i("controllerAxisAbility", -1);
+    controllerAxisLeftRight = r.i("controllerAxisLeftRight", 2);
+    isControllerAxisLeftRightInverted = r.b("isControllerAxisLeftRightInverted", false);
+    controllerAxisUpDown = r.i("controllerAxisUpDown", 5);
+    isControllerAxisUpDownInverted = r.b("isControllerAxisUpDownInverted", false);
+    controllerButtonShoot = r.i("controllerButtonShoot", 12);
+    controllerButtonShoot2 = r.i("controllerButtonShoot2", 13);
+    controllerButtonAbility = r.i("controllerButtonAbility", 14);
+    controllerButtonLeft = r.i("controllerButtonLeft", 2);
+    controllerButtonRight = r.i("controllerButtonRight", 3);
+    controllerButtonUp = r.i("controllerButtonUp", 11);
   }
 
   public void advanceReso() {
@@ -136,7 +163,14 @@ public class GameOptions {
             "keyLeft", keyLeftName, "keyRight", keyRightName, "keyShoot", keyShootName, "keyShoot2", getKeyShoot2Name(),
             "keyAbility", getKeyAbilityName(), "keyEscape", getKeyEscapeName(), "keyMap", keyMapName, "keyInventory", keyInventoryName,
             "keyTalk", getKeyTalkName(), "keyPause", getKeyPauseName(), "keyDrop", getKeyDropName(), "keySellMenu", getKeySellMenuName(),
-            "keyBuyMenu", getKeyBuyMenuName(), "keyChangeShipMenu", getKeyChangeShipMenuName(), "keyHireShipMenu", getKeyHireShipMenuName());
+            "keyBuyMenu", getKeyBuyMenuName(), "keyChangeShipMenu", getKeyChangeShipMenuName(), "keyHireShipMenu", getKeyHireShipMenuName(),
+            "controllerAxisShoot", getControllerAxisShoot(), "controllerAxisShoot2", getControllerAxisShoot2(),
+            "controllerAxisAbility", getControllerAxisAbility(), "controllerAxisLeftRight", getControllerAxisLeftRight(),
+            "isControllerAxisLeftRightInverted", isControllerAxisLeftRightInverted(), "controllerAxisUpDown", getControllerAxisUpDown(),
+            "isControllerAxisUpDownInverted", isControllerAxisUpDownInverted(), "controllerButtonShoot", getControllerButtonShoot(),
+            "controllerButtonShoot2", getControllerButtonShoot2(), "controllerButtonAbility", getControllerButtonAbility(),
+            "controllerButtonLeft", getControllerButtonLeft(), "controllerButtonRight", getControllerButtonRight(),
+            "controllerButtonUp", getControllerButtonUp());
   }
 
   /**
@@ -573,5 +607,57 @@ public class GameOptions {
    */
   public String getKeyHireShipMenuName() {
     return keyHireShipMenuName;
+  }
+
+  public int getControllerAxisShoot() {
+    return controllerAxisShoot;
+  }
+
+  public int getControllerAxisShoot2() {
+    return controllerAxisShoot2;
+  }
+
+  public int getControllerAxisAbility() {
+    return controllerAxisAbility;
+  }
+
+  public int getControllerAxisLeftRight() {
+    return controllerAxisLeftRight;
+  }
+
+  public int getControllerAxisUpDown() {
+    return controllerAxisUpDown;
+  }
+
+  public int getControllerButtonShoot() {
+    return controllerButtonShoot;
+  }
+
+  public int getControllerButtonShoot2() {
+    return controllerButtonShoot2;
+  }
+
+  public int getControllerButtonAbility() {
+    return controllerButtonAbility;
+  }
+
+  public int getControllerButtonLeft() {
+    return controllerButtonLeft;
+  }
+
+  public int getControllerButtonRight() {
+    return controllerButtonRight;
+  }
+
+  public int getControllerButtonUp() {
+    return controllerButtonUp;
+  }
+
+  public boolean isControllerAxisLeftRightInverted() {
+    return isControllerAxisLeftRightInverted;
+  }
+
+  public boolean isControllerAxisUpDownInverted() {
+    return isControllerAxisUpDownInverted;
   }
 }
