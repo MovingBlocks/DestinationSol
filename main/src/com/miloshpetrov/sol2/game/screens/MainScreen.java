@@ -65,8 +65,10 @@ public class MainScreen implements SolUiScreen {
       shipControl = new ShipKbControl(cmp, r, myControls);
     } else if (ct == GameOptions.CONTROL_MIXED) {
       shipControl = new ShipMixedControl(cmp, myControls);
-    } else {
+    } else if (ct == GameOptions.CONTROL_MOUSE) {
       shipControl = new ShipMouseControl(cmp);
+    } else {
+      shipControl = new ShipControllerControl(cmp);
     }
     boolean mobile = cmp.isMobile();
     float lastCol = r - MainScreen.CELL_SZ;
