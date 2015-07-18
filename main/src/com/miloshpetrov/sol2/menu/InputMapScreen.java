@@ -7,12 +7,15 @@ import com.miloshpetrov.sol2.Const;
 import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.common.SolColor;
-import com.miloshpetrov.sol2.game.item.SolItem;
 import com.miloshpetrov.sol2.ui.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <h1>Config Screen to Change Input Mapping</h1>
+ * The input mapping screen is based on the inventory screen used within the game.
+ */
 public class InputMapScreen implements SolUiScreen {
     public final InputMapKeyboardScreen inputMapKeyboardScreen;
     public final InputMapControllerScreen inputMapControllerScreen;
@@ -25,15 +28,18 @@ public class InputMapScreen implements SolUiScreen {
     private final Rectangle myDetailArea;
     private final Rectangle myItemCtrlArea;
     private final Vector2 myDetailHeaderPos;
-    private final Rectangle myArea;
-    public final SolUiControl backCtrl;
+    public final SolUiControl cancelCtrl;
     private final SolUiControl upCtrl;
     private final SolUiControl downCtrl;
 
+    private static final float IMG_COL_PERC = .1f;
+    private static final float EQUI_COL_PERC = .1f;
+    private static final float PRICE_COL_PERC = .1f;
+    private static final float AMT_COL_PERC = .1f;
 
     private InputMapOperations myOperations;
     private int myPage;
-    private List<SolItem> mySelected;
+    private List<InputConfigItem> mySelected;
     private final Vector2 myListHeaderPos;
     public static final float SMALL_GAP = .004f;
     public static final float HEADER_TEXT_OFFS = .005f;
@@ -87,18 +93,17 @@ public class InputMapScreen implements SolUiScreen {
         myDetailArea = new Rectangle(col0, row, contentW - itemCtrlAreaW - SMALL_GAP, myItemCtrlArea.height);
         row += myDetailArea.height;
 
-        // whole
-        myArea = new Rectangle(col0 - bgGap, row0 - bgGap, contentW + bgGap * 2, row - row0 + bgGap * 2);
-
-        backCtrl = new SolUiControl(itemCtrl(3), true, gameOptions.getKeyClose());
-        backCtrl.setDisplayName("Back");
-        controls.add(backCtrl);
+        // Add the buttons and controls
+        cancelCtrl = new SolUiControl(itemCtrl(3), true, gameOptions.getKeyClose());
+        cancelCtrl.setDisplayName("Cancel");
+        controls.add(cancelCtrl);
 
         upCtrl = new SolUiControl(null, true, gameOptions.getKeyUp());
         controls.add(upCtrl);
         downCtrl = new SolUiControl(null, true, gameOptions.getKeyDown());
         controls.add(downCtrl);
 
+        // Create the input screens
         inputMapKeyboardScreen = new InputMapKeyboardScreen(this, gameOptions);
         inputMapControllerScreen = new InputMapControllerScreen(this, gameOptions);
         inputMapMixedScreen = new InputMapMixedScreen(this, gameOptions);
@@ -114,7 +119,8 @@ public class InputMapScreen implements SolUiScreen {
         SolInputManager im = cmp.getInputMan();
         MenuScreens screens = cmp.getMenuScreens();
 
-        if (backCtrl.isJustOff()) {
+        // TODO: Save should probably be implemented in the Input Screens
+        if (cancelCtrl.isJustOff()) {
             im.setScreen(cmp, screens.options);
         }
 
@@ -132,6 +138,33 @@ public class InputMapScreen implements SolUiScreen {
 
     @Override
     public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
+        GameOptions gameOptions = cmp.getOptions();
+        List<InputConfigItem> list = myOperations.getItems(gameOptions);
+
+        float imgColW = myListArea.width * IMG_COL_PERC;
+        float equiColW = myListArea.width * EQUI_COL_PERC;
+        float priceWidth = myListArea.width * PRICE_COL_PERC;
+        float amtWidth = myListArea.width * AMT_COL_PERC;
+        float nameWidth = myListArea.width - imgColW - equiColW - priceWidth - amtWidth;
+
+        // Display the input mapping in the grid control
+        for (int i = 0; i < itemCtrls.length; i++) {
+            int groupIdx = myPage * Const.ITEM_GROUPS_PER_PAGE + i;
+            int groupCount = list.size();
+            if (groupCount <= groupIdx) continue;
+            SolUiControl itemCtrl = itemCtrls[i];
+            String displayName = list.get(groupIdx).getDisplayName();
+            String inputKey = list.get(groupIdx).getInputKey();
+            Rectangle rect = itemCtrl.getScreenArea();
+            float rowCenterY = rect.y + rect.height / 2;
+
+            // TODO: show if selected
+            // Draw the name of in the input and the key it is mapped to
+            uiDrawer.drawString(displayName, rect.x + equiColW + imgColW + nameWidth/2, rowCenterY, FontSize.WINDOW, true, /*mySelected == group ? SolColor.W : */SolColor.G);
+            uiDrawer.drawString(inputKey, rect.x + rect.width - amtWidth - priceWidth/2, rowCenterY, FontSize.WINDOW, true, SolColor.LG);
+        }
+
+        // Draw the header title
         uiDrawer.drawString(myOperations.getHeader(), myListHeaderPos.x, myListHeaderPos.y, FontSize.WINDOW, false, SolColor.W);
     }
 
@@ -147,7 +180,13 @@ public class InputMapScreen implements SolUiScreen {
 
     @Override
     public void onAdd(SolApplication cmp) {
+        // Add any extra screen information as required by the input screens. E.g. buttons
+        if (myOperations != null) {
+            cmp.getInputMan().addScreen(cmp, myOperations);
+        }
 
+        myPage = 0;
+        mySelected = null;
     }
 
     @Override
