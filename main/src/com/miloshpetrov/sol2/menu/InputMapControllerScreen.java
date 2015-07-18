@@ -7,18 +7,22 @@ import com.miloshpetrov.sol2.ui.SolInputManager;
 import com.miloshpetrov.sol2.ui.SolUiControl;
 import com.miloshpetrov.sol2.ui.UiDrawer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InputMapControllerScreen implements InputMapOperations {
     private static final String HEADER_TEXT = "Controller Inputs";
 
+    private final ArrayList<SolUiControl> controls;
+
     public InputMapControllerScreen(InputMapScreen inputMapScreen, GameOptions gameOptions) {
+        controls = new ArrayList<SolUiControl>();
     }
 
 
     @Override
     public List<SolUiControl> getControls() {
-        return null;
+        return controls;
     }
 
     @Override
@@ -64,4 +68,13 @@ public class InputMapControllerScreen implements InputMapOperations {
         return HEADER_TEXT;
     }
 
+    @Override
+    public List<InputConfigItem> getItems(GameOptions gameOptions) {
+        List<InputConfigItem> items = new ArrayList<InputConfigItem>();
+
+        InputConfigItem notImplemented = new InputConfigItem("Not Implemented", "NA");
+        items.add(notImplemented);
+
+        return items;
+    }
 }
