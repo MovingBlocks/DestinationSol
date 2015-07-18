@@ -13,6 +13,7 @@ public class OptionsScreen implements SolUiScreen {
   private final SolUiControl myBackCtrl;
   private final SolUiControl myResoCtrl;
   private final SolUiControl myControlTypeCtrl;
+  private final SolUiControl inputMapCtrl;
 
   public OptionsScreen(MenuLayout menuLayout, GameOptions gameOptions) {
 
@@ -25,6 +26,10 @@ public class OptionsScreen implements SolUiScreen {
     myControlTypeCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, Input.Keys.C);
     myControlTypeCtrl.setDisplayName("Control Type");
     myControls.add(myControlTypeCtrl);
+
+    inputMapCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true, Input.Keys.M);
+    inputMapCtrl.setDisplayName("Input Map");
+    myControls.add(inputMapCtrl);
 
     myBackCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
     myBackCtrl.setDisplayName("Back");
@@ -48,12 +53,25 @@ public class OptionsScreen implements SolUiScreen {
     String ctName = "Keyboard";
     if (ct == GameOptions.CONTROL_MIXED) ctName = "KB + Mouse";
     if (ct == GameOptions.CONTROL_MOUSE) ctName = "Mouse";
+    if (ct == GameOptions.CONTROL_CONTROLLER) ctName = "Controller";
     myControlTypeCtrl.setDisplayName("Controls: " + ctName);
     if (myControlTypeCtrl.isJustOff()) {
       cmp.getOptions().advanceControlType(false);
     }
     if (myBackCtrl.isJustOff()) {
       im.setScreen(cmp, screens.main);
+    }
+
+
+    if (inputMapCtrl.isJustOff()) {
+      if (ct == GameOptions.CONTROL_MIXED) {
+        screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapMixedScreen);
+      } else if (ct == GameOptions.CONTROL_KB) {
+        screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapKeyboardScreen);
+      } else if (ct == GameOptions.CONTROL_CONTROLLER) {
+        screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapControllerScreen);
+      }
+      im.setScreen(cmp, screens.inputMapScreen);
     }
   }
 
