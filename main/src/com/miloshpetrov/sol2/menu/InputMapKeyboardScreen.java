@@ -6,17 +6,21 @@ import com.miloshpetrov.sol2.ui.SolInputManager;
 import com.miloshpetrov.sol2.ui.SolUiControl;
 import com.miloshpetrov.sol2.ui.UiDrawer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InputMapKeyboardScreen implements InputMapOperations {
     private static final String HEADER_TEXT = "Keyboard Inputs";
 
+    private final ArrayList<SolUiControl> controls;
+
     public InputMapKeyboardScreen(InputMapScreen inputMapScreen, GameOptions gameOptions) {
+        controls = new ArrayList<SolUiControl>();
     }
 
     @Override
     public List<SolUiControl> getControls() {
-        return null;
+        return controls;
     }
 
     @Override
@@ -62,4 +66,25 @@ public class InputMapKeyboardScreen implements InputMapOperations {
         return HEADER_TEXT;
     }
 
+    @Override
+    public List<InputConfigItem> getItems(GameOptions gameOptions) {
+        List<InputConfigItem> items = new ArrayList<InputConfigItem>();
+
+        InputConfigItem keyUp = new InputConfigItem("Up", gameOptions.getKeyUpName());
+        items.add(keyUp);
+        InputConfigItem keyDown = new InputConfigItem("Down", gameOptions.getKeyDownName());
+        items.add(keyDown);
+        InputConfigItem keyLeft = new InputConfigItem("Left", gameOptions.getKeyLeftName());
+        items.add(keyLeft);
+        InputConfigItem keyRight = new InputConfigItem("Right", gameOptions.getKeyRightName());
+        items.add(keyRight);
+        InputConfigItem keyShoot = new InputConfigItem("Shoot", gameOptions.getKeyShootName());
+        items.add(keyShoot);
+        InputConfigItem keyShoot2 = new InputConfigItem("Shoot Secondary", gameOptions.getKeyShoot2Name());
+        items.add(keyShoot2);
+        InputConfigItem keyAbility = new InputConfigItem("Ability", gameOptions.getKeyAbilityName());
+        items.add(keyAbility);
+
+        return items;
+    }
 }
