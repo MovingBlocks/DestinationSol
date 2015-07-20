@@ -125,6 +125,13 @@ public class InputMapScreen implements SolUiScreen {
             im.setScreen(cmp, screens.options);
         }
 
+        // Disable handling of key inputs while entering a new input key
+        if (myOperations.isEnterNewKey()) {
+            myPrevCtrl.setEnabled(false);
+            nextCtrl.setEnabled(false);
+            return;
+        }
+
         // Selected Item Control
         List<InputConfigItem> itemsList = myOperations.getItems(gameOptions);
         int groupCount = itemsList.size();
@@ -141,7 +148,7 @@ public class InputMapScreen implements SolUiScreen {
 
         // Ensure Selected item is on page
         int offset = myPage * Const.ITEM_GROUPS_PER_PAGE;
-        if (selectedIndex < offset || selectedIndex > offset + Const.ITEM_GROUPS_PER_PAGE) selectedIndex = offset;
+        if (selectedIndex < offset || selectedIndex >= offset + Const.ITEM_GROUPS_PER_PAGE) selectedIndex = offset;
 
         // Up and Down Control
         if (upCtrl.isJustOff()) {
@@ -155,6 +162,9 @@ public class InputMapScreen implements SolUiScreen {
             if (selectedIndex >= offset + Const.ITEM_GROUPS_PER_PAGE) myPage++;
             if (myPage >= pageCount) myPage = pageCount - 1;
         }
+
+        // Inform the input screen which item is selected
+        myOperations.setSelectedIndex(selectedIndex);
     }
 
     @Override
@@ -196,6 +206,9 @@ public class InputMapScreen implements SolUiScreen {
 
         // Draw the header title
         uiDrawer.drawString(myOperations.getHeader(), myListHeaderPos.x, myListHeaderPos.y, FontSize.WINDOW, false, SolColor.W);
+
+        // Draw the detail text
+        uiDrawer.drawString(myOperations.getDisplayDetail(), myDetailArea.x + .015f, myDetailArea.y + .015f, FontSize.WINDOW, false, SolColor.W);
     }
 
     @Override

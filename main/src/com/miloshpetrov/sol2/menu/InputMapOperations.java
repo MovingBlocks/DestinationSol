@@ -19,4 +19,22 @@ public interface InputMapOperations extends SolUiScreen {
      * @return List&lt;InputConfigItem&gt List of input config items
      */
     List<InputConfigItem> getItems(GameOptions gameOptions);
+
+    /**
+     * Get the text to display in the detail are
+     * @return String The text to display
+     */
+    String getDisplayDetail();
+
+    /**
+     * Determines if the user is entering a new input key
+     * @return boolean True if user is entering a new key
+     */
+    boolean isEnterNewKey();
+
+    /**
+     * States which item in the list is currently selected
+     * @param index The index
+     */
+    void setSelectedIndex(int index);
 }
