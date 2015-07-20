@@ -72,8 +72,27 @@ public class InputMapControllerScreen implements InputMapOperations {
     public List<InputConfigItem> getItems(GameOptions gameOptions) {
         List<InputConfigItem> items = new ArrayList<InputConfigItem>();
 
-        InputConfigItem notImplemented = new InputConfigItem("Not Implemented", "NA");
-        items.add(notImplemented);
+        // TODO: Ship Control Inputs
+
+        // Menu and Interface Keys
+        InputConfigItem pause = new InputConfigItem("Pause", gameOptions.getKeyPauseName());
+        items.add(pause);
+        InputConfigItem map = new InputConfigItem("Map", gameOptions.getKeyMapName());
+        items.add(map);
+        InputConfigItem inventory = new InputConfigItem("Inventory", gameOptions.getKeyInventoryName());
+        items.add(inventory);
+        InputConfigItem drop = new InputConfigItem("Drop Item", gameOptions.getKeyDropName());
+        items.add(drop);
+        InputConfigItem talk = new InputConfigItem("Talk", gameOptions.getKeyTalkName());
+        items.add(talk);
+        InputConfigItem sell = new InputConfigItem("Sell", gameOptions.getKeySellMenuName());
+        items.add(sell);
+        InputConfigItem buy = new InputConfigItem("Buy", gameOptions.getKeyBuyMenuName());
+        items.add(buy);
+        InputConfigItem changeShip = new InputConfigItem("Change Ship", gameOptions.getKeyChangeShipMenuName());
+        items.add(changeShip);
+        InputConfigItem hireShip = new InputConfigItem("Hire Ship", gameOptions.getKeyHireShipMenuName());
+        items.add(hireShip);
 
         return items;
     }
