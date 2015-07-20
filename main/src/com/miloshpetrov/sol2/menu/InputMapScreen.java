@@ -39,7 +39,7 @@ public class InputMapScreen implements SolUiScreen {
 
     private InputMapOperations myOperations;
     private int myPage;
-    private List<InputConfigItem> mySelected;
+    private int selectedIndex;
     private final Vector2 myListHeaderPos;
     public static final float SMALL_GAP = .004f;
     public static final float HEADER_TEXT_OFFS = .005f;
@@ -116,6 +116,7 @@ public class InputMapScreen implements SolUiScreen {
 
     @Override
     public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
+        GameOptions gameOptions = cmp.getOptions();
         SolInputManager im = cmp.getInputMan();
         MenuScreens screens = cmp.getMenuScreens();
 
@@ -124,6 +125,36 @@ public class InputMapScreen implements SolUiScreen {
             im.setScreen(cmp, screens.options);
         }
 
+        // Selected Item Control
+        List<InputConfigItem> itemsList = myOperations.getItems(gameOptions);
+        int groupCount = itemsList.size();
+        int pageCount = groupCount / Const.ITEM_GROUPS_PER_PAGE;
+
+        // Left and Right Page Control
+        if (myPrevCtrl.isJustOff()) myPage--;
+        if (nextCtrl.isJustOff()) myPage++;
+        if (pageCount == 0 || pageCount * Const.ITEM_GROUPS_PER_PAGE < groupCount) pageCount += 1;
+        if (myPage < 0) myPage = 0;
+        if (myPage >= pageCount) myPage = pageCount - 1;
+        myPrevCtrl.setEnabled(0 < myPage);
+        nextCtrl.setEnabled(myPage < pageCount - 1);
+
+        // Ensure Selected item is on page
+        int offset = myPage * Const.ITEM_GROUPS_PER_PAGE;
+        if (selectedIndex < offset || selectedIndex > offset + Const.ITEM_GROUPS_PER_PAGE) selectedIndex = offset;
+
+        // Up and Down Control
+        if (upCtrl.isJustOff()) {
+            selectedIndex--;
+            if (selectedIndex < 0) selectedIndex = 0;
+            if (selectedIndex < offset) myPage--;
+        }
+        if (downCtrl.isJustOff()) {
+            selectedIndex++;
+            if (selectedIndex >= groupCount) selectedIndex = groupCount - 1;
+            if (selectedIndex >= offset + Const.ITEM_GROUPS_PER_PAGE) myPage++;
+            if (myPage >= pageCount) myPage = pageCount - 1;
+        }
     }
 
     @Override
@@ -158,9 +189,8 @@ public class InputMapScreen implements SolUiScreen {
             Rectangle rect = itemCtrl.getScreenArea();
             float rowCenterY = rect.y + rect.height / 2;
 
-            // TODO: show if selected
             // Draw the name of in the input and the key it is mapped to
-            uiDrawer.drawString(displayName, rect.x + equiColW + imgColW + nameWidth/2, rowCenterY, FontSize.WINDOW, true, /*mySelected == group ? SolColor.W : */SolColor.G);
+            uiDrawer.drawString(displayName, rect.x + equiColW + imgColW + nameWidth/2, rowCenterY, FontSize.WINDOW, true, selectedIndex == groupIdx ? SolColor.W : SolColor.G);
             uiDrawer.drawString(inputKey, rect.x + rect.width - amtWidth - priceWidth/2, rowCenterY, FontSize.WINDOW, true, SolColor.LG);
         }
 
@@ -186,7 +216,7 @@ public class InputMapScreen implements SolUiScreen {
         }
 
         myPage = 0;
-        mySelected = null;
+        selectedIndex = 0;
     }
 
     @Override
