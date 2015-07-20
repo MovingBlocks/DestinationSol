@@ -1,6 +1,9 @@
 package com.miloshpetrov.sol2.menu;
 
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.ui.SolInputManager;
@@ -14,14 +17,43 @@ public class InputMapMixedScreen implements InputMapOperations {
     private static final String HEADER_TEXT = "Keyboard and Mouse Inputs";
 
     private final ArrayList<SolUiControl> controls;
-    public final SolUiControl changeCtrl;
+    private final SolUiControl changeCtrl;
+    private boolean isEnterNewKey;
+    private List<InputConfigItem> itemsList = new ArrayList<InputConfigItem>();
+    private int selectedIndex;
 
     public InputMapMixedScreen(InputMapScreen inputMapScreen, GameOptions gameOptions) {
         controls = new ArrayList<SolUiControl>();
 
-        changeCtrl = new SolUiControl(inputMapScreen.itemCtrl(0), true, gameOptions.getKeySellItem());
+        changeCtrl = new SolUiControl(inputMapScreen.itemCtrl(0), true, gameOptions.getKeyShoot());
         changeCtrl.setDisplayName("Change");
         controls.add(changeCtrl);
+
+        // Ship Control Keys
+        InputConfigItem mouseUp = new InputConfigItem("Up", gameOptions.getKeyUpMouseName());
+        itemsList.add(mouseUp);
+        InputConfigItem mouseDown = new InputConfigItem("Down", gameOptions.getKeyDownMouseName());
+        itemsList.add(mouseDown);
+
+        // Menu and Interface Keys
+        InputConfigItem pause = new InputConfigItem("Pause", gameOptions.getKeyPauseName());
+        itemsList.add(pause);
+        InputConfigItem map = new InputConfigItem("Map", gameOptions.getKeyMapName());
+        itemsList.add(map);
+        InputConfigItem inventory = new InputConfigItem("Inventory", gameOptions.getKeyInventoryName());
+        itemsList.add(inventory);
+        InputConfigItem drop = new InputConfigItem("Drop Item", gameOptions.getKeyDropName());
+        itemsList.add(drop);
+        InputConfigItem talk = new InputConfigItem("Talk", gameOptions.getKeyTalkName());
+        itemsList.add(talk);
+        InputConfigItem sell = new InputConfigItem("Sell", gameOptions.getKeySellMenuName());
+        itemsList.add(sell);
+        InputConfigItem buy = new InputConfigItem("Buy", gameOptions.getKeyBuyMenuName());
+        itemsList.add(buy);
+        InputConfigItem changeShip = new InputConfigItem("Change Ship", gameOptions.getKeyChangeShipMenuName());
+        itemsList.add(changeShip);
+        InputConfigItem hireShip = new InputConfigItem("Hire Ship", gameOptions.getKeyHireShipMenuName());
+        itemsList.add(hireShip);
     }
 
 
@@ -32,8 +64,28 @@ public class InputMapMixedScreen implements InputMapOperations {
 
     @Override
     public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
-        changeCtrl.setDisplayName("Change");
-        changeCtrl.setEnabled(true);
+        if (changeCtrl.isJustOff()) {
+            isEnterNewKey = !isEnterNewKey;
+
+            // Can cancel the key entering by clicking this button a second time
+            if (!isEnterNewKey) {
+                Gdx.input.setInputProcessor(null);
+                return;
+            }
+
+            Gdx.input.setInputProcessor(new InputAdapter() {
+                @Override
+                public boolean keyUp (int keycode) {
+                    InputConfigItem item = itemsList.get(selectedIndex);
+                    item.setInputKey(Input.Keys.toString(keycode));
+                    itemsList.set(selectedIndex, item);
+                    Gdx.input.setInputProcessor(null);
+
+                    isEnterNewKey = false;
+                    return true; // return true to indicate the event was handled
+                }
+            });
+        }
     }
 
     @Override
@@ -62,7 +114,8 @@ public class InputMapMixedScreen implements InputMapOperations {
 
     @Override
     public void onAdd(SolApplication cmp) {
-
+        isEnterNewKey = false;
+        selectedIndex = 0;
     }
 
     @Override
@@ -76,36 +129,27 @@ public class InputMapMixedScreen implements InputMapOperations {
     }
 
     @Override
+    public String getDisplayDetail() {
+        if (isEnterNewKey) {
+            return "Enter New Key";
+        } else {
+            return "";
+        }
+    }
+
+    @Override
+    public boolean isEnterNewKey(){
+        return isEnterNewKey;
+    }
+
+    @Override
     public List<InputConfigItem> getItems(GameOptions gameOptions) {
-        List<InputConfigItem> items = new ArrayList<InputConfigItem>();
+        return itemsList;
+    }
 
-        // Ship Control Keys
-        InputConfigItem mouseUp = new InputConfigItem("Up", gameOptions.getKeyUpMouseName());
-        items.add(mouseUp);
-        InputConfigItem mouseDown = new InputConfigItem("Down", gameOptions.getKeyDownMouseName());
-        items.add(mouseDown);
-
-        // Menu and Interface Keys
-        InputConfigItem pause = new InputConfigItem("Pause", gameOptions.getKeyPauseName());
-        items.add(pause);
-        InputConfigItem map = new InputConfigItem("Map", gameOptions.getKeyMapName());
-        items.add(map);
-        InputConfigItem inventory = new InputConfigItem("Inventory", gameOptions.getKeyInventoryName());
-        items.add(inventory);
-        InputConfigItem drop = new InputConfigItem("Drop Item", gameOptions.getKeyDropName());
-        items.add(drop);
-        InputConfigItem talk = new InputConfigItem("Talk", gameOptions.getKeyTalkName());
-        items.add(talk);
-        InputConfigItem sell = new InputConfigItem("Sell", gameOptions.getKeySellMenuName());
-        items.add(sell);
-        InputConfigItem buy = new InputConfigItem("Buy", gameOptions.getKeyBuyMenuName());
-        items.add(buy);
-        InputConfigItem changeShip = new InputConfigItem("Change Ship", gameOptions.getKeyChangeShipMenuName());
-        items.add(changeShip);
-        InputConfigItem hireShip = new InputConfigItem("Hire Ship", gameOptions.getKeyHireShipMenuName());
-        items.add(hireShip);
-
-        return items;
+    @Override
+    public void setSelectedIndex(int index){
+        selectedIndex = index;
     }
 
 }

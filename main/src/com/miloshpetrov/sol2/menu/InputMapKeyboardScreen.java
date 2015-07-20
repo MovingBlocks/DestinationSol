@@ -1,5 +1,8 @@
 package com.miloshpetrov.sol2.menu;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.ui.SolInputManager;
@@ -13,9 +16,53 @@ public class InputMapKeyboardScreen implements InputMapOperations {
     private static final String HEADER_TEXT = "Keyboard Inputs";
 
     private final ArrayList<SolUiControl> controls;
+    private final SolUiControl changeCtrl;
+    private boolean isEnterNewKey;
+    private List<InputConfigItem> itemsList = new ArrayList<InputConfigItem>();
+    private int selectedIndex;
 
     public InputMapKeyboardScreen(InputMapScreen inputMapScreen, GameOptions gameOptions) {
         controls = new ArrayList<SolUiControl>();
+        changeCtrl = new SolUiControl(inputMapScreen.itemCtrl(0), true, gameOptions.getKeyShoot());
+        changeCtrl.setDisplayName("Change");
+        controls.add(changeCtrl);
+
+        // Ship Control Keys
+        InputConfigItem keyUp = new InputConfigItem("Up", gameOptions.getKeyUpName());
+        itemsList.add(keyUp);
+        InputConfigItem keyDown = new InputConfigItem("Down", gameOptions.getKeyDownName());
+        itemsList.add(keyDown);
+        InputConfigItem keyLeft = new InputConfigItem("Left", gameOptions.getKeyLeftName());
+        itemsList.add(keyLeft);
+        InputConfigItem keyRight = new InputConfigItem("Right", gameOptions.getKeyRightName());
+        itemsList.add(keyRight);
+        InputConfigItem keyShoot = new InputConfigItem("Shoot", gameOptions.getKeyShootName());
+        itemsList.add(keyShoot);
+        InputConfigItem keyShoot2 = new InputConfigItem("Shoot Secondary", gameOptions.getKeyShoot2Name());
+        itemsList.add(keyShoot2);
+        InputConfigItem keyAbility = new InputConfigItem("Ability", gameOptions.getKeyAbilityName());
+        itemsList.add(keyAbility);
+
+        // Menu and Interface Keys
+        InputConfigItem pause = new InputConfigItem("Pause", gameOptions.getKeyPauseName());
+        itemsList.add(pause);
+        InputConfigItem map = new InputConfigItem("Map", gameOptions.getKeyMapName());
+        itemsList.add(map);
+        InputConfigItem inventory = new InputConfigItem("Inventory", gameOptions.getKeyInventoryName());
+        itemsList.add(inventory);
+        InputConfigItem drop = new InputConfigItem("Drop Item", gameOptions.getKeyDropName());
+        itemsList.add(drop);
+        InputConfigItem talk = new InputConfigItem("Talk", gameOptions.getKeyTalkName());
+        itemsList.add(talk);
+        InputConfigItem sell = new InputConfigItem("Sell", gameOptions.getKeySellMenuName());
+        itemsList.add(sell);
+        InputConfigItem buy = new InputConfigItem("Buy", gameOptions.getKeyBuyMenuName());
+        itemsList.add(buy);
+        InputConfigItem changeShip = new InputConfigItem("Change Ship", gameOptions.getKeyChangeShipMenuName());
+        itemsList.add(changeShip);
+        InputConfigItem hireShip = new InputConfigItem("Hire Ship", gameOptions.getKeyHireShipMenuName());
+        itemsList.add(hireShip);
+
     }
 
     @Override
@@ -25,6 +72,28 @@ public class InputMapKeyboardScreen implements InputMapOperations {
 
     @Override
     public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
+        if (changeCtrl.isJustOff()) {
+            isEnterNewKey = !isEnterNewKey;
+
+            // Can cancel the key entering by clicking this button a second time
+            if (!isEnterNewKey) {
+                Gdx.input.setInputProcessor(null);
+                return;
+            }
+
+            Gdx.input.setInputProcessor(new InputAdapter() {
+                @Override
+                public boolean keyUp (int keycode) {
+                    InputConfigItem item = itemsList.get(selectedIndex);
+                    item.setInputKey(Input.Keys.toString(keycode));
+                    itemsList.set(selectedIndex, item);
+                    Gdx.input.setInputProcessor(null);
+
+                    isEnterNewKey = false;
+                    return true; // return true to indicate the event was handled
+                }
+            });
+        }
     }
 
     @Override
@@ -53,7 +122,8 @@ public class InputMapKeyboardScreen implements InputMapOperations {
 
     @Override
     public void onAdd(SolApplication cmp) {
-
+        isEnterNewKey = false;
+        selectedIndex = 0;
     }
 
     @Override
@@ -67,44 +137,26 @@ public class InputMapKeyboardScreen implements InputMapOperations {
     }
 
     @Override
+    public boolean isEnterNewKey(){
+        return isEnterNewKey;
+    }
+
+    @Override
+    public String getDisplayDetail() {
+        if (isEnterNewKey) {
+            return "Enter New Key";
+        } else {
+            return "";
+        }
+    }
+
+    @Override
     public List<InputConfigItem> getItems(GameOptions gameOptions) {
-        List<InputConfigItem> items = new ArrayList<InputConfigItem>();
+        return itemsList;
+    }
 
-        // Ship Control Keys
-        InputConfigItem keyUp = new InputConfigItem("Up", gameOptions.getKeyUpName());
-        items.add(keyUp);
-        InputConfigItem keyDown = new InputConfigItem("Down", gameOptions.getKeyDownName());
-        items.add(keyDown);
-        InputConfigItem keyLeft = new InputConfigItem("Left", gameOptions.getKeyLeftName());
-        items.add(keyLeft);
-        InputConfigItem keyRight = new InputConfigItem("Right", gameOptions.getKeyRightName());
-        items.add(keyRight);
-        InputConfigItem keyShoot = new InputConfigItem("Shoot", gameOptions.getKeyShootName());
-        items.add(keyShoot);
-        InputConfigItem keyShoot2 = new InputConfigItem("Shoot Secondary", gameOptions.getKeyShoot2Name());
-        items.add(keyShoot2);
-        InputConfigItem keyAbility = new InputConfigItem("Ability", gameOptions.getKeyAbilityName());
-        items.add(keyAbility);
-
-        // Menu and Interface Keys
-        InputConfigItem pause = new InputConfigItem("Pause", gameOptions.getKeyPauseName());
-        items.add(pause);
-        InputConfigItem map = new InputConfigItem("Map", gameOptions.getKeyMapName());
-        items.add(map);
-        InputConfigItem inventory = new InputConfigItem("Inventory", gameOptions.getKeyInventoryName());
-        items.add(inventory);
-        InputConfigItem drop = new InputConfigItem("Drop Item", gameOptions.getKeyDropName());
-        items.add(drop);
-        InputConfigItem talk = new InputConfigItem("Talk", gameOptions.getKeyTalkName());
-        items.add(talk);
-        InputConfigItem sell = new InputConfigItem("Sell", gameOptions.getKeySellMenuName());
-        items.add(sell);
-        InputConfigItem buy = new InputConfigItem("Buy", gameOptions.getKeyBuyMenuName());
-        items.add(buy);
-        InputConfigItem changeShip = new InputConfigItem("Change Ship", gameOptions.getKeyChangeShipMenuName());
-        items.add(changeShip);
-        InputConfigItem hireShip = new InputConfigItem("Hire Ship", gameOptions.getKeyHireShipMenuName());
-        items.add(hireShip);
-        return items;
+    @Override
+    public void setSelectedIndex(int index){
+        selectedIndex = index;
     }
 }
