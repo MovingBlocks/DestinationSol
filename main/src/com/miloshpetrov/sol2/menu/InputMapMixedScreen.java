@@ -29,6 +29,11 @@ public class InputMapMixedScreen implements InputMapOperations {
         changeCtrl.setDisplayName("Change");
         controls.add(changeCtrl);
 
+    }
+
+    private void InitialiseList(GameOptions gameOptions) {
+        itemsList.clear();
+
         // Ship Control Keys
         InputConfigItem mouseUp = new InputConfigItem("Up", gameOptions.getKeyUpMouseName());
         itemsList.add(mouseUp);
@@ -55,7 +60,6 @@ public class InputMapMixedScreen implements InputMapOperations {
         InputConfigItem hireShip = new InputConfigItem("Hire Ship", gameOptions.getKeyHireShipMenuName());
         itemsList.add(hireShip);
     }
-
 
     @Override
     public List<SolUiControl> getControls() {
@@ -114,6 +118,7 @@ public class InputMapMixedScreen implements InputMapOperations {
 
     @Override
     public void onAdd(SolApplication cmp) {
+        InitialiseList(cmp.getOptions());
         isEnterNewKey = false;
         selectedIndex = 0;
     }
