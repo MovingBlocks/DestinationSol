@@ -662,4 +662,132 @@ public class GameOptions {
   public boolean isControllerAxisUpDownInverted() {
     return isControllerAxisUpDownInverted;
   }
+
+  public void setKeyUpMouseName(String keyUpMouseName) {
+    this.keyUpMouseName = keyUpMouseName;
+  }
+
+  public void setKeyDownMouseName(String keyDownMouseName) {
+    this.keyDownMouseName = keyDownMouseName;
+  }
+
+  public void setKeyUpName(String keyUpName) {
+    this.keyUpName = keyUpName;
+  }
+
+  public void setKeyDownName(String keyDownName) {
+    this.keyDownName = keyDownName;
+  }
+
+  public void setKeyLeftName(String keyLeftName) {
+    this.keyLeftName = keyLeftName;
+  }
+
+  public void setKeyRightName(String keyRightName) {
+    this.keyRightName = keyRightName;
+  }
+
+  public void setKeyShootName(String keyShootName) {
+    this.keyShootName = keyShootName;
+  }
+
+  public void setKeyShoot2Name(String keyShoot2Name) {
+    this.keyShoot2Name = keyShoot2Name;
+  }
+
+  public void setKeyAbilityName(String keyAbilityName) {
+    this.keyAbilityName = keyAbilityName;
+  }
+
+  public void setKeyEscapeName(String keyEscapeName) {
+    this.keyEscapeName = keyEscapeName;
+  }
+
+  public void setKeyMapName(String keyMapName) {
+    this.keyMapName = keyMapName;
+  }
+
+  public void setKeyInventoryName(String keyInventoryName) {
+    this.keyInventoryName = keyInventoryName;
+  }
+
+  public void setKeyTalkName(String keyTalkName) {
+    this.keyTalkName = keyTalkName;
+  }
+
+  public void setKeyPauseName(String keyPauseName) {
+    this.keyPauseName = keyPauseName;
+  }
+
+  public void setKeyDropName(String keyDropName) {
+    this.keyDropName = keyDropName;
+  }
+
+  public void setKeySellMenuName(String keySellMenuName) {
+    this.keySellMenuName = keySellMenuName;
+  }
+
+  public void setKeyBuyMenuName(String keyBuyMenuName) {
+    this.keyBuyMenuName = keyBuyMenuName;
+  }
+
+  public void setKeyChangeShipMenuName(String keyChangeShipMenuName) {
+    this.keyChangeShipMenuName = keyChangeShipMenuName;
+  }
+
+  public void setKeyHireShipMenuName(String keyHireShipMenuName) {
+    this.keyHireShipMenuName = keyHireShipMenuName;
+  }
+
+  public void setControllerAxisShoot(int controllerAxisShoot) {
+    this.controllerAxisShoot = controllerAxisShoot;
+  }
+
+  public void setControllerAxisShoot2(int controllerAxisShoot2) {
+    this.controllerAxisShoot2 = controllerAxisShoot2;
+  }
+
+  public void setControllerAxisAbility(int controllerAxisAbility) {
+    this.controllerAxisAbility = controllerAxisAbility;
+  }
+
+  public void setControllerAxisLeftRight(int controllerAxisLeftRight) {
+    this.controllerAxisLeftRight = controllerAxisLeftRight;
+  }
+
+  public void setIsControllerAxisLeftRightInverted(boolean isControllerAxisLeftRightInverted) {
+    this.isControllerAxisLeftRightInverted = isControllerAxisLeftRightInverted;
+  }
+
+  public void setControllerAxisUpDown(int controllerAxisUpDown) {
+    this.controllerAxisUpDown = controllerAxisUpDown;
+  }
+
+  public void setIsControllerAxisUpDownInverted(boolean isControllerAxisUpDownInverted) {
+    this.isControllerAxisUpDownInverted = isControllerAxisUpDownInverted;
+  }
+
+  public void setControllerButtonShoot(int controllerButtonShoot) {
+    this.controllerButtonShoot = controllerButtonShoot;
+  }
+
+  public void setControllerButtonShoot2(int controllerButtonShoot2) {
+    this.controllerButtonShoot2 = controllerButtonShoot2;
+  }
+
+  public void setControllerButtonAbility(int controllerButtonAbility) {
+    this.controllerButtonAbility = controllerButtonAbility;
+  }
+
+  public void setControllerButtonLeft(int controllerButtonLeft) {
+    this.controllerButtonLeft = controllerButtonLeft;
+  }
+
+  public void setControllerButtonRight(int controllerButtonRight) {
+    this.controllerButtonRight = controllerButtonRight;
+  }
+
+  public void setControllerButtonUp(int controllerButtonUp) {
+    this.controllerButtonUp = controllerButtonUp;
+  }
 }

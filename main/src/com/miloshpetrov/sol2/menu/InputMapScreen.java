@@ -20,15 +20,17 @@ public class InputMapScreen implements SolUiScreen {
     public final InputMapKeyboardScreen inputMapKeyboardScreen;
     public final InputMapControllerScreen inputMapControllerScreen;
     public final InputMapMixedScreen inputMapMixedScreen;
+
     private final List<SolUiControl> controls;
     private final SolUiControl myPrevCtrl;
-    public final SolUiControl nextCtrl;
+    private final SolUiControl nextCtrl;
     private final Rectangle myListArea;
-    public final SolUiControl[] itemCtrls;
+    private final SolUiControl[] itemCtrls;
     private final Rectangle myDetailArea;
     private final Rectangle myItemCtrlArea;
     private final Vector2 myDetailHeaderPos;
-    public final SolUiControl cancelCtrl;
+    private final SolUiControl cancelCtrl;
+    private final SolUiControl saveCtrl;
     private final SolUiControl upCtrl;
     private final SolUiControl downCtrl;
 
@@ -41,8 +43,8 @@ public class InputMapScreen implements SolUiScreen {
     private int myPage;
     private int selectedIndex;
     private final Vector2 myListHeaderPos;
-    public static final float SMALL_GAP = .004f;
-    public static final float HEADER_TEXT_OFFS = .005f;
+    private static final float SMALL_GAP = .004f;
+    private static final float HEADER_TEXT_OFFS = .005f;
     private static final int BTN_ROWS = 4;
 
 
@@ -98,6 +100,10 @@ public class InputMapScreen implements SolUiScreen {
         cancelCtrl.setDisplayName("Cancel");
         controls.add(cancelCtrl);
 
+        saveCtrl = new SolUiControl(itemCtrl(2), true);
+        saveCtrl.setDisplayName("Save");
+        controls.add(saveCtrl);
+
         upCtrl = new SolUiControl(null, true, gameOptions.getKeyUp());
         controls.add(upCtrl);
         downCtrl = new SolUiControl(null, true, gameOptions.getKeyDown());
@@ -120,7 +126,13 @@ public class InputMapScreen implements SolUiScreen {
         SolInputManager im = cmp.getInputMan();
         MenuScreens screens = cmp.getMenuScreens();
 
-        // TODO: Save should probably be implemented in the Input Screens
+        // Save - saves new settings and returns to the options screen
+        if (saveCtrl.isJustOff()) {
+            myOperations.save(gameOptions);
+            im.setScreen(cmp, screens.options);
+        }
+
+        // Cancel - return to options screen without saving
         if (cancelCtrl.isJustOff()) {
             im.setScreen(cmp, screens.options);
         }

@@ -37,4 +37,10 @@ public interface InputMapOperations extends SolUiScreen {
      * @param index The index
      */
     void setSelectedIndex(int index);
+
+    /**
+     * Save the new configuration settings
+     * @param gameOptions The options object that contains the key mapping
+     */
+    void save(GameOptions gameOptions);
 }
