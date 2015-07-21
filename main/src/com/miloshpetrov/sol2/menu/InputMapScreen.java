@@ -31,6 +31,7 @@ public class InputMapScreen implements SolUiScreen {
     private final Vector2 myDetailHeaderPos;
     private final SolUiControl cancelCtrl;
     private final SolUiControl saveCtrl;
+    private final SolUiControl defaultsCtrl;
     private final SolUiControl upCtrl;
     private final SolUiControl downCtrl;
 
@@ -104,6 +105,10 @@ public class InputMapScreen implements SolUiScreen {
         saveCtrl.setDisplayName("Save");
         controls.add(saveCtrl);
 
+        defaultsCtrl = new SolUiControl(itemCtrl(1), true);
+        defaultsCtrl.setDisplayName("Defaults");
+        controls.add(defaultsCtrl);
+
         upCtrl = new SolUiControl(null, true, gameOptions.getKeyUp());
         controls.add(upCtrl);
         downCtrl = new SolUiControl(null, true, gameOptions.getKeyDown());
@@ -142,6 +147,11 @@ public class InputMapScreen implements SolUiScreen {
             myPrevCtrl.setEnabled(false);
             nextCtrl.setEnabled(false);
             return;
+        }
+
+        // Defaults - Reset the input keys back to their default values
+        if (defaultsCtrl.isJustOff()) {
+            myOperations.resetToDefaults(gameOptions);
         }
 
         // Selected Item Control

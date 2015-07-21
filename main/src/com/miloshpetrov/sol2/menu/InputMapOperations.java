@@ -43,4 +43,10 @@ public interface InputMapOperations extends SolUiScreen {
      * @param gameOptions The options object that contains the key mapping
      */
     void save(GameOptions gameOptions);
+
+    /**
+     * Reset the input mappings back to the defaults
+     * @param gameOptions The options object that contains the key mapping
+     */
+    void resetToDefaults(GameOptions gameOptions);
 }
