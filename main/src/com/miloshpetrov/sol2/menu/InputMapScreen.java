@@ -137,6 +137,15 @@ public class InputMapScreen implements SolUiScreen {
         int groupCount = itemsList.size();
         int pageCount = groupCount / Const.ITEM_GROUPS_PER_PAGE;
 
+        // Select the item the mouse clicked
+        int offset = myPage * Const.ITEM_GROUPS_PER_PAGE;
+        for (int i = 0; i < itemCtrls.length; i++) {
+            SolUiControl itemCtrl = itemCtrls[i];
+            if (itemCtrl.isJustOff()) {
+                selectedIndex = i + offset;
+            }
+        }
+
         // Left and Right Page Control
         if (myPrevCtrl.isJustOff()) myPage--;
         if (nextCtrl.isJustOff()) myPage++;
@@ -147,7 +156,6 @@ public class InputMapScreen implements SolUiScreen {
         nextCtrl.setEnabled(myPage < pageCount - 1);
 
         // Ensure Selected item is on page
-        int offset = myPage * Const.ITEM_GROUPS_PER_PAGE;
         if (selectedIndex < offset || selectedIndex >= offset + Const.ITEM_GROUPS_PER_PAGE) selectedIndex = offset;
 
         // Up and Down Control
