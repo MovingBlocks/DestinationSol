@@ -27,6 +27,10 @@ public class InputMapControllerScreen implements InputMapOperations {
         changeCtrl = new SolUiControl(inputMapScreen.itemCtrl(0), true, gameOptions.getKeyShoot());
         changeCtrl.setDisplayName("Change");
         controls.add(changeCtrl);
+    }
+
+    private void InitialiseList(GameOptions gameOptions) {
+        itemsList.clear();
 
         // TODO: Ship Control Inputs
 
@@ -49,9 +53,7 @@ public class InputMapControllerScreen implements InputMapOperations {
         itemsList.add(changeShip);
         InputConfigItem hireShip = new InputConfigItem("Hire Ship", gameOptions.getKeyHireShipMenuName());
         itemsList.add(hireShip);
-
     }
-
 
     @Override
     public List<SolUiControl> getControls() {
@@ -110,6 +112,7 @@ public class InputMapControllerScreen implements InputMapOperations {
 
     @Override
     public void onAdd(SolApplication cmp) {
+        InitialiseList(cmp.getOptions());
         isEnterNewKey = false;
         selectedIndex = 0;
     }
