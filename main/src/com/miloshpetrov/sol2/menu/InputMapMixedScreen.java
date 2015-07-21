@@ -81,6 +81,56 @@ public class InputMapMixedScreen implements InputMapOperations {
     }
 
     @Override
+    public void resetToDefaults(GameOptions gameOptions) {
+        int index = 0;
+
+        // This needs to be in the same order the list is initialised
+        InputConfigItem item = itemsList.get(index);
+        item.setInputKey(GameOptions.DEFAULT_MOUSE_UP);
+        itemsList.set(index++, item);
+
+        item = itemsList.get(index);
+        item.setInputKey(GameOptions.DEFAULT_MOUSE_DOWN);
+        itemsList.set(index++, item);
+
+        item = itemsList.get(index);
+        item.setInputKey(GameOptions.DEFAULT_PAUSE);
+        itemsList.set(index++, item);
+
+        item = itemsList.get(index);
+        item.setInputKey(GameOptions.DEFAULT_MAP);
+        itemsList.set(index++, item);
+
+        item = itemsList.get(index);
+        item.setInputKey(GameOptions.DEFAULT_INVENTORY);
+        itemsList.set(index++, item);
+
+        item = itemsList.get(index);
+        item.setInputKey(GameOptions.DEFAULT_DROP);
+        itemsList.set(index++, item);
+
+        item = itemsList.get(index);
+        item.setInputKey(GameOptions.DEFAULT_TALK);
+        itemsList.set(index++, item);
+
+        item = itemsList.get(index);
+        item.setInputKey(GameOptions.DEFAULT_SELL);
+        itemsList.set(index++, item);
+
+        item = itemsList.get(index);
+        item.setInputKey(GameOptions.DEFAULT_BUY);
+        itemsList.set(index++, item);
+
+        item = itemsList.get(index);
+        item.setInputKey(GameOptions.DEFAULT_CHANGE_SHIP);
+        itemsList.set(index++, item);
+
+        item = itemsList.get(index);
+        item.setInputKey(GameOptions.DEFAULT_HIRE_SHIP);
+        itemsList.set(index++, item);
+    }
+
+    @Override
     public List<SolUiControl> getControls() {
         return controls;
     }
