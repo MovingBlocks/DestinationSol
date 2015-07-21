@@ -62,6 +62,25 @@ public class InputMapMixedScreen implements InputMapOperations {
     }
 
     @Override
+    public void save(GameOptions gameOptions) {
+        int index = 0;
+
+        // This needs to be in the same order the list is initialised
+        gameOptions.setKeyUpMouseName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeyDownMouseName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeyPauseName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeyMapName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeyInventoryName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeyDropName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeyTalkName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeySellMenuName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeyBuyMenuName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeyChangeShipMenuName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeyHireShipMenuName(itemsList.get(index++).getInputKey());
+        gameOptions.save();
+    }
+
+    @Override
     public List<SolUiControl> getControls() {
         return controls;
     }
@@ -156,5 +175,4 @@ public class InputMapMixedScreen implements InputMapOperations {
     public void setSelectedIndex(int index){
         selectedIndex = index;
     }
-
 }

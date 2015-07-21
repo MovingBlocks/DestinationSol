@@ -56,6 +56,23 @@ public class InputMapControllerScreen implements InputMapOperations {
     }
 
     @Override
+    public void save(GameOptions gameOptions) {
+        int index = 0;
+
+        // This needs to be in the same order the list is initialised
+        gameOptions.setKeyPauseName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeyMapName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeyInventoryName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeyDropName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeyTalkName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeySellMenuName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeyBuyMenuName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeyChangeShipMenuName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeyHireShipMenuName(itemsList.get(index++).getInputKey());
+        gameOptions.save();
+    }
+
+    @Override
     public List<SolUiControl> getControls() {
         return controls;
     }
@@ -129,7 +146,11 @@ public class InputMapControllerScreen implements InputMapOperations {
 
     @Override
     public String getDisplayDetail() {
-        return "";
+        if (isEnterNewKey) {
+            return "Enter New Key";
+        } else {
+            return "";
+        }
     }
 
     @Override
