@@ -24,7 +24,7 @@ public class InputMapControllerScreen implements InputMapOperations {
 
     public InputMapControllerScreen(InputMapScreen inputMapScreen, GameOptions gameOptions) {
         controls = new ArrayList<SolUiControl>();
-        changeCtrl = new SolUiControl(inputMapScreen.itemCtrl(0), true, gameOptions.getKeyShoot());
+        changeCtrl = new SolUiControl(inputMapScreen.itemCtrl(0), true);
         changeCtrl.setDisplayName("Change");
         controls.add(changeCtrl);
     }
