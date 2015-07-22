@@ -4,6 +4,11 @@ package com.miloshpetrov.sol2.menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.ControllerListener;
+import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.controllers.PovDirection;
+import com.badlogic.gdx.math.Vector3;
 import com.miloshpetrov.sol2.GameOptions;
 import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.ui.SolInputManager;
@@ -21,6 +26,7 @@ public class InputMapControllerScreen implements InputMapOperations {
     private boolean isEnterNewKey;
     private List<InputConfigItem> itemsList = new ArrayList<InputConfigItem>();
     private int selectedIndex;
+    private int controllerItems;
 
     public InputMapControllerScreen(InputMapScreen inputMapScreen, GameOptions gameOptions) {
         controls = new ArrayList<SolUiControl>();
@@ -48,6 +54,8 @@ public class InputMapControllerScreen implements InputMapOperations {
         itemsList.add(InitItem(gameOptions.getControllerAxisShoot(), gameOptions.getControllerButtonShoot(), "Shoot"));
         itemsList.add(InitItem(gameOptions.getControllerAxisShoot2(), gameOptions.getControllerButtonShoot2(), "Shoot Secondary"));
         itemsList.add(InitItem(gameOptions.getControllerAxisAbility(), gameOptions.getControllerButtonAbility(), "Ability"));
+
+        controllerItems = itemsList.size();
 
         // Menu and Interface Keys
         itemsList.add(new InputConfigItem("Pause", gameOptions.getKeyPauseName()));
@@ -166,28 +174,108 @@ public class InputMapControllerScreen implements InputMapOperations {
         if (changeCtrl.isJustOff()) {
             isEnterNewKey = !isEnterNewKey;
 
-            // TODO: Capture Controller Inputs
-            
             // Can cancel the key entering by clicking this button a second time
             if (!isEnterNewKey) {
                 Gdx.input.setInputProcessor(null);
+                Controllers.clearListeners();
                 return;
             }
 
-            Gdx.input.setInputProcessor(new InputAdapter() {
-                @Override
-                public boolean keyUp (int keycode) {
-                    if (selectedIndex >= 7) {
+            // Keyboard items
+            if (selectedIndex >= controllerItems) {
+                Gdx.input.setInputProcessor(new InputAdapter() {
+                    @Override
+                    public boolean keyUp(int keycode) {
                         InputConfigItem item = itemsList.get(selectedIndex);
                         item.setInputKey(Input.Keys.toString(keycode));
                         itemsList.set(selectedIndex, item);
-                    }
-                    Gdx.input.setInputProcessor(null);
+                        Gdx.input.setInputProcessor(null);
+                        Controllers.clearListeners();
 
-                    isEnterNewKey = false;
-                    return true; // return true to indicate the event was handled
-                }
-            });
+                        isEnterNewKey = false;
+                        return true; // return true to indicate the event was handled
+                    }
+                });
+            // Controller items
+            } else {
+                // setup the listener that prints events to the console
+                Controllers.addListener(new ControllerListener() {
+                    public int indexOf(Controller controller) {
+                        return Controllers.getControllers().indexOf(controller, true);
+                    }
+
+                    @Override
+                    public void connected(Controller controller) {
+                    }
+
+                    @Override
+                    public void disconnected(Controller controller) {
+                    }
+
+                    @Override
+                    public boolean buttonDown(Controller controller, int buttonIndex) {
+                        // Do nothing on button down - register the button up event
+                        return true;
+                    }
+
+                    @Override
+                    public boolean buttonUp(Controller controller, int buttonIndex) {
+                        System.out.println("#" + indexOf(controller) + ", button " + buttonIndex + " up");
+
+                        InputConfigItem item = itemsList.get(selectedIndex);
+                        item.setIsAxis(false);
+                        item.setControllerInput(buttonIndex);
+                        item.setInputKey("Button: " + buttonIndex);
+                        itemsList.set(selectedIndex, item);
+
+                        Gdx.input.setInputProcessor(null);
+                        Controllers.clearListeners();
+
+                        isEnterNewKey = false;
+                        return true; // return true to indicate the event was handled
+                    }
+
+                    @Override
+                    public boolean axisMoved(Controller controller, int axisIndex, float value) {
+                        System.out.println("#" + indexOf(controller) + ", axis " + axisIndex + ": " + value);
+
+                        if (value > 0.5f || value < -0.5f) {
+                            InputConfigItem item = itemsList.get(selectedIndex);
+                            item.setIsAxis(true);
+                            item.setControllerInput(axisIndex);
+                            item.setInputKey("Axis: " + axisIndex);
+                            itemsList.set(selectedIndex, item);
+
+                            Gdx.input.setInputProcessor(null);
+                            Controllers.clearListeners();
+
+                            isEnterNewKey = false;
+
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    public boolean povMoved(Controller controller, int povIndex, PovDirection value) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean xSliderMoved(Controller controller, int sliderIndex, boolean value) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean ySliderMoved(Controller controller, int sliderIndex, boolean value) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean accelerometerMoved(Controller controller, int accelerometerIndex, Vector3 value) {
+                        return false;
+                    }
+                });
+            }
         }
     }
 
@@ -218,6 +306,7 @@ public class InputMapControllerScreen implements InputMapOperations {
     @Override
     public void onAdd(SolApplication cmp) {
         InitialiseList(cmp.getOptions());
+        Controllers.clearListeners();
         isEnterNewKey = false;
         selectedIndex = 0;
     }

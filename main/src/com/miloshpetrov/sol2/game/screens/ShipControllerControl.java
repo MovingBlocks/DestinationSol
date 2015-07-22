@@ -64,27 +64,14 @@ public class ShipControllerControl implements ShipUiControl  {
 
             @Override
             public void connected (Controller controller) {
-                System.out.println("connected " + controller.getName());
-                int i = 0;
-                for (Controller c : Controllers.getControllers()) {
-                    System.out.println("#" + i++ + ": " + c.getName());
-                }
             }
 
             @Override
             public void disconnected (Controller controller) {
-                System.out.println("disconnected " + controller.getName());
-                int i = 0;
-                for (Controller c : Controllers.getControllers()) {
-                    System.out.println("#" + i++ + ": " + c.getName());
-                }
-                if (Controllers.getControllers().size == 0) System.out.println("No controllers attached");
             }
 
             @Override
             public boolean buttonDown (Controller controller, int buttonIndex) {
-                System.out.println("#" + indexOf(controller) + ", button " + buttonIndex + " down");
-
                 if (buttonIndex == gameOptions.getControllerButtonShoot()){
                     controllerShoot = true;
                 } else if (buttonIndex == gameOptions.getControllerButtonShoot2()){
@@ -99,13 +86,11 @@ public class ShipControllerControl implements ShipUiControl  {
                     controllerUp = true;
                 }
 
-                return false;
+                return true;
             }
 
             @Override
             public boolean buttonUp (Controller controller, int buttonIndex) {
-                System.out.println("#" + indexOf(controller) + ", button " + buttonIndex + " up");
-
                 if (buttonIndex == gameOptions.getControllerButtonShoot()){
                     controllerShoot = false;
                 } else if (buttonIndex == gameOptions.getControllerButtonShoot2()){
@@ -120,13 +105,11 @@ public class ShipControllerControl implements ShipUiControl  {
                     controllerUp = false;
                 }
 
-                return false;
+                return true;
             }
 
             @Override
             public boolean axisMoved (Controller controller, int axisIndex, float value) {
-                System.out.println("#" + indexOf(controller) + ", axis " + axisIndex + ": " + value);
-
                 if (axisIndex == gameOptions.getControllerAxisShoot()){
                     if (value > 0.5f) {
                         controllerShoot = true;
@@ -179,7 +162,7 @@ public class ShipControllerControl implements ShipUiControl  {
                     }
                 }
 
-                return false;
+                return true;
             }
 
             @Override
