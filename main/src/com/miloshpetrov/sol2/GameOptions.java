@@ -33,6 +33,20 @@ public class GameOptions {
   public static final String DEFAULT_BUY = "B";
   public static final String DEFAULT_CHANGE_SHIP = "C";
   public static final String DEFAULT_HIRE_SHIP = "H";
+  public static final int DEFAULT_AXIS_SHOOT = 1;
+  public static final int DEFAULT_AXIS_SHOOT2 = 0;
+  public static final int DEFAULT_AXIS_ABILITY = -1;
+  public static final int DEFAULT_AXIS_LEFT_RIGHT = 2;
+  public static final boolean DEFAULT_AXIS_LEFT_RIGHT_INVERTED_ = false;
+  public static final int DEFAULT_AXIS_UP_DOWN = 5;
+  public static final boolean DEFAULT_AXIS_UP_DOWN_INVERTED_ = false;
+  public static final int DEFAULT_BUTTON_SHOOT = -1;
+  public static final int DEFAULT_BUTTON_SHOOT2 = -1;
+  public static final int DEFAULT_BUTTON_ABILITY = 14;
+  public static final int DEFAULT_BUTTON_UP = -1;
+  public static final int DEFAULT_BUTTON_DOWN = -1;
+  public static final int DEFAULT_BUTTON_LEFT = -1;
+  public static final int DEFAULT_BUTTON_RIGHT = -1;
 
   public int x;
   public int y;
@@ -71,6 +85,7 @@ public class GameOptions {
   private int controllerButtonLeft;
   private int controllerButtonRight;
   private int controllerButtonUp;
+  private int controllerButtonDown;
 
   private SortedSet<String> supportedResolutions = new TreeSet<String>();
   private Iterator<String> resolutionIterator = null;
@@ -101,19 +116,20 @@ public class GameOptions {
     keyBuyMenuName = r.s("keyBuyMenu", DEFAULT_BUY);
     keyChangeShipMenuName = r.s("keyChangeShipMenu", DEFAULT_CHANGE_SHIP);
     keyHireShipMenuName = r.s("keyHireShipMenu", DEFAULT_HIRE_SHIP);
-    controllerAxisShoot = r.i("controllerAxisShoot", 1);
-    controllerAxisShoot2 = r.i("controllerAxisShoot2", 0);
-    controllerAxisAbility = r.i("controllerAxisAbility", -1);
-    controllerAxisLeftRight = r.i("controllerAxisLeftRight", 2);
-    isControllerAxisLeftRightInverted = r.b("isControllerAxisLeftRightInverted", false);
-    controllerAxisUpDown = r.i("controllerAxisUpDown", 5);
-    isControllerAxisUpDownInverted = r.b("isControllerAxisUpDownInverted", false);
-    controllerButtonShoot = r.i("controllerButtonShoot", 12);
-    controllerButtonShoot2 = r.i("controllerButtonShoot2", 13);
-    controllerButtonAbility = r.i("controllerButtonAbility", 14);
-    controllerButtonLeft = r.i("controllerButtonLeft", 2);
-    controllerButtonRight = r.i("controllerButtonRight", 3);
-    controllerButtonUp = r.i("controllerButtonUp", 11);
+    controllerAxisShoot = r.i("controllerAxisShoot", DEFAULT_AXIS_SHOOT);
+    controllerAxisShoot2 = r.i("controllerAxisShoot2", DEFAULT_AXIS_SHOOT2);
+    controllerAxisAbility = r.i("controllerAxisAbility", DEFAULT_AXIS_ABILITY);
+    controllerAxisLeftRight = r.i("controllerAxisLeftRight", DEFAULT_AXIS_LEFT_RIGHT);
+    isControllerAxisLeftRightInverted = r.b("isControllerAxisLeftRightInverted", DEFAULT_AXIS_LEFT_RIGHT_INVERTED_);
+    controllerAxisUpDown = r.i("controllerAxisUpDown", DEFAULT_AXIS_UP_DOWN);
+    isControllerAxisUpDownInverted = r.b("isControllerAxisUpDownInverted", DEFAULT_AXIS_UP_DOWN_INVERTED_);
+    controllerButtonShoot = r.i("controllerButtonShoot", DEFAULT_BUTTON_SHOOT);
+    controllerButtonShoot2 = r.i("controllerButtonShoot2", DEFAULT_BUTTON_SHOOT2);
+    controllerButtonAbility = r.i("controllerButtonAbility", DEFAULT_BUTTON_ABILITY);
+    controllerButtonLeft = r.i("controllerButtonLeft", DEFAULT_BUTTON_LEFT);
+    controllerButtonRight = r.i("controllerButtonRight", DEFAULT_BUTTON_RIGHT);
+    controllerButtonUp = r.i("controllerButtonUp", DEFAULT_BUTTON_UP);
+    controllerButtonDown = r.i("controllerButtonDown", DEFAULT_BUTTON_DOWN);
   }
 
   public void advanceReso() {
@@ -191,7 +207,7 @@ public class GameOptions {
             "isControllerAxisUpDownInverted", isControllerAxisUpDownInverted(), "controllerButtonShoot", getControllerButtonShoot(),
             "controllerButtonShoot2", getControllerButtonShoot2(), "controllerButtonAbility", getControllerButtonAbility(),
             "controllerButtonLeft", getControllerButtonLeft(), "controllerButtonRight", getControllerButtonRight(),
-            "controllerButtonUp", getControllerButtonUp());
+            "controllerButtonUp", getControllerButtonUp(), "controllerButtonDown", getControllerButtonDown());
   }
 
   /**
@@ -808,5 +824,13 @@ public class GameOptions {
 
   public void setControllerButtonUp(int controllerButtonUp) {
     this.controllerButtonUp = controllerButtonUp;
+  }
+
+  public int getControllerButtonDown() {
+    return controllerButtonDown;
+  }
+
+  public void setControllerButtonDown(int controllerButtonDown) {
+    this.controllerButtonDown = controllerButtonDown;
   }
 }
