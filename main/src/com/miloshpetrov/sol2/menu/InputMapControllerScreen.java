@@ -29,30 +29,36 @@ public class InputMapControllerScreen implements InputMapOperations {
         controls.add(changeCtrl);
     }
 
+    private InputConfigItem InitItem(int axis, int button, String displayName) {
+        boolean isAxis = (axis > -1);
+        int controllerInput = isAxis ? axis : button;
+        String inputName = (isAxis ? "Axis: " : "Button: ") + controllerInput;
+        InputConfigItem item = new InputConfigItem(displayName, inputName, isAxis, controllerInput);
+        return item;
+    }
+
     private void InitialiseList(GameOptions gameOptions) {
         itemsList.clear();
 
-        // TODO: Ship Control Inputs
+        // Ship Control Inputs
+        itemsList.add(InitItem(gameOptions.getControllerAxisUpDown(), gameOptions.getControllerButtonUp(), "Up"));
+        itemsList.add(InitItem(gameOptions.getControllerAxisUpDown(), gameOptions.getControllerButtonDown(), "Down"));
+        itemsList.add(InitItem(gameOptions.getControllerAxisLeftRight(), gameOptions.getControllerButtonLeft(), "Left"));
+        itemsList.add(InitItem(gameOptions.getControllerAxisLeftRight(), gameOptions.getControllerButtonRight(), "Right"));
+        itemsList.add(InitItem(gameOptions.getControllerAxisShoot(), gameOptions.getControllerButtonShoot(), "Shoot"));
+        itemsList.add(InitItem(gameOptions.getControllerAxisShoot2(), gameOptions.getControllerButtonShoot2(), "Shoot Secondary"));
+        itemsList.add(InitItem(gameOptions.getControllerAxisAbility(), gameOptions.getControllerButtonAbility(), "Ability"));
 
         // Menu and Interface Keys
-        InputConfigItem pause = new InputConfigItem("Pause", gameOptions.getKeyPauseName());
-        itemsList.add(pause);
-        InputConfigItem map = new InputConfigItem("Map", gameOptions.getKeyMapName());
-        itemsList.add(map);
-        InputConfigItem inventory = new InputConfigItem("Inventory", gameOptions.getKeyInventoryName());
-        itemsList.add(inventory);
-        InputConfigItem drop = new InputConfigItem("Drop Item", gameOptions.getKeyDropName());
-        itemsList.add(drop);
-        InputConfigItem talk = new InputConfigItem("Talk", gameOptions.getKeyTalkName());
-        itemsList.add(talk);
-        InputConfigItem sell = new InputConfigItem("Sell", gameOptions.getKeySellMenuName());
-        itemsList.add(sell);
-        InputConfigItem buy = new InputConfigItem("Buy", gameOptions.getKeyBuyMenuName());
-        itemsList.add(buy);
-        InputConfigItem changeShip = new InputConfigItem("Change Ship", gameOptions.getKeyChangeShipMenuName());
-        itemsList.add(changeShip);
-        InputConfigItem hireShip = new InputConfigItem("Hire Ship", gameOptions.getKeyHireShipMenuName());
-        itemsList.add(hireShip);
+        itemsList.add(new InputConfigItem("Pause", gameOptions.getKeyPauseName()));
+        itemsList.add(new InputConfigItem("Map", gameOptions.getKeyMapName()));
+        itemsList.add(new InputConfigItem("Inventory", gameOptions.getKeyInventoryName()));
+        itemsList.add(new InputConfigItem("Drop Item", gameOptions.getKeyDropName()));
+        itemsList.add(new InputConfigItem("Talk", gameOptions.getKeyTalkName()));
+        itemsList.add(new InputConfigItem("Sell", gameOptions.getKeySellMenuName()));
+        itemsList.add(new InputConfigItem("Buy", gameOptions.getKeyBuyMenuName()));
+        itemsList.add(new InputConfigItem("Change Ship", gameOptions.getKeyChangeShipMenuName()));
+        itemsList.add(new InputConfigItem("Hire Ship", gameOptions.getKeyHireShipMenuName()));
     }
 
     @Override
@@ -60,6 +66,34 @@ public class InputMapControllerScreen implements InputMapOperations {
         int index = 0;
 
         // This needs to be in the same order the list is initialised
+        InputConfigItem item = itemsList.get(index++);
+        gameOptions.setControllerAxisUpDown(item.isAxis() ? item.getControllerInput() : -1);
+        gameOptions.setControllerButtonUp(!item.isAxis() ? item.getControllerInput() : -1);
+
+        item = itemsList.get(index++);
+        gameOptions.setControllerAxisUpDown(item.isAxis() ? item.getControllerInput() : -1);
+        gameOptions.setControllerButtonDown(!item.isAxis() ? item.getControllerInput() : -1);
+
+        item = itemsList.get(index++);
+        gameOptions.setControllerAxisLeftRight(item.isAxis() ? item.getControllerInput() : -1);
+        gameOptions.setControllerButtonLeft(!item.isAxis() ? item.getControllerInput() : -1);
+
+        item = itemsList.get(index++);
+        gameOptions.setControllerAxisLeftRight(item.isAxis() ? item.getControllerInput() : -1);
+        gameOptions.setControllerButtonRight(!item.isAxis() ? item.getControllerInput() : -1);
+
+        item = itemsList.get(index++);
+        gameOptions.setControllerAxisShoot(item.isAxis() ? item.getControllerInput() : -1);
+        gameOptions.setControllerButtonShoot(!item.isAxis() ? item.getControllerInput() : -1);
+
+        item = itemsList.get(index++);
+        gameOptions.setControllerAxisShoot2(item.isAxis() ? item.getControllerInput() : -1);
+        gameOptions.setControllerButtonShoot2(!item.isAxis() ? item.getControllerInput() : -1);
+
+        item = itemsList.get(index++);
+        gameOptions.setControllerAxisAbility(item.isAxis() ? item.getControllerInput() : -1);
+        gameOptions.setControllerButtonAbility(!item.isAxis() ? item.getControllerInput() : -1);
+
         gameOptions.setKeyPauseName(itemsList.get(index++).getInputKey());
         gameOptions.setKeyMapName(itemsList.get(index++).getInputKey());
         gameOptions.setKeyInventoryName(itemsList.get(index++).getInputKey());
@@ -77,6 +111,14 @@ public class InputMapControllerScreen implements InputMapOperations {
         int index = 0;
 
         // This needs to be in the same order the list is initialised
+        itemsList.set(index++, InitItem(GameOptions.DEFAULT_AXIS_UP_DOWN, GameOptions.DEFAULT_BUTTON_UP, "Up"));
+        itemsList.set(index++, InitItem(GameOptions.DEFAULT_AXIS_UP_DOWN, GameOptions.DEFAULT_BUTTON_DOWN, "Down"));
+        itemsList.set(index++, InitItem(GameOptions.DEFAULT_AXIS_LEFT_RIGHT, GameOptions.DEFAULT_BUTTON_LEFT, "Left"));
+        itemsList.set(index++, InitItem(GameOptions.DEFAULT_AXIS_LEFT_RIGHT, GameOptions.DEFAULT_BUTTON_RIGHT, "Right"));
+        itemsList.set(index++, InitItem(GameOptions.DEFAULT_AXIS_SHOOT, GameOptions.DEFAULT_BUTTON_SHOOT, "Shoot"));
+        itemsList.set(index++, InitItem(GameOptions.DEFAULT_AXIS_SHOOT2, GameOptions.DEFAULT_BUTTON_SHOOT2, "Shoot Secondary"));
+        itemsList.set(index++, InitItem(GameOptions.DEFAULT_AXIS_ABILITY, GameOptions.DEFAULT_BUTTON_ABILITY, "Ability"));
+
         InputConfigItem item = itemsList.get(index);
         item.setInputKey(GameOptions.DEFAULT_PAUSE);
         itemsList.set(index++, item);
@@ -124,6 +166,8 @@ public class InputMapControllerScreen implements InputMapOperations {
         if (changeCtrl.isJustOff()) {
             isEnterNewKey = !isEnterNewKey;
 
+            // TODO: Capture Controller Inputs
+            
             // Can cancel the key entering by clicking this button a second time
             if (!isEnterNewKey) {
                 Gdx.input.setInputProcessor(null);
@@ -133,9 +177,11 @@ public class InputMapControllerScreen implements InputMapOperations {
             Gdx.input.setInputProcessor(new InputAdapter() {
                 @Override
                 public boolean keyUp (int keycode) {
-                    InputConfigItem item = itemsList.get(selectedIndex);
-                    item.setInputKey(Input.Keys.toString(keycode));
-                    itemsList.set(selectedIndex, item);
+                    if (selectedIndex >= 7) {
+                        InputConfigItem item = itemsList.get(selectedIndex);
+                        item.setInputKey(Input.Keys.toString(keycode));
+                        itemsList.set(selectedIndex, item);
+                    }
                     Gdx.input.setInputProcessor(null);
 
                     isEnterNewKey = false;
