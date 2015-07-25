@@ -17,7 +17,7 @@ import com.miloshpetrov.sol2.game.ship.hulls.Hull;
 
 import java.util.*;
 
-public class PlanetMananger {
+public class PlanetManager {
 
   private final ArrayList<SolSystem> mySystems;
   private final ArrayList<Planet> myPlanets;
@@ -31,7 +31,7 @@ public class PlanetMananger {
   private final PlanetCoreSingleton myPlanetCore;
   private Planet myNearestPlanet;
 
-  public PlanetMananger(TextureManager textureManager, HullConfigManager hullConfigs, GameColors cols, ItemManager itemManager) {
+  public PlanetManager(TextureManager textureManager, HullConfigManager hullConfigs, GameColors cols, ItemManager itemManager) {
     myPlanetConfigs = new PlanetConfigs(textureManager, hullConfigs, cols, itemManager);
     mySysConfigs = new SysConfigs(textureManager, hullConfigs, itemManager);
     myMazeConfigs = new MazeConfigs(textureManager, hullConfigs, itemManager);

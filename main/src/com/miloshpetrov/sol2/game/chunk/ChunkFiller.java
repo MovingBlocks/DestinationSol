@@ -69,7 +69,7 @@ public class ChunkFiller {
   private SpaceEnvConfig getConfig(SolGame game, Vector2 chCenter, float[] densityMul,
     RemoveController remover, boolean farBg)
   {
-    PlanetMananger pm = game.getPlanetMan();
+    PlanetManager pm = game.getPlanetMan();
     SolSystem sys = pm.getNearestSystem(chCenter);
     float toSys = sys.getPos().dst(chCenter);
     if (toSys < sys.getRadius()) {
