@@ -13,6 +13,40 @@ public class GameOptions {
   public static final int CONTROL_KB = 0;
   public static final int CONTROL_MIXED = 1;
   public static final int CONTROL_MOUSE = 2;
+  public static final int CONTROL_CONTROLLER = 3;
+  public static final String DEFAULT_MOUSE_UP = "W";
+  public static final String DEFAULT_MOUSE_DOWN = "S";
+  public static final String DEFAULT_UP = "Up";
+  public static final String DEFAULT_DOWN = "Down";
+  public static final String DEFAULT_LEFT = "Left";
+  public static final String DEFAULT_RIGHT = "Right";
+  public static final String DEFAULT_SHOOT = "Space";
+  public static final String DEFAULT_SHOOT2 = "L-Ctrl";
+  public static final String DEFAULT_ABILITY = "L-Shift";
+  public static final String DEFAULT_ESCAPE = "Escape";
+  public static final String DEFAULT_MAP = "Tab";
+  public static final String DEFAULT_INVENTORY = "I";
+  public static final String DEFAULT_TALK = "T";
+  public static final String DEFAULT_PAUSE = "P";
+  public static final String DEFAULT_DROP = "D";
+  public static final String DEFAULT_SELL = "S";
+  public static final String DEFAULT_BUY = "B";
+  public static final String DEFAULT_CHANGE_SHIP = "C";
+  public static final String DEFAULT_HIRE_SHIP = "H";
+  public static final int DEFAULT_AXIS_SHOOT = 1;
+  public static final int DEFAULT_AXIS_SHOOT2 = 0;
+  public static final int DEFAULT_AXIS_ABILITY = -1;
+  public static final int DEFAULT_AXIS_LEFT_RIGHT = 2;
+  public static final boolean DEFAULT_AXIS_LEFT_RIGHT_INVERTED_ = false;
+  public static final int DEFAULT_AXIS_UP_DOWN = 5;
+  public static final boolean DEFAULT_AXIS_UP_DOWN_INVERTED_ = false;
+  public static final int DEFAULT_BUTTON_SHOOT = -1;
+  public static final int DEFAULT_BUTTON_SHOOT2 = -1;
+  public static final int DEFAULT_BUTTON_ABILITY = 14;
+  public static final int DEFAULT_BUTTON_UP = -1;
+  public static final int DEFAULT_BUTTON_DOWN = -1;
+  public static final int DEFAULT_BUTTON_LEFT = -1;
+  public static final int DEFAULT_BUTTON_RIGHT = -1;
 
   public int x;
   public int y;
@@ -38,6 +72,20 @@ public class GameOptions {
   private String keyBuyMenuName;
   private String keyChangeShipMenuName;
   private String keyHireShipMenuName;
+  private int controllerAxisShoot;
+  private int controllerAxisShoot2;
+  private int controllerAxisAbility;
+  private int controllerAxisLeftRight;
+  private boolean isControllerAxisLeftRightInverted;
+  private int controllerAxisUpDown;
+  private boolean isControllerAxisUpDownInverted;
+  private int controllerButtonShoot;
+  private int controllerButtonShoot2;
+  private int controllerButtonAbility;
+  private int controllerButtonLeft;
+  private int controllerButtonRight;
+  private int controllerButtonUp;
+  private int controllerButtonDown;
 
   private SortedSet<String> supportedResolutions = new TreeSet<String>();
   private Iterator<String> resolutionIterator = null;
@@ -49,25 +97,39 @@ public class GameOptions {
     fullscreen = r.b("fullscreen", false);
     controlType = mobile ? CONTROL_KB : r.i("controlType", CONTROL_MIXED);
     volMul = r.f("vol", 1);
-    keyUpMouseName = r.s("keyUpMouse", "W");
-    keyDownMouseName = r.s("keyDownMouse", "S");
-    keyUpName = r.s("keyUp", "Up");
-    keyDownName = r.s("keyDown", "Down");
-    keyLeftName = r.s("keyLeft", "Left");
-    keyRightName = r.s("keyRight", "Right");
-    keyShootName = r.s("keyShoot", "Space");
-    keyShoot2Name = r.s("keyShoot2", "L-Ctrl");
-    keyAbilityName = r.s("keyAbility", "L-Shift");
-    keyEscapeName = r.s("keyEscape", "Escape");
-    keyMapName = r.s("keyMap", "Tab");
-    keyInventoryName = r.s("keyInventory", "I");
-    keyTalkName = r.s("keyTalk", "T");
-    keyPauseName = r.s("keyPause", "P");
-    keyDropName = r.s("keyDrop", "D");
-    keySellMenuName = r.s("keySellMenu", "S");
-    keyBuyMenuName = r.s("keyBuyMenu", "B");
-    keyChangeShipMenuName = r.s("keyChangeShipMenu", "C");
-    keyHireShipMenuName = r.s("keyHireShipMenu", "H");
+    keyUpMouseName = r.s("keyUpMouse", DEFAULT_MOUSE_UP);
+    keyDownMouseName = r.s("keyDownMouse", DEFAULT_MOUSE_DOWN);
+    keyUpName = r.s("keyUp", DEFAULT_UP);
+    keyDownName = r.s("keyDown", DEFAULT_DOWN);
+    keyLeftName = r.s("keyLeft", DEFAULT_LEFT);
+    keyRightName = r.s("keyRight", DEFAULT_RIGHT);
+    keyShootName = r.s("keyShoot", DEFAULT_SHOOT);
+    keyShoot2Name = r.s("keyShoot2", DEFAULT_SHOOT2);
+    keyAbilityName = r.s("keyAbility", DEFAULT_ABILITY);
+    keyEscapeName = r.s("keyEscape", DEFAULT_ESCAPE);
+    keyMapName = r.s("keyMap", DEFAULT_MAP);
+    keyInventoryName = r.s("keyInventory", DEFAULT_INVENTORY);
+    keyTalkName = r.s("keyTalk", DEFAULT_TALK);
+    keyPauseName = r.s("keyPause", DEFAULT_PAUSE);
+    keyDropName = r.s("keyDrop", DEFAULT_DROP);
+    keySellMenuName = r.s("keySellMenu", DEFAULT_SELL);
+    keyBuyMenuName = r.s("keyBuyMenu", DEFAULT_BUY);
+    keyChangeShipMenuName = r.s("keyChangeShipMenu", DEFAULT_CHANGE_SHIP);
+    keyHireShipMenuName = r.s("keyHireShipMenu", DEFAULT_HIRE_SHIP);
+    controllerAxisShoot = r.i("controllerAxisShoot", DEFAULT_AXIS_SHOOT);
+    controllerAxisShoot2 = r.i("controllerAxisShoot2", DEFAULT_AXIS_SHOOT2);
+    controllerAxisAbility = r.i("controllerAxisAbility", DEFAULT_AXIS_ABILITY);
+    controllerAxisLeftRight = r.i("controllerAxisLeftRight", DEFAULT_AXIS_LEFT_RIGHT);
+    isControllerAxisLeftRightInverted = r.b("isControllerAxisLeftRightInverted", DEFAULT_AXIS_LEFT_RIGHT_INVERTED_);
+    controllerAxisUpDown = r.i("controllerAxisUpDown", DEFAULT_AXIS_UP_DOWN);
+    isControllerAxisUpDownInverted = r.b("isControllerAxisUpDownInverted", DEFAULT_AXIS_UP_DOWN_INVERTED_);
+    controllerButtonShoot = r.i("controllerButtonShoot", DEFAULT_BUTTON_SHOOT);
+    controllerButtonShoot2 = r.i("controllerButtonShoot2", DEFAULT_BUTTON_SHOOT2);
+    controllerButtonAbility = r.i("controllerButtonAbility", DEFAULT_BUTTON_ABILITY);
+    controllerButtonLeft = r.i("controllerButtonLeft", DEFAULT_BUTTON_LEFT);
+    controllerButtonRight = r.i("controllerButtonRight", DEFAULT_BUTTON_RIGHT);
+    controllerButtonUp = r.i("controllerButtonUp", DEFAULT_BUTTON_UP);
+    controllerButtonDown = r.i("controllerButtonDown", DEFAULT_BUTTON_DOWN);
   }
 
   public void advanceReso() {
@@ -101,6 +163,8 @@ public class GameOptions {
   public void advanceControlType(boolean mobile) {
     if (controlType == CONTROL_KB) {
       controlType = mobile ? CONTROL_MOUSE : CONTROL_MIXED;
+    } else if (controlType == CONTROL_MIXED) {
+      controlType = CONTROL_CONTROLLER;
 //    } else if (controlType == CONTROL_MIXED) {
 //      controlType = CONTROL_MOUSE;
     } else {
@@ -136,7 +200,14 @@ public class GameOptions {
             "keyLeft", keyLeftName, "keyRight", keyRightName, "keyShoot", keyShootName, "keyShoot2", getKeyShoot2Name(),
             "keyAbility", getKeyAbilityName(), "keyEscape", getKeyEscapeName(), "keyMap", keyMapName, "keyInventory", keyInventoryName,
             "keyTalk", getKeyTalkName(), "keyPause", getKeyPauseName(), "keyDrop", getKeyDropName(), "keySellMenu", getKeySellMenuName(),
-            "keyBuyMenu", getKeyBuyMenuName(), "keyChangeShipMenu", getKeyChangeShipMenuName(), "keyHireShipMenu", getKeyHireShipMenuName());
+            "keyBuyMenu", getKeyBuyMenuName(), "keyChangeShipMenu", getKeyChangeShipMenuName(), "keyHireShipMenu", getKeyHireShipMenuName(),
+            "controllerAxisShoot", getControllerAxisShoot(), "controllerAxisShoot2", getControllerAxisShoot2(),
+            "controllerAxisAbility", getControllerAxisAbility(), "controllerAxisLeftRight", getControllerAxisLeftRight(),
+            "isControllerAxisLeftRightInverted", isControllerAxisLeftRightInverted(), "controllerAxisUpDown", getControllerAxisUpDown(),
+            "isControllerAxisUpDownInverted", isControllerAxisUpDownInverted(), "controllerButtonShoot", getControllerButtonShoot(),
+            "controllerButtonShoot2", getControllerButtonShoot2(), "controllerButtonAbility", getControllerButtonAbility(),
+            "controllerButtonLeft", getControllerButtonLeft(), "controllerButtonRight", getControllerButtonRight(),
+            "controllerButtonUp", getControllerButtonUp(), "controllerButtonDown", getControllerButtonDown());
   }
 
   /**
@@ -573,5 +644,193 @@ public class GameOptions {
    */
   public String getKeyHireShipMenuName() {
     return keyHireShipMenuName;
+  }
+
+  public int getControllerAxisShoot() {
+    return controllerAxisShoot;
+  }
+
+  public int getControllerAxisShoot2() {
+    return controllerAxisShoot2;
+  }
+
+  public int getControllerAxisAbility() {
+    return controllerAxisAbility;
+  }
+
+  public int getControllerAxisLeftRight() {
+    return controllerAxisLeftRight;
+  }
+
+  public int getControllerAxisUpDown() {
+    return controllerAxisUpDown;
+  }
+
+  public int getControllerButtonShoot() {
+    return controllerButtonShoot;
+  }
+
+  public int getControllerButtonShoot2() {
+    return controllerButtonShoot2;
+  }
+
+  public int getControllerButtonAbility() {
+    return controllerButtonAbility;
+  }
+
+  public int getControllerButtonLeft() {
+    return controllerButtonLeft;
+  }
+
+  public int getControllerButtonRight() {
+    return controllerButtonRight;
+  }
+
+  public int getControllerButtonUp() {
+    return controllerButtonUp;
+  }
+
+  public boolean isControllerAxisLeftRightInverted() {
+    return isControllerAxisLeftRightInverted;
+  }
+
+  public boolean isControllerAxisUpDownInverted() {
+    return isControllerAxisUpDownInverted;
+  }
+
+  public void setKeyUpMouseName(String keyUpMouseName) {
+    this.keyUpMouseName = keyUpMouseName;
+  }
+
+  public void setKeyDownMouseName(String keyDownMouseName) {
+    this.keyDownMouseName = keyDownMouseName;
+  }
+
+  public void setKeyUpName(String keyUpName) {
+    this.keyUpName = keyUpName;
+  }
+
+  public void setKeyDownName(String keyDownName) {
+    this.keyDownName = keyDownName;
+  }
+
+  public void setKeyLeftName(String keyLeftName) {
+    this.keyLeftName = keyLeftName;
+  }
+
+  public void setKeyRightName(String keyRightName) {
+    this.keyRightName = keyRightName;
+  }
+
+  public void setKeyShootName(String keyShootName) {
+    this.keyShootName = keyShootName;
+  }
+
+  public void setKeyShoot2Name(String keyShoot2Name) {
+    this.keyShoot2Name = keyShoot2Name;
+  }
+
+  public void setKeyAbilityName(String keyAbilityName) {
+    this.keyAbilityName = keyAbilityName;
+  }
+
+  public void setKeyEscapeName(String keyEscapeName) {
+    this.keyEscapeName = keyEscapeName;
+  }
+
+  public void setKeyMapName(String keyMapName) {
+    this.keyMapName = keyMapName;
+  }
+
+  public void setKeyInventoryName(String keyInventoryName) {
+    this.keyInventoryName = keyInventoryName;
+  }
+
+  public void setKeyTalkName(String keyTalkName) {
+    this.keyTalkName = keyTalkName;
+  }
+
+  public void setKeyPauseName(String keyPauseName) {
+    this.keyPauseName = keyPauseName;
+  }
+
+  public void setKeyDropName(String keyDropName) {
+    this.keyDropName = keyDropName;
+  }
+
+  public void setKeySellMenuName(String keySellMenuName) {
+    this.keySellMenuName = keySellMenuName;
+  }
+
+  public void setKeyBuyMenuName(String keyBuyMenuName) {
+    this.keyBuyMenuName = keyBuyMenuName;
+  }
+
+  public void setKeyChangeShipMenuName(String keyChangeShipMenuName) {
+    this.keyChangeShipMenuName = keyChangeShipMenuName;
+  }
+
+  public void setKeyHireShipMenuName(String keyHireShipMenuName) {
+    this.keyHireShipMenuName = keyHireShipMenuName;
+  }
+
+  public void setControllerAxisShoot(int controllerAxisShoot) {
+    this.controllerAxisShoot = controllerAxisShoot;
+  }
+
+  public void setControllerAxisShoot2(int controllerAxisShoot2) {
+    this.controllerAxisShoot2 = controllerAxisShoot2;
+  }
+
+  public void setControllerAxisAbility(int controllerAxisAbility) {
+    this.controllerAxisAbility = controllerAxisAbility;
+  }
+
+  public void setControllerAxisLeftRight(int controllerAxisLeftRight) {
+    this.controllerAxisLeftRight = controllerAxisLeftRight;
+  }
+
+  public void setIsControllerAxisLeftRightInverted(boolean isControllerAxisLeftRightInverted) {
+    this.isControllerAxisLeftRightInverted = isControllerAxisLeftRightInverted;
+  }
+
+  public void setControllerAxisUpDown(int controllerAxisUpDown) {
+    this.controllerAxisUpDown = controllerAxisUpDown;
+  }
+
+  public void setIsControllerAxisUpDownInverted(boolean isControllerAxisUpDownInverted) {
+    this.isControllerAxisUpDownInverted = isControllerAxisUpDownInverted;
+  }
+
+  public void setControllerButtonShoot(int controllerButtonShoot) {
+    this.controllerButtonShoot = controllerButtonShoot;
+  }
+
+  public void setControllerButtonShoot2(int controllerButtonShoot2) {
+    this.controllerButtonShoot2 = controllerButtonShoot2;
+  }
+
+  public void setControllerButtonAbility(int controllerButtonAbility) {
+    this.controllerButtonAbility = controllerButtonAbility;
+  }
+
+  public void setControllerButtonLeft(int controllerButtonLeft) {
+    this.controllerButtonLeft = controllerButtonLeft;
+  }
+
+  public void setControllerButtonRight(int controllerButtonRight) {
+    this.controllerButtonRight = controllerButtonRight;
+  }
+
+  public void setControllerButtonUp(int controllerButtonUp) {
+    this.controllerButtonUp = controllerButtonUp;
+  }
+
+  public int getControllerButtonDown() {
+    return controllerButtonDown;
+  }
+
+  public void setControllerButtonDown(int controllerButtonDown) {
+    this.controllerButtonDown = controllerButtonDown;
   }
 }
