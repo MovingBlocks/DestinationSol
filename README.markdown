@@ -70,7 +70,7 @@ Run any commands in the project root directory
 
 * Download / clone the [source from GitHub](https://github.com/MovingBlocks/DestinationSol)
 * To run from the command line: `gradlew run`
-* To prepare for IntelliJ run: `gradlew idea` then load the generated project files
+* To prepare for IntelliJ run: `gradlew idea` then load the generated project via `DestinationSol.ipr`
 * To create a game package for distribution (Windows, Linux, Mac): `gradlew distZip`
 
 For Android a little extra setup is needed
@@ -82,6 +82,7 @@ For Android a little extra setup is needed
 * In the same window go to Artifacts and add a new Android Application, created from the android module
 * Supply a code signing keystore or supply other debug configuration
 * To run in IntelliJ make sure you have an Android emulator (or USB connection) working then create a run configuration
+* We use `gradlew assembleRelease` to build the APK for Google Play (with the right keystore etc)
 
 You can also run the Android version via Gradle: `gradlew android` - but need your device setup. Need instructions.
 
@@ -109,6 +110,7 @@ Contributors
 * [theotherjay](https://github.com/theotherjay)
 * [LinusVanElswijk](https://github.com/LinusVanElswijk)
 * [SimonC4](https://github.com/SimonC4)
+* [grauerkoala](https://github.com/grauerkoala)
 
 ... and your name here? :-) More coming!
 
