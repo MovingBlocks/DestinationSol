@@ -7,6 +7,7 @@ import com.miloshpetrov.sol2.ui.SolLayouts;
 public class MenuScreens {
   public final MainScreen main;
   public final OptionsScreen options;
+  public final InputMapScreen inputMapScreen;
   public final ResolutionScreen resolutionScreen;
   public final CreditsScreen credits;
   public final LoadingScreen loading;
@@ -17,6 +18,7 @@ public class MenuScreens {
     MenuLayout menuLayout = layouts.menuLayout;
     main = new MainScreen(menuLayout, textureManager, mobile, r, gameOptions);
     options = new OptionsScreen(menuLayout, gameOptions);
+    inputMapScreen = new InputMapScreen(r, gameOptions);
     resolutionScreen = new ResolutionScreen(menuLayout, gameOptions);
     credits = new CreditsScreen(r, gameOptions);
     loading = new LoadingScreen();
