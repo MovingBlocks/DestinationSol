@@ -36,7 +36,7 @@ public class SolGame {
   private final ObjectManager myObjectManager;
   private final SolApplication myCmp;
   private final DraMan myDraMan;
-  private final PlanetMananger myPlanetMananger;
+  private final PlanetManager myPlanetManager;
   private final TextureManager myTextureManager;
   private final ChunkManager myChunkManager;
   private final PartMan myPartMan;
@@ -95,7 +95,7 @@ public class SolGame {
     myAbilityCommonConfigs = new AbilityCommonConfigs(myEffectTypes, myTextureManager, gameColors, mySoundManager);
     hullConfigManager = new HullConfigManager(myShipBuilder, FileManager.getInstance(), textureManager, myItemManager, myAbilityCommonConfigs, mySoundManager);
     myNames = new SolNames();
-    myPlanetMananger = new PlanetMananger(myTextureManager, hullConfigManager, gameColors, myItemManager);
+    myPlanetManager = new PlanetManager(myTextureManager, hullConfigManager, gameColors, myItemManager);
     SolContactListener contactListener = new SolContactListener(this);
     myFractionMan = new FractionMan(myTextureManager);
     myObjectManager = new ObjectManager(contactListener, myFractionMan);
@@ -117,7 +117,7 @@ public class SolGame {
     myTimeFactor = 1;
 
     // from this point we're ready!
-    myPlanetMananger.fill(myNames);
+    myPlanetManager.fill(myNames);
     myGalaxyFiller.fill(this);
     ShipConfig startingShip = usePrevShip ? SaveManager.readShip(hullConfigManager, myItemManager) : null;
     createPlayer(startingShip);
@@ -237,7 +237,7 @@ public class SolGame {
     myTimeStep = Const.REAL_TIME_STEP * myTimeFactor;
     myTime += myTimeStep;
 
-    myPlanetMananger.update(this);
+    myPlanetManager.update(this);
     myCam.update(this);
     myChunkManager.update(this);
     myMountDetectDrawer.update(this);
@@ -279,7 +279,7 @@ public class SolGame {
 
   public void drawDebug(GameDrawer drawer) {
     if (DebugOptions.GRID_SZ > 0) myGridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTex);
-    myPlanetMananger.drawDebug(drawer, this);
+    myPlanetManager.drawDebug(drawer, this);
     myObjectManager.drawDebug(drawer, this);
     if (DebugOptions.ZOOM_OVERRIDE != 0) myCam.drawDebug(drawer);
     drawDebugPoint(drawer, DebugOptions.DEBUG_POINT, DebugCol.POINT);
@@ -318,8 +318,8 @@ public class SolGame {
     return myTextureManager;
   }
 
-  public PlanetMananger getPlanetMan() {
-    return myPlanetMananger;
+  public PlanetManager getPlanetMan() {
+    return myPlanetManager;
   }
 
   public PartMan getPartMan() {
@@ -376,12 +376,12 @@ public class SolGame {
   }
 
   public boolean isPlaceEmpty(Vector2 pos, boolean considerPlanets) {
-    Planet np = myPlanetMananger.getNearestPlanet(pos);
+    Planet np = myPlanetManager.getNearestPlanet(pos);
     if (considerPlanets) {
       boolean inPlanet = np.getPos().dst(pos) < np.getFullHeight();
       if (inPlanet) return false;
     }
-    SolSystem ns = myPlanetMananger.getNearestSystem(pos);
+    SolSystem ns = myPlanetManager.getNearestSystem(pos);
     if (ns.getPos().dst(pos) < SunSingleton.SUN_HOT_RAD) return false;
     List<SolObject> objs = myObjectManager.getObjs();
     for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
