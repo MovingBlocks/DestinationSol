@@ -123,7 +123,7 @@ public class BorderDrawer {
   }
 
   private void drawTishches(UiDrawer drawer, SolGame g, SolCam cam, Vector2 camPos) {
-    PlanetMananger pMan = g.getPlanetMan();
+    PlanetManager pMan = g.getPlanetMan();
     Planet np = pMan.getNearestPlanet();
     if (np != null && np.getPos().dst(camPos) < np.getFullHeight()) return;
     for (int i = 0, myTishchesSize = myTishches.size(); i < myTishchesSize; i++) {
