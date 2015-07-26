@@ -64,6 +64,12 @@ public class MainScreen implements SolUiScreen {
 
   @Override
   public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
+    if (cmp.getOptions().controlType == GameOptions.CONTROL_CONTROLLER) {
+      myTutCtrl.setEnabled(false);
+    } else {
+      myTutCtrl.setEnabled(true);
+    }
+
     if (myTutCtrl.isJustOff()) {
       cmp.loadNewGame(true, false);
       return;
