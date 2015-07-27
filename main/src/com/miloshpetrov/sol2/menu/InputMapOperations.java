@@ -33,6 +33,12 @@ public interface InputMapOperations extends SolUiScreen {
     boolean isEnterNewKey();
 
     /**
+     * Enter a new input key
+     * @param newKey The value to set
+     */
+    void setEnterNewKey(boolean newKey);
+
+    /**
      * States which item in the list is currently selected
      * @param index The index
      */
