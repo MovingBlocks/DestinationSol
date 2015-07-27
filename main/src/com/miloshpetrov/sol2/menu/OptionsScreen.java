@@ -28,7 +28,7 @@ public class OptionsScreen implements SolUiScreen {
     myControls.add(myControlTypeCtrl);
 
     inputMapCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true, Input.Keys.M);
-    inputMapCtrl.setDisplayName("Input Map");
+    inputMapCtrl.setDisplayName("Controls");
     myControls.add(inputMapCtrl);
 
     myBackCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());

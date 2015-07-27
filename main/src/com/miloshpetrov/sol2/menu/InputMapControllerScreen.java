@@ -22,7 +22,6 @@ public class InputMapControllerScreen implements InputMapOperations {
     private static final String HEADER_TEXT = "Controller Inputs";
 
     private final ArrayList<SolUiControl> controls;
-    private final SolUiControl changeCtrl;
     private boolean isEnterNewKey;
     private List<InputConfigItem> itemsList = new ArrayList<InputConfigItem>();
     private int selectedIndex;
@@ -30,9 +29,6 @@ public class InputMapControllerScreen implements InputMapOperations {
 
     public InputMapControllerScreen(InputMapScreen inputMapScreen, GameOptions gameOptions) {
         controls = new ArrayList<SolUiControl>();
-        changeCtrl = new SolUiControl(inputMapScreen.itemCtrl(0), true);
-        changeCtrl.setDisplayName("Change");
-        controls.add(changeCtrl);
     }
 
     private InputConfigItem InitItem(int axis, int button, String displayName) {
@@ -171,33 +167,39 @@ public class InputMapControllerScreen implements InputMapOperations {
 
     @Override
     public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
-        if (changeCtrl.isJustOff()) {
-            isEnterNewKey = !isEnterNewKey;
+    }
 
-            // Can cancel the key entering by clicking this button a second time
-            if (!isEnterNewKey) {
-                Gdx.input.setInputProcessor(null);
-                Controllers.clearListeners();
-                return;
-            }
+    @Override
+    public void setEnterNewKey(boolean newKey){
+        isEnterNewKey = newKey;
 
+        // Cancel the key input
+        if (!isEnterNewKey) {
+            Gdx.input.setInputProcessor(null);
+            Controllers.clearListeners();
+        } else {
+            // Capture the new key input
             // Keyboard items
-                Gdx.input.setInputProcessor(new InputAdapter() {
-                    @Override
-                    public boolean keyUp(int keycode) {
-                        if (selectedIndex >= controllerItems) {
-                            InputConfigItem item = itemsList.get(selectedIndex);
-                            item.setInputKey(Input.Keys.toString(keycode));
-                            itemsList.set(selectedIndex, item);
-                        }
+            Gdx.input.setInputProcessor(new InputAdapter() {
+                @Override
+                public boolean keyUp(int keycode) {
+                    // Don't capture the escape key
+                    if (keycode == Input.Keys.ESCAPE) return true;
 
-                        Gdx.input.setInputProcessor(null);
-                        Controllers.clearListeners();
-
-                        isEnterNewKey = false;
-                        return true; // return true to indicate the event was handled
+                    if (selectedIndex >= controllerItems) {
+                        InputConfigItem item = itemsList.get(selectedIndex);
+                        item.setInputKey(Input.Keys.toString(keycode));
+                        itemsList.set(selectedIndex, item);
                     }
-                });
+
+                    Gdx.input.setInputProcessor(null);
+                    Controllers.clearListeners();
+
+                    isEnterNewKey = false;
+                    return true; // return true to indicate the event was handled
+                }
+            });
+
             // Controller items
             // setup the listener that prints events to the console
             Controllers.addListener(new ControllerListener() {
