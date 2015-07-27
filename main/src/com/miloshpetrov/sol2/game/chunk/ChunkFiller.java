@@ -45,30 +45,40 @@ public class ChunkFiller {
     myDustTex = textureManager.getTex("deco/space/dust", null);
   }
 
-
+  /**
+   * Fill the background of a given chunk with floating junk.
+   *
+   * @param game    The {@link SolGame} instance to work with
+   * @param chunk   The coordinates of the chunk
+   * @param remover
+   * @param farBg   Determines which of the background layers should be filled. <code>true</code> fills the layers furthest away, <code>false</code> fills the closer one.
+   */
   public void fill(SolGame game, Vector2 chunk, RemoveController remover, boolean farBg) {
     if (DebugOptions.NO_OBJS) return;
 
+    // Determine the center of the chunk by multiplying the chunk coordinates with the chunk size and adding half a chunk's size
     Vector2 chCenter = new Vector2(chunk);
     chCenter.scl(Const.CHUNK_SIZE);
     chCenter.add(Const.CHUNK_SIZE / 2, Const.CHUNK_SIZE / 2);
 
+    // Define the density multiplier for different layers of junk in the far background
     float[] densityMul = {1};
+
+    // Get the environment configuration
     SpaceEnvConfig conf = getConfig(game, chCenter, densityMul, remover, farBg);
+
     if (farBg) {
       fillFarJunk(game, chCenter, remover, DraLevel.FAR_DECO_3, conf, densityMul[0]);
       fillFarJunk(game, chCenter, remover, DraLevel.FAR_DECO_2, conf, densityMul[0]);
       fillFarJunk(game, chCenter, remover, DraLevel.FAR_DECO_1, conf, densityMul[0]);
-      return;
+    } else {
+      fillDust(game, chCenter, remover);
+      fillJunk(game, remover, conf, chCenter);
     }
-    fillDust(game, chCenter, remover);
-    fillJunk(game, remover, conf, chCenter);
-
   }
 
   private SpaceEnvConfig getConfig(SolGame game, Vector2 chCenter, float[] densityMul,
-    RemoveController remover, boolean farBg)
-  {
+                                   RemoveController remover, boolean farBg) {
     PlanetManager pm = game.getPlanetMan();
     SolSystem sys = pm.getNearestSystem(chCenter);
     float toSys = sys.getPos().dst(chCenter);
@@ -130,8 +140,7 @@ public class ChunkFiller {
   }
 
   public FarShip buildSpaceEnemy(SolGame game, Vector2 pos, RemoveController remover,
-    ShipConfig enemyConf)
-  {
+                                 ShipConfig enemyConf) {
     if (pos == null) return null;
     Vector2 spd = new Vector2();
     SolMath.fromAl(spd, SolMath.rnd(180), SolMath.rnd(0, ENEMY_MAX_SPD));
@@ -142,7 +151,7 @@ public class ChunkFiller {
     int money = enemyConf.money;
     float angle = SolMath.rnd(180);
     return game.getShipBuilder().buildNewFar(game, pos, spd, angle, rotSpd, provider, enemyConf.items, config,
-      remover, false, money, null, true);
+          remover, false, money, null, true);
   }
 
   private void fillAsteroids(SolGame game, RemoveController remover, boolean forBelt, Vector2 chCenter) {
@@ -163,83 +172,162 @@ public class ChunkFiller {
     }
   }
 
+  /**
+   * Add a bunch of a certain type of junk to the background layers furthest away.
+   * <p/>
+   * This type of junk does not move on its own, it merely changes position as the camera moves, simulating different
+   * depths relative to the camera.
+   *
+   * @param game       The {@link SolGame} instance to work with
+   * @param chCenter   The center of the chunk
+   * @param remover
+   * @param draLevel   The depth of the junk
+   * @param conf       The environment configuration
+   * @param densityMul A density multiplier. This will be multiplied with the density defined in the environment configuration
+   */
   private void fillFarJunk(SolGame game, Vector2 chCenter, RemoveController remover, DraLevel draLevel,
-    SpaceEnvConfig conf, float densityMul)
-  {
+                           SpaceEnvConfig conf, float densityMul) {
     if (conf == null) return;
     int count = getEntityCount(conf.farJunkDensity * densityMul);
     if (count == 0) return;
 
     ArrayList<Dra> dras = new ArrayList<Dra>();
     TextureManager textureManager = game.getTexMan();
+
     for (int i = 0; i < count; i++) {
+      // Select a random far junk texture
       TextureAtlas.AtlasRegion tex = SolMath.elemRnd(conf.farJunkTexs);
+      // Flip texture for every other piece of junk
       if (SolMath.test(.5f)) tex = textureManager.getFlipped(tex);
+      // Choose a random size (within a range)
       float sz = SolMath.rnd(.3f, 1) * FAR_JUNK_MAX_SZ;
+      // Apply a random rotation speed
+      float rotSpd = SolMath.rnd(FAR_JUNK_MAX_ROT_SPD);
+      // Select a random position in the chunk centered around chCenter, relative to the position of the chunk.
       Vector2 junkPos = getRndPos(chCenter);
       junkPos.sub(chCenter);
-      RectSprite s = new RectSprite(tex, sz, 0, 0, junkPos, draLevel, SolMath.rnd(180), SolMath.rnd(FAR_JUNK_MAX_ROT_SPD), SolColor.DDG, false);
+
+      // Create the resulting sprite and add it to the list
+      RectSprite s = new RectSprite(tex, sz, 0, 0, junkPos, draLevel, SolMath.rnd(180), rotSpd, SolColor.DDG, false);
       dras.add(s);
     }
+
+    // Create a common FarDras instance for the pieces of junk and only allow the junk to be drawn when it's not hidden by a planet
     FarDras so = new FarDras(dras, new Vector2(chCenter), new Vector2(), remover, true);
+    // Add the collection of objects to the object manager
     game.getObjMan().addFarObjNow(so);
   }
 
+  /**
+   * Add a bunch of a certain type of junk to the background layer closest to the front.
+   * <p/>
+   * This type of junk moves at the same speed as the camera (similar to the dust) but additionally has its own floating
+   * direction and angle for every individual piece of junk.
+   *
+   * @param game     The {@link SolGame} instance to work with
+   * @param remover
+   * @param conf     The environment configuration
+   * @param chCenter The center of the chunk
+   */
   private void fillJunk(SolGame game, RemoveController remover, SpaceEnvConfig conf, Vector2 chCenter) {
     if (conf == null) return;
     int count = getEntityCount(conf.junkDensity);
     if (count == 0) return;
 
     for (int i = 0; i < count; i++) {
+      // Select a random position in the chunk centered around chCenter, relative to the entire map.
       Vector2 junkPos = getRndPos(chCenter);
 
+      // Select a random junk texture
       TextureAtlas.AtlasRegion tex = SolMath.elemRnd(conf.junkTexs);
+      // Flip texture for every other piece of junk
       if (SolMath.test(.5f)) tex = game.getTexMan().getFlipped(tex);
+      // Choose a random size (within a range)
       float sz = SolMath.rnd(.3f, 1) * JUNK_MAX_SZ;
+      // Apply a random rotation speed
       float rotSpd = SolMath.rnd(JUNK_MAX_ROT_SPD);
+
+      // Create the resulting sprite and add it to the list as the only element
       RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.DECO, SolMath.rnd(180), rotSpd, SolColor.LG, false);
       ArrayList<Dra> dras = new ArrayList<Dra>();
       dras.add(s);
 
+      // Create a FarDras instance for this piece of junk and only allow it to be drawn when it's not hidden by a planet
       Vector2 spd = new Vector2();
       SolMath.fromAl(spd, SolMath.rnd(180), SolMath.rnd(JUNK_MAX_SPD_LEN));
       FarDras so = new FarDras(dras, junkPos, spd, remover, true);
+      // Add the object to the object manager
       game.getObjMan().addFarObjNow(so);
     }
   }
 
+  /**
+   * Add specks of dust to the background layer closest to the front.
+   * <p/>
+   * Dust is fixed in the world and therefore moves opposite to the cameras movement.
+   *
+   * @param game     The {@link SolGame} instance to work with
+   * @param chCenter The center of the chunk
+   * @param remover
+   */
   private void fillDust(SolGame game, Vector2 chCenter, RemoveController remover) {
     ArrayList<Dra> dras = new ArrayList<Dra>();
     int count = getEntityCount(DUST_DENSITY);
     if (count == 0) return;
+
     TextureAtlas.AtlasRegion tex = myDustTex;
     for (int i = 0; i < count; i++) {
+      // Select a random position in the chunk centered around chCenter, relative to the position of the chunk.
       Vector2 dustPos = getRndPos(chCenter);
       dustPos.sub(chCenter);
+      // Create the resulting sprite and add it to the list
       RectSprite s = new RectSprite(tex, DUST_SZ, 0, 0, dustPos, DraLevel.DECO, 0, 0, SolColor.W, false);
       dras.add(s);
     }
+
+    // Create a common FarDras instance for the specks of dust and only allow the dust to be drawn when it's not hidden by a planet
     FarDras so = new FarDras(dras, chCenter, new Vector2(), remover, true);
     game.getObjMan().addFarObjNow(so);
   }
 
+  /**
+   * Find a random position in a chunk centered around chCenter, relative to the entire map, and make sure it is not yet
+   * occupied by another entity.
+   * <p/>
+   * Up to 100 tries will be made to find an unoccupied position; if by then none has been found, <code>null</code> will be returned.
+   *
+   * @param g        The {@link SolGame} instance to work with
+   * @param chCenter The center of a chunk in which a random position should be found
+   * @return A random, unoccupied position in a chunk centered around chCenter, relative to the entire map, or <code>null</code> if within 100 tries no unoccupied position has been found
+   */
   private Vector2 getFreeRndPos(SolGame g, Vector2 chCenter) {
-    Vector2 pos = new Vector2(chCenter);
     for (int i = 0; i < 100; i++) {
-      pos.x += SolMath.rnd(Const.CHUNK_SIZE/2);
-      pos.y += SolMath.rnd(Const.CHUNK_SIZE/2);
+      Vector2 pos = getRndPos(new Vector2(chCenter));
       if (g.isPlaceEmpty(pos, true)) return pos;
     }
     return null;
   }
 
+  /**
+   * Returns a random position in a chunk centered around chCenter, relative to the entire map.
+   *
+   * @param chCenter The center of a chunk in which a random position should be found
+   * @return A random position in a chunk centered around chCenter, relative to the entire map.
+   */
   private Vector2 getRndPos(Vector2 chCenter) {
     Vector2 pos = new Vector2(chCenter);
-    pos.x += SolMath.rnd(Const.CHUNK_SIZE/2);
-    pos.y += SolMath.rnd(Const.CHUNK_SIZE/2);
+    pos.x += SolMath.rnd(Const.CHUNK_SIZE / 2);
+    pos.y += SolMath.rnd(Const.CHUNK_SIZE / 2);
     return pos;
   }
 
+  /**
+   * Determine the number of objects per chunk for a given density, based on the chunk size.
+   * If the number turns out to be less than 1, 1 will be returned randomly with a probability of the resulting number, otherwise 0.
+   *
+   * @param density The density of the objects per chunk
+   * @return The number of objects for the chunk based on the given density.
+   */
   private int getEntityCount(float density) {
     float amt = Const.CHUNK_SIZE * Const.CHUNK_SIZE * density;
     if (amt >= 1) return (int) amt;
