@@ -135,9 +135,14 @@ public class InputMapScreen implements SolUiScreen {
             im.setScreen(cmp, screens.options);
         }
 
-        // Cancel - return to options screen without saving
         if (cancelCtrl.isJustOff()) {
-            im.setScreen(cmp, screens.options);
+            if (operations.isEnterNewKey()) {
+                // Cancel - cancel the current key being entered
+                operations.setEnterNewKey(false);
+            } else {
+                // Cancel - return to options screen without saving
+                im.setScreen(cmp, screens.options);
+            }
         }
 
         // Disable handling of key inputs while entering a new input key
@@ -146,10 +151,16 @@ public class InputMapScreen implements SolUiScreen {
             nextCtrl.setEnabled(false);
             upCtrl.setEnabled(false);
             downCtrl.setEnabled(false);
+            for (int i = 0; i < itemCtrls.length; i++) {
+                itemCtrls[i].setEnabled(false);
+            }
             return;
         } else {
             upCtrl.setEnabled(true);
             downCtrl.setEnabled(true);
+            for (int i = 0; i < itemCtrls.length; i++) {
+                itemCtrls[i].setEnabled(true);
+            }
         }
 
         // Defaults - Reset the input keys back to their default values
@@ -168,6 +179,7 @@ public class InputMapScreen implements SolUiScreen {
             SolUiControl itemCtrl = itemCtrls[i];
             if (itemCtrl.isJustOff()) {
                 selectedIndex = i + offset;
+                operations.setEnterNewKey(true);
             }
         }
 
