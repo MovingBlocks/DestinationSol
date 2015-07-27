@@ -17,18 +17,12 @@ public class InputMapMixedScreen implements InputMapOperations {
     private static final String HEADER_TEXT = "Keyboard and Mouse Inputs";
 
     private final ArrayList<SolUiControl> controls;
-    private final SolUiControl changeCtrl;
     private boolean isEnterNewKey;
     private List<InputConfigItem> itemsList = new ArrayList<InputConfigItem>();
     private int selectedIndex;
 
     public InputMapMixedScreen(InputMapScreen inputMapScreen, GameOptions gameOptions) {
         controls = new ArrayList<SolUiControl>();
-
-        changeCtrl = new SolUiControl(inputMapScreen.itemCtrl(0), true);
-        changeCtrl.setDisplayName("Change");
-        controls.add(changeCtrl);
-
     }
 
     private void InitialiseList(GameOptions gameOptions) {
@@ -137,18 +131,23 @@ public class InputMapMixedScreen implements InputMapOperations {
 
     @Override
     public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
-        if (changeCtrl.isJustOff()) {
-            isEnterNewKey = !isEnterNewKey;
+    }
 
-            // Can cancel the key entering by clicking this button a second time
-            if (!isEnterNewKey) {
-                Gdx.input.setInputProcessor(null);
-                return;
-            }
+    @Override
+    public void setEnterNewKey(boolean newKey){
+        isEnterNewKey = newKey;
 
+        // Cancel the key input
+        if (!isEnterNewKey) {
+            Gdx.input.setInputProcessor(null);
+        } else {
+            // Capture the new key input
             Gdx.input.setInputProcessor(new InputAdapter() {
                 @Override
                 public boolean keyUp (int keycode) {
+                    // Don't capture the escape key
+                    if (keycode == Input.Keys.ESCAPE) return true;
+
                     InputConfigItem item = itemsList.get(selectedIndex);
                     item.setInputKey(Input.Keys.toString(keycode));
                     itemsList.set(selectedIndex, item);
