@@ -43,7 +43,7 @@ public class MainScreen implements SolUiScreen {
     myOptionsCtrl.setDisplayName("Options");
     myControls.add(myOptionsCtrl);
 
-    myExitCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true);
+    myExitCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
     myExitCtrl.setDisplayName("Exit");
     myControls.add(myExitCtrl);
 
