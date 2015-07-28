@@ -30,6 +30,13 @@ public class CreditsScreen implements SolUiScreen {
     myPages = new ArrayList<String>();
     String[][] sss = {
       {
+        "A game from",
+        "",
+        "MovingBlocks"
+      },
+      {
+        "Original Creators",
+        "",
         "Idea, coding, team lead:",
         "Milosh Petrov",
         "",
@@ -43,11 +50,18 @@ public class CreditsScreen implements SolUiScreen {
         "Julia Nikolaeva"
       },
       {
+        "Contributors on GitHub",
+        "",
+        "Cervator",
+        "PrivateAlpha",
+        "theotherjay",
+        "LinusVanElswijk",
+        "SimonC4",
+        "grauerkoala"
+      },
+      {
         "Game engine:",
         "LibGDX",
-        "",
-        "Platform:",
-        "OpenJDK",
         "",
         "Windows wrapper:",
         "Launch4J"
