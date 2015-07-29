@@ -23,6 +23,7 @@ public class SolInputManager {
   private static final float CURSOR_SHOW_TIME = 3;
   public static final float CURSOR_SZ = .07f;
   public static final float WARN_PERC_GROWTH_TIME = 1f;
+  private static final float initialRatio = ((float) Gdx.graphics.getWidth()) / ((float) Gdx.graphics.getHeight());
 
   private final List<SolUiScreen> myScreens;
   private final List<SolUiScreen> myToRemove;
@@ -120,7 +121,9 @@ public class SolInputManager {
 
   private static void setPtrPos(Ptr ptr, int screenX, int screenY) {
     int h = Gdx.graphics.getHeight();
-    ptr.x = 1f * screenX / h;
+    float currentRatio = ((float) Gdx.graphics.getWidth()) / ((float) Gdx.graphics.getHeight());
+
+    ptr.x = 1f * screenX / h * (initialRatio / currentRatio);
     ptr.y = 1f * screenY / h;
   }
 
