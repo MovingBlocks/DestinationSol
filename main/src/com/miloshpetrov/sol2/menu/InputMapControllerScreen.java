@@ -32,9 +32,14 @@ public class InputMapControllerScreen implements InputMapOperations {
     }
 
     private InputConfigItem InitItem(int axis, int button, String displayName) {
+        String inputName;
         boolean isAxis = (axis > -1);
         int controllerInput = isAxis ? axis : button;
-        String inputName = (isAxis ? "Axis: " : "Button: ") + controllerInput;
+        if(controllerInput == -1) {
+            inputName = "";
+        } else {
+            inputName = (isAxis ? "Axis: " : "Button: ") + controllerInput;
+        }
         InputConfigItem item = new InputConfigItem(displayName, inputName, isAxis, controllerInput);
         return item;
     }
@@ -169,6 +174,31 @@ public class InputMapControllerScreen implements InputMapOperations {
     public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     }
 
+    /**
+     * Remove button if it is already assigned to prevent duplicate buttons
+     * @param buttonIndex The keycode to be removed
+     */
+    private void removeDuplicateButtons(int buttonIndex) {
+        for (InputConfigItem item : itemsList ) {
+            if (!item.isAxis() && item.getControllerInput() == buttonIndex) {
+                item.setControllerInput(-1);
+                item.setInputKey("");
+            }
+        }
+    }
+
+    /**
+     * Remove key if it is already assigned to prevent duplicate keys
+     * @param keyCode The keycode to be removed
+     */
+    private void removeDuplicateKeys(int keyCode) {
+        for (InputConfigItem item : itemsList ) {
+            if (Input.Keys.valueOf(item.getInputKey()) == keyCode) {
+                item.setInputKey("");
+            }
+        }
+    }
+
     @Override
     public void setEnterNewKey(boolean newKey){
         isEnterNewKey = newKey;
@@ -187,6 +217,7 @@ public class InputMapControllerScreen implements InputMapOperations {
                     if (keycode == Input.Keys.ESCAPE) return true;
 
                     if (selectedIndex >= controllerItems) {
+                        removeDuplicateKeys(keycode);
                         InputConfigItem item = itemsList.get(selectedIndex);
                         item.setInputKey(Input.Keys.toString(keycode));
                         itemsList.set(selectedIndex, item);
@@ -226,6 +257,7 @@ public class InputMapControllerScreen implements InputMapOperations {
                     System.out.println("#" + indexOf(controller) + ", button " + buttonIndex + " up");
 
                     if (selectedIndex < controllerItems) {
+                        removeDuplicateButtons(buttonIndex);
                         InputConfigItem item = itemsList.get(selectedIndex);
                         item.setIsAxis(false);
                         item.setControllerInput(buttonIndex);
