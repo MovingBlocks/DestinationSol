@@ -133,6 +133,18 @@ public class InputMapMixedScreen implements InputMapOperations {
     public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     }
 
+    /**
+     * Remove key if it is already assigned to prevent duplicate keys
+     * @param keyCode The keycode to be removed
+     */
+    private void removeDuplicateKeys(int keyCode) {
+        for (InputConfigItem item : itemsList ) {
+            if (Input.Keys.valueOf(item.getInputKey()) == keyCode) {
+                item.setInputKey("");
+            }
+        }
+    }
+
     @Override
     public void setEnterNewKey(boolean newKey){
         isEnterNewKey = newKey;
@@ -148,6 +160,7 @@ public class InputMapMixedScreen implements InputMapOperations {
                     // Don't capture the escape key
                     if (keycode == Input.Keys.ESCAPE) return true;
 
+                    removeDuplicateKeys(keycode);
                     InputConfigItem item = itemsList.get(selectedIndex);
                     item.setInputKey(Input.Keys.toString(keycode));
                     itemsList.set(selectedIndex, item);
