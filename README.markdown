@@ -35,7 +35,7 @@ Warnings get posted if you get close to dangerous ships or may soon collide with
 Controls
 --------
 
-Note: You can select either pure keyboard or keyboard + mouse (in the settings). Exact details may change over time. Below are the default key mappings (no mouse)
+Note: You can select either pure keyboard, keyboard + mouse, or controller (in the settings). Exact details may change over time. Below are the default key mappings (no mouse). You can change these in-game.
 
 *Main screen*
 
