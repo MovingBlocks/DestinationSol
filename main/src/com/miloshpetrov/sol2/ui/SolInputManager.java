@@ -211,9 +211,10 @@ public class SolInputManager {
 
   private void updateCursor(SolApplication cmp) {
     if (cmp.isMobile()) return;
+    SolGame game = cmp.getGame();
+
     myMousePos.set(myPtrs[0].x, myPtrs[0].y);
-    if (cmp.getOptions().controlType != GameOptions.CONTROL_KB) {
-      SolGame game = cmp.getGame();
+    if (cmp.getOptions().controlType == GameOptions.CONTROL_MIXED || cmp.getOptions().controlType == GameOptions.CONTROL_MOUSE) {
       if (game == null || myMouseOnUi) {
         myCurrCursor = myUiCursor;
       } else {
@@ -222,7 +223,7 @@ public class SolInputManager {
       }
       return;
     }
-    if (myMousePrevPos.epsilonEquals(myMousePos, 0)) {
+    if (myMousePrevPos.epsilonEquals(myMousePos, 0) && game != null && getTopScreen() != game.getScreens().menuScreen) {
       myMouseIdleTime += Const.REAL_TIME_STEP;
       myCurrCursor = myMouseIdleTime < CURSOR_SHOW_TIME ? myUiCursor : null;
     } else {
