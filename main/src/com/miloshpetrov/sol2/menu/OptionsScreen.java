@@ -54,7 +54,7 @@ public class OptionsScreen implements SolUiScreen {
     if (ct == GameOptions.CONTROL_MIXED) ctName = "KB + Mouse";
     if (ct == GameOptions.CONTROL_MOUSE) ctName = "Mouse";
     if (ct == GameOptions.CONTROL_CONTROLLER) ctName = "Controller";
-    myControlTypeCtrl.setDisplayName("Controls: " + ctName);
+    myControlTypeCtrl.setDisplayName("Input: " + ctName);
     if (myControlTypeCtrl.isJustOff()) {
       cmp.getOptions().advanceControlType(false);
     }
