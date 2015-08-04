@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -11,6 +12,7 @@ import com.miloshpetrov.sol2.*;
 import com.miloshpetrov.sol2.common.SolColor;
 import com.miloshpetrov.sol2.common.SolMath;
 import com.miloshpetrov.sol2.files.FileManager;
+import com.miloshpetrov.sol2.game.DebugOptions;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.GameOptions;
 
@@ -53,7 +55,10 @@ public class SolInputManager {
     myFlashPtr = new Ptr();
     myMousePos = new Vector2();
     myMousePrevPos = new Vector2();
-    Gdx.input.setCursorCatched(true);
+
+    // We want the original mouse cursor to be hidden as we draw our own mouse cursor.
+    Gdx.input.setCursorCatched(false);
+    setMouseCursorHidden();
     myUiCursor = textureManager.getTex("ui/cursor", null);
     myScreens = new ArrayList<SolUiScreen>();
     myToRemove = new ArrayList<SolUiScreen>();
@@ -62,6 +67,19 @@ public class SolInputManager {
 
     FileHandle hoverSoundFile = FileManager.getInstance().getSoundsDirectory().child("ui").child("uiHover.ogg");
     myHoverSound = Gdx.audio.newSound(hoverSoundFile);
+  }
+
+  /**
+   * Hides the mouse cursor by setting it to a transparent image.
+   */
+  private void setMouseCursorHidden() {
+    // When debugging the path has a "main" directory prepended
+    String debugPath = (DebugOptions.DEV_ROOT_PATH == null) ? "" : DebugOptions.DEV_ROOT_PATH;
+
+    // Load the cursor image - the hotspot is where the click point is which is in the middle in this image.
+    Pixmap pm = new Pixmap(Gdx.files.internal(debugPath + "res/imgs/cursorHidden.png"));
+    Gdx.input.setCursorImage(pm, 0, 0);
+    pm.dispose();
   }
 
   public void maybeFlashPressed(int keyCode) {
@@ -129,7 +147,17 @@ public class SolInputManager {
 
   public void update(SolApplication cmp) {
     boolean mobile = cmp.isMobile();
-    if (!mobile) maybeFixMousePos();
+    SolGame game = cmp.getGame();
+
+    // This keeps the mouse within the window, but only when playing the game with the mouse.
+    // All other times the mouse can freely leave and return.
+    if (!mobile && (cmp.getOptions().controlType == GameOptions.CONTROL_MIXED || cmp.getOptions().controlType == GameOptions.CONTROL_MOUSE) &&
+            game != null && getTopScreen() != game.getScreens().menuScreen) {
+      if(!Gdx.input.isCursorCatched()) Gdx.input.setCursorCatched(true);
+      maybeFixMousePos();
+    } else {
+      if(Gdx.input.isCursorCatched()) Gdx.input.setCursorCatched(false);
+    }
 
     updatePtrs();
 
@@ -172,7 +200,6 @@ public class SolInputManager {
       screen.updateCustom(cmp, myPtrs, clickedOutside);
     }
 
-    SolGame game = cmp.getGame();
     TutorialManager tutorialManager = game == null ? null : game.getTutMan();
     if (tutorialManager != null && tutorialManager.isFinished()) {
       cmp.finishGame();
