@@ -47,7 +47,7 @@ public class SolGame {
   private final GridDrawer myGridDrawer;
   private final FarBgMan myFarBgMan;
   private final FarBackgroundManagerOld myFarBackgroundManagerOld;
-  private final FractionMan myFractionMan;
+  private final FactionMan myFactionMan;
   private final MapDrawer myMapDrawer;
   private final ShardBuilder myShardBuilder;
   private final ItemManager myItemManager;
@@ -97,8 +97,8 @@ public class SolGame {
     myNames = new SolNames();
     myPlanetManager = new PlanetManager(myTextureManager, hullConfigManager, gameColors, myItemManager);
     SolContactListener contactListener = new SolContactListener(this);
-    myFractionMan = new FractionMan(myTextureManager);
-    myObjectManager = new ObjectManager(contactListener, myFractionMan);
+    myFactionMan = new FactionMan(myTextureManager);
+    myObjectManager = new ObjectManager(contactListener, myFactionMan);
     myGridDrawer = new GridDrawer(textureManager);
     myChunkManager = new ChunkManager(myTextureManager);
     myPartMan = new PartMan();
@@ -132,7 +132,7 @@ public class SolGame {
     Pilot pilot;
     if (myCmp.getOptions().controlType == GameOptions.CONTROL_MOUSE) {
       myBeaconHandler.init(this, pos);
-      pilot = new AiPilot(new BeaconDestProvider(), true, Fraction.LAANI, false, "you", Const.AI_DET_DIST);
+      pilot = new AiPilot(new BeaconDestProvider(), true, Faction.LAANI, false, "you", Const.AI_DET_DIST);
     } else {
       pilot = new UiControlledPilot(myScreens.mainScreen);
     }
@@ -371,8 +371,8 @@ public class SolGame {
     createPlayer(null);
   }
 
-  public FractionMan getFractionMan() {
-    return myFractionMan;
+  public FactionMan getFactionMan() {
+    return myFactionMan;
   }
 
   public boolean isPlaceEmpty(Vector2 pos, boolean considerPlanets) {

@@ -93,7 +93,7 @@ public class PointProjectileBody implements ProjectileBody {
     public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
       SolObject o = (SolObject) fixture.getBody().getUserData();
       boolean oIsMassless = o instanceof Projectile && ((Projectile) o).isMassless();
-      if (!oIsMassless && myProjectile.shouldCollide(o, fixture, myGame.getFractionMan())) {
+      if (!oIsMassless && myProjectile.shouldCollide(o, fixture, myGame.getFactionMan())) {
         myPos.set(point);
         myProjectile.setObstacle(o, myGame);
         return 0;

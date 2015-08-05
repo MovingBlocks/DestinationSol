@@ -42,7 +42,7 @@ public class UnShield implements ShipAbility {
       if (shield == null) continue;
       float shieldLife = shield.getLife();
       if (shieldLife <= 0) continue;
-      if (!game.getFractionMan().areEnemies(oShip, owner)) continue;
+      if (!game.getFactionMan().areEnemies(oShip, owner)) continue;
       Vector2 oPos = o.getPos();
       float dst = oPos.dst(ownerPos);
       float perc = KnockBack.getPerc(dst, MAX_RADIUS);

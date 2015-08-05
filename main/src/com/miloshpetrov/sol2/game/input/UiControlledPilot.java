@@ -2,7 +2,7 @@ package com.miloshpetrov.sol2.game.input;
 
 
 import com.miloshpetrov.sol2.Const;
-import com.miloshpetrov.sol2.game.Fraction;
+import com.miloshpetrov.sol2.game.Faction;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.screens.MainScreen;
 import com.miloshpetrov.sol2.game.ship.FarShip;
@@ -56,8 +56,8 @@ public class UiControlledPilot implements Pilot {
   }
 
   @Override
-  public Fraction getFraction() {
-    return Fraction.LAANI;
+  public Faction getFaction() {
+    return Faction.LAANI;
   }
 
   @Override

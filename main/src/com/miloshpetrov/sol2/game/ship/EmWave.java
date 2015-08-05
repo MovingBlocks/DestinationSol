@@ -38,7 +38,7 @@ public class EmWave implements ShipAbility {
     for (SolObject o : game.getObjMan().getObjs()) {
       if (!(o instanceof SolShip) || o == owner) continue;
       SolShip oShip = (SolShip) o;
-      if (!game.getFractionMan().areEnemies(oShip, owner)) continue;
+      if (!game.getFactionMan().areEnemies(oShip, owner)) continue;
       Vector2 oPos = o.getPos();
       float dst = oPos.dst(ownerPos);
       float perc = KnockBack.getPerc(dst, MAX_RADIUS);
