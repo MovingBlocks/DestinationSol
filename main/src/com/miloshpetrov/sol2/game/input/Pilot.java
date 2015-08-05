@@ -1,6 +1,6 @@
 package com.miloshpetrov.sol2.game.input;
 
-import com.miloshpetrov.sol2.game.Fraction;
+import com.miloshpetrov.sol2.game.Faction;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.ship.FarShip;
 import com.miloshpetrov.sol2.game.ship.SolShip;
@@ -14,7 +14,7 @@ public interface Pilot {
   boolean isShoot2();
   boolean collectsItems();
   boolean isAbility();
-  Fraction getFraction();
+  Faction getFaction();
   boolean shootsAtObstacles();
   float getDetectionDist();
   String getMapHint();

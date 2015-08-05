@@ -28,8 +28,8 @@ public class Teleport implements ShipAbility {
     myShouldTeleport = false;
     if (!tryToUse) return false;
     Vector2 pos = owner.getPos();
-    Fraction frac = owner.getPilot().getFraction();
-    SolShip ne = game.getFractionMan().getNearestEnemy(game, MAX_RADIUS, frac, pos);
+    Faction faction = owner.getPilot().getFaction();
+    SolShip ne = game.getFactionMan().getNearestEnemy(game, MAX_RADIUS, faction, pos);
     if (ne == null) return false;
     Vector2 nePos = ne.getPos();
     Planet np = game.getPlanetMan().getNearestPlanet();

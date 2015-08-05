@@ -25,7 +25,7 @@ public class GunMount {
     myFixed = !gunSlot.allowsRotation();
   }
 
-  public void update(ItemContainer ic, SolGame game, float shipAngle, SolShip creator, boolean shouldShoot, SolShip nearestEnemy, Fraction fraction) {
+  public void update(ItemContainer ic, SolGame game, float shipAngle, SolShip creator, boolean shouldShoot, SolShip nearestEnemy, Faction faction) {
     if (myGun == null) return;
     if (!ic.contains(myGun.getItem())) {
       setGun(game, creator, null, false);
@@ -53,7 +53,7 @@ public class GunMount {
     }
 
     float gunAngle = shipAngle + myRelGunAngle;
-    myGun.update(ic, game, gunAngle, creator, shouldShoot, fraction);
+    myGun.update(ic, game, gunAngle, creator, shouldShoot, faction);
   }
 
   public GunItem getGun() {

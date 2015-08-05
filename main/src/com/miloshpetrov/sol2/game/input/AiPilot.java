@@ -2,7 +2,7 @@ package com.miloshpetrov.sol2.game.input;
 
 import com.badlogic.gdx.math.Vector2;
 import com.miloshpetrov.sol2.common.SolMath;
-import com.miloshpetrov.sol2.game.Fraction;
+import com.miloshpetrov.sol2.game.Faction;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.gun.GunItem;
 import com.miloshpetrov.sol2.game.gun.GunMount;
@@ -26,7 +26,7 @@ public class AiPilot implements Pilot {
   private final boolean myCollectsItems;
   private final Mover myMover;
   private final Shooter myShooter;
-  private final Fraction myFraction;
+  private final Faction myFaction;
   private final boolean myShootAtObstacles;
   private final String myMapHint;
   private final BattleDestProvider myBattleDestProvider;
@@ -37,7 +37,7 @@ public class AiPilot implements Pilot {
   private PlanetBind myPlanetBind;
   private float myReEquipAwait;
 
-  public AiPilot(MoveDestProvider destProvider, boolean collectsItems, Fraction fraction,
+  public AiPilot(MoveDestProvider destProvider, boolean collectsItems, Faction faction,
     boolean shootAtObstacles, String mapHint, float detectionDist)
   {
     myDestProvider = destProvider;
@@ -46,7 +46,7 @@ public class AiPilot implements Pilot {
     myShooter = new Shooter();
     myBattleDestProvider = new BattleDestProvider();
     myCollectsItems = collectsItems;
-    myFraction = fraction;
+    myFaction = faction;
     myShootAtObstacles = shootAtObstacles;
     myMapHint = mapHint;
     myAbilityUpdater = new AbilityUpdater();
@@ -214,8 +214,8 @@ public class AiPilot implements Pilot {
   }
 
   @Override
-  public Fraction getFraction() {
-    return myFraction;
+  public Faction getFaction() {
+    return myFaction;
   }
 
   @Override

@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.miloshpetrov.sol2.common.SolMath;
-import com.miloshpetrov.sol2.game.Fraction;
+import com.miloshpetrov.sol2.game.Faction;
 import com.miloshpetrov.sol2.game.SolGame;
 import com.miloshpetrov.sol2.game.dra.Dra;
 import com.miloshpetrov.sol2.game.gun.GunItem;
@@ -97,9 +97,9 @@ public class Hull {
       }
     }
 
-    Fraction fraction = ship.getPilot().getFraction();
-    myGunMount1.update(container, game, myAngle, ship, controlsEnabled && provider.isShoot(), nearestEnemy, fraction);
-    if (myGunMount2 != null) myGunMount2.update(container, game, myAngle, ship, controlsEnabled && provider.isShoot2(), nearestEnemy, fraction);
+    Faction faction = ship.getPilot().getFaction();
+    myGunMount1.update(container, game, myAngle, ship, controlsEnabled && provider.isShoot(), nearestEnemy, faction);
+    if (myGunMount2 != null) myGunMount2.update(container, game, myAngle, ship, controlsEnabled && provider.isShoot2(), nearestEnemy, faction);
 
     for (int i = 0, myLightSrcsSize = myLightSrcs.size(); i < myLightSrcsSize; i++) {
       LightSrc src = myLightSrcs.get(i);
