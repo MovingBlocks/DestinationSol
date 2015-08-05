@@ -29,15 +29,15 @@ public class ForceBeacon {
 
   public void update(SolGame game, Vector2 basePos, float baseAngle, SolShip ship) {
     Vector2 pos = SolMath.toWorld(myRelPos, baseAngle, basePos);
-    Vector2 spd = SolMath.distVec(myPrevPos, pos).scl(1/game.getTimeStep());
-    Fraction frac = ship.getPilot().getFraction();
-    pullShips(game, ship, pos, spd, frac, MAX_PULL_DIST);
+    Vector2 spd = SolMath.distVec(myPrevPos, pos).scl(1 / game.getTimeStep());
+    Faction faction = ship.getPilot().getFaction();
+    pullShips(game, ship, pos, spd, faction, MAX_PULL_DIST);
     SolMath.free(spd);
     myPrevPos.set(pos);
     SolMath.free(pos);
   }
 
-  public static SolShip pullShips(SolGame game, SolObject owner, Vector2 ownPos, Vector2 ownSpd, Fraction frac,
+  public static SolShip pullShips(SolGame game, SolObject owner, Vector2 ownPos, Vector2 ownSpd, Faction faction,
     float maxPullDist)
   {
     SolShip res = null;
@@ -50,7 +50,7 @@ public class ForceBeacon {
       SolShip ship = (SolShip) o;
       Pilot pilot = ship.getPilot();
       if (pilot.isUp() || pilot.isLeft() || pilot.isRight()) continue;
-      if (game.getFractionMan().areEnemies(frac, pilot.getFraction())) continue;
+      if (game.getFactionMan().areEnemies(faction, pilot.getFaction())) continue;
       Vector2 toMe = SolMath.distVec(ship.getPos(), ownPos);
       float toMeLen = toMe.len();
       if (toMeLen < maxPullDist) {

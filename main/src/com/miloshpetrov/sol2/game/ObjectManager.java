@@ -26,7 +26,7 @@ public class ObjectManager {
   private float myFarBeginDist;
   private float myRadiusRecalcAwait;
 
-  public ObjectManager(SolContactListener contactListener, FractionMan fractionMan) {
+  public ObjectManager(SolContactListener contactListener, FactionMan factionMan) {
     myObjs = new ArrayList<SolObject>();
     myToRemove = new ArrayList<SolObject>();
     myToAdd = new ArrayList<SolObject>();
@@ -35,7 +35,7 @@ public class ObjectManager {
     myFarPorts = new ArrayList<StarPort.MyFar>();
     myWorld = new World(new Vector2(0, 0), true);
     myWorld.setContactListener(contactListener);
-    myWorld.setContactFilter(new SolContactFilter(fractionMan));
+    myWorld.setContactFilter(new SolContactFilter(factionMan));
     myDr = new Box2DDebugRenderer();
     myRadii = new HashMap<SolObject, Float>();
   }

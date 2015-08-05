@@ -1,0 +1,97 @@
+Name: CIVILIANS
+Description: Peaceful ships doing their own business. Mostly related to trading.
+Color: Any
+Ship design: Any
+Ability: None
+Seen in:
+  Space:
+    big ships -- traders (bus.png)
+  Planets:
+    trade posts (drome.png)
+
+
+Name: EMPIRE
+Description: A faction of a player. Good guys hanging around in space and fighting evil.
+Color: White
+Ship design: Resemble aircraft, have wings, are in good condition
+Ability: Time Slow Down
+Seen in:
+  Space:
+    small ships -- guards of civilian ships (imperialSmall.png)
+    small ships -- explorers (imperialMedium.png),
+    medium ships -- station guards (imperialBig.png),
+    stations (station.png),
+
+
+Name: PIRATES
+Description: Basic bad guys seen in 1st system and green planets
+Color: Red + Grey
+Ship design: Low-quality hand-made ships made from crap and details of other ships, highly asymmetrical
+Ability: UnShield (drains shield energy)
+Seen in:
+  Space:
+    turrets (pirateSpaceTurret.png)
+    small ships -- truck guards (pirateSmall.png)
+    medium ships -- hunters, station guards (pirateMedium.png)
+    big ships -- trucks (truck.png)
+  Green planet:
+    turrets (piratePlanetTurret.png)
+    small ships (pirateSmall.png)
+    medium ships -- orbiters (pirateOrbiter.png)
+
+
+Name: DESERT CLAN
+Description: Tough bad guys seen in desert planets and space of 2nd system
+Color: Copper/Brass
+Ship design: Should resemble works of brass or copper -- cezve, lamps, etc
+Ability: teleport (teleports ship around its enemy to avoid projectiles and just for fun)
+Seen in:
+  Space:
+    turrets (desertSpaceTurret.png)
+    small ships(desertSmall.png)
+    medium ships -- hunters (desertMedium.png)
+    big ships(desertBoss.png)
+  Desert planet:
+    turrets (desertPlanetTurret.png)
+    small ships(desertSmall.png)
+    medium ships -- orbiters(desertOrbiter.png)
+
+
+Name: MINERS
+Description: Bad guys seen in mazes and asteroid belts
+Color: Construction yellow + Metal? (should look good with the blue maze crystals)
+Ship design: Should resemble electric instruments -- drills, chainsaws etc.
+Ability: KnockBack (knocks everything back)
+Seen in:
+  Asteroid belt:
+    small ships (minerSmall.png)
+    medium ships (minerMedium.png)
+  Maze:
+    turrets -- inner enemies(minerTurret.png)
+    small ships -- inner enemies
+    medium ships -- outer enemies
+    medium ship -- boss  (minerBoss.png)
+    chests?
+
+
+Name: TECHIES
+Description: Advanced bad guys seen in frozen planets (only in 1st systems)
+Color: Metallic blue-ish grey
+Ship design: Blade-like
+Ability: EM wave
+Seen in:
+  Frozen planet:
+    turrets (techiePlanetTurret.png)
+    small ships (techieSmall.png)
+    medium ships -- orbiters (techieOrbiter.png)
+
+
+=============================== NICE TO HAVE:
+
+big ships:
+  civilian trader
+  empire frigate
+stations:
+  civilian space research station
+  civilian planet mercenary base
+  space & planet enemy bases

@@ -160,7 +160,7 @@ public class BeaconHandler {
     Action action;
     Pilot targetPilot = findPilotInPos(g, pos, onMap, clicked);
     if (targetPilot != null) {
-      boolean enemies = g.getFractionMan().areEnemies(targetPilot.getFraction(), g.getHero().getPilot().getFraction());
+      boolean enemies = g.getFactionMan().areEnemies(targetPilot.getFaction(), g.getHero().getPilot().getFaction());
       if (enemies) {
         action = Action.ATTACK;
         if (clicked) {

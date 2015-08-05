@@ -167,7 +167,7 @@ public class SolShip implements SolObject {
 
   @Override
   public void update(SolGame game) {
-    SolShip nearestEnemy = game.getFractionMan().getNearestEnemy(game, this);
+    SolShip nearestEnemy = game.getFactionMan().getNearestEnemy(game, this);
     myPilot.update(game, this, nearestEnemy);
     myHull.update(game, myItemContainer, myPilot, this, nearestEnemy);
 

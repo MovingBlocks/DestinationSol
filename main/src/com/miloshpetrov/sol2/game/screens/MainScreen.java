@@ -213,7 +213,7 @@ public class MainScreen implements SolUiScreen {
       talkCtrl.setEnabled(false);
       return;
     }
-    FractionMan fracMan = game.getFractionMan();
+    FactionMan factionMan = game.getFactionMan();
 
     SolShip target = null;
     float minDist = TalkScreen.MAX_TALK_DIST;
@@ -223,7 +223,7 @@ public class MainScreen implements SolUiScreen {
       SolObject o = objs.get(i);
       if (!(o instanceof SolShip)) continue;
       SolShip ship = (SolShip) o;
-      if (fracMan.areEnemies(hero, ship)) continue;
+      if (factionMan.areEnemies(hero, ship)) continue;
       if (ship.getTradeContainer() == null) continue;
       float dst = ship.getPos().dst(hero.getPos());
       float ar = ship.getHull().config.getApproxRadius();
@@ -493,7 +493,7 @@ public class MainScreen implements SolUiScreen {
       if (h == null) return false;
       float heroCap = HardnessCalc.getShipDmgCap(h);
       List<SolObject> objs = game.getObjMan().getObjs();
-      FractionMan fm = game.getFractionMan();
+      FactionMan fm = game.getFactionMan();
       SolCam cam = game.getCam();
       float viewDist = cam.getViewDist();
       float dps = 0;

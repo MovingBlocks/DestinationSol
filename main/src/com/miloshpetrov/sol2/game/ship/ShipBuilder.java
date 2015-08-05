@@ -91,7 +91,7 @@ public class ShipBuilder {
     ClipConfig cc = gc.clipConf;
     if (cc.infinite) return;
     float clipUseTime = cc.size * gc.timeBetweenShots + gc.reloadTime;
-    float lifeTime = pilot.getFraction() == Fraction.LAANI ? AVG_ALLY_LIFE_TIME : AVG_BATTLE_TIME;
+    float lifeTime = pilot.getFaction() == Faction.LAANI ? AVG_ALLY_LIFE_TIME : AVG_BATTLE_TIME;
     int count = 1 + (int) (lifeTime / clipUseTime) + SolMath.intRnd(0, 2);
     for (int i = 0; i < count; i++) {
       if (ic.canAdd(cc.example)) ic.add(cc.example.copy());
@@ -106,7 +106,7 @@ public class ShipBuilder {
         if (pilot.isPlayer()) {
           count = 3;
         } else {
-          float lifeTime = pilot.getFraction() == Fraction.LAANI ? AVG_ALLY_LIFE_TIME : AVG_BATTLE_TIME;
+          float lifeTime = pilot.getFaction() == Faction.LAANI ? AVG_ALLY_LIFE_TIME : AVG_BATTLE_TIME;
           count = (int) (lifeTime / hc.getAbility().getRechargeTime() * SolMath.rnd(.3f, 1));
         }
         for (int i = 0; i < count; i++) ic.add(ex.copy());

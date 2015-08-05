@@ -48,8 +48,8 @@ public class Door {
   }
 
   private boolean shouldOpen(SolGame game, SolShip ship, Vector2 doorPos) {
-    Fraction frac = ship.getPilot().getFraction();
-    FractionMan fracMan = game.getFractionMan();
+    Faction faction = ship.getPilot().getFaction();
+    FactionMan factionMan = game.getFactionMan();
     List<SolObject> objs = game.getObjMan().getObjs();
     for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
       SolObject o = objs.get(i);
@@ -58,7 +58,7 @@ public class Door {
       SolShip ship2 = (SolShip) o;
       Pilot pilot2 = ship2.getPilot();
       if (!pilot2.isUp()) continue;
-      if (fracMan.areEnemies(pilot2.getFraction(), frac)) continue;
+      if (factionMan.areEnemies(pilot2.getFaction(), faction)) continue;
       if (ship2.getPos().dst(doorPos) < SENSOR_DIST) return true;
     }
     return false;

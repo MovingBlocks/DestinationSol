@@ -24,7 +24,7 @@ public class
   private static final float MIN_ANGLE_TO_GUIDE = 2f;
   private final ArrayList<Dra> myDras;
   private final ProjectileBody myBody;
-  private final Fraction myFraction;
+  private final Faction myFaction;
   private final ParticleSrc myBodyEffect;
   private final ParticleSrc myTrailEffect;
   private final LightSrc myLightSrc;
@@ -34,7 +34,7 @@ public class
   private SolObject myObstacle;
   private boolean myDamageDealt;
 
-  public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpd, Fraction fraction,
+  public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpd, Faction faction,
     ProjectileConfig config, boolean varySpd)
   {
     myDras = new ArrayList<Dra>();
@@ -54,7 +54,7 @@ public class
     } else {
       myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, spdLen, this, game, myConfig.acc);
     }
-    myFraction = fraction;
+    myFaction = faction;
     myBodyEffect = buildEffect(game, myConfig.bodyEffect, DraLevel.PART_BG_0, null, true);
     myTrailEffect = buildEffect(game, myConfig.trailEffect, DraLevel.PART_BG_0, null, false);
     if (myConfig.lightSz > 0) {
@@ -102,7 +102,7 @@ public class
   private void maybeGuide(SolGame game) {
     if (myConfig.guideRotSpd == 0) return;
     float ts = game.getTimeStep();
-    SolShip ne = game.getFractionMan().getNearestEnemy(game, this);
+    SolShip ne = game.getFactionMan().getNearestEnemy(game, this);
     if (ne == null) return;
     float desiredAngle = myBody.getDesiredAngle(ne);
     float angle = getAngle();
@@ -199,14 +199,14 @@ public class
     return true;
   }
 
-  public Fraction getFraction() {
-    return myFraction;
+  public Faction getFaction() {
+    return myFaction;
   }
 
-  public boolean shouldCollide(SolObject o, Fixture f, FractionMan fractionMan) {
+  public boolean shouldCollide(SolObject o, Fixture f, FactionMan factionMan) {
     if (o instanceof SolShip) {
       SolShip s = (SolShip) o;
-      if (!fractionMan.areEnemies(s.getPilot().getFraction(), myFraction)) return false;
+      if (!factionMan.areEnemies(s.getPilot().getFaction(), myFaction)) return false;
       if (s.getHull().getShieldFixture() == f) {
         if (myConfig.density > 0) return false;
         Shield shield = s.getShield();
@@ -215,13 +215,13 @@ public class
       return true;
     }
     if (o instanceof Projectile) {
-      if (!fractionMan.areEnemies(((Projectile) o).myFraction, myFraction)) return false;
+      if (!factionMan.areEnemies(((Projectile) o).myFaction, myFaction)) return false;
     }
     return true;
   }
 
   public void setObstacle(SolObject o, SolGame game) {
-    if (!shouldCollide(o, null, game.getFractionMan())) return; // happens for some reason when projectile is just created
+    if (!shouldCollide(o, null, game.getFactionMan())) return; // happens for some reason when projectile is just created
     myObstacle = o;
   }
 

@@ -49,7 +49,7 @@ public class PlanetObjectsBuilder {
 
     ShipConfig cfg = planet.getConfig().stationConfig;
     if (cfg != null) {
-      FarShip b = buildGroundShip(game, planet, cfg, planet.getConfig().tradeConfig, Fraction.LAANI, takenAngles, "Station");
+      FarShip b = buildGroundShip(game, planet, cfg, planet.getConfig().tradeConfig, Faction.LAANI, takenAngles, "Station");
       game.getObjMan().addFarObjNow(b);
     }
 
@@ -59,7 +59,7 @@ public class PlanetObjectsBuilder {
     for (ShipConfig ge : config.groundEnemies) {
       int count = (int) (ge.density * gh);
       for (int i = 0; i < count; i++) {
-        FarShip e = buildGroundShip(game, planet, ge, null, Fraction.EHAR, takenAngles, null);
+        FarShip e = buildGroundShip(game, planet, ge, null, Faction.EHAR, takenAngles, null);
         game.getObjMan().addFarObjNow(e);
       }
     }
@@ -270,13 +270,13 @@ public class PlanetObjectsBuilder {
 
   public FarShip buildGroundShip(SolGame game, Planet planet, ShipConfig ge,
     TradeConfig tc,
-    Fraction fraction, ConsumedAngles takenAngles, String mapHint)
+    Faction faction, ConsumedAngles takenAngles, String mapHint)
   {
     Vector2 pos = game.getPlanetMan().findFlatPlace(game, planet, takenAngles, ge.hull.getApproxRadius());
     boolean station = ge.hull.getType() == HullConfig.Type.STATION;
     String ic = ge.items;
     boolean hasRepairer;
-    hasRepairer = fraction == Fraction.LAANI;
+    hasRepairer = faction == Faction.LAANI;
     int money = ge.money;
     float height = pos.len();
     float aboveGround;
@@ -294,7 +294,7 @@ public class PlanetObjectsBuilder {
     Vector2 spd = new Vector2(toPlanet).nor();
     SolMath.free(toPlanet);
 
-    Pilot provider = new AiPilot(new StillGuard(pos, game, ge), false, fraction, true, mapHint, Const.AI_DET_DIST);
+    Pilot provider = new AiPilot(new StillGuard(pos, game, ge), false, faction, true, mapHint, Const.AI_DET_DIST);
 
     return game.getShipBuilder().buildNewFar(game, pos, spd, angle, 0, provider, ic, ge.hull,
       null, hasRepairer, money, tc, true);
@@ -315,7 +315,7 @@ public class PlanetObjectsBuilder {
     SolMath.free(v);
 
     OrbiterDestProvider dp = new OrbiterDestProvider(planet, height, cw);
-    Pilot provider = new AiPilot(dp, false, Fraction.EHAR, true, null, detDist);
+    Pilot provider = new AiPilot(dp, false, Faction.EHAR, true, null, detDist);
 
     int money = oe.money;
 

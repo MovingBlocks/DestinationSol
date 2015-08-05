@@ -59,7 +59,7 @@ public class BorderDrawer {
     SolShip hero = g.getHero();
     drawTishches(drawer, g, cam, camPos);
     MapDrawer mapDrawer = g.getMapDrawer();
-    FractionMan fracMan = g.getFractionMan();
+    FactionMan factionMan = g.getFactionMan();
     float heroDmgCap = hero == null ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero);
 
     List<SolObject> objs = g.getObjMan().getObjs();
@@ -68,10 +68,10 @@ public class BorderDrawer {
       if ((o instanceof SolShip)) {
         SolShip ship = (SolShip) o;
         Vector2 shipPos = ship.getPos();
-        Fraction shipFrac = ship.getPilot().getFraction();
+        Faction shipFaction = ship.getPilot().getFaction();
         float shipSize = ship.getHull().config.getSize();
         float shipAngle = ship.getAngle();
-        maybeDrawIcon(drawer, shipPos, cam, shipSize, shipAngle, mapDrawer, fracMan, hero, shipFrac, o, heroDmgCap, ship.getHull().config.getIcon());
+        maybeDrawIcon(drawer, shipPos, cam, shipSize, shipAngle, mapDrawer, factionMan, hero, shipFaction, o, heroDmgCap, ship.getHull().config.getIcon());
       }
       if ((o instanceof StarPort)) {
         StarPort sp = (StarPort) o;
@@ -83,10 +83,10 @@ public class BorderDrawer {
     for (int i = 0, farObjsSize = farShips.size(); i < farObjsSize; i++) {
       FarShip ship = farShips.get(i);
       Vector2 shipPos = ship.getPos();
-      Fraction shipFrac = ship.getPilot().getFraction();
+      Faction shipFaction = ship.getPilot().getFaction();
       float shipSize = ship.getHullConfig().getSize();
       float shipAngle = ship.getAngle();
-      maybeDrawIcon(drawer, shipPos, cam, shipSize, shipAngle, mapDrawer, fracMan, hero, shipFrac, ship, heroDmgCap, ship.getHullConfig().getIcon());
+      maybeDrawIcon(drawer, shipPos, cam, shipSize, shipAngle, mapDrawer, factionMan, hero, shipFaction, ship, heroDmgCap, ship.getHullConfig().getIcon());
     }
     List<StarPort.MyFar> farPorts = g.getObjMan().getFarPorts();
     for (int i = 0, sz = farPorts.size(); i < sz; i++) {
@@ -96,8 +96,8 @@ public class BorderDrawer {
   }
 
   private void maybeDrawIcon(UiDrawer drawer, Vector2 pos, SolCam cam, float objSize,
-    float objAngle, MapDrawer mapDrawer, FractionMan fracMan, SolShip hero,
-    Fraction objFrac, Object shipHack, float heroDmgCap, TextureAtlas.AtlasRegion icon)
+    float objAngle, MapDrawer mapDrawer, FactionMan factionMan, SolShip hero,
+    Faction objFac, Object shipHack, float heroDmgCap, TextureAtlas.AtlasRegion icon)
   {
     Vector2 camPos = cam.getPos();
     float closeness = 1 - pos.dst(camPos) / MAX_ICON_DIST;
@@ -119,7 +119,7 @@ public class BorderDrawer {
     myTmpVec.scl(mul);
     myTmpVec.add(drawer.r/2, .5f);
 
-    mapDrawer.drawObjIcon(sz, myTmpVec, objAngle - camAngle, fracMan, hero, objFrac, heroDmgCap, shipHack, icon, drawer);
+    mapDrawer.drawObjIcon(sz, myTmpVec, objAngle - camAngle, factionMan, hero, objFac, heroDmgCap, shipHack, icon, drawer);
   }
 
   private void drawTishches(UiDrawer drawer, SolGame g, SolCam cam, Vector2 camPos) {

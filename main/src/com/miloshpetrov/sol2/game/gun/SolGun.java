@@ -49,7 +49,7 @@ public class SolGun {
     return myDras;
   }
 
-  private void shoot(Vector2 gunSpd, SolGame game, float gunAngle, Vector2 muzzlePos, Fraction fraction, SolObject creator) {
+  private void shoot(Vector2 gunSpd, SolGame game, float gunAngle, Vector2 muzzlePos, Faction faction, SolObject creator) {
     Vector2 baseSpd = gunSpd;
     ClipConfig cc = myItem.config.clipConf;
     if (cc.projConfig.zeroAbsSpd) {
@@ -66,7 +66,7 @@ public class SolGun {
     for (int i = 0; i < cc.projectilesPerShot; i++) {
       float bulletAngle = gunAngle;
       if(myCurrAngleVar > 0) bulletAngle += SolMath.rnd(myCurrAngleVar);
-      Projectile proj = new Projectile(game, bulletAngle, muzzlePos, baseSpd, fraction, cc.projConfig, multiple);
+      Projectile proj = new Projectile(game, bulletAngle, muzzlePos, baseSpd, faction, cc.projConfig, multiple);
       game.getObjMan().addObjDelayed(proj);
     }
     myCoolDown += myItem.config.timeBetweenShots;
@@ -74,7 +74,7 @@ public class SolGun {
     game.getSoundMan().play(game, myItem.config.shootSound, muzzlePos, creator);
   }
 
-  public void update(ItemContainer ic, SolGame game, float gunAngle, SolObject creator, boolean shouldShoot, Fraction fraction) {
+  public void update(ItemContainer ic, SolGame game, float gunAngle, SolObject creator, boolean shouldShoot, Faction faction) {
     float baseAngle = creator.getAngle();
     Vector2 basePos = creator.getPos();
     float gunRelAngle = gunAngle - baseAngle;
@@ -103,7 +103,7 @@ public class SolGun {
     boolean shot = shouldShoot && myCoolDown <= 0 && myItem.ammo > 0;
     if (shot) {
       Vector2 gunSpd = creator.getSpd();
-      shoot(gunSpd, game, gunAngle, muzzlePos, fraction, creator);
+      shoot(gunSpd, game, gunAngle, muzzlePos, faction, creator);
     } else {
       myCurrAngleVar = SolMath.approach(myCurrAngleVar, myItem.config.minAngleVar, myItem.config.angleVarDamp * ts);
     }
