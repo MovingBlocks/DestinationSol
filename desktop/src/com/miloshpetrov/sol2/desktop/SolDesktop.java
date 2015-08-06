@@ -9,6 +9,7 @@ import com.miloshpetrov.sol2.SolApplication;
 import com.miloshpetrov.sol2.SolFileReader;
 import com.miloshpetrov.sol2.game.DebugOptions;
 import com.miloshpetrov.sol2.soundtest.SoundTestListener;
+import org.lwjgl.Sys;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -53,6 +54,14 @@ public class SolDesktop {
         } else {
             c.addIcon(DebugOptions.DEV_ROOT_PATH + "res/icon.png", Files.FileType.Absolute);
         }
+
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException (Thread thread, final Throwable ex) {
+                System.err.println("Critical Failure" + ex.getLocalizedMessage());
+                Sys.alert("Critical Failure", ex.getLocalizedMessage());
+            }
+        });
 
         new LwjglApplication(new SolApplication(), c);
     }
