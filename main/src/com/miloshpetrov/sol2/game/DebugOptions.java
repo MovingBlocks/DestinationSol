@@ -48,33 +48,33 @@ public class DebugOptions {
   public static void read(SolFileReader reader) {
     IniReader r = new IniReader("debugOptions.ini", reader, true);
 
-    EMULATE_MOBILE = r.b("emulateMobile", EMULATE_MOBILE);
-    SPAWN_PLACE = r.s("spawnPlace", SPAWN_PLACE);
-    FORCE_PLANET_TYPE = r.s("forcePlanetType", FORCE_PLANET_TYPE);
-    FORCE_SYSTEM_TYPE = r.s("forceSystemType", FORCE_SYSTEM_TYPE);
-    NO_OBJS = r.b("noObjs", NO_OBJS);
-    GOD_MODE = r.b("godMode", GOD_MODE);
-    NO_DRAS = r.b("noDras", NO_DRAS);
-    ZOOM_OVERRIDE = r.f("zoomOverride", ZOOM_OVERRIDE);
-    GRID_SZ = r.f("gridSz", GRID_SZ);
-    GAME_SPEED_MULTIPLIER = r.f("gameSpeedMultiplier", GAME_SPEED_MULTIPLIER);
-    DIRECT_CAM_CONTROL = r.b("directCamControl", DIRECT_CAM_CONTROL);
-    DETAILED_MAP = r.b("detailedMap", DETAILED_MAP);
-    NO_SOUND = r.b("noSound", NO_SOUND);
-    SOUND_IN_SPACE = r.b("soundInSpace", SOUND_IN_SPACE);
-    SHOW_WARNINGS = r.b("showWarnings", SHOW_WARNINGS);
-    SHOW_FPS = r.b("showFps", SHOW_FPS);
-    DRAW_OBJ_BORDERS = r.b("drawObjBorders", DRAW_OBJ_BORDERS);
-    DRAW_DRA_BORDERS = r.b("drawDraBorders", DRAW_DRA_BORDERS);
-    DRAW_PHYSIC_BORDERS = r.b("drawPhysicBorders", DRAW_PHYSIC_BORDERS);
-    DRAW_PLANET_BORDERS = r.b("drawPlanetBorders", DRAW_PLANET_BORDERS);
-    MISC_INFO = r.b("miscInfo", MISC_INFO);
-    OBJ_INFO = r.b("objInfo", OBJ_INFO);
-    SOUND_INFO = r.b("soundInfo", SOUND_INFO);
-    TEX_INFO = r.b("texInfo", TEX_INFO);
-    MISSING_SOUND_ACTION = MissingResourceAction.forName(r.s("missingSoundAction", MissingResourceAction.IGNORE.name));
-    MISSING_TEXTURE_ACTION = MissingResourceAction.forName(r.s("missingTextureAction", MissingResourceAction.IGNORE.name));
-    MISSING_PHYSICS_ACTION = MissingResourceAction.forName(r.s("missingPhysicsAction", MissingResourceAction.IGNORE.name));
+    EMULATE_MOBILE = r.getBoolean("emulateMobile", EMULATE_MOBILE);
+    SPAWN_PLACE = r.getString("spawnPlace", SPAWN_PLACE);
+    FORCE_PLANET_TYPE = r.getString("forcePlanetType", FORCE_PLANET_TYPE);
+    FORCE_SYSTEM_TYPE = r.getString("forceSystemType", FORCE_SYSTEM_TYPE);
+    NO_OBJS = r.getBoolean("noObjs", NO_OBJS);
+    GOD_MODE = r.getBoolean("godMode", GOD_MODE);
+    NO_DRAS = r.getBoolean("noDras", NO_DRAS);
+    ZOOM_OVERRIDE = r.getFloat("zoomOverride", ZOOM_OVERRIDE);
+    GRID_SZ = r.getFloat("gridSz", GRID_SZ);
+    GAME_SPEED_MULTIPLIER = r.getFloat("gameSpeedMultiplier", GAME_SPEED_MULTIPLIER);
+    DIRECT_CAM_CONTROL = r.getBoolean("directCamControl", DIRECT_CAM_CONTROL);
+    DETAILED_MAP = r.getBoolean("detailedMap", DETAILED_MAP);
+    NO_SOUND = r.getBoolean("noSound", NO_SOUND);
+    SOUND_IN_SPACE = r.getBoolean("soundInSpace", SOUND_IN_SPACE);
+    SHOW_WARNINGS = r.getBoolean("showWarnings", SHOW_WARNINGS);
+    SHOW_FPS = r.getBoolean("showFps", SHOW_FPS);
+    DRAW_OBJ_BORDERS = r.getBoolean("drawObjBorders", DRAW_OBJ_BORDERS);
+    DRAW_DRA_BORDERS = r.getBoolean("drawDraBorders", DRAW_DRA_BORDERS);
+    DRAW_PHYSIC_BORDERS = r.getBoolean("drawPhysicBorders", DRAW_PHYSIC_BORDERS);
+    DRAW_PLANET_BORDERS = r.getBoolean("drawPlanetBorders", DRAW_PLANET_BORDERS);
+    MISC_INFO = r.getBoolean("miscInfo", MISC_INFO);
+    OBJ_INFO = r.getBoolean("objInfo", OBJ_INFO);
+    SOUND_INFO = r.getBoolean("soundInfo", SOUND_INFO);
+    TEX_INFO = r.getBoolean("texInfo", TEX_INFO);
+    MISSING_SOUND_ACTION = MissingResourceAction.forName(r.getString("missingSoundAction", MissingResourceAction.IGNORE.name));
+    MISSING_TEXTURE_ACTION = MissingResourceAction.forName(r.getString("missingTextureAction", MissingResourceAction.IGNORE.name));
+    MISSING_PHYSICS_ACTION = MissingResourceAction.forName(r.getString("missingPhysicsAction", MissingResourceAction.IGNORE.name));
   }
 
 }
