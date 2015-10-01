@@ -38,24 +38,24 @@ public class IniReader {
     return res;
   }
 
-  public String s(String key, String def) {
+  public String getString(String key, String defaultValue) {
     String st = myVals.get(key);
-    return st == null ? def : st;
+    return st == null ? defaultValue : st;
   }
 
-  public int i(String key, int def) {
+  public int getInt(String key, int defaultValue) {
     String st = myVals.get(key);
-    return st == null ? def : Integer.parseInt(st);
+    return st == null ? defaultValue : Integer.parseInt(st);
   }
 
-  public boolean b(String key, boolean def) {
+  public boolean getBoolean(String key, boolean defaultValue) {
     String st = myVals.get(key);
-    return st == null ? def : "true".equalsIgnoreCase(st);
+    return st == null ? defaultValue : "true".equalsIgnoreCase(st);
   }
 
-  public float f(String key, float def) {
+  public float getFloat(String key, float defaultValue) {
     String st = myVals.get(key);
-    return st == null ? def : Float.parseFloat(st);
+    return st == null ? defaultValue : Float.parseFloat(st);
   }
 
   public static void write(String fileName, Object ... keysVals) {
