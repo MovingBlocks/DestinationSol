@@ -75,8 +75,8 @@ public class SoundManager {
   private float[] loadSoundParams(String paramsPath) {
     float[] r = {0, 0};
     IniReader reader = new IniReader(paramsPath, null, true);
-    r[0] = reader.f("volume", 1);
-    r[1] = reader.f("loopTime", 0);
+    r[0] = reader.getFloat("volume", 1);
+    r[1] = reader.getFloat("loopTime", 0);
     return r;
   }
 
