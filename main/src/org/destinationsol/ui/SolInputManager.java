@@ -91,11 +91,8 @@ public class SolInputManager {
    * Hides the mouse cursor by setting it to a transparent image.
    */
   private void setMouseCursorHidden() {
-    // When debugging the path has a "main" directory prepended
-    String debugPath = (DebugOptions.DEV_ROOT_PATH == null) ? "" : DebugOptions.DEV_ROOT_PATH;
-
     // Load the cursor image - the hotspot is where the click point is which is in the middle in this image.
-    Pixmap pm = new Pixmap(Gdx.files.internal(debugPath + "res/imgs/cursorHidden.png"));
+    Pixmap pm = new Pixmap(FileManager.getInstance().getStaticFile("res/imgs/cursorHidden.png"));
     Gdx.input.setCursorImage(pm, 0, 0);
     pm.dispose();
   }
