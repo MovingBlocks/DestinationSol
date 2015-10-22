@@ -20,6 +20,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
@@ -44,6 +45,7 @@ public class SolInputManager {
   public static final float CURSOR_SZ = .07f;
   public static final float WARN_PERC_GROWTH_TIME = 1f;
   private static final float initialRatio = ((float) Gdx.graphics.getWidth()) / ((float) Gdx.graphics.getHeight());
+  private static Cursor hiddenCursor;
 
   private final List<SolUiScreen> myScreens;
   private final List<SolUiScreen> myToRemove;
@@ -74,6 +76,13 @@ public class SolInputManager {
     myMousePos = new Vector2();
     myMousePrevPos = new Vector2();
 
+    // Load the cursor image - the hotspot is where the click point is which is in the middle in this image.
+    Pixmap pm = new Pixmap(FileManager.getInstance().getStaticFile("res/imgs/cursorHidden.png"));
+    hiddenCursor = Gdx.graphics.newCursor(pm, 0, 0);
+    Gdx.graphics.setCursor(hiddenCursor);
+    pm.dispose();
+
+
     // We want the original mouse cursor to be hidden as we draw our own mouse cursor.
     Gdx.input.setCursorCatched(false);
     setMouseCursorHidden();
@@ -91,10 +100,7 @@ public class SolInputManager {
    * Hides the mouse cursor by setting it to a transparent image.
    */
   private void setMouseCursorHidden() {
-    // Load the cursor image - the hotspot is where the click point is which is in the middle in this image.
-    Pixmap pm = new Pixmap(FileManager.getInstance().getStaticFile("res/imgs/cursorHidden.png"));
-    Gdx.input.setCursorImage(pm, 0, 0);
-    pm.dispose();
+    Gdx.graphics.setCursor(hiddenCursor);
   }
 
   public void maybeFlashPressed(int keyCode) {
