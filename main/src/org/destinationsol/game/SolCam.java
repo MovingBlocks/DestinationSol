@@ -158,8 +158,10 @@ public class SolCam {
     boolean l = s.isLeft();
     boolean r = s.isRight();
     Vector2 v = SolMath.getVec();
-    if (l != r) v.x = SolMath.toInt(r);
-    if (d != u) v.y = SolMath.toInt(d);
+    if(l) v.x = v.x-1;
+    if(r) v.x = v.x+1;
+    if(u) v.y = v.y-1;
+    if(d) v.y = v.y+1;
     v.scl(MOVE_SPD * game.getTimeStep());
     SolMath.rotate(v, myAngle);
     myPos.add(v);

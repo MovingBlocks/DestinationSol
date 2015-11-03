@@ -42,6 +42,12 @@ public class SolMath {
   public static int VECTORS_TAKEN;
   public static Vector2 tmp = new Vector2();
 
+  @Deprecated
+  /**
+   * Takes a boolean and returns 1 if true, or -1 if false.
+   *
+   * Deprecated because the name may be ambiguous. Would expect output of 1 and 0 not 1 and -1
+   */
   public static int toInt(boolean b) {
     return b ? 1 : -1;
   }
