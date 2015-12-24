@@ -14,7 +14,11 @@ import org.ajoberstar.gradle.git.tasks.*
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
-
+    apply plugin: 'checkstyle'
+    checkstyle {
+        toolVersion = "6.13"
+        configFile = rootProject.file('config/checkstyle/google_checks.xml')
+    }
     version = '1.4.0'
     ext {
         appName = 'DestinationSol'
@@ -88,4 +92,8 @@ task (fetchGwt, type: GitClone) {
         destinationPath = destination
         bare = false
     }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.10'
 }
