@@ -46,7 +46,7 @@ public class BattleDestProvider {
     }
     if (!battle) throw new AssertionError("can't flee yet!");
     float prefAngle;
-    Vector2 enemyPos = enemy.getPos();
+    Vector2 enemyPos = enemy.getPosition();
     float approxRad = ship.getHull().config.getApproxRadius();
     float enemyApproxRad = enemy.getHull().config.getApproxRadius();
 
@@ -58,7 +58,7 @@ public class BattleDestProvider {
       SolMath.fromAl(myDest, prefAngle, dist);
       myDest.add(enemyPos);
     } else {
-      Vector2 shipPos = ship.getPos();
+      Vector2 shipPos = ship.getPosition();
       float a = SolMath.angle(enemyPos, shipPos);
       if (myCw != null) a += 90 * SolMath.toInt(myCw);
       float len = canShootUnfixed ? .9f * Const.AUTO_SHOOT_SPACE : .5f * Const.CAM_VIEW_DIST_SPACE;

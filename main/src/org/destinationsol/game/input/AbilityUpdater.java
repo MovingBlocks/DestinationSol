@@ -42,7 +42,7 @@ public class AbilityUpdater {
     if (ex != null) {
       if (ship.getItemContainer().count(ex) <= myChargesToKeep) return;
     }
-    if (ability.getRadius() < nearestEnemy.getPos().dst(ship.getPos())) return;
+    if (ability.getRadius() < nearestEnemy.getPosition().dst(ship.getPosition())) return;
     myAbility = true;
   }
 

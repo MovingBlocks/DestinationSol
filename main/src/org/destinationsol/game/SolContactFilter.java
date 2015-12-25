@@ -21,10 +21,10 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import org.destinationsol.game.projectile.Projectile;
 
 public class SolContactFilter implements ContactFilter {
-  private final FactionMan myFactionMan;
+  private final FactionManager myFactionManager;
 
-  public SolContactFilter(FactionMan factionMan) {
-    myFactionMan = factionMan;
+  public SolContactFilter(FactionManager factionManager) {
+    myFactionManager = factionManager;
   }
 
   @Override
@@ -38,6 +38,6 @@ public class SolContactFilter implements ContactFilter {
     Projectile proj = (Projectile)(aIsProj ? oA : oB);
     SolObject o = aIsProj ? oB : oA;
     Fixture f = aIsProj ? fixtureB : fixtureA;
-    return proj.shouldCollide(o, f, myFactionMan);
+    return proj.shouldCollide(o, f, myFactionManager);
   }
 }

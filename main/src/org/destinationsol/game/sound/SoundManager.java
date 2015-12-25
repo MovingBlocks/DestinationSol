@@ -117,7 +117,7 @@ public class SoundManager {
 
   /**
    * Plays a sound. Either pos or source must not be null.
-   * @param pos position of a sound. If null, source.getPos() will be used
+   * @param pos position of a sound. If null, source.getPosition() will be used
    * @param source bearer of a sound. Must not be null for looped sounds
    * @param volMul multiplier for sound volume
    */
@@ -128,7 +128,7 @@ public class SoundManager {
     float globalVolMul = game.getCmp().getOptions().volMul;
     if (globalVolMul == 0) return;
 
-    if (pos == null) pos = source.getPos();
+    if (pos == null) pos = source.getPosition();
 
     // vol
     Vector2 camPos = game.getCam().getPos();
@@ -161,7 +161,7 @@ public class SoundManager {
 
 /**
  * Plays a sound. Either pos or source must not be null.
- * @param pos position of a sound. If null, source.getPos() will be used
+ * @param pos position of a sound. If null, source.getPosition() will be used
  * @param source bearer of a sound. Must not be null for looped sounds
  */
   public void play(SolGame game, SolSound sound, @Nullable Vector2 pos, @Nullable SolObject source){

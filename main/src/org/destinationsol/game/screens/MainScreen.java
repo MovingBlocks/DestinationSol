@@ -233,7 +233,7 @@ public class MainScreen implements SolUiScreen {
       talkCtrl.setEnabled(false);
       return;
     }
-    FactionMan factionMan = game.getFactionMan();
+    FactionManager factionManager = game.getFactionMan();
 
     SolShip target = null;
     float minDist = TalkScreen.MAX_TALK_DIST;
@@ -243,9 +243,9 @@ public class MainScreen implements SolUiScreen {
       SolObject o = objs.get(i);
       if (!(o instanceof SolShip)) continue;
       SolShip ship = (SolShip) o;
-      if (factionMan.areEnemies(hero, ship)) continue;
+      if (factionManager.areEnemies(hero, ship)) continue;
       if (ship.getTradeContainer() == null) continue;
-      float dst = ship.getPos().dst(hero.getPos());
+      float dst = ship.getPosition().dst(hero.getPosition());
       float ar = ship.getHull().config.getApproxRadius();
       if (minDist < dst - har - ar) continue;
       target = ship;
@@ -513,7 +513,7 @@ public class MainScreen implements SolUiScreen {
       if (h == null) return false;
       float heroCap = HardnessCalc.getShipDmgCap(h);
       List<SolObject> objs = game.getObjMan().getObjs();
-      FactionMan fm = game.getFactionMan();
+      FactionManager fm = game.getFactionMan();
       SolCam cam = game.getCam();
       float viewDist = cam.getViewDist();
       float dps = 0;
@@ -521,7 +521,7 @@ public class MainScreen implements SolUiScreen {
         SolObject o = objs.get(i);
         if (!(o instanceof SolShip)) continue;
         SolShip ship = (SolShip) o;
-        if (viewDist < ship.getPos().dst(h.getPos())) continue;
+        if (viewDist < ship.getPosition().dst(h.getPosition())) continue;
         if (!fm.areEnemies(h, ship)) continue;
         dps += HardnessCalc.getShipDps(ship);
         if (HardnessCalc.isDangerous(heroCap, dps)) return true;
