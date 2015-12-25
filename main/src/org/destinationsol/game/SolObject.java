@@ -30,7 +30,7 @@ public interface SolObject {
   void receiveDmg(float dmg, SolGame game, @Nullable Vector2 pos, DmgType dmgType);
   boolean receivesGravity();
   void receiveForce(Vector2 force, SolGame game, boolean acc);
-  Vector2 getPos();
+  Vector2 getPosition();
   FarObj toFarObj();
   List<Dra> getDras();
   float getAngle();

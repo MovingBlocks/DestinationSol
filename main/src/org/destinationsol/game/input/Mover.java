@@ -52,7 +52,7 @@ public class Mover {
 
     if (!hasEngine || dest == null) return;
 
-    Vector2 shipPos = ship.getPos();
+    Vector2 shipPos = ship.getPosition();
 
     float toDestLen = shipPos.dst(dest);
 
@@ -99,7 +99,7 @@ public class Mover {
 
   public void rotateOnIdle(SolShip ship, Planet np, Vector2 dest, boolean stopNearDest, float maxIdleDist) {
     if (isActive() || dest == null) return;
-    Vector2 shipPos = ship.getPos();
+    Vector2 shipPos = ship.getPosition();
     float shipAngle = ship.getAngle();
     float toDestLen = shipPos.dst(dest);
     float desiredAngle;
@@ -125,7 +125,7 @@ public class Mover {
   }
 
   private float getToDestAngle(SolGame game, SolShip ship, Vector2 dest, boolean avoidBigObjs, Planet np) {
-    Vector2 shipPos = ship.getPos();
+    Vector2 shipPos = ship.getPosition();
     float toDestAngle = SolMath.angle(shipPos, dest);
     if (avoidBigObjs) {
       toDestAngle = myBigObjAvoider.avoid(game, shipPos, dest, toDestAngle);

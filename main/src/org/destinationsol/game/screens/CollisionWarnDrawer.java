@@ -35,7 +35,7 @@ public class CollisionWarnDrawer extends WarnDrawer {
   public boolean shouldWarn(SolGame game) {
     myHero = game.getHero();
     if (myHero == null) return false;
-    Vector2 pos = myHero.getPos();
+    Vector2 pos = myHero.getPosition();
     Vector2 spd = myHero.getSpd();
     float acc = myHero.getAcc();
     float spdLen = spd.len();

@@ -96,7 +96,7 @@ public class SolGun {
 
   public void update(ItemContainer ic, SolGame game, float gunAngle, SolObject creator, boolean shouldShoot, Faction faction) {
     float baseAngle = creator.getAngle();
-    Vector2 basePos = creator.getPos();
+    Vector2 basePos = creator.getPosition();
     float gunRelAngle = gunAngle - baseAngle;
     mySprite.relAngle = gunRelAngle;
     Vector2 muzzleRelPos = SolMath.fromAl(gunRelAngle, myItem.config.gunLength);

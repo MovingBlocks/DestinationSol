@@ -79,7 +79,7 @@ public class StarPort implements SolObject {
     myBody.setAngularVelocity((desiredAngle - myAngle) * SolMath.degRad * fps/4);
 
     SolShip ship = ForceBeacon.pullShips(game, this, myPos, null, null, .4f * SIZE);
-    if (ship != null && ship.getMoney() >= FARE && ship.getPos().dst(myPos) < .05f * SIZE) {
+    if (ship != null && ship.getMoney() >= FARE && ship.getPosition().dst(myPos) < .05f * SIZE) {
       ship.setMoney(ship.getMoney() - FARE);
       Transcendent t = new Transcendent(ship, myFrom, myTo, game);
       ObjectManager objectManager = game.getObjMan();
@@ -98,7 +98,7 @@ public class StarPort implements SolObject {
   private static void blip(SolGame game, SolShip ship) {
     TextureAtlas.AtlasRegion tex = game.getTexMan().getTex(Teleport.TEX_PATH, null);
     float blipSz = ship.getHull().config.getApproxRadius() * 10;
-    game.getPartMan().blip(game, ship.getPos(), SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
+    game.getPartMan().blip(game, ship.getPosition(), SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
   }
 
   public boolean isSecondary() {
@@ -132,7 +132,7 @@ public class StarPort implements SolObject {
   }
 
   @Override
-  public Vector2 getPos() {
+  public Vector2 getPosition() {
     return myPos;
   }
 
@@ -330,7 +330,7 @@ public class StarPort implements SolObject {
       myShip = ship.toFarObj();
       myFrom = from;
       myTo = to;
-      myPos = new Vector2(ship.getPos());
+      myPos = new Vector2(ship.getPosition());
       mySpd = new Vector2();
       myDestPos = new Vector2();
 
@@ -410,7 +410,7 @@ public class StarPort implements SolObject {
     }
 
     @Override
-    public Vector2 getPos() {
+    public Vector2 getPosition() {
       return myPos;
     }
 

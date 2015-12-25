@@ -22,7 +22,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJoint;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
-import org.destinationsol.game.FactionMan;
+import org.destinationsol.game.FactionManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.dra.Dra;
@@ -61,14 +61,14 @@ public class Door {
       }
     }
 
-    Vector2 shipPos = ship.getPos();
+    Vector2 shipPos = ship.getPosition();
     float shipAngle = ship.getAngle();
     SolMath.toRel(doorPos, myS.getRelPos(), shipAngle, shipPos);
   }
 
   private boolean shouldOpen(SolGame game, SolShip ship, Vector2 doorPos) {
     Faction faction = ship.getPilot().getFaction();
-    FactionMan factionMan = game.getFactionMan();
+    FactionManager factionManager = game.getFactionMan();
     List<SolObject> objs = game.getObjMan().getObjs();
     for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
       SolObject o = objs.get(i);
@@ -77,8 +77,8 @@ public class Door {
       SolShip ship2 = (SolShip) o;
       Pilot pilot2 = ship2.getPilot();
       if (!pilot2.isUp()) continue;
-      if (factionMan.areEnemies(pilot2.getFaction(), faction)) continue;
-      if (ship2.getPos().dst(doorPos) < SENSOR_DIST) return true;
+      if (factionManager.areEnemies(pilot2.getFaction(), faction)) continue;
+      if (ship2.getPosition().dst(doorPos) < SENSOR_DIST) return true;
     }
     return false;
   }

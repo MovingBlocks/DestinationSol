@@ -143,14 +143,14 @@ public class ParticleSrc implements Dra {
 
   public void update(SolGame game, SolObject o) {
     maybeSwitchRelPos(game);
-    Vector2 basePos = o.getPos();
+    Vector2 basePos = o.getPosition();
     float baseAngle = o.getAngle();
     SolMath.toWorld(myPos, myRelPos, baseAngle, basePos, false);
     float ts = game.getTimeStep();
     fixSpeedBug(ts);
     myEmitter.setPosition(myPos.x, myPos.y);
     setAngle(baseAngle);
-    updateSpd(game, o.getSpd(), o.getPos());
+    updateSpd(game, o.getSpd(), o.getPosition());
     myEmitter.update(ts);
 
     if (myBbRecalcAwait > 0) {

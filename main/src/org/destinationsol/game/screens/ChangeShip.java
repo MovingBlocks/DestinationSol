@@ -101,7 +101,7 @@ public class ChangeShip implements InventoryOperations {
     EngineItem.Config ec = newConfig.getEngineConfig();
     EngineItem ei = ec == null ? null : ec.example.copy();
     GunItem g2 = hull.getGun(true);
-    SolShip newHero = game.getShipBuilder().build(game, hero.getPos(), new Vector2(), hero.getAngle(), 0, hero.getPilot(),
+    SolShip newHero = game.getShipBuilder().build(game, hero.getPosition(), new Vector2(), hero.getAngle(), 0, hero.getPilot(),
       hero.getItemContainer(), newConfig, newConfig.getMaxLife(), hull.getGun(false), g2, null,
       ei, new ShipRepairer(), hero.getMoney(), hero.getTradeContainer(), hero.getShield(), hero.getArmor());
     game.getObjMan().removeObjDelayed(hero);
