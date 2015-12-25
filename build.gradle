@@ -1,3 +1,4 @@
+apply from: 'config/gradle/ide.gradle'
 buildscript {
     repositories {
         mavenCentral()
@@ -12,12 +13,30 @@ buildscript {
 import org.ajoberstar.gradle.git.tasks.*
 
 allprojects {
-    apply plugin: "eclipse"
-    apply plugin: "idea"
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+    apply plugin: 'project-report'
     apply plugin: 'checkstyle'
-    checkstyle {
-        toolVersion = "6.13"
-        configFile = rootProject.file('config/checkstyle/google_checks.xml')
+    apply plugin: 'pmd'
+    apply plugin: 'findbugs'
+
+    // Computes code coverage of (unit) tests
+    apply plugin: 'jacoco'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    javadoc.options.encoding = 'UTF-8'
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    dependencies {
+        checkstyle('com.puppycrawl.tools:checkstyle:6.5')
+        pmd('net.sourceforge.pmd:pmd-core:5.3.3')
+        pmd('net.sourceforge.pmd:pmd-java:5.3.3')
+        // the FindBugs version is set in the configuration
     }
 
     version = '1.4.0'
@@ -38,6 +57,97 @@ allprojects {
         // Terasology Artifactory for any shared libs
         maven { url "http://artifactory.terasology.org/artifactory/virtual-repo-live" }
     }
+    test {
+        // ignoreFailures: Specifies whether the build should break when the verifications performed by this task fail.
+        ignoreFailures = true
+
+        // showStandardStreams: makes the standard streams (err and out) visible at console when running tests
+        testLogging.showStandardStreams = true
+
+        // Arguments to include while running tests
+        jvmArgs '-Xms512m', '-Xmx1024m'
+
+        jacoco {
+            append = false
+        }
+    }
+
+    jacoco {
+        toolVersion = "0.7.4.201502262128"
+    }
+
+    jacocoTestReport {
+        dependsOn test // Despite doc saying this should be automatic we need to explicitly add it anyway :-(
+        reports {
+            // We only use the .exec report for display in Jenkins and such. More could be enabled if desired.
+            xml.enabled false
+            csv.enabled false
+            html.enabled false
+        }
+    }
+
+// The config files here work in both a multi-project workspace (IDEs, running from source) and for solo module builds
+// Solo module builds in Jenkins get a copy of the config dir from the engine harness so it still lives at root/config
+// TODO: Maybe update other projects like modules to pull the zipped dependency so fewer quirks are needed in Jenkins
+    checkstyle {
+        ignoreFailures = true
+        configFile = new File(rootDir, 'config/checkstyle/checkstyle.xml')
+        configProperties.samedir = checkstyle.configFile.parentFile
+    }
+
+    pmd {
+        ignoreFailures = true
+        ruleSetFiles = files("$rootDir/config/pmd/pmd.xml")
+        // By default, gradle uses both ruleset file AND the rulesets. Override the ruleSets to use only those from the file
+        ruleSets = []
+    }
+
+    findbugs {
+        ignoreFailures = true
+        toolVersion = '3.0.1'
+        excludeFilter = new File(rootDir, "config/findbugs/findbugs-exclude.xml")
+    }
+
+// TODO: Temporary until javadoc has been fixed for Java 8 everywhere
+    javadoc {
+        failOnError = false
+    }
+
+    tasks.withType(Checkstyle) {
+        group = 'Reporting'
+    }
+
+    tasks.withType(Pmd) {
+        group = 'Reporting'
+    }
+    tasks.withType(FindBugs) {
+        group = 'Reporting'
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+}
+configurations {
+    codeMetrics
+}
+
+dependencies {
+    // Config for our code analytics lives in a centralized repo: https://github.com/MovingBlocks/TeraConfig
+    codeMetrics group: 'org.terasology.config', name: 'codemetrics', version: '1.1.0', ext: 'zip'
+}
+
+
+
+
+task extractConfig(type: Copy) {
+    description = "Extracts our configuration files from the zip we fetched as a dependency"
+    from {
+        configurations.codeMetrics.collect {
+            zipTree(it)
+        }
+    }
+    into "$rootDir/config"
 }
 
 tasks.eclipse.doLast {
@@ -47,7 +157,7 @@ cleanIdea.doLast {
     new File('DestinationSol.iws').delete()
 }
 
-task (fetchAndroid, type: GitClone) {
+task(fetchAndroid, type: GitClone) {
     description = 'Git clones the Android facade source from GitHub'
 
     // Repo name is the dynamic part of the task name
@@ -71,7 +181,7 @@ task (fetchAndroid, type: GitClone) {
     }
 }
 
-task (fetchGwt, type: GitClone) {
+task(fetchGwt, type: GitClone) {
     description = 'Git clones the GWT facade source from GitHub'
 
     // Repo name is the dynamic part of the task name
