@@ -1,6 +1,9 @@
 ## General
 hs_err_pid*
 .gradle
+/config/checkstyle
+/config/pmd
+/config/findbugs
 
 ## Ignored sub-projects with nested Git roots
 android
