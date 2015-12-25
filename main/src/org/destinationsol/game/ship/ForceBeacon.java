@@ -69,7 +69,7 @@ public class ForceBeacon {
       Pilot pilot = ship.getPilot();
       if (pilot.isUp() || pilot.isLeft() || pilot.isRight()) continue;
       if (game.getFactionMan().areEnemies(faction, pilot.getFaction())) continue;
-      Vector2 toMe = SolMath.distVec(ship.getPos(), ownPos);
+      Vector2 toMe = SolMath.distVec(ship.getPosition(), ownPos);
       float toMeLen = toMe.len();
       if (toMeLen < maxPullDist) {
         if (toMeLen > 1) toMe.scl(1 / toMeLen);

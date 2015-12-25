@@ -81,13 +81,13 @@ public class Loot implements SolObject {
       SolShip ship = (SolShip) o;
       if (!ship.getPilot().collectsItems()) continue;
       if (!(myItem instanceof MoneyItem) && !ship.getItemContainer().canAdd(myItem)) continue;
-      float dst = ship.getPos().dst(myPos);
+      float dst = ship.getPosition().dst(myPos);
       if (minDist < dst) continue;
       puller = ship;
       minDist = dst;
     }
     if (puller != null) {
-      maybePulled(puller, puller.getPos(), puller.getPullDist());
+      maybePulled(puller, puller.getPosition(), puller.getPullDist());
     }
   }
 
@@ -124,7 +124,7 @@ public class Loot implements SolObject {
   }
 
   @Override
-  public Vector2 getPos() {
+  public Vector2 getPosition() {
     return myPos;
   }
 
@@ -174,7 +174,7 @@ public class Loot implements SolObject {
   public void maybePulled(SolShip ship, Vector2 pullerPos, float radius) {
     if (ship == myOwner) return;
     Vector2 toPuller = SolMath.getVec(pullerPos);
-    toPuller.sub(getPos());
+    toPuller.sub(getPosition());
     float pullerDist = toPuller.len();
     if (0 < pullerDist && pullerDist < radius) {
       toPuller.scl(PULL_DESIRED_SPD /pullerDist);
@@ -204,7 +204,7 @@ public class Loot implements SolObject {
 
   public void pickedUp(SolGame game, SolShip ship) {
     myLife = 0;
-    Vector2 spd = new Vector2(ship.getPos());
+    Vector2 spd = new Vector2(ship.getPosition());
     spd.sub(myPos);
     float fadeTime = .25f;
     spd.scl(1 / fadeTime);

@@ -49,7 +49,7 @@ public class ObjectManager {
   private float myFarBeginDist;
   private float myRadiusRecalcAwait;
 
-  public ObjectManager(SolContactListener contactListener, FactionMan factionMan) {
+  public ObjectManager(SolContactListener contactListener, FactionManager factionManager) {
     myObjs = new ArrayList<SolObject>();
     myToRemove = new ArrayList<SolObject>();
     myToAdd = new ArrayList<SolObject>();
@@ -58,7 +58,7 @@ public class ObjectManager {
     myFarPorts = new ArrayList<StarPort.MyFar>();
     myWorld = new World(new Vector2(0, 0), true);
     myWorld.setContactListener(contactListener);
-    myWorld.setContactFilter(new SolContactFilter(factionMan));
+    myWorld.setContactFilter(new SolContactFilter(factionManager));
     myDr = new Box2DDebugRenderer();
     myRadii = new HashMap<SolObject, Float>();
   }
@@ -199,7 +199,7 @@ public class ObjectManager {
     float r = getPresenceRadius(o);
     List<Dra> dras = o.getDras();
     if (dras != null && dras.size() > 0) r *= dras.get(0).getLevel().depth;
-    float dst = o.getPos().dst(camPos) - r;
+    float dst = o.getPosition().dst(camPos) - r;
     return myFarBeginDist < dst;
   }
 
@@ -221,7 +221,7 @@ public class ObjectManager {
   private void drawDebugStrings(GameDrawer drawer, SolGame game) {
     float fontSize = game.getCam().getDebugFontSize();
     for (SolObject o : myObjs) {
-      Vector2 pos = o.getPos();
+      Vector2 pos = o.getPosition();
       String ds = o.toDebugString();
       if (ds != null) drawer.drawString(ds, pos.x, pos.y, fontSize, true, SolColor.W);
     }
@@ -238,7 +238,7 @@ public class ObjectManager {
     float lineWidth = cam.getRealLineWidth();
     float vh = cam.getViewHeight();
     for (SolObject o : myObjs) {
-      Vector2 pos = o.getPos();
+      Vector2 pos = o.getPosition();
       float r = getRadius(o);
       drawer.drawCircle(drawer.debugWhiteTex, pos, r, DebugCol.OBJ, lineWidth, vh);
       drawer.drawLine(drawer.debugWhiteTex, pos.x, pos.y, o.getAngle(), r, DebugCol.OBJ, lineWidth);

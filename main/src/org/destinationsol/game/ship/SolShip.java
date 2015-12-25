@@ -92,7 +92,7 @@ public class SolShip implements SolObject {
   }
 
   @Override
-  public Vector2 getPos() {
+  public Vector2 getPosition() {
     return myHull.getPos();
   }
 
@@ -358,7 +358,7 @@ public class SolShip implements SolObject {
     boolean wasAlive = myHull.life > 0;
     myHull.life -= dmg;
     if (wasAlive && myHull.life <= 0) {
-      Vector2 shipPos = getPos();
+      Vector2 shipPos = getPosition();
       game.getSpecialEffects().explodeShip(game, shipPos, myHull.config.getSize());
       game.getSoundMan().play(game, game.getSpecialSounds().shipExplosion, null, this);
     }

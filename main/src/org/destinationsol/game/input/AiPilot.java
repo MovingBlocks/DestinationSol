@@ -73,7 +73,7 @@ public class AiPilot implements Pilot {
   public void update(SolGame game, SolShip ship, SolShip nearestEnemy) {
     myAbilityUpdater.update(ship, nearestEnemy);
     myPlanetBind = null;
-    Vector2 shipPos = ship.getPos();
+    Vector2 shipPos = ship.getPosition();
     HullConfig hullConfig = ship.getHull().config;
     float maxIdleDist = getMaxIdleDist(hullConfig);
     myDestProvider.update(game, shipPos, maxIdleDist, hullConfig, nearestEnemy);
@@ -112,7 +112,7 @@ public class AiPilot implements Pilot {
     myMover.update(game, ship, dest, np, maxIdleDist, hasEngine, avoidBigObjs, desiredSpdLen, shouldStopNearDest, destSpd);
     boolean moverActive = myMover.isActive();
 
-    Vector2 enemyPos = nearestEnemy == null ? null : nearestEnemy.getPos();
+    Vector2 enemyPos = nearestEnemy == null ? null : nearestEnemy.getPosition();
     Vector2 enemySpd = nearestEnemy == null ? null : nearestEnemy.getSpd();
     float enemyApproxRad = nearestEnemy == null ? 0 : nearestEnemy.getHull().config.getApproxRadius();
     myShooter.update(ship, enemyPos, moverActive, canShoot, enemySpd, enemyApproxRad);

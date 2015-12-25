@@ -42,7 +42,7 @@ public class Shooter {
     myRight = false;
     myShoot = false;
     myShoot2 = false;
-    Vector2 shipPos = ship.getPos();
+    Vector2 shipPos = ship.getPosition();
     if (enemyPos == null || !canShoot) return;
     float toEnemyDst = enemyPos.dst(shipPos);
 

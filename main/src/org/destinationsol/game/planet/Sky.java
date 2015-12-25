@@ -121,7 +121,7 @@ public class Sky implements SolObject {
   }
 
   @Override
-  public Vector2 getPos() {
+  public Vector2 getPosition() {
     return myPos;
   }
 
