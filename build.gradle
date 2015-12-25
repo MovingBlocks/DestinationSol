@@ -1,3 +1,5 @@
+apply from: 'config/gradle/ide.gradle'
+
 buildscript {
     repositories {
         mavenCentral()
@@ -127,9 +129,6 @@ dependencies {
     codeMetrics group: 'org.terasology.config', name: 'codemetrics', version: '1.1.0', ext: 'zip'
 }
 
-
-
-
 task extractConfig(type: Copy) {
     description = "Extracts our configuration files from the zip we fetched as a dependency"
     from {
@@ -147,14 +146,45 @@ tasks.eclipse.doLast {
 idea {
     project {
         // Set JDK
-        jdkName = '1.7'
+        jdkName = '1.8'
         wildcards -= '!?*.groovy'
+
+        ipr {
+            withXml { xmlProvider ->
+                // Apply a bunch of tweaks to IntelliJ config - all defined in ide.gradle
+                // Part reason for separate file was in case a module needs to define something it cannot do so in a project block
+                def iprNode = xmlProvider.asNode()
+                ideaActivateCheckstyle(iprNode)
+                ideaActivateCopyright(iprNode)
+                ideaActivateAnnotations(iprNode)
+                ideaActivateGit(iprNode)
+                ideaActivateGradle(iprNode)
+            }
+
+            // Sets sourceCompatibility within IntelliJ (without this root build having the Java plugin applied)
+            whenMerged {project ->
+                project.jdk.languageLevel = 'JDK_1_8'
+            }
+        }
+    }
+
+    // Tweaks to the .iws
+    workspace.iws.withXml { xmlProvider ->
+        def iwsNode = xmlProvider.asNode()
+        ideaMakeAutomatically(iwsNode)
+        ideaRunConfig(iwsNode)
     }
 }
 
 cleanIdea.doLast {
     new File('DestinationSol.iws').delete()
 }
+
+// Make sure our config file for code analytics get extracted (vulnerability: non-IDE execution of single analytic)
+ideaModule.dependsOn rootProject.extractConfig
+tasks.eclipse.dependsOn rootProject.extractConfig
+check.dependsOn rootProject.extractConfig
+
 
 task(fetchAndroid, type: GitClone) {
     description = 'Git clones the Android facade source from GitHub'
