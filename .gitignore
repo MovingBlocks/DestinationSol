@@ -1,9 +1,7 @@
 ## General
 hs_err_pid*
 .gradle
-/config/checkstyle
-/config/pmd
-/config/findbugs
+/config/metrics
 /main/prevShip.ini
 /main/settings.ini
 
