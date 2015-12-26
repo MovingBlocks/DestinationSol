@@ -104,7 +104,7 @@ public class BallProjectileBody implements ProjectileBody {
   public float getDesiredAngle(SolShip ne) {
     float spdLen = mySpd.len();
     if (spdLen < 3) spdLen = 3;
-    float toNe = SolMath.angle(myPos, ne.getPos());
+    float toNe = SolMath.angle(myPos, ne.getPosition());
     Vector2 desiredSpd = SolMath.fromAl(toNe, spdLen);
     desiredSpd.add(ne.getSpd());
     float res = SolMath.angle(mySpd, desiredSpd);

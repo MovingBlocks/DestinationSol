@@ -60,7 +60,7 @@ public class DebugHint {
       if (myOwner.shouldBeRemoved(game)) {
         myOwner = null;
       } else {
-        myPos.set(myOwner.getPos());
+        myPos.set(myOwner.getPosition());
       }
     }
 

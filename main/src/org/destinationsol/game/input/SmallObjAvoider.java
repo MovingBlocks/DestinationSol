@@ -41,7 +41,7 @@ public class SmallObjAvoider {
 
   public float avoid(SolGame game, SolShip ship, float toDestAngle, Planet np) {
     myShip = ship;
-    Vector2 shipPos = ship.getPos();
+    Vector2 shipPos = ship.getPosition();
     float shipSpdLen = ship.getSpd().len();
     float ttt = ship.calcTimeToTurn(toDestAngle + 45);
     float raycastLen = shipSpdLen * (ttt + MANEUVER_TIME);

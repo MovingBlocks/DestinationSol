@@ -71,7 +71,7 @@ public class ShipMixedControl implements ShipUiControl {
     if (h != null) {
       myMouseWorldPos.set(Gdx.input.getX(), Gdx.input.getY());
       g.getCam().screenToWorld(myMouseWorldPos);
-      float desiredAngle = SolMath.angle(h.getPos(), myMouseWorldPos);
+      float desiredAngle = SolMath.angle(h.getPosition(), myMouseWorldPos);
       Boolean ntt = Mover.needsToTurn(h.getAngle(), desiredAngle, h.getRotSpd(), h.getRotAcc(), Shooter.MIN_SHOOT_AAD);
       if (ntt != null) {
         if (ntt) myRight = true; else myLeft = true;
