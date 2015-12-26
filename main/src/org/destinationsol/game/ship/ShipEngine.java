@@ -51,7 +51,7 @@ public class ShipEngine {
     myItem = ei;
     myDras = new ArrayList<Dra>();
     EffectConfig ec = myItem.getEffectConfig();
-    Vector2 shipPos = ship.getPos();
+    Vector2 shipPos = ship.getPosition();
     Vector2 shipSpd = ship.getSpd();
     myFlameSrc1 = new ParticleSrc(ec, -1, DraLevel.PART_BG_0, e1RelPos, true, game, shipPos, shipSpd, 0);
     myDras.add(myFlameSrc1);

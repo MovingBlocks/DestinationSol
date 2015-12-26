@@ -92,7 +92,7 @@ public class PointProjectileBody implements ProjectileBody {
 
   @Override
   public float getDesiredAngle(SolShip ne) {
-    return SolMath.angle(myPos, ne.getPos());
+    return SolMath.angle(myPos, ne.getPosition());
   }
 
 

@@ -43,7 +43,7 @@ public class BeaconDestProvider implements MoveDestProvider {
     myShouldManeuver = null;
     BeaconHandler.Action a = bh.getCurrAction();
     if (nearestEnemy != null && a == BeaconHandler.Action.ATTACK) {
-      if (shipPos.dst(myDest) < shipPos.dst(nearestEnemy.getPos()) + .1f) myShouldManeuver = true;
+      if (shipPos.dst(myDest) < shipPos.dst(nearestEnemy.getPosition()) + .1f) myShouldManeuver = true;
     }
     myShouldStopNearDest = STOP_AWAIT < game.getTime() - bh.getClickTime();
     myDestSpd.set(bh.getSpd());

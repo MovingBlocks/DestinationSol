@@ -76,7 +76,7 @@ public class SolCam {
         }
       } else {
         desiredVd = Const.CAM_VIEW_DIST_SPACE;
-        myPos.set(trans.getPos());
+        myPos.set(trans.getPosition());
       }
     } else {
       Vector2 heroPos = hero.getHull().getBody().getWorldCenter();

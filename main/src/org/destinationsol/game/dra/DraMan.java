@@ -102,7 +102,7 @@ public class DraMan {
     List<SolObject> objs = objectManager.getObjs();
     for (int i1 = 0, objsSize = objs.size(); i1 < objsSize; i1++) {
       SolObject o = objs.get(i1);
-      Vector2 objPos = o.getPos();
+      Vector2 objPos = o.getPosition();
       float r = objectManager.getPresenceRadius(o);
       List<Dra> dras = o.getDras();
       float draLevelViewDist = viewDist;

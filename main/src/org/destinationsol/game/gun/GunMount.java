@@ -53,8 +53,8 @@ public class GunMount {
     if (creator.getHull().config.getType() != HullConfig.Type.STATION) myRelGunAngle = 0;
     myDetected = false;
     if (!myFixed && nearestEnemy != null) {
-      Vector2 creatorPos = creator.getPos();
-      Vector2 nePos = nearestEnemy.getPos();
+      Vector2 creatorPos = creator.getPosition();
+      Vector2 nePos = nearestEnemy.getPosition();
       float dst = creatorPos.dst(nePos) - creator.getHull().config.getApproxRadius() - nearestEnemy.getHull().config.getApproxRadius();
       float detDst = game.getPlanetMan().getNearestPlanet().isNearGround(creatorPos) ? Const.AUTO_SHOOT_GROUND : Const.AUTO_SHOOT_SPACE;
       if (dst < detDst) {

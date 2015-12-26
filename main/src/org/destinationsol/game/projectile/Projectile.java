@@ -174,7 +174,7 @@ public class
   }
 
   @Override
-  public Vector2 getPos() {
+  public Vector2 getPosition() {
     return myBody.getPos();
   }
 
@@ -223,10 +223,10 @@ public class
     return myFaction;
   }
 
-  public boolean shouldCollide(SolObject o, Fixture f, FactionMan factionMan) {
+  public boolean shouldCollide(SolObject o, Fixture f, FactionManager factionManager) {
     if (o instanceof SolShip) {
       SolShip s = (SolShip) o;
-      if (!factionMan.areEnemies(s.getPilot().getFaction(), myFaction)) return false;
+      if (!factionManager.areEnemies(s.getPilot().getFaction(), myFaction)) return false;
       if (s.getHull().getShieldFixture() == f) {
         if (myConfig.density > 0) return false;
         Shield shield = s.getShield();
@@ -235,7 +235,7 @@ public class
       return true;
     }
     if (o instanceof Projectile) {
-      if (!factionMan.areEnemies(((Projectile) o).myFaction, myFaction)) return false;
+      if (!factionManager.areEnemies(((Projectile) o).myFaction, myFaction)) return false;
     }
     return true;
   }
@@ -290,7 +290,7 @@ public class
 
     @Override
     public Vector2 getPos() {
-      return myProjectile.getPos();
+      return myProjectile.getPosition();
     }
 
     @Override
@@ -308,7 +308,7 @@ public class
       float h = myWidth;
       float minH = game.getCam().getRealLineWidth() * 3;
       if (h < minH) h = minH;
-      Vector2 pos = myProjectile.getPos();
+      Vector2 pos = myProjectile.getPosition();
       float w = myProjectile.getSpd().len() * game.getTimeStep();
       if (w < 4 * h) w = 4 * h;
       drawer.draw(myTex, w, h, w, h / 2, pos.x, pos.y, SolMath.angle(myProjectile.getSpd()), SolColor.LG);

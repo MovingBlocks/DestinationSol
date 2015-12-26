@@ -110,7 +110,7 @@ public class MapDrawer {
     float iconSz = getIconRadius(cam) * 2;
     float starNodeW = cam.getViewHeight(myZoom) * STAR_NODE_SZ;
     float viewDist = cam.getViewDist(myZoom);
-    FactionMan factionMan = game.getFactionMan();
+    FactionManager factionManager = game.getFactionMan();
     SolShip hero = game.getHero();
     Planet np = game.getPlanetMan().getNearestPlanet();
     Vector2 camPos = cam.getPos();
@@ -124,7 +124,7 @@ public class MapDrawer {
     drawStarNodes(drawer, game, viewDist, camPos, starNodeW);
 
     // using ui textures
-    drawIcons(drawer, game, iconSz, viewDist, factionMan, hero, camPos, heroDmgCap);
+    drawIcons(drawer, game, iconSz, viewDist, factionManager, hero, camPos, heroDmgCap);
   }
 
   public float getIconRadius(SolCam cam) {
@@ -231,20 +231,20 @@ public class MapDrawer {
     drawer.draw(mySkullBigTex, rad *2, rad *2, rad, rad, pos.x, pos.y, angle, myAreaWarnCol);
   }
 
-  private void drawIcons(GameDrawer drawer, SolGame game, float iconSz, float viewDist, FactionMan factionMan,
+  private void drawIcons(GameDrawer drawer, SolGame game, float iconSz, float viewDist, FactionManager factionManager,
     SolShip hero, Vector2 camPos, float heroDmgCap)
   {
 
     List<SolObject> objs = game.getObjMan().getObjs();
     for (int i1 = 0, objsSize = objs.size(); i1 < objsSize; i1++) {
       SolObject o = objs.get(i1);
-      Vector2 oPos = o.getPos();
+      Vector2 oPos = o.getPosition();
       if (viewDist < camPos.dst(oPos)) continue;
       if ((o instanceof SolShip)) {
         SolShip ship = (SolShip) o;
         String hint = ship.getPilot().getMapHint();
         if (hint == null && !DebugOptions.DETAILED_MAP) continue;
-        drawObjIcon(iconSz, oPos, ship.getAngle(), factionMan, hero, ship.getPilot().getFaction(), heroDmgCap, o, ship.getHull().config.getIcon(), drawer);
+        drawObjIcon(iconSz, oPos, ship.getAngle(), factionManager, hero, ship.getPilot().getFaction(), heroDmgCap, o, ship.getHull().config.getIcon(), drawer);
       }
       if ((o instanceof StarPort)) {
         StarPort sp = (StarPort) o;
@@ -259,7 +259,7 @@ public class MapDrawer {
       if (viewDist < camPos.dst(oPos)) continue;
       String hint = ship.getPilot().getMapHint();
       if (hint == null && !DebugOptions.DETAILED_MAP) continue;
-      drawObjIcon(iconSz, oPos, ship.getAngle(), factionMan, hero, ship.getPilot().getFaction(), heroDmgCap, ship, ship.getHullConfig().getIcon(), drawer);
+      drawObjIcon(iconSz, oPos, ship.getAngle(), factionManager, hero, ship.getPilot().getFaction(), heroDmgCap, ship, ship.getHullConfig().getIcon(), drawer);
     }
     List<StarPort.MyFar> farPorts = game.getObjMan().getFarPorts();
     for (int i = 0, sz = farPorts.size(); i < sz; i++) {
@@ -291,7 +291,7 @@ public class MapDrawer {
     for (int i1 = 0, objsSize = objs.size(); i1 < objsSize; i1++) {
       SolObject o = objs.get(i1);
       if (!(o instanceof StarPort)) continue;
-      Vector2 oPos = o.getPos();
+      Vector2 oPos = o.getPosition();
       if (viewDist < camPos.dst(oPos)) continue;
       StarPort sp = (StarPort) o;
       drawStarNode(drawer, sp.getFrom(), sp.getTo(), starNodeW);
@@ -322,7 +322,7 @@ public class MapDrawer {
       if (!(o instanceof TileObject)) continue;
       TileObject to = (TileObject) o;
       if (to.getPlanet() != np) continue;
-      Vector2 oPos = o.getPos();
+      Vector2 oPos = o.getPosition();
       if (viewDist < camPos.dst(oPos)) continue;
       float sz = to.getSz();
       drawPlanetTile(to.getTile(), sz, drawer, oPos, to.getAngle());
@@ -343,10 +343,10 @@ public class MapDrawer {
   }
 
   public void drawObjIcon(float iconSz, Vector2 pos, float objAngle,
-    FactionMan factionMan, SolShip hero, Faction objFac, float heroDmgCap,
-    Object shipHack, TextureAtlas.AtlasRegion icon, Object drawerHack)
+                          FactionManager factionManager, SolShip hero, Faction objFac, float heroDmgCap,
+                          Object shipHack, TextureAtlas.AtlasRegion icon, Object drawerHack)
   {
-    boolean enemy = hero != null && factionMan.areEnemies(objFac, hero.getPilot().getFaction());
+    boolean enemy = hero != null && factionManager.areEnemies(objFac, hero.getPilot().getFaction());
     float angle = objAngle;
     if (enemy && mySkullTime > 0 && HardnessCalc.isDangerous(heroDmgCap, shipHack)) {
       icon = mySkullTex;
