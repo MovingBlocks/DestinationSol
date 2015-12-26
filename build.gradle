@@ -83,13 +83,13 @@ allprojects {
 // TODO: Maybe update other projects like modules to pull the zipped dependency so fewer quirks are needed in Jenkins
     checkstyle {
         ignoreFailures = true
-        configFile = new File(rootDir, 'config/checkstyle/checkstyle.xml')
+        configFile = new File(rootDir, 'config/metrics/checkstyle/checkstyle.xml')
         configProperties.samedir = checkstyle.configFile.parentFile
     }
 
     pmd {
         ignoreFailures = true
-        ruleSetFiles = files("$rootDir/config/pmd/pmd.xml")
+        ruleSetFiles = files("$rootDir/config/metrics/pmd/pmd.xml")
         // By default, gradle uses both ruleset file AND the rulesets. Override the ruleSets to use only those from the file
         ruleSets = []
     }
@@ -97,7 +97,7 @@ allprojects {
     findbugs {
         ignoreFailures = true
         toolVersion = '3.0.1'
-        excludeFilter = new File(rootDir, "config/findbugs/findbugs-exclude.xml")
+        excludeFilter = new File(rootDir, "config/metrics/findbugs/findbugs-exclude.xml")
     }
 
 // TODO: Temporary until javadoc has been fixed for Java 8 everywhere
@@ -136,7 +136,7 @@ task extractConfig(type: Copy) {
             zipTree(it)
         }
     }
-    into "$rootDir/config"
+    into "$rootDir/config/metrics"
 }
 
 tasks.eclipse.doLast {
@@ -178,6 +178,8 @@ idea {
 
 cleanIdea.doLast {
     new File('DestinationSol.iws').delete()
+    new File('config/metrics').deleteDir()
+    println "Cleaned root - don't forget to re-extract code metrics config! 'gradlew extractConfig' will do so, or 'gradlew idea' (or eclipse)"
 }
 
 // Make sure our config file for code analytics get extracted (vulnerability: non-IDE execution of single analytic)
