@@ -4,6 +4,7 @@ hs_err_pid*
 /config/checkstyle
 /config/pmd
 /config/findbugs
+/main/prevShip.ini
 
 ## Ignored sub-projects with nested Git roots
 android
