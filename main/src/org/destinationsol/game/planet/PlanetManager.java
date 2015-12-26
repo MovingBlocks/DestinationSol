@@ -111,7 +111,7 @@ public class PlanetManager {
       SolObject obj = objs.get(i);
       if (!obj.receivesGravity()) continue;
 
-      Vector2 objPos = obj.getPos();
+      Vector2 objPos = obj.getPosition();
       float minDist;
       Vector2 srcPos;
       float gravConst;
@@ -159,7 +159,7 @@ public class PlanetManager {
     if (hull.config.getType() == HullConfig.Type.STATION) return false;
     float fh = myNearestPlanet.getFullHeight();
     Vector2 npPos = myNearestPlanet.getPos();
-    Vector2 toShip = SolMath.distVec(npPos, ship.getPos());
+    Vector2 toShip = SolMath.distVec(npPos, ship.getPosition());
     float len = toShip.len();
     if (len == 0) {
       toShip.set(0, fh);

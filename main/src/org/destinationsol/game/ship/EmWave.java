@@ -52,12 +52,12 @@ public class EmWave implements ShipAbility {
   @Override
   public boolean update(SolGame game, SolShip owner, boolean tryToUse) {
     if (!tryToUse) return false;
-    Vector2 ownerPos = owner.getPos();
+    Vector2 ownerPos = owner.getPosition();
     for (SolObject o : game.getObjMan().getObjs()) {
       if (!(o instanceof SolShip) || o == owner) continue;
       SolShip oShip = (SolShip) o;
       if (!game.getFactionMan().areEnemies(oShip, owner)) continue;
-      Vector2 oPos = o.getPos();
+      Vector2 oPos = o.getPosition();
       float dst = oPos.dst(ownerPos);
       float perc = KnockBack.getPerc(dst, MAX_RADIUS);
       if (perc <= 0) continue;

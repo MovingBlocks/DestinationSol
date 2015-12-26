@@ -98,7 +98,7 @@ public class BeaconHandler {
     if (myTargetPilot == null) return false;
     Vector2 beaconPos = getPos0();
     if (myTarget != null) {
-      SolMath.toWorld(beaconPos, myTargetRelPos, myTarget.getAngle(), myTarget.getPos(), false);
+      SolMath.toWorld(beaconPos, myTargetRelPos, myTarget.getAngle(), myTarget.getPosition(), false);
       mySpd.set(myTarget.getSpd());
     } else {
       beaconPos.set(myFarTarget.getPos());
@@ -188,7 +188,7 @@ public class BeaconHandler {
           if (myTarget == null) {
             myTargetRelPos.set(0, 0);
           } else {
-            SolMath.toRel(pos, myTargetRelPos, myTarget.getAngle(), myTarget.getPos());
+            SolMath.toRel(pos, myTargetRelPos, myTarget.getAngle(), myTarget.getPosition());
           }
         }
       }
@@ -226,7 +226,7 @@ public class BeaconHandler {
       SolShip s = (SolShip) o;
       Pilot pilot = s.getPilot();
       if (onMap && pilot.getMapHint() == null) continue;
-      float dst = o.getPos().dst(pos);
+      float dst = o.getPosition().dst(pos);
       float rad = iconRad == 0 ? s.getHull().config.getSize() : iconRad;
       if (dst < rad) {
         if (clicked) {
@@ -258,7 +258,7 @@ public class BeaconHandler {
 
   // returns Vector itself
   private Vector2 getPos0() {
-    return myD == null ? myFarD.getPos() : myD.getPos();
+    return myD == null ? myFarD.getPos() : myD.getPosition();
   }
 
   public Action getCurrAction() {

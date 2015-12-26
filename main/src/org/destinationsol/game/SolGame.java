@@ -75,7 +75,7 @@ public class SolGame {
   private final GridDrawer myGridDrawer;
   private final FarBgMan myFarBgMan;
   private final FarBackgroundManagerOld myFarBackgroundManagerOld;
-  private final FactionMan myFactionMan;
+  private final FactionManager myFactionManager;
   private final MapDrawer myMapDrawer;
   private final ShardBuilder myShardBuilder;
   private final ItemManager myItemManager;
@@ -125,8 +125,8 @@ public class SolGame {
     myNames = new SolNames();
     myPlanetManager = new PlanetManager(myTextureManager, hullConfigManager, gameColors, myItemManager);
     SolContactListener contactListener = new SolContactListener(this);
-    myFactionMan = new FactionMan(myTextureManager);
-    myObjectManager = new ObjectManager(contactListener, myFactionMan);
+    myFactionManager = new FactionManager();
+    myObjectManager = new ObjectManager(contactListener, myFactionManager);
     myGridDrawer = new GridDrawer(textureManager);
     myChunkManager = new ChunkManager(myTextureManager);
     myPartMan = new PartMan();
@@ -399,8 +399,8 @@ public class SolGame {
     createPlayer(null);
   }
 
-  public FactionMan getFactionMan() {
-    return myFactionMan;
+  public FactionManager getFactionMan() {
+    return myFactionManager;
   }
 
   public boolean isPlaceEmpty(Vector2 pos, boolean considerPlanets) {
@@ -415,7 +415,7 @@ public class SolGame {
     for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
       SolObject o = objs.get(i);
       if (!o.hasBody()) continue;
-      if (pos.dst(o.getPos()) < myObjectManager.getRadius(o)) {
+      if (pos.dst(o.getPosition()) < myObjectManager.getRadius(o)) {
         return false;
       }
     }
