@@ -252,8 +252,9 @@ public class MapDrawer {
         SolShip ship = (SolShip) o;
         // FIXME: Adam testing
         if(printCount==0) {
-          System.out.println(ship.getPilot() + " " + oPos);
+          System.out.println(ship.getPilot() + " " + oPos + " " + ship.getHull().getMass());
         }
+
         String hint = ship.getPilot().getMapHint();
         if (hint == null && !DebugOptions.DETAILED_MAP) continue;
         drawObjIcon(iconSz, oPos, ship.getAngle(), factionManager, hero, ship.getPilot().getFaction(), heroDmgCap, o, ship.getHull().config.getIcon(), drawer);
