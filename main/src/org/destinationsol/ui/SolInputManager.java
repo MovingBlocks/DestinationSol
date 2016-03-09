@@ -32,7 +32,6 @@ import org.destinationsol.TextureManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
-import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SolGame;
 
 import java.util.ArrayList;
