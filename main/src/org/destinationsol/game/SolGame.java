@@ -28,7 +28,6 @@ import org.destinationsol.game.chunk.ChunkManager;
 import org.destinationsol.game.dra.DraDebugger;
 import org.destinationsol.game.dra.DraMan;
 import org.destinationsol.game.farBg.FarBackgroundManagerOld;
-import org.destinationsol.game.farBg.FarBgMan;
 import org.destinationsol.game.gun.GunItem;
 import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.BeaconDestProvider;
@@ -73,7 +72,6 @@ public class SolGame {
   private final ShipBuilder myShipBuilder;
   private final HullConfigManager hullConfigManager;
   private final GridDrawer myGridDrawer;
-  private final FarBgMan myFarBgMan;
   private final FarBackgroundManagerOld myFarBackgroundManagerOld;
   private final FactionManager myFactionManager;
   private final MapDrawer myMapDrawer;
@@ -132,7 +130,6 @@ public class SolGame {
     myPartMan = new PartMan();
     myAsteroidBuilder = new AsteroidBuilder(myTextureManager);
     myLootBuilder = new LootBuilder();
-    myFarBgMan = new FarBgMan();
     myMapDrawer = new MapDrawer(myTextureManager, commonDrawer.h);
     myShardBuilder = new ShardBuilder(myTextureManager);
     myGalaxyFiller = new GalaxyFiller();
