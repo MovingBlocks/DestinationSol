@@ -105,7 +105,6 @@ public final class MusicManager {
         currentlyPlaying = music;
         currentlyPlaying.setVolume(options.volMul);
         currentlyPlaying.play();
-        System.out.println("playing music");
     }
     /**
      * Stop playing all music.
