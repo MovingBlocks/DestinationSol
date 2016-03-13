@@ -115,4 +115,9 @@ public final class MusicManager {
             currentlyPlaying.stop();
         }
     }
+
+    public void resetVolume(GameOptions options)
+    {
+        currentlyPlaying.setVolume(options.volMul);
+    }
 }
