@@ -19,6 +19,7 @@ package org.destinationsol;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
+import org.destinationsol.game.sound.MusicManager;
 
 import java.util.Iterator;
 import java.util.SortedSet;
@@ -205,6 +206,7 @@ public class GameOptions {
       volMul = 0;
     }
     save();
+    MusicManager.getInstance().resetVolume(this);
   }
 
   /**
