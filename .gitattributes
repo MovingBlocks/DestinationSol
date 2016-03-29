@@ -6,6 +6,7 @@
 *.java         text diff=java
 *.json         text
 *.markdown     text
+*.MF           text
 *.properties   text
 *.sh           text eol=lf
 *.shape        text
