@@ -1,4 +1,4 @@
-* text=auto !eol
+* text=auto
 
 *.bat          text eol=crlf
 *.gradle       text
