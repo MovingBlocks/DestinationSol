@@ -57,8 +57,8 @@ public class SolDesktop {
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException (Thread thread, final Throwable ex) {
-                System.err.println("Critical Failure" + ex.getLocalizedMessage());
-                Sys.alert("Critical Failure", ex.getLocalizedMessage());
+                System.err.println("Critical Failure " + ex.getLocalizedMessage());
+                Sys.alert("Critical Failure ", ex.getLocalizedMessage());
             }
         });
 
