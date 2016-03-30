@@ -54,6 +54,8 @@ public class StarPort implements SolObject {
   private float myAngle;
   private final boolean mySecondary;
 
+  int shipcount = 0;
+
   public StarPort(Planet from, Planet to, Body body, ArrayList<Dra> dras, boolean secondary, ArrayList<LightSrc> lights) {
     myFrom = from;
     myTo = to;

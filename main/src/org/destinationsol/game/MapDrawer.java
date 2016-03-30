@@ -74,10 +74,6 @@ public class MapDrawer {
   private float myAreaSkullTime;
   private final float myIconRad;
 
-  /**
-   * Adam's testing. Only print this many updates.
-   */
-  int printCount = 50;
 
   public MapDrawer(TextureManager textureManager, float screenHeight) {
     myZoom = MAX_ZOOM / MUL_FACTOR / MUL_FACTOR;
@@ -239,22 +235,14 @@ public class MapDrawer {
   private void drawIcons(GameDrawer drawer, SolGame game, float iconSz, float viewDist, FactionManager factionManager,
     SolShip hero, Vector2 camPos, float heroDmgCap)
   {
-    // FIXME: Adam testing
-    printCount--;
-    if(printCount == 0)
-      System.out.println("drawIcons");
     List<SolObject> objs = game.getObjMan().getObjs();
+
     for (int i1 = 0, objsSize = objs.size(); i1 < objsSize; i1++) {
       SolObject o = objs.get(i1);
       Vector2 oPos = o.getPosition();
       if (viewDist < camPos.dst(oPos)) continue;
       if ((o instanceof SolShip)) {
         SolShip ship = (SolShip) o;
-        // FIXME: Adam testing
-        if(printCount==0) {
-          System.out.println(ship.getPilot() + " " + oPos + " " + ship.getHull().getMass());
-        }
-
         String hint = ship.getPilot().getMapHint();
         if (hint == null && !DebugOptions.DETAILED_MAP) continue;
         drawObjIcon(iconSz, oPos, ship.getAngle(), factionManager, hero, ship.getPilot().getFaction(), heroDmgCap, o, ship.getHull().config.getIcon(), drawer);
@@ -263,27 +251,27 @@ public class MapDrawer {
         StarPort sp = (StarPort) o;
         drawStarPortIcon(drawer, iconSz, sp.getFrom(), sp.getTo());
       }
+      // Fix for when the player is in hyper. Hero is null and replaced in ObjMan with a StarPort.Transcendent
+      if ((o instanceof StarPort.Transcendent)) {
+        StarPort.Transcendent t = (StarPort.Transcendent)o;
+        if (t.getShip().getPilot().isPlayer()) {
+          FarShip ship = game.getTranscendentHero().getShip();
+          drawObjIcon(iconSz, oPos, t.getAngle(), factionManager, hero, ship.getPilot().getFaction(), heroDmgCap, o, ship.getHullConfig().getIcon(), drawer);
+        }
+
+      }
     }
 
     List<FarShip> farShips = game.getObjMan().getFarShips();
-    // FIXME: Adam testing
-    if(printCount == 0)
-      System.out.println("farShips size " + farShips.size() + " hero "+ hero.getPilot().isPlayer());
     for (int i = 0, sz = farShips.size(); i < sz; i++) {
       FarShip ship = farShips.get(i);
-      // FIXME: Adam testing
-      if(printCount == 0){
-        System.out.println(ship.getPilot() + " " + ship.getPos());
-      }
       Vector2 oPos = ship.getPos();
       if (viewDist < camPos.dst(oPos)) continue;
       String hint = ship.getPilot().getMapHint();
       if (hint == null && !DebugOptions.DETAILED_MAP) continue;
       drawObjIcon(iconSz, oPos, ship.getAngle(), factionManager, hero, ship.getPilot().getFaction(), heroDmgCap, ship, ship.getHullConfig().getIcon(), drawer);
     }
-    // FIXME: Adam's testing
-    if(printCount == 0)
-      printCount = 50000;
+
     List<StarPort.MyFar> farPorts = game.getObjMan().getFarPorts();
     for (int i = 0, sz = farPorts.size(); i < sz; i++) {
       StarPort.MyFar sp = farPorts.get(i);

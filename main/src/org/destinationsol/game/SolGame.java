@@ -17,6 +17,7 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.*;
 import org.destinationsol.common.DebugCol;
@@ -92,6 +93,7 @@ public class SolGame {
   private final TutorialManager myTutorialManager;
 
   private SolShip myHero;
+  private TextureAtlas.AtlasRegion heroIcon;
   private float myTimeStep;
   private float myTime;
   private boolean myPaused;
@@ -282,6 +284,7 @@ public class SolGame {
         Pilot prov = ship.getPilot();
         if (prov.isPlayer()) {
           myHero = ship;
+          heroIcon = myHero.getHull().config.getIcon();
           break;
         }
       }
@@ -526,5 +529,9 @@ public class SolGame {
         }
       }
     }
+  }
+
+  public TextureAtlas.AtlasRegion getLastHeroIcon() {
+    return heroIcon;
   }
 }
