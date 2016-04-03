@@ -26,6 +26,7 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.sound.MusicManager;
 import org.destinationsol.menu.MenuScreens;
 import org.destinationsol.ui.*;
 
@@ -56,9 +57,12 @@ public class SolApplication implements ApplicationListener {
 
   @Override
   public void create() {
+
     myReallyMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
     if (myReallyMobile) DebugOptions.read(null);
     myOptions = new GameOptions(isMobile(), null);
+
+    MusicManager.getInstance().PlayMenuMusic(myOptions);
 
     myTextureManager = new TextureManager();
     myCommonDrawer = new CommonDrawer();
@@ -151,11 +155,13 @@ public class SolApplication implements ApplicationListener {
     if (myGame != null) throw new AssertionError("Starting a new game with unfinished current one");
     myInputMan.setScreen(this, myMenuScreens.loading);
     myMenuScreens.loading.setMode(tut, usePrevShip);
+    MusicManager.getInstance().PlayGameMusic(myOptions);
   }
 
   public void startNewGame(boolean tut, boolean usePrevShip) {
     myGame = new SolGame(this, usePrevShip, myTextureManager, tut, myCommonDrawer);
     myInputMan.setScreen(this, myGame.getScreens().mainScreen);
+    MusicManager.getInstance().PlayGameMusic(myOptions);
   }
 
   public SolInputManager getInputMan() {

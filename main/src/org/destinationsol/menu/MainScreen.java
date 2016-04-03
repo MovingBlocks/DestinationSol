@@ -25,6 +25,7 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.TextureManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.sound.MusicManager;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
@@ -45,10 +46,12 @@ public class MainScreen implements SolUiScreen {
   private final SolUiControl myCreditsCtrl;
   private final TextureAtlas.AtlasRegion myTitleTex;
   private final boolean isMobile;
+  GameOptions gameOptions;
 
   public MainScreen(MenuLayout menuLayout, TextureManager textureManager, boolean mobile, float r, GameOptions gameOptions) {
     isMobile = mobile;
     myControls = new ArrayList<SolUiControl>();
+    this.gameOptions = gameOptions;
 
     myTutCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.T);
     myTutCtrl.setDisplayName("Tutorial");
@@ -123,7 +126,7 @@ public class MainScreen implements SolUiScreen {
 
   @Override
   public void onAdd(SolApplication cmp) {
-
+    MusicManager.getInstance().PlayMenuMusic(gameOptions);
   }
 
   @Override
