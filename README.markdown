@@ -106,7 +106,7 @@ Contributors
 *Contributors on GitHub:* 
 
 * [Cervator](https://github.com/Cervator)
-* [PrivateAlpha](https://github.com/PrivateAlpha)
+* [Rulasmur](https://github.com/Rulasmur) / PrivateAlpha
 * [theotherjay](https://github.com/theotherjay)
 * [LinusVanElswijk](https://github.com/LinusVanElswijk)
 * [SimonC4](https://github.com/SimonC4)
@@ -114,5 +114,9 @@ Contributors
 * [askneller](https://github.com/askneller)
 
 ... and your name here? :-) More coming!
+
+*Soundtrack:*
+
+Provided by [NeonInsect](https://github.com/NeonInsect) ([Soundcloud](https://soundcloud.com/neon-insect)) and copyrighted by him, free for our use with Destination Sol.
 
 Apologies in advance for any omissions, contact [Cervator](http://forum.terasology.org/members/cervator.2/) if you believe you've been missed :-)
