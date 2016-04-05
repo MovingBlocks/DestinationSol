@@ -72,7 +72,6 @@ public class ObjectManager {
   }
 
   public void update(SolGame game) {
-
     addRemove(game);
 
     float ts = game.getTimeStep();
@@ -125,7 +124,11 @@ public class ObjectManager {
       }
       if (isNear(fod, camPos, ts)) {
         SolObject o = fo.toObj(game);
-        addObjDelayed(o);
+        // Ensure that StarPorts are added straight away so that we can see if they overlap
+        if (o instanceof StarPort)
+          addObjNow(game, o);
+        else
+          addObjDelayed(o);
         removeFo(it, fo);
       }
     }

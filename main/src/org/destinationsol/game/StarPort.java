@@ -72,6 +72,8 @@ public class StarPort implements SolObject {
     float fps = 1 / game.getTimeStep();
 
     Vector2 spd = getDesiredPos(myFrom, myTo, true);
+    // Adjust position so that StarPorts are not overlapping
+    spd = adjustDesiredPos(game, this, spd);
     spd.sub(myPos).scl(fps/4);
     myBody.setLinearVelocity(spd);
     SolMath.free(spd);
@@ -193,6 +195,28 @@ public class StarPort implements SolObject {
     return pos;
   }
 
+  private static Vector2 adjustDesiredPos(SolGame game, StarPort myPort, Vector2 desired) {
+    Vector2 newPos = desired;
+    List<SolObject> objs = game.getObjMan().getObjs();
+    for (SolObject o : objs) {
+      if (o instanceof StarPort && o != myPort) {
+        StarPort sp = (StarPort)o;
+        // Check if the positions overlap
+        Vector2 fromPos = sp.getPosition();
+        Vector2 distVec = SolMath.distVec(fromPos, desired);
+        float distance = SolMath.hypotenuse(distVec.x, distVec.y);
+        if (distance <= (float)StarPort.SIZE) {
+          distVec.scl((StarPort.SIZE + .5f) / distance);
+          newPos = fromPos.cpy().add(distVec);
+          Vector2 d2 = SolMath.distVec(fromPos, newPos);
+          SolMath.free(d2);
+        }
+        SolMath.free(distVec);
+      }
+    }
+    return newPos;
+  }
+
   public Planet getFrom() {
     return myFrom;
   }
@@ -212,6 +236,8 @@ public class StarPort implements SolObject {
     public StarPort build(SolGame game, Planet from, Planet to, boolean secondary) {
       float angle = SolMath.angle(from.getPos(), to.getPos());
       Vector2 pos = getDesiredPos(from, to, false);
+      // Adjust position so that StarPorts are not overlapping
+      pos = adjustDesiredPos(game, null, pos);
       ArrayList<Dra> dras = new ArrayList<Dra>();
       Body body = myLoader.getBodyAndSprite(game, "smallGameObjs", "starPort", SIZE,
         BodyDef.BodyType.KinematicBody, new Vector2(pos), angle, dras, 10f, DraLevel.BIG_BODIES, null);
@@ -228,7 +254,6 @@ public class StarPort implements SolObject {
       body.setUserData(sp);
       return sp;
     }
-
     private void addFlow(SolGame game, Vector2 pos, ArrayList<Dra> dras, float angle, ArrayList<LightSrc> lights) {
       EffectConfig flow = game.getSpecialEffects().starPortFlow;
       Vector2 relPos = new Vector2();
