@@ -91,7 +91,7 @@ public class SolGun {
     }
     myCoolDown += myItem.config.timeBetweenShots;
     myItem.ammo--;
-    game.getSoundMan().play(game, myItem.config.shootSound, muzzlePos, creator);
+    game.getOggSoundManager().play(game, myItem.config.shootSound, muzzlePos, creator);
   }
 
   public void update(ItemContainer ic, SolGame game, float gunAngle, SolObject creator, boolean shouldShoot, Faction faction) {
@@ -109,7 +109,7 @@ public class SolGun {
     if (myItem.ammo <= 0 && myItem.reloadAwait <= 0) {
       if (myItem.config.clipConf.infinite || ic != null && ic.tryConsumeItem(myItem.config.clipConf.example)) {
         myItem.reloadAwait = myItem.config.reloadTime + .0001f;
-        game.getSoundMan().play(game, myItem.config.reloadSound, null, creator);
+        game.getOggSoundManager().play(game, myItem.config.reloadSound, null, creator);
       }
     } else if (myItem.reloadAwait > 0) {
       myItem.reloadAwait -= ts;

@@ -18,6 +18,7 @@ package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -79,8 +80,8 @@ public class ShipEngine {
     myLightSrc1.update(working, angle, game);
     myLightSrc2.update(working, angle, game);
     if (working) {
-      SolSound sound = myItem.getWorkSound();
-      game.getSoundMan().play(game, sound, myFlameSrc1.getPos(), owner); // hack with pos
+      PlayableSound sound = myItem.getWorkSound();
+      game.getOggSoundManager().play(game, sound, myFlameSrc1.getPos(), owner); // hack with pos
     }
   }
 

@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.*;
@@ -115,8 +116,8 @@ public class
     }
     if (myLightSrc != null) myLightSrc.update(true, myBody.getAngle(), game);
     maybeGuide(game);
-    SolSound ws = myConfig.workSound;
-    game.getSoundMan().play(game, ws, null, this);
+    PlayableSound ws = myConfig.workSound;
+    game.getOggSoundManager().play(game, ws, null, this);
   }
 
   private void maybeGuide(SolGame game) {
@@ -141,7 +142,7 @@ public class
     if (myConfig.collisionEffectBg != null) {
       game.getPartMan().blinks(pos, game, myConfig.collisionEffectBg.sz);
     }
-    game.getSoundMan().play(game, myConfig.collisionSound, null, this);
+    game.getOggSoundManager().play(game, myConfig.collisionSound, null, this);
   }
 
   @Override
