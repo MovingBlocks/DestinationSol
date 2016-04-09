@@ -25,14 +25,14 @@ import org.destinationsol.game.gun.GunItem;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.projectile.ProjectileConfigs;
 import org.destinationsol.game.ship.AbilityCharge;
-import org.destinationsol.game.sound.SoundManager;
+import org.destinationsol.game.sound.OggSoundManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class ItemManager {
-    private final HashMap<String,SolItem> myM;
+    private final HashMap<String, SolItem> myM;
     private final ArrayList<SolItem> myL;
     public final ProjectileConfigs projConfigs;
     public final TextureAtlas.AtlasRegion moneyIcon;
@@ -43,7 +43,7 @@ public class ItemManager {
     private final SolItemTypes myTypes;
     private final RepairItem myRepairExample;
 
-    public ItemManager(TextureManager textureManager, SoundManager soundManager, EffectTypes effectTypes, GameColors gameColors) {
+    public ItemManager(TextureManager textureManager, OggSoundManager oggSoundManager, EffectTypes effectTypes, GameColors gameColors) {
 
         moneyIcon = textureManager.getTex(TextureManager.ICONS_DIR + "money", null);
         medMoneyIcon = textureManager.getTex(TextureManager.ICONS_DIR + "medMoney", null);
@@ -51,16 +51,16 @@ public class ItemManager {
         repairIcon = textureManager.getTex(TextureManager.ICONS_DIR + "repairItem", null);
         myM = new HashMap<String, SolItem>();
 
-        myTypes = new SolItemTypes(soundManager, gameColors);
-        projConfigs = new ProjectileConfigs(textureManager, soundManager, effectTypes, gameColors);
-        myEngineConfigs = EngineItem.Configs.load(soundManager, textureManager, effectTypes, gameColors);
+        myTypes = new SolItemTypes(oggSoundManager, gameColors);
+        projConfigs = new ProjectileConfigs(textureManager, oggSoundManager, effectTypes, gameColors);
+        myEngineConfigs = EngineItem.Configs.load(oggSoundManager, textureManager, effectTypes, gameColors);
 
-        Shield.Config.loadConfigs(this, soundManager, textureManager, myTypes);
-        Armor.Config.loadConfigs(this, soundManager, textureManager, myTypes);
+        Shield.Config.loadConfigs(this, oggSoundManager, textureManager, myTypes);
+        Armor.Config.loadConfigs(this, oggSoundManager, textureManager, myTypes);
         AbilityCharge.Config.load(this, textureManager, myTypes);
 
         ClipConfig.load(this, textureManager, myTypes);
-        GunConfig.load(textureManager, this, soundManager, myTypes);
+        GunConfig.load(textureManager, this, oggSoundManager, myTypes);
 
         myRepairExample = new RepairItem(myTypes.repair);
         myM.put(myRepairExample.getCode(), myRepairExample);
@@ -131,7 +131,7 @@ public class ItemManager {
         }
 
         return result;
-  }
+    }
 
     public SolItem getExample(String code) {
         return myM.get(code);
@@ -154,55 +154,55 @@ public class ItemManager {
         return myEngineConfigs;
     }
 
-  public MoneyItem moneyItem(float amt) {
-    SolItemType t;
-    if (amt == MoneyItem.BIG_AMT) {
-      t = myTypes.bigMoney;
-    } else if (amt == MoneyItem.MED_AMT) {
-      t = myTypes.medMoney;
-    } else {
-      t = myTypes.money;
-    }
-    return new MoneyItem(amt, t);
-  }
-
-  public RepairItem getRepairExample() {
-    return myRepairExample;
-  }
-
-  public void addAllGuns(ItemContainer ic) {
-    for (SolItem i : myM.values()) {
-      if (i instanceof ClipItem && !((ClipItem) i).getConfig().infinite) {
-        for (int j = 0; j < 8; j++) {
-          ic.add(i.copy());
+    public MoneyItem moneyItem(float amt) {
+        SolItemType t;
+        if (amt == MoneyItem.BIG_AMT) {
+            t = myTypes.bigMoney;
+        } else if (amt == MoneyItem.MED_AMT) {
+            t = myTypes.medMoney;
+        } else {
+            t = myTypes.money;
         }
-      }
+        return new MoneyItem(amt, t);
     }
-    for (SolItem i : myM.values()) {
-      if (i instanceof GunItem) {
-        if (ic.canAdd(i)) ic.add(i.copy());
-      }
-    }
-  }
 
-  public List<MoneyItem> moneyToItems(float amt) {
-    ArrayList<MoneyItem> res = new ArrayList<MoneyItem>();
-    while (amt > MoneyItem.AMT) {
-      MoneyItem example;
-      if (amt > MoneyItem.BIG_AMT) {
-        example = moneyItem(MoneyItem.BIG_AMT);
-        amt -= MoneyItem.BIG_AMT;
-      } else if (amt > MoneyItem.MED_AMT) {
-        example = moneyItem(MoneyItem.MED_AMT);
-        amt -= MoneyItem.MED_AMT;
-      } else {
-        example = moneyItem(MoneyItem.AMT);
-        amt -= MoneyItem.AMT;
-      }
-      res.add(example.copy());
+    public RepairItem getRepairExample() {
+        return myRepairExample;
     }
-    return res;
-  }
+
+    public void addAllGuns(ItemContainer ic) {
+        for (SolItem i : myM.values()) {
+            if (i instanceof ClipItem && !((ClipItem) i).getConfig().infinite) {
+                for (int j = 0; j < 8; j++) {
+                    ic.add(i.copy());
+                }
+            }
+        }
+        for (SolItem i : myM.values()) {
+            if (i instanceof GunItem) {
+                if (ic.canAdd(i)) ic.add(i.copy());
+            }
+        }
+    }
+
+    public List<MoneyItem> moneyToItems(float amt) {
+        ArrayList<MoneyItem> res = new ArrayList<MoneyItem>();
+        while (amt > MoneyItem.AMT) {
+            MoneyItem example;
+            if (amt > MoneyItem.BIG_AMT) {
+                example = moneyItem(MoneyItem.BIG_AMT);
+                amt -= MoneyItem.BIG_AMT;
+            } else if (amt > MoneyItem.MED_AMT) {
+                example = moneyItem(MoneyItem.MED_AMT);
+                amt -= MoneyItem.MED_AMT;
+            } else {
+                example = moneyItem(MoneyItem.AMT);
+                amt -= MoneyItem.AMT;
+            }
+            res.add(example.copy());
+        }
+        return res;
+    }
 
     private static ItemManager instance = null;
 }
