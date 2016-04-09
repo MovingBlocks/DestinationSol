@@ -3,7 +3,6 @@ package org.destinationsol.desktop;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.google.common.base.Throwables;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.SolFileReader;
@@ -14,6 +13,8 @@ import org.lwjgl.Sys;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,11 @@ public class SolDesktop {
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread, final Throwable ex) {
-                String exceptionString = Throwables.getStackTraceAsString(ex) + "Message: " + ex.getLocalizedMessage();
+                StringWriter stringWriter = new StringWriter();
+                PrintWriter printWriter = new PrintWriter(stringWriter);
+                ex.printStackTrace(printWriter);
+
+                String exceptionString = stringWriter.getBuffer().toString() + "Message: " + ex.getLocalizedMessage();
                 System.err.println("Uncaught exception: " + exceptionString);
                 Sys.alert("Uncaught Exception", exceptionString);
             }
