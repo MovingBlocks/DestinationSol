@@ -111,6 +111,8 @@ Contributors
 * [LinusVanElswijk](https://github.com/LinusVanElswijk)
 * [SimonC4](https://github.com/SimonC4)
 * [grauerkoala](https://github.com/grauerkoala)
+* [rzats](https://github.com/rzats)
+* [LadySerenaKitty](https://github.com/LadySerenaKitty)
 * [askneller](https://github.com/askneller)
 
 ... and your name here? :-) More coming!
