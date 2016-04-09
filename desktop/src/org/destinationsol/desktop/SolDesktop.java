@@ -13,6 +13,8 @@ import org.lwjgl.Sys;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +58,14 @@ public class SolDesktop {
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
-            public void uncaughtException (Thread thread, final Throwable ex) {
-                System.err.println("Critical Failure " + ex.getLocalizedMessage());
-                Sys.alert("Critical Failure ", ex.getLocalizedMessage());
+            public void uncaughtException(Thread thread, final Throwable ex) {
+                StringWriter stringWriter = new StringWriter();
+                PrintWriter printWriter = new PrintWriter(stringWriter);
+                ex.printStackTrace(printWriter);
+
+                String exceptionString = stringWriter.getBuffer().toString() + "Message: " + ex.getLocalizedMessage();
+                System.err.println("Uncaught exception: " + exceptionString);
+                Sys.alert("Uncaught Exception", exceptionString);
             }
         });
 
