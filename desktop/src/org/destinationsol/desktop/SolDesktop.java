@@ -3,6 +3,7 @@ package org.destinationsol.desktop;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.google.common.base.Throwables;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.SolFileReader;
@@ -56,9 +57,10 @@ public class SolDesktop {
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
-            public void uncaughtException (Thread thread, final Throwable ex) {
-                System.err.println("Critical Failure " + ex.getLocalizedMessage());
-                Sys.alert("Critical Failure ", ex.getLocalizedMessage());
+            public void uncaughtException(Thread thread, final Throwable ex) {
+                String exceptionString = Throwables.getStackTraceAsString(ex) + "Message: " + ex.getLocalizedMessage();
+                System.err.println("Uncaught exception: " + exceptionString);
+                Sys.alert("Uncaught Exception", exceptionString);
             }
         });
 
