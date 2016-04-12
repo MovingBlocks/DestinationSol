@@ -67,4 +67,14 @@ public class RepairItem implements SolItem {
   public String getCode() {
     return "rep";
   }
+
+  @Override
+  public boolean isEquipped() {
+    return false;
+  }
+
+  @Override
+  public void setEquipped(boolean equipped) {
+
+  }
 }

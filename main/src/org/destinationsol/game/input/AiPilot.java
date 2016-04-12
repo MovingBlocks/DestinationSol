@@ -121,13 +121,20 @@ public class AiPilot implements Pilot {
     }
 
     if (myReEquipAwait <= 0) {
-      reEquip(game, ship);
+      //reEquip(game, ship); // Don't change equipped items across load/respawn
       myReEquipAwait = MAX_RE_EQUIP_AWAIT;
     } else {
       myReEquipAwait -= game.getTimeStep();
     }
   }
 
+  /**
+   * Equips the best guns, shields, and armor in inventory.
+   *
+   * Change by askneller: Now preserving equipped items over load/respawn, so removed calls to this method.
+   * @param game
+   * @param ship
+     */
   public static void reEquip(SolGame game, SolShip ship) {
     Hull hull = ship.getHull();
     GunItem g1 = hull.getGun(false);

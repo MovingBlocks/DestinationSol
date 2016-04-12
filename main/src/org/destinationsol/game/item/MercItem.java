@@ -69,6 +69,16 @@ public class MercItem implements SolItem {
     return null;
   }
 
+  @Override
+  public boolean isEquipped() {
+    return false;
+  }
+
+  @Override
+  public void setEquipped(boolean equipped) {
+
+  }
+
   public ShipConfig getConfig() {
     return myConfig;
   }
