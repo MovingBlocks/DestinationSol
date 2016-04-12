@@ -84,11 +84,13 @@ public class GunMount {
       List<Dra> dras1 = myGun.getDras();
       dras.removeAll(dras1);
       game.getDraMan().removeAll(dras1);
+      myGun.getItem().setEquipped(false);
       myGun = null;
     }
     if (gunItem != null) {
       if (gunItem.config.fixed != myFixed) throw new AssertionError("tried to set gun to incompatible mount");
       myGun = new SolGun(game, gunItem, myRelPos, underShip);
+      myGun.getItem().setEquipped(true);
       List<Dra> dras1 = myGun.getDras();
       dras.addAll(dras1);
       game.getDraMan().addAll(dras1);

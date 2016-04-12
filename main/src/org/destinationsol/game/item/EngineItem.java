@@ -83,6 +83,16 @@ public class EngineItem implements SolItem {
     return null;
   }
 
+  @Override
+  public boolean isEquipped() {
+    return false;
+  }
+
+  @Override
+  public void setEquipped(boolean equipped) {
+
+  }
+
   public SolSound getWorkSound() {
     return myConfig.workSound;
   }

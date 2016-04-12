@@ -92,6 +92,16 @@ public class ShipItem implements SolItem {
     return null;
   }
 
+  @Override
+  public boolean isEquipped() {
+    return false;
+  }
+
+  @Override
+  public void setEquipped(boolean equipped) {
+
+  }
+
   public HullConfig getConfig() {
     return myConfig;
   }
