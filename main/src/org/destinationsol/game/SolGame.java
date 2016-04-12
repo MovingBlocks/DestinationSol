@@ -34,10 +34,7 @@ import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.BeaconDestProvider;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.input.UiControlledPilot;
-import org.destinationsol.game.item.ItemContainer;
-import org.destinationsol.game.item.ItemManager;
-import org.destinationsol.game.item.LootBuilder;
-import org.destinationsol.game.item.SolItem;
+import org.destinationsol.game.item.*;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.particle.PartMan;
 import org.destinationsol.game.particle.SpecialEffects;
@@ -186,6 +183,10 @@ public class SolGame {
       for (int i1 = 0, sz = myRespawnItems.size(); i1 < sz; i1++) {
         SolItem item = myRespawnItems.get(i1);
         ic.add(item);
+        // Ensure that previously equipped items stay equipped
+        if (item.isEquipped()) {
+          myHero.maybeEquip(this, item, true);
+        }
       }
     } else if (DebugOptions.GOD_MODE) {
       myItemManager.addAllGuns(ic);
@@ -199,7 +200,7 @@ public class SolGame {
       }
     }
     ic.seenAll();
-    AiPilot.reEquip(this, myHero);
+    //AiPilot.reEquip(this, myHero);  // Don't change equipped items across load/respawn
 
     myObjectManager.addObjDelayed(myHero);
     myObjectManager.resetDelays();

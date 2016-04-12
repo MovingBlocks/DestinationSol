@@ -98,12 +98,19 @@ public class ItemManager {
             ArrayList<SolItem> examples = new ArrayList<SolItem>();
 
             for (String name : names) {
+                boolean wasEquipped = false;
 
+                if (name.endsWith("*")) {
+                    wasEquipped = true;
+                    name = name.substring(0, name.length()-1); // Remove asterisk
+                }
                 SolItem example = getExample(name.trim());
 
                 if (example == null) {
                     throw new AssertionError("unknown item " + name + "@" + parts[0] + "@" + rec + "@" + items);
                 }
+
+                example.setEquipped(wasEquipped);
 
                 examples.add(example);
             }

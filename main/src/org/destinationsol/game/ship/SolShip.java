@@ -431,12 +431,20 @@ public class SolShip implements SolObject {
       }
       if (item instanceof Shield) {
         Shield shield = (Shield) item;
-        if (equip) myShield = shield;
+        if (equip) {
+          maybeUnequip(game, myShield, false, true);
+          myShield = shield;
+          myShield.setEquipped(true);
+        }
         return true;
       }
       if (item instanceof Armor) {
         Armor armor = (Armor) item;
-        if (equip) myArmor = armor;
+        if (equip) {
+          maybeUnequip(game, myArmor, false, true);
+          myArmor = armor;
+          myArmor.setEquipped(true);
+        }
         return true;
       }
     }
@@ -470,11 +478,17 @@ public class SolShip implements SolObject {
         return true;
       }
       if (myShield == item) {
-        if (unequip) myShield = null;
+        if (unequip && myShield != null) {
+          myShield.setEquipped(false);
+          myShield = null;
+        }
         return true;
       }
       if (myArmor == item) {
-        if (unequip) myArmor = null;
+        if (unequip && myArmor != null) {
+          myArmor.setEquipped(false);
+          myArmor = null;
+        }
         return true;
       }
     }

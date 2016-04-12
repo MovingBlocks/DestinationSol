@@ -71,39 +71,61 @@ public class ShipBuilder {
     EngineItem ei = ec == null ? null : ec.example.copy();
     TradeContainer tc = tradeConfig == null ? null : new TradeContainer(tradeConfig);
 
-
     GunItem g1 = null;
     GunItem g2 = null;
     Shield shield = null;
     Armor armor = null;
+
+    // Temp variables in case nothing is starred in the save file (which will happen the first time someone
+    // loads the game after the upgrade that includes this code)
+    Shield sh = null;
+    Armor ar = null;
+    GunItem g1a = null;
+    GunItem g2a = null;
     for (List<SolItem> group : ic) {
       for (SolItem i : group) {
         if (i instanceof Shield) {
-          shield = (Shield) i;
-          continue;
+          sh = (Shield) i; // Temp variable
+          if (i.isEquipped()) {
+            shield = (Shield) i;
+            continue;
+          }
         }
         if (i instanceof Armor) {
-          armor = (Armor) i;
-          continue;
+          ar = (Armor) i; // Temp variable
+          if (i.isEquipped()) {
+            armor = (Armor) i;
+            continue;
+          }
         }
         if (i instanceof GunItem) {
           GunItem g = (GunItem) i;
-          if (g1 == null && hullConfig.getGunSlot(0).allowsRotation() != g.config.fixed) {
-            g1 = g;
+          if (hullConfig.getGunSlot(0).allowsRotation() != g.config.fixed) g1a = g; // Temp variable
+          if (hullConfig.getNrOfGunSlots() > 1 && hullConfig.getGunSlot(1).allowsRotation() != g.config.fixed) g2a = g; // Temp variable
+
+          if (i.isEquipped()) {
+            if (g1 == null && hullConfig.getGunSlot(0).allowsRotation() != g.config.fixed) {
+              g1 = g;
+              continue;
+            }
+            if (hullConfig.getNrOfGunSlots() > 1 && g2 == null && hullConfig.getGunSlot(1).allowsRotation() != g.config.fixed)
+              g2 = g;
             continue;
           }
-          if (hullConfig.getNrOfGunSlots() > 1 && g2 == null && hullConfig.getGunSlot(1).allowsRotation() != g.config.fixed) g2 = g;
-          continue;
         }
       }
     }
+
+    if (armor == null) armor = ar;
+    if (shield == null) shield = sh;
+    if (g1 == null) g1 = g1a;
+    if (g2 == null) g2 = g2a; // Could be null so don't need to check if there is a second gun slot
 
     if (giveAmmo) {
       addAbilityCharges(ic, hullConfig, pilot);
       addAmmo(ic, g1, pilot);
       addAmmo(ic, g2, pilot);
     }
-
     return new FarShip(new Vector2(pos), new Vector2(spd), angle, rotSpd, pilot, ic, hullConfig, hullConfig.getMaxLife(),
       g1, g2, removeController, ei, hasRepairer ? new ShipRepairer() : null, money, tc, shield, armor);
   }

@@ -74,4 +74,14 @@ public class MoneyItem implements SolItem {
   public String getCode() {
     return null;
   }
+
+  @Override
+  public boolean isEquipped() {
+    return false;
+  }
+
+  @Override
+  public void setEquipped(boolean equipped) {
+
+  }
 }

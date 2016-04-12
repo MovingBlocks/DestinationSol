@@ -29,9 +29,15 @@ import org.destinationsol.game.sound.SoundManager;
 
 public class Armor implements SolItem {
   private final Config myConfig;
+  private boolean myEquipped;
 
   private Armor(Config config) {
     myConfig = config;
+  }
+
+  private Armor(Config config, boolean equipped) {
+    this(config);
+    myEquipped = equipped;
   }
 
   @Override
@@ -51,7 +57,7 @@ public class Armor implements SolItem {
 
   @Override
   public SolItem copy() {
-    return new Armor(myConfig);
+    return new Armor(myConfig, myEquipped);
   }
 
   @Override
@@ -85,6 +91,10 @@ public class Armor implements SolItem {
     }
     return null;
   }
+
+  public boolean isEquipped() { return myEquipped; }
+
+  public void setEquipped(boolean equipped) { myEquipped = equipped; }
 
   public static class Config {
     public final String displayName;

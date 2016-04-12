@@ -37,10 +37,16 @@ public class Shield implements SolItem {
   private final Config myConfig;
   private float myLife;
   private float myIdleTime;
+  private boolean myEquipped;
 
   private Shield(Config config) {
     myConfig = config;
     myLife = myConfig.maxLife;
+  }
+
+  private Shield(Config config, boolean equipped) {
+    this(config);
+    myEquipped = equipped;
   }
 
   public void update(SolGame game, SolObject owner) {
@@ -75,7 +81,7 @@ public class Shield implements SolItem {
 
   @Override
   public SolItem copy() {
-    return new Shield(myConfig);
+    return new Shield(myConfig, myEquipped);
   }
 
   @Override
@@ -121,6 +127,10 @@ public class Shield implements SolItem {
     game.getSoundMan().play(game, myConfig.absorbSound, null, ship, volMul);
 
   }
+
+  public boolean isEquipped() { return myEquipped; }
+
+  public void setEquipped(boolean equipped) { myEquipped = equipped; }
 
   public static class Config {
     public final String displayName;
