@@ -100,26 +100,41 @@ public class ShipBuilder {
         }
         if (i instanceof GunItem) {
           GunItem g = (GunItem) i;
-          if (hullConfig.getGunSlot(0).allowsRotation() != g.config.fixed) g1a = g; // Temp variable
-          if (hullConfig.getNrOfGunSlots() > 1 && hullConfig.getGunSlot(1).allowsRotation() != g.config.fixed) g2a = g; // Temp variable
+          if (hullConfig.getGunSlot(0).allowsRotation() != g.config.fixed) {
+            g1a = g; // Temp variable
+          }
+          else if (hullConfig.getNrOfGunSlots() > 1 && hullConfig.getGunSlot(1).allowsRotation() != g.config.fixed) {
+            g2a = g; // Temp variable
+          }
 
           if (i.isEquipped()) {
             if (g1 == null && hullConfig.getGunSlot(0).allowsRotation() != g.config.fixed) {
               g1 = g;
               continue;
             }
-            if (hullConfig.getNrOfGunSlots() > 1 && g2 == null && hullConfig.getGunSlot(1).allowsRotation() != g.config.fixed)
+            if (hullConfig.getNrOfGunSlots() > 1 && g2 == null && hullConfig.getGunSlot(1).allowsRotation() != g.config.fixed) {
               g2 = g;
-            continue;
+            }
+            if (g1 != g && g2 != g) {
+              i.setEquipped(false); // The gun couldn't fit in either slot
+            }
           }
         }
       }
     }
 
-    if (armor == null) armor = ar;
-    if (shield == null) shield = sh;
-    if (g1 == null) g1 = g1a;
-    if (g2 == null) g2 = g2a; // Could be null so don't need to check if there is a second gun slot
+    if (armor == null) {
+      armor = ar;
+    }
+    if (shield == null) {
+      shield = sh;
+    }
+    if (g1 == null) {
+      g1 = g1a;
+    }
+    if (g2 == null) {
+      g2 = g2a; // Could be null so don't need to check if there is a second gun slot
+    }
 
     if (giveAmmo) {
       addAbilityCharges(ic, hullConfig, pilot);
