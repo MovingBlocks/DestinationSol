@@ -35,12 +35,16 @@ public class SaveManager {
     StringBuilder sb = new StringBuilder();
     for (SolItem i : items) {
       sb.append(i.getCode());
-      if (i.isEquipped()) sb.append('*');
+      if (i.isEquipped()) {
+        sb.append('*');
+      }
       sb.append(" ");
       // Save gun's loaded ammo
       if (i instanceof GunItem) {
         GunItem g = (GunItem) i;
-        if (g.ammo > 0) sb.append(g.config.clipConf.code + " ");
+        if (g.ammo > 0 && !g.config.clipConf.infinite) {
+          sb.append(g.config.clipConf.code + " ");
+        }
       }
     }
     IniReader.write(FILE_NAME, "hull", hullName, "money", (int) money, "items", sb.toString());
