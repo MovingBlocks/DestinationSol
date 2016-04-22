@@ -26,7 +26,7 @@ public class GunItem implements SolItem {
   public final GunConfig config;
   public int ammo;
   public float reloadAwait;
-  private boolean myEquipped;
+  private int myEquipped;
 
   public GunItem(GunConfig config, int ammo, float reloadAwait) {
     this.config = config;
@@ -34,7 +34,7 @@ public class GunItem implements SolItem {
     this.reloadAwait = reloadAwait;
   }
 
-  public GunItem(GunConfig config, int ammo, float reloadAwait, boolean equipped) {
+  public GunItem(GunConfig config, int ammo, float reloadAwait, int equipped) {
     this(config, ammo, reloadAwait);
     this.myEquipped = equipped;
   }
@@ -83,7 +83,7 @@ public class GunItem implements SolItem {
     return ammo > 0 || reloadAwait > 0;
   }
 
-  public boolean isEquipped() { return myEquipped; }
+  public int isEquipped() { return myEquipped; }
 
-  public void setEquipped(boolean equipped) { myEquipped = equipped; }
+  public void setEquipped(int equipped) { myEquipped = equipped; }
 }
