@@ -69,16 +69,16 @@ public class FarShip implements FarObj {
 
     if (myPilot.isPlayer()) {
       if (myShield != null) {
-        myShield.setEquipped(true);
+        myShield.setEquipped(1);
       }
       if (myArmor != null) {
-        myArmor.setEquipped(true);
+        myArmor.setEquipped(1);
       }
       if (myGun1 != null) {
-        myGun1.setEquipped(true);
+        myGun1.setEquipped(1);
       }
       if (myGun2 != null) {
-        myGun2.setEquipped(true);
+        myGun2.setEquipped(2);
       }
     }
   }

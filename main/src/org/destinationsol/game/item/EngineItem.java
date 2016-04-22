@@ -84,12 +84,12 @@ public class EngineItem implements SolItem {
   }
 
   @Override
-  public boolean isEquipped() {
-    return false;
+  public int isEquipped() {
+    return 0;
   }
 
   @Override
-  public void setEquipped(boolean equipped) {
+  public void setEquipped(int equipped) {
 
   }
 

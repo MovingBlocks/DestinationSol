@@ -184,8 +184,13 @@ public class SolGame {
         SolItem item = myRespawnItems.get(i1);
         ic.add(item);
         // Ensure that previously equipped items stay equipped
-        if (item.isEquipped()) {
-          myHero.maybeEquip(this, item, true);
+        if (item.isEquipped() > 0) {
+          if (item instanceof GunItem) {
+            myHero.maybeEquip(this, item, item.isEquipped() == 2, true);
+          }
+          else {
+            myHero.maybeEquip(this, item, true);
+          }
         }
       }
     } else if (DebugOptions.GOD_MODE) {
@@ -520,10 +525,12 @@ public class SolGame {
     myRespawnMoney = .75f * money;
     myRespawnHull = hullConfig;
     myRespawnItems.clear();
+    System.out.println("setRespawnState");
     for (List<SolItem> group : ic) {
       for (SolItem item : group) {
         boolean equipped = myHero == null || myHero.maybeUnequip(this, item, false);
         if (equipped || SolMath.test(.75f)) {
+          System.out.println(item.getCode() + " " + item.isEquipped());
           myRespawnItems.add(0, item);
         }
       }
