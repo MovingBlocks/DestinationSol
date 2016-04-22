@@ -35,8 +35,8 @@ public class SaveManager {
     StringBuilder sb = new StringBuilder();
     for (SolItem i : items) {
       sb.append(i.getCode());
-      if (i.isEquipped()) {
-        sb.append('*');
+      if (i.isEquipped() > 0) {
+        sb.append("-" + i.isEquipped());
       }
       sb.append(" ");
       // Save gun's loaded ammo

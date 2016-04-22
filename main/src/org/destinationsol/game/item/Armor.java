@@ -29,13 +29,13 @@ import org.destinationsol.game.sound.SoundManager;
 
 public class Armor implements SolItem {
   private final Config myConfig;
-  private boolean myEquipped;
+  private int myEquipped;
 
   private Armor(Config config) {
     myConfig = config;
   }
 
-  private Armor(Config config, boolean equipped) {
+  private Armor(Config config, int equipped) {
     this(config);
     myEquipped = equipped;
   }
@@ -92,9 +92,9 @@ public class Armor implements SolItem {
     return null;
   }
 
-  public boolean isEquipped() { return myEquipped; }
+  public int isEquipped() { return myEquipped; }
 
-  public void setEquipped(boolean equipped) { myEquipped = equipped; }
+  public void setEquipped(int equipped) { myEquipped = equipped; }
 
   public static class Config {
     public final String displayName;

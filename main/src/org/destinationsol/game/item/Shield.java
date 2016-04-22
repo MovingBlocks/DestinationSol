@@ -37,14 +37,14 @@ public class Shield implements SolItem {
   private final Config myConfig;
   private float myLife;
   private float myIdleTime;
-  private boolean myEquipped;
+  private int myEquipped;
 
   private Shield(Config config) {
     myConfig = config;
     myLife = myConfig.maxLife;
   }
 
-  private Shield(Config config, boolean equipped) {
+  private Shield(Config config, int equipped) {
     this(config);
     myEquipped = equipped;
   }
@@ -128,9 +128,9 @@ public class Shield implements SolItem {
 
   }
 
-  public boolean isEquipped() { return myEquipped; }
+  public int isEquipped() { return myEquipped; }
 
-  public void setEquipped(boolean equipped) { myEquipped = equipped; }
+  public void setEquipped(int equipped) { myEquipped = equipped; }
 
   public static class Config {
     public final String displayName;

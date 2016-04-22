@@ -76,64 +76,38 @@ public class ShipBuilder {
     Shield shield = null;
     Armor armor = null;
 
-    // Temp variables in case nothing is starred in the save file (which will happen the first time someone
-    // loads the game after the upgrade that includes this code)
-    Shield sh = null;
-    Armor ar = null;
-    GunItem g1a = null;
-    GunItem g2a = null;
     for (List<SolItem> group : ic) {
       for (SolItem i : group) {
         if (i instanceof Shield) {
-          sh = (Shield) i; // Temp variable
-          if (i.isEquipped()) {
+          if (i.isEquipped() > 0) {
             shield = (Shield) i;
             continue;
           }
         }
         if (i instanceof Armor) {
-          ar = (Armor) i; // Temp variable
-          if (i.isEquipped()) {
+          if (i.isEquipped() > 0) {
             armor = (Armor) i;
             continue;
           }
         }
         if (i instanceof GunItem) {
           GunItem g = (GunItem) i;
-          if (hullConfig.getGunSlot(0).allowsRotation() != g.config.fixed) {
-            g1a = g; // Temp variable
-          }
-          else if (hullConfig.getNrOfGunSlots() > 1 && hullConfig.getGunSlot(1).allowsRotation() != g.config.fixed) {
-            g2a = g; // Temp variable
-          }
-
-          if (i.isEquipped()) {
-            if (g1 == null && hullConfig.getGunSlot(0).allowsRotation() != g.config.fixed) {
+          if (i.isEquipped() > 0) {
+            int slot = i.isEquipped();
+            if (g1 == null && hullConfig.getGunSlot(0).allowsRotation() != g.config.fixed && slot == 1) {
               g1 = g;
               continue;
             }
-            if (hullConfig.getNrOfGunSlots() > 1 && g2 == null && hullConfig.getGunSlot(1).allowsRotation() != g.config.fixed) {
+            if (hullConfig.getNrOfGunSlots() > 1 && g2 == null && hullConfig.getGunSlot(1).allowsRotation() != g.config.fixed
+                    && slot == 2) {
               g2 = g;
             }
             if (g1 != g && g2 != g) {
-              i.setEquipped(false); // The gun couldn't fit in either slot
+              i.setEquipped(0); // The gun couldn't fit in either slot
             }
           }
         }
       }
-    }
-
-    if (armor == null) {
-      armor = ar;
-    }
-    if (shield == null) {
-      shield = sh;
-    }
-    if (g1 == null) {
-      g1 = g1a;
-    }
-    if (g2 == null) {
-      g2 = g2a; // Could be null so don't need to check if there is a second gun slot
     }
 
     if (giveAmmo) {
@@ -191,14 +165,14 @@ public class ShipBuilder {
     if (gun1 != null) {
       GunMount gunMount0 = hull.getGunMount(false);
       if (gunMount0.isFixed() == gun1.config.fixed) {
-          gunMount0.setGun(game, ship, gun1, hullConfig.getGunSlot(0).isUnderneathHull());
+          gunMount0.setGun(game, ship, gun1, hullConfig.getGunSlot(0).isUnderneathHull(), 1);
       }
     }
     if (gun2 != null) {
       GunMount gunMount1 = hull.getGunMount(true);
       if (gunMount1 != null) {
         if (gunMount1.isFixed() == gun2.config.fixed) {
-          gunMount1.setGun(game, ship, gun2, hullConfig.getGunSlot(1).isUnderneathHull());
+          gunMount1.setGun(game, ship, gun2, hullConfig.getGunSlot(1).isUnderneathHull(), 2);
         }
       }
     }

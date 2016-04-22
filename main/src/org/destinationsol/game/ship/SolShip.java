@@ -170,7 +170,7 @@ public class SolShip implements SolObject {
     if (i == null) {
       return false;
     }
-    i.setEquipped(false);
+    i.setEquipped(0);
     if (i instanceof MoneyItem) {
       myMoney += i.getPrice();
       return true;
@@ -491,7 +491,7 @@ public class SolShip implements SolObject {
         if (equip) {
           maybeUnequip(game, myShield, false, true);
           myShield = shield;
-          myShield.setEquipped(true);
+          myShield.setEquipped(1);
         }
         return true;
       }
@@ -500,7 +500,7 @@ public class SolShip implements SolObject {
         if (equip) {
           maybeUnequip(game, myArmor, false, true);
           myArmor = armor;
-          myArmor.setEquipped(true);
+          myArmor.setEquipped(1);
         }
         return true;
       }
@@ -512,11 +512,11 @@ public class SolShip implements SolObject {
       if (canEquip && equip) {
         GunMount anotherMount = myHull.getGunMount(!secondarySlot);
         if (anotherMount != null && anotherMount.getGun() == item) {
-          anotherMount.setGun(game, this, null, false);
+          anotherMount.setGun(game, this, null, false, 0);
         }
         final int slotNr = secondarySlot ? 1 : 0;
         boolean under = myHull.config.getGunSlot(slotNr).isUnderneathHull();
-        mount.setGun(game, this, gun, under);
+        mount.setGun(game, this, gun, under, slotNr + 1);
       }
       return canEquip;
     }
@@ -540,14 +540,14 @@ public class SolShip implements SolObject {
       }
       if (myShield == item) {
         if (unequip && myShield != null) {
-          myShield.setEquipped(false);
+          myShield.setEquipped(0);
           myShield = null;
         }
         return true;
       }
       if (myArmor == item) {
         if (unequip && myArmor != null) {
-          myArmor.setEquipped(false);
+          myArmor.setEquipped(0);
           myArmor = null;
         }
         return true;
@@ -556,7 +556,7 @@ public class SolShip implements SolObject {
     GunMount m = myHull.getGunMount(secondarySlot);
     if (m != null && m.getGun() == item) {
       if (unequip) {
-        m.setGun(game, this, null, false);
+        m.setGun(game, this, null, false, 0);
       }
       return true;
     }

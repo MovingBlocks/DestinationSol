@@ -28,6 +28,6 @@ public interface SolItem {
   TextureAtlas.AtlasRegion getIcon(SolGame game);
   SolItemType getItemType();
   String getCode();
-  boolean isEquipped();
-  void setEquipped(boolean equipped);
+  int isEquipped();
+  void setEquipped(int equipped);
 }

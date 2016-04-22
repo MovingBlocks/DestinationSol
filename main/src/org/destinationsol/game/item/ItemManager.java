@@ -96,13 +96,16 @@ public class ItemManager {
             String[] names = parts[0].split("\\|");
 
             ArrayList<SolItem> examples = new ArrayList<SolItem>();
-
             for (String name : names) {
-                boolean wasEquipped = false;
+                int wasEquipped = 0;
 
-                if (name.endsWith("*")) {
-                    wasEquipped = true;
-                    name = name.substring(0, name.length()-1); // Remove asterisk
+                if (name.endsWith("-1")) {
+                    wasEquipped = 1;
+                    name = name.substring(0, name.length()-2); // Remove equipped number
+                }
+                else if (name.endsWith("-2")) {
+                    wasEquipped = 2;
+                    name = name.substring(0, name.length()-2); // Remove equipped number
                 }
                 SolItem example = getExample(name.trim());
 
