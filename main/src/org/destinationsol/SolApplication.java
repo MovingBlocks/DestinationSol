@@ -28,10 +28,15 @@ import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.sound.MusicManager;
 import org.destinationsol.menu.MenuScreens;
-import org.destinationsol.ui.*;
+import org.destinationsol.ui.DebugCollector;
+import org.destinationsol.ui.FontSize;
+import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolLayouts;
+import org.destinationsol.ui.UiDrawer;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
 public class SolApplication implements ApplicationListener {
 
   private SolInputManager myInputMan;
@@ -111,6 +116,10 @@ public class SolApplication implements ApplicationListener {
       PrintWriter pw = new PrintWriter(sw);
       t.printStackTrace(pw);
       myFatalErrorTrace = sw.toString();
+
+      if (!myReallyMobile) {
+        throw t;
+      }
     }
   }
 
