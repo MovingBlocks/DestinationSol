@@ -8,15 +8,20 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.SolFileReader;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.soundtest.SoundTestListener;
-import org.lwjgl.Sys;
+import org.terasology.crashreporter.CrashReporter;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class SolDesktop {
@@ -59,13 +64,24 @@ public class SolDesktop {
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread, final Throwable ex) {
+                // Get the exception stack trace string
                 StringWriter stringWriter = new StringWriter();
                 PrintWriter printWriter = new PrintWriter(stringWriter);
                 ex.printStackTrace(printWriter);
+                String exceptionString = stringWriter.getBuffer().toString();
 
-                String exceptionString = stringWriter.getBuffer().toString() + "Message: " + ex.getLocalizedMessage();
-                System.err.println("Uncaught exception: " + exceptionString);
-                Sys.alert("Uncaught Exception", exceptionString);
+                // Write to system.err
+                System.err.println(exceptionString);
+
+                // Create a crash dump file
+                String fileName = "crash-" + new SimpleDateFormat("yyyy-dd-MM_HH-mm-ss").format(new Date()) + ".log";
+                List<String> lines = Arrays.asList(exceptionString);
+                Path logPath = new MyReader().create(fileName, lines).toAbsolutePath().getParent();
+
+                // Run asynchronously so that the error message view is not blocked
+                new Thread(() -> {
+                    CrashReporter.report(ex, logPath);
+                }).start();
             }
         });
 
@@ -73,6 +89,20 @@ public class SolDesktop {
     }
 
     private static class MyReader implements SolFileReader {
+        @Override
+        public Path create(String fileName, List<String> lines) {
+            if (DebugOptions.DEV_ROOT_PATH != null) {
+                fileName = DebugOptions.DEV_ROOT_PATH + fileName;
+            }
+            Path file = Paths.get(fileName);
+            try {
+                java.nio.file.Files.write(file, lines, Charset.forName("UTF-8"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return file;
+        }
+
         @Override
         public List<String> read(String fileName) {
             if (DebugOptions.DEV_ROOT_PATH != null) {
