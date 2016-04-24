@@ -85,7 +85,6 @@ public class ItemManager {
         if (items.isEmpty()) {
             return result;
         }
-
         for (String rec : items.split(" ")) {
             String[] parts = rec.split(":");
 
@@ -112,10 +111,10 @@ public class ItemManager {
                 if (example == null) {
                     throw new AssertionError("unknown item " + name + "@" + parts[0] + "@" + rec + "@" + items);
                 }
+                SolItem itemCopy = example.copy();
+                itemCopy.setEquipped(wasEquipped);
 
-                example.setEquipped(wasEquipped);
-
-                examples.add(example);
+                examples.add(itemCopy);
             }
 
             if (examples.isEmpty()) {
