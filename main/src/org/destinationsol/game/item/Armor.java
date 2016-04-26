@@ -21,7 +21,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
-import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.game.DmgType;
@@ -34,9 +33,15 @@ import java.util.List;
 
 public class Armor implements SolItem {
     private final Config myConfig;
+    private int equipped;
 
     private Armor(Config config) {
         myConfig = config;
+    }
+
+    private Armor(Config config, int equipped) {
+        this(config);
+        this.equipped = equipped;
     }
 
     @Override
@@ -56,7 +61,7 @@ public class Armor implements SolItem {
 
     @Override
     public SolItem copy() {
-        return new Armor(myConfig);
+        return new Armor(myConfig, equipped);
     }
 
     @Override
@@ -77,6 +82,16 @@ public class Armor implements SolItem {
     @Override
     public String getCode() {
         return myConfig.code;
+    }
+
+    @Override
+    public int isEquipped() {
+        return equipped;
+    }
+
+    @Override
+    public void setEquipped(int equipped) {
+        this.equipped = equipped;
     }
 
     public float getPerc() {

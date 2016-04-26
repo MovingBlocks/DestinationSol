@@ -21,65 +21,65 @@ import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.SolGame;
 
 public class MercItem implements SolItem {
-  private final ShipConfig myConfig;
-  private final String myDesc;
+    private final ShipConfig myConfig;
+    private final String myDesc;
 
-  public MercItem(ShipConfig config) {
-    myConfig = config;
-    myDesc = "Has a shield and repairers\n" + ShipItem.makeDesc(myConfig.hull);
-  }
+    public MercItem(ShipConfig config) {
+        myConfig = config;
+        myDesc = "Has a shield and repairers\n" + ShipItem.makeDesc(myConfig.hull);
+    }
 
-  @Override
-  public String getDisplayName() {
-    return myConfig.hull.getDisplayName();
-  }
+    @Override
+    public String getDisplayName() {
+        return myConfig.hull.getDisplayName();
+    }
 
-  @Override
-  public float getPrice() {
-    return myConfig.hull.getHirePrice();
-  }
+    @Override
+    public float getPrice() {
+        return myConfig.hull.getHirePrice();
+    }
 
-  @Override
-  public String getDesc() {
-    return myDesc;
-  }
+    @Override
+    public String getDesc() {
+        return myDesc;
+    }
 
-  @Override
-  public SolItem copy() {
-    return new MercItem(myConfig);
-  }
+    @Override
+    public SolItem copy() {
+        return new MercItem(myConfig);
+    }
 
-  @Override
-  public boolean isSame(SolItem item) {
-    return item instanceof MercItem && ((MercItem) item).myConfig == myConfig;
-  }
+    @Override
+    public boolean isSame(SolItem item) {
+        return item instanceof MercItem && ((MercItem) item).myConfig == myConfig;
+    }
 
-  @Override
-  public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-    return myConfig.hull.getIcon();
-  }
+    @Override
+    public TextureAtlas.AtlasRegion getIcon(SolGame game) {
+        return myConfig.hull.getIcon();
+    }
 
-  @Override
-  public SolItemType getItemType() {
-    return ShipItem.EMPTY;
-  }
+    @Override
+    public SolItemType getItemType() {
+        return ShipItem.EMPTY;
+    }
 
-  @Override
-  public String getCode() {
-    return null;
-  }
+    @Override
+    public String getCode() {
+        return null;
+    }
 
-  @Override
-  public int isEquipped() {
-    return 0;
-  }
+    @Override
+    public int isEquipped() {
+        return 0;
+    }
 
-  @Override
-  public void setEquipped(int equipped) {
+    @Override
+    public void setEquipped(int equipped) {
 
-  }
+    }
 
-  public ShipConfig getConfig() {
-    return myConfig;
-  }
+    public ShipConfig getConfig() {
+        return myConfig;
+    }
 }

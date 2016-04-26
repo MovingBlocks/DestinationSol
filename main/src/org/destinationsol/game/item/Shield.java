@@ -38,10 +38,16 @@ public class Shield implements SolItem {
     private final Config myConfig;
     private float myLife;
     private float myIdleTime;
+    private int equipped;
 
     private Shield(Config config) {
         myConfig = config;
         myLife = myConfig.maxLife;
+    }
+
+    private Shield(Config config, int equipped) {
+        this(config);
+        this.equipped = equipped;
     }
 
     public void update(SolGame game, SolObject owner) {
@@ -76,7 +82,7 @@ public class Shield implements SolItem {
 
     @Override
     public SolItem copy() {
-        return new Shield(myConfig);
+        return new Shield(myConfig, equipped);
     }
 
     @Override
@@ -97,6 +103,16 @@ public class Shield implements SolItem {
     @Override
     public String getCode() {
         return myConfig.code;
+    }
+
+    @Override
+    public int isEquipped() {
+        return equipped;
+    }
+
+    @Override
+    public void setEquipped(int equipped) {
+        this.equipped = equipped;
     }
 
     public float getLife() {
