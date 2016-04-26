@@ -198,6 +198,14 @@ public class SolGame {
             for (int i1 = 0, sz = myRespawnItems.size(); i1 < sz; i1++) {
                 SolItem item = myRespawnItems.get(i1);
                 ic.add(item);
+                // Ensure that previously equipped items stay equipped
+                if (item.isEquipped() > 0) {
+                    if (item instanceof GunItem) {
+                        myHero.maybeEquip(this, item, item.isEquipped() == 2, true);
+                    } else {
+                        myHero.maybeEquip(this, item, true);
+                    }
+                }
             }
         } else if (DebugOptions.GOD_MODE) {
             myItemManager.addAllGuns(ic);
@@ -211,7 +219,9 @@ public class SolGame {
             }
         }
         ic.seenAll();
-        AiPilot.reEquip(this, myHero);
+
+        // Don't change equipped items across load/respawn
+        // AiPilot.reEquip(this, myHero);
 
         myObjectManager.addObjDelayed(myHero);
         myObjectManager.resetDelays();
