@@ -13,7 +13,7 @@
       tint: "120 210 90",
     },
 
-    collisionSound: "projectiles/blastCollision",
+    collisionSound: "Core:blastCollision",
   },
 
 
@@ -32,7 +32,7 @@
       tint: "180 70 200",
     },
 
-    collisionSound: "projectiles/blastCollision",
+    collisionSound: "Core:blastCollision",
   },
 
 
@@ -60,7 +60,7 @@
       tint: fire,
     },
 
-    collisionSound: "misc/shipExplosion",
+    collisionSound: "Core:shipExplosion",
   },
 
 
@@ -139,7 +139,7 @@
       tint: fire,
     },
 
-    collisionSound: "projectiles/rocketCollision",
+    collisionSound: "Core:rocketCollision",
   },
 
 
@@ -167,7 +167,7 @@
       tint: fire,
     },
 
-    collisionSound: "projectiles/rocketCollision",
+    collisionSound: "Core:rocketCollision",
   },
 
 
@@ -239,7 +239,7 @@
       tint: fire,
     },
 
-    collisionSound: "projectiles/rocketCollision",
+    collisionSound: "Core:rocketCollision",
   },
 
 
@@ -300,7 +300,7 @@
       tint: white,
     },
 
-    collisionSound: "projectiles/blastCollision",
+    collisionSound: "Core:blastCollision",
   },
 
 
@@ -321,6 +321,6 @@
       tint: "20 255 20",
     },
 
-    collisionSound: "projectiles/waveCollision",
+    collisionSound: "Core:waveCollision",
   },
 }

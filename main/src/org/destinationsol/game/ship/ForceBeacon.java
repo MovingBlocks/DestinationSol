@@ -75,7 +75,7 @@ public class ForceBeacon {
         if (toMeLen > 1) toMe.scl(1 / toMeLen);
         if (ownSpd != null) toMe.add(ownSpd);
         ship.getHull().getBody().setLinearVelocity(toMe);
-        game.getSoundMan().play(game, game.getSpecialSounds().forceBeaconWork, null, ship);
+        game.getOggSoundManager().play(game, game.getSpecialSounds().forceBeaconWork, null, ship);
         if (toMeLen < minLen) {
           res = ship;
           minLen = toMeLen;

@@ -22,190 +22,235 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.sound.MusicManager;
+import org.destinationsol.game.sound.OggMusicManager;
+import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.menu.MenuScreens;
-import org.destinationsol.ui.*;
+import org.destinationsol.ui.DebugCollector;
+import org.destinationsol.ui.FontSize;
+import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolLayouts;
+import org.destinationsol.ui.UiDrawer;
+import org.terasology.assets.ResourceUrn;
+import org.terasology.module.ModuleEnvironment;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
 public class SolApplication implements ApplicationListener {
 
-  private SolInputManager myInputMan;
-  private UiDrawer myUiDrawer;
-  private MenuScreens myMenuScreens;
-  private TextureManager myTextureManager;
-  private SolLayouts myLayouts;
-  private boolean myReallyMobile;
-  private GameOptions myOptions;
-  private CommonDrawer myCommonDrawer;
-  private FPSLogger  myFpsLogger;
+    private SolInputManager myInputMan;
+    private UiDrawer myUiDrawer;
+    private MenuScreens myMenuScreens;
+    private TextureManager myTextureManager;
+    private SolLayouts myLayouts;
+    private boolean myReallyMobile;
+    private GameOptions myOptions;
+    private CommonDrawer myCommonDrawer;
+    private FPSLogger myFpsLogger;
 
-  private String myFatalErrorMsg;
-  private String myFatalErrorTrace;
+    private ModuleEnvironment myModuleEnvironment;
+    private AssetHelper myAssetHelper;
+    private OggMusicManager myMusicManager;
+    private OggSoundManager mySoundManager;
 
-  private float myAccum = 0;
-  private SolGame myGame;
+    private String myFatalErrorMsg;
+    private String myFatalErrorTrace;
 
-  public SolApplication() {
-    // Initiate Box2D to make sure natives are loaded early enough
-    Box2D.init();
-  }
+    private float myAccum = 0;
+    private SolGame myGame;
 
-  @Override
-  public void create() {
-
-    myReallyMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
-    if (myReallyMobile) DebugOptions.read(null);
-    myOptions = new GameOptions(isMobile(), null);
-
-    MusicManager.getInstance().PlayMenuMusic(myOptions);
-
-    myTextureManager = new TextureManager();
-    myCommonDrawer = new CommonDrawer();
-    myUiDrawer = new UiDrawer(myTextureManager, myCommonDrawer);
-    myInputMan = new SolInputManager(myTextureManager, myUiDrawer.r);
-    myLayouts = new SolLayouts(myUiDrawer.r);
-    myMenuScreens = new MenuScreens(myLayouts, myTextureManager, isMobile(), myUiDrawer.r, myOptions);
-
-    myInputMan.setScreen(this, myMenuScreens.main);
-    myFpsLogger = new FPSLogger();
-  }
-
-  @Override
-  public void resize(int i, int i1) {
-
-  }
-
-  public void render() {
-    myAccum += Gdx.graphics.getDeltaTime();
-    while (myAccum > Const.REAL_TIME_STEP) {
-      safeUpdate();
-      myAccum -= Const.REAL_TIME_STEP;
-
-    }
-    draw();
-  }
-
-  @Override
-  public void pause() {
-
-  }
-
-  @Override
-  public void resume() {
-
-  }
-
-  private void safeUpdate() {
-    if (myFatalErrorMsg != null) return;
-    try {
-      update();
-    } catch (Throwable t) {
-      t.printStackTrace();
-      myFatalErrorMsg = "A fatal error occurred:\n" + t.getMessage();
-      StringWriter sw = new StringWriter();
-      PrintWriter pw = new PrintWriter(sw);
-      t.printStackTrace(pw);
-      myFatalErrorTrace = sw.toString();
-    }
-  }
-
-  private void update() {
-    DebugCollector.update();
-    if (DebugOptions.SHOW_FPS) {
-      DebugCollector.debug("Fps", Gdx.graphics.getFramesPerSecond());
-      myFpsLogger.log();
-    }
-    myInputMan.update(this);
-    if (myGame != null) {
-      myGame.update();
+    public SolApplication() {
+        // Initiate Box2D to make sure natives are loaded early enough
+        Box2D.init();
     }
 
-    SolMath.checkVectorsTaken(null);
-  }
+    @Override
+    public void create() {
 
-  private void draw() {
-    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    myCommonDrawer.begin();
-    if (myGame != null) {
-      myGame.draw();
+        myReallyMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
+        if (myReallyMobile) DebugOptions.read(null);
+        myOptions = new GameOptions(isMobile(), null);
+
+        myModuleEnvironment = new ModuleManager().getEnvironment();
+        myAssetHelper = new AssetHelper(myModuleEnvironment);
+        myMusicManager = new OggMusicManager(myAssetHelper);
+
+        myMusicManager.playMenuMusic(myOptions);
+
+        mySoundManager = new OggSoundManager(myAssetHelper);
+        myTextureManager = new TextureManager();
+        myCommonDrawer = new CommonDrawer();
+        myUiDrawer = new UiDrawer(myTextureManager, myCommonDrawer);
+        myInputMan = new SolInputManager(myTextureManager, mySoundManager, myUiDrawer.r);
+        myLayouts = new SolLayouts(myUiDrawer.r);
+        myMenuScreens = new MenuScreens(myLayouts, myTextureManager, isMobile(), myUiDrawer.r, myOptions);
+
+        myInputMan.setScreen(this, myMenuScreens.main);
+        myFpsLogger = new FPSLogger();
+
+        // TODO: remove temporary debugging statements
+
+        System.out.println(myModuleEnvironment.getModuleIdsOrderedByDependencies());
+
+        System.out.println("Sounds:");
+        for (ResourceUrn soundUrn : myAssetHelper.getSounds()) {
+            System.out.println(soundUrn);
+        }
+
+        System.out.println("Music:");
+        for (ResourceUrn musicUrn : myAssetHelper.getMusicSet()) {
+            System.out.println(musicUrn);
+        }
     }
-    myUiDrawer.updateMtx();
-    myInputMan.draw(myUiDrawer, this);
-    if (myGame != null) {
-      myGame.drawDebugUi(myUiDrawer);
+
+    @Override
+    public void resize(int i, int i1) {
+
     }
-    if (myFatalErrorMsg != null) {
-      myUiDrawer.draw(myUiDrawer.whiteTex, myUiDrawer.r, .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
-      myUiDrawer.drawString(myFatalErrorMsg, myUiDrawer.r / 2, .5f, FontSize.MENU, true, SolColor.W);
-      myUiDrawer.drawString(myFatalErrorTrace, .2f * myUiDrawer.r, .6f, FontSize.DEBUG, false, SolColor.W);
+
+    public void render() {
+        myAccum += Gdx.graphics.getDeltaTime();
+        while (myAccum > Const.REAL_TIME_STEP) {
+            safeUpdate();
+            myAccum -= Const.REAL_TIME_STEP;
+
+        }
+        draw();
     }
-    DebugCollector.draw(myUiDrawer);
-    if (myGame == null) {
-      myUiDrawer.drawString("version: " + Const.VERSION, 0.01f, .98f, FontSize.DEBUG, false, SolColor.W);
+
+    @Override
+    public void pause() {
+
     }
-    myCommonDrawer.end();
-  }
 
-  public void loadNewGame(boolean tut, boolean usePrevShip) {
-    if (myGame != null) throw new AssertionError("Starting a new game with unfinished current one");
-    myInputMan.setScreen(this, myMenuScreens.loading);
-    myMenuScreens.loading.setMode(tut, usePrevShip);
-    MusicManager.getInstance().PlayGameMusic(myOptions);
-  }
+    @Override
+    public void resume() {
 
-  public void startNewGame(boolean tut, boolean usePrevShip) {
-    myGame = new SolGame(this, usePrevShip, myTextureManager, tut, myCommonDrawer);
-    myInputMan.setScreen(this, myGame.getScreens().mainScreen);
-    MusicManager.getInstance().PlayGameMusic(myOptions);
-  }
+    }
 
-  public SolInputManager getInputMan() {
-    return myInputMan;
-  }
+    private void safeUpdate() {
+        if (myFatalErrorMsg != null) return;
+        try {
+            update();
+        } catch (Throwable t) {
+            t.printStackTrace();
+            myFatalErrorMsg = "A fatal error occurred:\n" + t.getMessage();
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            t.printStackTrace(pw);
+            myFatalErrorTrace = sw.toString();
+        }
+    }
 
-  public MenuScreens getMenuScreens() {
-    return myMenuScreens;
-  }
+    private void update() {
+        DebugCollector.update();
+        if (DebugOptions.SHOW_FPS) {
+            DebugCollector.debug("Fps", Gdx.graphics.getFramesPerSecond());
+            myFpsLogger.log();
+        }
+        myInputMan.update(this);
+        if (myGame != null) {
+            myGame.update();
+        }
 
-  public void dispose() {
-    myCommonDrawer.dispose();
-    if (myGame != null) myGame.onGameEnd();
-    myTextureManager.dispose();
-    myInputMan.dispose();
-  }
+        SolMath.checkVectorsTaken(null);
+    }
 
-  public SolGame getGame() {
-    return myGame;
-  }
+    private void draw() {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        myCommonDrawer.begin();
+        if (myGame != null) {
+            myGame.draw();
+        }
+        myUiDrawer.updateMtx();
+        myInputMan.draw(myUiDrawer, this);
+        if (myGame != null) {
+            myGame.drawDebugUi(myUiDrawer);
+        }
+        if (myFatalErrorMsg != null) {
+            myUiDrawer.draw(myUiDrawer.whiteTex, myUiDrawer.r, .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
+            myUiDrawer.drawString(myFatalErrorMsg, myUiDrawer.r / 2, .5f, FontSize.MENU, true, SolColor.W);
+            myUiDrawer.drawString(myFatalErrorTrace, .2f * myUiDrawer.r, .6f, FontSize.DEBUG, false, SolColor.W);
+        }
+        DebugCollector.draw(myUiDrawer);
+        if (myGame == null) {
+            myUiDrawer.drawString("version: " + Const.VERSION, 0.01f, .98f, FontSize.DEBUG, false, SolColor.W);
+        }
+        myCommonDrawer.end();
+    }
 
-  public SolLayouts getLayouts() {
-    return myLayouts;
-  }
+    public void loadNewGame(boolean tut, boolean usePrevShip) {
+        if (myGame != null) throw new AssertionError("Starting a new game with unfinished current one");
+        myInputMan.setScreen(this, myMenuScreens.loading);
+        myMenuScreens.loading.setMode(tut, usePrevShip);
+        myMusicManager.playGameMusic(myOptions);
+    }
 
-  public void finishGame() {
-    myGame.onGameEnd();
-    myGame = null;
-    myInputMan.setScreen(this, myMenuScreens.main);
-  }
+    public void startNewGame(boolean tut, boolean usePrevShip) {
+        myGame = new SolGame(this, usePrevShip, myTextureManager, tut, myCommonDrawer);
+        myInputMan.setScreen(this, myGame.getScreens().mainScreen);
+        myMusicManager.playGameMusic(myOptions);
+    }
 
-  public TextureManager getTexMan() {
-    return myTextureManager;
-  }
+    public SolInputManager getInputMan() {
+        return myInputMan;
+    }
 
-  public boolean isMobile() {
-    return DebugOptions.EMULATE_MOBILE || myReallyMobile;
-  }
+    public MenuScreens getMenuScreens() {
+        return myMenuScreens;
+    }
 
-  public GameOptions getOptions() {
-    return myOptions;
-  }
+    public void dispose() {
+        myCommonDrawer.dispose();
+        if (myGame != null) myGame.onGameEnd();
+        myTextureManager.dispose();
+        myInputMan.dispose();
+    }
 
-  public void paused() {
-    if (myGame != null) myGame.saveShip();
-  }
+    public SolGame getGame() {
+        return myGame;
+    }
+
+    public SolLayouts getLayouts() {
+        return myLayouts;
+    }
+
+    public void finishGame() {
+        myGame.onGameEnd();
+        myGame = null;
+        myInputMan.setScreen(this, myMenuScreens.main);
+    }
+
+    public TextureManager getTexMan() {
+        return myTextureManager;
+    }
+
+    public boolean isMobile() {
+        return DebugOptions.EMULATE_MOBILE || myReallyMobile;
+    }
+
+    public GameOptions getOptions() {
+        return myOptions;
+    }
+
+    public AssetHelper getAssetHelper() {
+        return myAssetHelper;
+    }
+
+    public OggMusicManager getMusicManager() {
+        return myMusicManager;
+    }
+
+    public OggSoundManager getSoundManager() {
+        return mySoundManager;
+    }
+
+    public void paused() {
+        if (myGame != null) myGame.saveShip();
+    }
 }
