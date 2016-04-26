@@ -121,60 +121,10 @@ public class AiPilot implements Pilot {
     }
 
     if (myReEquipAwait <= 0) {
-      reEquip(game, ship);
       myReEquipAwait = MAX_RE_EQUIP_AWAIT;
     } else {
       myReEquipAwait -= game.getTimeStep();
     }
-  }
-
-  public static void reEquip(SolGame game, SolShip ship) {
-    Hull hull = ship.getHull();
-    GunItem g1 = hull.getGun(false);
-    GunItem g2 = hull.getGun(true);
-    Shield s = ship.getShield();
-    Armor a = ship.getArmor();
-    GunMount m1 = hull.getGunMount(false);
-    GunMount m2 = hull.getGunMount(true);
-    ItemContainer ic = ship.getItemContainer();
-    for (int idx = 0, sz = ic.groupCount(); idx < sz; idx++) {
-      SolItem i = ic.getGroup(idx).get(0);
-      if (i == g1 || i == g2 || i == s || i == a) continue;
-      if (i instanceof GunItem) {
-        GunItem gNew = (GunItem) i;
-        if (gunIsBetter(gNew, g1, ic, m1)) {
-          ship.maybeEquip(game, gNew, false, true);
-          g1 = gNew;
-        } else if (m2 != null && gunIsBetter(gNew, g2, ic, m2)) {
-          ship.maybeEquip(game, gNew, true, true);
-          g2 = gNew;
-        }
-      } else if (i instanceof Armor) {
-        Armor aNew = (Armor) i;
-        if (a == null || a.getPerc() < aNew.getPerc()) {
-          ship.maybeEquip(game, aNew, true);
-          a = aNew;
-        }
-      } else if (i instanceof Shield) {
-        Shield sNew = (Shield) i;
-        if (s == null || s.getLife() < sNew.getLife()) {
-          ship.maybeEquip(game, sNew, true);
-          s = sNew;
-        }
-      }
-    }
-  }
-
-  private static boolean gunIsBetter(GunItem gNew, GunItem g, ItemContainer ic, GunMount m) {
-    if (m.isFixed() != gNew.config.fixed) return false;
-    ClipConfig newCc = gNew.config.clipConf;
-    boolean newAmmoOk = newCc.infinite || ic.count(newCc.example) > 0;
-    if (!newAmmoOk) return false;
-    if (g == null) return true;
-    ClipConfig cc = g.config.clipConf;
-    boolean ammoOk = cc.infinite || ic.count(cc.example) > 0;
-    if (!ammoOk) return true;
-    return g.config.meanDps < gNew.config.meanDps;
   }
 
   private float getMaxIdleDist(HullConfig hullConfig) {
