@@ -26,7 +26,7 @@ public class GunItem implements SolItem {
   public final GunConfig config;
   public int ammo;
   public float reloadAwait;
-  private int myEquipped;
+  private int equipped;
 
   public GunItem(GunConfig config, int ammo, float reloadAwait) {
     this.config = config;
@@ -36,7 +36,7 @@ public class GunItem implements SolItem {
 
   public GunItem(GunConfig config, int ammo, float reloadAwait, int equipped) {
     this(config, ammo, reloadAwait);
-    this.myEquipped = equipped;
+    this.equipped = equipped;
   }
 
   @Override
@@ -56,7 +56,7 @@ public class GunItem implements SolItem {
 
   @Override
   public GunItem copy() {
-    return new GunItem(config, ammo, reloadAwait, myEquipped);
+    return new GunItem(config, ammo, reloadAwait, equipped);
   }
 
   @Override
@@ -83,7 +83,7 @@ public class GunItem implements SolItem {
     return ammo > 0 || reloadAwait > 0;
   }
 
-  public int isEquipped() { return myEquipped; }
+  public int isEquipped() { return equipped; }
 
-  public void setEquipped(int equipped) { myEquipped = equipped; }
+  public void setEquipped(int equipped) { this.equipped = equipped; }
 }

@@ -97,6 +97,16 @@ public class EngineItem implements SolItem {
         return null;
     }
 
+    @Override
+    public int isEquipped() {
+        return 0;
+    }
+
+    @Override
+    public void setEquipped(int equipped) {
+
+    }
+
     public PlayableSound getWorkSound() {
         return myConfig.workSound;
     }
