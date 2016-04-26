@@ -69,4 +69,14 @@ public class ClipItem implements SolItem {
   public String getCode() {
     return myConfig.code;
   }
+
+  @Override
+  public int isEquipped() {
+    return 0;
+  }
+
+  @Override
+  public void setEquipped(int equipped) {
+
+  }
 }

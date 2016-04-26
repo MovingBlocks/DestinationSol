@@ -66,6 +66,21 @@ public class FarShip implements FarObj {
     myTradeContainer = tradeContainer;
     myShield = shield;
     myArmor = armor;
+
+    if (myPilot.isPlayer()) {
+      if (myShield != null) {
+        myShield.setEquipped(1);
+      }
+      if (myArmor != null) {
+        myArmor.setEquipped(1);
+      }
+      if (myGun1 != null) {
+        myGun1.setEquipped(1);
+      }
+      if (myGun2 != null) {
+        myGun2.setEquipped(2);
+      }
+    }
   }
 
   @Override

@@ -19,6 +19,7 @@ package org.destinationsol.game;
 import org.destinationsol.IniReader;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.files.HullConfigManager;
+import org.destinationsol.game.gun.GunItem;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.hulls.HullConfig;
@@ -33,7 +34,18 @@ public class SaveManager {
     String hullName = game.getHullConfigs().getName(hull);
     StringBuilder sb = new StringBuilder();
     for (SolItem i : items) {
-      sb.append(i.getCode()).append(" ");
+      sb.append(i.getCode());
+      if (i.isEquipped() > 0) {
+        sb.append("-" + i.isEquipped());
+      }
+      sb.append(" ");
+      // Save gun's loaded ammo
+      if (i instanceof GunItem) {
+        GunItem g = (GunItem) i;
+        if (g.ammo > 0 && !g.config.clipConf.infinite) {
+          sb.append(g.config.clipConf.code + " ");
+        }
+      }
     }
     IniReader.write(FILE_NAME, "hull", hullName, "money", (int) money, "items", sb.toString());
   }

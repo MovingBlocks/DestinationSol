@@ -85,7 +85,6 @@ public class ItemManager {
         if (items.isEmpty()) {
             return result;
         }
-
         for (String rec : items.split(" ")) {
             String[] parts = rec.split(":");
 
@@ -96,16 +95,26 @@ public class ItemManager {
             String[] names = parts[0].split("\\|");
 
             ArrayList<SolItem> examples = new ArrayList<SolItem>();
-
             for (String name : names) {
+                int wasEquipped = 0;
 
+                if (name.endsWith("-1")) {
+                    wasEquipped = 1;
+                    name = name.substring(0, name.length()-2); // Remove equipped number
+                }
+                else if (name.endsWith("-2")) {
+                    wasEquipped = 2;
+                    name = name.substring(0, name.length()-2); // Remove equipped number
+                }
                 SolItem example = getExample(name.trim());
 
                 if (example == null) {
                     throw new AssertionError("unknown item " + name + "@" + parts[0] + "@" + rec + "@" + items);
                 }
+                SolItem itemCopy = example.copy();
+                itemCopy.setEquipped(wasEquipped);
 
-                examples.add(example);
+                examples.add(itemCopy);
             }
 
             if (examples.isEmpty()) {

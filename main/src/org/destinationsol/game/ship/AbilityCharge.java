@@ -75,6 +75,16 @@ public class AbilityCharge implements SolItem {
     return myConfig.code;
   }
 
+  @Override
+  public int isEquipped() {
+    return 0;
+  }
+
+  @Override
+  public void setEquipped(int equipped) {
+
+  }
+
 
   public static class Config {
     private final TextureAtlas.AtlasRegion icon;
