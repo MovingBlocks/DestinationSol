@@ -71,29 +71,41 @@ public class ShipBuilder {
     EngineItem ei = ec == null ? null : ec.example.copy();
     TradeContainer tc = tradeConfig == null ? null : new TradeContainer(tradeConfig);
 
-
     GunItem g1 = null;
     GunItem g2 = null;
     Shield shield = null;
     Armor armor = null;
+
     for (List<SolItem> group : ic) {
       for (SolItem i : group) {
         if (i instanceof Shield) {
-          shield = (Shield) i;
-          continue;
+          if (i.isEquipped() > 0) {
+            shield = (Shield) i;
+            continue;
+          }
         }
         if (i instanceof Armor) {
-          armor = (Armor) i;
-          continue;
+          if (i.isEquipped() > 0) {
+            armor = (Armor) i;
+            continue;
+          }
         }
         if (i instanceof GunItem) {
           GunItem g = (GunItem) i;
-          if (g1 == null && hullConfig.getGunSlot(0).allowsRotation() != g.config.fixed) {
-            g1 = g;
-            continue;
+          if (i.isEquipped() > 0) {
+            int slot = i.isEquipped();
+            if (g1 == null && hullConfig.getGunSlot(0).allowsRotation() != g.config.fixed && slot == 1) {
+              g1 = g;
+              continue;
+            }
+            if (hullConfig.getNrOfGunSlots() > 1 && g2 == null && hullConfig.getGunSlot(1).allowsRotation() != g.config.fixed
+                    && slot == 2) {
+              g2 = g;
+            }
+            if (g1 != g && g2 != g) {
+              i.setEquipped(0); // The gun couldn't fit in either slot
+            }
           }
-          if (hullConfig.getNrOfGunSlots() > 1 && g2 == null && hullConfig.getGunSlot(1).allowsRotation() != g.config.fixed) g2 = g;
-          continue;
         }
       }
     }
@@ -103,7 +115,6 @@ public class ShipBuilder {
       addAmmo(ic, g1, pilot);
       addAmmo(ic, g2, pilot);
     }
-
     return new FarShip(new Vector2(pos), new Vector2(spd), angle, rotSpd, pilot, ic, hullConfig, hullConfig.getMaxLife(),
       g1, g2, removeController, ei, hasRepairer ? new ShipRepairer() : null, money, tc, shield, armor);
   }
@@ -154,14 +165,14 @@ public class ShipBuilder {
     if (gun1 != null) {
       GunMount gunMount0 = hull.getGunMount(false);
       if (gunMount0.isFixed() == gun1.config.fixed) {
-          gunMount0.setGun(game, ship, gun1, hullConfig.getGunSlot(0).isUnderneathHull());
+          gunMount0.setGun(game, ship, gun1, hullConfig.getGunSlot(0).isUnderneathHull(), 1);
       }
     }
     if (gun2 != null) {
       GunMount gunMount1 = hull.getGunMount(true);
       if (gunMount1 != null) {
         if (gunMount1.isFixed() == gun2.config.fixed) {
-          gunMount1.setGun(game, ship, gun2, hullConfig.getGunSlot(1).isUnderneathHull());
+          gunMount1.setGun(game, ship, gun2, hullConfig.getGunSlot(1).isUnderneathHull(), 2);
         }
       }
     }
