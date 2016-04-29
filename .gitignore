@@ -1,4 +1,5 @@
 ## General
+*.log
 hs_err_pid*
 .gradle
 /config/metrics

@@ -12,6 +12,7 @@ dependencies {
     compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
     compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
+    compile "org.terasology:CrashReporter-destsol:3.0.0"
 }
 
 task run(type: JavaExec) {
