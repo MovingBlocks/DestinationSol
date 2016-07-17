@@ -168,7 +168,7 @@ public class Asteroid implements SolObject {
     if (myLife <= 0) {
       game.getSpecialEffects().asteroidDust(game, myPos, mySpd, mySize);
       float vol = SolMath.clamp(mySize/.5f);
-      game.getSoundMan().play(game, game.getSpecialSounds().asteroidCrack, null, this, vol);
+      game.getOggSoundManager().play(game, game.getSpecialSounds().asteroidCrack, null, this, vol);
       maybeSplit(game);
     }
   }

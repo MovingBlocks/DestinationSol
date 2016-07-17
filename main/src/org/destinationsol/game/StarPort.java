@@ -87,7 +87,7 @@ public class StarPort implements SolObject {
       ObjectManager objectManager = game.getObjMan();
       objectManager.addObjDelayed(t);
       blip(game, ship);
-      game.getSoundMan().play(game, game.getSpecialSounds().transcendentCreated, null, t);
+      game.getOggSoundManager().play(game, game.getSpecialSounds().transcendentCreated, null, t);
       objectManager.removeObjDelayed(ship);
     }
     for (int i = 0, myLightsSize = myLights.size(); i < myLightsSize; i++) {
@@ -393,10 +393,10 @@ public class StarPort implements SolObject {
         SolShip ship = myShip.toObj(game);
         objectManager.addObjDelayed(ship);
         blip(game, ship);
-        game.getSoundMan().play(game, game.getSpecialSounds().transcendentFinished, null, this);
+        game.getOggSoundManager().play(game, game.getSpecialSounds().transcendentFinished, null, this);
         game.getObjMan().resetDelays(); // because of the hacked speed
       } else {
-        game.getSoundMan().play(game, game.getSpecialSounds().transcendentMove, null, this);
+        game.getOggSoundManager().play(game, game.getSpecialSounds().transcendentMove, null, this);
         myLight.update(true, myAngle, game);
       }
     }
