@@ -76,38 +76,66 @@ public class ShipBuilder {
     Shield shield = null;
     Armor armor = null;
 
-    for (List<SolItem> group : ic) {
-      for (SolItem i : group) {
-        if (i instanceof Shield) {
-          if (i.isEquipped() > 0) {
-            shield = (Shield) i;
-            continue;
-          }
-        }
-        if (i instanceof Armor) {
-          if (i.isEquipped() > 0) {
-            armor = (Armor) i;
-            continue;
-          }
-        }
-        if (i instanceof GunItem) {
-          GunItem g = (GunItem) i;
-          if (i.isEquipped() > 0) {
-            int slot = i.isEquipped();
-            if (g1 == null && hullConfig.getGunSlot(0).allowsRotation() != g.config.fixed && slot == 1) {
-              g1 = g;
+    // For the player use new logic that better respects what was explicitly equipped
+    if (pilot.isPlayer()) {
+      for (List<SolItem> group : ic) {
+        for (SolItem i : group) {
+          if (i instanceof Shield) {
+            if (i.isEquipped() > 0) {
+              shield = (Shield) i;
               continue;
             }
-            if (hullConfig.getNrOfGunSlots() > 1 && g2 == null && hullConfig.getGunSlot(1).allowsRotation() != g.config.fixed
-                    && slot == 2) {
-              g2 = g;
+          }
+          if (i instanceof Armor) {
+            if (i.isEquipped() > 0) {
+              armor = (Armor) i;
+              continue;
             }
-            if (g1 != g && g2 != g) {
-              i.setEquipped(0); // The gun couldn't fit in either slot
+          }
+          if (i instanceof GunItem) {
+            GunItem g = (GunItem) i;
+            if (i.isEquipped() > 0) {
+              int slot = i.isEquipped();
+              if (g1 == null && hullConfig.getGunSlot(0).allowsRotation() != g.config.fixed && slot == 1) {
+                g1 = g;
+                continue;
+              }
+              if (hullConfig.getNrOfGunSlots() > 1 && g2 == null && hullConfig.getGunSlot(1).allowsRotation() != g.config.fixed && slot == 2) {
+                g2 = g;
+              }
+              if (g1 != g && g2 != g) {
+                i.setEquipped(0); // The gun couldn't fit in either slot
+              }
             }
           }
         }
       }
+    } else {
+      // For NPCs use the old logic that just equips whatever
+      for (List<SolItem> group : ic) {
+        for (SolItem i : group) {
+          if (i instanceof Shield) {
+            shield = (Shield) i;
+            continue;
+          }
+          if (i instanceof Armor) {
+            armor = (Armor) i;
+            continue;
+          }
+          if (i instanceof GunItem) {
+            GunItem g = (GunItem) i;
+            if (g1 == null && hullConfig.getGunSlot(0).allowsRotation() != g.config.fixed) {
+              g1 = g;
+              continue;
+            }
+            if (hullConfig.getNrOfGunSlots() > 1 && g2 == null && hullConfig.getGunSlot(1).allowsRotation() != g.config.fixed) {
+              g2 = g;
+            }
+            continue;
+          }
+        }
+      }
+
     }
 
     if (giveAmmo) {

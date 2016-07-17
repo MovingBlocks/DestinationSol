@@ -17,7 +17,6 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.*;
 import org.destinationsol.common.DebugCol;
@@ -525,12 +524,10 @@ public class SolGame {
     myRespawnMoney = .75f * money;
     myRespawnHull = hullConfig;
     myRespawnItems.clear();
-    System.out.println("setRespawnState");
     for (List<SolItem> group : ic) {
       for (SolItem item : group) {
         boolean equipped = myHero == null || myHero.maybeUnequip(this, item, false);
         if (equipped || SolMath.test(.75f)) {
-          System.out.println(item.getCode() + " " + item.isEquipped());
           myRespawnItems.add(0, item);
         }
       }
