@@ -1,6 +1,5 @@
-apply plugin: "java"
+apply from: '../config/gradle/common.gradle'
 
-sourceCompatibility = 1.8
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 dependencies {
