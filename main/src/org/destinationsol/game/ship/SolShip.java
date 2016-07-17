@@ -16,6 +16,7 @@
 
 package org.destinationsol.game.ship;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -480,7 +481,10 @@ public class SolShip implements SolObject {
   public boolean maybeEquip(SolGame game, SolItem item, boolean secondarySlot, boolean equip) {
     if (!secondarySlot) {
       if (item instanceof EngineItem) {
-        if (true) throw new AssertionError("no engine item support for now");
+        if (true) {
+          Gdx.app.log("SolShip", "maybeEquip called for an engine item, can't do that!");
+          //throw new AssertionError("engine items not supported");
+        }
         EngineItem ei = (EngineItem) item;
         boolean ok = ei.isBig() == (myHull.config.getType() == HullConfig.Type.BIG);
         if (ok && equip) myHull.setEngine(game, this, ei);
@@ -531,7 +535,8 @@ public class SolShip implements SolObject {
     if (!secondarySlot) {
       if (myHull.getEngine() == item) {
         if (true) {
-          throw new AssertionError("engine items not supported");
+          Gdx.app.log("SolShip", "maybeUnequip called for an engine item, can't do that!");
+          //throw new AssertionError("engine items not supported");
         }
         if (unequip) {
           myHull.setEngine(game, this, null);
