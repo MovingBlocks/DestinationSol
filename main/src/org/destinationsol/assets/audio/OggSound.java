@@ -26,7 +26,15 @@ public class OggSound extends Asset<OggSoundData> implements PlayableSound {
     public OggSound(ResourceUrn urn, AssetType<?, OggSoundData> assetType, OggSoundData data) {
         super(urn, assetType);
         reload(data);
-        getDisposalHook().setDisposeAction(this::doDispose);
+        // TODO: Temporary primitive version below, go back to this one when Java 8 / Android sorted out
+        //getDisposalHook().setDisposeAction(this::doDispose);
+
+        getDisposalHook().setDisposeAction(new Runnable() {
+            @Override
+            public void run() {
+                doDispose();
+            }
+        });
     }
 
     @Override
