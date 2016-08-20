@@ -70,6 +70,7 @@ public class GameOptions {
   public boolean fullscreen;
   public int controlType;
   public float volMul;
+  public float musicMul;
   private String keyUpMouseName;
   private String keyDownMouseName;
   private String keyUpName;
@@ -114,6 +115,7 @@ public class GameOptions {
     fullscreen = r.getBoolean("fullscreen", false);
     controlType = mobile ? CONTROL_KB : r.getInt("controlType", CONTROL_MIXED);
     volMul = r.getFloat("vol", 1);
+    musicMul = r.getFloat("musicVol", 1);
     keyUpMouseName = r.getString("keyUpMouse", DEFAULT_MOUSE_UP);
     keyDownMouseName = r.getString("keyDownMouse", DEFAULT_MOUSE_DOWN);
     keyUpName = r.getString("keyUp", DEFAULT_UP);
@@ -195,7 +197,7 @@ public class GameOptions {
     save();
   }
 
-  public void advanceVolMul() {
+  public void advanceSoundVolMul() {
     if (volMul == 0) {
       volMul = .33f;
     } else if (volMul < .4f) {
@@ -206,7 +208,19 @@ public class GameOptions {
       volMul = 0;
     }
     save();
-    MusicManager.getInstance().resetVolume(this);
+  }
+  public void advanceMusicVolMul() {
+	  if (musicMul == 0) {
+	    musicMul = .33f;
+	  } else if (musicMul < .4f) {
+	    musicMul = .66f;
+	  } else if (musicMul < .7f) {
+	    musicMul = 1;
+	  } else {
+	    musicMul = 0;
+	  }
+	  save();
+	  MusicManager.getInstance().resetVolume(this);
   }
 
   /**
