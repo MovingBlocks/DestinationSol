@@ -103,7 +103,7 @@ public final class MusicManager {
     public void playMusic(Music music, GameOptions options)
     {
         currentlyPlaying = music;
-        currentlyPlaying.setVolume(options.volMul);
+        currentlyPlaying.setVolume(options.musicMul);
         currentlyPlaying.play();
     }
     /**
@@ -118,6 +118,6 @@ public final class MusicManager {
 
     public void resetVolume(GameOptions options)
     {
-        currentlyPlaying.setVolume(options.volMul);
+        currentlyPlaying.setVolume(options.musicMul);
     }
 }
