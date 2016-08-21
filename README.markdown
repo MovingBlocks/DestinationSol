@@ -114,6 +114,7 @@ Contributors
 * [rzats](https://github.com/rzats)
 * [LadySerenaKitty](https://github.com/LadySerenaKitty)
 * [askneller](https://github.com/askneller)
+* [JGelfand](https://github.com/JGelfand)
 
 ... and your name here? :-) More coming!
 
