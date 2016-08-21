@@ -18,6 +18,8 @@ package org.destinationsol.game.sound;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
+
 import org.destinationsol.GameOptions;
 import org.destinationsol.files.FileManager;
 
@@ -29,10 +31,10 @@ import java.util.ArrayList;
 public final class MusicManager {
     private static MusicManager instance = null;
     private static final String DIR = "res/sounds/";
-    private final Music menuMusic;
-    private ArrayList<Music> gameMusic = new ArrayList<Music>();;
+    private final FileHandle menuMusic;
+    private ArrayList<FileHandle> gameMusic = new ArrayList<FileHandle>();;
     private Music currentlyPlaying = null;
-
+    private FileHandle currentMusicFile = null;
     /**
      * Returns the singleton instance of this class.
      * @return The instance.
@@ -49,60 +51,48 @@ public final class MusicManager {
      * Initalise the MusicManager class.
      */
     private MusicManager() {
-        menuMusic = Gdx.audio.newMusic(FileManager.getInstance().getStaticFile("res/sounds/music/dreadnaught.ogg"));
-        gameMusic.add(Gdx.audio.newMusic(FileManager.getInstance().getStaticFile("res/sounds/music/cimmerian dawn.ogg")));
-        gameMusic.add(Gdx.audio.newMusic(FileManager.getInstance().getStaticFile("res/sounds/music/into the dark.ogg")));
-        gameMusic.add(Gdx.audio.newMusic(FileManager.getInstance().getStaticFile("res/sounds/music/space theatre.ogg")));
-        menuMusic.setLooping(true);
+        menuMusic = FileManager.getInstance().getStaticFile("res/sounds/music/dreadnaught.ogg");
+        gameMusic.add(FileManager.getInstance().getStaticFile("res/sounds/music/cimmerian dawn.ogg"));
+        gameMusic.add(FileManager.getInstance().getStaticFile("res/sounds/music/into the dark.ogg"));
+        gameMusic.add(FileManager.getInstance().getStaticFile("res/sounds/music/space theatre.ogg"));
     }
 
     /**
      * Start playing the music menu from the beginning of the track. The menu music loops continuously.
      */
     public void PlayMenuMusic(GameOptions options) {
-        if(currentlyPlaying != null )
-        {
-            if(currentlyPlaying != menuMusic || (currentlyPlaying == menuMusic && !currentlyPlaying.isPlaying()))
-            {
-                    StopMusic();
-                    playMusic(menuMusic, options);
-            }
-        }else
-        {
-            StopMusic();
-            playMusic(menuMusic, options);
-        }
-
+    	if(currentMusicFile!=menuMusic)
+    	{
+    		StopMusic();
+    		playMusic(menuMusic, options);
+    		currentlyPlaying.setLooping(true);
+    	}
     }
 
     public void PlayGameMusic(final GameOptions options) {
-        StopMusic();
-        if(currentlyPlaying != null && gameMusic.contains(currentlyPlaying))
+        if(gameMusic.contains(currentMusicFile))
         {
-            int index = gameMusic.indexOf(currentlyPlaying) +1;
-            if(gameMusic.size()-1 >= index)
-            {
-                playMusic(gameMusic.get(index), options);
-                currentlyPlaying.setOnCompletionListener(new Music.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(Music music) {
-                        PlayGameMusic(options);
-                    }
-                });
+            int index = (gameMusic.indexOf(currentMusicFile) +1)% gameMusic.size();
+            StopMusic();
+            playMusic(gameMusic.get(index), options);
+            currentlyPlaying.setOnCompletionListener(new Music.OnCompletionListener() {
+                @Override
+                public void onCompletion(Music music) {
+                    PlayGameMusic(options);
+                }
+            });
 
-            }else
-            {
-                playMusic(gameMusic.get(0), options);
-            }
         }else
         {
+           StopMusic();
            playMusic(gameMusic.get(0), options);
         }
     }
 
-    public void playMusic(Music music, GameOptions options)
+    public void playMusic(FileHandle music, GameOptions options)
     {
-        currentlyPlaying = music;
+        currentMusicFile = music;
+    	currentlyPlaying = Gdx.audio.newMusic(music);
         currentlyPlaying.setVolume(options.musicMul);
         currentlyPlaying.play();
     }
@@ -113,6 +103,8 @@ public final class MusicManager {
         if(currentlyPlaying != null)
         {
             currentlyPlaying.stop();
+            currentlyPlaying.dispose();
+            currentMusicFile = null;
         }
     }
 
