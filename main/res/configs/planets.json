@@ -70,7 +70,7 @@
       mercenaries: [
         {
           hull: pirateSmall,
-          items: "rep:1:3 s1",
+          items: "blaster|gun s1 rep:1:3",
           money: 100,
         },
       ],
@@ -156,7 +156,7 @@
       mercenaries: [
         {
           hull: desertOrbiter,
-          items: "rep:1:3 s1",
+          items: "fixedBombGun a1:.25 rep:1:3",
           money: 150,
         },
       ],
