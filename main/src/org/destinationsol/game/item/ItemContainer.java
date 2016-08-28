@@ -69,10 +69,13 @@ public class ItemContainer implements Iterable<List<SolItem>> {
       List<SolItem> group = myGroups.get(i);
       SolItem item = group.get(0);
       if (item.isSame(addedItem)) {
-        if (group.size() >= MAX_GROUP_SZ) throw new AssertionError("reached group size limit");
-        group.add(addedItem);
-        mySize++;
+        if ((group.size() < MAX_GROUP_SZ))
+        {
+        	group.add(addedItem);
+        	mySize++;
+        }
         return;
+        
       }
     }
     if (myGroups.size() >= MAX_GROUP_COUNT) throw new AssertionError("reached group count limit");
