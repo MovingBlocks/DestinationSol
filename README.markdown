@@ -32,6 +32,10 @@ You can destroy asteroids for easy money, even with the starting ship's ammo-les
 
 Warnings get posted if you get close to dangerous ships or may soon collide with something on your current course. Blue dots along the edge of the screen indicate a planet is nearby.
 
+Watch out about buying a new ship if you can only barely afford it - you might need to buy new compatible weaponry too! Also be careful not to actually re-buy the ship you're already in.
+
+Mercenaries will follow you around and should start with a compatible weapon again in v1.4.1. They'll pick up items as well and keep them, greedy little buggers! But then they drop everything again on death, so ...
+
 Controls
 --------
 
@@ -66,10 +70,10 @@ Building and running from source
 
 You only need Java installed to run Destination Sol from source. Use Java 7 or 8, the newer the better.
 
-Run any commands in the project root directory
+Run any commands in the project root directory (where you cloned / extracted the project to, using a command prompt / terminal).
 
 * Download / clone the [source from GitHub](https://github.com/MovingBlocks/DestinationSol)
-* To run from the command line: `gradlew run`
+* To run from the command line: `gradlew run` (on Linux you might need to use `./gradlew run`)
 * To prepare for IntelliJ run: `gradlew idea` then load the generated project via `DestinationSol.ipr`
 * To create a game package for distribution (Windows, Linux, Mac): `gradlew distZip`
 
@@ -84,7 +88,7 @@ For Android a little extra setup is needed
 * To run in IntelliJ make sure you have an Android emulator (or USB connection) working then create a run configuration
 * We use `gradlew assembleRelease` to build the APK for Google Play (with the right keystore etc)
 
-You can also run the Android version via Gradle: `gradlew android` - but need your device setup. Need instructions.
+You can also run the Android version via Gradle: `gradlew android` - but need your device setup. TODO more instructions.
 
 GWT / HTML
 
