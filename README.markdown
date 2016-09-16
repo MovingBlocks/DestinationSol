@@ -119,6 +119,7 @@ Contributors
 * [LadySerenaKitty](https://github.com/LadySerenaKitty)
 * [askneller](https://github.com/askneller)
 * [JGelfand](https://github.com/JGelfand)
+* [CrazyWolf](https://github.com/Crazywolf)
 
 ... and your name here? :-) More coming!
 
