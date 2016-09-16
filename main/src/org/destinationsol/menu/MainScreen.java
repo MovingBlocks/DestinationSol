@@ -45,6 +45,7 @@ public class MainScreen implements SolUiScreen {
   private final SolUiControl myNewGameCtrl;
   private final SolUiControl myCreditsCtrl;
   private final TextureAtlas.AtlasRegion myTitleTex;
+  private final TextureAtlas.AtlasRegion newLogo;
   private final boolean isMobile;
   GameOptions gameOptions;
 
@@ -72,6 +73,9 @@ public class MainScreen implements SolUiScreen {
     myCreditsCtrl = new SolUiControl(creditsBtnRect(r), true, Input.Keys.C);
     myCreditsCtrl.setDisplayName("Credits");
     myControls.add(myCreditsCtrl);
+
+    FileHandle imageFile = FileManager.getInstance().getImagesDirectory().child("newLogo.png");
+    newLogo = textureManager.getTexture(imageFile);
 
     myTitleTex = textureManager.getTex("ui/title", null);
   }
@@ -136,7 +140,7 @@ public class MainScreen implements SolUiScreen {
   @Override
   public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
     float sz = .55f;
-    if (!DebugOptions.PRINT_BALANCE) uiDrawer.draw(myTitleTex, sz, sz, sz/2, sz/2, uiDrawer.r/2, sz/2, 0, SolColor.W);
+      if (!DebugOptions.PRINT_BALANCE) uiDrawer.draw(newLogo, sz, sz, sz/2, sz/2, uiDrawer.r/2, sz/2, 0, ManiColor.W);
   }
 
   @Override
