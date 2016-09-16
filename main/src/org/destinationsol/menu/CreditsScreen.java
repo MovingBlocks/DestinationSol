@@ -77,8 +77,8 @@ public class CreditsScreen implements SolUiScreen {
         "grauerkoala",
         "rzats",
         "LadySerenaKitty",
-        "askneller"
-        "JGelfand"
+        "askneller",
+        "JGelfand",
         "CrazyWolf"
       },
       {
