@@ -140,7 +140,7 @@ public class MainScreen implements SolUiScreen {
   @Override
   public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
     float sz = .55f;
-      if (!DebugOptions.PRINT_BALANCE) uiDrawer.draw(newLogo, sz, sz, sz/2, sz/2, uiDrawer.r/2, sz/2, 0, ManiColor.W);
+      if (!DebugOptions.PRINT_BALANCE) uiDrawer.draw(newLogo, sz, sz, sz/2, sz/2, uiDrawer.r/2, sz/2, 0, SolColor.W);
   }
 
   @Override
