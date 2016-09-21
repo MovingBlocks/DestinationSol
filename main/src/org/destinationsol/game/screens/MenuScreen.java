@@ -36,10 +36,14 @@ public class MenuScreen implements SolUiScreen {
   private final SolUiControl myRespawnCtrl;
   private final SolUiControl mySoundVolCtrl;
   private final SolUiControl myMusVolCtrl;
+  private final SolUiControl myDoNotSellEquippedControl;
 
   public MenuScreen(MenuLayout menuLayout, GameOptions gameOptions) {
     myControls = new ArrayList<SolUiControl>();
 
+    myDoNotSellEquippedControl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
+    myDoNotSellEquippedControl.setDisplayName("Can't sell equipped items");
+    myControls.add(myDoNotSellEquippedControl);
     mySoundVolCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
     mySoundVolCtrl.setDisplayName("Sound Vol");
     myControls.add(mySoundVolCtrl);
@@ -87,6 +91,11 @@ public class MenuScreen implements SolUiScreen {
     if (myCloseCtrl.isJustOff()) {
       g.setPaused(false);
       im.setScreen(cmp, g.getScreens().mainScreen);
+    }
+    myDoNotSellEquippedControl.setDisplayName("Can't sell equipped items: " +
+            (options.canSellEquippedItems ? "No" : "Yes"));
+    if (myDoNotSellEquippedControl.isJustOff()) {
+      options.canSellEquippedItems = !options.canSellEquippedItems;
     }
   }
 

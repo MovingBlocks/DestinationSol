@@ -26,14 +26,15 @@ public class MenuLayout {
   public final float row0;
   private final float rowH;
   private final float myPad;
+  private static final int numberOfRowsTotal = 5;
 
   public MenuLayout(float r) {
-    btnW = .25f * r;
+    btnW = .30f * r;
     btnH = .1f;
     myPad = .1f * btnH;
     rowH = btnH + myPad;
     colCenter = .5f * r - btnW / 2;
-    row0 = 1 - myPad - 5 * rowH;
+    row0 = 1 - myPad - numberOfRowsTotal * rowH;
   }
 
   public Rectangle buttonRect(int col, int row) {
