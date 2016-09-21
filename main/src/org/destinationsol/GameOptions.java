@@ -71,6 +71,7 @@ public class GameOptions {
   public int controlType;
   public float volMul;
   public float musicMul;
+  public boolean canSellEquippedItems;
   private String keyUpMouseName;
   private String keyDownMouseName;
   private String keyUpName;
@@ -149,6 +150,7 @@ public class GameOptions {
     controllerButtonRight = r.getInt("controllerButtonRight", DEFAULT_BUTTON_RIGHT);
     controllerButtonUp = r.getInt("controllerButtonUp", DEFAULT_BUTTON_UP);
     controllerButtonDown = r.getInt("controllerButtonDown", DEFAULT_BUTTON_DOWN);
+    canSellEquippedItems = r.getBoolean("canSellEquippedItems", false);
   }
 
   public void advanceReso() {
@@ -228,6 +230,7 @@ public class GameOptions {
    */
   public void save() {
     IniReader.write(FILE_NAME, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType, "vol", volMul,
+            "canSellEquippedItems", canSellEquippedItems,
             "keyUpMouse", getKeyUpMouseName(), "keyDownMouse", getKeyDownMouseName(), "keyUp", getKeyUpName(), "keyDown", keyDownName,
             "keyLeft", keyLeftName, "keyRight", keyRightName, "keyShoot", keyShootName, "keyShoot2", getKeyShoot2Name(),
             "keyAbility", getKeyAbilityName(), "keyEscape", getKeyEscapeName(), "keyMap", keyMapName, "keyInventory", keyInventoryName,

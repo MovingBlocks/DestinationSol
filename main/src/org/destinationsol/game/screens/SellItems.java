@@ -22,6 +22,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
+import org.destinationsol.menu.OptionsScreen;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.UiDrawer;
@@ -82,10 +83,27 @@ public class SellItems implements InventoryOperations {
       return;
     }
     SolItem selItem = is.getSelectedItem();
-    boolean enabled = selItem != null && target.getTradeContainer().getItems().canAdd(selItem);
-    sellCtrl.setDisplayName(enabled ? "Sell" : "---");
-    sellCtrl.setEnabled(enabled);
-    if (!enabled) return;
+    if(selItem == null) {
+        sellCtrl.setDisplayName("----");
+        sellCtrl.setEnabled(false);
+        return;
+    }
+
+    boolean isWornAndCanBeSold = isItemEquippedAndSellable(selItem, target, game, cmp.getOptions());
+    boolean enabled = isItemSellable(selItem, target);
+
+    if(enabled && isWornAndCanBeSold) {
+        sellCtrl.setDisplayName("Sell");
+        sellCtrl.setEnabled(true);
+    } else if(enabled && !isWornAndCanBeSold) {
+        sellCtrl.setDisplayName("Unequip it!");
+        sellCtrl.setEnabled(false);
+    } else {
+        sellCtrl.setDisplayName("----");
+        sellCtrl.setEnabled(false);
+    }
+
+    if (!enabled || !isWornAndCanBeSold) return;
     if (sellCtrl.isJustOff()) {
       ItemContainer ic = hero.getItemContainer();
       is.setSelected(ic.getSelectionAfterRemove(is.getSelected()));
@@ -93,6 +111,18 @@ public class SellItems implements InventoryOperations {
       target.getTradeContainer().getItems().add(selItem);
       hero.setMoney(hero.getMoney() + selItem.getPrice() * PERC);
     }
+  }
+
+  private boolean isItemSellable(SolItem item, SolShip target) {
+      return target.getTradeContainer().getItems().canAdd(item);
+  }
+
+  // return true if the item is not worn, or is worn and canSellEquippedItems is true
+  private boolean isItemEquippedAndSellable(SolItem item, SolShip target, SolGame game, GameOptions options) {
+      if(item.isEquipped()==0 || ((item.isEquipped() != 0) && options.canSellEquippedItems)) {
+          return true;
+      }
+      return false;
   }
 
   @Override
