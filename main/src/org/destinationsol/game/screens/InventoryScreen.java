@@ -325,4 +325,22 @@ public class InventoryScreen implements SolUiScreen {
   public int getPage() {
     return myPage;
   }
+
+  public List<SolUiControl> getEquippedItemUIControlsForTutorial(SolGame game) {
+    List<SolUiControl> controls = new ArrayList<>();
+    ItemContainer ic = myOperations.getItems(game);
+    if (ic == null) return controls;
+
+    for (int i = 0; i < itemCtrls.length; i++) {
+      int groupIdx = myPage * Const.ITEM_GROUPS_PER_PAGE + i;
+      int groupCount = ic.groupCount();
+      if (groupCount <= groupIdx) continue;
+      SolUiControl itemCtrl = itemCtrls[i];
+      List<SolItem> group = ic.getGroup(groupIdx);
+      SolItem item = group.get(0);
+      if (myOperations.isUsing(game, item))
+        controls.add(itemCtrl);
+    }
+    return controls;
+  }
 }

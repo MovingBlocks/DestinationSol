@@ -19,12 +19,12 @@ package org.destinationsol.ui;
 import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.GameOptions;
 import org.destinationsol.common.SolColor;
-import org.destinationsol.game.screens.GameScreens;
-import org.destinationsol.game.screens.MainScreen;
-import org.destinationsol.game.screens.ShipKbControl;
-import org.destinationsol.game.screens.ShipMixedControl;
+import org.destinationsol.game.SolGame;
+import org.destinationsol.game.item.SolItem;
+import org.destinationsol.game.screens.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TutorialManager {
   private final Rectangle myBg;
@@ -32,7 +32,7 @@ public class TutorialManager {
 
   private int myStepIdx;
 
-  public TutorialManager(float r, GameScreens screens, boolean mobile, GameOptions gameOptions) {
+  public TutorialManager(float r, GameScreens screens, boolean mobile, GameOptions gameOptions, SolGame game) {
     float bgW = r * .5f;
     float bgH = .2f;
     myBg = new Rectangle(r/2 - bgW/2, 1 - bgH, bgW, bgH);
@@ -127,10 +127,17 @@ public class TutorialManager {
               screens.inventoryScreen.showInventory.dropCtrl);
     }
 
+    // Extra step to make sure an equipped item is selected before asking player to unequip
+    if(screens.inventoryScreen.getSelectedItem() == null ||
+      (screens.inventoryScreen.getSelectedItem() != null && screens.inventoryScreen.getSelectedItem().isEquipped() == 0)) {
+        s(new SelectEquippedItemStep(
+          "Select an equipped item\n(note the text \"using\")", screens.inventoryScreen, game));
+    }
+
     if (mobile) {
-      s("Unequip some item\nthat is used now", screens.inventoryScreen.showInventory.eq1Ctrl);
+      s("Unequip the item\nthat is used now", screens.inventoryScreen.showInventory.eq1Ctrl);
     } else {
-      s("Unequip some item\nthat is used now (" + gameOptions.getKeyEquipName() + " key)",
+      s("Unequip the item\nthat is used now (" + gameOptions.getKeyEquipName() + " key)",
               screens.inventoryScreen.showInventory.eq1Ctrl);
     }
 
@@ -209,11 +216,14 @@ public class TutorialManager {
   private void s(String text, SolUiControl ctrl, boolean checkOn) {
     mySteps.add(new Step(text, ctrl, checkOn));
   }
+  private void s(Step step) {
+    mySteps.add(step);
+  }
 
   public void update() {
     Step step = mySteps.get(myStepIdx);
-    step.ctrl.enableWarn();
-    if (step.checkOn ? step.ctrl.isOn() : step.ctrl.isJustOff()) {
+    step.highlight();
+    if (step.canProgressToNextStep()) {
       myStepIdx++;
     }
   }
@@ -239,5 +249,45 @@ public class TutorialManager {
       this.ctrl = ctrl;
       this.checkOn = checkOn;
     }
+
+    // highlight control that needs to be pressed
+    public void highlight() {
+      if(ctrl != null) ctrl.enableWarn();
+    }
+
+    public boolean canProgressToNextStep() {
+      if(checkOn) {
+        return ctrl.isOn();
+      } else {
+        return ctrl.isJustOff();
+      }
+    }
+  }
+
+  public static class SelectEquippedItemStep extends Step {
+      InventoryScreen inventoryScreen;
+      SolGame game;
+
+      public SelectEquippedItemStep(String text, InventoryScreen inventoryScreen, SolGame game) {
+        super(text, null, true);
+        this.inventoryScreen = inventoryScreen;
+        this.game = game;
+      }
+
+      @Override
+      public boolean canProgressToNextStep() {
+        SolItem selected = inventoryScreen.getSelectedItem();
+        if(selected != null && selected.isEquipped() != 0) return true;
+        return false;
+      }
+
+      // Highlight all equipped items on opened inventory page
+      @Override
+      public void highlight() {
+        List<SolUiControl> equippedItemControls = inventoryScreen.getEquippedItemUIControlsForTutorial(game);
+        for(SolUiControl control : equippedItemControls) {
+          control.enableWarn();
+        }
+      }
   }
 }
