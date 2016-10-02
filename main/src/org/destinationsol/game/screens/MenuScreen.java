@@ -92,8 +92,8 @@ public class MenuScreen implements SolUiScreen {
       g.setPaused(false);
       im.setScreen(cmp, g.getScreens().mainScreen);
     }
-    myDoNotSellEquippedControl.setDisplayName("Can't sell equipped items: " +
-            (options.canSellEquippedItems ? "No" : "Yes"));
+    myDoNotSellEquippedControl.setDisplayName("Can sell used items: " +
+            (options.canSellEquippedItems ? "Yes" : "No"));
     if (myDoNotSellEquippedControl.isJustOff()) {
       options.canSellEquippedItems = !options.canSellEquippedItems;
     }

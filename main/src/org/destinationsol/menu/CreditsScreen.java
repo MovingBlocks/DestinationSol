@@ -69,15 +69,11 @@ public class CreditsScreen implements SolUiScreen {
       {
         "Contributors on GitHub",
         "",
-        "Cervator",
-        "Rulasmur",
-        "theotherjay",
-        "LinusVanElswijk",
-        "SimonC4",
-        "grauerkoala",
-        "rzats",
-        "LadySerenaKitty",
-        "askneller"
+        "Cervator, Rulasmur",
+        "theotherjay, LinusVanElswijk",
+        "SimonC4, grauerkoala, rzats",
+        "LadySerenaKitty, askneller",
+        "JGelfand, AvaLanCS"
       },
       {
         "Soundtrack by NeonInsect"
