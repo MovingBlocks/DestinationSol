@@ -69,8 +69,8 @@ public class GameOptions {
   public int y;
   public boolean fullscreen;
   public int controlType;
-  public float volMul;
-  public float musicMul;
+  public float sfxVolumeMultiplier;
+  public float musicVolumeMultiplier;
   public boolean canSellEquippedItems;
   private String keyUpMouseName;
   private String keyDownMouseName;
@@ -115,8 +115,8 @@ public class GameOptions {
     y = r.getInt("y", 600);
     fullscreen = r.getBoolean("fullscreen", false);
     controlType = mobile ? CONTROL_KB : r.getInt("controlType", CONTROL_MIXED);
-    volMul = r.getFloat("vol", 1);
-    musicMul = r.getFloat("musicVol", 1);
+    sfxVolumeMultiplier = r.getFloat("sfxVol", 1);
+    musicVolumeMultiplier = r.getFloat("musicVol", 1);
     keyUpMouseName = r.getString("keyUpMouse", DEFAULT_MOUSE_UP);
     keyDownMouseName = r.getString("keyDownMouse", DEFAULT_MOUSE_DOWN);
     keyUpName = r.getString("keyUp", DEFAULT_UP);
@@ -200,26 +200,26 @@ public class GameOptions {
   }
 
   public void advanceSoundVolMul() {
-    if (volMul == 0) {
-      volMul = .33f;
-    } else if (volMul < .4f) {
-      volMul = .66f;
-    } else if (volMul < .7f) {
-      volMul = 1;
+    if (sfxVolumeMultiplier == 0) {
+      sfxVolumeMultiplier = .33f;
+    } else if (sfxVolumeMultiplier < .4f) {
+      sfxVolumeMultiplier = .66f;
+    } else if (sfxVolumeMultiplier < .7f) {
+      sfxVolumeMultiplier = 1;
     } else {
-      volMul = 0;
+      sfxVolumeMultiplier = 0;
     }
     save();
   }
   public void advanceMusicVolMul() {
-	  if (musicMul == 0) {
-	    musicMul = .33f;
-	  } else if (musicMul < .4f) {
-	    musicMul = .66f;
-	  } else if (musicMul < .7f) {
-	    musicMul = 1;
+	  if (musicVolumeMultiplier == 0) {
+	    musicVolumeMultiplier = .33f;
+	  } else if (musicVolumeMultiplier < .4f) {
+	    musicVolumeMultiplier = .66f;
+	  } else if (musicVolumeMultiplier < .7f) {
+	    musicVolumeMultiplier = 1;
 	  } else {
-	    musicMul = 0;
+	    musicVolumeMultiplier = 0;
 	  }
 	  save();
 	  MusicManager.getInstance().resetVolume(this);
@@ -229,7 +229,7 @@ public class GameOptions {
    * Save the configuration settings to file.
    */
   public void save() {
-    IniReader.write(FILE_NAME, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType, "vol", volMul, "musicVol", musicMul,
+    IniReader.write(FILE_NAME, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType, "sfxVol", sfxVolumeMultiplier, "musicVol", musicVolumeMultiplier,
             "canSellEquippedItems", canSellEquippedItems,
             "keyUpMouse", getKeyUpMouseName(), "keyDownMouse", getKeyDownMouseName(), "keyUp", getKeyUpName(), "keyDown", keyDownName,
             "keyLeft", keyLeftName, "keyRight", keyRightName, "keyShoot", keyShootName, "keyShoot2", getKeyShoot2Name(),
