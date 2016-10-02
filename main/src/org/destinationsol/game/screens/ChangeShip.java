@@ -85,13 +85,43 @@ public class ChangeShip implements InventoryOperations {
       return;
     }
     SolItem selItem = is.getSelectedItem();
-    boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice();
-    myBuyCtrl.setDisplayName(enabled ? "Change" : "---");
-    myBuyCtrl.setEnabled(enabled);
-    if (!enabled) return;
+    if(selItem == null) {
+      myBuyCtrl.setDisplayName("---");
+      myBuyCtrl.setEnabled(false);
+      return;
+    }
+    boolean enabled = hasMoneyToBuyShip(hero, selItem);
+    boolean sameShip = isSameShip(hero, selItem);
+    if(enabled && !sameShip) {
+      myBuyCtrl.setDisplayName("Change");
+      myBuyCtrl.setEnabled(true);
+    } else if(enabled && sameShip) {
+      myBuyCtrl.setDisplayName("Have it");
+      myBuyCtrl.setEnabled(false);
+      return;
+    } else {
+      myBuyCtrl.setDisplayName("---");
+      myBuyCtrl.setEnabled(false);
+      return;
+    }
     if (myBuyCtrl.isJustOff()) {
       hero.setMoney(hero.getMoney() - selItem.getPrice());
       changeShip(game, hero, (ShipItem) selItem);
+    }
+  }
+
+  private boolean hasMoneyToBuyShip(SolShip hero, SolItem shipToBuy) {
+    return hero.getMoney() >= shipToBuy.getPrice();
+  }
+
+  private boolean isSameShip(SolShip hero, SolItem shipToBuy) {
+    if(shipToBuy instanceof ShipItem) {
+      ShipItem ship = (ShipItem) shipToBuy;
+      HullConfig config1 = ship.getConfig();
+      HullConfig config2 = hero.getHull().getHullConfig();
+      return config1.equals(config2);
+    } else {
+      throw new IllegalArgumentException("ChangeShip:isSameShip received " + shipToBuy.getClass() + " argument instead of ShipItem!");
     }
   }
 

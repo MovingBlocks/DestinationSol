@@ -32,7 +32,7 @@ You can destroy asteroids for easy money, even with the starting ship's ammo-les
 
 Warnings get posted if you get close to dangerous ships or may soon collide with something on your current course. Blue dots along the edge of the screen indicate a planet is nearby.
 
-Watch out about buying a new ship if you can only barely afford it - you might need to buy new compatible weaponry too! Also be careful not to actually re-buy the ship you're already in.
+Watch out about buying a new ship if you can only barely afford it - you might need to buy new compatible weaponry too!
 
 Mercenaries will follow you around and should start with a compatible weapon again in v1.4.1. They'll pick up items as well and keep them, greedy little buggers! But then they drop everything again on death, so ...
 

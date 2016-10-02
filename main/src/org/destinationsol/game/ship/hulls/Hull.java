@@ -205,4 +205,8 @@ public class Hull {
   public float getMass() {
     return myMass;
   }
+
+  public HullConfig getHullConfig() {
+      return config;
+  }
 }
