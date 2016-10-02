@@ -72,11 +72,11 @@ public class MenuScreen implements SolUiScreen {
     g.setPaused(true);
     SolInputManager im = cmp.getInputMan();
     GameOptions options = cmp.getOptions();
-    mySoundVolCtrl.setDisplayName("Sound Volume: " + getVolName(options));
+    mySoundVolCtrl.setDisplayName("Sound Volume: " + getSFXVolumeAsText(options));
     if (mySoundVolCtrl.isJustOff()) {
       options.advanceSoundVolMul();
     }
-    myMusVolCtrl.setDisplayName("Music Volume: " + getMusName(options));
+    myMusVolCtrl.setDisplayName("Music Volume: " + getMusicVolumeAsText(options));
     if(myMusVolCtrl.isJustOff()){
     	options.advanceMusicVolMul();
     }
@@ -99,16 +99,16 @@ public class MenuScreen implements SolUiScreen {
     }
   }
 
-  private String getVolName(GameOptions options) {
-    float volMul = options.volMul;
+  private String getSFXVolumeAsText(GameOptions options) {
+    float volMul = options.sfxVolumeMultiplier;
     if (volMul == 0) return "Off";
     else if (volMul < .4f) return "Low";
     else if (volMul < .7f) return "High";
     else {return "Max";}
   }
-  private String getMusName(GameOptions options)
+  private String getMusicVolumeAsText(GameOptions options)
   {
-	  float musMul = options.musicMul;
+	  float musMul = options.musicVolumeMultiplier;
 	  if (musMul == 0) return "Off";
 	  if (musMul < .4f) return "Low";
 	  if (musMul < .7f) return "High";

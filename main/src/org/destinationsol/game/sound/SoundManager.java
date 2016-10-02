@@ -125,7 +125,7 @@ public class SoundManager {
     if (source == null && pos == null) throw new AssertionError("pass either pos or source");
     if (source == null && sound.loopTime > 0) throw new AssertionError("looped sound without source object: " + sound.dir);
     if (sound == null) return;
-    float globalVolMul = game.getCmp().getOptions().volMul;
+    float globalVolMul = game.getCmp().getOptions().sfxVolumeMultiplier;
     if (globalVolMul == 0) return;
 
     if (pos == null) pos = source.getPosition();

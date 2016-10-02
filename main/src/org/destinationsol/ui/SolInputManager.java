@@ -345,11 +345,11 @@ public class SolInputManager {
   }
 
   public void playHover(SolApplication cmp) {
-    myHoverSound.play(.7f * cmp.getOptions().volMul, .7f, 0);
+    myHoverSound.play(.7f * cmp.getOptions().sfxVolumeMultiplier, .7f, 0);
   }
 
   public void playClick(SolApplication cmp) {
-    myHoverSound.play(.7f * cmp.getOptions().volMul, .9f, 0);
+    myHoverSound.play(.7f * cmp.getOptions().sfxVolumeMultiplier, .9f, 0);
   }
 
   public SolUiScreen getTopScreen() {

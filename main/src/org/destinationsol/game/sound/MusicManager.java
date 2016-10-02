@@ -32,7 +32,7 @@ public final class MusicManager {
     private static MusicManager instance = null;
     private static final String DIR = "res/sounds/";
     private final FileHandle menuMusic;
-    private ArrayList<FileHandle> gameMusic = new ArrayList<FileHandle>();;
+    private ArrayList<FileHandle> gameMusic = new ArrayList<FileHandle>();
     private Music currentlyPlaying = null;
     private FileHandle currentMusicFile = null;
     /**
@@ -93,7 +93,7 @@ public final class MusicManager {
     {
         currentMusicFile = music;
     	currentlyPlaying = Gdx.audio.newMusic(music);
-        currentlyPlaying.setVolume(options.musicMul);
+        currentlyPlaying.setVolume(options.musicVolumeMultiplier);
         currentlyPlaying.play();
     }
     /**
@@ -110,6 +110,6 @@ public final class MusicManager {
 
     public void resetVolume(GameOptions options)
     {
-        currentlyPlaying.setVolume(options.musicMul);
+        currentlyPlaying.setVolume(options.musicVolumeMultiplier);
     }
 }
