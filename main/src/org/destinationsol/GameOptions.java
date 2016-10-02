@@ -229,7 +229,7 @@ public class GameOptions {
    * Save the configuration settings to file.
    */
   public void save() {
-    IniReader.write(FILE_NAME, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType, "vol", volMul,
+    IniReader.write(FILE_NAME, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType, "vol", volMul, "musicVol", musicMul,
             "canSellEquippedItems", canSellEquippedItems,
             "keyUpMouse", getKeyUpMouseName(), "keyDownMouse", getKeyDownMouseName(), "keyUp", getKeyUpName(), "keyDown", keyDownName,
             "keyLeft", keyLeftName, "keyRight", keyRightName, "keyShoot", keyShootName, "keyShoot2", getKeyShoot2Name(),
