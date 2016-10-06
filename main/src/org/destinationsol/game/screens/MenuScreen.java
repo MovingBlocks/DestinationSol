@@ -42,13 +42,13 @@ public class MenuScreen implements SolUiScreen {
     myControls = new ArrayList<SolUiControl>();
 
     myDoNotSellEquippedControl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
-    myDoNotSellEquippedControl.setDisplayName("Can't sell equipped items");
+    myDoNotSellEquippedControl.setDisplayName("Can sell used items");
     myControls.add(myDoNotSellEquippedControl);
     mySoundVolCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
-    mySoundVolCtrl.setDisplayName("Sound Vol");
+    mySoundVolCtrl.setDisplayName("Sound Volume");
     myControls.add(mySoundVolCtrl);
     myMusVolCtrl = new SolUiControl(menuLayout.buttonRect(-1, 0), true);
-    myMusVolCtrl.setDisplayName("Music Vol");
+    myMusVolCtrl.setDisplayName("Music Volume");
     myControls.add(myMusVolCtrl);
     myRespawnCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
     myRespawnCtrl.setDisplayName("Respawn");
@@ -72,11 +72,11 @@ public class MenuScreen implements SolUiScreen {
     g.setPaused(true);
     SolInputManager im = cmp.getInputMan();
     GameOptions options = cmp.getOptions();
-    mySoundVolCtrl.setDisplayName("Sound Volume: " + getSFXVolumeAsText(options));
+    mySoundVolCtrl.setDisplayName("Sound Volume: " + options.getSFXVolumeAsText());
     if (mySoundVolCtrl.isJustOff()) {
       options.advanceSoundVolMul();
     }
-    myMusVolCtrl.setDisplayName("Music Volume: " + getMusicVolumeAsText(options));
+    myMusVolCtrl.setDisplayName("Music Volume: " + options.getMusicVolumeAsText());
     if(myMusVolCtrl.isJustOff()){
     	options.advanceMusicVolMul();
     }
@@ -99,21 +99,6 @@ public class MenuScreen implements SolUiScreen {
     }
   }
 
-  private String getSFXVolumeAsText(GameOptions options) {
-    float volMul = options.sfxVolumeMultiplier;
-    if (volMul == 0) return "Off";
-    else if (volMul < .4f) return "Low";
-    else if (volMul < .7f) return "High";
-    else {return "Max";}
-  }
-  private String getMusicVolumeAsText(GameOptions options)
-  {
-	  float musMul = options.musicVolumeMultiplier;
-	  if (musMul == 0) return "Off";
-	  if (musMul < .4f) return "Low";
-	  if (musMul < .7f) return "High";
-	  return "Max";
-  }
   @Override
   public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
     uiDrawer.draw(uiDrawer.filler, SolColor.UI_BG);
