@@ -200,29 +200,34 @@ public class GameOptions {
   }
 
   public void advanceSoundVolMul() {
-    if (sfxVolumeMultiplier == 0) {
-      sfxVolumeMultiplier = .33f;
-    } else if (sfxVolumeMultiplier < .4f) {
-      sfxVolumeMultiplier = .66f;
-    } else if (sfxVolumeMultiplier < .7f) {
-      sfxVolumeMultiplier = 1;
+    if (sfxVolumeMultiplier == 0.f) {
+      sfxVolumeMultiplier = 0.25f;
+    } else if (sfxVolumeMultiplier == 0.25f) {
+      sfxVolumeMultiplier = 0.5f;
+    } else if (sfxVolumeMultiplier == 0.5f) {
+      sfxVolumeMultiplier = 0.75f;
+    } else if (sfxVolumeMultiplier == 0.75f) {
+      sfxVolumeMultiplier = 1.f;
     } else {
-      sfxVolumeMultiplier = 0;
+      sfxVolumeMultiplier = 0.f;
     }
     save();
   }
+
   public void advanceMusicVolMul() {
-	  if (musicVolumeMultiplier == 0) {
-	    musicVolumeMultiplier = .33f;
-	  } else if (musicVolumeMultiplier < .4f) {
-	    musicVolumeMultiplier = .66f;
-	  } else if (musicVolumeMultiplier < .7f) {
-	    musicVolumeMultiplier = 1;
-	  } else {
-	    musicVolumeMultiplier = 0;
-	  }
-	  save();
-	  MusicManager.getInstance().resetVolume(this);
+    if (musicVolumeMultiplier == 0.f) {
+	  musicVolumeMultiplier = 0.25f;
+	} else if (musicVolumeMultiplier == 0.25f) {
+	  musicVolumeMultiplier = 0.5f;
+	} else if (musicVolumeMultiplier == 0.5f) {
+	  musicVolumeMultiplier = 0.75f;
+	} else if(musicVolumeMultiplier == 0.75f) {
+      musicVolumeMultiplier = 1.f;
+    } else {
+	  musicVolumeMultiplier = 0.f;
+	}
+	save();
+	MusicManager.getInstance().setVolume(musicVolumeMultiplier);
   }
 
   /**
@@ -867,5 +872,21 @@ public class GameOptions {
 
   public void setControllerButtonDown(int controllerButtonDown) {
     this.controllerButtonDown = controllerButtonDown;
+  }
+
+  public String getSFXVolumeAsText() {
+    if (sfxVolumeMultiplier == 0.f) return "Off";
+    if (sfxVolumeMultiplier == 0.25f) return "Low";
+    if (sfxVolumeMultiplier == 0.5f) return "Medium";
+    if (sfxVolumeMultiplier == 0.75f) return "High";
+    return "Max";
+  }
+
+  public String getMusicVolumeAsText() {
+    if (musicVolumeMultiplier == 0.f) return "Off";
+    if (musicVolumeMultiplier == 0.25f) return "Low";
+    if (musicVolumeMultiplier == 0.5f) return "Medium";
+    if (musicVolumeMultiplier == 0.75f) return "High";
+    return "Max";
   }
 }

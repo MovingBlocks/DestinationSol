@@ -108,8 +108,8 @@ public final class MusicManager {
         }
     }
 
-    public void resetVolume(GameOptions options)
+    public void setVolume(float volumeMultiplier)
     {
-        currentlyPlaying.setVolume(options.musicVolumeMultiplier);
+        currentlyPlaying.setVolume(volumeMultiplier);
     }
 }
