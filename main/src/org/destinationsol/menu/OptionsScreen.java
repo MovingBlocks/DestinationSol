@@ -33,6 +33,8 @@ public class OptionsScreen implements SolUiScreen {
   private final SolUiControl myResoCtrl;
   private final SolUiControl myControlTypeCtrl;
   private final SolUiControl inputMapCtrl;
+  private final SolUiControl mySoundVolCtrl;
+  private final SolUiControl myMusVolCtrl;
 
   public OptionsScreen(MenuLayout menuLayout, GameOptions gameOptions) {
 
@@ -53,6 +55,14 @@ public class OptionsScreen implements SolUiScreen {
     myBackCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
     myBackCtrl.setDisplayName("Back");
     myControls.add(myBackCtrl);
+
+    mySoundVolCtrl = new SolUiControl(menuLayout.buttonRect(-1, 0), true);
+    mySoundVolCtrl.setDisplayName("Sound Volume");
+    myControls.add(mySoundVolCtrl);
+
+    myMusVolCtrl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
+    myMusVolCtrl.setDisplayName("Music Volume");
+    myControls.add(myMusVolCtrl);
   }
 
   @Override
@@ -64,6 +74,7 @@ public class OptionsScreen implements SolUiScreen {
   public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
     SolInputManager im = cmp.getInputMan();
     MenuScreens screens = cmp.getMenuScreens();
+    GameOptions options = cmp.getOptions();
     if (myResoCtrl.isJustOff()) {
       im.setScreen(cmp, screens.resolutionScreen);
     }
@@ -91,6 +102,15 @@ public class OptionsScreen implements SolUiScreen {
         screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapControllerScreen);
       }
       im.setScreen(cmp, screens.inputMapScreen);
+    }
+
+    mySoundVolCtrl.setDisplayName("Sound Volume: " + options.getSFXVolumeAsText());
+    if (mySoundVolCtrl.isJustOff()) {
+      options.advanceSoundVolMul();
+    }
+    myMusVolCtrl.setDisplayName("Music Volume: " + options.getMusicVolumeAsText());
+    if(myMusVolCtrl.isJustOff()){
+      options.advanceMusicVolMul();
     }
   }
 
