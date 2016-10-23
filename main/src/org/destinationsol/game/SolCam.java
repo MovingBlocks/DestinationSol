@@ -62,8 +62,6 @@ public class SolCam {
   }
 
   public void update(SolGame game) {
-
-    float desiredVd = Const.CAM_VIEW_DIST_GROUND;
     float life = 0;
 
     SolShip hero = game.getHero();
@@ -75,7 +73,6 @@ public class SolCam {
           applyInput(game);
         }
       } else {
-        desiredVd = Const.CAM_VIEW_DIST_SPACE;
         myPos.set(trans.getPosition());
       }
     } else {
@@ -93,17 +90,6 @@ public class SolCam {
         myPos.y = SolMath.approach(myPos.y, heroPos.y, moveSpd);
       }
       life = hero.getLife();
-
-      float spd = hero.getSpd().len();
-
-      desiredVd = Const.CAM_VIEW_DIST_SPACE;
-      Planet np = game.getPlanetMan().getNearestPlanet(myPos);
-      if (np.getFullHeight() < np.getPos().dst(myPos) && MAX_ZOOM_SPD < spd) {
-        desiredVd = Const.CAM_VIEW_DIST_JOURNEY;
-      } else if (np.isNearGround(myPos) && spd < MED_ZOOM_SPD) {
-        desiredVd = Const.CAM_VIEW_DIST_GROUND;
-      }
-      desiredVd += hero.getHull().config.getApproxRadius();
     }
 
     if (life < myPrevHeroLife) {
@@ -124,10 +110,36 @@ public class SolCam {
     myAngle = SolMath.approachAngle(myAngle, desiredAngle, rotSpd);
     applyAngle();
 
-    float desiredZoom = calcZoom(desiredVd);
+    updateMap(game);
+  }
+
+  public void updateMap(SolGame game) {
+    float ts = game.getTimeStep();
+    float desiredViewDistance = getDesiredViewDistance(game);
+    float desiredZoom = calcZoom(desiredViewDistance);
     myZoom = SolMath.approach(myZoom, desiredZoom, ZOOM_CHG_SPD * ts);
     applyZoom(game.getMapDrawer());
     myCam.update();
+  }
+
+  private float getDesiredViewDistance(SolGame game) {
+    SolShip hero = game.getHero();
+    if(hero == null && game.getTranscendentHero() != null) { // hero is in transcendent state
+      return Const.CAM_VIEW_DIST_SPACE;
+    } else if(hero == null && game.getTranscendentHero() == null) {
+      return Const.CAM_VIEW_DIST_GROUND;
+    } else {
+      float speed = hero.getSpd().len();
+      float desiredViewDistance = Const.CAM_VIEW_DIST_SPACE;
+      Planet nearestPlanet = game.getPlanetMan().getNearestPlanet(myPos);
+      if (nearestPlanet.getFullHeight() < nearestPlanet.getPos().dst(myPos) && MAX_ZOOM_SPD < speed) {
+        desiredViewDistance = Const.CAM_VIEW_DIST_JOURNEY;
+      } else if (nearestPlanet.isNearGround(myPos) && speed < MED_ZOOM_SPD) {
+        desiredViewDistance = Const.CAM_VIEW_DIST_GROUND;
+      }
+      desiredViewDistance += hero.getHull().config.getApproxRadius();
+      return desiredViewDistance;
+    }
   }
 
   private float calcZoom(float vd) {
