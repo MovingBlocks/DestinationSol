@@ -22,8 +22,9 @@ import org.destinationsol.common.SolMath;
 import java.util.*;
 
 public class ItemContainer implements Iterable<List<SolItem>> {
-  public static final int MAX_GROUP_COUNT = 4 * Const.ITEM_GROUPS_PER_PAGE;
-  public static final int MAX_GROUP_SZ = 30;
+  public static final int MAX_INVENTORY_PAGES = 4;
+  public static final int MAX_GROUP_COUNT = MAX_INVENTORY_PAGES * Const.ITEM_GROUPS_PER_PAGE;
+  public static final int MAX_STACK_SIZE = 30; // e.g.: ammo, repair kit
 
   private List<List<SolItem>> myGroups;
   private Set<List<SolItem>> myNewGroups;
@@ -57,7 +58,7 @@ public class ItemContainer implements Iterable<List<SolItem>> {
     for (int i = 0, myGroupsSize = myGroups.size(); i < myGroupsSize; i++) {
       List<SolItem> group = myGroups.get(i);
       SolItem item = group.get(0);
-      if (item.isSame(example)) return group.size() < MAX_GROUP_SZ;
+      if (item.isSame(example)) return group.size() < MAX_STACK_SIZE;
     }
     return myGroups.size() < MAX_GROUP_COUNT;
   }
@@ -68,15 +69,14 @@ public class ItemContainer implements Iterable<List<SolItem>> {
       List<SolItem> group = myGroups.get(i);
       SolItem item = group.get(0);
       if (item.isSame(addedItem)) {
-        if ((group.size() < MAX_GROUP_SZ))
-        {
+        if ((group.size() < MAX_STACK_SIZE)) {
         	group.add(addedItem);
         }
         return;
-        
       }
     }
-    if (myGroups.size() >= MAX_GROUP_COUNT) throw new AssertionError("reached group count limit");
+    // From now on, silently ignore if by some chance an extra inventory page is created
+    //if (myGroups.size() >= MAX_GROUP_COUNT) throw new AssertionError("reached group count limit");
     ArrayList<SolItem> group = new ArrayList<>();
     group.add(addedItem);
     myGroups.add(0, group);
