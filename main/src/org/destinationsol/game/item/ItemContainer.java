@@ -27,7 +27,6 @@ public class ItemContainer implements Iterable<List<SolItem>> {
 
   private List<List<SolItem>> myGroups;
   private Set<List<SolItem>> myNewGroups;
-  private int mySize;
 
   public ItemContainer() {
     myGroups = new ArrayList<List<SolItem>>();
@@ -72,17 +71,15 @@ public class ItemContainer implements Iterable<List<SolItem>> {
         if ((group.size() < MAX_GROUP_SZ))
         {
         	group.add(addedItem);
-        	mySize++;
         }
         return;
         
       }
     }
     if (myGroups.size() >= MAX_GROUP_COUNT) throw new AssertionError("reached group count limit");
-    ArrayList<SolItem> group = new ArrayList<SolItem>();
+    ArrayList<SolItem> group = new ArrayList<>();
     group.add(addedItem);
     myGroups.add(0, group);
-    mySize++;
     myNewGroups.add(group);
   }
 
@@ -93,10 +90,6 @@ public class ItemContainer implements Iterable<List<SolItem>> {
 
   public int groupCount() {
     return myGroups.size();
-  }
-
-  public int size() {
-    return mySize;
   }
 
   public boolean contains(SolItem item) {
@@ -116,7 +109,6 @@ public class ItemContainer implements Iterable<List<SolItem>> {
       if (group.isEmpty()) remGroup = group;
       if (removed) break;
     }
-    if (removed) mySize--;
     if (remGroup != null) {
       myGroups.remove(remGroup);
       myNewGroups.remove(remGroup);
@@ -165,7 +157,6 @@ public class ItemContainer implements Iterable<List<SolItem>> {
   public void clear() {
     myGroups.clear();
     myNewGroups.clear();
-    mySize = 0;
   }
 
   private class Itr implements Iterator<List<SolItem>> {
