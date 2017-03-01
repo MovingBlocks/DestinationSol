@@ -25,7 +25,6 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.TextureManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.sound.MusicManager;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
@@ -126,7 +125,7 @@ public class MainScreen implements SolUiScreen {
 
     @Override
     public void onAdd(SolApplication cmp) {
-        MusicManager.getInstance().PlayMenuMusic(gameOptions);
+        cmp.getMusicManager().playMenuMusic(gameOptions);
     }
 
     @Override

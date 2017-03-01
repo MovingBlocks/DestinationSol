@@ -22,14 +22,15 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.audio.OggSound;
+import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.ship.SolShip;
-import org.destinationsol.game.sound.SolSound;
-import org.destinationsol.game.sound.SoundManager;
+import org.destinationsol.game.sound.OggSoundManager;
 
 public class Shield implements SolItem {
     public static final float SIZE_PERC = .7f;
@@ -59,7 +60,7 @@ public class Shield implements SolItem {
         } else {
             myIdleTime += ts;
             if (myIdleTime >= myConfig.myMaxIdleTime) {
-                game.getSoundMan().play(game, myConfig.regenSound, null, owner);
+                game.getSoundManager().play(game, myConfig.regenSound, null, owner);
             }
         }
     }
@@ -124,7 +125,7 @@ public class Shield implements SolItem {
 
         game.getPartMan().shieldSpark(game, pos, ship.getHull(), myConfig.tex, dmg / myConfig.maxLife);
         float volMul = SolMath.clamp(4 * dmg / myConfig.maxLife);
-        game.getSoundMan().play(game, myConfig.absorbSound, null, ship, volMul);
+        game.getSoundManager().play(game, myConfig.absorbSound, null, ship, volMul);
 
     }
 
@@ -140,8 +141,8 @@ public class Shield implements SolItem {
         public final String displayName;
         public final int price;
         public final String desc;
-        public final SolSound absorbSound;
-        public final SolSound regenSound;
+        public final PlayableSound absorbSound;
+        public final PlayableSound regenSound;
         public final Shield example;
         public final float maxLife;
         public final float myMaxIdleTime = 2;
@@ -151,7 +152,7 @@ public class Shield implements SolItem {
         public final String code;
         public TextureAtlas.AtlasRegion tex;
 
-        private Config(int maxLife, String displayName, int price, SolSound absorbSound, SolSound regenSound,
+        private Config(int maxLife, String displayName, int price, PlayableSound absorbSound, PlayableSound regenSound,
                        TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, SolItemType itemType, String code) {
             this.maxLife = maxLife;
             this.displayName = displayName;
@@ -167,7 +168,7 @@ public class Shield implements SolItem {
             this.desc = makeDesc();
         }
 
-        public static void loadConfigs(ItemManager itemManager, SoundManager soundManager, TextureManager textureManager, SolItemTypes types) {
+        public static void loadConfigs(ItemManager itemManager, OggSoundManager soundManager, TextureManager textureManager, SolItemTypes types) {
             JsonReader r = new JsonReader();
             FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("shields.json");
             JsonValue parsed = r.parse(configFile);
@@ -175,11 +176,11 @@ public class Shield implements SolItem {
                 int maxLife = sh.getInt("maxLife");
                 String displayName = sh.getString("displayName");
                 int price = sh.getInt("price");
-                String soundDir = sh.getString("absorbSound");
+                String absorbUrn = sh.getString("absorbSound");
                 float absorbPitch = sh.getFloat("absorbSoundPitch", 1);
-                SolSound absorbSound = soundManager.getPitchedSound(soundDir, configFile, absorbPitch);
-                soundDir = sh.getString("regenSound");
-                SolSound regenSound = soundManager.getSound(soundDir, configFile);
+                OggSound absorbSound = soundManager.getSound(absorbUrn, absorbPitch);
+                String regenUrn = sh.getString("regenSound");
+                OggSound regenSound = soundManager.getSound(regenUrn);
                 TextureAtlas.AtlasRegion icon = textureManager.getTex(TextureManager.ICONS_DIR + sh.getString("icon"), configFile);
                 TextureAtlas.AtlasRegion tex = textureManager.getTex(sh.getString("tex"), configFile);
                 String code = sh.name;

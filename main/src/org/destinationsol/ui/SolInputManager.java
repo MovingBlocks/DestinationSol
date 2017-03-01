@@ -17,8 +17,6 @@
 package org.destinationsol.ui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -29,10 +27,12 @@ import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.sound.OggSoundManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +53,7 @@ public class SolInputManager {
     private final Ptr myFlashPtr;
     private final Vector2 myMousePos;
     private final Vector2 myMousePrevPos;
-    private final Sound myHoverSound;
+    private final PlayableSound myHoverSound;
     private final TextureAtlas.AtlasRegion myUiCursor;
     private final Color myWarnCol;
     private float myMouseIdleTime;
@@ -63,7 +63,7 @@ public class SolInputManager {
     private boolean myWarnPercGrows;
     private Boolean myScrolledUp;
 
-    public SolInputManager(TextureManager textureManager, float r) {
+    public SolInputManager(TextureManager textureManager, OggSoundManager soundManager, float r) {
         myPtrs = new Ptr[POINTER_COUNT];
         for (int i = 0; i < POINTER_COUNT; i++) {
             myPtrs[i] = new Ptr();
@@ -90,8 +90,7 @@ public class SolInputManager {
         myToAdd = new ArrayList<SolUiScreen>();
         myWarnCol = new Color(SolColor.UI_WARN);
 
-        FileHandle hoverSoundFile = FileManager.getInstance().getSoundsDirectory().child("ui").child("uiHover.ogg");
-        myHoverSound = Gdx.audio.newSound(hoverSoundFile);
+        myHoverSound = soundManager.getSound("Core:uiHover");
     }
 
     private static void setPtrPos(Ptr ptr, int screenX, int screenY) {
@@ -344,11 +343,11 @@ public class SolInputManager {
     }
 
     public void playHover(SolApplication cmp) {
-        myHoverSound.play(.7f * cmp.getOptions().sfxVolumeMultiplier, .7f, 0);
+        myHoverSound.getOggSound().getSound().play(.7f * cmp.getOptions().sfxVolumeMultiplier, .7f, 0);
     }
 
     public void playClick(SolApplication cmp) {
-        myHoverSound.play(.7f * cmp.getOptions().sfxVolumeMultiplier, .9f, 0);
+        myHoverSound.getOggSound().getSound().play(.7f * cmp.getOptions().sfxVolumeMultiplier, .9f, 0);
     }
 
     public SolUiScreen getTopScreen() {
@@ -364,7 +363,7 @@ public class SolInputManager {
     }
 
     public void dispose() {
-        myHoverSound.dispose();
+        myHoverSound.getOggSound().getSound().dispose();
     }
 
     public static class Ptr {

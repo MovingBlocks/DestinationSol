@@ -186,7 +186,7 @@ public class DraMan {
             }
         }
 
-        game.getSoundMan().drawDebug(myDrawer, game);
+        game.getSoundManager().drawDebug(myDrawer, game);
         myDrawer.maybeChangeAdditive(false);
     }
 
