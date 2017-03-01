@@ -29,8 +29,9 @@ public class InputConfigItem {
 
     /**
      * Get the key mappings to display on the input mapping screen.
+     *
      * @param name The input name to display on the screen
-     * @param key The key the input is mapped to
+     * @param key  The key the input is mapped to
      */
     InputConfigItem(String name, String key) {
         setDisplayName(name);
@@ -39,10 +40,11 @@ public class InputConfigItem {
 
     /**
      * Get the key mappings to display on the input mapping screen.
-     * @param name The input name to display on the screen
-     * @param key The key the input is mapped to
+     *
+     * @param name   The input name to display on the screen
+     * @param key    The key the input is mapped to
      * @param isAxis true if the input is an axis, false if is a button
-     * @param key The button or axis the input is mapped to
+     * @param key    The button or axis the input is mapped to
      */
     InputConfigItem(String name, String key, boolean isAxis, int controllerInput) {
         setDisplayName(name);
@@ -53,6 +55,7 @@ public class InputConfigItem {
 
     /**
      * Get the name to display on screen
+     *
      * @return String the name to display on screen
      */
     public String getDisplayName() {
@@ -61,6 +64,7 @@ public class InputConfigItem {
 
     /**
      * Set the name to display on screen
+     *
      * @param name the name to display on screen
      */
     public void setDisplayName(String name) {
@@ -69,6 +73,7 @@ public class InputConfigItem {
 
     /**
      * Get the name of the input key
+     *
      * @return String the name to input key to display on screen
      */
     public String getInputKey() {
@@ -77,6 +82,7 @@ public class InputConfigItem {
 
     /**
      * Set the input key to display on screen
+     *
      * @param key the name of the input key to display on screen
      */
     public void setInputKey(String key) {
@@ -85,6 +91,7 @@ public class InputConfigItem {
 
     /**
      * Get the controller input type
+     *
      * @return boolean true if the input is an axis, false if is a button
      */
     public boolean isAxis() {
@@ -93,6 +100,7 @@ public class InputConfigItem {
 
     /**
      * Set the controller input type
+     *
      * @param isAxis true if the input is an axis, false if is a button
      */
     public void setIsAxis(boolean isAxis) {
@@ -101,6 +109,7 @@ public class InputConfigItem {
 
     /**
      * Get the controller input
+     *
      * @return int The button or axis the input is mapped to
      */
     public int getControllerInput() {
@@ -109,6 +118,7 @@ public class InputConfigItem {
 
     /**
      * Set the controller input type
+     *
      * @param controllerInput The button or axis the input is mapped to
      */
     public void setControllerInput(int controllerInput) {

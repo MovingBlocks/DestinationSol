@@ -25,7 +25,13 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.item.EngineItem;
 import org.destinationsol.game.item.ItemManager;
-import org.destinationsol.game.ship.*;
+import org.destinationsol.game.ship.AbilityConfig;
+import org.destinationsol.game.ship.EmWave;
+import org.destinationsol.game.ship.KnockBack;
+import org.destinationsol.game.ship.ShipBuilder;
+import org.destinationsol.game.ship.SloMo;
+import org.destinationsol.game.ship.Teleport;
+import org.destinationsol.game.ship.UnShield;
 import org.destinationsol.game.ship.hulls.GunSlot;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.game.sound.SoundManager;
@@ -39,6 +45,18 @@ import java.util.Map;
  * Created by Linus on 4-5-2015.
  */
 public final class HullConfigManager {
+
+    public static final String PROPERTIES_FILE_NAME = "properties.json";
+    public static final String TEXTURE_FILE_NAME = "texture.png";
+    public static final String ICON_FILE_NAME = "icon.png";
+    private final ShipBuilder shipBuilder;
+    private final FileManager fileManager;
+    private final TextureManager textureManager;
+    private final ItemManager itemManager;
+    private final SoundManager soundManager;
+    private final AbilityCommonConfigs abilityCommonConfigs;
+    private final Map<String, HullConfig> nameToConfigMap;
+    private final Map<HullConfig, String> configToNameMap;
 
     public HullConfigManager(ShipBuilder shipBuilder,
                              FileManager fileManager,
@@ -59,26 +77,6 @@ public final class HullConfigManager {
         readHullConfigs();
     }
 
-    public HullConfig getConfig(String name) {
-        return nameToConfigMap.get(name);
-    }
-
-    public String getName(HullConfig hull) {
-        String result = configToNameMap.get(hull);
-        return (result == null) ? "" : result;
-    }
-
-    private void readHullConfigs() {
-        List<FileHandle> hullDirectories = getHullDirectories();
-
-        for(FileHandle handle: hullDirectories) {
-            HullConfig config = read(handle);
-            String name = handle.nameWithoutExtension();
-            nameToConfigMap.put(name, config);
-            configToNameMap.put(config, name);
-        }
-    }
-
     private static Vector2 readVector2(JsonValue jsonValue, String name, Vector2 defaultValue) {
         String string = jsonValue.getString(name, null);
         return (string == null)
@@ -94,20 +92,40 @@ public final class HullConfigManager {
     private static void validateEngineConfig(HullConfig.Data hull) {
         if (hull.engineConfig != null) {
             if (    // stations can't have engines
-                    ( hull.type == HullConfig.Type.STATION ) ||
+                    (hull.type == HullConfig.Type.STATION) ||
                             // the engine size must match the hull size
-                            ( hull.engineConfig.big != (hull.type == HullConfig.Type.BIG) )
+                            (hull.engineConfig.big != (hull.type == HullConfig.Type.BIG))
                     ) {
                 throw new AssertionError("incompatible engine in hull " + hull.displayName);
             }
         }
     }
 
+    public HullConfig getConfig(String name) {
+        return nameToConfigMap.get(name);
+    }
+
+    public String getName(HullConfig hull) {
+        String result = configToNameMap.get(hull);
+        return (result == null) ? "" : result;
+    }
+
+    private void readHullConfigs() {
+        List<FileHandle> hullDirectories = getHullDirectories();
+
+        for (FileHandle handle : hullDirectories) {
+            HullConfig config = read(handle);
+            String name = handle.nameWithoutExtension();
+            nameToConfigMap.put(name, config);
+            configToNameMap.put(config, name);
+        }
+    }
+
     private List<FileHandle> getHullDirectories() {
         List<FileHandle> subDirectories = new LinkedList<FileHandle>();
 
-        for(FileHandle handle: fileManager.getHullsDirectory().list()) {
-            if(handle.isDirectory()) {
+        for (FileHandle handle : fileManager.getHullsDirectory().list()) {
+            if (handle.isDirectory()) {
                 subDirectories.add(handle);
             }
         }
@@ -135,7 +153,7 @@ public final class HullConfigManager {
     private void parseGunSlotList(JsonValue containerNode, HullConfig.Data configData) {
         Vector2 builderOrigin = new Vector2(configData.shipBuilderOrigin);
 
-        for(JsonValue gunSlotNode: containerNode) {
+        for (JsonValue gunSlotNode : containerNode) {
             Vector2 position = readVector2(gunSlotNode, "position", null);
             position.sub(builderOrigin)
                     .scl(configData.size);
@@ -202,13 +220,13 @@ public final class HullConfigManager {
         Vector2 builderOrigin = new Vector2(configData.shipBuilderOrigin);
 
         configData.origin.set(builderOrigin)
-                         .scl(configData.size);
+                .scl(configData.size);
 
         configData.e1Pos.sub(builderOrigin)
-                        .scl(configData.size);
+                .scl(configData.size);
 
         configData.e2Pos.sub(builderOrigin)
-                        .scl(configData.size);
+                .scl(configData.size);
 
         for (Vector2 position : configData.lightSrcPoss) {
             position.sub(builderOrigin)
@@ -225,18 +243,4 @@ public final class HullConfigManager {
                     .scl(configData.size);
         }
     }
-
-    private final ShipBuilder shipBuilder;
-    private final FileManager fileManager;
-    private final TextureManager textureManager;
-    private final ItemManager itemManager;
-    private final SoundManager soundManager;
-    private final AbilityCommonConfigs abilityCommonConfigs;
-
-    private final Map<String,HullConfig> nameToConfigMap;
-    private final Map<HullConfig, String> configToNameMap;
-
-    public static final String PROPERTIES_FILE_NAME = "properties.json";
-    public static final String TEXTURE_FILE_NAME = "texture.png";
-    public static final String ICON_FILE_NAME = "icon.png";
 }

@@ -21,23 +21,23 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import org.destinationsol.game.projectile.Projectile;
 
 public class SolContactFilter implements ContactFilter {
-  private final FactionManager myFactionManager;
+    private final FactionManager myFactionManager;
 
-  public SolContactFilter(FactionManager factionManager) {
-    myFactionManager = factionManager;
-  }
+    public SolContactFilter(FactionManager factionManager) {
+        myFactionManager = factionManager;
+    }
 
-  @Override
-  public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {
-    SolObject oA = (SolObject) fixtureA.getBody().getUserData();
-    SolObject oB = (SolObject) fixtureB.getBody().getUserData();
+    @Override
+    public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {
+        SolObject oA = (SolObject) fixtureA.getBody().getUserData();
+        SolObject oB = (SolObject) fixtureB.getBody().getUserData();
 
-    boolean aIsProj = oA instanceof Projectile;
-    if (!aIsProj && !(oB instanceof Projectile)) return true;
+        boolean aIsProj = oA instanceof Projectile;
+        if (!aIsProj && !(oB instanceof Projectile)) return true;
 
-    Projectile proj = (Projectile)(aIsProj ? oA : oB);
-    SolObject o = aIsProj ? oB : oA;
-    Fixture f = aIsProj ? fixtureB : fixtureA;
-    return proj.shouldCollide(o, f, myFactionManager);
-  }
+        Projectile proj = (Projectile) (aIsProj ? oA : oB);
+        SolObject o = aIsProj ? oB : oA;
+        Fixture f = aIsProj ? fixtureB : fixtureA;
+        return proj.shouldCollide(o, f, myFactionManager);
+    }
 }

@@ -23,7 +23,11 @@ import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
-import org.destinationsol.ui.*;
+import org.destinationsol.ui.FontSize;
+import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiControl;
+import org.destinationsol.ui.SolUiScreen;
+import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +37,16 @@ import java.util.List;
  * The input mapping screen is based on the inventory screen used within the game.
  */
 public class InputMapScreen implements SolUiScreen {
+    private static final float IMG_COL_PERC = .1f;
+    private static final float EQUI_COL_PERC = .1f;
+    private static final float PRICE_COL_PERC = .1f;
+    private static final float AMT_COL_PERC = .1f;
+    private static final float SMALL_GAP = .004f;
+    private static final float HEADER_TEXT_OFFS = .005f;
+    private static final int BTN_ROWS = 4;
     public final InputMapKeyboardScreen inputMapKeyboardScreen;
     public final InputMapControllerScreen inputMapControllerScreen;
     public final InputMapMixedScreen inputMapMixedScreen;
-
     private final List<SolUiControl> controls;
     private final SolUiControl prevCtrl;
     private final SolUiControl nextCtrl;
@@ -49,19 +59,10 @@ public class InputMapScreen implements SolUiScreen {
     private final SolUiControl defaultsCtrl;
     private final SolUiControl upCtrl;
     private final SolUiControl downCtrl;
-
-    private static final float IMG_COL_PERC = .1f;
-    private static final float EQUI_COL_PERC = .1f;
-    private static final float PRICE_COL_PERC = .1f;
-    private static final float AMT_COL_PERC = .1f;
-
+    private final Vector2 listHeaderPos;
     private InputMapOperations operations;
     private int page;
     private int selectedIndex;
-    private final Vector2 listHeaderPos;
-    private static final float SMALL_GAP = .004f;
-    private static final float HEADER_TEXT_OFFS = .005f;
-    private static final int BTN_ROWS = 4;
 
 
     public InputMapScreen(float r, GameOptions gameOptions) {
@@ -261,8 +262,8 @@ public class InputMapScreen implements SolUiScreen {
             float rowCenterY = rect.y + rect.height / 2;
 
             // Draw the name of in the input and the key it is mapped to
-            uiDrawer.drawString(displayName, rect.x + equiColW + imgColW + nameWidth/2, rowCenterY, FontSize.WINDOW, true, selectedIndex == groupIdx ? SolColor.W : SolColor.G);
-            uiDrawer.drawString(inputKey, rect.x + rect.width - amtWidth - priceWidth/2, rowCenterY, FontSize.WINDOW, true, SolColor.LG);
+            uiDrawer.drawString(displayName, rect.x + equiColW + imgColW + nameWidth / 2, rowCenterY, FontSize.WINDOW, true, selectedIndex == groupIdx ? SolColor.W : SolColor.G);
+            uiDrawer.drawString(inputKey, rect.x + rect.width - amtWidth - priceWidth / 2, rowCenterY, FontSize.WINDOW, true, SolColor.LG);
         }
 
         // Draw the header title
