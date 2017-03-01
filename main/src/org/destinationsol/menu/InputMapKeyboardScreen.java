@@ -186,41 +186,14 @@ public class InputMapKeyboardScreen implements InputMapOperations {
 
     /**
      * Remove key if it is already assigned to prevent duplicate keys
+     *
      * @param keyCode The keycode to be removed
      */
     private void removeDuplicateKeys(int keyCode) {
-        for (InputConfigItem item : itemsList ) {
+        for (InputConfigItem item : itemsList) {
             if (Input.Keys.valueOf(item.getInputKey()) == keyCode) {
                 item.setInputKey("");
             }
-        }
-    }
-
-    @Override
-    public void setEnterNewKey(boolean newKey){
-        isEnterNewKey = newKey;
-
-        // Cancel the key input
-        if (!isEnterNewKey) {
-            Gdx.input.setInputProcessor(null);
-        } else {
-            // Capture the new key input
-            Gdx.input.setInputProcessor(new InputAdapter() {
-                @Override
-                public boolean keyUp(int keycode) {
-                    // Don't capture the escape key
-                    if (keycode == Input.Keys.ESCAPE) return true;
-
-                    removeDuplicateKeys(keycode);
-                    InputConfigItem item = itemsList.get(selectedIndex);
-                    item.setInputKey(Input.Keys.toString(keycode));
-                    itemsList.set(selectedIndex, item);
-                    Gdx.input.setInputProcessor(null);
-
-                    isEnterNewKey = false;
-                    return true; // return true to indicate the event was handled
-                }
-            });
         }
     }
 
@@ -266,8 +239,36 @@ public class InputMapKeyboardScreen implements InputMapOperations {
     }
 
     @Override
-    public boolean isEnterNewKey(){
+    public boolean isEnterNewKey() {
         return isEnterNewKey;
+    }
+
+    @Override
+    public void setEnterNewKey(boolean newKey) {
+        isEnterNewKey = newKey;
+
+        // Cancel the key input
+        if (!isEnterNewKey) {
+            Gdx.input.setInputProcessor(null);
+        } else {
+            // Capture the new key input
+            Gdx.input.setInputProcessor(new InputAdapter() {
+                @Override
+                public boolean keyUp(int keycode) {
+                    // Don't capture the escape key
+                    if (keycode == Input.Keys.ESCAPE) return true;
+
+                    removeDuplicateKeys(keycode);
+                    InputConfigItem item = itemsList.get(selectedIndex);
+                    item.setInputKey(Input.Keys.toString(keycode));
+                    itemsList.set(selectedIndex, item);
+                    Gdx.input.setInputProcessor(null);
+
+                    isEnterNewKey = false;
+                    return true; // return true to indicate the event was handled
+                }
+            });
+        }
     }
 
     @Override
@@ -285,7 +286,7 @@ public class InputMapKeyboardScreen implements InputMapOperations {
     }
 
     @Override
-    public void setSelectedIndex(int index){
+    public void setSelectedIndex(int index) {
         selectedIndex = index;
     }
 }

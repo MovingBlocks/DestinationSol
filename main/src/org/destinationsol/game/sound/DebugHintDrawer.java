@@ -27,48 +27,48 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class DebugHintDrawer {
-  private final Map<SolObject, DebugHint> myTracedNotes;
-  private final Map<Vector2, DebugHint> myFreeNotes;
+    private final Map<SolObject, DebugHint> myTracedNotes;
+    private final Map<Vector2, DebugHint> myFreeNotes;
 
-  public DebugHintDrawer() {
-    myTracedNotes = new HashMap<SolObject, DebugHint>();
-    myFreeNotes = new HashMap<Vector2, DebugHint>();
-  }
-
-  public void add(@Nullable SolObject owner, Vector2 pos, String value) {
-    DebugHint dh;
-    if (owner == null) {
-      dh = myFreeNotes.get(pos);
-      if (dh == null) {
-        dh = new DebugHint(null, pos);
-        myFreeNotes.put(pos, dh);
-      }
-    } else {
-      dh = myTracedNotes.get(owner);
-      if (dh == null) {
-        dh = new DebugHint(owner, owner.getPosition());
-        myTracedNotes.put(owner, dh);
-      }
+    public DebugHintDrawer() {
+        myTracedNotes = new HashMap<SolObject, DebugHint>();
+        myFreeNotes = new HashMap<Vector2, DebugHint>();
     }
-    dh.add(value);
-  }
 
-  public void update(SolGame game) {
-    updateEach(game, myTracedNotes.values().iterator());
-    updateEach(game, myFreeNotes.values().iterator());
-  }
-
-  private void updateEach(SolGame game, Iterator<DebugHint> it) {
-    while (it.hasNext()) {
-      DebugHint n = it.next();
-      n.update(game);
-      if (n.shouldRemove()) it.remove();
+    public void add(@Nullable SolObject owner, Vector2 pos, String value) {
+        DebugHint dh;
+        if (owner == null) {
+            dh = myFreeNotes.get(pos);
+            if (dh == null) {
+                dh = new DebugHint(null, pos);
+                myFreeNotes.put(pos, dh);
+            }
+        } else {
+            dh = myTracedNotes.get(owner);
+            if (dh == null) {
+                dh = new DebugHint(owner, owner.getPosition());
+                myTracedNotes.put(owner, dh);
+            }
+        }
+        dh.add(value);
     }
-  }
 
-  public void draw(GameDrawer drawer, SolGame game) {
-    for (DebugHint n : myTracedNotes.values()) n.draw(drawer, game);
-    for (DebugHint n : myFreeNotes.values()) n.draw(drawer, game);
-  }
+    public void update(SolGame game) {
+        updateEach(game, myTracedNotes.values().iterator());
+        updateEach(game, myFreeNotes.values().iterator());
+    }
+
+    private void updateEach(SolGame game, Iterator<DebugHint> it) {
+        while (it.hasNext()) {
+            DebugHint n = it.next();
+            n.update(game);
+            if (n.shouldRemove()) it.remove();
+        }
+    }
+
+    public void draw(GameDrawer drawer, SolGame game) {
+        for (DebugHint n : myTracedNotes.values()) n.draw(drawer, game);
+        for (DebugHint n : myFreeNotes.values()) n.draw(drawer, game);
+    }
 
 }

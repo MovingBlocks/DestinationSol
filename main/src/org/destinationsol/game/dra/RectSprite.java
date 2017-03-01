@@ -28,134 +28,131 @@ import org.destinationsol.game.SolObject;
 
 public class RectSprite implements Dra {
 
-  public final Vector2 relPos;
-  public final Color tint;
+    public final Vector2 relPos;
+    public final Color tint;
+    private final float myOrigPercX;
+    private final float myOrigPercY;
+    private final TextureAtlas.AtlasRegion myTex;
+    private final DraLevel myLevel;
+    private final Vector2 myPos;
+    private final float myRotSpd;
+    private final boolean myAdditive;
+    public float relAngle;
+    public float baseAlpha;
+    private float myTexSzX;
+    private float myTexSzY;
+    private float myOrigX;
+    private float myOrigY;
+    private float myRadius;
+    private float myAngle;
+    private boolean myEnabled;
 
-  public float relAngle;
+    /**
+     * consumes relPos, doesn't consume Color
+     */
+    public RectSprite(TextureAtlas.AtlasRegion tex, float texSz, float origPercX, float origPercY,
+                      @Consumed Vector2 relPos, DraLevel level,
+                      float relAngle, float rotSpd, Color tint, boolean additive) {
+        if (tex == null) throw new AssertionError("tex is null");
+        myTex = tex;
+        myOrigPercX = origPercX;
+        myOrigPercY = origPercY;
 
-  private final float myOrigPercX;
-  private final float myOrigPercY;
-  private final TextureAtlas.AtlasRegion myTex;
-  private final DraLevel myLevel;
-  private final Vector2 myPos;
-  private final float myRotSpd;
+        this.relPos = relPos;
+        myPos = new Vector2();
+        myLevel = level;
+        this.relAngle = relAngle;
+        myRotSpd = rotSpd;
 
-  public float baseAlpha;
-  private float myTexSzX;
-  private float myTexSzY;
-  private float myOrigX;
-  private float myOrigY;
-  private float myRadius;
-  private float myAngle;
-  private boolean myEnabled;
-  private final boolean myAdditive;
+        myEnabled = true;
+        baseAlpha = tint.a;
+        this.tint = new Color(tint);
 
-  /**
-   * consumes relPos, doesn't consume Color
-   * */
-  public RectSprite(TextureAtlas.AtlasRegion tex, float texSz, float origPercX, float origPercY,
-    @Consumed Vector2 relPos, DraLevel level,
-    float relAngle, float rotSpd, Color tint, boolean additive) {
-    if (tex == null) throw new AssertionError("tex is null");
-    myTex = tex;
-    myOrigPercX = origPercX;
-    myOrigPercY = origPercY;
-
-    this.relPos = relPos;
-    myPos = new Vector2();
-    myLevel = level;
-    this.relAngle = relAngle;
-    myRotSpd = rotSpd;
-
-    myEnabled = true;
-    baseAlpha = tint.a;
-    this.tint = new Color(tint);
-
-    setTexSz(texSz);
-    myAdditive = additive;
-  }
-
-  public void setTexSz(float texSz) {
-    texSz /= myLevel.depth;
-    int r = myTex.getRegionWidth() / myTex.getRegionHeight();
-    if (r > 1) {
-      myTexSzX = texSz;
-      myTexSzY = texSz / r;
-    } else {
-      myTexSzX = texSz / r;
-      myTexSzY = texSz;
+        setTexSz(texSz);
+        myAdditive = additive;
     }
-    myOrigX = myTexSzX / 2 + texSz * myOrigPercX;
-    myOrigY = myTexSzY / 2 + texSz * myOrigPercY;
 
-    float rx = myTexSzX / 2 + texSz * SolMath.abs(myOrigPercX);
-    float ry = myTexSzY / 2 + texSz * SolMath.abs(myOrigPercY);
-    myRadius = SolMath.sqrt(rx * rx + ry * ry);
-  }
+    public void setTexSz(float texSz) {
+        texSz /= myLevel.depth;
+        int r = myTex.getRegionWidth() / myTex.getRegionHeight();
+        if (r > 1) {
+            myTexSzX = texSz;
+            myTexSzY = texSz / r;
+        } else {
+            myTexSzX = texSz / r;
+            myTexSzY = texSz;
+        }
+        myOrigX = myTexSzX / 2 + texSz * myOrigPercX;
+        myOrigY = myTexSzY / 2 + texSz * myOrigPercY;
 
-  public Texture getTex0() {
-    return myTex.getTexture();
-  }
-
-  @Override
-  public TextureAtlas.AtlasRegion getTex() {
-    return myTex;
-  }
-
-  public DraLevel getLevel() {
-    return myLevel;
-  }
-
-  public void update(SolGame game, SolObject o) {
-    relAngle += myRotSpd * game.getTimeStep();
-  }
-
-  public void prepare(SolObject o) {
-    float baseAngle = o.getAngle();
-    Vector2 basePos = o.getPosition();
-    SolMath.toWorld(myPos, relPos, baseAngle, basePos, false);
-    myAngle = relAngle + baseAngle;
-  }
-
-  public Vector2 getPos() {
-    return myPos;
-  }
-
-  @Override
-  public Vector2 getRelPos() {
-    return relPos;
-  }
-
-  public float getRadius() {
-    return myRadius;
-  }
-
-  public void draw(GameDrawer drawer, SolGame game) {
-    float x = myPos.x;
-    float y = myPos.y;
-    if (myLevel.depth != 1) {
-      Vector2 camPos = game.getCam().getPos();
-      x = (x - camPos.x) / myLevel.depth + camPos.x;
-      y = (y - camPos.y) / myLevel.depth + camPos.y;
+        float rx = myTexSzX / 2 + texSz * SolMath.abs(myOrigPercX);
+        float ry = myTexSzY / 2 + texSz * SolMath.abs(myOrigPercY);
+        myRadius = SolMath.sqrt(rx * rx + ry * ry);
     }
-    if (myAdditive) {
-      drawer.drawAdditive(myTex, myTexSzX, myTexSzY, myOrigX, myOrigY, x, y, myAngle, tint);
-    } else {
-      drawer.draw(myTex, myTexSzX, myTexSzY, myOrigX, myOrigY, x, y, myAngle, tint);
+
+    public Texture getTex0() {
+        return myTex.getTexture();
     }
-  }
 
-  public boolean isEnabled() {
-    return myEnabled;
-  }
+    @Override
+    public TextureAtlas.AtlasRegion getTex() {
+        return myTex;
+    }
 
-  @Override
-  public boolean okToRemove() {
-    return true;
-  }
+    public DraLevel getLevel() {
+        return myLevel;
+    }
 
-  public void setEnabled(boolean enabled) {
-    myEnabled = enabled;
-  }
+    public void update(SolGame game, SolObject o) {
+        relAngle += myRotSpd * game.getTimeStep();
+    }
+
+    public void prepare(SolObject o) {
+        float baseAngle = o.getAngle();
+        Vector2 basePos = o.getPosition();
+        SolMath.toWorld(myPos, relPos, baseAngle, basePos, false);
+        myAngle = relAngle + baseAngle;
+    }
+
+    public Vector2 getPos() {
+        return myPos;
+    }
+
+    @Override
+    public Vector2 getRelPos() {
+        return relPos;
+    }
+
+    public float getRadius() {
+        return myRadius;
+    }
+
+    public void draw(GameDrawer drawer, SolGame game) {
+        float x = myPos.x;
+        float y = myPos.y;
+        if (myLevel.depth != 1) {
+            Vector2 camPos = game.getCam().getPos();
+            x = (x - camPos.x) / myLevel.depth + camPos.x;
+            y = (y - camPos.y) / myLevel.depth + camPos.y;
+        }
+        if (myAdditive) {
+            drawer.drawAdditive(myTex, myTexSzX, myTexSzY, myOrigX, myOrigY, x, y, myAngle, tint);
+        } else {
+            drawer.draw(myTex, myTexSzX, myTexSzY, myOrigX, myOrigY, x, y, myAngle, tint);
+        }
+    }
+
+    public boolean isEnabled() {
+        return myEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        myEnabled = enabled;
+    }
+
+    @Override
+    public boolean okToRemove() {
+        return true;
+    }
 
 }

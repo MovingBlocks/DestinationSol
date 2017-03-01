@@ -25,13 +25,13 @@ import java.util.ArrayList;
 interface TextureProvider {
     /**
      * Reads a image file and returns it as a usable texture.
+     *
      * @param textureFile The image file for the texture.
      * @return The texture.
      */
     TextureAtlas.AtlasRegion getTexture(FileHandle textureFile);
 
     /**
-     *
      * @param fullName
      * @param configFile
      * @return
@@ -41,7 +41,10 @@ interface TextureProvider {
     TextureAtlas.AtlasRegion getTex(String fullName, FileHandle configFile);
 
     void dispose();
+
     Sprite createSprite(String name);
+
     ArrayList<TextureAtlas.AtlasRegion> getTexs(String name, FileHandle configFile);
+
     TextureAtlas.AtlasRegion getCopy(TextureAtlas.AtlasRegion tex);
 }

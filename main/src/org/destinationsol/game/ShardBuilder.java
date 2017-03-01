@@ -30,48 +30,47 @@ import org.destinationsol.game.ship.ShipBuilder;
 import java.util.ArrayList;
 
 public class ShardBuilder {
-  private static final float MAX_ROT_SPD = 5f;
-  private static final float MAX_SPD = 4f;
-  public static final float MIN_SCALE = .07f;
-  public static final float MAX_SCALE = .12f;
-  public static final float SIZE_TO_SHARD_COUNT = 13f;
+    public static final float MIN_SCALE = .07f;
+    public static final float MAX_SCALE = .12f;
+    public static final float SIZE_TO_SHARD_COUNT = 13f;
+    private static final float MAX_ROT_SPD = 5f;
+    private static final float MAX_SPD = 4f;
+    private final PathLoader myPathLoader;
+    private final ArrayList<TextureAtlas.AtlasRegion> myTexs;
 
-  private final PathLoader myPathLoader;
-  private final ArrayList<TextureAtlas.AtlasRegion> myTexs;
-
-  public ShardBuilder(TextureManager textureManager) {
-    myPathLoader = new PathLoader("misc");
-    myTexs = textureManager.getPack("smallGameObjs/shard", null);
-  }
-
-  public void buildExplosionShards(SolGame game, Vector2 pos, Vector2 baseSpd, float size) {
-    int count = (int) (size * SIZE_TO_SHARD_COUNT);
-    for (int i = 0; i < count; i++) {
-      Shard s = build(game, pos, baseSpd, size);
-      game.getObjMan().addObjDelayed(s);
+    public ShardBuilder(TextureManager textureManager) {
+        myPathLoader = new PathLoader("misc");
+        myTexs = textureManager.getPack("smallGameObjs/shard", null);
     }
-  }
 
-  public Shard build(SolGame game, Vector2 basePos, Vector2 baseSpd, float size) {
+    public void buildExplosionShards(SolGame game, Vector2 pos, Vector2 baseSpd, float size) {
+        int count = (int) (size * SIZE_TO_SHARD_COUNT);
+        for (int i = 0; i < count; i++) {
+            Shard s = build(game, pos, baseSpd, size);
+            game.getObjMan().addObjDelayed(s);
+        }
+    }
 
-    ArrayList<Dra> dras = new ArrayList<Dra>();
-    float scale = SolMath.rnd(MIN_SCALE, MAX_SCALE);
-    TextureAtlas.AtlasRegion tex = SolMath.elemRnd(myTexs);
-    float spdAngle = SolMath.rnd(180);
-    Vector2 pos = new Vector2();
-    SolMath.fromAl(pos, spdAngle, SolMath.rnd(size));
-    pos.add(basePos);
-    Body body = myPathLoader.getBodyAndSprite(game, "smallGameObjs", AsteroidBuilder.removePath(tex.name) + "_" + tex.index, scale,
-      BodyDef.BodyType.DynamicBody, pos, SolMath.rnd(180), dras, ShipBuilder.SHIP_DENSITY, DraLevel.PROJECTILES, tex);
+    public Shard build(SolGame game, Vector2 basePos, Vector2 baseSpd, float size) {
 
-    body.setAngularVelocity(SolMath.rnd(MAX_ROT_SPD));
-    Vector2 spd = SolMath.fromAl(spdAngle, SolMath.rnd(MAX_SPD));
-    spd.add(baseSpd);
-    body.setLinearVelocity(spd);
-    SolMath.free(spd);
+        ArrayList<Dra> dras = new ArrayList<Dra>();
+        float scale = SolMath.rnd(MIN_SCALE, MAX_SCALE);
+        TextureAtlas.AtlasRegion tex = SolMath.elemRnd(myTexs);
+        float spdAngle = SolMath.rnd(180);
+        Vector2 pos = new Vector2();
+        SolMath.fromAl(pos, spdAngle, SolMath.rnd(size));
+        pos.add(basePos);
+        Body body = myPathLoader.getBodyAndSprite(game, "smallGameObjs", AsteroidBuilder.removePath(tex.name) + "_" + tex.index, scale,
+                BodyDef.BodyType.DynamicBody, pos, SolMath.rnd(180), dras, ShipBuilder.SHIP_DENSITY, DraLevel.PROJECTILES, tex);
 
-    Shard shard = new Shard(body, dras);
-    body.setUserData(shard);
-    return shard;
-  }
+        body.setAngularVelocity(SolMath.rnd(MAX_ROT_SPD));
+        Vector2 spd = SolMath.fromAl(spdAngle, SolMath.rnd(MAX_SPD));
+        spd.add(baseSpd);
+        body.setLinearVelocity(spd);
+        SolMath.free(spd);
+
+        Shard shard = new Shard(body, dras);
+        body.setUserData(shard);
+        return shard;
+    }
 }

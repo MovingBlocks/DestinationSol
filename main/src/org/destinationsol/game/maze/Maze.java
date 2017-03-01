@@ -24,44 +24,44 @@ import org.destinationsol.game.SolGame;
 
 public class Maze {
 
-  private final MazeConfig myConfig;
-  private final Vector2 myPos;
-  private final float myRadius;
-  private final float myDps;
-  private boolean myObjsCreated;
+    private final MazeConfig myConfig;
+    private final Vector2 myPos;
+    private final float myRadius;
+    private final float myDps;
+    private boolean myObjsCreated;
 
-  public Maze(MazeConfig config, Vector2 pos, float radius) {
-    myConfig = config;
-    myPos = pos;
-    myRadius = radius;
-    myDps = HardnessCalc.getMazeDps(config);
-  }
-
-  public void update(SolGame game) {
-    SolCam cam = game.getCam();
-    Vector2 camPos = cam.getPos();
-    if (!myObjsCreated && camPos.dst(myPos) < myRadius + Const.CAM_VIEW_DIST_JOURNEY * 2) {
-      new MazeBuilder().build(game, this);
-      myObjsCreated = true;
+    public Maze(MazeConfig config, Vector2 pos, float radius) {
+        myConfig = config;
+        myPos = pos;
+        myRadius = radius;
+        myDps = HardnessCalc.getMazeDps(config);
     }
-  }
 
-  public MazeConfig getConfig() {
-    return myConfig;
-  }
+    public void update(SolGame game) {
+        SolCam cam = game.getCam();
+        Vector2 camPos = cam.getPos();
+        if (!myObjsCreated && camPos.dst(myPos) < myRadius + Const.CAM_VIEW_DIST_JOURNEY * 2) {
+            new MazeBuilder().build(game, this);
+            myObjsCreated = true;
+        }
+    }
 
-  public Vector2 getPos() {
-    return myPos;
-  }
+    public MazeConfig getConfig() {
+        return myConfig;
+    }
 
-  /**
-   * @return the full radius including the exterior border.
-   */
-  public float getRadius() {
-    return myRadius;
-  }
+    public Vector2 getPos() {
+        return myPos;
+    }
 
-  public float getDps() {
-    return myDps;
-  }
+    /**
+     * @return the full radius including the exterior border.
+     */
+    public float getRadius() {
+        return myRadius;
+    }
+
+    public float getDps() {
+        return myDps;
+    }
 }
