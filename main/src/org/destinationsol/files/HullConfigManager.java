@@ -34,26 +34,20 @@ import org.destinationsol.game.ship.Teleport;
 import org.destinationsol.game.ship.UnShield;
 import org.destinationsol.game.ship.hulls.GunSlot;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.destinationsol.game.sound.SoundManager;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Linus on 4-5-2015.
- */
 public final class HullConfigManager {
 
     public static final String PROPERTIES_FILE_NAME = "properties.json";
     public static final String TEXTURE_FILE_NAME = "texture.png";
     public static final String ICON_FILE_NAME = "icon.png";
-    private final ShipBuilder shipBuilder;
     private final FileManager fileManager;
     private final TextureManager textureManager;
     private final ItemManager itemManager;
-    private final SoundManager soundManager;
     private final AbilityCommonConfigs abilityCommonConfigs;
     private final Map<String, HullConfig> nameToConfigMap;
     private final Map<HullConfig, String> configToNameMap;
@@ -62,18 +56,15 @@ public final class HullConfigManager {
                              FileManager fileManager,
                              TextureManager textureManager,
                              ItemManager itemManager,
-                             AbilityCommonConfigs abilityCommonConfigs,
-                             SoundManager soundManager
+                             AbilityCommonConfigs abilityCommonConfigs
     ) {
-        this.shipBuilder = shipBuilder;
         this.fileManager = fileManager;
         this.textureManager = textureManager;
-        this.soundManager = soundManager;
         this.itemManager = itemManager;
         this.abilityCommonConfigs = abilityCommonConfigs;
 
-        nameToConfigMap = new HashMap<String, HullConfig>();
-        configToNameMap = new HashMap<HullConfig, String>();
+        nameToConfigMap = new HashMap<>();
+        configToNameMap = new HashMap<>();
         readHullConfigs();
     }
 
@@ -200,17 +191,17 @@ public final class HullConfigManager {
 
     private AbilityConfig loadAbility(
             JsonValue hullNode,
-            ItemManager itemManager,
-            AbilityCommonConfigs abilityCommonConfigs
+            ItemManager manager,
+            AbilityCommonConfigs commonConfigs
     ) {
         JsonValue abNode = hullNode.get("ability");
         if (abNode == null) return null;
         String type = abNode.getString("type");
-        if ("sloMo".equals(type)) return SloMo.Config.load(abNode, itemManager, abilityCommonConfigs.sloMo);
-        if ("teleport".equals(type)) return Teleport.Config.load(abNode, itemManager, abilityCommonConfigs.teleport);
-        if ("knockBack".equals(type)) return KnockBack.Config.load(abNode, itemManager, abilityCommonConfigs.knockBack);
-        if ("emWave".equals(type)) return EmWave.Config.load(abNode, itemManager, abilityCommonConfigs.emWave);
-        if ("unShield".equals(type)) return UnShield.Config.load(abNode, itemManager, abilityCommonConfigs.unShield);
+        if ("sloMo".equals(type)) return SloMo.Config.load(abNode, manager, commonConfigs.sloMo);
+        if ("teleport".equals(type)) return Teleport.Config.load(abNode, manager, commonConfigs.teleport);
+        if ("knockBack".equals(type)) return KnockBack.Config.load(abNode, manager, commonConfigs.knockBack);
+        if ("emWave".equals(type)) return EmWave.Config.load(abNode, manager, commonConfigs.emWave);
+        if ("unShield".equals(type)) return UnShield.Config.load(abNode, manager, commonConfigs.unShield);
         return null;
     }
 

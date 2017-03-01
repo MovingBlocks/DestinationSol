@@ -209,6 +209,6 @@ public class Loot implements SolObject {
         spd.scl(1 / fadeTime);
         spd.add(ship.getSpd());
         game.getPartMan().blip(game, myPos, myAngle, myItem.getItemType().sz, fadeTime, spd, myItem.getIcon(game));
-        game.getSoundMan().play(game, myItem.getItemType().pickUpSound, null, this);
+        game.getSoundManager().play(game, myItem.getItemType().pickUpSound, null, this);
     }
 }

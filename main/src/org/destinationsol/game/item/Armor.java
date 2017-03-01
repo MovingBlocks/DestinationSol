@@ -21,11 +21,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.sound.SolSound;
-import org.destinationsol.game.sound.SoundManager;
+import org.destinationsol.game.sound.OggSoundManager;
+import org.destinationsol.game.sound.OggSoundSet;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class Armor implements SolItem {
     private final Config myConfig;
@@ -84,7 +88,7 @@ public class Armor implements SolItem {
         return myConfig.perc;
     }
 
-    public SolSound getHitSound(DmgType dmgType) {
+    public PlayableSound getHitSound(DmgType dmgType) {
         switch (dmgType) {
             case BULLET:
                 return myConfig.bulletHitSound;
@@ -107,15 +111,15 @@ public class Armor implements SolItem {
         public final int price;
         public final float perc;
         public final String desc;
-        public final SolSound bulletHitSound;
+        public final PlayableSound bulletHitSound;
         public final Armor example;
         public final TextureAtlas.AtlasRegion icon;
-        public final SolSound energyHitSound;
+        public final PlayableSound energyHitSound;
         public final SolItemType itemType;
         public final String code;
 
-        private Config(String displayName, int price, float perc, SolSound bulletHitSound,
-                       TextureAtlas.AtlasRegion icon, SolSound energyHitSound, SolItemType itemType, String code) {
+        private Config(String displayName, int price, float perc, PlayableSound bulletHitSound,
+                       TextureAtlas.AtlasRegion icon, PlayableSound energyHitSound, SolItemType itemType, String code) {
             this.displayName = displayName;
             this.price = price;
             this.perc = perc;
@@ -128,7 +132,7 @@ public class Armor implements SolItem {
             this.example = new Armor(this);
         }
 
-        public static void loadConfigs(ItemManager itemManager, SoundManager soundManager, TextureManager textureManager, SolItemTypes types) {
+        public static void loadConfigs(ItemManager itemManager, OggSoundManager soundManager, TextureManager textureManager, SolItemTypes types) {
             JsonReader r = new JsonReader();
             FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("armors.json");
             JsonValue parsed = r.parse(configFile);
@@ -136,11 +140,11 @@ public class Armor implements SolItem {
                 String displayName = sh.getString("displayName");
                 int price = sh.getInt("price");
                 float perc = sh.getFloat("perc");
-                String bulletDmgSoundDir = sh.getString("bulletHitSound");
-                String energyDmgSoundDir = sh.getString("energyHitSound");
+                List<String> bulletDamageSoundUrns = Arrays.asList(sh.get("bulletHitSounds").asStringArray());
+                List<String> energyDamageSoundUrns = Arrays.asList(sh.get("energyHitSounds").asStringArray());
                 float basePitch = sh.getFloat("baseSoundPitch", 1);
-                SolSound bulletDmgSound = soundManager.getPitchedSound(bulletDmgSoundDir, configFile, basePitch);
-                SolSound energyDmgSound = soundManager.getPitchedSound(energyDmgSoundDir, configFile, basePitch);
+                OggSoundSet bulletDmgSound = new OggSoundSet(soundManager, bulletDamageSoundUrns, basePitch);
+                OggSoundSet energyDmgSound = new OggSoundSet(soundManager, energyDamageSoundUrns, basePitch);
                 TextureAtlas.AtlasRegion icon = textureManager.getTex(TextureManager.ICONS_DIR + sh.getString("icon"), configFile);
                 String code = sh.name;
                 Config config = new Config(displayName, price, perc, bulletDmgSound, icon, energyDmgSound, types.armor, code);

@@ -25,7 +25,7 @@ import org.destinationsol.game.gun.GunItem;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.projectile.ProjectileConfigs;
 import org.destinationsol.game.ship.AbilityCharge;
-import org.destinationsol.game.sound.SoundManager;
+import org.destinationsol.game.sound.OggSoundManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +44,7 @@ public class ItemManager {
     private final SolItemTypes myTypes;
     private final RepairItem myRepairExample;
 
-    public ItemManager(TextureManager textureManager, SoundManager soundManager, EffectTypes effectTypes, GameColors gameColors) {
+    public ItemManager(TextureManager textureManager, OggSoundManager soundManager, EffectTypes effectTypes, GameColors gameColors) {
 
         moneyIcon = textureManager.getTex(TextureManager.ICONS_DIR + "money", null);
         medMoneyIcon = textureManager.getTex(TextureManager.ICONS_DIR + "medMoney", null);

@@ -18,9 +18,9 @@ package org.destinationsol.game.projectile;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.particle.EffectConfig;
-import org.destinationsol.game.sound.SolSound;
 
 public class ProjectileConfig {
 
@@ -30,7 +30,7 @@ public class ProjectileConfig {
     public final float physSize;
     public final boolean stretch;
     public final DmgType dmgType;
-    public final SolSound collisionSound;
+    public final PlayableSound collisionSound;
     public final float lightSz;
     public final EffectConfig trailEffect;
     public final EffectConfig bodyEffect;
@@ -39,7 +39,7 @@ public class ProjectileConfig {
     public final boolean zeroAbsSpd;
     public final Vector2 origin;
     public final float acc;
-    public final SolSound workSound;
+    public final PlayableSound workSound;
     public final boolean massless;
     public final float density;
     public final float guideRotSpd;
@@ -47,9 +47,9 @@ public class ProjectileConfig {
     public final float emTime;
 
     public ProjectileConfig(TextureAtlas.AtlasRegion tex, float texSz, float spdLen, boolean stretch,
-                            float physSize, DmgType dmgType, SolSound collisionSound, float lightSz, EffectConfig trailEffect,
+                            float physSize, DmgType dmgType, PlayableSound collisionSound, float lightSz, EffectConfig trailEffect,
                             EffectConfig bodyEffect, EffectConfig collisionEffect, EffectConfig collisionEffectBg,
-                            boolean zeroAbsSpd, Vector2 origin, float acc, SolSound workSound, boolean massless, float density,
+                            boolean zeroAbsSpd, Vector2 origin, float acc, PlayableSound workSound, boolean massless, float density,
                             float guideRotSpd, float dmg, float emTime) {
         this.tex = tex;
         this.texSz = texSz;

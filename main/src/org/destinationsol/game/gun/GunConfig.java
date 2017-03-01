@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.game.DmgType;
@@ -31,8 +32,11 @@ import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItemType;
 import org.destinationsol.game.item.SolItemTypes;
 import org.destinationsol.game.projectile.ProjectileConfig;
-import org.destinationsol.game.sound.SolSound;
-import org.destinationsol.game.sound.SoundManager;
+import org.destinationsol.game.sound.OggSoundManager;
+import org.destinationsol.game.sound.OggSoundSet;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class GunConfig {
     public final float minAngleVar;
@@ -50,8 +54,8 @@ public class GunConfig {
     public final float dps;
     public final GunItem example;
     public final ClipConfig clipConf;
-    public final SolSound shootSound;
-    public final SolSound reloadSound;
+    public final PlayableSound shootSound;
+    public final PlayableSound reloadSound;
     public final TextureAtlas.AtlasRegion icon;
     public final boolean fixed;
     public final float meanDps;
@@ -63,7 +67,7 @@ public class GunConfig {
                      float timeBetweenShots,
                      float reloadTime, float gunLength, String displayName,
                      boolean lightOnShot, int price,
-                     ClipConfig clipConf, SolSound shootSound, SolSound reloadSound, TextureAtlas.AtlasRegion tex,
+                     ClipConfig clipConf, PlayableSound shootSound, PlayableSound reloadSound, TextureAtlas.AtlasRegion tex,
                      TextureAtlas.AtlasRegion icon, boolean fixed, SolItemType itemType, float texLenPerc, String code) {
         this.shootSound = shootSound;
         this.reloadSound = reloadSound;
@@ -93,7 +97,7 @@ public class GunConfig {
         example = new GunItem(this, 0, 0);
     }
 
-    public static void load(TextureManager textureManager, ItemManager itemManager, SoundManager soundManager, SolItemTypes types) {
+    public static void load(TextureManager textureManager, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
         JsonReader r = new JsonReader();
         FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("guns.json");
         JsonValue parsed = r.parse(configFile);
@@ -112,18 +116,18 @@ public class GunConfig {
             int price = sh.getInt("price");
             String clipName = sh.getString("clipName");
             ClipConfig clipConf = clipName.isEmpty() ? null : ((ClipItem) itemManager.getExample(clipName)).getConfig();
-            String reloadSoundPath = sh.getString("reloadSound");
-            SolSound reloadSound = soundManager.getSound(reloadSoundPath, configFile);
-            String shootSoundPath = sh.getString("shootSound");
+            List<String> reloadSoundUrns = Arrays.asList(sh.get("reloadSounds").asStringArray());
+            OggSoundSet reloadSoundSet = new OggSoundSet(soundManager, reloadSoundUrns, 1.0f);
+            List<String> shootSoundUrns = Arrays.asList(sh.get("shootSounds").asStringArray());
             float shootPitch = sh.getFloat("shootSoundPitch", 1);
-            SolSound shootSound = soundManager.getPitchedSound(shootSoundPath, configFile, shootPitch);
+            OggSoundSet shootSoundSet = new OggSoundSet(soundManager, shootSoundUrns, shootPitch);
             TextureAtlas.AtlasRegion tex = textureManager.getTex("smallGameObjs/guns/" + texName, configFile);
             TextureAtlas.AtlasRegion icon = textureManager.getTex(TextureManager.ICONS_DIR + texName, configFile);
             boolean fixed = sh.getBoolean("fixed", false);
             String code = sh.name;
             SolItemType itemType = fixed ? types.fixedGun : types.gun;
             GunConfig c = new GunConfig(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots, reloadTime,
-                    gunLength, displayName, lightOnShot, price, clipConf, shootSound, reloadSound, tex, icon, fixed, itemType, texLenPerc, code);
+                    gunLength, displayName, lightOnShot, price, clipConf, shootSoundSet, reloadSoundSet, tex, icon, fixed, itemType, texLenPerc, code);
             itemManager.registerItem(c.example);
         }
     }

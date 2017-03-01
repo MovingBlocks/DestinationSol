@@ -79,6 +79,7 @@ public class MenuScreen implements SolUiScreen {
         myMusVolCtrl.setDisplayName("Music Volume: " + options.getMusicVolumeAsText());
         if (myMusVolCtrl.isJustOff()) {
             options.advanceMusicVolMul();
+            cmp.getMusicManager().resetVolume(options);
         }
         if (myRespawnCtrl.isJustOff()) {
             g.respawn();

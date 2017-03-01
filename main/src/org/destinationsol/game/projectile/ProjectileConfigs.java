@@ -22,14 +22,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.EffectTypes;
-import org.destinationsol.game.sound.SolSound;
-import org.destinationsol.game.sound.SoundManager;
+import org.destinationsol.game.sound.OggSoundManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +38,7 @@ public class ProjectileConfigs {
 
     private final Map<String, ProjectileConfig> myConfigs;
 
-    public ProjectileConfigs(TextureManager textureManager, SoundManager soundManager, EffectTypes effectTypes, GameColors cols) {
+    public ProjectileConfigs(TextureManager textureManager, OggSoundManager soundManager, EffectTypes effectTypes, GameColors cols) {
         myConfigs = new HashMap<String, ProjectileConfig>();
         JsonReader r = new JsonReader();
         FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("projectiles.json");
@@ -51,8 +51,8 @@ public class ProjectileConfigs {
             float physSize = sh.getFloat("physSize", 0);
             boolean stretch = sh.getBoolean("stretch", false);
             DmgType dmgType = DmgType.forName(sh.getString("dmgType"));
-            String collisionSoundPath = sh.getString("collisionSound", "");
-            SolSound collisionSound = collisionSoundPath.isEmpty() ? null : soundManager.getSound(collisionSoundPath, configFile);
+            String collisionSoundUrn = sh.getString("collisionSound", "");
+            OggSound collisionSound = collisionSoundUrn.isEmpty() ? null : soundManager.getSound(collisionSoundUrn);
             float lightSz = sh.getFloat("lightSz", 0);
             EffectConfig trailEffect = EffectConfig.load(sh.get("trailEffect"), effectTypes, textureManager, configFile, cols);
             EffectConfig bodyEffect = EffectConfig.load(sh.get("bodyEffect"), effectTypes, textureManager, configFile, cols);
@@ -62,8 +62,8 @@ public class ProjectileConfigs {
             boolean zeroAbsSpd = sh.getBoolean("zeroAbsSpd", false);
             Vector2 origin = SolMath.readV2(sh.getString("texOrig", "0 0"));
             float acc = sh.getFloat("acceleration", 0);
-            String workSoundDir = sh.getString("workSound", "");
-            SolSound workSound = workSoundDir.isEmpty() ? null : soundManager.getLoopedSound(workSoundDir, configFile);
+            String workSoundUrn = sh.getString("workSound", "");
+            OggSound workSound = workSoundUrn.isEmpty() ? null : soundManager.getSound(workSoundUrn);
             boolean bodyless = sh.getBoolean("massless", false);
             float density = sh.getFloat("density", -1);
             float dmg = sh.getFloat("dmg");

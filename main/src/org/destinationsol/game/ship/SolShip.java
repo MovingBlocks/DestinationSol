@@ -43,8 +43,7 @@ import org.destinationsol.game.item.TradeContainer;
 import org.destinationsol.game.particle.ParticleSrc;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.destinationsol.game.sound.SolSound;
-import org.destinationsol.game.sound.SoundManager;
+import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.game.sound.SpecialSounds;
 
 import java.util.List;
@@ -245,13 +244,13 @@ public class SolShip implements SolObject {
         boolean onFire = myFireAwait > 0 || myHull.life < FIRE_PERC * myHull.config.getMaxLife();
         myFireSrc.setWorking(onFire);
         if (onFire) {
-            game.getSoundMan().play(game, game.getSpecialSounds().burning, null, this);
+            game.getSoundManager().play(game, game.getSpecialSounds().burning, null, this);
         }
 
         if (!isControlsEnabled()) {
             myControlEnableAwait -= ts;
             if (isControlsEnabled()) {
-                game.getSoundMan().play(game, game.getSpecialSounds().controlEnabled, null, this);
+                game.getSoundManager().play(game, game.getSpecialSounds().controlEnabled, null, this);
             }
         }
         myElectricitySrc.setWorking(!isControlsEnabled());
@@ -265,7 +264,7 @@ public class SolShip implements SolObject {
         if (myAbility == null) {
             return;
         }
-        SoundManager soundManager = game.getSoundMan();
+        OggSoundManager soundManager = game.getSoundManager();
         SpecialSounds sounds = game.getSpecialSounds();
         if (myAbilityAwait > 0) {
             myAbilityAwait -= game.getTimeStep();
@@ -390,7 +389,7 @@ public class SolShip implements SolObject {
         Loot l = game.getLootBuilder().build(game, pos, item, lootSpd, Loot.MAX_LIFE, SolMath.rnd(Loot.MAX_ROT_SPD), this);
         game.getObjMan().addObjDelayed(l);
         if (!onDeath) {
-            game.getSoundMan().play(game, game.getSpecialSounds().lootThrow, pos, this);
+            game.getSoundManager().play(game, game.getSpecialSounds().lootThrow, pos, this);
         }
     }
 
@@ -416,7 +415,7 @@ public class SolShip implements SolObject {
         if (wasAlive && myHull.life <= 0) {
             Vector2 shipPos = getPosition();
             game.getSpecialEffects().explodeShip(game, shipPos, myHull.config.getSize());
-            game.getSoundMan().play(game, game.getSpecialSounds().shipExplosion, null, this);
+            game.getSoundManager().play(game, game.getSpecialSounds().shipExplosion, null, this);
         }
         if (dmgType == DmgType.FIRE) {
             myFireAwait = MAX_FIRE_AWAIT;
@@ -425,8 +424,7 @@ public class SolShip implements SolObject {
 
     private void playHitSound(SolGame game, Vector2 pos, DmgType dmgType) {
         if (myArmor != null) {
-            SolSound sound = myArmor.getHitSound(dmgType);
-            game.getSoundMan().play(game, sound, pos, this);
+            game.getSoundManager().play(game, myArmor.getHitSound(dmgType), pos, this);
         } else {
             game.getSpecialSounds().playHit(game, this, pos, dmgType);
         }
@@ -602,7 +600,7 @@ public class SolShip implements SolObject {
 
     public void disableControls(float duration, SolGame game) {
         if (myControlEnableAwait <= 0) {
-            game.getSoundMan().play(game, game.getSpecialSounds().controlDisabled, null, this);
+            game.getSoundManager().play(game, game.getSpecialSounds().controlDisabled, null, this);
         }
         myControlEnableAwait += duration;
     }

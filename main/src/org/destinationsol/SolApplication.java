@@ -22,17 +22,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.sound.MusicManager;
+import org.destinationsol.game.sound.OggMusicManager;
+import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.menu.MenuScreens;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
+import org.terasology.module.ModuleEnvironment;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -48,7 +51,10 @@ public class SolApplication implements ApplicationListener {
     private GameOptions myOptions;
     private CommonDrawer myCommonDrawer;
     private FPSLogger myFpsLogger;
-
+    private ModuleEnvironment moduleEnvironment;
+    private AssetHelper assetHelper;
+    private OggMusicManager musicManager;
+    private OggSoundManager soundManager;
     private String myFatalErrorMsg;
     private String myFatalErrorTrace;
 
@@ -67,12 +73,17 @@ public class SolApplication implements ApplicationListener {
         if (myReallyMobile) DebugOptions.read(null);
         myOptions = new GameOptions(isMobile(), null);
 
-        MusicManager.getInstance().PlayMenuMusic(myOptions);
+        moduleEnvironment = new ModuleManager().getEnvironment();
+        assetHelper = new AssetHelper(moduleEnvironment);
+        musicManager = new OggMusicManager(assetHelper);
 
+        musicManager.playMenuMusic(myOptions);
+
+        soundManager = new OggSoundManager(assetHelper);
         myTextureManager = new TextureManager();
         myCommonDrawer = new CommonDrawer();
         myUiDrawer = new UiDrawer(myTextureManager, myCommonDrawer);
-        myInputMan = new SolInputManager(myTextureManager, myUiDrawer.r);
+        myInputMan = new SolInputManager(myTextureManager, soundManager, myUiDrawer.r);
         myLayouts = new SolLayouts(myUiDrawer.r);
         myMenuScreens = new MenuScreens(myLayouts, myTextureManager, isMobile(), myUiDrawer.r, myOptions);
 
@@ -164,13 +175,13 @@ public class SolApplication implements ApplicationListener {
         if (myGame != null) throw new AssertionError("Starting a new game with unfinished current one");
         myInputMan.setScreen(this, myMenuScreens.loading);
         myMenuScreens.loading.setMode(tut, usePrevShip);
-        MusicManager.getInstance().PlayGameMusic(myOptions);
+        musicManager.playGameMusic(myOptions);
     }
 
     public void startNewGame(boolean tut, boolean usePrevShip) {
         myGame = new SolGame(this, usePrevShip, myTextureManager, tut, myCommonDrawer);
         myInputMan.setScreen(this, myGame.getScreens().mainScreen);
-        MusicManager.getInstance().PlayGameMusic(myOptions);
+        musicManager.playGameMusic(myOptions);
     }
 
     public SolInputManager getInputMan() {
@@ -212,6 +223,18 @@ public class SolApplication implements ApplicationListener {
 
     public GameOptions getOptions() {
         return myOptions;
+    }
+
+    public AssetHelper getAssetHelper() {
+        return assetHelper;
+    }
+
+    public OggMusicManager getMusicManager() {
+        return musicManager;
+    }
+
+    public OggSoundManager getSoundManager() {
+        return soundManager;
     }
 
     public void paused() {

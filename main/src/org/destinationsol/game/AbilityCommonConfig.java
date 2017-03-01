@@ -19,24 +19,25 @@ package org.destinationsol.game;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.audio.OggSound;
+import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.EffectTypes;
-import org.destinationsol.game.sound.SolSound;
-import org.destinationsol.game.sound.SoundManager;
+import org.destinationsol.game.sound.OggSoundManager;
 
 public class AbilityCommonConfig {
     public final EffectConfig effect;
-    public final SolSound activatedSound;
+    public final PlayableSound activatedSound;
 
-    public AbilityCommonConfig(EffectConfig effect, SolSound activatedSound) {
+    public AbilityCommonConfig(EffectConfig effect, PlayableSound activatedSound) {
         this.effect = effect;
         this.activatedSound = activatedSound;
     }
 
     public static AbilityCommonConfig load(JsonValue node, EffectTypes types, TextureManager textureManager, GameColors cols,
-                                           FileHandle configFile, SoundManager soundManager) {
+                                           FileHandle configFile, OggSoundManager soundManager) {
         EffectConfig ec = EffectConfig.load(node.get("effect"), types, textureManager, configFile, cols);
-        SolSound activatedSound = soundManager.getSound(node.getString("activatedSound"), configFile);
+        OggSound activatedSound = soundManager.getSound(node.getString("activatedSound"));
         return new AbilityCommonConfig(ec, activatedSound);
     }
 }

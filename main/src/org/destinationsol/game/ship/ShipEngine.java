@@ -29,7 +29,6 @@ import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSrc;
 import org.destinationsol.game.particle.PartMan;
 import org.destinationsol.game.particle.ParticleSrc;
-import org.destinationsol.game.sound.SolSound;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,8 +77,7 @@ public class ShipEngine {
         myLightSrc1.update(working, angle, game);
         myLightSrc2.update(working, angle, game);
         if (working) {
-            SolSound sound = myItem.getWorkSound();
-            game.getSoundMan().play(game, sound, myFlameSrc1.getPos(), owner); // hack with pos
+            game.getSoundManager().play(game, myItem.getWorkSound(), myFlameSrc1.getPos(), owner); // hack with pos
         }
     }
 

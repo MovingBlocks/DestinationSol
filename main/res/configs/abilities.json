@@ -7,7 +7,7 @@
       size: 5,
     },
 
-    activatedSound: "abilities/sloMoActivated",
+    activatedSound: "Core:sloMoActivated",
   },
 
 
@@ -19,7 +19,7 @@
       tint: "50 200 250",
     },
 
-    activatedSound: "abilities/knockBackActivated",
+    activatedSound: "Core:knockBack",
   },
 
 
@@ -31,7 +31,7 @@
       tint: "0 255 0",
     },
 
-    activatedSound: "abilities/unShieldActivated",
+    activatedSound: "Core:unshield",
   },
 
 
@@ -43,12 +43,12 @@
       tint: "0 100 255",
     },
 
-    activatedSound: "abilities/unShieldActivated",
+    activatedSound: "Core:unshield",
   },
 
 
 
   teleport: {
-    activatedSound: "abilities/teleportActivated",
+    activatedSound: "Core:teleport",
   },
 }

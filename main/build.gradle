@@ -6,11 +6,14 @@ dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
+    compile "org.terasology:gestalt-module:5.0.1"
+    compile "org.terasology:gestalt-asset-core:5.0.1"
 }
 
 sourceSets {
     main {
         java.srcDirs = ["src"]
+        resources.srcDirs = ["res"]
     }
     res {
         resources.srcDirs = ["res"]
