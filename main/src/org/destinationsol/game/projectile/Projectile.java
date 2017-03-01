@@ -39,13 +39,11 @@ import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSrc;
 import org.destinationsol.game.particle.ParticleSrc;
 import org.destinationsol.game.ship.SolShip;
-import org.destinationsol.game.sound.SolSound;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class
-Projectile implements SolObject {
+public class Projectile implements SolObject {
 
     private static final float MIN_ANGLE_TO_GUIDE = 2f;
     private final ArrayList<Dra> myDras;
@@ -121,8 +119,7 @@ Projectile implements SolObject {
         }
         if (myLightSrc != null) myLightSrc.update(true, myBody.getAngle(), game);
         maybeGuide(game);
-        SolSound ws = myConfig.workSound;
-        game.getSoundMan().play(game, ws, null, this);
+        game.getSoundManager().play(game, myConfig.workSound, null, this);
     }
 
     private void maybeGuide(SolGame game) {
@@ -147,7 +144,7 @@ Projectile implements SolObject {
         if (myConfig.collisionEffectBg != null) {
             game.getPartMan().blinks(pos, game, myConfig.collisionEffectBg.sz);
         }
-        game.getSoundMan().play(game, myConfig.collisionSound, null, this);
+        game.getSoundManager().play(game, myConfig.collisionSound, null, this);
     }
 
     @Override

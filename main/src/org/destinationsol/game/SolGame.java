@@ -23,6 +23,7 @@ import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
@@ -55,7 +56,8 @@ import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SloMo;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.destinationsol.game.sound.SoundManager;
+import org.destinationsol.game.sound.OggMusicManager;
+import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.game.sound.SpecialSounds;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
@@ -66,6 +68,7 @@ import java.util.List;
 
 public class SolGame {
 
+    private final AssetHelper assetHelper;
     private final GameScreens myScreens;
     private final SolCam myCam;
     private final ObjectManager myObjectManager;
@@ -86,7 +89,8 @@ public class SolGame {
     private final ShardBuilder myShardBuilder;
     private final ItemManager myItemManager;
     private final StarPort.Builder myStarPortBuilder;
-    private final SoundManager mySoundManager;
+    private final OggSoundManager soundManager;
+    private final OggMusicManager musicManager;
     private final PlayerSpawnConfig myPlayerSpawnConfig;
     private final DraDebugger myDraDebugger;
     private final SpecialSounds mySpecialSounds;
@@ -113,8 +117,10 @@ public class SolGame {
         myCmp = cmp;
         GameDrawer drawer = new GameDrawer(textureManager, commonDrawer);
         gameColors = new GameColors();
-        mySoundManager = new SoundManager();
-        mySpecialSounds = new SpecialSounds(mySoundManager);
+        assetHelper = myCmp.getAssetHelper();
+        soundManager = myCmp.getSoundManager();
+        musicManager = myCmp.getMusicManager();
+        mySpecialSounds = new SpecialSounds(soundManager);
         myDraMan = new DraMan(drawer);
         myCam = new SolCam(drawer.r);
         myScreens = new GameScreens(drawer.r, cmp);
@@ -124,9 +130,9 @@ public class SolGame {
         myShipBuilder = new ShipBuilder();
         myEffectTypes = new EffectTypes();
         mySpecialEffects = new SpecialEffects(myEffectTypes, myTextureManager, gameColors);
-        myItemManager = new ItemManager(myTextureManager, mySoundManager, myEffectTypes, gameColors);
-        myAbilityCommonConfigs = new AbilityCommonConfigs(myEffectTypes, myTextureManager, gameColors, mySoundManager);
-        hullConfigManager = new HullConfigManager(myShipBuilder, FileManager.getInstance(), textureManager, myItemManager, myAbilityCommonConfigs, mySoundManager);
+        myItemManager = new ItemManager(myTextureManager, soundManager, myEffectTypes, gameColors);
+        myAbilityCommonConfigs = new AbilityCommonConfigs(myEffectTypes, myTextureManager, gameColors, soundManager);
+        hullConfigManager = new HullConfigManager(myShipBuilder, FileManager.getInstance(), textureManager, myItemManager, myAbilityCommonConfigs);
         myNames = new SolNames();
         myPlanetManager = new PlanetManager(myTextureManager, hullConfigManager, gameColors, myItemManager);
         SolContactListener contactListener = new SolContactListener(this);
@@ -213,7 +219,9 @@ public class SolGame {
             }
         }
         ic.seenAll();
-        //AiPilot.reEquip(this, myHero);  // Don't change equipped items across load/respawn
+
+        // Don't change equipped items across load/respawn
+        //AiPilot.reEquip(this, myHero);
 
         myObjectManager.addObjDelayed(myHero);
         myObjectManager.resetDelays();
@@ -222,7 +230,6 @@ public class SolGame {
     public void onGameEnd() {
         saveShip();
         myObjectManager.dispose();
-        mySoundManager.dispose();
     }
 
     public void saveShip() {
@@ -284,7 +291,7 @@ public class SolGame {
         myObjectManager.update(this);
         myDraMan.update(this);
         myMapDrawer.update(this);
-        mySoundManager.update(this);
+        soundManager.update(this);
         myBeaconHandler.update(this);
 
         myHero = null;
@@ -471,8 +478,8 @@ public class SolGame {
         return myGridDrawer;
     }
 
-    public SoundManager getSoundMan() {
-        return mySoundManager;
+    public OggSoundManager getSoundManager() {
+        return soundManager;
     }
 
     public float getTime() {

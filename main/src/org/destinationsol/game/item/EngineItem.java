@@ -21,15 +21,18 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.EffectTypes;
-import org.destinationsol.game.sound.SolSound;
-import org.destinationsol.game.sound.SoundManager;
+import org.destinationsol.game.sound.OggSoundManager;
+import org.destinationsol.game.sound.OggSoundSet;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class EngineItem implements SolItem {
     private final Config myConfig;
@@ -104,7 +107,7 @@ public class EngineItem implements SolItem {
 
     }
 
-    public SolSound getWorkSound() {
+    public PlayableSound getWorkSound() {
         return myConfig.workSound;
     }
 
@@ -121,13 +124,13 @@ public class EngineItem implements SolItem {
         public final float acc;
         public final float maxRotSpd;
         public final boolean big;
-        public final SolSound workSound;
+        public final PlayableSound workSound;
         public final EngineItem example;
         public final TextureAtlas.AtlasRegion icon;
         public final EffectConfig effectConfig;
 
         private Config(String displayName, int price, String desc, float rotAcc, float acc, float maxRotSpd, boolean big,
-                       SolSound workSound, TextureAtlas.AtlasRegion icon, EffectConfig effectConfig) {
+                       PlayableSound workSound, TextureAtlas.AtlasRegion icon, EffectConfig effectConfig) {
             this.displayName = displayName;
             this.price = price;
             this.desc = desc;
@@ -141,16 +144,16 @@ public class EngineItem implements SolItem {
             this.example = new EngineItem(this);
         }
 
-        private static Config load(SoundManager soundManager, FileHandle configFile, JsonValue sh, EffectTypes effectTypes,
+        private static Config load(OggSoundManager soundManager, FileHandle configFile, JsonValue sh, EffectTypes effectTypes,
                                    TextureManager textureManager, GameColors cols) {
             boolean big = sh.getBoolean("big");
             float rotAcc = big ? 100f : 515f;
             float acc = 2f;
             float maxRotSpd = big ? 40f : 230f;
-            String workSoundDir = sh.getString("workSound");
-            SolSound workSound = soundManager.getLoopedSound(workSoundDir, configFile);
+            List<String> workSoundUrns = Arrays.asList(sh.get("workSounds").asStringArray());
+            OggSoundSet workSoundSet = new OggSoundSet(soundManager, workSoundUrns);
             EffectConfig effectConfig = EffectConfig.load(sh.get("effect"), effectTypes, textureManager, configFile, cols);
-            return new Config(null, 0, null, rotAcc, acc, maxRotSpd, big, workSound, null, effectConfig);
+            return new Config(null, 0, null, rotAcc, acc, maxRotSpd, big, workSoundSet, null, effectConfig);
         }
     }
 
@@ -161,7 +164,7 @@ public class EngineItem implements SolItem {
             myConfigs = configs;
         }
 
-        public static Configs load(SoundManager soundManager, TextureManager textureManager, EffectTypes effectTypes, GameColors cols) {
+        public static Configs load(OggSoundManager soundManager, TextureManager textureManager, EffectTypes effectTypes, GameColors cols) {
             HashMap<String, Config> configs = new HashMap<String, Config>();
             JsonReader r = new JsonReader();
             FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("engines.json");

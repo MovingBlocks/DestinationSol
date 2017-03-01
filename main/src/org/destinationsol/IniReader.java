@@ -19,6 +19,8 @@ package org.destinationsol;
 import com.badlogic.gdx.files.FileHandle;
 import org.destinationsol.files.FileManager;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,9 +30,27 @@ public class IniReader {
     private final HashMap<String, String> myVals;
 
     public IniReader(String fileName, SolFileReader reader, boolean readOnly) {
-        myVals = new HashMap<String, String>();
+        myVals = new HashMap<>();
         List<String> lines = reader != null ? reader.read(fileName) : fileToLines(fileName, readOnly);
+        initValueMap(lines);
+    }
 
+    public IniReader(BufferedReader reader) {
+        myVals = new HashMap<>();
+        List<String> lines = new ArrayList<>();
+
+        try {
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+        } catch (IOException e) {
+        }
+
+        initValueMap(lines);
+    }
+
+    private void initValueMap(List<String> lines) {
         for (String line : lines) {
             int commentStart = line.indexOf('#');
             if (commentStart >= 0) {

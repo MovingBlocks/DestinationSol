@@ -20,10 +20,10 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.game.GameColors;
-import org.destinationsol.game.sound.SolSound;
-import org.destinationsol.game.sound.SoundManager;
+import org.destinationsol.game.sound.OggSoundManager;
 
 public class SolItemTypes {
     public final SolItemType clip;
@@ -37,7 +37,7 @@ public class SolItemTypes {
     public final SolItemType repair;
     public final SolItemType fixedGun;
 
-    public SolItemTypes(SoundManager soundManager, GameColors cols) {
+    public SolItemTypes(OggSoundManager soundManager, GameColors cols) {
         JsonReader r = new JsonReader();
         FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("types.json");
         JsonValue parsed = r.parse(configFile);
@@ -53,10 +53,10 @@ public class SolItemTypes {
         repair = load("repair", soundManager, configFile, parsed, cols);
     }
 
-    private SolItemType load(String name, SoundManager soundManager, FileHandle configFile, JsonValue parsed, GameColors cols) {
+    private SolItemType load(String name, OggSoundManager soundManager, FileHandle configFile, JsonValue parsed, GameColors cols) {
         JsonValue node = parsed.get(name);
         Color color = cols.load(node.getString("color"));
-        SolSound pickUpSound = soundManager.getSound(node.getString("pickUpSound"), configFile);
+        OggSound pickUpSound = soundManager.getSound(node.getString("pickUpSound"));
         float sz = node.getFloat("sz");
         return new SolItemType(color, pickUpSound, sz);
     }

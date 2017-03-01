@@ -22,7 +22,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.game.particle.EffectTypes;
-import org.destinationsol.game.sound.SoundManager;
+import org.destinationsol.game.sound.OggSoundManager;
 
 public class AbilityCommonConfigs {
     public final AbilityCommonConfig teleport;
@@ -31,7 +31,7 @@ public class AbilityCommonConfigs {
     public final AbilityCommonConfig knockBack;
     public final AbilityCommonConfig sloMo;
 
-    public AbilityCommonConfigs(EffectTypes effectTypes, TextureManager textureManager, GameColors cols, SoundManager soundManager) {
+    public AbilityCommonConfigs(EffectTypes effectTypes, TextureManager textureManager, GameColors cols, OggSoundManager soundManager) {
         JsonReader r = new JsonReader();
 
         FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("abilities.json");
