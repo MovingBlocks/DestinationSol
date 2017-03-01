@@ -29,96 +29,96 @@ import org.destinationsol.game.item.SolItemType;
 import org.destinationsol.game.item.SolItemTypes;
 
 public class AbilityCharge implements SolItem {
-  private final Config myConfig;
+    private final Config myConfig;
 
-  public AbilityCharge(Config config) {
-    myConfig = config;
-  }
-
-  @Override
-  public String getDisplayName() {
-    return myConfig.displayName;
-  }
-
-  @Override
-  public float getPrice() {
-    return myConfig.price;
-  }
-
-  @Override
-  public String getDesc() {
-    return myConfig.desc;
-  }
-
-  @Override
-  public SolItem copy() {
-    return new AbilityCharge(myConfig);
-  }
-
-  @Override
-  public boolean isSame(SolItem item) {
-    return item instanceof AbilityCharge && ((AbilityCharge) item).myConfig == myConfig;
-  }
-
-  @Override
-  public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-    return myConfig.icon;
-  }
-
-  @Override
-  public SolItemType getItemType() {
-    return myConfig.itemType;
-  }
-
-  @Override
-  public String getCode() {
-    return myConfig.code;
-  }
-
-  @Override
-  public int isEquipped() {
-    return 0;
-  }
-
-  @Override
-  public void setEquipped(int equipped) {
-
-  }
-
-
-  public static class Config {
-    private final TextureAtlas.AtlasRegion icon;
-    private final float price;
-    private final String displayName;
-    private final String desc;
-    public final SolItemType itemType;
-    public final String code;
-
-    public Config(TextureAtlas.AtlasRegion icon, float price, String displayName, String desc, SolItemType itemType,
-      String code) {
-      this.icon = icon;
-      this.price = price;
-      this.displayName = displayName;
-      this.desc = desc;
-      this.itemType = itemType;
-      this.code = code;
+    public AbilityCharge(Config config) {
+        myConfig = config;
     }
 
-    public static void load(ItemManager itemManager, TextureManager textureManager, SolItemTypes types) {
-      JsonReader r = new JsonReader();
-      FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("abilityCharges.json");
-      JsonValue parsed = r.parse(configFile);
-      for (JsonValue ammoNode : parsed) {
-        String iconName = ammoNode.getString("iconName");
-        TextureAtlas.AtlasRegion icon = textureManager.getTex(TextureManager.ICONS_DIR + iconName, configFile);
-        float price = ammoNode.getFloat("price");
-        String displayName = ammoNode.getString("displayName");
-        String desc = ammoNode.getString("desc");
-        String code = ammoNode.name;
-        Config c = new Config(icon, price, displayName, desc, types.abilityCharge, code);
-        AbilityCharge chargeExample = new AbilityCharge(c);
-        itemManager.registerItem(chargeExample);
-      }
+    @Override
+    public String getDisplayName() {
+        return myConfig.displayName;
     }
-  }
+
+    @Override
+    public float getPrice() {
+        return myConfig.price;
+    }
+
+    @Override
+    public String getDesc() {
+        return myConfig.desc;
+    }
+
+    @Override
+    public SolItem copy() {
+        return new AbilityCharge(myConfig);
+    }
+
+    @Override
+    public boolean isSame(SolItem item) {
+        return item instanceof AbilityCharge && ((AbilityCharge) item).myConfig == myConfig;
+    }
+
+    @Override
+    public TextureAtlas.AtlasRegion getIcon(SolGame game) {
+        return myConfig.icon;
+    }
+
+    @Override
+    public SolItemType getItemType() {
+        return myConfig.itemType;
+    }
+
+    @Override
+    public String getCode() {
+        return myConfig.code;
+    }
+
+    @Override
+    public int isEquipped() {
+        return 0;
+    }
+
+    @Override
+    public void setEquipped(int equipped) {
+
+    }
+
+
+    public static class Config {
+        public final SolItemType itemType;
+        public final String code;
+        private final TextureAtlas.AtlasRegion icon;
+        private final float price;
+        private final String displayName;
+        private final String desc;
+
+        public Config(TextureAtlas.AtlasRegion icon, float price, String displayName, String desc, SolItemType itemType,
+                      String code) {
+            this.icon = icon;
+            this.price = price;
+            this.displayName = displayName;
+            this.desc = desc;
+            this.itemType = itemType;
+            this.code = code;
+        }
+
+        public static void load(ItemManager itemManager, TextureManager textureManager, SolItemTypes types) {
+            JsonReader r = new JsonReader();
+            FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("abilityCharges.json");
+            JsonValue parsed = r.parse(configFile);
+            for (JsonValue ammoNode : parsed) {
+                String iconName = ammoNode.getString("iconName");
+                TextureAtlas.AtlasRegion icon = textureManager.getTex(TextureManager.ICONS_DIR + iconName, configFile);
+                float price = ammoNode.getFloat("price");
+                String displayName = ammoNode.getString("displayName");
+                String desc = ammoNode.getString("desc");
+                String code = ammoNode.name;
+                Config c = new Config(icon, price, displayName, desc, types.abilityCharge, code);
+                AbilityCharge chargeExample = new AbilityCharge(c);
+                itemManager.registerItem(chargeExample);
+            }
+        }
+    }
 }

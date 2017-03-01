@@ -27,40 +27,40 @@ import org.destinationsol.game.ship.hulls.HullConfig;
  */
 public class NoDestProvider implements MoveDestProvider {
 
-  public NoDestProvider() {
-  }
+    public NoDestProvider() {
+    }
 
-  @Override
-  public Vector2 getDest() {
-    return null;
-  }
+    @Override
+    public Vector2 getDest() {
+        return null;
+    }
 
-  @Override
-  public boolean shouldAvoidBigObjs() {
-    return false;
-  }
+    @Override
+    public boolean shouldAvoidBigObjs() {
+        return false;
+    }
 
-  @Override
-  public float getDesiredSpdLen() {
-    return Const.DEFAULT_AI_SPD;
-  }
+    @Override
+    public float getDesiredSpdLen() {
+        return Const.DEFAULT_AI_SPD;
+    }
 
-  @Override
-  public boolean shouldStopNearDest() {
-    return false;
-  }
+    @Override
+    public boolean shouldStopNearDest() {
+        return false;
+    }
 
-  @Override
-  public void update(SolGame game, Vector2 shipPos, float maxIdleDist, HullConfig hullConfig, SolShip nearestEnemy) {
-  }
+    @Override
+    public void update(SolGame game, Vector2 shipPos, float maxIdleDist, HullConfig hullConfig, SolShip nearestEnemy) {
+    }
 
-  @Override
-  public Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround) {
-    return null;
-  }
+    @Override
+    public Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround) {
+        return null;
+    }
 
-  @Override
-  public Vector2 getDestSpd() {
-    return Vector2.Zero;
-  }
+    @Override
+    public Vector2 getDestSpd() {
+        return Vector2.Zero;
+    }
 }

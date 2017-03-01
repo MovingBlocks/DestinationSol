@@ -25,19 +25,18 @@ import org.destinationsol.game.sound.SolSound;
 import org.destinationsol.game.sound.SoundManager;
 
 public class AbilityCommonConfig {
-  public final EffectConfig effect;
-  public final SolSound activatedSound;
+    public final EffectConfig effect;
+    public final SolSound activatedSound;
 
-  public AbilityCommonConfig(EffectConfig effect, SolSound activatedSound) {
-    this.effect = effect;
-    this.activatedSound = activatedSound;
-  }
+    public AbilityCommonConfig(EffectConfig effect, SolSound activatedSound) {
+        this.effect = effect;
+        this.activatedSound = activatedSound;
+    }
 
-  public static AbilityCommonConfig load(JsonValue node, EffectTypes types, TextureManager textureManager, GameColors cols,
-    FileHandle configFile, SoundManager soundManager)
-  {
-    EffectConfig ec = EffectConfig.load(node.get("effect"), types, textureManager, configFile, cols);
-    SolSound activatedSound = soundManager.getSound(node.getString("activatedSound"), configFile);
-    return new AbilityCommonConfig(ec, activatedSound);
-  }
+    public static AbilityCommonConfig load(JsonValue node, EffectTypes types, TextureManager textureManager, GameColors cols,
+                                           FileHandle configFile, SoundManager soundManager) {
+        EffectConfig ec = EffectConfig.load(node.get("effect"), types, textureManager, configFile, cols);
+        SolSound activatedSound = soundManager.getSound(node.getString("activatedSound"), configFile);
+        return new AbilityCommonConfig(ec, activatedSound);
+    }
 }
