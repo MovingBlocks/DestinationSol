@@ -28,6 +28,22 @@ import java.util.List;
 @Immutable
 public final class HullConfig {
 
+    private final Data data;
+
+    public HullConfig(Data configData) {
+        this.data = new Data(configData);
+    }
+
+    private static List<Vector2> deepCopyOf(List<Vector2> src) {
+        List<Vector2> returnList = new ArrayList<Vector2>(src.size());
+
+        for (Vector2 vector : src) {
+            returnList.add(new Vector2(vector));
+        }
+
+        return returnList;
+    }
+
     public String getInternalName() {
         return data.internalName;
     }
@@ -124,21 +140,26 @@ public final class HullConfig {
         return new Vector2(data.shipBuilderOrigin);
     }
 
-    private static List<Vector2> deepCopyOf(List<Vector2> src) {
-        List<Vector2> returnList = new ArrayList<Vector2>(src.size());
+    public static enum Type {
+        STD("std"),
+        BIG("big"),
+        STATION("station");
 
-        for(Vector2 vector: src) {
-            returnList.add(new Vector2(vector));
+        private final String name;
+
+        Type(String name) {
+            this.name = name;
         }
 
-        return returnList;
-    }
+        public static Type forName(String name) {
+            for (Type t : Type.values()) {
+                if (t.name.equals(name)) {
+                    return t;
+                }
+            }
 
-    private final Data data;
-
-    public HullConfig(Data configData)
-    {
-        this.data = new Data(configData);
+            return null;
+        }
     }
 
     public final static class Data {
@@ -197,27 +218,5 @@ public final class HullConfig {
             this.gunSlots.addAll(src.gunSlots);
         }
 
-    }
-
-    public static enum Type {
-        STD("std"),
-        BIG("big"),
-        STATION("station");
-
-        private final String name;
-
-        Type(String name) {
-            this.name = name;
-        }
-
-        public static Type forName(String name) {
-            for (Type t : Type.values()) {
-                if (t.name.equals(name)) {
-                    return t;
-                }
-            }
-
-            return null;
-        }
     }
 }

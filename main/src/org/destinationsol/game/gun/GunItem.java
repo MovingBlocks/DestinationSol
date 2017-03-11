@@ -23,67 +23,71 @@ import org.destinationsol.game.item.SolItemType;
 
 public class GunItem implements SolItem {
 
-  public final GunConfig config;
-  public int ammo;
-  public float reloadAwait;
-  private int myEquipped;
+    public final GunConfig config;
+    public int ammo;
+    public float reloadAwait;
+    private int myEquipped;
 
-  public GunItem(GunConfig config, int ammo, float reloadAwait) {
-    this.config = config;
-    this.ammo = ammo;
-    this.reloadAwait = reloadAwait;
-  }
+    public GunItem(GunConfig config, int ammo, float reloadAwait) {
+        this.config = config;
+        this.ammo = ammo;
+        this.reloadAwait = reloadAwait;
+    }
 
-  public GunItem(GunConfig config, int ammo, float reloadAwait, int equipped) {
-    this(config, ammo, reloadAwait);
-    this.myEquipped = equipped;
-  }
+    public GunItem(GunConfig config, int ammo, float reloadAwait, int equipped) {
+        this(config, ammo, reloadAwait);
+        this.myEquipped = equipped;
+    }
 
-  @Override
-  public String getDisplayName() {
-    return config.displayName;
-  }
+    @Override
+    public String getDisplayName() {
+        return config.displayName;
+    }
 
-  @Override
-  public float getPrice() {
-    return config.price;
-  }
+    @Override
+    public float getPrice() {
+        return config.price;
+    }
 
-  @Override
-  public String getDesc() {
-    return config.desc;
-  }
+    @Override
+    public String getDesc() {
+        return config.desc;
+    }
 
-  @Override
-  public GunItem copy() {
-    return new GunItem(config, ammo, reloadAwait, myEquipped);
-  }
+    @Override
+    public GunItem copy() {
+        return new GunItem(config, ammo, reloadAwait, myEquipped);
+    }
 
-  @Override
-  public boolean isSame(SolItem item) {
-    return false;
-  }
+    @Override
+    public boolean isSame(SolItem item) {
+        return false;
+    }
 
-  @Override
-  public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-    return config.icon;
-  }
+    @Override
+    public TextureAtlas.AtlasRegion getIcon(SolGame game) {
+        return config.icon;
+    }
 
-  @Override
-  public SolItemType getItemType() {
-    return config.itemType;
-  }
+    @Override
+    public SolItemType getItemType() {
+        return config.itemType;
+    }
 
-  @Override
-  public String getCode() {
-    return config.code;
-  }
+    @Override
+    public String getCode() {
+        return config.code;
+    }
 
-  public boolean canShoot() {
-    return ammo > 0 || reloadAwait > 0;
-  }
+    public boolean canShoot() {
+        return ammo > 0 || reloadAwait > 0;
+    }
 
-  public int isEquipped() { return myEquipped; }
+    public int isEquipped() {
+        return myEquipped;
+    }
 
-  public void setEquipped(int equipped) { myEquipped = equipped; }
+    public void setEquipped(int equipped) {
+        myEquipped = equipped;
+    }
 }

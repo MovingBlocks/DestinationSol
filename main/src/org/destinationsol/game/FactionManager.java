@@ -35,6 +35,7 @@ public class FactionManager {
 
     /**
      * Finds the nearest Enemy @{link SolShip} for the given ship
+     *
      * @param game the game object
      * @param ship the ship to find enemies for
      * @return the nearest Enemy ship
@@ -50,8 +51,9 @@ public class FactionManager {
 
     /**
      * Finds the nearest Enemy for target seeking projectiles
-     * @param game  the game object
-     * @param projectile  the target seeking projectile
+     *
+     * @param game       the game object
+     * @param projectile the target seeking projectile
      * @return the nearest Enemy ship
      */
     public SolShip getNearestEnemy(SolGame game, Projectile projectile) {
@@ -60,10 +62,11 @@ public class FactionManager {
 
     /**
      * Finds the nearest Enemy @{link SolShip}
-     * @param game the game object
+     *
+     * @param game          the game object
      * @param detectionDist the maximum distance allowed for detection
-     * @param faction the faction of the entity
-     * @param position the position of the entity
+     * @param faction       the faction of the entity
+     * @param position      the position of the entity
      * @return the nearest Enemy ship
      */
     public SolShip getNearestEnemy(SolGame game, float detectionDist, Faction faction, Vector2 position) {
@@ -79,7 +82,7 @@ public class FactionManager {
             if (!areEnemies(faction, potentialEnemyShip.getPilot().getFaction()))
                 continue;
             float distance = potentialEnemyShip.getPosition().dst(position) - potentialEnemyShip.getHull().config.getApproxRadius();
-            if (minimumDistance < distance){
+            if (minimumDistance < distance) {
                 continue;
             }
             minimumDistance = distance;
