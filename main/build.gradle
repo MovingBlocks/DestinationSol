@@ -6,6 +6,8 @@ dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
+    compile "com.google.code.findbugs:jsr305:3.0.1"
+
 }
 
 sourceSets {

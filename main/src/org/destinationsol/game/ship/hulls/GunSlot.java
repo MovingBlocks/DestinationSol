@@ -18,7 +18,8 @@ package org.destinationsol.game.ship.hulls;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.Immutable;
-import org.destinationsol.common.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  * Gun slot of a ship hull, to which a gun can be attached.
@@ -26,7 +27,7 @@ import org.destinationsol.common.NotNull;
 @Immutable
 public final class GunSlot {
 
-    public GunSlot(@NotNull Vector2 position, boolean isUnderneathHull, boolean allowsRotation) {
+    public GunSlot(@Nonnull Vector2 position, boolean isUnderneathHull, boolean allowsRotation) {
         if(position == null) {
             throw new IllegalArgumentException("Position cannot be null");
         }
@@ -40,7 +41,7 @@ public final class GunSlot {
      * Returns the position, relative to the ship hull origin that owns the slot.
      * @return The position, relative to the ship hull origin that owns the slot.
      */
-    public @NotNull Vector2 getPosition() {
+    public @Nonnull Vector2 getPosition() {
         return position;
     }
 
@@ -61,7 +62,7 @@ public final class GunSlot {
         return allowsRotation;
     }
 
-    private final @NotNull Vector2 position;
+    @Nonnull private final Vector2 position;
     private final boolean isUnderneathHull;
     private final boolean allowsRotation;
 }

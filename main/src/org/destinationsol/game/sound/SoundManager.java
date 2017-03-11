@@ -22,7 +22,6 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.IniReader;
-import org.destinationsol.common.Nullable;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.game.DebugOptions;
@@ -32,6 +31,7 @@ import org.destinationsol.game.SolObject;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.SolShip;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class SoundManager {
