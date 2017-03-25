@@ -29,7 +29,7 @@ public class MenuLayout {
   private static final int numberOfRowsTotal = 5;
 
   public MenuLayout(float r) {
-    btnW = .30f * r;
+    btnW = .40f * r;
     btnH = .1f;
     myPad = .1f * btnH;
     rowH = btnH + myPad;
