@@ -31,34 +31,34 @@ public class SolDesktop {
             return;
         }
 
-        LwjglApplicationConfiguration c = new LwjglApplicationConfiguration();
+        LwjglApplicationConfiguration applicationConfig = new LwjglApplicationConfiguration();
         boolean devBuild = java.nio.file.Files.exists(Paths.get("devBuild"));
         if (devBuild) {
             DebugOptions.DEV_ROOT_PATH = "main/"; // Lets the game run from source without a tweaked working directory
-            c.vSyncEnabled = false; //Setting to false disables vertical sync
-            c.foregroundFPS = 0; //disables foreground fps throttling
-            c.backgroundFPS = 0; //disables background fps throttling
+            applicationConfig.vSyncEnabled = false; //Setting to false disables vertical sync
+            applicationConfig.foregroundFPS = 0; //disables foreground fps throttling
+            applicationConfig.backgroundFPS = 0; //disables background fps throttling
         }
         MyReader reader = new MyReader();
         DebugOptions.read(reader);
 
 
         if (DebugOptions.EMULATE_MOBILE) {
-            c.width = 640;
-            c.height = 480;
-            c.fullscreen = false;
+            applicationConfig.width = 640;
+            applicationConfig.height = 480;
+            applicationConfig.fullscreen = false;
         } else {
             GameOptions d = new GameOptions(false, reader);
-            c.width = d.x;
-            c.height = d.y;
-            c.fullscreen = d.fullscreen;
+            applicationConfig.width = d.x;
+            applicationConfig.height = d.y;
+            applicationConfig.fullscreen = d.fullscreen;
         }
 
-        c.title = "Destination Sol";
+        applicationConfig.title = "Destination Sol";
         if (DebugOptions.DEV_ROOT_PATH == null) {
-            c.addIcon("res/icon.png", Files.FileType.Internal);
+            applicationConfig.addIcon("res/icon.png", Files.FileType.Internal);
         } else {
-            c.addIcon(DebugOptions.DEV_ROOT_PATH + "res/icon.png", Files.FileType.Absolute);
+            applicationConfig.addIcon(DebugOptions.DEV_ROOT_PATH + "res/icon.png", Files.FileType.Absolute);
         }
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
@@ -85,7 +85,7 @@ public class SolDesktop {
             }
         });
 
-        new LwjglApplication(new SolApplication(), c);
+        new LwjglApplication(new SolApplication(), applicationConfig);
     }
 
     private static class MyReader implements SolFileReader {
