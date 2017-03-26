@@ -120,6 +120,7 @@ Contributors
 * [askneller](https://github.com/askneller)
 * [JGelfand](https://github.com/JGelfand)
 * [AvaLanCS](https://github.com/Avalancs)
+* [scirelli](https://github.com/scirelli)
 
 ... and your name here? :-) More coming!
 
