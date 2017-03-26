@@ -76,3 +76,9 @@ task afterEclipseImport(description: "Post processing after project generation",
         printer.print(classpath)
     }
 }
+
+tasks.withType(JavaExec) {
+    if (System.getProperty('DEBUG', 'false') == 'true') {
+        jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=9099'
+    }
+}
