@@ -73,7 +73,7 @@ public class CreditsScreen implements SolUiScreen {
         "theotherjay, LinusVanElswijk",
         "SimonC4, grauerkoala, rzats",
         "LadySerenaKitty, askneller",
-        "JGelfand, AvaLanCS"
+        "JGelfand, AvaLanCS. scirelli"
       },
       {
         "Soundtrack by NeonInsect"
