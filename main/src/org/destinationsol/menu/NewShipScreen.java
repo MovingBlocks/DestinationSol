@@ -83,7 +83,7 @@ public class NewShipScreen implements SolUiScreen {
 
   @Override
   public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-    uiDrawer.drawString("This will erase your previous ship", .5f * uiDrawer.r, .3f, FontSize.MENU, true, SolColor.W);
+    uiDrawer.drawStringCentered("This will erase your previous ship", .5f * uiDrawer.r, .3f, FontSize.MENU, SolColor.W);
   }
 
   @Override

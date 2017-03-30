@@ -226,13 +226,13 @@ public class ObjectManager {
     for (SolObject o : myObjs) {
       Vector2 pos = o.getPosition();
       String ds = o.toDebugString();
-      if (ds != null) drawer.drawString(ds, pos.x, pos.y, fontSize, true, SolColor.W);
+      if (ds != null) drawer.drawStringCentered(ds, pos.x, pos.y, fontSize, SolColor.W);
     }
     for (FarObjData fod : myFarObjs) {
       FarObj fo = fod.fo;
       Vector2 pos = fo.getPos();
       String ds = fo.toDebugString();
-      if (ds != null) drawer.drawString(ds, pos.x, pos.y, fontSize, true, SolColor.G);
+      if (ds != null) drawer.drawStringCentered(ds, pos.x, pos.y, fontSize, SolColor.G);
     }
   }
 

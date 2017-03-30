@@ -83,6 +83,6 @@ public class DebugHint {
 
   public void draw(GameDrawer drawer, SolGame game) {
     float fontSz = game.getCam().getDebugFontSize();
-    drawer.drawString(myMsg, myPos.x, myPos.y, fontSz, false, DebugCol.HINT);
+    drawer.drawString(myMsg, myPos.x, myPos.y, fontSz, DebugCol.HINT);
   }
 }

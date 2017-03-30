@@ -65,7 +65,7 @@ public class LoadingScreen implements SolUiScreen {
 
   @Override
   public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-    uiDrawer.drawString("Loading...", uiDrawer.r/2, .5f, FontSize.MENU, true, SolColor.W);
+    uiDrawer.drawStringCentered("Loading...", uiDrawer.r/2, .5f, FontSize.MENU, SolColor.W);
   }
 
   @Override

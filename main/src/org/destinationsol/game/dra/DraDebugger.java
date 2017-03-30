@@ -65,10 +65,10 @@ public class DraDebugger {
       float h = r > 1 ? TEX_SZ/r : TEX_SZ;
       uiDrawer.draw(tex, w, h, w/2, h/2, x + .5f * TEX_SZ, y + .5f * TEX_SZ, 0, SolColor.W);
       x += TEX_SZ + GAP;
-      uiDrawer.drawString(tex.name, x, y, FontSize.DEBUG, false, DebugCol.TEX_INFO);
+      uiDrawer.drawString(tex.name, x, y, FontSize.DEBUG, DebugCol.TEX_INFO);
       y += .5f * TEX_SZ;
       String definedBy = ((DevTextureProvider.SolTex) tex).definedBy;
-      uiDrawer.drawString(definedBy, x, y, FontSize.DEBUG, false, DebugCol.TEX_INFO);
+      uiDrawer.drawString(definedBy, x, y, FontSize.DEBUG, DebugCol.TEX_INFO);
       y += .5f * TEX_SZ + 2 * GAP;
     }
   }

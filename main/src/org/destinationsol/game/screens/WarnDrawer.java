@@ -63,6 +63,6 @@ public abstract class WarnDrawer {
   }
 
   public void drawText(UiDrawer uiDrawer) {
-    uiDrawer.drawString(myText, myWarn.x + myWarn.width/2, myWarn.y + myWarn.height/2, FontSize.MENU, true, myTextCol);
+    uiDrawer.drawStringCentered(myText, myWarn.x + myWarn.width/2, myWarn.y + myWarn.height/2, FontSize.MENU, myTextCol);
   }
 }

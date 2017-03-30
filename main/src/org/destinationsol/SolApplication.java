@@ -150,12 +150,12 @@ public class SolApplication implements ApplicationListener {
     }
     if (myFatalErrorMsg != null) {
       myUiDrawer.draw(myUiDrawer.whiteTex, myUiDrawer.r, .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
-      myUiDrawer.drawString(myFatalErrorMsg, myUiDrawer.r / 2, .5f, FontSize.MENU, true, SolColor.W);
-      myUiDrawer.drawString(myFatalErrorTrace, .2f * myUiDrawer.r, .6f, FontSize.DEBUG, false, SolColor.W);
+      myUiDrawer.drawStringCentered(myFatalErrorMsg, myUiDrawer.r / 2, .5f, FontSize.MENU, SolColor.W);
+      myUiDrawer.drawString(myFatalErrorTrace, .2f * myUiDrawer.r, .6f, FontSize.DEBUG, SolColor.W);
     }
     DebugCollector.draw(myUiDrawer);
     if (myGame == null) {
-      myUiDrawer.drawString("version: " + Const.VERSION, 0.01f, .98f, FontSize.DEBUG, false, SolColor.W);
+      myUiDrawer.drawString("version: " + Const.VERSION, 0.01f, .98f, FontSize.DEBUG, SolColor.W);
     }
     myCommonDrawer.end();
   }

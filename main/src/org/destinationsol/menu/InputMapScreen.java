@@ -261,15 +261,15 @@ public class InputMapScreen implements SolUiScreen {
             float rowCenterY = rect.y + rect.height / 2;
 
             // Draw the name of in the input and the key it is mapped to
-            uiDrawer.drawString(displayName, rect.x + equiColW + imgColW + nameWidth/2, rowCenterY, FontSize.WINDOW, true, selectedIndex == groupIdx ? SolColor.W : SolColor.G);
-            uiDrawer.drawString(inputKey, rect.x + rect.width - amtWidth - priceWidth/2, rowCenterY, FontSize.WINDOW, true, SolColor.LG);
+            uiDrawer.drawStringCentered(displayName, rect.x + equiColW + imgColW + nameWidth/2, rowCenterY, FontSize.WINDOW, selectedIndex == groupIdx ? SolColor.W : SolColor.G);
+            uiDrawer.drawStringCentered(inputKey, rect.x + rect.width - amtWidth - priceWidth/2, rowCenterY, FontSize.WINDOW, SolColor.LG);
         }
 
         // Draw the header title
-        uiDrawer.drawString(operations.getHeader(), listHeaderPos.x, listHeaderPos.y, FontSize.WINDOW, false, SolColor.W);
+        uiDrawer.drawString(operations.getHeader(), listHeaderPos.x, listHeaderPos.y, FontSize.WINDOW, SolColor.W);
 
         // Draw the detail text
-        uiDrawer.drawString(operations.getDisplayDetail(), detailArea.x + .015f, detailArea.y + .015f, FontSize.WINDOW, false, SolColor.W);
+        uiDrawer.drawString(operations.getDisplayDetail(), detailArea.x + .015f, detailArea.y + .015f, FontSize.WINDOW, SolColor.W);
     }
 
     @Override

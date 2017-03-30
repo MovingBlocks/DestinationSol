@@ -50,9 +50,14 @@ public class GameDrawer {
     myDrawer.end();
   }
 
-  public void drawString(String s, float x, float y, float size, boolean centered, Color col) {
+  public void drawString(String s, float x, float y, float size, Color col) {
     maybeChangeAdditive(false);
-    myDrawer.drawString(s, x, y, size, centered, col);
+    myDrawer.drawString(s, x, y, size, col);
+  }
+
+  public void drawStringCentered(String s, float x, float y, float size, Color col) {
+    maybeChangeAdditive(false);
+    myDrawer.drawStringCentered(s, x, y, size, col);
   }
 
   public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y,
