@@ -34,7 +34,7 @@ public class DebugCollector {
   }
 
   public static void draw(UiDrawer drawer) {
-    drawer.drawString(myDebugStrings.toString(), .5f, BorderDrawer.TISHCH_SZ, FontSize.DEBUG, false, SolColor.W);
+    drawer.drawString(myDebugStrings.toString(), .5f, BorderDrawer.TISHCH_SZ, FontSize.DEBUG, SolColor.W);
   }
 
   public static void debug(String name, String val) {

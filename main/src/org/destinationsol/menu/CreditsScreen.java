@@ -156,7 +156,7 @@ public class CreditsScreen implements SolUiScreen {
 
   @Override
   public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-    uiDrawer.drawString(myPages.get(myIdx), uiDrawer.r/2, .5f, FontSize.MENU, true, myColor);
+    uiDrawer.drawStringCentered(myPages.get(myIdx), uiDrawer.r/2, .5f, FontSize.MENU, myColor);
   }
 
   @Override

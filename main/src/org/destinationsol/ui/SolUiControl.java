@@ -153,8 +153,7 @@ public class SolUiControl {
   public void drawDisplayName(UiDrawer uiDrawer) {
     if (myScreenArea == null) return;
     Color tint = myEnabled ? SolColor.W : SolColor.G;
-    uiDrawer.drawString(myDisplayName, myScreenArea.x + myScreenArea.width/2, myScreenArea.y + myScreenArea.height/2,
-      FontSize.MENU, true, tint);
+    uiDrawer.drawStringCentered(myDisplayName, myScreenArea.x + myScreenArea.width/2, myScreenArea.y + myScreenArea.height/2, FontSize.MENU, tint);
   }
 
   public void setEnabled(boolean enabled) {

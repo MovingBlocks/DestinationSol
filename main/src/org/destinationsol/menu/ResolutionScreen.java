@@ -85,7 +85,7 @@ public class ResolutionScreen implements SolUiScreen {
 
   @Override
   public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-    uiDrawer.drawString("Click 'Back' to apply changes", .5f * uiDrawer.r, .3f, FontSize.MENU, true, SolColor.W);
+    uiDrawer.drawStringCentered("Click 'Back' to apply changes", .5f * uiDrawer.r, .3f, FontSize.MENU, SolColor.W);
   }
 
   @Override

@@ -232,7 +232,7 @@ public class TutorialManager {
     if (isFinished()) return;
     Step step = mySteps.get(myStepIdx);
     uiDrawer.draw(myBg, SolColor.UI_BG);
-    uiDrawer.drawString(step.text, uiDrawer.r/2, myBg.y + myBg.height/2, FontSize.TUT, true, SolColor.W);
+    uiDrawer.drawStringCentered(step.text, uiDrawer.r/2, myBg.y + myBg.height/2, FontSize.TUT, SolColor.W);
   }
 
   public boolean isFinished() {
