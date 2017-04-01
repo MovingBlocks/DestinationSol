@@ -22,6 +22,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.CommonDrawer;
+import org.destinationsol.TextAlignment;
 import org.destinationsol.TextureManager;
 
 public class UiDrawer {
@@ -51,8 +52,12 @@ public class UiDrawer {
   }
 
   public void drawString(String s, float x, float y, float scale, boolean centered, Color tint) {
+      drawString(s, x, y, scale, TextAlignment.CENTER, centered, tint);
+  }
+
+  public void drawString(String s, float x, float y, float scale, TextAlignment align, boolean centered, Color tint) {
     if (myTextMode != null && !myTextMode) throw new AssertionError("drawing text in texture mode");
-    myDrawer.drawString(s, x, y, scale * FONT_SIZE, centered, tint);
+    myDrawer.drawString(s, x, y, scale * FONT_SIZE, align, centered, tint);
   }
 
   private void check() {
