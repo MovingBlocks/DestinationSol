@@ -16,86 +16,96 @@
 
 package org.destinationsol.game.sound;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.Const;
-import org.destinationsol.files.FileManager;
+import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 
+import java.util.Arrays;
+
 public class SpecialSounds {
 
-  public final SolSound metalColl;
-  public final SolSound metalBulletHit;
-  public final SolSound metalEnergyHit;
-  public final SolSound rockColl;
-  public final SolSound rockBulletHit;
-  public final SolSound rockEnergyHit;
-  public final SolSound asteroidCrack;
-  public final SolSound shipExplosion;
-  public final SolSound burning;
-  public final SolSound forceBeaconWork;
-  public final SolSound doorMove;
-  public final SolSound abilityRecharged;
-  public final SolSound abilityRefused;
-  public final SolSound controlDisabled;
-  public final SolSound controlEnabled;
-  public final SolSound lootThrow;
-  public final SolSound transcendentCreated;
-  public final SolSound transcendentFinished;
-  public final SolSound transcendentMove;
+    public final PlayableSound metalColl;
+    public final PlayableSound metalEnergyHit;
+    public final PlayableSound rockColl;
+    public final PlayableSound rockEnergyHit;
+    public final PlayableSound asteroidCrack;
+    public final PlayableSound shipExplosion;
+    public final PlayableSound forceBeaconWork;
+    public final PlayableSound doorMove;
+    public final PlayableSound abilityRecharged;
+    public final PlayableSound abilityRefused;
+    public final PlayableSound controlDisabled;
+    public final PlayableSound controlEnabled;
+    public final PlayableSound lootThrow;
+    public final PlayableSound transcendentCreated;
+    public final PlayableSound transcendentFinished;
 
-  public SpecialSounds(SoundManager soundManager) {
-    JsonReader r = new JsonReader();
-    FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("specialSounds.json");
-    JsonValue node = r.parse(configFile);
-    metalColl = soundManager.getSound(node.getString("metalCollision"), configFile);
-    metalBulletHit = soundManager.getPitchedSound(node.getString("metalBulletHit"), configFile, 1.1f);
-    metalEnergyHit = soundManager.getSound(node.getString("metalEnergyHit"), configFile);
-    rockColl = soundManager.getSound(node.getString("rockCollision"), configFile);
-    rockBulletHit = soundManager.getSound(node.getString("rockBulletHit"), configFile);
-    rockEnergyHit = soundManager.getSound(node.getString("rockEnergyHit"), configFile);
-    asteroidCrack = soundManager.getSound(node.getString("asteroidCrack"), configFile);
-    shipExplosion = soundManager.getSound(node.getString("shipExplosion"), configFile);
-    burning = soundManager.getLoopedSound(node.getString("burning"), configFile);
-    forceBeaconWork = soundManager.getLoopedSound(node.getString("forceBeaconWork"), configFile);
-    doorMove = soundManager.getSound(node.getString("doorMove"), configFile);
-    abilityRecharged = soundManager.getSound(node.getString("abilityRecharged"), configFile);
-    abilityRefused = soundManager.getLoopedSound(node.getString("abilityRefused"), configFile);
-    controlDisabled = soundManager.getSound(node.getString("controlDisabled"), configFile);
-    controlEnabled = soundManager.getSound(node.getString("controlEnabled"), configFile);
-    lootThrow = soundManager.getSound(node.getString("lootThrow"), configFile);
-    transcendentCreated = soundManager.getSound(node.getString("transcendentCreated"), configFile);
-    transcendentFinished = soundManager.getSound(node.getString("transcendentFinished"), configFile);
-    transcendentMove = soundManager.getLoopedSound(node.getString("transcendentMove"), configFile);
-  }
+    public final PlayableSound metalBulletHit;
+    public final PlayableSound rockBulletHit;
+    public final PlayableSound burning;
+    public final PlayableSound transcendentMove;
 
-  public SolSound hitSound(boolean forMetal, DmgType dmgType) {
-    if (dmgType == DmgType.ENERGY) {
-      return forMetal ? metalEnergyHit : rockEnergyHit;
+    public SpecialSounds(OggSoundManager soundManager) {
+        // OggSound
+        metalColl = soundManager.getSound("Core:metalCollision");
+        metalEnergyHit = soundManager.getSound("Core:empty");
+        rockColl = soundManager.getSound("Core:rockCollision");
+        rockEnergyHit = soundManager.getSound("Core:empty");
+        asteroidCrack = soundManager.getSound("Core:asteroidCrack");
+        shipExplosion = soundManager.getSound("Core:shipExplosion");
+        forceBeaconWork = soundManager.getSound("Core:forceBeaconWork");
+        doorMove = soundManager.getSound("Core:controlEnabled");
+        abilityRecharged = soundManager.getSound("Core:abilityRecharged");
+        abilityRefused = soundManager.getSound("Core:abilityRefused");
+        controlDisabled = soundManager.getSound("Core:controlDisabled");
+        controlEnabled = soundManager.getSound("Core:controlEnabled");
+        lootThrow = soundManager.getSound("Core:rocketLauncherShoot");
+        transcendentCreated = soundManager.getSound("Core:teleport");
+        transcendentFinished = soundManager.getSound("Core:teleport");
+
+        // OggSoundSet
+        metalBulletHit = new OggSoundSet(soundManager, Arrays.asList("Core:metalBulletHit0", "Core:metalBulletHit1", "Core:metalBulletHit2"), 1.1f);
+        rockBulletHit = new OggSoundSet(soundManager, Arrays.asList("Core:rockBulletHit0", "Core:rockBulletHit1"));
+        burning = new OggSoundSet(soundManager, Arrays.asList("Core:burning2", "Core:burning3", "Core:burning4"));
+        transcendentMove = new OggSoundSet(soundManager, Arrays.asList("Core:transcendentMove", "Core:transcendentMove2", "Core:transcendentMove3", "Core:transcendentMove4"));
     }
-    if (dmgType == DmgType.BULLET) {
-      return forMetal ? metalBulletHit : rockBulletHit;
+
+    public PlayableSound hitSound(boolean forMetal, DmgType dmgType) {
+        if (dmgType == DmgType.ENERGY) {
+            return forMetal ? metalEnergyHit : rockEnergyHit;
+        }
+        if (dmgType == DmgType.BULLET) {
+            return forMetal ? metalBulletHit : rockBulletHit;
+        }
+        return null;
     }
-    return null;
-  }
 
-  public void playHit(SolGame game, SolObject o, Vector2 pos, DmgType dmgType) {
-    if (o == null) return;
-    Boolean metal = o.isMetal();
-    if (metal == null) return;
-    SolSound sound = hitSound(metal, dmgType);
-    if (sound == null) return;
-    game.getSoundMan().play(game, sound, pos, o);
-  }
+    public void playHit(SolGame game, SolObject o, Vector2 pos, DmgType dmgType) {
+        if (o == null) {
+            return;
+        }
+        Boolean metal = o.isMetal();
+        if (metal == null) {
+            return;
+        }
+        PlayableSound sound = hitSound(metal, dmgType);
+        if (sound == null) {
+            return;
+        }
+        game.getSoundManager().play(game, sound, pos, o);
+    }
 
-  public void playColl(SolGame game, float absImpulse, SolObject o, Vector2 pos) {
-    if (o == null || absImpulse < .1f) return;
-    Boolean metal = o.isMetal();
-    if (metal == null) return;
-    game.getSoundMan().play(game, metal ? metalColl : rockColl, pos, o, absImpulse * Const.IMPULSE_TO_COLL_VOL);
-  }
+    public void playColl(SolGame game, float absImpulse, SolObject o, Vector2 pos) {
+        if (o == null || absImpulse < .1f) {
+            return;
+        }
+        Boolean metal = o.isMetal();
+        if (metal == null) {
+            return;
+        }
+        game.getSoundManager().play(game, metal ? metalColl : rockColl, pos, o, absImpulse * Const.IMPULSE_TO_COLL_VOL);
+    }
 }

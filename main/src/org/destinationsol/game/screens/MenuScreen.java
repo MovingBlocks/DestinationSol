@@ -30,106 +30,107 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuScreen implements SolUiScreen {
-  private final List<SolUiControl> myControls;
-  private final SolUiControl myCloseCtrl;
-  private final SolUiControl myExitCtrl;
-  private final SolUiControl myRespawnCtrl;
-  private final SolUiControl mySoundVolCtrl;
-  private final SolUiControl myMusVolCtrl;
-  private final SolUiControl myDoNotSellEquippedControl;
+    private final List<SolUiControl> myControls;
+    private final SolUiControl myCloseCtrl;
+    private final SolUiControl myExitCtrl;
+    private final SolUiControl myRespawnCtrl;
+    private final SolUiControl mySoundVolCtrl;
+    private final SolUiControl myMusVolCtrl;
+    private final SolUiControl myDoNotSellEquippedControl;
 
-  public MenuScreen(MenuLayout menuLayout, GameOptions gameOptions) {
-    myControls = new ArrayList<SolUiControl>();
+    public MenuScreen(MenuLayout menuLayout, GameOptions gameOptions) {
+        myControls = new ArrayList<SolUiControl>();
 
-    myDoNotSellEquippedControl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
-    myDoNotSellEquippedControl.setDisplayName("Can sell used items");
-    myControls.add(myDoNotSellEquippedControl);
-    mySoundVolCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
-    mySoundVolCtrl.setDisplayName("Sound Volume");
-    myControls.add(mySoundVolCtrl);
-    myMusVolCtrl = new SolUiControl(menuLayout.buttonRect(-1, 0), true);
-    myMusVolCtrl.setDisplayName("Music Volume");
-    myControls.add(myMusVolCtrl);
-    myRespawnCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
-    myRespawnCtrl.setDisplayName("Respawn");
-    myControls.add(myRespawnCtrl);
-    myExitCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
-    myExitCtrl.setDisplayName("Exit");
-    myControls.add(myExitCtrl);
-    myCloseCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyClose());
-    myCloseCtrl.setDisplayName("Resume");
-    myControls.add(myCloseCtrl);
-  }
-
-  @Override
-  public List<SolUiControl> getControls() {
-    return myControls;
-  }
-
-  @Override
-  public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
-    SolGame g = cmp.getGame();
-    g.setPaused(true);
-    SolInputManager im = cmp.getInputMan();
-    GameOptions options = cmp.getOptions();
-    mySoundVolCtrl.setDisplayName("Sound Volume: " + options.getSFXVolumeAsText());
-    if (mySoundVolCtrl.isJustOff()) {
-      options.advanceSoundVolMul();
+        myDoNotSellEquippedControl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
+        myDoNotSellEquippedControl.setDisplayName("Can sell used items");
+        myControls.add(myDoNotSellEquippedControl);
+        mySoundVolCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
+        mySoundVolCtrl.setDisplayName("Sound Volume");
+        myControls.add(mySoundVolCtrl);
+        myMusVolCtrl = new SolUiControl(menuLayout.buttonRect(-1, 0), true);
+        myMusVolCtrl.setDisplayName("Music Volume");
+        myControls.add(myMusVolCtrl);
+        myRespawnCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
+        myRespawnCtrl.setDisplayName("Respawn");
+        myControls.add(myRespawnCtrl);
+        myExitCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
+        myExitCtrl.setDisplayName("Exit");
+        myControls.add(myExitCtrl);
+        myCloseCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyClose());
+        myCloseCtrl.setDisplayName("Resume");
+        myControls.add(myCloseCtrl);
     }
-    myMusVolCtrl.setDisplayName("Music Volume: " + options.getMusicVolumeAsText());
-    if(myMusVolCtrl.isJustOff()){
-    	options.advanceMusicVolMul();
+
+    @Override
+    public List<SolUiControl> getControls() {
+        return myControls;
     }
-    if (myRespawnCtrl.isJustOff()) {
-      g.respawn();
-      im.setScreen(cmp, g.getScreens().mainScreen);
-      g.setPaused(false);
+
+    @Override
+    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
+        SolGame g = cmp.getGame();
+        g.setPaused(true);
+        SolInputManager im = cmp.getInputMan();
+        GameOptions options = cmp.getOptions();
+        mySoundVolCtrl.setDisplayName("Sound Volume: " + options.getSFXVolumeAsText());
+        if (mySoundVolCtrl.isJustOff()) {
+            options.advanceSoundVolMul();
+        }
+        myMusVolCtrl.setDisplayName("Music Volume: " + options.getMusicVolumeAsText());
+        if (myMusVolCtrl.isJustOff()) {
+            options.advanceMusicVolMul();
+            cmp.getMusicManager().resetVolume(options);
+        }
+        if (myRespawnCtrl.isJustOff()) {
+            g.respawn();
+            im.setScreen(cmp, g.getScreens().mainScreen);
+            g.setPaused(false);
+        }
+        if (myExitCtrl.isJustOff()) {
+            cmp.finishGame();
+        }
+        if (myCloseCtrl.isJustOff()) {
+            g.setPaused(false);
+            im.setScreen(cmp, g.getScreens().mainScreen);
+        }
+        myDoNotSellEquippedControl.setDisplayName("Can sell used items: " +
+                (options.canSellEquippedItems ? "Yes" : "No"));
+        if (myDoNotSellEquippedControl.isJustOff()) {
+            options.canSellEquippedItems = !options.canSellEquippedItems;
+        }
     }
-    if (myExitCtrl.isJustOff()) {
-      cmp.finishGame();
+
+    @Override
+    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
+        uiDrawer.draw(uiDrawer.filler, SolColor.UI_BG);
     }
-    if (myCloseCtrl.isJustOff()) {
-      g.setPaused(false);
-      im.setScreen(cmp, g.getScreens().mainScreen);
+
+    @Override
+    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
+
     }
-    myDoNotSellEquippedControl.setDisplayName("Can sell used items: " +
-            (options.canSellEquippedItems ? "Yes" : "No"));
-    if (myDoNotSellEquippedControl.isJustOff()) {
-      options.canSellEquippedItems = !options.canSellEquippedItems;
+
+    @Override
+    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
     }
-  }
 
-  @Override
-  public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
-    uiDrawer.draw(uiDrawer.filler, SolColor.UI_BG);
-  }
+    @Override
+    public boolean reactsToClickOutside() {
+        return false;
+    }
 
-  @Override
-  public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
+    @Override
+    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
+        return true;
+    }
 
-  }
+    @Override
+    public void onAdd(SolApplication cmp) {
 
-  @Override
-  public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-  }
+    }
 
-  @Override
-  public boolean reactsToClickOutside() {
-    return false;
-  }
+    @Override
+    public void blurCustom(SolApplication cmp) {
 
-  @Override
-  public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
-    return true;
-  }
-
-  @Override
-  public void onAdd(SolApplication cmp) {
-
-  }
-
-  @Override
-  public void blurCustom(SolApplication cmp) {
-
-  }
+    }
 }

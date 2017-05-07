@@ -25,58 +25,47 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.item.EngineItem;
 import org.destinationsol.game.item.ItemManager;
-import org.destinationsol.game.ship.*;
+import org.destinationsol.game.ship.AbilityConfig;
+import org.destinationsol.game.ship.EmWave;
+import org.destinationsol.game.ship.KnockBack;
+import org.destinationsol.game.ship.ShipBuilder;
+import org.destinationsol.game.ship.SloMo;
+import org.destinationsol.game.ship.Teleport;
+import org.destinationsol.game.ship.UnShield;
 import org.destinationsol.game.ship.hulls.GunSlot;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.destinationsol.game.sound.SoundManager;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Linus on 4-5-2015.
- */
 public final class HullConfigManager {
+
+    public static final String PROPERTIES_FILE_NAME = "properties.json";
+    public static final String TEXTURE_FILE_NAME = "texture.png";
+    public static final String ICON_FILE_NAME = "icon.png";
+    private final FileManager fileManager;
+    private final TextureManager textureManager;
+    private final ItemManager itemManager;
+    private final AbilityCommonConfigs abilityCommonConfigs;
+    private final Map<String, HullConfig> nameToConfigMap;
+    private final Map<HullConfig, String> configToNameMap;
 
     public HullConfigManager(ShipBuilder shipBuilder,
                              FileManager fileManager,
                              TextureManager textureManager,
                              ItemManager itemManager,
-                             AbilityCommonConfigs abilityCommonConfigs,
-                             SoundManager soundManager
+                             AbilityCommonConfigs abilityCommonConfigs
     ) {
-        this.shipBuilder = shipBuilder;
         this.fileManager = fileManager;
         this.textureManager = textureManager;
-        this.soundManager = soundManager;
         this.itemManager = itemManager;
         this.abilityCommonConfigs = abilityCommonConfigs;
 
-        nameToConfigMap = new HashMap<String, HullConfig>();
-        configToNameMap = new HashMap<HullConfig, String>();
+        nameToConfigMap = new HashMap<>();
+        configToNameMap = new HashMap<>();
         readHullConfigs();
-    }
-
-    public HullConfig getConfig(String name) {
-        return nameToConfigMap.get(name);
-    }
-
-    public String getName(HullConfig hull) {
-        String result = configToNameMap.get(hull);
-        return (result == null) ? "" : result;
-    }
-
-    private void readHullConfigs() {
-        List<FileHandle> hullDirectories = getHullDirectories();
-
-        for(FileHandle handle: hullDirectories) {
-            HullConfig config = read(handle);
-            String name = handle.nameWithoutExtension();
-            nameToConfigMap.put(name, config);
-            configToNameMap.put(config, name);
-        }
     }
 
     private static Vector2 readVector2(JsonValue jsonValue, String name, Vector2 defaultValue) {
@@ -94,20 +83,40 @@ public final class HullConfigManager {
     private static void validateEngineConfig(HullConfig.Data hull) {
         if (hull.engineConfig != null) {
             if (    // stations can't have engines
-                    ( hull.type == HullConfig.Type.STATION ) ||
+                    (hull.type == HullConfig.Type.STATION) ||
                             // the engine size must match the hull size
-                            ( hull.engineConfig.big != (hull.type == HullConfig.Type.BIG) )
+                            (hull.engineConfig.big != (hull.type == HullConfig.Type.BIG))
                     ) {
                 throw new AssertionError("incompatible engine in hull " + hull.displayName);
             }
         }
     }
 
+    public HullConfig getConfig(String name) {
+        return nameToConfigMap.get(name);
+    }
+
+    public String getName(HullConfig hull) {
+        String result = configToNameMap.get(hull);
+        return (result == null) ? "" : result;
+    }
+
+    private void readHullConfigs() {
+        List<FileHandle> hullDirectories = getHullDirectories();
+
+        for (FileHandle handle : hullDirectories) {
+            HullConfig config = read(handle);
+            String name = handle.nameWithoutExtension();
+            nameToConfigMap.put(name, config);
+            configToNameMap.put(config, name);
+        }
+    }
+
     private List<FileHandle> getHullDirectories() {
         List<FileHandle> subDirectories = new LinkedList<FileHandle>();
 
-        for(FileHandle handle: fileManager.getHullsDirectory().list()) {
-            if(handle.isDirectory()) {
+        for (FileHandle handle : fileManager.getHullsDirectory().list()) {
+            if (handle.isDirectory()) {
                 subDirectories.add(handle);
             }
         }
@@ -135,7 +144,7 @@ public final class HullConfigManager {
     private void parseGunSlotList(JsonValue containerNode, HullConfig.Data configData) {
         Vector2 builderOrigin = new Vector2(configData.shipBuilderOrigin);
 
-        for(JsonValue gunSlotNode: containerNode) {
+        for (JsonValue gunSlotNode : containerNode) {
             Vector2 position = readVector2(gunSlotNode, "position", null);
             position.sub(builderOrigin)
                     .scl(configData.size);
@@ -182,17 +191,17 @@ public final class HullConfigManager {
 
     private AbilityConfig loadAbility(
             JsonValue hullNode,
-            ItemManager itemManager,
-            AbilityCommonConfigs abilityCommonConfigs
+            ItemManager manager,
+            AbilityCommonConfigs commonConfigs
     ) {
         JsonValue abNode = hullNode.get("ability");
         if (abNode == null) return null;
         String type = abNode.getString("type");
-        if ("sloMo".equals(type)) return SloMo.Config.load(abNode, itemManager, abilityCommonConfigs.sloMo);
-        if ("teleport".equals(type)) return Teleport.Config.load(abNode, itemManager, abilityCommonConfigs.teleport);
-        if ("knockBack".equals(type)) return KnockBack.Config.load(abNode, itemManager, abilityCommonConfigs.knockBack);
-        if ("emWave".equals(type)) return EmWave.Config.load(abNode, itemManager, abilityCommonConfigs.emWave);
-        if ("unShield".equals(type)) return UnShield.Config.load(abNode, itemManager, abilityCommonConfigs.unShield);
+        if ("sloMo".equals(type)) return SloMo.Config.load(abNode, manager, commonConfigs.sloMo);
+        if ("teleport".equals(type)) return Teleport.Config.load(abNode, manager, commonConfigs.teleport);
+        if ("knockBack".equals(type)) return KnockBack.Config.load(abNode, manager, commonConfigs.knockBack);
+        if ("emWave".equals(type)) return EmWave.Config.load(abNode, manager, commonConfigs.emWave);
+        if ("unShield".equals(type)) return UnShield.Config.load(abNode, manager, commonConfigs.unShield);
         return null;
     }
 
@@ -202,13 +211,13 @@ public final class HullConfigManager {
         Vector2 builderOrigin = new Vector2(configData.shipBuilderOrigin);
 
         configData.origin.set(builderOrigin)
-                         .scl(configData.size);
+                .scl(configData.size);
 
         configData.e1Pos.sub(builderOrigin)
-                        .scl(configData.size);
+                .scl(configData.size);
 
         configData.e2Pos.sub(builderOrigin)
-                        .scl(configData.size);
+                .scl(configData.size);
 
         for (Vector2 position : configData.lightSrcPoss) {
             position.sub(builderOrigin)
@@ -225,18 +234,4 @@ public final class HullConfigManager {
                     .scl(configData.size);
         }
     }
-
-    private final ShipBuilder shipBuilder;
-    private final FileManager fileManager;
-    private final TextureManager textureManager;
-    private final ItemManager itemManager;
-    private final SoundManager soundManager;
-    private final AbilityCommonConfigs abilityCommonConfigs;
-
-    private final Map<String,HullConfig> nameToConfigMap;
-    private final Map<HullConfig, String> configToNameMap;
-
-    public static final String PROPERTIES_FILE_NAME = "properties.json";
-    public static final String TEXTURE_FILE_NAME = "texture.png";
-    public static final String ICON_FILE_NAME = "icon.png";
 }

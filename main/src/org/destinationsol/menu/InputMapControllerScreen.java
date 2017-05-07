@@ -51,7 +51,7 @@ public class InputMapControllerScreen implements InputMapOperations {
         String inputName;
         boolean isAxis = (axis > -1);
         int controllerInput = isAxis ? axis : button;
-        if(controllerInput == -1) {
+        if (controllerInput == -1) {
             inputName = "";
         } else {
             inputName = (isAxis ? "Axis: " : "Button: ") + controllerInput;
@@ -192,10 +192,11 @@ public class InputMapControllerScreen implements InputMapOperations {
 
     /**
      * Remove button if it is already assigned to prevent duplicate buttons
+     *
      * @param buttonIndex The keycode to be removed
      */
     private void removeDuplicateButtons(int buttonIndex) {
-        for (InputConfigItem item : itemsList ) {
+        for (InputConfigItem item : itemsList) {
             if (!item.isAxis() && item.getControllerInput() == buttonIndex) {
                 item.setControllerInput(-1);
                 item.setInputKey("");
@@ -205,10 +206,11 @@ public class InputMapControllerScreen implements InputMapOperations {
 
     /**
      * Remove key if it is already assigned to prevent duplicate keys
+     *
      * @param keyCode The keycode to be removed
      */
     private void removeDuplicateKeys(int keyCode) {
-        for (InputConfigItem item : itemsList ) {
+        for (InputConfigItem item : itemsList) {
             if (Input.Keys.valueOf(item.getInputKey()) == keyCode) {
                 item.setInputKey("");
             }
@@ -216,7 +218,67 @@ public class InputMapControllerScreen implements InputMapOperations {
     }
 
     @Override
-    public void setEnterNewKey(boolean newKey){
+    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
+
+    }
+
+    @Override
+    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
+
+    }
+
+    @Override
+    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
+    }
+
+    @Override
+    public boolean reactsToClickOutside() {
+        return false;
+    }
+
+    @Override
+    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
+        return false;
+    }
+
+    @Override
+    public void onAdd(SolApplication cmp) {
+        InitialiseList(cmp.getOptions());
+        Controllers.clearListeners();
+        isEnterNewKey = false;
+        selectedIndex = 0;
+    }
+
+    @Override
+    public void blurCustom(SolApplication cmp) {
+
+    }
+
+    @Override
+    public String getHeader() {
+        return HEADER_TEXT;
+    }
+
+    @Override
+    public String getDisplayDetail() {
+        if (isEnterNewKey) {
+            if (selectedIndex >= controllerItems) {
+                return "Enter New Key";
+            } else {
+                return "Enter New Controller Input";
+            }
+        } else {
+            return "Only ship controls can use a\ncontroller in this version.\n\nMenu controls need to use\nthe keyboard.";
+        }
+    }
+
+    @Override
+    public boolean isEnterNewKey() {
+        return isEnterNewKey;
+    }
+
+    @Override
+    public void setEnterNewKey(boolean newKey) {
         isEnterNewKey = newKey;
 
         // Cancel the key input
@@ -334,72 +396,12 @@ public class InputMapControllerScreen implements InputMapOperations {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-    }
-
-    @Override
-    public boolean reactsToClickOutside() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
-        return false;
-    }
-
-    @Override
-    public void onAdd(SolApplication cmp) {
-        InitialiseList(cmp.getOptions());
-        Controllers.clearListeners();
-        isEnterNewKey = false;
-        selectedIndex = 0;
-    }
-
-    @Override
-    public void blurCustom(SolApplication cmp) {
-
-    }
-
-    @Override
-    public String getHeader() {
-        return HEADER_TEXT;
-    }
-
-    @Override
-    public String getDisplayDetail() {
-        if (isEnterNewKey) {
-            if (selectedIndex >= controllerItems) {
-                return "Enter New Key";
-            } else {
-                return "Enter New Controller Input";
-            }
-        } else {
-            return "Only ship controls can use a\ncontroller in this version.\n\nMenu controls need to use\nthe keyboard.";
-        }
-    }
-
-    @Override
-    public boolean isEnterNewKey(){
-        return isEnterNewKey;
-    }
-
-    @Override
     public List<InputConfigItem> getItems(GameOptions gameOptions) {
         return itemsList;
     }
 
     @Override
-    public void setSelectedIndex(int index){
+    public void setSelectedIndex(int index) {
         selectedIndex = index;
     }
 }

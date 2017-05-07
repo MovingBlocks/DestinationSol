@@ -50,7 +50,7 @@ import org.destinationsol.SolApplication;
 // 4 = Right Horizontal
 // 5 = Right Vertical
 
-public class ShipControllerControl implements ShipUiControl  {
+public class ShipControllerControl implements ShipUiControl {
     private boolean controllerShoot;
     private boolean controllerShoot2;
     private boolean controllerAbility;
@@ -74,31 +74,31 @@ public class ShipControllerControl implements ShipUiControl  {
 
         // setup the listener that prints events to the console
         Controllers.addListener(new ControllerListener() {
-            public int indexOf (Controller controller) {
+            public int indexOf(Controller controller) {
                 return Controllers.getControllers().indexOf(controller, true);
             }
 
             @Override
-            public void connected (Controller controller) {
+            public void connected(Controller controller) {
             }
 
             @Override
-            public void disconnected (Controller controller) {
+            public void disconnected(Controller controller) {
             }
 
             @Override
-            public boolean buttonDown (Controller controller, int buttonIndex) {
-                if (buttonIndex == gameOptions.getControllerButtonShoot()){
+            public boolean buttonDown(Controller controller, int buttonIndex) {
+                if (buttonIndex == gameOptions.getControllerButtonShoot()) {
                     controllerShoot = true;
-                } else if (buttonIndex == gameOptions.getControllerButtonShoot2()){
+                } else if (buttonIndex == gameOptions.getControllerButtonShoot2()) {
                     controllerShoot2 = true;
-                } else if (buttonIndex == gameOptions.getControllerButtonAbility()){
+                } else if (buttonIndex == gameOptions.getControllerButtonAbility()) {
                     controllerAbility = true;
-                } else if (buttonIndex == gameOptions.getControllerButtonLeft()){
+                } else if (buttonIndex == gameOptions.getControllerButtonLeft()) {
                     controllerLeft = true;
-                } else if (buttonIndex == gameOptions.getControllerButtonRight()){
+                } else if (buttonIndex == gameOptions.getControllerButtonRight()) {
                     controllerRight = true;
-                } else if (buttonIndex == gameOptions.getControllerButtonUp()){
+                } else if (buttonIndex == gameOptions.getControllerButtonUp()) {
                     controllerUp = true;
                 }
 
@@ -106,18 +106,18 @@ public class ShipControllerControl implements ShipUiControl  {
             }
 
             @Override
-            public boolean buttonUp (Controller controller, int buttonIndex) {
-                if (buttonIndex == gameOptions.getControllerButtonShoot()){
+            public boolean buttonUp(Controller controller, int buttonIndex) {
+                if (buttonIndex == gameOptions.getControllerButtonShoot()) {
                     controllerShoot = false;
-                } else if (buttonIndex == gameOptions.getControllerButtonShoot2()){
+                } else if (buttonIndex == gameOptions.getControllerButtonShoot2()) {
                     controllerShoot2 = false;
-                } else if (buttonIndex == gameOptions.getControllerButtonAbility()){
+                } else if (buttonIndex == gameOptions.getControllerButtonAbility()) {
                     controllerAbility = false;
-                } else if (buttonIndex == gameOptions.getControllerButtonLeft()){
+                } else if (buttonIndex == gameOptions.getControllerButtonLeft()) {
                     controllerLeft = false;
-                } else if (buttonIndex == gameOptions.getControllerButtonRight()){
+                } else if (buttonIndex == gameOptions.getControllerButtonRight()) {
                     controllerRight = false;
-                } else if (buttonIndex == gameOptions.getControllerButtonUp()){
+                } else if (buttonIndex == gameOptions.getControllerButtonUp()) {
                     controllerUp = false;
                 }
 
@@ -125,32 +125,26 @@ public class ShipControllerControl implements ShipUiControl  {
             }
 
             @Override
-            public boolean axisMoved (Controller controller, int axisIndex, float value) {
-                if (axisIndex == gameOptions.getControllerAxisShoot()){
+            public boolean axisMoved(Controller controller, int axisIndex, float value) {
+                if (axisIndex == gameOptions.getControllerAxisShoot()) {
                     if (value > 0.5f) {
                         controllerShoot = true;
                     } else {
                         controllerShoot = false;
                     }
-                }
-
-                else if (axisIndex == gameOptions.getControllerAxisShoot2()){
+                } else if (axisIndex == gameOptions.getControllerAxisShoot2()) {
                     if (value > 0.5f) {
                         controllerShoot2 = true;
                     } else {
                         controllerShoot2 = false;
                     }
-                }
-
-                else if (axisIndex == gameOptions.getControllerAxisAbility()){
+                } else if (axisIndex == gameOptions.getControllerAxisAbility()) {
                     if (value > 0.5f) {
                         controllerAbility = true;
                     } else {
                         controllerAbility = false;
                     }
-                }
-
-                else if (axisIndex == gameOptions.getControllerAxisLeftRight()){
+                } else if (axisIndex == gameOptions.getControllerAxisLeftRight()) {
                     boolean invert = gameOptions.isControllerAxisLeftRightInverted();
                     if (value < -0.5f) {
                         controllerLeft = invert ? false : true;
@@ -162,9 +156,7 @@ public class ShipControllerControl implements ShipUiControl  {
                         controllerLeft = false;
                         controllerRight = false;
                     }
-                }
-
-                else if (axisIndex == gameOptions.getControllerAxisUpDown()){
+                } else if (axisIndex == gameOptions.getControllerAxisUpDown()) {
                     boolean invert = gameOptions.isControllerAxisUpDownInverted();
                     if (value < -0.5f) {
                         controllerUp = invert ? false : true;
@@ -182,25 +174,25 @@ public class ShipControllerControl implements ShipUiControl  {
             }
 
             @Override
-            public boolean povMoved (Controller controller, int povIndex, PovDirection value) {
+            public boolean povMoved(Controller controller, int povIndex, PovDirection value) {
                 System.out.println("#" + indexOf(controller) + ", pov " + povIndex + ": " + value);
                 return false;
             }
 
             @Override
-            public boolean xSliderMoved (Controller controller, int sliderIndex, boolean value) {
+            public boolean xSliderMoved(Controller controller, int sliderIndex, boolean value) {
                 System.out.println("#" + indexOf(controller) + ", x slider " + sliderIndex + ": " + value);
                 return false;
             }
 
             @Override
-            public boolean ySliderMoved (Controller controller, int sliderIndex, boolean value) {
+            public boolean ySliderMoved(Controller controller, int sliderIndex, boolean value) {
                 System.out.println("#" + indexOf(controller) + ", y slider " + sliderIndex + ": " + value);
                 return false;
             }
 
             @Override
-            public boolean accelerometerMoved (Controller controller, int accelerometerIndex, Vector3 value) {
+            public boolean accelerometerMoved(Controller controller, int accelerometerIndex, Vector3 value) {
                 // not printing this as we get to many values
                 return false;
             }
