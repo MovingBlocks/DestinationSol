@@ -25,7 +25,7 @@ public class Const {
     public static final float REAL_TIME_STEP = 1.0f / 60.0f;
     public static final float CHUNK_SIZE = 20f;
     public static final int ITEM_GROUPS_PER_PAGE = 8;
-    public final static float PLANET_GAP = 8f;
+    public static final float PLANET_GAP = 8f;
     public static final String VERSION = "2.0.0";
     public static final float FRICTION = .5f;
     public static final float IMPULSE_TO_COLL_VOL = 2f;

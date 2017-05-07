@@ -90,7 +90,7 @@ public class CommonDrawer {
         layout.reset();
         layout.setText(myFont, s);
 
-        switch(align){
+        switch (align) {
             case LEFT:
                 break;
             case CENTER:
@@ -101,7 +101,7 @@ public class CommonDrawer {
                 break;
         }
 
-        if(verticalCentering) {
+        if (verticalCentering) {
             y -= layout.height / 2;
         }
 
