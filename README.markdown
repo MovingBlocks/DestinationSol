@@ -121,6 +121,7 @@ Contributors
 * [JGelfand](https://github.com/JGelfand)
 * [AvaLanCS](https://github.com/Avalancs)
 * [scirelli](https://github.com/scirelli)
+* [Sigma-One](https://github.com/Sigma-One)
 
 ... and your name here? :-) More coming!
 
