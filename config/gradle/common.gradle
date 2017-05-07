@@ -16,7 +16,7 @@ dependencies {
     // the FindBugs version is set in the configuration
 }
 
-version = '1.5.0'
+version = '2.0.0'
 ext {
     appName = 'DestinationSol'
     gdxVersion = '1.7.0'
