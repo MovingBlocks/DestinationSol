@@ -21,60 +21,60 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.game.SolGame;
 
 public class RepairItem implements SolItem {
-  public static final int LIFE_AMT = 20;
-  private final SolItemType myItemType;
+    public static final int LIFE_AMT = 20;
+    private final SolItemType myItemType;
 
-  public RepairItem(SolItemType itemType) {
-    myItemType = itemType;
-  }
+    public RepairItem(SolItemType itemType) {
+        myItemType = itemType;
+    }
 
-  @Override
-  public String getDisplayName() {
-    return "Repair Kit";
-  }
+    @Override
+    public String getDisplayName() {
+        return "Repair Kit";
+    }
 
-  @Override
-  public float getPrice() {
-    return 30;
-  }
+    @Override
+    public float getPrice() {
+        return 30;
+    }
 
-  @Override
-  public String getDesc() {
-    return "Stay idle to fix " + LIFE_AMT + " dmg";
-  }
+    @Override
+    public String getDesc() {
+        return "Stay idle to fix " + LIFE_AMT + " dmg";
+    }
 
-  @Override
-  public SolItem copy() {
-    return new RepairItem(myItemType);
-  }
+    @Override
+    public SolItem copy() {
+        return new RepairItem(myItemType);
+    }
 
-  @Override
-  public boolean isSame(SolItem item) {
-    return item instanceof RepairItem;
-  }
+    @Override
+    public boolean isSame(SolItem item) {
+        return item instanceof RepairItem;
+    }
 
-  @Override
-  public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-    return game.getItemMan().repairIcon;
-  }
+    @Override
+    public TextureAtlas.AtlasRegion getIcon(SolGame game) {
+        return game.getItemMan().repairIcon;
+    }
 
-  @Override
-  public SolItemType getItemType() {
-    return myItemType;
-  }
+    @Override
+    public SolItemType getItemType() {
+        return myItemType;
+    }
 
-  @Override
-  public String getCode() {
-    return "rep";
-  }
+    @Override
+    public String getCode() {
+        return "rep";
+    }
 
-  @Override
-  public int isEquipped() {
-    return 0;
-  }
+    @Override
+    public int isEquipped() {
+        return 0;
+    }
 
-  @Override
-  public void setEquipped(int equipped) {
+    @Override
+    public void setEquipped(int equipped) {
 
-  }
+    }
 }

@@ -78,7 +78,7 @@ idea {
             }
 
             // Sets sourceCompatibility within IntelliJ (without this root build having the Java plugin applied)
-            whenMerged {project ->
+            whenMerged { project ->
                 project.jdk.languageLevel = 'JDK_1_8'
             }
         }

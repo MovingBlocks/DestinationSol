@@ -26,8 +26,14 @@ import org.destinationsol.common.NotNull;
 @Immutable
 public final class GunSlot {
 
+    private final
+    @NotNull
+    Vector2 position;
+    private final boolean isUnderneathHull;
+    private final boolean allowsRotation;
+
     public GunSlot(@NotNull Vector2 position, boolean isUnderneathHull, boolean allowsRotation) {
-        if(position == null) {
+        if (position == null) {
             throw new IllegalArgumentException("Position cannot be null");
         }
 
@@ -38,15 +44,19 @@ public final class GunSlot {
 
     /**
      * Returns the position, relative to the ship hull origin that owns the slot.
+     *
      * @return The position, relative to the ship hull origin that owns the slot.
      */
-    public @NotNull Vector2 getPosition() {
+    public
+    @NotNull
+    Vector2 getPosition() {
         return position;
     }
 
     /**
      * Returns true if the gun slot is underneath the hull.
      * Returns false if the gun slot is on the top of the hull.
+     *
      * @return True if the gun slot is underneath the hull, false otherwise.
      */
     public boolean isUnderneathHull() {
@@ -55,13 +65,10 @@ public final class GunSlot {
 
     /**
      * Returns true if the gun slot allows guns mounted at the slot to rotate by default.
+     *
      * @return True if mounted guns can rotate by default, false otherwise.
      */
     public boolean allowsRotation() {
         return allowsRotation;
     }
-
-    private final @NotNull Vector2 position;
-    private final boolean isUnderneathHull;
-    private final boolean allowsRotation;
 }

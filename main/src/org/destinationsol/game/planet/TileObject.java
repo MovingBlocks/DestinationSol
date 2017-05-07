@@ -32,138 +32,137 @@ import java.util.List;
 
 public class TileObject implements SolObject {
 
-  private final Planet myPlanet;
-  private final float myToPlanetRelAngle;
-  private final float myDist;
-  private final List<Dra> myDras;
-  private final Body myBody;
-  private final Vector2 myPos;
+    private final Planet myPlanet;
+    private final float myToPlanetRelAngle;
+    private final float myDist;
+    private final List<Dra> myDras;
+    private final Body myBody;
+    private final Vector2 myPos;
 
-  // for far objs {
-  private final float mySize;
-  private final Tile myTile;
-  // }
+    // for far objs {
+    private final float mySize;
+    private final Tile myTile;
+    // }
 
-  private float myAngle;
+    private float myAngle;
 
-  public TileObject(Planet planet, float toPlanetRelAngle, float dist, float size, RectSprite sprite, Body body, Tile tile) {
-    myTile = tile;
-    myDras = new ArrayList<Dra>();
+    public TileObject(Planet planet, float toPlanetRelAngle, float dist, float size, RectSprite sprite, Body body, Tile tile) {
+        myTile = tile;
+        myDras = new ArrayList<Dra>();
 
-    myPlanet = planet;
-    myToPlanetRelAngle = toPlanetRelAngle;
-    myDist = dist;
-    mySize = size;
-    myBody = body;
-    myPos = new Vector2();
+        myPlanet = planet;
+        myToPlanetRelAngle = toPlanetRelAngle;
+        myDist = dist;
+        mySize = size;
+        myBody = body;
+        myPos = new Vector2();
 
-    myDras.add(sprite);
-    setDependentParams();
-  }
-
-  @Override
-  public void update(SolGame game) {
-    setDependentParams();
-
-    if (myBody != null) {
-      float ts = game.getTimeStep();
-      Vector2 spd = SolMath.getVec(myPos);
-      spd.sub(myBody.getPosition());
-      spd.scl(1f / ts);
-      myBody.setLinearVelocity(spd);
-      SolMath.free(spd);
-      float bodyAngle = myBody.getAngle() * SolMath.radDeg;
-      float av = SolMath.norm(myAngle - bodyAngle) * SolMath.degRad / ts;
-      myBody.setAngularVelocity(av);
+        myDras.add(sprite);
+        setDependentParams();
     }
-  }
 
-  private void setDependentParams() {
-    float toPlanetAngle = myPlanet.getAngle() + myToPlanetRelAngle;
-    SolMath.fromAl(myPos, toPlanetAngle, myDist, true);
-    myPos.add(myPlanet.getPos());
-    myAngle = toPlanetAngle + 90;
-  }
+    @Override
+    public void update(SolGame game) {
+        setDependentParams();
 
-  @Override
-  public boolean shouldBeRemoved(SolGame game) {
-    return false;
-  }
+        if (myBody != null) {
+            float ts = game.getTimeStep();
+            Vector2 spd = SolMath.getVec(myPos);
+            spd.sub(myBody.getPosition());
+            spd.scl(1f / ts);
+            myBody.setLinearVelocity(spd);
+            SolMath.free(spd);
+            float bodyAngle = myBody.getAngle() * SolMath.radDeg;
+            float av = SolMath.norm(myAngle - bodyAngle) * SolMath.degRad / ts;
+            myBody.setAngularVelocity(av);
+        }
+    }
 
-  @Override
-  public void onRemove(SolGame game) {
-    if (myBody != null) myBody.getWorld().destroyBody(myBody);
-  }
+    private void setDependentParams() {
+        float toPlanetAngle = myPlanet.getAngle() + myToPlanetRelAngle;
+        SolMath.fromAl(myPos, toPlanetAngle, myDist, true);
+        myPos.add(myPlanet.getPos());
+        myAngle = toPlanetAngle + 90;
+    }
 
-  @Override
-  public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
-    game.getSpecialSounds().playHit(game, this, pos, dmgType);
-  }
+    @Override
+    public boolean shouldBeRemoved(SolGame game) {
+        return false;
+    }
 
-  @Override
-  public boolean receivesGravity() {
-    return false;
-  }
+    @Override
+    public void onRemove(SolGame game) {
+        if (myBody != null) myBody.getWorld().destroyBody(myBody);
+    }
 
-  @Override
-  public void receiveForce(Vector2 force, SolGame game, boolean acc) {
-  }
+    @Override
+    public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
+        game.getSpecialSounds().playHit(game, this, pos, dmgType);
+    }
 
-  @Override
-  public Vector2 getPosition() {
-    return myPos;
-  }
+    @Override
+    public boolean receivesGravity() {
+        return false;
+    }
 
-  @Override
-  public FarObj toFarObj() {
-    return new FarTileObject(myPlanet, myToPlanetRelAngle, myDist, mySize, myTile);
-  }
+    @Override
+    public void receiveForce(Vector2 force, SolGame game, boolean acc) {
+    }
 
-  @Override
-  public List<Dra> getDras() {
-    return myDras;
-  }
+    @Override
+    public Vector2 getPosition() {
+        return myPos;
+    }
 
-  @Override
-  public float getAngle() {
-    return myAngle;
-  }
+    @Override
+    public FarObj toFarObj() {
+        return new FarTileObject(myPlanet, myToPlanetRelAngle, myDist, mySize, myTile);
+    }
 
-  @Override
-  public Vector2 getSpd() {
-    return null;
-  }
+    @Override
+    public List<Dra> getDras() {
+        return myDras;
+    }
 
-  @Override
-  public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
-    SolGame game, Vector2 collPos)
-  {
-  }
+    @Override
+    public float getAngle() {
+        return myAngle;
+    }
 
-  @Override
-  public String toDebugString() {
-    return null;
-  }
+    @Override
+    public Vector2 getSpd() {
+        return null;
+    }
 
-  @Override
-  public Boolean isMetal() {
-    return false;
-  }
+    @Override
+    public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
+                              SolGame game, Vector2 collPos) {
+    }
 
-  @Override
-  public boolean hasBody() {
-    return true;
-  }
+    @Override
+    public String toDebugString() {
+        return null;
+    }
 
-  public Planet getPlanet() {
-    return myPlanet;
-  }
+    @Override
+    public Boolean isMetal() {
+        return false;
+    }
 
-  public float getSz() {
-    return mySize;
-  }
+    @Override
+    public boolean hasBody() {
+        return true;
+    }
 
-  public Tile getTile() {
-    return myTile;
-  }
+    public Planet getPlanet() {
+        return myPlanet;
+    }
+
+    public float getSz() {
+        return mySize;
+    }
+
+    public Tile getTile() {
+        return myTile;
+    }
 }

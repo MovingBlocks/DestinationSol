@@ -21,22 +21,22 @@ import org.destinationsol.SolApplication;
 import java.util.List;
 
 public interface SolUiScreen {
-  List<SolUiControl> getControls();
+    List<SolUiControl> getControls();
 
-  void onAdd(SolApplication cmp);
+    void onAdd(SolApplication cmp);
 
-  void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside);
+    void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside);
 
-  boolean isCursorOnBg(SolInputManager.Ptr ptr);
+    boolean isCursorOnBg(SolInputManager.Ptr ptr);
 
-  void blurCustom(SolApplication cmp);
+    void blurCustom(SolApplication cmp);
 
 
-  void drawBg(UiDrawer uiDrawer, SolApplication cmp);
+    void drawBg(UiDrawer uiDrawer, SolApplication cmp);
 
-  void drawImgs(UiDrawer uiDrawer, SolApplication cmp);
+    void drawImgs(UiDrawer uiDrawer, SolApplication cmp);
 
-  void drawText(UiDrawer uiDrawer, SolApplication cmp);
+    void drawText(UiDrawer uiDrawer, SolApplication cmp);
 
-  boolean reactsToClickOutside();
+    boolean reactsToClickOutside();
 }

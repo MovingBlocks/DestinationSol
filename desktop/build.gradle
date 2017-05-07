@@ -1,6 +1,6 @@
 apply from: '../config/gradle/common.gradle'
 
-sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets.main.java.srcDirs = ["src/"]
 
 project.ext.mainClassName = "org.destinationsol.desktop.SolDesktop"
 
@@ -29,13 +29,13 @@ jar {
     archiveName = "solDesktop.jar"
 
     manifest {
-        def manifestClasspath = configurations.runtime.collect {it.getName() }.join(" ")
+        def manifestClasspath = configurations.runtime.collect { it.getName() }.join(" ")
         attributes 'Main-Class': project.mainClassName
-        attributes("Class-Path" : manifestClasspath)
+        attributes("Class-Path": manifestClasspath)
     }
 }
 
-task dist (type: Sync) {
+task dist(type: Sync) {
     description = "Creates an application package for distribution"
 
     into("$distsDir/app")
@@ -52,7 +52,7 @@ task dist (type: Sync) {
     }
 }
 
-task distZip (type: Zip) {
+task distZip(type: Zip) {
     dependsOn dist
     from "$distsDir/app"
     archiveName = "DestinationSol.zip"
@@ -69,7 +69,7 @@ eclipse {
 task afterEclipseImport(description: "Post processing after project generation", group: "IDE") {
     doLast {
         def classpath = new XmlParser().parse(file(".classpath"))
-        new Node(classpath, "classpathentry", [ kind: 'src', path: 'assets' ]);
+        new Node(classpath, "classpathentry", [kind: 'src', path: 'assets']);
         def writer = new FileWriter(file(".classpath"))
         def printer = new XmlNodePrinter(new PrintWriter(writer))
         printer.setPreserveWhitespace(true)

@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
  * When used on a method, it means that the method should never return a null value.
  */
 @Documented
-@Target({ElementType.FIELD, ElementType.PARAMETER,ElementType.LOCAL_VARIABLE, ElementType.METHOD})
+@Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.METHOD})
 public @interface NotNull {
 
 }

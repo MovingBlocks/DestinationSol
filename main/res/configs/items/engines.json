@@ -9,7 +9,7 @@
       tint: "hsb 140 20 65",
     },
 
-    workSound: "engines/medWork",
+    workSounds: ["Core:medEngineWork0", "Core:medEngineWork1", "Core:medEngineWork2", "Core:medEngineWork3", "Core:medEngineWork4"],
   },
 
 
@@ -24,7 +24,7 @@
       tint: "hsb 8 75 100",
     },
 
-    workSound: "engines/medWork",
+    workSounds: ["Core:medEngineWork0", "Core:medEngineWork1", "Core:medEngineWork2", "Core:medEngineWork3", "Core:medEngineWork4"],
   },
 
 
@@ -39,7 +39,7 @@
       tint: fire,
     },
 
-    workSound: "engines/medWork",
+    workSounds: ["Core:medEngineWork0", "Core:medEngineWork1", "Core:medEngineWork2", "Core:medEngineWork3", "Core:medEngineWork4"],
   },
 
 
@@ -54,7 +54,7 @@
       tint: smoke,
     },
 
-    workSound: "engines/smokeWork",
+    workSounds: ["Core:diesel", "Core:diesel2", "Core:diesel3"],
   },
 
 
@@ -68,7 +68,7 @@
       tint: white,
     },
 
-    workSound: "engines/techieWork",
+    workSounds: ["Core:techie", "Core:techie2", "Core:techie3"],
   },
 
 
@@ -83,7 +83,7 @@
       tint: "hsb 140 20 65",
     },
 
-    workSound: "engines/medWork",
+    workSounds: ["Core:medEngineWork0", "Core:medEngineWork1", "Core:medEngineWork2", "Core:medEngineWork3", "Core:medEngineWork4"],
   },
 
 
@@ -98,7 +98,7 @@
       tint: "hsb 8 75 100",
     },
 
-    workSound: "engines/medWork",
+    workSounds: ["Core:medEngineWork0", "Core:medEngineWork1", "Core:medEngineWork2", "Core:medEngineWork3", "Core:medEngineWork4"],
   },
 
 
@@ -113,6 +113,6 @@
       tint: fire,
     },
 
-    workSound: "engines/medWork",
+    workSounds: ["Core:medEngineWork0", "Core:medEngineWork1", "Core:medEngineWork2", "Core:medEngineWork3", "Core:medEngineWork4"],
   },
 }
