@@ -1,7 +1,7 @@
 {
   player: {
     ship: {
-      hull: imperialSmall,
+      hull: imperialTiny,
       items: "rep:1:3 a1-1 s1-1 blaster-1",
       money: 20,
     },
