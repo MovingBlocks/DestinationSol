@@ -271,11 +271,11 @@ public class SolGame {
     public void update() {
         myDraDebugger.update(this);
 
-    if (myPaused) {
-      myCam.updateMap(this); // update zoom only for map
-      myMapDrawer.update(this); // animate map icons
-      return;
-    }
+        if (myPaused) {
+            myCam.updateMap(this); // update zoom only for map
+            myMapDrawer.update(this); // animate map icons
+            return;
+        }
 
         myTimeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
         if (myHero != null) {

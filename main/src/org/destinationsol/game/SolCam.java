@@ -59,36 +59,36 @@ public class SolCam {
         return myCam.combined;
     }
 
-  public void update(SolGame game) {
-    float life = 0;
+    public void update(SolGame game) {
+        float life = 0;
 
-    SolShip hero = game.getHero();
-    float ts = game.getTimeStep();
-    if (hero == null) {
-      StarPort.Transcendent trans = game.getTranscendentHero();
-      if (trans == null) {
-        if (DebugOptions.DIRECT_CAM_CONTROL) {
-          applyInput(game);
+        SolShip hero = game.getHero();
+        float ts = game.getTimeStep();
+        if (hero == null) {
+            StarPort.Transcendent trans = game.getTranscendentHero();
+            if (trans == null) {
+                if (DebugOptions.DIRECT_CAM_CONTROL) {
+                    applyInput(game);
+                }
+            } else {
+                myPos.set(trans.getPosition());
+            }
+        } else {
+            Vector2 heroPos = hero.getHull().getBody().getWorldCenter();
+            if (myZoom * VIEWPORT_HEIGHT < heroPos.dst(myPos)) {
+                myPos.set(heroPos);
+                game.getObjMan().resetDelays();
+            } else {
+                Vector2 moveDiff = SolMath.getVec(hero.getSpd());
+                moveDiff.scl(ts);
+                myPos.add(moveDiff);
+                SolMath.free(moveDiff);
+                float moveSpd = MOVE_SPD * ts;
+                myPos.x = SolMath.approach(myPos.x, heroPos.x, moveSpd);
+                myPos.y = SolMath.approach(myPos.y, heroPos.y, moveSpd);
+            }
+            life = hero.getLife();
         }
-      } else {
-        myPos.set(trans.getPosition());
-      }
-    } else {
-      Vector2 heroPos = hero.getHull().getBody().getWorldCenter();
-      if (myZoom * VIEWPORT_HEIGHT < heroPos.dst(myPos)) {
-        myPos.set(heroPos);
-        game.getObjMan().resetDelays();
-      } else {
-        Vector2 moveDiff = SolMath.getVec(hero.getSpd());
-        moveDiff.scl(ts);
-        myPos.add(moveDiff);
-        SolMath.free(moveDiff);
-        float moveSpd = MOVE_SPD * ts;
-        myPos.x = SolMath.approach(myPos.x, heroPos.x, moveSpd);
-        myPos.y = SolMath.approach(myPos.y, heroPos.y, moveSpd);
-      }
-      life = hero.getLife();
-    }
 
         if (life < myPrevHeroLife) {
             float shakeDiff = .1f * MAX_SHAKE * (myPrevHeroLife - life);
@@ -108,42 +108,42 @@ public class SolCam {
         myAngle = SolMath.approachAngle(myAngle, desiredAngle, rotSpd);
         applyAngle();
 
-    updateMap(game);
-  }
-
-  public void updateMap(SolGame game) {
-    float ts = game.getTimeStep();
-    float desiredViewDistance = getDesiredViewDistance(game);
-    float desiredZoom = calcZoom(desiredViewDistance);
-    myZoom = SolMath.approach(myZoom, desiredZoom, ZOOM_CHG_SPD * ts);
-    applyZoom(game.getMapDrawer());
-    myCam.update();
-  }
-
-  private float getDesiredViewDistance(SolGame game) {
-    SolShip hero = game.getHero();
-    if(hero == null && game.getTranscendentHero() != null) { // hero is in transcendent state
-      return Const.CAM_VIEW_DIST_SPACE;
-    } else if(hero == null && game.getTranscendentHero() == null) {
-      return Const.CAM_VIEW_DIST_GROUND;
-    } else {
-      float speed = hero.getSpd().len();
-      float desiredViewDistance = Const.CAM_VIEW_DIST_SPACE;
-      Planet nearestPlanet = game.getPlanetMan().getNearestPlanet(myPos);
-      if (nearestPlanet.getFullHeight() < nearestPlanet.getPos().dst(myPos) && MAX_ZOOM_SPD < speed) {
-        desiredViewDistance = Const.CAM_VIEW_DIST_JOURNEY;
-      } else if (nearestPlanet.isNearGround(myPos) && speed < MED_ZOOM_SPD) {
-        desiredViewDistance = Const.CAM_VIEW_DIST_GROUND;
-      }
-      desiredViewDistance += hero.getHull().config.getApproxRadius();
-      return desiredViewDistance;
+        updateMap(game);
     }
-  }
 
-  private float calcZoom(float vd) {
-    float h = vd * SolMath.sqrt(2);
-    return h / VIEWPORT_HEIGHT;
-  }
+    public void updateMap(SolGame game) {
+        float ts = game.getTimeStep();
+        float desiredViewDistance = getDesiredViewDistance(game);
+        float desiredZoom = calcZoom(desiredViewDistance);
+        myZoom = SolMath.approach(myZoom, desiredZoom, ZOOM_CHG_SPD * ts);
+        applyZoom(game.getMapDrawer());
+        myCam.update();
+    }
+
+    private float getDesiredViewDistance(SolGame game) {
+        SolShip hero = game.getHero();
+        if (hero == null && game.getTranscendentHero() != null) { // hero is in transcendent state
+            return Const.CAM_VIEW_DIST_SPACE;
+        } else if (hero == null && game.getTranscendentHero() == null) {
+            return Const.CAM_VIEW_DIST_GROUND;
+        } else {
+            float speed = hero.getSpd().len();
+            float desiredViewDistance = Const.CAM_VIEW_DIST_SPACE;
+            Planet nearestPlanet = game.getPlanetMan().getNearestPlanet(myPos);
+            if (nearestPlanet.getFullHeight() < nearestPlanet.getPos().dst(myPos) && MAX_ZOOM_SPD < speed) {
+                desiredViewDistance = Const.CAM_VIEW_DIST_JOURNEY;
+            } else if (nearestPlanet.isNearGround(myPos) && speed < MED_ZOOM_SPD) {
+                desiredViewDistance = Const.CAM_VIEW_DIST_GROUND;
+            }
+            desiredViewDistance += hero.getHull().config.getApproxRadius();
+            return desiredViewDistance;
+        }
+    }
+
+    private float calcZoom(float vd) {
+        float h = vd * SolMath.sqrt(2);
+        return h / VIEWPORT_HEIGHT;
+    }
 
     private void applyZoom(MapDrawer mapDrawer) {
         if (mapDrawer.isToggled()) {
