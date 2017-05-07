@@ -17,14 +17,14 @@
 package org.destinationsol.game;
 
 public enum Faction {
-  LAANI("laani"), EHAR("ehar");
-  private final String myName;
+    LAANI("laani"), EHAR("ehar");
+    private final String myName;
 
-  Faction(String name) {
-    myName = name;
-  }
+    Faction(String name) {
+        myName = name;
+    }
 
-  public String getName() {
-    return myName;
-  }
+    public String getName() {
+        return myName;
+    }
 }

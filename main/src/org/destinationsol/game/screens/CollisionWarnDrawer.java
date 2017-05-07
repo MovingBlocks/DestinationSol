@@ -25,45 +25,46 @@ import org.destinationsol.game.SolObject;
 import org.destinationsol.game.ship.SolShip;
 
 public class CollisionWarnDrawer extends WarnDrawer {
-  private final MyRayBack myWarnCallback = new MyRayBack();
-  private SolShip myHero;
+    private final MyRayBack myWarnCallback = new MyRayBack();
+    private SolShip myHero;
 
-  public CollisionWarnDrawer(float r) {
-    super(r, "Object Near");
-  }
-
-  public boolean shouldWarn(SolGame game) {
-    myHero = game.getHero();
-    if (myHero == null) return false;
-    Vector2 pos = myHero.getPosition();
-    Vector2 spd = myHero.getSpd();
-    float acc = myHero.getAcc();
-    float spdLen = spd.len();
-    float spdAngle = SolMath.angle(spd);
-    if (acc <= 0 || spdLen < 2 * acc) return false;
-    // t = v/a;
-    // s = att/2 = vv/a/2;
-    float breakWay = spdLen * spdLen / acc / 2;
-    breakWay += 2 * spdLen;
-    Vector2 finalPos = SolMath.getVec(0, 0);
-    SolMath.fromAl(finalPos, spdAngle, breakWay);
-    finalPos.add(pos);
-    myWarnCallback.show = false;
-    game.getObjMan().getWorld().rayCast(myWarnCallback, pos, finalPos);
-    SolMath.free(finalPos);
-    return myWarnCallback.show;
-  }
-
-  private class MyRayBack implements RayCastCallback {
-    private boolean show;
-    @Override
-    public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-      SolObject o = (SolObject) fixture.getBody().getUserData();
-      if (myHero == o) {
-        return -1;
-      }
-      show = true;
-      return 0;
+    public CollisionWarnDrawer(float r) {
+        super(r, "Object Near");
     }
-  }
+
+    public boolean shouldWarn(SolGame game) {
+        myHero = game.getHero();
+        if (myHero == null) return false;
+        Vector2 pos = myHero.getPosition();
+        Vector2 spd = myHero.getSpd();
+        float acc = myHero.getAcc();
+        float spdLen = spd.len();
+        float spdAngle = SolMath.angle(spd);
+        if (acc <= 0 || spdLen < 2 * acc) return false;
+        // t = v/a;
+        // s = att/2 = vv/a/2;
+        float breakWay = spdLen * spdLen / acc / 2;
+        breakWay += 2 * spdLen;
+        Vector2 finalPos = SolMath.getVec(0, 0);
+        SolMath.fromAl(finalPos, spdAngle, breakWay);
+        finalPos.add(pos);
+        myWarnCallback.show = false;
+        game.getObjMan().getWorld().rayCast(myWarnCallback, pos, finalPos);
+        SolMath.free(finalPos);
+        return myWarnCallback.show;
+    }
+
+    private class MyRayBack implements RayCastCallback {
+        private boolean show;
+
+        @Override
+        public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+            SolObject o = (SolObject) fixture.getBody().getUserData();
+            if (myHero == o) {
+                return -1;
+            }
+            show = true;
+            return 0;
+        }
+    }
 }

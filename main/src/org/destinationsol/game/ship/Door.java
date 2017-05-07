@@ -33,68 +33,68 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Door {
-  public static final float SPD_LEN = .4f;
-  public static final float SENSOR_DIST = 3f;
-  public static final float DOOR_LEN = 1.1f;
-  public static final float MAX_OPEN_AWAIT = DOOR_LEN / SPD_LEN;
-  private final PrismaticJoint myJoint;
-  private final RectSprite myS;
-  private float myOpenAwait;
+    public static final float SPD_LEN = .4f;
+    public static final float SENSOR_DIST = 3f;
+    public static final float DOOR_LEN = 1.1f;
+    public static final float MAX_OPEN_AWAIT = DOOR_LEN / SPD_LEN;
+    private final PrismaticJoint myJoint;
+    private final RectSprite myS;
+    private float myOpenAwait;
 
-  public Door(PrismaticJoint joint, RectSprite s) {
-    myJoint = joint;
-    myS = s;
-  }
-
-  public void update(SolGame game, SolShip ship) {
-    Vector2 doorPos = getBody().getPosition();
-    boolean open = myOpenAwait <= 0 && shouldOpen(game, ship, doorPos);
-    if (open) {
-      myOpenAwait = MAX_OPEN_AWAIT;
-      myJoint.setMotorSpeed(SPD_LEN);
-      game.getSoundMan().play(game, game.getSpecialSounds().doorMove, doorPos, ship);
-    } else if (myOpenAwait > 0) {
-      myOpenAwait -= game.getTimeStep();
-      if (myOpenAwait < 0) {
-        myJoint.setMotorSpeed(-SPD_LEN);
-        game.getSoundMan().play(game, game.getSpecialSounds().doorMove, doorPos, ship);
-      }
+    public Door(PrismaticJoint joint, RectSprite s) {
+        myJoint = joint;
+        myS = s;
     }
 
-    Vector2 shipPos = ship.getPosition();
-    float shipAngle = ship.getAngle();
-    SolMath.toRel(doorPos, myS.getRelPos(), shipAngle, shipPos);
-  }
+    public void update(SolGame game, SolShip ship) {
+        Vector2 doorPos = getBody().getPosition();
+        boolean open = myOpenAwait <= 0 && shouldOpen(game, ship, doorPos);
+        if (open) {
+            myOpenAwait = MAX_OPEN_AWAIT;
+            myJoint.setMotorSpeed(SPD_LEN);
+            game.getSoundManager().play(game, game.getSpecialSounds().doorMove, doorPos, ship);
+        } else if (myOpenAwait > 0) {
+            myOpenAwait -= game.getTimeStep();
+            if (myOpenAwait < 0) {
+                myJoint.setMotorSpeed(-SPD_LEN);
+                game.getSoundManager().play(game, game.getSpecialSounds().doorMove, doorPos, ship);
+            }
+        }
 
-  private boolean shouldOpen(SolGame game, SolShip ship, Vector2 doorPos) {
-    Faction faction = ship.getPilot().getFaction();
-    FactionManager factionManager = game.getFactionMan();
-    List<SolObject> objs = game.getObjMan().getObjs();
-    for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
-      SolObject o = objs.get(i);
-      if (o == ship) continue;
-      if (!(o instanceof SolShip)) continue;
-      SolShip ship2 = (SolShip) o;
-      Pilot pilot2 = ship2.getPilot();
-      if (!pilot2.isUp()) continue;
-      if (factionManager.areEnemies(pilot2.getFaction(), faction)) continue;
-      if (ship2.getPosition().dst(doorPos) < SENSOR_DIST) return true;
+        Vector2 shipPos = ship.getPosition();
+        float shipAngle = ship.getAngle();
+        SolMath.toRel(doorPos, myS.getRelPos(), shipAngle, shipPos);
     }
-    return false;
-  }
 
-  public void collectDras(ArrayList<Dra> dras) {
-    dras.add(myS);
-  }
+    private boolean shouldOpen(SolGame game, SolShip ship, Vector2 doorPos) {
+        Faction faction = ship.getPilot().getFaction();
+        FactionManager factionManager = game.getFactionMan();
+        List<SolObject> objs = game.getObjMan().getObjs();
+        for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
+            SolObject o = objs.get(i);
+            if (o == ship) continue;
+            if (!(o instanceof SolShip)) continue;
+            SolShip ship2 = (SolShip) o;
+            Pilot pilot2 = ship2.getPilot();
+            if (!pilot2.isUp()) continue;
+            if (factionManager.areEnemies(pilot2.getFaction(), faction)) continue;
+            if (ship2.getPosition().dst(doorPos) < SENSOR_DIST) return true;
+        }
+        return false;
+    }
 
-  public Body getBody() {
-    return myJoint.getBodyB();
-  }
+    public void collectDras(ArrayList<Dra> dras) {
+        dras.add(myS);
+    }
 
-  public void onRemove(SolGame game) {
-    World w = game.getObjMan().getWorld();
-    Body doorBody = getBody();
-    w.destroyJoint(myJoint);
-    w.destroyBody(doorBody);
-  }
+    public Body getBody() {
+        return myJoint.getBodyB();
+    }
+
+    public void onRemove(SolGame game) {
+        World w = game.getObjMan().getWorld();
+        Body doorBody = getBody();
+        w.destroyJoint(myJoint);
+        w.destroyBody(doorBody);
+    }
 }

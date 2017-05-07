@@ -5,6 +5,7 @@ hs_err_pid*
 /config/metrics
 /main/prevShip.ini
 /main/settings.ini
+*log
 
 ## Ignored sub-projects with nested Git roots
 android

@@ -28,17 +28,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MazeConfigs {
-  public final List<MazeConfig> configs;
+    public final List<MazeConfig> configs;
 
-  public MazeConfigs(TextureManager textureManager, HullConfigManager hullConfigs, ItemManager itemManager) {
-    configs = new ArrayList<MazeConfig>();
+    public MazeConfigs(TextureManager textureManager, HullConfigManager hullConfigs, ItemManager itemManager) {
+        configs = new ArrayList<MazeConfig>();
 
-    JsonReader r = new JsonReader();
-    FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("mazes.json");
-    JsonValue mazesNode = r.parse(configFile);
-    for (JsonValue mazeNode : mazesNode) {
-      MazeConfig c = MazeConfig.load(textureManager, hullConfigs, mazeNode, configFile, itemManager);
-      configs.add(c);
+        JsonReader r = new JsonReader();
+        FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("mazes.json");
+        JsonValue mazesNode = r.parse(configFile);
+        for (JsonValue mazeNode : mazesNode) {
+            MazeConfig c = MazeConfig.load(textureManager, hullConfigs, mazeNode, configFile, itemManager);
+            configs.add(c);
+        }
     }
-  }
 }
