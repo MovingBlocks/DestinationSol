@@ -14,6 +14,11 @@
         density: 2,
       },
       {
+        hull: imperialTiny,
+        items: "blaster a1 s1",
+        density: 3,
+      },
+      {
         hull: bus,
         items: "gun gun a1|a2 s2|s3",
         density: 1,
@@ -81,7 +86,7 @@
 
     trading: {
       items: "rep blaster s1 a1 sloMoCharge gun bulletClip a2 missileClip plasmaClip fixedGun",
-      ships: "imperialSmall imperialMedium",
+      ships: "imperialTiny imperialSmall imperialMedium",
       mercenaries: [],
     },
   },
