@@ -24,6 +24,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector3;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // XBOX 360 Button Mapping
 // 0 = Up
@@ -51,6 +53,7 @@ import org.destinationsol.SolApplication;
 // 5 = Right Vertical
 
 public class ShipControllerControl implements ShipUiControl {
+    private static Logger logger = LoggerFactory.getLogger(ShipControllerControl.class);
     private boolean controllerShoot;
     private boolean controllerShoot2;
     private boolean controllerAbility;
@@ -66,10 +69,10 @@ public class ShipControllerControl implements ShipUiControl {
         Controllers.clearListeners();
 
         // print the currently connected controllers to the console
-        System.out.println("Controllers: " + Controllers.getControllers().size);
+        logger.debug("Controllers Size: {}", Controllers.getControllers().size);
         int i = 0;
         for (Controller controller : Controllers.getControllers()) {
-            System.out.println("#" + i++ + ": " + controller.getName());
+            logger.debug("#{}:{}",i++,controller.getName());
         }
 
         // setup the listener that prints events to the console
@@ -175,19 +178,19 @@ public class ShipControllerControl implements ShipUiControl {
 
             @Override
             public boolean povMoved(Controller controller, int povIndex, PovDirection value) {
-                System.out.println("#" + indexOf(controller) + ", pov " + povIndex + ": " + value);
+                logger.debug("#{}, pov {}: {}",indexOf(controller),povIndex,value);
                 return false;
             }
 
             @Override
             public boolean xSliderMoved(Controller controller, int sliderIndex, boolean value) {
-                System.out.println("#" + indexOf(controller) + ", x slider " + sliderIndex + ": " + value);
+                logger.debug("#{},  x slider  {}: {}",indexOf(controller),sliderIndex,value);
                 return false;
             }
 
             @Override
             public boolean ySliderMoved(Controller controller, int sliderIndex, boolean value) {
-                System.out.println("#" + indexOf(controller) + ", y slider " + sliderIndex + ": " + value);
+                logger.debug("#{},  y slider  {}: {}",indexOf(controller),sliderIndex,value);
                 return false;
             }
 
