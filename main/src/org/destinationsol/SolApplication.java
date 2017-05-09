@@ -35,12 +35,15 @@ import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.module.ModuleEnvironment;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public class SolApplication implements ApplicationListener {
+    private static Logger logger = LoggerFactory.getLogger(SolApplication.class);
 
     private SolInputManager myInputMan;
     private UiDrawer myUiDrawer;
@@ -121,7 +124,7 @@ public class SolApplication implements ApplicationListener {
         try {
             update();
         } catch (Throwable t) {
-            t.printStackTrace();
+            logger.error("Fatal Error:", t);
             myFatalErrorMsg = "A fatal error occurred:\n" + t.getMessage();
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
