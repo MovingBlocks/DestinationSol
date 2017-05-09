@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,21 +27,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TextureManager {
-
     public static final String ICONS_DIR = "ui/icons/";
     public static final String HULL_ICONS_DIR = "ui/hullIcons/";
-    private final Map<String, TextureAtlas.AtlasRegion> textureMap;
-    private final Map<TextureAtlas.AtlasRegion, TextureAtlas.AtlasRegion> myFlipped;
-    private final Map<String, ArrayList<TextureAtlas.AtlasRegion>> myPacks;
-    private final TextureProvider textureProvider, textureProviderStaticFiles;
+
+    private final Map<String, TextureAtlas.AtlasRegion> textureMap = new HashMap<>();
+    private final Map<TextureAtlas.AtlasRegion, TextureAtlas.AtlasRegion> myFlipped = new HashMap<>();
+    private final Map<String, ArrayList<TextureAtlas.AtlasRegion>> myPacks = new HashMap<>();
+
+    private final TextureProvider textureProvider;
+    private final TextureProvider textureProviderStaticFiles;
 
     public TextureManager() {
         FileHandle atlasFile = FileManager.getInstance().getImagesDirectory().child("sol.atlas");
         textureProviderStaticFiles = new DevTextureProvider();
         textureProvider = new AtlasTextureProvider(atlasFile);
-        myPacks = new HashMap<String, ArrayList<TextureAtlas.AtlasRegion>>();
-        textureMap = new HashMap<String, TextureAtlas.AtlasRegion>();
-        myFlipped = new HashMap<TextureAtlas.AtlasRegion, TextureAtlas.AtlasRegion>();
     }
 
     public TextureAtlas.AtlasRegion getFlipped(TextureAtlas.AtlasRegion tex) {
@@ -59,9 +58,6 @@ public class TextureManager {
     }
 
     /**
-     * @param fullName
-     * @param configFile
-     * @return
      * @deprecated This method uses hardcoded locations for the texture files; use the more general
      * getTexture method instead.
      */

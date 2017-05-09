@@ -34,25 +34,23 @@ import java.util.List;
 public class ResolutionScreen implements SolUiScreen {
     private final TextureAtlas.AtlasRegion bgTex;
 
-    private final ArrayList<SolUiControl> myControls;
-    private final SolUiControl myCloseCtrl;
-    private final SolUiControl myResoCtrl;
-    private final SolUiControl myFsCtrl;
+    private final ArrayList<SolUiControl> myControls = new ArrayList<>();
+    private final SolUiControl closeControl;
+    private final SolUiControl resolutionControl;
+    private final SolUiControl fullscreenControl;
 
-    public ResolutionScreen(MenuLayout menuLayout, TextureManager textureManager, GameOptions gameOptions) {
-        myControls = new ArrayList<SolUiControl>();
+    ResolutionScreen(MenuLayout menuLayout, TextureManager textureManager, GameOptions gameOptions) {
+        resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
+        resolutionControl.setDisplayName("Resolution");
+        myControls.add(resolutionControl);
 
-        myResoCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
-        myResoCtrl.setDisplayName("Resolution");
-        myControls.add(myResoCtrl);
+        fullscreenControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
+        fullscreenControl.setDisplayName("Fullscreen");
+        myControls.add(fullscreenControl);
 
-        myFsCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
-        myFsCtrl.setDisplayName("Fullscreen");
-        myControls.add(myFsCtrl);
-
-        myCloseCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
-        myCloseCtrl.setDisplayName("Back");
-        myControls.add(myCloseCtrl);
+        closeControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
+        closeControl.setDisplayName("Back");
+        myControls.add(closeControl);
 
         bgTex = textureManager.getTexture("ui/titleBg");
     }
@@ -63,22 +61,23 @@ public class ResolutionScreen implements SolUiScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
-        SolInputManager im = cmp.getInputMan();
-        if (myCloseCtrl.isJustOff()) {
-            GameOptions options = cmp.getOptions();
+    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+        SolInputManager inputManager = solApplication.getInputMan();
+        GameOptions options = solApplication.getOptions();
+
+        if (closeControl.isJustOff()) {
             Gdx.graphics.setDisplayMode(options.x, options.y, options.fullscreen);
-            im.setScreen(cmp, cmp.getMenuScreens().options);
+            inputManager.setScreen(solApplication, solApplication.getMenuScreens().options);
             return;
         }
 
-        GameOptions options = cmp.getOptions();
-        myResoCtrl.setDisplayName(options.x + "x" + options.y);
-        if (myResoCtrl.isJustOff()) {
+        resolutionControl.setDisplayName(options.x + "x" + options.y);
+        if (resolutionControl.isJustOff()) {
             options.advanceReso();
         }
-        myFsCtrl.setDisplayName(options.fullscreen ? "Fullscreen" : "Windowed");
-        if (myFsCtrl.isJustOff()) {
+
+        fullscreenControl.setDisplayName(options.fullscreen ? "Fullscreen" : "Windowed");
+        if (fullscreenControl.isJustOff()) {
             options.advanceFullscreen();
         }
     }
@@ -89,12 +88,10 @@ public class ResolutionScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
+    public void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) { }
 
     @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
+    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.drawString("Click 'Back' to apply changes", .5f * uiDrawer.r, .3f, FontSize.MENU, true, SolColor.W);
     }
 
@@ -104,17 +101,14 @@ public class ResolutionScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
+    public boolean isCursorOnBg(SolInputManager.Ptr pointer) {
         return false;
     }
 
     @Override
-    public void onAdd(SolApplication cmp) {
-    }
+    public void onAdd(SolApplication solApplication) { }
 
     @Override
-    public void blurCustom(SolApplication cmp) {
-
-    }
+    public void blurCustom(SolApplication solApplication) { }
 
 }

@@ -41,7 +41,7 @@ public class OptionsScreen implements SolUiScreen {
     private final SolUiControl soundVolumeControl;
     private final SolUiControl musicVolumeControl;
 
-    public OptionsScreen(MenuLayout menuLayout, TextureManager textureManager, GameOptions gameOptions) {
+    OptionsScreen(MenuLayout menuLayout, TextureManager textureManager, GameOptions gameOptions) {
         resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
         resolutionControl.setDisplayName("Resolution");
         controls.add(resolutionControl);
