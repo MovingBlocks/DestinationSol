@@ -166,7 +166,7 @@ public class SolApplication implements ApplicationListener {
         }
         DebugCollector.draw(myUiDrawer);
         if (myGame == null) {
-            myUiDrawer.drawString("version: " + Const.VERSION, 0.01f, .98f, FontSize.DEBUG, false, SolColor.W);
+            myUiDrawer.drawString("v" + Const.VERSION, 0.01f, .974f, FontSize.DEBUG, TextAlignment.LEFT, false, SolColor.W);
         }
         myCommonDrawer.end();
     }
