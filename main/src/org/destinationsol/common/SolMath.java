@@ -22,6 +22,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Pool;
 import org.destinationsol.Const;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,7 @@ import java.util.List;
  * A class with helpful mathematical functions
  */
 public class SolMath {
+    private static Logger logger = LoggerFactory.getLogger(SolMath.class);
     public static final float PI = MathUtils.PI;
     public static float radDeg = MathUtils.radDeg;
     public static float degRad = MathUtils.degRad;
@@ -231,13 +234,6 @@ public class SolMath {
     }
 
     /**
-     * Nicely logs a vector into the console
-     */
-    public static void log(Vector2 pos) {
-        System.out.println((int) pos.x + " " + (int) pos.y);
-    }
-
-    /**
      * @return approximate cos of a degrees
      */
     public static float cos(float a) {
@@ -249,13 +245,6 @@ public class SolMath {
      */
     public static float sin(float a) {
         return MathUtils.sinDeg(a);
-    }
-
-    /**
-     * nicely logs a float into the console
-     */
-    public static void log(float f) {
-        System.out.println(f);
     }
 
     /**
