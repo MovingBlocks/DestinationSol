@@ -19,7 +19,6 @@ package org.destinationsol.menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.TextureManager;
@@ -40,16 +39,15 @@ public class MainScreen implements SolUiScreen {
     private final TextureAtlas.AtlasRegion logoTex;
     private final TextureAtlas.AtlasRegion bgTex;
 
-    private final ArrayList<SolUiControl> controls;
+    private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl tutorialControl;
     private final SolUiControl optionsControl;
     private final SolUiControl exitControl;
     private final SolUiControl newGameControl;
     private final SolUiControl creditsControl;
 
-    public MainScreen(MenuLayout menuLayout, TextureManager textureManager, boolean mobile, float resolutionRatio, GameOptions gameOptions) {
-        isMobile = mobile;
-        controls = new ArrayList<>();
+    MainScreen(MenuLayout menuLayout, TextureManager textureManager, boolean isMobile, float resolutionRatio, GameOptions gameOptions) {
+        this.isMobile = isMobile;
         this.gameOptions = gameOptions;
 
         tutorialControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.T);
@@ -60,7 +58,7 @@ public class MainScreen implements SolUiScreen {
         newGameControl.setDisplayName("New Game");
         controls.add(newGameControl);
 
-        optionsControl = new SolUiControl(mobile ? null : menuLayout.buttonRect(-1, 3), true, Input.Keys.O);
+        optionsControl = new SolUiControl(isMobile ? null : menuLayout.buttonRect(-1, 3), true, Input.Keys.O);
         optionsControl.setDisplayName("Options");
         controls.add(optionsControl);
 
@@ -68,19 +66,12 @@ public class MainScreen implements SolUiScreen {
         exitControl.setDisplayName("Exit");
         controls.add(exitControl);
 
-        creditsControl = new SolUiControl(creditsBtnRect(resolutionRatio), true, Input.Keys.C);
+        creditsControl = new SolUiControl(MenuLayout.bottomRightFloatingButton(resolutionRatio), true, Input.Keys.C);
         creditsControl.setDisplayName("Credits");
         controls.add(creditsControl);
 
         logoTex = textureManager.getTexture("ui/titleLogo");
         bgTex = textureManager.getTexture("ui/titleBg");
-    }
-
-    static Rectangle creditsBtnRect(float resolutionRatio) {
-        final float CREDITS_BTN_W = .15f;
-        final float CREDITS_BTN_H = .07f;
-
-        return new Rectangle(resolutionRatio - CREDITS_BTN_W, 1 - CREDITS_BTN_H, CREDITS_BTN_W, CREDITS_BTN_H);
     }
 
     public List<SolUiControl> getControls() {

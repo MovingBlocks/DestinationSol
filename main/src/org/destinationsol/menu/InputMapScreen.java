@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  */
 
 package org.destinationsol.menu;
-
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
@@ -46,97 +45,96 @@ public class InputMapScreen implements SolUiScreen {
     private static final float PRICE_COL_PERC = .1f;
     private static final float AMT_COL_PERC = .1f;
     private static final float SMALL_GAP = .004f;
-    private static final float HEADER_TEXT_OFFS = .005f;
-    private static final int BTN_ROWS = 4;
-    public final InputMapKeyboardScreen inputMapKeyboardScreen;
-    public final InputMapControllerScreen inputMapControllerScreen;
-    public final InputMapMixedScreen inputMapMixedScreen;
-    private final List<SolUiControl> controls;
-    private final SolUiControl prevCtrl;
-    private final SolUiControl nextCtrl;
-    private final Rectangle listArea;
-    private final SolUiControl[] itemCtrls;
-    private final Rectangle detailArea;
-    private final Rectangle itemCtrlArea;
-    private final SolUiControl cancelCtrl;
-    private final SolUiControl saveCtrl;
-    private final SolUiControl defaultsCtrl;
-    private final SolUiControl upCtrl;
-    private final SolUiControl downCtrl;
+    private static final float HEADER_TEXT_OFFSET = .005f;
+    private static final int BUTTON_ROWS = 4;
+
+    final InputMapKeyboardScreen inputMapKeyboardScreen;
+    final InputMapControllerScreen inputMapControllerScreen;
+    final InputMapMixedScreen inputMapMixedScreen;
+
+    private final List<SolUiControl> controls = new ArrayList<>();
+    private final SolUiControl[] itemControls;
+    private final SolUiControl previousControl;
+    private final SolUiControl nextControl;
+    private final SolUiControl cancelControl;
+    private final SolUiControl saveControl;
+    private final SolUiControl defaultsControl;
+    private final SolUiControl upControl;
+    private final SolUiControl downControl;
+
     private final Vector2 listHeaderPos;
     private InputMapOperations operations;
+
     private int page;
     private int selectedIndex;
 
+    private final Rectangle listArea;
+    private final Rectangle detailsArea;
+    private final Rectangle itemControlsArea;
 
-    public InputMapScreen(TextureManager textureManager, float resolutionRatio, GameOptions gameOptions) {
-        controls = new ArrayList<SolUiControl>();
-
+    InputMapScreen(TextureManager textureManager, float resolutionRatio, GameOptions gameOptions) {
         float contentW = .8f;
         float col0 = resolutionRatio / 2 - contentW / 2;
-        float row0 = .2f;
-        float row = row0;
-        float bgGap = MenuLayout.BG_BORDER;
+        float row = 0.2f;
         float bigGap = SMALL_GAP * 6;
         float headerH = .03f;
 
-
-        // list header & controls
-        listHeaderPos = new Vector2(col0 + HEADER_TEXT_OFFS, row + HEADER_TEXT_OFFS); // offset hack
+        // List header & controls
+        listHeaderPos = new Vector2(col0 + HEADER_TEXT_OFFSET, row + HEADER_TEXT_OFFSET); // offset hack
         float listCtrlW = contentW * .15f;
         Rectangle nextArea = new Rectangle(col0 + contentW - listCtrlW, row, listCtrlW, headerH);
-        nextCtrl = new SolUiControl(nextArea, true, gameOptions.getKeyRight());
-        nextCtrl.setDisplayName(">");
-        controls.add(nextCtrl);
+        nextControl = new SolUiControl(nextArea, true, gameOptions.getKeyRight());
+        nextControl.setDisplayName(">");
+        controls.add(nextControl);
         Rectangle prevArea = new Rectangle(nextArea.x - SMALL_GAP - listCtrlW, row, listCtrlW, headerH);
-        prevCtrl = new SolUiControl(prevArea, true, gameOptions.getKeyLeft());
-        prevCtrl.setDisplayName("<");
-        controls.add(prevCtrl);
+        previousControl = new SolUiControl(prevArea, true, gameOptions.getKeyLeft());
+        previousControl.setDisplayName("<");
+        controls.add(previousControl);
         row += headerH + SMALL_GAP;
 
-        // list
+        // List
         float itemRowH = .04f;
         float listRow0 = row;
-        itemCtrls = new SolUiControl[Const.ITEM_GROUPS_PER_PAGE];
+        itemControls = new SolUiControl[Const.ITEM_GROUPS_PER_PAGE];
         for (int i = 0; i < Const.ITEM_GROUPS_PER_PAGE; i++) {
             Rectangle itemR = new Rectangle(col0, row, contentW, itemRowH);
             SolUiControl itemCtrl = new SolUiControl(itemR, true);
-            itemCtrls[i] = itemCtrl;
+            itemControls[i] = itemCtrl;
             controls.add(itemCtrl);
             row += itemRowH + SMALL_GAP;
         }
         listArea = new Rectangle(col0, row, contentW, row - SMALL_GAP - listRow0);
         row += bigGap;
 
-        // detail header & area
+        // Detail header & area
         row += headerH + SMALL_GAP;
         float itemCtrlAreaW = contentW * .4f;
-        itemCtrlArea = new Rectangle(col0 + contentW - itemCtrlAreaW, row, itemCtrlAreaW, .2f);
-        detailArea = new Rectangle(col0, row, contentW - itemCtrlAreaW - SMALL_GAP, itemCtrlArea.height);
-        row += detailArea.height;
+        itemControlsArea = new Rectangle(col0 + contentW - itemCtrlAreaW, row, itemCtrlAreaW, .2f);
+        detailsArea = new Rectangle(col0, row, contentW - itemCtrlAreaW - SMALL_GAP, itemControlsArea.height);
+        // row += detailsArea.height;
 
         // Add the buttons and controls
-        cancelCtrl = new SolUiControl(itemCtrl(3), true, gameOptions.getKeyClose());
-        cancelCtrl.setDisplayName("Cancel");
-        controls.add(cancelCtrl);
+        cancelControl = new SolUiControl(itemControlRectangle(3), true, gameOptions.getKeyClose());
+        cancelControl.setDisplayName("Cancel");
+        controls.add(cancelControl);
 
-        saveCtrl = new SolUiControl(itemCtrl(2), true);
-        saveCtrl.setDisplayName("Save");
-        controls.add(saveCtrl);
+        saveControl = new SolUiControl(itemControlRectangle(2), true);
+        saveControl.setDisplayName("Save");
+        controls.add(saveControl);
 
-        defaultsCtrl = new SolUiControl(itemCtrl(1), true);
-        defaultsCtrl.setDisplayName("Defaults");
-        controls.add(defaultsCtrl);
+        defaultsControl = new SolUiControl(itemControlRectangle(1), true);
+        defaultsControl.setDisplayName("Defaults");
+        controls.add(defaultsControl);
 
-        upCtrl = new SolUiControl(null, true, gameOptions.getKeyUp());
-        controls.add(upCtrl);
-        downCtrl = new SolUiControl(null, true, gameOptions.getKeyDown());
-        controls.add(downCtrl);
+        upControl = new SolUiControl(null, true, gameOptions.getKeyUp());
+        controls.add(upControl);
+        downControl = new SolUiControl(null, true, gameOptions.getKeyDown());
+        controls.add(downControl);
 
         // Create the input screens
         inputMapKeyboardScreen = new InputMapKeyboardScreen(this, gameOptions);
         inputMapControllerScreen = new InputMapControllerScreen(this, gameOptions);
-        inputMapMixedScreen = new InputMapMixedScreen(this, gameOptions);
+        inputMapMixedScreen = new InputMapMixedScreen();
 
         bgTex = textureManager.getTexture("ui/titleBg");
     }
@@ -153,12 +151,12 @@ public class InputMapScreen implements SolUiScreen {
         MenuScreens screens = cmp.getMenuScreens();
 
         // Save - saves new settings and returns to the options screen
-        if (saveCtrl.isJustOff()) {
+        if (saveControl.isJustOff()) {
             operations.save(gameOptions);
             im.setScreen(cmp, screens.options);
         }
 
-        if (cancelCtrl.isJustOff()) {
+        if (cancelControl.isJustOff()) {
             if (operations.isEnterNewKey()) {
                 // Cancel - cancel the current key being entered
                 operations.setEnterNewKey(false);
@@ -170,24 +168,24 @@ public class InputMapScreen implements SolUiScreen {
 
         // Disable handling of key inputs while entering a new input key
         if (operations.isEnterNewKey()) {
-            prevCtrl.setEnabled(false);
-            nextCtrl.setEnabled(false);
-            upCtrl.setEnabled(false);
-            downCtrl.setEnabled(false);
-            for (int i = 0; i < itemCtrls.length; i++) {
-                itemCtrls[i].setEnabled(false);
+            previousControl.setEnabled(false);
+            nextControl.setEnabled(false);
+            upControl.setEnabled(false);
+            downControl.setEnabled(false);
+            for (SolUiControl itemControl: itemControls) {
+                itemControl.setEnabled(false);
             }
             return;
         } else {
-            upCtrl.setEnabled(true);
-            downCtrl.setEnabled(true);
-            for (int i = 0; i < itemCtrls.length; i++) {
-                itemCtrls[i].setEnabled(true);
+            upControl.setEnabled(true);
+            downControl.setEnabled(true);
+            for (SolUiControl itemControl: itemControls) {
+                itemControl.setEnabled(true);
             }
         }
 
         // Defaults - Reset the input keys back to their default values
-        if (defaultsCtrl.isJustOff()) {
+        if (defaultsControl.isJustOff()) {
             operations.resetToDefaults(gameOptions);
         }
 
@@ -198,8 +196,8 @@ public class InputMapScreen implements SolUiScreen {
 
         // Select the item the mouse clicked
         int offset = page * Const.ITEM_GROUPS_PER_PAGE;
-        for (int i = 0; i < itemCtrls.length; i++) {
-            SolUiControl itemCtrl = itemCtrls[i];
+        for (int i = 0; i < itemControls.length; i++) {
+            SolUiControl itemCtrl = itemControls[i];
             if (itemCtrl.isJustOff()) {
                 selectedIndex = i + offset;
                 operations.setEnterNewKey(true);
@@ -207,24 +205,24 @@ public class InputMapScreen implements SolUiScreen {
         }
 
         // Left and Right Page Control
-        if (prevCtrl.isJustOff()) page--;
-        if (nextCtrl.isJustOff()) page++;
+        if (previousControl.isJustOff()) page--;
+        if (nextControl.isJustOff()) page++;
         if (pageCount == 0 || pageCount * Const.ITEM_GROUPS_PER_PAGE < groupCount) pageCount += 1;
         if (page < 0) page = 0;
         if (page >= pageCount) page = pageCount - 1;
-        prevCtrl.setEnabled(0 < page);
-        nextCtrl.setEnabled(page < pageCount - 1);
+        previousControl.setEnabled(0 < page);
+        nextControl.setEnabled(page < pageCount - 1);
 
         // Ensure Selected item is on page
         if (selectedIndex < offset || selectedIndex >= offset + Const.ITEM_GROUPS_PER_PAGE) selectedIndex = offset;
 
         // Up and Down Control
-        if (upCtrl.isJustOff()) {
+        if (upControl.isJustOff()) {
             selectedIndex--;
             if (selectedIndex < 0) selectedIndex = 0;
             if (selectedIndex < offset) page--;
         }
-        if (downCtrl.isJustOff()) {
+        if (downControl.isJustOff()) {
             selectedIndex++;
             if (selectedIndex >= groupCount) selectedIndex = groupCount - 1;
             if (selectedIndex >= offset + Const.ITEM_GROUPS_PER_PAGE) page++;
@@ -240,13 +238,13 @@ public class InputMapScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
+    public void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) {
 
     }
 
     @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-        GameOptions gameOptions = cmp.getOptions();
+    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
+        GameOptions gameOptions = solApplication.getOptions();
         List<InputConfigItem> list = operations.getItems(gameOptions);
 
         float imgColW = listArea.width * IMG_COL_PERC;
@@ -256,11 +254,11 @@ public class InputMapScreen implements SolUiScreen {
         float nameWidth = listArea.width - imgColW - equiColW - priceWidth - amtWidth;
 
         // Display the input mapping in the grid control
-        for (int i = 0; i < itemCtrls.length; i++) {
+        for (int i = 0; i < itemControls.length; i++) {
             int groupIdx = page * Const.ITEM_GROUPS_PER_PAGE + i;
             int groupCount = list.size();
             if (groupCount <= groupIdx) continue;
-            SolUiControl itemCtrl = itemCtrls[i];
+            SolUiControl itemCtrl = itemControls[i];
             String displayName = list.get(groupIdx).getDisplayName();
             String inputKey = list.get(groupIdx).getInputKey();
             Rectangle rect = itemCtrl.getScreenArea();
@@ -275,7 +273,7 @@ public class InputMapScreen implements SolUiScreen {
         uiDrawer.drawString(operations.getHeader(), listHeaderPos.x, listHeaderPos.y, FontSize.WINDOW, false, SolColor.W);
 
         // Draw the detail text
-        uiDrawer.drawString(operations.getDisplayDetail(), detailArea.x + .015f, detailArea.y + .015f, FontSize.WINDOW, false, SolColor.W);
+        uiDrawer.drawString(operations.getDisplayDetail(), detailsArea.x + .015f, detailsArea.y + .015f, FontSize.WINDOW, false, SolColor.W);
     }
 
     @Override
@@ -284,15 +282,15 @@ public class InputMapScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
+    public boolean isCursorOnBg(SolInputManager.Ptr pointers) {
         return false;
     }
 
     @Override
-    public void onAdd(SolApplication cmp) {
+    public void onAdd(SolApplication solApplication) {
         // Add any extra screen information as required by the input screens. E.g. buttons
         if (operations != null) {
-            cmp.getInputMan().addScreen(cmp, operations);
+            solApplication.getInputMan().addScreen(solApplication, operations);
         }
 
         page = 0;
@@ -300,17 +298,14 @@ public class InputMapScreen implements SolUiScreen {
     }
 
     @Override
-    public void blurCustom(SolApplication cmp) {
+    public void blurCustom(SolApplication cmp) { }
 
+    private Rectangle itemControlRectangle(int row) {
+        float h = (itemControlsArea.height - SMALL_GAP * (BUTTON_ROWS - 1)) / BUTTON_ROWS;
+        return new Rectangle(itemControlsArea.x, itemControlsArea.y + (h + SMALL_GAP) * row, itemControlsArea.width, h);
     }
 
-    public Rectangle itemCtrl(int row) {
-        float h = (itemCtrlArea.height - SMALL_GAP * (BTN_ROWS - 1)) / BTN_ROWS;
-        return new Rectangle(itemCtrlArea.x, itemCtrlArea.y + (h + SMALL_GAP) * row, itemCtrlArea.width, h);
-    }
-
-    public void setOperations(InputMapOperations operations) {
+    void setOperations(InputMapOperations operations) {
         this.operations = operations;
     }
-
 }
