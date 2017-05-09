@@ -75,13 +75,15 @@ public class TextureManager {
         return r;
     }
 
-    public TextureAtlas.AtlasRegion getTexture(FileHandle textureFile) {
-        TextureAtlas.AtlasRegion result = textureMap.get(textureFile);
+    public TextureAtlas.AtlasRegion getTexture(String fullName) {
+        TextureAtlas.AtlasRegion result = textureMap.get(fullName);
+        if (result != null)
+            return result;
 
-        if (result == null) {
-            result = textureProvider.getTexture(textureFile);
-            textureMap.put(textureFile.path(), result);
-        }
+        FileHandle textureFile = new FileHandle(fullName);
+
+        result = textureProvider.getTexture(textureFile);
+        textureMap.put(textureFile.path(), result);
 
         if (result == null) {
             result = textureProviderStaticFiles.getTexture(textureFile);
