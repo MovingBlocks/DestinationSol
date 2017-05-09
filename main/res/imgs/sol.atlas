@@ -1552,7 +1552,7 @@ ui/whiteTex
 
 sol14.png
 format: RGBA8888
-filter: MipMapLinearLinear,MipMapLinearLinear
+filter: Linear,Linear
 repeat: none
 ui/titleBg
   rotate: false
