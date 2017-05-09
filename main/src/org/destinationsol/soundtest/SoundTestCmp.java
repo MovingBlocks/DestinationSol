@@ -23,10 +23,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.TimeUtils;
 import org.destinationsol.Const;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
 class SoundTestCmp {
+    private static Logger logger = LoggerFactory.getLogger(SoundTestCmp.class);
     private final SpriteBatch mySpriteBatch;
     private final ArrayList<TextureRegion> myTsDiv;
     private final ArrayList<TextureRegion> myTsComb;
@@ -89,6 +92,6 @@ class SoundTestCmp {
     }
 
     private void update() {
-        System.out.println("Divided: " + myDivSum + ", combined: " + myCombSum);
+        logger.debug("Divided: {}, combined: {}",myDivSum,myCombSum);
     }
 }

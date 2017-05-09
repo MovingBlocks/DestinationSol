@@ -30,11 +30,14 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.UiDrawer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class InputMapControllerScreen implements InputMapOperations {
+    private static Logger logger = LoggerFactory.getLogger(InputMapControllerScreen.class);
     private static final String HEADER_TEXT = "Controller Inputs";
 
     private final ArrayList<SolUiControl> controls;
@@ -332,7 +335,7 @@ public class InputMapControllerScreen implements InputMapOperations {
 
                 @Override
                 public boolean buttonUp(Controller controller, int buttonIndex) {
-                    System.out.println("#" + indexOf(controller) + ", button " + buttonIndex + " up");
+                    logger.debug("#{}, button  {} up",indexOf(controller),buttonIndex);
 
                     if (selectedIndex < controllerItems) {
                         removeDuplicateButtons(buttonIndex);
@@ -352,7 +355,7 @@ public class InputMapControllerScreen implements InputMapOperations {
 
                 @Override
                 public boolean axisMoved(Controller controller, int axisIndex, float value) {
-                    System.out.println("#" + indexOf(controller) + ", axis " + axisIndex + ": " + value);
+                    logger.debug("#{}, axis {}: {}",indexOf(controller),axisIndex, value);
 
                     if (value > 0.5f || value < -0.5f) {
                         if (selectedIndex < controllerItems) {
