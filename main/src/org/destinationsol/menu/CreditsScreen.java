@@ -17,9 +17,11 @@
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.TextureManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.ui.FontSize;
@@ -32,6 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CreditsScreen implements SolUiScreen {
+    private final TextureAtlas.AtlasRegion bgTex;
+
     public static final float MAX_AWAIT = 6f;
     private final ArrayList<SolUiControl> myControls;
     private final SolUiControl myCloseCtrl;
@@ -41,9 +45,9 @@ public class CreditsScreen implements SolUiScreen {
     private int myIdx;
     private float myPerc;
 
-    public CreditsScreen(float r, GameOptions gameOptions) {
+    public CreditsScreen(TextureManager textureManager, float resolutionRatio, GameOptions gameOptions) {
         myControls = new ArrayList<SolUiControl>();
-        myCloseCtrl = new SolUiControl(MainScreen.creditsBtnRect(r), true, gameOptions.getKeyEscape());
+        myCloseCtrl = new SolUiControl(MainScreen.creditsBtnRect(resolutionRatio), true, gameOptions.getKeyEscape());
         myCloseCtrl.setDisplayName("Close");
         myControls.add(myCloseCtrl);
         myColor = SolColor.col(1, 1);
@@ -110,6 +114,7 @@ public class CreditsScreen implements SolUiScreen {
             myPages.add(page.toString());
         }
 
+        bgTex = textureManager.getTexture("ui/titleBg");
     }
 
     @Override
@@ -152,7 +157,8 @@ public class CreditsScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
+    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.W);
     }
 
     @Override

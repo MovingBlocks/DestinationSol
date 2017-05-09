@@ -17,11 +17,13 @@
 package org.destinationsol.menu;
 
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.TextureManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
@@ -37,6 +39,8 @@ import java.util.List;
  * The input mapping screen is based on the inventory screen used within the game.
  */
 public class InputMapScreen implements SolUiScreen {
+    private final TextureAtlas.AtlasRegion bgTex;
+
     private static final float IMG_COL_PERC = .1f;
     private static final float EQUI_COL_PERC = .1f;
     private static final float PRICE_COL_PERC = .1f;
@@ -65,11 +69,11 @@ public class InputMapScreen implements SolUiScreen {
     private int selectedIndex;
 
 
-    public InputMapScreen(float r, GameOptions gameOptions) {
+    public InputMapScreen(TextureManager textureManager, float resolutionRatio, GameOptions gameOptions) {
         controls = new ArrayList<SolUiControl>();
 
         float contentW = .8f;
-        float col0 = r / 2 - contentW / 2;
+        float col0 = resolutionRatio / 2 - contentW / 2;
         float row0 = .2f;
         float row = row0;
         float bgGap = MenuLayout.BG_BORDER;
@@ -133,6 +137,8 @@ public class InputMapScreen implements SolUiScreen {
         inputMapKeyboardScreen = new InputMapKeyboardScreen(this, gameOptions);
         inputMapControllerScreen = new InputMapControllerScreen(this, gameOptions);
         inputMapMixedScreen = new InputMapMixedScreen(this, gameOptions);
+
+        bgTex = textureManager.getTexture("ui/titleBg");
     }
 
     @Override
@@ -229,9 +235,8 @@ public class InputMapScreen implements SolUiScreen {
         operations.setSelectedIndex(selectedIndex);
     }
 
-    @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
-
+    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.W);
     }
 
     @Override
