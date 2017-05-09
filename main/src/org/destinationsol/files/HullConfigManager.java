@@ -133,8 +133,8 @@ public final class HullConfigManager {
         String internalName = hullConfigDirectory.nameWithoutExtension();
 
         configData.internalName = internalName;
-        configData.tex = textureManager.getTexture(hullConfigDirectory.child(TEXTURE_FILE_NAME));
-        configData.icon = textureManager.getTexture(hullConfigDirectory.child(ICON_FILE_NAME));
+        configData.tex = textureManager.getTexture(hullConfigDirectory.child(TEXTURE_FILE_NAME).toString());
+        configData.icon = textureManager.getTexture(hullConfigDirectory.child(ICON_FILE_NAME).toString());
 
         validateEngineConfig(configData);
 
