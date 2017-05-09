@@ -29,6 +29,8 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.SolShip;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.assets.ResourceUrn;
 
 import java.util.HashMap;
@@ -37,6 +39,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class OggSoundManager {
+    private static Logger logger = LoggerFactory.getLogger(OggSoundManager.class);
     private final AssetHelper assetHelper;
     private final Map<String, OggSound> soundMap;
     private final Map<SolObject, Map<OggSound, Float>> loopedSoundMap;
@@ -86,9 +89,7 @@ public class OggSoundManager {
         }
 
         OggSound sound = playableSound.getOggSound();
-
-        // TODO: remove temporary debugging statement
-        System.out.println(sound.getUrn());
+        logger.debug("Playing sound: {}", sound.getUrn().toString());
 
         // Perform some initial argument validation
         if (source == null && position == null) {

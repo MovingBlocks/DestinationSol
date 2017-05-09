@@ -13,6 +13,7 @@ dependencies {
     compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
 
     compile group: 'org.terasology.crashreporter', name: 'cr-destsol', version: '4.0.0'
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
 }
 
 task run(type: JavaExec) {
