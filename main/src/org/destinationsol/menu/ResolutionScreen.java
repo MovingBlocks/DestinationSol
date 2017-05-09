@@ -17,8 +17,10 @@
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.TextureManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
@@ -30,13 +32,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResolutionScreen implements SolUiScreen {
+    private final TextureAtlas.AtlasRegion bgTex;
 
     private final ArrayList<SolUiControl> myControls;
     private final SolUiControl myCloseCtrl;
     private final SolUiControl myResoCtrl;
     private final SolUiControl myFsCtrl;
 
-    public ResolutionScreen(MenuLayout menuLayout, GameOptions gameOptions) {
+    public ResolutionScreen(MenuLayout menuLayout, TextureManager textureManager, GameOptions gameOptions) {
         myControls = new ArrayList<SolUiControl>();
 
         myResoCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
@@ -50,6 +53,8 @@ public class ResolutionScreen implements SolUiScreen {
         myCloseCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
         myCloseCtrl.setDisplayName("Back");
         myControls.add(myCloseCtrl);
+
+        bgTex = textureManager.getTexture("ui/titleBg");
     }
 
     @Override
@@ -79,7 +84,8 @@ public class ResolutionScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
+    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.W);
     }
 
     @Override

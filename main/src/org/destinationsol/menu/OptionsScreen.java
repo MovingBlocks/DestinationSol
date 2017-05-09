@@ -17,8 +17,11 @@
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.TextureManager;
+import org.destinationsol.common.SolColor;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
@@ -28,106 +31,105 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OptionsScreen implements SolUiScreen {
-    private final ArrayList<SolUiControl> myControls;
-    private final SolUiControl myBackCtrl;
-    private final SolUiControl myResoCtrl;
-    private final SolUiControl myControlTypeCtrl;
-    private final SolUiControl inputMapCtrl;
-    private final SolUiControl mySoundVolCtrl;
-    private final SolUiControl myMusVolCtrl;
+    private final TextureAtlas.AtlasRegion bgTex;
 
-    public OptionsScreen(MenuLayout menuLayout, GameOptions gameOptions) {
+    private final ArrayList<SolUiControl> controls = new ArrayList<>();
+    private final SolUiControl backControl;
+    private final SolUiControl resolutionControl;
+    private final SolUiControl inputTypeControl;
+    private final SolUiControl inputMapControl;
+    private final SolUiControl soundVolumeControl;
+    private final SolUiControl musicVolumeControl;
 
-        myControls = new ArrayList<SolUiControl>();
+    public OptionsScreen(MenuLayout menuLayout, TextureManager textureManager, GameOptions gameOptions) {
+        resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
+        resolutionControl.setDisplayName("Resolution");
+        controls.add(resolutionControl);
 
-        myResoCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
-        myResoCtrl.setDisplayName("Resolution");
-        myControls.add(myResoCtrl);
+        inputTypeControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, Input.Keys.C);
+        inputTypeControl.setDisplayName("Control Type");
+        controls.add(inputTypeControl);
 
-        myControlTypeCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, Input.Keys.C);
-        myControlTypeCtrl.setDisplayName("Control Type");
-        myControls.add(myControlTypeCtrl);
+        inputMapControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true, Input.Keys.M);
+        inputMapControl.setDisplayName("Controls");
+        controls.add(inputMapControl);
 
-        inputMapCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true, Input.Keys.M);
-        inputMapCtrl.setDisplayName("Controls");
-        myControls.add(inputMapCtrl);
+        backControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
+        backControl.setDisplayName("Back");
+        controls.add(backControl);
 
-        myBackCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
-        myBackCtrl.setDisplayName("Back");
-        myControls.add(myBackCtrl);
+        soundVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, 0), true);
+        soundVolumeControl.setDisplayName("Sound Volume");
+        controls.add(soundVolumeControl);
 
-        mySoundVolCtrl = new SolUiControl(menuLayout.buttonRect(-1, 0), true);
-        mySoundVolCtrl.setDisplayName("Sound Volume");
-        myControls.add(mySoundVolCtrl);
+        musicVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
+        musicVolumeControl.setDisplayName("Music Volume");
+        controls.add(musicVolumeControl);
 
-        myMusVolCtrl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
-        myMusVolCtrl.setDisplayName("Music Volume");
-        myControls.add(myMusVolCtrl);
+        bgTex = textureManager.getTexture("ui/titleBg");
     }
 
     @Override
     public List<SolUiControl> getControls() {
-        return myControls;
+        return controls;
     }
 
     @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
-        SolInputManager im = cmp.getInputMan();
-        MenuScreens screens = cmp.getMenuScreens();
-        GameOptions options = cmp.getOptions();
-        if (myResoCtrl.isJustOff()) {
-            im.setScreen(cmp, screens.resolutionScreen);
+    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+        SolInputManager inputManager = solApplication.getInputMan();
+        MenuScreens screens = solApplication.getMenuScreens();
+        GameOptions options = solApplication.getOptions();
+        if (resolutionControl.isJustOff()) {
+            inputManager.setScreen(solApplication, screens.resolutionScreen);
         }
 
-        int ct = cmp.getOptions().controlType;
-        String ctName = "Keyboard";
-        if (ct == GameOptions.CONTROL_MIXED) ctName = "KB + Mouse";
-        if (ct == GameOptions.CONTROL_MOUSE) ctName = "Mouse";
-        if (ct == GameOptions.CONTROL_CONTROLLER) ctName = "Controller";
-        myControlTypeCtrl.setDisplayName("Input: " + ctName);
-        if (myControlTypeCtrl.isJustOff()) {
-            cmp.getOptions().advanceControlType(false);
-        }
-        if (myBackCtrl.isJustOff()) {
-            im.setScreen(cmp, screens.main);
+        int controlType = solApplication.getOptions().controlType;
+        String controlName = "Keyboard";
+        if (controlType == GameOptions.CONTROL_MIXED) controlName = "KB + Mouse";
+        if (controlType == GameOptions.CONTROL_MOUSE) controlName = "Mouse";
+        if (controlType == GameOptions.CONTROL_CONTROLLER) controlName = "Controller";
+        inputTypeControl.setDisplayName("Input: " + controlName);
+        if (inputTypeControl.isJustOff()) {
+            solApplication.getOptions().advanceControlType(false);
         }
 
+        if (backControl.isJustOff()) {
+            inputManager.setScreen(solApplication, screens.main);
+        }
 
-        if (inputMapCtrl.isJustOff()) {
-            if (ct == GameOptions.CONTROL_MIXED) {
+        if (inputMapControl.isJustOff()) {
+            if (controlType == GameOptions.CONTROL_MIXED) {
                 screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapMixedScreen);
-            } else if (ct == GameOptions.CONTROL_KB) {
+            } else if (controlType == GameOptions.CONTROL_KB) {
                 screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapKeyboardScreen);
-            } else if (ct == GameOptions.CONTROL_CONTROLLER) {
+            } else if (controlType == GameOptions.CONTROL_CONTROLLER) {
                 screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapControllerScreen);
             }
-            im.setScreen(cmp, screens.inputMapScreen);
+            inputManager.setScreen(solApplication, screens.inputMapScreen);
         }
 
-        mySoundVolCtrl.setDisplayName("Sound Volume: " + options.getSFXVolumeAsText());
-        if (mySoundVolCtrl.isJustOff()) {
+        soundVolumeControl.setDisplayName("Sound Volume: " + options.getSFXVolumeAsText());
+        if (soundVolumeControl.isJustOff()) {
             options.advanceSoundVolMul();
         }
-        myMusVolCtrl.setDisplayName("Music Volume: " + options.getMusicVolumeAsText());
-        if (myMusVolCtrl.isJustOff()) {
+
+        musicVolumeControl.setDisplayName("Music Volume: " + options.getMusicVolumeAsText());
+        if (musicVolumeControl.isJustOff()) {
             options.advanceMusicVolMul();
-            cmp.getMusicManager().resetVolume(options);
+            solApplication.getMusicManager().resetVolume(options);
         }
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
-
+    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.W);
     }
 
     @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
+    public void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) { }
 
     @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-    }
+    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) { }
 
     @Override
     public boolean reactsToClickOutside() {
@@ -135,17 +137,13 @@ public class OptionsScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
+    public boolean isCursorOnBg(SolInputManager.Ptr pointers) {
         return false;
     }
 
     @Override
-    public void onAdd(SolApplication cmp) {
-
-    }
+    public void onAdd(SolApplication solApplication) { }
 
     @Override
-    public void blurCustom(SolApplication cmp) {
-
-    }
+    public void blurCustom(SolApplication solApplication) { }
 }
