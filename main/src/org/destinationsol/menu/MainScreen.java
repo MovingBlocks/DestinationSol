@@ -43,7 +43,8 @@ public class MainScreen implements SolUiScreen {
     private final SolUiControl myExitCtrl;
     private final SolUiControl myNewGameCtrl;
     private final SolUiControl myCreditsCtrl;
-    private final TextureAtlas.AtlasRegion myTitleTex;
+    private final TextureAtlas.AtlasRegion myTitleLogo;
+    private final TextureAtlas.AtlasRegion myTitleBg;
     private final boolean isMobile;
     GameOptions gameOptions;
 
@@ -72,7 +73,8 @@ public class MainScreen implements SolUiScreen {
         myCreditsCtrl.setDisplayName("Credits");
         myControls.add(myCreditsCtrl);
 
-        myTitleTex = textureManager.getTex("ui/title", null);
+        myTitleLogo = textureManager.getTex("ui/titleLogo", null);
+        myTitleBg = textureManager.getTex("ui/titleBg", null);
     }
 
     public static Rectangle creditsBtnRect(float r) {
@@ -130,13 +132,15 @@ public class MainScreen implements SolUiScreen {
 
     @Override
     public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
+        uiDrawer.draw(myTitleBg, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.W);
     }
 
     @Override
     public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
-        float sz = .55f;
+        final float sy = .35f;
+        final float sx = sy * 400 / 218;
         if (!DebugOptions.PRINT_BALANCE)
-            uiDrawer.draw(myTitleTex, sz, sz, sz / 2, sz / 2, uiDrawer.r / 2, sz / 2, 0, SolColor.W);
+            uiDrawer.draw(myTitleLogo, sx, sy, sx / 2, sy / 2, uiDrawer.r / 2, 0.1f + sy / 2, 0, SolColor.W);
     }
 
     @Override
