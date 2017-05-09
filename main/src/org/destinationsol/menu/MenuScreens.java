@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,16 +30,15 @@ public class MenuScreens {
     public final NewGameScreen newGame;
     public final NewShipScreen newShip;
 
-    public MenuScreens(SolLayouts layouts, TextureManager textureManager, boolean mobile, float r, GameOptions gameOptions) {
+    public MenuScreens(SolLayouts layouts, TextureManager textureManager, boolean mobile, float resolutionRatio, GameOptions gameOptions) {
         MenuLayout menuLayout = layouts.menuLayout;
-        main = new MainScreen(menuLayout, textureManager, mobile, r, gameOptions);
+        main = new MainScreen(menuLayout, textureManager, mobile, resolutionRatio, gameOptions);
         options = new OptionsScreen(menuLayout, textureManager, gameOptions);
-        inputMapScreen = new InputMapScreen(textureManager, r, gameOptions);
+        inputMapScreen = new InputMapScreen(textureManager, resolutionRatio, gameOptions);
         resolutionScreen = new ResolutionScreen(menuLayout, textureManager, gameOptions);
-        credits = new CreditsScreen(textureManager, r, gameOptions);
+        credits = new CreditsScreen(textureManager, resolutionRatio, gameOptions);
         loading = new LoadingScreen();
         newGame = new NewGameScreen(menuLayout, gameOptions);
         newShip = new NewShipScreen(menuLayout, gameOptions);
     }
-
 }
