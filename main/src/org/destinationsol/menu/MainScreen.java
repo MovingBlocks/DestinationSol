@@ -18,6 +18,7 @@ package org.destinationsol.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.GameOptions;
@@ -34,80 +35,82 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainScreen implements SolUiScreen {
-    public static final float CREDITS_BTN_W = .15f;
-    public static final float CREDITS_BTN_H = .07f;
-
-    private final ArrayList<SolUiControl> myControls;
-    private final SolUiControl myTutCtrl;
-    private final SolUiControl myOptionsCtrl;
-    private final SolUiControl myExitCtrl;
-    private final SolUiControl myNewGameCtrl;
-    private final SolUiControl myCreditsCtrl;
-    private final TextureAtlas.AtlasRegion myTitleLogo;
-    private final TextureAtlas.AtlasRegion myTitleBg;
     private final boolean isMobile;
-    GameOptions gameOptions;
+    private final GameOptions gameOptions;
+
+    private final TextureAtlas.AtlasRegion titleLogoTex;
+    private final TextureAtlas.AtlasRegion titleBgTex;
+
+    private final ArrayList<SolUiControl> controls;
+    private final SolUiControl tutCtrl;
+    private final SolUiControl optionsCtrl;
+    private final SolUiControl exitCtrl;
+    private final SolUiControl newGameCtrl;
+    private final SolUiControl creditsCtrl;
 
     public MainScreen(MenuLayout menuLayout, TextureManager textureManager, boolean mobile, float r, GameOptions gameOptions) {
         isMobile = mobile;
-        myControls = new ArrayList<SolUiControl>();
+        controls = new ArrayList<>();
         this.gameOptions = gameOptions;
 
-        myTutCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.T);
-        myTutCtrl.setDisplayName("Tutorial");
-        myControls.add(myTutCtrl);
+        tutCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.T);
+        tutCtrl.setDisplayName("Tutorial");
+        controls.add(tutCtrl);
 
-        myNewGameCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, gameOptions.getKeyShoot());
-        myNewGameCtrl.setDisplayName("New Game");
-        myControls.add(myNewGameCtrl);
+        newGameCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, gameOptions.getKeyShoot());
+        newGameCtrl.setDisplayName("New Game");
+        controls.add(newGameCtrl);
 
-        myOptionsCtrl = new SolUiControl(mobile ? null : menuLayout.buttonRect(-1, 3), true, Input.Keys.O);
-        myOptionsCtrl.setDisplayName("Options");
-        myControls.add(myOptionsCtrl);
+        optionsCtrl = new SolUiControl(mobile ? null : menuLayout.buttonRect(-1, 3), true, Input.Keys.O);
+        optionsCtrl.setDisplayName("Options");
+        controls.add(optionsCtrl);
 
-        myExitCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
-        myExitCtrl.setDisplayName("Exit");
-        myControls.add(myExitCtrl);
+        exitCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
+        exitCtrl.setDisplayName("Exit");
+        controls.add(exitCtrl);
 
-        myCreditsCtrl = new SolUiControl(creditsBtnRect(r), true, Input.Keys.C);
-        myCreditsCtrl.setDisplayName("Credits");
-        myControls.add(myCreditsCtrl);
+        creditsCtrl = new SolUiControl(creditsBtnRect(r), true, Input.Keys.C);
+        creditsCtrl.setDisplayName("Credits");
+        controls.add(creditsCtrl);
 
-        myTitleLogo = textureManager.getTex("ui/titleLogo", null);
-        myTitleBg = textureManager.getTex("ui/titleBg", null);
+        titleLogoTex = textureManager.getTexture("ui/titleLogo");
+        titleBgTex = textureManager.getTexture("ui/titleBg");
     }
 
     public static Rectangle creditsBtnRect(float r) {
+        final float CREDITS_BTN_W = .15f;
+        final float CREDITS_BTN_H = .07f;
+
         return new Rectangle(r - CREDITS_BTN_W, 1 - CREDITS_BTN_H, CREDITS_BTN_W, CREDITS_BTN_H);
     }
 
     public List<SolUiControl> getControls() {
-        return myControls;
+        return controls;
     }
 
     @Override
     public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
         if (cmp.getOptions().controlType == GameOptions.CONTROL_CONTROLLER) {
-            myTutCtrl.setEnabled(false);
+            tutCtrl.setEnabled(false);
         } else {
-            myTutCtrl.setEnabled(true);
+            tutCtrl.setEnabled(true);
         }
 
-        if (myTutCtrl.isJustOff()) {
+        if (tutCtrl.isJustOff()) {
             cmp.loadNewGame(true, false);
             return;
         }
         SolInputManager im = cmp.getInputMan();
         MenuScreens screens = cmp.getMenuScreens();
-        if (myNewGameCtrl.isJustOff()) {
+        if (newGameCtrl.isJustOff()) {
             im.setScreen(cmp, screens.newGame);
             return;
         }
-        if (myOptionsCtrl.isJustOff()) {
+        if (optionsCtrl.isJustOff()) {
             im.setScreen(cmp, screens.options);
             return;
         }
-        if (myExitCtrl.isJustOff()) {
+        if (exitCtrl.isJustOff()) {
             // Save the settings on exit, but not on mobile as settings don't exist there.
             if (isMobile == false) {
                 cmp.getOptions().save();
@@ -115,7 +118,7 @@ public class MainScreen implements SolUiScreen {
             Gdx.app.exit();
             return;
         }
-        if (myCreditsCtrl.isJustOff()) {
+        if (creditsCtrl.isJustOff()) {
             im.setScreen(cmp, screens.credits);
         }
     }
@@ -132,7 +135,7 @@ public class MainScreen implements SolUiScreen {
 
     @Override
     public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
-        uiDrawer.draw(myTitleBg, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.W);
+        uiDrawer.draw(titleBgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.W);
     }
 
     @Override
@@ -140,7 +143,7 @@ public class MainScreen implements SolUiScreen {
         final float sy = .35f;
         final float sx = sy * 400 / 218;
         if (!DebugOptions.PRINT_BALANCE)
-            uiDrawer.draw(myTitleLogo, sx, sy, sx / 2, sy / 2, uiDrawer.r / 2, 0.1f + sy / 2, 0, SolColor.W);
+            uiDrawer.draw(titleLogoTex, sx, sy, sx / 2, sy / 2, uiDrawer.r / 2, 0.1f + sy / 2, 0, SolColor.W);
     }
 
     @Override
