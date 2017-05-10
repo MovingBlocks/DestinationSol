@@ -32,14 +32,12 @@ import java.util.List;
 public class InputMapMixedScreen implements InputMapOperations {
     private static final String HEADER_TEXT = "Keyboard and Mouse Inputs";
 
-    private final ArrayList<SolUiControl> controls;
-    private boolean isEnterNewKey;
-    private List<InputConfigItem> itemsList = new ArrayList<InputConfigItem>();
-    private int selectedIndex;
+    private List<InputConfigItem> itemsList = new ArrayList<>();
 
-    public InputMapMixedScreen(InputMapScreen inputMapScreen, GameOptions gameOptions) {
-        controls = new ArrayList<SolUiControl>();
-    }
+    private final ArrayList<SolUiControl> controls = new ArrayList<>();
+
+    private boolean isEnterNewKey;
+    private int selectedIndex;
 
     private void InitialiseList(GameOptions gameOptions) {
         itemsList.clear();
@@ -86,7 +84,7 @@ public class InputMapMixedScreen implements InputMapOperations {
         gameOptions.setKeySellMenuName(itemsList.get(index++).getInputKey());
         gameOptions.setKeyBuyMenuName(itemsList.get(index++).getInputKey());
         gameOptions.setKeyChangeShipMenuName(itemsList.get(index++).getInputKey());
-        gameOptions.setKeyHireShipMenuName(itemsList.get(index++).getInputKey());
+        gameOptions.setKeyHireShipMenuName(itemsList.get(index).getInputKey());
         gameOptions.save();
     }
 
@@ -137,7 +135,7 @@ public class InputMapMixedScreen implements InputMapOperations {
 
         item = itemsList.get(index);
         item.setInputKey(GameOptions.DEFAULT_HIRE_SHIP);
-        itemsList.set(index++, item);
+        itemsList.set(index, item);
     }
 
     @Override
@@ -146,8 +144,7 @@ public class InputMapMixedScreen implements InputMapOperations {
     }
 
     @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
-    }
+    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) { }
 
     /**
      * Remove key if it is already assigned to prevent duplicate keys
@@ -163,18 +160,13 @@ public class InputMapMixedScreen implements InputMapOperations {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
+    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) { }
 
     @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
+    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) { }
 
     @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-    }
+    public void drawText(UiDrawer uiDrawer, SolApplication cmp) { }
 
     @Override
     public boolean reactsToClickOutside() {
@@ -194,9 +186,7 @@ public class InputMapMixedScreen implements InputMapOperations {
     }
 
     @Override
-    public void blurCustom(SolApplication cmp) {
-
-    }
+    public void blurCustom(SolApplication cmp) { }
 
     @Override
     public String getHeader() {

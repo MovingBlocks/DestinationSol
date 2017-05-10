@@ -1550,9 +1550,9 @@ ui/whiteTex
   offset: 0, 0
   index: -1
 
-sol14.png
+mainMenuElements.png
 format: RGBA8888
-filter: MipMapLinearLinear,MipMapLinearLinear
+filter: Linear,Linear
 repeat: none
 ui/titleBg
   rotate: false

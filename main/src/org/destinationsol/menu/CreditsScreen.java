@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,11 @@
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.TextureManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.ui.FontSize;
@@ -32,23 +34,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CreditsScreen implements SolUiScreen {
-    public static final float MAX_AWAIT = 6f;
-    private final ArrayList<SolUiControl> myControls;
-    private final SolUiControl myCloseCtrl;
-    private final ArrayList<String> myPages;
+    private final TextureAtlas.AtlasRegion bgTex;
+
+    private static final float MAX_AWAIT = 6f;
+
+    private final ArrayList<SolUiControl> controls = new ArrayList<>();
+    private final SolUiControl closeControl;
+
+    private final ArrayList<String> myPages = new ArrayList<>();
     private final Color myColor;
+    private int pageIndex;
+    private float pageProgressPercent;
 
-    private int myIdx;
-    private float myPerc;
-
-    public CreditsScreen(float r, GameOptions gameOptions) {
-        myControls = new ArrayList<SolUiControl>();
-        myCloseCtrl = new SolUiControl(MainScreen.creditsBtnRect(r), true, gameOptions.getKeyEscape());
-        myCloseCtrl.setDisplayName("Close");
-        myControls.add(myCloseCtrl);
+    CreditsScreen(TextureManager textureManager, float resolutionRatio, GameOptions gameOptions) {
+        closeControl = new SolUiControl(MenuLayout.bottomRightFloatingButton(resolutionRatio), true, gameOptions.getKeyEscape());
+        closeControl.setDisplayName("Close");
+        controls.add(closeControl);
         myColor = SolColor.col(1, 1);
 
-        myPages = new ArrayList<String>();
         String[][] sss = {
                 {
                         "A game from",
@@ -77,8 +80,8 @@ public class CreditsScreen implements SolUiScreen {
                         "theotherjay, LinusVanElswijk",
                         "SimonC4, grauerkoala, rzats",
                         "LadySerenaKitty, askneller",
-                        "JGelfand, AvaLanCS. scirelli",
-                        "Sigma-One"
+                        "JGelfand, AvaLanCS, scirelli",
+                        "Sigma-One, vampcat"
                 },
                 {
                         "Soundtrack by NeonInsect"
@@ -110,33 +113,34 @@ public class CreditsScreen implements SolUiScreen {
             myPages.add(page.toString());
         }
 
+        bgTex = textureManager.getTexture("ui/titleBg");
     }
 
     @Override
     public List<SolUiControl> getControls() {
-        return myControls;
+        return controls;
     }
 
     @Override
     public void onAdd(SolApplication cmp) {
-        myIdx = 0;
-        myPerc = 0;
+        pageIndex = 0;
+        pageProgressPercent = 0;
         myColor.a = 0;
     }
 
     @Override
     public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
-        if (myCloseCtrl.isJustOff()) {
+        if (closeControl.isJustOff()) {
             cmp.getInputMan().setScreen(cmp, cmp.getMenuScreens().main);
             return;
         }
-        myPerc += Const.REAL_TIME_STEP / MAX_AWAIT;
-        if (myPerc > 1) {
-            myPerc = 0;
-            myIdx++;
-            if (myIdx >= myPages.size()) myIdx = 0;
+        pageProgressPercent += Const.REAL_TIME_STEP / MAX_AWAIT;
+        if (pageProgressPercent > 1) {
+            pageProgressPercent = 0;
+            pageIndex++;
+            if (pageIndex >= myPages.size()) pageIndex = 0;
         }
-        float a = myPerc * 2;
+        float a = pageProgressPercent * 2;
         if (a > 1) a = 2 - a;
         a *= 3;
         myColor.a = SolMath.clamp(a);
@@ -152,7 +156,8 @@ public class CreditsScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
+    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.W);
     }
 
     @Override
@@ -161,7 +166,7 @@ public class CreditsScreen implements SolUiScreen {
 
     @Override
     public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-        uiDrawer.drawString(myPages.get(myIdx), uiDrawer.r / 2, .5f, FontSize.MENU, true, myColor);
+        uiDrawer.drawString(myPages.get(pageIndex), uiDrawer.r / 2, .5f, FontSize.MENU, true, myColor);
     }
 
     @Override
