@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +18,7 @@ package org.destinationsol.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.TextureManager;
@@ -38,50 +36,42 @@ public class MainScreen implements SolUiScreen {
     private final boolean isMobile;
     private final GameOptions gameOptions;
 
-    private final TextureAtlas.AtlasRegion titleLogoTex;
-    private final TextureAtlas.AtlasRegion titleBgTex;
+    private final TextureAtlas.AtlasRegion logoTex;
+    private final TextureAtlas.AtlasRegion bgTex;
 
-    private final ArrayList<SolUiControl> controls;
-    private final SolUiControl tutCtrl;
-    private final SolUiControl optionsCtrl;
-    private final SolUiControl exitCtrl;
-    private final SolUiControl newGameCtrl;
-    private final SolUiControl creditsCtrl;
+    private final ArrayList<SolUiControl> controls = new ArrayList<>();
+    private final SolUiControl tutorialControl;
+    private final SolUiControl optionsControl;
+    private final SolUiControl exitControl;
+    private final SolUiControl newGameControl;
+    private final SolUiControl creditsControl;
 
-    public MainScreen(MenuLayout menuLayout, TextureManager textureManager, boolean mobile, float r, GameOptions gameOptions) {
-        isMobile = mobile;
-        controls = new ArrayList<>();
+    MainScreen(MenuLayout menuLayout, TextureManager textureManager, boolean isMobile, float resolutionRatio, GameOptions gameOptions) {
+        this.isMobile = isMobile;
         this.gameOptions = gameOptions;
 
-        tutCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.T);
-        tutCtrl.setDisplayName("Tutorial");
-        controls.add(tutCtrl);
+        tutorialControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.T);
+        tutorialControl.setDisplayName("Tutorial");
+        controls.add(tutorialControl);
 
-        newGameCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, gameOptions.getKeyShoot());
-        newGameCtrl.setDisplayName("New Game");
-        controls.add(newGameCtrl);
+        newGameControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, gameOptions.getKeyShoot());
+        newGameControl.setDisplayName("New Game");
+        controls.add(newGameControl);
 
-        optionsCtrl = new SolUiControl(mobile ? null : menuLayout.buttonRect(-1, 3), true, Input.Keys.O);
-        optionsCtrl.setDisplayName("Options");
-        controls.add(optionsCtrl);
+        optionsControl = new SolUiControl(isMobile ? null : menuLayout.buttonRect(-1, 3), true, Input.Keys.O);
+        optionsControl.setDisplayName("Options");
+        controls.add(optionsControl);
 
-        exitCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
-        exitCtrl.setDisplayName("Exit");
-        controls.add(exitCtrl);
+        exitControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
+        exitControl.setDisplayName("Exit");
+        controls.add(exitControl);
 
-        creditsCtrl = new SolUiControl(creditsBtnRect(r), true, Input.Keys.C);
-        creditsCtrl.setDisplayName("Credits");
-        controls.add(creditsCtrl);
+        creditsControl = new SolUiControl(MenuLayout.bottomRightFloatingButton(resolutionRatio), true, Input.Keys.C);
+        creditsControl.setDisplayName("Credits");
+        controls.add(creditsControl);
 
-        titleLogoTex = textureManager.getTexture("ui/titleLogo");
-        titleBgTex = textureManager.getTexture("ui/titleBg");
-    }
-
-    public static Rectangle creditsBtnRect(float r) {
-        final float CREDITS_BTN_W = .15f;
-        final float CREDITS_BTN_H = .07f;
-
-        return new Rectangle(r - CREDITS_BTN_W, 1 - CREDITS_BTN_H, CREDITS_BTN_W, CREDITS_BTN_H);
+        logoTex = textureManager.getTexture("ui/titleLogo");
+        bgTex = textureManager.getTexture("ui/titleBg");
     }
 
     public List<SolUiControl> getControls() {
@@ -89,66 +79,71 @@ public class MainScreen implements SolUiScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
-        if (cmp.getOptions().controlType == GameOptions.CONTROL_CONTROLLER) {
-            tutCtrl.setEnabled(false);
+    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+        if (solApplication.getOptions().controlType == GameOptions.CONTROL_CONTROLLER) {
+            tutorialControl.setEnabled(false);
         } else {
-            tutCtrl.setEnabled(true);
+            tutorialControl.setEnabled(true);
         }
 
-        if (tutCtrl.isJustOff()) {
-            cmp.loadNewGame(true, false);
+        if (tutorialControl.isJustOff()) {
+            solApplication.loadNewGame(true, false);
             return;
         }
-        SolInputManager im = cmp.getInputMan();
-        MenuScreens screens = cmp.getMenuScreens();
-        if (newGameCtrl.isJustOff()) {
-            im.setScreen(cmp, screens.newGame);
+
+        SolInputManager inputManager = solApplication.getInputMan();
+        MenuScreens screens = solApplication.getMenuScreens();
+
+        if (newGameControl.isJustOff()) {
+            inputManager.setScreen(solApplication, screens.newGame);
             return;
         }
-        if (optionsCtrl.isJustOff()) {
-            im.setScreen(cmp, screens.options);
+
+        if (optionsControl.isJustOff()) {
+            inputManager.setScreen(solApplication, screens.options);
             return;
         }
-        if (exitCtrl.isJustOff()) {
+
+        if (exitControl.isJustOff()) {
             // Save the settings on exit, but not on mobile as settings don't exist there.
-            if (isMobile == false) {
-                cmp.getOptions().save();
+            if (!isMobile) {
+                solApplication.getOptions().save();
             }
             Gdx.app.exit();
             return;
         }
-        if (creditsCtrl.isJustOff()) {
-            im.setScreen(cmp, screens.credits);
+
+        if (creditsControl.isJustOff()) {
+            inputManager.setScreen(solApplication, screens.credits);
         }
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
+    public boolean isCursorOnBg(SolInputManager.Ptr pointer) {
         return false;
     }
 
     @Override
-    public void onAdd(SolApplication cmp) {
-        cmp.getMusicManager().playMenuMusic(gameOptions);
+    public void onAdd(SolApplication solApplication) {
+        solApplication.getMusicManager().playMenuMusic(gameOptions);
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
-        uiDrawer.draw(titleBgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.W);
+    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.W);
     }
 
     @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
+    public void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) {
         final float sy = .35f;
         final float sx = sy * 400 / 218;
-        if (!DebugOptions.PRINT_BALANCE)
-            uiDrawer.draw(titleLogoTex, sx, sy, sx / 2, sy / 2, uiDrawer.r / 2, 0.1f + sy / 2, 0, SolColor.W);
+        if (!DebugOptions.PRINT_BALANCE) {
+            uiDrawer.draw(logoTex, sx, sy, sx / 2, sy / 2, uiDrawer.r / 2, 0.1f + sy / 2, 0, SolColor.W);
+        }
     }
 
     @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-    }
+    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) { }
 
     @Override
     public boolean reactsToClickOutside() {
@@ -156,7 +151,5 @@ public class MainScreen implements SolUiScreen {
     }
 
     @Override
-    public void blurCustom(SolApplication cmp) {
-
-    }
+    public void blurCustom(SolApplication solApplication) { }
 }
