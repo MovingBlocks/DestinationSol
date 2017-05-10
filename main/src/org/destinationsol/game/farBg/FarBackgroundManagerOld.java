@@ -19,7 +19,7 @@ package org.destinationsol.game.farBg;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.TextureManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolColorUtil;
@@ -52,7 +52,7 @@ public class FarBackgroundManagerOld {
     public void draw(GameDrawer drawer, SolCam cam, SolGame game) {
         Planet np = game.getPlanetMan().getNearestPlanet();
         Vector2 camPos = cam.getPos();
-        float nebPerc = (camPos.dst(np.getPos()) - np.getGroundHeight()) / (4 * Const.ATM_HEIGHT);
+        float nebPerc = (camPos.dst(np.getPos()) - np.getGroundHeight()) / (4 * Constants.ATM_HEIGHT);
         nebPerc = SolMath.clamp(nebPerc, 0, 1);
         myNebTint.a = nebPerc;
 

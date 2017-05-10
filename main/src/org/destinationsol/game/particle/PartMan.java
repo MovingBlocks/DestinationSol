@@ -39,7 +39,9 @@ public class PartMan {
     }
 
     public void finish(SolGame game, ParticleSrc src, Vector2 basePos) {
-        if (src.isContinuous()) src.setWorking(false);
+        if (src.isContinuous()) {
+            src.setWorking(false);
+        }
         ArrayList<Dra> dras = new ArrayList<Dra>();
         dras.add(src);
         DrasObject o = new DrasObject(dras, new Vector2(basePos), new Vector2(), null, true, false);
@@ -60,7 +62,9 @@ public class PartMan {
     }
 
     public void shieldSpark(SolGame game, Vector2 collPos, Hull hull, TextureAtlas.AtlasRegion shieldTex, float perc) {
-        if (perc <= 0) return;
+        if (perc <= 0) {
+            return;
+        }
         Vector2 pos = hull.getPos();
         float angle = SolMath.angle(pos, collPos);
         float sz = hull.config.getSize() * Shield.SIZE_PERC * 2;

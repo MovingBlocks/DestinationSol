@@ -26,7 +26,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
@@ -46,7 +46,7 @@ import java.util.Map;
  * application. You only need to give it a body and the corresponding fixture
  * name, and it will attach these fixtures to your body.
  *
- * @author Aurelien Ribon | http://www.aurelienribon.com
+ * author Aurelien Ribon | http://www.aurelienribon.com
  */
 public class PathLoader {
 
@@ -132,7 +132,9 @@ public class PathLoader {
             fd.shape = tmpPolyShape;
             body.createFixture(fd);
 
-            for (Vector2 point : points) free(point);
+            for (Vector2 point : points) {
+                free(point);
+            }
         }
 
         int circleCount = rbModel.circles.size();
@@ -156,7 +158,9 @@ public class PathLoader {
      */
     public String getImagePath(String name) {
         RigidBodyModel rbModel = model.rigidBodies.get(name);
-        if (rbModel == null) throw new AssertionError("Name '" + name + "' was not found.");
+        if (rbModel == null) {
+            throw new AssertionError("Name '" + name + "' was not found.");
+        }
 
         return rbModel.imagePath;
     }
@@ -246,7 +250,9 @@ public class PathLoader {
         for (int i = 0; i < shapeElems.size; i++) {
             JsonValue shapeElem = shapeElems.get(i);
             String type = shapeElem.getString("type");
-            if (!"POLYGON".equals(type)) continue;
+            if (!"POLYGON".equals(type)) {
+                continue;
+            }
 
             PolygonModel shape = new PolygonModel();
             rbModel.shapes.add(shape);
@@ -314,7 +320,9 @@ public class PathLoader {
         for (int i = 0; i < shapeElems.size; i++) {
             JsonValue shapeElem = shapeElems.get(i);
             String type = shapeElem.getString("type");
-            if (!"POLYGON".equals(type)) continue;
+            if (!"POLYGON".equals(type)) {
+                continue;
+            }
 
             PolygonModel shape = new PolygonModel();
             rbModel.shapes.add(shape);
@@ -351,14 +359,15 @@ public class PathLoader {
         return newVec(null);
     }
 
-
     // -------------------------------------------------------------------------
     // Json reading process
     // -------------------------------------------------------------------------
 
     private Vector2 newVec(Vector2 v) {
         Vector2 res = vectorPool.isEmpty() ? new Vector2() : vectorPool.remove(0);
-        if (v != null) res.set(v);
+        if (v != null) {
+            res.set(v);
+        }
         return res;
     }
 
@@ -386,7 +395,7 @@ public class PathLoader {
         Body body = game.getObjMan().getWorld().createBody(bd);
         FixtureDef fd = new FixtureDef();
         fd.density = density;
-        fd.friction = Const.FRICTION;
+        fd.friction = Constants.FRICTION;
         Vector2 orig;
         boolean found = attachFixture(body, name, fd, scale);
         if (!found) {
@@ -430,7 +439,7 @@ public class PathLoader {
         Body body = game.getObjMan().getWorld().createBody(bd);
         FixtureDef fd = new FixtureDef();
         fd.density = density;
-        fd.friction = Const.FRICTION;
+        fd.friction = Constants.FRICTION;
         String pathName = texName + ".png";
         Vector2 orig;
         boolean found = attachFixture(body, pathName, fd, scale);

@@ -88,7 +88,8 @@ public class ResolutionScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) { }
+    public void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) {
+    }
 
     @Override
     public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
@@ -106,9 +107,11 @@ public class ResolutionScreen implements SolUiScreen {
     }
 
     @Override
-    public void onAdd(SolApplication solApplication) { }
+    public void onAdd(SolApplication solApplication) {
+    }
 
     @Override
-    public void blurCustom(SolApplication solApplication) { }
+    public void blurCustom(SolApplication solApplication) {
+    }
 
 }

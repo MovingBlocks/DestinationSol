@@ -38,7 +38,9 @@ public class Shooter {
     public static float calcShootAngle(Vector2 gunPos, Vector2 gunSpd, Vector2 ePos, Vector2 eSpd, float projSpd,
                                        boolean sharp) {
         Vector2 eSpdShortened = SolMath.getVec(eSpd);
-        if (!sharp) eSpdShortened.scl(E_SPD_PERC);
+        if (!sharp) {
+            eSpdShortened.scl(E_SPD_PERC);
+        }
         Vector2 relESpd = SolMath.distVec(gunSpd, eSpdShortened);
         SolMath.free(eSpdShortened);
         float rotAngle = SolMath.angle(relESpd);
@@ -71,12 +73,16 @@ public class Shooter {
         myShoot = false;
         myShoot2 = false;
         Vector2 shipPos = ship.getPosition();
-        if (enemyPos == null || !canShoot) return;
+        if (enemyPos == null || !canShoot) {
+            return;
+        }
         float toEnemyDst = enemyPos.dst(shipPos);
 
         GunItem g1 = processGun(ship, false);
         GunItem g2 = processGun(ship, true);
-        if (g1 == null && g2 == null) return;
+        if (g1 == null && g2 == null) {
+            return;
+        }
 
         float projSpd = 0;
         GunItem g = null;
@@ -98,49 +104,70 @@ public class Shooter {
         Vector2 gunPos = SolMath.toWorld(gunRelPos, ship.getAngle(), shipPos);
         float shootAngle = calcShootAngle(gunPos, ship.getSpd(), enemyPos, enemySpd, projSpd, false);
         SolMath.free(gunPos);
-        if (shootAngle != shootAngle) return;
-        {
-            // ok this is a hack
-            float toShip = SolMath.angle(enemyPos, shipPos);
-            float toGun = SolMath.angle(enemyPos, gunPos);
-            shootAngle += toGun - toShip;
+        if (shootAngle != shootAngle) {
+            return;
         }
+
+        // ok this is a hack
+        float toShip = SolMath.angle(enemyPos, shipPos);
+        float toGun = SolMath.angle(enemyPos, gunPos);
+        shootAngle += toGun - toShip;
+
         float shipAngle = ship.getAngle();
         float maxAngleDiff = SolMath.angularWidthOfSphere(enemyApproxRad, toEnemyDst) + 10f;
         ProjectileConfig projConfig = g.config.clipConf.projConfig;
-        if (projSpd > 0 && projConfig.guideRotSpd > 0) maxAngleDiff += projConfig.guideRotSpd * toEnemyDst / projSpd;
+        if (projSpd > 0 && projConfig.guideRotSpd > 0) {
+            maxAngleDiff += projConfig.guideRotSpd * toEnemyDst / projSpd;
+        }
         if (SolMath.angleDiff(shootAngle, shipAngle) < maxAngleDiff) {
             myShoot = true;
             myShoot2 = true;
             return;
         }
 
-        if (dontRotate) return;
+        if (dontRotate) {
+            return;
+        }
         Boolean ntt = Mover.needsToTurn(shipAngle, shootAngle, ship.getRotSpd(), ship.getRotAcc(), MIN_SHOOT_AAD);
         if (ntt != null) {
-            if (ntt) myRight = true;
-            else myLeft = true;
+            if (ntt) {
+                myRight = true;
+            } else {
+                myLeft = true;
+            }
         }
     }
 
     // returns gun if it's fixed & can shoot
     private GunItem processGun(SolShip ship, boolean second) {
         GunMount mount = ship.getHull().getGunMount(second);
-        if (mount == null) return null;
+        if (mount == null) {
+            return null;
+        }
         GunItem g = mount.getGun();
-        if (g == null || g.ammo <= 0) return null;
-
-        if (g.config.clipConf.projConfig.zeroAbsSpd || g.config.clipConf.projConfig.guideRotSpd > 0) {
-            if (second) myShoot2 = true;
-            else myShoot = true;
+        if (g == null || g.ammo <= 0) {
             return null;
         }
 
-        if (g.config.fixed) return g;
+        if (g.config.clipConf.projConfig.zeroAbsSpd || g.config.clipConf.projConfig.guideRotSpd > 0) {
+            if (second) {
+                myShoot2 = true;
+            } else {
+                myShoot = true;
+            }
+            return null;
+        }
+
+        if (g.config.fixed) {
+            return g;
+        }
 
         if (mount.isDetected()) {
-            if (second) myShoot2 = true;
-            else myShoot = true;
+            if (second) {
+                myShoot2 = true;
+            } else {
+                myShoot = true;
+            }
         }
         return null;
     }

@@ -17,10 +17,10 @@
 package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.common.Bound;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.HardnessCalc;
+import org.destinationsol.game.HardnessCalculator;
 import org.destinationsol.game.SolGame;
 
 import java.util.ArrayList;
@@ -63,8 +63,8 @@ public class Planet {
         mySpd = new Vector2();
         float grav = SolMath.rnd(config.minGrav, config.maxGrav);
         myGravConst = grav * myGroundHeight * myGroundHeight;
-        myGroundDps = HardnessCalc.getGroundDps(myConfig, grav);
-        myAtmDps = HardnessCalc.getAtmDps(myConfig);
+        myGroundDps = HardnessCalculator.getGroundDps(myConfig, grav);
+        myAtmDps = HardnessCalculator.getAtmDps(myConfig);
         myLps = new ArrayList<Vector2>();
         setSecondaryParams();
     }
@@ -76,7 +76,7 @@ public class Planet {
 
         setSecondaryParams();
         Vector2 camPos = game.getCam().getPos();
-        if (!myObjsCreated && camPos.dst(myPos) < getGroundHeight() + Const.MAX_SKY_HEIGHT_FROM_GROUND) {
+        if (!myObjsCreated && camPos.dst(myPos) < getGroundHeight() + Constants.MAX_SKY_HEIGHT_FROM_GROUND) {
             myMinGroundHeight = new PlanetObjectsBuilder().createPlanetObjs(game, this);
             fillLangingPlaces(game);
             myObjsCreated = true;
@@ -107,7 +107,7 @@ public class Planet {
     }
 
     public float getFullHeight() {
-        return myGroundHeight + Const.ATM_HEIGHT;
+        return myGroundHeight + Constants.ATM_HEIGHT;
     }
 
     public float getGroundHeight() {
@@ -137,7 +137,7 @@ public class Planet {
             SolMath.free(up);
             return r;
         }
-        float spdPerc = (dst - myGroundHeight) / Const.ATM_HEIGHT;
+        float spdPerc = (dst - myGroundHeight) / Constants.ATM_HEIGHT;
         r.scl(spdPerc);
         up.scl(smokeConst / dst / dst / dst);
         r.add(up);
@@ -174,7 +174,7 @@ public class Planet {
     }
 
     public boolean isNearGround(Vector2 pos) {
-        return myPos.dst(pos) - myGroundHeight < .25f * Const.ATM_HEIGHT;
+        return myPos.dst(pos) - myGroundHeight < .25f * Constants.ATM_HEIGHT;
     }
 
     public PlanetConfig getConfig() {

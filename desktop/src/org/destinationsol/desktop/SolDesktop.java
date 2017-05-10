@@ -7,14 +7,16 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.SolFileReader;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.menu.InputMapControllerScreen;
 import org.destinationsol.soundtest.SoundTestListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.event.Level;
 import org.terasology.crashreporter.CrashReporter;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,6 +28,7 @@ import java.util.List;
 
 public class SolDesktop {
     private static Logger logger = LoggerFactory.getLogger(SolDesktop.class);
+
     public static void main(String[] argv) {
         if (false) {
             new LwjglApplication(new SoundTestListener(), "sound test", 800, 600);
@@ -69,7 +72,7 @@ public class SolDesktop {
                 PrintWriter printWriter = new PrintWriter(stringWriter);
                 ex.printStackTrace(printWriter);
                 String exceptionString = stringWriter.getBuffer().toString();
-                logger.error("This exception was not caught:",ex);
+                logger.error("This exception was not caught:", ex);
 
                 // Create a crash dump file
                 String fileName = "crash-" + new SimpleDateFormat("yyyy-dd-MM_HH-mm-ss").format(new Date()) + ".log";
@@ -96,7 +99,7 @@ public class SolDesktop {
             try {
                 java.nio.file.Files.write(file, lines, Charset.forName("UTF-8"));
             } catch (IOException e) {
-                logger.error("Failed to write to file",e);
+                logger.error("Failed to write to file", e);
             }
             return file;
         }

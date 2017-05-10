@@ -25,7 +25,6 @@ import org.destinationsol.game.dra.Dra;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Shard implements SolObject {
 
     private final Body myBody;
@@ -119,7 +118,9 @@ public class Shard implements SolObject {
 
     @Override
     public void receiveForce(Vector2 force, SolGame game, boolean acc) {
-        if (acc) force.scl(myMass);
+        if (acc) {
+            force.scl(myMass);
+        }
         myBody.applyForceToCenter(force, true);
     }
 

@@ -79,11 +79,17 @@ public class DevTextureProvider implements TextureProvider {
         String baseName = file.nameWithoutExtension();
         ArrayList<TextureAtlas.AtlasRegion> res = new ArrayList<TextureAtlas.AtlasRegion>();
         for (FileHandle fh : dir.list()) {
-            if (fh.isDirectory()) continue;
+            if (fh.isDirectory()) {
+                continue;
+            }
             String fhName = fh.nameWithoutExtension();
             String[] parts = fhName.split("_");
-            if (parts.length != 2) continue;
-            if (!parts[0].equals(baseName)) continue;
+            if (parts.length != 2) {
+                continue;
+            }
+            if (!parts[0].equals(baseName)) {
+                continue;
+            }
             int idx = Integer.parseInt(parts[1]);
             res.add(newTex(fh, name, idx, configFile));
         }

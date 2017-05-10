@@ -17,7 +17,7 @@
 package org.destinationsol.game.input;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.SolShip;
@@ -44,7 +44,9 @@ public class BattleDestProvider {
             myCw = rnd == 0 ? null : rnd == 1;
             myDirChangeAwait = SolMath.rnd(MIN_DIR_CHANGE_AWAIT, MAX_DIR_CHANGE_AWAIT);
         }
-        if (!battle) throw new AssertionError("can't flee yet!");
+        if (!battle) {
+            throw new AssertionError("can't flee yet!");
+        }
         float prefAngle;
         Vector2 enemyPos = enemy.getPosition();
         float approxRad = ship.getHull().config.getApproxRadius();
@@ -53,15 +55,17 @@ public class BattleDestProvider {
         if (nearGround) {
             prefAngle = SolMath.angle(np.getPos(), enemyPos);
             myStopNearDest = false;
-            float dist = canShootUnfixed ? .9f * Const.AUTO_SHOOT_GROUND : .75f * Const.CAM_VIEW_DIST_GROUND;
+            float dist = canShootUnfixed ? .9f * Constants.AUTO_SHOOT_GROUND : .75f * Constants.CAM_VIEW_DIST_GROUND;
             dist += approxRad + enemyApproxRad;
             SolMath.fromAl(myDest, prefAngle, dist);
             myDest.add(enemyPos);
         } else {
             Vector2 shipPos = ship.getPosition();
             float a = SolMath.angle(enemyPos, shipPos);
-            if (myCw != null) a += 90 * SolMath.toInt(myCw);
-            float len = canShootUnfixed ? .9f * Const.AUTO_SHOOT_SPACE : .5f * Const.CAM_VIEW_DIST_SPACE;
+            if (myCw != null) {
+                a += 90 * SolMath.toInt(myCw);
+            }
+            float len = canShootUnfixed ? .9f * Constants.AUTO_SHOOT_SPACE : .5f * Constants.CAM_VIEW_DIST_SPACE;
             len += approxRad + enemyApproxRad;
             SolMath.fromAl(myDest, a, len);
             myDest.add(enemyPos);

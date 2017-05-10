@@ -17,7 +17,7 @@
 package org.destinationsol.game.sound;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
@@ -106,6 +106,6 @@ public class SpecialSounds {
         if (metal == null) {
             return;
         }
-        game.getSoundManager().play(game, metal ? metalColl : rockColl, pos, o, absImpulse * Const.IMPULSE_TO_COLL_VOL);
+        game.getSoundManager().play(game, metal ? metalColl : rockColl, pos, o, absImpulse * Constants.IMPULSE_TO_COLL_VOL);
     }
 }

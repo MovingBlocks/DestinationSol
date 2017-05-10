@@ -77,10 +77,14 @@ public class BeaconHandler {
     }
 
     public void update(SolGame game) {
-        if (!myInitialized) return;
+        if (!myInitialized) {
+            return;
+        }
         updateD(game);
         mySpd.set(0, 0);
-        if (maybeUpdateTargetPos(game)) return;
+        if (maybeUpdateTargetPos(game)) {
+            return;
+        }
         maybeUpdatePlanetPos(game);
     }
 
@@ -99,7 +103,9 @@ public class BeaconHandler {
 
     private boolean maybeUpdateTargetPos(SolGame game) {
         updateTarget(game);
-        if (myTargetPilot == null) return false;
+        if (myTargetPilot == null) {
+            return false;
+        }
         Vector2 beaconPos = getPos0();
         if (myTarget != null) {
             SolMath.toWorld(beaconPos, myTargetRelPos, myTarget.getAngle(), myTarget.getPosition(), false);
@@ -111,28 +117,40 @@ public class BeaconHandler {
     }
 
     private void updateTarget(SolGame game) {
-        if (myTargetPilot == null) return;
+        if (myTargetPilot == null) {
+            return;
+        }
         ObjectManager om = game.getObjMan();
         List<SolObject> objs = om.getObjs();
         List<FarShip> farShips = om.getFarShips();
         if (myTarget != null) {
-            if (objs.contains(myTarget)) return;
+            if (objs.contains(myTarget)) {
+                return;
+            }
             myTarget = null;
             for (FarShip ship : farShips) {
-                if (ship.getPilot() != myTargetPilot) continue;
+                if (ship.getPilot() != myTargetPilot) {
+                    continue;
+                }
                 myFarTarget = ship;
                 return;
             }
             applyAction(Action.MOVE);
             return;
         }
-        if (myFarTarget == null) throw new AssertionError();
-        if (om.getFarShips().contains(myFarTarget)) return;
+        if (myFarTarget == null) {
+            throw new AssertionError();
+        }
+        if (om.getFarShips().contains(myFarTarget)) {
+            return;
+        }
         myFarTarget = null;
         for (SolObject o : objs) {
             if ((o instanceof SolShip)) {
                 SolShip ship = (SolShip) o;
-                if (ship.getPilot() != myTargetPilot) continue;
+                if (ship.getPilot() != myTargetPilot) {
+                    continue;
+                }
                 myTarget = ship;
                 return;
             }
@@ -146,29 +164,45 @@ public class BeaconHandler {
         List<FarObjData> farObjs = om.getFarObjs();
 
         if (myD != null) {
-            if (objs.contains(myD)) return;
+            if (objs.contains(myD)) {
+                return;
+            }
             myD = null;
             for (FarObjData fod : farObjs) {
                 FarObj fo = fod.fo;
-                if (!(fo instanceof FarDras)) continue;
+                if (!(fo instanceof FarDras)) {
+                    continue;
+                }
                 List<Dra> dras = ((FarDras) fo).getDras();
-                if (dras.size() != 3) continue;
+                if (dras.size() != 3) {
+                    continue;
+                }
                 Dra dra = dras.get(0);
-                if (dra != myAttackSprite) continue;
+                if (dra != myAttackSprite) {
+                    continue;
+                }
                 myFarD = (FarDras) fo;
                 return;
             }
             throw new AssertionError();
         }
-        if (myFarD == null) throw new AssertionError();
-        if (om.containsFarObj(myFarD)) return;
+        if (myFarD == null) {
+            throw new AssertionError();
+        }
+        if (om.containsFarObj(myFarD)) {
+            return;
+        }
         myFarD = null;
         for (SolObject o : objs) {
             if ((o instanceof DrasObject)) {
                 List<Dra> dras = o.getDras();
-                if (dras.size() != 3) continue;
+                if (dras.size() != 3) {
+                    continue;
+                }
                 Dra dra = dras.get(0);
-                if (dra != myAttackSprite) continue;
+                if (dra != myAttackSprite) {
+                    continue;
+                }
                 myD = (DrasObject) o;
                 return;
             }
@@ -226,10 +260,14 @@ public class BeaconHandler {
         SolShip h = g.getHero();
         float iconRad = onMap ? g.getMapDrawer().getIconRadius(g.getCam()) : 0;
         for (SolObject o : om.getObjs()) {
-            if (o == h || !(o instanceof SolShip)) continue;
+            if (o == h || !(o instanceof SolShip)) {
+                continue;
+            }
             SolShip s = (SolShip) o;
             Pilot pilot = s.getPilot();
-            if (onMap && pilot.getMapHint() == null) continue;
+            if (onMap && pilot.getMapHint() == null) {
+                continue;
+            }
             float dst = o.getPosition().dst(pos);
             float rad = iconRad == 0 ? s.getHull().config.getSize() : iconRad;
             if (dst < rad) {
@@ -242,7 +280,9 @@ public class BeaconHandler {
         }
         for (FarShip s : om.getFarShips()) {
             Pilot pilot = s.getPilot();
-            if (onMap && pilot.getMapHint() == null) continue;
+            if (onMap && pilot.getMapHint() == null) {
+                continue;
+            }
             float dst = s.getPos().dst(pos);
             float rad = iconRad == 0 ? s.getHullConfig().getApproxRadius() : iconRad;
             if (dst < rad) {
@@ -277,7 +317,7 @@ public class BeaconHandler {
         return mySpd;
     }
 
-    public static enum Action {
+    public enum Action {
         MOVE, ATTACK, FOLLOW
     }
 }

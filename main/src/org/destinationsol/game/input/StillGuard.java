@@ -17,7 +17,7 @@
 package org.destinationsol.game.input;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.SolGame;
@@ -35,7 +35,7 @@ public class StillGuard implements MoveDestProvider {
     public StillGuard(Vector2 target, SolGame game, ShipConfig sc) {
         myDest = new Vector2(target);
         myPlanetBind = PlanetBind.tryBind(game, myDest, 0);
-        myDesiredSpdLen = sc.hull.getType() == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
+        myDesiredSpdLen = sc.hull.getType() == HullConfig.Type.BIG ? Constants.BIG_AI_SPD : Constants.DEFAULT_AI_SPD;
         myDestSpd = new Vector2();
     }
 

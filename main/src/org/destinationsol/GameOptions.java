@@ -155,7 +155,7 @@ public class GameOptions {
     public void advanceReso() {
         if (resolutionIterator == null) {
             // Initialize resolution choices - get the resolutions that are supported
-            Graphics.DisplayMode displayModes[] = Gdx.graphics.getDisplayModes();
+            Graphics.DisplayMode[] displayModes = Gdx.graphics.getDisplayModes();
 
             for (Graphics.DisplayMode d : displayModes) {
                 supportedResolutions.add(d.width + "x" + d.height);
@@ -174,8 +174,8 @@ public class GameOptions {
         }
 
         // TODO: Probably should validate, but then there are still many things we should probably add! :-)
-        x = Integer.parseInt(nextResolution.substring(0, nextResolution.indexOf("x")));
-        y = Integer.parseInt(nextResolution.substring(nextResolution.indexOf("x") + 1, nextResolution.length()));
+        x = Integer.parseInt(nextResolution.substring(0, nextResolution.indexOf('x')));
+        y = Integer.parseInt(nextResolution.substring(nextResolution.indexOf('x') + 1, nextResolution.length()));
 
         save();
     }
@@ -185,8 +185,6 @@ public class GameOptions {
             controlType = mobile ? CONTROL_MOUSE : CONTROL_MIXED;
         } else if (controlType == CONTROL_MIXED) {
             controlType = CONTROL_CONTROLLER;
-//    } else if (controlType == CONTROL_MIXED) {
-//      controlType = CONTROL_MOUSE;
         } else {
             controlType = CONTROL_KB;
         }
@@ -924,18 +922,34 @@ public class GameOptions {
     }
 
     public String getSFXVolumeAsText() {
-        if (sfxVolumeMultiplier == 0.f) return "Off";
-        if (sfxVolumeMultiplier == 0.25f) return "Low";
-        if (sfxVolumeMultiplier == 0.5f) return "Medium";
-        if (sfxVolumeMultiplier == 0.75f) return "High";
+        if (sfxVolumeMultiplier == 0.f) {
+            return "Off";
+        }
+        if (sfxVolumeMultiplier == 0.25f) {
+            return "Low";
+        }
+        if (sfxVolumeMultiplier == 0.5f) {
+            return "Medium";
+        }
+        if (sfxVolumeMultiplier == 0.75f) {
+            return "High";
+        }
         return "Max";
     }
 
     public String getMusicVolumeAsText() {
-        if (musicVolumeMultiplier == 0.f) return "Off";
-        if (musicVolumeMultiplier == 0.25f) return "Low";
-        if (musicVolumeMultiplier == 0.5f) return "Medium";
-        if (musicVolumeMultiplier == 0.75f) return "High";
+        if (musicVolumeMultiplier == 0.f) {
+            return "Off";
+        }
+        if (musicVolumeMultiplier == 0.25f) {
+            return "Low";
+        }
+        if (musicVolumeMultiplier == 0.5f) {
+            return "Medium";
+        }
+        if (musicVolumeMultiplier == 0.75f) {
+            return "High";
+        }
         return "Max";
     }
 }

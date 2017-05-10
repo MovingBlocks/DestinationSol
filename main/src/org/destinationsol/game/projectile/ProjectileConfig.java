@@ -72,8 +72,12 @@ public class ProjectileConfig {
         this.guideRotSpd = guideRotSpd;
         this.dmg = dmg;
         this.emTime = emTime;
-        if (physSize == 0 && massless) throw new AssertionError("only projectiles with physSize > 0 can be massless");
-        if (density > 0 && (physSize == 0 || massless)) throw new AssertionError("density on a massless projectile");
+        if (physSize == 0 && massless) {
+            throw new AssertionError("only projectiles with physSize > 0 can be massless");
+        }
+        if (density > 0 && (physSize == 0 || massless)) {
+            throw new AssertionError("density on a massless projectile");
+        }
     }
 
 }

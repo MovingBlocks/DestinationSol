@@ -52,7 +52,7 @@ public interface Pilot {
 
     boolean isPlayer();
 
-    public static final class Utils {
+    final class Utils {
         public static boolean isIdle(Pilot p) {
             return !(p.isUp() || p.isShoot() || p.isShoot2() || p.isAbility());
         }

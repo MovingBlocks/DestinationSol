@@ -18,7 +18,7 @@ package org.destinationsol.game.chunk;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.TextureManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -80,12 +80,14 @@ public class ChunkFiller {
      * @param farBg   Determines which of the background layers should be filled. <code>true</code> fills the layers furthest away, <code>false</code> fills the closer one.
      */
     public void fill(SolGame game, Vector2 chunk, RemoveController remover, boolean farBg) {
-        if (DebugOptions.NO_OBJS) return;
+        if (DebugOptions.NO_OBJS) {
+            return;
+        }
 
         // Determine the center of the chunk by multiplying the chunk coordinates with the chunk size and adding half a chunk's size
         Vector2 chCenter = new Vector2(chunk);
-        chCenter.scl(Const.CHUNK_SIZE);
-        chCenter.add(Const.CHUNK_SIZE / 2, Const.CHUNK_SIZE / 2);
+        chCenter.scl(Constants.CHUNK_SIZE);
+        chCenter.add(Constants.CHUNK_SIZE / 2, Constants.CHUNK_SIZE / 2);
 
         // Define the density multiplier for different layers of junk in the far background
         float[] densityMul = {1};
@@ -109,25 +111,35 @@ public class ChunkFiller {
         SolSystem sys = pm.getNearestSystem(chCenter);
         float toSys = sys.getPos().dst(chCenter);
         if (toSys < sys.getRadius()) {
-            if (toSys < Const.SUN_RADIUS) return null;
+            if (toSys < Constants.SUN_RADIUS) {
+                return null;
+            }
             for (SystemBelt belt : sys.getBelts()) {
                 if (belt.contains(chCenter)) {
-                    if (!farBg) fillAsteroids(game, remover, true, chCenter);
+                    if (!farBg) {
+                        fillAsteroids(game, remover, true, chCenter);
+                    }
                     SysConfig beltConfig = belt.getConfig();
                     for (ShipConfig enemyConf : beltConfig.tempEnemies) {
-                        if (!farBg) fillEnemies(game, remover, enemyConf, chCenter);
+                        if (!farBg) {
+                            fillEnemies(game, remover, enemyConf, chCenter);
+                        }
                     }
                     return beltConfig.envConfig;
                 }
             }
             float perc = toSys / sys.getRadius() * 2;
-            if (perc > 1) perc = 2 - perc;
+            if (perc > 1) {
+                perc = 2 - perc;
+            }
             densityMul[0] = perc;
             if (!farBg) {
                 Planet p = pm.getNearestPlanet(chCenter);
                 float toPlanet = p.getPos().dst(chCenter);
-                boolean planetNear = toPlanet < p.getFullHeight() + Const.CHUNK_SIZE;
-                if (!planetNear) fillForSys(game, chCenter, remover, sys);
+                boolean planetNear = toPlanet < p.getFullHeight() + Constants.CHUNK_SIZE;
+                if (!planetNear) {
+                    fillForSys(game, chCenter, remover, sys);
+                }
             }
             return sys.getConfig().envConfig;
         }
@@ -146,7 +158,7 @@ public class ChunkFiller {
         Vector2 mainStationPos = game.getGalaxyFiller().getMainStationPos();
         Vector2 startPos = mainStationPos == null ? new Vector2() : mainStationPos;
         float dst = chCenter.dst(startPos);
-        if (Const.CHUNK_SIZE < dst) {
+        if (Constants.CHUNK_SIZE < dst) {
             fillAsteroids(game, remover, false, chCenter);
             ArrayList<ShipConfig> enemies = sys.getPos().dst(chCenter) < sys.getInnerRad() ? conf.innerTempEnemies : conf.tempEnemies;
             for (ShipConfig enemyConf : enemies) {
@@ -157,22 +169,28 @@ public class ChunkFiller {
 
     private void fillEnemies(SolGame game, RemoveController remover, ShipConfig enemyConf, Vector2 chCenter) {
         int count = getEntityCount(enemyConf.density);
-        if (count == 0) return;
+        if (count == 0) {
+            return;
+        }
         for (int i = 0; i < count; i++) {
             Vector2 enemyPos = getFreeRndPos(game, chCenter);
             FarShip ship = buildSpaceEnemy(game, enemyPos, remover, enemyConf);
-            if (ship != null) game.getObjMan().addFarObjNow(ship);
+            if (ship != null) {
+                game.getObjMan().addFarObjNow(ship);
+            }
         }
     }
 
     public FarShip buildSpaceEnemy(SolGame game, Vector2 pos, RemoveController remover,
                                    ShipConfig enemyConf) {
-        if (pos == null) return null;
+        if (pos == null) {
+            return null;
+        }
         Vector2 spd = new Vector2();
         SolMath.fromAl(spd, SolMath.rnd(180), SolMath.rnd(0, ENEMY_MAX_SPD));
         float rotSpd = SolMath.rnd(ENEMY_MAX_ROT_SPD);
         MoveDestProvider dp = new StillGuard(pos, game, enemyConf);
-        Pilot provider = new AiPilot(dp, false, Faction.EHAR, true, null, Const.AI_DET_DIST);
+        Pilot provider = new AiPilot(dp, false, Faction.EHAR, true, null, Constants.AI_DET_DIST);
         HullConfig config = enemyConf.hull;
         int money = enemyConf.money;
         float angle = SolMath.rnd(180);
@@ -183,10 +201,14 @@ public class ChunkFiller {
     private void fillAsteroids(SolGame game, RemoveController remover, boolean forBelt, Vector2 chCenter) {
         float density = forBelt ? BELT_A_DENSITY : ASTEROID_DENSITY;
         int count = getEntityCount(density);
-        if (count == 0) return;
+        if (count == 0) {
+            return;
+        }
         for (int i = 0; i < count; i++) {
             Vector2 asteroidPos = getFreeRndPos(game, chCenter);
-            if (asteroidPos == null) continue;
+            if (asteroidPos == null) {
+                continue;
+            }
             float minSz = forBelt ? MIN_BELT_A_SZ : MIN_SYS_A_SZ;
             float maxSz = forBelt ? MAX_BELT_A_SZ : MAX_SYS_A_SZ;
             float sz = SolMath.rnd(minSz, maxSz);
@@ -213,9 +235,13 @@ public class ChunkFiller {
      */
     private void fillFarJunk(SolGame game, Vector2 chCenter, RemoveController remover, DraLevel draLevel,
                              SpaceEnvConfig conf, float densityMul) {
-        if (conf == null) return;
+        if (conf == null) {
+            return;
+        }
         int count = getEntityCount(conf.farJunkDensity * densityMul);
-        if (count == 0) return;
+        if (count == 0) {
+            return;
+        }
 
         ArrayList<Dra> dras = new ArrayList<Dra>();
         TextureManager textureManager = game.getTexMan();
@@ -224,7 +250,9 @@ public class ChunkFiller {
             // Select a random far junk texture
             TextureAtlas.AtlasRegion tex = SolMath.elemRnd(conf.farJunkTexs);
             // Flip texture for every other piece of junk
-            if (SolMath.test(.5f)) tex = textureManager.getFlipped(tex);
+            if (SolMath.test(.5f)) {
+                tex = textureManager.getFlipped(tex);
+            }
             // Choose a random size (within a range)
             float sz = SolMath.rnd(.3f, 1) * FAR_JUNK_MAX_SZ;
             // Apply a random rotation speed
@@ -256,9 +284,13 @@ public class ChunkFiller {
      * @param chCenter The center of the chunk
      */
     private void fillJunk(SolGame game, RemoveController remover, SpaceEnvConfig conf, Vector2 chCenter) {
-        if (conf == null) return;
+        if (conf == null) {
+            return;
+        }
         int count = getEntityCount(conf.junkDensity);
-        if (count == 0) return;
+        if (count == 0) {
+            return;
+        }
 
         for (int i = 0; i < count; i++) {
             // Select a random position in the chunk centered around chCenter, relative to the entire map.
@@ -267,7 +299,9 @@ public class ChunkFiller {
             // Select a random junk texture
             TextureAtlas.AtlasRegion tex = SolMath.elemRnd(conf.junkTexs);
             // Flip texture for every other piece of junk
-            if (SolMath.test(.5f)) tex = game.getTexMan().getFlipped(tex);
+            if (SolMath.test(.5f)) {
+                tex = game.getTexMan().getFlipped(tex);
+            }
             // Choose a random size (within a range)
             float sz = SolMath.rnd(.3f, 1) * JUNK_MAX_SZ;
             // Apply a random rotation speed
@@ -299,7 +333,9 @@ public class ChunkFiller {
     private void fillDust(SolGame game, Vector2 chCenter, RemoveController remover) {
         ArrayList<Dra> dras = new ArrayList<Dra>();
         int count = getEntityCount(DUST_DENSITY);
-        if (count == 0) return;
+        if (count == 0) {
+            return;
+        }
 
         TextureAtlas.AtlasRegion tex = myDustTex;
         for (int i = 0; i < count; i++) {
@@ -322,14 +358,17 @@ public class ChunkFiller {
      * <p/>
      * Up to 100 tries will be made to find an unoccupied position; if by then none has been found, <code>null</code> will be returned.
      *
-     * @param g        The {@link SolGame} instance to work with
-     * @param chCenter The center of a chunk in which a random position should be found
-     * @return A random, unoccupied position in a chunk centered around chCenter, relative to the entire map, or <code>null</code> if within 100 tries no unoccupied position has been found
+     * @param g         The {@link SolGame} instance to work with
+     * @param chCenter  The center of a chunk in which a random position should be found
+     * @return          A random, unoccupied position in a chunk centered around chCenter, relative to the entire map, or <code>null</code>
+     *                  if within 100 tries no unoccupied position has been found
      */
     private Vector2 getFreeRndPos(SolGame g, Vector2 chCenter) {
         for (int i = 0; i < 100; i++) {
             Vector2 pos = getRndPos(new Vector2(chCenter));
-            if (g.isPlaceEmpty(pos, true)) return pos;
+            if (g.isPlaceEmpty(pos, true)) {
+                return pos;
+            }
         }
         return null;
     }
@@ -342,8 +381,8 @@ public class ChunkFiller {
      */
     private Vector2 getRndPos(Vector2 chCenter) {
         Vector2 pos = new Vector2(chCenter);
-        pos.x += SolMath.rnd(Const.CHUNK_SIZE / 2);
-        pos.y += SolMath.rnd(Const.CHUNK_SIZE / 2);
+        pos.x += SolMath.rnd(Constants.CHUNK_SIZE / 2);
+        pos.y += SolMath.rnd(Constants.CHUNK_SIZE / 2);
         return pos;
     }
 
@@ -355,8 +394,10 @@ public class ChunkFiller {
      * @return The number of objects for the chunk based on the given density.
      */
     private int getEntityCount(float density) {
-        float amt = Const.CHUNK_SIZE * Const.CHUNK_SIZE * density;
-        if (amt >= 1) return (int) amt;
+        float amt = Constants.CHUNK_SIZE * Constants.CHUNK_SIZE * density;
+        if (amt >= 1) {
+            return (int) amt;
+        }
         return SolMath.test(amt) ? 1 : 0;
     }
 

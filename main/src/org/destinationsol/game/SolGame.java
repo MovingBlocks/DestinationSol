@@ -19,12 +19,12 @@ package org.destinationsol.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.CommonDrawer;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.TextureManager;
 import org.destinationsol.assets.AssetHelper;
-import org.destinationsol.common.DebugCol;
+import org.destinationsol.common.DebugColours;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.files.HullConfigManager;
@@ -170,7 +170,7 @@ public class SolGame {
         Pilot pilot;
         if (myCmp.getOptions().controlType == GameOptions.CONTROL_MOUSE) {
             myBeaconHandler.init(this, pos);
-            pilot = new AiPilot(new BeaconDestProvider(), true, Faction.LAANI, false, "you", Const.AI_DET_DIST);
+            pilot = new AiPilot(new BeaconDestProvider(), true, Faction.LAANI, false, "you", Constants.AI_DET_DIST);
         } else {
             pilot = new UiControlledPilot(myScreens.mainScreen);
         }
@@ -211,7 +211,9 @@ public class SolGame {
             myItemManager.addAllGuns(ic);
         } else if (myTutorialManager != null) {
             for (int i = 0; i < 50; i++) {
-                if (ic.groupCount() > 1.5f * Const.ITEM_GROUPS_PER_PAGE) break;
+                if (ic.groupCount() > 1.5f * Constants.ITEM_GROUPS_PER_PAGE) {
+                    break;
+                }
                 SolItem it = myItemManager.random();
                 if (!(it instanceof GunItem) && it.getIcon(this) != null && ic.canAdd(it)) {
                     ic.add(it.copy());
@@ -233,7 +235,9 @@ public class SolGame {
     }
 
     public void saveShip() {
-        if (myTutorialManager != null) return;
+        if (myTutorialManager != null) {
+            return;
+        }
         HullConfig hull;
         float money;
         ArrayList<SolItem> items;
@@ -285,7 +289,7 @@ public class SolGame {
                 myTimeFactor *= factor;
             }
         }
-        myTimeStep = Const.REAL_TIME_STEP * myTimeFactor;
+        myTimeStep = Constants.REAL_TIME_STEP * myTimeFactor;
         myTime += myTimeStep;
 
         myPlanetManager.update(this);
@@ -321,7 +325,9 @@ public class SolGame {
             }
         }
 
-        if (myTutorialManager != null) myTutorialManager.update();
+        if (myTutorialManager != null) {
+            myTutorialManager.update();
+        }
     }
 
     public void draw() {
@@ -329,13 +335,17 @@ public class SolGame {
     }
 
     public void drawDebug(GameDrawer drawer) {
-        if (DebugOptions.GRID_SZ > 0) myGridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTex);
+        if (DebugOptions.GRID_SZ > 0) {
+            myGridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTex);
+        }
         myPlanetManager.drawDebug(drawer, this);
         myObjectManager.drawDebug(drawer, this);
-        if (DebugOptions.ZOOM_OVERRIDE != 0) myCam.drawDebug(drawer);
-        drawDebugPoint(drawer, DebugOptions.DEBUG_POINT, DebugCol.POINT);
-        drawDebugPoint(drawer, DebugOptions.DEBUG_POINT2, DebugCol.POINT2);
-        drawDebugPoint(drawer, DebugOptions.DEBUG_POINT3, DebugCol.POINT3);
+        if (DebugOptions.ZOOM_OVERRIDE != 0) {
+            myCam.drawDebug(drawer);
+        }
+        drawDebugPoint(drawer, DebugOptions.DEBUG_POINT, DebugColours.POINT);
+        drawDebugPoint(drawer, DebugOptions.DEBUG_POINT2, DebugColours.POINT2);
+        drawDebugPoint(drawer, DebugOptions.DEBUG_POINT3, DebugColours.POINT3);
     }
 
     private void drawDebugPoint(GameDrawer drawer, Vector2 dp, Color col) {
@@ -430,14 +440,20 @@ public class SolGame {
         Planet np = myPlanetManager.getNearestPlanet(pos);
         if (considerPlanets) {
             boolean inPlanet = np.getPos().dst(pos) < np.getFullHeight();
-            if (inPlanet) return false;
+            if (inPlanet) {
+                return false;
+            }
         }
         SolSystem ns = myPlanetManager.getNearestSystem(pos);
-        if (ns.getPos().dst(pos) < SunSingleton.SUN_HOT_RAD) return false;
+        if (ns.getPos().dst(pos) < SunSingleton.SUN_HOT_RAD) {
+            return false;
+        }
         List<SolObject> objs = myObjectManager.getObjs();
         for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
             SolObject o = objs.get(i);
-            if (!o.hasBody()) continue;
+            if (!o.hasBody()) {
+                continue;
+            }
             if (pos.dst(o.getPosition()) < myObjectManager.getRadius(o)) {
                 return false;
             }
@@ -446,7 +462,9 @@ public class SolGame {
         for (int i = 0, farObjsSize = farObjs.size(); i < farObjsSize; i++) {
             FarObjData fod = farObjs.get(i);
             FarObj o = fod.fo;
-            if (!o.hasBody()) continue;
+            if (!o.hasBody()) {
+                continue;
+            }
             if (pos.dst(o.getPos()) < o.getRadius()) {
                 return false;
             }
@@ -527,7 +545,9 @@ public class SolGame {
     }
 
     public void beforeHeroDeath() {
-        if (myHero == null) return;
+        if (myHero == null) {
+            return;
+        }
 
         float money = myHero.getMoney();
         ItemContainer ic = myHero.getItemContainer();

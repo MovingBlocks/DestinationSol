@@ -4,154 +4,147 @@
       junkTexs: "deco/space/sysDeco",
       junkDensity: 0.03,
       farJunkTexs: "deco/farSpace/sysFarBg",
-      farJunkDensity: 0.01,
+      farJunkDensity: 0.01
     },
-
     constantAllies: [
       {
         hull: imperialMedium,
         items: "fixedGun a1:.5 s1|s2:.75",
-        density: 2,
+        density: 2
       },
       {
         hull: imperialTiny,
         items: "blaster a1 s1",
-        density: 3,
+        density: 3
       },
       {
         hull: bus,
         items: "gun gun a1|a2 s2|s3",
-        density: 1,
+        density: 1
       },
       {
         hull: station,
         items: "cannon gun",
-		repairer: true,
+        repairer: true,
         density: 1,
         guard: {
           hull: imperialBig,
           items: "fixedGun fixedShotGun a2|a3 s2|s3",
-          density: 3,
+          density: 3
         }
-      },
+      }
     ],
     constantEnemies: [
       {
         hull: pirateSmall,
         items: "shotGun s3:.86",
-		money: 120,
-        density: 2,
+        money: 120,
+        density: 2
       },
       {
         hull: truck,
         items: "shotGun s2|s3:.74",
-		money: 1000,
+        money: 1000,
         density: 1,
         guard: {
           hull: pirateSmall,
           items: "gun s1:.5",
-		  money: 80,
-          density: 3,
+          money: 80,
+          density: 3
         }
-      },
+      }
     ],
     temporaryEnemies: [
       {
         hull: pirateSpaceTurret,
         items: "plasmaGun",
-		money: 40,
-        density: 0.0015,
-      },
+        money: 40,
+        density: 0.0015
+      }
     ],
     innerTemporaryEnemies: [
       {
         hull: pirateSpaceTurret,
         items: "gun|shotGun s2:.62",
         money: 100,
-        density: 0.0003,
+        density: 0.0003
       },
       {
         hull: pirateMedium,
         items: "gun miner a1:.25 s3",
         money: 200,
-        density: 0.0002,
+        density: 0.0002
       },
       {
         hull: pirateMedium,
         items: "fixedPlasmaGun a1:.25 s3",
         money: 200,
-        density: 0.0004,
-      },
+        density: 0.0004
+      }
     ],
-
     trading: {
       items: "rep blaster s1 a1 sloMoCharge gun bulletClip a2 missileClip plasmaClip fixedGun",
       ships: "imperialTiny imperialSmall imperialMedium",
-      mercenaries: [],
-    },
+      mercenaries: []
+    }
   },
-
-
-
   hard: {
     hard: true,
     environment: {
       junkTexs: "deco/space/sysDeco",
       junkDensity: 0.06,
       farJunkTexs: "deco/farSpace/sysFarBg",
-      farJunkDensity: 0.01,
+      farJunkDensity: 0.01
     },
-
     constantAllies: [
       {
         hull: station,
         items: "gun cannon",
-		repairer: true,
+        repairer: true,
         density: 2,
         guard: {
           hull: imperialBig,
           items: "fixedGun fixedShotGun a2|a3 s2|s3",
-          density: 3,
+          density: 3
         }
-      },
+      }
     ],
     constantEnemies: [
       {
         hull: desertMedium,
         items: "railGun|fixedCannon fixedGun|railGun:.8 a4 s2|s3:.6",
-		money: 300,
-        density: 3,
-      },
+        money: 300,
+        density: 3
+      }
     ],
     temporaryEnemies: [
       {
         hull: desertSpaceTurret,
         items: "cannon a2|a3 s1:.25",
-		money: 50,
-        density: 0.001,
+        money: 50,
+        density: 0.001
       },
       {
         hull: desertSmall,
         items: "fixedGun|railGun fixedGun:.8 a3 s1:.5",
-		money: 150,
-        density: 0.0003,
-      },
+        money: 150,
+        density: 0.0003
+      }
     ],
     innerTemporaryEnemies: [
       {
         hull: desertSpaceTurret,
         items: "cannon gun|cannon:.8 a3|a4 s2:.75",
-		money: 100,
-        density: 0.001,
+        money: 100,
+        density: 0.001
       },
       {
         hull: desertBoss,
         items: "fixedCannon cannon a4 s3",
-		money: 1000,
-        density: 0.0005,
-      },
+        money: 1000,
+        density: 0.0005
+      }
     ],
-
     trading: {
       items: "rep sloMoCharge fixedGun bulletClip a2 s2 fixedShotGun shellClip s3",
       ships: "imperialMedium imperialBig",
@@ -159,9 +152,9 @@
         {
           hull: imperialMedium,
           items: "rep:1:3 s1",
-          money: 200,
-        },
-      ],
-    },
-  },
+          money: 200
+        }
+      ]
+    }
+  }
 }

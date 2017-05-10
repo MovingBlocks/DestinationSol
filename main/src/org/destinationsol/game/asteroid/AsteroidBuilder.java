@@ -22,7 +22,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.TextureManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -62,7 +62,7 @@ public class AsteroidBuilder {
         Body body = game.getObjMan().getWorld().createBody(bd);
         FixtureDef fd = new FixtureDef();
         fd.density = density;
-        fd.friction = Const.FRICTION;
+        fd.friction = Constants.FRICTION;
         fd.shape = new CircleShape();
         fd.shape.setRadius(rad);
         fd.isSensor = sensor;

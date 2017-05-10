@@ -35,7 +35,9 @@ public class SolNames {
         FileHandle f = FileManager.getInstance().getConfigDirectory().child(entityType + "Names.txt");
         String lines = f.readString();
         for (String line : lines.split("\n")) {
-            if (line.isEmpty()) continue;
+            if (line.isEmpty()) {
+                continue;
+            }
             list.add(line);
         }
         return list;

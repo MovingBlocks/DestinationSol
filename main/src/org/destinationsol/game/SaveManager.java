@@ -57,9 +57,13 @@ public class SaveManager {
     public static ShipConfig readShip(HullConfigManager hullConfigs, ItemManager itemManager) {
         IniReader ir = new IniReader(FILE_NAME, null, false);
         String hullName = ir.getString("hull", null);
-        if (hullName == null) return null;
+        if (hullName == null) {
+            return null;
+        }
         HullConfig hull = hullConfigs.getConfig(hullName);
-        if (hull == null) return null;
+        if (hull == null) {
+            return null;
+        }
         int money = ir.getInt("money", 0);
         String itemsStr = ir.getString("items", "");
         return new ShipConfig(hull, itemsStr, money, 1, null, itemManager);

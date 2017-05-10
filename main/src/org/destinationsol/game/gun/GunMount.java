@@ -17,7 +17,7 @@
 package org.destinationsol.game.gun;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
@@ -44,19 +44,23 @@ public class GunMount {
     }
 
     public void update(ItemContainer ic, SolGame game, float shipAngle, SolShip creator, boolean shouldShoot, SolShip nearestEnemy, Faction faction) {
-        if (myGun == null) return;
+        if (myGun == null) {
+            return;
+        }
         if (!ic.contains(myGun.getItem())) {
             setGun(game, creator, null, false, 0);
             return;
         }
 
-        if (creator.getHull().config.getType() != HullConfig.Type.STATION) myRelGunAngle = 0;
+        if (creator.getHull().config.getType() != HullConfig.Type.STATION) {
+            myRelGunAngle = 0;
+        }
         myDetected = false;
         if (!myFixed && nearestEnemy != null) {
             Vector2 creatorPos = creator.getPosition();
             Vector2 nePos = nearestEnemy.getPosition();
             float dst = creatorPos.dst(nePos) - creator.getHull().config.getApproxRadius() - nearestEnemy.getHull().config.getApproxRadius();
-            float detDst = game.getPlanetMan().getNearestPlanet().isNearGround(creatorPos) ? Const.AUTO_SHOOT_GROUND : Const.AUTO_SHOOT_SPACE;
+            float detDst = game.getPlanetMan().getNearestPlanet().isNearGround(creatorPos) ? Constants.AUTO_SHOOT_GROUND : Constants.AUTO_SHOOT_SPACE;
             if (dst < detDst) {
                 Vector2 mountPos = SolMath.toWorld(myRelPos, shipAngle, creatorPos);
                 boolean player = creator.getPilot().isPlayer();
@@ -64,7 +68,9 @@ public class GunMount {
                 if (shootAngle == shootAngle) {
                     myRelGunAngle = shootAngle - shipAngle;
                     myDetected = true;
-                    if (player) game.getMountDetectDrawer().setNe(nearestEnemy);
+                    if (player) {
+                        game.getMountDetectDrawer().setNe(nearestEnemy);
+                    }
                 }
                 SolMath.free(mountPos);
             }
@@ -88,7 +94,9 @@ public class GunMount {
             myGun = null;
         }
         if (gunItem != null) {
-            if (gunItem.config.fixed != myFixed) throw new AssertionError("tried to set gun to incompatible mount");
+            if (gunItem.config.fixed != myFixed) {
+                throw new AssertionError("tried to set gun to incompatible mount");
+            }
             myGun = new SolGun(game, gunItem, myRelPos, underShip);
             myGun.getItem().setEquipped(slotNr);
             List<Dra> dras1 = myGun.getDras();

@@ -31,7 +31,6 @@ public interface SolUiScreen {
 
     void blurCustom(SolApplication cmp);
 
-
     void drawBg(UiDrawer uiDrawer, SolApplication cmp);
 
     void drawImgs(UiDrawer uiDrawer, SolApplication cmp);

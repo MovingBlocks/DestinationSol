@@ -17,7 +17,7 @@
 package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SolNames;
@@ -45,7 +45,9 @@ public class SystemsBuilder {
         int mazesLeft = MAZE_COUNT;
         while (sysLeft > 0 || mazesLeft > 0) {
             boolean createSys = sysLeft > 0;
-            if (createSys && mazesLeft > 0 && !systems.isEmpty()) createSys = SolMath.test(.5f);
+            if (createSys && mazesLeft > 0 && !systems.isEmpty()) {
+                createSys = SolMath.test(.5f);
+            }
             if (createSys) {
                 List<Float> ghs = generatePlanetGhs();
                 float sysRadius = calcSysRadius(ghs);
@@ -72,7 +74,7 @@ public class SystemsBuilder {
             boolean createBelt = !beltCreated && 0 < i && i < .5f * PLANET_COUNT && SolMath.test(.6f);
             float gh;
             if (!createBelt) {
-                gh = SolMath.rnd(.5f, 1) * Const.MAX_GROUND_HEIGHT;
+                gh = SolMath.rnd(.5f, 1) * Constants.MAX_GROUND_HEIGHT;
             } else {
                 gh = -BELT_HALF_WIDTH;
                 beltCreated = true;
@@ -84,19 +86,19 @@ public class SystemsBuilder {
 
     private float calcSysRadius(List<Float> ghs) {
         float r = 0;
-        r += Const.SUN_RADIUS;
+        r += Constants.SUN_RADIUS;
         for (Float gh : ghs) {
-            r += Const.PLANET_GAP;
+            r += Constants.PLANET_GAP;
             if (gh > 0) {
-                r += Const.ATM_HEIGHT;
+                r += Constants.ATM_HEIGHT;
                 r += gh;
                 r += gh;
-                r += Const.ATM_HEIGHT;
+                r += Constants.ATM_HEIGHT;
             } else {
                 r -= gh;
                 r -= gh;
             }
-            r += Const.PLANET_GAP;
+            r += Constants.PLANET_GAP;
         }
         return r;
     }
@@ -121,9 +123,11 @@ public class SystemsBuilder {
                         break;
                     }
                 }
-                if (good) return res;
+                if (good) {
+                    return res;
+                }
             }
-            dist += Const.SUN_RADIUS;
+            dist += Constants.SUN_RADIUS;
         }
     }
 
@@ -140,14 +144,14 @@ public class SystemsBuilder {
         }
         String name = firstSys ? SolMath.elemRnd(names.systems) : "Sol"; //hack
         SolSystem s = new SolSystem(sysPos, sysConfig, name, sysRadius);
-        float planetDist = Const.SUN_RADIUS;
+        float planetDist = Constants.SUN_RADIUS;
         for (int idx = 0, sz = ghs.size(); idx < sz; idx++) {
             Float gh = ghs.get(idx);
             float reserved;
             if (gh > 0) {
-                reserved = Const.PLANET_GAP + Const.ATM_HEIGHT + gh;
+                reserved = Constants.PLANET_GAP + Constants.ATM_HEIGHT + gh;
             } else {
-                reserved = Const.PLANET_GAP - gh;
+                reserved = Constants.PLANET_GAP - gh;
             }
             planetDist += reserved;
             if (gh > 0) {
@@ -170,7 +174,9 @@ public class SystemsBuilder {
             }
             planetDist += reserved;
         }
-        if (SolMath.abs(sysRadius - planetDist) > .1f) throw new AssertionError(sysRadius + " " + planetDist);
+        if (SolMath.abs(sysRadius - planetDist) > .1f) {
+            throw new AssertionError(sysRadius + " " + planetDist);
+        }
         return s;
     }
 

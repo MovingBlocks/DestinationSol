@@ -19,7 +19,7 @@ package org.destinationsol.game.projectile;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -45,7 +45,7 @@ public class PointProjectileBody implements ProjectileBody {
     public void update(SolGame game) {
         if (myAcc > 0 && SolMath.canAccelerate(myAcc, mySpd)) {
             float spdLen = mySpd.len();
-            if (spdLen < Const.MAX_MOVE_SPD) {
+            if (spdLen < Constants.MAX_MOVE_SPD) {
                 mySpd.scl((spdLen + myAcc) / spdLen);
             }
         }
@@ -66,7 +66,9 @@ public class PointProjectileBody implements ProjectileBody {
     @Override
     public void receiveForce(Vector2 force, SolGame game, boolean acc) {
         force.scl(game.getTimeStep());
-        if (!acc) force.scl(10f);
+        if (!acc) {
+            force.scl(10f);
+        }
         mySpd.add(force);
     }
 
@@ -93,7 +95,6 @@ public class PointProjectileBody implements ProjectileBody {
     public float getDesiredAngle(SolShip ne) {
         return SolMath.angle(myPos, ne.getPosition());
     }
-
 
     private class MyRayBack implements RayCastCallback {
 

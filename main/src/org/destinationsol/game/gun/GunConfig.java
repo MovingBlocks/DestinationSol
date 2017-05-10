@@ -25,7 +25,7 @@ import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.game.DmgType;
-import org.destinationsol.game.HardnessCalc;
+import org.destinationsol.game.HardnessCalculator;
 import org.destinationsol.game.item.ClipConfig;
 import org.destinationsol.game.item.ClipItem;
 import org.destinationsol.game.item.ItemManager;
@@ -91,8 +91,8 @@ public class GunConfig {
         this.texLenPerc = texLenPerc;
         this.code = code;
 
-        dps = HardnessCalc.getShotDps(this, clipConf.projConfig.dmg);
-        meanDps = HardnessCalc.getGunMeanDps(this);
+        dps = HardnessCalculator.getShotDps(this, clipConf.projConfig.dmg);
+        meanDps = HardnessCalculator.getGunMeanDps(this);
         this.desc = makeDesc();
         example = new GunItem(this, 0, 0);
     }
@@ -139,8 +139,11 @@ public class GunConfig {
         if (pc.dmg > 0) {
             sb.append("Dmg: ").append(SolMath.nice(dps)).append("/s\n");
             DmgType dmgType = pc.dmgType;
-            if (dmgType == DmgType.ENERGY) sb.append("Weak against armor\n");
-            else if (dmgType == DmgType.BULLET) sb.append("Weak against shields\n");
+            if (dmgType == DmgType.ENERGY) {
+                sb.append("Weak against armor\n");
+            } else if (dmgType == DmgType.BULLET) {
+                sb.append("Weak against shields\n");
+            }
         } else if (pc.emTime > 0) {
             sb.append("Disables enemy ships for ").append(SolMath.nice(pc.emTime)).append(" s\n");
         }

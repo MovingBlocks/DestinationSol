@@ -36,9 +36,13 @@ public class KnockBack implements ShipAbility {
     }
 
     public static float getPerc(float dst, float radius) {
-        if (radius < dst) return 0;
+        if (radius < dst) {
+            return 0;
+        }
         float rHalf = radius / 2;
-        if (dst < rHalf) return 1;
+        if (dst < rHalf) {
+            return 1;
+        }
         return 1 - (dst - rHalf) / rHalf;
     }
 
@@ -59,15 +63,23 @@ public class KnockBack implements ShipAbility {
 
     @Override
     public boolean update(SolGame game, SolShip owner, boolean tryToUse) {
-        if (!tryToUse) return false;
+        if (!tryToUse) {
+            return false;
+        }
         Vector2 ownerPos = owner.getPosition();
         for (SolObject o : game.getObjMan().getObjs()) {
-            if (o == owner || !o.receivesGravity()) continue;
+            if (o == owner || !o.receivesGravity()) {
+                continue;
+            }
             Vector2 oPos = o.getPosition();
             float dst = oPos.dst(ownerPos);
-            if (dst == 0) continue; // O__o
+            if (dst == 0) {
+                continue; // O__o
+            }
             float perc = getPerc(dst, MAX_RADIUS);
-            if (perc <= 0) continue;
+            if (perc <= 0) {
+                continue;
+            }
             Vector2 toO = SolMath.distVec(ownerPos, oPos);
             float accLen = myConfig.force * perc;
             toO.scl(accLen / dst);

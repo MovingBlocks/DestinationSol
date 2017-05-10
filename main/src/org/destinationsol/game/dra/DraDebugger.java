@@ -20,7 +20,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.DevTextureProvider;
-import org.destinationsol.common.DebugCol;
+import org.destinationsol.common.DebugColours;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SolGame;
@@ -40,12 +40,16 @@ public class DraDebugger {
     }
 
     public void update(SolGame game) {
-        if (!DebugOptions.TEX_INFO) return;
+        if (!DebugOptions.TEX_INFO) {
+            return;
+        }
         maybeCollectTexs(game);
     }
 
     private void maybeCollectTexs(SolGame game) {
-        if (!Gdx.input.isTouched()) return;
+        if (!Gdx.input.isTouched()) {
+            return;
+        }
         myCollector.clear();
         Vector2 cursorPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
         game.getCam().screenToWorld(cursorPos);
@@ -53,7 +57,9 @@ public class DraDebugger {
     }
 
     public void draw(UiDrawer uiDrawer, SolGame game) {
-        if (!DebugOptions.TEX_INFO) return;
+        if (!DebugOptions.TEX_INFO) {
+            return;
+        }
         float y = GAP;
         for (TextureAtlas.AtlasRegion tex : myCollector) {
             float x = GAP;
@@ -65,10 +71,10 @@ public class DraDebugger {
             float h = r > 1 ? TEX_SZ / r : TEX_SZ;
             uiDrawer.draw(tex, w, h, w / 2, h / 2, x + .5f * TEX_SZ, y + .5f * TEX_SZ, 0, SolColor.W);
             x += TEX_SZ + GAP;
-            uiDrawer.drawString(tex.name, x, y, FontSize.DEBUG, false, DebugCol.TEX_INFO);
+            uiDrawer.drawString(tex.name, x, y, FontSize.DEBUG, false, DebugColours.TEX_INFO);
             y += .5f * TEX_SZ;
             String definedBy = ((DevTextureProvider.SolTex) tex).definedBy;
-            uiDrawer.drawString(definedBy, x, y, FontSize.DEBUG, false, DebugCol.TEX_INFO);
+            uiDrawer.drawString(definedBy, x, y, FontSize.DEBUG, false, DebugColours.TEX_INFO);
             y += .5f * TEX_SZ + 2 * GAP;
         }
     }

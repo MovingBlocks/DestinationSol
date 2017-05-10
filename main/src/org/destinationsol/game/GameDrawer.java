@@ -88,7 +88,9 @@ public class GameDrawer {
     }
 
     public void maybeChangeAdditive(boolean additive) {
-        if (myCurrAdditive == additive) return;
+        if (myCurrAdditive == additive) {
+            return;
+        }
         myCurrAdditive = additive;
         myDrawer.setAdditive(additive);
     }

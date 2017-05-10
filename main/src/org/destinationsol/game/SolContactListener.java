@@ -37,7 +37,9 @@ public class SolContactListener implements ContactListener {
         SolObject oB = (SolObject) contact.getFixtureB().getBody().getUserData();
 
         boolean aIsProj = oA instanceof Projectile;
-        if (!aIsProj && !(oB instanceof Projectile)) return;
+        if (!aIsProj && !(oB instanceof Projectile)) {
+            return;
+        }
 
         Projectile proj = (Projectile) (aIsProj ? oA : oB);
         SolObject o = aIsProj ? oB : oA;
@@ -56,8 +58,12 @@ public class SolContactListener implements ContactListener {
     public void postSolve(Contact contact, ContactImpulse impulse) {
         SolObject soa = (SolObject) contact.getFixtureA().getBody().getUserData();
         SolObject sob = (SolObject) contact.getFixtureB().getBody().getUserData();
-        if (soa instanceof Projectile && ((Projectile) soa).getConfig().density <= 0) return;
-        if (sob instanceof Projectile && ((Projectile) sob).getConfig().density <= 0) return;
+        if (soa instanceof Projectile && ((Projectile) soa).getConfig().density <= 0) {
+            return;
+        }
+        if (sob instanceof Projectile && ((Projectile) sob).getConfig().density <= 0) {
+            return;
+        }
 
         float absImpulse = calcAbsImpulse(impulse);
         Vector2 collPos = contact.getWorldManifold().getPoints()[0];
@@ -74,7 +80,9 @@ public class SolContactListener implements ContactListener {
         for (int i = 0; i < pointCount; i++) {
             float normImpulse = normImpulses[i];
             normImpulse = SolMath.abs(normImpulse);
-            if (absImpulse < normImpulse) absImpulse = normImpulse;
+            if (absImpulse < normImpulse) {
+                absImpulse = normImpulse;
+            }
         }
         return absImpulse;
     }

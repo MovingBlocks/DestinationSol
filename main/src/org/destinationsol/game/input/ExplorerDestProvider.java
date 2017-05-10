@@ -17,7 +17,7 @@
 package org.destinationsol.game.input;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.planet.Planet;
@@ -60,13 +60,15 @@ public class ExplorerDestProvider implements MoveDestProvider {
         calcRelDest(config);
         myAwaitOnPlanet = MAX_AWAIT_ON_PLANET;
         myAggressive = aggressive;
-        myDesiredSpdLen = config.getType() == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
+        myDesiredSpdLen = config.getType() == HullConfig.Type.BIG ? Constants.BIG_AI_SPD : Constants.DEFAULT_AI_SPD;
         myDestSpd = new Vector2();
     }
 
     private int allowedSz() {
         int sz = mySys.getPlanets().size();
-        if (!mySys.getConfig().hard) sz -= LAST_PLANETS_TO_AVOID;
+        if (!mySys.getConfig().hard) {
+            sz -= LAST_PLANETS_TO_AVOID;
+        }
         return sz;
     }
 
@@ -75,12 +77,12 @@ public class ExplorerDestProvider implements MoveDestProvider {
         if (lps.size() > 0) {
             myRelDest = new Vector2(SolMath.elemRnd(lps));
             float len = myRelDest.len();
-            float aboveGround = hullConfig.getType() == HullConfig.Type.BIG ? Const.ATM_HEIGHT * .75f : .75f * hullConfig.getSize();
+            float aboveGround = hullConfig.getType() == HullConfig.Type.BIG ? Constants.ATM_HEIGHT * .75f : .75f * hullConfig.getSize();
             myRelDest.scl((len + aboveGround) / len);
             myDestIsLanding = true;
         } else {
             myRelDest = new Vector2();
-            SolMath.fromAl(myRelDest, SolMath.rnd(180), myPlanet.getGroundHeight() + .3f * Const.ATM_HEIGHT);
+            SolMath.fromAl(myRelDest, SolMath.rnd(180), myPlanet.getGroundHeight() + .3f * Constants.ATM_HEIGHT);
             myDestIsLanding = false;
         }
     }
@@ -119,7 +121,9 @@ public class ExplorerDestProvider implements MoveDestProvider {
 
     @Override
     public Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround) {
-        if (myAggressive && canShoot) return true;
+        if (myAggressive && canShoot) {
+            return true;
+        }
         return null;
     }
 

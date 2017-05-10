@@ -17,7 +17,7 @@
 package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.game.HardnessCalc;
+import org.destinationsol.game.HardnessCalculator;
 
 public class SystemBelt {
     private final Float myHalfWidth;
@@ -31,7 +31,7 @@ public class SystemBelt {
         myRadius = radius;
         myS = s;
         myConfig = config;
-        myDps = HardnessCalc.getBeltDps(config);
+        myDps = HardnessCalculator.getBeltDps(config);
     }
 
     public float getRadius() {

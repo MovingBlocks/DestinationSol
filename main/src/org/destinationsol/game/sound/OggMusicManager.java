@@ -25,9 +25,6 @@ import java.util.List;
 
 /**
  * Class that is responsible for playing all music throughout the game.
- *
- * @author SimonC4
- * @author Rulasmur
  */
 public class OggMusicManager {
     private final Music menuMusic;
@@ -65,12 +62,7 @@ public class OggMusicManager {
             int index = gameMusic.indexOf(currentlyPlaying) + 1;
             if (gameMusic.size() - 1 >= index) {
                 playMusic(gameMusic.get(index), options);
-                currentlyPlaying.setOnCompletionListener(new Music.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(Music music) {
-                        playGameMusic(options);
-                    }
-                });
+                currentlyPlaying.setOnCompletionListener(music -> playGameMusic(options));
 
             } else {
                 playMusic(gameMusic.get(0), options);

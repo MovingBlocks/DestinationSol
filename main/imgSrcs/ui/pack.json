@@ -3,5 +3,5 @@
   minHeight: 512,
   maxWidth: 512,
   maxHeight: 512,
-  combineSubdirectories: true,
+  combineSubdirectories: true
 }

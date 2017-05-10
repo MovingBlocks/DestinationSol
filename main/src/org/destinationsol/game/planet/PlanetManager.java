@@ -19,7 +19,7 @@ package org.destinationsol.game.planet;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.TextureManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -115,7 +115,9 @@ public class PlanetManager {
         List<SolObject> objs = game.getObjMan().getObjs();
         for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
             SolObject obj = objs.get(i);
-            if (!obj.receivesGravity()) continue;
+            if (!obj.receivesGravity()) {
+                continue;
+            }
 
             Vector2 objPos = obj.getPosition();
             float minDist;
@@ -125,12 +127,14 @@ public class PlanetManager {
             float toNp = npPos.dst(objPos);
             float toSys = sysPos.dst(objPos);
             if (toNp < npFh) {
-                if (recoverObj(obj, toNp, npMinH)) continue;
+                if (recoverObj(obj, toNp, npMinH)) {
+                    continue;
+                }
                 minDist = npGh;
                 srcPos = npPos;
                 gravConst = npGravConst;
                 onPlanet = true;
-            } else if (toSys < Const.SUN_RADIUS) {
+            } else if (toSys < Constants.SUN_RADIUS) {
                 minDist = SunSingleton.SUN_HOT_RAD;
                 srcPos = sysPos;
                 gravConst = SunSingleton.GRAV_CONST;
@@ -158,11 +162,17 @@ public class PlanetManager {
     }
 
     private boolean recoverObj(SolObject obj, float toNp, float npMinH) {
-        if (npMinH < toNp) return false;
-        if (!(obj instanceof SolShip)) return false;
+        if (npMinH < toNp) {
+            return false;
+        }
+        if (!(obj instanceof SolShip)) {
+            return false;
+        }
         SolShip ship = (SolShip) obj;
         Hull hull = ship.getHull();
-        if (hull.config.getType() == HullConfig.Type.STATION) return false;
+        if (hull.config.getType() == HullConfig.Type.STATION) {
+            return false;
+        }
         float fh = myNearestPlanet.getFullHeight();
         Vector2 npPos = myNearestPlanet.getPos();
         Vector2 toShip = SolMath.distVec(npPos, ship.getPosition());
