@@ -58,6 +58,8 @@ public class DebugOptions {
     public static MissingResourceAction MISSING_TEXTURE_ACTION;
     public static MissingResourceAction MISSING_PHYSICS_ACTION;
 
+    private DebugOptions() {
+    }
 
     public static void read(SolFileReader reader) {
         IniReader r = new IniReader("debugOptions.ini", reader, true);
@@ -89,6 +91,8 @@ public class DebugOptions {
         MISSING_SOUND_ACTION = MissingResourceAction.forName(r.getString("missingSoundAction", MissingResourceAction.IGNORE.name));
         MISSING_TEXTURE_ACTION = MissingResourceAction.forName(r.getString("missingTextureAction", MissingResourceAction.IGNORE.name));
         MISSING_PHYSICS_ACTION = MissingResourceAction.forName(r.getString("missingPhysicsAction", MissingResourceAction.IGNORE.name));
+
+
     }
 
 }

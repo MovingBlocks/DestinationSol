@@ -23,7 +23,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DmgType;
@@ -65,7 +65,9 @@ public class MazeTileObject implements SolObject {
 
     @Override
     public void onRemove(SolGame game) {
-        if (myBody != null) myBody.getWorld().destroyBody(myBody);
+        if (myBody != null) {
+            myBody.getWorld().destroyBody(myBody);
+        }
     }
 
     @Override
@@ -211,14 +213,16 @@ public class MazeTileObject implements SolObject {
                     Vector2 curr = pts.get(flipped ? sz - i - 1 : i);
                     Vector2 v = new Vector2(curr);
                     v.add(-.5f, -.5f);
-                    if (flipped) v.x *= -1;
+                    if (flipped) {
+                        v.x *= -1;
+                    }
                     v.scl(MazeBuilder.TILE_SZ);
                     points.add(v);
                 }
-                Vector2[] v = points.toArray(new Vector2[]{});
+                Vector2[] v = points.toArray(new Vector2[] {});
                 shape.createLoop(v);
                 Fixture f = body.createFixture(shape, 0);
-                f.setFriction(Const.FRICTION);
+                f.setFriction(Constants.FRICTION);
                 shape.dispose();
             }
 

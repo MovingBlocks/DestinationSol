@@ -19,13 +19,13 @@ package org.destinationsol.game.screens;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.FactionManager;
-import org.destinationsol.game.HardnessCalc;
+import org.destinationsol.game.HardnessCalculator;
 import org.destinationsol.game.MapDrawer;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
@@ -46,8 +46,8 @@ public class BorderDrawer {
 
     public static final float TISHCH_SZ = .02f;
     public static final float BORDER_ICON_SZ = .12f;
-    public static final float MAX_ICON_DIST = Const.ATM_HEIGHT;
-    private static final float MAX_DRAW_DIST = (Const.MAX_GROUND_HEIGHT + Const.ATM_HEIGHT) * 2;
+    public static final float MAX_ICON_DIST = Constants.ATM_HEIGHT;
+    private static final float MAX_DRAW_DIST = (Constants.MAX_GROUND_HEIGHT + Constants.ATM_HEIGHT) * 2;
     private final ArrayList<Tishch> myTishches;
     private final Vector2 myTmpVec = new Vector2();
 
@@ -86,7 +86,7 @@ public class BorderDrawer {
         drawTishches(drawer, g, cam, camPos);
         MapDrawer mapDrawer = g.getMapDrawer();
         FactionManager factionManager = g.getFactionMan();
-        float heroDmgCap = hero == null ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero);
+        float heroDmgCap = hero == null ? Float.MAX_VALUE : HardnessCalculator.getShipDmgCap(hero);
 
         List<SolObject> objs = g.getObjMan().getObjs();
         for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
@@ -126,14 +126,18 @@ public class BorderDrawer {
                                Faction objFac, Object shipHack, float heroDmgCap, TextureAtlas.AtlasRegion icon) {
         Vector2 camPos = cam.getPos();
         float closeness = 1 - pos.dst(camPos) / MAX_ICON_DIST;
-        if (closeness < 0) return;
+        if (closeness < 0) {
+            return;
+        }
         float camAngle = cam.getAngle();
         SolMath.toRel(pos, myTmpVec, camAngle, camPos);
         float len = myTmpVec.len();
         float newLen = len - .25f * objSize;
         myTmpVec.scl(newLen / len);
 
-        if (cam.isRelVisible(myTmpVec)) return;
+        if (cam.isRelVisible(myTmpVec)) {
+            return;
+        }
 
         float sz = BORDER_ICON_SZ * closeness;
         float prefX = drawer.r / 2 - sz / 2;
@@ -150,7 +154,9 @@ public class BorderDrawer {
     private void drawTishches(UiDrawer drawer, SolGame g, SolCam cam, Vector2 camPos) {
         PlanetManager pMan = g.getPlanetMan();
         Planet np = pMan.getNearestPlanet();
-        if (np != null && np.getPos().dst(camPos) < np.getFullHeight()) return;
+        if (np != null && np.getPos().dst(camPos) < np.getFullHeight()) {
+            return;
+        }
         for (int i = 0, myTishchesSize = myTishches.size(); i < myTishchesSize; i++) {
             Tishch t = myTishches.get(i);
             t.reset();
@@ -200,7 +206,7 @@ public class BorderDrawer {
         private final float myAngle;
         private float myPerc;
 
-        public Tishch(float x, float y, float r, float maxSz, TextureAtlas.AtlasRegion tex) {
+        Tishch(float x, float y, float r, float maxSz, TextureAtlas.AtlasRegion tex) {
             myX = x;
             myY = y;
             myTex = tex;
@@ -219,7 +225,9 @@ public class BorderDrawer {
 
         public void setDistPerc(float distPerc) {
             float closeness = 1 - distPerc;
-            if (closeness < myPerc) return;
+            if (closeness < myPerc) {
+                return;
+            }
             myPerc = closeness;
         }
 

@@ -35,7 +35,6 @@ import org.destinationsol.game.ship.ForceBeacon;
 import org.destinationsol.game.ship.ShipEngine;
 import org.destinationsol.game.ship.SolShip;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Hull {
@@ -48,10 +47,10 @@ public class Hull {
     private final List<LightSrc> myLightSrcs;
     private final Vector2 myPos;
     private final Vector2 mySpd;
-    private final ArrayList<ForceBeacon> myBeacons;
+    private final List<ForceBeacon> myBeacons;
     private final PlanetBind myPlanetBind;
     private final float myMass;
-    private final ArrayList<Door> myDoors;
+    private final List<Door> myDoors;
     private final Fixture myShieldFixture;
     public float life;
     private float myAngle;
@@ -59,8 +58,8 @@ public class Hull {
     private ShipEngine myEngine;
 
     public Hull(SolGame game, HullConfig hullConfig, Body body, GunMount gunMount1, GunMount gunMount2, Fixture base,
-                List<LightSrc> lightSrcs, float life, ArrayList<ForceBeacon> forceBeacons,
-                ArrayList<Door> doors, Fixture shieldFixture) {
+                List<LightSrc> lightSrcs, float life, List<ForceBeacon> forceBeacons,
+                List<Door> doors, Fixture shieldFixture) {
         config = hullConfig;
         myBody = body;
         myGunMount1 = gunMount1;
@@ -95,7 +94,9 @@ public class Hull {
 
     public GunItem getGun(boolean second) {
         GunMount m = getGunMount(second);
-        if (m == null) return null;
+        if (m == null) {
+            return null;
+        }
         return m.getGun();
     }
 
@@ -104,17 +105,14 @@ public class Hull {
         boolean controlsEnabled = ship.isControlsEnabled();
 
         if (myEngine != null) {
-            if (true || container.contains(myEngine.getItem())) {
                 myEngine.update(myAngle, game, provider, myBody, mySpd, ship, controlsEnabled, myMass);
-            } else {
-                setEngine(game, ship, null);
-            }
         }
 
         Faction faction = ship.getPilot().getFaction();
         myGunMount1.update(container, game, myAngle, ship, controlsEnabled && provider.isShoot(), nearestEnemy, faction);
-        if (myGunMount2 != null)
+        if (myGunMount2 != null) {
             myGunMount2.update(container, game, myAngle, ship, controlsEnabled && provider.isShoot2(), nearestEnemy, faction);
+        }
 
         for (int i = 0, myLightSrcsSize = myLightSrcs.size(); i < myLightSrcsSize; i++) {
             LightSrc src = myLightSrcs.get(i);
@@ -151,9 +149,13 @@ public class Hull {
     }
 
     public void onRemove(SolGame game) {
-        for (Door door : myDoors) door.onRemove(game);
+        for (Door door : myDoors) {
+            door.onRemove(game);
+        }
         myBody.getWorld().destroyBody(myBody);
-        if (myEngine != null) myEngine.onRemove(game, myPos);
+        if (myEngine != null) {
+            myEngine.onRemove(game, myPos);
+        }
 
     }
 
@@ -193,7 +195,7 @@ public class Hull {
         return myRotSpd;
     }
 
-    public ArrayList<Door> getDoors() {
+    public List<Door> getDoors() {
         return myDoors;
     }
 

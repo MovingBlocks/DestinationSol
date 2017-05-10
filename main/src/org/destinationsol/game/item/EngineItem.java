@@ -115,7 +115,6 @@ public class EngineItem implements SolItem {
         return myConfig.effectConfig;
     }
 
-
     public static class Config {
         public final String displayName;
         public final int price;

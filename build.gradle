@@ -10,7 +10,7 @@ buildscript {
     }
 }
 // Git plugin details at https://github.com/ajoberstar/gradle-git
-import org.ajoberstar.gradle.git.tasks.*
+import org.ajoberstar.gradle.git.tasks.GitClone
 
 allprojects {
     apply plugin: 'eclipse'

@@ -17,7 +17,7 @@
 package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.game.FarObj;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -45,7 +45,7 @@ public class FarSky implements FarObj {
 
     @Override
     public float getRadius() {
-        return myPlanet.getGroundHeight() + Const.MAX_SKY_HEIGHT_FROM_GROUND;
+        return myPlanet.getGroundHeight() + Constants.MAX_SKY_HEIGHT_FROM_GROUND;
     }
 
     @Override

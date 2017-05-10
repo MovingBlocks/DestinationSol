@@ -46,7 +46,9 @@ public class DebugCollector {
     }
 
     public static void warn(String msg) {
-        if (!DebugOptions.SHOW_WARNINGS) return;
+        if (!DebugOptions.SHOW_WARNINGS) {
+            return;
+        }
         myWarnings.put(msg, TimeUtils.millis() + WARN_TIME);
     }
 

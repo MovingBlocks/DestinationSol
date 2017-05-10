@@ -38,7 +38,7 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 import java.util.Iterator;
 import java.util.List;
 
-public class HardnessCalc {
+public class HardnessCalculator {
 
     public static final float SHIELD_MUL = 1.2f;
 

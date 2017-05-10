@@ -40,7 +40,7 @@ public class InputMapKeyboardScreen implements InputMapOperations {
         controls = new ArrayList<SolUiControl>();
     }
 
-    private void InitialiseList(GameOptions gameOptions) {
+    private void initialiseList(GameOptions gameOptions) {
         itemsList.clear();
 
         // Ship Control Keys
@@ -223,7 +223,7 @@ public class InputMapKeyboardScreen implements InputMapOperations {
 
     @Override
     public void onAdd(SolApplication cmp) {
-        InitialiseList(cmp.getOptions());
+        initialiseList(cmp.getOptions());
         isEnterNewKey = false;
         selectedIndex = 0;
     }
@@ -256,7 +256,9 @@ public class InputMapKeyboardScreen implements InputMapOperations {
                 @Override
                 public boolean keyUp(int keycode) {
                     // Don't capture the escape key
-                    if (keycode == Input.Keys.ESCAPE) return true;
+                    if (keycode == Input.Keys.ESCAPE) {
+                        return true;
+                    }
 
                     removeDuplicateKeys(keycode);
                     InputConfigItem item = itemsList.get(selectedIndex);

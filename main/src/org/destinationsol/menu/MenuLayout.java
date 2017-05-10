@@ -19,13 +19,12 @@ package org.destinationsol.menu;
 import com.badlogic.gdx.math.Rectangle;
 
 public class MenuLayout {
+    public static final float BG_BORDER = .03f;
+    private static final int NUMBER_OF_ROWS_TOTAL = 5;
     private final float btnW;
     private final float btnH;
     private final float colCenter;
     private final float row0;
-
-    public static final float BG_BORDER = .03f;
-    private static final int numberOfRowsTotal = 5;
     private final float rowH;
     private final float myPad;
 
@@ -35,7 +34,14 @@ public class MenuLayout {
         myPad = .1f * btnH;
         rowH = btnH + myPad;
         colCenter = .5f * r - btnW / 2;
-        row0 = 1 - myPad - numberOfRowsTotal * rowH;
+        row0 = 1 - myPad - NUMBER_OF_ROWS_TOTAL * rowH;
+    }
+
+    static Rectangle bottomRightFloatingButton(float resolutionRatio) {
+        final float BUTTON_WIDTH = .15f;
+        final float BUTTON_HEIGHT = .07f;
+
+        return new Rectangle(resolutionRatio - BUTTON_WIDTH, 1 - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
     }
 
     public Rectangle buttonRect(int col, int row) {
@@ -48,12 +54,5 @@ public class MenuLayout {
         float x = colCount == -1 ? colCenter : .5f; //unfinished
         float y = row0 + rowH * startRow;
         return new Rectangle(x - BG_BORDER, y - BG_BORDER, btnW + 2 * BG_BORDER, rowH * rowCount - myPad + 2 * BG_BORDER);
-    }
-
-    static Rectangle bottomRightFloatingButton(float resolutionRatio) {
-        final float BUTTON_WIDTH = .15f;
-        final float BUTTON_HEIGHT = .07f;
-
-        return new Rectangle(resolutionRatio - BUTTON_WIDTH, 1 - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
     }
 }

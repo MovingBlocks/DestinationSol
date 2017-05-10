@@ -17,7 +17,7 @@
 package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.game.HardnessCalc;
+import org.destinationsol.game.HardnessCalculator;
 
 import java.util.ArrayList;
 
@@ -40,9 +40,9 @@ public class SolSystem {
         myPlanets = new ArrayList<Planet>();
         myBelts = new ArrayList<SystemBelt>();
         myRadius = sysRadius;
-        myDps = HardnessCalc.getSysDps(config, false);
+        myDps = HardnessCalculator.getSysDps(config, false);
         myInnerRad = myRadius / 2;
-        myInnerDps = HardnessCalc.getSysDps(config, true);
+        myInnerDps = HardnessCalculator.getSysDps(config, true);
     }
 
     public ArrayList<Planet> getPlanets() {
@@ -71,7 +71,9 @@ public class SolSystem {
 
     public void addBelt(SystemBelt belt) {
         float newInnerRad = belt.getRadius() - belt.getHalfWidth();
-        if (myBelts.size() == 0 || myInnerRad < newInnerRad) myInnerRad = newInnerRad;
+        if (myBelts.size() == 0 || myInnerRad < newInnerRad) {
+            myInnerRad = newInnerRad;
+        }
         myBelts.add(belt);
     }
 

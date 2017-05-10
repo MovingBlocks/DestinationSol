@@ -17,7 +17,7 @@
 package org.destinationsol.game.chunk;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.TextureManager;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.RemoveController;
@@ -70,13 +70,15 @@ public class ChunkManager {
     }
 
     private int posToChunkIdx(float v) {
-        int i = (int) (v / Const.CHUNK_SIZE);
-        if (v < 0) i -= 1;
+        int i = (int) (v / Constants.CHUNK_SIZE);
+        if (v < 0) {
+            i -= 1;
+        }
         return i;
     }
 
     private void clearFarChunks(Set<Vector2> chunks, int dist) {
-        for (Iterator<Vector2> it = chunks.iterator(); it.hasNext(); ) {
+        for (Iterator<Vector2> it = chunks.iterator(); it.hasNext();) {
             Vector2 chunk = it.next();
             if (isChunkFar((int) chunk.x, (int) chunk.y, dist)) {
                 it.remove();
@@ -92,7 +94,9 @@ public class ChunkManager {
         maybeAddChunk(chunks, 0, 0, game);
         for (int i = -dist; i < dist + 1; i++) {
             for (int j = -dist; j < dist + 1; j++) {
-                if (i == 0 && j == 0) continue;
+                if (i == 0 && j == 0) {
+                    continue;
+                }
                 maybeAddChunk(chunks, i, j, game);
             }
         }
@@ -118,7 +122,7 @@ public class ChunkManager {
     private class MyRemover implements RemoveController {
         private final int myMinRemoveDist;
 
-        public MyRemover(int minRemoveDist) {
+        MyRemover(int minRemoveDist) {
             myMinRemoveDist = minRemoveDist;
         }
 

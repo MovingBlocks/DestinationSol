@@ -33,7 +33,9 @@ public class SolContactFilter implements ContactFilter {
         SolObject oB = (SolObject) fixtureB.getBody().getUserData();
 
         boolean aIsProj = oA instanceof Projectile;
-        if (!aIsProj && !(oB instanceof Projectile)) return true;
+        if (!aIsProj && !(oB instanceof Projectile)) {
+            return true;
+        }
 
         Projectile proj = (Projectile) (aIsProj ? oA : oB);
         SolObject o = aIsProj ? oB : oA;

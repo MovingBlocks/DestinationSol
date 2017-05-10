@@ -22,7 +22,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.OrderedMap;
-import org.destinationsol.common.DebugCol;
+import org.destinationsol.common.DebugColours;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.MapDrawer;
@@ -58,7 +58,9 @@ public class DraMan {
         for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
             Dra dra = dras.get(i);
             float rr = dra.getRelPos().len() + dra.getRadius();
-            if (r < rr) r = rr;
+            if (r < rr) {
+                r = rr;
+            }
         }
         return r;
     }
@@ -75,7 +77,9 @@ public class DraMan {
             OrderedMap<Texture, List<Dra>> map = myDras.get(l.ordinal());
             Texture tex = dra.getTex0();
             List<Dra> set = map.get(tex);
-            if (set == null) continue;
+            if (set == null) {
+                continue;
+            }
             set.remove(dra);
             myInCam.remove(dra);
         }
@@ -126,7 +130,9 @@ public class DraMan {
             float r = objectManager.getPresenceRadius(o);
             List<Dra> dras = o.getDras();
             float draLevelViewDist = viewDist;
-            if (dras.size() > 0) draLevelViewDist *= dras.get(0).getLevel().depth;
+            if (dras.size() > 0) {
+                draLevelViewDist *= dras.get(0).getLevel().depth;
+            }
             boolean objInCam = isInCam(objPos, r, camPos, draLevelViewDist);
             for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
                 Dra dra = dras.get(i);
@@ -159,7 +165,9 @@ public class DraMan {
                 for (int draIdx = 0, drasSize = dras.size(); draIdx < drasSize; draIdx++) {
                     Dra dra = dras.get(draIdx);
                     if (myInCam.contains(dra)) {
-                        if (!DebugOptions.NO_DRAS) dra.draw(myDrawer, game);
+                        if (!DebugOptions.NO_DRAS) {
+                            dra.draw(myDrawer, game);
+                        }
                     }
                 }
             }
@@ -173,7 +181,6 @@ public class DraMan {
                 }
             }
         }
-
 
         if (DebugOptions.DRAW_DRA_BORDERS) {
             for (OrderedMap<Texture, List<Dra>> map : myDras) {
@@ -193,7 +200,7 @@ public class DraMan {
     private void drawDebug(GameDrawer drawer, SolGame game, Dra dra) {
         SolCam cam = game.getCam();
         float lineWidth = cam.getRealLineWidth();
-        Color col = myInCam.contains(dra) ? DebugCol.DRA : DebugCol.DRA_OUT;
+        Color col = myInCam.contains(dra) ? DebugColours.DRA : DebugColours.DRA_OUT;
         Vector2 pos = dra.getPos();
         drawer.drawCircle(drawer.debugWhiteTex, pos, dra.getRadius(), col, lineWidth, cam.getViewHeight());
     }
@@ -211,9 +218,13 @@ public class DraMan {
 
     public void collectTexs(Collection<TextureAtlas.AtlasRegion> collector, Vector2 pos) {
         for (Dra dra : myInCam) {
-            if (.5f * dra.getRadius() < dra.getPos().dst(pos)) continue;
+            if (.5f * dra.getRadius() < dra.getPos().dst(pos)) {
+                continue;
+            }
             TextureAtlas.AtlasRegion tex = dra.getTex();
-            if (tex == null) continue;
+            if (tex == null) {
+                continue;
+            }
             collector.add(tex);
         }
 

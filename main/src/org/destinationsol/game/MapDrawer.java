@@ -20,7 +20,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.TextureManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -78,7 +78,6 @@ public class MapDrawer {
     private float mySkullTime;
     private float myAreaSkullTime;
 
-
     public MapDrawer(TextureManager textureManager, float screenHeight) {
         myZoom = MAX_ZOOM / MUL_FACTOR / MUL_FACTOR;
         float minIconRad = MIN_ICON_RAD_PX / screenHeight;
@@ -124,7 +123,7 @@ public class MapDrawer {
         Planet np = game.getPlanetMan().getNearestPlanet();
         Vector2 camPos = cam.getPos();
         float camAngle = cam.getAngle();
-        float heroDmgCap = hero == null ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero);
+        float heroDmgCap = hero == null ? Float.MAX_VALUE : HardnessCalculator.getShipDmgCap(hero);
 
         drawer.updateMtx(game);
         game.getGridDrawer().draw(drawer, game, GRID_SZ, myLineTex);
@@ -148,9 +147,11 @@ public class MapDrawer {
             Vector2 mazePos = maze.getPos();
             float outerRad = maze.getRadius();
             float rad = outerRad - MazeBuilder.BORDER;
-            if (viewDist < camPos.dst(mazePos) - rad) continue;
+            if (viewDist < camPos.dst(mazePos) - rad) {
+                continue;
+            }
             drawer.draw(myMazeTex, 2 * rad, 2 * rad, rad, rad, mazePos.x, mazePos.y, 45, SolColor.W);
-            if (HardnessCalc.isDangerous(heroDmgCap, maze.getDps())) {
+            if (HardnessCalculator.isDangerous(heroDmgCap, maze.getDps())) {
                 drawAreaDanger(drawer, outerRad, mazePos, 1, camAngle);
             }
         }
@@ -169,9 +170,9 @@ public class MapDrawer {
         }
         for (int i2 = 0, systemsSize = systems.size(); i2 < systemsSize; i2++) {
             SolSystem sys = systems.get(i2);
-            float dangerRad = HardnessCalc.isDangerous(heroDmgCap, sys.getDps()) ? sys.getRadius() : 0;
+            float dangerRad = HardnessCalculator.isDangerous(heroDmgCap, sys.getDps()) ? sys.getRadius() : 0;
             Vector2 sysPos = sys.getPos();
-            float rad = Const.SUN_RADIUS;
+            float rad = Constants.SUN_RADIUS;
             if (camPos.dst(sysPos) - rad < viewDist) {
                 drawer.draw(myStarTex, 2 * rad, 2 * rad, rad, rad, sysPos.x, sysPos.y, 0, SolColor.W);
             }
@@ -190,10 +191,12 @@ public class MapDrawer {
                     drawer.draw(myBeltTex, 2 * halfWidth, 2 * halfWidth, halfWidth, halfWidth, beltIconPos.x, beltIconPos.y, angle * 3, SolColor.W);
                 }
                 float outerRad = beltRad + halfWidth;
-                if (dangerRad < outerRad && HardnessCalc.isDangerous(heroDmgCap, belt.getDps())) dangerRad = outerRad;
+                if (dangerRad < outerRad && HardnessCalculator.isDangerous(heroDmgCap, belt.getDps())) {
+                    dangerRad = outerRad;
+                }
             }
             SolMath.free(beltIconPos);
-            if (dangerRad < sys.getInnerRad() && HardnessCalc.isDangerous(heroDmgCap, sys.getInnerDps())) {
+            if (dangerRad < sys.getInnerRad() && HardnessCalculator.isDangerous(heroDmgCap, sys.getInnerDps())) {
                 dangerRad = sys.getInnerRad();
             }
             if (dangerRad > 0) {
@@ -207,7 +210,9 @@ public class MapDrawer {
             Vector2 planetPos = planet.getPos();
             float fh = planet.getFullHeight();
             float dstToPlanetAtm = camPos.dst(planetPos) - fh;
-            if (viewDist < dstToPlanetAtm) continue;
+            if (viewDist < dstToPlanetAtm) {
+                continue;
+            }
             drawer.draw(myAtmTex, 2 * fh, 2 * fh, fh, fh, planetPos.x, planetPos.y, 0, SolColor.UI_DARK);
             float gh;
             if (dstToPlanetAtm < 0) {
@@ -218,8 +223,8 @@ public class MapDrawer {
                 gh = planet.getGroundHeight();
                 drawer.draw(myPlanetTex, 2 * gh, 2 * gh, gh, gh, planetPos.x, planetPos.y, camAngle, SolColor.W);
             }
-            float dangerRad = HardnessCalc.isDangerous(heroDmgCap, planet.getGroundDps()) ? gh + Const.ATM_HEIGHT / 2 : 0;
-//      if (dangerRad < gh && HardnessCalc.isDangerous(heroDmgCap, planet.getGroundDps())) dangerRad = gh;
+            float dangerRad = HardnessCalculator.isDangerous(heroDmgCap, planet.getGroundDps()) ? gh + Constants.ATM_HEIGHT / 2 : 0;
+            //      if (dangerRad < gh && HardnessCalculator.isDangerous(heroDmgCap, planet.getGroundDps())) dangerRad = gh;
             if (dangerRad > 0) {
                 drawAreaDanger(drawer, dangerRad, planetPos, 1, camAngle);
             }
@@ -228,7 +233,9 @@ public class MapDrawer {
 
     private void drawAreaDanger(GameDrawer drawer, float rad, Vector2 pos, float transpMul, float angle) {
         float perc = 2 * myAreaSkullTime / MAX_AREA_SKULL_TIME;
-        if (perc > 1) perc = 2 - perc;
+        if (perc > 1) {
+            perc = 2 - perc;
+        }
         perc = SolMath.clamp((perc - .5f) * 2 + .5f);
         float a = SolMath.clamp(perc * transpMul);
         myAreaWarnBgCol.a = a;
@@ -244,11 +251,15 @@ public class MapDrawer {
         for (int i1 = 0, objsSize = objs.size(); i1 < objsSize; i1++) {
             SolObject o = objs.get(i1);
             Vector2 oPos = o.getPosition();
-            if (viewDist < camPos.dst(oPos)) continue;
+            if (viewDist < camPos.dst(oPos)) {
+                continue;
+            }
             if ((o instanceof SolShip)) {
                 SolShip ship = (SolShip) o;
                 String hint = ship.getPilot().getMapHint();
-                if (hint == null && !DebugOptions.DETAILED_MAP) continue;
+                if (hint == null && !DebugOptions.DETAILED_MAP) {
+                    continue;
+                }
                 drawObjIcon(iconSz, oPos, ship.getAngle(), factionManager, hero, ship.getPilot().getFaction(), heroDmgCap, o, ship.getHull().config.getIcon(), drawer);
             }
             if ((o instanceof StarPort)) {
@@ -270,9 +281,13 @@ public class MapDrawer {
         for (int i = 0, sz = farShips.size(); i < sz; i++) {
             FarShip ship = farShips.get(i);
             Vector2 oPos = ship.getPos();
-            if (viewDist < camPos.dst(oPos)) continue;
+            if (viewDist < camPos.dst(oPos)) {
+                continue;
+            }
             String hint = ship.getPilot().getMapHint();
-            if (hint == null && !DebugOptions.DETAILED_MAP) continue;
+            if (hint == null && !DebugOptions.DETAILED_MAP) {
+                continue;
+            }
             drawObjIcon(iconSz, oPos, ship.getAngle(), factionManager, hero, ship.getPilot().getFaction(), heroDmgCap, ship, ship.getHullConfig().getIcon(), drawer);
         }
 
@@ -286,10 +301,13 @@ public class MapDrawer {
         if (bhAction != null) {
             Vector2 beaconPos = bh.getPos();
             TextureRegion icon = myBeaconMoveTex;
-            if (bhAction == BeaconHandler.Action.ATTACK) icon = myBeaconAttackTex;
-            else if (bhAction == BeaconHandler.Action.FOLLOW) icon = myBeaconFollowTex;
+            if (bhAction == BeaconHandler.Action.ATTACK) {
+                icon = myBeaconAttackTex;
+            } else if (bhAction == BeaconHandler.Action.FOLLOW) {
+                icon = myBeaconFollowTex;
+            }
             float beaconSz = iconSz * 1.5f;
-//      drawer.draw(icon, beaconSz, beaconSz, beaconSz/2, beaconSz/2, beaconPos.x, beaconPos.y, 0, SolColor.W); interleaving
+            //      drawer.draw(icon, beaconSz, beaconSz, beaconSz/2, beaconSz/2, beaconPos.x, beaconPos.y, 0, SolColor.W); interleaving
         }
     }
 
@@ -304,9 +322,13 @@ public class MapDrawer {
         List<SolObject> objs = game.getObjMan().getObjs();
         for (int i1 = 0, objsSize = objs.size(); i1 < objsSize; i1++) {
             SolObject o = objs.get(i1);
-            if (!(o instanceof StarPort)) continue;
+            if (!(o instanceof StarPort)) {
+                continue;
+            }
             Vector2 oPos = o.getPosition();
-            if (viewDist < camPos.dst(oPos)) continue;
+            if (viewDist < camPos.dst(oPos)) {
+                continue;
+            }
             StarPort sp = (StarPort) o;
             drawStarNode(drawer, sp.getFrom(), sp.getTo(), starNodeW);
         }
@@ -315,8 +337,12 @@ public class MapDrawer {
         for (int i = 0, sz = farPorts.size(); i < sz; i++) {
             StarPort.MyFar sp = farPorts.get(i);
             Vector2 oPos = sp.getPos();
-            if (viewDist < camPos.dst(oPos)) continue;
-            if (!sp.isSecondary()) drawStarNode(drawer, sp.getFrom(), sp.getTo(), starNodeW);
+            if (viewDist < camPos.dst(oPos)) {
+                continue;
+            }
+            if (!sp.isSecondary()) {
+                drawStarNode(drawer, sp.getFrom(), sp.getTo(), starNodeW);
+            }
         }
     }
 
@@ -333,11 +359,17 @@ public class MapDrawer {
         List<SolObject> objs = objectManager.getObjs();
         for (int i1 = 0, objsSize = objs.size(); i1 < objsSize; i1++) {
             SolObject o = objs.get(i1);
-            if (!(o instanceof TileObject)) continue;
+            if (!(o instanceof TileObject)) {
+                continue;
+            }
             TileObject to = (TileObject) o;
-            if (to.getPlanet() != np) continue;
+            if (to.getPlanet() != np) {
+                continue;
+            }
             Vector2 oPos = o.getPosition();
-            if (viewDist < camPos.dst(oPos)) continue;
+            if (viewDist < camPos.dst(oPos)) {
+                continue;
+            }
             float sz = to.getSz();
             drawPlanetTile(to.getTile(), sz, drawer, oPos, to.getAngle());
         }
@@ -346,11 +378,17 @@ public class MapDrawer {
         for (int i = 0, farObjsSize = farObjs.size(); i < farObjsSize; i++) {
             FarObjData fod = farObjs.get(i);
             FarObj o = fod.fo;
-            if (!(o instanceof FarTileObject)) continue;
+            if (!(o instanceof FarTileObject)) {
+                continue;
+            }
             FarTileObject to = (FarTileObject) o;
-            if (to.getPlanet() != np) continue;
+            if (to.getPlanet() != np) {
+                continue;
+            }
             Vector2 oPos = o.getPos();
-            if (viewDist < camPos.dst(oPos)) continue;
+            if (viewDist < camPos.dst(oPos)) {
+                continue;
+            }
             float sz = to.getSz();
             drawPlanetTile(to.getTile(), sz, drawer, oPos, to.getAngle());
         }
@@ -361,7 +399,7 @@ public class MapDrawer {
                             Object shipHack, TextureAtlas.AtlasRegion icon, Object drawerHack) {
         boolean enemy = hero != null && factionManager.areEnemies(objFac, hero.getPilot().getFaction());
         float angle = objAngle;
-        if (enemy && mySkullTime > 0 && HardnessCalc.isDangerous(heroDmgCap, shipHack)) {
+        if (enemy && mySkullTime > 0 && HardnessCalculator.isDangerous(heroDmgCap, shipHack)) {
             icon = mySkullTex;
             angle = 0;
         }
@@ -379,8 +417,11 @@ public class MapDrawer {
     }
 
     public void changeZoom(boolean zoomIn) {
-        if (zoomIn) myZoom /= MUL_FACTOR;
-        else myZoom *= MUL_FACTOR;
+        if (zoomIn) {
+            myZoom /= MUL_FACTOR;
+        } else {
+            myZoom *= MUL_FACTOR;
+        }
         myZoom = SolMath.clamp(myZoom, MIN_ZOOM, MAX_ZOOM);
     }
 
@@ -390,20 +431,28 @@ public class MapDrawer {
 
     public void update(SolGame game) {
         mySkullTime += game.getTimeStep();
-        if (mySkullTime > MAX_SKULL_TIME) mySkullTime = -MAX_SKULL_TIME;
+        if (mySkullTime > MAX_SKULL_TIME) {
+            mySkullTime = -MAX_SKULL_TIME;
+        }
         myAreaSkullTime += game.getTimeStep();
-        if (myAreaSkullTime > MAX_AREA_SKULL_TIME) myAreaSkullTime = 0;
+        if (myAreaSkullTime > MAX_AREA_SKULL_TIME) {
+            myAreaSkullTime = 0;
+        }
     }
 
     private void drawPlanetTile(Tile t, float sz, GameDrawer drawer, Vector2 p, float angle) {
         float szh = .6f * sz;
         Color col = t.from == SurfaceDirection.UP && t.to == SurfaceDirection.UP ? SolColor.W : SolColor.UI_OPAQUE;
         if (t.from == SurfaceDirection.FWD || t.from == SurfaceDirection.UP) {
-            if (t.from == SurfaceDirection.UP) drawer.draw(myWhiteTex, szh, szh, 0, 0, p.x, p.y, angle - 90, col);
+            if (t.from == SurfaceDirection.UP) {
+                drawer.draw(myWhiteTex, szh, szh, 0, 0, p.x, p.y, angle - 90, col);
+            }
             drawer.draw(myWhiteTex, szh, szh, 0, 0, p.x, p.y, angle, col);
         }
         if (t.to == SurfaceDirection.FWD || t.to == SurfaceDirection.UP) {
-            if (t.to == SurfaceDirection.UP) drawer.draw(myWhiteTex, szh, szh, 0, 0, p.x, p.y, angle + 180, col);
+            if (t.to == SurfaceDirection.UP) {
+                drawer.draw(myWhiteTex, szh, szh, 0, 0, p.x, p.y, angle + 180, col);
+            }
             drawer.draw(myWhiteTex, szh, szh, 0, 0, p.x, p.y, angle + 90, col);
         }
     }

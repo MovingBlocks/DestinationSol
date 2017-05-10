@@ -22,7 +22,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.TimeUtils;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,9 +56,9 @@ class SoundTestCmp {
 
     public void render() {
         myAccum += Gdx.graphics.getDeltaTime();
-        while (myAccum > Const.REAL_TIME_STEP) {
+        while (myAccum > Constants.REAL_TIME_STEP) {
             update();
-            myAccum -= Const.REAL_TIME_STEP;
+            myAccum -= Constants.REAL_TIME_STEP;
         }
         draw();
     }
@@ -84,7 +84,9 @@ class SoundTestCmp {
         for (int i = 0; i < regs.size(); i++) {
             TextureRegion r = regs.get(i);
             int y = i * 32;
-            if (combined) y += 64;
+            if (combined) {
+                y += 64;
+            }
             mySpriteBatch.draw(r, i * 32, y);
         }
         long elapsed = TimeUtils.nanoTime() - s;
@@ -92,6 +94,6 @@ class SoundTestCmp {
     }
 
     private void update() {
-        logger.debug("Divided: {}, combined: {}",myDivSum,myCombSum);
+        logger.debug("Divided: {}, combined: {}", myDivSum, myCombSum);
     }
 }

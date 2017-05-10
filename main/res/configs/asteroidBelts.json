@@ -4,36 +4,32 @@
       junkTexs: "deco/space/sysDeco",
       junkDensity: 0.06,
       farJunkTexs: "deco/farSpace/beltFarBg",
-      farJunkDensity: 0.01,
+      farJunkDensity: 0.01
     },
-
     temporaryEnemies: [
       {
         hull: minerSmall,
         items: "missileLauncher",
-		money: 100,
-        density: 0.002,
-      },
-    ],
+        money: 100,
+        density: 0.002
+      }
+    ]
   },
-
   hard: {
     hard: true,
-
     environment: {
       junkTexs: "deco/space/sysDeco",
       junkDensity: 0.06,
       farJunkTexs: "deco/farSpace/beltFarBg",
-      farJunkDensity: 0.01,
+      farJunkDensity: 0.01
     },
-
     temporaryEnemies: [
       {
         hull: minerMedium,
         items: "nailGun a2 s2:.5",
-		money: 100,
-        density: 0.002,
-      },
-    ],
-  },
+        money: 100,
+        density: 0.002
+      }
+    ]
+  }
 }

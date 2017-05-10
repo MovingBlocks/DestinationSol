@@ -21,7 +21,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
@@ -40,7 +40,9 @@ public class TileObjBuilder {
             body = buildBody(game, toPlanetRelAngle, dist, tile, planet, spriteSz);
         }
         TileObject res = new TileObject(planet, toPlanetRelAngle, dist, sz, sprite, body, tile);
-        if (body != null) body.setUserData(res);
+        if (body != null) {
+            body.setUserData(res);
+        }
         return res;
     }
 
@@ -60,10 +62,10 @@ public class TileObjBuilder {
             v.scl(spriteSz);
             points.add(v);
         }
-        Vector2[] v = points.toArray(new Vector2[]{});
+        Vector2[] v = points.toArray(new Vector2[] {});
         shape.createLoop(v);
         Fixture f = body.createFixture(shape, 0);
-        f.setFriction(Const.FRICTION);
+        f.setFriction(Constants.FRICTION);
         shape.dispose();
         return body;
     }

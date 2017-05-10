@@ -77,7 +77,9 @@ public class AiPilot implements Pilot {
 
         Boolean canShoot = canShoot0(ship);
         boolean canShootUnfixed = canShoot == null;
-        if (canShootUnfixed) canShoot = true;
+        if (canShootUnfixed) {
+            canShoot = true;
+        }
         Planet np = game.getPlanetMan().getNearestPlanet();
         boolean nearGround = np.isNearGround(shipPos);
 
@@ -89,15 +91,21 @@ public class AiPilot implements Pilot {
         boolean hasEngine = ship.getHull().getEngine() != null;
         if (hasEngine) {
             Boolean battle = null;
-            if (nearestEnemy != null) battle = myDestProvider.shouldManeuver(canShoot, nearestEnemy, nearGround);
+            if (nearestEnemy != null) {
+                battle = myDestProvider.shouldManeuver(canShoot, nearestEnemy, nearGround);
+            }
             if (battle != null) {
                 dest = myBattleDestProvider.getDest(ship, nearestEnemy, np, battle, game.getTimeStep(), canShootUnfixed, nearGround);
                 shouldStopNearDest = myBattleDestProvider.shouldStopNearDest();
                 destSpd = nearestEnemy.getSpd();
                 boolean big = hullConfig.getType() == HullConfig.Type.BIG;
                 float maxBattleSpd = nearGround ? MAX_GROUND_BATTLE_SPD : big ? MAX_BATTLE_SPD_BIG : MAX_BATTLE_SPD;
-                if (maxBattleSpd < desiredSpdLen) desiredSpdLen = maxBattleSpd;
-                if (!big) desiredSpdLen += destSpd.len();
+                if (maxBattleSpd < desiredSpdLen) {
+                    desiredSpdLen = maxBattleSpd;
+                }
+                if (!big) {
+                    desiredSpdLen += destSpd.len();
+                }
             } else {
                 dest = myDestProvider.getDest();
                 destSpd = myDestProvider.getDestSpd();
@@ -126,15 +134,21 @@ public class AiPilot implements Pilot {
 
     private float getMaxIdleDist(HullConfig hullConfig) {
         float maxIdleDist = hullConfig.getApproxRadius();
-        if (maxIdleDist < MIN_IDLE_DIST) maxIdleDist = MIN_IDLE_DIST;
+        if (maxIdleDist < MIN_IDLE_DIST) {
+            maxIdleDist = MIN_IDLE_DIST;
+        }
         return maxIdleDist;
     }
 
     private Boolean canShoot0(SolShip ship) {
         GunItem g1 = ship.getHull().getGun(false);
-        if (g1 != null && g1.canShoot()) return !g1.config.fixed ? null : true;
+        if (g1 != null && g1.canShoot()) {
+            return !g1.config.fixed ? null : true;
+        }
         GunItem g2 = ship.getHull().getGun(true);
-        if (g2 != null && (g2.canShoot())) return !g2.config.fixed ? null : true;
+        if (g2 != null && (g2.canShoot())) {
+            return !g2.config.fixed ? null : true;
+        }
         return false;
     }
 
@@ -238,7 +252,9 @@ public class AiPilot implements Pilot {
                 float desiredSpdLen = myDestProvider.getDesiredSpdLen();
                 float spdLenDiff = engine.getAcc() * ts;
                 float spdLen = SolMath.approach(spd.len(), desiredSpdLen, spdLenDiff);
-                if (toDestLen < spdLen) spdLen = toDestLen;
+                if (toDestLen < spdLen) {
+                    spdLen = toDestLen;
+                }
                 SolMath.fromAl(spd, desiredAngle, spdLen);
             }
             angle = SolMath.approachAngle(angle, desiredAngle, engine.getMaxRotSpd() * ts);

@@ -5,37 +5,36 @@
       junkTexs: "deco/space/sysDeco",
       junkDensity: 0.06,
       farJunkTexs: "deco/farSpace/mazeFarBg",
-      farJunkDensity: 0.01,
+      farJunkDensity: 0.01
     },
-
     outerEnemies: [
       {
         hull: minerMedium,
         items: "rocketLauncher a1|a2:.4 s1|s2:.4",
-		money: 20,
-        density: 0.03,
+        money: 20,
+        density: 0.03
       }
     ],
     innerEnemies: [
       {
         hull: minerTurret,
         items: "missilePad a2:.6 s2:.6",
-		money: 20,
-        density: 0.005,
+        money: 20,
+        density: 0.005
       },
       {
         hull: minerSmall,
         items: "rocketLauncher|nailGun a2:.8 s2|s3:.8",
-		money: 20,
-        density: 0.005,
-      },
+        money: 20,
+        density: 0.005
+      }
     ],
     bosses: [
       {
         hull: minerBoss,
         items: "nailGun missileLauncher a2 s2|s3",
-		money: 20,
-      },
-    ],
-  },
+        money: 20
+      }
+    ]
+  }
 }

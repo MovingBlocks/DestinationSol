@@ -52,7 +52,6 @@ public class GroundBuilder {
             }
         }
 
-
         int nextD = (int) ds[0];
         for (int col = 0; col < myCols; col++) {
             int prevD = nextD;
@@ -70,7 +69,9 @@ public class GroundBuilder {
                 } else if (row > nextD) {
                     to = SurfaceDirection.UP;
                 }
-                if (from == SurfaceDirection.DOWN && to == SurfaceDirection.DOWN) continue;
+                if (from == SurfaceDirection.DOWN && to == SurfaceDirection.DOWN) {
+                    continue;
+                }
                 myMap[col][row] = myConfig.planetTiles.getGround(from, to);
             }
         }
@@ -85,8 +86,12 @@ public class GroundBuilder {
             float prev = x == 0 ? ds0[myCols - 1] : ds0[x - 1];
             float next = x == myCols - 1 ? ds0[0] : ds0[x + 1];
             ds[x] = .5f * .5f * (prev + next) + .5f * ds0[x];
-            if (ds[x] < min) min = ds[x];
-            if (max < ds[x]) max = ds[x];
+            if (ds[x] < min) {
+                min = ds[x];
+            }
+            if (max < ds[x]) {
+                max = ds[x];
+            }
         }
         float shift = min - desiredMin;
         float mul = (desiredMax - .01f - desiredMin) / (max - min);
@@ -103,7 +108,9 @@ public class GroundBuilder {
         }
         for (int col = 0; col < myCols; col++) {
             for (int row = 0; row < myRows; row++) {
-                if (!myDungeon[col][row]) continue;
+                if (!myDungeon[col][row]) {
+                    continue;
+                }
                 myMap[col][row] = isGround(col, row) ? getDungeonTile(col, row) : getEntranceTile(col, row);
             }
         }
@@ -131,14 +138,17 @@ public class GroundBuilder {
         addToDungeon(col, row);
         while (true) {
             int newCol = toLeft ? left(col) : right(col);
-//      if (!isCorner)
             col = newCol;
             currSpace += SolMath.rnd(.5f, SolMath.test(.3f) ? 4 : 1);
-            if (addToDungeon(col, row)) return;
+            if (addToDungeon(col, row)) {
+                return;
+            }
             while (currSpace > 0) {
                 currSpace -= 1;
                 row -= 1;
-                if (addToDungeon(col, row)) return;
+                if (addToDungeon(col, row)) {
+                    return;
+                }
             }
         }
     }

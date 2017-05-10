@@ -21,7 +21,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.planet.Planet;
@@ -50,7 +50,7 @@ public class SolCam {
     public SolCam(float r) {
         myCamRotStrategy = new CamRotStrategy.ToPlanet();
         myCam = new OrthographicCamera(VIEWPORT_HEIGHT * r, -VIEWPORT_HEIGHT);
-        myZoom = calcZoom(Const.CAM_VIEW_DIST_GROUND);
+        myZoom = calcZoom(Constants.CAM_VIEW_DIST_GROUND);
         myPos = new Vector2();
         myTmpVec = new Vector3();
     }
@@ -123,17 +123,17 @@ public class SolCam {
     private float getDesiredViewDistance(SolGame game) {
         SolShip hero = game.getHero();
         if (hero == null && game.getTranscendentHero() != null) { // hero is in transcendent state
-            return Const.CAM_VIEW_DIST_SPACE;
+            return Constants.CAM_VIEW_DIST_SPACE;
         } else if (hero == null && game.getTranscendentHero() == null) {
-            return Const.CAM_VIEW_DIST_GROUND;
+            return Constants.CAM_VIEW_DIST_GROUND;
         } else {
             float speed = hero.getSpd().len();
-            float desiredViewDistance = Const.CAM_VIEW_DIST_SPACE;
+            float desiredViewDistance = Constants.CAM_VIEW_DIST_SPACE;
             Planet nearestPlanet = game.getPlanetMan().getNearestPlanet(myPos);
             if (nearestPlanet.getFullHeight() < nearestPlanet.getPos().dst(myPos) && MAX_ZOOM_SPD < speed) {
-                desiredViewDistance = Const.CAM_VIEW_DIST_JOURNEY;
+                desiredViewDistance = Constants.CAM_VIEW_DIST_JOURNEY;
             } else if (nearestPlanet.isNearGround(myPos) && speed < MED_ZOOM_SPD) {
-                desiredViewDistance = Const.CAM_VIEW_DIST_GROUND;
+                desiredViewDistance = Constants.CAM_VIEW_DIST_GROUND;
             }
             desiredViewDistance += hero.getHull().config.getApproxRadius();
             return desiredViewDistance;
@@ -168,8 +168,12 @@ public class SolCam {
         boolean l = s.isLeft();
         boolean r = s.isRight();
         Vector2 v = SolMath.getVec();
-        if (l != r) v.x = SolMath.toInt(r);
-        if (d != u) v.y = SolMath.toInt(d);
+        if (l != r) {
+            v.x = SolMath.toInt(r);
+        }
+        if (d != u) {
+            v.y = SolMath.toInt(d);
+        }
         v.scl(MOVE_SPD * game.getTimeStep());
         SolMath.rotate(v, myAngle);
         myPos.add(v);
@@ -245,13 +249,17 @@ public class SolCam {
 
     public float getViewHeight(float zoom) {
         float r = -myCam.viewportHeight * zoom;
-        if (r < 0) throw new AssertionError("negative view height");
+        if (r < 0) {
+            throw new AssertionError("negative view height");
+        }
         return r;
     }
 
     public float getViewWidth() {
         float r = myCam.viewportWidth * myZoom;
-        if (r < 0) throw new AssertionError("negative view width");
+        if (r < 0) {
+            throw new AssertionError("negative view width");
+        }
         return r;
     }
 
@@ -268,9 +276,13 @@ public class SolCam {
 
     public boolean isRelVisible(Vector2 rp) {
         float wHalf = getViewWidth() / 2;
-        if (wHalf < SolMath.abs(rp.x)) return false;
+        if (wHalf < SolMath.abs(rp.x)) {
+            return false;
+        }
         float hHalf = getViewHeight() / 2;
-        if (hHalf < SolMath.abs(rp.y)) return false;
+        if (hHalf < SolMath.abs(rp.y)) {
+            return false;
+        }
         return true;
     }
 

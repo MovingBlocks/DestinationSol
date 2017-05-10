@@ -50,8 +50,11 @@ public class SolGun {
         if (myItem.config.lightOnShot) {
             Color lightCol = SolColor.W;
             ProjectileConfig projConfig = myItem.config.clipConf.projConfig;
-            if (projConfig.bodyEffect != null) lightCol = projConfig.bodyEffect.tint;
-            else if (projConfig.collisionEffect != null) lightCol = projConfig.collisionEffect.tint;
+            if (projConfig.bodyEffect != null) {
+                lightCol = projConfig.bodyEffect.tint;
+            } else if (projConfig.collisionEffect != null) {
+                lightCol = projConfig.collisionEffect.tint;
+            }
             myLightSrc = new LightSrc(game, .25f, true, 1f, Vector2.Zero, lightCol);
         } else {
             myLightSrc = null;
@@ -62,7 +65,9 @@ public class SolGun {
         mySprite = new RectSprite(myItem.config.tex, texLen, 0, 0, new Vector2(relPos), level, 0, 0, SolColor.W, false);
         myDras = new ArrayList<Dra>();
         myDras.add(mySprite);
-        if (myLightSrc != null) myLightSrc.collectDras(myDras);
+        if (myLightSrc != null) {
+            myLightSrc.collectDras(myDras);
+        }
     }
 
     public List<Dra> getDras() {
@@ -85,7 +90,9 @@ public class SolGun {
         boolean multiple = cc.projectilesPerShot > 1;
         for (int i = 0; i < cc.projectilesPerShot; i++) {
             float bulletAngle = gunAngle;
-            if (myCurrAngleVar > 0) bulletAngle += SolMath.rnd(myCurrAngleVar);
+            if (myCurrAngleVar > 0) {
+                bulletAngle += SolMath.rnd(myCurrAngleVar);
+            }
             Projectile proj = new Projectile(game, bulletAngle, muzzlePos, baseSpd, faction, cc.projConfig, multiple);
             game.getObjMan().addObjDelayed(proj);
         }
@@ -101,7 +108,9 @@ public class SolGun {
         mySprite.relAngle = gunRelAngle;
         Vector2 muzzleRelPos = SolMath.fromAl(gunRelAngle, myItem.config.gunLength);
         muzzleRelPos.add(myRelPos);
-        if (myLightSrc != null) myLightSrc.setRelPos(muzzleRelPos);
+        if (myLightSrc != null) {
+            myLightSrc.setRelPos(muzzleRelPos);
+        }
         Vector2 muzzlePos = SolMath.toWorld(muzzleRelPos, baseAngle, basePos);
         SolMath.free(muzzleRelPos);
 
@@ -118,7 +127,9 @@ public class SolGun {
             }
         }
 
-        if (myCoolDown > 0) myCoolDown -= ts;
+        if (myCoolDown > 0) {
+            myCoolDown -= ts;
+        }
 
         boolean shot = shouldShoot && myCoolDown <= 0 && myItem.ammo > 0;
         if (shot) {
@@ -127,10 +138,11 @@ public class SolGun {
         } else {
             myCurrAngleVar = SolMath.approach(myCurrAngleVar, myItem.config.minAngleVar, myItem.config.angleVarDamp * ts);
         }
-        if (myLightSrc != null) myLightSrc.update(shot, baseAngle, game);
+        if (myLightSrc != null) {
+            myLightSrc.update(shot, baseAngle, game);
+        }
         SolMath.free(muzzlePos);
     }
-
 
     public GunConfig getConfig() {
         return myItem.config;

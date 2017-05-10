@@ -16,7 +16,6 @@
 
 package org.destinationsol.menu;
 
-
 /**
  * <h1>Holds Input Mapping Information</h1>
  * The InputConfigItem class stores input mapping information including the input name and the key it is assigned to.

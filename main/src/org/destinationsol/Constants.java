@@ -16,7 +16,7 @@
 
 package org.destinationsol;
 
-public class Const {
+public class Constants {
     public static final float ATM_HEIGHT = 14f;
     public static final float MAX_SKY_HEIGHT_FROM_GROUND = 1.5f * ATM_HEIGHT;
     public static final float MAX_GROUND_HEIGHT = 25f;
@@ -39,5 +39,6 @@ public class Const {
     public static final float DEFAULT_AI_SPD = 4f;
     public static final float BIG_AI_SPD = 2f;
 
-
+    private Constants() {
+    }
 }

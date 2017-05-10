@@ -18,7 +18,7 @@ package org.destinationsol.game.screens;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
@@ -50,8 +50,11 @@ public abstract class WarnDrawer {
 
     public void update(SolGame game) {
         show = shouldWarn(game);
-        if (show) drawPerc = 1;
-        else drawPerc = SolMath.approach(drawPerc, 0, Const.REAL_TIME_STEP / FADE_TIME);
+        if (show) {
+            drawPerc = 1;
+        } else {
+            drawPerc = SolMath.approach(drawPerc, 0, Constants.REAL_TIME_STEP / FADE_TIME);
+        }
         myBgCol.a = myBgOrigA * drawPerc;
         myTextCol.a = drawPerc;
     }

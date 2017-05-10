@@ -19,8 +19,8 @@ package org.destinationsol.game;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import org.destinationsol.Const;
-import org.destinationsol.common.DebugCol;
+import org.destinationsol.Constants;
+import org.destinationsol.common.DebugColours;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.dra.Dra;
@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class ObjectManager {
     private static final float MAX_RADIUS_RECALC_AWAIT = 1f;
@@ -43,30 +44,32 @@ public class ObjectManager {
     private final List<StarPort.MyFar> myFarPorts;
     private final World myWorld;
     private final Box2DDebugRenderer myDr;
-    private final HashMap<SolObject, Float> myRadii;
+    private final Map<SolObject, Float> myRadii;
 
     private float myFarEndDist;
     private float myFarBeginDist;
     private float myRadiusRecalcAwait;
 
     public ObjectManager(SolContactListener contactListener, FactionManager factionManager) {
-        myObjs = new ArrayList<SolObject>();
-        myToRemove = new ArrayList<SolObject>();
-        myToAdd = new ArrayList<SolObject>();
-        myFarObjs = new ArrayList<FarObjData>();
-        myFarShips = new ArrayList<FarShip>();
-        myFarPorts = new ArrayList<StarPort.MyFar>();
+        myObjs = new ArrayList<>();
+        myToRemove = new ArrayList<>();
+        myToAdd = new ArrayList<>();
+        myFarObjs = new ArrayList<>();
+        myFarShips = new ArrayList<>();
+        myFarPorts = new ArrayList<>();
         myWorld = new World(new Vector2(0, 0), true);
         myWorld.setContactListener(contactListener);
         myWorld.setContactFilter(new SolContactFilter(factionManager));
         myDr = new Box2DDebugRenderer();
-        myRadii = new HashMap<SolObject, Float>();
+        myRadii = new HashMap<>();
     }
 
     public boolean containsFarObj(FarObj fo) {
         for (int i = 0, myFarObjsSize = myFarObjs.size(); i < myFarObjsSize; i++) {
             FarObjData fod = myFarObjs.get(i);
-            if (fod.fo == fo) return true;
+            if (fod.fo == fo) {
+                return true;
+            }
         }
         return false;
     }
@@ -106,14 +109,18 @@ public class ObjectManager {
             }
             if (isFar(o, camPos)) {
                 FarObj fo = o.toFarObj();
-                if (fo != null) addFarObjNow(fo);
+                if (fo != null) {
+                    addFarObjNow(fo);
+                }
                 removeObjDelayed(o);
                 continue;
             }
-            if (recalcRad) recalcRadius(o);
+            if (recalcRad) {
+                recalcRadius(o);
+            }
         }
 
-        for (Iterator<FarObjData> it = myFarObjs.iterator(); it.hasNext(); ) {
+        for (Iterator<FarObjData> it = myFarObjs.iterator(); it.hasNext();) {
             FarObjData fod = it.next();
             FarObj fo = fod.fo;
             fo.update(game);
@@ -125,10 +132,11 @@ public class ObjectManager {
             if (isNear(fod, camPos, ts)) {
                 SolObject o = fo.toObj(game);
                 // Ensure that StarPorts are added straight away so that we can see if they overlap
-                if (o instanceof StarPort)
+                if (o instanceof StarPort) {
                     addObjNow(game, o);
-                else
+                } else {
                     addObjDelayed(o);
+                }
                 removeFo(it, fo);
             }
         }
@@ -137,8 +145,12 @@ public class ObjectManager {
 
     private void removeFo(Iterator<FarObjData> it, FarObj fo) {
         it.remove();
-        if (fo instanceof FarShip) myFarShips.remove(fo);
-        if (fo instanceof StarPort.MyFar) myFarPorts.remove(fo);
+        if (fo instanceof FarShip) {
+            myFarShips.remove(fo);
+        }
+        if (fo instanceof StarPort.MyFar) {
+            myFarPorts.remove(fo);
+        }
     }
 
     private void recalcRadius(SolObject o) {
@@ -148,12 +160,14 @@ public class ObjectManager {
 
     public float getPresenceRadius(SolObject o) {
         Float res = getRadius(o);
-        return res + Const.MAX_MOVE_SPD * (MAX_RADIUS_RECALC_AWAIT - myRadiusRecalcAwait);
+        return res + Constants.MAX_MOVE_SPD * (MAX_RADIUS_RECALC_AWAIT - myRadiusRecalcAwait);
     }
 
     public Float getRadius(SolObject o) {
         Float res = myRadii.get(o);
-        if (res == null) throw new AssertionError("no radius for " + o);
+        if (res == null) {
+            throw new AssertionError("no radius for " + o);
+        }
         return res;
     }
 
@@ -179,7 +193,9 @@ public class ObjectManager {
     }
 
     public void addObjNow(SolGame game, SolObject o) {
-        if (DebugOptions.ASSERTIONS && myObjs.contains(o)) throw new AssertionError();
+        if (DebugOptions.ASSERTIONS && myObjs.contains(o)) {
+            throw new AssertionError();
+        }
         myObjs.add(o);
         recalcRadius(o);
         game.getDraMan().objAdded(o);
@@ -193,15 +209,19 @@ public class ObjectManager {
         FarObj fo = fod.fo;
         float r = fo.getRadius() * fod.depth;
         float dst = fo.getPos().dst(camPos) - r;
-        if (dst < myFarEndDist) return true;
-        fod.delay = (dst - myFarEndDist) / (2 * Const.MAX_MOVE_SPD);
+        if (dst < myFarEndDist) {
+            return true;
+        }
+        fod.delay = (dst - myFarEndDist) / (2 * Constants.MAX_MOVE_SPD);
         return false;
     }
 
     private boolean isFar(SolObject o, Vector2 camPos) {
         float r = getPresenceRadius(o);
         List<Dra> dras = o.getDras();
-        if (dras != null && dras.size() > 0) r *= dras.get(0).getLevel().depth;
+        if (dras != null && dras.size() > 0) {
+            r *= dras.get(0).getLevel().depth;
+        }
         float dst = o.getPosition().dst(camPos) - r;
         return myFarBeginDist < dst;
     }
@@ -226,13 +246,17 @@ public class ObjectManager {
         for (SolObject o : myObjs) {
             Vector2 pos = o.getPosition();
             String ds = o.toDebugString();
-            if (ds != null) drawer.drawString(ds, pos.x, pos.y, fontSize, true, SolColor.W);
+            if (ds != null) {
+                drawer.drawString(ds, pos.x, pos.y, fontSize, true, SolColor.W);
+            }
         }
         for (FarObjData fod : myFarObjs) {
             FarObj fo = fod.fo;
             Vector2 pos = fo.getPos();
             String ds = fo.toDebugString();
-            if (ds != null) drawer.drawString(ds, pos.x, pos.y, fontSize, true, SolColor.G);
+            if (ds != null) {
+                drawer.drawString(ds, pos.x, pos.y, fontSize, true, SolColor.G);
+            }
         }
     }
 
@@ -243,12 +267,12 @@ public class ObjectManager {
         for (SolObject o : myObjs) {
             Vector2 pos = o.getPosition();
             float r = getRadius(o);
-            drawer.drawCircle(drawer.debugWhiteTex, pos, r, DebugCol.OBJ, lineWidth, vh);
-            drawer.drawLine(drawer.debugWhiteTex, pos.x, pos.y, o.getAngle(), r, DebugCol.OBJ, lineWidth);
+            drawer.drawCircle(drawer.debugWhiteTex, pos, r, DebugColours.OBJ, lineWidth, vh);
+            drawer.drawLine(drawer.debugWhiteTex, pos.x, pos.y, o.getAngle(), r, DebugColours.OBJ, lineWidth);
         }
         for (FarObjData fod : myFarObjs) {
             FarObj fo = fod.fo;
-            drawer.drawCircle(drawer.debugWhiteTex, fo.getPos(), fo.getRadius(), DebugCol.OBJ_FAR, lineWidth, vh);
+            drawer.drawCircle(drawer.debugWhiteTex, fo.getPos(), fo.getRadius(), DebugColours.OBJ_FAR, lineWidth, vh);
         }
         drawer.drawCircle(drawer.debugWhiteTex, cam.getPos(), myFarBeginDist, SolColor.W, lineWidth, vh);
         drawer.drawCircle(drawer.debugWhiteTex, cam.getPos(), myFarEndDist, SolColor.W, lineWidth, vh);
@@ -258,14 +282,17 @@ public class ObjectManager {
         return myObjs;
     }
 
-
     public void addObjDelayed(SolObject p) {
-        if (DebugOptions.ASSERTIONS && myToAdd.contains(p)) throw new AssertionError();
+        if (DebugOptions.ASSERTIONS && myToAdd.contains(p)) {
+            throw new AssertionError();
+        }
         myToAdd.add(p);
     }
 
     public void removeObjDelayed(SolObject obj) {
-        if (DebugOptions.ASSERTIONS && myToRemove.contains(obj)) throw new AssertionError();
+        if (DebugOptions.ASSERTIONS && myToRemove.contains(obj)) {
+            throw new AssertionError();
+        }
         myToRemove.add(obj);
     }
 
@@ -289,12 +316,18 @@ public class ObjectManager {
         float depth = 1f;
         if (fo instanceof FarDras) {
             List<Dra> dras = ((FarDras) fo).getDras();
-            if (dras != null && dras.size() > 0) depth = dras.get(0).getLevel().depth;
+            if (dras != null && dras.size() > 0) {
+                depth = dras.get(0).getLevel().depth;
+            }
         }
         FarObjData fod = new FarObjData(fo, depth);
         myFarObjs.add(fod);
-        if (fo instanceof FarShip) myFarShips.add((FarShip) fo);
-        if (fo instanceof StarPort.MyFar) myFarPorts.add((StarPort.MyFar) fo);
+        if (fo instanceof FarShip) {
+            myFarShips.add((FarShip) fo);
+        }
+        if (fo instanceof StarPort.MyFar) {
+            myFarPorts.add((StarPort.MyFar) fo);
+        }
     }
 
     public List<FarShip> getFarShips() {

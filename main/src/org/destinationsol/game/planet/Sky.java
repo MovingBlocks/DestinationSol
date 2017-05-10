@@ -18,7 +18,7 @@ package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.ColorSpan;
@@ -60,7 +60,7 @@ public class Sky implements SolObject {
     private void updatePos(SolGame game) {
         Vector2 camPos = game.getCam().getPos();
         Vector2 planetPos = myPlanet.getPos();
-        if (planetPos.dst(camPos) < myPlanet.getGroundHeight() + Const.MAX_SKY_HEIGHT_FROM_GROUND) {
+        if (planetPos.dst(camPos) < myPlanet.getGroundHeight() + Constants.MAX_SKY_HEIGHT_FROM_GROUND) {
             myPos.set(camPos);
             return;
         }
@@ -74,9 +74,13 @@ public class Sky implements SolObject {
         Vector2 planetPos = myPlanet.getPos();
         SolCam cam = game.getCam();
         Vector2 camPos = cam.getPos();
-        float distPerc = 1 - (planetPos.dst(camPos) - myPlanet.getGroundHeight()) / Const.MAX_SKY_HEIGHT_FROM_GROUND;
-        if (distPerc < 0) return;
-        if (1 < distPerc) distPerc = 1;
+        float distPerc = 1 - (planetPos.dst(camPos) - myPlanet.getGroundHeight()) / Constants.MAX_SKY_HEIGHT_FROM_GROUND;
+        if (distPerc < 0) {
+            return;
+        }
+        if (1 < distPerc) {
+            distPerc = 1;
+        }
 
         Vector2 sysPos = myPlanet.getSys().getPos();
         float angleToCam = SolMath.angle(planetPos, camPos);
@@ -98,8 +102,11 @@ public class Sky implements SolObject {
 
         float angleCamToSun = angleToCam - angleToSun;
         float relAngle;
-        if (SolMath.abs(SolMath.norm(angleCamToSun)) < 90) relAngle = angleToCam + 180 + angleCamToSun;
-        else relAngle = angleToCam - angleCamToSun;
+        if (SolMath.abs(SolMath.norm(angleCamToSun)) < 90) {
+            relAngle = angleToCam + 180 + angleCamToSun;
+        } else {
+            relAngle = angleToCam - angleCamToSun;
+        }
         myGrad.relAngle = relAngle - 90;
     }
 

@@ -2,58 +2,41 @@
   s1: {
     maxLife: 10,
     price: 60,
-
     displayName: "Small Shield",
     icon: shield1,
     tex: "smallGameObjs/shield1",
-
     absorbSound: "Core:shield1Absorb1",
     absorbSoundPitch: 1.1,
-    regenSound:  "Core:shield1Regen",
+    regenSound: "Core:shield1Regen"
   },
-
-
-
   s2: {
     maxLife: 20,
     price: 200,
-
     displayName: Shield,
     icon: shield2,
     tex: "smallGameObjs/shield2",
-
     absorbSound: "Core:shield1Absorb1",
     absorbSoundPitch: 1,
-    regenSound:  "Core:shield1Regen",
+    regenSound: "Core:shield1Regen"
   },
-
-
-
   s3: {
     maxLife: 30,
     price: 500,
-
     displayName: "Big Shield",
     icon: shield3,
     tex: "smallGameObjs/shield3",
-
     absorbSound: "Core:shield1Absorb1",
     absorbSoundPitch: 0.9,
-    regenSound:  "Core:shield1Regen",
+    regenSound: "Core:shield1Regen"
   },
-
-
-
   s4: {
     maxLife: 40,
     price: 900,
-
     displayName: "Advanced Shield",
     icon: shield4,
     tex: "smallGameObjs/shield4",
-
     absorbSound: "Core:shield1Absorb1",
     absorbSoundPitch: 0.8,
-    regenSound:  "Core:shield1Regen",
-  },
+    regenSound: "Core:shield1Regen"
+  }
 }

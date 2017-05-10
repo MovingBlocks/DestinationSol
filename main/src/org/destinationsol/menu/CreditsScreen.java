@@ -18,7 +18,7 @@ package org.destinationsol.menu;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.TextureManager;
@@ -34,10 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CreditsScreen implements SolUiScreen {
-    private final TextureAtlas.AtlasRegion bgTex;
-
     private static final float MAX_AWAIT = 6f;
-
+    private final TextureAtlas.AtlasRegion bgTex;
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl closeControl;
 
@@ -134,14 +132,18 @@ public class CreditsScreen implements SolUiScreen {
             cmp.getInputMan().setScreen(cmp, cmp.getMenuScreens().main);
             return;
         }
-        pageProgressPercent += Const.REAL_TIME_STEP / MAX_AWAIT;
+        pageProgressPercent += Constants.REAL_TIME_STEP / MAX_AWAIT;
         if (pageProgressPercent > 1) {
             pageProgressPercent = 0;
             pageIndex++;
-            if (pageIndex >= myPages.size()) pageIndex = 0;
+            if (pageIndex >= myPages.size()) {
+                pageIndex = 0;
+            }
         }
         float a = pageProgressPercent * 2;
-        if (a > 1) a = 2 - a;
+        if (a > 1) {
+            a = 2 - a;
+        }
         a *= 3;
         myColor.a = SolMath.clamp(a);
     }

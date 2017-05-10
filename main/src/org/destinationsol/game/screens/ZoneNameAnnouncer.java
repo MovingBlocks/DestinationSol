@@ -18,7 +18,7 @@ package org.destinationsol.game.screens;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
@@ -54,12 +54,14 @@ public class ZoneNameAnnouncer {
             myCol.a = 1f;
             myText = pref + ":\n" + myZone;
         } else if (myCol.a > 0) {
-            myCol.a -= Const.REAL_TIME_STEP / FADE_TIME;
+            myCol.a -= Constants.REAL_TIME_STEP / FADE_TIME;
         }
     }
 
     public void drawText(UiDrawer uiDrawer) {
-        if (myCol.a <= 0) return;
+        if (myCol.a <= 0) {
+            return;
+        }
         uiDrawer.drawString(myText, uiDrawer.r / 2, .15f, FontSize.MENU * 1.5f, true, myCol);
     }
 }

@@ -30,16 +30,16 @@ import org.destinationsol.game.sound.OggSoundManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ItemManager {
-    private static ItemManager instance = null;
     public final ProjectileConfigs projConfigs;
     public final TextureAtlas.AtlasRegion moneyIcon;
     public final TextureAtlas.AtlasRegion medMoneyIcon;
     public final TextureAtlas.AtlasRegion bigMoneyIcon;
     public final TextureAtlas.AtlasRegion repairIcon;
-    private final HashMap<String, SolItem> myM;
-    private final ArrayList<SolItem> myL;
+    private final Map<String, SolItem> myM;
+    private final List<SolItem> myL;
     private final EngineItem.Configs myEngineConfigs;
     private final SolItemTypes myTypes;
     private final RepairItem myRepairExample;
@@ -50,7 +50,7 @@ public class ItemManager {
         medMoneyIcon = textureManager.getTex(TextureManager.ICONS_DIR + "medMoney", null);
         bigMoneyIcon = textureManager.getTex(TextureManager.ICONS_DIR + "bigMoney", null);
         repairIcon = textureManager.getTex(TextureManager.ICONS_DIR + "repairItem", null);
-        myM = new HashMap<String, SolItem>();
+        myM = new HashMap<>();
 
         myTypes = new SolItemTypes(soundManager, gameColors);
         projConfigs = new ProjectileConfigs(textureManager, soundManager, effectTypes, gameColors);
@@ -66,7 +66,7 @@ public class ItemManager {
         myRepairExample = new RepairItem(myTypes.repair);
         myM.put(myRepairExample.getCode(), myRepairExample);
 
-        myL = new ArrayList<SolItem>(myM.values());
+        myL = new ArrayList<>(myM.values());
     }
 
     public void fillContainer(ItemContainer c, String items) {
@@ -95,7 +95,7 @@ public class ItemManager {
 
             String[] names = parts[0].split("\\|");
 
-            ArrayList<SolItem> examples = new ArrayList<SolItem>();
+            ArrayList<SolItem> examples = new ArrayList<>();
             for (String name : names) {
                 int wasEquipped = 0;
 
@@ -189,7 +189,9 @@ public class ItemManager {
         }
         for (SolItem i : myM.values()) {
             if (i instanceof GunItem) {
-                if (ic.canAdd(i)) ic.add(i.copy());
+                if (ic.canAdd(i)) {
+                    ic.add(i.copy());
+                }
             }
         }
     }

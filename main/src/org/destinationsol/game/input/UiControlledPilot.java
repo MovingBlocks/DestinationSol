@@ -16,8 +16,7 @@
 
 package org.destinationsol.game.input;
 
-
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.screens.MainScreen;
@@ -83,7 +82,7 @@ public class UiControlledPilot implements Pilot {
 
     @Override
     public float getDetectionDist() {
-        return Const.AUTO_SHOOT_SPACE; // just for unfixed mounts
+        return Constants.AUTO_SHOOT_SPACE; // just for unfixed mounts
     }
 
     @Override

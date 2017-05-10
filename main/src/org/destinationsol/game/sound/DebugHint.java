@@ -18,7 +18,7 @@ package org.destinationsol.game.sound;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
-import org.destinationsol.common.DebugCol;
+import org.destinationsol.common.DebugColours;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -44,7 +44,9 @@ public class DebugHint {
     public void add(String value) {
         boolean needsRebuild = !myMsgs.containsKey(value);
         myMsgs.put(value, TimeUtils.millis() + MAX_AWAIT);
-        if (needsRebuild) rebuild();
+        if (needsRebuild) {
+            rebuild();
+        }
     }
 
     private void rebuild() {
@@ -74,7 +76,9 @@ public class DebugHint {
                 needsRebuild = true;
             }
         }
-        if (needsRebuild) rebuild();
+        if (needsRebuild) {
+            rebuild();
+        }
     }
 
     public boolean shouldRemove() {
@@ -83,6 +87,6 @@ public class DebugHint {
 
     public void draw(GameDrawer drawer, SolGame game) {
         float fontSz = game.getCam().getDebugFontSize();
-        drawer.drawString(myMsg, myPos.x, myPos.y, fontSz, false, DebugCol.HINT);
+        drawer.drawString(myMsg, myPos.x, myPos.y, fontSz, false, DebugColours.HINT);
     }
 }

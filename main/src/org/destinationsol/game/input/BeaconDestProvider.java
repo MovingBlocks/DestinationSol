@@ -17,7 +17,7 @@
 package org.destinationsol.game.input;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.game.BeaconHandler;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.ship.SolShip;
@@ -43,7 +43,9 @@ public class BeaconDestProvider implements MoveDestProvider {
         myShouldManeuver = null;
         BeaconHandler.Action a = bh.getCurrAction();
         if (nearestEnemy != null && a == BeaconHandler.Action.ATTACK) {
-            if (shipPos.dst(myDest) < shipPos.dst(nearestEnemy.getPosition()) + .1f) myShouldManeuver = true;
+            if (shipPos.dst(myDest) < shipPos.dst(nearestEnemy.getPosition()) + .1f) {
+                myShouldManeuver = true;
+            }
         }
         myShouldStopNearDest = STOP_AWAIT < game.getTime() - bh.getClickTime();
         myDestSpd.set(bh.getSpd());
@@ -71,7 +73,7 @@ public class BeaconDestProvider implements MoveDestProvider {
 
     @Override
     public float getDesiredSpdLen() {
-        return Const.MAX_MOVE_SPD;
+        return Constants.MAX_MOVE_SPD;
     }
 
     @Override

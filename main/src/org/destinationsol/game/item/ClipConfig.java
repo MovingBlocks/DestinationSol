@@ -64,7 +64,9 @@ public class ClipConfig {
             boolean infinite = sh.getBoolean("infinite", false);
             int size = sh.getInt("size");
             int projectilesPerShot = sh.getInt("projectilesPerShot", 1);
-            if (projectilesPerShot < 1) throw new AssertionError("projectiles per shot");
+            if (projectilesPerShot < 1) {
+                throw new AssertionError("projectiles per shot");
+            }
 
             int price = 0;
             String displayName = "";

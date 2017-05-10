@@ -17,7 +17,7 @@ package org.destinationsol.game.sound;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
+import org.destinationsol.Constants;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.PlayableSound;
@@ -113,14 +113,14 @@ public class OggSoundManager {
 
         float airPerc = 0;
         if (nearestPlanet.getConfig().skyConfig != null) {
-            float distanceToAtmosphere = cameraPosition.dst(nearestPlanet.getPos()) - nearestPlanet.getGroundHeight() - Const.ATM_HEIGHT / 2;
-            airPerc = SolMath.clamp(1 - distanceToAtmosphere / (Const.ATM_HEIGHT / 2));
+            float distanceToAtmosphere = cameraPosition.dst(nearestPlanet.getPos()) - nearestPlanet.getGroundHeight() - Constants.ATM_HEIGHT / 2;
+            airPerc = SolMath.clamp(1 - distanceToAtmosphere / (Constants.ATM_HEIGHT / 2));
         }
         if (DebugOptions.SOUND_IN_SPACE) {
             airPerc = 1;
         }
 
-        float maxSoundDist = 1 + 1.5f * Const.CAM_VIEW_DIST_GROUND * airPerc;
+        float maxSoundDist = 1 + 1.5f * Constants.CAM_VIEW_DIST_GROUND * airPerc;
 
         SolShip hero = game.getHero();
         float soundRadius = hero == null ? 0 : hero.getHull().config.getApproxRadius();

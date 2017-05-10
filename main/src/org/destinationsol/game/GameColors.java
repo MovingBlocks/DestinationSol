@@ -24,6 +24,7 @@ import org.destinationsol.common.SolColorUtil;
 import org.destinationsol.files.FileManager;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class GameColors {
 
@@ -31,7 +32,7 @@ public class GameColors {
     public final Color smoke;
     public final Color hullLights;
 
-    private final HashMap<String, Color> colors;
+    private final Map<String, Color> colors;
 
     public GameColors() {
         JsonReader r = new JsonReader();
