@@ -38,4 +38,6 @@ public class Const {
     public static final float CAM_VIEW_DIST_JOURNEY = 8.6f;
     public static final float DEFAULT_AI_SPD = 4f;
     public static final float BIG_AI_SPD = 2f;
+
+
 }
