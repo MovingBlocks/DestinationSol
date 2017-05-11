@@ -48,17 +48,29 @@ public class ForceBeacon {
         List<SolObject> objs = game.getObjMan().getObjs();
         for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
             SolObject o = objs.get(i);
-            if (o == owner) continue;
-            if (!(o instanceof SolShip)) continue;
+            if (o == owner) {
+                continue;
+            }
+            if (!(o instanceof SolShip)) {
+                continue;
+            }
             SolShip ship = (SolShip) o;
             Pilot pilot = ship.getPilot();
-            if (pilot.isUp() || pilot.isLeft() || pilot.isRight()) continue;
-            if (game.getFactionMan().areEnemies(faction, pilot.getFaction())) continue;
+            if (pilot.isUp() || pilot.isLeft() || pilot.isRight()) {
+                continue;
+            }
+            if (game.getFactionMan().areEnemies(faction, pilot.getFaction())) {
+                continue;
+            }
             Vector2 toMe = SolMath.distVec(ship.getPosition(), ownPos);
             float toMeLen = toMe.len();
             if (toMeLen < maxPullDist) {
-                if (toMeLen > 1) toMe.scl(1 / toMeLen);
-                if (ownSpd != null) toMe.add(ownSpd);
+                if (toMeLen > 1) {
+                    toMe.scl(1 / toMeLen);
+                }
+                if (ownSpd != null) {
+                    toMe.add(ownSpd);
+                }
                 ship.getHull().getBody().setLinearVelocity(toMe);
                 game.getSoundManager().play(game, game.getSpecialSounds().forceBeaconWork, null, ship);
                 if (toMeLen < minLen) {

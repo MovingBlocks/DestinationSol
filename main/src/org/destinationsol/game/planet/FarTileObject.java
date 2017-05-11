@@ -87,7 +87,6 @@ public class FarTileObject implements FarObj {
         return myPlanet;
     }
 
-
     public float getSz() {
         return mySize;
     }

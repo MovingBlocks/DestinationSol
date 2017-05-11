@@ -92,7 +92,9 @@ public class TileObject implements SolObject {
 
     @Override
     public void onRemove(SolGame game) {
-        if (myBody != null) myBody.getWorld().destroyBody(myBody);
+        if (myBody != null) {
+            myBody.getWorld().destroyBody(myBody);
+        }
     }
 
     @Override

@@ -185,8 +185,8 @@ public class GameOptions {
             controlType = mobile ? CONTROL_MOUSE : CONTROL_MIXED;
         } else if (controlType == CONTROL_MIXED) {
             controlType = CONTROL_CONTROLLER;
-//    } else if (controlType == CONTROL_MIXED) {
-//      controlType = CONTROL_MOUSE;
+            //    } else if (controlType == CONTROL_MIXED) {
+            //      controlType = CONTROL_MOUSE;
         } else {
             controlType = CONTROL_KB;
         }
@@ -924,18 +924,34 @@ public class GameOptions {
     }
 
     public String getSFXVolumeAsText() {
-        if (sfxVolumeMultiplier == 0.f) return "Off";
-        if (sfxVolumeMultiplier == 0.25f) return "Low";
-        if (sfxVolumeMultiplier == 0.5f) return "Medium";
-        if (sfxVolumeMultiplier == 0.75f) return "High";
+        if (sfxVolumeMultiplier == 0.f) {
+            return "Off";
+        }
+        if (sfxVolumeMultiplier == 0.25f) {
+            return "Low";
+        }
+        if (sfxVolumeMultiplier == 0.5f) {
+            return "Medium";
+        }
+        if (sfxVolumeMultiplier == 0.75f) {
+            return "High";
+        }
         return "Max";
     }
 
     public String getMusicVolumeAsText() {
-        if (musicVolumeMultiplier == 0.f) return "Off";
-        if (musicVolumeMultiplier == 0.25f) return "Low";
-        if (musicVolumeMultiplier == 0.5f) return "Medium";
-        if (musicVolumeMultiplier == 0.75f) return "High";
+        if (musicVolumeMultiplier == 0.f) {
+            return "Off";
+        }
+        if (musicVolumeMultiplier == 0.25f) {
+            return "Low";
+        }
+        if (musicVolumeMultiplier == 0.5f) {
+            return "Medium";
+        }
+        if (musicVolumeMultiplier == 0.75f) {
+            return "High";
+        }
         return "Max";
     }
 }
