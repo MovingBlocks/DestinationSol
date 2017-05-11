@@ -74,30 +74,37 @@ public class SolColorUtil {
         int b = (int) (src.b * 255 + .5f);
         float hue, saturation, brightness;
         int cmax = (r > g) ? r : g;
-        if (b > cmax) cmax = b;
+        if (b > cmax) {
+            cmax = b;
+        }
         int cmin = (r < g) ? r : g;
-        if (b < cmin) cmin = b;
+        if (b < cmin) {
+            cmin = b;
+        }
 
         brightness = ((float) cmax) / 255.0f;
-        if (cmax != 0)
+        if (cmax != 0) {
             saturation = ((float) (cmax - cmin)) / ((float) cmax);
-        else
+        } else {
             saturation = 0;
-        if (saturation == 0)
+        }
+        if (saturation == 0) {
             hue = 0;
-        else {
+        } else {
             float redc = ((float) (cmax - r)) / ((float) (cmax - cmin));
             float greenc = ((float) (cmax - g)) / ((float) (cmax - cmin));
             float bluec = ((float) (cmax - b)) / ((float) (cmax - cmin));
-            if (r == cmax)
+            if (r == cmax) {
                 hue = bluec - greenc;
-            else if (g == cmax)
+            } else if (g == cmax) {
                 hue = 2.0f + redc - bluec;
-            else
+            } else {
                 hue = 4.0f + greenc - redc;
+            }
             hue = hue / 6.0f;
-            if (hue < 0)
+            if (hue < 0) {
                 hue = hue + 1.0f;
+            }
         }
         float[] hsba = new float[4];
         hsba[0] = hue;
@@ -116,7 +123,9 @@ public class SolColorUtil {
         int v2 = Integer.parseInt(parts[idx++]);
         int v3 = Integer.parseInt(parts[idx++]);
         float a = 1;
-        if (parts.length > idx) a = Integer.parseInt(parts[idx]) / 255f;
+        if (parts.length > idx) {
+            a = Integer.parseInt(parts[idx]) / 255f;
+        }
         Color res = new Color();
         if (hsb) {
             fromHSB(v1 / 360f, v2 / 100f, v3 / 100f, a, res);

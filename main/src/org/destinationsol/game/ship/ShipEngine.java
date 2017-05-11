@@ -103,8 +103,12 @@ public class ShipEngine {
         if (absRotSpd < e.getMaxRotSpd() && l != r) {
             desiredRotSpd = SolMath.toInt(r) * e.getMaxRotSpd();
             if (absRotSpd < MAX_RECOVER_ROT_SPD) {
-                if (myRecoverAwait > 0) myRecoverAwait -= ts;
-                if (myRecoverAwait <= 0) rotAcc *= RECOVER_MUL;
+                if (myRecoverAwait > 0) {
+                    myRecoverAwait -= ts;
+                }
+                if (myRecoverAwait <= 0) {
+                    rotAcc *= RECOVER_MUL;
+                }
             }
         } else {
             myRecoverAwait = RECOVER_AWAIT;

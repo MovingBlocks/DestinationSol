@@ -73,7 +73,9 @@ public class SolApplication implements ApplicationListener {
     public void create() {
 
         myReallyMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
-        if (myReallyMobile) DebugOptions.read(null);
+        if (myReallyMobile) {
+            DebugOptions.read(null);
+        }
         myOptions = new GameOptions(isMobile(), null);
 
         moduleEnvironment = new ModuleManager().getEnvironment();
@@ -120,7 +122,9 @@ public class SolApplication implements ApplicationListener {
     }
 
     private void safeUpdate() {
-        if (myFatalErrorMsg != null) return;
+        if (myFatalErrorMsg != null) {
+            return;
+        }
         try {
             update();
         } catch (Throwable t) {
@@ -175,7 +179,9 @@ public class SolApplication implements ApplicationListener {
     }
 
     public void loadNewGame(boolean tut, boolean usePrevShip) {
-        if (myGame != null) throw new AssertionError("Starting a new game with unfinished current one");
+        if (myGame != null) {
+            throw new AssertionError("Starting a new game with unfinished current one");
+        }
         myInputMan.setScreen(this, myMenuScreens.loading);
         myMenuScreens.loading.setMode(tut, usePrevShip);
         musicManager.playGameMusic(myOptions);
@@ -197,7 +203,9 @@ public class SolApplication implements ApplicationListener {
 
     public void dispose() {
         myCommonDrawer.dispose();
-        if (myGame != null) myGame.onGameEnd();
+        if (myGame != null) {
+            myGame.onGameEnd();
+        }
         myTextureManager.dispose();
         myInputMan.dispose();
     }
@@ -241,6 +249,8 @@ public class SolApplication implements ApplicationListener {
     }
 
     public void paused() {
-        if (myGame != null) myGame.saveShip();
+        if (myGame != null) {
+            myGame.saveShip();
+        }
     }
 }

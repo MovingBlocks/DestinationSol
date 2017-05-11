@@ -35,7 +35,9 @@ public class PlanetBind {
 
     public static PlanetBind tryBind(SolGame game, Vector2 pos, float angle) {
         Planet np = game.getPlanetMan().getNearestPlanet(pos);
-        if (!np.isNearGround(pos)) return null;
+        if (!np.isNearGround(pos)) {
+            return null;
+        }
         return new PlanetBind(np, pos, angle);
     }
 

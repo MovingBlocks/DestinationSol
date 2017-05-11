@@ -143,7 +143,8 @@ public class MainScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) { }
+    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
+    }
 
     @Override
     public boolean reactsToClickOutside() {
@@ -151,5 +152,6 @@ public class MainScreen implements SolUiScreen {
     }
 
     @Override
-    public void blurCustom(SolApplication solApplication) { }
+    public void blurCustom(SolApplication solApplication) {
+    }
 }

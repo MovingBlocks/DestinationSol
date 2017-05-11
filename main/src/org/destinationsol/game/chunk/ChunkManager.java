@@ -71,7 +71,9 @@ public class ChunkManager {
 
     private int posToChunkIdx(float v) {
         int i = (int) (v / Const.CHUNK_SIZE);
-        if (v < 0) i -= 1;
+        if (v < 0) {
+            i -= 1;
+        }
         return i;
     }
 
@@ -92,7 +94,9 @@ public class ChunkManager {
         maybeAddChunk(chunks, 0, 0, game);
         for (int i = -dist; i < dist + 1; i++) {
             for (int j = -dist; j < dist + 1; j++) {
-                if (i == 0 && j == 0) continue;
+                if (i == 0 && j == 0) {
+                    continue;
+                }
                 maybeAddChunk(chunks, i, j, game);
             }
         }

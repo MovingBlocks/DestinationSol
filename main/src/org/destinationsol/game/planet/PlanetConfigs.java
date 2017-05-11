@@ -49,9 +49,13 @@ public class PlanetConfigs {
         for (JsonValue sh : parsed) {
             PlanetConfig c = PlanetConfig.load(textureManager, hullConfigs, configFile, sh, cols, itemManager);
             myAllConfigs.put(sh.name, c);
-            if (c.hardOnly) myHard.add(c);
-            else if (c.easyOnly) myEasy.add(c);
-            else myMedium.add(c);
+            if (c.hardOnly) {
+                myHard.add(c);
+            } else if (c.easyOnly) {
+                myEasy.add(c);
+            } else {
+                myMedium.add(c);
+            }
         }
     }
 

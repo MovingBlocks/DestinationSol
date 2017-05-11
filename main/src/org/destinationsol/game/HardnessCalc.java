@@ -47,8 +47,11 @@ public class HardnessCalc {
         ProjectileConfig pc = cc.projConfig;
 
         float projDmg = pc.dmg;
-        if (pc.emTime > 0) projDmg = 150;
-        else if (pc.density > 0) projDmg += 10;
+        if (pc.emTime > 0) {
+            projDmg = 150;
+        } else if (pc.density > 0) {
+            projDmg += 10;
+        }
 
         float projHitChance;
         if (pc.guideRotSpd > 0) {
@@ -57,7 +60,9 @@ public class HardnessCalc {
             projHitChance = 0.1f;
         } else {
             projHitChance = (pc.spdLen + pc.acc) / 6;
-            if (pc.physSize > 0) projHitChance += pc.physSize;
+            if (pc.physSize > 0) {
+                projHitChance += pc.physSize;
+            }
             projHitChance = SolMath.clamp(projHitChance, .1f, 1);
             if (gc.fixed) {
                 projHitChance *= .3f;
@@ -72,9 +77,12 @@ public class HardnessCalc {
     public static float getShotDps(GunConfig gc, float shotDmg) {
         ClipConfig cc = gc.clipConf;
         int projectilesPerShot = cc.projectilesPerShot;
-        if (gc.timeBetweenShots == 0) projectilesPerShot = cc.size;
-        if (projectilesPerShot > 1) shotDmg *= .6f * projectilesPerShot;
-
+        if (gc.timeBetweenShots == 0) {
+            projectilesPerShot = cc.size;
+        }
+        if (projectilesPerShot > 1) {
+            shotDmg *= .6f * projectilesPerShot;
+        }
 
         float timeBetweenShots = gc.timeBetweenShots == 0 ? gc.reloadTime : gc.timeBetweenShots;
         return shotDmg / timeBetweenShots;
@@ -83,7 +91,9 @@ public class HardnessCalc {
     private static float getItemCfgDps(ItemConfig ic, boolean fixed) {
         float dps = 0;
         for (SolItem e : ic.examples) {
-            if (!(e instanceof GunItem)) throw new AssertionError("all item options must be of the same type");
+            if (!(e instanceof GunItem)) {
+                throw new AssertionError("all item options must be of the same type");
+            }
             GunItem g = (GunItem) e;
             if (g.config.fixed != fixed) {
                 String items = "";
@@ -156,7 +166,9 @@ public class HardnessCalc {
     private static float getShipConfListDps(List<ShipConfig> ships) {
         float maxDps = 0;
         for (ShipConfig e : ships) {
-            if (maxDps < e.dps) maxDps = e.dps;
+            if (maxDps < e.dps) {
+                maxDps = e.dps;
+            }
         }
         return maxDps;
     }
@@ -189,7 +201,9 @@ public class HardnessCalc {
     }
 
     private static float getGunDps(GunItem g) {
-        if (g == null) return 0;
+        if (g == null) {
+            return 0;
+        }
         return g.config.meanDps;
     }
 
@@ -212,8 +226,12 @@ public class HardnessCalc {
 
     private static float getDmgCap(HullConfig hull, Armor armor, Shield shield) {
         float r = hull.getMaxLife();
-        if (armor != null) r *= 1 / (1 - armor.getPerc());
-        if (shield != null) r += shield.getMaxLife() * SHIELD_MUL;
+        if (armor != null) {
+            r *= 1 / (1 - armor.getPerc());
+        }
+        if (shield != null) {
+            r += shield.getMaxLife() * SHIELD_MUL;
+        }
         return r;
     }
 

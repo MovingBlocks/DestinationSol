@@ -31,10 +31,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
-import org.destinationsol.TextAlignment;
-
-import javax.swing.text.TabExpander;
-import javax.xml.soap.Text;
 
 public class CommonDrawer {
     public final float w;
@@ -81,7 +77,9 @@ public class CommonDrawer {
     }
 
     public void drawString(String s, float x, float y, float fontSize, TextAlignment align, boolean verticalCentering, Color col) {
-        if (s == null) return;
+        if (s == null) {
+            return;
+        }
 
         myTextureChecker.onString(myFont.getRegion().getTexture());
         myFont.setColor(col);
@@ -131,7 +129,9 @@ public class CommonDrawer {
         float relRad = radius / vh;
         int pointCount = (int) (160 * relRad);
         Vector2 pos = SolMath.getVec();
-        if (pointCount < 8) pointCount = 8;
+        if (pointCount < 8) {
+            pointCount = 8;
+        }
         float lineLen = radius * SolMath.PI * 2 / pointCount;
         float angleStep = 360f / pointCount;
         float angleStepH = angleStep / 2;

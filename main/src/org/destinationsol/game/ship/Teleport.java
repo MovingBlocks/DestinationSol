@@ -44,14 +44,20 @@ public class Teleport implements ShipAbility {
     @Override
     public boolean update(SolGame game, SolShip owner, boolean tryToUse) {
         myShouldTeleport = false;
-        if (!tryToUse) return false;
+        if (!tryToUse) {
+            return false;
+        }
         Vector2 pos = owner.getPosition();
         Faction faction = owner.getPilot().getFaction();
         SolShip ne = game.getFactionMan().getNearestEnemy(game, MAX_RADIUS, faction, pos);
-        if (ne == null) return false;
+        if (ne == null) {
+            return false;
+        }
         Vector2 nePos = ne.getPosition();
         Planet np = game.getPlanetMan().getNearestPlanet();
-        if (np.isNearGround(nePos)) return false;
+        if (np.isNearGround(nePos)) {
+            return false;
+        }
         for (int i = 0; i < 5; i++) {
             myNewPos.set(pos);
             myNewPos.sub(nePos);
@@ -83,7 +89,9 @@ public class Teleport implements ShipAbility {
 
     // can be performed in update
     public void maybeTeleport(SolGame game, SolShip owner) {
-        if (!myShouldTeleport) return;
+        if (!myShouldTeleport) {
+            return;
+        }
 
         TextureAtlas.AtlasRegion tex = game.getTexMan().getTex(TEX_PATH, null);
         float blipSz = owner.getHull().config.getApproxRadius() * 3;

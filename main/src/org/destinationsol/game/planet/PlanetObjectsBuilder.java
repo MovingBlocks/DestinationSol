@@ -59,9 +59,10 @@ public class PlanetObjectsBuilder {
     private static final float DECO_PACK_SZ = 5f;
     private static final float DECO_PACK_ANGULAR_WIDTH = 360 * DECO_PACK_SZ / (2 * SolMath.PI * Const.MAX_GROUND_HEIGHT);
 
-
     public float createPlanetObjs(SolGame game, Planet planet) {
-        if (DebugOptions.NO_OBJS) return 0;
+        if (DebugOptions.NO_OBJS) {
+            return 0;
+        }
         float minR = createGround(game, planet);
         createClouds(game, planet);
         createDeco(game, planet);
@@ -99,7 +100,9 @@ public class PlanetObjectsBuilder {
 
     private void buildOrbitEnemies(SolGame game, Planet planet, float gh, float offsetPerc, float atmPerc,
                                    List<ShipConfig> configs, float detDist) {
-        if (configs.isEmpty()) return;
+        if (configs.isEmpty()) {
+            return;
+        }
         HashMap<ShipConfig, Integer> counts = new HashMap<ShipConfig, Integer>();
         int totalCount = 0;
         for (ShipConfig oe : configs) {
@@ -123,7 +126,9 @@ public class PlanetObjectsBuilder {
         // helper values
         float maxR = planet.getGroundHeight() - TOP_TILE_SZ / 2;
         int cols = (int) (2 * SolMath.PI * maxR / TOP_TILE_SZ);
-        if (cols <= 0) throw new AssertionError("eh");
+        if (cols <= 0) {
+            throw new AssertionError("eh");
+        }
         int rows = planet.getConfig().rowCount;
 
         // helper arrays
@@ -146,7 +151,9 @@ public class PlanetObjectsBuilder {
             float tileSize = tileSizes[row];
             for (int col = 0; col < cols; col++) {
                 Tile tile = tileMap[col][row];
-                if (tile == null) continue;
+                if (tile == null) {
+                    continue;
+                }
                 float toPlanetRelAngle = 360f * col / cols;
                 if (tile.points.isEmpty()) {
                     FarTileObject fto = new FarTileObject(planet, toPlanetRelAngle, tileDist, tileSize, tile);
@@ -163,7 +170,9 @@ public class PlanetObjectsBuilder {
 
     private void createClouds(SolGame game, Planet planet) {
         ArrayList<TextureAtlas.AtlasRegion> cloudTexs = planet.getConfig().cloudTexs;
-        if (cloudTexs.isEmpty()) return;
+        if (cloudTexs.isEmpty()) {
+            return;
+        }
         int cloudCount = SolMath.intRnd(.7f, (int) (CLOUD_DENSITY * Const.ATM_HEIGHT * planet.getGroundHeight()));
         for (int i = 0; i < cloudCount; i++) {
             FarPlanetSprites cloud = createCloud(planet, cloudTexs, game.getTexMan());
@@ -197,7 +206,9 @@ public class PlanetObjectsBuilder {
                                          float maxDistShift, float baseDist, TextureManager textureManager) {
 
         TextureAtlas.AtlasRegion tex = SolMath.elemRnd(cloudTexs);
-        if (SolMath.test(.5f)) tex = textureManager.getFlipped(tex);
+        if (SolMath.test(.5f)) {
+            tex = textureManager.getFlipped(tex);
+        }
         float angleShiftRel = SolMath.rnd(1);
         float distPerc = 1 - SolMath.abs(angleShiftRel);
         float sz = .5f * (1 + distPerc) * MAX_CLOUD_PIECE_SZ;
@@ -279,9 +290,10 @@ public class PlanetObjectsBuilder {
             SolMath.rotate(decoRelPos, -baseAngle - 90, true);
             float decoRelAngle = decoAngle - baseAngle;
 
-
             TextureAtlas.AtlasRegion decoTex = SolMath.elemRnd(dc.texs);
-            if (dc.allowFlip && SolMath.test(.5f)) decoTex = game.getTexMan().getFlipped(decoTex);
+            if (dc.allowFlip && SolMath.test(.5f)) {
+                decoTex = game.getTexMan().getFlipped(decoTex);
+            }
 
             RectSprite s = new RectSprite(decoTex, decoSz, dc.orig.x, dc.orig.y, decoRelPos, DraLevel.DECO, decoRelAngle, 0, SolColor.W, false);
             List<Dra> ss = collector.get(basePos);
@@ -315,7 +327,9 @@ public class PlanetObjectsBuilder {
 
         Vector2 toPlanet = SolMath.getVec(planet.getPos()).sub(pos);
         float angle = SolMath.angle(toPlanet) - 180;
-        if (station) angle += 90;
+        if (station) {
+            angle += 90;
+        }
         Vector2 spd = new Vector2(toPlanet).nor();
         SolMath.free(toPlanet);
 
@@ -333,7 +347,9 @@ public class PlanetObjectsBuilder {
         pos.add(planetPos);
         float spdLen = SolMath.sqrt(planet.getGravConst() / height);
         boolean cw = SolMath.test(.5f);
-        if (!cw) spdLen *= -1;
+        if (!cw) {
+            spdLen *= -1;
+        }
         Vector2 spd = new Vector2(0, -spdLen);
         Vector2 v = SolMath.distVec(pos, planetPos);
         SolMath.rotate(spd, SolMath.angle(v));

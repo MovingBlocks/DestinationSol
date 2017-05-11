@@ -43,7 +43,9 @@ public class ShipConfig {
 
     public static ArrayList<ShipConfig> loadList(JsonValue shipListJson, HullConfigManager hullConfigs, ItemManager itemManager) {
         ArrayList<ShipConfig> res = new ArrayList<ShipConfig>();
-        if (shipListJson == null) return res;
+        if (shipListJson == null) {
+            return res;
+        }
         for (JsonValue shipNode : shipListJson) {
             ShipConfig c = load(hullConfigs, shipNode, itemManager);
             res.add(c);
@@ -52,7 +54,9 @@ public class ShipConfig {
     }
 
     public static ShipConfig load(HullConfigManager hullConfigs, JsonValue shipNode, ItemManager itemManager) {
-        if (shipNode == null) return null;
+        if (shipNode == null) {
+            return null;
+        }
         String hullName = shipNode.getString("hull");
         HullConfig hull = hullConfigs.getConfig(hullName);
         String items = shipNode.getString("items");

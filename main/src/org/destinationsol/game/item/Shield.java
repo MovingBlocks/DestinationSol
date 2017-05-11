@@ -118,9 +118,13 @@ public class Shield implements SolItem {
     }
 
     public void absorb(SolGame game, float dmg, Vector2 pos, SolShip ship, DmgType dmgType) {
-        if (!canAbsorb(dmgType) || dmg <= 0) throw new AssertionError("illegal call to absorb");
+        if (!canAbsorb(dmgType) || dmg <= 0) {
+            throw new AssertionError("illegal call to absorb");
+        }
         myIdleTime = 0f;
-        if (dmgType == DmgType.BULLET) dmg *= BULLET_DMG_FACTOR;
+        if (dmgType == DmgType.BULLET) {
+            dmg *= BULLET_DMG_FACTOR;
+        }
         myLife -= myLife < dmg ? myLife : dmg;
 
         game.getPartMan().shieldSpark(game, pos, ship.getHull(), myConfig.tex, dmg / myConfig.maxLife);
