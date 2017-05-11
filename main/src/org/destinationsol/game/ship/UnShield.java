@@ -54,29 +54,42 @@ public class UnShield implements ShipAbility {
 
     @Override
     public boolean update(SolGame game, SolShip owner, boolean tryToUse) {
-        if (!tryToUse) return false;
+        if (!tryToUse) {
+            return false;
+        }
         Vector2 ownerPos = owner.getPosition();
         for (SolObject o : game.getObjMan().getObjs()) {
-            if (!(o instanceof SolShip) || o == owner) continue;
+            if (!(o instanceof SolShip) || o == owner) {
+                continue;
+            }
             SolShip oShip = (SolShip) o;
             Shield shield = oShip.getShield();
-            if (shield == null) continue;
+            if (shield == null) {
+                continue;
+            }
             float shieldLife = shield.getLife();
-            if (shieldLife <= 0) continue;
-            if (!game.getFactionMan().areEnemies(oShip, owner)) continue;
+            if (shieldLife <= 0) {
+                continue;
+            }
+            if (!game.getFactionMan().areEnemies(oShip, owner)) {
+                continue;
+            }
             Vector2 oPos = o.getPosition();
             float dst = oPos.dst(ownerPos);
             float perc = KnockBack.getPerc(dst, MAX_RADIUS);
-            if (perc <= 0) continue;
+            if (perc <= 0) {
+                continue;
+            }
             float amount = perc * myConfig.amount;
-            if (shieldLife < amount) amount = shieldLife;
+            if (shieldLife < amount) {
+                amount = shieldLife;
+            }
             oShip.receiveDmg(amount, game, ownerPos, DmgType.ENERGY);
         }
         ParticleSrc src = new ParticleSrc(myConfig.cc.effect, MAX_RADIUS, DraLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
         game.getPartMan().finish(game, src, ownerPos);
         return true;
     }
-
 
     public static class Config implements AbilityConfig {
         public final float rechargeTime;

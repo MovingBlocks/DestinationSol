@@ -84,7 +84,9 @@ class SoundTestCmp {
         for (int i = 0; i < regs.size(); i++) {
             TextureRegion r = regs.get(i);
             int y = i * 32;
-            if (combined) y += 64;
+            if (combined) {
+                y += 64;
+            }
             mySpriteBatch.draw(r, i * 32, y);
         }
         long elapsed = TimeUtils.nanoTime() - s;
@@ -92,6 +94,6 @@ class SoundTestCmp {
     }
 
     private void update() {
-        logger.debug("Divided: {}, combined: {}",myDivSum,myCombSum);
+        logger.debug("Divided: {}, combined: {}", myDivSum, myCombSum);
     }
 }

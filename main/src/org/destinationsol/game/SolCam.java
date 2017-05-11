@@ -168,8 +168,12 @@ public class SolCam {
         boolean l = s.isLeft();
         boolean r = s.isRight();
         Vector2 v = SolMath.getVec();
-        if (l != r) v.x = SolMath.toInt(r);
-        if (d != u) v.y = SolMath.toInt(d);
+        if (l != r) {
+            v.x = SolMath.toInt(r);
+        }
+        if (d != u) {
+            v.y = SolMath.toInt(d);
+        }
         v.scl(MOVE_SPD * game.getTimeStep());
         SolMath.rotate(v, myAngle);
         myPos.add(v);
@@ -245,13 +249,17 @@ public class SolCam {
 
     public float getViewHeight(float zoom) {
         float r = -myCam.viewportHeight * zoom;
-        if (r < 0) throw new AssertionError("negative view height");
+        if (r < 0) {
+            throw new AssertionError("negative view height");
+        }
         return r;
     }
 
     public float getViewWidth() {
         float r = myCam.viewportWidth * myZoom;
-        if (r < 0) throw new AssertionError("negative view width");
+        if (r < 0) {
+            throw new AssertionError("negative view width");
+        }
         return r;
     }
 
@@ -268,9 +276,13 @@ public class SolCam {
 
     public boolean isRelVisible(Vector2 rp) {
         float wHalf = getViewWidth() / 2;
-        if (wHalf < SolMath.abs(rp.x)) return false;
+        if (wHalf < SolMath.abs(rp.x)) {
+            return false;
+        }
         float hHalf = getViewHeight() / 2;
-        if (hHalf < SolMath.abs(rp.y)) return false;
+        if (hHalf < SolMath.abs(rp.y)) {
+            return false;
+        }
         return true;
     }
 

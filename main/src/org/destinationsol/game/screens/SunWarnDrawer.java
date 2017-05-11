@@ -29,7 +29,9 @@ public class SunWarnDrawer extends WarnDrawer {
 
     public boolean shouldWarn(SolGame game) {
         SolShip hero = game.getHero();
-        if (hero == null) return false;
+        if (hero == null) {
+            return false;
+        }
         Vector2 pos = hero.getPosition();
         float toCenter = game.getPlanetMan().getNearestSystem(pos).getPos().dst(pos);
         return toCenter < Const.SUN_RADIUS;

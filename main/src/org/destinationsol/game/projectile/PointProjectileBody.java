@@ -66,7 +66,9 @@ public class PointProjectileBody implements ProjectileBody {
     @Override
     public void receiveForce(Vector2 force, SolGame game, boolean acc) {
         force.scl(game.getTimeStep());
-        if (!acc) force.scl(10f);
+        if (!acc) {
+            force.scl(10f);
+        }
         mySpd.add(force);
     }
 
@@ -93,7 +95,6 @@ public class PointProjectileBody implements ProjectileBody {
     public float getDesiredAngle(SolShip ne) {
         return SolMath.angle(myPos, ne.getPosition());
     }
-
 
     private class MyRayBack implements RayCastCallback {
 

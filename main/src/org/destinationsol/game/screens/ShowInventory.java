@@ -74,7 +74,6 @@ public class ShowInventory implements InventoryOperations {
             return;
         }
 
-
         dropCtrl.setEnabled(true);
         if (dropCtrl.isJustOff()) {
             ItemContainer ic = hero.getItemContainer();
@@ -97,12 +96,18 @@ public class ShowInventory implements InventoryOperations {
             eq2Ctrl.setEnabled(true);
         }
         if (eq1Ctrl.isJustOff()) {
-            if (equipped1) hero.maybeUnequip(g, selItem, false, true);
-            else hero.maybeEquip(g, selItem, false, true);
+            if (equipped1) {
+                hero.maybeUnequip(g, selItem, false, true);
+            } else {
+                hero.maybeEquip(g, selItem, false, true);
+            }
         }
         if (eq2Ctrl.isJustOff()) {
-            if (equipped2) hero.maybeUnequip(g, selItem, true, true);
-            else hero.maybeEquip(g, selItem, true, true);
+            if (equipped2) {
+                hero.maybeUnequip(g, selItem, true, true);
+            } else {
+                hero.maybeEquip(g, selItem, true, true);
+            }
         }
     }
 

@@ -488,7 +488,9 @@ public class SolShip implements SolObject {
                 }
                 EngineItem ei = (EngineItem) item;
                 boolean ok = ei.isBig() == (myHull.config.getType() == HullConfig.Type.BIG);
-                if (ok && equip) myHull.setEngine(game, this, ei);
+                if (ok && equip) {
+                    myHull.setEngine(game, this, ei);
+                }
                 return ok;
             }
             if (item instanceof Shield) {

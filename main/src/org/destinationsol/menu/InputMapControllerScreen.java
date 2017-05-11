@@ -16,7 +16,6 @@
 
 package org.destinationsol.menu;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -37,9 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InputMapControllerScreen implements InputMapOperations {
-    private static Logger logger = LoggerFactory.getLogger(InputMapControllerScreen.class);
     private static final String HEADER_TEXT = "Controller Inputs";
-
+    private static Logger logger = LoggerFactory.getLogger(InputMapControllerScreen.class);
     private final ArrayList<SolUiControl> controls;
     private boolean isEnterNewKey;
     private List<InputConfigItem> itemsList = new ArrayList<InputConfigItem>();
@@ -295,7 +293,9 @@ public class InputMapControllerScreen implements InputMapOperations {
                 @Override
                 public boolean keyUp(int keycode) {
                     // Don't capture the escape key
-                    if (keycode == Input.Keys.ESCAPE) return true;
+                    if (keycode == Input.Keys.ESCAPE) {
+                        return true;
+                    }
 
                     if (selectedIndex >= controllerItems) {
                         removeDuplicateKeys(keycode);
@@ -335,7 +335,7 @@ public class InputMapControllerScreen implements InputMapOperations {
 
                 @Override
                 public boolean buttonUp(Controller controller, int buttonIndex) {
-                    logger.debug("#{}, button  {} up",indexOf(controller),buttonIndex);
+                    logger.debug("#{}, button  {} up", indexOf(controller), buttonIndex);
 
                     if (selectedIndex < controllerItems) {
                         removeDuplicateButtons(buttonIndex);
@@ -355,7 +355,7 @@ public class InputMapControllerScreen implements InputMapOperations {
 
                 @Override
                 public boolean axisMoved(Controller controller, int axisIndex, float value) {
-                    logger.debug("#{}, axis {}: {}",indexOf(controller),axisIndex, value);
+                    logger.debug("#{}, axis {}: {}", indexOf(controller), axisIndex, value);
 
                     if (value > 0.5f || value < -0.5f) {
                         if (selectedIndex < controllerItems) {

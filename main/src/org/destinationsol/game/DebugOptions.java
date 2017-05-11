@@ -58,7 +58,6 @@ public class DebugOptions {
     public static MissingResourceAction MISSING_TEXTURE_ACTION;
     public static MissingResourceAction MISSING_PHYSICS_ACTION;
 
-
     public static void read(SolFileReader reader) {
         IniReader r = new IniReader("debugOptions.ini", reader, true);
 

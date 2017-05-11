@@ -256,7 +256,9 @@ public class InputMapKeyboardScreen implements InputMapOperations {
                 @Override
                 public boolean keyUp(int keycode) {
                     // Don't capture the escape key
-                    if (keycode == Input.Keys.ESCAPE) return true;
+                    if (keycode == Input.Keys.ESCAPE) {
+                        return true;
+                    }
 
                     removeDuplicateKeys(keycode);
                     InputConfigItem item = itemsList.get(selectedIndex);

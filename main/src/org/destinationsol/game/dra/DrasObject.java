@@ -68,8 +68,12 @@ public class DrasObject implements SolObject {
             DraMan draMan = game.getDraMan();
             for (int i = 0, myDrasSize = myDras.size(); i < myDrasSize; i++) {
                 Dra dra = myDras.get(i);
-                if (!(dra instanceof RectSprite)) continue;
-                if (!draMan.isInCam(dra)) continue;
+                if (!(dra instanceof RectSprite)) {
+                    continue;
+                }
+                if (!draMan.isInCam(dra)) {
+                    continue;
+                }
                 Vector2 draPos = dra.getPos();
                 float gradSz = .25f * Const.ATM_HEIGHT;
                 float distPerc = (draPos.dst(npPos) - npgh - Const.ATM_HEIGHT) / gradSz;
@@ -81,7 +85,9 @@ public class DrasObject implements SolObject {
             float tintPerc = myFadeTime / myMaxFadeTime;
             for (int i = 0, myDrasSize = myDras.size(); i < myDrasSize; i++) {
                 Dra dra = myDras.get(i);
-                if (!(dra instanceof RectSprite)) continue;
+                if (!(dra instanceof RectSprite)) {
+                    continue;
+                }
                 RectSprite rs = (RectSprite) dra;
                 rs.tint.a = SolMath.clamp(tintPerc * rs.baseAlpha);
             }
@@ -91,7 +97,9 @@ public class DrasObject implements SolObject {
 
     @Override
     public boolean shouldBeRemoved(SolGame game) {
-        if (myMaxFadeTime > 0 && myFadeTime <= 0) return true;
+        if (myMaxFadeTime > 0 && myFadeTime <= 0) {
+            return true;
+        }
         if (myTemporary) {
             boolean rem = true;
             for (int i = 0, myDrasSize = myDras.size(); i < myDrasSize; i++) {
@@ -101,7 +109,9 @@ public class DrasObject implements SolObject {
                     break;
                 }
             }
-            if (rem) return true;
+            if (rem) {
+                return true;
+            }
         }
         return myRemoveController != null && myRemoveController.shouldRemove(myPos);
     }

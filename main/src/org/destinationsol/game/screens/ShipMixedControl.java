@@ -63,7 +63,9 @@ public class ShipMixedControl implements ShipUiControl {
     public void update(SolApplication cmp, boolean enabled) {
         GameOptions gameOptions = cmp.getOptions();
         blur();
-        if (!enabled) return;
+        if (!enabled) {
+            return;
+        }
         SolInputManager im = cmp.getInputMan();
         SolGame g = cmp.getGame();
         SolShip h = g.getHero();
@@ -73,16 +75,22 @@ public class ShipMixedControl implements ShipUiControl {
             float desiredAngle = SolMath.angle(h.getPosition(), myMouseWorldPos);
             Boolean ntt = Mover.needsToTurn(h.getAngle(), desiredAngle, h.getRotSpd(), h.getRotAcc(), Shooter.MIN_SHOOT_AAD);
             if (ntt != null) {
-                if (ntt) myRight = true;
-                else myLeft = true;
+                if (ntt) {
+                    myRight = true;
+                } else {
+                    myLeft = true;
+                }
             }
             if (!im.isMouseOnUi()) {
-                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                     shootCtrl.maybeFlashPressed(gameOptions.getKeyShoot());
-                if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT))
+                }
+                if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
                     shoot2Ctrl.maybeFlashPressed(gameOptions.getKeyShoot2());
-                if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE))
+                }
+                if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
                     abilityCtrl.maybeFlashPressed(gameOptions.getKeyAbility());
+                }
             }
         }
     }

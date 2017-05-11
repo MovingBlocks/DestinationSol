@@ -133,7 +133,7 @@ public class TutorialManager {
 
         // Extra step to make sure an equipped item is selected before asking player to unequip
         if (screens.inventoryScreen.getSelectedItem() == null ||
-                (screens.inventoryScreen.getSelectedItem() != null && screens.inventoryScreen.getSelectedItem().isEquipped() == 0)) {
+            (screens.inventoryScreen.getSelectedItem() != null && screens.inventoryScreen.getSelectedItem().isEquipped() == 0)) {
             s(new SelectEquippedItemStep(
                     "Select an equipped item\n(note the text \"using\")", screens.inventoryScreen, game));
         }
@@ -235,7 +235,9 @@ public class TutorialManager {
     }
 
     public void draw(UiDrawer uiDrawer) {
-        if (isFinished()) return;
+        if (isFinished()) {
+            return;
+        }
         Step step = mySteps.get(myStepIdx);
         uiDrawer.draw(myBg, SolColor.UI_BG);
         uiDrawer.drawString(step.text, uiDrawer.r / 2, myBg.y + myBg.height / 2, FontSize.TUT, true, SolColor.W);
@@ -258,7 +260,9 @@ public class TutorialManager {
 
         // highlight control that needs to be pressed
         public void highlight() {
-            if (ctrl != null) ctrl.enableWarn();
+            if (ctrl != null) {
+                ctrl.enableWarn();
+            }
         }
 
         public boolean canProgressToNextStep() {
@@ -283,7 +287,9 @@ public class TutorialManager {
         @Override
         public boolean canProgressToNextStep() {
             SolItem selected = inventoryScreen.getSelectedItem();
-            if (selected != null && selected.isEquipped() != 0) return true;
+            if (selected != null && selected.isEquipped() != 0) {
+                return true;
+            }
             return false;
         }
 

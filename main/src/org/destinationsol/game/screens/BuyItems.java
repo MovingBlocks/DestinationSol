@@ -82,7 +82,9 @@ public class BuyItems implements InventoryOperations {
         boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice() && hero.getItemContainer().canAdd(selItem);
         buyCtrl.setDisplayName(enabled ? "Buy" : "---");
         buyCtrl.setEnabled(enabled);
-        if (!enabled) return;
+        if (!enabled) {
+            return;
+        }
         if (buyCtrl.isJustOff()) {
             target.getTradeContainer().getItems().remove(selItem);
             hero.getItemContainer().add(selItem);

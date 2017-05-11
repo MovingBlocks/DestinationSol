@@ -85,7 +85,6 @@ public class AbilityCharge implements SolItem {
 
     }
 
-
     public static class Config {
         public final SolItemType itemType;
         public final String code;

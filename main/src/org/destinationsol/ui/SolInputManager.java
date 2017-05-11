@@ -80,7 +80,6 @@ public class SolInputManager {
         Gdx.graphics.setCursor(hiddenCursor);
         pm.dispose();
 
-
         // We want the original mouse cursor to be hidden as we draw our own mouse cursor.
         Gdx.input.setCursorCatched(false);
         setMouseCursorHidden();
@@ -115,9 +114,13 @@ public class SolInputManager {
             List<SolUiControl> controls = screen.getControls();
             for (int i1 = 0, controlsSize = controls.size(); i1 < controlsSize; i1++) {
                 SolUiControl c = controls.get(i1);
-                if (c.maybeFlashPressed(keyCode)) consumed = true;
+                if (c.maybeFlashPressed(keyCode)) {
+                    consumed = true;
+                }
             }
-            if (consumed) return;
+            if (consumed) {
+                return;
+            }
         }
 
     }
@@ -129,9 +132,13 @@ public class SolInputManager {
             List<SolUiControl> controls = screen.getControls();
             for (int i1 = 0, controlsSize = controls.size(); i1 < controlsSize; i1++) {
                 SolUiControl c = controls.get(i1);
-                if (c.maybeFlashPressed(myFlashPtr)) return;
+                if (c.maybeFlashPressed(myFlashPtr)) {
+                    return;
+                }
             }
-            if (screen.isCursorOnBg(myFlashPtr)) return;
+            if (screen.isCursorOnBg(myFlashPtr)) {
+                return;
+            }
         }
 
     }
@@ -170,11 +177,15 @@ public class SolInputManager {
         // This keeps the mouse within the window, but only when playing the game with the mouse.
         // All other times the mouse can freely leave and return.
         if (!mobile && (cmp.getOptions().controlType == GameOptions.CONTROL_MIXED || cmp.getOptions().controlType == GameOptions.CONTROL_MOUSE) &&
-                game != null && getTopScreen() != game.getScreens().menuScreen) {
-            if (!Gdx.input.isCursorCatched()) Gdx.input.setCursorCatched(true);
+            game != null && getTopScreen() != game.getScreens().menuScreen) {
+            if (!Gdx.input.isCursorCatched()) {
+                Gdx.input.setCursorCatched(true);
+            }
             maybeFixMousePos();
         } else {
-            if (Gdx.input.isCursorCatched()) Gdx.input.setCursorCatched(false);
+            if (Gdx.input.isCursorCatched()) {
+                Gdx.input.setCursorCatched(false);
+            }
         }
 
         updatePtrs();
@@ -197,7 +208,9 @@ public class SolInputManager {
                     myMouseOnUi = true;
                 }
             }
-            if (consumedNow) consumed = true;
+            if (consumedNow) {
+                consumed = true;
+            }
             boolean clickedOutside = false;
             if (!consumed) {
                 for (int i1 = 0, myPtrsLength = myPtrs.length; i1 < myPtrsLength; i1++) {
@@ -213,8 +226,12 @@ public class SolInputManager {
                     }
                 }
             }
-            if (clickedOutside && screen.reactsToClickOutside()) clickOutsideReacted = true;
-            if (screen.isCursorOnBg(myPtrs[0])) myMouseOnUi = true;
+            if (clickedOutside && screen.reactsToClickOutside()) {
+                clickOutsideReacted = true;
+            }
+            if (screen.isCursorOnBg(myPtrs[0])) {
+                myMouseOnUi = true;
+            }
             screen.updateCustom(cmp, myPtrs, clickedOutside);
         }
 
@@ -248,14 +265,18 @@ public class SolInputManager {
 
         for (int i = 0, myToAddSize = myToAdd.size(); i < myToAddSize; i++) {
             SolUiScreen screen = myToAdd.get(i);
-            if (isScreenOn(screen)) continue;
+            if (isScreenOn(screen)) {
+                continue;
+            }
             myScreens.add(0, screen);
         }
         myToAdd.clear();
     }
 
     private void updateCursor(SolApplication cmp) {
-        if (cmp.isMobile()) return;
+        if (cmp.isMobile()) {
+            return;
+        }
         SolGame game = cmp.getGame();
 
         myMousePos.set(myPtrs[0].x, myPtrs[0].y);
@@ -264,7 +285,9 @@ public class SolInputManager {
                 myCurrCursor = myUiCursor;
             } else {
                 myCurrCursor = game.getScreens().mainScreen.shipControl.getInGameTex();
-                if (myCurrCursor == null) myCurrCursor = myUiCursor;
+                if (myCurrCursor == null) {
+                    myCurrCursor = myUiCursor;
+                }
             }
             return;
         }
@@ -323,7 +346,9 @@ public class SolInputManager {
 
         SolGame game = cmp.getGame();
         TutorialManager tutorialManager = game == null ? null : game.getTutMan();
-        if (tutorialManager != null && getTopScreen() != game.getScreens().menuScreen) tutorialManager.draw(uiDrawer);
+        if (tutorialManager != null && getTopScreen() != game.getScreens().menuScreen) {
+            tutorialManager.draw(uiDrawer);
+        }
 
         if (myCurrCursor != null) {
             uiDrawer.draw(myCurrCursor, CURSOR_SZ, CURSOR_SZ, CURSOR_SZ / 2, CURSOR_SZ / 2, myMousePos.x, myMousePos.y, 0, SolColor.W);

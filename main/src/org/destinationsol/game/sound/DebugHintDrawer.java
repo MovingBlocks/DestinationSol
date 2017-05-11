@@ -62,13 +62,19 @@ public class DebugHintDrawer {
         while (it.hasNext()) {
             DebugHint n = it.next();
             n.update(game);
-            if (n.shouldRemove()) it.remove();
+            if (n.shouldRemove()) {
+                it.remove();
+            }
         }
     }
 
     public void draw(GameDrawer drawer, SolGame game) {
-        for (DebugHint n : myTracedNotes.values()) n.draw(drawer, game);
-        for (DebugHint n : myFreeNotes.values()) n.draw(drawer, game);
+        for (DebugHint n : myTracedNotes.values()) {
+            n.draw(drawer, game);
+        }
+        for (DebugHint n : myFreeNotes.values()) {
+            n.draw(drawer, game);
+        }
     }
 
 }

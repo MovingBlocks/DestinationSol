@@ -20,9 +20,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import javafx.scene.text.*;
-import org.destinationsol.*;
+import org.destinationsol.Const;
+import org.destinationsol.GameOptions;
+import org.destinationsol.SolApplication;
 import org.destinationsol.TextAlignment;
+import org.destinationsol.TextureManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DebugOptions;
@@ -54,7 +56,12 @@ public class MainScreen implements SolUiScreen {
     public static final float CELL_SZ = .17f;
     public static final float H_PAD = .005f;
     public static final float V_PAD = H_PAD;
-
+    public static final float HELPER_ROW_1 = 1 - 3f * MainScreen.CELL_SZ;
+    public static final float HELPER_ROW_2 = HELPER_ROW_1 - .5f * MainScreen.CELL_SZ;
+    public final ShipUiControl shipControl;
+    public final SolUiControl mapCtrl;
+    public final SolUiControl invCtrl;
+    public final SolUiControl talkCtrl;
     private final List<SolUiControl> myControls;
     private final ZoneNameAnnouncer myZoneNameAnnouncer;
     private final BorderDrawer myBorderDrawer;
@@ -63,12 +70,7 @@ public class MainScreen implements SolUiScreen {
     private final TextureAtlas.AtlasRegion myWaitTex;
     private final TextureAtlas.AtlasRegion myCompassTex;
     private final List<WarnDrawer> myWarnDrawers;
-
-    public final ShipUiControl shipControl;
     private final SolUiControl myMenuCtrl;
-    public final SolUiControl mapCtrl;
-    public final SolUiControl invCtrl;
-    public final SolUiControl talkCtrl;
     private final SolUiControl myPauseCtrl;
     private final Color myCompassTint;
     private final TextPlace myLifeTp;
@@ -80,9 +82,6 @@ public class MainScreen implements SolUiScreen {
     private final TextPlace myG2AmmoExcessTp;
     private final TextPlace myChargesExcessTp;
     private final TextPlace myMoneyExcessTp;
-    public static final float HELPER_ROW_1 = 1 - 3f * MainScreen.CELL_SZ;
-    public static final float HELPER_ROW_2 = HELPER_ROW_1 - .5f * MainScreen.CELL_SZ;
-
 
     public MainScreen(float r, RightPaneLayout rightPaneLayout, SolApplication cmp) {
         myControls = new ArrayList<SolUiControl>();
@@ -119,7 +118,6 @@ public class MainScreen implements SolUiScreen {
         myPauseCtrl = new SolUiControl(null, true, gameOptions.getKeyPause());
         myControls.add(myPauseCtrl);
 
-
         myWarnDrawers = new ArrayList<WarnDrawer>();
         myWarnDrawers.add(new CollisionWarnDrawer(r));
         myWarnDrawers.add(new SunWarnDrawer(r));
@@ -149,6 +147,15 @@ public class MainScreen implements SolUiScreen {
         myMoneyExcessTp = new TextPlace(SolColor.W);
     }
 
+    public static Rectangle btn(float x, float y, boolean halfHeight) {
+        float gap = .01f;
+        float cellH = CELL_SZ;
+        if (halfHeight) {
+            cellH /= 2;
+        }
+        return new Rectangle(x + gap, y + gap, CELL_SZ - gap * 2, cellH - gap * 2);
+    }
+
     public void maybeDrawHeight(UiDrawer drawer, SolApplication cmp) {
         SolGame game = cmp.getGame();
         Planet np = game.getPlanetMan().getNearestPlanet();
@@ -162,22 +169,19 @@ public class MainScreen implements SolUiScreen {
     private void drawHeight(UiDrawer drawer, Planet np, Vector2 camPos, float camAngle) {
         float toPlanet = camPos.dst(np.getPos());
         toPlanet -= np.getGroundHeight();
-        if (Const.ATM_HEIGHT < toPlanet) return;
+        if (Const.ATM_HEIGHT < toPlanet) {
+            return;
+        }
         float perc = toPlanet / Const.ATM_HEIGHT;
         float sz = .08f;
         float maxY = 1 - sz / 2;
         float y = 1 - perc;
         myCompassTint.a = SolMath.clamp(1.5f * y);
-        if (maxY < y) y = maxY;
+        if (maxY < y) {
+            y = maxY;
+        }
         float angle = np.getAngle() - camAngle;
         drawer.draw(myCompassTex, sz, sz, sz / 2, sz / 2, sz / 2, y, angle, myCompassTint);
-    }
-
-    public static Rectangle btn(float x, float y, boolean halfHeight) {
-        float gap = .01f;
-        float cellH = CELL_SZ;
-        if (halfHeight) cellH /= 2;
-        return new Rectangle(x + gap, y + gap, CELL_SZ - gap * 2, cellH - gap * 2);
     }
 
     @Override
@@ -216,7 +220,9 @@ public class MainScreen implements SolUiScreen {
 
         invCtrl.setEnabled(hero != null);
         if (hero != null && !inputMan.isScreenOn(screens.inventoryScreen)) {
-            if (hero.getItemContainer().hasNew()) invCtrl.enableWarn();
+            if (hero.getItemContainer().hasNew()) {
+                invCtrl.enableWarn();
+            }
         }
         if (invCtrl.isJustOff()) {
             InventoryScreen is = screens.inventoryScreen;
@@ -249,13 +255,21 @@ public class MainScreen implements SolUiScreen {
         List<SolObject> objs = game.getObjMan().getObjs();
         for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
             SolObject o = objs.get(i);
-            if (!(o instanceof SolShip)) continue;
+            if (!(o instanceof SolShip)) {
+                continue;
+            }
             SolShip ship = (SolShip) o;
-            if (factionManager.areEnemies(hero, ship)) continue;
-            if (ship.getTradeContainer() == null) continue;
+            if (factionManager.areEnemies(hero, ship)) {
+                continue;
+            }
+            if (ship.getTradeContainer() == null) {
+                continue;
+            }
             float dst = ship.getPosition().dst(hero.getPosition());
             float ar = ship.getHull().config.getApproxRadius();
-            if (minDist < dst - har - ar) continue;
+            if (minDist < dst - har - ar) {
+                continue;
+            }
             target = ship;
             minDist = dst;
         }
@@ -276,7 +290,9 @@ public class MainScreen implements SolUiScreen {
     private boolean drawGunStat(UiDrawer uiDrawer, SolShip hero, boolean secondary, float col0, float col1,
                                 float col2, float y) {
         GunItem g = hero.getHull().getGun(secondary);
-        if (g == null) return false;
+        if (g == null) {
+            return false;
+        }
         TextureAtlas.AtlasRegion tex = g.config.icon;
 
         uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, col0, y, 0, SolColor.W);
@@ -291,7 +307,9 @@ public class MainScreen implements SolUiScreen {
         }
         TextPlace ammoTp = g.reloadAwait > 0 ? null : secondary ? myG2AmmoTp : myG1AmmoTp;
         drawBar(uiDrawer, col1, y, curr, max, ammoTp);
-        if (g.reloadAwait > 0) drawWait(uiDrawer, col1, y);
+        if (g.reloadAwait > 0) {
+            drawWait(uiDrawer, col1, y);
+        }
         if (!g.config.clipConf.infinite) {
             int clipCount = hero.getItemContainer().count(g.config.clipConf.example);
             drawIcons(uiDrawer, col2, y, clipCount, g.config.clipConf.icon, secondary ? myG2AmmoExcessTp : myG1AmmoExcessTp);
@@ -385,9 +403,13 @@ public class MainScreen implements SolUiScreen {
 
             row += ICON_SZ + V_PAD;
             boolean consumed = drawGunStat(uiDrawer, hero, false, col0, col1, col2, row);
-            if (consumed) row += ICON_SZ + V_PAD;
+            if (consumed) {
+                row += ICON_SZ + V_PAD;
+            }
             consumed = drawGunStat(uiDrawer, hero, true, col0, col1, col2, row);
-            if (consumed) row += ICON_SZ + V_PAD;
+            if (consumed) {
+                row += ICON_SZ + V_PAD;
+            }
 
             ShipAbility ability = hero.getAbility();
             SolItem abilityChargeEx = ability == null ? null : ability.getConfig().getChargeExample();
@@ -397,7 +419,9 @@ public class MainScreen implements SolUiScreen {
                 uiDrawer.draw(icon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.W);
                 float chargePerc = 1 - SolMath.clamp(hero.getAbilityAwait() / ability.getConfig().getRechargeTime());
                 drawBar(uiDrawer, col1, row, chargePerc, 1, null);
-                if (chargePerc < 1) drawWait(uiDrawer, col1, row);
+                if (chargePerc < 1) {
+                    drawWait(uiDrawer, col1, row);
+                }
                 drawIcons(uiDrawer, col2, row, abilityChargeCount, icon, myChargesExcessTp);
                 row += ICON_SZ + V_PAD;
             }
@@ -478,9 +502,9 @@ public class MainScreen implements SolUiScreen {
     }
 
     public static class TextPlace {
+        public final Color color;
         public String text;
         public Vector2 pos = new Vector2();
-        public final Color color;
 
         public TextPlace(Color col) {
             color = new Color(col);
@@ -502,7 +526,9 @@ public class MainScreen implements SolUiScreen {
 
         protected boolean shouldWarn(SolGame game) {
             SolShip h = game.getHero();
-            if (h == null) return false;
+            if (h == null) {
+                return false;
+            }
             return h.getShield() == null;
         }
     }
@@ -514,7 +540,9 @@ public class MainScreen implements SolUiScreen {
 
         protected boolean shouldWarn(SolGame game) {
             SolShip h = game.getHero();
-            if (h == null) return false;
+            if (h == null) {
+                return false;
+            }
             return h.getArmor() == null;
         }
     }
@@ -526,7 +554,9 @@ public class MainScreen implements SolUiScreen {
 
         protected boolean shouldWarn(SolGame game) {
             SolShip h = game.getHero();
-            if (h == null) return false;
+            if (h == null) {
+                return false;
+            }
             float heroCap = HardnessCalc.getShipDmgCap(h);
             List<SolObject> objs = game.getObjMan().getObjs();
             FactionManager fm = game.getFactionMan();
@@ -535,12 +565,20 @@ public class MainScreen implements SolUiScreen {
             float dps = 0;
             for (int i = 0, sz = objs.size(); i < sz; i++) {
                 SolObject o = objs.get(i);
-                if (!(o instanceof SolShip)) continue;
+                if (!(o instanceof SolShip)) {
+                    continue;
+                }
                 SolShip ship = (SolShip) o;
-                if (viewDist < ship.getPosition().dst(h.getPosition())) continue;
-                if (!fm.areEnemies(h, ship)) continue;
+                if (viewDist < ship.getPosition().dst(h.getPosition())) {
+                    continue;
+                }
+                if (!fm.areEnemies(h, ship)) {
+                    continue;
+                }
                 dps += HardnessCalc.getShipDps(ship);
-                if (HardnessCalc.isDangerous(heroCap, dps)) return true;
+                if (HardnessCalc.isDangerous(heroCap, dps)) {
+                    return true;
+                }
             }
             return false;
         }
