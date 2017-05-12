@@ -49,7 +49,7 @@ public class MapDrawer {
     public static final float INNER_ICON_PERC = .6f;
     public static final float INNER_AREA_ICON_PERC = .7f;
     public static final float GRID_SZ = 40f;
-    public static final String MAP_TEX_DIR = "mapObjs/";
+    public static final String MAP_TEX_DIR = "mapObjects/";
     public static final float MIN_ICON_RAD_PX = 16f;
     private static final float MAX_SKULL_TIME = .75f;
     private static final float MAX_AREA_SKULL_TIME = 3;

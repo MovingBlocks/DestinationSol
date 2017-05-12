@@ -30,7 +30,7 @@ import org.destinationsol.game.planet.Planet;
 
 public class Teleport implements ShipAbility {
     public static final int MAX_RADIUS = 4;
-    public static final String TEX_PATH = "smallGameObjs/teleportBlip";
+    public static final String TEX_PATH = "smallGameObjects/teleportBlip";
     private final Vector2 myNewPos;
     private final Config myConfig;
     private boolean myShouldTeleport;

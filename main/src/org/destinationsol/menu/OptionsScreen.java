@@ -137,7 +137,7 @@ public class OptionsScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr pointers) {
+    public boolean isCursorOnBg(SolInputManager.Ptr pointer) {
         return false;
     }
 

@@ -15,6 +15,7 @@
  */
 package org.destinationsol.assets;
 
+import org.destinationsol.assets.TextureMap.TextureMap;
 import org.destinationsol.assets.audio.OggMusic;
 import org.destinationsol.assets.audio.OggSound;
 import org.terasology.assets.Asset;
@@ -34,6 +35,7 @@ public class AssetHelper {
 
         assetTypeManager.registerCoreAssetType(OggSound.class, OggSound::new, "sounds");
         assetTypeManager.registerCoreAssetType(OggMusic.class, OggMusic::new, "music");
+        assetTypeManager.registerCoreAssetType(TextureMap.class, TextureMap::new, "imgs");
 
         assetTypeManager.switchEnvironment(environment);
     }
@@ -54,11 +56,15 @@ public class AssetHelper {
         return get(urn, OggMusic.class);
     }
 
-    public Set<ResourceUrn> getSounds() {
+    public Set<ResourceUrn> getSoundSet() {
         return list(OggSound.class);
     }
 
     public Set<ResourceUrn> getMusicSet() {
         return list(OggMusic.class);
+    }
+
+    public Optional<TextureMap> getTextureMap(ResourceUrn urn) {
+        return get(urn, TextureMap.class);
     }
 }

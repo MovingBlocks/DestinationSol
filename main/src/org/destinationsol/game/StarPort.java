@@ -238,7 +238,7 @@ public class StarPort implements SolObject {
             // Adjust position so that StarPorts are not overlapping
             pos = adjustDesiredPos(game, null, pos);
             ArrayList<Dra> dras = new ArrayList<Dra>();
-            Body body = myLoader.getBodyAndSprite(game, "smallGameObjs", "starPort", SIZE,
+            Body body = myLoader.getBodyAndSprite(game, "smallGameObjects", "starPort", SIZE,
                     BodyDef.BodyType.KinematicBody, new Vector2(pos), angle, dras, 10f, DraLevel.BIG_BODIES, null);
             SolMath.free(pos);
             ArrayList<LightSrc> lights = new ArrayList<LightSrc>();
@@ -358,7 +358,7 @@ public class StarPort implements SolObject {
             mySpd = new Vector2();
             myDestPos = new Vector2();
 
-            RectSprite s = new RectSprite(game.getTexMan().getTex("smallGameObjs/transcendent", null), TRAN_SZ, .3f, 0, new Vector2(), DraLevel.PROJECTILES, 0, 0, SolColor.W, false);
+            RectSprite s = new RectSprite(game.getTexMan().getTex("smallGameObjects/transcendent", null), TRAN_SZ, .3f, 0, new Vector2(), DraLevel.PROJECTILES, 0, 0, SolColor.W, false);
             myDras = new ArrayList<Dra>();
             myDras.add(s);
             EffectConfig eff = game.getSpecialEffects().transcendentWork;

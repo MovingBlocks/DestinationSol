@@ -1,9 +1,9 @@
 {
   standard: {
     environment: {
-      junkTexs: "deco/space/sysDeco",
+      junkTexs: "decorations/space/sysDeco",
       junkDensity: 0.03,
-      farJunkTexs: "deco/farSpace/sysFarBg",
+      farJunkTexs: "decorations/farSpace/sysFarBg",
       farJunkDensity: 0.01,
     },
 
@@ -96,9 +96,9 @@
   hard: {
     hard: true,
     environment: {
-      junkTexs: "deco/space/sysDeco",
+      junkTexs: "decorations/space/sysDeco",
       junkDensity: 0.06,
-      farJunkTexs: "deco/farSpace/sysFarBg",
+      farJunkTexs: "decorations/farSpace/sysFarBg",
       farJunkDensity: 0.01,
     },
 

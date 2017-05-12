@@ -5,7 +5,7 @@
 
     displayName: "Small Shield",
     icon: shield1,
-    tex: "smallGameObjs/shield1",
+    tex: "smallGameObjects/shield1",
 
     absorbSound: "Core:shield1Absorb1",
     absorbSoundPitch: 1.1,
@@ -20,7 +20,7 @@
 
     displayName: Shield,
     icon: shield2,
-    tex: "smallGameObjs/shield2",
+    tex: "smallGameObjects/shield2",
 
     absorbSound: "Core:shield1Absorb1",
     absorbSoundPitch: 1,
@@ -35,7 +35,7 @@
 
     displayName: "Big Shield",
     icon: shield3,
-    tex: "smallGameObjs/shield3",
+    tex: "smallGameObjects/shield3",
 
     absorbSound: "Core:shield1Absorb1",
     absorbSoundPitch: 0.9,
@@ -50,7 +50,7 @@
 
     displayName: "Advanced Shield",
     icon: shield4,
-    tex: "smallGameObjs/shield4",
+    tex: "smallGameObjects/shield4",
 
     absorbSound: "Core:shield1Absorb1",
     absorbSoundPitch: 0.8,
