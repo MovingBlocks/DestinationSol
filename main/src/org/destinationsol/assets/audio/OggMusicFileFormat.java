@@ -39,7 +39,7 @@ public class OggMusicFileFormat extends AbstractAssetFileFormat<OggMusicData> {
         if (DebugOptions.DEV_ROOT_PATH != null) {
             pathString = DebugOptions.DEV_ROOT_PATH;
         }
-        pathString += "res/";
+        pathString += "res\\";
 
         List<String> path = inputs.get(0).getPath();
 

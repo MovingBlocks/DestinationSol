@@ -19,14 +19,16 @@ package org.destinationsol;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import org.destinationsol.assets.AssetHelper;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 
 class AtlasTextureProvider implements TextureProvider {
     private final TextureAtlas myAtlas;
 
-    AtlasTextureProvider(FileHandle atlasFile) {
-        myAtlas = new TextureAtlas(atlasFile, true);
+    AtlasTextureProvider(ResourceUrn resourceUrn, AssetHelper assetHelper) {
+        myAtlas = assetHelper.getTextureMap(resourceUrn).get().getTextureAtlas();
     }
 
     @Override

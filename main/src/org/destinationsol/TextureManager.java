@@ -19,8 +19,10 @@ package org.destinationsol;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,10 +39,9 @@ public class TextureManager {
     private final TextureProvider textureProvider;
     private final TextureProvider textureProviderStaticFiles;
 
-    public TextureManager() {
-        FileHandle atlasFile = FileManager.getInstance().getImagesDirectory().child("sol.atlas");
+    public TextureManager(AssetHelper assetHelper) {
         textureProviderStaticFiles = new DevTextureProvider();
-        textureProvider = new AtlasTextureProvider(atlasFile);
+        textureProvider = new AtlasTextureProvider(new ResourceUrn("Core:sol"), assetHelper);
     }
 
     public TextureAtlas.AtlasRegion getFlipped(TextureAtlas.AtlasRegion tex) {

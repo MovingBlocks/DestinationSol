@@ -40,7 +40,7 @@ public class ShardBuilder {
 
     public ShardBuilder(TextureManager textureManager) {
         myPathLoader = new PathLoader("misc");
-        myTexs = textureManager.getPack("smallGameObjs/shard", null);
+        myTexs = textureManager.getPack("smallGameObjects/shard", null);
     }
 
     public void buildExplosionShards(SolGame game, Vector2 pos, Vector2 baseSpd, float size) {
@@ -60,7 +60,7 @@ public class ShardBuilder {
         Vector2 pos = new Vector2();
         SolMath.fromAl(pos, spdAngle, SolMath.rnd(size));
         pos.add(basePos);
-        Body body = myPathLoader.getBodyAndSprite(game, "smallGameObjs", AsteroidBuilder.removePath(tex.name) + "_" + tex.index, scale,
+        Body body = myPathLoader.getBodyAndSprite(game, "smallGameObjects", AsteroidBuilder.removePath(tex.name) + "_" + tex.index, scale,
                 BodyDef.BodyType.DynamicBody, pos, SolMath.rnd(180), dras, ShipBuilder.SHIP_DENSITY, DraLevel.PROJECTILES, tex);
 
         body.setAngularVelocity(SolMath.rnd(MAX_ROT_SPD));

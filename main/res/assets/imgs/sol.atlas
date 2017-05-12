@@ -1,5 +1,4 @@
-
-sol.png
+asteroids.png
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
@@ -18,172 +17,172 @@ asteroids/sys
   offset: 0, 0
   index: 1
 
-sol2.png
+decorations.png
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
-deco/bigStar
+decorations/bigStar
   rotate: false
   xy: 384, 96
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-deco/desert/cactus
+decorations/desert/cactus
   rotate: false
   xy: 256, 64
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 0
-deco/desert/cactus
+decorations/desert/cactus
   rotate: false
   xy: 256, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 1
-deco/desert/remnant
+decorations/desert/remnant
   rotate: false
   xy: 128, 384
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 0
-deco/desert/tree
+decorations/desert/tree
   rotate: false
   xy: 128, 256
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 0
-deco/desert/tree
+decorations/desert/tree
   rotate: false
   xy: 128, 128
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 1
-deco/farSpace/beltFarBg
+decorations/farSpace/beltFarBg
   rotate: false
   xy: 0, 384
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 0
-deco/farSpace/mazeFarBg
+decorations/farSpace/mazeFarBg
   rotate: false
   xy: 0, 256
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 0
-deco/farSpace/sysFarBg
+decorations/farSpace/sysFarBg
   rotate: false
   xy: 0, 128
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 0
-deco/farSpace/sysFarBg
+decorations/farSpace/sysFarBg
   rotate: false
   xy: 0, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 1
-deco/farSpace/sysFarBg
+decorations/farSpace/sysFarBg
   rotate: false
   xy: 384, 128
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 2
-deco/farSpace/sysFarBg
+decorations/farSpace/sysFarBg
   rotate: false
   xy: 448, 128
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 3
-deco/frozen/tree
+decorations/frozen/tree
   rotate: false
   xy: 256, 384
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 0
-deco/frozen/tree
+decorations/frozen/tree
   rotate: false
   xy: 384, 256
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 3
-deco/rocky/grass
+decorations/rocky/grass
   rotate: false
   xy: 384, 192
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 0
-deco/rocky/grass
+decorations/rocky/grass
   rotate: false
   xy: 448, 192
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 1
-deco/rocky/grass
+decorations/rocky/grass
   rotate: false
   xy: 320, 64
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 2
-deco/rocky/tree
+decorations/rocky/tree
   rotate: false
   xy: 384, 384
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 0
-deco/rocky/tree
+decorations/rocky/tree
   rotate: false
   xy: 128, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 1
-deco/rocky/tree
+decorations/rocky/tree
   rotate: false
   xy: 256, 256
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 2
-deco/rocky/tree
+decorations/rocky/tree
   rotate: false
   xy: 256, 128
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 3
-deco/space/dust
+decorations/space/dust
   rotate: false
   xy: 416, 127
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
-deco/space/sysDeco
+decorations/space/sysDeco
   rotate: false
   xy: 320, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 1
-deco/space/sysDeco
+decorations/space/sysDeco
   rotate: false
   xy: 384, 64
   size: 32, 32
@@ -191,7 +190,7 @@ deco/space/sysDeco
   offset: 0, 0
   index: 0
 
-sol3.png
+farBgBig.png
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
@@ -203,7 +202,7 @@ farBgBig/nebulae2
   offset: 0, 0
   index: -1
 
-sol4.png
+groundsDesert.png
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
@@ -264,7 +263,7 @@ grounds/desert/uu
   offset: 0, 0
   index: 1
 
-sol5.png
+groundsFrozen.png
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
@@ -339,7 +338,7 @@ grounds/frozen/uu
   offset: 0, 0
   index: 1
 
-sol6.png
+groundsRocky.png
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
@@ -414,95 +413,95 @@ grounds/rocky/uu
   offset: 0, 0
   index: 1
 
-sol8.png
+mapObjects.png
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
-mapObjs/asteroids
+mapObjects/asteroids
   rotate: false
   xy: 384, 96
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-mapObjs/atm
+mapObjects/atm
   rotate: false
   xy: 0, 256
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-mapObjs/beaconAttack
+mapObjects/beaconAttack
   rotate: false
   xy: 416, 120
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-mapObjs/beaconFollow
+mapObjects/beaconFollow
   rotate: false
   xy: 384, 72
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-mapObjs/beaconMove
+mapObjects/beaconMove
   rotate: false
   xy: 400, 88
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-mapObjs/gridLine
+mapObjects/gridLine
   rotate: false
   xy: 416, 119
   size: 4, 1
   orig: 4, 1
   offset: 0, 0
   index: -1
-mapObjs/maze
+mapObjects/maze
   rotate: false
   xy: 384, 80
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-mapObjs/planet
+mapObjects/planet
   rotate: false
   xy: 256, 128
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-mapObjs/planetCore
+mapObjects/planetCore
   rotate: false
   xy: 256, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-mapObjs/skullBig
+mapObjects/skullBig
   rotate: false
   xy: 0, 0
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-mapObjs/star
+mapObjects/star
   rotate: false
   xy: 384, 128
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-mapObjs/warnBg
+mapObjects/warnBg
   rotate: false
   xy: 256, 256
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-mapObjs/whiteTex
+mapObjects/whiteTex
   rotate: false
   xy: 424, 127
   size: 1, 1
@@ -510,7 +509,7 @@ mapObjs/whiteTex
   offset: 0, 0
   index: -1
 
-sol9.png
+mazeTiles.png
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
@@ -627,7 +626,7 @@ mazeTiles/junk/wall
   offset: 0, 0
   index: 6
 
-sol10.png
+planetStarCommons.png
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
@@ -653,7 +652,7 @@ planetStarCommons/whiteTex
   offset: 0, 0
   index: -1
 
-sol11.png
+clouds.png
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
@@ -679,424 +678,424 @@ skies/cloud
   offset: 0, 0
   index: 2
 
-sol12.png
+smallGameObjects.png
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
-smallGameObjs/beaconAttack
+smallGameObjects/beaconAttack
   rotate: false
   xy: 512, 576
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-smallGameObjs/beaconFollow
+smallGameObjects/beaconFollow
   rotate: false
   xy: 640, 704
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-smallGameObjs/beaconMove
+smallGameObjects/beaconMove
   rotate: false
   xy: 384, 192
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-smallGameObjs/door
+smallGameObjects/door
   rotate: false
   xy: 640, 600
   size: 64, 8
   orig: 64, 8
   offset: 0, 0
   index: -1
-smallGameObjs/guns/blaster
+smallGameObjects/guns/blaster
   rotate: false
   xy: 512, 496
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
-smallGameObjs/guns/bombGun
+smallGameObjects/guns/bombGun
   rotate: false
   xy: 768, 704
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-smallGameObjs/guns/cannon
+smallGameObjects/guns/cannon
   rotate: false
   xy: 576, 560
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
-smallGameObjs/guns/emGun
+smallGameObjects/guns/emGun
   rotate: false
   xy: 640, 624
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
-smallGameObjs/guns/fixedBlaster
+smallGameObjects/guns/fixedBlaster
   rotate: false
   xy: 704, 688
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
-smallGameObjs/guns/fixedBombGun
+smallGameObjects/guns/fixedBombGun
   rotate: false
   xy: 384, 160
   size: 64, 32
   orig: 64, 32
   offset: 0, 0
   index: -1
-smallGameObjs/guns/fixedCannon
+smallGameObjects/guns/fixedCannon
   rotate: false
   xy: 768, 752
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
-smallGameObjs/guns/fixedEmGun
+smallGameObjects/guns/fixedEmGun
   rotate: false
   xy: 384, 144
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
-smallGameObjs/guns/fixedGun
+smallGameObjects/guns/fixedGun
   rotate: false
   xy: 448, 208
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
-smallGameObjs/guns/fixedPlasmaGun
+smallGameObjects/guns/fixedPlasmaGun
   rotate: false
   xy: 512, 480
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
-smallGameObjs/guns/fixedShotGun
+smallGameObjects/guns/fixedShotGun
   rotate: false
   xy: 576, 544
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
-smallGameObjs/guns/gun
+smallGameObjects/guns/gun
   rotate: false
   xy: 640, 608
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
-smallGameObjs/guns/miner
+smallGameObjects/guns/miner
   rotate: false
   xy: 448, 160
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-smallGameObjs/guns/missileLauncher
+smallGameObjects/guns/missileLauncher
   rotate: false
   xy: 704, 672
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
-smallGameObjs/guns/missilePad
+smallGameObjects/guns/missilePad
   rotate: false
   xy: 448, 224
   size: 64, 32
   orig: 64, 32
   offset: 0, 0
   index: -1
-smallGameObjs/guns/nailGun
+smallGameObjects/guns/nailGun
   rotate: false
   xy: 768, 736
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
-smallGameObjs/guns/plasmaGun
+smallGameObjects/guns/plasmaGun
   rotate: false
   xy: 832, 752
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
-smallGameObjs/guns/railGun
+smallGameObjects/guns/railGun
   rotate: false
   xy: 384, 128
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
-smallGameObjs/guns/rocketLauncher
+smallGameObjects/guns/rocketLauncher
   rotate: false
   xy: 448, 192
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
-smallGameObjs/guns/shotGun
+smallGameObjects/guns/shotGun
   rotate: false
   xy: 512, 464
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
-smallGameObjs/guns/waveGun
+smallGameObjects/guns/waveGun
   rotate: false
   xy: 576, 528
   size: 64, 16
   orig: 64, 16
   offset: 0, 0
   index: -1
-smallGameObjs/missing
+smallGameObjects/missing
   rotate: false
   xy: 544, 448
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-smallGameObjs/particles/electricity
+smallGameObjects/particles/electricity
   rotate: false
   xy: 384, 96
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-smallGameObjs/particles/emWave
+smallGameObjects/particles/emWave
   rotate: false
   xy: 0, 768
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-smallGameObjs/particles/fire
+smallGameObjects/particles/fire
   rotate: false
   xy: 448, 144
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-smallGameObjs/particles/forceBeacon
+smallGameObjects/particles/forceBeacon
   rotate: false
   xy: 512, 640
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-smallGameObjs/particles/forceTail
+smallGameObjects/particles/forceTail
   rotate: false
   xy: 480, 176
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-smallGameObjs/particles/knockBack
+smallGameObjects/particles/knockBack
   rotate: false
   xy: 0, 512
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-smallGameObjs/particles/lightCircle
+smallGameObjects/particles/lightCircle
   rotate: false
   xy: 512, 512
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-smallGameObjs/particles/lightHalo
+smallGameObjects/particles/lightHalo
   rotate: false
   xy: 576, 576
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-smallGameObjs/particles/sloMo
+smallGameObjects/particles/sloMo
   rotate: false
   xy: 512, 768
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-smallGameObjs/particles/smoke
+smallGameObjects/particles/smoke
   rotate: false
   xy: 608, 512
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-smallGameObjs/particles/spark
+smallGameObjects/particles/spark
   rotate: false
   xy: 640, 566
   size: 2, 2
   orig: 2, 2
   offset: 0, 0
   index: -1
-smallGameObjs/particles/techieTrail
+smallGameObjects/particles/techieTrail
   rotate: false
   xy: 704, 636
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-smallGameObjs/particles/unShield
+smallGameObjects/particles/unShield
   rotate: false
   xy: 256, 256
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-smallGameObjs/projectiles/blast
+smallGameObjects/projectiles/blast
   rotate: false
   xy: 832, 736
   size: 32, 16
   orig: 32, 16
   offset: 0, 0
   index: -1
-smallGameObjs/projectiles/bomb
+smallGameObjects/projectiles/bomb
   rotate: false
   xy: 896, 752
   size: 32, 16
   orig: 32, 16
   offset: 0, 0
   index: -1
-smallGameObjs/projectiles/bullet
+smallGameObjects/projectiles/bullet
   rotate: false
   xy: 704, 668
   size: 64, 4
   orig: 64, 4
   offset: 0, 0
   index: -1
-smallGameObjs/projectiles/mine
+smallGameObjects/projectiles/mine
   rotate: false
   xy: 512, 416
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-smallGameObjs/projectiles/missile
+smallGameObjects/projectiles/missile
   rotate: false
   xy: 768, 688
   size: 32, 16
   orig: 32, 16
   offset: 0, 0
   index: -1
-smallGameObjs/projectiles/nail
+smallGameObjects/projectiles/nail
   rotate: false
   xy: 800, 720
   size: 32, 16
   orig: 32, 16
   offset: 0, 0
   index: -1
-smallGameObjs/projectiles/plasma
+smallGameObjects/projectiles/plasma
   rotate: false
   xy: 576, 480
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-smallGameObjs/projectiles/rocket
+smallGameObjects/projectiles/rocket
   rotate: false
   xy: 384, 80
   size: 32, 16
   orig: 32, 16
   offset: 0, 0
   index: -1
-smallGameObjs/projectiles/slug
+smallGameObjects/projectiles/slug
   rotate: false
   xy: 416, 112
   size: 32, 16
   orig: 32, 16
   offset: 0, 0
   index: -1
-smallGameObjs/projectiles/wave
+smallGameObjects/projectiles/wave
   rotate: false
   xy: 704, 704
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-smallGameObjs/shard
+smallGameObjects/shard
   rotate: false
   xy: 512, 432
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 0
-smallGameObjs/shard
+smallGameObjects/shard
   rotate: false
   xy: 576, 496
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 1
-smallGameObjs/shard
+smallGameObjects/shard
   rotate: false
   xy: 640, 568
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 2
-smallGameObjs/shield1
+smallGameObjects/shield1
   rotate: false
   xy: 256, 768
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-smallGameObjs/shield2
+smallGameObjects/shield2
   rotate: false
   xy: 0, 256
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-smallGameObjs/shield3
+smallGameObjects/shield3
   rotate: false
   xy: 0, 0
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-smallGameObjs/shield4
+smallGameObjects/shield4
   rotate: false
   xy: 256, 512
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-smallGameObjs/starPort
+smallGameObjects/starPort
   rotate: false
   xy: 768, 768
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-smallGameObjs/targetDetected
+smallGameObjects/targetDetected
   rotate: false
   xy: 256, 128
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-smallGameObjs/teleportBlip
+smallGameObjects/teleportBlip
   rotate: false
   xy: 640, 640
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-smallGameObjs/transcendent
+smallGameObjects/transcendent
   rotate: false
   xy: 256, 0
   size: 128, 128
@@ -1104,7 +1103,7 @@ smallGameObjs/transcendent
   offset: 0, 0
   index: -1
 
-sol13.png
+ui.png
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
