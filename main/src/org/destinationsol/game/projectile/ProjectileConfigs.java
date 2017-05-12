@@ -44,7 +44,7 @@ public class ProjectileConfigs {
         FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("projectiles.json");
         JsonValue parsed = r.parse(configFile);
         for (JsonValue sh : parsed) {
-            String texName = "smallGameObjs/projectiles/" + sh.getString("texName");
+            String texName = "smallGameObjects/projectiles/" + sh.getString("texName");
             TextureAtlas.AtlasRegion tex = textureManager.getTex(texName, configFile);
             float texSz = sh.getFloat("texSz");
             float spdLen = sh.getFloat("spdLen");

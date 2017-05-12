@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.assets.audio;
+package org.destinationsol.assets.TextureMap;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.game.DebugOptions;
 import org.terasology.assets.ResourceUrn;
 import org.terasology.assets.format.AbstractAssetFileFormat;
@@ -28,13 +28,13 @@ import java.nio.file.Paths;
 import java.util.List;
 
 @RegisterAssetFileFormat
-public class OggSoundFileFormat extends AbstractAssetFileFormat<OggSoundData> {
-    public OggSoundFileFormat() {
-        super("ogg");
+public class TextureMapFileFormat extends AbstractAssetFileFormat<TextureMapData> {
+    public TextureMapFileFormat() {
+        super("atlas");
     }
 
     @Override
-    public OggSoundData load(ResourceUrn urn, List<AssetDataFile> inputs) throws IOException {
+    public TextureMapData load(ResourceUrn urn, List<AssetDataFile> inputs) throws IOException {
         String pathString = "";
         if (DebugOptions.DEV_ROOT_PATH != null) {
             pathString = DebugOptions.DEV_ROOT_PATH;
@@ -49,6 +49,6 @@ public class OggSoundFileFormat extends AbstractAssetFileFormat<OggSoundData> {
         pathString += inputs.get(0).getFilename();
 
         FileHandle handle = new FileHandle(Paths.get(pathString).toFile());
-        return new OggSoundData(Gdx.audio.newSound(handle));
+        return new TextureMapData(new TextureAtlas(handle, true));
     }
 }

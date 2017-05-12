@@ -32,7 +32,7 @@ public class DevTextureProvider implements TextureProvider {
     private final Texture myMissingTex;
 
     DevTextureProvider() {
-        //FileHandle missingFile = FileManager.getInstance().getStaticFile("imgSrcs/smallGameObjs/missing.png");
+        //FileHandle missingFile = FileManager.getInstance().getStaticFile("imgSrcs/smallGameObjects/missing.png");
         //myMissingTex = new Texture(missingFile);
         myMissingTex = null;
     }
