@@ -47,7 +47,9 @@ public class TradeContainer {
             SolItem ex = i.examples.get(0);
             int amt = ex.isSame(ex) ? 16 : 1;
             for (int j = 0; j < amt; j++) {
-                if (myItems.canAdd(ex)) myItems.add(ex.copy());
+                if (myItems.canAdd(ex)) {
+                    myItems.add(ex.copy());
+                }
             }
         }
     }

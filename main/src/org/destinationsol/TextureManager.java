@@ -46,7 +46,9 @@ public class TextureManager {
 
     public TextureAtlas.AtlasRegion getFlipped(TextureAtlas.AtlasRegion tex) {
         TextureAtlas.AtlasRegion r = myFlipped.get(tex);
-        if (r != null) return r;
+        if (r != null) {
+            return r;
+        }
         r = textureProvider.getCopy(tex);
         r.flip(true, false);
         myFlipped.put(tex, r);
@@ -55,8 +57,9 @@ public class TextureManager {
 
     public TextureAtlas.AtlasRegion getTexture(String fullName) {
         TextureAtlas.AtlasRegion result = textureMap.get(fullName);
-        if (result != null)
+        if (result != null) {
             return result;
+        }
 
         FileHandle textureFile = new FileHandle(fullName);
 
@@ -77,15 +80,21 @@ public class TextureManager {
 
     public ArrayList<TextureAtlas.AtlasRegion> getPack(String name, FileHandle configFile) {
         ArrayList<TextureAtlas.AtlasRegion> r = myPacks.get(name);
-        if (r != null) return r;
+        if (r != null) {
+            return r;
+        }
         r = textureProvider.getTexs(name, configFile);
-        if (r.size() == 0) throw new AssertionError("textures not found: " + name);
+        if (r.size() == 0) {
+            throw new AssertionError("textures not found: " + name);
+        }
         myPacks.put(name, r);
         return r;
     }
 
     public TextureAtlas.AtlasRegion getRndTex(String name, Boolean flipped, FileHandle configFile) {
-        if (flipped == null) flipped = SolMath.test(.5f);
+        if (flipped == null) {
+            flipped = SolMath.test(.5f);
+        }
         ArrayList<TextureAtlas.AtlasRegion> pack = getPack(name, configFile);
         TextureAtlas.AtlasRegion r = SolMath.elemRnd(pack);
         if (flipped) {

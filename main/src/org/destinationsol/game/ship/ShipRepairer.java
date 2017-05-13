@@ -42,7 +42,9 @@ public class ShipRepairer {
         }
         if (myRepairPoints > 0 && life < config.getMaxLife()) {
             float inc = REPAIR_SPD * ts;
-            if (myRepairPoints < inc) inc = myRepairPoints;
+            if (myRepairPoints < inc) {
+                inc = myRepairPoints;
+            }
             myRepairPoints -= inc;
             return SolMath.approach(life, inc, config.getMaxLife());
         }

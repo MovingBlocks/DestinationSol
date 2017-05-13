@@ -38,10 +38,6 @@ public class OggSoundData implements AssetData {
         // basePitch not set in metadata files
     }
 
-    public void setBasePitch(float basePitch) {
-        this.basePitch = basePitch;
-    }
-
     public float getLoopTime() {
         return loopTime;
     }
@@ -52,6 +48,10 @@ public class OggSoundData implements AssetData {
 
     public float getBasePitch() {
         return basePitch;
+    }
+
+    public void setBasePitch(float basePitch) {
+        this.basePitch = basePitch;
     }
 
     public Sound getSound() {

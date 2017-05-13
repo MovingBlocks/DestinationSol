@@ -44,13 +44,17 @@ public class GunMount {
     }
 
     public void update(ItemContainer ic, SolGame game, float shipAngle, SolShip creator, boolean shouldShoot, SolShip nearestEnemy, Faction faction) {
-        if (myGun == null) return;
+        if (myGun == null) {
+            return;
+        }
         if (!ic.contains(myGun.getItem())) {
             setGun(game, creator, null, false, 0);
             return;
         }
 
-        if (creator.getHull().config.getType() != HullConfig.Type.STATION) myRelGunAngle = 0;
+        if (creator.getHull().config.getType() != HullConfig.Type.STATION) {
+            myRelGunAngle = 0;
+        }
         myDetected = false;
         if (!myFixed && nearestEnemy != null) {
             Vector2 creatorPos = creator.getPosition();
@@ -64,7 +68,9 @@ public class GunMount {
                 if (shootAngle == shootAngle) {
                     myRelGunAngle = shootAngle - shipAngle;
                     myDetected = true;
-                    if (player) game.getMountDetectDrawer().setNe(nearestEnemy);
+                    if (player) {
+                        game.getMountDetectDrawer().setNe(nearestEnemy);
+                    }
                 }
                 SolMath.free(mountPos);
             }
@@ -88,7 +94,9 @@ public class GunMount {
             myGun = null;
         }
         if (gunItem != null) {
-            if (gunItem.config.fixed != myFixed) throw new AssertionError("tried to set gun to incompatible mount");
+            if (gunItem.config.fixed != myFixed) {
+                throw new AssertionError("tried to set gun to incompatible mount");
+            }
             myGun = new SolGun(game, gunItem, myRelPos, underShip);
             myGun.getItem().setEquipped(slotNr);
             List<Dra> dras1 = myGun.getDras();

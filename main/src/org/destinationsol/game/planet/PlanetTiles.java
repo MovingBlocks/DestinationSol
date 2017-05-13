@@ -46,7 +46,9 @@ public class PlanetTiles {
             HashMap<SurfaceDirection, List<Tile>> fromMap = new HashMap<SurfaceDirection, List<Tile>>();
             myGroundTiles.put(from, fromMap);
             for (SurfaceDirection to : SurfaceDirection.values()) {
-                if (from == SurfaceDirection.DOWN && to == SurfaceDirection.DOWN) continue;
+                if (from == SurfaceDirection.DOWN && to == SurfaceDirection.DOWN) {
+                    continue;
+                }
                 boolean inverted = from == SurfaceDirection.DOWN || to == SurfaceDirection.UP;
                 String fromL = from.getLetter();
                 String toL = to.getLetter();
@@ -79,7 +81,9 @@ public class PlanetTiles {
             for (int j = 0; j < sz; j++) {
                 Vector2 v = rawPoints.get(inverted ? sz - j - 1 : j);
                 Vector2 point = new Vector2(v.x - .5f, v.y - .5f);
-                if (inverted) point.x *= -1;
+                if (inverted) {
+                    point.x *= -1;
+                }
                 points.add(point);
             }
             tileVariants.add(new Tile(tex, points, from, to));
@@ -89,7 +93,9 @@ public class PlanetTiles {
 
     private List<Vector2> getDefaultRawPoints(SurfaceDirection from, SurfaceDirection to, String tileName) {
         ArrayList<Vector2> res = new ArrayList<Vector2>();
-        if (from == SurfaceDirection.UP && to == SurfaceDirection.UP) return res;
+        if (from == SurfaceDirection.UP && to == SurfaceDirection.UP) {
+            return res;
+        }
         DebugOptions.MISSING_PHYSICS_ACTION.handle("no path found for " + tileName);
         res.add(new Vector2(.25f, .75f));
         if (from == SurfaceDirection.FWD) {

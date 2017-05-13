@@ -45,30 +45,40 @@ public class SmallObjAvoider {
         float shipSpdLen = ship.getSpd().len();
         float ttt = ship.calcTimeToTurn(toDestAngle + 45);
         float raycastLen = shipSpdLen * (ttt + MANEUVER_TIME);
-        if (raycastLen < MIN_RAYCAST_LEN) raycastLen = MIN_RAYCAST_LEN;
+        if (raycastLen < MIN_RAYCAST_LEN) {
+            raycastLen = MIN_RAYCAST_LEN;
+        }
 
         SolMath.fromAl(myDest, toDestAngle, raycastLen);
         myDest.add(shipPos);
         myCollided = false;
         World w = game.getObjMan().getWorld();
         w.rayCast(myRayBack, shipPos, myDest);
-        if (!myCollided) return toDestAngle;
+        if (!myCollided) {
+            return toDestAngle;
+        }
 
         toDestAngle += 45;
         SolMath.fromAl(myDest, toDestAngle, raycastLen);
         myDest.add(shipPos);
         myCollided = false;
         w.rayCast(myRayBack, shipPos, myDest);
-        if (!myCollided) return toDestAngle;
+        if (!myCollided) {
+            return toDestAngle;
+        }
 
         toDestAngle -= 90;
         SolMath.fromAl(myDest, toDestAngle, raycastLen);
         myDest.add(shipPos);
         myCollided = false;
         w.rayCast(myRayBack, shipPos, myDest);
-        if (!myCollided) return toDestAngle;
+        if (!myCollided) {
+            return toDestAngle;
+        }
 
-        if (np.getFullHeight() < np.getPos().dst(shipPos)) return toDestAngle - 45;
+        if (np.getFullHeight() < np.getPos().dst(shipPos)) {
+            return toDestAngle - 45;
+        }
         return SolMath.angle(np.getPos(), shipPos);
     }
 

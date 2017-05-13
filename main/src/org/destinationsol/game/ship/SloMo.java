@@ -70,7 +70,6 @@ public class SloMo implements ShipAbility {
         return myFactor;
     }
 
-
     public static class Config implements AbilityConfig {
         public final float factor;
         public final float rechargeTime;

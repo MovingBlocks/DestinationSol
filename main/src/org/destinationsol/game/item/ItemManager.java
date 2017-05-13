@@ -188,7 +188,9 @@ public class ItemManager {
         }
         for (SolItem i : myM.values()) {
             if (i instanceof GunItem) {
-                if (ic.canAdd(i)) ic.add(i.copy());
+                if (ic.canAdd(i)) {
+                    ic.add(i.copy());
+                }
             }
         }
     }

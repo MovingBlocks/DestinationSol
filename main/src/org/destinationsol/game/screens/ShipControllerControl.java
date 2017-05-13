@@ -62,7 +62,6 @@ public class ShipControllerControl implements ShipUiControl {
     private boolean controllerUp;
     private boolean controllerDown;
 
-
     public ShipControllerControl(SolApplication cmp) {
         final GameOptions gameOptions = cmp.getOptions();
 
@@ -72,7 +71,7 @@ public class ShipControllerControl implements ShipUiControl {
         logger.debug("Controllers Size: {}", Controllers.getControllers().size);
         int i = 0;
         for (Controller controller : Controllers.getControllers()) {
-            logger.debug("#{}:{}",i++,controller.getName());
+            logger.debug("#{}:{}", i++, controller.getName());
         }
 
         // setup the listener that prints events to the console
@@ -178,19 +177,19 @@ public class ShipControllerControl implements ShipUiControl {
 
             @Override
             public boolean povMoved(Controller controller, int povIndex, PovDirection value) {
-                logger.debug("#{}, pov {}: {}",indexOf(controller),povIndex,value);
+                logger.debug("#{}, pov {}: {}", indexOf(controller), povIndex, value);
                 return false;
             }
 
             @Override
             public boolean xSliderMoved(Controller controller, int sliderIndex, boolean value) {
-                logger.debug("#{},  x slider  {}: {}",indexOf(controller),sliderIndex,value);
+                logger.debug("#{},  x slider  {}: {}", indexOf(controller), sliderIndex, value);
                 return false;
             }
 
             @Override
             public boolean ySliderMoved(Controller controller, int sliderIndex, boolean value) {
-                logger.debug("#{},  y slider  {}: {}",indexOf(controller),sliderIndex,value);
+                logger.debug("#{},  y slider  {}: {}", indexOf(controller), sliderIndex, value);
                 return false;
             }
 

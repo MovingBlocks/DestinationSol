@@ -43,7 +43,9 @@ public class FactionManager {
     public SolShip getNearestEnemy(SolGame game, SolShip ship) {
         Pilot pilot = ship.getPilot();
         float detectionDist = pilot.getDetectionDist();
-        if (detectionDist <= 0) return null;
+        if (detectionDist <= 0) {
+            return null;
+        }
         detectionDist += ship.getHull().config.getApproxRadius();
         Faction f = pilot.getFaction();
         return getNearestEnemy(game, detectionDist, f, ship.getPosition());
@@ -79,8 +81,9 @@ public class FactionManager {
                 continue;
             }
             SolShip potentialEnemyShip = (SolShip) solObject;
-            if (!areEnemies(faction, potentialEnemyShip.getPilot().getFaction()))
+            if (!areEnemies(faction, potentialEnemyShip.getPilot().getFaction())) {
                 continue;
+            }
             float distance = potentialEnemyShip.getPosition().dst(position) - potentialEnemyShip.getHull().config.getApproxRadius();
             if (minimumDistance < distance) {
                 continue;

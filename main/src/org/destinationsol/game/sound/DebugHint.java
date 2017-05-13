@@ -44,7 +44,9 @@ public class DebugHint {
     public void add(String value) {
         boolean needsRebuild = !myMsgs.containsKey(value);
         myMsgs.put(value, TimeUtils.millis() + MAX_AWAIT);
-        if (needsRebuild) rebuild();
+        if (needsRebuild) {
+            rebuild();
+        }
     }
 
     private void rebuild() {
@@ -74,7 +76,9 @@ public class DebugHint {
                 needsRebuild = true;
             }
         }
-        if (needsRebuild) rebuild();
+        if (needsRebuild) {
+            rebuild();
+        }
     }
 
     public boolean shouldRemove() {

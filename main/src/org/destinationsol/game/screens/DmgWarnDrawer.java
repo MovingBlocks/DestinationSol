@@ -28,7 +28,9 @@ public class DmgWarnDrawer extends WarnDrawer {
     @Override
     protected boolean shouldWarn(SolGame game) {
         SolShip hero = game.getHero();
-        if (hero == null) return false;
+        if (hero == null) {
+            return false;
+        }
         float l = hero.getLife();
         int ml = hero.getHull().config.getMaxLife();
         return l < ml * .3f;

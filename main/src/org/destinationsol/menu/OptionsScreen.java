@@ -85,9 +85,15 @@ public class OptionsScreen implements SolUiScreen {
 
         int controlType = solApplication.getOptions().controlType;
         String controlName = "Keyboard";
-        if (controlType == GameOptions.CONTROL_MIXED) controlName = "KB + Mouse";
-        if (controlType == GameOptions.CONTROL_MOUSE) controlName = "Mouse";
-        if (controlType == GameOptions.CONTROL_CONTROLLER) controlName = "Controller";
+        if (controlType == GameOptions.CONTROL_MIXED) {
+            controlName = "KB + Mouse";
+        }
+        if (controlType == GameOptions.CONTROL_MOUSE) {
+            controlName = "Mouse";
+        }
+        if (controlType == GameOptions.CONTROL_CONTROLLER) {
+            controlName = "Controller";
+        }
         inputTypeControl.setDisplayName("Input: " + controlName);
         if (inputTypeControl.isJustOff()) {
             solApplication.getOptions().advanceControlType(false);
@@ -126,10 +132,12 @@ public class OptionsScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) { }
+    public void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) {
+    }
 
     @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) { }
+    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
+    }
 
     @Override
     public boolean reactsToClickOutside() {
@@ -142,8 +150,10 @@ public class OptionsScreen implements SolUiScreen {
     }
 
     @Override
-    public void onAdd(SolApplication solApplication) { }
+    public void onAdd(SolApplication solApplication) {
+    }
 
     @Override
-    public void blurCustom(SolApplication solApplication) { }
+    public void blurCustom(SolApplication solApplication) {
+    }
 }
