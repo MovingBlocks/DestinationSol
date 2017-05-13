@@ -445,7 +445,7 @@ public class PathLoader {
         orig = getOrigin(pathName, 1);
         if (tex == null) {
             String imgName = texDirName + "/" + texName;
-            tex = game.getTexMan().getTex(imgName, null);
+            tex = game.getTexMan().getTexture(imgName);
         }
         RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.W, false);
         dras.add(s);

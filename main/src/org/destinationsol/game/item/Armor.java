@@ -145,7 +145,7 @@ public class Armor implements SolItem {
                 float basePitch = sh.getFloat("baseSoundPitch", 1);
                 OggSoundSet bulletDmgSound = new OggSoundSet(soundManager, bulletDamageSoundUrns, basePitch);
                 OggSoundSet energyDmgSound = new OggSoundSet(soundManager, energyDamageSoundUrns, basePitch);
-                TextureAtlas.AtlasRegion icon = textureManager.getTex(TextureManager.ICONS_DIR + sh.getString("icon"), configFile);
+                TextureAtlas.AtlasRegion icon = textureManager.getTexture(TextureManager.ICONS_DIR + sh.getString("icon"));
                 String code = sh.name;
                 Config config = new Config(displayName, price, perc, bulletDmgSound, icon, energyDmgSound, types.armor, code);
                 itemManager.registerItem(config.example);

@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: sol.jar gdx.jar gdx-natives.jar gdx-backend-lwjgl.jar gdx-
- backend-lwjgl-natives.jar
-Main-Class: org.destinationsol.desktop.SolDesktop
-

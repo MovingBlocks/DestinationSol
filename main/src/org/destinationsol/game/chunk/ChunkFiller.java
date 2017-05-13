@@ -68,7 +68,7 @@ public class ChunkFiller {
     private final TextureAtlas.AtlasRegion myDustTex;
 
     public ChunkFiller(TextureManager textureManager) {
-        myDustTex = textureManager.getTex("decorations/space/dust", null);
+        myDustTex = textureManager.getTexture("decorations/space/dust");
     }
 
     /**

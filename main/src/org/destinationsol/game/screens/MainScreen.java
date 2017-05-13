@@ -132,10 +132,10 @@ public class MainScreen implements SolUiScreen {
         myBorderDrawer = new BorderDrawer(r, cmp);
 
         TextureManager textureManager = cmp.getTexMan();
-        myLifeTex = textureManager.getTex(TextureManager.ICONS_DIR + "life", null);
-        myInfinityTex = textureManager.getTex(TextureManager.ICONS_DIR + "infinity", null);
-        myWaitTex = textureManager.getTex(TextureManager.ICONS_DIR + "wait", null);
-        myCompassTex = textureManager.getTex("ui/compass", null);
+        myLifeTex = textureManager.getTexture(TextureManager.ICONS_DIR + "life");
+        myInfinityTex = textureManager.getTexture(TextureManager.ICONS_DIR + "infinity");
+        myWaitTex = textureManager.getTexture(TextureManager.ICONS_DIR + "wait");
+        myCompassTex = textureManager.getTexture("ui/compass");
         myCompassTint = SolColor.col(1, 0);
 
         myLifeTp = new TextPlace(SolColor.W50);

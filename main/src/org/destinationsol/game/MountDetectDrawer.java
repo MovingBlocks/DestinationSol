@@ -33,7 +33,7 @@ public class MountDetectDrawer {
 
     public MountDetectDrawer(TextureManager textureManager) {
         myNePos = new Vector2();
-        myTex = textureManager.getTex("smallGameObjects/targetDetected", null);
+        myTex = textureManager.getTexture("smallGameObjects/targetDetected");
     }
 
     public void update(SolGame game) {
