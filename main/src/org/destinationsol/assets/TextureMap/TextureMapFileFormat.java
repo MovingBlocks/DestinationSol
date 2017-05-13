@@ -23,6 +23,7 @@ import org.terasology.assets.format.AbstractAssetFileFormat;
 import org.terasology.assets.format.AssetDataFile;
 import org.terasology.assets.module.annotations.RegisterAssetFileFormat;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
@@ -39,12 +40,12 @@ public class TextureMapFileFormat extends AbstractAssetFileFormat<TextureMapData
         if (DebugOptions.DEV_ROOT_PATH != null) {
             pathString = DebugOptions.DEV_ROOT_PATH;
         }
-        pathString += "res\\";
+        pathString += "res" + File.separator;
 
         List<String> path = inputs.get(0).getPath();
 
         for (int i = 1; i < path.size(); i++) {
-            pathString += path.get(i) + "\\";
+            pathString += path.get(i) + File.separator;
         }
         pathString += inputs.get(0).getFilename();
 
