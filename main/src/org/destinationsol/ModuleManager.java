@@ -40,7 +40,7 @@ public class ModuleManager {
         Module coreModule;
         try (Reader reader = new InputStreamReader(getClass().getResourceAsStream("/module.info"))) {
             ModuleMetadata metadata = metadataReader.read(reader);
-            coreModule = ClasspathModule.create(metadata, getClass(), Module.class, Asset.class);
+            coreModule = ClasspathModule.create(metadata, true, getClass(), Module.class, Asset.class);
         } catch (IOException e) {
             throw new RuntimeException("Failed to read engine metadata", e);
         } catch (URISyntaxException e) {

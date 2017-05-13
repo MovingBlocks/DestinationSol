@@ -110,7 +110,7 @@ public class AbilityCharge implements SolItem {
             JsonValue parsed = r.parse(configFile);
             for (JsonValue ammoNode : parsed) {
                 String iconName = ammoNode.getString("iconName");
-                TextureAtlas.AtlasRegion icon = textureManager.getTex(TextureManager.ICONS_DIR + iconName, configFile);
+                TextureAtlas.AtlasRegion icon = textureManager.getTexture(TextureManager.ICONS_DIR + iconName);
                 float price = ammoNode.getFloat("price");
                 String displayName = ammoNode.getString("displayName");
                 String desc = ammoNode.getString("desc");

@@ -35,7 +35,7 @@ public class GameDrawer {
     public GameDrawer(TextureManager textureManager, CommonDrawer commonDrawer) {
         myDrawer = commonDrawer;
         r = myDrawer.r;
-        debugWhiteTex = textureManager.getTex("ui/whiteTex", null);
+        debugWhiteTex = textureManager.getTexture("ui/whiteTex");
     }
 
     public void begin() {

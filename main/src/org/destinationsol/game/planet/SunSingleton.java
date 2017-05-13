@@ -38,8 +38,8 @@ public class SunSingleton {
     private final Color myFillTint;
 
     public SunSingleton(TextureManager textureManager) {
-        myGradTex = textureManager.getTex("planetStarCommons/grad", null);
-        myWhiteTex = textureManager.getTex("planetStarCommons/whiteTex", null);
+        myGradTex = textureManager.getTexture("planetStarCommons/grad");
+        myWhiteTex = textureManager.getTexture("planetStarCommons/whiteTex");
         myGradTint = SolColor.col(1, 1);
         myFillTint = SolColor.col(1, 1);
     }

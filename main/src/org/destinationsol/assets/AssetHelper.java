@@ -56,6 +56,10 @@ public class AssetHelper {
         return get(urn, OggMusic.class);
     }
 
+    public Optional<TextureMap> getTextureMap(ResourceUrn urn) {
+        return get(urn, TextureMap.class);
+    }
+
     public Set<ResourceUrn> getSoundSet() {
         return list(OggSound.class);
     }
@@ -64,7 +68,7 @@ public class AssetHelper {
         return list(OggMusic.class);
     }
 
-    public Optional<TextureMap> getTextureMap(ResourceUrn urn) {
-        return get(urn, TextureMap.class);
+    public Set<ResourceUrn> getTextureMapSet() {
+        return list(TextureMap.class);
     }
 }

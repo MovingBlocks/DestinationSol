@@ -56,11 +56,11 @@ public class BeaconHandler {
     private boolean myInitialized;
 
     public BeaconHandler(TextureManager textureManager) {
-        TextureAtlas.AtlasRegion attackTex = textureManager.getTex("smallGameObjects/beaconAttack", null);
+        TextureAtlas.AtlasRegion attackTex = textureManager.getTexture("smallGameObjects/beaconAttack");
         myAttackSprite = new RectSprite(attackTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
-        TextureAtlas.AtlasRegion followTex = textureManager.getTex("smallGameObjects/beaconFollow", null);
+        TextureAtlas.AtlasRegion followTex = textureManager.getTexture("smallGameObjects/beaconFollow");
         myFollowSprite = new RectSprite(followTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
-        TextureAtlas.AtlasRegion moveTex = textureManager.getTex("smallGameObjects/beaconMove", null);
+        TextureAtlas.AtlasRegion moveTex = textureManager.getTexture("smallGameObjects/beaconMove");
         myMoveSprite = new RectSprite(moveTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
         myTargetRelPos = new Vector2();
         mySpd = new Vector2();

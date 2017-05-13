@@ -75,7 +75,7 @@ public class ClipConfig {
                 price = sh.getInt("price");
                 displayName = sh.getString("displayName");
                 plural = sh.getString("plural");
-                icon = textureManager.getTex(TextureManager.ICONS_DIR + iconName, configFile);
+                icon = textureManager.getTexture(TextureManager.ICONS_DIR + iconName);
             }
             String code = sh.name;
             ClipConfig config = new ClipConfig(projConfig, infinite, price, displayName, size, plural, icon, projectilesPerShot, types.clip, code);
