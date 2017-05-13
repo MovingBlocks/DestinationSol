@@ -38,8 +38,6 @@ import java.util.List;
  * The input mapping screen is based on the inventory screen used within the game.
  */
 public class InputMapScreen implements SolUiScreen {
-    private final TextureAtlas.AtlasRegion bgTex;
-
     private static final float IMG_COL_PERC = .1f;
     private static final float EQUI_COL_PERC = .1f;
     private static final float PRICE_COL_PERC = .1f;
@@ -47,11 +45,10 @@ public class InputMapScreen implements SolUiScreen {
     private static final float SMALL_GAP = .004f;
     private static final float HEADER_TEXT_OFFSET = .005f;
     private static final int BUTTON_ROWS = 4;
-
     final InputMapKeyboardScreen inputMapKeyboardScreen;
     final InputMapControllerScreen inputMapControllerScreen;
     final InputMapMixedScreen inputMapMixedScreen;
-
+    private final TextureAtlas.AtlasRegion bgTex;
     private final List<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl[] itemControls;
     private final SolUiControl previousControl;
@@ -63,14 +60,12 @@ public class InputMapScreen implements SolUiScreen {
     private final SolUiControl downControl;
 
     private final Vector2 listHeaderPos;
-    private InputMapOperations operations;
-
-    private int page;
-    private int selectedIndex;
-
     private final Rectangle listArea;
     private final Rectangle detailsArea;
     private final Rectangle itemControlsArea;
+    private InputMapOperations operations;
+    private int page;
+    private int selectedIndex;
 
     InputMapScreen(TextureManager textureManager, float resolutionRatio, GameOptions gameOptions) {
         float contentW = .8f;
@@ -172,14 +167,14 @@ public class InputMapScreen implements SolUiScreen {
             nextControl.setEnabled(false);
             upControl.setEnabled(false);
             downControl.setEnabled(false);
-            for (SolUiControl itemControl: itemControls) {
+            for (SolUiControl itemControl : itemControls) {
                 itemControl.setEnabled(false);
             }
             return;
         } else {
             upControl.setEnabled(true);
             downControl.setEnabled(true);
-            for (SolUiControl itemControl: itemControls) {
+            for (SolUiControl itemControl : itemControls) {
                 itemControl.setEnabled(true);
             }
         }
@@ -205,28 +200,50 @@ public class InputMapScreen implements SolUiScreen {
         }
 
         // Left and Right Page Control
-        if (previousControl.isJustOff()) page--;
-        if (nextControl.isJustOff()) page++;
-        if (pageCount == 0 || pageCount * Const.ITEM_GROUPS_PER_PAGE < groupCount) pageCount += 1;
-        if (page < 0) page = 0;
-        if (page >= pageCount) page = pageCount - 1;
+        if (previousControl.isJustOff()) {
+            page--;
+        }
+        if (nextControl.isJustOff()) {
+            page++;
+        }
+        if (pageCount == 0 || pageCount * Const.ITEM_GROUPS_PER_PAGE < groupCount) {
+            pageCount += 1;
+        }
+        if (page < 0) {
+            page = 0;
+        }
+        if (page >= pageCount) {
+            page = pageCount - 1;
+        }
         previousControl.setEnabled(0 < page);
         nextControl.setEnabled(page < pageCount - 1);
 
         // Ensure Selected item is on page
-        if (selectedIndex < offset || selectedIndex >= offset + Const.ITEM_GROUPS_PER_PAGE) selectedIndex = offset;
+        if (selectedIndex < offset || selectedIndex >= offset + Const.ITEM_GROUPS_PER_PAGE) {
+            selectedIndex = offset;
+        }
 
         // Up and Down Control
         if (upControl.isJustOff()) {
             selectedIndex--;
-            if (selectedIndex < 0) selectedIndex = 0;
-            if (selectedIndex < offset) page--;
+            if (selectedIndex < 0) {
+                selectedIndex = 0;
+            }
+            if (selectedIndex < offset) {
+                page--;
+            }
         }
         if (downControl.isJustOff()) {
             selectedIndex++;
-            if (selectedIndex >= groupCount) selectedIndex = groupCount - 1;
-            if (selectedIndex >= offset + Const.ITEM_GROUPS_PER_PAGE) page++;
-            if (page >= pageCount) page = pageCount - 1;
+            if (selectedIndex >= groupCount) {
+                selectedIndex = groupCount - 1;
+            }
+            if (selectedIndex >= offset + Const.ITEM_GROUPS_PER_PAGE) {
+                page++;
+            }
+            if (page >= pageCount) {
+                page = pageCount - 1;
+            }
         }
 
         // Inform the input screen which item is selected
@@ -257,7 +274,9 @@ public class InputMapScreen implements SolUiScreen {
         for (int i = 0; i < itemControls.length; i++) {
             int groupIdx = page * Const.ITEM_GROUPS_PER_PAGE + i;
             int groupCount = list.size();
-            if (groupCount <= groupIdx) continue;
+            if (groupCount <= groupIdx) {
+                continue;
+            }
             SolUiControl itemCtrl = itemControls[i];
             String displayName = list.get(groupIdx).getDisplayName();
             String inputKey = list.get(groupIdx).getInputKey();
@@ -298,7 +317,8 @@ public class InputMapScreen implements SolUiScreen {
     }
 
     @Override
-    public void blurCustom(SolApplication cmp) { }
+    public void blurCustom(SolApplication cmp) {
+    }
 
     private Rectangle itemControlRectangle(int row) {
         float h = (itemControlsArea.height - SMALL_GAP * (BUTTON_ROWS - 1)) / BUTTON_ROWS;

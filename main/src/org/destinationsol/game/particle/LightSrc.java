@@ -82,7 +82,9 @@ public class LightSrc {
 
     public void collectDras(List<Dra> dras) {
         dras.add(myCircle);
-        if (myHalo != null) dras.add(myHalo);
+        if (myHalo != null) {
+            dras.add(myHalo);
+        }
     }
 
     public void setFadeTime(float fadeTime) {
@@ -95,6 +97,8 @@ public class LightSrc {
 
     public void setRelPos(Vector2 relPos) {
         myCircle.relPos.set(relPos);
-        if (myHalo != null) myHalo.relPos.set(relPos);
+        if (myHalo != null) {
+            myHalo.relPos.set(relPos);
+        }
     }
 }

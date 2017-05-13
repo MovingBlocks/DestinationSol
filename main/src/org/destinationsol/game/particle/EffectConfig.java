@@ -43,7 +43,9 @@ public class EffectConfig {
 
     public static EffectConfig load(JsonValue node, EffectTypes types, TextureManager textureManager, FileHandle configFile,
                                     GameColors cols) {
-        if (node == null) return null;
+        if (node == null) {
+            return null;
+        }
         String effectFileName = node.getString("effectFile");
         EffectType effectType = types.forName(effectFileName);
         float sz = node.getFloat("size", 0);

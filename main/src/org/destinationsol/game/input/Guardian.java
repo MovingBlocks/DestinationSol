@@ -77,7 +77,9 @@ public class Guardian implements MoveDestProvider {
         Vector2 targetPos;
         float targetApproxRad;
         if (myTarget == null) {
-            if (myFarTarget == null) return;
+            if (myFarTarget == null) {
+                return;
+            }
             targetPos = myFarTarget.getPos();
             targetApproxRad = myFarTarget.getHullConfig().getApproxRadius();
         } else {
@@ -90,23 +92,33 @@ public class Guardian implements MoveDestProvider {
     public void updateTarget(SolGame game) {
         ObjectManager om = game.getObjMan();
         List<SolObject> objs = om.getObjs();
-        if (myTarget != null && objs.contains(myTarget)) return;
+        if (myTarget != null && objs.contains(myTarget)) {
+            return;
+        }
         myTarget = null;
         List<FarShip> farShips = om.getFarShips();
-        if (myFarTarget != null && farShips.contains(myFarTarget)) return;
+        if (myFarTarget != null && farShips.contains(myFarTarget)) {
+            return;
+        }
         myFarTarget = null;
 
         for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
             SolObject o = objs.get(i);
-            if (!(o instanceof SolShip)) continue;
+            if (!(o instanceof SolShip)) {
+                continue;
+            }
             SolShip other = (SolShip) o;
-            if (other.getPilot() != myTargetPilot) continue;
+            if (other.getPilot() != myTargetPilot) {
+                continue;
+            }
             myTarget = other;
             return;
         }
         for (int i = 0, farObjsSize = farShips.size(); i < farObjsSize; i++) {
             FarShip other = farShips.get(i);
-            if (other.getPilot() != myTargetPilot) continue;
+            if (other.getPilot() != myTargetPilot) {
+                continue;
+            }
             myFarTarget = other;
             return;
         }
@@ -124,7 +136,9 @@ public class Guardian implements MoveDestProvider {
 
     @Override
     public Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround) {
-        if (!canShoot) return null;
+        if (!canShoot) {
+            return null;
+        }
         Vector2 targetPos = null;
         if (myTarget != null) {
             targetPos = myTarget.getPosition();
@@ -132,7 +146,9 @@ public class Guardian implements MoveDestProvider {
             targetPos = myFarTarget.getPos();
         }
         float maxManeuverDist = 2 * (nearGround ? Const.CAM_VIEW_DIST_GROUND : Const.CAM_VIEW_DIST_SPACE);
-        if (targetPos != null && maxManeuverDist < targetPos.dst(nearestEnemy.getPosition())) return null;
+        if (targetPos != null && maxManeuverDist < targetPos.dst(nearestEnemy.getPosition())) {
+            return null;
+        }
         return true;
     }
 

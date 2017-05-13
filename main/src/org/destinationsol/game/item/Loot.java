@@ -70,19 +70,29 @@ public class Loot implements SolObject {
         myLightSrc.update(true, myAngle, game);
         if (myOwnerAwait > 0) {
             myOwnerAwait -= game.getTimeStep();
-            if (myOwnerAwait <= 0) myOwner = null;
+            if (myOwnerAwait <= 0) {
+                myOwner = null;
+            }
         }
         SolShip puller = null;
         float minDist = Float.MAX_VALUE;
         List<SolObject> objs = game.getObjMan().getObjs();
         for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
             SolObject o = objs.get(i);
-            if (!(o instanceof SolShip)) continue;
+            if (!(o instanceof SolShip)) {
+                continue;
+            }
             SolShip ship = (SolShip) o;
-            if (!ship.getPilot().collectsItems()) continue;
-            if (!(myItem instanceof MoneyItem) && !ship.getItemContainer().canAdd(myItem)) continue;
+            if (!ship.getPilot().collectsItems()) {
+                continue;
+            }
+            if (!(myItem instanceof MoneyItem) && !ship.getItemContainer().canAdd(myItem)) {
+                continue;
+            }
             float dst = ship.getPosition().dst(myPos);
-            if (minDist < dst) continue;
+            if (minDist < dst) {
+                continue;
+            }
             puller = ship;
             minDist = dst;
         }
@@ -119,7 +129,9 @@ public class Loot implements SolObject {
 
     @Override
     public void receiveForce(Vector2 force, SolGame game, boolean acc) {
-        if (acc) force.scl(myMass);
+        if (acc) {
+            force.scl(myMass);
+        }
         myBody.applyForceToCenter(force, true);
     }
 
@@ -171,7 +183,9 @@ public class Loot implements SolObject {
     }
 
     public void maybePulled(SolShip ship, Vector2 pullerPos, float radius) {
-        if (ship == myOwner) return;
+        if (ship == myOwner) {
+            return;
+        }
         Vector2 toPuller = SolMath.getVec(pullerPos);
         toPuller.sub(getPosition());
         float pullerDist = toPuller.len();

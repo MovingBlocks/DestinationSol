@@ -31,10 +31,15 @@ public class TextureChecker {
     }
 
     private void evt(Texture texture, String name) {
-        if (texture == null || name == null || name.isEmpty())
+        if (texture == null || name == null || name.isEmpty()) {
             throw new AssertionError("null texture or no texture name");
-        if (myAwait > 0) return;
-        if (texture.equals(myCurr)) return;
+        }
+        if (myAwait > 0) {
+            return;
+        }
+        if (texture.equals(myCurr)) {
+            return;
+        }
         myCollected.add(name);
         myCurr = texture;
     }

@@ -102,7 +102,9 @@ public class SellItems implements InventoryOperations {
             sellCtrl.setEnabled(false);
         }
 
-        if (!enabled || !isWornAndCanBeSold) return;
+        if (!enabled || !isWornAndCanBeSold) {
+            return;
+        }
         if (sellCtrl.isJustOff()) {
             ItemContainer ic = hero.getItemContainer();
             is.setSelected(ic.getSelectionAfterRemove(is.getSelected()));

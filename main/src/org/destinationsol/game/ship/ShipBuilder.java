@@ -73,13 +73,17 @@ public class ShipBuilder {
     }
 
     private static Fixture getBase(boolean hasBase, Body body) {
-        if (!hasBase) return null;
+        if (!hasBase) {
+            return null;
+        }
         Fixture base = null;
         Vector2 v = SolMath.getVec();
         float lowestX = Float.MAX_VALUE;
         for (Fixture f : body.getFixtureList()) {
             Shape s = f.getShape();
-            if (!(s instanceof PolygonShape)) continue;
+            if (!(s instanceof PolygonShape)) {
+                continue;
+            }
             PolygonShape poly = (PolygonShape) s;
             int pointCount = poly.getVertexCount();
             for (int i = 0; i < pointCount; i++) {
@@ -99,7 +103,9 @@ public class ShipBuilder {
                                RemoveController removeController,
                                boolean hasRepairer, float money, TradeConfig tradeConfig, boolean giveAmmo) {
 
-        if (spd == null) spd = new Vector2();
+        if (spd == null) {
+            spd = new Vector2();
+        }
         ItemContainer ic = new ItemContainer();
         game.getItemMan().fillContainer(ic, items);
         EngineItem.Config ec = hullConfig.getEngineConfig();
@@ -183,15 +189,21 @@ public class ShipBuilder {
     }
 
     private void addAmmo(ItemContainer ic, GunItem g, Pilot pilot) {
-        if (g == null) return;
+        if (g == null) {
+            return;
+        }
         GunConfig gc = g.config;
         ClipConfig cc = gc.clipConf;
-        if (cc.infinite) return;
+        if (cc.infinite) {
+            return;
+        }
         float clipUseTime = cc.size * gc.timeBetweenShots + gc.reloadTime;
         float lifeTime = pilot.getFaction() == Faction.LAANI ? AVG_ALLY_LIFE_TIME : AVG_BATTLE_TIME;
         int count = 1 + (int) (lifeTime / clipUseTime) + SolMath.intRnd(0, 2);
         for (int i = 0; i < count; i++) {
-            if (ic.canAdd(cc.example)) ic.add(cc.example.copy());
+            if (ic.canAdd(cc.example)) {
+                ic.add(cc.example.copy());
+            }
         }
     }
 
@@ -206,7 +218,9 @@ public class ShipBuilder {
                     float lifeTime = pilot.getFaction() == Faction.LAANI ? AVG_ALLY_LIFE_TIME : AVG_BATTLE_TIME;
                     count = (int) (lifeTime / hc.getAbility().getRechargeTime() * SolMath.rnd(.3f, 1));
                 }
-                for (int i = 0; i < count; i++) ic.add(ex.copy());
+                for (int i = 0; i < count; i++) {
+                    ic.add(ex.copy());
+                }
             }
         }
     }
@@ -219,7 +233,9 @@ public class ShipBuilder {
         Hull hull = buildHull(game, pos, spd, angle, rotSpd, hullConfig, life, dras);
         SolShip ship = new SolShip(game, pilot, hull, removeController, dras, container, repairer, money, tradeContainer, shield, armor);
         hull.getBody().setUserData(ship);
-        for (Door door : hull.getDoors()) door.getBody().setUserData(ship);
+        for (Door door : hull.getDoors()) {
+            door.getBody().setUserData(ship);
+        }
 
         if (engine != null) {
             hull.setEngine(game, ship, engine);
@@ -254,7 +270,6 @@ public class ShipBuilder {
         Body body = myPathLoader.getBodyAndSprite(game, hullConfig, hullConfig.getSize(), bodyType, pos, angle,
                 dras, SHIP_DENSITY, level, hullConfig.getTexture());
         Fixture shieldFixture = createShieldFixture(hullConfig, body);
-
 
         GunMount gunMount0 = new GunMount(hullConfig.getGunSlot(0));
         GunMount gunMount1 = (hullConfig.getNrOfGunSlots() > 1)

@@ -36,9 +36,10 @@ public class TradeConfig {
         this.mercs = mercs;
     }
 
-
     public static TradeConfig load(ItemManager itemManager, JsonValue tradeNode, HullConfigManager hullConfigs) {
-        if (tradeNode == null) return null;
+        if (tradeNode == null) {
+            return null;
+        }
         String itemStr = tradeNode.getString("items");
         List<ItemConfig> items = itemManager.parseItems(itemStr);
         Collections.reverse(items);
@@ -58,7 +59,6 @@ public class TradeConfig {
             ShipConfig merc = loadList.get(i);
             mercs.add(new MercItem(merc));
         }
-
 
         return new TradeConfig(items, hulls, mercs);
     }

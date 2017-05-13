@@ -48,7 +48,9 @@ public class FlatPlaceFinder {
 
         for (int i = 0; i < 20; i++) {
             float angle = SolMath.rnd(180);
-            if (takenAngles != null && takenAngles.isConsumed(angle, objAngularHalfWidth)) continue;
+            if (takenAngles != null && takenAngles.isConsumed(angle, objAngularHalfWidth)) {
+                continue;
+            }
             myDeviation = angle;
             SolMath.fromAl(myVec, angle, p.getFullHeight());
             myVec.add(pPos);
@@ -60,7 +62,9 @@ public class FlatPlaceFinder {
             }
         }
 
-        if (takenAngles != null) takenAngles.add(resAngle, objAngularHalfWidth);
+        if (takenAngles != null) {
+            takenAngles.add(resAngle, objAngularHalfWidth);
+        }
         res.sub(pPos);
         SolMath.rotate(res, -p.getAngle());
         return res;

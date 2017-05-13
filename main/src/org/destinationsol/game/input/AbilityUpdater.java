@@ -34,15 +34,25 @@ public class AbilityUpdater {
 
     public void update(SolShip ship, SolShip nearestEnemy) {
         myAbility = false;
-        if (nearestEnemy == null) return;
+        if (nearestEnemy == null) {
+            return;
+        }
         ShipAbility ability = ship.getAbility();
-        if (ability == null) return;
-        if (ship.getHull().config.getMaxLife() * myAbilityUseStartPerc < ship.getLife()) return;
+        if (ability == null) {
+            return;
+        }
+        if (ship.getHull().config.getMaxLife() * myAbilityUseStartPerc < ship.getLife()) {
+            return;
+        }
         SolItem ex = ability.getConfig().getChargeExample();
         if (ex != null) {
-            if (ship.getItemContainer().count(ex) <= myChargesToKeep) return;
+            if (ship.getItemContainer().count(ex) <= myChargesToKeep) {
+                return;
+            }
         }
-        if (ability.getRadius() < nearestEnemy.getPosition().dst(ship.getPosition())) return;
+        if (ability.getRadius() < nearestEnemy.getPosition().dst(ship.getPosition())) {
+            return;
+        }
         myAbility = true;
     }
 

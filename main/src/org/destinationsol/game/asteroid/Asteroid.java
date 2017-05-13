@@ -37,7 +37,6 @@ import org.destinationsol.game.planet.TileObject;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Asteroid implements SolObject {
 
     public static final float MIN_SPLIT_SZ = .25f;
@@ -60,7 +59,6 @@ public class Asteroid implements SolObject {
     private float myAngle;
     private float myLife;
     private float mySize;
-
 
     public Asteroid(SolGame game, TextureAtlas.AtlasRegion tex, Body body, float size, RemoveController removeController, ArrayList<Dra> dras) {
         myTex = tex;
@@ -144,8 +142,12 @@ public class Asteroid implements SolObject {
     private boolean updateInAtm(SolGame game) {
         Planet np = game.getPlanetMan().getNearestPlanet();
         float dst = np.getPos().dst(myPos);
-        if (np.getFullHeight() < dst) return false;
-        if (MIN_BURN_SZ >= mySize) return false;
+        if (np.getFullHeight() < dst) {
+            return false;
+        }
+        if (MIN_BURN_SZ >= mySize) {
+            return false;
+        }
 
         float dmg = myBody.getLinearVelocity().len() * SPD_TO_ATM_DMG * game.getTimeStep();
         receiveDmg(dmg, game, null, DmgType.FIRE);
@@ -177,7 +179,9 @@ public class Asteroid implements SolObject {
     }
 
     private void maybeSplit(SolGame game) {
-        if (MIN_SPLIT_SZ > mySize) return;
+        if (MIN_SPLIT_SZ > mySize) {
+            return;
+        }
         float sclSum = 0;
         while (sclSum < .7f * mySize * mySize) {
             float spdAngle = SolMath.rnd(180);
@@ -224,7 +228,9 @@ public class Asteroid implements SolObject {
 
     @Override
     public void receiveForce(Vector2 force, SolGame game, boolean acc) {
-        if (acc) force.scl(myMass);
+        if (acc) {
+            force.scl(myMass);
+        }
         myBody.applyForceToCenter(force, true);
     }
 

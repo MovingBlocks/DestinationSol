@@ -26,7 +26,9 @@ public enum DmgType {
 
     public static DmgType forName(String name) {
         for (DmgType dt : DmgType.values()) {
-            if (dt.myName.equals(name)) return dt;
+            if (dt.myName.equals(name)) {
+                return dt;
+            }
         }
         throw new AssertionError("no dmg type for name " + name);
     }

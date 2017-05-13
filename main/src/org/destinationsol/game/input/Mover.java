@@ -36,7 +36,6 @@ public class Mover {
     private boolean myRight;
     private Vector2 myDesiredSpd;
 
-
     public Mover() {
         myBigObjAvoider = new BigObjAvoider();
         mySmallObjAvoider = new SmallObjAvoider();
@@ -44,13 +43,17 @@ public class Mover {
     }
 
     public static Boolean needsToTurn(float angle, float destAngle, float rotSpd, float rotAcc, float allowedAngleDiff) {
-        if (SolMath.angleDiff(destAngle, angle) < allowedAngleDiff || rotAcc == 0) return null;
+        if (SolMath.angleDiff(destAngle, angle) < allowedAngleDiff || rotAcc == 0) {
+            return null;
+        }
 
         float breakWay = rotSpd * rotSpd / rotAcc / 2;
         float angleAfterBreak = angle + breakWay * SolMath.toInt(rotSpd > 0);
         float relAngle = SolMath.norm(angle - destAngle);
         float relAngleAfterBreak = SolMath.norm(angleAfterBreak - destAngle);
-        if (relAngle > 0 == relAngleAfterBreak > 0) return relAngle < 0;
+        if (relAngle > 0 == relAngleAfterBreak > 0) {
+            return relAngle < 0;
+        }
         return relAngle > 0;
     }
 
@@ -61,14 +64,18 @@ public class Mover {
         myLeft = false;
         myRight = false;
 
-        if (!hasEngine || dest == null) return;
+        if (!hasEngine || dest == null) {
+            return;
+        }
 
         Vector2 shipPos = ship.getPosition();
 
         float toDestLen = shipPos.dst(dest);
 
         if (toDestLen < maxIdleDist) {
-            if (!stopNearDest) return;
+            if (!stopNearDest) {
+                return;
+            }
             myDesiredSpd.set(destSpd);
         } else {
             updateDesiredSpd(game, ship, dest, toDestLen, stopNearDest, np, avoidBigObjs, desiredSpdLen, destSpd);
@@ -76,7 +83,9 @@ public class Mover {
 
         Vector2 shipSpd = ship.getSpd();
         float spdDeviation = shipSpd.dst(myDesiredSpd);
-        if (spdDeviation < MAX_ABS_SPD_DEV || spdDeviation < MAX_REL_SPD_DEV * shipSpd.len()) return;
+        if (spdDeviation < MAX_ABS_SPD_DEV || spdDeviation < MAX_REL_SPD_DEV * shipSpd.len()) {
+            return;
+        }
 
         float shipAngle = ship.getAngle();
         float rotSpd = ship.getRotSpd();
@@ -87,8 +96,11 @@ public class Mover {
         myUp = angleDiff < MIN_ANGLE_TO_ACC;
         Boolean ntt = needsToTurn(shipAngle, desiredAngle, rotSpd, rotAcc, MIN_MOVE_AAD);
         if (ntt != null) {
-            if (ntt) myRight = true;
-            else myLeft = true;
+            if (ntt) {
+                myRight = true;
+            } else {
+                myLeft = true;
+            }
         }
     }
 
@@ -109,7 +121,9 @@ public class Mover {
     }
 
     public void rotateOnIdle(SolShip ship, Planet np, Vector2 dest, boolean stopNearDest, float maxIdleDist) {
-        if (isActive() || dest == null) return;
+        if (isActive() || dest == null) {
+            return;
+        }
         Vector2 shipPos = ship.getPosition();
         float shipAngle = ship.getAngle();
         float toDestLen = shipPos.dst(dest);
@@ -118,21 +132,28 @@ public class Mover {
         boolean nearFinalDest = stopNearDest && toDestLen < maxIdleDist;
         float dstToPlanet = np.getPos().dst(shipPos);
         if (nearFinalDest) {
-            if (np.getFullHeight() < dstToPlanet) return; // stopping in space, don't care of angle
+            if (np.getFullHeight() < dstToPlanet) {
+                return; // stopping in space, don't care of angle
+            }
             // stopping on planet
             desiredAngle = SolMath.angle(np.getPos(), shipPos);
             allowedAngleDiff = MIN_PLANET_MOVE_AAD;
         } else {
             // flying somewhere
-            if (dstToPlanet < np.getFullHeight() + Const.ATM_HEIGHT) return; // near planet, don't care of angle
+            if (dstToPlanet < np.getFullHeight() + Const.ATM_HEIGHT) {
+                return; // near planet, don't care of angle
+            }
             desiredAngle = SolMath.angle(ship.getSpd());
             allowedAngleDiff = MIN_MOVE_AAD;
         }
 
         Boolean ntt = needsToTurn(shipAngle, desiredAngle, ship.getRotSpd(), ship.getRotAcc(), allowedAngleDiff);
         if (ntt != null) {
-            if (ntt) myRight = true;
-            else myLeft = true;
+            if (ntt) {
+                myRight = true;
+            } else {
+                myLeft = true;
+            }
         }
     }
 
@@ -157,7 +178,6 @@ public class Mover {
     public boolean isRight() {
         return myRight;
     }
-
 
     public boolean isActive() {
         return myUp || myLeft || myRight;

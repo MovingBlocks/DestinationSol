@@ -33,12 +33,16 @@ public class BigObjAvoider {
 
     public float avoid(SolGame game, Vector2 from, Vector2 dest, float toDestAngle) {
         float toDestLen = from.dst(dest);
-        if (toDestLen > MAX_DIST_LEN) toDestLen = MAX_DIST_LEN;
+        if (toDestLen > MAX_DIST_LEN) {
+            toDestLen = MAX_DIST_LEN;
+        }
         float res = toDestAngle;
         Planet p = game.getPlanetMan().getNearestPlanet(from);
         Vector2 pPos = p.getPos();
         float pRad = p.getFullHeight();
-        if (dest.dst(pPos) < pRad) pRad = p.getGroundHeight();
+        if (dest.dst(pPos) < pRad) {
+            pRad = p.getGroundHeight();
+        }
         myProj.set(pPos);
         myProj.sub(from);
         SolMath.rotate(myProj, -toDestAngle);

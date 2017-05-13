@@ -44,7 +44,6 @@ public class SunSingleton {
         myFillTint = SolColor.col(1, 1);
     }
 
-
     public void draw(SolGame game, GameDrawer drawer) {
         Vector2 camPos = game.getCam().getPos();
         SolSystem sys = game.getPlanetMan().getNearestSystem(camPos);
@@ -66,7 +65,9 @@ public class SunSingleton {
 
     public void doDmg(SolGame game, SolObject obj, float toSys) {
         float dmg = SUN_DMG * game.getTimeStep();
-        if (SUN_HOT_RAD < toSys) return;
+        if (SUN_HOT_RAD < toSys) {
+            return;
+        }
         obj.receiveDmg(dmg, game, null, DmgType.FIRE);
     }
 }

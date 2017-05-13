@@ -66,7 +66,9 @@ public class ExplorerDestProvider implements MoveDestProvider {
 
     private int allowedSz() {
         int sz = mySys.getPlanets().size();
-        if (!mySys.getConfig().hard) sz -= LAST_PLANETS_TO_AVOID;
+        if (!mySys.getConfig().hard) {
+            sz -= LAST_PLANETS_TO_AVOID;
+        }
         return sz;
     }
 
@@ -119,7 +121,9 @@ public class ExplorerDestProvider implements MoveDestProvider {
 
     @Override
     public Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround) {
-        if (myAggressive && canShoot) return true;
+        if (myAggressive && canShoot) {
+            return true;
+        }
         return null;
     }
 

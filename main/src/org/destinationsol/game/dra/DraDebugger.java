@@ -40,12 +40,16 @@ public class DraDebugger {
     }
 
     public void update(SolGame game) {
-        if (!DebugOptions.TEX_INFO) return;
+        if (!DebugOptions.TEX_INFO) {
+            return;
+        }
         maybeCollectTexs(game);
     }
 
     private void maybeCollectTexs(SolGame game) {
-        if (!Gdx.input.isTouched()) return;
+        if (!Gdx.input.isTouched()) {
+            return;
+        }
         myCollector.clear();
         Vector2 cursorPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
         game.getCam().screenToWorld(cursorPos);
@@ -53,7 +57,9 @@ public class DraDebugger {
     }
 
     public void draw(UiDrawer uiDrawer, SolGame game) {
-        if (!DebugOptions.TEX_INFO) return;
+        if (!DebugOptions.TEX_INFO) {
+            return;
+        }
         float y = GAP;
         for (TextureAtlas.AtlasRegion tex : myCollector) {
             float x = GAP;

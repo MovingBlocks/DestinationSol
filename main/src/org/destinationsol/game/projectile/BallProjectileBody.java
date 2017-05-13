@@ -36,7 +36,9 @@ public class BallProjectileBody implements ProjectileBody {
                               Vector2 gunSpd, float spdLen, ProjectileConfig config) {
         float density = config.density == -1 ? 1 : config.density;
         myBody = AsteroidBuilder.buildBall(game, pos, angle, config.physSize / 2, density, config.massless);
-        if (config.zeroAbsSpd) myBody.setAngularVelocity(15f * SolMath.degRad);
+        if (config.zeroAbsSpd) {
+            myBody.setAngularVelocity(15f * SolMath.degRad);
+        }
 
         mySpd = new Vector2();
         SolMath.fromAl(mySpd, angle, spdLen);
@@ -78,7 +80,9 @@ public class BallProjectileBody implements ProjectileBody {
 
     @Override
     public void receiveForce(Vector2 force, SolGame game, boolean acc) {
-        if (acc) force.scl(myMass);
+        if (acc) {
+            force.scl(myMass);
+        }
         myBody.applyForceToCenter(force, true);
     }
 
@@ -102,7 +106,9 @@ public class BallProjectileBody implements ProjectileBody {
     @Override
     public float getDesiredAngle(SolShip ne) {
         float spdLen = mySpd.len();
-        if (spdLen < 3) spdLen = 3;
+        if (spdLen < 3) {
+            spdLen = 3;
+        }
         float toNe = SolMath.angle(myPos, ne.getPosition());
         Vector2 desiredSpd = SolMath.fromAl(toNe, spdLen);
         desiredSpd.add(ne.getSpd());

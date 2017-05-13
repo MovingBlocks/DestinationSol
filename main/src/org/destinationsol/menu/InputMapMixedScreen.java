@@ -16,7 +16,6 @@
 
 package org.destinationsol.menu;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -31,11 +30,8 @@ import java.util.List;
 
 public class InputMapMixedScreen implements InputMapOperations {
     private static final String HEADER_TEXT = "Keyboard and Mouse Inputs";
-
-    private List<InputConfigItem> itemsList = new ArrayList<>();
-
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
-
+    private List<InputConfigItem> itemsList = new ArrayList<>();
     private boolean isEnterNewKey;
     private int selectedIndex;
 
@@ -144,7 +140,8 @@ public class InputMapMixedScreen implements InputMapOperations {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) { }
+    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+    }
 
     /**
      * Remove key if it is already assigned to prevent duplicate keys
@@ -160,13 +157,16 @@ public class InputMapMixedScreen implements InputMapOperations {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) { }
+    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
+    }
 
     @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) { }
+    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
+    }
 
     @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) { }
+    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
+    }
 
     @Override
     public boolean reactsToClickOutside() {
@@ -186,7 +186,8 @@ public class InputMapMixedScreen implements InputMapOperations {
     }
 
     @Override
-    public void blurCustom(SolApplication cmp) { }
+    public void blurCustom(SolApplication cmp) {
+    }
 
     @Override
     public String getHeader() {
@@ -220,7 +221,9 @@ public class InputMapMixedScreen implements InputMapOperations {
                 @Override
                 public boolean keyUp(int keycode) {
                     // Don't capture the escape key
-                    if (keycode == Input.Keys.ESCAPE) return true;
+                    if (keycode == Input.Keys.ESCAPE) {
+                        return true;
+                    }
 
                     removeDuplicateKeys(keycode);
                     InputConfigItem item = itemsList.get(selectedIndex);

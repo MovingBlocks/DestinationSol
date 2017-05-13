@@ -50,20 +50,6 @@ public class IniReader {
         initValueMap(lines);
     }
 
-    private void initValueMap(List<String> lines) {
-        for (String line : lines) {
-            int commentStart = line.indexOf('#');
-            if (commentStart >= 0) {
-                line = line.substring(0, commentStart);
-            }
-            String[] sides = line.split("=");
-            if (sides.length < 2) continue;
-            String key = sides[0].trim();
-            String val = sides[1].trim();
-            myVals.put(key, val);
-        }
-    }
-
     public static void write(String fileName, Object... keysVals) {
         boolean second = false;
         StringBuilder sb = new StringBuilder();
@@ -77,12 +63,30 @@ public class IniReader {
         file.writeString(sb.toString(), false);
     }
 
+    private void initValueMap(List<String> lines) {
+        for (String line : lines) {
+            int commentStart = line.indexOf('#');
+            if (commentStart >= 0) {
+                line = line.substring(0, commentStart);
+            }
+            String[] sides = line.split("=");
+            if (sides.length < 2) {
+                continue;
+            }
+            String key = sides[0].trim();
+            String val = sides[1].trim();
+            myVals.put(key, val);
+        }
+    }
+
     private List<String> fileToLines(String fileName, boolean readOnly) {
         FileManager.FileLocation accessType = readOnly ? FileManager.FileLocation.STATIC_FILES : FileManager.FileLocation.DYNAMIC_FILES;
         FileHandle fh = FileManager.getInstance().getFile(fileName, accessType);
 
         ArrayList<String> res = new ArrayList<String>();
-        if (!fh.exists()) return res;
+        if (!fh.exists()) {
+            return res;
+        }
         for (String s : fh.readString().split("\n")) {
             res.add(s);
         }

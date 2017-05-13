@@ -71,7 +71,9 @@ public class SolSystem {
 
     public void addBelt(SystemBelt belt) {
         float newInnerRad = belt.getRadius() - belt.getHalfWidth();
-        if (myBelts.size() == 0 || myInnerRad < newInnerRad) myInnerRad = newInnerRad;
+        if (myBelts.size() == 0 || myInnerRad < newInnerRad) {
+            myInnerRad = newInnerRad;
+        }
         myBelts.add(belt);
     }
 

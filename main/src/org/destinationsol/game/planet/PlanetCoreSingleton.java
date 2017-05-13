@@ -31,7 +31,6 @@ public class PlanetCoreSingleton {
         myTex = textureManager.getTexture("planetStarCommons/planetCore");
     }
 
-
     public void draw(SolGame game, GameDrawer drawer) {
         SolCam cam = game.getCam();
         Vector2 camPos = cam.getPos();

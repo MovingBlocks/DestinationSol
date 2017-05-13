@@ -16,7 +16,6 @@
 
 package org.destinationsol.game.input;
 
-
 import org.destinationsol.Const;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
