@@ -35,7 +35,7 @@ public class AssetHelper {
 
         assetTypeManager.registerCoreAssetType(OggSound.class, OggSound::new, "sounds");
         assetTypeManager.registerCoreAssetType(OggMusic.class, OggMusic::new, "music");
-        assetTypeManager.registerCoreAssetType(TextureMap.class, TextureMap::new, "imgs");
+        assetTypeManager.registerCoreAssetType(TextureMap.class, TextureMap::new, "atlas");
 
         assetTypeManager.switchEnvironment(environment);
     }
