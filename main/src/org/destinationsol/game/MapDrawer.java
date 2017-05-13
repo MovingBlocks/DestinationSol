@@ -87,23 +87,23 @@ public class MapDrawer {
         myAreaWarnCol = new Color(SolColor.W);
         myAreaWarnBgCol = new Color(SolColor.UI_WARN);
 
-        myWarnAreaBg = textureManager.getTex(MAP_TEX_DIR + "warnBg", null);
-        myAtmTex = textureManager.getTex(MAP_TEX_DIR + "atm", null);
-        myPlanetTex = textureManager.getTex(MAP_TEX_DIR + "planet", null);
-        myPlanetCoreTex = textureManager.getTex(MAP_TEX_DIR + "planetCore", null);
-        myStarTex = textureManager.getTex(MAP_TEX_DIR + "star", null);
-        myMazeTex = textureManager.getTex(MAP_TEX_DIR + "maze", null);
-        mySkullBigTex = textureManager.getTex(MAP_TEX_DIR + "skullBig", null);
-        myBeltTex = textureManager.getTex(MAP_TEX_DIR + "asteroids", null);
-        myBeaconAttackTex = textureManager.getTex(MAP_TEX_DIR + "beaconAttack", null);
-        myBeaconMoveTex = textureManager.getTex(MAP_TEX_DIR + "beaconMove", null);
-        myBeaconFollowTex = textureManager.getTex(MAP_TEX_DIR + "beaconFollow", null);
-        myWhiteTex = textureManager.getTex(MAP_TEX_DIR + "whiteTex", null);
-        myLineTex = textureManager.getTex(MAP_TEX_DIR + "gridLine", null);
+        myWarnAreaBg = textureManager.getTexture(MAP_TEX_DIR + "warnBg");
+        myAtmTex = textureManager.getTexture(MAP_TEX_DIR + "atm");
+        myPlanetTex = textureManager.getTexture(MAP_TEX_DIR + "planet");
+        myPlanetCoreTex = textureManager.getTexture(MAP_TEX_DIR + "planetCore");
+        myStarTex = textureManager.getTexture(MAP_TEX_DIR + "star");
+        myMazeTex = textureManager.getTexture(MAP_TEX_DIR + "maze");
+        mySkullBigTex = textureManager.getTexture(MAP_TEX_DIR + "skullBig");
+        myBeltTex = textureManager.getTexture(MAP_TEX_DIR + "asteroids");
+        myBeaconAttackTex = textureManager.getTexture(MAP_TEX_DIR + "beaconAttack");
+        myBeaconMoveTex = textureManager.getTexture(MAP_TEX_DIR + "beaconMove");
+        myBeaconFollowTex = textureManager.getTexture(MAP_TEX_DIR + "beaconFollow");
+        myWhiteTex = textureManager.getTexture(MAP_TEX_DIR + "whiteTex");
+        myLineTex = textureManager.getTexture(MAP_TEX_DIR + "gridLine");
 
-        myIconBg = textureManager.getTex(TextureManager.HULL_ICONS_DIR + "bg", null);
-        mySkullTex = textureManager.getTex(TextureManager.HULL_ICONS_DIR + "skull", null);
-        myStarPortTex = textureManager.getTex(TextureManager.HULL_ICONS_DIR + "starPort", null);
+        myIconBg = textureManager.getTexture(TextureManager.HULL_ICONS_DIR + "bg");
+        mySkullTex = textureManager.getTexture(TextureManager.HULL_ICONS_DIR + "skull");
+        myStarPortTex = textureManager.getTexture(TextureManager.HULL_ICONS_DIR + "starPort");
     }
 
     public boolean isToggled() {

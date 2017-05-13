@@ -38,19 +38,18 @@ public class ItemManager {
     public final TextureAtlas.AtlasRegion medMoneyIcon;
     public final TextureAtlas.AtlasRegion bigMoneyIcon;
     public final TextureAtlas.AtlasRegion repairIcon;
-    private final HashMap<String, SolItem> myM;
-    private final ArrayList<SolItem> myL;
+    private final HashMap<String, SolItem> myM = new HashMap<>();
+    private final ArrayList<SolItem> myL= new ArrayList<>();
     private final EngineItem.Configs myEngineConfigs;
     private final SolItemTypes myTypes;
     private final RepairItem myRepairExample;
 
     public ItemManager(TextureManager textureManager, OggSoundManager soundManager, EffectTypes effectTypes, GameColors gameColors) {
 
-        moneyIcon = textureManager.getTex(TextureManager.ICONS_DIR + "money", null);
-        medMoneyIcon = textureManager.getTex(TextureManager.ICONS_DIR + "medMoney", null);
-        bigMoneyIcon = textureManager.getTex(TextureManager.ICONS_DIR + "bigMoney", null);
-        repairIcon = textureManager.getTex(TextureManager.ICONS_DIR + "repairItem", null);
-        myM = new HashMap<String, SolItem>();
+        moneyIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "money");
+        medMoneyIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "medMoney");
+        bigMoneyIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "bigMoney");
+        repairIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "repairItem");
 
         myTypes = new SolItemTypes(soundManager, gameColors);
         projConfigs = new ProjectileConfigs(textureManager, soundManager, effectTypes, gameColors);
@@ -66,7 +65,7 @@ public class ItemManager {
         myRepairExample = new RepairItem(myTypes.repair);
         myM.put(myRepairExample.getCode(), myRepairExample);
 
-        myL = new ArrayList<SolItem>(myM.values());
+        myL.addAll(myM.values());
     }
 
     public void fillContainer(ItemContainer c, String items) {

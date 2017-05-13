@@ -31,15 +31,6 @@ interface TextureProvider {
      */
     TextureAtlas.AtlasRegion getTexture(FileHandle textureFile);
 
-    /**
-     * @param fullName
-     * @param configFile
-     * @return
-     * @deprecated this method uses hardcoded image locations. Use the more general FileHandle version instead.
-     */
-    @Deprecated
-    TextureAtlas.AtlasRegion getTex(String fullName, FileHandle configFile);
-
     void dispose();
 
     Sprite createSprite(String name);

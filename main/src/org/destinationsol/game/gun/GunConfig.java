@@ -121,8 +121,8 @@ public class GunConfig {
             List<String> shootSoundUrns = Arrays.asList(sh.get("shootSounds").asStringArray());
             float shootPitch = sh.getFloat("shootSoundPitch", 1);
             OggSoundSet shootSoundSet = new OggSoundSet(soundManager, shootSoundUrns, shootPitch);
-            TextureAtlas.AtlasRegion tex = textureManager.getTex("smallGameObjects/guns/" + texName, configFile);
-            TextureAtlas.AtlasRegion icon = textureManager.getTex(TextureManager.ICONS_DIR + texName, configFile);
+            TextureAtlas.AtlasRegion tex = textureManager.getTexture("smallGameObjects/guns/" + texName);
+            TextureAtlas.AtlasRegion icon = textureManager.getTexture(TextureManager.ICONS_DIR + texName);
             boolean fixed = sh.getBoolean("fixed", false);
             String code = sh.name;
             SolItemType itemType = fixed ? types.fixedGun : types.gun;

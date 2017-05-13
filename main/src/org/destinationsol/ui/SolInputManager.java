@@ -84,7 +84,7 @@ public class SolInputManager {
         // We want the original mouse cursor to be hidden as we draw our own mouse cursor.
         Gdx.input.setCursorCatched(false);
         setMouseCursorHidden();
-        myUiCursor = textureManager.getTex("ui/cursor", null);
+        myUiCursor = textureManager.getTexture("ui/cursor");
         myScreens = new ArrayList<SolUiScreen>();
         myToRemove = new ArrayList<SolUiScreen>();
         myToAdd = new ArrayList<SolUiScreen>();

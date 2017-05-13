@@ -40,7 +40,7 @@ public class UiDrawer {
     public UiDrawer(TextureManager textureManager, CommonDrawer commonDrawer) {
         myDrawer = commonDrawer;
         r = myDrawer.r;
-        whiteTex = textureManager.getTex("ui/whiteTex", null);
+        whiteTex = textureManager.getTexture("ui/whiteTex");
         uiLineWidth = 1 / myDrawer.h;
         straightMtx = new Matrix4().setToOrtho2D(0, 1, myDrawer.r, -1);
         myDrawer.setMtx(straightMtx);

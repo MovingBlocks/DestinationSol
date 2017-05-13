@@ -37,11 +37,6 @@ class AtlasTextureProvider implements TextureProvider {
     }
 
     @Override
-    public TextureAtlas.AtlasRegion getTex(String fullName, FileHandle configFile) {
-        return myAtlas.findRegion(fullName);
-    }
-
-    @Override
     public void dispose() {
         myAtlas.dispose();
     }

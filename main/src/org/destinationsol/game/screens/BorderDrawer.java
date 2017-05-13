@@ -52,7 +52,7 @@ public class BorderDrawer {
     private final Vector2 myTmpVec = new Vector2();
 
     public BorderDrawer(float r, SolApplication cmp) {
-        TextureAtlas.AtlasRegion tex = cmp.getTexMan().getTex("ui/tishch", null);
+        TextureAtlas.AtlasRegion tex = cmp.getTexMan().getTexture("ui/tishch");
         int hCellCount = (int) (r / TISHCH_SZ);
         int vCellCount = (int) (1 / TISHCH_SZ);
         float hStep = r / hCellCount;

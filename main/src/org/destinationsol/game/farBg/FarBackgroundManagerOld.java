@@ -39,7 +39,12 @@ public class FarBackgroundManagerOld {
     private final Color myNebTint;
 
     public FarBackgroundManagerOld(TextureManager textureManager) {
-        myNebTex = textureManager.getTex("farBgBig/nebulae2", SolMath.test(.5f), null);
+        TextureAtlas.AtlasRegion nebTex = textureManager.getTexture("farBgBig/nebulae2");
+        if (SolMath.test(.5f)) {
+            nebTex = textureManager.getFlipped(nebTex);
+        }
+        myNebTex = nebTex;
+
         myNebAngle = SolMath.rnd(180);
         myStars = new ArrayList<FarBgStar>();
         for (int i = 0; i < 400; i++) {
@@ -76,7 +81,7 @@ public class FarBackgroundManagerOld {
             myShiftPerc = new Vector2(SolMath.rnd(1), SolMath.rnd(1));
             myPos = new Vector2();
             boolean small = SolMath.test(.8f);
-            myTex = textureManager.getTex("decorations/bigStar", null);
+            myTex = textureManager.getTexture("decorations/bigStar");
             mySzPerc = (small ? .01f : .04f) * SolMath.rnd(.5f, 1);
             myTint = new Color();
             SolColorUtil.fromHSB(SolMath.rnd(0, 1), .25f, 1, .7f, myTint);

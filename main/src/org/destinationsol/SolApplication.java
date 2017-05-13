@@ -84,8 +84,6 @@ public class SolApplication implements ApplicationListener {
 
         musicManager.playMenuMusic(myOptions);
 
-        TextureMap texMap = assetHelper.getTextureMap(new ResourceUrn("Core:sol")).get();
-
         soundManager = new OggSoundManager(assetHelper);
         myTextureManager = new TextureManager(assetHelper);
         myCommonDrawer = new CommonDrawer();

@@ -34,9 +34,9 @@ public class ShipMouseControl implements ShipUiControl {
     private TextureAtlas.AtlasRegion myCursor;
 
     public ShipMouseControl(SolApplication cmp) {
-        myMoveCursor = cmp.getTexMan().getTex("ui/cursorMove", null);
-        myAttackCursor = cmp.getTexMan().getTex("ui/cursorAttack", null);
-        myFollowCursor = cmp.getTexMan().getTex("ui/cursorFollow", null);
+        myMoveCursor = cmp.getTexMan().getTexture("ui/cursorMove");
+        myAttackCursor = cmp.getTexMan().getTexture("ui/cursorAttack");
+        myFollowCursor = cmp.getTexMan().getTexture("ui/cursorFollow");
         myMouseWorldPos = new Vector2();
     }
 

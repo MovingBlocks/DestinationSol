@@ -181,8 +181,8 @@ public class Shield implements SolItem {
                 OggSound absorbSound = soundManager.getSound(absorbUrn, absorbPitch);
                 String regenUrn = sh.getString("regenSound");
                 OggSound regenSound = soundManager.getSound(regenUrn);
-                TextureAtlas.AtlasRegion icon = textureManager.getTex(TextureManager.ICONS_DIR + sh.getString("icon"), configFile);
-                TextureAtlas.AtlasRegion tex = textureManager.getTex(sh.getString("tex"), configFile);
+                TextureAtlas.AtlasRegion icon = textureManager.getTexture(TextureManager.ICONS_DIR + sh.getString("icon"));
+                TextureAtlas.AtlasRegion tex = textureManager.getTexture(sh.getString("tex"));
                 String code = sh.name;
                 Config config = new Config(maxLife, displayName, price, absorbSound, regenSound, icon, tex, types.shield, code);
                 itemManager.registerItem(config.example);

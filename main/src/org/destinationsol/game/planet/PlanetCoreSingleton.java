@@ -28,7 +28,7 @@ public class PlanetCoreSingleton {
     private final TextureAtlas.AtlasRegion myTex;
 
     public PlanetCoreSingleton(TextureManager textureManager) {
-        myTex = textureManager.getTex("planetStarCommons/planetCore", null);
+        myTex = textureManager.getTexture("planetStarCommons/planetCore");
     }
 
 

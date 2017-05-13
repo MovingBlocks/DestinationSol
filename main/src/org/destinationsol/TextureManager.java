@@ -53,25 +53,6 @@ public class TextureManager {
         return r;
     }
 
-    public TextureAtlas.AtlasRegion getTex(String name, boolean flipped, FileHandle configFile) {
-        TextureAtlas.AtlasRegion r = getTex(name, configFile);
-        return flipped ? getFlipped(r) : r;
-    }
-
-    /**
-     * @deprecated This method uses hardcoded locations for the texture files; use the more general
-     * getTexture method instead.
-     */
-    @Deprecated
-    public TextureAtlas.AtlasRegion getTex(String fullName, FileHandle configFile) {
-        TextureAtlas.AtlasRegion r = textureMap.get(fullName);
-        if (r != null) return r;
-        r = textureProvider.getTex(fullName, configFile);
-        if (r == null) throw new AssertionError("texture not found: " + fullName);
-        textureMap.put(fullName, r);
-        return r;
-    }
-
     public TextureAtlas.AtlasRegion getTexture(String fullName) {
         TextureAtlas.AtlasRegion result = textureMap.get(fullName);
         if (result != null)
