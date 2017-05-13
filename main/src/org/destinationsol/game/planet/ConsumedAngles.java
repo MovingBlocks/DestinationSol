@@ -35,7 +35,9 @@ public class ConsumedAngles {
         for (int i = 0; i < sz; i++) {
             Float a = myAngles.get(i);
             Float hw = myHalfWidths.get(i);
-            if (SolMath.angleDiff(angle, a) < hw + objAngularHalfWidth) return true;
+            if (SolMath.angleDiff(angle, a) < hw + objAngularHalfWidth) {
+                return true;
+            }
         }
         return false;
     }

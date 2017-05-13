@@ -28,13 +28,19 @@ public enum MissingResourceAction {
 
     public static MissingResourceAction forName(String name) {
         for (MissingResourceAction dt : MissingResourceAction.values()) {
-            if (dt.name.equals(name)) return dt;
+            if (dt.name.equals(name)) {
+                return dt;
+            }
         }
         throw new AssertionError("no missing resource action for name " + name);
     }
 
     public void handle(String msg) {
-        if (this == WARN) DebugCollector.warn(msg);
-        if (this == FAIL) throw new AssertionError(msg);
+        if (this == WARN) {
+            DebugCollector.warn(msg);
+        }
+        if (this == FAIL) {
+            throw new AssertionError(msg);
+        }
     }
 }

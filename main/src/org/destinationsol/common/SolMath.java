@@ -45,6 +45,7 @@ public class SolMath {
     public static int VECTORS_TAKEN;
     public static Vector2 tmp = new Vector2();
 
+
     public static int toInt(boolean b) {
         return b ? 1 : -1;
     }
@@ -62,7 +63,9 @@ public class SolMath {
      * @return a new value that is closer to the desired one
      */
     public static float approach(float src, float dst, float spd) {
-        if (dst - spd <= src && src <= dst + spd) return dst;
+        if (dst - spd <= src && src <= dst + spd) {
+            return dst;
+        }
         return src < dst ? src + spd : src - spd;
     }
 
@@ -72,7 +75,9 @@ public class SolMath {
     public static float approachAngle(float src, float dst, float spd) {
         float diff = norm(dst - src);
         float da = abs(diff);
-        if (da <= spd) return dst;
+        if (da <= spd) {
+            return dst;
+        }
         return diff > 0 ? src + spd : src - spd;
     }
 
@@ -81,9 +86,13 @@ public class SolMath {
      */
     @Norm
     public static float norm(float a) {
-        if (a != a) throw new AssertionError("normalizing NaN angle");
-        while (a <= -180) a += 360;
-        while (a > 180) a -= 360;
+        if (a != a) {
+            throw new AssertionError("normalizing NaN angle");
+        }
+        while (a <= -180)
+            a += 360;
+        while (a > 180)
+            a -= 360;
         return a;
     }
 
@@ -95,7 +104,6 @@ public class SolMath {
     public static float rnd(float minMax) {
         return rnd(-minMax, minMax);
     }
-
 
     /**
      * Returns a random float v such that min <= v && v < max. Min shouldn't equal to max
@@ -135,8 +143,11 @@ public class SolMath {
     public static int intRnd(float perc, int max) {
         int r = max;
         int min = (int) (max * perc);
-        if (min == max) throw new AssertionError("intRnd min equals max " + min);
-        while (r == max) r = MathUtils.random(min, max);
+        if (min == max) {
+            throw new AssertionError("intRnd min equals max " + min);
+        }
+        while (r == max)
+            r = MathUtils.random(min, max);
         return r;
     }
 
@@ -302,7 +313,6 @@ public class SolMath {
         }
     }
 
-
     /**
      * rotates a vector to an angle. The actual angle might slightly differ from the given one
      */
@@ -356,8 +366,11 @@ public class SolMath {
      * (0, -1) is up and -90 degrees
      */
     public static float angle(Vector2 v, boolean precise) {
-        if (precise) return v.angle();
-        else return MathUtils.atan2(v.y, v.x) * radDeg;
+        if (precise) {
+            return v.angle();
+        } else {
+            return MathUtils.atan2(v.y, v.x) * radDeg;
+        }
     }
 
     /**
@@ -390,7 +403,9 @@ public class SolMath {
     }
 
     public static boolean isAngleBetween(@Norm float a, @Norm float b, @Norm float x) {
-        if (a <= b) return a <= x && x < b;
+        if (a <= b) {
+            return a <= x && x < b;
+        }
         return a <= x || x < b;
     }
 
@@ -411,34 +426,44 @@ public class SolMath {
     }
 
     public static void checkVectorsTaken(Object o) {
-        if (SolMath.VECTORS_TAKEN != 0)
+        if (SolMath.VECTORS_TAKEN != 0) {
             throw new AssertionError("vectors " + SolMath.VECTORS_TAKEN + ", blame on " + o);
+        }
     }
 
     /**
      * @return solution of a quadratic equation. if 2 solutions possible, the greater is returned.
      */
     public static float genQuad(float a, float b, float c) {
-        if (a == 0) return genLin(b, c);
+        if (a == 0) {
+            return genLin(b, c);
+        }
         float disc = b * b - 4 * a * c;
-        if (disc < 0) return Float.NaN;
-        if (disc == 0) return -b / 2 / a;
+        if (disc < 0) {
+            return Float.NaN;
+        }
+        if (disc == 0) {
+            return -b / 2 / a;
+        }
         float dsq = sqrt(disc);
         float x1 = (-b - dsq) / 2 / a;
         float x2 = (-b + dsq) / 2 / a;
         if (x1 < 0) {
             return x2 < 0 ? Float.NaN : x2;
         }
-        if (x2 < 0) return x1;
+        if (x2 < 0) {
+            return x1;
+        }
         return x1 < x2 ? x1 : x2;
     }
 
     private static float genLin(float b, float c) {
-        if (b == 0) return c == 0 ? 0 : Float.NaN;
+        if (b == 0) {
+            return c == 0 ? 0 : Float.NaN;
+        }
         float res = -c / b;
         return res < 0 ? Float.NaN : res;
     }
-
 
     public static Vector2 readV2(JsonValue v, String name) {
         return readV2(v.getString(name));
@@ -454,7 +479,9 @@ public class SolMath {
     public static ArrayList<Vector2> readV2List(JsonValue parentNode, String name) {
         ArrayList<Vector2> res = new ArrayList<Vector2>();
         JsonValue listNode = parentNode.get(name);
-        if (listNode == null) return res;
+        if (listNode == null) {
+            return res;
+        }
         for (JsonValue vNode : listNode) {
             Vector2 vec = readV2(vNode.asString());
             res.add(vec);
@@ -470,7 +497,9 @@ public class SolMath {
         int i = (int) (v * 10);
         int whole = i / 10;
         int dec = i - 10 * whole;
-        if (dec < 0) dec = -dec;
+        if (dec < 0) {
+            dec = -dec;
+        }
         return whole + "." + dec;
     }
 }

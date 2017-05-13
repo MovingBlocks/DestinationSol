@@ -84,8 +84,8 @@ public final class HullConfigManager {
         if (hull.engineConfig != null) {
             if (    // stations can't have engines
                     (hull.type == HullConfig.Type.STATION) ||
-                            // the engine size must match the hull size
-                            (hull.engineConfig.big != (hull.type == HullConfig.Type.BIG))
+                    // the engine size must match the hull size
+                    (hull.engineConfig.big != (hull.type == HullConfig.Type.BIG))
                     ) {
                 throw new AssertionError("incompatible engine in hull " + hull.displayName);
             }
@@ -195,13 +195,25 @@ public final class HullConfigManager {
             AbilityCommonConfigs commonConfigs
     ) {
         JsonValue abNode = hullNode.get("ability");
-        if (abNode == null) return null;
+        if (abNode == null) {
+            return null;
+        }
         String type = abNode.getString("type");
-        if ("sloMo".equals(type)) return SloMo.Config.load(abNode, manager, commonConfigs.sloMo);
-        if ("teleport".equals(type)) return Teleport.Config.load(abNode, manager, commonConfigs.teleport);
-        if ("knockBack".equals(type)) return KnockBack.Config.load(abNode, manager, commonConfigs.knockBack);
-        if ("emWave".equals(type)) return EmWave.Config.load(abNode, manager, commonConfigs.emWave);
-        if ("unShield".equals(type)) return UnShield.Config.load(abNode, manager, commonConfigs.unShield);
+        if ("sloMo".equals(type)) {
+            return SloMo.Config.load(abNode, manager, commonConfigs.sloMo);
+        }
+        if ("teleport".equals(type)) {
+            return Teleport.Config.load(abNode, manager, commonConfigs.teleport);
+        }
+        if ("knockBack".equals(type)) {
+            return KnockBack.Config.load(abNode, manager, commonConfigs.knockBack);
+        }
+        if ("emWave".equals(type)) {
+            return EmWave.Config.load(abNode, manager, commonConfigs.emWave);
+        }
+        if ("unShield".equals(type)) {
+            return UnShield.Config.load(abNode, manager, commonConfigs.unShield);
+        }
         return null;
     }
 

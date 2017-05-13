@@ -63,7 +63,9 @@ public class ParticleSrc implements Dra {
         myPos = new Vector2();
         myRelAngle = relAngle;
 
-        if (sz <= 0) sz = config.sz;
+        if (sz <= 0) {
+            sz = config.sz;
+        }
 
         boolean hasArea = myEmitter.getSpawnShape().getShape() != ParticleEmitter.SpawnShape.point;
         boolean movesFast = JUMP_SPD_TRESH < myEmitter.getVelocity().getHighMax();
@@ -113,7 +115,9 @@ public class ParticleSrc implements Dra {
     }
 
     private static void transferAngle(ParticleEmitter.ScaledNumericValue from, ParticleEmitter.ScaledNumericValue to, float diff) {
-        if (!to.isRelative()) to.setHigh(from.getHighMin() + diff, from.getHighMax() + diff);
+        if (!to.isRelative()) {
+            to.setHigh(from.getHighMin() + diff, from.getHighMax() + diff);
+        }
         to.setLow(from.getLowMin() + diff, from.getLowMax() + diff);
     }
 
@@ -153,12 +157,18 @@ public class ParticleSrc implements Dra {
 
     private void updateSpd(SolGame game, Vector2 baseSpd, Vector2 basePos) {
         if (isContinuous()) {
-            if (!isWorking()) return;
+            if (!isWorking()) {
+                return;
+            }
         } else {
-            if (myFloatedUp) return;
+            if (myFloatedUp) {
+                return;
+            }
             myFloatedUp = true;
         }
-        if (!myInheritsSpd) baseSpd = Vector2.Zero;
+        if (!myInheritsSpd) {
+            baseSpd = Vector2.Zero;
+        }
         if (!myConfig.floatsUp) {
             setSpd(baseSpd);
             return;
@@ -170,10 +180,14 @@ public class ParticleSrc implements Dra {
     }
 
     private void maybeSwitchRelPos(SolGame game) {
-        if (myAreaSz == 0) return;
+        if (myAreaSz == 0) {
+            return;
+        }
         float ts = game.getTimeStep();
         myTimeSincePosChange += ts;
-        if (!myWorking || myTimeSincePosChange < MAX_TIME_BETWEEN_POS_CHANGE) return;
+        if (!myWorking || myTimeSincePosChange < MAX_TIME_BETWEEN_POS_CHANGE) {
+            return;
+        }
         myTimeSincePosChange = 0;
         SolMath.fromAl(myRelPos, SolMath.rnd(180), SolMath.rnd(0, myAreaSz));
         myRelPos.add(myOrigRelPos);
@@ -266,10 +280,17 @@ public class ParticleSrc implements Dra {
     }
 
     public void setWorking(boolean working) {
-        if (!isContinuous()) throw new AssertionError("only continuous emitters can start working");
-        if (myWorking == working) return;
+        if (!isContinuous()) {
+            throw new AssertionError("only continuous emitters can start working");
+        }
+        if (myWorking == working) {
+            return;
+        }
         myWorking = working;
-        if (myWorking) myEmitter.start();
-        else myEmitter.allowCompletion();
+        if (myWorking) {
+            myEmitter.start();
+        } else {
+            myEmitter.allowCompletion();
+        }
     }
 }

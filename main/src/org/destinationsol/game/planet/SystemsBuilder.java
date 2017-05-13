@@ -45,7 +45,9 @@ public class SystemsBuilder {
         int mazesLeft = MAZE_COUNT;
         while (sysLeft > 0 || mazesLeft > 0) {
             boolean createSys = sysLeft > 0;
-            if (createSys && mazesLeft > 0 && !systems.isEmpty()) createSys = SolMath.test(.5f);
+            if (createSys && mazesLeft > 0 && !systems.isEmpty()) {
+                createSys = SolMath.test(.5f);
+            }
             if (createSys) {
                 List<Float> ghs = generatePlanetGhs();
                 float sysRadius = calcSysRadius(ghs);
@@ -121,7 +123,9 @@ public class SystemsBuilder {
                         break;
                     }
                 }
-                if (good) return res;
+                if (good) {
+                    return res;
+                }
             }
             dist += Const.SUN_RADIUS;
         }
@@ -170,7 +174,9 @@ public class SystemsBuilder {
             }
             planetDist += reserved;
         }
-        if (SolMath.abs(sysRadius - planetDist) > .1f) throw new AssertionError(sysRadius + " " + planetDist);
+        if (SolMath.abs(sysRadius - planetDist) > .1f) {
+            throw new AssertionError(sysRadius + " " + planetDist);
+        }
         return s;
     }
 

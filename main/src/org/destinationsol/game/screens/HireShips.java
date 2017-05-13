@@ -92,10 +92,14 @@ public class HireShips implements InventoryOperations {
         boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice();
         myBuyCtrl.setDisplayName(enabled ? "Hire" : "---");
         myBuyCtrl.setEnabled(enabled);
-        if (!enabled) return;
+        if (!enabled) {
+            return;
+        }
         if (myBuyCtrl.isJustOff()) {
             boolean hired = hireShip(game, hero, (MercItem) selItem);
-            if (hired) hero.setMoney(hero.getMoney() - selItem.getPrice());
+            if (hired) {
+                hero.setMoney(hero.getMoney() - selItem.getPrice());
+            }
         }
     }
 
@@ -104,7 +108,9 @@ public class HireShips implements InventoryOperations {
         Guardian dp = new Guardian(game, config.hull, hero.getPilot(), hero.getPosition(), hero.getHull().config, SolMath.rnd(180));
         AiPilot pilot = new AiPilot(dp, true, Faction.LAANI, false, "Merc", Const.AI_DET_DIST);
         Vector2 pos = getPos(game, hero, config.hull);
-        if (pos == null) return false;
+        if (pos == null) {
+            return false;
+        }
         FarShip merc = game.getShipBuilder().buildNewFar(game, pos, new Vector2(), 0, 0, pilot, config.items, config.hull, null, true, config.money, null, true);
         game.getObjMan().addFarObjNow(merc);
         return true;
@@ -126,7 +132,9 @@ public class HireShips implements InventoryOperations {
             }
             SolMath.fromAl(pos, relAngle, dist);
             pos.add(heroPos);
-            if (game.isPlaceEmpty(pos, false)) return pos;
+            if (game.isPlaceEmpty(pos, false)) {
+                return pos;
+            }
             dist += Guardian.DIST;
         }
         return null;

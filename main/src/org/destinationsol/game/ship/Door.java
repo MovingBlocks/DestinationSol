@@ -72,13 +72,23 @@ public class Door {
         List<SolObject> objs = game.getObjMan().getObjs();
         for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
             SolObject o = objs.get(i);
-            if (o == ship) continue;
-            if (!(o instanceof SolShip)) continue;
+            if (o == ship) {
+                continue;
+            }
+            if (!(o instanceof SolShip)) {
+                continue;
+            }
             SolShip ship2 = (SolShip) o;
             Pilot pilot2 = ship2.getPilot();
-            if (!pilot2.isUp()) continue;
-            if (factionManager.areEnemies(pilot2.getFaction(), faction)) continue;
-            if (ship2.getPosition().dst(doorPos) < SENSOR_DIST) return true;
+            if (!pilot2.isUp()) {
+                continue;
+            }
+            if (factionManager.areEnemies(pilot2.getFaction(), faction)) {
+                continue;
+            }
+            if (ship2.getPosition().dst(doorPos) < SENSOR_DIST) {
+                return true;
+            }
         }
         return false;
     }

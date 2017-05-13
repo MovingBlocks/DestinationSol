@@ -16,7 +16,6 @@
 
 package org.destinationsol.menu;
 
-
 import org.destinationsol.GameOptions;
 import org.destinationsol.ui.SolUiScreen;
 

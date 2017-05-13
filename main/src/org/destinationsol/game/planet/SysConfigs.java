@@ -79,7 +79,9 @@ public class SysConfigs {
 
     public SysConfig getConfig(String name) {
         SysConfig res = myConfigs.get(name);
-        if (res != null) return res;
+        if (res != null) {
+            return res;
+        }
         return myHardConfigs.get(name);
     }
 

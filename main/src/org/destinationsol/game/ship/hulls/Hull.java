@@ -95,7 +95,9 @@ public class Hull {
 
     public GunItem getGun(boolean second) {
         GunMount m = getGunMount(second);
-        if (m == null) return null;
+        if (m == null) {
+            return null;
+        }
         return m.getGun();
     }
 
@@ -113,8 +115,9 @@ public class Hull {
 
         Faction faction = ship.getPilot().getFaction();
         myGunMount1.update(container, game, myAngle, ship, controlsEnabled && provider.isShoot(), nearestEnemy, faction);
-        if (myGunMount2 != null)
+        if (myGunMount2 != null) {
             myGunMount2.update(container, game, myAngle, ship, controlsEnabled && provider.isShoot2(), nearestEnemy, faction);
+        }
 
         for (int i = 0, myLightSrcsSize = myLightSrcs.size(); i < myLightSrcsSize; i++) {
             LightSrc src = myLightSrcs.get(i);
@@ -151,9 +154,13 @@ public class Hull {
     }
 
     public void onRemove(SolGame game) {
-        for (Door door : myDoors) door.onRemove(game);
+        for (Door door : myDoors) {
+            door.onRemove(game);
+        }
         myBody.getWorld().destroyBody(myBody);
-        if (myEngine != null) myEngine.onRemove(game, myPos);
+        if (myEngine != null) {
+            myEngine.onRemove(game, myPos);
+        }
 
     }
 

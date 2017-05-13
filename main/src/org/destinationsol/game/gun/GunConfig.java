@@ -139,8 +139,11 @@ public class GunConfig {
         if (pc.dmg > 0) {
             sb.append("Dmg: ").append(SolMath.nice(dps)).append("/s\n");
             DmgType dmgType = pc.dmgType;
-            if (dmgType == DmgType.ENERGY) sb.append("Weak against armor\n");
-            else if (dmgType == DmgType.BULLET) sb.append("Weak against shields\n");
+            if (dmgType == DmgType.ENERGY) {
+                sb.append("Weak against armor\n");
+            } else if (dmgType == DmgType.BULLET) {
+                sb.append("Weak against shields\n");
+            }
         } else if (pc.emTime > 0) {
             sb.append("Disables enemy ships for ").append(SolMath.nice(pc.emTime)).append(" s\n");
         }

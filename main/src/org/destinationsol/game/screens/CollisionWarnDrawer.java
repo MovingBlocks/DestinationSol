@@ -34,13 +34,17 @@ public class CollisionWarnDrawer extends WarnDrawer {
 
     public boolean shouldWarn(SolGame game) {
         myHero = game.getHero();
-        if (myHero == null) return false;
+        if (myHero == null) {
+            return false;
+        }
         Vector2 pos = myHero.getPosition();
         Vector2 spd = myHero.getSpd();
         float acc = myHero.getAcc();
         float spdLen = spd.len();
         float spdAngle = SolMath.angle(spd);
-        if (acc <= 0 || spdLen < 2 * acc) return false;
+        if (acc <= 0 || spdLen < 2 * acc) {
+            return false;
+        }
         // t = v/a;
         // s = att/2 = vv/a/2;
         float breakWay = spdLen * spdLen / acc / 2;

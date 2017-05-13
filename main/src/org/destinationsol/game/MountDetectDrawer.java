@@ -40,9 +40,13 @@ public class MountDetectDrawer {
         myShouldDraw = false;
         float ts = game.getTimeStep();
         myAnimPerc += ts / 2f;
-        if (myAnimPerc > 1) myAnimPerc = 0;
+        if (myAnimPerc > 1) {
+            myAnimPerc = 0;
+        }
         myAngle += 30f * ts;
-        if (myAngle > 180) myAngle -= 360;
+        if (myAngle > 180) {
+            myAngle -= 360;
+        }
     }
 
     public void setNe(SolShip ne) {
@@ -52,9 +56,13 @@ public class MountDetectDrawer {
     }
 
     public void draw(GameDrawer drawer) {
-        if (!myShouldDraw) return;
+        if (!myShouldDraw) {
+            return;
+        }
         float radPerc = myAnimPerc * 2;
-        if (radPerc > 1) radPerc = 2 - radPerc;
+        if (radPerc > 1) {
+            radPerc = 2 - radPerc;
+        }
         float rad = myBaseRad * (1 + .5f * radPerc);
         drawer.draw(myTex, rad * 2, rad * 2, rad, rad, myNePos.x, myNePos.y, myAngle, SolColor.W);
     }

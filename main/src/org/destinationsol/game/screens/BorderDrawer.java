@@ -126,14 +126,18 @@ public class BorderDrawer {
                                Faction objFac, Object shipHack, float heroDmgCap, TextureAtlas.AtlasRegion icon) {
         Vector2 camPos = cam.getPos();
         float closeness = 1 - pos.dst(camPos) / MAX_ICON_DIST;
-        if (closeness < 0) return;
+        if (closeness < 0) {
+            return;
+        }
         float camAngle = cam.getAngle();
         SolMath.toRel(pos, myTmpVec, camAngle, camPos);
         float len = myTmpVec.len();
         float newLen = len - .25f * objSize;
         myTmpVec.scl(newLen / len);
 
-        if (cam.isRelVisible(myTmpVec)) return;
+        if (cam.isRelVisible(myTmpVec)) {
+            return;
+        }
 
         float sz = BORDER_ICON_SZ * closeness;
         float prefX = drawer.r / 2 - sz / 2;
@@ -150,7 +154,9 @@ public class BorderDrawer {
     private void drawTishches(UiDrawer drawer, SolGame g, SolCam cam, Vector2 camPos) {
         PlanetManager pMan = g.getPlanetMan();
         Planet np = pMan.getNearestPlanet();
-        if (np != null && np.getPos().dst(camPos) < np.getFullHeight()) return;
+        if (np != null && np.getPos().dst(camPos) < np.getFullHeight()) {
+            return;
+        }
         for (int i = 0, myTishchesSize = myTishches.size(); i < myTishchesSize; i++) {
             Tishch t = myTishches.get(i);
             t.reset();
@@ -219,7 +225,9 @@ public class BorderDrawer {
 
         public void setDistPerc(float distPerc) {
             float closeness = 1 - distPerc;
-            if (closeness < myPerc) return;
+            if (closeness < myPerc) {
+                return;
+            }
             myPerc = closeness;
         }
 

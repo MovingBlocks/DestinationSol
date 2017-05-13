@@ -50,8 +50,11 @@ public abstract class WarnDrawer {
 
     public void update(SolGame game) {
         show = shouldWarn(game);
-        if (show) drawPerc = 1;
-        else drawPerc = SolMath.approach(drawPerc, 0, Const.REAL_TIME_STEP / FADE_TIME);
+        if (show) {
+            drawPerc = 1;
+        } else {
+            drawPerc = SolMath.approach(drawPerc, 0, Const.REAL_TIME_STEP / FADE_TIME);
+        }
         myBgCol.a = myBgOrigA * drawPerc;
         myTextCol.a = drawPerc;
     }
