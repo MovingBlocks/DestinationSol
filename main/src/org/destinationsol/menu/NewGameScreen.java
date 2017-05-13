@@ -28,83 +28,59 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewGameScreen implements SolUiScreen {
-    private final ArrayList<SolUiControl> myControls;
-    private final SolUiControl myBackCtrl;
-    private final SolUiControl myPrevCtrl;
-    private final SolUiControl myNewCtrl;
+    private final ArrayList<SolUiControl> controls = new ArrayList<>();
+    private final SolUiControl backControl;
+    private final SolUiControl previousControl;
+    private final SolUiControl newControl;
 
-    public NewGameScreen(MenuLayout menuLayout, GameOptions gameOptions) {
-        myControls = new ArrayList<SolUiControl>();
+    NewGameScreen(MenuLayout menuLayout, GameOptions gameOptions) {
+        previousControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, gameOptions.getKeyShoot());
+        previousControl.setDisplayName("Previous Ship");
+        controls.add(previousControl);
 
-        myPrevCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, gameOptions.getKeyShoot());
-        myPrevCtrl.setDisplayName("Previous Ship");
-        myControls.add(myPrevCtrl);
+        newControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
+        newControl.setDisplayName("New Ship");
+        controls.add(newControl);
 
-        myNewCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
-        myNewCtrl.setDisplayName("New Ship");
-        myControls.add(myNewCtrl);
-
-        myBackCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
-        myBackCtrl.setDisplayName("Cancel");
-        myControls.add(myBackCtrl);
+        backControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
+        backControl.setDisplayName("Cancel");
+        controls.add(backControl);
 
     }
 
     @Override
     public List<SolUiControl> getControls() {
-        return myControls;
+        return controls;
     }
 
     @Override
-    public void onAdd(SolApplication cmp) {
-        myPrevCtrl.setEnabled(SaveManager.hasPrevShip());
+    public void onAdd(SolApplication solApplication) {
+        previousControl.setEnabled(SaveManager.hasPrevShip());
     }
 
     @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
-        MenuScreens screens = cmp.getMenuScreens();
-        SolInputManager im = cmp.getInputMan();
-        if (myBackCtrl.isJustOff()) {
-            im.setScreen(cmp, screens.main);
+    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+        MenuScreens screens = solApplication.getMenuScreens();
+        SolInputManager im = solApplication.getInputMan();
+        if (backControl.isJustOff()) {
+            im.setScreen(solApplication, screens.main);
             return;
         }
-        if (myPrevCtrl.isJustOff()) {
-            cmp.loadNewGame(false, true);
+        if (previousControl.isJustOff()) {
+            solApplication.loadNewGame(false, true);
             return;
         }
-        if (myNewCtrl.isJustOff()) {
-            if (!myPrevCtrl.isEnabled()) {
-                cmp.loadNewGame(false, false);
+        if (newControl.isJustOff()) {
+            if (!previousControl.isEnabled()) {
+                solApplication.loadNewGame(false, false);
             } else {
-                im.setScreen(cmp, screens.newShip);
+                im.setScreen(solApplication, screens.newShip);
             }
         }
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
+    public boolean isCursorOnBg(SolInputManager.Ptr pointer) {
         return true;
     }
-
-    @Override
-    public void blurCustom(SolApplication cmp) {
-    }
-
-    @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
-    }
-
-    @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
-    }
-
-    @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-    }
-
-    @Override
-    public boolean reactsToClickOutside() {
-        return false;
-    }
-
 }

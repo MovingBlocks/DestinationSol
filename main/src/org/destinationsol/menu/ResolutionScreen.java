@@ -88,30 +88,7 @@ public class ResolutionScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) {
-    }
-
-    @Override
     public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.drawString("Click 'Back' to apply changes", .5f * uiDrawer.r, .3f, FontSize.MENU, true, SolColor.W);
     }
-
-    @Override
-    public boolean reactsToClickOutside() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr pointer) {
-        return false;
-    }
-
-    @Override
-    public void onAdd(SolApplication solApplication) {
-    }
-
-    @Override
-    public void blurCustom(SolApplication solApplication) {
-    }
-
 }

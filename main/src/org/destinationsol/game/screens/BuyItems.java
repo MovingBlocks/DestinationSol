@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,37 +24,23 @@ import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BuyItems implements InventoryOperations {
+    public final SolUiControl buyControl;
+    private final ArrayList<SolUiControl> controls = new ArrayList<>();
 
-    public final SolUiControl buyCtrl;
-    private final ArrayList<SolUiControl> myControls;
-
-    public BuyItems(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        myControls = new ArrayList<SolUiControl>();
-
-        buyCtrl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyBuyItem());
-        buyCtrl.setDisplayName("Buy");
-        myControls.add(buyCtrl);
+    BuyItems(InventoryScreen inventoryScreen, GameOptions gameOptions) {
+        buyControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyBuyItem());
+        buyControl.setDisplayName("Buy");
+        controls.add(buyControl);
     }
 
     @Override
     public ItemContainer getItems(SolGame game) {
         return game.getScreens().talkScreen.getTarget().getTradeContainer().getItems();
-    }
-
-    @Override
-    public boolean isUsing(SolGame game, SolItem item) {
-        return false;
-    }
-
-    @Override
-    public float getPriceMul() {
-        return 1;
     }
 
     @Override
@@ -64,66 +50,31 @@ public class BuyItems implements InventoryOperations {
 
     @Override
     public List<SolUiControl> getControls() {
-        return myControls;
+        return controls;
     }
 
     @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
-        SolGame game = cmp.getGame();
+    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+        SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
         SolShip hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
         SolShip target = talkScreen.getTarget();
         if (talkScreen.isTargetFar(hero)) {
-            cmp.getInputMan().setScreen(cmp, game.getScreens().mainScreen);
+            solApplication.getInputMan().setScreen(solApplication, game.getScreens().mainScreen);
             return;
         }
         SolItem selItem = is.getSelectedItem();
         boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice() && hero.getItemContainer().canAdd(selItem);
-        buyCtrl.setDisplayName(enabled ? "Buy" : "---");
-        buyCtrl.setEnabled(enabled);
+        buyControl.setDisplayName(enabled ? "Buy" : "---");
+        buyControl.setEnabled(enabled);
         if (!enabled) {
             return;
         }
-        if (buyCtrl.isJustOff()) {
+        if (buyControl.isJustOff()) {
             target.getTradeContainer().getItems().remove(selItem);
             hero.getItemContainer().add(selItem);
             hero.setMoney(hero.getMoney() - selItem.getPrice());
         }
-    }
-
-    @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
-        return false;
-    }
-
-    @Override
-    public void onAdd(SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public boolean reactsToClickOutside() {
-        return false;
-    }
-
-    @Override
-    public void blurCustom(SolApplication cmp) {
-
     }
 }

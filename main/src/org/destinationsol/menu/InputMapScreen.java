@@ -128,7 +128,7 @@ public class InputMapScreen implements SolUiScreen {
 
         // Create the input screens
         inputMapKeyboardScreen = new InputMapKeyboardScreen(this, gameOptions);
-        inputMapControllerScreen = new InputMapControllerScreen(this, gameOptions);
+        inputMapControllerScreen = new InputMapControllerScreen();
         inputMapMixedScreen = new InputMapMixedScreen();
 
         bgTex = textureManager.getTexture("ui/titleBg");

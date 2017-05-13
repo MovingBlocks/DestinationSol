@@ -24,9 +24,13 @@ import org.destinationsol.ui.SolUiScreen;
 public interface InventoryOperations extends SolUiScreen {
     ItemContainer getItems(SolGame game);
 
-    boolean isUsing(SolGame game, SolItem item);
+    default boolean isUsing(SolGame game, SolItem item) {
+        return false;
+    }
 
-    float getPriceMul();
+    default float getPriceMul() {
+        return 1;
+    }
 
     String getHeader();
 }

@@ -119,11 +119,6 @@ public class MainScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr pointer) {
-        return false;
-    }
-
-    @Override
     public void onAdd(SolApplication solApplication) {
         solApplication.getMusicManager().playMenuMusic(gameOptions);
     }
@@ -140,18 +135,5 @@ public class MainScreen implements SolUiScreen {
         if (!DebugOptions.PRINT_BALANCE) {
             uiDrawer.draw(logoTex, sx, sy, sx / 2, sy / 2, uiDrawer.r / 2, 0.1f + sy / 2, 0, SolColor.W);
         }
-    }
-
-    @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
-    }
-
-    @Override
-    public boolean reactsToClickOutside() {
-        return false;
-    }
-
-    @Override
-    public void blurCustom(SolApplication solApplication) {
     }
 }

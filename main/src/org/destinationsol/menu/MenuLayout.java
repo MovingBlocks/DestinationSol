@@ -28,12 +28,12 @@ public class MenuLayout {
     private final float rowH;
     private final float myPad;
 
-    public MenuLayout(float r) {
-        btnW = .40f * r;
+    public MenuLayout(float resolutionRatio) {
+        btnW = .40f * resolutionRatio;
         btnH = .1f;
         myPad = .1f * btnH;
         rowH = btnH + myPad;
-        colCenter = .5f * r - btnW / 2;
+        colCenter = .5f * resolutionRatio - btnW / 2;
         row0 = 1 - myPad - numberOfRowsTotal * rowH;
     }
 

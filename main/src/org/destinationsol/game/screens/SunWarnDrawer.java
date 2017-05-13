@@ -23,7 +23,7 @@ import org.destinationsol.game.ship.SolShip;
 
 public class SunWarnDrawer extends WarnDrawer {
 
-    public SunWarnDrawer(float r) {
+    SunWarnDrawer(float r) {
         super(r, "Sun Near");
     }
 

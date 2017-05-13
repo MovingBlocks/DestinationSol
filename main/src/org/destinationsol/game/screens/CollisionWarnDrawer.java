@@ -25,21 +25,21 @@ import org.destinationsol.game.SolObject;
 import org.destinationsol.game.ship.SolShip;
 
 public class CollisionWarnDrawer extends WarnDrawer {
-    private final MyRayBack myWarnCallback = new MyRayBack();
-    private SolShip myHero;
+    private final CollisionRayCastCallback warnCallback = new CollisionRayCastCallback();
+    private SolShip hero;
 
-    public CollisionWarnDrawer(float r) {
+    CollisionWarnDrawer(float r) {
         super(r, "Object Near");
     }
 
     public boolean shouldWarn(SolGame game) {
-        myHero = game.getHero();
-        if (myHero == null) {
+        hero = game.getHero();
+        if (hero == null) {
             return false;
         }
-        Vector2 pos = myHero.getPosition();
-        Vector2 spd = myHero.getSpd();
-        float acc = myHero.getAcc();
+        Vector2 pos = hero.getPosition();
+        Vector2 spd = hero.getSpd();
+        float acc = hero.getAcc();
         float spdLen = spd.len();
         float spdAngle = SolMath.angle(spd);
         if (acc <= 0 || spdLen < 2 * acc) {
@@ -52,19 +52,19 @@ public class CollisionWarnDrawer extends WarnDrawer {
         Vector2 finalPos = SolMath.getVec(0, 0);
         SolMath.fromAl(finalPos, spdAngle, breakWay);
         finalPos.add(pos);
-        myWarnCallback.show = false;
-        game.getObjMan().getWorld().rayCast(myWarnCallback, pos, finalPos);
+        warnCallback.show = false;
+        game.getObjMan().getWorld().rayCast(warnCallback, pos, finalPos);
         SolMath.free(finalPos);
-        return myWarnCallback.show;
+        return warnCallback.show;
     }
 
-    private class MyRayBack implements RayCastCallback {
+    private class CollisionRayCastCallback implements RayCastCallback {
         private boolean show;
 
         @Override
         public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
             SolObject o = (SolObject) fixture.getBody().getUserData();
-            if (myHero == o) {
+            if (hero == o) {
                 return -1;
             }
             show = true;

@@ -30,17 +30,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SellItems implements InventoryOperations {
+    private static float PERC = .8f;
 
-    public static float PERC = .8f;
-    public final SolUiControl sellCtrl;
-    private final ArrayList<SolUiControl> myControls;
+    private final ArrayList<SolUiControl> controls = new ArrayList<>();
+    private final SolUiControl sellControl;
 
-    public SellItems(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        myControls = new ArrayList<SolUiControl>();
-
-        sellCtrl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeySellItem());
-        sellCtrl.setDisplayName("Sell");
-        myControls.add(sellCtrl);
+    SellItems(InventoryScreen inventoryScreen, GameOptions gameOptions) {
+        sellControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeySellItem());
+        sellControl.setDisplayName("Sell");
+        controls.add(sellControl);
     }
 
     @Override
@@ -67,45 +65,45 @@ public class SellItems implements InventoryOperations {
 
     @Override
     public List<SolUiControl> getControls() {
-        return myControls;
+        return controls;
     }
 
     @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
-        SolGame game = cmp.getGame();
+    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+        SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
         TalkScreen talkScreen = game.getScreens().talkScreen;
         SolShip target = talkScreen.getTarget();
         SolShip hero = game.getHero();
         if (talkScreen.isTargetFar(hero)) {
-            cmp.getInputMan().setScreen(cmp, game.getScreens().mainScreen);
+            solApplication.getInputMan().setScreen(solApplication, game.getScreens().mainScreen);
             return;
         }
         SolItem selItem = is.getSelectedItem();
         if (selItem == null) {
-            sellCtrl.setDisplayName("----");
-            sellCtrl.setEnabled(false);
+            sellControl.setDisplayName("----");
+            sellControl.setEnabled(false);
             return;
         }
 
-        boolean isWornAndCanBeSold = isItemEquippedAndSellable(selItem, target, game, cmp.getOptions());
+        boolean isWornAndCanBeSold = isItemEquippedAndSellable(selItem, solApplication.getOptions());
         boolean enabled = isItemSellable(selItem, target);
 
         if (enabled && isWornAndCanBeSold) {
-            sellCtrl.setDisplayName("Sell");
-            sellCtrl.setEnabled(true);
+            sellControl.setDisplayName("Sell");
+            sellControl.setEnabled(true);
         } else if (enabled && !isWornAndCanBeSold) {
-            sellCtrl.setDisplayName("Unequip it!");
-            sellCtrl.setEnabled(false);
+            sellControl.setDisplayName("Unequip it!");
+            sellControl.setEnabled(false);
         } else {
-            sellCtrl.setDisplayName("----");
-            sellCtrl.setEnabled(false);
+            sellControl.setDisplayName("----");
+            sellControl.setEnabled(false);
         }
 
         if (!enabled || !isWornAndCanBeSold) {
             return;
         }
-        if (sellCtrl.isJustOff()) {
+        if (sellControl.isJustOff()) {
             ItemContainer ic = hero.getItemContainer();
             is.setSelected(ic.getSelectionAfterRemove(is.getSelected()));
             ic.remove(selItem);
@@ -118,46 +116,8 @@ public class SellItems implements InventoryOperations {
         return target.getTradeContainer().getItems().canAdd(item);
     }
 
-    // return true if the item is not worn, or is worn and canSellEquippedItems is true
-    private boolean isItemEquippedAndSellable(SolItem item, SolShip target, SolGame game, GameOptions options) {
-        if (item.isEquipped() == 0 || ((item.isEquipped() != 0) && options.canSellEquippedItems)) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public boolean reactsToClickOutside() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
-        return false;
-    }
-
-    @Override
-    public void onAdd(SolApplication cmp) {
-
-    }
-
-    @Override
-    public void blurCustom(SolApplication cmp) {
-
+    // Return true if the item is not worn, or is worn and canSellEquippedItems is true
+    private boolean isItemEquippedAndSellable(SolItem item, GameOptions options) {
+        return (item.isEquipped() == 0 || options.canSellEquippedItems);
     }
 }

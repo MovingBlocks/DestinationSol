@@ -33,98 +33,88 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TalkScreen implements SolUiScreen {
+    static final float MAX_TALK_DIST = 1f;
 
-    public static final float MAX_TALK_DIST = 1f;
-    public final SolUiControl buyCtrl;
-    public final SolUiControl closeCtrl;
-    private final List<SolUiControl> myControls;
-    private final SolUiControl mySellCtrl;
-    private final SolUiControl myShipsCtrl;
-    private final SolUiControl myHireCtrl;
-    private final Rectangle myBg;
-    private SolShip myTarget;
+    private final List<SolUiControl> controls = new ArrayList<>();
+    public final SolUiControl buyControl;
+    public final SolUiControl closeControl;
+    private final SolUiControl sellControl;
+    private final SolUiControl shipsControl;
+    private final SolUiControl hireControl;
 
-    public TalkScreen(MenuLayout menuLayout, GameOptions gameOptions) {
-        myControls = new ArrayList<SolUiControl>();
+    private final Rectangle bg;
+    private SolShip target;
 
-        mySellCtrl = new SolUiControl(menuLayout.buttonRect(-1, 0), true, gameOptions.getKeySellMenu());
-        mySellCtrl.setDisplayName("Sell");
-        myControls.add(mySellCtrl);
+    TalkScreen(MenuLayout menuLayout, GameOptions gameOptions) {
+        sellControl = new SolUiControl(menuLayout.buttonRect(-1, 0), true, gameOptions.getKeySellMenu());
+        sellControl.setDisplayName("Sell");
+        controls.add(sellControl);
 
-        buyCtrl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, gameOptions.getKeyBuyMenu());
-        buyCtrl.setDisplayName("Buy");
-        myControls.add(buyCtrl);
+        buyControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, gameOptions.getKeyBuyMenu());
+        buyControl.setDisplayName("Buy");
+        controls.add(buyControl);
 
-        myShipsCtrl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, gameOptions.getKeyChangeShipMenu());
-        myShipsCtrl.setDisplayName("Change Ship");
-        myControls.add(myShipsCtrl);
+        shipsControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, gameOptions.getKeyChangeShipMenu());
+        shipsControl.setDisplayName("Change Ship");
+        controls.add(shipsControl);
 
-        myHireCtrl = new SolUiControl(menuLayout.buttonRect(-1, 3), true, gameOptions.getKeyHireShipMenu());
-        myHireCtrl.setDisplayName("Hire");
-        myControls.add(myHireCtrl);
+        hireControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true, gameOptions.getKeyHireShipMenu());
+        hireControl.setDisplayName("Hire");
+        controls.add(hireControl);
 
-        closeCtrl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyClose());
-        closeCtrl.setDisplayName("Close");
-        myControls.add(closeCtrl);
+        closeControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyClose());
+        closeControl.setDisplayName("Close");
+        controls.add(closeControl);
 
-        myBg = menuLayout.bg(-1, 0, 5);
+        bg = menuLayout.bg(-1, 0, 5);
     }
 
     @Override
     public List<SolUiControl> getControls() {
-        return myControls;
+        return controls;
     }
 
     @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
+    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
         if (clickedOutside) {
-            closeCtrl.maybeFlashPressed(cmp.getOptions().getKeyClose());
+            closeControl.maybeFlashPressed(solApplication.getOptions().getKeyClose());
             return;
         }
-        SolGame g = cmp.getGame();
+        SolGame g = solApplication.getGame();
         SolShip hero = g.getHero();
-        SolInputManager inputMan = cmp.getInputMan();
-        if (closeCtrl.isJustOff() || isTargetFar(hero)) {
-            inputMan.setScreen(cmp, g.getScreens().mainScreen);
+        SolInputManager inputMan = solApplication.getInputMan();
+        if (closeControl.isJustOff() || isTargetFar(hero)) {
+            inputMan.setScreen(solApplication, g.getScreens().mainScreen);
             return;
         }
 
-        boolean station = myTarget.getHull().config.getType() == HullConfig.Type.STATION;
-        myShipsCtrl.setEnabled(station);
-        myHireCtrl.setEnabled(station);
+        boolean station = target.getHull().config.getType() == HullConfig.Type.STATION;
+        shipsControl.setEnabled(station);
+        hireControl.setEnabled(station);
 
         InventoryScreen is = g.getScreens().inventoryScreen;
-        boolean sell = mySellCtrl.isJustOff();
-        boolean buy = buyCtrl.isJustOff();
-        boolean sellShips = myShipsCtrl.isJustOff();
-        boolean hire = myHireCtrl.isJustOff();
+        boolean sell = sellControl.isJustOff();
+        boolean buy = buyControl.isJustOff();
+        boolean sellShips = shipsControl.isJustOff();
+        boolean hire = hireControl.isJustOff();
         if (sell || buy || sellShips || hire) {
             is.setOperations(sell ? is.sellItems : buy ? is.buyItems : sellShips ? is.changeShip : is.hireShips);
-            inputMan.setScreen(cmp, g.getScreens().mainScreen);
-            inputMan.addScreen(cmp, is);
+            inputMan.setScreen(solApplication, g.getScreens().mainScreen);
+            inputMan.addScreen(solApplication, is);
         }
     }
 
-    public boolean isTargetFar(SolShip hero) {
-        if (hero == null || myTarget == null || myTarget.getLife() <= 0) {
+    boolean isTargetFar(SolShip hero) {
+        if (hero == null || target == null || target.getLife() <= 0) {
             return true;
         }
-        float dst = myTarget.getPosition().dst(hero.getPosition()) - hero.getHull().config.getApproxRadius() - myTarget.getHull().config.getApproxRadius();
+        float dst = target.getPosition().dst(hero.getPosition()) - hero.getHull().config.getApproxRadius() - target.getHull().config.getApproxRadius();
         return MAX_TALK_DIST < dst;
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
-        uiDrawer.draw(myBg, SolColor.UI_BG);
-    }
-
-    @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
+    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(bg, SolColor.UI_BG);
     }
 
     @Override
@@ -133,24 +123,15 @@ public class TalkScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
-        return myBg.contains(ptr.x, ptr.y);
-    }
-
-    @Override
-    public void onAdd(SolApplication cmp) {
-    }
-
-    @Override
-    public void blurCustom(SolApplication cmp) {
-
+    public boolean isCursorOnBg(SolInputManager.Ptr pointer) {
+        return bg.contains(pointer.x, pointer.y);
     }
 
     public SolShip getTarget() {
-        return myTarget;
+        return target;
     }
 
     public void setTarget(SolShip target) {
-        myTarget = target;
+        this.target = target;
     }
 }
