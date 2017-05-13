@@ -43,9 +43,9 @@ public class ShipMixedControl implements ShipUiControl {
     private boolean myRight;
     private boolean myLeft;
 
-    public ShipMixedControl(SolApplication cmp, List<SolUiControl> controls) {
-        GameOptions gameOptions = cmp.getOptions();
-        myCursor = cmp.getTexMan().getTexture("ui/cursorTarget");
+    ShipMixedControl(SolApplication solApplication, List<SolUiControl> controls) {
+        GameOptions gameOptions = solApplication.getOptions();
+        myCursor = solApplication.getTexMan().getTexture("ui/cursorTarget");
         myMouseWorldPos = new Vector2();
         upCtrl = new SolUiControl(null, false, gameOptions.getKeyUpMouse());
         controls.add(upCtrl);
@@ -60,20 +60,20 @@ public class ShipMixedControl implements ShipUiControl {
     }
 
     @Override
-    public void update(SolApplication cmp, boolean enabled) {
-        GameOptions gameOptions = cmp.getOptions();
+    public void update(SolApplication solApplication, boolean enabled) {
+        GameOptions gameOptions = solApplication.getOptions();
         blur();
         if (!enabled) {
             return;
         }
-        SolInputManager im = cmp.getInputMan();
-        SolGame g = cmp.getGame();
-        SolShip h = g.getHero();
-        if (h != null) {
+        SolInputManager im = solApplication.getInputMan();
+        SolGame game = solApplication.getGame();
+        SolShip hero = game.getHero();
+        if (hero != null) {
             myMouseWorldPos.set(Gdx.input.getX(), Gdx.input.getY());
-            g.getCam().screenToWorld(myMouseWorldPos);
-            float desiredAngle = SolMath.angle(h.getPosition(), myMouseWorldPos);
-            Boolean ntt = Mover.needsToTurn(h.getAngle(), desiredAngle, h.getRotSpd(), h.getRotAcc(), Shooter.MIN_SHOOT_AAD);
+            game.getCam().screenToWorld(myMouseWorldPos);
+            float desiredAngle = SolMath.angle(hero.getPosition(), myMouseWorldPos);
+            Boolean ntt = Mover.needsToTurn(hero.getAngle(), desiredAngle, hero.getRotSpd(), hero.getRotAcc(), Shooter.MIN_SHOOT_AAD);
             if (ntt != null) {
                 if (ntt) {
                     myRight = true;

@@ -54,6 +54,7 @@ import org.slf4j.LoggerFactory;
 
 public class ShipControllerControl implements ShipUiControl {
     private static Logger logger = LoggerFactory.getLogger(ShipControllerControl.class);
+
     private boolean controllerShoot;
     private boolean controllerShoot2;
     private boolean controllerAbility;
@@ -62,8 +63,8 @@ public class ShipControllerControl implements ShipUiControl {
     private boolean controllerUp;
     private boolean controllerDown;
 
-    public ShipControllerControl(SolApplication cmp) {
-        final GameOptions gameOptions = cmp.getOptions();
+    ShipControllerControl(SolApplication solApplication) {
+        final GameOptions gameOptions = solApplication.getOptions();
 
         Controllers.clearListeners();
 
@@ -76,7 +77,7 @@ public class ShipControllerControl implements ShipUiControl {
 
         // setup the listener that prints events to the console
         Controllers.addListener(new ControllerListener() {
-            public int indexOf(Controller controller) {
+            int indexOf(Controller controller) {
                 return Controllers.getControllers().indexOf(controller, true);
             }
 
@@ -129,31 +130,19 @@ public class ShipControllerControl implements ShipUiControl {
             @Override
             public boolean axisMoved(Controller controller, int axisIndex, float value) {
                 if (axisIndex == gameOptions.getControllerAxisShoot()) {
-                    if (value > 0.5f) {
-                        controllerShoot = true;
-                    } else {
-                        controllerShoot = false;
-                    }
+                    controllerShoot = (value > 0.5f);
                 } else if (axisIndex == gameOptions.getControllerAxisShoot2()) {
-                    if (value > 0.5f) {
-                        controllerShoot2 = true;
-                    } else {
-                        controllerShoot2 = false;
-                    }
+                    controllerShoot2 = (value > 0.5f);
                 } else if (axisIndex == gameOptions.getControllerAxisAbility()) {
-                    if (value > 0.5f) {
-                        controllerAbility = true;
-                    } else {
-                        controllerAbility = false;
-                    }
+                    controllerAbility = (value > 0.5f);
                 } else if (axisIndex == gameOptions.getControllerAxisLeftRight()) {
                     boolean invert = gameOptions.isControllerAxisLeftRightInverted();
                     if (value < -0.5f) {
-                        controllerLeft = invert ? false : true;
-                        controllerRight = invert ? true : false;
+                        controllerLeft = !invert;
+                        controllerRight = invert;
                     } else if (value > 0.5f) {
-                        controllerLeft = invert ? true : false;
-                        controllerRight = invert ? false : true;
+                        controllerLeft = invert;
+                        controllerRight = !invert;
                     } else {
                         controllerLeft = false;
                         controllerRight = false;
@@ -161,11 +150,11 @@ public class ShipControllerControl implements ShipUiControl {
                 } else if (axisIndex == gameOptions.getControllerAxisUpDown()) {
                     boolean invert = gameOptions.isControllerAxisUpDownInverted();
                     if (value < -0.5f) {
-                        controllerUp = invert ? false : true;
-                        controllerDown = invert ? true : false;
+                        controllerUp = !invert;
+                        controllerDown = invert;
                     } else if (value > 0.5f) {
-                        controllerUp = invert ? true : false;
-                        controllerDown = invert ? false : true;
+                        controllerUp = invert;
+                        controllerDown = !invert;
                     } else {
                         controllerUp = false;
                         controllerDown = false;
@@ -195,15 +184,11 @@ public class ShipControllerControl implements ShipUiControl {
 
             @Override
             public boolean accelerometerMoved(Controller controller, int accelerometerIndex, Vector3 value) {
-                // not printing this as we get to many values
+                // not printing this as we get too many values
                 return false;
             }
         });
 
-    }
-
-    @Override
-    public void update(SolApplication cmp, boolean enabled) {
     }
 
     @Override
@@ -239,15 +224,5 @@ public class ShipControllerControl implements ShipUiControl {
     @Override
     public boolean isAbility() {
         return controllerAbility;
-    }
-
-    @Override
-    public TextureAtlas.AtlasRegion getInGameTex() {
-        return null;
-    }
-
-    @Override
-    public void blur() {
-
     }
 }

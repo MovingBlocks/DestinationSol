@@ -26,31 +26,29 @@ import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.UiDrawer;
 
 public abstract class WarnDrawer {
-    public static final float FADE_TIME = 1f;
+    private static final float FADE_TIME = 1f;
     private final Rectangle myWarn;
     private final Color myBgCol;
     private final Color myTextCol;
     private final float myBgOrigA;
     private final String myText;
 
-    public boolean show;
-    public float drawPerc;
+    float drawPerc;
 
-    public WarnDrawer(float r, String text) {
-        myWarn = rect(r);
+    WarnDrawer(float resolutionRatio, String text) {
+        myWarn = rect(resolutionRatio);
         myText = text;
         myBgCol = new Color(SolColor.UI_WARN);
         myBgOrigA = myBgCol.a;
         myTextCol = new Color(SolColor.W);
     }
 
-    public static Rectangle rect(float r) {
-        return new Rectangle(.4f * r, 0, .2f * r, .1f);
+    private static Rectangle rect(float resolutionRatio) {
+        return new Rectangle(.4f * resolutionRatio, 0, .2f * resolutionRatio, .1f);
     }
 
     public void update(SolGame game) {
-        show = shouldWarn(game);
-        if (show) {
+        if (shouldWarn(game)) {
             drawPerc = 1;
         } else {
             drawPerc = SolMath.approach(drawPerc, 0, Const.REAL_TIME_STEP / FADE_TIME);

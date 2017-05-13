@@ -120,16 +120,16 @@ public class CreditsScreen implements SolUiScreen {
     }
 
     @Override
-    public void onAdd(SolApplication cmp) {
+    public void onAdd(SolApplication solApplication) {
         pageIndex = 0;
         pageProgressPercent = 0;
         myColor.a = 0;
     }
 
     @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
+    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
         if (closeControl.isJustOff()) {
-            cmp.getInputMan().setScreen(cmp, cmp.getMenuScreens().main);
+            solApplication.getInputMan().setScreen(solApplication, solApplication.getMenuScreens().main);
             return;
         }
         pageProgressPercent += Const.REAL_TIME_STEP / MAX_AWAIT;
@@ -149,30 +149,12 @@ public class CreditsScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
-        return false;
-    }
-
-    @Override
-    public void blurCustom(SolApplication cmp) {
-    }
-
-    @Override
     public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.W);
     }
 
     @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
-    }
-
-    @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
+    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.drawString(myPages.get(pageIndex), uiDrawer.r / 2, .5f, FontSize.MENU, true, myColor);
-    }
-
-    @Override
-    public boolean reactsToClickOutside() {
-        return false;
     }
 }

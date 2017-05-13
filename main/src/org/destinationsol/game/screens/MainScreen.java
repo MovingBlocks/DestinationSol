@@ -50,28 +50,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainScreen implements SolUiScreen {
-    public static final float ICON_SZ = .03f;
-    public static final float BAR_SZ = ICON_SZ * 5;
-    public static final int MAX_ICON_COUNT = 3;
-    public static final float CELL_SZ = .17f;
-    public static final float H_PAD = .005f;
-    public static final float V_PAD = H_PAD;
-    public static final float HELPER_ROW_1 = 1 - 3f * MainScreen.CELL_SZ;
-    public static final float HELPER_ROW_2 = HELPER_ROW_1 - .5f * MainScreen.CELL_SZ;
+    // TODO: Rename!
+    private static final float ICON_SZ = .03f;
+    private static final float BAR_SZ = ICON_SZ * 5;
+    private static final int MAX_ICON_COUNT = 3;
+    static final float CELL_SZ = .17f;
+    private static final float H_PAD = .005f;
+    private static final float V_PAD = H_PAD;
+    static final float HELPER_ROW_1 = 1 - 3f * CELL_SZ;
+    private static final float HELPER_ROW_2 = HELPER_ROW_1 - .5f * CELL_SZ;
+
+    private final List<SolUiControl> controls = new ArrayList<>();
     public final ShipUiControl shipControl;
-    public final SolUiControl mapCtrl;
-    public final SolUiControl invCtrl;
-    public final SolUiControl talkCtrl;
-    private final List<SolUiControl> myControls;
-    private final ZoneNameAnnouncer myZoneNameAnnouncer;
-    private final BorderDrawer myBorderDrawer;
-    private final TextureAtlas.AtlasRegion myLifeTex;
-    private final TextureAtlas.AtlasRegion myInfinityTex;
-    private final TextureAtlas.AtlasRegion myWaitTex;
-    private final TextureAtlas.AtlasRegion myCompassTex;
-    private final List<WarnDrawer> myWarnDrawers;
-    private final SolUiControl myMenuCtrl;
-    private final SolUiControl myPauseCtrl;
+    public final SolUiControl mapControl;
+    public final SolUiControl inventoryControl;
+    public final SolUiControl talkControl;
+    private final SolUiControl menuControl;
+    private final SolUiControl pauseControl;
+
+    private final ZoneNameAnnouncer zoneNameAnnouncer;
+    private final BorderDrawer borderDrawer;
+    private final List<WarnDrawer> warnDrawers = new ArrayList<>();
+
+    private final TextureAtlas.AtlasRegion lifeTex;
+    private final TextureAtlas.AtlasRegion infinityTex;
+    private final TextureAtlas.AtlasRegion waitTex;
+    private final TextureAtlas.AtlasRegion compassTex;
+
     private final Color myCompassTint;
     private final TextPlace myLifeTp;
     private final TextPlace myRepairsExcessTp;
@@ -83,57 +88,55 @@ public class MainScreen implements SolUiScreen {
     private final TextPlace myChargesExcessTp;
     private final TextPlace myMoneyExcessTp;
 
-    public MainScreen(float r, RightPaneLayout rightPaneLayout, SolApplication cmp) {
-        myControls = new ArrayList<SolUiControl>();
-        GameOptions gameOptions = cmp.getOptions();
+    MainScreen(float resolutionRatio, RightPaneLayout rightPaneLayout, SolApplication solApplication) {
+        GameOptions gameOptions = solApplication.getOptions();
 
-        int ct = cmp.getOptions().controlType;
+        int ct = solApplication.getOptions().controlType;
         if (ct == GameOptions.CONTROL_KB) {
-            shipControl = new ShipKbControl(cmp, r, myControls);
+            shipControl = new ShipKbControl(solApplication, resolutionRatio, controls);
         } else if (ct == GameOptions.CONTROL_MIXED) {
-            shipControl = new ShipMixedControl(cmp, myControls);
+            shipControl = new ShipMixedControl(solApplication, controls);
         } else if (ct == GameOptions.CONTROL_MOUSE) {
-            shipControl = new ShipMouseControl(cmp);
+            shipControl = new ShipMouseControl(solApplication);
         } else {
-            shipControl = new ShipControllerControl(cmp);
+            shipControl = new ShipControllerControl(solApplication);
         }
-        boolean mobile = cmp.isMobile();
-        float lastCol = r - MainScreen.CELL_SZ;
+        boolean mobile = solApplication.isMobile();
+        float lastCol = resolutionRatio - MainScreen.CELL_SZ;
         Rectangle menuArea = mobile ? btn(0, HELPER_ROW_2, true) : rightPaneLayout.buttonRect(0);
-        myMenuCtrl = new SolUiControl(menuArea, true, gameOptions.getKeyMenu());
-        myMenuCtrl.setDisplayName("Menu");
-        myControls.add(myMenuCtrl);
+        menuControl = new SolUiControl(menuArea, true, gameOptions.getKeyMenu());
+        menuControl.setDisplayName("Menu");
+        controls.add(menuControl);
         Rectangle mapArea = mobile ? btn(0, HELPER_ROW_1, true) : rightPaneLayout.buttonRect(1);
-        mapCtrl = new SolUiControl(mapArea, true, gameOptions.getKeyMap());
-        mapCtrl.setDisplayName("Map");
-        myControls.add(mapCtrl);
+        mapControl = new SolUiControl(mapArea, true, gameOptions.getKeyMap());
+        mapControl.setDisplayName("Map");
+        controls.add(mapControl);
         Rectangle invArea = mobile ? btn(lastCol, HELPER_ROW_1, true) : rightPaneLayout.buttonRect(2);
-        invCtrl = new SolUiControl(invArea, true, gameOptions.getKeyInventory());
-        invCtrl.setDisplayName("Items");
-        myControls.add(invCtrl);
+        inventoryControl = new SolUiControl(invArea, true, gameOptions.getKeyInventory());
+        inventoryControl.setDisplayName("Items");
+        controls.add(inventoryControl);
         Rectangle talkArea = mobile ? btn(lastCol, HELPER_ROW_2, true) : rightPaneLayout.buttonRect(3);
-        talkCtrl = new SolUiControl(talkArea, true, gameOptions.getKeyTalk());
-        talkCtrl.setDisplayName("Talk");
-        myControls.add(talkCtrl);
-        myPauseCtrl = new SolUiControl(null, true, gameOptions.getKeyPause());
-        myControls.add(myPauseCtrl);
+        talkControl = new SolUiControl(talkArea, true, gameOptions.getKeyTalk());
+        talkControl.setDisplayName("Talk");
+        controls.add(talkControl);
+        pauseControl = new SolUiControl(null, true, gameOptions.getKeyPause());
+        controls.add(pauseControl);
 
-        myWarnDrawers = new ArrayList<WarnDrawer>();
-        myWarnDrawers.add(new CollisionWarnDrawer(r));
-        myWarnDrawers.add(new SunWarnDrawer(r));
-        myWarnDrawers.add(new EnemyWarn(r));
-        myWarnDrawers.add(new DmgWarnDrawer(r));
-        myWarnDrawers.add(new NoShieldWarn(r));
-        myWarnDrawers.add(new NoArmorWarn(r));
+        warnDrawers.add(new CollisionWarnDrawer(resolutionRatio));
+        warnDrawers.add(new SunWarnDrawer(resolutionRatio));
+        warnDrawers.add(new EnemyWarn(resolutionRatio));
+        warnDrawers.add(new DmgWarnDrawer(resolutionRatio));
+        warnDrawers.add(new NoShieldWarn(resolutionRatio));
+        warnDrawers.add(new NoArmorWarn(resolutionRatio));
 
-        myZoneNameAnnouncer = new ZoneNameAnnouncer();
-        myBorderDrawer = new BorderDrawer(r, cmp);
+        zoneNameAnnouncer = new ZoneNameAnnouncer();
+        borderDrawer = new BorderDrawer(resolutionRatio, solApplication);
 
-        TextureManager textureManager = cmp.getTexMan();
-        myLifeTex = textureManager.getTexture(TextureManager.ICONS_DIR + "life");
-        myInfinityTex = textureManager.getTexture(TextureManager.ICONS_DIR + "infinity");
-        myWaitTex = textureManager.getTexture(TextureManager.ICONS_DIR + "wait");
-        myCompassTex = textureManager.getTexture("ui/compass");
+        TextureManager textureManager = solApplication.getTexMan();
+        lifeTex = textureManager.getTexture(TextureManager.ICONS_DIR + "life");
+        infinityTex = textureManager.getTexture(TextureManager.ICONS_DIR + "infinity");
+        waitTex = textureManager.getTexture(TextureManager.ICONS_DIR + "wait");
+        compassTex = textureManager.getTexture("ui/compass");
         myCompassTint = SolColor.col(1, 0);
 
         myLifeTp = new TextPlace(SolColor.W50);
@@ -156,8 +159,8 @@ public class MainScreen implements SolUiScreen {
         return new Rectangle(x + gap, y + gap, CELL_SZ - gap * 2, cellH - gap * 2);
     }
 
-    public void maybeDrawHeight(UiDrawer drawer, SolApplication cmp) {
-        SolGame game = cmp.getGame();
+    public void maybeDrawHeight(UiDrawer drawer, SolApplication solApplication) {
+        SolGame game = solApplication.getGame();
         Planet np = game.getPlanetMan().getNearestPlanet();
         SolCam cam = game.getCam();
         Vector2 camPos = cam.getPos();
@@ -181,62 +184,61 @@ public class MainScreen implements SolUiScreen {
             y = maxY;
         }
         float angle = np.getAngle() - camAngle;
-        drawer.draw(myCompassTex, sz, sz, sz / 2, sz / 2, sz / 2, y, angle, myCompassTint);
+        drawer.draw(compassTex, sz, sz, sz / 2, sz / 2, sz / 2, y, angle, myCompassTint);
     }
 
     @Override
     public List<SolUiControl> getControls() {
-        return myControls;
+        return controls;
     }
 
     @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
+    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
         if (DebugOptions.PRINT_BALANCE) {
-            cmp.finishGame();
+            solApplication.finishGame();
             return;
         }
-        SolGame game = cmp.getGame();
-        SolInputManager inputMan = cmp.getInputMan();
+        SolGame game = solApplication.getGame();
+        SolInputManager inputMan = solApplication.getInputMan();
         GameScreens screens = game.getScreens();
         SolShip hero = game.getHero();
 
-        for (int i = 0, sz = myWarnDrawers.size(); i < sz; i++) {
-            WarnDrawer wd = myWarnDrawers.get(i);
-            wd.update(game);
+        for (WarnDrawer warnDrawer : warnDrawers) {
+            warnDrawer.update(game);
         }
 
-        myZoneNameAnnouncer.update(game);
+        zoneNameAnnouncer.update(game);
 
-        if (myMenuCtrl.isJustOff()) {
-            inputMan.setScreen(cmp, screens.menuScreen);
+        if (menuControl.isJustOff()) {
+            inputMan.setScreen(solApplication, screens.menuScreen);
         }
 
         boolean controlsEnabled = inputMan.getTopScreen() == this;
-        shipControl.update(cmp, controlsEnabled);
+        shipControl.update(solApplication, controlsEnabled);
 
-        if (mapCtrl.isJustOff()) {
-            inputMan.setScreen(cmp, screens.mapScreen);
+        if (mapControl.isJustOff()) {
+            inputMan.setScreen(solApplication, screens.mapScreen);
         }
 
-        invCtrl.setEnabled(hero != null);
+        inventoryControl.setEnabled(hero != null);
         if (hero != null && !inputMan.isScreenOn(screens.inventoryScreen)) {
             if (hero.getItemContainer().hasNew()) {
-                invCtrl.enableWarn();
+                inventoryControl.enableWarn();
             }
         }
-        if (invCtrl.isJustOff()) {
+        if (inventoryControl.isJustOff()) {
             InventoryScreen is = screens.inventoryScreen;
             boolean isOn = inputMan.isScreenOn(is);
-            inputMan.setScreen(cmp, screens.mainScreen);
+            inputMan.setScreen(solApplication, screens.mainScreen);
             if (!isOn) {
                 is.setOperations(is.showInventory);
-                inputMan.addScreen(cmp, is);
+                inputMan.addScreen(solApplication, is);
             }
         }
 
         updateTalk(game);
 
-        if (myPauseCtrl.isJustOff()) {
+        if (pauseControl.isJustOff()) {
             game.setPaused(!game.isPaused());
         }
     }
@@ -244,7 +246,7 @@ public class MainScreen implements SolUiScreen {
     private void updateTalk(SolGame game) {
         SolShip hero = game.getHero();
         if (hero == null) {
-            talkCtrl.setEnabled(false);
+            talkControl.setEnabled(false);
             return;
         }
         FactionManager factionManager = game.getFactionMan();
@@ -253,8 +255,7 @@ public class MainScreen implements SolUiScreen {
         float minDist = TalkScreen.MAX_TALK_DIST;
         float har = hero.getHull().config.getApproxRadius();
         List<SolObject> objs = game.getObjMan().getObjs();
-        for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
-            SolObject o = objs.get(i);
+        for (SolObject o : objs) {
             if (!(o instanceof SolShip)) {
                 continue;
             }
@@ -273,8 +274,8 @@ public class MainScreen implements SolUiScreen {
             target = ship;
             minDist = dst;
         }
-        talkCtrl.setEnabled(target != null);
-        if (talkCtrl.isJustOff()) {
+        talkControl.setEnabled(target != null);
+        if (talkControl.isJustOff()) {
             TalkScreen talkScreen = game.getScreens().talkScreen;
             SolApplication cmp = game.getCmp();
             SolInputManager inputMan = cmp.getInputMan();
@@ -314,13 +315,13 @@ public class MainScreen implements SolUiScreen {
             int clipCount = hero.getItemContainer().count(g.config.clipConf.example);
             drawIcons(uiDrawer, col2, y, clipCount, g.config.clipConf.icon, secondary ? myG2AmmoExcessTp : myG1AmmoExcessTp);
         } else {
-            uiDrawer.draw(myInfinityTex, ICON_SZ, ICON_SZ, 0, 0, col2, y, 0, SolColor.W);
+            uiDrawer.draw(infinityTex, ICON_SZ, ICON_SZ, 0, 0, col2, y, 0, SolColor.W);
         }
         return true;
     }
 
     private void drawWait(UiDrawer uiDrawer, float x, float y) {
-        uiDrawer.draw(myWaitTex, ICON_SZ, ICON_SZ, ICON_SZ / 2, ICON_SZ / 2, x + BAR_SZ / 2, y + ICON_SZ / 2, 0, SolColor.W);
+        uiDrawer.draw(waitTex, ICON_SZ, ICON_SZ, ICON_SZ / 2, ICON_SZ / 2, x + BAR_SZ / 2, y + ICON_SZ / 2, 0, SolColor.W);
     }
 
     private void drawBar(UiDrawer uiDrawer, float x, float y, float curr, float max, TextPlace tp) {
@@ -352,21 +353,7 @@ public class MainScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
-        return false;
-    }
-
-    @Override
-    public void onAdd(SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
-    }
-
-    @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
+    public void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) {
         myLifeTp.text = null;
         myRepairsExcessTp.text = null;
         myShieldLifeTp.text = null;
@@ -377,10 +364,10 @@ public class MainScreen implements SolUiScreen {
         myChargesExcessTp.text = null;
         myMoneyExcessTp.text = null;
 
-        maybeDrawHeight(uiDrawer, cmp);
-        myBorderDrawer.draw(uiDrawer, cmp);
+        maybeDrawHeight(uiDrawer, solApplication);
+        borderDrawer.draw(uiDrawer, solApplication);
 
-        SolGame game = cmp.getGame();
+        SolGame game = solApplication.getGame();
         SolShip hero = game.getHero();
         if (hero != null) {
             float row = BorderDrawer.TISHCH_SZ + V_PAD;
@@ -395,7 +382,7 @@ public class MainScreen implements SolUiScreen {
                 row += ICON_SZ + V_PAD;
             }
 
-            uiDrawer.draw(myLifeTex, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.W);
+            uiDrawer.draw(lifeTex, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.W);
             drawBar(uiDrawer, col1, row, hero.getLife(), hero.getHull().config.getMaxLife(), myLifeTp);
             int repairKitCount = hero.getItemContainer().count(game.getItemMan().getRepairExample());
             ItemManager itemManager = game.getItemMan();
@@ -431,8 +418,8 @@ public class MainScreen implements SolUiScreen {
             //updateTextPlace(col1, row, (int) hero.getMoney() + "", myMoneyExcessTp);
         }
 
-        for (int i = 0, sz = myWarnDrawers.size(); i < sz; i++) {
-            WarnDrawer wd = myWarnDrawers.get(i);
+        for (int i = 0, sz = warnDrawers.size(); i < sz; i++) {
+            WarnDrawer wd = warnDrawers.get(i);
             if (wd.drawPerc > 0) {
                 wd.draw(uiDrawer);
                 break;
@@ -441,7 +428,7 @@ public class MainScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
+    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
         myLifeTp.draw(uiDrawer);
         myRepairsExcessTp.draw(uiDrawer);
         myShieldLifeTp.draw(uiDrawer);
@@ -452,24 +439,18 @@ public class MainScreen implements SolUiScreen {
         myChargesExcessTp.draw(uiDrawer);
         myMoneyExcessTp.draw(uiDrawer, TextAlignment.LEFT);
 
-        for (int i = 0, sz = myWarnDrawers.size(); i < sz; i++) {
-            WarnDrawer wd = myWarnDrawers.get(i);
-            if (wd.drawPerc > 0) {
-                wd.drawText(uiDrawer);
+        for (WarnDrawer warnDrawer : warnDrawers) {
+            if (warnDrawer.drawPerc > 0) {
+                warnDrawer.drawText(uiDrawer);
                 break;
             }
         }
 
-        myZoneNameAnnouncer.drawText(uiDrawer);
+        zoneNameAnnouncer.drawText(uiDrawer);
     }
 
     @Override
-    public boolean reactsToClickOutside() {
-        return false;
-    }
-
-    @Override
-    public void blurCustom(SolApplication cmp) {
+    public void blurCustom(SolApplication solApplication) {
         shipControl.blur();
     }
 

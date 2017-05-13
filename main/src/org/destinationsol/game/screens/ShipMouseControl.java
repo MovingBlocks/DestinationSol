@@ -33,7 +33,7 @@ public class ShipMouseControl implements ShipUiControl {
 
     private TextureAtlas.AtlasRegion myCursor;
 
-    public ShipMouseControl(SolApplication cmp) {
+    ShipMouseControl(SolApplication cmp) {
         myMoveCursor = cmp.getTexMan().getTexture("ui/cursorMove");
         myAttackCursor = cmp.getTexMan().getTexture("ui/cursorAttack");
         myFollowCursor = cmp.getTexMan().getTexture("ui/cursorFollow");
@@ -41,14 +41,14 @@ public class ShipMouseControl implements ShipUiControl {
     }
 
     @Override
-    public void update(SolApplication cmp, boolean enabled) {
-        SolGame g = cmp.getGame();
+    public void update(SolApplication solApplication, boolean enabled) {
+        SolGame g = solApplication.getGame();
         SolShip h = g.getHero();
         myCursor = null;
         if (h != null) {
             myMouseWorldPos.set(Gdx.input.getX(), Gdx.input.getY());
             g.getCam().screenToWorld(myMouseWorldPos);
-            SolInputManager im = cmp.getInputMan();
+            SolInputManager im = solApplication.getInputMan();
             boolean clicked = im.getPtrs()[0].pressed;
             boolean onMap = im.isScreenOn(g.getScreens().mapScreen);
             BeaconHandler.Action a = g.getBeaconHandler().processMouse(g, myMouseWorldPos, clicked, onMap);
@@ -100,10 +100,5 @@ public class ShipMouseControl implements ShipUiControl {
     @Override
     public TextureAtlas.AtlasRegion getInGameTex() {
         return myCursor;
-    }
-
-    @Override
-    public void blur() {
-
     }
 }

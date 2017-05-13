@@ -30,55 +30,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShowInventory implements InventoryOperations {
+    private final List<SolUiControl> controls = new ArrayList<>();
+    public final SolUiControl eq1Control;
+    private final SolUiControl eq2Control;
+    public final SolUiControl dropControl;
 
-    public final SolUiControl eq1Ctrl;
-    public final SolUiControl eq2Ctrl;
-    public final SolUiControl dropCtrl;
-    private final List<SolUiControl> myControls;
+    ShowInventory(InventoryScreen inventoryScreen, GameOptions gameOptions) {
+        eq1Control = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyEquip());
+        eq1Control.setDisplayName("Eq");
+        controls.add(eq1Control);
 
-    public ShowInventory(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        myControls = new ArrayList<SolUiControl>();
+        eq2Control = new SolUiControl(inventoryScreen.itemCtrl(1), true, gameOptions.getKeyEquip2());
+        eq2Control.setDisplayName("Eq2");
+        controls.add(eq2Control);
 
-        eq1Ctrl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyEquip());
-        eq1Ctrl.setDisplayName("Eq");
-        myControls.add(eq1Ctrl);
-
-        eq2Ctrl = new SolUiControl(inventoryScreen.itemCtrl(1), true, gameOptions.getKeyEquip2());
-        eq2Ctrl.setDisplayName("Eq2");
-        myControls.add(eq2Ctrl);
-
-        dropCtrl = new SolUiControl(inventoryScreen.itemCtrl(2), true, gameOptions.getKeyDrop());
-        dropCtrl.setDisplayName("Drop");
-        myControls.add(dropCtrl);
+        dropControl = new SolUiControl(inventoryScreen.itemCtrl(2), true, gameOptions.getKeyDrop());
+        dropControl.setDisplayName("Drop");
+        controls.add(dropControl);
     }
 
     @Override
     public List<SolUiControl> getControls() {
-        return myControls;
+        return controls;
     }
 
     @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
-        SolGame g = cmp.getGame();
+    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+        SolGame g = solApplication.getGame();
         InventoryScreen is = g.getScreens().inventoryScreen;
         SolItem selItem = is.getSelectedItem();
         SolShip hero = g.getHero();
 
-        eq1Ctrl.setDisplayName("---");
-        eq1Ctrl.setEnabled(false);
-        eq2Ctrl.setDisplayName("---");
-        eq2Ctrl.setEnabled(false);
-        dropCtrl.setEnabled(false);
+        eq1Control.setDisplayName("---");
+        eq1Control.setEnabled(false);
+        eq2Control.setDisplayName("---");
+        eq2Control.setEnabled(false);
+        dropControl.setEnabled(false);
 
         if (selItem == null || hero == null) {
             return;
         }
 
-        dropCtrl.setEnabled(true);
-        if (dropCtrl.isJustOff()) {
+        dropControl.setEnabled(true);
+        if (dropControl.isJustOff()) {
             ItemContainer ic = hero.getItemContainer();
             is.setSelected(ic.getSelectionAfterRemove(is.getSelected()));
-            hero.dropItem(cmp.getGame(), selItem);
+            hero.dropItem(solApplication.getGame(), selItem);
             return;
         }
 
@@ -88,59 +85,27 @@ public class ShowInventory implements InventoryOperations {
         boolean canEquip2 = hero.maybeEquip(g, selItem, true, false);
 
         if (equipped1 || canEquip1) {
-            eq1Ctrl.setDisplayName(equipped1 ? "Unequip" : "Equip");
-            eq1Ctrl.setEnabled(true);
+            eq1Control.setDisplayName(equipped1 ? "Unequip" : "Equip");
+            eq1Control.setEnabled(true);
         }
         if (equipped2 || canEquip2) {
-            eq2Ctrl.setDisplayName(equipped2 ? "Unequip" : "Set Gun 2");
-            eq2Ctrl.setEnabled(true);
+            eq2Control.setDisplayName(equipped2 ? "Unequip" : "Set Gun 2");
+            eq2Control.setEnabled(true);
         }
-        if (eq1Ctrl.isJustOff()) {
+        if (eq1Control.isJustOff()) {
             if (equipped1) {
                 hero.maybeUnequip(g, selItem, false, true);
             } else {
                 hero.maybeEquip(g, selItem, false, true);
             }
         }
-        if (eq2Ctrl.isJustOff()) {
+        if (eq2Control.isJustOff()) {
             if (equipped2) {
                 hero.maybeUnequip(g, selItem, true, true);
             } else {
                 hero.maybeEquip(g, selItem, true, true);
             }
         }
-    }
-
-    @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
-    }
-
-    @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-    }
-
-    @Override
-    public boolean reactsToClickOutside() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
-        return false;
-    }
-
-    @Override
-    public void onAdd(SolApplication cmp) {
-    }
-
-    @Override
-    public void blurCustom(SolApplication cmp) {
-
     }
 
     @Override

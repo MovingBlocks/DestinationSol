@@ -41,31 +41,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HireShips implements InventoryOperations {
+    private final ArrayList<SolUiControl> controls = new ArrayList<>();
+    private final SolUiControl hireControl;
 
-    private final ArrayList<SolUiControl> myControls;
-    private final SolUiControl myBuyCtrl;
-
-    public HireShips(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        myControls = new ArrayList<SolUiControl>();
-
-        myBuyCtrl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyHireShip());
-        myBuyCtrl.setDisplayName("Hire");
-        myControls.add(myBuyCtrl);
+    HireShips(InventoryScreen inventoryScreen, GameOptions gameOptions) {
+        hireControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyHireShip());
+        hireControl.setDisplayName("Hire");
+        controls.add(hireControl);
     }
 
     @Override
     public ItemContainer getItems(SolGame game) {
         return game.getScreens().talkScreen.getTarget().getTradeContainer().getMercs();
-    }
-
-    @Override
-    public boolean isUsing(SolGame game, SolItem item) {
-        return false;
-    }
-
-    @Override
-    public float getPriceMul() {
-        return 1;
     }
 
     @Override
@@ -75,27 +62,27 @@ public class HireShips implements InventoryOperations {
 
     @Override
     public List<SolUiControl> getControls() {
-        return myControls;
+        return controls;
     }
 
     @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
-        SolGame game = cmp.getGame();
+    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+        SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
         SolShip hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
         if (talkScreen.isTargetFar(hero)) {
-            cmp.getInputMan().setScreen(cmp, game.getScreens().mainScreen);
+            solApplication.getInputMan().setScreen(solApplication, game.getScreens().mainScreen);
             return;
         }
         SolItem selItem = is.getSelectedItem();
         boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice();
-        myBuyCtrl.setDisplayName(enabled ? "Hire" : "---");
-        myBuyCtrl.setEnabled(enabled);
+        hireControl.setDisplayName(enabled ? "Hire" : "---");
+        hireControl.setEnabled(enabled);
         if (!enabled) {
             return;
         }
-        if (myBuyCtrl.isJustOff()) {
+        if (hireControl.isJustOff()) {
             boolean hired = hireShip(game, hero, (MercItem) selItem);
             if (hired) {
                 hero.setMoney(hero.getMoney() - selItem.getPrice());
@@ -138,40 +125,5 @@ public class HireShips implements InventoryOperations {
             dist += Guardian.DIST;
         }
         return null;
-    }
-
-    @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
-        return false;
-    }
-
-    @Override
-    public void onAdd(SolApplication cmp) {
-
-    }
-
-    @Override
-    public void blurCustom(SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
-        cmp.getGame();
-    }
-
-    @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public boolean reactsToClickOutside() {
-        return false;
     }
 }
