@@ -38,41 +38,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryScreen implements SolUiScreen {
-    public static final ItemContainer EMPTY_CONTAINER = new ItemContainer();
-    public static final float HEADER_TEXT_OFFS = .005f;
-    public static final float SMALL_GAP = .004f;
-    private static final int BTN_ROWS = 4;
+    // TODO: Rename!
+    private static final ItemContainer EMPTY_CONTAINER = new ItemContainer();
+    private static final float HEADER_TEXT_OFFSET = .005f;
+    private static final float SMALL_GAP = .004f;
+    private static final int BUTTON_ROWS = 4;
     private static final float IMG_COL_PERC = .1f;
     private static final float EQUI_COL_PERC = .1f;
     private static final float PRICE_COL_PERC = .1f;
     private static final float AMT_COL_PERC = .1f;
+
     public final ShowInventory showInventory;
     public final BuyItems buyItems;
     public final SellItems sellItems;
     public final ChangeShip changeShip;
     public final HireShips hireShips;
-    public final SolUiControl nextCtrl;
-    public final SolUiControl[] itemCtrls;
-    public final SolUiControl closeCtrl;
-    public final SolUiControl downCtrl;
-    private final List<SolUiControl> myControls;
+
+    private final List<SolUiControl> controls = new ArrayList<>();
+    public final SolUiControl[] itemControls;
+    private final SolUiControl previousControl;
+    private final SolUiControl upControl;
+    public final SolUiControl nextControl;
+    public final SolUiControl closeControl;
+    public final SolUiControl downControl;
+
     private final Rectangle myArea;
     private final Rectangle myListArea;
     private final Rectangle myDetailArea;
     private final Rectangle myItemCtrlArea;
-    private final SolUiControl myPrevCtrl;
-    private final SolUiControl myUpCtrl;
     private final Vector2 myDetailHeaderPos;
     private final Vector2 myListHeaderPos;
-    private InventoryOperations myOperations;
+
     private int myPage;
     private List<SolItem> mySelected;
+    private InventoryOperations myOperations;
 
-    public InventoryScreen(float r, GameOptions gameOptions) {
-        myControls = new ArrayList<SolUiControl>();
-
+    public InventoryScreen(float resolutionRatio, GameOptions gameOptions) {
         float contentW = .8f;
-        float col0 = r / 2 - contentW / 2;
+        float col0 = resolutionRatio / 2 - contentW / 2;
         float row0 = .2f;
         float row = row0;
         float bgGap = MenuLayout.BG_BORDER;
@@ -80,34 +83,34 @@ public class InventoryScreen implements SolUiScreen {
         float headerH = .03f;
 
         // list header & controls
-        myListHeaderPos = new Vector2(col0 + HEADER_TEXT_OFFS, row + HEADER_TEXT_OFFS); // offset hack
+        myListHeaderPos = new Vector2(col0 + HEADER_TEXT_OFFSET, row + HEADER_TEXT_OFFSET); // offset hack
         float listCtrlW = contentW * .15f;
         Rectangle nextArea = new Rectangle(col0 + contentW - listCtrlW, row, listCtrlW, headerH);
-        nextCtrl = new SolUiControl(nextArea, true, gameOptions.getKeyRight());
-        nextCtrl.setDisplayName(">");
-        myControls.add(nextCtrl);
+        nextControl = new SolUiControl(nextArea, true, gameOptions.getKeyRight());
+        nextControl.setDisplayName(">");
+        controls.add(nextControl);
         Rectangle prevArea = new Rectangle(nextArea.x - SMALL_GAP - listCtrlW, row, listCtrlW, headerH);
-        myPrevCtrl = new SolUiControl(prevArea, true, gameOptions.getKeyLeft());
-        myPrevCtrl.setDisplayName("<");
-        myControls.add(myPrevCtrl);
+        previousControl = new SolUiControl(prevArea, true, gameOptions.getKeyLeft());
+        previousControl.setDisplayName("<");
+        controls.add(previousControl);
         row += headerH + SMALL_GAP;
 
         // list
         float itemRowH = .04f;
         float listRow0 = row;
-        itemCtrls = new SolUiControl[Const.ITEM_GROUPS_PER_PAGE];
+        itemControls = new SolUiControl[Const.ITEM_GROUPS_PER_PAGE];
         for (int i = 0; i < Const.ITEM_GROUPS_PER_PAGE; i++) {
             Rectangle itemR = new Rectangle(col0, row, contentW, itemRowH);
             SolUiControl itemCtrl = new SolUiControl(itemR, true);
-            itemCtrls[i] = itemCtrl;
-            myControls.add(itemCtrl);
+            itemControls[i] = itemCtrl;
+            controls.add(itemCtrl);
             row += itemRowH + SMALL_GAP;
         }
         myListArea = new Rectangle(col0, row, contentW, row - SMALL_GAP - listRow0);
         row += bigGap;
 
         // detail header & area
-        myDetailHeaderPos = new Vector2(col0 + HEADER_TEXT_OFFS, row + HEADER_TEXT_OFFS); // offset hack
+        myDetailHeaderPos = new Vector2(col0 + HEADER_TEXT_OFFSET, row + HEADER_TEXT_OFFSET); // offset hack
         row += headerH + SMALL_GAP;
         float itemCtrlAreaW = contentW * .4f;
         myItemCtrlArea = new Rectangle(col0 + contentW - itemCtrlAreaW, row, itemCtrlAreaW, .2f);
@@ -117,47 +120,47 @@ public class InventoryScreen implements SolUiScreen {
         // whole
         myArea = new Rectangle(col0 - bgGap, row0 - bgGap, contentW + bgGap * 2, row - row0 + bgGap * 2);
 
-        closeCtrl = new SolUiControl(itemCtrl(3), true, gameOptions.getKeyClose());
-        closeCtrl.setDisplayName("Close");
-        myControls.add(closeCtrl);
+        closeControl = new SolUiControl(itemCtrl(3), true, gameOptions.getKeyClose());
+        closeControl.setDisplayName("Close");
+        controls.add(closeControl);
 
         showInventory = new ShowInventory(this, gameOptions);
         buyItems = new BuyItems(this, gameOptions);
         sellItems = new SellItems(this, gameOptions);
         changeShip = new ChangeShip(this, gameOptions);
         hireShips = new HireShips(this, gameOptions);
-        myUpCtrl = new SolUiControl(null, true, gameOptions.getKeyUp());
-        myControls.add(myUpCtrl);
-        downCtrl = new SolUiControl(null, true, gameOptions.getKeyDown());
-        myControls.add(downCtrl);
+        upControl = new SolUiControl(null, true, gameOptions.getKeyUp());
+        controls.add(upControl);
+        downControl = new SolUiControl(null, true, gameOptions.getKeyDown());
+        controls.add(downControl);
     }
 
     @Override
     public List<SolUiControl> getControls() {
-        return myControls;
+        return controls;
     }
 
     @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
+    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
         if (clickedOutside) {
-            closeCtrl.maybeFlashPressed(cmp.getOptions().getKeyClose());
+            closeControl.maybeFlashPressed(solApplication.getOptions().getKeyClose());
             return;
         }
-        if (closeCtrl.isJustOff()) {
-            cmp.getInputMan().setScreen(cmp, cmp.getGame().getScreens().mainScreen);
+        if (closeControl.isJustOff()) {
+            solApplication.getInputMan().setScreen(solApplication, solApplication.getGame().getScreens().mainScreen);
             if (myOperations != showInventory) {
-                cmp.getInputMan().addScreen(cmp, cmp.getGame().getScreens().talkScreen);
+                solApplication.getInputMan().addScreen(solApplication, solApplication.getGame().getScreens().talkScreen);
             }
             return;
         }
-        if (myPrevCtrl.isJustOff()) {
+        if (previousControl.isJustOff()) {
             myPage--;
         }
-        if (nextCtrl.isJustOff()) {
+        if (nextControl.isJustOff()) {
             myPage++;
         }
 
-        ItemContainer ic = myOperations.getItems(cmp.getGame());
+        ItemContainer ic = myOperations.getItems(solApplication.getGame());
         if (ic == null) {
             ic = EMPTY_CONTAINER;
         }
@@ -173,8 +176,8 @@ public class InventoryScreen implements SolUiScreen {
             myPage = pageCount - 1;
         }
 
-        myPrevCtrl.setEnabled(0 < myPage);
-        nextCtrl.setEnabled(myPage < pageCount - 1);
+        previousControl.setEnabled(0 < myPage);
+        nextControl.setEnabled(myPage < pageCount - 1);
 
         if (!ic.containsGroup(mySelected)) {
             mySelected = null;
@@ -182,8 +185,8 @@ public class InventoryScreen implements SolUiScreen {
         int selIdx = -1;
         int offset = myPage * Const.ITEM_GROUPS_PER_PAGE;
         boolean hNew = showingHeroItems();
-        for (int i = 0; i < itemCtrls.length; i++) {
-            SolUiControl itemCtrl = itemCtrls[i];
+        for (int i = 0; i < itemControls.length; i++) {
+            SolUiControl itemCtrl = itemControls[i];
             int groupIdx = offset + i;
             boolean ctrlEnabled = groupIdx < groupCount;
             itemCtrl.setEnabled(ctrlEnabled);
@@ -204,14 +207,14 @@ public class InventoryScreen implements SolUiScreen {
         if (selIdx < 0 && groupCount > 0) {
             mySelected = ic.getGroup(offset);
         }
-        if (myUpCtrl.isJustOff() && selIdx > 0) {
+        if (upControl.isJustOff() && selIdx > 0) {
             selIdx--;
             mySelected = ic.getGroup(selIdx);
             if (selIdx < offset) {
                 myPage--;
             }
         }
-        if (downCtrl.isJustOff() && selIdx < groupCount - 1) {
+        if (downControl.isJustOff() && selIdx < groupCount - 1) {
             selIdx++;
             mySelected = ic.getGroup(selIdx);
             if (selIdx >= offset + Const.ITEM_GROUPS_PER_PAGE) {
@@ -224,44 +227,44 @@ public class InventoryScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
-        return myArea.contains(ptr.x, ptr.y);
+    public boolean isCursorOnBg(SolInputManager.Ptr pointer) {
+        return myArea.contains(pointer.x, pointer.y);
     }
 
     @Override
-    public void onAdd(SolApplication cmp) {
+    public void onAdd(SolApplication solApplication) {
         if (myOperations != null) {
-            cmp.getInputMan().addScreen(cmp, myOperations);
+            solApplication.getInputMan().addScreen(solApplication, myOperations);
         }
         myPage = 0;
         mySelected = null;
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
+    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.draw(myArea, SolColor.UI_BG);
     }
 
     @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
-        SolGame game = cmp.getGame();
+    public void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) {
+        SolGame game = solApplication.getGame();
         ItemContainer ic = myOperations.getItems(game);
         if (ic == null) {
             ic = EMPTY_CONTAINER;
         }
 
         float imgColW = myListArea.width * IMG_COL_PERC;
-        float rowH = itemCtrls[0].getScreenArea().height;
+        float rowH = itemControls[0].getScreenArea().height;
         float imgSz = imgColW < rowH ? imgColW : rowH;
 
         uiDrawer.draw(myDetailArea, SolColor.UI_INACTIVE);
-        for (int i = 0; i < itemCtrls.length; i++) {
+        for (int i = 0; i < itemControls.length; i++) {
             int groupIdx = myPage * Const.ITEM_GROUPS_PER_PAGE + i;
             int groupCount = ic.groupCount();
             if (groupCount <= groupIdx) {
                 continue;
             }
-            SolUiControl itemCtrl = itemCtrls[i];
+            SolUiControl itemCtrl = itemControls[i];
             List<SolItem> group = ic.getGroup(groupIdx);
             SolItem item = group.get(0);
             TextureAtlas.AtlasRegion tex = item.getIcon(game);
@@ -273,8 +276,8 @@ public class InventoryScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-        SolGame game = cmp.getGame();
+    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
+        SolGame game = solApplication.getGame();
         ItemContainer ic = myOperations.getItems(game);
         if (ic == null) {
             ic = EMPTY_CONTAINER;
@@ -285,13 +288,13 @@ public class InventoryScreen implements SolUiScreen {
         float priceWidth = myListArea.width * PRICE_COL_PERC;
         float amtWidth = myListArea.width * AMT_COL_PERC;
         float nameWidth = myListArea.width - imgColW - equiColW - priceWidth - amtWidth;
-        for (int i = 0; i < itemCtrls.length; i++) {
+        for (int i = 0; i < itemControls.length; i++) {
             int groupIdx = myPage * Const.ITEM_GROUPS_PER_PAGE + i;
             int groupCount = ic.groupCount();
             if (groupCount <= groupIdx) {
                 continue;
             }
-            SolUiControl itemCtrl = itemCtrls[i];
+            SolUiControl itemCtrl = itemControls[i];
             List<SolItem> group = ic.getGroup(groupIdx);
             SolItem item = group.get(0);
             Rectangle rect = itemCtrl.getScreenArea();
@@ -327,11 +330,11 @@ public class InventoryScreen implements SolUiScreen {
     }
 
     @Override
-    public void blurCustom(SolApplication cmp) {
+    public void blurCustom(SolApplication solApplication) {
         if (!showingHeroItems()) {
             return;
         }
-        SolGame game = cmp.getGame();
+        SolGame game = solApplication.getGame();
         ItemContainer items = myOperations.getItems(game);
         if (items != null) {
             items.seenAll();
@@ -343,7 +346,7 @@ public class InventoryScreen implements SolUiScreen {
     }
 
     public Rectangle itemCtrl(int row) {
-        float h = (myItemCtrlArea.height - SMALL_GAP * (BTN_ROWS - 1)) / BTN_ROWS;
+        float h = (myItemCtrlArea.height - SMALL_GAP * (BUTTON_ROWS - 1)) / BUTTON_ROWS;
         return new Rectangle(myItemCtrlArea.x, myItemCtrlArea.y + (h + SMALL_GAP) * row, myItemCtrlArea.width, h);
     }
 
@@ -378,13 +381,13 @@ public class InventoryScreen implements SolUiScreen {
             return controls;
         }
 
-        for (int i = 0; i < itemCtrls.length; i++) {
+        for (int i = 0; i < itemControls.length; i++) {
             int groupIdx = myPage * Const.ITEM_GROUPS_PER_PAGE + i;
             int groupCount = ic.groupCount();
             if (groupCount <= groupIdx) {
                 continue;
             }
-            SolUiControl itemCtrl = itemCtrls[i];
+            SolUiControl itemCtrl = itemControls[i];
             List<SolItem> group = ic.getGroup(groupIdx);
             SolItem item = group.get(0);
             if (myOperations.isUsing(game, item)) {

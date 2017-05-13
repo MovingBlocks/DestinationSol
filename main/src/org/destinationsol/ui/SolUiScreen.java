@@ -23,19 +23,35 @@ import java.util.List;
 public interface SolUiScreen {
     List<SolUiControl> getControls();
 
-    void onAdd(SolApplication cmp);
+    default void onAdd(SolApplication solApplication) {
+        // Intentionally left blank
+    }
 
-    void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside);
+    default void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+        // Intentionally left blank
+    }
 
-    boolean isCursorOnBg(SolInputManager.Ptr ptr);
+    default boolean isCursorOnBg(SolInputManager.Ptr pointer) {
+        return false;
+    }
 
-    void blurCustom(SolApplication cmp);
+    default void blurCustom(SolApplication solApplication) {
+        // Intentionally left blank
+    }
 
-    void drawBg(UiDrawer uiDrawer, SolApplication cmp);
+    default void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
+        // Intentionally left blank
+    }
 
-    void drawImgs(UiDrawer uiDrawer, SolApplication cmp);
+    default void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) {
+        // Intentionally left blank
+    }
 
-    void drawText(UiDrawer uiDrawer, SolApplication cmp);
+    default void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
+        // Intentionally left blank
+    }
 
-    boolean reactsToClickOutside();
+    default boolean reactsToClickOutside() {
+        return false;
+    }
 }

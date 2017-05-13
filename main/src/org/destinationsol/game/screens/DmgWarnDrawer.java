@@ -20,8 +20,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.ship.SolShip;
 
 public class DmgWarnDrawer extends WarnDrawer {
-
-    public DmgWarnDrawer(float r) {
+    DmgWarnDrawer(float r) {
         super(r, "Heavily Damaged");
     }
 

@@ -30,98 +30,62 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapScreen implements SolUiScreen {
-    public final SolUiControl closeCtrl;
-    public final SolUiControl zoomInCtrl;
-    public final SolUiControl zoomOutCtrl;
-    private final List<SolUiControl> myControls;
+    private final List<SolUiControl> controls = new ArrayList<>();
+    private final SolUiControl zoomOutControl;
+    public final SolUiControl closeControl;
+    public final SolUiControl zoomInControl;
 
-    public MapScreen(RightPaneLayout rightPaneLayout, boolean mobile, float r, GameOptions gameOptions) {
-        myControls = new ArrayList<SolUiControl>();
-
+    MapScreen(RightPaneLayout rightPaneLayout, boolean mobile, float r, GameOptions gameOptions) {
         Rectangle closeArea = mobile ? MainScreen.btn(0, MainScreen.HELPER_ROW_1, true) : rightPaneLayout.buttonRect(1);
-        closeCtrl = new SolUiControl(closeArea, true, gameOptions.getKeyMap(), gameOptions.getKeyClose());
-        closeCtrl.setDisplayName("Close");
-        myControls.add(closeCtrl);
+        closeControl = new SolUiControl(closeArea, true, gameOptions.getKeyMap(), gameOptions.getKeyClose());
+        closeControl.setDisplayName("Close");
+        controls.add(closeControl);
         float row0 = 1 - MainScreen.CELL_SZ;
         float row1 = row0 - MainScreen.CELL_SZ;
-        float colN = r - MainScreen.CELL_SZ;
         Rectangle zoomInArea = mobile ? MainScreen.btn(0, row1, false) : rightPaneLayout.buttonRect(2);
-        zoomInCtrl = new SolUiControl(zoomInArea, true, gameOptions.getKeyZoomIn());
-        zoomInCtrl.setDisplayName("Zoom In");
-        myControls.add(zoomInCtrl);
+        zoomInControl = new SolUiControl(zoomInArea, true, gameOptions.getKeyZoomIn());
+        zoomInControl.setDisplayName("Zoom In");
+        controls.add(zoomInControl);
         Rectangle zoomOutArea = mobile ? MainScreen.btn(0, row0, false) : rightPaneLayout.buttonRect(3);
-        zoomOutCtrl = new SolUiControl(zoomOutArea, true, gameOptions.getKeyZoomOut());
-        zoomOutCtrl.setDisplayName("Zoom Out");
-        myControls.add(zoomOutCtrl);
+        zoomOutControl = new SolUiControl(zoomOutArea, true, gameOptions.getKeyZoomOut());
+        zoomOutControl.setDisplayName("Zoom Out");
+        controls.add(zoomOutControl);
     }
 
     @Override
     public List<SolUiControl> getControls() {
-        return myControls;
+        return controls;
     }
 
     @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
-        SolGame g = cmp.getGame();
-        GameOptions gameOptions = cmp.getOptions();
-        boolean justClosed = closeCtrl.isJustOff();
-        MapDrawer mapDrawer = g.getMapDrawer();
+    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+        SolGame game = solApplication.getGame();
+        GameOptions gameOptions = solApplication.getOptions();
+        boolean justClosed = closeControl.isJustOff();
+        MapDrawer mapDrawer = game.getMapDrawer();
         mapDrawer.setToggled(!justClosed);
-        SolInputManager im = cmp.getInputMan();
+        SolInputManager im = solApplication.getInputMan();
         if (justClosed) {
-            im.setScreen(cmp, g.getScreens().mainScreen);
+            im.setScreen(solApplication, game.getScreens().mainScreen);
         }
-        boolean zoomIn = zoomInCtrl.isJustOff();
-        if (zoomIn || zoomOutCtrl.isJustOff()) {
+        boolean zoomIn = zoomInControl.isJustOff();
+        if (zoomIn || zoomOutControl.isJustOff()) {
             mapDrawer.changeZoom(zoomIn);
         }
         float mapZoom = mapDrawer.getZoom();
-        zoomInCtrl.setEnabled(mapZoom != MapDrawer.MIN_ZOOM);
-        zoomOutCtrl.setEnabled(mapZoom != MapDrawer.MAX_ZOOM);
-        ShipUiControl sc = g.getScreens().mainScreen.shipControl;
+        zoomInControl.setEnabled(mapZoom != MapDrawer.MIN_ZOOM);
+        zoomOutControl.setEnabled(mapZoom != MapDrawer.MAX_ZOOM);
+        ShipUiControl sc = game.getScreens().mainScreen.shipControl;
         if (sc instanceof ShipMouseControl) {
-            sc.update(cmp, true);
+            sc.update(solApplication, true);
         }
         Boolean scrolledUp = im.getScrolledUp();
         if (scrolledUp != null) {
             if (scrolledUp) {
-                zoomOutCtrl.maybeFlashPressed(gameOptions.getKeyZoomOut());
+                zoomOutControl.maybeFlashPressed(gameOptions.getKeyZoomOut());
             } else {
-                zoomInCtrl.maybeFlashPressed(gameOptions.getKeyZoomIn());
+                zoomInControl.maybeFlashPressed(gameOptions.getKeyZoomIn());
             }
         }
-    }
-
-    @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
-    }
-
-    @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-    }
-
-    @Override
-    public boolean reactsToClickOutside() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
-        return false;
-    }
-
-    @Override
-    public void onAdd(SolApplication cmp) {
-
-    }
-
-    @Override
-    public void blurCustom(SolApplication cmp) {
-
     }
 }

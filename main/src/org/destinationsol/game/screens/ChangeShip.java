@@ -37,31 +37,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChangeShip implements InventoryOperations {
+    private final ArrayList<SolUiControl> controls = new ArrayList<>();
+    private final SolUiControl changeControl;
 
-    private final ArrayList<SolUiControl> myControls;
-    private final SolUiControl myBuyCtrl;
-
-    public ChangeShip(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        myControls = new ArrayList<SolUiControl>();
-
-        myBuyCtrl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyChangeShip());
-        myBuyCtrl.setDisplayName("Change");
-        myControls.add(myBuyCtrl);
+    ChangeShip(InventoryScreen inventoryScreen, GameOptions gameOptions) {
+        changeControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyChangeShip());
+        changeControl.setDisplayName("Change");
+        controls.add(changeControl);
     }
 
     @Override
     public ItemContainer getItems(SolGame game) {
         return game.getScreens().talkScreen.getTarget().getTradeContainer().getShips();
-    }
-
-    @Override
-    public boolean isUsing(SolGame game, SolItem item) {
-        return false;
-    }
-
-    @Override
-    public float getPriceMul() {
-        return 1;
     }
 
     @Override
@@ -71,40 +58,40 @@ public class ChangeShip implements InventoryOperations {
 
     @Override
     public List<SolUiControl> getControls() {
-        return myControls;
+        return controls;
     }
 
     @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
-        SolGame game = cmp.getGame();
+    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+        SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
         SolShip hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
         if (talkScreen.isTargetFar(hero)) {
-            cmp.getInputMan().setScreen(cmp, game.getScreens().mainScreen);
+            solApplication.getInputMan().setScreen(solApplication, game.getScreens().mainScreen);
             return;
         }
         SolItem selItem = is.getSelectedItem();
         if (selItem == null) {
-            myBuyCtrl.setDisplayName("---");
-            myBuyCtrl.setEnabled(false);
+            changeControl.setDisplayName("---");
+            changeControl.setEnabled(false);
             return;
         }
         boolean enabled = hasMoneyToBuyShip(hero, selItem);
         boolean sameShip = isSameShip(hero, selItem);
         if (enabled && !sameShip) {
-            myBuyCtrl.setDisplayName("Change");
-            myBuyCtrl.setEnabled(true);
+            changeControl.setDisplayName("Change");
+            changeControl.setEnabled(true);
         } else if (enabled && sameShip) {
-            myBuyCtrl.setDisplayName("Have it");
-            myBuyCtrl.setEnabled(false);
+            changeControl.setDisplayName("Have it");
+            changeControl.setEnabled(false);
             return;
         } else {
-            myBuyCtrl.setDisplayName("---");
-            myBuyCtrl.setEnabled(false);
+            changeControl.setDisplayName("---");
+            changeControl.setEnabled(false);
             return;
         }
-        if (myBuyCtrl.isJustOff()) {
+        if (changeControl.isJustOff()) {
             hero.setMoney(hero.getMoney() - selItem.getPrice());
             changeShip(game, hero, (ShipItem) selItem);
         }
@@ -136,40 +123,5 @@ public class ChangeShip implements InventoryOperations {
                 ei, new ShipRepairer(), hero.getMoney(), hero.getTradeContainer(), hero.getShield(), hero.getArmor());
         game.getObjMan().removeObjDelayed(hero);
         game.getObjMan().addObjDelayed(newHero);
-    }
-
-    @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
-        return false;
-    }
-
-    @Override
-    public void onAdd(SolApplication cmp) {
-
-    }
-
-    @Override
-    public void blurCustom(SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public boolean reactsToClickOutside() {
-        return false;
     }
 }

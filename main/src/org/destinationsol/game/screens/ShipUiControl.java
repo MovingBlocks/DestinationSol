@@ -20,7 +20,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.SolApplication;
 
 public interface ShipUiControl {
-    void update(SolApplication cmp, boolean enabled);
+    default void update(SolApplication solApplication, boolean enabled) {
+        // Intentionally left blank
+    }
 
     boolean isLeft();
 
@@ -36,7 +38,11 @@ public interface ShipUiControl {
 
     boolean isAbility();
 
-    TextureAtlas.AtlasRegion getInGameTex();
+    default TextureAtlas.AtlasRegion getInGameTex() {
+        return null;
+    }
 
-    void blur();
+    default void blur() {
+        // Intentionally left blank
+    }
 }

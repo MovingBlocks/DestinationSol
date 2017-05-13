@@ -85,50 +85,50 @@ public class TutorialManager {
         }
 
         if (mobile) {
-            s("Have a look at the map", main.mapCtrl, true);
+            s("Have a look at the map", main.mapControl, true);
         } else {
-            s("Have a look at the map\n(" + gameOptions.getKeyMapName() + " key)", main.mapCtrl, true);
+            s("Have a look at the map\n(" + gameOptions.getKeyMapName() + " key)", main.mapControl, true);
         }
 
         if (mouseCtrl) {
-            s("Zoom in the map\n(mouse wheel UP)", screens.mapScreen.zoomInCtrl);
+            s("Zoom in the map\n(mouse wheel UP)", screens.mapScreen.zoomInControl);
         } else if (mobile) {
-            s("Zoom in the map", screens.mapScreen.zoomInCtrl);
+            s("Zoom in the map", screens.mapScreen.zoomInControl);
         } else {
-            s("Zoom in the map\n(" + gameOptions.getKeyZoomInName() + " key)", screens.mapScreen.zoomInCtrl);
+            s("Zoom in the map\n(" + gameOptions.getKeyZoomInName() + " key)", screens.mapScreen.zoomInControl);
         }
 
         if (mobile) {
-            s("Close the map", screens.mapScreen.closeCtrl, true);
+            s("Close the map", screens.mapScreen.closeControl, true);
         } else {
             s("Close the map\n(" + gameOptions.getKeyMapName() + " or " + gameOptions.getKeyCloseName() + " keys)",
-                    screens.mapScreen.closeCtrl, true);
+                    screens.mapScreen.closeControl, true);
         }
 
         if (mouseCtrl || mobile) {
-            s("Have a look\nat your inventory", main.invCtrl, true);
+            s("Have a look\nat your inventory", main.inventoryControl, true);
         } else {
-            s("Have a look\nat your inventory (" + gameOptions.getKeyInventoryName() + " key)", main.invCtrl, true);
+            s("Have a look\nat your inventory (" + gameOptions.getKeyInventoryName() + " key)", main.inventoryControl, true);
         }
 
         if (mouseCtrl || mobile) {
-            s("In the inventory,\nselect the second row", screens.inventoryScreen.itemCtrls[1]);
+            s("In the inventory,\nselect the second row", screens.inventoryScreen.itemControls[1]);
         } else {
             s("In the inventory,\nselect the next item (" + gameOptions.getKeyDownName() + " key)",
-                    screens.inventoryScreen.downCtrl);
+                    screens.inventoryScreen.downControl);
         }
 
         if (mouseCtrl || mobile) {
-            s("Go to the next page", screens.inventoryScreen.nextCtrl, true);
+            s("Go to the next page", screens.inventoryScreen.nextControl, true);
         } else {
-            s("Go to the next page\n(" + gameOptions.getKeyRightName() + " key)", screens.inventoryScreen.nextCtrl, true);
+            s("Go to the next page\n(" + gameOptions.getKeyRightName() + " key)", screens.inventoryScreen.nextControl, true);
         }
 
         if (mouseCtrl || mobile) {
-            s("Throw away some item\nyou don't use", screens.inventoryScreen.showInventory.dropCtrl);
+            s("Throw away some item\nyou don't use", screens.inventoryScreen.showInventory.dropControl);
         } else {
             s("Throw away some item\nyou don't use (" + gameOptions.getKeyDropName() + " key)",
-                    screens.inventoryScreen.showInventory.dropCtrl);
+                    screens.inventoryScreen.showInventory.dropControl);
         }
 
         // Extra step to make sure an equipped item is selected before asking player to unequip
@@ -139,22 +139,22 @@ public class TutorialManager {
         }
 
         if (mobile) {
-            s("Unequip the item\nthat is used now", screens.inventoryScreen.showInventory.eq1Ctrl);
+            s("Unequip the item\nthat is used now", screens.inventoryScreen.showInventory.eq1Control);
         } else {
             s("Unequip the item\nthat is used now (" + gameOptions.getKeyEquipName() + " key)",
-                    screens.inventoryScreen.showInventory.eq1Ctrl);
+                    screens.inventoryScreen.showInventory.eq1Control);
         }
 
         if (mobile) {
-            s("Now equip it again", screens.inventoryScreen.showInventory.eq1Ctrl);
+            s("Now equip it again", screens.inventoryScreen.showInventory.eq1Control);
         } else {
-            s("Now equip it again\n(" + gameOptions.getKeyEquipName() + " key)", screens.inventoryScreen.showInventory.eq1Ctrl);
+            s("Now equip it again\n(" + gameOptions.getKeyEquipName() + " key)", screens.inventoryScreen.showInventory.eq1Control);
         }
 
         if (mobile) {
-            s("Close the inventory\n(Touch the screen outside inventory)", screens.inventoryScreen.closeCtrl, true);
+            s("Close the inventory\n(Touch the screen outside inventory)", screens.inventoryScreen.closeControl, true);
         } else {
-            s("Close the inventory (" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.closeCtrl, true);
+            s("Close the inventory (" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.closeControl, true);
         }
 
         if (mouseCtrl) {
@@ -166,33 +166,33 @@ public class TutorialManager {
         }
 
         if (mobile) {
-            s("Fly closer to the station\nand talk with it", main.talkCtrl, true);
+            s("Fly closer to the station\nand talk with it", main.talkControl, true);
         } else {
-            s("Fly closer to the station\nand talk with it (" + gameOptions.getKeyTalkName() + " key)", main.talkCtrl, true);
+            s("Fly closer to the station\nand talk with it (" + gameOptions.getKeyTalkName() + " key)", main.talkControl, true);
         }
 
         if (mouseCtrl || mobile) {
-            s("See what there is to buy", screens.talkScreen.buyCtrl, true);
+            s("See what there is to buy", screens.talkScreen.buyControl, true);
         } else {
-            s("See what there is to buy\n(" + gameOptions.getKeyBuyMenuName() + " key)", screens.talkScreen.buyCtrl, true);
+            s("See what there is to buy\n(" + gameOptions.getKeyBuyMenuName() + " key)", screens.talkScreen.buyControl, true);
         }
 
         if (mobile) {
-            s("Buy some item", screens.inventoryScreen.buyItems.buyCtrl);
+            s("Buy some item", screens.inventoryScreen.buyItems.buyControl);
         } else {
-            s("Buy some item\n(" + gameOptions.getKeyBuyItemName() + " key)", screens.inventoryScreen.buyItems.buyCtrl);
+            s("Buy some item\n(" + gameOptions.getKeyBuyItemName() + " key)", screens.inventoryScreen.buyItems.buyControl);
         }
 
         if (mobile) {
-            s("Close the Buy screen\n(Touch the screen outside inventory)", screens.inventoryScreen.closeCtrl, true);
+            s("Close the Buy screen\n(Touch the screen outside inventory)", screens.inventoryScreen.closeControl, true);
         } else {
-            s("Close the Buy screen\n(" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.closeCtrl, true);
+            s("Close the Buy screen\n(" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.closeControl, true);
         }
 
         if (mobile) {
-            s("Close the Talk screen\n(Touch the screen outside inventory)", screens.talkScreen.closeCtrl, true);
+            s("Close the Talk screen\n(Touch the screen outside inventory)", screens.talkScreen.closeControl, true);
         } else {
-            s("Close the Talk screen\n(" + gameOptions.getKeyCloseName() + " key)", screens.talkScreen.closeCtrl, true);
+            s("Close the Talk screen\n(" + gameOptions.getKeyCloseName() + " key)", screens.talkScreen.closeControl, true);
         }
 
         if (mouseCtrl) {

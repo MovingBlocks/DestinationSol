@@ -38,15 +38,11 @@ import java.util.List;
 public class InputMapControllerScreen implements InputMapOperations {
     private static final String HEADER_TEXT = "Controller Inputs";
     private static Logger logger = LoggerFactory.getLogger(InputMapControllerScreen.class);
-    private final ArrayList<SolUiControl> controls;
+    private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private boolean isEnterNewKey;
-    private List<InputConfigItem> itemsList = new ArrayList<InputConfigItem>();
+    private List<InputConfigItem> itemsList = new ArrayList<>();
     private int selectedIndex;
     private int controllerItems;
-
-    public InputMapControllerScreen(InputMapScreen inputMapScreen, GameOptions gameOptions) {
-        controls = new ArrayList<SolUiControl>();
-    }
 
     private InputConfigItem InitItem(int axis, int button, String displayName) {
         String inputName;
@@ -57,8 +53,7 @@ public class InputMapControllerScreen implements InputMapOperations {
         } else {
             inputName = (isAxis ? "Axis: " : "Button: ") + controllerInput;
         }
-        InputConfigItem item = new InputConfigItem(displayName, inputName, isAxis, controllerInput);
-        return item;
+        return new InputConfigItem(displayName, inputName, isAxis, controllerInput);
     }
 
     private void InitialiseList(GameOptions gameOptions) {
@@ -187,10 +182,6 @@ public class InputMapControllerScreen implements InputMapOperations {
         return controls;
     }
 
-    @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
-    }
-
     /**
      * Remove button if it is already assigned to prevent duplicate buttons
      *
@@ -219,40 +210,11 @@ public class InputMapControllerScreen implements InputMapOperations {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-    }
-
-    @Override
-    public boolean reactsToClickOutside() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
-        return false;
-    }
-
-    @Override
-    public void onAdd(SolApplication cmp) {
-        InitialiseList(cmp.getOptions());
+    public void onAdd(SolApplication solApplication) {
+        InitialiseList(solApplication.getOptions());
         Controllers.clearListeners();
         isEnterNewKey = false;
         selectedIndex = 0;
-    }
-
-    @Override
-    public void blurCustom(SolApplication cmp) {
-
     }
 
     @Override
