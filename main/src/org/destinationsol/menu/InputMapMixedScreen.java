@@ -140,7 +140,7 @@ public class InputMapMixedScreen implements InputMapOperations {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+    public void updateCustom(SolApplication solApplication, SolInputManager.Pointer[] pointers, boolean clickedOutside) {
     }
 
     /**
@@ -174,7 +174,7 @@ public class InputMapMixedScreen implements InputMapOperations {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
+    public boolean isCursorOnBg(SolInputManager.Pointer pointer) {
         return false;
     }
 

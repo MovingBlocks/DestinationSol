@@ -43,7 +43,7 @@ import java.util.Map;
 public final class HullConfigManager {
 
     public static final String PROPERTIES_FILE_NAME = "properties.json";
-    public static final String TEXTURE_FILE_NAME = "texture.png";
+    public static final String TEXTURE_FILE_NAME = "atlas.png";
     public static final String ICON_FILE_NAME = "icon.png";
     private final FileManager fileManager;
     private final TextureManager textureManager;

@@ -24,7 +24,6 @@ import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +54,7 @@ public class ShowInventory implements InventoryOperations {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+    public void updateCustom(SolApplication solApplication, SolInputManager.Pointer[] pointers, boolean clickedOutside) {
         SolGame g = solApplication.getGame();
         InventoryScreen is = g.getScreens().inventoryScreen;
         SolItem selItem = is.getSelectedItem();

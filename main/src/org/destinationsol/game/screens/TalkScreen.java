@@ -75,7 +75,7 @@ public class TalkScreen implements SolUiScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+    public void updateCustom(SolApplication solApplication, SolInputManager.Pointer[] pointers, boolean clickedOutside) {
         if (clickedOutside) {
             closeControl.maybeFlashPressed(solApplication.getOptions().getKeyClose());
             return;
@@ -123,7 +123,7 @@ public class TalkScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr pointer) {
+    public boolean isCursorOnBg(SolInputManager.Pointer pointer) {
         return bg.contains(pointer.x, pointer.y);
     }
 

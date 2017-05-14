@@ -23,7 +23,6 @@ import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import org.destinationsol.assets.AssetHelper;
-import org.destinationsol.assets.TextureMap.TextureMap;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DebugOptions;
@@ -38,7 +37,6 @@ import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.assets.ResourceUrn;
 import org.terasology.module.ModuleEnvironment;
 
 import java.io.PrintWriter;
@@ -90,7 +88,7 @@ public class SolApplication implements ApplicationListener {
         myTextureManager = new TextureManager(assetHelper);
         myCommonDrawer = new CommonDrawer();
         myUiDrawer = new UiDrawer(myTextureManager, myCommonDrawer);
-        myInputMan = new SolInputManager(myTextureManager, soundManager, myUiDrawer.r);
+        myInputMan = new SolInputManager(myTextureManager, soundManager);
         myLayouts = new SolLayouts(myUiDrawer.r);
         myMenuScreens = new MenuScreens(myLayouts, myTextureManager, isMobile(), myUiDrawer.r, myOptions);
 
@@ -250,7 +248,8 @@ public class SolApplication implements ApplicationListener {
         return soundManager;
     }
 
-    public void paused() {
+    // TODO: Why do we even have this method? Look into it's removal.
+    public void pauseApplication() {
         if (myGame != null) {
             myGame.saveShip();
         }

@@ -50,7 +50,7 @@ public class NewShipScreen implements SolUiScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+    public void updateCustom(SolApplication solApplication, SolInputManager.Pointer[] pointers, boolean clickedOutside) {
         if (cancelControl.isJustOff()) {
             solApplication.getInputMan().setScreen(solApplication, solApplication.getMenuScreens().newGame);
             return;

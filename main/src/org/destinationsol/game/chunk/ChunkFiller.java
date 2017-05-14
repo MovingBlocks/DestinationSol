@@ -247,9 +247,9 @@ public class ChunkFiller {
         TextureManager textureManager = game.getTexMan();
 
         for (int i = 0; i < count; i++) {
-            // Select a random far junk texture
+            // Select a random far junk atlas
             TextureAtlas.AtlasRegion tex = SolMath.elemRnd(conf.farJunkTexs);
-            // Flip texture for every other piece of junk
+            // Flip atlas for every other piece of junk
             if (SolMath.test(.5f)) {
                 tex = textureManager.getFlipped(tex);
             }
@@ -296,9 +296,9 @@ public class ChunkFiller {
             // Select a random position in the chunk centered around chCenter, relative to the entire map.
             Vector2 junkPos = getRndPos(chCenter);
 
-            // Select a random junk texture
+            // Select a random junk atlas
             TextureAtlas.AtlasRegion tex = SolMath.elemRnd(conf.junkTexs);
-            // Flip texture for every other piece of junk
+            // Flip atlas for every other piece of junk
             if (SolMath.test(.5f)) {
                 tex = game.getTexMan().getFlipped(tex);
             }

@@ -58,25 +58,25 @@ public class SolUiControl {
         return false;
     }
 
-    public boolean maybeFlashPressed(SolInputManager.Ptr ptr) {
+    public boolean maybeFlashPressed(SolInputManager.Pointer pointer) {
         if (!myEnabled) {
             return false;
         }
-        boolean pressed = myScreenArea != null && myScreenArea.contains(ptr.x, ptr.y);
+        boolean pressed = myScreenArea != null && myScreenArea.contains(pointer.x, pointer.y);
         if (pressed) {
             myAreaFlash = true;
         }
         return pressed;
     }
 
-    public void update(SolInputManager.Ptr[] ptrs, boolean cursorShown, boolean canBePressed, SolInputManager inputMan,
+    public void update(SolInputManager.Pointer[] pointers, boolean cursorShown, boolean canBePressed, SolInputManager inputMan,
                        SolApplication cmp) {
         if (!myEnabled) {
             canBePressed = false;
         }
         updateKeys(canBePressed);
-        updateArea(ptrs, canBePressed);
-        updateHover(ptrs, cursorShown, inputMan, cmp);
+        updateArea(pointers, canBePressed);
+        updateHover(pointers, cursorShown, inputMan, cmp);
         if (myWithSound && isJustOff()) {
             inputMan.playClick(cmp);
         }
@@ -85,12 +85,12 @@ public class SolUiControl {
         }
     }
 
-    private void updateHover(SolInputManager.Ptr[] ptrs, boolean cursorShown, SolInputManager inputMan, SolApplication cmp) {
-        if (myScreenArea == null || myAreaPressed || ptrs[0].pressed) {
+    private void updateHover(SolInputManager.Pointer[] pointers, boolean cursorShown, SolInputManager inputMan, SolApplication cmp) {
+        if (myScreenArea == null || myAreaPressed || pointers[0].pressed) {
             return;
         }
         boolean prev = myMouseHover;
-        myMouseHover = cursorShown && myScreenArea.contains(ptrs[0].x, ptrs[0].y);
+        myMouseHover = cursorShown && myScreenArea.contains(pointers[0].x, pointers[0].y);
         if (myWithSound && myMouseHover && !prev) {
             inputMan.playHover(cmp);
         }
@@ -116,7 +116,7 @@ public class SolUiControl {
         }
     }
 
-    private void updateArea(SolInputManager.Ptr[] ptrs, boolean canBePressed) {
+    private void updateArea(SolInputManager.Pointer[] pointers, boolean canBePressed) {
         if (myScreenArea == null) {
             return;
         }
@@ -127,13 +127,13 @@ public class SolUiControl {
         } else {
             myAreaPressed = false;
             if (canBePressed) {
-                for (int i = 0, ptrsLength = ptrs.length; i < ptrsLength; i++) {
-                    SolInputManager.Ptr ptr = ptrs[i];
-                    if (!myScreenArea.contains(ptr.x, ptr.y)) {
+                for (int i = 0, ptrsLength = pointers.length; i < ptrsLength; i++) {
+                    SolInputManager.Pointer pointer = pointers[i];
+                    if (!myScreenArea.contains(pointer.x, pointer.y)) {
                         continue;
                     }
-                    myAreaPressed = ptr.pressed;
-                    myAreaJustUnpressed = !ptr.pressed && ptr.prevPressed;
+                    myAreaPressed = pointer.pressed;
+                    myAreaJustUnpressed = !pointer.pressed && pointer.prevPressed;
                     break;
                 }
             }

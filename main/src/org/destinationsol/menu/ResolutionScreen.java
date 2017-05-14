@@ -61,7 +61,7 @@ public class ResolutionScreen implements SolUiScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+    public void updateCustom(SolApplication solApplication, SolInputManager.Pointer[] pointers, boolean clickedOutside) {
         SolInputManager inputManager = solApplication.getInputMan();
         GameOptions options = solApplication.getOptions();
 
