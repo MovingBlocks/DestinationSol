@@ -17,7 +17,6 @@
 package org.destinationsol;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -29,8 +28,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.files.FileManager;
+import org.terasology.assets.ResourceUrn;
 
 public class CommonDrawer {
     public final float w;
@@ -43,16 +43,14 @@ public class CommonDrawer {
     private final TextureChecker myTextureChecker;
     private final GlyphLayout layout;
 
-    public CommonDrawer() {
+    public CommonDrawer(AssetHelper assetHelper) {
         myTextureChecker = new TextureChecker();
         w = Gdx.graphics.getWidth();
         h = Gdx.graphics.getHeight();
         r = w / h;
         mySpriteBatch = new SpriteBatch();
 
-        final FileHandle fontFile = FileManager.getInstance().getFontsDirectory().child("main.fnt");
-        myFont = new BitmapFont(fontFile, true);
-        myFont.setUseIntegerPositions(false);
+        myFont = assetHelper.getFont(new ResourceUrn("Core:main")).get().getBitmapFont();
 
         myOrigFontHeight = myFont.getXHeight();
 

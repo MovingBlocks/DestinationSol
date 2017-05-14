@@ -89,7 +89,7 @@ public class SolInputManager {
         hoverSound = soundManager.getSound("Core:uiHover");
     }
 
-    private static void setPtrPos(Pointer pointer, int screenX, int screenY) {
+    private static void setPointerPosition(Pointer pointer, int screenX, int screenY) {
         int h = Gdx.graphics.getHeight();
         float currentRatio = ((float) Gdx.graphics.getWidth()) / ((float) Gdx.graphics.getHeight());
 
@@ -121,7 +121,7 @@ public class SolInputManager {
     }
 
     void maybeFlashPressed(int x, int y) {
-        setPtrPos(flashPointer, x, y);
+        setPointerPosition(flashPointer, x, y);
         for (SolUiScreen screen : screens) {
             List<SolUiControl> controls = screen.getControls();
             for (SolUiControl control : controls) {
@@ -302,7 +302,7 @@ public class SolInputManager {
             Pointer pointer = pointers[i];
             int screenX = Gdx.input.getX(i);
             int screenY = Gdx.input.getY(i);
-            setPtrPos(pointer, screenX, screenY);
+            setPointerPosition(pointer, screenX, screenY);
             pointer.prevPressed = pointer.pressed;
             pointer.pressed = Gdx.input.isTouched(i);
         }
