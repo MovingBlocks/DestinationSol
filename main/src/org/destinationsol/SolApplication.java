@@ -86,7 +86,7 @@ public class SolApplication implements ApplicationListener {
 
         soundManager = new OggSoundManager(assetHelper);
         myTextureManager = new TextureManager(assetHelper);
-        myCommonDrawer = new CommonDrawer();
+        myCommonDrawer = new CommonDrawer(assetHelper);
         myUiDrawer = new UiDrawer(myTextureManager, myCommonDrawer);
         myInputMan = new SolInputManager(myTextureManager, soundManager);
         myLayouts = new SolLayouts(myUiDrawer.r);
