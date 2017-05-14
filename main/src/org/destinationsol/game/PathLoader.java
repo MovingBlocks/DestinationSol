@@ -378,8 +378,8 @@ public class PathLoader {
     /**
      * This needs refactoring...
      *
-     * @param dras a texture will be added here
-     * @param tex  pass if you already have a texture.. So hacky!
+     * @param dras a atlas will be added here
+     * @param tex  pass if you already have a atlas.. So hacky!
      */
     public Body getBodyAndSprite(SolGame game, HullConfig hullConfig, float scale, BodyDef.BodyType type,
                                  Vector2 pos, float angle, List<Dra> dras, float density, DraLevel level, TextureAtlas.AtlasRegion tex) {
@@ -423,10 +423,10 @@ public class PathLoader {
     /**
      * This needs refactoring...
      *
-     * @param texDirName used only to load a texture
-     * @param texName    used both to load a texture and to load a path from the path file. should be just a file name without a path or extension
-     * @param dras       a texture will be added here
-     * @param tex        pass if you already have a texture.. So hacky!
+     * @param texDirName used only to load a atlas
+     * @param texName    used both to load a atlas and to load a path from the path file. should be just a file name without a path or extension
+     * @param dras       a atlas will be added here
+     * @param tex        pass if you already have a atlas.. So hacky!
      */
     public Body getBodyAndSprite(SolGame game, String texDirName, String texName, float scale, BodyDef.BodyType type,
                                  Vector2 pos, float angle, List<Dra> dras, float density, DraLevel level, TextureAtlas.AtlasRegion tex) {

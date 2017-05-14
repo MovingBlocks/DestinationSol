@@ -140,7 +140,7 @@ public class InputMapScreen implements SolUiScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
+    public void updateCustom(SolApplication cmp, SolInputManager.Pointer[] pointers, boolean clickedOutside) {
         GameOptions gameOptions = cmp.getOptions();
         SolInputManager im = cmp.getInputMan();
         MenuScreens screens = cmp.getMenuScreens();
@@ -301,7 +301,7 @@ public class InputMapScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr pointer) {
+    public boolean isCursorOnBg(SolInputManager.Pointer pointer) {
         return false;
     }
 

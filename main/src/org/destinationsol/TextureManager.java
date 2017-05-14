@@ -72,7 +72,7 @@ public class TextureManager {
         }
 
         if (result == null) {
-            throw new AssertionError("texture not found: " + textureFile.path());
+            throw new AssertionError("atlas not found: " + textureFile.path());
         }
 
         return result;
