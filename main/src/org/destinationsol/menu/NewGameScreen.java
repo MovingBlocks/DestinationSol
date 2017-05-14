@@ -22,7 +22,6 @@ import org.destinationsol.game.SaveManager;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
-import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,7 @@ public class NewGameScreen implements SolUiScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+    public void updateCustom(SolApplication solApplication, SolInputManager.Pointer[] pointers, boolean clickedOutside) {
         MenuScreens screens = solApplication.getMenuScreens();
         SolInputManager im = solApplication.getInputMan();
         if (backControl.isJustOff()) {
@@ -80,7 +79,7 @@ public class NewGameScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr pointer) {
+    public boolean isCursorOnBg(SolInputManager.Pointer pointer) {
         return true;
     }
 }

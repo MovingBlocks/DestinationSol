@@ -38,7 +38,7 @@ public class LoadingScreen implements SolUiScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+    public void updateCustom(SolApplication solApplication, SolInputManager.Pointer[] pointers, boolean clickedOutside) {
         solApplication.startNewGame(loadTutorial, usePreviousShip);
     }
 

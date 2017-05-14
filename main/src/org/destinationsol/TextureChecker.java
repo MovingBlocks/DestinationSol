@@ -32,7 +32,7 @@ public class TextureChecker {
 
     private void evt(Texture texture, String name) {
         if (texture == null || name == null || name.isEmpty()) {
-            throw new AssertionError("null texture or no texture name");
+            throw new AssertionError("null atlas or no atlas name");
         }
         if (myAwait > 0) {
             return;

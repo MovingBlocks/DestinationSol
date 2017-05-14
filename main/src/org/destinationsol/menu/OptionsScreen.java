@@ -75,7 +75,7 @@ public class OptionsScreen implements SolUiScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+    public void updateCustom(SolApplication solApplication, SolInputManager.Pointer[] pointers, boolean clickedOutside) {
         SolInputManager inputManager = solApplication.getInputMan();
         MenuScreens screens = solApplication.getMenuScreens();
         GameOptions options = solApplication.getOptions();

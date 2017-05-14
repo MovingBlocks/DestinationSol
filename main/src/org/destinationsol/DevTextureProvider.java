@@ -48,7 +48,7 @@ public class DevTextureProvider implements TextureProvider {
             tex = new Texture(fh);
         } else {
             tex = myMissingTex;
-            String msg = "texture not found: " + fh;
+            String msg = "atlas not found: " + fh;
             DebugOptions.MISSING_TEXTURE_ACTION.handle(msg);
         }
         String definedBy = configFile == null ? "hardcoded" : configFile.toString();

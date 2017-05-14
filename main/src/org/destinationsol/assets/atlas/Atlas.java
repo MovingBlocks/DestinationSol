@@ -13,19 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.assets.TextureMap;
+package org.destinationsol.assets.atlas;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import org.terasology.assets.AssetData;
+import org.terasology.assets.Asset;
+import org.terasology.assets.AssetType;
+import org.terasology.assets.ResourceUrn;
 
-public class TextureMapData implements AssetData {
-    private TextureAtlas textureAtlas;
+public class Atlas extends Asset<AtlasData> {
+    private AtlasData atlasData;
 
-    public TextureMapData(TextureAtlas textureAtlas) {
-        this.textureAtlas = textureAtlas;
+    public Atlas(ResourceUrn urn, AssetType<?, AtlasData> assetType, AtlasData data) {
+        super(urn, assetType);
+        reload(data);
+    }
+
+    @Override
+    protected void doReload(AtlasData data) {
+        this.atlasData = data;
     }
 
     public TextureAtlas getTextureAtlas() {
-        return textureAtlas;
+        return atlasData.getTextureAtlas();
     }
 }

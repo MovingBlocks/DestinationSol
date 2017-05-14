@@ -35,7 +35,6 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +65,7 @@ public class HireShips implements InventoryOperations {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+    public void updateCustom(SolApplication solApplication, SolInputManager.Pointer[] pointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
         SolShip hero = game.getHero();

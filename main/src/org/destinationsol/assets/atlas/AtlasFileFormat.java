@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.assets.TextureMap;
+package org.destinationsol.assets.atlas;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -29,13 +29,13 @@ import java.nio.file.Paths;
 import java.util.List;
 
 @RegisterAssetFileFormat
-public class TextureMapFileFormat extends AbstractAssetFileFormat<TextureMapData> {
-    public TextureMapFileFormat() {
+public class AtlasFileFormat extends AbstractAssetFileFormat<AtlasData> {
+    public AtlasFileFormat() {
         super("atlas");
     }
 
     @Override
-    public TextureMapData load(ResourceUrn urn, List<AssetDataFile> inputs) throws IOException {
+    public AtlasData load(ResourceUrn urn, List<AssetDataFile> inputs) throws IOException {
         String pathString = "";
         if (DebugOptions.DEV_ROOT_PATH != null) {
             pathString = DebugOptions.DEV_ROOT_PATH;
@@ -50,6 +50,6 @@ public class TextureMapFileFormat extends AbstractAssetFileFormat<TextureMapData
         pathString += inputs.get(0).getFilename();
 
         FileHandle handle = new FileHandle(Paths.get(pathString).toFile());
-        return new TextureMapData(new TextureAtlas(handle, true));
+        return new AtlasData(new TextureAtlas(handle, true));
     }
 }

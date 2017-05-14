@@ -65,7 +65,7 @@ public class MenuScreen implements SolUiScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.Ptr[] pointers, boolean clickedOutside) {
+    public void updateCustom(SolApplication solApplication, SolInputManager.Pointer[] pointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         game.setPaused(true);
         SolInputManager im = solApplication.getInputMan();
@@ -104,7 +104,7 @@ public class MenuScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
+    public boolean isCursorOnBg(SolInputManager.Pointer pointer) {
         return true;
     }
 }

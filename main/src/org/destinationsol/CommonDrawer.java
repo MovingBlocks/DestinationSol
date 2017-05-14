@@ -112,7 +112,7 @@ public class CommonDrawer {
         if (tr instanceof TextureAtlas.AtlasRegion) {
             myTextureChecker.onReg((TextureAtlas.AtlasRegion) tr);
         } else {
-            throw new AssertionError("Unexpected texture class");
+            throw new AssertionError("Unexpected atlas class");
         }
         mySpriteBatch.draw(tr, x - origX, y - origY, origX, origY, width, height, 1, 1, rot);
     }

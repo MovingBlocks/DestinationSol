@@ -24,10 +24,10 @@ import java.util.ArrayList;
 
 interface TextureProvider {
     /**
-     * Reads a image file and returns it as a usable texture.
+     * Reads a image file and returns it as a usable atlas.
      *
-     * @param textureFile The image file for the texture.
-     * @return The texture.
+     * @param textureFile The image file for the atlas.
+     * @return The atlas.
      */
     TextureAtlas.AtlasRegion getTexture(FileHandle textureFile);
 

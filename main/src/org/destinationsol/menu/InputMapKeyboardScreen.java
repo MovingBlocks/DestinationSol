@@ -181,7 +181,7 @@ public class InputMapKeyboardScreen implements InputMapOperations {
     }
 
     @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.Ptr[] ptrs, boolean clickedOutside) {
+    public void updateCustom(SolApplication cmp, SolInputManager.Pointer[] pointers, boolean clickedOutside) {
     }
 
     /**
@@ -217,7 +217,7 @@ public class InputMapKeyboardScreen implements InputMapOperations {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.Ptr ptr) {
+    public boolean isCursorOnBg(SolInputManager.Pointer pointer) {
         return false;
     }
 
