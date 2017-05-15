@@ -248,7 +248,7 @@ public class SolApplication implements ApplicationListener {
         return soundManager;
     }
 
-    // TODO: Why do we even have this method? Look into it's removal.
+    // TODO: Why do we even have this method? Look into its removal.
     public void pauseApplication() {
         if (myGame != null) {
             myGame.saveShip();

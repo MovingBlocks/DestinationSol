@@ -58,7 +58,7 @@ public class NewGameScreen implements SolUiScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.Pointer[] pointers, boolean clickedOutside) {
+    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         MenuScreens screens = solApplication.getMenuScreens();
         SolInputManager im = solApplication.getInputMan();
         if (backControl.isJustOff()) {
@@ -79,7 +79,7 @@ public class NewGameScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.Pointer pointer) {
+    public boolean isCursorOnBg(SolInputManager.InputPointer inputPointer) {
         return true;
     }
 }

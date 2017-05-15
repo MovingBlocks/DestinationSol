@@ -33,12 +33,12 @@ public class PlanetTiles {
 
     private final Map<SurfaceDirection, Map<SurfaceDirection, List<Tile>>> myGroundTiles;
 
-    public PlanetTiles(TextureManager textureManager, String groundFolder, FileHandle configFile) {
+    public PlanetTiles(TextureManager textureManager, String groundFolder) {
         myGroundTiles = new HashMap<>();
-        loadGround(textureManager, groundFolder, configFile);
+        loadGround(textureManager, groundFolder);
     }
 
-    private void loadGround(TextureManager textureManager, String groundFolder, FileHandle configFile) {
+    private void loadGround(TextureManager textureManager, String groundFolder) {
         PathLoader pathLoader = new PathLoader(groundFolder);
         PathLoader.Model paths = pathLoader.getInternalModel();
 
@@ -53,7 +53,7 @@ public class PlanetTiles {
                 String fromL = from.getLetter();
                 String toL = to.getLetter();
                 String tileDescName = inverted ? toL + fromL : fromL + toL;
-                ArrayList<TextureAtlas.AtlasRegion> texs = textureManager.getPack(groundFolder + "/" + tileDescName, configFile);
+                ArrayList<TextureAtlas.AtlasRegion> texs = textureManager.getPack(groundFolder + "/" + tileDescName);
                 ArrayList<Tile> tileVariants = buildTiles(textureManager, paths, inverted, tileDescName, from, to, texs);
                 fromMap.put(to, tileVariants);
             }
@@ -62,7 +62,7 @@ public class PlanetTiles {
 
     private ArrayList<Tile> buildTiles(TextureManager textureManager, PathLoader.Model paths, boolean inverted, String tileDescName,
                                        SurfaceDirection from, SurfaceDirection to, ArrayList<TextureAtlas.AtlasRegion> texs) {
-        ArrayList<Tile> tileVariants = new ArrayList<Tile>();
+        ArrayList<Tile> tileVariants = new ArrayList<>();
         for (TextureAtlas.AtlasRegion tex : texs) {
             if (inverted) {
                 tex = textureManager.getFlipped(tex);

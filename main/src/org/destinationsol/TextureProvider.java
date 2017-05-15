@@ -35,7 +35,7 @@ interface TextureProvider {
 
     Sprite createSprite(String name);
 
-    ArrayList<TextureAtlas.AtlasRegion> getTexs(String name, FileHandle configFile);
+    ArrayList<TextureAtlas.AtlasRegion> getTexs(String name);
 
     TextureAtlas.AtlasRegion getCopy(TextureAtlas.AtlasRegion tex);
 }

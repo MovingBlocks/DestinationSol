@@ -78,12 +78,12 @@ public class TextureManager {
         return result;
     }
 
-    public ArrayList<TextureAtlas.AtlasRegion> getPack(String name, FileHandle configFile) {
+    public ArrayList<TextureAtlas.AtlasRegion> getPack(String name) {
         ArrayList<TextureAtlas.AtlasRegion> r = myPacks.get(name);
         if (r != null) {
             return r;
         }
-        r = textureProvider.getTexs(name, configFile);
+        r = textureProvider.getTexs(name);
         if (r.size() == 0) {
             throw new AssertionError("textures not found: " + name);
         }
@@ -91,11 +91,11 @@ public class TextureManager {
         return r;
     }
 
-    public TextureAtlas.AtlasRegion getRndTex(String name, Boolean flipped, FileHandle configFile) {
+    public TextureAtlas.AtlasRegion getRndTex(String name, Boolean flipped) {
         if (flipped == null) {
             flipped = SolMath.test(.5f);
         }
-        ArrayList<TextureAtlas.AtlasRegion> pack = getPack(name, configFile);
+        ArrayList<TextureAtlas.AtlasRegion> pack = getPack(name);
         TextureAtlas.AtlasRegion r = SolMath.elemRnd(pack);
         if (flipped) {
             r = getFlipped(r);
