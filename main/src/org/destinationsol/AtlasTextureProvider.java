@@ -48,7 +48,7 @@ class AtlasTextureProvider implements TextureProvider {
 
     @Override
     public ArrayList<TextureAtlas.AtlasRegion> getTexs(String name, FileHandle configFile) {
-        ArrayList<TextureAtlas.AtlasRegion> r = new ArrayList<TextureAtlas.AtlasRegion>();
+        ArrayList<TextureAtlas.AtlasRegion> r = new ArrayList<>();
         for (TextureAtlas.AtlasRegion rr : myAtlas.findRegions(name)) {
             r.add(rr);
         }

@@ -7,11 +7,9 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.SolFileReader;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.menu.InputMapControllerScreen;
 import org.destinationsol.soundtest.SoundTestListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.event.Level;
 import org.terasology.crashreporter.CrashReporter;
 
 import java.io.*;

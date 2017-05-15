@@ -18,6 +18,7 @@ package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.gun.GunConfig;
@@ -44,16 +45,15 @@ public class ItemManager {
     private final SolItemTypes myTypes;
     private final RepairItem myRepairExample;
 
-    public ItemManager(TextureManager textureManager, OggSoundManager soundManager, EffectTypes effectTypes, GameColors gameColors) {
-
+    public ItemManager(TextureManager textureManager, OggSoundManager soundManager, EffectTypes effectTypes, GameColors gameColors, AssetHelper assetHelper) {
         moneyIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "money");
         medMoneyIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "medMoney");
         bigMoneyIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "bigMoney");
         repairIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "repairItem");
 
         myTypes = new SolItemTypes(soundManager, gameColors);
-        projConfigs = new ProjectileConfigs(textureManager, soundManager, effectTypes, gameColors);
-        myEngineConfigs = EngineItem.Configs.load(soundManager, textureManager, effectTypes, gameColors);
+        projConfigs = new ProjectileConfigs(textureManager, soundManager, effectTypes, gameColors, assetHelper);
+        myEngineConfigs = EngineItem.Configs.load(soundManager, textureManager, effectTypes, gameColors, assetHelper);
 
         Shield.Config.loadConfigs(this, soundManager, textureManager, myTypes);
         Armor.Config.loadConfigs(this, soundManager, textureManager, myTypes);

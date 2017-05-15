@@ -19,6 +19,7 @@ package org.destinationsol.game;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.game.particle.EffectConfig;
@@ -34,9 +35,9 @@ public class AbilityCommonConfig {
         this.activatedSound = activatedSound;
     }
 
-    public static AbilityCommonConfig load(JsonValue node, EffectTypes types, TextureManager textureManager, GameColors cols,
-                                           FileHandle configFile, OggSoundManager soundManager) {
-        EffectConfig ec = EffectConfig.load(node.get("effect"), types, textureManager, configFile, cols);
+    public static AbilityCommonConfig load(JsonValue node, EffectTypes types, TextureManager textureManager,
+                                           GameColors cols, OggSoundManager soundManager, AssetHelper assetHelper) {
+        EffectConfig ec = EffectConfig.load(node.get("effect"), types, textureManager, cols, assetHelper);
         OggSound activatedSound = soundManager.getSound(node.getString("activatedSound"));
         return new AbilityCommonConfig(ec, activatedSound);
     }

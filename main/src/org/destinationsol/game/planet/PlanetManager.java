@@ -60,10 +60,10 @@ public class PlanetManager {
         mySysConfigs = new SysConfigs(textureManager, hullConfigs, itemManager);
         myMazeConfigs = new MazeConfigs(textureManager, hullConfigs, itemManager);
 
-        mySystems = new ArrayList<SolSystem>();
-        myMazes = new ArrayList<Maze>();
-        myPlanets = new ArrayList<Planet>();
-        myBelts = new ArrayList<SystemBelt>();
+        mySystems = new ArrayList<>();
+        myMazes = new ArrayList<>();
+        myPlanets = new ArrayList<>();
+        myBelts = new ArrayList<>();
         myFlatPlaceFinder = new FlatPlaceFinder();
         mySunSingleton = new SunSingleton(textureManager);
         myPlanetCore = new PlanetCoreSingleton(textureManager);
@@ -75,13 +75,11 @@ public class PlanetManager {
 
     public void update(SolGame game) {
         Vector2 camPos = game.getCam().getPos();
-        for (int i = 0, myPlanetsSize = myPlanets.size(); i < myPlanetsSize; i++) {
-            Planet p = myPlanets.get(i);
-            p.update(game);
+        for (Planet planet : myPlanets) {
+            planet.update(game);
         }
-        for (int i = 0, myMazesSize = myMazes.size(); i < myMazesSize; i++) {
-            Maze m = myMazes.get(i);
-            m.update(game);
+        for (Maze maze : myMazes) {
+            maze.update(game);
         }
 
         myNearestPlanet = getNearestPlanet(camPos);
@@ -93,12 +91,11 @@ public class PlanetManager {
     public Planet getNearestPlanet(Vector2 pos) {
         float minDst = Float.MAX_VALUE;
         Planet res = null;
-        for (int i = 0, myPlanetsSize = myPlanets.size(); i < myPlanetsSize; i++) {
-            Planet p = myPlanets.get(i);
-            float dst = pos.dst(p.getPos());
+        for (Planet planet : myPlanets) {
+            float dst = pos.dst(planet.getPos());
             if (dst < minDst) {
                 minDst = dst;
-                res = p;
+                res = planet;
             }
         }
         return res;
@@ -113,8 +110,7 @@ public class PlanetManager {
         float npGravConst = myNearestPlanet.getGravConst();
 
         List<SolObject> objs = game.getObjMan().getObjs();
-        for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
-            SolObject obj = objs.get(i);
+        for (SolObject obj : objs) {
             if (!obj.receivesGravity()) {
                 continue;
             }
@@ -236,12 +232,11 @@ public class PlanetManager {
     public SolSystem getNearestSystem(Vector2 pos) {
         float minDst = Float.MAX_VALUE;
         SolSystem res = null;
-        for (int i = 0, mySystemsSize = mySystems.size(); i < mySystemsSize; i++) {
-            SolSystem s = mySystems.get(i);
-            float dst = pos.dst(s.getPos());
+        for (SolSystem system : mySystems) {
+            float dst = pos.dst(system.getPos());
             if (dst < minDst) {
                 minDst = dst;
-                res = s;
+                res = system;
             }
         }
         return res;
@@ -250,12 +245,11 @@ public class PlanetManager {
     public Maze getNearestMaze(Vector2 pos) {
         float minDst = Float.MAX_VALUE;
         Maze res = null;
-        for (int i = 0, myMazesSize = myMazes.size(); i < myMazesSize; i++) {
-            Maze m = myMazes.get(i);
-            float dst = pos.dst(m.getPos());
+        for (Maze maze : myMazes) {
+            float dst = pos.dst(maze.getPos());
             if (dst < minDst) {
                 minDst = dst;
-                res = m;
+                res = maze;
             }
         }
         return res;

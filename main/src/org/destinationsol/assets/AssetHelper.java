@@ -18,6 +18,7 @@ package org.destinationsol.assets;
 import org.destinationsol.assets.atlas.Atlas;
 import org.destinationsol.assets.audio.OggMusic;
 import org.destinationsol.assets.audio.OggSound;
+import org.destinationsol.assets.emitter.Emitter;
 import org.destinationsol.assets.font.Font;
 import org.terasology.assets.Asset;
 import org.terasology.assets.AssetData;
@@ -38,6 +39,7 @@ public class AssetHelper {
         assetTypeManager.registerCoreAssetType(OggMusic.class, OggMusic::new, "music");
         assetTypeManager.registerCoreAssetType(Atlas.class, Atlas::new, "atlas");
         assetTypeManager.registerCoreAssetType(Font.class, Font::new, "fonts");
+        assetTypeManager.registerCoreAssetType(Emitter.class, Emitter::new, "emitters");
 
         assetTypeManager.switchEnvironment(environment);
     }
@@ -64,5 +66,9 @@ public class AssetHelper {
 
     public Optional<Font> getFont(ResourceUrn urn) {
         return get(urn, Font.class);
+    }
+
+    public Optional<Emitter> getEmitter(ResourceUrn urn) {
+        return get(urn, Emitter.class);
     }
 }

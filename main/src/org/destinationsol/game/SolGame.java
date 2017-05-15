@@ -129,10 +129,10 @@ public class SolGame {
         myFarBackgroundManagerOld = new FarBackgroundManagerOld(myTextureManager);
         myShipBuilder = new ShipBuilder();
         myEffectTypes = new EffectTypes();
-        mySpecialEffects = new SpecialEffects(myEffectTypes, myTextureManager, gameColors);
-        myItemManager = new ItemManager(myTextureManager, soundManager, myEffectTypes, gameColors);
-        myAbilityCommonConfigs = new AbilityCommonConfigs(myEffectTypes, myTextureManager, gameColors, soundManager);
-        hullConfigManager = new HullConfigManager(myShipBuilder, FileManager.getInstance(), textureManager, myItemManager, myAbilityCommonConfigs);
+        mySpecialEffects = new SpecialEffects(myEffectTypes, myTextureManager, gameColors, assetHelper);
+        myItemManager = new ItemManager(myTextureManager, soundManager, myEffectTypes, gameColors, assetHelper);
+        myAbilityCommonConfigs = new AbilityCommonConfigs(myEffectTypes, myTextureManager, gameColors, soundManager, assetHelper);
+        hullConfigManager = new HullConfigManager(FileManager.getInstance(), textureManager, myItemManager, myAbilityCommonConfigs);
         myNames = new SolNames();
         myPlanetManager = new PlanetManager(myTextureManager, hullConfigManager, gameColors, myItemManager);
         SolContactListener contactListener = new SolContactListener(this);
@@ -151,7 +151,7 @@ public class SolGame {
         myDraDebugger = new DraDebugger();
         myBeaconHandler = new BeaconHandler(textureManager);
         myMountDetectDrawer = new MountDetectDrawer(textureManager);
-        myRespawnItems = new ArrayList<SolItem>();
+        myRespawnItems = new ArrayList<>();
         myTimeFactor = 1;
 
         // from this point we're ready!

@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.game.GameColors;
@@ -29,6 +30,7 @@ import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.game.sound.OggSoundSet;
+import org.terasology.assets.Asset;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -143,15 +145,15 @@ public class EngineItem implements SolItem {
             this.example = new EngineItem(this);
         }
 
-        private static Config load(OggSoundManager soundManager, FileHandle configFile, JsonValue sh, EffectTypes effectTypes,
-                                   TextureManager textureManager, GameColors cols) {
+        private static Config load(OggSoundManager soundManager, JsonValue sh, EffectTypes effectTypes,
+                                   TextureManager textureManager, GameColors cols, AssetHelper assetHelper) {
             boolean big = sh.getBoolean("big");
             float rotAcc = big ? 100f : 515f;
             float acc = 2f;
             float maxRotSpd = big ? 40f : 230f;
             List<String> workSoundUrns = Arrays.asList(sh.get("workSounds").asStringArray());
             OggSoundSet workSoundSet = new OggSoundSet(soundManager, workSoundUrns);
-            EffectConfig effectConfig = EffectConfig.load(sh.get("effect"), effectTypes, textureManager, configFile, cols);
+            EffectConfig effectConfig = EffectConfig.load(sh.get("effect"), effectTypes, textureManager, cols, assetHelper);
             return new Config(null, 0, null, rotAcc, acc, maxRotSpd, big, workSoundSet, null, effectConfig);
         }
     }
@@ -163,13 +165,13 @@ public class EngineItem implements SolItem {
             myConfigs = configs;
         }
 
-        public static Configs load(OggSoundManager soundManager, TextureManager textureManager, EffectTypes effectTypes, GameColors cols) {
+        public static Configs load(OggSoundManager soundManager, TextureManager textureManager, EffectTypes effectTypes, GameColors cols, AssetHelper assetHelper) {
             HashMap<String, Config> configs = new HashMap<String, Config>();
             JsonReader r = new JsonReader();
             FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("engines.json");
             JsonValue parsed = r.parse(configFile);
             for (JsonValue sh : parsed) {
-                Config config = Config.load(soundManager, configFile, sh, effectTypes, textureManager, cols);
+                Config config = Config.load(soundManager, sh, effectTypes, textureManager, cols, assetHelper);
                 configs.put(sh.name(), config);
             }
             return new Configs(configs);
