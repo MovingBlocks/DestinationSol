@@ -54,7 +54,7 @@ public class ShowInventory implements InventoryOperations {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.Pointer[] pointers, boolean clickedOutside) {
+    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame g = solApplication.getGame();
         InventoryScreen is = g.getScreens().inventoryScreen;
         SolItem selItem = is.getSelectedItem();

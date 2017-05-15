@@ -40,7 +40,7 @@ public class ShardBuilder {
 
     public ShardBuilder(TextureManager textureManager) {
         myPathLoader = new PathLoader("misc");
-        myTexs = textureManager.getPack("smallGameObjects/shard", null);
+        myTexs = textureManager.getPack("smallGameObjects/shard");
     }
 
     public void buildExplosionShards(SolGame game, Vector2 pos, Vector2 baseSpd, float size) {

@@ -44,7 +44,7 @@ public class AsteroidBuilder {
 
     public AsteroidBuilder(TextureManager textureManager) {
         myPathLoader = new PathLoader("asteroids");
-        myTexs = textureManager.getPack("asteroids/sys", null);
+        myTexs = textureManager.getPack("asteroids/sys");
     }
 
     public static String removePath(String name) {

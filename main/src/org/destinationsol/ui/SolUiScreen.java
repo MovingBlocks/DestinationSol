@@ -27,11 +27,11 @@ public interface SolUiScreen {
         // Intentionally left blank
     }
 
-    default void updateCustom(SolApplication solApplication, SolInputManager.Pointer[] pointers, boolean clickedOutside) {
+    default void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         // Intentionally left blank
     }
 
-    default boolean isCursorOnBg(SolInputManager.Pointer pointer) {
+    default boolean isCursorOnBg(SolInputManager.InputPointer inputPointer) {
         return false;
     }
 

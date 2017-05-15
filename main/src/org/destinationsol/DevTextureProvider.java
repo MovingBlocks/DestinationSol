@@ -39,10 +39,10 @@ public class DevTextureProvider implements TextureProvider {
 
     @Override
     public TextureAtlas.AtlasRegion getTexture(FileHandle textureFile) {
-        return newTex(textureFile, textureFile.path(), -1, textureFile);
+        return newTex(textureFile, textureFile.path(), -1);
     }
 
-    private TextureAtlas.AtlasRegion newTex(FileHandle fh, String name, int idx, FileHandle configFile) {
+    private TextureAtlas.AtlasRegion newTex(FileHandle fh, String name, int idx) {
         Texture tex;
         if (fh.exists()) {
             tex = new Texture(fh);
@@ -51,8 +51,7 @@ public class DevTextureProvider implements TextureProvider {
             String msg = "atlas not found: " + fh;
             DebugOptions.MISSING_TEXTURE_ACTION.handle(msg);
         }
-        String definedBy = configFile == null ? "hardcoded" : configFile.toString();
-        return new SolTex(tex, name, idx, definedBy);
+        return new SolTex(tex, name, idx);
     }
 
     @Override
@@ -67,7 +66,7 @@ public class DevTextureProvider implements TextureProvider {
     }
 
     @Override
-    public ArrayList<TextureAtlas.AtlasRegion> getTexs(String name, FileHandle configFile) {
+    public ArrayList<TextureAtlas.AtlasRegion> getTexs(String name) {
         FileHandle file = FileManager.getInstance().getStaticFile(PREF + name + SUFF);
         FileHandle dir = file.parent();
         String baseName = file.nameWithoutExtension();
@@ -85,7 +84,7 @@ public class DevTextureProvider implements TextureProvider {
                 continue;
             }
             int idx = Integer.parseInt(parts[1]);
-            res.add(newTex(fh, name, idx, configFile));
+            res.add(newTex(fh, name, idx));
         }
         return res;
     }
@@ -93,16 +92,13 @@ public class DevTextureProvider implements TextureProvider {
     @Override
     public TextureAtlas.AtlasRegion getCopy(TextureAtlas.AtlasRegion tex) {
         SolTex st = (SolTex) tex;
-        return new SolTex(st.getTexture(), st.name, st.index, st.definedBy);
+        return new SolTex(st.getTexture(), st.name, st.index);
     }
 
     public static class SolTex extends TextureAtlas.AtlasRegion {
-        public final String definedBy;
-
-        public SolTex(Texture tex, String name, int idx, String definedBy) {
+        public SolTex(Texture tex, String name, int idx) {
             super(tex, 0, 0, tex.getWidth(), tex.getHeight());
             this.index = idx;
-            this.definedBy = definedBy;
             flip(false, true);
             this.name = name;
         }

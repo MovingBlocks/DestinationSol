@@ -58,19 +58,19 @@ public class MazeConfig {
         String dirName = "mazeTiles/" + mazeNode.name + "/";
         PathLoader pathLoader = new PathLoader("mazes/" + mazeNode.name);
         PathLoader.Model paths = pathLoader.getInternalModel();
-        List<TextureAtlas.AtlasRegion> innerBgs = textureManager.getPack(dirName + "innerBg", configFile);
-        List<TextureAtlas.AtlasRegion> borderBgs = textureManager.getPack(dirName + "borderBg", configFile);
-        ArrayList<TextureAtlas.AtlasRegion> wallTexs = textureManager.getPack(dirName + "wall", configFile);
-        ArrayList<TextureAtlas.AtlasRegion> passTexs = textureManager.getPack(dirName + "pass", configFile);
+        List<TextureAtlas.AtlasRegion> innerBgs = textureManager.getPack(dirName + "innerBg");
+        List<TextureAtlas.AtlasRegion> borderBgs = textureManager.getPack(dirName + "borderBg");
+        ArrayList<TextureAtlas.AtlasRegion> wallTexs = textureManager.getPack(dirName + "wall");
+        ArrayList<TextureAtlas.AtlasRegion> passTexs = textureManager.getPack(dirName + "pass");
 
         boolean metal = mazeNode.getBoolean("isMetal");
-        ArrayList<MazeTile> innerWalls = new ArrayList<MazeTile>();
+        ArrayList<MazeTile> innerWalls = new ArrayList<>();
         buildTiles(paths, innerWalls, true, metal, innerBgs, wallTexs);
-        ArrayList<MazeTile> innerPasses = new ArrayList<MazeTile>();
+        ArrayList<MazeTile> innerPasses = new ArrayList<>();
         buildTiles(paths, innerPasses, false, metal, innerBgs, passTexs);
-        ArrayList<MazeTile> borderWalls = new ArrayList<MazeTile>();
+        ArrayList<MazeTile> borderWalls = new ArrayList<>();
         buildTiles(paths, borderWalls, true, metal, borderBgs, wallTexs);
-        ArrayList<MazeTile> borderPasses = new ArrayList<MazeTile>();
+        ArrayList<MazeTile> borderPasses = new ArrayList<>();
         buildTiles(paths, borderPasses, false, metal, borderBgs, passTexs);
 
         ArrayList<ShipConfig> outerEnemies = ShipConfig.loadList(mazeNode.get("outerEnemies"), hullConfigs, itemManager);

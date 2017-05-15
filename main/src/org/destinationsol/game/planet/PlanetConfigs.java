@@ -38,16 +38,16 @@ public class PlanetConfigs {
     private final List<PlanetConfig> myHard;
 
     public PlanetConfigs(TextureManager textureManager, HullConfigManager hullConfigs, GameColors cols, ItemManager itemManager) {
-        myAllConfigs = new HashMap<String, PlanetConfig>();
-        myEasy = new ArrayList<PlanetConfig>();
-        myMedium = new ArrayList<PlanetConfig>();
-        myHard = new ArrayList<PlanetConfig>();
+        myAllConfigs = new HashMap<>();
+        myEasy = new ArrayList<>();
+        myMedium = new ArrayList<>();
+        myHard = new ArrayList<>();
 
         JsonReader r = new JsonReader();
         FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("planets.json");
         JsonValue parsed = r.parse(configFile);
         for (JsonValue sh : parsed) {
-            PlanetConfig c = PlanetConfig.load(textureManager, hullConfigs, configFile, sh, cols, itemManager);
+            PlanetConfig c = PlanetConfig.load(textureManager, hullConfigs, sh, cols, itemManager);
             myAllConfigs.put(sh.name, c);
             if (c.hardOnly) {
                 myHard.add(c);

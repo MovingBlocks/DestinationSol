@@ -50,8 +50,8 @@ public class SolInputManager {
     private final List<SolUiScreen> screens = new ArrayList<>();
     private final List<SolUiScreen> screenToRemove = new ArrayList<>();
     private final List<SolUiScreen> screensToAdd = new ArrayList<>();
-    private final Pointer[] pointers;
-    private final Pointer flashPointer;
+    private final InputPointer[] inputPointers;
+    private final InputPointer flashInputPointer;
     private final Vector2 mousePos;
     private final Vector2 mousePrevPos;
     private final PlayableSound hoverSound;
@@ -65,13 +65,13 @@ public class SolInputManager {
     private Boolean scrolledUp;
 
     public SolInputManager(TextureManager textureManager, OggSoundManager soundManager) {
-        pointers = new Pointer[POINTER_COUNT];
+        inputPointers = new InputPointer[POINTER_COUNT];
         for (int i = 0; i < POINTER_COUNT; i++) {
-            pointers[i] = new Pointer();
+            inputPointers[i] = new InputPointer();
         }
         SolInputProcessor sip = new SolInputProcessor(this);
         Gdx.input.setInputProcessor(sip);
-        flashPointer = new Pointer();
+        flashInputPointer = new InputPointer();
         mousePos = new Vector2();
         mousePrevPos = new Vector2();
 
@@ -89,12 +89,12 @@ public class SolInputManager {
         hoverSound = soundManager.getSound("Core:uiHover");
     }
 
-    private static void setPointerPosition(Pointer pointer, int screenX, int screenY) {
+    private static void setPointerPosition(InputPointer inputPointer, int screenX, int screenY) {
         int h = Gdx.graphics.getHeight();
         float currentRatio = ((float) Gdx.graphics.getWidth()) / ((float) Gdx.graphics.getHeight());
 
-        pointer.x = 1f * screenX / h * (initialRatio / currentRatio);
-        pointer.y = 1f * screenY / h;
+        inputPointer.x = 1f * screenX / h * (initialRatio / currentRatio);
+        inputPointer.y = 1f * screenY / h;
     }
 
     /**
@@ -121,15 +121,15 @@ public class SolInputManager {
     }
 
     void maybeFlashPressed(int x, int y) {
-        setPointerPosition(flashPointer, x, y);
+        setPointerPosition(flashInputPointer, x, y);
         for (SolUiScreen screen : screens) {
             List<SolUiControl> controls = screen.getControls();
             for (SolUiControl control : controls) {
-                if (control.maybeFlashPressed(flashPointer)) {
+                if (control.maybeFlashPressed(flashInputPointer)) {
                     return;
                 }
             }
-            if (screen.isCursorOnBg(flashPointer)) {
+            if (screen.isCursorOnBg(flashInputPointer)) {
                 return;
             }
         }
@@ -188,7 +188,7 @@ public class SolInputManager {
             boolean consumedNow = false;
             List<SolUiControl> controls = screen.getControls();
             for (SolUiControl control : controls) {
-                control.update(pointers, currCursor != null, !consumed, this, solApplication);
+                control.update(inputPointers, currCursor != null, !consumed, this, solApplication);
                 if (control.isOn() || control.isJustOff()) {
                     consumedNow = true;
                 }
@@ -202,14 +202,14 @@ public class SolInputManager {
             }
             boolean clickedOutside = false;
             if (!consumed) {
-                for (Pointer pointer : pointers) {
-                    boolean onBg = screen.isCursorOnBg(pointer);
-                    if (pointer.pressed && onBg) {
+                for (InputPointer inputPointer : inputPointers) {
+                    boolean onBg = screen.isCursorOnBg(inputPointer);
+                    if (inputPointer.pressed && onBg) {
                         clickedOutside = false;
                         consumed = true;
                         break;
                     }
-                    if (!onBg && pointer.isJustUnPressed() && !clickOutsideReacted) {
+                    if (!onBg && inputPointer.isJustUnPressed() && !clickOutsideReacted) {
                         clickedOutside = true;
                     }
                 }
@@ -217,10 +217,10 @@ public class SolInputManager {
             if (clickedOutside && screen.reactsToClickOutside()) {
                 clickOutsideReacted = true;
             }
-            if (screen.isCursorOnBg(pointers[0])) {
+            if (screen.isCursorOnBg(inputPointers[0])) {
                 mouseOnUi = true;
             }
-            screen.updateCustom(solApplication, pointers, clickedOutside);
+            screen.updateCustom(solApplication, inputPointers, clickedOutside);
         }
 
         TutorialManager tutorialManager = game == null ? null : game.getTutMan();
@@ -265,7 +265,7 @@ public class SolInputManager {
         }
         SolGame game = solApplication.getGame();
 
-        mousePos.set(pointers[0].x, pointers[0].y);
+        mousePos.set(inputPointers[0].x, inputPointers[0].y);
         if (solApplication.getOptions().controlType == GameOptions.CONTROL_MIXED || solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE) {
             if (game == null || mouseOnUi) {
                 currCursor = uiCursor;
@@ -299,12 +299,12 @@ public class SolInputManager {
 
     private void updatePointers() {
         for (int i = 0; i < POINTER_COUNT; i++) {
-            Pointer pointer = pointers[i];
+            InputPointer inputPointer = inputPointers[i];
             int screenX = Gdx.input.getX(i);
             int screenY = Gdx.input.getY(i);
-            setPointerPosition(pointer, screenX, screenY);
-            pointer.prevPressed = pointer.pressed;
-            pointer.pressed = Gdx.input.isTouched(i);
+            setPointerPosition(inputPointer, screenX, screenY);
+            inputPointer.prevPressed = inputPointer.pressed;
+            inputPointer.pressed = Gdx.input.isTouched(i);
         }
     }
 
@@ -343,8 +343,8 @@ public class SolInputManager {
         return mousePos;
     }
 
-    public Pointer[] getPtrs() {
-        return pointers;
+    public InputPointer[] getPtrs() {
+        return inputPointers;
     }
 
     public boolean isMouseOnUi() {
@@ -375,7 +375,7 @@ public class SolInputManager {
         hoverSound.getOggSound().getSound().dispose();
     }
 
-    public static class Pointer {
+    public static class InputPointer {
         public float x;
         public float y;
         public boolean pressed;
