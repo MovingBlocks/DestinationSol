@@ -509,7 +509,7 @@ public class SolGame {
     }
 
     public void drawDebugUi(UiDrawer uiDrawer) {
-        myDraDebugger.draw(uiDrawer, this);
+        myDraDebugger.draw(uiDrawer);
     }
 
     public PlayerSpawnConfig getPlayerSpawnConfig() {

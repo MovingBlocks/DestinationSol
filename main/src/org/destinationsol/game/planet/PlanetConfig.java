@@ -71,19 +71,19 @@ public class PlanetConfig {
         this.easyOnly = easyOnly;
     }
 
-    static PlanetConfig load(TextureManager textureManager, HullConfigManager hullConfigs, FileHandle configFile, JsonValue sh, GameColors cols,
+    static PlanetConfig load(TextureManager textureManager, HullConfigManager hullConfigs, JsonValue sh, GameColors cols,
                              ItemManager itemManager) {
         float minGrav = sh.getFloat("minGrav");
         float maxGrav = sh.getFloat("maxGrav");
-        List<DecoConfig> deco = DecoConfig.load(sh, textureManager, configFile);
+        List<DecoConfig> deco = DecoConfig.load(sh, textureManager);
         ArrayList<ShipConfig> groundEnemies = ShipConfig.loadList(sh.get("groundEnemies"), hullConfigs, itemManager);
         ArrayList<ShipConfig> highOrbitEnemies = ShipConfig.loadList(sh.get("highOrbitEnemies"), hullConfigs, itemManager);
         ArrayList<ShipConfig> lowOrbitEnemies = ShipConfig.loadList(sh.get("lowOrbitEnemies"), hullConfigs, itemManager);
         ShipConfig stationConfig = ShipConfig.load(hullConfigs, sh.get("station"), itemManager);
         String cloudPackName = sh.getString("cloudTexs");
-        ArrayList<TextureAtlas.AtlasRegion> cloudTexs = textureManager.getPack(cloudPackName, configFile);
+        ArrayList<TextureAtlas.AtlasRegion> cloudTexs = textureManager.getPack(cloudPackName);
         String groundFolder = sh.getString("groundTexs");
-        PlanetTiles planetTiles = new PlanetTiles(textureManager, groundFolder, configFile);
+        PlanetTiles planetTiles = new PlanetTiles(textureManager, groundFolder);
         SkyConfig skyConfig = SkyConfig.load(sh.get("sky"), cols);
         int rowCount = sh.getInt("rowCount");
         boolean smoothLandscape = sh.getBoolean("smoothLandscape", false);

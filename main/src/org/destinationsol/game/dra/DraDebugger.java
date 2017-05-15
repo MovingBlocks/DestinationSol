@@ -36,7 +36,7 @@ public class DraDebugger {
     private final Set<TextureAtlas.AtlasRegion> myCollector;
 
     public DraDebugger() {
-        myCollector = new HashSet<TextureAtlas.AtlasRegion>();
+        myCollector = new HashSet<>();
     }
 
     public void update(SolGame game) {
@@ -56,7 +56,7 @@ public class DraDebugger {
         game.getDraMan().collectTexs(myCollector, cursorPos);
     }
 
-    public void draw(UiDrawer uiDrawer, SolGame game) {
+    public void draw(UiDrawer uiDrawer) {
         if (!DebugOptions.TEX_INFO) {
             return;
         }
@@ -73,9 +73,6 @@ public class DraDebugger {
             x += TEX_SZ + GAP;
             uiDrawer.drawString(tex.name, x, y, FontSize.DEBUG, false, DebugCol.TEX_INFO);
             y += .5f * TEX_SZ;
-            String definedBy = ((DevTextureProvider.SolTex) tex).definedBy;
-            uiDrawer.drawString(definedBy, x, y, FontSize.DEBUG, false, DebugCol.TEX_INFO);
-            y += .5f * TEX_SZ + 2 * GAP;
         }
     }
 }

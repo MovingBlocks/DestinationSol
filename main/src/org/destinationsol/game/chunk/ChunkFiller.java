@@ -247,7 +247,7 @@ public class ChunkFiller {
         TextureManager textureManager = game.getTexMan();
 
         for (int i = 0; i < count; i++) {
-            // Select a random far junk atlas
+            // Select a random far junk texture
             TextureAtlas.AtlasRegion tex = SolMath.elemRnd(conf.farJunkTexs);
             // Flip atlas for every other piece of junk
             if (SolMath.test(.5f)) {

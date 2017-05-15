@@ -31,10 +31,10 @@ public class SpaceEnvConfig {
 
     public SpaceEnvConfig(JsonValue json, TextureManager textureManager, FileHandle configFile) {
         String junkTexDirStr = json.getString("junkTexs");
-        junkTexs = textureManager.getPack(junkTexDirStr, configFile);
+        junkTexs = textureManager.getPack(junkTexDirStr);
         junkDensity = json.getFloat("junkDensity");
         String farJunkTexDirStr = json.getString("farJunkTexs");
-        farJunkTexs = textureManager.getPack(farJunkTexDirStr, configFile);
+        farJunkTexs = textureManager.getPack(farJunkTexDirStr);
         farJunkDensity = json.getFloat("farJunkDensity");
     }
 }

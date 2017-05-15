@@ -57,7 +57,7 @@ public class MapScreen implements SolUiScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.Pointer[] pointers, boolean clickedOutside) {
+    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         GameOptions gameOptions = solApplication.getOptions();
         boolean justClosed = closeControl.isJustOff();

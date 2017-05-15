@@ -127,7 +127,7 @@ public class CreditsScreen implements SolUiScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.Pointer[] pointers, boolean clickedOutside) {
+    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         if (closeControl.isJustOff()) {
             solApplication.getInputMan().setScreen(solApplication, solApplication.getMenuScreens().main);
             return;
