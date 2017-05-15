@@ -21,7 +21,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.game.GameColors;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +43,12 @@ public class EffectConfig {
         this.tint = tint;
     }
 
-    public static EffectConfig load(JsonValue node, EffectTypes types, TextureManager textureManager, FileHandle configFile,
-                                    GameColors cols) {
+    public static EffectConfig load(JsonValue node, EffectTypes types, TextureManager textureManager, GameColors cols, AssetHelper assetHelper) {
         if (node == null) {
             return null;
         }
         String effectFileName = node.getString("effectFile");
-        EffectType effectType = types.forName(effectFileName);
+        EffectType effectType = types.forName(new ResourceUrn("Core:" + effectFileName), assetHelper);
         float sz = node.getFloat("size", 0);
         String texName = node.getString("tex");
         boolean floatsUp = node.getBoolean("floatsUp", false);
@@ -56,11 +57,10 @@ public class EffectConfig {
         return new EffectConfig(effectType, sz, tex, floatsUp, tint);
     }
 
-    public static List<EffectConfig> loadList(JsonValue listNode, EffectTypes types, TextureManager textureManager, FileHandle configFile,
-                                              GameColors cols) {
-        ArrayList<EffectConfig> res = new ArrayList<EffectConfig>();
+    public static List<EffectConfig> loadList(JsonValue listNode, EffectTypes types, TextureManager textureManager, GameColors cols, AssetHelper assetHelper) {
+        ArrayList<EffectConfig> res = new ArrayList<>();
         for (JsonValue node : listNode) {
-            EffectConfig ec = load(node, types, textureManager, configFile, cols);
+            EffectConfig ec = load(node, types, textureManager, cols, assetHelper);
             res.add(ec);
         }
         return res;

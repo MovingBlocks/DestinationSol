@@ -16,23 +16,19 @@
 
 package org.destinationsol.game.particle;
 
+import org.destinationsol.assets.AssetHelper;
+import org.terasology.assets.ResourceUrn;
+
 import java.util.HashMap;
 
 public class EffectTypes {
-    private final HashMap<String, EffectType> myTypes;
+    private final HashMap<ResourceUrn, EffectType> myTypes;
 
     public EffectTypes() {
-        myTypes = new HashMap<String, EffectType>();
+        myTypes = new HashMap<>();
     }
 
-    public EffectType forName(String fileName) {
-        EffectType result = myTypes.get(fileName);
-
-        if (result == null) {
-            result = new EffectType(fileName);
-            myTypes.put(fileName, result);
-        }
-
-        return result;
+    public EffectType forName(ResourceUrn effectName, AssetHelper assetHelper) {
+        return myTypes.computeIfAbsent(effectName, effect -> new EffectType(effect, assetHelper));
     }
 }

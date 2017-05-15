@@ -52,8 +52,7 @@ public final class HullConfigManager {
     private final Map<String, HullConfig> nameToConfigMap;
     private final Map<HullConfig, String> configToNameMap;
 
-    public HullConfigManager(ShipBuilder shipBuilder,
-                             FileManager fileManager,
+    public HullConfigManager(FileManager fileManager,
                              TextureManager textureManager,
                              ItemManager itemManager,
                              AbilityCommonConfigs abilityCommonConfigs
@@ -130,9 +129,7 @@ public final class HullConfigManager {
         final FileHandle propertiesFile = hullConfigDirectory.child(PROPERTIES_FILE_NAME);
         readProperties(propertiesFile, configData);
 
-        String internalName = hullConfigDirectory.nameWithoutExtension();
-
-        configData.internalName = internalName;
+        configData.internalName = hullConfigDirectory.nameWithoutExtension();
         configData.tex = textureManager.getTexture(hullConfigDirectory.child(TEXTURE_FILE_NAME).toString());
         configData.icon = textureManager.getTexture(hullConfigDirectory.child(ICON_FILE_NAME).toString());
 

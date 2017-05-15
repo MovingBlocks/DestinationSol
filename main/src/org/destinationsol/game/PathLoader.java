@@ -462,7 +462,7 @@ public class PathLoader {
     }
 
     public static class Model {
-        public final Map<String, RigidBodyModel> rigidBodies = new HashMap<String, RigidBodyModel>();
+        public final Map<String, RigidBodyModel> rigidBodies = new HashMap<>();
     }
 
     public static class RigidBodyModel {

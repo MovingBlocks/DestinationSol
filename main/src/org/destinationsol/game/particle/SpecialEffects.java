@@ -21,6 +21,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.SolGame;
@@ -41,23 +42,23 @@ public class SpecialEffects {
     private final EffectConfig myAsteroidDust;
     private final EffectConfig myForceBeacon;
 
-    public SpecialEffects(EffectTypes effectTypes, TextureManager textureManager, GameColors cols) {
+    public SpecialEffects(EffectTypes effectTypes, TextureManager textureManager, GameColors cols, AssetHelper assetHelper) {
         JsonReader r = new JsonReader();
         FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("specialEffects.json");
         JsonValue node = r.parse(configFile);
-        mySmoke = EffectConfig.load(node.get("smoke"), effectTypes, textureManager, configFile, cols);
-        myFire = EffectConfig.load(node.get("fire"), effectTypes, textureManager, configFile, cols);
-        myElectricity = EffectConfig.load(node.get("electricity"), effectTypes, textureManager, configFile, cols);
-        myShipExplSmoke = EffectConfig.load(node.get("shipExplosionSmoke"), effectTypes, textureManager, configFile, cols);
-        myShipExplFire = EffectConfig.load(node.get("shipExplosionFire"), effectTypes, textureManager, configFile, cols);
-        myAsteroidDust = EffectConfig.load(node.get("asteroidDust"), effectTypes, textureManager, configFile, cols);
-        myForceBeacon = EffectConfig.load(node.get("forceBeacon"), effectTypes, textureManager, configFile, cols);
-        starPortFlow = EffectConfig.load(node.get("starPortFlow"), effectTypes, textureManager, configFile, cols);
-        transcendentWork = EffectConfig.load(node.get("transcendentWork"), effectTypes, textureManager, configFile, cols);
+        mySmoke = EffectConfig.load(node.get("smoke"), effectTypes, textureManager, cols, assetHelper);
+        myFire = EffectConfig.load(node.get("fire"), effectTypes, textureManager, cols, assetHelper);
+        myElectricity = EffectConfig.load(node.get("electricity"), effectTypes, textureManager, cols, assetHelper);
+        myShipExplSmoke = EffectConfig.load(node.get("shipExplosionSmoke"), effectTypes, textureManager, cols, assetHelper);
+        myShipExplFire = EffectConfig.load(node.get("shipExplosionFire"), effectTypes, textureManager, cols, assetHelper);
+        myAsteroidDust = EffectConfig.load(node.get("asteroidDust"), effectTypes, textureManager, cols, assetHelper);
+        myForceBeacon = EffectConfig.load(node.get("forceBeacon"), effectTypes, textureManager, cols, assetHelper);
+        starPortFlow = EffectConfig.load(node.get("starPortFlow"), effectTypes, textureManager, cols, assetHelper);
+        transcendentWork = EffectConfig.load(node.get("transcendentWork"), effectTypes, textureManager, cols, assetHelper);
     }
 
     public List<ParticleSrc> buildBodyEffs(float objRad, SolGame game, Vector2 pos, Vector2 spd) {
-        ArrayList<ParticleSrc> res = new ArrayList<ParticleSrc>();
+        ArrayList<ParticleSrc> res = new ArrayList<>();
         float sz = objRad * .9f;
         ParticleSrc smoke = new ParticleSrc(mySmoke, sz, DraLevel.PART_FG_0, new Vector2(), true, game, pos, spd, 0);
         res.add(smoke);

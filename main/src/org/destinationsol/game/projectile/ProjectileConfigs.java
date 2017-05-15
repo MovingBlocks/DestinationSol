@@ -22,6 +22,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
@@ -38,8 +39,8 @@ public class ProjectileConfigs {
 
     private final Map<String, ProjectileConfig> myConfigs;
 
-    public ProjectileConfigs(TextureManager textureManager, OggSoundManager soundManager, EffectTypes effectTypes, GameColors cols) {
-        myConfigs = new HashMap<String, ProjectileConfig>();
+    public ProjectileConfigs(TextureManager textureManager, OggSoundManager soundManager, EffectTypes effectTypes, GameColors cols, AssetHelper assetHelper) {
+        myConfigs = new HashMap<>();
         JsonReader r = new JsonReader();
         FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("projectiles.json");
         JsonValue parsed = r.parse(configFile);
@@ -54,10 +55,10 @@ public class ProjectileConfigs {
             String collisionSoundUrn = sh.getString("collisionSound", "");
             OggSound collisionSound = collisionSoundUrn.isEmpty() ? null : soundManager.getSound(collisionSoundUrn);
             float lightSz = sh.getFloat("lightSz", 0);
-            EffectConfig trailEffect = EffectConfig.load(sh.get("trailEffect"), effectTypes, textureManager, configFile, cols);
-            EffectConfig bodyEffect = EffectConfig.load(sh.get("bodyEffect"), effectTypes, textureManager, configFile, cols);
-            EffectConfig collisionEffect = EffectConfig.load(sh.get("collisionEffect"), effectTypes, textureManager, configFile, cols);
-            EffectConfig collisionEffectBg = EffectConfig.load(sh.get("collisionEffectBg"), effectTypes, textureManager, configFile, cols);
+            EffectConfig trailEffect = EffectConfig.load(sh.get("trailEffect"), effectTypes, textureManager, cols, assetHelper);
+            EffectConfig bodyEffect = EffectConfig.load(sh.get("bodyEffect"), effectTypes, textureManager, cols, assetHelper);
+            EffectConfig collisionEffect = EffectConfig.load(sh.get("collisionEffect"), effectTypes, textureManager, cols, assetHelper);
+            EffectConfig collisionEffectBg = EffectConfig.load(sh.get("collisionEffectBg"), effectTypes, textureManager, cols, assetHelper);
             float guideRotSpd = sh.getFloat("guideRotSpd", 0);
             boolean zeroAbsSpd = sh.getBoolean("zeroAbsSpd", false);
             Vector2 origin = SolMath.readV2(sh.getString("texOrig", "0 0"));
