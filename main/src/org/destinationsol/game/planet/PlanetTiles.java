@@ -34,7 +34,7 @@ public class PlanetTiles {
     private final Map<SurfaceDirection, Map<SurfaceDirection, List<Tile>>> myGroundTiles;
 
     public PlanetTiles(TextureManager textureManager, String groundFolder, FileHandle configFile) {
-        myGroundTiles = new HashMap<SurfaceDirection, Map<SurfaceDirection, List<Tile>>>();
+        myGroundTiles = new HashMap<>();
         loadGround(textureManager, groundFolder, configFile);
     }
 
@@ -43,7 +43,7 @@ public class PlanetTiles {
         PathLoader.Model paths = pathLoader.getInternalModel();
 
         for (SurfaceDirection from : SurfaceDirection.values()) {
-            HashMap<SurfaceDirection, List<Tile>> fromMap = new HashMap<SurfaceDirection, List<Tile>>();
+            HashMap<SurfaceDirection, List<Tile>> fromMap = new HashMap<>();
             myGroundTiles.put(from, fromMap);
             for (SurfaceDirection to : SurfaceDirection.values()) {
                 if (from == SurfaceDirection.DOWN && to == SurfaceDirection.DOWN) {
@@ -68,7 +68,7 @@ public class PlanetTiles {
                 tex = textureManager.getFlipped(tex);
             }
             String tileName = tileDescName + "_" + tex.index + ".png";
-            List<Vector2> points = new ArrayList<Vector2>();
+            List<Vector2> points = new ArrayList<>();
             List<Vector2> rawPoints;
             PathLoader.RigidBodyModel tilePaths = paths == null ? null : paths.rigidBodies.get(tileName);
             List<PathLoader.PolygonModel> shapes = tilePaths == null ? null : tilePaths.shapes;
@@ -92,7 +92,7 @@ public class PlanetTiles {
     }
 
     private List<Vector2> getDefaultRawPoints(SurfaceDirection from, SurfaceDirection to, String tileName) {
-        ArrayList<Vector2> res = new ArrayList<Vector2>();
+        ArrayList<Vector2> res = new ArrayList<>();
         if (from == SurfaceDirection.UP && to == SurfaceDirection.UP) {
             return res;
         }
