@@ -41,10 +41,6 @@ import java.util.List;
 import java.util.Map;
 
 public final class HullConfigManager {
-
-    public static final String PROPERTIES_FILE_NAME = "properties.json";
-    public static final String TEXTURE_FILE_NAME = "texture.png";
-    public static final String ICON_FILE_NAME = "icon.png";
     private final FileManager fileManager;
     private final TextureManager textureManager;
     private final ItemManager itemManager;
@@ -52,11 +48,8 @@ public final class HullConfigManager {
     private final Map<String, HullConfig> nameToConfigMap;
     private final Map<HullConfig, String> configToNameMap;
 
-    public HullConfigManager(FileManager fileManager,
-                             TextureManager textureManager,
-                             ItemManager itemManager,
-                             AbilityCommonConfigs abilityCommonConfigs
-    ) {
+    public HullConfigManager(FileManager fileManager, TextureManager textureManager,
+                                ItemManager itemManager, AbilityCommonConfigs abilityCommonConfigs) {
         this.fileManager = fileManager;
         this.textureManager = textureManager;
         this.itemManager = itemManager;
@@ -64,7 +57,7 @@ public final class HullConfigManager {
 
         nameToConfigMap = new HashMap<>();
         configToNameMap = new HashMap<>();
-        readHullConfigs();
+        readShipConfigs();
     }
 
     private static Vector2 readVector2(JsonValue jsonValue, String name, Vector2 defaultValue) {
@@ -100,10 +93,10 @@ public final class HullConfigManager {
         return (result == null) ? "" : result;
     }
 
-    private void readHullConfigs() {
-        List<FileHandle> hullDirectories = getHullDirectories();
+    private void readShipConfigs() {
+        List<FileHandle> shipDirectories = getShipDirectories();
 
-        for (FileHandle handle : hullDirectories) {
+        for (FileHandle handle : shipDirectories) {
             HullConfig config = read(handle);
             String name = handle.nameWithoutExtension();
             nameToConfigMap.put(name, config);
@@ -111,10 +104,10 @@ public final class HullConfigManager {
         }
     }
 
-    private List<FileHandle> getHullDirectories() {
-        List<FileHandle> subDirectories = new LinkedList<FileHandle>();
+    private List<FileHandle> getShipDirectories() {
+        List<FileHandle> subDirectories = new LinkedList<>();
 
-        for (FileHandle handle : fileManager.getHullsDirectory().list()) {
+        for (FileHandle handle : fileManager.getShipsDirectory().list()) {
             if (handle.isDirectory()) {
                 subDirectories.add(handle);
             }
@@ -126,12 +119,13 @@ public final class HullConfigManager {
     private HullConfig read(FileHandle hullConfigDirectory) {
         final HullConfig.Data configData = new HullConfig.Data();
 
-        final FileHandle propertiesFile = hullConfigDirectory.child(PROPERTIES_FILE_NAME);
+        String shipName = hullConfigDirectory.nameWithoutExtension();
+        final FileHandle propertiesFile = hullConfigDirectory.child(shipName + "Properties.json");
         readProperties(propertiesFile, configData);
 
         configData.internalName = hullConfigDirectory.nameWithoutExtension();
-        configData.tex = textureManager.getTexture(hullConfigDirectory.child(TEXTURE_FILE_NAME).toString());
-        configData.icon = textureManager.getTexture(hullConfigDirectory.child(ICON_FILE_NAME).toString());
+        configData.tex = textureManager.getTexture(hullConfigDirectory.child(shipName + "Texture.png").toString());
+        configData.icon = textureManager.getTexture(hullConfigDirectory.child(shipName + "Icon.png").toString());
 
         validateEngineConfig(configData);
 

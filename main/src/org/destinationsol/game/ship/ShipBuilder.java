@@ -260,7 +260,8 @@ public class ShipBuilder {
     private Hull buildHull(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, HullConfig hullConfig,
                            float life, ArrayList<Dra> dras) {
         //TODO: This logic belongs in the HullConfigManager/HullConfig
-        FileHandle hullPropertiesFile = FileManager.getInstance().getHullsDirectory().child(hullConfig.getInternalName()).child(HullConfigManager.PROPERTIES_FILE_NAME);
+        String shipName = hullConfig.getInternalName();
+        FileHandle hullPropertiesFile = FileManager.getInstance().getShipsDirectory().child(shipName).child(shipName + "Properties.json");
         JsonReader reader = new JsonReader();
         JsonValue rigidBodyNode = reader.parse(hullPropertiesFile).get("rigidBody");
         myCollisionMeshLoader.readRigidBody(rigidBodyNode, hullConfig);
