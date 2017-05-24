@@ -21,11 +21,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.dra.Dra;
 import org.destinationsol.game.dra.DraLevel;
 import org.destinationsol.game.ship.ShipBuilder;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 
@@ -35,11 +37,11 @@ public class ShardBuilder {
     public static final float SIZE_TO_SHARD_COUNT = 13f;
     private static final float MAX_ROT_SPD = 5f;
     private static final float MAX_SPD = 4f;
-    private final PathLoader myPathLoader;
+    private final CollisionMeshLoader myCollisionMeshLoader;
     private final ArrayList<TextureAtlas.AtlasRegion> myTexs;
 
-    public ShardBuilder(TextureManager textureManager) {
-        myPathLoader = new PathLoader("misc");
+    public ShardBuilder(TextureManager textureManager, AssetHelper assetHelper) {
+        myCollisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:misc"), assetHelper);
         myTexs = textureManager.getPack("smallGameObjects/shard");
     }
 
@@ -60,7 +62,7 @@ public class ShardBuilder {
         Vector2 pos = new Vector2();
         SolMath.fromAl(pos, spdAngle, SolMath.rnd(size));
         pos.add(basePos);
-        Body body = myPathLoader.getBodyAndSprite(game, "smallGameObjects", AsteroidBuilder.removePath(tex.name) + "_" + tex.index, scale,
+        Body body = myCollisionMeshLoader.getBodyAndSprite(game, "smallGameObjects", AsteroidBuilder.removePath(tex.name) + "_" + tex.index, scale,
                 BodyDef.BodyType.DynamicBody, pos, SolMath.rnd(180), dras, ShipBuilder.SHIP_DENSITY, DraLevel.PROJECTILES, tex);
 
         body.setAngularVelocity(SolMath.rnd(MAX_ROT_SPD));

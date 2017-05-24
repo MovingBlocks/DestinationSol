@@ -33,7 +33,7 @@ public class SolDesktop {
         LwjglApplicationConfiguration applicationConfig = new LwjglApplicationConfiguration();
         boolean devBuild = java.nio.file.Files.exists(Paths.get("devBuild"));
         if (devBuild) {
-            DebugOptions.DEV_ROOT_PATH = "main/"; // Lets the game run from source without a tweaked working directory
+            DebugOptions.DEV_ROOT_PATH = "main" + File.separator; // Lets the game run from source without a tweaked working directory
             applicationConfig.vSyncEnabled = false; //Setting to false disables vertical sync
             applicationConfig.foregroundFPS = 0; //disables foreground fps throttling
             applicationConfig.backgroundFPS = 0; //disables background fps throttling

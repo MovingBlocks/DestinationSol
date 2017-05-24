@@ -20,12 +20,14 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.HullConfigManager;
-import org.destinationsol.game.PathLoader;
+import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.chunk.SpaceEnvConfig;
 import org.destinationsol.game.item.ItemManager;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,10 +56,10 @@ public class MazeConfig {
     }
 
     public static MazeConfig load(TextureManager textureManager, HullConfigManager hullConfigs, JsonValue mazeNode, FileHandle configFile,
-                                  ItemManager itemManager) {
+                                  ItemManager itemManager, AssetHelper assetHelper) {
         String dirName = "mazeTiles/" + mazeNode.name + "/";
-        PathLoader pathLoader = new PathLoader("mazes/" + mazeNode.name);
-        PathLoader.Model paths = pathLoader.getInternalModel();
+        CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:" + mazeNode.name + "Maze"), assetHelper);
+        CollisionMeshLoader.Model paths = collisionMeshLoader.getInternalModel();
         List<TextureAtlas.AtlasRegion> innerBgs = textureManager.getPack(dirName + "innerBg");
         List<TextureAtlas.AtlasRegion> borderBgs = textureManager.getPack(dirName + "borderBg");
         ArrayList<TextureAtlas.AtlasRegion> wallTexs = textureManager.getPack(dirName + "wall");
@@ -81,7 +83,7 @@ public class MazeConfig {
         return new MazeConfig(innerWalls, innerPasses, borderWalls, borderPasses, outerEnemies, innerEnemies, bosses, envConfig);
     }
 
-    private static void buildTiles(PathLoader.Model paths,
+    private static void buildTiles(CollisionMeshLoader.Model paths,
                                    ArrayList<MazeTile> list, boolean wall, boolean metal, List<TextureAtlas.AtlasRegion> bgTexs,
                                    ArrayList<TextureAtlas.AtlasRegion> texs) {
         for (TextureAtlas.AtlasRegion tex : texs) {

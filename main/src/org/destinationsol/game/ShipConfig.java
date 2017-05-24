@@ -42,7 +42,7 @@ public class ShipConfig {
     }
 
     public static ArrayList<ShipConfig> loadList(JsonValue shipListJson, HullConfigManager hullConfigs, ItemManager itemManager) {
-        ArrayList<ShipConfig> res = new ArrayList<ShipConfig>();
+        ArrayList<ShipConfig> res = new ArrayList<>();
         if (shipListJson == null) {
             return res;
         }
@@ -53,22 +53,21 @@ public class ShipConfig {
         return res;
     }
 
-    public static ShipConfig load(HullConfigManager hullConfigs, JsonValue shipNode, ItemManager itemManager) {
-        if (shipNode == null) {
+    public static ShipConfig load(HullConfigManager hullConfigs, JsonValue rootNode, ItemManager itemManager) {
+        if (rootNode == null) {
             return null;
         }
-        String hullName = shipNode.getString("hull");
+        String hullName = rootNode.getString("hull");
         HullConfig hull = hullConfigs.getConfig(hullName);
-        String items = shipNode.getString("items");
-        int money = shipNode.getInt("money", 0);
-        float density = shipNode.getFloat("density", -1);
+        String items = rootNode.getString("items");
+        int money = rootNode.getInt("money", 0);
+        float density = rootNode.getFloat("density", -1);
         ShipConfig guard;
-        if (shipNode.hasChild("guard")) {
-            guard = load(hullConfigs, shipNode.get("guard"), itemManager);
+        if (rootNode.hasChild("guard")) {
+            guard = load(hullConfigs, rootNode.get("guard"), itemManager);
         } else {
             guard = null;
         }
         return new ShipConfig(hull, items, money, density, guard, itemManager);
     }
-
 }

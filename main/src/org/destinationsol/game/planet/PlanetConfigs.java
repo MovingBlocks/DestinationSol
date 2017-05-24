@@ -20,6 +20,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.files.HullConfigManager;
@@ -37,7 +38,8 @@ public class PlanetConfigs {
     private final List<PlanetConfig> myMedium;
     private final List<PlanetConfig> myHard;
 
-    public PlanetConfigs(TextureManager textureManager, HullConfigManager hullConfigs, GameColors cols, ItemManager itemManager) {
+    public PlanetConfigs(TextureManager textureManager, HullConfigManager hullConfigs, GameColors cols,
+                            ItemManager itemManager, AssetHelper assetHelper) {
         myAllConfigs = new HashMap<>();
         myEasy = new ArrayList<>();
         myMedium = new ArrayList<>();
@@ -47,7 +49,7 @@ public class PlanetConfigs {
         FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("planets.json");
         JsonValue parsed = r.parse(configFile);
         for (JsonValue sh : parsed) {
-            PlanetConfig c = PlanetConfig.load(textureManager, hullConfigs, sh, cols, itemManager);
+            PlanetConfig c = PlanetConfig.load(textureManager, hullConfigs, sh, cols, itemManager, assetHelper);
             myAllConfigs.put(sh.name, c);
             if (c.hardOnly) {
                 myHard.add(c);

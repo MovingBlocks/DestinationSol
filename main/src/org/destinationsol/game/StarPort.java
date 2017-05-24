@@ -22,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import org.destinationsol.Const;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.Bound;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -36,6 +37,7 @@ import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ForceBeacon;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.Teleport;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -226,10 +228,10 @@ public class StarPort implements SolObject {
 
     public static class Builder {
         public static final float FLOW_DIST = .26f * SIZE;
-        private final PathLoader myLoader;
+        private final CollisionMeshLoader myLoader;
 
-        public Builder() {
-            myLoader = new PathLoader("misc");
+        public Builder(AssetHelper assetHelper) {
+            myLoader = new CollisionMeshLoader(new ResourceUrn("Core:misc"), assetHelper);
         }
 
         public StarPort build(SolGame game, Planet from, Planet to, boolean secondary) {
