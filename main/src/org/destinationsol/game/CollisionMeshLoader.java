@@ -174,8 +174,8 @@ public class CollisionMeshLoader {
     }
 
     public void readRigidBody(JsonValue rbNode, HullConfig hullConfig) {
-        readRigidBody(rbNode, hullConfig.getInternalName(),
-                FileManager.getInstance().getHullsDirectory().child(hullConfig.getInternalName()).child(HullConfigManager.TEXTURE_FILE_NAME).path());
+        String shipName =  hullConfig.getInternalName();
+        readRigidBody(rbNode, shipName, FileManager.getInstance().getShipsDirectory().child(shipName).child(shipName + "Texture.png").path());
     }
 
     private void readRigidBody(JsonValue rbNode, String name, String imagePath) {

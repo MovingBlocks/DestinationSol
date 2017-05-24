@@ -30,14 +30,12 @@ public final class FileManager {
     private final static String SOUNDS_DIR = ASSETS_DIR + "sounds/";
     private final static String CONFIG_DIR = ASSETS_DIR + "configs/";
     private final static String IMAGES_DIR = ASSETS_DIR + "imgs/";
-    private final static String HULLS_CONFIG_DIR = CONFIG_DIR + "hulls/";
+    private final static String SHIPS_CONFIG_DIR = CONFIG_DIR + "ships/";
     private final static String ITEMS_CONFIG_DIR = CONFIG_DIR + "items/";
     private final static String UNEXPECTED_FILE_LOCATION_TYPE = "Unexpected file location type: %s.";
     private static FileManager instance = null;
 
-    private FileManager() {
-
-    }
+    private FileManager() { }
 
     /**
      * Returns the singleton instance of this class.
@@ -77,8 +75,8 @@ public final class FileManager {
      *
      * @return A file handle to the hulls directory.
      */
-    public FileHandle getHullsDirectory() {
-        return getFile(HULLS_CONFIG_DIR, FileLocation.STATIC_FILES);
+    public FileHandle getShipsDirectory() {
+        return getFile(SHIPS_CONFIG_DIR, FileLocation.STATIC_FILES);
     }
 
     /**
