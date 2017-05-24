@@ -24,14 +24,16 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import org.destinationsol.Const;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.PathLoader;
+import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.dra.Dra;
 import org.destinationsol.game.dra.DraLevel;
 import org.destinationsol.game.dra.RectSprite;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 
@@ -39,11 +41,11 @@ public class AsteroidBuilder {
     public static final float DENSITY = 10f;
     private static final float MAX_A_ROT_SPD = .5f;
     private static final float MAX_BALL_SZ = .2f;
-    private final PathLoader myPathLoader;
+    private final CollisionMeshLoader myCollisionMeshLoader;
     private final ArrayList<TextureAtlas.AtlasRegion> myTexs;
 
-    public AsteroidBuilder(TextureManager textureManager) {
-        myPathLoader = new PathLoader("asteroids");
+    public AsteroidBuilder(TextureManager textureManager, AssetHelper assetHelper) {
+        myCollisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:asteroids"), assetHelper);
         myTexs = textureManager.getPack("asteroids/sys");
     }
 
@@ -89,7 +91,7 @@ public class AsteroidBuilder {
         ArrayList<Dra> dras = new ArrayList<Dra>();
         Body body;
         if (MAX_BALL_SZ < sz) {
-            body = myPathLoader.getBodyAndSprite(game, "asteroids", removePath(tex.name) + "_" + tex.index, sz,
+            body = myCollisionMeshLoader.getBodyAndSprite(game, "asteroids", removePath(tex.name) + "_" + tex.index, sz,
                     BodyDef.BodyType.DynamicBody, pos, angle, dras, DENSITY, DraLevel.BODIES, tex);
         } else {
             body = buildBall(game, pos, angle, sz / 2, DENSITY, false);

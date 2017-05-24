@@ -20,6 +20,7 @@ import org.destinationsol.assets.audio.OggMusic;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.emitter.Emitter;
 import org.destinationsol.assets.font.Font;
+import org.destinationsol.assets.json.Json;
 import org.terasology.assets.Asset;
 import org.terasology.assets.AssetData;
 import org.terasology.assets.ResourceUrn;
@@ -40,6 +41,7 @@ public class AssetHelper {
         assetTypeManager.registerCoreAssetType(Atlas.class, Atlas::new, "atlas");
         assetTypeManager.registerCoreAssetType(Font.class, Font::new, "fonts");
         assetTypeManager.registerCoreAssetType(Emitter.class, Emitter::new, "emitters");
+        assetTypeManager.registerCoreAssetType(Json.class, Json::new, "collisionMeshes", "configs");
 
         assetTypeManager.switchEnvironment(environment);
     }
@@ -70,5 +72,9 @@ public class AssetHelper {
 
     public Optional<Emitter> getEmitter(ResourceUrn urn) {
         return get(urn, Emitter.class);
+    }
+
+    public Optional<Json> getJson(ResourceUrn urn) {
+        return get(urn, Json.class);
     }
 }

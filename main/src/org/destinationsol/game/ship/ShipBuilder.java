@@ -35,8 +35,8 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.files.HullConfigManager;
+import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.Faction;
-import org.destinationsol.game.PathLoader;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.dra.Dra;
@@ -66,10 +66,10 @@ public class ShipBuilder {
     public static final float AVG_BATTLE_TIME = 30f;
     public static final float AVG_ALLY_LIFE_TIME = 75f;
 
-    private final PathLoader myPathLoader;
+    private final CollisionMeshLoader myCollisionMeshLoader;
 
     public ShipBuilder() {
-        myPathLoader = new PathLoader();
+        myCollisionMeshLoader = new CollisionMeshLoader();
     }
 
     private static Fixture getBase(boolean hasBase, Body body) {
@@ -263,11 +263,11 @@ public class ShipBuilder {
         FileHandle hullPropertiesFile = FileManager.getInstance().getHullsDirectory().child(hullConfig.getInternalName()).child(HullConfigManager.PROPERTIES_FILE_NAME);
         JsonReader reader = new JsonReader();
         JsonValue rigidBodyNode = reader.parse(hullPropertiesFile).get("rigidBody");
-        myPathLoader.readJson(rigidBodyNode, hullConfig);
+        myCollisionMeshLoader.readRigidBody(rigidBodyNode, hullConfig);
 
         BodyDef.BodyType bodyType = hullConfig.getType() == HullConfig.Type.STATION ? BodyDef.BodyType.KinematicBody : BodyDef.BodyType.DynamicBody;
         DraLevel level = hullConfig.getType() == HullConfig.Type.STD ? DraLevel.BODIES : DraLevel.BIG_BODIES;
-        Body body = myPathLoader.getBodyAndSprite(game, hullConfig, hullConfig.getSize(), bodyType, pos, angle,
+        Body body = myCollisionMeshLoader.getBodyAndSprite(game, hullConfig, hullConfig.getSize(), bodyType, pos, angle,
                 dras, SHIP_DENSITY, level, hullConfig.getTexture());
         Fixture shieldFixture = createShieldFixture(hullConfig, body);
 
@@ -353,7 +353,7 @@ public class ShipBuilder {
     }
 
     public Vector2 getOrigin(String name) {
-        return myPathLoader.getOrigin(name + ".png", 1);
+        return myCollisionMeshLoader.getOrigin(name + ".png", 1);
     }
 
 }

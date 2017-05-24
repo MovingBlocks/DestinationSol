@@ -21,6 +21,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.Const;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.HullConfigManager;
@@ -55,10 +56,11 @@ public class PlanetManager {
     private final PlanetCoreSingleton myPlanetCore;
     private Planet myNearestPlanet;
 
-    public PlanetManager(TextureManager textureManager, HullConfigManager hullConfigs, GameColors cols, ItemManager itemManager) {
-        myPlanetConfigs = new PlanetConfigs(textureManager, hullConfigs, cols, itemManager);
+    public PlanetManager(TextureManager textureManager, HullConfigManager hullConfigs, GameColors cols,
+                            ItemManager itemManager, AssetHelper assetHelper) {
+        myPlanetConfigs = new PlanetConfigs(textureManager, hullConfigs, cols, itemManager, assetHelper);
         mySysConfigs = new SysConfigs(textureManager, hullConfigs, itemManager);
-        myMazeConfigs = new MazeConfigs(textureManager, hullConfigs, itemManager);
+        myMazeConfigs = new MazeConfigs(textureManager, hullConfigs, itemManager, assetHelper);
 
         mySystems = new ArrayList<>();
         myMazes = new ArrayList<>();

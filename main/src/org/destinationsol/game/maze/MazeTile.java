@@ -18,8 +18,8 @@ package org.destinationsol.game.maze;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.PathLoader;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 
 import java.util.ArrayList;
@@ -39,16 +39,16 @@ public class MazeTile {
         this.bgTex = bgTex;
     }
 
-    public static MazeTile load(TextureAtlas.AtlasRegion tex, PathLoader.Model paths, boolean wall, String pathEntryName,
+    public static MazeTile load(TextureAtlas.AtlasRegion tex, CollisionMeshLoader.Model paths, boolean wall, String pathEntryName,
                                 boolean metal, TextureAtlas.AtlasRegion bgTex) {
         ArrayList<List<Vector2>> points = new ArrayList<List<Vector2>>();
-        PathLoader.RigidBodyModel tilePaths = paths.rigidBodies.get(AsteroidBuilder.removePath(pathEntryName));
-        List<PathLoader.PolygonModel> shapes = tilePaths == null ? new ArrayList<PathLoader.PolygonModel>() : tilePaths.shapes;
-        for (PathLoader.PolygonModel shape : shapes) {
-            List<Vector2> vertices = new ArrayList<Vector2>(shape.vertices);
-            points.add(vertices);
-        }
-        if (points.isEmpty() && wall) {
+        CollisionMeshLoader.RigidBodyModel tilePaths = paths.rigidBodies.get(AsteroidBuilder.removePath(pathEntryName));
+        List<CollisionMeshLoader.PolygonModel> shapes = tilePaths == null ? new ArrayList<CollisionMeshLoader.PolygonModel>() : tilePaths.polygons;
+            for (CollisionMeshLoader.PolygonModel shape : shapes) {
+                List<Vector2> vertices = new ArrayList<Vector2>(shape.vertices);
+                points.add(vertices);
+            }
+            if (points.isEmpty() && wall) {
             DebugOptions.MISSING_PHYSICS_ACTION.handle("found no paths for " + pathEntryName);
             ArrayList<Vector2> wallPoints = new ArrayList<Vector2>();
             wallPoints.add(new Vector2(0, .4f));

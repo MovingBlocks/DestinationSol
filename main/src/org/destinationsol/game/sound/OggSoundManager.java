@@ -77,7 +77,7 @@ public class OggSoundManager {
     }
 
     /**
-     * Plays a sound. Either position or source must not be null.
+     * Plays a sound. Source must not be null.
      *
      * @param position         position of a sound. If null, source.getPosition() will be used
      * @param source           bearer of a sound. Must not be null for looped sounds
@@ -149,7 +149,7 @@ public class OggSoundManager {
     }
 
     /**
-     * Plays a sound. Either position or source must not be null.
+     * Plays a sound. Source must not be null.
      *
      * @param position position of a sound. If null, source.getPosition() will be used
      * @param source   bearer of a sound. Must not be null for looped sounds
