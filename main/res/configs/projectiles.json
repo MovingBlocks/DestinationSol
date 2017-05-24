@@ -1,326 +1,324 @@
 {
-  plasma: {
-    dmg: 2.6,
-    dmgType: energy,
-    spdLen: 6,
+    "plasma": {
+        "dmg": 2.6,
+        "dmgType": "energy",
+        "spdLen": 6,
 
-    texName: plasma,
-    texSz: 0.12,
-    collisionEffect: {
-      effectFile: explFire,
-      size: 0.1,
-      tex: fire,
-      tint: "120 210 90",
+        "texName": "plasma",
+        "texSz": 0.12,
+
+        "collisionEffect": {
+            "effectFile": "explFire",
+            "size": 0.1,
+            "tex": "fire",
+            "tint": "120 210 90",
+        },
+
+        "collisionSound": "Core:blastCollision",
     },
 
-    collisionSound: "Core:blastCollision",
-  },
+    "blast": {
+        "dmg": 4.4,
+        "dmgType": "energy",
+        "spdLen": 5,
 
+        "texName": "blast",
+        "texSz": 0.15,
 
+        "collisionEffect": {
+            "effectFile": "explFire",
+            "size": 0.2,
+            "tex": "fire",
+            "tint": "180 70 200",
+        },
 
-  blast: {
-    dmg: 4.4,
-    dmgType: energy,
-    spdLen: 5,
-
-    texName: blast,
-    texSz: 0.15,
-    collisionEffect: {
-      effectFile: explFire,
-      size: 0.2,
-      tex: fire,
-      tint: "180 70 200",
+        "collisionSound": "Core:blastCollision",
     },
 
-    collisionSound: "Core:blastCollision",
-  },
+    "bomb": {
+        "dmg": 13,
+        "dmgType": "explosion",
+        "spdLen": 0,
+        "physSize": 0.1,
+        "zeroAbsSpd": true,
 
+        "texName": "bomb",
+        "texSz": 0.15,
 
+        "collisionEffectBg": {
+            "effectFile": "explSmoke",
+            "size": 0.6,
+            "tex": "smoke",
+            "floatsUp": true,
+            "tint": "smoke",
+        },
 
-  bomb: {
-    dmg: 13,
-    dmgType: explosion,
-    spdLen: 0,
-    physSize: 0.1,
-    zeroAbsSpd: true,
+        "collisionEffect": {
+            "effectFile": "explFire",
+            "size": 0.4,
+            "tex": "fire",
+            "tint": "fire",
+        },
 
-    texName: bomb,
-    texSz: 0.15,
-    collisionEffectBg: {
-      effectFile: explSmoke,
-      size: 0.6,
-      tex: smoke,
-      floatsUp: true,
-       tint: smoke,
-    },
-    collisionEffect: {
-      effectFile: explFire,
-      size: 0.4,
-      tex: fire,
-      tint: fire,
-    },
-
-    collisionSound: "Core:shipExplosion",
-  },
-
-
-
-  bullet: {
-    dmg: 1.6,
-    spdLen: 10,
-    dmgType: bullet,
-
-    texName: bullet,
-    texSz: 0.018,
-    stretch: true,
-    collisionEffect: {
-      effectFile: spark,
-      size: 0.5,
-      tex: spark,
-      tint: fire,
-    },
-  },
-
-
-
-  shellBullet: {
-    dmg: 2.9,
-    spdLen: 8,
-    dmgType: bullet,
-
-    texName: bullet,
-    texSz: 0.022,
-    stretch: true,
-    collisionEffect: {
-      effectFile: spark,
-      size: 0.5,
-      tex: spark,
-      tint: fire,
-    },
-  },
-
-
-
-  missile: {
-    dmg: 9,
-    dmgType: explosion,
-    spdLen: 1,
-    physSize: 0.1,
-    guideRotSpd: 180,
-    acceleration: 2,
-
-    texName: missile,
-    texSz: 0.15,
-    texOrig: "-.5 0",
-    lightSz: 0.25,
-    trailEffect: {
-      effectFile: smoke,
-      tex: smoke,
-      floatsUp: true,
-      tint: smoke,
-    },
-    bodyEffect: {
-      effectFile: flame,
-      size: 0.15,
-      tex: fire,
-      tint: fire,
-    },
-    collisionEffectBg: {
-      effectFile: explSmoke,
-      size: 0.6,
-      tex: smoke,
-      floatsUp: true,
-      tint: smoke,
-    },
-    collisionEffect: {
-      effectFile: explFire,
-      size: 0.4,
-      tex: fire,
-      tint: fire,
+        "collisionSound": "Core:shipExplosion",
     },
 
-    collisionSound: "Core:rocketCollision",
-  },
+    "bullet": {
+        "dmg": 1.6,
+        "spdLen": 10,
+        "dmgType": "bullet",
 
-
-
-  mine: {
-    dmg: 20,
-    dmgType: explosion,
-    spdLen: 0,
-    physSize: 0.1,
-    zeroAbsSpd: true,
-
-    texName: mine,
-    texSz: 0.15,
-    collisionEffectBg: {
-      effectFile: explSmoke,
-      size: 0.6,
-      tex: smoke,
-      floatsUp: true,
-       tint: smoke,
-    },
-    collisionEffect: {
-      effectFile: explFire,
-      size: 0.4,
-      tex: fire,
-      tint: fire,
+        "texName": "bullet",
+        "texSz": 0.018,
+        "stretch": true,
+        "collisionEffect": {
+            "effectFile": "spark",
+            "size": 0.5,
+            "tex": "spark",
+            "tint": "fire",
+        },
     },
 
-    collisionSound: "Core:rocketCollision",
-  },
+    "shellBullet": {
+        "dmg": 2.9,
+        "spdLen": 8,
+        "dmgType": "bullet",
 
+        "texName": "bullet",
+        "texSz": 0.022,
+        "stretch": true,
 
-
-  slug: {
-    dmg: 33,
-    dmgType: bullet,
-    spdLen: 4,
-
-    texName: slug,
-    texSz: 0.15,
-    trailEffect: {
-      effectFile: smoke,
-      tex: smoke,
-      floatsUp: true,
-      tint: smoke,
-    },
-    collisionEffectBg: {
-      effectFile: explSmoke,
-      size: 0.3,
-      tex: smoke,
-      floatsUp: true,
-      tint: smoke,
-    },
-    collisionEffect: {
-      effectFile: spark,
-      size: 1,
-      tex: spark,
-      tint: fire,
-    },
-  },
-
-
-
-  rocket: {
-    dmg: 16,
-    dmgType: explosion,
-    spdLen: 1,
-    physSize: 0.13,
-    acceleration: 4,
-
-    texName: rocket,
-    texSz: 0.2,
-    texOrig: "-.5 0",
-    lightSz: 0.25,
-    trailEffect: {
-      effectFile: smoke,
-      tex: smoke,
-      floatsUp: true,
-      tint: smoke,
-    },
-    bodyEffect: {
-      effectFile: flame,
-      size: 0.15,
-      tex: fire,
-      tint: fire,
-    },
-    collisionEffectBg: {
-      effectFile: explSmoke,
-      size: 0.6,
-      tex: smoke,
-      floatsUp: true,
-      tint: smoke,
-    },
-    collisionEffect: {
-      effectFile: explFire,
-      size: 0.4,
-      tex: fire,
-      tint: fire,
+        "collisionEffect": {
+            "effectFile": "spark",
+            "size": 0.5,
+            "tex": "spark",
+            "tint": "fire",
+        },
     },
 
-    collisionSound: "Core:rocketCollision",
-  },
+    "missile": {
+        "dmg": 9,
+        "dmgType": "explosion",
+        "spdLen": 1,
+        "physSize": 0.1,
+        "guideRotSpd": 180,
+        "acceleration": 2,
 
+        "texName": "missile",
+        "texSz": 0.15,
+        "texOrig": "-.5 0",
+        "lightSz": 0.25,
 
+        "trailEffect": {
+            "effectFile": "smoke",
+            "tex": "smoke",
+            "floatsUp": true,
+            "tint": "smoke",
+        },
 
-  rail: {
-    dmg: 37,
-    dmgType: bullet,
-    spdLen: 15,
+        "bodyEffect": {
+            "effectFile": "flame",
+            "size": 0.15,
+            "tex": "fire",
+            "tint": "fire",
+        },
 
-    texName: bullet,
-    texSz: 0.03,
-    stretch: true,
-    trailEffect: {
-      effectFile: railTrail,
-      tex: techieTrail,
-      tint: white,
-    },
-    collisionEffect: {
-      effectFile: spark,
-      size: 0.5,
-      tex: spark,
-      tint: fire,
-    },
-  },
+        "collisionEffectBg": {
+            "effectFile": "explSmoke",
+            "size": 0.6,
+            "tex": "smoke",
+            "floatsUp": true,
+            "tint": "smoke",
+        },
 
+        "collisionEffect": {
+            "effectFile": "explFire",
+            "size": 0.4,
+            "tex": "fire",
+            "tint": "fire",
+        },
 
-
-  nail: {
-    dmg: 14,
-    dmgType: bullet,
-    spdLen: 6,
-    physSize: 0.15,
-    density: 20,
-
-    texName: nail,
-    texSz: 0.15,
-  },
-
-
-
-  em: {
-    dmg: 0,
-    dmgType: energy,
-    spdLen: 2,
-    emTime: 2,
-
-    texName: plasma,
-    texSz: 0,
-    bodyEffect: {
-      effectFile: electricity2,
-      tex: electricity,
-      tint: white,
-    },
-    collisionEffect: {
-      effectFile: explFire,
-      size: 0.2,
-      tex: fire,
-      tint: white,
+        "collisionSound": "Core:rocketCollision",
     },
 
-    collisionSound: "Core:blastCollision",
-  },
+    "mine": {
+        "dmg": 20,
+        "dmgType": "explosion",
+        "spdLen": 0,
+        "physSize": 0.1,
+        "zeroAbsSpd": true,
 
+        "texName": "mine",
+        "texSz": 0.15,
 
+        "collisionEffectBg": {
+            "effectFile": "explSmoke",
+            "size": 0.6,
+            "tex": "smoke",
+            "floatsUp": true,
+            "tint": "smoke",
+        },
+        "collisionEffect": {
+            "effectFile": "explFire",
+            "size": 0.4,
+            "tex": "fire",
+            "tint": "fire",
+        },
 
-  wave: {
-    dmg: 13,
-    dmgType: energy,
-    physSize: 0.8,
-    massless: true,
-    spdLen: 5,
-
-    texName: wave,
-    texSz: 0.8,
-    collisionEffect: {
-      effectFile: explFire,
-      size: 0.8,
-      tex: fire,
-      tint: "20 255 20",
+        "collisionSound": "Core:rocketCollision",
     },
 
-    collisionSound: "Core:waveCollision",
-  },
+    "slug": {
+        "dmg": 33,
+        "dmgType": "bullet",
+        "spdLen": 4,
+
+        "texName": "slug",
+        "texSz": 0.15,
+
+        "trailEffect": {
+            "effectFile": "smoke",
+            "tex": "smoke",
+            "floatsUp": true,
+            "tint": "smoke",
+        },
+
+        "collisionEffectBg": {
+            "effectFile": "explSmoke",
+            "size": 0.3,
+            "tex": "smoke",
+            "floatsUp": true,
+            "tint": "smoke",
+        },
+
+        "collisionEffect": {
+            "effectFile": "spark",
+            "size": 1,
+            "tex": "spark",
+            "tint": "fire",
+        },
+    },
+
+    "rocket": {
+        "dmg": 16,
+        "dmgType": "explosion",
+        "spdLen": 1,
+        "physSize": 0.13,
+        "acceleration": 4,
+
+        "texName": "rocket",
+        "texSz": 0.2,
+        "texOrig": "-.5 0",
+        "lightSz": 0.25,
+
+        "trailEffect": {
+            "effectFile": "smoke",
+            "tex": "smoke",
+            "floatsUp": true,
+            "tint": "smoke",
+        },
+
+        "bodyEffect": {
+            "effectFile": "flame",
+            "size": 0.15,
+            "tex": "fire",
+            "tint": "fire",
+        },
+
+        "collisionEffectBg": {
+            "effectFile": "explSmoke",
+            "size": 0.6,
+            "tex": "smoke",
+            "floatsUp": true,
+            "tint": "smoke",
+        },
+
+        "collisionEffect": {
+            "effectFile": "explFire",
+            "size": 0.4,
+            "tex": "fire",
+            "tint": "fire",
+        },
+
+        "collisionSound": "Core:rocketCollision",
+    },
+
+    "rail": {
+        "dmg": 37,
+        "dmgType": "bullet",
+        "spdLen": 15,
+
+        "texName": "bullet",
+        "texSz": 0.03,
+        "stretch": true,
+
+        "trailEffect": {
+            "effectFile": "railTrail",
+            "tex": "techieTrail",
+            "tint": "white",
+        },
+
+        "collisionEffect": {
+            "effectFile": "spark",
+            "size": 0.5,
+            "tex": "spark",
+            "tint": "fire",
+        },
+    },
+
+    "nail": {
+        "dmg": 14,
+        "dmgType": "bullet",
+        "spdLen": 6,
+        "physSize": 0.15,
+        "density": 20,
+
+        "texName": "nail",
+        "texSz": 0.15,
+    },
+
+    "em": {
+        "dmg": 0,
+        "dmgType": "energy",
+        "spdLen": 2,
+        "emTime": 2,
+
+        "texName": "plasma",
+        "texSz": 0,
+
+        "bodyEffect": {
+            "effectFile": "electricity2",
+            "tex": "electricity",
+            "tint": "white",
+        },
+
+        "collisionEffect": {
+            "effectFile": "explFire",
+            "size": 0.2,
+            "tex": "fire",
+            "tint": "white",
+        },
+
+        "collisionSound": "Core:blastCollision",
+    },
+
+    "wave": {
+        "dmg": 13,
+        "dmgType": "energy",
+        "physSize": 0.8,
+        "massless": true,
+        "spdLen": 5,
+
+        "texName": "wave",
+        "texSz": 0.8,
+
+        "collisionEffect": {
+            "effectFile": "explFire",
+            "size": 0.8,
+            "tex": "fire",
+            "tint": "20 255 20",
+        },
+
+        "collisionSound": "Core:waveCollision",
+    },
 }

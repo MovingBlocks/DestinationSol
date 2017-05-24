@@ -1,54 +1,43 @@
 {
-  sloMo: {
-    effect: {
-      effectFile: areaShipAbility,
-      tex: sloMo,
-      tint: fire,
-      size: 5,
+    "sloMo": {
+        "effect": {
+            "effectFile": "areaShipAbility",
+            "tex": "sloMo",
+            "tint": "fire",
+            "size": 5,
+        },
+        "activatedSound": "Core:sloMoActivated",
     },
 
-    activatedSound: "Core:sloMoActivated",
-  },
-
-
-
-  knockBack: {
-    effect: {
-      effectFile: knockBack,
-      tex: knockBack,
-      tint: "50 200 250",
+    "knockBack": {
+        "effect": {
+            "effectFile": "knockBack",
+            "tex": "knockBack",
+            "tint": "50 200 250",
+        },
+        "activatedSound": "Core:knockBack",
     },
 
-    activatedSound: "Core:knockBack",
-  },
-
-
-
-  emWave: {
-    effect: {
-      effectFile: areaShipAbility,
-      tex: emWave,
-      tint: "0 255 0",
+    "emWave": {
+        "effect": {
+            "effectFile": "areaShipAbility",
+            "tex": "emWave",
+            "tint": "0 255 0",
+        },
+        "activatedSound": "Core:unshield",
     },
 
-    activatedSound: "Core:unshield",
-  },
+    "unShield": {
+        "effect": {
+            "effectFile": "knockBack",
+            "tex": "unShield",
+            "tint": "0 100 255",
+        },
 
-
-
-  unShield: {
-    effect: {
-      effectFile: knockBack,
-      tex: unShield,
-      tint: "0 100 255",
+        "activatedSound": "Core:unshield",
     },
 
-    activatedSound: "Core:unshield",
-  },
-
-
-
-  teleport: {
-    activatedSound: "Core:teleport",
-  },
+    "teleport": {
+        "activatedSound": "Core:teleport",
+    },
 }

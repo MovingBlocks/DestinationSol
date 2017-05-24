@@ -16,13 +16,14 @@
 
 package org.destinationsol.game.planet;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.PathLoader;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,14 +34,14 @@ public class PlanetTiles {
 
     private final Map<SurfaceDirection, Map<SurfaceDirection, List<Tile>>> myGroundTiles;
 
-    public PlanetTiles(TextureManager textureManager, String groundFolder) {
+    public PlanetTiles(TextureManager textureManager, String groundName, AssetHelper assetHelper) {
         myGroundTiles = new HashMap<>();
-        loadGround(textureManager, groundFolder);
+        loadGround(textureManager, groundName, assetHelper);
     }
 
-    private void loadGround(TextureManager textureManager, String groundFolder) {
-        PathLoader pathLoader = new PathLoader(groundFolder);
-        PathLoader.Model paths = pathLoader.getInternalModel();
+    private void loadGround(TextureManager textureManager, String groundName, AssetHelper assetHelper) {
+        CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:" + groundName + "Ground"), assetHelper);
+        CollisionMeshLoader.Model paths = collisionMeshLoader.getInternalModel();
 
         for (SurfaceDirection from : SurfaceDirection.values()) {
             HashMap<SurfaceDirection, List<Tile>> fromMap = new HashMap<>();
@@ -53,14 +54,14 @@ public class PlanetTiles {
                 String fromL = from.getLetter();
                 String toL = to.getLetter();
                 String tileDescName = inverted ? toL + fromL : fromL + toL;
-                ArrayList<TextureAtlas.AtlasRegion> texs = textureManager.getPack(groundFolder + "/" + tileDescName);
+                ArrayList<TextureAtlas.AtlasRegion> texs = textureManager.getPack("grounds/" + groundName + "/" + tileDescName);
                 ArrayList<Tile> tileVariants = buildTiles(textureManager, paths, inverted, tileDescName, from, to, texs);
                 fromMap.put(to, tileVariants);
             }
         }
     }
 
-    private ArrayList<Tile> buildTiles(TextureManager textureManager, PathLoader.Model paths, boolean inverted, String tileDescName,
+    private ArrayList<Tile> buildTiles(TextureManager textureManager, CollisionMeshLoader.Model paths, boolean inverted, String tileDescName,
                                        SurfaceDirection from, SurfaceDirection to, ArrayList<TextureAtlas.AtlasRegion> texs) {
         ArrayList<Tile> tileVariants = new ArrayList<>();
         for (TextureAtlas.AtlasRegion tex : texs) {
@@ -70,8 +71,8 @@ public class PlanetTiles {
             String tileName = tileDescName + "_" + tex.index + ".png";
             List<Vector2> points = new ArrayList<>();
             List<Vector2> rawPoints;
-            PathLoader.RigidBodyModel tilePaths = paths == null ? null : paths.rigidBodies.get(tileName);
-            List<PathLoader.PolygonModel> shapes = tilePaths == null ? null : tilePaths.shapes;
+            CollisionMeshLoader.RigidBodyModel tilePaths = paths == null ? null : paths.rigidBodies.get(tileName);
+            List<CollisionMeshLoader.PolygonModel> shapes = tilePaths == null ? null : tilePaths.shapes;
             if (shapes != null && !shapes.isEmpty()) {
                 rawPoints = shapes.get(0).vertices;
             } else {

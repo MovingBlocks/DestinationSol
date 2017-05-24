@@ -20,6 +20,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.ShipConfig;
@@ -71,26 +72,26 @@ public class PlanetConfig {
         this.easyOnly = easyOnly;
     }
 
-    static PlanetConfig load(TextureManager textureManager, HullConfigManager hullConfigs, JsonValue sh, GameColors cols,
-                             ItemManager itemManager) {
-        float minGrav = sh.getFloat("minGrav");
-        float maxGrav = sh.getFloat("maxGrav");
-        List<DecoConfig> deco = DecoConfig.load(sh, textureManager);
-        ArrayList<ShipConfig> groundEnemies = ShipConfig.loadList(sh.get("groundEnemies"), hullConfigs, itemManager);
-        ArrayList<ShipConfig> highOrbitEnemies = ShipConfig.loadList(sh.get("highOrbitEnemies"), hullConfigs, itemManager);
-        ArrayList<ShipConfig> lowOrbitEnemies = ShipConfig.loadList(sh.get("lowOrbitEnemies"), hullConfigs, itemManager);
-        ShipConfig stationConfig = ShipConfig.load(hullConfigs, sh.get("station"), itemManager);
-        String cloudPackName = sh.getString("cloudTexs");
+    static PlanetConfig load(TextureManager textureManager, HullConfigManager hullConfigs, JsonValue rootNode,
+                                GameColors cols, ItemManager itemManager, AssetHelper assetHelper) {
+        float minGrav = rootNode.getFloat("minGrav");
+        float maxGrav = rootNode.getFloat("maxGrav");
+        List<DecoConfig> deco = DecoConfig.load(rootNode, textureManager);
+        ArrayList<ShipConfig> groundEnemies = ShipConfig.loadList(rootNode.get("groundEnemies"), hullConfigs, itemManager);
+        ArrayList<ShipConfig> highOrbitEnemies = ShipConfig.loadList(rootNode.get("highOrbitEnemies"), hullConfigs, itemManager);
+        ArrayList<ShipConfig> lowOrbitEnemies = ShipConfig.loadList(rootNode.get("lowOrbitEnemies"), hullConfigs, itemManager);
+        ShipConfig stationConfig = ShipConfig.load(hullConfigs, rootNode.get("station"), itemManager);
+        String cloudPackName = rootNode.getString("cloudTexs");
         ArrayList<TextureAtlas.AtlasRegion> cloudTexs = textureManager.getPack(cloudPackName);
-        String groundFolder = sh.getString("groundTexs");
-        PlanetTiles planetTiles = new PlanetTiles(textureManager, groundFolder);
-        SkyConfig skyConfig = SkyConfig.load(sh.get("sky"), cols);
-        int rowCount = sh.getInt("rowCount");
-        boolean smoothLandscape = sh.getBoolean("smoothLandscape", false);
-        TradeConfig tradeConfig = TradeConfig.load(itemManager, sh.get("trading"), hullConfigs);
-        boolean hardOnly = sh.getBoolean("hardOnly", false);
-        boolean easyOnly = sh.getBoolean("easyOnly", false);
-        return new PlanetConfig(sh.name, minGrav, maxGrav, deco, groundEnemies, highOrbitEnemies, lowOrbitEnemies, cloudTexs,
+        String groundFolder = rootNode.getString("groundTexs");
+        PlanetTiles planetTiles = new PlanetTiles(textureManager, groundFolder, assetHelper);
+        SkyConfig skyConfig = SkyConfig.load(rootNode.get("sky"), cols);
+        int rowCount = rootNode.getInt("rowCount");
+        boolean smoothLandscape = rootNode.getBoolean("smoothLandscape", false);
+        TradeConfig tradeConfig = TradeConfig.load(itemManager, rootNode.get("trading"), hullConfigs);
+        boolean hardOnly = rootNode.getBoolean("hardOnly", false);
+        boolean easyOnly = rootNode.getBoolean("easyOnly", false);
+        return new PlanetConfig(rootNode.name, minGrav, maxGrav, deco, groundEnemies, highOrbitEnemies, lowOrbitEnemies, cloudTexs,
                 planetTiles, stationConfig, skyConfig, rowCount, smoothLandscape, tradeConfig, hardOnly, easyOnly);
     }
 }

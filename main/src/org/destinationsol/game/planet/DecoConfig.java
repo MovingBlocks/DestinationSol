@@ -53,7 +53,7 @@ public class DecoConfig {
             Vector2 orig = SolMath.readV2(deco, "orig");
             boolean allowFlip = deco.getBoolean("allowFlip");
             String texName = planetConfig.getString("decoTexs") + "/" + deco.name;
-            ArrayList<TextureAtlas.AtlasRegion> texs = textureManager.getPack(texName);
+            ArrayList<TextureAtlas.AtlasRegion> texs = textureManager.getPack("decorations/" + texName);
             DecoConfig c = new DecoConfig(density, szMin, szMax, orig, allowFlip, texs);
             res.add(c);
         }

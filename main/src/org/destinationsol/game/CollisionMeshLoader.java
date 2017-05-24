@@ -1,0 +1,351 @@
+/*
+ * Copyright 2015 MovingBlocks
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.destinationsol.game;
+
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.Const;
+import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.json.Json;
+import org.destinationsol.common.SolColor;
+import org.destinationsol.common.SolMath;
+import org.destinationsol.files.FileManager;
+import org.destinationsol.files.HullConfigManager;
+import org.destinationsol.game.dra.Dra;
+import org.destinationsol.game.dra.DraLevel;
+import org.destinationsol.game.dra.RectSprite;
+import org.destinationsol.game.ship.hulls.HullConfig;
+import org.terasology.assets.ResourceUrn;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Creates a Model that is used for collision testing from the given json file.
+ */
+public class CollisionMeshLoader {
+    private final Model model = new Model();
+
+    // Reusable stuff
+    private final List<Vector2> vectorPool = new ArrayList<>();
+    private final PolygonShape polygonShape  = new PolygonShape();
+    private final CircleShape circleShape = new CircleShape();
+    private final Vector2 vec = new Vector2();
+
+    public CollisionMeshLoader() { }
+
+    /**
+     * Creates a Model from the given Hull (Collision Mesh), which can be created using Box2D.
+     *
+     * @param fileName A ResourceUrn pointing to the collision mesh to be loaded
+     * @param assetHelper The AssetHelper to use for obtaining the file
+     */
+    public CollisionMeshLoader(ResourceUrn fileName, AssetHelper assetHelper) {
+        Json json = assetHelper.getJson(fileName).get();
+
+        readModel(json.getJsonValue());
+
+        // TODO : Verify if I can safely dispose this here
+        // json.dispose();
+    }
+
+    /**
+     * Creates and applies the fixtures defined in the editor. The name
+     * parameter is used to retrieve the right fixture from the loaded file.
+     * <br/><br/>
+     * <p>
+     * The body reference point (the red cross in the tool) is by default
+     * located at the bottom left corner of the image. This reference point
+     * will be put right over the BodyDef position point. Therefore, you should
+     * place this reference point carefully to let you place your body in your
+     * world easily with its BodyDef.position point. Note that to draw an image
+     * at the position of your body, you will need to know this reference point
+     * (see {@link #getOrigin(String, float)}.
+     * <br/><br/>
+     * <p>
+     * Also, saved shapes are normalized. As shown in the tool, the width of
+     * the image is considered to be always 1 meter. Thus, you need to provide
+     * a scale factor so the polygons get resized according to your needs (not
+     * every body is 1 meter large in your game, I guess).
+     *
+     * @param body  The Box2d body you want to attach the fixture to.
+     * @param name  The name of the fixture you want to load.
+     * @param fd    The fixture parameters to apply to the created body fixture.
+     * @param scale The desired scale of the body. The default width is 1.
+     */
+    public boolean attachFixture(Body body, String name, FixtureDef fd, float scale) {
+        RigidBodyModel rbModel = model.rigidBodies.get(name);
+        if (rbModel == null) {
+            return false;
+        }
+
+        Vector2 origin = vec.set(rbModel.origin).scl(scale);
+
+        for (PolygonModel polygon : rbModel.polygons) {
+            Vector2[] points = polygon.tmpArray;
+
+            int pointCount = points.length;
+            for (int i = 0; i < pointCount; i++) {
+                Vector2 origPoint = polygon.vertices.get(pointCount - i - 1);
+                points[i] = newVec(origPoint).scl(scale);
+                points[i].sub(origin);
+            }
+
+            polygonShape.set(points);
+            fd.shape = polygonShape;
+            body.createFixture(fd);
+
+            for (Vector2 point : points) {
+                free(point);
+            }
+        }
+
+        for (CircleModel circle : rbModel.circles) {
+            Vector2 center = newVec(circle.center).scl(scale).sub(origin);
+            float radius = circle.radius * scale;
+
+            circleShape.setPosition(center);
+            circleShape.setRadius(radius);
+            fd.shape = circleShape;
+            body.createFixture(fd);
+
+            free(center);
+        }
+
+        return true;
+    }
+
+    /**
+     * Gets the origin point attached to the given name. Since the point is
+     * normalized in [0,1] coordinates, it needs to be scaled to your body
+     * size. Warning: this method returns the same Vector2 object each time, so
+     * copy it if you need it for later use.
+     */
+    public Vector2 getOrigin(String name, float scale) {
+        RigidBodyModel rbModel = model.rigidBodies.get(name);
+        if (rbModel == null) {
+            vec.set(.5f, .5f);
+        } else {
+            vec.set(rbModel.origin);
+        }
+        vec.scl(scale);
+        return vec;
+    }
+
+    /**
+     * <b>For advanced users only.</b> Lets you access the internal model of
+     * this loader and modify it. Be aware that any modification is permanent
+     * and that you should really know what you are doing.
+     */
+    public Model getInternalModel() {
+        return model;
+    }
+
+    private void readModel(JsonValue rootNode) {
+        for (JsonValue rbNode = rootNode.getChild("rigidBodies"); rbNode != null; rbNode = rbNode.next()) {
+            readRigidBody(rbNode);
+        }
+    }
+
+    public void readRigidBody(JsonValue rbNode) {
+        readRigidBody(rbNode, rbNode.getString("name"), rbNode.getString("imagePath"));
+    }
+
+    public void readRigidBody(JsonValue rbNode, HullConfig hullConfig) {
+        readRigidBody(rbNode, hullConfig.getInternalName(),
+                FileManager.getInstance().getHullsDirectory().child(hullConfig.getInternalName()).child(HullConfigManager.TEXTURE_FILE_NAME).path());
+    }
+
+    private void readRigidBody(JsonValue rbNode, String name, String imagePath) {
+        RigidBodyModel rbModel = new RigidBodyModel();
+        rbModel.name = name;
+        rbModel.imagePath = imagePath;
+
+        JsonValue originNode = rbNode.get("origin");
+        rbModel.origin.x = originNode.getFloat("x");
+        rbModel.origin.y = 1 - originNode.getFloat("y");
+
+        // Polygons
+        for (JsonValue polygonNode = rbNode.get("polygons").child(); polygonNode != null; polygonNode = polygonNode.next()) { // Can I use next instead of next() ?
+            PolygonModel polygonModel = new PolygonModel();
+            rbModel.polygons.add(polygonModel);
+
+            for (JsonValue vertexNode = polygonNode.child(); vertexNode != null; vertexNode = vertexNode.next()) {
+                float x = vertexNode.get("x").asFloat();
+                float y = 1 - vertexNode.get("y").asFloat();
+                polygonModel.vertices.add(new Vector2(x, y));
+            }
+
+            // Why do we need this? Investigate.
+            polygonModel.tmpArray = new Vector2[polygonModel.vertices.size()];
+        }
+
+        // Shapes
+        for (JsonValue shapeNode = rbNode.get("shapes").child(); shapeNode != null; shapeNode = shapeNode.next()) { // Can I use next instead of next() ?
+            String type = shapeNode.getString("type");
+            if (!type.equals("POLYGON")) {
+                continue;
+            }
+
+            PolygonModel shapeModel = new PolygonModel();
+            rbModel.shapes.add(shapeModel);
+            for (JsonValue vertexNode = shapeNode.getChild("vertices"); vertexNode != null; vertexNode = vertexNode.next()) {
+                float x = vertexNode.get("x").asFloat();
+                float y = 1 - vertexNode.get("y").asFloat();
+                shapeModel.vertices.add(new Vector2(x, y));
+            }
+
+            // Why do we need this? Investigate.
+            shapeModel.tmpArray = new Vector2[shapeModel.vertices.size()];
+        }
+
+        // Circles
+        for (JsonValue circleNode = rbNode.get("circles").child(); circleNode != null; circleNode = circleNode.next()) { // Can I use next instead of next() ?
+            CircleModel circleModel = new CircleModel();
+            rbModel.circles.add(circleModel);
+
+            circleModel.center.x = circleNode.getFloat("cx");
+            circleModel.center.y = 1 - circleNode.getFloat("cy");
+            circleModel.radius = circleNode.getFloat("r");
+        }
+
+        model.rigidBodies.put(rbModel.name, rbModel);
+    }
+
+    private Vector2 newVec(Vector2 v) {
+        Vector2 res = vectorPool.isEmpty() ? new Vector2() : vectorPool.remove(0);
+        if (v != null) {
+            res.set(v);
+        }
+        return res;
+    }
+
+    private void free(Vector2 v) {
+        vectorPool.add(v);
+    }
+
+    /**
+     * This needs refactoring...
+     *
+     * @param dras a atlas will be added here
+     * @param tex  pass if you already have a atlas.. So hacky!
+     */
+    public Body getBodyAndSprite(SolGame game, HullConfig hullConfig, float scale, BodyDef.BodyType type,
+                                 Vector2 pos, float angle, List<Dra> dras, float density, DraLevel level, TextureAtlas.AtlasRegion tex) {
+        final String name = hullConfig.getInternalName();
+
+        BodyDef bd = new BodyDef();
+        bd.type = type;
+        bd.angle = angle * SolMath.degRad;
+        bd.angularDamping = 0;
+        bd.position.set(pos);
+        bd.linearDamping = 0;
+        Body body = game.getObjMan().getWorld().createBody(bd);
+        FixtureDef fd = new FixtureDef();
+        fd.density = density;
+        fd.friction = Const.FRICTION;
+        Vector2 orig;
+        boolean found = attachFixture(body, name, fd, scale);
+        if (!found) {
+            DebugOptions.MISSING_PHYSICS_ACTION.handle("Could not find physics data for " + name);
+            fd.shape = new CircleShape();
+            fd.shape.setRadius(scale / 2);
+            body.createFixture(fd);
+            fd.shape.dispose();
+        }
+
+        orig = hullConfig.getShipBuilderOrigin();
+        if (tex == null) {
+            tex = hullConfig.getTexture();
+        }
+        RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.W, false);
+        dras.add(s);
+        return body;
+    }
+
+    /**
+     * This needs refactoring...
+     *
+     * @param texDirName used only to load a atlas
+     * @param texName    used both to load a atlas and to load a path from the path file. should be just a file name without a path or extension
+     * @param dras       a atlas will be added here
+     * @param tex        pass if you already have a atlas.. So hacky!
+     */
+    public Body getBodyAndSprite(SolGame game, String texDirName, String texName, float scale, BodyDef.BodyType type,
+                                 Vector2 pos, float angle, List<Dra> dras, float density, DraLevel level, TextureAtlas.AtlasRegion tex) {
+        BodyDef bd = new BodyDef();
+        bd.type = type;
+        bd.angle = angle * SolMath.degRad;
+        bd.angularDamping = 0;
+        bd.position.set(pos);
+        bd.linearDamping = 0;
+        Body body = game.getObjMan().getWorld().createBody(bd);
+        FixtureDef fd = new FixtureDef();
+        fd.density = density;
+        fd.friction = Const.FRICTION;
+        String pathName = texName + ".png";
+        Vector2 orig;
+        boolean found = attachFixture(body, pathName, fd, scale);
+        if (!found) {
+            DebugOptions.MISSING_PHYSICS_ACTION.handle("Could not find physics data for " + texDirName + "/" + texName);
+            fd.shape = new CircleShape();
+            fd.shape.setRadius(scale / 2);
+            body.createFixture(fd);
+            fd.shape.dispose();
+        }
+
+        orig = getOrigin(pathName, 1);
+        if (tex == null) {
+            String imgName = texDirName + "/" + texName;
+            tex = game.getTexMan().getTexture(imgName);
+        }
+        RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.W, false);
+        dras.add(s);
+        return body;
+    }
+
+    public static class Model {
+        public final Map<String, RigidBodyModel> rigidBodies = new HashMap<>();
+    }
+
+    public static class RigidBodyModel {
+        public final Vector2 origin = new Vector2();
+        public final List<PolygonModel> polygons = new ArrayList<>();
+        public final List<PolygonModel> shapes = new ArrayList<>();
+        public final List<CircleModel> circles = new ArrayList<>();
+        public String name;
+        public String imagePath;
+    }
+
+    public static class PolygonModel {
+        public final List<Vector2> vertices = new ArrayList<>();
+        private Vector2[] tmpArray; // Used to avoid allocation in attachFixture()
+    }
+
+    public static class CircleModel {
+        public final Vector2 center = new Vector2();
+        public float radius;
+    }
+}
