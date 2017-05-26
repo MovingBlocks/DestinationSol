@@ -127,12 +127,12 @@ public class SolGame {
         myTutorialManager = tut ? new TutorialManager(commonDrawer.r, myScreens, cmp.isMobile(), cmp.getOptions(), this) : null;
         myTextureManager = textureManager;
         myFarBackgroundManagerOld = new FarBackgroundManagerOld(myTextureManager);
-        myShipBuilder = new ShipBuilder();
+        myShipBuilder = new ShipBuilder(assetHelper);
         myEffectTypes = new EffectTypes();
         mySpecialEffects = new SpecialEffects(myEffectTypes, myTextureManager, gameColors, assetHelper);
         myItemManager = new ItemManager(myTextureManager, soundManager, myEffectTypes, gameColors, assetHelper);
         myAbilityCommonConfigs = new AbilityCommonConfigs(myEffectTypes, myTextureManager, gameColors, soundManager, assetHelper);
-        hullConfigManager = new HullConfigManager(FileManager.getInstance(), textureManager, myItemManager, myAbilityCommonConfigs);
+        hullConfigManager = new HullConfigManager(myItemManager, myAbilityCommonConfigs, assetHelper);
         myNames = new SolNames();
         myPlanetManager = new PlanetManager(myTextureManager, hullConfigManager, gameColors, myItemManager, assetHelper);
         SolContactListener contactListener = new SolContactListener(this);

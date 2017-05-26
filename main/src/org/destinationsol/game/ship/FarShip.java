@@ -17,6 +17,7 @@
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.game.FarObj;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
