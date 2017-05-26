@@ -16,11 +16,10 @@
 
 package org.destinationsol.files;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.item.EngineItem;
@@ -28,36 +27,31 @@ import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.ship.AbilityConfig;
 import org.destinationsol.game.ship.EmWave;
 import org.destinationsol.game.ship.KnockBack;
-import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SloMo;
 import org.destinationsol.game.ship.Teleport;
 import org.destinationsol.game.ship.UnShield;
 import org.destinationsol.game.ship.hulls.GunSlot;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 public final class HullConfigManager {
-    private final FileManager fileManager;
-    private final TextureManager textureManager;
+    private final AssetHelper assetHelper;
     private final ItemManager itemManager;
     private final AbilityCommonConfigs abilityCommonConfigs;
     private final Map<String, HullConfig> nameToConfigMap;
     private final Map<HullConfig, String> configToNameMap;
 
-    public HullConfigManager(FileManager fileManager, TextureManager textureManager,
-                                ItemManager itemManager, AbilityCommonConfigs abilityCommonConfigs) {
-        this.fileManager = fileManager;
-        this.textureManager = textureManager;
+
+    public HullConfigManager(ItemManager itemManager, AbilityCommonConfigs abilityCommonConfigs, AssetHelper assetHelper) {
+        this.assetHelper = assetHelper;
         this.itemManager = itemManager;
         this.abilityCommonConfigs = abilityCommonConfigs;
 
         nameToConfigMap = new HashMap<>();
         configToNameMap = new HashMap<>();
-        readShipConfigs();
     }
 
     private static Vector2 readVector2(JsonValue jsonValue, String name, Vector2 defaultValue) {
@@ -84,8 +78,14 @@ public final class HullConfigManager {
         }
     }
 
-    public HullConfig getConfig(String name) {
-        return nameToConfigMap.get(name);
+    public HullConfig getConfig(String shipName) {
+        HullConfig hullConfig = nameToConfigMap.get(shipName);
+
+        if (hullConfig == null) {
+            hullConfig = read(shipName);
+        }
+
+        return hullConfig;
     }
 
     public String getName(HullConfig hull) {
@@ -93,39 +93,20 @@ public final class HullConfigManager {
         return (result == null) ? "" : result;
     }
 
-    private void readShipConfigs() {
-        List<FileHandle> shipDirectories = getShipDirectories();
-
-        for (FileHandle handle : shipDirectories) {
-            HullConfig config = read(handle);
-            String name = handle.nameWithoutExtension();
-            nameToConfigMap.put(name, config);
-            configToNameMap.put(config, name);
-        }
-    }
-
-    private List<FileHandle> getShipDirectories() {
-        List<FileHandle> subDirectories = new LinkedList<>();
-
-        for (FileHandle handle : fileManager.getShipsDirectory().list()) {
-            if (handle.isDirectory()) {
-                subDirectories.add(handle);
-            }
-        }
-
-        return subDirectories;
-    }
-
-    private HullConfig read(FileHandle hullConfigDirectory) {
+    private HullConfig read(String shipName) {
         final HullConfig.Data configData = new HullConfig.Data();
 
-        String shipName = hullConfigDirectory.nameWithoutExtension();
-        final FileHandle propertiesFile = hullConfigDirectory.child(shipName + "Properties.json");
-        readProperties(propertiesFile, configData);
+        configData.internalName = shipName;
 
-        configData.internalName = hullConfigDirectory.nameWithoutExtension();
-        configData.tex = textureManager.getTexture(hullConfigDirectory.child(shipName + "Texture.png").toString());
-        configData.icon = textureManager.getTexture(hullConfigDirectory.child(shipName + "Icon.png").toString());
+        Json json = assetHelper.getJson(new ResourceUrn("Core:" + shipName + "Properties")).get();
+
+        readProperties(json.getJsonValue(), configData);
+
+        // TODO: Ensure that this does not cause any problems
+        json.dispose();
+
+        configData.tex = assetHelper.getAtlasRegion(new ResourceUrn("Core:" + shipName + "Texture"));
+        configData.icon = assetHelper.getAtlasRegion(new ResourceUrn("Core:" + shipName + "Icon"));
 
         validateEngineConfig(configData);
 
@@ -147,37 +128,34 @@ public final class HullConfigManager {
         }
     }
 
-    private void readProperties(FileHandle propertiesFile, HullConfig.Data configData) {
-        JsonReader jsonReader = new JsonReader();
-        JsonValue jsonNode = jsonReader.parse(propertiesFile);
-
-        configData.size = jsonNode.getFloat("size");
+    private void readProperties(JsonValue rootNode, HullConfig.Data configData) {
+        configData.size = rootNode.getFloat("size");
         configData.approxRadius = 0.4f * configData.size;
-        configData.maxLife = jsonNode.getInt("maxLife");
+        configData.maxLife = rootNode.getInt("maxLife");
 
-        configData.e1Pos = readVector2(jsonNode, "e1Pos", new Vector2());
-        configData.e2Pos = readVector2(jsonNode, "e2Pos", new Vector2());
+        configData.e1Pos = readVector2(rootNode, "e1Pos", new Vector2());
+        configData.e2Pos = readVector2(rootNode, "e2Pos", new Vector2());
 
-        configData.lightSrcPoss = SolMath.readV2List(jsonNode, "lightSrcPoss");
-        configData.hasBase = jsonNode.getBoolean("hasBase", false);
-        configData.forceBeaconPoss = SolMath.readV2List(jsonNode, "forceBeaconPoss");
-        configData.doorPoss = SolMath.readV2List(jsonNode, "doorPoss");
-        configData.type = HullConfig.Type.forName(jsonNode.getString("type"));
+        configData.lightSrcPoss = SolMath.readV2List(rootNode, "lightSrcPoss");
+        configData.hasBase = rootNode.getBoolean("hasBase", false);
+        configData.forceBeaconPoss = SolMath.readV2List(rootNode, "forceBeaconPoss");
+        configData.doorPoss = SolMath.readV2List(rootNode, "doorPoss");
+        configData.type = HullConfig.Type.forName(rootNode.getString("type"));
         configData.durability = (configData.type == HullConfig.Type.BIG) ? 3 : .25f;
-        configData.engineConfig = readEngineConfig(itemManager, jsonNode, "engine");
-        configData.ability = loadAbility(jsonNode, itemManager, abilityCommonConfigs);
+        configData.engineConfig = readEngineConfig(itemManager, rootNode, "engine");
+        configData.ability = loadAbility(rootNode, itemManager, abilityCommonConfigs);
 
-        configData.displayName = jsonNode.getString("displayName", "---");
-        configData.price = jsonNode.getInt("price", 0);
-        configData.hirePrice = jsonNode.getFloat("hirePrice", 0);
+        configData.displayName = rootNode.getString("displayName", "---");
+        configData.price = rootNode.getInt("price", 0);
+        configData.hirePrice = rootNode.getFloat("hirePrice", 0);
 
-        Vector2 tmpV = new Vector2(jsonNode.get("rigidBody").get("origin").getFloat("x"),
-                1 - jsonNode.get("rigidBody").get("origin").getFloat("y"));
+        Vector2 tmpV = new Vector2(rootNode.get("rigidBody").get("origin").getFloat("x"),
+                1 - rootNode.get("rigidBody").get("origin").getFloat("y"));
         configData.shipBuilderOrigin.set(tmpV);
 
         process(configData);
 
-        parseGunSlotList(jsonNode.get("gunSlots"), configData);
+        parseGunSlotList(rootNode.get("gunSlots"), configData);
     }
 
     private AbilityConfig loadAbility(

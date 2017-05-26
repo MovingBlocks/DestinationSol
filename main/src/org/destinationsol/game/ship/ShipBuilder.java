@@ -31,6 +31,8 @@ import com.badlogic.gdx.physics.box2d.joints.PrismaticJoint;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
@@ -57,6 +59,7 @@ import org.destinationsol.game.item.TradeContainer;
 import org.destinationsol.game.particle.LightSrc;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,9 +70,11 @@ public class ShipBuilder {
     public static final float AVG_ALLY_LIFE_TIME = 75f;
 
     private final CollisionMeshLoader myCollisionMeshLoader;
+    private final AssetHelper assetHelper;
 
-    public ShipBuilder() {
+    public ShipBuilder(AssetHelper assetHelper) {
         myCollisionMeshLoader = new CollisionMeshLoader();
+        this.assetHelper = assetHelper;
     }
 
     private static Fixture getBase(boolean hasBase, Body body) {
@@ -226,16 +231,17 @@ public class ShipBuilder {
     }
 
     public SolShip build(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot,
-                         ItemContainer container, HullConfig hullConfig, float life,
-                         GunItem gun1, GunItem gun2, RemoveController removeController,
-                         EngineItem engine, ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield, Armor armor) {
-        ArrayList<Dra> dras = new ArrayList<Dra>();
+                            ItemContainer container, HullConfig hullConfig, float life, GunItem gun1,
+                            GunItem gun2, RemoveController removeController, EngineItem engine,
+                            ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
+                            Armor armor) {
+        ArrayList<Dra> dras = new ArrayList<>();
         Hull hull = buildHull(game, pos, spd, angle, rotSpd, hullConfig, life, dras);
         SolShip ship = new SolShip(game, pilot, hull, removeController, dras, container, repairer, money, tradeContainer, shield, armor);
         hull.getBody().setUserData(ship);
         for (Door door : hull.getDoors()) {
             door.getBody().setUserData(ship);
-        }
+    }
 
         if (engine != null) {
             hull.setEngine(game, ship, engine);
@@ -261,10 +267,14 @@ public class ShipBuilder {
                            float life, ArrayList<Dra> dras) {
         //TODO: This logic belongs in the HullConfigManager/HullConfig
         String shipName = hullConfig.getInternalName();
-        FileHandle hullPropertiesFile = FileManager.getInstance().getShipsDirectory().child(shipName).child(shipName + "Properties.json");
-        JsonReader reader = new JsonReader();
-        JsonValue rigidBodyNode = reader.parse(hullPropertiesFile).get("rigidBody");
+
+        Json json = assetHelper.getJson(new ResourceUrn("Core:" + shipName + "Properties")).get();
+
+        JsonValue rigidBodyNode = json.getJsonValue().get("rigidBody");
         myCollisionMeshLoader.readRigidBody(rigidBodyNode, hullConfig);
+
+        // TODO: Ensure that this does not cause any problems
+        json.dispose();
 
         BodyDef.BodyType bodyType = hullConfig.getType() == HullConfig.Type.STATION ? BodyDef.BodyType.KinematicBody : BodyDef.BodyType.DynamicBody;
         DraLevel level = hullConfig.getType() == HullConfig.Type.STD ? DraLevel.BODIES : DraLevel.BIG_BODIES;
