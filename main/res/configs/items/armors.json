@@ -1,55 +1,65 @@
 {
-  a1: {
-    price: 60,
-    perc: 0.1,
+    "a1": {
+        "price": 60,
+        "perc": 0.1,
+        "displayName": "Light Armor",
+        "icon": "armor1",
+        "bulletHitSounds": [
+            "Core:metalBulletHit0",
+            "Core:metalBulletHit1",
+            "Core:metalBulletHit2"
+        ],
+        "energyHitSounds": [
+            "Core:empty"
+        ],
+        "baseSoundPitch": 1,
+    },
 
-    displayName: "Light Armor",
-    icon: "armor1",
+    "a2": {
+        "price": 150,
+        "perc": 0.2,
+        "displayName": "Medium Armor",
+        "icon": "armor2",
+        "bulletHitSounds": [
+            "Core:metalBulletHit0",
+            "Core:metalBulletHit1",
+            "Core:metalBulletHit2"
+        ],
+        "energyHitSounds": [
+            "Core:empty"
+        ],
+        "baseSoundPitch": 0.9,
+    },
 
-    bulletHitSounds: ["Core:metalBulletHit0", "Core:metalBulletHit1", "Core:metalBulletHit2"],
-    energyHitSounds: ["Core:empty"],
-    baseSoundPitch: 1,
-  },
+    "a3": {
+        "price": 400,
+        "perc": 0.3,
+        "displayName": "Heavy Armor",
+        "icon": "armor3",
+        "bulletHitSounds": [
+            "Core:metalBulletHit0",
+            "Core:metalBulletHit1",
+            "Core:metalBulletHit2"
+        ],
+        "energyHitSounds": [
+            "Core:empty"
+        ],
+        "baseSoundPitch": 0.8,
+    },
 
-
-
-  a2: {
-    price: 150,
-    perc: 0.2,
-
-    displayName: "Medium Armor",
-    icon: "armor2",
-
-    bulletHitSounds: ["Core:metalBulletHit0", "Core:metalBulletHit1", "Core:metalBulletHit2"],
-    energyHitSounds: ["Core:empty"],
-    baseSoundPitch: 0.9,
-  },
-
-
-
-  a3: {
-    price: 400,
-    perc: 0.3,
-
-    displayName: "Heavy Armor",
-    icon: "armor3",
-
-    bulletHitSounds: ["Core:metalBulletHit0", "Core:metalBulletHit1", "Core:metalBulletHit2"],
-    energyHitSounds: ["Core:empty"],
-    baseSoundPitch: 0.8,
-  },
-
-
-
-  a4: {
-    price: 800,
-    perc: 0.4,
-
-    displayName: "Advanced Armor",
-    icon: "armor4",
-
-    bulletHitSounds: ["Core:metalBulletHit0", "Core:metalBulletHit1", "Core:metalBulletHit2"],
-    energyHitSounds: ["Core:empty"],
-    baseSoundPitch: 0.7,
-},
+    "a4": {
+        "price": 800,
+        "perc": 0.4,
+        "displayName": "Advanced Armor",
+        "icon": "armor4",
+        "bulletHitSounds": [
+            "Core:metalBulletHit0",
+            "Core:metalBulletHit1",
+            "Core:metalBulletHit2"
+        ],
+        "energyHitSounds": [
+            "Core:empty"
+        ],
+        "baseSoundPitch": 0.7,
+    },
 }

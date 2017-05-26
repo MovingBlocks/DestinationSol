@@ -15,12 +15,15 @@
  */
 package org.destinationsol.assets;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.assets.atlas.Atlas;
 import org.destinationsol.assets.audio.OggMusic;
 import org.destinationsol.assets.audio.OggSound;
-import org.destinationsol.assets.emitter.Emitter;
-import org.destinationsol.assets.font.Font;
+import org.destinationsol.assets.emitters.Emitter;
+import org.destinationsol.assets.fonts.Font;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.textures.DSTexture;
 import org.terasology.assets.Asset;
 import org.terasology.assets.AssetData;
 import org.terasology.assets.ResourceUrn;
@@ -41,7 +44,8 @@ public class AssetHelper {
         assetTypeManager.registerCoreAssetType(Atlas.class, Atlas::new, "atlas");
         assetTypeManager.registerCoreAssetType(Font.class, Font::new, "fonts");
         assetTypeManager.registerCoreAssetType(Emitter.class, Emitter::new, "emitters");
-        assetTypeManager.registerCoreAssetType(Json.class, Json::new, "collisionMeshes", "configs");
+        assetTypeManager.registerCoreAssetType(Json.class, Json::new, "collisionMeshes", "ships");
+        assetTypeManager.registerCoreAssetType(DSTexture.class, DSTexture::new, "ships");
 
         assetTypeManager.switchEnvironment(environment);
     }
@@ -76,5 +80,21 @@ public class AssetHelper {
 
     public Optional<Json> getJson(ResourceUrn urn) {
         return get(urn, Json.class);
+    }
+
+    public Optional<DSTexture> getDSTexture(ResourceUrn urn) {
+        return get(urn, DSTexture.class);
+    }
+
+    public TextureAtlas.AtlasRegion getAtlasRegion(ResourceUrn urn) {
+        Optional<DSTexture> dsTextureOptional = get(urn, DSTexture.class);
+        if (dsTextureOptional.isPresent()) {
+            Texture texture = dsTextureOptional.get().getTexture();
+            TextureAtlas.AtlasRegion atlasRegion = new TextureAtlas.AtlasRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
+            atlasRegion.flip(false, true);
+            return atlasRegion;
+        } else {
+            return null;
+        }
     }
 }
