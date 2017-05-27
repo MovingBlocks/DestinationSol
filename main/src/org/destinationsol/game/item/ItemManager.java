@@ -45,9 +45,11 @@ public class ItemManager {
     private final SolItemTypes myTypes;
     private final RepairItem myRepairExample;
     private final AssetHelper assetHelper;
+    private final OggSoundManager soundManager;
 
     public ItemManager(TextureManager textureManager, OggSoundManager soundManager, EffectTypes effectTypes, GameColors gameColors, AssetHelper assetHelper) {
         this.assetHelper = assetHelper;
+        this.soundManager = soundManager;
 
         moneyIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "money");
         medMoneyIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "medMoney");
@@ -59,7 +61,6 @@ public class ItemManager {
         myEngineConfigs = EngineItem.Configs.load(soundManager, textureManager, effectTypes, gameColors, assetHelper);
 
         Shield.Config.loadConfigs(this, soundManager, textureManager, myTypes);
-        Armor.Config.loadConfigs(this, soundManager, textureManager, myTypes);
 
         ClipConfig.load(this, textureManager, myTypes);
         GunConfig.load(textureManager, this, soundManager, myTypes);
@@ -120,7 +121,12 @@ public class ItemManager {
                 }
 
                 if (example == null) {
-                    AbilityCharge.Config.load(new ResourceUrn(name), this, myTypes, assetHelper);
+                    // TODO: Temporary hacky way!
+                    if (name.endsWith("Charge")) {
+                        AbilityCharge.Config.load(new ResourceUrn(name), this, myTypes, assetHelper);
+                    } else if (name.endsWith("Armor")) {
+                        Armor.Config.load(new ResourceUrn(name), this, soundManager, myTypes, assetHelper);
+                    }
 
                     example = getExample(name);
                 }

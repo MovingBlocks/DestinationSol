@@ -40,12 +40,11 @@ public class IniReader {
         List<String> lines = new ArrayList<>();
 
         try {
-            String line = "";
+            String line;
             while ((line = reader.readLine()) != null) {
                 lines.add(line);
             }
-        } catch (IOException e) {
-        }
+        } catch (IOException e) { }
 
         initValueMap(lines);
     }
@@ -83,13 +82,15 @@ public class IniReader {
         FileManager.FileLocation accessType = readOnly ? FileManager.FileLocation.STATIC_FILES : FileManager.FileLocation.DYNAMIC_FILES;
         FileHandle fh = FileManager.getInstance().getFile(fileName, accessType);
 
-        ArrayList<String> res = new ArrayList<String>();
+        ArrayList<String> res = new ArrayList<>();
         if (!fh.exists()) {
             return res;
         }
+
         for (String s : fh.readString().split("\n")) {
             res.add(s);
         }
+
         return res;
     }
 

@@ -21,12 +21,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.audio.PlayableSound;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.game.sound.OggSoundSet;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.Arrays;
 import java.util.List;
@@ -112,7 +115,6 @@ public class Armor implements SolItem {
         public final float perc;
         public final String desc;
         public final PlayableSound bulletHitSound;
-        public final Armor example;
         public final TextureAtlas.AtlasRegion icon;
         public final PlayableSound energyHitSound;
         public final SolItemType itemType;
@@ -129,27 +131,28 @@ public class Armor implements SolItem {
             this.code = code;
             this.desc = "Reduces damage by " + (int) (perc * 100) + "%\nStrong against energy guns";
             this.bulletHitSound = bulletHitSound;
-            this.example = new Armor(this);
         }
 
-        public static void loadConfigs(ItemManager itemManager, OggSoundManager soundManager, TextureManager textureManager, SolItemTypes types) {
-            JsonReader r = new JsonReader();
-            FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("armors.json");
-            JsonValue parsed = r.parse(configFile);
-            for (JsonValue sh : parsed) {
-                String displayName = sh.getString("displayName");
-                int price = sh.getInt("price");
-                float perc = sh.getFloat("perc");
-                List<String> bulletDamageSoundUrns = Arrays.asList(sh.get("bulletHitSounds").asStringArray());
-                List<String> energyDamageSoundUrns = Arrays.asList(sh.get("energyHitSounds").asStringArray());
-                float basePitch = sh.getFloat("baseSoundPitch", 1);
-                OggSoundSet bulletDmgSound = new OggSoundSet(soundManager, bulletDamageSoundUrns, basePitch);
-                OggSoundSet energyDmgSound = new OggSoundSet(soundManager, energyDamageSoundUrns, basePitch);
-                TextureAtlas.AtlasRegion icon = textureManager.getTexture(TextureManager.ICONS_DIR + sh.getString("icon"));
-                String code = sh.name;
-                Config config = new Config(displayName, price, perc, bulletDmgSound, icon, energyDmgSound, types.armor, code);
-                itemManager.registerItem(config.example);
-            }
+        public static void load(ResourceUrn armorName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types, AssetHelper assetHelper) {
+            Json json = assetHelper.getJson(armorName).get();
+            JsonValue rootNode = json.getJsonValue();
+
+            TextureAtlas.AtlasRegion icon = assetHelper.getAtlasRegion(new ResourceUrn(armorName + "Icon"));
+            String displayName = rootNode.getString("displayName");
+            int price = rootNode.getInt("price");
+            float perc = rootNode.getFloat("perc");
+            List<String> bulletDamageSoundUrns = Arrays.asList(rootNode.get("bulletHitSounds").asStringArray());
+            List<String> energyDamageSoundUrns = Arrays.asList(rootNode.get("energyHitSounds").asStringArray());
+            float basePitch = rootNode.getFloat("baseSoundPitch", 1);
+            OggSoundSet bulletDmgSound = new OggSoundSet(soundManager, bulletDamageSoundUrns, basePitch);
+            OggSoundSet energyDmgSound = new OggSoundSet(soundManager, energyDamageSoundUrns, basePitch);
+
+            Config armorConfig = new Config(displayName, price, perc, bulletDmgSound, icon, energyDmgSound, types.armor, armorName.toString());
+            Armor armorExample = new Armor(armorConfig);
+
+            itemManager.registerItem(armorExample);
+
+            json.dispose();
         }
     }
 }
