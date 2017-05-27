@@ -1,0 +1,14 @@
+{
+    "price": 60,
+    "perc": 0.1,
+    "displayName": "Light Armor",
+    "bulletHitSounds": [
+        "Core:metalBulletHit0",
+        "Core:metalBulletHit1",
+        "Core:metalBulletHit2"
+    ],
+    "energyHitSounds": [
+        "Core:empty"
+    ],
+    "baseSoundPitch": 1,
+}

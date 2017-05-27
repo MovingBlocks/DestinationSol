@@ -109,9 +109,9 @@ public class AbilityCharge implements SolItem {
             String displayName = rootNode.getString("displayName");
             String desc = rootNode.getString("desc");
 
-            Config ability = new Config(icon, price, displayName, desc, types.abilityCharge, abilityName.toString());
+            Config abilityConfig = new Config(icon, price, displayName, desc, types.abilityCharge, abilityName.toString());
 
-            AbilityCharge abilityChargeExample = new AbilityCharge(ability);
+            AbilityCharge abilityChargeExample = new AbilityCharge(abilityConfig);
             itemManager.registerItem(abilityChargeExample);
 
             json.dispose();

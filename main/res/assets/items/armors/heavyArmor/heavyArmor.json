@@ -1,0 +1,14 @@
+{
+    "price": 400,
+    "perc": 0.3,
+    "displayName": "Heavy Armor",
+    "bulletHitSounds": [
+        "Core:metalBulletHit0",
+        "Core:metalBulletHit1",
+        "Core:metalBulletHit2"
+    ],
+    "energyHitSounds": [
+        "Core:empty"
+    ],
+    "baseSoundPitch": 0.8,
+}
