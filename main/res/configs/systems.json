@@ -10,19 +10,19 @@
         "constantAllies": [
             {
                 "hull": "Core:imperialMedium",
-                "items": "fixedGun a1:.5 s1|s2:.75",
+                "items": "fixedGun lightArmor:.5 s1|s2:.75",
                 "density": 2,
             },
 
             {
                 "hull": "Core:imperialTiny",
-                "items": "blaster a1 s1",
+                "items": "blaster lightArmor s1",
                 "density": 3,
             },
 
             {
                 "hull": "Core:bus",
-                "items": "gun gun a1|a2 s2|s3",
+                "items": "gun gun lightArmor|mediumArmor s2|s3",
                 "density": 1,
             },
 
@@ -34,7 +34,7 @@
 
                 "guard": {
                     "hull": "Core:imperialBig",
-                    "items": "fixedGun fixedShotGun a2|a3 s2|s3",
+                    "items": "fixedGun fixedShotGun mediumArmor|heavyArmor s2|s3",
                     "density": 3,
                 }
             },
@@ -82,21 +82,21 @@
 
             {
                 "hull": "Core:pirateMedium",
-                "items": "gun miner a1:.25 s3",
+                "items": "gun miner lightArmor:.25 s3",
                 "money": 200,
                 "density": 0.0002,
             },
 
             {
                 "hull": "Core:pirateMedium",
-                "items": "fixedPlasmaGun a1:.25 s3",
+                "items": "fixedPlasmaGun lightArmor:.25 s3",
                 "money": 200,
                 "density": 0.0004,
             },
         ],
 
         "trading": {
-            "items": "rep blaster s1 a1 sloMoCharge gun bulletClip a2 missileClip plasmaClip fixedGun",
+            "items": "rep blaster s1 lightArmor sloMoCharge gun bulletClip mediumArmor missileClip plasmaClip fixedGun",
             "ships": "Core:imperialTiny Core:imperialSmall Core:imperialMedium",
             "mercenaries": [ ],
         },
@@ -120,7 +120,7 @@
 
                 "guard": {
                     "hull": "Core:imperialBig",
-                    "items": "fixedGun fixedShotGun a2|a3 s2|s3",
+                    "items": "fixedGun fixedShotGun mediumArmor|heavyArmor s2|s3",
                     "density": 3,
                 }
             },
@@ -129,7 +129,7 @@
         "constantEnemies": [
             {
                 "hull": "Core:desertMedium",
-                "items": "railGun|fixedCannon fixedGun|railGun:.8 a4 s2|s3:.6",
+                "items": "railGun|fixedCannon fixedGun|railGun:.8 advancedArmor s2|s3:.6",
                 "money": 300,
                 "density": 3,
             },
@@ -138,13 +138,13 @@
         "temporaryEnemies": [
             {
                 "hull": "Core:desertSpaceTurret",
-                "items": "cannon a2|a3 s1:.25",
+                "items": "cannon mediumArmor|heavyArmor s1:.25",
                 "money": 50,
                 "density": 0.001,
             },
             {
                 "hull": "Core:desertSmall",
-                "items": "fixedGun|railGun fixedGun:.8 a3 s1:.5",
+                "items": "fixedGun|railGun fixedGun:.8 heavyArmor s1:.5",
                 "money": 150,
                 "density": 0.0003,
             },
@@ -153,21 +153,21 @@
         "innerTemporaryEnemies": [
             {
                 "hull": "Core:desertSpaceTurret",
-                "items": "cannon gun|cannon:.8 a3|a4 s2:.75",
+                "items": "cannon gun|cannon:.8 heavyArmor|advancedArmor s2:.75",
                 "money": 100,
                 "density": 0.001,
             },
 
             {
                 "hull": "Core:desertBoss",
-                "items": "fixedCannon cannon a4 s3",
+                "items": "fixedCannon cannon advancedArmor s3",
                 "money": 1000,
                 "density": 0.0005,
             },
         ],
 
         "trading": {
-            "items": "rep sloMoCharge fixedGun bulletClip a2 s2 fixedShotGun shellClip s3",
+            "items": "rep sloMoCharge fixedGun bulletClip mediumArmor s2 fixedShotGun shellClip s3",
             "ships": "Core:imperialMedium Core:imperialBig",
 
             "mercenaries": [

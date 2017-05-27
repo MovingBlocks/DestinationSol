@@ -2,13 +2,13 @@
     "player": {
         "ship": {
             "hull": "Core:imperialSmall",
-            "items": "rep:1:3 a1-1 s1-1 blaster-1",
+            "items": "rep:1:3 lightArmor-1 s1-1 blaster-1",
             "money": 20,
         },
 
         "godModeShip": {
             "hull": "Core:imperialBig",
-            "items": "a4 s4",
+            "items": "advancedArmor s4",
             "money": 10000,
         },
     },
@@ -19,7 +19,7 @@
 
         "guard": {
             "hull": "Core:imperialBig",
-            "items": "fixedGun fixedShotGun a2|a3 s2|s3",
+            "items": "fixedGun fixedShotGun mediumArmor|heavyArmor s2|s3",
             "density": 3,
         }
     },
