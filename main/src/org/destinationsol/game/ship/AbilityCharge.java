@@ -16,17 +16,16 @@
 
 package org.destinationsol.game.ship;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.TextureManager;
-import org.destinationsol.files.FileManager;
+import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.item.SolItemType;
 import org.destinationsol.game.item.SolItemTypes;
+import org.terasology.assets.ResourceUrn;
 
 public class AbilityCharge implements SolItem {
     private final Config myConfig;
@@ -81,9 +80,7 @@ public class AbilityCharge implements SolItem {
     }
 
     @Override
-    public void setEquipped(int equipped) {
-
-    }
+    public void setEquipped(int equipped) { }
 
     public static class Config {
         public final SolItemType itemType;
@@ -103,21 +100,21 @@ public class AbilityCharge implements SolItem {
             this.code = code;
         }
 
-        public static void load(ItemManager itemManager, TextureManager textureManager, SolItemTypes types) {
-            JsonReader r = new JsonReader();
-            FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("abilityCharges.json");
-            JsonValue parsed = r.parse(configFile);
-            for (JsonValue ammoNode : parsed) {
-                String iconName = ammoNode.getString("iconName");
-                TextureAtlas.AtlasRegion icon = textureManager.getTexture(TextureManager.ICONS_DIR + iconName);
-                float price = ammoNode.getFloat("price");
-                String displayName = ammoNode.getString("displayName");
-                String desc = ammoNode.getString("desc");
-                String code = ammoNode.name;
-                Config c = new Config(icon, price, displayName, desc, types.abilityCharge, code);
-                AbilityCharge chargeExample = new AbilityCharge(c);
-                itemManager.registerItem(chargeExample);
-            }
+        public static void load(ResourceUrn abilityName, ItemManager itemManager, SolItemTypes types, AssetHelper assetHelper) {
+            Json json = assetHelper.getJson(abilityName).get();
+            JsonValue rootNode = json.getJsonValue();
+
+            TextureAtlas.AtlasRegion icon = assetHelper.getAtlasRegion(new ResourceUrn(abilityName + "Icon"));
+            float price = rootNode.getFloat("price");
+            String displayName = rootNode.getString("displayName");
+            String desc = rootNode.getString("desc");
+
+            Config ability = new Config(icon, price, displayName, desc, types.abilityCharge, abilityName.toString());
+
+            AbilityCharge abilityChargeExample = new AbilityCharge(ability);
+            itemManager.registerItem(abilityChargeExample);
+
+            json.dispose();
         }
     }
 }

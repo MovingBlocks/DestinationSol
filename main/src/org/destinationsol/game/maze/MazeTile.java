@@ -43,14 +43,14 @@ public class MazeTile {
                                 boolean metal, TextureAtlas.AtlasRegion bgTex) {
         ArrayList<List<Vector2>> points = new ArrayList<List<Vector2>>();
         CollisionMeshLoader.RigidBodyModel tilePaths = paths.rigidBodies.get(AsteroidBuilder.removePath(pathEntryName));
-        List<CollisionMeshLoader.PolygonModel> shapes = tilePaths == null ? new ArrayList<CollisionMeshLoader.PolygonModel>() : tilePaths.polygons;
+        List<CollisionMeshLoader.PolygonModel> shapes = tilePaths == null ? new ArrayList<>() : tilePaths.polygons;
             for (CollisionMeshLoader.PolygonModel shape : shapes) {
-                List<Vector2> vertices = new ArrayList<Vector2>(shape.vertices);
+                List<Vector2> vertices = new ArrayList<>(shape.vertices);
                 points.add(vertices);
             }
             if (points.isEmpty() && wall) {
             DebugOptions.MISSING_PHYSICS_ACTION.handle("found no paths for " + pathEntryName);
-            ArrayList<Vector2> wallPoints = new ArrayList<Vector2>();
+            ArrayList<Vector2> wallPoints = new ArrayList<>();
             wallPoints.add(new Vector2(0, .4f));
             wallPoints.add(new Vector2(1, .45f));
             wallPoints.add(new Vector2(1, .55f));

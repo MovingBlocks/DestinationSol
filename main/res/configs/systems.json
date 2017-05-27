@@ -9,31 +9,31 @@
 
         "constantAllies": [
             {
-                "hull": "imperialMedium",
+                "hull": "Core:imperialMedium",
                 "items": "fixedGun a1:.5 s1|s2:.75",
                 "density": 2,
             },
 
             {
-                "hull": "imperialTiny",
+                "hull": "Core:imperialTiny",
                 "items": "blaster a1 s1",
                 "density": 3,
             },
 
             {
-                "hull": "bus",
+                "hull": "Core:bus",
                 "items": "gun gun a1|a2 s2|s3",
                 "density": 1,
             },
 
             {
-                "hull": "station",
+                "hull": "Core:station",
                 "items": "cannon gun",
                 "repairer": true,
                 "density": 1,
 
                 "guard": {
-                    "hull": "imperialBig",
+                    "hull": "Core:imperialBig",
                     "items": "fixedGun fixedShotGun a2|a3 s2|s3",
                     "density": 3,
                 }
@@ -42,20 +42,20 @@
 
         "constantEnemies": [
             {
-                "hull": "pirateSmall",
+                "hull": "Core:pirateSmall",
                 "items": "shotGun s3:.86",
                 "money": 120,
                 "density": 2,
             },
 
             {
-                "hull": "truck",
+                "hull": "Core:truck",
                 "items": "shotGun s2|s3:.74",
                 "money": 1000,
                 "density": 1,
 
                 "guard": {
-                    "hull": "pirateSmall",
+                    "hull": "Core:pirateSmall",
                     "items": "gun s1:.5",
                     "money": 80,
                     "density": 3,
@@ -65,7 +65,7 @@
 
         "temporaryEnemies": [
             {
-                "hull": "pirateSpaceTurret",
+                "hull": "Core:pirateSpaceTurret",
                 "items": "plasmaGun",
                 "money": 40,
                 "density": 0.0015,
@@ -74,21 +74,21 @@
 
         "innerTemporaryEnemies": [
             {
-                "hull": "pirateSpaceTurret",
+                "hull": "Core:pirateSpaceTurret",
                 "items": "gun|shotGun s2:.62",
                 "money": 100,
                 "density": 0.0003,
             },
 
             {
-                "hull": "pirateMedium",
+                "hull": "Core:pirateMedium",
                 "items": "gun miner a1:.25 s3",
                 "money": 200,
                 "density": 0.0002,
             },
 
             {
-                "hull": "pirateMedium",
+                "hull": "Core:pirateMedium",
                 "items": "fixedPlasmaGun a1:.25 s3",
                 "money": 200,
                 "density": 0.0004,
@@ -97,7 +97,7 @@
 
         "trading": {
             "items": "rep blaster s1 a1 sloMoCharge gun bulletClip a2 missileClip plasmaClip fixedGun",
-            "ships": "imperialTiny imperialSmall imperialMedium",
+            "ships": "Core:imperialTiny Core:imperialSmall Core:imperialMedium",
             "mercenaries": [ ],
         },
     },
@@ -113,13 +113,13 @@
 
         "constantAllies": [
             {
-                "hull": "station",
+                "hull": "Core:station",
                 "items": "gun cannon",
                 "repairer": true,
                 "density": 2,
 
                 "guard": {
-                    "hull": "imperialBig",
+                    "hull": "Core:imperialBig",
                     "items": "fixedGun fixedShotGun a2|a3 s2|s3",
                     "density": 3,
                 }
@@ -128,7 +128,7 @@
 
         "constantEnemies": [
             {
-                "hull": "desertMedium",
+                "hull": "Core:desertMedium",
                 "items": "railGun|fixedCannon fixedGun|railGun:.8 a4 s2|s3:.6",
                 "money": 300,
                 "density": 3,
@@ -137,13 +137,13 @@
 
         "temporaryEnemies": [
             {
-                "hull": "desertSpaceTurret",
+                "hull": "Core:desertSpaceTurret",
                 "items": "cannon a2|a3 s1:.25",
                 "money": 50,
                 "density": 0.001,
             },
             {
-                "hull": "desertSmall",
+                "hull": "Core:desertSmall",
                 "items": "fixedGun|railGun fixedGun:.8 a3 s1:.5",
                 "money": 150,
                 "density": 0.0003,
@@ -152,14 +152,14 @@
 
         "innerTemporaryEnemies": [
             {
-                "hull": "desertSpaceTurret",
+                "hull": "Core:desertSpaceTurret",
                 "items": "cannon gun|cannon:.8 a3|a4 s2:.75",
                 "money": 100,
                 "density": 0.001,
             },
 
             {
-                "hull": "desertBoss",
+                "hull": "Core:desertBoss",
                 "items": "fixedCannon cannon a4 s3",
                 "money": 1000,
                 "density": 0.0005,
@@ -168,11 +168,11 @@
 
         "trading": {
             "items": "rep sloMoCharge fixedGun bulletClip a2 s2 fixedShotGun shellClip s3",
-            "ships": "imperialMedium imperialBig",
+            "ships": "Core:imperialMedium Core:imperialBig",
 
             "mercenaries": [
                 {
-                    "hull": "imperialMedium",
+                    "hull": "Core:imperialMedium",
                     "items": "rep:1:3 s1",
                     "money": 200,
                 },

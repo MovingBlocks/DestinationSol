@@ -27,13 +27,13 @@ import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.projectile.ProjectileConfigs;
 import org.destinationsol.game.ship.AbilityCharge;
 import org.destinationsol.game.sound.OggSoundManager;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class ItemManager {
-    private static ItemManager instance = null;
     public final ProjectileConfigs projConfigs;
     public final TextureAtlas.AtlasRegion moneyIcon;
     public final TextureAtlas.AtlasRegion medMoneyIcon;
@@ -44,20 +44,22 @@ public class ItemManager {
     private final EngineItem.Configs myEngineConfigs;
     private final SolItemTypes myTypes;
     private final RepairItem myRepairExample;
+    private final AssetHelper assetHelper;
 
     public ItemManager(TextureManager textureManager, OggSoundManager soundManager, EffectTypes effectTypes, GameColors gameColors, AssetHelper assetHelper) {
+        this.assetHelper = assetHelper;
+
         moneyIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "money");
         medMoneyIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "medMoney");
         bigMoneyIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "bigMoney");
         repairIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "repairItem");
 
-        myTypes = new SolItemTypes(soundManager, gameColors);
+        myTypes = new SolItemTypes(soundManager, gameColors, assetHelper);
         projConfigs = new ProjectileConfigs(textureManager, soundManager, effectTypes, gameColors, assetHelper);
         myEngineConfigs = EngineItem.Configs.load(soundManager, textureManager, effectTypes, gameColors, assetHelper);
 
         Shield.Config.loadConfigs(this, soundManager, textureManager, myTypes);
         Armor.Config.loadConfigs(this, soundManager, textureManager, myTypes);
-        AbilityCharge.Config.load(this, textureManager, myTypes);
 
         ClipConfig.load(this, textureManager, myTypes);
         GunConfig.load(textureManager, this, soundManager, myTypes);
@@ -81,7 +83,7 @@ public class ItemManager {
     }
 
     public List<ItemConfig> parseItems(String items) {
-        ArrayList<ItemConfig> result = new ArrayList<ItemConfig>();
+        ArrayList<ItemConfig> result = new ArrayList<>();
         if (items.isEmpty()) {
             return result;
         }
@@ -94,7 +96,7 @@ public class ItemManager {
 
             String[] names = parts[0].split("\\|");
 
-            ArrayList<SolItem> examples = new ArrayList<SolItem>();
+            ArrayList<SolItem> examples = new ArrayList<>();
             for (String name : names) {
                 int wasEquipped = 0;
 
@@ -105,11 +107,28 @@ public class ItemManager {
                     wasEquipped = 2;
                     name = name.substring(0, name.length() - 2); // Remove equipped number
                 }
-                SolItem example = getExample(name.trim());
+                name = name.trim();
+
+                SolItem example = getExample(name);
+
+                // TODO: Remove the explicit Core from here
+                name = "Core:" + name;
+
+                // TODO: Remove this
+                if (example == null) {
+                    example = getExample(name);
+                }
+
+                if (example == null) {
+                    AbilityCharge.Config.load(new ResourceUrn(name), this, myTypes, assetHelper);
+
+                    example = getExample(name);
+                }
 
                 if (example == null) {
                     throw new AssertionError("unknown item " + name + "@" + parts[0] + "@" + rec + "@" + items);
                 }
+
                 SolItem itemCopy = example.copy();
                 itemCopy.setEquipped(wasEquipped);
 
@@ -156,6 +175,7 @@ public class ItemManager {
             throw new AssertionError("2 item types registered for item code " + code + ":\n" + existing + " and " + example);
         }
         myM.put(code, example);
+        myL.add(example);
     }
 
     public EngineItem.Configs getEngineConfigs() {

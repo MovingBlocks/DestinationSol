@@ -20,10 +20,13 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.audio.OggSound;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.sound.OggSoundManager;
+import org.terasology.assets.ResourceUrn;
 
 public class SolItemTypes {
     public final SolItemType clip;
@@ -37,27 +40,28 @@ public class SolItemTypes {
     public final SolItemType repair;
     public final SolItemType fixedGun;
 
-    public SolItemTypes(OggSoundManager soundManager, GameColors cols) {
-        JsonReader r = new JsonReader();
-        FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("types.json");
-        JsonValue parsed = r.parse(configFile);
-        clip = load("clip", soundManager, configFile, parsed, cols);
-        shield = load("shield", soundManager, configFile, parsed, cols);
-        armor = load("armor", soundManager, configFile, parsed, cols);
-        abilityCharge = load("abilityCharge", soundManager, configFile, parsed, cols);
-        gun = load("gun", soundManager, configFile, parsed, cols);
-        fixedGun = load("fixedGun", soundManager, configFile, parsed, cols);
-        money = load("money", soundManager, configFile, parsed, cols);
-        medMoney = load("medMoney", soundManager, configFile, parsed, cols);
-        bigMoney = load("bigMoney", soundManager, configFile, parsed, cols);
-        repair = load("repair", soundManager, configFile, parsed, cols);
+    public SolItemTypes(OggSoundManager soundManager, GameColors cols, AssetHelper assetHelper) {
+        Json json = assetHelper.getJson(new ResourceUrn("Core:types")).get();
+        JsonValue rootNode = json.getJsonValue();
+
+        clip = load(rootNode.get("clip"), soundManager, cols);
+        shield = load(rootNode.get("shield"), soundManager, cols);
+        armor = load(rootNode.get("armor"), soundManager, cols);
+        abilityCharge = load(rootNode.get("abilityCharge"), soundManager, cols);
+        gun = load(rootNode.get("gun"), soundManager, cols);
+        fixedGun = load(rootNode.get("fixedGun"), soundManager, cols);
+        money = load(rootNode.get("money"), soundManager, cols);
+        medMoney = load(rootNode.get("medMoney"), soundManager, cols);
+        bigMoney = load(rootNode.get("bigMoney"), soundManager, cols);
+        repair = load(rootNode.get("repair"), soundManager, cols);
+
+        json.dispose();
     }
 
-    private SolItemType load(String name, OggSoundManager soundManager, FileHandle configFile, JsonValue parsed, GameColors cols) {
-        JsonValue node = parsed.get(name);
-        Color color = cols.load(node.getString("color"));
-        OggSound pickUpSound = soundManager.getSound(node.getString("pickUpSound"));
-        float sz = node.getFloat("sz");
+    private SolItemType load(JsonValue itemNode, OggSoundManager soundManager, GameColors cols) {
+        Color color = cols.load(itemNode.getString("color"));
+        OggSound pickUpSound = soundManager.getSound(itemNode.getString("pickUpSound"));
+        float sz = itemNode.getFloat("sz");
         return new SolItemType(color, pickUpSound, sz);
     }
 }

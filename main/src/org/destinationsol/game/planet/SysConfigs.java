@@ -39,10 +39,10 @@ public class SysConfigs {
     private final Map<String, SysConfig> myHardBeltConfigs;
 
     public SysConfigs(TextureManager textureManager, HullConfigManager hullConfigs, ItemManager itemManager) {
-        myConfigs = new HashMap<String, SysConfig>();
-        myHardConfigs = new HashMap<String, SysConfig>();
-        myBeltConfigs = new HashMap<String, SysConfig>();
-        myHardBeltConfigs = new HashMap<String, SysConfig>();
+        myConfigs = new HashMap<>();
+        myHardConfigs = new HashMap<>();
+        myBeltConfigs = new HashMap<>();
+        myHardBeltConfigs = new HashMap<>();
 
         load(textureManager, hullConfigs, false, "systems.json", itemManager);
         load(textureManager, hullConfigs, true, "asteroidBelts.json", itemManager);
