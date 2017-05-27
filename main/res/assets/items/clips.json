@@ -1,0 +1,110 @@
+{
+    "plasmaClip": {
+        "projectile": "plasma",
+        "size": 30,
+        "price": 20,
+        "iconName": "plasmaClip",
+        "displayName": "Plasma Cells",
+        "plural": "cells",
+    },
+
+    "blasterClip": {
+        "projectile": "blast",
+        "infinite": true,
+        "size": 20,
+    },
+
+    "bombClip": {
+        "projectile": "bomb",
+        "size": 10,
+        "price": 30,
+        "displayName": "Bombs",
+        "plural": "bombs",
+        "iconName": "bombClip",
+    },
+
+    "bulletClip": {
+        "projectile": "bullet",
+        "size": 60,
+        "price": 20,
+        "displayName": "Bullets",
+        "plural": "bullets",
+        "iconName": "bulletClip",
+    },
+
+    "shellClip": {
+        "projectile": "shellBullet",
+        "projectilesPerShot": 5,
+        "size": 12,
+        "price": 40,
+        "displayName": "Shells",
+        "plural": "shells",
+        "iconName": "shellClip",
+    },
+
+    "missileClip": {
+        "projectile": "missile",
+        "size": 6,
+        "price": 50,
+        "displayName": "Missiles",
+        "plural": "missiles",
+        "iconName": "missileClip",
+    },
+
+    "mineClip": {
+        "projectile": "mine",
+        "size": 10,
+        "price": 50,
+        "displayName": "Mines",
+        "plural": "mines",
+        "iconName": "mineClip",
+    },
+
+    "slugClip": {
+        "projectile": "slug",
+        "size": 10,
+        "price": 60,
+        "displayName": "Cannon Slugs",
+        "plural": "slugs",
+        "iconName": "slugClip",
+    },
+
+    "rocketClip": {
+        "projectile": "rocket",
+        "size": 8,
+        "price": 70,
+        "displayName": "Rockets",
+        "plural": "rockets",
+        "iconName": "rocketClip",
+    },
+
+    "railClip": {
+        "projectile": "rail",
+        "size": 5,
+        "price": 70,
+        "displayName": "Railgun Bullets",
+        "plural": "railgun bullets",
+        "iconName": "railClip",
+    },
+
+    "nailClip": {
+        "projectile": "nail",
+        "size": 24,
+        "price": 70,
+        "displayName": "Miner Nails",
+        "plural": "nails",
+        "iconName": "nailClip",
+    },
+
+    "emClip": {
+        "projectile": "em",
+        "infinite": true,
+        "size": 1,
+    },
+
+    "waveClip": {
+        "projectile": "wave",
+        "infinite": true,
+        "size": 20,
+    },
+}

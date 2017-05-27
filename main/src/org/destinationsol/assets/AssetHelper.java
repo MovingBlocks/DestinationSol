@@ -44,8 +44,8 @@ public class AssetHelper {
         assetTypeManager.registerCoreAssetType(Atlas.class, Atlas::new, "atlas");
         assetTypeManager.registerCoreAssetType(Font.class, Font::new, "fonts");
         assetTypeManager.registerCoreAssetType(Emitter.class, Emitter::new, "emitters");
-        assetTypeManager.registerCoreAssetType(Json.class, Json::new, "collisionMeshes", "ships");
-        assetTypeManager.registerCoreAssetType(DSTexture.class, DSTexture::new, "ships");
+        assetTypeManager.registerCoreAssetType(Json.class, Json::new, "collisionMeshes", "ships", "items");
+        assetTypeManager.registerCoreAssetType(DSTexture.class, DSTexture::new, "ships", "items");
 
         assetTypeManager.switchEnvironment(environment);
     }
@@ -87,7 +87,7 @@ public class AssetHelper {
     }
 
     public TextureAtlas.AtlasRegion getAtlasRegion(ResourceUrn urn) {
-        Optional<DSTexture> dsTextureOptional = get(urn, DSTexture.class);
+        Optional<DSTexture> dsTextureOptional = getDSTexture(urn);
         if (dsTextureOptional.isPresent()) {
             Texture texture = dsTextureOptional.get().getTexture();
             TextureAtlas.AtlasRegion atlasRegion = new TextureAtlas.AtlasRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());

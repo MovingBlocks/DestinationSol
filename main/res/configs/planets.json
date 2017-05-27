@@ -34,7 +34,7 @@
 
         "highOrbitEnemies": [
             {
-                "hull": "pirateOrbiter",
+                "hull": "Core:pirateOrbiter",
                 "items": "plasmaGun|blaster s1:.24",
                 "money": 40,
                 "density": 0.03,
@@ -43,7 +43,7 @@
 
         "lowOrbitEnemies": [
             {
-                "hull": "pirateOrbiter",
+                "hull": "Core:pirateOrbiter",
                 "items": "bombGun s1:.24",
                 "money": 50,
                 "density": 0.1,
@@ -52,14 +52,14 @@
 
         "groundEnemies": [
             {
-                "hull": "piratePlanetTurret",
+                "hull": "Core:piratePlanetTurret",
                 "items": "plasmaGun|blaster s1:.36",
                 "money": 110,
                 "density": 0.45,
             },
 
             {
-                "hull": "pirateSmall",
+                "hull": "Core:pirateSmall",
                 "items": "blaster|gun s1|s2:.5",
                 "money": 60,
                 "density": 0.15,
@@ -67,17 +67,17 @@
         ],
 
         "station": {
-            "hull": "drome",
+            "hull": "Core:drome",
             "items": "gun|shotGun s2 rep:1:4",
         },
 
         "trading": {
             "items": "rep plasmaClip shotGun shellClip mineClip bombGun bombClip missileClip s2 unShieldCharge",
-            "ships": "pirateSmall pirateOrbiter pirateMedium",
+            "ships": "Core:pirateSmall Core:pirateOrbiter Core:pirateMedium",
 
             "mercenaries": [
                 {
-                    "hull": "pirateSmall",
+                    "hull": "Core:pirateSmall",
                     "items": "blaster|gun s1 rep:1:3",
                     "money": 100,
                 },
@@ -127,7 +127,7 @@
 
         "highOrbitEnemies": [
             {
-                "hull": "desertOrbiter",
+                "hull": "Core:desertOrbiter",
                 "items": "fixedGun a1:.25",
                 "money": 150,
                 "density": 0.03,
@@ -136,7 +136,7 @@
 
         "lowOrbitEnemies": [
             {
-                "hull": "desertOrbiter",
+                "hull": "Core:desertOrbiter",
                 "items": "fixedBombGun a1:.25",
                 "money": 100,
                 "density": 0.1,
@@ -145,14 +145,14 @@
 
         "groundEnemies": [
             {
-                "hull": "desertPlanetTurret",
+                "hull": "Core:desertPlanetTurret",
                 "items": "gun a1|a2:.5",
                 "money": 80,
                 "density": 0.45,
             },
 
             {
-                "hull": "desertSmall",
+                "hull": "Core:desertSmall",
                 "items": "fixedGun fixedGun:.3 a2:.75",
                 "money": 80,
                 "density": 0.15,
@@ -160,17 +160,17 @@
         ],
 
         "station": {
-            "hull": "drome",
+            "hull": "Core:drome",
             "items": "shotGun s3 a3 rep:1:4",
         },
 
         "trading": {
             "items": "rep teleportCharge fixedGun bulletClip railClip cannon slugClip bombClip a3",
-            "ships": "desertOrbiter desertSmall desertMedium",
+            "ships": "Core:desertOrbiter Core:desertSmall Core:desertMedium",
 
             "mercenaries": [
                 {
-                    "hull": "desertOrbiter",
+                    "hull": "Core:desertOrbiter",
                     "items": "fixedBombGun a1:.25 rep:1:3",
                     "money": 150,
                 },
@@ -207,7 +207,7 @@
 
         "highOrbitEnemies": [
             {
-                "hull": "techieOrbiter",
+                "hull": "Core:techieOrbiter",
                 "items": "fixedPlasmaGun|fixedBlaster fixedPlasmaGun|fixedBlaster|fixedEmGun:.5 a2:.75 s4",
                 "money": 140,
                 "density": 0.03,
@@ -215,14 +215,14 @@
         ],
         "groundEnemies": [
             {
-                "hull": "techieSmall",
+                "hull": "Core:techieSmall",
                 "items": "fixedPlasmaGun fixedPlasmaGun|fixedBlaster:.5 a2:.5 s3|s4",
                 "money": 120,
                 "density": 0.15,
             },
 
             {
-                "hull": "techiePlanetTurret",
+                "hull": "Core:techiePlanetTurret",
                 "items": "waveGun emGun:.6 a3 s4",
                 "money": 180,
                 "density": 0.45,
