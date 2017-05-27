@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +50,7 @@ public class TradeConfig {
         String[] split = shipStr.split(" ");
         for (int i = split.length - 1; i >= 0; i--) {
             String hullName = split[i];
-            HullConfig hull = hullConfigs.getConfig(hullName);
+            HullConfig hull = hullConfigs.getConfig(new ResourceUrn(hullName));
             hulls.add(new ShipItem(hull));
         }
 

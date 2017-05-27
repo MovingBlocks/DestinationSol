@@ -169,18 +169,17 @@ public class CollisionMeshLoader {
     }
 
     public void readRigidBody(JsonValue rbNode) {
-        readRigidBody(rbNode, rbNode.getString("name"), rbNode.getString("imagePath"));
+        readRigidBody(rbNode, rbNode.getString("name"));
     }
 
     public void readRigidBody(JsonValue rbNode, HullConfig hullConfig) {
         String shipName =  hullConfig.getInternalName();
-        readRigidBody(rbNode, shipName, FileManager.getInstance().getShipsDirectory().child(shipName).child(shipName + "Texture.png").path());
+        readRigidBody(rbNode, shipName);
     }
 
-    private void readRigidBody(JsonValue rbNode, String name, String imagePath) {
+    private void readRigidBody(JsonValue rbNode, String shipName) {
         RigidBodyModel rbModel = new RigidBodyModel();
-        rbModel.name = name;
-        rbModel.imagePath = imagePath;
+        rbModel.name = shipName;
 
         JsonValue originNode = rbNode.get("origin");
         rbModel.origin.x = originNode.getFloat("x");
@@ -335,7 +334,6 @@ public class CollisionMeshLoader {
         public final List<PolygonModel> shapes = new ArrayList<>();
         public final List<CircleModel> circles = new ArrayList<>();
         public String name;
-        public String imagePath;
     }
 
     public static class PolygonModel {

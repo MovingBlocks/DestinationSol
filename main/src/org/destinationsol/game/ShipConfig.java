@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 
@@ -58,7 +59,7 @@ public class ShipConfig {
             return null;
         }
         String hullName = rootNode.getString("hull");
-        HullConfig hull = hullConfigs.getConfig(hullName);
+        HullConfig hull = hullConfigs.getConfig(new ResourceUrn(hullName));
         String items = rootNode.getString("items");
         int money = rootNode.getInt("money", 0);
         float density = rootNode.getFloat("density", -1);

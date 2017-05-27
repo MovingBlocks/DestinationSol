@@ -166,7 +166,7 @@ public class EngineItem implements SolItem {
         }
 
         public static Configs load(OggSoundManager soundManager, TextureManager textureManager, EffectTypes effectTypes, GameColors cols, AssetHelper assetHelper) {
-            HashMap<String, Config> configs = new HashMap<String, Config>();
+            HashMap<String, Config> configs = new HashMap<>();
             JsonReader r = new JsonReader();
             FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("engines.json");
             JsonValue parsed = r.parse(configFile);

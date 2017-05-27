@@ -26,11 +26,7 @@ import org.destinationsol.game.DebugOptions;
 public final class FileManager {
 
     private final static String ASSETS_DIR = "res/";
-    private final static String FONTS_DIR = ASSETS_DIR + "fonts/";
-    private final static String SOUNDS_DIR = ASSETS_DIR + "sounds/";
     private final static String CONFIG_DIR = ASSETS_DIR + "configs/";
-    private final static String IMAGES_DIR = ASSETS_DIR + "imgs/";
-    private final static String SHIPS_CONFIG_DIR = CONFIG_DIR + "ships/";
     private final static String ITEMS_CONFIG_DIR = CONFIG_DIR + "items/";
     private final static String UNEXPECTED_FILE_LOCATION_TYPE = "Unexpected file location type: %s.";
     private static FileManager instance = null;
@@ -51,32 +47,12 @@ public final class FileManager {
     }
 
     /**
-     * Returns a file handle to the assets directory.
-     *
-     * @return A file handle to the assets directory.
-     */
-    public FileHandle getAssetsDirectory() {
-        return getFile(ASSETS_DIR, FileLocation.STATIC_FILES);
-    }
-
-    /**
      * Returns a file handle to the config directory.
      *
      * @return A file handle to the config directory.
      */
     public FileHandle getConfigDirectory() {
         return getFile(CONFIG_DIR, FileLocation.STATIC_FILES);
-    }
-
-    ;
-
-    /**
-     * Returns a file handle to the hulls directory.
-     *
-     * @return A file handle to the hulls directory.
-     */
-    public FileHandle getShipsDirectory() {
-        return getFile(SHIPS_CONFIG_DIR, FileLocation.STATIC_FILES);
     }
 
     /**
@@ -86,33 +62,6 @@ public final class FileManager {
      */
     public FileHandle getItemsDirectory() {
         return getFile(ITEMS_CONFIG_DIR, FileLocation.STATIC_FILES);
-    }
-
-    /**
-     * Returns a file handle to the fonts directory.
-     *
-     * @return A file handle to the fonts directory.
-     */
-    public FileHandle getFontsDirectory() {
-        return getFile(FONTS_DIR, FileLocation.STATIC_FILES);
-    }
-
-    /**
-     * Returns a file handle to the sounds directory.
-     *
-     * @return A file handle to the sounds directory.
-     */
-    public FileHandle getSoundsDirectory() {
-        return getFile(SOUNDS_DIR, FileLocation.STATIC_FILES);
-    }
-
-    /**
-     * Returns a file handle to the images directory.
-     *
-     * @return A file handle to the images directory.
-     */
-    public FileHandle getImagesDirectory() {
-        return getFile(IMAGES_DIR, FileLocation.STATIC_FILES);
     }
 
     /**
@@ -163,7 +112,7 @@ public final class FileManager {
     /**
      * Enum for the storage locations of files.
      */
-    public static enum FileLocation {
+    public enum FileLocation {
         // Static files are files which are not written to by the application.
         STATIC_FILES,
 

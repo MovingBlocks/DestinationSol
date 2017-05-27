@@ -34,6 +34,7 @@ import org.destinationsol.game.planet.SolSystem;
 import org.destinationsol.game.planet.SysConfig;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 
@@ -238,7 +239,7 @@ public class GalaxyFiller {
             pos.set(m.getPos());
             pos.x += m.getRadius();
         } else if ("trader".equals(DebugOptions.SPAWN_PLACE)) {
-            HullConfig cfg = game.getHullConfigs().getConfig("bus");
+            HullConfig cfg = game.getHullConfigs().getConfig(new ResourceUrn("Core:bus"));
             for (FarObjData fod : game.getObjMan().getFarObjs()) {
                 FarObj fo = fod.fo;
                 if (!(fo instanceof FarShip)) {

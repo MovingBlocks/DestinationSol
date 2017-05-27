@@ -41,8 +41,8 @@ public final class HullConfigManager {
     private final AssetHelper assetHelper;
     private final ItemManager itemManager;
     private final AbilityCommonConfigs abilityCommonConfigs;
-    private final Map<String, HullConfig> nameToConfigMap;
-    private final Map<HullConfig, String> configToNameMap;
+    private final Map<ResourceUrn, HullConfig> nameToConfigMap;
+    private final Map<HullConfig, ResourceUrn> configToNameMap;
 
 
     public HullConfigManager(ItemManager itemManager, AbilityCommonConfigs abilityCommonConfigs, AssetHelper assetHelper) {
@@ -68,47 +68,49 @@ public final class HullConfigManager {
 
     private static void validateEngineConfig(HullConfig.Data hull) {
         if (hull.engineConfig != null) {
-            if (    // stations can't have engines
-                    (hull.type == HullConfig.Type.STATION) ||
-                    // the engine size must match the hull size
-                    (hull.engineConfig.big != (hull.type == HullConfig.Type.BIG))
-                    ) {
-                throw new AssertionError("incompatible engine in hull " + hull.displayName);
+            // Stations can't have engines, and the engine size must match the hull size
+            if (hull.type == HullConfig.Type.STATION || hull.engineConfig.big != (hull.type == HullConfig.Type.BIG)) {
+                throw new AssertionError("Incompatible engine in hull " + hull.displayName);
             }
         }
     }
 
-    public HullConfig getConfig(String shipName) {
+    public HullConfig getConfig(ResourceUrn shipName) {
         HullConfig hullConfig = nameToConfigMap.get(shipName);
 
         if (hullConfig == null) {
             hullConfig = read(shipName);
+
+            // TODO : VAMPCAT : Ensure that this is only called once per ship.
+
+            nameToConfigMap.put(shipName, hullConfig);
+            configToNameMap.put(hullConfig, shipName);
         }
 
         return hullConfig;
     }
 
     public String getName(HullConfig hull) {
-        String result = configToNameMap.get(hull);
-        return (result == null) ? "" : result;
+        ResourceUrn result = configToNameMap.get(hull);
+        return (result == null) ? "" : result.toString();
     }
 
-    private HullConfig read(String shipName) {
+    private HullConfig read(ResourceUrn shipName) {
         final HullConfig.Data configData = new HullConfig.Data();
 
-        configData.internalName = shipName;
+        configData.internalName = shipName.getResourceName().toString();
 
-        Json json = assetHelper.getJson(new ResourceUrn("Core:" + shipName + "Properties")).get();
+        Json json = assetHelper.getJson(new ResourceUrn(shipName + "Properties")).get();
 
         readProperties(json.getJsonValue(), configData);
 
-        // TODO: Ensure that this does not cause any problems
-        json.dispose();
-
-        configData.tex = assetHelper.getAtlasRegion(new ResourceUrn("Core:" + shipName + "Texture"));
-        configData.icon = assetHelper.getAtlasRegion(new ResourceUrn("Core:" + shipName + "Icon"));
+        configData.tex = assetHelper.getAtlasRegion(new ResourceUrn(shipName + "Texture"));
+        configData.icon = assetHelper.getAtlasRegion(new ResourceUrn(shipName + "Icon"));
 
         validateEngineConfig(configData);
+
+        // TODO: Ensure that this does not cause any problems
+        json.dispose();
 
         return new HullConfig(configData);
     }
