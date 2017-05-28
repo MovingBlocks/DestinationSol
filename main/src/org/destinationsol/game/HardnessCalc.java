@@ -17,8 +17,7 @@
 package org.destinationsol.game;
 
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.gun.GunConfig;
-import org.destinationsol.game.gun.GunItem;
+import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.Armor;
 import org.destinationsol.game.item.Clip;
 import org.destinationsol.game.item.ItemConfig;
@@ -42,7 +41,7 @@ public class HardnessCalc {
 
     public static final float SHIELD_MUL = 1.2f;
 
-    public static float getGunMeanDps(GunConfig gc) {
+    public static float getGunMeanDps(Gun.Config gc) {
         Clip.Config cc = gc.clipConf;
         ProjectileConfig pc = cc.projConfig;
 
@@ -74,7 +73,7 @@ public class HardnessCalc {
         return getShotDps(gc, shotDmg);
     }
 
-    public static float getShotDps(GunConfig gc, float shotDmg) {
+    public static float getShotDps(Gun.Config gc, float shotDmg) {
         Clip.Config cc = gc.clipConf;
         int projectilesPerShot = cc.projectilesPerShot;
         if (gc.timeBetweenShots == 0) {
@@ -91,10 +90,10 @@ public class HardnessCalc {
     private static float getItemCfgDps(ItemConfig ic, boolean fixed) {
         float dps = 0;
         for (SolItem e : ic.examples) {
-            if (!(e instanceof GunItem)) {
+            if (!(e instanceof Gun)) {
                 throw new AssertionError("all item options must be of the same type");
             }
-            GunItem g = (GunItem) e;
+            Gun g = (Gun) e;
             if (g.config.fixed != fixed) {
                 String items = "";
                 for (SolItem ex : ic.examples) {
@@ -119,16 +118,16 @@ public class HardnessCalc {
             ItemConfig itemConfig = itemConfigIterator.next();
             final SolItem item = itemConfig.examples.get(0);
 
-            if (item instanceof GunItem) {
-                final GunItem gunItem = (GunItem) item;
+            if (item instanceof Gun) {
+                final Gun gun = (Gun) item;
                 final Iterator<GunSlot> gunSlotIterator = unusedGunSlots.listIterator();
 
                 boolean matchingSlotFound = false;
                 while (gunSlotIterator.hasNext() && !matchingSlotFound) {
                     final GunSlot gunSlot = gunSlotIterator.next();
 
-                    if (gunItem.config.fixed != gunSlot.allowsRotation()) {
-                        dps += getItemCfgDps(itemConfig, gunItem.config.fixed);
+                    if (gun.config.fixed != gunSlot.allowsRotation()) {
+                        dps += getItemCfgDps(itemConfig, gun.config.fixed);
                         gunSlotIterator.remove();
                         matchingSlotFound = true;
                     }
@@ -200,7 +199,7 @@ public class HardnessCalc {
         return getShipConfListDps(inner ? c.innerTempEnemies : c.tempEnemies);
     }
 
-    private static float getGunDps(GunItem g) {
+    private static float getGunDps(Gun g) {
         if (g == null) {
             return 0;
         }

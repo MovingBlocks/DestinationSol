@@ -17,11 +17,10 @@
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.game.FarObj;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.gun.GunItem;
+import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
 import org.destinationsol.game.item.EngineItem;
@@ -39,8 +38,8 @@ public class FarShip implements FarObj {
     private final Pilot myPilot;
     private final ItemContainer myContainer;
     private final HullConfig myHullConfig;
-    private final GunItem myGun1;
-    private final GunItem myGun2;
+    private final Gun myGun1;
+    private final Gun myGun2;
     private final RemoveController myRemoveController;
     private final EngineItem myEngine;
     private final TradeContainer myTradeContainer;
@@ -51,7 +50,7 @@ public class FarShip implements FarObj {
 
     public FarShip(Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot, ItemContainer container,
                    HullConfig hullConfig, float life,
-                   GunItem gun1, GunItem gun2, RemoveController removeController, EngineItem engine,
+                   Gun gun1, Gun gun2, RemoveController removeController, EngineItem engine,
                    ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield, Armor armor) {
         myPos = pos;
         mySpd = spd;
@@ -161,7 +160,7 @@ public class FarShip implements FarObj {
         return myEngine;
     }
 
-    public GunItem getGun(boolean secondary) {
+    public Gun getGun(boolean secondary) {
         return secondary ? myGun2 : myGun1;
     }
 

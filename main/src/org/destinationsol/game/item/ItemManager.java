@@ -21,11 +21,8 @@ import org.destinationsol.TextureManager;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.GameColors;
-import org.destinationsol.game.gun.GunConfig;
-import org.destinationsol.game.gun.GunItem;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.projectile.ProjectileConfigs;
-import org.destinationsol.game.ship.AbilityCharge;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.terasology.assets.ResourceUrn;
 
@@ -61,8 +58,6 @@ public class ItemManager {
         myEngineConfigs = EngineItem.Configs.load(soundManager, textureManager, effectTypes, gameColors, assetHelper);
 
         Shield.Config.loadConfigs(this, soundManager, textureManager, myTypes);
-
-        GunConfig.load(textureManager, this, soundManager, myTypes, assetHelper);
 
         myRepairExample = new RepairItem(myTypes.repair);
         myM.put(myRepairExample.getCode(), myRepairExample);
@@ -127,6 +122,8 @@ public class ItemManager {
                         Armor.Config.load(new ResourceUrn(name), this, soundManager, myTypes, assetHelper);
                     } else if (name.endsWith("Clip")) {
                         Clip.Config.load(new ResourceUrn(name), this, myTypes, assetHelper);
+                    } else {
+                        Gun.Config.load(new ResourceUrn(name), this, soundManager, myTypes, assetHelper);
                     }
 
                     example = getExample(name);
@@ -214,7 +211,7 @@ public class ItemManager {
             }
         }
         for (SolItem i : myM.values()) {
-            if (i instanceof GunItem) {
+            if (i instanceof Gun) {
                 if (ic.canAdd(i)) {
                     ic.add(i.copy());
                 }

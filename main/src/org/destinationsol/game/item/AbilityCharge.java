@@ -1,11 +1,11 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,17 +14,13 @@
  * limitations under the License.
  */
 
-package org.destinationsol.game.ship;
+package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.item.ItemManager;
-import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.item.SolItemType;
-import org.destinationsol.game.item.SolItemTypes;
 import org.terasology.assets.ResourceUrn;
 
 public class AbilityCharge implements SolItem {
@@ -106,10 +102,11 @@ public class AbilityCharge implements SolItem {
             Json json = assetHelper.getJson(abilityName).get();
             JsonValue rootNode = json.getJsonValue();
 
-            TextureAtlas.AtlasRegion icon = assetHelper.getAtlasRegion(new ResourceUrn(abilityName + "Icon"));
             float price = rootNode.getFloat("price");
             String displayName = rootNode.getString("displayName");
             String desc = rootNode.getString("desc");
+
+            TextureAtlas.AtlasRegion icon = assetHelper.getAtlasRegion(new ResourceUrn(abilityName + "Icon"));
 
             Config abilityConfig = new Config(icon, price, displayName, desc, types.abilityCharge, abilityName.toString());
             itemManager.registerItem(abilityConfig.example);

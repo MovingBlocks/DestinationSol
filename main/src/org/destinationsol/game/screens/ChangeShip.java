@@ -20,7 +20,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.gun.GunItem;
+import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.EngineItem;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.ShipItem;
@@ -116,7 +116,7 @@ public class ChangeShip implements InventoryOperations {
         Hull hull = hero.getHull();
         EngineItem.Config ec = newConfig.getEngineConfig();
         EngineItem ei = ec == null ? null : ec.example.copy();
-        GunItem g2 = hull.getGun(true);
+        Gun g2 = hull.getGun(true);
         SolShip newHero = game.getShipBuilder().build(game, hero.getPosition(), new Vector2(), hero.getAngle(), 0, hero.getPilot(),
                 hero.getItemContainer(), newConfig, newConfig.getMaxLife(), hull.getGun(false), g2, null,
                 ei, new ShipRepairer(), hero.getMoney(), hero.getTradeContainer(), hero.getShield(), hero.getArmor());
