@@ -27,6 +27,7 @@ import org.destinationsol.game.dra.Dra;
 import org.destinationsol.game.dra.DraLevel;
 import org.destinationsol.game.dra.RectSprite;
 import org.destinationsol.game.item.Clip;
+import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.particle.LightSrc;
 import org.destinationsol.game.planet.Planet;
@@ -40,12 +41,12 @@ public class SolGun {
     private final LightSrc myLightSrc;
     private final Vector2 myRelPos;
     private final RectSprite mySprite;
-    private final GunItem myItem;
+    private final Gun myItem;
     private final List<Dra> myDras;
     private float myCoolDown;
     private float myCurrAngleVar;
 
-    public SolGun(SolGame game, GunItem item, Vector2 relPos, boolean underShip) {
+    public SolGun(SolGame game, Gun item, Vector2 relPos, boolean underShip) {
         myItem = item;
         if (myItem.config.lightOnShot) {
             Color lightCol = SolColor.W;
@@ -144,11 +145,11 @@ public class SolGun {
         SolMath.free(muzzlePos);
     }
 
-    public GunConfig getConfig() {
+    public Gun.Config getConfig() {
         return myItem.config;
     }
 
-    public GunItem getItem() {
+    public Gun getItem() {
         return myItem;
     }
 }

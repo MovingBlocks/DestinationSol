@@ -139,7 +139,6 @@ public class Armor implements SolItem {
             Json json = assetHelper.getJson(armorName).get();
             JsonValue rootNode = json.getJsonValue();
 
-            TextureAtlas.AtlasRegion icon = assetHelper.getAtlasRegion(new ResourceUrn(armorName + "Icon"));
             String displayName = rootNode.getString("displayName");
             int price = rootNode.getInt("price");
             float perc = rootNode.getFloat("perc");
@@ -148,6 +147,8 @@ public class Armor implements SolItem {
             float basePitch = rootNode.getFloat("baseSoundPitch", 1);
             OggSoundSet bulletDmgSound = new OggSoundSet(soundManager, bulletDamageSoundUrns, basePitch);
             OggSoundSet energyDmgSound = new OggSoundSet(soundManager, energyDamageSoundUrns, basePitch);
+
+            TextureAtlas.AtlasRegion icon = assetHelper.getAtlasRegion(new ResourceUrn(armorName + "Icon"));
 
             Config armorConfig = new Config(displayName, price, perc, bulletDmgSound, icon, energyDmgSound, types.armor, armorName.toString());
             itemManager.registerItem(armorConfig.example);

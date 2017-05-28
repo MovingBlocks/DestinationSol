@@ -26,14 +26,13 @@ import org.destinationsol.TextureManager;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.files.FileManager;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.chunk.ChunkManager;
 import org.destinationsol.game.dra.DraDebugger;
 import org.destinationsol.game.dra.DraMan;
 import org.destinationsol.game.farBg.FarBackgroundManagerOld;
-import org.destinationsol.game.gun.GunItem;
+import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.BeaconDestProvider;
 import org.destinationsol.game.input.Pilot;
@@ -200,7 +199,7 @@ public class SolGame {
                 ic.add(item);
                 // Ensure that previously equipped items stay equipped
                 if (item.isEquipped() > 0) {
-                    if (item instanceof GunItem) {
+                    if (item instanceof Gun) {
                         myHero.maybeEquip(this, item, item.isEquipped() == 2, true);
                     } else {
                         myHero.maybeEquip(this, item, true);
@@ -215,7 +214,7 @@ public class SolGame {
                     break;
                 }
                 SolItem it = myItemManager.random();
-                if (!(it instanceof GunItem) && it.getIcon(this) != null && ic.canAdd(it)) {
+                if (!(it instanceof Gun) && it.getIcon(this) != null && ic.canAdd(it)) {
                     ic.add(it.copy());
                 }
             }

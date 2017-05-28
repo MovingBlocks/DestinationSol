@@ -18,7 +18,7 @@ package org.destinationsol.game.input;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.gun.GunItem;
+import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.projectile.ProjectileConfig;
 import org.destinationsol.game.ship.SolShip;
@@ -78,14 +78,14 @@ public class Shooter {
         }
         float toEnemyDst = enemyPos.dst(shipPos);
 
-        GunItem g1 = processGun(ship, false);
-        GunItem g2 = processGun(ship, true);
+        Gun g1 = processGun(ship, false);
+        Gun g2 = processGun(ship, true);
         if (g1 == null && g2 == null) {
             return;
         }
 
         float projSpd = 0;
-        GunItem g = null;
+        Gun g = null;
         if (g1 != null) {
             ProjectileConfig projConfig = g1.config.clipConf.projConfig;
             projSpd = projConfig.spdLen + projConfig.acc; // for simplicity
@@ -139,12 +139,12 @@ public class Shooter {
     }
 
     // returns gun if it's fixed & can shoot
-    private GunItem processGun(SolShip ship, boolean second) {
+    private Gun processGun(SolShip ship, boolean second) {
         GunMount mount = ship.getHull().getGunMount(second);
         if (mount == null) {
             return null;
         }
-        GunItem g = mount.getGun();
+        Gun g = mount.getGun();
         if (g == null || g.ammo <= 0) {
             return null;
         }

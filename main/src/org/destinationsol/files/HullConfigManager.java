@@ -104,7 +104,7 @@ public final class HullConfigManager {
 
         readProperties(json.getJsonValue(), configData);
 
-        configData.tex = assetHelper.getAtlasRegion(new ResourceUrn(shipName + "Texture"));
+        configData.tex = assetHelper.getAtlasRegion(shipName);
         configData.icon = assetHelper.getAtlasRegion(new ResourceUrn(shipName + "Icon"));
 
         validateEngineConfig(configData);
@@ -193,28 +193,22 @@ public final class HullConfigManager {
     private void process(HullConfig.Data configData) {
         Vector2 builderOrigin = new Vector2(configData.shipBuilderOrigin);
 
-        configData.origin.set(builderOrigin)
-                .scl(configData.size);
+        configData.origin.set(builderOrigin).scl(configData.size);
 
-        configData.e1Pos.sub(builderOrigin)
-                .scl(configData.size);
+        configData.e1Pos.sub(builderOrigin).scl(configData.size);
 
-        configData.e2Pos.sub(builderOrigin)
-                .scl(configData.size);
+        configData.e2Pos.sub(builderOrigin).scl(configData.size);
 
         for (Vector2 position : configData.lightSrcPoss) {
-            position.sub(builderOrigin)
-                    .scl(configData.size);
+            position.sub(builderOrigin).scl(configData.size);
         }
 
         for (Vector2 position : configData.forceBeaconPoss) {
-            position.sub(builderOrigin)
-                    .scl(configData.size);
+            position.sub(builderOrigin).scl(configData.size);
         }
 
         for (Vector2 position : configData.doorPoss) {
-            position.sub(builderOrigin)
-                    .scl(configData.size);
+            position.sub(builderOrigin).scl(configData.size);
         }
     }
 }

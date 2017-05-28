@@ -33,7 +33,7 @@ import org.destinationsol.game.HardnessCalc;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.gun.GunItem;
+import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.SolItem;
@@ -290,7 +290,7 @@ public class MainScreen implements SolUiScreen {
 
     private boolean drawGunStat(UiDrawer uiDrawer, SolShip hero, boolean secondary, float col0, float col1,
                                 float col2, float y) {
-        GunItem g = hero.getHull().getGun(secondary);
+        Gun g = hero.getHull().getGun(secondary);
         if (g == null) {
             return false;
         }

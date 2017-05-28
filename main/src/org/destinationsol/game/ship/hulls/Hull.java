@@ -23,7 +23,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.gun.GunItem;
+import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.EngineItem;
@@ -93,7 +93,7 @@ public class Hull {
         return second ? myGunMount2 : myGunMount1;
     }
 
-    public GunItem getGun(boolean second) {
+    public Gun getGun(boolean second) {
         GunMount m = getGunMount(second);
         if (m == null) {
             return null;
