@@ -62,8 +62,7 @@ public class ItemManager {
 
         Shield.Config.loadConfigs(this, soundManager, textureManager, myTypes);
 
-        ClipConfig.load(this, textureManager, myTypes);
-        GunConfig.load(textureManager, this, soundManager, myTypes);
+        GunConfig.load(textureManager, this, soundManager, myTypes, assetHelper);
 
         myRepairExample = new RepairItem(myTypes.repair);
         myM.put(myRepairExample.getCode(), myRepairExample);
@@ -126,6 +125,8 @@ public class ItemManager {
                         AbilityCharge.Config.load(new ResourceUrn(name), this, myTypes, assetHelper);
                     } else if (name.endsWith("Armor")) {
                         Armor.Config.load(new ResourceUrn(name), this, soundManager, myTypes, assetHelper);
+                    } else if (name.endsWith("Clip")) {
+                        Clip.Config.load(new ResourceUrn(name), this, myTypes, assetHelper);
                     }
 
                     example = getExample(name);
@@ -166,8 +167,8 @@ public class ItemManager {
         return result;
     }
 
-    public SolItem getExample(String code) {
-        return myM.get(code);
+    public SolItem getExample(String name) {
+        return myM.get(name);
     }
 
     public SolItem random() {
@@ -206,7 +207,7 @@ public class ItemManager {
 
     public void addAllGuns(ItemContainer ic) {
         for (SolItem i : myM.values()) {
-            if (i instanceof ClipItem && !((ClipItem) i).getConfig().infinite) {
+            if (i instanceof Clip && !((Clip) i).getConfig().infinite) {
                 for (int j = 0; j < 8; j++) {
                     ic.add(i.copy());
                 }

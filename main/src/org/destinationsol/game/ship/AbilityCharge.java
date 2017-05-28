@@ -85,10 +85,11 @@ public class AbilityCharge implements SolItem {
     public static class Config {
         public final SolItemType itemType;
         public final String code;
-        private final TextureAtlas.AtlasRegion icon;
-        private final float price;
-        private final String displayName;
-        private final String desc;
+        public final TextureAtlas.AtlasRegion icon;
+        public final float price;
+        public final String displayName;
+        public final String desc;
+        public final AbilityCharge example;
 
         public Config(TextureAtlas.AtlasRegion icon, float price, String displayName, String desc, SolItemType itemType,
                       String code) {
@@ -98,6 +99,7 @@ public class AbilityCharge implements SolItem {
             this.desc = desc;
             this.itemType = itemType;
             this.code = code;
+            this.example = new AbilityCharge(this);
         }
 
         public static void load(ResourceUrn abilityName, ItemManager itemManager, SolItemTypes types, AssetHelper assetHelper) {
@@ -110,9 +112,7 @@ public class AbilityCharge implements SolItem {
             String desc = rootNode.getString("desc");
 
             Config abilityConfig = new Config(icon, price, displayName, desc, types.abilityCharge, abilityName.toString());
-
-            AbilityCharge abilityChargeExample = new AbilityCharge(abilityConfig);
-            itemManager.registerItem(abilityChargeExample);
+            itemManager.registerItem(abilityConfig.example);
 
             json.dispose();
         }

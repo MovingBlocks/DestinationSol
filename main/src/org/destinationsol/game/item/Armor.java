@@ -119,6 +119,7 @@ public class Armor implements SolItem {
         public final PlayableSound energyHitSound;
         public final SolItemType itemType;
         public final String code;
+        public final Armor example;
 
         private Config(String displayName, int price, float perc, PlayableSound bulletHitSound,
                        TextureAtlas.AtlasRegion icon, PlayableSound energyHitSound, SolItemType itemType, String code) {
@@ -131,6 +132,7 @@ public class Armor implements SolItem {
             this.code = code;
             this.desc = "Reduces damage by " + (int) (perc * 100) + "%\nStrong against energy guns";
             this.bulletHitSound = bulletHitSound;
+            this.example = new Armor(this);
         }
 
         public static void load(ResourceUrn armorName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types, AssetHelper assetHelper) {
@@ -148,9 +150,7 @@ public class Armor implements SolItem {
             OggSoundSet energyDmgSound = new OggSoundSet(soundManager, energyDamageSoundUrns, basePitch);
 
             Config armorConfig = new Config(displayName, price, perc, bulletDmgSound, icon, energyDmgSound, types.armor, armorName.toString());
-            Armor armorExample = new Armor(armorConfig);
-
-            itemManager.registerItem(armorExample);
+            itemManager.registerItem(armorConfig.example);
 
             json.dispose();
         }
