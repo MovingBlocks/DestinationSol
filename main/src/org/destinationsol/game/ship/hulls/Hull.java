@@ -26,7 +26,7 @@ import org.destinationsol.game.dra.Dra;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
-import org.destinationsol.game.item.EngineItem;
+import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.particle.LightSrc;
 import org.destinationsol.game.planet.PlanetBind;
@@ -164,7 +164,7 @@ public class Hull {
 
     }
 
-    public void setEngine(SolGame game, SolShip ship, EngineItem ei) {
+    public void setEngine(SolGame game, SolShip ship, Engine ei) {
         List<Dra> dras = ship.getDras();
         if (myEngine != null) {
             List<Dra> dras1 = myEngine.getDras();
@@ -192,7 +192,7 @@ public class Hull {
         return mySpd;
     }
 
-    public EngineItem getEngine() {
+    public Engine getEngine() {
         return myEngine == null ? null : myEngine.getItem();
     }
 

@@ -21,7 +21,7 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.Gun;
-import org.destinationsol.game.item.EngineItem;
+import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.ShipItem;
 import org.destinationsol.game.item.SolItem;
@@ -114,8 +114,8 @@ public class ChangeShip implements InventoryOperations {
     private void changeShip(SolGame game, SolShip hero, ShipItem selected) {
         HullConfig newConfig = selected.getConfig();
         Hull hull = hero.getHull();
-        EngineItem.Config ec = newConfig.getEngineConfig();
-        EngineItem ei = ec == null ? null : ec.example.copy();
+        Engine.Config ec = newConfig.getEngineConfig();
+        Engine ei = ec == null ? null : ec.example.copy();
         Gun g2 = hull.getGun(true);
         SolShip newHero = game.getShipBuilder().build(game, hero.getPosition(), new Vector2(), hero.getAngle(), 0, hero.getPilot(),
                 hero.getItemContainer(), newConfig, newConfig.getMaxLife(), hull.getGun(false), g2, null,

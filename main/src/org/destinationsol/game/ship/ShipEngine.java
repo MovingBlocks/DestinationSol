@@ -24,7 +24,7 @@ import org.destinationsol.game.SolObject;
 import org.destinationsol.game.dra.Dra;
 import org.destinationsol.game.dra.DraLevel;
 import org.destinationsol.game.input.Pilot;
-import org.destinationsol.game.item.EngineItem;
+import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSrc;
 import org.destinationsol.game.particle.PartMan;
@@ -42,11 +42,11 @@ public class ShipEngine {
     private final ParticleSrc myFlameSrc2;
     private final LightSrc myLightSrc1;
     private final LightSrc myLightSrc2;
-    private final EngineItem myItem;
+    private final Engine myItem;
     private final List<Dra> myDras;
     private float myRecoverAwait;
 
-    public ShipEngine(SolGame game, EngineItem ei, Vector2 e1RelPos, Vector2 e2RelPos, SolShip ship) {
+    public ShipEngine(SolGame game, Engine ei, Vector2 e1RelPos, Vector2 e2RelPos, SolShip ship) {
         myItem = ei;
         myDras = new ArrayList<Dra>();
         EffectConfig ec = myItem.getEffectConfig();
@@ -86,7 +86,7 @@ public class ShipEngine {
         boolean spdOk = SolMath.canAccelerate(shipAngle, spd);
         boolean working = controlsEnabled && provider.isUp() && spdOk;
 
-        EngineItem e = myItem;
+        Engine e = myItem;
         if (working) {
             Vector2 v = SolMath.fromAl(shipAngle, mass * e.getAcc());
             body.applyForceToCenter(v, true);
@@ -123,7 +123,7 @@ public class ShipEngine {
         pm.finish(game, myFlameSrc2, basePos);
     }
 
-    public EngineItem getItem() {
+    public Engine getItem() {
         return myItem;
     }
 }

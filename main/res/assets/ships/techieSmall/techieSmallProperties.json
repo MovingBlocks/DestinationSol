@@ -4,7 +4,7 @@
     "type": "std",
     "e1Pos": "0.1 0.5",
     "e2Pos": "0.1 0.5",
-    "engine": "techie",
+    "engine": "techieEngine",
     "gunSlots": [
         {
             "position": "0.38 0.15",

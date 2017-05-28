@@ -148,12 +148,12 @@ public class Armor implements SolItem {
             OggSoundSet bulletDmgSound = new OggSoundSet(soundManager, bulletDamageSoundUrns, basePitch);
             OggSoundSet energyDmgSound = new OggSoundSet(soundManager, energyDamageSoundUrns, basePitch);
 
+            json.dispose();
+
             TextureAtlas.AtlasRegion icon = assetHelper.getAtlasRegion(new ResourceUrn(armorName + "Icon"));
 
             Config armorConfig = new Config(displayName, price, perc, bulletDmgSound, icon, energyDmgSound, types.armor, armorName.toString());
             itemManager.registerItem(armorConfig.example);
-
-            json.dispose();
         }
     }
 }

@@ -32,7 +32,7 @@ import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
-import org.destinationsol.game.item.EngineItem;
+import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.Loot;
 import org.destinationsol.game.item.MoneyItem;
@@ -211,7 +211,7 @@ public class SolShip implements SolObject {
     }
 
     public float getAcc() {
-        EngineItem e = myHull.getEngine();
+        Engine e = myHull.getEngine();
         return e == null ? 0 : e.getAcc();
     }
 
@@ -460,7 +460,7 @@ public class SolShip implements SolObject {
     }
 
     public float getRotAcc() {
-        EngineItem e = myHull.getEngine();
+        Engine e = myHull.getEngine();
         return e == null ? 0 : e.getRotAcc();
     }
 
@@ -470,7 +470,7 @@ public class SolShip implements SolObject {
 
     public float calcTimeToTurn(float destAngle) {
         float angle = myHull.getAngle();
-        EngineItem e = myHull.getEngine();
+        Engine e = myHull.getEngine();
         float ad = SolMath.angleDiff(angle, destAngle);
         return ad / e.getMaxRotSpd();
     }
@@ -481,12 +481,12 @@ public class SolShip implements SolObject {
 
     public boolean maybeEquip(SolGame game, SolItem item, boolean secondarySlot, boolean equip) {
         if (!secondarySlot) {
-            if (item instanceof EngineItem) {
+            if (item instanceof Engine) {
                 if (true) {
                     Gdx.app.log("SolShip", "maybeEquip called for an engine item, can't do that!");
                     //throw new AssertionError("engine items not supported");
                 }
-                EngineItem ei = (EngineItem) item;
+                Engine ei = (Engine) item;
                 boolean ok = ei.isBig() == (myHull.config.getType() == HullConfig.Type.BIG);
                 if (ok && equip) {
                     myHull.setEngine(game, this, ei);
