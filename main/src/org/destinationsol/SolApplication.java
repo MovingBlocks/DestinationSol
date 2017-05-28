@@ -90,7 +90,7 @@ public class SolApplication implements ApplicationListener {
         myUiDrawer = new UiDrawer(myTextureManager, myCommonDrawer);
         myInputMan = new SolInputManager(myTextureManager, soundManager);
         myLayouts = new SolLayouts(myUiDrawer.r);
-        myMenuScreens = new MenuScreens(myLayouts, myTextureManager, isMobile(), myUiDrawer.r, myOptions);
+        myMenuScreens = new MenuScreens(assetHelper, myLayouts, isMobile(), myUiDrawer.r, myOptions);
 
         myInputMan.setScreen(this, myMenuScreens.main);
         myFpsLogger = new FPSLogger();

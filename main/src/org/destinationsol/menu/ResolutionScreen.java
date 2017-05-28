@@ -17,16 +17,19 @@
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +42,7 @@ public class ResolutionScreen implements SolUiScreen {
     private final SolUiControl resolutionControl;
     private final SolUiControl fullscreenControl;
 
-    ResolutionScreen(MenuLayout menuLayout, TextureManager textureManager, GameOptions gameOptions) {
+    ResolutionScreen(AssetHelper assetHelper, MenuLayout menuLayout, GameOptions gameOptions) {
         resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
         resolutionControl.setDisplayName("Resolution");
         myControls.add(resolutionControl);
@@ -52,7 +55,7 @@ public class ResolutionScreen implements SolUiScreen {
         closeControl.setDisplayName("Back");
         myControls.add(closeControl);
 
-        bgTex = textureManager.getTexture("ui/titleBg");
+        bgTex = assetHelper.getAtlasRegion(new ResourceUrn("Core:mainMenuBg"), Texture.TextureFilter.Linear);
     }
 
     @Override
