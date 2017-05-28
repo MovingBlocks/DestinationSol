@@ -18,7 +18,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -59,6 +59,7 @@ public class SolDesktop {
             applicationConfig.addIcon(DebugOptions.DEV_ROOT_PATH + "res/icon.png", Files.FileType.Absolute);
         }
 
+        /*
         Thread.setDefaultUncaughtExceptionHandler((thread, ex) -> {
             // Get the exception stack trace string
             StringWriter stringWriter = new StringWriter();
@@ -69,14 +70,13 @@ public class SolDesktop {
 
             // Create a crash dump file
             String fileName = "crash-" + new SimpleDateFormat("yyyy-dd-MM_HH-mm-ss").format(new Date()) + ".log";
-            List<String> lines = Arrays.asList(exceptionString);
+            List<String> lines = Collections.singletonList(exceptionString);
             Path logPath = new MyReader().create(fileName, lines).toAbsolutePath().getParent();
 
             // Run asynchronously so that the error message view is not blocked
-            new Thread(() -> {
-                CrashReporter.report(ex, logPath);
-            }).start();
+            new Thread(() -> CrashReporter.report(ex, logPath)).start();
         });
+        */
 
         new LwjglApplication(new SolApplication(), applicationConfig);
     }
@@ -101,16 +101,18 @@ public class SolDesktop {
             if (DebugOptions.DEV_ROOT_PATH != null) {
                 fileName = DebugOptions.DEV_ROOT_PATH + fileName;
             }
-            ArrayList<String> lines = new ArrayList<String>();
+
+            ArrayList<String> lines = new ArrayList<>();
+
             try {
                 BufferedReader br = new BufferedReader(new FileReader(fileName));
-                String line = "";
+                String line;
                 while ((line = br.readLine()) != null) {
                     lines.add(line);
                 }
                 br.close();
-            } catch (IOException ignore) {
-            }
+            } catch (IOException ignore) { }
+
             return lines;
         }
     }

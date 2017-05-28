@@ -17,11 +17,13 @@
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.ui.FontSize;
@@ -29,6 +31,7 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +47,7 @@ public class CreditsScreen implements SolUiScreen {
     private int pageIndex;
     private float pageProgressPercent;
 
-    CreditsScreen(TextureManager textureManager, float resolutionRatio, GameOptions gameOptions) {
+    CreditsScreen(AssetHelper assetHelper, float resolutionRatio, GameOptions gameOptions) {
         closeControl = new SolUiControl(MenuLayout.bottomRightFloatingButton(resolutionRatio), true, gameOptions.getKeyEscape());
         closeControl.setDisplayName("Close");
         controls.add(closeControl);
@@ -111,7 +114,7 @@ public class CreditsScreen implements SolUiScreen {
             myPages.add(page.toString());
         }
 
-        bgTex = textureManager.getTexture("ui/titleBg");
+        bgTex = assetHelper.getAtlasRegion(new ResourceUrn("Core:mainMenuBg"), Texture.TextureFilter.Linear);
     }
 
     @Override

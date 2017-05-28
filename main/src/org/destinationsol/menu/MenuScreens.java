@@ -18,6 +18,7 @@ package org.destinationsol.menu;
 
 import org.destinationsol.GameOptions;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.ui.SolLayouts;
 
 public class MenuScreens {
@@ -30,13 +31,13 @@ public class MenuScreens {
     public final NewGameScreen newGame;
     public final NewShipScreen newShip;
 
-    public MenuScreens(SolLayouts layouts, TextureManager textureManager, boolean mobile, float resolutionRatio, GameOptions gameOptions) {
+    public MenuScreens(AssetHelper assetHelper, SolLayouts layouts, boolean mobile, float resolutionRatio, GameOptions gameOptions) {
         MenuLayout menuLayout = layouts.menuLayout;
-        main = new MainScreen(menuLayout, textureManager, mobile, resolutionRatio, gameOptions);
-        options = new OptionsScreen(menuLayout, textureManager, gameOptions);
-        inputMapScreen = new InputMapScreen(textureManager, resolutionRatio, gameOptions);
-        resolutionScreen = new ResolutionScreen(menuLayout, textureManager, gameOptions);
-        credits = new CreditsScreen(textureManager, resolutionRatio, gameOptions);
+        main = new MainScreen(assetHelper, menuLayout, mobile, resolutionRatio, gameOptions);
+        options = new OptionsScreen(assetHelper, menuLayout, gameOptions);
+        inputMapScreen = new InputMapScreen(assetHelper, resolutionRatio, gameOptions);
+        resolutionScreen = new ResolutionScreen(assetHelper, menuLayout, gameOptions);
+        credits = new CreditsScreen(assetHelper, resolutionRatio, gameOptions);
         loading = new LoadingScreen();
         newGame = new NewGameScreen(menuLayout, gameOptions);
         newShip = new NewShipScreen(menuLayout, gameOptions);

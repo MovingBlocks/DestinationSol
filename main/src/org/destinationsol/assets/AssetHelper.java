@@ -45,7 +45,7 @@ public class AssetHelper {
         assetTypeManager.registerCoreAssetType(Font.class, Font::new, "fonts");
         assetTypeManager.registerCoreAssetType(Emitter.class, Emitter::new, "emitters");
         assetTypeManager.registerCoreAssetType(Json.class, Json::new, "collisionMeshes", "ships", "items");
-        assetTypeManager.registerCoreAssetType(DSTexture.class, DSTexture::new, "ships", "items");
+        assetTypeManager.registerCoreAssetType(DSTexture.class, DSTexture::new, "images", "ships", "items");
 
         assetTypeManager.switchEnvironment(environment);
     }
@@ -86,15 +86,20 @@ public class AssetHelper {
         return get(urn, DSTexture.class);
     }
 
-    public TextureAtlas.AtlasRegion getAtlasRegion(ResourceUrn urn) {
+    public TextureAtlas.AtlasRegion getAtlasRegion(ResourceUrn urn, Texture.TextureFilter textureFilter) {
         Optional<DSTexture> dsTextureOptional = getDSTexture(urn);
         if (dsTextureOptional.isPresent()) {
             Texture texture = dsTextureOptional.get().getTexture();
+            texture.setFilter(textureFilter, textureFilter);
             TextureAtlas.AtlasRegion atlasRegion = new TextureAtlas.AtlasRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
             atlasRegion.flip(false, true);
             return atlasRegion;
         } else {
             return null;
         }
+    }
+
+    public TextureAtlas.AtlasRegion getAtlasRegion(ResourceUrn urn) {
+        return getAtlasRegion(urn, Texture.TextureFilter.Nearest);
     }
 }
