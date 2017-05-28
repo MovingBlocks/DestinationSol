@@ -136,7 +136,7 @@ public class Armor implements SolItem {
         }
 
         public static void load(ResourceUrn armorName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types, AssetHelper assetHelper) {
-            Json json = assetHelper.getJson(armorName).get();
+            Json json = assetHelper.getJson(armorName);
             JsonValue rootNode = json.getJsonValue();
 
             String displayName = rootNode.getString("displayName");

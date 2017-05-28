@@ -99,7 +99,7 @@ public class AbilityCharge implements SolItem {
         }
 
         public static void load(ResourceUrn abilityName, ItemManager itemManager, SolItemTypes types, AssetHelper assetHelper) {
-            Json json = assetHelper.getJson(abilityName).get();
+            Json json = assetHelper.getJson(abilityName);
             JsonValue rootNode = json.getJsonValue();
 
             float price = rootNode.getFloat("price");
