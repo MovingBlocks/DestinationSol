@@ -26,7 +26,7 @@ import org.destinationsol.game.SolObject;
 import org.destinationsol.game.dra.Dra;
 import org.destinationsol.game.dra.DraLevel;
 import org.destinationsol.game.dra.RectSprite;
-import org.destinationsol.game.item.ClipConfig;
+import org.destinationsol.game.item.Clip;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.particle.LightSrc;
 import org.destinationsol.game.planet.Planet;
@@ -76,7 +76,7 @@ public class SolGun {
 
     private void shoot(Vector2 gunSpd, SolGame game, float gunAngle, Vector2 muzzlePos, Faction faction, SolObject creator) {
         Vector2 baseSpd = gunSpd;
-        ClipConfig cc = myItem.config.clipConf;
+        Clip.Config cc = myItem.config.clipConf;
         if (cc.projConfig.zeroAbsSpd) {
             baseSpd = Vector2.Zero;
             Planet np = game.getPlanetMan().getNearestPlanet();

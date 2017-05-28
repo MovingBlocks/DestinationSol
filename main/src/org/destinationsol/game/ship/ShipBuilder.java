@@ -45,7 +45,7 @@ import org.destinationsol.game.gun.GunItem;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
-import org.destinationsol.game.item.ClipConfig;
+import org.destinationsol.game.item.Clip;
 import org.destinationsol.game.item.EngineItem;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.Shield;
@@ -194,7 +194,7 @@ public class ShipBuilder {
             return;
         }
         GunConfig gc = g.config;
-        ClipConfig cc = gc.clipConf;
+        Clip.Config cc = gc.clipConf;
         if (cc.infinite) {
             return;
         }

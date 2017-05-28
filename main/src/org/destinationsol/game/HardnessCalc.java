@@ -20,7 +20,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.gun.GunConfig;
 import org.destinationsol.game.gun.GunItem;
 import org.destinationsol.game.item.Armor;
-import org.destinationsol.game.item.ClipConfig;
+import org.destinationsol.game.item.Clip;
 import org.destinationsol.game.item.ItemConfig;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.Shield;
@@ -43,7 +43,7 @@ public class HardnessCalc {
     public static final float SHIELD_MUL = 1.2f;
 
     public static float getGunMeanDps(GunConfig gc) {
-        ClipConfig cc = gc.clipConf;
+        Clip.Config cc = gc.clipConf;
         ProjectileConfig pc = cc.projConfig;
 
         float projDmg = pc.dmg;
@@ -75,7 +75,7 @@ public class HardnessCalc {
     }
 
     public static float getShotDps(GunConfig gc, float shotDmg) {
-        ClipConfig cc = gc.clipConf;
+        Clip.Config cc = gc.clipConf;
         int projectilesPerShot = cc.projectilesPerShot;
         if (gc.timeBetweenShots == 0) {
             projectilesPerShot = cc.size;
