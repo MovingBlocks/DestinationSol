@@ -16,6 +16,7 @@
 
 package org.destinationsol.menu;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -23,12 +24,14 @@ import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +70,7 @@ public class InputMapScreen implements SolUiScreen {
     private int page;
     private int selectedIndex;
 
-    InputMapScreen(TextureManager textureManager, float resolutionRatio, GameOptions gameOptions) {
+    InputMapScreen(AssetHelper assetHelper, float resolutionRatio, GameOptions gameOptions) {
         float contentW = .8f;
         float col0 = resolutionRatio / 2 - contentW / 2;
         float row = 0.2f;
@@ -131,7 +134,7 @@ public class InputMapScreen implements SolUiScreen {
         inputMapControllerScreen = new InputMapControllerScreen();
         inputMapMixedScreen = new InputMapMixedScreen();
 
-        bgTex = textureManager.getTexture("ui/titleBg");
+        bgTex = assetHelper.getAtlasRegion(new ResourceUrn("Core:mainMenuBg"), Texture.TextureFilter.Linear);
     }
 
     @Override

@@ -17,15 +17,18 @@
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +44,7 @@ public class OptionsScreen implements SolUiScreen {
     private final SolUiControl soundVolumeControl;
     private final SolUiControl musicVolumeControl;
 
-    OptionsScreen(MenuLayout menuLayout, TextureManager textureManager, GameOptions gameOptions) {
+    OptionsScreen(AssetHelper assetHelper, MenuLayout menuLayout, GameOptions gameOptions) {
         resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
         resolutionControl.setDisplayName("Resolution");
         controls.add(resolutionControl);
@@ -66,7 +69,7 @@ public class OptionsScreen implements SolUiScreen {
         musicVolumeControl.setDisplayName("Music Volume");
         controls.add(musicVolumeControl);
 
-        bgTex = textureManager.getTexture("ui/titleBg");
+        bgTex = assetHelper.getAtlasRegion(new ResourceUrn("Core:mainMenuBg"), Texture.TextureFilter.Linear);
     }
 
     @Override

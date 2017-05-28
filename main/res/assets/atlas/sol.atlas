@@ -1548,22 +1548,3 @@ ui/whiteTex
   orig: 1, 1
   offset: 0, 0
   index: -1
-
-mainMenuElements.png
-format: RGBA8888
-filter: Linear,Linear
-repeat: none
-ui/titleBg
-  rotate: false
-  xy: 0, 0
-  size: 1900, 1200
-  orig: 1900, 1200
-  offset: 0, 0
-  index: -1
-ui/titleLogo
-  rotate: false
-  xy: 0, 1200
-  size: 400, 218
-  orig: 400, 218
-  offset: 0, 0
-  index: -1
