@@ -137,10 +137,10 @@ public class Clip implements SolItem {
                 icon = assetHelper.getAtlasRegion(new ResourceUrn(clipName + "Icon"));
             }
 
+            json.dispose();
+
             Config clipConfig = new Config(projectileConfig, infinite, price, displayName, size, plural, icon, projectilesPerShot, types.clip, clipName.toString());
             itemManager.registerItem(clipConfig.example);
-
-            json.dispose();
         }
     }
 }

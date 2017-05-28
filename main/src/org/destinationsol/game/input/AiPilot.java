@@ -21,7 +21,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.Gun;
-import org.destinationsol.game.item.EngineItem;
+import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetBind;
 import org.destinationsol.game.ship.FarShip;
@@ -221,7 +221,7 @@ public class AiPilot implements Pilot {
 
         Vector2 spd = farShip.getSpd();
         float angle = farShip.getAngle();
-        EngineItem engine = farShip.getEngine();
+        Engine engine = farShip.getEngine();
         float ts = game.getTimeStep();
         if (dest == null || engine == null) {
             if (myPlanetBind == null) {

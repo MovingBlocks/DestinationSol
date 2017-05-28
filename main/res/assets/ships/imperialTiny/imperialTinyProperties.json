@@ -11,7 +11,7 @@
     "e1Pos": "0.15 0.50",
     "e2Pos": "0.15 0.50",
     "displayName": "Scout",
-    "engine": "imperial",
+    "engine": "imperialEngine",
     "gunSlots": [
         {
             "position": "0.35 0.5",

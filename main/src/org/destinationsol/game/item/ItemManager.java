@@ -21,6 +21,7 @@ import org.destinationsol.TextureManager;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.GameColors;
+import org.destinationsol.game.particle.EffectType;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.projectile.ProjectileConfigs;
 import org.destinationsol.game.sound.OggSoundManager;
@@ -38,15 +39,21 @@ public class ItemManager {
     public final TextureAtlas.AtlasRegion repairIcon;
     private final HashMap<String, SolItem> myM = new HashMap<>();
     private final ArrayList<SolItem> myL= new ArrayList<>();
-    private final EngineItem.Configs myEngineConfigs;
+    private final HashMap<ResourceUrn, Engine.Config> engineConfigs = new HashMap<>();
     private final SolItemTypes myTypes;
     private final RepairItem myRepairExample;
     private final AssetHelper assetHelper;
     private final OggSoundManager soundManager;
+    private final TextureManager textureManager;
+    private final EffectTypes effectTypes;
+    private final GameColors gameColors;
 
     public ItemManager(TextureManager textureManager, OggSoundManager soundManager, EffectTypes effectTypes, GameColors gameColors, AssetHelper assetHelper) {
         this.assetHelper = assetHelper;
         this.soundManager = soundManager;
+        this.textureManager = textureManager;
+        this.effectTypes = effectTypes;
+        this.gameColors = gameColors;
 
         moneyIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "money");
         medMoneyIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "medMoney");
@@ -55,7 +62,6 @@ public class ItemManager {
 
         myTypes = new SolItemTypes(soundManager, gameColors, assetHelper);
         projConfigs = new ProjectileConfigs(textureManager, soundManager, effectTypes, gameColors, assetHelper);
-        myEngineConfigs = EngineItem.Configs.load(soundManager, textureManager, effectTypes, gameColors, assetHelper);
 
         myRepairExample = new RepairItem(myTypes.repair);
         myM.put(myRepairExample.getCode(), myRepairExample);
@@ -105,7 +111,9 @@ public class ItemManager {
                 SolItem example = getExample(name);
 
                 // TODO: Remove the explicit Core from here
-                name = "Core:" + name;
+                if (!name.startsWith("Core:")) {
+                    name = "Core:" + name;
+                }
 
                 // TODO: Remove this
                 if (example == null) {
@@ -168,6 +176,10 @@ public class ItemManager {
         return myM.get(name);
     }
 
+    public Engine.Config getEngineConfig(ResourceUrn engineName) {
+        return engineConfigs.computeIfAbsent(engineName, engineConfig -> Engine.Config.load(engineConfig, soundManager, effectTypes, textureManager, gameColors, this, assetHelper));
+    }
+
     public SolItem random() {
         return myL.get(SolMath.intRnd(myM.size())).copy();
     }
@@ -180,10 +192,6 @@ public class ItemManager {
         }
         myM.put(code, example);
         myL.add(example);
-    }
-
-    public EngineItem.Configs getEngineConfigs() {
-        return myEngineConfigs;
     }
 
     public MoneyItem moneyItem(float amt) {

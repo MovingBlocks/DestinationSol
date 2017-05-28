@@ -45,7 +45,7 @@ import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
 import org.destinationsol.game.item.Clip;
-import org.destinationsol.game.item.EngineItem;
+import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.SolItem;
@@ -108,8 +108,8 @@ public class ShipBuilder {
         }
         ItemContainer ic = new ItemContainer();
         game.getItemMan().fillContainer(ic, items);
-        EngineItem.Config ec = hullConfig.getEngineConfig();
-        EngineItem ei = ec == null ? null : ec.example.copy();
+        Engine.Config ec = hullConfig.getEngineConfig();
+        Engine ei = ec == null ? null : ec.example.copy();
         TradeContainer tc = tradeConfig == null ? null : new TradeContainer(tradeConfig);
 
         Gun g1 = null;
@@ -227,7 +227,7 @@ public class ShipBuilder {
 
     public SolShip build(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot,
                          ItemContainer container, HullConfig hullConfig, float life, Gun gun1,
-                         Gun gun2, RemoveController removeController, EngineItem engine,
+                         Gun gun2, RemoveController removeController, Engine engine,
                          ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
                          Armor armor) {
         ArrayList<Dra> dras = new ArrayList<>();

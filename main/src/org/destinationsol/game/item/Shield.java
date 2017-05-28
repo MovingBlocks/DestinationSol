@@ -188,6 +188,8 @@ public class Shield implements SolItem {
             String regenUrn = rootNode.getString("regenSound");
             OggSound regenSound = soundManager.getSound(regenUrn);
 
+            json.dispose();
+
             TextureAtlas.AtlasRegion tex = assetHelper.getAtlasRegion(shieldName);
             TextureAtlas.AtlasRegion icon = assetHelper.getAtlasRegion(new ResourceUrn(shieldName + "Icon"));
 

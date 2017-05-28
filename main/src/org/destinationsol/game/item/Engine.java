@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.audio.PlayableSound;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.SolGame;
@@ -30,16 +31,16 @@ import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.game.sound.OggSoundSet;
-import org.terasology.assets.Asset;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class EngineItem implements SolItem {
+public class Engine implements SolItem {
     private final Config myConfig;
 
-    private EngineItem(Config config) {
+    private Engine(Config config) {
         myConfig = config;
     }
 
@@ -75,13 +76,13 @@ public class EngineItem implements SolItem {
     }
 
     @Override
-    public EngineItem copy() {
-        return new EngineItem(myConfig);
+    public Engine copy() {
+        return new Engine(myConfig);
     }
 
     @Override
     public boolean isSame(SolItem item) {
-        return item instanceof EngineItem && ((EngineItem) item).myConfig == myConfig;
+        return item instanceof Engine && ((Engine) item).myConfig == myConfig;
     }
 
     @Override
@@ -125,13 +126,14 @@ public class EngineItem implements SolItem {
         public final float acc;
         public final float maxRotSpd;
         public final boolean big;
+        public final Engine example;
         public final PlayableSound workSound;
-        public final EngineItem example;
         public final TextureAtlas.AtlasRegion icon;
         public final EffectConfig effectConfig;
+        public final String code;
 
         private Config(String displayName, int price, String desc, float rotAcc, float acc, float maxRotSpd, boolean big,
-                       PlayableSound workSound, TextureAtlas.AtlasRegion icon, EffectConfig effectConfig) {
+                       PlayableSound workSound, TextureAtlas.AtlasRegion icon, EffectConfig effectConfig, String code) {
             this.displayName = displayName;
             this.price = price;
             this.desc = desc;
@@ -142,43 +144,29 @@ public class EngineItem implements SolItem {
             this.workSound = workSound;
             this.icon = icon;
             this.effectConfig = effectConfig;
-            this.example = new EngineItem(this);
+            this.code = code;
+            this.example = new Engine(this);
         }
 
-        private static Config load(OggSoundManager soundManager, JsonValue sh, EffectTypes effectTypes,
-                                   TextureManager textureManager, GameColors cols, AssetHelper assetHelper) {
-            boolean big = sh.getBoolean("big");
+        public static Config load(ResourceUrn engineName, OggSoundManager soundManager, EffectTypes effectTypes, TextureManager textureManager, GameColors cols, ItemManager itemManager, AssetHelper assetHelper) {
+            Json json = assetHelper.getJson(engineName);
+            JsonValue rootNode = json.getJsonValue();
+
+            boolean big = rootNode.getBoolean("big");
             float rotAcc = big ? 100f : 515f;
             float acc = 2f;
             float maxRotSpd = big ? 40f : 230f;
-            List<String> workSoundUrns = Arrays.asList(sh.get("workSounds").asStringArray());
+            List<String> workSoundUrns = Arrays.asList(rootNode.get("workSounds").asStringArray());
             OggSoundSet workSoundSet = new OggSoundSet(soundManager, workSoundUrns);
-            EffectConfig effectConfig = EffectConfig.load(sh.get("effect"), effectTypes, textureManager, cols, assetHelper);
-            return new Config(null, 0, null, rotAcc, acc, maxRotSpd, big, workSoundSet, null, effectConfig);
-        }
-    }
+            EffectConfig effectConfig = EffectConfig.load(rootNode.get("effect"), effectTypes, textureManager, cols, assetHelper);
 
-    public static class Configs {
-        private final HashMap<String, Config> myConfigs;
+            json.dispose();
 
-        public Configs(HashMap<String, Config> configs) {
-            myConfigs = configs;
-        }
+            // TODO: VAMPCAT: The icon / displayName was initially set to null. Is that correct?
 
-        public static Configs load(OggSoundManager soundManager, TextureManager textureManager, EffectTypes effectTypes, GameColors cols, AssetHelper assetHelper) {
-            HashMap<String, Config> configs = new HashMap<>();
-            JsonReader r = new JsonReader();
-            FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("engines.json");
-            JsonValue parsed = r.parse(configFile);
-            for (JsonValue sh : parsed) {
-                Config config = Config.load(soundManager, sh, effectTypes, textureManager, cols, assetHelper);
-                configs.put(sh.name(), config);
-            }
-            return new Configs(configs);
-        }
+            Config engineConfig = new Config(null, 0, null, rotAcc, acc, maxRotSpd, big, workSoundSet, null, effectConfig, engineName.toString());
 
-        public Config get(String name) {
-            return myConfigs.get(name);
+            return engineConfig;
         }
     }
 }

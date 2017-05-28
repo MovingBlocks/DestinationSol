@@ -203,6 +203,8 @@ public class Gun implements SolItem {
                 clipConf = clip.getConfig();
             }
 
+            json.dispose();
+
             TextureAtlas.AtlasRegion tex = assetHelper.getAtlasRegion(gunName);
             TextureAtlas.AtlasRegion icon = assetHelper.getAtlasRegion(new ResourceUrn(gunName + "Icon"));
 
@@ -210,8 +212,6 @@ public class Gun implements SolItem {
                                             reloadTime, gunLength, displayName, lightOnShot, price, clipConf, shootSoundSet,
                                                 reloadSoundSet, tex, icon, fixed, itemType, texLenPerc, gunName.toString());
             itemManager.registerItem(gunConfig.example);
-
-            json.dispose();
         }
 
         private String makeDesc() {
