@@ -106,12 +106,12 @@ public class AbilityCharge implements SolItem {
             String displayName = rootNode.getString("displayName");
             String desc = rootNode.getString("desc");
 
+            json.dispose();
+
             TextureAtlas.AtlasRegion icon = assetHelper.getAtlasRegion(new ResourceUrn(abilityName + "Icon"));
 
             Config abilityConfig = new Config(icon, price, displayName, desc, types.abilityCharge, abilityName.toString());
             itemManager.registerItem(abilityConfig.example);
-
-            json.dispose();
         }
     }
 }

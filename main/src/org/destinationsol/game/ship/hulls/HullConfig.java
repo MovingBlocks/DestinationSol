@@ -19,7 +19,7 @@ package org.destinationsol.game.ship.hulls;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.Immutable;
-import org.destinationsol.game.item.EngineItem;
+import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.ship.AbilityConfig;
 
 import java.util.ArrayList;
@@ -108,7 +108,7 @@ public final class HullConfig {
         return new TextureAtlas.AtlasRegion(data.tex);
     }
 
-    public EngineItem.Config getEngineConfig() {
+    public Engine.Config getEngineConfig() {
         return data.engineConfig;
     }
 
@@ -178,7 +178,7 @@ public final class HullConfig {
         public TextureAtlas.AtlasRegion icon;
         public Type type;
         public TextureAtlas.AtlasRegion tex;
-        public EngineItem.Config engineConfig;
+        public Engine.Config engineConfig;
         public AbilityConfig ability;
         public float approxRadius;
         public String displayName;

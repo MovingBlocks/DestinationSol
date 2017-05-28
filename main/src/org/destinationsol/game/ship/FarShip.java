@@ -23,7 +23,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
-import org.destinationsol.game.item.EngineItem;
+import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.TradeContainer;
@@ -41,7 +41,7 @@ public class FarShip implements FarObj {
     private final Gun myGun1;
     private final Gun myGun2;
     private final RemoveController myRemoveController;
-    private final EngineItem myEngine;
+    private final Engine myEngine;
     private final TradeContainer myTradeContainer;
     private float myAngle;
     private float myLife;
@@ -50,7 +50,7 @@ public class FarShip implements FarObj {
 
     public FarShip(Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot, ItemContainer container,
                    HullConfig hullConfig, float life,
-                   Gun gun1, Gun gun2, RemoveController removeController, EngineItem engine,
+                   Gun gun1, Gun gun2, RemoveController removeController, Engine engine,
                    ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield, Armor armor) {
         myPos = pos;
         mySpd = spd;
@@ -156,7 +156,7 @@ public class FarShip implements FarObj {
         mySpd.set(spd);
     }
 
-    public EngineItem getEngine() {
+    public Engine getEngine() {
         return myEngine;
     }
 

@@ -22,7 +22,7 @@ import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfigs;
-import org.destinationsol.game.item.EngineItem;
+import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.ship.AbilityConfig;
 import org.destinationsol.game.ship.EmWave;
@@ -61,9 +61,12 @@ public final class HullConfigManager {
                 : SolMath.readV2(string);
     }
 
-    private static EngineItem.Config readEngineConfig(ItemManager itemManager, JsonValue jsonValue, String name) {
-        String string = jsonValue.getString(name, null);
-        return itemManager.getEngineConfigs().get(string);
+    private static Engine.Config readEngineConfig(String engineName, ItemManager itemManager) {
+        if (engineName == null)
+            return null;
+
+        // TODO: Temporary hack!
+        return itemManager.getEngineConfig(new ResourceUrn("Core:" + engineName));
     }
 
     private static void validateEngineConfig(HullConfig.Data hull) {
@@ -80,8 +83,6 @@ public final class HullConfigManager {
 
         if (hullConfig == null) {
             hullConfig = read(shipName);
-
-            // TODO : VAMPCAT : Ensure that this is only called once per ship.
 
             nameToConfigMap.put(shipName, hullConfig);
             configToNameMap.put(hullConfig, shipName);
@@ -144,7 +145,7 @@ public final class HullConfigManager {
         configData.doorPoss = SolMath.readV2List(rootNode, "doorPoss");
         configData.type = HullConfig.Type.forName(rootNode.getString("type"));
         configData.durability = (configData.type == HullConfig.Type.BIG) ? 3 : .25f;
-        configData.engineConfig = readEngineConfig(itemManager, rootNode, "engine");
+        configData.engineConfig = readEngineConfig(rootNode.getString("engine", null), itemManager);
         configData.ability = loadAbility(rootNode, itemManager, abilityCommonConfigs);
 
         configData.displayName = rootNode.getString("displayName", "---");
