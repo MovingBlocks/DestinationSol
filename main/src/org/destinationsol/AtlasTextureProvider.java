@@ -28,7 +28,7 @@ class AtlasTextureProvider implements TextureProvider {
     private final TextureAtlas myAtlas;
 
     AtlasTextureProvider(ResourceUrn resourceUrn, AssetHelper assetHelper) {
-        myAtlas = assetHelper.getAtlas(resourceUrn).get().getTextureAtlas();
+        myAtlas = assetHelper.getAtlas(resourceUrn).getTextureAtlas();
     }
 
     @Override

@@ -57,8 +57,6 @@ public class ItemManager {
         projConfigs = new ProjectileConfigs(textureManager, soundManager, effectTypes, gameColors, assetHelper);
         myEngineConfigs = EngineItem.Configs.load(soundManager, textureManager, effectTypes, gameColors, assetHelper);
 
-        Shield.Config.loadConfigs(this, soundManager, textureManager, myTypes);
-
         myRepairExample = new RepairItem(myTypes.repair);
         myM.put(myRepairExample.getCode(), myRepairExample);
 
@@ -122,6 +120,8 @@ public class ItemManager {
                         Armor.Config.load(new ResourceUrn(name), this, soundManager, myTypes, assetHelper);
                     } else if (name.endsWith("Clip")) {
                         Clip.Config.load(new ResourceUrn(name), this, myTypes, assetHelper);
+                    } else if (name.endsWith("Shield") || name.endsWith("shield")) {
+                        Shield.Config.load(new ResourceUrn(name), this, soundManager, myTypes, assetHelper);
                     } else {
                         Gun.Config.load(new ResourceUrn(name), this, soundManager, myTypes, assetHelper);
                     }

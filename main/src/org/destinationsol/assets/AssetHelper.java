@@ -58,46 +58,83 @@ public class AssetHelper {
         return assetTypeManager.getAssetManager().getAsset(urn, type);
     }
 
-    public Optional<OggSound> getSound(ResourceUrn urn) {
-        return get(urn, OggSound.class);
+    public OggSound getSound(ResourceUrn urn) {
+        Optional<OggSound> oggSoundOptional = get(urn, OggSound.class);
+
+        if (oggSoundOptional.isPresent()) {
+            return oggSoundOptional.get();
+        }
+
+        // DebugOptions.MISSING_SOUND_ACTION.handle("OggSound " + urn.toString() + " not found!");
+        throw new RuntimeException("OggSound " + urn.toString() + " not found!");
     }
 
-    public Optional<OggMusic> getMusic(ResourceUrn urn) {
-        return get(urn, OggMusic.class);
+    public OggMusic getMusic(ResourceUrn urn) {
+        Optional<OggMusic> oggMusicOptional = get(urn, OggMusic.class);
+
+        if (oggMusicOptional.isPresent()) {
+            return oggMusicOptional.get();
+        }
+
+        throw new RuntimeException("OggSound " + urn.toString() + " not found!");
     }
 
-    public Optional<Atlas> getAtlas(ResourceUrn urn) {
-        return get(urn, Atlas.class);
+    public Atlas getAtlas(ResourceUrn urn) {
+        Optional<Atlas> atlasOptional = get(urn, Atlas.class);
+
+        if (atlasOptional.isPresent()) {
+            return atlasOptional.get();
+        }
+
+        throw new RuntimeException("Atlas " + urn.toString() + " not found!");
     }
 
-    public Optional<Font> getFont(ResourceUrn urn) {
-        return get(urn, Font.class);
+    public Font getFont(ResourceUrn urn) {
+        Optional<Font> fontOptional = get(urn, Font.class);
+
+        if (fontOptional.isPresent()) {
+            return fontOptional.get();
+        }
+
+        throw new RuntimeException("Font " + urn.toString() + " not found!");
     }
 
-    public Optional<Emitter> getEmitter(ResourceUrn urn) {
-        return get(urn, Emitter.class);
+    public Emitter getEmitter(ResourceUrn urn) {
+        Optional<Emitter> emitterOptional = get(urn, Emitter.class);
+
+        if (emitterOptional.isPresent()) {
+            return emitterOptional.get();
+        }
+
+        throw new RuntimeException("Emitter " + urn.toString() + " not found!");
     }
 
-    public Optional<Json> getJson(ResourceUrn urn) {
-        return get(urn, Json.class);
+    public Json getJson(ResourceUrn urn) {
+        Optional<Json> jsonOptional = get(urn, Json.class);
+
+        if (jsonOptional.isPresent()) {
+            return jsonOptional.get();
+        }
+
+        throw new RuntimeException("Json " + urn.toString() + " not found!");
     }
 
-    public Optional<DSTexture> getDSTexture(ResourceUrn urn) {
-        return get(urn, DSTexture.class);
+    public DSTexture getDSTexture(ResourceUrn urn) {
+        Optional<DSTexture> dsTextureOptional = get(urn, DSTexture.class);
+
+        if (dsTextureOptional.isPresent()) {
+            return dsTextureOptional.get();
+        }
+
+        throw new RuntimeException("DSTexture " + urn.toString() + " not found!");
     }
 
     public TextureAtlas.AtlasRegion getAtlasRegion(ResourceUrn urn, Texture.TextureFilter textureFilter) {
-        Optional<DSTexture> dsTextureOptional = getDSTexture(urn);
-
-        if (dsTextureOptional.isPresent()) {
-            Texture texture = dsTextureOptional.get().getTexture();
-            texture.setFilter(textureFilter, textureFilter);
-            TextureAtlas.AtlasRegion atlasRegion = new TextureAtlas.AtlasRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
-            atlasRegion.flip(false, true);
-            return atlasRegion;
-        } else {
-            throw new RuntimeException("Texture " + urn.toString() + " not found!");
-        }
+        Texture texture = getDSTexture(urn).getTexture();
+        texture.setFilter(textureFilter, textureFilter);
+        TextureAtlas.AtlasRegion atlasRegion = new TextureAtlas.AtlasRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
+        atlasRegion.flip(false, true);
+        return atlasRegion;
     }
 
     public TextureAtlas.AtlasRegion getAtlasRegion(ResourceUrn urn) {

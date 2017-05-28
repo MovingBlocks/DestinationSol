@@ -22,8 +22,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.PlayableSound;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.game.DmgType;
@@ -31,6 +33,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.sound.OggSoundManager;
+import org.terasology.assets.ResourceUrn;
 
 public class Shield implements SolItem {
     public static final float SIZE_PERC = .7f;
@@ -172,25 +175,24 @@ public class Shield implements SolItem {
             this.desc = makeDesc();
         }
 
-        public static void loadConfigs(ItemManager itemManager, OggSoundManager soundManager, TextureManager textureManager, SolItemTypes types) {
-            JsonReader r = new JsonReader();
-            FileHandle configFile = FileManager.getInstance().getItemsDirectory().child("shields.json");
-            JsonValue parsed = r.parse(configFile);
-            for (JsonValue sh : parsed) {
-                int maxLife = sh.getInt("maxLife");
-                String displayName = sh.getString("displayName");
-                int price = sh.getInt("price");
-                String absorbUrn = sh.getString("absorbSound");
-                float absorbPitch = sh.getFloat("absorbSoundPitch", 1);
-                OggSound absorbSound = soundManager.getSound(absorbUrn, absorbPitch);
-                String regenUrn = sh.getString("regenSound");
-                OggSound regenSound = soundManager.getSound(regenUrn);
-                TextureAtlas.AtlasRegion icon = textureManager.getTexture(TextureManager.ICONS_DIR + sh.getString("icon"));
-                TextureAtlas.AtlasRegion tex = textureManager.getTexture(sh.getString("tex"));
-                String code = sh.name;
-                Config config = new Config(maxLife, displayName, price, absorbSound, regenSound, icon, tex, types.shield, code);
-                itemManager.registerItem(config.example);
-            }
+        public static void load(ResourceUrn shieldName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types, AssetHelper assetHelper) {
+            Json json = assetHelper.getJson(shieldName);
+            JsonValue rootNode = json.getJsonValue();
+
+            int maxLife = rootNode.getInt("maxLife");
+            String displayName = rootNode.getString("displayName");
+            int price = rootNode.getInt("price");
+            String absorbUrn = rootNode.getString("absorbSound");
+            float absorbPitch = rootNode.getFloat("absorbSoundPitch", 1);
+            OggSound absorbSound = soundManager.getSound(absorbUrn, absorbPitch);
+            String regenUrn = rootNode.getString("regenSound");
+            OggSound regenSound = soundManager.getSound(regenUrn);
+
+            TextureAtlas.AtlasRegion tex = assetHelper.getAtlasRegion(shieldName);
+            TextureAtlas.AtlasRegion icon = assetHelper.getAtlasRegion(new ResourceUrn(shieldName + "Icon"));
+
+            Config config = new Config(maxLife, displayName, price, absorbSound, regenSound, icon, tex, types.shield, shieldName.toString());
+            itemManager.registerItem(config.example);
         }
 
         private String makeDesc() {

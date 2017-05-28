@@ -35,7 +35,7 @@
         "highOrbitEnemies": [
             {
                 "hull": "Core:pirateOrbiter",
-                "items": "plasmaGun|blaster s1:.24",
+                "items": "plasmaGun|blaster smallShield:.24",
                 "money": 40,
                 "density": 0.03,
             }
@@ -44,7 +44,7 @@
         "lowOrbitEnemies": [
             {
                 "hull": "Core:pirateOrbiter",
-                "items": "bombGun s1:.24",
+                "items": "bombGun smallShield:.24",
                 "money": 50,
                 "density": 0.1,
             },
@@ -53,14 +53,14 @@
         "groundEnemies": [
             {
                 "hull": "Core:piratePlanetTurret",
-                "items": "plasmaGun|blaster s1:.36",
+                "items": "plasmaGun|blaster smallShield:.36",
                 "money": 110,
                 "density": 0.45,
             },
 
             {
                 "hull": "Core:pirateSmall",
-                "items": "blaster|gun s1|s2:.5",
+                "items": "blaster|gun smallShield|shield:.5",
                 "money": 60,
                 "density": 0.15,
             },
@@ -68,17 +68,17 @@
 
         "station": {
             "hull": "Core:drome",
-            "items": "gun|shotGun s2 rep:1:4",
+            "items": "gun|shotGun shield rep:1:4",
         },
 
         "trading": {
-            "items": "rep plasmaClip shotGun shellClip mineClip bombGun bombClip missileClip s2 unShieldCharge",
+            "items": "rep plasmaClip shotGun shellClip mineClip bombGun bombClip missileClip shield unShieldCharge",
             "ships": "Core:pirateSmall Core:pirateOrbiter Core:pirateMedium",
 
             "mercenaries": [
                 {
                     "hull": "Core:pirateSmall",
-                    "items": "blaster|gun s1 rep:1:3",
+                    "items": "blaster|gun smallShield rep:1:3",
                     "money": 100,
                 },
             ],
@@ -161,7 +161,7 @@
 
         "station": {
             "hull": "Core:drome",
-            "items": "shotGun s3 HeavyArmor rep:1:4",
+            "items": "shotGun bigShield HeavyArmor rep:1:4",
         },
 
         "trading": {
@@ -208,7 +208,7 @@
         "highOrbitEnemies": [
             {
                 "hull": "Core:techieOrbiter",
-                "items": "fixedPlasmaGun|fixedBlaster fixedPlasmaGun|fixedBlaster|fixedEmGun:.5 mediumArmor:.75 s4",
+                "items": "fixedPlasmaGun|fixedBlaster fixedPlasmaGun|fixedBlaster|fixedEmGun:.5 mediumArmor:.75 advancedShield",
                 "money": 140,
                 "density": 0.03,
             }
@@ -216,14 +216,14 @@
         "groundEnemies": [
             {
                 "hull": "Core:techieSmall",
-                "items": "fixedPlasmaGun fixedPlasmaGun|fixedBlaster:.5 mediumArmor:.5 s3|s4",
+                "items": "fixedPlasmaGun fixedPlasmaGun|fixedBlaster:.5 mediumArmor:.5 bigShield|advancedShield",
                 "money": 120,
                 "density": 0.15,
             },
 
             {
                 "hull": "Core:techiePlanetTurret",
-                "items": "waveGun emGun:.6 HeavyArmor s4",
+                "items": "waveGun emGun:.6 HeavyArmor advancedShield",
                 "money": 180,
                 "density": 0.45,
             },

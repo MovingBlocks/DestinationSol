@@ -167,7 +167,7 @@ public class Gun implements SolItem {
         }
 
         public static void load(ResourceUrn gunName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types, AssetHelper assetHelper) {
-            Json json = assetHelper.getJson(gunName).get();
+            Json json = assetHelper.getJson(gunName);
             JsonValue rootNode = json.getJsonValue();
 
             float minAngleVar = rootNode.getFloat("minAngleVar", 0);

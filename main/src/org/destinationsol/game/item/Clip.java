@@ -114,7 +114,7 @@ public class Clip implements SolItem {
         }
 
         public static void load(ResourceUrn clipName, ItemManager itemManager, SolItemTypes types, AssetHelper assetHelper) {
-            Json json = assetHelper.getJson(clipName).get();
+            Json json = assetHelper.getJson(clipName);
             JsonValue rootNode = json.getJsonValue();
 
             String projectileName = rootNode.getString("projectile");
