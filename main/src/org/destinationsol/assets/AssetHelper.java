@@ -88,6 +88,7 @@ public class AssetHelper {
 
     public TextureAtlas.AtlasRegion getAtlasRegion(ResourceUrn urn, Texture.TextureFilter textureFilter) {
         Optional<DSTexture> dsTextureOptional = getDSTexture(urn);
+
         if (dsTextureOptional.isPresent()) {
             Texture texture = dsTextureOptional.get().getTexture();
             texture.setFilter(textureFilter, textureFilter);
@@ -95,7 +96,7 @@ public class AssetHelper {
             atlasRegion.flip(false, true);
             return atlasRegion;
         } else {
-            return null;
+            throw new RuntimeException("Texture " + urn.toString() + " not found!");
         }
     }
 

@@ -20,7 +20,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.gun.GunItem;
+import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.EngineItem;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetBind;
@@ -141,11 +141,11 @@ public class AiPilot implements Pilot {
     }
 
     private Boolean canShoot0(SolShip ship) {
-        GunItem g1 = ship.getHull().getGun(false);
+        Gun g1 = ship.getHull().getGun(false);
         if (g1 != null && g1.canShoot()) {
             return !g1.config.fixed ? null : true;
         }
-        GunItem g2 = ship.getHull().getGun(true);
+        Gun g2 = ship.getHull().getGun(true);
         if (g2 != null && (g2.canShoot())) {
             return !g2.config.fixed ? null : true;
         }

@@ -40,8 +40,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.dra.Dra;
 import org.destinationsol.game.dra.DraLevel;
 import org.destinationsol.game.dra.RectSprite;
-import org.destinationsol.game.gun.GunConfig;
-import org.destinationsol.game.gun.GunItem;
+import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
@@ -113,8 +112,8 @@ public class ShipBuilder {
         EngineItem ei = ec == null ? null : ec.example.copy();
         TradeContainer tc = tradeConfig == null ? null : new TradeContainer(tradeConfig);
 
-        GunItem g1 = null;
-        GunItem g2 = null;
+        Gun g1 = null;
+        Gun g2 = null;
         Shield shield = null;
         Armor armor = null;
 
@@ -134,8 +133,8 @@ public class ShipBuilder {
                             continue;
                         }
                     }
-                    if (i instanceof GunItem) {
-                        GunItem g = (GunItem) i;
+                    if (i instanceof Gun) {
+                        Gun g = (Gun) i;
                         if (i.isEquipped() > 0) {
                             int slot = i.isEquipped();
                             if (g1 == null && hullConfig.getGunSlot(0).allowsRotation() != g.config.fixed && slot == 1) {
@@ -164,8 +163,8 @@ public class ShipBuilder {
                         armor = (Armor) i;
                         continue;
                     }
-                    if (i instanceof GunItem) {
-                        GunItem g = (GunItem) i;
+                    if (i instanceof Gun) {
+                        Gun g = (Gun) i;
                         if (g1 == null && hullConfig.getGunSlot(0).allowsRotation() != g.config.fixed) {
                             g1 = g;
                             continue;
@@ -189,11 +188,11 @@ public class ShipBuilder {
                 g1, g2, removeController, ei, hasRepairer ? new ShipRepairer() : null, money, tc, shield, armor);
     }
 
-    private void addAmmo(ItemContainer ic, GunItem g, Pilot pilot) {
+    private void addAmmo(ItemContainer ic, Gun g, Pilot pilot) {
         if (g == null) {
             return;
         }
-        GunConfig gc = g.config;
+        Gun.Config gc = g.config;
         Clip.Config cc = gc.clipConf;
         if (cc.infinite) {
             return;
@@ -227,10 +226,10 @@ public class ShipBuilder {
     }
 
     public SolShip build(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot,
-                            ItemContainer container, HullConfig hullConfig, float life, GunItem gun1,
-                            GunItem gun2, RemoveController removeController, EngineItem engine,
-                            ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
-                            Armor armor) {
+                         ItemContainer container, HullConfig hullConfig, float life, Gun gun1,
+                         Gun gun2, RemoveController removeController, EngineItem engine,
+                         ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
+                         Armor armor) {
         ArrayList<Dra> dras = new ArrayList<>();
         Hull hull = buildHull(game, pos, spd, angle, rotSpd, hullConfig, life, dras);
         SolShip ship = new SolShip(game, pilot, hull, removeController, dras, container, repairer, money, tradeContainer, shield, armor);

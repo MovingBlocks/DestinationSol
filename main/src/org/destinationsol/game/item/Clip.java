@@ -117,7 +117,6 @@ public class Clip implements SolItem {
             Json json = assetHelper.getJson(clipName).get();
             JsonValue rootNode = json.getJsonValue();
 
-            TextureAtlas.AtlasRegion icon = assetHelper.getAtlasRegion(new ResourceUrn(clipName + "Icon"));
             String projectileName = rootNode.getString("projectile");
             ProjectileConfig projectileConfig = itemManager.projConfigs.find(projectileName);
             boolean infinite = rootNode.getBoolean("infinite", false);
@@ -130,6 +129,7 @@ public class Clip implements SolItem {
             int price = 0;
             String displayName = "";
             String plural = "";
+            TextureAtlas.AtlasRegion icon = null;
             if (!infinite) {
                 price = rootNode.getInt("price");
                 displayName = rootNode.getString("displayName");

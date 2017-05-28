@@ -16,10 +16,9 @@
 
 package org.destinationsol.game.screens;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.game.gun.GunItem;
+import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolUiControl;
 
@@ -83,9 +82,9 @@ public class ShipKbControl implements ShipUiControl {
         leftCtrl.setEnabled(hasEngine);
         rightCtrl.setEnabled(hasEngine);
 
-        GunItem g1 = hero == null ? null : hero.getHull().getGun(false);
+        Gun g1 = hero == null ? null : hero.getHull().getGun(false);
         shootCtrl.setEnabled(g1 != null && g1.ammo > 0);
-        GunItem g2 = hero != null ? hero.getHull().getGun(true) : null;
+        Gun g2 = hero != null ? hero.getHull().getGun(true) : null;
         shoot2Ctrl.setEnabled(g2 != null && g2.ammo > 0);
         abilityCtrl.setEnabled(hero != null && hero.canUseAbility());
     }

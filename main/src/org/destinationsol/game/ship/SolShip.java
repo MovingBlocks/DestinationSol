@@ -28,7 +28,7 @@ import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.gun.GunItem;
+import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
@@ -191,11 +191,11 @@ public class SolShip implements SolObject {
         if (i instanceof RepairItem) {
             return myItemContainer.count(game.getItemMan().getRepairExample()) >= TRADE_AFTER;
         }
-        GunItem g1 = myHull.getGun(false);
+        Gun g1 = myHull.getGun(false);
         if (g1 != null && g1.config.clipConf.example.isSame(i)) {
             return myItemContainer.count(g1.config.clipConf.example) >= TRADE_AFTER;
         }
-        GunItem g2 = myHull.getGun(true);
+        Gun g2 = myHull.getGun(true);
         if (g2 != null && g2.config.clipConf.example.isSame(i)) {
             return myItemContainer.count(g2.config.clipConf.example) >= TRADE_AFTER;
         }
@@ -512,8 +512,8 @@ public class SolShip implements SolObject {
                 return true;
             }
         }
-        if (item instanceof GunItem) {
-            GunItem gun = (GunItem) item;
+        if (item instanceof Gun) {
+            Gun gun = (Gun) item;
             GunMount mount = myHull.getGunMount(secondarySlot);
             boolean canEquip = mount != null && (gun.config.fixed == mount.isFixed());
             if (canEquip && equip) {
