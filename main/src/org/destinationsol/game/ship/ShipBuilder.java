@@ -263,7 +263,7 @@ public class ShipBuilder {
         //TODO: This logic belongs in the HullConfigManager/HullConfig
         String shipName = hullConfig.getInternalName();
 
-        Json json = assetHelper.getJson(new ResourceUrn("Core:" + shipName + "Properties")).get();
+        Json json = assetHelper.getJson(new ResourceUrn("Core:" + shipName + "Properties"));
 
         JsonValue rigidBodyNode = json.getJsonValue().get("rigidBody");
         myCollisionMeshLoader.readRigidBody(rigidBodyNode, hullConfig);

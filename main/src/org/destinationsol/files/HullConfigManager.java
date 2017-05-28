@@ -100,7 +100,7 @@ public final class HullConfigManager {
 
         configData.internalName = shipName.getResourceName().toString();
 
-        Json json = assetHelper.getJson(new ResourceUrn(shipName + "Properties")).get();
+        Json json = assetHelper.getJson(new ResourceUrn(shipName + "Properties"));
 
         readProperties(json.getJsonValue(), configData);
 

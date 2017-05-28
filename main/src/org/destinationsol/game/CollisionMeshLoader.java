@@ -62,7 +62,7 @@ public class CollisionMeshLoader {
      * @param assetHelper The AssetHelper to use for obtaining the file
      */
     public CollisionMeshLoader(ResourceUrn fileName, AssetHelper assetHelper) {
-        Json json = assetHelper.getJson(fileName).get();
+        Json json = assetHelper.getJson(fileName);
 
         readModel(json.getJsonValue());
 

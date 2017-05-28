@@ -63,17 +63,10 @@ public class OggSoundManager {
             return soundMap.get(urn);
         }
 
-        Optional<OggSound> soundOptional = assetHelper.getSound(new ResourceUrn(urn));
-
-        if (!soundOptional.isPresent()) {
-            DebugOptions.MISSING_SOUND_ACTION.handle("Found no sound with urn " + urn);
-            return null;
-        } else {
-            OggSound sound = soundOptional.get();
-            sound.setBasePitch(basePitch);
-            soundMap.put(urn, sound);
-            return sound;
-        }
+        OggSound sound = assetHelper.getSound(new ResourceUrn(urn));
+        sound.setBasePitch(basePitch);
+        soundMap.put(urn, sound);
+        return sound;
     }
 
     /**

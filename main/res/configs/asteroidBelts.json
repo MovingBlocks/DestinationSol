@@ -30,7 +30,7 @@
         "temporaryEnemies": [
             {
                 "hull": "Core:minerMedium",
-                "items": "nailGun mediumArmor s2:.5",
+                "items": "nailGun mediumArmor shield:.5",
                 "money": 100,
                 "density": 0.002,
             },
