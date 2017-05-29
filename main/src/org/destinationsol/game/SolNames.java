@@ -17,7 +17,11 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.FileManager;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 
@@ -25,21 +29,22 @@ public class SolNames {
     public final ArrayList<String> planets;
     public final ArrayList<String> systems;
 
-    public SolNames() {
-        planets = readList("planet");
-        systems = readList("system");
+    public SolNames(AssetHelper assetHelper) {
+        planets = readList(new ResourceUrn("Core:planetNamesConfig"), assetHelper);
+        systems = readList(new ResourceUrn("Core:systemNamesConfig"), assetHelper);
     }
 
-    private ArrayList<String> readList(String entityType) {
-        ArrayList<String> list = new ArrayList<String>();
-        FileHandle f = FileManager.getInstance().getConfigDirectory().child(entityType + "Names.txt");
-        String lines = f.readString();
-        for (String line : lines.split("\n")) {
-            if (line.isEmpty()) {
-                continue;
-            }
-            list.add(line);
+    private ArrayList<String> readList(ResourceUrn fileName, AssetHelper assetHelper) {
+        Json json = assetHelper.getJson(fileName);
+        JsonValue rootNode = json.getJsonValue();
+
+        ArrayList<String> list = new ArrayList<>();
+        for (JsonValue node : rootNode) {
+            list.add(node.name());
         }
+
+        json.dispose();
+
         return list;
     }
 }
