@@ -21,11 +21,13 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
 import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.item.ItemManager;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,20 +47,22 @@ public class PlanetConfigs {
         myMedium = new ArrayList<>();
         myHard = new ArrayList<>();
 
-        JsonReader r = new JsonReader();
-        FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("planets.json");
-        JsonValue parsed = r.parse(configFile);
-        for (JsonValue sh : parsed) {
-            PlanetConfig c = PlanetConfig.load(textureManager, hullConfigs, sh, cols, itemManager, assetHelper);
-            myAllConfigs.put(sh.name, c);
-            if (c.hardOnly) {
-                myHard.add(c);
-            } else if (c.easyOnly) {
-                myEasy.add(c);
+        Json json = assetHelper.getJson(new ResourceUrn("Core:planetsConfig"));
+        JsonValue rootNode = json.getJsonValue();
+
+        for (JsonValue sh : rootNode) {
+            PlanetConfig planetConfig = PlanetConfig.load(textureManager, hullConfigs, sh, cols, itemManager, assetHelper);
+            myAllConfigs.put(sh.name, planetConfig);
+            if (planetConfig.hardOnly) {
+                myHard.add(planetConfig);
+            } else if (planetConfig.easyOnly) {
+                myEasy.add(planetConfig);
             } else {
-                myMedium.add(c);
+                myMedium.add(planetConfig);
             }
         }
+
+        json.dispose();
     }
 
     public PlanetConfig getConfig(String name) {

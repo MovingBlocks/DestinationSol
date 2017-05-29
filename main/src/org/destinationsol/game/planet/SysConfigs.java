@@ -20,6 +20,8 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.files.HullConfigManager;
@@ -27,6 +29,7 @@ import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.chunk.SpaceEnvConfig;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.TradeConfig;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,25 +41,25 @@ public class SysConfigs {
     private final Map<String, SysConfig> myBeltConfigs;
     private final Map<String, SysConfig> myHardBeltConfigs;
 
-    public SysConfigs(TextureManager textureManager, HullConfigManager hullConfigs, ItemManager itemManager) {
+    public SysConfigs(TextureManager textureManager, HullConfigManager hullConfigs, ItemManager itemManager, AssetHelper assetHelper) {
         myConfigs = new HashMap<>();
         myHardConfigs = new HashMap<>();
         myBeltConfigs = new HashMap<>();
         myHardBeltConfigs = new HashMap<>();
 
-        load(textureManager, hullConfigs, false, "systems.json", itemManager);
-        load(textureManager, hullConfigs, true, "asteroidBelts.json", itemManager);
+        load(textureManager, hullConfigs, false, new ResourceUrn("Core:systemsConfig"), itemManager, assetHelper);
+        load(textureManager, hullConfigs, true, new ResourceUrn("Core:asteroidBeltsConfig"), itemManager, assetHelper);
     }
 
-    private void load(TextureManager textureManager, HullConfigManager hullConfigs, boolean belts, String configName,
-                      ItemManager itemManager) {
-        JsonReader r = new JsonReader();
-        FileHandle configFile = FileManager.getInstance().getConfigDirectory().child(configName);
-        JsonValue parsed = r.parse(configFile);
-        for (JsonValue sh : parsed) {
+    private void load(TextureManager textureManager, HullConfigManager hullConfigs, boolean belts,
+                          ResourceUrn configName, ItemManager itemManager, AssetHelper assetHelper) {
+        Json json = assetHelper.getJson(configName);
+        JsonValue rootNode = json.getJsonValue();
+
+        for (JsonValue sh : rootNode) {
             ArrayList<ShipConfig> tempEnemies = ShipConfig.loadList(sh.get("temporaryEnemies"), hullConfigs, itemManager);
             ArrayList<ShipConfig> innerTempEnemies = ShipConfig.loadList(sh.get("innerTemporaryEnemies"), hullConfigs, itemManager);
-            SpaceEnvConfig envConfig = new SpaceEnvConfig(sh.get("environment"), textureManager, configFile);
+            SpaceEnvConfig envConfig = new SpaceEnvConfig(sh.get("environment"), textureManager);
 
             ArrayList<ShipConfig> constEnemies = null;
             ArrayList<ShipConfig> constAllies = null;

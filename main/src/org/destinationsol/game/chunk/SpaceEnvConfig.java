@@ -29,7 +29,7 @@ public class SpaceEnvConfig {
     public final ArrayList<TextureAtlas.AtlasRegion> farJunkTexs;
     public final float farJunkDensity;
 
-    public SpaceEnvConfig(JsonValue json, TextureManager textureManager, FileHandle configFile) {
+    public SpaceEnvConfig(JsonValue json, TextureManager textureManager) {
         String junkTexDirStr = json.getString("junkTexs");
         junkTexs = textureManager.getPack(junkTexDirStr);
         junkDensity = json.getFloat("junkDensity");

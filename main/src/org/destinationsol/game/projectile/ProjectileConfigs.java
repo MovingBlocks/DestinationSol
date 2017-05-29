@@ -24,6 +24,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.audio.OggSound;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.game.DmgType;
@@ -31,6 +32,7 @@ import org.destinationsol.game.GameColors;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.sound.OggSoundManager;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,10 +43,11 @@ public class ProjectileConfigs {
 
     public ProjectileConfigs(TextureManager textureManager, OggSoundManager soundManager, EffectTypes effectTypes, GameColors cols, AssetHelper assetHelper) {
         myConfigs = new HashMap<>();
-        JsonReader r = new JsonReader();
-        FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("projectiles.json");
-        JsonValue parsed = r.parse(configFile);
-        for (JsonValue sh : parsed) {
+
+        Json json = assetHelper.getJson(new ResourceUrn("Core:projectilesConfig"));
+        JsonValue rootNode = json.getJsonValue();
+
+        for (JsonValue sh : rootNode) {
             String texName = "smallGameObjects/projectiles/" + sh.getString("texName");
             TextureAtlas.AtlasRegion tex = textureManager.getTexture(texName);
             float texSz = sh.getFloat("texSz");
@@ -73,6 +76,8 @@ public class ProjectileConfigs {
                     lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg, zeroAbsSpd, origin, acc, workSound, bodyless, density, guideRotSpd, dmg, emTime);
             myConfigs.put(sh.name, c);
         }
+
+        json.dispose();
     }
 
     public ProjectileConfig find(String name) {

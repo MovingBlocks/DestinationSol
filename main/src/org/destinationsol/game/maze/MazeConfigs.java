@@ -21,9 +21,11 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
 import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +36,14 @@ public class MazeConfigs {
     public MazeConfigs(TextureManager textureManager, HullConfigManager hullConfigs, ItemManager itemManager, AssetHelper assetHelper) {
         configs = new ArrayList<>();
 
-        JsonReader r = new JsonReader();
-        FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("mazes.json");
-        JsonValue mazesNode = r.parse(configFile);
-        for (JsonValue mazeNode : mazesNode) {
-            MazeConfig c = MazeConfig.load(textureManager, hullConfigs, mazeNode, configFile, itemManager, assetHelper);
+        Json json = assetHelper.getJson(new ResourceUrn("Core:mazesConfig"));
+        JsonValue rootNode = json.getJsonValue();
+
+        for (JsonValue mazeNode : rootNode) {
+            MazeConfig c = MazeConfig.load(textureManager, hullConfigs, mazeNode, itemManager, assetHelper);
             configs.add(c);
         }
+
+        json.dispose();
     }
 }

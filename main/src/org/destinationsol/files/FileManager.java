@@ -27,7 +27,6 @@ public final class FileManager {
 
     private final static String ASSETS_DIR = "res/";
     private final static String CONFIG_DIR = ASSETS_DIR + "configs/";
-    private final static String ITEMS_CONFIG_DIR = CONFIG_DIR + "items/";
     private final static String UNEXPECTED_FILE_LOCATION_TYPE = "Unexpected file location type: %s.";
     private static FileManager instance = null;
 
@@ -53,15 +52,6 @@ public final class FileManager {
      */
     public FileHandle getConfigDirectory() {
         return getFile(CONFIG_DIR, FileLocation.STATIC_FILES);
-    }
-
-    /**
-     * Returns a file handle to the items directory.
-     *
-     * @return A file handle to the items directory.
-     */
-    public FileHandle getItemsDirectory() {
-        return getFile(ITEMS_CONFIG_DIR, FileLocation.STATIC_FILES);
     }
 
     /**
