@@ -59,7 +59,6 @@ public class SolDesktop {
             applicationConfig.addIcon(DebugOptions.DEV_ROOT_PATH + "res/icon.png", Files.FileType.Absolute);
         }
 
-        /*
         Thread.setDefaultUncaughtExceptionHandler((thread, ex) -> {
             // Get the exception stack trace string
             StringWriter stringWriter = new StringWriter();
@@ -76,7 +75,6 @@ public class SolDesktop {
             // Run asynchronously so that the error message view is not blocked
             new Thread(() -> CrashReporter.report(ex, logPath)).start();
         });
-        */
 
         new LwjglApplication(new SolApplication(), applicationConfig);
     }

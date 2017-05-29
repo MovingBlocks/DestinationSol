@@ -114,9 +114,9 @@ public class SolGame {
 
     public SolGame(SolApplication cmp, boolean usePrevShip, TextureManager textureManager, boolean tut, CommonDrawer commonDrawer) {
         myCmp = cmp;
-        GameDrawer drawer = new GameDrawer(textureManager, commonDrawer);
-        gameColors = new GameColors();
         assetHelper = myCmp.getAssetHelper();
+        GameDrawer drawer = new GameDrawer(textureManager, commonDrawer);
+        gameColors = new GameColors(assetHelper);
         soundManager = myCmp.getSoundManager();
         musicManager = myCmp.getMusicManager();
         mySpecialSounds = new SpecialSounds(soundManager);
@@ -132,7 +132,7 @@ public class SolGame {
         myItemManager = new ItemManager(myTextureManager, soundManager, myEffectTypes, gameColors, assetHelper);
         myAbilityCommonConfigs = new AbilityCommonConfigs(myEffectTypes, myTextureManager, gameColors, soundManager, assetHelper);
         hullConfigManager = new HullConfigManager(myItemManager, myAbilityCommonConfigs, assetHelper);
-        myNames = new SolNames();
+        myNames = new SolNames(assetHelper);
         myPlanetManager = new PlanetManager(myTextureManager, hullConfigManager, gameColors, myItemManager, assetHelper);
         SolContactListener contactListener = new SolContactListener(this);
         myFactionManager = new FactionManager();
@@ -146,7 +146,7 @@ public class SolGame {
         myShardBuilder = new ShardBuilder(myTextureManager, assetHelper);
         myGalaxyFiller = new GalaxyFiller();
         myStarPortBuilder = new StarPort.Builder(assetHelper);
-        myPlayerSpawnConfig = PlayerSpawnConfig.load(hullConfigManager, myItemManager);
+        myPlayerSpawnConfig = PlayerSpawnConfig.load(hullConfigManager, myItemManager, assetHelper);
         myDraDebugger = new DraDebugger();
         myBeaconHandler = new BeaconHandler(textureManager);
         myMountDetectDrawer = new MountDetectDrawer(textureManager);
