@@ -44,7 +44,7 @@ public class AssetHelper {
         assetTypeManager.registerCoreAssetType(Atlas.class, Atlas::new, "atlas");
         assetTypeManager.registerCoreAssetType(Font.class, Font::new, "fonts");
         assetTypeManager.registerCoreAssetType(Emitter.class, Emitter::new, "emitters");
-        assetTypeManager.registerCoreAssetType(Json.class, Json::new, "collisionMeshes", "ships", "items");
+        assetTypeManager.registerCoreAssetType(Json.class, Json::new, "collisionMeshes", "ships", "items", "configs");
         assetTypeManager.registerCoreAssetType(DSTexture.class, DSTexture::new, "images", "ships", "items");
 
         assetTypeManager.switchEnvironment(environment);

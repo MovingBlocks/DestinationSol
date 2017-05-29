@@ -59,7 +59,7 @@ public class PlanetManager {
     public PlanetManager(TextureManager textureManager, HullConfigManager hullConfigs, GameColors cols,
                             ItemManager itemManager, AssetHelper assetHelper) {
         myPlanetConfigs = new PlanetConfigs(textureManager, hullConfigs, cols, itemManager, assetHelper);
-        mySysConfigs = new SysConfigs(textureManager, hullConfigs, itemManager);
+        mySysConfigs = new SysConfigs(textureManager, hullConfigs, itemManager, assetHelper);
         myMazeConfigs = new MazeConfigs(textureManager, hullConfigs, itemManager, assetHelper);
 
         mySystems = new ArrayList<>();
