@@ -16,14 +16,15 @@
 
 package org.destinationsol.game;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColorUtil;
-import org.destinationsol.files.FileManager;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class GameColors {
 
@@ -31,18 +32,18 @@ public class GameColors {
     public final Color smoke;
     public final Color hullLights;
 
-    private final HashMap<String, Color> colors;
+    private final Map<String, Color> colors = new HashMap<>();
 
-    public GameColors() {
-        JsonReader r = new JsonReader();
-        FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("colors.json");
-        JsonValue node = r.parse(configFile);
-        colors = new HashMap<String, Color>();
+    public GameColors(AssetHelper assetHelper) {
+        Json json = assetHelper.getJson(new ResourceUrn("Core:colorsConfig"));
+        JsonValue rootNode = json.getJsonValue();
 
-        for (JsonValue colVal : node) {
+        for (JsonValue colVal : rootNode) {
             Color c = load(colVal.asString());
             colors.put(colVal.name, c);
         }
+
+        json.dispose();
 
         fire = get("fire");
         smoke = get("smoke");

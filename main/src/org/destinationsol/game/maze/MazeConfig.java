@@ -55,8 +55,8 @@ public class MazeConfig {
         this.envConfig = envConfig;
     }
 
-    public static MazeConfig load(TextureManager textureManager, HullConfigManager hullConfigs, JsonValue mazeNode, FileHandle configFile,
-                                  ItemManager itemManager, AssetHelper assetHelper) {
+    public static MazeConfig load(TextureManager textureManager, HullConfigManager hullConfigs,
+                                  JsonValue mazeNode, ItemManager itemManager, AssetHelper assetHelper) {
         String dirName = "mazeTiles/" + mazeNode.name + "/";
         CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:" + mazeNode.name + "Maze"), assetHelper);
         CollisionMeshLoader.Model paths = collisionMeshLoader.getInternalModel();
@@ -79,7 +79,7 @@ public class MazeConfig {
         ArrayList<ShipConfig> innerEnemies = ShipConfig.loadList(mazeNode.get("innerEnemies"), hullConfigs, itemManager);
         ArrayList<ShipConfig> bosses = ShipConfig.loadList(mazeNode.get("bosses"), hullConfigs, itemManager);
 
-        SpaceEnvConfig envConfig = new SpaceEnvConfig(mazeNode.get("environment"), textureManager, configFile);
+        SpaceEnvConfig envConfig = new SpaceEnvConfig(mazeNode.get("environment"), textureManager);
         return new MazeConfig(innerWalls, innerPasses, borderWalls, borderPasses, outerEnemies, innerEnemies, bosses, envConfig);
     }
 

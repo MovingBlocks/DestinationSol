@@ -19,9 +19,12 @@ package org.destinationsol.game;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.FileManager;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
+import org.terasology.assets.ResourceUrn;
 
 public class PlayerSpawnConfig {
     public final ShipConfig mainStation;
@@ -34,14 +37,17 @@ public class PlayerSpawnConfig {
         this.godShipConfig = godShipConfig;
     }
 
-    public static PlayerSpawnConfig load(HullConfigManager hullConfigs, ItemManager itemManager) {
-        JsonReader r = new JsonReader();
-        FileHandle configFile = FileManager.getInstance().getConfigDirectory().child("playerSpawn.json");
-        JsonValue mainNode = r.parse(configFile);
-        JsonValue playerNode = mainNode.get("player");
+    public static PlayerSpawnConfig load(HullConfigManager hullConfigs, ItemManager itemManager, AssetHelper assetHelper) {
+        Json json = assetHelper.getJson(new ResourceUrn("Core:playerSpawnConfig"));
+        JsonValue rootNode = json.getJsonValue();
+
+        JsonValue playerNode = rootNode.get("player");
         ShipConfig shipConfig = ShipConfig.load(hullConfigs, playerNode.get("ship"), itemManager);
         ShipConfig godShipConfig = ShipConfig.load(hullConfigs, playerNode.get("godModeShip"), itemManager);
-        ShipConfig mainStation = ShipConfig.load(hullConfigs, mainNode.get("mainStation"), itemManager);
+        ShipConfig mainStation = ShipConfig.load(hullConfigs, rootNode.get("mainStation"), itemManager);
+
+        json.dispose();
+
         return new PlayerSpawnConfig(shipConfig, mainStation, godShipConfig);
     }
 }

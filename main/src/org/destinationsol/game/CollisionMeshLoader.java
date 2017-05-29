@@ -66,8 +66,7 @@ public class CollisionMeshLoader {
 
         readModel(json.getJsonValue());
 
-        // TODO : Verify if I can safely dispose this here
-        // json.dispose();
+        json.dispose();
     }
 
     /**
@@ -186,7 +185,7 @@ public class CollisionMeshLoader {
         rbModel.origin.y = 1 - originNode.getFloat("y");
 
         // Polygons
-        for (JsonValue polygonNode = rbNode.get("polygons").child(); polygonNode != null; polygonNode = polygonNode.next()) { // Can I use next instead of next() ?
+        for (JsonValue polygonNode = rbNode.get("polygons").child(); polygonNode != null; polygonNode = polygonNode.next()) {
             PolygonModel polygonModel = new PolygonModel();
             rbModel.polygons.add(polygonModel);
 
@@ -201,7 +200,7 @@ public class CollisionMeshLoader {
         }
 
         // Shapes
-        for (JsonValue shapeNode = rbNode.get("shapes").child(); shapeNode != null; shapeNode = shapeNode.next()) { // Can I use next instead of next() ?
+        for (JsonValue shapeNode = rbNode.get("shapes").child(); shapeNode != null; shapeNode = shapeNode.next()) {
             String type = shapeNode.getString("type");
             if (!type.equals("POLYGON")) {
                 continue;
@@ -220,7 +219,7 @@ public class CollisionMeshLoader {
         }
 
         // Circles
-        for (JsonValue circleNode = rbNode.get("circles").child(); circleNode != null; circleNode = circleNode.next()) { // Can I use next instead of next() ?
+        for (JsonValue circleNode = rbNode.get("circles").child(); circleNode != null; circleNode = circleNode.next()) {
             CircleModel circleModel = new CircleModel();
             rbModel.circles.add(circleModel);
 
