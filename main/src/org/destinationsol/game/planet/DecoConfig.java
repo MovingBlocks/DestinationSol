@@ -46,13 +46,13 @@ public class DecoConfig {
 
     static List<DecoConfig> load(JsonValue planetConfig, TextureManager textureManager) {
         ArrayList<DecoConfig> res = new ArrayList<DecoConfig>();
-        for (JsonValue deco : planetConfig.get("deco")) {
+        for (JsonValue deco : planetConfig.get("decorations")) {
             float density = deco.getFloat("density");
             float szMin = deco.getFloat("szMin");
             float szMax = deco.getFloat("szMax");
             Vector2 orig = SolMath.readV2(deco, "orig");
             boolean allowFlip = deco.getBoolean("allowFlip");
-            String texName = planetConfig.getString("decoTexs") + "/" + deco.name;
+            String texName = planetConfig.getString("decorationTexs") + "/" + deco.name;
             ArrayList<TextureAtlas.AtlasRegion> texs = textureManager.getPack("decorations/" + texName);
             DecoConfig c = new DecoConfig(density, szMin, szMax, orig, allowFlip, texs);
             res.add(c);
