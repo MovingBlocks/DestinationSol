@@ -35,7 +35,7 @@
         "highOrbitEnemies": [
             {
                 "hull": "Core:pirateOrbiter",
-                "items": "plasmaGun|blaster smallShield:.24",
+                "items": "Core:plasmaGun+Core:blaster 0.24|Core:smallShield",
                 "money": 40,
                 "density": 0.03,
             }
@@ -44,7 +44,7 @@
         "lowOrbitEnemies": [
             {
                 "hull": "Core:pirateOrbiter",
-                "items": "bombGun smallShield:.24",
+                "items": "Core:bombGun 0.24|Core:smallShield",
                 "money": 50,
                 "density": 0.1,
             },
@@ -53,14 +53,14 @@
         "groundEnemies": [
             {
                 "hull": "Core:piratePlanetTurret",
-                "items": "plasmaGun|blaster smallShield:.36",
+                "items": "Core:plasmaGun+Core:blaster 0.36|Core:smallShield",
                 "money": 110,
                 "density": 0.45,
             },
 
             {
                 "hull": "Core:pirateSmall",
-                "items": "blaster|gun smallShield|shield:.5",
+                "items": "Core:blaster+Core:gun 0.5|Core:smallShield+Core:shield",
                 "money": 60,
                 "density": 0.15,
             },
@@ -68,17 +68,17 @@
 
         "station": {
             "hull": "Core:drome",
-            "items": "gun|shotGun shield rep:1:4",
+            "items": "Core:gun+Core:shotGun Core:shield 4*rep",
         },
 
         "trading": {
-            "items": "rep plasmaClip shotGun shellClip mineClip bombGun bombClip missileClip shield unShieldCharge",
+            "items": "rep Core:plasmaClip Core:shotGun Core:shellClip Core:mineClip Core:bombGun Core:bombClip Core:missileClip Core:shield Core:unShieldCharge",
             "ships": "Core:pirateSmall Core:pirateOrbiter Core:pirateMedium",
 
             "mercenaries": [
                 {
                     "hull": "Core:pirateSmall",
-                    "items": "blaster|gun smallShield rep:1:3",
+                    "items": "Core:blaster+Core:gun Core:smallShield 3*rep",
                     "money": 100,
                 },
             ],
@@ -128,7 +128,7 @@
         "highOrbitEnemies": [
             {
                 "hull": "Core:desertOrbiter",
-                "items": "fixedGun lightArmor:.25",
+                "items": "Core:fixedGun 0.25|Core:lightArmor",
                 "money": 150,
                 "density": 0.03,
             }
@@ -137,7 +137,7 @@
         "lowOrbitEnemies": [
             {
                 "hull": "Core:desertOrbiter",
-                "items": "fixedBombGun lightArmor:.25",
+                "items": "Core:fixedBombGun 0.25|Core:lightArmor",
                 "money": 100,
                 "density": 0.1,
             },
@@ -146,14 +146,14 @@
         "groundEnemies": [
             {
                 "hull": "Core:desertPlanetTurret",
-                "items": "gun lightArmor|mediumArmor:.5",
+                "items": "Core:gun 0.5|Core:lightArmor+Core:mediumArmor",
                 "money": 80,
                 "density": 0.45,
             },
 
             {
                 "hull": "Core:desertSmall",
-                "items": "fixedGun fixedGun:.3 mediumArmor:.75",
+                "items": "Core:fixedGun 0.3|Core:fixedGun 0.75|Core:mediumArmor",
                 "money": 80,
                 "density": 0.15,
             },
@@ -161,17 +161,17 @@
 
         "station": {
             "hull": "Core:drome",
-            "items": "shotGun bigShield HeavyArmor rep:1:4",
+            "items": "Core:shotGun Core:bigShield Core:HeavyArmor 4*rep",
         },
 
         "trading": {
-            "items": "rep teleportCharge fixedGun bulletClip railClip cannon slugClip bombClip HeavyArmor",
+            "items": "rep Core:teleportCharge Core:fixedGun Core:bulletClip Core:railClip Core:cannon Core:slugClip Core:bombClip Core:HeavyArmor",
             "ships": "Core:desertOrbiter Core:desertSmall Core:desertMedium",
 
             "mercenaries": [
                 {
                     "hull": "Core:desertOrbiter",
-                    "items": "fixedBombGun lightArmor:.25 rep:1:3",
+                    "items": "Core:fixedBombGun 0.25|Core:lightArmor 3*rep",
                     "money": 150,
                 },
             ],
@@ -208,7 +208,7 @@
         "highOrbitEnemies": [
             {
                 "hull": "Core:techieOrbiter",
-                "items": "fixedPlasmaGun|fixedBlaster fixedPlasmaGun|fixedBlaster|fixedEmGun:.5 mediumArmor:.75 advancedShield",
+                "items": "Core:fixedPlasmaGun+Core:fixedBlaster 0.5|Core:fixedPlasmaGun+Core:fixedBlaster+Core:fixedEmGun 0.75|Core:mediumArmor Core:advancedShield",
                 "money": 140,
                 "density": 0.03,
             }
@@ -216,14 +216,14 @@
         "groundEnemies": [
             {
                 "hull": "Core:techieSmall",
-                "items": "fixedPlasmaGun fixedPlasmaGun|fixedBlaster:.5 mediumArmor:.5 bigShield|advancedShield",
+                "items": "Core:fixedPlasmaGun 0.5|Core:fixedPlasmaGun+Core:fixedBlaster 0.5|Core:mediumArmor Core:bigShield+Core:advancedShield",
                 "money": 120,
                 "density": 0.15,
             },
 
             {
                 "hull": "Core:techiePlanetTurret",
-                "items": "waveGun emGun:.6 HeavyArmor advancedShield",
+                "items": "Core:waveGun 0.6|Core:emGun Core:HeavyArmor Core:advancedShield",
                 "money": 180,
                 "density": 0.45,
             },

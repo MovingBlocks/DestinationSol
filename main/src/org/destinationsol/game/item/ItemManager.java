@@ -83,62 +83,81 @@ public class ItemManager {
 
     public List<ItemConfig> parseItems(String items) {
         ArrayList<ItemConfig> result = new ArrayList<>();
+
         if (items.isEmpty()) {
             return result;
         }
+
         for (String rec : items.split(" ")) {
-            String[] parts = rec.split(":");
+            String[] parts = rec.split("[|]");
 
             if (parts.length == 0) {
                 continue;
             }
 
-            String[] names = parts[0].split("\\|");
+            int itemsIndex = 0;
+
+            float chance = 1;
+            if (parts.length == 2) {
+                chance = Float.parseFloat(parts[0]);
+                if (chance <= 0 || chance > 1) {
+                    throw new AssertionError("Item chance has to lie between 0 and 1!");
+                }
+                itemsIndex = 1;
+            } else if (parts.length != 1) {
+                throw new AssertionError("Invalid item format!");
+            }
+
+            parts = parts[itemsIndex].split("[*]");
+
+            itemsIndex = 0;
+
+            int amt = 1;
+            if (parts.length > 1) {
+                amt = Integer.parseInt(parts[0]);
+                if (amt <= 0) {
+                    throw new AssertionError("Item amount has to be positive!");
+                }
+                itemsIndex = 1;
+            } else if (parts.length != 1) {
+                throw new AssertionError("Invalid item format!");
+            }
+
+            String[] itemNames = parts[itemsIndex].split("[+]");
 
             ArrayList<SolItem> examples = new ArrayList<>();
-            for (String name : names) {
+            for (String itemName : itemNames) {
                 int wasEquipped = 0;
 
-                if (name.endsWith("-1")) {
+                if (itemName.endsWith("-1")) {
                     wasEquipped = 1;
-                    name = name.substring(0, name.length() - 2); // Remove equipped number
-                } else if (name.endsWith("-2")) {
+                    itemName = itemName.substring(0, itemName.length() - 2); // Remove equipped number
+                } else if (itemName.endsWith("-2")) {
                     wasEquipped = 2;
-                    name = name.substring(0, name.length() - 2); // Remove equipped number
-                }
-                name = name.trim();
-
-                SolItem example = getExample(name);
-
-                // TODO: Remove the explicit Core from here
-                if (!name.startsWith("Core:")) {
-                    name = "Core:" + name;
+                    itemName = itemName.substring(0, itemName.length() - 2); // Remove equipped number
                 }
 
-                // TODO: Remove this
-                if (example == null) {
-                    example = getExample(name);
-                }
+                SolItem example = getExample(itemName);
 
                 if (example == null) {
                     // TODO: Temporary hacky way!
-                    if (name.endsWith("Charge")) {
-                        AbilityCharge.Config.load(new ResourceUrn(name), this, myTypes, assetHelper);
-                    } else if (name.endsWith("Armor")) {
-                        Armor.Config.load(new ResourceUrn(name), this, soundManager, myTypes, assetHelper);
-                    } else if (name.endsWith("Clip")) {
-                        Clip.Config.load(new ResourceUrn(name), this, myTypes, assetHelper);
-                    } else if (name.endsWith("Shield") || name.endsWith("shield")) {
-                        Shield.Config.load(new ResourceUrn(name), this, soundManager, myTypes, assetHelper);
+                    if (itemName.endsWith("Charge")) {
+                        AbilityCharge.Config.load(new ResourceUrn(itemName), this, myTypes, assetHelper);
+                    } else if (itemName.endsWith("Armor")) {
+                        Armor.Config.load(new ResourceUrn(itemName), this, soundManager, myTypes, assetHelper);
+                    } else if (itemName.endsWith("Clip")) {
+                        Clip.Config.load(new ResourceUrn(itemName), this, myTypes, assetHelper);
+                    } else if (itemName.endsWith("Shield") || itemName.endsWith("shield")) {
+                        Shield.Config.load(new ResourceUrn(itemName), this, soundManager, myTypes, assetHelper);
                     } else {
-                        Gun.Config.load(new ResourceUrn(name), this, soundManager, myTypes, assetHelper);
+                        Gun.Config.load(new ResourceUrn(itemName), this, soundManager, myTypes, assetHelper);
                     }
 
-                    example = getExample(name);
+                    example = getExample(itemName);
                 }
 
                 if (example == null) {
-                    throw new AssertionError("unknown item " + name + "@" + parts[0] + "@" + rec + "@" + items);
+                    throw new AssertionError("Unknown item " + itemName + " @ " + parts[0] + " @ " + rec + " @ " + items);
                 }
 
                 SolItem itemCopy = example.copy();
@@ -148,21 +167,7 @@ public class ItemManager {
             }
 
             if (examples.isEmpty()) {
-                throw new AssertionError("no item specified @ " + parts[0] + "@" + rec + "@" + items);
-            }
-
-            float chance = 1;
-
-            if (parts.length > 1) {
-                chance = Float.parseFloat(parts[1]);
-                if (chance <= 0 || 1 < chance) {
-                    throw new AssertionError(chance);
-                }
-            }
-
-            int amt = 1;
-            if (parts.length > 2) {
-                amt = Integer.parseInt(parts[2]);
+                throw new AssertionError("No item specified @ " + parts[0] + " @ " + rec + " @ " + items);
             }
 
             ItemConfig ic = new ItemConfig(examples, amt, chance);

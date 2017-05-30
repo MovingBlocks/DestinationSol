@@ -12,7 +12,7 @@
         "outerEnemies": [
             {
                 "hull": "Core:minerMedium",
-                "items": "rocketLauncher lightArmor|mediumArmor:.4 smallShield|shield:.4",
+                "items": "Core:rocketLauncher 0.4|Core:lightArmor+Core:mediumArmor 0.4|Core:smallShield+Core:shield",
                 "money": 20,
                 "density": 0.03,
             }
@@ -21,14 +21,14 @@
         "innerEnemies": [
             {
                 "hull": "Core:minerTurret",
-                "items": "missilePad mediumArmor:.6 shield:.6",
+                "items": "Core:missilePad 0.6|Core:mediumArmor 0.6|Core:shield",
                 "money": 20,
                 "density": 0.005,
             },
 
             {
                 "hull": "Core:minerSmall",
-                "items": "rocketLauncher|nailGun mediumArmor:.8 shield|bigShield:.8",
+                "items": "Core:rocketLauncher+Core:nailGun 0.8|Core:mediumArmor 0.8|Core:shield+Core:bigShield",
                 "money": 20,
                 "density": 0.005,
             },
@@ -37,7 +37,7 @@
         "bosses": [
             {
                 "hull": "Core:minerBoss",
-                "items": "nailGun missileLauncher mediumArmor shield|bigShield",
+                "items": "Core:nailGun Core:missileLauncher Core:mediumArmor Core:shield+Core:bigShield",
                 "money": 20,
             },
         ],
