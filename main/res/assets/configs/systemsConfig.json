@@ -131,7 +131,7 @@
                 "density": 1,
 
                 "guard": {
-                    "hull": "Core:imperialTiny",
+                    "hull": "Core:federalTiny",
                     "items": "Core:blaster+Core:gun Core:mediumArmor Core:shield",
                     "density": 3,
                 }
