@@ -55,7 +55,7 @@ public class ResolutionScreen implements SolUiScreen {
         closeControl.setDisplayName("Back");
         myControls.add(closeControl);
 
-        bgTex = assetHelper.getAtlasRegion(new ResourceUrn("Core:mainMenuBg"), Texture.TextureFilter.Linear);
+        bgTex = assetHelper.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
     }
 
     @Override
