@@ -86,7 +86,7 @@ public class SolInputManager {
         uiCursor = textureManager.getTexture("ui/cursor");
         warnColor = new Color(SolColor.UI_WARN);
 
-        hoverSound = soundManager.getSound("Core:uiHover");
+        hoverSound = soundManager.getSound("engine:uiHover");
     }
 
     private static void setPointerPosition(InputPointer inputPointer, int screenX, int screenY) {

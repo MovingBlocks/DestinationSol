@@ -134,7 +134,7 @@ public class InputMapScreen implements SolUiScreen {
         inputMapControllerScreen = new InputMapControllerScreen();
         inputMapMixedScreen = new InputMapMixedScreen();
 
-        bgTex = assetHelper.getAtlasRegion(new ResourceUrn("Core:mainMenuBg"), Texture.TextureFilter.Linear);
+        bgTex = assetHelper.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
     }
 
     @Override
