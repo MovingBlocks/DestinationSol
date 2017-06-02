@@ -41,7 +41,7 @@ public class TextureManager {
 
     public TextureManager(AssetHelper assetHelper) {
         textureProviderStaticFiles = new DevTextureProvider();
-        textureProvider = new AtlasTextureProvider(new ResourceUrn("Core:sol"), assetHelper);
+        textureProvider = new AtlasTextureProvider(new ResourceUrn("core:sol"), assetHelper);
     }
 
     public TextureAtlas.AtlasRegion getFlipped(TextureAtlas.AtlasRegion tex) {

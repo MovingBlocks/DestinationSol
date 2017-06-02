@@ -114,7 +114,7 @@ public class CreditsScreen implements SolUiScreen {
             myPages.add(page.toString());
         }
 
-        bgTex = assetHelper.getAtlasRegion(new ResourceUrn("Core:mainMenuBg"), Texture.TextureFilter.Linear);
+        bgTex = assetHelper.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
     }
 
     @Override

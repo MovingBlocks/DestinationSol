@@ -1,6 +1,6 @@
 {
-    "id": "Core",
-    "version": "1.4.0",
-    "displayName": "Core",
-    "description": "Core Destination Sol content"
+    "id" : "engine",
+    "version" : "2.0.0",
+    "displayName" : "Destination Sol Engine",
+    "description" : "Engine content"
 }
