@@ -124,6 +124,18 @@
                     "density": 3,
                 }
             },
+            {
+                "hull": "Core:federalCapital",
+                "items": "Core:shotGun+Core:gun Core:shotGun+Core:cannon Core:advancedArmor Core:advancedShield",
+                "repairer": true,
+                "density": 1,
+
+                "guard": {
+                    "hull": "Core:federalTiny",
+                    "items": "Core:blaster+Core:gun Core:mediumArmor Core:shield",
+                    "density": 3,
+                }
+            },
         ],
 
         "constantEnemies": [
