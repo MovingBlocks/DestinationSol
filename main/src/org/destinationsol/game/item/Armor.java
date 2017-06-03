@@ -13,18 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.item;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.assets.json.Json;
-import org.destinationsol.files.FileManager;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.sound.OggSoundManager;
@@ -135,8 +130,8 @@ public class Armor implements SolItem {
             this.example = new Armor(this);
         }
 
-        public static void load(ResourceUrn armorName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types, AssetHelper assetHelper) {
-            Json json = assetHelper.getJson(armorName);
+        public static void load(ResourceUrn armorName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
+            Json json = Assets.getJson(armorName);
             JsonValue rootNode = json.getJsonValue();
 
             String displayName = rootNode.getString("displayName");
@@ -150,7 +145,7 @@ public class Armor implements SolItem {
 
             json.dispose();
 
-            TextureAtlas.AtlasRegion icon = assetHelper.getAtlasRegion(new ResourceUrn(armorName + "Icon"));
+            TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(new ResourceUrn(armorName + "Icon"));
 
             Config armorConfig = new Config(displayName, price, perc, bulletDmgSound, icon, energyDmgSound, types.armor, armorName.toString());
             itemManager.registerItem(armorConfig.example);

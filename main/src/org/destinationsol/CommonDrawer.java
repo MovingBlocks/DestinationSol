@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol;
 
 import com.badlogic.gdx.Gdx;
@@ -28,7 +27,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 import org.terasology.assets.ResourceUrn;
 
@@ -43,14 +42,14 @@ public class CommonDrawer {
     private final TextureChecker myTextureChecker;
     private final GlyphLayout layout;
 
-    public CommonDrawer(AssetHelper assetHelper) {
+    public CommonDrawer() {
         myTextureChecker = new TextureChecker();
         w = Gdx.graphics.getWidth();
         h = Gdx.graphics.getHeight();
         r = w / h;
         mySpriteBatch = new SpriteBatch();
 
-        myFont = assetHelper.getFont(new ResourceUrn("engine:main")).getBitmapFont();
+        myFont = Assets.getFont(new ResourceUrn("engine:main")).getBitmapFont();
 
         myOrigFontHeight = myFont.getXHeight();
 

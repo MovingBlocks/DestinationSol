@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,7 +21,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import org.destinationsol.Const;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.Bound;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -230,8 +228,8 @@ public class StarPort implements SolObject {
         public static final float FLOW_DIST = .26f * SIZE;
         private final CollisionMeshLoader myLoader;
 
-        public Builder(AssetHelper assetHelper) {
-            myLoader = new CollisionMeshLoader(new ResourceUrn("Core:misc"), assetHelper);
+        public Builder() {
+            myLoader = new CollisionMeshLoader(new ResourceUrn("Core:misc"));
         }
 
         public StarPort build(SolGame game, Planet from, Planet to, boolean secondary) {

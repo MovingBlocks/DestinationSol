@@ -13,13 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.DebugOptions;
@@ -34,14 +32,14 @@ public class PlanetTiles {
 
     private final Map<SurfaceDirection, Map<SurfaceDirection, List<Tile>>> myGroundTiles;
 
-    public PlanetTiles(TextureManager textureManager, String groundName, AssetHelper assetHelper) {
+    public PlanetTiles(TextureManager textureManager, String groundName) {
         myGroundTiles = new HashMap<>();
-        loadGround(textureManager, groundName, assetHelper);
+        loadGround(textureManager, groundName);
     }
 
-    private void loadGround(TextureManager textureManager, String groundName, AssetHelper assetHelper) {
+    private void loadGround(TextureManager textureManager, String groundName) {
         // TODO : Remove the explicit core from here!
-        CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:" + groundName + "Ground"), assetHelper);
+        CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:" + groundName + "Ground"));
         CollisionMeshLoader.Model paths = collisionMeshLoader.getInternalModel();
 
         for (SurfaceDirection from : SurfaceDirection.values()) {

@@ -18,7 +18,7 @@ package org.destinationsol.game.sound;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.Nullable;
@@ -36,19 +36,16 @@ import org.terasology.assets.ResourceUrn;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Optional;
 
 public class OggSoundManager {
     private static Logger logger = LoggerFactory.getLogger(OggSoundManager.class);
-    private final AssetHelper assetHelper;
     private final Map<String, OggSound> soundMap;
     private final Map<SolObject, Map<OggSound, Float>> loopedSoundMap;
     private final DebugHintDrawer debugHintDrawer;
 
     private float myLoopAwait;
 
-    public OggSoundManager(AssetHelper assetHelper) {
-        this.assetHelper = assetHelper;
+    public OggSoundManager() {
         this.soundMap = new HashMap<>();
         this.loopedSoundMap = new HashMap<>();
         this.debugHintDrawer = new DebugHintDrawer();
@@ -63,7 +60,7 @@ public class OggSoundManager {
             return soundMap.get(urn);
         }
 
-        OggSound sound = assetHelper.getSound(new ResourceUrn(urn));
+        OggSound sound = Assets.getSound(new ResourceUrn(urn));
         sound.setBasePitch(basePitch);
         soundMap.put(urn, sound);
         return sound;

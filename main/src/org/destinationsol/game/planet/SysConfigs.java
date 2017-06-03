@@ -13,17 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.planet;
 
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.files.FileManager;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.chunk.SpaceEnvConfig;
@@ -41,19 +37,19 @@ public class SysConfigs {
     private final Map<String, SysConfig> myBeltConfigs;
     private final Map<String, SysConfig> myHardBeltConfigs;
 
-    public SysConfigs(TextureManager textureManager, HullConfigManager hullConfigs, ItemManager itemManager, AssetHelper assetHelper) {
+    public SysConfigs(TextureManager textureManager, HullConfigManager hullConfigs, ItemManager itemManager) {
         myConfigs = new HashMap<>();
         myHardConfigs = new HashMap<>();
         myBeltConfigs = new HashMap<>();
         myHardBeltConfigs = new HashMap<>();
 
-        load(textureManager, hullConfigs, false, new ResourceUrn("Core:systemsConfig"), itemManager, assetHelper);
-        load(textureManager, hullConfigs, true, new ResourceUrn("Core:asteroidBeltsConfig"), itemManager, assetHelper);
+        load(textureManager, hullConfigs, false, new ResourceUrn("Core:systemsConfig"), itemManager);
+        load(textureManager, hullConfigs, true, new ResourceUrn("Core:asteroidBeltsConfig"), itemManager);
     }
 
     private void load(TextureManager textureManager, HullConfigManager hullConfigs, boolean belts,
-                          ResourceUrn configName, ItemManager itemManager, AssetHelper assetHelper) {
-        Json json = assetHelper.getJson(configName);
+                          ResourceUrn configName, ItemManager itemManager) {
+        Json json = Assets.getJson(configName);
         JsonValue rootNode = json.getJsonValue();
 
         for (JsonValue sh : rootNode) {

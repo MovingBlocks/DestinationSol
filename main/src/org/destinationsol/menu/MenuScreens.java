@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.menu;
 
 import org.destinationsol.GameOptions;
-import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.ui.SolLayouts;
 
 public class MenuScreens {
@@ -31,13 +28,13 @@ public class MenuScreens {
     public final NewGameScreen newGame;
     public final NewShipScreen newShip;
 
-    public MenuScreens(AssetHelper assetHelper, SolLayouts layouts, boolean mobile, float resolutionRatio, GameOptions gameOptions) {
+    public MenuScreens(SolLayouts layouts, boolean mobile, float resolutionRatio, GameOptions gameOptions) {
         MenuLayout menuLayout = layouts.menuLayout;
-        main = new MainScreen(assetHelper, menuLayout, mobile, resolutionRatio, gameOptions);
-        options = new OptionsScreen(assetHelper, menuLayout, gameOptions);
-        inputMapScreen = new InputMapScreen(assetHelper, resolutionRatio, gameOptions);
-        resolutionScreen = new ResolutionScreen(assetHelper, menuLayout, gameOptions);
-        credits = new CreditsScreen(assetHelper, resolutionRatio, gameOptions);
+        main = new MainScreen(menuLayout, mobile, resolutionRatio, gameOptions);
+        options = new OptionsScreen(menuLayout, gameOptions);
+        inputMapScreen = new InputMapScreen(resolutionRatio, gameOptions);
+        resolutionScreen = new ResolutionScreen(menuLayout, gameOptions);
+        credits = new CreditsScreen(resolutionRatio, gameOptions);
         loading = new LoadingScreen();
         newGame = new NewGameScreen(menuLayout, gameOptions);
         newShip = new NewShipScreen(menuLayout, gameOptions);

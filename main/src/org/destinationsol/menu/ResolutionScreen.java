@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.Gdx;
@@ -21,8 +20,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
@@ -42,7 +40,7 @@ public class ResolutionScreen implements SolUiScreen {
     private final SolUiControl resolutionControl;
     private final SolUiControl fullscreenControl;
 
-    ResolutionScreen(AssetHelper assetHelper, MenuLayout menuLayout, GameOptions gameOptions) {
+    ResolutionScreen(MenuLayout menuLayout, GameOptions gameOptions) {
         resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
         resolutionControl.setDisplayName("Resolution");
         myControls.add(resolutionControl);
@@ -55,7 +53,7 @@ public class ResolutionScreen implements SolUiScreen {
         closeControl.setDisplayName("Back");
         myControls.add(closeControl);
 
-        bgTex = assetHelper.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
+        bgTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
     }
 
     @Override

@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.maze;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.CollisionMeshLoader;
@@ -55,10 +52,9 @@ public class MazeConfig {
         this.envConfig = envConfig;
     }
 
-    public static MazeConfig load(TextureManager textureManager, HullConfigManager hullConfigs,
-                                  JsonValue mazeNode, ItemManager itemManager, AssetHelper assetHelper) {
+    public static MazeConfig load(TextureManager textureManager, HullConfigManager hullConfigs, JsonValue mazeNode, ItemManager itemManager) {
         String dirName = "mazeTiles/" + mazeNode.name + "/";
-        CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:" + mazeNode.name + "Maze"), assetHelper);
+        CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:" + mazeNode.name + "Maze"));
         CollisionMeshLoader.Model paths = collisionMeshLoader.getInternalModel();
         List<TextureAtlas.AtlasRegion> innerBgs = textureManager.getPack(dirName + "innerBg");
         List<TextureAtlas.AtlasRegion> borderBgs = textureManager.getPack(dirName + "borderBg");

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
@@ -23,7 +22,6 @@ import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.HullConfigManager;
@@ -66,8 +64,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SolGame {
-
-    private final AssetHelper assetHelper;
     private final GameScreens myScreens;
     private final SolCam myCam;
     private final ObjectManager myObjectManager;
@@ -114,9 +110,8 @@ public class SolGame {
 
     public SolGame(SolApplication cmp, boolean usePrevShip, TextureManager textureManager, boolean tut, CommonDrawer commonDrawer) {
         myCmp = cmp;
-        assetHelper = myCmp.getAssetHelper();
         GameDrawer drawer = new GameDrawer(textureManager, commonDrawer);
-        gameColors = new GameColors(assetHelper);
+        gameColors = new GameColors();
         soundManager = myCmp.getSoundManager();
         musicManager = myCmp.getMusicManager();
         mySpecialSounds = new SpecialSounds(soundManager);
@@ -126,27 +121,27 @@ public class SolGame {
         myTutorialManager = tut ? new TutorialManager(commonDrawer.r, myScreens, cmp.isMobile(), cmp.getOptions(), this) : null;
         myTextureManager = textureManager;
         myFarBackgroundManagerOld = new FarBackgroundManagerOld(myTextureManager);
-        myShipBuilder = new ShipBuilder(assetHelper);
+        myShipBuilder = new ShipBuilder();
         myEffectTypes = new EffectTypes();
-        mySpecialEffects = new SpecialEffects(myEffectTypes, myTextureManager, gameColors, assetHelper);
-        myItemManager = new ItemManager(myTextureManager, soundManager, myEffectTypes, gameColors, assetHelper);
-        myAbilityCommonConfigs = new AbilityCommonConfigs(myEffectTypes, myTextureManager, gameColors, soundManager, assetHelper);
-        hullConfigManager = new HullConfigManager(myItemManager, myAbilityCommonConfigs, assetHelper);
-        myNames = new SolNames(assetHelper);
-        myPlanetManager = new PlanetManager(myTextureManager, hullConfigManager, gameColors, myItemManager, assetHelper);
+        mySpecialEffects = new SpecialEffects(myEffectTypes, myTextureManager, gameColors);
+        myItemManager = new ItemManager(myTextureManager, soundManager, myEffectTypes, gameColors);
+        myAbilityCommonConfigs = new AbilityCommonConfigs(myEffectTypes, myTextureManager, gameColors, soundManager);
+        hullConfigManager = new HullConfigManager(myItemManager, myAbilityCommonConfigs);
+        myNames = new SolNames();
+        myPlanetManager = new PlanetManager(myTextureManager, hullConfigManager, gameColors, myItemManager);
         SolContactListener contactListener = new SolContactListener(this);
         myFactionManager = new FactionManager();
         myObjectManager = new ObjectManager(contactListener, myFactionManager);
         myGridDrawer = new GridDrawer(textureManager);
         myChunkManager = new ChunkManager(myTextureManager);
         myPartMan = new PartMan();
-        myAsteroidBuilder = new AsteroidBuilder(myTextureManager, assetHelper);
+        myAsteroidBuilder = new AsteroidBuilder(myTextureManager);
         myLootBuilder = new LootBuilder();
         myMapDrawer = new MapDrawer(myTextureManager, commonDrawer.h);
-        myShardBuilder = new ShardBuilder(myTextureManager, assetHelper);
+        myShardBuilder = new ShardBuilder(myTextureManager);
         myGalaxyFiller = new GalaxyFiller();
-        myStarPortBuilder = new StarPort.Builder(assetHelper);
-        myPlayerSpawnConfig = PlayerSpawnConfig.load(hullConfigManager, myItemManager, assetHelper);
+        myStarPortBuilder = new StarPort.Builder();
+        myPlayerSpawnConfig = PlayerSpawnConfig.load(hullConfigManager, myItemManager);
         myDraDebugger = new DraDebugger();
         myBeaconHandler = new BeaconHandler(textureManager);
         myMountDetectDrawer = new MountDetectDrawer(textureManager);
