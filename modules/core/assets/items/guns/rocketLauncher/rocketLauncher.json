@@ -11,10 +11,10 @@
     "texLenPerc": 0.87,
     "displayName": "Rocket Launcher",
     "shootSounds": [
-        "Core:rocketLauncherShoot"
+        "core:rocketLauncherShoot"
     ],
     "shootSoundPitch": 0.8,
     "reloadSounds": [
-        "Core:rocketLauncherReload"
-    ],
+        "core:rocketLauncherReload"
+    ]
 }

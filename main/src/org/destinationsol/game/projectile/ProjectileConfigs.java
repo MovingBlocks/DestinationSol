@@ -40,7 +40,7 @@ public class ProjectileConfigs {
     public ProjectileConfigs(TextureManager textureManager, OggSoundManager soundManager, EffectTypes effectTypes, GameColors cols) {
         myConfigs = new HashMap<>();
 
-        Json json = Assets.getJson(new ResourceUrn("Core:projectilesConfig"));
+        Json json = Assets.getJson(new ResourceUrn("core:projectilesConfig"));
         JsonValue rootNode = json.getJsonValue();
 
         for (JsonValue sh : rootNode) {

@@ -28,8 +28,8 @@ public class SolNames {
     public final ArrayList<String> systems;
 
     public SolNames() {
-        planets = readList(new ResourceUrn("Core:planetNamesConfig"));
-        systems = readList(new ResourceUrn("Core:systemNamesConfig"));
+        planets = readList(new ResourceUrn("core:planetNamesConfig"));
+        systems = readList(new ResourceUrn("core:systemNamesConfig"));
     }
 
     private ArrayList<String> readList(ResourceUrn fileName) {

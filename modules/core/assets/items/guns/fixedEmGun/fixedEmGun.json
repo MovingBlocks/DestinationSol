@@ -12,10 +12,10 @@
     "displayName": "Heavy EM Gun",
     "lightOnShot": true,
     "shootSounds": [
-        "Core:emGun"
+        "core:emGun"
     ],
     "shootSoundPitch": 0.8,
     "reloadSounds": [
-        "Core:gunReload"
-    ],
+        "core:gunReload"
+    ]
 }

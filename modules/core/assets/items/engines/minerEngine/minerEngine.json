@@ -4,11 +4,11 @@
         "effectFile": "smokeEngine",
         "size": 0.07,
         "tex": "smoke",
-        "tint": "smoke",
+        "tint": "smoke"
     },
     "workSounds": [
-        "Core:diesel",
-        "Core:diesel2",
-        "Core:diesel3"
-    ],
+        "core:diesel",
+        "core:diesel2",
+        "core:diesel3"
+    ]
 }

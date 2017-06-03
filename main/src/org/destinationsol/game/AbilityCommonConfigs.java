@@ -31,7 +31,7 @@ public class AbilityCommonConfigs {
     public final AbilityCommonConfig sloMo;
 
     public AbilityCommonConfigs(EffectTypes effectTypes, TextureManager textureManager, GameColors cols, OggSoundManager soundManager) {
-        Json json = Assets.getJson(new ResourceUrn("Core:abilitiesConfig"));
+        Json json = Assets.getJson(new ResourceUrn("core:abilitiesConfig"));
         JsonValue rootNode = json.getJsonValue();
 
         teleport = AbilityCommonConfig.load(rootNode.get("teleport"), effectTypes, textureManager, cols, soundManager);

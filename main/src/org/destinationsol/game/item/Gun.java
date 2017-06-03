@@ -188,7 +188,7 @@ public class Gun implements SolItem {
             Clip.Config clipConf = null;
             if (!clipName.isEmpty()) {
                 // TODO: Temporary hack!
-                clipName = "Core:" + clipName;
+                clipName = "core:" + clipName;
 
                 Clip clip = ((Clip) itemManager.getExample(clipName));
                 if (clip == null) {

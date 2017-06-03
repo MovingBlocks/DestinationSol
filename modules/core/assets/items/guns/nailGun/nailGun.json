@@ -10,10 +10,10 @@
     "gunLength": 0.26,
     "displayName": "Nail Gun",
     "shootSounds": [
-        "Core:nailGunShoot"
+        "core:nailGunShoot"
     ],
     "shootSoundPitch": 1.2,
     "reloadSounds": [
-        "Core:fixedGunReload"
-    ],
+        "core:fixedGunReload"
+    ]
 }

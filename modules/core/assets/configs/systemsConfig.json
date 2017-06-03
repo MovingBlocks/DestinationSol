@@ -4,102 +4,102 @@
             "junkTexs": "decorations/space/sysDeco",
             "junkDensity": 0.03,
             "farJunkTexs": "decorations/farSpace/sysFarBg",
-            "farJunkDensity": 0.01,
+            "farJunkDensity": 0.01
         },
 
         "constantAllies": [
             {
-                "hull": "Core:imperialMedium",
-                "items": "Core:fixedGun 0.5|Core:lightArmor 0.75|Core:smallShield+Core:shield",
-                "density": 2,
+                "hull": "core:imperialMedium",
+                "items": "core:fixedGun 0.5|core:lightArmor 0.75|core:smallShield+core:shield",
+                "density": 2
             },
 
             {
-                "hull": "Core:imperialTiny",
-                "items": "Core:blaster Core:lightArmor Core:smallShield",
-                "density": 3,
+                "hull": "core:imperialTiny",
+                "items": "core:blaster core:lightArmor core:smallShield",
+                "density": 3
             },
 
             {
-                "hull": "Core:bus",
-                "items": "Core:gun Core:gun Core:lightArmor+Core:mediumArmor Core:shield+Core:bigShield",
-                "density": 1,
+                "hull": "core:bus",
+                "items": "core:gun core:gun core:lightArmor+core:mediumArmor core:shield+core:bigShield",
+                "density": 1
             },
 
             {
-                "hull": "Core:station",
-                "items": "Core:cannon Core:gun",
+                "hull": "core:station",
+                "items": "core:cannon core:gun",
                 "repairer": true,
                 "density": 1,
 
                 "guard": {
-                    "hull": "Core:imperialBig",
-                    "items": "Core:fixedGun Core:fixedShotGun Core:mediumArmor+Core:heavyArmor Core:shield+Core:bigShield",
-                    "density": 3,
+                    "hull": "core:imperialBig",
+                    "items": "core:fixedGun core:fixedShotGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
+                    "density": 3
                 }
-            },
+            }
         ],
 
         "constantEnemies": [
             {
-                "hull": "Core:pirateSmall",
-                "items": "Core:shotGun 0.86|Core:bigShield",
+                "hull": "core:pirateSmall",
+                "items": "core:shotGun 0.86|core:bigShield",
                 "money": 120,
-                "density": 2,
+                "density": 2
             },
 
             {
-                "hull": "Core:truck",
-                "items": "Core:shotGun 0.74|Core:shield+Core:bigShield",
+                "hull": "core:truck",
+                "items": "core:shotGun 0.74|core:shield+core:bigShield",
                 "money": 1000,
                 "density": 1,
 
                 "guard": {
-                    "hull": "Core:pirateSmall",
-                    "items": "Core:gun 0.5|Core:smallShield",
+                    "hull": "core:pirateSmall",
+                    "items": "core:gun 0.5|core:smallShield",
                     "money": 80,
-                    "density": 3,
+                    "density": 3
                 }
-            },
+            }
         ],
 
         "temporaryEnemies": [
             {
-                "hull": "Core:pirateSpaceTurret",
-                "items": "Core:plasmaGun",
+                "hull": "core:pirateSpaceTurret",
+                "items": "core:plasmaGun",
                 "money": 40,
-                "density": 0.0015,
-            },
+                "density": 0.0015
+            }
         ],
 
         "innerTemporaryEnemies": [
             {
-                "hull": "Core:pirateSpaceTurret",
-                "items": "Core:gun+Core:shotGun 0.62|Core:shield",
+                "hull": "core:pirateSpaceTurret",
+                "items": "core:gun+core:shotGun 0.62|core:shield",
                 "money": 100,
-                "density": 0.0003,
+                "density": 0.0003
             },
 
             {
-                "hull": "Core:pirateMedium",
-                "items": "Core:gun Core:miner 0.25|Core:lightArmor Core:bigShield",
+                "hull": "core:pirateMedium",
+                "items": "core:gun core:miner 0.25|core:lightArmor core:bigShield",
                 "money": 200,
-                "density": 0.0002,
+                "density": 0.0002
             },
 
             {
-                "hull": "Core:pirateMedium",
-                "items": "Core:fixedPlasmaGun 0.25|Core:lightArmor Core:bigShield",
+                "hull": "core:pirateMedium",
+                "items": "core:fixedPlasmaGun 0.25|core:lightArmor core:bigShield",
                 "money": 200,
-                "density": 0.0004,
-            },
+                "density": 0.0004
+            }
         ],
 
         "trading": {
-            "items": "rep Core:blaster Core:smallShield Core:lightArmor Core:sloMoCharge Core:gun Core:bulletClip Core:mediumArmor Core:missileClip Core:plasmaClip Core:fixedGun",
-            "ships": "Core:imperialTiny Core:imperialSmall Core:imperialMedium",
-            "mercenaries": [ ],
-        },
+            "items": "rep core:blaster core:smallShield core:lightArmor core:sloMoCharge core:gun core:bulletClip core:mediumArmor core:missileClip core:plasmaClip core:fixedGun",
+            "ships": "core:imperialTiny core:imperialSmall core:imperialMedium",
+            "mercenaries": [ ]
+        }
     },
 
     "hard": {
@@ -108,87 +108,87 @@
             "junkTexs": "decorations/space/sysDeco",
             "junkDensity": 0.06,
             "farJunkTexs": "decorations/farSpace/sysFarBg",
-            "farJunkDensity": 0.01,
+            "farJunkDensity": 0.01
         },
 
         "constantAllies": [
             {
-                "hull": "Core:station",
-                "items": "Core:gun Core:cannon",
+                "hull": "core:station",
+                "items": "core:gun core:cannon",
                 "repairer": true,
                 "density": 2,
 
                 "guard": {
-                    "hull": "Core:imperialBig",
-                    "items": "Core:fixedGun Core:fixedShotGun Core:mediumArmor+Core:heavyArmor Core:shield+Core:bigShield",
-                    "density": 3,
+                    "hull": "core:imperialBig",
+                    "items": "core:fixedGun core:fixedShotGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
+                    "density": 3
                 }
             },
             {
-                "hull": "Core:federalCapital",
-                "items": "Core:shotGun+Core:gun Core:shotGun+Core:cannon Core:advancedArmor Core:advancedShield",
+                "hull": "core:federalCapital",
+                "items": "core:shotGun+core:gun core:shotGun+core:cannon core:advancedArmor core:advancedShield",
                 "repairer": true,
                 "density": 1,
 
                 "guard": {
-                    "hull": "Core:federalTiny",
-                    "items": "Core:blaster+Core:gun Core:mediumArmor Core:shield",
-                    "density": 3,
+                    "hull": "core:federalTiny",
+                    "items": "core:blaster+core:gun core:mediumArmor core:shield",
+                    "density": 3
                 }
-            },
+            }
         ],
 
         "constantEnemies": [
             {
-                "hull": "Core:desertMedium",
-                "items": "Core:railGun+Core:fixedCannon 0.8|Core:fixedGun+Core:railGun Core:advancedArmor 0.6|Core:shield+Core:bigShield",
+                "hull": "core:desertMedium",
+                "items": "core:railGun+core:fixedCannon 0.8|core:fixedGun+core:railGun core:advancedArmor 0.6|core:shield+core:bigShield",
                 "money": 300,
-                "density": 3,
-            },
+                "density": 3
+            }
         ],
 
         "temporaryEnemies": [
             {
-                "hull": "Core:desertSpaceTurret",
-                "items": "Core:cannon Core:mediumArmor+Core:heavyArmor 0.25|Core:smallShield",
+                "hull": "core:desertSpaceTurret",
+                "items": "core:cannon core:mediumArmor+core:heavyArmor 0.25|core:smallShield",
                 "money": 50,
-                "density": 0.001,
+                "density": 0.001
             },
             {
-                "hull": "Core:desertSmall",
-                "items": "Core:fixedGun+Core:railGun 0.8|Core:fixedGun Core:heavyArmor 0.5|Core:smallShield",
+                "hull": "core:desertSmall",
+                "items": "core:fixedGun+core:railGun 0.8|core:fixedGun core:heavyArmor 0.5|core:smallShield",
                 "money": 150,
-                "density": 0.0003,
-            },
+                "density": 0.0003
+            }
         ],
 
         "innerTemporaryEnemies": [
             {
-                "hull": "Core:desertSpaceTurret",
-                "items": "Core:cannon 0.8|Core:gun+Core:cannon Core:heavyArmor+Core:advancedArmor 0.75|Core:shield",
+                "hull": "core:desertSpaceTurret",
+                "items": "core:cannon 0.8|core:gun+core:cannon core:heavyArmor+core:advancedArmor 0.75|core:shield",
                 "money": 100,
-                "density": 0.001,
+                "density": 0.001
             },
 
             {
-                "hull": "Core:desertBoss",
-                "items": "Core:fixedCannon Core:cannon Core:advancedArmor Core:bigShield",
+                "hull": "core:desertBoss",
+                "items": "core:fixedCannon core:cannon core:advancedArmor core:bigShield",
                 "money": 1000,
-                "density": 0.0005,
-            },
+                "density": 0.0005
+            }
         ],
 
         "trading": {
-            "items": "rep Core:sloMoCharge Core:fixedGun Core:bulletClip Core:mediumArmor Core:shield Core:fixedShotGun Core:shellClip Core:bigShield",
-            "ships": "Core:imperialMedium Core:imperialBig",
+            "items": "rep core:sloMoCharge core:fixedGun core:bulletClip core:mediumArmor core:shield core:fixedShotGun core:shellClip core:bigShield",
+            "ships": "core:imperialMedium core:imperialBig",
 
             "mercenaries": [
                 {
-                    "hull": "Core:imperialMedium",
-                    "items": "3*rep Core:smallShield",
-                    "money": 200,
-                },
-            ],
-        },
-    },
+                    "hull": "core:imperialMedium",
+                    "items": "3*rep core:smallShield",
+                    "money": 200
+                }
+            ]
+        }
+    }
 }

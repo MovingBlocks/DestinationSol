@@ -9,10 +9,10 @@
     "gunLength": 0.1,
     "displayName": "Bomber",
     "shootSounds": [
-        "Core:rocketLauncherShoot"
+        "core:rocketLauncherShoot"
     ],
     "shootSoundPitch": 1.2,
     "reloadSounds": [
-        "Core:rocketLauncherReload"
-    ],
+        "core:rocketLauncherReload"
+    ]
 }

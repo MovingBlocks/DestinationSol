@@ -11,9 +11,9 @@
     "displayName": "Wave Gun",
     "lightOnShot": true,
     "shootSounds": [
-        "Core:waveGun"
+        "core:waveGun"
     ],
     "reloadSounds": [
-        "Core:gunReload"
-    ],
+        "core:gunReload"
+    ]
 }

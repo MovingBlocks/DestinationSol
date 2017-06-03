@@ -4,17 +4,17 @@
             "junkTexs": "decorations/space/sysDeco",
             "junkDensity": 0.06,
             "farJunkTexs": "decorations/farSpace/beltFarBg",
-            "farJunkDensity": 0.01,
+            "farJunkDensity": 0.01
         },
 
         "temporaryEnemies": [
             {
-                "hull": "Core:minerSmall",
-                "items": "Core:missileLauncher",
+                "hull": "core:minerSmall",
+                "items": "core:missileLauncher",
                 "money": 100,
-                "density": 0.002,
-            },
-        ],
+                "density": 0.002
+            }
+        ]
     },
 
     "hard": {
@@ -24,16 +24,16 @@
             "junkTexs": "decorations/space/sysDeco",
             "junkDensity": 0.06,
             "farJunkTexs": "decorations/farSpace/beltFarBg",
-            "farJunkDensity": 0.01,
+            "farJunkDensity": 0.01
         },
 
         "temporaryEnemies": [
             {
-                "hull": "Core:minerMedium",
-                "items": "Core:nailGun Core:mediumArmor 0.5|Core:shield",
+                "hull": "core:minerMedium",
+                "items": "core:nailGun core:mediumArmor 0.5|core:shield",
                 "money": 100,
-                "density": 0.002,
-            },
-        ],
-    },
+                "density": 0.002
+            }
+        ]
+    }
 }

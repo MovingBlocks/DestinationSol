@@ -63,7 +63,7 @@ public final class HullConfigManager {
             return null;
 
         // TODO: Temporary hack!
-        return itemManager.getEngineConfig(new ResourceUrn("Core:" + engineName));
+        return itemManager.getEngineConfig(new ResourceUrn("core:" + engineName));
     }
 
     private static void validateEngineConfig(HullConfig.Data hull) {

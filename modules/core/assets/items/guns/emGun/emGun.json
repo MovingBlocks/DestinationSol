@@ -11,9 +11,9 @@
     "displayName": "EM Gun",
     "lightOnShot": true,
     "shootSounds": [
-        "Core:emGun"
+        "core:emGun"
     ],
     "reloadSounds": [
-        "Core:gunReload"
-    ],
+        "core:gunReload"
+    ]
 }

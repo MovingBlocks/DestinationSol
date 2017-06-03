@@ -39,7 +39,7 @@ public class ShardBuilder {
     private final ArrayList<TextureAtlas.AtlasRegion> myTexs;
 
     public ShardBuilder(TextureManager textureManager) {
-        myCollisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:misc"));
+        myCollisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("core:misc"));
         myTexs = textureManager.getPack("smallGameObjects/shard");
     }
 

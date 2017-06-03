@@ -239,7 +239,7 @@ public class GalaxyFiller {
             pos.set(m.getPos());
             pos.x += m.getRadius();
         } else if ("trader".equals(DebugOptions.SPAWN_PLACE)) {
-            HullConfig cfg = game.getHullConfigs().getConfig(new ResourceUrn("Core:bus"));
+            HullConfig cfg = game.getHullConfigs().getConfig(new ResourceUrn("core:bus"));
             for (FarObjData fod : game.getObjMan().getFarObjs()) {
                 FarObj fo = fod.fo;
                 if (!(fo instanceof FarShip)) {
