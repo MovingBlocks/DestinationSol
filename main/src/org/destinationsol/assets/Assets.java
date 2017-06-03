@@ -29,13 +29,28 @@ import org.terasology.module.ModuleEnvironment;
 
 import java.util.Optional;
 
+/**
+ * A high-level wrapper over the AssetHelper class.
+ *
+ * This class allows loading of assets without the need of explicit error handling, using static methods.
+ */
 public abstract class Assets {
     private static AssetHelper assetHelper;
 
+    /**
+     * Initializes the class for loading assets using the given environment.
+     * This function -has- to be called upon startup, and whenever the environment is changed.
+     * @param environment The ModuleEnvironment to load assets from.
+     */
     public static void initialize(ModuleEnvironment environment) {
         assetHelper = new AssetHelper(environment);
     }
 
+    /**
+     * Loads an OggSound (.ogg) from the current environment. Throws an exception if the asset is not found.
+     * @param urn A ResourceUrn pointing to the desired asset.
+     * @return The loaded OggSound.
+     */
     public static OggSound getSound(ResourceUrn urn) {
         Optional<OggSound> oggSoundOptional = assetHelper.get(urn, OggSound.class);
 
@@ -47,6 +62,11 @@ public abstract class Assets {
         throw new RuntimeException("OggSound " + urn.toString() + " not found!");
     }
 
+    /**
+     * Loads an OggMusic (.ogg) from the current environment. Throws an exception if the asset is not found.
+     * @param urn A ResourceUrn pointing to the desired asset.
+     * @return The loaded OggMusic.
+     */
     public static OggMusic getMusic(ResourceUrn urn) {
         Optional<OggMusic> oggMusicOptional = assetHelper.get(urn, OggMusic.class);
 
@@ -57,6 +77,11 @@ public abstract class Assets {
         throw new RuntimeException("OggSound " + urn.toString() + " not found!");
     }
 
+    /**
+     * Loads an Atlas (.atlas) from the current environment. Throws an exception if the asset is not found.
+     * @param urn A ResourceUrn pointing to the desired asset.
+     * @return The loaded Atlas.
+     */
     public static Atlas getAtlas(ResourceUrn urn) {
         Optional<Atlas> atlasOptional = assetHelper.get(urn, Atlas.class);
 
@@ -67,6 +92,11 @@ public abstract class Assets {
         throw new RuntimeException("Atlas " + urn.toString() + " not found!");
     }
 
+    /**
+     * Loads a BitmapFont (.font) from the current environment. Throws an exception if the asset is not found.
+     * @param urn A ResourceUrn pointing to the desired asset.
+     * @return The loaded Font.
+     */
     public static Font getFont(ResourceUrn urn) {
         Optional<Font> fontOptional = assetHelper.get(urn, Font.class);
 
@@ -77,6 +107,11 @@ public abstract class Assets {
         throw new RuntimeException("Font " + urn.toString() + " not found!");
     }
 
+    /**
+     * Loads an emitter (.emitter) from the current environment. Throws an exception if the asset is not found.
+     * @param urn A ResourceUrn pointing to the desired asset.
+     * @return The loaded Emitter.
+     */
     public static Emitter getEmitter(ResourceUrn urn) {
         Optional<Emitter> emitterOptional = assetHelper.get(urn, Emitter.class);
 
@@ -87,6 +122,11 @@ public abstract class Assets {
         throw new RuntimeException("Emitter " + urn.toString() + " not found!");
     }
 
+    /**
+     * Loads a Json (.json) from the current environment. Throws an exception if the asset is not found.
+     * @param urn A ResourceUrn pointing to the desired asset.
+     * @return The loaded Json.
+     */
     public static Json getJson(ResourceUrn urn) {
         Optional<Json> jsonOptional = assetHelper.get(urn, Json.class);
 
@@ -97,6 +137,11 @@ public abstract class Assets {
         throw new RuntimeException("Json " + urn.toString() + " not found!");
     }
 
+    /**
+     * Loads a Texture (.png) from the current environment. Throws an exception if the asset is not found.
+     * @param urn A ResourceUrn pointing to the desired asset.
+     * @return The loaded Texture.
+     */
     public static DSTexture getDSTexture(ResourceUrn urn) {
         Optional<DSTexture> dsTextureOptional = assetHelper.get(urn, DSTexture.class);
 
@@ -107,6 +152,12 @@ public abstract class Assets {
         throw new RuntimeException("DSTexture " + urn.toString() + " not found!");
     }
 
+    /**
+     * A wrapper function over getDSTexture() that creates an AtlasRegion out of the given Texture, to use in drawing functions.
+     * @param urn A ResourceUrn pointing to the desired asset.
+     * @param textureFilter The texture filtering method for minification and magnification.
+     * @return An AtlasRegion representing the loaded Texture.
+     */
     public static TextureAtlas.AtlasRegion getAtlasRegion(ResourceUrn urn, Texture.TextureFilter textureFilter) {
         Texture texture = getDSTexture(urn).getTexture();
         texture.setFilter(textureFilter, textureFilter);
@@ -115,6 +166,12 @@ public abstract class Assets {
         return atlasRegion;
     }
 
+    /**
+     * A wrapper function over getDSTexture() that creates an AtlasRegion out of the given Texture, to use in drawing functions.
+     * This overloaded variant of the function defaults to the Nearest texture filtering method, which is the default for DestSol.
+     * @param urn A ResourceUrn pointing to the desired asset.
+     * @return An AtlasRegion representing the loaded Texture.
+     */
     public static TextureAtlas.AtlasRegion getAtlasRegion(ResourceUrn urn) {
         return getAtlasRegion(urn, Texture.TextureFilter.Nearest);
     }
