@@ -43,6 +43,8 @@ public class PlanetConfigs {
         myMedium = new ArrayList<>();
         myHard = new ArrayList<>();
 
+        Assets.cacheLists();
+
         Json json = Assets.getJson(new ResourceUrn("core:planetsConfig"));
         JsonValue rootNode = json.getJsonValue();
 
@@ -59,6 +61,8 @@ public class PlanetConfigs {
         }
 
         json.dispose();
+
+        Assets.uncacheLists();
     }
 
     public PlanetConfig getConfig(String name) {
