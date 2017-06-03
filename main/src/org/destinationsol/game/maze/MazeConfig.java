@@ -54,7 +54,7 @@ public class MazeConfig {
 
     public static MazeConfig load(TextureManager textureManager, HullConfigManager hullConfigs, JsonValue mazeNode, ItemManager itemManager) {
         String dirName = "mazeTiles/" + mazeNode.name + "/";
-        CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:" + mazeNode.name + "Maze"));
+        CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("core:" + mazeNode.name + "Maze"));
         CollisionMeshLoader.Model paths = collisionMeshLoader.getInternalModel();
         List<TextureAtlas.AtlasRegion> innerBgs = textureManager.getPack(dirName + "innerBg");
         List<TextureAtlas.AtlasRegion> borderBgs = textureManager.getPack(dirName + "borderBg");

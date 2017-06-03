@@ -11,7 +11,7 @@
 
         "sky": {
             "dawnColor": "hsb 0 50 100",
-            "dayColor": "hsb 216 40 100",
+            "dayColor": "hsb 216 40 100"
         },
 
         "decorations": {
@@ -20,7 +20,7 @@
                 "szMin": 0.1,
                 "szMax": 0.2,
                 "orig": "0 0.5",
-                "allowFlip": true,
+                "allowFlip": true
             },
 
             "tree": {
@@ -28,61 +28,61 @@
                 "szMin": 0.7,
                 "szMax": 0.8,
                 "orig": "0 0.5",
-                "allowFlip": true,
-            },
+                "allowFlip": true
+            }
         },
 
         "highOrbitEnemies": [
             {
-                "hull": "Core:pirateOrbiter",
-                "items": "Core:plasmaGun+Core:blaster 0.24|Core:smallShield",
+                "hull": "core:pirateOrbiter",
+                "items": "core:plasmaGun+core:blaster 0.24|core:smallShield",
                 "money": 40,
-                "density": 0.03,
+                "density": 0.03
             }
         ],
 
         "lowOrbitEnemies": [
             {
-                "hull": "Core:pirateOrbiter",
-                "items": "Core:bombGun 0.24|Core:smallShield",
+                "hull": "core:pirateOrbiter",
+                "items": "core:bombGun 0.24|core:smallShield",
                 "money": 50,
-                "density": 0.1,
-            },
+                "density": 0.1
+            }
         ],
 
         "groundEnemies": [
             {
-                "hull": "Core:piratePlanetTurret",
-                "items": "Core:plasmaGun+Core:blaster 0.36|Core:smallShield",
+                "hull": "core:piratePlanetTurret",
+                "items": "core:plasmaGun+core:blaster 0.36|core:smallShield",
                 "money": 110,
-                "density": 0.45,
+                "density": 0.45
             },
 
             {
-                "hull": "Core:pirateSmall",
-                "items": "Core:blaster+Core:gun 0.5|Core:smallShield+Core:shield",
+                "hull": "core:pirateSmall",
+                "items": "core:blaster+core:gun 0.5|core:smallShield+core:shield",
                 "money": 60,
-                "density": 0.15,
-            },
+                "density": 0.15
+            }
         ],
 
         "station": {
-            "hull": "Core:drome",
-            "items": "Core:gun+Core:shotGun Core:shield 4*rep",
+            "hull": "core:drome",
+            "items": "core:gun+core:shotGun core:shield 4*rep"
         },
 
         "trading": {
-            "items": "rep Core:plasmaClip Core:shotGun Core:shellClip Core:mineClip Core:bombGun Core:bombClip Core:missileClip Core:shield Core:unShieldCharge",
-            "ships": "Core:pirateSmall Core:pirateOrbiter Core:pirateMedium",
+            "items": "rep core:plasmaClip core:shotGun core:shellClip core:mineClip core:bombGun core:bombClip core:missileClip core:shield core:unShieldCharge",
+            "ships": "core:pirateSmall core:pirateOrbiter core:pirateMedium",
 
             "mercenaries": [
                 {
-                    "hull": "Core:pirateSmall",
-                    "items": "Core:blaster+Core:gun Core:smallShield 3*rep",
-                    "money": 100,
-                },
-            ],
-        },
+                    "hull": "core:pirateSmall",
+                    "items": "core:blaster+core:gun core:smallShield 3*rep",
+                    "money": 100
+                }
+            ]
+        }
     },
 
     "desert": {
@@ -96,7 +96,7 @@
 
         "sky": {
             "dawnColor": "hsb 130 50 100",
-            "dayColor": "hsb 200 40 100",
+            "dayColor": "hsb 200 40 100"
         },
 
         "decorations": {
@@ -105,7 +105,7 @@
                 "szMin": 0.5,
                 "szMax": 0.7,
                 "orig": "0 0.5",
-                "allowFlip": true,
+                "allowFlip": true
             },
 
             "remnant": {
@@ -113,7 +113,7 @@
                 "szMin": 1,
                 "szMax": 1.1,
                 "orig": "0 0.3",
-                "allowFlip": true,
+                "allowFlip": true
             },
 
             "cactus": {
@@ -121,61 +121,61 @@
                 "szMin": 0.2,
                 "szMax": 0.4,
                 "orig": "0 0.5",
-                "allowFlip": true,
-            },
+                "allowFlip": true
+            }
         },
 
         "highOrbitEnemies": [
             {
-                "hull": "Core:desertOrbiter",
-                "items": "Core:fixedGun 0.25|Core:lightArmor",
+                "hull": "core:desertOrbiter",
+                "items": "core:fixedGun 0.25|core:lightArmor",
                 "money": 150,
-                "density": 0.03,
+                "density": 0.03
             }
         ],
 
         "lowOrbitEnemies": [
             {
-                "hull": "Core:desertOrbiter",
-                "items": "Core:fixedBombGun 0.25|Core:lightArmor",
+                "hull": "core:desertOrbiter",
+                "items": "core:fixedBombGun 0.25|core:lightArmor",
                 "money": 100,
-                "density": 0.1,
-            },
+                "density": 0.1
+            }
         ],
 
         "groundEnemies": [
             {
-                "hull": "Core:desertPlanetTurret",
-                "items": "Core:gun 0.5|Core:lightArmor+Core:mediumArmor",
+                "hull": "core:desertPlanetTurret",
+                "items": "core:gun 0.5|core:lightArmor+core:mediumArmor",
                 "money": 80,
-                "density": 0.45,
+                "density": 0.45
             },
 
             {
-                "hull": "Core:desertSmall",
-                "items": "Core:fixedGun 0.3|Core:fixedGun 0.75|Core:mediumArmor",
+                "hull": "core:desertSmall",
+                "items": "core:fixedGun 0.3|core:fixedGun 0.75|core:mediumArmor",
                 "money": 80,
-                "density": 0.15,
-            },
+                "density": 0.15
+            }
         ],
 
         "station": {
-            "hull": "Core:drome",
-            "items": "Core:shotGun Core:bigShield Core:HeavyArmor 4*rep",
+            "hull": "core:drome",
+            "items": "core:shotGun core:bigShield core:HeavyArmor 4*rep"
         },
 
         "trading": {
-            "items": "rep Core:teleportCharge Core:fixedGun Core:bulletClip Core:railClip Core:cannon Core:slugClip Core:bombClip Core:HeavyArmor",
-            "ships": "Core:desertOrbiter Core:desertSmall Core:desertMedium",
+            "items": "rep core:teleportCharge core:fixedGun core:bulletClip core:railClip core:cannon core:slugClip core:bombClip core:HeavyArmor",
+            "ships": "core:desertOrbiter core:desertSmall core:desertMedium",
 
             "mercenaries": [
                 {
-                    "hull": "Core:desertOrbiter",
-                    "items": "Core:fixedBombGun 0.25|Core:lightArmor 3*rep",
-                    "money": 150,
-                },
-            ],
-        },
+                    "hull": "core:desertOrbiter",
+                    "items": "core:fixedBombGun 0.25|core:lightArmor 3*rep",
+                    "money": 150
+                }
+            ]
+        }
     },
 
 
@@ -192,7 +192,7 @@
 
         "sky": {
             "dawnColor": "hsb 50 50 100",
-            "dayColor": "hsb 125 40 100",
+            "dayColor": "hsb 125 40 100"
         },
 
         "decorations": {
@@ -201,32 +201,32 @@
                 "szMin": 0.7,
                 "szMax": 0.8,
                 "orig": "0 0.5",
-                "allowFlip": true,
-            },
+                "allowFlip": true
+            }
         },
 
         "highOrbitEnemies": [
             {
-                "hull": "Core:techieOrbiter",
-                "items": "Core:fixedPlasmaGun+Core:fixedBlaster 0.5|Core:fixedPlasmaGun+Core:fixedBlaster+Core:fixedEmGun 0.75|Core:mediumArmor Core:advancedShield",
+                "hull": "core:techieOrbiter",
+                "items": "core:fixedPlasmaGun+core:fixedBlaster 0.5|core:fixedPlasmaGun+core:fixedBlaster+core:fixedEmGun 0.75|core:mediumArmor core:advancedShield",
                 "money": 140,
-                "density": 0.03,
+                "density": 0.03
             }
         ],
         "groundEnemies": [
             {
-                "hull": "Core:techieSmall",
-                "items": "Core:fixedPlasmaGun 0.5|Core:fixedPlasmaGun+Core:fixedBlaster 0.5|Core:mediumArmor Core:bigShield+Core:advancedShield",
+                "hull": "core:techieSmall",
+                "items": "core:fixedPlasmaGun 0.5|core:fixedPlasmaGun+core:fixedBlaster 0.5|core:mediumArmor core:bigShield+core:advancedShield",
                 "money": 120,
-                "density": 0.15,
+                "density": 0.15
             },
 
             {
-                "hull": "Core:techiePlanetTurret",
-                "items": "Core:waveGun 0.6|Core:emGun Core:HeavyArmor Core:advancedShield",
+                "hull": "core:techiePlanetTurret",
+                "items": "core:waveGun 0.6|core:emGun core:HeavyArmor core:advancedShield",
                 "money": 180,
-                "density": 0.45,
-            },
-        ],
-    },
+                "density": 0.45
+            }
+        ]
+    }
 }

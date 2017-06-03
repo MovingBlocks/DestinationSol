@@ -39,7 +39,7 @@ public class PlanetTiles {
 
     private void loadGround(TextureManager textureManager, String groundName) {
         // TODO : Remove the explicit core from here!
-        CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:" + groundName + "Ground"));
+        CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("core:" + groundName + "Ground"));
         CollisionMeshLoader.Model paths = collisionMeshLoader.getInternalModel();
 
         for (SurfaceDirection from : SurfaceDirection.values()) {

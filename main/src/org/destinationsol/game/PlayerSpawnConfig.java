@@ -34,7 +34,7 @@ public class PlayerSpawnConfig {
     }
 
     public static PlayerSpawnConfig load(HullConfigManager hullConfigs, ItemManager itemManager) {
-        Json json = Assets.getJson(new ResourceUrn("Core:playerSpawnConfig"));
+        Json json = Assets.getJson(new ResourceUrn("core:playerSpawnConfig"));
         JsonValue rootNode = json.getJsonValue();
 
         JsonValue playerNode = rootNode.get("player");

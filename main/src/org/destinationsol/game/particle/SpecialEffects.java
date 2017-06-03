@@ -41,7 +41,7 @@ public class SpecialEffects {
     private final EffectConfig myForceBeacon;
 
     public SpecialEffects(EffectTypes effectTypes, TextureManager textureManager, GameColors cols) {
-        Json json = Assets.getJson(new ResourceUrn("Core:specialEffectsConfig"));
+        Json json = Assets.getJson(new ResourceUrn("core:specialEffectsConfig"));
         JsonValue rootNode = json.getJsonValue();
 
         mySmoke = EffectConfig.load(rootNode.get("smoke"), effectTypes, textureManager, cols);

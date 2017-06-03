@@ -10,9 +10,9 @@
     "displayName": "Blaster",
     "lightOnShot": true,
     "shootSounds": [
-        "Core:blasterShoot"
+        "core:blasterShoot"
     ],
     "reloadSounds": [
-        "Core:gunReload"
-    ],
+        "core:gunReload"
+    ]
 }

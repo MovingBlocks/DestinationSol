@@ -11,10 +11,10 @@
     "displayName": "Heavy Plasma Gun",
     "lightOnShot": true,
     "shootSounds": [
-        "Core:blasterShoot"
+        "core:blasterShoot"
     ],
     "shootSoundPitch": 1.2,
     "reloadSounds": [
-        "Core:gunReload"
-    ],
+        "core:gunReload"
+    ]
 }

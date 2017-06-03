@@ -4,13 +4,13 @@
         "effectFile": "flame",
         "size": 0.3,
         "tex": "fire",
-        "tint": "hsb 8 75 100",
+        "tint": "hsb 8 75 100"
     },
     "workSounds": [
-        "Core:medEngineWork0",
-        "Core:medEngineWork1",
-        "Core:medEngineWork2",
-        "Core:medEngineWork3",
-        "Core:medEngineWork4"
-    ],
+        "core:medEngineWork0",
+        "core:medEngineWork1",
+        "core:medEngineWork2",
+        "core:medEngineWork3",
+        "core:medEngineWork4"
+    ]
 }

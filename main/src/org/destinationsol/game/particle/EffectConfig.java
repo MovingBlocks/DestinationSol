@@ -45,7 +45,7 @@ public class EffectConfig {
             return null;
         }
         String effectFileName = node.getString("effectFile");
-        EffectType effectType = types.forName(new ResourceUrn("Core:" + effectFileName));
+        EffectType effectType = types.forName(new ResourceUrn("core:" + effectFileName));
         float sz = node.getFloat("size", 0);
         String texName = node.getString("tex");
         boolean floatsUp = node.getBoolean("floatsUp", false);

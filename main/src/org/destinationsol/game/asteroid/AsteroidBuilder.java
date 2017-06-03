@@ -43,7 +43,7 @@ public class AsteroidBuilder {
     private final ArrayList<TextureAtlas.AtlasRegion> myTexs;
 
     public AsteroidBuilder(TextureManager textureManager) {
-        myCollisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:asteroids"));
+        myCollisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("core:asteroids"));
         myTexs = textureManager.getPack("asteroids/sys");
     }
 

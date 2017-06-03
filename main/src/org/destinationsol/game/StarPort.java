@@ -229,7 +229,7 @@ public class StarPort implements SolObject {
         private final CollisionMeshLoader myLoader;
 
         public Builder() {
-            myLoader = new CollisionMeshLoader(new ResourceUrn("Core:misc"));
+            myLoader = new CollisionMeshLoader(new ResourceUrn("core:misc"));
         }
 
         public StarPort build(SolGame game, Planet from, Planet to, boolean secondary) {
