@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.files;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfigs;
@@ -38,15 +37,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class HullConfigManager {
-    private final AssetHelper assetHelper;
     private final ItemManager itemManager;
     private final AbilityCommonConfigs abilityCommonConfigs;
     private final Map<ResourceUrn, HullConfig> nameToConfigMap;
     private final Map<HullConfig, ResourceUrn> configToNameMap;
 
 
-    public HullConfigManager(ItemManager itemManager, AbilityCommonConfigs abilityCommonConfigs, AssetHelper assetHelper) {
-        this.assetHelper = assetHelper;
+    public HullConfigManager(ItemManager itemManager, AbilityCommonConfigs abilityCommonConfigs) {
         this.itemManager = itemManager;
         this.abilityCommonConfigs = abilityCommonConfigs;
 
@@ -101,12 +98,12 @@ public final class HullConfigManager {
 
         configData.internalName = shipName.getResourceName().toString();
 
-        Json json = assetHelper.getJson(shipName);
+        Json json = Assets.getJson(shipName);
 
         readProperties(json.getJsonValue(), configData);
 
-        configData.tex = assetHelper.getAtlasRegion(shipName);
-        configData.icon = assetHelper.getAtlasRegion(new ResourceUrn(shipName + "Icon"));
+        configData.tex = Assets.getAtlasRegion(shipName);
+        configData.icon = Assets.getAtlasRegion(new ResourceUrn(shipName + "Icon"));
 
         validateEngineConfig(configData);
 

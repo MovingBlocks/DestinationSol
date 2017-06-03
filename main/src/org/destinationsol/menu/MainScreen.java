@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.Gdx;
@@ -22,7 +21,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.ui.SolInputManager;
@@ -48,7 +47,7 @@ public class MainScreen implements SolUiScreen {
     private final SolUiControl newGameControl;
     private final SolUiControl creditsControl;
 
-    MainScreen(AssetHelper assetHelper, MenuLayout menuLayout, boolean isMobile, float resolutionRatio, GameOptions gameOptions) {
+    MainScreen(MenuLayout menuLayout, boolean isMobile, float resolutionRatio, GameOptions gameOptions) {
         this.isMobile = isMobile;
         this.gameOptions = gameOptions;
 
@@ -72,8 +71,8 @@ public class MainScreen implements SolUiScreen {
         creditsControl.setDisplayName("Credits");
         controls.add(creditsControl);
 
-        bgTex = assetHelper.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
-        logoTex = assetHelper.getAtlasRegion(new ResourceUrn("engine:mainMenuLogo"), Texture.TextureFilter.Linear);
+        bgTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
+        logoTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuLogo"), Texture.TextureFilter.Linear);
     }
 
     public List<SolUiControl> getControls() {

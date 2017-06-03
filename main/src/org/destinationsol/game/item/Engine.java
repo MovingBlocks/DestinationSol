@@ -13,18 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.item;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.assets.json.Json;
-import org.destinationsol.files.FileManager;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.particle.EffectConfig;
@@ -34,7 +30,6 @@ import org.destinationsol.game.sound.OggSoundSet;
 import org.terasology.assets.ResourceUrn;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class Engine implements SolItem {
@@ -148,8 +143,8 @@ public class Engine implements SolItem {
             this.example = new Engine(this);
         }
 
-        public static Config load(ResourceUrn engineName, OggSoundManager soundManager, EffectTypes effectTypes, TextureManager textureManager, GameColors cols, ItemManager itemManager, AssetHelper assetHelper) {
-            Json json = assetHelper.getJson(engineName);
+        public static Config load(ResourceUrn engineName, OggSoundManager soundManager, EffectTypes effectTypes, TextureManager textureManager, GameColors cols) {
+            Json json = Assets.getJson(engineName);
             JsonValue rootNode = json.getJsonValue();
 
             boolean big = rootNode.getBoolean("big");
@@ -158,7 +153,7 @@ public class Engine implements SolItem {
             float maxRotSpd = big ? 40f : 230f;
             List<String> workSoundUrns = Arrays.asList(rootNode.get("workSounds").asStringArray());
             OggSoundSet workSoundSet = new OggSoundSet(soundManager, workSoundUrns);
-            EffectConfig effectConfig = EffectConfig.load(rootNode.get("effect"), effectTypes, textureManager, cols, assetHelper);
+            EffectConfig effectConfig = EffectConfig.load(rootNode.get("effect"), effectTypes, textureManager, cols);
 
             json.dispose();
 

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.graphics.Color;
@@ -22,8 +21,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.ui.FontSize;
@@ -47,7 +45,7 @@ public class CreditsScreen implements SolUiScreen {
     private int pageIndex;
     private float pageProgressPercent;
 
-    CreditsScreen(AssetHelper assetHelper, float resolutionRatio, GameOptions gameOptions) {
+    CreditsScreen(float resolutionRatio, GameOptions gameOptions) {
         closeControl = new SolUiControl(MenuLayout.bottomRightFloatingButton(resolutionRatio), true, gameOptions.getKeyEscape());
         closeControl.setDisplayName("Close");
         controls.add(closeControl);
@@ -114,7 +112,7 @@ public class CreditsScreen implements SolUiScreen {
             myPages.add(page.toString());
         }
 
-        bgTex = assetHelper.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
+        bgTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
     }
 
     @Override

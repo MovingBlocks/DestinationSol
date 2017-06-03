@@ -17,7 +17,7 @@ package org.destinationsol.game.sound;
 
 import com.badlogic.gdx.audio.Music;
 import org.destinationsol.GameOptions;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
@@ -34,14 +34,14 @@ public class OggMusicManager {
     private final List<Music> gameMusic;
     private Music currentlyPlaying = null;
 
-    public OggMusicManager(AssetHelper assetHelper) {
-        menuMusic = assetHelper.getMusic(new ResourceUrn("engine:dreadnaught")).getMusic();
+    public OggMusicManager() {
+        menuMusic = Assets.getMusic(new ResourceUrn("engine:dreadnaught")).getMusic();
         menuMusic.setLooping(true);
 
         gameMusic = new ArrayList<>();
-        gameMusic.add(assetHelper.getMusic(new ResourceUrn("engine:cimmerian dawn")).getMusic());
-        gameMusic.add(assetHelper.getMusic(new ResourceUrn("engine:into the dark")).getMusic());
-        gameMusic.add(assetHelper.getMusic(new ResourceUrn("engine:space theatre")).getMusic());
+        gameMusic.add(Assets.getMusic(new ResourceUrn("engine:cimmerian dawn")).getMusic());
+        gameMusic.add(Assets.getMusic(new ResourceUrn("engine:into the dark")).getMusic());
+        gameMusic.add(Assets.getMusic(new ResourceUrn("engine:space theatre")).getMusic());
     }
 
     /**

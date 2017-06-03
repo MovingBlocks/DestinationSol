@@ -15,8 +15,6 @@
  */
 package org.destinationsol.assets;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.assets.atlas.Atlas;
 import org.destinationsol.assets.audio.OggMusic;
 import org.destinationsol.assets.audio.OggSound;
@@ -54,95 +52,12 @@ public class AssetHelper {
         assetTypeManager.switchEnvironment(environment);
     }
 
-    public Set<ResourceUrn> list(Class<? extends Asset<?>> type) {
-        return assetTypeManager.getAssetManager().getAvailableAssets(type);
-    }
-
     public <T extends Asset<U>, U extends AssetData> Optional<T> get(ResourceUrn urn, Class<T> type) {
         return assetTypeManager.getAssetManager().getAsset(urn, type);
     }
 
-    public OggSound getSound(ResourceUrn urn) {
-        Optional<OggSound> oggSoundOptional = get(urn, OggSound.class);
-
-        if (oggSoundOptional.isPresent()) {
-            return oggSoundOptional.get();
-        }
-
-        // DebugOptions.MISSING_SOUND_ACTION.handle("OggSound " + urn.toString() + " not found!");
-        throw new RuntimeException("OggSound " + urn.toString() + " not found!");
-    }
-
-    public OggMusic getMusic(ResourceUrn urn) {
-        Optional<OggMusic> oggMusicOptional = get(urn, OggMusic.class);
-
-        if (oggMusicOptional.isPresent()) {
-            return oggMusicOptional.get();
-        }
-
-        throw new RuntimeException("OggSound " + urn.toString() + " not found!");
-    }
-
-    public Atlas getAtlas(ResourceUrn urn) {
-        Optional<Atlas> atlasOptional = get(urn, Atlas.class);
-
-        if (atlasOptional.isPresent()) {
-            return atlasOptional.get();
-        }
-
-        throw new RuntimeException("Atlas " + urn.toString() + " not found!");
-    }
-
-    public Font getFont(ResourceUrn urn) {
-        Optional<Font> fontOptional = get(urn, Font.class);
-
-        if (fontOptional.isPresent()) {
-            return fontOptional.get();
-        }
-
-        throw new RuntimeException("Font " + urn.toString() + " not found!");
-    }
-
-    public Emitter getEmitter(ResourceUrn urn) {
-        Optional<Emitter> emitterOptional = get(urn, Emitter.class);
-
-        if (emitterOptional.isPresent()) {
-            return emitterOptional.get();
-        }
-
-        throw new RuntimeException("Emitter " + urn.toString() + " not found!");
-    }
-
-    public Json getJson(ResourceUrn urn) {
-        Optional<Json> jsonOptional = get(urn, Json.class);
-
-        if (jsonOptional.isPresent()) {
-            return jsonOptional.get();
-        }
-
-        throw new RuntimeException("Json " + urn.toString() + " not found!");
-    }
-
-    public DSTexture getDSTexture(ResourceUrn urn) {
-        Optional<DSTexture> dsTextureOptional = get(urn, DSTexture.class);
-
-        if (dsTextureOptional.isPresent()) {
-            return dsTextureOptional.get();
-        }
-
-        throw new RuntimeException("DSTexture " + urn.toString() + " not found!");
-    }
-
-    public TextureAtlas.AtlasRegion getAtlasRegion(ResourceUrn urn, Texture.TextureFilter textureFilter) {
-        Texture texture = getDSTexture(urn).getTexture();
-        texture.setFilter(textureFilter, textureFilter);
-        TextureAtlas.AtlasRegion atlasRegion = new TextureAtlas.AtlasRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
-        atlasRegion.flip(false, true);
-        return atlasRegion;
-    }
-
-    public TextureAtlas.AtlasRegion getAtlasRegion(ResourceUrn urn) {
-        return getAtlasRegion(urn, Texture.TextureFilter.Nearest);
+    public Set<ResourceUrn> list(Class<? extends Asset<?>> type) {
+        return assetTypeManager.getAssetManager().getAvailableAssets(type);
     }
 
     public static String resolveToPath(AssetDataFile assetDataFile) {

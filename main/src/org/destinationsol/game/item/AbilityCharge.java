@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.SolGame;
 import org.terasology.assets.ResourceUrn;
@@ -98,8 +97,8 @@ public class AbilityCharge implements SolItem {
             this.example = new AbilityCharge(this);
         }
 
-        public static void load(ResourceUrn abilityName, ItemManager itemManager, SolItemTypes types, AssetHelper assetHelper) {
-            Json json = assetHelper.getJson(abilityName);
+        public static void load(ResourceUrn abilityName, ItemManager itemManager, SolItemTypes types) {
+            Json json = Assets.getJson(abilityName);
             JsonValue rootNode = json.getJsonValue();
 
             float price = rootNode.getFloat("price");
@@ -108,7 +107,7 @@ public class AbilityCharge implements SolItem {
 
             json.dispose();
 
-            TextureAtlas.AtlasRegion icon = assetHelper.getAtlasRegion(new ResourceUrn(abilityName + "Icon"));
+            TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(new ResourceUrn(abilityName + "Icon"));
 
             Config abilityConfig = new Config(icon, price, displayName, desc, types.abilityCharge, abilityName.toString());
             itemManager.registerItem(abilityConfig.example);

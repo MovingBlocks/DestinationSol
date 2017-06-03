@@ -17,6 +17,7 @@
 package org.destinationsol;
 
 import com.google.common.collect.Sets;
+import org.destinationsol.assets.Assets;
 import org.terasology.assets.Asset;
 import org.terasology.module.ClasspathModule;
 import org.terasology.module.Module;
@@ -80,6 +81,7 @@ public class ModuleManager {
 
     public void loadEnvironment(Set<Module> modules) {
         environment = new ModuleEnvironment(modules, permissionProviderFactory);
+        Assets.initialize(environment);
     }
 
     public ModuleEnvironment getEnvironment() {

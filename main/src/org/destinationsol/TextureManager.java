@@ -13,15 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.files.FileManager;
 import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
@@ -39,9 +36,9 @@ public class TextureManager {
     private final TextureProvider textureProvider;
     private final TextureProvider textureProviderStaticFiles;
 
-    public TextureManager(AssetHelper assetHelper) {
+    public TextureManager() {
         textureProviderStaticFiles = new DevTextureProvider();
-        textureProvider = new AtlasTextureProvider(new ResourceUrn("core:sol"), assetHelper);
+        textureProvider = new AtlasTextureProvider(new ResourceUrn("core:sol"));
     }
 
     public TextureAtlas.AtlasRegion getFlipped(TextureAtlas.AtlasRegion tex) {
