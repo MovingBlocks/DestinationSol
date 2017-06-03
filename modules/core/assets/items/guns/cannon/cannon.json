@@ -11,9 +11,9 @@
     "displayName": "Cannon",
     "lightOnShot": true,
     "shootSounds": [
-        "Core:cannonShoot"
+        "core:cannonShoot"
     ],
     "reloadSounds": [
-        "Core:gunReload"
-    ],
+        "core:gunReload"
+    ]
 }

@@ -43,8 +43,8 @@ public class SysConfigs {
         myBeltConfigs = new HashMap<>();
         myHardBeltConfigs = new HashMap<>();
 
-        load(textureManager, hullConfigs, false, new ResourceUrn("Core:systemsConfig"), itemManager);
-        load(textureManager, hullConfigs, true, new ResourceUrn("Core:asteroidBeltsConfig"), itemManager);
+        load(textureManager, hullConfigs, false, new ResourceUrn("core:systemsConfig"), itemManager);
+        load(textureManager, hullConfigs, true, new ResourceUrn("core:asteroidBeltsConfig"), itemManager);
     }
 
     private void load(TextureManager textureManager, HullConfigManager hullConfigs, boolean belts,

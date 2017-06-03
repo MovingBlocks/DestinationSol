@@ -37,7 +37,7 @@ public class SolItemTypes {
     public final SolItemType fixedGun;
 
     public SolItemTypes(OggSoundManager soundManager, GameColors cols) {
-        Json json = Assets.getJson(new ResourceUrn("Core:types"));
+        Json json = Assets.getJson(new ResourceUrn("core:types"));
         JsonValue rootNode = json.getJsonValue();
 
         clip = load(rootNode.get("clip"), soundManager, cols);

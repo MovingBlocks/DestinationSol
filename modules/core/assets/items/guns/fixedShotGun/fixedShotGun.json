@@ -11,10 +11,10 @@
     "displayName": "Imperial Shotgun",
     "lightOnShot": true,
     "shootSounds": [
-        "Core:shotGunShoot"
+        "core:shotGunShoot"
     ],
     "shootSoundPitch": 0.8,
     "reloadSounds": [
-        "Core:fixedGunReload"
-    ],
+        "core:fixedGunReload"
+    ]
 }

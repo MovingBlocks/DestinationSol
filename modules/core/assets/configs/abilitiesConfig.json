@@ -4,40 +4,40 @@
             "effectFile": "areaShipAbility",
             "tex": "sloMo",
             "tint": "fire",
-            "size": 5,
+            "size": 5
         },
-        "activatedSound": "Core:sloMoActivated",
+        "activatedSound": "core:sloMoActivated"
     },
 
     "knockBack": {
         "effect": {
             "effectFile": "knockBack",
             "tex": "knockBack",
-            "tint": "50 200 250",
+            "tint": "50 200 250"
         },
-        "activatedSound": "Core:knockBack",
+        "activatedSound": "core:knockBack"
     },
 
     "emWave": {
         "effect": {
             "effectFile": "areaShipAbility",
             "tex": "emWave",
-            "tint": "0 255 0",
+            "tint": "0 255 0"
         },
-        "activatedSound": "Core:unshield",
+        "activatedSound": "core:unshield"
     },
 
     "unShield": {
         "effect": {
             "effectFile": "knockBack",
             "tex": "unShield",
-            "tint": "0 100 255",
+            "tint": "0 100 255"
         },
 
-        "activatedSound": "Core:unshield",
+        "activatedSound": "core:unshield"
     },
 
     "teleport": {
-        "activatedSound": "Core:teleport",
-    },
+        "activatedSound": "core:teleport"
+    }
 }

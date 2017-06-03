@@ -11,10 +11,10 @@
     "displayName": "Rail Gun",
     "lightOnShot": true,
     "shootSounds": [
-        "Core:shotGunShoot"
+        "core:shotGunShoot"
     ],
     "shootSoundPitch": 0.6,
     "reloadSounds": [
-        "Core:fixedGunReload"
-    ],
+        "core:fixedGunReload"
+    ]
 }

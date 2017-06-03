@@ -43,7 +43,7 @@ public class PlanetConfigs {
         myMedium = new ArrayList<>();
         myHard = new ArrayList<>();
 
-        Json json = Assets.getJson(new ResourceUrn("Core:planetsConfig"));
+        Json json = Assets.getJson(new ResourceUrn("core:planetsConfig"));
         JsonValue rootNode = json.getJsonValue();
 
         for (JsonValue sh : rootNode) {

@@ -3,11 +3,11 @@
     "effect": {
         "effectFile": "techieEngine",
         "tex": "techieTrail",
-        "tint": "white",
+        "tint": "white"
     },
     "workSounds": [
-        "Core:techie",
-        "Core:techie2",
-        "Core:techie3"
-    ],
+        "core:techie",
+        "core:techie2",
+        "core:techie3"
+    ]
 }

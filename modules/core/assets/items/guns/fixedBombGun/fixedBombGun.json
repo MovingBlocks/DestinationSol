@@ -10,10 +10,10 @@
     "gunLength": 0.17,
     "displayName": "Heavy Bomber",
     "shootSounds": [
-        "Core:rocketLauncherShoot"
+        "core:rocketLauncherShoot"
     ],
     "shootSoundPitch": 1.3,
     "reloadSounds": [
-        "Core:rocketLauncherReload"
-    ],
+        "core:rocketLauncherReload"
+    ]
 }

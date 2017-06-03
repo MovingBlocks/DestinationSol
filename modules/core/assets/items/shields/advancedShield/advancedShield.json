@@ -2,7 +2,7 @@
     "maxLife": 40,
     "price": 900,
     "displayName": "Advanced Shield",
-    "absorbSound": "Core:shield1Absorb1",
+    "absorbSound": "core:shield1Absorb1",
     "absorbSoundPitch": 0.8,
-    "regenSound": "Core:shield1Regen",
+    "regenSound": "core:shield1Regen"
 }

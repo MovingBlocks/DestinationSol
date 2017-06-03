@@ -11,9 +11,9 @@
     "displayName": "Pirate Shotgun",
     "lightOnShot": true,
     "shootSounds": [
-        "Core:shotGunShoot"
+        "core:shotGunShoot"
     ],
     "reloadSounds": [
-        "Core:gunReload"
-    ],
+        "core:gunReload"
+    ]
 }

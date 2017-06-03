@@ -11,9 +11,9 @@
     "displayName": "Machine Gun",
     "lightOnShot": true,
     "shootSounds": [
-        "Core:gunShoot0"
+        "core:gunShoot0"
     ],
     "reloadSounds": [
-        "Core:gunReload"
-    ],
+        "core:gunReload"
+    ]
 }

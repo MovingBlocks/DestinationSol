@@ -11,10 +11,10 @@
     "lightOnShot": true,
     "descBase0": "",
     "shootSounds": [
-        "Core:blasterShoot"
+        "core:blasterShoot"
     ],
     "shootSoundPitch": 1.2,
     "reloadSounds": [
-        "Core:gunReload"
-    ],
+        "core:gunReload"
+    ]
 }

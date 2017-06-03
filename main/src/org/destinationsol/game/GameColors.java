@@ -34,7 +34,7 @@ public class GameColors {
     private final Map<String, Color> colors = new HashMap<>();
 
     public GameColors() {
-        Json json = Assets.getJson(new ResourceUrn("Core:colorsConfig"));
+        Json json = Assets.getJson(new ResourceUrn("core:colorsConfig"));
         JsonValue rootNode = json.getJsonValue();
 
         for (JsonValue colVal : rootNode) {
