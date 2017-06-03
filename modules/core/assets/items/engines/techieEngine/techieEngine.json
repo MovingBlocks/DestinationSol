@@ -1,7 +1,7 @@
 {
     "big": false,
     "effect": {
-        "effectFile": "techieEngine",
+        "effectFile": "core:techieEngine",
         "tex": "techieTrail",
         "tint": "white"
     },

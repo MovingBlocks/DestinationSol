@@ -6,7 +6,7 @@
     "timeBetweenShots": 0.85,
     "reloadTime": 2,
     "price": 650,
-    "clipName": "railClip",
+    "clipName": "core:railClip",
     "gunLength": 0.24,
     "displayName": "Rail Gun",
     "lightOnShot": true,

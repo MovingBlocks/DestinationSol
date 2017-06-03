@@ -6,7 +6,7 @@
     "timeBetweenShots": 0.47,
     "reloadTime": 2,
     "price": 350,
-    "clipName": "rocketClip",
+    "clipName": "core:rocketClip",
     "gunLength": 0.22,
     "texLenPerc": 0.87,
     "displayName": "Rocket Launcher",

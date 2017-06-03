@@ -11,7 +11,7 @@
     "e1Pos": "0.02 0.31",
     "e2Pos": "0.02 0.69",
     "displayName": "Hunter",
-    "engine": "desertEngine",
+    "engine": "core:desertEngine",
     "gunSlots": [
         {
             "position": "0.2 0.32",

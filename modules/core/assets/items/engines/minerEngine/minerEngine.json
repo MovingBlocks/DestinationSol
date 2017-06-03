@@ -1,7 +1,7 @@
 {
     "big": false,
     "effect": {
-        "effectFile": "smokeEngine",
+        "effectFile": "core:smokeEngine",
         "size": 0.07,
         "tex": "smoke",
         "tint": "smoke"

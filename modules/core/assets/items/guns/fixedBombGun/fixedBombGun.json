@@ -6,7 +6,7 @@
     "timeBetweenShots": 0.25,
     "reloadTime": 1.5,
     "price": 70,
-    "clipName": "bombClip",
+    "clipName": "core:bombClip",
     "gunLength": 0.17,
     "displayName": "Heavy Bomber",
     "shootSounds": [

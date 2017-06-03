@@ -9,7 +9,7 @@
     },
     "e1Pos": "0.2 0.26",
     "e2Pos": "0.2 0.72",
-    "engine": "minerEngine",
+    "engine": "core:minerEngine",
     "gunSlots": [
         {
             "position": "0.65 0.66",

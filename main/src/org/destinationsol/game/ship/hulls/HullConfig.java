@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.ship.hulls;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -27,7 +26,6 @@ import java.util.List;
 
 @Immutable
 public final class HullConfig {
-
     private final Data data;
 
     public HullConfig(Data configData) {

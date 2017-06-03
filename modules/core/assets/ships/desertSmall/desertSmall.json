@@ -23,7 +23,7 @@
     "e1Pos": "0.02 0.46",
     "e2Pos": "0.02 0.54",
     "displayName": "Beetle",
-    "engine": "desertEngine",
+    "engine": "core:desertEngine",
     "rigidBody": {
         "origin": {
             "x": 0.5378787517547607,

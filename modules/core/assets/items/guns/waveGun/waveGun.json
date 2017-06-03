@@ -5,7 +5,7 @@
     "timeBetweenShots": 0.8,
     "reloadTime": 2.5,
     "price": 1000,
-    "clipName": "waveClip",
+    "clipName": "core:waveClip",
     "gunLength": 0.26,
     "texLenPerc": 0.87,
     "displayName": "Wave Gun",

@@ -16,7 +16,7 @@
             "allowsRotation": false
         }
     ],
-    "engine": "techieEngine",
+    "engine": "core:techieEngine",
     "rigidBody": {
         "origin": {
             "x": 0.5454545021057129,

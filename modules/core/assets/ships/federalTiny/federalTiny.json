@@ -11,7 +11,7 @@
     "e1Pos": "0.25 0.37",
     "e2Pos": "0.25 0.6",
     "displayName": "Escort",
-    "engine": "pirateEngine",
+    "engine": "core:pirateEngine",
     "gunSlots": [
         {
             "position": "0.40 0.5",

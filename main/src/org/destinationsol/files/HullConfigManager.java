@@ -62,8 +62,7 @@ public final class HullConfigManager {
         if (engineName == null)
             return null;
 
-        // TODO: Temporary hack!
-        return itemManager.getEngineConfig(new ResourceUrn("core:" + engineName));
+        return itemManager.getEngineConfig(new ResourceUrn(engineName));
     }
 
     private static void validateEngineConfig(HullConfig.Data hull) {
@@ -96,7 +95,7 @@ public final class HullConfigManager {
     private HullConfig read(ResourceUrn shipName) {
         final HullConfig.Data configData = new HullConfig.Data();
 
-        configData.internalName = shipName.getResourceName().toString();
+        configData.internalName = shipName.toString();
 
         Json json = Assets.getJson(shipName);
 

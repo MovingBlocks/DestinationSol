@@ -8,7 +8,7 @@
         "texSz": 0.12,
 
         "collisionEffect": {
-            "effectFile": "explFire",
+            "effectFile": "core:explFire",
             "size": 0.1,
             "tex": "fire",
             "tint": "120 210 90"
@@ -26,7 +26,7 @@
         "texSz": 0.15,
 
         "collisionEffect": {
-            "effectFile": "explFire",
+            "effectFile": "core:explFire",
             "size": 0.2,
             "tex": "fire",
             "tint": "180 70 200"
@@ -46,7 +46,7 @@
         "texSz": 0.15,
 
         "collisionEffectBg": {
-            "effectFile": "explSmoke",
+            "effectFile": "core:explSmoke",
             "size": 0.6,
             "tex": "smoke",
             "floatsUp": true,
@@ -54,7 +54,7 @@
         },
 
         "collisionEffect": {
-            "effectFile": "explFire",
+            "effectFile": "core:explFire",
             "size": 0.4,
             "tex": "fire",
             "tint": "fire"
@@ -72,7 +72,7 @@
         "texSz": 0.018,
         "stretch": true,
         "collisionEffect": {
-            "effectFile": "spark",
+            "effectFile": "core:spark",
             "size": 0.5,
             "tex": "spark",
             "tint": "fire"
@@ -89,7 +89,7 @@
         "stretch": true,
 
         "collisionEffect": {
-            "effectFile": "spark",
+            "effectFile": "core:spark",
             "size": 0.5,
             "tex": "spark",
             "tint": "fire"
@@ -110,21 +110,21 @@
         "lightSz": 0.25,
 
         "trailEffect": {
-            "effectFile": "smoke",
+            "effectFile": "core:smoke",
             "tex": "smoke",
             "floatsUp": true,
             "tint": "smoke"
         },
 
         "bodyEffect": {
-            "effectFile": "flame",
+            "effectFile": "core:flame",
             "size": 0.15,
             "tex": "fire",
             "tint": "fire"
         },
 
         "collisionEffectBg": {
-            "effectFile": "explSmoke",
+            "effectFile": "core:explSmoke",
             "size": 0.6,
             "tex": "smoke",
             "floatsUp": true,
@@ -132,7 +132,7 @@
         },
 
         "collisionEffect": {
-            "effectFile": "explFire",
+            "effectFile": "core:explFire",
             "size": 0.4,
             "tex": "fire",
             "tint": "fire"
@@ -152,14 +152,14 @@
         "texSz": 0.15,
 
         "collisionEffectBg": {
-            "effectFile": "explSmoke",
+            "effectFile": "core:explSmoke",
             "size": 0.6,
             "tex": "smoke",
             "floatsUp": true,
             "tint": "smoke"
         },
         "collisionEffect": {
-            "effectFile": "explFire",
+            "effectFile": "core:explFire",
             "size": 0.4,
             "tex": "fire",
             "tint": "fire"
@@ -177,14 +177,14 @@
         "texSz": 0.15,
 
         "trailEffect": {
-            "effectFile": "smoke",
+            "effectFile": "core:smoke",
             "tex": "smoke",
             "floatsUp": true,
             "tint": "smoke"
         },
 
         "collisionEffectBg": {
-            "effectFile": "explSmoke",
+            "effectFile": "core:explSmoke",
             "size": 0.3,
             "tex": "smoke",
             "floatsUp": true,
@@ -192,7 +192,7 @@
         },
 
         "collisionEffect": {
-            "effectFile": "spark",
+            "effectFile": "core:spark",
             "size": 1,
             "tex": "spark",
             "tint": "fire"
@@ -212,21 +212,21 @@
         "lightSz": 0.25,
 
         "trailEffect": {
-            "effectFile": "smoke",
+            "effectFile": "core:smoke",
             "tex": "smoke",
             "floatsUp": true,
             "tint": "smoke"
         },
 
         "bodyEffect": {
-            "effectFile": "flame",
+            "effectFile": "core:flame",
             "size": 0.15,
             "tex": "fire",
             "tint": "fire"
         },
 
         "collisionEffectBg": {
-            "effectFile": "explSmoke",
+            "effectFile": "core:explSmoke",
             "size": 0.6,
             "tex": "smoke",
             "floatsUp": true,
@@ -234,7 +234,7 @@
         },
 
         "collisionEffect": {
-            "effectFile": "explFire",
+            "effectFile": "core:explFire",
             "size": 0.4,
             "tex": "fire",
             "tint": "fire"
@@ -253,13 +253,13 @@
         "stretch": true,
 
         "trailEffect": {
-            "effectFile": "railTrail",
+            "effectFile": "core:railTrail",
             "tex": "techieTrail",
             "tint": "white"
         },
 
         "collisionEffect": {
-            "effectFile": "spark",
+            "effectFile": "core:spark",
             "size": 0.5,
             "tex": "spark",
             "tint": "fire"
@@ -287,13 +287,13 @@
         "texSz": 0,
 
         "bodyEffect": {
-            "effectFile": "electricity2",
+            "effectFile": "core:electricity2",
             "tex": "electricity",
             "tint": "white"
         },
 
         "collisionEffect": {
-            "effectFile": "explFire",
+            "effectFile": "core:explFire",
             "size": 0.2,
             "tex": "fire",
             "tint": "white"
@@ -313,7 +313,7 @@
         "texSz": 0.8,
 
         "collisionEffect": {
-            "effectFile": "explFire",
+            "effectFile": "core:explFire",
             "size": 0.8,
             "tex": "fire",
             "tint": "20 255 20"
