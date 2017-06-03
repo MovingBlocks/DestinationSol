@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol;
 
 import com.badlogic.gdx.Application;
@@ -22,7 +21,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DebugOptions;
@@ -55,7 +53,6 @@ public class SolApplication implements ApplicationListener {
     private CommonDrawer myCommonDrawer;
     private FPSLogger myFpsLogger;
     private ModuleEnvironment moduleEnvironment;
-    private AssetHelper assetHelper;
     private OggMusicManager musicManager;
     private OggSoundManager soundManager;
     private String myFatalErrorMsg;
@@ -79,18 +76,17 @@ public class SolApplication implements ApplicationListener {
         myOptions = new GameOptions(isMobile(), null);
 
         moduleEnvironment = new ModuleManager().getEnvironment();
-        assetHelper = new AssetHelper(moduleEnvironment);
-        musicManager = new OggMusicManager(assetHelper);
+        musicManager = new OggMusicManager();
 
         musicManager.playMenuMusic(myOptions);
 
-        soundManager = new OggSoundManager(assetHelper);
-        myTextureManager = new TextureManager(assetHelper);
-        myCommonDrawer = new CommonDrawer(assetHelper);
+        soundManager = new OggSoundManager();
+        myTextureManager = new TextureManager();
+        myCommonDrawer = new CommonDrawer();
         myUiDrawer = new UiDrawer(myTextureManager, myCommonDrawer);
         myInputMan = new SolInputManager(myTextureManager, soundManager);
         myLayouts = new SolLayouts(myUiDrawer.r);
-        myMenuScreens = new MenuScreens(assetHelper, myLayouts, isMobile(), myUiDrawer.r, myOptions);
+        myMenuScreens = new MenuScreens(myLayouts, isMobile(), myUiDrawer.r, myOptions);
 
         myInputMan.setScreen(this, myMenuScreens.main);
         myFpsLogger = new FPSLogger();
@@ -234,10 +230,6 @@ public class SolApplication implements ApplicationListener {
 
     public GameOptions getOptions() {
         return myOptions;
-    }
-
-    public AssetHelper getAssetHelper() {
-        return assetHelper;
     }
 
     public OggMusicManager getMusicManager() {

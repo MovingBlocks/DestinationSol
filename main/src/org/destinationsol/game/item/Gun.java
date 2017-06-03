@@ -13,19 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.item;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.files.FileManager;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.HardnessCalc;
 import org.destinationsol.game.SolGame;
@@ -166,8 +161,8 @@ public class Gun implements SolItem {
             example = new Gun(this, 0, 0);
         }
 
-        public static void load(ResourceUrn gunName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types, AssetHelper assetHelper) {
-            Json json = assetHelper.getJson(gunName);
+        public static void load(ResourceUrn gunName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
+            Json json = Assets.getJson(gunName);
             JsonValue rootNode = json.getJsonValue();
 
             float minAngleVar = rootNode.getFloat("minAngleVar", 0);
@@ -197,7 +192,7 @@ public class Gun implements SolItem {
 
                 Clip clip = ((Clip) itemManager.getExample(clipName));
                 if (clip == null) {
-                    Clip.Config.load(new ResourceUrn(clipName), itemManager, types, assetHelper);
+                    Clip.Config.load(new ResourceUrn(clipName), itemManager, types);
                     clip = ((Clip) itemManager.getExample(clipName));
                 }
                 clipConf = clip.getConfig();
@@ -205,8 +200,8 @@ public class Gun implements SolItem {
 
             json.dispose();
 
-            TextureAtlas.AtlasRegion tex = assetHelper.getAtlasRegion(gunName);
-            TextureAtlas.AtlasRegion icon = assetHelper.getAtlasRegion(new ResourceUrn(gunName + "Icon"));
+            TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(gunName);
+            TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(new ResourceUrn(gunName + "Icon"));
 
             Config gunConfig = new Config(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots,
                                             reloadTime, gunLength, displayName, lightOnShot, price, clipConf, shootSoundSet,

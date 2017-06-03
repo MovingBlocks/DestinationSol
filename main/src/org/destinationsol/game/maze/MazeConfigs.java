@@ -13,16 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.maze;
 
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
-import org.destinationsol.files.FileManager;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
 import org.terasology.assets.ResourceUrn;
@@ -33,14 +29,14 @@ import java.util.List;
 public class MazeConfigs {
     public final List<MazeConfig> configs;
 
-    public MazeConfigs(TextureManager textureManager, HullConfigManager hullConfigs, ItemManager itemManager, AssetHelper assetHelper) {
+    public MazeConfigs(TextureManager textureManager, HullConfigManager hullConfigs, ItemManager itemManager) {
         configs = new ArrayList<>();
 
-        Json json = assetHelper.getJson(new ResourceUrn("Core:mazesConfig"));
+        Json json = Assets.getJson(new ResourceUrn("Core:mazesConfig"));
         JsonValue rootNode = json.getJsonValue();
 
         for (JsonValue mazeNode : rootNode) {
-            MazeConfig c = MazeConfig.load(textureManager, hullConfigs, mazeNode, itemManager, assetHelper);
+            MazeConfig c = MazeConfig.load(textureManager, hullConfigs, mazeNode, itemManager);
             configs.add(c);
         }
 

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.asteroid;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -24,7 +23,6 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import org.destinationsol.Const;
 import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.CollisionMeshLoader;
@@ -44,8 +42,8 @@ public class AsteroidBuilder {
     private final CollisionMeshLoader myCollisionMeshLoader;
     private final ArrayList<TextureAtlas.AtlasRegion> myTexs;
 
-    public AsteroidBuilder(TextureManager textureManager, AssetHelper assetHelper) {
-        myCollisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:asteroids"), assetHelper);
+    public AsteroidBuilder(TextureManager textureManager) {
+        myCollisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:asteroids"));
         myTexs = textureManager.getPack("asteroids/sys");
     }
 

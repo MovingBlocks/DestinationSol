@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -21,7 +20,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.dra.Dra;
@@ -40,8 +38,8 @@ public class ShardBuilder {
     private final CollisionMeshLoader myCollisionMeshLoader;
     private final ArrayList<TextureAtlas.AtlasRegion> myTexs;
 
-    public ShardBuilder(TextureManager textureManager, AssetHelper assetHelper) {
-        myCollisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:misc"), assetHelper);
+    public ShardBuilder(TextureManager textureManager) {
+        myCollisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:misc"));
         myTexs = textureManager.getPack("smallGameObjects/shard");
     }
 

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -29,7 +28,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJoint;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -65,11 +64,9 @@ public class ShipBuilder {
     public static final float AVG_ALLY_LIFE_TIME = 75f;
 
     private final CollisionMeshLoader myCollisionMeshLoader;
-    private final AssetHelper assetHelper;
 
-    public ShipBuilder(AssetHelper assetHelper) {
+    public ShipBuilder() {
         myCollisionMeshLoader = new CollisionMeshLoader();
-        this.assetHelper = assetHelper;
     }
 
     private static Fixture getBase(boolean hasBase, Body body) {
@@ -263,7 +260,7 @@ public class ShipBuilder {
         //TODO: This logic belongs in the HullConfigManager/HullConfig
         String shipName = hullConfig.getInternalName();
 
-        Json json = assetHelper.getJson(new ResourceUrn("Core:" + shipName));
+        Json json = Assets.getJson(new ResourceUrn("Core:" + shipName));
 
         JsonValue rigidBodyNode = json.getJsonValue().get("rigidBody");
         myCollisionMeshLoader.readRigidBody(rigidBodyNode, hullConfig);
