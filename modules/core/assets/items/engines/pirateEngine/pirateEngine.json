@@ -1,7 +1,7 @@
 {
     "big": false,
     "effect": {
-        "effectFile": "flame",
+        "effectFile": "core:flame",
         "size": 0.07,
         "tex": "fire",
         "tint": "hsb 8 75 100"

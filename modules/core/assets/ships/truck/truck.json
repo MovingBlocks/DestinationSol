@@ -4,7 +4,7 @@
     "type": "big",
     "e1Pos": "0.06 0.4",
     "e2Pos": "0.06 0.6",
-    "engine": "pirateBigEngine",
+    "engine": "core:pirateBigEngine",
     "gunSlots": [
         {
             "position": "0.77 0.5",

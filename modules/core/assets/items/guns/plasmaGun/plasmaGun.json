@@ -5,7 +5,7 @@
     "timeBetweenShots": 1.1,
     "reloadTime": 3,
     "price": 30,
-    "clipName": "plasmaClip",
+    "clipName": "core:plasmaClip",
     "gunLength": 0.14,
     "displayName": "Pirate Plasma Gun",
     "lightOnShot": true,

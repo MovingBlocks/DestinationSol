@@ -6,7 +6,7 @@
     "timeBetweenShots": 0.22,
     "reloadTime": 2,
     "price": 500,
-    "clipName": "shellClip",
+    "clipName": "core:shellClip",
     "gunLength": 0.24,
     "displayName": "Imperial Shotgun",
     "lightOnShot": true,

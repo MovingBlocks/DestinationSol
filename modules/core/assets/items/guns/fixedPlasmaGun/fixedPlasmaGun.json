@@ -6,7 +6,7 @@
     "timeBetweenShots": 0.08,
     "reloadTime": 2,
     "price": 450,
-    "clipName": "plasmaClip",
+    "clipName": "core:plasmaClip",
     "gunLength": 0.22,
     "displayName": "Heavy Plasma Gun",
     "lightOnShot": true,
