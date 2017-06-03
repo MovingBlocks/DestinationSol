@@ -3,7 +3,7 @@
         "easyOnly": true,
         "minGrav": 0.4,
         "maxGrav": 0.6,
-        "groundTexs": "rocky",
+        "groundTexs": "core:rockyGround",
         "decorationTexs": "rocky",
         "cloudTexs": "skies/cloud",
         "rowCount": 4,
@@ -88,7 +88,7 @@
     "desert": {
         "minGrav": 0.6,
         "maxGrav": 0.8,
-        "groundTexs": "desert",
+        "groundTexs": "core:desertGround",
         "decorationTexs": "desert",
         "cloudTexs": "skies/cloud",
         "rowCount": 3,
@@ -186,7 +186,7 @@
         "maxGrav": 1,
         "rowCount": 4,
         "smoothLandscape": true,
-        "groundTexs": "frozen",
+        "groundTexs": "core:frozenGround",
         "decorationTexs": "frozen",
         "cloudTexs": "skies/cloud",
 

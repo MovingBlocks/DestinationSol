@@ -27,7 +27,11 @@ import org.destinationsol.assets.textures.DSTexture;
 import org.terasology.assets.ResourceUrn;
 import org.terasology.module.ModuleEnvironment;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * A high-level wrapper over the AssetHelper class.
@@ -36,6 +40,7 @@ import java.util.Optional;
  */
 public abstract class Assets {
     private static AssetHelper assetHelper;
+    private static Set<ResourceUrn> textureList;
 
     /**
      * Initializes the class for loading assets using the given environment.
@@ -44,6 +49,10 @@ public abstract class Assets {
      */
     public static void initialize(ModuleEnvironment environment) {
         assetHelper = new AssetHelper(environment);
+    }
+
+    public static AssetHelper getAssetHelper() {
+        return assetHelper;
     }
 
     /**
@@ -163,6 +172,7 @@ public abstract class Assets {
         texture.setFilter(textureFilter, textureFilter);
         TextureAtlas.AtlasRegion atlasRegion = new TextureAtlas.AtlasRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
         atlasRegion.flip(false, true);
+        atlasRegion.name = urn.toString();
         return atlasRegion;
     }
 
@@ -174,5 +184,26 @@ public abstract class Assets {
      */
     public static TextureAtlas.AtlasRegion getAtlasRegion(ResourceUrn urn) {
         return getAtlasRegion(urn, Texture.TextureFilter.Nearest);
+    }
+
+    public static void cacheLists() {
+        textureList = assetHelper.list(DSTexture.class);
+    }
+
+    public static void uncacheLists() {
+        textureList.clear();
+        textureList = null;
+    }
+
+    public static List<TextureAtlas.AtlasRegion> listTexturesStartingWith(String str) {
+        List<TextureAtlas.AtlasRegion> textures = new ArrayList<>();
+
+        for (ResourceUrn resourceUrn : textureList) {
+            if (resourceUrn.toString().startsWith(str)) {
+                textures.add(getAtlasRegion(resourceUrn));
+            }
+        }
+
+        return textures;
     }
 }
