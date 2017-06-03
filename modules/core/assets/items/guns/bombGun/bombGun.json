@@ -5,7 +5,7 @@
     "timeBetweenShots": 0.8,
     "reloadTime": 2.5,
     "price": 40,
-    "clipName": "bombClip",
+    "clipName": "core:bombClip",
     "gunLength": 0.1,
     "displayName": "Bomber",
     "shootSounds": [

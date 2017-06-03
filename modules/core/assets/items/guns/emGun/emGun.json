@@ -5,7 +5,7 @@
     "timeBetweenShots": 0,
     "reloadTime": 3.5,
     "price": 750,
-    "clipName": "emClip",
+    "clipName": "core:emClip",
     "gunLength": 0.2,
     "texLenPerc": 0.85,
     "displayName": "EM Gun",

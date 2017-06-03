@@ -12,7 +12,7 @@
     "e1Pos": "0 0.33",
     "e2Pos": "0 0.67",
     "displayName": "Bomber",
-    "engine": "desertEngine",
+    "engine": "core:desertEngine",
     "gunSlots": [
         {
             "position": "0.32 0.32",

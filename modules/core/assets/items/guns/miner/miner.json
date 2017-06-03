@@ -6,7 +6,7 @@
     "timeBetweenShots": 1,
     "reloadTime": 3,
     "price": 300,
-    "clipName": "mineClip",
+    "clipName": "core:mineClip",
     "gunLength": 0.1,
     "displayName": "Miner",
     "shootSounds": [

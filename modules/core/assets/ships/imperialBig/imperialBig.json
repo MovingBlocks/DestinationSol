@@ -11,7 +11,7 @@
     "e1Pos": "0.11 0.43",
     "e2Pos": "0.11 0.57",
     "displayName": "Vanguard",
-    "engine": "imperialEngine",
+    "engine": "core:imperialEngine",
     "gunSlots": [
         {
             "position": "0.54 0.26",
