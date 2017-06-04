@@ -182,7 +182,7 @@ public abstract class Assets {
      * @return An AtlasRegion representing the loaded Texture.
      */
     public static TextureAtlas.AtlasRegion getAtlasRegion(ResourceUrn urn) {
-        return getAtlasRegion(urn, Texture.TextureFilter.Nearest);
+        return getAtlasRegion(urn, Texture.TextureFilter.Linear);
     }
 
     public static void cacheLists() {
