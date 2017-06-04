@@ -18,6 +18,8 @@ package org.destinationsol;
 
 import com.google.common.collect.Sets;
 import org.destinationsol.assets.Assets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.assets.Asset;
 import org.terasology.module.ClasspathModule;
 import org.terasology.module.Module;
@@ -40,6 +42,8 @@ import java.nio.file.Paths;
 import java.util.Set;
 
 public class ModuleManager {
+    private static Logger logger = LoggerFactory.getLogger(ModuleManager.class);
+
     private StandardPermissionProviderFactory permissionProviderFactory = new StandardPermissionProviderFactory();
     private ModuleEnvironment environment;
     private ModuleRegistry registry;
@@ -86,5 +90,11 @@ public class ModuleManager {
 
     public ModuleEnvironment getEnvironment() {
         return environment;
+    }
+
+    public void printAvailableModules() {
+        for (Module module : registry) {
+            logger.info("Module Discovered: {}", module.toString());
+        }
     }
 }
