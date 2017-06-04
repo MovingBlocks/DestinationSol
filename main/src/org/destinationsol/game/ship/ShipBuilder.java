@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -29,7 +28,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJoint;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -40,12 +39,12 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.dra.Dra;
 import org.destinationsol.game.dra.DraLevel;
 import org.destinationsol.game.dra.RectSprite;
-import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
 import org.destinationsol.game.item.Clip;
 import org.destinationsol.game.item.Engine;
+import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.SolItem;
@@ -65,11 +64,9 @@ public class ShipBuilder {
     public static final float AVG_ALLY_LIFE_TIME = 75f;
 
     private final CollisionMeshLoader myCollisionMeshLoader;
-    private final AssetHelper assetHelper;
 
-    public ShipBuilder(AssetHelper assetHelper) {
+    public ShipBuilder() {
         myCollisionMeshLoader = new CollisionMeshLoader();
-        this.assetHelper = assetHelper;
     }
 
     private static Fixture getBase(boolean hasBase, Body body) {
@@ -263,7 +260,7 @@ public class ShipBuilder {
         //TODO: This logic belongs in the HullConfigManager/HullConfig
         String shipName = hullConfig.getInternalName();
 
-        Json json = assetHelper.getJson(new ResourceUrn("Core:" + shipName));
+        Json json = Assets.getJson(new ResourceUrn(shipName));
 
         JsonValue rigidBodyNode = json.getJsonValue().get("rigidBody");
         myCollisionMeshLoader.readRigidBody(rigidBodyNode, hullConfig);
@@ -325,7 +322,7 @@ public class ShipBuilder {
         World w = game.getObjMan().getWorld();
         TextureAtlas.AtlasRegion tex = game.getTexMan().getTexture("smallGameObjects/door");
         PrismaticJoint joint = createDoorJoint(body, w, pos, doorRelPos, angle);
-        RectSprite s = new RectSprite(tex, Door.DOOR_LEN, 0, 0, new Vector2(doorRelPos), DraLevel.BODIES, 0, 0, SolColor.W, false);
+        RectSprite s = new RectSprite(tex, Door.DOOR_LEN, 0, 0, new Vector2(doorRelPos), DraLevel.BODIES, 0, 0, SolColor.WHITE, false);
         return new Door(joint, s);
     }
 

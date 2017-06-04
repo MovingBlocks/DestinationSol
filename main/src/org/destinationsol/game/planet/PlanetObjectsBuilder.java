@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -224,7 +223,7 @@ public class PlanetObjectsBuilder {
         relPos.sub(basePos);
         SolMath.free(basePos);
 
-        return new RectSprite(tex, sz, 0, 0, relPos, DraLevel.CLOUDS, relAngle, rotSpd, SolColor.W, false);
+        return new RectSprite(tex, sz, 0, 0, relPos, DraLevel.CLOUDS, relAngle, rotSpd, SolColor.WHITE, false);
     }
 
     public void createDeco(SolGame game, Planet planet) {
@@ -295,7 +294,7 @@ public class PlanetObjectsBuilder {
                 decoTex = game.getTexMan().getFlipped(decoTex);
             }
 
-            RectSprite s = new RectSprite(decoTex, decoSz, dc.orig.x, dc.orig.y, decoRelPos, DraLevel.DECO, decoRelAngle, 0, SolColor.W, false);
+            RectSprite s = new RectSprite(decoTex, decoSz, dc.orig.x, dc.orig.y, decoRelPos, DraLevel.DECO, decoRelAngle, 0, SolColor.WHITE, false);
             List<Dra> ss = collector.get(basePos);
             if (ss == null) {
                 ss = new ArrayList<Dra>();

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.planet;
 
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.files.FileManager;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.item.ItemManager;
@@ -41,17 +37,19 @@ public class PlanetConfigs {
     private final List<PlanetConfig> myHard;
 
     public PlanetConfigs(TextureManager textureManager, HullConfigManager hullConfigs, GameColors cols,
-                            ItemManager itemManager, AssetHelper assetHelper) {
+                            ItemManager itemManager) {
         myAllConfigs = new HashMap<>();
         myEasy = new ArrayList<>();
         myMedium = new ArrayList<>();
         myHard = new ArrayList<>();
 
-        Json json = assetHelper.getJson(new ResourceUrn("Core:planetsConfig"));
+        Assets.cacheLists();
+
+        Json json = Assets.getJson(new ResourceUrn("core:planetsConfig"));
         JsonValue rootNode = json.getJsonValue();
 
         for (JsonValue sh : rootNode) {
-            PlanetConfig planetConfig = PlanetConfig.load(textureManager, hullConfigs, sh, cols, itemManager, assetHelper);
+            PlanetConfig planetConfig = PlanetConfig.load(textureManager, hullConfigs, sh, cols, itemManager);
             myAllConfigs.put(sh.name, planetConfig);
             if (planetConfig.hardOnly) {
                 myHard.add(planetConfig);
@@ -63,6 +61,8 @@ public class PlanetConfigs {
         }
 
         json.dispose();
+
+        Assets.uncacheLists();
     }
 
     public PlanetConfig getConfig(String name) {

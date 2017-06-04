@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.projectile;
 
 import com.badlogic.gdx.graphics.Color;
@@ -67,7 +66,7 @@ public class Projectile implements SolObject {
         if (myConfig.stretch) {
             dra = new MyDra(this, myConfig.tex, myConfig.texSz);
         } else {
-            dra = new RectSprite(myConfig.tex, myConfig.texSz, myConfig.origin.x, myConfig.origin.y, new Vector2(), DraLevel.PROJECTILES, 0, 0, SolColor.W, false);
+            dra = new RectSprite(myConfig.tex, myConfig.texSz, myConfig.origin.x, myConfig.origin.y, new Vector2(), DraLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
         }
         myDras.add(dra);
         float spdLen = myConfig.spdLen;
@@ -83,7 +82,7 @@ public class Projectile implements SolObject {
         myBodyEffect = buildEffect(game, myConfig.bodyEffect, DraLevel.PART_BG_0, null, true);
         myTrailEffect = buildEffect(game, myConfig.trailEffect, DraLevel.PART_BG_0, null, false);
         if (myConfig.lightSz > 0) {
-            Color col = SolColor.W;
+            Color col = SolColor.WHITE;
             if (myBodyEffect != null) {
                 col = myConfig.bodyEffect.tint;
             }

@@ -1,45 +1,45 @@
 {
-    "junk": {
+    "core:junk": {
         "isMetal": false,
 
         "environment": {
             "junkTexs": "decorations/space/sysDeco",
             "junkDensity": 0.06,
             "farJunkTexs": "decorations/farSpace/mazeFarBg",
-            "farJunkDensity": 0.01,
+            "farJunkDensity": 0.01
         },
 
         "outerEnemies": [
             {
-                "hull": "Core:minerMedium",
-                "items": "Core:rocketLauncher 0.4|Core:lightArmor+Core:mediumArmor 0.4|Core:smallShield+Core:shield",
+                "hull": "core:minerMedium",
+                "items": "core:rocketLauncher 0.4|core:lightArmor+core:mediumArmor 0.4|core:smallShield+core:shield",
                 "money": 20,
-                "density": 0.03,
+                "density": 0.03
             }
         ],
 
         "innerEnemies": [
             {
-                "hull": "Core:minerTurret",
-                "items": "Core:missilePad 0.6|Core:mediumArmor 0.6|Core:shield",
+                "hull": "core:minerTurret",
+                "items": "core:missilePad 0.6|core:mediumArmor 0.6|core:shield",
                 "money": 20,
-                "density": 0.005,
+                "density": 0.005
             },
 
             {
-                "hull": "Core:minerSmall",
-                "items": "Core:rocketLauncher+Core:nailGun 0.8|Core:mediumArmor 0.8|Core:shield+Core:bigShield",
+                "hull": "core:minerSmall",
+                "items": "core:rocketLauncher+core:nailGun 0.8|core:mediumArmor 0.8|core:shield+core:bigShield",
                 "money": 20,
-                "density": 0.005,
-            },
+                "density": 0.005
+            }
         ],
 
         "bosses": [
             {
-                "hull": "Core:minerBoss",
-                "items": "Core:nailGun Core:missileLauncher Core:mediumArmor Core:shield+Core:bigShield",
-                "money": 20,
-            },
-        ],
-    },
+                "hull": "core:minerBoss",
+                "items": "core:nailGun core:missileLauncher core:mediumArmor core:shield+core:bigShield",
+                "money": 20
+            }
+        ]
+    }
 }

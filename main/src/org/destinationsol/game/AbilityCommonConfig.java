@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.game.particle.EffectConfig;
@@ -36,8 +33,8 @@ public class AbilityCommonConfig {
     }
 
     public static AbilityCommonConfig load(JsonValue node, EffectTypes types, TextureManager textureManager,
-                                           GameColors cols, OggSoundManager soundManager, AssetHelper assetHelper) {
-        EffectConfig ec = EffectConfig.load(node.get("effect"), types, textureManager, cols, assetHelper);
+                                           GameColors cols, OggSoundManager soundManager) {
+        EffectConfig ec = EffectConfig.load(node.get("effect"), types, textureManager, cols);
         OggSound activatedSound = soundManager.getSound(node.getString("activatedSound"));
         return new AbilityCommonConfig(ec, activatedSound);
     }

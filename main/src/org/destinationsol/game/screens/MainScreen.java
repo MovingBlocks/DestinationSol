@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.screens;
 
 import com.badlogic.gdx.graphics.Color;
@@ -140,14 +139,14 @@ public class MainScreen implements SolUiScreen {
         myCompassTint = SolColor.col(1, 0);
 
         myLifeTp = new TextPlace(SolColor.W50);
-        myRepairsExcessTp = new TextPlace(SolColor.W);
+        myRepairsExcessTp = new TextPlace(SolColor.WHITE);
         myShieldLifeTp = new TextPlace(SolColor.W50);
         myG1AmmoTp = new TextPlace(SolColor.W50);
-        myG1AmmoExcessTp = new TextPlace(SolColor.W);
+        myG1AmmoExcessTp = new TextPlace(SolColor.WHITE);
         myG2AmmoTp = new TextPlace(SolColor.W50);
-        myG2AmmoExcessTp = new TextPlace(SolColor.W);
-        myChargesExcessTp = new TextPlace(SolColor.W);
-        myMoneyExcessTp = new TextPlace(SolColor.W);
+        myG2AmmoExcessTp = new TextPlace(SolColor.WHITE);
+        myChargesExcessTp = new TextPlace(SolColor.WHITE);
+        myMoneyExcessTp = new TextPlace(SolColor.WHITE);
     }
 
     public static Rectangle btn(float x, float y, boolean halfHeight) {
@@ -296,7 +295,7 @@ public class MainScreen implements SolUiScreen {
         }
         TextureAtlas.AtlasRegion tex = g.config.icon;
 
-        uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, col0, y, 0, SolColor.W);
+        uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, col0, y, 0, SolColor.WHITE);
         float curr;
         float max;
         if (g.reloadAwait > 0) {
@@ -315,13 +314,13 @@ public class MainScreen implements SolUiScreen {
             int clipCount = hero.getItemContainer().count(g.config.clipConf.example);
             drawIcons(uiDrawer, col2, y, clipCount, g.config.clipConf.icon, secondary ? myG2AmmoExcessTp : myG1AmmoExcessTp);
         } else {
-            uiDrawer.draw(infinityTex, ICON_SZ, ICON_SZ, 0, 0, col2, y, 0, SolColor.W);
+            uiDrawer.draw(infinityTex, ICON_SZ, ICON_SZ, 0, 0, col2, y, 0, SolColor.WHITE);
         }
         return true;
     }
 
     private void drawWait(UiDrawer uiDrawer, float x, float y) {
-        uiDrawer.draw(waitTex, ICON_SZ, ICON_SZ, ICON_SZ / 2, ICON_SZ / 2, x + BAR_SZ / 2, y + ICON_SZ / 2, 0, SolColor.W);
+        uiDrawer.draw(waitTex, ICON_SZ, ICON_SZ, ICON_SZ / 2, ICON_SZ / 2, x + BAR_SZ / 2, y + ICON_SZ / 2, 0, SolColor.WHITE);
     }
 
     private void drawBar(UiDrawer uiDrawer, float x, float y, float curr, float max, TextPlace tp) {
@@ -339,7 +338,7 @@ public class MainScreen implements SolUiScreen {
         int excess = count - MAX_ICON_COUNT;
         int iconCount = excess > 0 ? MAX_ICON_COUNT : count;
         for (int i = 0; i < iconCount; i++) {
-            uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, x, y, 0, SolColor.W);
+            uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, x, y, 0, SolColor.WHITE);
             x += ICON_SZ + H_PAD;
         }
         if (excess > 0) {
@@ -377,12 +376,12 @@ public class MainScreen implements SolUiScreen {
 
             Shield shield = hero.getShield();
             if (shield != null) {
-                uiDrawer.draw(shield.getIcon(game), ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.W);
+                uiDrawer.draw(shield.getIcon(game), ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.WHITE);
                 drawBar(uiDrawer, col1, row, shield.getLife(), shield.getMaxLife(), myShieldLifeTp);
                 row += ICON_SZ + V_PAD;
             }
 
-            uiDrawer.draw(lifeTex, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.W);
+            uiDrawer.draw(lifeTex, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.WHITE);
             drawBar(uiDrawer, col1, row, hero.getLife(), hero.getHull().config.getMaxLife(), myLifeTp);
             int repairKitCount = hero.getItemContainer().count(game.getItemMan().getRepairExample());
             ItemManager itemManager = game.getItemMan();
@@ -403,7 +402,7 @@ public class MainScreen implements SolUiScreen {
             if (abilityChargeEx != null) {
                 int abilityChargeCount = hero.getItemContainer().count(abilityChargeEx);
                 TextureAtlas.AtlasRegion icon = abilityChargeEx.getIcon(game);
-                uiDrawer.draw(icon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.W);
+                uiDrawer.draw(icon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.WHITE);
                 float chargePerc = 1 - SolMath.clamp(hero.getAbilityAwait() / ability.getConfig().getRechargeTime());
                 drawBar(uiDrawer, col1, row, chargePerc, 1, null);
                 if (chargePerc < 1) {
@@ -412,7 +411,7 @@ public class MainScreen implements SolUiScreen {
                 drawIcons(uiDrawer, col2, row, abilityChargeCount, icon, myChargesExcessTp);
                 row += ICON_SZ + V_PAD;
             }
-            uiDrawer.draw(game.getItemMan().moneyIcon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.W);
+            uiDrawer.draw(game.getItemMan().moneyIcon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.WHITE);
             myMoneyExcessTp.text = Integer.toString(Math.round(hero.getMoney()));
             myMoneyExcessTp.pos.set(col1, row + ICON_SZ / 2);
             //updateTextPlace(col1, row, (int) hero.getMoney() + "", myMoneyExcessTp);

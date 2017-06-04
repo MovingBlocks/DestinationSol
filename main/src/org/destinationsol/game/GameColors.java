@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColorUtil;
 import org.terasology.assets.ResourceUrn;
@@ -34,8 +33,8 @@ public class GameColors {
 
     private final Map<String, Color> colors = new HashMap<>();
 
-    public GameColors(AssetHelper assetHelper) {
-        Json json = assetHelper.getJson(new ResourceUrn("Core:colorsConfig"));
+    public GameColors() {
+        Json json = Assets.getJson(new ResourceUrn("core:colorsConfig"));
         JsonValue rootNode = json.getJsonValue();
 
         for (JsonValue colVal : rootNode) {

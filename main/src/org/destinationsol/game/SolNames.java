@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
-import org.destinationsol.files.FileManager;
 import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
@@ -29,13 +26,13 @@ public class SolNames {
     public final ArrayList<String> planets;
     public final ArrayList<String> systems;
 
-    public SolNames(AssetHelper assetHelper) {
-        planets = readList(new ResourceUrn("Core:planetNamesConfig"), assetHelper);
-        systems = readList(new ResourceUrn("Core:systemNamesConfig"), assetHelper);
+    public SolNames() {
+        planets = readList(new ResourceUrn("core:planetNamesConfig"));
+        systems = readList(new ResourceUrn("core:systemNamesConfig"));
     }
 
-    private ArrayList<String> readList(ResourceUrn fileName, AssetHelper assetHelper) {
-        Json json = assetHelper.getJson(fileName);
+    private ArrayList<String> readList(ResourceUrn fileName) {
+        Json json = Assets.getJson(fileName);
         JsonValue rootNode = json.getJsonValue();
 
         ArrayList<String> list = new ArrayList<>();

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
@@ -246,7 +245,7 @@ public class ObjectManager {
             Vector2 pos = o.getPosition();
             String ds = o.toDebugString();
             if (ds != null) {
-                drawer.drawString(ds, pos.x, pos.y, fontSize, true, SolColor.W);
+                drawer.drawString(ds, pos.x, pos.y, fontSize, true, SolColor.WHITE);
             }
         }
         for (FarObjData fod : myFarObjs) {
@@ -273,8 +272,8 @@ public class ObjectManager {
             FarObj fo = fod.fo;
             drawer.drawCircle(drawer.debugWhiteTex, fo.getPos(), fo.getRadius(), DebugCol.OBJ_FAR, lineWidth, vh);
         }
-        drawer.drawCircle(drawer.debugWhiteTex, cam.getPos(), myFarBeginDist, SolColor.W, lineWidth, vh);
-        drawer.drawCircle(drawer.debugWhiteTex, cam.getPos(), myFarEndDist, SolColor.W, lineWidth, vh);
+        drawer.drawCircle(drawer.debugWhiteTex, cam.getPos(), myFarBeginDist, SolColor.WHITE, lineWidth, vh);
+        drawer.drawCircle(drawer.debugWhiteTex, cam.getPos(), myFarEndDist, SolColor.WHITE, lineWidth, vh);
     }
 
     public List<SolObject> getObjs() {

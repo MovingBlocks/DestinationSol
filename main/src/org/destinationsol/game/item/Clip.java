@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.projectile.ProjectileConfig;
@@ -113,8 +112,8 @@ public class Clip implements SolItem {
             this.example = new Clip(this);
         }
 
-        public static void load(ResourceUrn clipName, ItemManager itemManager, SolItemTypes types, AssetHelper assetHelper) {
-            Json json = assetHelper.getJson(clipName);
+        public static void load(ResourceUrn clipName, ItemManager itemManager, SolItemTypes types) {
+            Json json = Assets.getJson(clipName);
             JsonValue rootNode = json.getJsonValue();
 
             String projectileName = rootNode.getString("projectile");
@@ -134,7 +133,7 @@ public class Clip implements SolItem {
                 price = rootNode.getInt("price");
                 displayName = rootNode.getString("displayName");
                 plural = rootNode.getString("plural");
-                icon = assetHelper.getAtlasRegion(new ResourceUrn(clipName + "Icon"));
+                icon = Assets.getAtlasRegion(new ResourceUrn(clipName + "Icon"));
             }
 
             json.dispose();

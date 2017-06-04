@@ -6,16 +6,16 @@
     "timeBetweenShots": 0,
     "reloadTime": 1,
     "price": 850,
-    "clipName": "emClip",
+    "clipName": "core:emClip",
     "gunLength": 0.24,
     "texLenPerc": 0.85,
     "displayName": "Heavy EM Gun",
     "lightOnShot": true,
     "shootSounds": [
-        "Core:emGun"
+        "core:emGun"
     ],
     "shootSoundPitch": 0.8,
     "reloadSounds": [
-        "Core:gunReload"
-    ],
+        "core:gunReload"
+    ]
 }

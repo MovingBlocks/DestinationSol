@@ -2,7 +2,7 @@
     "maxLife": 30,
     "price": 500,
     "displayName": "Big Shield",
-    "absorbSound": "Core:shield1Absorb1",
+    "absorbSound": "core:shield1Absorb1",
     "absorbSoundPitch": 0.9,
-    "regenSound": "Core:shield1Regen",
+    "regenSound": "core:shield1Regen"
 }

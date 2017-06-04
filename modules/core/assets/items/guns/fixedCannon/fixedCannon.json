@@ -6,15 +6,15 @@
     "timeBetweenShots": 0.44,
     "reloadTime": 3,
     "price": 900,
-    "clipName": "slugClip",
+    "clipName": "core:slugClip",
     "gunLength": 0.26,
     "displayName": "Heavy Cannon",
     "lightOnShot": true,
     "shootSounds": [
-        "Core:cannonShoot"
+        "core:cannonShoot"
     ],
     "shootSoundPitch": 0.8,
     "reloadSounds": [
-        "Core:fixedGunReload"
-    ],
+        "core:fixedGunReload"
+    ]
 }

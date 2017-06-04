@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 import org.terasology.assets.ResourceUrn;
 
@@ -40,17 +37,15 @@ public class CommonDrawer {
     private final SpriteBatch mySpriteBatch;
     private final BitmapFont myFont;
     private final float myOrigFontHeight;
-    private final TextureChecker myTextureChecker;
     private final GlyphLayout layout;
 
-    public CommonDrawer(AssetHelper assetHelper) {
-        myTextureChecker = new TextureChecker();
+    public CommonDrawer() {
         w = Gdx.graphics.getWidth();
         h = Gdx.graphics.getHeight();
         r = w / h;
         mySpriteBatch = new SpriteBatch();
 
-        myFont = assetHelper.getFont(new ResourceUrn("engine:main")).getBitmapFont();
+        myFont = Assets.getFont(new ResourceUrn("engine:main")).getBitmapFont();
 
         myOrigFontHeight = myFont.getXHeight();
 
@@ -66,7 +61,6 @@ public class CommonDrawer {
     }
 
     public void end() {
-        myTextureChecker.onEnd();
         mySpriteBatch.end();
     }
 
@@ -79,7 +73,6 @@ public class CommonDrawer {
             return;
         }
 
-        myTextureChecker.onString(myFont.getRegion().getTexture());
         myFont.setColor(col);
         myFont.getData().setScale(fontSize / myOrigFontHeight);
         // http://www.badlogicgames.com/wordpress/?p=3658
@@ -153,8 +146,7 @@ public class CommonDrawer {
         myFont.dispose();
     }
 
-    public SpriteBatch getBatch(Texture texture, TextureAtlas.AtlasRegion tex) {
-        myTextureChecker.onSprite(texture, tex);
+    public SpriteBatch getSpriteBatch() {
         return mySpriteBatch;
     }
 

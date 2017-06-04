@@ -6,15 +6,15 @@
     "timeBetweenShots": 0.47,
     "reloadTime": 2,
     "price": 350,
-    "clipName": "rocketClip",
+    "clipName": "core:rocketClip",
     "gunLength": 0.22,
     "texLenPerc": 0.87,
     "displayName": "Rocket Launcher",
     "shootSounds": [
-        "Core:rocketLauncherShoot"
+        "core:rocketLauncherShoot"
     ],
     "shootSoundPitch": 0.8,
     "reloadSounds": [
-        "Core:rocketLauncherReload"
-    ],
+        "core:rocketLauncherReload"
+    ]
 }

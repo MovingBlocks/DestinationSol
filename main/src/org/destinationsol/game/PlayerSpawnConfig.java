@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,32 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game;
 
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
-import org.destinationsol.files.FileManager;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
 import org.terasology.assets.ResourceUrn;
 
 public class PlayerSpawnConfig {
-    public final ShipConfig mainStation;
-    public final ShipConfig godShipConfig;
-    public final ShipConfig shipConfig;
+    final ShipConfig mainStation;
+    final ShipConfig godShipConfig;
+    final ShipConfig shipConfig;
 
-    public PlayerSpawnConfig(ShipConfig shipConfig, ShipConfig mainStation, ShipConfig godShipConfig) {
+    PlayerSpawnConfig(ShipConfig shipConfig, ShipConfig mainStation, ShipConfig godShipConfig) {
         this.shipConfig = shipConfig;
         this.mainStation = mainStation;
         this.godShipConfig = godShipConfig;
     }
 
-    public static PlayerSpawnConfig load(HullConfigManager hullConfigs, ItemManager itemManager, AssetHelper assetHelper) {
-        Json json = assetHelper.getJson(new ResourceUrn("Core:playerSpawnConfig"));
+    public static PlayerSpawnConfig load(HullConfigManager hullConfigs, ItemManager itemManager) {
+        Json json = Assets.getJson(new ResourceUrn("core:playerSpawnConfig"));
         JsonValue rootNode = json.getJsonValue();
 
         JsonValue playerNode = rootNode.get("player");

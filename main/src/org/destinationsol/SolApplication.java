@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol;
 
 import com.badlogic.gdx.Application;
@@ -22,7 +21,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DebugOptions;
@@ -37,7 +35,6 @@ import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.module.ModuleEnvironment;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -54,8 +51,7 @@ public class SolApplication implements ApplicationListener {
     private GameOptions myOptions;
     private CommonDrawer myCommonDrawer;
     private FPSLogger myFpsLogger;
-    private ModuleEnvironment moduleEnvironment;
-    private AssetHelper assetHelper;
+    private ModuleManager moduleManager;
     private OggMusicManager musicManager;
     private OggSoundManager soundManager;
     private String myFatalErrorMsg;
@@ -78,19 +74,21 @@ public class SolApplication implements ApplicationListener {
         }
         myOptions = new GameOptions(isMobile(), null);
 
-        moduleEnvironment = new ModuleManager().getEnvironment();
-        assetHelper = new AssetHelper(moduleEnvironment);
-        musicManager = new OggMusicManager(assetHelper);
+        moduleManager = new ModuleManager();
+        musicManager = new OggMusicManager();
+
+        logger.info("\n\n ------------------------------------------------------------ \n");
+        moduleManager.printAvailableModules();
 
         musicManager.playMenuMusic(myOptions);
 
-        soundManager = new OggSoundManager(assetHelper);
-        myTextureManager = new TextureManager(assetHelper);
-        myCommonDrawer = new CommonDrawer(assetHelper);
+        soundManager = new OggSoundManager();
+        myTextureManager = new TextureManager();
+        myCommonDrawer = new CommonDrawer();
         myUiDrawer = new UiDrawer(myTextureManager, myCommonDrawer);
         myInputMan = new SolInputManager(myTextureManager, soundManager);
         myLayouts = new SolLayouts(myUiDrawer.r);
-        myMenuScreens = new MenuScreens(assetHelper, myLayouts, isMobile(), myUiDrawer.r, myOptions);
+        myMenuScreens = new MenuScreens(myLayouts, isMobile(), myUiDrawer.r, myOptions);
 
         myInputMan.setScreen(this, myMenuScreens.main);
         myFpsLogger = new FPSLogger();
@@ -168,12 +166,12 @@ public class SolApplication implements ApplicationListener {
         }
         if (myFatalErrorMsg != null) {
             myUiDrawer.draw(myUiDrawer.whiteTex, myUiDrawer.r, .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
-            myUiDrawer.drawString(myFatalErrorMsg, myUiDrawer.r / 2, .5f, FontSize.MENU, true, SolColor.W);
-            myUiDrawer.drawString(myFatalErrorTrace, .2f * myUiDrawer.r, .6f, FontSize.DEBUG, false, SolColor.W);
+            myUiDrawer.drawString(myFatalErrorMsg, myUiDrawer.r / 2, .5f, FontSize.MENU, true, SolColor.WHITE);
+            myUiDrawer.drawString(myFatalErrorTrace, .2f * myUiDrawer.r, .6f, FontSize.DEBUG, false, SolColor.WHITE);
         }
         DebugCollector.draw(myUiDrawer);
         if (myGame == null) {
-            myUiDrawer.drawString("v" + Const.VERSION, 0.01f, .974f, FontSize.DEBUG, TextAlignment.LEFT, false, SolColor.W);
+            myUiDrawer.drawString("v" + Const.VERSION, 0.01f, .974f, FontSize.DEBUG, TextAlignment.LEFT, false, SolColor.WHITE);
         }
         myCommonDrawer.end();
     }
@@ -234,10 +232,6 @@ public class SolApplication implements ApplicationListener {
 
     public GameOptions getOptions() {
         return myOptions;
-    }
-
-    public AssetHelper getAssetHelper() {
-        return assetHelper;
     }
 
     public OggMusicManager getMusicManager() {

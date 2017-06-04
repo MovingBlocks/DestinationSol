@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,9 +46,9 @@ public class DraMan {
     public DraMan(GameDrawer drawer) {
         myDlVals = DraLevel.values();
         myDrawer = drawer;
-        myDras = new ArrayList<OrderedMap<Texture, List<Dra>>>();
+        myDras = new ArrayList<>();
         for (int i = 0, sz = myDlVals.length; i < sz; i++) {
-            myDras.add(new OrderedMap<Texture, List<Dra>>());
+            myDras.add(new OrderedMap<>());
         }
         myInCam = new HashSet<Dra>();
     }

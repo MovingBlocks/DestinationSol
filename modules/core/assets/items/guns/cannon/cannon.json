@@ -5,15 +5,15 @@
     "timeBetweenShots": 1.8,
     "reloadTime": 2.5,
     "price": 600,
-    "clipName": "slugClip",
+    "clipName": "core:slugClip",
     "gunLength": 0.24,
     "texLenPerc": 0.85,
     "displayName": "Cannon",
     "lightOnShot": true,
     "shootSounds": [
-        "Core:cannonShoot"
+        "core:cannonShoot"
     ],
     "reloadSounds": [
-        "Core:gunReload"
-    ],
+        "core:gunReload"
+    ]
 }

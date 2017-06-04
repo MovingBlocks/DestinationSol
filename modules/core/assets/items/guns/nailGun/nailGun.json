@@ -6,14 +6,14 @@
     "timeBetweenShots": 0.55,
     "reloadTime": 3,
     "price": 700,
-    "clipName": "nailClip",
+    "clipName": "core:nailClip",
     "gunLength": 0.26,
     "displayName": "Nail Gun",
     "shootSounds": [
-        "Core:nailGunShoot"
+        "core:nailGunShoot"
     ],
     "shootSoundPitch": 1.2,
     "reloadSounds": [
-        "Core:fixedGunReload"
-    ],
+        "core:fixedGunReload"
+    ]
 }

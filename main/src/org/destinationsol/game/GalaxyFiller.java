@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
@@ -239,7 +238,7 @@ public class GalaxyFiller {
             pos.set(m.getPos());
             pos.x += m.getRadius();
         } else if ("trader".equals(DebugOptions.SPAWN_PLACE)) {
-            HullConfig cfg = game.getHullConfigs().getConfig(new ResourceUrn("Core:bus"));
+            HullConfig cfg = game.getHullConfigs().getConfig(new ResourceUrn("core:bus"));
             for (FarObjData fod : game.getObjMan().getFarObjs()) {
                 FarObj fo = fod.fo;
                 if (!(fo instanceof FarShip)) {

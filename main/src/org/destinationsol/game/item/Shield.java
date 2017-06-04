@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.item;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.files.FileManager;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -175,8 +170,8 @@ public class Shield implements SolItem {
             this.desc = makeDesc();
         }
 
-        public static void load(ResourceUrn shieldName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types, AssetHelper assetHelper) {
-            Json json = assetHelper.getJson(shieldName);
+        public static void load(ResourceUrn shieldName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
+            Json json = Assets.getJson(shieldName);
             JsonValue rootNode = json.getJsonValue();
 
             int maxLife = rootNode.getInt("maxLife");
@@ -190,8 +185,8 @@ public class Shield implements SolItem {
 
             json.dispose();
 
-            TextureAtlas.AtlasRegion tex = assetHelper.getAtlasRegion(shieldName);
-            TextureAtlas.AtlasRegion icon = assetHelper.getAtlasRegion(new ResourceUrn(shieldName + "Icon"));
+            TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(shieldName);
+            TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(new ResourceUrn(shieldName + "Icon"));
 
             Config config = new Config(maxLife, displayName, price, absorbSound, regenSound, icon, tex, types.shield, shieldName.toString());
             itemManager.registerItem(config.example);

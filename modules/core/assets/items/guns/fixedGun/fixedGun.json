@@ -6,15 +6,15 @@
     "timeBetweenShots": 0.07,
     "reloadTime": 2,
     "price": 220,
-    "clipName": "bulletClip",
+    "clipName": "core:bulletClip",
     "gunLength": 0.18,
     "displayName": "Heavy Machine Gun",
     "lightOnShot": true,
     "shootSounds": [
-        "Core:fixedGunShoot0",
-        "Core:fixedGunShoot1"
+        "core:fixedGunShoot0",
+        "core:fixedGunShoot1"
     ],
     "reloadSounds": [
-        "Core:fixedGunReload"
-    ],
+        "core:fixedGunReload"
+    ]
 }

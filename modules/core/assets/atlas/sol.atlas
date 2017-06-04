@@ -202,217 +202,6 @@ farBgBig/nebulae2
   offset: 0, 0
   index: -1
 
-groundsDesert.png
-format: RGBA8888
-filter: MipMapNearestNearest,MipMapNearestNearest
-repeat: none
-grounds/desert/fd
-  rotate: false
-  xy: 0, 768
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 0
-grounds/desert/ff
-  rotate: false
-  xy: 0, 512
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 0
-grounds/desert/ff
-  rotate: false
-  xy: 256, 768
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 1
-grounds/desert/ff
-  rotate: false
-  xy: 0, 256
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 2
-grounds/desert/ud
-  rotate: false
-  xy: 0, 0
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 0
-grounds/desert/uf
-  rotate: false
-  xy: 256, 512
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 0
-grounds/desert/uu
-  rotate: false
-  xy: 512, 768
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 0
-grounds/desert/uu
-  rotate: false
-  xy: 768, 768
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 1
-
-groundsFrozen.png
-format: RGBA8888
-filter: MipMapNearestNearest,MipMapNearestNearest
-repeat: none
-grounds/frozen/fd
-  rotate: false
-  xy: 0, 768
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 0
-grounds/frozen/fd
-  rotate: false
-  xy: 0, 512
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 1
-grounds/frozen/ff
-  rotate: false
-  xy: 256, 768
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 0
-grounds/frozen/ff
-  rotate: false
-  xy: 0, 256
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 1
-grounds/frozen/ud
-  rotate: false
-  xy: 0, 0
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 0
-grounds/frozen/ud
-  rotate: false
-  xy: 256, 512
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 1
-grounds/frozen/uf
-  rotate: false
-  xy: 512, 768
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 0
-grounds/frozen/uf
-  rotate: false
-  xy: 768, 768
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 1
-grounds/frozen/uu
-  rotate: false
-  xy: 256, 256
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 0
-grounds/frozen/uu
-  rotate: false
-  xy: 256, 0
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 1
-
-groundsRocky.png
-format: RGBA8888
-filter: MipMapNearestNearest,MipMapNearestNearest
-repeat: none
-grounds/rocky/fd
-  rotate: false
-  xy: 0, 768
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 0
-grounds/rocky/fd
-  rotate: false
-  xy: 0, 512
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 1
-grounds/rocky/ff
-  rotate: false
-  xy: 256, 768
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 0
-grounds/rocky/ff
-  rotate: false
-  xy: 0, 256
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 1
-grounds/rocky/ud
-  rotate: false
-  xy: 0, 0
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 0
-grounds/rocky/ud
-  rotate: false
-  xy: 256, 512
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 1
-grounds/rocky/uf
-  rotate: false
-  xy: 512, 768
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 0
-grounds/rocky/uf
-  rotate: false
-  xy: 768, 768
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 1
-grounds/rocky/uu
-  rotate: false
-  xy: 256, 256
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 0
-grounds/rocky/uu
-  rotate: false
-  xy: 256, 0
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 1
-
 mapObjects.png
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
@@ -513,112 +302,112 @@ mazeTiles.png
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
-mazeTiles/junk/borderBg
+mazeTiles/core:junk/borderBg
   rotate: false
   xy: 0, 768
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 0
-mazeTiles/junk/borderBg
+mazeTiles/core:junk/borderBg
   rotate: false
   xy: 0, 512
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 1
-mazeTiles/junk/innerBg
+mazeTiles/core:junk/innerBg
   rotate: false
   xy: 256, 768
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 0
-mazeTiles/junk/innerBg
+mazeTiles/core:junk/innerBg
   rotate: false
   xy: 0, 256
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 1
-mazeTiles/junk/pass
+mazeTiles/core:junk/pass
   rotate: false
   xy: 0, 0
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 0
-mazeTiles/junk/pass
+mazeTiles/core:junk/pass
   rotate: false
   xy: 256, 512
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 1
-mazeTiles/junk/pass
+mazeTiles/core:junk/pass
   rotate: false
   xy: 512, 768
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 2
-mazeTiles/junk/pass
+mazeTiles/core:junk/pass
   rotate: false
   xy: 768, 768
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 3
-mazeTiles/junk/pass
+mazeTiles/core:junk/pass
   rotate: false
   xy: 256, 256
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 4
-mazeTiles/junk/wall
+mazeTiles/core:junk/wall
   rotate: false
   xy: 256, 0
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 0
-mazeTiles/junk/wall
+mazeTiles/core:junk/wall
   rotate: false
   xy: 512, 512
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 1
-mazeTiles/junk/wall
+mazeTiles/core:junk/wall
   rotate: false
   xy: 768, 512
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 2
-mazeTiles/junk/wall
+mazeTiles/core:junk/wall
   rotate: false
   xy: 512, 256
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 3
-mazeTiles/junk/wall
+mazeTiles/core:junk/wall
   rotate: false
   xy: 512, 0
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 4
-mazeTiles/junk/wall
+mazeTiles/core:junk/wall
   rotate: false
   xy: 768, 256
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 5
-mazeTiles/junk/wall
+mazeTiles/core:junk/wall
   rotate: false
   xy: 768, 0
   size: 256, 256

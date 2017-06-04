@@ -1,58 +1,58 @@
 {
     "smoke": {
-        "effectFile": "smoke",
+        "effectFile": "core:smoke",
         "tex": "smoke",
         "floatsUp": true,
-        "tint": "smoke",
+        "tint": "smoke"
     },
 
     "fire": {
-        "effectFile": "fire",
+        "effectFile": "core:fire",
         "tex": "fire",
         "floatsUp": true,
-        "tint": "fire",
+        "tint": "fire"
     },
 
     "electricity": {
-        "effectFile": "electricity",
+        "effectFile": "core:electricity",
         "tex": "electricity",
-        "tint": "white",
+        "tint": "white"
     },
 
     "shipExplosionSmoke": {
-        "effectFile": "explSmoke",
+        "effectFile": "core:explSmoke",
         "tex": "smoke",
         "floatsUp": true,
-        "tint": "smoke",
+        "tint": "smoke"
     },
 
     "shipExplosionFire": {
-        "effectFile": "explFire",
+        "effectFile": "core:explFire",
         "tex": "fire",
-        "tint": "fire",
+        "tint": "fire"
     },
 
     "asteroidDust": {
-        "effectFile": "explSmoke",
+        "effectFile": "core:explSmoke",
         "tex": "fire",
-        "tint": "dust",
+        "tint": "dust"
     },
 
     "forceBeacon": {
-        "effectFile": "forceBeacon",
+        "effectFile": "core:forceBeacon",
         "tex": "forceBeacon",
-        "tint": "white",
+        "tint": "white"
     },
 
     "starPortFlow": {
-        "effectFile": "starPortFlow",
+        "effectFile": "core:starPortFlow",
         "tex": "forceTail",
-        "tint": "white",
+        "tint": "white"
     },
 
     "transcendentWork": {
-        "effectFile": "transcendentWork",
+        "effectFile": "core:transcendentWork",
         "tex": "forceTail",
-        "tint": "white",
-    },
+        "tint": "white"
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,7 +21,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import org.destinationsol.Const;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.Bound;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -230,8 +228,8 @@ public class StarPort implements SolObject {
         public static final float FLOW_DIST = .26f * SIZE;
         private final CollisionMeshLoader myLoader;
 
-        public Builder(AssetHelper assetHelper) {
-            myLoader = new CollisionMeshLoader(new ResourceUrn("Core:misc"), assetHelper);
+        public Builder() {
+            myLoader = new CollisionMeshLoader(new ResourceUrn("core:misc"));
         }
 
         public StarPort build(SolGame game, Planet from, Planet to, boolean secondary) {
@@ -361,7 +359,7 @@ public class StarPort implements SolObject {
             myDestPos = new Vector2();
 
             RectSprite s = new RectSprite(game.getTexMan().getTexture("smallGameObjects/transcendent"), TRAN_SZ, .3f,
-                                            0, new Vector2(), DraLevel.PROJECTILES, 0, 0, SolColor.W, false);
+                                            0, new Vector2(), DraLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
 
             myDras = new ArrayList<Dra>();
             myDras.add(s);

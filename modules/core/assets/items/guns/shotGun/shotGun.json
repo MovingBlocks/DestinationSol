@@ -5,15 +5,15 @@
     "timeBetweenShots": 1.2,
     "reloadTime": 3,
     "price": 250,
-    "clipName": "shellClip",
+    "clipName": "core:shellClip",
     "gunLength": 0.18,
     "texLenPerc": 0.9,
     "displayName": "Pirate Shotgun",
     "lightOnShot": true,
     "shootSounds": [
-        "Core:shotGunShoot"
+        "core:shotGunShoot"
     ],
     "reloadSounds": [
-        "Core:gunReload"
-    ],
+        "core:gunReload"
+    ]
 }

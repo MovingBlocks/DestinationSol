@@ -13,16 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.ui.SolInputManager;
@@ -48,7 +46,7 @@ public class MainScreen implements SolUiScreen {
     private final SolUiControl newGameControl;
     private final SolUiControl creditsControl;
 
-    MainScreen(AssetHelper assetHelper, MenuLayout menuLayout, boolean isMobile, float resolutionRatio, GameOptions gameOptions) {
+    MainScreen(MenuLayout menuLayout, boolean isMobile, float resolutionRatio, GameOptions gameOptions) {
         this.isMobile = isMobile;
         this.gameOptions = gameOptions;
 
@@ -72,8 +70,8 @@ public class MainScreen implements SolUiScreen {
         creditsControl.setDisplayName("Credits");
         controls.add(creditsControl);
 
-        bgTex = assetHelper.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
-        logoTex = assetHelper.getAtlasRegion(new ResourceUrn("engine:mainMenuLogo"), Texture.TextureFilter.Linear);
+        bgTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"));
+        logoTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuLogo"));
     }
 
     public List<SolUiControl> getControls() {
@@ -127,7 +125,7 @@ public class MainScreen implements SolUiScreen {
 
     @Override
     public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.W);
+        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     @Override
@@ -135,7 +133,7 @@ public class MainScreen implements SolUiScreen {
         final float sy = .35f;
         final float sx = sy * 400 / 218;
         if (!DebugOptions.PRINT_BALANCE) {
-            uiDrawer.draw(logoTex, sx, sy, sx / 2, sy / 2, uiDrawer.r / 2, 0.1f + sy / 2, 0, SolColor.W);
+            uiDrawer.draw(logoTex, sx, sy, sx / 2, sy / 2, uiDrawer.r / 2, 0.1f + sy / 2, 0, SolColor.WHITE);
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.GameColors;
-import org.destinationsol.game.particle.EffectType;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.projectile.ProjectileConfigs;
 import org.destinationsol.game.sound.OggSoundManager;
@@ -42,14 +39,12 @@ public class ItemManager {
     private final HashMap<ResourceUrn, Engine.Config> engineConfigs = new HashMap<>();
     private final SolItemTypes myTypes;
     private final RepairItem myRepairExample;
-    private final AssetHelper assetHelper;
     private final OggSoundManager soundManager;
     private final TextureManager textureManager;
     private final EffectTypes effectTypes;
     private final GameColors gameColors;
 
-    public ItemManager(TextureManager textureManager, OggSoundManager soundManager, EffectTypes effectTypes, GameColors gameColors, AssetHelper assetHelper) {
-        this.assetHelper = assetHelper;
+    public ItemManager(TextureManager textureManager, OggSoundManager soundManager, EffectTypes effectTypes, GameColors gameColors) {
         this.soundManager = soundManager;
         this.textureManager = textureManager;
         this.effectTypes = effectTypes;
@@ -60,8 +55,8 @@ public class ItemManager {
         bigMoneyIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "bigMoney");
         repairIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "repairItem");
 
-        myTypes = new SolItemTypes(soundManager, gameColors, assetHelper);
-        projConfigs = new ProjectileConfigs(textureManager, soundManager, effectTypes, gameColors, assetHelper);
+        myTypes = new SolItemTypes(soundManager, gameColors);
+        projConfigs = new ProjectileConfigs(textureManager, soundManager, effectTypes, gameColors);
 
         myRepairExample = new RepairItem(myTypes.repair);
         myM.put(myRepairExample.getCode(), myRepairExample);
@@ -142,15 +137,15 @@ public class ItemManager {
                 if (example == null) {
                     // TODO: Temporary hacky way!
                     if (itemName.endsWith("Charge")) {
-                        AbilityCharge.Config.load(new ResourceUrn(itemName), this, myTypes, assetHelper);
+                        AbilityCharge.Config.load(new ResourceUrn(itemName), this, myTypes);
                     } else if (itemName.endsWith("Armor")) {
-                        Armor.Config.load(new ResourceUrn(itemName), this, soundManager, myTypes, assetHelper);
+                        Armor.Config.load(new ResourceUrn(itemName), this, soundManager, myTypes);
                     } else if (itemName.endsWith("Clip")) {
-                        Clip.Config.load(new ResourceUrn(itemName), this, myTypes, assetHelper);
+                        Clip.Config.load(new ResourceUrn(itemName), this, myTypes);
                     } else if (itemName.endsWith("Shield") || itemName.endsWith("shield")) {
-                        Shield.Config.load(new ResourceUrn(itemName), this, soundManager, myTypes, assetHelper);
+                        Shield.Config.load(new ResourceUrn(itemName), this, soundManager, myTypes);
                     } else {
-                        Gun.Config.load(new ResourceUrn(itemName), this, soundManager, myTypes, assetHelper);
+                        Gun.Config.load(new ResourceUrn(itemName), this, soundManager, myTypes);
                     }
 
                     example = getExample(itemName);
@@ -182,7 +177,7 @@ public class ItemManager {
     }
 
     public Engine.Config getEngineConfig(ResourceUrn engineName) {
-        return engineConfigs.computeIfAbsent(engineName, engineConfig -> Engine.Config.load(engineConfig, soundManager, effectTypes, textureManager, gameColors, this, assetHelper));
+        return engineConfigs.computeIfAbsent(engineName, engineConfig -> Engine.Config.load(engineConfig, soundManager, effectTypes, textureManager, gameColors));
     }
 
     public SolItem random() {

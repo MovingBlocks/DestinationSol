@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.particle;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.terasology.assets.ResourceUrn;
 
 public class EffectType {
@@ -25,8 +24,8 @@ public class EffectType {
     public final boolean additive;
     private final ParticleEmitter myEmitter;
 
-    public EffectType(ResourceUrn effectName, AssetHelper assetHelper) {
-        myEmitter = new ParticleEmitter(assetHelper.getEmitter(effectName).getParticleEmitter());
+    public EffectType(ResourceUrn effectName) {
+        myEmitter = new ParticleEmitter(Assets.getEmitter(effectName).getParticleEmitter());
         continuous = myEmitter.isContinuous();
         myEmitter.setContinuous(false);
         additive = myEmitter.isAdditive();

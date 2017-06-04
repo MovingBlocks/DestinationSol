@@ -5,14 +5,14 @@
     "timeBetweenShots": 0.9,
     "reloadTime": 3,
     "price": 50,
-    "clipName": "blasterClip",
+    "clipName": "core:blasterClip",
     "gunLength": 0.14,
     "displayName": "Blaster",
     "lightOnShot": true,
     "shootSounds": [
-        "Core:blasterShoot"
+        "core:blasterShoot"
     ],
     "reloadSounds": [
-        "Core:gunReload"
-    ],
+        "core:gunReload"
+    ]
 }

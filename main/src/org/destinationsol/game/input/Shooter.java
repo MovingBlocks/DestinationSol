@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@ package org.destinationsol.game.input;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.gun.GunMount;
+import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.projectile.ProjectileConfig;
 import org.destinationsol.game.ship.SolShip;
 

@@ -5,15 +5,15 @@
     "timeBetweenShots": 0.26,
     "reloadTime": 2,
     "price": 120,
-    "clipName": "bulletClip",
+    "clipName": "core:bulletClip",
     "gunLength": 0.16,
     "texLenPerc": 0.7,
     "displayName": "Machine Gun",
     "lightOnShot": true,
     "shootSounds": [
-        "Core:gunShoot0"
+        "core:gunShoot0"
     ],
     "reloadSounds": [
-        "Core:gunReload"
-    ],
+        "core:gunReload"
+    ]
 }

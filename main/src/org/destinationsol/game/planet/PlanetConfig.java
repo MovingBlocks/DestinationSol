@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.planet;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.ShipConfig;
@@ -73,7 +70,7 @@ public class PlanetConfig {
     }
 
     static PlanetConfig load(TextureManager textureManager, HullConfigManager hullConfigs, JsonValue rootNode,
-                                GameColors cols, ItemManager itemManager, AssetHelper assetHelper) {
+                                GameColors cols, ItemManager itemManager) {
         float minGrav = rootNode.getFloat("minGrav");
         float maxGrav = rootNode.getFloat("maxGrav");
         List<DecoConfig> deco = DecoConfig.load(rootNode, textureManager);
@@ -84,7 +81,7 @@ public class PlanetConfig {
         String cloudPackName = rootNode.getString("cloudTexs");
         ArrayList<TextureAtlas.AtlasRegion> cloudTexs = textureManager.getPack(cloudPackName);
         String groundFolder = rootNode.getString("groundTexs");
-        PlanetTiles planetTiles = new PlanetTiles(textureManager, groundFolder, assetHelper);
+        PlanetTiles planetTiles = new PlanetTiles(textureManager, groundFolder);
         SkyConfig skyConfig = SkyConfig.load(rootNode.get("sky"), cols);
         int rowCount = rootNode.getInt("rowCount");
         boolean smoothLandscape = rootNode.getBoolean("smoothLandscape", false);

@@ -2,7 +2,7 @@
     "maxLife": 20,
     "price": 200,
     "displayName": "Shield",
-    "absorbSound": "Core:shield1Absorb1",
+    "absorbSound": "core:shield1Absorb1",
     "absorbSoundPitch": 1,
-    "regenSound": "Core:shield1Regen",
+    "regenSound": "core:shield1Regen"
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.math.Vector2;
@@ -34,7 +33,7 @@ import java.util.List;
 public class TileObjBuilder {
     public TileObject build(SolGame game, float sz, float toPlanetRelAngle, float dist, Tile tile, Planet planet) {
         float spriteSz = sz * 2;
-        RectSprite sprite = new RectSprite(tile.tex, spriteSz, 0, 0, new Vector2(), DraLevel.GROUND, 0, 0f, SolColor.W, false);
+        RectSprite sprite = new RectSprite(tile.tex, spriteSz, 0, 0, new Vector2(), DraLevel.GROUND, 0, 0f, SolColor.WHITE, false);
         Body body = null;
         if (tile.points.size() > 0) {
             body = buildBody(game, toPlanetRelAngle, dist, tile, planet, spriteSz);

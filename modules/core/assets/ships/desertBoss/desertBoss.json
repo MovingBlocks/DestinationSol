@@ -9,7 +9,7 @@
     },
     "e1Pos": "0 0.25",
     "e2Pos": "0 0.75",
-    "engine": "desertBigEngine",
+    "engine": "core:desertBigEngine",
     "gunSlots": [
         {
             "position": "0.37 0.18",

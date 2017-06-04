@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -41,7 +40,7 @@ public class PlanetCoreSingleton {
         float gh = p.getMinGroundHeight();
         if (toCamLen < gh + vd) {
             float sz = gh;
-            drawer.draw(myTex, sz * 2, sz * 2, sz, sz, pPos.x, pPos.y, p.getAngle(), SolColor.W);
+            drawer.draw(myTex, sz * 2, sz * 2, sz, sz, pPos.x, pPos.y, p.getAngle(), SolColor.WHITE);
         }
     }
 }

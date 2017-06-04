@@ -5,16 +5,16 @@
     "timeBetweenShots": 1.1,
     "reloadTime": 3,
     "price": 30,
-    "clipName": "plasmaClip",
+    "clipName": "core:plasmaClip",
     "gunLength": 0.14,
     "displayName": "Pirate Plasma Gun",
     "lightOnShot": true,
     "descBase0": "",
     "shootSounds": [
-        "Core:blasterShoot"
+        "core:blasterShoot"
     ],
     "shootSoundPitch": 1.2,
     "reloadSounds": [
-        "Core:gunReload"
-    ],
+        "core:gunReload"
+    ]
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.sound;
 
 import com.badlogic.gdx.math.Vector2;
@@ -50,27 +49,27 @@ public class SpecialSounds {
 
     public SpecialSounds(OggSoundManager soundManager) {
         // OggSound
-        metalColl = soundManager.getSound("Core:metalCollision");
-        metalEnergyHit = soundManager.getSound("Core:empty");
-        rockColl = soundManager.getSound("Core:rockCollision");
-        rockEnergyHit = soundManager.getSound("Core:empty");
-        asteroidCrack = soundManager.getSound("Core:asteroidCrack");
-        shipExplosion = soundManager.getSound("Core:shipExplosion");
-        forceBeaconWork = soundManager.getSound("Core:forceBeaconWork");
-        doorMove = soundManager.getSound("Core:controlEnabled");
-        abilityRecharged = soundManager.getSound("Core:abilityRecharged");
-        abilityRefused = soundManager.getSound("Core:abilityRefused");
-        controlDisabled = soundManager.getSound("Core:controlDisabled");
-        controlEnabled = soundManager.getSound("Core:controlEnabled");
-        lootThrow = soundManager.getSound("Core:rocketLauncherShoot");
-        transcendentCreated = soundManager.getSound("Core:teleport");
-        transcendentFinished = soundManager.getSound("Core:teleport");
+        metalColl = soundManager.getSound("core:metalCollision");
+        metalEnergyHit = soundManager.getSound("core:empty");
+        rockColl = soundManager.getSound("core:rockCollision");
+        rockEnergyHit = soundManager.getSound("core:empty");
+        asteroidCrack = soundManager.getSound("core:asteroidCrack");
+        shipExplosion = soundManager.getSound("core:shipExplosion");
+        forceBeaconWork = soundManager.getSound("core:forceBeaconWork");
+        doorMove = soundManager.getSound("core:controlEnabled");
+        abilityRecharged = soundManager.getSound("core:abilityRecharged");
+        abilityRefused = soundManager.getSound("core:abilityRefused");
+        controlDisabled = soundManager.getSound("core:controlDisabled");
+        controlEnabled = soundManager.getSound("core:controlEnabled");
+        lootThrow = soundManager.getSound("core:rocketLauncherShoot");
+        transcendentCreated = soundManager.getSound("core:teleport");
+        transcendentFinished = soundManager.getSound("core:teleport");
 
         // OggSoundSet
-        metalBulletHit = new OggSoundSet(soundManager, Arrays.asList("Core:metalBulletHit0", "Core:metalBulletHit1", "Core:metalBulletHit2"), 1.1f);
-        rockBulletHit = new OggSoundSet(soundManager, Arrays.asList("Core:rockBulletHit0", "Core:rockBulletHit1"));
-        burning = new OggSoundSet(soundManager, Arrays.asList("Core:burning2", "Core:burning3", "Core:burning4"));
-        transcendentMove = new OggSoundSet(soundManager, Arrays.asList("Core:transcendentMove", "Core:transcendentMove2", "Core:transcendentMove3", "Core:transcendentMove4"));
+        metalBulletHit = new OggSoundSet(soundManager, Arrays.asList("core:metalBulletHit0", "core:metalBulletHit1", "core:metalBulletHit2"), 1.1f);
+        rockBulletHit = new OggSoundSet(soundManager, Arrays.asList("core:rockBulletHit0", "core:rockBulletHit1"));
+        burning = new OggSoundSet(soundManager, Arrays.asList("core:burning2", "core:burning3", "core:burning4"));
+        transcendentMove = new OggSoundSet(soundManager, Arrays.asList("core:transcendentMove", "core:transcendentMove2", "core:transcendentMove3", "core:transcendentMove4"));
     }
 
     public PlayableSound hitSound(boolean forMetal, DmgType dmgType) {

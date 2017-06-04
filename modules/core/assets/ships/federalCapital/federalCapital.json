@@ -11,7 +11,7 @@
     "e1Pos": "0.08 0.33",
     "e2Pos": "0.08 0.67",
     "displayName": "Federal Capital Ship",
-    "engine": "pirateBigEngine",
+    "engine": "core:pirateBigEngine",
     "gunSlots": [
         {
             "position": "0.806 0.425",

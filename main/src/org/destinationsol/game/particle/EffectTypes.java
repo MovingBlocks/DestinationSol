@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.particle;
 
-import org.destinationsol.assets.AssetHelper;
 import org.terasology.assets.ResourceUrn;
 
 import java.util.HashMap;
@@ -28,7 +26,7 @@ public class EffectTypes {
         myTypes = new HashMap<>();
     }
 
-    public EffectType forName(ResourceUrn effectName, AssetHelper assetHelper) {
-        return myTypes.computeIfAbsent(effectName, effect -> new EffectType(effect, assetHelper));
+    public EffectType forName(ResourceUrn effectName) {
+        return myTypes.computeIfAbsent(effectName, effect -> new EffectType(effect));
     }
 }

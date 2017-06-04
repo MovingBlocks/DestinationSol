@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -25,11 +24,10 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.Const;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.files.FileManager;
 import org.destinationsol.game.dra.Dra;
 import org.destinationsol.game.dra.DraLevel;
 import org.destinationsol.game.dra.RectSprite;
@@ -59,10 +57,9 @@ public class CollisionMeshLoader {
      * Creates a Model from the given Hull (Collision Mesh), which can be created using Box2D.
      *
      * @param fileName A ResourceUrn pointing to the collision mesh to be loaded
-     * @param assetHelper The AssetHelper to use for obtaining the file
      */
-    public CollisionMeshLoader(ResourceUrn fileName, AssetHelper assetHelper) {
-        Json json = assetHelper.getJson(fileName);
+    public CollisionMeshLoader(ResourceUrn fileName) {
+        Json json = Assets.getJson(fileName);
 
         readModel(json.getJsonValue());
 
@@ -277,7 +274,7 @@ public class CollisionMeshLoader {
         if (tex == null) {
             tex = hullConfig.getTexture();
         }
-        RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.W, false);
+        RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.WHITE, false);
         dras.add(s);
         return body;
     }
@@ -318,7 +315,7 @@ public class CollisionMeshLoader {
             String imgName = texDirName + "/" + texName;
             tex = game.getTexMan().getTexture(imgName);
         }
-        RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.W, false);
+        RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.WHITE, false);
         dras.add(s);
         return body;
     }

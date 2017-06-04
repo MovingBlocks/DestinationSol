@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.DebugOptions;
@@ -34,14 +33,13 @@ public class PlanetTiles {
 
     private final Map<SurfaceDirection, Map<SurfaceDirection, List<Tile>>> myGroundTiles;
 
-    public PlanetTiles(TextureManager textureManager, String groundName, AssetHelper assetHelper) {
+    public PlanetTiles(TextureManager textureManager, String groundName) {
         myGroundTiles = new HashMap<>();
-        loadGround(textureManager, groundName, assetHelper);
+        loadGround(groundName);
     }
 
-    private void loadGround(TextureManager textureManager, String groundName, AssetHelper assetHelper) {
-        // TODO : Remove the explicit core from here!
-        CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:" + groundName + "Ground"), assetHelper);
+    private void loadGround(String groundName) {
+        CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn(groundName));
         CollisionMeshLoader.Model paths = collisionMeshLoader.getInternalModel();
 
         for (SurfaceDirection from : SurfaceDirection.values()) {
@@ -55,21 +53,23 @@ public class PlanetTiles {
                 String fromL = from.getLetter();
                 String toL = to.getLetter();
                 String tileDescName = inverted ? toL + fromL : fromL + toL;
-                ArrayList<TextureAtlas.AtlasRegion> texs = textureManager.getPack("grounds/" + groundName + "/" + tileDescName);
-                ArrayList<Tile> tileVariants = buildTiles(textureManager, paths, inverted, tileDescName, from, to, texs);
+
+                String tileVariant = groundName + "_" + tileDescName;
+                List<TextureAtlas.AtlasRegion> texs = Assets.listTexturesStartingWith(tileVariant);
+                ArrayList<Tile> tileVariants = buildTiles(paths, inverted, tileDescName, from, to, texs);
                 fromMap.put(to, tileVariants);
             }
         }
     }
 
-    private ArrayList<Tile> buildTiles(TextureManager textureManager, CollisionMeshLoader.Model paths, boolean inverted, String tileDescName,
-                                       SurfaceDirection from, SurfaceDirection to, ArrayList<TextureAtlas.AtlasRegion> texs) {
+    private ArrayList<Tile> buildTiles(CollisionMeshLoader.Model paths, boolean inverted, String tileDescName,
+                                       SurfaceDirection from, SurfaceDirection to, List<TextureAtlas.AtlasRegion> texs) {
         ArrayList<Tile> tileVariants = new ArrayList<>();
         for (TextureAtlas.AtlasRegion tex : texs) {
             if (inverted) {
-                tex = textureManager.getFlipped(tex);
+                tex.flip(true, false);
             }
-            String tileName = tileDescName + "_" + tex.index + ".png";
+            String tileName = tileDescName + "_" + tex.name.substring(tex.name.lastIndexOf('_') + 1) + ".png";
             List<Vector2> points = new ArrayList<>();
             List<Vector2> rawPoints;
             CollisionMeshLoader.RigidBodyModel tilePaths = paths == null ? null : paths.rigidBodies.get(tileName);
@@ -95,24 +95,31 @@ public class PlanetTiles {
 
     private List<Vector2> getDefaultRawPoints(SurfaceDirection from, SurfaceDirection to, String tileName) {
         ArrayList<Vector2> res = new ArrayList<>();
+
         if (from == SurfaceDirection.UP && to == SurfaceDirection.UP) {
             return res;
         }
+
         DebugOptions.MISSING_PHYSICS_ACTION.handle("no path found for " + tileName);
+
         res.add(new Vector2(.25f, .75f));
+
         if (from == SurfaceDirection.FWD) {
             res.add(new Vector2(.25f, .5f));
         } else {
             res.add(new Vector2(.25f, .25f));
             res.add(new Vector2(.5f, .25f));
         }
+
         res.add(new Vector2(.5f, .5f));
+
         if (to == SurfaceDirection.FWD) {
             res.add(new Vector2(.75f, .5f));
             res.add(new Vector2(.75f, .75f));
         } else {
             res.add(new Vector2(.5f, .75f));
         }
+
         return res;
     }
 

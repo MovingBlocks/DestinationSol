@@ -6,14 +6,14 @@
     "timeBetweenShots": 0,
     "reloadTime": 2.7,
     "price": 500,
-    "clipName": "missileClip",
+    "clipName": "core:missileClip",
     "gunLength": 0.2,
     "displayName": "Missile Pad",
     "shootSounds": [
-        "Core:rocketLauncherShoot"
+        "core:rocketLauncherShoot"
     ],
     "shootSoundPitch": 0.5,
     "reloadSounds": [
-        "Core:rocketLauncherReload"
-    ],
+        "core:rocketLauncherReload"
+    ]
 }

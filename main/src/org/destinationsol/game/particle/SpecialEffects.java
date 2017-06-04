@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.particle;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
-import org.destinationsol.files.FileManager;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.dra.DraLevel;
@@ -44,19 +40,19 @@ public class SpecialEffects {
     private final EffectConfig myAsteroidDust;
     private final EffectConfig myForceBeacon;
 
-    public SpecialEffects(EffectTypes effectTypes, TextureManager textureManager, GameColors cols, AssetHelper assetHelper) {
-        Json json = assetHelper.getJson(new ResourceUrn("Core:specialEffectsConfig"));
+    public SpecialEffects(EffectTypes effectTypes, TextureManager textureManager, GameColors cols) {
+        Json json = Assets.getJson(new ResourceUrn("core:specialEffectsConfig"));
         JsonValue rootNode = json.getJsonValue();
 
-        mySmoke = EffectConfig.load(rootNode.get("smoke"), effectTypes, textureManager, cols, assetHelper);
-        myFire = EffectConfig.load(rootNode.get("fire"), effectTypes, textureManager, cols, assetHelper);
-        myElectricity = EffectConfig.load(rootNode.get("electricity"), effectTypes, textureManager, cols, assetHelper);
-        myShipExplSmoke = EffectConfig.load(rootNode.get("shipExplosionSmoke"), effectTypes, textureManager, cols, assetHelper);
-        myShipExplFire = EffectConfig.load(rootNode.get("shipExplosionFire"), effectTypes, textureManager, cols, assetHelper);
-        myAsteroidDust = EffectConfig.load(rootNode.get("asteroidDust"), effectTypes, textureManager, cols, assetHelper);
-        myForceBeacon = EffectConfig.load(rootNode.get("forceBeacon"), effectTypes, textureManager, cols, assetHelper);
-        starPortFlow = EffectConfig.load(rootNode.get("starPortFlow"), effectTypes, textureManager, cols, assetHelper);
-        transcendentWork = EffectConfig.load(rootNode.get("transcendentWork"), effectTypes, textureManager, cols, assetHelper);
+        mySmoke = EffectConfig.load(rootNode.get("smoke"), effectTypes, textureManager, cols);
+        myFire = EffectConfig.load(rootNode.get("fire"), effectTypes, textureManager, cols);
+        myElectricity = EffectConfig.load(rootNode.get("electricity"), effectTypes, textureManager, cols);
+        myShipExplSmoke = EffectConfig.load(rootNode.get("shipExplosionSmoke"), effectTypes, textureManager, cols);
+        myShipExplFire = EffectConfig.load(rootNode.get("shipExplosionFire"), effectTypes, textureManager, cols);
+        myAsteroidDust = EffectConfig.load(rootNode.get("asteroidDust"), effectTypes, textureManager, cols);
+        myForceBeacon = EffectConfig.load(rootNode.get("forceBeacon"), effectTypes, textureManager, cols);
+        starPortFlow = EffectConfig.load(rootNode.get("starPortFlow"), effectTypes, textureManager, cols);
+        transcendentWork = EffectConfig.load(rootNode.get("transcendentWork"), effectTypes, textureManager, cols);
 
         json.dispose();
     }

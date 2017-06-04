@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
@@ -44,7 +41,7 @@ public class OptionsScreen implements SolUiScreen {
     private final SolUiControl soundVolumeControl;
     private final SolUiControl musicVolumeControl;
 
-    OptionsScreen(AssetHelper assetHelper, MenuLayout menuLayout, GameOptions gameOptions) {
+    OptionsScreen(MenuLayout menuLayout, GameOptions gameOptions) {
         resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
         resolutionControl.setDisplayName("Resolution");
         controls.add(resolutionControl);
@@ -69,7 +66,7 @@ public class OptionsScreen implements SolUiScreen {
         musicVolumeControl.setDisplayName("Music Volume");
         controls.add(musicVolumeControl);
 
-        bgTex = assetHelper.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
+        bgTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"));
     }
 
     @Override
@@ -131,6 +128,6 @@ public class OptionsScreen implements SolUiScreen {
 
     @Override
     public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.W);
+        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
     }
 }

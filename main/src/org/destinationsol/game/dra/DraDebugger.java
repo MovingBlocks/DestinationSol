@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.dra;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.DevTextureProvider;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.DebugOptions;
@@ -69,7 +67,7 @@ public class DraDebugger {
             float r = 1f * tex.getTexture().getWidth() / tex.getTexture().getHeight();
             float w = r > 1 ? TEX_SZ : TEX_SZ / r;
             float h = r > 1 ? TEX_SZ / r : TEX_SZ;
-            uiDrawer.draw(tex, w, h, w / 2, h / 2, x + .5f * TEX_SZ, y + .5f * TEX_SZ, 0, SolColor.W);
+            uiDrawer.draw(tex, w, h, w / 2, h / 2, x + .5f * TEX_SZ, y + .5f * TEX_SZ, 0, SolColor.WHITE);
             x += TEX_SZ + GAP;
             uiDrawer.drawString(tex.name, x, y, FontSize.DEBUG, false, DebugCol.TEX_INFO);
             y += .5f * TEX_SZ;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.asteroid;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -24,7 +23,6 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import org.destinationsol.Const;
 import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.CollisionMeshLoader;
@@ -44,8 +42,8 @@ public class AsteroidBuilder {
     private final CollisionMeshLoader myCollisionMeshLoader;
     private final ArrayList<TextureAtlas.AtlasRegion> myTexs;
 
-    public AsteroidBuilder(TextureManager textureManager, AssetHelper assetHelper) {
-        myCollisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("Core:asteroids"), assetHelper);
+    public AsteroidBuilder(TextureManager textureManager) {
+        myCollisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("core:asteroids"));
         myTexs = textureManager.getPack("asteroids/sys");
     }
 
@@ -95,7 +93,7 @@ public class AsteroidBuilder {
                     BodyDef.BodyType.DynamicBody, pos, angle, dras, DENSITY, DraLevel.BODIES, tex);
         } else {
             body = buildBall(game, pos, angle, sz / 2, DENSITY, false);
-            RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.BODIES, 0, 0, SolColor.W, false);
+            RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.BODIES, 0, 0, SolColor.WHITE, false);
             dras.add(s);
         }
         body.setAngularVelocity(rotSpd);

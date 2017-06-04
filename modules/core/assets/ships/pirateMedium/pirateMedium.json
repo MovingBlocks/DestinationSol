@@ -11,7 +11,7 @@
     "e1Pos": "0.03 0.42",
     "e2Pos": "0.04 0.59",
     "displayName": "Wasp",
-    "engine": "pirateEngine",
+    "engine": "core:pirateEngine",
     "gunSlots": [
         {
             "position": "0.66 0.34",

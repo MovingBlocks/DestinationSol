@@ -1,26 +1,26 @@
 {
     "player": {
         "ship": {
-            "hull": "Core:imperialSmall",
-            "items": "3*rep Core:lightArmor-1 Core:smallShield-1 Core:blaster-1",
-            "money": 20,
+            "hull": "core:imperialSmall",
+            "items": "3*rep core:lightArmor-1 core:smallShield-1 core:blaster-1",
+            "money": 20
         },
 
         "godModeShip": {
-            "hull": "Core:imperialBig",
-            "items": "Core:advancedArmor Core:advancedShield",
-            "money": 10000,
-        },
+            "hull": "core:imperialBig",
+            "items": "core:advancedArmor core:advancedShield",
+            "money": 10000
+        }
     },
 
     "mainStation": {
-        "hull": "Core:station",
-        "items": "Core:gun Core:gun",
+        "hull": "core:station",
+        "items": "core:gun core:gun",
 
         "guard": {
-            "hull": "Core:imperialBig",
-            "items": "Core:fixedGun Core:fixedShotGun Core:mediumArmor+Core:heavyArmor Core:shield+Core:bigShield",
-            "density": 3,
+            "hull": "core:imperialBig",
+            "items": "core:fixedGun core:fixedShotGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
+            "density": 3
         }
-    },
+    }
 }

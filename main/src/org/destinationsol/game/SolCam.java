@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game;
 
 import com.badlogic.gdx.Gdx;
@@ -236,10 +235,10 @@ public class SolCam {
         ur.add(myPos);
 
         float lw = getRealLineWidth();
-        drawer.drawLine(drawer.debugWhiteTex, dr, dl, SolColor.W, lw, false);
-        drawer.drawLine(drawer.debugWhiteTex, dl, ul, SolColor.W, lw, false);
-        drawer.drawLine(drawer.debugWhiteTex, ul, ur, SolColor.W, lw, false);
-        drawer.drawLine(drawer.debugWhiteTex, ur, dr, SolColor.W, lw, false);
+        drawer.drawLine(drawer.debugWhiteTex, dr, dl, SolColor.WHITE, lw, false);
+        drawer.drawLine(drawer.debugWhiteTex, dl, ul, SolColor.WHITE, lw, false);
+        drawer.drawLine(drawer.debugWhiteTex, ul, ur, SolColor.WHITE, lw, false);
+        drawer.drawLine(drawer.debugWhiteTex, ur, dr, SolColor.WHITE, lw, false);
 
         SolMath.free(dr);
         SolMath.free(dl);

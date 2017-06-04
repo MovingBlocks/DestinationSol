@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.screens;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -271,7 +270,7 @@ public class InventoryScreen implements SolUiScreen {
             Rectangle rect = itemCtrl.getScreenArea();
             float rowCenterY = rect.y + rect.height / 2;
             uiDrawer.draw(uiDrawer.whiteTex, imgSz, imgSz, imgSz / 2, imgSz / 2, rect.x + imgColW / 2, rowCenterY, 0, item.getItemType().uiColor);
-            uiDrawer.draw(tex, imgSz, imgSz, imgSz / 2, imgSz / 2, rect.x + imgColW / 2, rowCenterY, 0, SolColor.W);
+            uiDrawer.draw(tex, imgSz, imgSz, imgSz / 2, imgSz / 2, rect.x + imgColW / 2, rowCenterY, 0, SolColor.WHITE);
         }
     }
 
@@ -300,13 +299,13 @@ public class InventoryScreen implements SolUiScreen {
             Rectangle rect = itemCtrl.getScreenArea();
             float rowCenterY = rect.y + rect.height / 2;
             if (myOperations.isUsing(game, item)) {
-                uiDrawer.drawString("using", rect.x + imgColW + equiColW / 2, rowCenterY, FontSize.WINDOW, true, SolColor.W);
+                uiDrawer.drawString("using", rect.x + imgColW + equiColW / 2, rowCenterY, FontSize.WINDOW, true, SolColor.WHITE);
             }
             uiDrawer.drawString(item.getDisplayName(), rect.x + equiColW + imgColW + nameWidth / 2, rowCenterY, FontSize.WINDOW, true,
-                    mySelected == group ? SolColor.W : SolColor.G);
+                    mySelected == group ? SolColor.WHITE : SolColor.G);
             int count = ic.getCount(groupIdx);
             if (count > 1) {
-                uiDrawer.drawString("x" + count, rect.x + rect.width - amtWidth / 2, rowCenterY, FontSize.WINDOW, true, SolColor.W);
+                uiDrawer.drawString("x" + count, rect.x + rect.width - amtWidth / 2, rowCenterY, FontSize.WINDOW, true, SolColor.WHITE);
             }
             float mul = myOperations.getPriceMul();
             if (mul > 0) {
@@ -315,12 +314,12 @@ public class InventoryScreen implements SolUiScreen {
             }
         }
 
-        uiDrawer.drawString(myOperations.getHeader(), myListHeaderPos.x, myListHeaderPos.y, FontSize.WINDOW, TextAlignment.LEFT, false, SolColor.W);
-        uiDrawer.drawString("Selected Item:", myDetailHeaderPos.x, myDetailHeaderPos.y, FontSize.WINDOW, TextAlignment.LEFT, false, SolColor.W);
+        uiDrawer.drawString(myOperations.getHeader(), myListHeaderPos.x, myListHeaderPos.y, FontSize.WINDOW, TextAlignment.LEFT, false, SolColor.WHITE);
+        uiDrawer.drawString("Selected Item:", myDetailHeaderPos.x, myDetailHeaderPos.y, FontSize.WINDOW, TextAlignment.LEFT, false, SolColor.WHITE);
         if (mySelected != null && !mySelected.isEmpty()) {
             SolItem selItem = mySelected.get(0);
             String desc = selItem.getDisplayName() + "\n" + selItem.getDesc();
-            uiDrawer.drawString(desc, myDetailArea.x + .015f, myDetailArea.y + .015f, FontSize.WINDOW, TextAlignment.LEFT, false, SolColor.W);
+            uiDrawer.drawString(desc, myDetailArea.x + .015f, myDetailArea.y + .015f, FontSize.WINDOW, TextAlignment.LEFT, false, SolColor.WHITE);
         }
     }
 
