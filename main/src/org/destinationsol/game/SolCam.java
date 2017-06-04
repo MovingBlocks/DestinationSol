@@ -158,7 +158,10 @@ public class SolCam {
     }
 
     private void applyPos(float posX, float posY) {
-        myCam.position.set(posX, posY, 0);
+        final float lerp = 0.9f;
+
+        Vector3 oldPosition = myCam.position;
+        myCam.position.set(oldPosition.x * lerp + posX * (1 - lerp), oldPosition.y * lerp + (1 - lerp) * posY, 0);
     }
 
     private void applyInput(SolGame game) {
