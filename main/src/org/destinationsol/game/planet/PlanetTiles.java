@@ -19,7 +19,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.TextureManager;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.textures.DSTexture;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.DebugOptions;
@@ -27,11 +26,8 @@ import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class PlanetTiles {
 
