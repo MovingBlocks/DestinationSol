@@ -39,7 +39,7 @@ public abstract class WarnDrawer {
         myText = text;
         myBgCol = new Color(SolColor.UI_WARN);
         myBgOrigA = myBgCol.a;
-        myTextCol = new Color(SolColor.W);
+        myTextCol = new Color(SolColor.WHITE);
     }
 
     private static Rectangle rect(float resolutionRatio) {
