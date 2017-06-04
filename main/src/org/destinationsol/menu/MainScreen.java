@@ -17,7 +17,6 @@ package org.destinationsol.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
@@ -71,8 +70,8 @@ public class MainScreen implements SolUiScreen {
         creditsControl.setDisplayName("Credits");
         controls.add(creditsControl);
 
-        bgTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
-        logoTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuLogo"), Texture.TextureFilter.Linear);
+        bgTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"));
+        logoTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuLogo"));
     }
 
     public List<SolUiControl> getControls() {

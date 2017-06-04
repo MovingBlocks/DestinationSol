@@ -16,7 +16,6 @@
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
@@ -112,7 +111,7 @@ public class CreditsScreen implements SolUiScreen {
             myPages.add(page.toString());
         }
 
-        bgTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
+        bgTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"));
     }
 
     @Override
