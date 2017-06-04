@@ -238,7 +238,7 @@ public class TutorialManager {
             return;
         }
         Step step = mySteps.get(myStepIdx);
-        uiDrawer.draw(myBg, SolColor.UI_BG);
+        uiDrawer.draw(myBg, SolColor.UI_BG_LIGHT);
         uiDrawer.drawLine(myBg.x, myBg.y, 0, myBg.width, SolColor.WHITE);
         uiDrawer.drawLine(myBg.x + myBg.width, myBg.y, 90, myBg.height, SolColor.WHITE);
         uiDrawer.drawLine(myBg.x, myBg.y, 90, myBg.height, SolColor.WHITE);
