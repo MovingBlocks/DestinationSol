@@ -79,7 +79,7 @@ public class GameDrawer {
 
     public void draw(ParticleEmitter emitter, TextureAtlas.AtlasRegion tex, boolean additive) {
         maybeChangeAdditive(additive);
-        emitter.draw(myDrawer.getBatch(emitter.getSprite().getTexture(), tex));
+        emitter.draw(myDrawer.getSpriteBatch());
     }
 
     public void drawCircle(TextureRegion tex, Vector2 center, float radius, Color col, float width, float vh) {

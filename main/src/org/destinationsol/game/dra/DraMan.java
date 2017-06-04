@@ -46,9 +46,9 @@ public class DraMan {
     public DraMan(GameDrawer drawer) {
         myDlVals = DraLevel.values();
         myDrawer = drawer;
-        myDras = new ArrayList<OrderedMap<Texture, List<Dra>>>();
+        myDras = new ArrayList<>();
         for (int i = 0, sz = myDlVals.length; i < sz; i++) {
-            myDras.add(new OrderedMap<Texture, List<Dra>>());
+            myDras.add(new OrderedMap<>());
         }
         myInCam = new HashSet<Dra>();
     }
