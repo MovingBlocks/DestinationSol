@@ -47,12 +47,15 @@ public class SolCam {
     private float myZoom;
     private Vector2 myPos;
 
+    private final Vector2 idealCameraPosition;
+
     public SolCam(float r) {
         myCamRotStrategy = new CamRotStrategy.ToPlanet();
         myCam = new OrthographicCamera(VIEWPORT_HEIGHT * r, -VIEWPORT_HEIGHT);
         myZoom = calcZoom(Const.CAM_VIEW_DIST_GROUND);
         myPos = new Vector2();
         myTmpVec = new Vector3();
+        idealCameraPosition = new Vector2();
     }
 
     public Matrix4 getMtx() {
@@ -160,8 +163,10 @@ public class SolCam {
     private void applyPos(float posX, float posY) {
         final float lerp = 0.9f;
 
-        Vector3 oldPosition = myCam.position;
-        myCam.position.set(oldPosition.x * lerp + posX * (1 - lerp), oldPosition.y * lerp + (1 - lerp) * posY, 0);
+        Vector2 oldPosition = new Vector2(idealCameraPosition);
+        idealCameraPosition.set(oldPosition.x * lerp + posX * (1 - lerp), oldPosition.y * lerp + posY * (1 - lerp));
+
+        myCam.position.set(posX - (idealCameraPosition.x - posX), posY - (idealCameraPosition.y - posY), 0);
     }
 
     private void applyInput(SolGame game) {
