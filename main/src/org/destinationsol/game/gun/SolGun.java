@@ -49,7 +49,7 @@ public class SolGun {
     public SolGun(SolGame game, Gun item, Vector2 relPos, boolean underShip) {
         myItem = item;
         if (myItem.config.lightOnShot) {
-            Color lightCol = SolColor.W;
+            Color lightCol = SolColor.WHITE;
             ProjectileConfig projConfig = myItem.config.clipConf.projConfig;
             if (projConfig.bodyEffect != null) {
                 lightCol = projConfig.bodyEffect.tint;
@@ -63,7 +63,7 @@ public class SolGun {
         myRelPos = new Vector2(relPos);
         DraLevel level = underShip ? DraLevel.U_GUNS : DraLevel.GUNS;
         float texLen = myItem.config.gunLength / myItem.config.texLenPerc * 2;
-        mySprite = new RectSprite(myItem.config.tex, texLen, 0, 0, new Vector2(relPos), level, 0, 0, SolColor.W, false);
+        mySprite = new RectSprite(myItem.config.tex, texLen, 0, 0, new Vector2(relPos), level, 0, 0, SolColor.WHITE, false);
         myDras = new ArrayList<Dra>();
         myDras.add(mySprite);
         if (myLightSrc != null) {

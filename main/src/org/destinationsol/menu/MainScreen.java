@@ -126,7 +126,7 @@ public class MainScreen implements SolUiScreen {
 
     @Override
     public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.W);
+        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class MainScreen implements SolUiScreen {
         final float sy = .35f;
         final float sx = sy * 400 / 218;
         if (!DebugOptions.PRINT_BALANCE) {
-            uiDrawer.draw(logoTex, sx, sy, sx / 2, sy / 2, uiDrawer.r / 2, 0.1f + sy / 2, 0, SolColor.W);
+            uiDrawer.draw(logoTex, sx, sy, sx / 2, sy / 2, uiDrawer.r / 2, 0.1f + sy / 2, 0, SolColor.WHITE);
         }
     }
 }

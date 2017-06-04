@@ -199,7 +199,7 @@ public class PlanetManager {
                 Vector2 pos = p.getPos();
                 float angle = p.getAngle();
                 float fh = p.getFullHeight();
-                Color col = p == myNearestPlanet ? SolColor.W : SolColor.G;
+                Color col = p == myNearestPlanet ? SolColor.WHITE : SolColor.G;
                 drawer.drawCircle(drawer.debugWhiteTex, pos, p.getGroundHeight(), col, lineWidth, vh);
                 drawer.drawCircle(drawer.debugWhiteTex, pos, fh, col, lineWidth, vh);
                 drawer.drawLine(drawer.debugWhiteTex, pos.x, pos.y, angle, fh, col, lineWidth);

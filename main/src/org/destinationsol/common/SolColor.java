@@ -24,9 +24,10 @@ public class SolColor {
     public static final Color G = col(.5f, 1);
     public static final Color LG = col(.75f, 1);
     public static final Color W50 = col(1, .5f);
-    public static final Color W = col(1, 1);
+    public static final Color WHITE = col(1, 1);
+    public static final Color BLACK = col(0, 1);
 
-    public static final Color UI_BG = col(0, .9f);
+    public static final Color UI_BG = col(0, .3f);
     public static final Color UI_INACTIVE = new Color(0, .75f, 1, .1f);
     public static final Color UI_DARK = new Color(0, .75f, 1, .17f);
     public static final Color UI_MED = new Color(0, .75f, 1, .25f);

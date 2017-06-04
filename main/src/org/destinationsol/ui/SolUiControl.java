@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.ui;
 
 import com.badlogic.gdx.Gdx;
@@ -178,7 +177,7 @@ public class SolUiControl {
         if (myScreenArea == null) {
             return;
         }
-        Color tint = myEnabled ? SolColor.W : SolColor.G;
+        Color tint = myEnabled ? SolColor.WHITE : SolColor.G;
         uiDrawer.drawString(myDisplayName, myScreenArea.x + myScreenArea.width / 2, myScreenArea.y + myScreenArea.height / 2,
                 FontSize.MENU, true, tint);
     }

@@ -245,7 +245,7 @@ public class ObjectManager {
             Vector2 pos = o.getPosition();
             String ds = o.toDebugString();
             if (ds != null) {
-                drawer.drawString(ds, pos.x, pos.y, fontSize, true, SolColor.W);
+                drawer.drawString(ds, pos.x, pos.y, fontSize, true, SolColor.WHITE);
             }
         }
         for (FarObjData fod : myFarObjs) {
@@ -272,8 +272,8 @@ public class ObjectManager {
             FarObj fo = fod.fo;
             drawer.drawCircle(drawer.debugWhiteTex, fo.getPos(), fo.getRadius(), DebugCol.OBJ_FAR, lineWidth, vh);
         }
-        drawer.drawCircle(drawer.debugWhiteTex, cam.getPos(), myFarBeginDist, SolColor.W, lineWidth, vh);
-        drawer.drawCircle(drawer.debugWhiteTex, cam.getPos(), myFarEndDist, SolColor.W, lineWidth, vh);
+        drawer.drawCircle(drawer.debugWhiteTex, cam.getPos(), myFarBeginDist, SolColor.WHITE, lineWidth, vh);
+        drawer.drawCircle(drawer.debugWhiteTex, cam.getPos(), myFarEndDist, SolColor.WHITE, lineWidth, vh);
     }
 
     public List<SolObject> getObjs() {

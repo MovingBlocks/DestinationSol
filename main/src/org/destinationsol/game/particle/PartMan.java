@@ -82,7 +82,7 @@ public class PartMan {
 
     public RectSprite blip(SolGame game, Vector2 pos, float angle, float sz, float fadeTime, Vector2 spd,
                            TextureAtlas.AtlasRegion tex) {
-        RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.PART_FG_0, angle, 0, SolColor.W, true);
+        RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.PART_FG_0, angle, 0, SolColor.WHITE, true);
         ArrayList<Dra> dras = new ArrayList<Dra>();
         dras.add(s);
         DrasObject o = new DrasObject(dras, new Vector2(pos), new Vector2(spd), null, false, false);

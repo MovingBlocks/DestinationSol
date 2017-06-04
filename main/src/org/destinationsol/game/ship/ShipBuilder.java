@@ -322,7 +322,7 @@ public class ShipBuilder {
         World w = game.getObjMan().getWorld();
         TextureAtlas.AtlasRegion tex = game.getTexMan().getTexture("smallGameObjects/door");
         PrismaticJoint joint = createDoorJoint(body, w, pos, doorRelPos, angle);
-        RectSprite s = new RectSprite(tex, Door.DOOR_LEN, 0, 0, new Vector2(doorRelPos), DraLevel.BODIES, 0, 0, SolColor.W, false);
+        RectSprite s = new RectSprite(tex, Door.DOOR_LEN, 0, 0, new Vector2(doorRelPos), DraLevel.BODIES, 0, 0, SolColor.WHITE, false);
         return new Door(joint, s);
     }
 

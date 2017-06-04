@@ -33,7 +33,7 @@ import java.util.List;
 public class TileObjBuilder {
     public TileObject build(SolGame game, float sz, float toPlanetRelAngle, float dist, Tile tile, Planet planet) {
         float spriteSz = sz * 2;
-        RectSprite sprite = new RectSprite(tile.tex, spriteSz, 0, 0, new Vector2(), DraLevel.GROUND, 0, 0f, SolColor.W, false);
+        RectSprite sprite = new RectSprite(tile.tex, spriteSz, 0, 0, new Vector2(), DraLevel.GROUND, 0, 0f, SolColor.WHITE, false);
         Body body = null;
         if (tile.points.size() > 0) {
             body = buildBody(game, toPlanetRelAngle, dist, tile, planet, spriteSz);
