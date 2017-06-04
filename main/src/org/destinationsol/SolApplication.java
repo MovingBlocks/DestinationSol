@@ -52,7 +52,7 @@ public class SolApplication implements ApplicationListener {
     private GameOptions myOptions;
     private CommonDrawer myCommonDrawer;
     private FPSLogger myFpsLogger;
-    private ModuleEnvironment moduleEnvironment;
+    private ModuleManager moduleManager;
     private OggMusicManager musicManager;
     private OggSoundManager soundManager;
     private String myFatalErrorMsg;
@@ -75,8 +75,11 @@ public class SolApplication implements ApplicationListener {
         }
         myOptions = new GameOptions(isMobile(), null);
 
-        moduleEnvironment = new ModuleManager().getEnvironment();
+        moduleManager = new ModuleManager();
         musicManager = new OggMusicManager();
+
+        logger.info("\n\n ------------------------------------------------------------ \n");
+        moduleManager.printAvailableModules();
 
         musicManager.playMenuMusic(myOptions);
 
