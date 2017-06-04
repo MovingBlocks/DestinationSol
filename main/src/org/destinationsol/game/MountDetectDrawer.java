@@ -63,6 +63,6 @@ public class MountDetectDrawer {
             radPerc = 2 - radPerc;
         }
         float rad = myBaseRad * (1 + .5f * radPerc);
-        drawer.draw(myTex, rad * 2, rad * 2, rad, rad, myNePos.x, myNePos.y, myAngle, SolColor.W);
+        drawer.draw(myTex, rad * 2, rad * 2, rad, rad, myNePos.x, myNePos.y, myAngle, SolColor.WHITE);
     }
 }

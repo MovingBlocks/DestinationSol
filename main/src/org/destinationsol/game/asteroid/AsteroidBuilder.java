@@ -93,7 +93,7 @@ public class AsteroidBuilder {
                     BodyDef.BodyType.DynamicBody, pos, angle, dras, DENSITY, DraLevel.BODIES, tex);
         } else {
             body = buildBall(game, pos, angle, sz / 2, DENSITY, false);
-            RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.BODIES, 0, 0, SolColor.W, false);
+            RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.BODIES, 0, 0, SolColor.WHITE, false);
             dras.add(s);
         }
         body.setAngularVelocity(rotSpd);

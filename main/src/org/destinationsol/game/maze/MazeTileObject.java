@@ -187,9 +187,9 @@ public class MazeTileObject implements SolObject {
                 tex = game.getTexMan().getFlipped(tex);
                 bgTex = game.getTexMan().getFlipped(bgTex);
             }
-            RectSprite s = new RectSprite(tex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DraLevel.GROUND, 0, 0, SolColor.W, false);
+            RectSprite s = new RectSprite(tex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DraLevel.GROUND, 0, 0, SolColor.WHITE, false);
             dras.add(s);
-            RectSprite s2 = new RectSprite(bgTex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DraLevel.DECO, 0, 0, SolColor.W, false);
+            RectSprite s2 = new RectSprite(bgTex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DraLevel.DECO, 0, 0, SolColor.WHITE, false);
             dras.add(s2);
             Body body = buildBody(game, angle, pos, tile, flipped);
             MazeTileObject res = new MazeTileObject(tile, dras, body, pos, angle, flipped);

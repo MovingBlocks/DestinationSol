@@ -223,7 +223,7 @@ public class PlanetObjectsBuilder {
         relPos.sub(basePos);
         SolMath.free(basePos);
 
-        return new RectSprite(tex, sz, 0, 0, relPos, DraLevel.CLOUDS, relAngle, rotSpd, SolColor.W, false);
+        return new RectSprite(tex, sz, 0, 0, relPos, DraLevel.CLOUDS, relAngle, rotSpd, SolColor.WHITE, false);
     }
 
     public void createDeco(SolGame game, Planet planet) {
@@ -294,7 +294,7 @@ public class PlanetObjectsBuilder {
                 decoTex = game.getTexMan().getFlipped(decoTex);
             }
 
-            RectSprite s = new RectSprite(decoTex, decoSz, dc.orig.x, dc.orig.y, decoRelPos, DraLevel.DECO, decoRelAngle, 0, SolColor.W, false);
+            RectSprite s = new RectSprite(decoTex, decoSz, dc.orig.x, dc.orig.y, decoRelPos, DraLevel.DECO, decoRelAngle, 0, SolColor.WHITE, false);
             List<Dra> ss = collector.get(basePos);
             if (ss == null) {
                 ss = new ArrayList<Dra>();

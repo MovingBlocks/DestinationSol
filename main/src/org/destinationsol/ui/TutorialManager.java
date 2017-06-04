@@ -39,7 +39,7 @@ public class TutorialManager {
         float bgW = r * .5f;
         float bgH = .2f;
         myBg = new Rectangle(r / 2 - bgW / 2, 1 - bgH, bgW, bgH);
-        mySteps = new ArrayList<Step>();
+        mySteps = new ArrayList<>();
         myStepIdx = 0;
 
         MainScreen main = screens.mainScreen;
@@ -73,155 +73,155 @@ public class TutorialManager {
             }
         }
 
-        s("Hi! Shoot your main gun\n" + shootKey, shootCtrl);
+        addStep("Hi! Shoot your main gun\n" + shootKey, shootCtrl);
 
         if (leftCtrl != null) {
             if (mobile) {
-                s("Great! Turn left.\nDon't fly away yet!", leftCtrl);
+                addStep("Great! Turn left.\nDon't fly away yet!", leftCtrl);
             } else {
-                s("Great! Turn left (" + gameOptions.getKeyLeftName() + " key). \nDon't fly away yet!", leftCtrl);
+                addStep("Great! Turn left (" + gameOptions.getKeyLeftName() + " key). \nDon't fly away yet!", leftCtrl);
             }
         }
 
         if (mobile) {
-            s("Have a look at the map", main.mapControl, true);
+            addStep("Have a look at the map", main.mapControl, true);
         } else {
-            s("Have a look at the map\n(" + gameOptions.getKeyMapName() + " key)", main.mapControl, true);
+            addStep("Have a look at the map\n(" + gameOptions.getKeyMapName() + " key)", main.mapControl, true);
         }
 
         if (mouseCtrl) {
-            s("Zoom in the map\n(mouse wheel UP)", screens.mapScreen.zoomInControl);
+            addStep("Zoom in the map\n(mouse wheel UP)", screens.mapScreen.zoomInControl);
         } else if (mobile) {
-            s("Zoom in the map", screens.mapScreen.zoomInControl);
+            addStep("Zoom in the map", screens.mapScreen.zoomInControl);
         } else {
-            s("Zoom in the map\n(" + gameOptions.getKeyZoomInName() + " key)", screens.mapScreen.zoomInControl);
+            addStep("Zoom in the map\n(" + gameOptions.getKeyZoomInName() + " key)", screens.mapScreen.zoomInControl);
         }
 
         if (mobile) {
-            s("Close the map", screens.mapScreen.closeControl, true);
+            addStep("Close the map", screens.mapScreen.closeControl, true);
         } else {
-            s("Close the map\n(" + gameOptions.getKeyMapName() + " or " + gameOptions.getKeyCloseName() + " keys)",
+            addStep("Close the map\n(" + gameOptions.getKeyMapName() + " or " + gameOptions.getKeyCloseName() + " keys)",
                     screens.mapScreen.closeControl, true);
         }
 
         if (mouseCtrl || mobile) {
-            s("Have a look\nat your inventory", main.inventoryControl, true);
+            addStep("Have a look\nat your inventory", main.inventoryControl, true);
         } else {
-            s("Have a look\nat your inventory (" + gameOptions.getKeyInventoryName() + " key)", main.inventoryControl, true);
+            addStep("Have a look\nat your inventory (" + gameOptions.getKeyInventoryName() + " key)", main.inventoryControl, true);
         }
 
         if (mouseCtrl || mobile) {
-            s("In the inventory,\nselect the second row", screens.inventoryScreen.itemControls[1]);
+            addStep("In the inventory,\nselect the second row", screens.inventoryScreen.itemControls[1]);
         } else {
-            s("In the inventory,\nselect the next item (" + gameOptions.getKeyDownName() + " key)",
+            addStep("In the inventory,\nselect the next item (" + gameOptions.getKeyDownName() + " key)",
                     screens.inventoryScreen.downControl);
         }
 
         if (mouseCtrl || mobile) {
-            s("Go to the next page", screens.inventoryScreen.nextControl, true);
+            addStep("Go to the next page", screens.inventoryScreen.nextControl, true);
         } else {
-            s("Go to the next page\n(" + gameOptions.getKeyRightName() + " key)", screens.inventoryScreen.nextControl, true);
+            addStep("Go to the next page\n(" + gameOptions.getKeyRightName() + " key)", screens.inventoryScreen.nextControl, true);
         }
 
         if (mouseCtrl || mobile) {
-            s("Throw away some item\nyou don't use", screens.inventoryScreen.showInventory.dropControl);
+            addStep("Throw away some item\nyou don't use", screens.inventoryScreen.showInventory.dropControl);
         } else {
-            s("Throw away some item\nyou don't use (" + gameOptions.getKeyDropName() + " key)",
+            addStep("Throw away some item\nyou don't use (" + gameOptions.getKeyDropName() + " key)",
                     screens.inventoryScreen.showInventory.dropControl);
         }
 
         // Extra step to make sure an equipped item is selected before asking player to unequip
         if (screens.inventoryScreen.getSelectedItem() == null ||
             (screens.inventoryScreen.getSelectedItem() != null && screens.inventoryScreen.getSelectedItem().isEquipped() == 0)) {
-            s(new SelectEquippedItemStep(
+            addStep(new SelectEquippedItemStep(
                     "Select an equipped item\n(note the text \"using\")", screens.inventoryScreen, game));
         }
 
         if (mobile) {
-            s("Unequip the item\nthat is used now", screens.inventoryScreen.showInventory.eq1Control);
+            addStep("Unequip the item\nthat is used now", screens.inventoryScreen.showInventory.eq1Control);
         } else {
-            s("Unequip the item\nthat is used now (" + gameOptions.getKeyEquipName() + " key)",
+            addStep("Unequip the item\nthat is used now (" + gameOptions.getKeyEquipName() + " key)",
                     screens.inventoryScreen.showInventory.eq1Control);
         }
 
         if (mobile) {
-            s("Now equip it again", screens.inventoryScreen.showInventory.eq1Control);
+            addStep("Now equip it again", screens.inventoryScreen.showInventory.eq1Control);
         } else {
-            s("Now equip it again\n(" + gameOptions.getKeyEquipName() + " key)", screens.inventoryScreen.showInventory.eq1Control);
+            addStep("Now equip it again\n(" + gameOptions.getKeyEquipName() + " key)", screens.inventoryScreen.showInventory.eq1Control);
         }
 
         if (mobile) {
-            s("Close the inventory\n(Touch the screen outside inventory)", screens.inventoryScreen.closeControl, true);
+            addStep("Close the inventory\n(Touch the screen outside inventory)", screens.inventoryScreen.closeControl, true);
         } else {
-            s("Close the inventory (" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.closeControl, true);
+            addStep("Close the inventory (" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.closeControl, true);
         }
 
         if (mouseCtrl) {
-            s("Move forward (" + gameOptions.getKeyUpMouseName() + " key).\nThere's no stop!", upCtrl);
+            addStep("Move forward (" + gameOptions.getKeyUpMouseName() + " key).\nThere's no stop!", upCtrl);
         } else if (mobile) {
-            s("Move forward.\nThere's no stop!", upCtrl);
+            addStep("Move forward.\nThere'addStep no stop!", upCtrl);
         } else {
-            s("Move forward (" + gameOptions.getKeyUpName() + " key).\nThere's no stop!", upCtrl);
+            addStep("Move forward (" + gameOptions.getKeyUpName() + " key).\nThere's no stop!", upCtrl);
         }
 
         if (mobile) {
-            s("Fly closer to the station\nand talk with it", main.talkControl, true);
+            addStep("Fly closer to the station\nand talk with it", main.talkControl, true);
         } else {
-            s("Fly closer to the station\nand talk with it (" + gameOptions.getKeyTalkName() + " key)", main.talkControl, true);
+            addStep("Fly closer to the station\nand talk with it (" + gameOptions.getKeyTalkName() + " key)", main.talkControl, true);
         }
 
         if (mouseCtrl || mobile) {
-            s("See what there is to buy", screens.talkScreen.buyControl, true);
+            addStep("See what there is to buy", screens.talkScreen.buyControl, true);
         } else {
-            s("See what there is to buy\n(" + gameOptions.getKeyBuyMenuName() + " key)", screens.talkScreen.buyControl, true);
+            addStep("See what there is to buy\n(" + gameOptions.getKeyBuyMenuName() + " key)", screens.talkScreen.buyControl, true);
         }
 
         if (mobile) {
-            s("Buy some item", screens.inventoryScreen.buyItems.buyControl);
+            addStep("Buy some item", screens.inventoryScreen.buyItems.buyControl);
         } else {
-            s("Buy some item\n(" + gameOptions.getKeyBuyItemName() + " key)", screens.inventoryScreen.buyItems.buyControl);
+            addStep("Buy some item\n(" + gameOptions.getKeyBuyItemName() + " key)", screens.inventoryScreen.buyItems.buyControl);
         }
 
         if (mobile) {
-            s("Close the Buy screen\n(Touch the screen outside inventory)", screens.inventoryScreen.closeControl, true);
+            addStep("Close the Buy screen\n(Touch the screen outside inventory)", screens.inventoryScreen.closeControl, true);
         } else {
-            s("Close the Buy screen\n(" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.closeControl, true);
+            addStep("Close the Buy screen\n(" + gameOptions.getKeyCloseName() + " key)", screens.inventoryScreen.closeControl, true);
         }
 
         if (mobile) {
-            s("Close the Talk screen\n(Touch the screen outside inventory)", screens.talkScreen.closeControl, true);
+            addStep("Close the Talk screen\n(Touch the screen outside inventory)", screens.talkScreen.closeControl, true);
         } else {
-            s("Close the Talk screen\n(" + gameOptions.getKeyCloseName() + " key)", screens.talkScreen.closeControl, true);
+            addStep("Close the Talk screen\n(" + gameOptions.getKeyCloseName() + " key)", screens.talkScreen.closeControl, true);
         }
 
         if (mouseCtrl) {
-            s("Use the ability of your ship\n(MIDDLE mouse button or " + gameOptions.getKeyAbilityName() + " key)",
+            addStep("Use the ability of your ship\n(MIDDLE mouse button or " + gameOptions.getKeyAbilityName() + " key)",
                     abilityCtrl, true);
         } else if (mobile) {
-            s("Use the ability of your ship", abilityCtrl, true);
+            addStep("Use the ability of your ship", abilityCtrl, true);
         } else {
-            s("Use the ability of your ship\n(" + gameOptions.getKeyAbilityName() + " key)", abilityCtrl, true);
+            addStep("Use the ability of your ship\n(" + gameOptions.getKeyAbilityName() + " key)", abilityCtrl, true);
         }
 
-        s("Here's a couple of hints...\n" + shootKey2, shootCtrl);
-        s("Enemies are orange icons, allies are blue\n" + shootKey2, shootCtrl);
-        s("Avoid enemies with skull icon\n" + shootKey2, shootCtrl);
-        s("To repair, have repair kits and just stay idle\n" + shootKey2, shootCtrl);
-        s("Destroy asteroids to find money\n" + shootKey2, shootCtrl);
-        s("Find or buy shields, armor, guns; equip them\n" + shootKey2, shootCtrl);
-        s("Buy new ships, hire mercenaries\n" + shootKey2, shootCtrl);
-        s("Tutorial is complete and will exit now!\n" + shootKey2, shootCtrl);
+        addStep("Here's a couple of hints...\n" + shootKey2, shootCtrl);
+        addStep("Enemies are orange icons, allies are blue\n" + shootKey2, shootCtrl);
+        addStep("Avoid enemies with skull icon\n" + shootKey2, shootCtrl);
+        addStep("To repair, have repair kits and just stay idle\n" + shootKey2, shootCtrl);
+        addStep("Destroy asteroids to find money\n" + shootKey2, shootCtrl);
+        addStep("Find or buy shields, armor, guns; equip them\n" + shootKey2, shootCtrl);
+        addStep("Buy new ships, hire mercenaries\n" + shootKey2, shootCtrl);
+        addStep("Tutorial is complete and will exit now!\n" + shootKey2, shootCtrl);
     }
 
-    private void s(String text, SolUiControl ctrl) {
-        s(text, ctrl, false);
+    private void addStep(String text, SolUiControl ctrl) {
+        addStep(text, ctrl, false);
     }
 
-    private void s(String text, SolUiControl ctrl, boolean checkOn) {
+    private void addStep(String text, SolUiControl ctrl, boolean checkOn) {
         mySteps.add(new Step(text, ctrl, checkOn));
     }
 
-    private void s(Step step) {
+    private void addStep(Step step) {
         mySteps.add(step);
     }
 
@@ -239,7 +239,10 @@ public class TutorialManager {
         }
         Step step = mySteps.get(myStepIdx);
         uiDrawer.draw(myBg, SolColor.UI_BG);
-        uiDrawer.drawString(step.text, uiDrawer.r / 2, myBg.y + myBg.height / 2, FontSize.TUT, true, SolColor.W);
+        uiDrawer.drawLine(myBg.x, myBg.y, 0, myBg.width, SolColor.WHITE);
+        uiDrawer.drawLine(myBg.x + myBg.width, myBg.y, 90, myBg.height, SolColor.WHITE);
+        uiDrawer.drawLine(myBg.x, myBg.y, 90, myBg.height, SolColor.WHITE);
+        uiDrawer.drawString(step.text, uiDrawer.r / 2, myBg.y + myBg.height / 2, FontSize.TUT, true, SolColor.WHITE);
     }
 
     public boolean isFinished() {

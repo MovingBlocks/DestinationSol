@@ -67,7 +67,7 @@ public class DraDebugger {
             float r = 1f * tex.getTexture().getWidth() / tex.getTexture().getHeight();
             float w = r > 1 ? TEX_SZ : TEX_SZ / r;
             float h = r > 1 ? TEX_SZ / r : TEX_SZ;
-            uiDrawer.draw(tex, w, h, w / 2, h / 2, x + .5f * TEX_SZ, y + .5f * TEX_SZ, 0, SolColor.W);
+            uiDrawer.draw(tex, w, h, w / 2, h / 2, x + .5f * TEX_SZ, y + .5f * TEX_SZ, 0, SolColor.WHITE);
             x += TEX_SZ + GAP;
             uiDrawer.drawString(tex.name, x, y, FontSize.DEBUG, false, DebugCol.TEX_INFO);
             y += .5f * TEX_SZ;

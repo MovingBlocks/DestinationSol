@@ -274,7 +274,7 @@ public class CollisionMeshLoader {
         if (tex == null) {
             tex = hullConfig.getTexture();
         }
-        RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.W, false);
+        RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.WHITE, false);
         dras.add(s);
         return body;
     }
@@ -315,7 +315,7 @@ public class CollisionMeshLoader {
             String imgName = texDirName + "/" + texName;
             tex = game.getTexMan().getTexture(imgName);
         }
-        RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.W, false);
+        RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.WHITE, false);
         dras.add(s);
         return body;
     }

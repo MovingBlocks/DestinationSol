@@ -43,7 +43,7 @@ public class LootBuilder {
         List<Dra> dras = new ArrayList<Dra>();
         TextureAtlas.AtlasRegion tex = item.getIcon(game);
         float sz = item.getItemType().sz;
-        RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.GUNS, 0, 0, SolColor.W, false);
+        RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.GUNS, 0, 0, SolColor.WHITE, false);
         dras.add(s);
         Body b = buildBody(game, pos, sz);
         b.setLinearVelocity(spd);
