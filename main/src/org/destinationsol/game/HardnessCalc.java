@@ -17,9 +17,9 @@
 package org.destinationsol.game;
 
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.Armor;
 import org.destinationsol.game.item.Clip;
+import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemConfig;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.Shield;

@@ -18,11 +18,9 @@ package org.destinationsol;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
@@ -39,11 +37,9 @@ public class CommonDrawer {
     private final SpriteBatch mySpriteBatch;
     private final BitmapFont myFont;
     private final float myOrigFontHeight;
-    private final TextureChecker myTextureChecker;
     private final GlyphLayout layout;
 
     public CommonDrawer() {
-        myTextureChecker = new TextureChecker();
         w = Gdx.graphics.getWidth();
         h = Gdx.graphics.getHeight();
         r = w / h;
@@ -65,7 +61,6 @@ public class CommonDrawer {
     }
 
     public void end() {
-        myTextureChecker.onEnd();
         mySpriteBatch.end();
     }
 
@@ -78,7 +73,6 @@ public class CommonDrawer {
             return;
         }
 
-        myTextureChecker.onString(myFont.getRegion().getTexture());
         myFont.setColor(col);
         myFont.getData().setScale(fontSize / myOrigFontHeight);
         // http://www.badlogicgames.com/wordpress/?p=3658
@@ -152,8 +146,7 @@ public class CommonDrawer {
         myFont.dispose();
     }
 
-    public SpriteBatch getBatch(Texture texture, TextureAtlas.AtlasRegion tex) {
-        myTextureChecker.onSprite(texture, tex);
+    public SpriteBatch getSpriteBatch() {
         return mySpriteBatch;
     }
 
