@@ -29,29 +29,30 @@ import org.destinationsol.game.ship.SolShip;
 
 public class SolCam {
     public static final float CAM_ROT_SPD = 90f;
-    private static final float VIEWPORT_HEIGHT = 5f;
+    private static final float VIEWPORT_HEIGHT = 10f;
     private static final float MAX_ZOOM_SPD = 5f;
     private static final float MED_ZOOM_SPD = 3f;
     private static final float ZOOM_CHG_SPD = .1f;
     private static final float MOVE_SPD = 3f;
     private static final float MAX_SHAKE = .07f;
     private static final float SHAKE_DAMP = MAX_SHAKE;
+
     private final CamRotStrategy myCamRotStrategy;
     private final OrthographicCamera myCam;
-    private final Vector3 myTmpVec;
 
     private float myPrevHeroLife;
     private float myShake;
     private float myAngle;
     private float myZoom;
-    private Vector2 myPos;
+    private final Vector2 myPos = new Vector2();
+
+    private final Vector3 unprojectedCameraPosition = new Vector3();
+    private final Vector2 idealCameraPosition = new Vector2();
 
     public SolCam(float r) {
         myCamRotStrategy = new CamRotStrategy.ToPlanet();
         myCam = new OrthographicCamera(VIEWPORT_HEIGHT * r, -VIEWPORT_HEIGHT);
         myZoom = calcZoom(Const.CAM_VIEW_DIST_GROUND);
-        myPos = new Vector2();
-        myTmpVec = new Vector3();
     }
 
     public Matrix4 getMtx() {
@@ -157,7 +158,12 @@ public class SolCam {
     }
 
     private void applyPos(float posX, float posY) {
-        myCam.position.set(posX, posY, 0);
+        final float lerp = 0.04f;
+
+        Vector2 oldPosition = new Vector2(idealCameraPosition);
+        idealCameraPosition.set(oldPosition.x * (1 - lerp) + posX * lerp, oldPosition.y * (1 - lerp) + posY * lerp);
+
+        myCam.position.set(posX - (idealCameraPosition.x - posX), posY - (idealCameraPosition.y - posY), 0);
     }
 
     private void applyInput(SolGame game) {
@@ -208,6 +214,10 @@ public class SolCam {
 
     public void setPos(Vector2 pos) {
         myPos.set(pos);
+    }
+
+    public void setIdealCameraPosition(Vector2 idealCameraPosition) {
+        this.idealCameraPosition.set(idealCameraPosition);
     }
 
     public void drawDebug(GameDrawer drawer) {
@@ -290,9 +300,9 @@ public class SolCam {
     }
 
     public void screenToWorld(Vector2 pos) {
-        myTmpVec.set(pos, 0);
-        myCam.unproject(myTmpVec);
-        pos.x = myTmpVec.x;
-        pos.y = myTmpVec.y;
+        unprojectedCameraPosition.set(pos, 0);
+        myCam.unproject(unprojectedCameraPosition);
+        pos.x = unprojectedCameraPosition.x;
+        pos.y = unprojectedCameraPosition.y;
     }
 }

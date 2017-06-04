@@ -62,6 +62,7 @@ import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class SolGame {
     private final GameScreens myScreens;
@@ -154,6 +155,10 @@ public class SolGame {
         ShipConfig startingShip = usePrevShip ? SaveManager.readShip(hullConfigManager, myItemManager) : null;
         createPlayer(startingShip);
         SolMath.checkVectorsTaken(null);
+
+        // Initialize the camera to spawn near the player
+        final float variance = 100.0f;
+        myCam.setIdealCameraPosition(getHero().getPosition().add(SolMath.rnd(variance), SolMath.rnd(variance)));
     }
 
     // uh, this needs refactoring

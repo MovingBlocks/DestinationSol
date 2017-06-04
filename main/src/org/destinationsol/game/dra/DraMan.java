@@ -227,6 +227,5 @@ public class DraMan {
             }
             collector.add(tex);
         }
-
     }
 }
