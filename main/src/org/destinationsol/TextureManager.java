@@ -34,10 +34,8 @@ public class TextureManager {
     private final Map<String, ArrayList<TextureAtlas.AtlasRegion>> myPacks = new HashMap<>();
 
     private final TextureProvider textureProvider;
-    private final TextureProvider textureProviderStaticFiles;
 
     public TextureManager() {
-        textureProviderStaticFiles = new DevTextureProvider();
         textureProvider = new AtlasTextureProvider(new ResourceUrn("core:sol"));
     }
 
@@ -62,11 +60,6 @@ public class TextureManager {
 
         result = textureProvider.getTexture(textureFile);
         textureMap.put(textureFile.path(), result);
-
-        if (result == null) {
-            result = textureProviderStaticFiles.getTexture(textureFile);
-            textureMap.put(textureFile.path(), result);
-        }
 
         if (result == null) {
             throw new AssertionError("atlas not found: " + textureFile.path());
