@@ -67,9 +67,13 @@ public class AssetHelper {
 
         if (folders.get(0).equals("engine")) {
             if (DebugOptions.DEV_ROOT_PATH != null) {
-                path += DebugOptions.DEV_ROOT_PATH + "res" + File.separator;
+                path += DebugOptions.DEV_ROOT_PATH;
             }
+            path += "res" + File.separator;
         } else {
+            if (DebugOptions.DEV_ROOT_PATH == null) {
+                path += ".." + File.separator;
+            }
             path += "modules" + File.separator + folders.get(0) + File.separator;
         }
 

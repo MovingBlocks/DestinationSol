@@ -24,6 +24,7 @@ import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.emitters.Emitter;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.textures.DSTexture;
+import org.destinationsol.game.DebugOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.assets.Asset;
@@ -70,7 +71,14 @@ public class ModuleManager {
         registry = new TableModuleRegistry();
         registry.add(engineModule);
         ModulePathScanner scanner = new ModulePathScanner(new ModuleLoader(metadataReader));
-        scanner.scan(registry, Paths.get(".").resolve("modules"));
+
+        //TODO: TEMPORARY HACK!
+
+        if (DebugOptions.DEV_ROOT_PATH != null) {
+            scanner.scan(registry, Paths.get(".").resolve("modules"));
+        } else {
+            scanner.scan(registry, Paths.get(".").resolve("..").resolve("modules"));
+        }
 
         // Do we need this line? Copied from Teraosolgy.
         /*
