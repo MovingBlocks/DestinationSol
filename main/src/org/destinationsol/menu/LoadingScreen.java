@@ -16,21 +16,31 @@
 
 package org.destinationsol.menu;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.SolApplication;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LoadingScreen implements SolUiScreen {
+    private final TextureAtlas.AtlasRegion bgTex;
+
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private boolean loadTutorial;
     private boolean usePreviousShip;
+
+    LoadingScreen() {
+        bgTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
+    }
 
     @Override
     public List<SolUiControl> getControls() {
@@ -50,5 +60,10 @@ public class LoadingScreen implements SolUiScreen {
     public void setMode(boolean loadTutorial, boolean usePreviousShip) {
         this.loadTutorial = loadTutorial;
         this.usePreviousShip = usePreviousShip;
+    }
+
+    @Override
+    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
     }
 }
