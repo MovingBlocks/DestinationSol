@@ -82,7 +82,7 @@ public abstract class Assets {
             return oggMusicOptional.get();
         }
 
-        throw new RuntimeException("OggSound " + urn.toString() + " not found!");
+        throw new RuntimeException("OggMusic " + urn.toString() + " not found!");
     }
 
     /**
@@ -182,7 +182,7 @@ public abstract class Assets {
      * @return An AtlasRegion representing the loaded Texture.
      */
     public static TextureAtlas.AtlasRegion getAtlasRegion(ResourceUrn urn) {
-        return getAtlasRegion(urn, Texture.TextureFilter.Linear);
+        return getAtlasRegion(urn, Texture.TextureFilter.Nearest);
     }
 
     public static void cacheLists() {
