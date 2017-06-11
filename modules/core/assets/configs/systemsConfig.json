@@ -126,14 +126,14 @@
             },
             {
                 "hull": "core:federalCapital",
-                "items": "core:shotGun+core:gun core:shotGun+core:cannon core:advancedArmor core:advancedShield",
+                "items": "core:dualBlaster core:dualBlaster core:advancedArmor core:advancedShield",
                 "repairer": true,
                 "density": 1,
 
                 "guard": {
                     "hull": "core:federalTiny",
-                    "items": "core:blaster+core:gun core:mediumArmor core:shield",
-                    "density": 3
+                    "items": "core:dualBlaster core:mediumArmor core:smallShield",
+                    "density": 4
                 }
             }
         ],
