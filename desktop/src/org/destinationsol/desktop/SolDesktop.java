@@ -7,7 +7,6 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.SolFileReader;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.soundtest.SoundTestListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.crashreporter.CrashReporter;
@@ -25,11 +24,6 @@ import java.util.List;
 public class SolDesktop {
     private static Logger logger = LoggerFactory.getLogger(SolDesktop.class);
     public static void main(String[] argv) {
-        if (false) {
-            new LwjglApplication(new SoundTestListener(), "sound test", 800, 600);
-            return;
-        }
-
         LwjglApplicationConfiguration applicationConfig = new LwjglApplicationConfiguration();
         boolean devBuild = java.nio.file.Files.exists(Paths.get("devBuild"));
         if (devBuild) {
@@ -59,7 +53,6 @@ public class SolDesktop {
             applicationConfig.addIcon(DebugOptions.DEV_ROOT_PATH + "res/icon.png", Files.FileType.Absolute);
         }
 
-        /*
         Thread.setDefaultUncaughtExceptionHandler((thread, ex) -> {
             // Get the exception stack trace string
             StringWriter stringWriter = new StringWriter();
@@ -76,7 +69,6 @@ public class SolDesktop {
             // Run asynchronously so that the error message view is not blocked
             new Thread(() -> CrashReporter.report(ex, logPath)).start();
         });
-        */
 
         new LwjglApplication(new SolApplication(), applicationConfig);
     }
