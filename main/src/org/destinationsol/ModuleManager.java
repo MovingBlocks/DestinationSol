@@ -93,6 +93,7 @@ public class ModuleManager {
         Set<Module> requiredModules = Sets.newHashSet();
         requiredModules.add(engineModule);
         requiredModules.add(registry.getLatestModuleVersion(new Name("core")));
+        requiredModules.add(registry.getLatestModuleVersion(new Name("federal")));
 
         loadEnvironment(requiredModules);
     }

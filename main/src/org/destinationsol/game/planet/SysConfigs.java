@@ -29,7 +29,9 @@ import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class SysConfigs {
     private final Map<String, SysConfig> myConfigs;
@@ -43,31 +45,56 @@ public class SysConfigs {
         myBeltConfigs = new HashMap<>();
         myHardBeltConfigs = new HashMap<>();
 
-        load(textureManager, hullConfigs, false, new ResourceUrn("core:systemsConfig"), itemManager);
-        load(textureManager, hullConfigs, true, new ResourceUrn("core:asteroidBeltsConfig"), itemManager);
+        load("systemsConfig", textureManager, hullConfigs, false, itemManager);
+        load("asteroidBeltsConfig", textureManager, hullConfigs, true, itemManager);
     }
 
-    private void load(TextureManager textureManager, HullConfigManager hullConfigs, boolean belts,
-                          ResourceUrn configName, ItemManager itemManager) {
-        Json json = Assets.getJson(configName);
-        JsonValue rootNode = json.getJsonValue();
+    private void load(String configName, TextureManager textureManager, HullConfigManager hullConfigs, boolean belts, ItemManager itemManager) {
+        Json json_ = Assets.getJson(new ResourceUrn("engine:" + configName));
+        JsonValue rootNode_ = json_.getJsonValue();
 
-        for (JsonValue sh : rootNode) {
-            ArrayList<ShipConfig> tempEnemies = ShipConfig.loadList(sh.get("temporaryEnemies"), hullConfigs, itemManager);
-            ArrayList<ShipConfig> innerTempEnemies = ShipConfig.loadList(sh.get("innerTemporaryEnemies"), hullConfigs, itemManager);
-            SpaceEnvConfig envConfig = new SpaceEnvConfig(sh.get("environment"), textureManager);
+        for (JsonValue node : rootNode_) {
+            String name = node.name;
 
-            ArrayList<ShipConfig> constEnemies = null;
-            ArrayList<ShipConfig> constAllies = null;
-            if (!belts) {
-                constEnemies = ShipConfig.loadList(sh.get("constantEnemies"), hullConfigs, itemManager);
-                constAllies = ShipConfig.loadList(sh.get("constantAllies"), hullConfigs, itemManager);
-            }
-            TradeConfig tradeConfig = TradeConfig.load(itemManager, sh.get("trading"), hullConfigs);
-            boolean hard = sh.getBoolean("hard", false);
-            SysConfig c = new SysConfig(sh.name, tempEnemies, envConfig, constEnemies, constAllies, tradeConfig, innerTempEnemies, hard);
+            boolean hard = node.getBoolean("hard", false);
             Map<String, SysConfig> configs = belts ? hard ? myHardBeltConfigs : myBeltConfigs : hard ? myHardConfigs : myConfigs;
-            configs.put(sh.name, c);
+
+            SpaceEnvConfig envConfig = new SpaceEnvConfig(node.get("environment"), textureManager);
+
+            SysConfig config = new SysConfig(name, new ArrayList<>(), envConfig, new ArrayList<>(), new ArrayList<>(), new TradeConfig(), new ArrayList<>(), hard);
+            configs.put(name, config);
+        }
+
+        json_.dispose();
+
+        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-z]*(?<!^engine):" + configName);
+
+        for (ResourceUrn configUrn : configUrnList) {
+            Json json = Assets.getJson(configUrn);
+            JsonValue rootNode = json.getJsonValue();
+
+            for (JsonValue node : rootNode) {
+                String name = node.name;
+
+                boolean hard = node.getBoolean("hard", false);
+                Map<String, SysConfig> configs = belts ? hard ? myHardBeltConfigs : myBeltConfigs : hard ? myHardConfigs : myConfigs;
+
+                SysConfig config = configs.get(name);
+
+                // TODO : Maybe add sanity checks for config?
+
+                config.tempEnemies.addAll(ShipConfig.loadList(node.get("temporaryEnemies"), hullConfigs, itemManager));
+                config.innerTempEnemies.addAll(ShipConfig.loadList(node.get("innerTemporaryEnemies"), hullConfigs, itemManager));
+
+                if (!belts) {
+                    config.constEnemies.addAll(ShipConfig.loadList(node.get("constantEnemies"), hullConfigs, itemManager));
+                    config.constAllies.addAll(ShipConfig.loadList(node.get("constantAllies"), hullConfigs, itemManager));
+                }
+
+                config.tradeConfig.load(node.get("trading"), hullConfigs, itemManager);
+            }
+
+            json.dispose();
         }
     }
 

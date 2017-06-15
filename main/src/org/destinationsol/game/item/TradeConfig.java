@@ -26,25 +26,20 @@ import java.util.Collections;
 import java.util.List;
 
 public class TradeConfig {
-    public final List<ItemConfig> items;
-    public final ItemContainer hulls;
-    public final ItemContainer mercs;
+    public final List<ItemConfig> items = new ArrayList<>();
+    public final ItemContainer hulls = new ItemContainer();
+    public final ItemContainer mercs = new ItemContainer();
 
-    public TradeConfig(List<ItemConfig> items, ItemContainer hulls, ItemContainer mercs) {
-        this.items = items;
-        this.hulls = hulls;
-        this.mercs = mercs;
-    }
-
-    public static TradeConfig load(ItemManager itemManager, JsonValue tradeNode, HullConfigManager hullConfigs) {
+    public void load(JsonValue tradeNode, HullConfigManager hullConfigs, ItemManager itemManager) {
         if (tradeNode == null) {
-            return null;
+            return;
         }
-        String itemStr = tradeNode.getString("items");
-        List<ItemConfig> items = itemManager.parseItems(itemStr);
-        Collections.reverse(items);
 
-        ItemContainer hulls = new ItemContainer();
+        String itemStr = tradeNode.getString("items");
+        List<ItemConfig> itemList = itemManager.parseItems(itemStr);
+        Collections.reverse(itemList); // TODO: Examine why this is required.
+        items.addAll(itemList);
+
         String shipStr = tradeNode.getString("ships", "");
         String[] split = shipStr.split(" ");
         for (int i = split.length - 1; i >= 0; i--) {
@@ -53,14 +48,11 @@ public class TradeConfig {
             hulls.add(new ShipItem(hull));
         }
 
-        ItemContainer mercs = new ItemContainer();
         ArrayList<ShipConfig> loadList = ShipConfig.loadList(tradeNode.get("mercenaries"), hullConfigs, itemManager);
         for (int i = loadList.size() - 1; i >= 0; i--) {
             ShipConfig merc = loadList.get(i);
             mercs.add(new MercItem(merc));
         }
-
-        return new TradeConfig(items, hulls, mercs);
     }
 
 }

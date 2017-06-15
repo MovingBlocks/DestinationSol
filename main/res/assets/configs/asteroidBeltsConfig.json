@@ -1,0 +1,21 @@
+{
+    "standard": {
+        "environment": {
+            "junkTexs": "decorations/space/sysDeco",
+            "junkDensity": 0.06,
+            "farJunkTexs": "decorations/farSpace/beltFarBg",
+            "farJunkDensity": 0.01
+        }
+    },
+
+    "hard": {
+        "hard": true,
+
+        "environment": {
+            "junkTexs": "decorations/space/sysDeco",
+            "junkDensity": 0.06,
+            "farJunkTexs": "decorations/farSpace/beltFarBg",
+            "farJunkDensity": 0.01
+        }
+    }
+}

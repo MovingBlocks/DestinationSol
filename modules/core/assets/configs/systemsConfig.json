@@ -1,12 +1,5 @@
 {
     "standard": {
-        "environment": {
-            "junkTexs": "decorations/space/sysDeco",
-            "junkDensity": 0.03,
-            "farJunkTexs": "decorations/farSpace/sysFarBg",
-            "farJunkDensity": 0.01
-        },
-
         "constantAllies": [
             {
                 "hull": "core:imperialMedium",
@@ -103,13 +96,7 @@
     },
 
     "hard": {
-        "hard": true,
-        "environment": {
-            "junkTexs": "decorations/space/sysDeco",
-            "junkDensity": 0.06,
-            "farJunkTexs": "decorations/farSpace/sysFarBg",
-            "farJunkDensity": 0.01
-        },
+    	"hard": true,
 
         "constantAllies": [
             {
@@ -122,18 +109,6 @@
                     "hull": "core:imperialBig",
                     "items": "core:fixedGun core:fixedShotGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
                     "density": 3
-                }
-            },
-            {
-                "hull": "core:federalCapital",
-                "items": "core:dualBlaster core:dualBlaster core:advancedArmor core:advancedShield",
-                "repairer": true,
-                "density": 1,
-
-                "guard": {
-                    "hull": "core:federalTiny",
-                    "items": "core:dualBlaster core:mediumArmor core:smallShield",
-                    "density": 4
                 }
             }
         ],

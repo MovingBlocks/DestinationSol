@@ -34,8 +34,8 @@ public class ItemContainer implements Iterable<List<SolItem>> {
     private Set<List<SolItem>> myNewGroups;
 
     public ItemContainer() {
-        myGroups = new ArrayList<List<SolItem>>();
-        myNewGroups = new HashSet<List<SolItem>>();
+        myGroups = new ArrayList<>();
+        myNewGroups = new HashSet<>();
     }
 
     public boolean tryConsumeItem(SolItem example) {
