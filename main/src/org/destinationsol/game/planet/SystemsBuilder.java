@@ -186,5 +186,4 @@ public class SystemsBuilder {
         String name = SolMath.elemRnd(names.planets);
         return new Planet(s, SolMath.rnd(180), planetDist, SolMath.rnd(180), toSysRotSpd, rotSpd, groundHeight, false, planetConfig, name);
     }
-
 }

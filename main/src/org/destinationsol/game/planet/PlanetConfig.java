@@ -85,7 +85,8 @@ public class PlanetConfig {
         SkyConfig skyConfig = SkyConfig.load(rootNode.get("sky"), cols);
         int rowCount = rootNode.getInt("rowCount");
         boolean smoothLandscape = rootNode.getBoolean("smoothLandscape", false);
-        TradeConfig tradeConfig = TradeConfig.load(itemManager, rootNode.get("trading"), hullConfigs);
+        TradeConfig tradeConfig = new TradeConfig();
+        tradeConfig.load(rootNode.get("trading"), hullConfigs, itemManager);
         boolean hardOnly = rootNode.getBoolean("hardOnly", false);
         boolean easyOnly = rootNode.getBoolean("easyOnly", false);
         return new PlanetConfig(rootNode.name, minGrav, maxGrav, deco, groundEnemies, highOrbitEnemies, lowOrbitEnemies, cloudTexs,
