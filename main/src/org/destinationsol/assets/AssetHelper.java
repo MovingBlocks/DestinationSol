@@ -31,6 +31,7 @@ import org.terasology.assets.module.ModuleAwareAssetTypeManager;
 import org.terasology.module.ModuleEnvironment;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -60,29 +61,42 @@ public class AssetHelper {
         return assetTypeManager.getAssetManager().getAvailableAssets(type);
     }
 
+    public Set<ResourceUrn> list(Class<? extends Asset<?>> type, String regex) {
+        Set<ResourceUrn> finalList = new HashSet<>();
+
+        Set<ResourceUrn> resourceList = assetTypeManager.getAssetManager().getAvailableAssets(type);
+        for (ResourceUrn resourceUrn : resourceList) {
+            if (resourceUrn.toString().matches(regex)) {
+                finalList.add(resourceUrn);
+            }
+        }
+
+        return finalList;
+    }
+
     public static String resolveToPath(AssetDataFile assetDataFile) {
-        String path = "";
+        StringBuilder path = new StringBuilder();
 
         List<String> folders = assetDataFile.getPath();
 
         if (folders.get(0).equals("engine")) {
             if (DebugOptions.DEV_ROOT_PATH != null) {
-                path += DebugOptions.DEV_ROOT_PATH;
+                path.append(DebugOptions.DEV_ROOT_PATH);
             }
-            path += "res" + File.separator;
+            path.append("res").append(File.separator);
         } else {
             if (DebugOptions.DEV_ROOT_PATH == null) {
-                path += ".." + File.separator;
+                path.append("..").append(File.separator);
             }
-            path += "modules" + File.separator + folders.get(0) + File.separator;
+            path.append("modules").append(File.separator).append(folders.get(0)).append(File.separator);
         }
 
         for (int i = 1; i < folders.size(); i++) {
-            path += folders.get(i) + File.separator;
+            path.append(folders.get(i)).append(File.separator);
         }
 
-        path += assetDataFile.getFilename();
+        path.append(assetDataFile.getFilename());
 
-        return path;
+        return path.toString();
     }
 }

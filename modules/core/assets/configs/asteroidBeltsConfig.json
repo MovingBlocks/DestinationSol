@@ -1,12 +1,5 @@
 {
     "standard": {
-        "environment": {
-            "junkTexs": "decorations/space/sysDeco",
-            "junkDensity": 0.06,
-            "farJunkTexs": "decorations/farSpace/beltFarBg",
-            "farJunkDensity": 0.01
-        },
-
         "temporaryEnemies": [
             {
                 "hull": "core:minerSmall",
@@ -18,15 +11,7 @@
     },
 
     "hard": {
-        "hard": true,
-
-        "environment": {
-            "junkTexs": "decorations/space/sysDeco",
-            "junkDensity": 0.06,
-            "farJunkTexs": "decorations/farSpace/beltFarBg",
-            "farJunkDensity": 0.01
-        },
-
+    	"hard": true,
         "temporaryEnemies": [
             {
                 "hull": "core:minerMedium",
