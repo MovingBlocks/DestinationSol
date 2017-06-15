@@ -1,0 +1,18 @@
+{
+    "hard": {
+        "constantAllies": [
+            {
+                "hull": "core:federalCapital",
+                "items": "core:dualBlaster core:dualBlaster core:advancedArmor core:advancedShield",
+                "repairer": true,
+                "density": 1,
+
+                "guard": {
+                    "hull": "core:federalTiny",
+                    "items": "core:dualBlaster core:mediumArmor core:smallShield",
+                    "density": 4
+                }
+            }
+        ]
+    }
+}
