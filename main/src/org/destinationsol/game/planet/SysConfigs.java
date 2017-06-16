@@ -50,10 +50,10 @@ public class SysConfigs {
     }
 
     private void load(String configName, TextureManager textureManager, HullConfigManager hullConfigs, boolean belts, ItemManager itemManager) {
-        Json json_ = Assets.getJson(new ResourceUrn("engine:" + configName));
-        JsonValue rootNode_ = json_.getJsonValue();
+        Json json = Assets.getJson(new ResourceUrn("engine:" + configName));
+        JsonValue rootNode = json.getJsonValue();
 
-        for (JsonValue node : rootNode_) {
+        for (JsonValue node : rootNode) {
             String name = node.name;
 
             boolean hard = node.getBoolean("hard", false);
@@ -65,13 +65,13 @@ public class SysConfigs {
             configs.put(name, config);
         }
 
-        json_.dispose();
+        json.dispose();
 
         Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-z]*(?<!^engine):" + configName);
 
         for (ResourceUrn configUrn : configUrnList) {
-            Json json = Assets.getJson(configUrn);
-            JsonValue rootNode = json.getJsonValue();
+            json = Assets.getJson(configUrn);
+            rootNode = json.getJsonValue();
 
             for (JsonValue node : rootNode) {
                 String name = node.name;

@@ -16,14 +16,19 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.Const;
+import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.ExplorerDestProvider;
 import org.destinationsol.game.input.Guardian;
 import org.destinationsol.game.input.MoveDestProvider;
 import org.destinationsol.game.input.NoDestProvider;
 import org.destinationsol.game.input.Pilot;
+import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.maze.Maze;
 import org.destinationsol.game.planet.ConsumedAngles;
@@ -120,14 +125,20 @@ public class GalaxyFiller {
         return s;
     }
 
-    public void fill(SolGame game) {
+    public void fill(SolGame game, HullConfigManager hullConfigManager, ItemManager itemManager) {
         if (DebugOptions.NO_OBJS) {
             return;
         }
         createStarPorts(game);
         ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
 
-        ShipConfig mainStationCfg = game.getPlayerSpawnConfig().mainStation;
+        Json json = Assets.getJson(new ResourceUrn("engine:mainStationConfig"));
+        JsonValue rootNode = json.getJsonValue();
+
+        ShipConfig mainStationCfg = ShipConfig.load(hullConfigManager, rootNode, itemManager);
+
+        json.dispose();
+
         ConsumedAngles angles = new ConsumedAngles();
         FarShip mainStation = build(game, mainStationCfg, Faction.LAANI, true, systems.get(0), angles);
         myMainStationPos = new Vector2(mainStation.getPos());

@@ -16,12 +16,15 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class ShipConfig {
     public final HullConfig hull;
@@ -51,6 +54,32 @@ public class ShipConfig {
             res.add(c);
         }
         return res;
+    }
+
+    public static ShipConfig load(HullConfigManager hullConfigs, String shipName, ItemManager itemManager) {
+        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-z]*:playerSpawnConfig");
+
+        ShipConfig shipConfig = null;
+
+        for (ResourceUrn configUrn : configUrnList) {
+            Json json = Assets.getJson(configUrn);
+            JsonValue rootNode = json.getJsonValue();
+
+            for (JsonValue node : rootNode) {
+                if (node.name.equals(shipName)) {
+                    shipConfig = load(hullConfigs, node, itemManager);
+                    break;
+                }
+            }
+
+            json.dispose();
+
+            if (shipConfig != null) {
+                break;
+            }
+        }
+
+        return shipConfig;
     }
 
     public static ShipConfig load(HullConfigManager hullConfigs, JsonValue rootNode, ItemManager itemManager) {
