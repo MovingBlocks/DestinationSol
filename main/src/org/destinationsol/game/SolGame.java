@@ -185,8 +185,6 @@ public class SolGame {
                     }
                 }
             }
-        } else if (DebugOptions.GOD_MODE) {
-            itemManager.addAllGuns(ic);
         } else if (tutorialManager != null) {
             for (int i = 0; i < 50; i++) {
                 if (ic.groupCount() > 1.5f * Const.ITEM_GROUPS_PER_PAGE) {
