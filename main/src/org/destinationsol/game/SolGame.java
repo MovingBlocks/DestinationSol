@@ -53,7 +53,6 @@ import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SloMo;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.destinationsol.game.sound.OggMusicManager;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.game.sound.SpecialSounds;
 import org.destinationsol.ui.DebugCollector;
@@ -64,41 +63,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SolGame {
-    private final GameScreens myScreens;
-    private final SolCam myCam;
-    private final ObjectManager myObjectManager;
-    private final SolApplication myCmp;
-    private final DraMan myDraMan;
-    private final PlanetManager myPlanetManager;
-    private final TextureManager myTextureManager;
-    private final ChunkManager myChunkManager;
-    private final PartMan myPartMan;
-    private final AsteroidBuilder myAsteroidBuilder;
-    private final LootBuilder myLootBuilder;
-    private final ShipBuilder myShipBuilder;
+    private final GameScreens gameScreens;
+    private final SolCam camera;
+    private final ObjectManager objectManager;
+    private final SolApplication solApplication;
+    private final DraMan draMan;
+    private final PlanetManager planetManager;
+    private final TextureManager textureManager;
+    private final ChunkManager chunkManager;
+    private final PartMan partMan;
+    private final AsteroidBuilder asteroidBuilder;
+    private final LootBuilder lootBuilder;
+    private final ShipBuilder shipBuilder;
     private final HullConfigManager hullConfigManager;
-    private final GridDrawer myGridDrawer;
-    private final FarBackgroundManagerOld myFarBackgroundManagerOld;
-    private final FactionManager myFactionManager;
-    private final MapDrawer myMapDrawer;
-    private final ShardBuilder myShardBuilder;
-    private final ItemManager myItemManager;
-    private final StarPort.Builder myStarPortBuilder;
+    private final GridDrawer gridDrawer;
+    private final FarBackgroundManagerOld farBackgroundManagerOld;
+    private final FactionManager factionManager;
+    private final MapDrawer mapDrawer;
+    private final ShardBuilder shardBuilder;
+    private final ItemManager itemManager;
+    private final StarPort.Builder starPortBuilder;
     private final OggSoundManager soundManager;
-    private final OggMusicManager musicManager;
-    private final PlayerSpawnConfig myPlayerSpawnConfig;
-    private final DraDebugger myDraDebugger;
-    private final SpecialSounds mySpecialSounds;
-    private final EffectTypes myEffectTypes;
-    private final SpecialEffects mySpecialEffects;
+    private final DraDebugger draDebugger;
+    private final SpecialSounds specialSounds;
+    private final SpecialEffects specialEffects;
     private final GameColors gameColors;
-    private final AbilityCommonConfigs myAbilityCommonConfigs;
-    private final SolNames myNames;
-    private final BeaconHandler myBeaconHandler;
-    private final MountDetectDrawer myMountDetectDrawer;
-    private final TutorialManager myTutorialManager;
-    private final GalaxyFiller myGalaxyFiller;
-    private final ArrayList<SolItem> myRespawnItems;
+    private final BeaconHandler beaconHandler;
+    private final MountDetectDrawer mountDetectDrawer;
+    private final TutorialManager tutorialManager;
+    private final GalaxyFiller galaxyFiller;
+    private final ArrayList<SolItem> respawnItems;
     private SolShip myHero;
     private float myTimeStep;
     private float myTime;
@@ -108,89 +102,79 @@ public class SolGame {
     private float myRespawnMoney;
     private HullConfig myRespawnHull;
 
-    public SolGame(SolApplication cmp, boolean usePrevShip, TextureManager textureManager, boolean tut, CommonDrawer commonDrawer) {
-        myCmp = cmp;
+    public SolGame(SolApplication cmp, String shipName, TextureManager textureManager, boolean tut, CommonDrawer commonDrawer) {
+        solApplication = cmp;
         GameDrawer drawer = new GameDrawer(textureManager, commonDrawer);
         gameColors = new GameColors();
-        soundManager = myCmp.getSoundManager();
-        musicManager = myCmp.getMusicManager();
-        mySpecialSounds = new SpecialSounds(soundManager);
-        myDraMan = new DraMan(drawer);
-        myCam = new SolCam(drawer.r);
-        myScreens = new GameScreens(drawer.r, cmp);
-        myTutorialManager = tut ? new TutorialManager(commonDrawer.r, myScreens, cmp.isMobile(), cmp.getOptions(), this) : null;
-        myTextureManager = textureManager;
-        myFarBackgroundManagerOld = new FarBackgroundManagerOld(myTextureManager);
-        myShipBuilder = new ShipBuilder();
-        myEffectTypes = new EffectTypes();
-        mySpecialEffects = new SpecialEffects(myEffectTypes, myTextureManager, gameColors);
-        myItemManager = new ItemManager(myTextureManager, soundManager, myEffectTypes, gameColors);
-        myAbilityCommonConfigs = new AbilityCommonConfigs(myEffectTypes, myTextureManager, gameColors, soundManager);
-        hullConfigManager = new HullConfigManager(myItemManager, myAbilityCommonConfigs);
-        myNames = new SolNames();
-        myPlanetManager = new PlanetManager(myTextureManager, hullConfigManager, gameColors, myItemManager);
+        soundManager = solApplication.getSoundManager();
+        specialSounds = new SpecialSounds(soundManager);
+        draMan = new DraMan(drawer);
+        camera = new SolCam(drawer.r);
+        gameScreens = new GameScreens(drawer.r, cmp);
+        tutorialManager = tut ? new TutorialManager(commonDrawer.r, gameScreens, cmp.isMobile(), cmp.getOptions(), this) : null;
+        this.textureManager = textureManager;
+        farBackgroundManagerOld = new FarBackgroundManagerOld(this.textureManager);
+        shipBuilder = new ShipBuilder();
+        EffectTypes effectTypes = new EffectTypes();
+        specialEffects = new SpecialEffects(effectTypes, this.textureManager, gameColors);
+        itemManager = new ItemManager(this.textureManager, soundManager, effectTypes, gameColors);
+        AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, this.textureManager, gameColors, soundManager);
+        hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
+        SolNames solNames = new SolNames();
+        planetManager = new PlanetManager(this.textureManager, hullConfigManager, gameColors, itemManager);
         SolContactListener contactListener = new SolContactListener(this);
-        myFactionManager = new FactionManager();
-        myObjectManager = new ObjectManager(contactListener, myFactionManager);
-        myGridDrawer = new GridDrawer(textureManager);
-        myChunkManager = new ChunkManager(myTextureManager);
-        myPartMan = new PartMan();
-        myAsteroidBuilder = new AsteroidBuilder(myTextureManager);
-        myLootBuilder = new LootBuilder();
-        myMapDrawer = new MapDrawer(myTextureManager, commonDrawer.h);
-        myShardBuilder = new ShardBuilder(myTextureManager);
-        myGalaxyFiller = new GalaxyFiller();
-        myStarPortBuilder = new StarPort.Builder();
-        myPlayerSpawnConfig = PlayerSpawnConfig.load(hullConfigManager, myItemManager);
-        myDraDebugger = new DraDebugger();
-        myBeaconHandler = new BeaconHandler(textureManager);
-        myMountDetectDrawer = new MountDetectDrawer(textureManager);
-        myRespawnItems = new ArrayList<>();
+        factionManager = new FactionManager();
+        objectManager = new ObjectManager(contactListener, factionManager);
+        gridDrawer = new GridDrawer(textureManager);
+        chunkManager = new ChunkManager(this.textureManager);
+        partMan = new PartMan();
+        asteroidBuilder = new AsteroidBuilder(this.textureManager);
+        lootBuilder = new LootBuilder();
+        mapDrawer = new MapDrawer(this.textureManager, commonDrawer.h);
+        shardBuilder = new ShardBuilder(this.textureManager);
+        galaxyFiller = new GalaxyFiller();
+        starPortBuilder = new StarPort.Builder();
+        draDebugger = new DraDebugger();
+        beaconHandler = new BeaconHandler(textureManager);
+        mountDetectDrawer = new MountDetectDrawer(textureManager);
+        respawnItems = new ArrayList<>();
         myTimeFactor = 1;
 
         // from this point we're ready!
-        myPlanetManager.fill(myNames);
-        myGalaxyFiller.fill(this);
-        ShipConfig startingShip = usePrevShip ? SaveManager.readShip(hullConfigManager, myItemManager) : null;
-        createPlayer(startingShip);
+        planetManager.fill(solNames);
+        galaxyFiller.fill(this, hullConfigManager, itemManager);
+        createPlayer(shipName);
         SolMath.checkVectorsTaken(null);
     }
 
     // uh, this needs refactoring
-    private void createPlayer(ShipConfig prevShip) {
-        Vector2 pos = myGalaxyFiller.getPlayerSpawnPos(this);
-        myCam.setPos(pos);
+    private void createPlayer(String shipName) {
+        Vector2 pos = galaxyFiller.getPlayerSpawnPos(this);
+        camera.setPos(pos);
 
         Pilot pilot;
-        if (myCmp.getOptions().controlType == GameOptions.CONTROL_MOUSE) {
-            myBeaconHandler.init(this, pos);
+        if (solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE) {
+            beaconHandler.init(this, pos);
             pilot = new AiPilot(new BeaconDestProvider(), true, Faction.LAANI, false, "you", Const.AI_DET_DIST);
         } else {
-            pilot = new UiControlledPilot(myScreens.mainScreen);
+            pilot = new UiControlledPilot(gameScreens.mainScreen);
         }
 
-        ShipConfig shipConfig;
-        if (DebugOptions.GOD_MODE) {
-            shipConfig = myPlayerSpawnConfig.godShipConfig;
-        } else if (prevShip != null) {
-            shipConfig = prevShip;
-        } else {
-            shipConfig = myPlayerSpawnConfig.shipConfig;
-        }
+        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(hullConfigManager, itemManager) : ShipConfig.load(hullConfigManager, shipName, itemManager);
 
-        float money = myRespawnMoney != 0 ? myRespawnMoney : myTutorialManager != null ? 200 : shipConfig.money;
+        float money = myRespawnMoney != 0 ? myRespawnMoney : tutorialManager != null ? 200 : shipConfig.money;
 
         HullConfig hull = myRespawnHull != null ? myRespawnHull : shipConfig.hull;
 
-        String itemsStr = !myRespawnItems.isEmpty() ? "" : shipConfig.items;
+        String itemsStr = !respawnItems.isEmpty() ? "" : shipConfig.items;
 
-        boolean giveAmmo = prevShip == null && myRespawnItems.isEmpty();
-        myHero = myShipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, itemsStr, hull, null, true, money, null, giveAmmo).toObj(this);
+        boolean giveAmmo = shipName != null && respawnItems.isEmpty();
+        myHero = shipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, itemsStr, hull, null, true, money, null, giveAmmo).toObj(this);
 
         ItemContainer ic = myHero.getItemContainer();
-        if (!myRespawnItems.isEmpty()) {
-            for (int i1 = 0, sz = myRespawnItems.size(); i1 < sz; i1++) {
-                SolItem item = myRespawnItems.get(i1);
+        if (!respawnItems.isEmpty()) {
+            for (int i1 = 0, sz = respawnItems.size(); i1 < sz; i1++) {
+                SolItem item = respawnItems.get(i1);
                 ic.add(item);
                 // Ensure that previously equipped items stay equipped
                 if (item.isEquipped() > 0) {
@@ -202,13 +186,13 @@ public class SolGame {
                 }
             }
         } else if (DebugOptions.GOD_MODE) {
-            myItemManager.addAllGuns(ic);
-        } else if (myTutorialManager != null) {
+            itemManager.addAllGuns(ic);
+        } else if (tutorialManager != null) {
             for (int i = 0; i < 50; i++) {
                 if (ic.groupCount() > 1.5f * Const.ITEM_GROUPS_PER_PAGE) {
                     break;
                 }
-                SolItem it = myItemManager.random();
+                SolItem it = itemManager.random();
                 if (!(it instanceof Gun) && it.getIcon(this) != null && ic.canAdd(it)) {
                     ic.add(it.copy());
                 }
@@ -219,17 +203,17 @@ public class SolGame {
         // Don't change equipped items across load/respawn
         //AiPilot.reEquip(this, myHero);
 
-        myObjectManager.addObjDelayed(myHero);
-        myObjectManager.resetDelays();
+        objectManager.addObjDelayed(myHero);
+        objectManager.resetDelays();
     }
 
     public void onGameEnd() {
         saveShip();
-        myObjectManager.dispose();
+        objectManager.dispose();
     }
 
     public void saveShip() {
-        if (myTutorialManager != null) {
+        if (tutorialManager != null) {
             return;
         }
         HullConfig hull;
@@ -257,21 +241,21 @@ public class SolGame {
         } else {
             hull = myRespawnHull;
             money = myRespawnMoney;
-            items = myRespawnItems;
+            items = respawnItems;
         }
         SaveManager.writeShip(hull, money, items, this);
     }
 
     public GameScreens getScreens() {
-        return myScreens;
+        return gameScreens;
     }
 
     public void update() {
-        myDraDebugger.update(this);
+        draDebugger.update(this);
 
         if (myPaused) {
-            myCam.updateMap(this); // update zoom only for map
-            myMapDrawer.update(this); // animate map icons
+            camera.updateMap(this); // update zoom only for map
+            mapDrawer.update(this); // animate map icons
             return;
         }
 
@@ -286,19 +270,19 @@ public class SolGame {
         myTimeStep = Const.REAL_TIME_STEP * myTimeFactor;
         myTime += myTimeStep;
 
-        myPlanetManager.update(this);
-        myCam.update(this);
-        myChunkManager.update(this);
-        myMountDetectDrawer.update(this);
-        myObjectManager.update(this);
-        myDraMan.update(this);
-        myMapDrawer.update(this);
+        planetManager.update(this);
+        camera.update(this);
+        chunkManager.update(this);
+        mountDetectDrawer.update(this);
+        objectManager.update(this);
+        draMan.update(this);
+        mapDrawer.update(this);
         soundManager.update(this);
-        myBeaconHandler.update(this);
+        beaconHandler.update(this);
 
         myHero = null;
         myTranscendentHero = null;
-        List<SolObject> objs = myObjectManager.getObjs();
+        List<SolObject> objs = objectManager.getObjs();
         for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
             SolObject obj = objs.get(i);
             if ((obj instanceof SolShip)) {
@@ -319,23 +303,23 @@ public class SolGame {
             }
         }
 
-        if (myTutorialManager != null) {
-            myTutorialManager.update();
+        if (tutorialManager != null) {
+            tutorialManager.update();
         }
     }
 
     public void draw() {
-        myDraMan.draw(this);
+        draMan.draw(this);
     }
 
     public void drawDebug(GameDrawer drawer) {
         if (DebugOptions.GRID_SZ > 0) {
-            myGridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTex);
+            gridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTex);
         }
-        myPlanetManager.drawDebug(drawer, this);
-        myObjectManager.drawDebug(drawer, this);
+        planetManager.drawDebug(drawer, this);
+        objectManager.drawDebug(drawer, this);
         if (DebugOptions.ZOOM_OVERRIDE != 0) {
-            myCam.drawDebug(drawer);
+            camera.drawDebug(drawer);
         }
         drawDebugPoint(drawer, DebugOptions.DEBUG_POINT, DebugCol.POINT);
         drawDebugPoint(drawer, DebugOptions.DEBUG_POINT2, DebugCol.POINT2);
@@ -344,7 +328,7 @@ public class SolGame {
 
     private void drawDebugPoint(GameDrawer drawer, Vector2 dp, Color col) {
         if (dp.x != 0 || dp.y != 0) {
-            float sz = myCam.getRealLineWidth() * 5;
+            float sz = camera.getRealLineWidth() * 5;
             drawer.draw(drawer.debugWhiteTex, sz, sz, sz / 2, sz / 2, dp.x, dp.y, 0, col);
         }
     }
@@ -354,39 +338,39 @@ public class SolGame {
     }
 
     public SolCam getCam() {
-        return myCam;
+        return camera;
     }
 
     public SolApplication getCmp() {
-        return myCmp;
+        return solApplication;
     }
 
     public DraMan getDraMan() {
-        return myDraMan;
+        return draMan;
     }
 
     public ObjectManager getObjMan() {
-        return myObjectManager;
+        return objectManager;
     }
 
     public TextureManager getTexMan() {
-        return myTextureManager;
+        return textureManager;
     }
 
     public PlanetManager getPlanetMan() {
-        return myPlanetManager;
+        return planetManager;
     }
 
     public PartMan getPartMan() {
-        return myPartMan;
+        return partMan;
     }
 
     public AsteroidBuilder getAsteroidBuilder() {
-        return myAsteroidBuilder;
+        return asteroidBuilder;
     }
 
     public LootBuilder getLootBuilder() {
-        return myLootBuilder;
+        return lootBuilder;
     }
 
     public SolShip getHero() {
@@ -394,11 +378,11 @@ public class SolGame {
     }
 
     public ShipBuilder getShipBuilder() {
-        return myShipBuilder;
+        return shipBuilder;
     }
 
     public ItemManager getItemMan() {
-        return myItemManager;
+        return itemManager;
     }
 
     public HullConfigManager getHullConfigs() {
@@ -417,42 +401,42 @@ public class SolGame {
     public void respawn() {
         if (myHero != null) {
             beforeHeroDeath();
-            myObjectManager.removeObjDelayed(myHero);
+            objectManager.removeObjDelayed(myHero);
         } else if (myTranscendentHero != null) {
             FarShip farH = myTranscendentHero.getShip();
             setRespawnState(farH.getMoney(), farH.getIc(), farH.getHullConfig());
-            myObjectManager.removeObjDelayed(myTranscendentHero);
+            objectManager.removeObjDelayed(myTranscendentHero);
         }
         createPlayer(null);
     }
 
     public FactionManager getFactionMan() {
-        return myFactionManager;
+        return factionManager;
     }
 
     public boolean isPlaceEmpty(Vector2 pos, boolean considerPlanets) {
-        Planet np = myPlanetManager.getNearestPlanet(pos);
+        Planet np = planetManager.getNearestPlanet(pos);
         if (considerPlanets) {
             boolean inPlanet = np.getPos().dst(pos) < np.getFullHeight();
             if (inPlanet) {
                 return false;
             }
         }
-        SolSystem ns = myPlanetManager.getNearestSystem(pos);
+        SolSystem ns = planetManager.getNearestSystem(pos);
         if (ns.getPos().dst(pos) < SunSingleton.SUN_HOT_RAD) {
             return false;
         }
-        List<SolObject> objs = myObjectManager.getObjs();
+        List<SolObject> objs = objectManager.getObjs();
         for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
             SolObject o = objs.get(i);
             if (!o.hasBody()) {
                 continue;
             }
-            if (pos.dst(o.getPosition()) < myObjectManager.getRadius(o)) {
+            if (pos.dst(o.getPosition()) < objectManager.getRadius(o)) {
                 return false;
             }
         }
-        List<FarObjData> farObjs = myObjectManager.getFarObjs();
+        List<FarObjData> farObjs = objectManager.getFarObjs();
         for (int i = 0, farObjsSize = farObjs.size(); i < farObjsSize; i++) {
             FarObjData fod = farObjs.get(i);
             FarObj o = fod.fo;
@@ -467,23 +451,23 @@ public class SolGame {
     }
 
     public MapDrawer getMapDrawer() {
-        return myMapDrawer;
+        return mapDrawer;
     }
 
     public ShardBuilder getShardBuilder() {
-        return myShardBuilder;
+        return shardBuilder;
     }
 
     public FarBackgroundManagerOld getFarBgManOld() {
-        return myFarBackgroundManagerOld;
+        return farBackgroundManagerOld;
     }
 
     public GalaxyFiller getGalaxyFiller() {
-        return myGalaxyFiller;
+        return galaxyFiller;
     }
 
     public StarPort.Builder getStarPortBuilder() {
-        return myStarPortBuilder;
+        return starPortBuilder;
     }
 
     public StarPort.Transcendent getTranscendentHero() {
@@ -491,7 +475,7 @@ public class SolGame {
     }
 
     public GridDrawer getGridDrawer() {
-        return myGridDrawer;
+        return gridDrawer;
     }
 
     public OggSoundManager getSoundManager() {
@@ -503,19 +487,15 @@ public class SolGame {
     }
 
     public void drawDebugUi(UiDrawer uiDrawer) {
-        myDraDebugger.draw(uiDrawer);
-    }
-
-    public PlayerSpawnConfig getPlayerSpawnConfig() {
-        return myPlayerSpawnConfig;
+        draDebugger.draw(uiDrawer);
     }
 
     public SpecialSounds getSpecialSounds() {
-        return mySpecialSounds;
+        return specialSounds;
     }
 
     public SpecialEffects getSpecialEffects() {
-        return mySpecialEffects;
+        return specialEffects;
     }
 
     public GameColors getCols() {
@@ -527,15 +507,15 @@ public class SolGame {
     }
 
     public BeaconHandler getBeaconHandler() {
-        return myBeaconHandler;
+        return beaconHandler;
     }
 
     public MountDetectDrawer getMountDetectDrawer() {
-        return myMountDetectDrawer;
+        return mountDetectDrawer;
     }
 
     public TutorialManager getTutMan() {
-        return myTutorialManager;
+        return tutorialManager;
     }
 
     public void beforeHeroDeath() {
@@ -549,7 +529,7 @@ public class SolGame {
         setRespawnState(money, ic, myHero.getHull().config);
 
         myHero.setMoney(money - myRespawnMoney);
-        for (SolItem item : myRespawnItems) {
+        for (SolItem item : respawnItems) {
             ic.remove(item);
         }
     }
@@ -557,12 +537,12 @@ public class SolGame {
     private void setRespawnState(float money, ItemContainer ic, HullConfig hullConfig) {
         myRespawnMoney = .75f * money;
         myRespawnHull = hullConfig;
-        myRespawnItems.clear();
+        respawnItems.clear();
         for (List<SolItem> group : ic) {
             for (SolItem item : group) {
                 boolean equipped = myHero == null || myHero.maybeUnequip(this, item, false);
                 if (equipped || SolMath.test(.75f)) {
-                    myRespawnItems.add(0, item);
+                    respawnItems.add(0, item);
                 }
             }
         }

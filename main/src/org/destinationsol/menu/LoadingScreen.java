@@ -36,7 +36,7 @@ public class LoadingScreen implements SolUiScreen {
 
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private boolean loadTutorial;
-    private boolean usePreviousShip;
+    private String shipName;
 
     LoadingScreen() {
         bgTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
@@ -49,7 +49,7 @@ public class LoadingScreen implements SolUiScreen {
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        solApplication.startNewGame(loadTutorial, usePreviousShip);
+        solApplication.startNewGame(loadTutorial, shipName);
     }
 
     @Override
@@ -57,9 +57,9 @@ public class LoadingScreen implements SolUiScreen {
         uiDrawer.drawString("Loading...", uiDrawer.r / 2, .5f, FontSize.MENU, true, SolColor.WHITE);
     }
 
-    public void setMode(boolean loadTutorial, boolean usePreviousShip) {
+    public void setMode(boolean loadTutorial, String shipName) {
         this.loadTutorial = loadTutorial;
-        this.usePreviousShip = usePreviousShip;
+        this.shipName = shipName;
     }
 
     @Override

@@ -176,17 +176,17 @@ public class SolApplication implements ApplicationListener {
         myCommonDrawer.end();
     }
 
-    public void loadNewGame(boolean tut, boolean usePrevShip) {
+    public void loadNewGame(boolean tut, String shipName) {
         if (myGame != null) {
             throw new AssertionError("Starting a new game with unfinished current one");
         }
         myInputMan.setScreen(this, myMenuScreens.loading);
-        myMenuScreens.loading.setMode(tut, usePrevShip);
+        myMenuScreens.loading.setMode(tut, shipName);
         musicManager.playGameMusic(myOptions);
     }
 
-    public void startNewGame(boolean tut, boolean usePrevShip) {
-        myGame = new SolGame(this, usePrevShip, myTextureManager, tut, myCommonDrawer);
+    public void startNewGame(boolean tut, String shipName) {
+        myGame = new SolGame(this, shipName, myTextureManager, tut, myCommonDrawer);
         myInputMan.setScreen(this, myGame.getScreens().mainScreen);
         musicManager.playGameMusic(myOptions);
     }
