@@ -17,31 +17,52 @@
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.files.HullConfigManager;
+import org.destinationsol.game.ShipConfig;
+import org.destinationsol.game.item.ItemManager;
+import org.destinationsol.game.planet.SysConfig;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class NewShipScreen implements SolUiScreen {
+    private final TextureAtlas.AtlasRegion bgTex;
+
     private final List<SolUiControl> controls = new ArrayList<>();
-    private final SolUiControl cancelControl;
-    private final SolUiControl okControl;
+    private SolUiControl cancelControl;
+    private List<String> playerSpawnConfigNames = new ArrayList<>();
 
     NewShipScreen(MenuLayout menuLayout, GameOptions gameOptions) {
-        okControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.H);
-        okControl.setDisplayName("OK");
-        controls.add(okControl);
+        loadPlayerSpawnConfigs();
 
-        cancelControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
+        int row = 1;
+        for (String playerSpawnConfigName : playerSpawnConfigNames) {
+            SolUiControl uiControl = new SolUiControl(menuLayout.buttonRect(-1, row++), true);
+            uiControl.setDisplayName(playerSpawnConfigName);
+            controls.add(uiControl);
+        }
+
+        cancelControl = new SolUiControl(menuLayout.buttonRect(-1, row), true, gameOptions.getKeyEscape());
         cancelControl.setDisplayName("Cancel");
         controls.add(cancelControl);
+
+        bgTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
     }
 
     @Override
@@ -55,13 +76,41 @@ public class NewShipScreen implements SolUiScreen {
             solApplication.getInputMan().setScreen(solApplication, solApplication.getMenuScreens().newGame);
             return;
         }
-        if (okControl.isJustOff()) {
-            solApplication.loadNewGame(false, false);
+
+        for (SolUiControl control : controls) {
+            if (control == cancelControl) {
+                continue;
+            }
+
+            if (control.isJustOff()) {
+                solApplication.loadNewGame(false, control.getDisplayName());
+                return;
+            }
         }
     }
 
     @Override
     public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.drawString("This will erase your previous ship", .5f * uiDrawer.r, .3f, FontSize.MENU, true, SolColor.WHITE);
+        uiDrawer.drawString("Warning: This will erase any old ship you might have had!", .5f * uiDrawer.r, .3f, FontSize.MENU, true, SolColor.WHITE);
+    }
+
+    @Override
+    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+    }
+
+    private void loadPlayerSpawnConfigs() {
+        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-z]*:playerSpawnConfig");
+
+        for (ResourceUrn configUrn : configUrnList) {
+            Json json = Assets.getJson(configUrn);
+            JsonValue rootNode = json.getJsonValue();
+
+            for (JsonValue node : rootNode) {
+                playerSpawnConfigNames.add(node.name);
+            }
+
+            json.dispose();
+        }
     }
 }

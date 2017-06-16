@@ -149,6 +149,10 @@ public class SolUiControl {
         return myEnabled && (!myKeyPressed && myKeyPressedPrev || myAreaJustUnpressed);
     }
 
+    public String getDisplayName() {
+        return myDisplayName;
+    }
+
     public void setDisplayName(String displayName) {
         myDisplayName = displayName;
     }

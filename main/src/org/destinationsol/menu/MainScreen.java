@@ -88,7 +88,7 @@ public class MainScreen implements SolUiScreen {
         }
 
         if (tutorialControl.isJustOff()) {
-            solApplication.loadNewGame(true, false);
+            solApplication.loadNewGame(true, "Imperial Small");
             return;
         }
 
