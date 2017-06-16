@@ -17,13 +17,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 public class SolDesktop {
     private static Logger logger = LoggerFactory.getLogger(SolDesktop.class);
+
+    private static final String NO_CRASH_REPORT = "-noCrashReport";
+
     public static void main(String[] argv) {
+        List<String> commandLineArgs = Arrays.asList(argv);
+
         LwjglApplicationConfiguration applicationConfig = new LwjglApplicationConfiguration();
         boolean devBuild = java.nio.file.Files.exists(Paths.get("devBuild"));
         if (devBuild) {
@@ -53,22 +59,24 @@ public class SolDesktop {
             applicationConfig.addIcon(DebugOptions.DEV_ROOT_PATH + "res/icon.png", Files.FileType.Absolute);
         }
 
-        Thread.setDefaultUncaughtExceptionHandler((thread, ex) -> {
-            // Get the exception stack trace string
-            StringWriter stringWriter = new StringWriter();
-            PrintWriter printWriter = new PrintWriter(stringWriter);
-            ex.printStackTrace(printWriter);
-            String exceptionString = stringWriter.getBuffer().toString();
-            logger.error("This exception was not caught:", ex);
+        if (!commandLineArgs.contains(NO_CRASH_REPORT)) {
+            Thread.setDefaultUncaughtExceptionHandler((thread, ex) -> {
+                // Get the exception stack trace string
+                StringWriter stringWriter = new StringWriter();
+                PrintWriter printWriter = new PrintWriter(stringWriter);
+                ex.printStackTrace(printWriter);
+                String exceptionString = stringWriter.getBuffer().toString();
+                logger.error("This exception was not caught:", ex);
 
-            // Create a crash dump file
-            String fileName = "crash-" + new SimpleDateFormat("yyyy-dd-MM_HH-mm-ss").format(new Date()) + ".log";
-            List<String> lines = Collections.singletonList(exceptionString);
-            Path logPath = new MyReader().create(fileName, lines).toAbsolutePath().getParent();
+                // Create a crash dump file
+                String fileName = "crash-" + new SimpleDateFormat("yyyy-dd-MM_HH-mm-ss").format(new Date()) + ".log";
+                List<String> lines = Collections.singletonList(exceptionString);
+                Path logPath = new MyReader().create(fileName, lines).toAbsolutePath().getParent();
 
-            // Run asynchronously so that the error message view is not blocked
-            new Thread(() -> CrashReporter.report(ex, logPath)).start();
-        });
+                // Run asynchronously so that the error message view is not blocked
+                new Thread(() -> CrashReporter.report(ex, logPath)).start();
+            });
+        }
 
         new LwjglApplication(new SolApplication(), applicationConfig);
     }
