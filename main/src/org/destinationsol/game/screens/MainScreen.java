@@ -87,7 +87,7 @@ public class MainScreen implements SolUiScreen {
     private final TextPlace myChargesExcessTp;
     private final TextPlace myMoneyExcessTp;
 
-    MainScreen(float resolutionRatio, RightPaneLayout rightPaneLayout, SolApplication solApplication) {
+    public MainScreen(float resolutionRatio, RightPaneLayout rightPaneLayout, SolApplication solApplication) {
         GameOptions gameOptions = solApplication.getOptions();
 
         int ct = solApplication.getOptions().controlType;
@@ -417,8 +417,7 @@ public class MainScreen implements SolUiScreen {
             //updateTextPlace(col1, row, (int) hero.getMoney() + "", myMoneyExcessTp);
         }
 
-        for (int i = 0, sz = warnDrawers.size(); i < sz; i++) {
-            WarnDrawer wd = warnDrawers.get(i);
+        for (WarnDrawer wd : warnDrawers) {
             if (wd.drawPerc > 0) {
                 wd.draw(uiDrawer);
                 break;
@@ -506,10 +505,7 @@ public class MainScreen implements SolUiScreen {
 
         protected boolean shouldWarn(SolGame game) {
             SolShip h = game.getHero();
-            if (h == null) {
-                return false;
-            }
-            return h.getShield() == null;
+            return h != null && h.getShield() == null;
         }
     }
 
@@ -520,10 +516,7 @@ public class MainScreen implements SolUiScreen {
 
         protected boolean shouldWarn(SolGame game) {
             SolShip h = game.getHero();
-            if (h == null) {
-                return false;
-            }
-            return h.getArmor() == null;
+            return h != null && h.getArmor() == null;
         }
     }
 
@@ -537,29 +530,36 @@ public class MainScreen implements SolUiScreen {
             if (h == null) {
                 return false;
             }
+
             float heroCap = HardnessCalc.getShipDmgCap(h);
             List<SolObject> objs = game.getObjMan().getObjs();
             FactionManager fm = game.getFactionMan();
             SolCam cam = game.getCam();
             float viewDist = cam.getViewDist();
             float dps = 0;
-            for (int i = 0, sz = objs.size(); i < sz; i++) {
-                SolObject o = objs.get(i);
+
+            for (SolObject o : objs) {
                 if (!(o instanceof SolShip)) {
                     continue;
                 }
+
                 SolShip ship = (SolShip) o;
+
                 if (viewDist < ship.getPosition().dst(h.getPosition())) {
                     continue;
                 }
+
                 if (!fm.areEnemies(h, ship)) {
                     continue;
                 }
+
                 dps += HardnessCalc.getShipDps(ship);
+
                 if (HardnessCalc.isDangerous(heroCap, dps)) {
                     return true;
                 }
             }
+
             return false;
         }
     }

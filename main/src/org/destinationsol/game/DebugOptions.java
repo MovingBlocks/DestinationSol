@@ -26,14 +26,15 @@ public class DebugOptions {
     public static final boolean ASSERTIONS = false;
     public static final boolean PRINT_BALANCE = false;
     public static String DEV_ROOT_PATH;
-    // world initialization
+
+    // World initialization
     public static boolean EMULATE_MOBILE = false;
     public static String SPAWN_PLACE = "";
     public static String FORCE_PLANET_TYPE = "";
     public static String FORCE_SYSTEM_TYPE = "";
     public static boolean NO_OBJS = false;
 
-    // presentation
+    // Presentation
     public static boolean NO_DRAS = false;
     public static float ZOOM_OVERRIDE = 0;
     public static float GRID_SZ = 0;
@@ -52,6 +53,7 @@ public class DebugOptions {
     public static boolean OBJ_INFO = false;
     public static boolean SOUND_INFO = false;
     public static boolean TEX_INFO = false;
+
     public static MissingResourceAction MISSING_SOUND_ACTION;
     public static MissingResourceAction MISSING_TEXTURE_ACTION;
     public static MissingResourceAction MISSING_PHYSICS_ACTION;
@@ -86,5 +88,4 @@ public class DebugOptions {
         MISSING_TEXTURE_ACTION = MissingResourceAction.forName(r.getString("missingTextureAction", MissingResourceAction.IGNORE.name));
         MISSING_PHYSICS_ACTION = MissingResourceAction.forName(r.getString("missingPhysicsAction", MissingResourceAction.IGNORE.name));
     }
-
 }
