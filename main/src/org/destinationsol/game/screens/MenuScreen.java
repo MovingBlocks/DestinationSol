@@ -37,7 +37,7 @@ public class MenuScreen implements SolUiScreen {
     private final SolUiControl musicVolumeControl;
     private final SolUiControl doNotSellEquippedControl;
 
-    MenuScreen(MenuLayout menuLayout, GameOptions gameOptions) {
+    public MenuScreen(MenuLayout menuLayout, GameOptions gameOptions) {
         doNotSellEquippedControl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
         doNotSellEquippedControl.setDisplayName("Can sell used items");
         controls.add(doNotSellEquippedControl);

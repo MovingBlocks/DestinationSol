@@ -42,23 +42,23 @@ import java.io.StringWriter;
 public class SolApplication implements ApplicationListener {
     private static Logger logger = LoggerFactory.getLogger(SolApplication.class);
 
-    private SolInputManager myInputMan;
-    private UiDrawer myUiDrawer;
-    private MenuScreens myMenuScreens;
-    private TextureManager myTextureManager;
-    private SolLayouts myLayouts;
-    private boolean myReallyMobile;
-    private GameOptions myOptions;
-    private CommonDrawer myCommonDrawer;
-    private FPSLogger myFpsLogger;
+    private SolInputManager inputManager;
+    private UiDrawer uiDrawer;
+    private MenuScreens menuScreens;
+    private TextureManager textureManager;
+    private SolLayouts layouts;
+    private boolean isMobile;
+    private GameOptions options;
+    private CommonDrawer commonDrawer;
+    private FPSLogger fpsLogger;
+    @SuppressWarnings("FieldCanBeLocal")
     private ModuleManager moduleManager;
     private OggMusicManager musicManager;
     private OggSoundManager soundManager;
-    private String myFatalErrorMsg;
-    private String myFatalErrorTrace;
-
-    private float myAccum = 0;
-    private SolGame myGame;
+    private String fatalErrorMsg;
+    private String fatalErrorTrace;
+    private float timeAccumulator = 0;
+    private SolGame solGame;
 
     public SolApplication() {
         // Initiate Box2D to make sure natives are loaded early enough
@@ -67,12 +67,11 @@ public class SolApplication implements ApplicationListener {
 
     @Override
     public void create() {
-
-        myReallyMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
-        if (myReallyMobile) {
+        isMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
+        if (isMobile) {
             DebugOptions.read(null);
         }
-        myOptions = new GameOptions(isMobile(), null);
+        options = new GameOptions(isMobile(), null);
 
         moduleManager = new ModuleManager();
         musicManager = new OggMusicManager();
@@ -80,60 +79,56 @@ public class SolApplication implements ApplicationListener {
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();
 
-        musicManager.playMenuMusic(myOptions);
+        musicManager.playMenuMusic(options);
 
         soundManager = new OggSoundManager();
-        myTextureManager = new TextureManager();
-        myCommonDrawer = new CommonDrawer();
-        myUiDrawer = new UiDrawer(myTextureManager, myCommonDrawer);
-        myInputMan = new SolInputManager(myTextureManager, soundManager);
-        myLayouts = new SolLayouts(myUiDrawer.r);
-        myMenuScreens = new MenuScreens(myLayouts, isMobile(), myUiDrawer.r, myOptions);
+        textureManager = new TextureManager();
+        commonDrawer = new CommonDrawer();
+        uiDrawer = new UiDrawer(textureManager, commonDrawer);
+        inputManager = new SolInputManager(textureManager, soundManager);
+        layouts = new SolLayouts(uiDrawer.r);
+        menuScreens = new MenuScreens(layouts, isMobile(), uiDrawer.r, options);
 
-        myInputMan.setScreen(this, myMenuScreens.main);
-        myFpsLogger = new FPSLogger();
+        inputManager.setScreen(this, menuScreens.main);
+        fpsLogger = new FPSLogger();
     }
 
     @Override
-    public void resize(int i, int i1) {
-
-    }
+    public void resize(int i, int i1) { }
 
     public void render() {
-        myAccum += Gdx.graphics.getDeltaTime();
-        while (myAccum > Const.REAL_TIME_STEP) {
-            safeUpdate();
-            myAccum -= Const.REAL_TIME_STEP;
+        timeAccumulator += Gdx.graphics.getDeltaTime();
 
+        while (timeAccumulator > Const.REAL_TIME_STEP) {
+            safeUpdate();
+            timeAccumulator -= Const.REAL_TIME_STEP;
         }
+
         draw();
     }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() { }
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() { }
 
     private void safeUpdate() {
-        if (myFatalErrorMsg != null) {
+        if (fatalErrorMsg != null) {
             return;
         }
+
         try {
             update();
         } catch (Throwable t) {
             logger.error("Fatal Error:", t);
-            myFatalErrorMsg = "A fatal error occurred:\n" + t.getMessage();
+            fatalErrorMsg = "A fatal error occurred:\n" + t.getMessage();
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             t.printStackTrace(pw);
-            myFatalErrorTrace = sw.toString();
+            fatalErrorTrace = sw.toString();
 
-            if (!myReallyMobile) {
+            if (!isMobile) {
                 throw t;
             }
         }
@@ -141,13 +136,16 @@ public class SolApplication implements ApplicationListener {
 
     private void update() {
         DebugCollector.update();
+
         if (DebugOptions.SHOW_FPS) {
             DebugCollector.debug("Fps", Gdx.graphics.getFramesPerSecond());
-            myFpsLogger.log();
+            fpsLogger.log();
         }
-        myInputMan.update(this);
-        if (myGame != null) {
-            myGame.update();
+
+        inputManager.update(this);
+
+        if (solGame != null) {
+            solGame.update();
         }
 
         SolMath.checkVectorsTaken(null);
@@ -155,83 +153,86 @@ public class SolApplication implements ApplicationListener {
 
     private void draw() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        myCommonDrawer.begin();
-        if (myGame != null) {
-            myGame.draw();
+        commonDrawer.begin();
+        if (solGame != null) {
+            solGame.draw();
         }
-        myUiDrawer.updateMtx();
-        myInputMan.draw(myUiDrawer, this);
-        if (myGame != null) {
-            myGame.drawDebugUi(myUiDrawer);
+        uiDrawer.updateMtx();
+        inputManager.draw(uiDrawer, this);
+        if (solGame != null) {
+            solGame.drawDebugUi(uiDrawer);
         }
-        if (myFatalErrorMsg != null) {
-            myUiDrawer.draw(myUiDrawer.whiteTex, myUiDrawer.r, .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
-            myUiDrawer.drawString(myFatalErrorMsg, myUiDrawer.r / 2, .5f, FontSize.MENU, true, SolColor.WHITE);
-            myUiDrawer.drawString(myFatalErrorTrace, .2f * myUiDrawer.r, .6f, FontSize.DEBUG, false, SolColor.WHITE);
+        if (fatalErrorMsg != null) {
+            uiDrawer.draw(uiDrawer.whiteTex, uiDrawer.r, .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
+            uiDrawer.drawString(fatalErrorMsg, uiDrawer.r / 2, .5f, FontSize.MENU, true, SolColor.WHITE);
+            uiDrawer.drawString(fatalErrorTrace, .2f * uiDrawer.r, .6f, FontSize.DEBUG, false, SolColor.WHITE);
         }
-        DebugCollector.draw(myUiDrawer);
-        if (myGame == null) {
-            myUiDrawer.drawString("v" + Const.VERSION, 0.01f, .974f, FontSize.DEBUG, TextAlignment.LEFT, false, SolColor.WHITE);
+        DebugCollector.draw(uiDrawer);
+        if (solGame == null) {
+            uiDrawer.drawString("v" + Const.VERSION, 0.01f, .974f, FontSize.DEBUG, TextAlignment.LEFT, false, SolColor.WHITE);
         }
-        myCommonDrawer.end();
+        commonDrawer.end();
     }
 
     public void loadNewGame(boolean tut, String shipName) {
-        if (myGame != null) {
+        if (solGame != null) {
             throw new AssertionError("Starting a new game with unfinished current one");
         }
-        myInputMan.setScreen(this, myMenuScreens.loading);
-        myMenuScreens.loading.setMode(tut, shipName);
-        musicManager.playGameMusic(myOptions);
+
+        inputManager.setScreen(this, menuScreens.loading);
+        menuScreens.loading.setMode(tut, shipName);
+        musicManager.playGameMusic(options);
     }
 
     public void startNewGame(boolean tut, String shipName) {
-        myGame = new SolGame(this, shipName, myTextureManager, tut, myCommonDrawer);
-        myInputMan.setScreen(this, myGame.getScreens().mainScreen);
-        musicManager.playGameMusic(myOptions);
+        solGame = new SolGame(this, shipName, textureManager, tut, commonDrawer);
+        inputManager.setScreen(this, solGame.getScreens().mainScreen);
+        musicManager.playGameMusic(options);
     }
 
     public SolInputManager getInputMan() {
-        return myInputMan;
+        return inputManager;
     }
 
     public MenuScreens getMenuScreens() {
-        return myMenuScreens;
+        return menuScreens;
     }
 
     public void dispose() {
-        myCommonDrawer.dispose();
-        if (myGame != null) {
-            myGame.onGameEnd();
+        commonDrawer.dispose();
+
+        if (solGame != null) {
+            solGame.onGameEnd();
         }
-        myTextureManager.dispose();
-        myInputMan.dispose();
+
+        textureManager.dispose();
+        inputManager.dispose();
     }
 
     public SolGame getGame() {
-        return myGame;
+        return solGame;
     }
 
     public SolLayouts getLayouts() {
-        return myLayouts;
+        return layouts;
     }
 
     public void finishGame() {
-        myGame.onGameEnd();
-        myGame = null;
-        myInputMan.setScreen(this, myMenuScreens.main);
+        solGame.onGameEnd();
+        solGame = null;
+        inputManager.setScreen(this, menuScreens.main);
     }
 
     public TextureManager getTexMan() {
-        return myTextureManager;
+        return textureManager;
     }
 
     public boolean isMobile() {
-        return DebugOptions.EMULATE_MOBILE || myReallyMobile;
+        return DebugOptions.EMULATE_MOBILE || isMobile;
     }
 
     public GameOptions getOptions() {
-        return myOptions;
+        return options;
     }
 
     public OggMusicManager getMusicManager() {
@@ -240,12 +241,5 @@ public class SolApplication implements ApplicationListener {
 
     public OggSoundManager getSoundManager() {
         return soundManager;
-    }
-
-    // TODO: Why do we even have this method? Look into its removal.
-    public void pauseApplication() {
-        if (myGame != null) {
-            myGame.saveShip();
-        }
     }
 }

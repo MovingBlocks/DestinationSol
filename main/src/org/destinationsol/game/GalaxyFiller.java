@@ -43,12 +43,9 @@ import org.terasology.assets.ResourceUrn;
 import java.util.ArrayList;
 
 public class GalaxyFiller {
-    public static final float STATION_CONSUME_SECTOR = 45f;
-    private Vector2 myMainStationPos;
+    private static final float STATION_CONSUME_SECTOR = 45f;
+    private Vector2 myMainStationPos = new Vector2();
     private HullConfig myMainStationHc;
-
-    public GalaxyFiller() {
-    }
 
     private Vector2 getPosForStation(SolSystem sys, boolean mainStation, ConsumedAngles angles) {
         Planet p;
@@ -141,35 +138,40 @@ public class GalaxyFiller {
 
         ConsumedAngles angles = new ConsumedAngles();
         FarShip mainStation = build(game, mainStationCfg, Faction.LAANI, true, systems.get(0), angles);
-        myMainStationPos = new Vector2(mainStation.getPos());
+        myMainStationPos.set(mainStation.getPos());
         myMainStationHc = mainStation.getHullConfig();
 
         for (SolSystem sys : systems) {
             SysConfig sysConfig = sys.getConfig();
+
             for (ShipConfig shipConfig : sysConfig.constAllies) {
                 int count = (int) (shipConfig.density);
                 for (int i = 0; i < count; i++) {
                     build(game, shipConfig, Faction.LAANI, false, sys, angles);
                 }
             }
+
             for (ShipConfig shipConfig : sysConfig.constEnemies) {
                 int count = (int) (shipConfig.density);
                 for (int i = 0; i < count; i++) {
                     build(game, shipConfig, Faction.EHAR, false, sys, angles);
                 }
             }
+
             angles = new ConsumedAngles();
         }
     }
 
     private void createStarPorts(SolGame game) {
         PlanetManager planetManager = game.getPlanetMan();
-        ArrayList<Planet> biggest = new ArrayList<Planet>();
+        ArrayList<Planet> biggest = new ArrayList<>();
+
         for (SolSystem s : planetManager.getSystems()) {
             float minH = 0;
             Planet biggestP = null;
             int bi = -1;
             ArrayList<Planet> ps = s.getPlanets();
+
             for (int i = 0; i < ps.size(); i++) {
                 Planet p = ps.get(i);
                 float gh = p.getGroundHeight();
@@ -179,10 +181,12 @@ public class GalaxyFiller {
                     bi = i;
                 }
             }
+
             for (int i = 0; i < ps.size(); i++) {
                 if (bi == i || bi == i - 1 || bi == i + 1) {
                     continue;
                 }
+
                 Planet p = ps.get(i);
                 link(game, p, biggestP);
             }
@@ -190,6 +194,7 @@ public class GalaxyFiller {
             for (Planet p : biggest) {
                 link(game, p, biggestP);
             }
+
             biggest.add(biggestP);
         }
 
@@ -262,7 +267,6 @@ public class GalaxyFiller {
                 pos.add(cfg.getApproxRadius() * 2, 0);
                 break;
             }
-
         }
         return pos;
     }
