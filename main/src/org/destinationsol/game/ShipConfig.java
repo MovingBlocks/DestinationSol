@@ -34,8 +34,7 @@ public class ShipConfig {
     public final ShipConfig guard;
     public final float dps;
 
-    public ShipConfig(HullConfig hull, String items, int money,
-                      float density, ShipConfig guard, ItemManager itemManager) {
+    public ShipConfig(HullConfig hull, String items, int money, float density, ShipConfig guard, ItemManager itemManager) {
         this.hull = hull;
         this.items = items;
         this.money = money;
@@ -86,17 +85,21 @@ public class ShipConfig {
         if (rootNode == null) {
             return null;
         }
+
         String hullName = rootNode.getString("hull");
         HullConfig hull = hullConfigs.getConfig(new ResourceUrn(hullName));
-        String items = rootNode.getString("items");
-        int money = rootNode.getInt("money", 0);
-        float density = rootNode.getFloat("density", -1);
+
         ShipConfig guard;
         if (rootNode.hasChild("guard")) {
             guard = load(hullConfigs, rootNode.get("guard"), itemManager);
         } else {
             guard = null;
         }
+
+        String items = rootNode.getString("items");
+        int money = rootNode.getInt("money", 0);
+        float density = rootNode.getFloat("density", -1);
+
         return new ShipConfig(hull, items, money, density, guard, itemManager);
     }
 }

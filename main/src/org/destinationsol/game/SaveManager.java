@@ -27,8 +27,7 @@ import org.terasology.assets.ResourceUrn;
 import java.util.ArrayList;
 
 public class SaveManager {
-
-    public static final String FILE_NAME = "prevShip.ini";
+    private static final String FILE_NAME = "prevShip.ini";
 
     public static void writeShip(HullConfig hull, float money, ArrayList<SolItem> items, SolGame game) {
         String hullName = game.getHullConfigs().getName(hull);
@@ -36,14 +35,14 @@ public class SaveManager {
         for (SolItem i : items) {
             sb.append(i.getCode());
             if (i.isEquipped() > 0) {
-                sb.append("-" + i.isEquipped());
+                sb.append("-").append(i.isEquipped());
             }
             sb.append(" ");
             // Save gun's loaded ammo
             if (i instanceof Gun) {
                 Gun g = (Gun) i;
                 if (g.ammo > 0 && !g.config.clipConf.infinite) {
-                    sb.append(g.config.clipConf.code + " ");
+                    sb.append(g.config.clipConf.code).append(" ");
                 }
             }
         }
@@ -56,16 +55,20 @@ public class SaveManager {
 
     public static ShipConfig readShip(HullConfigManager hullConfigs, ItemManager itemManager) {
         IniReader ir = new IniReader(FILE_NAME, null, false);
+
         String hullName = ir.getString("hull", null);
         if (hullName == null) {
             return null;
         }
+
         HullConfig hull = hullConfigs.getConfig(new ResourceUrn(hullName));
         if (hull == null) {
             return null;
         }
+
         int money = ir.getInt("money", 0);
         String itemsStr = ir.getString("items", "");
+
         return new ShipConfig(hull, itemsStr, money, 1, null, itemManager);
     }
 }
