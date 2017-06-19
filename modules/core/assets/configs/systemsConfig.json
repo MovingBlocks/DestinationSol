@@ -8,9 +8,16 @@
             },
 
             {
-                "hull": "core:imperialTiny",
-                "items": "core:blaster core:lightArmor core:smallShield",
-                "density": 3
+                "hull": "core:imperialCapital",
+                "items": "core:gun+core:blaster core:gun+core:blaster core:advancedArmor core:advancedShield",
+                "repairer": true,
+                "density": 1,
+
+                "guard": {
+                    "hull": "core:imperialTiny",
+                    "items": "core:blaster core:mediumArmor core:smallShield",
+                    "density": 4
+                }
             },
 
             {
