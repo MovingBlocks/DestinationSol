@@ -17,17 +17,18 @@ package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.TextureManager;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
+import org.terasology.assets.ResourceUrn;
 
 public class PlanetCoreSingleton {
     private final TextureAtlas.AtlasRegion myTex;
 
-    public PlanetCoreSingleton(TextureManager textureManager) {
-        myTex = textureManager.getTexture("planetStarCommons/planetCore");
+    public PlanetCoreSingleton() {
+        myTex = Assets.getAtlasRegion(new ResourceUrn("engine:planetStarCommonPlanetCore"));
     }
 
     public void draw(SolGame game, GameDrawer drawer) {
@@ -39,8 +40,7 @@ public class PlanetCoreSingleton {
         float vd = cam.getViewDist();
         float gh = p.getMinGroundHeight();
         if (toCamLen < gh + vd) {
-            float sz = gh;
-            drawer.draw(myTex, sz * 2, sz * 2, sz, sz, pPos.x, pPos.y, p.getAngle(), SolColor.WHITE);
+            drawer.draw(myTex, gh * 2, gh * 2, gh, gh, pPos.x, pPos.y, p.getAngle(), SolColor.WHITE);
         }
     }
 }

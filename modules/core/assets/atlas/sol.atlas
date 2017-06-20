@@ -384,58 +384,6 @@ mazeTiles/core:junk/wall
   offset: 0, 0
   index: 6
 
-planetStarCommons.png
-format: RGBA8888
-filter: MipMapNearestNearest,MipMapNearestNearest
-repeat: none
-planetStarCommons/grad
-  rotate: false
-  xy: 0, 256
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-planetStarCommons/planetCore
-  rotate: false
-  xy: 0, 0
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-planetStarCommons/whiteTex
-  rotate: false
-  xy: 256, 511
-  size: 1, 1
-  orig: 1, 1
-  offset: 0, 0
-  index: -1
-
-clouds.png
-format: RGBA8888
-filter: MipMapNearestNearest,MipMapNearestNearest
-repeat: none
-skies/cloud
-  rotate: false
-  xy: 0, 64
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 0
-skies/cloud
-  rotate: false
-  xy: 0, 0
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 1
-skies/cloud
-  rotate: false
-  xy: 64, 64
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 2
-
 smallGameObjects.png
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
