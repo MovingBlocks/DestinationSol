@@ -27,7 +27,7 @@ import java.util.Map;
 public class DebugCollector {
     private static final long WARN_TIME = 6000;
     private static final StringBuilder myDebugStrings = new StringBuilder();
-    private static final Map<String, Long> myWarnings = new HashMap<String, Long>();
+    private static final Map<String, Long> myWarnings = new HashMap<>();
 
     private DebugCollector() {
     }

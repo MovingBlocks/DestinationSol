@@ -1,22 +1,3 @@
-asteroids.png
-format: RGBA8888
-filter: MipMapNearestNearest,MipMapNearestNearest
-repeat: none
-asteroids/sys
-  rotate: false
-  xy: 0, 256
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 0
-asteroids/sys
-  rotate: false
-  xy: 0, 0
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 1
-
 decorations.png
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
@@ -189,18 +170,6 @@ decorations/space/sysDeco
   orig: 32, 32
   offset: 0, 0
   index: 0
-
-farBgBig.png
-format: RGBA8888
-filter: MipMapNearestNearest,MipMapNearestNearest
-repeat: none
-farBgBig/nebulae2
-  rotate: false
-  xy: 0, 0
-  size: 1024, 1024
-  orig: 1024, 1024
-  offset: 0, 0
-  index: -1
 
 mapObjects.png
 format: RGBA8888
@@ -499,319 +468,11 @@ smallGameObjects/door
   orig: 64, 8
   offset: 0, 0
   index: -1
-smallGameObjects/guns/blaster
-  rotate: false
-  xy: 512, 496
-  size: 64, 16
-  orig: 64, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/bombGun
-  rotate: false
-  xy: 768, 704
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/cannon
-  rotate: false
-  xy: 576, 560
-  size: 64, 16
-  orig: 64, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/emGun
-  rotate: false
-  xy: 640, 624
-  size: 64, 16
-  orig: 64, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/fixedBlaster
-  rotate: false
-  xy: 704, 688
-  size: 64, 16
-  orig: 64, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/fixedBombGun
-  rotate: false
-  xy: 384, 160
-  size: 64, 32
-  orig: 64, 32
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/fixedCannon
-  rotate: false
-  xy: 768, 752
-  size: 64, 16
-  orig: 64, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/fixedEmGun
-  rotate: false
-  xy: 384, 144
-  size: 64, 16
-  orig: 64, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/fixedGun
-  rotate: false
-  xy: 448, 208
-  size: 64, 16
-  orig: 64, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/fixedPlasmaGun
-  rotate: false
-  xy: 512, 480
-  size: 64, 16
-  orig: 64, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/fixedShotGun
-  rotate: false
-  xy: 576, 544
-  size: 64, 16
-  orig: 64, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/gun
-  rotate: false
-  xy: 640, 608
-  size: 64, 16
-  orig: 64, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/miner
-  rotate: false
-  xy: 448, 160
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/missileLauncher
-  rotate: false
-  xy: 704, 672
-  size: 64, 16
-  orig: 64, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/missilePad
-  rotate: false
-  xy: 448, 224
-  size: 64, 32
-  orig: 64, 32
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/nailGun
-  rotate: false
-  xy: 768, 736
-  size: 64, 16
-  orig: 64, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/plasmaGun
-  rotate: false
-  xy: 832, 752
-  size: 64, 16
-  orig: 64, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/railGun
-  rotate: false
-  xy: 384, 128
-  size: 64, 16
-  orig: 64, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/rocketLauncher
-  rotate: false
-  xy: 448, 192
-  size: 64, 16
-  orig: 64, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/shotGun
-  rotate: false
-  xy: 512, 464
-  size: 64, 16
-  orig: 64, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/guns/waveGun
-  rotate: false
-  xy: 576, 528
-  size: 64, 16
-  orig: 64, 16
-  offset: 0, 0
-  index: -1
 smallGameObjects/missing
   rotate: false
   xy: 544, 448
   size: 16, 16
   orig: 16, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/particles/electricity
-  rotate: false
-  xy: 384, 96
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-smallGameObjects/particles/emWave
-  rotate: false
-  xy: 0, 768
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-smallGameObjects/particles/fire
-  rotate: false
-  xy: 448, 144
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/particles/forceBeacon
-  rotate: false
-  xy: 512, 640
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
-smallGameObjects/particles/forceTail
-  rotate: false
-  xy: 480, 176
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/particles/knockBack
-  rotate: false
-  xy: 0, 512
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-smallGameObjects/particles/lightCircle
-  rotate: false
-  xy: 512, 512
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-smallGameObjects/particles/lightHalo
-  rotate: false
-  xy: 576, 576
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-smallGameObjects/particles/sloMo
-  rotate: false
-  xy: 512, 768
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-smallGameObjects/particles/smoke
-  rotate: false
-  xy: 608, 512
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/particles/spark
-  rotate: false
-  xy: 640, 566
-  size: 2, 2
-  orig: 2, 2
-  offset: 0, 0
-  index: -1
-smallGameObjects/particles/techieTrail
-  rotate: false
-  xy: 704, 636
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-smallGameObjects/particles/unShield
-  rotate: false
-  xy: 256, 256
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-smallGameObjects/projectiles/blast
-  rotate: false
-  xy: 832, 736
-  size: 32, 16
-  orig: 32, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/projectiles/bomb
-  rotate: false
-  xy: 896, 752
-  size: 32, 16
-  orig: 32, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/projectiles/bullet
-  rotate: false
-  xy: 704, 668
-  size: 64, 4
-  orig: 64, 4
-  offset: 0, 0
-  index: -1
-smallGameObjects/projectiles/mine
-  rotate: false
-  xy: 512, 416
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/projectiles/missile
-  rotate: false
-  xy: 768, 688
-  size: 32, 16
-  orig: 32, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/projectiles/nail
-  rotate: false
-  xy: 800, 720
-  size: 32, 16
-  orig: 32, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/projectiles/plasma
-  rotate: false
-  xy: 576, 480
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/projectiles/rocket
-  rotate: false
-  xy: 384, 80
-  size: 32, 16
-  orig: 32, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/projectiles/slug
-  rotate: false
-  xy: 416, 112
-  size: 32, 16
-  orig: 32, 16
-  offset: 0, 0
-  index: -1
-smallGameObjects/projectiles/wave
-  rotate: false
-  xy: 704, 704
-  size: 64, 64
-  orig: 64, 64
   offset: 0, 0
   index: -1
 smallGameObjects/shard
@@ -835,34 +496,6 @@ smallGameObjects/shard
   orig: 32, 32
   offset: 0, 0
   index: 2
-smallGameObjects/shield1
-  rotate: false
-  xy: 256, 768
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-smallGameObjects/shield2
-  rotate: false
-  xy: 0, 256
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-smallGameObjects/shield3
-  rotate: false
-  xy: 0, 0
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-smallGameObjects/shield4
-  rotate: false
-  xy: 256, 512
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
 smallGameObjects/starPort
   rotate: false
   xy: 768, 768
@@ -959,34 +592,6 @@ ui/hullIcons/starPort
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/armor1
-  rotate: false
-  xy: 64, 160
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/armor2
-  rotate: false
-  xy: 128, 224
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/armor3
-  rotate: false
-  xy: 256, 352
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/armor4
-  rotate: false
-  xy: 320, 416
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
 ui/icons/bigMoney
   rotate: false
   xy: 384, 480
@@ -994,121 +599,9 @@ ui/icons/bigMoney
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/blaster
-  rotate: false
-  xy: 0, 32
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/bombClip
-  rotate: false
-  xy: 0, 0
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/bombGun
-  rotate: false
-  xy: 64, 128
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/bulletClip
-  rotate: false
-  xy: 96, 160
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/cannon
-  rotate: false
-  xy: 160, 224
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/emGun
-  rotate: false
-  xy: 32, 0
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/emWaveCharge
-  rotate: false
-  xy: 64, 96
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/fixedBlaster
-  rotate: false
-  xy: 96, 128
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/fixedBombGun
-  rotate: false
-  xy: 128, 160
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/fixedCannon
-  rotate: false
-  xy: 160, 192
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/fixedEmGun
-  rotate: false
-  xy: 192, 224
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/fixedGun
-  rotate: false
-  xy: 256, 288
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/fixedPlasmaGun
-  rotate: false
-  xy: 288, 320
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/fixedShotGun
-  rotate: false
-  xy: 320, 352
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/gun
-  rotate: false
-  xy: 352, 384
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
 ui/icons/infinity
   rotate: false
   xy: 480, 480
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/knockBackCharge
-  rotate: false
-  xy: 64, 64
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -1127,34 +620,6 @@ ui/icons/medMoney
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/mineClip
-  rotate: false
-  xy: 160, 160
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/miner
-  rotate: false
-  xy: 192, 192
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/missileClip
-  rotate: false
-  xy: 352, 352
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/missileLauncher
-  rotate: false
-  xy: 384, 384
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
 ui/icons/missilePad
   rotate: false
   xy: 416, 416
@@ -1165,48 +630,6 @@ ui/icons/missilePad
 ui/icons/money
   rotate: false
   xy: 448, 448
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/nailClip
-  rotate: false
-  xy: 480, 448
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/nailGun
-  rotate: false
-  xy: 64, 32
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/plasmaClip
-  rotate: false
-  xy: 224, 192
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/plasmaGun
-  rotate: false
-  xy: 256, 224
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/railClip
-  rotate: false
-  xy: 288, 256
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/railGun
-  rotate: false
-  xy: 320, 288
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -1225,93 +648,9 @@ ui/icons/rocketClip
   orig: 32, 32
   offset: 0, 0
   index: -1
-ui/icons/rocketLauncher
-  rotate: false
-  xy: 416, 384
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/shellClip
-  rotate: false
-  xy: 448, 416
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/shield1
-  rotate: false
-  xy: 480, 416
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/shield2
-  rotate: false
-  xy: 96, 32
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/shield3
-  rotate: false
-  xy: 96, 0
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/shield4
-  rotate: false
-  xy: 128, 64
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/shotGun
-  rotate: false
-  xy: 160, 96
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/sloMoCharge
-  rotate: false
-  xy: 224, 160
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/slugClip
-  rotate: false
-  xy: 256, 192
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/teleportCharge
-  rotate: false
-  xy: 448, 384
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/unShieldCharge
-  rotate: false
-  xy: 128, 0
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
 ui/icons/wait
   rotate: false
   xy: 160, 64
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/icons/waveGun
-  rotate: false
-  xy: 192, 96
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -1321,13 +660,6 @@ ui/tishch
   xy: 480, 384
   size: 32, 32
   orig: 32, 32
-  offset: 0, 0
-  index: -1
-ui/title
-  rotate: false
-  xy: 0, 256
-  size: 256, 256
-  orig: 256, 256
   offset: 0, 0
   index: -1
 ui/whiteTex

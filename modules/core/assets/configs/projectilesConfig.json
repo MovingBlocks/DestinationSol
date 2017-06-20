@@ -4,7 +4,7 @@
         "dmgType": "energy",
         "spdLen": 6,
 
-        "texName": "plasma",
+        "tex": "plasma",
         "texSz": 0.12,
 
         "collisionEffect": {
@@ -22,7 +22,7 @@
         "dmgType": "energy",
         "spdLen": 5,
 
-        "texName": "blast",
+        "tex": "blast",
         "texSz": 0.15,
 
         "collisionEffect": {
@@ -42,7 +42,7 @@
         "physSize": 0.1,
         "zeroAbsSpd": true,
 
-        "texName": "bomb",
+        "tex": "bomb",
         "texSz": 0.15,
 
         "collisionEffectBg": {
@@ -68,7 +68,7 @@
         "spdLen": 10,
         "dmgType": "bullet",
 
-        "texName": "bullet",
+        "tex": "bullet",
         "texSz": 0.018,
         "stretch": true,
         "collisionEffect": {
@@ -84,7 +84,7 @@
         "spdLen": 8,
         "dmgType": "bullet",
 
-        "texName": "bullet",
+        "tex": "bullet",
         "texSz": 0.022,
         "stretch": true,
 
@@ -104,7 +104,7 @@
         "guideRotSpd": 180,
         "acceleration": 2,
 
-        "texName": "missile",
+        "tex": "missile",
         "texSz": 0.15,
         "texOrig": "-.5 0",
         "lightSz": 0.25,
@@ -148,7 +148,7 @@
         "physSize": 0.1,
         "zeroAbsSpd": true,
 
-        "texName": "mine",
+        "tex": "mine",
         "texSz": 0.15,
 
         "collisionEffectBg": {
@@ -173,7 +173,7 @@
         "dmgType": "bullet",
         "spdLen": 4,
 
-        "texName": "slug",
+        "tex": "slug",
         "texSz": 0.15,
 
         "trailEffect": {
@@ -206,7 +206,7 @@
         "physSize": 0.13,
         "acceleration": 4,
 
-        "texName": "rocket",
+        "tex": "rocket",
         "texSz": 0.2,
         "texOrig": "-.5 0",
         "lightSz": 0.25,
@@ -248,7 +248,7 @@
         "dmgType": "bullet",
         "spdLen": 15,
 
-        "texName": "bullet",
+        "tex": "bullet",
         "texSz": 0.03,
         "stretch": true,
 
@@ -273,7 +273,7 @@
         "physSize": 0.15,
         "density": 20,
 
-        "texName": "nail",
+        "tex": "nail",
         "texSz": 0.15
     },
 
@@ -283,7 +283,7 @@
         "spdLen": 2,
         "emTime": 2,
 
-        "texName": "plasma",
+        "tex": "plasma",
         "texSz": 0,
 
         "bodyEffect": {
@@ -309,7 +309,7 @@
         "massless": true,
         "spdLen": 5,
 
-        "texName": "wave",
+        "tex": "wave",
         "texSz": 0.8,
 
         "collisionEffect": {

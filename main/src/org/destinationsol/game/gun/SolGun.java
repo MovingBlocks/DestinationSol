@@ -56,7 +56,7 @@ public class SolGun {
             } else if (projConfig.collisionEffect != null) {
                 lightCol = projConfig.collisionEffect.tint;
             }
-            myLightSrc = new LightSrc(game, .25f, true, 1f, Vector2.Zero, lightCol);
+            myLightSrc = new LightSrc(.25f, true, 1f, Vector2.Zero, lightCol);
         } else {
             myLightSrc = null;
         }
