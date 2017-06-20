@@ -55,7 +55,7 @@ public class PlanetTiles {
                 String tileDescName = inverted ? toL + fromL : fromL + toL;
 
                 String tileVariant = groundName + "_" + tileDescName;
-                List<TextureAtlas.AtlasRegion> texs = Assets.listTexturesStartingWith(tileVariant);
+                List<TextureAtlas.AtlasRegion> texs = Assets.listTexturesMatching(tileVariant + "_.*");
                 ArrayList<Tile> tileVariants = buildTiles(paths, inverted, tileDescName, from, to, texs);
                 fromMap.put(to, tileVariants);
             }
@@ -67,7 +67,7 @@ public class PlanetTiles {
         ArrayList<Tile> tileVariants = new ArrayList<>();
         for (TextureAtlas.AtlasRegion tex : texs) {
             if (inverted) {
-                tex.flip(true, false);
+                tex.flip(!tex.isFlipX(), !tex.isFlipY());
             }
             String tileName = tileDescName + "_" + tex.name.substring(tex.name.lastIndexOf('_') + 1) + ".png";
             List<Vector2> points = new ArrayList<>();

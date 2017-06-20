@@ -281,7 +281,7 @@ public class ShipBuilder {
 
         List<LightSrc> lCs = new ArrayList<LightSrc>();
         for (Vector2 p : hullConfig.getLightSourcePositions()) {
-            LightSrc lc = new LightSrc(game, .35f, true, .7f, p, game.getCols().hullLights);
+            LightSrc lc = new LightSrc(.35f, true, .7f, p, game.getCols().hullLights);
             lc.collectDras(dras);
             lCs.add(lc);
         }

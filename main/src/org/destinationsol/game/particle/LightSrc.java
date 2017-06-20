@@ -18,12 +18,14 @@ package org.destinationsol.game.particle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColorUtil;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.dra.Dra;
 import org.destinationsol.game.dra.DraLevel;
 import org.destinationsol.game.dra.RectSprite;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.List;
 
@@ -42,11 +44,11 @@ public class LightSrc {
     /**
      * doesn't consume relPos
      */
-    public LightSrc(SolGame game, float sz, boolean hasHalo, float intensity, Vector2 relPos, Color col) {
-        TextureAtlas.AtlasRegion tex = game.getTexMan().getTexture("smallGameObjects/particles/lightCircle");
+    public LightSrc(float sz, boolean hasHalo, float intensity, Vector2 relPos, Color col) {
+        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(new ResourceUrn("core:lightCircleParticle"));
         mySz = sz;
         myCircle = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DraLevel.PART_BG_0, 0, 0, col, true);
-        tex = game.getTexMan().getTexture("smallGameObjects/particles/lightHalo");
+        tex = Assets.getAtlasRegion(new ResourceUrn("core:lightHaloParticle"));
         if (hasHalo) {
             Color haloCol = new Color(col);
             SolColorUtil.changeBrightness(haloCol, .8f);

@@ -86,7 +86,7 @@ public class Projectile implements SolObject {
             if (myBodyEffect != null) {
                 col = myConfig.bodyEffect.tint;
             }
-            myLightSrc = new LightSrc(game, myConfig.lightSz, true, 1f, new Vector2(), col);
+            myLightSrc = new LightSrc(myConfig.lightSz, true, 1f, new Vector2(), col);
             myLightSrc.collectDras(myDras);
         } else {
             myLightSrc = null;

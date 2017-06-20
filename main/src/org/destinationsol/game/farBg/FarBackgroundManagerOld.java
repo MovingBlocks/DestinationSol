@@ -20,7 +20,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
-import org.destinationsol.TextureManager;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolColorUtil;
 import org.destinationsol.common.SolMath;
@@ -28,30 +28,29 @@ import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.planet.Planet;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 
 public class FarBackgroundManagerOld {
+    private final TextureAtlas.AtlasRegion nebulaTex;
+    private final ArrayList<FarBgStar> stars = new ArrayList<>();
+    private final float nebulaAngle;
+    private final Color nebulaTint;
 
-    private final TextureAtlas.AtlasRegion myNebTex;
-    private final ArrayList<FarBgStar> myStars;
-    private final float myNebAngle;
-    private final Color myNebTint;
-
-    public FarBackgroundManagerOld(TextureManager textureManager) {
-        TextureAtlas.AtlasRegion nebTex = textureManager.getTexture("farBgBig/nebulae2");
+    public FarBackgroundManagerOld() {
+        nebulaTex = Assets.getAtlasRegion(new ResourceUrn("engine:farBgNebulae"));
         if (SolMath.test(.5f)) {
-            nebTex = textureManager.getFlipped(nebTex);
+            nebulaTex.flip(nebulaTex.isFlipX(), !nebulaTex.isFlipY());
         }
-        myNebTex = nebTex;
 
-        myNebAngle = SolMath.rnd(180);
-        myStars = new ArrayList<FarBgStar>();
         for (int i = 0; i < 400; i++) {
-            FarBgStar star = new FarBgStar(textureManager);
-            myStars.add(star);
+            FarBgStar star = new FarBgStar();
+            stars.add(star);
         }
-        myNebTint = SolColor.col(.5f, 1);
+
+        nebulaAngle = SolMath.rnd(180);
+        nebulaTint = SolColor.col(.5f, 1);
     }
 
     public void draw(GameDrawer drawer, SolCam cam, SolGame game) {
@@ -59,29 +58,28 @@ public class FarBackgroundManagerOld {
         Vector2 camPos = cam.getPos();
         float nebPerc = (camPos.dst(np.getPos()) - np.getGroundHeight()) / (4 * Const.ATM_HEIGHT);
         nebPerc = SolMath.clamp(nebPerc, 0, 1);
-        myNebTint.a = nebPerc;
+        nebulaTint.a = nebPerc;
 
         float vd = cam.getViewDist();
-        drawer.draw(myNebTex, vd * 2, vd * 2, vd, vd, camPos.x, camPos.y, myNebAngle, myNebTint);
-        for (int i = 0, myStarsSize = myStars.size(); i < myStarsSize; i++) {
-            FarBgStar star = myStars.get(i);
+        drawer.draw(nebulaTex, vd * 2, vd * 2, vd, vd, camPos.x, camPos.y, nebulaAngle, nebulaTint);
+        for (int i = 0, myStarsSize = stars.size(); i < myStarsSize; i++) {
+            FarBgStar star = stars.get(i);
             star.draw(drawer, vd, camPos, cam.getAngle());
         }
     }
 
     private static class FarBgStar {
-
         private final Vector2 myShiftPerc;
         private final TextureAtlas.AtlasRegion myTex;
         private final float mySzPerc;
         private final Color myTint;
         private final Vector2 myPos;
 
-        private FarBgStar(TextureManager textureManager) {
+        private FarBgStar() {
             myShiftPerc = new Vector2(SolMath.rnd(1), SolMath.rnd(1));
             myPos = new Vector2();
             boolean small = SolMath.test(.8f);
-            myTex = textureManager.getTexture("decorations/bigStar");
+            myTex = Assets.getAtlasRegion(new ResourceUrn("engine:farBgBigStar"));
             mySzPerc = (small ? .01f : .04f) * SolMath.rnd(.5f, 1);
             myTint = new Color();
             SolColorUtil.fromHSB(SolMath.rnd(0, 1), .25f, 1, .7f, myTint);
