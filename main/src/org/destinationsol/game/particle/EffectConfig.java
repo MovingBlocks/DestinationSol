@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.game.GameColors;
 import org.terasology.assets.ResourceUrn;
 
@@ -50,7 +51,7 @@ public class EffectConfig {
         String texName = node.getString("tex");
         boolean floatsUp = node.getBoolean("floatsUp", false);
         Color tint = cols.load(node.getString("tint"));
-        TextureAtlas.AtlasRegion tex = textureManager.getTexture("smallGameObjects/particles/" + texName);
+        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(new ResourceUrn("core:" + texName + "Particle"));
         return new EffectConfig(effectType, sz, tex, floatsUp, tint);
     }
 

@@ -43,34 +43,34 @@ public class ProjectileConfigs {
         Json json = Assets.getJson(new ResourceUrn("core:projectilesConfig"));
         JsonValue rootNode = json.getJsonValue();
 
-        for (JsonValue sh : rootNode) {
-            String texName = "smallGameObjects/projectiles/" + sh.getString("texName");
-            TextureAtlas.AtlasRegion tex = textureManager.getTexture(texName);
-            float texSz = sh.getFloat("texSz");
-            float spdLen = sh.getFloat("spdLen");
-            float physSize = sh.getFloat("physSize", 0);
-            boolean stretch = sh.getBoolean("stretch", false);
-            DmgType dmgType = DmgType.forName(sh.getString("dmgType"));
-            String collisionSoundUrn = sh.getString("collisionSound", "");
+        for (JsonValue node : rootNode) {
+            String texName = node.getString("tex");
+            TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(new ResourceUrn("core:" + texName + "Projectile"));
+            float texSz = node.getFloat("texSz");
+            float spdLen = node.getFloat("spdLen");
+            float physSize = node.getFloat("physSize", 0);
+            boolean stretch = node.getBoolean("stretch", false);
+            DmgType dmgType = DmgType.forName(node.getString("dmgType"));
+            String collisionSoundUrn = node.getString("collisionSound", "");
             OggSound collisionSound = collisionSoundUrn.isEmpty() ? null : soundManager.getSound(collisionSoundUrn);
-            float lightSz = sh.getFloat("lightSz", 0);
-            EffectConfig trailEffect = EffectConfig.load(sh.get("trailEffect"), effectTypes, textureManager, cols);
-            EffectConfig bodyEffect = EffectConfig.load(sh.get("bodyEffect"), effectTypes, textureManager, cols);
-            EffectConfig collisionEffect = EffectConfig.load(sh.get("collisionEffect"), effectTypes, textureManager, cols);
-            EffectConfig collisionEffectBg = EffectConfig.load(sh.get("collisionEffectBg"), effectTypes, textureManager, cols);
-            float guideRotSpd = sh.getFloat("guideRotSpd", 0);
-            boolean zeroAbsSpd = sh.getBoolean("zeroAbsSpd", false);
-            Vector2 origin = SolMath.readV2(sh.getString("texOrig", "0 0"));
-            float acc = sh.getFloat("acceleration", 0);
-            String workSoundUrn = sh.getString("workSound", "");
+            float lightSz = node.getFloat("lightSz", 0);
+            EffectConfig trailEffect = EffectConfig.load(node.get("trailEffect"), effectTypes, textureManager, cols);
+            EffectConfig bodyEffect = EffectConfig.load(node.get("bodyEffect"), effectTypes, textureManager, cols);
+            EffectConfig collisionEffect = EffectConfig.load(node.get("collisionEffect"), effectTypes, textureManager, cols);
+            EffectConfig collisionEffectBg = EffectConfig.load(node.get("collisionEffectBg"), effectTypes, textureManager, cols);
+            float guideRotSpd = node.getFloat("guideRotSpd", 0);
+            boolean zeroAbsSpd = node.getBoolean("zeroAbsSpd", false);
+            Vector2 origin = SolMath.readV2(node.getString("texOrig", "0 0"));
+            float acc = node.getFloat("acceleration", 0);
+            String workSoundUrn = node.getString("workSound", "");
             OggSound workSound = workSoundUrn.isEmpty() ? null : soundManager.getSound(workSoundUrn);
-            boolean bodyless = sh.getBoolean("massless", false);
-            float density = sh.getFloat("density", -1);
-            float dmg = sh.getFloat("dmg");
-            float emTime = sh.getFloat("emTime", 0);
+            boolean bodyless = node.getBoolean("massless", false);
+            float density = node.getFloat("density", -1);
+            float dmg = node.getFloat("dmg");
+            float emTime = node.getFloat("emTime", 0);
             ProjectileConfig c = new ProjectileConfig(tex, texSz, spdLen, stretch, physSize, dmgType, collisionSound,
                     lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg, zeroAbsSpd, origin, acc, workSound, bodyless, density, guideRotSpd, dmg, emTime);
-            myConfigs.put(sh.name, c);
+            myConfigs.put(node.name, c);
         }
 
         json.dispose();

@@ -23,6 +23,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import org.destinationsol.Const;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.CollisionMeshLoader;
@@ -34,17 +35,18 @@ import org.destinationsol.game.dra.RectSprite;
 import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AsteroidBuilder {
-    public static final float DENSITY = 10f;
+    private static final float DENSITY = 10f;
     private static final float MAX_A_ROT_SPD = .5f;
     private static final float MAX_BALL_SZ = .2f;
-    private final CollisionMeshLoader myCollisionMeshLoader;
-    private final ArrayList<TextureAtlas.AtlasRegion> myTexs;
+    private final CollisionMeshLoader collisionMeshLoader;
+    private final List<TextureAtlas.AtlasRegion> textures;
 
     public AsteroidBuilder(TextureManager textureManager) {
-        myCollisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("core:asteroids"));
-        myTexs = textureManager.getPack("asteroids/sys");
+        collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("core:asteroids"));
+        textures = Assets.listTexturesMatching("core:asteroid_.*");
     }
 
     public static String removePath(String name) {
@@ -74,22 +76,22 @@ public class AsteroidBuilder {
     // doesn't consume pos
     public Asteroid buildNew(SolGame game, Vector2 pos, Vector2 spd, float sz, RemoveController removeController) {
         float rotSpd = SolMath.rnd(MAX_A_ROT_SPD);
-        return build(game, pos, SolMath.elemRnd(myTexs), sz, SolMath.rnd(180), rotSpd, spd, removeController);
+        return build(game, pos, SolMath.elemRnd(textures), sz, SolMath.rnd(180), rotSpd, spd, removeController);
     }
 
     // doesn't consume pos
     public FarAsteroid buildNewFar(Vector2 pos, Vector2 spd, float sz, RemoveController removeController) {
         float rotSpd = SolMath.rnd(MAX_A_ROT_SPD);
-        return new FarAsteroid(SolMath.elemRnd(myTexs), new Vector2(pos), SolMath.rnd(180), removeController, sz, new Vector2(spd), rotSpd);
+        return new FarAsteroid(SolMath.elemRnd(textures), new Vector2(pos), SolMath.rnd(180), removeController, sz, new Vector2(spd), rotSpd);
     }
 
     // doesn't consume pos
     public Asteroid build(SolGame game, Vector2 pos, TextureAtlas.AtlasRegion tex, float sz, float angle, float rotSpd, Vector2 spd, RemoveController removeController) {
 
-        ArrayList<Dra> dras = new ArrayList<Dra>();
+        ArrayList<Dra> dras = new ArrayList<>();
         Body body;
         if (MAX_BALL_SZ < sz) {
-            body = myCollisionMeshLoader.getBodyAndSprite(game, "asteroids", removePath(tex.name) + "_" + tex.index, sz,
+            body = collisionMeshLoader.getBodyAndSprite(game, "asteroids", removePath(tex.name), sz,
                     BodyDef.BodyType.DynamicBody, pos, angle, dras, DENSITY, DraLevel.BODIES, tex);
         } else {
             body = buildBall(game, pos, angle, sz / 2, DENSITY, false);

@@ -57,9 +57,9 @@ public class ShipEngine {
         myFlameSrc2 = new ParticleSrc(ec, -1, DraLevel.PART_BG_0, e2RelPos, true, game, shipPos, shipSpd, 0);
         myDras.add(myFlameSrc2);
         float lightSz = ec.sz * 2.5f;
-        myLightSrc1 = new LightSrc(game, lightSz, true, .7f, new Vector2(e1RelPos), ec.tint);
+        myLightSrc1 = new LightSrc(lightSz, true, .7f, new Vector2(e1RelPos), ec.tint);
         myLightSrc1.collectDras(myDras);
-        myLightSrc2 = new LightSrc(game, lightSz, true, .7f, new Vector2(e2RelPos), ec.tint);
+        myLightSrc2 = new LightSrc(lightSz, true, .7f, new Vector2(e2RelPos), ec.tint);
         myLightSrc2.collectDras(myDras);
     }
 

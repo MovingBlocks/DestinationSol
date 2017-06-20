@@ -18,7 +18,6 @@ package org.destinationsol;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import org.destinationsol.common.SolColor;
@@ -42,23 +41,25 @@ import java.io.StringWriter;
 public class SolApplication implements ApplicationListener {
     private static Logger logger = LoggerFactory.getLogger(SolApplication.class);
 
-    private SolInputManager inputManager;
-    private UiDrawer uiDrawer;
-    private MenuScreens menuScreens;
-    private TextureManager textureManager;
-    private SolLayouts layouts;
-    private boolean isMobile;
-    private GameOptions options;
-    private CommonDrawer commonDrawer;
-    private FPSLogger fpsLogger;
     @SuppressWarnings("FieldCanBeLocal")
     private ModuleManager moduleManager;
+
+    private TextureManager textureManager;
     private OggMusicManager musicManager;
     private OggSoundManager soundManager;
+    private SolInputManager inputManager;
+
+    private UiDrawer uiDrawer;
+    private MenuScreens menuScreens;
+    private SolLayouts layouts;
+    private GameOptions options;
+    private CommonDrawer commonDrawer;
     private String fatalErrorMsg;
     private String fatalErrorTrace;
-    private float timeAccumulator = 0;
     private SolGame solGame;
+
+    private float timeAccumulator = 0;
+    private boolean isMobile;
 
     public SolApplication() {
         // Initiate Box2D to make sure natives are loaded early enough
@@ -74,23 +75,24 @@ public class SolApplication implements ApplicationListener {
         options = new GameOptions(isMobile(), null);
 
         moduleManager = new ModuleManager();
+
         musicManager = new OggMusicManager();
+        soundManager = new OggSoundManager();
+        textureManager = new TextureManager();
+        inputManager = new SolInputManager(textureManager, soundManager);
+
+        musicManager.playMenuMusic(options);
 
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();
 
-        musicManager.playMenuMusic(options);
 
-        soundManager = new OggSoundManager();
-        textureManager = new TextureManager();
         commonDrawer = new CommonDrawer();
         uiDrawer = new UiDrawer(textureManager, commonDrawer);
-        inputManager = new SolInputManager(textureManager, soundManager);
         layouts = new SolLayouts(uiDrawer.r);
         menuScreens = new MenuScreens(layouts, isMobile(), uiDrawer.r, options);
 
         inputManager.setScreen(this, menuScreens.main);
-        fpsLogger = new FPSLogger();
     }
 
     @Override
@@ -139,7 +141,6 @@ public class SolApplication implements ApplicationListener {
 
         if (DebugOptions.SHOW_FPS) {
             DebugCollector.debug("Fps", Gdx.graphics.getFramesPerSecond());
-            fpsLogger.log();
         }
 
         inputManager.update(this);
