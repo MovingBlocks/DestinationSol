@@ -18,6 +18,7 @@ package org.destinationsol.game.planet;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import org.destinationsol.Const;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.ColorSpan;
@@ -29,6 +30,7 @@ import org.destinationsol.game.SolObject;
 import org.destinationsol.game.dra.Dra;
 import org.destinationsol.game.dra.DraLevel;
 import org.destinationsol.game.dra.RectSprite;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +46,11 @@ public class Sky implements SolObject {
 
     public Sky(SolGame game, Planet planet) {
         myPlanet = planet;
-        myDras = new ArrayList<Dra>();
+        myDras = new ArrayList<>();
 
-        myFill = new RectSprite(game.getTexMan().getTexture("planetStarCommons/whiteTex"), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
+        myFill = new RectSprite(Assets.getAtlasRegion(new ResourceUrn("engine:planetStarCommonWhiteTex")), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
         myDras.add(myFill);
-        myGrad = new RectSprite(game.getTexMan().getTexture("planetStarCommons/grad"), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
+        myGrad = new RectSprite(Assets.getAtlasRegion(new ResourceUrn("engine:planetStarCommonGrad")), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
         myDras.add(myGrad);
         SkyConfig config = planet.getConfig().skyConfig;
         mySkySpan = ColorSpan.rgb(config.dawn, config.day);
