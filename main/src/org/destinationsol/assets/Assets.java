@@ -194,13 +194,23 @@ public abstract class Assets {
         textureList = null;
     }
 
-    public static List<TextureAtlas.AtlasRegion> listTexturesStartingWith(String str) {
+    public static List<TextureAtlas.AtlasRegion> listTexturesMatching(String regex) {
+        boolean listsCached = true;
+        if (textureList == null) {
+            listsCached = false;
+            cacheLists();
+        }
+
         List<TextureAtlas.AtlasRegion> textures = new ArrayList<>();
 
         for (ResourceUrn resourceUrn : textureList) {
-            if (resourceUrn.toString().startsWith(str)) {
+            if (resourceUrn.toString().matches(regex)) {
                 textures.add(getAtlasRegion(resourceUrn));
             }
+        }
+
+        if (!listsCached) {
+            uncacheLists();
         }
 
         return textures;

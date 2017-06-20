@@ -36,10 +36,10 @@ public class LightObject implements SolObject {
     // consumes pos
     public LightObject(SolGame game, float sz, boolean hasHalo, float intensity, Vector2 pos, float fadeTime, Color col) {
         myPos = pos;
-        myLightSrc = new LightSrc(game, sz, hasHalo, intensity, new Vector2(), col);
+        myLightSrc = new LightSrc(sz, hasHalo, intensity, new Vector2(), col);
         myLightSrc.setFadeTime(fadeTime);
         myLightSrc.setWorking();
-        myDras = new ArrayList<Dra>();
+        myDras = new ArrayList<>();
         myLightSrc.collectDras(myDras);
     }
 

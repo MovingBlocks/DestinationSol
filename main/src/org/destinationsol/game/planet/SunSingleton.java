@@ -19,13 +19,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
-import org.destinationsol.TextureManager;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.terasology.assets.ResourceUrn;
 
 public class SunSingleton {
     public static final float SUN_HOT_RAD = .75f * Const.SUN_RADIUS;
@@ -36,9 +37,9 @@ public class SunSingleton {
     private final Color myGradTint;
     private final Color myFillTint;
 
-    public SunSingleton(TextureManager textureManager) {
-        myGradTex = textureManager.getTexture("planetStarCommons/grad");
-        myWhiteTex = textureManager.getTexture("planetStarCommons/whiteTex");
+    public SunSingleton() {
+        myGradTex = Assets.getAtlasRegion(new ResourceUrn("engine:planetStarCommonGrad"));
+        myWhiteTex = Assets.getAtlasRegion(new ResourceUrn("engine:planetStarCommonWhiteTex"));
         myGradTint = SolColor.col(1, 1);
         myFillTint = SolColor.col(1, 1);
     }

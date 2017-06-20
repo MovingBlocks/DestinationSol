@@ -65,8 +65,8 @@ public class PlanetManager {
         myPlanets = new ArrayList<>();
         myBelts = new ArrayList<>();
         myFlatPlaceFinder = new FlatPlaceFinder();
-        mySunSingleton = new SunSingleton(textureManager);
-        myPlanetCore = new PlanetCoreSingleton(textureManager);
+        mySunSingleton = new SunSingleton();
+        myPlanetCore = new PlanetCoreSingleton();
     }
 
     public void fill(SolNames names) {

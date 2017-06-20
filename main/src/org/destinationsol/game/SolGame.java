@@ -113,7 +113,7 @@ public class SolGame {
         gameScreens = new GameScreens(drawer.r, cmp);
         tutorialManager = tut ? new TutorialManager(commonDrawer.r, gameScreens, cmp.isMobile(), cmp.getOptions(), this) : null;
         this.textureManager = textureManager;
-        farBackgroundManagerOld = new FarBackgroundManagerOld(this.textureManager);
+        farBackgroundManagerOld = new FarBackgroundManagerOld();
         shipBuilder = new ShipBuilder();
         EffectTypes effectTypes = new EffectTypes();
         specialEffects = new SpecialEffects(effectTypes, this.textureManager, gameColors);
