@@ -168,7 +168,7 @@ public class PlanetObjectsBuilder {
     }
 
     private void createClouds(SolGame game, Planet planet) {
-        ArrayList<TextureAtlas.AtlasRegion> cloudTexs = planet.getConfig().cloudTexs;
+        List<TextureAtlas.AtlasRegion> cloudTexs = planet.getConfig().cloudTexs;
         if (cloudTexs.isEmpty()) {
             return;
         }
@@ -179,12 +179,12 @@ public class PlanetObjectsBuilder {
         }
     }
 
-    private FarPlanetSprites createCloud(Planet planet, ArrayList<TextureAtlas.AtlasRegion> cloudTexs, TextureManager textureManager) {
+    private FarPlanetSprites createCloud(Planet planet, List<TextureAtlas.AtlasRegion> cloudTexs, TextureManager textureManager) {
         float distPerc = SolMath.rnd(0, 1);
         float dist = planet.getGroundHeight() - TOP_TILE_SZ + .9f * Const.ATM_HEIGHT * distPerc;
         float angle = SolMath.rnd(180);
 
-        ArrayList<Dra> dras = new ArrayList<Dra>();
+        List<Dra> dras = new ArrayList<>();
         float sizePerc = SolMath.rnd(.2f, 1);
         float linearWidth = sizePerc * (distPerc + .5f) * AVG_CLOUD_LINEAR_WIDTH;
         float maxAngleShift = SolMath.arcToAngle(linearWidth, dist);
@@ -200,8 +200,7 @@ public class PlanetObjectsBuilder {
         return new FarPlanetSprites(planet, angle, dist, dras, rotSpd);
     }
 
-    private RectSprite createCloudSprite(ArrayList<TextureAtlas.AtlasRegion> cloudTexs,
-                                         float maxAngleShift,
+    private RectSprite createCloudSprite(List<TextureAtlas.AtlasRegion> cloudTexs, float maxAngleShift,
                                          float maxDistShift, float baseDist, TextureManager textureManager) {
 
         TextureAtlas.AtlasRegion tex = SolMath.elemRnd(cloudTexs);
