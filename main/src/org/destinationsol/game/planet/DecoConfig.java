@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 
 import java.util.ArrayList;
@@ -32,8 +33,7 @@ public class DecoConfig {
     public final boolean allowFlip;
     public final List<TextureAtlas.AtlasRegion> texs;
 
-    public DecoConfig(float density, float szMin, float szMax, Vector2 orig, boolean allowFlip,
-                      List<TextureAtlas.AtlasRegion> texs) {
+    public DecoConfig(float density, float szMin, float szMax, Vector2 orig, boolean allowFlip, List<TextureAtlas.AtlasRegion> texs) {
         this.density = density;
         this.szMin = szMin;
         this.szMax = szMax;
@@ -42,16 +42,16 @@ public class DecoConfig {
         this.texs = texs;
     }
 
-    static List<DecoConfig> load(JsonValue planetConfig, TextureManager textureManager) {
-        ArrayList<DecoConfig> res = new ArrayList<DecoConfig>();
+    static List<DecoConfig> load(JsonValue planetConfig) {
+        ArrayList<DecoConfig> res = new ArrayList<>();
         for (JsonValue deco : planetConfig.get("decorations")) {
             float density = deco.getFloat("density");
             float szMin = deco.getFloat("szMin");
             float szMax = deco.getFloat("szMax");
             Vector2 orig = SolMath.readV2(deco, "orig");
             boolean allowFlip = deco.getBoolean("allowFlip");
-            String texName = planetConfig.getString("decorationTexs") + "/" + deco.name;
-            ArrayList<TextureAtlas.AtlasRegion> texs = textureManager.getPack("decorations/" + texName);
+            String texName = deco.name;
+            List<TextureAtlas.AtlasRegion> texs = Assets.listTexturesMatching(texName + "_.*");
             DecoConfig c = new DecoConfig(density, szMin, szMax, orig, allowFlip, texs);
             res.add(c);
         }

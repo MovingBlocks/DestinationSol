@@ -18,7 +18,7 @@ package org.destinationsol.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.TextureManager;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.dra.Dra;
 import org.destinationsol.game.dra.DraLevel;
@@ -29,12 +29,12 @@ import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.planet.PlanetBind;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BeaconHandler {
-
     public static final float TEX_SZ = .5f;
     public static final float ROT_SPD = 30f;
 
@@ -54,12 +54,12 @@ public class BeaconHandler {
     private Vector2 mySpd;
     private boolean myInitialized;
 
-    public BeaconHandler(TextureManager textureManager) {
-        TextureAtlas.AtlasRegion attackTex = textureManager.getTexture("smallGameObjects/beaconAttack");
+    public BeaconHandler() {
+        TextureAtlas.AtlasRegion attackTex = Assets.getAtlasRegion(new ResourceUrn("engine:uiBeaconAttack"));
         myAttackSprite = new RectSprite(attackTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
-        TextureAtlas.AtlasRegion followTex = textureManager.getTexture("smallGameObjects/beaconFollow");
+        TextureAtlas.AtlasRegion followTex = Assets.getAtlasRegion(new ResourceUrn("engine:uiBeaconFollow"));
         myFollowSprite = new RectSprite(followTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
-        TextureAtlas.AtlasRegion moveTex = textureManager.getTexture("smallGameObjects/beaconMove");
+        TextureAtlas.AtlasRegion moveTex = Assets.getAtlasRegion(new ResourceUrn("engine:uiBeaconMove"));
         myMoveSprite = new RectSprite(moveTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
         myTargetRelPos = new Vector2();
         mySpd = new Vector2();

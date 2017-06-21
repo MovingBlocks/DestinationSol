@@ -70,11 +70,10 @@ public class PlanetConfig {
         this.easyOnly = easyOnly;
     }
 
-    static PlanetConfig load(TextureManager textureManager, HullConfigManager hullConfigs, JsonValue rootNode,
-                                GameColors cols, ItemManager itemManager) {
+    static PlanetConfig load(JsonValue rootNode, HullConfigManager hullConfigs, GameColors cols, ItemManager itemManager) {
         float minGrav = rootNode.getFloat("minGrav");
         float maxGrav = rootNode.getFloat("maxGrav");
-        List<DecoConfig> deco = DecoConfig.load(rootNode, textureManager);
+        List<DecoConfig> deco = DecoConfig.load(rootNode);
         List<ShipConfig> groundEnemies = ShipConfig.loadList(rootNode.get("groundEnemies"), hullConfigs, itemManager);
         List<ShipConfig> highOrbitEnemies = ShipConfig.loadList(rootNode.get("highOrbitEnemies"), hullConfigs, itemManager);
         List<ShipConfig> lowOrbitEnemies = ShipConfig.loadList(rootNode.get("lowOrbitEnemies"), hullConfigs, itemManager);
@@ -82,7 +81,7 @@ public class PlanetConfig {
         String cloudPackName = rootNode.getString("cloudTexs");
         List<TextureAtlas.AtlasRegion> cloudTexs = Assets.listTexturesMatching(cloudPackName + "_.*");
         String groundFolder = rootNode.getString("groundTexs");
-        PlanetTiles planetTiles = new PlanetTiles(textureManager, groundFolder);
+        PlanetTiles planetTiles = new PlanetTiles(groundFolder);
         SkyConfig skyConfig = SkyConfig.load(rootNode.get("sky"), cols);
         int rowCount = rootNode.getInt("rowCount");
         boolean smoothLandscape = rootNode.getBoolean("smoothLandscape", false);
