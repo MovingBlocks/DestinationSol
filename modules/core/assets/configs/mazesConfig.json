@@ -1,11 +1,11 @@
 {
-    "core:junk": {
+    "junk": {
         "isMetal": false,
 
         "environment": {
-            "junkTexs": "decorations/space/sysDeco",
+            "junkTexs": "engine:spaceDecoration",
             "junkDensity": 0.06,
-            "farJunkTexs": "decorations/farSpace/mazeFarBg",
+            "farJunkTexs": "engine:farSpaceDecorationMaze",
             "farJunkDensity": 0.01
         },
 

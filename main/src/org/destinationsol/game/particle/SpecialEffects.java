@@ -40,19 +40,19 @@ public class SpecialEffects {
     private final EffectConfig myAsteroidDust;
     private final EffectConfig myForceBeacon;
 
-    public SpecialEffects(EffectTypes effectTypes, TextureManager textureManager, GameColors cols) {
+    public SpecialEffects(EffectTypes effectTypes, GameColors cols) {
         Json json = Assets.getJson(new ResourceUrn("core:specialEffectsConfig"));
         JsonValue rootNode = json.getJsonValue();
 
-        mySmoke = EffectConfig.load(rootNode.get("smoke"), effectTypes, textureManager, cols);
-        myFire = EffectConfig.load(rootNode.get("fire"), effectTypes, textureManager, cols);
-        myElectricity = EffectConfig.load(rootNode.get("electricity"), effectTypes, textureManager, cols);
-        myShipExplSmoke = EffectConfig.load(rootNode.get("shipExplosionSmoke"), effectTypes, textureManager, cols);
-        myShipExplFire = EffectConfig.load(rootNode.get("shipExplosionFire"), effectTypes, textureManager, cols);
-        myAsteroidDust = EffectConfig.load(rootNode.get("asteroidDust"), effectTypes, textureManager, cols);
-        myForceBeacon = EffectConfig.load(rootNode.get("forceBeacon"), effectTypes, textureManager, cols);
-        starPortFlow = EffectConfig.load(rootNode.get("starPortFlow"), effectTypes, textureManager, cols);
-        transcendentWork = EffectConfig.load(rootNode.get("transcendentWork"), effectTypes, textureManager, cols);
+        mySmoke = EffectConfig.load(rootNode.get("smoke"), effectTypes, cols);
+        myFire = EffectConfig.load(rootNode.get("fire"), effectTypes, cols);
+        myElectricity = EffectConfig.load(rootNode.get("electricity"), effectTypes, cols);
+        myShipExplSmoke = EffectConfig.load(rootNode.get("shipExplosionSmoke"), effectTypes, cols);
+        myShipExplFire = EffectConfig.load(rootNode.get("shipExplosionFire"), effectTypes, cols);
+        myAsteroidDust = EffectConfig.load(rootNode.get("asteroidDust"), effectTypes, cols);
+        myForceBeacon = EffectConfig.load(rootNode.get("forceBeacon"), effectTypes, cols);
+        starPortFlow = EffectConfig.load(rootNode.get("starPortFlow"), effectTypes, cols);
+        transcendentWork = EffectConfig.load(rootNode.get("transcendentWork"), effectTypes, cols);
 
         json.dispose();
     }

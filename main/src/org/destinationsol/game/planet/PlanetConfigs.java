@@ -48,9 +48,9 @@ public class PlanetConfigs {
         Json json = Assets.getJson(new ResourceUrn("core:planetsConfig"));
         JsonValue rootNode = json.getJsonValue();
 
-        for (JsonValue sh : rootNode) {
-            PlanetConfig planetConfig = PlanetConfig.load(textureManager, hullConfigs, sh, cols, itemManager);
-            myAllConfigs.put(sh.name, planetConfig);
+        for (JsonValue node : rootNode) {
+            PlanetConfig planetConfig = PlanetConfig.load(node, hullConfigs, cols, itemManager);
+            myAllConfigs.put(node.name, planetConfig);
             if (planetConfig.hardOnly) {
                 myHard.add(planetConfig);
             } else if (planetConfig.easyOnly) {

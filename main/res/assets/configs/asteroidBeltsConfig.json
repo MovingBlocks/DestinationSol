@@ -1,9 +1,9 @@
 {
     "standard": {
         "environment": {
-            "junkTexs": "decorations/space/sysDeco",
+            "junkTexs": "engine:spaceDecoration",
             "junkDensity": 0.06,
-            "farJunkTexs": "decorations/farSpace/beltFarBg",
+            "farJunkTexs": "engine:farSpaceBeltDecoration",
             "farJunkDensity": 0.01
         }
     },
@@ -12,9 +12,9 @@
         "hard": true,
 
         "environment": {
-            "junkTexs": "decorations/space/sysDeco",
+            "junkTexs": "engine:spaceDecoration",
             "junkDensity": 0.06,
-            "farJunkTexs": "decorations/farSpace/beltFarBg",
+            "farJunkTexs": "engine:farSpaceBeltDecoration",
             "farJunkDensity": 0.01
         }
     }

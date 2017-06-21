@@ -4,7 +4,6 @@
         "minGrav": 0.4,
         "maxGrav": 0.6,
         "groundTexs": "core:rockyGround",
-        "decorationTexs": "rocky",
         "cloudTexs": "core:cloud",
         "rowCount": 4,
         "smoothLandscape": true,
@@ -15,7 +14,7 @@
         },
 
         "decorations": {
-            "grass": {
+            "core:rockyDecorationGrass": {
                 "density": 0.3,
                 "szMin": 0.1,
                 "szMax": 0.2,
@@ -23,7 +22,7 @@
                 "allowFlip": true
             },
 
-            "tree": {
+            "core:rockyDecorationTree": {
                 "density": 0.4,
                 "szMin": 0.7,
                 "szMax": 0.8,
@@ -89,7 +88,6 @@
         "minGrav": 0.6,
         "maxGrav": 0.8,
         "groundTexs": "core:desertGround",
-        "decorationTexs": "desert",
         "cloudTexs": "core:cloud",
         "rowCount": 3,
         "smoothLandscape": true,
@@ -100,7 +98,7 @@
         },
 
         "decorations": {
-            "tree": {
+            "core:desertDecorationTree": {
                 "density": 0.25,
                 "szMin": 0.5,
                 "szMax": 0.7,
@@ -108,7 +106,7 @@
                 "allowFlip": true
             },
 
-            "remnant": {
+            "core:desertDecorationRemnant": {
                 "density": 0.05,
                 "szMin": 1,
                 "szMax": 1.1,
@@ -116,7 +114,7 @@
                 "allowFlip": true
             },
 
-            "cactus": {
+            "core:desertDecorationCactus": {
                 "density": 0.5,
                 "szMin": 0.2,
                 "szMax": 0.4,
@@ -187,7 +185,6 @@
         "rowCount": 4,
         "smoothLandscape": true,
         "groundTexs": "core:frozenGround",
-        "decorationTexs": "frozen",
         "cloudTexs": "core:cloud",
 
         "sky": {
@@ -196,7 +193,7 @@
         },
 
         "decorations": {
-            "tree": {
+            "core:frozenDecorationTree": {
                 "density": 0.4,
                 "szMin": 0.7,
                 "szMax": 0.8,

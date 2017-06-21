@@ -26,9 +26,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TextureManager {
-    public static final String ICONS_DIR = "ui/icons/";
-    public static final String HULL_ICONS_DIR = "ui/hullIcons/";
-
     private final Map<String, TextureAtlas.AtlasRegion> textureMap = new HashMap<>();
     private final Map<TextureAtlas.AtlasRegion, TextureAtlas.AtlasRegion> myFlipped = new HashMap<>();
     private final Map<String, ArrayList<TextureAtlas.AtlasRegion>> myPacks = new HashMap<>();
