@@ -37,7 +37,7 @@ public class ProjectileConfigs {
 
     private final Map<String, ProjectileConfig> myConfigs;
 
-    public ProjectileConfigs(TextureManager textureManager, OggSoundManager soundManager, EffectTypes effectTypes, GameColors cols) {
+    public ProjectileConfigs(OggSoundManager soundManager, EffectTypes effectTypes, GameColors cols) {
         myConfigs = new HashMap<>();
 
         Json json = Assets.getJson(new ResourceUrn("core:projectilesConfig"));
@@ -54,10 +54,10 @@ public class ProjectileConfigs {
             String collisionSoundUrn = node.getString("collisionSound", "");
             OggSound collisionSound = collisionSoundUrn.isEmpty() ? null : soundManager.getSound(collisionSoundUrn);
             float lightSz = node.getFloat("lightSz", 0);
-            EffectConfig trailEffect = EffectConfig.load(node.get("trailEffect"), effectTypes, textureManager, cols);
-            EffectConfig bodyEffect = EffectConfig.load(node.get("bodyEffect"), effectTypes, textureManager, cols);
-            EffectConfig collisionEffect = EffectConfig.load(node.get("collisionEffect"), effectTypes, textureManager, cols);
-            EffectConfig collisionEffectBg = EffectConfig.load(node.get("collisionEffectBg"), effectTypes, textureManager, cols);
+            EffectConfig trailEffect = EffectConfig.load(node.get("trailEffect"), effectTypes, cols);
+            EffectConfig bodyEffect = EffectConfig.load(node.get("bodyEffect"), effectTypes, cols);
+            EffectConfig collisionEffect = EffectConfig.load(node.get("collisionEffect"), effectTypes, cols);
+            EffectConfig collisionEffectBg = EffectConfig.load(node.get("collisionEffectBg"), effectTypes, cols);
             float guideRotSpd = node.getFloat("guideRotSpd", 0);
             boolean zeroAbsSpd = node.getBoolean("zeroAbsSpd", false);
             Vector2 origin = SolMath.readV2(node.getString("texOrig", "0 0"));

@@ -30,10 +30,9 @@ import java.util.List;
 import java.util.Map;
 
 public class PlanetTiles {
-
     private final Map<SurfaceDirection, Map<SurfaceDirection, List<Tile>>> myGroundTiles;
 
-    public PlanetTiles(TextureManager textureManager, String groundName) {
+    public PlanetTiles(String groundName) {
         myGroundTiles = new HashMap<>();
         loadGround(groundName);
     }

@@ -30,15 +30,15 @@ public class AbilityCommonConfigs {
     public final AbilityCommonConfig knockBack;
     public final AbilityCommonConfig sloMo;
 
-    public AbilityCommonConfigs(EffectTypes effectTypes, TextureManager textureManager, GameColors cols, OggSoundManager soundManager) {
+    public AbilityCommonConfigs(EffectTypes effectTypes, GameColors cols, OggSoundManager soundManager) {
         Json json = Assets.getJson(new ResourceUrn("core:abilitiesConfig"));
         JsonValue rootNode = json.getJsonValue();
 
-        teleport = AbilityCommonConfig.load(rootNode.get("teleport"), effectTypes, textureManager, cols, soundManager);
-        emWave = AbilityCommonConfig.load(rootNode.get("emWave"), effectTypes, textureManager, cols, soundManager);
-        unShield = AbilityCommonConfig.load(rootNode.get("unShield"), effectTypes, textureManager, cols, soundManager);
-        knockBack = AbilityCommonConfig.load(rootNode.get("knockBack"), effectTypes, textureManager, cols, soundManager);
-        sloMo = AbilityCommonConfig.load(rootNode.get("sloMo"), effectTypes, textureManager, cols, soundManager);
+        teleport = AbilityCommonConfig.load(rootNode.get("teleport"), effectTypes, cols, soundManager);
+        emWave = AbilityCommonConfig.load(rootNode.get("emWave"), effectTypes, cols, soundManager);
+        unShield = AbilityCommonConfig.load(rootNode.get("unShield"), effectTypes, cols, soundManager);
+        knockBack = AbilityCommonConfig.load(rootNode.get("knockBack"), effectTypes, cols, soundManager);
+        sloMo = AbilityCommonConfig.load(rootNode.get("sloMo"), effectTypes, cols, soundManager);
 
         json.dispose();
     }

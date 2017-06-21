@@ -143,7 +143,7 @@ public class Engine implements SolItem {
             this.example = new Engine(this);
         }
 
-        public static Config load(ResourceUrn engineName, OggSoundManager soundManager, EffectTypes effectTypes, TextureManager textureManager, GameColors cols) {
+        public static Config load(ResourceUrn engineName, OggSoundManager soundManager, EffectTypes effectTypes, GameColors cols) {
             Json json = Assets.getJson(engineName);
             JsonValue rootNode = json.getJsonValue();
 
@@ -153,7 +153,7 @@ public class Engine implements SolItem {
             float maxRotSpd = big ? 40f : 230f;
             List<String> workSoundUrns = Arrays.asList(rootNode.get("workSounds").asStringArray());
             OggSoundSet workSoundSet = new OggSoundSet(soundManager, workSoundUrns);
-            EffectConfig effectConfig = EffectConfig.load(rootNode.get("effect"), effectTypes, textureManager, cols);
+            EffectConfig effectConfig = EffectConfig.load(rootNode.get("effect"), effectTypes, cols);
 
             json.dispose();
 

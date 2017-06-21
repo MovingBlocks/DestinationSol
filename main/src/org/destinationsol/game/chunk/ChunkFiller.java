@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DebugOptions;
@@ -44,6 +45,7 @@ import org.destinationsol.game.planet.SysConfig;
 import org.destinationsol.game.planet.SystemBelt;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 
@@ -65,10 +67,10 @@ public class ChunkFiller {
     private static final float MAX_A_SPD = .2f;
     private static final float BELT_A_DENSITY = .04f;
     private static final float MAZE_ZONE_BORDER = 20;
-    private final TextureAtlas.AtlasRegion myDustTex;
+    private final TextureAtlas.AtlasRegion dustTexture;
 
-    public ChunkFiller(TextureManager textureManager) {
-        myDustTex = textureManager.getTexture("decorations/space/dust");
+    public ChunkFiller() {
+        dustTexture = Assets.getAtlasRegion(new ResourceUrn("engine:spaceDecorationDust"));
     }
 
     /**
@@ -243,7 +245,7 @@ public class ChunkFiller {
             return;
         }
 
-        ArrayList<Dra> dras = new ArrayList<Dra>();
+        ArrayList<Dra> dras = new ArrayList<>();
         TextureManager textureManager = game.getTexMan();
 
         for (int i = 0; i < count; i++) {
@@ -337,7 +339,7 @@ public class ChunkFiller {
             return;
         }
 
-        TextureAtlas.AtlasRegion tex = myDustTex;
+        TextureAtlas.AtlasRegion tex = dustTexture;
         for (int i = 0; i < count; i++) {
             // Select a random position in the chunk centered around chCenter, relative to the position of the chunk.
             Vector2 dustPos = getRndPos(chCenter);

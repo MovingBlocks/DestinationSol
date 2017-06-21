@@ -104,7 +104,7 @@ public class SolGame {
 
     public SolGame(SolApplication cmp, String shipName, TextureManager textureManager, boolean tut, CommonDrawer commonDrawer) {
         solApplication = cmp;
-        GameDrawer drawer = new GameDrawer(textureManager, commonDrawer);
+        GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
         soundManager = solApplication.getSoundManager();
         specialSounds = new SpecialSounds(soundManager);
@@ -116,9 +116,9 @@ public class SolGame {
         farBackgroundManagerOld = new FarBackgroundManagerOld();
         shipBuilder = new ShipBuilder();
         EffectTypes effectTypes = new EffectTypes();
-        specialEffects = new SpecialEffects(effectTypes, this.textureManager, gameColors);
-        itemManager = new ItemManager(this.textureManager, soundManager, effectTypes, gameColors);
-        AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, this.textureManager, gameColors, soundManager);
+        specialEffects = new SpecialEffects(effectTypes, gameColors);
+        itemManager = new ItemManager(soundManager, effectTypes, gameColors);
+        AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, gameColors, soundManager);
         hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
         SolNames solNames = new SolNames();
         planetManager = new PlanetManager(this.textureManager, hullConfigManager, gameColors, itemManager);
@@ -126,16 +126,16 @@ public class SolGame {
         factionManager = new FactionManager();
         objectManager = new ObjectManager(contactListener, factionManager);
         gridDrawer = new GridDrawer(textureManager);
-        chunkManager = new ChunkManager(this.textureManager);
+        chunkManager = new ChunkManager();
         partMan = new PartMan();
         asteroidBuilder = new AsteroidBuilder(this.textureManager);
         lootBuilder = new LootBuilder();
-        mapDrawer = new MapDrawer(this.textureManager, commonDrawer.h);
+        mapDrawer = new MapDrawer(commonDrawer.h);
         shardBuilder = new ShardBuilder(this.textureManager);
         galaxyFiller = new GalaxyFiller();
         starPortBuilder = new StarPort.Builder();
         draDebugger = new DraDebugger();
-        beaconHandler = new BeaconHandler(textureManager);
+        beaconHandler = new BeaconHandler();
         mountDetectDrawer = new MountDetectDrawer(textureManager);
         respawnItems = new ArrayList<>();
         timeFactor = 1;

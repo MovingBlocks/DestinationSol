@@ -24,6 +24,7 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.TextAlignment;
 import org.destinationsol.TextureManager;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DebugOptions;
@@ -44,6 +45,7 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,11 +133,11 @@ public class MainScreen implements SolUiScreen {
         zoneNameAnnouncer = new ZoneNameAnnouncer();
         borderDrawer = new BorderDrawer(resolutionRatio, solApplication);
 
-        TextureManager textureManager = solApplication.getTexMan();
-        lifeTex = textureManager.getTexture(TextureManager.ICONS_DIR + "life");
-        infinityTex = textureManager.getTexture(TextureManager.ICONS_DIR + "infinity");
-        waitTex = textureManager.getTexture(TextureManager.ICONS_DIR + "wait");
-        compassTex = textureManager.getTexture("ui/compass");
+        lifeTex = Assets.getAtlasRegion(new ResourceUrn("engine:iconLife"));
+        infinityTex = Assets.getAtlasRegion(new ResourceUrn("engine:iconInfinity"));
+        waitTex = Assets.getAtlasRegion(new ResourceUrn("engine:iconWait"));
+
+        compassTex = Assets.getAtlasRegion(new ResourceUrn("engine:uiCompass"));
         myCompassTint = SolColor.col(1, 0);
 
         myLifeTp = new TextPlace(SolColor.W50);
