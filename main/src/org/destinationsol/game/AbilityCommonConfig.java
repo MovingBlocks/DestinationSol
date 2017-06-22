@@ -16,7 +16,6 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.TextureManager;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.game.particle.EffectConfig;

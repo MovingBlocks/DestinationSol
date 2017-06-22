@@ -16,7 +16,6 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.TextureManager;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.particle.EffectTypes;

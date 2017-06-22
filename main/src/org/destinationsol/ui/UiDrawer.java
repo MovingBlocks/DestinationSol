@@ -21,25 +21,31 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.CommonDrawer;
-import org.destinationsol.TextAlignment;
-import org.destinationsol.TextureManager;
+import org.destinationsol.assets.Assets;
+import org.terasology.assets.ResourceUrn;
 
 public class UiDrawer {
+    public enum TextAlignment {
+        LEFT,
+        CENTER,
+        RIGHT
+    }
 
     private static final float FONT_SIZE = .02f;
 
-    public final Matrix4 straightMtx;
-    public final float uiLineWidth;
+    private final Matrix4 straightMtx;
+    private final float uiLineWidth;
+
     public final float r;
     public final TextureRegion whiteTex;
     public final Rectangle filler;
     private final CommonDrawer myDrawer;
     private Boolean myTextMode;
 
-    public UiDrawer(TextureManager textureManager, CommonDrawer commonDrawer) {
+    public UiDrawer(CommonDrawer commonDrawer) {
         myDrawer = commonDrawer;
         r = myDrawer.r;
-        whiteTex = textureManager.getTexture("ui/whiteTex");
+        whiteTex = Assets.getAtlasRegion(new ResourceUrn("engine:uiWhiteTex"));
         uiLineWidth = 1 / myDrawer.h;
         straightMtx = new Matrix4().setToOrtho2D(0, 1, myDrawer.r, -1);
         myDrawer.setMtx(straightMtx);

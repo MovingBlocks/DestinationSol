@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.input.Mover;
@@ -28,6 +29,7 @@ import org.destinationsol.game.input.Shooter;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.List;
 
@@ -44,7 +46,7 @@ public class ShipMixedControl implements ShipUiControl {
 
     ShipMixedControl(SolApplication solApplication, List<SolUiControl> controls) {
         GameOptions gameOptions = solApplication.getOptions();
-        myCursor = solApplication.getTexMan().getTexture("ui/cursorTarget");
+        myCursor = Assets.getAtlasRegion(new ResourceUrn("engine:uiCursorTarget"));
         myMouseWorldPos = new Vector2();
         upCtrl = new SolUiControl(null, false, gameOptions.getKeyUpMouse());
         controls.add(upCtrl);

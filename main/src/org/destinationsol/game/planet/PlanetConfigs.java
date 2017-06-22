@@ -16,7 +16,6 @@
 package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.TextureManager;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
@@ -36,8 +35,7 @@ public class PlanetConfigs {
     private final List<PlanetConfig> myMedium;
     private final List<PlanetConfig> myHard;
 
-    public PlanetConfigs(TextureManager textureManager, HullConfigManager hullConfigs, GameColors cols,
-                            ItemManager itemManager) {
+    public PlanetConfigs(HullConfigManager hullConfigs, GameColors cols, ItemManager itemManager) {
         myAllConfigs = new HashMap<>();
         myEasy = new ArrayList<>();
         myMedium = new ArrayList<>();

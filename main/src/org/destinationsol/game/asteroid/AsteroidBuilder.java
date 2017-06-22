@@ -22,7 +22,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import org.destinationsol.Const;
-import org.destinationsol.TextureManager;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -44,14 +43,9 @@ public class AsteroidBuilder {
     private final CollisionMeshLoader collisionMeshLoader;
     private final List<TextureAtlas.AtlasRegion> textures;
 
-    public AsteroidBuilder(TextureManager textureManager) {
-        collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("core:asteroids"));
-        textures = Assets.listTexturesMatching("core:asteroid_.*");
-    }
-
-    public static String removePath(String name) {
-        String[] parts = name.split("[/\\\\]");
-        return parts[parts.length - 1];
+    public AsteroidBuilder() {
+        collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("engine:asteroids"));
+        textures = Assets.listTexturesMatching("engine:asteroid_.*");
     }
 
     public static Body buildBall(SolGame game, Vector2 pos, float angle, float rad, float density, boolean sensor) {
@@ -91,8 +85,7 @@ public class AsteroidBuilder {
         ArrayList<Dra> dras = new ArrayList<>();
         Body body;
         if (MAX_BALL_SZ < sz) {
-            body = collisionMeshLoader.getBodyAndSprite(game, "asteroids", removePath(tex.name), sz,
-                    BodyDef.BodyType.DynamicBody, pos, angle, dras, DENSITY, DraLevel.BODIES, tex);
+            body = collisionMeshLoader.getBodyAndSprite(game, tex, sz, BodyDef.BodyType.DynamicBody, pos, angle, dras, DENSITY, DraLevel.BODIES);
         } else {
             body = buildBall(game, pos, angle, sz / 2, DENSITY, false);
             RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.BODIES, 0, 0, SolColor.WHITE, false);

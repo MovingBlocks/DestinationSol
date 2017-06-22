@@ -19,10 +19,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.SolApplication;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.game.BeaconHandler;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
+import org.terasology.assets.ResourceUrn;
 
 public class ShipMouseControl implements ShipUiControl {
     private final TextureAtlas.AtlasRegion myMoveCursor;
@@ -32,10 +34,10 @@ public class ShipMouseControl implements ShipUiControl {
 
     private TextureAtlas.AtlasRegion myCursor;
 
-    ShipMouseControl(SolApplication cmp) {
-        myMoveCursor = cmp.getTexMan().getTexture("ui/cursorMove");
-        myAttackCursor = cmp.getTexMan().getTexture("ui/cursorAttack");
-        myFollowCursor = cmp.getTexMan().getTexture("ui/cursorFollow");
+    ShipMouseControl() {
+        myMoveCursor = Assets.getAtlasRegion(new ResourceUrn("engine:uiCursorMove"));
+        myAttackCursor = Assets.getAtlasRegion(new ResourceUrn("engine:uiCursorAttack"));
+        myFollowCursor = Assets.getAtlasRegion(new ResourceUrn("engine:uiCursorFollow"));
         myMouseWorldPos = new Vector2();
     }
 
