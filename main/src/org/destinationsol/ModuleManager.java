@@ -18,7 +18,6 @@ package org.destinationsol;
 import com.google.common.collect.Sets;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.atlas.Atlas;
 import org.destinationsol.assets.audio.OggMusic;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.emitters.Emitter;
@@ -111,7 +110,6 @@ public class ModuleManager {
         AssetHelper assetHelper = Assets.getAssetHelper();
         Set<ResourceUrn> jsonList = assetHelper.list(Json.class);
         Set<ResourceUrn> emitterList = assetHelper.list(Emitter.class);
-        Set<ResourceUrn> atlasList = assetHelper.list(Atlas.class);
         Set<ResourceUrn> soundList = assetHelper.list(OggSound.class);
         Set<ResourceUrn> musicList = assetHelper.list(OggMusic.class);
         Set<ResourceUrn> textureList = assetHelper.list(DSTexture.class);
@@ -128,7 +126,6 @@ public class ModuleManager {
             int shields = 0;
             int jsonOthers = 0;
             int emitters = 0;
-            int atlas = 0;
             int sounds = 0;
             int music = 0;
             int textures = 0;
@@ -158,14 +155,6 @@ public class ModuleManager {
 
                 if (assetName.startsWith(moduleName + ":")) {
                     emitters++;
-                }
-            }
-
-            for (ResourceUrn assetUrn : atlasList) {
-                String assetName = assetUrn.toString();
-
-                if (assetName.startsWith(moduleName + ":")) {
-                    atlas++;
                 }
             }
 
@@ -200,8 +189,6 @@ public class ModuleManager {
             logger.info("\t\t-Engines: {}", engines);
             logger.info("\t\t-Shields: {}", shields);
             logger.info("\t\t-Others: {}", jsonOthers);
-
-            logger.info("\t-Atlas: {}", atlas);
 
             logger.info("\t-Emitters: {}", emitters);
 
