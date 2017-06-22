@@ -17,7 +17,6 @@ package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.TextureManager;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.assets.json.Json;

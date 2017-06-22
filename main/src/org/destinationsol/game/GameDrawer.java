@@ -21,7 +21,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.CommonDrawer;
-import org.destinationsol.TextureManager;
 import org.destinationsol.assets.Assets;
 import org.terasology.assets.ResourceUrn;
 

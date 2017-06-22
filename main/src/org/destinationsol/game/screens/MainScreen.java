@@ -22,8 +22,6 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.TextAlignment;
-import org.destinationsol.TextureManager;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -98,7 +96,7 @@ public class MainScreen implements SolUiScreen {
         } else if (ct == GameOptions.CONTROL_MIXED) {
             shipControl = new ShipMixedControl(solApplication, controls);
         } else if (ct == GameOptions.CONTROL_MOUSE) {
-            shipControl = new ShipMouseControl(solApplication);
+            shipControl = new ShipMouseControl();
         } else {
             shipControl = new ShipControllerControl(solApplication);
         }
@@ -131,7 +129,7 @@ public class MainScreen implements SolUiScreen {
         warnDrawers.add(new NoArmorWarn(resolutionRatio));
 
         zoneNameAnnouncer = new ZoneNameAnnouncer();
-        borderDrawer = new BorderDrawer(resolutionRatio, solApplication);
+        borderDrawer = new BorderDrawer(resolutionRatio);
 
         lifeTex = Assets.getAtlasRegion(new ResourceUrn("engine:iconLife"));
         infinityTex = Assets.getAtlasRegion(new ResourceUrn("engine:iconInfinity"));
@@ -160,7 +158,7 @@ public class MainScreen implements SolUiScreen {
         return new Rectangle(x + gap, y + gap, CELL_SZ - gap * 2, cellH - gap * 2);
     }
 
-    public void maybeDrawHeight(UiDrawer drawer, SolApplication solApplication) {
+    private void maybeDrawHeight(UiDrawer drawer, SolApplication solApplication) {
         SolGame game = solApplication.getGame();
         Planet np = game.getPlanetMan().getNearestPlanet();
         SolCam cam = game.getCam();
@@ -437,7 +435,7 @@ public class MainScreen implements SolUiScreen {
         myG2AmmoTp.draw(uiDrawer);
         myG2AmmoExcessTp.draw(uiDrawer);
         myChargesExcessTp.draw(uiDrawer);
-        myMoneyExcessTp.draw(uiDrawer, TextAlignment.LEFT);
+        myMoneyExcessTp.draw(uiDrawer, UiDrawer.TextAlignment.LEFT);
 
         for (WarnDrawer warnDrawer : warnDrawers) {
             if (warnDrawer.drawPerc > 0) {
@@ -495,7 +493,7 @@ public class MainScreen implements SolUiScreen {
             uiDrawer.drawString(text, pos.x, pos.y, FontSize.HUD, true, color);
         }
 
-        public void draw(UiDrawer uiDrawer, TextAlignment align) {
+        public void draw(UiDrawer uiDrawer, UiDrawer.TextAlignment align) {
             uiDrawer.drawString(text, pos.x, pos.y, FontSize.HUD, align, true, color);
         }
     }

@@ -184,8 +184,8 @@ public class MazeTileObject implements SolObject {
             TextureAtlas.AtlasRegion tex = tile.tex;
             TextureAtlas.AtlasRegion bgTex = tile.bgTex;
             if (flipped) {
-                tex = game.getTexMan().getFlipped(tex);
-                bgTex = game.getTexMan().getFlipped(bgTex);
+                tex.flip(!tex.isFlipX(), !tex.isFlipY());
+                bgTex.flip(!bgTex.isFlipX(), !bgTex.isFlipY());
             }
             RectSprite s = new RectSprite(tex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DraLevel.GROUND, 0, 0, SolColor.WHITE, false);
             dras.add(s);
@@ -207,7 +207,7 @@ public class MazeTileObject implements SolObject {
 
             for (List<Vector2> pts : tile.points) {
                 ChainShape shape = new ChainShape();
-                List<Vector2> points = new ArrayList<Vector2>();
+                List<Vector2> points = new ArrayList<>();
                 int sz = pts.size();
                 for (int i = 0; i < sz; i++) {
                     Vector2 curr = pts.get(flipped ? sz - i - 1 : i);

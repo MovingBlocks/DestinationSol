@@ -18,7 +18,6 @@ package org.destinationsol.game.particle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.TextureManager;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.game.GameColors;
 import org.terasology.assets.ResourceUrn;

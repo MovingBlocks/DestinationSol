@@ -1,8 +1,7 @@
 {
     "rigidBodies": [
         {
-            "name": "starPort.png",
-            "imagePath": "../../imgSrcs/smallGameObjs/starPort.png",
+            "name": "engine:starPort",
             "origin": {
                 "x": 0.5024999976158142,
                 "y": 0.5062500238418579
@@ -296,8 +295,7 @@
             ]
         },
         {
-            "name": "shard_0.png",
-            "imagePath": "../../imgSrcs/smallGameObjs/shard_0.png",
+            "name": "engine:shard_0",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -340,8 +338,7 @@
             ]
         },
         {
-            "name": "shard_1.png",
-            "imagePath": "../../imgSrcs/smallGameObjs/shard_1.png",
+            "name": "engine:shard_1",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -371,8 +368,7 @@
             ]
         },
         {
-            "name": "shard_2.png",
-            "imagePath": "../../imgSrcs/smallGameObjs/shard_2.png",
+            "name": "engine:shard_2",
             "origin": {
                 "x": 0,
                 "y": 0

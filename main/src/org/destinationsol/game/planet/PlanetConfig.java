@@ -17,17 +17,13 @@ package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.TextureManager;
-import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.TradeConfig;
-import org.terasology.assets.ResourceUrn;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlanetConfig {

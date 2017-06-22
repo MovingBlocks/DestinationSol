@@ -18,7 +18,6 @@ package org.destinationsol.game.projectile;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.TextureManager;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.json.Json;

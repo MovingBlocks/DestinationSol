@@ -19,7 +19,6 @@ package org.destinationsol.game.chunk;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
-import org.destinationsol.TextureManager;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -50,20 +49,20 @@ import org.terasology.assets.ResourceUrn;
 import java.util.ArrayList;
 
 public class ChunkFiller {
-    public static final float DUST_DENSITY = .2f;
-    public static final float ASTEROID_DENSITY = .008f;
-    public static final float MIN_SYS_A_SZ = .5f;
-    public static final float MAX_SYS_A_SZ = 1.2f;
-    public static final float MIN_BELT_A_SZ = .4f;
-    public static final float MAX_BELT_A_SZ = 2.4f;
-    public static final float JUNK_MAX_SZ = .3f;
-    public static final float JUNK_MAX_ROT_SPD = 45f;
-    public static final float JUNK_MAX_SPD_LEN = .3f;
-    public static final float FAR_JUNK_MAX_SZ = 2f;
-    public static final float FAR_JUNK_MAX_ROT_SPD = 10f;
-    public static final float ENEMY_MAX_SPD = .3f;
-    public static final float ENEMY_MAX_ROT_SPD = 15f;
-    public static final float DUST_SZ = .02f;
+    private static final float DUST_DENSITY = .2f;
+    private static final float ASTEROID_DENSITY = .008f;
+    private static final float MIN_SYS_A_SZ = .5f;
+    private static final float MAX_SYS_A_SZ = 1.2f;
+    private static final float MIN_BELT_A_SZ = .4f;
+    private static final float MAX_BELT_A_SZ = 2.4f;
+    private static final float JUNK_MAX_SZ = .3f;
+    private static final float JUNK_MAX_ROT_SPD = 45f;
+    private static final float JUNK_MAX_SPD_LEN = .3f;
+    private static final float FAR_JUNK_MAX_SZ = 2f;
+    private static final float FAR_JUNK_MAX_ROT_SPD = 10f;
+    private static final float ENEMY_MAX_SPD = .3f;
+    private static final float ENEMY_MAX_ROT_SPD = 15f;
+    private static final float DUST_SZ = .02f;
     private static final float MAX_A_SPD = .2f;
     private static final float BELT_A_DENSITY = .04f;
     private static final float MAZE_ZONE_BORDER = 20;
@@ -174,6 +173,7 @@ public class ChunkFiller {
         if (count == 0) {
             return;
         }
+
         for (int i = 0; i < count; i++) {
             Vector2 enemyPos = getFreeRndPos(game, chCenter);
             FarShip ship = buildSpaceEnemy(game, enemyPos, remover, enemyConf);
@@ -183,11 +183,11 @@ public class ChunkFiller {
         }
     }
 
-    public FarShip buildSpaceEnemy(SolGame game, Vector2 pos, RemoveController remover,
-                                   ShipConfig enemyConf) {
+    private FarShip buildSpaceEnemy(SolGame game, Vector2 pos, RemoveController remover, ShipConfig enemyConf) {
         if (pos == null) {
             return null;
         }
+
         Vector2 spd = new Vector2();
         SolMath.fromAl(spd, SolMath.rnd(180), SolMath.rnd(0, ENEMY_MAX_SPD));
         float rotSpd = SolMath.rnd(ENEMY_MAX_ROT_SPD);
@@ -206,6 +206,7 @@ public class ChunkFiller {
         if (count == 0) {
             return;
         }
+
         for (int i = 0; i < count; i++) {
             Vector2 asteroidPos = getFreeRndPos(game, chCenter);
             if (asteroidPos == null) {
@@ -246,14 +247,13 @@ public class ChunkFiller {
         }
 
         ArrayList<Dra> dras = new ArrayList<>();
-        TextureManager textureManager = game.getTexMan();
 
         for (int i = 0; i < count; i++) {
             // Select a random far junk texture
             TextureAtlas.AtlasRegion tex = SolMath.elemRnd(conf.farJunkTexs);
             // Flip atlas for every other piece of junk
             if (SolMath.test(.5f)) {
-                tex = textureManager.getFlipped(tex);
+                tex.flip(!tex.isFlipX(), !tex.isFlipY());
             }
             // Choose a random size (within a range)
             float sz = SolMath.rnd(.3f, 1) * FAR_JUNK_MAX_SZ;
@@ -302,7 +302,7 @@ public class ChunkFiller {
             TextureAtlas.AtlasRegion tex = SolMath.elemRnd(conf.junkTexs);
             // Flip atlas for every other piece of junk
             if (SolMath.test(.5f)) {
-                tex = game.getTexMan().getFlipped(tex);
+                tex.flip(!tex.isFlipX(), !tex.isFlipY());
             }
             // Choose a random size (within a range)
             float sz = SolMath.rnd(.3f, 1) * JUNK_MAX_SZ;
@@ -311,7 +311,7 @@ public class ChunkFiller {
 
             // Create the resulting sprite and add it to the list as the only element
             RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.DECO, SolMath.rnd(180), rotSpd, SolColor.LG, false);
-            ArrayList<Dra> dras = new ArrayList<Dra>();
+            ArrayList<Dra> dras = new ArrayList<>();
             dras.add(s);
 
             // Create a FarDras instance for this piece of junk and only allow it to be drawn when it's not hidden by a planet
@@ -333,19 +333,18 @@ public class ChunkFiller {
      * @param remover
      */
     private void fillDust(SolGame game, Vector2 chCenter, RemoveController remover) {
-        ArrayList<Dra> dras = new ArrayList<Dra>();
+        ArrayList<Dra> dras = new ArrayList<>();
         int count = getEntityCount(DUST_DENSITY);
         if (count == 0) {
             return;
         }
 
-        TextureAtlas.AtlasRegion tex = dustTexture;
         for (int i = 0; i < count; i++) {
             // Select a random position in the chunk centered around chCenter, relative to the position of the chunk.
             Vector2 dustPos = getRndPos(chCenter);
             dustPos.sub(chCenter);
             // Create the resulting sprite and add it to the list
-            RectSprite s = new RectSprite(tex, DUST_SZ, 0, 0, dustPos, DraLevel.DECO, 0, 0, SolColor.WHITE, false);
+            RectSprite s = new RectSprite(dustTexture, DUST_SZ, 0, 0, dustPos, DraLevel.DECO, 0, 0, SolColor.WHITE, false);
             dras.add(s);
         }
 

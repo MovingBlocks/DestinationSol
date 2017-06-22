@@ -106,7 +106,6 @@ public final class HullConfigManager {
 
         validateEngineConfig(configData);
 
-        // TODO: Ensure that this does not cause any problems
         json.dispose();
 
         return new HullConfig(configData);

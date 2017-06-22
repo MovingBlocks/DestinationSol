@@ -1,7 +1,7 @@
 {
     "rigidBodies": [
         {
-            "name": "core:asteroid_0.png",
+            "name": "engine:asteroid_0",
             "origin": {
                 "x": 0.4374999701976776,
                 "y": 0.5024999976158142
@@ -152,7 +152,7 @@
             ]
         },
         {
-            "name": "core:asteroid_1.png",
+            "name": "engine:asteroid_1",
             "origin": {
                 "x": 0.5274999737739563,
                 "y": 0.5149999856948853
