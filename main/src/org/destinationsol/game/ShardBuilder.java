@@ -19,7 +19,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.destinationsol.TextureManager;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.dra.Dra;
@@ -28,6 +28,7 @@ import org.destinationsol.game.ship.ShipBuilder;
 import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShardBuilder {
     public static final float MIN_SCALE = .07f;
@@ -36,11 +37,11 @@ public class ShardBuilder {
     private static final float MAX_ROT_SPD = 5f;
     private static final float MAX_SPD = 4f;
     private final CollisionMeshLoader myCollisionMeshLoader;
-    private final ArrayList<TextureAtlas.AtlasRegion> myTexs;
+    private final List<TextureAtlas.AtlasRegion> myTexs;
 
-    public ShardBuilder(TextureManager textureManager) {
-        myCollisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("core:misc"));
-        myTexs = textureManager.getPack("smallGameObjects/shard");
+    public ShardBuilder() {
+        myCollisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("engine:misc"));
+        myTexs = Assets.listTexturesMatching("engine:shard_.*");
     }
 
     public void buildExplosionShards(SolGame game, Vector2 pos, Vector2 baseSpd, float size) {
@@ -53,15 +54,14 @@ public class ShardBuilder {
 
     public Shard build(SolGame game, Vector2 basePos, Vector2 baseSpd, float size) {
 
-        ArrayList<Dra> dras = new ArrayList<Dra>();
+        ArrayList<Dra> dras = new ArrayList<>();
         float scale = SolMath.rnd(MIN_SCALE, MAX_SCALE);
         TextureAtlas.AtlasRegion tex = SolMath.elemRnd(myTexs);
         float spdAngle = SolMath.rnd(180);
         Vector2 pos = new Vector2();
         SolMath.fromAl(pos, spdAngle, SolMath.rnd(size));
         pos.add(basePos);
-        Body body = myCollisionMeshLoader.getBodyAndSprite(game, "smallGameObjects", AsteroidBuilder.removePath(tex.name) + "_" + tex.index, scale,
-                BodyDef.BodyType.DynamicBody, pos, SolMath.rnd(180), dras, ShipBuilder.SHIP_DENSITY, DraLevel.PROJECTILES, tex);
+        Body body = myCollisionMeshLoader.getBodyAndSprite(game, tex, scale, BodyDef.BodyType.DynamicBody, pos, SolMath.rnd(180), dras, ShipBuilder.SHIP_DENSITY, DraLevel.PROJECTILES);
 
         body.setAngularVelocity(SolMath.rnd(MAX_ROT_SPD));
         Vector2 spd = SolMath.fromAl(spdAngle, SolMath.rnd(MAX_SPD));

@@ -15,8 +15,3 @@
  */
 package org.destinationsol;
 
-public enum TextAlignment {
-    LEFT,
-    CENTER,
-    RIGHT
-}

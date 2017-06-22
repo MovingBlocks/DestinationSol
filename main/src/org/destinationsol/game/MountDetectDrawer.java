@@ -17,9 +17,10 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.TextureManager;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.ship.SolShip;
+import org.terasology.assets.ResourceUrn;
 
 public class MountDetectDrawer {
     private final Vector2 myNePos;
@@ -30,9 +31,9 @@ public class MountDetectDrawer {
     private float myAnimPerc;
     private float myAngle;
 
-    public MountDetectDrawer(TextureManager textureManager) {
+    public MountDetectDrawer() {
         myNePos = new Vector2();
-        myTex = textureManager.getTexture("smallGameObjects/targetDetected");
+        myTex = Assets.getAtlasRegion(new ResourceUrn("engine:targetDetected"));
     }
 
     public void update(SolGame game) {
