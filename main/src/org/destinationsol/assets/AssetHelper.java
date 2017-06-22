@@ -15,7 +15,6 @@
  */
 package org.destinationsol.assets;
 
-import org.destinationsol.assets.atlas.Atlas;
 import org.destinationsol.assets.audio.OggMusic;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.emitters.Emitter;
@@ -44,7 +43,6 @@ public class AssetHelper {
 
         assetTypeManager.registerCoreAssetType(OggSound.class, OggSound::new, "sounds");
         assetTypeManager.registerCoreAssetType(OggMusic.class, OggMusic::new, "music");
-        assetTypeManager.registerCoreAssetType(Atlas.class, Atlas::new, "atlas");
         assetTypeManager.registerCoreAssetType(Font.class, Font::new, "fonts");
         assetTypeManager.registerCoreAssetType(Emitter.class, Emitter::new, "emitters");
         assetTypeManager.registerCoreAssetType(Json.class, Json::new, "collisionMeshes", "ships", "items", "configs");
