@@ -5,7 +5,7 @@ sourceSets.main.java.srcDirs = ["src/"]
 project.ext.mainClassName = "org.destinationsol.desktop.SolDesktop"
 
 dependencies {
-    compile project(":main")
+    compile project(":engine")
     compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
@@ -22,7 +22,7 @@ task run(type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
-    workingDir = project(':main').projectDir
+    workingDir = project(':engine').projectDir
     ignoreExitValue = true
 }
 
@@ -49,7 +49,7 @@ task dist(type: Sync) {
     }
 
     into('res') {
-        from project(':main').sourceSets.res.resources.srcDirs
+        from project(':engine').sourceSets.res.resources.srcDirs
     }
 }
 
