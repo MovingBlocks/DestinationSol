@@ -27,6 +27,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.ui.UiDrawer;
 import org.terasology.assets.ResourceUrn;
 
 public class CommonDrawer {
@@ -65,10 +66,10 @@ public class CommonDrawer {
     }
 
     public void drawString(String s, float x, float y, float fontSize, boolean centered, Color col) {
-        drawString(s, x, y, fontSize, TextAlignment.CENTER, centered, col);
+        drawString(s, x, y, fontSize, UiDrawer.TextAlignment.CENTER, centered, col);
     }
 
-    public void drawString(String s, float x, float y, float fontSize, TextAlignment align, boolean verticalCentering, Color col) {
+    public void drawString(String s, float x, float y, float fontSize, UiDrawer.TextAlignment align, boolean verticalCentering, Color col) {
         if (s == null) {
             return;
         }

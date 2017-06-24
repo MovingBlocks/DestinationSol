@@ -244,7 +244,6 @@ public class CollisionMeshLoader {
      * This needs refactoring...
      *
      * @param dras a atlas will be added here
-     * @param tex  pass if you already have a atlas.. So hacky!
      */
     public Body getBodyAndSprite(SolGame game, HullConfig hullConfig, float scale, BodyDef.BodyType type,
                                  Vector2 pos, float angle, List<Dra> dras, float density, DraLevel level, TextureAtlas.AtlasRegion tex) {
@@ -282,13 +281,10 @@ public class CollisionMeshLoader {
     /**
      * This needs refactoring...
      *
-     * @param texDirName used only to load a atlas
-     * @param texName    used both to load a atlas and to load a path from the path file. should be just a file name without a path or extension
-     * @param dras       a atlas will be added here
-     * @param tex        pass if you already have a atlas.. So hacky!
+     * @param dras a atlas will be added here
      */
-    public Body getBodyAndSprite(SolGame game, String texDirName, String texName, float scale, BodyDef.BodyType type,
-                                 Vector2 pos, float angle, List<Dra> dras, float density, DraLevel level, TextureAtlas.AtlasRegion tex) {
+    public Body getBodyAndSprite(SolGame game, TextureAtlas.AtlasRegion tex, float scale, BodyDef.BodyType type,
+                                 Vector2 pos, float angle, List<Dra> dras, float density, DraLevel level) {
         BodyDef bd = new BodyDef();
         bd.type = type;
         bd.angle = angle * SolMath.degRad;
@@ -299,24 +295,20 @@ public class CollisionMeshLoader {
         FixtureDef fd = new FixtureDef();
         fd.density = density;
         fd.friction = Const.FRICTION;
-        String pathName = texName + ".png";
         Vector2 orig;
-        boolean found = attachFixture(body, pathName, fd, scale);
+        boolean found = attachFixture(body, tex.name, fd, scale);
         if (!found) {
-            DebugOptions.MISSING_PHYSICS_ACTION.handle("Could not find physics data for " + texDirName + "/" + texName);
+            DebugOptions.MISSING_PHYSICS_ACTION.handle("Could not find physics data for " + tex.name);
             fd.shape = new CircleShape();
             fd.shape.setRadius(scale / 2);
             body.createFixture(fd);
             fd.shape.dispose();
         }
 
-        orig = getOrigin(pathName, 1);
-        if (tex == null) {
-            String imgName = texDirName + "/" + texName;
-            tex = game.getTexMan().getTexture(imgName);
-        }
+        orig = getOrigin(tex.name, 1);
         RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.WHITE, false);
         dras.add(s);
+
         return body;
     }
 

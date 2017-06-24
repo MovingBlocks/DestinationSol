@@ -21,6 +21,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import org.destinationsol.Const;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.Bound;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -34,17 +35,16 @@ import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ForceBeacon;
 import org.destinationsol.game.ship.SolShip;
-import org.destinationsol.game.ship.Teleport;
 import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StarPort implements SolObject {
-
-    public static final float DIST_FROM_PLANET = Const.PLANET_GAP * .5f;
     public static final int SIZE = 8;
-    public static final float FARE = 10f;
+
+    private static final float DIST_FROM_PLANET = Const.PLANET_GAP * .5f;
+    private static final float FARE = 10f;
     private final Body myBody;
     private final ArrayList<LightSrc> myLights;
     private final Vector2 myPos;
@@ -66,7 +66,7 @@ public class StarPort implements SolObject {
     }
 
     private static void blip(SolGame game, SolShip ship) {
-        TextureAtlas.AtlasRegion tex = game.getTexMan().getTexture(Teleport.TEX_PATH);
+        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(new ResourceUrn("engine:teleportBlip"));
         float blipSz = ship.getHull().config.getApproxRadius() * 10;
         game.getPartMan().blip(game, ship.getPosition(), SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
     }
@@ -128,9 +128,8 @@ public class StarPort implements SolObject {
             game.getSoundManager().play(game, game.getSpecialSounds().transcendentCreated, null, t);
             objectManager.removeObjDelayed(ship);
         }
-        for (int i = 0, myLightsSize = myLights.size(); i < myLightsSize; i++) {
-            LightSrc l = myLights.get(i);
-            l.update(true, myAngle, game);
+        for (LightSrc light : myLights) {
+            light.update(true, myAngle, game);
         }
 
     }
@@ -229,7 +228,7 @@ public class StarPort implements SolObject {
         private final CollisionMeshLoader myLoader;
 
         public Builder() {
-            myLoader = new CollisionMeshLoader(new ResourceUrn("core:misc"));
+            myLoader = new CollisionMeshLoader(new ResourceUrn("engine:misc"));
         }
 
         public StarPort build(SolGame game, Planet from, Planet to, boolean secondary) {
@@ -237,11 +236,11 @@ public class StarPort implements SolObject {
             Vector2 pos = getDesiredPos(from, to, false);
             // Adjust position so that StarPorts are not overlapping
             pos = adjustDesiredPos(game, null, pos);
-            ArrayList<Dra> dras = new ArrayList<Dra>();
-            Body body = myLoader.getBodyAndSprite(game, "smallGameObjects", "starPort", SIZE,
-                    BodyDef.BodyType.KinematicBody, new Vector2(pos), angle, dras, 10f, DraLevel.BIG_BODIES, null);
+            ArrayList<Dra> dras = new ArrayList<>();
+            Body body = myLoader.getBodyAndSprite(game, Assets.getAtlasRegion(new ResourceUrn("engine:starPort")), SIZE,
+                    BodyDef.BodyType.KinematicBody, new Vector2(pos), angle, dras, 10f, DraLevel.BIG_BODIES);
             SolMath.free(pos);
-            ArrayList<LightSrc> lights = new ArrayList<LightSrc>();
+            ArrayList<LightSrc> lights = new ArrayList<>();
             addFlow(game, pos, dras, 0, lights);
             addFlow(game, pos, dras, 90, lights);
             addFlow(game, pos, dras, -90, lights);
@@ -358,7 +357,7 @@ public class StarPort implements SolObject {
             mySpd = new Vector2();
             myDestPos = new Vector2();
 
-            RectSprite s = new RectSprite(game.getTexMan().getTexture("smallGameObjects/transcendent"), TRAN_SZ, .3f,
+            RectSprite s = new RectSprite(Assets.getAtlasRegion(new ResourceUrn("engine:transcendent")), TRAN_SZ, .3f,
                                             0, new Vector2(), DraLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
 
             myDras = new ArrayList<>();

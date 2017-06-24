@@ -21,7 +21,6 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.TextAlignment;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
@@ -314,12 +313,12 @@ public class InventoryScreen implements SolUiScreen {
             }
         }
 
-        uiDrawer.drawString(myOperations.getHeader(), myListHeaderPos.x, myListHeaderPos.y, FontSize.WINDOW, TextAlignment.LEFT, false, SolColor.WHITE);
-        uiDrawer.drawString("Selected Item:", myDetailHeaderPos.x, myDetailHeaderPos.y, FontSize.WINDOW, TextAlignment.LEFT, false, SolColor.WHITE);
+        uiDrawer.drawString(myOperations.getHeader(), myListHeaderPos.x, myListHeaderPos.y, FontSize.WINDOW, UiDrawer.TextAlignment.LEFT, false, SolColor.WHITE);
+        uiDrawer.drawString("Selected Item:", myDetailHeaderPos.x, myDetailHeaderPos.y, FontSize.WINDOW, UiDrawer.TextAlignment.LEFT, false, SolColor.WHITE);
         if (mySelected != null && !mySelected.isEmpty()) {
             SolItem selItem = mySelected.get(0);
             String desc = selItem.getDisplayName() + "\n" + selItem.getDesc();
-            uiDrawer.drawString(desc, myDetailArea.x + .015f, myDetailArea.y + .015f, FontSize.WINDOW, TextAlignment.LEFT, false, SolColor.WHITE);
+            uiDrawer.drawString(desc, myDetailArea.x + .015f, myDetailArea.y + .015f, FontSize.WINDOW, UiDrawer.TextAlignment.LEFT, false, SolColor.WHITE);
         }
     }
 

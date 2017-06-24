@@ -18,7 +18,6 @@ package org.destinationsol.game.chunk;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
-import org.destinationsol.TextureManager;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
@@ -42,12 +41,12 @@ public class ChunkManager {
     private int myX;
     private int myY;
 
-    public ChunkManager(TextureManager textureManager) {
-        myFilledChunks = new HashSet<Vector2>();
-        myBgFilledChunks = new HashSet<Vector2>();
+    public ChunkManager() {
+        myFilledChunks = new HashSet<>();
+        myBgFilledChunks = new HashSet<>();
         myRemover = new MyRemover(MIN_REMOVE_DIST);
         myBgRemover = new MyRemover(MIN_BG_REMOVE_DIST);
-        myFiller = new ChunkFiller(textureManager);
+        myFiller = new ChunkFiller();
     }
 
     public void update(SolGame game) {
