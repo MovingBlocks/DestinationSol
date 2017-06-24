@@ -17,7 +17,6 @@ package org.destinationsol.assets;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import org.destinationsol.assets.atlas.Atlas;
 import org.destinationsol.assets.audio.OggMusic;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.emitters.Emitter;
@@ -83,21 +82,6 @@ public abstract class Assets {
         }
 
         throw new RuntimeException("OggMusic " + urn.toString() + " not found!");
-    }
-
-    /**
-     * Loads an Atlas (.atlas) from the current environment. Throws an exception if the asset is not found.
-     * @param urn A ResourceUrn pointing to the desired asset.
-     * @return The loaded Atlas.
-     */
-    public static Atlas getAtlas(ResourceUrn urn) {
-        Optional<Atlas> atlasOptional = assetHelper.get(urn, Atlas.class);
-
-        if (atlasOptional.isPresent()) {
-            return atlasOptional.get();
-        }
-
-        throw new RuntimeException("Atlas " + urn.toString() + " not found!");
     }
 
     /**

@@ -21,7 +21,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.CommonDrawer;
-import org.destinationsol.TextureManager;
+import org.destinationsol.assets.Assets;
+import org.terasology.assets.ResourceUrn;
 
 public class GameDrawer {
 
@@ -31,10 +32,10 @@ public class GameDrawer {
 
     private boolean myCurrAdditive;
 
-    public GameDrawer(TextureManager textureManager, CommonDrawer commonDrawer) {
+    public GameDrawer(CommonDrawer commonDrawer) {
         myDrawer = commonDrawer;
         r = myDrawer.r;
-        debugWhiteTex = textureManager.getTexture("ui/whiteTex");
+        debugWhiteTex = Assets.getAtlasRegion(new ResourceUrn("engine:uiWhiteTex"));
     }
 
     public void begin() {

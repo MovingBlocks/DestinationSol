@@ -19,7 +19,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.Const;
-import org.destinationsol.TextureManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.HullConfigManager;
@@ -54,11 +53,11 @@ public class PlanetManager {
     private final PlanetCoreSingleton myPlanetCore;
     private Planet myNearestPlanet;
 
-    public PlanetManager(TextureManager textureManager, HullConfigManager hullConfigs, GameColors cols,
+    public PlanetManager(HullConfigManager hullConfigs, GameColors cols,
                             ItemManager itemManager) {
-        myPlanetConfigs = new PlanetConfigs(textureManager, hullConfigs, cols, itemManager);
-        mySysConfigs = new SysConfigs(textureManager, hullConfigs, itemManager);
-        myMazeConfigs = new MazeConfigs(textureManager, hullConfigs, itemManager);
+        myPlanetConfigs = new PlanetConfigs(hullConfigs, cols, itemManager);
+        mySysConfigs = new SysConfigs(hullConfigs, itemManager);
+        myMazeConfigs = new MazeConfigs(hullConfigs, itemManager);
 
         mySystems = new ArrayList<>();
         myMazes = new ArrayList<>();

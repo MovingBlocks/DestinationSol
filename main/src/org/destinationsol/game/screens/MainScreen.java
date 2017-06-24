@@ -22,8 +22,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.TextAlignment;
-import org.destinationsol.TextureManager;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DebugOptions;
@@ -44,6 +43,7 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +96,7 @@ public class MainScreen implements SolUiScreen {
         } else if (ct == GameOptions.CONTROL_MIXED) {
             shipControl = new ShipMixedControl(solApplication, controls);
         } else if (ct == GameOptions.CONTROL_MOUSE) {
-            shipControl = new ShipMouseControl(solApplication);
+            shipControl = new ShipMouseControl();
         } else {
             shipControl = new ShipControllerControl(solApplication);
         }
@@ -129,13 +129,13 @@ public class MainScreen implements SolUiScreen {
         warnDrawers.add(new NoArmorWarn(resolutionRatio));
 
         zoneNameAnnouncer = new ZoneNameAnnouncer();
-        borderDrawer = new BorderDrawer(resolutionRatio, solApplication);
+        borderDrawer = new BorderDrawer(resolutionRatio);
 
-        TextureManager textureManager = solApplication.getTexMan();
-        lifeTex = textureManager.getTexture(TextureManager.ICONS_DIR + "life");
-        infinityTex = textureManager.getTexture(TextureManager.ICONS_DIR + "infinity");
-        waitTex = textureManager.getTexture(TextureManager.ICONS_DIR + "wait");
-        compassTex = textureManager.getTexture("ui/compass");
+        lifeTex = Assets.getAtlasRegion(new ResourceUrn("engine:iconLife"));
+        infinityTex = Assets.getAtlasRegion(new ResourceUrn("engine:iconInfinity"));
+        waitTex = Assets.getAtlasRegion(new ResourceUrn("engine:iconWait"));
+
+        compassTex = Assets.getAtlasRegion(new ResourceUrn("engine:uiCompass"));
         myCompassTint = SolColor.col(1, 0);
 
         myLifeTp = new TextPlace(SolColor.W50);
@@ -158,7 +158,7 @@ public class MainScreen implements SolUiScreen {
         return new Rectangle(x + gap, y + gap, CELL_SZ - gap * 2, cellH - gap * 2);
     }
 
-    public void maybeDrawHeight(UiDrawer drawer, SolApplication solApplication) {
+    private void maybeDrawHeight(UiDrawer drawer, SolApplication solApplication) {
         SolGame game = solApplication.getGame();
         Planet np = game.getPlanetMan().getNearestPlanet();
         SolCam cam = game.getCam();
@@ -435,7 +435,7 @@ public class MainScreen implements SolUiScreen {
         myG2AmmoTp.draw(uiDrawer);
         myG2AmmoExcessTp.draw(uiDrawer);
         myChargesExcessTp.draw(uiDrawer);
-        myMoneyExcessTp.draw(uiDrawer, TextAlignment.LEFT);
+        myMoneyExcessTp.draw(uiDrawer, UiDrawer.TextAlignment.LEFT);
 
         for (WarnDrawer warnDrawer : warnDrawers) {
             if (warnDrawer.drawPerc > 0) {
@@ -493,7 +493,7 @@ public class MainScreen implements SolUiScreen {
             uiDrawer.drawString(text, pos.x, pos.y, FontSize.HUD, true, color);
         }
 
-        public void draw(UiDrawer uiDrawer, TextAlignment align) {
+        public void draw(UiDrawer uiDrawer, UiDrawer.TextAlignment align) {
             uiDrawer.drawString(text, pos.x, pos.y, FontSize.HUD, align, true, color);
         }
     }

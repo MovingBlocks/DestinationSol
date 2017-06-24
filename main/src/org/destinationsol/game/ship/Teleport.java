@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.Faction;
@@ -27,23 +28,23 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.planet.Planet;
+import org.terasology.assets.ResourceUrn;
 
 public class Teleport implements ShipAbility {
-    public static final int MAX_RADIUS = 4;
-    public static final String TEX_PATH = "smallGameObjects/teleportBlip";
-    private final Vector2 myNewPos;
-    private final Config myConfig;
-    private boolean myShouldTeleport;
-    private float myAngle;
+    private static final int MAX_RADIUS = 4;
+    private final Vector2 newPos;
+    private final Config config;
+    private boolean shouldTeleport;
+    private float angle;
 
     public Teleport(Config config) {
-        myConfig = config;
-        myNewPos = new Vector2();
+        this.config = config;
+        newPos = new Vector2();
     }
 
     @Override
     public boolean update(SolGame game, SolShip owner, boolean tryToUse) {
-        myShouldTeleport = false;
+        shouldTeleport = false;
         if (!tryToUse) {
             return false;
         }
@@ -59,13 +60,13 @@ public class Teleport implements ShipAbility {
             return false;
         }
         for (int i = 0; i < 5; i++) {
-            myNewPos.set(pos);
-            myNewPos.sub(nePos);
-            myAngle = myConfig.angle * SolMath.rnd(.5f, 1) * SolMath.toInt(SolMath.test(.5f));
-            SolMath.rotate(myNewPos, myAngle);
-            myNewPos.add(nePos);
-            if (game.isPlaceEmpty(myNewPos, false)) {
-                myShouldTeleport = true;
+            newPos.set(pos);
+            newPos.sub(nePos);
+            angle = config.angle * SolMath.rnd(.5f, 1) * SolMath.toInt(SolMath.test(.5f));
+            SolMath.rotate(newPos, angle);
+            newPos.add(nePos);
+            if (game.isPlaceEmpty(newPos, false)) {
+                shouldTeleport = true;
                 return true;
             }
         }
@@ -74,12 +75,12 @@ public class Teleport implements ShipAbility {
 
     @Override
     public AbilityConfig getConfig() {
-        return myConfig;
+        return config;
     }
 
     @Override
     public AbilityCommonConfig getCommonConfig() {
-        return myConfig.cc;
+        return config.cc;
     }
 
     @Override
@@ -89,21 +90,21 @@ public class Teleport implements ShipAbility {
 
     // can be performed in update
     public void maybeTeleport(SolGame game, SolShip owner) {
-        if (!myShouldTeleport) {
+        if (!shouldTeleport) {
             return;
         }
 
-        TextureAtlas.AtlasRegion tex = game.getTexMan().getTexture(TEX_PATH);
+        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(new ResourceUrn("engine:teleportBlip"));
         float blipSz = owner.getHull().config.getApproxRadius() * 3;
         game.getPartMan().blip(game, owner.getPosition(), SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
-        game.getPartMan().blip(game, myNewPos, SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
+        game.getPartMan().blip(game, newPos, SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
 
-        float newAngle = owner.getAngle() + myAngle;
+        float newAngle = owner.getAngle() + angle;
         Vector2 newSpd = SolMath.getVec(owner.getSpd());
-        SolMath.rotate(newSpd, myAngle);
+        SolMath.rotate(newSpd, angle);
 
         Body body = owner.getHull().getBody();
-        body.setTransform(myNewPos, newAngle * SolMath.degRad);
+        body.setTransform(newPos, newAngle * SolMath.degRad);
         body.setLinearVelocity(newSpd);
 
         SolMath.free(newSpd);

@@ -20,7 +20,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
-import org.destinationsol.TextureManager;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.maze.Maze;
@@ -35,6 +35,7 @@ import org.destinationsol.game.planet.TileObject;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.UiDrawer;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,6 @@ public class MapDrawer {
     public static final float INNER_ICON_PERC = .6f;
     public static final float INNER_AREA_ICON_PERC = .7f;
     public static final float GRID_SZ = 40f;
-    public static final String MAP_TEX_DIR = "mapObjects/";
     public static final float MIN_ICON_RAD_PX = 16f;
     private static final float MAX_SKULL_TIME = .75f;
     private static final float MAX_AREA_SKULL_TIME = 3;
@@ -77,7 +77,7 @@ public class MapDrawer {
     private float mySkullTime;
     private float myAreaSkullTime;
 
-    public MapDrawer(TextureManager textureManager, float screenHeight) {
+    public MapDrawer(float screenHeight) {
         myZoom = MAX_ZOOM / MUL_FACTOR / MUL_FACTOR;
         float minIconRad = MIN_ICON_RAD_PX / screenHeight;
         myIconRad = ICON_RAD < minIconRad ? minIconRad : ICON_RAD;
@@ -85,23 +85,23 @@ public class MapDrawer {
         myAreaWarnCol = new Color(SolColor.WHITE);
         myAreaWarnBgCol = new Color(SolColor.UI_WARN);
 
-        myWarnAreaBg = textureManager.getTexture(MAP_TEX_DIR + "warnBg");
-        myAtmTex = textureManager.getTexture(MAP_TEX_DIR + "atm");
-        myPlanetTex = textureManager.getTexture(MAP_TEX_DIR + "planet");
-        myPlanetCoreTex = textureManager.getTexture(MAP_TEX_DIR + "planetCore");
-        myStarTex = textureManager.getTexture(MAP_TEX_DIR + "star");
-        myMazeTex = textureManager.getTexture(MAP_TEX_DIR + "maze");
-        mySkullBigTex = textureManager.getTexture(MAP_TEX_DIR + "skullBig");
-        myBeltTex = textureManager.getTexture(MAP_TEX_DIR + "asteroids");
-        myBeaconAttackTex = textureManager.getTexture(MAP_TEX_DIR + "beaconAttack");
-        myBeaconMoveTex = textureManager.getTexture(MAP_TEX_DIR + "beaconMove");
-        myBeaconFollowTex = textureManager.getTexture(MAP_TEX_DIR + "beaconFollow");
-        myWhiteTex = textureManager.getTexture(MAP_TEX_DIR + "whiteTex");
-        myLineTex = textureManager.getTexture(MAP_TEX_DIR + "gridLine");
+        myWarnAreaBg = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectWarnBg"));
+        myAtmTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectAtm"));
+        myPlanetTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectPlanet"));
+        myPlanetCoreTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectPlanetCore"));
+        myStarTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectStar"));
+        myMazeTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectMaze"));
+        mySkullBigTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectSkullBig"));
+        myBeltTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectAsteroids"));
+        myBeaconAttackTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectBeaconAttack"));
+        myBeaconMoveTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectBeaconMove"));
+        myBeaconFollowTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectBeaconFollow"));
+        myWhiteTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectWhiteTex"));
+        myLineTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectGridLine"));
 
-        myIconBg = textureManager.getTexture(TextureManager.HULL_ICONS_DIR + "bg");
-        mySkullTex = textureManager.getTexture(TextureManager.HULL_ICONS_DIR + "skull");
-        myStarPortTex = textureManager.getTexture(TextureManager.HULL_ICONS_DIR + "starPort");
+        myIconBg = Assets.getAtlasRegion(new ResourceUrn("engine:mapHullBg"));
+        mySkullTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapHullSkull"));
+        myStarPortTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapHullStarport"));
     }
 
     public boolean isToggled() {

@@ -17,7 +17,7 @@ package org.destinationsol.game.maze;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.TextureManager;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.CollisionMeshLoader;
@@ -52,14 +52,14 @@ public class MazeConfig {
         this.envConfig = envConfig;
     }
 
-    public static MazeConfig load(TextureManager textureManager, HullConfigManager hullConfigs, JsonValue mazeNode, ItemManager itemManager) {
-        String dirName = "mazeTiles/" + mazeNode.name + "/";
-        CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn(mazeNode.name + "Maze"));
+    public static MazeConfig load(JsonValue mazeNode, HullConfigManager hullConfigs, ItemManager itemManager) {
+        String name = mazeNode.name;
+        CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("core:" + name + "Maze"));
         CollisionMeshLoader.Model paths = collisionMeshLoader.getInternalModel();
-        List<TextureAtlas.AtlasRegion> innerBgs = textureManager.getPack(dirName + "innerBg");
-        List<TextureAtlas.AtlasRegion> borderBgs = textureManager.getPack(dirName + "borderBg");
-        ArrayList<TextureAtlas.AtlasRegion> wallTexs = textureManager.getPack(dirName + "wall");
-        ArrayList<TextureAtlas.AtlasRegion> passTexs = textureManager.getPack(dirName + "pass");
+        List<TextureAtlas.AtlasRegion> innerBgs = Assets.listTexturesMatching("core:" + name + "MazeInnerBg_.*");
+        List<TextureAtlas.AtlasRegion> borderBgs = Assets.listTexturesMatching("core:" + name + "MazeBorderBg_.*");
+        List<TextureAtlas.AtlasRegion> wallTexs = Assets.listTexturesMatching("core:" + name + "MazeWall_.*");
+        List<TextureAtlas.AtlasRegion> passTexs = Assets.listTexturesMatching("core:" + name + "MazePass_.*");
 
         boolean metal = mazeNode.getBoolean("isMetal");
         ArrayList<MazeTile> innerWalls = new ArrayList<>();
@@ -75,17 +75,15 @@ public class MazeConfig {
         ArrayList<ShipConfig> innerEnemies = ShipConfig.loadList(mazeNode.get("innerEnemies"), hullConfigs, itemManager);
         ArrayList<ShipConfig> bosses = ShipConfig.loadList(mazeNode.get("bosses"), hullConfigs, itemManager);
 
-        SpaceEnvConfig envConfig = new SpaceEnvConfig(mazeNode.get("environment"), textureManager);
+        SpaceEnvConfig envConfig = new SpaceEnvConfig(mazeNode.get("environment"));
         return new MazeConfig(innerWalls, innerPasses, borderWalls, borderPasses, outerEnemies, innerEnemies, bosses, envConfig);
     }
 
-    private static void buildTiles(CollisionMeshLoader.Model paths,
-                                   ArrayList<MazeTile> list, boolean wall, boolean metal, List<TextureAtlas.AtlasRegion> bgTexs,
-                                   ArrayList<TextureAtlas.AtlasRegion> texs) {
+    private static void buildTiles(CollisionMeshLoader.Model paths, List<MazeTile> list, boolean wall, boolean metal,
+                                       List<TextureAtlas.AtlasRegion> bgTexs, List<TextureAtlas.AtlasRegion> texs) {
         for (TextureAtlas.AtlasRegion tex : texs) {
-            String pathEntry = tex.name + "_" + tex.index + ".png";
             TextureAtlas.AtlasRegion bgTex = SolMath.elemRnd(bgTexs);
-            MazeTile iw = MazeTile.load(tex, paths, wall, pathEntry, metal, bgTex);
+            MazeTile iw = MazeTile.load(tex, paths.rigidBodies.get(tex.name), wall, metal, bgTex);
             list.add(iw);
         }
     }
