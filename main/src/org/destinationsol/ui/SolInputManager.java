@@ -25,12 +25,13 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.TextureManager;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.sound.OggSoundManager;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,7 @@ public class SolInputManager {
     private boolean warnPercGrows;
     private Boolean scrolledUp;
 
-    public SolInputManager(TextureManager textureManager, OggSoundManager soundManager) {
+    public SolInputManager(OggSoundManager soundManager) {
         inputPointers = new InputPointer[POINTER_COUNT];
         for (int i = 0; i < POINTER_COUNT; i++) {
             inputPointers[i] = new InputPointer();
@@ -82,7 +83,7 @@ public class SolInputManager {
         // We want the original mouse cursor to be hidden as we draw our own mouse cursor.
         Gdx.input.setCursorCatched(false);
         setMouseCursorHidden();
-        uiCursor = textureManager.getTexture("ui/cursor");
+        uiCursor = Assets.getAtlasRegion(new ResourceUrn("engine:uiCursor"));
         warnColor = new Color(SolColor.UI_WARN);
 
         hoverSound = soundManager.getSound("engine:uiHover");
@@ -244,9 +245,7 @@ public class SolInputManager {
     }
 
     private void addRemoveScreens() {
-        for (SolUiScreen screen : screenToRemove) {
-            screens.remove(screen);
-        }
+        screens.removeAll(screenToRemove);
         screenToRemove.clear();
 
         for (SolUiScreen screen : screensToAdd) {

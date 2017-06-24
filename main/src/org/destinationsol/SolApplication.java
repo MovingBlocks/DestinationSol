@@ -44,7 +44,6 @@ public class SolApplication implements ApplicationListener {
     @SuppressWarnings("FieldCanBeLocal")
     private ModuleManager moduleManager;
 
-    private TextureManager textureManager;
     private OggMusicManager musicManager;
     private OggSoundManager soundManager;
     private SolInputManager inputManager;
@@ -78,8 +77,7 @@ public class SolApplication implements ApplicationListener {
 
         musicManager = new OggMusicManager();
         soundManager = new OggSoundManager();
-        textureManager = new TextureManager();
-        inputManager = new SolInputManager(textureManager, soundManager);
+        inputManager = new SolInputManager(soundManager);
 
         musicManager.playMenuMusic(options);
 
@@ -88,7 +86,7 @@ public class SolApplication implements ApplicationListener {
 
 
         commonDrawer = new CommonDrawer();
-        uiDrawer = new UiDrawer(textureManager, commonDrawer);
+        uiDrawer = new UiDrawer(commonDrawer);
         layouts = new SolLayouts(uiDrawer.r);
         menuScreens = new MenuScreens(layouts, isMobile(), uiDrawer.r, options);
 
@@ -170,7 +168,7 @@ public class SolApplication implements ApplicationListener {
         }
         DebugCollector.draw(uiDrawer);
         if (solGame == null) {
-            uiDrawer.drawString("v" + Const.VERSION, 0.01f, .974f, FontSize.DEBUG, TextAlignment.LEFT, false, SolColor.WHITE);
+            uiDrawer.drawString("v" + Const.VERSION, 0.01f, .974f, FontSize.DEBUG, UiDrawer.TextAlignment.LEFT, false, SolColor.WHITE);
         }
         commonDrawer.end();
     }
@@ -186,7 +184,7 @@ public class SolApplication implements ApplicationListener {
     }
 
     public void startNewGame(boolean tut, String shipName) {
-        solGame = new SolGame(this, shipName, textureManager, tut, commonDrawer);
+        solGame = new SolGame(this, shipName, tut, commonDrawer);
         inputManager.setScreen(this, solGame.getScreens().mainScreen);
         musicManager.playGameMusic(options);
     }
@@ -206,7 +204,6 @@ public class SolApplication implements ApplicationListener {
             solGame.onGameEnd();
         }
 
-        textureManager.dispose();
         inputManager.dispose();
     }
 
@@ -222,10 +219,6 @@ public class SolApplication implements ApplicationListener {
         solGame.onGameEnd();
         solGame = null;
         inputManager.setScreen(this, menuScreens.main);
-    }
-
-    public TextureManager getTexMan() {
-        return textureManager;
     }
 
     public boolean isMobile() {

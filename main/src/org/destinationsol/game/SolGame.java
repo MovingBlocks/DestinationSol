@@ -21,7 +21,6 @@ import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.TextureManager;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.HullConfigManager;
@@ -69,7 +68,6 @@ public class SolGame {
     private final SolApplication solApplication;
     private final DraMan draMan;
     private final PlanetManager planetManager;
-    private final TextureManager textureManager;
     private final ChunkManager chunkManager;
     private final PartMan partMan;
     private final AsteroidBuilder asteroidBuilder;
@@ -102,9 +100,9 @@ public class SolGame {
     private float respawnMoney;
     private HullConfig respawnHull;
 
-    public SolGame(SolApplication cmp, String shipName, TextureManager textureManager, boolean tut, CommonDrawer commonDrawer) {
+    public SolGame(SolApplication cmp, String shipName, boolean tut, CommonDrawer commonDrawer) {
         solApplication = cmp;
-        GameDrawer drawer = new GameDrawer(textureManager, commonDrawer);
+        GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
         soundManager = solApplication.getSoundManager();
         specialSounds = new SpecialSounds(soundManager);
@@ -112,31 +110,30 @@ public class SolGame {
         camera = new SolCam(drawer.r);
         gameScreens = new GameScreens(drawer.r, cmp);
         tutorialManager = tut ? new TutorialManager(commonDrawer.r, gameScreens, cmp.isMobile(), cmp.getOptions(), this) : null;
-        this.textureManager = textureManager;
         farBackgroundManagerOld = new FarBackgroundManagerOld();
         shipBuilder = new ShipBuilder();
         EffectTypes effectTypes = new EffectTypes();
-        specialEffects = new SpecialEffects(effectTypes, this.textureManager, gameColors);
-        itemManager = new ItemManager(this.textureManager, soundManager, effectTypes, gameColors);
-        AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, this.textureManager, gameColors, soundManager);
+        specialEffects = new SpecialEffects(effectTypes, gameColors);
+        itemManager = new ItemManager(soundManager, effectTypes, gameColors);
+        AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, gameColors, soundManager);
         hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
         SolNames solNames = new SolNames();
-        planetManager = new PlanetManager(this.textureManager, hullConfigManager, gameColors, itemManager);
+        planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
         SolContactListener contactListener = new SolContactListener(this);
         factionManager = new FactionManager();
         objectManager = new ObjectManager(contactListener, factionManager);
-        gridDrawer = new GridDrawer(textureManager);
-        chunkManager = new ChunkManager(this.textureManager);
+        gridDrawer = new GridDrawer();
+        chunkManager = new ChunkManager();
         partMan = new PartMan();
-        asteroidBuilder = new AsteroidBuilder(this.textureManager);
+        asteroidBuilder = new AsteroidBuilder();
         lootBuilder = new LootBuilder();
-        mapDrawer = new MapDrawer(this.textureManager, commonDrawer.h);
-        shardBuilder = new ShardBuilder(this.textureManager);
+        mapDrawer = new MapDrawer(commonDrawer.h);
+        shardBuilder = new ShardBuilder();
         galaxyFiller = new GalaxyFiller();
         starPortBuilder = new StarPort.Builder();
         draDebugger = new DraDebugger();
-        beaconHandler = new BeaconHandler(textureManager);
-        mountDetectDrawer = new MountDetectDrawer(textureManager);
+        beaconHandler = new BeaconHandler();
+        mountDetectDrawer = new MountDetectDrawer();
         respawnItems = new ArrayList<>();
         timeFactor = 1;
 
@@ -353,10 +350,6 @@ public class SolGame {
 
     public ObjectManager getObjMan() {
         return objectManager;
-    }
-
-    public TextureManager getTexMan() {
-        return textureManager;
     }
 
     public PlanetManager getPlanetMan() {

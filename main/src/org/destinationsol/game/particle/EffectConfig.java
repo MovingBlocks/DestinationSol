@@ -18,7 +18,6 @@ package org.destinationsol.game.particle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.TextureManager;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.game.GameColors;
 import org.terasology.assets.ResourceUrn;
@@ -41,7 +40,7 @@ public class EffectConfig {
         this.tint = tint;
     }
 
-    public static EffectConfig load(JsonValue node, EffectTypes types, TextureManager textureManager, GameColors cols) {
+    public static EffectConfig load(JsonValue node, EffectTypes types, GameColors cols) {
         if (node == null) {
             return null;
         }
@@ -55,10 +54,10 @@ public class EffectConfig {
         return new EffectConfig(effectType, sz, tex, floatsUp, tint);
     }
 
-    public static List<EffectConfig> loadList(JsonValue listNode, EffectTypes types, TextureManager textureManager, GameColors cols) {
+    public static List<EffectConfig> loadList(JsonValue listNode, EffectTypes types, GameColors cols) {
         ArrayList<EffectConfig> res = new ArrayList<>();
         for (JsonValue node : listNode) {
-            EffectConfig ec = load(node, types, textureManager, cols);
+            EffectConfig ec = load(node, types, cols);
             res.add(ec);
         }
         return res;

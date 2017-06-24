@@ -169,7 +169,6 @@ public class ShipBuilder {
                         if (hullConfig.getNrOfGunSlots() > 1 && g2 == null && hullConfig.getGunSlot(1).allowsRotation() != g.config.fixed) {
                             g2 = g;
                         }
-                        continue;
                     }
                 }
             }
@@ -265,7 +264,6 @@ public class ShipBuilder {
         JsonValue rigidBodyNode = json.getJsonValue().get("rigidBody");
         myCollisionMeshLoader.readRigidBody(rigidBodyNode, hullConfig);
 
-        // TODO: Ensure that this does not cause any problems
         json.dispose();
 
         BodyDef.BodyType bodyType = hullConfig.getType() == HullConfig.Type.STATION ? BodyDef.BodyType.KinematicBody : BodyDef.BodyType.DynamicBody;
@@ -279,21 +277,21 @@ public class ShipBuilder {
                 ? new GunMount(hullConfig.getGunSlot(1))
                 : null;
 
-        List<LightSrc> lCs = new ArrayList<LightSrc>();
+        List<LightSrc> lCs = new ArrayList<>();
         for (Vector2 p : hullConfig.getLightSourcePositions()) {
             LightSrc lc = new LightSrc(.35f, true, .7f, p, game.getCols().hullLights);
             lc.collectDras(dras);
             lCs.add(lc);
         }
 
-        ArrayList<ForceBeacon> beacons = new ArrayList<ForceBeacon>();
+        ArrayList<ForceBeacon> beacons = new ArrayList<>();
         for (Vector2 relPos : hullConfig.getForceBeaconPositions()) {
             ForceBeacon fb = new ForceBeacon(game, relPos, pos, spd);
             fb.collectDras(dras);
             beacons.add(fb);
         }
 
-        ArrayList<Door> doors = new ArrayList<Door>();
+        ArrayList<Door> doors = new ArrayList<>();
         for (Vector2 doorRelPos : hullConfig.getDoorPositions()) {
             Door door = createDoor(game, pos, angle, body, doorRelPos);
             door.collectDras(dras);
@@ -320,7 +318,7 @@ public class ShipBuilder {
 
     private Door createDoor(SolGame game, Vector2 pos, float angle, Body body, Vector2 doorRelPos) {
         World w = game.getObjMan().getWorld();
-        TextureAtlas.AtlasRegion tex = game.getTexMan().getTexture("smallGameObjects/door");
+        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(new ResourceUrn("engine:door"));
         PrismaticJoint joint = createDoorJoint(body, w, pos, doorRelPos, angle);
         RectSprite s = new RectSprite(tex, Door.DOOR_LEN, 0, 0, new Vector2(doorRelPos), DraLevel.BODIES, 0, 0, SolColor.WHITE, false);
         return new Door(joint, s);

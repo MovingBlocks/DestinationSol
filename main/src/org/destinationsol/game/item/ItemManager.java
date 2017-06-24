@@ -16,7 +16,7 @@
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import org.destinationsol.TextureManager;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.particle.EffectTypes;
@@ -40,23 +40,21 @@ public class ItemManager {
     private final SolItemTypes myTypes;
     private final RepairItem myRepairExample;
     private final OggSoundManager soundManager;
-    private final TextureManager textureManager;
     private final EffectTypes effectTypes;
     private final GameColors gameColors;
 
-    public ItemManager(TextureManager textureManager, OggSoundManager soundManager, EffectTypes effectTypes, GameColors gameColors) {
+    public ItemManager(OggSoundManager soundManager, EffectTypes effectTypes, GameColors gameColors) {
         this.soundManager = soundManager;
-        this.textureManager = textureManager;
         this.effectTypes = effectTypes;
         this.gameColors = gameColors;
 
-        moneyIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "money");
-        medMoneyIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "medMoney");
-        bigMoneyIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "bigMoney");
-        repairIcon = textureManager.getTexture(TextureManager.ICONS_DIR + "repairItem");
+        moneyIcon = Assets.getAtlasRegion(new ResourceUrn("engine:iconMoney"));
+        medMoneyIcon = Assets.getAtlasRegion(new ResourceUrn("engine:iconMedMoney"));
+        bigMoneyIcon = Assets.getAtlasRegion(new ResourceUrn("engine:iconBigMoney"));
+        repairIcon = Assets.getAtlasRegion(new ResourceUrn("engine:iconRepairItem"));
 
         myTypes = new SolItemTypes(soundManager, gameColors);
-        projConfigs = new ProjectileConfigs(textureManager, soundManager, effectTypes, gameColors);
+        projConfigs = new ProjectileConfigs(soundManager, effectTypes, gameColors);
 
         myRepairExample = new RepairItem(myTypes.repair);
         myM.put(myRepairExample.getCode(), myRepairExample);
@@ -177,7 +175,7 @@ public class ItemManager {
     }
 
     public Engine.Config getEngineConfig(ResourceUrn engineName) {
-        return engineConfigs.computeIfAbsent(engineName, engineConfig -> Engine.Config.load(engineConfig, soundManager, effectTypes, textureManager, gameColors));
+        return engineConfigs.computeIfAbsent(engineName, engineConfig -> Engine.Config.load(engineConfig, soundManager, effectTypes, gameColors));
     }
 
     public SolItem random() {

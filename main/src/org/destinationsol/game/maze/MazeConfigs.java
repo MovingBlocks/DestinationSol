@@ -16,7 +16,6 @@
 package org.destinationsol.game.maze;
 
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.TextureManager;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.HullConfigManager;
@@ -29,14 +28,14 @@ import java.util.List;
 public class MazeConfigs {
     public final List<MazeConfig> configs;
 
-    public MazeConfigs(TextureManager textureManager, HullConfigManager hullConfigs, ItemManager itemManager) {
+    public MazeConfigs(HullConfigManager hullConfigs, ItemManager itemManager) {
         configs = new ArrayList<>();
 
         Json json = Assets.getJson(new ResourceUrn("core:mazesConfig"));
         JsonValue rootNode = json.getJsonValue();
 
         for (JsonValue mazeNode : rootNode) {
-            MazeConfig c = MazeConfig.load(textureManager, hullConfigs, mazeNode, itemManager);
+            MazeConfig c = MazeConfig.load(mazeNode, hullConfigs, itemManager);
             configs.add(c);
         }
 

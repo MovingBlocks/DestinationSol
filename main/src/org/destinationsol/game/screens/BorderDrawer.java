@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.SolApplication;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
@@ -37,6 +38,7 @@ import org.destinationsol.game.planet.SunSingleton;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.UiDrawer;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +52,8 @@ public class BorderDrawer {
     private final ArrayList<Tishch> myTishches;
     private final Vector2 myTmpVec = new Vector2();
 
-    public BorderDrawer(float r, SolApplication cmp) {
-        TextureAtlas.AtlasRegion tex = cmp.getTexMan().getTexture("ui/tishch");
+    public BorderDrawer(float r) {
+        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(new ResourceUrn("engine:uiTishch"));
         int hCellCount = (int) (r / TISHCH_SZ);
         int vCellCount = (int) (1 / TISHCH_SZ);
         float hStep = r / hCellCount;
