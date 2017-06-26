@@ -50,7 +50,7 @@ public class MazeBuilder {
 
     public MazeLayout buildMaze(SolGame game, Maze maze) {
         MazeLayout layout = new MazeLayoutBuilder(mySz).build();
-        MazeTileObject.Builder builder = new MazeTileObject.Builder();
+        new MazeTileObject.Builder();
         MazeConfig config = maze.getConfig();
         for (int col = 0; col < mySz; col++) {
             for (int row = 0; row < mySz; row++) {

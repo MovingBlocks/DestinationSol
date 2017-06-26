@@ -23,7 +23,6 @@ import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 
 public class Maze {
-
     private final MazeConfig myConfig;
     private final Vector2 myPos;
     private final float myRadius;
