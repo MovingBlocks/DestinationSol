@@ -201,8 +201,7 @@ public class PlanetObjectsBuilder {
     }
 
     private RectSprite createCloudSprite(List<TextureAtlas.AtlasRegion> cloudTexs, float maxAngleShift, float maxDistShift, float baseDist) {
-
-        TextureAtlas.AtlasRegion tex = SolMath.elemRnd(cloudTexs);
+        TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolMath.elemRnd(cloudTexs));
         if (SolMath.test(.5f)) {
             tex.flip(!tex.isFlipX(), !tex.isFlipY());
         }
@@ -284,7 +283,7 @@ public class PlanetObjectsBuilder {
             SolMath.rotate(decoRelPos, -baseAngle - 90, true);
             float decoRelAngle = decoAngle - baseAngle;
 
-            TextureAtlas.AtlasRegion decoTex = SolMath.elemRnd(dc.texs);
+            TextureAtlas.AtlasRegion decoTex = new TextureAtlas.AtlasRegion(SolMath.elemRnd(dc.texs));
             if (dc.allowFlip && SolMath.test(.5f)) {
                 decoTex.flip(!decoTex.isFlipX(), !decoTex.isFlipY());
             }
