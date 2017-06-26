@@ -250,7 +250,7 @@ public class ChunkFiller {
 
         for (int i = 0; i < count; i++) {
             // Select a random far junk texture
-            TextureAtlas.AtlasRegion tex = SolMath.elemRnd(conf.farJunkTexs);
+            TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolMath.elemRnd(conf.farJunkTexs));
             // Flip atlas for every other piece of junk
             if (SolMath.test(.5f)) {
                 tex.flip(!tex.isFlipX(), !tex.isFlipY());
@@ -299,7 +299,7 @@ public class ChunkFiller {
             Vector2 junkPos = getRndPos(chCenter);
 
             // Select a random junk atlas
-            TextureAtlas.AtlasRegion tex = SolMath.elemRnd(conf.junkTexs);
+            TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolMath.elemRnd(conf.junkTexs));
             // Flip atlas for every other piece of junk
             if (SolMath.test(.5f)) {
                 tex.flip(!tex.isFlipX(), !tex.isFlipY());

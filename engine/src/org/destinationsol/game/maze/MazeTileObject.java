@@ -181,8 +181,8 @@ public class MazeTileObject implements SolObject {
     public static class Builder {
         public MazeTileObject build(SolGame game, MazeTile tile, Vector2 pos, float angle, boolean flipped) {
             List<Dra> dras = new ArrayList<>();
-            TextureAtlas.AtlasRegion tex = tile.tex;
-            TextureAtlas.AtlasRegion bgTex = tile.bgTex;
+            TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(tile.tex);
+            TextureAtlas.AtlasRegion bgTex = new TextureAtlas.AtlasRegion(tile.bgTex);
             if (flipped) {
                 tex.flip(!tex.isFlipX(), !tex.isFlipY());
                 bgTex.flip(!bgTex.isFlipX(), !bgTex.isFlipY());
