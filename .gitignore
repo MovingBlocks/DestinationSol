@@ -3,8 +3,8 @@
 hs_err_pid*
 .gradle
 /config/metrics
-/main/prevShip.ini
-/main/settings.ini
+/engine/resources/prevShip.ini
+/engine/resources/settings.ini
 *log
 
 ## Ignored sub-projects with nested Git roots
