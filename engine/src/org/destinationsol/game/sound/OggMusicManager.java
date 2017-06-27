@@ -35,13 +35,13 @@ public class OggMusicManager {
     private Music currentlyPlaying = null;
 
     public OggMusicManager() {
-        menuMusic = Assets.getMusic(new ResourceUrn("engine:dreadnaught")).getMusic();
+        menuMusic = Assets.getMusic("engine:dreadnaught").getMusic();
         menuMusic.setLooping(true);
 
         gameMusic = new ArrayList<>();
-        gameMusic.add(Assets.getMusic(new ResourceUrn("engine:cimmerian dawn")).getMusic());
-        gameMusic.add(Assets.getMusic(new ResourceUrn("engine:into the dark")).getMusic());
-        gameMusic.add(Assets.getMusic(new ResourceUrn("engine:space theatre")).getMusic());
+        gameMusic.add(Assets.getMusic("engine:cimmerianDawn").getMusic());
+        gameMusic.add(Assets.getMusic("engine:intoTheDark").getMusic());
+        gameMusic.add(Assets.getMusic("engine:spaceTheatre").getMusic());
     }
 
     /**

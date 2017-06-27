@@ -27,6 +27,7 @@ import org.terasology.assets.ResourceUrn;
 import org.terasology.module.ModuleEnvironment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -53,120 +54,137 @@ public abstract class Assets {
         return assetHelper;
     }
 
+    private static ResourceUrn parsePath(String path) {
+        String[] strings = path.split(":");
+
+        assert(strings.length == 2); // Too strict?
+        String module = strings[0];
+        String file = strings[1];
+
+        strings = file.split("/");
+        if (strings.length > 1) {
+            assetHelper.setFolders(Arrays.copyOfRange(strings, 0, strings.length - 1));
+        } else {
+            assetHelper.setFolders();
+        }
+
+        return new ResourceUrn(module + ":" + strings[strings.length - 1]);
+    }
+
     /**
      * Loads an OggSound (.ogg) from the current environment. Throws an exception if the asset is not found.
-     * @param urn A ResourceUrn pointing to the desired asset.
+     * @param path A String specifying the desired asset.
      * @return The loaded OggSound.
      */
-    public static OggSound getSound(ResourceUrn urn) {
-        Optional<OggSound> oggSoundOptional = assetHelper.get(urn, OggSound.class);
+    public static OggSound getSound(String path) {
+        Optional<OggSound> oggSoundOptional = assetHelper.get(parsePath(path), OggSound.class);
 
         if (oggSoundOptional.isPresent()) {
             return oggSoundOptional.get();
         }
 
-        // DebugOptions.MISSING_SOUND_ACTION.handle("OggSound " + urn.toString() + " not found!");
-        throw new RuntimeException("OggSound " + urn.toString() + " not found!");
+        // DebugOptions.MISSING_SOUND_ACTION.handle("OggSound " + path + " not found!");
+        throw new RuntimeException("OggSound " + path + " not found!");
     }
 
     /**
      * Loads an OggMusic (.ogg) from the current environment. Throws an exception if the asset is not found.
-     * @param urn A ResourceUrn pointing to the desired asset.
+     * @param path A String specifying the desired asset.
      * @return The loaded OggMusic.
      */
-    public static OggMusic getMusic(ResourceUrn urn) {
-        Optional<OggMusic> oggMusicOptional = assetHelper.get(urn, OggMusic.class);
+    public static OggMusic getMusic(String path) {
+        Optional<OggMusic> oggMusicOptional = assetHelper.get(parsePath(path), OggMusic.class);
 
         if (oggMusicOptional.isPresent()) {
             return oggMusicOptional.get();
         }
 
-        throw new RuntimeException("OggMusic " + urn.toString() + " not found!");
+        throw new RuntimeException("OggMusic " + path + " not found!");
     }
 
     /**
      * Loads a BitmapFont (.font) from the current environment. Throws an exception if the asset is not found.
-     * @param urn A ResourceUrn pointing to the desired asset.
+     * @param path A String specifying the desired asset.
      * @return The loaded Font.
      */
-    public static Font getFont(ResourceUrn urn) {
-        Optional<Font> fontOptional = assetHelper.get(urn, Font.class);
+    public static Font getFont(String path) {
+        Optional<Font> fontOptional = assetHelper.get(parsePath(path), Font.class);
 
         if (fontOptional.isPresent()) {
             return fontOptional.get();
         }
 
-        throw new RuntimeException("Font " + urn.toString() + " not found!");
+        throw new RuntimeException("Font " + path + " not found!");
     }
 
     /**
      * Loads an emitter (.emitter) from the current environment. Throws an exception if the asset is not found.
-     * @param urn A ResourceUrn pointing to the desired asset.
+     * @param path A String specifying the desired asset.
      * @return The loaded Emitter.
      */
-    public static Emitter getEmitter(ResourceUrn urn) {
-        Optional<Emitter> emitterOptional = assetHelper.get(urn, Emitter.class);
+    public static Emitter getEmitter(String path) {
+        Optional<Emitter> emitterOptional = assetHelper.get(parsePath(path), Emitter.class);
 
         if (emitterOptional.isPresent()) {
             return emitterOptional.get();
         }
 
-        throw new RuntimeException("Emitter " + urn.toString() + " not found!");
+        throw new RuntimeException("Emitter " + path + " not found!");
     }
 
     /**
      * Loads a Json (.json) from the current environment. Throws an exception if the asset is not found.
-     * @param urn A ResourceUrn pointing to the desired asset.
+     * @param path A String specifying the desired asset.
      * @return The loaded Json.
      */
-    public static Json getJson(ResourceUrn urn) {
-        Optional<Json> jsonOptional = assetHelper.get(urn, Json.class);
+    public static Json getJson(String path) {
+        Optional<Json> jsonOptional = assetHelper.get(parsePath(path), Json.class);
 
         if (jsonOptional.isPresent()) {
             return jsonOptional.get();
         }
 
-        throw new RuntimeException("Json " + urn.toString() + " not found!");
+        throw new RuntimeException("Json " + path + " not found!");
     }
 
     /**
      * Loads a Texture (.png) from the current environment. Throws an exception if the asset is not found.
-     * @param urn A ResourceUrn pointing to the desired asset.
+     * @param path A String specifying the desired asset.
      * @return The loaded Texture.
      */
-    public static DSTexture getDSTexture(ResourceUrn urn) {
-        Optional<DSTexture> dsTextureOptional = assetHelper.get(urn, DSTexture.class);
+    public static DSTexture getDSTexture(String path) {
+        Optional<DSTexture> dsTextureOptional = assetHelper.get(parsePath(path), DSTexture.class);
 
         if (dsTextureOptional.isPresent()) {
             return dsTextureOptional.get();
         }
 
-        throw new RuntimeException("DSTexture " + urn.toString() + " not found!");
+        throw new RuntimeException("DSTexture " + path + " not found!");
     }
 
     /**
      * A wrapper function over getDSTexture() that creates an AtlasRegion out of the given Texture, to use in drawing functions.
-     * @param urn A ResourceUrn pointing to the desired asset.
+     * @param path A String specifying the desired asset.
      * @param textureFilter The texture filtering method for minification and magnification.
      * @return An AtlasRegion representing the loaded Texture.
      */
-    public static TextureAtlas.AtlasRegion getAtlasRegion(ResourceUrn urn, Texture.TextureFilter textureFilter) {
-        Texture texture = getDSTexture(urn).getTexture();
+    public static TextureAtlas.AtlasRegion getAtlasRegion(String path, Texture.TextureFilter textureFilter) {
+        Texture texture = getDSTexture(path).getTexture();
         texture.setFilter(textureFilter, textureFilter);
         TextureAtlas.AtlasRegion atlasRegion = new TextureAtlas.AtlasRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
         atlasRegion.flip(false, true);
-        atlasRegion.name = urn.toString();
+        atlasRegion.name = path;
         return atlasRegion;
     }
 
     /**
      * A wrapper function over getDSTexture() that creates an AtlasRegion out of the given Texture, to use in drawing functions.
      * This overloaded variant of the function defaults to the Nearest texture filtering method, which is the default for DestSol.
-     * @param urn A ResourceUrn pointing to the desired asset.
+     * @param path A String specifying the desired asset.
      * @return An AtlasRegion representing the loaded Texture.
      */
-    public static TextureAtlas.AtlasRegion getAtlasRegion(ResourceUrn urn) {
-        return getAtlasRegion(urn, Texture.TextureFilter.Nearest);
+    public static TextureAtlas.AtlasRegion getAtlasRegion(String path) {
+        return getAtlasRegion(path, Texture.TextureFilter.Nearest);
     }
 
     public static void cacheLists() {
@@ -189,7 +207,7 @@ public abstract class Assets {
 
         for (ResourceUrn resourceUrn : textureList) {
             if (resourceUrn.toString().matches(regex)) {
-                textures.add(getAtlasRegion(resourceUrn));
+                textures.add(getAtlasRegion(resourceUrn.toString()));
             }
         }
 

@@ -97,7 +97,7 @@ public class AbilityCharge implements SolItem {
             this.example = new AbilityCharge(this);
         }
 
-        public static void load(ResourceUrn abilityName, ItemManager itemManager, SolItemTypes types) {
+        public static void load(String abilityName, ItemManager itemManager, SolItemTypes types) {
             Json json = Assets.getJson(abilityName);
             JsonValue rootNode = json.getJsonValue();
 
@@ -107,9 +107,9 @@ public class AbilityCharge implements SolItem {
 
             json.dispose();
 
-            TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(new ResourceUrn(abilityName + "Icon"));
+            TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(abilityName + "Icon");
 
-            Config abilityConfig = new Config(icon, price, displayName, desc, types.abilityCharge, abilityName.toString());
+            Config abilityConfig = new Config(icon, price, displayName, desc, types.abilityCharge, abilityName);
             itemManager.registerItem(abilityConfig.example);
         }
     }

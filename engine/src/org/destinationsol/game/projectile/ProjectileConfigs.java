@@ -39,12 +39,12 @@ public class ProjectileConfigs {
     public ProjectileConfigs(OggSoundManager soundManager, EffectTypes effectTypes, GameColors cols) {
         myConfigs = new HashMap<>();
 
-        Json json = Assets.getJson(new ResourceUrn("core:projectilesConfig"));
+        Json json = Assets.getJson("core:projectilesConfig");
         JsonValue rootNode = json.getJsonValue();
 
         for (JsonValue node : rootNode) {
             String texName = node.getString("tex");
-            TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(new ResourceUrn("core:" + texName + "Projectile"));
+            TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("core:" + texName + "Projectile");
             float texSz = node.getFloat("texSz");
             float spdLen = node.getFloat("spdLen");
             float physSize = node.getFloat("physSize", 0);

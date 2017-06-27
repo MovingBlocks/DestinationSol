@@ -46,7 +46,7 @@ public class CommonDrawer {
         r = w / h;
         mySpriteBatch = new SpriteBatch();
 
-        myFont = Assets.getFont(new ResourceUrn("engine:main")).getBitmapFont();
+        myFont = Assets.getFont("engine:main").getBitmapFont();
 
         myOrigFontHeight = myFont.getXHeight();
 

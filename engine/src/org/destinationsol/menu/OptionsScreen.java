@@ -67,7 +67,7 @@ public class OptionsScreen implements SolUiScreen {
         musicVolumeControl.setDisplayName("Music Volume");
         controls.add(musicVolumeControl);
 
-        bgTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
+        bgTex = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override

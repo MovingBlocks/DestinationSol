@@ -37,6 +37,7 @@ import java.util.Set;
 
 public class AssetHelper {
     private ModuleAwareAssetTypeManager assetTypeManager;
+    private static String[] folders_;
 
     public AssetHelper(ModuleEnvironment environment) {
         assetTypeManager = new ModuleAwareAssetTypeManager();
@@ -72,28 +73,48 @@ public class AssetHelper {
         return finalList;
     }
 
-    public static String resolveToPath(AssetDataFile assetDataFile) {
-        StringBuilder path = new StringBuilder();
+    public void setFolders(String... folders) {
+        folders_ = folders;
+    }
 
-        List<String> folders = assetDataFile.getPath();
+    public static String resolveToPath(List<AssetDataFile> assetDataFiles) {
+        for (AssetDataFile assetDataFile : assetDataFiles) {
+            List<String> folders = assetDataFile.getPath();
 
-        if (folders.get(0).equals("engine")) {
-            if (DebugOptions.DEV_ROOT_PATH != null) {
-                path.append(DebugOptions.DEV_ROOT_PATH);
+            boolean validPath = true;
+            if (folders_ != null) {
+                for (int i = 0; i < folders_.length; i++) {
+                    if (!folders_[i].equals(folders.get(folders.size() - i - 1))) {
+                        validPath = false;
+                        break;
+                    }
+                }
             }
-        } else {
-            if (DebugOptions.DEV_ROOT_PATH == null) {
-                path.append("..").append(File.separator);
+            if (!validPath)
+                continue;
+
+            StringBuilder path = new StringBuilder();
+
+            if (folders.get(0).equals("engine")) {
+                if (DebugOptions.DEV_ROOT_PATH != null) {
+                    path.append(DebugOptions.DEV_ROOT_PATH);
+                }
+            } else {
+                if (DebugOptions.DEV_ROOT_PATH == null) {
+                    path.append("..").append(File.separator);
+                }
+                path.append("modules").append(File.separator).append(folders.get(0)).append(File.separator);
             }
-            path.append("modules").append(File.separator).append(folders.get(0)).append(File.separator);
+
+            for (int i = 1; i < folders.size(); i++) {
+                path.append(folders.get(i)).append(File.separator);
+            }
+
+            path.append(assetDataFile.getFilename());
+
+            return path.toString();
         }
 
-        for (int i = 1; i < folders.size(); i++) {
-            path.append(folders.get(i)).append(File.separator);
-        }
-
-        path.append(assetDataFile.getFilename());
-
-        return path.toString();
+        throw new RuntimeException("Could not resolve path!");
     }
 }

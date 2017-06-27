@@ -35,7 +35,7 @@ public class OggMusicFileFormat extends AbstractAssetFileFormat<OggMusicData> {
 
     @Override
     public OggMusicData load(ResourceUrn urn, List<AssetDataFile> inputs) throws IOException {
-        String path = AssetHelper.resolveToPath(inputs.get(0));
+        String path = AssetHelper.resolveToPath(inputs);
 
         FileHandle handle = new FileHandle(Paths.get(path).toFile());
         return new OggMusicData(Gdx.audio.newMusic(handle));

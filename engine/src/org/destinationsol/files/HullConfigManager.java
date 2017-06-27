@@ -39,9 +39,8 @@ import java.util.Map;
 public final class HullConfigManager {
     private final ItemManager itemManager;
     private final AbilityCommonConfigs abilityCommonConfigs;
-    private final Map<ResourceUrn, HullConfig> nameToConfigMap;
-    private final Map<HullConfig, ResourceUrn> configToNameMap;
-
+    private final Map<String, HullConfig> nameToConfigMap;
+    private final Map<HullConfig, String> configToNameMap;
 
     public HullConfigManager(ItemManager itemManager, AbilityCommonConfigs abilityCommonConfigs) {
         this.itemManager = itemManager;
@@ -62,7 +61,7 @@ public final class HullConfigManager {
         if (engineName == null)
             return null;
 
-        return itemManager.getEngineConfig(new ResourceUrn(engineName));
+        return itemManager.getEngineConfig(engineName);
     }
 
     private static void validateEngineConfig(HullConfig.Data hull) {
@@ -74,7 +73,7 @@ public final class HullConfigManager {
         }
     }
 
-    public HullConfig getConfig(ResourceUrn shipName) {
+    public HullConfig getConfig(String shipName) {
         HullConfig hullConfig = nameToConfigMap.get(shipName);
 
         if (hullConfig == null) {
@@ -88,21 +87,21 @@ public final class HullConfigManager {
     }
 
     public String getName(HullConfig hull) {
-        ResourceUrn result = configToNameMap.get(hull);
-        return (result == null) ? "" : result.toString();
+        String name = configToNameMap.get(hull);
+        return (name == null) ? "" : name;
     }
 
-    private HullConfig read(ResourceUrn shipName) {
+    private HullConfig read(String shipName) {
         final HullConfig.Data configData = new HullConfig.Data();
 
-        configData.internalName = shipName.toString();
+        configData.internalName = shipName;
 
         Json json = Assets.getJson(shipName);
 
         readProperties(json.getJsonValue(), configData);
 
         configData.tex = Assets.getAtlasRegion(shipName);
-        configData.icon = Assets.getAtlasRegion(new ResourceUrn(shipName + "Icon"));
+        configData.icon = Assets.getAtlasRegion(shipName + "Icon");
 
         validateEngineConfig(configData);
 

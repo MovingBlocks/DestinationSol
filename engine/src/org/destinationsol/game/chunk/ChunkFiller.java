@@ -69,7 +69,7 @@ public class ChunkFiller {
     private final TextureAtlas.AtlasRegion dustTexture;
 
     public ChunkFiller() {
-        dustTexture = Assets.getAtlasRegion(new ResourceUrn("engine:spaceDecorationDust"));
+        dustTexture = Assets.getAtlasRegion("engine:spaceDecorationDust");
     }
 
     /**

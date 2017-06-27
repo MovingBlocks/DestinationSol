@@ -55,11 +55,11 @@ public class BeaconHandler {
     private boolean myInitialized;
 
     public BeaconHandler() {
-        TextureAtlas.AtlasRegion attackTex = Assets.getAtlasRegion(new ResourceUrn("engine:uiBeaconAttack"));
+        TextureAtlas.AtlasRegion attackTex = Assets.getAtlasRegion("engine:uiBeaconAttack");
         myAttackSprite = new RectSprite(attackTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
-        TextureAtlas.AtlasRegion followTex = Assets.getAtlasRegion(new ResourceUrn("engine:uiBeaconFollow"));
+        TextureAtlas.AtlasRegion followTex = Assets.getAtlasRegion("engine:uiBeaconFollow");
         myFollowSprite = new RectSprite(followTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
-        TextureAtlas.AtlasRegion moveTex = Assets.getAtlasRegion(new ResourceUrn("engine:uiBeaconMove"));
+        TextureAtlas.AtlasRegion moveTex = Assets.getAtlasRegion("engine:uiBeaconMove");
         myMoveSprite = new RectSprite(moveTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
         myTargetRelPos = new Vector2();
         mySpd = new Vector2();

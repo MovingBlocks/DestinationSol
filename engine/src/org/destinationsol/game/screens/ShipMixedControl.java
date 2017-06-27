@@ -46,7 +46,7 @@ public class ShipMixedControl implements ShipUiControl {
 
     ShipMixedControl(SolApplication solApplication, List<SolUiControl> controls) {
         GameOptions gameOptions = solApplication.getOptions();
-        myCursor = Assets.getAtlasRegion(new ResourceUrn("engine:uiCursorTarget"));
+        myCursor = Assets.getAtlasRegion("engine:uiCursorTarget");
         myMouseWorldPos = new Vector2();
         upCtrl = new SolUiControl(null, false, gameOptions.getKeyUpMouse());
         controls.add(upCtrl);

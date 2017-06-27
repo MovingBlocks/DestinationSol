@@ -38,8 +38,8 @@ public class SunSingleton {
     private final Color myFillTint;
 
     public SunSingleton() {
-        myGradTex = Assets.getAtlasRegion(new ResourceUrn("engine:planetStarCommonGrad"));
-        myWhiteTex = Assets.getAtlasRegion(new ResourceUrn("engine:planetStarCommonWhiteTex"));
+        myGradTex = Assets.getAtlasRegion("engine:planetStarCommonGrad");
+        myWhiteTex = Assets.getAtlasRegion("engine:planetStarCommonWhiteTex");
         myGradTint = SolColor.col(1, 1);
         myFillTint = SolColor.col(1, 1);
     }

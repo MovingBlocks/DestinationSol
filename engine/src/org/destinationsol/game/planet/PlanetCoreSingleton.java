@@ -28,7 +28,7 @@ public class PlanetCoreSingleton {
     private final TextureAtlas.AtlasRegion myTex;
 
     public PlanetCoreSingleton() {
-        myTex = Assets.getAtlasRegion(new ResourceUrn("engine:planetStarCommonPlanetCore"));
+        myTex = Assets.getAtlasRegion("engine:planetStarCommonPlanetCore");
     }
 
     public void draw(SolGame game, GameDrawer drawer) {

@@ -131,11 +131,11 @@ public class MainScreen implements SolUiScreen {
         zoneNameAnnouncer = new ZoneNameAnnouncer();
         borderDrawer = new BorderDrawer(resolutionRatio);
 
-        lifeTex = Assets.getAtlasRegion(new ResourceUrn("engine:iconLife"));
-        infinityTex = Assets.getAtlasRegion(new ResourceUrn("engine:iconInfinity"));
-        waitTex = Assets.getAtlasRegion(new ResourceUrn("engine:iconWait"));
+        lifeTex = Assets.getAtlasRegion("engine:iconLife");
+        infinityTex = Assets.getAtlasRegion("engine:iconInfinity");
+        waitTex = Assets.getAtlasRegion("engine:iconWait");
 
-        compassTex = Assets.getAtlasRegion(new ResourceUrn("engine:uiCompass"));
+        compassTex = Assets.getAtlasRegion("engine:uiCompass");
         myCompassTint = SolColor.col(1, 0);
 
         myLifeTp = new TextPlace(SolColor.W50);

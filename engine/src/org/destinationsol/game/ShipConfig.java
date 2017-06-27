@@ -61,7 +61,7 @@ public class ShipConfig {
         ShipConfig shipConfig = null;
 
         for (ResourceUrn configUrn : configUrnList) {
-            Json json = Assets.getJson(configUrn);
+            Json json = Assets.getJson(configUrn.toString());
             JsonValue rootNode = json.getJsonValue();
 
             for (JsonValue node : rootNode) {
@@ -87,7 +87,7 @@ public class ShipConfig {
         }
 
         String hullName = rootNode.getString("hull");
-        HullConfig hull = hullConfigs.getConfig(new ResourceUrn(hullName));
+        HullConfig hull = hullConfigs.getConfig(hullName);
 
         ShipConfig guard;
         if (rootNode.hasChild("guard")) {

@@ -35,7 +35,7 @@ public class GameDrawer {
     public GameDrawer(CommonDrawer commonDrawer) {
         myDrawer = commonDrawer;
         r = myDrawer.r;
-        debugWhiteTex = Assets.getAtlasRegion(new ResourceUrn("engine:uiWhiteTex"));
+        debugWhiteTex = Assets.getAtlasRegion("engine:uiWhiteTex");
     }
 
     public void begin() {

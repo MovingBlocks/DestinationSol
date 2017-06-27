@@ -45,7 +45,7 @@ public class UiDrawer {
     public UiDrawer(CommonDrawer commonDrawer) {
         myDrawer = commonDrawer;
         r = myDrawer.r;
-        whiteTex = Assets.getAtlasRegion(new ResourceUrn("engine:uiWhiteTex"));
+        whiteTex = Assets.getAtlasRegion("engine:uiWhiteTex");
         uiLineWidth = 1 / myDrawer.h;
         straightMtx = new Matrix4().setToOrtho2D(0, 1, myDrawer.r, -1);
         myDrawer.setMtx(straightMtx);

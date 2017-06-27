@@ -48,9 +48,9 @@ public class Sky implements SolObject {
         myPlanet = planet;
         myDras = new ArrayList<>();
 
-        myFill = new RectSprite(Assets.getAtlasRegion(new ResourceUrn("engine:planetStarCommonWhiteTex")), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
+        myFill = new RectSprite(Assets.getAtlasRegion("engine:planetStarCommonWhiteTex"), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
         myDras.add(myFill);
-        myGrad = new RectSprite(Assets.getAtlasRegion(new ResourceUrn("engine:planetStarCommonGrad")), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
+        myGrad = new RectSprite(Assets.getAtlasRegion("engine:planetStarCommonGrad"), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
         myDras.add(myGrad);
         SkyConfig config = planet.getConfig().skyConfig;
         mySkySpan = ColorSpan.rgb(config.dawn, config.day);
