@@ -47,10 +47,6 @@ task dist(type: Sync) {
         from configurations.runtime
         from jar
     }
-
-    into('res') {
-        from project(':engine').sourceSets.res.resources.srcDirs
-    }
 }
 
 task distZip(type: Zip) {
