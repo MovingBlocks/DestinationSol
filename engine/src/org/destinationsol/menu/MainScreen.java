@@ -71,8 +71,8 @@ public class MainScreen implements SolUiScreen {
         creditsControl.setDisplayName("Credits");
         controls.add(creditsControl);
 
-        bgTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
-        logoTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuLogo"), Texture.TextureFilter.Linear);
+        bgTex = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
+        logoTex = Assets.getAtlasRegion("engine:mainMenuLogo", Texture.TextureFilter.Linear);
     }
 
     public List<SolUiControl> getControls() {

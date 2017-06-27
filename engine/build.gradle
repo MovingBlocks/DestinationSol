@@ -6,6 +6,7 @@ dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
+    compile "org.terasology:gestalt-util:6.0.0"
     compile "org.terasology:gestalt-module:6.0.0"
     compile "org.terasology:gestalt-asset-core:6.0.0"
     compile "org.terasology:gestalt-entity-system:6.0.0"

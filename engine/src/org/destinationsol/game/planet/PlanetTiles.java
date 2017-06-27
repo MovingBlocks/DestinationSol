@@ -37,7 +37,7 @@ public class PlanetTiles {
     }
 
     private void loadGround(String groundName) {
-        CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn(groundName));
+        CollisionMeshLoader collisionMeshLoader = new CollisionMeshLoader(groundName);
         CollisionMeshLoader.Model paths = collisionMeshLoader.getInternalModel();
 
         for (SurfaceDirection from : SurfaceDirection.values()) {

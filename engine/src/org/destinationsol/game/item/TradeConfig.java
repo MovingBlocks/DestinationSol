@@ -44,7 +44,7 @@ public class TradeConfig {
         String[] split = shipStr.split(" ");
         for (int i = split.length - 1; i >= 0; i--) {
             String hullName = split[i];
-            HullConfig hull = hullConfigs.getConfig(new ResourceUrn(hullName));
+            HullConfig hull = hullConfigs.getConfig(hullName);
             hulls.add(new ShipItem(hull));
         }
 

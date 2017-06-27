@@ -58,7 +58,7 @@ public class CollisionMeshLoader {
      *
      * @param fileName A ResourceUrn pointing to the collision mesh to be loaded
      */
-    public CollisionMeshLoader(ResourceUrn fileName) {
+    public CollisionMeshLoader(String fileName) {
         Json json = Assets.getJson(fileName);
 
         readModel(json.getJsonValue());

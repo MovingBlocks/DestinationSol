@@ -161,7 +161,7 @@ public class Gun implements SolItem {
             example = new Gun(this, 0, 0);
         }
 
-        public static void load(ResourceUrn gunName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
+        public static void load(String gunName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
             Json json = Assets.getJson(gunName);
             JsonValue rootNode = json.getJsonValue();
 
@@ -189,7 +189,7 @@ public class Gun implements SolItem {
             if (!clipName.isEmpty()) {
                 Clip clip = ((Clip) itemManager.getExample(clipName));
                 if (clip == null) {
-                    Clip.Config.load(new ResourceUrn(clipName), itemManager, types);
+                    Clip.Config.load(clipName, itemManager, types);
                     clip = ((Clip) itemManager.getExample(clipName));
                 }
                 clipConf = clip.getConfig();
@@ -198,11 +198,11 @@ public class Gun implements SolItem {
             json.dispose();
 
             TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(gunName);
-            TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(new ResourceUrn(gunName + "Icon"));
+            TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(gunName + "Icon");
 
             Config gunConfig = new Config(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots,
                                             reloadTime, gunLength, displayName, lightOnShot, price, clipConf, shootSoundSet,
-                                                reloadSoundSet, tex, icon, fixed, itemType, texLenPerc, gunName.toString());
+                                                reloadSoundSet, tex, icon, fixed, itemType, texLenPerc, gunName);
             itemManager.registerItem(gunConfig.example);
         }
 

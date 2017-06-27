@@ -15,18 +15,16 @@
  */
 package org.destinationsol.game.particle;
 
-import org.terasology.assets.ResourceUrn;
-
 import java.util.HashMap;
 
 public class EffectTypes {
-    private final HashMap<ResourceUrn, EffectType> myTypes;
+    private final HashMap<String, EffectType> myTypes;
 
     public EffectTypes() {
         myTypes = new HashMap<>();
     }
 
-    public EffectType forName(ResourceUrn effectName) {
+    public EffectType forName(String effectName) {
         return myTypes.computeIfAbsent(effectName, effect -> new EffectType(effect));
     }
 }

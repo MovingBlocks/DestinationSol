@@ -39,7 +39,7 @@ public class FarBackgroundManagerOld {
     private final Color nebulaTint;
 
     public FarBackgroundManagerOld() {
-        nebulaTex = Assets.getAtlasRegion(new ResourceUrn("engine:farBgNebulae"));
+        nebulaTex = Assets.getAtlasRegion("engine:farBgNebulae");
         if (SolMath.test(.5f)) {
             nebulaTex.flip(nebulaTex.isFlipX(), !nebulaTex.isFlipY());
         }
@@ -79,7 +79,7 @@ public class FarBackgroundManagerOld {
             myShiftPerc = new Vector2(SolMath.rnd(1), SolMath.rnd(1));
             myPos = new Vector2();
             boolean small = SolMath.test(.8f);
-            myTex = Assets.getAtlasRegion(new ResourceUrn("engine:farBgBigStar"));
+            myTex = Assets.getAtlasRegion("engine:farBgBigStar");
             mySzPerc = (small ? .01f : .04f) * SolMath.rnd(.5f, 1);
             myTint = new Color();
             SolColorUtil.fromHSB(SolMath.rnd(0, 1), .25f, 1, .7f, myTint);

@@ -62,7 +62,7 @@ public class NewShipScreen implements SolUiScreen {
         cancelControl.setDisplayName("Cancel");
         controls.add(cancelControl);
 
-        bgTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
+        bgTex = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override
@@ -103,7 +103,7 @@ public class NewShipScreen implements SolUiScreen {
         Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-z]*:playerSpawnConfig");
 
         for (ResourceUrn configUrn : configUrnList) {
-            Json json = Assets.getJson(configUrn);
+            Json json = Assets.getJson(configUrn.toString());
             JsonValue rootNode = json.getJsonValue();
 
             for (JsonValue node : rootNode) {

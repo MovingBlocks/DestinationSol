@@ -45,10 +45,10 @@ public class LightSrc {
      * doesn't consume relPos
      */
     public LightSrc(float sz, boolean hasHalo, float intensity, Vector2 relPos, Color col) {
-        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(new ResourceUrn("core:lightCircleParticle"));
+        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("core:lightCircleParticle");
         mySz = sz;
         myCircle = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DraLevel.PART_BG_0, 0, 0, col, true);
-        tex = Assets.getAtlasRegion(new ResourceUrn("core:lightHaloParticle"));
+        tex = Assets.getAtlasRegion("core:lightHaloParticle");
         if (hasHalo) {
             Color haloCol = new Color(col);
             SolColorUtil.changeBrightness(haloCol, .8f);

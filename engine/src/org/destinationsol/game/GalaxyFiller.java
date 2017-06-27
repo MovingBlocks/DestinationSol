@@ -129,7 +129,7 @@ public class GalaxyFiller {
         createStarPorts(game);
         ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
 
-        Json json = Assets.getJson(new ResourceUrn("engine:mainStationConfig"));
+        Json json = Assets.getJson("engine:mainStationConfig");
         JsonValue rootNode = json.getJsonValue();
 
         ShipConfig mainStationCfg = ShipConfig.load(hullConfigManager, rootNode, itemManager);
@@ -254,7 +254,7 @@ public class GalaxyFiller {
             pos.set(m.getPos());
             pos.x += m.getRadius();
         } else if ("trader".equals(DebugOptions.SPAWN_PLACE)) {
-            HullConfig cfg = game.getHullConfigs().getConfig(new ResourceUrn("core:bus"));
+            HullConfig cfg = game.getHullConfigs().getConfig("core:bus");
             for (FarObjData fod : game.getObjMan().getFarObjs()) {
                 FarObj fo = fod.fo;
                 if (!(fo instanceof FarShip)) {

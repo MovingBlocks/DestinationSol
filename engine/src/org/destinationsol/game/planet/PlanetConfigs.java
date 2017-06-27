@@ -43,7 +43,7 @@ public class PlanetConfigs {
 
         Assets.cacheLists();
 
-        Json json = Assets.getJson(new ResourceUrn("core:planetsConfig"));
+        Json json = Assets.getJson("core:planetsConfig");
         JsonValue rootNode = json.getJsonValue();
 
         for (JsonValue node : rootNode) {

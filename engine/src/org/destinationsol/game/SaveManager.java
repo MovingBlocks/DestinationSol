@@ -61,7 +61,7 @@ public class SaveManager {
             return null;
         }
 
-        HullConfig hull = hullConfigs.getConfig(new ResourceUrn(hullName));
+        HullConfig hull = hullConfigs.getConfig(hullName);
         if (hull == null) {
             return null;
         }

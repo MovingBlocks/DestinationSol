@@ -40,7 +40,7 @@ public class ShardBuilder {
     private final List<TextureAtlas.AtlasRegion> myTexs;
 
     public ShardBuilder() {
-        myCollisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("engine:miscCollisionMeshes"));
+        myCollisionMeshLoader = new CollisionMeshLoader("engine:miscCollisionMeshes");
         myTexs = Assets.listTexturesMatching("engine:shard_.*");
     }
 

@@ -24,7 +24,7 @@ public class EffectType {
     public final boolean additive;
     private final ParticleEmitter myEmitter;
 
-    public EffectType(ResourceUrn effectName) {
+    public EffectType(String effectName) {
         myEmitter = new ParticleEmitter(Assets.getEmitter(effectName).getParticleEmitter());
         continuous = myEmitter.isContinuous();
         myEmitter.setContinuous(false);
