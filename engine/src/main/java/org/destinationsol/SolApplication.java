@@ -34,15 +34,31 @@ import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.entitysystem.component.CodeGenComponentManager;
+import org.terasology.entitysystem.core.Component;
+import org.terasology.entitysystem.core.EntityManager;
+import org.terasology.entitysystem.core.EntityRef;
+import org.terasology.entitysystem.entity.inmemory.InMemoryEntityManager;
+import org.terasology.entitysystem.transaction.TransactionManager;
+import org.terasology.valuetype.ImmutableCopy;
+import org.terasology.valuetype.TypeHandler;
+import org.terasology.valuetype.TypeLibrary;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Optional;
 
 public class SolApplication implements ApplicationListener {
     private static Logger logger = LoggerFactory.getLogger(SolApplication.class);
 
     @SuppressWarnings("FieldCanBeLocal")
     private ModuleManager moduleManager;
+    /*
+    @SuppressWarnings("FieldCanBeLocal")
+    private TransactionManager transactionManager;
+    @SuppressWarnings("FieldCanBeLocal")
+    private EntityManager entityManager;
+    */
 
     private OggMusicManager musicManager;
     private OggSoundManager soundManager;
@@ -74,6 +90,25 @@ public class SolApplication implements ApplicationListener {
         options = new GameOptions(isMobile(), null);
 
         moduleManager = new ModuleManager();
+
+        /*
+        TypeLibrary typeLibrary = new TypeLibrary();
+        typeLibrary.addHandler(new TypeHandler<>(String.class, ImmutableCopy.create()));
+        transactionManager = new TransactionManager();
+        entityManager = new InMemoryEntityManager(new CodeGenComponentManager(typeLibrary), transactionManager);
+
+        transactionManager.begin();
+        EntityRef entity = entityManager.createEntity();
+        SampleComponent component = entity.addComponent(SampleComponent.class);
+        component.setName("gvhjgjh");
+        component.setDescription("Description");
+        transactionManager.commit();
+
+        // transactionManager.begin();
+        Optional<SampleComponent> retrievedComponent = entity.getComponent(SampleComponent.class);
+        String str = retrievedComponent.get().getName();
+        transactionManager.rollback();
+        */
 
         musicManager = new OggMusicManager();
         soundManager = new OggSoundManager();

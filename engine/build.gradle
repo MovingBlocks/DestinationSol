@@ -13,12 +13,13 @@ dependencies {
 }
 
 sourceSets {
+    // Main is almost everything - the true engine
     main {
-        java.srcDirs = ["src"]
-        resources.srcDirs = ["resources"]
-    }
-    res {
-        resources.srcDirs = ["resources"]
+        java {
+            output.classesDir 'build/classes'
+        }
+        // This makes the resources (assets, 3d wizardry includes, etc) also go to build/classes
+        output.resourcesDir 'build/classes'
     }
 }
 
