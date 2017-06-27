@@ -1,7 +1,5 @@
 apply from: '../config/gradle/common.gradle'
 
-sourceSets.main.java.srcDirs = ["src/"]
-
 project.ext.mainClassName = "org.destinationsol.desktop.SolDesktop"
 
 dependencies {
