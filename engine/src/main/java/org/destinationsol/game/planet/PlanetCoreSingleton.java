@@ -22,7 +22,6 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
-import org.terasology.assets.ResourceUrn;
 
 public class PlanetCoreSingleton {
     private final TextureAtlas.AtlasRegion myTex;

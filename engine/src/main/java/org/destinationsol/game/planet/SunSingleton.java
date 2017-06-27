@@ -26,7 +26,6 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.terasology.assets.ResourceUrn;
 
 public class SunSingleton {
     public static final float SUN_HOT_RAD = .75f * Const.SUN_RADIUS;

@@ -24,7 +24,6 @@ import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.chunk.SpaceEnvConfig;
 import org.destinationsol.game.item.ItemManager;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;

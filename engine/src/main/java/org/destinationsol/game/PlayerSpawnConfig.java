@@ -20,7 +20,6 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
-import org.terasology.assets.ResourceUrn;
 
 public class PlayerSpawnConfig {
     final ShipConfig mainStation;

@@ -28,7 +28,6 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.sound.OggSoundManager;
-import org.terasology.assets.ResourceUrn;
 
 public class Shield implements SolItem {
     public static final float SIZE_PERC = .7f;

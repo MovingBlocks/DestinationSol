@@ -20,7 +20,6 @@ import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.SolGame;
-import org.terasology.assets.ResourceUrn;
 
 public class AbilityCharge implements SolItem {
     private final Config myConfig;

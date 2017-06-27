@@ -21,7 +21,6 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.DebugOptions;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashMap;

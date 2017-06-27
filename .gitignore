@@ -2,9 +2,7 @@
 *.log
 hs_err_pid*
 .gradle
-/config/metrics
-/engine/resources/prevShip.ini
-/engine/resources/settings.ini
+config/metrics
 *log
 
 ## Ignored sub-projects with nested Git roots
@@ -63,3 +61,8 @@ nb-configuration.xml
 Icon
 ehthumbs.db
 Thumbs.db
+
+engine/prevShip.ini
+engine/src/main/resources/prevShip.ini
+engine/settings.ini
+engine/src/main/resources/settings.ini

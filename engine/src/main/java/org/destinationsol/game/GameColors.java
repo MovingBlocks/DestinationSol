@@ -20,7 +20,6 @@ import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColorUtil;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.HashMap;
 import java.util.Map;

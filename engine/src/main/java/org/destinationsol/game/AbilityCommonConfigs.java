@@ -20,7 +20,6 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.sound.OggSoundManager;
-import org.terasology.assets.ResourceUrn;
 
 public class AbilityCommonConfigs {
     public final AbilityCommonConfig teleport;

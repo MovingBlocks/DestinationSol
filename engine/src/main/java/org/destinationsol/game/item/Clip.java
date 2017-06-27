@@ -21,7 +21,6 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.projectile.ProjectileConfig;
-import org.terasology.assets.ResourceUrn;
 
 public class Clip implements SolItem {
     private final Config myConfig;

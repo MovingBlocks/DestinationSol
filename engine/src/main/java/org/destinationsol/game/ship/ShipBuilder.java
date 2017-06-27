@@ -53,7 +53,6 @@ import org.destinationsol.game.item.TradeContainer;
 import org.destinationsol.game.particle.LightSrc;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;

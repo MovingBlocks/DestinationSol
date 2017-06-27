@@ -17,7 +17,6 @@ package org.destinationsol.game.particle;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import org.destinationsol.assets.Assets;
-import org.terasology.assets.ResourceUrn;
 
 public class EffectType {
     public final boolean continuous;

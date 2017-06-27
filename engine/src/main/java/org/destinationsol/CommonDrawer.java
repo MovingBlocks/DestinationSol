@@ -28,7 +28,6 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.ui.UiDrawer;
-import org.terasology.assets.ResourceUrn;
 
 public class CommonDrawer {
     public final float w;

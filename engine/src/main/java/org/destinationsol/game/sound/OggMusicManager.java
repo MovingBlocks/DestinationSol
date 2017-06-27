@@ -18,7 +18,6 @@ package org.destinationsol.game.sound;
 import com.badlogic.gdx.audio.Music;
 import org.destinationsol.GameOptions;
 import org.destinationsol.assets.Assets;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;

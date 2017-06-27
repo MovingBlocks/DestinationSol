@@ -25,7 +25,6 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.dra.Dra;
 import org.destinationsol.game.dra.DraLevel;
 import org.destinationsol.game.dra.RectSprite;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.List;
 
