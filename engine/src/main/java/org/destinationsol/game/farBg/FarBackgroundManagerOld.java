@@ -28,7 +28,6 @@ import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.planet.Planet;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 

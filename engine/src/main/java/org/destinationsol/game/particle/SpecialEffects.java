@@ -22,7 +22,6 @@ import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.dra.DraLevel;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;

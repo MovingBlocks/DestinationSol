@@ -29,7 +29,6 @@ import org.terasology.assets.format.AssetDataFile;
 import org.terasology.assets.module.ModuleAwareAssetTypeManager;
 import org.terasology.module.ModuleEnvironment;
 
-import java.io.File;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;

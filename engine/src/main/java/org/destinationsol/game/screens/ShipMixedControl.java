@@ -29,7 +29,6 @@ import org.destinationsol.game.input.Shooter;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.List;
 

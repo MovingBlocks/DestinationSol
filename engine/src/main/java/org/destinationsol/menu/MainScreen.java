@@ -28,7 +28,6 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;

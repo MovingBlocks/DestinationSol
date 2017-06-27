@@ -29,7 +29,6 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.SolShip;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.HashMap;
 import java.util.Iterator;

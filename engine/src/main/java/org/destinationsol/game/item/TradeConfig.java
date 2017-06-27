@@ -19,7 +19,6 @@ import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.Collections;

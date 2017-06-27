@@ -16,7 +16,6 @@
 
 package org.destinationsol.menu;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
@@ -25,10 +24,6 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColor;
-import org.destinationsol.files.HullConfigManager;
-import org.destinationsol.game.ShipConfig;
-import org.destinationsol.game.item.ItemManager;
-import org.destinationsol.game.planet.SysConfig;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
@@ -38,7 +33,6 @@ import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class NewShipScreen implements SolUiScreen {

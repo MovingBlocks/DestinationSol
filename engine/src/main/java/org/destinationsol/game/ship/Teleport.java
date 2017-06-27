@@ -28,7 +28,6 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.planet.Planet;
-import org.terasology.assets.ResourceUrn;
 
 public class Teleport implements ShipAbility {
     private static final int MAX_RADIUS = 4;

@@ -21,11 +21,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.dra.Dra;
 import org.destinationsol.game.dra.DraLevel;
 import org.destinationsol.game.ship.ShipBuilder;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;

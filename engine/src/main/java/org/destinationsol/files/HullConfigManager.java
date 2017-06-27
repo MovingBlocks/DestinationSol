@@ -31,7 +31,6 @@ import org.destinationsol.game.ship.Teleport;
 import org.destinationsol.game.ship.UnShield;
 import org.destinationsol.game.ship.hulls.GunSlot;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.HashMap;
 import java.util.Map;

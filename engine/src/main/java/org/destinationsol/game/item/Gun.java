@@ -27,7 +27,6 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.projectile.ProjectileConfig;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.game.sound.OggSoundSet;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.Arrays;
 import java.util.List;
