@@ -20,7 +20,6 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.ship.SolShip;
-import org.terasology.assets.ResourceUrn;
 
 public class MountDetectDrawer {
     private final Vector2 myNePos;

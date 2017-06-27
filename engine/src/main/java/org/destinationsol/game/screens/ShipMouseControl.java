@@ -24,7 +24,6 @@ import org.destinationsol.game.BeaconHandler;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
-import org.terasology.assets.ResourceUrn;
 
 public class ShipMouseControl implements ShipUiControl {
     private final TextureAtlas.AtlasRegion myMoveCursor;

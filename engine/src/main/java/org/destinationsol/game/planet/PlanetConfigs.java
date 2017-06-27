@@ -22,7 +22,6 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.item.ItemManager;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashMap;

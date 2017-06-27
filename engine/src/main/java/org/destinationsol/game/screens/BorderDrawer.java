@@ -38,7 +38,6 @@ import org.destinationsol.game.planet.SunSingleton;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.UiDrawer;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;

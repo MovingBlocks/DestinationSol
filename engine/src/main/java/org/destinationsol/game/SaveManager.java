@@ -22,7 +22,6 @@ import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 

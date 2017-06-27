@@ -22,7 +22,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.assets.Assets;
-import org.terasology.assets.ResourceUrn;
 
 public class UiDrawer {
     public enum TextAlignment {

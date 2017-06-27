@@ -22,7 +22,6 @@ import org.destinationsol.game.GameColors;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.projectile.ProjectileConfigs;
 import org.destinationsol.game.sound.OggSoundManager;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashMap;

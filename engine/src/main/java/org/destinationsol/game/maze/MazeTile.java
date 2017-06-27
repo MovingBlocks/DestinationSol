@@ -20,7 +20,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.asteroid.AsteroidBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

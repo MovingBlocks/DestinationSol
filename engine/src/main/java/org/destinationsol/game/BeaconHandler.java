@@ -29,7 +29,6 @@ import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.planet.PlanetBind;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;

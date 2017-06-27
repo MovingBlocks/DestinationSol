@@ -34,19 +34,9 @@ import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.entitysystem.component.CodeGenComponentManager;
-import org.terasology.entitysystem.core.Component;
-import org.terasology.entitysystem.core.EntityManager;
-import org.terasology.entitysystem.core.EntityRef;
-import org.terasology.entitysystem.entity.inmemory.InMemoryEntityManager;
-import org.terasology.entitysystem.transaction.TransactionManager;
-import org.terasology.valuetype.ImmutableCopy;
-import org.terasology.valuetype.TypeHandler;
-import org.terasology.valuetype.TypeLibrary;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Optional;
 
 public class SolApplication implements ApplicationListener {
     private static Logger logger = LoggerFactory.getLogger(SolApplication.class);
