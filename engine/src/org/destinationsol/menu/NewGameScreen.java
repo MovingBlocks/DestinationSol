@@ -53,7 +53,7 @@ public class NewGameScreen implements SolUiScreen {
         backControl.setDisplayName("Cancel");
         controls.add(backControl);
 
-        bgTex = Assets.getAtlasRegion(new ResourceUrn("engine:mainMenuBg"), Texture.TextureFilter.Linear);
+        bgTex = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override

@@ -26,7 +26,6 @@ import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.game.sound.OggSoundSet;
-import org.terasology.assets.ResourceUrn;
 
 import java.util.Arrays;
 import java.util.List;
@@ -142,7 +141,7 @@ public class Engine implements SolItem {
             this.example = new Engine(this);
         }
 
-        public static Config load(ResourceUrn engineName, OggSoundManager soundManager, EffectTypes effectTypes, GameColors cols) {
+        public static Config load(String engineName, OggSoundManager soundManager, EffectTypes effectTypes, GameColors cols) {
             Json json = Assets.getJson(engineName);
             JsonValue rootNode = json.getJsonValue();
 
@@ -158,9 +157,7 @@ public class Engine implements SolItem {
 
             // TODO: VAMPCAT: The icon / displayName was initially set to null. Is that correct?
 
-            Config engineConfig = new Config(null, 0, null, rotAcc, acc, maxRotSpd, big, workSoundSet, null, effectConfig, engineName.toString());
-
-            return engineConfig;
+            return new Config(null, 0, null, rotAcc, acc, maxRotSpd, big, workSoundSet, null, effectConfig, engineName);
         }
     }
 }

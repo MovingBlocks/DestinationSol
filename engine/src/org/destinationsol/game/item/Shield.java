@@ -170,7 +170,7 @@ public class Shield implements SolItem {
             this.desc = makeDesc();
         }
 
-        public static void load(ResourceUrn shieldName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
+        public static void load(String shieldName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
             Json json = Assets.getJson(shieldName);
             JsonValue rootNode = json.getJsonValue();
 
@@ -186,9 +186,9 @@ public class Shield implements SolItem {
             json.dispose();
 
             TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(shieldName);
-            TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(new ResourceUrn(shieldName + "Icon"));
+            TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(shieldName + "Icon");
 
-            Config config = new Config(maxLife, displayName, price, absorbSound, regenSound, icon, tex, types.shield, shieldName.toString());
+            Config config = new Config(maxLife, displayName, price, absorbSound, regenSound, icon, tex, types.shield, shieldName);
             itemManager.registerItem(config.example);
         }
 

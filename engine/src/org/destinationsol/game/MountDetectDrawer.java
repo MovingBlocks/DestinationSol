@@ -33,7 +33,7 @@ public class MountDetectDrawer {
 
     public MountDetectDrawer() {
         myNePos = new Vector2();
-        myTex = Assets.getAtlasRegion(new ResourceUrn("engine:targetDetected"));
+        myTex = Assets.getAtlasRegion("engine:targetDetected");
     }
 
     public void update(SolGame game) {

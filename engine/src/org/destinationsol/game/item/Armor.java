@@ -130,7 +130,7 @@ public class Armor implements SolItem {
             this.example = new Armor(this);
         }
 
-        public static void load(ResourceUrn armorName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
+        public static void load(String armorName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
             Json json = Assets.getJson(armorName);
             JsonValue rootNode = json.getJsonValue();
 
@@ -145,9 +145,9 @@ public class Armor implements SolItem {
 
             json.dispose();
 
-            TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(new ResourceUrn(armorName + "Icon"));
+            TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(armorName + "Icon");
 
-            Config armorConfig = new Config(displayName, price, perc, bulletDmgSound, icon, energyDmgSound, types.armor, armorName.toString());
+            Config armorConfig = new Config(displayName, price, perc, bulletDmgSound, icon, energyDmgSound, types.armor, armorName);
             itemManager.registerItem(armorConfig.example);
         }
     }

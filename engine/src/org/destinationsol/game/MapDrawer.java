@@ -85,23 +85,23 @@ public class MapDrawer {
         myAreaWarnCol = new Color(SolColor.WHITE);
         myAreaWarnBgCol = new Color(SolColor.UI_WARN);
 
-        myWarnAreaBg = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectWarnBg"));
-        myAtmTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectAtm"));
-        myPlanetTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectPlanet"));
-        myPlanetCoreTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectPlanetCore"));
-        myStarTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectStar"));
-        myMazeTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectMaze"));
-        mySkullBigTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectSkullBig"));
-        myBeltTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectAsteroids"));
-        myBeaconAttackTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectBeaconAttack"));
-        myBeaconMoveTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectBeaconMove"));
-        myBeaconFollowTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectBeaconFollow"));
-        myWhiteTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectWhiteTex"));
-        myLineTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapObjectGridLine"));
+        myWarnAreaBg = Assets.getAtlasRegion("engine:mapObjects/warnBg");
+        myAtmTex = Assets.getAtlasRegion("engine:mapObjects/atm");
+        myPlanetTex = Assets.getAtlasRegion("engine:mapObjects/planet");
+        myPlanetCoreTex = Assets.getAtlasRegion("engine:mapObjects/planetCore");
+        myStarTex = Assets.getAtlasRegion("engine:mapObjects/star");
+        myMazeTex = Assets.getAtlasRegion("engine:mapObjects/maze");
+        mySkullBigTex = Assets.getAtlasRegion("engine:mapObjects/skullBig");
+        myBeltTex = Assets.getAtlasRegion("engine:mapObjects/asteroids");
+        myBeaconAttackTex = Assets.getAtlasRegion("engine:mapObjects/beaconAttack");
+        myBeaconMoveTex = Assets.getAtlasRegion("engine:mapObjects/beaconMove");
+        myBeaconFollowTex = Assets.getAtlasRegion("engine:mapObjects/beaconFollow");
+        myWhiteTex = Assets.getAtlasRegion("engine:mapObjects/whiteTex");
+        myLineTex = Assets.getAtlasRegion("engine:mapObjects/gridLine");
 
-        myIconBg = Assets.getAtlasRegion(new ResourceUrn("engine:mapHullBg"));
-        mySkullTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapHullSkull"));
-        myStarPortTex = Assets.getAtlasRegion(new ResourceUrn("engine:mapHullStarport"));
+        myIconBg = Assets.getAtlasRegion("engine:mapObjects/hullBg");
+        mySkullTex = Assets.getAtlasRegion("engine:mapObjects/hullSkull");
+        myStarPortTex = Assets.getAtlasRegion("engine:mapObjects/hullStarport");
     }
 
     public boolean isToggled() {

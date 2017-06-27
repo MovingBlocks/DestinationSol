@@ -49,18 +49,18 @@ public class OggSoundManager {
         this.debugHintDrawer = new DebugHintDrawer();
     }
 
-    public OggSound getSound(String urn) {
-        return getSound(urn, 1.0f);
+    public OggSound getSound(String path) {
+        return getSound(path, 1.0f);
     }
 
-    public OggSound getSound(String urn, float basePitch) {
-        if (soundMap.containsKey(urn)) {
-            return soundMap.get(urn);
+    public OggSound getSound(String path, float basePitch) {
+        if (soundMap.containsKey(path)) {
+            return soundMap.get(path);
         }
 
-        OggSound sound = Assets.getSound(new ResourceUrn(urn));
+        OggSound sound = Assets.getSound(path);
         sound.setBasePitch(basePitch);
-        soundMap.put(urn, sound);
+        soundMap.put(path, sound);
         return sound;
     }
 

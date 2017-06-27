@@ -48,7 +48,7 @@ public class SysConfigs {
     }
 
     private void load(String configName, HullConfigManager hullConfigs, boolean belts, ItemManager itemManager) {
-        Json json = Assets.getJson(new ResourceUrn("engine:" + configName));
+        Json json = Assets.getJson("engine:" + configName);
         JsonValue rootNode = json.getJsonValue();
 
         for (JsonValue node : rootNode) {
@@ -68,7 +68,7 @@ public class SysConfigs {
         Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-z]*(?<!^engine):" + configName);
 
         for (ResourceUrn configUrn : configUrnList) {
-            json = Assets.getJson(configUrn);
+            json = Assets.getJson(configUrn.toString());
             rootNode = json.getJsonValue();
 
             for (JsonValue node : rootNode) {

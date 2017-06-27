@@ -44,7 +44,7 @@ public class AsteroidBuilder {
     private final List<TextureAtlas.AtlasRegion> textures;
 
     public AsteroidBuilder() {
-        collisionMeshLoader = new CollisionMeshLoader(new ResourceUrn("engine:asteroids"));
+        collisionMeshLoader = new CollisionMeshLoader("engine:asteroids");
         textures = Assets.listTexturesMatching("engine:asteroid_.*");
     }
 

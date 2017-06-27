@@ -94,7 +94,7 @@ public class Teleport implements ShipAbility {
             return;
         }
 
-        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(new ResourceUrn("engine:teleportBlip"));
+        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("engine:teleportBlip");
         float blipSz = owner.getHull().config.getApproxRadius() * 3;
         game.getPartMan().blip(game, owner.getPosition(), SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
         game.getPartMan().blip(game, newPos, SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);

@@ -53,7 +53,7 @@ public class BorderDrawer {
     private final Vector2 myTmpVec = new Vector2();
 
     public BorderDrawer(float r) {
-        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(new ResourceUrn("engine:uiTishch"));
+        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("engine:uiTishch");
         int hCellCount = (int) (r / TISHCH_SZ);
         int vCellCount = (int) (1 / TISHCH_SZ);
         float hStep = r / hCellCount;

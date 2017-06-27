@@ -27,11 +27,11 @@ public class SolNames {
     public final ArrayList<String> systems;
 
     public SolNames() {
-        planets = readList(new ResourceUrn("core:planetNamesConfig"));
-        systems = readList(new ResourceUrn("core:systemNamesConfig"));
+        planets = readList("core:planetNamesConfig");
+        systems = readList("core:systemNamesConfig");
     }
 
-    private ArrayList<String> readList(ResourceUrn fileName) {
+    private ArrayList<String> readList(String fileName) {
         Json json = Assets.getJson(fileName);
         JsonValue rootNode = json.getJsonValue();
 

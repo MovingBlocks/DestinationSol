@@ -35,8 +35,8 @@ public class SolDesktop {
         if (devBuild) {
             DebugOptions.DEV_ROOT_PATH = "engine" + File.separator + "resources" + File.separator; // Lets the game run from source without a tweaked working directory
             applicationConfig.vSyncEnabled = false; // Setting to false disables vertical sync
-            applicationConfig.foregroundFPS = 1000; // Use 0 to disable foreground fps throttling
-            applicationConfig.backgroundFPS = 100; // Use 0 to disable background fps throttling
+            applicationConfig.foregroundFPS = 100; // Use 0 to disable foreground fps throttling
+            applicationConfig.backgroundFPS = 10; // Use 0 to disable background fps throttling
         }
         MyReader reader = new MyReader();
         DebugOptions.read(reader);

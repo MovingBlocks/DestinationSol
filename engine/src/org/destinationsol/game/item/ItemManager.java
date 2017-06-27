@@ -36,7 +36,7 @@ public class ItemManager {
     public final TextureAtlas.AtlasRegion repairIcon;
     private final HashMap<String, SolItem> myM = new HashMap<>();
     private final ArrayList<SolItem> myL= new ArrayList<>();
-    private final HashMap<ResourceUrn, Engine.Config> engineConfigs = new HashMap<>();
+    private final HashMap<String, Engine.Config> engineConfigs = new HashMap<>();
     private final SolItemTypes myTypes;
     private final RepairItem myRepairExample;
     private final OggSoundManager soundManager;
@@ -48,10 +48,10 @@ public class ItemManager {
         this.effectTypes = effectTypes;
         this.gameColors = gameColors;
 
-        moneyIcon = Assets.getAtlasRegion(new ResourceUrn("engine:iconMoney"));
-        medMoneyIcon = Assets.getAtlasRegion(new ResourceUrn("engine:iconMedMoney"));
-        bigMoneyIcon = Assets.getAtlasRegion(new ResourceUrn("engine:iconBigMoney"));
-        repairIcon = Assets.getAtlasRegion(new ResourceUrn("engine:iconRepairItem"));
+        moneyIcon = Assets.getAtlasRegion("engine:iconMoney");
+        medMoneyIcon = Assets.getAtlasRegion("engine:iconMedMoney");
+        bigMoneyIcon = Assets.getAtlasRegion("engine:iconBigMoney");
+        repairIcon = Assets.getAtlasRegion("engine:iconRepairItem");
 
         myTypes = new SolItemTypes(soundManager, gameColors);
         projConfigs = new ProjectileConfigs(soundManager, effectTypes, gameColors);
@@ -135,15 +135,15 @@ public class ItemManager {
                 if (example == null) {
                     // TODO: Temporary hacky way!
                     if (itemName.endsWith("Charge")) {
-                        AbilityCharge.Config.load(new ResourceUrn(itemName), this, myTypes);
+                        AbilityCharge.Config.load(itemName, this, myTypes);
                     } else if (itemName.endsWith("Armor")) {
-                        Armor.Config.load(new ResourceUrn(itemName), this, soundManager, myTypes);
+                        Armor.Config.load(itemName, this, soundManager, myTypes);
                     } else if (itemName.endsWith("Clip")) {
-                        Clip.Config.load(new ResourceUrn(itemName), this, myTypes);
+                        Clip.Config.load(itemName, this, myTypes);
                     } else if (itemName.endsWith("Shield") || itemName.endsWith("shield")) {
-                        Shield.Config.load(new ResourceUrn(itemName), this, soundManager, myTypes);
+                        Shield.Config.load(itemName, this, soundManager, myTypes);
                     } else {
-                        Gun.Config.load(new ResourceUrn(itemName), this, soundManager, myTypes);
+                        Gun.Config.load(itemName, this, soundManager, myTypes);
                     }
 
                     example = getExample(itemName);
@@ -174,7 +174,7 @@ public class ItemManager {
         return myM.get(name);
     }
 
-    public Engine.Config getEngineConfig(ResourceUrn engineName) {
+    public Engine.Config getEngineConfig(String engineName) {
         return engineConfigs.computeIfAbsent(engineName, engineConfig -> Engine.Config.load(engineConfig, soundManager, effectTypes, gameColors));
     }
 

@@ -83,7 +83,7 @@ public class SolInputManager {
         // We want the original mouse cursor to be hidden as we draw our own mouse cursor.
         Gdx.input.setCursorCatched(false);
         setMouseCursorHidden();
-        uiCursor = Assets.getAtlasRegion(new ResourceUrn("engine:uiCursor"));
+        uiCursor = Assets.getAtlasRegion("engine:uiCursor");
         warnColor = new Color(SolColor.UI_WARN);
 
         hoverSound = soundManager.getSound("engine:uiHover");

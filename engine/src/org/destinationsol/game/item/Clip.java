@@ -112,7 +112,7 @@ public class Clip implements SolItem {
             this.example = new Clip(this);
         }
 
-        public static void load(ResourceUrn clipName, ItemManager itemManager, SolItemTypes types) {
+        public static void load(String clipName, ItemManager itemManager, SolItemTypes types) {
             Json json = Assets.getJson(clipName);
             JsonValue rootNode = json.getJsonValue();
 
@@ -133,12 +133,12 @@ public class Clip implements SolItem {
                 price = rootNode.getInt("price");
                 displayName = rootNode.getString("displayName");
                 plural = rootNode.getString("plural");
-                icon = Assets.getAtlasRegion(new ResourceUrn(clipName + "Icon"));
+                icon = Assets.getAtlasRegion(clipName + "Icon");
             }
 
             json.dispose();
 
-            Config clipConfig = new Config(projectileConfig, infinite, price, displayName, size, plural, icon, projectilesPerShot, types.clip, clipName.toString());
+            Config clipConfig = new Config(projectileConfig, infinite, price, displayName, size, plural, icon, projectilesPerShot, types.clip, clipName);
             itemManager.registerItem(clipConfig.example);
         }
     }

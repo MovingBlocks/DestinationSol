@@ -31,7 +31,7 @@ public class MazeConfigs {
     public MazeConfigs(HullConfigManager hullConfigs, ItemManager itemManager) {
         configs = new ArrayList<>();
 
-        Json json = Assets.getJson(new ResourceUrn("core:mazesConfig"));
+        Json json = Assets.getJson("core:mazesConfig");
         JsonValue rootNode = json.getJsonValue();
 
         for (JsonValue mazeNode : rootNode) {

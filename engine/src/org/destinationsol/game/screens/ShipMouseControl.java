@@ -35,9 +35,9 @@ public class ShipMouseControl implements ShipUiControl {
     private TextureAtlas.AtlasRegion myCursor;
 
     ShipMouseControl() {
-        myMoveCursor = Assets.getAtlasRegion(new ResourceUrn("engine:uiCursorMove"));
-        myAttackCursor = Assets.getAtlasRegion(new ResourceUrn("engine:uiCursorAttack"));
-        myFollowCursor = Assets.getAtlasRegion(new ResourceUrn("engine:uiCursorFollow"));
+        myMoveCursor = Assets.getAtlasRegion("engine:uiCursorMove");
+        myAttackCursor = Assets.getAtlasRegion("engine:uiCursorAttack");
+        myFollowCursor = Assets.getAtlasRegion("engine:uiCursorFollow");
         myMouseWorldPos = new Vector2();
     }
 

@@ -66,7 +66,7 @@ public class StarPort implements SolObject {
     }
 
     private static void blip(SolGame game, SolShip ship) {
-        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(new ResourceUrn("engine:teleportBlip"));
+        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("engine:teleportBlip");
         float blipSz = ship.getHull().config.getApproxRadius() * 10;
         game.getPartMan().blip(game, ship.getPosition(), SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
     }
@@ -228,7 +228,7 @@ public class StarPort implements SolObject {
         private final CollisionMeshLoader myLoader;
 
         public Builder() {
-            myLoader = new CollisionMeshLoader(new ResourceUrn("engine:miscCollisionMeshes"));
+            myLoader = new CollisionMeshLoader("engine:miscCollisionMeshes");
         }
 
         public StarPort build(SolGame game, Planet from, Planet to, boolean secondary) {
@@ -237,7 +237,7 @@ public class StarPort implements SolObject {
             // Adjust position so that StarPorts are not overlapping
             pos = adjustDesiredPos(game, null, pos);
             ArrayList<Dra> dras = new ArrayList<>();
-            Body body = myLoader.getBodyAndSprite(game, Assets.getAtlasRegion(new ResourceUrn("engine:starPort")), SIZE,
+            Body body = myLoader.getBodyAndSprite(game, Assets.getAtlasRegion("engine:starPort"), SIZE,
                     BodyDef.BodyType.KinematicBody, new Vector2(pos), angle, dras, 10f, DraLevel.BIG_BODIES);
             SolMath.free(pos);
             ArrayList<LightSrc> lights = new ArrayList<>();
@@ -357,7 +357,7 @@ public class StarPort implements SolObject {
             mySpd = new Vector2();
             myDestPos = new Vector2();
 
-            RectSprite s = new RectSprite(Assets.getAtlasRegion(new ResourceUrn("engine:transcendent")), TRAN_SZ, .3f,
+            RectSprite s = new RectSprite(Assets.getAtlasRegion("engine:transcendent"), TRAN_SZ, .3f,
                                             0, new Vector2(), DraLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
 
             myDras = new ArrayList<>();
