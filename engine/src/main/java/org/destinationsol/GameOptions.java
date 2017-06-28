@@ -104,11 +104,11 @@ public class GameOptions {
     private int controllerButtonUp;
     private int controllerButtonDown;
 
-    private SortedSet<String> supportedResolutions = new TreeSet<String>();
+    private SortedSet<String> supportedResolutions = new TreeSet<>();
     private Iterator<String> resolutionIterator = null;
 
     public GameOptions(boolean mobile, SolFileReader reader) {
-        IniReader r = new IniReader(FILE_NAME, reader, false);
+        IniReader r = new IniReader(FILE_NAME, reader);
         x = r.getInt("x", 800);
         y = r.getInt("y", 600);
         fullscreen = r.getBoolean("fullscreen", false);
