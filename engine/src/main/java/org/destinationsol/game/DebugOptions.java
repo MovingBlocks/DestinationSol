@@ -59,7 +59,7 @@ public class DebugOptions {
     public static MissingResourceAction MISSING_PHYSICS_ACTION;
 
     public static void read(SolFileReader reader) {
-        IniReader r = new IniReader("debugOptions.ini", reader, true);
+        IniReader r = new IniReader("debugOptions.ini", reader);
 
         EMULATE_MOBILE = r.getBoolean("emulateMobile", EMULATE_MOBILE);
         SPAWN_PLACE = r.getString("spawnPlace", SPAWN_PLACE);

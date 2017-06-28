@@ -84,10 +84,15 @@ public class SolDesktop {
     private static class MyReader implements SolFileReader {
         @Override
         public Path create(String fileName, List<String> lines) {
+            String path;
             if (DebugOptions.DEV_ROOT_PATH != null) {
-                fileName = DebugOptions.DEV_ROOT_PATH + fileName;
+                path = DebugOptions.DEV_ROOT_PATH;
+            } else {
+                path = "src/main/resources/";
             }
-            Path file = Paths.get(fileName);
+            path += fileName;
+
+            Path file = Paths.get(path);
             try {
                 java.nio.file.Files.write(file, lines, Charset.forName("UTF-8"));
             } catch (IOException e) {
@@ -98,14 +103,18 @@ public class SolDesktop {
 
         @Override
         public List<String> read(String fileName) {
+            String path;
             if (DebugOptions.DEV_ROOT_PATH != null) {
-                fileName = DebugOptions.DEV_ROOT_PATH + fileName;
+                path = DebugOptions.DEV_ROOT_PATH;
+            } else {
+                path = "src/main/resources/";
             }
+            path += fileName;
 
             ArrayList<String> lines = new ArrayList<>();
 
             try {
-                BufferedReader br = new BufferedReader(new FileReader(fileName));
+                BufferedReader br = new BufferedReader(new FileReader(path));
                 String line;
                 while ((line = br.readLine()) != null) {
                     lines.add(line);
