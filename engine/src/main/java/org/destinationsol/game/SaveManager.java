@@ -15,14 +15,15 @@
  */
 package org.destinationsol.game;
 
+import com.badlogic.gdx.files.FileHandle;
 import org.destinationsol.IniReader;
-import org.destinationsol.files.FileManager;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class SaveManager {
@@ -49,11 +50,19 @@ public class SaveManager {
     }
 
     public static boolean hasPrevShip() {
-        return FileManager.getInstance().getDynamicFile(FILE_NAME).exists();
+        String path;
+        if (DebugOptions.DEV_ROOT_PATH != null) {
+            path = DebugOptions.DEV_ROOT_PATH;
+        } else {
+            path = "src/main/resources/";
+        }
+        path += FILE_NAME;
+
+        return new FileHandle(Paths.get(path).toFile()).exists();
     }
 
     public static ShipConfig readShip(HullConfigManager hullConfigs, ItemManager itemManager) {
-        IniReader ir = new IniReader(FILE_NAME, null, false);
+        IniReader ir = new IniReader(FILE_NAME, null);
 
         String hullName = ir.getString("hull", null);
         if (hullName == null) {
