@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol;import org.terasology.entitysystem.core.Component;
+package org.destinationsol.game.components;
 
-public interface SampleComponent extends Component {
-    String getName();
-    void setName(String value);
+import org.terasology.entitysystem.core.Component;
 
-    String getDescription();
-    void setDescription(String description);
+public interface AsteroidComponent extends Component {
+    Integer getSize();
+    void setSize(Integer value);
 }
