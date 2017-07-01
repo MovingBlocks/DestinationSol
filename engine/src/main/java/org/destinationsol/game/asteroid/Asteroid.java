@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Asteroid implements SolObject {
-
     public static final float MIN_SPLIT_SZ = .25f;
     public static final float MIN_BURN_SZ = .3f;
 
