@@ -76,7 +76,7 @@ public class FarDrawable implements FarObj {
         return false;
     }
 
-    public List<Drawable> getDras() {
+    public List<Drawable> getDrawables() {
         return myDrawables;
     }
 }

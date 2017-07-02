@@ -64,7 +64,7 @@ public class DrawableManager {
     }
 
     public void objRemoved(SolObject o) {
-        List<Drawable> drawables = o.getDras();
+        List<Drawable> drawables = o.getDrawables();
         removeAll(drawables);
     }
 
@@ -83,7 +83,7 @@ public class DrawableManager {
     }
 
     public void objAdded(SolObject o) {
-        List<Drawable> drawables = o.getDras();
+        List<Drawable> drawables = o.getDrawables();
         addAll(drawables);
     }
 
@@ -123,7 +123,7 @@ public class DrawableManager {
         for (SolObject o : objs) {
             Vector2 objPos = o.getPosition();
             float r = objectManager.getPresenceRadius(o);
-            List<Drawable> drawables = o.getDras();
+            List<Drawable> drawables = o.getDrawables();
             float draLevelViewDist = viewDist;
             if (drawables.size() > 0) {
                 draLevelViewDist *= drawables.get(0).getLevel().depth;

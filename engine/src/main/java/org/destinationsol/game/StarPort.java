@@ -174,7 +174,7 @@ public class StarPort implements SolObject {
     }
 
     @Override
-    public List<Drawable> getDras() {
+    public List<Drawable> getDrawables() {
         return myDrawables;
     }
 
@@ -444,7 +444,7 @@ public class StarPort implements SolObject {
         }
 
         @Override
-        public List<Drawable> getDras() {
+        public List<Drawable> getDrawables() {
             return myDrawables;
         }
 

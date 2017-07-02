@@ -39,7 +39,7 @@ public interface SolObject {
 
     FarObj toFarObj();
 
-    List<Drawable> getDras();
+    List<Drawable> getDrawables();
 
     float getAngle();
 

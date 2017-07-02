@@ -63,7 +63,7 @@ public class ShipEngine {
         myLightSrc2.collectDras(myDrawables);
     }
 
-    public List<Drawable> getDras() {
+    public List<Drawable> getDrawables() {
         return myDrawables;
     }
 

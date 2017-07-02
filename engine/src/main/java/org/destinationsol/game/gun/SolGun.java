@@ -71,7 +71,7 @@ public class SolGun {
         }
     }
 
-    public List<Drawable> getDras() {
+    public List<Drawable> getDrawables() {
         return myDrawables;
     }
 

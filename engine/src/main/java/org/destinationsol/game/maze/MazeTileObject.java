@@ -95,7 +95,7 @@ public class MazeTileObject implements SolObject {
     }
 
     @Override
-    public List<Drawable> getDras() {
+    public List<Drawable> getDrawables() {
         return myDrawables;
     }
 

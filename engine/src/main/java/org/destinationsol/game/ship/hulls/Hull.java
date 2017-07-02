@@ -162,16 +162,16 @@ public class Hull {
     }
 
     public void setEngine(SolGame game, SolShip ship, Engine ei) {
-        List<Drawable> drawables = ship.getDras();
+        List<Drawable> drawables = ship.getDrawables();
         if (myEngine != null) {
-            List<Drawable> dras1 = myEngine.getDras();
+            List<Drawable> dras1 = myEngine.getDrawables();
             drawables.removeAll(dras1);
             game.getDrawableManager().removeAll(dras1);
             myEngine = null;
         }
         if (ei != null) {
             myEngine = new ShipEngine(game, ei, config.getE1Pos(), config.getE2Pos(), ship);
-            List<Drawable> dras1 = myEngine.getDras();
+            List<Drawable> dras1 = myEngine.getDrawables();
             drawables.addAll(dras1);
             game.getDrawableManager().addAll(dras1);
         }
