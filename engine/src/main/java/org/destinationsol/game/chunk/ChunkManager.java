@@ -28,9 +28,9 @@ import java.util.Set;
 
 public class ChunkManager {
     private static final int MAX_FILL_DIST = 1;
-    public static final int MIN_REMOVE_DIST = MAX_FILL_DIST + 2;
+    private static final int MIN_REMOVE_DIST = MAX_FILL_DIST + 2;
     private static final int MAX_BG_FILL_DIST = 2;
-    public static final int MIN_BG_REMOVE_DIST = MAX_BG_FILL_DIST + 1;
+    private static final int MIN_BG_REMOVE_DIST = MAX_BG_FILL_DIST + 1;
 
     private final Set<Vector2> myFilledChunks;
     private final Set<Vector2> myBgFilledChunks;
@@ -77,12 +77,7 @@ public class ChunkManager {
     }
 
     private void clearFarChunks(Set<Vector2> chunks, int dist) {
-        for (Iterator<Vector2> it = chunks.iterator(); it.hasNext(); ) {
-            Vector2 chunk = it.next();
-            if (isChunkFar((int) chunk.x, (int) chunk.y, dist)) {
-                it.remove();
-            }
-        }
+        chunks.removeIf(chunk -> isChunkFar((int) chunk.x, (int) chunk.y, dist));
     }
 
     private boolean isChunkFar(int x, int y, int dist) {

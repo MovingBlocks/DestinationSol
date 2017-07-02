@@ -209,7 +209,7 @@ public class Projectile implements SolObject {
     }
 
     @Override
-    public List<Drawable> getDras() {
+    public List<Drawable> getDrawables() {
         return myDrawables;
     }
 

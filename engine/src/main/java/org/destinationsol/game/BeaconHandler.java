@@ -34,8 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BeaconHandler {
-    public static final float TEX_SZ = .5f;
-    public static final float ROT_SPD = 30f;
+    private static final float TEX_SZ = .5f;
+    private static final float ROT_SPD = 30f;
 
     private final RectSprite myAttackSprite;
     private final RectSprite myFollowSprite;
@@ -171,7 +171,7 @@ public class BeaconHandler {
                 if (!(fo instanceof FarDrawable)) {
                     continue;
                 }
-                List<Drawable> drawables = ((FarDrawable) fo).getDras();
+                List<Drawable> drawables = ((FarDrawable) fo).getDrawables();
                 if (drawables.size() != 3) {
                     continue;
                 }
@@ -193,7 +193,7 @@ public class BeaconHandler {
         myFarD = null;
         for (SolObject o : objs) {
             if ((o instanceof DrawableObject)) {
-                List<Drawable> drawables = o.getDras();
+                List<Drawable> drawables = o.getDrawables();
                 if (drawables.size() != 3) {
                     continue;
                 }
@@ -315,7 +315,7 @@ public class BeaconHandler {
         return mySpd;
     }
 
-    public static enum Action {
+    public enum Action {
         MOVE, ATTACK, FOLLOW
     }
 }

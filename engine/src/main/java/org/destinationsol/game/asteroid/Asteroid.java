@@ -37,13 +37,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Asteroid implements SolObject {
-    public static final float MIN_SPLIT_SZ = .25f;
-    public static final float MIN_BURN_SZ = .3f;
-
-    public static final float SZ_TO_LIFE = 20f;
-    public static final float SPD_TO_ATM_DMG = SZ_TO_LIFE * .11f;
-    public static final float MAX_SPLIT_SPD = 1f;
+    private static final float MIN_SPLIT_SZ = .25f;
+    private static final float MIN_BURN_SZ = .3f;
+    private static final float SZ_TO_LIFE = 20f;
+    private static final float SPD_TO_ATM_DMG = SZ_TO_LIFE * .11f;
+    private static final float MAX_SPLIT_SPD = 1f;
     private static final float DUR = .5f;
+
     private final Body myBody;
     private final Vector2 myPos;
     private final Vector2 mySpd;
@@ -88,7 +88,7 @@ public class Asteroid implements SolObject {
     }
 
     @Override
-    public List<Drawable> getDras() {
+    public List<Drawable> getDrawables() {
         return myDrawables;
     }
 
@@ -103,8 +103,7 @@ public class Asteroid implements SolObject {
     }
 
     @Override
-    public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
-                              SolGame game, Vector2 collPos) {
+    public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse, SolGame game, Vector2 collPos) {
         float dmg;
         if (other instanceof TileObject && MIN_BURN_SZ < mySize) {
             dmg = myLife;
