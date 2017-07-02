@@ -138,7 +138,7 @@ public final class HullConfig {
         return new Vector2(data.shipBuilderOrigin);
     }
 
-    public static enum Type {
+    public enum Type {
         STD("std"),
         BIG("big"),
         STATION("station");
