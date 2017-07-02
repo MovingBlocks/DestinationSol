@@ -93,7 +93,7 @@ public class ObjectManager {
         for (SolObject o : myObjs) {
             o.update(game);
             SolMath.checkVectorsTaken(o);
-            List<Drawable> drawables = o.getDras();
+            List<Drawable> drawables = o.getDrawables();
             for (Drawable drawable : drawables) {
                 drawable.update(game, o);
             }
@@ -149,7 +149,7 @@ public class ObjectManager {
     }
 
     private void recalcRadius(SolObject o) {
-        float rad = DrawableManager.radiusFromDras(o.getDras());
+        float rad = DrawableManager.radiusFromDras(o.getDrawables());
         myRadii.put(o, rad);
     }
 
@@ -211,7 +211,7 @@ public class ObjectManager {
 
     private boolean isFar(SolObject o, Vector2 camPos) {
         float r = getPresenceRadius(o);
-        List<Drawable> drawables = o.getDras();
+        List<Drawable> drawables = o.getDrawables();
         if (drawables != null && drawables.size() > 0) {
             r *= drawables.get(0).getLevel().depth;
         }
@@ -307,7 +307,7 @@ public class ObjectManager {
     public void addFarObjNow(FarObj fo) {
         float depth = 1f;
         if (fo instanceof FarDrawable) {
-            List<Drawable> drawables = ((FarDrawable) fo).getDras();
+            List<Drawable> drawables = ((FarDrawable) fo).getDrawables();
             if (drawables != null && drawables.size() > 0) {
                 depth = drawables.get(0).getLevel().depth;
             }

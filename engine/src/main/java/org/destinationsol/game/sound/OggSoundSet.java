@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Represents a set of random OggSound urns with a single basePitch assigned to every of them.
  * <p>
- * This as an alternative to sounds being randomly fetched from a specified folder -
+ * This is an alternative to sounds being randomly fetched from a specified folder -
  * a workflow that isn't viable with gestalt.
  */
 public class OggSoundSet implements PlayableSound {

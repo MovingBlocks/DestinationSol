@@ -86,9 +86,9 @@ public class GunMount {
     }
 
     public void setGun(SolGame game, SolObject o, Gun gun, boolean underShip, int slotNr) {
-        List<Drawable> drawables = o.getDras();
+        List<Drawable> drawables = o.getDrawables();
         if (myGun != null) {
-            List<Drawable> dras1 = myGun.getDras();
+            List<Drawable> dras1 = myGun.getDrawables();
             drawables.removeAll(dras1);
             game.getDrawableManager().removeAll(dras1);
             myGun.getItem().setEquipped(0);
@@ -100,7 +100,7 @@ public class GunMount {
             }
             myGun = new SolGun(game, gun, myRelPos, underShip);
             myGun.getItem().setEquipped(slotNr);
-            List<Drawable> dras1 = myGun.getDras();
+            List<Drawable> dras1 = myGun.getDrawables();
             drawables.addAll(dras1);
             game.getDrawableManager().addAll(dras1);
         }
