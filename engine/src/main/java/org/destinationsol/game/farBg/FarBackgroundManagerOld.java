@@ -61,8 +61,7 @@ public class FarBackgroundManagerOld {
 
         float vd = cam.getViewDist();
         drawer.draw(nebulaTex, vd * 2, vd * 2, vd, vd, camPos.x, camPos.y, nebulaAngle, nebulaTint);
-        for (int i = 0, myStarsSize = stars.size(); i < myStarsSize; i++) {
-            FarBgStar star = stars.get(i);
+        for (FarBgStar star : stars) {
             star.draw(drawer, vd, camPos, cam.getAngle());
         }
     }

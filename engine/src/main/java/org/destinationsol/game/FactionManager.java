@@ -74,8 +74,7 @@ public class FactionManager {
         SolShip nearestEnemyShip = null;
         float minimumDistance = detectionDist;
         List<SolObject> objects = game.getObjMan().getObjs();
-        for (int i = 0, objectsSize = objects.size(); i < objectsSize; i++) {
-            SolObject solObject = objects.get(i);
+        for (SolObject solObject : objects) {
             if (!(solObject instanceof SolShip)) {
                 continue;
             }

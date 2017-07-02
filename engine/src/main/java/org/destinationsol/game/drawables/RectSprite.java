@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.destinationsol.game.dra;
+package org.destinationsol.game.drawables;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,14 +25,13 @@ import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 
-public class RectSprite implements Dra {
-
+public class RectSprite implements Drawable {
     public final Vector2 relPos;
     public final Color tint;
     private final float myOrigPercX;
     private final float myOrigPercY;
     private final TextureAtlas.AtlasRegion myTex;
-    private final DraLevel myLevel;
+    private final DrawableLevel myLevel;
     private final Vector2 myPos;
     private final float myRotSpd;
     private final boolean myAdditive;
@@ -49,9 +48,8 @@ public class RectSprite implements Dra {
     /**
      * consumes relPos, doesn't consume Color
      */
-    public RectSprite(TextureAtlas.AtlasRegion tex, float texSz, float origPercX, float origPercY,
-                      @Consumed Vector2 relPos, DraLevel level,
-                      float relAngle, float rotSpd, Color tint, boolean additive) {
+    public RectSprite(TextureAtlas.AtlasRegion tex, float texSz, float origPercX, float origPercY, @Consumed Vector2 relPos,
+                        DrawableLevel level, float relAngle, float rotSpd, Color tint, boolean additive) {
         if (tex == null) {
             throw new AssertionError("tex is null");
         }
@@ -100,7 +98,7 @@ public class RectSprite implements Dra {
         return myTex;
     }
 
-    public DraLevel getLevel() {
+    public DrawableLevel getLevel() {
         return myLevel;
     }
 
@@ -155,5 +153,4 @@ public class RectSprite implements Dra {
     public boolean okToRemove() {
         return true;
     }
-
 }

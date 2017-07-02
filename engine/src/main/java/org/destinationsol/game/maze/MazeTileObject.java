@@ -30,24 +30,24 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.FarObj;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.DraLevel;
-import org.destinationsol.game.dra.RectSprite;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.RectSprite;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MazeTileObject implements SolObject {
-    private final List<Dra> myDras;
+    private final List<Drawable> myDrawables;
     private final Body myBody;
     private final Vector2 myPos;
     private final float myAngle;
     private final MazeTile myTile;
     private final boolean myFlipped;
 
-    public MazeTileObject(MazeTile tile, List<Dra> dras, Body body, Vector2 pos, float angle, boolean flipped) {
+    public MazeTileObject(MazeTile tile, List<Drawable> drawables, Body body, Vector2 pos, float angle, boolean flipped) {
         myTile = tile;
-        myDras = dras;
+        myDrawables = drawables;
         myBody = body;
         myPos = pos;
         myAngle = angle;
@@ -95,8 +95,8 @@ public class MazeTileObject implements SolObject {
     }
 
     @Override
-    public List<Dra> getDras() {
-        return myDras;
+    public List<Drawable> getDras() {
+        return myDrawables;
     }
 
     @Override
@@ -180,19 +180,19 @@ public class MazeTileObject implements SolObject {
 
     public static class Builder {
         public MazeTileObject build(SolGame game, MazeTile tile, Vector2 pos, float angle, boolean flipped) {
-            List<Dra> dras = new ArrayList<>();
+            List<Drawable> drawables = new ArrayList<>();
             TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(tile.tex);
             TextureAtlas.AtlasRegion bgTex = new TextureAtlas.AtlasRegion(tile.bgTex);
             if (flipped) {
                 tex.flip(!tex.isFlipX(), !tex.isFlipY());
                 bgTex.flip(!bgTex.isFlipX(), !bgTex.isFlipY());
             }
-            RectSprite s = new RectSprite(tex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DraLevel.GROUND, 0, 0, SolColor.WHITE, false);
-            dras.add(s);
-            RectSprite s2 = new RectSprite(bgTex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DraLevel.DECO, 0, 0, SolColor.WHITE, false);
-            dras.add(s2);
+            RectSprite s = new RectSprite(tex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DrawableLevel.GROUND, 0, 0, SolColor.WHITE, false);
+            drawables.add(s);
+            RectSprite s2 = new RectSprite(bgTex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DrawableLevel.DECO, 0, 0, SolColor.WHITE, false);
+            drawables.add(s2);
             Body body = buildBody(game, angle, pos, tile, flipped);
-            MazeTileObject res = new MazeTileObject(tile, dras, body, pos, angle, flipped);
+            MazeTileObject res = new MazeTileObject(tile, drawables, body, pos, angle, flipped);
             body.setUserData(res);
             return res;
         }

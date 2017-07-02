@@ -22,9 +22,9 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColorUtil;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.DraLevel;
-import org.destinationsol.game.dra.RectSprite;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.RectSprite;
 
 import java.util.List;
 
@@ -46,12 +46,12 @@ public class LightSrc {
     public LightSrc(float sz, boolean hasHalo, float intensity, Vector2 relPos, Color col) {
         TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("core:lightCircleParticle");
         mySz = sz;
-        myCircle = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DraLevel.PART_BG_0, 0, 0, col, true);
+        myCircle = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DrawableLevel.PART_BG_0, 0, 0, col, true);
         tex = Assets.getAtlasRegion("core:lightHaloParticle");
         if (hasHalo) {
             Color haloCol = new Color(col);
             SolColorUtil.changeBrightness(haloCol, .8f);
-            myHalo = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DraLevel.PART_FG_0, 0, 0, haloCol, true);
+            myHalo = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DrawableLevel.PART_FG_0, 0, 0, haloCol, true);
         } else {
             myHalo = null;
         }
@@ -80,10 +80,10 @@ public class LightSrc {
         return myWorkPerc <= 0;
     }
 
-    public void collectDras(List<Dra> dras) {
-        dras.add(myCircle);
+    public void collectDras(List<Drawable> drawables) {
+        drawables.add(myCircle);
         if (myHalo != null) {
-            dras.add(myHalo);
+            drawables.add(myHalo);
         }
     }
 

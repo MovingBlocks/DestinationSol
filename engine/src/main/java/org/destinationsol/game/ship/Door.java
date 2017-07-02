@@ -25,8 +25,8 @@ import org.destinationsol.game.Faction;
 import org.destinationsol.game.FactionManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.RectSprite;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.input.Pilot;
 
 import java.util.ArrayList;
@@ -70,8 +70,7 @@ public class Door {
         Faction faction = ship.getPilot().getFaction();
         FactionManager factionManager = game.getFactionMan();
         List<SolObject> objs = game.getObjMan().getObjs();
-        for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
-            SolObject o = objs.get(i);
+        for (SolObject o : objs) {
             if (o == ship) {
                 continue;
             }
@@ -93,8 +92,8 @@ public class Door {
         return false;
     }
 
-    public void collectDras(ArrayList<Dra> dras) {
-        dras.add(myS);
+    public void collectDras(ArrayList<Drawable> drawables) {
+        drawables.add(myS);
     }
 
     public Body getBody() {

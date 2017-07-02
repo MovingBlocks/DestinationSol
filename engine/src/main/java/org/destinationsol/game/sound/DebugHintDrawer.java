@@ -30,24 +30,16 @@ public class DebugHintDrawer {
     private final Map<Vector2, DebugHint> myFreeNotes;
 
     public DebugHintDrawer() {
-        myTracedNotes = new HashMap<SolObject, DebugHint>();
-        myFreeNotes = new HashMap<Vector2, DebugHint>();
+        myTracedNotes = new HashMap<>();
+        myFreeNotes = new HashMap<>();
     }
 
     public void add(@Nullable SolObject owner, Vector2 pos, String value) {
         DebugHint dh;
         if (owner == null) {
-            dh = myFreeNotes.get(pos);
-            if (dh == null) {
-                dh = new DebugHint(null, pos);
-                myFreeNotes.put(pos, dh);
-            }
+            dh = myFreeNotes.computeIfAbsent(pos, p -> new DebugHint(null, p));
         } else {
-            dh = myTracedNotes.get(owner);
-            if (dh == null) {
-                dh = new DebugHint(owner, owner.getPosition());
-                myTracedNotes.put(owner, dh);
-            }
+            dh = myTracedNotes.computeIfAbsent(owner, o -> new DebugHint(o, o.getPosition()));
         }
         dh.add(value);
     }

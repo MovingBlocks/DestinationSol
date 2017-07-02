@@ -22,7 +22,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.dra.Dra;
+import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.input.Shooter;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
@@ -86,11 +86,11 @@ public class GunMount {
     }
 
     public void setGun(SolGame game, SolObject o, Gun gun, boolean underShip, int slotNr) {
-        List<Dra> dras = o.getDras();
+        List<Drawable> drawables = o.getDras();
         if (myGun != null) {
-            List<Dra> dras1 = myGun.getDras();
-            dras.removeAll(dras1);
-            game.getDraMan().removeAll(dras1);
+            List<Drawable> dras1 = myGun.getDras();
+            drawables.removeAll(dras1);
+            game.getDrawableManager().removeAll(dras1);
             myGun.getItem().setEquipped(0);
             myGun = null;
         }
@@ -100,9 +100,9 @@ public class GunMount {
             }
             myGun = new SolGun(game, gun, myRelPos, underShip);
             myGun.getItem().setEquipped(slotNr);
-            List<Dra> dras1 = myGun.getDras();
-            dras.addAll(dras1);
-            game.getDraMan().addAll(dras1);
+            List<Drawable> dras1 = myGun.getDras();
+            drawables.addAll(dras1);
+            game.getDrawableManager().addAll(dras1);
         }
     }
 

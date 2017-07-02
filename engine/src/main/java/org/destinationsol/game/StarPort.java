@@ -25,9 +25,9 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.common.Bound;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.DraLevel;
-import org.destinationsol.game.dra.RectSprite;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSrc;
 import org.destinationsol.game.particle.ParticleSrc;
@@ -49,14 +49,14 @@ public class StarPort implements SolObject {
     private final Vector2 myPos;
     private final Planet myFrom;
     private final Planet myTo;
-    private final ArrayList<Dra> myDras;
+    private final ArrayList<Drawable> myDrawables;
     private final boolean mySecondary;
     private float myAngle;
 
-    public StarPort(Planet from, Planet to, Body body, ArrayList<Dra> dras, boolean secondary, ArrayList<LightSrc> lights) {
+    public StarPort(Planet from, Planet to, Body body, ArrayList<Drawable> drawables, boolean secondary, ArrayList<LightSrc> lights) {
         myFrom = from;
         myTo = to;
-        myDras = dras;
+        myDrawables = drawables;
         myBody = body;
         myLights = lights;
         myPos = new Vector2();
@@ -174,8 +174,8 @@ public class StarPort implements SolObject {
     }
 
     @Override
-    public List<Dra> getDras() {
-        return myDras;
+    public List<Drawable> getDras() {
+        return myDrawables;
     }
 
     @Override
@@ -235,32 +235,32 @@ public class StarPort implements SolObject {
             Vector2 pos = getDesiredPos(from, to, false);
             // Adjust position so that StarPorts are not overlapping
             pos = adjustDesiredPos(game, null, pos);
-            ArrayList<Dra> dras = new ArrayList<>();
+            ArrayList<Drawable> drawables = new ArrayList<>();
             Body body = myLoader.getBodyAndSprite(game, Assets.getAtlasRegion("engine:starPort"), SIZE,
-                    BodyDef.BodyType.KinematicBody, new Vector2(pos), angle, dras, 10f, DraLevel.BIG_BODIES);
+                    BodyDef.BodyType.KinematicBody, new Vector2(pos), angle, drawables, 10f, DrawableLevel.BIG_BODIES);
             SolMath.free(pos);
             ArrayList<LightSrc> lights = new ArrayList<>();
-            addFlow(game, pos, dras, 0, lights);
-            addFlow(game, pos, dras, 90, lights);
-            addFlow(game, pos, dras, -90, lights);
-            addFlow(game, pos, dras, 180, lights);
+            addFlow(game, pos, drawables, 0, lights);
+            addFlow(game, pos, drawables, 90, lights);
+            addFlow(game, pos, drawables, -90, lights);
+            addFlow(game, pos, drawables, 180, lights);
             ParticleSrc force = game.getSpecialEffects().buildForceBeacon(FLOW_DIST * 1.5f, game, new Vector2(), pos, Vector2.Zero);
             force.setWorking(true);
-            dras.add(force);
-            StarPort sp = new StarPort(from, to, body, dras, secondary, lights);
+            drawables.add(force);
+            StarPort sp = new StarPort(from, to, body, drawables, secondary, lights);
             body.setUserData(sp);
             return sp;
         }
 
-        private void addFlow(SolGame game, Vector2 pos, ArrayList<Dra> dras, float angle, ArrayList<LightSrc> lights) {
+        private void addFlow(SolGame game, Vector2 pos, ArrayList<Drawable> drawables, float angle, ArrayList<LightSrc> lights) {
             EffectConfig flow = game.getSpecialEffects().starPortFlow;
             Vector2 relPos = new Vector2();
             SolMath.fromAl(relPos, angle, -FLOW_DIST);
-            ParticleSrc f1 = new ParticleSrc(flow, FLOW_DIST, DraLevel.PART_BG_0, relPos, false, game, pos, Vector2.Zero, angle);
+            ParticleSrc f1 = new ParticleSrc(flow, FLOW_DIST, DrawableLevel.PART_BG_0, relPos, false, game, pos, Vector2.Zero, angle);
             f1.setWorking(true);
-            dras.add(f1);
+            drawables.add(f1);
             LightSrc light = new LightSrc(.6f, true, 1, relPos, flow.tint);
-            light.collectDras(dras);
+            light.collectDras(drawables);
             lights.add(light);
         }
     }
@@ -341,7 +341,7 @@ public class StarPort implements SolObject {
         private final Planet myTo;
         private final Vector2 myPos;
         private final Vector2 myDestPos;
-        private final ArrayList<Dra> myDras;
+        private final ArrayList<Drawable> myDrawables;
         private final FarShip myShip;
         private final Vector2 mySpd;
         private final LightSrc myLight;
@@ -357,16 +357,16 @@ public class StarPort implements SolObject {
             myDestPos = new Vector2();
 
             RectSprite s = new RectSprite(Assets.getAtlasRegion("engine:transcendent"), TRAN_SZ, .3f,
-                                            0, new Vector2(), DraLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
+                                            0, new Vector2(), DrawableLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
 
-            myDras = new ArrayList<>();
-            myDras.add(s);
+            myDrawables = new ArrayList<>();
+            myDrawables.add(s);
             EffectConfig eff = game.getSpecialEffects().transcendentWork;
-            myEff = new ParticleSrc(eff, TRAN_SZ, DraLevel.PART_BG_0, new Vector2(), true, game, myPos, Vector2.Zero, 0);
+            myEff = new ParticleSrc(eff, TRAN_SZ, DrawableLevel.PART_BG_0, new Vector2(), true, game, myPos, Vector2.Zero, 0);
             myEff.setWorking(true);
-            myDras.add(myEff);
+            myDrawables.add(myEff);
             myLight = new LightSrc(.6f * TRAN_SZ, true, .5f, new Vector2(), eff.tint);
-            myLight.collectDras(myDras);
+            myLight.collectDras(myDrawables);
             setDependentParams();
         }
 
@@ -444,8 +444,8 @@ public class StarPort implements SolObject {
         }
 
         @Override
-        public List<Dra> getDras() {
-            return myDras;
+        public List<Drawable> getDras() {
+            return myDrawables;
         }
 
         @Override
