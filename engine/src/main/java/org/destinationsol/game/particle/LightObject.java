@@ -22,7 +22,7 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.FarObj;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.dra.Dra;
+import org.destinationsol.game.drawables.Drawable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ import java.util.List;
 public class LightObject implements SolObject {
 
     private final LightSrc myLightSrc;
-    private final ArrayList<Dra> myDras;
+    private final ArrayList<Drawable> myDrawables;
     private final Vector2 myPos;
 
     // consumes pos
@@ -39,8 +39,8 @@ public class LightObject implements SolObject {
         myLightSrc = new LightSrc(sz, hasHalo, intensity, new Vector2(), col);
         myLightSrc.setFadeTime(fadeTime);
         myLightSrc.setWorking();
-        myDras = new ArrayList<>();
-        myLightSrc.collectDras(myDras);
+        myDrawables = new ArrayList<>();
+        myLightSrc.collectDras(myDrawables);
     }
 
     @Override
@@ -81,8 +81,8 @@ public class LightObject implements SolObject {
     }
 
     @Override
-    public List<Dra> getDras() {
-        return myDras;
+    public List<Drawable> getDras() {
+        return myDrawables;
     }
 
     @Override

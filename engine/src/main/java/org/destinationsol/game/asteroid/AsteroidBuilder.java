@@ -28,9 +28,9 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.DraLevel;
-import org.destinationsol.game.dra.RectSprite;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.RectSprite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,19 +81,19 @@ public class AsteroidBuilder {
     // doesn't consume pos
     public Asteroid build(SolGame game, Vector2 pos, TextureAtlas.AtlasRegion tex, float sz, float angle, float rotSpd, Vector2 spd, RemoveController removeController) {
 
-        ArrayList<Dra> dras = new ArrayList<>();
+        ArrayList<Drawable> drawables = new ArrayList<>();
         Body body;
         if (MAX_BALL_SZ < sz) {
-            body = collisionMeshLoader.getBodyAndSprite(game, tex, sz, BodyDef.BodyType.DynamicBody, pos, angle, dras, DENSITY, DraLevel.BODIES);
+            body = collisionMeshLoader.getBodyAndSprite(game, tex, sz, BodyDef.BodyType.DynamicBody, pos, angle, drawables, DENSITY, DrawableLevel.BODIES);
         } else {
             body = buildBall(game, pos, angle, sz / 2, DENSITY, false);
-            RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.BODIES, 0, 0, SolColor.WHITE, false);
-            dras.add(s);
+            RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DrawableLevel.BODIES, 0, 0, SolColor.WHITE, false);
+            drawables.add(s);
         }
         body.setAngularVelocity(rotSpd);
         body.setLinearVelocity(spd);
 
-        Asteroid res = new Asteroid(game, tex, body, sz, removeController, dras);
+        Asteroid res = new Asteroid(game, tex, body, sz, removeController, drawables);
         body.setUserData(res);
         return res;
     }

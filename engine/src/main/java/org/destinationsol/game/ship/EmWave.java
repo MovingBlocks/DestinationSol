@@ -21,7 +21,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.dra.DraLevel;
+import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.particle.ParticleSrc;
@@ -72,7 +72,7 @@ public class EmWave implements ShipAbility {
             float duration = perc * myConfig.duration;
             oShip.disableControls(duration, game);
         }
-        ParticleSrc src = new ParticleSrc(myConfig.cc.effect, MAX_RADIUS, DraLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
+        ParticleSrc src = new ParticleSrc(myConfig.cc.effect, MAX_RADIUS, DrawableLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
         game.getPartMan().finish(game, src, ownerPos);
         return true;
     }

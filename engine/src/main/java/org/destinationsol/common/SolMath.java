@@ -476,7 +476,7 @@ public class SolMath {
     }
 
     public static ArrayList<Vector2> readV2List(JsonValue parentNode, String name) {
-        ArrayList<Vector2> res = new ArrayList<Vector2>();
+        ArrayList<Vector2> res = new ArrayList<>();
         JsonValue listNode = parentNode.get(name);
         if (listNode == null) {
             return res;

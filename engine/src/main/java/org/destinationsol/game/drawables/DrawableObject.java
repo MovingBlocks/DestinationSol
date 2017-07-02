@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.dra;
+package org.destinationsol.game.drawables;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -29,20 +29,20 @@ import org.destinationsol.game.planet.Planet;
 
 import java.util.List;
 
-public class DrasObject implements SolObject {
+public class DrawableObject implements SolObject {
     private final Vector2 myPos;
     private final Vector2 mySpd;
     private final RemoveController myRemoveController;
     private final boolean myHideOnPlanet;
     private final Vector2 myMoveDiff;
-    private final List<Dra> myDras;
+    private final List<Drawable> myDrawables;
     private final boolean myTemporary;
 
     private float myMaxFadeTime;
     private float myFadeTime;
 
-    public DrasObject(List<Dra> dras, @Consumed Vector2 pos, @Consumed Vector2 spd, RemoveController removeController, boolean temporary, boolean hideOnPlanet) {
-        myDras = dras;
+    public DrawableObject(List<Drawable> drawables, @Consumed Vector2 pos, @Consumed Vector2 spd, RemoveController removeController, boolean temporary, boolean hideOnPlanet) {
+        myDrawables = drawables;
         myPos = pos;
         mySpd = spd;
         myRemoveController = removeController;
@@ -64,30 +64,28 @@ public class DrasObject implements SolObject {
             Planet np = game.getPlanetMan().getNearestPlanet();
             Vector2 npPos = np.getPos();
             float npgh = np.getGroundHeight();
-            DraMan draMan = game.getDraMan();
-            for (int i = 0, myDrasSize = myDras.size(); i < myDrasSize; i++) {
-                Dra dra = myDras.get(i);
-                if (!(dra instanceof RectSprite)) {
+            DrawableManager drawableManager = game.getDrawableManager();
+            for (Drawable drawable : myDrawables) {
+                if (!(drawable instanceof RectSprite)) {
                     continue;
                 }
-                if (!draMan.isInCam(dra)) {
+                if (!drawableManager.isInCam(drawable)) {
                     continue;
                 }
-                Vector2 draPos = dra.getPos();
+                Vector2 draPos = drawable.getPos();
                 float gradSz = .25f * Const.ATM_HEIGHT;
                 float distPerc = (draPos.dst(npPos) - npgh - Const.ATM_HEIGHT) / gradSz;
                 distPerc = SolMath.clamp(distPerc);
-                ((RectSprite) dra).tint.a = distPerc;
+                ((RectSprite) drawable).tint.a = distPerc;
             }
         } else if (myMaxFadeTime > 0) {
             myFadeTime -= ts;
             float tintPerc = myFadeTime / myMaxFadeTime;
-            for (int i = 0, myDrasSize = myDras.size(); i < myDrasSize; i++) {
-                Dra dra = myDras.get(i);
-                if (!(dra instanceof RectSprite)) {
+            for (Drawable drawable : myDrawables) {
+                if (!(drawable instanceof RectSprite)) {
                     continue;
                 }
-                RectSprite rs = (RectSprite) dra;
+                RectSprite rs = (RectSprite) drawable;
                 rs.tint.a = SolMath.clamp(tintPerc * rs.baseAlpha);
             }
 
@@ -101,9 +99,8 @@ public class DrasObject implements SolObject {
         }
         if (myTemporary) {
             boolean rem = true;
-            for (int i = 0, myDrasSize = myDras.size(); i < myDrasSize; i++) {
-                Dra dra = myDras.get(i);
-                if (!dra.okToRemove()) {
+            for (Drawable drawable : myDrawables) {
+                if (!drawable.okToRemove()) {
                     rem = false;
                     break;
                 }
@@ -139,12 +136,12 @@ public class DrasObject implements SolObject {
 
     @Override
     public FarObj toFarObj() {
-        return myTemporary ? null : new FarDras(myDras, myPos, mySpd, myRemoveController, myHideOnPlanet);
+        return myTemporary ? null : new FarDrawable(myDrawables, myPos, mySpd, myRemoveController, myHideOnPlanet);
     }
 
     @Override
-    public List<Dra> getDras() {
-        return myDras;
+    public List<Drawable> getDras() {
+        return myDrawables;
     }
 
     @Override

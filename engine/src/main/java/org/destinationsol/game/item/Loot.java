@@ -24,7 +24,7 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.FarObj;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.dra.Dra;
+import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.particle.LightSrc;
 import org.destinationsol.game.ship.SolShip;
 
@@ -40,7 +40,7 @@ public class Loot implements SolObject {
     public static final float PULL_FORCE = .1f;
     public static final float MAX_OWNER_AWAIT = 4f;
     private final SolItem myItem;
-    private final List<Dra> myDras;
+    private final List<Drawable> myDrawables;
     private final LightSrc myLightSrc;
     private final Vector2 myPos;
     private final Body myBody;
@@ -51,11 +51,11 @@ public class Loot implements SolObject {
     private int myLife;
     private float myAngle;
 
-    public Loot(SolItem item, Body body, int life, List<Dra> dras, LightSrc ls, SolShip owner) {
+    public Loot(SolItem item, Body body, int life, List<Drawable> drawables, LightSrc ls, SolShip owner) {
         myBody = body;
         myLife = life;
         myItem = item;
-        myDras = dras;
+        myDrawables = drawables;
         myLightSrc = ls;
         myOwner = owner;
         myOwnerAwait = MAX_OWNER_AWAIT;
@@ -77,8 +77,7 @@ public class Loot implements SolObject {
         SolShip puller = null;
         float minDist = Float.MAX_VALUE;
         List<SolObject> objs = game.getObjMan().getObjs();
-        for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
-            SolObject o = objs.get(i);
+        for (SolObject o : objs) {
             if (!(o instanceof SolShip)) {
                 continue;
             }
@@ -146,8 +145,8 @@ public class Loot implements SolObject {
     }
 
     @Override
-    public List<Dra> getDras() {
-        return myDras;
+    public List<Drawable> getDras() {
+        return myDrawables;
     }
 
     @Override

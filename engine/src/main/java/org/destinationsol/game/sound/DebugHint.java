@@ -37,7 +37,7 @@ public class DebugHint {
     public DebugHint(SolObject owner, Vector2 pos) {
         myOwner = owner;
         myPos = new Vector2(pos);
-        myMsgs = new HashMap<String, Long>();
+        myMsgs = new HashMap<>();
     }
 
     public void add(String value) {

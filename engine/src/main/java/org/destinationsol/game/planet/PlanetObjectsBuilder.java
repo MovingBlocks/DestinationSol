@@ -26,9 +26,9 @@ import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.DraLevel;
-import org.destinationsol.game.dra.RectSprite;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.OrbiterDestProvider;
 import org.destinationsol.game.input.Pilot;
@@ -184,7 +184,7 @@ public class PlanetObjectsBuilder {
         float dist = planet.getGroundHeight() - TOP_TILE_SZ + .9f * Const.ATM_HEIGHT * distPerc;
         float angle = SolMath.rnd(180);
 
-        List<Dra> dras = new ArrayList<>();
+        List<Drawable> drawables = new ArrayList<>();
         float sizePerc = SolMath.rnd(.2f, 1);
         float linearWidth = sizePerc * (distPerc + .5f) * AVG_CLOUD_LINEAR_WIDTH;
         float maxAngleShift = SolMath.arcToAngle(linearWidth, dist);
@@ -193,11 +193,11 @@ public class PlanetObjectsBuilder {
         int pieceCount = (int) (sizePerc * MAX_CLOUD_PIECE_COUNT);
         for (int i = 0; i < pieceCount; i++) {
             RectSprite s = createCloudSprite(cloudTexs, maxAngleShift, maxDistShift, dist);
-            dras.add(s);
+            drawables.add(s);
         }
         float rotSpd = SolMath.rnd(.1f, 1) * SolMath.arcToAngle(MAX_CLOUD_LINEAR_SPD, dist);
 
-        return new FarPlanetSprites(planet, angle, dist, dras, rotSpd);
+        return new FarPlanetSprites(planet, angle, dist, drawables, rotSpd);
     }
 
     private RectSprite createCloudSprite(List<TextureAtlas.AtlasRegion> cloudTexs, float maxAngleShift, float maxDistShift, float baseDist) {
@@ -220,22 +220,22 @@ public class PlanetObjectsBuilder {
         relPos.sub(basePos);
         SolMath.free(basePos);
 
-        return new RectSprite(tex, sz, 0, 0, relPos, DraLevel.CLOUDS, relAngle, rotSpd, SolColor.WHITE, false);
+        return new RectSprite(tex, sz, 0, 0, relPos, DrawableLevel.CLOUDS, relAngle, rotSpd, SolColor.WHITE, false);
     }
 
     private void createDeco(SolGame game, Planet planet) {
         float groundHeight = planet.getGroundHeight();
         Vector2 planetPos = planet.getPos();
         float planetAngle = planet.getAngle();
-        Map<Vector2, List<Dra>> collector = new HashMap<>();
+        Map<Vector2, List<Drawable>> collector = new HashMap<>();
         PlanetConfig config = planet.getConfig();
         for (DecoConfig dc : config.deco) {
             addDeco0(game, groundHeight, planetPos, collector, dc);
         }
 
-        for (Map.Entry<Vector2, List<Dra>> e : collector.entrySet()) {
+        for (Map.Entry<Vector2, List<Drawable>> e : collector.entrySet()) {
             Vector2 packPos = e.getKey();
-            List<Dra> ss = e.getValue();
+            List<Drawable> ss = e.getValue();
             float packAngle = SolMath.angle(planetPos, packPos, true) - planetAngle;
             float packDist = packPos.dst(planetPos);
             FarPlanetSprites ps = new FarPlanetSprites(planet, packAngle, packDist, ss, 0);
@@ -244,7 +244,7 @@ public class PlanetObjectsBuilder {
     }
 
     private void addDeco0(SolGame game, float groundHeight, Vector2 planetPos,
-                          Map<Vector2, List<Dra>> collector, DecoConfig dc) {
+                          Map<Vector2, List<Drawable>> collector, DecoConfig dc) {
         World w = game.getObjMan().getWorld();
         ConsumedAngles consumed = new ConsumedAngles();
 
@@ -288,8 +288,8 @@ public class PlanetObjectsBuilder {
                 decoTex.flip(!decoTex.isFlipX(), !decoTex.isFlipY());
             }
 
-            RectSprite s = new RectSprite(decoTex, decoSz, dc.orig.x, dc.orig.y, decoRelPos, DraLevel.DECO, decoRelAngle, 0, SolColor.WHITE, false);
-            List<Dra> ss = collector.get(basePos);
+            RectSprite s = new RectSprite(decoTex, decoSz, dc.orig.x, dc.orig.y, decoRelPos, DrawableLevel.DECO, decoRelAngle, 0, SolColor.WHITE, false);
+            List<Drawable> ss = collector.get(basePos);
             if (ss == null) {
                 ss = new ArrayList<>();
                 collector.put(new Vector2(basePos), ss);

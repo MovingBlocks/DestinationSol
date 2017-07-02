@@ -27,9 +27,9 @@ import org.destinationsol.game.FarObj;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.DraLevel;
-import org.destinationsol.game.dra.RectSprite;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.RectSprite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,18 +39,18 @@ public class Sky implements SolObject {
     private final Planet myPlanet;
     private final RectSprite myFill;
     private final RectSprite myGrad;
-    private final ArrayList<Dra> myDras;
+    private final ArrayList<Drawable> myDrawables;
     private final ColorSpan mySkySpan;
     private final Vector2 myPos;
 
     public Sky(SolGame game, Planet planet) {
         myPlanet = planet;
-        myDras = new ArrayList<>();
+        myDrawables = new ArrayList<>();
 
-        myFill = new RectSprite(Assets.getAtlasRegion("engine:planetStarCommonWhiteTex"), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
-        myDras.add(myFill);
-        myGrad = new RectSprite(Assets.getAtlasRegion("engine:planetStarCommonGrad"), 5, 0, 0, new Vector2(), DraLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
-        myDras.add(myGrad);
+        myFill = new RectSprite(Assets.getAtlasRegion("engine:planetStarCommonWhiteTex"), 5, 0, 0, new Vector2(), DrawableLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
+        myDrawables.add(myFill);
+        myGrad = new RectSprite(Assets.getAtlasRegion("engine:planetStarCommonGrad"), 5, 0, 0, new Vector2(), DrawableLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
+        myDrawables.add(myGrad);
         SkyConfig config = planet.getConfig().skyConfig;
         mySkySpan = ColorSpan.rgb(config.dawn, config.day);
         myPos = new Vector2();
@@ -143,8 +143,8 @@ public class Sky implements SolObject {
     }
 
     @Override
-    public List<Dra> getDras() {
-        return myDras;
+    public List<Drawable> getDras() {
+        return myDrawables;
     }
 
     @Override

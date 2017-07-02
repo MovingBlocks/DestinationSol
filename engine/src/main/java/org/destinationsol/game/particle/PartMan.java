@@ -20,10 +20,10 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.DraLevel;
-import org.destinationsol.game.dra.DrasObject;
-import org.destinationsol.game.dra.RectSprite;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.DrawableObject;
+import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.ship.hulls.Hull;
 
@@ -41,9 +41,9 @@ public class PartMan {
         if (src.isContinuous()) {
             src.setWorking(false);
         }
-        ArrayList<Dra> dras = new ArrayList<Dra>();
-        dras.add(src);
-        DrasObject o = new DrasObject(dras, new Vector2(basePos), new Vector2(), null, true, false);
+        ArrayList<Drawable> drawables = new ArrayList<>();
+        drawables.add(src);
+        DrawableObject o = new DrawableObject(drawables, new Vector2(basePos), new Vector2(), null, true, false);
         game.getObjMan().addObjDelayed(o);
     }
 
@@ -82,10 +82,10 @@ public class PartMan {
 
     public RectSprite blip(SolGame game, Vector2 pos, float angle, float sz, float fadeTime, Vector2 spd,
                            TextureAtlas.AtlasRegion tex) {
-        RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.PART_FG_0, angle, 0, SolColor.WHITE, true);
-        ArrayList<Dra> dras = new ArrayList<Dra>();
-        dras.add(s);
-        DrasObject o = new DrasObject(dras, new Vector2(pos), new Vector2(spd), null, false, false);
+        RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, angle, 0, SolColor.WHITE, true);
+        ArrayList<Drawable> drawables = new ArrayList<>();
+        drawables.add(s);
+        DrawableObject o = new DrawableObject(drawables, new Vector2(pos), new Vector2(spd), null, false, false);
         o.fade(fadeTime);
         game.getObjMan().addObjDelayed(o);
         return s;

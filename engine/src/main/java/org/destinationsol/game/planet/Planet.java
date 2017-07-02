@@ -64,7 +64,7 @@ public class Planet {
         myGravConst = grav * myGroundHeight * myGroundHeight;
         myGroundDps = HardnessCalc.getGroundDps(myConfig, grav);
         myAtmDps = HardnessCalc.getAtmDps(myConfig);
-        myLps = new ArrayList<Vector2>();
+        myLps = new ArrayList<>();
         setSecondaryParams();
     }
 
