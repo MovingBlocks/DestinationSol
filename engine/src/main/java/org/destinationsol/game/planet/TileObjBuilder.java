@@ -24,8 +24,8 @@ import org.destinationsol.Const;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.dra.DraLevel;
-import org.destinationsol.game.dra.RectSprite;
+import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.RectSprite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ import java.util.List;
 public class TileObjBuilder {
     public TileObject build(SolGame game, float sz, float toPlanetRelAngle, float dist, Tile tile, Planet planet) {
         float spriteSz = sz * 2;
-        RectSprite sprite = new RectSprite(tile.tex, spriteSz, 0, 0, new Vector2(), DraLevel.GROUND, 0, 0f, SolColor.WHITE, false);
+        RectSprite sprite = new RectSprite(tile.tex, spriteSz, 0, 0, new Vector2(), DrawableLevel.GROUND, 0, 0f, SolColor.WHITE, false);
         Body body = null;
         if (tile.points.size() > 0) {
             body = buildBody(game, toPlanetRelAngle, dist, tile, planet, spriteSz);
@@ -55,7 +55,7 @@ public class TileObjBuilder {
         def.angularDamping = 0;
         Body body = game.getObjMan().getWorld().createBody(def);
         ChainShape shape = new ChainShape();
-        List<Vector2> points = new ArrayList<Vector2>();
+        List<Vector2> points = new ArrayList<>();
         for (Vector2 curr : tile.points) {
             Vector2 v = new Vector2(curr);
             v.scl(spriteSz);

@@ -22,7 +22,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.dra.Dra;
+import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Engine;
@@ -119,18 +119,15 @@ public class Hull {
             myGunMount2.update(container, game, myAngle, ship, controlsEnabled && provider.isShoot2(), nearestEnemy, faction);
         }
 
-        for (int i = 0, myLightSrcsSize = myLightSrcs.size(); i < myLightSrcsSize; i++) {
-            LightSrc src = myLightSrcs.get(i);
+        for (LightSrc src : myLightSrcs) {
             src.update(true, myAngle, game);
         }
 
-        for (int i = 0, myBeaconsSize = myBeacons.size(); i < myBeaconsSize; i++) {
-            ForceBeacon b = myBeacons.get(i);
+        for (ForceBeacon b : myBeacons) {
             b.update(game, myPos, myAngle, ship);
         }
 
-        for (int i = 0, myDoorsSize = myDoors.size(); i < myDoorsSize; i++) {
-            Door door = myDoors.get(i);
+        for (Door door : myDoors) {
             door.update(game, ship);
         }
 
@@ -165,18 +162,18 @@ public class Hull {
     }
 
     public void setEngine(SolGame game, SolShip ship, Engine ei) {
-        List<Dra> dras = ship.getDras();
+        List<Drawable> drawables = ship.getDras();
         if (myEngine != null) {
-            List<Dra> dras1 = myEngine.getDras();
-            dras.removeAll(dras1);
-            game.getDraMan().removeAll(dras1);
+            List<Drawable> dras1 = myEngine.getDras();
+            drawables.removeAll(dras1);
+            game.getDrawableManager().removeAll(dras1);
             myEngine = null;
         }
         if (ei != null) {
             myEngine = new ShipEngine(game, ei, config.getE1Pos(), config.getE2Pos(), ship);
-            List<Dra> dras1 = myEngine.getDras();
-            dras.addAll(dras1);
-            game.getDraMan().addAll(dras1);
+            List<Drawable> dras1 = myEngine.getDras();
+            drawables.addAll(dras1);
+            game.getDrawableManager().addAll(dras1);
         }
     }
 

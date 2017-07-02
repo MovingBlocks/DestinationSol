@@ -33,11 +33,11 @@ public class InputMapKeyboardScreen implements InputMapOperations {
 
     private final ArrayList<SolUiControl> controls;
     private boolean isEnterNewKey;
-    private List<InputConfigItem> itemsList = new ArrayList<InputConfigItem>();
+    private List<InputConfigItem> itemsList = new ArrayList<>();
     private int selectedIndex;
 
     public InputMapKeyboardScreen(InputMapScreen inputMapScreen, GameOptions gameOptions) {
-        controls = new ArrayList<SolUiControl>();
+        controls = new ArrayList<>();
     }
 
     private void InitialiseList(GameOptions gameOptions) {

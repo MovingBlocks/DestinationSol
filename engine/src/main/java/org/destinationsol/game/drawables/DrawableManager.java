@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.destinationsol.game.dra;
+package org.destinationsol.game.drawables;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -37,27 +37,25 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class DraMan {
-    private final DraLevel[] myDlVals;
-    private final ArrayList<OrderedMap<Texture, List<Dra>>> myDras;
-    private final Set<Dra> myInCam;
+public class DrawableManager {
+    private final DrawableLevel[] myDlVals;
+    private final ArrayList<OrderedMap<Texture, List<Drawable>>> drawables;
+    private final Set<Drawable> myInCam = new HashSet<>();
     private final GameDrawer myDrawer;
 
-    public DraMan(GameDrawer drawer) {
-        myDlVals = DraLevel.values();
+    public DrawableManager(GameDrawer drawer) {
+        myDlVals = DrawableLevel.values();
         myDrawer = drawer;
-        myDras = new ArrayList<>();
-        for (int i = 0, sz = myDlVals.length; i < sz; i++) {
-            myDras.add(new OrderedMap<>());
+        drawables = new ArrayList<>();
+        for (DrawableLevel myDlVal : myDlVals) {
+            drawables.add(new OrderedMap<>());
         }
-        myInCam = new HashSet<Dra>();
     }
 
-    public static float radiusFromDras(List<Dra> dras) {
+    public static float radiusFromDras(List<Drawable> drawables) {
         float r = 0;
-        for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
-            Dra dra = dras.get(i);
-            float rr = dra.getRelPos().len() + dra.getRadius();
+        for (Drawable drawable : drawables) {
+            float rr = drawable.getRelPos().len() + drawable.getRadius();
             if (r < rr) {
                 r = rr;
             }
@@ -66,46 +64,44 @@ public class DraMan {
     }
 
     public void objRemoved(SolObject o) {
-        List<Dra> dras = o.getDras();
-        removeAll(dras);
+        List<Drawable> drawables = o.getDras();
+        removeAll(drawables);
     }
 
-    public void removeAll(List<Dra> dras) {
-        for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
-            Dra dra = dras.get(i);
-            DraLevel l = dra.getLevel();
-            OrderedMap<Texture, List<Dra>> map = myDras.get(l.ordinal());
-            Texture tex = dra.getTex0();
-            List<Dra> set = map.get(tex);
+    public void removeAll(List<Drawable> drawables) {
+        for (Drawable drawable : drawables) {
+            DrawableLevel l = drawable.getLevel();
+            OrderedMap<Texture, List<Drawable>> map = this.drawables.get(l.ordinal());
+            Texture tex = drawable.getTex0();
+            List<Drawable> set = map.get(tex);
             if (set == null) {
                 continue;
             }
-            set.remove(dra);
-            myInCam.remove(dra);
+            set.remove(drawable);
+            myInCam.remove(drawable);
         }
     }
 
     public void objAdded(SolObject o) {
-        List<Dra> dras = o.getDras();
-        addAll(dras);
+        List<Drawable> drawables = o.getDras();
+        addAll(drawables);
     }
 
-    public void addAll(List<Dra> dras) {
-        for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
-            Dra dra = dras.get(i);
-            DraLevel l = dra.getLevel();
-            OrderedMap<Texture, List<Dra>> map = myDras.get(l.ordinal());
-            Texture tex = dra.getTex0();
-            List<Dra> set = map.get(tex);
+    public void addAll(List<Drawable> drawables) {
+        for (Drawable drawable : drawables) {
+            DrawableLevel l = drawable.getLevel();
+            OrderedMap<Texture, List<Drawable>> map = this.drawables.get(l.ordinal());
+            Texture tex = drawable.getTex0();
+            List<Drawable> set = map.get(tex);
             if (set == null) {
-                set = new ArrayList<Dra>();
+                set = new ArrayList<>();
                 map.put(tex, set);
             }
-            if (set.contains(dra)) {
+            if (set.contains(drawable)) {
                 continue;
             }
-            set.add(dra);
-            myInCam.remove(dra);
+            set.add(drawable);
+            myInCam.remove(drawable);
         }
     }
 
@@ -124,57 +120,54 @@ public class DraMan {
 
         ObjectManager objectManager = game.getObjMan();
         List<SolObject> objs = objectManager.getObjs();
-        for (int i1 = 0, objsSize = objs.size(); i1 < objsSize; i1++) {
-            SolObject o = objs.get(i1);
+        for (SolObject o : objs) {
             Vector2 objPos = o.getPosition();
             float r = objectManager.getPresenceRadius(o);
-            List<Dra> dras = o.getDras();
+            List<Drawable> drawables = o.getDras();
             float draLevelViewDist = viewDist;
-            if (dras.size() > 0) {
-                draLevelViewDist *= dras.get(0).getLevel().depth;
+            if (drawables.size() > 0) {
+                draLevelViewDist *= drawables.get(0).getLevel().depth;
             }
             boolean objInCam = isInCam(objPos, r, camPos, draLevelViewDist);
-            for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
-                Dra dra = dras.get(i);
-                if (!objInCam || !dra.isEnabled()) {
-                    myInCam.remove(dra);
+            for (Drawable drawable : drawables) {
+                if (!objInCam || !drawable.isEnabled()) {
+                    myInCam.remove(drawable);
                     continue;
                 }
-                dra.prepare(o);
-                Vector2 draPos = dra.getPos();
-                float rr = dra.getRadius();
+                drawable.prepare(o);
+                Vector2 draPos = drawable.getPos();
+                float rr = drawable.getRadius();
                 boolean draInCam = isInCam(draPos, rr, camPos, draLevelViewDist);
                 if (draInCam) {
-                    myInCam.add(dra);
+                    myInCam.add(drawable);
                 } else {
-                    myInCam.remove(dra);
+                    myInCam.remove(drawable);
                 }
             }
         }
 
         for (int dlIdx = 0, dlCount = myDlVals.length; dlIdx < dlCount; dlIdx++) {
-            DraLevel draLevel = myDlVals[dlIdx];
-            if (draLevel == DraLevel.PART_FG_0) {
+            DrawableLevel drawableLevel = myDlVals[dlIdx];
+            if (drawableLevel == DrawableLevel.PART_FG_0) {
                 game.getMountDetectDrawer().draw(myDrawer);
             }
-            OrderedMap<Texture, List<Dra>> map = myDras.get(dlIdx);
+            OrderedMap<Texture, List<Drawable>> map = drawables.get(dlIdx);
             Array<Texture> texs = map.orderedKeys();
             for (int texIdx = 0, sz = texs.size; texIdx < sz; texIdx++) {
                 Texture tex = texs.get(texIdx);
-                List<Dra> dras = map.get(tex);
-                for (int draIdx = 0, drasSize = dras.size(); draIdx < drasSize; draIdx++) {
-                    Dra dra = dras.get(draIdx);
-                    if (myInCam.contains(dra)) {
+                List<Drawable> drawables = map.get(tex);
+                for (Drawable drawable : drawables) {
+                    if (myInCam.contains(drawable)) {
                         if (!DebugOptions.NO_DRAS) {
-                            dra.draw(myDrawer, game);
+                            drawable.draw(myDrawer, game);
                         }
                     }
                 }
             }
-            if (draLevel.depth <= 1) {
+            if (drawableLevel.depth <= 1) {
                 game.drawDebug(myDrawer);
             }
-            if (draLevel == DraLevel.ATM) {
+            if (drawableLevel == DrawableLevel.ATM) {
                 if (!DebugOptions.NO_DRAS) {
                     game.getPlanetMan().drawPlanetCoreHack(game, myDrawer);
                     game.getPlanetMan().drawSunHack(game, myDrawer);
@@ -183,11 +176,10 @@ public class DraMan {
         }
 
         if (DebugOptions.DRAW_DRA_BORDERS) {
-            for (OrderedMap<Texture, List<Dra>> map : myDras) {
-                for (List<Dra> dras : map.values()) {
-                    for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
-                        Dra dra = dras.get(i);
-                        drawDebug(myDrawer, game, dra);
+            for (OrderedMap<Texture, List<Drawable>> map : drawables) {
+                for (List<Drawable> drawables : map.values()) {
+                    for (Drawable drawable : drawables) {
+                        drawDebug(myDrawer, game, drawable);
                     }
                 }
             }
@@ -197,12 +189,12 @@ public class DraMan {
         myDrawer.maybeChangeAdditive(false);
     }
 
-    private void drawDebug(GameDrawer drawer, SolGame game, Dra dra) {
+    private void drawDebug(GameDrawer drawer, SolGame game, Drawable drawable) {
         SolCam cam = game.getCam();
         float lineWidth = cam.getRealLineWidth();
-        Color col = myInCam.contains(dra) ? DebugCol.DRA : DebugCol.DRA_OUT;
-        Vector2 pos = dra.getPos();
-        drawer.drawCircle(drawer.debugWhiteTex, pos, dra.getRadius(), col, lineWidth, cam.getViewHeight());
+        Color col = myInCam.contains(drawable) ? DebugCol.DRA : DebugCol.DRA_OUT;
+        Vector2 pos = drawable.getPos();
+        drawer.drawCircle(drawer.debugWhiteTex, pos, drawable.getRadius(), col, lineWidth, cam.getViewHeight());
     }
 
     private boolean isInCam(Vector2 pos, float r, Vector2 camPos, float viewDist) {
@@ -212,16 +204,16 @@ public class DraMan {
     public void update(SolGame game) {
     }
 
-    public boolean isInCam(Dra dra) {
-        return myInCam.contains(dra);
+    public boolean isInCam(Drawable drawable) {
+        return myInCam.contains(drawable);
     }
 
     public void collectTexs(Collection<TextureAtlas.AtlasRegion> collector, Vector2 pos) {
-        for (Dra dra : myInCam) {
-            if (.5f * dra.getRadius() < dra.getPos().dst(pos)) {
+        for (Drawable drawable : myInCam) {
+            if (.5f * drawable.getRadius() < drawable.getPos().dst(pos)) {
                 continue;
             }
-            TextureAtlas.AtlasRegion tex = dra.getTex();
+            TextureAtlas.AtlasRegion tex = drawable.getTex();
             if (tex == null) {
                 continue;
             }

@@ -25,7 +25,7 @@ import org.destinationsol.game.FarObj;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.dra.Dra;
+import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.item.Loot;
 import org.destinationsol.game.item.MoneyItem;
 import org.destinationsol.game.item.SolItem;
@@ -47,7 +47,7 @@ public class Asteroid implements SolObject {
     private final Body myBody;
     private final Vector2 myPos;
     private final Vector2 mySpd;
-    private final ArrayList<Dra> myDras;
+    private final ArrayList<Drawable> myDrawables;
     private final TextureAtlas.AtlasRegion myTex;
     private final RemoveController myRemoveController;
     private final ParticleSrc mySmokeSrc;
@@ -58,10 +58,10 @@ public class Asteroid implements SolObject {
     private float myLife;
     private float mySize;
 
-    public Asteroid(SolGame game, TextureAtlas.AtlasRegion tex, Body body, float size, RemoveController removeController, ArrayList<Dra> dras) {
+    public Asteroid(SolGame game, TextureAtlas.AtlasRegion tex, Body body, float size, RemoveController removeController, ArrayList<Drawable> drawables) {
         myTex = tex;
         myRemoveController = removeController;
-        myDras = dras;
+        myDrawables = drawables;
         myBody = body;
         mySize = size;
         myLife = SZ_TO_LIFE * mySize;
@@ -72,8 +72,8 @@ public class Asteroid implements SolObject {
         List<ParticleSrc> effs = game.getSpecialEffects().buildBodyEffs(size / 2, game, myPos, mySpd);
         mySmokeSrc = effs.get(0);
         myFireSrc = effs.get(1);
-        myDras.add(mySmokeSrc);
-        myDras.add(myFireSrc);
+        myDrawables.add(mySmokeSrc);
+        myDrawables.add(myFireSrc);
     }
 
     @Override
@@ -88,8 +88,8 @@ public class Asteroid implements SolObject {
     }
 
     @Override
-    public List<Dra> getDras() {
-        return myDras;
+    public List<Drawable> getDras() {
+        return myDrawables;
     }
 
     @Override

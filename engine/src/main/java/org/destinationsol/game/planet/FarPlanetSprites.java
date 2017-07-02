@@ -20,27 +20,27 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.FarObj;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.DraMan;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableManager;
 
 import java.util.List;
 
 public class FarPlanetSprites implements FarObj {
     private final Planet myPlanet;
     private final float myDist;
-    private final List<Dra> myDras;
+    private final List<Drawable> myDrawables;
     private final float myRadius;
     private final float myToPlanetRotSpd;
     private float myRelAngleToPlanet;
     private Vector2 myPos;
 
-    public FarPlanetSprites(Planet planet, float relAngleToPlanet, float dist, List<Dra> dras,
+    public FarPlanetSprites(Planet planet, float relAngleToPlanet, float dist, List<Drawable> drawables,
                             float toPlanetRotSpd) {
         myPlanet = planet;
         myRelAngleToPlanet = relAngleToPlanet;
         myDist = dist;
-        myDras = dras;
-        myRadius = DraMan.radiusFromDras(myDras);
+        myDrawables = drawables;
+        myRadius = DrawableManager.radiusFromDras(myDrawables);
         myToPlanetRotSpd = toPlanetRotSpd;
         myPos = new Vector2();
     }
@@ -52,7 +52,7 @@ public class FarPlanetSprites implements FarObj {
 
     @Override
     public SolObject toObj(SolGame game) {
-        return new PlanetSprites(myPlanet, myRelAngleToPlanet, myDist, myDras, myToPlanetRotSpd);
+        return new PlanetSprites(myPlanet, myRelAngleToPlanet, myDist, myDrawables, myToPlanetRotSpd);
     }
 
     @Override
