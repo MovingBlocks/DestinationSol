@@ -123,6 +123,7 @@ Contributors
 * [scirelli](https://github.com/scirelli)
 * [Sigma-One](https://github.com/Sigma-One)
 * [vampcat](https://github.com/vampcat)
+* [Malanius](https://github.com/Malanius)
 
 ... and your name here? :-) More coming!
 
