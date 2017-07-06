@@ -55,7 +55,7 @@ public class MainScreen implements SolUiScreen {
         controls.add(tutorialControl);
 
         newGameControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, gameOptions.getKeyShoot());
-        newGameControl.setDisplayName("New Game");
+        newGameControl.setDisplayName("Play Game");
         controls.add(newGameControl);
 
         optionsControl = new SolUiControl(isMobile ? null : menuLayout.buttonRect(-1, 3), true, Input.Keys.O);
