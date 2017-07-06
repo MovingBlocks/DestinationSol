@@ -41,11 +41,11 @@ public class NewGameScreen implements SolUiScreen {
 
     NewGameScreen(MenuLayout menuLayout, GameOptions gameOptions) {
         previousControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, gameOptions.getKeyShoot());
-        previousControl.setDisplayName("Previous Ship");
+        previousControl.setDisplayName("Continue");
         controls.add(previousControl);
 
         newControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
-        newControl.setDisplayName("New Ship");
+        newControl.setDisplayName("New game");
         controls.add(newControl);
 
         backControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
