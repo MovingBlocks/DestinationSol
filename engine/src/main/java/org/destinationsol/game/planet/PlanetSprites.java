@@ -23,7 +23,7 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.FarObj;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.dra.Dra;
+import org.destinationsol.game.drawables.Drawable;
 
 import java.util.List;
 
@@ -31,17 +31,17 @@ public class PlanetSprites implements SolObject {
 
     private final Planet myPlanet;
     private final float myDist;
-    private final List<Dra> myDras;
+    private final List<Drawable> myDrawables;
     private final float myToPlanetRotSpd;
     private final Vector2 myPos;
     private float myRelAngleToPlanet;
     private float myAngle;
 
-    public PlanetSprites(Planet planet, float relAngleToPlanet, float dist, List<Dra> dras, float toPlanetRotSpd) {
+    public PlanetSprites(Planet planet, float relAngleToPlanet, float dist, List<Drawable> drawables, float toPlanetRotSpd) {
         myPlanet = planet;
         myRelAngleToPlanet = relAngleToPlanet;
         myDist = dist;
-        myDras = dras;
+        myDrawables = drawables;
         myToPlanetRotSpd = toPlanetRotSpd;
         myPos = new Vector2();
         setDependentParams();
@@ -89,12 +89,12 @@ public class PlanetSprites implements SolObject {
 
     @Override
     public FarObj toFarObj() {
-        return new FarPlanetSprites(myPlanet, myRelAngleToPlanet, myDist, myDras, myToPlanetRotSpd);
+        return new FarPlanetSprites(myPlanet, myRelAngleToPlanet, myDist, myDrawables, myToPlanetRotSpd);
     }
 
     @Override
-    public List<Dra> getDras() {
-        return myDras;
+    public List<Drawable> getDrawables() {
+        return myDrawables;
     }
 
     @Override

@@ -30,9 +30,9 @@ import org.destinationsol.game.FarObj;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.DraLevel;
-import org.destinationsol.game.dra.RectSprite;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSrc;
@@ -45,7 +45,7 @@ import java.util.List;
 public class Projectile implements SolObject {
 
     private static final float MIN_ANGLE_TO_GUIDE = 2f;
-    private final ArrayList<Dra> myDras;
+    private final ArrayList<Drawable> myDrawables;
     private final ProjectileBody myBody;
     private final Faction myFaction;
     private final ParticleSrc myBodyEffect;
@@ -59,16 +59,16 @@ public class Projectile implements SolObject {
 
     public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpd, Faction faction,
                       ProjectileConfig config, boolean varySpd) {
-        myDras = new ArrayList<Dra>();
+        myDrawables = new ArrayList<>();
         myConfig = config;
 
-        Dra dra;
+        Drawable drawable;
         if (myConfig.stretch) {
-            dra = new MyDra(this, myConfig.tex, myConfig.texSz);
+            drawable = new MyDrawable(this, myConfig.tex, myConfig.texSz);
         } else {
-            dra = new RectSprite(myConfig.tex, myConfig.texSz, myConfig.origin.x, myConfig.origin.y, new Vector2(), DraLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
+            drawable = new RectSprite(myConfig.tex, myConfig.texSz, myConfig.origin.x, myConfig.origin.y, new Vector2(), DrawableLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
         }
-        myDras.add(dra);
+        myDrawables.add(drawable);
         float spdLen = myConfig.spdLen;
         if (varySpd) {
             spdLen *= SolMath.rnd(.9f, 1.1f);
@@ -79,28 +79,28 @@ public class Projectile implements SolObject {
             myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, spdLen, this, game, myConfig.acc);
         }
         myFaction = faction;
-        myBodyEffect = buildEffect(game, myConfig.bodyEffect, DraLevel.PART_BG_0, null, true);
-        myTrailEffect = buildEffect(game, myConfig.trailEffect, DraLevel.PART_BG_0, null, false);
+        myBodyEffect = buildEffect(game, myConfig.bodyEffect, DrawableLevel.PART_BG_0, null, true);
+        myTrailEffect = buildEffect(game, myConfig.trailEffect, DrawableLevel.PART_BG_0, null, false);
         if (myConfig.lightSz > 0) {
             Color col = SolColor.WHITE;
             if (myBodyEffect != null) {
                 col = myConfig.bodyEffect.tint;
             }
             myLightSrc = new LightSrc(myConfig.lightSz, true, 1f, new Vector2(), col);
-            myLightSrc.collectDras(myDras);
+            myLightSrc.collectDras(myDrawables);
         } else {
             myLightSrc = null;
         }
     }
 
-    private ParticleSrc buildEffect(SolGame game, EffectConfig ec, DraLevel draLevel, Vector2 pos, boolean inheritsSpd) {
+    private ParticleSrc buildEffect(SolGame game, EffectConfig ec, DrawableLevel drawableLevel, Vector2 pos, boolean inheritsSpd) {
         if (ec == null) {
             return null;
         }
-        ParticleSrc res = new ParticleSrc(ec, -1, draLevel, new Vector2(), inheritsSpd, game, pos, myBody.getSpd(), 0);
+        ParticleSrc res = new ParticleSrc(ec, -1, drawableLevel, new Vector2(), inheritsSpd, game, pos, myBody.getSpd(), 0);
         if (res.isContinuous()) {
             res.setWorking(true);
-            myDras.add(res);
+            myDrawables.add(res);
         } else {
             game.getPartMan().finish(game, res, pos);
         }
@@ -155,8 +155,8 @@ public class Projectile implements SolObject {
     private void collided(SolGame game) {
         myShouldRemove = true;
         Vector2 pos = myBody.getPos();
-        buildEffect(game, myConfig.collisionEffect, DraLevel.PART_FG_1, pos, false);
-        buildEffect(game, myConfig.collisionEffectBg, DraLevel.PART_FG_0, pos, false);
+        buildEffect(game, myConfig.collisionEffect, DrawableLevel.PART_FG_1, pos, false);
+        buildEffect(game, myConfig.collisionEffectBg, DrawableLevel.PART_FG_0, pos, false);
         if (myConfig.collisionEffectBg != null) {
             game.getPartMan().blinks(pos, game, myConfig.collisionEffectBg.sz);
         }
@@ -209,8 +209,8 @@ public class Projectile implements SolObject {
     }
 
     @Override
-    public List<Dra> getDras() {
-        return myDras;
+    public List<Drawable> getDrawables() {
+        return myDrawables;
     }
 
     @Override
@@ -287,12 +287,12 @@ public class Projectile implements SolObject {
         return myConfig;
     }
 
-    private static class MyDra implements Dra {
+    private static class MyDrawable implements Drawable {
         private final Projectile myProjectile;
         private final TextureAtlas.AtlasRegion myTex;
         private final float myWidth;
 
-        public MyDra(Projectile projectile, TextureAtlas.AtlasRegion tex, float width) {
+        public MyDrawable(Projectile projectile, TextureAtlas.AtlasRegion tex, float width) {
             myProjectile = projectile;
             myTex = tex;
             myWidth = width;
@@ -309,8 +309,8 @@ public class Projectile implements SolObject {
         }
 
         @Override
-        public DraLevel getLevel() {
-            return DraLevel.PROJECTILES;
+        public DrawableLevel getLevel() {
+            return DrawableLevel.PROJECTILES;
         }
 
         @Override

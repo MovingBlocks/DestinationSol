@@ -28,9 +28,9 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.DraLevel;
-import org.destinationsol.game.dra.RectSprite;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
 import java.util.ArrayList;
@@ -242,10 +242,10 @@ public class CollisionMeshLoader {
     /**
      * This needs refactoring...
      *
-     * @param dras a atlas will be added here
+     * @param drawables a atlas will be added here
      */
     public Body getBodyAndSprite(SolGame game, HullConfig hullConfig, float scale, BodyDef.BodyType type,
-                                 Vector2 pos, float angle, List<Dra> dras, float density, DraLevel level, TextureAtlas.AtlasRegion tex) {
+                                 Vector2 pos, float angle, List<Drawable> drawables, float density, DrawableLevel level, TextureAtlas.AtlasRegion tex) {
         final String name = hullConfig.getInternalName();
 
         BodyDef bd = new BodyDef();
@@ -273,17 +273,17 @@ public class CollisionMeshLoader {
             tex = hullConfig.getTexture();
         }
         RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.WHITE, false);
-        dras.add(s);
+        drawables.add(s);
         return body;
     }
 
     /**
      * This needs refactoring...
      *
-     * @param dras a atlas will be added here
+     * @param drawables a atlas will be added here
      */
     public Body getBodyAndSprite(SolGame game, TextureAtlas.AtlasRegion tex, float scale, BodyDef.BodyType type,
-                                 Vector2 pos, float angle, List<Dra> dras, float density, DraLevel level) {
+                                 Vector2 pos, float angle, List<Drawable> drawables, float density, DrawableLevel level) {
         BodyDef bd = new BodyDef();
         bd.type = type;
         bd.angle = angle * SolMath.degRad;
@@ -306,7 +306,7 @@ public class CollisionMeshLoader {
 
         orig = getOrigin(tex.name, 1);
         RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.WHITE, false);
-        dras.add(s);
+        drawables.add(s);
 
         return body;
     }

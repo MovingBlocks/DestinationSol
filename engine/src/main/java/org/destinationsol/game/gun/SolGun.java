@@ -23,9 +23,9 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.DraLevel;
-import org.destinationsol.game.dra.RectSprite;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.item.Clip;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
@@ -42,7 +42,7 @@ public class SolGun {
     private final Vector2 myRelPos;
     private final RectSprite mySprite;
     private final Gun myItem;
-    private final List<Dra> myDras;
+    private final List<Drawable> myDrawables;
     private float myCoolDown;
     private float myCurrAngleVar;
 
@@ -61,18 +61,18 @@ public class SolGun {
             myLightSrc = null;
         }
         myRelPos = new Vector2(relPos);
-        DraLevel level = underShip ? DraLevel.U_GUNS : DraLevel.GUNS;
+        DrawableLevel level = underShip ? DrawableLevel.U_GUNS : DrawableLevel.GUNS;
         float texLen = myItem.config.gunLength / myItem.config.texLenPerc * 2;
         mySprite = new RectSprite(myItem.config.tex, texLen, 0, 0, new Vector2(relPos), level, 0, 0, SolColor.WHITE, false);
-        myDras = new ArrayList<Dra>();
-        myDras.add(mySprite);
+        myDrawables = new ArrayList<>();
+        myDrawables.add(mySprite);
         if (myLightSrc != null) {
-            myLightSrc.collectDras(myDras);
+            myLightSrc.collectDras(myDrawables);
         }
     }
 
-    public List<Dra> getDras() {
-        return myDras;
+    public List<Drawable> getDrawables() {
+        return myDrawables;
     }
 
     private void shoot(Vector2 gunSpd, SolGame game, float gunAngle, Vector2 muzzlePos, Faction faction, SolObject creator) {

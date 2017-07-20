@@ -21,7 +21,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.dra.DraLevel;
+import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.particle.ParticleSrc;
@@ -57,7 +57,7 @@ public class SloMo implements ShipAbility {
         if (tryToUse) {
             myFactor = myConfig.factor;
             Vector2 pos = owner.getPosition();
-            ParticleSrc src = new ParticleSrc(myConfig.cc.effect, -1, DraLevel.PART_BG_0, new Vector2(), true, game, pos, owner.getSpd(), 0);
+            ParticleSrc src = new ParticleSrc(myConfig.cc.effect, -1, DrawableLevel.PART_BG_0, new Vector2(), true, game, pos, owner.getSpd(), 0);
             game.getPartMan().finish(game, src, pos);
             return true;
         }

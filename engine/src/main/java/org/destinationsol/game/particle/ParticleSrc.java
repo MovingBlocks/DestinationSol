@@ -26,11 +26,11 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.DraLevel;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.planet.Planet;
 
-public class ParticleSrc implements Dra {
+public class ParticleSrc implements Drawable {
     public static final float JUMP_SPD_TRESH = .9f;
     public static final float MAX_TIME_BETWEEN_POS_CHANGE = .25f;
     public static final float MAX_BB_RECALC_AWAIT = .5f;
@@ -38,7 +38,7 @@ public class ParticleSrc implements Dra {
     private final ParticleEmitter myEmitter;
     private final ParticleEmitter.ScaledNumericValue myOrigSpdAngle;
     private final ParticleEmitter.ScaledNumericValue myOrigRot;
-    private final DraLevel myDraLevel;
+    private final DrawableLevel myDrawableLevel;
     private final Vector2 myRelPos;
     private final Vector2 myOrigRelPos;
     private final float myAreaSz;
@@ -52,11 +52,11 @@ public class ParticleSrc implements Dra {
     private boolean myFloatedUp;
     private float myBbRecalcAwait;
 
-    public ParticleSrc(EffectConfig config, float sz, DraLevel draLevel, Vector2 relPos, boolean inheritsSpd,
+    public ParticleSrc(EffectConfig config, float sz, DrawableLevel drawableLevel, Vector2 relPos, boolean inheritsSpd,
                        SolGame game, Vector2 basePos, Vector2 baseSpd, float relAngle) {
         myConfig = config;
         myEmitter = myConfig.effectType.newEmitter();
-        myDraLevel = draLevel;
+        myDrawableLevel = drawableLevel;
         myRelPos = new Vector2(relPos);
         myOrigRelPos = new Vector2(relPos);
         myPos = new Vector2();
@@ -256,8 +256,8 @@ public class ParticleSrc implements Dra {
     }
 
     @Override
-    public DraLevel getLevel() {
-        return myDraLevel;
+    public DrawableLevel getLevel() {
+        return myDrawableLevel;
     }
 
     @Override

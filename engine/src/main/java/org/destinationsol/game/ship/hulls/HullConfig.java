@@ -33,7 +33,7 @@ public final class HullConfig {
     }
 
     private static List<Vector2> deepCopyOf(List<Vector2> src) {
-        List<Vector2> returnList = new ArrayList<Vector2>(src.size());
+        List<Vector2> returnList = new ArrayList<>(src.size());
 
         for (Vector2 vector : src) {
             returnList.add(new Vector2(vector));
@@ -71,7 +71,7 @@ public final class HullConfig {
     }
 
     public List<GunSlot> getGunSlotList() {
-        return new ArrayList<GunSlot>(data.gunSlots);
+        return new ArrayList<>(data.gunSlots);
     }
 
     public List<Vector2> getLightSourcePositions() {
@@ -138,7 +138,7 @@ public final class HullConfig {
         return new Vector2(data.shipBuilderOrigin);
     }
 
-    public static enum Type {
+    public enum Type {
         STD("std"),
         BIG("big"),
         STATION("station");
@@ -167,12 +167,12 @@ public final class HullConfig {
         public int maxLife;
         public Vector2 e1Pos;
         public Vector2 e2Pos;
-        public List<GunSlot> gunSlots = new ArrayList<GunSlot>();
-        public List<Vector2> lightSrcPoss = new ArrayList<Vector2>();
+        public List<GunSlot> gunSlots = new ArrayList<>();
+        public List<Vector2> lightSrcPoss = new ArrayList<>();
         public float durability;
         public boolean hasBase;
-        public List<Vector2> forceBeaconPoss = new ArrayList<Vector2>();
-        public List<Vector2> doorPoss = new ArrayList<Vector2>();
+        public List<Vector2> forceBeaconPoss = new ArrayList<>();
+        public List<Vector2> doorPoss = new ArrayList<>();
         public TextureAtlas.AtlasRegion icon;
         public Type type;
         public TextureAtlas.AtlasRegion tex;

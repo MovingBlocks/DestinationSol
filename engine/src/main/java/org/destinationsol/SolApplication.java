@@ -19,11 +19,13 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.components.AsteroidComponent;
 import org.destinationsol.game.sound.OggMusicManager;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.menu.MenuScreens;
@@ -34,21 +36,28 @@ import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.entitysystem.component.CodeGenComponentManager;
+import org.terasology.entitysystem.core.EntityManager;
+import org.terasology.entitysystem.core.EntityRef;
+import org.terasology.entitysystem.entity.inmemory.InMemoryEntityManager;
+import org.terasology.entitysystem.transaction.TransactionManager;
+import org.terasology.valuetype.TypeHandler;
+import org.terasology.valuetype.TypeLibrary;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Iterator;
+import java.util.Optional;
 
 public class SolApplication implements ApplicationListener {
     private static Logger logger = LoggerFactory.getLogger(SolApplication.class);
 
     @SuppressWarnings("FieldCanBeLocal")
     private ModuleManager moduleManager;
-    /*
     @SuppressWarnings("FieldCanBeLocal")
     private TransactionManager transactionManager;
     @SuppressWarnings("FieldCanBeLocal")
     private EntityManager entityManager;
-    */
 
     private OggMusicManager musicManager;
     private OggSoundManager soundManager;
@@ -81,22 +90,33 @@ public class SolApplication implements ApplicationListener {
 
         moduleManager = new ModuleManager();
 
-        /*
         TypeLibrary typeLibrary = new TypeLibrary();
-        typeLibrary.addHandler(new TypeHandler<>(String.class, ImmutableCopy.create()));
+        typeLibrary.addHandler(new TypeHandler<>(Integer.class, Integer::new));
+        typeLibrary.addHandler(new TypeHandler<>(Vector3.class, Vector3::new));
         transactionManager = new TransactionManager();
         entityManager = new InMemoryEntityManager(new CodeGenComponentManager(typeLibrary), transactionManager);
 
+        /*
         transactionManager.begin();
-        EntityRef entity = entityManager.createEntity();
-        SampleComponent component = entity.addComponent(SampleComponent.class);
-        component.setName("gvhjgjh");
-        component.setDescription("Description");
+        EntityRef sampleEntity = entityManager.createEntity();
+        AsteroidComponent asteroidComponent = sampleEntity.addComponent(AsteroidComponent.class);
+        asteroidComponent.setSize(10);
         transactionManager.commit();
 
-        // transactionManager.begin();
-        Optional<SampleComponent> retrievedComponent = entity.getComponent(SampleComponent.class);
-        String str = retrievedComponent.get().getName();
+        transactionManager.begin();
+        Optional<AsteroidComponent> retrievedComponent = sampleEntity.getComponent(AsteroidComponent.class);
+        int z = retrievedComponent.get().getSize();
+        transactionManager.rollback();
+
+        transactionManager.begin();
+        int asteroids = 0;
+        Iterator<EntityRef> iterator = entityManager.allEntities();
+        while (iterator.hasNext()) {
+            EntityRef entity = iterator.next();
+            if (entity.getComponent(AsteroidComponent.class).isPresent()) {
+                asteroids++;
+            }
+        }
         transactionManager.rollback();
         */
 

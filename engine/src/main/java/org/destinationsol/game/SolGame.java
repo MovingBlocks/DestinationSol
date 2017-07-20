@@ -26,8 +26,8 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.chunk.ChunkManager;
-import org.destinationsol.game.dra.DraDebugger;
-import org.destinationsol.game.dra.DraMan;
+import org.destinationsol.game.drawables.DrawableDebugger;
+import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.farBg.FarBackgroundManagerOld;
 import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.BeaconDestProvider;
@@ -66,7 +66,7 @@ public class SolGame {
     private final SolCam camera;
     private final ObjectManager objectManager;
     private final SolApplication solApplication;
-    private final DraMan draMan;
+    private final DrawableManager drawableManager;
     private final PlanetManager planetManager;
     private final ChunkManager chunkManager;
     private final PartMan partMan;
@@ -82,7 +82,7 @@ public class SolGame {
     private final ItemManager itemManager;
     private final StarPort.Builder starPortBuilder;
     private final OggSoundManager soundManager;
-    private final DraDebugger draDebugger;
+    private final DrawableDebugger drawableDebugger;
     private final SpecialSounds specialSounds;
     private final SpecialEffects specialEffects;
     private final GameColors gameColors;
@@ -106,7 +106,7 @@ public class SolGame {
         gameColors = new GameColors();
         soundManager = solApplication.getSoundManager();
         specialSounds = new SpecialSounds(soundManager);
-        draMan = new DraMan(drawer);
+        drawableManager = new DrawableManager(drawer);
         camera = new SolCam(drawer.r);
         gameScreens = new GameScreens(drawer.r, cmp);
         tutorialManager = tut ? new TutorialManager(commonDrawer.r, gameScreens, cmp.isMobile(), cmp.getOptions(), this) : null;
@@ -131,7 +131,7 @@ public class SolGame {
         shardBuilder = new ShardBuilder();
         galaxyFiller = new GalaxyFiller();
         starPortBuilder = new StarPort.Builder();
-        draDebugger = new DraDebugger();
+        drawableDebugger = new DrawableDebugger();
         beaconHandler = new BeaconHandler();
         mountDetectDrawer = new MountDetectDrawer();
         respawnItems = new ArrayList<>();
@@ -251,7 +251,7 @@ public class SolGame {
     }
 
     public void update() {
-        draDebugger.update(this);
+        drawableDebugger.update(this);
 
         if (paused) {
             camera.updateMap(this); // update zoom only for map
@@ -275,7 +275,7 @@ public class SolGame {
         chunkManager.update(this);
         mountDetectDrawer.update(this);
         objectManager.update(this);
-        draMan.update(this);
+        drawableManager.update(this);
         mapDrawer.update(this);
         soundManager.update(this);
         beaconHandler.update(this);
@@ -308,7 +308,7 @@ public class SolGame {
     }
 
     public void draw() {
-        draMan.draw(this);
+        drawableManager.draw(this);
     }
 
     public void drawDebug(GameDrawer drawer) {
@@ -344,8 +344,8 @@ public class SolGame {
         return solApplication;
     }
 
-    public DraMan getDraMan() {
-        return draMan;
+    public DrawableManager getDrawableManager() {
+        return drawableManager;
     }
 
     public ObjectManager getObjMan() {
@@ -487,7 +487,7 @@ public class SolGame {
     }
 
     public void drawDebugUi(UiDrawer uiDrawer) {
-        draDebugger.draw(uiDrawer);
+        drawableDebugger.draw(uiDrawer);
     }
 
     public SpecialSounds getSpecialSounds() {
