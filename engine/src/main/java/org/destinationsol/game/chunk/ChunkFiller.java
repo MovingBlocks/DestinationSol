@@ -28,10 +28,10 @@ import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.asteroid.FarAsteroid;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.DraLevel;
-import org.destinationsol.game.dra.FarDras;
-import org.destinationsol.game.dra.RectSprite;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.FarDrawable;
+import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.MoveDestProvider;
 import org.destinationsol.game.input.Pilot;
@@ -96,9 +96,9 @@ public class ChunkFiller {
         SpaceEnvConfig conf = getConfig(game, chCenter, densityMul, remover, farBg);
 
         if (farBg) {
-            fillFarJunk(game, chCenter, remover, DraLevel.FAR_DECO_3, conf, densityMul[0]);
-            fillFarJunk(game, chCenter, remover, DraLevel.FAR_DECO_2, conf, densityMul[0]);
-            fillFarJunk(game, chCenter, remover, DraLevel.FAR_DECO_1, conf, densityMul[0]);
+            fillFarJunk(game, chCenter, remover, DrawableLevel.FAR_DECO_3, conf, densityMul[0]);
+            fillFarJunk(game, chCenter, remover, DrawableLevel.FAR_DECO_2, conf, densityMul[0]);
+            fillFarJunk(game, chCenter, remover, DrawableLevel.FAR_DECO_1, conf, densityMul[0]);
         } else {
             fillDust(game, chCenter, remover);
             fillJunk(game, remover, conf, chCenter);
@@ -231,11 +231,11 @@ public class ChunkFiller {
      * @param game       The {@link SolGame} instance to work with
      * @param chCenter   The center of the chunk
      * @param remover
-     * @param draLevel   The depth of the junk
+     * @param drawableLevel   The depth of the junk
      * @param conf       The environment configuration
      * @param densityMul A density multiplier. This will be multiplied with the density defined in the environment configuration
      */
-    private void fillFarJunk(SolGame game, Vector2 chCenter, RemoveController remover, DraLevel draLevel,
+    private void fillFarJunk(SolGame game, Vector2 chCenter, RemoveController remover, DrawableLevel drawableLevel,
                              SpaceEnvConfig conf, float densityMul) {
         if (conf == null) {
             return;
@@ -245,7 +245,7 @@ public class ChunkFiller {
             return;
         }
 
-        ArrayList<Dra> dras = new ArrayList<>();
+        ArrayList<Drawable> drawables = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
             // Select a random far junk texture
@@ -263,12 +263,12 @@ public class ChunkFiller {
             junkPos.sub(chCenter);
 
             // Create the resulting sprite and add it to the list
-            RectSprite s = new RectSprite(tex, sz, 0, 0, junkPos, draLevel, SolMath.rnd(180), rotSpd, SolColor.DDG, false);
-            dras.add(s);
+            RectSprite s = new RectSprite(tex, sz, 0, 0, junkPos, drawableLevel, SolMath.rnd(180), rotSpd, SolColor.DDG, false);
+            drawables.add(s);
         }
 
-        // Create a common FarDras instance for the pieces of junk and only allow the junk to be drawn when it's not hidden by a planet
-        FarDras so = new FarDras(dras, new Vector2(chCenter), new Vector2(), remover, true);
+        // Create a common FarDrawable instance for the pieces of junk and only allow the junk to be drawn when it's not hidden by a planet
+        FarDrawable so = new FarDrawable(drawables, new Vector2(chCenter), new Vector2(), remover, true);
         // Add the collection of objects to the object manager
         game.getObjMan().addFarObjNow(so);
     }
@@ -309,14 +309,14 @@ public class ChunkFiller {
             float rotSpd = SolMath.rnd(JUNK_MAX_ROT_SPD);
 
             // Create the resulting sprite and add it to the list as the only element
-            RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DraLevel.DECO, SolMath.rnd(180), rotSpd, SolColor.LG, false);
-            ArrayList<Dra> dras = new ArrayList<>();
-            dras.add(s);
+            RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DrawableLevel.DECO, SolMath.rnd(180), rotSpd, SolColor.LG, false);
+            ArrayList<Drawable> drawables = new ArrayList<>();
+            drawables.add(s);
 
-            // Create a FarDras instance for this piece of junk and only allow it to be drawn when it's not hidden by a planet
+            // Create a FarDrawable instance for this piece of junk and only allow it to be drawn when it's not hidden by a planet
             Vector2 spd = new Vector2();
             SolMath.fromAl(spd, SolMath.rnd(180), SolMath.rnd(JUNK_MAX_SPD_LEN));
-            FarDras so = new FarDras(dras, junkPos, spd, remover, true);
+            FarDrawable so = new FarDrawable(drawables, junkPos, spd, remover, true);
             // Add the object to the object manager
             game.getObjMan().addFarObjNow(so);
         }
@@ -332,7 +332,7 @@ public class ChunkFiller {
      * @param remover
      */
     private void fillDust(SolGame game, Vector2 chCenter, RemoveController remover) {
-        ArrayList<Dra> dras = new ArrayList<>();
+        ArrayList<Drawable> drawables = new ArrayList<>();
         int count = getEntityCount(DUST_DENSITY);
         if (count == 0) {
             return;
@@ -343,12 +343,12 @@ public class ChunkFiller {
             Vector2 dustPos = getRndPos(chCenter);
             dustPos.sub(chCenter);
             // Create the resulting sprite and add it to the list
-            RectSprite s = new RectSprite(dustTexture, DUST_SZ, 0, 0, dustPos, DraLevel.DECO, 0, 0, SolColor.WHITE, false);
-            dras.add(s);
+            RectSprite s = new RectSprite(dustTexture, DUST_SZ, 0, 0, dustPos, DrawableLevel.DECO, 0, 0, SolColor.WHITE, false);
+            drawables.add(s);
         }
 
-        // Create a common FarDras instance for the specks of dust and only allow the dust to be drawn when it's not hidden by a planet
-        FarDras so = new FarDras(dras, chCenter, new Vector2(), remover, true);
+        // Create a common FarDrawable instance for the specks of dust and only allow the dust to be drawn when it's not hidden by a planet
+        FarDrawable so = new FarDrawable(drawables, chCenter, new Vector2(), remover, true);
         game.getObjMan().addFarObjNow(so);
     }
 

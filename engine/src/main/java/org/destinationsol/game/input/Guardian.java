@@ -101,8 +101,7 @@ public class Guardian implements MoveDestProvider {
         }
         myFarTarget = null;
 
-        for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
-            SolObject o = objs.get(i);
+        for (SolObject o : objs) {
             if (!(o instanceof SolShip)) {
                 continue;
             }
@@ -113,8 +112,7 @@ public class Guardian implements MoveDestProvider {
             myTarget = other;
             return;
         }
-        for (int i = 0, farObjsSize = farShips.size(); i < farObjsSize; i++) {
-            FarShip other = farShips.get(i);
+        for (FarShip other : farShips) {
             if (other.getPilot() != myTargetPilot) {
                 continue;
             }

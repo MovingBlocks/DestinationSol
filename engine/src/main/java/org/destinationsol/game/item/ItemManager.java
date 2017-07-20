@@ -225,7 +225,7 @@ public class ItemManager {
     }
 
     public List<MoneyItem> moneyToItems(float amt) {
-        ArrayList<MoneyItem> res = new ArrayList<MoneyItem>();
+        ArrayList<MoneyItem> res = new ArrayList<>();
         while (amt > MoneyItem.AMT) {
             MoneyItem example;
             if (amt > MoneyItem.BIG_AMT) {

@@ -59,7 +59,7 @@ public class BorderDrawer {
         float vStep = 1f / vCellCount;
         float x = hStep / 2;
         float y = vStep / 2;
-        myTishches = new ArrayList<Tishch>();
+        myTishches = new ArrayList<>();
         for (int i = 0; i < vCellCount; i++) {
             Tishch t = new Tishch(x, y, r, TISHCH_SZ, tex);
             myTishches.add(t);
@@ -89,8 +89,7 @@ public class BorderDrawer {
         float heroDmgCap = hero == null ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero);
 
         List<SolObject> objs = g.getObjMan().getObjs();
-        for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
-            SolObject o = objs.get(i);
+        for (SolObject o : objs) {
             if ((o instanceof SolShip)) {
                 SolShip ship = (SolShip) o;
                 Vector2 shipPos = ship.getPosition();
@@ -106,8 +105,7 @@ public class BorderDrawer {
         }
 
         List<FarShip> farShips = g.getObjMan().getFarShips();
-        for (int i = 0, farObjsSize = farShips.size(); i < farObjsSize; i++) {
-            FarShip ship = farShips.get(i);
+        for (FarShip ship : farShips) {
             Vector2 shipPos = ship.getPos();
             Faction shipFaction = ship.getPilot().getFaction();
             float shipSize = ship.getHullConfig().getSize();
@@ -115,8 +113,7 @@ public class BorderDrawer {
             maybeDrawIcon(drawer, shipPos, cam, shipSize, shipAngle, mapDrawer, factionManager, hero, shipFaction, ship, heroDmgCap, ship.getHullConfig().getIcon());
         }
         List<StarPort.MyFar> farPorts = g.getObjMan().getFarPorts();
-        for (int i = 0, sz = farPorts.size(); i < sz; i++) {
-            StarPort.MyFar sp = farPorts.get(i);
+        for (StarPort.MyFar sp : farPorts) {
             maybeDrawIcon(drawer, sp.getPos(), cam, StarPort.SIZE, sp.getAngle(), mapDrawer, null, null, null, null, -1, mapDrawer.getStarPortTex());
         }
     }
@@ -157,23 +154,20 @@ public class BorderDrawer {
         if (np != null && np.getPos().dst(camPos) < np.getFullHeight()) {
             return;
         }
-        for (int i = 0, myTishchesSize = myTishches.size(); i < myTishchesSize; i++) {
-            Tishch t = myTishches.get(i);
+        for (Tishch t : myTishches) {
             t.reset();
         }
 
         float camAngle = cam.getAngle();
         ArrayList<Planet> planets = pMan.getPlanets();
-        for (int i = 0, planetsSize = planets.size(); i < planetsSize; i++) {
-            Planet p = planets.get(i);
+        for (Planet p : planets) {
             Vector2 objPos = p.getPos();
             float objRad = p.getFullHeight();
             apply0(camPos, camAngle, objPos, objRad);
         }
         SolSystem sys = pMan.getNearestSystem(camPos);
         apply0(camPos, camAngle, sys.getPos(), SunSingleton.SUN_HOT_RAD);
-        for (int i = 0, myTishchesSize = myTishches.size(); i < myTishchesSize; i++) {
-            Tishch t = myTishches.get(i);
+        for (Tishch t : myTishches) {
             t.draw(drawer);
         }
     }
@@ -189,8 +183,7 @@ public class BorderDrawer {
     }
 
     private void apply(float distPerc, float angularWHalf, float relAngle) {
-        for (int i = 0, myTishchesSize = myTishches.size(); i < myTishchesSize; i++) {
-            Tishch t = myTishches.get(i);
+        for (Tishch t : myTishches) {
             if (SolMath.angleDiff(t.myAngle, relAngle) < angularWHalf) {
                 t.setDistPerc(distPerc);
             }

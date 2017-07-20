@@ -187,13 +187,7 @@ public class OggSoundManager {
     }
 
     private void cleanLooped(SolGame game) {
-        Iterator<SolObject> it = loopedSoundMap.keySet().iterator();
-        while (it.hasNext()) {
-            SolObject o = it.next();
-            if (o.shouldBeRemoved(game)) {
-                it.remove();
-            }
-        }
+        loopedSoundMap.keySet().removeIf(o -> o.shouldBeRemoved(game));
     }
 
     public void dispose() {

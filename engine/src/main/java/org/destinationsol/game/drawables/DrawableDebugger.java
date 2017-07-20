@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.dra;
+package org.destinationsol.game.drawables;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -28,12 +28,12 @@ import org.destinationsol.ui.UiDrawer;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DraDebugger {
+public class DrawableDebugger {
     public static final float TEX_SZ = .1f;
     public static final float GAP = .01f;
     private final Set<TextureAtlas.AtlasRegion> myCollector;
 
-    public DraDebugger() {
+    public DrawableDebugger() {
         myCollector = new HashSet<>();
     }
 
@@ -51,7 +51,7 @@ public class DraDebugger {
         myCollector.clear();
         Vector2 cursorPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
         game.getCam().screenToWorld(cursorPos);
-        game.getDraMan().collectTexs(myCollector, cursorPos);
+        game.getDrawableManager().collectTexs(myCollector, cursorPos);
     }
 
     public void draw(UiDrawer uiDrawer) {

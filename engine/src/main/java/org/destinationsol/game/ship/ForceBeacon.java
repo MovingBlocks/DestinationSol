@@ -21,7 +21,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.dra.Dra;
+import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.particle.ParticleSrc;
 
@@ -46,8 +46,7 @@ public class ForceBeacon {
         SolShip res = null;
         float minLen = Float.MAX_VALUE;
         List<SolObject> objs = game.getObjMan().getObjs();
-        for (int i = 0, objsSize = objs.size(); i < objsSize; i++) {
-            SolObject o = objs.get(i);
+        for (SolObject o : objs) {
             if (o == owner) {
                 continue;
             }
@@ -83,8 +82,8 @@ public class ForceBeacon {
         return res;
     }
 
-    public void collectDras(List<Dra> dras) {
-        dras.add(myEffect);
+    public void collectDras(List<Drawable> drawables) {
+        drawables.add(myEffect);
     }
 
     public void update(SolGame game, Vector2 basePos, float baseAngle, SolShip ship) {

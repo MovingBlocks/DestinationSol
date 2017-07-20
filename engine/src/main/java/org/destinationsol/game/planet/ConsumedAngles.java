@@ -25,8 +25,8 @@ public class ConsumedAngles {
     private final List<Float> myHalfWidths;
 
     public ConsumedAngles() {
-        myAngles = new ArrayList<Float>();
-        myHalfWidths = new ArrayList<Float>();
+        myAngles = new ArrayList<>();
+        myHalfWidths = new ArrayList<>();
     }
 
     public boolean isConsumed(float angle, float objAngularHalfWidth) {

@@ -27,7 +27,7 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.dra.Dra;
+import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
@@ -65,7 +65,7 @@ public class SolShip implements SolObject {
     private final ParticleSrc myFireSrc;
     private final ParticleSrc myElectricitySrc;
     private final RemoveController myRemoveController;
-    private final List<Dra> myDras;
+    private final List<Drawable> myDrawables;
     private final ShipRepairer myRepairer;
     private final ShipAbility myAbility;
 
@@ -77,11 +77,11 @@ public class SolShip implements SolObject {
     private float myAbilityAwait;
     private float myControlEnableAwait;
 
-    public SolShip(SolGame game, Pilot pilot, Hull hull, RemoveController removeController, List<Dra> dras,
+    public SolShip(SolGame game, Pilot pilot, Hull hull, RemoveController removeController, List<Drawable> drawables,
                    ItemContainer container, ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
                    Armor armor) {
         myRemoveController = removeController;
-        myDras = dras;
+        myDrawables = drawables;
         myPilot = pilot;
         myHull = hull;
         myItemContainer = container;
@@ -90,9 +90,9 @@ public class SolShip implements SolObject {
         mySmokeSrc = effs.get(0);
         myFireSrc = effs.get(1);
         myElectricitySrc = effs.get(2);
-        myDras.add(mySmokeSrc);
-        myDras.add(myFireSrc);
-        myDras.add(myElectricitySrc);
+        myDrawables.add(mySmokeSrc);
+        myDrawables.add(myFireSrc);
+        myDrawables.add(myElectricitySrc);
         myRepairer = repairer;
         myMoney = money;
         myShield = shield;
@@ -117,8 +117,8 @@ public class SolShip implements SolObject {
     }
 
     @Override
-    public List<Dra> getDras() {
-        return myDras;
+    public List<Drawable> getDrawables() {
+        return myDrawables;
     }
 
     @Override

@@ -46,8 +46,7 @@ public class SolUiControl {
         if (!myEnabled) {
             return false;
         }
-        for (int i = 0, myKeysLength = myKeys.length; i < myKeysLength; i++) {
-            int key = myKeys[i];
+        for (int key : myKeys) {
             if (key != keyCode) {
                 continue;
             }
@@ -103,8 +102,7 @@ public class SolUiControl {
         } else {
             myKeyPressed = false;
             if (canBePressed) {
-                for (int i = 0, myKeysLength = myKeys.length; i < myKeysLength; i++) {
-                    int key = myKeys[i];
+                for (int key : myKeys) {
                     if (!Gdx.input.isKeyPressed(key)) {
                         continue;
                     }
@@ -126,8 +124,7 @@ public class SolUiControl {
         } else {
             myAreaPressed = false;
             if (canBePressed) {
-                for (int i = 0, ptrsLength = inputPointers.length; i < ptrsLength; i++) {
-                    SolInputManager.InputPointer inputPointer = inputPointers[i];
+                for (SolInputManager.InputPointer inputPointer : inputPointers) {
                     if (!myScreenArea.contains(inputPointer.x, inputPointer.y)) {
                         continue;
                     }

@@ -29,8 +29,8 @@ public class SaveData {
     public final List<Planet> planets;
 
     public SaveData() {
-        farObjs = new ArrayList<FarObj>();
-        planets = new ArrayList<Planet>();
-        systems = new ArrayList<SolSystem>();
+        farObjs = new ArrayList<>();
+        planets = new ArrayList<>();
+        systems = new ArrayList<>();
     }
 }
