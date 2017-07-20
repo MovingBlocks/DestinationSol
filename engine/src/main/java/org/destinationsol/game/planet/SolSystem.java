@@ -36,8 +36,8 @@ public class SolSystem {
         myConfig = config;
         myName = name;
         myPos = new Vector2(pos);
-        myPlanets = new ArrayList<Planet>();
-        myBelts = new ArrayList<SystemBelt>();
+        myPlanets = new ArrayList<>();
+        myBelts = new ArrayList<>();
         myRadius = sysRadius;
         myDps = HardnessCalc.getSysDps(config, false);
         myInnerRad = myRadius / 2;

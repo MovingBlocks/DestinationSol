@@ -21,8 +21,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.DraLevel;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.particle.EffectConfig;
@@ -43,28 +43,28 @@ public class ShipEngine {
     private final LightSrc myLightSrc1;
     private final LightSrc myLightSrc2;
     private final Engine myItem;
-    private final List<Dra> myDras;
+    private final List<Drawable> myDrawables;
     private float myRecoverAwait;
 
     public ShipEngine(SolGame game, Engine ei, Vector2 e1RelPos, Vector2 e2RelPos, SolShip ship) {
         myItem = ei;
-        myDras = new ArrayList<Dra>();
+        myDrawables = new ArrayList<>();
         EffectConfig ec = myItem.getEffectConfig();
         Vector2 shipPos = ship.getPosition();
         Vector2 shipSpd = ship.getSpd();
-        myFlameSrc1 = new ParticleSrc(ec, -1, DraLevel.PART_BG_0, e1RelPos, true, game, shipPos, shipSpd, 0);
-        myDras.add(myFlameSrc1);
-        myFlameSrc2 = new ParticleSrc(ec, -1, DraLevel.PART_BG_0, e2RelPos, true, game, shipPos, shipSpd, 0);
-        myDras.add(myFlameSrc2);
+        myFlameSrc1 = new ParticleSrc(ec, -1, DrawableLevel.PART_BG_0, e1RelPos, true, game, shipPos, shipSpd, 0);
+        myDrawables.add(myFlameSrc1);
+        myFlameSrc2 = new ParticleSrc(ec, -1, DrawableLevel.PART_BG_0, e2RelPos, true, game, shipPos, shipSpd, 0);
+        myDrawables.add(myFlameSrc2);
         float lightSz = ec.sz * 2.5f;
         myLightSrc1 = new LightSrc(lightSz, true, .7f, new Vector2(e1RelPos), ec.tint);
-        myLightSrc1.collectDras(myDras);
+        myLightSrc1.collectDras(myDrawables);
         myLightSrc2 = new LightSrc(lightSz, true, .7f, new Vector2(e2RelPos), ec.tint);
-        myLightSrc2.collectDras(myDras);
+        myLightSrc2.collectDras(myDrawables);
     }
 
-    public List<Dra> getDras() {
-        return myDras;
+    public List<Drawable> getDrawables() {
+        return myDrawables;
     }
 
     public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 spd, SolObject owner,

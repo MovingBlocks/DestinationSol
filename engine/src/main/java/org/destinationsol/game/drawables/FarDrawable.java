@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.destinationsol.game.dra;
+package org.destinationsol.game.drawables;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.game.FarObj;
@@ -24,21 +24,21 @@ import org.destinationsol.game.SolObject;
 
 import java.util.List;
 
-public class FarDras implements FarObj {
-    private final List<Dra> myDras;
+public class FarDrawable implements FarObj {
+    private final List<Drawable> myDrawables;
     private final Vector2 myPos;
     private final Vector2 mySpd;
     private final RemoveController myRemoveController;
     private final float myRadius;
     private final boolean myHideOnPlanet;
 
-    public FarDras(List<Dra> dras, Vector2 pos, Vector2 spd, RemoveController removeController,
-                   boolean hideOnPlanet) {
-        myDras = dras;
+    public FarDrawable(List<Drawable> drawables, Vector2 pos, Vector2 spd, RemoveController removeController,
+                       boolean hideOnPlanet) {
+        myDrawables = drawables;
         myPos = pos;
         mySpd = spd;
         myRemoveController = removeController;
-        myRadius = DraMan.radiusFromDras(myDras);
+        myRadius = DrawableManager.radiusFromDras(myDrawables);
         myHideOnPlanet = hideOnPlanet;
     }
 
@@ -49,7 +49,7 @@ public class FarDras implements FarObj {
 
     @Override
     public SolObject toObj(SolGame game) {
-        return new DrasObject(myDras, myPos, mySpd, myRemoveController, false, myHideOnPlanet);
+        return new DrawableObject(myDrawables, myPos, mySpd, myRemoveController, false, myHideOnPlanet);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class FarDras implements FarObj {
         return false;
     }
 
-    public List<Dra> getDras() {
-        return myDras;
+    public List<Drawable> getDrawables() {
+        return myDrawables;
     }
 }

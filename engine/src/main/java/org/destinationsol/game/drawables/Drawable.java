@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.destinationsol.game.dra;
+package org.destinationsol.game.drawables;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -23,18 +23,17 @@ import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 
-//TODO Dra?
-public interface Dra {
+public interface Drawable {
     Texture getTex0();
 
     TextureAtlas.AtlasRegion getTex();
 
-    DraLevel getLevel();
+    DrawableLevel getLevel();
 
     // called on every update from manager
     void update(SolGame game, SolObject o);
 
-    // called on every draw from manager. after that, this dra should be able to return correct pos & radius
+    // called on every draw from manager. after that, this drawable should be able to return correct pos & radius
     void prepare(SolObject o);
 
     Vector2 getPos();

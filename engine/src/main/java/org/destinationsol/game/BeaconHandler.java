@@ -20,11 +20,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.DraLevel;
-import org.destinationsol.game.dra.DrasObject;
-import org.destinationsol.game.dra.FarDras;
-import org.destinationsol.game.dra.RectSprite;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.DrawableObject;
+import org.destinationsol.game.drawables.FarDrawable;
+import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.planet.PlanetBind;
 import org.destinationsol.game.ship.FarShip;
@@ -34,16 +34,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BeaconHandler {
-    public static final float TEX_SZ = .5f;
-    public static final float ROT_SPD = 30f;
+    private static final float TEX_SZ = .5f;
+    private static final float ROT_SPD = 30f;
 
     private final RectSprite myAttackSprite;
     private final RectSprite myFollowSprite;
     private final RectSprite myMoveSprite;
     private final Vector2 myTargetRelPos;
 
-    private DrasObject myD;
-    private FarDras myFarD;
+    private DrawableObject myD;
+    private FarDrawable myFarD;
     private Pilot myTargetPilot;
     private SolShip myTarget;
     private FarShip myFarTarget;
@@ -55,21 +55,21 @@ public class BeaconHandler {
 
     public BeaconHandler() {
         TextureAtlas.AtlasRegion attackTex = Assets.getAtlasRegion("engine:uiBeaconAttack");
-        myAttackSprite = new RectSprite(attackTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
+        myAttackSprite = new RectSprite(attackTex, TEX_SZ, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
         TextureAtlas.AtlasRegion followTex = Assets.getAtlasRegion("engine:uiBeaconFollow");
-        myFollowSprite = new RectSprite(followTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
+        myFollowSprite = new RectSprite(followTex, TEX_SZ, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
         TextureAtlas.AtlasRegion moveTex = Assets.getAtlasRegion("engine:uiBeaconMove");
-        myMoveSprite = new RectSprite(moveTex, TEX_SZ, 0, 0, new Vector2(), DraLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
+        myMoveSprite = new RectSprite(moveTex, TEX_SZ, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
         myTargetRelPos = new Vector2();
         mySpd = new Vector2();
     }
 
     public void init(SolGame game, Vector2 pos) {
-        ArrayList<Dra> dras = new ArrayList<Dra>();
-        dras.add(myAttackSprite);
-        dras.add(myFollowSprite);
-        dras.add(myMoveSprite);
-        myD = new DrasObject(dras, new Vector2(pos), new Vector2(), null, false, false);
+        ArrayList<Drawable> drawables = new ArrayList<>();
+        drawables.add(myAttackSprite);
+        drawables.add(myFollowSprite);
+        drawables.add(myMoveSprite);
+        myD = new DrawableObject(drawables, new Vector2(pos), new Vector2(), null, false, false);
         game.getObjMan().addObjDelayed(myD);
         myInitialized = true;
     }
@@ -168,18 +168,18 @@ public class BeaconHandler {
             myD = null;
             for (FarObjData fod : farObjs) {
                 FarObj fo = fod.fo;
-                if (!(fo instanceof FarDras)) {
+                if (!(fo instanceof FarDrawable)) {
                     continue;
                 }
-                List<Dra> dras = ((FarDras) fo).getDras();
-                if (dras.size() != 3) {
+                List<Drawable> drawables = ((FarDrawable) fo).getDrawables();
+                if (drawables.size() != 3) {
                     continue;
                 }
-                Dra dra = dras.get(0);
-                if (dra != myAttackSprite) {
+                Drawable drawable = drawables.get(0);
+                if (drawable != myAttackSprite) {
                     continue;
                 }
-                myFarD = (FarDras) fo;
+                myFarD = (FarDrawable) fo;
                 return;
             }
             throw new AssertionError();
@@ -192,16 +192,16 @@ public class BeaconHandler {
         }
         myFarD = null;
         for (SolObject o : objs) {
-            if ((o instanceof DrasObject)) {
-                List<Dra> dras = o.getDras();
-                if (dras.size() != 3) {
+            if ((o instanceof DrawableObject)) {
+                List<Drawable> drawables = o.getDrawables();
+                if (drawables.size() != 3) {
                     continue;
                 }
-                Dra dra = dras.get(0);
-                if (dra != myAttackSprite) {
+                Drawable drawable = drawables.get(0);
+                if (drawable != myAttackSprite) {
                     continue;
                 }
-                myD = (DrasObject) o;
+                myD = (DrawableObject) o;
                 return;
             }
         }
@@ -315,7 +315,7 @@ public class BeaconHandler {
         return mySpd;
     }
 
-    public static enum Action {
+    public enum Action {
         MOVE, ATTACK, FOLLOW
     }
 }

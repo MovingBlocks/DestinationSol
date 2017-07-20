@@ -23,8 +23,8 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.FarObj;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.RectSprite;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.RectSprite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class TileObject implements SolObject {
     private final Planet myPlanet;
     private final float myToPlanetRelAngle;
     private final float myDist;
-    private final List<Dra> myDras;
+    private final List<Drawable> myDrawables;
     private final Body myBody;
     private final Vector2 myPos;
 
@@ -47,7 +47,7 @@ public class TileObject implements SolObject {
 
     public TileObject(Planet planet, float toPlanetRelAngle, float dist, float size, RectSprite sprite, Body body, Tile tile) {
         myTile = tile;
-        myDras = new ArrayList<Dra>();
+        myDrawables = new ArrayList<>();
 
         myPlanet = planet;
         myToPlanetRelAngle = toPlanetRelAngle;
@@ -56,7 +56,7 @@ public class TileObject implements SolObject {
         myBody = body;
         myPos = new Vector2();
 
-        myDras.add(sprite);
+        myDrawables.add(sprite);
         setDependentParams();
     }
 
@@ -121,8 +121,8 @@ public class TileObject implements SolObject {
     }
 
     @Override
-    public List<Dra> getDras() {
-        return myDras;
+    public List<Drawable> getDrawables() {
+        return myDrawables;
     }
 
     @Override

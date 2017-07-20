@@ -22,9 +22,9 @@ import org.destinationsol.Const;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.DraMan;
-import org.destinationsol.game.dra.FarDras;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableManager;
+import org.destinationsol.game.drawables.FarDrawable;
 import org.destinationsol.game.ship.FarShip;
 
 import java.util.ArrayList;
@@ -49,22 +49,21 @@ public class ObjectManager {
     private float myRadiusRecalcAwait;
 
     public ObjectManager(SolContactListener contactListener, FactionManager factionManager) {
-        myObjs = new ArrayList<SolObject>();
-        myToRemove = new ArrayList<SolObject>();
-        myToAdd = new ArrayList<SolObject>();
-        myFarObjs = new ArrayList<FarObjData>();
-        myFarShips = new ArrayList<FarShip>();
-        myFarPorts = new ArrayList<StarPort.MyFar>();
+        myObjs = new ArrayList<>();
+        myToRemove = new ArrayList<>();
+        myToAdd = new ArrayList<>();
+        myFarObjs = new ArrayList<>();
+        myFarShips = new ArrayList<>();
+        myFarPorts = new ArrayList<>();
         myWorld = new World(new Vector2(0, 0), true);
         myWorld.setContactListener(contactListener);
         myWorld.setContactFilter(new SolContactFilter(factionManager));
         myDr = new Box2DDebugRenderer();
-        myRadii = new HashMap<SolObject, Float>();
+        myRadii = new HashMap<>();
     }
 
     public boolean containsFarObj(FarObj fo) {
-        for (int i = 0, myFarObjsSize = myFarObjs.size(); i < myFarObjsSize; i++) {
-            FarObjData fod = myFarObjs.get(i);
+        for (FarObjData fod : myFarObjs) {
             if (fod.fo == fo) {
                 return true;
             }
@@ -91,14 +90,12 @@ public class ObjectManager {
             recalcRad = true;
         }
 
-        for (int i1 = 0, myObjsSize = myObjs.size(); i1 < myObjsSize; i1++) {
-            SolObject o = myObjs.get(i1);
+        for (SolObject o : myObjs) {
             o.update(game);
             SolMath.checkVectorsTaken(o);
-            List<Dra> dras = o.getDras();
-            for (int i = 0, drasSize = dras.size(); i < drasSize; i++) {
-                Dra dra = dras.get(i);
-                dra.update(game, o);
+            List<Drawable> drawables = o.getDrawables();
+            for (Drawable drawable : drawables) {
+                drawable.update(game, o);
             }
 
             if (o.shouldBeRemoved(game)) {
@@ -152,7 +149,7 @@ public class ObjectManager {
     }
 
     private void recalcRadius(SolObject o) {
-        float rad = DraMan.radiusFromDras(o.getDras());
+        float rad = DrawableManager.radiusFromDras(o.getDrawables());
         myRadii.put(o, rad);
     }
 
@@ -170,14 +167,12 @@ public class ObjectManager {
     }
 
     private void addRemove(SolGame game) {
-        for (int i = 0, myToRemoveSize = myToRemove.size(); i < myToRemoveSize; i++) {
-            SolObject o = myToRemove.get(i);
+        for (SolObject o : myToRemove) {
             removeObjNow(game, o);
         }
         myToRemove.clear();
 
-        for (int i = 0, myToAddSize = myToAdd.size(); i < myToAddSize; i++) {
-            SolObject o = myToAdd.get(i);
+        for (SolObject o : myToAdd) {
             addObjNow(game, o);
         }
         myToAdd.clear();
@@ -187,7 +182,7 @@ public class ObjectManager {
         myObjs.remove(o);
         myRadii.remove(o);
         o.onRemove(game);
-        game.getDraMan().objRemoved(o);
+        game.getDrawableManager().objRemoved(o);
     }
 
     public void addObjNow(SolGame game, SolObject o) {
@@ -196,7 +191,7 @@ public class ObjectManager {
         }
         myObjs.add(o);
         recalcRadius(o);
-        game.getDraMan().objAdded(o);
+        game.getDrawableManager().objAdded(o);
     }
 
     private boolean isNear(FarObjData fod, Vector2 camPos, float ts) {
@@ -216,9 +211,9 @@ public class ObjectManager {
 
     private boolean isFar(SolObject o, Vector2 camPos) {
         float r = getPresenceRadius(o);
-        List<Dra> dras = o.getDras();
-        if (dras != null && dras.size() > 0) {
-            r *= dras.get(0).getLevel().depth;
+        List<Drawable> drawables = o.getDrawables();
+        if (drawables != null && drawables.size() > 0) {
+            r *= drawables.get(0).getLevel().depth;
         }
         float dst = o.getPosition().dst(camPos) - r;
         return myFarBeginDist < dst;
@@ -299,8 +294,7 @@ public class ObjectManager {
     }
 
     public void resetDelays() {
-        for (int i = 0, myFarObjsSize = myFarObjs.size(); i < myFarObjsSize; i++) {
-            FarObjData data = myFarObjs.get(i);
+        for (FarObjData data : myFarObjs) {
             data.delay = 0;
         }
 
@@ -312,10 +306,10 @@ public class ObjectManager {
 
     public void addFarObjNow(FarObj fo) {
         float depth = 1f;
-        if (fo instanceof FarDras) {
-            List<Dra> dras = ((FarDras) fo).getDras();
-            if (dras != null && dras.size() > 0) {
-                depth = dras.get(0).getLevel().depth;
+        if (fo instanceof FarDrawable) {
+            List<Drawable> drawables = ((FarDrawable) fo).getDrawables();
+            if (drawables != null && drawables.size() > 0) {
+                depth = drawables.get(0).getLevel().depth;
             }
         }
         FarObjData fod = new FarObjData(fo, depth);

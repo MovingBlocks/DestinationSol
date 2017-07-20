@@ -67,7 +67,7 @@ public class SystemsBuilder {
     }
 
     private List<Float> generatePlanetGhs() {
-        ArrayList<Float> res = new ArrayList<Float>();
+        ArrayList<Float> res = new ArrayList<>();
         boolean beltCreated = false;
         for (int i = 0; i < PLANET_COUNT; i++) {
             boolean createBelt = !beltCreated && 0 < i && i < .5f * PLANET_COUNT && SolMath.test(.6f);
@@ -144,8 +144,7 @@ public class SystemsBuilder {
         String name = firstSys ? SolMath.elemRnd(names.systems) : "Sol"; //hack
         SolSystem s = new SolSystem(sysPos, sysConfig, name, sysRadius);
         float planetDist = Const.SUN_RADIUS;
-        for (int idx = 0, sz = ghs.size(); idx < sz; idx++) {
-            Float gh = ghs.get(idx);
+        for (Float gh : ghs) {
             float reserved;
             if (gh > 0) {
                 reserved = Const.PLANET_GAP + Const.ATM_HEIGHT + gh;

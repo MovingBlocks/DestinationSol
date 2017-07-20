@@ -36,9 +36,9 @@ import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.dra.Dra;
-import org.destinationsol.game.dra.DraLevel;
-import org.destinationsol.game.dra.RectSprite;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
@@ -225,9 +225,9 @@ public class ShipBuilder {
                          Gun gun2, RemoveController removeController, Engine engine,
                          ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
                          Armor armor) {
-        ArrayList<Dra> dras = new ArrayList<>();
-        Hull hull = buildHull(game, pos, spd, angle, rotSpd, hullConfig, life, dras);
-        SolShip ship = new SolShip(game, pilot, hull, removeController, dras, container, repairer, money, tradeContainer, shield, armor);
+        ArrayList<Drawable> drawables = new ArrayList<>();
+        Hull hull = buildHull(game, pos, spd, angle, rotSpd, hullConfig, life, drawables);
+        SolShip ship = new SolShip(game, pilot, hull, removeController, drawables, container, repairer, money, tradeContainer, shield, armor);
         hull.getBody().setUserData(ship);
         for (Door door : hull.getDoors()) {
             door.getBody().setUserData(ship);
@@ -254,7 +254,7 @@ public class ShipBuilder {
     }
 
     private Hull buildHull(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, HullConfig hullConfig,
-                           float life, ArrayList<Dra> dras) {
+                           float life, ArrayList<Drawable> drawables) {
         //TODO: This logic belongs in the HullConfigManager/HullConfig
         String shipName = hullConfig.getInternalName();
 
@@ -266,9 +266,9 @@ public class ShipBuilder {
         json.dispose();
 
         BodyDef.BodyType bodyType = hullConfig.getType() == HullConfig.Type.STATION ? BodyDef.BodyType.KinematicBody : BodyDef.BodyType.DynamicBody;
-        DraLevel level = hullConfig.getType() == HullConfig.Type.STD ? DraLevel.BODIES : DraLevel.BIG_BODIES;
+        DrawableLevel level = hullConfig.getType() == HullConfig.Type.STD ? DrawableLevel.BODIES : hullConfig.getType() == HullConfig.Type.BIG ? DrawableLevel.BIG_BODIES : DrawableLevel.STATIONS;
         Body body = myCollisionMeshLoader.getBodyAndSprite(game, hullConfig, hullConfig.getSize(), bodyType, pos, angle,
-                dras, SHIP_DENSITY, level, hullConfig.getTexture());
+                drawables, SHIP_DENSITY, level, hullConfig.getTexture());
         Fixture shieldFixture = createShieldFixture(hullConfig, body);
 
         GunMount gunMount0 = new GunMount(hullConfig.getGunSlot(0));
@@ -279,21 +279,21 @@ public class ShipBuilder {
         List<LightSrc> lCs = new ArrayList<>();
         for (Vector2 p : hullConfig.getLightSourcePositions()) {
             LightSrc lc = new LightSrc(.35f, true, .7f, p, game.getCols().hullLights);
-            lc.collectDras(dras);
+            lc.collectDras(drawables);
             lCs.add(lc);
         }
 
         ArrayList<ForceBeacon> beacons = new ArrayList<>();
         for (Vector2 relPos : hullConfig.getForceBeaconPositions()) {
             ForceBeacon fb = new ForceBeacon(game, relPos, pos, spd);
-            fb.collectDras(dras);
+            fb.collectDras(drawables);
             beacons.add(fb);
         }
 
         ArrayList<Door> doors = new ArrayList<>();
         for (Vector2 doorRelPos : hullConfig.getDoorPositions()) {
             Door door = createDoor(game, pos, angle, body, doorRelPos);
-            door.collectDras(dras);
+            door.collectDras(drawables);
             doors.add(door);
         }
 
@@ -319,7 +319,7 @@ public class ShipBuilder {
         World w = game.getObjMan().getWorld();
         TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("engine:door");
         PrismaticJoint joint = createDoorJoint(body, w, pos, doorRelPos, angle);
-        RectSprite s = new RectSprite(tex, Door.DOOR_LEN, 0, 0, new Vector2(doorRelPos), DraLevel.BODIES, 0, 0, SolColor.WHITE, false);
+        RectSprite s = new RectSprite(tex, Door.DOOR_LEN, 0, 0, new Vector2(doorRelPos), DrawableLevel.BODIES, 0, 0, SolColor.WHITE, false);
         return new Door(joint, s);
     }
 

@@ -19,7 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.dra.Dra;
+import org.destinationsol.game.drawables.Drawable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +28,13 @@ public class Shard implements SolObject {
 
     private final Body myBody;
     private final Vector2 myPos;
-    private final ArrayList<Dra> myDras;
+    private final ArrayList<Drawable> myDrawables;
     private final float myMass;
 
     private float myAngle;
 
-    public Shard(Body body, ArrayList<Dra> dras) {
-        myDras = dras;
+    public Shard(Body body, ArrayList<Drawable> drawables) {
+        myDrawables = drawables;
         myBody = body;
         myPos = new Vector2();
         myMass = myBody.getMass();
@@ -52,8 +52,8 @@ public class Shard implements SolObject {
     }
 
     @Override
-    public List<Dra> getDras() {
-        return myDras;
+    public List<Drawable> getDrawables() {
+        return myDrawables;
     }
 
     @Override

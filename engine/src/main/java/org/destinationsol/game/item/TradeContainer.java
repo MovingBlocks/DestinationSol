@@ -42,8 +42,7 @@ public class TradeContainer {
         myAwait = MAX_AWAIT;
         myItems.clear();
         List<ItemConfig> items = myConfig.items;
-        for (int i1 = 0, sz = items.size(); i1 < sz; i1++) {
-            ItemConfig i = items.get(i1);
+        for (ItemConfig i : items) {
             SolItem ex = i.examples.get(0);
             int amt = ex.isSame(ex) ? 16 : 1;
             for (int j = 0; j < amt; j++) {
