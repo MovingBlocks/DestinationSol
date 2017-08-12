@@ -25,7 +25,6 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.components.AsteroidComponent;
 import org.destinationsol.game.sound.OggMusicManager;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.menu.MenuScreens;
@@ -36,28 +35,21 @@ import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.entitysystem.component.CodeGenComponentManager;
-import org.terasology.entitysystem.core.EntityManager;
-import org.terasology.entitysystem.core.EntityRef;
-import org.terasology.entitysystem.entity.inmemory.InMemoryEntityManager;
-import org.terasology.entitysystem.transaction.TransactionManager;
 import org.terasology.valuetype.TypeHandler;
 import org.terasology.valuetype.TypeLibrary;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Iterator;
-import java.util.Optional;
 
 public class SolApplication implements ApplicationListener {
     private static Logger logger = LoggerFactory.getLogger(SolApplication.class);
 
     @SuppressWarnings("FieldCanBeLocal")
     private ModuleManager moduleManager;
-    @SuppressWarnings("FieldCanBeLocal")
-    private TransactionManager transactionManager;
-    @SuppressWarnings("FieldCanBeLocal")
-    private EntityManager entityManager;
+    //@SuppressWarnings("FieldCanBeLocal")
+    //private TransactionManager transactionManager;
+    //@SuppressWarnings("FieldCanBeLocal")
+    //private EntityManager entityManager;
 
     private OggMusicManager musicManager;
     private OggSoundManager soundManager;
@@ -93,8 +85,8 @@ public class SolApplication implements ApplicationListener {
         TypeLibrary typeLibrary = new TypeLibrary();
         typeLibrary.addHandler(new TypeHandler<>(Integer.class, Integer::new));
         typeLibrary.addHandler(new TypeHandler<>(Vector3.class, Vector3::new));
-        transactionManager = new TransactionManager();
-        entityManager = new InMemoryEntityManager(new CodeGenComponentManager(typeLibrary), transactionManager);
+        //transactionManager = new TransactionManager();
+        //entityManager = new InMemoryEntityManager(new CodeGenComponentManager(typeLibrary), transactionManager);
 
         /*
         transactionManager.begin();
