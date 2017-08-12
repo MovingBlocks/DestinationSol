@@ -159,7 +159,7 @@ public class TutorialManager {
         if (mouseCtrl) {
             addStep("Move forward (" + gameOptions.getKeyUpMouseName() + " key).\nThere's no stop!", upCtrl);
         } else if (mobile) {
-            addStep("Move forward.\nThere'addStep no stop!", upCtrl);
+            addStep("Move forward.\nThere's no stop!", upCtrl);
         } else {
             addStep("Move forward (" + gameOptions.getKeyUpName() + " key).\nThere's no stop!", upCtrl);
         }
