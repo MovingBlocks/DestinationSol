@@ -15,9 +15,9 @@
  */
 package org.destinationsol.game.components;
 
-import org.terasology.entitysystem.core.Component;
+//import org.terasology.entitysystem.core.Component;
 
-public interface AsteroidComponent extends Component {
+public interface AsteroidComponent { //extends Component {
     Integer getSize();
     void setSize(Integer value);
 }
