@@ -1,0 +1,10 @@
+{
+    "big": false,
+    "effect": {
+        "effectFile": "flame",
+        "size": 0.1,
+        "tex": "fire",
+        "tint": "hsb 140 20 65",
+    },
+    "workSound": "engines/medWork",
+}
