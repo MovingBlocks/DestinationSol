@@ -53,7 +53,7 @@ public class AssetHelper {
             public OggMusic build(ResourceUrn urn, AssetType<OggMusic, OggMusicData> assetType, OggMusicData data) {
                 return new OggMusic(urn, assetType, data);
             }
-        }, "sounds");
+        }, "music");
 
         assetTypeManager.switchEnvironment(environment);
     }
