@@ -24,6 +24,7 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.game.planet.SystemsBuilder;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
@@ -40,12 +41,17 @@ public class NewShipScreen implements SolUiScreen {
 
     private final List<SolUiControl> controls = new ArrayList<>();
     private SolUiControl cancelControl;
+    private SolUiControl systemCountControl;
     private List<String> playerSpawnConfigNames = new ArrayList<>();
 
     NewShipScreen(MenuLayout menuLayout, GameOptions gameOptions) {
         loadPlayerSpawnConfigs();
 
         int row = 1;
+        systemCountControl = new SolUiControl(menuLayout.buttonRect(-1, row++), true);
+        systemCountControl.setDisplayName("Systems: " + SystemsBuilder.SYS_COUNT);
+        controls.add(systemCountControl);
+
         for (String playerSpawnConfigName : playerSpawnConfigNames) {
             SolUiControl uiControl = new SolUiControl(menuLayout.buttonRect(-1, row++), true);
             uiControl.setDisplayName(playerSpawnConfigName);
@@ -71,8 +77,17 @@ public class NewShipScreen implements SolUiScreen {
             return;
         }
 
+        if (systemCountControl.isJustOff()) {
+            int systemCount = (SystemsBuilder.SYS_COUNT + 1) % 10;
+            if (systemCount < 2) {
+                systemCount = 2;
+            }
+            SystemsBuilder.SYS_COUNT = systemCount;
+            systemCountControl.setDisplayName("Systems: " + SystemsBuilder.SYS_COUNT);
+        }
+
         for (SolUiControl control : controls) {
-            if (control == cancelControl) {
+            if (control == cancelControl || control == systemCountControl) {
                 continue;
             }
 

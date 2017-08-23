@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SystemsBuilder {
-    public static final int SYS_COUNT = 2;
+    public static int SYS_COUNT = 2;
     public static final int MAZE_COUNT = SYS_COUNT * 2;
     public static final int PLANET_COUNT = 5;
     public static final float PLANET_SPD = .2f;

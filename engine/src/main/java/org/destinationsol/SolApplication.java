@@ -46,10 +46,6 @@ public class SolApplication implements ApplicationListener {
 
     @SuppressWarnings("FieldCanBeLocal")
     private ModuleManager moduleManager;
-    //@SuppressWarnings("FieldCanBeLocal")
-    //private TransactionManager transactionManager;
-    //@SuppressWarnings("FieldCanBeLocal")
-    //private EntityManager entityManager;
 
     private OggMusicManager musicManager;
     private OggSoundManager soundManager;
@@ -85,32 +81,6 @@ public class SolApplication implements ApplicationListener {
         TypeLibrary typeLibrary = new TypeLibrary();
         typeLibrary.addHandler(new TypeHandler<>(Integer.class, Integer::new));
         typeLibrary.addHandler(new TypeHandler<>(Vector3.class, Vector3::new));
-        //transactionManager = new TransactionManager();
-        //entityManager = new InMemoryEntityManager(new CodeGenComponentManager(typeLibrary), transactionManager);
-
-        /*
-        transactionManager.begin();
-        EntityRef sampleEntity = entityManager.createEntity();
-        AsteroidComponent asteroidComponent = sampleEntity.addComponent(AsteroidComponent.class);
-        asteroidComponent.setSize(10);
-        transactionManager.commit();
-
-        transactionManager.begin();
-        Optional<AsteroidComponent> retrievedComponent = sampleEntity.getComponent(AsteroidComponent.class);
-        int z = retrievedComponent.get().getSize();
-        transactionManager.rollback();
-
-        transactionManager.begin();
-        int asteroids = 0;
-        Iterator<EntityRef> iterator = entityManager.allEntities();
-        while (iterator.hasNext()) {
-            EntityRef entity = iterator.next();
-            if (entity.getComponent(AsteroidComponent.class).isPresent()) {
-                asteroids++;
-            }
-        }
-        transactionManager.rollback();
-        */
 
         musicManager = new OggMusicManager();
         soundManager = new OggSoundManager();
