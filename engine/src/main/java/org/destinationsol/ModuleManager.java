@@ -93,6 +93,7 @@ public class ModuleManager {
         requiredModules.add(engineModule);
         requiredModules.add(registry.getLatestModuleVersion(new Name("core")));
         requiredModules.add(registry.getLatestModuleVersion(new Name("federal")));
+        requiredModules.add(registry.getLatestModuleVersion(new Name("organic")));
 
         loadEnvironment(requiredModules);
     }
