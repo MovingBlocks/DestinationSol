@@ -95,6 +95,12 @@ public final class HullConfigManager {
 
         configData.internalName = shipName;
 
+        if (shipName.startsWith("organic")) {
+            int n = 0;
+            int m = 0;
+            int a = n+m;
+        }
+
         Json json = Assets.getJson(shipName);
 
         readProperties(json.getJsonValue(), configData);
