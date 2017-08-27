@@ -124,6 +124,7 @@ Contributors
 * [Sigma-One](https://github.com/Sigma-One)
 * [vampcat](https://github.com/vampcat)
 * [Malanius](https://github.com/Malanius)
+* [AonoZan](https://github.com/AonoZan)
 
 ... and your name here? :-) More coming!
 
