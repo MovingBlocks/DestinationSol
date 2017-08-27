@@ -1,0 +1,19 @@
+{
+    "hard": {
+    	"hard": true,
+        "constantAllies": [
+            {
+                "hull": "organic:organicStation",
+                "items": "core:blaster core:blaster core:advancedArmor core:advancedShield",
+                "repairer": true,
+                "density": 1,
+
+                "guard": {
+                    "hull": "organic:organicSmall",
+                    "items": "core:blaster core:mediumArmor core:smallShield",
+                    "density": 4
+                }
+            }
+        ]
+    }
+}
