@@ -40,8 +40,11 @@ public class NewShipScreen implements SolUiScreen {
     private final TextureAtlas.AtlasRegion bgTex;
 
     private final List<SolUiControl> controls = new ArrayList<>();
+    private SolUiControl okControl;
     private SolUiControl cancelControl;
     private SolUiControl systemCountControl;
+    private SolUiControl playerSpawnConfigControl;
+    private int playerSpawnConfigIndex = 0;
     private List<String> playerSpawnConfigNames = new ArrayList<>();
 
     NewShipScreen(MenuLayout menuLayout, GameOptions gameOptions) {
@@ -52,11 +55,13 @@ public class NewShipScreen implements SolUiScreen {
         systemCountControl.setDisplayName("Systems: " + SystemsBuilder.SYS_COUNT);
         controls.add(systemCountControl);
 
-        for (String playerSpawnConfigName : playerSpawnConfigNames) {
-            SolUiControl uiControl = new SolUiControl(menuLayout.buttonRect(-1, row++), true);
-            uiControl.setDisplayName(playerSpawnConfigName);
-            controls.add(uiControl);
-        }
+        playerSpawnConfigControl = new SolUiControl(menuLayout.buttonRect(-1, row++), true);
+        playerSpawnConfigControl.setDisplayName("Starting Ship: " + playerSpawnConfigNames.get(playerSpawnConfigIndex));
+        controls.add(playerSpawnConfigControl);
+
+        okControl = new SolUiControl(menuLayout.buttonRect(-1, row++), true, gameOptions.getKeyEscape());
+        okControl.setDisplayName("OK");
+        controls.add(okControl);
 
         cancelControl = new SolUiControl(menuLayout.buttonRect(-1, row), true, gameOptions.getKeyEscape());
         cancelControl.setDisplayName("Cancel");
@@ -72,6 +77,11 @@ public class NewShipScreen implements SolUiScreen {
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+        if (okControl.isJustOff()) {
+            solApplication.loadNewGame(false, playerSpawnConfigNames.get(playerSpawnConfigIndex));
+            return;
+        }
+
         if (cancelControl.isJustOff()) {
             solApplication.getInputMan().setScreen(solApplication, solApplication.getMenuScreens().newGame);
             return;
@@ -86,15 +96,9 @@ public class NewShipScreen implements SolUiScreen {
             systemCountControl.setDisplayName("Systems: " + SystemsBuilder.SYS_COUNT);
         }
 
-        for (SolUiControl control : controls) {
-            if (control == cancelControl || control == systemCountControl) {
-                continue;
-            }
-
-            if (control.isJustOff()) {
-                solApplication.loadNewGame(false, control.getDisplayName());
-                return;
-            }
+        if (playerSpawnConfigControl.isJustOff()) {
+            playerSpawnConfigIndex = (playerSpawnConfigIndex + 1) % playerSpawnConfigNames.size();
+            playerSpawnConfigControl.setDisplayName("Starting Ship: " + playerSpawnConfigNames.get(playerSpawnConfigIndex));
         }
     }
 
