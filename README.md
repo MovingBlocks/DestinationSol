@@ -1,4 +1,4 @@
-<p align="center"><img src="/main/imgSrcs/ui/engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png" alt="Destination Sol"/></p>
+<p align="center"><img src="engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png" alt="Destination Sol"/></p>
 
 This is the official open source home for the arcade space shooter Destination Sol, originally started by Milosh Petrov and a small team on [Steam](http://store.steampowered.com/app/342980/) and [SourceForge](http://sourceforge.net/projects/destinationsol)
 
