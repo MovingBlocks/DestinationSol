@@ -4,7 +4,7 @@ If you would like to contribute code, documentation, or other assets you can do 
 
 *When submitting code, please make every effort to follow existing conventions and style in order to keep the code as readable as possible.*
 
-Read on for an overview and [check the wiki for more details](https://github.com/MovingBlocks/DestinationSol/wiki). For questions please join us in our [forum](http://forum.terasology.org/forum) or on `#destination-sol` (irc.freenode.net).
+Read on for an overview and [check the wiki for more details](https://github.com/MovingBlocks/DestinationSol/wiki). For questions please join us in our [forum](http://forum.terasology.org/forum) or in `#terasology` on Freenode IRC (http://webchat.freenode.net) - while `#destination-sol` exists as well we're keeping all activity within the Terasology community for simplicity's sake, for now.
 
 ## File an Issue
 
@@ -32,7 +32,7 @@ Submissions must be licensed under the [Apache License, Version 2.0](http://www.
 If you are adding a new file it should have a header like this (automatically available as a template in IntelliJ):
 ```
 /*
- * Copyright 2016 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,7 +70,7 @@ For trusted contributors with push access to our root repos, you are welcome to 
     - **Patch**: Small bug fixes. Be careful: even a string value changed can have an unexpected impact elsewhere if it gets used as a key somewhere. Consider any possible integrations and test the change locally. Report any concerns in the PR or merge if all appears well.
     - **Minor**: If a substantial code is being changed/added please review as able and ping relevant contributors with `@username` to bring their attention to the PR for review. Probably one additional person should review then either person can merge.
     - **Major**: If any involved code is likely to cause a backwards incompatibility of some sort the PR needs the most detailed review as it would require a major release. Consider if it is possible to deprecate the old version of the feature and provide a bridge to the new version to restore backwards compatibility. Alternatively, should the change be parked in a longer term branch waiting for the next major release?
-1. React appropriately to the scope and test what seems appropriate locally. Remember to run local multiplayer if it seems likely the change could cause an effect there.
+1. React appropriately to the scope and test what seems appropriate locally.
 1. If any issues are found or concerns noted mention them in the PR and ping anybody appropriate with a `@username` mention.
 1. If sufficient review has been done and no issues have been noted push the merged code to GitHub to auto-close the PR as merged.
 1. Assign the PR and any completed issues to an appropriate milestone if available for later release handling.
