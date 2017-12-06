@@ -30,7 +30,7 @@ jar {
     manifest {
         def manifestClasspath = configurations.runtime.collect { it.getName() }.join(" ")
         attributes 'Main-Class': project.mainClassName
-        attributes("Class-Path": manifestClasspath)
+        attributes 'Class-Path': manifestClasspath
     }
 }
 
