@@ -1,0 +1,24 @@
+{
+  "hard": {
+    "hard": true,
+    "constantAllies": [
+      {
+        "hull": "tribe:serenity",
+        "items": "core:shotGun 0.86|core:bigShield",
+        "money": 120,
+        "density": 2
+      },
+
+    ]
+  },
+
+  "standard": {
+    "constantAllies": [
+      {
+        "hull": "tribe:serenity",
+        "items": "core:fixedGun 0.5|core:lightArmor 0.75|core:smallShield+core:shield",
+        "density": 2
+      }
+    ]
+  }
+}

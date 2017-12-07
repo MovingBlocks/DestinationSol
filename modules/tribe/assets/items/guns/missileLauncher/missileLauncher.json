@@ -1,0 +1,19 @@
+{
+    "fixed": true,
+    "maxAngleVar": 30,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 3,
+    "timeBetweenShots": 1.1,
+    "reloadTime": 2.5,
+    "price": 300,
+    "clipName": "core:missileClip",
+    "gunLength": 0.2,
+    "texLenPerc": 0.87,
+    "displayName": "Missile Launcher",
+    "shootSounds": [
+        "core:rocketLauncherShoot"
+    ],
+    "reloadSounds": [
+        "core:rocketLauncherReload"
+    ]
+}

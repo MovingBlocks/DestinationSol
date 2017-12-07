@@ -1,0 +1,8 @@
+{
+    "projectile": "bomb",
+    "size": 10,
+    "price": 30,
+    "displayName": "Bombs",
+    "plural": "bombs",
+    "iconName": "bombClip"
+}

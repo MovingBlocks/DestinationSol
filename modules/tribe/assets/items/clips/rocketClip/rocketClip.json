@@ -1,0 +1,8 @@
+{
+    "projectile": "rocket",
+    "size": 8,
+    "price": 70,
+    "displayName": "Rockets",
+    "plural": "rockets",
+    "iconName": "rocketClip"
+}

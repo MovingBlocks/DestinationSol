@@ -1,0 +1,19 @@
+{
+    "maxAngleVar": 30,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 2,
+    "timeBetweenShots": 0,
+    "reloadTime": 3.5,
+    "price": 750,
+    "clipName": "core:emClip",
+    "gunLength": 0.2,
+    "texLenPerc": 0.85,
+    "displayName": "EM Gun",
+    "lightOnShot": true,
+    "shootSounds": [
+        "core:emGun"
+    ],
+    "reloadSounds": [
+        "core:gunReload"
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "fixed": true,
+    "maxAngleVar": 10,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 1,
+    "timeBetweenShots": 0.1,
+    "reloadTime": 3,
+    "price": 500,
+    "clipName": "core:blasterClip",
+    "gunLength": 0.24,
+    "displayName": "Heavy Blaster",
+    "lightOnShot": true,
+    "shootSounds": [
+        "core:blasterShoot"
+    ],
+    "reloadSounds": [
+        "core:gunReload"
+    ]
+}

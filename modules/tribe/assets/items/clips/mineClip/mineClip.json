@@ -1,0 +1,8 @@
+{
+    "projectile": "mine",
+    "size": 10,
+    "price": 50,
+    "displayName": "Mines",
+    "plural": "mines",
+    "iconName": "mineClip"
+}

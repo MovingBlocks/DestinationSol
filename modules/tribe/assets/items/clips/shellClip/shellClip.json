@@ -1,0 +1,9 @@
+{
+    "projectile": "shellBullet",
+    "projectilesPerShot": 5,
+    "size": 12,
+    "price": 40,
+    "displayName": "Shells",
+    "plural": "shells",
+    "iconName": "shellClip"
+}

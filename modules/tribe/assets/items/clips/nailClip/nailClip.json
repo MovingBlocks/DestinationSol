@@ -1,0 +1,8 @@
+{
+    "projectile": "nail",
+    "size": 24,
+    "price": 70,
+    "displayName": "Miner Nails",
+    "plural": "nails",
+    "iconName": "nailClip"
+}

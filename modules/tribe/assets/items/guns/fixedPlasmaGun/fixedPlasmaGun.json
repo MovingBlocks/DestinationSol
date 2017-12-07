@@ -1,0 +1,20 @@
+{
+    "fixed": true,
+    "maxAngleVar": 10,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 1,
+    "timeBetweenShots": 0.08,
+    "reloadTime": 2,
+    "price": 450,
+    "clipName": "core:plasmaClip",
+    "gunLength": 0.22,
+    "displayName": "Heavy Plasma Gun",
+    "lightOnShot": true,
+    "shootSounds": [
+        "core:blasterShoot"
+    ],
+    "shootSoundPitch": 1.2,
+    "reloadSounds": [
+        "core:gunReload"
+    ]
+}

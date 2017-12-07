@@ -1,0 +1,20 @@
+{
+    "fixed": true,
+    "maxAngleVar": 10,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 1,
+    "timeBetweenShots": 0.07,
+    "reloadTime": 2,
+    "price": 220,
+    "clipName": "core:bulletClip",
+    "gunLength": 0.18,
+    "displayName": "Heavy Machine Gun",
+    "lightOnShot": true,
+    "shootSounds": [
+        "core:fixedGunShoot0",
+        "core:fixedGunShoot1"
+    ],
+    "reloadSounds": [
+        "core:fixedGunReload"
+    ]
+}

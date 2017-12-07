@@ -1,0 +1,18 @@
+{
+    "maxAngleVar": 30,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 2,
+    "timeBetweenShots": 0.7,
+    "reloadTime": 3,
+    "price": 50,
+    "clipName": "core:blasterClip",
+    "gunLength": 0.14,
+    "displayName": "Blaster",
+    "lightOnShot": true,
+    "shootSounds": [
+        "core:blasterShoot"
+    ],
+    "reloadSounds": [
+        "core:gunReload"
+    ]
+}

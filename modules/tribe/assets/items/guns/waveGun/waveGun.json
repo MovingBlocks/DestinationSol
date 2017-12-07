@@ -1,0 +1,19 @@
+{
+    "maxAngleVar": 30,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 2,
+    "timeBetweenShots": 0.8,
+    "reloadTime": 2.5,
+    "price": 1000,
+    "clipName": "core:waveClip",
+    "gunLength": 0.26,
+    "texLenPerc": 0.87,
+    "displayName": "Wave Gun",
+    "lightOnShot": true,
+    "shootSounds": [
+        "core:waveGun"
+    ],
+    "reloadSounds": [
+        "core:gunReload"
+    ]
+}

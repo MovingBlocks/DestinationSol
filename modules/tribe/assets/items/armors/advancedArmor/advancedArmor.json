@@ -1,0 +1,14 @@
+{
+    "price": 800,
+    "perc": 0.4,
+    "displayName": "Advanced Armor",
+    "bulletHitSounds": [
+        "core:metalBulletHit0",
+        "core:metalBulletHit1",
+        "core:metalBulletHit2"
+    ],
+    "energyHitSounds": [
+        "core:empty"
+    ],
+    "baseSoundPitch": 0.7
+}
