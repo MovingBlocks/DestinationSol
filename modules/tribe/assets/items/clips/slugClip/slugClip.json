@@ -1,0 +1,8 @@
+{
+    "projectile": "slug",
+    "size": 10,
+    "price": 60,
+    "displayName": "Cannon Slugs",
+    "plural": "slugs",
+    "iconName": "slugClip"
+}

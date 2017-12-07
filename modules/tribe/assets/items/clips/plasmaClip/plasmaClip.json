@@ -1,0 +1,8 @@
+{
+    "projectile": "plasma",
+    "size": 30,
+    "price": 20,
+    "iconName": "plasmaClip",
+    "displayName": "Plasma Cells",
+    "plural": "cells"
+}

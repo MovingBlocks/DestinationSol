@@ -1,0 +1,14 @@
+{
+    "price": 150,
+    "perc": 0.2,
+    "displayName": "Medium Armor",
+    "bulletHitSounds": [
+        "core:metalBulletHit0",
+        "core:metalBulletHit1",
+        "core:metalBulletHit2"
+    ],
+    "energyHitSounds": [
+        "core:empty"
+    ],
+    "baseSoundPitch": 0.9
+}
