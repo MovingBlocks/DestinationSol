@@ -1,0 +1,18 @@
+{
+    "maxAngleVar": 0,
+    "angleVarDamp": 0,
+    "angleVarPerShot": 0,
+    "timeBetweenShots": 0.8,
+    "reloadTime": 2.5,
+    "price": 40,
+    "clipName": "core:bombClip",
+    "gunLength": 0.1,
+    "displayName": "Bomber",
+    "shootSounds": [
+        "core:rocketLauncherShoot"
+    ],
+    "shootSoundPitch": 1.2,
+    "reloadSounds": [
+        "core:rocketLauncherReload"
+    ]
+}

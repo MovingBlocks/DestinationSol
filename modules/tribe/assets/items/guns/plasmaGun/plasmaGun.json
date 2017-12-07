@@ -1,0 +1,20 @@
+{
+    "maxAngleVar": 30,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 2,
+    "timeBetweenShots": 1.1,
+    "reloadTime": 3,
+    "price": 30,
+    "clipName": "core:plasmaClip",
+    "gunLength": 0.14,
+    "displayName": "Pirate Plasma Gun",
+    "lightOnShot": true,
+    "descBase0": "",
+    "shootSounds": [
+        "core:blasterShoot"
+    ],
+    "shootSoundPitch": 1.2,
+    "reloadSounds": [
+        "core:gunReload"
+    ]
+}

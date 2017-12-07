@@ -1,0 +1,8 @@
+{
+    "maxLife": 10,
+    "price": 60,
+    "displayName": "Small Shield",
+    "absorbSound": "core:shield1Absorb1",
+    "absorbSoundPitch": 1.1,
+    "regenSound": "core:shield1Regen"
+}

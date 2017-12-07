@@ -1,0 +1,61 @@
+{
+    "clip": {
+        "color": "hsb 0 100 50",
+        "pickUpSound": "core:otherPickUp",
+        "sz": 0.12,
+    },
+
+    "shield": {
+        "color": "hsb 260 100 100",
+        "pickUpSound": "core:otherPickUp",
+        "sz": 0.16,
+    },
+
+    "armor": {
+        "color": "hsb 60 100 100",
+        "pickUpSound": "core:otherPickUp",
+        "sz": 0.16,
+    },
+
+    "abilityCharge": {
+        "color": "hsb 300 100 100",
+        "pickUpSound": "core:otherPickUp",
+        "sz": 0.12,
+    },
+
+    "gun": {
+        "color": "hsb 0 100 100",
+        "pickUpSound": "core:gunPickUp",
+        "sz": 0.16,
+    },
+
+    "fixedGun": {
+        "color": "hsb 0 100 100",
+        "pickUpSound": "core:gunPickUp",
+        "sz": 0.2,
+    },
+
+    "money": {
+        "color": "hsb 40 100 50",
+        "pickUpSound": "core:money",
+        "sz": 0.12,
+    },
+
+    "medMoney": {
+        "color": "hsb 40 100 100",
+        "pickUpSound": "core:money",
+        "sz": 0.16,
+    },
+
+    "bigMoney": {
+        "color": "hsb 40 100 100",
+        "pickUpSound": "core:money",
+        "sz": 0.2,
+    },
+
+    "repair": {
+        "color": "hsb 200 100 100",
+        "pickUpSound": "core:otherPickUp",
+        "sz": 0.12,
+    },
+}

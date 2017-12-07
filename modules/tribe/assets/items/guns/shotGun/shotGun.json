@@ -1,0 +1,19 @@
+{
+    "maxAngleVar": 10,
+    "angleVarDamp": 0,
+    "angleVarPerShot": 10,
+    "timeBetweenShots": 1.2,
+    "reloadTime": 3,
+    "price": 250,
+    "clipName": "core:shellClip",
+    "gunLength": 0.18,
+    "texLenPerc": 0.9,
+    "displayName": "Pirate Shotgun",
+    "lightOnShot": true,
+    "shootSounds": [
+        "core:shotGunShoot"
+    ],
+    "reloadSounds": [
+        "core:gunReload"
+    ]
+}

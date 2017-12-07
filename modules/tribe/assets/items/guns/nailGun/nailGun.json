@@ -1,0 +1,19 @@
+{
+    "fixed": true,
+    "maxAngleVar": 30,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 2,
+    "timeBetweenShots": 0.55,
+    "reloadTime": 3,
+    "price": 700,
+    "clipName": "core:nailClip",
+    "gunLength": 0.26,
+    "displayName": "Nail Gun",
+    "shootSounds": [
+        "core:nailGunShoot"
+    ],
+    "shootSoundPitch": 1.2,
+    "reloadSounds": [
+        "core:fixedGunReload"
+    ]
+}

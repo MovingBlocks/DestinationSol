@@ -1,0 +1,20 @@
+{
+    "fixed": true,
+    "maxAngleVar": 10,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 1,
+    "timeBetweenShots": 0.85,
+    "reloadTime": 2,
+    "price": 650,
+    "clipName": "core:railClip",
+    "gunLength": 0.24,
+    "displayName": "Rail Gun",
+    "lightOnShot": true,
+    "shootSounds": [
+        "core:shotGunShoot"
+    ],
+    "shootSoundPitch": 0.6,
+    "reloadSounds": [
+        "core:fixedGunReload"
+    ]
+}

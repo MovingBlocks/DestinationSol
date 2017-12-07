@@ -1,0 +1,20 @@
+{
+    "fixed": true,
+    "maxAngleVar": 10,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 1,
+    "timeBetweenShots": 0.44,
+    "reloadTime": 3,
+    "price": 900,
+    "clipName": "core:slugClip",
+    "gunLength": 0.26,
+    "displayName": "Heavy Cannon",
+    "lightOnShot": true,
+    "shootSounds": [
+        "core:cannonShoot"
+    ],
+    "shootSoundPitch": 0.8,
+    "reloadSounds": [
+        "core:fixedGunReload"
+    ]
+}

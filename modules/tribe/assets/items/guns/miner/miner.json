@@ -1,0 +1,19 @@
+{
+    "fixed": true,
+    "maxAngleVar": 0,
+    "angleVarDamp": 0,
+    "angleVarPerShot": 0,
+    "timeBetweenShots": 1,
+    "reloadTime": 3,
+    "price": 300,
+    "clipName": "core:mineClip",
+    "gunLength": 0.1,
+    "displayName": "Miner",
+    "shootSounds": [
+        "core:rocketLauncherShoot"
+    ],
+    "shootSoundPitch": 1.3,
+    "reloadSounds": [
+        "core:rocketLauncherReload"
+    ]
+}

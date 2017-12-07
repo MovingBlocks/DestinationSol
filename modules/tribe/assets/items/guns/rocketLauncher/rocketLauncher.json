@@ -1,0 +1,20 @@
+{
+    "fixed": true,
+    "maxAngleVar": 30,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 3,
+    "timeBetweenShots": 0.47,
+    "reloadTime": 2,
+    "price": 350,
+    "clipName": "core:rocketClip",
+    "gunLength": 0.22,
+    "texLenPerc": 0.87,
+    "displayName": "Rocket Launcher",
+    "shootSounds": [
+        "core:rocketLauncherShoot"
+    ],
+    "shootSoundPitch": 0.8,
+    "reloadSounds": [
+        "core:rocketLauncherReload"
+    ]
+}

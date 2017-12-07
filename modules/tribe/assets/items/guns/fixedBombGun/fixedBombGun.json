@@ -1,0 +1,19 @@
+{
+    "fixed": true,
+    "maxAngleVar": 0,
+    "angleVarDamp": 0,
+    "angleVarPerShot": 0,
+    "timeBetweenShots": 0.25,
+    "reloadTime": 1.5,
+    "price": 70,
+    "clipName": "core:bombClip",
+    "gunLength": 0.17,
+    "displayName": "Heavy Bomber",
+    "shootSounds": [
+        "core:rocketLauncherShoot"
+    ],
+    "shootSoundPitch": 1.3,
+    "reloadSounds": [
+        "core:rocketLauncherReload"
+    ]
+}

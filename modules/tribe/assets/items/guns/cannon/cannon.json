@@ -1,0 +1,19 @@
+{
+    "maxAngleVar": 10,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 1,
+    "timeBetweenShots": 1.8,
+    "reloadTime": 2.5,
+    "price": 600,
+    "clipName": "core:slugClip",
+    "gunLength": 0.24,
+    "texLenPerc": 0.85,
+    "displayName": "Cannon",
+    "lightOnShot": true,
+    "shootSounds": [
+        "core:cannonShoot"
+    ],
+    "reloadSounds": [
+        "core:gunReload"
+    ]
+}

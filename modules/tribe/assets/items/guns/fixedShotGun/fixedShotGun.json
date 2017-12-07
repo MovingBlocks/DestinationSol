@@ -1,0 +1,20 @@
+{
+    "fixed": true,
+    "maxAngleVar": 10,
+    "angleVarDamp": 0,
+    "angleVarPerShot": 10,
+    "timeBetweenShots": 0.22,
+    "reloadTime": 2,
+    "price": 500,
+    "clipName": "core:shellClip",
+    "gunLength": 0.24,
+    "displayName": "Imperial Shotgun",
+    "lightOnShot": true,
+    "shootSounds": [
+        "core:shotGunShoot"
+    ],
+    "shootSoundPitch": 0.8,
+    "reloadSounds": [
+        "core:fixedGunReload"
+    ]
+}
