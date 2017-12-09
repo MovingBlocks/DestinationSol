@@ -1,4 +1,5 @@
 apply from: '../config/gradle/common.gradle'
+apply plugin: 'distribution'
 
 project.ext.mainClassName = "org.destinationsol.desktop.SolDesktop"
 
@@ -20,7 +21,7 @@ task run(type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
-    workingDir = project(':engine').projectDir
+    workingDir = project.rootProject.rootDir
     ignoreExitValue = true
 }
 
@@ -34,23 +35,23 @@ jar {
     }
 }
 
-task dist(type: Sync) {
-    description = "Creates an application package for distribution"
+distributions {
+    main {
+        baseName = "DestinationSol"
+        // set the name to DestinationSol.zip or tar by hiding the version
+        version = ""
 
-    into("$distsDir/app")
-
-    from("$rootDir/launcher")
-
-    into('libs') {
-        from configurations.runtime
-        from jar
+        contents {
+            from("$rootDir/launcher")
+            from("$rootDir/modules") {
+                into 'modules/'
+            }
+            into('libs') {
+                from configurations.runtime
+                from jar
+            }
+        }
     }
-}
-
-task distZip(type: Zip) {
-    dependsOn dist
-    from "$distsDir/app"
-    archiveName = "DestinationSol.zip"
 }
 
 // TODO: LibGDX Generated config for Eclipse. Needs adjustment for assets not being in the Android facade

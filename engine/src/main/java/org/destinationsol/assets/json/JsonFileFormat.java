@@ -18,27 +18,27 @@ package org.destinationsol.assets.json;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.assets.AssetHelper;
+import org.destinationsol.assets.SolAssetFileFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.assets.ResourceUrn;
-import org.terasology.assets.format.AbstractAssetFileFormat;
 import org.terasology.assets.format.AssetDataFile;
 import org.terasology.assets.module.annotations.RegisterAssetFileFormat;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 
 @RegisterAssetFileFormat
-public class JsonFileFormat extends AbstractAssetFileFormat<JsonData> {
+public class JsonFileFormat extends SolAssetFileFormat<JsonData> {
     public JsonFileFormat() {
         super("json");
     }
 
+    private static Logger logger = LoggerFactory.getLogger(JsonFileFormat.class);
+
     @Override
     public JsonData load(ResourceUrn urn, List<AssetDataFile> inputs) throws IOException {
-        String path = AssetHelper.resolveToPath(inputs);
-
-        FileHandle handle = new FileHandle(Paths.get(path).toFile());
+        FileHandle handle = findFileAndLog(inputs, logger);
         JsonValue jsonValue = new JsonReader().parse(handle.readString());
 
         return new JsonData(jsonValue);

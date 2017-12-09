@@ -44,6 +44,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static org.destinationsol.game.DebugOptions.DEV_ROOT_PATH;
+
 public class AssetHelper {
     private ModuleAwareAssetTypeManager assetTypeManager;
     private static String[] folders_;
@@ -115,18 +117,10 @@ public class AssetHelper {
 
             StringBuilder path = new StringBuilder();
 
-            if (folders.get(0).equals("engine")) {
-                if (DebugOptions.DEV_ROOT_PATH != null) {
-                    path.append(DebugOptions.DEV_ROOT_PATH);
-                } else {
-                    path.append("src/main/resources/");
-                }
-            } else {
-                if (DebugOptions.DEV_ROOT_PATH == null) {
-                    path.append("../");
-                }
-                path.append("modules/").append(folders.get(0)).append("/");
+            if (DEV_ROOT_PATH != null) {
+                path.append(DEV_ROOT_PATH + "/");
             }
+            path.append("modules/").append(folders.get(0)).append("/");
 
             for (int i = 1; i < folders.size(); i++) {
                 path.append(folders.get(i)).append("/");

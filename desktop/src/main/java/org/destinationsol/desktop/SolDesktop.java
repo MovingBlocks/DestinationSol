@@ -74,7 +74,7 @@ public final class SolDesktop {
         // Set the application's title, icon...
         applicationConfig.title = "Destination Sol";
         if (DebugOptions.DEV_ROOT_PATH == null) {
-            applicationConfig.addIcon("src/main/resources/icon.png", Files.FileType.Internal);
+            applicationConfig.addIcon("icon.png", Files.FileType.Classpath);
         } else {
             applicationConfig.addIcon(DebugOptions.DEV_ROOT_PATH + "/icon.png", Files.FileType.Absolute);
         }
@@ -100,7 +100,7 @@ public final class SolDesktop {
     private static void handleDevBuild(LwjglApplicationConfiguration applicationConfig) {
         boolean devBuild = java.nio.file.Files.exists(Paths.get("devBuild"));
         if (devBuild) {
-            DebugOptions.DEV_ROOT_PATH = "engine/src/main/resources/"; // Lets the game run from source without a tweaked working directory
+            DebugOptions.DEV_ROOT_PATH = null; // Lets the game run from source without a tweaked working directory TODO: change
             applicationConfig.vSyncEnabled = false; // Setting to false disables vertical sync
             applicationConfig.foregroundFPS = 100; // Use 0 to disable foreground fps throttling
             applicationConfig.backgroundFPS = 10; // Use 0 to disable background fps throttling
@@ -163,11 +163,9 @@ public final class SolDesktop {
     private static class MyReader implements SolFileReader {
         @Override
         public Path create(String fileName, List<String> lines) {
-            String path;
+            String path = "";
             if (DebugOptions.DEV_ROOT_PATH != null) {
                 path = DebugOptions.DEV_ROOT_PATH;
-            } else {
-                path = "src/main/resources/";
             }
             path += fileName;
 
@@ -182,11 +180,9 @@ public final class SolDesktop {
 
         @Override
         public List<String> read(String fileName) {
-            String path;
+            String path = "";
             if (DebugOptions.DEV_ROOT_PATH != null) {
                 path = DebugOptions.DEV_ROOT_PATH;
-            } else {
-                path = "src/main/resources/";
             }
             path += fileName;
 

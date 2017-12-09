@@ -146,7 +146,7 @@ public class SaveManager {
         if (DebugOptions.DEV_ROOT_PATH != null) {
             return DebugOptions.DEV_ROOT_PATH + fileName;
         } else {
-            return "src/main/resources/" + fileName;
+            return fileName;
         }
     }
 
