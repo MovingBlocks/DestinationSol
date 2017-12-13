@@ -80,12 +80,12 @@
     },
 
     "troll": {
-        "dmg": 100,
+        "dmg": 1000,
         "spdLen": 10,
         "dmgType": "bullet",
 
         "tex": "troll",
-        "texSz": 0.40,
+        "texSz": 0.7,
         "stretch": false,
         "collisionEffect": {
             "effectFile": "core:spark",
