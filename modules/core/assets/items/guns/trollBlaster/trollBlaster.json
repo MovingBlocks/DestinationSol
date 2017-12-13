@@ -1,0 +1,19 @@
+{
+  "fixed": true,
+  "maxAngleVar": 12,
+  "angleVarDamp": 4,
+  "angleVarPerShot": 1.5,
+  "timeBetweenShots": 0.20,
+  "reloadTime": 1,
+  "price": 100,
+  "clipName": "core:trollClip",
+  "gunLength": 0.15,
+  "displayName": "Troll Blaster",
+  "lightOnShot": true,
+  "shootSounds": [
+    "core:blasterShoot"
+  ],
+  "reloadSounds": [
+    "core:gunReload"
+  ]
+}

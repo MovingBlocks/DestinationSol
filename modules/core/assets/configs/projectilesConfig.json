@@ -79,6 +79,22 @@
         }
     },
 
+    "troll": {
+        "dmg": 100,
+        "spdLen": 10,
+        "dmgType": "bullet",
+
+        "tex": "troll",
+        "texSz": 0.40,
+        "stretch": false,
+        "collisionEffect": {
+            "effectFile": "core:spark",
+            "size": 0.5,
+            "tex": "spark",
+            "tint": "fire"
+        }
+    },
+
     "shellBullet": {
         "dmg": 2.9,
         "spdLen": 8,
