@@ -10,7 +10,7 @@
   },
   "e1Pos": "0.14 0.512",
   "e2Pos": "0.14 0.512",
-  "displayName": "TestShip",
+  "displayName": "Little Knight",
   "engine": "core:pirateEngine",
   "gunSlots": [
     {
