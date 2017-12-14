@@ -79,16 +79,16 @@
         }
     },
 
-    "troll": {
+    "laser": {
         "dmg": 1000,
         "spdLen": 10,
-        "dmgType": "bullet",
+        "dmgType": "energy",
 
-        "tex": "troll",
+        "tex": "laser",
         "texSz": 0.7,
         "stretch": false,
         "collisionEffect": {
-            "effectFile": "core:spark",
+            "effectFile": "core:explFire",
             "size": 0.5,
             "tex": "spark",
             "tint": "fire"
