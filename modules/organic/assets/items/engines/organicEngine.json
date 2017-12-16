@@ -4,7 +4,7 @@
         "effectFile": "core:flame",
         "size": 0.1,
         "tex": "fire",
-        "tint": "hsb 140 20 65",
+        "tint": "hsb 140 20 65"
     },
     "workSounds": [
         "core:medEngineWork0",

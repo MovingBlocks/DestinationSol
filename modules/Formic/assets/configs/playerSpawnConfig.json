@@ -1,0 +1,7 @@
+{
+    "Formic Small": {
+	    "hull": "formic:formicSmall",
+	    "items": "6*rep core:advancedArmor-1 core:advancedShield-1 core:blaster-1",
+	    "money": 800
+    }
+}
