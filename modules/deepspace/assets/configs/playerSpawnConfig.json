@@ -1,0 +1,7 @@
+{
+    "Green Fury": {
+	    "hull": "deepspace:greenFuryCapital",
+	    "items": "core:advancedArmor core:advancedShield core:cannon-1 core:cannon-2 ",
+	    "money": 2000
+    }
+}
