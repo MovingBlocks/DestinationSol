@@ -27,7 +27,7 @@ millionthvector.blogspot.id
     }
   ],
   "rigidBody": {
-    "origin":{"x":0,"y":0},
+    "origin":{"x":0.8,"y":0.67},
     "polygons":[[
       {
         "x":0.8525000214576721,
