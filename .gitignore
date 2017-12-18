@@ -41,7 +41,6 @@ tmp/
 *.bak
 *.swp
 *~.nib
-desktop/src/main/resources
 
 .settings/
 .loadpath
