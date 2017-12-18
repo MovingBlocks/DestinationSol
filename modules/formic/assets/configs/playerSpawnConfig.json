@@ -1,7 +1,12 @@
 {
     "Formic Small": {
-	    "hull": "formic:formicSmall",
-	    "items": "6*rep core:advancedArmor-1 core:advancedShield-1 core:blaster-1",
-	    "money": 800
+        "hull": "formic:formicSmall",
+        "items": "3*rep core:lightArmor-1 core:smallShield-1 core:blaster-1",
+        "money": 200
+    },
+    "Formic Medium": {
+        "hull": "formic:formicMedium",
+        "items": "6*rep core:mediumArmor-1 core:bigShield-1 core:fixedGun-1 3*core:bulletClip-1",
+        "money": 400
     }
 }
