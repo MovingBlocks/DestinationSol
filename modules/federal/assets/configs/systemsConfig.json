@@ -9,8 +9,7 @@
                 "repairer": true,
                 "density": 1,
 
-                "guard":
-                {
+                "guard": {
                     "hull": "federal:federalTiny",
                     "items": "federal:dualBlaster core:mediumArmor core:smallShield",
                     "density": 4
