@@ -6,7 +6,7 @@
     },
     "Formic Medium": {
         "hull": "formic:formicMedium",
-        "items": "6*rep core:mediumArmor-1 core:bigShield-1 core:fixedGun-1 core:railGun-2 5*core:railClip 5*core:bulletClip-1",
+        "items": "6*rep core:mediumArmor-1 core:bigShield-1 formic:gryazevShipunov-1 core:railGun-2 5*core:railClip 5*core:uraniumClip-1",
         "money": 400
     }
 }
