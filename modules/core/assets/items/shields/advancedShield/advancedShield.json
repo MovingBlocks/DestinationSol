@@ -1,5 +1,7 @@
 {
     "maxLife": 40,
+	"idleTime": 2.8,
+	"regenSpd": 13.3,
     "price": 900,
     "displayName": "Advanced Shield",
     "absorbSound": "core:shield1Absorb1",
