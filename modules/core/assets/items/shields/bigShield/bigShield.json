@@ -1,5 +1,7 @@
 {
     "maxLife": 30,
+	"idleTime": 3,
+	"regenSpd": 10,
     "price": 500,
     "displayName": "Big Shield",
     "absorbSound": "core:shield1Absorb1",
