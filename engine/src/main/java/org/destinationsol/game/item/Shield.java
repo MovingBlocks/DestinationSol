@@ -37,7 +37,7 @@ public class Shield implements SolItem {
     private final Config myConfig;
     private float myLife;
     private float myIdleTime;
-	private float myRegenSpd;
+    private float myRegenSpd;
     private int myEquipped;
 
     private Shield(Config config) {
