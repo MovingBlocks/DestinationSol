@@ -94,7 +94,6 @@ public class ModuleManager {
         requiredModules.add(registry.getLatestModuleVersion(new Name("core")));
         requiredModules.add(registry.getLatestModuleVersion(new Name("federal")));
         requiredModules.add(registry.getLatestModuleVersion(new Name("organic")));
-        requiredModules.add(registry.getLatestModuleVersion(new Name("formic")));
 
         loadEnvironment(requiredModules);
     }
