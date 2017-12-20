@@ -35,11 +35,13 @@ public class Shield implements SolItem {
     private final Config myConfig;
     private float myLife;
     private float myIdleTime;
+	private float myRegenSpd;
     private int myEquipped;
 
     private Shield(Config config) {
         myConfig = config;
         myLife = myConfig.maxLife;
+		myIdleTime = myConfig.idleTime;
     }
 
     private Shield(Config config, int equipped) {
@@ -49,14 +51,14 @@ public class Shield implements SolItem {
 
     public void update(SolGame game, SolObject owner) {
         float ts = game.getTimeStep();
-        if (myIdleTime >= myConfig.myMaxIdleTime) {
+        if (myIdleTime >= myConfig.idleTime) {
             if (myLife < myConfig.maxLife) {
                 float regen = myConfig.regenSpd * ts;
                 myLife = SolMath.approach(myLife, myConfig.maxLife, regen);
             }
         } else {
             myIdleTime += ts;
-            if (myIdleTime >= myConfig.myMaxIdleTime) {
+            if (myIdleTime >= myConfig.idleTime) {
                 game.getSoundManager().play(game, myConfig.regenSound, null, owner);
             }
         }
@@ -146,16 +148,18 @@ public class Shield implements SolItem {
         public final PlayableSound regenSound;
         public final Shield example;
         public final float maxLife;
-        public final float myMaxIdleTime = 2;
+        public final float idleTime;
         public final float regenSpd;
         public final TextureAtlas.AtlasRegion icon;
         public final SolItemType itemType;
         public final String code;
         public TextureAtlas.AtlasRegion tex;
 
-        private Config(int maxLife, String displayName, int price, PlayableSound absorbSound, PlayableSound regenSound,
+        private Config(int maxLife, int idleTime, int regenSpd, String displayName, int price, PlayableSound absorbSound, PlayableSound regenSound,
                        TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, SolItemType itemType, String code) {
             this.maxLife = maxLife;
+			this.idleTime = idleTime;
+			this.regenSpd = regenSpd;
             this.displayName = displayName;
             this.price = price;
             this.absorbSound = absorbSound;
@@ -164,7 +168,6 @@ public class Shield implements SolItem {
             this.tex = tex;
             this.itemType = itemType;
             this.code = code;
-            regenSpd = this.maxLife / 3;
             example = new Shield(this);
             this.desc = makeDesc();
         }
@@ -174,6 +177,8 @@ public class Shield implements SolItem {
             JsonValue rootNode = json.getJsonValue();
 
             int maxLife = rootNode.getInt("maxLife");
+			int idleTime = rootNode.getInt("idleTime");
+			int regenSpd = rootNode.getInt("regenSpd");
             String displayName = rootNode.getString("displayName");
             int price = rootNode.getInt("price");
             String absorbUrn = rootNode.getString("absorbSound");
@@ -187,13 +192,15 @@ public class Shield implements SolItem {
             TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(shieldName);
             TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(shieldName + "Icon");
 
-            Config config = new Config(maxLife, displayName, price, absorbSound, regenSound, icon, tex, types.shield, shieldName);
+            Config config = new Config(maxLife, idleTime, regenSpd, displayName, price, absorbSound, regenSound, icon, tex, types.shield, shieldName);
             itemManager.registerItem(config.example);
         }
 
         private String makeDesc() {
             StringBuilder sb = new StringBuilder();
             sb.append("Takes ").append(SolMath.nice(maxLife)).append(" dmg\n");
+			sb.append("Needs ").append(SolMath.nice(idleTime)).append(" s to start regeneration\n");
+			sb.append("Regenerates ").append(SolMath.nice(regenSpd)).append(" shield points per s\n");
             sb.append("Strong against bullets\n");
             return sb.toString();
         }
