@@ -28,8 +28,8 @@
         "imagePath":"formicSmall.png",
         "name":"formicSmall",
         "origin":{
-            "x":0.392307692,
-            "y":0.494117647
+            "x":0.5,
+            "y":0.5
         },
         "polygons":[
             [

@@ -30,8 +30,8 @@
         "name":"formicMedium",
         "imagePath":"formicMedium.png",
         "origin":{
-            "x":0.5037500262260437,
-            "y":0.4587499797344208
+            "x":0.5,
+            "y":0.5
         },
         "polygons":[
             [
