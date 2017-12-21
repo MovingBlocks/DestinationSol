@@ -123,7 +123,7 @@ public class GalaxyFiller {
         return s;
     }
     
-    public JsonValue checkRootNull(Json json) {
+    public JsonValue getRootNode(Json json) {
     	JsonValue node = json.getJsonValue();
     	if (node.isNull()) {
     		throw new JsonParseException(String.format("Root node was not found in asset %s", node.name, json.toString()));
@@ -143,7 +143,7 @@ public class GalaxyFiller {
         moduleName = moduleName.split(":")[0];
         
         Json json = Assets.getJson(moduleName + ":startingStation");
-        JsonValue rootNode = checkRootNull(json);
+        JsonValue rootNode = getRootNode(json);
 
         ShipConfig mainStationCfg = ShipConfig.load(hullConfigManager, rootNode, itemManager);
 
