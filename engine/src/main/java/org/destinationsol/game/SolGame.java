@@ -152,13 +152,19 @@ public class SolGame {
 
         // from this point we're ready!
         planetManager.fill(solNames);
-        galaxyFiller.fill(this, hullConfigManager, itemManager);
         createPlayer(shipName);
         SolMath.checkVectorsTaken(null);
     }
 
     // uh, this needs refactoring
     private void createPlayer(String shipName) {
+    	ShipConfig shipConfig = shipName == null ? SaveManager.readShip(hullConfigManager, itemManager, this) : ShipConfig.load(hullConfigManager, shipName, itemManager);
+
+        // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
+        assert shipConfig != null;
+        
+        galaxyFiller.fill(this, hullConfigManager, itemManager);
+    	
         Vector2 pos = galaxyFiller.getPlayerSpawnPos(this);
         camera.setPos(pos);
 
@@ -169,11 +175,6 @@ public class SolGame {
         } else {
             pilot = new UiControlledPilot(gameScreens.mainScreen);
         }
-
-        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(hullConfigManager, itemManager) : ShipConfig.load(hullConfigManager, shipName, itemManager);
-
-        // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
-        assert shipConfig != null;
 
         float money = respawnMoney != 0 ? respawnMoney : tutorialManager != null ? 200 : shipConfig.money;
 
