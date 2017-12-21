@@ -15,8 +15,9 @@
  */
 package org.destinationsol.game;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
@@ -58,8 +59,8 @@ import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 
 public class SolGame {
     private final GameScreens gameScreens;
@@ -92,6 +93,7 @@ public class SolGame {
     private final GalaxyFiller galaxyFiller;
     private final ArrayList<SolItem> respawnItems;
     private SolShip hero;
+    private String shipName; // Not updated in-game. Can be changed using setter
     private float timeStep;
     private float time;
     private boolean paused;
@@ -139,13 +141,19 @@ public class SolGame {
 
         // from this point we're ready!
         planetManager.fill(solNames);
-        galaxyFiller.fill(this, hullConfigManager, itemManager);
         createPlayer(shipName);
         SolMath.checkVectorsTaken(null);
     }
 
     // uh, this needs refactoring
     private void createPlayer(String shipName) {
+        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(hullConfigManager, itemManager, this) : ShipConfig.load(hullConfigManager, shipName, itemManager, this);
+
+        // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
+        assert shipConfig != null;
+        
+        galaxyFiller.fill(this, hullConfigManager, itemManager);
+    	
         Vector2 pos = galaxyFiller.getPlayerSpawnPos(this);
         camera.setPos(pos);
 
@@ -156,11 +164,6 @@ public class SolGame {
         } else {
             pilot = new UiControlledPilot(gameScreens.mainScreen);
         }
-
-        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(hullConfigManager, itemManager) : ShipConfig.load(hullConfigManager, shipName, itemManager);
-
-        // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
-        assert shipConfig != null;
 
         float money = respawnMoney != 0 ? respawnMoney : tutorialManager != null ? 200 : shipConfig.money;
 
@@ -516,6 +519,14 @@ public class SolGame {
 
     public TutorialManager getTutMan() {
         return tutorialManager;
+    }
+    
+    public String getShipName() {
+    	return shipName;
+    }
+    
+    public void setShipName(String newName) {
+    	shipName = newName;
     }
 
     public void beforeHeroDeath() {
