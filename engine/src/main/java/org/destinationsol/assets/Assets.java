@@ -15,8 +15,14 @@
  */
 package org.destinationsol.assets;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+
 import org.destinationsol.assets.audio.OggMusic;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.emitters.Emitter;
@@ -26,11 +32,8 @@ import org.destinationsol.assets.textures.DSTexture;
 import org.terasology.assets.ResourceUrn;
 import org.terasology.module.ModuleEnvironment;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 /**
  * A high-level wrapper over the AssetHelper class.
@@ -40,6 +43,8 @@ import java.util.Set;
 public abstract class Assets {
     private static AssetHelper assetHelper;
     private static Set<ResourceUrn> textureList;
+    // This map is initialized after the player selects their ship, it maps the human readable names of ships to their internal URIs
+    public static Map<String, String> playerSpawnConfigIdMap = new HashMap<String, String>();
 
     /**
      * Initializes the class for loading assets using the given environment.

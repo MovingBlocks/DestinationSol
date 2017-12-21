@@ -121,6 +121,7 @@ public class NewShipScreen implements SolUiScreen {
 
             for (JsonValue node : rootNode) {
                 playerSpawnConfigNames.add(node.name);
+                Assets.playerSpawnConfigIdMap.put(node.name, node.getString("hull"));
             }
 
             json.dispose();
