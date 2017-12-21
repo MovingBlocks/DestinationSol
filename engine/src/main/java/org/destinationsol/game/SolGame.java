@@ -17,10 +17,14 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
+
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.HullConfigManager;
@@ -57,9 +61,13 @@ import org.destinationsol.game.sound.SpecialSounds;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class SolGame {
     private final GameScreens gameScreens;
@@ -100,6 +108,9 @@ public class SolGame {
     private float timeFactor;
     private float respawnMoney;
     private HullConfig respawnHull;
+    
+    // This map is initialized after the player selects their ship, it maps the human readable names of ships to their internal URIs
+    public Map<String, String> playerSpawnConfigIdMap = new HashMap<String, String>();
 
     public SolGame(SolApplication cmp, String shipName, boolean tut, CommonDrawer commonDrawer) {
         solApplication = cmp;
@@ -204,6 +215,21 @@ public class SolGame {
 
         objectManager.addObjDelayed(hero);
         objectManager.resetDelays();
+    }
+    
+    public void getShipsModules() {  	
+        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-z]*:playerSpawnConfig");
+
+        for (ResourceUrn configUrn : configUrnList) {
+            Json json = Assets.getJson(configUrn.toString());
+            JsonValue rootNode = json.getJsonValue();
+
+            for (JsonValue node : rootNode) {
+                playerSpawnConfigIdMap.put(node.name, node.getString("hull"));
+            }
+
+            json.dispose();
+        }       
     }
 
     public void onGameEnd() {
