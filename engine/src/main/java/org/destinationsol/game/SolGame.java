@@ -148,7 +148,6 @@ public class SolGame {
         mountDetectDrawer = new MountDetectDrawer();
         respawnItems = new ArrayList<>();
         timeFactor = 1;
-        this.shipName = shipName;
 
         // from this point we're ready!
         planetManager.fill(solNames);
@@ -158,7 +157,7 @@ public class SolGame {
 
     // uh, this needs refactoring
     private void createPlayer(String shipName) {
-    	ShipConfig shipConfig = shipName == null ? SaveManager.readShip(hullConfigManager, itemManager, this) : ShipConfig.load(hullConfigManager, shipName, itemManager);
+        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(hullConfigManager, itemManager, this) : ShipConfig.load(hullConfigManager, shipName, itemManager, this);
 
         // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
         assert shipConfig != null;
