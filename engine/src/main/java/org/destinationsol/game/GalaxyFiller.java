@@ -38,6 +38,7 @@ import org.destinationsol.game.planet.SolSystem;
 import org.destinationsol.game.planet.SysConfig;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.destinationsol.menu.NewShipScreen;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
@@ -139,7 +140,7 @@ public class GalaxyFiller {
         createStarPorts(game);
         ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
 
-        String moduleName = Assets.playerSpawnConfigIdMap.get(game.getShipName());
+        String moduleName = NewShipScreen.playerSpawnConfigIdMap.get(game.getShipName());
         moduleName = moduleName.split(":")[0];
         
         Json json = Assets.getJson(moduleName + ":startingStation");
