@@ -1,0 +1,8 @@
+{
+    "projectile": "uranium",
+    "size": 200,
+    "price": 40,
+    "displayName": "Uranium Rounds",
+    "plural": "Uranium Rounds",
+    "iconName": "uraniumClip"
+}
