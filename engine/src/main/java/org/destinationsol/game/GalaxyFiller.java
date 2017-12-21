@@ -138,9 +138,6 @@ public class GalaxyFiller {
         }
         createStarPorts(game);
         ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
-
-        // Associates each ship with it's module
-        game.getShipsModules();
         
         String shipName = game.getShipName();
         String moduleName = shipName.split(":")[0];
