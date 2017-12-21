@@ -43,8 +43,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public abstract class Assets {
     private static AssetHelper assetHelper;
     private static Set<ResourceUrn> textureList;
-    // This map is initialized after the player selects their ship, it maps the human readable names of ships to their internal URIs
-    public static Map<String, String> playerSpawnConfigIdMap = new HashMap<String, String>();
 
     /**
      * Initializes the class for loading assets using the given environment.
