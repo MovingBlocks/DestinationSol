@@ -142,8 +142,8 @@ public class GalaxyFiller {
         // Associates each ship with it's module
         game.getShipsModules();
         
-        String moduleName = game.playerSpawnConfigIdMap.get(game.getShipName());
-        moduleName = moduleName.split(":")[0];
+        String shipName = game.getShipName();
+        String moduleName = shipName.split(":")[0];
         
         Json json = Assets.getJson(moduleName + ":startingStation");
         JsonValue rootNode = getRootNode(json);
