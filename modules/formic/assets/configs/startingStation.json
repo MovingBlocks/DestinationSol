@@ -1,0 +1,10 @@
+{
+    "hull": "formic:formicStation",
+    "items": "formic:superShotgun formic:superShotgun",
+
+    "guard": {
+        "hull": "formic:formicLarge",
+        "items": "formic:gryazevShipunov core:fixedShotGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
+        "density": 3
+    }
+}
