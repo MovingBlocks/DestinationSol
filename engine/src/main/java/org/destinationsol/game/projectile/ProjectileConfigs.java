@@ -36,54 +36,54 @@ import com.badlogic.gdx.utils.JsonValue;
 
 public class ProjectileConfigs {
 
-	private final Map<String, ProjectileConfig> myConfigs;
+    private final Map<String, ProjectileConfig> myConfigs;
 
-	public ProjectileConfigs(OggSoundManager soundManager, EffectTypes effectTypes, GameColors cols) {
-		myConfigs = new HashMap<>();
+    public ProjectileConfigs(OggSoundManager soundManager, EffectTypes effectTypes, GameColors cols) {
+        myConfigs = new HashMap<>();
 
-		Set<ResourceUrn> projectileConfigurationFiles = Assets.getAssetHelper().list(Json.class,
-				"[a-z]*:projectilesConfig");
-		
-		for (ResourceUrn configUrn : projectileConfigurationFiles) {
-			Json json = Assets.getJson(configUrn.toString());
-			JsonValue rootNode = json.getJsonValue();
+        Set<ResourceUrn> projectileConfigurationFiles = Assets.getAssetHelper().list(Json.class,
+                "[a-z]*:projectilesConfig");
 
-			for (JsonValue node : rootNode) {
-				String texName = node.getString("tex");
-				TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("core:" + texName + "Projectile");
-				float texSz = node.getFloat("texSz");
-				float spdLen = node.getFloat("spdLen");
-				float physSize = node.getFloat("physSize", 0);
-				boolean stretch = node.getBoolean("stretch", false);
-				DmgType dmgType = DmgType.forName(node.getString("dmgType"));
-				String collisionSoundUrn = node.getString("collisionSound", "");
-				OggSound collisionSound = collisionSoundUrn.isEmpty() ? null : soundManager.getSound(collisionSoundUrn);
-				float lightSz = node.getFloat("lightSz", 0);
-				EffectConfig trailEffect = EffectConfig.load(node.get("trailEffect"), effectTypes, cols);
-				EffectConfig bodyEffect = EffectConfig.load(node.get("bodyEffect"), effectTypes, cols);
-				EffectConfig collisionEffect = EffectConfig.load(node.get("collisionEffect"), effectTypes, cols);
-				EffectConfig collisionEffectBg = EffectConfig.load(node.get("collisionEffectBg"), effectTypes, cols);
-				float guideRotSpd = node.getFloat("guideRotSpd", 0);
-				boolean zeroAbsSpd = node.getBoolean("zeroAbsSpd", false);
-				Vector2 origin = SolMath.readV2(node.getString("texOrig", "0 0"));
-				float acc = node.getFloat("acceleration", 0);
-				String workSoundUrn = node.getString("workSound", "");
-				OggSound workSound = workSoundUrn.isEmpty() ? null : soundManager.getSound(workSoundUrn);
-				boolean bodyless = node.getBoolean("massless", false);
-				float density = node.getFloat("density", -1);
-				float dmg = node.getFloat("dmg");
-				float emTime = node.getFloat("emTime", 0);
-				ProjectileConfig c = new ProjectileConfig(tex, texSz, spdLen, stretch, physSize, dmgType,
-						collisionSound, lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg,
-						zeroAbsSpd, origin, acc, workSound, bodyless, density, guideRotSpd, dmg, emTime);
-				myConfigs.put(node.name, c);
-			}
+        for (ResourceUrn configUrn : projectileConfigurationFiles) {
+            Json json = Assets.getJson(configUrn.toString());
+            JsonValue rootNode = json.getJsonValue();
 
-			json.dispose();
-		}
-	}
+            for (JsonValue node : rootNode) {
+                String texName = node.getString("tex");
+                TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(texName + "Projectile");
+                float texSz = node.getFloat("texSz");
+                float spdLen = node.getFloat("spdLen");
+                float physSize = node.getFloat("physSize", 0);
+                boolean stretch = node.getBoolean("stretch", false);
+                DmgType dmgType = DmgType.forName(node.getString("dmgType"));
+                String collisionSoundUrn = node.getString("collisionSound", "");
+                OggSound collisionSound = collisionSoundUrn.isEmpty() ? null : soundManager.getSound(collisionSoundUrn);
+                float lightSz = node.getFloat("lightSz", 0);
+                EffectConfig trailEffect = EffectConfig.load(node.get("trailEffect"), effectTypes, cols);
+                EffectConfig bodyEffect = EffectConfig.load(node.get("bodyEffect"), effectTypes, cols);
+                EffectConfig collisionEffect = EffectConfig.load(node.get("collisionEffect"), effectTypes, cols);
+                EffectConfig collisionEffectBg = EffectConfig.load(node.get("collisionEffectBg"), effectTypes, cols);
+                float guideRotSpd = node.getFloat("guideRotSpd", 0);
+                boolean zeroAbsSpd = node.getBoolean("zeroAbsSpd", false);
+                Vector2 origin = SolMath.readV2(node.getString("texOrig", "0 0"));
+                float acc = node.getFloat("acceleration", 0);
+                String workSoundUrn = node.getString("workSound", "");
+                OggSound workSound = workSoundUrn.isEmpty() ? null : soundManager.getSound(workSoundUrn);
+                boolean bodyless = node.getBoolean("massless", false);
+                float density = node.getFloat("density", -1);
+                float dmg = node.getFloat("dmg");
+                float emTime = node.getFloat("emTime", 0);
+                ProjectileConfig c = new ProjectileConfig(tex, texSz, spdLen, stretch, physSize, dmgType,
+                        collisionSound, lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg,
+                        zeroAbsSpd, origin, acc, workSound, bodyless, density, guideRotSpd, dmg, emTime);
+                myConfigs.put(node.name, c);
+            }
 
-	public ProjectileConfig find(String name) {
-		return myConfigs.get(name);
-	}
+            json.dispose();
+        }
+    }
+
+    public ProjectileConfig find(String name) {
+        return myConfigs.get(name);
+    }
 }
