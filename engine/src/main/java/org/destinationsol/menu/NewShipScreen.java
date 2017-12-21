@@ -33,7 +33,9 @@ import org.destinationsol.ui.UiDrawer;
 import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class NewShipScreen implements SolUiScreen {
@@ -46,6 +48,8 @@ public class NewShipScreen implements SolUiScreen {
     private SolUiControl playerSpawnConfigControl;
     private int playerSpawnConfigIndex = 0;
     private List<String> playerSpawnConfigNames = new ArrayList<>();
+    // This map is initialized after the player selects their ship, it maps the human readable names of ships to their internal URIs
+    public static Map<String, String> playerSpawnConfigIdMap = new HashMap<String, String>();
 
     NewShipScreen(MenuLayout menuLayout, GameOptions gameOptions) {
         loadPlayerSpawnConfigs();
@@ -121,7 +125,7 @@ public class NewShipScreen implements SolUiScreen {
 
             for (JsonValue node : rootNode) {
                 playerSpawnConfigNames.add(node.name);
-                Assets.playerSpawnConfigIdMap.put(node.name, node.getString("hull"));
+                playerSpawnConfigIdMap.put(node.name, node.getString("hull"));
             }
 
             json.dispose();
