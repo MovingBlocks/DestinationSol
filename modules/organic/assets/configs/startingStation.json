@@ -1,0 +1,10 @@
+{
+    "hull": "organic:organicStation",
+    "items": "core:gun core:gun",
+
+    "guard": {
+        "hull": "organic:organicBig",
+        "items": "core:fixedGun core:fixedShotGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
+        "density": 3
+    }
+}
