@@ -6,7 +6,7 @@
   "timeBetweenShots": -10,
   "reloadTime": 0.1,
   "price": 1000000,
-  "clipName": "core:laserClip",
+  "clipName": "tribe:laserClip",
   "gunLength": 0.15,
   "displayName": "Laser",
   "lightOnShot": true,

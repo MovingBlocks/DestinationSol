@@ -1,6 +1,5 @@
 {
-  "hard": {
-    "hard": true,
+  "standard": {
     "constantAllies": [
       {
         "hull": "tribe:serenity",
@@ -9,11 +8,6 @@
         "density": 2
       },
 
-    ]
-  },
-
-  "standard": {
-    "constantAllies": [
       {
         "hull": "tribe:serenityMedium",
         "items": "core:fixedGun 0.5|core:mediumArmor 0.75|core:smallShield+core:shield",
@@ -32,8 +26,19 @@
         "density": 2
       },
 
-
-
-    ],
+      {
+      "trading": {
+        "items": "rep core:sloMoCharge core:fixedGun core:bulletClip core:mediumArmor core:shield core:fixedShotGun core:shellClip core:bigShield",
+        "ships": "tribe:serenitylMedium tribe:serenityBig",
+        "mercenaries": [
+          {
+            "hull": "tribe:serenitylMedium",
+            "items": "3*rep core:smallShield",
+            "money": 200
+          }
+        ]
+      }
+        }
+    ]
   }
 }
