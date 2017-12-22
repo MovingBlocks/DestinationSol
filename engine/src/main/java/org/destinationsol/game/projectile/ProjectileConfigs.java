@@ -41,8 +41,7 @@ public class ProjectileConfigs {
     public ProjectileConfigs(OggSoundManager soundManager, EffectTypes effectTypes, GameColors cols) {
         myConfigs = new HashMap<>();
 
-        Set<ResourceUrn> projectileConfigurationFiles = Assets.getAssetHelper().list(Json.class,
-                "[a-z]*:projectilesConfig");
+        Set<ResourceUrn> projectileConfigurationFiles = Assets.getAssetHelper().list(Json.class, "[a-z]*:projectilesConfig");
 
         for (ResourceUrn configUrn : projectileConfigurationFiles) {
             Json json = Assets.getJson(configUrn.toString());
@@ -73,10 +72,10 @@ public class ProjectileConfigs {
                 float density = node.getFloat("density", -1);
                 float dmg = node.getFloat("dmg");
                 float emTime = node.getFloat("emTime", 0);
-                ProjectileConfig c = new ProjectileConfig(tex, texSz, spdLen, stretch, physSize, dmgType,
+                ProjectileConfig config = new ProjectileConfig(tex, texSz, spdLen, stretch, physSize, dmgType,
                         collisionSound, lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg,
                         zeroAbsSpd, origin, acc, workSound, bodyless, density, guideRotSpd, dmg, emTime);
-                myConfigs.put(node.name, c);
+                myConfigs.put(node.name, config);
             }
 
             json.dispose();
