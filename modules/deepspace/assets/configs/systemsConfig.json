@@ -1,0 +1,12 @@
+{
+    "hard": {
+    	"hard": true,
+        "constantAllies": [
+            {
+                "hull": "core:imperialSmall",
+                "items": "core:advancedArmor core:advancedShield core:alienRocket",
+                "density": 4
+            }
+        ]
+    }
+}

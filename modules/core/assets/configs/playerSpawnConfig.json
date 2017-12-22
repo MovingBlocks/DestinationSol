@@ -4,7 +4,6 @@
 	    "items": "3*rep core:lightArmor-1 core:smallShield-1 core:blaster-1",
 	    "money": 20
     },
-
     "Loaded Imperial Large": {
         "hull": "core:imperialBig",
         "items": "99*rep core:advancedArmor-1 core:advancedShield-1 core:fixedGun-1 core:fixedGun-2 99*core:bulletClip",

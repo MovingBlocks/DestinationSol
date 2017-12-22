@@ -1,7 +1,8 @@
 {
     "hard": {
     	"hard": true,
-        "constantAllies": [
+        "constantAllies":
+        [
             {
                 "hull": "federal:federalCapital",
                 "items": "federal:dualBlaster federal:dualBlaster core:advancedArmor core:advancedShield",
