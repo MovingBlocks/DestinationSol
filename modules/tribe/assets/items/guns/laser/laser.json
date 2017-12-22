@@ -1,5 +1,5 @@
 {
-  "fixed": true,
+  "fixed": false,
   "maxAngleVar": 0,
   "angleVarDamp": 0,
   "angleVarPerShot": 0,
@@ -8,7 +8,7 @@
   "price": 1000000,
   "clipName": "tribe:laserClip",
   "gunLength": 0.15,
-  "displayName": "laser",
+  "displayName": "Laser",
   "lightOnShot": true,
   "shootSounds": [
     "core:waveGun"

@@ -11,12 +11,12 @@
     {
       "position": "0.35 0.26",
       "isUnderneathHull": false,
-      "allowsRotation": false
+      "allowsRotation": true
     },
     {
       "position": "0.35 0.74",
       "isUnderneathHull": false,
-      "allowsRotation": false
+      "allowsRotation": true
     }
   ],
 
