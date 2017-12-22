@@ -1,4 +1,4 @@
-CREDITS
+qCREDITS
 
 - credits for making all the ships goes to MillionthVector (http://millionthvector.blogspot.ae/)
 
