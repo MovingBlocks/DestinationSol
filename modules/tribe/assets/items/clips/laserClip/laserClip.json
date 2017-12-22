@@ -1,7 +1,8 @@
 {
   "projectile": "laser",
   "infinite": true,
-  "size": 100
-  "displayName": "laser"
-  "iconName": "laserIcon"
+  "price" : 10,
+  "size": 100,
+  "displayName": "laser",
+  "iconName": "laserClip"
 }
