@@ -1,10 +1,6 @@
 {
   "hull": "tribe:serenityCapital",
   "items": "tribe:laser tribe:laser",
-<<<<<<< HEAD
-=======
-
->>>>>>> 276498a603485636ca2723b45efe9ca48090b347
   "guard": {
     "hull": "tribe:capital",
     "items": "tribe:laser core:fixedShotGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",

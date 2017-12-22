@@ -8,11 +8,7 @@
   "price": 1000000,
   "clipName": "tribe:laserClip",
   "gunLength": 0.15,
-<<<<<<< HEAD
   "displayName": "laser",
-=======
-  "displayName": "Laser",
->>>>>>> 276498a603485636ca2723b45efe9ca48090b347
   "lightOnShot": true,
   "shootSounds": [
     "core:waveGun"
