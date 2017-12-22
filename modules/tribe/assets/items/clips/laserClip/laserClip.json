@@ -1,0 +1,10 @@
+{
+  "projectile": "laser",
+  "infinite": true,
+  "size": 100
+<<<<<<< HEAD
+  "displayName": "laser"
+  "iconName": "laserIcon"
+=======
+>>>>>>> 276498a603485636ca2723b45efe9ca48090b347
+}
