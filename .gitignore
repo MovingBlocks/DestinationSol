@@ -35,6 +35,7 @@ local.properties
 .classpath
 .project
 .metadata
+.recommenders
 **/bin/
 tmp/
 *.tmp
