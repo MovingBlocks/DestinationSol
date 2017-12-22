@@ -1,0 +1,22 @@
+{
+    "Formic Small":{
+        "hull":"formic:formicSmall",
+        "items":"3*rep core:lightArmor-1 core:smallShield-1 core:blaster-1",
+        "money":200
+    },
+    "Formic Medium":{
+        "hull":"formic:formicMedium",
+        "items":"6*rep core:mediumArmor-1 core:bigShield-1 formic:gryazevShipunov-1 core:railGun-2 5*core:railClip 5*formic:uraniumClip-1",
+        "money":400
+    },
+    "Formic Large":{
+        "hull":"formic:formicLarge",
+        "items":"12*rep core:advancedArmor-1 core:advancedShield-1 formic:gryazevShipunov-1 formic:gryazevShipunov-2 20*formic:uraniumClip-1",
+        "money":800
+    },
+    "Formic Capital":{
+        "hull":"formic:formicCapital",
+        "items":"24*rep core:advancedArmor-1 core:advancedShield-1 formic:superShotgun-1 formic:superShotgun-2 200*core:shellClip",
+        "money":1600
+    }
+}
