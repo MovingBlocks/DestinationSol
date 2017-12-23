@@ -4,23 +4,23 @@
   "type": "station",
   "gunSlots": [
     {
-      "position": "0.080078125 0.5234375",
+      "position": "0.26171875 0.498046875",
       "isUnderneathHull": false,
       "allowsRotation": true
     },
     {
-      "position": "0.91796875 0.5234375",
+      "position": "0.759765625 0.498046875",
       "isUnderneathHull": false,
       "allowsRotation": true
     }
   ],
   "lightSrcPoss": [
-    "0.080078125 0.5234375",
-    "0.91796875 0.5234375"
-  ],
-  "forceBeaconPoss": [
     "0.26171875 0.498046875",
     "0.759765625 0.498046875"
+  ],
+  "forceBeaconPoss": [
+    "0.080078125 0.5234375",
+    "0.8250000476837158 0.2462499737739563"
   ],
 
   "rigidBody":
