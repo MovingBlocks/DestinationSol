@@ -16,7 +16,7 @@
     {
       "position": "0.45 0.5",
       "isUnderneathHull": false,
-      "allowsRotation": false
+      "allowsRotation": true
     }
   ],
   "rigidBody": {
