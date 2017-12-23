@@ -1,6 +1,6 @@
 CREDITS
 
-- credits for making all the ships goes to MillionthVector (http://millionthvector.blogspot.ae/)
+- credits for making all the ships goes to MillionthVector (http://millionthvector.blogspot.de/)
 
 License of ships and usage
 
