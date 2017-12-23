@@ -7,7 +7,7 @@
   "reloadTime": 0.1,
   "price": 1000000,
   "clipName": "tribe:laserClip",
-  "gunLength": 0.15,
+  "gunLength": 0.5,
   "displayName": "Laser",
   "lightOnShot": true,
   "shootSounds": [
