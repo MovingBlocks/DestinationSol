@@ -126,10 +126,10 @@ public class Shield implements SolItem {
         if (dmgType == DmgType.BULLET) {
             dmg *= bulletDmgFactor;
         }
-	if (dmgType == DmgType.ENERGY) {
+	else if (dmgType == DmgType.ENERGY) {
 		dmg *= energyDmgFactor;
 	}
-	if (dmgType == DmgType.EXPLOSION) {
+	else if (dmgType == DmgType.EXPLOSION) {
 		dmg *= explosionDmgFactor;
 	}
         myLife -= myLife < dmg ? myLife : dmg;
