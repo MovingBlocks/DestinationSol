@@ -1,10 +1,10 @@
 {
-    "hull": "core:station",
+    "hull": "deepspace:deepspaceStation",
     "items": "core:gun core:gun",
 
     "guard": {
-        "hull": "core:imperialBig",
-        "items": "core:fixedGun core:fixedShotGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
+        "hull" : "deepspace:aliengeneral",
+        "items": "99*rep core:advancedArmor-1 core:advancedShield-1 core:alienrocket-1 core:alienrocket-2 99*core:rocketClip",
         "density": 3
     }
 }

@@ -3,9 +3,16 @@
     	"hard": true,
         "constantAllies": [
             {
-                "hull": "core:imperialSmall",
-                "items": "core:advancedArmor core:advancedShield core:alienRocket",
-                "density": 4
+                "hull": "deepspace:deepspaceStation",
+                "items": "core:cannon core:gun",
+                "repairer": true,
+                "density": 1,
+
+                "guard":{
+                    "hull": "core:imperialSmall",
+                    "items": "core:advancedArmor core:advancedShield core:alienRocket",
+                    "density": 4
+                }
             }
         ]
     }
