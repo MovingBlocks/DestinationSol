@@ -1,16 +1,16 @@
 {
-    "size": 0.4,
+  "size": 0.5,
 "maxLife": 16,
 "type": "std",
 "price": 200,
 "ability": {
 "type": "sloMo",
-"factor": 0.5,
+"factor": 0.4,
 "rechargeTime": 5
 },
 "e1Pos": "0.14 0.44",
 "e2Pos": "0.14 0.57",
-"displayName": "Guardian",
+"displayName": "Starship",
 "engine": "core:imperialEngine",
 "gunSlots": [
 {
