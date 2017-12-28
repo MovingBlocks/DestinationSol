@@ -1,0 +1,23 @@
+{
+    "Alien Capital": {
+        "hull": "deepspace:aliencapital",
+        "items": "core:advancedArmor core:advancedShield core:cannon-1 core:cannon-2 ",
+        "money": 2000000
+    },
+    "Little Knight":{
+        "hull" : "deepspace:littleKnight",
+        "items": "99*rep core:advancedArmor core:advancedShield core:fixedGun 99*core:bulletClip",
+        "money": 10000
+    },
+    "Alien Attacker":{
+        "hull" : "deepspace:alienattacker",
+        "items": "99*rep core:advancedArmor-1 core:advancedShield-1 deepspace:alienGun-1 99*deepspace:alienbulletClip",
+        "money": 10000
+    },
+    "Alien General":{
+        "hull" : "deepspace:aliengeneral",
+        "items": "99*rep core:advancedArmor-1 core:advancedShield-1 deepspace:alienBomb-1 deepspace:alienBomb-2 99*deepspace:biobombClip",
+        "money": 10000
+    }
+}
+

@@ -1,0 +1,25 @@
+/*
+Ship sprite from MillionthVector is licensed under a Creative Commons Attribution 4.0 International License.
+millionthvector.blogspot.id
+*/
+
+{
+    "fixed": true,
+    "maxAngleVar": 25,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 2,
+    "timeBetweenShots": 0.27,
+    "reloadTime": 1,
+    "price": 350,
+    "clipName": "deepspace:biobombClip",
+    "gunLength": 0.26,
+    "texLenPerc": 0.87,
+    "displayName": "Alien Bomb",
+    "shootSounds": [
+        "core:rocketLauncherShoot"
+    ],
+    "shootSoundPitch": 0.8,
+    "reloadSounds": [
+        "core:rocketLauncherReload"
+    ]
+}
