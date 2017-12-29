@@ -1,7 +1,7 @@
 {
-    "Salvager Medium": {
-	    "hull": "salvage:salvageMedium",
+    "Salvager Small": {
+	    "hull": "salvage:salvageSmall",
 	    "items": "3*rep core:lightArmor-1 core:smallShield-1 federal:dualBlaster-1",
-	    "money": 20
+	    "money": 120
     }
 }
