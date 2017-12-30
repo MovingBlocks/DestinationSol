@@ -1,0 +1,19 @@
+{
+    "maxAngleVar": 10,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 1,
+    "timeBetweenShots": 0.13,
+    "reloadTime": 1,
+    "price": 120,
+    "clipName": "deepspace:alienbulletClip",
+    "gunLength": 0.16,
+    "texLenPerc": 0.7,
+    "displayName": "Alien Gun",
+    "lightOnShot": true,
+    "shootSounds": [
+        "core:waveGun"
+    ],
+    "reloadSounds": [
+        "core:gunReload"
+    ]
+}
