@@ -1,0 +1,9 @@
+{
+  "hull": "tribe:serenityStation",
+  "items": "tribe:laser tribe:laser",
+  "guard": {
+    "hull": "tribe:serenityCapital",
+    "items": "tribe:laser tribe:laser core:fixedShotGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
+    "density": 3
+  }
+}
