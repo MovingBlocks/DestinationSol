@@ -1,0 +1,10 @@
+{
+  "hull": "deepspace:deepspaceStation",
+  "items": "core:gun core:gun",
+
+  "guard": {
+    "hull": "deepspace:alienAttacker",
+    "items": "core:fixedGun core:fixedShotGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
+    "density": 3
+  }
+}
