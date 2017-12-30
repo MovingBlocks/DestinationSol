@@ -95,6 +95,7 @@ public class ModuleManager {
         requiredModules.add(registry.getLatestModuleVersion(new Name("federal")));
         requiredModules.add(registry.getLatestModuleVersion(new Name("organic")));
         requiredModules.add(registry.getLatestModuleVersion(new Name("tribe")));
+        requiredModules.add(registry.getLatestModuleVersion(new Name("deepspace")));
 
         loadEnvironment(requiredModules);
     }
