@@ -1,0 +1,20 @@
+{
+    "fixed": true,
+    "maxAngleVar": 2,
+    "angleVarDamp": 10,
+    "angleVarPerShot": 1,
+    "timeBetweenShots": 0.02,
+    "reloadTime": 1,
+    "price": 500,
+    "clipName": "formic:uraniumClip",
+    "gunLength": 0.25,
+    "displayName": "Gryazev Shipunov",
+    "lightOnShot": true,
+    "shootSounds": [
+        "core:fixedGunShoot0",
+        "core:fixedGunShoot1"
+    ],
+    "reloadSounds": [
+        "core:fixedGunReload"
+    ]
+}
