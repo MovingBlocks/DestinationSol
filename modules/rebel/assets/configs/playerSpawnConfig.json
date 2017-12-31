@@ -3,7 +3,7 @@
     "hull": "rebel:rebelStarship",
     "items": "3*rep core:lightArmor-1 core:smallShield-1 core:fixedGun-1 core:bulletClip-1",
     "money": 20
-  }
+  },
 
   "Rebel Medium": {
     "hull": "rebel:rebelMedium",
