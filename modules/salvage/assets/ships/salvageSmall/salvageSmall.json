@@ -11,7 +11,7 @@
     },
     "e1Pos": "0.01 0.5",
     "e2Pos": "0.01 0.5",
-    "displayName": "Salvage Turtle",
+    "displayName": "Salvaged Turtle",
     "engine": "core:pirateEngine",
     "gunSlots": [
         {
