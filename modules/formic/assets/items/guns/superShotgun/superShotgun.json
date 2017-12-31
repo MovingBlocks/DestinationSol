@@ -1,0 +1,19 @@
+{
+    "fixed": false,
+    "maxAngleVar": 10,
+    "angleVarDamp": 0,
+    "angleVarPerShot": 10,
+    "timeBetweenShots": 0.05,
+    "reloadTime": 3,
+    "price": 425,
+    "clipName": "core:shellClip",
+    "gunLength": 0.25,
+    "displayName": "Super Shotgun",
+    "lightOnShot": true,
+    "shootSounds": [
+        "core:shotGunShoot"
+    ],
+    "reloadSounds": [
+        "core:gunReload"
+    ]
+}
