@@ -1,0 +1,7 @@
+{
+  "Gooey's Old Ship": {
+    "hull": "slimey:gooeysOldShip",
+    "items": "3*rep core:lightArmor-1 core:smallShield-1 core:blaster-1",
+    "money": 100
+  }
+}
