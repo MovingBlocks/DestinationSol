@@ -49,7 +49,7 @@ public class EffectConfig {
         String texName = node.getString("tex");
         boolean floatsUp = node.getBoolean("floatsUp", false);
         Color tint = cols.load(node.getString("tint"));
-        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(texName + "Particle");
+        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("core:" + texName + "Particle");
         return new EffectConfig(effectType, sz, tex, floatsUp, tint);
     }
 

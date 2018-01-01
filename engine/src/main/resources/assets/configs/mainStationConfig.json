@@ -3,7 +3,7 @@
     "items": "core:gun core:gun",
 
     "guard": {
-        "hull": "core:imperialBig",
+        "hull": "vulcan:vulcan",
         "items": "core:fixedGun core:fixedShotGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
         "density": 3
     }
