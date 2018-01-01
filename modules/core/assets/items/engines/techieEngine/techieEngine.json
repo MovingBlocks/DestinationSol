@@ -2,7 +2,7 @@
     "big": false,
     "effect": {
         "effectFile": "core:techieEngine",
-        "tex": "techieTrail",
+        "tex": "core:techieTrail",
         "tint": "white"
     },
     "workSounds": [
