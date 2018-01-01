@@ -1,0 +1,8 @@
+{
+    "projectile": "biobomb",
+    "size": 35,
+    "price": 30,
+    "displayName": "BioBombs",
+    "plural": "biobombs",
+    "iconName": "biobombClip"
+}

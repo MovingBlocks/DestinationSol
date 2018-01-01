@@ -1,0 +1,16 @@
+{
+    "uranium": {
+        "dmg": 5,
+        "spdLen": 10,
+        "dmgType": "bullet",
+        "tex": "uranium",
+        "texSz": 0.018,
+        "stretch": true,
+        "collisionEffect": {
+            "effectFile": "core:spark",
+            "size": 0.5,
+            "tex": "core:spark",
+            "tint": "fire"
+        }
+    }
+}

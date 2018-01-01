@@ -3,7 +3,7 @@
     "effect": {
         "effectFile": "core:flame",
         "size": 0.07,
-        "tex": "fire",
+        "tex": "core:fire",
         "tint": "hsb 8 75 100"
     },
     "workSounds": [

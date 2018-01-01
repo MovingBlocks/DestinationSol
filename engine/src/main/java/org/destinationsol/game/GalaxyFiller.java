@@ -15,8 +15,8 @@
  */
 package org.destinationsol.game;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
+import java.util.ArrayList;
+
 import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
@@ -39,7 +39,9 @@ import org.destinationsol.game.planet.SysConfig;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
-import java.util.ArrayList;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
+import com.google.gson.JsonParseException;
 
 public class GalaxyFiller {
     private static final float STATION_CONSUME_SECTOR = 45f;
@@ -120,6 +122,15 @@ public class GalaxyFiller {
         }
         return s;
     }
+    
+    public JsonValue getRootNode(Json json) {
+    	JsonValue node = json.getJsonValue();
+    	if (node.isNull()) {
+    		throw new JsonParseException(String.format("Root node was not found in asset %s", node.name, json.toString()));
+    	} else {
+    		return node;
+    	}
+    }
 
     public void fill(SolGame game, HullConfigManager hullConfigManager, ItemManager itemManager) {
         if (DebugOptions.NO_OBJS) {
@@ -127,9 +138,12 @@ public class GalaxyFiller {
         }
         createStarPorts(game);
         ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
-
-        Json json = Assets.getJson("engine:mainStationConfig");
-        JsonValue rootNode = json.getJsonValue();
+        
+        String shipName = game.getShipName();
+        String moduleName = shipName.split(":")[0];
+        
+        Json json = Assets.getJson(moduleName + ":startingStation");
+        JsonValue rootNode = getRootNode(json);
 
         ShipConfig mainStationCfg = ShipConfig.load(hullConfigManager, rootNode, itemManager);
 
