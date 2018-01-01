@@ -9,7 +9,7 @@
     "collisionEffect": {
       "effectFile": "core:explFire",
       "size": 0.5,
-      "tex": "core:spark",
+      "tex": "spark",
       "tint": "fire"
     }
   }

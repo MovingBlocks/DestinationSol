@@ -2,7 +2,7 @@
     "sloMo": {
         "effect": {
             "effectFile": "core:areaShipAbility",
-            "tex": "core:sloMo",
+            "tex": "sloMo",
             "tint": "fire",
             "size": 5
         },
@@ -12,7 +12,7 @@
     "knockBack": {
         "effect": {
             "effectFile": "core:knockBack",
-            "tex": "core:knockBack",
+            "tex": "knockBack",
             "tint": "50 200 250"
         },
         "activatedSound": "core:knockBack"
@@ -21,7 +21,7 @@
     "emWave": {
         "effect": {
             "effectFile": "core:areaShipAbility",
-            "tex": "core:emWave",
+            "tex": "emWave",
             "tint": "0 255 0"
         },
         "activatedSound": "core:unshield"
@@ -30,7 +30,7 @@
     "unShield": {
         "effect": {
             "effectFile": "core:knockBack",
-            "tex": "core:unShield",
+            "tex": "unShield",
             "tint": "0 100 255"
         },
 

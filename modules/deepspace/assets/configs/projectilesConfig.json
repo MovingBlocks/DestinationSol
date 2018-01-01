@@ -12,7 +12,7 @@
     "collisionEffectBg": {
       "effectFile": "core:explSmoke",
       "size": 0.6,
-      "tex": "core:smoke",
+      "tex": "smoke",
       "floatsUp": true,
       "tint": "smoke"
     },
@@ -20,7 +20,7 @@
     "collisionEffect": {
       "effectFile": "core:explFire",
       "size": 0.4,
-      "tex": "core:fire",
+      "tex": "fire",
       "tint": "fire"
     },
 
@@ -38,7 +38,7 @@
     "collisionEffect": {
       "effectFile": "core:spark",
       "size": 0.5,
-      "tex": "core:spark",
+      "tex": "spark",
       "tint": "fire"
     }
   }

@@ -3,8 +3,8 @@
     "effect": {
         "effectFile": "core:flame",
         "size": 0.1,
-        "tex": "core:fire",
-        "tint": "hsb 140 20 65"
+        "tex": "fire",
+        "tint": "hsb 140 20 65",
     },
     "workSounds": [
         "core:medEngineWork0",
