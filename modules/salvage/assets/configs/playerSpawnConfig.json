@@ -1,21 +1,21 @@
 {
     "Salvaged Small": {
-	    "hull": "salvage:salvageSmall",
+	    "hull": "salvage:salvagedSmall",
 	    "items": "3*rep core:lightArmor-1 core:smallShield-1 federal:dualBlaster-1",
 	    "money": 120
     },
 	"Salvaged Medium": {
-		"hull": "salvage:salvageSmall",
+		"hull": "salvage:salvagedMedium",
 		"items": "3*rep core:lightArmor-1 core:smallShield-1 federal:dualBlaster-1",
 		"money": 120
 	},
 	"Salvaged Large": {
-		"hull": "salvage:salvageLarge",
-		"items": "3*rep core:lightArmor-1 core:smallShield-1 federal:dualBlaster-1",
+		"hull": "salvage:salvagedLarge",
+		"items": "3*rep core:lightArmor-1 core:smallShield-1 core:fixedGun-1 15*core:bulletClip",
 		"money": 120
 	},
 	"Loaded Salvaged Large": {
-		"hull": "salvage:salvageLarge",
+		"hull": "salvage:salvagedLarge",
 		"items": "9*rep core:advancedArmor-1 core:advancedShield-1 core:fixedGun-1 core:fixedHighVelocityGun-2 99*core:highVelocityBulletClip",
 		"money": 120
 	}
