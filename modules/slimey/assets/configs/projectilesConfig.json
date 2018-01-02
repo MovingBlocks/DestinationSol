@@ -2,6 +2,20 @@
   "slime": {
     "dmg": 0.5,
     "dmgType": "bullet",
+    "spdLen": 4,
+    "tex": "slime",
+    "texSz": 0.12,
+    "collisionEffect": {
+      "effectFile": "core:spark",
+      "size": 3,
+      "tex": "slimey:slime",
+      "tint": "120 210 90"
+    },
+    "collisionSound": "core:blastCollision"
+  },
+  "slimeBetter": {
+    "dmg": 2,
+    "dmgType": "bullet",
     "spdLen": 8,
     "tex": "slime",
     "texSz": 0.12,

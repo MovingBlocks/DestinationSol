@@ -13,5 +13,10 @@
     "hull": "slimey:slimeyBattleship",
     "items": "3*rep core:lightArmor-1 core:smallShield-1 slimey:slimeThrower-1",
     "money": 100
+  },
+  "Capital": {
+    "hull": "slimey:slimeyCapital",
+    "items": "99*rep core:advancedArmor-1 core:advancedShield-1 slimey:slimeThrowerBetter-1 slimey:slimeThrowerBetter-2 ",
+    "money": 100000
   }
 }
