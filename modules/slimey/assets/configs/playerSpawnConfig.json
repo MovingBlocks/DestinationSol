@@ -1,7 +1,17 @@
 {
   "Gooey's Old Ship": {
     "hull": "slimey:gooeysOldShip",
-    "items": "3*rep core:lightArmor-1 core:smallShield-1 core:blaster-1",
+    "items": "3*rep core:lightArmor-1 core:smallShield-1 slimey:slimeThrower-1",
+    "money": 100
+  },
+  "Warship": {
+    "hull": "slimey:slimeyWarship",
+    "items": "3*rep core:advancedArmor-1 core:bigShield-1 slimey:slimeThrower-1 slimey:slimeThrower-2",
+    "money": 100
+  },
+  "Battleship": {
+    "hull": "slimey:slimeyBattleship",
+    "items": "3*rep core:lightArmor-1 core:smallShield-1 slimey:slimeThrower-1",
     "money": 100
   }
 }
