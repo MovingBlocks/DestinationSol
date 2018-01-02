@@ -1,0 +1,7 @@
+{
+  "gun": {
+    "color": "hsb 0 100 100",
+    "pickUpSound": "core:gunPickUp",
+    "sz": 0.16,
+  }
+}
