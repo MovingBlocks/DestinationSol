@@ -1,0 +1,8 @@
+{
+  "vulcan": {
+    "hull": "vulcan:starTrek",
+    "items": "3*rep core:advancedArmor-1 core:advancedShield-1 core:waveGun-1 core:railGun-2 ",
+    "money": 100
+  }
+  
+}
