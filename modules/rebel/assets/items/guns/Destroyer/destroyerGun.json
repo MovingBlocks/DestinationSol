@@ -6,7 +6,7 @@
   "timeBetweenShots": 0.07,
   "reloadTime": 2,
   "price": 220,
-  "clipName": "core:bulletClip",
+  "clipName": "rebel:laserClip",
   "gunLength": 0.18,
   "displayName": "Destroyer",
   "lightOnShot": true,
