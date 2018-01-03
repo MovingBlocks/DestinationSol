@@ -1,0 +1,7 @@
+{
+    "Bidi Tiny": {
+	    "hull": "bidi:bidiTiny",
+	    "items": "3*rep bidi:dualBlaster-1",
+	    "money": 20
+    }
+}
