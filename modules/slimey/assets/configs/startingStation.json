@@ -1,9 +1,9 @@
 {
-  "hull": "tribe:serenityStation",
-  "items": "tribe:laser tribe:laser",
+  "hull": "slimey:slimeyStation",
+  "items": "3*slimey:slimeThrowerBetter",
   "guard": {
     "hull": "slimey:slimeyCapital",
-    "items": "tribe:laser tribe:laser core:fixedShotGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
+    "items": "8*slimey:slimeThrowerBetter core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
     "density": 3
   }
 }
