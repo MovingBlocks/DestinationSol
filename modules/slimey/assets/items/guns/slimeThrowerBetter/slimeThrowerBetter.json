@@ -5,7 +5,7 @@
   "timeBetweenShots": 0.05,
   "reloadTime": 1,
   "price": 2000,
-  "clipName": "slimey:slimeClip",
+  "clipName": "slimey:slimeClipBetter",
   "gunLength": 0.2,
   "texLenPerc": 0.85,
   "displayName": "Better Slime Thrower",
