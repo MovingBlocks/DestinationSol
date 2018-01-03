@@ -302,23 +302,23 @@
         "collisionSound": "core:blastCollision"
     },
 
-    "wave": {
-        "dmg": 13,
-        "dmgType": "energy",
-        "physSize": 0.8,
-        "massless": true,
-        "spdLen": 5,
+"wave": {
+"dmg": 13,
+"dmgType": "energy",
+"physSize": 0.8,
+"massless": true,
+"spdLen": 5,
 
-        "tex": "wave",
-        "texSz": 0.8,
+"tex": "wave",
+"texSz": 0.8,
 
-        "collisionEffect": {
-            "effectFile": "core:explFire",
-            "size": 0.8,
-            "tex": "fire",
-            "tint": "20 255 20"
-        },
+"collisionEffect": {
+"effectFile": "core:explFire",
+"size": 0.8,
+"tex": "fire",
+"tint": "20 255 20"
+},
 
-        "collisionSound": "core:waveCollision"
-    }
+"collisionSound": "core:waveCollision"
+}
 }
