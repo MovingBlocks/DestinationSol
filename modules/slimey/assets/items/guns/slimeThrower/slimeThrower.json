@@ -1,7 +1,7 @@
 {
-  "maxAngleVar": 12,
-  "angleVarDamp": 4,
-  "angleVarPerShot": 2,
+  "maxAngleVar": 24,
+  "angleVarDamp": 6,
+  "angleVarPerShot": 3,
   "timeBetweenShots": 0.1,
   "reloadTime": 4,
   "price": 200,

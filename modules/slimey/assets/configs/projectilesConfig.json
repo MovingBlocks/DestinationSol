@@ -1,8 +1,8 @@
 {
   "slime": {
-    "dmg": 0.5,
+    "dmg": 0.8,
     "dmgType": "bullet",
-    "spdLen": 4,
+    "spdLen": 2,
     "tex": "slime",
     "texSz": 0.12,
     "collisionEffect": {
