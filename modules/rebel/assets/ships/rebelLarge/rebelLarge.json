@@ -24,14 +24,10 @@
       "allowsRotation": false
     }
   ],
-
-  "rigidBodies":
-  {
-    "name": "rebelLarge",
-    "imagePath": "../../DestinationSol/modules/rebel/assets/ships/rebelLarge/rebelLarge.png",
+  "rigidBody": {
     "origin": {
-      "x": 0,
-      "y": 0
+      "x": 0.5050000548362732,
+      "y": 0.5037500262260437
     },
     "polygons": [
       [
@@ -454,5 +450,4 @@
       }
     ]
   }
-
 }

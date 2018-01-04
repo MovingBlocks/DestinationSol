@@ -21,10 +21,8 @@
   "forceBeaconPoss": [
     "0.505 0.705"
   ],
-  "rigidBodies":
+  "rigidBody":
   {
-    "name": "rebelStation",
-    "imagePath": "../../DestinationSol/modules/rebel/assets/ships/rebelStation/rebelStation.png",
     "origin": {
       "x": 0,
       "y": 0

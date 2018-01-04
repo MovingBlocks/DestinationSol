@@ -19,14 +19,10 @@
       "allowsRotation": true
     }
   ],
-
-  "rigidBodies":
-  {
-    "name": "rebelCapital",
-    "imagePath": "../../DestinationSol/modules/rebel/assets/ships/rebelCapital/rebelCapital.png",
+  "rigidBody": {
     "origin": {
-      "x": 0,
-      "y": 0
+      "x": 0.5050000548362732,
+      "y": 0.5012500286102295
     },
     "polygons": [
       [
@@ -293,6 +289,4 @@
       }
     ]
   }
-, "dynamicObjects": []
-
 }
