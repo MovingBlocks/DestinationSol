@@ -1,7 +1,7 @@
 {
     "projectile": "rail",
-    "size": 5,
-    "price": 70,
+    "size": 200,
+    "price": 20,
     "displayName": "Railgun Bullets",
     "plural": "railgun bullets",
     "iconName": "railClip"

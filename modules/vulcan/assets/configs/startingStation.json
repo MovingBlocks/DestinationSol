@@ -2,7 +2,7 @@
   "hull": "core:Station",
   "items": " ",
   "guard": {
-    "hull": "vulcan:starTrek",
+    "hull": "vulcan:starTrekSmall",
    "items": "core:waveGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
    "density": 3
   }
