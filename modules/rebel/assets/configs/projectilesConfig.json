@@ -1,10 +1,10 @@
 {
-  "laser1": {
+  "rebelX": {
     "dmg": 2.6,
     "dmgType": "energy",
     "spdLen": 6,
 
-    "tex": "laser1",
+    "tex": "rebelX",
     "texSz": 0.12,
 
     "collisionEffect": {
