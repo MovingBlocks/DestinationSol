@@ -1,6 +1,6 @@
 {
     "projectile": "rail",
-    "size": 200,
+    "size": 5,
     "price": 20,
     "displayName": "Railgun Bullets",
     "plural": "railgun bullets",
