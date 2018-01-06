@@ -12,19 +12,19 @@
   "e2Pos": "0.11 0.57",
   "displayName": "starTrekLarge",
   "engine": "core:imperialEngine",
-  "gunSlots": [
-    {
-      "position": "0.6500000357627869 0.6237500309944153",
-      "isUnderneathHull": false,
-      "allowsRotation": true
-    },
-    {
-      "position": "0.6525000333786011 0.3962499499320984",
-      "isUnderneathHull": false,
-      "allowsRotation": true
-    }
-  ],
 
+    "gunSlots": [
+        {
+            "position": "0.6500000357627869 0.6237500309944153",
+            "isUnderneathHull": false,
+            "allowsRotation": true
+        },
+        {
+            "position": "0.6525000333786011 0.3962499499320984",
+            "isUnderneathHull": false,
+            "allowsRotation": true
+        }
+    ],
   "rigidBody":
     {
       "name": "starTrekLarge",
