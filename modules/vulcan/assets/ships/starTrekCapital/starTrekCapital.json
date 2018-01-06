@@ -19,13 +19,13 @@
       "allowsRotation": true
     }
   ],
-  "rigidBodies": [
+  "rigidBody":
     {
-      "name": "starTrek",
+      "name": "starTrekCapital",
       "imagePath": "../../Midship_Dsole/DestinationSol/modules/vulcan/assets/ships/starTrekCapital/starTrekCapital.png",
       "origin": {
-        "x": 0,
-        "y": 0
+        "x": 0.5,
+        "y": 0.5
       },
       "polygons": [
         [
@@ -920,8 +920,8 @@
           ]
         }
       ]
-    }
-  ],
+    },
+
   "dynamicObjects": [
   ]
 }
