@@ -1,6 +1,6 @@
 {
-  "hull": "core:Station",
-  "items": " ",
+  "hull": "vulcan:starTrekStation",
+  "items": "vulcan:electric-1 vulcan:electric-2 ",
   "guard": {
     "hull": "vulcan:starTrekSmall",
    "items": "core:waveGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
