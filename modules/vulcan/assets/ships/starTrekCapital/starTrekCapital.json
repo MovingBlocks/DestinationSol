@@ -6,7 +6,7 @@
   "e1Pos": "0.08 0.37",
   "e2Pos": "0.08 0.63",
   "displayName": "Formic Capital",
-  "engine": "core:imperialBigEngine",
+  "engine": "core:pirateBigEngine",
   "gunSlots": [
     {
       "position": "0.276 0.2935",
