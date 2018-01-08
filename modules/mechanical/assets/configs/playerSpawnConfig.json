@@ -1,0 +1,7 @@
+{
+      "Mechanical Medium": {
+        "hull": "mechanical:mechanicalMedium",
+        "items": "6*rep core:mediumArmor-1 core:bigShield-1 tribe:laser-1",
+        "money": 200
+    }
+}
