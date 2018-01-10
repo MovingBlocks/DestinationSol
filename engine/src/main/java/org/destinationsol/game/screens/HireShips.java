@@ -98,6 +98,8 @@ public class HireShips implements InventoryOperations {
         }
         FarShip merc = game.getShipBuilder().buildNewFar(game, pos, new Vector2(), 0, 0, pilot, config.items, config.hull, null, true, config.money, null, true);
         game.getObjMan().addFarObjNow(merc);
+        selected.setFarShip(merc);
+        game.getHero().getTradeContainer().addMerc(selected);
         return true;
     }
 
