@@ -44,13 +44,10 @@ public class ChooseMercenary implements InventoryOperations {
 
         if (giveControl.isJustOff() && selNull) {
             FarShip farship = ((MercItem) selItem).getFarShip();
-            boolean isOn = inputMan.isScreenOn(is);
             inputMan.setScreen(solApplication, screens.mainScreen);
-            if (!isOn) {
-                is.giveItems.setTarget(farship);
-                is.setOperations(is.giveItems);
-                inputMan.addScreen(solApplication, is);
-            }
+            is.giveItems.setTarget(farship);
+            is.setOperations(is.giveItems);
+            inputMan.addScreen(solApplication, is);
         }
     }
 
