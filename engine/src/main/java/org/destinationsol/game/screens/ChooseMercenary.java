@@ -35,7 +35,6 @@ public class ChooseMercenary implements InventoryOperations {
         InventoryScreen is = game.getScreens().inventoryScreen;
         SolInputManager inputMan = solApplication.getInputMan();
         GameScreens screens = game.getScreens();
-        //        SolShip hero = game.getHero();
         SolItem selItem = is.getSelectedItem();
         boolean selNull = selItem != null;
 
@@ -47,6 +46,12 @@ public class ChooseMercenary implements InventoryOperations {
             inputMan.setScreen(solApplication, screens.mainScreen);
             is.giveItems.setTarget(farship);
             is.setOperations(is.giveItems);
+            inputMan.addScreen(solApplication, is);
+        } else if (takeControl.isJustOff() && selNull) {
+            FarShip farship = ((MercItem) selItem).getFarShip();
+            inputMan.setScreen(solApplication, screens.mainScreen);
+            is.takeItems.setTarget(farship);
+            is.setOperations(is.takeItems);
             inputMan.addScreen(solApplication, is);
         }
     }
