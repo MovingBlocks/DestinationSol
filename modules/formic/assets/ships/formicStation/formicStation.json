@@ -2,6 +2,7 @@
 	"size": 8,
     "maxLife": 1000,
     "type": "station",
+    "displayName": "Formic Station",
     "gunSlots": [
         {
             "position": "0.080078125 0.5234375",
