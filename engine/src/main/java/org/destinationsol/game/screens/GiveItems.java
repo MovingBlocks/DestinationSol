@@ -75,13 +75,13 @@ public class GiveItems implements InventoryOperations {
             return;
         }
 
-        boolean isWornAndCanBeSold = isItemEquippedAndGiveable(selItem, solApplication.getOptions());
+        boolean isWornAndCanBeGiven = isItemEquippedAndGiveable(selItem, solApplication.getOptions());
         boolean enabled = isItemGiveable(selItem, target);
 
-        if (enabled && isWornAndCanBeSold) {
+        if (enabled && isWornAndCanBeGiven) {
             giveControl.setDisplayName("Give");
             giveControl.setEnabled(true);
-        } else if (enabled && !isWornAndCanBeSold) {
+        } else if (enabled && !isWornAndCanBeGiven) {
             giveControl.setDisplayName("Unequip it!");
             giveControl.setEnabled(false);
         } else {
@@ -89,26 +89,26 @@ public class GiveItems implements InventoryOperations {
             giveControl.setEnabled(false);
         }
 
-        if (!enabled || !isWornAndCanBeSold) {
+        if (!enabled || !isWornAndCanBeGiven) {
             return;
         }
         if (giveControl.isJustOff()) {
             ItemContainer ic = hero.getItemContainer();
             is.setSelected(ic.getSelectionAfterRemove(is.getSelected()));
             ic.remove(selItem);
-            target.getTc().getItems().add(selItem);
+            target.getIc().add(selItem);
         }
     }
 
     private boolean isItemGiveable(SolItem item, FarShip target) {
-        return target.getTc().getItems().canAdd(item);
+        return target.getIc().canAdd(item);
     }
 
     // Return true if the item is not worn, or is worn and canSellEquippedItems is true
     private boolean isItemEquippedAndGiveable(SolItem item, GameOptions options) {
         return (item.isEquipped() == 0 || options.canSellEquippedItems);
     }
-    
+
     public void setTarget(FarShip farship) {
         this.target = farship;
     }
