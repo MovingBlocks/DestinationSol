@@ -24,7 +24,7 @@
             "allowsRotation":true
         }
     ],
-    "rigidBodies":[
+    "rigidBody":[
         {
             "origin":{
                 "x":0.4449999928474426,
