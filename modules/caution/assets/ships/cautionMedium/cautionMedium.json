@@ -14,21 +14,23 @@
     "engine": "caution:cautionEngine",
     "gunSlots": [
         {
-            "position": "0.2 0.32",
-            "isUnderneathHull": false,
-            "allowsRotation": false
+            "position": "0.7 0.49",
+            "isUnderneathHull": true,
+            "allowsRotation": true
         },
         {
-            "position": "0.2 0.68",
-            "isUnderneathHull": false,
-            "allowsRotation": false
+            "position": "0.7 0.60",
+            "isUnderneathHull": true,
+            "allowsRotation": true
         }
     ],
-    "rigidBodies": {
+    "rigidBody": {
         "origin": {
-            "x":0,
-            "y":0
+            "x":0.5,
+            "y":0.5
         },
+            "polygons":[],
+            "circles":[],
             "shapes": [
                 {
                   "type":"POLYGON",
@@ -48,7 +50,12 @@
                     {
                         "x":0.5859375,
                         "y":0.7578125
-                    },
+                    }
+                ]
+            },
+            {
+                "type":"POLYGON",
+                "vertices": [
                     {
                         "x":0.5625,
                         "y":0.703125
@@ -64,7 +71,12 @@
                     {
                         "x":0.4453125,
                         "y":0.65625
-                    },
+                    }
+                ]
+            },
+            {
+                "type":"POLYGON",
+                "vertices": [
                     {
                         "x":0.46875,
                         "y":0.6171875
@@ -80,7 +92,12 @@
                     {
                         "x":0.8515625,
                         "y":0.5625
-                    },
+                    }
+                ]
+            },
+            {
+                "type":"POLYGON",
+                "vertices": [
                     {
                         "x":0.8515625,
                         "y":0.53125
@@ -96,7 +113,12 @@
                     {
                         "x":0.828125,
                         "y":0.4921875
-                    },
+                    }
+                ]
+            },
+            {
+                "type":"POLYGON",
+                "vertices": [
                     {
                         "x":0.8671875,
                         "y":0.4765625
@@ -112,7 +134,12 @@
                     {
                         "x":0.4765625,
                         "y":0.3984375
-                    },
+                    }
+                ]
+            },
+            {
+                "type":"POLYGON",
+                "vertices": [
                     {
                         "x":0.4375,
                         "y":0.34375
@@ -128,7 +155,12 @@
                     {
                         "x":0.5625,
                         "y":0.3125
-                    },
+                    }
+                ]
+            },
+            {
+                "type":"POLYGON",
+                "vertices": [
                     {
                         "x":0.5859375,
                         "y":0.28125
@@ -144,7 +176,12 @@
                     {
                         "x":0.4375,
                         "y":0.2265625
-                    },
+                    }
+                ]
+            },
+            {
+                "type":"POLYGON",
+                "vertices": [
                     {
                         "x":0.203125,
                         "y":0.2578125
@@ -160,7 +197,12 @@
                     {
                         "x":0.203125,
                         "y":0.3046875
-                    },
+                    }
+                ]
+            },
+            {
+                "type":"POLYGON",
+                "vertices": [
                     {
                         "x":0.2890625,
                         "y":0.3203125
@@ -171,12 +213,17 @@
                     },
                     {
                         "x":0.2890625,
-                        "y":    0.359375
+                        "y":0.359375
                     },
                     {
                         "x":0.328125,
                         "y":0.4296875
-                    },
+                    }
+                ]
+            },
+            {
+                "type":"POLYGON",
+                "vertices": [
                     {
                         "x":0.1484375,
                         "y":0.4453125
@@ -192,7 +239,12 @@
                     {
                         "x":0.3046875,
                         "y":0.578125
-                    },
+                    }
+                ]
+            },
+            {
+                "type":"POLYGON",
+                "vertices": [
                     {
                         "x":0.2890625,
                         "y":0.625
@@ -208,7 +260,12 @@
                     {
                         "x":0.203125,
                         "y":0.7109375
-                    },
+                    }
+                ]
+            },
+            {
+                "type":"POLYGON",
+                "vertices": [
                     {
                         "x":0.1796875,
                         "y":0.6953125

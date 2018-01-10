@@ -2,6 +2,6 @@
     "Caution Medium": {
 	    "hull": "caution:cautionMedium",
 	    "items": "3*rep core:lightArmor-1 core:smallShield-1 core:blaster-1",
-	    "money": 20
+	    "money": 20000
     }
 }

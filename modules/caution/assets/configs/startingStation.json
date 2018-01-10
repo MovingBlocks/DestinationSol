@@ -1,0 +1,10 @@
+{
+    "hull": "core:station",
+    "items": "core:gun core:gun",
+
+    "guard": {
+        "hull": "caution:cautionMedium",
+        "items": "core:fixedGun core:fixedShotGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
+        "density": 3
+    }
+}
