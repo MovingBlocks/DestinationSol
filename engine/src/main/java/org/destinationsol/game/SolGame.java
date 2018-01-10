@@ -231,6 +231,12 @@ public class SolGame {
                     items.add(0, i);
                 }
             }
+            // Now make sure we include the mercs in the items
+            for (List<SolItem> mercs : hero.getTradeContainer().getMercs()) {
+                for (SolItem merc : mercs) {
+                    items.add(0, merc);
+                }
+            }
         } else if (transcendentHero != null) {
             FarShip farH = transcendentHero.getShip();
             hull = farH.getHullConfig();

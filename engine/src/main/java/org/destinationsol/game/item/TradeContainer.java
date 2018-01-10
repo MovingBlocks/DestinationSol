@@ -64,4 +64,8 @@ public class TradeContainer {
     public ItemContainer getMercs() {
         return myConfig.mercs;
     }
+    
+    public void addMerc(MercItem mercItem) {
+        myConfig.mercs.add(mercItem);
+    }
 }
