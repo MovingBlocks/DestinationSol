@@ -1,0 +1,45 @@
+{
+  "biobomb": {
+    "dmg": 13,
+    "dmgType": "explosion",
+    "spdLen": 0,
+    "physSize": 0.1,
+    "zeroAbsSpd": true,
+
+    "tex": "biobomb",
+    "texSz": 0.3,
+
+    "collisionEffectBg": {
+      "effectFile": "core:explSmoke",
+      "size": 0.6,
+      "tex": "core:smoke",
+      "floatsUp": true,
+      "tint": "smoke"
+    },
+
+    "collisionEffect": {
+      "effectFile": "core:explFire",
+      "size": 0.4,
+      "tex": "core:fire",
+      "tint": "fire"
+    },
+
+    "collisionSound": "core:shipExplosion"
+  },
+
+  "alienbullet": {
+    "dmg": 5,
+    "spdLen": 10,
+    "dmgType": "bullet",
+
+    "tex": "alienbullet",
+    "texSz": 0.02,
+    "stretch": true,
+    "collisionEffect": {
+      "effectFile": "core:spark",
+      "size": 0.5,
+      "tex": "core:spark",
+      "tint": "fire"
+    }
+  }
+}

@@ -61,13 +61,15 @@ public class SaveManager {
         return new FileHandle(Paths.get(path).toFile()).exists();
     }
 
-    public static ShipConfig readShip(HullConfigManager hullConfigs, ItemManager itemManager) {
+    public static ShipConfig readShip(HullConfigManager hullConfigs, ItemManager itemManager, SolGame game) {
         IniReader ir = new IniReader(FILE_NAME, null);
 
         String hullName = ir.getString("hull", null);
         if (hullName == null) {
             return null;
         }
+        
+        game.setShipName(hullName);
 
         HullConfig hull = hullConfigs.getConfig(hullName);
         if (hull == null) {

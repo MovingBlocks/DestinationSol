@@ -36,13 +36,13 @@ public class NewGameScreen implements SolUiScreen {
 
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl backControl;
-    private final SolUiControl previousControl;
+    private final SolUiControl continueControl;
     private final SolUiControl newControl;
 
     NewGameScreen(MenuLayout menuLayout, GameOptions gameOptions) {
-        previousControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, gameOptions.getKeyShoot());
-        previousControl.setDisplayName("Continue");
-        controls.add(previousControl);
+        continueControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, gameOptions.getKeyShoot());
+        continueControl.setDisplayName("Continue");
+        controls.add(continueControl);
 
         newControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
         newControl.setDisplayName("New game");
@@ -62,7 +62,7 @@ public class NewGameScreen implements SolUiScreen {
 
     @Override
     public void onAdd(SolApplication solApplication) {
-        previousControl.setEnabled(SaveManager.hasPrevShip());
+        continueControl.setEnabled(SaveManager.hasPrevShip());
     }
 
     @Override
@@ -73,7 +73,7 @@ public class NewGameScreen implements SolUiScreen {
             im.setScreen(solApplication, screens.main);
             return;
         }
-        if (previousControl.isJustOff()) {
+        if (continueControl.isJustOff()) {
             solApplication.loadNewGame(false, null);
             return;
         }
