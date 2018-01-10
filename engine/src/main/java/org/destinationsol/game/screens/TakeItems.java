@@ -35,7 +35,7 @@ public class TakeItems implements InventoryOperations {
     private FarShip target;
 
     TakeItems(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        takeControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyBuyItem());
+        takeControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyShoot());
         takeControl.setDisplayName("Take");
         controls.add(takeControl);
     }
@@ -60,27 +60,23 @@ public class TakeItems implements InventoryOperations {
         SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
         SolShip hero = game.getHero();
-        TalkScreen talkScreen = game.getScreens().talkScreen;
-        SolShip target = talkScreen.getTarget();
-        if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputMan().setScreen(solApplication, game.getScreens().mainScreen);
-            return;
-        }
+        
         SolItem selItem = is.getSelectedItem();
-        boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice() && hero.getItemContainer().canAdd(selItem);
-        takeControl.setDisplayName(enabled ? "Buy" : "---");
+        boolean enabled = selItem != null && hero.getItemContainer().canAdd(selItem);
+        takeControl.setDisplayName(enabled ? "Take" : "---");
         takeControl.setEnabled(enabled);
+        
         if (!enabled) {
             return;
         }
+        
         if (takeControl.isJustOff()) {
-            target.getTradeContainer().getItems().remove(selItem);
+            target.getIc().remove(selItem);
             hero.getItemContainer().add(selItem);
-            hero.setMoney(hero.getMoney() - selItem.getPrice());
         }
     }
     
-    public void setFarShip(FarShip farship) {
+    public void setTarget(FarShip farship) {
         this.target = farship;
     }
 }
