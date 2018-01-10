@@ -52,6 +52,7 @@ public class InventoryScreen implements SolUiScreen {
     public final ChangeShip changeShip;
     public final HireShips hireShips;
     public final ChooseMercenary chooseMercenary;
+    public final GiveItems giveItems;
 
     private final List<SolUiControl> controls = new ArrayList<>();
     public final SolUiControl[] itemControls;
@@ -129,6 +130,7 @@ public class InventoryScreen implements SolUiScreen {
         changeShip = new ChangeShip(this, gameOptions);
         hireShips = new HireShips(this, gameOptions);
         chooseMercenary = new ChooseMercenary(this, gameOptions);
+        giveItems = new GiveItems(this, gameOptions);
         upControl = new SolUiControl(null, true, gameOptions.getKeyUp());
         controls.add(upControl);
         downControl = new SolUiControl(null, true, gameOptions.getKeyDown());

@@ -189,4 +189,8 @@ public class FarShip implements FarObj {
     public ItemContainer getIc() {
         return myContainer;
     }
+    
+    public TradeContainer getTc() {
+        return myTradeContainer;
+    }
 }
