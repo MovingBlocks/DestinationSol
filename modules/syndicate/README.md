@@ -1,0 +1,1 @@
+Faction2 ship assets from [MillionthVector](http://millionthvector.blogspot.co.nz/p/free-sprites.html)
