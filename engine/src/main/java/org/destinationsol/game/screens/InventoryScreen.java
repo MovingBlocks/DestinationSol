@@ -55,7 +55,6 @@ public class InventoryScreen implements SolUiScreen {
     public final ChooseMercenary chooseMercenary;
     public final GiveItems giveItems;
     public final TakeItems takeItems;
-    public final EquipItems equipItems;
 
     private final List<SolUiControl> controls = new ArrayList<>();
     public final SolUiControl[] itemControls;
@@ -135,7 +134,6 @@ public class InventoryScreen implements SolUiScreen {
         chooseMercenary = new ChooseMercenary(this, gameOptions);
         giveItems = new GiveItems(this, gameOptions);
         takeItems = new TakeItems(this, gameOptions);
-        equipItems = new EquipItems(this, gameOptions);
         upControl = new SolUiControl(null, true, gameOptions.getKeyUp());
         controls.add(upControl);
         downControl = new SolUiControl(null, true, gameOptions.getKeyDown());
@@ -188,7 +186,7 @@ public class InventoryScreen implements SolUiScreen {
         }
         int selIdx = -1;
         int offset = myPage * Const.ITEM_GROUPS_PER_PAGE;
-        boolean hNew = showingHeroItems();
+        boolean hNew = showingHeroItems(solApplication);
         for (int i = 0; i < itemControls.length; i++) {
             SolUiControl itemCtrl = itemControls[i];
             int groupIdx = offset + i;
@@ -335,7 +333,7 @@ public class InventoryScreen implements SolUiScreen {
 
     @Override
     public void blurCustom(SolApplication solApplication) {
-        if (!showingHeroItems()) {
+        if (!showingHeroItems(solApplication)) {
             return;
         }
         SolGame game = solApplication.getGame();
@@ -345,8 +343,8 @@ public class InventoryScreen implements SolUiScreen {
         }
     }
 
-    private boolean showingHeroItems() {
-        return myOperations == showInventory || myOperations == sellItems;
+    private boolean showingHeroItems(SolApplication application) {
+        return application.getGame().getHero() == showInventory.getTarget() || myOperations == sellItems;
     }
 
     public Rectangle itemCtrl(int row) {
