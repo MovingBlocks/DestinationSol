@@ -76,6 +76,10 @@ public class TakeItems implements InventoryOperations {
         }
     }
     
+    /**
+     * Sets the mercenary to take items from
+     * @param solship The mercenary being interacted with
+     */
     public void setTarget(SolShip solship) {
         this.target = solship;
     }

@@ -127,6 +127,10 @@ public class EquipItems implements InventoryOperations {
         return "Items:";
     }
     
+    /**
+     * Sets the mercenary to equip items to
+     * @param solship The mercenary being interacted with
+     */
     public void setTarget(SolShip solship) {
         this.target = solship;
     }
