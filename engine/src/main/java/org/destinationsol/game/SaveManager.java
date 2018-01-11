@@ -15,16 +15,18 @@
  */
 package org.destinationsol.game;
 
-import com.badlogic.gdx.files.FileHandle;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+
 import org.destinationsol.IniReader;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemManager;
+import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
-import java.nio.file.Paths;
-import java.util.ArrayList;
+import com.badlogic.gdx.files.FileHandle;
 
 public class SaveManager {
     private static final String FILE_NAME = "prevShip.ini";
@@ -33,6 +35,10 @@ public class SaveManager {
         String hullName = game.getHullConfigs().getName(hull);
         StringBuilder sb = new StringBuilder();
         for (SolItem i : items) {
+            // We save mers to a separate JSON file
+            if (i instanceof MercItem) {
+                continue;
+            }
             sb.append(i.getCode());
             if (i.isEquipped() > 0) {
                 sb.append("-").append(i.isEquipped());
