@@ -45,6 +45,7 @@ public class ChooseMercenary implements InventoryOperations {
 
         giveControl.setEnabled(selNull);
         takeControl.setEnabled(selNull);
+        equipControl.setEnabled(selNull);
 
         if (giveControl.isJustOff() && selNull) {
             SolShip solship = ((MercItem) selItem).getSolShip();
