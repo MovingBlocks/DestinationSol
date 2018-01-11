@@ -234,6 +234,7 @@ public class MainScreen implements SolUiScreen {
             boolean isOn = inputMan.isScreenOn(is);
             inputMan.setScreen(solApplication, screens.mainScreen);
             if (!isOn) {
+                is.showInventory.setTarget(hero);
                 is.setOperations(is.showInventory);
                 inputMan.addScreen(solApplication, is);
             }
