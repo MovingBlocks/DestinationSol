@@ -101,9 +101,12 @@ public class HireShips implements InventoryOperations {
         }
         SolShip merc = game.getShipBuilder().buildNewFar(game, pos, new Vector2(), 0, 0, pilot, config.items, config.hull, null, true, config.money, null, true)
                 .toObj(game);
-        game.getObjMan().addObjNow(game, merc);
+        
+        merc.setMerc(selected);
         selected.setSolShip(merc);
-        game.getHero().getTradeContainer().addMerc(selected);
+        
+        game.getHero().getTradeContainer().getMercs().add(selected);
+        game.getObjMan().addObjNow(game, merc);
         return true;
     }
 
