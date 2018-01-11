@@ -1,0 +1,7 @@
+{
+  "Nyancat": {
+    "hull": "nyan:nyancat",
+    "items": "3*rep core:lightArmor-1",
+    "money":  1500
+  }
+}
