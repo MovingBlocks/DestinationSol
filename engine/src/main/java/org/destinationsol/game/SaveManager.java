@@ -35,7 +35,7 @@ public class SaveManager {
         String hullName = game.getHullConfigs().getName(hull);
         StringBuilder sb = new StringBuilder();
         for (SolItem i : items) {
-            // We save mers to a separate JSON file
+            // We save mercs to a separate JSON file
             if (i instanceof MercItem) {
                 continue;
             }
