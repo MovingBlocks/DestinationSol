@@ -51,9 +51,11 @@ public class InventoryScreen implements SolUiScreen {
     public final SellItems sellItems;
     public final ChangeShip changeShip;
     public final HireShips hireShips;
+    // The below screens deal with mercenaries
     public final ChooseMercenary chooseMercenary;
     public final GiveItems giveItems;
     public final TakeItems takeItems;
+    public final EquipItems equipItems;
 
     private final List<SolUiControl> controls = new ArrayList<>();
     public final SolUiControl[] itemControls;
@@ -133,6 +135,7 @@ public class InventoryScreen implements SolUiScreen {
         chooseMercenary = new ChooseMercenary(this, gameOptions);
         giveItems = new GiveItems(this, gameOptions);
         takeItems = new TakeItems(this, gameOptions);
+        equipItems = new EquipItems(this, gameOptions);
         upControl = new SolUiControl(null, true, gameOptions.getKeyUp());
         controls.add(upControl);
         downControl = new SolUiControl(null, true, gameOptions.getKeyDown());

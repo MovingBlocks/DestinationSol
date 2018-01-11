@@ -15,7 +15,9 @@
  */
 package org.destinationsol.game.screens;
 
-import com.badlogic.gdx.math.Vector2;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
@@ -28,15 +30,16 @@ import org.destinationsol.game.input.Guardian;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
+import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.FarShip;
+import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.badlogic.gdx.math.Vector2;
 
 public class HireShips implements InventoryOperations {
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
@@ -96,9 +99,10 @@ public class HireShips implements InventoryOperations {
         if (pos == null) {
             return false;
         }
-        FarShip merc = game.getShipBuilder().buildNewFar(game, pos, new Vector2(), 0, 0, pilot, config.items, config.hull, null, true, config.money, null, true);
-        game.getObjMan().addFarObjNow(merc);
-        selected.setFarShip(merc);
+        SolShip merc = game.getShipBuilder().buildNewFar(game, pos, new Vector2(), 0, 0, pilot, config.items, config.hull, null, true, config.money, null, true)
+                .toObj(game);
+        game.getObjMan().addObjNow(game, merc);
+        selected.setSolShip(merc);
         game.getHero().getTradeContainer().addMerc(selected);
         return true;
     }

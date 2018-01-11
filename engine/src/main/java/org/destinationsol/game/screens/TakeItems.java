@@ -32,7 +32,7 @@ import org.destinationsol.ui.SolUiControl;
 public class TakeItems implements InventoryOperations {
     public final SolUiControl takeControl;
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
-    private FarShip target;
+    private SolShip target;
 
     TakeItems(InventoryScreen inventoryScreen, GameOptions gameOptions) {
         takeControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyShoot());
@@ -42,7 +42,7 @@ public class TakeItems implements InventoryOperations {
 
     @Override
     public ItemContainer getItems(SolGame game) {
-        return target.getIc();
+        return target.getItemContainer();
     }
 
     @Override
@@ -71,12 +71,12 @@ public class TakeItems implements InventoryOperations {
         }
         
         if (takeControl.isJustOff()) {
-            target.getIc().remove(selItem);
+            target.getItemContainer().remove(selItem);
             hero.getItemContainer().add(selItem);
         }
     }
     
-    public void setTarget(FarShip farship) {
-        this.target = farship;
+    public void setTarget(SolShip solship) {
+        this.target = solship;
     }
 }
