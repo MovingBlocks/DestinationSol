@@ -16,6 +16,7 @@
 
 package org.destinationsol.game.ship;
 
+import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.game.FarObj;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
@@ -27,8 +28,6 @@ import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.TradeContainer;
 import org.destinationsol.game.ship.hulls.HullConfig;
-
-import com.badlogic.gdx.math.Vector2;
 
 public class FarShip implements FarObj {
     private final Vector2 myPos;
@@ -108,7 +107,7 @@ public class FarShip implements FarObj {
             myLife += myRepairer.tryRepair(game, myContainer, myLife, myHullConfig);
         }
     }
-    
+
     @Override
     public float getRadius() {
         return myHullConfig.getApproxRadius();
