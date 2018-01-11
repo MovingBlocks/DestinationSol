@@ -8,8 +8,8 @@
         "angle":180,
         "rechargeTime":1
     },
-    "e1Pos":"0.02 0.31",
-    "e2Pos":"0.02 0.69",
+    "e1Pos":"0.15 0.27",
+    "e2Pos":"0.15 0.73",
     "displayName":"Caution",
     "engine":"caution:cautionEngine",
     "gunSlots":[
