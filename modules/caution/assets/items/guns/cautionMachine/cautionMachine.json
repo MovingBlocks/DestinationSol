@@ -1,0 +1,19 @@
+{
+    "maxAngleVar": 10,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 2,
+    "timeBetweenShots": 0.1,
+    "reloadTime": 0.5,
+    "price": 800,
+    "clipName": "core:plasmaClip",
+    "gunLength": 0.26,
+    "texLenPerc": 0.87,
+    "displayName": "Plasma Machine Gun",
+    "lightOnShot": true,
+    "shootSounds": [
+        "core:waveGun"
+    ],
+    "reloadSounds": [
+        "core:gunReload"
+    ]
+}
