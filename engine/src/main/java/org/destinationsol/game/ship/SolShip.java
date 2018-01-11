@@ -424,8 +424,10 @@ public class SolShip implements SolObject {
         }
     }
     
-    /** Method to be called on the death of a SolShip
-     *  Note: Use {@link SolGame#beforeHeroDeath()} for the death of the player specifically
+    /** 
+     * Method to be called on the death of a SolShip
+     * Note: Use {@link SolGame#beforeHeroDeath()} for the death of the player specifically
+     * @param game The SolGame currently in progress.
      */
     private void onDeath(SolGame game) {
         MercItem merc = getMerc();
@@ -632,10 +634,20 @@ public class SolShip implements SolObject {
         return myAbilityAwait;
     }
     
+    /**
+     * Each SolShip could be a mercenary. Each mercenary is definitely a SolShip.
+     * This method sets the associated MercItem.
+     * @param mercItem The {@link MercItem} that this SolShip is associated with. Can be null.
+     */
     public void setMerc(MercItem mercItem) {
         this.mercItem = mercItem;
     }
     
+    /**
+     * Each SolShip could be a mercenary. Each mercenary is definitely a SolShip.
+     * This method gets the associated MercItem.
+     * @return The {@link MercItem} that this SolShip is associated with. Can be null.
+     */
     public MercItem getMerc() {
         return this.mercItem;
     }
