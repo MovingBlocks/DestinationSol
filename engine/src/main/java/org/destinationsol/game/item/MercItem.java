@@ -54,6 +54,10 @@ public class MercItem implements SolItem {
     }
 
     @Override
+    /**
+     * Used to determine if items should be stacked. Since mercenaries need to be distinct,
+     * return false to make each it's own stack.
+     */
     public boolean isSame(SolItem item) {
         return false;
     }

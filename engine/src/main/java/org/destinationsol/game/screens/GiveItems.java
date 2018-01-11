@@ -100,15 +100,32 @@ public class GiveItems implements InventoryOperations {
         }
     }
 
+    /**
+     * Inventories can only carry 24 groups of up to 30 items each,
+     * hence the need to check if the item can be added
+     * @param item The item to give
+     * @param target The mercenary being interacted with
+     * @return True if the item can be given
+     */
     private boolean isItemGiveable(SolItem item, SolShip target) {
         return target.getItemContainer().canAdd(item);
     }
 
-    // Return true if the item is not worn, or is worn and canSellEquippedItems is true
+    /**
+     * Items cannot be sold if equipped unless the game option canSellEquippedItems
+     * is true. This method checks both conditions and returns the appropriate boolean.
+     * @param item The item to be given
+     * @param options A static class holding the options set for the game
+     * @return True if the item is unequipped or equipped items can be sold
+     */
     private boolean isItemEquippedAndGiveable(SolItem item, GameOptions options) {
         return (item.isEquipped() == 0 || options.canSellEquippedItems);
     }
 
+    /**
+     * Sets the mercenary to give items to
+     * @param solship The mercenary being interacted with
+     */
     public void setTarget(SolShip solship) {
         this.target = solship;
     }
