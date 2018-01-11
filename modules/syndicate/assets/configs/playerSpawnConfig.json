@@ -1,7 +1,12 @@
 {
   "Syndicate Large": {
     "hull": "syndicate:syndicateLarge",
-    "items": "3*rep core:lightArmor-1 syndicate:bazook-1 syndicate:bazookClip-1",
+    "items": "12*rep core:lightArmor-1 syndicate:bazook-1 syndicate:bazookClip-1",
     "money":  2500
+  },
+  "Syndicate Capital":{
+    "hull":"syndicate:syndicateCapital",
+    "items":"24*rep core:advancedArmor-1 core:advancedShield-1 syndicate:bazook-1 syndicate:bazook-2 20*syndicate:bazookClip",
+    "money":7500
   }
 }
