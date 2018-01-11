@@ -6,8 +6,7 @@
     "reloadTime": 0.5,
     "price": 800,
     "clipName": "core:plasmaClip",
-    "gunLength": 0.26,
-    "texLenPerc": 0.87,
+    "gunLength": 0.14,
     "displayName": "Plasma Machine Gun",
     "lightOnShot": true,
     "shootSounds": [
