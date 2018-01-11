@@ -93,7 +93,7 @@ highMin: 1
 highMax: 1
 relative: false
 scalingCount: 2
-scaling0: 1.0
+scaling0: 0.4
 scaling1: 0.0
 timelineCount: 2
 timeline0: 0.0
