@@ -19,13 +19,14 @@ package org.destinationsol.game.item;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.ship.FarShip;
+import org.destinationsol.game.ship.SolShip;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class MercItem implements SolItem {
     private final ShipConfig myConfig;
     private final String myDesc;
-    private FarShip farship;
+    private SolShip solship;
 
     public MercItem(ShipConfig config) {
         myConfig = config;
@@ -86,11 +87,11 @@ public class MercItem implements SolItem {
         return myConfig;
     }
     
-    public void setFarShip(FarShip farship) {
-        this.farship = farship;
+    public void setSolShip(SolShip solship) {
+        this.solship = solship;
     }
     
-    public FarShip getFarShip() {
-        return this.farship;
+    public SolShip getSolShip() {
+        return this.solship;
     }
 }

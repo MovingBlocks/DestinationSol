@@ -32,7 +32,7 @@ public class GiveItems implements InventoryOperations {
 
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl giveControl;
-    private FarShip target;
+    private SolShip target;
 
     GiveItems(InventoryScreen inventoryScreen, GameOptions gameOptions) {
         giveControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeySellItem());
@@ -96,12 +96,12 @@ public class GiveItems implements InventoryOperations {
             ItemContainer ic = hero.getItemContainer();
             is.setSelected(ic.getSelectionAfterRemove(is.getSelected()));
             ic.remove(selItem);
-            target.getIc().add(selItem);
+            target.getItemContainer().add(selItem);
         }
     }
 
-    private boolean isItemGiveable(SolItem item, FarShip target) {
-        return target.getIc().canAdd(item);
+    private boolean isItemGiveable(SolItem item, SolShip target) {
+        return target.getItemContainer().canAdd(item);
     }
 
     // Return true if the item is not worn, or is worn and canSellEquippedItems is true
@@ -109,7 +109,7 @@ public class GiveItems implements InventoryOperations {
         return (item.isEquipped() == 0 || options.canSellEquippedItems);
     }
 
-    public void setTarget(FarShip farship) {
-        this.target = farship;
+    public void setTarget(SolShip solship) {
+        this.target = solship;
     }
 }
