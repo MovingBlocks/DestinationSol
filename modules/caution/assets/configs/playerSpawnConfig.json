@@ -3,5 +3,10 @@
 	    "hull": "caution:cautionMedium",
 	    "items": "3*rep core:lightArmor-1 core:smallShield-1 core:blaster-1 caution:cautionMachine",
 	    "money": 20000
+    },
+    "Caution Big": {
+	    "hull": "caution:cautionBig",
+	    "items": "3*rep core:lightArmor-1 core:smallShield-1 core:blaster-1 caution:cautionMachine",
+	    "money": 20000
     }
 }
