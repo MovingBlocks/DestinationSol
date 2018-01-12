@@ -1,5 +1,5 @@
 {
-   "size":1,
+   "size":1.7,
    "maxLife":80,
    "type":"std",
    "price":2000,
@@ -10,8 +10,8 @@
    },
    "e1Pos":"0.27 0.45",
    "e2Pos":"0.27 0.55",
-   "displayName":"Vanguard",
-   "engine":"core:imperialEngine",
+   "displayName":"Craft",
+   "engine":"caution:cautionEngine",
    "gunSlots":[
       {
          "position":"0.532499969005584 0.4987500011920929",

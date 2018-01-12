@@ -10,7 +10,7 @@
     },
     "e1Pos":"0.15 0.27",
     "e2Pos":"0.15 0.73",
-    "displayName":"Caution",
+    "displayName":"Shuttle",
     "engine":"caution:cautionEngine",
     "gunSlots":[
         {
