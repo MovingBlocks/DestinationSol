@@ -15,7 +15,12 @@
  */
 package org.destinationsol.game;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.destinationsol.CommonDrawer;
@@ -38,6 +43,7 @@ import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.LootBuilder;
+import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.particle.EffectTypes;
@@ -56,12 +62,15 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.game.sound.SpecialSounds;
+import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class SolGame {
     private final GameScreens gameScreens;
@@ -143,6 +152,7 @@ public class SolGame {
         // from this point we're ready!
         planetManager.fill(solNames);
         createPlayer(shipName);
+        createMercs();
         SolMath.checkVectorsTaken(null);
     }
 
@@ -152,9 +162,9 @@ public class SolGame {
 
         // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
         assert shipConfig != null;
-        
+
         galaxyFiller.fill(this, hullConfigManager, itemManager);
-    	
+
         Vector2 pos = galaxyFiller.getPlayerSpawnPos(this);
         camera.setPos(pos);
 
@@ -208,6 +218,38 @@ public class SolGame {
         objectManager.resetDelays();
     }
 
+    /**
+     * Creates and spawns the players mercenaries from their JSON file.
+     */
+    private void createMercs() {
+        String fileName = "mercenaries.json";
+
+        if (!SaveManager.resourceExists(fileName)) {
+            return;
+        }
+
+        String path = SaveManager.getRsrcPath(fileName);
+        BufferedReader bufferedReader;
+        try {
+            bufferedReader = new BufferedReader(new FileReader(path));
+        } catch (FileNotFoundException e) {
+            return;
+        }
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {
+        }.getType();
+        ArrayList<HashMap<String, String>> mercs = gson.fromJson(bufferedReader, type);
+
+        MercItem mercItem;
+        for (HashMap<String, String> node : mercs) {
+            mercItem = new MercItem(
+                    new ShipConfig(hullConfigManager.getConfig(node.get("hull")), node.get("items"), Integer.parseInt(node.get("money")), -1f, null, itemManager));
+            MercenaryUtils.createMerc(this, hero, mercItem);
+        }
+
+    }
+
     public void onGameEnd() {
         saveShip();
         objectManager.dispose();
@@ -229,12 +271,6 @@ public class SolGame {
             for (List<SolItem> group : hero.getItemContainer()) {
                 for (SolItem i : group) {
                     items.add(0, i);
-                }
-            }
-            // Now make sure we include the mercs in the items
-            for (List<SolItem> mercs : hero.getTradeContainer().getMercs()) {
-                for (SolItem merc : mercs) {
-                    items.add(0, merc);
                 }
             }
         } else if (transcendentHero != null) {
@@ -527,13 +563,13 @@ public class SolGame {
     public TutorialManager getTutMan() {
         return tutorialManager;
     }
-    
+
     public String getShipName() {
-    	return shipName;
+        return shipName;
     }
-    
+
     public void setShipName(String newName) {
-    	shipName = newName;
+        shipName = newName;
     }
 
     public void beforeHeroDeath() {
