@@ -6,7 +6,12 @@
     },
     "Caution Big": {
 	    "hull": "caution:cautionBig",
-	    "items": "3*rep core:lightArmor-1 core:smallShield-1 core:blaster-1 caution:cautionMachine",
+	    "items": "3*rep core:lightArmor-1 core:smallShield-1 core:blaster caution:cautionMachine-1 core:plasmaClip",
+	    "money": 20000
+    },
+    "Caution Capital": {
+	    "hull": "caution:cautionCapital",
+	    "items": "3*rep core:lightArmor-1 core:smallShield-1 core:blaster caution:cautionMachine-1 core:plasmaClip",
 	    "money": 20000
     }
 }
