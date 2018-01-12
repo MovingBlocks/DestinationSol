@@ -1,1 +1,1 @@
-Faction2 ship assets from [MillionthVector](http://millionthvector.blogspot.co.nz/p/free-sprites.html)
+All images for this faction are sourced from [MillionthVector](http://millionthvector.blogspot.co.nz/p/free-sprites.html)
