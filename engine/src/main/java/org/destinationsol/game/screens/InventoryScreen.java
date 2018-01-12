@@ -25,6 +25,7 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
+import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.menu.MenuLayout;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
@@ -152,6 +153,18 @@ public class InventoryScreen implements SolUiScreen {
             return;
         }
         if (closeControl.isJustOff()) {
+            
+            SolGame game = solApplication.getGame();
+            // Make sure the ChooseMercenary screen comes back up when we exit a mercenary related screen
+            if (myOperations == giveItems || myOperations == takeItems || (myOperations == showInventory && showInventory.getTarget() != game.getHero())) {
+                SolInputManager inputMan = solApplication.getInputMan();
+                GameScreens screens = game.getScreens();
+                InventoryScreen is = screens.inventoryScreen;
+                
+                inputMan.setScreen(solApplication, screens.mainScreen);
+                is.setOperations(is.chooseMercenary);
+                inputMan.addScreen(solApplication, is);
+            }
             solApplication.getInputMan().setScreen(solApplication, solApplication.getGame().getScreens().mainScreen);
             return;
         }
