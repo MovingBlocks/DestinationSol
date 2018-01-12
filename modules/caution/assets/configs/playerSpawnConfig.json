@@ -13,5 +13,10 @@
 	    "hull": "caution:cautionCapital",
 	    "items": "3*rep core:lightArmor-1 core:smallShield-1 core:blaster caution:cautionMachine-1 core:plasmaClip",
 	    "money": 20000
+    },
+    "Caution Small": {
+	    "hull": "caution:cautionSmall",
+	    "items": "3*rep core:lightArmor-1 core:smallShield-1 core:blaster caution:cautionMachine-1 core:plasmaClip",
+	    "money": 20000
     }
 }
