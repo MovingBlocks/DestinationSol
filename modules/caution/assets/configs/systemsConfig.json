@@ -10,7 +10,7 @@
 
                 "guard": {
                     "hull": "caution:cautionBig",
-                    "items": "core:cautionMachine core:mediumArmor core:smallShield",
+                    "items": "caution:cautionMachine core:mediumArmor core:smallShield",
                     "density": 4
                 }
             }
