@@ -253,6 +253,8 @@ public class MainScreen implements SolUiScreen {
             if (!isOn) {
                 is.setOperations(is.chooseMercenary);
                 inputMan.addScreen(solApplication, is);
+                
+                game.getHero().getTradeContainer().getMercs().seenAll();
             }
         }
 
