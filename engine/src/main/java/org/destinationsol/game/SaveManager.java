@@ -15,30 +15,53 @@
  */
 package org.destinationsol.game;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.destinationsol.IniReader;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.Gun;
+import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
+import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 public class SaveManager {
     private static final String FILE_NAME = "prevShip.ini";
 
-    public static void writeShip(HullConfig hull, float money, ArrayList<SolItem> items, SolGame game) {
+    private static Logger logger = LoggerFactory.getLogger(SaveManager.class);
+
+    public static void writeShip(HullConfig hull, float money, ArrayList<SolItem> itemsList, SolGame game) {
         String hullName = game.getHullConfigs().getName(hull);
+
+        writeMercs(game);
+
+        String items = itemsToString(itemsList);
+        IniReader.write(FILE_NAME, "hull", hullName, "money", (int) money, "items", items);
+    }
+
+    /**
+     * Converts  list of SolItems to a string of items to be saved.
+     * @param items A list of SolItems to be converted to an item string
+     * @return A string of items suitable for saving
+     */
+    private static String itemsToString(ArrayList<SolItem> items) {
         StringBuilder sb = new StringBuilder();
+
         for (SolItem i : items) {
-            // We save mercs to a separate JSON file
-            if (i instanceof MercItem) {
-                continue;
-            }
             sb.append(i.getCode());
             if (i.isEquipped() > 0) {
                 sb.append("-").append(i.isEquipped());
@@ -52,17 +75,82 @@ public class SaveManager {
                 }
             }
         }
-        IniReader.write(FILE_NAME, "hull", hullName, "money", (int) money, "items", sb.toString());
+
+        return sb.toString();
+
     }
 
-    public static boolean hasPrevShip() {
-        String path;
-        if (DebugOptions.DEV_ROOT_PATH != null) {
-            path = DebugOptions.DEV_ROOT_PATH;
-        } else {
-            path = "src/main/resources/";
+    /**
+     * Writes the player's mercenaries to their JSON file.
+     * Will create file if it doesn't exist.
+     * @param game The instance of the game we're dealing with
+     */
+    private static void writeMercs(SolGame game) {
+        String fileName = getRsrcPath("mercenaries.json");
+        PrintWriter writer;
+        
+        ItemContainer mercIc = game.getHero().getTradeContainer().getMercs();
+        
+        List<JsonObject> jsons = new ArrayList<JsonObject>();
+        JsonObject json;
+        
+        for (List<SolItem> group : mercIc) {
+            for (SolItem item : group) {
+                SolShip merc = ((MercItem) item).getSolShip();
+                // Json fields
+                String hullName = game.getHullConfigs().getName(merc.getHull().config);
+                int money = (int) merc.getMoney();
+                
+                ArrayList<SolItem> itemsList = new ArrayList<SolItem>();
+                for (List<SolItem> group1 : merc.getItemContainer()) {
+                    for (SolItem i : group1) {
+                        itemsList.add(0, i);
+                    }
+                }
+                String items = itemsToString(itemsList);
+                
+                json = new JsonObject();
+                json.addProperty("hull", hullName);
+                json.addProperty("money", money);
+                json.addProperty("items", items);
+                
+                jsons.add(json);
+            }
         }
-        path += FILE_NAME;
+        
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String toWrite = gson.toJson(jsons);
+
+        // Using PrintWriter because it truncates the file if it exists or creates a new one if it doesn't
+        // And truncation is good because we don't want dead mercs respawning
+        try {
+            writer = new PrintWriter(fileName, "UTF-8");
+            writer.write(toWrite);
+            writer.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            logger.error("Could not save mercenaries, " + e.getMessage());
+        }
+    }
+
+    /**
+     * @param fileName The name of the file to get the resource path of
+     * @return The path in the resource folder to the given file
+     */
+    public static String getRsrcPath(String fileName) {
+        if (DebugOptions.DEV_ROOT_PATH != null) {
+            return DebugOptions.DEV_ROOT_PATH + fileName;
+        } else {
+            return "src/main/resources/" + fileName;
+        }
+    }
+
+    /**
+     * Checks if a resource exists
+     * @param fileName Just the name of the resource, not the path
+     * @return A boolean corresponding to the resources existence
+     */
+    public static boolean resourceExists(String fileName) {
+        String path = getRsrcPath(fileName);
 
         return new FileHandle(Paths.get(path).toFile()).exists();
     }
@@ -74,7 +162,7 @@ public class SaveManager {
         if (hullName == null) {
             return null;
         }
-        
+
         game.setShipName(hullName);
 
         HullConfig hull = hullConfigs.getConfig(hullName);
