@@ -16,8 +16,9 @@
 package org.destinationsol.game;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -232,7 +233,11 @@ public class SolGame {
         BufferedReader bufferedReader;
         try {
             bufferedReader = new BufferedReader(new FileReader(path));
-        } catch (FileNotFoundException e) {
+            if (new File(path).length() == 0) {
+                bufferedReader.close();
+                return;
+            }
+        } catch (IOException e) {
             return;
         }
 
