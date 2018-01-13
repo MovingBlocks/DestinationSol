@@ -3,7 +3,7 @@
     	"hard": true,
         "constantAllies": [
             {
-                "hull": "core:Station",
+                "hull": "caution:cautionStation",
                 "items": "core:blaster core:blaster core:advancedArmor core:advancedShield",
                 "repairer": true,
                 "density": 1,

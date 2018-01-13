@@ -1,5 +1,5 @@
 {
-    "hull": "core:station",
+    "hull": "caution:cautionStation",
     "items": "core:gun core:gun",
 
     "guard": {
