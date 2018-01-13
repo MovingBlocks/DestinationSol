@@ -16,13 +16,17 @@
 
 package org.destinationsol.game.item;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.ship.FarShip;
+import org.destinationsol.game.ship.SolShip;
+
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class MercItem implements SolItem {
     private final ShipConfig myConfig;
     private final String myDesc;
+    private SolShip solship;
 
     public MercItem(ShipConfig config) {
         myConfig = config;
@@ -50,8 +54,10 @@ public class MercItem implements SolItem {
     }
 
     @Override
+    // Always returns false so that MercItems don't group together.
+    // That way they can be selected separate of each other.
     public boolean isSame(SolItem item) {
-        return item instanceof MercItem && ((MercItem) item).myConfig == myConfig;
+        return false;
     }
 
     @Override
@@ -81,5 +87,13 @@ public class MercItem implements SolItem {
 
     public ShipConfig getConfig() {
         return myConfig;
+    }
+    
+    public void setSolShip(SolShip solship) {
+        this.solship = solship;
+    }
+    
+    public SolShip getSolShip() {
+        return this.solship;
     }
 }
