@@ -98,7 +98,13 @@
         "trading": {
             "items": "rep formic:gryazevShipunov core:bigShield core:advancedArmor core:teleportCharge formic:superShotgun core:shellClip core:mediumArmor formic:uraniumClip core:fixedGun",
             "ships": "formic:formicSmall formic:formicMedium formic:formicLarge formic:formicCapital",
-            "mercenaries": [ ]
+            "mercenaries": [
+                {
+                    "hull": "formic:formicMedium",
+                    "items": "3*rep core:smallShield",
+                    "money": 200
+                }
+            ]
         }
     },
 
