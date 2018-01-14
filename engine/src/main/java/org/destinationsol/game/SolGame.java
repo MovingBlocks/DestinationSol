@@ -19,6 +19,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -271,7 +274,23 @@ public class SolGame {
 
     public void onGameEnd() {
         saveShip();
+        saveWorld();
         objectManager.dispose();
+    }
+
+    /**
+     * Saves the world's seed so we can regenerate the world the same next time
+     */
+    private void saveWorld() {
+
+        try {
+            writer = new PrintWriter(fileName, "UTF-8");
+            writer.write(toWrite);
+            writer.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            logger.error("Could not save mercenaries, " + e.getMessage());
+        }
+
     }
 
     public void saveShip() {

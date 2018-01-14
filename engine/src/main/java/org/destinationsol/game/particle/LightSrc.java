@@ -65,9 +65,9 @@ public class LightSrc {
         } else {
             myWorkPerc = SolMath.approach(myWorkPerc, 0, game.getTimeStep() / myFadeTime);
         }
-        float baseA = SolMath.rnd(.5f, 1) * myWorkPerc * myIntensity;
+        float baseA = SolMath.randomFloat(.5f, 1) * myWorkPerc * myIntensity;
         myCircle.tint.a = baseA * A_RATIO;
-        float sz = (1 + SolMath.rnd(.2f * myIntensity)) * mySz;
+        float sz = (1 + SolMath.randomFloat(.2f * myIntensity)) * mySz;
         myCircle.setTexSz(SZ_RATIO * sz);
         if (myHalo != null) {
             myHalo.tint.a = baseA;

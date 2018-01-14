@@ -40,9 +40,9 @@ public class BattleDestProvider {
                            boolean canShootUnfixed, boolean nearGround) {
         myDirChangeAwait -= ts;
         if (myDirChangeAwait <= 0) {
-            int rnd = SolMath.intRnd(0, 2);
+            int rnd = SolMath.randInt(0, 2);
             myCw = rnd == 0 ? null : rnd == 1;
-            myDirChangeAwait = SolMath.rnd(MIN_DIR_CHANGE_AWAIT, MAX_DIR_CHANGE_AWAIT);
+            myDirChangeAwait = SolMath.randomFloat(MIN_DIR_CHANGE_AWAIT, MAX_DIR_CHANGE_AWAIT);
         }
         if (!battle) {
             throw new AssertionError("can't flee yet!");

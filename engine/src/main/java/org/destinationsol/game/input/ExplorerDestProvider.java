@@ -82,7 +82,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
             myDestIsLanding = true;
         } else {
             myRelDest = new Vector2();
-            SolMath.fromAl(myRelDest, SolMath.rnd(180), myPlanet.getGroundHeight() + .3f * Const.ATM_HEIGHT);
+            SolMath.fromAl(myRelDest, SolMath.randomFloat(180), myPlanet.getGroundHeight() + .3f * Const.ATM_HEIGHT);
             myDestIsLanding = false;
         }
     }
@@ -104,7 +104,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
                 myAwaitOnPlanet -= game.getTimeStep();
             } else {
                 ArrayList<Planet> ps = mySys.getPlanets();
-                int pIdx = SolMath.intRnd(allowedSz());
+                int pIdx = SolMath.randInt(allowedSz());
                 myPlanet = ps.get(pIdx);
                 calcRelDest(hullConfig);
                 myAwaitOnPlanet = MAX_AWAIT_ON_PLANET;

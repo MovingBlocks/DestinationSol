@@ -42,7 +42,7 @@ public class MazeBuilder {
         myInnerRad = maze.getRadius() - BORDER;
         mySz = (int) (myInnerRad * 2 / TILE_SZ);
         myMazePos = maze.getPos();
-        myMazeAngle = SolMath.rnd(180);
+        myMazeAngle = SolMath.randomFloat(180);
 
         MazeLayout layout = buildMaze(game, maze);
         buildEnemies(game, maze, layout);
@@ -114,7 +114,7 @@ public class MazeBuilder {
             int count = (int) (e.density * circleLen);
             for (int i = 0; i < count; i++) {
                 Vector2 pos = new Vector2();
-                SolMath.fromAl(pos, SolMath.rnd(180), dist);
+                SolMath.fromAl(pos, SolMath.randomFloat(180), dist);
                 pos.add(myMazePos);
                 buildEnemy(pos, game, e, false);
             }
@@ -138,8 +138,8 @@ public class MazeBuilder {
 
     private Vector2 getFreeCellPos(boolean[][] occupiedCells) {
         for (int i = 0; i < 10; i++) {
-            int col = SolMath.intRnd(mySz);
-            int row = SolMath.intRnd(mySz);
+            int col = SolMath.randInt(mySz);
+            int row = SolMath.randInt(mySz);
             if (occupiedCells[col][row]) {
                 continue;
             }
@@ -154,7 +154,7 @@ public class MazeBuilder {
     }
 
     private void buildEnemy(Vector2 pos, SolGame game, ShipConfig e, boolean inner) {
-        float angle = SolMath.rnd(180);
+        float angle = SolMath.randomFloat(180);
         ShipBuilder sb = game.getShipBuilder();
         float viewDist = Const.AI_DET_DIST;
         if (inner) {

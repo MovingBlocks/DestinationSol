@@ -93,7 +93,7 @@ public class SolGun {
         for (int i = 0; i < cc.projectilesPerShot; i++) {
             float bulletAngle = gunAngle;
             if (myCurrAngleVar > 0) {
-                bulletAngle += SolMath.rnd(myCurrAngleVar);
+                bulletAngle += SolMath.randomFloat(myCurrAngleVar);
             }
             Projectile proj = new Projectile(game, bulletAngle, muzzlePos, baseSpd, faction, cc.projConfig, multiple);
             game.getObjMan().addObjDelayed(proj);

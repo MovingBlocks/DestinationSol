@@ -46,7 +46,7 @@ public class FlatPlaceFinder {
         float objAngularHalfWidth = SolMath.angularWidthOfSphere(objHalfWidth, p.getGroundHeight());
 
         for (int i = 0; i < 20; i++) {
-            float angle = SolMath.rnd(180);
+            float angle = SolMath.randomFloat(180);
             if (takenAngles != null && takenAngles.isConsumed(angle, objAngularHalfWidth)) {
                 continue;
             }

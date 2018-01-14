@@ -71,7 +71,7 @@ public class Projectile implements SolObject {
         myDrawables.add(drawable);
         float spdLen = myConfig.spdLen;
         if (varySpd) {
-            spdLen *= SolMath.rnd(.9f, 1.1f);
+            spdLen *= SolMath.randomFloat(.9f, 1.1f);
         }
         if (myConfig.physSize > 0) {
             myBody = new BallProjectileBody(game, muzzlePos, angle, this, gunSpd, spdLen, myConfig);

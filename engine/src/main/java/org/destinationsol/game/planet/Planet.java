@@ -60,7 +60,7 @@ public class Planet {
         myObjsCreated = objsCreated;
         myPos = new Vector2();
         mySpd = new Vector2();
-        float grav = SolMath.rnd(config.minGrav, config.maxGrav);
+        float grav = SolMath.randomFloat(config.minGrav, config.maxGrav);
         myGravConst = grav * myGroundHeight * myGroundHeight;
         myGroundDps = HardnessCalc.getGroundDps(myConfig, grav);
         myAtmDps = HardnessCalc.getAtmDps(myConfig);
