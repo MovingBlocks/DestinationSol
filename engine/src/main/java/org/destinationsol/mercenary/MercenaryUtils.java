@@ -63,7 +63,7 @@ public class MercenaryUtils {
             if (nearGround) {
                 relAngle = fromPlanet;
             } else {
-                relAngle = SolMath.rnd(180);
+                relAngle = SolMath.randInt(180);
             }
             SolMath.fromAl(pos, relAngle, dist);
             pos.add(heroPos);
