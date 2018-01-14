@@ -1,6 +1,6 @@
 {
     "size": 1.7,
-    "maxLife": 50,
+    "maxLife": 150,
     "type": "std",
     "price": 450,
     "ability":

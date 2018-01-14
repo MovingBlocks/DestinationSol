@@ -1,19 +1,25 @@
 {
-      "Mechanical Medium": {
+    "Mechanical Small": {
+        "hull": "mechanical:mechanicalSmall",
+        "items": "3*rep core:lightArmor-1 core:smallShield-1 tribe:laser-1",
+        "money": 200
+    },
+
+    "Mechanical Medium": {
         "hull": "mechanical:mechanicalMedium",
         "items": "6*rep core:mediumArmor-1 core:bigShield-1 tribe:laser-1",
-        "money": 200
+        "money": 400
       },
 
       "Mechanical Large": {
         "hull": "mechanical:mechanicalLarge",
         "items": "12*rep core:advancedArmor-1 core:advancedShield-1 mechanical:mechGun-1",
-        "money": 500
+        "money": 800
       },
 
       "Mechanical Capital": {
         "hull": "mechanical:mechanicalCapital",
         "items": "24*rep core:advancedArmor-1 core:advancedShield-1 tribe:laser-1 tribe:laser-2",
-        "money": 750
+        "money": 1000
       }
 }
