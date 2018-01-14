@@ -20,9 +20,13 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.sound.OggMusicManager;
 import org.destinationsol.game.sound.OggSoundManager;
@@ -35,8 +39,12 @@ import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Box2D;
 
 public class SolApplication implements ApplicationListener {
     private static Logger logger = LoggerFactory.getLogger(SolApplication.class);
@@ -63,6 +71,21 @@ public class SolApplication implements ApplicationListener {
     public SolApplication() {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
+        
+        // Set the seed for all the randomness. Very important
+        String fileName = "world.ini";
+        if (SaveManager.resourceExists(fileName)) {
+            IniReader ir = new IniReader(fileName, null);
+            
+            // Set a fall back for if the seed doesn't exist, just in case someone modified world.ini
+            long seed = Long.parseLong(ir.getString("seed", String.valueOf(System.currentTimeMillis())));
+            
+            logger.debug("Got seed: " + String.valueOf(seed));
+            
+            SolMath.setSeed(seed);
+        } else {
+            SolMath.setSeed(System.currentTimeMillis());
+        }
     }
 
     @Override
@@ -186,6 +209,8 @@ public class SolApplication implements ApplicationListener {
         solGame = new SolGame(this, shipName, tut, isNewGame, commonDrawer);
         inputManager.setScreen(this, solGame.getScreens().mainScreen);
         musicManager.playGameMusic(options);
+        
+        solGame.onNewGame();
     }
 
     public SolInputManager getInputMan() {
