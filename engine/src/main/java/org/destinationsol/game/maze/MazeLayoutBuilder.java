@@ -103,7 +103,7 @@ public class MazeLayoutBuilder {
         float[][] vals = new float[mySz][mySz];
         for (int i = 0; i < mySz; i++) {
             for (int j = 0; j < mySz; j++) {
-                vals[i][j] = SolMath.rnd(0, 1);
+                vals[i][j] = SolMath.randomFloat(0, 1);
             }
         }
         smooth(vals);

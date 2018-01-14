@@ -56,7 +56,7 @@ public class SystemsBuilder {
                 sysLeft--;
             } else {
                 MazeConfig mc = SolMath.elemRnd(mazeConfigs.configs);
-                float mazeRadius = SolMath.rnd(.7f, 1) * MAX_MAZE_RADIUS;
+                float mazeRadius = SolMath.randomFloat(.7f, 1) * MAX_MAZE_RADIUS;
                 Vector2 pos = getBodyPos(systems, mazes, mazeRadius + MAZE_GAP);
                 Maze m = new Maze(mc, pos, mazeRadius);
                 mazes.add(m);
@@ -73,7 +73,7 @@ public class SystemsBuilder {
             boolean createBelt = !beltCreated && 0 < i && i < .5f * PLANET_COUNT && SolMath.test(.6f);
             float gh;
             if (!createBelt) {
-                gh = SolMath.rnd(.5f, 1) * Const.MAX_GROUND_HEIGHT;
+                gh = SolMath.randomFloat(.5f, 1) * Const.MAX_GROUND_HEIGHT;
             } else {
                 gh = -BELT_HALF_WIDTH;
                 beltCreated = true;
@@ -107,7 +107,7 @@ public class SystemsBuilder {
         float dist = 0;
         while (true) {
             for (int i = 0; i < 20; i++) {
-                float angle = SolMath.rnd(180);
+                float angle = SolMath.randomFloat(180);
                 SolMath.fromAl(res, angle, dist);
                 boolean good = true;
                 for (SolSystem system : systems) {
@@ -183,6 +183,6 @@ public class SystemsBuilder {
         float toSysRotSpd = SolMath.arcToAngle(PLANET_SPD, planetDist) * SolMath.toInt(SolMath.test(.5f));
         float rotSpd = SolMath.arcToAngle(GROUND_SPD, groundHeight) * SolMath.toInt(SolMath.test(.5f));
         String name = SolMath.elemRnd(names.planets);
-        return new Planet(s, SolMath.rnd(180), planetDist, SolMath.rnd(180), toSysRotSpd, rotSpd, groundHeight, false, planetConfig, name);
+        return new Planet(s, SolMath.randomFloat(180), planetDist, SolMath.randomFloat(180), toSysRotSpd, rotSpd, groundHeight, false, planetConfig, name);
     }
 }

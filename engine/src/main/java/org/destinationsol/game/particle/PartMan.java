@@ -51,10 +51,10 @@ public class PartMan {
         int count = (int) (SZ_TO_BLINK_COUNT * sz * sz);
         for (int i = 0; i < count; i++) {
             Vector2 lightPos = new Vector2();
-            SolMath.fromAl(lightPos, SolMath.rnd(180), SolMath.rnd(0, sz / 2));
+            SolMath.fromAl(lightPos, SolMath.randomFloat(180), SolMath.randomFloat(0, sz / 2));
             lightPos.add(pos);
-            float lightSz = SolMath.rnd(.5f, 1) * EXPL_LIGHT_MAX_SZ;
-            float fadeTime = SolMath.rnd(.5f, 1) * EXPL_LIGHT_MAX_FADE_TIME;
+            float lightSz = SolMath.randomFloat(.5f, 1) * EXPL_LIGHT_MAX_SZ;
+            float fadeTime = SolMath.randomFloat(.5f, 1) * EXPL_LIGHT_MAX_FADE_TIME;
             LightObject light = new LightObject(game, lightSz, true, 1, lightPos, fadeTime, game.getCols().fire);
             game.getObjMan().addObjDelayed(light);
         }

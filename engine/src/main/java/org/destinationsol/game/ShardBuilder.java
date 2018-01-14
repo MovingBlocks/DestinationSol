@@ -53,16 +53,16 @@ public class ShardBuilder {
     public Shard build(SolGame game, Vector2 basePos, Vector2 baseSpd, float size) {
 
         ArrayList<Drawable> drawables = new ArrayList<>();
-        float scale = SolMath.rnd(MIN_SCALE, MAX_SCALE);
+        float scale = SolMath.randomFloat(MIN_SCALE, MAX_SCALE);
         TextureAtlas.AtlasRegion tex = SolMath.elemRnd(myTexs);
-        float spdAngle = SolMath.rnd(180);
+        float spdAngle = SolMath.randomFloat(180);
         Vector2 pos = new Vector2();
-        SolMath.fromAl(pos, spdAngle, SolMath.rnd(size));
+        SolMath.fromAl(pos, spdAngle, SolMath.randomFloat(size));
         pos.add(basePos);
-        Body body = myCollisionMeshLoader.getBodyAndSprite(game, tex, scale, BodyDef.BodyType.DynamicBody, pos, SolMath.rnd(180), drawables, ShipBuilder.SHIP_DENSITY, DrawableLevel.PROJECTILES);
+        Body body = myCollisionMeshLoader.getBodyAndSprite(game, tex, scale, BodyDef.BodyType.DynamicBody, pos, SolMath.randomFloat(180), drawables, ShipBuilder.SHIP_DENSITY, DrawableLevel.PROJECTILES);
 
-        body.setAngularVelocity(SolMath.rnd(MAX_ROT_SPD));
-        Vector2 spd = SolMath.fromAl(spdAngle, SolMath.rnd(MAX_SPD));
+        body.setAngularVelocity(SolMath.randomFloat(MAX_ROT_SPD));
+        Vector2 spd = SolMath.fromAl(spdAngle, SolMath.randomFloat(MAX_SPD));
         spd.add(baseSpd);
         body.setLinearVelocity(spd);
         SolMath.free(spd);

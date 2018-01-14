@@ -89,7 +89,7 @@ public class SolCam {
         }
         myPrevHeroLife = life;
 
-        Vector2 pos = SolMath.fromAl(SolMath.rnd(180), myShake);
+        Vector2 pos = SolMath.fromAl(SolMath.randomFloat(180), myShake);
         pos.add(myPos);
         applyPos(pos.x, pos.y);
         SolMath.free(pos);
