@@ -28,6 +28,11 @@ public interface SolItem {
 
     SolItem copy();
 
+    /**
+     * Used to determine if items should be grouped together.
+     * @param item The item to test equality of
+     * @return A boolean indicating whether the given item is the same as the instance isSame was called on.
+     */
     boolean isSame(SolItem item);
 
     TextureAtlas.AtlasRegion getIcon(SolGame game);
