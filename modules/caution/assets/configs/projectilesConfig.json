@@ -11,7 +11,7 @@
             "effectFile": "core:explFire",
             "size": 0.1,
             "tex": "core:fire",
-            "tint": "120 210 90"
+            "tint": "220 0 0"
         },
 
         "collisionSound": "core:blastCollision"
