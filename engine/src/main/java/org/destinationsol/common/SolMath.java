@@ -46,7 +46,7 @@ public class SolMath {
     public static int VECTORS_TAKEN;
     public static Vector2 tmp = new Vector2();
     
-    private static long seed = System.currentTimeMillis();
+    private static long seed;
     private static Random random = new Random(seed);
 
 
@@ -146,14 +146,14 @@ public class SolMath {
         if (min == max) {
             throw new AssertionError("intRnd min equals max " + min);
         }
-        return random.nextInt((max - min) + 1) + min;
+        return random.nextInt(max - min) + min;
     }
 
     /**
      * Returns a random int v such that min <= v && v <= max
      */
     public static int randInt(int min, int max) {
-        return random.nextInt((max - min) + 1) + min;
+        return random.nextInt(max - min) + min;
     }
 
     /**

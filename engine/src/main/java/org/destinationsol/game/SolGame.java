@@ -24,8 +24,11 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -277,18 +280,31 @@ public class SolGame {
         saveWorld();
         objectManager.dispose();
     }
+    
+    /**
+     * This method gets called when the "New Game" button gets pressed
+     */
+    public void onNewGame() {
+        // Reset the seed so this galaxy isn't the same as the last
+        SolMath.setSeed(System.currentTimeMillis());
+    }
 
     /**
      * Saves the world's seed so we can regenerate the world the same next time
      */
     private void saveWorld() {
-
+        
+        String fileName = SaveManager.getRsrcPath("world.ini");
+        
+        String toWrite = "seed=" + Long.toString(SolMath.getSeed());
+        
+        PrintWriter writer;
         try {
             writer = new PrintWriter(fileName, "UTF-8");
             writer.write(toWrite);
             writer.close();
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
-            logger.error("Could not save mercenaries, " + e.getMessage());
+            logger.error("Could not save world, " + e.getMessage());
         }
 
     }
