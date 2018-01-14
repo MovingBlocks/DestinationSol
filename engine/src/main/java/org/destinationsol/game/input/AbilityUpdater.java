@@ -28,8 +28,8 @@ public class AbilityUpdater {
     private boolean myAbility;
 
     public AbilityUpdater() {
-        myAbilityUseStartPerc = SolMath.rnd(.3f, .7f);
-        myChargesToKeep = SolMath.intRnd(1, 2);
+        myAbilityUseStartPerc = SolMath.randomFloat(.3f, .7f);
+        myChargesToKeep = SolMath.randInt(1, 2);
     }
 
     public void update(SolShip ship, SolShip nearestEnemy) {

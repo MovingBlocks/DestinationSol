@@ -178,7 +178,7 @@ public class ItemManager {
     }
 
     public SolItem random() {
-        return myL.get(SolMath.intRnd(myM.size())).copy();
+        return myL.get(SolMath.randInt(myM.size())).copy();
     }
 
     public void registerItem(SolItem example) {

@@ -120,7 +120,7 @@ public class OggSoundManager {
         }
 
         // Calculate the pitch for the sound
-        float pitch = SolMath.rnd(.97f, 1.03f) * game.getTimeFactor() * playableSound.getBasePitch();
+        float pitch = SolMath.randomFloat(.97f, 1.03f) * game.getTimeFactor() * playableSound.getBasePitch();
 
         if (skipLooped(source, sound, game.getTime())) {
             return;

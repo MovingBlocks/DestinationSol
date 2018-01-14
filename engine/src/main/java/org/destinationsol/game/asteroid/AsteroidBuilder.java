@@ -68,14 +68,14 @@ public class AsteroidBuilder {
 
     // doesn't consume pos
     public Asteroid buildNew(SolGame game, Vector2 pos, Vector2 spd, float sz, RemoveController removeController) {
-        float rotSpd = SolMath.rnd(MAX_A_ROT_SPD);
-        return build(game, pos, SolMath.elemRnd(textures), sz, SolMath.rnd(180), rotSpd, spd, removeController);
+        float rotSpd = SolMath.randomFloat(MAX_A_ROT_SPD);
+        return build(game, pos, SolMath.elemRnd(textures), sz, SolMath.randomFloat(180), rotSpd, spd, removeController);
     }
 
     // doesn't consume pos
     public FarAsteroid buildNewFar(Vector2 pos, Vector2 spd, float sz, RemoveController removeController) {
-        float rotSpd = SolMath.rnd(MAX_A_ROT_SPD);
-        return new FarAsteroid(SolMath.elemRnd(textures), new Vector2(pos), SolMath.rnd(180), removeController, sz, new Vector2(spd), rotSpd);
+        float rotSpd = SolMath.randomFloat(MAX_A_ROT_SPD);
+        return new FarAsteroid(SolMath.elemRnd(textures), new Vector2(pos), SolMath.randomFloat(180), removeController, sz, new Vector2(spd), rotSpd);
     }
 
     // doesn't consume pos

@@ -188,13 +188,13 @@ public class ChunkFiller {
         }
 
         Vector2 spd = new Vector2();
-        SolMath.fromAl(spd, SolMath.rnd(180), SolMath.rnd(0, ENEMY_MAX_SPD));
-        float rotSpd = SolMath.rnd(ENEMY_MAX_ROT_SPD);
+        SolMath.fromAl(spd, SolMath.randomFloat(180), SolMath.randomFloat(0, ENEMY_MAX_SPD));
+        float rotSpd = SolMath.randomFloat(ENEMY_MAX_ROT_SPD);
         MoveDestProvider dp = new StillGuard(pos, game, enemyConf);
         Pilot provider = new AiPilot(dp, false, Faction.EHAR, true, null, Const.AI_DET_DIST);
         HullConfig config = enemyConf.hull;
         int money = enemyConf.money;
-        float angle = SolMath.rnd(180);
+        float angle = SolMath.randomFloat(180);
         return game.getShipBuilder().buildNewFar(game, pos, spd, angle, rotSpd, provider, enemyConf.items, config,
                 remover, false, money, null, true);
     }
@@ -213,9 +213,9 @@ public class ChunkFiller {
             }
             float minSz = forBelt ? MIN_BELT_A_SZ : MIN_SYS_A_SZ;
             float maxSz = forBelt ? MAX_BELT_A_SZ : MAX_SYS_A_SZ;
-            float sz = SolMath.rnd(minSz, maxSz);
+            float sz = SolMath.randomFloat(minSz, maxSz);
             Vector2 spd = new Vector2();
-            SolMath.fromAl(spd, SolMath.rnd(180), MAX_A_SPD);
+            SolMath.fromAl(spd, SolMath.randomFloat(180), MAX_A_SPD);
 
             FarAsteroid a = game.getAsteroidBuilder().buildNewFar(asteroidPos, spd, sz, remover);
             game.getObjMan().addFarObjNow(a);
@@ -255,15 +255,15 @@ public class ChunkFiller {
                 tex.flip(!tex.isFlipX(), !tex.isFlipY());
             }
             // Choose a random size (within a range)
-            float sz = SolMath.rnd(.3f, 1) * FAR_JUNK_MAX_SZ;
+            float sz = SolMath.randomFloat(.3f, 1) * FAR_JUNK_MAX_SZ;
             // Apply a random rotation speed
-            float rotSpd = SolMath.rnd(FAR_JUNK_MAX_ROT_SPD);
+            float rotSpd = SolMath.randomFloat(FAR_JUNK_MAX_ROT_SPD);
             // Select a random position in the chunk centered around chCenter, relative to the position of the chunk.
             Vector2 junkPos = getRndPos(chCenter);
             junkPos.sub(chCenter);
 
             // Create the resulting sprite and add it to the list
-            RectSprite s = new RectSprite(tex, sz, 0, 0, junkPos, drawableLevel, SolMath.rnd(180), rotSpd, SolColor.DDG, false);
+            RectSprite s = new RectSprite(tex, sz, 0, 0, junkPos, drawableLevel, SolMath.randomFloat(180), rotSpd, SolColor.DDG, false);
             drawables.add(s);
         }
 
@@ -304,18 +304,18 @@ public class ChunkFiller {
                 tex.flip(!tex.isFlipX(), !tex.isFlipY());
             }
             // Choose a random size (within a range)
-            float sz = SolMath.rnd(.3f, 1) * JUNK_MAX_SZ;
+            float sz = SolMath.randomFloat(.3f, 1) * JUNK_MAX_SZ;
             // Apply a random rotation speed
-            float rotSpd = SolMath.rnd(JUNK_MAX_ROT_SPD);
+            float rotSpd = SolMath.randomFloat(JUNK_MAX_ROT_SPD);
 
             // Create the resulting sprite and add it to the list as the only element
-            RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DrawableLevel.DECO, SolMath.rnd(180), rotSpd, SolColor.LG, false);
+            RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DrawableLevel.DECO, SolMath.randomFloat(180), rotSpd, SolColor.LG, false);
             ArrayList<Drawable> drawables = new ArrayList<>();
             drawables.add(s);
 
             // Create a FarDrawable instance for this piece of junk and only allow it to be drawn when it's not hidden by a planet
             Vector2 spd = new Vector2();
-            SolMath.fromAl(spd, SolMath.rnd(180), SolMath.rnd(JUNK_MAX_SPD_LEN));
+            SolMath.fromAl(spd, SolMath.randomFloat(180), SolMath.randomFloat(JUNK_MAX_SPD_LEN));
             FarDrawable so = new FarDrawable(drawables, junkPos, spd, remover, true);
             // Add the object to the object manager
             game.getObjMan().addFarObjNow(so);
@@ -380,8 +380,8 @@ public class ChunkFiller {
      */
     private Vector2 getRndPos(Vector2 chCenter) {
         Vector2 pos = new Vector2(chCenter);
-        pos.x += SolMath.rnd(Const.CHUNK_SIZE / 2);
-        pos.y += SolMath.rnd(Const.CHUNK_SIZE / 2);
+        pos.x += SolMath.randomFloat(Const.CHUNK_SIZE / 2);
+        pos.y += SolMath.randomFloat(Const.CHUNK_SIZE / 2);
         return pos;
     }
 
