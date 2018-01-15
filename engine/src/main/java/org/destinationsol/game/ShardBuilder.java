@@ -21,6 +21,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.ship.ShipBuilder;
@@ -53,16 +54,16 @@ public class ShardBuilder {
     public Shard build(SolGame game, Vector2 basePos, Vector2 baseSpd, float size) {
 
         ArrayList<Drawable> drawables = new ArrayList<>();
-        float scale = SolMath.randomFloat(MIN_SCALE, MAX_SCALE);
-        TextureAtlas.AtlasRegion tex = SolMath.elemRnd(myTexs);
-        float spdAngle = SolMath.randomFloat(180);
+        float scale = SolRandom.randomFloat(MIN_SCALE, MAX_SCALE);
+        TextureAtlas.AtlasRegion tex = SolRandom.randomElement(myTexs);
+        float spdAngle = SolRandom.randomFloat(180);
         Vector2 pos = new Vector2();
-        SolMath.fromAl(pos, spdAngle, SolMath.randomFloat(size));
+        SolMath.fromAl(pos, spdAngle, SolRandom.randomFloat(size));
         pos.add(basePos);
-        Body body = myCollisionMeshLoader.getBodyAndSprite(game, tex, scale, BodyDef.BodyType.DynamicBody, pos, SolMath.randomFloat(180), drawables, ShipBuilder.SHIP_DENSITY, DrawableLevel.PROJECTILES);
+        Body body = myCollisionMeshLoader.getBodyAndSprite(game, tex, scale, BodyDef.BodyType.DynamicBody, pos, SolRandom.randomFloat(180), drawables, ShipBuilder.SHIP_DENSITY, DrawableLevel.PROJECTILES);
 
-        body.setAngularVelocity(SolMath.randomFloat(MAX_ROT_SPD));
-        Vector2 spd = SolMath.fromAl(spdAngle, SolMath.randomFloat(MAX_SPD));
+        body.setAngularVelocity(SolRandom.randomFloat(MAX_ROT_SPD));
+        Vector2 spd = SolMath.fromAl(spdAngle, SolRandom.randomFloat(MAX_SPD));
         spd.add(baseSpd);
         body.setLinearVelocity(spd);
         SolMath.free(spd);

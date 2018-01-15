@@ -22,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.ShipConfig;
@@ -172,7 +173,7 @@ public class PlanetObjectsBuilder {
         if (cloudTexs.isEmpty()) {
             return;
         }
-        int cloudCount = SolMath.randInt(.7f, (int) (CLOUD_DENSITY * Const.ATM_HEIGHT * planet.getGroundHeight()));
+        int cloudCount = SolRandom.randomInt(.7f, (int) (CLOUD_DENSITY * Const.ATM_HEIGHT * planet.getGroundHeight()));
         for (int i = 0; i < cloudCount; i++) {
             FarPlanetSprites cloud = createCloud(planet, cloudTexs);
             game.getObjMan().addFarObjNow(cloud);
@@ -180,12 +181,12 @@ public class PlanetObjectsBuilder {
     }
 
     private FarPlanetSprites createCloud(Planet planet, List<TextureAtlas.AtlasRegion> cloudTexs) {
-        float distPerc = SolMath.randomFloat(0, 1);
+        float distPerc = SolRandom.randomFloat(0, 1);
         float dist = planet.getGroundHeight() - TOP_TILE_SZ + .9f * Const.ATM_HEIGHT * distPerc;
-        float angle = SolMath.randomFloat(180);
+        float angle = SolRandom.randomFloat(180);
 
         List<Drawable> drawables = new ArrayList<>();
-        float sizePerc = SolMath.randomFloat(.2f, 1);
+        float sizePerc = SolRandom.randomFloat(.2f, 1);
         float linearWidth = sizePerc * (distPerc + .5f) * AVG_CLOUD_LINEAR_WIDTH;
         float maxAngleShift = SolMath.arcToAngle(linearWidth, dist);
         float maxDistShift = (1 - distPerc) * MAX_CLOUD_PIECE_DIST_SHIFT;
@@ -195,24 +196,24 @@ public class PlanetObjectsBuilder {
             RectSprite s = createCloudSprite(cloudTexs, maxAngleShift, maxDistShift, dist);
             drawables.add(s);
         }
-        float rotSpd = SolMath.randomFloat(.1f, 1) * SolMath.arcToAngle(MAX_CLOUD_LINEAR_SPD, dist);
+        float rotSpd = SolRandom.randomFloat(.1f, 1) * SolMath.arcToAngle(MAX_CLOUD_LINEAR_SPD, dist);
 
         return new FarPlanetSprites(planet, angle, dist, drawables, rotSpd);
     }
 
     private RectSprite createCloudSprite(List<TextureAtlas.AtlasRegion> cloudTexs, float maxAngleShift, float maxDistShift, float baseDist) {
-        TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolMath.elemRnd(cloudTexs));
+        TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolRandom.randomElement(cloudTexs));
         if (SolMath.test(.5f)) {
             tex.flip(!tex.isFlipX(), !tex.isFlipY());
         }
-        float angleShiftRel = SolMath.randomFloat(1);
+        float angleShiftRel = SolRandom.randomFloat(1);
         float distPerc = 1 - SolMath.abs(angleShiftRel);
         float sz = .5f * (1 + distPerc) * MAX_CLOUD_PIECE_SZ;
 
-        float relAngle = SolMath.randomFloat(30);
-        float rotSpd = SolMath.randomFloat(MAX_CLOUT_PIECE_ROT_SPD);
+        float relAngle = SolRandom.randomFloat(30);
+        float rotSpd = SolRandom.randomFloat(MAX_CLOUT_PIECE_ROT_SPD);
         float angleShift = angleShiftRel * maxAngleShift;
-        float distShift = maxDistShift == 0 ? 0 : distPerc * SolMath.randomFloat(0, maxDistShift);
+        float distShift = maxDistShift == 0 ? 0 : distPerc * SolRandom.randomFloat(0, maxDistShift);
         float dist = baseDist + distShift;
         Vector2 basePos = SolMath.getVec(0, -baseDist);
         Vector2 relPos = new Vector2(0, -dist);
@@ -259,12 +260,12 @@ public class PlanetObjectsBuilder {
 
         int decoCount = (int) (2 * SolMath.PI * groundHeight * dc.density);
         for (int i = 0; i < decoCount; i++) {
-            float decoSz = SolMath.randomFloat(dc.szMin, dc.szMax);
+            float decoSz = SolRandom.randomFloat(dc.szMin, dc.szMax);
             float angularHalfWidth = SolMath.angularWidthOfSphere(decoSz / 2, groundHeight);
 
             float decoAngle = 0;
             for (int j = 0; j < 5; j++) {
-                decoAngle = SolMath.randomFloat(180);
+                decoAngle = SolRandom.randomFloat(180);
                 if (!consumed.isConsumed(decoAngle, angularHalfWidth)) {
                     consumed.add(decoAngle, angularHalfWidth);
                     break;
@@ -283,7 +284,7 @@ public class PlanetObjectsBuilder {
             SolMath.rotate(decoRelPos, -baseAngle - 90, true);
             float decoRelAngle = decoAngle - baseAngle;
 
-            TextureAtlas.AtlasRegion decoTex = new TextureAtlas.AtlasRegion(SolMath.elemRnd(dc.texs));
+            TextureAtlas.AtlasRegion decoTex = new TextureAtlas.AtlasRegion(SolRandom.randomElement(dc.texs));
             if (dc.allowFlip && SolMath.test(.5f)) {
                 decoTex.flip(!decoTex.isFlipX(), !decoTex.isFlipY());
             }
@@ -334,7 +335,7 @@ public class PlanetObjectsBuilder {
     private FarShip buildOrbitEnemy(SolGame game, Planet planet, float heightPerc, ShipConfig oe, float detDist) {
         float height = planet.getGroundHeight() + heightPerc * Const.ATM_HEIGHT;
         Vector2 pos = new Vector2();
-        SolMath.fromAl(pos, SolMath.randomFloat(180), height);
+        SolMath.fromAl(pos, SolRandom.randomFloat(180), height);
         Vector2 planetPos = planet.getPos();
         pos.add(planetPos);
         float spdLen = SolMath.sqrt(planet.getGravConst() / height);

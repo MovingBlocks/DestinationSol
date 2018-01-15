@@ -17,7 +17,7 @@
 package org.destinationsol.game.item;
 
 import org.destinationsol.Const;
-import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -139,7 +139,7 @@ public class ItemContainer implements Iterable<List<SolItem>> {
     }
 
     public SolItem getRandom() {
-        return myGroups.isEmpty() ? null : SolMath.elemRnd(SolMath.elemRnd(myGroups));
+        return myGroups.isEmpty() ? null : SolRandom.randomElement(SolRandom.randomElement(myGroups));
     }
 
     public boolean isNew(List<SolItem> group) {

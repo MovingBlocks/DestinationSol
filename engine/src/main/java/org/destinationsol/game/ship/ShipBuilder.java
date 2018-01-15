@@ -32,6 +32,7 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.RemoveController;
@@ -194,7 +195,7 @@ public class ShipBuilder {
         }
         float clipUseTime = cc.size * gc.timeBetweenShots + gc.reloadTime;
         float lifeTime = pilot.getFaction() == Faction.LAANI ? AVG_ALLY_LIFE_TIME : AVG_BATTLE_TIME;
-        int count = 1 + (int) (lifeTime / clipUseTime) + SolMath.randInt(0, 2);
+        int count = 1 + (int) (lifeTime / clipUseTime) + SolRandom.randomInt(0, 2);
         for (int i = 0; i < count; i++) {
             if (ic.canAdd(cc.example)) {
                 ic.add(cc.example.copy());
@@ -211,7 +212,7 @@ public class ShipBuilder {
                     count = 3;
                 } else {
                     float lifeTime = pilot.getFaction() == Faction.LAANI ? AVG_ALLY_LIFE_TIME : AVG_BATTLE_TIME;
-                    count = (int) (lifeTime / hc.getAbility().getRechargeTime() * SolMath.randomFloat(.3f, 1));
+                    count = (int) (lifeTime / hc.getAbility().getRechargeTime() * SolRandom.randomFloat(.3f, 1));
                 }
                 for (int i = 0; i < count; i++) {
                     ic.add(ex.copy());

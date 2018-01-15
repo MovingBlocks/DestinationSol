@@ -19,6 +19,7 @@ package org.destinationsol.game.input;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.SolShip;
 
@@ -40,9 +41,9 @@ public class BattleDestProvider {
                            boolean canShootUnfixed, boolean nearGround) {
         myDirChangeAwait -= ts;
         if (myDirChangeAwait <= 0) {
-            int rnd = SolMath.randInt(0, 2);
+            int rnd = SolRandom.randomInt(0, 2);
             myCw = rnd == 0 ? null : rnd == 1;
-            myDirChangeAwait = SolMath.randomFloat(MIN_DIR_CHANGE_AWAIT, MAX_DIR_CHANGE_AWAIT);
+            myDirChangeAwait = SolRandom.randomFloat(MIN_DIR_CHANGE_AWAIT, MAX_DIR_CHANGE_AWAIT);
         }
         if (!battle) {
             throw new AssertionError("can't flee yet!");

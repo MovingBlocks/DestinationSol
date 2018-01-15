@@ -23,6 +23,7 @@ import com.badlogic.gdx.math.Vector3;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.screens.MainScreen;
 
@@ -89,7 +90,7 @@ public class SolCam {
         }
         myPrevHeroLife = life;
 
-        Vector2 pos = SolMath.fromAl(SolMath.randomFloat(180), myShake);
+        Vector2 pos = SolMath.fromAl(SolRandom.randomFloat(180), myShake);
         pos.add(myPos);
         applyPos(pos.x, pos.y);
         SolMath.free(pos);

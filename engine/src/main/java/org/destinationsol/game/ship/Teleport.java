@@ -22,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
@@ -61,7 +62,7 @@ public class Teleport implements ShipAbility {
         for (int i = 0; i < 5; i++) {
             newPos.set(pos);
             newPos.sub(nePos);
-            angle = config.angle * SolMath.randomFloat(.5f, 1) * SolMath.toInt(SolMath.test(.5f));
+            angle = config.angle * SolRandom.randomFloat(.5f, 1) * SolMath.toInt(SolMath.test(.5f));
             SolMath.rotate(newPos, angle);
             newPos.add(nePos);
             if (game.isPlaceEmpty(newPos, false)) {
@@ -95,8 +96,8 @@ public class Teleport implements ShipAbility {
 
         TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("engine:teleportBlip");
         float blipSz = owner.getHull().config.getApproxRadius() * 3;
-        game.getPartMan().blip(game, owner.getPosition(), SolMath.randomFloat(180), blipSz, 1, Vector2.Zero, tex);
-        game.getPartMan().blip(game, newPos, SolMath.randomFloat(180), blipSz, 1, Vector2.Zero, tex);
+        game.getPartMan().blip(game, owner.getPosition(), SolRandom.randomFloat(180), blipSz, 1, Vector2.Zero, tex);
+        game.getPartMan().blip(game, newPos, SolRandom.randomFloat(180), blipSz, 1, Vector2.Zero, tex);
 
         float newAngle = owner.getAngle() + angle;
         Vector2 newSpd = SolMath.getVec(owner.getSpd());
