@@ -41,6 +41,7 @@ public class SystemsBuilder {
     public List<SolSystem> build(List<SolSystem> systems, List<Planet> planets, ArrayList<SystemBelt> belts,
                                  PlanetConfigs planetConfigs,
                                  MazeConfigs mazeConfigs, ArrayList<Maze> mazes, SysConfigs sysConfigs, SolNames names) {
+        SolRandom.setSeed(0);
         int sysLeft = SYS_COUNT;
         int mazesLeft = MAZE_COUNT;
         while (sysLeft > 0 || mazesLeft > 0) {
@@ -108,7 +109,7 @@ public class SystemsBuilder {
         float dist = 0;
         while (true) {
             for (int i = 0; i < 20; i++) {
-                float angle = SolRandom.randomFloat(180);
+                float angle = SolRandom.seededRandomFloat(180);
                 SolMath.fromAl(res, angle, dist);
                 boolean good = true;
                 for (SolSystem system : systems) {

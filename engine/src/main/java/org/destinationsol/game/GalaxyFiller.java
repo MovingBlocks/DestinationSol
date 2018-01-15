@@ -57,7 +57,7 @@ public class GalaxyFiller {
             p = planets.get(planets.size() - 2);
             angleToSun = p.getAngleToSys() + 20 * SolMath.toInt(p.getToSysRotSpd() > 0);
         } else {
-            int pIdx = SolRandom.randomInt(planets.size() - 1);
+            int pIdx = SolRandom.seededRandomInt(planets.size() - 1);
             p = planets.get(pIdx);
             angleToSun = 0;
             for (int i = 0; i < 10; i++) {

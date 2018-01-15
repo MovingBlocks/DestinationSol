@@ -9,7 +9,7 @@ public class SolRandom {
 
     // Seeded random is for deterministic processes
     private static long seed;
-    private static Random srandom = new Random(seed);
+    private static Random seededRandom = new Random(seed);
     
     private static Random random = new Random();
     
@@ -36,7 +36,7 @@ public class SolRandom {
     
             return result;
         }
-        return srandom.nextFloat() * (max - min) + min;
+        return seededRandom.nextFloat() * (max - min) + min;
     }
 
     /**
@@ -59,14 +59,14 @@ public class SolRandom {
         if (min == max) {
             throw new AssertionError("intRnd min equals max " + min);
         }
-        return srandom.nextInt(max - min) + min;
+        return seededRandom.nextInt(max - min) + min;
     }
 
     /**
      * Returns a seeded random int v such that min <= v && v <= max
      */
     public static int seededRandomInt(int min, int max) {
-        return srandom.nextInt(max - min) + min;
+        return seededRandom.nextInt(max - min) + min;
     }
     
     /**
@@ -135,7 +135,7 @@ public class SolRandom {
 
     public static void setSeed(long seed) {
         SolRandom.seed = seed; 
-        srandom = new Random(seed);
+        seededRandom = new Random(seed);
     }
 
     public static long getSeed() {
