@@ -24,6 +24,7 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolColorUtil;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
@@ -48,7 +49,7 @@ public class FarBackgroundManagerOld {
             stars.add(star);
         }
 
-        nebulaAngle = SolMath.randomFloat(180);
+        nebulaAngle = SolRandom.randomFloat(180);
         nebulaTint = SolColor.col(.5f, 1);
     }
 
@@ -74,13 +75,13 @@ public class FarBackgroundManagerOld {
         private final Vector2 myPos;
 
         private FarBgStar() {
-            myShiftPerc = new Vector2(SolMath.randomFloat(1), SolMath.randomFloat(1));
+            myShiftPerc = new Vector2(SolRandom.randomFloat(1), SolRandom.randomFloat(1));
             myPos = new Vector2();
             boolean small = SolMath.test(.8f);
             myTex = Assets.getAtlasRegion("engine:farBgBigStar");
-            mySzPerc = (small ? .01f : .04f) * SolMath.randomFloat(.5f, 1);
+            mySzPerc = (small ? .01f : .04f) * SolRandom.randomFloat(.5f, 1);
             myTint = new Color();
-            SolColorUtil.fromHSB(SolMath.randomFloat(0, 1), .25f, 1, .7f, myTint);
+            SolColorUtil.fromHSB(SolRandom.randomFloat(0, 1), .25f, 1, .7f, myTint);
         }
 
         public void draw(GameDrawer drawer, float vd, Vector2 camPos, float camAngle) {

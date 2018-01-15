@@ -19,6 +19,7 @@ package org.destinationsol.game.input;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.SolSystem;
@@ -75,14 +76,14 @@ public class ExplorerDestProvider implements MoveDestProvider {
     private void calcRelDest(HullConfig hullConfig) {
         List<Vector2> lps = myPlanet.getLandingPlaces();
         if (lps.size() > 0) {
-            myRelDest = new Vector2(SolMath.elemRnd(lps));
+            myRelDest = new Vector2(SolRandom.randomElement(lps));
             float len = myRelDest.len();
             float aboveGround = hullConfig.getType() == HullConfig.Type.BIG ? Const.ATM_HEIGHT * .75f : .75f * hullConfig.getSize();
             myRelDest.scl((len + aboveGround) / len);
             myDestIsLanding = true;
         } else {
             myRelDest = new Vector2();
-            SolMath.fromAl(myRelDest, SolMath.randomFloat(180), myPlanet.getGroundHeight() + .3f * Const.ATM_HEIGHT);
+            SolMath.fromAl(myRelDest, SolRandom.randomFloat(180), myPlanet.getGroundHeight() + .3f * Const.ATM_HEIGHT);
             myDestIsLanding = false;
         }
     }
@@ -104,7 +105,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
                 myAwaitOnPlanet -= game.getTimeStep();
             } else {
                 ArrayList<Planet> ps = mySys.getPlanets();
-                int pIdx = SolMath.randInt(allowedSz());
+                int pIdx = SolRandom.randomInt(allowedSz());
                 myPlanet = ps.get(pIdx);
                 calcRelDest(hullConfig);
                 myAwaitOnPlanet = MAX_AWAIT_ON_PLANET;

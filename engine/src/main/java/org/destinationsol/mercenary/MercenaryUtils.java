@@ -2,6 +2,7 @@ package org.destinationsol.mercenary;
 
 import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.ShipConfig;
@@ -63,7 +64,7 @@ public class MercenaryUtils {
             if (nearGround) {
                 relAngle = fromPlanet;
             } else {
-                relAngle = SolMath.randInt(180);
+                relAngle = SolRandom.randomInt(180);
             }
             SolMath.fromAl(pos, relAngle, dist);
             pos.add(heroPos);

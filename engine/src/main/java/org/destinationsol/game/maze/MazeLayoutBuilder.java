@@ -17,6 +17,7 @@
 package org.destinationsol.game.maze;
 
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 
 public class MazeLayoutBuilder {
     public static final float HOLE_PERC = .2f;
@@ -103,7 +104,7 @@ public class MazeLayoutBuilder {
         float[][] vals = new float[mySz][mySz];
         for (int i = 0; i < mySz; i++) {
             for (int j = 0; j < mySz; j++) {
-                vals[i][j] = SolMath.randomFloat(0, 1);
+                vals[i][j] = SolRandom.randomFloat(0, 1);
             }
         }
         smooth(vals);

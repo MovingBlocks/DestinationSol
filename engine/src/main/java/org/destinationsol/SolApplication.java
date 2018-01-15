@@ -25,6 +25,7 @@ import java.io.StringWriter;
 
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
@@ -82,9 +83,9 @@ public class SolApplication implements ApplicationListener {
             
             logger.debug("Got seed: " + String.valueOf(seed));
             
-            SolMath.setSeed(seed);
+            SolRandom.setSeed(seed);
         } else {
-            SolMath.setSeed(System.currentTimeMillis());
+            SolRandom.setSeed(System.currentTimeMillis());
         }
     }
 

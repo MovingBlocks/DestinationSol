@@ -40,6 +40,7 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.chunk.ChunkManager;
@@ -286,7 +287,7 @@ public class SolGame {
      */
     public void onNewGame() {
         // Reset the seed so this galaxy isn't the same as the last
-        SolMath.setSeed(System.currentTimeMillis());
+        SolRandom.setSeed(System.currentTimeMillis());
     }
 
     /**
@@ -296,7 +297,7 @@ public class SolGame {
         
         String fileName = SaveManager.getRsrcPath("world.ini");
         
-        String toWrite = "seed=" + Long.toString(SolMath.getSeed());
+        String toWrite = "seed=" + Long.toString(SolRandom.getSeed());
         
         PrintWriter writer;
         try {

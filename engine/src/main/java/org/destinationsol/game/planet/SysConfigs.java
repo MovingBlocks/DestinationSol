@@ -18,7 +18,7 @@ package org.destinationsol.game.planet;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
-import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.chunk.SpaceEnvConfig;
@@ -98,7 +98,7 @@ public class SysConfigs {
 
     public SysConfig getRandomBelt(boolean hard) {
         Map<String, SysConfig> config = hard ? myHardBeltConfigs : myBeltConfigs;
-        return SolMath.elemRnd(new ArrayList<>(config.values()));
+        return SolRandom.randomElement(new ArrayList<>(config.values()));
     }
 
     public SysConfig getConfig(String name) {
@@ -111,7 +111,7 @@ public class SysConfigs {
 
     public SysConfig getRandomCfg(boolean hard) {
         Map<String, SysConfig> config = hard ? myHardConfigs : myConfigs;
-        return SolMath.elemRnd(new ArrayList<>(config.values()));
+        return SolRandom.randomElement(new ArrayList<>(config.values()));
     }
 
     public void addAllConfigs(ArrayList<ShipConfig> shipConfigs) {

@@ -25,6 +25,7 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.common.Bound;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
@@ -67,7 +68,7 @@ public class StarPort implements SolObject {
     private static void blip(SolGame game, SolShip ship) {
         TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("engine:teleportBlip");
         float blipSz = ship.getHull().config.getApproxRadius() * 10;
-        game.getPartMan().blip(game, ship.getPosition(), SolMath.randomFloat(180), blipSz, 1, Vector2.Zero, tex);
+        game.getPartMan().blip(game, ship.getPosition(), SolRandom.randomFloat(180), blipSz, 1, Vector2.Zero, tex);
     }
 
     @Bound

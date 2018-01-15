@@ -18,7 +18,7 @@ package org.destinationsol.game.planet;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
-import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.item.ItemManager;
@@ -68,7 +68,7 @@ public class PlanetConfigs {
 
     public PlanetConfig getRandom(boolean easy, boolean hard) {
         List<PlanetConfig> cfg = easy ? myEasy : hard ? myHard : myMedium;
-        return SolMath.elemRnd(cfg);
+        return SolRandom.randomElement(cfg);
     }
 
     public Map<String, PlanetConfig> getAllConfigs() {

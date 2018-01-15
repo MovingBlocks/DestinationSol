@@ -18,6 +18,7 @@ package org.destinationsol.game.planet;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SolNames;
 import org.destinationsol.game.maze.Maze;
@@ -55,8 +56,8 @@ public class SystemsBuilder {
                 systems.add(s);
                 sysLeft--;
             } else {
-                MazeConfig mc = SolMath.elemRnd(mazeConfigs.configs);
-                float mazeRadius = SolMath.randomFloat(.7f, 1) * MAX_MAZE_RADIUS;
+                MazeConfig mc = SolRandom.randomElement(mazeConfigs.configs);
+                float mazeRadius = SolRandom.randomFloat(.7f, 1) * MAX_MAZE_RADIUS;
                 Vector2 pos = getBodyPos(systems, mazes, mazeRadius + MAZE_GAP);
                 Maze m = new Maze(mc, pos, mazeRadius);
                 mazes.add(m);
@@ -73,7 +74,7 @@ public class SystemsBuilder {
             boolean createBelt = !beltCreated && 0 < i && i < .5f * PLANET_COUNT && SolMath.test(.6f);
             float gh;
             if (!createBelt) {
-                gh = SolMath.randomFloat(.5f, 1) * Const.MAX_GROUND_HEIGHT;
+                gh = SolRandom.randomFloat(.5f, 1) * Const.MAX_GROUND_HEIGHT;
             } else {
                 gh = -BELT_HALF_WIDTH;
                 beltCreated = true;
@@ -107,7 +108,7 @@ public class SystemsBuilder {
         float dist = 0;
         while (true) {
             for (int i = 0; i < 20; i++) {
-                float angle = SolMath.randomFloat(180);
+                float angle = SolRandom.randomFloat(180);
                 SolMath.fromAl(res, angle, dist);
                 boolean good = true;
                 for (SolSystem system : systems) {
@@ -141,7 +142,7 @@ public class SystemsBuilder {
         } else {
             sysConfig = sysConfigs.getConfig(st);
         }
-        String name = firstSys ? SolMath.elemRnd(names.systems) : "Sol"; //hack
+        String name = firstSys ? SolRandom.randomElement(names.systems) : "Sol"; //hack
         SolSystem s = new SolSystem(sysPos, sysConfig, name, sysRadius);
         float planetDist = Const.SUN_RADIUS;
         for (Float gh : ghs) {
@@ -182,7 +183,7 @@ public class SystemsBuilder {
                                 SolNames names) {
         float toSysRotSpd = SolMath.arcToAngle(PLANET_SPD, planetDist) * SolMath.toInt(SolMath.test(.5f));
         float rotSpd = SolMath.arcToAngle(GROUND_SPD, groundHeight) * SolMath.toInt(SolMath.test(.5f));
-        String name = SolMath.elemRnd(names.planets);
-        return new Planet(s, SolMath.randomFloat(180), planetDist, SolMath.randomFloat(180), toSysRotSpd, rotSpd, groundHeight, false, planetConfig, name);
+        String name = SolRandom.randomElement(names.planets);
+        return new Planet(s, SolRandom.seededRandomFloat(180), planetDist, SolRandom.seededRandomFloat(180), toSysRotSpd, rotSpd, groundHeight, false, planetConfig, name);
     }
 }

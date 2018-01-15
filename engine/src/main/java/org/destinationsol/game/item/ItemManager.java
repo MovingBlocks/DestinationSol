@@ -18,6 +18,7 @@ package org.destinationsol.game.item;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.projectile.ProjectileConfigs;
@@ -66,7 +67,7 @@ public class ItemManager {
         for (ItemConfig ic : list) {
             for (int i = 0; i < ic.amt; i++) {
                 if (SolMath.test(ic.chance)) {
-                    SolItem item = SolMath.elemRnd(ic.examples).copy();
+                    SolItem item = SolRandom.randomElement(ic.examples).copy();
                     c.add(item);
                 }
             }
@@ -178,7 +179,7 @@ public class ItemManager {
     }
 
     public SolItem random() {
-        return myL.get(SolMath.randInt(myM.size())).copy();
+        return myL.get(SolRandom.randomInt(myM.size())).copy();
     }
 
     public void registerItem(SolItem example) {

@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -93,7 +94,7 @@ public class SolGun {
         for (int i = 0; i < cc.projectilesPerShot; i++) {
             float bulletAngle = gunAngle;
             if (myCurrAngleVar > 0) {
-                bulletAngle += SolMath.randomFloat(myCurrAngleVar);
+                bulletAngle += SolRandom.randomFloat(myCurrAngleVar);
             }
             Projectile proj = new Projectile(game, bulletAngle, muzzlePos, baseSpd, faction, cc.projConfig, multiple);
             game.getObjMan().addObjDelayed(proj);
