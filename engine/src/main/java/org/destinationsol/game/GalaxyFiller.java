@@ -21,6 +21,7 @@ import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.ExplorerDestProvider;
@@ -56,11 +57,11 @@ public class GalaxyFiller {
             p = planets.get(planets.size() - 2);
             angleToSun = p.getAngleToSys() + 20 * SolMath.toInt(p.getToSysRotSpd() > 0);
         } else {
-            int pIdx = SolMath.randInt(planets.size() - 1);
+            int pIdx = SolRandom.randomInt(planets.size() - 1);
             p = planets.get(pIdx);
             angleToSun = 0;
             for (int i = 0; i < 10; i++) {
-                angleToSun = SolMath.randomFloat(180);
+                angleToSun = SolRandom.seededRandomFloat(180);
                 if (!angles.isConsumed(angleToSun, STATION_CONSUME_SECTOR)) {
                     break;
                 }
@@ -99,7 +100,7 @@ public class GalaxyFiller {
             }
         }
         Pilot pilot = new AiPilot(dp, true, faction, true, "something", detectionDist);
-        float angle = mainStation ? 0 : SolMath.randomFloat(180);
+        float angle = mainStation ? 0 : SolRandom.seededRandomFloat(180);
         boolean hasRepairer;
         hasRepairer = faction == Faction.LAANI;
         int money = cfg.money;
@@ -111,7 +112,7 @@ public class GalaxyFiller {
             for (int i = 0; i < guardConf.density; i++) {
                 float guardianAngle = 0;
                 for (int j = 0; j < 5; j++) {
-                    guardianAngle = SolMath.randomFloat(180);
+                    guardianAngle = SolRandom.randomFloat(180);
                     if (!ca.isConsumed(guardianAngle, guardConf.hull.getApproxRadius())) {
                         ca.add(guardianAngle, guardConf.hull.getApproxRadius());
                         break;
@@ -243,7 +244,7 @@ public class GalaxyFiller {
         float sRadius = s.getConfig().hard ? s.getRadius() : s.getInnerRad();
 
         for (int i = 0; i < 100; i++) {
-            SolMath.fromAl(res, SolMath.randomFloat(180), SolMath.randomFloat(sRadius));
+            SolMath.fromAl(res, SolRandom.seededRandomFloat(180), SolRandom.seededRandomFloat(sRadius));
             res.add(sPos);
             if (game.isPlaceEmpty(res, true)) {
                 return res;

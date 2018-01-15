@@ -18,7 +18,7 @@ package org.destinationsol.game.maze;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.ShipConfig;
@@ -81,7 +81,7 @@ public class MazeConfig {
     private static void buildTiles(CollisionMeshLoader.Model paths, List<MazeTile> list, boolean wall, boolean metal,
                                        List<TextureAtlas.AtlasRegion> bgTexs, List<TextureAtlas.AtlasRegion> texs) {
         for (TextureAtlas.AtlasRegion tex : texs) {
-            TextureAtlas.AtlasRegion bgTex = SolMath.elemRnd(bgTexs);
+            TextureAtlas.AtlasRegion bgTex = SolRandom.randomElement(bgTexs);
             MazeTile iw = MazeTile.load(tex, paths.rigidBodies.get(tex.name), wall, metal, bgTex);
             list.add(iw);
         }

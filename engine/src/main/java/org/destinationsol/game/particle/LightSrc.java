@@ -21,6 +21,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColorUtil;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
@@ -65,9 +66,9 @@ public class LightSrc {
         } else {
             myWorkPerc = SolMath.approach(myWorkPerc, 0, game.getTimeStep() / myFadeTime);
         }
-        float baseA = SolMath.randomFloat(.5f, 1) * myWorkPerc * myIntensity;
+        float baseA = SolRandom.randomFloat(.5f, 1) * myWorkPerc * myIntensity;
         myCircle.tint.a = baseA * A_RATIO;
-        float sz = (1 + SolMath.randomFloat(.2f * myIntensity)) * mySz;
+        float sz = (1 + SolRandom.randomFloat(.2f * myIntensity)) * mySz;
         myCircle.setTexSz(SZ_RATIO * sz);
         if (myHalo != null) {
             myHalo.tint.a = baseA;

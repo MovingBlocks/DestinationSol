@@ -16,6 +16,7 @@
 package org.destinationsol.game.planet;
 
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 
 public class GroundBuilder {
     private static final int PURE_GROUND_ROWS = 0;
@@ -40,7 +41,7 @@ public class GroundBuilder {
         float desiredMax = myRows - PURE_GROUND_ROWS;
 
         for (int x = 0; x < myCols; x++) {
-            ds0[x] = SolMath.randomFloat(desiredMin, desiredMax);
+            ds0[x] = SolRandom.randomFloat(desiredMin, desiredMax);
         }
         float[] ds = new float[myCols];
         if (myConfig.smoothLandscape) {
@@ -127,7 +128,7 @@ public class GroundBuilder {
     }
 
     private void buildNode(int col) {
-        int row = myRows - SolMath.randInt(0, PURE_GROUND_ROWS / 2);
+        int row = myRows - SolRandom.randomInt(0, PURE_GROUND_ROWS / 2);
         buildTunnel(col, row, true);
         buildTunnel(col, row, false);
     }
@@ -139,7 +140,7 @@ public class GroundBuilder {
             int newCol = toLeft ? left(col) : right(col);
             //      if (!isCorner)
             col = newCol;
-            currSpace += SolMath.randomFloat(.5f, SolMath.test(.3f) ? 4 : 1);
+            currSpace += SolRandom.randomFloat(.5f, SolMath.test(.3f) ? 4 : 1);
             if (addToDungeon(col, row)) {
                 return;
             }

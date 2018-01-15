@@ -17,7 +17,7 @@ package org.destinationsol.game.sound;
 
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.PlayableSound;
-import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class OggSoundSet implements PlayableSound {
 
     @Override
     public OggSound getOggSound() {
-        return oggSoundManager.getSound(SolMath.elemRnd(urnList));
+        return oggSoundManager.getSound(SolRandom.randomElement(urnList));
     }
 
     @Override

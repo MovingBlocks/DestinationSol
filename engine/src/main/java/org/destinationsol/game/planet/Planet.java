@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.common.Bound;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.HardnessCalc;
 import org.destinationsol.game.SolGame;
 
@@ -60,7 +61,7 @@ public class Planet {
         myObjsCreated = objsCreated;
         myPos = new Vector2();
         mySpd = new Vector2();
-        float grav = SolMath.randomFloat(config.minGrav, config.maxGrav);
+        float grav = SolRandom.randomFloat(config.minGrav, config.maxGrav);
         myGravConst = grav * myGroundHeight * myGroundHeight;
         myGroundDps = HardnessCalc.getGroundDps(myConfig, grav);
         myAtmDps = HardnessCalc.getAtmDps(myConfig);
