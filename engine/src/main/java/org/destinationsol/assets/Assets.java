@@ -47,6 +47,7 @@ public abstract class Assets {
     /**
      * Initializes the class for loading assets using the given environment.
      * This function -has- to be called upon startup, and whenever the environment is changed.
+     *
      * @param environment The ModuleEnvironment to load assets from.
      */
     public static void initialize(ModuleEnvironment environment) {
@@ -95,6 +96,7 @@ public abstract class Assets {
 
     /**
      * Loads an OggMusic (.ogg) from the current environment. Throws an exception if the asset is not found.
+     *
      * @param path A String specifying the desired asset.
      * @return The loaded OggMusic.
      */
@@ -110,6 +112,7 @@ public abstract class Assets {
 
     /**
      * Loads a BitmapFont (.font) from the current environment. Throws an exception if the asset is not found.
+     *
      * @param path A String specifying the desired asset.
      * @return The loaded Font.
      */
@@ -125,6 +128,7 @@ public abstract class Assets {
 
     /**
      * Loads an emitter (.emitter) from the current environment. Throws an exception if the asset is not found.
+     *
      * @param path A String specifying the desired asset.
      * @return The loaded Emitter.
      */
@@ -140,6 +144,7 @@ public abstract class Assets {
 
     /**
      * Loads a Json (.json) from the current environment. Throws an exception if the asset is not found.
+     *
      * @param path A String specifying the desired asset.
      * @return The loaded Json.
      */
@@ -155,6 +160,7 @@ public abstract class Assets {
 
     /**
      * Loads a Texture (.png) from the current environment. Throws an exception if the asset is not found.
+     *
      * @param path A String specifying the desired asset.
      * @return The loaded Texture.
      */
@@ -170,6 +176,7 @@ public abstract class Assets {
 
     /**
      * A wrapper function over getDSTexture() that creates an AtlasRegion out of the given Texture, to use in drawing functions.
+     *
      * @param path A String specifying the desired asset.
      * @param textureFilter The texture filtering method for minification and magnification.
      * @return An AtlasRegion representing the loaded Texture.
@@ -186,6 +193,7 @@ public abstract class Assets {
     /**
      * A wrapper function over getDSTexture() that creates an AtlasRegion out of the given Texture, to use in drawing functions.
      * This overloaded variant of the function defaults to the Nearest texture filtering method, which is the default for DestSol.
+     *
      * @param path A String specifying the desired asset.
      * @return An AtlasRegion representing the loaded Texture.
      */
