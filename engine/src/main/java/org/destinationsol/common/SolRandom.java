@@ -132,6 +132,14 @@ public class SolRandom {
         int idx = randomInt(list.size());
         return list.get(idx);
     }
+    
+    /**
+     * @return a seeded random element of a list
+     */
+    public static <T> T seededRandomElement(List<T> list) {
+        int idx = seededRandomInt(list.size());
+        return list.get(idx);
+    }
 
     public static void setSeed(long seed) {
         SolRandom.seed = seed; 
