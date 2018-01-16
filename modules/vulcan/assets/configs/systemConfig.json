@@ -1,0 +1,15 @@
+{
+  "standard": {
+    "constantAllies": [
+      {
+        "hull": "vulcan:starTrekMedium",
+        "items": "core:railGun 0.86|core:fixedGun 0.5core:bigShield",
+        "money": 120,
+        "density": 2
+      }
+
+
+     
+    ]
+  }
+}
