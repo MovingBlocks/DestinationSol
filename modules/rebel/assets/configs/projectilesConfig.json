@@ -4,13 +4,13 @@
     "dmgType": "energy",
     "spdLen": 6,
 
-    "tex": "rebelX",
+    "tex": "rebel:rebelX",
     "texSz": 0.12,
 
     "collisionEffect": {
       "effectFile": "core:explFire",
       "size": 0.1,
-      "tex": "fire",
+      "tex": "core:fire",
       "tint": "120 210 90"
     },
 
