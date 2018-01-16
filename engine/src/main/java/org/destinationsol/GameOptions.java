@@ -48,6 +48,7 @@ public class GameOptions {
     public static final String DEFAULT_BUY = "B";
     public static final String DEFAULT_CHANGE_SHIP = "C";
     public static final String DEFAULT_HIRE_SHIP = "H";
+    public static final String DEFAULT_MERCENARY_INTERACTION = "M";
     public static final int DEFAULT_AXIS_SHOOT = 1;
     public static final int DEFAULT_AXIS_SHOOT2 = 0;
     public static final int DEFAULT_AXIS_ABILITY = -1;
@@ -89,6 +90,7 @@ public class GameOptions {
     private String keyBuyMenuName;
     private String keyChangeShipMenuName;
     private String keyHireShipMenuName;
+    private String keyMercenaryInteractionName;
     private int controllerAxisShoot;
     private int controllerAxisShoot2;
     private int controllerAxisAbility;
@@ -134,6 +136,7 @@ public class GameOptions {
         keyBuyMenuName = r.getString("keyBuyMenu", DEFAULT_BUY);
         keyChangeShipMenuName = r.getString("keyChangeShipMenu", DEFAULT_CHANGE_SHIP);
         keyHireShipMenuName = r.getString("keyHireShipMenu", DEFAULT_HIRE_SHIP);
+        keyMercenaryInteractionName = r.getString("keyMercenaryInteraction", DEFAULT_MERCENARY_INTERACTION);
         controllerAxisShoot = r.getInt("controllerAxisShoot", DEFAULT_AXIS_SHOOT);
         controllerAxisShoot2 = r.getInt("controllerAxisShoot2", DEFAULT_AXIS_SHOOT2);
         controllerAxisAbility = r.getInt("controllerAxisAbility", DEFAULT_AXIS_ABILITY);
@@ -654,6 +657,28 @@ public class GameOptions {
 
     public void setKeyInventoryName(String keyInventoryName) {
         this.keyInventoryName = keyInventoryName;
+    }
+    
+    /**
+     * Get the defined key for interacting with mercenaries.
+     *
+     * @return int The keycode as defined in Input.Keys
+     */
+    public int getKeyMercenaryInteraction() {
+        return Input.Keys.valueOf(keyMercenaryInteractionName);
+    }
+    
+    /**
+     * Get the readable name of the defined key for interacting with mercenaries.
+     *
+     * @return String The readable name as defined in Input.Keys
+     */
+    public String getKeyMercenaryInterationName() {
+        return keyMercenaryInteractionName;
+    }
+    
+    public void setKeyMercenaryInteractionName(String keyMercenaryInteractionName) {
+        this.keyMercenaryInteractionName = keyMercenaryInteractionName;
     }
 
     /**

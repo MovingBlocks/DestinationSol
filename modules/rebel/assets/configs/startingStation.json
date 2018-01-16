@@ -1,0 +1,10 @@
+{
+  "hull": "rebel:rebelStation",
+  "items": "core:gun core:gun",
+
+  "guard": {
+    "hull": "rebel:rebelCapital",
+    "items": "rebel:destroyerGun core:fixedShotGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
+    "density": 3
+  }
+}
