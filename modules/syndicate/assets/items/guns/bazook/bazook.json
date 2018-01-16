@@ -1,0 +1,19 @@
+{
+  "fixed": true,
+  "maxAngleVar": 0,
+  "angleVarDamp": 10,
+  "angleVarPerShot": 1,
+  "timeBetweenShots": 0.02,
+  "reloadTime": 5,
+  "price": 5000,
+  "clipName": "syndicate:bazookClip",
+  "gunLength": 0.2,
+  "displayName": "Bazook",
+  "lightOnShot": true,
+  "shootSounds": [
+    "core:rocketLauncherShoot"
+  ],
+  "reloadSounds": [
+    "core:rocketLauncherReload"
+  ]
+}

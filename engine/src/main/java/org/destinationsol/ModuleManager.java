@@ -100,6 +100,7 @@ public class ModuleManager {
         requiredModules.add(registry.getLatestModuleVersion(new Name("tribe")));
         requiredModules.add(registry.getLatestModuleVersion(new Name("deepspace")));
         requiredModules.add(registry.getLatestModuleVersion(new Name("formic")));
+        requiredModules.add(registry.getLatestModuleVersion(new Name("syndicate")));
         requiredModules.add(registry.getLatestModuleVersion(new Name("caution")));
         requiredModules.add(registry.getLatestModuleVersion(new Name("mechanical")));
         requiredModules.add(registry.getLatestModuleVersion(new Name("slimey")));
