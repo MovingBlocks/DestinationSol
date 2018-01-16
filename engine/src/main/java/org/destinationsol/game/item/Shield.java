@@ -31,19 +31,15 @@ import org.destinationsol.game.sound.OggSoundManager;
 
 public class Shield implements SolItem {
     public static final float SIZE_PERC = .7f;
-    private float bulletDmgFactor;
-    private float explosionDmgFactor;
-    private float energyDmgFactor;
     private final Config myConfig;
     private float myLife;
     private float myIdleTime;
-    private float myRegenSpd;
     private int myEquipped;
 
     private Shield(Config config) {
         myConfig = config;
         myLife = myConfig.maxLife;
-	myIdleTime = myConfig.idleTime;
+        myIdleTime = myConfig.idleTime;
     }
 
     private Shield(Config config, int equipped) {
@@ -124,14 +120,12 @@ public class Shield implements SolItem {
         }
         myIdleTime = 0f;
         if (dmgType == DmgType.BULLET) {
-            dmg *= bulletDmgFactor;
+            dmg *= myConfig.bulletDmgFactor;
+        } else if (dmgType == DmgType.ENERGY) {
+            dmg *= myConfig.energyDmgFactor;
+        } else if (dmgType == DmgType.EXPLOSION) {
+            dmg *= myConfig.explosionDmgFactor;
         }
-	else if (dmgType == DmgType.ENERGY) {
-		dmg *= energyDmgFactor;
-	}
-	else if (dmgType == DmgType.EXPLOSION) {
-		dmg *= explosionDmgFactor;
-	}
         myLife -= myLife < dmg ? myLife : dmg;
 
         game.getPartMan().shieldSpark(game, pos, ship.getHull(), myConfig.tex, dmg / myConfig.maxLife);
@@ -158,22 +152,23 @@ public class Shield implements SolItem {
         public final float maxLife;
         public final float idleTime;
         public final float regenSpd;
-	public final float bulletDmgFactor;
-	public final float energyDmgFactor;
-	public final float explosionDmgFactor;
+        public final float bulletDmgFactor;
+        public final float energyDmgFactor;
+        public final float explosionDmgFactor;
         public final TextureAtlas.AtlasRegion icon;
         public final SolItemType itemType;
         public final String code;
         public TextureAtlas.AtlasRegion tex;
 
-        private Config(int maxLife, float idleTime, float regenSpd, float bulletDmgFactor, float energyDmgFactor, float explosionDmgFactor, String displayName, int price, PlayableSound absorbSound, PlayableSound regenSound,
-                       TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, SolItemType itemType, String code) {
+        private Config(int maxLife, float idleTime, float regenSpd, float bulletDmgFactor, float energyDmgFactor, float explosionDmgFactor, String displayName, int price,
+                PlayableSound absorbSound, PlayableSound regenSound,
+                TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, SolItemType itemType, String code) {
             this.maxLife = maxLife;
-	    this.idleTime = idleTime;
-	    this.regenSpd = regenSpd;
-	    this.bulletDmgFactor = bulletDmgFactor;
-	    this.energyDmgFactor = energyDmgFactor;
-	    this.explosionDmgFactor = explosionDmgFactor;
+            this.idleTime = idleTime;
+            this.regenSpd = regenSpd;
+            this.bulletDmgFactor = bulletDmgFactor;
+            this.energyDmgFactor = energyDmgFactor;
+            this.explosionDmgFactor = explosionDmgFactor;
             this.displayName = displayName;
             this.price = price;
             this.absorbSound = absorbSound;
@@ -191,11 +186,11 @@ public class Shield implements SolItem {
             JsonValue rootNode = json.getJsonValue();
 
             int maxLife = rootNode.getInt("maxLife");
-	    float idleTime = rootNode.getFloat("idleTime");
-	    float regenSpd = rootNode.getFloat("regenSpd");
-    	    float bulletDmgFactor = rootNode.getFloat("bulletDmgFactor");
-	    float energyDmgFactor = rootNode.getFloat("energyDmgFactor");
-	    float explosionDmgFactor = rootNode.getFloat("explosionDmgFactor");
+            float idleTime = rootNode.getFloat("idleTime");
+            float regenSpd = rootNode.getFloat("regenSpd");
+            float bulletDmgFactor = rootNode.getFloat("bulletDmgFactor");
+            float energyDmgFactor = rootNode.getFloat("energyDmgFactor");
+            float explosionDmgFactor = rootNode.getFloat("explosionDmgFactor");
             String displayName = rootNode.getString("displayName");
             int price = rootNode.getInt("price");
             String absorbUrn = rootNode.getString("absorbSound");
@@ -209,18 +204,19 @@ public class Shield implements SolItem {
             TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(shieldName);
             TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(shieldName + "Icon");
 
-            Config config = new Config(maxLife, idleTime, regenSpd, bulletDmgFactor, energyDmgFactor, explosionDmgFactor, displayName, price, absorbSound, regenSound, icon, tex, types.shield, shieldName);
+            Config config = new Config(maxLife, idleTime, regenSpd, bulletDmgFactor, energyDmgFactor, explosionDmgFactor, displayName, price, absorbSound, regenSound, icon, tex,
+                    types.shield, shieldName);
             itemManager.registerItem(config.example);
         }
 
         private String makeDesc() {
             StringBuilder sb = new StringBuilder();
             sb.append("Takes ").append(SolMath.nice(maxLife)).append(" dmg\n");
-	    sb.append("Needs ").append(SolMath.nice(idleTime)).append("s to start regeneration\n");
-	    sb.append("Regenerates ").append(SolMath.nice(regenSpd)).append(" shield points per s\n");
-            sb.append("Bullet Dmg resist: ").append(100 - (bulletDmgFactor * 100) ).append("%\n");
-	    sb.append("Energy Dmg resist: ").append(100 - (energyDmgFactor * 100) ).append("%\n");
-	    sb.append("Explosion Dmg resist: ").append(100 - (explosionDmgFactor * 100) ).append("%\n");
+            sb.append("Needs ").append(SolMath.nice(idleTime)).append("s to start regeneration\n");
+            sb.append("Regenerates ").append(SolMath.nice(regenSpd)).append(" shield points per s\n");
+            sb.append("Bullet Dmg resist: ").append(100 - (bulletDmgFactor * 100)).append("%\n");
+            sb.append("Energy Dmg resist: ").append(100 - (energyDmgFactor * 100)).append("%\n");
+            sb.append("Explosion Dmg resist: ").append(100 - (explosionDmgFactor * 100)).append("%\n");
             return sb.toString();
         }
     }
