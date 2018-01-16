@@ -1,0 +1,19 @@
+{
+    "hard": {
+    	"hard": true,
+        "constantAllies": [
+            {
+                "hull": "bidi:bidiTiny",
+                "items": " ",
+                "repairer": true,
+                "density": 1,
+
+                "guard": {
+                    "hull": "bidi:bidiTiny",
+                    "items": "core:mediumArmor core:smallShield",
+                    "density": 4
+                }
+            }
+        ]
+    }
+}

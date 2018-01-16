@@ -1,0 +1,1 @@
+Special thanks and credits to millionthvector (http://millionthvector.blogspot.com/p/free-sprites.html) for making ship sprites available and used in the bidi module.
