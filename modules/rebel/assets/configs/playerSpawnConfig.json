@@ -1,0 +1,22 @@
+{
+  "Rebel Starship": {
+    "hull": "rebel:rebelStarship",
+    "items": "3*rep core:lightArmor-1 core:smallShield-1 core:fixedGun-1 core:bulletClip-1",
+    "money": 20
+  },
+  "Rebel Medium": {
+    "hull": "rebel:rebelMedium",
+    "items": "99*rep core:advancedArmor-1 core:advancedShield-1 core:fixedGun-1 core:fixedGun-2 99*core:bulletClip",
+    "money": 10000
+  },
+  "Rebel Large": {
+    "hull": "rebel:rebelLarge",
+    "items": "99*rep core:advancedArmor-1 core:advancedShield-1 rebel:destroyerGun-1 rebel:destroyerGun-2 99*core:bulletClip",
+    "money": 10000
+  },
+  "Rebel Capital": {
+    "hull": "rebel:rebelCapital",
+    "items": "99*rep core:advancedArmor-1 core:advancedShield-1 rebel:destroyerGun-1 rebel:destroyerGun-2 99*core:bulletClip",
+    "money": 10000
+  }
+}

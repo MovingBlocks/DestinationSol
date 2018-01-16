@@ -21,7 +21,7 @@
       ],
 
     "rigidBody":{
-        "origin":{"x":0.5,"y":0.67},
+        "origin":{"x":0.5,"y":0.5},
         "polygons":[
             [
                 {
