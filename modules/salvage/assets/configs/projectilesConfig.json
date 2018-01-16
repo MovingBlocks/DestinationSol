@@ -1,0 +1,17 @@
+{
+    "highVelocityBullet": {
+        "dmg": 25,
+        "spdLen": 25,
+        "dmgType": "bullet",
+
+        "tex": "core:bullet",
+        "texSz": 0.02,
+        "stretch": true,
+        "collisionEffect": {
+            "effectFile": "core:spark",
+            "size": 0.5,
+            "tex": "core:spark",
+            "tint": "fire"
+        }
+    }
+}

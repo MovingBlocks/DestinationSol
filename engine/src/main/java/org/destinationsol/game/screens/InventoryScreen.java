@@ -25,6 +25,7 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
+import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.menu.MenuLayout;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
@@ -51,6 +52,10 @@ public class InventoryScreen implements SolUiScreen {
     public final SellItems sellItems;
     public final ChangeShip changeShip;
     public final HireShips hireShips;
+    // The below screens deal with mercenaries
+    public final ChooseMercenary chooseMercenary;
+    public final GiveItems giveItems;
+    public final TakeItems takeItems;
 
     private final List<SolUiControl> controls = new ArrayList<>();
     public final SolUiControl[] itemControls;
@@ -127,6 +132,9 @@ public class InventoryScreen implements SolUiScreen {
         sellItems = new SellItems(this, gameOptions);
         changeShip = new ChangeShip(this, gameOptions);
         hireShips = new HireShips(this, gameOptions);
+        chooseMercenary = new ChooseMercenary(this, gameOptions);
+        giveItems = new GiveItems(this, gameOptions);
+        takeItems = new TakeItems(this, gameOptions);
         upControl = new SolUiControl(null, true, gameOptions.getKeyUp());
         controls.add(upControl);
         downControl = new SolUiControl(null, true, gameOptions.getKeyDown());
@@ -145,10 +153,19 @@ public class InventoryScreen implements SolUiScreen {
             return;
         }
         if (closeControl.isJustOff()) {
-            solApplication.getInputMan().setScreen(solApplication, solApplication.getGame().getScreens().mainScreen);
-            if (myOperations != showInventory) {
-                solApplication.getInputMan().addScreen(solApplication, solApplication.getGame().getScreens().talkScreen);
+            
+            SolGame game = solApplication.getGame();
+            // Make sure the ChooseMercenary screen comes back up when we exit a mercenary related screen
+            if (myOperations == giveItems || myOperations == takeItems || (myOperations == showInventory && showInventory.getTarget() != game.getHero())) {
+                SolInputManager inputMan = solApplication.getInputMan();
+                GameScreens screens = game.getScreens();
+                InventoryScreen is = screens.inventoryScreen;
+                
+                inputMan.setScreen(solApplication, screens.mainScreen);
+                is.setOperations(is.chooseMercenary);
+                inputMan.addScreen(solApplication, is);
             }
+            solApplication.getInputMan().setScreen(solApplication, solApplication.getGame().getScreens().mainScreen);
             return;
         }
         if (previousControl.isJustOff()) {
@@ -182,7 +199,7 @@ public class InventoryScreen implements SolUiScreen {
         }
         int selIdx = -1;
         int offset = myPage * Const.ITEM_GROUPS_PER_PAGE;
-        boolean hNew = showingHeroItems();
+        boolean hNew = showingHeroItems(solApplication);
         for (int i = 0; i < itemControls.length; i++) {
             SolUiControl itemCtrl = itemControls[i];
             int groupIdx = offset + i;
@@ -329,7 +346,7 @@ public class InventoryScreen implements SolUiScreen {
 
     @Override
     public void blurCustom(SolApplication solApplication) {
-        if (!showingHeroItems()) {
+        if (!showingHeroItems(solApplication)) {
             return;
         }
         SolGame game = solApplication.getGame();
@@ -339,8 +356,8 @@ public class InventoryScreen implements SolUiScreen {
         }
     }
 
-    private boolean showingHeroItems() {
-        return myOperations == showInventory || myOperations == sellItems;
+    private boolean showingHeroItems(SolApplication application) {
+        return application.getGame().getHero() == showInventory.getTarget() || myOperations == sellItems;
     }
 
     public Rectangle itemCtrl(int row) {

@@ -1,0 +1,19 @@
+{
+  "rebelX": {
+    "dmg": 2.6,
+    "dmgType": "energy",
+    "spdLen": 6,
+
+    "tex": "rebel:rebelX",
+    "texSz": 0.12,
+
+    "collisionEffect": {
+      "effectFile": "core:explFire",
+      "size": 0.1,
+      "tex": "core:fire",
+      "tint": "120 210 90"
+    },
+
+    "collisionSound": "core:blastCollision"
+  }
+}

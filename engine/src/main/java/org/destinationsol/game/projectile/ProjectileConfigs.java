@@ -49,7 +49,7 @@ public class ProjectileConfigs {
 
             for (JsonValue node : rootNode) {
                 String texName = node.getString("tex");
-                TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(configUrn.getModuleName() + ":" + texName + "Projectile");
+                TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(texName + "Projectile");
                 float texSz = node.getFloat("texSz");
                 float spdLen = node.getFloat("spdLen");
                 float physSize = node.getFloat("physSize", 0);

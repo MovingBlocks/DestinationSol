@@ -1,0 +1,19 @@
+{
+  "maxAngleVar": 0,
+  "angleVarDamp": 0,
+  "angleVarPerShot": 0,
+  "timeBetweenShots": 0.05,
+  "reloadTime": 1,
+  "price": 2000,
+  "clipName": "slimey:slimeClipBetter",
+  "gunLength": 0.2,
+  "texLenPerc": 0.85,
+  "displayName": "Better Slime Thrower",
+  "lightOnShot": false,
+  "shootSounds": [
+    "slimey:shootSplat"
+  ],
+  "reloadSounds": [
+    "core:gunReload"
+  ]
+}
