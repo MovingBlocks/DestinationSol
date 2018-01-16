@@ -1,10 +1,11 @@
 {
-    "uranium": {
-        "dmg": 5,
-        "spdLen": 10,
+    "highVelocityBullet": {
+        "dmg": 25,
+        "spdLen": 25,
         "dmgType": "bullet",
-        "tex": "formic:uranium",
-        "texSz": 0.018,
+
+        "tex": "core:bullet",
+        "texSz": 0.02,
         "stretch": true,
         "collisionEffect": {
             "effectFile": "core:spark",
