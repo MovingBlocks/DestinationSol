@@ -15,6 +15,9 @@
  */
 package org.destinationsol.game.screens;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.SolGame;
@@ -24,14 +27,13 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ShowInventory implements InventoryOperations {
     private final List<SolUiControl> controls = new ArrayList<>();
     public final SolUiControl eq1Control;
     private final SolUiControl eq2Control;
     public final SolUiControl dropControl;
+    
+    private SolShip target;
 
     ShowInventory(InventoryScreen inventoryScreen, GameOptions gameOptions) {
         eq1Control = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyEquip());
@@ -41,7 +43,7 @@ public class ShowInventory implements InventoryOperations {
         eq2Control = new SolUiControl(inventoryScreen.itemCtrl(1), true, gameOptions.getKeyEquip2());
         eq2Control.setDisplayName("Eq2");
         controls.add(eq2Control);
-
+        
         dropControl = new SolUiControl(inventoryScreen.itemCtrl(2), true, gameOptions.getKeyDrop());
         dropControl.setDisplayName("Drop");
         controls.add(dropControl);
@@ -54,10 +56,9 @@ public class ShowInventory implements InventoryOperations {
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        SolGame g = solApplication.getGame();
-        InventoryScreen is = g.getScreens().inventoryScreen;
+        SolGame game = solApplication.getGame();
+        InventoryScreen is = game.getScreens().inventoryScreen;
         SolItem selItem = is.getSelectedItem();
-        SolShip hero = g.getHero();
 
         eq1Control.setDisplayName("---");
         eq1Control.setEnabled(false);
@@ -65,22 +66,22 @@ public class ShowInventory implements InventoryOperations {
         eq2Control.setEnabled(false);
         dropControl.setEnabled(false);
 
-        if (selItem == null || hero == null) {
+        if (selItem == null || target == null) {
             return;
         }
-
+        
         dropControl.setEnabled(true);
         if (dropControl.isJustOff()) {
-            ItemContainer ic = hero.getItemContainer();
+            ItemContainer ic = target.getItemContainer();
             is.setSelected(ic.getSelectionAfterRemove(is.getSelected()));
-            hero.dropItem(solApplication.getGame(), selItem);
+            target.dropItem(solApplication.getGame(), selItem);
             return;
         }
 
-        Boolean equipped1 = hero.maybeUnequip(g, selItem, false, false);
-        boolean canEquip1 = hero.maybeEquip(g, selItem, false, false);
-        Boolean equipped2 = hero.maybeUnequip(g, selItem, true, false);
-        boolean canEquip2 = hero.maybeEquip(g, selItem, true, false);
+        Boolean equipped1 = target.maybeUnequip(game, selItem, false, false);
+        boolean canEquip1 = target.maybeEquip(game, selItem, false, false);
+        Boolean equipped2 = target.maybeUnequip(game, selItem, true, false);
+        boolean canEquip2 = target.maybeEquip(game, selItem, true, false);
 
         if (equipped1 || canEquip1) {
             eq1Control.setDisplayName(equipped1 ? "Unequip" : "Equip");
@@ -92,30 +93,28 @@ public class ShowInventory implements InventoryOperations {
         }
         if (eq1Control.isJustOff()) {
             if (equipped1) {
-                hero.maybeUnequip(g, selItem, false, true);
+                target.maybeUnequip(game, selItem, false, true);
             } else {
-                hero.maybeEquip(g, selItem, false, true);
+                target.maybeEquip(game, selItem, false, true);
             }
         }
         if (eq2Control.isJustOff()) {
             if (equipped2) {
-                hero.maybeUnequip(g, selItem, true, true);
+                target.maybeUnequip(game, selItem, true, true);
             } else {
-                hero.maybeEquip(g, selItem, true, true);
+                target.maybeEquip(game, selItem, true, true);
             }
         }
     }
 
     @Override
     public ItemContainer getItems(SolGame game) {
-        SolShip h = game.getHero();
-        return h == null ? null : h.getItemContainer();
+        return target == null ? null : target.getItemContainer();
     }
 
     @Override
     public boolean isUsing(SolGame game, SolItem item) {
-        SolShip h = game.getHero();
-        return h != null && h.maybeUnequip(game, item, false);
+        return target != null && target.maybeUnequip(game, item, false);
     }
 
     @Override
@@ -126,5 +125,20 @@ public class ShowInventory implements InventoryOperations {
     @Override
     public String getHeader() {
         return "Items:";
+    }
+    
+    /**
+     * Sets the ship whose inventory we're viewing.
+     * @param solship The mercenary being interacted with
+     */
+    public void setTarget(SolShip solship) {
+        this.target = solship;
+    }
+    
+    /**
+     * Gets the ship whose inventory we're viewing.
+     */
+    public SolShip getTarget() {
+        return this.target;
     }
 }

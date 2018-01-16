@@ -35,6 +35,7 @@ import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.Loot;
+import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.MoneyItem;
 import org.destinationsol.game.item.RepairItem;
 import org.destinationsol.game.item.Shield;
@@ -76,6 +77,7 @@ public class SolShip implements SolObject {
     private float myFireAwait;
     private float myAbilityAwait;
     private float myControlEnableAwait;
+    private MercItem mercItem;
 
     public SolShip(SolGame game, Pilot pilot, Hull hull, RemoveController removeController, List<Drawable> drawables,
                    ItemContainer container, ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
@@ -412,12 +414,25 @@ public class SolShip implements SolObject {
         boolean wasAlive = myHull.life > 0;
         myHull.life -= dmg;
         if (wasAlive && myHull.life <= 0) {
+            onDeath(game);
             Vector2 shipPos = getPosition();
             game.getSpecialEffects().explodeShip(game, shipPos, myHull.config.getSize());
             game.getSoundManager().play(game, game.getSpecialSounds().shipExplosion, null, this);
         }
         if (dmgType == DmgType.FIRE) {
             myFireAwait = MAX_FIRE_AWAIT;
+        }
+    }
+    
+    /** 
+     * Method to be called on the death of a SolShip
+     * Note: Use {@link SolGame#beforeHeroDeath()} for the death of the player specifically
+     * @param game The SolGame currently in progress.
+     */
+    private void onDeath(SolGame game) {
+        MercItem merc = getMerc();
+        if (merc != null) {
+            game.getHero().getTradeContainer().getMercs().remove(merc);
         }
     }
 
@@ -617,5 +632,23 @@ public class SolShip implements SolObject {
 
     public float getAbilityAwait() {
         return myAbilityAwait;
+    }
+    
+    /**
+     * Each SolShip could be a mercenary. Each mercenary is definitely a SolShip.
+     * This method sets the associated MercItem.
+     * @param mercItem The {@link MercItem} that this SolShip is associated with. Can be null.
+     */
+    public void setMerc(MercItem mercItem) {
+        this.mercItem = mercItem;
+    }
+    
+    /**
+     * Each SolShip could be a mercenary. Each mercenary is definitely a SolShip.
+     * This method gets the associated MercItem.
+     * @return The {@link MercItem} that this SolShip is associated with. Can be null.
+     */
+    public MercItem getMerc() {
+        return this.mercItem;
     }
 }

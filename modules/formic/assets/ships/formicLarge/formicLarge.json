@@ -2,7 +2,9 @@
 	"size":0.75,
     "maxLife":100,
     "type":"std",
+    "displayName": "Formic Large",
     "price":1200,
+    "hirePrice": 1200,
     "ability":{
         "type":"teleport",
         "angle":120,
