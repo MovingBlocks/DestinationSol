@@ -1,0 +1,6 @@
+{
+    "id" : "empire",
+    "version" : "0.0.1",
+    "displayName" : "Empire Faction",
+    "description" : "Ships to enable the empire faction in-game."
+}
