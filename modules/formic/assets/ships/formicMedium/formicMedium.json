@@ -3,6 +3,7 @@
     "maxLife":50,
     "type":"std",
     "price":500,
+    "hirePrice":500,
     "displayName": "Formic Medium",
     "ability":{
         "type":"teleport",

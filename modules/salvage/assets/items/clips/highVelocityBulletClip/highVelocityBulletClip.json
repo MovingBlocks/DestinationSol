@@ -1,0 +1,8 @@
+{
+    "projectile": "highVelocityBullet",
+    "size": 30,
+    "price": 30,
+    "displayName": "High Velocity Bullets",
+    "plural": "bullets",
+    "iconName": "highVelocityBulletClip"
+}

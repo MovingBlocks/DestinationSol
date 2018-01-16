@@ -1,0 +1,16 @@
+{
+  "electric": {
+    "dmg": 1000,
+    "spdLen": 10,
+    "dmgType": "energy",
+    "tex": "vulcan:electric",
+    "texSz": 0.5,
+    "stretch": false,
+    "collisionEffect": {
+      "effectFile": "core:explFire",
+      "size": 0.7,
+      "tex": "core:spark",
+      "tint": "fire"
+    }
+  }
+}

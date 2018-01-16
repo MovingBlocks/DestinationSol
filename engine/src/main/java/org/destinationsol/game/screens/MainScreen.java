@@ -63,6 +63,7 @@ public class MainScreen implements SolUiScreen {
     public final SolUiControl mapControl;
     public final SolUiControl inventoryControl;
     public final SolUiControl talkControl;
+    public final SolUiControl mercControl;
     private final SolUiControl menuControl;
     private final SolUiControl pauseControl;
 
@@ -117,6 +118,10 @@ public class MainScreen implements SolUiScreen {
         talkControl = new SolUiControl(talkArea, true, gameOptions.getKeyTalk());
         talkControl.setDisplayName("Talk");
         controls.add(talkControl);
+        Rectangle mercArea = mobile ? btn(lastCol, HELPER_ROW_1, true) : rightPaneLayout.buttonRect(4);
+        mercControl = new SolUiControl(mercArea, true, gameOptions.getKeyMercenaryInteraction());
+        mercControl.setDisplayName("Mercs");
+        controls.add(mercControl);
         pauseControl = new SolUiControl(null, true, gameOptions.getKeyPause());
         controls.add(pauseControl);
 
@@ -229,7 +234,24 @@ public class MainScreen implements SolUiScreen {
             boolean isOn = inputMan.isScreenOn(is);
             inputMan.setScreen(solApplication, screens.mainScreen);
             if (!isOn) {
+                is.showInventory.setTarget(hero);
                 is.setOperations(is.showInventory);
+                inputMan.addScreen(solApplication, is);
+            }
+        }
+        
+        mercControl.setEnabled(hero != null);
+        if (hero != null && !inputMan.isScreenOn(screens.inventoryScreen)) {
+            if (hero.getTradeContainer().getMercs().hasNew()) {
+                mercControl.enableWarn();
+            }
+        }
+        if (mercControl.isJustOff()) {
+            InventoryScreen is = screens.inventoryScreen;
+            boolean isOn = inputMan.isScreenOn(is);
+            inputMan.setScreen(solApplication, screens.mainScreen);
+            if (!isOn) {
+                is.setOperations(is.chooseMercenary);
                 inputMan.addScreen(solApplication, is);
             }
         }
