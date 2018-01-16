@@ -1,0 +1,6 @@
+{
+    "id" : "salvage",
+    "version" : "0.0.1",
+    "displayName" : "Salvager Faction",
+    "description" : "Ships and other content to enable the salvager faction in-game."
+}

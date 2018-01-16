@@ -62,6 +62,9 @@ public abstract class Assets {
 
         assert(strings.length == 2); // Too strict?
         String module = strings[0];
+        if (strings.length < 2) {
+            int z = 0;
+        }
         String file = strings[1];
 
         strings = file.split("/");

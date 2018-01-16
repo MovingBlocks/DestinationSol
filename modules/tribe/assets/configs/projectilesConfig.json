@@ -3,7 +3,7 @@
     "dmg": 1000,
     "spdLen": 10,
     "dmgType": "energy",
-    "tex": "laser",
+    "tex": "tribe:laser",
     "texSz": 0.7,
     "stretch": false,
     "collisionEffect": {

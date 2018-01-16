@@ -1,0 +1,22 @@
+{
+  "vulcanSmall": {
+    "hull": "vulcan:starTrekSmall",
+    "items": "3*rep core:advancedArmor-1 core:advancedShield-1 core:waveGun-1 ",
+    "money": 100
+  },
+  "vulcanMedium": {
+    "hull": "vulcan:starTrekMedium",
+    "items": "3*rep core:advancedArmor-1 core:advancedShield-1 core:waveGun-1 core:railGun-2 ",
+    "money": 100
+  },
+  "vulcanLarge": {
+    "hull": "vulcan:starTrekLarge",
+    "items": "3*rep core:advancedArmor-1 core:advancedShield-1 vulcan:electric-1 vulcan:electric-2 ",
+    "money": 100
+  },
+    "vulcanCapital": {
+    "hull": "vulcan:starTrekCapital",
+    "items": "3*rep core:advancedArmor-1 core:advancedShield-1 vulcan:electric-1 vulcan:electric-2 ",
+    "money": 100
+  }
+}

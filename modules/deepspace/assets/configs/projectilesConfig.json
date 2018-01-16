@@ -6,7 +6,7 @@
     "physSize": 0.1,
     "zeroAbsSpd": true,
 
-    "tex": "biobomb",
+    "tex": "deepspace:biobomb",
     "texSz": 0.3,
 
     "collisionEffectBg": {
@@ -32,7 +32,7 @@
     "spdLen": 10,
     "dmgType": "bullet",
 
-    "tex": "alienbullet",
+    "tex": "deepspace:alienbullet",
     "texSz": 0.02,
     "stretch": true,
     "collisionEffect": {
