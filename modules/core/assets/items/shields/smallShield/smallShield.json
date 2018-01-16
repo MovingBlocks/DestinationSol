@@ -1,5 +1,10 @@
 {
     "maxLife": 10,
+    "idleTime": 3.5,
+    "regenSpd": 3.3,
+    "bulletDmgFactor": 0.7,
+    "energyDmgFactor": 1.0,
+    "explosionDmgFactor": 1.0,
     "price": 60,
     "displayName": "Small Shield",
     "absorbSound": "core:shield1Absorb1",
