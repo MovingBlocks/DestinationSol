@@ -1,0 +1,10 @@
+{
+  "hull": "syndicate:syndicateStation",
+  "items": "core:gun core:gun",
+
+  "guard": {
+    "hull": "syndicate:syndicateLarge",
+    "items": "core:fixedGun core:fixedShotGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
+    "density": 3
+  }
+}
