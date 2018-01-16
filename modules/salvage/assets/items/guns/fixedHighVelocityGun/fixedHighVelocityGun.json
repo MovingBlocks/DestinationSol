@@ -1,0 +1,20 @@
+{
+    "fixed": true,
+    "maxAngleVar": 5,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 1,
+    "timeBetweenShots": 1,
+    "reloadTime":3,
+    "price": 320,
+    "clipName": "salvage:highVelocityBulletClip",
+    "gunLength": 0.2,
+    "displayName": "High Velocity Gun",
+    "lightOnShot": true,
+    "shootSounds": [
+        "core:fixedGunShoot0",
+        "core:fixedGunShoot1"
+    ],
+    "reloadSounds": [
+        "core:fixedGunReload"
+    ]
+}
