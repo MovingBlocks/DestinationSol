@@ -3,7 +3,7 @@
     "dmg": 0.8,
     "dmgType": "bullet",
     "spdLen": 2,
-    "tex": "slime",
+    "tex": "slimey:slime",
     "texSz": 0.12,
     "collisionEffect": {
       "effectFile": "core:spark",
@@ -17,7 +17,7 @@
     "dmg": 2,
     "dmgType": "bullet",
     "spdLen": 8,
-    "tex": "slime",
+    "tex": "slimey:slime",
     "texSz": 0.12,
     "collisionEffect": {
       "effectFile": "core:spark",

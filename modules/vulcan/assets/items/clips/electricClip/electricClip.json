@@ -1,0 +1,8 @@
+{
+  "projectile": "electric",
+  "infinite": true,
+  "price" : 10,
+  "size": 100,
+  "displayName": "electric",
+  "iconName": "electricClip"
+}
