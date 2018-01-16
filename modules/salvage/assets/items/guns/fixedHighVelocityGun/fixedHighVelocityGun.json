@@ -6,7 +6,7 @@
     "timeBetweenShots": 1,
     "reloadTime":3,
     "price": 320,
-    "clipName": "core:highVelocityBulletClip",
+    "clipName": "salvage:highVelocityBulletClip",
     "gunLength": 0.2,
     "displayName": "High Velocity Gun",
     "lightOnShot": true,
