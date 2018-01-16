@@ -1,0 +1,19 @@
+{
+    "fixed": false,
+    "maxAngleVar": 3,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 3,
+    "timeBetweenShots": 0.07,
+    "reloadTime": 1.5,
+    "price": 350,
+    "clipName": "core:plasmaClip",
+    "gunLength": 0.45,
+    "displayName": "Mech Gun",
+    "lightOnShot": true,
+    "shootSounds": [
+        "core:shotGunShoot"
+    ],
+    "reloadSounds": [
+        "core:gunReload"
+    ]
+}
