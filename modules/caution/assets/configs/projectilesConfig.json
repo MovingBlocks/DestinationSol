@@ -4,7 +4,7 @@
         "dmgType": "energy",
         "spdLen": 6,
 
-        "tex": "rbc",
+        "tex": "caution:rbc",
         "texSz": 0.15,
 
         "collisionEffect": {

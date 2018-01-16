@@ -59,6 +59,7 @@ eclipse {
         name = appName + "-desktop"
         linkedResource name: 'assets', type: '2', location: 'PARENT-1-PROJECT_LOC/android/assets'
     }
+    // Hack to allow the game to run via eclipse. See #209 for more information.
     classpath {
         file {
             withXml { xml ->
