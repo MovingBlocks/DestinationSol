@@ -1,0 +1,6 @@
+{
+  "projectile": "slime",
+  "infinite": true,
+  "size": 100,
+  "projectilesPerShot": 1
+}

@@ -1,0 +1,9 @@
+{
+  "hull": "slimey:slimeyStation",
+  "items": "3*slimey:slimeThrowerBetter",
+  "guard": {
+    "hull": "slimey:slimeyCapital",
+    "items": "8*slimey:slimeThrowerBetter core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
+    "density": 3
+  }
+}

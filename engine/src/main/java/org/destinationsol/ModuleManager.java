@@ -99,6 +99,7 @@ public class ModuleManager {
         requiredModules.add(registry.getLatestModuleVersion(new Name("tribe")));
         requiredModules.add(registry.getLatestModuleVersion(new Name("deepspace")));
         requiredModules.add(registry.getLatestModuleVersion(new Name("formic")));
+        requiredModules.add(registry.getLatestModuleVersion(new Name("slimey")));
 
         loadEnvironment(requiredModules);
     }
