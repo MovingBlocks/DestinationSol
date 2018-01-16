@@ -68,7 +68,7 @@ public class PlanetConfigs {
 
     public PlanetConfig getRandom(boolean easy, boolean hard) {
         List<PlanetConfig> cfg = easy ? myEasy : hard ? myHard : myMedium;
-        return SolRandom.randomElement(cfg);
+        return SolRandom.seededRandomElement(cfg);
     }
 
     public Map<String, PlanetConfig> getAllConfigs() {

@@ -81,7 +81,7 @@ public class MazeConfig {
     private static void buildTiles(CollisionMeshLoader.Model paths, List<MazeTile> list, boolean wall, boolean metal,
                                        List<TextureAtlas.AtlasRegion> bgTexs, List<TextureAtlas.AtlasRegion> texs) {
         for (TextureAtlas.AtlasRegion tex : texs) {
-            TextureAtlas.AtlasRegion bgTex = SolRandom.randomElement(bgTexs);
+            TextureAtlas.AtlasRegion bgTex = SolRandom.seededRandomElement(bgTexs);
             MazeTile iw = MazeTile.load(tex, paths.rigidBodies.get(tex.name), wall, metal, bgTex);
             list.add(iw);
         }

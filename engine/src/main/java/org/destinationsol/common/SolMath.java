@@ -16,7 +16,6 @@
 package org.destinationsol.common;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import org.destinationsol.Const;
 import org.slf4j.Logger;

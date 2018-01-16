@@ -287,7 +287,8 @@ public class SolGame {
      */
     public void onNewGame() {
         // Reset the seed so this galaxy isn't the same as the last
-        SolRandom.setSeed(System.currentTimeMillis());
+//        SolRandom.setSeed(System.currentTimeMillis());
+        SolRandom.setSeed(0);
     }
 
     /**
@@ -295,9 +296,11 @@ public class SolGame {
      */
     private void saveWorld() {
         
+        long seed = SolRandom.getSeed();
+        
         String fileName = SaveManager.getRsrcPath("world.ini");
         
-        String toWrite = "seed=" + Long.toString(SolRandom.getSeed());
+        String toWrite = "seed=" + Long.toString(seed);
         
         PrintWriter writer;
         try {
@@ -305,8 +308,10 @@ public class SolGame {
             writer.write(toWrite);
             writer.close();
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
-            logger.error("Could not save world, " + e.getMessage());
+            logger.error("Could not save galaxy seed, " + e.getMessage());
+            return;
         }
+        logger.debug("Successfully saved the galaxy seed: " + String.valueOf(seed));
 
     }
 
