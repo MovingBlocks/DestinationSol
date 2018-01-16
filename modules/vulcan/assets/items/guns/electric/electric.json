@@ -1,0 +1,19 @@
+{
+  "fixed": false,
+  "maxAngleVar": 0,
+  "angleVarDamp": 0,
+  "angleVarPerShot": 0,
+  "timeBetweenShots": 1,
+  "reloadTime": 0.1,
+  "price": 1000000,
+  "clipName": "vulcan:electricClip",
+  "gunLength": 0.5,
+  "displayName": "electric",
+  "lightOnShot": true,
+  "shootSounds": [
+    "core:waveGun"
+  ],
+  "reloadSounds": [
+    "core:gunReload"
+  ]
+}
