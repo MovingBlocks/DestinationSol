@@ -1,0 +1,10 @@
+{
+    "hull": "salvage:station",
+    "items": "core:gun",
+
+    "guard": {
+        "hull": "salvage:salvagedMedium",
+        "items": "core:fixedGun core:fixedShotGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
+        "density": 3
+    }
+}
