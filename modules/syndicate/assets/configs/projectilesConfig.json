@@ -3,7 +3,7 @@
     "dmg": 500,
     "spdLen": 2,
     "dmgType": "explosion",
-    "tex": "bazook",
+    "tex": "syndicate:bazook",
     "texSz": 0.018,
     "stretch": true,
     "collisionEffect": {
