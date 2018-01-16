@@ -98,7 +98,7 @@ public class SysConfigs {
 
     public SysConfig getRandomBelt(boolean hard) {
         Map<String, SysConfig> config = hard ? myHardBeltConfigs : myBeltConfigs;
-        return SolRandom.randomElement(new ArrayList<>(config.values()));
+        return SolRandom.seededRandomElement(new ArrayList<>(config.values()));
     }
 
     public SysConfig getConfig(String name) {
@@ -111,7 +111,7 @@ public class SysConfigs {
 
     public SysConfig getRandomCfg(boolean hard) {
         Map<String, SysConfig> config = hard ? myHardConfigs : myConfigs;
-        return SolRandom.randomElement(new ArrayList<>(config.values()));
+        return SolRandom.seededRandomElement(new ArrayList<>(config.values()));
     }
 
     public void addAllConfigs(ArrayList<ShipConfig> shipConfigs) {

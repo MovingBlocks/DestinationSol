@@ -41,7 +41,7 @@ public class SystemsBuilder {
     public List<SolSystem> build(List<SolSystem> systems, List<Planet> planets, ArrayList<SystemBelt> belts,
                                  PlanetConfigs planetConfigs,
                                  MazeConfigs mazeConfigs, ArrayList<Maze> mazes, SysConfigs sysConfigs, SolNames names) {
-        SolRandom.setSeed(0);
+        
         int sysLeft = SYS_COUNT;
         int mazesLeft = MAZE_COUNT;
         while (sysLeft > 0 || mazesLeft > 0) {
@@ -143,7 +143,7 @@ public class SystemsBuilder {
         } else {
             sysConfig = sysConfigs.getConfig(st);
         }
-        String name = firstSys ? SolRandom.randomElement(names.systems) : "Sol"; //hack
+        String name = firstSys ? SolRandom.seededRandomElement(names.systems) : "Sol"; //hack
         SolSystem s = new SolSystem(sysPos, sysConfig, name, sysRadius);
         float planetDist = Const.SUN_RADIUS;
         for (Float gh : ghs) {
@@ -184,7 +184,7 @@ public class SystemsBuilder {
                                 SolNames names) {
         float toSysRotSpd = SolMath.arcToAngle(PLANET_SPD, planetDist) * SolMath.toInt(SolMath.test(.5f));
         float rotSpd = SolMath.arcToAngle(GROUND_SPD, groundHeight) * SolMath.toInt(SolMath.test(.5f));
-        String name = SolRandom.randomElement(names.planets);
+        String name = SolRandom.seededRandomElement(names.planets);
         return new Planet(s, SolRandom.seededRandomFloat(180), planetDist, SolRandom.seededRandomFloat(180), toSysRotSpd, rotSpd, groundHeight, false, planetConfig, name);
     }
 }

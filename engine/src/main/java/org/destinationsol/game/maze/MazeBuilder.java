@@ -43,7 +43,7 @@ public class MazeBuilder {
         myInnerRad = maze.getRadius() - BORDER;
         mySz = (int) (myInnerRad * 2 / TILE_SZ);
         myMazePos = maze.getPos();
-        myMazeAngle = SolRandom.randomFloat(180);
+        myMazeAngle = SolRandom.seededRandomFloat(180);
 
         MazeLayout layout = buildMaze(game, maze);
         buildEnemies(game, maze, layout);
@@ -71,7 +71,7 @@ public class MazeBuilder {
                     } else {
                         tiles = inner ? config.innerPasses : config.borderPasses;
                     }
-                    MazeTile tile = SolRandom.randomElement(tiles);
+                    MazeTile tile = SolRandom.seededRandomElement(tiles);
                     MazeTileObject.MyFar mto = new MazeTileObject.MyFar(tile, tileAngle, new Vector2(tilePos), SolMath.test(.5f));
                     game.getObjMan().addFarObjNow(mto);
                 }
@@ -91,7 +91,7 @@ public class MazeBuilder {
                     } else {
                         tiles = inner ? config.innerPasses : config.borderPasses;
                     }
-                    MazeTile tile = SolRandom.randomElement(tiles);
+                    MazeTile tile = SolRandom.seededRandomElement(tiles);
                     MazeTileObject.MyFar mto = new MazeTileObject.MyFar(tile, tileAngle, new Vector2(tilePos), SolMath.test(.5f));
                     game.getObjMan().addFarObjNow(mto);
                 }
