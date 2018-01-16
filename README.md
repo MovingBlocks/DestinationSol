@@ -122,6 +122,17 @@ Contributors
 * [vampcat](https://github.com/vampcat)
 * [Malanius](https://github.com/Malanius)
 * [AonoZan](https://github.com/AonoZan)
+* [ererbe](https://github.com/ererbe)
+* [SurajDutta](https://github.com/SurajDuta)
+* [jasyohuang](https://github.com/jasyohuang)
+* [Steampunkery](https://github.com/Steampunkery)
+* [Graviton48](https://github.com/Graviton48)
+* [Adrijaned](https://github.com/Adrijaned)
+* [MaxBorsch](https://github.com/MaxBorsch)
+* [sohil123](https://github.com/sohil123)
+* [FieryPheonix909](https://github.com/FieryPheonix909)
+* [digitalripperynr](https://github.com/digitalripperynr)
+* [NicholasBatesNZ](https://github.com/NicholasBatesNZ)
 
 ... and your name here? :-) More coming!
 
