@@ -189,7 +189,7 @@ public class Hull {
             myParticleEmitters.clear();
         }
         if (engine != null) {
-            config.getParticleEmitterSlotList().
+            config.getParticleEmitterList().
                     forEach(pes -> myParticleEmitters.add(new ParticleEmitter(game, engine, pes, ship)));
             List<Drawable> peDrawables = new ArrayList<>();
             myParticleEmitters.forEach(pe -> peDrawables.addAll(pe.getDrawables()));
