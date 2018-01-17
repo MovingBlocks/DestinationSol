@@ -200,10 +200,7 @@ public class ParticleSrc implements Drawable {
     private void setAngle(float baseAngle) {
         float angle = baseAngle + myRelAngle;
         transferAngle(myOrigSpdAngle, myEmitter.getAngle(), angle);
-        boolean includeSpriteAngle = true;
-        if (includeSpriteAngle) {
-            transferAngle(myOrigRot, myEmitter.getRotation(), angle);
-        }
+        transferAngle(myOrigRot, myEmitter.getRotation(), angle);
     }
 
     private void setSpd(Vector2 spd) {

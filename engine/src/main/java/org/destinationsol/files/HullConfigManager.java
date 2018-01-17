@@ -31,6 +31,7 @@ import org.destinationsol.game.ship.Teleport;
 import org.destinationsol.game.ship.UnShield;
 import org.destinationsol.game.ship.hulls.GunSlot;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.destinationsol.game.particle.ParticleEmitterSlot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -124,6 +125,21 @@ public final class HullConfigManager {
         }
     }
 
+    private void parseParticleEmitterSlots(JsonValue containerNode, HullConfig.Data configData) {
+        Vector2 builderOrigin = new Vector2(configData.shipBuilderOrigin);
+
+        for (JsonValue particleEmitterSlotNode : containerNode) {
+            Vector2 position = readVector2(particleEmitterSlotNode, "position", null);
+            position.sub(builderOrigin)
+                    .scl(configData.size);
+
+            String particleName = particleEmitterSlotNode.getString("particleName", null);
+            String trigger = particleEmitterSlotNode.getString("trigger", null);
+
+            configData.particleEmitterSlots.add(new ParticleEmitterSlot(position, particleName, trigger));
+        }
+    }
+
     private void readProperties(JsonValue rootNode, HullConfig.Data configData) {
         configData.size = rootNode.getFloat("size");
         configData.approxRadius = 0.4f * configData.size;
@@ -152,6 +168,9 @@ public final class HullConfigManager {
         process(configData);
 
         parseGunSlotList(rootNode.get("gunSlots"), configData);
+        if (rootNode.has("particleEmitters")) {
+            parseParticleEmitterSlots(rootNode.get("particleEmitters"), configData);
+        }
     }
 
     private AbilityConfig loadAbility(
