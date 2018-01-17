@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.Immutable;
 import org.destinationsol.game.item.Engine;
+import org.destinationsol.game.particle.ParticleEmitterSlot;
 import org.destinationsol.game.ship.AbilityConfig;
 
 import java.util.ArrayList;
@@ -72,6 +73,18 @@ public final class HullConfig {
 
     public List<GunSlot> getGunSlotList() {
         return new ArrayList<>(data.gunSlots);
+    }
+
+    public ParticleEmitterSlot getParticleEmitterSlot(int slotNr) {
+        return data.particleEmitterSlots.get(slotNr);
+    }
+
+    public int getNrOfParticleEmitterSlots() {
+        return data.particleEmitterSlots.size();
+    }
+
+    public List<ParticleEmitterSlot> getParticleEmitterSlotList() {
+        return new ArrayList<>(data.particleEmitterSlots);
     }
 
     public List<Vector2> getLightSourcePositions() {
@@ -168,6 +181,7 @@ public final class HullConfig {
         public Vector2 e1Pos;
         public Vector2 e2Pos;
         public List<GunSlot> gunSlots = new ArrayList<>();
+        public List<ParticleEmitterSlot> particleEmitterSlots = new ArrayList<>();
         public List<Vector2> lightSrcPoss = new ArrayList<>();
         public float durability;
         public boolean hasBase;
@@ -206,7 +220,7 @@ public final class HullConfig {
             this.type = src.type;
             this.tex = new TextureAtlas.AtlasRegion(src.tex);
             this.engineConfig = src.engineConfig;
-            this.ability = (src.ability == null) ? null : src.ability;
+            this.ability = src.ability;
             this.approxRadius = src.approxRadius;
             this.displayName = src.displayName;
             this.price = src.price;
@@ -214,7 +228,7 @@ public final class HullConfig {
             this.origin = new Vector2(src.origin);
             this.shipBuilderOrigin = new Vector2(src.shipBuilderOrigin);
             this.gunSlots.addAll(src.gunSlots);
+            this.particleEmitterSlots.addAll(src.particleEmitterSlots);
         }
-
     }
 }
