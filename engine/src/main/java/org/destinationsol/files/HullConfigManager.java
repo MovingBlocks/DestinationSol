@@ -23,6 +23,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.ItemManager;
+import org.destinationsol.game.particle.ParticleEmitter;
 import org.destinationsol.game.ship.AbilityConfig;
 import org.destinationsol.game.ship.EmWave;
 import org.destinationsol.game.ship.KnockBack;
@@ -31,7 +32,6 @@ import org.destinationsol.game.ship.Teleport;
 import org.destinationsol.game.ship.UnShield;
 import org.destinationsol.game.ship.hulls.GunSlot;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.destinationsol.game.particle.ParticleEmitterSlot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -136,7 +136,7 @@ public final class HullConfigManager {
             String particleName = particleEmitterSlotNode.getString("particleName", null);
             String trigger = particleEmitterSlotNode.getString("trigger", null);
 
-            configData.particleEmitterSlots.add(new ParticleEmitterSlot(position, particleName, trigger));
+            configData.particleEmitters.add(new ParticleEmitter(position, particleName, trigger));
         }
     }
 

@@ -16,6 +16,7 @@
 package org.destinationsol.game.particle;
 
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.common.NotNull;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
@@ -27,17 +28,42 @@ import java.util.List;
 
 public class ParticleEmitter {
 
+    private final @NotNull Vector2 position;
+    private final @NotNull String particleName, trigger;
     private final List<Drawable> myDrawables;
     private final ParticleSrc myParticle;
 
-    public ParticleEmitter(SolGame game, Engine engine, ParticleEmitterSlot particleEmitterSlot, SolShip ship) {
+    public ParticleEmitter(SolGame game, Engine engine, ParticleEmitter particleEmitter, SolShip ship) {
         myDrawables = new ArrayList<>();
         EffectConfig effectConfig = engine.getEffectConfig();
-        Vector2 particlePos = particleEmitterSlot.getPosition();
+        Vector2 particlePos = particleEmitter.getPosition();
         Vector2 shipPos = ship.getPosition();
         Vector2 shipSpd = ship.getSpd();
         myParticle = new ParticleSrc(effectConfig, -1, DrawableLevel.PART_BG_0, particlePos, true, game, shipPos, shipSpd, 0);
         myDrawables.add(myParticle);
+
+        position = null;
+        particleName = null;
+        trigger = null;
+    }
+
+    public ParticleEmitter(@NotNull Vector2 position, @NotNull String particleName, @NotNull String trigger) {
+        if (position == null) {
+            throw new IllegalArgumentException("position cannot be null");
+        }
+        if (particleName == null) {
+            throw new IllegalArgumentException("particleName cannot be null");
+        }
+        if (trigger == null) {
+            throw new IllegalArgumentException("trigger cannot be null");
+        }
+
+        this.position = new Vector2(position);
+        this.particleName = particleName;
+        this.trigger = trigger;
+
+        myDrawables = null;
+        myParticle = null;
     }
 
     public List<Drawable> getDrawables() {
@@ -53,5 +79,36 @@ public class ParticleEmitter {
     public void onRemove(SolGame game, Vector2 basePos) {
         PartMan pm = game.getPartMan();
         pm.finish(game, myParticle, basePos);
+    }
+
+    /**
+     * Returns the position, relative to the ship hull origin that owns the slot.
+     *
+     * @return The position, relative to the ship hull origin that owns the slot.
+     */
+    public
+    @NotNull
+    Vector2 getPosition() {
+        return position;
+    }
+
+    /**
+     * Returns the name of the Particle Emitter
+     *
+     * @return The name of the Particle Emitter
+     */
+    @NotNull
+    public String getParticleName() {
+        return particleName;
+    }
+
+    /**
+     * Returns the trigger type set on the Particle Emitter
+     *
+     * @return The trigger type set on the Particle Emitter
+     */
+    @NotNull
+    public String getTrigger() {
+        return trigger;
     }
 }
