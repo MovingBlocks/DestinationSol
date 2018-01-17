@@ -75,15 +75,11 @@ public final class HullConfig {
         return new ArrayList<>(data.gunSlots);
     }
 
-    public ParticleEmitter getParticleEmitter(int slotNr) {
-        return data.particleEmitters.get(slotNr);
+    public ParticleEmitter getParticleEmitter(int index) {
+        return data.particleEmitters.get(index);
     }
 
-    public int getNrOfParticleEmitters() {
-        return data.particleEmitters.size();
-    }
-
-    public List<ParticleEmitter> getParticleEmitterList() {
+    public List<ParticleEmitter> getParticleEmitters() {
         return new ArrayList<>(data.particleEmitters);
     }
 

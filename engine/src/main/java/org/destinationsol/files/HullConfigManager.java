@@ -115,8 +115,7 @@ public final class HullConfigManager {
 
         for (JsonValue gunSlotNode : containerNode) {
             Vector2 position = readVector2(gunSlotNode, "position", null);
-            position.sub(builderOrigin)
-                    .scl(configData.size);
+            position.sub(builderOrigin).scl(configData.size);
 
             boolean isUnderneathHull = gunSlotNode.getBoolean("isUnderneathHull", false);
             boolean allowsRotation = gunSlotNode.getBoolean("allowsRotation", true);
@@ -130,8 +129,7 @@ public final class HullConfigManager {
 
         for (JsonValue particleEmitterSlotNode : containerNode) {
             Vector2 position = readVector2(particleEmitterSlotNode, "position", null);
-            position.sub(builderOrigin)
-                    .scl(configData.size);
+            position.sub(builderOrigin).scl(configData.size);
 
             String particleName = particleEmitterSlotNode.getString("particleName", null);
             String trigger = particleEmitterSlotNode.getString("trigger", null);
