@@ -497,10 +497,9 @@ public class SolShip implements SolObject {
     public boolean maybeEquip(SolGame game, SolItem item, boolean secondarySlot, boolean equip) {
         if (!secondarySlot) {
             if (item instanceof Engine) {
-                if (true) {
-                    Gdx.app.log("SolShip", "maybeEquip called for an engine item, can't do that!");
-                    //throw new AssertionError("engine items not supported");
-                }
+                Gdx.app.log("SolShip", "maybeEquip called for an engine item, can't do that!");
+                //throw new AssertionError("engine items not supported");
+
                 Engine ei = (Engine) item;
                 boolean ok = ei.isBig() == (myHull.config.getType() == HullConfig.Type.BIG);
                 if (ok && equip) {
