@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package org.destinationsol.game.particle;
 
 import com.badlogic.gdx.math.Vector2;
+import com.google.common.base.Preconditions;
 import org.destinationsol.common.NotNull;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.Drawable;
@@ -28,57 +29,48 @@ import java.util.List;
 
 public class ParticleEmitter {
 
-    private final @NotNull Vector2 position;
-    private final @NotNull String particleName, trigger;
-    private final List<Drawable> myDrawables;
-    private final ParticleSrc myParticle;
+    private final Vector2 position;
+    private final String particleName, trigger;
+    private final List<Drawable> drawables;
+    private final ParticleSrc particleSrc;
+
+    public ParticleEmitter(@NotNull Vector2 position, @NotNull String particleName, @NotNull String trigger) {
+        Preconditions.checkNotNull(position, "position cannot be null");
+        this.position = new Vector2(position);
+        this.particleName = Preconditions.checkNotNull(particleName, "particleName cannot be null");
+        this.trigger = Preconditions.checkNotNull(trigger, "trigger cannot be null");
+
+        drawables = null;
+        particleSrc = null;
+    }
 
     public ParticleEmitter(SolGame game, Engine engine, ParticleEmitter particleEmitter, SolShip ship) {
-        myDrawables = new ArrayList<>();
+        drawables = new ArrayList<>();
         EffectConfig effectConfig = engine.getEffectConfig();
-        Vector2 particlePos = particleEmitter.getPosition();
+        Vector2 particleSrcPos = particleEmitter.getPosition();
         Vector2 shipPos = ship.getPosition();
-        Vector2 shipSpd = ship.getSpd();
-        myParticle = new ParticleSrc(effectConfig, -1, DrawableLevel.PART_BG_0, particlePos, true, game, shipPos, shipSpd, 0);
-        myDrawables.add(myParticle);
+        Vector2 shipSpeed = ship.getSpd();
+        particleSrc = new ParticleSrc(effectConfig, -1, DrawableLevel.PART_BG_0, particleSrcPos, true, game, shipPos, shipSpeed, 0);
+        drawables.add(particleSrc);
 
         position = null;
         particleName = null;
         trigger = null;
     }
 
-    public ParticleEmitter(@NotNull Vector2 position, @NotNull String particleName, @NotNull String trigger) {
-        if (position == null) {
-            throw new IllegalArgumentException("position cannot be null");
-        }
-        if (particleName == null) {
-            throw new IllegalArgumentException("particleName cannot be null");
-        }
-        if (trigger == null) {
-            throw new IllegalArgumentException("trigger cannot be null");
-        }
-
-        this.position = new Vector2(position);
-        this.particleName = particleName;
-        this.trigger = trigger;
-
-        myDrawables = null;
-        myParticle = null;
-    }
-
     public List<Drawable> getDrawables() {
-        return myDrawables;
+        return drawables;
     }
 
     // This currently does not allow the particle emitter to stop at any time
     // TODO: add the possibility for trigger events to control the emitter
     public void update() {
-        myParticle.setWorking(true);
+        particleSrc.setWorking(true);
     }
 
     public void onRemove(SolGame game, Vector2 basePos) {
-        PartMan pm = game.getPartMan();
-        pm.finish(game, myParticle, basePos);
+        PartMan partMan = game.getPartMan();
+        partMan.finish(game, particleSrc, basePos);
     }
 
     /**
@@ -86,9 +78,7 @@ public class ParticleEmitter {
      *
      * @return The position, relative to the ship hull origin that owns the slot.
      */
-    public
-    @NotNull
-    Vector2 getPosition() {
+    public Vector2 getPosition() {
         return position;
     }
 
@@ -97,7 +87,6 @@ public class ParticleEmitter {
      *
      * @return The name of the Particle Emitter
      */
-    @NotNull
     public String getParticleName() {
         return particleName;
     }
@@ -107,7 +96,6 @@ public class ParticleEmitter {
      *
      * @return The trigger type set on the Particle Emitter
      */
-    @NotNull
     public String getTrigger() {
         return trigger;
     }
