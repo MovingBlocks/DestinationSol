@@ -201,11 +201,12 @@ public class SolApplication implements ApplicationListener {
     public void play(boolean tut, String shipName, boolean isNewGame) {
         if (isNewGame) {
             beforeNewGame();
+            solGame = new SolGame(this, shipName, tut, isNewGame, commonDrawer);
         } else {
             beforeLoadGame();
+            solGame = new SolGame(this, shipName, tut, isNewGame, commonDrawer);
         }
         
-        solGame = new SolGame(this, shipName, tut, commonDrawer);
         inputManager.setScreen(this, solGame.getScreens().mainScreen);
         musicManager.playGameMusic(options);
     }

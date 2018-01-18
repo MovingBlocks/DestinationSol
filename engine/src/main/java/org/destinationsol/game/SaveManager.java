@@ -35,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -45,13 +46,16 @@ public class SaveManager {
     private static final String SAVE_FILE_NAME = "prevShip.ini";
     static String MERC_SAVE_FILE = getResourcePath("mercenaries.json");
 
-    public static void writeShip(HullConfig hull, float money, ArrayList<SolItem> itemsList, SolGame game) {
+    public static void writeShips(HullConfig hull, float money, ArrayList<SolItem> itemsList, SolGame game) {
         String hullName = game.getHullConfigs().getName(hull);
 
         writeMercs(game);
 
         String items = itemsToString(itemsList);
-        IniReader.write(SAVE_FILE_NAME, "hull", hullName, "money", (int) money, "items", items);
+        
+        Vector2 pos = game.getHero().getPosition();
+        
+        IniReader.write(FILE_NAME, "hull", hullName, "money", (int) money, "items", items, "x", pos.x, "y", pos.y);
     }
 
     /**
@@ -178,7 +182,11 @@ public class SaveManager {
 
         int money = ir.getInt("money", 0);
         String itemsStr = ir.getString("items", "");
+        
+        float x = ir.getFloat("x", 0);
+        float y = ir.getFloat("y", 0);
+        Vector2 spawnPos = new Vector2(x, y);
 
-        return new ShipConfig(hull, itemsStr, money, 1, null, itemManager);
+        return new ShipConfig(hull, itemsStr, money, 1, null, itemManager, spawnPos);
     }
 }
