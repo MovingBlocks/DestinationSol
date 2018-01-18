@@ -3,8 +3,8 @@
     "items": "federal:dualBlaster federal:dualBlaster",
 
     "guard": {
-        "hull": "federal:federalTiny",
-        "items": "federal:dualBlaster core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
+        "hull": "federal:federalBig",
+        "items": "federal:dualBlaster core:fixedGun core:mediumArmor core:bigShield",
         "density": 3
     }
 }
