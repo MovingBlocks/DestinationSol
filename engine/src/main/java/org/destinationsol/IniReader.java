@@ -17,6 +17,7 @@ package org.destinationsol;
 
 import com.badlogic.gdx.files.FileHandle;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.SaveManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -61,13 +62,7 @@ public class IniReader {
             second = !second;
         }
 
-        String path;
-        if (DebugOptions.DEV_ROOT_PATH != null) {
-            path = DebugOptions.DEV_ROOT_PATH;
-        } else {
-            path = "src/main/resources/";
-        }
-        path += fileName;
+        String path = SaveManager.getRsrcPath(fileName);
 
         FileHandle file = new FileHandle(Paths.get(path).toFile());
         file.writeString(sb.toString(), false);
@@ -90,13 +85,7 @@ public class IniReader {
     }
 
     private List<String> fileToLines(String fileName) {
-        String path;
-        if (DebugOptions.DEV_ROOT_PATH != null) {
-            path = DebugOptions.DEV_ROOT_PATH;
-        } else {
-            path = "src/main/resources/";
-        }
-        path += fileName;
+        String path = SaveManager.getRsrcPath(fileName);
 
         FileHandle file = new FileHandle(Paths.get(path).toFile());
 

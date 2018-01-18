@@ -127,6 +127,7 @@ public class SolGame {
     private float timeStep;
     private float time;
     private boolean paused;
+    private boolean isNewGame;
     private float timeFactor;
     private float respawnMoney;
     private HullConfig respawnHull;
@@ -168,6 +169,8 @@ public class SolGame {
         mountDetectDrawer = new MountDetectDrawer();
         respawnItems = new ArrayList<>();
         timeFactor = 1;
+        this.isNewGame = isNewGame;
+        
 
         // from this point we're ready!
         planetManager.fill(solNames);
@@ -187,7 +190,13 @@ public class SolGame {
             galaxyFiller.fill(this, hullConfigManager, itemManager);
         }
 
-        Vector2 pos = galaxyFiller.getPlayerSpawnPos(this);
+        // If we continue a game, we should spawn from the same position
+        Vector2 pos;
+        if (isNewGame) {
+            pos = galaxyFiller.getPlayerSpawnPos(this);
+        } else {
+            pos = shipConfig.spawnPos;
+        }
         camera.setPos(pos);
 
         Pilot pilot;
@@ -331,7 +340,7 @@ public class SolGame {
             items = respawnItems;
         }
 
-        SaveManager.writeShip(hull, money, items, this);
+        SaveManager.writeShips(hull, money, items, this);
     }
 
     public GameScreens getScreens() {
