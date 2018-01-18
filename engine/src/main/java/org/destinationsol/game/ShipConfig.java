@@ -15,7 +15,9 @@
  */
 package org.destinationsol.game;
 
-import com.badlogic.gdx.utils.JsonValue;
+import java.util.ArrayList;
+import java.util.Set;
+
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.HullConfigManager;
@@ -23,8 +25,8 @@ import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.terasology.assets.ResourceUrn;
 
-import java.util.ArrayList;
-import java.util.Set;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class ShipConfig {
     public final HullConfig hull;
@@ -33,6 +35,7 @@ public class ShipConfig {
     public final float density;
     public final ShipConfig guard;
     public final float dps;
+    public Vector2 spawnPos;
 
     public ShipConfig(HullConfig hull, String items, int money, float density, ShipConfig guard, ItemManager itemManager) {
         this.hull = hull;
@@ -41,6 +44,11 @@ public class ShipConfig {
         this.density = density;
         this.guard = guard;
         dps = HardnessCalc.getShipConfDps(this, itemManager);
+    }
+    
+    public ShipConfig(HullConfig hull, String items, int money, float density, ShipConfig guard, ItemManager itemManager, Vector2 spawnPos) {
+        this(hull, items, money, density, guard, itemManager);
+        this.spawnPos = spawnPos;
     }
 
     public static ArrayList<ShipConfig> loadList(JsonValue shipListJson, HullConfigManager hullConfigs, ItemManager itemManager) {
