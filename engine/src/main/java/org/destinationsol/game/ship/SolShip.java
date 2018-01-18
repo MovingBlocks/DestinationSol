@@ -354,7 +354,7 @@ public class SolShip implements SolObject {
         for (List<SolItem> group : myItemContainer) {
             for (SolItem item : group) {
                 float dropChance = maybeUnequip(game, item, false) ? .35f : .6f;
-                if (SolMath.test(dropChance)) {
+                if (SolRandom.test(dropChance)) {
                     throwLoot(game, item, true);
                 }
             }
@@ -363,7 +363,7 @@ public class SolShip implements SolObject {
         if (myTradeContainer != null) {
             for (List<SolItem> group : myTradeContainer.getItems()) {
                 for (SolItem item : group) {
-                    if (SolMath.test(.6f)) {
+                    if (SolRandom.test(.6f)) {
                         throwLoot(game, item, true);
                     }
                 }

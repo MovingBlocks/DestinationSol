@@ -173,13 +173,6 @@ public class SolMath {
     }
 
     /**
-     * generates a random number between 0 and 1 and returns true if it is less than v, false otherwise
-     */
-    public static boolean test(float v) {
-        return SolRandom.randomFloat(0, 1) < v;
-    }
-
-    /**
      * @return approximate cos of a degrees
      */
     public static float cos(float a) {

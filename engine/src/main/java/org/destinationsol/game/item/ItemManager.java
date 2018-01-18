@@ -17,7 +17,6 @@ package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.particle.EffectTypes;
@@ -66,7 +65,7 @@ public class ItemManager {
         List<ItemConfig> list = parseItems(items);
         for (ItemConfig ic : list) {
             for (int i = 0; i < ic.amt; i++) {
-                if (SolMath.test(ic.chance)) {
+                if (SolRandom.test(ic.chance)) {
                     SolItem item = SolRandom.randomElement(ic.examples).copy();
                     c.add(item);
                 }

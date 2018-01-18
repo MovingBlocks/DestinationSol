@@ -203,7 +203,7 @@ public class PlanetObjectsBuilder {
 
     private RectSprite createCloudSprite(List<TextureAtlas.AtlasRegion> cloudTexs, float maxAngleShift, float maxDistShift, float baseDist) {
         TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolRandom.randomElement(cloudTexs));
-        if (SolMath.test(.5f)) {
+        if (SolRandom.test(.5f)) {
             tex.flip(!tex.isFlipX(), !tex.isFlipY());
         }
         float angleShiftRel = SolRandom.randomFloat(1);
@@ -285,7 +285,7 @@ public class PlanetObjectsBuilder {
             float decoRelAngle = decoAngle - baseAngle;
 
             TextureAtlas.AtlasRegion decoTex = new TextureAtlas.AtlasRegion(SolRandom.randomElement(dc.texs));
-            if (dc.allowFlip && SolMath.test(.5f)) {
+            if (dc.allowFlip && SolRandom.test(.5f)) {
                 decoTex.flip(!decoTex.isFlipX(), !decoTex.isFlipY());
             }
 
@@ -339,7 +339,7 @@ public class PlanetObjectsBuilder {
         Vector2 planetPos = planet.getPos();
         pos.add(planetPos);
         float spdLen = SolMath.sqrt(planet.getGravConst() / height);
-        boolean cw = SolMath.test(.5f);
+        boolean cw = SolRandom.test(.5f);
         if (!cw) {
             spdLen *= -1;
         }
