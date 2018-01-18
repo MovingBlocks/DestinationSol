@@ -15,7 +15,6 @@
  */
 package org.destinationsol.game.planet;
 
-import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 
 public class GroundBuilder {
@@ -140,7 +139,7 @@ public class GroundBuilder {
             int newCol = toLeft ? left(col) : right(col);
             //      if (!isCorner)
             col = newCol;
-            currSpace += SolRandom.randomFloat(.5f, SolMath.test(.3f) ? 4 : 1);
+            currSpace += SolRandom.randomFloat(.5f, SolRandom.test(.3f) ? 4 : 1);
             if (addToDungeon(col, row)) {
                 return;
             }

@@ -72,7 +72,7 @@ public class MazeBuilder {
                         tiles = inner ? config.innerPasses : config.borderPasses;
                     }
                     MazeTile tile = SolRandom.seededRandomElement(tiles);
-                    MazeTileObject.MyFar mto = new MazeTileObject.MyFar(tile, tileAngle, new Vector2(tilePos), SolMath.test(.5f));
+                    MazeTileObject.MyFar mto = new MazeTileObject.MyFar(tile, tileAngle, new Vector2(tilePos), SolRandom.test(.5f));
                     game.getObjMan().addFarObjNow(mto);
                 }
 
@@ -92,7 +92,7 @@ public class MazeBuilder {
                         tiles = inner ? config.innerPasses : config.borderPasses;
                     }
                     MazeTile tile = SolRandom.seededRandomElement(tiles);
-                    MazeTileObject.MyFar mto = new MazeTileObject.MyFar(tile, tileAngle, new Vector2(tilePos), SolMath.test(.5f));
+                    MazeTileObject.MyFar mto = new MazeTileObject.MyFar(tile, tileAngle, new Vector2(tilePos), SolRandom.test(.5f));
                     game.getObjMan().addFarObjNow(mto);
                 }
             }

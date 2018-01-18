@@ -72,21 +72,6 @@ public class SolApplication implements ApplicationListener {
     public SolApplication() {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
-        
-        // Set the seed for all the randomness. Very important
-        String fileName = "world.ini";
-        if (SaveManager.resourceExists(fileName)) {
-            IniReader ir = new IniReader(fileName, null);
-            
-            // Set a fall back for if the seed doesn't exist, just in case someone modified world.ini
-            long seed = Long.parseLong(ir.getString("seed", String.valueOf(System.currentTimeMillis())));
-            
-            logger.debug("Got seed: " + String.valueOf(seed));
-            
-            SolRandom.setSeed(seed);
-        } else {
-            SolRandom.setSeed(System.currentTimeMillis());
-        }
     }
 
     @Override
@@ -117,7 +102,8 @@ public class SolApplication implements ApplicationListener {
     }
 
     @Override
-    public void resize(int i, int i1) { }
+    public void resize(int i, int i1) {
+    }
 
     public void render() {
         timeAccumulator += Gdx.graphics.getDeltaTime();
@@ -131,10 +117,12 @@ public class SolApplication implements ApplicationListener {
     }
 
     @Override
-    public void pause() { }
+    public void pause() {
+    }
 
     @Override
-    public void resume() { }
+    public void resume() {
+    }
 
     private void safeUpdate() {
         if (fatalErrorMsg != null) {
@@ -196,22 +184,30 @@ public class SolApplication implements ApplicationListener {
         commonDrawer.end();
     }
 
-    public void loadNewGame(boolean tut, String shipName) {
+    public void loadGame(boolean tut, String shipName, boolean isNewGame) {
         if (solGame != null) {
             throw new AssertionError("Starting a new game with unfinished current one");
         }
 
         inputManager.setScreen(this, menuScreens.loading);
-        menuScreens.loading.setMode(tut, shipName);
+        if (isNewGame) {
+            menuScreens.loading.setMode(tut, shipName, true);
+        } else {
+            menuScreens.loading.setMode(tut, shipName, false);
+        }
         musicManager.playGameMusic(options);
     }
 
-    public void startNewGame(boolean isNewGame, boolean tut, String shipName) {
-        solGame = new SolGame(this, shipName, tut, isNewGame, commonDrawer);
+    public void play(boolean tut, String shipName, boolean isNewGame) {
+        if (isNewGame) {
+            beforeNewGame();
+        } else {
+            beforeLoadGame();
+        }
+        
+        solGame = new SolGame(this, shipName, tut, commonDrawer);
         inputManager.setScreen(this, solGame.getScreens().mainScreen);
         musicManager.playGameMusic(options);
-        
-        solGame.onNewGame();
     }
 
     public SolInputManager getInputMan() {
@@ -262,4 +258,32 @@ public class SolApplication implements ApplicationListener {
         return soundManager;
     }
 
+    /**
+     * This method gets called when the "New Game" button gets pressed
+     */
+    public void beforeNewGame() {
+        // Reset the seed so this galaxy isn't the same as the last
+        long seed = System.currentTimeMillis();
+        SolRandom.setSeed(seed);
+        
+        logger.info("Set Seed: " + String.valueOf(seed));
+    }
+
+    /**
+     * This method gets called when the "Continue" button gets pressed
+     */
+    public void beforeLoadGame() {
+        // Set the seed for all the randomness. Very important
+        String fileName = "world.ini";
+        if (SaveManager.resourceExists(fileName)) {
+            IniReader ir = new IniReader(fileName, null);
+
+            // Set a fall back for if the seed doesn't exist, just in case someone modified world.ini
+            long seed = Long.parseLong(ir.getString("seed", "0"));
+
+            logger.info("Got seed: " + String.valueOf(seed));
+
+            SolRandom.setSeed(seed);
+        }
+    }
 }

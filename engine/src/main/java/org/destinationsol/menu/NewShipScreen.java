@@ -79,8 +79,7 @@ public class NewShipScreen implements SolUiScreen {
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         if (okControl.isJustOff()) {
-            solApplication.getMenuScreens().loading.setIsNewGame(true);
-            solApplication.loadNewGame(false, playerSpawnConfigNames.get(playerSpawnConfigIndex));
+            solApplication.loadGame(false, playerSpawnConfigNames.get(playerSpawnConfigIndex), true);
             return;
         }
 
