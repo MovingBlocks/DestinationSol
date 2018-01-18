@@ -43,8 +43,8 @@ public class MazeLayoutBuilder {
                 boolean inner = myInners[col][row];
                 boolean rInner = col < mySz - 1 && myInners[col + 1][row];
                 boolean dInner = row < mySz - 1 && myInners[col][row + 1];
-                myRight[col][row] = (inner || rInner) && SolMath.test(WALL_PERC);
-                myDown[col][row] = (inner || dInner) && SolMath.test(WALL_PERC);
+                myRight[col][row] = (inner || rInner) && SolRandom.test(WALL_PERC);
+                myDown[col][row] = (inner || dInner) && SolRandom.test(WALL_PERC);
             }
         }
         makeAllAccessible();

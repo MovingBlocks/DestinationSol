@@ -62,7 +62,7 @@ public class Teleport implements ShipAbility {
         for (int i = 0; i < 5; i++) {
             newPos.set(pos);
             newPos.sub(nePos);
-            angle = config.angle * SolRandom.randomFloat(.5f, 1) * SolMath.toInt(SolMath.test(.5f));
+            angle = config.angle * SolRandom.randomFloat(.5f, 1) * SolMath.toInt(SolRandom.test(.5f));
             SolMath.rotate(newPos, angle);
             newPos.add(nePos);
             if (game.isPlaceEmpty(newPos, false)) {

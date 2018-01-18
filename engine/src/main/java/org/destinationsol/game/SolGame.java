@@ -283,36 +283,28 @@ public class SolGame {
     }
     
     /**
-     * This method gets called when the "New Game" button gets pressed
-     */
-    public void onNewGame() {
-        // Reset the seed so this galaxy isn't the same as the last
-//        SolRandom.setSeed(System.currentTimeMillis());
-        SolRandom.setSeed(0);
-    }
-
-    /**
      * Saves the world's seed so we can regenerate the world the same next time
      */
     private void saveWorld() {
-        
-        long seed = SolRandom.getSeed();
-        
-        String fileName = SaveManager.getRsrcPath("world.ini");
-        
-        String toWrite = "seed=" + Long.toString(seed);
-        
-        PrintWriter writer;
-        try {
-            writer = new PrintWriter(fileName, "UTF-8");
-            writer.write(toWrite);
-            writer.close();
-        } catch (FileNotFoundException | UnsupportedEncodingException e) {
-            logger.error("Could not save galaxy seed, " + e.getMessage());
-            return;
+        // Make sure the tutorial doesn't overwrite the save
+        if (tutorialManager == null) {
+            long seed = SolRandom.getSeed();
+            
+            String fileName = SaveManager.getRsrcPath("world.ini");
+            
+            String toWrite = "seed=" + Long.toString(seed);
+            
+            PrintWriter writer;
+            try {
+                writer = new PrintWriter(fileName, "UTF-8");
+                writer.write(toWrite);
+                writer.close();
+            } catch (FileNotFoundException | UnsupportedEncodingException e) {
+                logger.error("Could not save galaxy seed, " + e.getMessage());
+                return;
+            }
+            logger.info("Successfully saved the galaxy seed: " + String.valueOf(seed));
         }
-        logger.debug("Successfully saved the galaxy seed: " + String.valueOf(seed));
-
     }
 
     public void saveShip() {

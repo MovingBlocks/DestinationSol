@@ -252,7 +252,7 @@ public class ChunkFiller {
             // Select a random far junk texture
             TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolRandom.randomElement(conf.farJunkTexs));
             // Flip atlas for every other piece of junk
-            if (SolMath.test(.5f)) {
+            if (SolRandom.test(.5f)) {
                 tex.flip(!tex.isFlipX(), !tex.isFlipY());
             }
             // Choose a random size (within a range)
@@ -301,7 +301,7 @@ public class ChunkFiller {
             // Select a random junk atlas
             TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolRandom.randomElement(conf.junkTexs));
             // Flip atlas for every other piece of junk
-            if (SolMath.test(.5f)) {
+            if (SolRandom.test(.5f)) {
                 tex.flip(!tex.isFlipX(), !tex.isFlipY());
             }
             // Choose a random size (within a range)
@@ -398,7 +398,7 @@ public class ChunkFiller {
         if (amt >= 1) {
             return (int) amt;
         }
-        return SolMath.test(amt) ? 1 : 0;
+        return SolRandom.test(amt) ? 1 : 0;
     }
 
 }

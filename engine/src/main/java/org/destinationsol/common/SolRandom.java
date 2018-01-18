@@ -146,8 +146,26 @@ public class SolRandom {
         seededRandom = new Random(seed);
     }
 
+    /**
+     * Gets the seed currently in use
+     * @return The seed from seededRandom
+     */
     public static long getSeed() {
         return seed;
+    }
+
+    /**
+     * generates a random number between 0 and 1 and returns true if it is less than v, false otherwise
+     */
+    public static boolean test(float v) {
+        return randomFloat(0, 1) < v;
+    }
+    
+    /**
+     * generates a seeded random number between 0 and 1 and returns true if it is less than v, false otherwise
+     */
+    public static boolean seededTest(float v) {
+        return seededRandomFloat(0, 1) < v;
     }
 
 }

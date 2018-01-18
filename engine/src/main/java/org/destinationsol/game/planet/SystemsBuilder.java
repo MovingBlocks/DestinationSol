@@ -47,7 +47,7 @@ public class SystemsBuilder {
         while (sysLeft > 0 || mazesLeft > 0) {
             boolean createSys = sysLeft > 0;
             if (createSys && mazesLeft > 0 && !systems.isEmpty()) {
-                createSys = SolMath.test(.5f);
+                createSys = SolRandom.seededTest(.5f);
             }
             if (createSys) {
                 List<Float> ghs = generatePlanetGhs();
@@ -72,7 +72,7 @@ public class SystemsBuilder {
         ArrayList<Float> res = new ArrayList<>();
         boolean beltCreated = false;
         for (int i = 0; i < PLANET_COUNT; i++) {
-            boolean createBelt = !beltCreated && 0 < i && i < .5f * PLANET_COUNT && SolMath.test(.6f);
+            boolean createBelt = !beltCreated && 0 < i && i < .5f * PLANET_COUNT && SolRandom.seededTest(.6f);
             float gh;
             if (!createBelt) {
                 gh = SolRandom.seededRandomFloat(.5f, 1) * Const.MAX_GROUND_HEIGHT;
@@ -182,8 +182,8 @@ public class SystemsBuilder {
 
     private Planet createPlanet(float planetDist, SolSystem s, float groundHeight, PlanetConfig planetConfig,
                                 SolNames names) {
-        float toSysRotSpd = SolMath.arcToAngle(PLANET_SPD, planetDist) * SolMath.toInt(SolMath.test(.5f));
-        float rotSpd = SolMath.arcToAngle(GROUND_SPD, groundHeight) * SolMath.toInt(SolMath.test(.5f));
+        float toSysRotSpd = SolMath.arcToAngle(PLANET_SPD, planetDist) * SolMath.toInt(SolRandom.seededTest(.5f));
+        float rotSpd = SolMath.arcToAngle(GROUND_SPD, groundHeight) * SolMath.toInt(SolRandom.seededTest(.5f));
         String name = SolRandom.seededRandomElement(names.planets);
         return new Planet(s, SolRandom.seededRandomFloat(180), planetDist, SolRandom.seededRandomFloat(180), toSysRotSpd, rotSpd, groundHeight, false, planetConfig, name);
     }

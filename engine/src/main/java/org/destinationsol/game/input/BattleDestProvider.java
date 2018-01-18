@@ -34,7 +34,7 @@ public class BattleDestProvider {
 
     public BattleDestProvider() {
         myDest = new Vector2();
-        myCw = SolMath.test(.5f);
+        myCw = SolRandom.test(.5f);
     }
 
     public Vector2 getDest(SolShip ship, SolShip enemy, Planet np, boolean battle, float ts,
