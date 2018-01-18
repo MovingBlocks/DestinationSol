@@ -13,6 +13,18 @@
                     "items": "federal:dualBlaster core:mediumArmor core:smallShield",
                     "density": 4
                 }
+            },
+            {
+                "hull": "federal:federalStation",
+                "items": "federal:dualBlaster federal:dualBlaster",
+                "repairer": true,
+                "density": 1,
+
+                "guard": {
+                    "hull": "federal:federalTiny",
+                    "items": "federal:dualBlaster core:mediumArmor core:smallShield",
+                    "density": 4
+                }
             }
         ]
     }
