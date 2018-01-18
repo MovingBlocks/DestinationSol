@@ -57,7 +57,7 @@ public class SystemsBuilder {
                 systems.add(s);
                 sysLeft--;
             } else {
-                MazeConfig mc = SolRandom.randomElement(mazeConfigs.configs);
+                MazeConfig mc = SolRandom.seededRandomElement(mazeConfigs.configs);
                 float mazeRadius = SolRandom.randomFloat(.7f, 1) * MAX_MAZE_RADIUS;
                 Vector2 pos = getBodyPos(systems, mazes, mazeRadius + MAZE_GAP);
                 Maze m = new Maze(mc, pos, mazeRadius);
@@ -75,7 +75,7 @@ public class SystemsBuilder {
             boolean createBelt = !beltCreated && 0 < i && i < .5f * PLANET_COUNT && SolMath.test(.6f);
             float gh;
             if (!createBelt) {
-                gh = SolRandom.randomFloat(.5f, 1) * Const.MAX_GROUND_HEIGHT;
+                gh = SolRandom.seededRandomFloat(.5f, 1) * Const.MAX_GROUND_HEIGHT;
             } else {
                 gh = -BELT_HALF_WIDTH;
                 beltCreated = true;
