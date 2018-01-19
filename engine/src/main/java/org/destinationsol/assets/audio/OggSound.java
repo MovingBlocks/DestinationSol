@@ -26,7 +26,6 @@ public class OggSound extends Asset<OggSoundData> implements PlayableSound {
     public OggSound(ResourceUrn urn, AssetType<?, OggSoundData> assetType, OggSoundData data) {
         super(urn, assetType);
         reload(data);
-        getDisposalHook().setDisposeAction(this::doDispose);
     }
 
     @Override
