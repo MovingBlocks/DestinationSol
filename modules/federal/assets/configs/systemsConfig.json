@@ -13,7 +13,30 @@
                     "items": "federal:dualBlaster core:mediumArmor core:smallShield",
                     "density": 4
                 }
+            },
+            {
+                "hull": "federal:federalStation",
+                "items": "federal:dualBlaster federal:dualBlaster",
+                "repairer": true,
+                "density": 1,
+
+                "guard": {
+                    "hull": "federal:federalBig",
+                    "items": "federal:dualBlaster federal:heavyCannon core:mediumArmor core:bigShield",
+                    "density": 4
+                }
             }
-        ]
+        ],
+        "trading": {
+            "items": "federal:dualBlaster federal:heavyCannon federal:heavySlugClip",
+            "ships": "federal:federalTiny federal:federalBig",
+	    "mercenaries": [
+               {
+                    "hull": "federal:federalTiny",
+                    "items": "3*rep core:smallShield",
+                    "money": 175
+               }    
+	    ]
+	}
     }
 }
