@@ -11,7 +11,7 @@ Properties properties = new Properties()
 new File("gradle.properties").withInputStream {
     properties.load(it)
 }
-//println "Properties: " + properties
+println "Properties: " + properties
 
 // Groovy Elvis operator woo! Defaults to "DestinationSol" if an override isn't set
 githubHome = properties.alternativeGithubHome ?: "DestinationSol"
@@ -78,6 +78,8 @@ def createModule(String name) {
     println "Creating target directory"
     targetDir.mkdir()
 
+    createDirectoryStructure(targetDir)
+
     // Add gitignore
     println "Creating .gitignore"
     File gitignore = new File(targetDir, ".gitignore")
@@ -92,6 +94,25 @@ def createModule(String name) {
 
     // Initialize git
     Grgit.init dir: targetDir, bare: false
+}
+
+/**
+ * Creates the directory structure of a destsol module
+ * @param root The root of the newly created module
+ */
+def createDirectoryStructure(File root) {
+
+    // Set root to the assets folder for simplicity sake
+    root = new File(root, "assets")
+    root.mkdir()
+
+    // Just create the base directories for them. They can organize them how they want after that
+    String[] dirs = ["configs", "emitters", "items", "ships", "sounds", "textures"]
+
+    for (String dir : dirs) {
+        new File(root, dir).mkdir()
+    }
+
 }
 
 /**
