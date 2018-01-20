@@ -67,6 +67,8 @@ import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
@@ -74,6 +76,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class SolGame {
+    private static Logger logger = LoggerFactory.getLogger(SolGame.class);
+    
     private final GameScreens gameScreens;
     private final SolCam camera;
     private final ObjectManager objectManager;
@@ -210,7 +214,7 @@ public class SolGame {
                 }
             }
         }
-        ic.seenAll();
+        ic.markAllAsSeen();
 
         // Don't change equipped items across load/respawn
         //AiPilot.reEquip(this, myHero);
@@ -229,7 +233,7 @@ public class SolGame {
             return;
         }
 
-        String path = SaveManager.getRsrcPath(fileName);
+        String path = SaveManager.getResourcePath(fileName);
         BufferedReader bufferedReader;
         try {
             bufferedReader = new BufferedReader(new FileReader(path));
@@ -238,19 +242,20 @@ public class SolGame {
                 return;
             }
         } catch (IOException e) {
+            logger.error("Could not save mercenaries!");
+            e.printStackTrace();
             return;
         }
 
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {
-        }.getType();
+        Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {}.getType();
         ArrayList<HashMap<String, String>> mercs = gson.fromJson(bufferedReader, type);
 
-        MercItem mercItem;
+        MercItem mercItems;
         for (HashMap<String, String> node : mercs) {
-            mercItem = new MercItem(
+            mercItems = new MercItem(
                     new ShipConfig(hullConfigManager.getConfig(node.get("hull")), node.get("items"), Integer.parseInt(node.get("money")), -1f, null, itemManager));
-            MercenaryUtils.createMerc(this, hero, mercItem);
+            MercenaryUtils.createMerc(this, hero, mercItems);
         }
 
     }

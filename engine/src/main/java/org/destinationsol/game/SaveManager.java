@@ -40,9 +40,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 public class SaveManager {
-    private static final String FILE_NAME = "prevShip.ini";
-
     private static Logger logger = LoggerFactory.getLogger(SaveManager.class);
+    
+    private static final String SAVE_FILE_NAME = "prevShip.ini";
+    static String MERC_SAVE_FILE = getResourcePath("mercenaries.json");
 
     public static void writeShip(HullConfig hull, float money, ArrayList<SolItem> itemsList, SolGame game) {
         String hullName = game.getHullConfigs().getName(hull);
@@ -50,7 +51,7 @@ public class SaveManager {
         writeMercs(game);
 
         String items = itemsToString(itemsList);
-        IniReader.write(FILE_NAME, "hull", hullName, "money", (int) money, "items", items);
+        IniReader.write(SAVE_FILE_NAME, "hull", hullName, "money", (int) money, "items", items);
     }
 
     /**
@@ -86,7 +87,6 @@ public class SaveManager {
      * @param game The instance of the game we're dealing with
      */
     private static void writeMercs(SolGame game) {
-        String fileName = getRsrcPath("mercenaries.json");
         PrintWriter writer;
         
         ItemContainer mercIc = game.getHero().getTradeContainer().getMercs();
@@ -124,7 +124,7 @@ public class SaveManager {
         // Using PrintWriter because it truncates the file if it exists or creates a new one if it doesn't
         // And truncation is good because we don't want dead mercs respawning
         try {
-            writer = new PrintWriter(fileName, "UTF-8");
+            writer = new PrintWriter(MERC_SAVE_FILE, "UTF-8");
             writer.write(toWrite);
             writer.close();
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
@@ -136,7 +136,7 @@ public class SaveManager {
      * @param fileName The name of the file to get the resource path of
      * @return The path in the resource folder to the given file
      */
-    public static String getRsrcPath(String fileName) {
+    public static String getResourcePath(String fileName) {
         if (DebugOptions.DEV_ROOT_PATH != null) {
             return DebugOptions.DEV_ROOT_PATH + fileName;
         } else {
@@ -150,13 +150,20 @@ public class SaveManager {
      * @return A boolean corresponding to the resources existence
      */
     public static boolean resourceExists(String fileName) {
-        String path = getRsrcPath(fileName);
+        String path = getResourcePath(fileName);
 
         return new FileHandle(Paths.get(path).toFile()).exists();
     }
+    
+    /**
+     * Tests is the game has a previous ship (a game to continue)
+     */
+    public static boolean hasPrevShip(String fileName) {
+        return resourceExists(fileName);
+    }
 
     public static ShipConfig readShip(HullConfigManager hullConfigs, ItemManager itemManager, SolGame game) {
-        IniReader ir = new IniReader(FILE_NAME, null);
+        IniReader ir = new IniReader(SAVE_FILE_NAME, null);
 
         String hullName = ir.getString("hull", null);
         if (hullName == null) {
