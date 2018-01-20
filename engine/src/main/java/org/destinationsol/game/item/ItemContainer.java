@@ -150,7 +150,7 @@ public class ItemContainer implements Iterable<List<SolItem>> {
         myNewGroups.remove(group);
     }
 
-    public void seenAll() {
+    public void markAllAsSeen() {
         myNewGroups.clear();
     }
 
