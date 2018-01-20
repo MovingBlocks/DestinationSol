@@ -78,6 +78,8 @@ import com.google.gson.reflect.TypeToken;
 public class SolGame {
     private static Logger logger = LoggerFactory.getLogger(SolGame.class);
     
+    static String MERC_SAVE_FILE = "mercenaries.json";
+    
     private final GameScreens gameScreens;
     private final SolCam camera;
     private final ObjectManager objectManager;
@@ -227,13 +229,12 @@ public class SolGame {
      * Creates and spawns the players mercenaries from their JSON file.
      */
     private void createMercs() {
-        String fileName = "mercenaries.json";
 
-        if (!SaveManager.resourceExists(fileName)) {
+        if (!SaveManager.resourceExists(MERC_SAVE_FILE)) {
             return;
         }
 
-        String path = SaveManager.getResourcePath(fileName);
+        String path = SaveManager.getResourcePath(MERC_SAVE_FILE);
         BufferedReader bufferedReader;
         try {
             bufferedReader = new BufferedReader(new FileReader(path));
