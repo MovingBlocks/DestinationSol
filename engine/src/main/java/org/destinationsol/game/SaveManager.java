@@ -92,7 +92,6 @@ public class SaveManager {
         ItemContainer mercIc = game.getHero().getTradeContainer().getMercs();
         
         List<JsonObject> jsons = new ArrayList<JsonObject>();
-        JsonObject json;
         
         for (List<SolItem> group : mercIc) {
             for (SolItem item : group) {
@@ -109,7 +108,7 @@ public class SaveManager {
                 }
                 String items = itemsToString(itemsList);
                 
-                json = new JsonObject();
+                JsonObject json = new JsonObject();
                 json.addProperty("hull", hullName);
                 json.addProperty("money", money);
                 json.addProperty("items", items);
