@@ -92,6 +92,9 @@ public class SolShip implements SolObject {
         mySmokeSrc = effs.get(0);
         myFireSrc = effs.get(1);
         myElectricitySrc = effs.get(2);
+        myDrawables.addAll(mySmokeSrc.getDrawables());
+        myDrawables.addAll(myFireSrc.getDrawables());
+        myDrawables.addAll(myElectricitySrc.getDrawables());
         myRepairer = repairer;
         myMoney = money;
         myShield = shield;
