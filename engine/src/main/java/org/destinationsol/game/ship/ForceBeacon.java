@@ -23,7 +23,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.input.Pilot;
-import org.destinationsol.game.particle.ParticleSrc;
+import org.destinationsol.game.particle.DSParticleEmitter;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class ForceBeacon {
     public static final float MAX_PULL_DIST = .7f;
     private final Vector2 myRelPos;
     private final Vector2 myPrevPos;
-    private final ParticleSrc myEffect;
+    private final DSParticleEmitter myEffect;
 
     public ForceBeacon(SolGame game, Vector2 relPos, Vector2 basePos, Vector2 baseSpd) {
         myRelPos = relPos;
@@ -83,7 +83,7 @@ public class ForceBeacon {
     }
 
     public void collectDras(List<Drawable> drawables) {
-        drawables.add(myEffect);
+        drawables.addAll(myEffect.getDrawables());
     }
 
     public void update(SolGame game, Vector2 basePos, float baseAngle, SolShip ship) {

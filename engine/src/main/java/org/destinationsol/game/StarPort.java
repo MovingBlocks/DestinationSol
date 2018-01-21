@@ -30,7 +30,7 @@ import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSrc;
-import org.destinationsol.game.particle.ParticleSrc;
+import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ForceBeacon;
@@ -244,9 +244,8 @@ public class StarPort implements SolObject {
             addFlow(game, pos, drawables, 90, lights);
             addFlow(game, pos, drawables, -90, lights);
             addFlow(game, pos, drawables, 180, lights);
-            ParticleSrc force = game.getSpecialEffects().buildForceBeacon(FLOW_DIST * 1.5f, game, new Vector2(), pos, Vector2.Zero);
+            DSParticleEmitter force = game.getSpecialEffects().buildForceBeacon(FLOW_DIST * 1.5f, game, new Vector2(), pos, Vector2.Zero);
             force.setWorking(true);
-            drawables.add(force);
             StarPort sp = new StarPort(from, to, body, drawables, secondary, lights);
             body.setUserData(sp);
             return sp;
@@ -256,9 +255,8 @@ public class StarPort implements SolObject {
             EffectConfig flow = game.getSpecialEffects().starPortFlow;
             Vector2 relPos = new Vector2();
             SolMath.fromAl(relPos, angle, -FLOW_DIST);
-            ParticleSrc f1 = new ParticleSrc(flow, FLOW_DIST, DrawableLevel.PART_BG_0, relPos, false, game, pos, Vector2.Zero, angle);
+            DSParticleEmitter f1 = new DSParticleEmitter(flow, FLOW_DIST, DrawableLevel.PART_BG_0, relPos, false, game, pos, Vector2.Zero, angle);
             f1.setWorking(true);
-            drawables.add(f1);
             LightSrc light = new LightSrc(.6f, true, 1, relPos, flow.tint);
             light.collectDras(drawables);
             lights.add(light);
@@ -345,7 +343,7 @@ public class StarPort implements SolObject {
         private final FarShip myShip;
         private final Vector2 mySpd;
         private final LightSrc myLight;
-        private final ParticleSrc myEff;
+        private final DSParticleEmitter myEff;
         private float myAngle;
 
         public Transcendent(SolShip ship, Planet from, Planet to, SolGame game) {
@@ -362,9 +360,8 @@ public class StarPort implements SolObject {
             myDrawables = new ArrayList<>();
             myDrawables.add(s);
             EffectConfig eff = game.getSpecialEffects().transcendentWork;
-            myEff = new ParticleSrc(eff, TRAN_SZ, DrawableLevel.PART_BG_0, new Vector2(), true, game, myPos, Vector2.Zero, 0);
+            myEff = new DSParticleEmitter(eff, TRAN_SZ, DrawableLevel.PART_BG_0, new Vector2(), true, game, myPos, Vector2.Zero, 0);
             myEff.setWorking(true);
-            myDrawables.add(myEff);
             myLight = new LightSrc(.6f * TRAN_SZ, true, .5f, new Vector2(), eff.tint);
             myLight.collectDras(myDrawables);
             setDependentParams();

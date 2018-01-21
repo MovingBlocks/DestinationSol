@@ -37,12 +37,12 @@ public class PartMan {
     public PartMan() {
     }
 
-    public void finish(SolGame game, ParticleSrc src, Vector2 basePos) {
-        if (src.isContinuous()) {
-            src.setWorking(false);
+    public void finish(SolGame game, DSParticleEmitter emitter, Vector2 basePos) {
+        if (emitter.isContinuous()) {
+            emitter.setWorking(false);
         }
         ArrayList<Drawable> drawables = new ArrayList<>();
-        drawables.add(src);
+        drawables.addAll(emitter.getDrawables());
         DrawableObject o = new DrawableObject(drawables, new Vector2(basePos), new Vector2(), null, true, false);
         game.getObjMan().addObjDelayed(o);
     }

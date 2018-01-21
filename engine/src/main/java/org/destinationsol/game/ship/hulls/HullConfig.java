@@ -19,7 +19,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.Immutable;
 import org.destinationsol.game.item.Engine;
-import org.destinationsol.game.particle.ParticleEmitter;
+import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.AbilityConfig;
 
 import java.util.ArrayList;
@@ -75,11 +75,11 @@ public final class HullConfig {
         return new ArrayList<>(data.gunSlots);
     }
 
-    public ParticleEmitter getParticleEmitter(int index) {
+    public DSParticleEmitter getParticleEmitter(int index) {
         return data.particleEmitters.get(index);
     }
 
-    public List<ParticleEmitter> getParticleEmitters() {
+    public List<DSParticleEmitter> getParticleEmitters() {
         return new ArrayList<>(data.particleEmitters);
     }
 
@@ -177,7 +177,7 @@ public final class HullConfig {
         public Vector2 e1Pos;
         public Vector2 e2Pos;
         public List<GunSlot> gunSlots = new ArrayList<>();
-        public List<ParticleEmitter> particleEmitters = new ArrayList<>();
+        public List<DSParticleEmitter> particleEmitters = new ArrayList<>();
         public List<Vector2> lightSrcPoss = new ArrayList<>();
         public float durability;
         public boolean hasBase;
