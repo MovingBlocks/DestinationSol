@@ -100,6 +100,7 @@ public class Projectile implements SolObject {
         DSParticleEmitter res = new DSParticleEmitter(ec, -1, drawableLevel, new Vector2(), inheritsSpd, game, pos, myBody.getSpd(), 0);
         if (res.isContinuous()) {
             res.setWorking(true);
+            myDrawables.addAll(res.getDrawables());
         } else {
             game.getPartMan().finish(game, res, pos);
         }
