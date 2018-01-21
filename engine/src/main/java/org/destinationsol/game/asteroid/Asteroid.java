@@ -72,6 +72,8 @@ public class Asteroid implements SolObject {
         List<DSParticleEmitter> effs = game.getSpecialEffects().buildBodyEffs(size / 2, game, myPos, mySpd);
         mySmokeSrc = effs.get(0);
         myFireSrc = effs.get(1);
+        myDrawables.addAll(mySmokeSrc.getDrawables());
+        myDrawables.addAll(myFireSrc.getDrawables());
     }
 
     @Override

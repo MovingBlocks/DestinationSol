@@ -190,10 +190,6 @@ public class DSParticleEmitter {
         SolMath.free(speed);
     }
 
-    public List<Drawable> getDrawables() {
-        return drawables;
-    }
-
     // This currently does not allow the particle emitter to stop at any time
     // TODO: add the possibility for trigger events to control the emitter
     public void update() {
@@ -273,6 +269,15 @@ public class DSParticleEmitter {
         return trigger;
     }
 
+    /**
+     * Returns the list of ParticleEmitterDrawables
+     *
+     * @return The list of ParticleEmitterDrawables
+     */
+    public List<Drawable> getDrawables() {
+        return drawables;
+    }
+
     public class ParticleEmitterDrawable implements Drawable {
 
         public void update(SolGame game, SolObject object) {
@@ -296,7 +301,8 @@ public class DSParticleEmitter {
 
             if (boundingBoxRecalcAwait > 0) {
                 boundingBoxRecalcAwait -= game.getTimeStep();
-            } else {
+            }
+            else {
                 boundingBoxRecalcAwait = MAX_BOUNDINGBOX_RECALC_AWAIT;
                 particleEmitter.getBoundingBox();
             }

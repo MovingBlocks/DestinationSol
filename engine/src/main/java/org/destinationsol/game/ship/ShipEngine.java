@@ -53,7 +53,9 @@ public class ShipEngine {
         Vector2 shipPos = ship.getPosition();
         Vector2 shipSpd = ship.getSpd();
         myFlameSrc1 = new DSParticleEmitter(ec, -1, DrawableLevel.PART_BG_0, e1RelPos, true, game, shipPos, shipSpd, 0);
+        myDrawables.addAll(myFlameSrc1.getDrawables());
         myFlameSrc2 = new DSParticleEmitter(ec, -1, DrawableLevel.PART_BG_0, e2RelPos, true, game, shipPos, shipSpd, 0);
+        myDrawables.addAll(myFlameSrc2.getDrawables());
         float lightSz = ec.sz * 2.5f;
         myLightSrc1 = new LightSrc(lightSz, true, .7f, new Vector2(e1RelPos), ec.tint);
         myLightSrc1.collectDras(myDrawables);

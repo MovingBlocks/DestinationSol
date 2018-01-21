@@ -246,6 +246,7 @@ public class StarPort implements SolObject {
             addFlow(game, pos, drawables, 180, lights);
             DSParticleEmitter force = game.getSpecialEffects().buildForceBeacon(FLOW_DIST * 1.5f, game, new Vector2(), pos, Vector2.Zero);
             force.setWorking(true);
+            drawables.addAll(force.getDrawables());
             StarPort sp = new StarPort(from, to, body, drawables, secondary, lights);
             body.setUserData(sp);
             return sp;
@@ -257,6 +258,7 @@ public class StarPort implements SolObject {
             SolMath.fromAl(relPos, angle, -FLOW_DIST);
             DSParticleEmitter f1 = new DSParticleEmitter(flow, FLOW_DIST, DrawableLevel.PART_BG_0, relPos, false, game, pos, Vector2.Zero, angle);
             f1.setWorking(true);
+            drawables.addAll(f1.getDrawables());
             LightSrc light = new LightSrc(.6f, true, 1, relPos, flow.tint);
             light.collectDras(drawables);
             lights.add(light);
@@ -362,6 +364,7 @@ public class StarPort implements SolObject {
             EffectConfig eff = game.getSpecialEffects().transcendentWork;
             myEff = new DSParticleEmitter(eff, TRAN_SZ, DrawableLevel.PART_BG_0, new Vector2(), true, game, myPos, Vector2.Zero, 0);
             myEff.setWorking(true);
+            myDrawables.addAll(myEff.getDrawables());
             myLight = new LightSrc(.6f * TRAN_SZ, true, .5f, new Vector2(), eff.tint);
             myLight.collectDras(myDrawables);
             setDependentParams();
