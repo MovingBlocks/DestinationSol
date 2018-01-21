@@ -29,7 +29,7 @@ import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.particle.LightSrc;
-import org.destinationsol.game.particle.ParticleEmitter;
+import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.planet.PlanetBind;
 import org.destinationsol.game.ship.Door;
 import org.destinationsol.game.ship.ForceBeacon;
@@ -58,7 +58,7 @@ public class Hull {
     private float myAngle;
     private float myRotSpd;
     private ShipEngine engine;
-    private List<ParticleEmitter> particleEmitters;
+    private List<DSParticleEmitter> particleEmitters;
 
     public Hull(SolGame game, HullConfig hullConfig, Body body, GunMount gunMount1, GunMount gunMount2, Fixture base,
                 List<LightSrc> lightSrcs, float life, ArrayList<ForceBeacon> forceBeacons,
@@ -194,7 +194,7 @@ public class Hull {
         // Add the new particle emitters and their associated drawables
         if (engine != null) {
             config.getParticleEmitters().
-                    forEach(pes -> particleEmitters.add(new ParticleEmitter(game, engine, pes, ship)));
+                    forEach(pes -> particleEmitters.add(new DSParticleEmitter(game, engine, pes, ship)));
             List<Drawable> particleEmitterDrawables = new ArrayList<>();
             particleEmitters.forEach(pe -> particleEmitterDrawables.addAll(pe.getDrawables()));
             drawables.addAll(particleEmitterDrawables);

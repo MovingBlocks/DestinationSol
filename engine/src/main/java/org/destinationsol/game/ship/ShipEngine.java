@@ -28,7 +28,7 @@ import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSrc;
 import org.destinationsol.game.particle.PartMan;
-import org.destinationsol.game.particle.ParticleSrc;
+import org.destinationsol.game.particle.DSParticleEmitter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +38,8 @@ public class ShipEngine {
     public static final float RECOVER_MUL = 15f;
     public static final float RECOVER_AWAIT = 2f;
 
-    private final ParticleSrc myFlameSrc1;
-    private final ParticleSrc myFlameSrc2;
+    private final DSParticleEmitter myFlameSrc1;
+    private final DSParticleEmitter myFlameSrc2;
     private final LightSrc myLightSrc1;
     private final LightSrc myLightSrc2;
     private final Engine myItem;
@@ -52,10 +52,8 @@ public class ShipEngine {
         EffectConfig ec = myItem.getEffectConfig();
         Vector2 shipPos = ship.getPosition();
         Vector2 shipSpd = ship.getSpd();
-        myFlameSrc1 = new ParticleSrc(ec, -1, DrawableLevel.PART_BG_0, e1RelPos, true, game, shipPos, shipSpd, 0);
-        myDrawables.add(myFlameSrc1);
-        myFlameSrc2 = new ParticleSrc(ec, -1, DrawableLevel.PART_BG_0, e2RelPos, true, game, shipPos, shipSpd, 0);
-        myDrawables.add(myFlameSrc2);
+        myFlameSrc1 = new DSParticleEmitter(ec, -1, DrawableLevel.PART_BG_0, e1RelPos, true, game, shipPos, shipSpd, 0);
+        myFlameSrc2 = new DSParticleEmitter(ec, -1, DrawableLevel.PART_BG_0, e2RelPos, true, game, shipPos, shipSpd, 0);
         float lightSz = ec.sz * 2.5f;
         myLightSrc1 = new LightSrc(lightSz, true, .7f, new Vector2(e1RelPos), ec.tint);
         myLightSrc1.collectDras(myDrawables);
@@ -77,7 +75,7 @@ public class ShipEngine {
         myLightSrc1.update(working, angle, game);
         myLightSrc2.update(working, angle, game);
         if (working) {
-            game.getSoundManager().play(game, myItem.getWorkSound(), myFlameSrc1.getPos(), owner); // hack with pos
+            game.getSoundManager().play(game, myItem.getWorkSound(), myFlameSrc1.getPosition(), owner); // hack with pos
         }
     }
 
