@@ -55,34 +55,34 @@ public class SpecialEffects {
         json.dispose();
     }
 
-    public List<ParticleSrc> buildBodyEffs(float objRad, SolGame game, Vector2 pos, Vector2 spd) {
-        ArrayList<ParticleSrc> res = new ArrayList<>();
+    public List<DSParticleEmitter> buildBodyEffs(float objRad, SolGame game, Vector2 pos, Vector2 spd) {
+        ArrayList<DSParticleEmitter> res = new ArrayList<>();
         float sz = objRad * .9f;
-        ParticleSrc smoke = new ParticleSrc(mySmoke, sz, DrawableLevel.PART_FG_0, new Vector2(), true, game, pos, spd, 0);
+        DSParticleEmitter smoke = new DSParticleEmitter(mySmoke, sz, DrawableLevel.PART_FG_0, new Vector2(), true, game, pos, spd, 0);
         res.add(smoke);
-        ParticleSrc fire = new ParticleSrc(myFire, sz, DrawableLevel.PART_FG_1, new Vector2(), true, game, pos, spd, 0);
+        DSParticleEmitter fire = new DSParticleEmitter(myFire, sz, DrawableLevel.PART_FG_1, new Vector2(), true, game, pos, spd, 0);
         res.add(fire);
-        ParticleSrc elec = new ParticleSrc(myElectricity, objRad * 1.2f, DrawableLevel.PART_FG_0, new Vector2(), true, game, pos, spd, 0);
+        DSParticleEmitter elec = new DSParticleEmitter(myElectricity, objRad * 1.2f, DrawableLevel.PART_FG_0, new Vector2(), true, game, pos, spd, 0);
         res.add(elec);
         return res;
     }
 
     public void explodeShip(SolGame game, Vector2 pos, float sz) {
         PartMan pm = game.getPartMan();
-        ParticleSrc smoke = new ParticleSrc(myShipExplSmoke, 2 * sz, DrawableLevel.PART_FG_0, new Vector2(), false, game, pos, Vector2.Zero, 0);
+        DSParticleEmitter smoke = new DSParticleEmitter(myShipExplSmoke, 2 * sz, DrawableLevel.PART_FG_0, new Vector2(), false, game, pos, Vector2.Zero, 0);
         pm.finish(game, smoke, pos);
-        ParticleSrc fire = new ParticleSrc(myShipExplFire, .7f * sz, DrawableLevel.PART_FG_1, new Vector2(), false, game, pos, Vector2.Zero, 0);
+        DSParticleEmitter fire = new DSParticleEmitter(myShipExplFire, .7f * sz, DrawableLevel.PART_FG_1, new Vector2(), false, game, pos, Vector2.Zero, 0);
         pm.finish(game, fire, pos);
         pm.blinks(pos, game, sz);
     }
 
     public void asteroidDust(SolGame game, Vector2 pos, Vector2 spd, float size) {
         PartMan pm = game.getPartMan();
-        ParticleSrc smoke = new ParticleSrc(myAsteroidDust, size, DrawableLevel.PART_FG_0, new Vector2(), true, game, pos, spd, 0);
+        DSParticleEmitter smoke = new DSParticleEmitter(myAsteroidDust, size, DrawableLevel.PART_FG_0, new Vector2(), true, game, pos, spd, 0);
         pm.finish(game, smoke, pos);
     }
 
-    public ParticleSrc buildForceBeacon(float sz, SolGame game, Vector2 relPos, Vector2 basePos, Vector2 spd) {
-        return new ParticleSrc(myForceBeacon, sz, DrawableLevel.PART_FG_0, relPos, false, game, basePos, spd, 0);
+    public DSParticleEmitter buildForceBeacon(float sz, SolGame game, Vector2 relPos, Vector2 basePos, Vector2 spd) {
+        return new DSParticleEmitter(myForceBeacon, sz, DrawableLevel.PART_FG_0, relPos, false, game, basePos, spd, 0);
     }
 }
