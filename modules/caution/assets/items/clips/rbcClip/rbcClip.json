@@ -1,8 +1,0 @@
-{
-    "projectile": "rbc",
-    "size": 30,
-    "price": 20,
-    "iconName": "rbcClip",
-    "displayName": "Red Blood Cell",
-    "plural": "cells"
-}
