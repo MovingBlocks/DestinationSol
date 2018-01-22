@@ -131,11 +131,11 @@ public final class HullConfigManager {
             Vector2 position = readVector2(particleEmitterSlotNode, "position", null);
             position.sub(builderOrigin).scl(configData.size);
 
-            String particleName = particleEmitterSlotNode.getString("particleName", null);
+            String effect = particleEmitterSlotNode.getString("effect", null);
             String trigger = particleEmitterSlotNode.getString("trigger", null);
             float angleOffset = particleEmitterSlotNode.getFloat("angleOffset", 0f);
 
-            configData.particleEmitters.add(new DSParticleEmitter(position, particleName, trigger, angleOffset));
+            configData.particleEmitters.add(new DSParticleEmitter(position, effect, trigger, angleOffset));
         }
     }
 
