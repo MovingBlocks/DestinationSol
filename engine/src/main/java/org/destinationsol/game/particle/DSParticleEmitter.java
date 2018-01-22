@@ -46,6 +46,7 @@ public class DSParticleEmitter {
 
     private Vector2 position;
     private String particleName, trigger;
+    private float angleOffset;
     private List<Drawable> drawables;
 
     private EffectConfig config;
@@ -57,11 +58,12 @@ public class DSParticleEmitter {
     private boolean inheritsSpeed, working, floatedUp;
     private BoundingBox boundingBox;
 
-    public DSParticleEmitter(@NotNull Vector2 position, @NotNull String particleName, @NotNull String trigger) {
+    public DSParticleEmitter(@NotNull Vector2 position, @NotNull String particleName, @NotNull String trigger, float angleOffset) {
         Preconditions.checkNotNull(position, "position cannot be null");
         this.position = new Vector2(position);
         this.particleName = Preconditions.checkNotNull(particleName, "particleName cannot be null");
         this.trigger = Preconditions.checkNotNull(trigger, "trigger cannot be null");
+        this.angleOffset = angleOffset;
 
         drawables = null;
         config = null;
@@ -74,11 +76,12 @@ public class DSParticleEmitter {
 
     public DSParticleEmitter(SolGame game, Engine engine, DSParticleEmitter particleEmitter, SolShip ship) {
         EffectConfig effectConfig = engine.getEffectConfig();
+        float angleOffset = particleEmitter.angleOffset;
         Vector2 particleSrcPos = particleEmitter.getPosition();
         Vector2 shipPos = ship.getPosition();
         Vector2 shipSpeed = ship.getSpd();
 
-        initialiseEmitter(effectConfig, -1, DrawableLevel.PART_BG_0, particleSrcPos, true, game, shipPos, shipSpeed, 0);
+        initialiseEmitter(effectConfig, -1, DrawableLevel.PART_BG_0, particleSrcPos, true, game, shipPos, shipSpeed, angleOffset);
     }
 
     public DSParticleEmitter(EffectConfig config, float size, DrawableLevel drawableLevel, Vector2 relativePosition,

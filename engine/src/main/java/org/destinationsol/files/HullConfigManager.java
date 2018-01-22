@@ -133,8 +133,9 @@ public final class HullConfigManager {
 
             String particleName = particleEmitterSlotNode.getString("particleName", null);
             String trigger = particleEmitterSlotNode.getString("trigger", null);
+            float angleOffset = particleEmitterSlotNode.getFloat("angleOffset", 0f);
 
-            configData.particleEmitters.add(new DSParticleEmitter(position, particleName, trigger));
+            configData.particleEmitters.add(new DSParticleEmitter(position, particleName, trigger, angleOffset));
         }
     }
 
