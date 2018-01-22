@@ -19,7 +19,6 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -35,8 +34,6 @@ import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.valuetype.TypeHandler;
-import org.terasology.valuetype.TypeLibrary;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -78,19 +75,14 @@ public class SolApplication implements ApplicationListener {
 
         moduleManager = new ModuleManager();
 
-        TypeLibrary typeLibrary = new TypeLibrary();
-        typeLibrary.addHandler(new TypeHandler<>(Integer.class, Integer::new));
-        typeLibrary.addHandler(new TypeHandler<>(Vector3.class, Vector3::new));
+        logger.info("\n\n ------------------------------------------------------------ \n");
+        moduleManager.printAvailableModules();
 
         musicManager = new OggMusicManager();
         soundManager = new OggSoundManager();
         inputManager = new SolInputManager(soundManager);
 
         musicManager.playMenuMusic(options);
-
-        logger.info("\n\n ------------------------------------------------------------ \n");
-        moduleManager.printAvailableModules();
-
 
         commonDrawer = new CommonDrawer();
         uiDrawer = new UiDrawer(commonDrawer);
