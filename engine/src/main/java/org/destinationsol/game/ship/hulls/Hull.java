@@ -194,7 +194,7 @@ public class Hull {
         // Add the new particle emitters and their associated drawables
         if (engine != null) {
             config.getParticleEmitters().
-                    forEach(pes -> particleEmitters.add(new DSParticleEmitter(game, engine, pes, ship)));
+                    forEach(pes -> particleEmitters.add(new DSParticleEmitter(game, pes, ship)));
             List<Drawable> particleEmitterDrawables = new ArrayList<>();
             particleEmitters.forEach(pe -> particleEmitterDrawables.addAll(pe.getDrawables()));
             drawables.addAll(particleEmitterDrawables);

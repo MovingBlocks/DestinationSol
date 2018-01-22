@@ -22,15 +22,18 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
+import com.badlogic.gdx.utils.JsonValue;
 import com.google.common.base.Preconditions;
+import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.NotNull;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.game.GameColors;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
-import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.SolShip;
 
@@ -45,7 +48,7 @@ public class DSParticleEmitter {
     private static final float MAX_TIME_BETWEEN_POSITION_CHANGE = .25f;
 
     private Vector2 position;
-    private String particleName, trigger;
+    private String effect, trigger;
     private float angleOffset;
     private List<Drawable> drawables;
 
@@ -58,10 +61,10 @@ public class DSParticleEmitter {
     private boolean inheritsSpeed, working, floatedUp;
     private BoundingBox boundingBox;
 
-    public DSParticleEmitter(@NotNull Vector2 position, @NotNull String particleName, @NotNull String trigger, float angleOffset) {
+    public DSParticleEmitter(@NotNull Vector2 position, @NotNull String effect, @NotNull String trigger, float angleOffset) {
         Preconditions.checkNotNull(position, "position cannot be null");
         this.position = new Vector2(position);
-        this.particleName = Preconditions.checkNotNull(particleName, "particleName cannot be null");
+        this.effect = Preconditions.checkNotNull(effect, "effect cannot be null");
         this.trigger = Preconditions.checkNotNull(trigger, "trigger cannot be null");
         this.angleOffset = angleOffset;
 
@@ -74,12 +77,26 @@ public class DSParticleEmitter {
         relativeAngle = 0f;
     }
 
-    public DSParticleEmitter(SolGame game, Engine engine, DSParticleEmitter particleEmitter, SolShip ship) {
-        EffectConfig effectConfig = engine.getEffectConfig();
-        float angleOffset = particleEmitter.angleOffset;
+    public DSParticleEmitter(SolGame game, DSParticleEmitter particleEmitter, SolShip ship) {
+        float angleOffset = particleEmitter.getAngleOffset();
         Vector2 particleSrcPos = particleEmitter.getPosition();
         Vector2 shipPos = ship.getPosition();
         Vector2 shipSpeed = ship.getSpd();
+
+        String module = game.getShipName().split(":")[0];
+        String emitterEffect = particleEmitter.getEffect();
+        if (emitterEffect.contains(":")) {
+            String particleNameSplit[] = emitterEffect.split(":");
+            module = particleNameSplit[0];
+            emitterEffect = particleNameSplit[1];
+        }
+
+        Json json = Assets.getJson(module + ":specialEffectsConfig");
+        JsonValue rootNode = json.getJsonValue();
+        if (!rootNode.has(emitterEffect)) {
+            throw new AssertionError("'" + emitterEffect + "' effect does not exist in module '" + module + "'");
+        }
+        EffectConfig effectConfig = EffectConfig.load(rootNode.get(emitterEffect), new EffectTypes(), new GameColors());
 
         initialiseEmitter(effectConfig, -1, DrawableLevel.PART_BG_0, particleSrcPos, true, game, shipPos, shipSpeed, angleOffset);
     }
@@ -91,7 +108,7 @@ public class DSParticleEmitter {
 
     private void initialiseEmitter(EffectConfig config, float size, DrawableLevel drawableLevel, Vector2 relativePosition,
                                    boolean inheritsSpeed, SolGame game, Vector2 basePosition, Vector2 baseSpeed, float relativeAngle) {
-        particleName = null;
+        effect = null;
         trigger = null;
 
         drawables = new ArrayList<>();
@@ -259,8 +276,8 @@ public class DSParticleEmitter {
      *
      * @return The name of the Particle Emitter
      */
-    public String getParticleName() {
-        return particleName;
+    public String getEffect() {
+        return effect;
     }
 
     /**
@@ -270,6 +287,15 @@ public class DSParticleEmitter {
      */
     public String getTrigger() {
         return trigger;
+    }
+
+    /**
+     * Returns the angle offset set on the Particle Emitter
+     *
+     * @return The angle offset set on the Particle Emitter
+     */
+    public float getAngleOffset() {
+        return angleOffset;
     }
 
     /**
