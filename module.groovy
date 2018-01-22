@@ -53,11 +53,11 @@ def retrieveModule(String module) {
         Grgit.clone dir: targetDir, uri: "https://github.com/$githubHome/${module}.git"
         modulesRetrieved << module
 
-        File moduleManifest = new File(targetDir, 'module.info')
+        File moduleManifest = new File(targetDir, 'module.json')
         if (!moduleManifest.exists()) {
-            def moduleText = new File("templates/module.info").text
+            def moduleText = new File("templates/module.json").text
             moduleManifest << moduleText.replaceAll('MODULENAME', module)
-            println "WARNING: Module $module did not have a module.info! One was created, please review and submit to GitHub"
+            println "WARNING: Module $module did not have a module.json! One was created, please review and submit to GitHub"
         }
     }
 }
@@ -85,10 +85,10 @@ def createModule(String name) {
     def gitignoreText = new File("templates/.gitignore").text
     gitignore << gitignoreText
 
-    // Add module.info
-    println "Creating module.info"
-    File moduleManifest = new File(targetDir, "module.info")
-    def moduleText = new File("templates/module.info").text
+    // Add module.json
+    println "Creating module.json"
+    File moduleManifest = new File(targetDir, "module.json")
+    def moduleText = new File("templates/module.json").text
     moduleManifest << moduleText.replaceAll('MODULENAME', name)
 
     // Initialize git
