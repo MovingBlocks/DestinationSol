@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.JsonSanitizer;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.item.Engine;
@@ -96,6 +97,8 @@ public final class HullConfigManager {
         configData.internalName = shipName;
 
         Json json = Assets.getJson(shipName);
+
+        JsonSanitizer.sanitizeHull(json.getJsonValue(), shipName);
 
         readProperties(json.getJsonValue(), configData);
 
