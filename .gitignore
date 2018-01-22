@@ -5,9 +5,11 @@ hs_err_pid*
 config/metrics
 *log
 
-## Ignored sub-projects with nested Git roots
+## Ignored sub-projects with nested Git roots. Core module is bundled with the main repo.
 android
 gwt
+/modules/*
+!/modules/Core
 
 ## GWT
 war/
