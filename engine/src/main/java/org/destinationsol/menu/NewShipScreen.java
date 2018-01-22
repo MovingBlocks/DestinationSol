@@ -114,7 +114,7 @@ public class NewShipScreen implements SolUiScreen {
     }
 
     private void loadPlayerSpawnConfigs() {
-        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-z]*:playerSpawnConfig");
+        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:playerSpawnConfig");
 
         for (ResourceUrn configUrn : configUrnList) {
             Json json = Assets.getJson(configUrn.toString());
