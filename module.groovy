@@ -24,7 +24,6 @@ modulesRetrieved = []
 /**
  * Primary entry point for retrieving modules, kicks off recursively if needed.
  * @param modules the modules we want to retrieve
- * @param recurse whether to also retrieve dependencies of the desired modules
  */
 def retrieve(String[] modules) {
     for (String module : modules) {
@@ -242,9 +241,7 @@ if (args.length == 0) {
             println "List of modules:"
             new File("modules").eachDir() { dir ->
                 String moduleName = dir.getPath().substring(8)
-                if (!excludedDependencies.contains(moduleName)) {
-                    updateModule(moduleName)
-                }
+                updateModule(moduleName)
             }
             break
         default:
