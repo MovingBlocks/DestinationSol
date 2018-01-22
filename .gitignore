@@ -8,8 +8,8 @@ config/metrics
 ## Ignored sub-projects with nested Git roots. Core module is bundled with the main repo.
 android
 gwt
-/modules/*
-!/modules/Core
+modules/*
+!modules/core
 
 ## GWT
 war/
