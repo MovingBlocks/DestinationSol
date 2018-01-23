@@ -21,65 +21,28 @@ import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.drawables.Drawable;
-import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Engine;
-import org.destinationsol.game.particle.EffectConfig;
-import org.destinationsol.game.particle.LightSrc;
-import org.destinationsol.game.particle.PartMan;
-import org.destinationsol.game.particle.DSParticleEmitter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ShipEngine {
     public static final float MAX_RECOVER_ROT_SPD = 5f;
     public static final float RECOVER_MUL = 15f;
     public static final float RECOVER_AWAIT = 2f;
 
-    private final DSParticleEmitter myFlameSrc1;
-    private final DSParticleEmitter myFlameSrc2;
-    private final LightSrc myLightSrc1;
-    private final LightSrc myLightSrc2;
     private final Engine myItem;
-    private final List<Drawable> myDrawables;
     private float myRecoverAwait;
 
-    public ShipEngine(SolGame game, Engine ei, Vector2 e1RelPos, Vector2 e2RelPos, SolShip ship) {
+    public ShipEngine(Engine ei) {
         myItem = ei;
-        myDrawables = new ArrayList<>();
-        EffectConfig ec = myItem.getEffectConfig();
-        Vector2 shipPos = ship.getPosition();
-        Vector2 shipSpd = ship.getSpd();
-        myFlameSrc1 = new DSParticleEmitter(ec, -1, DrawableLevel.PART_BG_0, e1RelPos, true, game, shipPos, shipSpd, 0);
-        myDrawables.addAll(myFlameSrc1.getDrawables());
-        myFlameSrc2 = new DSParticleEmitter(ec, -1, DrawableLevel.PART_BG_0, e2RelPos, true, game, shipPos, shipSpd, 0);
-        myDrawables.addAll(myFlameSrc2.getDrawables());
-        float lightSz = ec.sz * 2.5f;
-        myLightSrc1 = new LightSrc(lightSz, true, .7f, new Vector2(e1RelPos), ec.tint);
-        myLightSrc1.collectDras(myDrawables);
-        myLightSrc2 = new LightSrc(lightSz, true, .7f, new Vector2(e2RelPos), ec.tint);
-        myLightSrc2.collectDras(myDrawables);
-    }
-
-    public List<Drawable> getDrawables() {
-        return myDrawables;
     }
 
     public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 spd, SolObject owner,
                        boolean controlsEnabled, float mass) {
+
         boolean working = applyInput(game, angle, provider, body, spd, controlsEnabled, mass);
-
-        myFlameSrc1.setWorking(working);
-        myFlameSrc2.setWorking(working);
-
         game.getPartMan().toggleAllEmittersOfType(game, "engine", working);
-
-        myLightSrc1.update(working, angle, game);
-        myLightSrc2.update(working, angle, game);
         if (working) {
-            game.getSoundManager().play(game, myItem.getWorkSound(), myFlameSrc1.getPosition(), owner); // hack with pos
+            game.getSoundManager().play(game, myItem.getWorkSound(), game.getCam().getPos(), owner); // hack with pos
         }
     }
 
@@ -117,12 +80,6 @@ public class ShipEngine {
         }
         body.setAngularVelocity(SolMath.degRad * SolMath.approach(rotSpd, desiredRotSpd, rotAcc * ts));
         return working;
-    }
-
-    public void onRemove(SolGame game, Vector2 basePos) {
-        PartMan pm = game.getPartMan();
-        pm.finish(game, myFlameSrc1, basePos);
-        pm.finish(game, myFlameSrc2, basePos);
     }
 
     public Engine getItem() {

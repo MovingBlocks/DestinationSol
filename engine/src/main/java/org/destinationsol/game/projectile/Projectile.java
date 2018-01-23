@@ -158,7 +158,7 @@ public class Projectile implements SolObject {
         buildEffect(game, myConfig.collisionEffect, DrawableLevel.PART_FG_1, pos, false);
         buildEffect(game, myConfig.collisionEffectBg, DrawableLevel.PART_FG_0, pos, false);
         if (myConfig.collisionEffectBg != null) {
-            game.getPartMan().blinks(pos, game, myConfig.collisionEffectBg.sz);
+            game.getPartMan().blinks(pos, game, myConfig.collisionEffectBg.size);
         }
         game.getSoundManager().play(game, myConfig.collisionSound, null, this);
     }

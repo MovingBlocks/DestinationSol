@@ -95,6 +95,7 @@ public class PartMan {
         for (DSParticleEmitter particleEmitter : game.getHero().getHull().getParticleEmitters()) {
             if (triggerType.equals(particleEmitter.getTrigger())) {
                 particleEmitter.setWorking(on);
+                particleEmitter.setLightWorking(game, on);
             }
         }
     }
