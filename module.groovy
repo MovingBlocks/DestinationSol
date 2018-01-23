@@ -14,7 +14,7 @@ new File("gradle.properties").withInputStream {
 println "Properties: " + properties
 
 // Groovy Elvis operator woo! Defaults to "DestinationSol" if an override isn't set
-githubHome = properties.alternativeGithubHome ?: "digitalripperynr"
+githubHome = properties.alternativeGithubHome ?: "DestinationSol"
 
 //println "githubHome is: $githubHome"
 
