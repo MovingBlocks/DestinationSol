@@ -138,6 +138,8 @@ public class SolShip implements SolObject {
             }
             receiveDmg((int) dmg, game, collPos, DmgType.CRASH);
         }
+
+        game.getPartMan().fireAllEmittersOfType(game, "collision");
     }
 
     @Override

@@ -100,6 +100,7 @@ public class SolGun {
         myCoolDown += myItem.config.timeBetweenShots;
         myItem.ammo--;
         game.getSoundManager().play(game, myItem.config.shootSound, muzzlePos, creator);
+        game.getPartMan().fireAllEmittersOfType(game, "shoot");
     }
 
     public void update(ItemContainer ic, SolGame game, float gunAngle, SolObject creator, boolean shouldShoot, Faction faction) {
