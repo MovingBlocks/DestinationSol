@@ -140,8 +140,6 @@ public class Hull {
             float angleDiff = myPlanetBind.getDesiredAngle() - myAngle;
             myBody.setAngularVelocity(angleDiff * SolMath.degRad * fps);
         }
-
-        particleEmitters.forEach(pe -> pe.update());
     }
 
     private void setParamsFromBody() {
@@ -236,5 +234,9 @@ public class Hull {
 
     public HullConfig getHullConfig() {
         return config;
+    }
+
+    public List<DSParticleEmitter> getParticleEmitters() {
+        return particleEmitters;
     }
 }
