@@ -14,9 +14,12 @@ new File("gradle.properties").withInputStream {
 println "Properties: " + properties
 
 // Groovy Elvis operator woo! Defaults to "DestinationSol" if an override isn't set
-githubHome = properties.alternativeGithubHome ?: "DestinationSol"
+githubHome = properties.alternativeGithubHome ?: "digitalripperynr"
 
 //println "githubHome is: $githubHome"
+
+// Module dependencies we don't want to retrieve as they live in the main DestSol repo
+excludedDependencies = ["core"]
 
 // For keeping a list of modules retrieved so far
 modulesRetrieved = []
@@ -32,6 +35,31 @@ def retrieve(String[] modules) {
         retrieveModule(module)
         //println "Modules retrieved after recent addition(s): modulesRetrieved"
     }
+}
+
+/**
+ * Reads a given module info file to figure out which if any dependencies it has. Filters out any already retrieved.
+ * @param targetModuleInfo the target file to check (a module.txt file or similar)
+ * @return a String[] containing the next level of dependencies, if any
+ */
+String[] readModuleDependencies(File targetModuleInfo) {
+    def qualifiedDependencies = []
+    if (!targetModuleInfo.exists()) {
+        println "The module info file did not appear to exist - can't calculate dependencies"
+        return qualifiedDependencies
+    }
+
+    def slurper = new JsonSlurper()
+    def moduleConfig = slurper.parseText(targetModuleInfo.text)
+    for (dependency in moduleConfig.dependencies) {
+        if (excludedDependencies.contains(dependency)) {
+            println "Skipping listed dependency $dependency as it is in the exclude list (shipped with primary project)"
+        } else {
+            println "Accepting listed dependency $dependency"
+            qualifiedDependencies << dependency
+        }
+    }
+    return qualifiedDependencies
 }
 
 /**
@@ -58,6 +86,17 @@ def retrieveModule(String module) {
             def moduleText = new File("templates/module.json").text
             moduleManifest << moduleText.replaceAll('MODULENAME', module)
             println "WARNING: Module $module did not have a module.json! One was created, please review and submit to GitHub"
+        }
+        def foundDependencies = readModuleDependencies(new File(targetDir, "module.json"))
+           if (foundDependencies.length == 0) {
+               println "Module $module did not appear to have any dependencies we need to worry about"
+           } else {
+               println "Module $module has the following module dependencies we care about: $foundDependencies"
+               String[] uniqueDependencies = foundDependencies - modulesRetrieved
+               println "After removing dupes already retrieved we have the remaining dependencies left: $uniqueDependencies"
+               if (uniqueDependencies.length > 0) {
+                   retrieve(uniqueDependencies)
+            }
         }
     }
 }
