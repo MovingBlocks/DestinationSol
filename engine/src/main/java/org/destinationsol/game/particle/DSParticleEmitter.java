@@ -78,8 +78,10 @@ public class DSParticleEmitter {
     }
 
     public DSParticleEmitter(SolGame game, DSParticleEmitter particleEmitter, SolShip ship) {
-        float angleOffset = particleEmitter.getAngleOffset();
-        Vector2 particleSrcPos = particleEmitter.getPosition();
+        this.angleOffset = particleEmitter.getAngleOffset();
+        this.effect = particleEmitter.getEffect();
+        this.trigger = particleEmitter.getTrigger();
+        this.position = particleEmitter.getPosition();
         Vector2 shipPos = ship.getPosition();
         Vector2 shipSpeed = ship.getSpd();
 
@@ -98,7 +100,7 @@ public class DSParticleEmitter {
         }
         EffectConfig effectConfig = EffectConfig.load(rootNode.get(emitterEffect), new EffectTypes(), new GameColors());
 
-        initialiseEmitter(effectConfig, -1, DrawableLevel.PART_BG_0, particleSrcPos, true, game, shipPos, shipSpeed, angleOffset);
+        initialiseEmitter(effectConfig, -1, DrawableLevel.PART_BG_0, position, true, game, shipPos, shipSpeed, angleOffset);
     }
 
     public DSParticleEmitter(EffectConfig config, float size, DrawableLevel drawableLevel, Vector2 relativePosition,
@@ -108,8 +110,6 @@ public class DSParticleEmitter {
 
     private void initialiseEmitter(EffectConfig config, float size, DrawableLevel drawableLevel, Vector2 relativePosition,
                                    boolean inheritsSpeed, SolGame game, Vector2 basePosition, Vector2 baseSpeed, float relativeAngle) {
-        effect = null;
-        trigger = null;
 
         drawables = new ArrayList<>();
         ParticleEmitterDrawable drawable = new ParticleEmitterDrawable();
@@ -208,12 +208,6 @@ public class DSParticleEmitter {
         Vector2 speed = nearestPlanet.getAdjustedEffectSpd(basePosition, baseSpeed);
         setSpeed(speed);
         SolMath.free(speed);
-    }
-
-    // This currently does not allow the particle emitter to stop at any time
-    // TODO: add the possibility for trigger events to control the emitter
-    public void update() {
-        setWorking(true);
     }
 
     public void onRemove(SolGame game, Vector2 basePos) {
