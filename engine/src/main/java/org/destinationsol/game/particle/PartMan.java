@@ -91,4 +91,12 @@ public class PartMan {
         return s;
     }
 
+    public void toggleAllEmittersOfType(SolGame game, String triggerType, boolean on) {
+        for (DSParticleEmitter particleEmitter : game.getHero().getHull().getParticleEmitters()) {
+
+            if (triggerType.equals(particleEmitter.getTrigger())) {
+                particleEmitter.setWorking(on);
+            }
+        }
+    }
 }

@@ -74,6 +74,8 @@ public class ShipEngine {
         myFlameSrc1.setWorking(working);
         myFlameSrc2.setWorking(working);
 
+        game.getPartMan().toggleAllEmittersOfType(game, "engine", working);
+
         myLightSrc1.update(working, angle, game);
         myLightSrc2.update(working, angle, game);
         if (working) {
