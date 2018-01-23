@@ -21,9 +21,12 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfigs;
+import org.destinationsol.game.GameColors;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.particle.DSParticleEmitter;
+import org.destinationsol.game.particle.EffectConfig;
+import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.ship.AbilityConfig;
 import org.destinationsol.game.ship.EmWave;
 import org.destinationsol.game.ship.KnockBack;
@@ -131,11 +134,13 @@ public final class HullConfigManager {
             Vector2 position = readVector2(particleEmitterSlotNode, "position", null);
             position.sub(builderOrigin).scl(configData.size);
 
-            String effect = particleEmitterSlotNode.getString("effect", null);
             String trigger = particleEmitterSlotNode.getString("trigger", null);
             float angleOffset = particleEmitterSlotNode.getFloat("angleOffset", 0f);
+            boolean hasLight = particleEmitterSlotNode.getBoolean("hasLight", false);
+            JsonValue particleNode = particleEmitterSlotNode.get("particle");
+            EffectConfig effectConfig = EffectConfig.load(particleNode, new EffectTypes(), new GameColors());
 
-            configData.particleEmitters.add(new DSParticleEmitter(position, effect, trigger, angleOffset));
+            configData.particleEmitters.add(new DSParticleEmitter(position, trigger, angleOffset, hasLight, effectConfig));
         }
     }
 
@@ -143,9 +148,6 @@ public final class HullConfigManager {
         configData.size = rootNode.getFloat("size");
         configData.approxRadius = 0.4f * configData.size;
         configData.maxLife = rootNode.getInt("maxLife");
-
-        configData.e1Pos = readVector2(rootNode, "e1Pos", new Vector2());
-        configData.e2Pos = readVector2(rootNode, "e2Pos", new Vector2());
 
         configData.lightSrcPoss = SolMath.readV2List(rootNode, "lightSrcPoss");
         configData.hasBase = rootNode.getBoolean("hasBase", false);
@@ -206,10 +208,6 @@ public final class HullConfigManager {
         Vector2 builderOrigin = new Vector2(configData.shipBuilderOrigin);
 
         configData.origin.set(builderOrigin).scl(configData.size);
-
-        configData.e1Pos.sub(builderOrigin).scl(configData.size);
-
-        configData.e2Pos.sub(builderOrigin).scl(configData.size);
 
         for (Vector2 position : configData.lightSrcPoss) {
             position.sub(builderOrigin).scl(configData.size);

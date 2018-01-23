@@ -22,13 +22,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
-import com.badlogic.gdx.utils.JsonValue;
 import com.google.common.base.Preconditions;
-import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.NotNull;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.GameColors;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -48,11 +44,12 @@ public class DSParticleEmitter {
     private static final float MAX_TIME_BETWEEN_POSITION_CHANGE = .25f;
 
     private Vector2 position;
-    private String effect, trigger;
+    private String trigger;
     private float angleOffset;
-    private List<Drawable> drawables;
-
+    private boolean hasLight;
     private EffectConfig config;
+
+    private List<Drawable> drawables;
     private ParticleEmitter particleEmitter;
     private DrawableLevel drawableLevel;
     private Vector2 relativePosition, originalRelativePosition;
@@ -60,16 +57,18 @@ public class DSParticleEmitter {
     private ParticleEmitter.ScaledNumericValue originalSpeedAngle, originalRotation;
     private boolean inheritsSpeed, working, floatedUp;
     private BoundingBox boundingBox;
+    private LightSrc light;
 
-    public DSParticleEmitter(@NotNull Vector2 position, @NotNull String effect, @NotNull String trigger, float angleOffset) {
+
+    public DSParticleEmitter(@NotNull Vector2 position, @NotNull String trigger, float angleOffset, boolean hasLight, EffectConfig config) {
         Preconditions.checkNotNull(position, "position cannot be null");
         this.position = new Vector2(position);
-        this.effect = Preconditions.checkNotNull(effect, "effect cannot be null");
         this.trigger = Preconditions.checkNotNull(trigger, "trigger cannot be null");
         this.angleOffset = angleOffset;
+        this.hasLight = hasLight;
+        this.config = config;
 
         drawables = null;
-        config = null;
         particleEmitter = null;
         drawableLevel = null;
         relativePosition = null;
@@ -79,52 +78,43 @@ public class DSParticleEmitter {
 
     public DSParticleEmitter(SolGame game, DSParticleEmitter particleEmitter, SolShip ship) {
         this.angleOffset = particleEmitter.getAngleOffset();
-        this.effect = particleEmitter.getEffect();
+        this.hasLight = particleEmitter.getHasLight();
         this.trigger = particleEmitter.getTrigger();
         this.position = particleEmitter.getPosition();
+        this.config = particleEmitter.getEffectConfig();
         Vector2 shipPos = ship.getPosition();
         Vector2 shipSpeed = ship.getSpd();
 
-        String module = game.getShipName().split(":")[0];
-        String emitterEffect = particleEmitter.getEffect();
-        if (emitterEffect.contains(":")) {
-            String particleNameSplit[] = emitterEffect.split(":");
-            module = particleNameSplit[0];
-            emitterEffect = particleNameSplit[1];
-        }
-
-        Json json = Assets.getJson(module + ":specialEffectsConfig");
-        JsonValue rootNode = json.getJsonValue();
-        if (!rootNode.has(emitterEffect)) {
-            throw new AssertionError("'" + emitterEffect + "' effect does not exist in module '" + module + "'");
-        }
-        EffectConfig effectConfig = EffectConfig.load(rootNode.get(emitterEffect), new EffectTypes(), new GameColors());
-
-        initialiseEmitter(effectConfig, -1, DrawableLevel.PART_BG_0, position, true, game, shipPos, shipSpeed, angleOffset);
+        initialiseEmitter(config, -1, DrawableLevel.PART_BG_0, position, true, game, shipPos, shipSpeed, angleOffset, hasLight);
     }
 
     public DSParticleEmitter(EffectConfig config, float size, DrawableLevel drawableLevel, Vector2 relativePosition,
                              boolean inheritsSpeed, SolGame game, Vector2 basePosition, Vector2 baseSpeed, float relativeAngle) {
-        initialiseEmitter(config, size, drawableLevel, relativePosition, inheritsSpeed, game, basePosition, baseSpeed, relativeAngle);
+        initialiseEmitter(config, size, drawableLevel, relativePosition, inheritsSpeed, game, basePosition, baseSpeed, relativeAngle, false);
     }
 
     private void initialiseEmitter(EffectConfig config, float size, DrawableLevel drawableLevel, Vector2 relativePosition,
-                                   boolean inheritsSpeed, SolGame game, Vector2 basePosition, Vector2 baseSpeed, float relativeAngle) {
+                                   boolean inheritsSpeed, SolGame game, Vector2 basePosition, Vector2 baseSpeed, float relativeAngle, boolean hasLight) {
 
         drawables = new ArrayList<>();
         ParticleEmitterDrawable drawable = new ParticleEmitterDrawable();
         drawables.add(drawable);
 
         this.config = config;
-        this.particleEmitter = config.effectType.newEmitter();
+        this.particleEmitter = config.emitter.newEmitter();
         this.drawableLevel = drawableLevel;
         this.relativePosition = new Vector2(relativePosition);
         this.originalRelativePosition = new Vector2(this.relativePosition);
         this.position = new Vector2();
         this.relativeAngle = relativeAngle;
 
+        light = new LightSrc(config.size * 2.5f, true, 0.7f, relativePosition, config.tint);
+        if (hasLight) {
+            light.collectDras(drawables);
+        }
+
         if (size <= 0) {
-            size = config.sz;
+            size = config.size;
         }
 
         // has area
@@ -165,7 +155,7 @@ public class DSParticleEmitter {
         this.inheritsSpeed = inheritsSpeed;
         updateSpeed(game, baseSpeed, basePosition);
 
-        if (config.effectType.continuous) {
+        if (config.emitter.continuous) {
             // making it continuous after setting initial speed
             particleEmitter.setContinuous(true);
             // this is needed because making effect continuous starts it
@@ -220,7 +210,7 @@ public class DSParticleEmitter {
     }
 
     public boolean isContinuous() {
-        return config.effectType.continuous;
+        return config.emitter.continuous;
     }
 
     public boolean isWorking() {
@@ -242,6 +232,10 @@ public class DSParticleEmitter {
         else {
             particleEmitter.allowCompletion();
         }
+    }
+
+    public void setLightWorking(SolGame game, boolean working) {
+        light.update(working, relativeAngle, game);
     }
 
     private void setSpeed(Vector2 speed) {
@@ -266,15 +260,6 @@ public class DSParticleEmitter {
     }
 
     /**
-     * Returns the name of the Particle Emitter
-     *
-     * @return The name of the Particle Emitter
-     */
-    public String getEffect() {
-        return effect;
-    }
-
-    /**
      * Returns the trigger type set on the Particle Emitter
      *
      * @return The trigger type set on the Particle Emitter
@@ -290,6 +275,24 @@ public class DSParticleEmitter {
      */
     public float getAngleOffset() {
         return angleOffset;
+    }
+
+    /**
+     * Returns boolean describing whether Particle Emitter has a light
+     *
+     * @return boolean describing whether Particle Emitter has a light
+     */
+    public boolean getHasLight() {
+        return hasLight;
+    }
+
+    /**
+     * Returns the name of the Particle Emitter
+     *
+     * @return The name of the Particle Emitter
+     */
+    public EffectConfig getEffectConfig() {
+        return config;
     }
 
     /**
@@ -370,7 +373,7 @@ public class DSParticleEmitter {
 
         @Override
         public void draw(GameDrawer drawer, SolGame game) {
-            drawer.draw(particleEmitter, config.tex, config.effectType.additive);
+            drawer.draw(particleEmitter, config.tex, config.emitter.additive);
         }
 
         @Override
