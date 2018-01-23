@@ -55,14 +55,6 @@ public final class HullConfig {
         return data.maxLife;
     }
 
-    public Vector2 getE1Pos() {
-        return new Vector2(data.e1Pos);
-    }
-
-    public Vector2 getE2Pos() {
-        return new Vector2(data.e2Pos);
-    }
-
     public GunSlot getGunSlot(int slotNr) {
         return data.gunSlots.get(slotNr);
     }
@@ -73,10 +65,6 @@ public final class HullConfig {
 
     public List<GunSlot> getGunSlotList() {
         return new ArrayList<>(data.gunSlots);
-    }
-
-    public DSParticleEmitter getParticleEmitter(int index) {
-        return data.particleEmitters.get(index);
     }
 
     public List<DSParticleEmitter> getParticleEmitters() {
@@ -174,8 +162,6 @@ public final class HullConfig {
         public String internalName;
         public float size;
         public int maxLife;
-        public Vector2 e1Pos;
-        public Vector2 e2Pos;
         public List<GunSlot> gunSlots = new ArrayList<>();
         public List<DSParticleEmitter> particleEmitters = new ArrayList<>();
         public List<Vector2> lightSrcPoss = new ArrayList<>();
@@ -205,8 +191,6 @@ public final class HullConfig {
             this.internalName = src.internalName;
             this.size = src.size;
             this.maxLife = src.maxLife;
-            this.e1Pos = new Vector2(src.e1Pos);
-            this.e2Pos = new Vector2(src.e2Pos);
             this.lightSrcPoss = deepCopyOf(src.lightSrcPoss);
             this.durability = src.durability;
             this.hasBase = src.hasBase;

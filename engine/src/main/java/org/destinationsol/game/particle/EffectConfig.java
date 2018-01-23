@@ -25,15 +25,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EffectConfig {
-    public final EffectType effectType;
-    public final float sz;
+    public final EffectType emitter;
+    public final float size;
     public final TextureAtlas.AtlasRegion tex;
     public final boolean floatsUp;
     public final Color tint;
 
-    public EffectConfig(EffectType effectType, float sz, TextureAtlas.AtlasRegion tex, boolean floatsUp, Color tint) {
-        this.effectType = effectType;
-        this.sz = sz;
+    public EffectConfig(EffectType emitter, float size, TextureAtlas.AtlasRegion tex, boolean floatsUp, Color tint) {
+        this.emitter = emitter;
+        this.size = size;
         this.tex = tex;
         this.floatsUp = floatsUp;
         this.tint = tint;
@@ -43,14 +43,14 @@ public class EffectConfig {
         if (node == null) {
             return null;
         }
-        String effectFileName = node.getString("effectFile");
-        EffectType effectType = types.forName(effectFileName);
-        float sz = node.getFloat("size", 0);
+        String emitter = node.getString("effectFile");
+        EffectType effectType = types.forName(emitter);
+        float size = node.getFloat("size", 0);
         String texName = node.getString("tex");
         boolean floatsUp = node.getBoolean("floatsUp", false);
         Color tint = cols.load(node.getString("tint"));
         TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(texName + "Particle");
-        return new EffectConfig(effectType, sz, tex, floatsUp, tint);
+        return new EffectConfig(effectType, size, tex, floatsUp, tint);
     }
 
     public static List<EffectConfig> loadList(JsonValue listNode, EffectTypes types, GameColors cols) {

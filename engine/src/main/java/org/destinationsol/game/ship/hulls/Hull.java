@@ -156,28 +156,18 @@ public class Hull {
             door.onRemove(game);
         }
         myBody.getWorld().destroyBody(myBody);
-        if (engine != null) {
-            engine.onRemove(game, myPos);
-        }
         particleEmitters.forEach(pe -> pe.onRemove(game, myPos));
 
     }
 
-    public void setEngine(SolGame game, SolShip ship, Engine engine) {
-        List<Drawable> drawables = ship.getDrawables();
-        // Remove the old engine and its associated drawables
+    public void setEngine(Engine engine) {
+        // Remove the old engine
         if (this.engine != null) {
-            List<Drawable> engineDrawables = this.engine.getDrawables();
-            drawables.removeAll(engineDrawables);
-            game.getDrawableManager().removeAll(engineDrawables);
             this.engine = null;
         }
-        // Add the new engine and its associated drawables
+        // Add the new engine
         if (engine != null) {
-            this.engine = new ShipEngine(game, engine, config.getE1Pos(), config.getE2Pos(), ship);
-            List<Drawable> engineDrawables = this.engine.getDrawables();
-            drawables.addAll(engineDrawables);
-            game.getDrawableManager().addAll(engineDrawables);
+            this.engine = new ShipEngine(engine);
         }
     }
 
@@ -193,8 +183,7 @@ public class Hull {
         }
         // Add the new particle emitters and their associated drawables
         if (engine != null) {
-            config.getParticleEmitters().
-                    forEach(pes -> particleEmitters.add(new DSParticleEmitter(game, pes, ship)));
+            config.getParticleEmitters().forEach(pes -> particleEmitters.add(new DSParticleEmitter(game, pes, ship)));
             List<Drawable> particleEmitterDrawables = new ArrayList<>();
             particleEmitters.forEach(pe -> particleEmitterDrawables.addAll(pe.getDrawables()));
             drawables.addAll(particleEmitterDrawables);
