@@ -140,6 +140,8 @@ public class Hull {
             float angleDiff = myPlanetBind.getDesiredAngle() - myAngle;
             myBody.setAngularVelocity(angleDiff * SolMath.degRad * fps);
         }
+
+        game.getPartMan().toggleAllEmittersOfType(game, "none", true);
     }
 
     private void setParamsFromBody() {
