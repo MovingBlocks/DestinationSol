@@ -98,13 +98,13 @@ def retrieveModule(String module) {
             return
         }
         println "Retrieving module $module - if it doesn't appear to exist (typo for instance) you'll get an auth prompt (in case it is private)"
-        // Prepare to clone the target repo, adding a secondary remote if it isn't already hosted under the Terasology org
-        if (githubHome != "Terasology") {
-            println "Doing a retrieve from a custom remote: $githubHome - will name it as such plus add the Terasology remote as 'origin'"
+        // Prepare to clone the target repo, adding a secondary remote if it isn't already hosted under the DestinationSol org
+        if (githubHome != "DestinationSol") {
+            println "Doing a retrieve from a custom remote: $githubHome - will name it as such plus add the DestinationSol remote as 'origin'"
             //noinspection GroovyAssignabilityCheck - GrGit has its own .clone but a warning gets issued for Object.clone
             Grgit.clone dir: targetDir, uri: targetUrl, remote: githubHome
-            println "Primary clone operation complete, about to add the 'origin' remote for the Terasology org address"
-            addRemote(module, "origin", "https://github.com/Terasology/${module}")
+            println "Primary clone operation complete, about to add the 'origin' remote for the DestinationSol org address"
+            addRemote(module, "origin", "https://github.com/DestinationSol/${module}")
         } else {
             //noinspection GroovyAssignabilityCheck - GrGit has its own .clone but a warning gets issued for Object.clone
             Grgit.clone dir: targetDir, uri: targetUrl
@@ -161,7 +161,7 @@ def createModule(String name) {
 
     // Initialize git
     Grgit.init dir: targetDir, bare: false
-    addRemote(moduleName, "origin", "https://github.com/Terasology/${moduleName}.git")
+    addRemote(moduleName, "origin", "https://github.com/DestinationSol/${moduleName}.git")
 }
 
 /**
@@ -331,7 +331,7 @@ def printUsage() {
     println "- 'list-remotes (module)' - lists all remotes for (module) "
     println ""
     println "Available flags"
-    println "-remote [someRemote]' to clone from an alternative remote, also adding the Terasology repo as 'origin'"
+    println "-remote [someRemote]' to clone from an alternative remote, also adding the DestinationSol repo as 'origin'"
     println ""
     println "Example: 'groovyw module create MySpaceShips' - would create that module"
     println "Example: 'groovyw module get caution - remote vampcat - would retrieve caution module from vampcat's account on github.'"
@@ -354,7 +354,6 @@ if (args.length == 0) {
         case 'usage':
             printUsage()
             break
-        //noinspection GroovyFallthrough
         case "get":
             println "Preparing to get one or more modules"
             if (args.length == 1) {
@@ -366,10 +365,9 @@ if (args.length == 0) {
                 println "Now in an array: $moduleList"
                 retrieve moduleList
             } else {
-                // User has supplied one or more module names, so pass them forward (skipping the "get" arg)
-                def adjustedArgs = args.drop(1)
-                println "Adjusted args: $adjustedArgs"
-                retrieve adjustedArgs
+                // First see if the user included "-remote" and process that if so. Expect a clean array back
+                args = processCustomRemote(args)
+                retrieve args
             }
             println "All done retrieving requested modules: $modulesRetrieved"
             break
@@ -415,6 +413,34 @@ if (args.length == 0) {
             new File("modules").eachDir() { dir ->
                 String moduleName = dir.getPath().substring(8)
                 updateModule(moduleName)
+            }
+            break
+        case "add-remote":
+            if (args.length == 3) {
+                moduleName = args[1]
+                remoteName = args[2]
+                println "Adding Remote for module $moduleName"
+                addRemote(moduleName, remoteName)
+            } else if (args.length == 4) {
+                moduleName = args[1]
+                remoteName = args[2]
+                url = args[3]
+                println "Adding Remote for module $moduleName"
+                addRemote(moduleName, remoteName, url)
+            } else {
+                println "Incorrect Syntax"
+                println "Usage: 'add-remote (module) (name)' - adds a remote (name) to modules/(module) with default URL."
+                println "       'add-remote (module) (name) (url)' - adds a remote to the module with the given URL."
+            }
+            break
+        case "list-remotes":
+            if (args.length == 2) {
+                moduleName = args[1]
+                println "Listing Remotes for module $moduleName"
+                listRemotes(moduleName)
+            } else {
+                println "Incorrect Syntax"
+                println "Usage: 'list-remotes (module)' - lists all remotes for (module)"
             }
             break
         default:
