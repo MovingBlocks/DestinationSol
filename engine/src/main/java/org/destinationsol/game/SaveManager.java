@@ -89,11 +89,11 @@ public class SaveManager {
     private static void writeMercs(SolGame game) {
         PrintWriter writer;
         
-        ItemContainer mercIc = game.getHero().getTradeContainer().getMercs();
+        ItemContainer mercenaries = game.getHero().getTradeContainer().getMercs();
         
         List<JsonObject> jsons = new ArrayList<JsonObject>();
         
-        for (List<SolItem> group : mercIc) {
+        for (List<SolItem> group : mercenaries) {
             for (SolItem item : group) {
                 SolShip merc = ((MercItem) item).getSolShip();
                 // Json fields
