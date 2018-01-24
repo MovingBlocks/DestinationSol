@@ -17,9 +17,7 @@ package org.destinationsol.assets;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -29,11 +27,15 @@ import org.destinationsol.assets.emitters.Emitter;
 import org.destinationsol.assets.fonts.Font;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.textures.DSTexture;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.assets.ResourceUrn;
 import org.terasology.module.ModuleEnvironment;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+
+import static java.lang.System.exit;
 
 /**
  * A high-level wrapper over the AssetHelper class.
@@ -43,6 +45,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public abstract class Assets {
     private static AssetHelper assetHelper;
     private static Set<ResourceUrn> textureList;
+
+    private static Logger logger = LoggerFactory.getLogger(Assets.class);
 
     /**
      * Initializes the class for loading assets using the given environment.
@@ -61,11 +65,12 @@ public abstract class Assets {
     private static ResourceUrn parsePath(String path) {
         String[] strings = path.split(":");
 
-        assert(strings.length == 2); // Too strict?
-        String module = strings[0];
         if (strings.length < 2) {
-            int z = 0;
+            logger.error("Invalid resource name " + path);
+            exit(-1);
         }
+
+        String module = strings[0];
         String file = strings[1];
 
         strings = file.split("/");
