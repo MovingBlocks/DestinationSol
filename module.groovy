@@ -3,7 +3,7 @@
 @GrabResolver(name = 'jcenter', root = 'http://jcenter.bintray.com/')
 @Grab(group='org.ajoberstar', module='grgit', version='1.9.3')
 import org.ajoberstar.grgit.Grgit
-
+import org.ajoberstar.grgit.Remote
 import groovy.json.JsonSlurper
 
 // Grab override properties from the gradle.properties file (shared with various Gradle commands)
@@ -17,6 +17,9 @@ println "Properties: " + properties
 githubHome = properties.alternativeGithubHome ?: "DestinationSol"
 
 //println "githubHome is: $githubHome"
+
+// Module dependencies we don't want to retrieve as they live in the main DestSol repo
+excludedDependencies = ["core"]
 
 // For keeping a list of modules retrieved so far
 modulesRetrieved = []
@@ -35,6 +38,45 @@ def retrieve(String[] modules) {
 }
 
 /**
+ * Tests a URL via a HEAD request (no body) to see if it is valid
+ * @param url the URL to test
+ * @return boolean indicating whether the URL is valid (code 200) or not
+ */
+boolean isUrlValid(String url) {
+    def code = new URL(url).openConnection().with {
+        requestMethod = 'HEAD'
+        connect()
+        responseCode
+    }
+    return code.toString() == "200"
+}
+
+/**
+ * Reads a given module info file to figure out which if any dependencies it has. Filters out any already retrieved.
+ * @param targetModuleInfo the target file to check (a module.txt file or similar)
+ * @return a String[] containing the next level of dependencies, if any
+ */
+String[] readModuleDependencies(File targetModuleInfo) {
+    def qualifiedDependencies = []
+    if (!targetModuleInfo.exists()) {
+        println "The module info file did not appear to exist - can't calculate dependencies"
+        return qualifiedDependencies
+    }
+
+    def slurper = new JsonSlurper()
+    def moduleConfig = slurper.parseText(targetModuleInfo.text)
+    for (dependency in moduleConfig.dependencies) {
+        if (excludedDependencies.contains(dependency)) {
+            println "Skipping listed dependency $dependency as it is in the exclude list (shipped with primary project)"
+        } else {
+            println "Accepting listed dependency $dependency"
+            qualifiedDependencies << dependency
+        }
+    }
+    return qualifiedDependencies
+}
+
+/**
  * Retrieves a single module via Git Clone. Considers whether it exists locally first or if it has already been retrieved this execution.
  * @param module the target module to retrieve
  */
@@ -48,10 +90,25 @@ def retrieveModule(String module) {
     } else if (modulesRetrieved.contains(module)) {
         println "We already retrieved $module - skipping"
     } else {
-        println "Retrieving module $module - if it doesn't appear to exist (typo for instance) you'll get an auth prompt (in case it is private)"
-        //noinspection GroovyAssignabilityCheck - GrGit has its own .clone but a warning gets issued for Object.clone
-        Grgit.clone dir: targetDir, uri: "https://github.com/$githubHome/${module}.git"
+        // Immediately note the given module as retrieved, since if any failure occurs we don't want to retry
         modulesRetrieved << module
+        def targetUrl = "https://github.com/$githubHome/${module}"
+        if (!isUrlValid(targetUrl)) {
+            println "Can't retrieve module from $targetUrl - URL appears invalid. Typo? Not created yet?"
+            return
+        }
+        println "Retrieving module $module - if it doesn't appear to exist (typo for instance) you'll get an auth prompt (in case it is private)"
+        // Prepare to clone the target repo, adding a secondary remote if it isn't already hosted under the DestinationSol org
+        if (githubHome != "DestinationSol") {
+            println "Doing a retrieve from a custom remote: $githubHome - will name it as such plus add the DestinationSol remote as 'origin'"
+            //noinspection GroovyAssignabilityCheck - GrGit has its own .clone but a warning gets issued for Object.clone
+            Grgit.clone dir: targetDir, uri: targetUrl, remote: githubHome
+            println "Primary clone operation complete, about to add the 'origin' remote for the DestinationSol org address"
+            addRemote(module, "origin", "https://github.com/DestinationSol/${module}")
+        } else {
+            //noinspection GroovyAssignabilityCheck - GrGit has its own .clone but a warning gets issued for Object.clone
+            Grgit.clone dir: targetDir, uri: targetUrl
+        }
 
         File moduleManifest = new File(targetDir, 'module.json')
         if (!moduleManifest.exists()) {
@@ -59,12 +116,23 @@ def retrieveModule(String module) {
             moduleManifest << moduleText.replaceAll('MODULENAME', module)
             println "WARNING: Module $module did not have a module.json! One was created, please review and submit to GitHub"
         }
+        def foundDependencies = readModuleDependencies(new File(targetDir, "module.json"))
+           if (foundDependencies.length == 0) {
+               println "Module $module did not appear to have any dependencies we need to worry about"
+           } else {
+               println "Module $module has the following module dependencies we care about: $foundDependencies"
+               String[] uniqueDependencies = foundDependencies - modulesRetrieved
+               println "After removing dupes already retrieved we have the remaining dependencies left: $uniqueDependencies"
+               if (uniqueDependencies.length > 0) {
+                   retrieve(uniqueDependencies)
+            }
+        }
     }
 }
 
 /**
  * Creates a new module with the given name and adds the necessary .gitignore,
- * build.gradle and module.txt files.
+ * and module.json files.
  * @param name the name of the module to be created
  */
 def createModule(String name) {
@@ -93,6 +161,7 @@ def createModule(String name) {
 
     // Initialize git
     Grgit.init dir: targetDir, bare: false
+    addRemote(moduleName, "origin", "https://github.com/DestinationSol/${moduleName}.git")
 }
 
 /**
@@ -151,6 +220,103 @@ def getUserString (String prompt) {
 }
 
 /**
+ * List all existing Git remotes for a given module.
+ * @param moduleName the module to list remotes for
+ */
+def listRemotes(String moduleName) {
+    File moduleExistence = new File("modules/$moduleName")
+    if (!moduleExistence.exists()) {
+        println "Module '$moduleName' not found. Typo? Or run 'groovyw module get $moduleName' first"
+        return
+    }
+    def remoteGit = Grgit.open(dir: "modules/$moduleName")
+    def remote = remoteGit.remote.list()
+    x = 1
+    for (Remote item : remote) {
+        println(x + " " + item.name + " " + "(" + item.url + ")")
+        x += 1
+    }
+}
+
+
+
+/**
+ * Add new Git remotes for the given modules, all using the same remote name.
+ * @param modules the modules to add remotes for
+ * @param name the name to use for all the Git remotes
+ */
+def addRemotes(String[] modules, String name) {
+    for (String module : modules) {
+        addRemote(module, name)
+    }
+}
+
+/**
+ * Add a new Git remote for the given module, deducing a standard URL to the repo.
+ * @param moduleName the module to add the remote for
+ * @param remoteName the name to give the new remote
+ */
+def addRemote(String moduleName, String remoteName) {
+    addRemote(moduleName, remoteName, "https://github.com/$remoteName/$moduleName" + ".git")
+}
+
+
+/**
+ * Add a new Git remote for the given module.
+ * @param moduleName the module to add the remote for
+ * @param remoteName the name to give the new remote
+ * @param URL address to the remote Git repo
+ */
+
+def addRemote(String moduleName, String remoteName, String url) {
+    File targetModule = new File("modules/$moduleName")
+    if (!targetModule.exists()) {
+        println "Module '$moduleName' not found. Typo? Or run 'groovyw module get $moduleName' first"
+        return
+    }
+    def remoteGit = Grgit.open(dir: "modules/$moduleName")
+    def remote = remoteGit.remote.list()
+    def check = remote.find { it.name == "$remoteName" }
+    if (!check) {
+        // Always add the remote whether it exists or not
+        remoteGit.remote.add(name: "$remoteName", url: "$url")
+        // But then do a validation check to advise the user and do a fetch if it is valid
+        if (isUrlValid(url)) {
+            println "Successfully added remote '$remoteName' for '$moduleName' - doing a 'git fetch'"
+            remoteGit.fetch remote: remoteName
+        } else {
+            println "Added the remote '$remoteName' for module '$moduleName' - but the URL $url failed a test lookup. Typo? Not created yet?"
+        }
+    } else {
+        println "Remote already exists"
+    }
+}
+
+/**
+ * Considers given arguments for the presence of a custom remote, setting that up right if found, tidying up the arguments.
+ * @param arguments the args passed into the script
+ * @return the adjusted arguments without any found custom remote details and the commmand name itself (get or recurse)
+ */
+def processCustomRemote(String[] arguments) {
+    def remoteArg = arguments.findLastIndexOf { it == "-remote" }
+
+    // If we find the remote arg go ahead and process it then remove the related arguments
+    if (remoteArg != -1) {
+        // If the user didn't we can tell by simply checking the number of elements vs where "-remote" was
+        if (arguments.length == (remoteArg + 1)) {
+            githubHome = getUserString('Enter Name for the Remote (no spaces)')
+            // Drop the "-remote" so the arguments string gets cleaner
+            arguments = arguments.dropRight(1)
+        } else {
+            githubHome = arguments[remoteArg + 1]
+            // Drop the "-remote" as well as the value the user supplied
+            arguments = arguments.dropRight(2)
+        }
+    }
+    return arguments.drop(1)
+}
+
+/**
  * Simply prints usage information.
  */
 def printUsage() {
@@ -160,8 +326,15 @@ def printUsage() {
     println "- 'create' - creates a new module"
     println "- 'update' - updates a module (git pulls latest from current origin, if workspace is clean"
     println "- 'update-all' - updates all local modules"
+    println "- 'add-remote (module) (name)' - adds a remote (name) to modules/(module) with the default URL."
+    println "- 'add-remote (module) (name) (URL)' - adds a remote with the given URL"
+    println "- 'list-remotes (module)' - lists all remotes for (module) "
+    println ""
+    println "Available flags"
+    println "-remote [someRemote]' to clone from an alternative remote, also adding the DestinationSol repo as 'origin'"
     println ""
     println "Example: 'groovyw module create MySpaceShips' - would create that module"
+    println "Example: 'groovyw module get caution - remote vampcat - would retrieve caution module from vampcat's account on github.'"
     println "*NOTE*: Module names are case sensitive"
     println ""
     println "If you omit further arguments beyond the sub command you'll be prompted for details"
@@ -181,7 +354,6 @@ if (args.length == 0) {
         case 'usage':
             printUsage()
             break
-        //noinspection GroovyFallthrough
         case "get":
             println "Preparing to get one or more modules"
             if (args.length == 1) {
@@ -193,10 +365,9 @@ if (args.length == 0) {
                 println "Now in an array: $moduleList"
                 retrieve moduleList
             } else {
-                // User has supplied one or more module names, so pass them forward (skipping the "get" arg)
-                def adjustedArgs = args.drop(1)
-                println "Adjusted args: $adjustedArgs"
-                retrieve adjustedArgs
+                // First see if the user included "-remote" and process that if so. Expect a clean array back
+                args = processCustomRemote(args)
+                retrieve args
             }
             println "All done retrieving requested modules: $modulesRetrieved"
             break
@@ -242,6 +413,34 @@ if (args.length == 0) {
             new File("modules").eachDir() { dir ->
                 String moduleName = dir.getPath().substring(8)
                 updateModule(moduleName)
+            }
+            break
+        case "add-remote":
+            if (args.length == 3) {
+                moduleName = args[1]
+                remoteName = args[2]
+                println "Adding Remote for module $moduleName"
+                addRemote(moduleName, remoteName)
+            } else if (args.length == 4) {
+                moduleName = args[1]
+                remoteName = args[2]
+                url = args[3]
+                println "Adding Remote for module $moduleName"
+                addRemote(moduleName, remoteName, url)
+            } else {
+                println "Incorrect Syntax"
+                println "Usage: 'add-remote (module) (name)' - adds a remote (name) to modules/(module) with default URL."
+                println "       'add-remote (module) (name) (url)' - adds a remote to the module with the given URL."
+            }
+            break
+        case "list-remotes":
+            if (args.length == 2) {
+                moduleName = args[1]
+                println "Listing Remotes for module $moduleName"
+                listRemotes(moduleName)
+            } else {
+                println "Incorrect Syntax"
+                println "Usage: 'list-remotes (module)' - lists all remotes for (module)"
             }
             break
         default:
