@@ -45,22 +45,27 @@ public class ShipEngine {
     private final Engine myItem;
     private final List<Drawable> myDrawables;
     private float myRecoverAwait;
+    
+    private final float acceleration;
+    private final float topSpeedModifier;
 
-    public ShipEngine(SolGame game, Engine ei, Vector2 e1RelPos, Vector2 e2RelPos, SolShip ship) {
-        myItem = ei;
+    public ShipEngine(SolGame game, Engine engineItem, Vector2 e1RelPos, Vector2 e2RelPos, SolShip ship) {
+        myItem = engineItem;
         myDrawables = new ArrayList<>();
-        EffectConfig ec = myItem.getEffectConfig();
+        EffectConfig effectConfig = myItem.getEffectConfig();
         Vector2 shipPos = ship.getPosition();
         Vector2 shipSpd = ship.getSpd();
-        myFlameSrc1 = new ParticleSrc(ec, -1, DrawableLevel.PART_BG_0, e1RelPos, true, game, shipPos, shipSpd, 0);
+        myFlameSrc1 = new ParticleSrc(effectConfig, -1, DrawableLevel.PART_BG_0, e1RelPos, true, game, shipPos, shipSpd, 0);
         myDrawables.add(myFlameSrc1);
-        myFlameSrc2 = new ParticleSrc(ec, -1, DrawableLevel.PART_BG_0, e2RelPos, true, game, shipPos, shipSpd, 0);
+        myFlameSrc2 = new ParticleSrc(effectConfig, -1, DrawableLevel.PART_BG_0, e2RelPos, true, game, shipPos, shipSpd, 0);
         myDrawables.add(myFlameSrc2);
-        float lightSz = ec.sz * 2.5f;
-        myLightSrc1 = new LightSrc(lightSz, true, .7f, new Vector2(e1RelPos), ec.tint);
+        float lightSz = effectConfig.sz * 2.5f;
+        myLightSrc1 = new LightSrc(lightSz, true, .7f, new Vector2(e1RelPos), effectConfig.tint);
         myLightSrc1.collectDras(myDrawables);
-        myLightSrc2 = new LightSrc(lightSz, true, .7f, new Vector2(e2RelPos), ec.tint);
+        myLightSrc2 = new LightSrc(lightSz, true, .7f, new Vector2(e2RelPos), effectConfig.tint);
         myLightSrc2.collectDras(myDrawables);
+        acceleration = engineItem.getAcc();
+        topSpeedModifier = engineItem.getTopSpeedMultiplier();
     }
 
     public List<Drawable> getDrawables() {
@@ -83,28 +88,28 @@ public class ShipEngine {
 
     private boolean applyInput(SolGame cmp, float shipAngle, Pilot provider, Body body, Vector2 spd,
                                boolean controlsEnabled, float mass) {
-        boolean spdOk = SolMath.canAccelerate(shipAngle, spd);
+        boolean spdOk = SolMath.canAccelerateCustom(shipAngle, spd, topSpeedModifier);
         boolean working = controlsEnabled && provider.isUp() && spdOk;
 
-        Engine e = myItem;
+        Engine engineItem = myItem;
         if (working) {
-            Vector2 v = SolMath.fromAl(shipAngle, mass * e.getAcc());
+            Vector2 v = SolMath.fromAl(shipAngle, mass * acceleration);
             body.applyForceToCenter(v, true);
             SolMath.free(v);
         }
 
-        float ts = cmp.getTimeStep();
+        float timeStep = cmp.getTimeStep();
         float rotSpd = body.getAngularVelocity() * SolMath.radDeg;
         float desiredRotSpd = 0;
-        float rotAcc = e.getRotAcc();
-        boolean l = controlsEnabled && provider.isLeft();
-        boolean r = controlsEnabled && provider.isRight();
+        float rotAcc = engineItem.getRotAcc();
+        boolean leftOn = controlsEnabled && provider.isLeft();
+        boolean rightOn = controlsEnabled && provider.isRight();
         float absRotSpd = SolMath.abs(rotSpd);
-        if (absRotSpd < e.getMaxRotSpd() && l != r) {
-            desiredRotSpd = SolMath.toInt(r) * e.getMaxRotSpd();
+        if (absRotSpd < engineItem.getMaxRotSpd() && leftOn != rightOn) {
+            desiredRotSpd = SolMath.toInt(rightOn) * engineItem.getMaxRotSpd();
             if (absRotSpd < MAX_RECOVER_ROT_SPD) {
                 if (myRecoverAwait > 0) {
-                    myRecoverAwait -= ts;
+                    myRecoverAwait -= timeStep;
                 }
                 if (myRecoverAwait <= 0) {
                     rotAcc *= RECOVER_MUL;
@@ -113,7 +118,7 @@ public class ShipEngine {
         } else {
             myRecoverAwait = RECOVER_AWAIT;
         }
-        body.setAngularVelocity(SolMath.degRad * SolMath.approach(rotSpd, desiredRotSpd, rotAcc * ts));
+        body.setAngularVelocity(SolMath.degRad * SolMath.approach(rotSpd, desiredRotSpd, rotAcc * timeStep));
         return working;
     }
 

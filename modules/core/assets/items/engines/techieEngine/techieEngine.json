@@ -1,10 +1,12 @@
 {
+    "acceleration": 1,
     "big": false,
     "effect": {
         "effectFile": "core:techieEngine",
         "tex": "core:techieTrail",
         "tint": "white"
     },
+    "topSpeedMultiplier": 1,
     "workSounds": [
         "core:techie",
         "core:techie2",

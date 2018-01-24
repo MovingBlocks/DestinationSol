@@ -1,4 +1,5 @@
 {
+    "acceleration": 1,
     "big": true,
     "effect": {
         "effectFile": "core:flame",
@@ -6,6 +7,7 @@
         "tex": "core:smoke",
         "tint": "fire"
     },
+    "topSpeedMultiplier": 1,
     "workSounds": [
         "core:medEngineWork0",
         "core:medEngineWork1",

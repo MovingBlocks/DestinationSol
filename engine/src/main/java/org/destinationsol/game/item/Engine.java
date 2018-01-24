@@ -59,6 +59,10 @@ public class Engine implements SolItem {
     public float getAcc() {
         return myConfig.acc;
     }
+    
+    public float getTopSpeedMultiplier() {
+        return myConfig.topSpeedMultiplier;
+    }
 
     public float getMaxRotSpd() {
         return myConfig.maxRotSpd;
@@ -117,6 +121,7 @@ public class Engine implements SolItem {
         public final String desc;
         public final float rotAcc;
         public final float acc;
+        public final float topSpeedMultiplier;
         public final float maxRotSpd;
         public final boolean big;
         public final Engine example;
@@ -125,13 +130,14 @@ public class Engine implements SolItem {
         public final EffectConfig effectConfig;
         public final String code;
 
-        private Config(String displayName, int price, String desc, float rotAcc, float acc, float maxRotSpd, boolean big,
+        private Config(String displayName, int price, String desc, float rotAcc, float acc, float topSpeedMultiplier, float maxRotSpd, boolean big,
                        PlayableSound workSound, TextureAtlas.AtlasRegion icon, EffectConfig effectConfig, String code) {
             this.displayName = displayName;
             this.price = price;
             this.desc = desc;
             this.rotAcc = rotAcc;
             this.acc = acc;
+            this.topSpeedMultiplier = topSpeedMultiplier;
             this.maxRotSpd = maxRotSpd;
             this.big = big;
             this.workSound = workSound;
@@ -147,7 +153,8 @@ public class Engine implements SolItem {
 
             boolean big = rootNode.getBoolean("big");
             float rotAcc = big ? 100f : 515f;
-            float acc = 2f;
+            float acc = 2f * rootNode.getFloat("acceleration");
+            float topSpeedMultiplier = rootNode.getFloat("topSpeedMultiplier");
             float maxRotSpd = big ? 40f : 230f;
             List<String> workSoundUrns = Arrays.asList(rootNode.get("workSounds").asStringArray());
             OggSoundSet workSoundSet = new OggSoundSet(soundManager, workSoundUrns);
@@ -157,7 +164,7 @@ public class Engine implements SolItem {
 
             // TODO: VAMPCAT: The icon / displayName was initially set to null. Is that correct?
 
-            return new Config(null, 0, null, rotAcc, acc, maxRotSpd, big, workSoundSet, null, effectConfig, engineName);
+            return new Config(null, 0, null, rotAcc, acc, topSpeedMultiplier, maxRotSpd, big, workSoundSet, null, effectConfig, engineName);
         }
     }
 }
