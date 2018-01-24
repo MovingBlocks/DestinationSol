@@ -8,8 +8,6 @@
         "factor": 0.5,
         "rechargeTime": 4
     },
-    "e1Pos": "0.15 0.50",
-    "e2Pos": "0.15 0.50",
     "displayName": "Scout",
     "engine": "core:imperialEngine",
     "gunSlots": [
@@ -48,8 +46,7 @@
                 }
             ]
         ],
-        "circles": [
-        ],
+        "circles": [],
         "shapes": [
             {
                 "type": "POLYGON",
@@ -77,5 +74,29 @@
                 ]
             }
         ]
-    }
+    },
+    "particleEmitters": [
+        {
+            "position": "0.15 0.50",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:flame",
+                "size": 0.07,
+                "tex": "core:fire",
+                "tint": "hsb 140 20 65"
+            }
+        },
+        {
+            "position": "0.15 0.50",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:flame",
+                "size": 0.07,
+                "tex": "core:fire",
+                "tint": "hsb 140 20 65"
+            }
+        }
+    ]
 }

@@ -9,8 +9,6 @@
         "angle": 90,
         "rechargeTime": 4
     },
-    "e1Pos": "0 0.33",
-    "e2Pos": "0 0.67",
     "displayName": "Bomber",
     "engine": "core:desertEngine",
     "gunSlots": [
@@ -45,8 +43,7 @@
                 }
             ]
         ],
-        "circles": [
-        ],
+        "circles": [],
         "shapes": [
             {
                 "type": "POLYGON",
@@ -70,5 +67,29 @@
                 ]
             }
         ]
-    }
+    },
+    "particleEmitters": [
+        {
+            "position": "0 0.33",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:flame",
+                "size": 0.07,
+                "tex": "core:smoke",
+                "tint": "fire"
+            }
+        },
+        {
+            "position": "0 0.67",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:flame",
+                "size": 0.07,
+                "tex": "core:smoke",
+                "tint": "fire"
+            }
+        }
+    ]
 }
