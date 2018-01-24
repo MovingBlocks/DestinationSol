@@ -1,11 +1,5 @@
 {
     "big": true,
-    "effect": {
-        "effectFile": "core:flame",
-        "size": 0.3,
-        "tex": "core:smoke",
-        "tint": "fire"
-    },
     "workSounds": [
         "core:medEngineWork0",
         "core:medEngineWork1",

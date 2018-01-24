@@ -7,8 +7,6 @@
         "force": 200,
         "rechargeTime": 10
     },
-    "e1Pos": "0.2 0.26",
-    "e2Pos": "0.2 0.72",
     "engine": "core:minerEngine",
     "gunSlots": [
         {
@@ -85,5 +83,29 @@
                 ]
             }
         ]
-    }
+    },
+    "particleEmitters": [
+        {
+            "position": "0.2 0.26",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:smokeEngine",
+                "size": 0.07,
+                "tex": "core:smoke",
+                "tint": "smoke"
+            }
+        },
+        {
+            "position": "0.2 0.72",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:smokeEngine",
+                "size": 0.07,
+                "tex": "core:smoke",
+                "tint": "smoke"
+            }
+        }
+    ]
 }

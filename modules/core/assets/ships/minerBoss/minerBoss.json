@@ -7,8 +7,6 @@
         "force": 250,
         "rechargeTime": 10
     },
-    "e1Pos": "0.18 0.3",
-    "e2Pos": "0.18 0.7",
     "engine": "core:minerEngine",
     "gunSlots": [
         {
@@ -47,8 +45,7 @@
                 }
             ]
         ],
-        "circles": [
-        ],
+        "circles": [],
         "shapes": [
             {
                 "type": "POLYGON",
@@ -72,5 +69,29 @@
                 ]
             }
         ]
-    }
+    },
+    "particleEmitters": [
+        {
+            "position": "0.18 0.3",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:smokeEngine",
+                "size": 0.07,
+                "tex": "core:smoke",
+                "tint": "smoke"
+            }
+        },
+        {
+            "position": "0.18 0.7",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:smokeEngine",
+                "size": 0.07,
+                "tex": "core:smoke",
+                "tint": "smoke"
+            }
+        }
+    ]
 }

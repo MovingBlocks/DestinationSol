@@ -8,8 +8,6 @@
         "factor": 0.3,
         "rechargeTime": 5
     },
-    "e1Pos": "0.11 0.43",
-    "e2Pos": "0.11 0.57",
     "displayName": "Vanguard",
     "engine": "core:imperialEngine",
     "gunSlots": [
@@ -59,8 +57,7 @@
                 }
             ]
         ],
-        "circles": [
-        ],
+        "circles": [],
         "shapes": [
             {
                 "type": "POLYGON",
@@ -97,5 +94,29 @@
                 ]
             }
         ]
-    }
+    },
+    "particleEmitters": [
+        {
+            "position": "0.11 0.43",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:flame",
+                "size": 0.07,
+                "tex": "core:fire",
+                "tint": "hsb 140 20 65"
+            }
+        },
+        {
+            "position": "0.11 0.57",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:flame",
+                "size": 0.07,
+                "tex": "core:fire",
+                "tint": "hsb 140 20 65"
+            }
+        }
+    ]
 }
