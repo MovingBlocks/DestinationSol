@@ -412,7 +412,10 @@ if (args.length == 0) {
             println "List of modules:"
             new File("modules").eachDir() { dir ->
                 String moduleName = dir.getPath().substring(8)
-                updateModule(moduleName)
+                //The excludedDependencies need not be updated because they live in the main repo.
+                if(!(excludedDependencies.contains(moduleName))){
+                    updateModule(moduleName)
+                }
             }
             break
         case "add-remote":
