@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.particle.LightSrc;
+import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.planet.PlanetBind;
 import org.destinationsol.game.ship.Door;
 import org.destinationsol.game.ship.ForceBeacon;
@@ -56,7 +57,8 @@ public class Hull {
     public float life;
     private float myAngle;
     private float myRotSpd;
-    private ShipEngine myEngine;
+    private ShipEngine engine;
+    private List<DSParticleEmitter> particleEmitters;
 
     public Hull(SolGame game, HullConfig hullConfig, Body body, GunMount gunMount1, GunMount gunMount2, Fixture base,
                 List<LightSrc> lightSrcs, float life, ArrayList<ForceBeacon> forceBeacons,
@@ -79,6 +81,7 @@ public class Hull {
 
         myPlanetBind = config.getType() == HullConfig.Type.STATION ? PlanetBind.tryBind(game, myPos, myAngle) : null;
 
+        particleEmitters = new ArrayList<>();
     }
 
     public Body getBody() {
@@ -105,12 +108,8 @@ public class Hull {
         setParamsFromBody();
         boolean controlsEnabled = ship.isControlsEnabled();
 
-        if (myEngine != null) {
-            if (true || container.contains(myEngine.getItem())) {
-                myEngine.update(myAngle, game, provider, myBody, mySpd, ship, controlsEnabled, myMass);
-            } else {
-                setEngine(game, ship, null);
-            }
+        if (engine != null) {
+            engine.update(myAngle, game, provider, myBody, mySpd, ship, controlsEnabled, myMass, this);
         }
 
         Faction faction = ship.getPilot().getFaction();
@@ -141,6 +140,8 @@ public class Hull {
             float angleDiff = myPlanetBind.getDesiredAngle() - myAngle;
             myBody.setAngularVelocity(angleDiff * SolMath.degRad * fps);
         }
+
+        game.getPartMan().toggleAllHullEmittersOfType(this, "none", true);
     }
 
     private void setParamsFromBody() {
@@ -155,25 +156,31 @@ public class Hull {
             door.onRemove(game);
         }
         myBody.getWorld().destroyBody(myBody);
-        if (myEngine != null) {
-            myEngine.onRemove(game, myPos);
-        }
+        particleEmitters.forEach(pe -> pe.onRemove(game, myPos));
 
     }
 
-    public void setEngine(SolGame game, SolShip ship, Engine ei) {
+    public void setEngine(Engine engine) {
+        this.engine = new ShipEngine(engine);
+    }
+
+    public void setParticleEmitters(SolGame game, SolShip ship, Engine engine) {
         List<Drawable> drawables = ship.getDrawables();
-        if (myEngine != null) {
-            List<Drawable> dras1 = myEngine.getDrawables();
-            drawables.removeAll(dras1);
-            game.getDrawableManager().removeAll(dras1);
-            myEngine = null;
+        // Remove the old particle emitters and their associated drawables
+        if (!particleEmitters.isEmpty()) {
+            List<Drawable> particleEmitterDrawables = new ArrayList<>();
+            particleEmitters.forEach(pe -> particleEmitterDrawables.addAll(pe.getDrawables()));
+            drawables.removeAll(particleEmitterDrawables);
+            game.getDrawableManager().removeAll(particleEmitterDrawables);
+            particleEmitters.clear();
         }
-        if (ei != null) {
-            myEngine = new ShipEngine(game, ei, config.getE1Pos(), config.getE2Pos(), ship);
-            List<Drawable> dras1 = myEngine.getDrawables();
-            drawables.addAll(dras1);
-            game.getDrawableManager().addAll(dras1);
+        // Add the new particle emitters and their associated drawables
+        if (engine != null) {
+            config.getParticleEmitters().forEach(pes -> particleEmitters.add(new DSParticleEmitter(game, pes, ship)));
+            List<Drawable> particleEmitterDrawables = new ArrayList<>();
+            particleEmitters.forEach(pe -> particleEmitterDrawables.addAll(pe.getDrawables()));
+            drawables.addAll(particleEmitterDrawables);
+            game.getDrawableManager().addAll(particleEmitterDrawables);
         }
     }
 
@@ -190,7 +197,7 @@ public class Hull {
     }
 
     public Engine getEngine() {
-        return myEngine == null ? null : myEngine.getItem();
+        return engine == null ? null : engine.getItem();
     }
 
     public float getRotSpd() {
@@ -211,5 +218,9 @@ public class Hull {
 
     public HullConfig getHullConfig() {
         return config;
+    }
+
+    public List<DSParticleEmitter> getParticleEmitters() {
+        return particleEmitters;
     }
 }

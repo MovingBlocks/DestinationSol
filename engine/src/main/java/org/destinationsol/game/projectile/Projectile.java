@@ -36,7 +36,7 @@ import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSrc;
-import org.destinationsol.game.particle.ParticleSrc;
+import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.SolShip;
 
 import java.util.ArrayList;
@@ -48,8 +48,8 @@ public class Projectile implements SolObject {
     private final ArrayList<Drawable> myDrawables;
     private final ProjectileBody myBody;
     private final Faction myFaction;
-    private final ParticleSrc myBodyEffect;
-    private final ParticleSrc myTrailEffect;
+    private final DSParticleEmitter myBodyEffect;
+    private final DSParticleEmitter myTrailEffect;
     private final LightSrc myLightSrc;
     private final ProjectileConfig myConfig;
 
@@ -93,14 +93,14 @@ public class Projectile implements SolObject {
         }
     }
 
-    private ParticleSrc buildEffect(SolGame game, EffectConfig ec, DrawableLevel drawableLevel, Vector2 pos, boolean inheritsSpd) {
+    private DSParticleEmitter buildEffect(SolGame game, EffectConfig ec, DrawableLevel drawableLevel, Vector2 pos, boolean inheritsSpd) {
         if (ec == null) {
             return null;
         }
-        ParticleSrc res = new ParticleSrc(ec, -1, drawableLevel, new Vector2(), inheritsSpd, game, pos, myBody.getSpd(), 0);
+        DSParticleEmitter res = new DSParticleEmitter(ec, -1, drawableLevel, new Vector2(), inheritsSpd, game, pos, myBody.getSpd(), 0);
         if (res.isContinuous()) {
             res.setWorking(true);
-            myDrawables.add(res);
+            myDrawables.addAll(res.getDrawables());
         } else {
             game.getPartMan().finish(game, res, pos);
         }
@@ -158,7 +158,7 @@ public class Projectile implements SolObject {
         buildEffect(game, myConfig.collisionEffect, DrawableLevel.PART_FG_1, pos, false);
         buildEffect(game, myConfig.collisionEffectBg, DrawableLevel.PART_FG_0, pos, false);
         if (myConfig.collisionEffectBg != null) {
-            game.getPartMan().blinks(pos, game, myConfig.collisionEffectBg.sz);
+            game.getPartMan().blinks(pos, game, myConfig.collisionEffectBg.size);
         }
         game.getSoundManager().play(game, myConfig.collisionSound, null, this);
     }

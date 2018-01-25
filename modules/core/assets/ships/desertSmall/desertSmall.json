@@ -20,8 +20,6 @@
             "allowsRotation": false
         }
     ],
-    "e1Pos": "0.02 0.46",
-    "e2Pos": "0.02 0.54",
     "displayName": "Beetle",
     "engine": "core:desertEngine",
     "rigidBody": {
@@ -92,5 +90,29 @@
                 ]
             }
         ]
-    }
+    },
+    "particleEmitters": [
+        {
+            "position": "0.02 0.46",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:flame",
+                "size": 0.07,
+                "tex": "core:smoke",
+                "tint": "fire"
+            }
+        },
+        {
+            "position": "0.02 0.54",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:flame",
+                "size": 0.07,
+                "tex": "core:smoke",
+                "tint": "fire"
+            }
+        }
+    ]
 }

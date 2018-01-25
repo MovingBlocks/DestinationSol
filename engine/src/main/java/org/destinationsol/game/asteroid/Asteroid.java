@@ -29,7 +29,7 @@ import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.item.Loot;
 import org.destinationsol.game.item.MoneyItem;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.particle.ParticleSrc;
+import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.TileObject;
 
@@ -50,8 +50,8 @@ public class Asteroid implements SolObject {
     private final ArrayList<Drawable> myDrawables;
     private final TextureAtlas.AtlasRegion myTex;
     private final RemoveController myRemoveController;
-    private final ParticleSrc mySmokeSrc;
-    private final ParticleSrc myFireSrc;
+    private final DSParticleEmitter mySmokeSrc;
+    private final DSParticleEmitter myFireSrc;
     private final float myMass;
 
     private float myAngle;
@@ -69,11 +69,11 @@ public class Asteroid implements SolObject {
         mySpd = new Vector2();
         myMass = myBody.getMass();
         setParamsFromBody();
-        List<ParticleSrc> effs = game.getSpecialEffects().buildBodyEffs(size / 2, game, myPos, mySpd);
+        List<DSParticleEmitter> effs = game.getSpecialEffects().buildBodyEffs(size / 2, game, myPos, mySpd);
         mySmokeSrc = effs.get(0);
         myFireSrc = effs.get(1);
-        myDrawables.add(mySmokeSrc);
-        myDrawables.add(myFireSrc);
+        myDrawables.addAll(mySmokeSrc.getDrawables());
+        myDrawables.addAll(myFireSrc.getDrawables());
     }
 
     @Override

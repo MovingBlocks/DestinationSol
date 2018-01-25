@@ -2,8 +2,6 @@
     "size": 2,
     "maxLife": 80,
     "type": "big",
-    "e1Pos": "0.06 0.4",
-    "e2Pos": "0.06 0.6",
     "engine": "core:pirateBigEngine",
     "gunSlots": [
         {
@@ -88,5 +86,29 @@
                 ]
             }
         ]
-    }
+    },
+    "particleEmitters": [
+        {
+            "position": "0.06 0.4",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:flame",
+                "size": 0.3,
+                "tex": "core:fire",
+                "tint": "hsb 8 75 100"
+            }
+        },
+        {
+            "position": "0.06 0.6",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:flame",
+                "size": 0.3,
+                "tex": "core:fire",
+                "tint": "hsb 8 75 100"
+            }
+        }
+    ]
 }

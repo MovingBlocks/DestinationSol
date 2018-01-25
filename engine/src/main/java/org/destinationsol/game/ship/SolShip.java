@@ -41,7 +41,7 @@ import org.destinationsol.game.item.RepairItem;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.item.TradeContainer;
-import org.destinationsol.game.particle.ParticleSrc;
+import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.game.sound.OggSoundManager;
@@ -62,9 +62,9 @@ public class SolShip implements SolObject {
     private final ItemContainer myItemContainer;
     private final TradeContainer myTradeContainer;
     private final Hull myHull;
-    private final ParticleSrc mySmokeSrc;
-    private final ParticleSrc myFireSrc;
-    private final ParticleSrc myElectricitySrc;
+    private final DSParticleEmitter mySmokeSrc;
+    private final DSParticleEmitter myFireSrc;
+    private final DSParticleEmitter myElectricitySrc;
     private final RemoveController myRemoveController;
     private final List<Drawable> myDrawables;
     private final ShipRepairer myRepairer;
@@ -88,13 +88,13 @@ public class SolShip implements SolObject {
         myHull = hull;
         myItemContainer = container;
         myTradeContainer = tradeContainer;
-        List<ParticleSrc> effs = game.getSpecialEffects().buildBodyEffs(myHull.config.getApproxRadius(), game, myHull.getPos(), myHull.getSpd());
+        List<DSParticleEmitter> effs = game.getSpecialEffects().buildBodyEffs(myHull.config.getApproxRadius(), game, myHull.getPos(), myHull.getSpd());
         mySmokeSrc = effs.get(0);
         myFireSrc = effs.get(1);
         myElectricitySrc = effs.get(2);
-        myDrawables.add(mySmokeSrc);
-        myDrawables.add(myFireSrc);
-        myDrawables.add(myElectricitySrc);
+        myDrawables.addAll(mySmokeSrc.getDrawables());
+        myDrawables.addAll(myFireSrc.getDrawables());
+        myDrawables.addAll(myElectricitySrc.getDrawables());
         myRepairer = repairer;
         myMoney = money;
         myShield = shield;
@@ -138,6 +138,7 @@ public class SolShip implements SolObject {
             }
             receiveDmg((int) dmg, game, collPos, DmgType.CRASH);
         }
+        game.getPartMan().fireAllHullEmittersOfType(myHull, "collision");
     }
 
     @Override
@@ -497,14 +498,13 @@ public class SolShip implements SolObject {
     public boolean maybeEquip(SolGame game, SolItem item, boolean secondarySlot, boolean equip) {
         if (!secondarySlot) {
             if (item instanceof Engine) {
-                if (true) {
-                    Gdx.app.log("SolShip", "maybeEquip called for an engine item, can't do that!");
-                    //throw new AssertionError("engine items not supported");
-                }
+                Gdx.app.log("SolShip", "maybeEquip called for an engine item, can't do that!");
+                //throw new AssertionError("engine items not supported");
+
                 Engine ei = (Engine) item;
                 boolean ok = ei.isBig() == (myHull.config.getType() == HullConfig.Type.BIG);
                 if (ok && equip) {
-                    myHull.setEngine(game, this, ei);
+                    myHull.setEngine(ei);
                 }
                 return ok;
             }
@@ -552,12 +552,10 @@ public class SolShip implements SolObject {
     public boolean maybeUnequip(SolGame game, SolItem item, boolean secondarySlot, boolean unequip) {
         if (!secondarySlot) {
             if (myHull.getEngine() == item) {
-                if (true) {
-                    Gdx.app.log("SolShip", "maybeUnequip called for an engine item, can't do that!");
-                    //throw new AssertionError("engine items not supported");
-                }
+                Gdx.app.log("SolShip", "maybeUnequip called for an engine item, can't do that!");
+                //throw new AssertionError("engine items not supported");
                 if (unequip) {
-                    myHull.setEngine(game, this, null);
+                    myHull.setEngine(null);
                 }
                 return true;
             }
