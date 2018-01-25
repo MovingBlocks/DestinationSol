@@ -2,8 +2,6 @@
     "size": 3.5,
     "maxLife": 120,
     "type": "big",
-    "e1Pos": "0.09 0.38",
-    "e2Pos": "0.09 0.62",
     "gunSlots": [
         {
             "position": "0.64 0.5",
@@ -241,5 +239,29 @@
                 ]
             }
         ]
-    }
+    },
+    "particleEmitters": [
+        {
+            "position": "0.09 0.38",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:flame",
+                "size": 0.3,
+                "tex": "core:fire",
+                "tint": "hsb 140 20 65"
+            }
+        },
+        {
+            "position": "0.09 0.62",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:flame",
+                "size": 0.3,
+                "tex": "core:fire",
+                "tint": "hsb 140 20 65"
+            }
+        }
+    ]
 }

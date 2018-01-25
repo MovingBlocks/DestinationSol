@@ -9,8 +9,6 @@
         "amount": 5,
         "rechargeTime": 7
     },
-    "e1Pos": "0.01 0.5",
-    "e2Pos": "0.01 0.5",
     "displayName": "Mosquito",
     "engine": "core:pirateEngine",
     "gunSlots": [
@@ -71,8 +69,7 @@
                 }
             ]
         ],
-        "circles": [
-        ],
+        "circles": [],
         "shapes": [
             {
                 "type": "POLYGON",
@@ -125,5 +122,29 @@
                 ]
             }
         ]
-    }
+    },
+    "particleEmitters": [
+        {
+            "position": "0.01 0.5",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:flame",
+                "size": 0.07,
+                "tex": "core:fire",
+                "tint": "hsb 8 75 100"
+            }
+        },
+        {
+            "position": "0.01 0.5",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:flame",
+                "size": 0.07,
+                "tex": "core:fire",
+                "tint": "hsb 8 75 100"
+            }
+        }
+    ]
 }
