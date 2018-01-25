@@ -109,7 +109,7 @@ public class Hull {
         boolean controlsEnabled = ship.isControlsEnabled();
 
         if (engine != null) {
-            engine.update(myAngle, game, provider, myBody, mySpd, ship, controlsEnabled, myMass);
+            engine.update(myAngle, game, provider, myBody, mySpd, ship, controlsEnabled, myMass, this);
         }
 
         Faction faction = ship.getPilot().getFaction();
@@ -141,7 +141,7 @@ public class Hull {
             myBody.setAngularVelocity(angleDiff * SolMath.degRad * fps);
         }
 
-        game.getPartMan().toggleAllEmittersOfType(game, "none", true);
+        game.getPartMan().toggleAllHullEmittersOfType(this, "none", true);
     }
 
     private void setParamsFromBody() {
@@ -161,14 +161,7 @@ public class Hull {
     }
 
     public void setEngine(Engine engine) {
-        // Remove the old engine
-        if (this.engine != null) {
-            this.engine = null;
-        }
-        // Add the new engine
-        if (engine != null) {
-            this.engine = new ShipEngine(engine);
-        }
+        this.engine = new ShipEngine(engine);
     }
 
     public void setParticleEmitters(SolGame game, SolShip ship, Engine engine) {

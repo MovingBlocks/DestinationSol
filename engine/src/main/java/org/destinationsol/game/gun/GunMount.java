@@ -78,7 +78,7 @@ public class GunMount {
         }
 
         float gunAngle = shipAngle + myRelGunAngle;
-        myGun.update(ic, game, gunAngle, creator, shouldShoot, faction);
+        myGun.update(ic, game, gunAngle, creator, shouldShoot, faction, creator.getHull());
     }
 
     public Gun getGun() {
@@ -98,7 +98,7 @@ public class GunMount {
             if (gun.config.fixed != myFixed) {
                 throw new AssertionError("tried to set gun to incompatible mount");
             }
-            myGun = new SolGun(game, gun, myRelPos, underShip);
+            myGun = new SolGun(gun, myRelPos, underShip);
             myGun.getItem().setEquipped(slotNr);
             List<Drawable> dras1 = myGun.getDrawables();
             drawables.addAll(dras1);
