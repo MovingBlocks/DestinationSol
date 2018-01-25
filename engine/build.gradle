@@ -10,6 +10,7 @@ dependencies {
     compile "org.terasology:gestalt-module:6.0.0"
     compile "org.terasology:gestalt-asset-core:6.0.0"
     compile "org.terasology:gestalt-entity-system:6.0.0"
+    compile "org.jetbrains:annotations:15.0"
 }
 
 sourceSets {

@@ -21,7 +21,7 @@ import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.PlayableSound;
-import org.destinationsol.common.Nullable;
+import org.jetbrains.annotations.Nullable;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.GameDrawer;

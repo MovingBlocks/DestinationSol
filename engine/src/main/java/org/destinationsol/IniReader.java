@@ -16,7 +16,7 @@
 package org.destinationsol;
 
 import com.badlogic.gdx.files.FileHandle;
-import org.destinationsol.common.Nullable;
+import org.jetbrains.annotations.Nullable;
 import org.destinationsol.game.DebugOptions;
 
 import javax.swing.text.html.Option;

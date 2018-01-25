@@ -18,7 +18,7 @@ package org.destinationsol.game.ship.hulls;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.Immutable;
-import org.destinationsol.common.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Gun slot of a ship hull, to which a gun can be attached.

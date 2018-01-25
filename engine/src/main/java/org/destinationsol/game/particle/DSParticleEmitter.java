@@ -23,7 +23,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.google.common.base.Preconditions;
-import org.destinationsol.common.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;

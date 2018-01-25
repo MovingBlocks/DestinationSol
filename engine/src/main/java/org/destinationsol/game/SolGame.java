@@ -30,7 +30,7 @@ import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.DebugCol;
-import org.destinationsol.common.Nullable;
+import org.jetbrains.annotations.Nullable;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
