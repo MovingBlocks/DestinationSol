@@ -30,12 +30,10 @@ import org.destinationsol.game.input.Guardian;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.planet.Planet;
-import org.destinationsol.game.ship.FarShip;
-import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 
@@ -84,53 +82,10 @@ public class HireShips implements InventoryOperations {
             return;
         }
         if (hireControl.isJustOff()) {
-            boolean hired = hireShip(game, hero, (MercItem) selItem);
+            boolean hired = MercenaryUtils.createMerc(game, hero, (MercItem) selItem);
             if (hired) {
                 hero.setMoney(hero.getMoney() - selItem.getPrice());
             }
         }
-    }
-
-    private boolean hireShip(SolGame game, SolShip hero, MercItem selected) {
-        ShipConfig config = selected.getConfig();
-        Guardian dp = new Guardian(game, config.hull, hero.getPilot(), hero.getPosition(), hero.getHull().config, SolMath.rnd(180));
-        AiPilot pilot = new AiPilot(dp, true, Faction.LAANI, false, "Merc", Const.AI_DET_DIST);
-        Vector2 pos = getPos(game, hero, config.hull);
-        if (pos == null) {
-            return false;
-        }
-        SolShip merc = game.getShipBuilder().buildNewFar(game, pos, new Vector2(), 0, 0, pilot, config.items, config.hull, null, true, config.money, null, true)
-                .toObj(game);
-        
-        merc.setMerc(selected);
-        selected.setSolShip(merc);
-        
-        game.getHero().getTradeContainer().getMercs().add(selected);
-        game.getObjMan().addObjNow(game, merc);
-        return true;
-    }
-
-    private Vector2 getPos(SolGame game, SolShip hero, HullConfig hull) {
-        Vector2 pos = new Vector2();
-        float dist = hero.getHull().config.getApproxRadius() + Guardian.DIST + hull.getApproxRadius();
-        Vector2 heroPos = hero.getPosition();
-        Planet np = game.getPlanetMan().getNearestPlanet();
-        boolean nearGround = np.isNearGround(heroPos);
-        float fromPlanet = SolMath.angle(np.getPos(), heroPos);
-        for (int i = 0; i < 50; i++) {
-            float relAngle;
-            if (nearGround) {
-                relAngle = fromPlanet;
-            } else {
-                relAngle = SolMath.rnd(180);
-            }
-            SolMath.fromAl(pos, relAngle, dist);
-            pos.add(heroPos);
-            if (game.isPlaceEmpty(pos, false)) {
-                return pos;
-            }
-            dist += Guardian.DIST;
-        }
-        return null;
     }
 }
