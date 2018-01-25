@@ -38,6 +38,7 @@ import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MapDrawer {
     public static final float MIN_ZOOM = 8f;
@@ -117,11 +118,11 @@ public class MapDrawer {
         float starNodeW = cam.getViewHeight(myZoom) * STAR_NODE_SZ;
         float viewDist = cam.getViewDist(myZoom);
         FactionManager factionManager = game.getFactionMan();
-        SolShip hero = game.getHero();
         Planet np = game.getPlanetMan().getNearestPlanet();
         Vector2 camPos = cam.getPos();
         float camAngle = cam.getAngle();
-        float heroDmgCap = hero == null ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero);
+        Optional<SolShip> hero = Optional.ofNullable(game.getHero());
+        float heroDmgCap = hero.map(HardnessCalc::getShipDmgCap).orElse(Float.MAX_VALUE);
 
         drawer.updateMtx(game);
         game.getGridDrawer().draw(drawer, game, GRID_SZ, myLineTex);
@@ -239,7 +240,7 @@ public class MapDrawer {
     }
 
     private void drawIcons(GameDrawer drawer, SolGame game, float iconSz, float viewDist, FactionManager factionManager,
-                           SolShip hero, Vector2 camPos, float heroDmgCap) {
+                           Optional<SolShip> hero, Vector2 camPos, float heroDmgCap) {
         List<SolObject> objs = game.getObjMan().getObjs();
         for (SolObject o : objs) {
             Vector2 oPos = o.getPosition();
@@ -304,7 +305,7 @@ public class MapDrawer {
     public void drawStarPortIcon(GameDrawer drawer, float iconSz, Planet from, Planet to) {
         float angle = SolMath.angle(from.getPos(), to.getPos());
         Vector2 pos = StarPort.getDesiredPos(from, to, false);
-        drawObjIcon(iconSz, pos, angle, null, null, null, -1, null, myStarPortTex, drawer);
+        drawObjIcon(iconSz, pos, angle, null, Optional.empty(), null, -1, null, myStarPortTex, drawer);
         SolMath.free(pos);
     }
 
@@ -381,9 +382,9 @@ public class MapDrawer {
     }
 
     public void drawObjIcon(float iconSz, Vector2 pos, float objAngle,
-                            FactionManager factionManager, SolShip hero, Faction objFac, float heroDmgCap,
+                            FactionManager factionManager, Optional<SolShip> hero, Faction objFac, float heroDmgCap,
                             Object shipHack, TextureAtlas.AtlasRegion icon, Object drawerHack) {
-        boolean enemy = hero != null && factionManager.areEnemies(objFac, hero.getPilot().getFaction());
+        boolean enemy = hero.isPresent() && factionManager.areEnemies(objFac, hero.get().getPilot().getFaction());
         float angle = objAngle;
         if (enemy && mySkullTime > 0 && HardnessCalc.isDangerous(heroDmgCap, shipHack)) {
             icon = mySkullTex;

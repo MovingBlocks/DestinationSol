@@ -23,12 +23,14 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.DebugCol;
+import org.destinationsol.common.Nullable;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
@@ -109,7 +111,8 @@ public class SolGame {
     private final TutorialManager tutorialManager;
     private final GalaxyFiller galaxyFiller;
     private final ArrayList<SolItem> respawnItems;
-    private SolShip hero;
+    private @Nullable
+    SolShip hero;
     private String shipName; // Not updated in-game. Can be changed using setter
     private float timeStep;
     private float time;
@@ -165,7 +168,10 @@ public class SolGame {
 
     // uh, this needs refactoring
     private void createPlayer(String shipName) {
-        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(hullConfigManager, itemManager, this) : ShipConfig.load(hullConfigManager, shipName, itemManager, this);
+        Optional<String> shipNameOptional = Optional.ofNullable(shipName);
+        ShipConfig shipConfig = shipNameOptional
+                .map(y -> ShipConfig.load(hullConfigManager, y, itemManager, this))
+                .orElseGet(() -> SaveManager.readShip(hullConfigManager, itemManager, this));
 
         // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
         assert shipConfig != null;
@@ -189,7 +195,7 @@ public class SolGame {
 
         String itemsStr = !respawnItems.isEmpty() ? "" : shipConfig.items;
 
-        boolean giveAmmo = shipName != null && respawnItems.isEmpty();
+        boolean giveAmmo = shipNameOptional.isPresent() && respawnItems.isEmpty();
         hero = shipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObj(this);
 
         ItemContainer ic = hero.getItemContainer();

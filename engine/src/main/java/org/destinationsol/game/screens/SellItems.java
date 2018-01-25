@@ -26,6 +26,7 @@ import org.destinationsol.ui.SolUiControl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SellItems implements InventoryOperations {
     private static float PERC = .8f;
@@ -41,14 +42,14 @@ public class SellItems implements InventoryOperations {
 
     @Override
     public ItemContainer getItems(SolGame game) {
-        SolShip h = game.getHero();
-        return h == null ? null : h.getItemContainer();
+        Optional<SolShip> hero = Optional.ofNullable(game.getHero());
+        return hero.map(SolShip::getItemContainer).orElse(null);
     }
 
     @Override
     public boolean isUsing(SolGame game, SolItem item) {
-        SolShip h = game.getHero();
-        return h != null && h.maybeUnequip(game, item, false);
+        Optional<SolShip> hero = Optional.ofNullable(game.getHero());
+        return hero.isPresent() && hero.get().maybeUnequip(game, item, false);
     }
 
     @Override
@@ -90,7 +91,7 @@ public class SellItems implements InventoryOperations {
         if (enabled && isWornAndCanBeSold) {
             sellControl.setDisplayName("Sell");
             sellControl.setEnabled(true);
-        } else if (enabled && !isWornAndCanBeSold) {
+        } else if (enabled) {
             sellControl.setDisplayName("Unequip it!");
             sellControl.setEnabled(false);
         } else {

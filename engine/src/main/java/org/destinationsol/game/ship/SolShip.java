@@ -48,6 +48,7 @@ import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.game.sound.SpecialSounds;
 
 import java.util.List;
+import java.util.Optional;
 
 public class SolShip implements SolObject {
     public static final float BASE_DUR_MOD = .3f;
@@ -314,10 +315,7 @@ public class SolShip implements SolObject {
             return false;
         }
         SolItem example = myAbility.getConfig().getChargeExample();
-        if (example == null) {
-            return true;
-        }
-        return myItemContainer.count(example) > 0;
+        return example == null || myItemContainer.count(example) > 0;
     }
 
     public float getPullDist() {
@@ -476,8 +474,8 @@ public class SolShip implements SolObject {
     }
 
     public float getRotAcc() {
-        Engine e = myHull.getEngine();
-        return e == null ? 0 : e.getRotAcc();
+        Optional<Engine> e = Optional.ofNullable(myHull.getEngine());
+        return e.map(Engine::getRotAcc).orElse(0f);
     }
 
     public Hull getHull() {

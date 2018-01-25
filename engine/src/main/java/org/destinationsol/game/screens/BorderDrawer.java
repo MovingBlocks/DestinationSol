@@ -41,6 +41,7 @@ import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class BorderDrawer {
 
@@ -82,11 +83,11 @@ public class BorderDrawer {
         SolGame g = cmp.getGame();
         SolCam cam = g.getCam();
         Vector2 camPos = cam.getPos();
-        SolShip hero = g.getHero();
+        Optional<SolShip> hero = Optional.ofNullable(g.getHero());
         drawTishches(drawer, g, cam, camPos);
         MapDrawer mapDrawer = g.getMapDrawer();
         FactionManager factionManager = g.getFactionMan();
-        float heroDmgCap = hero == null ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero);
+        float heroDmgCap = hero.map(HardnessCalc::getShipDmgCap).orElse(Float.MAX_VALUE);
 
         List<SolObject> objs = g.getObjMan().getObjs();
         for (SolObject o : objs) {
@@ -100,7 +101,7 @@ public class BorderDrawer {
             }
             if ((o instanceof StarPort)) {
                 StarPort sp = (StarPort) o;
-                maybeDrawIcon(drawer, sp.getPosition(), cam, StarPort.SIZE, sp.getAngle(), mapDrawer, null, null, null, null, -1, mapDrawer.getStarPortTex());
+                maybeDrawIcon(drawer, sp.getPosition(), cam, StarPort.SIZE, sp.getAngle(), mapDrawer, null, Optional.empty(), null, null, -1, mapDrawer.getStarPortTex());
             }
         }
 
@@ -114,12 +115,12 @@ public class BorderDrawer {
         }
         List<StarPort.MyFar> farPorts = g.getObjMan().getFarPorts();
         for (StarPort.MyFar sp : farPorts) {
-            maybeDrawIcon(drawer, sp.getPos(), cam, StarPort.SIZE, sp.getAngle(), mapDrawer, null, null, null, null, -1, mapDrawer.getStarPortTex());
+            maybeDrawIcon(drawer, sp.getPos(), cam, StarPort.SIZE, sp.getAngle(), mapDrawer, null, Optional.empty(), null, null, -1, mapDrawer.getStarPortTex());
         }
     }
 
     private void maybeDrawIcon(UiDrawer drawer, Vector2 pos, SolCam cam, float objSize,
-                               float objAngle, MapDrawer mapDrawer, FactionManager factionManager, SolShip hero,
+                               float objAngle, MapDrawer mapDrawer, FactionManager factionManager, Optional<SolShip> hero,
                                Faction objFac, Object shipHack, float heroDmgCap, TextureAtlas.AtlasRegion icon) {
         Vector2 camPos = cam.getPos();
         float closeness = 1 - pos.dst(camPos) / MAX_ICON_DIST;

@@ -33,6 +33,7 @@ import org.destinationsol.ui.SolUiControl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ChangeShip implements InventoryOperations {
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
@@ -113,12 +114,13 @@ public class ChangeShip implements InventoryOperations {
     private void changeShip(SolGame game, SolShip hero, ShipItem selected) {
         HullConfig newConfig = selected.getConfig();
         Hull hull = hero.getHull();
-        Engine.Config ec = newConfig.getEngineConfig();
-        Engine ei = ec == null ? null : ec.example.copy();
-        Gun g2 = hull.getGun(true);
+        Optional<Engine.Config> engineConfig = Optional.ofNullable(newConfig.getEngineConfig());
+        Engine engine = engineConfig.map(y -> y.example.copy()).orElse(null);
+        Gun gun1 = hull.getGun(false);
+        Gun gun2 = hull.getGun(true);
         SolShip newHero = game.getShipBuilder().build(game, hero.getPosition(), new Vector2(), hero.getAngle(), 0, hero.getPilot(),
-                hero.getItemContainer(), newConfig, newConfig.getMaxLife(), hull.getGun(false), g2, null,
-                ei, new ShipRepairer(), hero.getMoney(), hero.getTradeContainer(), hero.getShield(), hero.getArmor());
+                hero.getItemContainer(), newConfig, newConfig.getMaxLife(), gun1, gun2, null,
+                engine, new ShipRepairer(), hero.getMoney(), hero.getTradeContainer(), hero.getShield(), hero.getArmor());
         game.getObjMan().removeObjDelayed(hero);
         game.getObjMan().addObjDelayed(newHero);
     }

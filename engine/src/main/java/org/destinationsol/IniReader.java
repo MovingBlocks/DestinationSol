@@ -16,8 +16,10 @@
 package org.destinationsol;
 
 import com.badlogic.gdx.files.FileHandle;
+import org.destinationsol.common.Nullable;
 import org.destinationsol.game.DebugOptions;
 
+import javax.swing.text.html.Option;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public class IniReader {
     private final HashMap<String, String> myVals;
@@ -108,24 +111,24 @@ public class IniReader {
         return res;
     }
 
-    public String getString(String key, String defaultValue) {
-        String st = myVals.get(key);
-        return st == null ? defaultValue : st;
+    public String getString(@Nullable String key, String defaultValue) {
+        Optional<String> string = Optional.ofNullable(myVals.get(key));
+        return string.orElse(defaultValue);
     }
 
-    public int getInt(String key, int defaultValue) {
-        String st = myVals.get(key);
-        return st == null ? defaultValue : Integer.parseInt(st);
+    public int getInt(@Nullable String key, int defaultValue) {
+        Optional<String> string = Optional.ofNullable(myVals.get(key));
+        return string.map(Integer::parseInt).orElse(defaultValue);
     }
 
-    public boolean getBoolean(String key, boolean defaultValue) {
-        String st = myVals.get(key);
-        return st == null ? defaultValue : "true".equalsIgnoreCase(st);
+    public boolean getBoolean(@Nullable String key, boolean defaultValue) {
+        Optional<String> string = Optional.ofNullable(myVals.get(key));
+        return string.map("true"::equalsIgnoreCase).orElse(defaultValue);
     }
 
-    public float getFloat(String key, float defaultValue) {
-        String st = myVals.get(key);
-        return st == null ? defaultValue : Float.parseFloat(st);
+    public float getFloat(@Nullable String key, float defaultValue) {
+        Optional<String> string = Optional.ofNullable(myVals.get(key));
+        return string.map(Float::parseFloat).orElse(defaultValue);
     }
 
 }
