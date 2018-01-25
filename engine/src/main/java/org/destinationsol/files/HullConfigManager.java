@@ -19,6 +19,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.common.NotNull;
+import org.destinationsol.common.Nullable;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.GameColors;
@@ -38,6 +40,7 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public final class HullConfigManager {
     private final ItemManager itemManager;
@@ -53,18 +56,17 @@ public final class HullConfigManager {
         configToNameMap = new HashMap<>();
     }
 
-    private static Vector2 readVector2(JsonValue jsonValue, String name, Vector2 defaultValue) {
-        String string = jsonValue.getString(name, null);
-        return (string == null)
-                ? defaultValue
-                : SolMath.readV2(string);
+    private static Vector2 readVector2(JsonValue jsonValue, @Nullable String name, Vector2 defaultValue) {
+        Optional<String> string = Optional.ofNullable(jsonValue.getString(name, null));
+
+        return string.map(SolMath::readV2).orElse(defaultValue);
     }
 
-    private static Engine.Config readEngineConfig(String engineName, ItemManager itemManager) {
-        if (engineName == null)
-            return null;
+    @Nullable
+    private static Engine.Config readEngineConfig(@Nullable String engineName, ItemManager itemManager) {
+        Optional<String> nameOptional = Optional.ofNullable(engineName);
 
-        return itemManager.getEngineConfig(engineName);
+        return nameOptional.map(itemManager::getEngineConfig).orElse(null);
     }
 
     private static void validateEngineConfig(HullConfig.Data hull) {
@@ -76,7 +78,8 @@ public final class HullConfigManager {
         }
     }
 
-    public HullConfig getConfig(String shipName) {
+    @NotNull
+    public HullConfig getConfig(@NotNull String shipName) {
         HullConfig hullConfig = nameToConfigMap.get(shipName);
 
         if (hullConfig == null) {
@@ -89,12 +92,14 @@ public final class HullConfigManager {
         return hullConfig;
     }
 
+    @NotNull
     public String getName(HullConfig hull) {
-        String name = configToNameMap.get(hull);
-        return (name == null) ? "" : name;
+        Optional<String> name = Optional.ofNullable(configToNameMap.get(hull));
+        return name.orElse("");
     }
 
-    private HullConfig read(String shipName) {
+    @NotNull
+    private HullConfig read(@NotNull String shipName) {
         final HullConfig.Data configData = new HullConfig.Data();
 
         configData.internalName = shipName;
