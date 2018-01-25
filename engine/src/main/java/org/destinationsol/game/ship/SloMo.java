@@ -24,7 +24,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.particle.ParticleSrc;
+import org.destinationsol.game.particle.DSParticleEmitter;
 
 public class SloMo implements ShipAbility {
     private static final float SLO_MO_CHG_SPD = .03f;
@@ -57,7 +57,7 @@ public class SloMo implements ShipAbility {
         if (tryToUse) {
             myFactor = myConfig.factor;
             Vector2 pos = owner.getPosition();
-            ParticleSrc src = new ParticleSrc(myConfig.cc.effect, -1, DrawableLevel.PART_BG_0, new Vector2(), true, game, pos, owner.getSpd(), 0);
+            DSParticleEmitter src = new DSParticleEmitter(myConfig.cc.effect, -1, DrawableLevel.PART_BG_0, new Vector2(), true, game, pos, owner.getSpd(), 0);
             game.getPartMan().finish(game, src, pos);
             return true;
         }

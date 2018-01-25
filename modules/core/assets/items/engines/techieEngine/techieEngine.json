@@ -1,10 +1,5 @@
 {
     "big": false,
-    "effect": {
-        "effectFile": "core:techieEngine",
-        "tex": "core:techieTrail",
-        "tint": "white"
-    },
     "workSounds": [
         "core:techie",
         "core:techie2",
