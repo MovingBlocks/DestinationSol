@@ -352,7 +352,7 @@ public class InventoryScreen implements SolUiScreen {
         SolGame game = solApplication.getGame();
         ItemContainer items = myOperations.getItems(game);
         if (items != null) {
-            items.seenAll();
+            items.markAllAsSeen();
         }
     }
 
