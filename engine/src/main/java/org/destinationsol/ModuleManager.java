@@ -23,28 +23,21 @@ import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.emitters.Emitter;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.textures.DSTexture;
+import org.destinationsol.game.DebugOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.assets.ResourceUrn;
-import org.terasology.assets.management.AssetTypeManager;
-import org.terasology.assets.module.ModuleAwareAssetTypeManager;
 import org.terasology.module.Module;
 import org.terasology.module.ModuleEnvironment;
 import org.terasology.module.ModuleFactory;
-import org.terasology.module.ModuleMetadata;
 import org.terasology.module.ModulePathScanner;
 import org.terasology.module.ModuleRegistry;
 import org.terasology.module.TableModuleRegistry;
-import org.terasology.module.filesystem.ModuleFileSystemProvider;
 import org.terasology.module.sandbox.StandardPermissionProviderFactory;
-import org.terasology.naming.Name;
-import org.terasology.naming.Version;
 
 import java.net.URI;
-import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Set;
 
 public class ModuleManager {
@@ -59,7 +52,13 @@ public class ModuleManager {
             Module engineModule = new ModuleFactory().createModule(Paths.get(engineClasspath));
 
             registry = new TableModuleRegistry();
-            new ModulePathScanner().scan(registry, Paths.get("modules"));
+            Path modulesRoot;
+            if (DebugOptions.DEV_ROOT_PATH != null) {
+                modulesRoot = Paths.get(".").resolve("modules");
+            } else {
+                modulesRoot = Paths.get(".").resolve("..").resolve("modules");
+            }
+            new ModulePathScanner().scan(registry, modulesRoot);
 
             Set<Module> requiredModules = Sets.newHashSet();
             requiredModules.add(engineModule);
@@ -69,14 +68,6 @@ public class ModuleManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        /*
-        if (DebugOptions.DEV_ROOT_PATH != null) {
-            scanner.scan(registry, Paths.get(".").resolve("modules"));
-        } else {
-            scanner.scan(registry, Paths.get(".").resolve("..").resolve("modules"));
-        }
-        */
     }
 
     public void loadEnvironment(Set<Module> modules) {
