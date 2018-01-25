@@ -18,5 +18,8 @@ package org.destinationsol.common;
 public class SolDescriptiveException extends RuntimeException {
     public SolDescriptiveException(String msg){
         super(msg);
+        if (msg.length() < 10) {
+            throw new SolDescriptiveException("Someone uses really bad exception description. Please report this.");
+        }
     }
 }
