@@ -23,6 +23,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Engine;
+import org.destinationsol.game.ship.hulls.Hull;
 
 public class ShipEngine {
     public static final float MAX_RECOVER_ROT_SPD = 5f;
@@ -32,17 +33,17 @@ public class ShipEngine {
     private final Engine myItem;
     private float myRecoverAwait;
 
-    public ShipEngine(Engine ei) {
-        myItem = ei;
+    public ShipEngine(Engine engine) {
+        myItem = engine;
     }
 
     public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 spd, SolObject owner,
-                       boolean controlsEnabled, float mass) {
+                       boolean controlsEnabled, float mass, Hull hull) {
 
         boolean working = applyInput(game, angle, provider, body, spd, controlsEnabled, mass);
-        game.getPartMan().toggleAllEmittersOfType(game, "engine", working);
+        game.getPartMan().toggleAllHullEmittersOfType(hull, "engine", working);
         if (working) {
-            game.getSoundManager().play(game, myItem.getWorkSound(), game.getCam().getPos(), owner); // hack with pos
+            game.getSoundManager().play(game, myItem.getWorkSound(), owner.getPosition(), owner);
         }
     }
 
