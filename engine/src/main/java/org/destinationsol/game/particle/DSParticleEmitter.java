@@ -60,7 +60,6 @@ public class DSParticleEmitter {
     private LightSrc light;
     private SolGame game;
 
-
     public DSParticleEmitter(@NotNull Vector2 position, @NotNull String trigger, float angleOffset, boolean hasLight, EffectConfig config) {
         Preconditions.checkNotNull(position, "position cannot be null");
         this.position = new Vector2(position);
@@ -164,8 +163,7 @@ public class DSParticleEmitter {
             // this is needed because making effect continuous starts it
             particleEmitter.allowCompletion();
             // ... and still initial speed is not applied : (
-        }
-        else {
+        } else {
             particleEmitter.start();
         }
         boundingBox = particleEmitter.getBoundingBox();
@@ -186,8 +184,7 @@ public class DSParticleEmitter {
     private void updateSpeed(SolGame game, Vector2 baseSpeed, Vector2 basePosition) {
         if ((isContinuous() && !isWorking()) || floatedUp) {
             return;
-        }
-        else {
+        } else {
             floatedUp = true;
         }
         if (!inheritsSpeed) {
@@ -231,8 +228,7 @@ public class DSParticleEmitter {
         this.working = working;
         if (working) {
             particleEmitter.start();
-        }
-        else {
+        } else {
             particleEmitter.allowCompletion();
         }
     }
@@ -330,8 +326,7 @@ public class DSParticleEmitter {
 
             if (boundingBoxRecalcAwait > 0) {
                 boundingBoxRecalcAwait -= game.getTimeStep();
-            }
-            else {
+            } else {
                 boundingBoxRecalcAwait = MAX_BOUNDINGBOX_RECALC_AWAIT;
                 particleEmitter.getBoundingBox();
             }
