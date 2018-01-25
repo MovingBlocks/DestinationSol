@@ -66,11 +66,11 @@ String[] readModuleDependencies(File targetModuleInfo) {
     def slurper = new JsonSlurper()
     def moduleConfig = slurper.parseText(targetModuleInfo.text)
     for (dependency in moduleConfig.dependencies) {
-        if (excludedDependencies.contains(dependency)) {
+        if (excludedDependencies.contains(dependency.id)) {
             println "Skipping listed dependency $dependency as it is in the exclude list (shipped with primary project)"
         } else {
             println "Accepting listed dependency $dependency"
-            qualifiedDependencies << dependency
+            qualifiedDependencies << dependency.id
         }
     }
     return qualifiedDependencies
@@ -412,7 +412,10 @@ if (args.length == 0) {
             println "List of modules:"
             new File("modules").eachDir() { dir ->
                 String moduleName = dir.getPath().substring(8)
-                updateModule(moduleName)
+                //The excludedDependencies need not be updated because they live in the main repo.
+                if(!(excludedDependencies.contains(moduleName))){
+                    updateModule(moduleName)
+                }
             }
             break
         case "add-remote":
