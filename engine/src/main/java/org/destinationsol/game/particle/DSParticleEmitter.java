@@ -58,6 +58,7 @@ public class DSParticleEmitter {
     private boolean inheritsSpeed, working, floatedUp;
     private BoundingBox boundingBox;
     private LightSrc light;
+    private SolGame game;
 
 
     public DSParticleEmitter(@NotNull Vector2 position, @NotNull String trigger, float angleOffset, boolean hasLight, EffectConfig config) {
@@ -74,6 +75,7 @@ public class DSParticleEmitter {
         relativePosition = null;
         originalRelativePosition = null;
         relativeAngle = 0f;
+        game = null;
     }
 
     public DSParticleEmitter(SolGame game, DSParticleEmitter particleEmitter, SolShip ship) {
@@ -107,6 +109,7 @@ public class DSParticleEmitter {
         this.originalRelativePosition = new Vector2(this.relativePosition);
         this.position = new Vector2();
         this.relativeAngle = relativeAngle;
+        this.game = game;
 
         light = new LightSrc(config.size * 2.5f, true, 0.7f, relativePosition, config.tint);
         if (hasLight) {
@@ -234,7 +237,7 @@ public class DSParticleEmitter {
         }
     }
 
-    public void setLightWorking(SolGame game, boolean working) {
+    public void setLightWorking(boolean working) {
         light.update(working, relativeAngle, game);
     }
 

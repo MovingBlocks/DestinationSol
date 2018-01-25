@@ -91,17 +91,17 @@ public class PartMan {
         return s;
     }
 
-    public void toggleAllEmittersOfType(SolGame game, String triggerType, boolean on) {
-        for (DSParticleEmitter particleEmitter : game.getHero().getHull().getParticleEmitters()) {
+    public void toggleAllHullEmittersOfType(Hull hull, String triggerType, boolean on) {
+        for (DSParticleEmitter particleEmitter : hull.getParticleEmitters()) {
             if (triggerType.equals(particleEmitter.getTrigger())) {
                 particleEmitter.setWorking(on);
-                particleEmitter.setLightWorking(game, on);
+                particleEmitter.setLightWorking(on);
             }
         }
     }
 
-    public void fireAllEmittersOfType(SolGame game, String triggerType) {
-        toggleAllEmittersOfType(game, triggerType, true);
-        toggleAllEmittersOfType(game, triggerType, false);
+    public void fireAllHullEmittersOfType(Hull hull, String triggerType) {
+        toggleAllHullEmittersOfType(hull, triggerType, true);
+        toggleAllHullEmittersOfType(hull, triggerType, false);
     }
 }
