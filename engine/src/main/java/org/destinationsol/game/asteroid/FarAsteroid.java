@@ -17,10 +17,13 @@ package org.destinationsol.game.asteroid;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.common.SolMath;
 import org.destinationsol.game.FarObj;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+
+import java.util.List;
 
 public class FarAsteroid implements FarObj {
     private final Vector2 myPos;
@@ -49,7 +52,41 @@ public class FarAsteroid implements FarObj {
 
     @Override
     public SolObject toObj(SolGame game) {
-        return game.getAsteroidBuilder().build(game, myPos, myTex, mySz, myAngle, myRotSpd, mySpd, myRemoveController);
+        Vector2 position = adjustDesiredPosition(game, myPos, mySz);
+        return game.getAsteroidBuilder().build(game, position, myTex, mySz, myAngle, myRotSpd, mySpd, myRemoveController);
+    }
+
+    /**
+     * Ensures that the position of any Asteroids do not overlap
+     * @param game SolGame instance
+     * @param desiredPosition Vector2 position that you would like the Asteroid to spawn at
+     * @param size float size of the asteroid
+     * @return the new Vector2 position of the asteroid, or desired if it does not overlap
+     */
+    private static Vector2 adjustDesiredPosition(SolGame game, Vector2 desiredPosition, float size) {
+        Vector2 newPosition = desiredPosition;
+        List<SolObject> objects = game.getObjMan().getObjs();
+        for (SolObject object : objects) {
+            if (object instanceof Asteroid) {
+                Asteroid asteroid = (Asteroid) object;
+                // Check if the positions overlap
+                Vector2 fromPosition = asteroid.getPosition();
+                Vector2 distanceVector = SolMath.distVec(fromPosition, desiredPosition);
+                float distance = SolMath.hypotenuse(distanceVector.x, distanceVector.y);
+                if (distance <= asteroid.getSize() && distance <= size) {
+                    if (asteroid.getSize() > size) {
+                        distanceVector.scl((asteroid.getSize() + .5f) / distance);
+                    }
+                    else {
+                        distanceVector.scl((size + .5f) / distance);
+                    }
+                    newPosition = fromPosition.cpy().add(distanceVector);
+                    SolMath.free(SolMath.distVec(fromPosition, newPosition));
+                }
+                SolMath.free(distanceVector);
+            }
+        }
+        return newPosition;
     }
 
     @Override

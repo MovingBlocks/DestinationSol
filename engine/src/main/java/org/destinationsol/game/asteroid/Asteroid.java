@@ -234,5 +234,9 @@ public class Asteroid implements SolObject {
     public float getLife() {
         return myLife;
     }
+
+    public float getSize() {
+        return mySize;
+    }
 }
 
