@@ -20,7 +20,7 @@
     }
   ],
 
-  "rigidBody":
+  "rigidBodies":
     {
       "name": "serenity.png",
       "imagePath": "../../DestinationSol/modules/tribe/assets/ships/serenity/serenity.png",

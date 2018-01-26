@@ -17,6 +17,8 @@ package org.destinationsol.files;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.AllException;
+
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
@@ -31,9 +33,11 @@ import org.destinationsol.game.ship.Teleport;
 import org.destinationsol.game.ship.UnShield;
 import org.destinationsol.game.ship.hulls.GunSlot;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public final class HullConfigManager {
     private final ItemManager itemManager;
@@ -107,6 +111,7 @@ public final class HullConfigManager {
         json.dispose();
 
         return new HullConfig(configData);
+
     }
 
     private void parseGunSlotList(JsonValue containerNode, HullConfig.Data configData) {
@@ -124,7 +129,26 @@ public final class HullConfigManager {
         }
     }
 
-    private void readProperties(JsonValue rootNode, HullConfig.Data configData) {
+    private void readProperties(JsonValue rootNode, HullConfig.Data configData) throws AllException {
+
+        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "modules:ships");
+
+        for(ResourceUrn configUrn : configUrnList) {
+            Json json = Assets.getJson(configUrn.toString());
+            rootNode = json.getJsonValue();
+
+            if(/*!rootNode.hasChild("size") || !rootNode.hasChild("approxRadius") || !rootNode.hasChild("maxLife") || !rootNode.hasChild("e1Pos") ||
+                    !rootNode.hasChild("e2Pos") || !rootNode.hasChild("lightSrcPoss") || !rootNode.hasChild("hasBase") || !rootNode.hasChild("forceBeaconPoss") ||
+                    !rootNode.hasChild("doorPoss") || !rootNode.hasChild("engineConfig") || !rootNode.hasChild("durability") || !rootNode.hasChild("ability") ||
+                    !rootNode.hasChild("displayName") || !rootNode.hasChild("price") || !rootNode.hasChild("hirePrice") || !rootNode.hasChild("gunSlots"*/ !rootNode.hasChild("rigidBody")) {
+
+                new AllException("\n\n hi \n\n");
+
+
+            }
+            json.dispose();
+        }
+
         configData.size = rootNode.getFloat("size");
         configData.approxRadius = 0.4f * configData.size;
         configData.maxLife = rootNode.getInt("maxLife");
@@ -145,6 +169,7 @@ public final class HullConfigManager {
         configData.price = rootNode.getInt("price", 0);
         configData.hirePrice = rootNode.getFloat("hirePrice", 0);
 
+
         Vector2 tmpV = new Vector2(rootNode.get("rigidBody").get("origin").getFloat("x"),
                 1 - rootNode.get("rigidBody").get("origin").getFloat("y"));
         configData.shipBuilderOrigin.set(tmpV);
@@ -152,7 +177,9 @@ public final class HullConfigManager {
         process(configData);
 
         parseGunSlotList(rootNode.get("gunSlots"), configData);
+
     }
+
 
     private AbilityConfig loadAbility(
             JsonValue hullNode,
