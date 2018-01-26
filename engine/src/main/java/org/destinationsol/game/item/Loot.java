@@ -76,7 +76,7 @@ public class Loot implements SolObject {
         }
         SolShip puller = null;
         float minDist = Float.MAX_VALUE;
-        List<SolObject> objs = game.getObjMan().getObjs();
+        List<SolObject> objs = game.getObjectManager().getObjs();
         for (SolObject o : objs) {
             if (!(o instanceof SolShip)) {
                 continue;
@@ -221,7 +221,7 @@ public class Loot implements SolObject {
         float fadeTime = .25f;
         spd.scl(1 / fadeTime);
         spd.add(ship.getSpd());
-        game.getPartMan().blip(game, myPos, myAngle, myItem.getItemType().sz, fadeTime, spd, myItem.getIcon(game));
+        game.getParticleManager().blip(game, myPos, myAngle, myItem.getItemType().sz, fadeTime, spd, myItem.getIcon(game));
         game.getSoundManager().play(game, myItem.getItemType().pickUpSound, null, this);
     }
 }

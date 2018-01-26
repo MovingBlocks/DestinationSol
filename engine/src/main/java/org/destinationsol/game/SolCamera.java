@@ -27,7 +27,7 @@ import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.screens.MainScreen;
 import org.destinationsol.game.ship.SolShip;
 
-public class SolCam {
+public class SolCamera {
     public static final float CAM_ROT_SPD = 90f;
     private static final float VIEWPORT_HEIGHT = 5f;
     private static final float MAX_ZOOM_SPD = 5f;
@@ -46,7 +46,7 @@ public class SolCam {
     private float myZoom;
     private Vector2 myPos;
 
-    public SolCam(float r) {
+    public SolCamera(float r) {
         myCamRotStrategy = new CamRotStrategy.ToPlanet();
         myCam = new OrthographicCamera(VIEWPORT_HEIGHT * r, -VIEWPORT_HEIGHT);
         myZoom = calcZoom(Const.CAM_VIEW_DIST_GROUND);
@@ -54,7 +54,7 @@ public class SolCam {
         myTmpVec = new Vector3();
     }
 
-    public Matrix4 getMtx() {
+    public Matrix4 getMatrix() {
         return myCam.combined;
     }
 
@@ -76,7 +76,7 @@ public class SolCam {
             Vector2 heroPos = hero.getHull().getBody().getWorldCenter();
             if (myZoom * VIEWPORT_HEIGHT < heroPos.dst(myPos)) {
                 myPos.set(heroPos);
-                game.getObjMan().resetDelays();
+                game.getObjectManager().resetDelays();
             } else {
                 Vector2 moveDiff = SolMath.getVec(hero.getSpd());
                 moveDiff.scl(ts);
@@ -128,7 +128,7 @@ public class SolCam {
         } else {
             float speed = hero.getSpd().len();
             float desiredViewDistance = Const.CAM_VIEW_DIST_SPACE;
-            Planet nearestPlanet = game.getPlanetMan().getNearestPlanet(myPos);
+            Planet nearestPlanet = game.getPlanetManager().getNearestPlanet(myPos);
             if (nearestPlanet.getFullHeight() < nearestPlanet.getPos().dst(myPos) && MAX_ZOOM_SPD < speed) {
                 desiredViewDistance = Const.CAM_VIEW_DIST_JOURNEY;
             } else if (nearestPlanet.isNearGround(myPos) && speed < MED_ZOOM_SPD) {

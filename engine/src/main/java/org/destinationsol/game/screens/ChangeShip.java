@@ -121,7 +121,7 @@ public class ChangeShip implements InventoryOperations {
         SolShip newHero = game.getShipBuilder().build(game, hero.getPosition(), new Vector2(), hero.getAngle(), 0, hero.getPilot(),
                 hero.getItemContainer(), newConfig, newConfig.getMaxLife(), gun1, gun2, null,
                 engine, new ShipRepairer(), hero.getMoney(), hero.getTradeContainer(), hero.getShield(), hero.getArmor());
-        game.getObjMan().removeObjDelayed(hero);
-        game.getObjMan().addObjDelayed(newHero);
+        game.getObjectManager().removeObjDelayed(hero);
+        game.getObjectManager().addObjDelayed(newHero);
     }
 }

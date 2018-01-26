@@ -28,7 +28,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.FactionManager;
 import org.destinationsol.game.HardnessCalc;
-import org.destinationsol.game.SolCam;
+import org.destinationsol.game.SolCamera;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.item.Gun;
@@ -164,8 +164,8 @@ public class MainScreen implements SolUiScreen {
 
     private void maybeDrawHeight(UiDrawer drawer, SolApplication solApplication) {
         SolGame game = solApplication.getGame();
-        Planet np = game.getPlanetMan().getNearestPlanet();
-        SolCam cam = game.getCam();
+        Planet np = game.getPlanetManager().getNearestPlanet();
+        SolCamera cam = game.getCam();
         Vector2 camPos = cam.getPos();
         if (np != null && np.getPos().dst(camPos) < np.getFullHeight()) {
             drawHeight(drawer, np, camPos, cam.getAngle());
@@ -276,7 +276,7 @@ public class MainScreen implements SolUiScreen {
         SolShip target = null;
         float minDist = TalkScreen.MAX_TALK_DIST;
         float har = hero.getHull().config.getApproxRadius();
-        List<SolObject> objs = game.getObjMan().getObjs();
+        List<SolObject> objs = game.getObjectManager().getObjs();
         for (SolObject o : objs) {
             if (!(o instanceof SolShip)) {
                 continue;
@@ -406,8 +406,8 @@ public class MainScreen implements SolUiScreen {
 
             uiDrawer.draw(lifeTex, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.WHITE);
             drawBar(uiDrawer, col1, row, hero.getLife(), hero.getHull().config.getMaxLife(), myLifeTp);
-            int repairKitCount = hero.getItemContainer().count(game.getItemMan().getRepairExample());
-            ItemManager itemManager = game.getItemMan();
+            int repairKitCount = hero.getItemContainer().count(game.getItemManager().getRepairExample());
+            ItemManager itemManager = game.getItemManager();
             drawIcons(uiDrawer, col2, row, repairKitCount, itemManager.repairIcon, myRepairsExcessTp);
 
             row += ICON_SZ + V_PAD;
@@ -434,7 +434,7 @@ public class MainScreen implements SolUiScreen {
                 drawIcons(uiDrawer, col2, row, abilityChargeCount, icon, myChargesExcessTp);
                 row += ICON_SZ + V_PAD;
             }
-            uiDrawer.draw(game.getItemMan().moneyIcon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.WHITE);
+            uiDrawer.draw(game.getItemManager().moneyIcon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.WHITE);
             myMoneyExcessTp.text = Integer.toString(Math.round(hero.getMoney()));
             myMoneyExcessTp.pos.set(col1, row + ICON_SZ / 2);
             //updateTextPlace(col1, row, (int) hero.getMoney() + "", myMoneyExcessTp);
@@ -555,9 +555,9 @@ public class MainScreen implements SolUiScreen {
             }
 
             float heroCap = HardnessCalc.getShipDmgCap(h);
-            List<SolObject> objs = game.getObjMan().getObjs();
+            List<SolObject> objs = game.getObjectManager().getObjs();
             FactionManager fm = game.getFactionMan();
-            SolCam cam = game.getCam();
+            SolCamera cam = game.getCam();
             float viewDist = cam.getViewDist();
             float dps = 0;
 

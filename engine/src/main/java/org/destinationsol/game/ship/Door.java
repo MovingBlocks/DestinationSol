@@ -69,7 +69,7 @@ public class Door {
     private boolean shouldOpen(SolGame game, SolShip ship, Vector2 doorPos) {
         Faction faction = ship.getPilot().getFaction();
         FactionManager factionManager = game.getFactionMan();
-        List<SolObject> objs = game.getObjMan().getObjs();
+        List<SolObject> objs = game.getObjectManager().getObjs();
         for (SolObject o : objs) {
             if (o == ship) {
                 continue;
@@ -101,7 +101,7 @@ public class Door {
     }
 
     public void onRemove(SolGame game) {
-        World w = game.getObjMan().getWorld();
+        World w = game.getObjectManager().getWorld();
         Body doorBody = getBody();
         w.destroyJoint(myJoint);
         w.destroyBody(doorBody);

@@ -194,15 +194,15 @@ public class DSParticleEmitter {
             setSpeed(baseSpeed);
             return;
         }
-        Planet nearestPlanet = game.getPlanetMan().getNearestPlanet();
+        Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();
         Vector2 speed = nearestPlanet.getAdjustedEffectSpd(basePosition, baseSpeed);
         setSpeed(speed);
         SolMath.free(speed);
     }
 
     public void onRemove(SolGame game, Vector2 basePos) {
-        PartMan partMan = game.getPartMan();
-        partMan.finish(game, this, basePos);
+        ParticleManager particleManager = game.getParticleManager();
+        particleManager.finish(game, this, basePos);
     }
 
     public boolean isComplete() {

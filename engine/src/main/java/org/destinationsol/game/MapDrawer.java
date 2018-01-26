@@ -113,12 +113,12 @@ public class MapDrawer {
     }
 
     public void draw(GameDrawer drawer, SolGame game) {
-        SolCam cam = game.getCam();
+        SolCamera cam = game.getCam();
         float iconSz = getIconRadius(cam) * 2;
         float starNodeW = cam.getViewHeight(myZoom) * STAR_NODE_SZ;
         float viewDist = cam.getViewDist(myZoom);
         FactionManager factionManager = game.getFactionMan();
-        Planet np = game.getPlanetMan().getNearestPlanet();
+        Planet np = game.getPlanetManager().getNearestPlanet();
         Vector2 camPos = cam.getPos();
         float camAngle = cam.getAngle();
         Optional<SolShip> hero = Optional.ofNullable(game.getHero());
@@ -134,13 +134,13 @@ public class MapDrawer {
         drawIcons(drawer, game, iconSz, viewDist, factionManager, hero, camPos, heroDmgCap);
     }
 
-    public float getIconRadius(SolCam cam) {
+    public float getIconRadius(SolCamera cam) {
         return cam.getViewHeight(myZoom) * myIconRad;
     }
 
     private void drawMazes(GameDrawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos, float heroDmgCap,
                            float camAngle) {
-        ArrayList<Maze> mazes = game.getPlanetMan().getMazes();
+        ArrayList<Maze> mazes = game.getPlanetManager().getMazes();
         for (Maze maze : mazes) {
             Vector2 mazePos = maze.getPos();
             float outerRad = maze.getRadius();
@@ -158,8 +158,8 @@ public class MapDrawer {
 
     private void drawPlanets(GameDrawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos, float heroDmgCap,
                              float camAngle) {
-        ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
-        SolCam cam = game.getCam();
+        ArrayList<SolSystem> systems = game.getPlanetManager().getSystems();
+        SolCamera cam = game.getCam();
         float circleWidth = cam.getRealLineWidth() * 6;
         float vh = cam.getViewHeight(myZoom);
         for (SolSystem sys : systems) {
@@ -199,7 +199,7 @@ public class MapDrawer {
             }
         }
 
-        ArrayList<Planet> planets = game.getPlanetMan().getPlanets();
+        ArrayList<Planet> planets = game.getPlanetManager().getPlanets();
         for (Planet planet : planets) {
             Vector2 planetPos = planet.getPos();
             float fh = planet.getFullHeight();
@@ -241,7 +241,7 @@ public class MapDrawer {
 
     private void drawIcons(GameDrawer drawer, SolGame game, float iconSz, float viewDist, FactionManager factionManager,
                            Optional<SolShip> hero, Vector2 camPos, float heroDmgCap) {
-        List<SolObject> objs = game.getObjMan().getObjs();
+        List<SolObject> objs = game.getObjectManager().getObjs();
         for (SolObject o : objs) {
             Vector2 oPos = o.getPosition();
             if (viewDist < camPos.dst(oPos)) {
@@ -270,7 +270,7 @@ public class MapDrawer {
             }
         }
 
-        List<FarShip> farShips = game.getObjMan().getFarShips();
+        List<FarShip> farShips = game.getObjectManager().getFarShips();
         for (FarShip ship : farShips) {
             Vector2 oPos = ship.getPos();
             if (viewDist < camPos.dst(oPos)) {
@@ -283,7 +283,7 @@ public class MapDrawer {
             drawObjIcon(iconSz, oPos, ship.getAngle(), factionManager, hero, ship.getPilot().getFaction(), heroDmgCap, ship, ship.getHullConfig().getIcon(), drawer);
         }
 
-        List<StarPort.MyFar> farPorts = game.getObjMan().getFarPorts();
+        List<StarPort.MyFar> farPorts = game.getObjectManager().getFarPorts();
         for (StarPort.MyFar sp : farPorts) {
             drawStarPortIcon(drawer, iconSz, sp.getFrom(), sp.getTo());
         }
@@ -310,7 +310,7 @@ public class MapDrawer {
     }
 
     private void drawStarNodes(GameDrawer drawer, SolGame game, float viewDist, Vector2 camPos, float starNodeW) {
-        List<SolObject> objs = game.getObjMan().getObjs();
+        List<SolObject> objs = game.getObjectManager().getObjs();
         for (SolObject o : objs) {
             if (!(o instanceof StarPort)) {
                 continue;
@@ -323,7 +323,7 @@ public class MapDrawer {
             drawStarNode(drawer, sp.getFrom(), sp.getTo(), starNodeW);
         }
 
-        List<StarPort.MyFar> farPorts = game.getObjMan().getFarPorts();
+        List<StarPort.MyFar> farPorts = game.getObjectManager().getFarPorts();
         for (StarPort.MyFar sp : farPorts) {
             Vector2 oPos = sp.getPos();
             if (viewDist < camPos.dst(oPos)) {
@@ -344,7 +344,7 @@ public class MapDrawer {
     }
 
     private void drawNpGround(GameDrawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos) {
-        ObjectManager objectManager = game.getObjMan();
+        ObjectManager objectManager = game.getObjectManager();
         List<SolObject> objs = objectManager.getObjs();
         for (SolObject o : objs) {
             if (!(o instanceof TileObject)) {

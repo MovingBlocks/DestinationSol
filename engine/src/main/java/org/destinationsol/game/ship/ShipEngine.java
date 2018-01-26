@@ -41,7 +41,7 @@ public class ShipEngine {
                        boolean controlsEnabled, float mass, Hull hull) {
 
         boolean working = applyInput(game, angle, provider, body, spd, controlsEnabled, mass);
-        game.getPartMan().toggleAllHullEmittersOfType(hull, "engine", working);
+        game.getParticleManager().toggleAllHullEmittersOfType(hull, "engine", working);
         if (working) {
             game.getSoundManager().play(game, myItem.getWorkSound(), owner.getPosition(), owner);
         }

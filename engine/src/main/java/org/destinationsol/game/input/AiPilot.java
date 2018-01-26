@@ -83,7 +83,7 @@ public class AiPilot implements Pilot {
         if (canShootUnfixed) {
             canShoot = true;
         }
-        Planet np = game.getPlanetMan().getNearestPlanet();
+        Planet np = game.getPlanetManager().getNearestPlanet();
         boolean nearGround = np.isNearGround(shipPos);
 
         Vector2 dest = null;

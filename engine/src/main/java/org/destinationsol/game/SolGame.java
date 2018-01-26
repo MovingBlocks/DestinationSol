@@ -30,6 +30,7 @@ import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.DebugCol;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.HullConfigManager;
@@ -50,7 +51,7 @@ import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.particle.EffectTypes;
-import org.destinationsol.game.particle.PartMan;
+import org.destinationsol.game.particle.ParticleManager;
 import org.destinationsol.game.particle.SpecialEffects;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
@@ -83,13 +84,13 @@ public class SolGame {
     static String MERC_SAVE_FILE = "mercenaries.json";
     
     private final GameScreens gameScreens;
-    private final SolCam camera;
+    private final SolCamera camera;
     private final ObjectManager objectManager;
     private final SolApplication solApplication;
     private final DrawableManager drawableManager;
     private final PlanetManager planetManager;
     private final ChunkManager chunkManager;
-    private final PartMan partMan;
+    private final ParticleManager particleManager;
     private final AsteroidBuilder asteroidBuilder;
     private final LootBuilder lootBuilder;
     private final ShipBuilder shipBuilder;
@@ -108,11 +109,10 @@ public class SolGame {
     private final GameColors gameColors;
     private final BeaconHandler beaconHandler;
     private final MountDetectDrawer mountDetectDrawer;
-    private final TutorialManager tutorialManager;
+    private final @Nullable TutorialManager tutorialManager;
     private final GalaxyFiller galaxyFiller;
     private final ArrayList<SolItem> respawnItems;
-    private @Nullable
-    SolShip hero;
+    private @Nullable SolShip hero;
     private String shipName; // Not updated in-game. Can be changed using setter
     private float timeStep;
     private float time;
@@ -122,16 +122,16 @@ public class SolGame {
     private float respawnMoney;
     private HullConfig respawnHull;
 
-    public SolGame(SolApplication cmp, String shipName, boolean tut, CommonDrawer commonDrawer) {
+    public SolGame(SolApplication cmp, String shipName, boolean isTutorial, @NotNull CommonDrawer commonDrawer) {
         solApplication = cmp;
         GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
         soundManager = solApplication.getSoundManager();
         specialSounds = new SpecialSounds(soundManager);
         drawableManager = new DrawableManager(drawer);
-        camera = new SolCam(drawer.r);
+        camera = new SolCamera(drawer.r);
         gameScreens = new GameScreens(drawer.r, cmp);
-        tutorialManager = tut ? new TutorialManager(commonDrawer.r, gameScreens, cmp.isMobile(), cmp.getOptions(), this) : null;
+        tutorialManager = isTutorial ? new TutorialManager(commonDrawer.r, gameScreens, cmp.isMobile(), cmp.getOptions(), this) : null;
         farBackgroundManagerOld = new FarBackgroundManagerOld();
         shipBuilder = new ShipBuilder();
         EffectTypes effectTypes = new EffectTypes();
@@ -146,7 +146,7 @@ public class SolGame {
         objectManager = new ObjectManager(contactListener, factionManager);
         gridDrawer = new GridDrawer();
         chunkManager = new ChunkManager();
-        partMan = new PartMan();
+        particleManager = new ParticleManager();
         asteroidBuilder = new AsteroidBuilder();
         lootBuilder = new LootBuilder();
         mapDrawer = new MapDrawer(commonDrawer.h);
@@ -399,7 +399,7 @@ public class SolGame {
         return timeStep;
     }
 
-    public SolCam getCam() {
+    public SolCamera getCam() {
         return camera;
     }
 
@@ -411,16 +411,16 @@ public class SolGame {
         return drawableManager;
     }
 
-    public ObjectManager getObjMan() {
+    public ObjectManager getObjectManager() {
         return objectManager;
     }
 
-    public PlanetManager getPlanetMan() {
+    public PlanetManager getPlanetManager() {
         return planetManager;
     }
 
-    public PartMan getPartMan() {
-        return partMan;
+    public ParticleManager getParticleManager() {
+        return particleManager;
     }
 
     public AsteroidBuilder getAsteroidBuilder() {
@@ -431,7 +431,7 @@ public class SolGame {
         return lootBuilder;
     }
 
-    public SolShip getHero() {
+    public @Nullable SolShip getHero() {
         return hero;
     }
 
@@ -439,7 +439,7 @@ public class SolGame {
         return shipBuilder;
     }
 
-    public ItemManager getItemMan() {
+    public ItemManager getItemManager() {
         return itemManager;
     }
 

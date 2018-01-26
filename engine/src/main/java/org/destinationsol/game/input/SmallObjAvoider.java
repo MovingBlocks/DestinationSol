@@ -52,7 +52,7 @@ public class SmallObjAvoider {
         SolMath.fromAl(myDest, toDestAngle, raycastLen);
         myDest.add(shipPos);
         myCollided = false;
-        World w = game.getObjMan().getWorld();
+        World w = game.getObjectManager().getWorld();
         w.rayCast(myRayBack, shipPos, myDest);
         if (!myCollided) {
             return toDestAngle;

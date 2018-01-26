@@ -52,7 +52,7 @@ public class CollisionWarnDrawer extends WarnDrawer {
         SolMath.fromAl(finalPos, spdAngle, breakWay);
         finalPos.add(pos);
         warnCallback.show = false;
-        game.getObjMan().getWorld().rayCast(warnCallback, pos, finalPos);
+        game.getObjectManager().getWorld().rayCast(warnCallback, pos, finalPos);
         SolMath.free(finalPos);
         return warnCallback.show;
     }

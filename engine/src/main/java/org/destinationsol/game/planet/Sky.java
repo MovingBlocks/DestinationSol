@@ -24,7 +24,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.ColorSpan;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.FarObj;
-import org.destinationsol.game.SolCam;
+import org.destinationsol.game.SolCamera;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
@@ -72,7 +72,7 @@ public class Sky implements SolObject {
         updatePos(game);
 
         Vector2 planetPos = myPlanet.getPos();
-        SolCam cam = game.getCam();
+        SolCamera cam = game.getCam();
         Vector2 camPos = cam.getPos();
         float distPerc = 1 - (planetPos.dst(camPos) - myPlanet.getGroundHeight()) / Const.MAX_SKY_HEIGHT_FROM_GROUND;
         if (distPerc < 0) {

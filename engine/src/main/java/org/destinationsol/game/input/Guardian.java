@@ -89,7 +89,7 @@ public class Guardian implements MoveDestProvider {
     }
 
     public void updateTarget(SolGame game) {
-        ObjectManager om = game.getObjMan();
+        ObjectManager om = game.getObjectManager();
         List<SolObject> objs = om.getObjs();
         if (myTarget != null && objs.contains(myTarget)) {
             return;
@@ -122,7 +122,7 @@ public class Guardian implements MoveDestProvider {
     }
 
     private void setDest(SolGame game, Vector2 targetPos, float targetApproxRad, HullConfig hullConfig) {
-        Planet np = game.getPlanetMan().getNearestPlanet(targetPos);
+        Planet np = game.getPlanetManager().getNearestPlanet(targetPos);
         float desiredAngle = myRelAngle;
         if (np.isNearGround(targetPos)) {
             desiredAngle = SolMath.angle(np.getPos(), targetPos);

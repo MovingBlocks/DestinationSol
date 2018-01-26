@@ -70,7 +70,7 @@ public class BeaconHandler {
         drawables.add(myFollowSprite);
         drawables.add(myMoveSprite);
         myD = new DrawableObject(drawables, new Vector2(pos), new Vector2(), null, false, false);
-        game.getObjMan().addObjDelayed(myD);
+        game.getObjectManager().addObjDelayed(myD);
         myInitialized = true;
     }
 
@@ -118,7 +118,7 @@ public class BeaconHandler {
         if (myTargetPilot == null) {
             return;
         }
-        ObjectManager om = game.getObjMan();
+        ObjectManager om = game.getObjectManager();
         List<SolObject> objs = om.getObjs();
         List<FarShip> farShips = om.getFarShips();
         if (myTarget != null) {
@@ -157,7 +157,7 @@ public class BeaconHandler {
     }
 
     private void updateD(SolGame game) {
-        ObjectManager om = game.getObjMan();
+        ObjectManager om = game.getObjectManager();
         List<SolObject> objs = om.getObjs();
         List<FarObjData> farObjs = om.getFarObjs();
 
@@ -254,7 +254,7 @@ public class BeaconHandler {
     }
 
     private Pilot findPilotInPos(SolGame g, Vector2 pos, boolean onMap, boolean clicked) {
-        ObjectManager om = g.getObjMan();
+        ObjectManager om = g.getObjectManager();
         SolShip h = g.getHero();
         float iconRad = onMap ? g.getMapDrawer().getIconRadius(g.getCam()) : 0;
         for (SolObject o : om.getObjs()) {

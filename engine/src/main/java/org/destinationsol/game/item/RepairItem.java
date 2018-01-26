@@ -54,7 +54,7 @@ public class RepairItem implements SolItem {
 
     @Override
     public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-        return game.getItemMan().repairIcon;
+        return game.getItemManager().repairIcon;
     }
 
     @Override

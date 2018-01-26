@@ -21,6 +21,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Pool;
 import org.destinationsol.Const;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -475,7 +476,7 @@ public class SolMath {
         return new Vector2(x, y);
     }
 
-    public static ArrayList<Vector2> readV2List(JsonValue parentNode, String name) {
+    public static ArrayList<Vector2> readV2List(JsonValue parentNode, @Nullable String name) {
         ArrayList<Vector2> res = new ArrayList<>();
         JsonValue listNode = parentNode.get(name);
         if (listNode == null) {

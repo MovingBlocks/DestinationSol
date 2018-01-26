@@ -63,7 +63,7 @@ public class LootBuilder {
         bd.angularDamping = 0;
         bd.position.set(pos);
         bd.linearDamping = 0;
-        Body body = game.getObjMan().getWorld().createBody(bd);
+        Body body = game.getObjectManager().getWorld().createBody(bd);
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(sz / 2, sz / 2);
         body.createFixture(shape, .5f);

@@ -53,7 +53,7 @@ public class PointProjectileBody implements ProjectileBody {
         diff.scl(game.getTimeStep());
         myPos.add(diff);
         SolMath.free(diff);
-        game.getObjMan().getWorld().rayCast(myRayBack, prevPos, myPos);
+        game.getObjectManager().getWorld().rayCast(myRayBack, prevPos, myPos);
         SolMath.free(prevPos);
     }
 

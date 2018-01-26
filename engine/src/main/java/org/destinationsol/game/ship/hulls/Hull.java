@@ -141,7 +141,7 @@ public class Hull {
             myBody.setAngularVelocity(angleDiff * SolMath.degRad * fps);
         }
 
-        game.getPartMan().toggleAllHullEmittersOfType(this, "none", true);
+        game.getParticleManager().toggleAllHullEmittersOfType(this, "none", true);
     }
 
     private void setParamsFromBody() {

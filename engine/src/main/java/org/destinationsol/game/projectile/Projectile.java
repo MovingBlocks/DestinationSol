@@ -102,7 +102,7 @@ public class Projectile implements SolObject {
             res.setWorking(true);
             myDrawables.addAll(res.getDrawables());
         } else {
-            game.getPartMan().finish(game, res, pos);
+            game.getParticleManager().finish(game, res, pos);
         }
         return res;
     }
@@ -158,7 +158,7 @@ public class Projectile implements SolObject {
         buildEffect(game, myConfig.collisionEffect, DrawableLevel.PART_FG_1, pos, false);
         buildEffect(game, myConfig.collisionEffectBg, DrawableLevel.PART_FG_0, pos, false);
         if (myConfig.collisionEffectBg != null) {
-            game.getPartMan().blinks(pos, game, myConfig.collisionEffectBg.size);
+            game.getParticleManager().blinks(pos, game, myConfig.collisionEffectBg.size);
         }
         game.getSoundManager().play(game, myConfig.collisionSound, null, this);
     }
@@ -172,10 +172,10 @@ public class Projectile implements SolObject {
     public void onRemove(SolGame game) {
         Vector2 pos = myBody.getPos();
         if (myBodyEffect != null) {
-            game.getPartMan().finish(game, myBodyEffect, pos);
+            game.getParticleManager().finish(game, myBodyEffect, pos);
         }
         if (myTrailEffect != null) {
-            game.getPartMan().finish(game, myTrailEffect, pos);
+            game.getParticleManager().finish(game, myTrailEffect, pos);
         }
         myBody.onRemove(game);
     }

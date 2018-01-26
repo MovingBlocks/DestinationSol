@@ -139,7 +139,7 @@ public class SolShip implements SolObject {
             }
             receiveDmg((int) dmg, game, collPos, DmgType.CRASH);
         }
-        game.getPartMan().fireAllHullEmittersOfType(myHull, "collision");
+        game.getParticleManager().fireAllHullEmittersOfType(myHull, "collision");
     }
 
     @Override
@@ -193,7 +193,7 @@ public class SolShip implements SolObject {
             return false;
         }
         if (i instanceof RepairItem) {
-            return myItemContainer.count(game.getItemMan().getRepairExample()) >= TRADE_AFTER;
+            return myItemContainer.count(game.getItemManager().getRepairExample()) >= TRADE_AFTER;
         }
         Gun g1 = myHull.getGun(false);
         if (g1 != null && g1.config.clipConf.example.isSame(i)) {
@@ -334,8 +334,8 @@ public class SolShip implements SolObject {
             throwAllLoot(game);
         }
         myHull.onRemove(game);
-        game.getPartMan().finish(game, mySmokeSrc, myHull.getPos());
-        game.getPartMan().finish(game, myFireSrc, myHull.getPos());
+        game.getParticleManager().finish(game, mySmokeSrc, myHull.getPos());
+        game.getParticleManager().finish(game, myFireSrc, myHull.getPos());
     }
 
     private void throwAllLoot(SolGame game) {
@@ -362,7 +362,7 @@ public class SolShip implements SolObject {
             }
         }
         float thrMoney = myMoney * SolMath.rnd(.2f, 1);
-        List<MoneyItem> moneyItems = game.getItemMan().moneyToItems(thrMoney);
+        List<MoneyItem> moneyItems = game.getItemManager().moneyToItems(thrMoney);
         for (MoneyItem mi : moneyItems) {
             throwLoot(game, mi, true);
         }
@@ -387,7 +387,7 @@ public class SolShip implements SolObject {
         lootSpd.add(myHull.getSpd());
         pos.add(myHull.getPos());
         Loot l = game.getLootBuilder().build(game, pos, item, lootSpd, Loot.MAX_LIFE, SolMath.rnd(Loot.MAX_ROT_SPD), this);
-        game.getObjMan().addObjDelayed(l);
+        game.getObjectManager().addObjDelayed(l);
         if (!onDeath) {
             game.getSoundManager().play(game, game.getSpecialSounds().lootThrow, pos, this);
         }

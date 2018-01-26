@@ -46,7 +46,7 @@ public class ShardBuilder {
         int count = (int) (size * SIZE_TO_SHARD_COUNT);
         for (int i = 0; i < count; i++) {
             Shard s = build(game, pos, baseSpd, size);
-            game.getObjMan().addObjDelayed(s);
+            game.getObjectManager().addObjDelayed(s);
         }
     }
 

@@ -68,7 +68,7 @@ public class SpecialEffects {
     }
 
     public void explodeShip(SolGame game, Vector2 pos, float sz) {
-        PartMan pm = game.getPartMan();
+        ParticleManager pm = game.getParticleManager();
         DSParticleEmitter smoke = new DSParticleEmitter(myShipExplSmoke, 2 * sz, DrawableLevel.PART_FG_0, new Vector2(), false, game, pos, Vector2.Zero, 0);
         pm.finish(game, smoke, pos);
         DSParticleEmitter fire = new DSParticleEmitter(myShipExplFire, .7f * sz, DrawableLevel.PART_FG_1, new Vector2(), false, game, pos, Vector2.Zero, 0);
@@ -77,7 +77,7 @@ public class SpecialEffects {
     }
 
     public void asteroidDust(SolGame game, Vector2 pos, Vector2 spd, float size) {
-        PartMan pm = game.getPartMan();
+        ParticleManager pm = game.getParticleManager();
         DSParticleEmitter smoke = new DSParticleEmitter(myAsteroidDust, size, DrawableLevel.PART_FG_0, new Vector2(), true, game, pos, spd, 0);
         pm.finish(game, smoke, pos);
     }

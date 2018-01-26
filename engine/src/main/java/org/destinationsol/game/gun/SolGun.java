@@ -81,7 +81,7 @@ public class SolGun {
         Clip.Config cc = myItem.config.clipConf;
         if (cc.projConfig.zeroAbsSpd) {
             baseSpd = Vector2.Zero;
-            Planet np = game.getPlanetMan().getNearestPlanet();
+            Planet np = game.getPlanetManager().getNearestPlanet();
             if (np.isNearGround(muzzlePos)) {
                 baseSpd = new Vector2();
                 np.calcSpdAtPos(baseSpd, muzzlePos);
@@ -96,12 +96,12 @@ public class SolGun {
                 bulletAngle += SolMath.rnd(myCurrAngleVar);
             }
             Projectile proj = new Projectile(game, bulletAngle, muzzlePos, baseSpd, faction, cc.projConfig, multiple);
-            game.getObjMan().addObjDelayed(proj);
+            game.getObjectManager().addObjDelayed(proj);
         }
         myCoolDown += myItem.config.timeBetweenShots;
         myItem.ammo--;
         game.getSoundManager().play(game, myItem.config.shootSound, muzzlePos, creator);
-        game.getPartMan().fireAllHullEmittersOfType(hull, "shoot");
+        game.getParticleManager().fireAllHullEmittersOfType(hull, "shoot");
     }
 
     public void update(ItemContainer ic, SolGame game, float gunAngle, SolObject creator, boolean shouldShoot, Faction faction, Hull hull) {

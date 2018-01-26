@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.common.SolDescriptiveException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.destinationsol.common.SolMath;
@@ -56,14 +57,22 @@ public final class HullConfigManager {
         configToNameMap = new HashMap<>();
     }
 
-    private static Vector2 readVector2(JsonValue jsonValue, @Nullable String name, Vector2 defaultValue) {
+    private static @Nullable Vector2 readOptionalVector2(JsonValue jsonValue, @Nullable String name, @Nullable Vector2 defaultValue) {
         Optional<String> string = Optional.ofNullable(jsonValue.getString(name, null));
 
         return string.map(SolMath::readV2).orElse(defaultValue);
     }
 
-    @Nullable
-    private static Engine.Config readEngineConfig(@Nullable String engineName, ItemManager itemManager) {
+    private static @NotNull Vector2 readPosition(JsonValue jsonValue, String superComponent) {
+        Optional<String> string = Optional.ofNullable(jsonValue.getString("position", null));
+
+        return string
+                .map(SolMath::readV2)
+                .orElseThrow(() -> new SolDescriptiveException("Some of your " + superComponent + "s is missing a required \"position\" argument."));
+    }
+
+
+    private static @Nullable Engine.Config readEngineConfig(@Nullable String engineName, ItemManager itemManager) {
         Optional<String> nameOptional = Optional.ofNullable(engineName);
 
         return nameOptional.map(itemManager::getEngineConfig).orElse(null);
@@ -78,8 +87,7 @@ public final class HullConfigManager {
         }
     }
 
-    @NotNull
-    public HullConfig getConfig(@NotNull String shipName) {
+    public @NotNull HullConfig getConfig(@NotNull String shipName) {
         HullConfig hullConfig = nameToConfigMap.get(shipName);
 
         if (hullConfig == null) {
@@ -92,14 +100,12 @@ public final class HullConfigManager {
         return hullConfig;
     }
 
-    @NotNull
-    public String getName(HullConfig hull) {
+    public @NotNull String getName(@Nullable HullConfig hull) {
         Optional<String> name = Optional.ofNullable(configToNameMap.get(hull));
         return name.orElse("");
     }
 
-    @NotNull
-    private HullConfig read(@NotNull String shipName) {
+    private @NotNull HullConfig read(@NotNull String shipName) {
         final HullConfig.Data configData = new HullConfig.Data();
 
         configData.internalName = shipName;
@@ -122,7 +128,7 @@ public final class HullConfigManager {
         Vector2 builderOrigin = new Vector2(configData.shipBuilderOrigin);
 
         for (JsonValue gunSlotNode : containerNode) {
-            Vector2 position = readVector2(gunSlotNode, "position", null);
+            Vector2 position = readPosition(gunSlotNode,"gunSlot");
             position.sub(builderOrigin).scl(configData.size);
 
             boolean isUnderneathHull = gunSlotNode.getBoolean("isUnderneathHull", false);
@@ -136,7 +142,7 @@ public final class HullConfigManager {
         Vector2 builderOrigin = new Vector2(configData.shipBuilderOrigin);
 
         for (JsonValue particleEmitterSlotNode : containerNode) {
-            Vector2 position = readVector2(particleEmitterSlotNode, "position", null);
+            Vector2 position = readPosition(particleEmitterSlotNode,"particleEmitter");
             position.sub(builderOrigin).scl(configData.size);
 
             String trigger = particleEmitterSlotNode.getString("trigger", null);
@@ -181,8 +187,8 @@ public final class HullConfigManager {
 
     private AbilityConfig loadAbility(
             JsonValue hullNode,
-            ItemManager manager,
-            AbilityCommonConfigs commonConfigs
+            @NotNull ItemManager manager,
+            @NotNull AbilityCommonConfigs commonConfigs
     ) {
         JsonValue abNode = hullNode.get("ability");
         if (abNode == null) {

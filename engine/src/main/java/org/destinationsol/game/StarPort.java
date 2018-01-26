@@ -67,7 +67,7 @@ public class StarPort implements SolObject {
     private static void blip(SolGame game, SolShip ship) {
         TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("engine:teleportBlip");
         float blipSz = ship.getHull().config.getApproxRadius() * 10;
-        game.getPartMan().blip(game, ship.getPosition(), SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
+        game.getParticleManager().blip(game, ship.getPosition(), SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
     }
 
     @Bound
@@ -82,7 +82,7 @@ public class StarPort implements SolObject {
 
     private static Vector2 adjustDesiredPos(SolGame game, StarPort myPort, Vector2 desired) {
         Vector2 newPos = desired;
-        List<SolObject> objs = game.getObjMan().getObjs();
+        List<SolObject> objs = game.getObjectManager().getObjs();
         for (SolObject o : objs) {
             if (o instanceof StarPort && o != myPort) {
                 StarPort sp = (StarPort) o;
@@ -121,7 +121,7 @@ public class StarPort implements SolObject {
         if (ship != null && ship.getMoney() >= FARE && ship.getPosition().dst(myPos) < .05f * SIZE) {
             ship.setMoney(ship.getMoney() - FARE);
             Transcendent t = new Transcendent(ship, myFrom, myTo, game);
-            ObjectManager objectManager = game.getObjMan();
+            ObjectManager objectManager = game.getObjectManager();
             objectManager.addObjDelayed(t);
             blip(game, ship);
             game.getSoundManager().play(game, game.getSpecialSounds().transcendentCreated, null, t);
@@ -385,7 +385,7 @@ public class StarPort implements SolObject {
             SolMath.free(moveDiff);
 
             if (myPos.dst(myDestPos) < .5f) {
-                ObjectManager objectManager = game.getObjMan();
+                ObjectManager objectManager = game.getObjectManager();
                 objectManager.removeObjDelayed(this);
                 myShip.setPos(myPos);
                 myShip.setSpd(new Vector2());
@@ -393,7 +393,7 @@ public class StarPort implements SolObject {
                 objectManager.addObjDelayed(ship);
                 blip(game, ship);
                 game.getSoundManager().play(game, game.getSpecialSounds().transcendentFinished, null, this);
-                game.getObjMan().resetDelays(); // because of the hacked speed
+                game.getObjectManager().resetDelays(); // because of the hacked speed
             } else {
                 game.getSoundManager().play(game, game.getSpecialSounds().transcendentMove, null, this);
                 myLight.update(true, myAngle, game);
@@ -416,7 +416,7 @@ public class StarPort implements SolObject {
 
         @Override
         public void onRemove(SolGame game) {
-            game.getPartMan().finish(game, myEff, myPos);
+            game.getParticleManager().finish(game, myEff, myPos);
         }
 
         @Override

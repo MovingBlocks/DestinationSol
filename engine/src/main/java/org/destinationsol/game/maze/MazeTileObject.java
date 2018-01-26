@@ -203,7 +203,7 @@ public class MazeTileObject implements SolObject {
             def.position.set(pos);
             def.angle = angle * SolMath.degRad;
             def.angularDamping = 0;
-            Body body = game.getObjMan().getWorld().createBody(def);
+            Body body = game.getObjectManager().getWorld().createBody(def);
 
             for (List<Vector2> pts : tile.points) {
                 ChainShape shape = new ChainShape();

@@ -27,7 +27,7 @@ import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.MapDrawer;
 import org.destinationsol.game.ObjectManager;
-import org.destinationsol.game.SolCam;
+import org.destinationsol.game.SolCamera;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 
@@ -112,13 +112,13 @@ public class DrawableManager {
             return;
         }
 
-        SolCam cam = game.getCam();
+        SolCamera cam = game.getCam();
         myDrawer.updateMtx(game);
         game.getFarBgManOld().draw(myDrawer, cam, game);
         Vector2 camPos = cam.getPos();
         float viewDist = cam.getViewDist();
 
-        ObjectManager objectManager = game.getObjMan();
+        ObjectManager objectManager = game.getObjectManager();
         List<SolObject> objs = objectManager.getObjs();
         for (SolObject o : objs) {
             Vector2 objPos = o.getPosition();
@@ -169,8 +169,8 @@ public class DrawableManager {
             }
             if (drawableLevel == DrawableLevel.ATM) {
                 if (!DebugOptions.NO_DRAS) {
-                    game.getPlanetMan().drawPlanetCoreHack(game, myDrawer);
-                    game.getPlanetMan().drawSunHack(game, myDrawer);
+                    game.getPlanetManager().drawPlanetCoreHack(game, myDrawer);
+                    game.getPlanetManager().drawSunHack(game, myDrawer);
                 }
             }
         }
@@ -190,7 +190,7 @@ public class DrawableManager {
     }
 
     private void drawDebug(GameDrawer drawer, SolGame game, Drawable drawable) {
-        SolCam cam = game.getCam();
+        SolCamera cam = game.getCam();
         float lineWidth = cam.getRealLineWidth();
         Color col = myInCam.contains(drawable) ? DebugCol.DRA : DebugCol.DRA_OUT;
         Vector2 pos = drawable.getPos();

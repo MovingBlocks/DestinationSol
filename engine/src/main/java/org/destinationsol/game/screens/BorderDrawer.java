@@ -27,7 +27,7 @@ import org.destinationsol.game.Faction;
 import org.destinationsol.game.FactionManager;
 import org.destinationsol.game.HardnessCalc;
 import org.destinationsol.game.MapDrawer;
-import org.destinationsol.game.SolCam;
+import org.destinationsol.game.SolCamera;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.StarPort;
@@ -81,7 +81,7 @@ public class BorderDrawer {
 
     public void draw(UiDrawer drawer, SolApplication cmp) {
         SolGame g = cmp.getGame();
-        SolCam cam = g.getCam();
+        SolCamera cam = g.getCam();
         Vector2 camPos = cam.getPos();
         Optional<SolShip> hero = Optional.ofNullable(g.getHero());
         drawTishches(drawer, g, cam, camPos);
@@ -89,7 +89,7 @@ public class BorderDrawer {
         FactionManager factionManager = g.getFactionMan();
         float heroDmgCap = hero.map(HardnessCalc::getShipDmgCap).orElse(Float.MAX_VALUE);
 
-        List<SolObject> objs = g.getObjMan().getObjs();
+        List<SolObject> objs = g.getObjectManager().getObjs();
         for (SolObject o : objs) {
             if ((o instanceof SolShip)) {
                 SolShip ship = (SolShip) o;
@@ -105,7 +105,7 @@ public class BorderDrawer {
             }
         }
 
-        List<FarShip> farShips = g.getObjMan().getFarShips();
+        List<FarShip> farShips = g.getObjectManager().getFarShips();
         for (FarShip ship : farShips) {
             Vector2 shipPos = ship.getPos();
             Faction shipFaction = ship.getPilot().getFaction();
@@ -113,13 +113,13 @@ public class BorderDrawer {
             float shipAngle = ship.getAngle();
             maybeDrawIcon(drawer, shipPos, cam, shipSize, shipAngle, mapDrawer, factionManager, hero, shipFaction, ship, heroDmgCap, ship.getHullConfig().getIcon());
         }
-        List<StarPort.MyFar> farPorts = g.getObjMan().getFarPorts();
+        List<StarPort.MyFar> farPorts = g.getObjectManager().getFarPorts();
         for (StarPort.MyFar sp : farPorts) {
             maybeDrawIcon(drawer, sp.getPos(), cam, StarPort.SIZE, sp.getAngle(), mapDrawer, null, Optional.empty(), null, null, -1, mapDrawer.getStarPortTex());
         }
     }
 
-    private void maybeDrawIcon(UiDrawer drawer, Vector2 pos, SolCam cam, float objSize,
+    private void maybeDrawIcon(UiDrawer drawer, Vector2 pos, SolCamera cam, float objSize,
                                float objAngle, MapDrawer mapDrawer, FactionManager factionManager, Optional<SolShip> hero,
                                Faction objFac, Object shipHack, float heroDmgCap, TextureAtlas.AtlasRegion icon) {
         Vector2 camPos = cam.getPos();
@@ -149,8 +149,8 @@ public class BorderDrawer {
         mapDrawer.drawObjIcon(sz, myTmpVec, objAngle - camAngle, factionManager, hero, objFac, heroDmgCap, shipHack, icon, drawer);
     }
 
-    private void drawTishches(UiDrawer drawer, SolGame g, SolCam cam, Vector2 camPos) {
-        PlanetManager pMan = g.getPlanetMan();
+    private void drawTishches(UiDrawer drawer, SolGame g, SolCamera cam, Vector2 camPos) {
+        PlanetManager pMan = g.getPlanetManager();
         Planet np = pMan.getNearestPlanet();
         if (np != null && np.getPos().dst(camPos) < np.getFullHeight()) {
             return;
