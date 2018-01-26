@@ -1,11 +1,5 @@
 {
   "big": false,
-  "effect": {
-    "effectFile": "nyan:rainbow",
-    "size": 0.05,
-    "tex": "nyan:rainbow",
-    "tint": "hsb 0 0 100"
-  },
   "workSounds": [
     "core:medEngineWork0",
     "core:medEngineWork1",

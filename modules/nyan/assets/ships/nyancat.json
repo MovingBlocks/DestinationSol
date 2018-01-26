@@ -8,10 +8,21 @@
     "factor":0.4,
     "rechargeTime":4
   },
-  "e1Pos":"0.1 0.5",
-  "e2Pos":"0.1 0.5",
   "displayName":"Nyancat",
   "engine":"nyan:nyancatEngine",
+  "particleEmitters": [
+    {
+      "position": "0.1 0.5",
+      "trigger": "engine",
+      "hasLight": false,
+      "particle": {
+        "effectFile": "nyan:rainbow",
+        "size": 0.05,
+        "tex": "nyan:rainbow",
+        "tint": "hsb 0 0 100"
+      }
+    }
+  ],
   "gunSlots":[
     {
       "position":"0.45 0.5",
