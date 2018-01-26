@@ -22,6 +22,8 @@ import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.projectile.ProjectileConfig;
 import org.destinationsol.game.ship.SolShip;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class Shooter {
 
@@ -35,39 +37,38 @@ public class Shooter {
     public Shooter() {
     }
 
-    public static float calcShootAngle(Vector2 gunPos, Vector2 gunSpd, Vector2 ePos, Vector2 eSpd, float projSpd,
-                                       boolean sharp) {
-        Vector2 eSpdShortened = SolMath.getVec(eSpd);
+    public static float calcShootAngle(@NotNull Vector2 gunPosition, @NotNull Vector2 gunSpeed, @NotNull Vector2 enemyPosition,
+                                       @NotNull Vector2 enemySpeed, float projSpd, boolean sharp) {
+        Vector2 temporalEnemySpeed = SolMath.getVec(enemySpeed);
         if (!sharp) {
-            eSpdShortened.scl(E_SPD_PERC);
+            temporalEnemySpeed.scl(E_SPD_PERC);
         }
-        Vector2 relESpd = SolMath.distVec(gunSpd, eSpdShortened);
-        SolMath.free(eSpdShortened);
-        float rotAngle = SolMath.angle(relESpd);
-        float v = relESpd.len();
-        float v2 = projSpd;
-        SolMath.free(relESpd);
-        Vector2 toE = SolMath.distVec(gunPos, ePos);
-        SolMath.rotate(toE, -rotAngle);
-        float x = toE.x;
-        float y = toE.y;
-        float a = v * v - v2 * v2;
+        Vector2 relativeEnemySpeed = SolMath.distVec(gunSpeed, temporalEnemySpeed);
+        SolMath.free(temporalEnemySpeed);
+        float enemyMovementAngle = SolMath.angle(relativeEnemySpeed);
+        float v = relativeEnemySpeed.len();
+        SolMath.free(relativeEnemySpeed);
+        Vector2 distanceToEnemy = SolMath.distVec(gunPosition, enemyPosition);
+        SolMath.rotate(distanceToEnemy, -enemyMovementAngle);
+        float x = distanceToEnemy.x;
+        float y = distanceToEnemy.y;
+        float a = v * v - projSpd * projSpd;
         float b = 2 * x * v;
         float c = x * x + y * y;
         float t = SolMath.genQuad(a, b, c);
-        float res;
+        float result;
         if (t != t) {
-            res = Float.NaN;
+            result = Float.NaN;
         } else {
-            toE.x += t * v;
-            res = SolMath.angle(toE) + rotAngle;
+            distanceToEnemy.x += t * v;
+            result = SolMath.angle(distanceToEnemy) + enemyMovementAngle;
         }
-        SolMath.free(toE);
-        return res;
+        SolMath.free(distanceToEnemy);
+        return result;
     }
 
-    public void update(SolShip ship, Vector2 enemyPos, boolean dontRotate, boolean canShoot, Vector2 enemySpd,
-                       float enemyApproxRad) {
+    public void update(@NotNull SolShip ship, @Nullable Vector2 enemyPos, boolean nonRotatable, boolean canShoot,
+                       @NotNull Vector2 enemySpd, float enemyApproxRad) {
         myLeft = false;
         myRight = false;
         myShoot = false;
@@ -76,48 +77,48 @@ public class Shooter {
         if (enemyPos == null || !canShoot) {
             return;
         }
-        float toEnemyDst = enemyPos.dst(shipPos);
+        float distanceToEnemy = SolMath.distVec(shipPos, enemyPos).len();
 
-        Gun g1 = processGun(ship, false);
-        Gun g2 = processGun(ship, true);
-        if (g1 == null && g2 == null) {
+        Gun gun1 = processGun(ship, false);
+        Gun gun2 = processGun(ship, true);
+        if (gun1 == null && gun2 == null) {
             return;
         }
 
-        float projSpd = 0;
-        Gun g = null;
-        if (g1 != null) {
-            ProjectileConfig projConfig = g1.config.clipConf.projConfig;
-            projSpd = projConfig.spdLen + projConfig.acc; // for simplicity
-            g = g1;
+        float projectileSpeed = 0;
+        Gun gun = null;
+        if (gun1 != null) {
+            ProjectileConfig projConfig = gun1.config.clipConf.projConfig;
+            projectileSpeed = projConfig.spdLen + projConfig.acc; // for simplicity
+            gun = gun1;
         }
-        if (g2 != null) {
-            ProjectileConfig projConfig = g2.config.clipConf.projConfig;
-            float g2PS = projConfig.spdLen + projConfig.acc; // for simplicity
-            if (projSpd < g2PS) {
-                projSpd = g2PS;
-                g = g2;
+        if (gun2 != null) {
+            ProjectileConfig projConfig = gun2.config.clipConf.projConfig;
+            float gun2ProjectileSpeed = projConfig.spdLen + projConfig.acc; // for simplicity
+            if (projectileSpeed < gun2ProjectileSpeed || gun == null) { // nullcheck is here mainly to suppress NPE warnings
+                projectileSpeed = gun2ProjectileSpeed;
+                gun = gun2;
             }
         }
 
-        Vector2 gunRelPos = ship.getHull().getGunMount(g == g2).getRelPos();
-        Vector2 gunPos = SolMath.toWorld(gunRelPos, ship.getAngle(), shipPos);
-        float shootAngle = calcShootAngle(gunPos, ship.getSpd(), enemyPos, enemySpd, projSpd, false);
-        SolMath.free(gunPos);
-        if (shootAngle != shootAngle) {
+        Vector2 gunRelativePosition = ship.getHull().getGunMount(gun == gun2).getRelPos();
+        Vector2 gunAbsolutePosition = SolMath.toWorld(gunRelativePosition, ship.getAngle(), shipPos);
+        float shootAngle = calcShootAngle(gunAbsolutePosition, ship.getSpd(), enemyPos, enemySpd, projectileSpeed, false);
+        SolMath.free(gunAbsolutePosition);
+        if (shootAngle != shootAngle) { // Float.NaN
             return;
         }
         {
             // ok this is a hack
             float toShip = SolMath.angle(enemyPos, shipPos);
-            float toGun = SolMath.angle(enemyPos, gunPos);
+            float toGun = SolMath.angle(enemyPos, gunAbsolutePosition);
             shootAngle += toGun - toShip;
         }
         float shipAngle = ship.getAngle();
-        float maxAngleDiff = SolMath.angularWidthOfSphere(enemyApproxRad, toEnemyDst) + 10f;
-        ProjectileConfig projConfig = g.config.clipConf.projConfig;
-        if (projSpd > 0 && projConfig.guideRotSpd > 0) {
-            maxAngleDiff += projConfig.guideRotSpd * toEnemyDst / projSpd;
+        float maxAngleDiff = SolMath.angularWidthOfSphere(enemyApproxRad, distanceToEnemy) + 10f;
+        ProjectileConfig projConfig = gun.config.clipConf.projConfig;
+        if (projectileSpeed > 0 && projConfig.guideRotSpd > 0) {
+            maxAngleDiff += projConfig.guideRotSpd * distanceToEnemy / projectileSpeed;
         }
         if (SolMath.angleDiff(shootAngle, shipAngle) < maxAngleDiff) {
             myShoot = true;
@@ -125,12 +126,12 @@ public class Shooter {
             return;
         }
 
-        if (dontRotate) {
+        if (nonRotatable) {
             return;
         }
-        Boolean ntt = Mover.needsToTurn(shipAngle, shootAngle, ship.getRotSpd(), ship.getRotAcc(), MIN_SHOOT_AAD);
-        if (ntt != null) {
-            if (ntt) {
+        Boolean needsToTurn = Mover.needsToTurn(shipAngle, shootAngle, ship.getRotSpd(), ship.getRotAcc(), MIN_SHOOT_AAD);
+        if (needsToTurn != null) {
+            if (needsToTurn) {
                 myRight = true;
             } else {
                 myLeft = true;
@@ -139,17 +140,17 @@ public class Shooter {
     }
 
     // returns gun if it's fixed & can shoot
-    private Gun processGun(SolShip ship, boolean second) {
+    private @Nullable Gun processGun(@NotNull SolShip ship, boolean second) {
         GunMount mount = ship.getHull().getGunMount(second);
         if (mount == null) {
             return null;
         }
-        Gun g = mount.getGun();
-        if (g == null || g.ammo <= 0) {
+        Gun gun = mount.getGun();
+        if (gun == null || gun.ammo <= 0) {
             return null;
         }
 
-        if (g.config.clipConf.projConfig.zeroAbsSpd || g.config.clipConf.projConfig.guideRotSpd > 0) {
+        if (gun.config.clipConf.projConfig.zeroAbsSpd || gun.config.clipConf.projConfig.guideRotSpd > 0) {
             if (second) {
                 myShoot2 = true;
             } else {
@@ -158,8 +159,8 @@ public class Shooter {
             return null;
         }
 
-        if (g.config.fixed) {
-            return g;
+        if (gun.config.fixed) {
+            return gun;
         }
 
         if (mount.isDetected()) {

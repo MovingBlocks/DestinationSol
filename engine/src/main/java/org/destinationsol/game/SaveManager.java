@@ -41,7 +41,7 @@ import com.google.gson.JsonObject;
 
 public class SaveManager {
     private static Logger logger = LoggerFactory.getLogger(SaveManager.class);
-    
+
     private static final String SAVE_FILE_NAME = "prevShip.ini";
     static String MERC_SAVE_FILE = getResourcePath("mercenaries.json");
 
@@ -88,18 +88,18 @@ public class SaveManager {
      */
     private static void writeMercs(SolGame game) {
         PrintWriter writer;
-        
+
         ItemContainer mercenaries = game.getHero().getTradeContainer().getMercs();
-        
+
         List<JsonObject> jsons = new ArrayList<JsonObject>();
-        
+
         for (List<SolItem> group : mercenaries) {
             for (SolItem item : group) {
                 SolShip merc = ((MercItem) item).getSolShip();
                 // Json fields
                 String hullName = game.getHullConfigs().getName(merc.getHull().config);
                 int money = (int) merc.getMoney();
-                
+
                 ArrayList<SolItem> itemsList = new ArrayList<SolItem>();
                 for (List<SolItem> group1 : merc.getItemContainer()) {
                     for (SolItem i : group1) {
@@ -107,16 +107,16 @@ public class SaveManager {
                     }
                 }
                 String items = itemsToString(itemsList);
-                
+
                 JsonObject json = new JsonObject();
                 json.addProperty("hull", hullName);
                 json.addProperty("money", money);
                 json.addProperty("items", items);
-                
+
                 jsons.add(json);
             }
         }
-        
+
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String toWrite = gson.toJson(jsons);
 
@@ -153,7 +153,7 @@ public class SaveManager {
 
         return new FileHandle(Paths.get(path).toFile()).exists();
     }
-    
+
     /**
      * Tests is the game has a previous ship (a game to continue)
      */
@@ -172,9 +172,6 @@ public class SaveManager {
         game.setShipName(hullName);
 
         HullConfig hull = hullConfigs.getConfig(hullName);
-        if (hull == null) {
-            return null;
-        }
 
         int money = ir.getInt("money", 0);
         String itemsStr = ir.getString("items", "");

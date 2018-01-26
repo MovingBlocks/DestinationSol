@@ -80,9 +80,9 @@ import com.google.gson.reflect.TypeToken;
 
 public class SolGame {
     private static Logger logger = LoggerFactory.getLogger(SolGame.class);
-    
+
     static String MERC_SAVE_FILE = "mercenaries.json";
-    
+
     private final GameScreens gameScreens;
     private final SolCamera camera;
     private final ObjectManager objectManager;
@@ -198,10 +198,10 @@ public class SolGame {
         boolean giveAmmo = shipNameOptional.isPresent() && respawnItems.isEmpty();
         hero = shipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObj(this);
 
-        ItemContainer ic = hero.getItemContainer();
+        ItemContainer itemContainer = hero.getItemContainer();
         if (!respawnItems.isEmpty()) {
             for (SolItem item : respawnItems) {
-                ic.add(item);
+                itemContainer.add(item);
                 // Ensure that previously equipped items stay equipped
                 if (item.isEquipped() > 0) {
                     if (item instanceof Gun) {
@@ -213,16 +213,16 @@ public class SolGame {
             }
         } else if (tutorialManager != null) {
             for (int i = 0; i < 50; i++) {
-                if (ic.groupCount() > 1.5f * Const.ITEM_GROUPS_PER_PAGE) {
+                if (itemContainer.groupCount() > 1.5f * Const.ITEM_GROUPS_PER_PAGE) {
                     break;
                 }
-                SolItem it = itemManager.random();
-                if (!(it instanceof Gun) && it.getIcon(this) != null && ic.canAdd(it)) {
-                    ic.add(it.copy());
+                SolItem item = itemManager.random();
+                if (!(item instanceof Gun) && item.getIcon(this) != null && itemContainer.canAdd(item)) {
+                    itemContainer.add(item.copy());
                 }
             }
         }
-        ic.markAllAsSeen();
+        itemContainer.markAllAsSeen();
 
         // Don't change equipped items across load/respawn
         //AiPilot.reEquip(this, myHero);

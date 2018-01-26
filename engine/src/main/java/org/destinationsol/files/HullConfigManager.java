@@ -57,28 +57,37 @@ public final class HullConfigManager {
         configToNameMap = new HashMap<>();
     }
 
-    private static @Nullable Vector2 readOptionalVector2(JsonValue jsonValue, @Nullable String name, @Nullable Vector2 defaultValue) {
+    private static @Nullable Vector2 readOptionalVector2(@NotNull JsonValue jsonValue, @Nullable String name, @Nullable Vector2 defaultValue) {
         Optional<String> string = Optional.ofNullable(jsonValue.getString(name, null));
 
         return string.map(SolMath::readV2).orElse(defaultValue);
     }
 
-    private static @NotNull Vector2 readPosition(JsonValue jsonValue, String superComponent) {
+    /**
+     * Reads and parses a position field from given {@link JsonValue}.
+     *
+     * The position field is expected to be of type string, in the form of {@code "0.5 0.5"}. This would return a {@link Vector2} with values 0.5f, 0.5f.
+     *
+     * @param jsonValue Json whose position you want to get
+     * @param superComponent Descriptive name of parameter whose position you are trying to get. Will be used as part of exception message in case the position is not found in the Json
+     * @return {@code Vector2} representation of the position
+     */
+    private static @NotNull Vector2 readPosition(@NotNull JsonValue jsonValue, @Nullable String superComponent) {
         Optional<String> string = Optional.ofNullable(jsonValue.getString("position", null));
 
         return string
                 .map(SolMath::readV2)
-                .orElseThrow(() -> new SolDescriptiveException("Some of your " + superComponent + "s is missing a required \"position\" argument."));
+                .orElseThrow(() -> new SolDescriptiveException("Some of your " + superComponent + "s is missing a required \"position\" argument, or it is malformed."));
     }
 
 
-    private static @Nullable Engine.Config readEngineConfig(@Nullable String engineName, ItemManager itemManager) {
+    private static @Nullable Engine.Config readEngineConfig(@Nullable String engineName, @NotNull ItemManager itemManager) {
         Optional<String> nameOptional = Optional.ofNullable(engineName);
 
         return nameOptional.map(itemManager::getEngineConfig).orElse(null);
     }
 
-    private static void validateEngineConfig(HullConfig.Data hull) {
+    private static void validateEngineConfig(@NotNull HullConfig.Data hull) {
         if (hull.engineConfig != null) {
             // Stations can't have engines, and the engine size must match the hull size
             if (hull.type == HullConfig.Type.STATION || hull.engineConfig.big != (hull.type == HullConfig.Type.BIG)) {
@@ -124,7 +133,7 @@ public final class HullConfigManager {
         return new HullConfig(configData);
     }
 
-    private void parseGunSlotList(JsonValue containerNode, HullConfig.Data configData) {
+    private void parseGunSlotList(@NotNull JsonValue containerNode, @NotNull HullConfig.Data configData) {
         Vector2 builderOrigin = new Vector2(configData.shipBuilderOrigin);
 
         for (JsonValue gunSlotNode : containerNode) {
@@ -138,7 +147,7 @@ public final class HullConfigManager {
         }
     }
 
-    private void parseParticleEmitterSlots(JsonValue containerNode, HullConfig.Data configData) {
+    private void parseParticleEmitterSlots(@NotNull JsonValue containerNode, @NotNull HullConfig.Data configData) {
         Vector2 builderOrigin = new Vector2(configData.shipBuilderOrigin);
 
         for (JsonValue particleEmitterSlotNode : containerNode) {
@@ -155,7 +164,7 @@ public final class HullConfigManager {
         }
     }
 
-    private void readProperties(JsonValue rootNode, HullConfig.Data configData) {
+    private void readProperties(@NotNull JsonValue rootNode, @NotNull HullConfig.Data configData) {
         configData.size = rootNode.getFloat("size");
         configData.approxRadius = 0.4f * configData.size;
         configData.maxLife = rootNode.getInt("maxLife");
@@ -185,8 +194,8 @@ public final class HullConfigManager {
         }
     }
 
-    private AbilityConfig loadAbility(
-            JsonValue hullNode,
+    private @Nullable AbilityConfig loadAbility(
+            @NotNull JsonValue hullNode,
             @NotNull ItemManager manager,
             @NotNull AbilityCommonConfigs commonConfigs
     ) {
@@ -215,7 +224,7 @@ public final class HullConfigManager {
 
     // Seems to offsets all positions by the shipbuilder origin
     // Todo: Find out what this function does and provide a better name.
-    private void process(HullConfig.Data configData) {
+    private void process(@NotNull HullConfig.Data configData) {
         Vector2 builderOrigin = new Vector2(configData.shipBuilderOrigin);
 
         configData.origin.set(builderOrigin).scl(configData.size);

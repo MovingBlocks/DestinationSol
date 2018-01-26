@@ -21,6 +21,9 @@ import org.destinationsol.common.Immutable;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.AbilityConfig;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +36,17 @@ public final class HullConfig {
         this.data = new Data(configData);
     }
 
-    private static List<Vector2> deepCopyOf(List<Vector2> src) {
+    /**
+     * Makes a copy of given {@link List<Vector2>}, also copying each item in such list.
+     *
+     * @param src List to make copy of
+     * @return Copied list
+     */
+    @Contract("null -> null")
+    private static @Nullable List<Vector2> deepCopyOf(@Nullable List<Vector2> src) {
+        if (src == null) {
+            return null;
+        }
         List<Vector2> returnList = new ArrayList<>(src.size());
 
         for (Vector2 vector : src) {
@@ -91,7 +104,7 @@ public final class HullConfig {
         return deepCopyOf(data.doorPoss);
     }
 
-    public TextureAtlas.AtlasRegion getIcon() {
+    public @NotNull TextureAtlas.AtlasRegion getIcon() {
         return new TextureAtlas.AtlasRegion(data.icon);
     }
 
@@ -99,7 +112,7 @@ public final class HullConfig {
         return data.type;
     }
 
-    public TextureAtlas.AtlasRegion getTexture() {
+    public @NotNull TextureAtlas.AtlasRegion getTexture() {
         return new TextureAtlas.AtlasRegion(data.tex);
     }
 
@@ -127,11 +140,11 @@ public final class HullConfig {
         return data.hirePrice;
     }
 
-    public Vector2 getOrigin() {
+    public @NotNull Vector2 getOrigin() {
         return new Vector2(data.origin);
     }
 
-    public Vector2 getShipBuilderOrigin() {
+    public @NotNull Vector2 getShipBuilderOrigin() {
         return new Vector2(data.shipBuilderOrigin);
     }
 
@@ -146,7 +159,7 @@ public final class HullConfig {
             this.name = name;
         }
 
-        public static Type forName(String name) {
+        public static @Nullable Type forName(String name) {
             for (Type t : Type.values()) {
                 if (t.name.equals(name)) {
                     return t;
