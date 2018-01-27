@@ -13,18 +13,20 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
 import com.badlogic.gdx.math.Vector2;
+import org.jetbrains.annotations.NotNull;
 
 public class MercenaryUtils {
 
     /**
      * Creates a new mercenary, SolShip and all. It also adds the MercItem and SolShip to the
      * proper registries and sets the proper variables.
-     * @param game The instance of the game we're dealing with
-     * @param hero The player
+     *
+     * @param game     The instance of the game we're dealing with
+     * @param hero     The player
      * @param mercItem The mercenary item to build everything else off of
      * @return True if the ship could be created, false if not
      */
-    public static boolean createMerc(SolGame game, SolShip hero, MercItem mercItem) {
+    public static boolean createMerc(@NotNull SolGame game, @NotNull SolShip hero, @NotNull MercItem mercItem) {
         ShipConfig config = mercItem.getConfig();
         Guardian guardian = new Guardian(game, config.hull, hero.getPilot(), hero.getPosition(), hero.getHull().config, SolMath.rnd(180));
         AiPilot pilot = new AiPilot(guardian, true, Faction.LAANI, false, "Merc", Const.AI_DET_DIST);
@@ -34,17 +36,18 @@ public class MercenaryUtils {
         }
         SolShip merc = game.getShipBuilder().buildNewFar(game, pos, new Vector2(), 0, 0, pilot, config.items, config.hull, null, true, config.money, null, true)
                 .toObj(game);
-        
+
         merc.setMerc(mercItem);
         mercItem.setSolShip(merc);
-        
+
         game.getHero().getTradeContainer().getMercs().add(mercItem);
         game.getObjectManager().addObjNow(game, merc);
         return true;
     }
-    
+
     /**
      * Finds the position at which to spawn the mercenary
+     *
      * @param game The instance of the game we're dealing with
      * @param hero The player
      * @param hull The hull of the mercenary in question
@@ -73,5 +76,5 @@ public class MercenaryUtils {
         }
         return null;
     }
-    
+
 }

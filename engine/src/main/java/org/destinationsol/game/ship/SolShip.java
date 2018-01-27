@@ -46,6 +46,7 @@ import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.game.sound.SpecialSounds;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,7 +62,7 @@ public class SolShip implements SolObject {
 
     private final Pilot myPilot;
     private final ItemContainer myItemContainer;
-    private final TradeContainer myTradeContainer;
+    private final @Nullable TradeContainer myTradeContainer;
     private final Hull myHull;
     private final DSParticleEmitter mySmokeSrc;
     private final DSParticleEmitter myFireSrc;
