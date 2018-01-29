@@ -11,7 +11,6 @@ Properties properties = new Properties()
 new File("gradle.properties").withInputStream {
     properties.load(it)
 }
-println "Properties: " + properties
 
 // Groovy Elvis operator woo! Defaults to "DestinationSol" if an override isn't set
 githubHome = properties.alternativeGithubHome ?: "DestinationSol"
@@ -52,6 +51,45 @@ boolean isUrlValid(String url) {
 }
 
 /**
+ * Retrieves all the available modules on DestinationSol account in the form of a list.
+ * @return a String[] containing the names of modules available for downlaod.
+ */
+ String[] retrieveAvailableModules() {
+   def moduleList = []
+   def githubAPIURL = "https://api.github.com/users/DestinationSol/repos"
+   if(!isUrlValid(githubAPIURL)){
+       println "Some problem in retrieving available modules. GitHub API not accessible."
+       return
+   }
+   def repoData = new URL(githubAPIURL).getText()
+   def slurper = new JsonSlurper()
+   def parsedData = slurper.parseText(repoData)
+   for (repo in parsedData.name) {
+       //DestinationSol account contains the splash site. Its not a module so exclude it.
+       if (!(repo=="DestinationSol.github.io")) {
+         moduleList << repo
+       }
+    }
+    return moduleList
+ }
+
+ /**
+  * Retrieves all the downloaded modules in the form of a list.
+  * @return a String[] containing the names of downloaded modules.
+  */
+String[] retrieveLocalModules(){
+    def localModules =[]
+    new File("modules").eachDir() { dir ->
+        String moduleName = dir.getPath().substring(8)
+        //The excludedDependencies are not considered as downloaded modules.
+        if(!(excludedDependencies.contains(moduleName))){
+            localModules << moduleName
+        }
+    }
+    return localModules
+}
+
+/**
  * Reads a given module info file to figure out which if any dependencies it has. Filters out any already retrieved.
  * @param targetModuleInfo the target file to check (a module.txt file or similar)
  * @return a String[] containing the next level of dependencies, if any
@@ -67,9 +105,9 @@ String[] readModuleDependencies(File targetModuleInfo) {
     def moduleConfig = slurper.parseText(targetModuleInfo.text)
     for (dependency in moduleConfig.dependencies) {
         if (excludedDependencies.contains(dependency.id)) {
-            println "Skipping listed dependency $dependency as it is in the exclude list (shipped with primary project)"
+            println "Skipping listed dependency $dependency.id as it is in the exclude list (shipped with primary project)"
         } else {
-            println "Accepting listed dependency $dependency"
+            println "Accepting listed dependency $dependency.id"
             qualifiedDependencies << dependency.id
         }
     }
@@ -322,6 +360,7 @@ def processCustomRemote(String[] arguments) {
 def printUsage() {
     println ""
     println "Utility script for interacting with modules. Available sub commands:"
+    println "- 'list-modules' - lists modules that are available for download or downloaded already."
     println "- 'get' - retrieves one or more modules in source form (separate with spaces)"
     println "- 'create' - creates a new module"
     println "- 'update' - updates a module (git pulls latest from current origin, if workspace is clean"
@@ -409,13 +448,9 @@ if (args.length == 0) {
             break
         case "update-all":
             println "We're updating all modules"
-            println "List of modules:"
-            new File("modules").eachDir() { dir ->
-                String moduleName = dir.getPath().substring(8)
-                //The excludedDependencies need not be updated because they live in the main repo.
-                if(!(excludedDependencies.contains(moduleName))){
-                    updateModule(moduleName)
-                }
+            println "List of modules: ${retrieveLocalModules()}"
+            for(module in retrieveLocalModules()){
+              updateModule(module)
             }
             break
         case "add-remote":
@@ -444,6 +479,31 @@ if (args.length == 0) {
             } else {
                 println "Incorrect Syntax"
                 println "Usage: 'list-remotes (module)' - lists all remotes for (module)"
+            }
+            break
+        case "list-modules":
+            String[] availableModules = retrieveAvailableModules()
+            String[] localModules = retrieveLocalModules()
+            println "The following modules are available for download:"
+            if (availableModules.size() == 0){
+              println "No modules available for download."
+            } else if (localModules == availableModules){
+              println "All modules are downloaded."
+            } else {
+                for (module in availableModules){
+                    if(!(localModules.contains(module))){
+                       println "--$module"
+                    }
+                }
+            }
+            println ""
+            println "The following modules are already downloaded:"
+            if(localModules.size() == 0){
+              println "No modules downloaded."
+            } else {
+              for(module in localModules){
+                println "--$module"
+              }
             }
             break
         default:
