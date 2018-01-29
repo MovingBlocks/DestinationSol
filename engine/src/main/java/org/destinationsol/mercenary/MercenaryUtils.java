@@ -1,6 +1,7 @@
 package org.destinationsol.mercenary;
 
 import org.destinationsol.Const;
+import org.destinationsol.common.SolDescriptiveException;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.ShipConfig;
@@ -15,18 +16,21 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 import com.badlogic.gdx.math.Vector2;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 public class MercenaryUtils {
 
     /**
      * Creates a new mercenary, SolShip and all. It also adds the MercItem and SolShip to the
      * proper registries and sets the proper variables.
      *
-     * @param game     The instance of the game we're dealing with
-     * @param hero     The player
-     * @param mercItem The mercenary item to build everything else off of
+     * @param game         The instance of the game we're dealing with
+     * @param heroOptional The player
+     * @param mercItem     The mercenary item to build everything else off of
      * @return True if the ship could be created, false if not
      */
-    public static boolean createMerc(@NotNull SolGame game, @NotNull SolShip hero, @NotNull MercItem mercItem) {
+    public static boolean createMerc(@NotNull SolGame game, Optional<SolShip> heroOptional, @NotNull MercItem mercItem) {
+        SolShip hero = heroOptional.orElseThrow(() -> new SolDescriptiveException("Something is trying to create a mercenary with null hero. This isn't supposed to happen in any way."));
         ShipConfig config = mercItem.getConfig();
         Guardian guardian = new Guardian(game, config.hull, hero.getPilot(), hero.getPosition(), hero.getHull().config, SolMath.rnd(180));
         AiPilot pilot = new AiPilot(guardian, true, Faction.LAANI, false, "Merc", Const.AI_DET_DIST);

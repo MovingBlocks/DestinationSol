@@ -112,12 +112,12 @@ public class SolGame {
     private final @Nullable TutorialManager tutorialManager;
     private final GalaxyFiller galaxyFiller;
     private final ArrayList<SolItem> respawnItems;
-    private @Nullable SolShip hero;
+    private Optional<SolShip> hero;
     private String shipName; // Not updated in-game. Can be changed using setter
     private float timeStep;
     private float time;
     private boolean paused;
-    private StarPort.Transcendent transcendentHero;
+    private Optional<StarPort.Transcendent> transcendentHero;
     private float timeFactor;
     private float respawnMoney;
     private HullConfig respawnHull;
@@ -196,18 +196,18 @@ public class SolGame {
         String itemsStr = !respawnItems.isEmpty() ? "" : shipConfig.items;
 
         boolean giveAmmo = shipNameOptional.isPresent() && respawnItems.isEmpty();
-        hero = shipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObj(this);
+        hero = Optional.of(shipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObj(this));
 
-        ItemContainer itemContainer = hero.getItemContainer();
+        ItemContainer itemContainer = hero.get().getItemContainer();
         if (!respawnItems.isEmpty()) {
             for (SolItem item : respawnItems) {
                 itemContainer.add(item);
                 // Ensure that previously equipped items stay equipped
                 if (item.isEquipped() > 0) {
                     if (item instanceof Gun) {
-                        hero.maybeEquip(this, item, item.isEquipped() == 2, true);
+                        hero.get().maybeEquip(this, item, item.isEquipped() == 2, true);
                     } else {
-                        hero.maybeEquip(this, item, true);
+                        hero.get().maybeEquip(this, item, true);
                     }
                 }
             }
@@ -227,7 +227,7 @@ public class SolGame {
         // Don't change equipped items across load/respawn
         //AiPilot.reEquip(this, myHero);
 
-        objectManager.addObjDelayed(hero);
+        objectManager.addObjDelayed(hero.get());
         objectManager.resetDelays();
     }
 
@@ -255,7 +255,8 @@ public class SolGame {
         }
 
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {}.getType();
+        Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {
+        }.getType();
         ArrayList<HashMap<String, String>> mercs = gson.fromJson(bufferedReader, type);
 
         MercItem mercItems;
@@ -280,18 +281,17 @@ public class SolGame {
         HullConfig hull;
         float money;
         ArrayList<SolItem> items;
-
-        if (hero != null) {
-            hull = hero.getHull().config;
-            money = hero.getMoney();
+        if (hero.isPresent()) {
+            hull = hero.get().getHull().config;
+            money = hero.get().getMoney();
             items = new ArrayList<>();
-            for (List<SolItem> group : hero.getItemContainer()) {
+            for (List<SolItem> group : hero.get().getItemContainer()) {
                 for (SolItem i : group) {
                     items.add(0, i);
                 }
             }
-        } else if (transcendentHero != null) {
-            FarShip farH = transcendentHero.getShip();
+        } else if (transcendentHero.isPresent()) {
+            FarShip farH = transcendentHero.get().getShip();
             hull = farH.getHullConfig();
             money = farH.getMoney();
             items = new ArrayList<>();
@@ -323,13 +323,9 @@ public class SolGame {
         }
 
         timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
-        if (hero != null) {
-            ShipAbility ability = hero.getAbility();
-            if (ability instanceof SloMo) {
-                float factor = ((SloMo) ability).getFactor();
-                timeFactor *= factor;
-            }
-        }
+        hero.map(SolShip::getAbility)
+                .filter(ability -> ability instanceof SloMo)
+                .ifPresent(ability -> timeFactor *= ((SloMo) ability).getFactor());
         timeStep = Const.REAL_TIME_STEP * timeFactor;
         time += timeStep;
 
@@ -343,14 +339,14 @@ public class SolGame {
         soundManager.update(this);
         beaconHandler.update(this);
 
-        hero = null;
-        transcendentHero = null;
+        hero = Optional.empty();
+        transcendentHero = Optional.empty();
         for (SolObject obj : objectManager.getObjs()) {
             if ((obj instanceof SolShip)) {
                 SolShip ship = (SolShip) obj;
                 Pilot prov = ship.getPilot();
                 if (prov.isPlayer()) {
-                    hero = ship;
+                    hero = Optional.of(ship);
                     break;
                 }
             }
@@ -359,7 +355,7 @@ public class SolGame {
                 StarPort.Transcendent trans = (StarPort.Transcendent) obj;
                 FarShip ship = trans.getShip();
                 if (ship.getPilot().isPlayer()) {
-                    transcendentHero = trans;
+                    transcendentHero = Optional.of(trans);
                     break;
                 }
             }
@@ -432,7 +428,7 @@ public class SolGame {
     }
 
     public @Nullable SolShip getHero() {
-        return hero;
+        return hero.orElse(null);
     }
 
     public ShipBuilder getShipBuilder() {
@@ -457,14 +453,11 @@ public class SolGame {
     }
 
     public void respawn() {
-        if (hero != null) {
-            beforeHeroDeath();
-            objectManager.removeObjDelayed(hero);
-        } else if (transcendentHero != null) {
-            FarShip farH = transcendentHero.getShip();
-            setRespawnState(farH.getMoney(), farH.getIc(), farH.getHullConfig());
-            objectManager.removeObjDelayed(transcendentHero);
-        }
+        hero.ifPresent(hero -> {beforeHeroDeath(); objectManager.removeObjDelayed(hero);});
+        transcendentHero.map(StarPort.Transcendent::getShip)
+                .ifPresent(farShip -> setRespawnState(farShip.getMoney(), farShip.getIc(), farShip.getHullConfig()));
+        transcendentHero.ifPresent(objectManager::removeObjDelayed);
+
         createPlayer(null);
     }
 
@@ -533,8 +526,8 @@ public class SolGame {
         return starPortBuilder;
     }
 
-    public StarPort.Transcendent getTranscendentHero() {
-        return transcendentHero;
+    public @Nullable StarPort.Transcendent getTranscendentHero() {
+        return transcendentHero.orElse(null);
     }
 
     public GridDrawer getGridDrawer() {
@@ -590,16 +583,16 @@ public class SolGame {
     }
 
     public void beforeHeroDeath() {
-        if (hero == null) {
+        if (!hero.isPresent()) {
             return;
         }
 
-        float money = hero.getMoney();
-        ItemContainer ic = hero.getItemContainer();
+        float money = hero.get().getMoney();
+        ItemContainer ic = hero.get().getItemContainer();
 
-        setRespawnState(money, ic, hero.getHull().config);
+        setRespawnState(money, ic, hero.get().getHull().config);
 
-        hero.setMoney(money - respawnMoney);
+        hero.get().setMoney(money - respawnMoney);
         for (SolItem item : respawnItems) {
             ic.remove(item);
         }
@@ -611,7 +604,7 @@ public class SolGame {
         respawnItems.clear();
         for (List<SolItem> group : ic) {
             for (SolItem item : group) {
-                boolean equipped = hero == null || hero.maybeUnequip(this, item, false);
+                boolean equipped = hero.map(hero -> hero.maybeUnequip(this, item, false)).orElse(true);
                 if (equipped || SolMath.test(.75f)) {
                     respawnItems.add(0, item);
                 }

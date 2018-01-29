@@ -335,6 +335,9 @@ public class StarPort implements SolObject {
         }
     }
 
+    /**
+     * The state ship is in when travelling through StarPort.
+     */
     public static class Transcendent implements SolObject {
         private static final float TRAN_SZ = 1f;
         private final Planet myFrom;
