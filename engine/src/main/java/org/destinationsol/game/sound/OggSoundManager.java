@@ -32,6 +32,7 @@ import org.destinationsol.game.ship.SolShip;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class OggSoundManager {
     // private static Logger logger = LoggerFactory.getLogger(OggSoundManager.class);
@@ -108,8 +109,8 @@ public class OggSoundManager {
 
         float maxSoundDist = 1 + 1.5f * Const.CAM_VIEW_DIST_GROUND * airPerc;
 
-        SolShip hero = game.getHero();
-        float soundRadius = hero == null ? 0 : hero.getHull().config.getApproxRadius();
+        Optional<SolShip> hero = game.getHero();
+        float soundRadius = hero.map(y -> y.getHull().config.getApproxRadius()).orElse(0f);
         float distance = position.dst(cameraPosition) - soundRadius;
         float distanceMultiplier = SolMath.clamp(1 - distance / maxSoundDist);
 

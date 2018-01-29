@@ -15,29 +15,20 @@
  */
 package org.destinationsol.game.screens;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.common.SolMath;
-import org.destinationsol.game.Faction;
-import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.input.AiPilot;
-import org.destinationsol.game.input.Guardian;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.SolShip;
-import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 
-import com.badlogic.gdx.math.Vector2;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class HireShips implements InventoryOperations {
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
@@ -68,14 +59,14 @@ public class HireShips implements InventoryOperations {
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
-        SolShip hero = game.getHero();
+        Optional<SolShip> hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
         if (talkScreen.isTargetFar(hero)) {
             solApplication.getInputMan().setScreen(solApplication, game.getScreens().mainScreen);
             return;
         }
         SolItem selItem = is.getSelectedItem();
-        boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice();
+        boolean enabled = selItem != null && hero.map(SolShip::getMoney).orElse(Float.NEGATIVE_INFINITY) >= selItem.getPrice();
         hireControl.setDisplayName(enabled ? "Hire" : "---");
         hireControl.setEnabled(enabled);
         if (!enabled) {
@@ -84,7 +75,7 @@ public class HireShips implements InventoryOperations {
         if (hireControl.isJustOff()) {
             boolean hired = MercenaryUtils.createMerc(game, hero, (MercItem) selItem);
             if (hired) {
-                hero.setMoney(hero.getMoney() - selItem.getPrice());
+                hero.ifPresent(solShip -> solShip.setMoney(solShip.getMoney() - selItem.getPrice()));
             }
         }
     }

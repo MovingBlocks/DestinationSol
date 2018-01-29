@@ -31,6 +31,7 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ShipMixedControl implements ShipUiControl {
     public final SolUiControl upCtrl;
@@ -68,8 +69,8 @@ public class ShipMixedControl implements ShipUiControl {
         }
         SolInputManager im = solApplication.getInputMan();
         SolGame game = solApplication.getGame();
-        SolShip hero = game.getHero();
-        if (hero != null) {
+        Optional<SolShip> heroOptional = game.getHero();
+        heroOptional.ifPresent(hero -> {
             myMouseWorldPos.set(Gdx.input.getX(), Gdx.input.getY());
             game.getCam().screenToWorld(myMouseWorldPos);
             float desiredAngle = SolMath.angle(hero.getPosition(), myMouseWorldPos);
@@ -92,7 +93,7 @@ public class ShipMixedControl implements ShipUiControl {
                     abilityCtrl.maybeFlashPressed(gameOptions.getKeyAbility());
                 }
             }
-        }
+        });
     }
 
     @Override

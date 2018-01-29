@@ -16,18 +16,19 @@
 
 package org.destinationsol.game.screens;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.common.SolNullOptionalException;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class TakeItems implements InventoryOperations {
     public final SolUiControl takeControl;
@@ -59,10 +60,10 @@ public class TakeItems implements InventoryOperations {
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
-        SolShip hero = game.getHero();
+        Optional<SolShip> hero = game.getHero();
         
         SolItem selItem = is.getSelectedItem();
-        boolean enabled = selItem != null && hero.getItemContainer().canAdd(selItem);
+        boolean enabled = selItem != null && hero.orElseThrow(SolNullOptionalException::new).getItemContainer().canAdd(selItem);
         takeControl.setDisplayName(enabled ? "Take" : "---");
         takeControl.setEnabled(enabled);
         
@@ -72,7 +73,7 @@ public class TakeItems implements InventoryOperations {
         
         if (takeControl.isJustOff()) {
             target.getItemContainer().remove(selItem);
-            hero.getItemContainer().add(selItem);
+            hero.orElseThrow(SolNullOptionalException::new).getItemContainer().add(selItem);
         }
     }
     

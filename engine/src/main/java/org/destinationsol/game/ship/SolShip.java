@@ -22,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolNullOptionalException;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.RemoveController;
@@ -432,7 +433,7 @@ public class SolShip implements SolObject {
     private void onDeath(SolGame game) {
         MercItem merc = getMerc();
         if (merc != null) {
-            game.getHero().getTradeContainer().getMercs().remove(merc);
+            game.getHero().orElseThrow(SolNullOptionalException::new).getTradeContainer().getMercs().remove(merc);
         }
     }
 

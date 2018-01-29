@@ -19,9 +19,11 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.ship.SolShip;
+import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.ui.SolUiControl;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ShipKbControl implements ShipUiControl {
     public final SolUiControl leftCtrl;
@@ -75,17 +77,17 @@ public class ShipKbControl implements ShipUiControl {
             abilityCtrl.setEnabled(false);
             return;
         }
-        SolShip hero = solApplication.getGame().getHero();
-        boolean hasEngine = hero != null && hero.getHull().getEngine() != null;
+        Optional<SolShip> hero = solApplication.getGame().getHero();
+        boolean hasEngine = hero.map(SolShip::getHull).map(Hull::getEngine).isPresent();
         upCtrl.setEnabled(hasEngine);
         leftCtrl.setEnabled(hasEngine);
         rightCtrl.setEnabled(hasEngine);
 
-        Gun g1 = hero == null ? null : hero.getHull().getGun(false);
-        shootCtrl.setEnabled(g1 != null && g1.ammo > 0);
-        Gun g2 = hero != null ? hero.getHull().getGun(true) : null;
-        shoot2Ctrl.setEnabled(g2 != null && g2.ammo > 0);
-        abilityCtrl.setEnabled(hero != null && hero.canUseAbility());
+        Optional<Gun> gun1 = hero.map(SolShip::getHull).map(y -> y.getGun(false));
+        shootCtrl.setEnabled(gun1.filter(y -> y.ammo > 0).isPresent());
+        Optional<Gun> gun2 = hero.map(SolShip::getHull).map(y -> y.getGun(true));
+        shoot2Ctrl.setEnabled(gun2.filter(y -> y.ammo > 0).isPresent());
+        abilityCtrl.setEnabled(hero.filter(SolShip::canUseAbility).isPresent());
     }
 
     @Override

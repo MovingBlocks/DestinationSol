@@ -17,6 +17,7 @@ package org.destinationsol.game.screens;
 
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.common.SolNullOptionalException;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
@@ -42,13 +43,13 @@ public class SellItems implements InventoryOperations {
 
     @Override
     public ItemContainer getItems(SolGame game) {
-        Optional<SolShip> hero = Optional.ofNullable(game.getHero());
+        Optional<SolShip> hero = game.getHero();
         return hero.map(SolShip::getItemContainer).orElse(null);
     }
 
     @Override
     public boolean isUsing(SolGame game, SolItem item) {
-        Optional<SolShip> hero = Optional.ofNullable(game.getHero());
+        Optional<SolShip> hero = game.getHero();
         return hero.isPresent() && hero.get().maybeUnequip(game, item, false);
     }
 
@@ -73,7 +74,7 @@ public class SellItems implements InventoryOperations {
         InventoryScreen is = game.getScreens().inventoryScreen;
         TalkScreen talkScreen = game.getScreens().talkScreen;
         SolShip target = talkScreen.getTarget();
-        SolShip hero = game.getHero();
+        Optional<SolShip> hero = game.getHero();
         if (talkScreen.isTargetFar(hero)) {
             solApplication.getInputMan().setScreen(solApplication, game.getScreens().mainScreen);
             return;
@@ -103,11 +104,11 @@ public class SellItems implements InventoryOperations {
             return;
         }
         if (sellControl.isJustOff()) {
-            ItemContainer ic = hero.getItemContainer();
+            ItemContainer ic = hero.orElseThrow(SolNullOptionalException::new).getItemContainer();
             is.setSelected(ic.getSelectionAfterRemove(is.getSelected()));
             ic.remove(selItem);
             target.getTradeContainer().getItems().add(selItem);
-            hero.setMoney(hero.getMoney() + selItem.getPrice() * PERC);
+            hero.orElseThrow(SolNullOptionalException::new).setMoney(hero.orElseThrow(SolNullOptionalException::new).getMoney() + selItem.getPrice() * PERC);
         }
     }
 

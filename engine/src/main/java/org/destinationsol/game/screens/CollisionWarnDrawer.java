@@ -19,13 +19,16 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolNullOptionalException;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.ship.SolShip;
 
+import java.util.Optional;
+
 public class CollisionWarnDrawer extends WarnDrawer {
     private final CollisionRayCastCallback warnCallback = new CollisionRayCastCallback();
-    private SolShip hero;
+    private Optional<SolShip> hero;
 
     CollisionWarnDrawer(float r) {
         super(r, "Object Near");
@@ -33,12 +36,12 @@ public class CollisionWarnDrawer extends WarnDrawer {
 
     public boolean shouldWarn(SolGame game) {
         hero = game.getHero();
-        if (hero == null) {
+        if (!hero.isPresent()) {
             return false;
         }
-        Vector2 pos = hero.getPosition();
-        Vector2 spd = hero.getSpd();
-        float acc = hero.getAcc();
+        Vector2 pos = hero.orElseThrow(SolNullOptionalException::new).getPosition();
+        Vector2 spd = hero.orElseThrow(SolNullOptionalException::new).getSpd();
+        float acc = hero.orElseThrow(SolNullOptionalException::new).getAcc();
         float spdLen = spd.len();
         float spdAngle = SolMath.angle(spd);
         if (acc <= 0 || spdLen < 2 * acc) {
@@ -63,7 +66,7 @@ public class CollisionWarnDrawer extends WarnDrawer {
         @Override
         public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
             SolObject o = (SolObject) fixture.getBody().getUserData();
-            if (hero == o) {
+            if (hero.orElse(null) == o) {
                 return -1;
             }
             show = true;

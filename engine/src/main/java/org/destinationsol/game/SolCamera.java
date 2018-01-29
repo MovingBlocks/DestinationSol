@@ -23,9 +23,12 @@ import com.badlogic.gdx.math.Vector3;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolNullOptionalException;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.screens.MainScreen;
 import org.destinationsol.game.ship.SolShip;
+
+import java.util.Optional;
 
 public class SolCamera {
     public static final float CAM_ROT_SPD = 90f;
@@ -61,9 +64,9 @@ public class SolCamera {
     public void update(SolGame game) {
         float life = 0;
 
-        SolShip hero = game.getHero();
+        Optional<SolShip> hero = game.getHero();
         float ts = game.getTimeStep();
-        if (hero == null) {
+        if (!hero.isPresent()) {
             StarPort.Transcendent trans = game.getTranscendentHero();
             if (trans == null) {
                 if (DebugOptions.DIRECT_CAM_CONTROL) {
@@ -73,12 +76,12 @@ public class SolCamera {
                 myPos.set(trans.getPosition());
             }
         } else {
-            Vector2 heroPos = hero.getHull().getBody().getWorldCenter();
+            Vector2 heroPos = hero.orElseThrow(SolNullOptionalException::new).getHull().getBody().getWorldCenter();
             if (myZoom * VIEWPORT_HEIGHT < heroPos.dst(myPos)) {
                 myPos.set(heroPos);
                 game.getObjectManager().resetDelays();
             } else {
-                Vector2 moveDiff = SolMath.getVec(hero.getSpd());
+                Vector2 moveDiff = SolMath.getVec(hero.orElseThrow(SolNullOptionalException::new).getSpd());
                 moveDiff.scl(ts);
                 myPos.add(moveDiff);
                 SolMath.free(moveDiff);
@@ -86,7 +89,7 @@ public class SolCamera {
                 myPos.x = SolMath.approach(myPos.x, heroPos.x, moveSpd);
                 myPos.y = SolMath.approach(myPos.y, heroPos.y, moveSpd);
             }
-            life = hero.getLife();
+            life = hero.orElseThrow(SolNullOptionalException::new).getLife();
         }
 
         if (life < myPrevHeroLife) {
@@ -120,13 +123,13 @@ public class SolCamera {
     }
 
     private float getDesiredViewDistance(SolGame game) {
-        SolShip hero = game.getHero();
-        if (hero == null && game.getTranscendentHero() != null) { // hero is in transcendent state
+        Optional<SolShip> hero = game.getHero();
+        if (!hero.isPresent() && game.getTranscendentHero() != null) { // hero is in transcendent state
             return Const.CAM_VIEW_DIST_SPACE;
-        } else if (hero == null && game.getTranscendentHero() == null) {
+        } else if (!hero.isPresent() && game.getTranscendentHero() == null) {
             return Const.CAM_VIEW_DIST_GROUND;
         } else {
-            float speed = hero.getSpd().len();
+            float speed = hero.orElseThrow(SolNullOptionalException::new).getSpd().len();
             float desiredViewDistance = Const.CAM_VIEW_DIST_SPACE;
             Planet nearestPlanet = game.getPlanetManager().getNearestPlanet(myPos);
             if (nearestPlanet.getFullHeight() < nearestPlanet.getPos().dst(myPos) && MAX_ZOOM_SPD < speed) {
@@ -134,7 +137,7 @@ public class SolCamera {
             } else if (nearestPlanet.isNearGround(myPos) && speed < MED_ZOOM_SPD) {
                 desiredViewDistance = Const.CAM_VIEW_DIST_GROUND;
             }
-            desiredViewDistance += hero.getHull().config.getApproxRadius();
+            desiredViewDistance += hero.orElseThrow(SolNullOptionalException::new).getHull().config.getApproxRadius();
             return desiredViewDistance;
         }
     }

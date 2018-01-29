@@ -18,6 +18,7 @@ package org.destinationsol.game.screens;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.common.SolNullOptionalException;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.Gun;
@@ -64,7 +65,7 @@ public class ChangeShip implements InventoryOperations {
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
-        SolShip hero = game.getHero();
+        Optional<SolShip> hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
         if (talkScreen.isTargetFar(hero)) {
             solApplication.getInputMan().setScreen(solApplication, game.getScreens().mainScreen);
@@ -76,12 +77,12 @@ public class ChangeShip implements InventoryOperations {
             changeControl.setEnabled(false);
             return;
         }
-        boolean enabled = hasMoneyToBuyShip(hero, selItem);
-        boolean sameShip = isSameShip(hero, selItem);
+        boolean enabled = hasMoneyToBuyShip(hero.orElseThrow(SolNullOptionalException::new), selItem);
+        boolean sameShip = isSameShip(hero.orElseThrow(SolNullOptionalException::new), selItem);
         if (enabled && !sameShip) {
             changeControl.setDisplayName("Change");
             changeControl.setEnabled(true);
-        } else if (enabled && sameShip) {
+        } else if (enabled) {
             changeControl.setDisplayName("Have it");
             changeControl.setEnabled(false);
             return;
@@ -91,8 +92,8 @@ public class ChangeShip implements InventoryOperations {
             return;
         }
         if (changeControl.isJustOff()) {
-            hero.setMoney(hero.getMoney() - selItem.getPrice());
-            changeShip(game, hero, (ShipItem) selItem);
+            hero.orElseThrow(SolNullOptionalException::new).setMoney(hero.orElseThrow(SolNullOptionalException::new).getMoney() - selItem.getPrice());
+            changeShip(game, hero.orElseThrow(SolNullOptionalException::new), (ShipItem) selItem);
         }
     }
 

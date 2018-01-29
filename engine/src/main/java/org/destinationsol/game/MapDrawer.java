@@ -121,7 +121,7 @@ public class MapDrawer {
         Planet np = game.getPlanetManager().getNearestPlanet();
         Vector2 camPos = cam.getPos();
         float camAngle = cam.getAngle();
-        Optional<SolShip> hero = Optional.ofNullable(game.getHero());
+        Optional<SolShip> hero = game.getHero();
         float heroDmgCap = hero.map(HardnessCalc::getShipDmgCap).orElse(Float.MAX_VALUE);
 
         drawer.updateMtx(game);

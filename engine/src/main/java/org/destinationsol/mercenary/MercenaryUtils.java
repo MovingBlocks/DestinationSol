@@ -3,6 +3,7 @@ package org.destinationsol.mercenary;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolDescriptiveException;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolNullOptionalException;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.SolGame;
@@ -38,13 +39,19 @@ public class MercenaryUtils {
         if (pos == null) {
             return false;
         }
-        SolShip merc = game.getShipBuilder().buildNewFar(game, pos, new Vector2(), 0, 0, pilot, config.items, config.hull, null, true, config.money, null, true)
+        SolShip merc = game
+                .getShipBuilder()
+                .buildNewFar(game, pos, new Vector2(), 0, 0, pilot, config.items, config.hull, null, true, config.money, null, true)
                 .toObj(game);
 
         merc.setMerc(mercItem);
         mercItem.setSolShip(merc);
 
-        game.getHero().getTradeContainer().getMercs().add(mercItem);
+        game.getHero()
+                .orElseThrow(SolNullOptionalException::new)
+                .getTradeContainer()
+                .getMercs()
+                .add(mercItem);
         game.getObjectManager().addObjNow(game, merc);
         return true;
     }

@@ -80,16 +80,16 @@ public class BorderDrawer {
     }
 
     public void draw(UiDrawer drawer, SolApplication cmp) {
-        SolGame g = cmp.getGame();
-        SolCamera cam = g.getCam();
+        SolGame game = cmp.getGame();
+        SolCamera cam = game.getCam();
         Vector2 camPos = cam.getPos();
-        Optional<SolShip> hero = Optional.ofNullable(g.getHero());
-        drawTishches(drawer, g, cam, camPos);
-        MapDrawer mapDrawer = g.getMapDrawer();
-        FactionManager factionManager = g.getFactionMan();
+        Optional<SolShip> hero = game.getHero();
+        drawTishches(drawer, game, cam, camPos);
+        MapDrawer mapDrawer = game.getMapDrawer();
+        FactionManager factionManager = game.getFactionMan();
         float heroDmgCap = hero.map(HardnessCalc::getShipDmgCap).orElse(Float.MAX_VALUE);
 
-        List<SolObject> objs = g.getObjectManager().getObjs();
+        List<SolObject> objs = game.getObjectManager().getObjs();
         for (SolObject o : objs) {
             if ((o instanceof SolShip)) {
                 SolShip ship = (SolShip) o;
@@ -105,7 +105,7 @@ public class BorderDrawer {
             }
         }
 
-        List<FarShip> farShips = g.getObjectManager().getFarShips();
+        List<FarShip> farShips = game.getObjectManager().getFarShips();
         for (FarShip ship : farShips) {
             Vector2 shipPos = ship.getPos();
             Faction shipFaction = ship.getPilot().getFaction();
@@ -113,7 +113,7 @@ public class BorderDrawer {
             float shipAngle = ship.getAngle();
             maybeDrawIcon(drawer, shipPos, cam, shipSize, shipAngle, mapDrawer, factionManager, hero, shipFaction, ship, heroDmgCap, ship.getHullConfig().getIcon());
         }
-        List<StarPort.MyFar> farPorts = g.getObjectManager().getFarPorts();
+        List<StarPort.MyFar> farPorts = game.getObjectManager().getFarPorts();
         for (StarPort.MyFar sp : farPorts) {
             maybeDrawIcon(drawer, sp.getPos(), cam, StarPort.SIZE, sp.getAngle(), mapDrawer, null, Optional.empty(), null, null, -1, mapDrawer.getStarPortTex());
         }

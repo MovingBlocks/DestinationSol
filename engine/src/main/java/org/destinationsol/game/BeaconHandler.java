@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolNullOptionalException;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.DrawableObject;
@@ -32,6 +33,7 @@ import org.destinationsol.game.ship.SolShip;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class BeaconHandler {
     private static final float TEX_SZ = .5f;
@@ -208,11 +210,11 @@ public class BeaconHandler {
         throw new AssertionError();
     }
 
-    public Action processMouse(SolGame g, Vector2 pos, boolean clicked, boolean onMap) {
+    public Action processMouse(SolGame game, Vector2 pos, boolean clicked, boolean onMap) {
         Action action;
-        Pilot targetPilot = findPilotInPos(g, pos, onMap, clicked);
+        Pilot targetPilot = findPilotInPos(game, pos, onMap, clicked);
         if (targetPilot != null) {
-            boolean enemies = g.getFactionMan().areEnemies(targetPilot.getFaction(), g.getHero().getPilot().getFaction());
+            boolean enemies = game.getFactionMan().areEnemies(targetPilot.getFaction(), game.getHero().orElseThrow(SolNullOptionalException::new).getPilot().getFaction());
             if (enemies) {
                 action = Action.ATTACK;
                 if (clicked) {
@@ -235,7 +237,7 @@ public class BeaconHandler {
         if (clicked) {
             applyAction(action);
             getPos0().set(pos);
-            myClickTime = g.getTime();
+            myClickTime = game.getTime();
         }
         return action;
     }
@@ -253,12 +255,12 @@ public class BeaconHandler {
         }
     }
 
-    private Pilot findPilotInPos(SolGame g, Vector2 pos, boolean onMap, boolean clicked) {
-        ObjectManager om = g.getObjectManager();
-        SolShip h = g.getHero();
-        float iconRad = onMap ? g.getMapDrawer().getIconRadius(g.getCam()) : 0;
+    private Pilot findPilotInPos(SolGame game, Vector2 pos, boolean onMap, boolean clicked) {
+        ObjectManager om = game.getObjectManager();
+        Optional<SolShip> hero = game.getHero();
+        float iconRad = onMap ? game.getMapDrawer().getIconRadius(game.getCam()) : 0;
         for (SolObject o : om.getObjs()) {
-            if (o == h || !(o instanceof SolShip)) {
+            if (o == hero.orElseThrow(SolNullOptionalException::new) || !(o instanceof SolShip)) {
                 continue;
             }
             SolShip s = (SolShip) o;

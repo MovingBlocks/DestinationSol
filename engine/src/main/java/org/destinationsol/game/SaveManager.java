@@ -15,14 +15,12 @@
  */
 package org.destinationsol.game;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.badlogic.gdx.files.FileHandle;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import org.destinationsol.IniReader;
+import org.destinationsol.common.SolNullOptionalException;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
@@ -34,10 +32,12 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.badlogic.gdx.files.FileHandle;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SaveManager {
     private static Logger logger = LoggerFactory.getLogger(SaveManager.class);
@@ -89,7 +89,7 @@ public class SaveManager {
     private static void writeMercs(SolGame game) {
         PrintWriter writer;
 
-        ItemContainer mercenaries = game.getHero().getTradeContainer().getMercs();
+        ItemContainer mercenaries = game.getHero().orElseThrow(SolNullOptionalException::new).getTradeContainer().getMercs();
 
         List<JsonObject> jsons = new ArrayList<JsonObject>();
 

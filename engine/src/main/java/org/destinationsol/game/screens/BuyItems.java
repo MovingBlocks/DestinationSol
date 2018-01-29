@@ -18,6 +18,7 @@ package org.destinationsol.game.screens;
 
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.common.SolNullOptionalException;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
@@ -27,6 +28,7 @@ import org.destinationsol.ui.SolUiControl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class BuyItems implements InventoryOperations {
     public final SolUiControl buyControl;
@@ -57,7 +59,7 @@ public class BuyItems implements InventoryOperations {
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
-        SolShip hero = game.getHero();
+        Optional<SolShip> hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
         SolShip target = talkScreen.getTarget();
         if (talkScreen.isTargetFar(hero)) {
@@ -65,7 +67,7 @@ public class BuyItems implements InventoryOperations {
             return;
         }
         SolItem selItem = is.getSelectedItem();
-        boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice() && hero.getItemContainer().canAdd(selItem);
+        boolean enabled = selItem != null && hero.orElseThrow(SolNullOptionalException::new).getMoney() >= selItem.getPrice() && hero.orElseThrow(SolNullOptionalException::new).getItemContainer().canAdd(selItem);
         buyControl.setDisplayName(enabled ? "Buy" : "---");
         buyControl.setEnabled(enabled);
         if (!enabled) {
@@ -73,8 +75,8 @@ public class BuyItems implements InventoryOperations {
         }
         if (buyControl.isJustOff()) {
             target.getTradeContainer().getItems().remove(selItem);
-            hero.getItemContainer().add(selItem);
-            hero.setMoney(hero.getMoney() - selItem.getPrice());
+            hero.orElseThrow(SolNullOptionalException::new).getItemContainer().add(selItem);
+            hero.orElseThrow(SolNullOptionalException::new).setMoney(hero.orElseThrow(SolNullOptionalException::new).getMoney() - selItem.getPrice());
         }
     }
 }
