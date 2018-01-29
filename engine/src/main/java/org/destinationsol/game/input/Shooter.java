@@ -68,7 +68,7 @@ public class Shooter {
     }
 
     public void update(@NotNull SolShip ship, @Nullable Vector2 enemyPos, boolean nonRotatable, boolean canShoot,
-                       @NotNull Vector2 enemySpd, float enemyApproxRad) {
+                       Vector2 enemySpd, float enemyApproxRad) {
         myLeft = false;
         myRight = false;
         myShoot = false;
@@ -77,7 +77,9 @@ public class Shooter {
         if (enemyPos == null || !canShoot) {
             return;
         }
-        float distanceToEnemy = SolMath.distVec(shipPos, enemyPos).len();
+        Vector2 vec = SolMath.distVec(shipPos, enemyPos);
+        float distanceToEnemy = vec.len();
+        SolMath.free(vec);
 
         Gun gun1 = processGun(ship, false);
         Gun gun2 = processGun(ship, true);

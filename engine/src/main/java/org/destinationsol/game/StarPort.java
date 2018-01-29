@@ -93,8 +93,6 @@ public class StarPort implements SolObject {
                 if (distance <= (float) StarPort.SIZE) {
                     distVec.scl((StarPort.SIZE + .5f) / distance);
                     newPos = fromPos.cpy().add(distVec);
-                    Vector2 d2 = SolMath.distVec(fromPos, newPos);
-                    SolMath.free(d2);
                 }
                 SolMath.free(distVec);
             }
