@@ -65,7 +65,7 @@ public class PlanetObjectsBuilder {
         createDeco(game, planet);
         if (planet.getConfig().skyConfig != null) {
             Sky sky = new Sky(game, planet);
-            game.getObjMan().addObjDelayed(sky);
+            game.getObjectManager().addObjDelayed(sky);
         }
         createShips(game, planet);
         return minR;
@@ -77,7 +77,7 @@ public class PlanetObjectsBuilder {
         ShipConfig cfg = planet.getConfig().stationConfig;
         if (cfg != null) {
             FarShip b = buildGroundShip(game, planet, cfg, planet.getConfig().tradeConfig, Faction.LAANI, takenAngles, "Station");
-            game.getObjMan().addFarObjNow(b);
+            game.getObjectManager().addFarObjNow(b);
         }
 
         float gh = planet.getGroundHeight();
@@ -87,7 +87,7 @@ public class PlanetObjectsBuilder {
             int count = (int) (ge.density * gh);
             for (int i = 0; i < count; i++) {
                 FarShip e = buildGroundShip(game, planet, ge, null, Faction.EHAR, takenAngles, null);
-                game.getObjMan().addFarObjNow(e);
+                game.getObjectManager().addFarObjNow(e);
             }
         }
 
@@ -115,7 +115,7 @@ public class PlanetObjectsBuilder {
             int count = counts.get(oe);
             for (int i = 0; i < count; i++) {
                 FarShip e = buildOrbitEnemy(game, planet, heightPerc, oe, detDist);
-                game.getObjMan().addFarObjNow(e);
+                game.getObjectManager().addFarObjNow(e);
                 heightPerc += stepPerc;
             }
         }
@@ -156,10 +156,10 @@ public class PlanetObjectsBuilder {
                 float toPlanetRelAngle = 360f * col / cols;
                 if (tile.points.isEmpty()) {
                     FarTileObject fto = new FarTileObject(planet, toPlanetRelAngle, tileDist, tileSize, tile);
-                    game.getObjMan().addFarObjNow(fto);
+                    game.getObjectManager().addFarObjNow(fto);
                 } else {
                     TileObject to = new TileObjBuilder().build(game, tileSize, toPlanetRelAngle, tileDist, tile, planet);
-                    game.getObjMan().addObjNow(game, to);
+                    game.getObjectManager().addObjNow(game, to);
                 }
             }
         }
@@ -175,7 +175,7 @@ public class PlanetObjectsBuilder {
         int cloudCount = SolMath.intRnd(.7f, (int) (CLOUD_DENSITY * Const.ATM_HEIGHT * planet.getGroundHeight()));
         for (int i = 0; i < cloudCount; i++) {
             FarPlanetSprites cloud = createCloud(planet, cloudTexs);
-            game.getObjMan().addFarObjNow(cloud);
+            game.getObjectManager().addFarObjNow(cloud);
         }
     }
 
@@ -214,7 +214,7 @@ public class PlanetObjectsBuilder {
         float angleShift = angleShiftRel * maxAngleShift;
         float distShift = maxDistShift == 0 ? 0 : distPerc * SolMath.rnd(0, maxDistShift);
         float dist = baseDist + distShift;
-        Vector2 basePos = SolMath.getVec(0, -baseDist);
+        Vector2 basePos = SolMath.getBoundVector2(0, -baseDist);
         Vector2 relPos = new Vector2(0, -dist);
         SolMath.rotate(relPos, angleShift, true);
         relPos.sub(basePos);
@@ -239,13 +239,13 @@ public class PlanetObjectsBuilder {
             float packAngle = SolMath.angle(planetPos, packPos, true) - planetAngle;
             float packDist = packPos.dst(planetPos);
             FarPlanetSprites ps = new FarPlanetSprites(planet, packAngle, packDist, ss, 0);
-            game.getObjMan().addFarObjNow(ps);
+            game.getObjectManager().addFarObjNow(ps);
         }
     }
 
     private void addDeco0(SolGame game, float groundHeight, Vector2 planetPos,
                           Map<Vector2, List<Drawable>> collector, DecoConfig dc) {
-        World w = game.getObjMan().getWorld();
+        World w = game.getObjectManager().getWorld();
         ConsumedAngles consumed = new ConsumedAngles();
 
         final Vector2 rayCasted = new Vector2();
@@ -301,7 +301,7 @@ public class PlanetObjectsBuilder {
 
     private FarShip buildGroundShip(SolGame game, Planet planet, ShipConfig shipConfig, TradeConfig tradeConfig,
                                    Faction faction, ConsumedAngles takenAngles, String mapHint) {
-        Vector2 pos = game.getPlanetMan().findFlatPlace(game, planet, takenAngles, shipConfig.hull.getApproxRadius());
+        Vector2 pos = game.getPlanetManager().findFlatPlace(game, planet, takenAngles, shipConfig.hull.getApproxRadius());
         boolean station = shipConfig.hull.getType() == HullConfig.Type.STATION;
         String ic = shipConfig.items;
         boolean hasRepairer;
@@ -317,7 +317,7 @@ public class PlanetObjectsBuilder {
         pos.scl((height + aboveGround) / height);
         SolMath.toWorld(pos, pos, planet.getAngle(), planet.getPos(), false);
 
-        Vector2 toPlanet = SolMath.getVec(planet.getPos()).sub(pos);
+        Vector2 toPlanet = SolMath.getBoundVector2(planet.getPos()).sub(pos);
         float angle = SolMath.angle(toPlanet) - 180;
         if (station) {
             angle += 90;

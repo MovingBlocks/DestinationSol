@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.assets.Assets;
+import org.jetbrains.annotations.NotNull;
 
 public class GameDrawer {
 
@@ -31,7 +32,7 @@ public class GameDrawer {
 
     private boolean myCurrAdditive;
 
-    public GameDrawer(CommonDrawer commonDrawer) {
+    public GameDrawer(@NotNull CommonDrawer commonDrawer) {
         myDrawer = commonDrawer;
         r = myDrawer.r;
         debugWhiteTex = Assets.getAtlasRegion("engine:uiWhiteTex");
@@ -42,7 +43,7 @@ public class GameDrawer {
     }
 
     public void updateMtx(SolGame game) {
-        myDrawer.setMtx(game.getCam().getMtx());
+        myDrawer.setMtx(game.getCam().getMatrix());
     }
 
     public void end() {

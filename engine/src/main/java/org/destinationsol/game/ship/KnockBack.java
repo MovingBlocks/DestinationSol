@@ -67,7 +67,7 @@ public class KnockBack implements ShipAbility {
             return false;
         }
         Vector2 ownerPos = owner.getPosition();
-        for (SolObject o : game.getObjMan().getObjs()) {
+        for (SolObject o : game.getObjectManager().getObjs()) {
             if (o == owner || !o.receivesGravity()) {
                 continue;
             }
@@ -87,7 +87,7 @@ public class KnockBack implements ShipAbility {
             SolMath.free(toO);
         }
         DSParticleEmitter src = new DSParticleEmitter(myConfig.cc.effect, MAX_RADIUS, DrawableLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
-        game.getPartMan().finish(game, src, ownerPos);
+        game.getParticleManager().finish(game, src, ownerPos);
         return true;
     }
 

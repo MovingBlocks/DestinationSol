@@ -45,7 +45,7 @@ public class ForceBeacon {
                                     float maxPullDist) {
         SolShip res = null;
         float minLen = Float.MAX_VALUE;
-        List<SolObject> objs = game.getObjMan().getObjs();
+        List<SolObject> objs = game.getObjectManager().getObjs();
         for (SolObject o : objs) {
             if (o == owner) {
                 continue;

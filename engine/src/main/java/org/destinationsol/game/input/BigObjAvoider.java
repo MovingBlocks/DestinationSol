@@ -36,7 +36,7 @@ public class BigObjAvoider {
             toDestLen = MAX_DIST_LEN;
         }
         float res = toDestAngle;
-        Planet p = game.getPlanetMan().getNearestPlanet(from);
+        Planet p = game.getPlanetManager().getNearestPlanet(from);
         Vector2 pPos = p.getPos();
         float pRad = p.getFullHeight();
         if (dest.dst(pPos) < pRad) {

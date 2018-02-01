@@ -66,7 +66,7 @@ public class TileObject implements SolObject {
 
         if (myBody != null) {
             float ts = game.getTimeStep();
-            Vector2 spd = SolMath.getVec(myPos);
+            Vector2 spd = SolMath.getBoundVector2(myPos);
             spd.sub(myBody.getPosition());
             spd.scl(1f / ts);
             myBody.setLinearVelocity(spd);

@@ -27,7 +27,9 @@ import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.screens.MainScreen;
 import org.destinationsol.game.ship.SolShip;
 
-public class SolCam {
+import java.util.Optional;
+
+public class SolCamera {
     public static final float CAM_ROT_SPD = 90f;
     private static final float VIEWPORT_HEIGHT = 5f;
     private static final float MAX_ZOOM_SPD = 5f;
@@ -46,7 +48,7 @@ public class SolCam {
     private float myZoom;
     private Vector2 myPos;
 
-    public SolCam(float r) {
+    public SolCamera(float r) {
         myCamRotStrategy = new CamRotStrategy.ToPlanet();
         myCam = new OrthographicCamera(VIEWPORT_HEIGHT * r, -VIEWPORT_HEIGHT);
         myZoom = calcZoom(Const.CAM_VIEW_DIST_GROUND);
@@ -54,16 +56,16 @@ public class SolCam {
         myTmpVec = new Vector3();
     }
 
-    public Matrix4 getMtx() {
+    public Matrix4 getMatrix() {
         return myCam.combined;
     }
 
     public void update(SolGame game) {
         float life = 0;
 
-        SolShip hero = game.getHero();
-        float ts = game.getTimeStep();
-        if (hero == null) {
+        Optional<SolShip> heroOptional = game.getHero();
+        float timeStep = game.getTimeStep();
+        if (!heroOptional.isPresent()) {
             StarPort.Transcendent trans = game.getTranscendentHero();
             if (trans == null) {
                 if (DebugOptions.DIRECT_CAM_CONTROL) {
@@ -73,16 +75,17 @@ public class SolCam {
                 myPos.set(trans.getPosition());
             }
         } else {
+            SolShip hero = heroOptional.get();
             Vector2 heroPos = hero.getHull().getBody().getWorldCenter();
             if (myZoom * VIEWPORT_HEIGHT < heroPos.dst(myPos)) {
                 myPos.set(heroPos);
-                game.getObjMan().resetDelays();
+                game.getObjectManager().resetDelays();
             } else {
-                Vector2 moveDiff = SolMath.getVec(hero.getSpd());
-                moveDiff.scl(ts);
+                Vector2 moveDiff = SolMath.getBoundVector2(hero.getSpd());
+                moveDiff.scl(timeStep);
                 myPos.add(moveDiff);
                 SolMath.free(moveDiff);
-                float moveSpd = MOVE_SPD * ts;
+                float moveSpd = MOVE_SPD * timeStep;
                 myPos.x = SolMath.approach(myPos.x, heroPos.x, moveSpd);
                 myPos.y = SolMath.approach(myPos.y, heroPos.y, moveSpd);
             }
@@ -93,7 +96,7 @@ public class SolCam {
             float shakeDiff = .1f * MAX_SHAKE * (myPrevHeroLife - life);
             myShake = SolMath.approach(myShake, MAX_SHAKE, shakeDiff);
         } else {
-            myShake = SolMath.approach(myShake, 0, SHAKE_DAMP * ts);
+            myShake = SolMath.approach(myShake, 0, SHAKE_DAMP * timeStep);
         }
         myPrevHeroLife = life;
 
@@ -103,7 +106,7 @@ public class SolCam {
         SolMath.free(pos);
 
         float desiredAngle = myCamRotStrategy.getRotation(myPos, game);
-        float rotSpd = CAM_ROT_SPD * ts;
+        float rotSpd = CAM_ROT_SPD * timeStep;
         myAngle = SolMath.approachAngle(myAngle, desiredAngle, rotSpd);
         applyAngle();
 
@@ -120,21 +123,21 @@ public class SolCam {
     }
 
     private float getDesiredViewDistance(SolGame game) {
-        SolShip hero = game.getHero();
-        if (hero == null && game.getTranscendentHero() != null) { // hero is in transcendent state
+        Optional<SolShip> hero = game.getHero();
+        if (!hero.isPresent() && game.getTranscendentHero() != null) { // hero is in transcendent state
             return Const.CAM_VIEW_DIST_SPACE;
-        } else if (hero == null && game.getTranscendentHero() == null) {
+        } else if (!hero.isPresent() && game.getTranscendentHero() == null) {
             return Const.CAM_VIEW_DIST_GROUND;
         } else {
-            float speed = hero.getSpd().len();
+            float speed = hero.get().getSpd().len();
             float desiredViewDistance = Const.CAM_VIEW_DIST_SPACE;
-            Planet nearestPlanet = game.getPlanetMan().getNearestPlanet(myPos);
+            Planet nearestPlanet = game.getPlanetManager().getNearestPlanet(myPos);
             if (nearestPlanet.getFullHeight() < nearestPlanet.getPos().dst(myPos) && MAX_ZOOM_SPD < speed) {
                 desiredViewDistance = Const.CAM_VIEW_DIST_JOURNEY;
             } else if (nearestPlanet.isNearGround(myPos) && speed < MED_ZOOM_SPD) {
                 desiredViewDistance = Const.CAM_VIEW_DIST_GROUND;
             }
-            desiredViewDistance += hero.getHull().config.getApproxRadius();
+            desiredViewDistance += hero.get().getHull().config.getApproxRadius();
             return desiredViewDistance;
         }
     }
@@ -166,7 +169,7 @@ public class SolCam {
         boolean u = s.isUp();
         boolean l = s.isLeft();
         boolean r = s.isRight();
-        Vector2 v = SolMath.getVec();
+        Vector2 v = SolMath.getBoundVector2();
         if (l != r) {
             v.x = SolMath.toInt(r);
         }
@@ -180,7 +183,7 @@ public class SolCam {
     }
 
     private void applyAngle() {
-        Vector2 v = SolMath.getVec(0, 1);
+        Vector2 v = SolMath.getBoundVector2(0, 1);
         SolMath.rotate(v, myAngle);
         myCam.up.set(v.x, v.y, 0); // up is actually down, fcuk!!
         SolMath.free(v);
@@ -213,13 +216,13 @@ public class SolCam {
     public void drawDebug(GameDrawer drawer) {
         float hOver2 = VIEWPORT_HEIGHT * myZoom / 2;
         float wOver2 = hOver2 * drawer.r;
-        Vector2 dr = SolMath.getVec(wOver2, hOver2);
+        Vector2 dr = SolMath.getBoundVector2(wOver2, hOver2);
         SolMath.rotate(dr, myAngle);
-        Vector2 dl = SolMath.getVec(-wOver2, hOver2);
+        Vector2 dl = SolMath.getBoundVector2(-wOver2, hOver2);
         SolMath.rotate(dl, myAngle);
-        Vector2 ul = SolMath.getVec(dr);
+        Vector2 ul = SolMath.getBoundVector2(dr);
         ul.scl(-1);
-        Vector2 ur = SolMath.getVec(dl);
+        Vector2 ur = SolMath.getBoundVector2(dl);
         ur.scl(-1);
         dr.add(myPos);
         dl.add(myPos);

@@ -104,7 +104,7 @@ public class GalaxyFiller {
         hasRepairer = faction == Faction.LAANI;
         int money = cfg.money;
         FarShip s = game.getShipBuilder().buildNewFar(game, pos, null, angle, 0, pilot, cfg.items, hullConf, null, hasRepairer, money, tradeConfig, true);
-        game.getObjMan().addFarObjNow(s);
+        game.getObjectManager().addFarObjNow(s);
         ShipConfig guardConf = cfg.guard;
         if (guardConf != null) {
             ConsumedAngles ca = new ConsumedAngles();
@@ -137,7 +137,7 @@ public class GalaxyFiller {
             return;
         }
         createStarPorts(game);
-        ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
+        ArrayList<SolSystem> systems = game.getPlanetManager().getSystems();
         
         String shipName = game.getShipName();
         String moduleName = shipName.split(":")[0];
@@ -176,7 +176,7 @@ public class GalaxyFiller {
     }
 
     private void createStarPorts(SolGame game) {
-        PlanetManager planetManager = game.getPlanetMan();
+        PlanetManager planetManager = game.getPlanetManager();
         ArrayList<Planet> biggest = new ArrayList<>();
 
         for (SolSystem s : planetManager.getSystems()) {
@@ -220,11 +220,11 @@ public class GalaxyFiller {
         Vector2 aPos = StarPort.getDesiredPos(a, b, false);
         StarPort.MyFar sp = new StarPort.MyFar(a, b, aPos, false);
         SolMath.free(aPos);
-        game.getObjMan().addFarObjNow(sp);
+        game.getObjectManager().addFarObjNow(sp);
         Vector2 bPos = StarPort.getDesiredPos(b, a, false);
         sp = new StarPort.MyFar(b, a, bPos, false);
         SolMath.free(bPos);
-        game.getObjMan().addFarObjNow(sp);
+        game.getObjectManager().addFarObjNow(sp);
     }
 
     private void createGuard(SolGame game, FarShip target, ShipConfig guardConf, Faction faction, float guardRelAngle) {
@@ -234,7 +234,7 @@ public class GalaxyFiller {
         int money = guardConf.money;
         FarShip e = game.getShipBuilder().buildNewFar(game, dp.getDest(), null, guardRelAngle, 0, pilot, guardConf.items,
                 guardConf.hull, null, hasRepairer, money, null, true);
-        game.getObjMan().addFarObjNow(e);
+        game.getObjectManager().addFarObjNow(e);
     }
 
     private Vector2 getEmptySpace(SolGame game, SolSystem s) {
@@ -256,19 +256,19 @@ public class GalaxyFiller {
         Vector2 pos = new Vector2(Const.SUN_RADIUS * 2, 0);
 
         if ("planet".equals(DebugOptions.SPAWN_PLACE)) {
-            Planet p = game.getPlanetMan().getPlanets().get(0);
+            Planet p = game.getPlanetManager().getPlanets().get(0);
             pos.set(p.getPos());
             pos.x += p.getFullHeight();
         } else if (DebugOptions.SPAWN_PLACE.isEmpty() && myMainStationPos != null) {
             SolMath.fromAl(pos, 90, myMainStationHc.getSize() / 2);
             pos.add(myMainStationPos);
         } else if ("maze".equals(DebugOptions.SPAWN_PLACE)) {
-            Maze m = game.getPlanetMan().getMazes().get(0);
+            Maze m = game.getPlanetManager().getMazes().get(0);
             pos.set(m.getPos());
             pos.x += m.getRadius();
         } else if ("trader".equals(DebugOptions.SPAWN_PLACE)) {
             HullConfig cfg = game.getHullConfigs().getConfig("core:bus");
-            for (FarObjData fod : game.getObjMan().getFarObjs()) {
+            for (FarObjData fod : game.getObjectManager().getFarObjs()) {
                 FarObj fo = fod.fo;
                 if (!(fo instanceof FarShip)) {
                     continue;

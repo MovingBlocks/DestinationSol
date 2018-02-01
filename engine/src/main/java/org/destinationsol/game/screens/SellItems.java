@@ -17,6 +17,7 @@ package org.destinationsol.game.screens;
 
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.common.SolNullOptionalException;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
@@ -26,6 +27,7 @@ import org.destinationsol.ui.SolUiControl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SellItems implements InventoryOperations {
     private static float PERC = .8f;
@@ -41,14 +43,14 @@ public class SellItems implements InventoryOperations {
 
     @Override
     public ItemContainer getItems(SolGame game) {
-        SolShip h = game.getHero();
-        return h == null ? null : h.getItemContainer();
+        Optional<SolShip> hero = game.getHero();
+        return hero.map(SolShip::getItemContainer).orElse(null);
     }
 
     @Override
     public boolean isUsing(SolGame game, SolItem item) {
-        SolShip h = game.getHero();
-        return h != null && h.maybeUnequip(game, item, false);
+        Optional<SolShip> hero = game.getHero();
+        return hero.isPresent() && hero.get().maybeUnequip(game, item, false);
     }
 
     @Override
@@ -72,7 +74,7 @@ public class SellItems implements InventoryOperations {
         InventoryScreen is = game.getScreens().inventoryScreen;
         TalkScreen talkScreen = game.getScreens().talkScreen;
         SolShip target = talkScreen.getTarget();
-        SolShip hero = game.getHero();
+        Optional<SolShip> hero = game.getHero();
         if (talkScreen.isTargetFar(hero)) {
             solApplication.getInputMan().setScreen(solApplication, game.getScreens().mainScreen);
             return;
@@ -90,7 +92,7 @@ public class SellItems implements InventoryOperations {
         if (enabled && isWornAndCanBeSold) {
             sellControl.setDisplayName("Sell");
             sellControl.setEnabled(true);
-        } else if (enabled && !isWornAndCanBeSold) {
+        } else if (enabled) {
             sellControl.setDisplayName("Unequip it!");
             sellControl.setEnabled(false);
         } else {
@@ -102,11 +104,11 @@ public class SellItems implements InventoryOperations {
             return;
         }
         if (sellControl.isJustOff()) {
-            ItemContainer ic = hero.getItemContainer();
+            ItemContainer ic = hero.orElseThrow(SolNullOptionalException::new).getItemContainer();
             is.setSelected(ic.getSelectionAfterRemove(is.getSelected()));
             ic.remove(selItem);
             target.getTradeContainer().getItems().add(selItem);
-            hero.setMoney(hero.getMoney() + selItem.getPrice() * PERC);
+            hero.orElseThrow(SolNullOptionalException::new).setMoney(hero.orElseThrow(SolNullOptionalException::new).getMoney() + selItem.getPrice() * PERC);
         }
     }
 

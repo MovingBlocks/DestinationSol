@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public class IniReader {
     private final HashMap<String, String> myVals;
@@ -44,7 +45,8 @@ public class IniReader {
             while ((line = reader.readLine()) != null) {
                 lines.add(line);
             }
-        } catch (IOException e) { }
+        } catch (IOException e) {
+        }
 
         initValueMap(lines);
     }
@@ -109,23 +111,23 @@ public class IniReader {
     }
 
     public String getString(String key, String defaultValue) {
-        String st = myVals.get(key);
-        return st == null ? defaultValue : st;
+        Optional<String> string = Optional.ofNullable(myVals.get(key));
+        return string.orElse(defaultValue);
     }
 
     public int getInt(String key, int defaultValue) {
-        String st = myVals.get(key);
-        return st == null ? defaultValue : Integer.parseInt(st);
+        Optional<String> string = Optional.ofNullable(myVals.get(key));
+        return string.map(Integer::parseInt).orElse(defaultValue);
     }
 
     public boolean getBoolean(String key, boolean defaultValue) {
-        String st = myVals.get(key);
-        return st == null ? defaultValue : "true".equalsIgnoreCase(st);
+        Optional<String> string = Optional.ofNullable(myVals.get(key));
+        return string.map("true"::equalsIgnoreCase).orElse(defaultValue);
     }
 
     public float getFloat(String key, float defaultValue) {
-        String st = myVals.get(key);
-        return st == null ? defaultValue : Float.parseFloat(st);
+        Optional<String> string = Optional.ofNullable(myVals.get(key));
+        return string.map(Float::parseFloat).orElse(defaultValue);
     }
 
 }

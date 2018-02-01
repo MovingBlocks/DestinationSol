@@ -30,6 +30,7 @@ import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TalkScreen implements SolUiScreen {
     static final float MAX_TALK_DIST = 1f;
@@ -79,11 +80,11 @@ public class TalkScreen implements SolUiScreen {
             closeControl.maybeFlashPressed(solApplication.getOptions().getKeyClose());
             return;
         }
-        SolGame g = solApplication.getGame();
-        SolShip hero = g.getHero();
+        SolGame game = solApplication.getGame();
+        Optional<SolShip> hero = game.getHero();
         SolInputManager inputMan = solApplication.getInputMan();
         if (closeControl.isJustOff() || isTargetFar(hero)) {
-            inputMan.setScreen(solApplication, g.getScreens().mainScreen);
+            inputMan.setScreen(solApplication, game.getScreens().mainScreen);
             return;
         }
 
@@ -91,23 +92,23 @@ public class TalkScreen implements SolUiScreen {
         shipsControl.setEnabled(station);
         hireControl.setEnabled(station);
 
-        InventoryScreen is = g.getScreens().inventoryScreen;
+        InventoryScreen is = game.getScreens().inventoryScreen;
         boolean sell = sellControl.isJustOff();
         boolean buy = buyControl.isJustOff();
         boolean sellShips = shipsControl.isJustOff();
         boolean hire = hireControl.isJustOff();
         if (sell || buy || sellShips || hire) {
             is.setOperations(sell ? is.sellItems : buy ? is.buyItems : sellShips ? is.changeShip : is.hireShips);
-            inputMan.setScreen(solApplication, g.getScreens().mainScreen);
+            inputMan.setScreen(solApplication, game.getScreens().mainScreen);
             inputMan.addScreen(solApplication, is);
         }
     }
 
-    boolean isTargetFar(SolShip hero) {
-        if (hero == null || target == null || target.getLife() <= 0) {
+    boolean isTargetFar(Optional<SolShip> hero) {
+        if ((!hero.isPresent()) || target == null || target.getLife() <= 0) {
             return true;
         }
-        float dst = target.getPosition().dst(hero.getPosition()) - hero.getHull().config.getApproxRadius() - target.getHull().config.getApproxRadius();
+        float dst = target.getPosition().dst(hero.get().getPosition()) - hero.get().getHull().config.getApproxRadius() - target.getHull().config.getApproxRadius();
         return MAX_TALK_DIST < dst;
     }
 

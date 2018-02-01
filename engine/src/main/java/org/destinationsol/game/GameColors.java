@@ -23,6 +23,7 @@ import org.destinationsol.common.SolColorUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class GameColors {
 
@@ -49,13 +50,9 @@ public class GameColors {
     }
 
     public Color get(String name) {
-        Color result = colors.get(name);
+        Optional<Color> result = Optional.ofNullable(colors.get(name));
 
-        if (result == null) {
-            throw new AssertionError("Color " + name + " is not defined.");
-        }
-
-        return result;
+        return result.orElseThrow(() -> new AssertionError("Color " + name + " is not defined."));
     }
 
     public Color load(String s) {

@@ -21,7 +21,7 @@ import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.PlayableSound;
-import org.destinationsol.common.Nullable;
+import org.jetbrains.annotations.Nullable;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.GameDrawer;
@@ -31,8 +31,8 @@ import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.SolShip;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.Optional;
 
 public class OggSoundManager {
     // private static Logger logger = LoggerFactory.getLogger(OggSoundManager.class);
@@ -96,7 +96,7 @@ public class OggSoundManager {
         }
 
         Vector2 cameraPosition = game.getCam().getPos();
-        Planet nearestPlanet = game.getPlanetMan().getNearestPlanet();
+        Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();
 
         float airPerc = 0;
         if (nearestPlanet.getConfig().skyConfig != null) {
@@ -109,8 +109,8 @@ public class OggSoundManager {
 
         float maxSoundDist = 1 + 1.5f * Const.CAM_VIEW_DIST_GROUND * airPerc;
 
-        SolShip hero = game.getHero();
-        float soundRadius = hero == null ? 0 : hero.getHull().config.getApproxRadius();
+        Optional<SolShip> hero = game.getHero();
+        float soundRadius = hero.map(y -> y.getHull().config.getApproxRadius()).orElse(0f);
         float distance = position.dst(cameraPosition) - soundRadius;
         float distanceMultiplier = SolMath.clamp(1 - distance / maxSoundDist);
 

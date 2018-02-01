@@ -23,7 +23,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.google.common.base.Preconditions;
-import org.destinationsol.common.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
@@ -194,15 +194,15 @@ public class DSParticleEmitter {
             setSpeed(baseSpeed);
             return;
         }
-        Planet nearestPlanet = game.getPlanetMan().getNearestPlanet();
+        Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();
         Vector2 speed = nearestPlanet.getAdjustedEffectSpd(basePosition, baseSpeed);
         setSpeed(speed);
         SolMath.free(speed);
     }
 
     public void onRemove(SolGame game, Vector2 basePos) {
-        PartMan partMan = game.getPartMan();
-        partMan.finish(game, this, basePos);
+        ParticleManager particleManager = game.getParticleManager();
+        particleManager.finish(game, this, basePos);
     }
 
     public boolean isComplete() {

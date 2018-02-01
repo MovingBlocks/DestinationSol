@@ -137,7 +137,7 @@ public class Asteroid implements SolObject {
     }
 
     private boolean updateInAtm(SolGame game) {
-        Planet np = game.getPlanetMan().getNearestPlanet();
+        Planet np = game.getPlanetManager().getNearestPlanet();
         float dst = np.getPos().dst(myPos);
         if (np.getFullHeight() < dst) {
             return false;
@@ -164,8 +164,8 @@ public class Asteroid implements SolObject {
 
     @Override
     public void onRemove(SolGame game) {
-        game.getPartMan().finish(game, mySmokeSrc, myPos);
-        game.getPartMan().finish(game, myFireSrc, myPos);
+        game.getParticleManager().finish(game, mySmokeSrc, myPos);
+        game.getParticleManager().finish(game, myFireSrc, myPos);
         myBody.getWorld().destroyBody(myBody);
         if (myLife <= 0) {
             game.getSpecialEffects().asteroidDust(game, myPos, mySpd, mySize);
@@ -190,11 +190,11 @@ public class Asteroid implements SolObject {
             newPos.add(myPos);
             float sz = mySize * SolMath.rnd(.25f, .5f);
             Asteroid a = game.getAsteroidBuilder().buildNew(game, newPos, spd, sz, myRemoveController);
-            game.getObjMan().addObjDelayed(a);
+            game.getObjectManager().addObjDelayed(a);
             sclSum += a.mySize * a.mySize;
         }
         float thrMoney = mySize * 40f * SolMath.rnd(.3f, 1);
-        List<MoneyItem> moneyItems = game.getItemMan().moneyToItems(thrMoney);
+        List<MoneyItem> moneyItems = game.getItemManager().moneyToItems(thrMoney);
         for (MoneyItem mi : moneyItems) {
             throwLoot(game, mi);
         }
@@ -209,7 +209,7 @@ public class Asteroid implements SolObject {
         SolMath.fromAl(pos, spdAngle, SolMath.rnd(0, mySize / 2));
         pos.add(myPos);
         Loot l = game.getLootBuilder().build(game, pos, item, lootSpd, Loot.MAX_LIFE, SolMath.rnd(Loot.MAX_ROT_SPD), null);
-        game.getObjMan().addObjDelayed(l);
+        game.getObjectManager().addObjDelayed(l);
     }
 
     @Override

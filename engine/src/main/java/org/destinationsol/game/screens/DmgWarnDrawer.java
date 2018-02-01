@@ -18,6 +18,8 @@ package org.destinationsol.game.screens;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.ship.SolShip;
 
+import java.util.Optional;
+
 public class DmgWarnDrawer extends WarnDrawer {
     DmgWarnDrawer(float r) {
         super(r, "Heavily Damaged");
@@ -25,12 +27,7 @@ public class DmgWarnDrawer extends WarnDrawer {
 
     @Override
     protected boolean shouldWarn(SolGame game) {
-        SolShip hero = game.getHero();
-        if (hero == null) {
-            return false;
-        }
-        float l = hero.getLife();
-        int ml = hero.getHull().config.getMaxLife();
-        return l < ml * .3f;
+        Optional<SolShip> hero = game.getHero();
+        return hero.filter(solShip -> solShip.getLife() < solShip.getHull().config.getMaxLife()).isPresent();
     }
 }

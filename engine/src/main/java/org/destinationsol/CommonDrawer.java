@@ -114,7 +114,7 @@ public class CommonDrawer {
     public void drawCircle(TextureRegion tex, Vector2 center, float radius, Color col, float width, float vh) {
         float relRad = radius / vh;
         int pointCount = (int) (160 * relRad);
-        Vector2 pos = SolMath.getVec();
+        Vector2 pos = SolMath.getBoundVector2();
         if (pointCount < 8) {
             pointCount = 8;
         }
@@ -135,7 +135,7 @@ public class CommonDrawer {
     }
 
     public void drawLine(TextureRegion tex, Vector2 p1, Vector2 p2, Color col, float width, boolean precise) {
-        Vector2 v = SolMath.getVec(p2);
+        Vector2 v = SolMath.getBoundVector2(p2);
         v.sub(p1);
         drawLine(tex, p1.x, p1.y, SolMath.angle(v, precise), v.len(), col, width);
         SolMath.free(v);

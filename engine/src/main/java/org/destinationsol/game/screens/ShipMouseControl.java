@@ -25,6 +25,8 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 
+import java.util.Optional;
+
 public class ShipMouseControl implements ShipUiControl {
     private final TextureAtlas.AtlasRegion myMoveCursor;
     private final TextureAtlas.AtlasRegion myAttackCursor;
@@ -42,16 +44,16 @@ public class ShipMouseControl implements ShipUiControl {
 
     @Override
     public void update(SolApplication solApplication, boolean enabled) {
-        SolGame g = solApplication.getGame();
-        SolShip h = g.getHero();
+        SolGame game = solApplication.getGame();
+        Optional<SolShip> hero = game.getHero();
         myCursor = null;
-        if (h != null) {
+        hero.ifPresent(y -> {
             myMouseWorldPos.set(Gdx.input.getX(), Gdx.input.getY());
-            g.getCam().screenToWorld(myMouseWorldPos);
+            game.getCam().screenToWorld(myMouseWorldPos);
             SolInputManager im = solApplication.getInputMan();
             boolean clicked = im.getPtrs()[0].pressed;
-            boolean onMap = im.isScreenOn(g.getScreens().mapScreen);
-            BeaconHandler.Action a = g.getBeaconHandler().processMouse(g, myMouseWorldPos, clicked, onMap);
+            boolean onMap = im.isScreenOn(game.getScreens().mapScreen);
+            BeaconHandler.Action a = game.getBeaconHandler().processMouse(game, myMouseWorldPos, clicked, onMap);
             if (a == BeaconHandler.Action.ATTACK) {
                 myCursor = myAttackCursor;
             } else if (a == BeaconHandler.Action.FOLLOW) {
@@ -59,7 +61,7 @@ public class ShipMouseControl implements ShipUiControl {
             } else {
                 myCursor = myMoveCursor;
             }
-        }
+        });
     }
 
     @Override

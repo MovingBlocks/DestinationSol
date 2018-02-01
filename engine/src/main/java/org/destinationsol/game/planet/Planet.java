@@ -92,7 +92,7 @@ public class Planet {
 
     private void fillLangingPlaces(SolGame game) {
         for (int i = 0; i < 10; i++) {
-            Vector2 lp = game.getPlanetMan().findFlatPlace(game, this, null, 0);
+            Vector2 lp = game.getPlanetManager().findFlatPlace(game, this, null, 0);
             myLps.add(lp);
         }
     }
@@ -119,7 +119,7 @@ public class Planet {
 
     @Bound
     public Vector2 getAdjustedEffectSpd(Vector2 pos, Vector2 spd) {
-        Vector2 r = SolMath.getVec(spd);
+        Vector2 r = SolMath.getBoundVector2(spd);
         if (myConfig.skyConfig == null) {
             return r;
         }

@@ -22,7 +22,7 @@ import org.destinationsol.common.SolColor;
 
 public class GridDrawer {
     public void draw(GameDrawer drawer, SolGame game, float gridSz, TextureAtlas.AtlasRegion tex) {
-        SolCam cam = game.getCam();
+        SolCamera cam = game.getCam();
         float lw = 4 * cam.getRealLineWidth();
         Vector2 camPos = cam.getPos();
         float viewDist = cam.getViewDist(cam.getRealZoom());

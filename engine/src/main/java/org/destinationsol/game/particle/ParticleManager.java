@@ -29,22 +29,21 @@ import org.destinationsol.game.ship.hulls.Hull;
 
 import java.util.ArrayList;
 
-public class PartMan {
+public class ParticleManager {
     public static final float EXPL_LIGHT_MAX_SZ = .4f;
     public static final float EXPL_LIGHT_MAX_FADE_TIME = .8f;
     public static final float SZ_TO_BLINK_COUNT = 18f;
 
-    public PartMan() {
+    public ParticleManager() {
     }
 
     public void finish(SolGame game, DSParticleEmitter emitter, Vector2 basePos) {
         if (emitter.isContinuous()) {
             emitter.setWorking(false);
         }
-        ArrayList<Drawable> drawables = new ArrayList<>();
-        drawables.addAll(emitter.getDrawables());
+        ArrayList<Drawable> drawables = new ArrayList<>(emitter.getDrawables());
         DrawableObject o = new DrawableObject(drawables, new Vector2(basePos), new Vector2(), null, true, false);
-        game.getObjMan().addObjDelayed(o);
+        game.getObjectManager().addObjDelayed(o);
     }
 
     public void blinks(Vector2 pos, SolGame game, float sz) {
@@ -56,7 +55,7 @@ public class PartMan {
             float lightSz = SolMath.rnd(.5f, 1) * EXPL_LIGHT_MAX_SZ;
             float fadeTime = SolMath.rnd(.5f, 1) * EXPL_LIGHT_MAX_FADE_TIME;
             LightObject light = new LightObject(game, lightSz, true, 1, lightPos, fadeTime, game.getCols().fire);
-            game.getObjMan().addObjDelayed(light);
+            game.getObjectManager().addObjDelayed(light);
         }
     }
 
@@ -87,7 +86,7 @@ public class PartMan {
         drawables.add(s);
         DrawableObject o = new DrawableObject(drawables, new Vector2(pos), new Vector2(spd), null, false, false);
         o.fade(fadeTime);
-        game.getObjMan().addObjDelayed(o);
+        game.getObjectManager().addObjDelayed(o);
         return s;
     }
 

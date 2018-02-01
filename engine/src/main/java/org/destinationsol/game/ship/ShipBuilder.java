@@ -73,7 +73,7 @@ public class ShipBuilder {
             return null;
         }
         Fixture base = null;
-        Vector2 v = SolMath.getVec();
+        Vector2 v = SolMath.getBoundVector2();
         float lowestX = Float.MAX_VALUE;
         for (Fixture f : body.getFixtureList()) {
             Shape s = f.getShape();
@@ -103,7 +103,7 @@ public class ShipBuilder {
             spd = new Vector2();
         }
         ItemContainer ic = new ItemContainer();
-        game.getItemMan().fillContainer(ic, items);
+        game.getItemManager().fillContainer(ic, items);
         Engine.Config ec = hullConfig.getEngineConfig();
         Engine ei = ec == null ? null : ec.example.copy();
         TradeContainer tc = tradeConfig == null ? null : new TradeContainer(tradeConfig);
@@ -317,7 +317,7 @@ public class ShipBuilder {
     }
 
     private Door createDoor(SolGame game, Vector2 pos, float angle, Body body, Vector2 doorRelPos) {
-        World w = game.getObjMan().getWorld();
+        World w = game.getObjectManager().getWorld();
         TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("engine:door");
         PrismaticJoint joint = createDoorJoint(body, w, pos, doorRelPos, angle);
         RectSprite s = new RectSprite(tex, Door.DOOR_LEN, 0, 0, new Vector2(doorRelPos), DrawableLevel.BODIES, 0, 0, SolColor.WHITE, false);

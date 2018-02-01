@@ -18,6 +18,7 @@ package org.destinationsol.game.screens;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.common.SolNullOptionalException;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.Gun;
@@ -33,6 +34,7 @@ import org.destinationsol.ui.SolUiControl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ChangeShip implements InventoryOperations {
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
@@ -63,7 +65,7 @@ public class ChangeShip implements InventoryOperations {
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
-        SolShip hero = game.getHero();
+        Optional<SolShip> hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
         if (talkScreen.isTargetFar(hero)) {
             solApplication.getInputMan().setScreen(solApplication, game.getScreens().mainScreen);
@@ -75,12 +77,12 @@ public class ChangeShip implements InventoryOperations {
             changeControl.setEnabled(false);
             return;
         }
-        boolean enabled = hasMoneyToBuyShip(hero, selItem);
-        boolean sameShip = isSameShip(hero, selItem);
+        boolean enabled = hasMoneyToBuyShip(hero.orElseThrow(SolNullOptionalException::new), selItem);
+        boolean sameShip = isSameShip(hero.orElseThrow(SolNullOptionalException::new), selItem);
         if (enabled && !sameShip) {
             changeControl.setDisplayName("Change");
             changeControl.setEnabled(true);
-        } else if (enabled && sameShip) {
+        } else if (enabled) {
             changeControl.setDisplayName("Have it");
             changeControl.setEnabled(false);
             return;
@@ -90,8 +92,8 @@ public class ChangeShip implements InventoryOperations {
             return;
         }
         if (changeControl.isJustOff()) {
-            hero.setMoney(hero.getMoney() - selItem.getPrice());
-            changeShip(game, hero, (ShipItem) selItem);
+            hero.orElseThrow(SolNullOptionalException::new).setMoney(hero.orElseThrow(SolNullOptionalException::new).getMoney() - selItem.getPrice());
+            changeShip(game, hero.orElseThrow(SolNullOptionalException::new), (ShipItem) selItem);
         }
     }
 
@@ -113,13 +115,14 @@ public class ChangeShip implements InventoryOperations {
     private void changeShip(SolGame game, SolShip hero, ShipItem selected) {
         HullConfig newConfig = selected.getConfig();
         Hull hull = hero.getHull();
-        Engine.Config ec = newConfig.getEngineConfig();
-        Engine ei = ec == null ? null : ec.example.copy();
-        Gun g2 = hull.getGun(true);
+        Optional<Engine.Config> engineConfig = Optional.ofNullable(newConfig.getEngineConfig());
+        Engine engine = engineConfig.map(y -> y.example.copy()).orElse(null);
+        Gun gun1 = hull.getGun(false);
+        Gun gun2 = hull.getGun(true);
         SolShip newHero = game.getShipBuilder().build(game, hero.getPosition(), new Vector2(), hero.getAngle(), 0, hero.getPilot(),
-                hero.getItemContainer(), newConfig, newConfig.getMaxLife(), hull.getGun(false), g2, null,
-                ei, new ShipRepairer(), hero.getMoney(), hero.getTradeContainer(), hero.getShield(), hero.getArmor());
-        game.getObjMan().removeObjDelayed(hero);
-        game.getObjMan().addObjDelayed(newHero);
+                hero.getItemContainer(), newConfig, newConfig.getMaxLife(), gun1, gun2, null,
+                engine, new ShipRepairer(), hero.getMoney(), hero.getTradeContainer(), hero.getShield(), hero.getArmor());
+        game.getObjectManager().removeObjDelayed(hero);
+        game.getObjectManager().addObjDelayed(newHero);
     }
 }

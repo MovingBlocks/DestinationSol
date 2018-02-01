@@ -48,12 +48,12 @@ public class PointProjectileBody implements ProjectileBody {
                 mySpd.scl((spdLen + myAcc) / spdLen);
             }
         }
-        Vector2 prevPos = SolMath.getVec(myPos);
-        Vector2 diff = SolMath.getVec(mySpd);
+        Vector2 prevPos = SolMath.getBoundVector2(myPos);
+        Vector2 diff = SolMath.getBoundVector2(mySpd);
         diff.scl(game.getTimeStep());
         myPos.add(diff);
         SolMath.free(diff);
-        game.getObjMan().getWorld().rayCast(myRayBack, prevPos, myPos);
+        game.getObjectManager().getWorld().rayCast(myRayBack, prevPos, myPos);
         SolMath.free(prevPos);
     }
 

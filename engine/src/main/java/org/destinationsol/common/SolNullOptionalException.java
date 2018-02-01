@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.common;
 
-import java.lang.annotation.Documented;
-
-/**
- * Annotated variable can be null, param can be null, method can return null.
- */
-@Documented
-public @interface Nullable {
+public class SolNullOptionalException extends SolDescriptiveException {
+    public SolNullOptionalException() {
+        super("Some object, which contained a null where by design it shouldn't have, caused the game to crash. Please report this, since this means there is some design flaw within the game."
+        );
+    }
 }

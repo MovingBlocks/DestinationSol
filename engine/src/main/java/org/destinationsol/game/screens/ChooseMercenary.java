@@ -1,10 +1,8 @@
 package org.destinationsol.game.screens;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.common.SolNullOptionalException;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.MercItem;
@@ -12,6 +10,9 @@ import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChooseMercenary implements InventoryOperations {
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
@@ -75,7 +76,7 @@ public class ChooseMercenary implements InventoryOperations {
 
     @Override
     public ItemContainer getItems(SolGame game) {
-        ItemContainer mercs = game.getHero().getTradeContainer().getMercs();
+        ItemContainer mercs = game.getHero().orElseThrow(SolNullOptionalException::new).getTradeContainer().getMercs();
         return mercs != null ? mercs : EMPTY_ITEM_CONTAINER;
     }
 

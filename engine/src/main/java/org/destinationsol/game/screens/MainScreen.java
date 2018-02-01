@@ -25,13 +25,15 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolNullOptionalException;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.FactionManager;
 import org.destinationsol.game.HardnessCalc;
-import org.destinationsol.game.SolCam;
+import org.destinationsol.game.SolCamera;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.item.Gun;
+import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.SolItem;
@@ -46,6 +48,7 @@ import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MainScreen implements SolUiScreen {
     // TODO: Rename!
@@ -164,8 +167,8 @@ public class MainScreen implements SolUiScreen {
 
     private void maybeDrawHeight(UiDrawer drawer, SolApplication solApplication) {
         SolGame game = solApplication.getGame();
-        Planet np = game.getPlanetMan().getNearestPlanet();
-        SolCam cam = game.getCam();
+        Planet np = game.getPlanetManager().getNearestPlanet();
+        SolCamera cam = game.getCam();
         Vector2 camPos = cam.getPos();
         if (np != null && np.getPos().dst(camPos) < np.getFullHeight()) {
             drawHeight(drawer, np, camPos, cam.getAngle());
@@ -204,7 +207,7 @@ public class MainScreen implements SolUiScreen {
         SolGame game = solApplication.getGame();
         SolInputManager inputMan = solApplication.getInputMan();
         GameScreens screens = game.getScreens();
-        SolShip hero = game.getHero();
+        Optional<SolShip> hero = game.getHero();
 
         for (WarnDrawer warnDrawer : warnDrawers) {
             warnDrawer.update(game);
@@ -223,9 +226,9 @@ public class MainScreen implements SolUiScreen {
             inputMan.setScreen(solApplication, screens.mapScreen);
         }
 
-        inventoryControl.setEnabled(hero != null);
-        if (hero != null && !inputMan.isScreenOn(screens.inventoryScreen)) {
-            if (hero.getItemContainer().hasNew()) {
+        inventoryControl.setEnabled(hero.isPresent());
+        if (!inputMan.isScreenOn(screens.inventoryScreen)) {
+            if (hero.map(SolShip::getItemContainer).map(ItemContainer::hasNew).orElse(false)) {
                 inventoryControl.enableWarn();
             }
         }
@@ -234,15 +237,15 @@ public class MainScreen implements SolUiScreen {
             boolean isOn = inputMan.isScreenOn(is);
             inputMan.setScreen(solApplication, screens.mainScreen);
             if (!isOn) {
-                is.showInventory.setTarget(hero);
+                is.showInventory.setTarget(hero.orElse(null));
                 is.setOperations(is.showInventory);
                 inputMan.addScreen(solApplication, is);
             }
         }
         
-        mercControl.setEnabled(hero != null);
-        if (hero != null && !inputMan.isScreenOn(screens.inventoryScreen)) {
-            if (hero.getTradeContainer().getMercs().hasNew()) {
+        mercControl.setEnabled(hero.isPresent());
+        if (hero.isPresent() && !inputMan.isScreenOn(screens.inventoryScreen)) {
+            if (hero.orElseThrow(SolNullOptionalException::new).getTradeContainer().getMercs().hasNew()) {
                 mercControl.enableWarn();
             }
         }
@@ -254,7 +257,7 @@ public class MainScreen implements SolUiScreen {
                 is.setOperations(is.chooseMercenary);
                 inputMan.addScreen(solApplication, is);
                 
-                game.getHero().getTradeContainer().getMercs().markAllAsSeen();
+                hero.orElseThrow(SolNullOptionalException::new).getTradeContainer().getMercs().markAllAsSeen();
             }
         }
 
@@ -266,8 +269,8 @@ public class MainScreen implements SolUiScreen {
     }
 
     private void updateTalk(SolGame game) {
-        SolShip hero = game.getHero();
-        if (hero == null) {
+        Optional<SolShip> hero = game.getHero();
+        if (!hero.isPresent()) {
             talkControl.setEnabled(false);
             return;
         }
@@ -275,20 +278,20 @@ public class MainScreen implements SolUiScreen {
 
         SolShip target = null;
         float minDist = TalkScreen.MAX_TALK_DIST;
-        float har = hero.getHull().config.getApproxRadius();
-        List<SolObject> objs = game.getObjMan().getObjs();
+        float har = hero.orElseThrow(SolNullOptionalException::new).getHull().config.getApproxRadius();
+        List<SolObject> objs = game.getObjectManager().getObjs();
         for (SolObject o : objs) {
             if (!(o instanceof SolShip)) {
                 continue;
             }
             SolShip ship = (SolShip) o;
-            if (factionManager.areEnemies(hero, ship)) {
+            if (factionManager.areEnemies(hero.orElseThrow(SolNullOptionalException::new), ship)) {
                 continue;
             }
             if (ship.getTradeContainer() == null) {
                 continue;
             }
-            float dst = ship.getPosition().dst(hero.getPosition());
+            float dst = ship.getPosition().dst(hero.orElseThrow(SolNullOptionalException::new).getPosition());
             float ar = ship.getHull().config.getApproxRadius();
             if (minDist < dst - har - ar) {
                 continue;
@@ -312,30 +315,30 @@ public class MainScreen implements SolUiScreen {
 
     private boolean drawGunStat(UiDrawer uiDrawer, SolShip hero, boolean secondary, float col0, float col1,
                                 float col2, float y) {
-        Gun g = hero.getHull().getGun(secondary);
-        if (g == null) {
+        Gun gun = hero.getHull().getGun(secondary);
+        if (gun == null) {
             return false;
         }
-        TextureAtlas.AtlasRegion tex = g.config.icon;
+        TextureAtlas.AtlasRegion tex = gun.config.icon;
 
         uiDrawer.draw(tex, ICON_SZ, ICON_SZ, 0, 0, col0, y, 0, SolColor.WHITE);
         float curr;
         float max;
-        if (g.reloadAwait > 0) {
-            max = g.config.reloadTime;
-            curr = max - g.reloadAwait;
+        if (gun.reloadAwait > 0) {
+            max = gun.config.reloadTime;
+            curr = max - gun.reloadAwait;
         } else {
-            curr = g.ammo;
-            max = g.config.clipConf.size;
+            curr = gun.ammo;
+            max = gun.config.clipConf.size;
         }
-        TextPlace ammoTp = g.reloadAwait > 0 ? null : secondary ? myG2AmmoTp : myG1AmmoTp;
+        TextPlace ammoTp = gun.reloadAwait > 0 ? null : secondary ? myG2AmmoTp : myG1AmmoTp;
         drawBar(uiDrawer, col1, y, curr, max, ammoTp);
-        if (g.reloadAwait > 0) {
+        if (gun.reloadAwait > 0) {
             drawWait(uiDrawer, col1, y);
         }
-        if (!g.config.clipConf.infinite) {
-            int clipCount = hero.getItemContainer().count(g.config.clipConf.example);
-            drawIcons(uiDrawer, col2, y, clipCount, g.config.clipConf.icon, secondary ? myG2AmmoExcessTp : myG1AmmoExcessTp);
+        if (!gun.config.clipConf.infinite) {
+            int clipCount = hero.getItemContainer().count(gun.config.clipConf.example);
+            drawIcons(uiDrawer, col2, y, clipCount, gun.config.clipConf.icon, secondary ? myG2AmmoExcessTp : myG1AmmoExcessTp);
         } else {
             uiDrawer.draw(infinityTex, ICON_SZ, ICON_SZ, 0, 0, col2, y, 0, SolColor.WHITE);
         }
@@ -390,8 +393,9 @@ public class MainScreen implements SolUiScreen {
         borderDrawer.draw(uiDrawer, solApplication);
 
         SolGame game = solApplication.getGame();
-        SolShip hero = game.getHero();
-        if (hero != null) {
+        Optional<SolShip> heroOptional = game.getHero();
+        if (heroOptional.isPresent()) {
+            SolShip hero = heroOptional.orElseThrow(SolNullOptionalException::new);
             float row = BorderDrawer.TISHCH_SZ + V_PAD;
             float col0 = BorderDrawer.TISHCH_SZ + H_PAD;
             float col1 = col0 + ICON_SZ + H_PAD;
@@ -406,8 +410,8 @@ public class MainScreen implements SolUiScreen {
 
             uiDrawer.draw(lifeTex, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.WHITE);
             drawBar(uiDrawer, col1, row, hero.getLife(), hero.getHull().config.getMaxLife(), myLifeTp);
-            int repairKitCount = hero.getItemContainer().count(game.getItemMan().getRepairExample());
-            ItemManager itemManager = game.getItemMan();
+            int repairKitCount = hero.getItemContainer().count(game.getItemManager().getRepairExample());
+            ItemManager itemManager = game.getItemManager();
             drawIcons(uiDrawer, col2, row, repairKitCount, itemManager.repairIcon, myRepairsExcessTp);
 
             row += ICON_SZ + V_PAD;
@@ -434,7 +438,7 @@ public class MainScreen implements SolUiScreen {
                 drawIcons(uiDrawer, col2, row, abilityChargeCount, icon, myChargesExcessTp);
                 row += ICON_SZ + V_PAD;
             }
-            uiDrawer.draw(game.getItemMan().moneyIcon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.WHITE);
+            uiDrawer.draw(game.getItemManager().moneyIcon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.WHITE);
             myMoneyExcessTp.text = Integer.toString(Math.round(hero.getMoney()));
             myMoneyExcessTp.pos.set(col1, row + ICON_SZ / 2);
             //updateTextPlace(col1, row, (int) hero.getMoney() + "", myMoneyExcessTp);
@@ -527,8 +531,8 @@ public class MainScreen implements SolUiScreen {
         }
 
         protected boolean shouldWarn(SolGame game) {
-            SolShip h = game.getHero();
-            return h != null && h.getShield() == null;
+            Optional<SolShip> hero = game.getHero();
+            return hero.isPresent() && !hero.map(SolShip::getShield).isPresent();
         }
     }
 
@@ -538,8 +542,8 @@ public class MainScreen implements SolUiScreen {
         }
 
         protected boolean shouldWarn(SolGame game) {
-            SolShip h = game.getHero();
-            return h != null && h.getArmor() == null;
+            Optional<SolShip> hero = game.getHero();
+            return hero.isPresent() && !hero.map(SolShip::getArmor).isPresent();
         }
     }
 
@@ -549,15 +553,15 @@ public class MainScreen implements SolUiScreen {
         }
 
         protected boolean shouldWarn(SolGame game) {
-            SolShip h = game.getHero();
-            if (h == null) {
+            Optional<SolShip> hero = game.getHero();
+            if (!hero.isPresent()) {
                 return false;
             }
 
-            float heroCap = HardnessCalc.getShipDmgCap(h);
-            List<SolObject> objs = game.getObjMan().getObjs();
+            float heroCap = HardnessCalc.getShipDmgCap(hero.orElseThrow(SolNullOptionalException::new));
+            List<SolObject> objs = game.getObjectManager().getObjs();
             FactionManager fm = game.getFactionMan();
-            SolCam cam = game.getCam();
+            SolCamera cam = game.getCam();
             float viewDist = cam.getViewDist();
             float dps = 0;
 
@@ -568,11 +572,11 @@ public class MainScreen implements SolUiScreen {
 
                 SolShip ship = (SolShip) o;
 
-                if (viewDist < ship.getPosition().dst(h.getPosition())) {
+                if (viewDist < ship.getPosition().dst(hero.orElseThrow(SolNullOptionalException::new).getPosition())) {
                     continue;
                 }
 
-                if (!fm.areEnemies(h, ship)) {
+                if (!fm.areEnemies(hero.orElseThrow(SolNullOptionalException::new), ship)) {
                     continue;
                 }
 

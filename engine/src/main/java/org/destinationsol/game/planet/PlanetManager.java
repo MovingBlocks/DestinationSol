@@ -25,7 +25,7 @@ import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.GameDrawer;
-import org.destinationsol.game.SolCam;
+import org.destinationsol.game.SolCamera;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolNames;
 import org.destinationsol.game.SolObject;
@@ -108,7 +108,7 @@ public class PlanetManager {
         Vector2 sysPos = nearestSys.getPos();
         float npGravConst = myNearestPlanet.getGravConst();
 
-        List<SolObject> objs = game.getObjMan().getObjs();
+        List<SolObject> objs = game.getObjectManager().getObjs();
         for (SolObject obj : objs) {
             if (!obj.receivesGravity()) {
                 continue;
@@ -138,7 +138,7 @@ public class PlanetManager {
                 continue;
             }
 
-            Vector2 grav = SolMath.getVec(srcPos);
+            Vector2 grav = SolMath.getBoundVector2(srcPos);
             grav.sub(objPos);
             float len = grav.len();
             grav.nor();
@@ -191,7 +191,7 @@ public class PlanetManager {
 
     public void drawDebug(GameDrawer drawer, SolGame game) {
         if (DebugOptions.DRAW_PLANET_BORDERS) {
-            SolCam cam = game.getCam();
+            SolCamera cam = game.getCam();
             float lineWidth = cam.getRealLineWidth();
             float vh = cam.getViewHeight();
             for (Planet p : myPlanets) {

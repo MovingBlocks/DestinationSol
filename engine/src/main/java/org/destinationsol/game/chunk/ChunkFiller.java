@@ -107,7 +107,7 @@ public class ChunkFiller {
 
     private SpaceEnvConfig getConfig(SolGame game, Vector2 chCenter, float[] densityMul,
                                      RemoveController remover, boolean farBg) {
-        PlanetManager pm = game.getPlanetMan();
+        PlanetManager pm = game.getPlanetManager();
         SolSystem sys = pm.getNearestSystem(chCenter);
         float toSys = sys.getPos().dst(chCenter);
         if (toSys < sys.getRadius()) {
@@ -177,7 +177,7 @@ public class ChunkFiller {
             Vector2 enemyPos = getFreeRndPos(game, chCenter);
             FarShip ship = buildSpaceEnemy(game, enemyPos, remover, enemyConf);
             if (ship != null) {
-                game.getObjMan().addFarObjNow(ship);
+                game.getObjectManager().addFarObjNow(ship);
             }
         }
     }
@@ -218,7 +218,7 @@ public class ChunkFiller {
             SolMath.fromAl(spd, SolMath.rnd(180), MAX_A_SPD);
 
             FarAsteroid a = game.getAsteroidBuilder().buildNewFar(asteroidPos, spd, sz, remover);
-            game.getObjMan().addFarObjNow(a);
+            game.getObjectManager().addFarObjNow(a);
         }
     }
 
@@ -270,7 +270,7 @@ public class ChunkFiller {
         // Create a common FarDrawable instance for the pieces of junk and only allow the junk to be drawn when it's not hidden by a planet
         FarDrawable so = new FarDrawable(drawables, new Vector2(chCenter), new Vector2(), remover, true);
         // Add the collection of objects to the object manager
-        game.getObjMan().addFarObjNow(so);
+        game.getObjectManager().addFarObjNow(so);
     }
 
     /**
@@ -318,7 +318,7 @@ public class ChunkFiller {
             SolMath.fromAl(spd, SolMath.rnd(180), SolMath.rnd(JUNK_MAX_SPD_LEN));
             FarDrawable so = new FarDrawable(drawables, junkPos, spd, remover, true);
             // Add the object to the object manager
-            game.getObjMan().addFarObjNow(so);
+            game.getObjectManager().addFarObjNow(so);
         }
     }
 
@@ -349,7 +349,7 @@ public class ChunkFiller {
 
         // Create a common FarDrawable instance for the specks of dust and only allow the dust to be drawn when it's not hidden by a planet
         FarDrawable so = new FarDrawable(drawables, chCenter, new Vector2(), remover, true);
-        game.getObjMan().addFarObjNow(so);
+        game.getObjectManager().addFarObjNow(so);
     }
 
     /**

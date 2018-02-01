@@ -61,7 +61,7 @@ public class DrawableObject implements SolObject {
         myMoveDiff.scl(ts);
         myPos.add(myMoveDiff);
         if (myHideOnPlanet) {
-            Planet np = game.getPlanetMan().getNearestPlanet();
+            Planet np = game.getPlanetManager().getNearestPlanet();
             Vector2 npPos = np.getPos();
             float npgh = np.getGroundHeight();
             DrawableManager drawableManager = game.getDrawableManager();

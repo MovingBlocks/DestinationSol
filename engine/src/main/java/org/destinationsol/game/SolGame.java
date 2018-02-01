@@ -15,21 +15,17 @@
  */
 package org.destinationsol.game;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolNullOptionalException;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.chunk.ChunkManager;
@@ -48,7 +44,7 @@ import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.particle.EffectTypes;
-import org.destinationsol.game.particle.PartMan;
+import org.destinationsol.game.particle.ParticleManager;
 import org.destinationsol.game.particle.SpecialEffects;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
@@ -56,7 +52,6 @@ import org.destinationsol.game.planet.SolSystem;
 import org.destinationsol.game.planet.SunSingleton;
 import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.ship.FarShip;
-import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SloMo;
 import org.destinationsol.game.ship.SolShip;
@@ -67,27 +62,34 @@ import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 public class SolGame {
     private static Logger logger = LoggerFactory.getLogger(SolGame.class);
-    
+
     static String MERC_SAVE_FILE = "mercenaries.json";
-    
+
     private final GameScreens gameScreens;
-    private final SolCam camera;
+    private final SolCamera camera;
     private final ObjectManager objectManager;
     private final SolApplication solApplication;
     private final DrawableManager drawableManager;
     private final PlanetManager planetManager;
     private final ChunkManager chunkManager;
-    private final PartMan partMan;
+    private final ParticleManager particleManager;
     private final AsteroidBuilder asteroidBuilder;
     private final LootBuilder lootBuilder;
     private final ShipBuilder shipBuilder;
@@ -106,29 +108,29 @@ public class SolGame {
     private final GameColors gameColors;
     private final BeaconHandler beaconHandler;
     private final MountDetectDrawer mountDetectDrawer;
-    private final TutorialManager tutorialManager;
+    private final @Nullable TutorialManager tutorialManager;
     private final GalaxyFiller galaxyFiller;
     private final ArrayList<SolItem> respawnItems;
-    private SolShip hero;
+    private Optional<SolShip> hero;
     private String shipName; // Not updated in-game. Can be changed using setter
     private float timeStep;
     private float time;
     private boolean paused;
-    private StarPort.Transcendent transcendentHero;
+    private Optional<StarPort.Transcendent> transcendentHero;
     private float timeFactor;
     private float respawnMoney;
     private HullConfig respawnHull;
 
-    public SolGame(SolApplication cmp, String shipName, boolean tut, CommonDrawer commonDrawer) {
+    public SolGame(SolApplication cmp, String shipName, boolean isTutorial, @NotNull CommonDrawer commonDrawer) {
         solApplication = cmp;
         GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
         soundManager = solApplication.getSoundManager();
         specialSounds = new SpecialSounds(soundManager);
         drawableManager = new DrawableManager(drawer);
-        camera = new SolCam(drawer.r);
+        camera = new SolCamera(drawer.r);
         gameScreens = new GameScreens(drawer.r, cmp);
-        tutorialManager = tut ? new TutorialManager(commonDrawer.r, gameScreens, cmp.isMobile(), cmp.getOptions(), this) : null;
+        tutorialManager = isTutorial ? new TutorialManager(commonDrawer.r, gameScreens, cmp.isMobile(), cmp.getOptions(), this) : null;
         farBackgroundManagerOld = new FarBackgroundManagerOld();
         shipBuilder = new ShipBuilder();
         EffectTypes effectTypes = new EffectTypes();
@@ -143,7 +145,7 @@ public class SolGame {
         objectManager = new ObjectManager(contactListener, factionManager);
         gridDrawer = new GridDrawer();
         chunkManager = new ChunkManager();
-        partMan = new PartMan();
+        particleManager = new ParticleManager();
         asteroidBuilder = new AsteroidBuilder();
         lootBuilder = new LootBuilder();
         mapDrawer = new MapDrawer(commonDrawer.h);
@@ -165,7 +167,10 @@ public class SolGame {
 
     // uh, this needs refactoring
     private void createPlayer(String shipName) {
-        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(hullConfigManager, itemManager, this) : ShipConfig.load(hullConfigManager, shipName, itemManager, this);
+        Optional<String> shipNameOptional = Optional.ofNullable(shipName);
+        ShipConfig shipConfig = shipNameOptional
+                .map(y -> ShipConfig.load(hullConfigManager, y, itemManager, this))
+                .orElseGet(() -> SaveManager.readShip(hullConfigManager, itemManager, this));
 
         // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
         assert shipConfig != null;
@@ -189,39 +194,39 @@ public class SolGame {
 
         String itemsStr = !respawnItems.isEmpty() ? "" : shipConfig.items;
 
-        boolean giveAmmo = shipName != null && respawnItems.isEmpty();
-        hero = shipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObj(this);
+        boolean giveAmmo = shipNameOptional.isPresent() && respawnItems.isEmpty();
+        hero = Optional.of(shipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObj(this));
 
-        ItemContainer ic = hero.getItemContainer();
+        ItemContainer itemContainer = hero.orElseThrow(SolNullOptionalException::new).getItemContainer();
         if (!respawnItems.isEmpty()) {
             for (SolItem item : respawnItems) {
-                ic.add(item);
+                itemContainer.add(item);
                 // Ensure that previously equipped items stay equipped
                 if (item.isEquipped() > 0) {
                     if (item instanceof Gun) {
-                        hero.maybeEquip(this, item, item.isEquipped() == 2, true);
+                        hero.orElseThrow(SolNullOptionalException::new).maybeEquip(this, item, item.isEquipped() == 2, true);
                     } else {
-                        hero.maybeEquip(this, item, true);
+                        hero.orElseThrow(SolNullOptionalException::new).maybeEquip(this, item, true);
                     }
                 }
             }
         } else if (tutorialManager != null) {
             for (int i = 0; i < 50; i++) {
-                if (ic.groupCount() > 1.5f * Const.ITEM_GROUPS_PER_PAGE) {
+                if (itemContainer.groupCount() > 1.5f * Const.ITEM_GROUPS_PER_PAGE) {
                     break;
                 }
-                SolItem it = itemManager.random();
-                if (!(it instanceof Gun) && it.getIcon(this) != null && ic.canAdd(it)) {
-                    ic.add(it.copy());
+                SolItem item = itemManager.random();
+                if (!(item instanceof Gun) && item.getIcon(this) != null && itemContainer.canAdd(item)) {
+                    itemContainer.add(item.copy());
                 }
             }
         }
-        ic.markAllAsSeen();
+        itemContainer.markAllAsSeen();
 
         // Don't change equipped items across load/respawn
         //AiPilot.reEquip(this, myHero);
 
-        objectManager.addObjDelayed(hero);
+        objectManager.addObjDelayed(hero.orElseThrow(SolNullOptionalException::new));
         objectManager.resetDelays();
     }
 
@@ -249,7 +254,8 @@ public class SolGame {
         }
 
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {}.getType();
+        Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {
+        }.getType();
         ArrayList<HashMap<String, String>> mercs = gson.fromJson(bufferedReader, type);
 
         MercItem mercItems;
@@ -274,18 +280,17 @@ public class SolGame {
         HullConfig hull;
         float money;
         ArrayList<SolItem> items;
-
-        if (hero != null) {
-            hull = hero.getHull().config;
-            money = hero.getMoney();
+        if (hero.isPresent()) {
+            hull = hero.orElseThrow(SolNullOptionalException::new).getHull().config;
+            money = hero.orElseThrow(SolNullOptionalException::new).getMoney();
             items = new ArrayList<>();
-            for (List<SolItem> group : hero.getItemContainer()) {
+            for (List<SolItem> group : hero.orElseThrow(SolNullOptionalException::new).getItemContainer()) {
                 for (SolItem i : group) {
                     items.add(0, i);
                 }
             }
-        } else if (transcendentHero != null) {
-            FarShip farH = transcendentHero.getShip();
+        } else if (transcendentHero.isPresent()) {
+            FarShip farH = transcendentHero.orElseThrow(SolNullOptionalException::new).getShip();
             hull = farH.getHullConfig();
             money = farH.getMoney();
             items = new ArrayList<>();
@@ -317,13 +322,9 @@ public class SolGame {
         }
 
         timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
-        if (hero != null) {
-            ShipAbility ability = hero.getAbility();
-            if (ability instanceof SloMo) {
-                float factor = ((SloMo) ability).getFactor();
-                timeFactor *= factor;
-            }
-        }
+        hero.map(SolShip::getAbility)
+                .filter(ability -> ability instanceof SloMo)
+                .ifPresent(ability -> timeFactor *= ((SloMo) ability).getFactor());
         timeStep = Const.REAL_TIME_STEP * timeFactor;
         time += timeStep;
 
@@ -337,14 +338,14 @@ public class SolGame {
         soundManager.update(this);
         beaconHandler.update(this);
 
-        hero = null;
-        transcendentHero = null;
+        hero = Optional.empty();
+        transcendentHero = Optional.empty();
         for (SolObject obj : objectManager.getObjs()) {
             if ((obj instanceof SolShip)) {
                 SolShip ship = (SolShip) obj;
                 Pilot prov = ship.getPilot();
                 if (prov.isPlayer()) {
-                    hero = ship;
+                    hero = Optional.of(ship);
                     break;
                 }
             }
@@ -353,7 +354,7 @@ public class SolGame {
                 StarPort.Transcendent trans = (StarPort.Transcendent) obj;
                 FarShip ship = trans.getShip();
                 if (ship.getPilot().isPlayer()) {
-                    transcendentHero = trans;
+                    transcendentHero = Optional.of(trans);
                     break;
                 }
             }
@@ -393,7 +394,7 @@ public class SolGame {
         return timeStep;
     }
 
-    public SolCam getCam() {
+    public SolCamera getCam() {
         return camera;
     }
 
@@ -405,16 +406,16 @@ public class SolGame {
         return drawableManager;
     }
 
-    public ObjectManager getObjMan() {
+    public ObjectManager getObjectManager() {
         return objectManager;
     }
 
-    public PlanetManager getPlanetMan() {
+    public PlanetManager getPlanetManager() {
         return planetManager;
     }
 
-    public PartMan getPartMan() {
-        return partMan;
+    public ParticleManager getParticleManager() {
+        return particleManager;
     }
 
     public AsteroidBuilder getAsteroidBuilder() {
@@ -425,7 +426,7 @@ public class SolGame {
         return lootBuilder;
     }
 
-    public SolShip getHero() {
+    public Optional<SolShip> getHero() {
         return hero;
     }
 
@@ -433,7 +434,7 @@ public class SolGame {
         return shipBuilder;
     }
 
-    public ItemManager getItemMan() {
+    public ItemManager getItemManager() {
         return itemManager;
     }
 
@@ -451,14 +452,14 @@ public class SolGame {
     }
 
     public void respawn() {
-        if (hero != null) {
+        hero.ifPresent(hero -> {
             beforeHeroDeath();
             objectManager.removeObjDelayed(hero);
-        } else if (transcendentHero != null) {
-            FarShip farH = transcendentHero.getShip();
-            setRespawnState(farH.getMoney(), farH.getIc(), farH.getHullConfig());
-            objectManager.removeObjDelayed(transcendentHero);
-        }
+        });
+        transcendentHero.map(StarPort.Transcendent::getShip)
+                .ifPresent(farShip -> setRespawnState(farShip.getMoney(), farShip.getIc(), farShip.getHullConfig()));
+        transcendentHero.ifPresent(objectManager::removeObjDelayed);
+
         createPlayer(null);
     }
 
@@ -527,8 +528,8 @@ public class SolGame {
         return starPortBuilder;
     }
 
-    public StarPort.Transcendent getTranscendentHero() {
-        return transcendentHero;
+    public @Nullable StarPort.Transcendent getTranscendentHero() {
+        return transcendentHero.orElse(null);
     }
 
     public GridDrawer getGridDrawer() {
@@ -584,16 +585,16 @@ public class SolGame {
     }
 
     public void beforeHeroDeath() {
-        if (hero == null) {
+        if (!hero.isPresent()) {
             return;
         }
 
-        float money = hero.getMoney();
-        ItemContainer ic = hero.getItemContainer();
+        float money = hero.orElseThrow(SolNullOptionalException::new).getMoney();
+        ItemContainer ic = hero.orElseThrow(SolNullOptionalException::new).getItemContainer();
 
-        setRespawnState(money, ic, hero.getHull().config);
+        setRespawnState(money, ic, hero.orElseThrow(SolNullOptionalException::new).getHull().config);
 
-        hero.setMoney(money - respawnMoney);
+        hero.orElseThrow(SolNullOptionalException::new).setMoney(money - respawnMoney);
         for (SolItem item : respawnItems) {
             ic.remove(item);
         }
@@ -605,7 +606,7 @@ public class SolGame {
         respawnItems.clear();
         for (List<SolItem> group : ic) {
             for (SolItem item : group) {
-                boolean equipped = hero == null || hero.maybeUnequip(this, item, false);
+                boolean equipped = hero.map(hero -> hero.maybeUnequip(this, item, false)).orElse(true);
                 if (equipped || SolMath.test(.75f)) {
                     respawnItems.add(0, item);
                 }

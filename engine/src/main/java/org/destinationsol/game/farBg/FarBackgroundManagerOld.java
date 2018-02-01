@@ -25,7 +25,7 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolColorUtil;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.GameDrawer;
-import org.destinationsol.game.SolCam;
+import org.destinationsol.game.SolCamera;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.planet.Planet;
 
@@ -52,8 +52,8 @@ public class FarBackgroundManagerOld {
         nebulaTint = SolColor.col(.5f, 1);
     }
 
-    public void draw(GameDrawer drawer, SolCam cam, SolGame game) {
-        Planet np = game.getPlanetMan().getNearestPlanet();
+    public void draw(GameDrawer drawer, SolCamera cam, SolGame game) {
+        Planet np = game.getPlanetManager().getNearestPlanet();
         Vector2 camPos = cam.getPos();
         float nebPerc = (camPos.dst(np.getPos()) - np.getGroundHeight()) / (4 * Const.ATM_HEIGHT);
         nebPerc = SolMath.clamp(nebPerc, 0, 1);

@@ -64,7 +64,7 @@ public class ProjectileConfigs {
                 EffectConfig collisionEffectBg = EffectConfig.load(node.get("collisionEffectBg"), effectTypes, cols);
                 float guideRotSpd = node.getFloat("guideRotSpd", 0);
                 boolean zeroAbsSpd = node.getBoolean("zeroAbsSpd", false);
-                Vector2 origin = SolMath.readV2(node.getString("texOrig", "0 0"));
+                Vector2 origin = SolMath.readVector2String(node.getString("texOrig", "0 0"));
                 float acc = node.getFloat("acceleration", 0);
                 String workSoundUrn = node.getString("workSound", "");
                 OggSound workSound = workSoundUrn.isEmpty() ? null : soundManager.getSound(workSoundUrn);

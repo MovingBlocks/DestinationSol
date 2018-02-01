@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Creates a Model that is used for collision testing from the given json file.
@@ -138,12 +139,8 @@ public class CollisionMeshLoader {
      * copy it if you need it for later use.
      */
     public Vector2 getOrigin(String name, float scale) {
-        RigidBodyModel rbModel = model.rigidBodies.get(name);
-        if (rbModel == null) {
-            vec.set(.5f, .5f);
-        } else {
-            vec.set(rbModel.origin);
-        }
+        Optional<RigidBodyModel> rbModel = Optional.ofNullable(model.rigidBodies.get(name));
+        vec.set(rbModel.map(y -> y.origin).orElse(new Vector2(0.f, 0.5f)));
         vec.scl(scale);
         return vec;
     }
@@ -247,6 +244,7 @@ public class CollisionMeshLoader {
     public Body getBodyAndSprite(SolGame game, HullConfig hullConfig, float scale, BodyDef.BodyType type,
                                  Vector2 pos, float angle, List<Drawable> drawables, float density, DrawableLevel level, TextureAtlas.AtlasRegion tex) {
         final String name = hullConfig.getInternalName();
+        Optional<TextureAtlas.AtlasRegion> texOptional = Optional.ofNullable(tex);
 
         BodyDef bd = new BodyDef();
         bd.type = type;
@@ -254,7 +252,7 @@ public class CollisionMeshLoader {
         bd.angularDamping = 0;
         bd.position.set(pos);
         bd.linearDamping = 0;
-        Body body = game.getObjMan().getWorld().createBody(bd);
+        Body body = game.getObjectManager().getWorld().createBody(bd);
         FixtureDef fd = new FixtureDef();
         fd.density = density;
         fd.friction = Const.FRICTION;
@@ -269,10 +267,7 @@ public class CollisionMeshLoader {
         }
 
         orig = hullConfig.getShipBuilderOrigin();
-        if (tex == null) {
-            tex = hullConfig.getTexture();
-        }
-        RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.WHITE, false);
+        RectSprite s = new RectSprite(texOptional.orElseGet(hullConfig::getTexture), scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.WHITE, false);
         drawables.add(s);
         return body;
     }
@@ -290,7 +285,7 @@ public class CollisionMeshLoader {
         bd.angularDamping = 0;
         bd.position.set(pos);
         bd.linearDamping = 0;
-        Body body = game.getObjMan().getWorld().createBody(bd);
+        Body body = game.getObjectManager().getWorld().createBody(bd);
         FixtureDef fd = new FixtureDef();
         fd.density = density;
         fd.friction = Const.FRICTION;

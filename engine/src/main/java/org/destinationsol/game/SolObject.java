@@ -17,7 +17,7 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import org.destinationsol.common.Nullable;
+import org.jetbrains.annotations.Nullable;
 import org.destinationsol.game.drawables.Drawable;
 
 import java.util.List;

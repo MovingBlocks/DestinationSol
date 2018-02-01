@@ -77,7 +77,7 @@ public class ObjectManager {
         float ts = game.getTimeStep();
         myWorld.step(ts, 6, 2);
 
-        SolCam cam = game.getCam();
+        SolCamera cam = game.getCam();
         Vector2 camPos = cam.getPos();
         myFarEndDist = 1.5f * cam.getViewDist();
         myFarBeginDist = 1.33f * myFarEndDist;
@@ -229,7 +229,7 @@ public class ObjectManager {
 
         if (DebugOptions.DRAW_PHYSIC_BORDERS) {
             drawer.end();
-            myDr.render(myWorld, game.getCam().getMtx());
+            myDr.render(myWorld, game.getCam().getMatrix());
             drawer.begin();
         }
     }
@@ -254,7 +254,7 @@ public class ObjectManager {
     }
 
     private void drawDebug0(GameDrawer drawer, SolGame game) {
-        SolCam cam = game.getCam();
+        SolCamera cam = game.getCam();
         float lineWidth = cam.getRealLineWidth();
         float vh = cam.getViewHeight();
         for (SolObject o : myObjs) {

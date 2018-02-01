@@ -22,10 +22,10 @@ import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.common.SolNullOptionalException;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.menu.MenuLayout;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
@@ -156,7 +156,7 @@ public class InventoryScreen implements SolUiScreen {
             
             SolGame game = solApplication.getGame();
             // Make sure the ChooseMercenary screen comes back up when we exit a mercenary related screen
-            if (myOperations == giveItems || myOperations == takeItems || (myOperations == showInventory && showInventory.getTarget() != game.getHero())) {
+            if (myOperations == giveItems || myOperations == takeItems || (myOperations == showInventory && showInventory.getTarget() != game.getHero().orElseThrow(SolNullOptionalException::new))) {
                 SolInputManager inputMan = solApplication.getInputMan();
                 GameScreens screens = game.getScreens();
                 InventoryScreen is = screens.inventoryScreen;
@@ -357,7 +357,7 @@ public class InventoryScreen implements SolUiScreen {
     }
 
     private boolean showingHeroItems(SolApplication application) {
-        return application.getGame().getHero() == showInventory.getTarget() || myOperations == sellItems;
+        return application.getGame().getHero().orElseThrow(SolNullOptionalException::new) == showInventory.getTarget() || myOperations == sellItems;
     }
 
     public Rectangle itemCtrl(int row) {

@@ -28,6 +28,8 @@ import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
+import java.util.Optional;
+
 public class AiPilot implements Pilot {
 
     public static final float MIN_IDLE_DIST = .8f;
@@ -68,6 +70,7 @@ public class AiPilot implements Pilot {
 
     @Override
     public void update(SolGame game, SolShip ship, SolShip nearestEnemy) {
+        Optional<SolShip> nearestEnemyOptional = Optional.ofNullable(nearestEnemy);
         myAbilityUpdater.update(ship, nearestEnemy);
         myPlanetBind = null;
         Vector2 shipPos = ship.getPosition();
@@ -75,12 +78,12 @@ public class AiPilot implements Pilot {
         float maxIdleDist = getMaxIdleDist(hullConfig);
         myDestProvider.update(game, shipPos, maxIdleDist, hullConfig, nearestEnemy);
 
-        Boolean canShoot = canShoot0(ship);
+        Boolean canShoot = canShoot(ship);
         boolean canShootUnfixed = canShoot == null;
         if (canShootUnfixed) {
             canShoot = true;
         }
-        Planet np = game.getPlanetMan().getNearestPlanet();
+        Planet np = game.getPlanetManager().getNearestPlanet();
         boolean nearGround = np.isNearGround(shipPos);
 
         Vector2 dest = null;
@@ -91,7 +94,7 @@ public class AiPilot implements Pilot {
         boolean hasEngine = ship.getHull().getEngine() != null;
         if (hasEngine) {
             Boolean battle = null;
-            if (nearestEnemy != null) {
+            if (nearestEnemyOptional.isPresent()) {
                 battle = myDestProvider.shouldManeuver(canShoot, nearestEnemy, nearGround);
             }
             if (battle != null) {
@@ -117,9 +120,9 @@ public class AiPilot implements Pilot {
         myMover.update(game, ship, dest, np, maxIdleDist, hasEngine, avoidBigObjs, desiredSpdLen, shouldStopNearDest, destSpd);
         boolean moverActive = myMover.isActive();
 
-        Vector2 enemyPos = nearestEnemy == null ? null : nearestEnemy.getPosition();
-        Vector2 enemySpd = nearestEnemy == null ? null : nearestEnemy.getSpd();
-        float enemyApproxRad = nearestEnemy == null ? 0 : nearestEnemy.getHull().config.getApproxRadius();
+        Vector2 enemyPos = nearestEnemyOptional.map(SolShip::getPosition).orElse(null);
+        Vector2 enemySpd = nearestEnemyOptional.map(SolShip::getSpd).orElse(null);
+        float enemyApproxRad = nearestEnemyOptional.map(y -> y.getHull().config.getApproxRadius()).orElse(0f);
         myShooter.update(ship, enemyPos, moverActive, canShoot, enemySpd, enemyApproxRad);
         if (hasEngine && !moverActive && !isShooterRotated()) {
             myMover.rotateOnIdle(ship, np, dest, shouldStopNearDest, maxIdleDist);
@@ -140,7 +143,7 @@ public class AiPilot implements Pilot {
         return maxIdleDist;
     }
 
-    private Boolean canShoot0(SolShip ship) {
+    private Boolean canShoot(SolShip ship) {
         Gun g1 = ship.getHull().getGun(false);
         if (g1 != null && g1.canShoot()) {
             return !g1.config.fixed ? null : true;
@@ -263,7 +266,7 @@ public class AiPilot implements Pilot {
         farShip.setSpd(spd);
         farShip.setAngle(angle);
 
-        Vector2 newPos = SolMath.getVec(spd);
+        Vector2 newPos = SolMath.getBoundVector2(spd);
         newPos.scl(ts);
         newPos.add(shipPos);
         farShip.setPos(newPos);

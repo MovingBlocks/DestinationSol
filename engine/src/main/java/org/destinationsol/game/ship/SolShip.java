@@ -22,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolNullOptionalException;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.RemoveController;
@@ -46,8 +47,10 @@ import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.game.sound.SpecialSounds;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public class SolShip implements SolObject {
     public static final float BASE_DUR_MOD = .3f;
@@ -60,7 +63,7 @@ public class SolShip implements SolObject {
 
     private final Pilot myPilot;
     private final ItemContainer myItemContainer;
-    private final TradeContainer myTradeContainer;
+    private final @Nullable TradeContainer myTradeContainer;
     private final Hull myHull;
     private final DSParticleEmitter mySmokeSrc;
     private final DSParticleEmitter myFireSrc;
@@ -138,7 +141,7 @@ public class SolShip implements SolObject {
             }
             receiveDmg((int) dmg, game, collPos, DmgType.CRASH);
         }
-        game.getPartMan().fireAllHullEmittersOfType(myHull, "collision");
+        game.getParticleManager().fireAllHullEmittersOfType(myHull, "collision");
     }
 
     @Override
@@ -192,7 +195,7 @@ public class SolShip implements SolObject {
             return false;
         }
         if (i instanceof RepairItem) {
-            return myItemContainer.count(game.getItemMan().getRepairExample()) >= TRADE_AFTER;
+            return myItemContainer.count(game.getItemManager().getRepairExample()) >= TRADE_AFTER;
         }
         Gun g1 = myHull.getGun(false);
         if (g1 != null && g1.config.clipConf.example.isSame(i)) {
@@ -314,10 +317,7 @@ public class SolShip implements SolObject {
             return false;
         }
         SolItem example = myAbility.getConfig().getChargeExample();
-        if (example == null) {
-            return true;
-        }
-        return myItemContainer.count(example) > 0;
+        return example == null || myItemContainer.count(example) > 0;
     }
 
     public float getPullDist() {
@@ -336,8 +336,8 @@ public class SolShip implements SolObject {
             throwAllLoot(game);
         }
         myHull.onRemove(game);
-        game.getPartMan().finish(game, mySmokeSrc, myHull.getPos());
-        game.getPartMan().finish(game, myFireSrc, myHull.getPos());
+        game.getParticleManager().finish(game, mySmokeSrc, myHull.getPos());
+        game.getParticleManager().finish(game, myFireSrc, myHull.getPos());
     }
 
     private void throwAllLoot(SolGame game) {
@@ -364,7 +364,7 @@ public class SolShip implements SolObject {
             }
         }
         float thrMoney = myMoney * SolMath.rnd(.2f, 1);
-        List<MoneyItem> moneyItems = game.getItemMan().moneyToItems(thrMoney);
+        List<MoneyItem> moneyItems = game.getItemManager().moneyToItems(thrMoney);
         for (MoneyItem mi : moneyItems) {
             throwLoot(game, mi, true);
         }
@@ -389,7 +389,7 @@ public class SolShip implements SolObject {
         lootSpd.add(myHull.getSpd());
         pos.add(myHull.getPos());
         Loot l = game.getLootBuilder().build(game, pos, item, lootSpd, Loot.MAX_LIFE, SolMath.rnd(Loot.MAX_ROT_SPD), this);
-        game.getObjMan().addObjDelayed(l);
+        game.getObjectManager().addObjDelayed(l);
         if (!onDeath) {
             game.getSoundManager().play(game, game.getSpecialSounds().lootThrow, pos, this);
         }
@@ -433,7 +433,7 @@ public class SolShip implements SolObject {
     private void onDeath(SolGame game) {
         MercItem merc = getMerc();
         if (merc != null) {
-            game.getHero().getTradeContainer().getMercs().remove(merc);
+            game.getHero().orElseThrow(SolNullOptionalException::new).getTradeContainer().getMercs().remove(merc);
         }
     }
 
@@ -476,8 +476,8 @@ public class SolShip implements SolObject {
     }
 
     public float getRotAcc() {
-        Engine e = myHull.getEngine();
-        return e == null ? 0 : e.getRotAcc();
+        Optional<Engine> e = Optional.ofNullable(myHull.getEngine());
+        return e.map(Engine::getRotAcc).orElse(0f);
     }
 
     public Hull getHull() {

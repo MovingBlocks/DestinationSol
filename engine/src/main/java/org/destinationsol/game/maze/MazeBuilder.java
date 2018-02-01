@@ -72,7 +72,7 @@ public class MazeBuilder {
                     }
                     MazeTile tile = SolMath.elemRnd(tiles);
                     MazeTileObject.MyFar mto = new MazeTileObject.MyFar(tile, tileAngle, new Vector2(tilePos), SolMath.test(.5f));
-                    game.getObjMan().addFarObjNow(mto);
+                    game.getObjectManager().addFarObjNow(mto);
                 }
 
                 boolean dInner = col > 0 && row < mySz - 1 && layout.inners[col][row + 1];
@@ -92,7 +92,7 @@ public class MazeBuilder {
                     }
                     MazeTile tile = SolMath.elemRnd(tiles);
                     MazeTileObject.MyFar mto = new MazeTileObject.MyFar(tile, tileAngle, new Vector2(tilePos), SolMath.test(.5f));
-                    game.getObjMan().addFarObjNow(mto);
+                    game.getObjectManager().addFarObjNow(mto);
                 }
             }
         }
@@ -163,7 +163,7 @@ public class MazeBuilder {
         Pilot pilot = new AiPilot(new StillGuard(pos, game, e), false, Faction.EHAR, true, null, viewDist);
         int money = e.money;
         FarShip s = sb.buildNewFar(game, pos, new Vector2(), angle, 0, pilot, e.items, e.hull, null, false, money, null, true);
-        game.getObjMan().addFarObjNow(s);
+        game.getObjectManager().addFarObjNow(s);
     }
 
 }

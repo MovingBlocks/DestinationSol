@@ -131,7 +131,7 @@ public class Hull {
         }
 
         if (myPlanetBind != null) {
-            Vector2 spd = SolMath.getVec();
+            Vector2 spd = SolMath.getBoundVector2();
             myPlanetBind.setDiff(spd, myPos, true);
             float fps = 1 / game.getTimeStep();
             spd.scl(fps);
@@ -141,7 +141,7 @@ public class Hull {
             myBody.setAngularVelocity(angleDiff * SolMath.degRad * fps);
         }
 
-        game.getPartMan().toggleAllHullEmittersOfType(this, "none", true);
+        game.getParticleManager().toggleAllHullEmittersOfType(this, "none", true);
     }
 
     private void setParamsFromBody() {

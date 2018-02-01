@@ -52,7 +52,7 @@ public class FarTileObject implements FarObj {
 
     @Override
     public void update(SolGame game) {
-        if (game.getPlanetMan().getNearestPlanet() == myPlanet) {
+        if (game.getPlanetManager().getNearestPlanet() == myPlanet) {
             SolMath.fromAl(myPos, myPlanet.getAngle() + myToPlanetAngle, myDist);
             myPos.add(myPlanet.getPos());
         }

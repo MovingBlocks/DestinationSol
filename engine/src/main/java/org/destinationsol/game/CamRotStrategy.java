@@ -33,13 +33,13 @@ public interface CamRotStrategy {
     public static class ToPlanet implements CamRotStrategy {
 
         public float getRotation(Vector2 pos, SolGame game) {
-            Planet np = game.getPlanetMan().getNearestPlanet();
+            Planet np = game.getPlanetManager().getNearestPlanet();
             float fh = np.getFullHeight();
             Vector2 npPos = np.getPos();
             if (npPos.dst(pos) < fh) {
                 return SolMath.angle(pos, npPos, true) - 90;
             }
-            SolSystem sys = game.getPlanetMan().getNearestSystem(pos);
+            SolSystem sys = game.getPlanetManager().getNearestSystem(pos);
             Vector2 sysPos = sys.getPos();
             if (sysPos.dst(pos) < Const.SUN_RADIUS) {
                 return SolMath.angle(pos, sysPos, true) - 90;

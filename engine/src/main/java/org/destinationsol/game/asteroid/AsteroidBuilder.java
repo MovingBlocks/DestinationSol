@@ -54,7 +54,7 @@ public class AsteroidBuilder {
         bd.angularDamping = 0;
         bd.position.set(pos);
         bd.linearDamping = 0;
-        Body body = game.getObjMan().getWorld().createBody(bd);
+        Body body = game.getObjectManager().getWorld().createBody(bd);
         FixtureDef fd = new FixtureDef();
         fd.density = density;
         fd.friction = Const.FRICTION;

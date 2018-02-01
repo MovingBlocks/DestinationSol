@@ -32,7 +32,7 @@ public class ZoneNameAnnouncer {
     private String myText;
 
     public void update(SolGame game) {
-        PlanetManager pm = game.getPlanetMan();
+        PlanetManager pm = game.getPlanetManager();
         String zone = null;
         String pref = null;
         Vector2 camPos = game.getCam().getPos();

@@ -20,7 +20,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.GameDrawer;
-import org.destinationsol.game.SolCam;
+import org.destinationsol.game.SolCamera;
 import org.destinationsol.game.SolGame;
 
 public class PlanetCoreSingleton {
@@ -31,9 +31,9 @@ public class PlanetCoreSingleton {
     }
 
     public void draw(SolGame game, GameDrawer drawer) {
-        SolCam cam = game.getCam();
+        SolCamera cam = game.getCam();
         Vector2 camPos = cam.getPos();
-        Planet p = game.getPlanetMan().getNearestPlanet();
+        Planet p = game.getPlanetManager().getNearestPlanet();
         Vector2 pPos = p.getPos();
         float toCamLen = camPos.dst(pPos);
         float vd = cam.getViewDist();
