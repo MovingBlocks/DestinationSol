@@ -214,7 +214,7 @@ public class PlanetObjectsBuilder {
         float angleShift = angleShiftRel * maxAngleShift;
         float distShift = maxDistShift == 0 ? 0 : distPerc * SolMath.rnd(0, maxDistShift);
         float dist = baseDist + distShift;
-        Vector2 basePos = SolMath.getVec(0, -baseDist);
+        Vector2 basePos = SolMath.getBoundVector2(0, -baseDist);
         Vector2 relPos = new Vector2(0, -dist);
         SolMath.rotate(relPos, angleShift, true);
         relPos.sub(basePos);
@@ -317,7 +317,7 @@ public class PlanetObjectsBuilder {
         pos.scl((height + aboveGround) / height);
         SolMath.toWorld(pos, pos, planet.getAngle(), planet.getPos(), false);
 
-        Vector2 toPlanet = SolMath.getVec(planet.getPos()).sub(pos);
+        Vector2 toPlanet = SolMath.getBoundVector2(planet.getPos()).sub(pos);
         float angle = SolMath.angle(toPlanet) - 180;
         if (station) {
             angle += 90;

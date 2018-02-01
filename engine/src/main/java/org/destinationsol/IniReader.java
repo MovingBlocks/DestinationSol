@@ -16,10 +16,8 @@
 package org.destinationsol;
 
 import com.badlogic.gdx.files.FileHandle;
-import org.jetbrains.annotations.Nullable;
 import org.destinationsol.game.DebugOptions;
 
-import javax.swing.text.html.Option;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -47,7 +45,8 @@ public class IniReader {
             while ((line = reader.readLine()) != null) {
                 lines.add(line);
             }
-        } catch (IOException e) { }
+        } catch (IOException e) {
+        }
 
         initValueMap(lines);
     }
@@ -111,22 +110,22 @@ public class IniReader {
         return res;
     }
 
-    public String getString(@Nullable String key, String defaultValue) {
+    public String getString(String key, String defaultValue) {
         Optional<String> string = Optional.ofNullable(myVals.get(key));
         return string.orElse(defaultValue);
     }
 
-    public int getInt(@Nullable String key, int defaultValue) {
+    public int getInt(String key, int defaultValue) {
         Optional<String> string = Optional.ofNullable(myVals.get(key));
         return string.map(Integer::parseInt).orElse(defaultValue);
     }
 
-    public boolean getBoolean(@Nullable String key, boolean defaultValue) {
+    public boolean getBoolean(String key, boolean defaultValue) {
         Optional<String> string = Optional.ofNullable(myVals.get(key));
         return string.map("true"::equalsIgnoreCase).orElse(defaultValue);
     }
 
-    public float getFloat(@Nullable String key, float defaultValue) {
+    public float getFloat(String key, float defaultValue) {
         Optional<String> string = Optional.ofNullable(myVals.get(key));
         return string.map(Float::parseFloat).orElse(defaultValue);
     }

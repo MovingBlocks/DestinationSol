@@ -94,7 +94,7 @@ public class BeaconHandler {
             myPlanetBind = PlanetBind.tryBind(game, beaconPos, 0);
             return;
         }
-        Vector2 vec = SolMath.getVec();
+        Vector2 vec = SolMath.getBoundVector2();
         myPlanetBind.setDiff(vec, beaconPos, false);
         beaconPos.add(vec);
         SolMath.free(vec);

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,7 @@ package org.destinationsol.common;
 
 public class SolNullOptionalException extends SolDescriptiveException {
     public SolNullOptionalException() {
-        super("Some object, which contained a null where by design it shouldn't have, caused a crash to the game. Please report this; there is some major design flaw within the game."
+        super("Some object, which contained a null where by design it shouldn't have, caused the game to crash. Please report this, since this means there is some design flaw within the game."
         );
     }
 }

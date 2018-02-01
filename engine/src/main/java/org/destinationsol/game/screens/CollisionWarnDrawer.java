@@ -19,7 +19,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.common.SolNullOptionalException;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.ship.SolShip;
@@ -36,28 +35,25 @@ public class CollisionWarnDrawer extends WarnDrawer {
 
     public boolean shouldWarn(SolGame game) {
         hero = game.getHero();
-        if (!hero.isPresent()) {
-            return false;
-        }
-        Vector2 pos = hero.orElseThrow(SolNullOptionalException::new).getPosition();
-        Vector2 spd = hero.orElseThrow(SolNullOptionalException::new).getSpd();
-        float acc = hero.orElseThrow(SolNullOptionalException::new).getAcc();
-        float spdLen = spd.len();
-        float spdAngle = SolMath.angle(spd);
-        if (acc <= 0 || spdLen < 2 * acc) {
-            return false;
-        }
-        // t = v/a;
-        // s = att/2 = vv/a/2;
-        float breakWay = spdLen * spdLen / acc / 2;
-        breakWay += 2 * spdLen;
-        Vector2 finalPos = SolMath.getVec(0, 0);
-        SolMath.fromAl(finalPos, spdAngle, breakWay);
-        finalPos.add(pos);
-        warnCallback.show = false;
-        game.getObjectManager().getWorld().rayCast(warnCallback, pos, finalPos);
-        SolMath.free(finalPos);
-        return warnCallback.show;
+        return hero.map(y -> {
+            Vector2 spd = y.getSpd();
+            float acc = y.getAcc();
+            float spdLen = spd.len();
+            if (acc <= 0 || spdLen < 2 * acc) {
+                return false;
+            }
+            float spdAngle = SolMath.angle(spd);
+            Vector2 pos = y.getPosition();
+            float breakWay = spdLen * spdLen / acc / 2;
+            breakWay += 2 * spdLen;
+            Vector2 finalPos = SolMath.getBoundVector2(0, 0);
+            SolMath.fromAl(finalPos, spdAngle, breakWay);
+            finalPos.add(pos);
+            warnCallback.show = false;
+            game.getObjectManager().getWorld().rayCast(warnCallback, pos, finalPos);
+            SolMath.free(finalPos);
+            return warnCallback.show;
+        }).orElse(false);
     }
 
     private class CollisionRayCastCallback implements RayCastCallback {

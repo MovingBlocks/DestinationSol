@@ -131,7 +131,7 @@ public class Hull {
         }
 
         if (myPlanetBind != null) {
-            Vector2 spd = SolMath.getVec();
+            Vector2 spd = SolMath.getBoundVector2();
             myPlanetBind.setDiff(spd, myPos, true);
             float fps = 1 / game.getTimeStep();
             spd.scl(fps);

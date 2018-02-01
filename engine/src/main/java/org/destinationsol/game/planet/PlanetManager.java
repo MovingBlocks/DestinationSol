@@ -138,7 +138,7 @@ public class PlanetManager {
                 continue;
             }
 
-            Vector2 grav = SolMath.getVec(srcPos);
+            Vector2 grav = SolMath.getBoundVector2(srcPos);
             grav.sub(objPos);
             float len = grav.len();
             grav.nor();

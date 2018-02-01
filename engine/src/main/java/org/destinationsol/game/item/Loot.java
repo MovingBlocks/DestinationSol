@@ -185,7 +185,7 @@ public class Loot implements SolObject {
         if (ship == myOwner) {
             return;
         }
-        Vector2 toPuller = SolMath.getVec(pullerPos);
+        Vector2 toPuller = SolMath.getBoundVector2(pullerPos);
         toPuller.sub(getPosition());
         float pullerDist = toPuller.len();
         if (0 < pullerDist && pullerDist < radius) {

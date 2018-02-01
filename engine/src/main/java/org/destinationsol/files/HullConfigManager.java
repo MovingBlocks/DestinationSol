@@ -57,18 +57,18 @@ public final class HullConfigManager {
         configToNameMap = new HashMap<>();
     }
 
-    private static @Nullable Vector2 readOptionalVector2(@NotNull JsonValue jsonValue, @Nullable String name, @Nullable Vector2 defaultValue) {
+    private static Vector2 readOptionalVector2(JsonValue jsonValue, @Nullable String name, @Nullable Vector2 defaultValue) {
         Optional<String> string = Optional.ofNullable(jsonValue.getString(name, null));
 
-        return string.map(SolMath::readV2).orElse(defaultValue);
+        return string.map(SolMath::readVector2String).orElse(defaultValue);
     }
 
     /**
      * Reads and parses a position field from given {@link JsonValue}.
      *
-     * The position field is expected to be of type string, in the form of {@code "0.5 0.5"}. This would return a {@link Vector2} with values 0.5f, 0.5f.
+     * The position field is expected to be of type string, in the form of {@code "0.5 0.5"}. This would return a {@link Vector2} with values (0.5f, 0.5f).
      *
-     * @param jsonValue Json whose position you want to get
+     * @param jsonValue Json from which you want to get the position
      * @param superComponent Descriptive name of parameter whose position you are trying to get. Will be used as part of exception message in case the position is not found in the Json
      * @return {@code Vector2} representation of the position
      */
@@ -76,7 +76,7 @@ public final class HullConfigManager {
         Optional<String> string = Optional.ofNullable(jsonValue.getString("position", null));
 
         return string
-                .map(SolMath::readV2)
+                .map(SolMath::readVector2String)
                 .orElseThrow(() -> new SolDescriptiveException("Some of your " + superComponent + "s is missing a required \"position\" argument, or it is malformed."));
     }
 

@@ -39,7 +39,7 @@ public class Shooter {
 
     public static float calcShootAngle(@NotNull Vector2 gunPosition, @NotNull Vector2 gunSpeed, @NotNull Vector2 enemyPosition,
                                        @NotNull Vector2 enemySpeed, float projSpd, boolean sharp) {
-        Vector2 temporalEnemySpeed = SolMath.getVec(enemySpeed);
+        Vector2 temporalEnemySpeed = SolMath.getBoundVector2(enemySpeed);
         if (!sharp) {
             temporalEnemySpeed.scl(E_SPD_PERC);
         }

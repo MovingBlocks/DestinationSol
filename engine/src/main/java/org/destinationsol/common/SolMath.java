@@ -198,7 +198,7 @@ public class SolMath {
      */
     @Bound
     public static Vector2 fromAl(float angle, float len, boolean precise) {
-        Vector2 vec = getVec();
+        Vector2 vec = getBoundVector2();
         fromAl(vec, angle, len, precise);
         return vec;
     }
@@ -207,15 +207,15 @@ public class SolMath {
      * @return a new bound copy of src
      */
     @Bound
-    public static @NotNull Vector2 getVec(@NotNull Vector2 src) {
-        return getVec(src.x, src.y);
+    public static Vector2 getBoundVector2(Vector2 src) {
+        return getBoundVector2(src.x, src.y);
     }
 
     /**
      * @return a new bound vector
      */
     @Bound
-    public static @NotNull Vector2 getVec(float x, float y) {
+    public static Vector2 getBoundVector2(float x, float y) {
         VECTORS_TAKEN++;
         Vector2 v = vs.obtain();
         v.set(x, y);
@@ -234,8 +234,8 @@ public class SolMath {
      * @return a new bound vector
      */
     @Bound
-    public static Vector2 getVec() {
-        return getVec(0, 0);
+    public static Vector2 getBoundVector2() {
+        return getBoundVector2(0, 0);
     }
 
     /**
@@ -264,7 +264,7 @@ public class SolMath {
      */
     @Bound
     public static Vector2 toWorld(Vector2 relPos, float baseAngle, Vector2 basePos) {
-        Vector2 v = getVec();
+        Vector2 v = getBoundVector2();
         toWorld(v, relPos, baseAngle, basePos, false);
         return v;
     }
@@ -283,7 +283,7 @@ public class SolMath {
      */
     @Bound
     public static Vector2 toRel(Vector2 pos, float baseAngle, Vector2 basePos) {
-        Vector2 v = getVec();
+        Vector2 v = getBoundVector2();
         toRel(pos, v, baseAngle, basePos);
         return v;
     }
@@ -326,7 +326,7 @@ public class SolMath {
      */
     @Bound
     public static @NotNull Vector2 distVec(@NotNull Vector2 from, @NotNull Vector2 to) {
-        Vector2 v = getVec(to);
+        Vector2 v = getBoundVector2(to);
         v.sub(from);
         return v;
     }
@@ -434,6 +434,7 @@ public class SolMath {
 
     /**
      * Solves a quadratic equation (equation in form {@code 0 = (a * x^2) + (b * x) + c}
+     *
      * @return Solution to a quadratic equation. When two solutions are possible, the greater of them is returned.
      */
     public static float genQuad(float a, float b, float c) {
@@ -469,23 +470,24 @@ public class SolMath {
 
     /**
      * Converts  string in given Json with given name to {@link Vector2}.
+     * <p>
+     * The string has to be in form "0.5 0.5" for the returned {@code Vector2} to have values (0.5f, 0.5f).
      *
-     * The string has to be in form "0.5 0.5" for the returned {@code Vector2} to have values 0.5f, 0.5f.
-     * @param v Json where the string to be converted is located
+     * @param v    Json where the string to be converted is located
      * @param name Name of the string in given Json
      * @return Converted {@code Vector2}, or null if the string was malformed
      */
-    public static @Nullable Vector2 readV2(@NotNull JsonValue v, @NotNull String name) {
-        return readV2(v.getString(name));
+    public static @Nullable Vector2 readVector2String(@NotNull JsonValue v, @NotNull String name) {
+        return readVector2String(v.getString(name));
     }
 
     /**
-     * Converts string in form "0.5 0.5" to {@link Vector2} with values 0.5f, 0.5f.
+     * Converts string in form "0.5 0.5" to {@link Vector2} with values (0.5f, 0.5f).
      *
      * @param encoded String in form of "0.5 0.5"
      * @return Converted {@code Vector2}, or null if {@code encoded} was malformed
      */
-    public static @Nullable Vector2 readV2(@NotNull String encoded) {
+    public static Vector2 readVector2String(@NotNull String encoded) {
         String[] parts = encoded.split(" ");
         Vector2 vector2;
         try {
@@ -493,7 +495,7 @@ public class SolMath {
             float y = Float.parseFloat(parts[1]);
             vector2 = new Vector2(x, y);
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
-            vector2 = null;
+            throw new SolDescriptiveException("Something tries to create a Vector2 from a malformed string of \"" + encoded + "\", which is not possible. The string has to be in form like the following: \"0.5 0.5\".");
         }
         return vector2;
     }
@@ -505,7 +507,7 @@ public class SolMath {
             return res;
         }
         for (JsonValue vNode : listNode) {
-            Vector2 vec = readV2(vNode.asString());
+            Vector2 vec = readVector2String(vNode.asString());
             res.add(vec);
         }
         return res;

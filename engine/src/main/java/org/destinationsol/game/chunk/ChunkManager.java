@@ -23,7 +23,6 @@ import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 public class ChunkManager {
@@ -97,7 +96,7 @@ public class ChunkManager {
     }
 
     private void maybeAddChunk(Set<Vector2> chunks, int oX, int oY, SolGame game) {
-        Vector2 v = SolMath.getVec(myX + oX, myY + oY);
+        Vector2 v = SolMath.getBoundVector2(myX + oX, myY + oY);
         if (!chunks.contains(v)) {
             Vector2 chunk = new Vector2(v);
             chunks.add(chunk);

@@ -173,7 +173,7 @@ public class MapDrawer {
                 drawer.draw(myStarTex, 2 * rad, 2 * rad, rad, rad, sysPos.x, sysPos.y, 0, SolColor.WHITE);
             }
 
-            Vector2 beltIconPos = SolMath.getVec();
+            Vector2 beltIconPos = SolMath.getBoundVector2();
             ArrayList<SystemBelt> belts = sys.getBelts();
             for (SystemBelt belt : belts) {
                 float beltRad = belt.getRadius();

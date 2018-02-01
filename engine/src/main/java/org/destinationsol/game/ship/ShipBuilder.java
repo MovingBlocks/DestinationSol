@@ -73,7 +73,7 @@ public class ShipBuilder {
             return null;
         }
         Fixture base = null;
-        Vector2 v = SolMath.getVec();
+        Vector2 v = SolMath.getBoundVector2();
         float lowestX = Float.MAX_VALUE;
         for (Fixture f : body.getFixtureList()) {
             Shape s = f.getShape();

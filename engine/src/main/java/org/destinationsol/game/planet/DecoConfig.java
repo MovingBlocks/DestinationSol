@@ -47,7 +47,7 @@ public class DecoConfig {
             float density = deco.getFloat("density");
             float szMin = deco.getFloat("szMin");
             float szMax = deco.getFloat("szMax");
-            Vector2 orig = SolMath.readV2(deco, "orig");
+            Vector2 orig = SolMath.readVector2String(deco, "orig");
             boolean allowFlip = deco.getBoolean("allowFlip");
             String texName = deco.name;
             List<TextureAtlas.AtlasRegion> texs = Assets.listTexturesMatching(texName + "_.*");

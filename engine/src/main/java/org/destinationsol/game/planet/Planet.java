@@ -119,7 +119,7 @@ public class Planet {
 
     @Bound
     public Vector2 getAdjustedEffectSpd(Vector2 pos, Vector2 spd) {
-        Vector2 r = SolMath.getVec(spd);
+        Vector2 r = SolMath.getBoundVector2(spd);
         if (myConfig.skyConfig == null) {
             return r;
         }

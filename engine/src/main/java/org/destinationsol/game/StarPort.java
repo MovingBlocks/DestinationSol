@@ -74,7 +74,7 @@ public class StarPort implements SolObject {
     public static Vector2 getDesiredPos(Planet from, Planet to, boolean percise) {
         Vector2 fromPos = from.getPos();
         float angle = SolMath.angle(fromPos, to.getPos(), percise);
-        Vector2 pos = SolMath.getVec();
+        Vector2 pos = SolMath.getBoundVector2();
         SolMath.fromAl(pos, angle, from.getFullHeight() + DIST_FROM_PLANET);
         pos.add(fromPos);
         return pos;
@@ -380,7 +380,7 @@ public class StarPort implements SolObject {
             setDependentParams();
 
             float ts = game.getTimeStep();
-            Vector2 moveDiff = SolMath.getVec(mySpd);
+            Vector2 moveDiff = SolMath.getBoundVector2(mySpd);
             moveDiff.scl(ts);
             myPos.add(moveDiff);
             SolMath.free(moveDiff);

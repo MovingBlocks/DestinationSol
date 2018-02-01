@@ -266,7 +266,7 @@ public class AiPilot implements Pilot {
         farShip.setSpd(spd);
         farShip.setAngle(angle);
 
-        Vector2 newPos = SolMath.getVec(spd);
+        Vector2 newPos = SolMath.getBoundVector2(spd);
         newPos.scl(ts);
         newPos.add(shipPos);
         farShip.setPos(newPos);
