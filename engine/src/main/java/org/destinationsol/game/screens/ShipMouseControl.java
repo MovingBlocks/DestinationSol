@@ -21,8 +21,8 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.game.BeaconHandler;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 
 public class ShipMouseControl implements ShipUiControl {
@@ -42,16 +42,16 @@ public class ShipMouseControl implements ShipUiControl {
 
     @Override
     public void update(SolApplication solApplication, boolean enabled) {
-        SolGame g = solApplication.getGame();
-        SolShip h = g.getHero();
+        SolGame game = solApplication.getGame();
+        Hero hero = game.getHero();
         myCursor = null;
-        if (h != null) {
+        if (!hero.isTranscendent()) {
             myMouseWorldPos.set(Gdx.input.getX(), Gdx.input.getY());
-            g.getCam().screenToWorld(myMouseWorldPos);
+            game.getCam().screenToWorld(myMouseWorldPos);
             SolInputManager im = solApplication.getInputMan();
             boolean clicked = im.getPtrs()[0].pressed;
-            boolean onMap = im.isScreenOn(g.getScreens().mapScreen);
-            BeaconHandler.Action a = g.getBeaconHandler().processMouse(g, myMouseWorldPos, clicked, onMap);
+            boolean onMap = im.isScreenOn(game.getScreens().mapScreen);
+            BeaconHandler.Action a = game.getBeaconHandler().processMouse(game, myMouseWorldPos, clicked, onMap);
             if (a == BeaconHandler.Action.ATTACK) {
                 myCursor = myAttackCursor;
             } else if (a == BeaconHandler.Action.FOLLOW) {

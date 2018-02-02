@@ -26,6 +26,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.FactionManager;
 import org.destinationsol.game.HardnessCalc;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.MapDrawer;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
@@ -82,11 +83,11 @@ public class BorderDrawer {
         SolGame g = cmp.getGame();
         SolCam cam = g.getCam();
         Vector2 camPos = cam.getPos();
-        SolShip hero = g.getHero();
+        Hero hero = g.getHero();
         drawTishches(drawer, g, cam, camPos);
         MapDrawer mapDrawer = g.getMapDrawer();
         FactionManager factionManager = g.getFactionMan();
-        float heroDmgCap = hero == null ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero);
+        float heroDmgCap = hero.isTranscendent() ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero.getHero());
 
         List<SolObject> objs = g.getObjMan().getObjs();
         for (SolObject o : objs) {
@@ -119,7 +120,7 @@ public class BorderDrawer {
     }
 
     private void maybeDrawIcon(UiDrawer drawer, Vector2 pos, SolCam cam, float objSize,
-                               float objAngle, MapDrawer mapDrawer, FactionManager factionManager, SolShip hero,
+                               float objAngle, MapDrawer mapDrawer, FactionManager factionManager, Hero hero,
                                Faction objFac, Object shipHack, float heroDmgCap, TextureAtlas.AtlasRegion icon) {
         Vector2 camPos = cam.getPos();
         float closeness = 1 - pos.dst(camPos) / MAX_ICON_DIST;

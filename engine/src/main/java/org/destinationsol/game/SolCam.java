@@ -25,7 +25,6 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.screens.MainScreen;
-import org.destinationsol.game.ship.SolShip;
 
 public class SolCam {
     public static final float CAM_ROT_SPD = 90f;
@@ -61,10 +60,10 @@ public class SolCam {
     public void update(SolGame game) {
         float life = 0;
 
-        SolShip hero = game.getHero();
+        Hero hero = game.getHero();
         float ts = game.getTimeStep();
-        if (hero == null) {
-            StarPort.Transcendent trans = game.getTranscendentHero();
+        if (hero.isTranscendent()) {
+            StarPort.Transcendent trans = game.getHero().getTranscendentHero();
             if (trans == null) {
                 if (DebugOptions.DIRECT_CAM_CONTROL) {
                     applyInput(game);
@@ -120,10 +119,10 @@ public class SolCam {
     }
 
     private float getDesiredViewDistance(SolGame game) {
-        SolShip hero = game.getHero();
-        if (hero == null && game.getTranscendentHero() != null) { // hero is in transcendent state
+        Hero hero = game.getHero();
+        if (hero.isTranscendent()) { // hero is in transcendent state
             return Const.CAM_VIEW_DIST_SPACE;
-        } else if (hero == null && game.getTranscendentHero() == null) {
+        } else if (false) { //TODO hero neither SolShip nor transcendent
             return Const.CAM_VIEW_DIST_GROUND;
         } else {
             float speed = hero.getSpd().len();
