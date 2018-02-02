@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
@@ -80,7 +81,7 @@ public class TalkScreen implements SolUiScreen {
             return;
         }
         SolGame g = solApplication.getGame();
-        SolShip hero = g.getHero();
+        Hero hero = g.getHero();
         SolInputManager inputMan = solApplication.getInputMan();
         if (closeControl.isJustOff() || isTargetFar(hero)) {
             inputMan.setScreen(solApplication, g.getScreens().mainScreen);
@@ -103,8 +104,8 @@ public class TalkScreen implements SolUiScreen {
         }
     }
 
-    boolean isTargetFar(SolShip hero) {
-        if (hero == null || target == null || target.getLife() <= 0) {
+    boolean isTargetFar(Hero hero) {
+        if (hero.isTranscendent() || target == null || target.getLife() <= 0) {
             return true;
         }
         float dst = target.getPosition().dst(hero.getPosition()) - hero.getHull().config.getApproxRadius() - target.getHull().config.getApproxRadius();

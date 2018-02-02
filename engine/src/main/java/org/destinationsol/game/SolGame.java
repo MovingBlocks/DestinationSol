@@ -225,6 +225,7 @@ public class SolGame {
         //AiPilot.reEquip(this, myHero);
 
         objectManager.addObjDelayed(oldHero);
+        hero = new Hero(oldHero);
         objectManager.resetDelays();
     }
 
@@ -259,7 +260,7 @@ public class SolGame {
         for (HashMap<String, String> node : mercs) {
             mercItems = new MercItem(
                     new ShipConfig(hullConfigManager.getConfig(node.get("hull")), node.get("items"), Integer.parseInt(node.get("money")), -1f, null, itemManager));
-            MercenaryUtils.createMerc(this, oldHero, mercItems);
+            MercenaryUtils.createMerc(this, hero, mercItems);
         }
 
     }
@@ -340,30 +341,6 @@ public class SolGame {
         soundManager.update(this);
         beaconHandler.update(this);
 
-        oldHero = null;
-        transcendentHero = null;
-        for (SolObject obj : objectManager.getObjs()) {
-            if ((obj instanceof SolShip)) {
-                SolShip ship = (SolShip) obj;
-                Pilot prov = ship.getPilot();
-                if (prov.isPlayer()) {
-                    oldHero = ship;
-                    break;
-                }
-            }
-
-            if (obj instanceof StarPort.Transcendent) {
-                StarPort.Transcendent trans = (StarPort.Transcendent) obj;
-                FarShip ship = trans.getShip();
-                if (ship.getPilot().isPlayer()) {
-                    transcendentHero = trans;
-                    break;
-                }
-            }
-        }
-
-        hero = new Hero(oldHero, transcendentHero);
-
         if (tutorialManager != null) {
             tutorialManager.update();
         }
@@ -430,8 +407,8 @@ public class SolGame {
         return lootBuilder;
     }
 
-    public SolShip getHero() {
-        return oldHero;
+    public Hero getHero() {
+        return hero;
     }
 
     public ShipBuilder getShipBuilder() {
