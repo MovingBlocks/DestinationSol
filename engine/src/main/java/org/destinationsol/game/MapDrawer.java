@@ -117,11 +117,11 @@ public class MapDrawer {
         float starNodeW = cam.getViewHeight(myZoom) * STAR_NODE_SZ;
         float viewDist = cam.getViewDist(myZoom);
         FactionManager factionManager = game.getFactionMan();
-        SolShip hero = game.getHero();
+        Hero hero = game.getHero();
         Planet np = game.getPlanetMan().getNearestPlanet();
         Vector2 camPos = cam.getPos();
         float camAngle = cam.getAngle();
-        float heroDmgCap = hero == null ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero);
+        float heroDmgCap = hero.isTranscendent() ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero.getHero());
 
         drawer.updateMtx(game);
         game.getGridDrawer().draw(drawer, game, GRID_SZ, myLineTex);
@@ -239,7 +239,7 @@ public class MapDrawer {
     }
 
     private void drawIcons(GameDrawer drawer, SolGame game, float iconSz, float viewDist, FactionManager factionManager,
-                           SolShip hero, Vector2 camPos, float heroDmgCap) {
+                           Hero hero, Vector2 camPos, float heroDmgCap) {
         List<SolObject> objs = game.getObjMan().getObjs();
         for (SolObject o : objs) {
             Vector2 oPos = o.getPosition();
@@ -381,9 +381,9 @@ public class MapDrawer {
     }
 
     public void drawObjIcon(float iconSz, Vector2 pos, float objAngle,
-                            FactionManager factionManager, SolShip hero, Faction objFac, float heroDmgCap,
+                            FactionManager factionManager, Hero hero, Faction objFac, float heroDmgCap,
                             Object shipHack, TextureAtlas.AtlasRegion icon, Object drawerHack) {
-        boolean enemy = hero != null && factionManager.areEnemies(objFac, hero.getPilot().getFaction());
+        boolean enemy = hero != null && !hero.isTranscendent() && factionManager.areEnemies(objFac, hero.getPilot().getFaction());
         float angle = objAngle;
         if (enemy && mySkullTime > 0 && HardnessCalc.isDangerous(heroDmgCap, shipHack)) {
             icon = mySkullTex;
