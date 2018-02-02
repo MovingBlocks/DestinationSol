@@ -253,12 +253,12 @@ public class BeaconHandler {
         }
     }
 
-    private Pilot findPilotInPos(SolGame g, Vector2 pos, boolean onMap, boolean clicked) {
-        ObjectManager om = g.getObjMan();
-        SolShip h = g.getHero();
-        float iconRad = onMap ? g.getMapDrawer().getIconRadius(g.getCam()) : 0;
-        for (SolObject o : om.getObjs()) {
-            if (o == h || !(o instanceof SolShip)) {
+    private Pilot findPilotInPos(SolGame game, Vector2 pos, boolean onMap, boolean clicked) {
+        ObjectManager objectManager = game.getObjMan();
+        Hero hero = game.getHero();
+        float iconRad = onMap ? game.getMapDrawer().getIconRadius(game.getCam()) : 0;
+        for (SolObject o : objectManager.getObjs()) {
+            if (o == hero.getHeroUnchecked() || !(o instanceof SolShip)) {
                 continue;
             }
             SolShip s = (SolShip) o;
@@ -276,7 +276,7 @@ public class BeaconHandler {
                 return pilot;
             }
         }
-        for (FarShip s : om.getFarShips()) {
+        for (FarShip s : objectManager.getFarShips()) {
             Pilot pilot = s.getPilot();
             if (onMap && pilot.getMapHint() == null) {
                 continue;
