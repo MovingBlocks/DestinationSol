@@ -15,18 +15,18 @@
  */
 package org.destinationsol.game.screens;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GiveItems implements InventoryOperations {
 
@@ -42,14 +42,14 @@ public class GiveItems implements InventoryOperations {
 
     @Override
     public ItemContainer getItems(SolGame game) {
-        SolShip hero = game.getHero();
-        return hero == null ? null : hero.getItemContainer();
+        Hero hero = game.getHero();
+        return hero.getItemContainer();
     }
 
     @Override
     public boolean isUsing(SolGame game, SolItem item) {
-        SolShip hero = game.getHero();
-        return hero != null && hero.maybeUnequip(game, item, false);
+        Hero hero = game.getHero();
+        return !hero.isTranscendent() && hero.getHero().maybeUnequip(game, item, false);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class GiveItems implements InventoryOperations {
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
-        SolShip hero = game.getHero();
+        Hero hero = game.getHero();
 
         SolItem selItem = is.getSelectedItem();
         if (selItem == null) {

@@ -17,8 +17,8 @@ package org.destinationsol.game.screens;
 
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.item.Gun;
-import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolUiControl;
 
 import java.util.List;
@@ -75,17 +75,17 @@ public class ShipKbControl implements ShipUiControl {
             abilityCtrl.setEnabled(false);
             return;
         }
-        SolShip hero = solApplication.getGame().getHero();
-        boolean hasEngine = hero != null && hero.getHull().getEngine() != null;
+        Hero hero = solApplication.getGame().getHero();
+        boolean hasEngine = !hero.isTranscendent() && hero.getHull().getEngine() != null;
         upCtrl.setEnabled(hasEngine);
         leftCtrl.setEnabled(hasEngine);
         rightCtrl.setEnabled(hasEngine);
 
-        Gun g1 = hero == null ? null : hero.getHull().getGun(false);
+        Gun g1 = hero.isTranscendent() ? null : hero.getHull().getGun(false);
         shootCtrl.setEnabled(g1 != null && g1.ammo > 0);
-        Gun g2 = hero != null ? hero.getHull().getGun(true) : null;
+        Gun g2 = hero.isTranscendent() ? null : hero.getHull().getGun(true);
         shoot2Ctrl.setEnabled(g2 != null && g2.ammo > 0);
-        abilityCtrl.setEnabled(hero != null && hero.canUseAbility());
+        abilityCtrl.setEnabled(!hero.isTranscendent() && hero.canUseAbility());
     }
 
     @Override

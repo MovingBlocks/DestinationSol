@@ -23,6 +23,7 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.input.AiPilot;
@@ -68,7 +69,7 @@ public class HireShips implements InventoryOperations {
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
-        SolShip hero = game.getHero();
+        Hero hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
         if (talkScreen.isTargetFar(hero)) {
             solApplication.getInputMan().setScreen(solApplication, game.getScreens().mainScreen);

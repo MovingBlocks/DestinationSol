@@ -16,18 +16,18 @@
 
 package org.destinationsol.game.screens;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TakeItems implements InventoryOperations {
     public final SolUiControl takeControl;
@@ -59,7 +59,7 @@ public class TakeItems implements InventoryOperations {
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
-        SolShip hero = game.getHero();
+        Hero hero = game.getHero();
         
         SolItem selItem = is.getSelectedItem();
         boolean enabled = selItem != null && hero.getItemContainer().canAdd(selItem);

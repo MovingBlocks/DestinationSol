@@ -19,13 +19,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.ship.SolShip;
 
 public class CollisionWarnDrawer extends WarnDrawer {
     private final CollisionRayCastCallback warnCallback = new CollisionRayCastCallback();
-    private SolShip hero;
+    private Hero hero;
 
     CollisionWarnDrawer(float r) {
         super(r, "Object Near");
@@ -33,7 +33,7 @@ public class CollisionWarnDrawer extends WarnDrawer {
 
     public boolean shouldWarn(SolGame game) {
         hero = game.getHero();
-        if (hero == null) {
+        if (hero.isTranscendent()) {
             return false;
         }
         Vector2 pos = hero.getPosition();
@@ -60,6 +60,7 @@ public class CollisionWarnDrawer extends WarnDrawer {
     private class CollisionRayCastCallback implements RayCastCallback {
         private boolean show;
 
+        //TODO code from era when hero was SolShip - does this still work? (what is it supposed to do?)
         @Override
         public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
             SolObject o = (SolObject) fixture.getBody().getUserData();

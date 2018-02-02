@@ -17,6 +17,7 @@ package org.destinationsol.game.screens;
 
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
@@ -41,14 +42,14 @@ public class SellItems implements InventoryOperations {
 
     @Override
     public ItemContainer getItems(SolGame game) {
-        SolShip h = game.getHero();
-        return h == null ? null : h.getItemContainer();
+        Hero hero = game.getHero();
+        return hero.isTranscendent() ? null : hero.getItemContainer();
     }
 
     @Override
     public boolean isUsing(SolGame game, SolItem item) {
-        SolShip h = game.getHero();
-        return h != null && h.maybeUnequip(game, item, false);
+        Hero hero = game.getHero();
+        return !hero.isTranscendent() && hero.getHero().maybeUnequip(game, item, false);
     }
 
     @Override
@@ -72,7 +73,7 @@ public class SellItems implements InventoryOperations {
         InventoryScreen is = game.getScreens().inventoryScreen;
         TalkScreen talkScreen = game.getScreens().talkScreen;
         SolShip target = talkScreen.getTarget();
-        SolShip hero = game.getHero();
+        Hero hero = game.getHero();
         if (talkScreen.isTargetFar(hero)) {
             solApplication.getInputMan().setScreen(solApplication, game.getScreens().mainScreen);
             return;
