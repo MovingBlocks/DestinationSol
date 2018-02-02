@@ -15,8 +15,8 @@
  */
 package org.destinationsol.game.screens;
 
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.ship.SolShip;
 
 public class DmgWarnDrawer extends WarnDrawer {
     DmgWarnDrawer(float r) {
@@ -25,8 +25,8 @@ public class DmgWarnDrawer extends WarnDrawer {
 
     @Override
     protected boolean shouldWarn(SolGame game) {
-        SolShip hero = game.getHero();
-        if (hero == null) {
+        Hero hero = game.getHero();
+        if (hero.isTranscendent()) {
             return false;
         }
         float l = hero.getLife();
