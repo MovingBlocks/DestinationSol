@@ -103,12 +103,14 @@ public class ObjectManager {
                 continue;
             }
             if (isFar(o, camPos)) {
-                FarObj fo = o.toFarObj();
-                if (fo != null) {
-                    addFarObjNow(fo);
+                if (o != game.getHero().getHero()) {
+                    FarObj fo = o.toFarObj();
+                    if (fo != null) {
+                        addFarObjNow(fo);
+                    }
+                    removeObjDelayed(o);
+                    continue;
                 }
-                removeObjDelayed(o);
-                continue;
             }
             if (recalcRad) {
                 recalcRadius(o);
