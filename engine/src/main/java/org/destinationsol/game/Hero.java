@@ -32,6 +32,7 @@ public class Hero {
     private StarPort.Transcendent transcendentHero;
     private FarShip transcendentHeroShip;
     private boolean isTranscendent;
+    private boolean isDead;
 
     public Hero(SolShip hero) {
         this.hero = hero;
@@ -48,6 +49,7 @@ public class Hero {
     }
 
     public void toSolShip(SolShip hero) {
+        isDead = false;
         this.hero = hero;
         isTranscendent = false;
     }
@@ -154,9 +156,17 @@ public class Hero {
         return isTranscendent ? transcendentHeroShip.getIc() : hero.getItemContainer();
     }
 
+    public void die() {
+        isDead = true;
+    }
+
     private void onlySolShipHero() {
         if (isTranscendent) {
             throw new SolDescriptiveException("Something is trying to get a property of hero that doesn't exist in transcendent state, while the hero is in transcendent state.");
         }
+    }
+
+    public boolean isDead() {
+        return isDead;
     }
 }

@@ -509,10 +509,6 @@ public class SolGame {
         return starPortBuilder;
     }
 
-    public StarPort.Transcendent getTranscendentHero() {
-        return transcendentHero;
-    }
-
     public GridDrawer getGridDrawer() {
         return gridDrawer;
     }
