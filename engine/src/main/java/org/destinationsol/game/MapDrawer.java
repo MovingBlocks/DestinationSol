@@ -262,7 +262,7 @@ public class MapDrawer {
             if ((o instanceof StarPort.Transcendent)) {
                 StarPort.Transcendent t = (StarPort.Transcendent) o;
                 if (t.getShip().getPilot().isPlayer()) {
-                    FarShip ship = game.getTranscendentHero().getShip();
+                    FarShip ship = game.getHero().getTranscendentHero().getShip();
                     drawObjIcon(iconSz, oPos, t.getAngle(), factionManager, hero, ship.getPilot().getFaction(), heroDmgCap, o, ship.getHullConfig().getIcon(), drawer);
                 }
 
