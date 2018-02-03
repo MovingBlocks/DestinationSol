@@ -24,7 +24,7 @@ import org.destinationsol.Const;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.planet.Planet;
-import org.destinationsol.game.screens.MainScreen;
+import org.destinationsol.ui.SolUiControl;
 
 public class SolCam {
     public static final float CAM_ROT_SPD = 90f;
@@ -35,6 +35,11 @@ public class SolCam {
     private static final float MOVE_SPD = 3f;
     private static final float MAX_SHAKE = .07f;
     private static final float SHAKE_DAMP = MAX_SHAKE;
+    public static boolean DIRECT_CAM_CONTROL = false;
+    public static SolUiControl controlUp = null;
+    public static SolUiControl controlDown = null;
+    public static SolUiControl controlLeft = null;
+    public static SolUiControl controlRight = null;
     private final CamRotStrategy myCamRotStrategy;
     private final OrthographicCamera myCam;
     private final Vector3 myTmpVec;
@@ -62,29 +67,28 @@ public class SolCam {
 
         Hero hero = game.getHero();
         float ts = game.getTimeStep();
-        if (hero.isTranscendent()) {
-            StarPort.Transcendent trans = game.getHero().getTranscendentHero();
-            if (trans == null) {
-                if (DebugOptions.DIRECT_CAM_CONTROL) {
-                    applyInput(game);
-                }
-            } else {
-                myPos.set(trans.getPosition());
-            }
+        if (hero.isDead() || DIRECT_CAM_CONTROL) {
+            applyInput(game);
+            life = hero.getLife();
+//        } else if (hero.isTranscendent()) {
+//            myPos.set(hero.getPosition());
+//        } else {
+//            Vector2 heroPos = hero.getHull().getBody().getWorldCenter();
+//            if (myZoom * VIEWPORT_HEIGHT < heroPos.dst(myPos)) {
+//                myPos.set(heroPos);
+//                game.getObjMan().resetDelays();
+//            } else {
+//                Vector2 moveDiff = SolMath.getVec(hero.getSpd());
+//                moveDiff.scl(ts);
+//                myPos.add(moveDiff);
+//                SolMath.free(moveDiff);
+//                float moveSpd = MOVE_SPD * ts;
+//                myPos.x = SolMath.approach(myPos.x, heroPos.x, moveSpd);
+//                myPos.y = SolMath.approach(myPos.y, heroPos.y, moveSpd);
+//            }
+//            life = hero.getLife();
         } else {
-            Vector2 heroPos = hero.getHull().getBody().getWorldCenter();
-            if (myZoom * VIEWPORT_HEIGHT < heroPos.dst(myPos)) {
-                myPos.set(heroPos);
-                game.getObjMan().resetDelays();
-            } else {
-                Vector2 moveDiff = SolMath.getVec(hero.getSpd());
-                moveDiff.scl(ts);
-                myPos.add(moveDiff);
-                SolMath.free(moveDiff);
-                float moveSpd = MOVE_SPD * ts;
-                myPos.x = SolMath.approach(myPos.x, heroPos.x, moveSpd);
-                myPos.y = SolMath.approach(myPos.y, heroPos.y, moveSpd);
-            }
+            myPos.set(hero.getPosition());
             life = hero.getLife();
         }
 
@@ -122,7 +126,7 @@ public class SolCam {
         Hero hero = game.getHero();
         if (hero.isTranscendent()) { // hero is in transcendent state
             return Const.CAM_VIEW_DIST_SPACE;
-        } else if (false) { //TODO hero neither SolShip nor transcendent
+        } else if (hero.isDead()) {
             return Const.CAM_VIEW_DIST_GROUND;
         } else {
             float speed = hero.getSpd().len();
@@ -160,11 +164,10 @@ public class SolCam {
     }
 
     private void applyInput(SolGame game) {
-        MainScreen s = game.getScreens().mainScreen;
-        boolean d = s.isDown();
-        boolean u = s.isUp();
-        boolean l = s.isLeft();
-        boolean r = s.isRight();
+        boolean d = controlDown.isOn();
+        boolean u = controlUp.isOn();
+        boolean l = controlLeft.isOn();
+        boolean r = controlRight.isOn();
         Vector2 v = SolMath.getVec();
         if (l != r) {
             v.x = SolMath.toInt(r);

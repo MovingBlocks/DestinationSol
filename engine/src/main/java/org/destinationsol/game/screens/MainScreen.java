@@ -65,6 +65,7 @@ public class MainScreen implements SolUiScreen {
     public final SolUiControl inventoryControl;
     public final SolUiControl talkControl;
     public final SolUiControl mercControl;
+    public final SolUiControl freeCamControl;
     private final SolUiControl menuControl;
     private final SolUiControl pauseControl;
 
@@ -123,6 +124,16 @@ public class MainScreen implements SolUiScreen {
         mercControl = new SolUiControl(mercArea, true, gameOptions.getKeyMercenaryInteraction());
         mercControl.setDisplayName("Mercs");
         controls.add(mercControl);
+        freeCamControl = new SolUiControl(null, false, gameOptions.getKeyFreeCameraMovement()); // No button, since on mobile, it should be ideally controlled straightly by dragging.
+        controls.add(freeCamControl);
+        SolCam.controlUp = new SolUiControl(null, false, gameOptions.getKeyUp()); // Dirty solution, but on mixed controls, it is uncontrollable
+        controls.add(SolCam.controlUp);
+        SolCam.controlDown = new SolUiControl(null, false, gameOptions.getKeyDown());
+        controls.add(SolCam.controlDown);
+        SolCam.controlLeft = new SolUiControl(null, false, gameOptions.getKeyLeft());
+        controls.add(SolCam.controlLeft);
+        SolCam.controlRight = new SolUiControl(null, false, gameOptions.getKeyRight());
+        controls.add(SolCam.controlRight);
         pauseControl = new SolUiControl(null, true, gameOptions.getKeyPause());
         controls.add(pauseControl);
 
@@ -258,6 +269,8 @@ public class MainScreen implements SolUiScreen {
                 game.getHero().getTradeContainer().getMercs().markAllAsSeen();
             }
         }
+
+        SolCam.DIRECT_CAM_CONTROL = freeCamControl.isOn();
 
         updateTalk(game);
 
