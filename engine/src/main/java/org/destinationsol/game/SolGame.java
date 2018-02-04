@@ -50,11 +50,9 @@ import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.planet.SolSystem;
 import org.destinationsol.game.planet.SunSingleton;
 import org.destinationsol.game.screens.GameScreens;
-import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SloMo;
-import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.game.sound.SpecialSounds;
@@ -76,9 +74,9 @@ import java.util.List;
 
 public class SolGame {
     private static Logger logger = LoggerFactory.getLogger(SolGame.class);
-    
+
     static String MERC_SAVE_FILE = "mercenaries.json";
-    
+
     private final GameScreens gameScreens;
     private final SolCam camera;
     private final ObjectManager objectManager;
@@ -109,12 +107,10 @@ public class SolGame {
     private final GalaxyFiller galaxyFiller;
     private final ArrayList<SolItem> respawnItems;
     private Hero hero;
-    private SolShip oldHero;
     private String shipName; // Not updated in-game. Can be changed using setter
     private float timeStep;
     private float time;
     private boolean paused;
-    private StarPort.Transcendent transcendentHero;
     private float timeFactor;
     private float respawnMoney;
     private HullConfig respawnHull;
@@ -193,18 +189,18 @@ public class SolGame {
         String itemsStr = !respawnItems.isEmpty() ? "" : shipConfig.items;
 
         boolean giveAmmo = shipName != null && respawnItems.isEmpty();
-        oldHero = shipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObj(this);
+        hero = new Hero(shipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObj(this));
 
-        ItemContainer ic = oldHero.getItemContainer();
+        ItemContainer ic = hero.getItemContainer();
         if (!respawnItems.isEmpty()) {
             for (SolItem item : respawnItems) {
                 ic.add(item);
                 // Ensure that previously equipped items stay equipped
                 if (item.isEquipped() > 0) {
                     if (item instanceof Gun) {
-                        oldHero.maybeEquip(this, item, item.isEquipped() == 2, true);
+                        hero.maybeEquip(this, item, item.isEquipped() == 2, true);
                     } else {
-                        oldHero.maybeEquip(this, item, true);
+                        hero.maybeEquip(this, item, true);
                     }
                 }
             }
@@ -224,8 +220,7 @@ public class SolGame {
         // Don't change equipped items across load/respawn
         //AiPilot.reEquip(this, myHero);
 
-        objectManager.addObjDelayed(oldHero);
-        hero = new Hero(oldHero);
+        objectManager.addObjDelayed(hero.getHero());
         objectManager.resetDelays();
     }
 
@@ -253,7 +248,8 @@ public class SolGame {
         }
 
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {}.getType();
+        Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {
+        }.getType();
         ArrayList<HashMap<String, String>> mercs = gson.fromJson(bufferedReader, type);
 
         MercItem mercItems;
@@ -279,21 +275,11 @@ public class SolGame {
         float money;
         ArrayList<SolItem> items;
 
-        if (oldHero != null) {
-            hull = oldHero.getHull().config;
-            money = oldHero.getMoney();
+        if (!hero.isDead()) {
+            hull = hero.isTranscendent() ? hero.getTranscendentHero().getShip().getHullConfig() : hero.getHull().config;
+            money = hero.getMoney();
             items = new ArrayList<>();
-            for (List<SolItem> group : oldHero.getItemContainer()) {
-                for (SolItem i : group) {
-                    items.add(0, i);
-                }
-            }
-        } else if (transcendentHero != null) {
-            FarShip farH = transcendentHero.getShip();
-            hull = farH.getHullConfig();
-            money = farH.getMoney();
-            items = new ArrayList<>();
-            for (List<SolItem> group : farH.getIc()) {
+            for (List<SolItem> group : hero.getItemContainer()) {
                 for (SolItem i : group) {
                     items.add(0, i);
                 }
@@ -321,8 +307,8 @@ public class SolGame {
         }
 
         timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
-        if (oldHero != null) {
-            ShipAbility ability = oldHero.getAbility();
+        if (!(hero.isDead() || hero.isTranscendent())) {
+            ShipAbility ability = hero.getAbility();
             if (ability instanceof SloMo) {
                 float factor = ((SloMo) ability).getFactor();
                 timeFactor *= factor;
@@ -433,13 +419,14 @@ public class SolGame {
     }
 
     public void respawn() {
-        if (oldHero != null) {
-            beforeHeroDeath();
-            objectManager.removeObjDelayed(oldHero);
-        } else if (transcendentHero != null) {
-            FarShip farH = transcendentHero.getShip();
-            setRespawnState(farH.getMoney(), farH.getIc(), farH.getHullConfig());
-            objectManager.removeObjDelayed(transcendentHero);
+        if (!hero.isDead()) {
+            if (!hero.isTranscendent()) {
+                beforeHeroDeath();
+                objectManager.removeObjDelayed(hero.getHero());
+            } else {
+                setRespawnState(hero.getMoney(), hero.getItemContainer(), hero.getTranscendentHero().getShip().getHullConfig());
+                objectManager.removeObjDelayed(hero.getTranscendentHero());
+            }
         }
         createPlayer(null);
     }
@@ -562,16 +549,16 @@ public class SolGame {
     }
 
     public void beforeHeroDeath() {
-        if (oldHero == null) {
+        if (hero.isDead() || hero.isTranscendent()) {
             return;
         }
 
-        float money = oldHero.getMoney();
-        ItemContainer ic = oldHero.getItemContainer();
+        float money = hero.getMoney();
+        ItemContainer ic = hero.getItemContainer();
 
-        setRespawnState(money, ic, oldHero.getHull().config);
+        setRespawnState(money, ic, hero.getHull().config);
 
-        oldHero.setMoney(money - respawnMoney);
+        hero.setMoney(money - respawnMoney);
         for (SolItem item : respawnItems) {
             ic.remove(item);
         }
@@ -584,7 +571,7 @@ public class SolGame {
         isPlayerRespawned = true;
         for (List<SolItem> group : ic) {
             for (SolItem item : group) {
-                boolean equipped = oldHero == null || oldHero.maybeUnequip(this, item, false);
+                boolean equipped = hero.isTranscendent() || hero.maybeUnequip(this, item, false);
                 if (equipped || SolMath.test(.75f)) {
                     respawnItems.add(0, item);
                 }
