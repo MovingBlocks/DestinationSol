@@ -21,6 +21,7 @@ import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.Shield;
+import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.item.TradeContainer;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ShipAbility;
@@ -138,6 +139,7 @@ public class Hero {
         onlySolShipHero();
         return hero.getRotSpd();
     }
+
     public float getMoney() {
         return isTranscendent ? transcendentHeroShip.getMoney() : hero.getMoney();
     }
@@ -158,6 +160,26 @@ public class Hero {
 
     public void die() {
         isDead = true;
+    }
+
+    public boolean maybeEquip(SolGame game, SolItem item, boolean equip) {
+        onlySolShipHero();
+        return hero.maybeEquip(game, item, equip);
+    }
+
+    public boolean maybeEquip(SolGame game, SolItem item, boolean secondarySlot, boolean equip) {
+        onlySolShipHero();
+        return hero.maybeEquip(game, item, secondarySlot, equip);
+    }
+
+    public boolean maybeUnequip(SolGame game, SolItem item, boolean equip) {
+        onlySolShipHero();
+        return hero.maybeUnequip(game, item, equip);
+    }
+
+    public boolean maybeUnequip(SolGame game, SolItem item, boolean secondarySlot, boolean equip) {
+        onlySolShipHero();
+        return hero.maybeUnequip(game, item, secondarySlot, equip);
     }
 
     private void onlySolShipHero() {
