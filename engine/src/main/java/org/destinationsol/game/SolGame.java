@@ -118,6 +118,7 @@ public class SolGame {
     private float timeFactor;
     private float respawnMoney;
     private HullConfig respawnHull;
+    private boolean isPlayerRespawned;
 
     public SolGame(SolApplication cmp, String shipName, boolean tut, CommonDrawer commonDrawer) {
         solApplication = cmp;
@@ -170,7 +171,9 @@ public class SolGame {
         // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
         assert shipConfig != null;
 
-        galaxyFiller.fill(this, hullConfigManager, itemManager);
+        if (!isPlayerRespawned) {
+            galaxyFiller.fill(this, hullConfigManager, itemManager);
+        }
 
         Vector2 pos = galaxyFiller.getPlayerSpawnPos(this);
         camera.setPos(pos);
@@ -603,6 +606,7 @@ public class SolGame {
         respawnMoney = .75f * money;
         respawnHull = hullConfig;
         respawnItems.clear();
+        isPlayerRespawned = true;
         for (List<SolItem> group : ic) {
             for (SolItem item : group) {
                 boolean equipped = hero == null || hero.maybeUnequip(this, item, false);
