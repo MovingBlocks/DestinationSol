@@ -26,52 +26,47 @@ import org.destinationsol.game.SolObject;
 import java.util.List;
 
 public class FarAsteroid implements FarObj {
-    private final Vector2 myPos;
-    private final float myAngle;
-    private final RemoveController myRemoveController;
-    private final float mySz;
-    private final Vector2 mySpd;
-    private final float myRotSpd;
-    private final TextureAtlas.AtlasRegion myTex;
+    private Vector2 position;
+    private final float angle;
+    private final RemoveController removeController;
+    private final float size;
+    private final Vector2 speed;
+    private final float rotateSpeed;
+    private final TextureAtlas.AtlasRegion tex;
 
-    public FarAsteroid(TextureAtlas.AtlasRegion tex, Vector2 pos, float angle, RemoveController removeController,
-                       float sz, Vector2 spd, float rotSpd) {
-        myTex = tex;
-        myPos = pos;
-        myAngle = angle;
-        myRemoveController = removeController;
-        mySz = sz;
-        mySpd = spd;
-        myRotSpd = rotSpd;
+    public FarAsteroid(TextureAtlas.AtlasRegion tex, Vector2 position, float angle, RemoveController removeController,
+                       float size, Vector2 speed, float rotateSpeed) {
+        this.tex = tex;
+        this.position = position;
+        this.angle = angle;
+        this.removeController = removeController;
+        this.size = size;
+        this.speed = speed;
+        this.rotateSpeed = rotateSpeed;
     }
 
     @Override
     public boolean shouldBeRemoved(SolGame game) {
-        return myRemoveController != null && myRemoveController.shouldRemove(myPos);
+        return removeController != null && removeController.shouldRemove(position);
     }
 
     @Override
     public SolObject toObj(SolGame game) {
-        Vector2 position = adjustDesiredPosition(game, myPos, mySz);
-        return game.getAsteroidBuilder().build(game, position, myTex, mySz, myAngle, myRotSpd, mySpd, myRemoveController);
+        adjustDesiredPosition(game);
+        return game.getAsteroidBuilder().build(game, position, tex, size, angle, rotateSpeed, speed, removeController);
     }
 
     /**
-     * Ensures that the position of any Asteroids do not overlap
-     * @param game SolGame instance
-     * @param desiredPosition Vector2 position that you would like the Asteroid to spawn at
-     * @param size float size of the asteroid
-     * @return the new Vector2 position of the asteroid, or desired if it does not overlap
+     * Ensures that the position of any Asteroids do not overlap by adjusting the position
      */
-    private static Vector2 adjustDesiredPosition(SolGame game, Vector2 desiredPosition, float size) {
-        Vector2 newPosition = desiredPosition;
+    private void adjustDesiredPosition(SolGame game) {
         List<SolObject> objects = game.getObjMan().getObjs();
         for (SolObject object : objects) {
             if (object instanceof Asteroid) {
                 Asteroid asteroid = (Asteroid) object;
                 // Check if the positions overlap
                 Vector2 fromPosition = asteroid.getPosition();
-                Vector2 distanceVector = SolMath.distVec(fromPosition, desiredPosition);
+                Vector2 distanceVector = SolMath.distVec(fromPosition, position);
                 float distance = SolMath.hypotenuse(distanceVector.x, distanceVector.y);
                 if (distance <= asteroid.getSize() && distance <= size) {
                     if (asteroid.getSize() > size) {
@@ -80,13 +75,12 @@ public class FarAsteroid implements FarObj {
                     else {
                         distanceVector.scl((size + .5f) / distance);
                     }
-                    newPosition = fromPosition.cpy().add(distanceVector);
-                    SolMath.free(SolMath.distVec(fromPosition, newPosition));
+                    position = fromPosition.cpy().add(distanceVector);
+                    SolMath.free(SolMath.distVec(fromPosition, position));
                 }
                 SolMath.free(distanceVector);
             }
         }
-        return newPosition;
     }
 
     @Override
@@ -95,12 +89,12 @@ public class FarAsteroid implements FarObj {
 
     @Override
     public float getRadius() {
-        return mySz;
+        return size;
     }
 
     @Override
     public Vector2 getPos() {
-        return myPos;
+        return position;
     }
 
     @Override
