@@ -57,7 +57,7 @@ public class FarAsteroid implements FarObj {
     }
 
     /**
-     * Ensures that this asteroid does not overlap any other asteroid, by adjusting its position
+     * Ensures that this asteroid does not overlap any other asteroid, by adjusting its position.
      */
     private void adjustDesiredPosition(SolGame game) {
         List<SolObject> objects = game.getObjMan().getObjs();
