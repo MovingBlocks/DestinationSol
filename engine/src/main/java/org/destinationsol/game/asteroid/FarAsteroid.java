@@ -57,7 +57,7 @@ public class FarAsteroid implements FarObj {
     }
 
     /**
-     * Ensures that the position of any Asteroids do not overlap by adjusting the position
+     * Ensures that this asteroid does not overlap any other asteroid, by adjusting its position
      */
     private void adjustDesiredPosition(SolGame game) {
         List<SolObject> objects = game.getObjMan().getObjs();
@@ -65,20 +65,20 @@ public class FarAsteroid implements FarObj {
             if (object instanceof Asteroid) {
                 Asteroid asteroid = (Asteroid) object;
                 // Check if the positions overlap
-                Vector2 fromPosition = asteroid.getPosition();
-                Vector2 distanceVector = SolMath.distVec(fromPosition, position);
-                float distance = SolMath.hypotenuse(distanceVector.x, distanceVector.y);
+                Vector2 asteroidPosition = asteroid.getPosition();
+                Vector2 distanceFromAsteroid = SolMath.distVec(asteroidPosition, position);
+                float distance = SolMath.hypotenuse(distanceFromAsteroid.x, distanceFromAsteroid.y);
                 if (distance <= asteroid.getSize() && distance <= size) {
                     if (asteroid.getSize() > size) {
-                        distanceVector.scl((asteroid.getSize() + .5f) / distance);
+                        distanceFromAsteroid.scl((asteroid.getSize() + .5f) / distance);
                     }
                     else {
-                        distanceVector.scl((size + .5f) / distance);
+                        distanceFromAsteroid.scl((size + .5f) / distance);
                     }
-                    position = fromPosition.cpy().add(distanceVector);
-                    SolMath.free(SolMath.distVec(fromPosition, position));
+                    position = asteroidPosition.cpy().add(distanceFromAsteroid);
+                    SolMath.free(SolMath.distVec(asteroidPosition, position));
                 }
-                SolMath.free(distanceVector);
+                SolMath.free(distanceFromAsteroid);
             }
         }
     }
