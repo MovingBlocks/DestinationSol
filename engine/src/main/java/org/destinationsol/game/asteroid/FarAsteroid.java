@@ -75,8 +75,7 @@ public class FarAsteroid implements FarObj {
                     else {
                         distanceFromAsteroid.scl((size + .5f) / distance);
                     }
-                    position = asteroidPosition.cpy().add(distanceFromAsteroid);
-                    SolMath.free(SolMath.distVec(asteroidPosition, position));
+                    position = asteroidPosition.add(distanceFromAsteroid);
                 }
                 SolMath.free(distanceFromAsteroid);
             }
