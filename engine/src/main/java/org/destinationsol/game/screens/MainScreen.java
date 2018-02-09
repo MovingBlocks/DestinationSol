@@ -235,8 +235,8 @@ public class MainScreen implements SolUiScreen {
             inputMan.setScreen(solApplication, screens.mapScreen);
         }
 
-        inventoryControl.setEnabled(!hero.isTranscendent());
-        if (!hero.isTranscendent() && !inputMan.isScreenOn(screens.inventoryScreen)) {
+        inventoryControl.setEnabled(hero.isNonTranscendent());
+        if (hero.isNonTranscendent() && !inputMan.isScreenOn(screens.inventoryScreen)) {
             if (hero.getItemContainer().hasNew()) {
                 inventoryControl.enableWarn();
             }
@@ -252,8 +252,8 @@ public class MainScreen implements SolUiScreen {
             }
         }
         
-        mercControl.setEnabled(!hero.isTranscendent());
-        if (!hero.isTranscendent() && !inputMan.isScreenOn(screens.inventoryScreen)) {
+        mercControl.setEnabled(hero.isNonTranscendent());
+        if (hero.isNonTranscendent() && !inputMan.isScreenOn(screens.inventoryScreen)) {
             if (hero.getTradeContainer().getMercs().hasNew()) {
                 mercControl.enableWarn();
             }
@@ -405,7 +405,7 @@ public class MainScreen implements SolUiScreen {
 
         SolGame game = solApplication.getGame();
         Hero hero = game.getHero();
-        if (!hero.isTranscendent()) {
+        if (hero.isNonTranscendent()) {
             float row = BorderDrawer.TISHCH_SZ + V_PAD;
             float col0 = BorderDrawer.TISHCH_SZ + H_PAD;
             float col1 = col0 + ICON_SZ + H_PAD;
@@ -542,7 +542,7 @@ public class MainScreen implements SolUiScreen {
 
         protected boolean shouldWarn(SolGame game) {
             Hero hero = game.getHero();
-            return !hero.isTranscendent() && hero.getShield() == null;
+            return hero.isNonTranscendent() && hero.getShield() == null;
         }
     }
 
@@ -553,7 +553,7 @@ public class MainScreen implements SolUiScreen {
 
         protected boolean shouldWarn(SolGame game) {
             Hero hero = game.getHero();
-            return !hero.isTranscendent() && hero.getArmor() == null;
+            return hero.isNonTranscendent() && hero.getArmor() == null;
         }
     }
 
