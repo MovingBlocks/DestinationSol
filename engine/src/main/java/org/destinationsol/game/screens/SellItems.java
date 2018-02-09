@@ -49,7 +49,7 @@ public class SellItems implements InventoryOperations {
     @Override
     public boolean isUsing(SolGame game, SolItem item) {
         Hero hero = game.getHero();
-        return !hero.isTranscendent() && hero.maybeUnequip(game, item, false);
+        return hero.isNonTranscendent() && hero.maybeUnequip(game, item, false);
     }
 
     @Override

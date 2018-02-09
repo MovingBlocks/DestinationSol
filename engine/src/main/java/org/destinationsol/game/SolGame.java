@@ -245,8 +245,7 @@ public class SolGame {
         }
 
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {
-        }.getType();
+        Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {}.getType();
         ArrayList<HashMap<String, String>> mercs = gson.fromJson(bufferedReader, type);
 
         MercItem mercItems;
@@ -272,7 +271,7 @@ public class SolGame {
         float money;
         ArrayList<SolItem> items;
 
-        if (!hero.isDead()) {
+        if (hero.isAlive()) {
             hull = hero.isTranscendent() ? hero.getTranscendentHero().getShip().getHullConfig() : hero.getHull().config;
             money = hero.getMoney();
             items = new ArrayList<>();
@@ -304,7 +303,7 @@ public class SolGame {
         }
 
         timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
-        if (!(hero.isDead() || hero.isTranscendent())) {
+        if (hero.isAlive() && hero.isNonTranscendent()) {
             ShipAbility ability = hero.getAbility();
             if (ability instanceof SloMo) {
                 float factor = ((SloMo) ability).getFactor();
@@ -416,8 +415,8 @@ public class SolGame {
     }
 
     public void respawn() {
-        if (!hero.isDead()) {
-            if (!hero.isTranscendent()) {
+        if (hero.isAlive()) {
+            if (hero.isNonTranscendent()) {
                 beforeHeroDeath();
                 objectManager.removeObjDelayed(hero.getHero());
             } else {
