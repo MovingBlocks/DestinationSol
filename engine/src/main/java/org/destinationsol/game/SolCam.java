@@ -124,7 +124,7 @@ public class SolCam {
 
     private float getDesiredViewDistance(SolGame game) {
         Hero hero = game.getHero();
-        if (hero.isTranscendent()) { // hero is in transcendent state
+        if (hero.isAlive() && hero.isTranscendent()) {
             return Const.CAM_VIEW_DIST_SPACE;
         } else if (hero.isDead()) {
             return Const.CAM_VIEW_DIST_GROUND;

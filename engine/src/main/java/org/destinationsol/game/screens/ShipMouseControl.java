@@ -45,7 +45,7 @@ public class ShipMouseControl implements ShipUiControl {
         SolGame game = solApplication.getGame();
         Hero hero = game.getHero();
         myCursor = null;
-        if (!hero.isTranscendent()) {
+        if (hero.isNonTranscendent()) {
             myMouseWorldPos.set(Gdx.input.getX(), Gdx.input.getY());
             game.getCam().screenToWorld(myMouseWorldPos);
             SolInputManager im = solApplication.getInputMan();

@@ -76,7 +76,7 @@ public class ShipKbControl implements ShipUiControl {
             return;
         }
         Hero hero = solApplication.getGame().getHero();
-        boolean hasEngine = !hero.isTranscendent() && hero.getHull().getEngine() != null;
+        boolean hasEngine = hero.isNonTranscendent() && hero.getHull().getEngine() != null;
         upCtrl.setEnabled(hasEngine);
         leftCtrl.setEnabled(hasEngine);
         rightCtrl.setEnabled(hasEngine);
@@ -85,7 +85,7 @@ public class ShipKbControl implements ShipUiControl {
         shootCtrl.setEnabled(g1 != null && g1.ammo > 0);
         Gun g2 = hero.isTranscendent() ? null : hero.getHull().getGun(true);
         shoot2Ctrl.setEnabled(g2 != null && g2.ammo > 0);
-        abilityCtrl.setEnabled(!hero.isTranscendent() && hero.canUseAbility());
+        abilityCtrl.setEnabled(hero.isNonTranscendent() && hero.canUseAbility());
     }
 
     @Override
