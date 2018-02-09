@@ -28,6 +28,10 @@ import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
 
+/**
+ * This is a hero encapsulating class for avoiding null references.
+ */
+
 public class Hero {
     private SolShip hero;
     private StarPort.Transcendent transcendentHero;
@@ -57,6 +61,10 @@ public class Hero {
 
     public boolean isTranscendent() {
         return isTranscendent;
+    }
+
+    public boolean isNonTranscendent() {
+        return !isTranscendent;
     }
 
     public Pilot getPilot() {
@@ -114,7 +122,7 @@ public class Hero {
 
     public float getAcc() {
         onlySolShipHero();
-        return hero.getAcc(); // Transcendent hero doesn't accelerate
+        return hero.getAcc();
     }
 
     public Vector2 getPosition() {
@@ -122,7 +130,7 @@ public class Hero {
     }
 
     public Hull getHull() {
-        onlySolShipHero(); // Transcendent hero has no hull
+        onlySolShipHero();
         return hero.getHull();
     }
 
@@ -145,12 +153,12 @@ public class Hero {
     }
 
     public void setMoney(float money) {
-        onlySolShipHero(); // Transcendent hero should by design be not modified
+        onlySolShipHero();
         hero.setMoney(money);
     }
 
     public TradeContainer getTradeContainer() {
-        onlySolShipHero(); // Trading should by no means be possible when in transcendent state
+        onlySolShipHero();
         return hero.getTradeContainer();
     }
 
@@ -190,5 +198,9 @@ public class Hero {
 
     public boolean isDead() {
         return isDead;
+    }
+
+    public boolean isAlive() {
+        return !isDead;
     }
 }

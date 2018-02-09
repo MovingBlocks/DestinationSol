@@ -69,7 +69,7 @@ public class ShipMixedControl implements ShipUiControl {
         SolInputManager im = solApplication.getInputMan();
         SolGame game = solApplication.getGame();
         Hero hero = game.getHero();
-        if (!hero.isTranscendent()) {
+        if (hero.isNonTranscendent()) {
             myMouseWorldPos.set(Gdx.input.getX(), Gdx.input.getY());
             game.getCam().screenToWorld(myMouseWorldPos);
             float desiredAngle = SolMath.angle(hero.getPosition(), myMouseWorldPos);
