@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
+import org.destinationsol.common.Nullable;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.maze.Maze;
@@ -301,6 +302,7 @@ public class MapDrawer {
         }
     }
 
+    //TODO Don't pass null hero to drawObjIcon(). Then remove the annotation from drawObjIcon and remove the hero nullcheck
     public void drawStarPortIcon(GameDrawer drawer, float iconSz, Planet from, Planet to) {
         float angle = SolMath.angle(from.getPos(), to.getPos());
         Vector2 pos = StarPort.getDesiredPos(from, to, false);
@@ -381,9 +383,9 @@ public class MapDrawer {
     }
 
     public void drawObjIcon(float iconSz, Vector2 pos, float objAngle,
-                            FactionManager factionManager, Hero hero, Faction objFac, float heroDmgCap,
+                            FactionManager factionManager, @Nullable Hero hero, Faction objFac, float heroDmgCap,
                             Object shipHack, TextureAtlas.AtlasRegion icon, Object drawerHack) {
-        boolean enemy = hero != null && !hero.isTranscendent() && factionManager.areEnemies(objFac, hero.getPilot().getFaction());
+        boolean enemy = hero != null && hero.isNonTranscendent() && factionManager.areEnemies(objFac, hero.getPilot().getFaction());
         float angle = objAngle;
         if (enemy && mySkullTime > 0 && HardnessCalc.isDangerous(heroDmgCap, shipHack)) {
             icon = mySkullTex;
