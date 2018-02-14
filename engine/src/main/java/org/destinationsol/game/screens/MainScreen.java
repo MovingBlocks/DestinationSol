@@ -68,6 +68,7 @@ public class MainScreen implements SolUiScreen {
     public final SolUiControl freeCamControl;
     private final SolUiControl menuControl;
     private final SolUiControl pauseControl;
+    private final CameraKbControl cameraControl;
 
     private final ZoneNameAnnouncer zoneNameAnnouncer;
     private final BorderDrawer borderDrawer;
@@ -126,16 +127,9 @@ public class MainScreen implements SolUiScreen {
         controls.add(mercControl);
         freeCamControl = new SolUiControl(null, false, gameOptions.getKeyFreeCameraMovement()); // No button, since on mobile, it should be ideally controlled straightly by dragging.
         controls.add(freeCamControl);
-        SolCam.controlUp = new SolUiControl(null, false, gameOptions.getKeyUp()); // Dirty solution, but on mixed controls, it is uncontrollable
-        controls.add(SolCam.controlUp);
-        SolCam.controlDown = new SolUiControl(null, false, gameOptions.getKeyDown());
-        controls.add(SolCam.controlDown);
-        SolCam.controlLeft = new SolUiControl(null, false, gameOptions.getKeyLeft());
-        controls.add(SolCam.controlLeft);
-        SolCam.controlRight = new SolUiControl(null, false, gameOptions.getKeyRight());
-        controls.add(SolCam.controlRight);
         pauseControl = new SolUiControl(null, true, gameOptions.getKeyPause());
         controls.add(pauseControl);
+        cameraControl = new CameraKbControl(gameOptions, controls);
 
         warnDrawers.add(new CollisionWarnDrawer(resolutionRatio));
         warnDrawers.add(new SunWarnDrawer(resolutionRatio));
@@ -515,6 +509,22 @@ public class MainScreen implements SolUiScreen {
 
     public boolean isAbility() {
         return shipControl.isAbility();
+    }
+
+    public boolean isCameraUp(){
+        return cameraControl.isUp();
+    }
+
+    public boolean isCameraDown(){
+        return cameraControl.isDown();
+    }
+
+    public boolean isCameraLeft(){
+        return cameraControl.isLeft();
+    }
+
+    public boolean isCameraRight(){
+        return cameraControl.isRight();
     }
 
     public static class TextPlace {
