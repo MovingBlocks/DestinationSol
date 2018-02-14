@@ -24,7 +24,7 @@ import org.destinationsol.Const;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.planet.Planet;
-import org.destinationsol.ui.SolUiControl;
+import org.destinationsol.game.screens.MainScreen;
 
 public class SolCam {
     public static final float CAM_ROT_SPD = 90f;
@@ -36,10 +36,6 @@ public class SolCam {
     private static final float MAX_SHAKE = .07f;
     private static final float SHAKE_DAMP = MAX_SHAKE;
     public static boolean DIRECT_CAM_CONTROL = false;
-    public static SolUiControl controlUp = null;
-    public static SolUiControl controlDown = null;
-    public static SolUiControl controlLeft = null;
-    public static SolUiControl controlRight = null;
     private final CamRotStrategy myCamRotStrategy;
     private final OrthographicCamera myCam;
     private final Vector3 myTmpVec;
@@ -67,29 +63,24 @@ public class SolCam {
 
         Hero hero = game.getHero();
         float ts = game.getTimeStep();
+        life = hero.getLife();
         if (hero.isDead() || DIRECT_CAM_CONTROL) {
             applyInput(game);
-            life = hero.getLife();
-//        } else if (hero.isTranscendent()) {
-//            myPos.set(hero.getPosition());
-//        } else {
-//            Vector2 heroPos = hero.getHull().getBody().getWorldCenter();
-//            if (myZoom * VIEWPORT_HEIGHT < heroPos.dst(myPos)) {
-//                myPos.set(heroPos);
-//                game.getObjMan().resetDelays();
-//            } else {
-//                Vector2 moveDiff = SolMath.getVec(hero.getSpd());
-//                moveDiff.scl(ts);
-//                myPos.add(moveDiff);
-//                SolMath.free(moveDiff);
-//                float moveSpd = MOVE_SPD * ts;
-//                myPos.x = SolMath.approach(myPos.x, heroPos.x, moveSpd);
-//                myPos.y = SolMath.approach(myPos.y, heroPos.y, moveSpd);
-//            }
-//            life = hero.getLife();
         } else {
-            myPos.set(hero.getPosition());
-            life = hero.getLife();
+            Vector2 heroPos = hero.getHull().getBody().getWorldCenter();
+            if (myZoom * VIEWPORT_HEIGHT < heroPos.dst(myPos)) {
+                myPos.set(heroPos);
+                game.getObjMan().resetDelays();
+            } else {
+                Vector2 moveDiff = SolMath.getVec(hero.getSpd());
+                moveDiff.scl(ts);
+                myPos.add(moveDiff);
+                SolMath.free(moveDiff);
+                float moveSpd = MOVE_SPD * ts;
+                myPos.x = SolMath.approach(myPos.x, heroPos.x, moveSpd);
+                myPos.y = SolMath.approach(myPos.y, heroPos.y, moveSpd);
+            }
+
         }
 
         if (life < myPrevHeroLife) {
@@ -164,10 +155,11 @@ public class SolCam {
     }
 
     private void applyInput(SolGame game) {
-        boolean d = controlDown.isOn();
-        boolean u = controlUp.isOn();
-        boolean l = controlLeft.isOn();
-        boolean r = controlRight.isOn();
+        MainScreen screen = game.getScreens().mainScreen;
+        boolean d = screen.isCameraDown();
+        boolean u = screen.isCameraUp();
+        boolean l = screen.isCameraLeft();
+        boolean r = screen.isCameraRight();
         Vector2 v = SolMath.getVec();
         if (l != r) {
             v.x = SolMath.toInt(r);
