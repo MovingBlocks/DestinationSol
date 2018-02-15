@@ -40,7 +40,7 @@ public class Clip implements SolItem {
     }
 
     @Override
-    public String getDesc() {
+    public String getDescription() {
         return myConfig.desc;
     }
 

@@ -44,7 +44,7 @@ public class MercItem implements SolItem {
     }
 
     @Override
-    public String getDesc() {
+    public String getDescription() {
         return myDesc;
     }
 

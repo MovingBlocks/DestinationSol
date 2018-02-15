@@ -36,7 +36,7 @@ public class BigObjAvoider {
             toDestLen = MAX_DIST_LEN;
         }
         float res = toDestAngle;
-        Planet p = game.getPlanetMan().getNearestPlanet(from);
+        Planet p = game.getPlanetManager().getNearestPlanet(from);
         Vector2 pPos = p.getPos();
         float pRad = p.getFullHeight();
         if (dest.dst(pPos) < pRad) {
@@ -51,7 +51,7 @@ public class BigObjAvoider {
                 res = toDestAngle + 45 * SolMath.toInt(myProj.y < 0);
             }
         }
-        Vector2 sunPos = p.getSys().getPos();
+        Vector2 sunPos = p.getSys().getPosition();
         float sunRad = Const.SUN_RADIUS;
         myProj.set(sunPos);
         myProj.sub(from);

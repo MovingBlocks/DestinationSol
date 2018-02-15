@@ -71,7 +71,7 @@ public class SolCam {
                 myPos.set(heroPos);
                 game.getObjMan().resetDelays();
             } else {
-                Vector2 moveDiff = SolMath.getVec(hero.getSpd());
+                Vector2 moveDiff = SolMath.getVec(hero.getSpeed());
                 moveDiff.scl(ts);
                 myPos.add(moveDiff);
                 SolMath.free(moveDiff);
@@ -118,9 +118,9 @@ public class SolCam {
         } else if (hero.isDead()) {
             return Const.CAM_VIEW_DIST_GROUND;
         } else {
-            float speed = hero.getSpd().len();
+            float speed = hero.getSpeed().len();
             float desiredViewDistance = Const.CAM_VIEW_DIST_SPACE;
-            Planet nearestPlanet = game.getPlanetMan().getNearestPlanet(myPos);
+            Planet nearestPlanet = game.getPlanetManager().getNearestPlanet(myPos);
             if (nearestPlanet.getFullHeight() < nearestPlanet.getPos().dst(myPos) && MAX_ZOOM_SPD < speed) {
                 desiredViewDistance = Const.CAM_VIEW_DIST_JOURNEY;
             } else if (nearestPlanet.isNearGround(myPos) && speed < MED_ZOOM_SPD) {

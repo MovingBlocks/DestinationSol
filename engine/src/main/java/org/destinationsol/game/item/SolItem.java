@@ -24,7 +24,7 @@ public interface SolItem {
 
     float getPrice();
 
-    String getDesc();
+    String getDescription();
 
     SolItem copy();
 

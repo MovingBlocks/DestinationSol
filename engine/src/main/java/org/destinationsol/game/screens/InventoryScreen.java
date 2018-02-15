@@ -333,7 +333,7 @@ public class InventoryScreen implements SolUiScreen {
         uiDrawer.drawString("Selected Item:", myDetailHeaderPos.x, myDetailHeaderPos.y, FontSize.WINDOW, UiDrawer.TextAlignment.LEFT, false, SolColor.WHITE);
         if (mySelected != null && !mySelected.isEmpty()) {
             SolItem selItem = mySelected.get(0);
-            String desc = selItem.getDisplayName() + "\n" + selItem.getDesc();
+            String desc = selItem.getDisplayName() + "\n" + selItem.getDescription();
             uiDrawer.drawString(desc, myDetailArea.x + .015f, myDetailArea.y + .015f, FontSize.WINDOW, UiDrawer.TextAlignment.LEFT, false, SolColor.WHITE);
         }
     }

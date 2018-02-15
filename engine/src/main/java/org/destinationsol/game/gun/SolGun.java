@@ -29,7 +29,7 @@ import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.item.Clip;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
-import org.destinationsol.game.particle.LightSrc;
+import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.projectile.Projectile;
 import org.destinationsol.game.projectile.ProjectileConfig;
@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SolGun {
-    private final LightSrc myLightSrc;
+    private final LightSource myLightSource;
     private final Vector2 myRelPos;
     private final RectSprite mySprite;
     private final Gun myItem;
@@ -57,9 +57,9 @@ public class SolGun {
             } else if (projConfig.collisionEffect != null) {
                 lightCol = projConfig.collisionEffect.tint;
             }
-            myLightSrc = new LightSrc(.25f, true, 1f, Vector2.Zero, lightCol);
+            myLightSource = new LightSource(.25f, true, 1f, Vector2.Zero, lightCol);
         } else {
-            myLightSrc = null;
+            myLightSource = null;
         }
         myRelPos = new Vector2(relPos);
         DrawableLevel level = underShip ? DrawableLevel.U_GUNS : DrawableLevel.GUNS;
@@ -67,8 +67,8 @@ public class SolGun {
         mySprite = new RectSprite(myItem.config.tex, texLen, 0, 0, new Vector2(relPos), level, 0, 0, SolColor.WHITE, false);
         myDrawables = new ArrayList<>();
         myDrawables.add(mySprite);
-        if (myLightSrc != null) {
-            myLightSrc.collectDras(myDrawables);
+        if (myLightSource != null) {
+            myLightSource.collectDras(myDrawables);
         }
     }
 
@@ -81,7 +81,7 @@ public class SolGun {
         Clip.Config cc = myItem.config.clipConf;
         if (cc.projConfig.zeroAbsSpd) {
             baseSpd = Vector2.Zero;
-            Planet np = game.getPlanetMan().getNearestPlanet();
+            Planet np = game.getPlanetManager().getNearestPlanet();
             if (np.isNearGround(muzzlePos)) {
                 baseSpd = new Vector2();
                 np.calcSpdAtPos(baseSpd, muzzlePos);
@@ -110,8 +110,8 @@ public class SolGun {
         mySprite.relAngle = gunRelAngle;
         Vector2 muzzleRelPos = SolMath.fromAl(gunRelAngle, myItem.config.gunLength);
         muzzleRelPos.add(myRelPos);
-        if (myLightSrc != null) {
-            myLightSrc.setRelPos(muzzleRelPos);
+        if (myLightSource != null) {
+            myLightSource.setRelPos(muzzleRelPos);
         }
         Vector2 muzzlePos = SolMath.toWorld(muzzleRelPos, baseAngle, basePos);
         SolMath.free(muzzleRelPos);
@@ -136,13 +136,13 @@ public class SolGun {
         boolean shot = shouldShoot && myCoolDown <= 0 && myItem.ammo > 0;
         game.getPartMan().updateAllHullEmittersOfType(hull, "shoot", shot);
         if (shot) {
-            Vector2 gunSpd = creator.getSpd();
+            Vector2 gunSpd = creator.getSpeed();
             shoot(gunSpd, game, gunAngle, muzzlePos, faction, creator,  hull);
         } else {
             myCurrAngleVar = SolMath.approach(myCurrAngleVar, myItem.config.minAngleVar, myItem.config.angleVarDamp * ts);
         }
-        if (myLightSrc != null) {
-            myLightSrc.update(shot, baseAngle, game);
+        if (myLightSource != null) {
+            myLightSource.update(shot, baseAngle, game);
         }
         SolMath.free(muzzlePos);
     }

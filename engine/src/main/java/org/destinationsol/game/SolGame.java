@@ -189,7 +189,7 @@ public class SolGame {
         String itemsStr = !respawnItems.isEmpty() ? "" : shipConfig.items;
 
         boolean giveAmmo = shipName != null && respawnItems.isEmpty();
-        hero = new Hero(shipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObj(this));
+        hero = new Hero(shipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObject(this));
 
         ItemContainer ic = hero.getItemContainer();
         if (!respawnItems.isEmpty()) {
@@ -376,7 +376,7 @@ public class SolGame {
         return objectManager;
     }
 
-    public PlanetManager getPlanetMan() {
+    public PlanetManager getPlanetManager() {
         return planetManager;
     }
 
@@ -445,7 +445,7 @@ public class SolGame {
         }
 
         SolSystem ns = planetManager.getNearestSystem(pos);
-        if (ns.getPos().dst(pos) < SunSingleton.SUN_HOT_RAD) {
+        if (ns.getPosition().dst(pos) < SunSingleton.SUN_HOT_RAD) {
             return false;
         }
 
@@ -461,13 +461,13 @@ public class SolGame {
         }
 
         for (FarObjData fod : objectManager.getFarObjs()) {
-            FarObj o = fod.fo;
+            FarObject o = fod.fo;
 
             if (!o.hasBody()) {
                 continue;
             }
 
-            if (pos.dst(o.getPos()) < o.getRadius()) {
+            if (pos.dst(o.getPosition()) < o.getRadius()) {
                 return false;
             }
         }

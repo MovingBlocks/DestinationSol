@@ -17,14 +17,14 @@
 package org.destinationsol.game.drawables;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 
 import java.util.List;
 
-public class FarDrawable implements FarObj {
+public class FarDrawable implements FarObject {
     private final List<Drawable> myDrawables;
     private final Vector2 myPos;
     private final Vector2 mySpd;
@@ -48,7 +48,7 @@ public class FarDrawable implements FarObj {
     }
 
     @Override
-    public SolObject toObj(SolGame game) {
+    public SolObject toObject(SolGame game) {
         return new DrawableObject(myDrawables, myPos, mySpd, myRemoveController, false, myHideOnPlanet);
     }
 
@@ -62,7 +62,7 @@ public class FarDrawable implements FarObj {
     }
 
     @Override
-    public Vector2 getPos() {
+    public Vector2 getPosition() {
         return myPos;
     }
 

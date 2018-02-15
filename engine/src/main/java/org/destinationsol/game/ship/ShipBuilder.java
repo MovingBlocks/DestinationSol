@@ -50,7 +50,7 @@ import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.item.TradeContainer;
-import org.destinationsol.game.particle.LightSrc;
+import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
@@ -105,7 +105,7 @@ public class ShipBuilder {
         ItemContainer ic = new ItemContainer();
         game.getItemMan().fillContainer(ic, items);
         Engine.Config ec = hullConfig.getEngineConfig();
-        Engine ei = ec == null ? null : ec.example.copy();
+        Engine ei = ec == null ? null : ec.exampleEngine.copy();
         TradeContainer tc = tradeConfig == null ? null : new TradeContainer(tradeConfig);
 
         Gun g1 = null;
@@ -278,9 +278,9 @@ public class ShipBuilder {
                 ? new GunMount(hullConfig.getGunSlot(1))
                 : null;
 
-        List<LightSrc> lCs = new ArrayList<>();
+        List<LightSource> lCs = new ArrayList<>();
         for (Vector2 p : hullConfig.getLightSourcePositions()) {
-            LightSrc lc = new LightSrc(.35f, true, .7f, p, game.getCols().hullLights);
+            LightSource lc = new LightSource(.35f, true, .7f, p, game.getCols().hullLights);
             lc.collectDras(drawables);
             lCs.add(lc);
         }

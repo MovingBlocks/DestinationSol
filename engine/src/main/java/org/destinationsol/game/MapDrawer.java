@@ -119,7 +119,7 @@ public class MapDrawer {
         float viewDist = cam.getViewDist(myZoom);
         FactionManager factionManager = game.getFactionMan();
         Hero hero = game.getHero();
-        Planet np = game.getPlanetMan().getNearestPlanet();
+        Planet np = game.getPlanetManager().getNearestPlanet();
         Vector2 camPos = cam.getPos();
         float camAngle = cam.getAngle();
         float heroDmgCap = hero.isTranscendent() ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero.getShip());
@@ -140,7 +140,7 @@ public class MapDrawer {
 
     private void drawMazes(GameDrawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos, float heroDmgCap,
                            float camAngle) {
-        ArrayList<Maze> mazes = game.getPlanetMan().getMazes();
+        ArrayList<Maze> mazes = game.getPlanetManager().getMazes();
         for (Maze maze : mazes) {
             Vector2 mazePos = maze.getPos();
             float outerRad = maze.getRadius();
@@ -158,16 +158,16 @@ public class MapDrawer {
 
     private void drawPlanets(GameDrawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos, float heroDmgCap,
                              float camAngle) {
-        ArrayList<SolSystem> systems = game.getPlanetMan().getSystems();
+        ArrayList<SolSystem> systems = game.getPlanetManager().getSystems();
         SolCam cam = game.getCam();
         float circleWidth = cam.getRealLineWidth() * 6;
         float vh = cam.getViewHeight(myZoom);
         for (SolSystem sys : systems) {
-            drawer.drawCircle(myLineTex, sys.getPos(), sys.getRadius(), SolColor.UI_MED, circleWidth, vh);
+            drawer.drawCircle(myLineTex, sys.getPosition(), sys.getRadius(), SolColor.UI_MED, circleWidth, vh);
         }
         for (SolSystem sys : systems) {
             float dangerRad = HardnessCalc.isDangerous(heroDmgCap, sys.getDps()) ? sys.getRadius() : 0;
-            Vector2 sysPos = sys.getPos();
+            Vector2 sysPos = sys.getPosition();
             float rad = Const.SUN_RADIUS;
             if (camPos.dst(sysPos) - rad < viewDist) {
                 drawer.draw(myStarTex, 2 * rad, 2 * rad, rad, rad, sysPos.x, sysPos.y, 0, SolColor.WHITE);
@@ -199,7 +199,7 @@ public class MapDrawer {
             }
         }
 
-        ArrayList<Planet> planets = game.getPlanetMan().getPlanets();
+        ArrayList<Planet> planets = game.getPlanetManager().getPlanets();
         for (Planet planet : planets) {
             Vector2 planetPos = planet.getPos();
             float fh = planet.getFullHeight();
@@ -272,7 +272,7 @@ public class MapDrawer {
 
         List<FarShip> farShips = game.getObjMan().getFarShips();
         for (FarShip ship : farShips) {
-            Vector2 oPos = ship.getPos();
+            Vector2 oPos = ship.getPosition();
             if (viewDist < camPos.dst(oPos)) {
                 continue;
             }
@@ -326,7 +326,7 @@ public class MapDrawer {
 
         List<StarPort.MyFar> farPorts = game.getObjMan().getFarPorts();
         for (StarPort.MyFar sp : farPorts) {
-            Vector2 oPos = sp.getPos();
+            Vector2 oPos = sp.getPosition();
             if (viewDist < camPos.dst(oPos)) {
                 continue;
             }
@@ -365,7 +365,7 @@ public class MapDrawer {
 
         List<FarObjData> farObjs = objectManager.getFarObjs();
         for (FarObjData fod : farObjs) {
-            FarObj o = fod.fo;
+            FarObject o = fod.fo;
             if (!(o instanceof FarTileObject)) {
                 continue;
             }
@@ -373,7 +373,7 @@ public class MapDrawer {
             if (to.getPlanet() != np) {
                 continue;
             }
-            Vector2 oPos = o.getPos();
+            Vector2 oPos = o.getPosition();
             if (viewDist < camPos.dst(oPos)) {
                 continue;
             }

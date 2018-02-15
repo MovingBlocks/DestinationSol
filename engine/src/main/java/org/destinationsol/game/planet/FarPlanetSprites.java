@@ -17,7 +17,7 @@ package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
@@ -25,7 +25,7 @@ import org.destinationsol.game.drawables.DrawableManager;
 
 import java.util.List;
 
-public class FarPlanetSprites implements FarObj {
+public class FarPlanetSprites implements FarObject {
     private final Planet myPlanet;
     private final float myDist;
     private final List<Drawable> myDrawables;
@@ -51,14 +51,14 @@ public class FarPlanetSprites implements FarObj {
     }
 
     @Override
-    public SolObject toObj(SolGame game) {
+    public SolObject toObject(SolGame game) {
         return new PlanetSprites(myPlanet, myRelAngleToPlanet, myDist, myDrawables, myToPlanetRotSpd);
     }
 
     @Override
     public void update(SolGame game) {
         myRelAngleToPlanet += myToPlanetRotSpd * game.getTimeStep();
-        if (game.getPlanetMan().getNearestPlanet() == myPlanet) {
+        if (game.getPlanetManager().getNearestPlanet() == myPlanet) {
             SolMath.fromAl(myPos, myPlanet.getAngle() + myRelAngleToPlanet, myDist);
             myPos.add(myPlanet.getPos());
         }
@@ -70,7 +70,7 @@ public class FarPlanetSprites implements FarObj {
     }
 
     @Override
-    public Vector2 getPos() {
+    public Vector2 getPosition() {
         return myPos;
     }
 

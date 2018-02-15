@@ -64,7 +64,7 @@ public class ItemManager {
     public void fillContainer(ItemContainer c, String items) {
         List<ItemConfig> list = parseItems(items);
         for (ItemConfig ic : list) {
-            for (int i = 0; i < ic.amt; i++) {
+            for (int i = 0; i < ic.amount; i++) {
                 if (SolMath.test(ic.chance)) {
                     SolItem item = SolMath.elemRnd(ic.examples).copy();
                     c.add(item);
