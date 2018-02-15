@@ -17,16 +17,16 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
 
-public interface FarObj {
+public interface FarObject {
     boolean shouldBeRemoved(SolGame game);
 
-    SolObject toObj(SolGame game);
+    SolObject toObject(SolGame game);
 
     void update(SolGame game);
 
     float getRadius();
 
-    Vector2 getPos();
+    Vector2 getPosition();
 
     String toDebugString();
 

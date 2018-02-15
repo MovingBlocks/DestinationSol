@@ -107,7 +107,7 @@ public class BorderDrawer {
 
         List<FarShip> farShips = g.getObjMan().getFarShips();
         for (FarShip ship : farShips) {
-            Vector2 shipPos = ship.getPos();
+            Vector2 shipPos = ship.getPosition();
             Faction shipFaction = ship.getPilot().getFaction();
             float shipSize = ship.getHullConfig().getSize();
             float shipAngle = ship.getAngle();
@@ -115,7 +115,7 @@ public class BorderDrawer {
         }
         List<StarPort.MyFar> farPorts = g.getObjMan().getFarPorts();
         for (StarPort.MyFar sp : farPorts) {
-            maybeDrawIcon(drawer, sp.getPos(), cam, StarPort.SIZE, sp.getAngle(), mapDrawer, null, null, null, null, -1, mapDrawer.getStarPortTex());
+            maybeDrawIcon(drawer, sp.getPosition(), cam, StarPort.SIZE, sp.getAngle(), mapDrawer, null, null, null, null, -1, mapDrawer.getStarPortTex());
         }
     }
 
@@ -150,7 +150,7 @@ public class BorderDrawer {
     }
 
     private void drawTishches(UiDrawer drawer, SolGame g, SolCam cam, Vector2 camPos) {
-        PlanetManager pMan = g.getPlanetMan();
+        PlanetManager pMan = g.getPlanetManager();
         Planet np = pMan.getNearestPlanet();
         if (np != null && np.getPos().dst(camPos) < np.getFullHeight()) {
             return;
@@ -167,7 +167,7 @@ public class BorderDrawer {
             apply0(camPos, camAngle, objPos, objRad);
         }
         SolSystem sys = pMan.getNearestSystem(camPos);
-        apply0(camPos, camAngle, sys.getPos(), SunSingleton.SUN_HOT_RAD);
+        apply0(camPos, camAngle, sys.getPosition(), SunSingleton.SUN_HOT_RAD);
         for (Tishch t : myTishches) {
             t.draw(drawer);
         }

@@ -28,7 +28,7 @@ import org.destinationsol.game.drawables.RectSprite;
 
 import java.util.List;
 
-public class LightSrc {
+public class LightSource {
     public static final float DEFAULT_FADE_TIME = .1f;
     public static final float A_RATIO = .5f;
     public static final float SZ_RATIO = .8f;
@@ -43,15 +43,16 @@ public class LightSrc {
     /**
      * doesn't consume relPos
      */
-    public LightSrc(float sz, boolean hasHalo, float intensity, Vector2 relPos, Color col) {
+    public LightSource(float sz, boolean hasHalo, float intensity, Vector2 relPos, Color col) {
         TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("core:lightCircleParticle");
         mySz = sz;
-        myCircle = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DrawableLevel.PART_BG_0, 0, 0, col, true);
+        Vector2 relPos1 = new Vector2(relPos);
+        myCircle = new RectSprite(tex, 0, 0, 0, relPos1, DrawableLevel.PART_BG_0, 0, 0, col, true);
         tex = Assets.getAtlasRegion("core:lightHaloParticle");
         if (hasHalo) {
             Color haloCol = new Color(col);
             SolColorUtil.changeBrightness(haloCol, .8f);
-            myHalo = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DrawableLevel.PART_FG_0, 0, 0, haloCol, true);
+            myHalo = new RectSprite(tex, 0, 0, 0, relPos1, DrawableLevel.PART_FG_0, 0, 0, haloCol, true);
         } else {
             myHalo = null;
         }
@@ -97,8 +98,5 @@ public class LightSrc {
 
     public void setRelPos(Vector2 relPos) {
         myCircle.relPos.set(relPos);
-        if (myHalo != null) {
-            myHalo.relPos.set(relPos);
-        }
     }
 }

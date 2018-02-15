@@ -16,12 +16,11 @@
 package org.destinationsol.game.drawables;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import org.destinationsol.Const;
 import org.destinationsol.common.Consumed;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DmgType;
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -61,7 +60,7 @@ public class DrawableObject implements SolObject {
         myMoveDiff.scl(ts);
         myPos.add(myMoveDiff);
         if (myHideOnPlanet) {
-            Planet np = game.getPlanetMan().getNearestPlanet();
+            Planet np = game.getPlanetManager().getNearestPlanet();
             Vector2 npPos = np.getPos();
             float npgh = np.getGroundHeight();
             DrawableManager drawableManager = game.getDrawableManager();
@@ -135,7 +134,7 @@ public class DrawableObject implements SolObject {
     }
 
     @Override
-    public FarObj toFarObj() {
+    public FarObject toFarObject() {
         return myTemporary ? null : new FarDrawable(myDrawables, myPos, mySpd, myRemoveController, myHideOnPlanet);
     }
 
@@ -150,12 +149,12 @@ public class DrawableObject implements SolObject {
     }
 
     @Override
-    public Vector2 getSpd() {
+    public Vector2 getSpeed() {
         return null;
     }
 
     @Override
-    public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
+    public void handleContact(SolObject other, float absImpulse,
                               SolGame game, Vector2 collPos) {
     }
 

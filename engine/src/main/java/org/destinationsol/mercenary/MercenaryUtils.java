@@ -34,7 +34,7 @@ public class MercenaryUtils {
             return false;
         }
         SolShip merc = game.getShipBuilder().buildNewFar(game, pos, new Vector2(), 0, 0, pilot, config.items, config.hull, null, true, config.money, null, true)
-                .toObj(game);
+                .toObject(game);
         
         merc.setMerc(mercItem);
         mercItem.setSolShip(merc);
@@ -55,7 +55,7 @@ public class MercenaryUtils {
         Vector2 pos = new Vector2();
         float dist = hero.getHull().config.getApproxRadius() + Guardian.DIST + hull.getApproxRadius();
         Vector2 heroPos = hero.getPosition();
-        Planet np = game.getPlanetMan().getNearestPlanet(heroPos);
+        Planet np = game.getPlanetManager().getNearestPlanet(heroPos);
         boolean nearGround = np.isNearGround(heroPos);
         float fromPlanet = SolMath.angle(np.getPos(), heroPos);
         for (int i = 0; i < 50; i++) {

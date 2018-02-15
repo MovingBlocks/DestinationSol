@@ -42,7 +42,7 @@ public class SystemBelt {
     }
 
     public boolean contains(Vector2 pos) {
-        float toCenter = myS.getPos().dst(pos);
+        float toCenter = myS.getPosition().dst(pos);
         return myRadius - myHalfWidth < toCenter && toCenter < myRadius + myHalfWidth;
     }
 

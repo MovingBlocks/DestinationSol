@@ -16,14 +16,13 @@
 package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.ColorSpan;
 import org.destinationsol.game.DmgType;
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -82,7 +81,7 @@ public class Sky implements SolObject {
             distPerc = 1;
         }
 
-        Vector2 sysPos = myPlanet.getSys().getPos();
+        Vector2 sysPos = myPlanet.getSys().getPosition();
         float angleToCam = SolMath.angle(planetPos, camPos);
         float angleToSun = SolMath.angle(planetPos, sysPos);
         float dayPerc = 1 - SolMath.angleDiff(angleToCam, angleToSun) / 180;
@@ -138,7 +137,7 @@ public class Sky implements SolObject {
     }
 
     @Override
-    public FarObj toFarObj() {
+    public FarObject toFarObject() {
         return new FarSky(myPlanet);
     }
 
@@ -153,12 +152,12 @@ public class Sky implements SolObject {
     }
 
     @Override
-    public Vector2 getSpd() {
+    public Vector2 getSpeed() {
         return null;
     }
 
     @Override
-    public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
+    public void handleContact(SolObject other, float absImpulse,
                               SolGame game, Vector2 collPos) {
     }
 

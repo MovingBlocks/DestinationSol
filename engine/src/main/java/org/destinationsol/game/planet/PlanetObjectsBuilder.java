@@ -301,7 +301,7 @@ public class PlanetObjectsBuilder {
 
     private FarShip buildGroundShip(SolGame game, Planet planet, ShipConfig shipConfig, TradeConfig tradeConfig,
                                    Faction faction, ConsumedAngles takenAngles, String mapHint) {
-        Vector2 pos = game.getPlanetMan().findFlatPlace(game, planet, takenAngles, shipConfig.hull.getApproxRadius());
+        Vector2 pos = game.getPlanetManager().findFlatPlace(game, planet, takenAngles, shipConfig.hull.getApproxRadius());
         boolean station = shipConfig.hull.getType() == HullConfig.Type.STATION;
         String ic = shipConfig.items;
         boolean hasRepairer;

@@ -84,7 +84,7 @@ public class Planet {
 
     private void setSecondaryParams() {
         SolMath.fromAl(myPos, myAngleToSys, myDist, true);
-        myPos.add(mySys.getPos());
+        myPos.add(mySys.getPosition());
         float spdLen = SolMath.angleToArc(myToSysRotSpd, myDist);
         float spdAngle = myAngleToSys + 90;
         SolMath.fromAl(mySpd, spdAngle, spdLen);
@@ -92,7 +92,7 @@ public class Planet {
 
     private void fillLangingPlaces(SolGame game) {
         for (int i = 0; i < 10; i++) {
-            Vector2 lp = game.getPlanetMan().findFlatPlace(game, this, null, 0);
+            Vector2 lp = game.getPlanetManager().findFlatPlace(game, this, null, 0);
             myLps.add(lp);
         }
     }

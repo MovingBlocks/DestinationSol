@@ -18,11 +18,11 @@ package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 
-public class FarSky implements FarObj {
+public class FarSky implements FarObject {
     private final Planet myPlanet;
 
     public FarSky(Planet planet) {
@@ -35,7 +35,7 @@ public class FarSky implements FarObj {
     }
 
     @Override
-    public SolObject toObj(SolGame game) {
+    public SolObject toObject(SolGame game) {
         return new Sky(game, myPlanet);
     }
 
@@ -49,7 +49,7 @@ public class FarSky implements FarObj {
     }
 
     @Override
-    public Vector2 getPos() {
+    public Vector2 getPosition() {
         return myPlanet.getPos();
     }
 

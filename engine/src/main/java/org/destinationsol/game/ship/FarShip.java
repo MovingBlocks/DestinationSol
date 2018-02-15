@@ -17,7 +17,7 @@
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.input.Pilot;
@@ -29,7 +29,7 @@ import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.TradeContainer;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
-public class FarShip implements FarObj {
+public class FarShip implements FarObject {
     private final Vector2 myPos;
     private final Vector2 mySpd;
     private final Shield myShield;
@@ -92,7 +92,7 @@ public class FarShip implements FarObj {
     }
 
     @Override
-    public SolShip toObj(SolGame game) {
+    public SolShip toObject(SolGame game) {
         return game.getShipBuilder().build(game, myPos, mySpd, myAngle, myRotSpd, myPilot, myContainer, myHullConfig, myLife, myGun1,
                 myGun2, myRemoveController, myEngine, myRepairer, myMoney, myTradeContainer, myShield, myArmor);
     }
@@ -114,7 +114,7 @@ public class FarShip implements FarObj {
     }
 
     @Override
-    public Vector2 getPos() {
+    public Vector2 getPosition() {
         return myPos;
     }
 
