@@ -29,16 +29,16 @@ public class Maze {
     private final float myDps;
     private boolean myObjsCreated;
 
-    public Maze(MazeConfig config, Vector2 pos, float radius) {
+    public Maze(MazeConfig config, Vector2 position, float radius) {
         myConfig = config;
-        myPos = pos;
+        myPos = position;
         myRadius = radius;
         myDps = HardnessCalc.getMazeDps(config);
     }
 
     public void update(SolGame game) {
         SolCam cam = game.getCam();
-        Vector2 camPos = cam.getPos();
+        Vector2 camPos = cam.getPosition();
         if (!myObjsCreated && camPos.dst(myPos) < myRadius + Const.CAM_VIEW_DIST_JOURNEY * 2) {
             new MazeBuilder().build(game, this);
             myObjsCreated = true;

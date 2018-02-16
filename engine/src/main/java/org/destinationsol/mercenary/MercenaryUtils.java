@@ -29,18 +29,18 @@ public class MercenaryUtils {
         ShipConfig config = mercItem.getConfig();
         Guardian guardian = new Guardian(game, config.hull, hero.getPilot(), hero.getPosition(), hero.getHull().config, SolMath.rnd(180));
         AiPilot pilot = new AiPilot(guardian, true, Faction.LAANI, false, "Merc", Const.AI_DET_DIST);
-        Vector2 pos = getPos(game, hero, config.hull);
-        if (pos == null) {
+        Vector2 position = getPos(game, hero, config.hull);
+        if (position == null) {
             return false;
         }
-        SolShip merc = game.getShipBuilder().buildNewFar(game, pos, new Vector2(), 0, 0, pilot, config.items, config.hull, null, true, config.money, null, true)
+        SolShip merc = game.getShipBuilder().buildNewFar(game, position, new Vector2(), 0, 0, pilot, config.items, config.hull, null, true, config.money, null, true)
                 .toObject(game);
         
         merc.setMerc(mercItem);
         mercItem.setSolShip(merc);
         
         game.getHero().getTradeContainer().getMercs().add(mercItem);
-        game.getObjMan().addObjNow(game, merc);
+        game.getObjectManager().addObjNow(game, merc);
         return true;
     }
     
@@ -52,7 +52,7 @@ public class MercenaryUtils {
      * @return The position to spawn the mercenary at, or null for no available position
      */
     private static Vector2 getPos(SolGame game, Hero hero, HullConfig hull) {
-        Vector2 pos = new Vector2();
+        Vector2 position = new Vector2();
         float dist = hero.getHull().config.getApproxRadius() + Guardian.DIST + hull.getApproxRadius();
         Vector2 heroPos = hero.getPosition();
         Planet np = game.getPlanetManager().getNearestPlanet(heroPos);
@@ -65,10 +65,10 @@ public class MercenaryUtils {
             } else {
                 relAngle = SolMath.rnd(180);
             }
-            SolMath.fromAl(pos, relAngle, dist);
-            pos.add(heroPos);
-            if (game.isPlaceEmpty(pos, false)) {
-                return pos;
+            SolMath.fromAl(position, relAngle, dist);
+            position.add(heroPos);
+            if (game.isPlaceEmpty(position, false)) {
+                return position;
             }
             dist += Guardian.DIST;
         }

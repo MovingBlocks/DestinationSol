@@ -94,16 +94,16 @@ public class ShipBuilder {
         return base;
     }
 
-    public FarShip buildNewFar(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot,
+    public FarShip buildNewFar(SolGame game, Vector2 position, Vector2 speed, float angle, float rotationSpeed, Pilot pilot,
                                String items, HullConfig hullConfig,
                                RemoveController removeController,
                                boolean hasRepairer, float money, TradeConfig tradeConfig, boolean giveAmmo) {
 
-        if (spd == null) {
-            spd = new Vector2();
+        if (speed == null) {
+            speed = new Vector2();
         }
-        ItemContainer ic = new ItemContainer();
-        game.getItemMan().fillContainer(ic, items);
+        ItemContainer itemContainer = new ItemContainer();
+        game.getItemMan().fillContainer(itemContainer, items);
         Engine.Config ec = hullConfig.getEngineConfig();
         Engine ei = ec == null ? null : ec.exampleEngine.copy();
         TradeContainer tc = tradeConfig == null ? null : new TradeContainer(tradeConfig);
@@ -115,7 +115,7 @@ public class ShipBuilder {
 
         // For the player use new logic that better respects what was explicitly equipped
         if (pilot.isPlayer()) {
-            for (List<SolItem> group : ic) {
+            for (List<SolItem> group : itemContainer) {
                 for (SolItem i : group) {
                     if (i instanceof Shield) {
                         if (i.isEquipped() > 0) {
@@ -149,7 +149,7 @@ public class ShipBuilder {
             }
         } else {
             // For NPCs use the old logic that just equips whatever
-            for (List<SolItem> group : ic) {
+            for (List<SolItem> group : itemContainer) {
                 for (SolItem i : group) {
                     if (i instanceof Shield) {
                         shield = (Shield) i;
@@ -175,11 +175,11 @@ public class ShipBuilder {
         }
 
         if (giveAmmo) {
-            addAbilityCharges(ic, hullConfig, pilot);
-            addAmmo(ic, g1, pilot);
-            addAmmo(ic, g2, pilot);
+            addAbilityCharges(itemContainer, hullConfig, pilot);
+            addAmmo(itemContainer, g1, pilot);
+            addAmmo(itemContainer, g2, pilot);
         }
-        return new FarShip(new Vector2(pos), new Vector2(spd), angle, rotSpd, pilot, ic, hullConfig, hullConfig.getMaxLife(),
+        return new FarShip(new Vector2(position), new Vector2(speed), angle, rotationSpeed, pilot, itemContainer, hullConfig, hullConfig.getMaxLife(),
                 g1, g2, removeController, ei, hasRepairer ? new ShipRepairer() : null, money, tc, shield, armor);
     }
 
@@ -220,13 +220,13 @@ public class ShipBuilder {
         }
     }
 
-    public SolShip build(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot,
+    public SolShip build(SolGame game, Vector2 position, Vector2 speed, float angle, float rotationSpeed, Pilot pilot,
                          ItemContainer container, HullConfig hullConfig, float life, Gun gun1,
                          Gun gun2, RemoveController removeController, Engine engine,
                          ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
                          Armor armor) {
         ArrayList<Drawable> drawables = new ArrayList<>();
-        Hull hull = buildHull(game, pos, spd, angle, rotSpd, hullConfig, life, drawables);
+        Hull hull = buildHull(game, position, speed, angle, rotationSpeed, hullConfig, life, drawables);
         SolShip ship = new SolShip(game, pilot, hull, removeController, drawables, container, repairer, money, tradeContainer, shield, armor);
         hull.getBody().setUserData(ship);
         for (Door door : hull.getDoors()) {
@@ -255,7 +255,7 @@ public class ShipBuilder {
         return ship;
     }
 
-    private Hull buildHull(SolGame game, Vector2 pos, Vector2 spd, float angle, float rotSpd, HullConfig hullConfig,
+    private Hull buildHull(SolGame game, Vector2 position, Vector2 speed, float angle, float rotationSpeed, HullConfig hullConfig,
                            float life, ArrayList<Drawable> drawables) {
         //TODO: This logic belongs in the HullConfigManager/HullConfig
         String shipName = hullConfig.getInternalName();
@@ -269,7 +269,7 @@ public class ShipBuilder {
 
         BodyDef.BodyType bodyType = hullConfig.getType() == HullConfig.Type.STATION ? BodyDef.BodyType.KinematicBody : BodyDef.BodyType.DynamicBody;
         DrawableLevel level = hullConfig.getType() == HullConfig.Type.STD ? DrawableLevel.BODIES : hullConfig.getType() == HullConfig.Type.BIG ? DrawableLevel.BIG_BODIES : DrawableLevel.STATIONS;
-        Body body = myCollisionMeshLoader.getBodyAndSprite(game, hullConfig, hullConfig.getSize(), bodyType, pos, angle,
+        Body body = myCollisionMeshLoader.getBodyAndSprite(game, hullConfig, hullConfig.getSize(), bodyType, position, angle,
                 drawables, SHIP_DENSITY, level, hullConfig.getTexture());
         Fixture shieldFixture = createShieldFixture(hullConfig, body);
 
@@ -287,22 +287,22 @@ public class ShipBuilder {
 
         ArrayList<ForceBeacon> beacons = new ArrayList<>();
         for (Vector2 relPos : hullConfig.getForceBeaconPositions()) {
-            ForceBeacon fb = new ForceBeacon(game, relPos, pos, spd);
+            ForceBeacon fb = new ForceBeacon(game, relPos, position, speed);
             fb.collectDras(drawables);
             beacons.add(fb);
         }
 
         ArrayList<Door> doors = new ArrayList<>();
         for (Vector2 doorRelPos : hullConfig.getDoorPositions()) {
-            Door door = createDoor(game, pos, angle, body, doorRelPos);
+            Door door = createDoor(game, position, angle, body, doorRelPos);
             door.collectDras(drawables);
             doors.add(door);
         }
 
         Fixture base = getBase(hullConfig.hasBase(), body);
         Hull hull = new Hull(game, hullConfig, body, gunMount0, gunMount1, base, lCs, life, beacons, doors, shieldFixture);
-        body.setLinearVelocity(spd);
-        body.setAngularVelocity(rotSpd * SolMath.degRad);
+        body.setLinearVelocity(speed);
+        body.setAngularVelocity(rotationSpeed * SolMath.degRad);
         return hull;
     }
 
@@ -317,10 +317,10 @@ public class ShipBuilder {
         return shieldFixture;
     }
 
-    private Door createDoor(SolGame game, Vector2 pos, float angle, Body body, Vector2 doorRelPos) {
-        World w = game.getObjMan().getWorld();
+    private Door createDoor(SolGame game, Vector2 position, float angle, Body body, Vector2 doorRelPos) {
+        World w = game.getObjectManager().getWorld();
         TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("engine:door");
-        PrismaticJoint joint = createDoorJoint(body, w, pos, doorRelPos, angle);
+        PrismaticJoint joint = createDoorJoint(body, w, position, doorRelPos, angle);
         RectSprite s = new RectSprite(tex, Door.DOOR_LEN, 0, 0, new Vector2(doorRelPos), DrawableLevel.BODIES, 0, 0, SolColor.WHITE, false);
         return new Door(joint, s);
     }

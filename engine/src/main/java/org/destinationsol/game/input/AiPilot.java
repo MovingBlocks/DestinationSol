@@ -219,7 +219,7 @@ public class AiPilot implements Pilot {
         myDestProvider.update(game, shipPos, maxIdleDist, hullConfig, null);
         Vector2 dest = myDestProvider.getDest();
 
-        Vector2 spd = farShip.getSpd();
+        Vector2 speed = farShip.getSpd();
         float angle = farShip.getAngle();
         Engine engine = farShip.getEngine();
         float ts = game.getTimeStep();
@@ -233,8 +233,8 @@ public class AiPilot implements Pilot {
                 }
             }
             if (myPlanetBind != null) {
-                myPlanetBind.setDiff(spd, shipPos, false);
-                spd.scl(1 / ts);
+                myPlanetBind.setDiff(speed, shipPos, false);
+                speed.scl(1 / ts);
                 angle = myPlanetBind.getDesiredAngle();
             }
         } else {
@@ -242,7 +242,7 @@ public class AiPilot implements Pilot {
             float desiredAngle;
             float maxIdleDistHack = .05f; // to avoid StillGuards from getting stuck inside ground
             if (myDestProvider.shouldStopNearDest() && toDestLen < maxIdleDistHack) {
-                spd.set(myDestProvider.getDestSpd());
+                speed.set(myDestProvider.getDestSpd());
                 desiredAngle = angle; // can be improved
             } else {
                 desiredAngle = SolMath.angle(shipPos, dest);
@@ -250,20 +250,20 @@ public class AiPilot implements Pilot {
                     desiredAngle = myMover.getBigObjAvoider().avoid(game, shipPos, dest, desiredAngle);
                 }
                 float desiredSpdLen = myDestProvider.getDesiredSpdLen();
-                float spdLenDiff = engine.getAcceleration() * ts;
-                float spdLen = SolMath.approach(spd.len(), desiredSpdLen, spdLenDiff);
-                if (toDestLen < spdLen) {
-                    spdLen = toDestLen;
+                float speedLenDiff = engine.getAcceleration() * ts;
+                float speedLen = SolMath.approach(speed.len(), desiredSpdLen, speedLenDiff);
+                if (toDestLen < speedLen) {
+                    speedLen = toDestLen;
                 }
-                SolMath.fromAl(spd, desiredAngle, spdLen);
+                SolMath.fromAl(speed, desiredAngle, speedLen);
             }
             angle = SolMath.approachAngle(angle, desiredAngle, engine.getMaxRotationSpeed() * ts);
         }
 
-        farShip.setSpd(spd);
+        farShip.setSpd(speed);
         farShip.setAngle(angle);
 
-        Vector2 newPos = SolMath.getVec(spd);
+        Vector2 newPos = SolMath.getVec(speed);
         newPos.scl(ts);
         newPos.add(shipPos);
         farShip.setPos(newPos);

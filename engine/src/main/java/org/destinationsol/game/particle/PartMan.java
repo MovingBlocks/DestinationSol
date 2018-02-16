@@ -44,19 +44,19 @@ public class PartMan {
         ArrayList<Drawable> drawables = new ArrayList<>();
         drawables.addAll(emitter.getDrawables());
         DrawableObject o = new DrawableObject(drawables, new Vector2(basePos), new Vector2(), null, true, false);
-        game.getObjMan().addObjDelayed(o);
+        game.getObjectManager().addObjDelayed(o);
     }
 
-    public void blinks(Vector2 pos, SolGame game, float sz) {
+    public void blinks(Vector2 position, SolGame game, float sz) {
         int count = (int) (SZ_TO_BLINK_COUNT * sz * sz);
         for (int i = 0; i < count; i++) {
             Vector2 lightPos = new Vector2();
             SolMath.fromAl(lightPos, SolMath.rnd(180), SolMath.rnd(0, sz / 2));
-            lightPos.add(pos);
+            lightPos.add(position);
             float lightSz = SolMath.rnd(.5f, 1) * EXPL_LIGHT_MAX_SZ;
             float fadeTime = SolMath.rnd(.5f, 1) * EXPL_LIGHT_MAX_FADE_TIME;
             LightObject light = new LightObject(game, lightSz, true, 1, lightPos, fadeTime, game.getCols().fire);
-            game.getObjMan().addObjDelayed(light);
+            game.getObjectManager().addObjDelayed(light);
         }
     }
 
@@ -64,14 +64,14 @@ public class PartMan {
         if (perc <= 0) {
             return;
         }
-        Vector2 pos = hull.getPosition();
-        float angle = SolMath.angle(pos, collPos);
+        Vector2 position = hull.getPosition();
+        float angle = SolMath.angle(position, collPos);
         float sz = hull.config.getSize() * Shield.SIZE_PERC * 2;
         float alphaSum = perc * 3;
         RectSprite s = null;
         int count = (int) alphaSum + 1;
         for (int i = 0; i < count; i++) {
-            s = blip(game, pos, angle, sz, .5f, hull.getSpeed(), shieldTex);
+            s = blip(game, position, angle, sz, .5f, hull.getSpeed(), shieldTex);
         }
         float lastTint = SolMath.clamp(alphaSum - (int) alphaSum);
         if (s != null) {
@@ -80,14 +80,14 @@ public class PartMan {
         }
     }
 
-    public RectSprite blip(SolGame game, Vector2 pos, float angle, float sz, float fadeTime, Vector2 spd,
+    public RectSprite blip(SolGame game, Vector2 position, float angle, float sz, float fadeTime, Vector2 speed,
                            TextureAtlas.AtlasRegion tex) {
         RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, angle, 0, SolColor.WHITE, true);
         ArrayList<Drawable> drawables = new ArrayList<>();
         drawables.add(s);
-        DrawableObject o = new DrawableObject(drawables, new Vector2(pos), new Vector2(spd), null, false, false);
+        DrawableObject o = new DrawableObject(drawables, new Vector2(position), new Vector2(speed), null, false, false);
         o.fade(fadeTime);
-        game.getObjMan().addObjDelayed(o);
+        game.getObjectManager().addObjDelayed(o);
         return s;
     }
 

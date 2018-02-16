@@ -53,11 +53,10 @@ public class IniReader {
 
     public static void write(String fileName, Object... keysVals) {
         boolean second = false;
-        StringBuilder sb = new StringBuilder();
-        for (Object o : keysVals) {
-            String s = o.toString();
-            sb.append(s);
-            sb.append(second ? '\n' : '=');
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Object value : keysVals) {
+            stringBuilder.append(value.toString());
+            stringBuilder.append(second ? '\n' : '=');
             second = !second;
         }
 
@@ -70,7 +69,7 @@ public class IniReader {
         path += fileName;
 
         FileHandle file = new FileHandle(Paths.get(path).toFile());
-        file.writeString(sb.toString(), false);
+        file.writeString(stringBuilder.toString(), false);
     }
 
     private void initValueMap(List<String> lines) {

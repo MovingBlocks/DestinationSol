@@ -42,11 +42,11 @@ public class ShardBuilder {
         myTexs = Assets.listTexturesMatching("engine:shard_.*");
     }
 
-    public void buildExplosionShards(SolGame game, Vector2 pos, Vector2 baseSpd, float size) {
+    public void buildExplosionShards(SolGame game, Vector2 position, Vector2 baseSpd, float size) {
         int count = (int) (size * SIZE_TO_SHARD_COUNT);
         for (int i = 0; i < count; i++) {
-            Shard s = build(game, pos, baseSpd, size);
-            game.getObjMan().addObjDelayed(s);
+            Shard s = build(game, position, baseSpd, size);
+            game.getObjectManager().addObjDelayed(s);
         }
     }
 
@@ -55,17 +55,17 @@ public class ShardBuilder {
         ArrayList<Drawable> drawables = new ArrayList<>();
         float scale = SolMath.rnd(MIN_SCALE, MAX_SCALE);
         TextureAtlas.AtlasRegion tex = SolMath.elemRnd(myTexs);
-        float spdAngle = SolMath.rnd(180);
-        Vector2 pos = new Vector2();
-        SolMath.fromAl(pos, spdAngle, SolMath.rnd(size));
-        pos.add(basePos);
-        Body body = myCollisionMeshLoader.getBodyAndSprite(game, tex, scale, BodyDef.BodyType.DynamicBody, pos, SolMath.rnd(180), drawables, ShipBuilder.SHIP_DENSITY, DrawableLevel.PROJECTILES);
+        float speedAngle = SolMath.rnd(180);
+        Vector2 position = new Vector2();
+        SolMath.fromAl(position, speedAngle, SolMath.rnd(size));
+        position.add(basePos);
+        Body body = myCollisionMeshLoader.getBodyAndSprite(game, tex, scale, BodyDef.BodyType.DynamicBody, position, SolMath.rnd(180), drawables, ShipBuilder.SHIP_DENSITY, DrawableLevel.PROJECTILES);
 
         body.setAngularVelocity(SolMath.rnd(MAX_ROT_SPD));
-        Vector2 spd = SolMath.fromAl(spdAngle, SolMath.rnd(MAX_SPD));
-        spd.add(baseSpd);
-        body.setLinearVelocity(spd);
-        SolMath.free(spd);
+        Vector2 speed = SolMath.fromAl(speedAngle, SolMath.rnd(MAX_SPD));
+        speed.add(baseSpd);
+        body.setLinearVelocity(speed);
+        SolMath.free(speed);
 
         Shard shard = new Shard(body, drawables);
         body.setUserData(shard);

@@ -50,15 +50,15 @@ public class SystemsBuilder {
             if (createSys) {
                 List<Float> ghs = generatePlanetGhs();
                 float sysRadius = calcSysRadius(ghs);
-                Vector2 pos = getBodyPos(systems, mazes, sysRadius);
-                SolSystem s = createSystem(ghs, pos, planets, belts, planetConfigs, sysRadius, sysConfigs, names, systems.isEmpty());
+                Vector2 position = getBodyPos(systems, mazes, sysRadius);
+                SolSystem s = createSystem(ghs, position, planets, belts, planetConfigs, sysRadius, sysConfigs, names, systems.isEmpty());
                 systems.add(s);
                 sysLeft--;
             } else {
                 MazeConfig mc = SolMath.elemRnd(mazeConfigs.configs);
                 float mazeRadius = SolMath.rnd(.7f, 1) * MAX_MAZE_RADIUS;
-                Vector2 pos = getBodyPos(systems, mazes, mazeRadius + MAZE_GAP);
-                Maze m = new Maze(mc, pos, mazeRadius);
+                Vector2 position = getBodyPos(systems, mazes, mazeRadius + MAZE_GAP);
+                Maze m = new Maze(mc, position, mazeRadius);
                 mazes.add(m);
                 mazesLeft--;
             }
@@ -180,9 +180,9 @@ public class SystemsBuilder {
 
     private Planet createPlanet(float planetDist, SolSystem s, float groundHeight, PlanetConfig planetConfig,
                                 SolNames names) {
-        float toSysRotSpd = SolMath.arcToAngle(PLANET_SPD, planetDist) * SolMath.toInt(SolMath.test(.5f));
-        float rotSpd = SolMath.arcToAngle(GROUND_SPD, groundHeight) * SolMath.toInt(SolMath.test(.5f));
+        float toSysRotationSpeed = SolMath.arcToAngle(PLANET_SPD, planetDist) * SolMath.toInt(SolMath.test(.5f));
+        float rotationSpeed = SolMath.arcToAngle(GROUND_SPD, groundHeight) * SolMath.toInt(SolMath.test(.5f));
         String name = SolMath.elemRnd(names.planets);
-        return new Planet(s, SolMath.rnd(180), planetDist, SolMath.rnd(180), toSysRotSpd, rotSpd, groundHeight, false, planetConfig, name);
+        return new Planet(s, SolMath.rnd(180), planetDist, SolMath.rnd(180), toSysRotationSpeed, rotationSpeed, groundHeight, false, planetConfig, name);
     }
 }

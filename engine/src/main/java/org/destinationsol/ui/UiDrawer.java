@@ -43,16 +43,16 @@ public class UiDrawer {
 
     public UiDrawer(CommonDrawer commonDrawer) {
         myDrawer = commonDrawer;
-        r = myDrawer.r;
+        r = myDrawer.dimensionsRatio;
         whiteTex = Assets.getAtlasRegion("engine:uiWhiteTex");
-        uiLineWidth = 1 / myDrawer.h;
-        straightMtx = new Matrix4().setToOrtho2D(0, 1, myDrawer.r, -1);
-        myDrawer.setMtx(straightMtx);
+        uiLineWidth = 1 / myDrawer.height;
+        straightMtx = new Matrix4().setToOrtho2D(0, 1, myDrawer.dimensionsRatio, -1);
+        myDrawer.setMatrix(straightMtx);
         filler = new Rectangle(0, 0, r, 1);
     }
 
     public void updateMtx() {
-        myDrawer.setMtx(straightMtx);
+        myDrawer.setMatrix(straightMtx);
     }
 
     public void drawString(String s, float x, float y, float scale, boolean centered, Color tint) {

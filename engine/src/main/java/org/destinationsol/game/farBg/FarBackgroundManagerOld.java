@@ -54,12 +54,12 @@ public class FarBackgroundManagerOld {
 
     public void draw(GameDrawer drawer, SolCam cam, SolGame game) {
         Planet np = game.getPlanetManager().getNearestPlanet();
-        Vector2 camPos = cam.getPos();
+        Vector2 camPos = cam.getPosition();
         float nebPerc = (camPos.dst(np.getPos()) - np.getGroundHeight()) / (4 * Const.ATM_HEIGHT);
         nebPerc = SolMath.clamp(nebPerc, 0, 1);
         nebulaTint.a = nebPerc;
 
-        float vd = cam.getViewDist();
+        float vd = cam.getViewDistance();
         drawer.draw(nebulaTex, vd * 2, vd * 2, vd, vd, camPos.x, camPos.y, nebulaAngle, nebulaTint);
         for (FarBgStar star : stars) {
             star.draw(drawer, vd, camPos, cam.getAngle());

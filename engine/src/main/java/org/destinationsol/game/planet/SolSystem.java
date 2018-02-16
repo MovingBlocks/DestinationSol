@@ -32,10 +32,10 @@ public class SolSystem {
     private final float myInnerDps;
     private float myInnerRad;
 
-    public SolSystem(Vector2 pos, SysConfig config, String name, float sysRadius) {
+    public SolSystem(Vector2 position, SysConfig config, String name, float sysRadius) {
         myConfig = config;
         myName = name;
-        myPos = new Vector2(pos);
+        myPos = new Vector2(position);
         myPlanets = new ArrayList<>();
         myBelts = new ArrayList<>();
         myRadius = sysRadius;
@@ -76,7 +76,7 @@ public class SolSystem {
         myBelts.add(belt);
     }
 
-    public float getInnerRad() {
+    public float getInnerRadius() {
         return myInnerRad;
     }
 
