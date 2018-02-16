@@ -65,10 +65,10 @@ public class GiveItems implements InventoryOperations {
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
-        InventoryScreen is = game.getScreens().inventoryScreen;
+        InventoryScreen inventoryScreen = game.getScreens().inventoryScreen;
         Hero hero = game.getHero();
 
-        SolItem selItem = is.getSelectedItem();
+        SolItem selItem = inventoryScreen.getSelectedItem();
         if (selItem == null) {
             giveControl.setDisplayName("----");
             giveControl.setEnabled(false);
@@ -81,7 +81,7 @@ public class GiveItems implements InventoryOperations {
         if (enabled && isWornAndCanBeGiven) {
             giveControl.setDisplayName("Give");
             giveControl.setEnabled(true);
-        } else if (enabled && !isWornAndCanBeGiven) {
+        } else if (enabled) {
             giveControl.setDisplayName("Unequip it!");
             giveControl.setEnabled(false);
         } else {
@@ -93,9 +93,9 @@ public class GiveItems implements InventoryOperations {
             return;
         }
         if (giveControl.isJustOff()) {
-            ItemContainer ic = hero.getItemContainer();
-            is.setSelected(ic.getSelectionAfterRemove(is.getSelected()));
-            ic.remove(selItem);
+            ItemContainer itemContainer = hero.getItemContainer();
+            inventoryScreen.setSelected(itemContainer.getSelectionAfterRemove(inventoryScreen.getSelected()));
+            itemContainer.remove(selItem);
             target.getItemContainer().add(selItem);
         }
     }

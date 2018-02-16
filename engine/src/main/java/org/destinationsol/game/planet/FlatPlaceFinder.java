@@ -53,7 +53,7 @@ public class FlatPlaceFinder {
             myDeviation = angle;
             SolMath.fromAl(myVec, angle, p.getFullHeight());
             myVec.add(pPos);
-            game.getObjMan().getWorld().rayCast(myRayBack, myVec, pPos);
+            game.getObjectManager().getWorld().rayCast(myRayBack, myVec, pPos);
             if (myDeviation < minDeviation) {
                 res.set(myVec);
                 minDeviation = myDeviation;

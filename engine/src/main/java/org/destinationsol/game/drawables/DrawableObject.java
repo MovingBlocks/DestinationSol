@@ -40,10 +40,10 @@ public class DrawableObject implements SolObject {
     private float myMaxFadeTime;
     private float myFadeTime;
 
-    public DrawableObject(List<Drawable> drawables, @Consumed Vector2 pos, @Consumed Vector2 spd, RemoveController removeController, boolean temporary, boolean hideOnPlanet) {
+    public DrawableObject(List<Drawable> drawables, @Consumed Vector2 position, @Consumed Vector2 speed, RemoveController removeController, boolean temporary, boolean hideOnPlanet) {
         myDrawables = drawables;
-        myPos = pos;
-        mySpd = spd;
+        myPos = position;
+        mySpd = speed;
         myRemoveController = removeController;
         myHideOnPlanet = hideOnPlanet;
         myMoveDiff = new Vector2();
@@ -68,7 +68,7 @@ public class DrawableObject implements SolObject {
                 if (!(drawable instanceof RectSprite)) {
                     continue;
                 }
-                if (!drawableManager.isInCam(drawable)) {
+                if (!drawableManager.isVisible(drawable)) {
                     continue;
                 }
                 Vector2 draPos = drawable.getPos();
@@ -116,7 +116,7 @@ public class DrawableObject implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
     }
 
     @Override

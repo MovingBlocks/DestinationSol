@@ -35,7 +35,7 @@ public class ZoneNameAnnouncer {
         PlanetManager pm = game.getPlanetManager();
         String zone = null;
         String pref = null;
-        Vector2 camPos = game.getCam().getPos();
+        Vector2 camPos = game.getCam().getPosition();
         Planet p = pm.getNearestPlanet();
         if (p.getPos().dst(camPos) < p.getFullHeight()) {
             zone = p.getName();

@@ -173,7 +173,7 @@ public class MainScreen implements SolUiScreen {
         SolGame game = solApplication.getGame();
         Planet np = game.getPlanetManager().getNearestPlanet();
         SolCam cam = game.getCam();
-        Vector2 camPos = cam.getPos();
+        Vector2 camPos = cam.getPosition();
         if (np != null && np.getPos().dst(camPos) < np.getFullHeight()) {
             drawHeight(drawer, np, camPos, cam.getAngle());
         }
@@ -285,7 +285,7 @@ public class MainScreen implements SolUiScreen {
         SolShip target = null;
         float minDist = TalkScreen.MAX_TALK_DIST;
         float har = hero.getHull().config.getApproxRadius();
-        List<SolObject> objs = game.getObjMan().getObjs();
+        List<SolObject> objs = game.getObjectManager().getObjects();
         for (SolObject o : objs) {
             if (!(o instanceof SolShip)) {
                 continue;
@@ -361,7 +361,7 @@ public class MainScreen implements SolUiScreen {
         uiDrawer.draw(uiDrawer.whiteTex, BAR_SZ * perc, ICON_SZ, 0, 0, x, y, 0, SolColor.UI_LIGHT);
         if (tp != null && max > 1 && curr > 0) {
             tp.text = (int) curr + "/" + (int) max;
-            tp.pos.set(x + BAR_SZ / 2, y + ICON_SZ / 2);
+            tp.position.set(x + BAR_SZ / 2, y + ICON_SZ / 2);
         }
     }
 
@@ -380,11 +380,11 @@ public class MainScreen implements SolUiScreen {
 
     private void updateTextPlace(float x, float y, String text, TextPlace textPlace) {
         textPlace.text = text;
-        textPlace.pos.set(x + ICON_SZ / 2, y + ICON_SZ / 2);
+        textPlace.position.set(x + ICON_SZ / 2, y + ICON_SZ / 2);
     }
 
     @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void drawImages(UiDrawer uiDrawer, SolApplication solApplication) {
         myLifeTp.text = null;
         myRepairsExcessTp.text = null;
         myShieldLifeTp.text = null;
@@ -445,7 +445,7 @@ public class MainScreen implements SolUiScreen {
             }
             uiDrawer.draw(game.getItemMan().moneyIcon, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.WHITE);
             myMoneyExcessTp.text = Integer.toString(Math.round(hero.getMoney()));
-            myMoneyExcessTp.pos.set(col1, row + ICON_SZ / 2);
+            myMoneyExcessTp.position.set(col1, row + ICON_SZ / 2);
             //updateTextPlace(col1, row, (int) hero.getMoney() + "", myMoneyExcessTp);
         }
 
@@ -531,18 +531,18 @@ public class MainScreen implements SolUiScreen {
     public static class TextPlace {
         public final Color color;
         public String text;
-        public Vector2 pos = new Vector2();
+        public Vector2 position = new Vector2();
 
         public TextPlace(Color col) {
             color = new Color(col);
         }
 
         public void draw(UiDrawer uiDrawer) {
-            uiDrawer.drawString(text, pos.x, pos.y, FontSize.HUD, true, color);
+            uiDrawer.drawString(text, position.x, position.y, FontSize.HUD, true, color);
         }
 
         public void draw(UiDrawer uiDrawer, UiDrawer.TextAlignment align) {
-            uiDrawer.drawString(text, pos.x, pos.y, FontSize.HUD, align, true, color);
+            uiDrawer.drawString(text, position.x, position.y, FontSize.HUD, align, true, color);
         }
     }
 
@@ -580,10 +580,10 @@ public class MainScreen implements SolUiScreen {
             }
 
             float heroCap = HardnessCalc.getShipDmgCap(hero.getShip());
-            List<SolObject> objs = game.getObjMan().getObjs();
+            List<SolObject> objs = game.getObjectManager().getObjects();
             FactionManager fm = game.getFactionMan();
             SolCam cam = game.getCam();
-            float viewDist = cam.getViewDist();
+            float viewDist = cam.getViewDistance();
             float dps = 0;
 
             for (SolObject o : objs) {

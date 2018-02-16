@@ -82,7 +82,7 @@ public class SpecialSounds {
         return null;
     }
 
-    public void playHit(SolGame game, SolObject o, Vector2 pos, DmgType dmgType) {
+    public void playHit(SolGame game, SolObject o, Vector2 position, DmgType dmgType) {
         if (o == null) {
             return;
         }
@@ -94,10 +94,10 @@ public class SpecialSounds {
         if (sound == null) {
             return;
         }
-        game.getSoundManager().play(game, sound, pos, o);
+        game.getSoundManager().play(game, sound, position, o);
     }
 
-    public void playColl(SolGame game, float absImpulse, SolObject o, Vector2 pos) {
+    public void playColl(SolGame game, float absImpulse, SolObject o, Vector2 position) {
         if (o == null || absImpulse < .1f) {
             return;
         }
@@ -105,6 +105,6 @@ public class SpecialSounds {
         if (metal == null) {
             return;
         }
-        game.getSoundManager().play(game, metal ? metalColl : rockColl, pos, o, absImpulse * Const.IMPULSE_TO_COLL_VOL);
+        game.getSoundManager().play(game, metal ? metalColl : rockColl, position, o, absImpulse * Const.IMPULSE_TO_COLL_VOL);
     }
 }

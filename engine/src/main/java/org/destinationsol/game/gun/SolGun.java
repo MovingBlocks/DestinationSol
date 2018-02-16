@@ -96,7 +96,7 @@ public class SolGun {
                 bulletAngle += SolMath.rnd(myCurrAngleVar);
             }
             Projectile proj = new Projectile(game, bulletAngle, muzzlePos, baseSpd, faction, cc.projConfig, multiple);
-            game.getObjMan().addObjDelayed(proj);
+            game.getObjectManager().addObjDelayed(proj);
         }
         myCoolDown += myItem.config.timeBetweenShots;
         myItem.ammo--;
@@ -104,11 +104,11 @@ public class SolGun {
         game.getPartMan().fireAllHullEmittersOfType(hull, "shoot");
     }
 
-    public void update(ItemContainer ic, SolGame game, float gunAngle, SolObject creator, boolean shouldShoot, Faction faction, Hull hull) {
+    public void update(ItemContainer itemContainer, SolGame game, float gunAngle, SolObject creator, boolean shouldShoot, Faction faction, Hull hull) {
         float baseAngle = creator.getAngle();
         Vector2 basePos = creator.getPosition();
         float gunRelAngle = gunAngle - baseAngle;
-        mySprite.relAngle = gunRelAngle;
+        mySprite.relativeAngle = gunRelAngle;
         Vector2 muzzleRelPos = SolMath.fromAl(gunRelAngle, myItem.config.gunLength);
         muzzleRelPos.add(myRelPos);
         if (myLightSource != null) {
@@ -119,7 +119,7 @@ public class SolGun {
 
         float ts = game.getTimeStep();
         if (myItem.ammo <= 0 && myItem.reloadAwait <= 0) {
-            if (myItem.config.clipConf.infinite || ic != null && ic.tryConsumeItem(myItem.config.clipConf.example)) {
+            if (myItem.config.clipConf.infinite || itemContainer != null && itemContainer.tryConsumeItem(myItem.config.clipConf.example)) {
                 myItem.reloadAwait = myItem.config.reloadTime + .0001f;
                 game.getSoundManager().play(game, myItem.config.reloadSound, null, creator);
             }

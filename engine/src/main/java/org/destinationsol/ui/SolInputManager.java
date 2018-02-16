@@ -310,12 +310,12 @@ public class SolInputManager {
             SolUiScreen screen = screens.get(i);
 
             uiDrawer.setTextMode(false);
-            screen.drawBg(uiDrawer, solApplication);
+            screen.drawBackground(uiDrawer, solApplication);
             List<SolUiControl> controls = screen.getControls();
             for (SolUiControl control : controls) {
                 control.drawButton(uiDrawer, solApplication, warnColor);
             }
-            screen.drawImgs(uiDrawer, solApplication);
+            screen.drawImages(uiDrawer, solApplication);
 
             uiDrawer.setTextMode(true);
             screen.drawText(uiDrawer, solApplication);

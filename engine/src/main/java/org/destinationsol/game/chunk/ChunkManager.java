@@ -23,7 +23,6 @@ import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 public class ChunkManager {
@@ -50,7 +49,7 @@ public class ChunkManager {
     }
 
     public void update(SolGame game) {
-        Vector2 camPos = game.getCam().getPos();
+        Vector2 camPos = game.getCam().getPosition();
         boolean refill = updateCurrChunk(camPos);
         if (refill) {
             clearFarChunks(myFilledChunks, MIN_REMOVE_DIST);
@@ -60,11 +59,11 @@ public class ChunkManager {
         }
     }
 
-    private boolean updateCurrChunk(Vector2 pos) {
+    private boolean updateCurrChunk(Vector2 position) {
         int oldX = myX;
         int oldY = myY;
-        myX = posToChunkIdx(pos.x);
-        myY = posToChunkIdx(pos.y);
+        myX = posToChunkIdx(position.x);
+        myY = posToChunkIdx(position.y);
         return oldX != myX || oldY != myY;
     }
 
@@ -107,9 +106,9 @@ public class ChunkManager {
         SolMath.free(v);
     }
 
-    public boolean isInactive(Vector2 pos, int dist) {
-        int x = posToChunkIdx(pos.x);
-        int y = posToChunkIdx(pos.y);
+    public boolean isInactive(Vector2 position, int dist) {
+        int x = posToChunkIdx(position.x);
+        int y = posToChunkIdx(position.y);
         return isChunkFar(x, y, dist);
     }
 
@@ -121,8 +120,8 @@ public class ChunkManager {
         }
 
         @Override
-        public boolean shouldRemove(Vector2 pos) {
-            return isInactive(pos, myMinRemoveDist);
+        public boolean shouldRemove(Vector2 position) {
+            return isInactive(position, myMinRemoveDist);
         }
     }
 

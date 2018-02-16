@@ -47,14 +47,14 @@ public class AsteroidBuilder {
         textures = Assets.listTexturesMatching("engine:asteroid_.*");
     }
 
-    public static Body buildBall(SolGame game, Vector2 pos, float angle, float rad, float density, boolean sensor) {
+    public static Body buildBall(SolGame game, Vector2 position, float angle, float rad, float density, boolean sensor) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.angle = angle * SolMath.degRad;
         bodyDef.angularDamping = 0;
-        bodyDef.position.set(pos);
+        bodyDef.position.set(position);
         bodyDef.linearDamping = 0;
-        Body body = game.getObjMan().getWorld().createBody(bodyDef);
+        Body body = game.getObjectManager().getWorld().createBody(bodyDef);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.density = density;
         fixtureDef.friction = Const.FRICTION;

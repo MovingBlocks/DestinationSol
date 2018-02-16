@@ -28,7 +28,7 @@ public interface SolObject {
 
     void onRemove(SolGame game);
 
-    void receiveDmg(float dmg, SolGame game, @Nullable Vector2 pos, DmgType dmgType);
+    void receiveDmg(float dmg, SolGame game, @Nullable Vector2 position, DmgType dmgType);
 
     boolean receivesGravity();
 

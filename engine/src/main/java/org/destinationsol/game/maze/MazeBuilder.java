@@ -72,7 +72,7 @@ public class MazeBuilder {
                     }
                     MazeTile tile = SolMath.elemRnd(tiles);
                     MazeTileObject.MyFar mto = new MazeTileObject.MyFar(tile, tileAngle, new Vector2(tilePos), SolMath.test(.5f));
-                    game.getObjMan().addFarObjNow(mto);
+                    game.getObjectManager().addFarObjNow(mto);
                 }
 
                 boolean dInner = col > 0 && row < mySz - 1 && layout.inners[col][row + 1];
@@ -92,7 +92,7 @@ public class MazeBuilder {
                     }
                     MazeTile tile = SolMath.elemRnd(tiles);
                     MazeTileObject.MyFar mto = new MazeTileObject.MyFar(tile, tileAngle, new Vector2(tilePos), SolMath.test(.5f));
-                    game.getObjMan().addFarObjNow(mto);
+                    game.getObjectManager().addFarObjNow(mto);
                 }
             }
         }
@@ -113,10 +113,10 @@ public class MazeBuilder {
         for (ShipConfig e : config.outerEnemies) {
             int count = (int) (e.density * circleLen);
             for (int i = 0; i < count; i++) {
-                Vector2 pos = new Vector2();
-                SolMath.fromAl(pos, SolMath.rnd(180), dist);
-                pos.add(myMazePos);
-                buildEnemy(pos, game, e, false);
+                Vector2 position = new Vector2();
+                SolMath.fromAl(position, SolMath.rnd(180), dist);
+                position.add(myMazePos);
+                buildEnemy(position, game, e, false);
             }
         }
 
@@ -125,15 +125,15 @@ public class MazeBuilder {
         for (ShipConfig e : config.innerEnemies) {
             int count = (int) (e.density * myInnerRad * myInnerRad * SolMath.PI);
             for (int i = 0; i < count; i++) {
-                Vector2 pos = getFreeCellPos(occupiedCells);
-                if (pos != null) {
-                    buildEnemy(pos, game, e, true);
+                Vector2 position = getFreeCellPos(occupiedCells);
+                if (position != null) {
+                    buildEnemy(position, game, e, true);
                 }
             }
         }
         ShipConfig bossConfig = SolMath.elemRnd(config.bosses);
-        Vector2 pos = cellPos(mySz / 2, mySz / 2, 0f, 0f);
-        buildEnemy(pos, game, bossConfig, true);
+        Vector2 position = cellPos(mySz / 2, mySz / 2, 0f, 0f);
+        buildEnemy(position, game, bossConfig, true);
     }
 
     private Vector2 getFreeCellPos(boolean[][] occupiedCells) {
@@ -143,27 +143,27 @@ public class MazeBuilder {
             if (occupiedCells[col][row]) {
                 continue;
             }
-            Vector2 pos = cellPos(col, row, 0f, 0f);
-            if (.8f * myInnerRad < pos.dst(myMazePos)) {
+            Vector2 position = cellPos(col, row, 0f, 0f);
+            if (.8f * myInnerRad < position.dst(myMazePos)) {
                 continue;
             }
             occupiedCells[col][row] = true;
-            return pos;
+            return position;
         }
         return null;
     }
 
-    private void buildEnemy(Vector2 pos, SolGame game, ShipConfig e, boolean inner) {
+    private void buildEnemy(Vector2 position, SolGame game, ShipConfig e, boolean inner) {
         float angle = SolMath.rnd(180);
         ShipBuilder sb = game.getShipBuilder();
         float viewDist = Const.AI_DET_DIST;
         if (inner) {
             viewDist = TILE_SZ * 1.25f;
         }
-        Pilot pilot = new AiPilot(new StillGuard(pos, game, e), false, Faction.EHAR, true, null, viewDist);
+        Pilot pilot = new AiPilot(new StillGuard(position, game, e), false, Faction.EHAR, true, null, viewDist);
         int money = e.money;
-        FarShip s = sb.buildNewFar(game, pos, new Vector2(), angle, 0, pilot, e.items, e.hull, null, false, money, null, true);
-        game.getObjMan().addFarObjNow(s);
+        FarShip s = sb.buildNewFar(game, position, new Vector2(), angle, 0, pilot, e.items, e.hull, null, false, money, null, true);
+        game.getObjectManager().addFarObjNow(s);
     }
 
 }

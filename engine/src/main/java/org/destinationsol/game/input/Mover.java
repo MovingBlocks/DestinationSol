@@ -24,11 +24,11 @@ import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.SolShip;
 
 public class Mover {
-    public static final float MIN_MOVE_AAD = 2f;
-    public static final float MIN_ANGLE_TO_ACC = 5f;
-    public static final float MIN_PLANET_MOVE_AAD = 2f;
-    public static final float MAX_ABS_SPD_DEV = .1f;
-    public static final float MAX_REL_SPD_DEV = .05f;
+    private static final float MIN_MOVE_AAD = 2f;
+    private static final float MIN_ANGLE_TO_ACC = 5f;
+    private static final float MIN_PLANET_MOVE_AAD = 2f;
+    private static final float MAX_ABS_SPD_DEV = .1f;
+    private static final float MAX_REL_SPD_DEV = .05f;
     private final BigObjAvoider myBigObjAvoider;
     private final SmallObjAvoider mySmallObjAvoider;
     private boolean myUp;
@@ -36,19 +36,19 @@ public class Mover {
     private boolean myRight;
     private Vector2 myDesiredSpd;
 
-    public Mover() {
+    Mover() {
         myBigObjAvoider = new BigObjAvoider();
         mySmallObjAvoider = new SmallObjAvoider();
         myDesiredSpd = new Vector2();
     }
 
-    public static Boolean needsToTurn(float angle, float destAngle, float rotSpd, float rotAcc, float allowedAngleDiff) {
+    public static Boolean needsToTurn(float angle, float destAngle, float rotationSpeed, float rotAcc, float allowedAngleDiff) {
         if (SolMath.angleDiff(destAngle, angle) < allowedAngleDiff || rotAcc == 0) {
             return null;
         }
 
-        float breakWay = rotSpd * rotSpd / rotAcc / 2;
-        float angleAfterBreak = angle + breakWay * SolMath.toInt(rotSpd > 0);
+        float breakWay = rotationSpeed * rotationSpeed / rotAcc / 2;
+        float angleAfterBreak = angle + breakWay * SolMath.toInt(rotationSpeed > 0);
         float relAngle = SolMath.norm(angle - destAngle);
         float relAngleAfterBreak = SolMath.norm(angleAfterBreak - destAngle);
         if (relAngle > 0 == relAngleAfterBreak > 0) {
@@ -82,19 +82,19 @@ public class Mover {
         }
 
         Vector2 shipSpd = ship.getSpeed();
-        float spdDeviation = shipSpd.dst(myDesiredSpd);
-        if (spdDeviation < MAX_ABS_SPD_DEV || spdDeviation < MAX_REL_SPD_DEV * shipSpd.len()) {
+        float speedDeviation = shipSpd.dst(myDesiredSpd);
+        if (speedDeviation < MAX_ABS_SPD_DEV || speedDeviation < MAX_REL_SPD_DEV * shipSpd.len()) {
             return;
         }
 
         float shipAngle = ship.getAngle();
-        float rotSpd = ship.getRotationSpeed();
+        float rotationSpeed = ship.getRotationSpeed();
         float rotAcc = ship.getRotationAcceleration();
 
         float desiredAngle = SolMath.angle(shipSpd, myDesiredSpd);
         float angleDiff = SolMath.angleDiff(desiredAngle, shipAngle);
         myUp = angleDiff < MIN_ANGLE_TO_ACC;
-        Boolean ntt = needsToTurn(shipAngle, desiredAngle, rotSpd, rotAcc, MIN_MOVE_AAD);
+        Boolean ntt = needsToTurn(shipAngle, desiredAngle, rotationSpeed, rotAcc, MIN_MOVE_AAD);
         if (ntt != null) {
             if (ntt) {
                 myRight = true;

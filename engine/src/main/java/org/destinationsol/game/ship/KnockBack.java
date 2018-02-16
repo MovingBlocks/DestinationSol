@@ -67,7 +67,7 @@ public class KnockBack implements ShipAbility {
             return false;
         }
         Vector2 ownerPos = owner.getPosition();
-        for (SolObject o : game.getObjMan().getObjs()) {
+        for (SolObject o : game.getObjectManager().getObjects()) {
             if (o == owner || !o.receivesGravity()) {
                 continue;
             }

@@ -53,7 +53,7 @@ public class TileObjBuilder {
         def.position.add(planet.getPos());
         def.angle = (toPlanetAngle + 90) * SolMath.degRad;
         def.angularDamping = 0;
-        Body body = game.getObjMan().getWorld().createBody(def);
+        Body body = game.getObjectManager().getWorld().createBody(def);
         ChainShape shape = new ChainShape();
         List<Vector2> points = new ArrayList<>();
         for (Vector2 curr : tile.points) {

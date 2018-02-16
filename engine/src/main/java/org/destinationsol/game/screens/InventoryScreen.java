@@ -174,11 +174,11 @@ public class InventoryScreen implements SolUiScreen {
             myPage++;
         }
 
-        ItemContainer ic = myOperations.getItems(solApplication.getGame());
-        if (ic == null) {
-            ic = EMPTY_CONTAINER;
+        ItemContainer itemContainer = myOperations.getItems(solApplication.getGame());
+        if (itemContainer == null) {
+            itemContainer = EMPTY_CONTAINER;
         }
-        int groupCount = ic.groupCount();
+        int groupCount = itemContainer.groupCount();
         int pageCount = groupCount / Const.ITEM_GROUPS_PER_PAGE;
         if (pageCount == 0 || pageCount * Const.ITEM_GROUPS_PER_PAGE < groupCount) {
             pageCount += 1;
@@ -193,7 +193,7 @@ public class InventoryScreen implements SolUiScreen {
         previousControl.setEnabled(0 < myPage);
         nextControl.setEnabled(myPage < pageCount - 1);
 
-        if (!ic.containsGroup(mySelected)) {
+        if (!itemContainer.containsGroup(mySelected)) {
             mySelected = null;
         }
         int selIdx = -1;
@@ -207,8 +207,8 @@ public class InventoryScreen implements SolUiScreen {
             if (!ctrlEnabled) {
                 continue;
             }
-            List<SolItem> group = ic.getGroup(groupIdx);
-            if (hNew && ic.isNew(group)) {
+            List<SolItem> group = itemContainer.getGroup(groupIdx);
+            if (hNew && itemContainer.isNew(group)) {
                 itemCtrl.enableWarn();
             }
             if (itemCtrl.isJustOff()) {
@@ -219,24 +219,24 @@ public class InventoryScreen implements SolUiScreen {
             }
         }
         if (selIdx < 0 && groupCount > 0) {
-            mySelected = ic.getGroup(offset);
+            mySelected = itemContainer.getGroup(offset);
         }
         if (upControl.isJustOff() && selIdx > 0) {
             selIdx--;
-            mySelected = ic.getGroup(selIdx);
+            mySelected = itemContainer.getGroup(selIdx);
             if (selIdx < offset) {
                 myPage--;
             }
         }
         if (downControl.isJustOff() && selIdx < groupCount - 1) {
             selIdx++;
-            mySelected = ic.getGroup(selIdx);
+            mySelected = itemContainer.getGroup(selIdx);
             if (selIdx >= offset + Const.ITEM_GROUPS_PER_PAGE) {
                 myPage++;
             }
         }
         if (mySelected != null) {
-            ic.seen(mySelected);
+            itemContainer.seen(mySelected);
         }
     }
 
@@ -255,16 +255,16 @@ public class InventoryScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.draw(myArea, SolColor.UI_BG);
     }
 
     @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void drawImages(UiDrawer uiDrawer, SolApplication solApplication) {
         SolGame game = solApplication.getGame();
-        ItemContainer ic = myOperations.getItems(game);
-        if (ic == null) {
-            ic = EMPTY_CONTAINER;
+        ItemContainer itemContainer = myOperations.getItems(game);
+        if (itemContainer == null) {
+            itemContainer = EMPTY_CONTAINER;
         }
 
         float imgColW = myListArea.width * IMG_COL_PERC;
@@ -274,12 +274,12 @@ public class InventoryScreen implements SolUiScreen {
         uiDrawer.draw(myDetailArea, SolColor.UI_INACTIVE);
         for (int i = 0; i < itemControls.length; i++) {
             int groupIdx = myPage * Const.ITEM_GROUPS_PER_PAGE + i;
-            int groupCount = ic.groupCount();
+            int groupCount = itemContainer.groupCount();
             if (groupCount <= groupIdx) {
                 continue;
             }
             SolUiControl itemCtrl = itemControls[i];
-            List<SolItem> group = ic.getGroup(groupIdx);
+            List<SolItem> group = itemContainer.getGroup(groupIdx);
             SolItem item = group.get(0);
             TextureAtlas.AtlasRegion tex = item.getIcon(game);
             Rectangle rect = itemCtrl.getScreenArea();
@@ -292,9 +292,9 @@ public class InventoryScreen implements SolUiScreen {
     @Override
     public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
         SolGame game = solApplication.getGame();
-        ItemContainer ic = myOperations.getItems(game);
-        if (ic == null) {
-            ic = EMPTY_CONTAINER;
+        ItemContainer itemContainer = myOperations.getItems(game);
+        if (itemContainer == null) {
+            itemContainer = EMPTY_CONTAINER;
         }
 
         float imgColW = myListArea.width * IMG_COL_PERC;
@@ -304,12 +304,12 @@ public class InventoryScreen implements SolUiScreen {
         float nameWidth = myListArea.width - imgColW - equiColW - priceWidth - amtWidth;
         for (int i = 0; i < itemControls.length; i++) {
             int groupIdx = myPage * Const.ITEM_GROUPS_PER_PAGE + i;
-            int groupCount = ic.groupCount();
+            int groupCount = itemContainer.groupCount();
             if (groupCount <= groupIdx) {
                 continue;
             }
             SolUiControl itemCtrl = itemControls[i];
-            List<SolItem> group = ic.getGroup(groupIdx);
+            List<SolItem> group = itemContainer.getGroup(groupIdx);
             SolItem item = group.get(0);
             Rectangle rect = itemCtrl.getScreenArea();
             float rowCenterY = rect.y + rect.height / 2;
@@ -318,7 +318,7 @@ public class InventoryScreen implements SolUiScreen {
             }
             uiDrawer.drawString(item.getDisplayName(), rect.x + equiColW + imgColW + nameWidth / 2, rowCenterY, FontSize.WINDOW, true,
                     mySelected == group ? SolColor.WHITE : SolColor.G);
-            int count = ic.getCount(groupIdx);
+            int count = itemContainer.getCount(groupIdx);
             if (count > 1) {
                 uiDrawer.drawString("x" + count, rect.x + rect.width - amtWidth / 2, rowCenterY, FontSize.WINDOW, true, SolColor.WHITE);
             }
@@ -390,19 +390,19 @@ public class InventoryScreen implements SolUiScreen {
 
     public List<SolUiControl> getEquippedItemUIControlsForTutorial(SolGame game) {
         List<SolUiControl> controls = new ArrayList<>();
-        ItemContainer ic = myOperations.getItems(game);
-        if (ic == null) {
+        ItemContainer itemContainer = myOperations.getItems(game);
+        if (itemContainer == null) {
             return controls;
         }
 
         for (int i = 0; i < itemControls.length; i++) {
             int groupIdx = myPage * Const.ITEM_GROUPS_PER_PAGE + i;
-            int groupCount = ic.groupCount();
+            int groupCount = itemContainer.groupCount();
             if (groupCount <= groupIdx) {
                 continue;
             }
             SolUiControl itemCtrl = itemControls[i];
-            List<SolItem> group = ic.getGroup(groupIdx);
+            List<SolItem> group = itemContainer.getGroup(groupIdx);
             SolItem item = group.get(0);
             if (myOperations.isUsing(game, item)) {
                 controls.add(itemCtrl);

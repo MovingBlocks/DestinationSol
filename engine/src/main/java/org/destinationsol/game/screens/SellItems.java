@@ -70,7 +70,7 @@ public class SellItems implements InventoryOperations {
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
-        InventoryScreen is = game.getScreens().inventoryScreen;
+        InventoryScreen inventoryScreen = game.getScreens().inventoryScreen;
         TalkScreen talkScreen = game.getScreens().talkScreen;
         SolShip target = talkScreen.getTarget();
         Hero hero = game.getHero();
@@ -78,7 +78,7 @@ public class SellItems implements InventoryOperations {
             solApplication.getInputMan().setScreen(solApplication, game.getScreens().mainScreen);
             return;
         }
-        SolItem selItem = is.getSelectedItem();
+        SolItem selItem = inventoryScreen.getSelectedItem();
         if (selItem == null) {
             sellControl.setDisplayName("----");
             sellControl.setEnabled(false);
@@ -91,7 +91,7 @@ public class SellItems implements InventoryOperations {
         if (enabled && isWornAndCanBeSold) {
             sellControl.setDisplayName("Sell");
             sellControl.setEnabled(true);
-        } else if (enabled && !isWornAndCanBeSold) {
+        } else if (enabled) {
             sellControl.setDisplayName("Unequip it!");
             sellControl.setEnabled(false);
         } else {
@@ -103,9 +103,9 @@ public class SellItems implements InventoryOperations {
             return;
         }
         if (sellControl.isJustOff()) {
-            ItemContainer ic = hero.getItemContainer();
-            is.setSelected(ic.getSelectionAfterRemove(is.getSelected()));
-            ic.remove(selItem);
+            ItemContainer itemContainer = hero.getItemContainer();
+            inventoryScreen.setSelected(itemContainer.getSelectionAfterRemove(inventoryScreen.getSelected()));
+            itemContainer.remove(selItem);
             target.getTradeContainer().getItems().add(selItem);
             hero.setMoney(hero.getMoney() + selItem.getPrice() * PERC);
         }

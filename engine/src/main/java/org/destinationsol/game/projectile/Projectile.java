@@ -16,7 +16,6 @@
 package org.destinationsol.game.projectile;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -68,14 +67,14 @@ public class Projectile implements SolObject {
             drawable = new RectSprite(myConfig.tex, myConfig.texSz, myConfig.origin.x, myConfig.origin.y, new Vector2(), DrawableLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
         }
         myDrawables.add(drawable);
-        float spdLen = myConfig.spdLen;
+        float speedLen = myConfig.speedLen;
         if (varySpd) {
-            spdLen *= SolMath.rnd(.9f, 1.1f);
+            speedLen *= SolMath.rnd(.9f, 1.1f);
         }
         if (myConfig.physSize > 0) {
-            myBody = new BallProjectileBody(game, muzzlePos, angle, this, gunSpd, spdLen, myConfig);
+            myBody = new BallProjectileBody(game, muzzlePos, angle, this, gunSpd, speedLen, myConfig);
         } else {
-            myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, spdLen, this, game, myConfig.acc);
+            myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, speedLen, this, game, myConfig.acc);
         }
         myFaction = faction;
         myBodyEffect = buildEffect(game, myConfig.bodyEffect, DrawableLevel.PART_BG_0, null, true);
@@ -92,16 +91,16 @@ public class Projectile implements SolObject {
         }
     }
 
-    private DSParticleEmitter buildEffect(SolGame game, EffectConfig ec, DrawableLevel drawableLevel, Vector2 pos, boolean inheritsSpd) {
+    private DSParticleEmitter buildEffect(SolGame game, EffectConfig ec, DrawableLevel drawableLevel, Vector2 position, boolean inheritsSpd) {
         if (ec == null) {
             return null;
         }
-        DSParticleEmitter res = new DSParticleEmitter(ec, -1, drawableLevel, new Vector2(), inheritsSpd, game, pos, myBody.getSpd(), 0);
+        DSParticleEmitter res = new DSParticleEmitter(ec, -1, drawableLevel, new Vector2(), inheritsSpd, game, position, myBody.getSpd(), 0);
         if (res.isContinuous()) {
             res.setWorking(true);
             myDrawables.addAll(res.getDrawables());
         } else {
-            game.getPartMan().finish(game, res, pos);
+            game.getPartMan().finish(game, res, position);
         }
         return res;
     }
@@ -132,7 +131,7 @@ public class Projectile implements SolObject {
     }
 
     private void maybeGuide(SolGame game) {
-        if (myConfig.guideRotSpd == 0) {
+        if (myConfig.guideRotationSpeed == 0) {
             return;
         }
         float ts = game.getTimeStep();
@@ -146,18 +145,18 @@ public class Projectile implements SolObject {
         if (SolMath.abs(diffAngle) < MIN_ANGLE_TO_GUIDE) {
             return;
         }
-        float rot = ts * myConfig.guideRotSpd;
+        float rot = ts * myConfig.guideRotationSpeed;
         diffAngle = SolMath.clamp(diffAngle, -rot, rot);
         myBody.changeAngle(diffAngle);
     }
 
     private void collided(SolGame game) {
         myShouldRemove = true;
-        Vector2 pos = myBody.getPos();
-        buildEffect(game, myConfig.collisionEffect, DrawableLevel.PART_FG_1, pos, false);
-        buildEffect(game, myConfig.collisionEffectBg, DrawableLevel.PART_FG_0, pos, false);
+        Vector2 position = myBody.getPos();
+        buildEffect(game, myConfig.collisionEffect, DrawableLevel.PART_FG_1, position, false);
+        buildEffect(game, myConfig.collisionEffectBg, DrawableLevel.PART_FG_0, position, false);
         if (myConfig.collisionEffectBg != null) {
-            game.getPartMan().blinks(pos, game, myConfig.collisionEffectBg.size);
+            game.getPartMan().blinks(position, game, myConfig.collisionEffectBg.size);
         }
         game.getSoundManager().play(game, myConfig.collisionSound, null, this);
     }
@@ -169,18 +168,18 @@ public class Projectile implements SolObject {
 
     @Override
     public void onRemove(SolGame game) {
-        Vector2 pos = myBody.getPos();
+        Vector2 position = myBody.getPos();
         if (myBodyEffect != null) {
-            game.getPartMan().finish(game, myBodyEffect, pos);
+            game.getPartMan().finish(game, myBodyEffect, position);
         }
         if (myTrailEffect != null) {
-            game.getPartMan().finish(game, myTrailEffect, pos);
+            game.getPartMan().finish(game, myTrailEffect, position);
         }
         myBody.onRemove(game);
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
         if (myConfig.density > 0) {
             return;
         }
@@ -298,12 +297,7 @@ public class Projectile implements SolObject {
         }
 
         @Override
-        public Texture getTex0() {
-            return myTex.getTexture();
-        }
-
-        @Override
-        public TextureAtlas.AtlasRegion getTex() {
+        public TextureAtlas.AtlasRegion getTexture() {
             return myTex;
         }
 
@@ -326,7 +320,7 @@ public class Projectile implements SolObject {
         }
 
         @Override
-        public Vector2 getRelPos() {
+        public Vector2 getRelativePosition() {
             return Vector2.Zero;
         }
 
@@ -342,12 +336,12 @@ public class Projectile implements SolObject {
             if (h < minH) {
                 h = minH;
             }
-            Vector2 pos = myProjectile.getPosition();
+            Vector2 position = myProjectile.getPosition();
             float w = myProjectile.getSpeed().len() * game.getTimeStep();
             if (w < 4 * h) {
                 w = 4 * h;
             }
-            drawer.draw(myTex, w, h, w, h / 2, pos.x, pos.y, SolMath.angle(myProjectile.getSpeed()), SolColor.LG);
+            drawer.draw(myTex, w, h, w, h / 2, position.x, position.y, SolMath.angle(myProjectile.getSpeed()), SolColor.LG);
         }
 
         @Override

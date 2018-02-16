@@ -245,16 +245,16 @@ public class CollisionMeshLoader {
      * @param drawables a atlas will be added here
      */
     public Body getBodyAndSprite(SolGame game, HullConfig hullConfig, float scale, BodyDef.BodyType type,
-                                 Vector2 pos, float angle, List<Drawable> drawables, float density, DrawableLevel level, TextureAtlas.AtlasRegion tex) {
+                                 Vector2 position, float angle, List<Drawable> drawables, float density, DrawableLevel level, TextureAtlas.AtlasRegion tex) {
         final String name = hullConfig.getInternalName();
 
         BodyDef bd = new BodyDef();
         bd.type = type;
         bd.angle = angle * SolMath.degRad;
         bd.angularDamping = 0;
-        bd.position.set(pos);
+        bd.position.set(position);
         bd.linearDamping = 0;
-        Body body = game.getObjMan().getWorld().createBody(bd);
+        Body body = game.getObjectManager().getWorld().createBody(bd);
         FixtureDef fd = new FixtureDef();
         fd.density = density;
         fd.friction = Const.FRICTION;
@@ -283,14 +283,14 @@ public class CollisionMeshLoader {
      * @param drawables a atlas will be added here
      */
     public Body getBodyAndSprite(SolGame game, TextureAtlas.AtlasRegion tex, float scale, BodyDef.BodyType type,
-                                 Vector2 pos, float angle, List<Drawable> drawables, float density, DrawableLevel level) {
+                                 Vector2 position, float angle, List<Drawable> drawables, float density, DrawableLevel level) {
         BodyDef bd = new BodyDef();
         bd.type = type;
         bd.angle = angle * SolMath.degRad;
         bd.angularDamping = 0;
-        bd.position.set(pos);
+        bd.position.set(position);
         bd.linearDamping = 0;
-        Body body = game.getObjMan().getWorld().createBody(bd);
+        Body body = game.getObjectManager().getWorld().createBody(bd);
         FixtureDef fd = new FixtureDef();
         fd.density = density;
         fd.friction = Const.FRICTION;

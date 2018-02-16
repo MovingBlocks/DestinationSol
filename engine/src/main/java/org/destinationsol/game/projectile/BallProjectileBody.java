@@ -31,16 +31,16 @@ public class BallProjectileBody implements ProjectileBody {
 
     private float myAngle;
 
-    public BallProjectileBody(SolGame game, Vector2 pos, float angle, Projectile projectile,
-                              Vector2 gunSpd, float spdLen, ProjectileConfig config) {
+    public BallProjectileBody(SolGame game, Vector2 position, float angle, Projectile projectile,
+                              Vector2 gunSpd, float speedLen, ProjectileConfig config) {
         float density = config.density == -1 ? 1 : config.density;
-        myBody = AsteroidBuilder.buildBall(game, pos, angle, config.physSize / 2, density, config.massless);
+        myBody = AsteroidBuilder.buildBall(game, position, angle, config.physSize / 2, density, config.massless);
         if (config.zeroAbsSpd) {
             myBody.setAngularVelocity(15f * SolMath.degRad);
         }
 
         mySpd = new Vector2();
-        SolMath.fromAl(mySpd, angle, spdLen);
+        SolMath.fromAl(mySpd, angle, speedLen);
         mySpd.add(gunSpd);
         myBody.setLinearVelocity(mySpd);
         myBody.setUserData(projectile);
@@ -104,12 +104,12 @@ public class BallProjectileBody implements ProjectileBody {
 
     @Override
     public float getDesiredAngle(SolShip ne) {
-        float spdLen = mySpd.len();
-        if (spdLen < 3) {
-            spdLen = 3;
+        float speedLen = mySpd.len();
+        if (speedLen < 3) {
+            speedLen = 3;
         }
         float toNe = SolMath.angle(myPos, ne.getPosition());
-        Vector2 desiredSpd = SolMath.fromAl(toNe, spdLen);
+        Vector2 desiredSpd = SolMath.fromAl(toNe, speedLen);
         desiredSpd.add(ne.getSpeed());
         float res = SolMath.angle(mySpd, desiredSpd);
         SolMath.free(desiredSpd);

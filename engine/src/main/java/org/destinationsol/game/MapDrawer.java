@@ -116,15 +116,15 @@ public class MapDrawer {
         SolCam cam = game.getCam();
         float iconSz = getIconRadius(cam) * 2;
         float starNodeW = cam.getViewHeight(myZoom) * STAR_NODE_SZ;
-        float viewDist = cam.getViewDist(myZoom);
+        float viewDist = cam.getViewDistance(myZoom);
         FactionManager factionManager = game.getFactionMan();
         Hero hero = game.getHero();
         Planet np = game.getPlanetManager().getNearestPlanet();
-        Vector2 camPos = cam.getPos();
+        Vector2 camPos = cam.getPosition();
         float camAngle = cam.getAngle();
         float heroDmgCap = hero.isTranscendent() ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero.getShip());
 
-        drawer.updateMtx(game);
+        drawer.updateMatrix(game);
         game.getGridDrawer().draw(drawer, game, GRID_SZ, myLineTex);
         drawPlanets(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
         drawMazes(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
@@ -191,8 +191,8 @@ public class MapDrawer {
                 }
             }
             SolMath.free(beltIconPos);
-            if (dangerRad < sys.getInnerRad() && HardnessCalc.isDangerous(heroDmgCap, sys.getInnerDps())) {
-                dangerRad = sys.getInnerRad();
+            if (dangerRad < sys.getInnerRadius() && HardnessCalc.isDangerous(heroDmgCap, sys.getInnerDps())) {
+                dangerRad = sys.getInnerRadius();
             }
             if (dangerRad > 0) {
                 drawAreaDanger(drawer, dangerRad, sysPos, .5f, camAngle);
@@ -225,7 +225,7 @@ public class MapDrawer {
         }
     }
 
-    private void drawAreaDanger(GameDrawer drawer, float rad, Vector2 pos, float transpMul, float angle) {
+    private void drawAreaDanger(GameDrawer drawer, float rad, Vector2 position, float transpMul, float angle) {
         float perc = 2 * myAreaSkullTime / MAX_AREA_SKULL_TIME;
         if (perc > 1) {
             perc = 2 - perc;
@@ -234,14 +234,14 @@ public class MapDrawer {
         float a = SolMath.clamp(perc * transpMul);
         myAreaWarnBgCol.a = a;
         myAreaWarnCol.a = a;
-        drawer.draw(myWarnAreaBg, rad * 2, rad * 2, rad, rad, pos.x, pos.y, 0, myAreaWarnBgCol);
+        drawer.draw(myWarnAreaBg, rad * 2, rad * 2, rad, rad, position.x, position.y, 0, myAreaWarnBgCol);
         rad *= INNER_AREA_ICON_PERC;
-        drawer.draw(mySkullBigTex, rad * 2, rad * 2, rad, rad, pos.x, pos.y, angle, myAreaWarnCol);
+        drawer.draw(mySkullBigTex, rad * 2, rad * 2, rad, rad, position.x, position.y, angle, myAreaWarnCol);
     }
 
     private void drawIcons(GameDrawer drawer, SolGame game, float iconSz, float viewDist, FactionManager factionManager,
                            Hero hero, Vector2 camPos, float heroDmgCap) {
-        List<SolObject> objs = game.getObjMan().getObjs();
+        List<SolObject> objs = game.getObjectManager().getObjects();
         for (SolObject o : objs) {
             Vector2 oPos = o.getPosition();
             if (viewDist < camPos.dst(oPos)) {
@@ -270,7 +270,7 @@ public class MapDrawer {
             }
         }
 
-        List<FarShip> farShips = game.getObjMan().getFarShips();
+        List<FarShip> farShips = game.getObjectManager().getFarShips();
         for (FarShip ship : farShips) {
             Vector2 oPos = ship.getPosition();
             if (viewDist < camPos.dst(oPos)) {
@@ -283,7 +283,7 @@ public class MapDrawer {
             drawObjIcon(iconSz, oPos, ship.getAngle(), factionManager, hero, ship.getPilot().getFaction(), heroDmgCap, ship, ship.getHullConfig().getIcon(), drawer);
         }
 
-        List<StarPort.MyFar> farPorts = game.getObjMan().getFarPorts();
+        List<StarPort.MyFar> farPorts = game.getObjectManager().getFarPorts();
         for (StarPort.MyFar sp : farPorts) {
             drawStarPortIcon(drawer, iconSz, sp.getFrom(), sp.getTo());
         }
@@ -305,13 +305,13 @@ public class MapDrawer {
     //TODO Don't pass null hero to drawObjIcon(). Then remove the annotation from drawObjIcon and remove the hero nullcheck
     public void drawStarPortIcon(GameDrawer drawer, float iconSz, Planet from, Planet to) {
         float angle = SolMath.angle(from.getPos(), to.getPos());
-        Vector2 pos = StarPort.getDesiredPos(from, to, false);
-        drawObjIcon(iconSz, pos, angle, null, null, null, -1, null, myStarPortTex, drawer);
-        SolMath.free(pos);
+        Vector2 position = StarPort.getDesiredPos(from, to, false);
+        drawObjIcon(iconSz, position, angle, null, null, null, -1, null, myStarPortTex, drawer);
+        SolMath.free(position);
     }
 
     private void drawStarNodes(GameDrawer drawer, SolGame game, float viewDist, Vector2 camPos, float starNodeW) {
-        List<SolObject> objs = game.getObjMan().getObjs();
+        List<SolObject> objs = game.getObjectManager().getObjects();
         for (SolObject o : objs) {
             if (!(o instanceof StarPort)) {
                 continue;
@@ -324,7 +324,7 @@ public class MapDrawer {
             drawStarNode(drawer, sp.getFrom(), sp.getTo(), starNodeW);
         }
 
-        List<StarPort.MyFar> farPorts = game.getObjMan().getFarPorts();
+        List<StarPort.MyFar> farPorts = game.getObjectManager().getFarPorts();
         for (StarPort.MyFar sp : farPorts) {
             Vector2 oPos = sp.getPosition();
             if (viewDist < camPos.dst(oPos)) {
@@ -345,8 +345,8 @@ public class MapDrawer {
     }
 
     private void drawNpGround(GameDrawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos) {
-        ObjectManager objectManager = game.getObjMan();
-        List<SolObject> objs = objectManager.getObjs();
+        ObjectManager objectManager = game.getObjectManager();
+        List<SolObject> objs = objectManager.getObjects();
         for (SolObject o : objs) {
             if (!(o instanceof TileObject)) {
                 continue;
@@ -382,7 +382,7 @@ public class MapDrawer {
         }
     }
 
-    public void drawObjIcon(float iconSz, Vector2 pos, float objAngle,
+    public void drawObjIcon(float iconSz, Vector2 position, float objAngle,
                             FactionManager factionManager, @Nullable Hero hero, Faction objFac, float heroDmgCap,
                             Object shipHack, TextureAtlas.AtlasRegion icon, Object drawerHack) {
         boolean enemy = hero != null && hero.isNonTranscendent() && factionManager.areEnemies(objFac, hero.getPilot().getFaction());
@@ -395,12 +395,12 @@ public class MapDrawer {
 
         if (drawerHack instanceof UiDrawer) {
             UiDrawer uiDrawer = (UiDrawer) drawerHack;
-            uiDrawer.draw(myIconBg, iconSz, iconSz, iconSz / 2, iconSz / 2, pos.x, pos.y, 0, enemy ? SolColor.UI_WARN : SolColor.UI_LIGHT);
-            uiDrawer.draw(icon, innerIconSz, innerIconSz, innerIconSz / 2, innerIconSz / 2, pos.x, pos.y, angle, SolColor.WHITE);
+            uiDrawer.draw(myIconBg, iconSz, iconSz, iconSz / 2, iconSz / 2, position.x, position.y, 0, enemy ? SolColor.UI_WARN : SolColor.UI_LIGHT);
+            uiDrawer.draw(icon, innerIconSz, innerIconSz, innerIconSz / 2, innerIconSz / 2, position.x, position.y, angle, SolColor.WHITE);
         } else {
             GameDrawer gameDrawer = (GameDrawer) drawerHack;
-            gameDrawer.draw(myIconBg, iconSz, iconSz, iconSz / 2, iconSz / 2, pos.x, pos.y, 0, enemy ? SolColor.UI_WARN : SolColor.UI_LIGHT);
-            gameDrawer.draw(icon, innerIconSz, innerIconSz, innerIconSz / 2, innerIconSz / 2, pos.x, pos.y, angle, SolColor.WHITE);
+            gameDrawer.draw(myIconBg, iconSz, iconSz, iconSz / 2, iconSz / 2, position.x, position.y, 0, enemy ? SolColor.UI_WARN : SolColor.UI_LIGHT);
+            gameDrawer.draw(icon, innerIconSz, innerIconSz, innerIconSz / 2, innerIconSz / 2, position.x, position.y, angle, SolColor.WHITE);
         }
     }
 

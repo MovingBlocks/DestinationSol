@@ -24,25 +24,25 @@ public class PlanetBind {
     private final Vector2 myRelPos;
     private final float myRelAngle;
 
-    public PlanetBind(Planet planet, Vector2 pos, float angle) {
+    private PlanetBind(Planet planet, Vector2 position, float angle) {
         myPlanet = planet;
         myRelPos = new Vector2();
         float planetAngle = planet.getAngle();
-        SolMath.toRel(pos, myRelPos, planetAngle, planet.getPos());
+        SolMath.toRel(position, myRelPos, planetAngle, planet.getPos());
         myRelAngle = angle - planetAngle;
     }
 
-    public static PlanetBind tryBind(SolGame game, Vector2 pos, float angle) {
-        Planet np = game.getPlanetManager().getNearestPlanet(pos);
-        if (!np.isNearGround(pos)) {
+    public static PlanetBind tryBind(SolGame game, Vector2 position, float angle) {
+        Planet np = game.getPlanetManager().getNearestPlanet(position);
+        if (!np.isNearGround(position)) {
             return null;
         }
-        return new PlanetBind(np, pos, angle);
+        return new PlanetBind(np, position, angle);
     }
 
-    public void setDiff(Vector2 diff, Vector2 pos, boolean precise) {
+    public void setDiff(Vector2 diff, Vector2 position, boolean precise) {
         SolMath.toWorld(diff, myRelPos, myPlanet.getAngle(), myPlanet.getPos(), precise);
-        diff.sub(pos);
+        diff.sub(position);
     }
 
     public float getDesiredAngle() {
