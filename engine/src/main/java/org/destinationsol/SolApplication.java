@@ -102,7 +102,7 @@ public class SolApplication implements ApplicationListener {
     }
 
     @Override
-    public void resize(int i, int i1) {
+    public void resize(int newWidth, int newHeight) {
     }
 
     public void render() {
@@ -275,12 +275,12 @@ public class SolApplication implements ApplicationListener {
      */
     public void beforeLoadGame() {
         // Set the seed for all the randomness. Very important
-        String fileName = "world.ini";
+        final String fileName = "world.ini";
         if (SaveManager.resourceExists(fileName)) {
-            IniReader ir = new IniReader(fileName, null);
+            IniReader iniReader = new IniReader(fileName, null);
 
             // Set a fall back for if the seed doesn't exist, just in case someone modified world.ini
-            long seed = Long.parseLong(ir.getString("seed", "0"));
+            long seed = Long.parseLong(iniReader.getString("seed", "0"));
 
             logger.info("Got seed: " + String.valueOf(seed));
 
