@@ -6,7 +6,6 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 
 public class SolRandom {
-
     // Seeded random is for deterministic processes
     private static long seed;
     private static Random seededRandom = new Random(seed);
@@ -14,24 +13,26 @@ public class SolRandom {
     private static Random random = new Random();
     
     /**
-     * Returns a seeded random float v such that -minMax <= v && v < minMax
+     * Returns a seeded random float v such that -minMax <= v < minMax
      *
-     * @param minMax a positive value
+     * @param minMax a positive value that is used as the max while the negative value is used as the min
      */
     public static float seededRandomFloat(float minMax) {
         return SolRandom.seededRandomFloat(-minMax, minMax);
     }
 
     /**
-     * Returns a seeded random float v such that min <= v && v < max. Min shouldn't equal to max
+     * Returns a seeded random float v such that min <= v < max. Min shouldn't equal to max
+     *
+     * @param min the minimum value that can possibly be generated
      */
     public static float seededRandomFloat(float min, float max) {
         float result = max;
         if (min == max) {
-            Gdx.app.log("SolMath", "rnd was called with bad parameters! Min " + min + " matches max " + max + ", accepting max.");
+            Gdx.app.log("SolMath", "seededRandomFloat was called with bad parameters! Min " + min + " matches max " + max + ", accepting max.");
             Gdx.app.log("SolMath", "Please review appropriate code in the stack dump:");
-            for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
-                Gdx.app.log("SolMath", ste.toString());
+            for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace()) {
+                Gdx.app.log("SolMath", stackTraceElement.toString());
             }
     
             return result;
@@ -40,54 +41,60 @@ public class SolRandom {
     }
 
     /**
-     * Returns a seeded random int v such that 0 <= v && v < max.
+     * Returns a seeded random int v such that 0 <= v < max.
      *
-     * @param max a positive value
+     * @param max the maximum number possible to be generated
      */
     public static int seededRandomInt(int max) {
         return SolRandom.seededRandomInt(0f, max);
     }
 
     /**
-     * Returns a seeded random int v such that max*perc <= v && v < max.
+     * Returns a seeded random int v such that max*percentage <= v < max.
      *
-     * @param perc should be >= 0 and < 1
-     * @param max  a positive value
+     * @param percentage should be >= 0 and < 1
+     * @param max  the maximum number possible to be generated
      */
-    public static int seededRandomInt(float perc, int max) {
-        int min = (int) (max * perc);
+    public static int seededRandomInt(float percentage, int max) {
+        int min = (int) (max * percentage);
         if (min == max) {
-            throw new AssertionError("intRnd min equals max " + min);
+            throw new AssertionError("seededRandomInt min equals max " + min);
         }
         return seededRandom.nextInt(max - min) + min;
     }
 
     /**
-     * Returns a seeded random int v such that min <= v && v <= max
+     * Returns a seeded random int v such that min <= v <= max
+     *
+     * @param min the minimum possible number to be generated
+     * @param max the maximum possible number to be generated
      */
     public static int seededRandomInt(int min, int max) {
         return seededRandom.nextInt(max - min) + min;
     }
     
     /**
-     * Returns a random float v such that -minMax <= v && v < minMax
+     * Returns a random float v such that -minMax <= v < minMax
      *
-     * @param minMax a positive value
+     * @param minMax a positive value that is used as the max while the negative value is used as the min
      */
     public static float randomFloat(float minMax) {
         return SolRandom.randomFloat(-minMax, minMax);
     }
 
     /**
-     * Returns a random float v such that min <= v && v < max. Min shouldn't equal to max
+     * Returns a random float v such that min <= v < max. Min shouldn't equal to max
+     *
+     * @param min the minimum possible number to be generated
+     * @param max the maximum possible number to be generated
      */
     public static float randomFloat(float min, float max) {
         float result = max;
         if (min == max) {
-            Gdx.app.log("SolMath", "rnd was called with bad parameters! Min " + min + " matches max " + max + ", accepting max.");
+            Gdx.app.log("SolMath", "randomFloat was called with bad parameters! Min " + min + " matches max " + max + ", accepting max.");
             Gdx.app.log("SolMath", "Please review appropriate code in the stack dump:");
-            for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
-                Gdx.app.log("SolMath", ste.toString());
+            for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace()) {
+                Gdx.app.log("SolMath", stackTraceElement.toString());
             }
     
             return result;
@@ -96,7 +103,7 @@ public class SolRandom {
     }
 
     /**
-     * Returns a random int v such that 0 <= v && v < max.
+     * Returns a random int v such that 0 <= v < max.
      *
      * @param max a positive value
      */
@@ -105,21 +112,21 @@ public class SolRandom {
     }
 
     /**
-     * Returns a random int v such that max*perc <= v && v < max.
+     * Returns a random int v such that max*percentage <= v < max.
      *
-     * @param perc should be >= 0 and < 1
+     * @param percentage should be >= 0 and < 1
      * @param max  a positive value
      */
-    public static int randomInt(float perc, int max) {
-        int min = (int) (max * perc);
+    public static int randomInt(float percentage, int max) {
+        int min = (int) (max * percentage);
         if (min == max) {
-            throw new AssertionError("intRnd min equals max " + min);
+            throw new AssertionError("randomInt min equals max " + min);
         }
         return random.nextInt(max - min) + min;
     }
 
     /**
-     * Returns a random int v such that min <= v && v <= max
+     * Returns a random int v such that min <= v <= max
      */
     public static int randomInt(int min, int max) {
         return random.nextInt(max - min) + min;
