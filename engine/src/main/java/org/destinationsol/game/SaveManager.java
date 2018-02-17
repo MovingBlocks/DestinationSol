@@ -46,6 +46,8 @@ public class SaveManager {
     private static final String SAVE_FILE_NAME = "prevShip.ini";
     static String MERC_SAVE_FILE = getResourcePath("mercenaries.json");
 
+    private static final String FILE_NAME = "prevShip.ini";
+
     public static void writeShips(HullConfig hull, float money, ArrayList<SolItem> itemsList, SolGame game) {
         String hullName = game.getHullConfigs().getName(hull);
 
