@@ -61,8 +61,8 @@ public class SaveManager {
     }
 
     /**
-     * Converts  list of SolItems to a string of items to be saved.
-     * @param items A list of SolItems to be converted to an item string
+     * Encodes the given list of SolItems as a string.
+     * @param items A list of SolItems to be encoded as a string
      * @return A string of items suitable for saving
      */
     private static String itemsToString(ArrayList<SolItem> items) {
@@ -89,7 +89,7 @@ public class SaveManager {
 
     /**
      * Writes the player's mercenaries to their JSON file.
-     * Will create file if it doesn't exist.
+     * The file will be created if it doesn't exist.
      * @param game The instance of the game we're dealing with
      */
     private static void writeMercs(SolGame game) {
@@ -106,10 +106,10 @@ public class SaveManager {
                 String hullName = game.getHullConfigs().getName(merc.getHull().config);
                 int money = (int) merc.getMoney();
                 
-                ArrayList<SolItem> itemsList = new ArrayList<SolItem>();
-                for (List<SolItem> group1 : merc.getItemContainer()) {
-                    for (SolItem i : group1) {
-                        itemsList.add(0, i);
+                ArrayList<SolItem> itemsList = new ArrayList<>();
+                for (List<SolItem> itemGroup : merc.getItemContainer()) {
+                    for (SolItem itemInGroup : itemGroup) {
+                        itemsList.add(0, itemInGroup);
                     }
                 }
                 String items = itemsToString(itemsList);
@@ -124,7 +124,7 @@ public class SaveManager {
         }
         
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String toWrite = gson.toJson(jsons);
+        String stringToWrite = gson.toJson(jsons);
 
         // Using PrintWriter because it truncates the file if it exists or creates a new one if it doesn't
         // And truncation is good because we don't want dead mercs respawning
