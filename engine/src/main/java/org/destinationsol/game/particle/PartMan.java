@@ -60,7 +60,7 @@ public class PartMan {
         }
     }
 
-    public void shieldSpark(SolGame game, Vector2 collPos, Hull hull, TextureAtlas.AtlasRegion shieldTex, float perc) {
+    public void shieldSpark(SolGame game, Vector2 collPos, Hull hull, TextureAtlas.AtlasRegion shieldTexture, float perc) {
         if (perc <= 0) {
             return;
         }
@@ -71,7 +71,7 @@ public class PartMan {
         RectSprite s = null;
         int count = (int) alphaSum + 1;
         for (int i = 0; i < count; i++) {
-            s = blip(game, position, angle, sz, .5f, hull.getSpeed(), shieldTex);
+            s = blip(game, position, angle, sz, .5f, hull.getSpeed(), shieldTexture);
         }
         float lastTint = SolMath.clamp(alphaSum - (int) alphaSum);
         if (s != null) {

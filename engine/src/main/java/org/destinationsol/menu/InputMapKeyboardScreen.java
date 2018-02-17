@@ -217,7 +217,7 @@ public class InputMapKeyboardScreen implements InputMapOperations {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.InputPointer inputPointer) {
+    public boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
         return false;
     }
 

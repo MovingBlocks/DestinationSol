@@ -52,25 +52,25 @@ public class MapDrawer {
     public static final float MIN_ICON_RAD_PX = 16f;
     private static final float MAX_SKULL_TIME = .75f;
     private static final float MAX_AREA_SKULL_TIME = 3;
-    private final TextureAtlas.AtlasRegion myAtmTex;
-    private final TextureAtlas.AtlasRegion myPlanetTex;
-    private final TextureAtlas.AtlasRegion myPlanetCoreTex;
-    private final TextureAtlas.AtlasRegion myStarTex;
-    private final TextureAtlas.AtlasRegion myMazeTex;
-    private final TextureAtlas.AtlasRegion mySkullTex;
-    private final TextureAtlas.AtlasRegion mySkullBigTex;
-    private final TextureAtlas.AtlasRegion myStarPortTex;
-    private final TextureAtlas.AtlasRegion myBeltTex;
-    private final TextureAtlas.AtlasRegion myBeaconAttackTex;
-    private final TextureAtlas.AtlasRegion myBeaconMoveTex;
-    private final TextureAtlas.AtlasRegion myBeaconFollowTex;
-    private final TextureAtlas.AtlasRegion myIconBg;
-    private final TextureAtlas.AtlasRegion myWarnAreaBg;
-    private final TextureAtlas.AtlasRegion myWhiteTex;
-    private final TextureAtlas.AtlasRegion myLineTex;
+    private final TextureAtlas.AtlasRegion myAtmTexture;
+    private final TextureAtlas.AtlasRegion myPlanetTexture;
+    private final TextureAtlas.AtlasRegion myPlanetCoreTexture;
+    private final TextureAtlas.AtlasRegion myStarTexture;
+    private final TextureAtlas.AtlasRegion myMazeTexture;
+    private final TextureAtlas.AtlasRegion mySkullTexture;
+    private final TextureAtlas.AtlasRegion mySkullBigTexture;
+    private final TextureAtlas.AtlasRegion myStarPortTexture;
+    private final TextureAtlas.AtlasRegion myBeltTexture;
+    private final TextureAtlas.AtlasRegion myBeaconAttackTexture;
+    private final TextureAtlas.AtlasRegion myBeaconMoveTexture;
+    private final TextureAtlas.AtlasRegion myBeaconFollowTexture;
+    private final TextureAtlas.AtlasRegion myIconBackground;
+    private final TextureAtlas.AtlasRegion myWarnAreaBackground;
+    private final TextureAtlas.AtlasRegion myWhiteTexture;
+    private final TextureAtlas.AtlasRegion myLineTexture;
 
     private final Color myAreaWarnCol;
-    private final Color myAreaWarnBgCol;
+    private final Color myAreaWarnBackgroundCol;
     private final float myIconRad;
     private boolean myToggled;
     private float myZoom;
@@ -83,25 +83,25 @@ public class MapDrawer {
         myIconRad = ICON_RAD < minIconRad ? minIconRad : ICON_RAD;
 
         myAreaWarnCol = new Color(SolColor.WHITE);
-        myAreaWarnBgCol = new Color(SolColor.UI_WARN);
+        myAreaWarnBackgroundCol = new Color(SolColor.UI_WARN);
 
-        myWarnAreaBg = Assets.getAtlasRegion("engine:mapObjects/warnBg");
-        myAtmTex = Assets.getAtlasRegion("engine:mapObjects/atm");
-        myPlanetTex = Assets.getAtlasRegion("engine:mapObjects/planet");
-        myPlanetCoreTex = Assets.getAtlasRegion("engine:mapObjects/planetCore");
-        myStarTex = Assets.getAtlasRegion("engine:mapObjects/star");
-        myMazeTex = Assets.getAtlasRegion("engine:mapObjects/maze");
-        mySkullBigTex = Assets.getAtlasRegion("engine:mapObjects/skullBig");
-        myBeltTex = Assets.getAtlasRegion("engine:mapObjects/asteroids");
-        myBeaconAttackTex = Assets.getAtlasRegion("engine:mapObjects/beaconAttack");
-        myBeaconMoveTex = Assets.getAtlasRegion("engine:mapObjects/beaconMove");
-        myBeaconFollowTex = Assets.getAtlasRegion("engine:mapObjects/beaconFollow");
-        myWhiteTex = Assets.getAtlasRegion("engine:mapObjects/whiteTex");
-        myLineTex = Assets.getAtlasRegion("engine:mapObjects/gridLine");
+        myWarnAreaBackground = Assets.getAtlasRegion("engine:mapObjects/warnBg");
+        myAtmTexture = Assets.getAtlasRegion("engine:mapObjects/atm");
+        myPlanetTexture = Assets.getAtlasRegion("engine:mapObjects/planet");
+        myPlanetCoreTexture = Assets.getAtlasRegion("engine:mapObjects/planetCore");
+        myStarTexture = Assets.getAtlasRegion("engine:mapObjects/star");
+        myMazeTexture = Assets.getAtlasRegion("engine:mapObjects/maze");
+        mySkullBigTexture = Assets.getAtlasRegion("engine:mapObjects/skullBig");
+        myBeltTexture = Assets.getAtlasRegion("engine:mapObjects/asteroids");
+        myBeaconAttackTexture = Assets.getAtlasRegion("engine:mapObjects/beaconAttack");
+        myBeaconMoveTexture = Assets.getAtlasRegion("engine:mapObjects/beaconMove");
+        myBeaconFollowTexture = Assets.getAtlasRegion("engine:mapObjects/beaconFollow");
+        myWhiteTexture = Assets.getAtlasRegion("engine:mapObjects/whiteTex");
+        myLineTexture = Assets.getAtlasRegion("engine:mapObjects/gridLine");
 
-        myIconBg = Assets.getAtlasRegion("engine:mapObjects/hullBg");
-        mySkullTex = Assets.getAtlasRegion("engine:mapObjects/hullSkull");
-        myStarPortTex = Assets.getAtlasRegion("engine:mapObjects/hullStarport");
+        myIconBackground = Assets.getAtlasRegion("engine:mapObjects/hullBg");
+        mySkullTexture = Assets.getAtlasRegion("engine:mapObjects/hullSkull");
+        myStarPortTexture = Assets.getAtlasRegion("engine:mapObjects/hullStarport");
     }
 
     public boolean isToggled() {
@@ -125,7 +125,7 @@ public class MapDrawer {
         float heroDmgCap = hero.isTranscendent() ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero.getShip());
 
         drawer.updateMatrix(game);
-        game.getGridDrawer().draw(drawer, game, GRID_SZ, myLineTex);
+        game.getGridDrawer().draw(drawer, game, GRID_SZ, myLineTexture);
         drawPlanets(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
         drawMazes(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
         drawStarNodes(drawer, game, viewDist, camPos, starNodeW);
@@ -148,7 +148,7 @@ public class MapDrawer {
             if (viewDist < camPos.dst(mazePos) - rad) {
                 continue;
             }
-            drawer.draw(myMazeTex, 2 * rad, 2 * rad, rad, rad, mazePos.x, mazePos.y, 45, SolColor.WHITE);
+            drawer.draw(myMazeTexture, 2 * rad, 2 * rad, rad, rad, mazePos.x, mazePos.y, 45, SolColor.WHITE);
             if (HardnessCalc.isDangerous(heroDmgCap, maze.getDps())) {
                 drawAreaDanger(drawer, outerRad, mazePos, 1, camAngle);
             }
@@ -163,14 +163,14 @@ public class MapDrawer {
         float circleWidth = cam.getRealLineWidth() * 6;
         float vh = cam.getViewHeight(myZoom);
         for (SolSystem sys : systems) {
-            drawer.drawCircle(myLineTex, sys.getPosition(), sys.getRadius(), SolColor.UI_MED, circleWidth, vh);
+            drawer.drawCircle(myLineTexture, sys.getPosition(), sys.getRadius(), SolColor.UI_MED, circleWidth, vh);
         }
         for (SolSystem sys : systems) {
             float dangerRad = HardnessCalc.isDangerous(heroDmgCap, sys.getDps()) ? sys.getRadius() : 0;
             Vector2 sysPos = sys.getPosition();
             float rad = Const.SUN_RADIUS;
             if (camPos.dst(sysPos) - rad < viewDist) {
-                drawer.draw(myStarTex, 2 * rad, 2 * rad, rad, rad, sysPos.x, sysPos.y, 0, SolColor.WHITE);
+                drawer.draw(myStarTexture, 2 * rad, 2 * rad, rad, rad, sysPos.x, sysPos.y, 0, SolColor.WHITE);
             }
 
             Vector2 beltIconPos = SolMath.getVec();
@@ -183,7 +183,7 @@ public class MapDrawer {
                     float angle = 360f * i / beltIconCount;
                     SolMath.fromAl(beltIconPos, angle, beltRad);
                     beltIconPos.add(sysPos);
-                    drawer.draw(myBeltTex, 2 * halfWidth, 2 * halfWidth, halfWidth, halfWidth, beltIconPos.x, beltIconPos.y, angle * 3, SolColor.WHITE);
+                    drawer.draw(myBeltTexture, 2 * halfWidth, 2 * halfWidth, halfWidth, halfWidth, beltIconPos.x, beltIconPos.y, angle * 3, SolColor.WHITE);
                 }
                 float outerRad = beltRad + halfWidth;
                 if (dangerRad < outerRad && HardnessCalc.isDangerous(heroDmgCap, belt.getDps())) {
@@ -201,23 +201,23 @@ public class MapDrawer {
 
         ArrayList<Planet> planets = game.getPlanetManager().getPlanets();
         for (Planet planet : planets) {
-            Vector2 planetPos = planet.getPos();
+            Vector2 planetPos = planet.getPosition();
             float fh = planet.getFullHeight();
             float dstToPlanetAtm = camPos.dst(planetPos) - fh;
             if (viewDist < dstToPlanetAtm) {
                 continue;
             }
-            drawer.draw(myAtmTex, 2 * fh, 2 * fh, fh, fh, planetPos.x, planetPos.y, 0, SolColor.UI_DARK);
-            float gh;
+            drawer.draw(myAtmTexture, 2 * fh, 2 * fh, fh, fh, planetPos.x, planetPos.y, 0, SolColor.UI_DARK);
+            float groundHeight;
             if (dstToPlanetAtm < 0) {
-                gh = planet.getMinGroundHeight() + .5f;
-                drawer.draw(myPlanetCoreTex, 2 * gh, 2 * gh, gh, gh, planetPos.x, planetPos.y, planet.getAngle(), SolColor.WHITE);
+                groundHeight = planet.getMinGroundHeight() + .5f;
+                drawer.draw(myPlanetCoreTexture, 2 * groundHeight, 2 * groundHeight, groundHeight, groundHeight, planetPos.x, planetPos.y, planet.getAngle(), SolColor.WHITE);
                 drawNpGround(drawer, game, viewDist, np, camPos);
             } else {
-                gh = planet.getGroundHeight();
-                drawer.draw(myPlanetTex, 2 * gh, 2 * gh, gh, gh, planetPos.x, planetPos.y, camAngle, SolColor.WHITE);
+                groundHeight = planet.getGroundHeight();
+                drawer.draw(myPlanetTexture, 2 * groundHeight, 2 * groundHeight, groundHeight, groundHeight, planetPos.x, planetPos.y, camAngle, SolColor.WHITE);
             }
-            float dangerRad = HardnessCalc.isDangerous(heroDmgCap, planet.getGroundDps()) ? gh + Const.ATM_HEIGHT / 2 : 0;
+            float dangerRad = HardnessCalc.isDangerous(heroDmgCap, planet.getGroundDps()) ? groundHeight + Const.ATM_HEIGHT / 2 : 0;
             //      if (dangerRad < gh && HardnessCalc.isDangerous(heroDmgCap, planet.getGroundDps())) dangerRad = gh;
             if (dangerRad > 0) {
                 drawAreaDanger(drawer, dangerRad, planetPos, 1, camAngle);
@@ -232,11 +232,11 @@ public class MapDrawer {
         }
         perc = SolMath.clamp((perc - .5f) * 2 + .5f);
         float a = SolMath.clamp(perc * transpMul);
-        myAreaWarnBgCol.a = a;
+        myAreaWarnBackgroundCol.a = a;
         myAreaWarnCol.a = a;
-        drawer.draw(myWarnAreaBg, rad * 2, rad * 2, rad, rad, position.x, position.y, 0, myAreaWarnBgCol);
+        drawer.draw(myWarnAreaBackground, rad * 2, rad * 2, rad, rad, position.x, position.y, 0, myAreaWarnBackgroundCol);
         rad *= INNER_AREA_ICON_PERC;
-        drawer.draw(mySkullBigTex, rad * 2, rad * 2, rad, rad, position.x, position.y, angle, myAreaWarnCol);
+        drawer.draw(mySkullBigTexture, rad * 2, rad * 2, rad, rad, position.x, position.y, angle, myAreaWarnCol);
     }
 
     private void drawIcons(GameDrawer drawer, SolGame game, float iconSz, float viewDist, FactionManager factionManager,
@@ -291,11 +291,11 @@ public class MapDrawer {
         BeaconHandler.Action bhAction = bh.getCurrAction();
         if (bhAction != null) {
             Vector2 beaconPos = bh.getPos();
-            TextureRegion icon = myBeaconMoveTex;
+            TextureRegion icon = myBeaconMoveTexture;
             if (bhAction == BeaconHandler.Action.ATTACK) {
-                icon = myBeaconAttackTex;
+                icon = myBeaconAttackTexture;
             } else if (bhAction == BeaconHandler.Action.FOLLOW) {
-                icon = myBeaconFollowTex;
+                icon = myBeaconFollowTexture;
             }
             float beaconSz = iconSz * 1.5f;
             //      drawer.draw(icon, beaconSz, beaconSz, beaconSz/2, beaconSz/2, beaconPos.x, beaconPos.y, 0, SolColor.WHITE); interleaving
@@ -304,9 +304,9 @@ public class MapDrawer {
 
     //TODO Don't pass null hero to drawObjIcon(). Then remove the annotation from drawObjIcon and remove the hero nullcheck
     public void drawStarPortIcon(GameDrawer drawer, float iconSz, Planet from, Planet to) {
-        float angle = SolMath.angle(from.getPos(), to.getPos());
+        float angle = SolMath.angle(from.getPosition(), to.getPosition());
         Vector2 position = StarPort.getDesiredPos(from, to, false);
-        drawObjIcon(iconSz, position, angle, null, null, null, -1, null, myStarPortTex, drawer);
+        drawObjIcon(iconSz, position, angle, null, null, null, -1, null, myStarPortTexture, drawer);
         SolMath.free(position);
     }
 
@@ -339,7 +339,7 @@ public class MapDrawer {
     private void drawStarNode(GameDrawer drawer, Planet from, Planet to, float starNodeW) {
         Vector2 pos1 = StarPort.getDesiredPos(from, to, false);
         Vector2 pos2 = StarPort.getDesiredPos(to, from, false);
-        drawer.drawLine(myWhiteTex, pos1, pos2, SolColor.UI_LIGHT, starNodeW, true);
+        drawer.drawLine(myWhiteTexture, pos1, pos2, SolColor.UI_LIGHT, starNodeW, true);
         SolMath.free(pos1);
         SolMath.free(pos2);
     }
@@ -388,18 +388,18 @@ public class MapDrawer {
         boolean enemy = hero != null && hero.isNonTranscendent() && factionManager.areEnemies(objFac, hero.getPilot().getFaction());
         float angle = objAngle;
         if (enemy && mySkullTime > 0 && HardnessCalc.isDangerous(heroDmgCap, shipHack)) {
-            icon = mySkullTex;
+            icon = mySkullTexture;
             angle = 0;
         }
         float innerIconSz = iconSz * INNER_ICON_PERC;
 
         if (drawerHack instanceof UiDrawer) {
             UiDrawer uiDrawer = (UiDrawer) drawerHack;
-            uiDrawer.draw(myIconBg, iconSz, iconSz, iconSz / 2, iconSz / 2, position.x, position.y, 0, enemy ? SolColor.UI_WARN : SolColor.UI_LIGHT);
+            uiDrawer.draw(myIconBackground, iconSz, iconSz, iconSz / 2, iconSz / 2, position.x, position.y, 0, enemy ? SolColor.UI_WARN : SolColor.UI_LIGHT);
             uiDrawer.draw(icon, innerIconSz, innerIconSz, innerIconSz / 2, innerIconSz / 2, position.x, position.y, angle, SolColor.WHITE);
         } else {
             GameDrawer gameDrawer = (GameDrawer) drawerHack;
-            gameDrawer.draw(myIconBg, iconSz, iconSz, iconSz / 2, iconSz / 2, position.x, position.y, 0, enemy ? SolColor.UI_WARN : SolColor.UI_LIGHT);
+            gameDrawer.draw(myIconBackground, iconSz, iconSz, iconSz / 2, iconSz / 2, position.x, position.y, 0, enemy ? SolColor.UI_WARN : SolColor.UI_LIGHT);
             gameDrawer.draw(icon, innerIconSz, innerIconSz, innerIconSz / 2, innerIconSz / 2, position.x, position.y, angle, SolColor.WHITE);
         }
     }
@@ -433,20 +433,20 @@ public class MapDrawer {
         Color col = t.from == SurfaceDirection.UP && t.to == SurfaceDirection.UP ? SolColor.WHITE : SolColor.UI_OPAQUE;
         if (t.from == SurfaceDirection.FWD || t.from == SurfaceDirection.UP) {
             if (t.from == SurfaceDirection.UP) {
-                drawer.draw(myWhiteTex, szh, szh, 0, 0, p.x, p.y, angle - 90, col);
+                drawer.draw(myWhiteTexture, szh, szh, 0, 0, p.x, p.y, angle - 90, col);
             }
-            drawer.draw(myWhiteTex, szh, szh, 0, 0, p.x, p.y, angle, col);
+            drawer.draw(myWhiteTexture, szh, szh, 0, 0, p.x, p.y, angle, col);
         }
         if (t.to == SurfaceDirection.FWD || t.to == SurfaceDirection.UP) {
             if (t.to == SurfaceDirection.UP) {
-                drawer.draw(myWhiteTex, szh, szh, 0, 0, p.x, p.y, angle + 180, col);
+                drawer.draw(myWhiteTexture, szh, szh, 0, 0, p.x, p.y, angle + 180, col);
             }
-            drawer.draw(myWhiteTex, szh, szh, 0, 0, p.x, p.y, angle + 90, col);
+            drawer.draw(myWhiteTexture, szh, szh, 0, 0, p.x, p.y, angle + 90, col);
         }
     }
 
     public TextureAtlas.AtlasRegion getStarPortTex() {
-        return myStarPortTex;
+        return myStarPortTexture;
     }
 
 }

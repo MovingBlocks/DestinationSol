@@ -266,15 +266,15 @@ public class ObjectManager {
         for (SolObject o : myObjs) {
             Vector2 position = o.getPosition();
             float r = getRadius(o);
-            drawer.drawCircle(drawer.debugWhiteTex, position, r, DebugCol.OBJ, lineWidth, vh);
-            drawer.drawLine(drawer.debugWhiteTex, position.x, position.y, o.getAngle(), r, DebugCol.OBJ, lineWidth);
+            drawer.drawCircle(drawer.debugWhiteTexture, position, r, DebugCol.OBJ, lineWidth, vh);
+            drawer.drawLine(drawer.debugWhiteTexture, position.x, position.y, o.getAngle(), r, DebugCol.OBJ, lineWidth);
         }
         for (FarObjData fod : myFarObjs) {
             FarObject fo = fod.fo;
-            drawer.drawCircle(drawer.debugWhiteTex, fo.getPosition(), fo.getRadius(), DebugCol.OBJ_FAR, lineWidth, vh);
+            drawer.drawCircle(drawer.debugWhiteTexture, fo.getPosition(), fo.getRadius(), DebugCol.OBJ_FAR, lineWidth, vh);
         }
-        drawer.drawCircle(drawer.debugWhiteTex, cam.getPosition(), myFarBeginDist, SolColor.WHITE, lineWidth, vh);
-        drawer.drawCircle(drawer.debugWhiteTex, cam.getPosition(), myFarEndDist, SolColor.WHITE, lineWidth, vh);
+        drawer.drawCircle(drawer.debugWhiteTexture, cam.getPosition(), myFarBeginDist, SolColor.WHITE, lineWidth, vh);
+        drawer.drawCircle(drawer.debugWhiteTexture, cam.getPosition(), myFarEndDist, SolColor.WHITE, lineWidth, vh);
     }
 
     public List<SolObject> getObjects() {

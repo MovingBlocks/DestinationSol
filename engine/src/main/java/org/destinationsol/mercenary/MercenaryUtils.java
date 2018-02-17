@@ -57,7 +57,7 @@ public class MercenaryUtils {
         Vector2 heroPos = hero.getPosition();
         Planet np = game.getPlanetManager().getNearestPlanet(heroPos);
         boolean nearGround = np.isNearGround(heroPos);
-        float fromPlanet = SolMath.angle(np.getPos(), heroPos);
+        float fromPlanet = SolMath.angle(np.getPosition(), heroPos);
         for (int i = 0; i < 50; i++) {
             float relAngle;
             if (nearGround) {

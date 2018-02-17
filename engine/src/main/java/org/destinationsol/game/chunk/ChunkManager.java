@@ -32,9 +32,9 @@ public class ChunkManager {
     private static final int MIN_BG_REMOVE_DIST = MAX_BG_FILL_DIST + 1;
 
     private final Set<Vector2> myFilledChunks;
-    private final Set<Vector2> myBgFilledChunks;
+    private final Set<Vector2> myBackgroundFilledChunks;
     private final RemoveController myRemover;
-    private final RemoveController myBgRemover;
+    private final RemoveController myBackgroundRemover;
     private final ChunkFiller myFiller;
 
     private int myX;
@@ -42,9 +42,9 @@ public class ChunkManager {
 
     public ChunkManager() {
         myFilledChunks = new HashSet<>();
-        myBgFilledChunks = new HashSet<>();
+        myBackgroundFilledChunks = new HashSet<>();
         myRemover = new MyRemover(MIN_REMOVE_DIST);
-        myBgRemover = new MyRemover(MIN_BG_REMOVE_DIST);
+        myBackgroundRemover = new MyRemover(MIN_BG_REMOVE_DIST);
         myFiller = new ChunkFiller();
     }
 
@@ -54,8 +54,8 @@ public class ChunkManager {
         if (refill) {
             clearFarChunks(myFilledChunks, MIN_REMOVE_DIST);
             addNewChunks(myFilledChunks, MAX_FILL_DIST, game);
-            clearFarChunks(myBgFilledChunks, MIN_BG_REMOVE_DIST);
-            addNewChunks(myBgFilledChunks, MAX_BG_FILL_DIST, game);
+            clearFarChunks(myBackgroundFilledChunks, MIN_BG_REMOVE_DIST);
+            addNewChunks(myBackgroundFilledChunks, MAX_BG_FILL_DIST, game);
         }
     }
 
@@ -100,8 +100,8 @@ public class ChunkManager {
         if (!chunks.contains(v)) {
             Vector2 chunk = new Vector2(v);
             chunks.add(chunk);
-            boolean bg = chunks == myBgFilledChunks;
-            myFiller.fill(game, chunk, bg ? myBgRemover : myRemover, bg);
+            boolean background = chunks == myBackgroundFilledChunks;
+            myFiller.fill(game, chunk, background ? myBackgroundRemover : myRemover, background);
         }
         SolMath.free(v);
     }

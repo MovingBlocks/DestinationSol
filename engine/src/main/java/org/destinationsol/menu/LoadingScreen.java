@@ -31,14 +31,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoadingScreen implements SolUiScreen {
-    private final TextureAtlas.AtlasRegion bgTex;
+    private final TextureAtlas.AtlasRegion backgroundTexture;
 
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private boolean loadTutorial;
     private String shipName;
 
     LoadingScreen() {
-        bgTex = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
+        backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override
@@ -63,6 +63,6 @@ public class LoadingScreen implements SolUiScreen {
 
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+        uiDrawer.draw(backgroundTexture, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
     }
 }

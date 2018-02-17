@@ -75,9 +75,9 @@ public class SolCam {
                 moveDiff.scl(ts);
                 myPos.add(moveDiff);
                 SolMath.free(moveDiff);
-                float moveSpd = MOVE_SPD * ts;
-                myPos.x = SolMath.approach(myPos.x, heroPos.x, moveSpd);
-                myPos.y = SolMath.approach(myPos.y, heroPos.y, moveSpd);
+                float moveSpeed = MOVE_SPD * ts;
+                myPos.x = SolMath.approach(myPos.x, heroPos.x, moveSpeed);
+                myPos.y = SolMath.approach(myPos.y, heroPos.y, moveSpeed);
             }
         }
 
@@ -121,7 +121,7 @@ public class SolCam {
             float speed = hero.getSpeed().len();
             float desiredViewDistance = Const.CAM_VIEW_DIST_SPACE;
             Planet nearestPlanet = game.getPlanetManager().getNearestPlanet(myPos);
-            if (nearestPlanet.getFullHeight() < nearestPlanet.getPos().dst(myPos) && MAX_ZOOM_SPD < speed) {
+            if (nearestPlanet.getFullHeight() < nearestPlanet.getPosition().dst(myPos) && MAX_ZOOM_SPD < speed) {
                 desiredViewDistance = Const.CAM_VIEW_DIST_JOURNEY;
             } else if (nearestPlanet.isNearGround(myPos) && speed < MED_ZOOM_SPD) {
                 desiredViewDistance = Const.CAM_VIEW_DIST_GROUND;
@@ -219,10 +219,10 @@ public class SolCam {
         ur.add(myPos);
 
         float lw = getRealLineWidth();
-        drawer.drawLine(drawer.debugWhiteTex, dr, dl, SolColor.WHITE, lw, false);
-        drawer.drawLine(drawer.debugWhiteTex, dl, ul, SolColor.WHITE, lw, false);
-        drawer.drawLine(drawer.debugWhiteTex, ul, ur, SolColor.WHITE, lw, false);
-        drawer.drawLine(drawer.debugWhiteTex, ur, dr, SolColor.WHITE, lw, false);
+        drawer.drawLine(drawer.debugWhiteTexture, dr, dl, SolColor.WHITE, lw, false);
+        drawer.drawLine(drawer.debugWhiteTexture, dl, ul, SolColor.WHITE, lw, false);
+        drawer.drawLine(drawer.debugWhiteTexture, ul, ur, SolColor.WHITE, lw, false);
+        drawer.drawLine(drawer.debugWhiteTexture, ur, dr, SolColor.WHITE, lw, false);
 
         SolMath.free(dr);
         SolMath.free(dl);

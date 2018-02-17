@@ -123,7 +123,7 @@ public class Gun implements SolItem {
         public final boolean fixed;
         public final float meanDps;
         public final SolItemType itemType;
-        public final float texLenPerc;
+        public final float texLenPercentage;
         public final String code;
 
         public Config(float minAngleVar, float maxAngleVar, float angleVarDamp, float angleVarPerShot,
@@ -131,7 +131,7 @@ public class Gun implements SolItem {
                       float reloadTime, float gunLength, String displayName,
                       boolean lightOnShot, int price,
                       Clip.Config clipConf, PlayableSound shootSound, PlayableSound reloadSound, TextureAtlas.AtlasRegion tex,
-                      TextureAtlas.AtlasRegion icon, boolean fixed, SolItemType itemType, float texLenPerc, String code) {
+                      TextureAtlas.AtlasRegion icon, boolean fixed, SolItemType itemType, float texLenPercentage, String code) {
             this.shootSound = shootSound;
             this.reloadSound = reloadSound;
 
@@ -151,7 +151,7 @@ public class Gun implements SolItem {
             this.icon = icon;
             this.fixed = fixed;
             this.itemType = itemType;
-            this.texLenPerc = texLenPerc;
+            this.texLenPercentage = texLenPercentage;
             this.code = code;
 
             dps = HardnessCalc.getShotDps(this, clipConf.projConfig.dmg);
@@ -171,7 +171,7 @@ public class Gun implements SolItem {
             float timeBetweenShots = rootNode.getFloat("timeBetweenShots");
             float reloadTime = rootNode.getFloat("reloadTime");
             float gunLength = rootNode.getFloat("gunLength");
-            float texLenPerc = rootNode.getFloat("texLenPerc", 1);
+            float texLenPercentage = rootNode.getFloat("texLenPerc", 1);
             String displayName = rootNode.getString("displayName");
             boolean lightOnShot = rootNode.getBoolean("lightOnShot", false);
             int price = rootNode.getInt("price");
@@ -201,7 +201,7 @@ public class Gun implements SolItem {
 
             Config gunConfig = new Config(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots,
                                             reloadTime, gunLength, displayName, lightOnShot, price, clipConf, shootSoundSet,
-                                                reloadSoundSet, tex, icon, fixed, itemType, texLenPerc, gunName);
+                                                reloadSoundSet, tex, icon, fixed, itemType, texLenPercentage, gunName);
             itemManager.registerItem(gunConfig.example);
         }
 

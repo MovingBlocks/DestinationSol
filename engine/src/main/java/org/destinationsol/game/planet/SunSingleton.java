@@ -31,14 +31,14 @@ public class SunSingleton {
     public static final float SUN_HOT_RAD = .75f * Const.SUN_RADIUS;
     public static final float GRAV_CONST = 2000;
     private static final float SUN_DMG = 4f;
-    private final TextureAtlas.AtlasRegion myGradTex;
-    private final TextureAtlas.AtlasRegion myWhiteTex;
+    private final TextureAtlas.AtlasRegion myGradTexture;
+    private final TextureAtlas.AtlasRegion myWhiteTexture;
     private final Color myGradTint;
     private final Color myFillTint;
 
     public SunSingleton() {
-        myGradTex = Assets.getAtlasRegion("engine:planetStarCommonGrad");
-        myWhiteTex = Assets.getAtlasRegion("engine:planetStarCommonWhiteTex");
+        myGradTexture = Assets.getAtlasRegion("engine:planetStarCommonGrad");
+        myWhiteTexture = Assets.getAtlasRegion("engine:planetStarCommonWhiteTex");
         myGradTint = SolColor.col(1, 1);
         myFillTint = SolColor.col(1, 1);
     }
@@ -56,8 +56,8 @@ public class SunSingleton {
 
             float sz = 2 * game.getCam().getViewDistance();
             float gradAngle = SolMath.angle(toCam) + 90;
-            drawer.draw(myWhiteTex, sz * 2, sz * 2, sz, sz, camPos.x, camPos.y, 0, myFillTint);
-            drawer.draw(myGradTex, sz * 2, sz * 2, sz, sz, camPos.x, camPos.y, gradAngle, myGradTint);
+            drawer.draw(myWhiteTexture, sz * 2, sz * 2, sz, sz, camPos.x, camPos.y, 0, myFillTint);
+            drawer.draw(myGradTexture, sz * 2, sz * 2, sz, sz, camPos.x, camPos.y, gradAngle, myGradTint);
         }
         SolMath.free(toCam);
     }

@@ -62,7 +62,7 @@ public class MapScreen implements SolUiScreen {
         boolean justClosed = closeControl.isJustOff();
         MapDrawer mapDrawer = game.getMapDrawer();
         mapDrawer.setToggled(!justClosed);
-        SolInputManager im = solApplication.getInputMan();
+        SolInputManager im = solApplication.getInputManager();
         if (justClosed) {
             im.setScreen(solApplication, game.getScreens().mainScreen);
         }

@@ -29,29 +29,29 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class DrawableDebugger {
-    public static final float TEX_SZ = .1f;
-    public static final float GAP = .01f;
-    private final Set<TextureAtlas.AtlasRegion> myCollector;
+    private static final float TEX_SZ = 0.1f;
+    private static final float GAP = 0.01f;
+    private final Set<TextureAtlas.AtlasRegion> textures;
 
     public DrawableDebugger() {
-        myCollector = new HashSet<>();
+        textures = new HashSet<>();
     }
 
     public void update(SolGame game) {
         if (!DebugOptions.TEX_INFO) {
             return;
         }
-        maybeCollectTexs(game);
+        maybeCollectTextures(game);
     }
 
-    private void maybeCollectTexs(SolGame game) {
+    private void maybeCollectTextures(SolGame game) {
         if (!Gdx.input.isTouched()) {
             return;
         }
-        myCollector.clear();
-        Vector2 cursorPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-        game.getCam().screenToWorld(cursorPos);
-        game.getDrawableManager().collectTexs(myCollector, cursorPos);
+        textures.clear();
+        Vector2 cursorPosition = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+        game.getCam().screenToWorld(cursorPosition);
+        game.getDrawableManager().collectTextures(textures, cursorPosition);
     }
 
     public void draw(UiDrawer uiDrawer) {
@@ -59,18 +59,18 @@ public class DrawableDebugger {
             return;
         }
         float y = GAP;
-        for (TextureAtlas.AtlasRegion tex : myCollector) {
+        for (TextureAtlas.AtlasRegion texture : textures) {
             float x = GAP;
-            uiDrawer.draw(uiDrawer.whiteTex, 5 * TEX_SZ, TEX_SZ + 2 * GAP, 0, 0, x, y, 0, SolColor.DG);
+            uiDrawer.draw(uiDrawer.whiteTexture, 5 * TEX_SZ, TEX_SZ + 2 * GAP, 0, 0, x, y, 0, SolColor.DG);
             y += GAP;
             x += GAP;
-            float r = 1f * tex.getTexture().getWidth() / tex.getTexture().getHeight();
-            float w = r > 1 ? TEX_SZ : TEX_SZ / r;
-            float h = r > 1 ? TEX_SZ / r : TEX_SZ;
-            uiDrawer.draw(tex, w, h, w / 2, h / 2, x + .5f * TEX_SZ, y + .5f * TEX_SZ, 0, SolColor.WHITE);
+            float dimensionsRatio = 1f * texture.getTexture().getWidth() / texture.getTexture().getHeight();
+            float width = dimensionsRatio > 1 ? TEX_SZ : TEX_SZ / dimensionsRatio;
+            float height = dimensionsRatio > 1 ? TEX_SZ / dimensionsRatio : TEX_SZ;
+            uiDrawer.draw(texture, width, height, width / 2, height / 2, x + 0.5f * TEX_SZ, y + 0.5f * TEX_SZ, 0, SolColor.WHITE);
             x += TEX_SZ + GAP;
-            uiDrawer.drawString(tex.name, x, y, FontSize.DEBUG, false, DebugCol.TEX_INFO);
-            y += .5f * TEX_SZ;
+            uiDrawer.drawString(texture.name, x, y, FontSize.DEBUG, false, DebugCol.TEX_INFO);
+            y += 0.5f * TEX_SZ;
         }
     }
 }
