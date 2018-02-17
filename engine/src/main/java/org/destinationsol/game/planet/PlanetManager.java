@@ -91,7 +91,7 @@ public class PlanetManager {
         float minDst = Float.MAX_VALUE;
         Planet res = null;
         for (Planet planet : myPlanets) {
-            float dst = position.dst(planet.getPos());
+            float dst = position.dst(planet.getPosition());
             if (dst < minDst) {
                 minDst = dst;
                 res = planet;
@@ -104,7 +104,7 @@ public class PlanetManager {
         float npGh = myNearestPlanet.getGroundHeight();
         float npFh = myNearestPlanet.getFullHeight();
         float npMinH = myNearestPlanet.getMinGroundHeight();
-        Vector2 npPos = myNearestPlanet.getPos();
+        Vector2 npPos = myNearestPlanet.getPosition();
         Vector2 sysPos = nearestSys.getPosition();
         float npGravConst = myNearestPlanet.getGravConst();
 
@@ -169,7 +169,7 @@ public class PlanetManager {
             return false;
         }
         float fh = myNearestPlanet.getFullHeight();
-        Vector2 npPos = myNearestPlanet.getPos();
+        Vector2 npPos = myNearestPlanet.getPosition();
         Vector2 toShip = SolMath.distVec(npPos, ship.getPosition());
         float len = toShip.len();
         if (len == 0) {
@@ -193,15 +193,15 @@ public class PlanetManager {
         if (DebugOptions.DRAW_PLANET_BORDERS) {
             SolCam cam = game.getCam();
             float lineWidth = cam.getRealLineWidth();
-            float vh = cam.getViewHeight();
-            for (Planet p : myPlanets) {
-                Vector2 position = p.getPos();
-                float angle = p.getAngle();
-                float fh = p.getFullHeight();
-                Color col = p == myNearestPlanet ? SolColor.WHITE : SolColor.G;
-                drawer.drawCircle(drawer.debugWhiteTex, position, p.getGroundHeight(), col, lineWidth, vh);
-                drawer.drawCircle(drawer.debugWhiteTex, position, fh, col, lineWidth, vh);
-                drawer.drawLine(drawer.debugWhiteTex, position.x, position.y, angle, fh, col, lineWidth);
+            float viewHeight = cam.getViewHeight();
+            for (Planet planet : myPlanets) {
+                Vector2 position = planet.getPosition();
+                float angle = planet.getAngle();
+                float fullHeight = planet.getFullHeight();
+                Color color = planet == myNearestPlanet ? SolColor.WHITE : SolColor.G;
+                drawer.drawCircle(drawer.debugWhiteTexture, position, planet.getGroundHeight(), color, lineWidth, viewHeight);
+                drawer.drawCircle(drawer.debugWhiteTexture, position, fullHeight, color, lineWidth, viewHeight);
+                drawer.drawLine(drawer.debugWhiteTexture, position.x, position.y, angle, fullHeight, color, lineWidth);
             }
 
         }
@@ -219,9 +219,9 @@ public class PlanetManager {
         return mySystems;
     }
 
-    public Vector2 findFlatPlace(SolGame game, Planet p, ConsumedAngles takenAngles,
+    public Vector2 findFlatPlace(SolGame game, Planet planet, ConsumedAngles takenAngles,
                                  float objHalfWidth) {
-        return myFlatPlaceFinder.find(game, p, takenAngles, objHalfWidth);
+        return myFlatPlaceFinder.find(game, planet, takenAngles, objHalfWidth);
     }
 
     public ArrayList<Maze> getMazes() {

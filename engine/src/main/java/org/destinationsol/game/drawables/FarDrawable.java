@@ -27,7 +27,7 @@ import java.util.List;
 public class FarDrawable implements FarObject {
     private final List<Drawable> myDrawables;
     private final Vector2 myPos;
-    private final Vector2 mySpd;
+    private final Vector2 mySpeed;
     private final RemoveController myRemoveController;
     private final float myRadius;
     private final boolean myHideOnPlanet;
@@ -36,7 +36,7 @@ public class FarDrawable implements FarObject {
                        boolean hideOnPlanet) {
         myDrawables = drawables;
         myPos = position;
-        mySpd = speed;
+        mySpeed = speed;
         myRemoveController = removeController;
         myRadius = DrawableManager.radiusFromDrawables(myDrawables);
         myHideOnPlanet = hideOnPlanet;
@@ -49,7 +49,7 @@ public class FarDrawable implements FarObject {
 
     @Override
     public SolObject toObject(SolGame game) {
-        return new DrawableObject(myDrawables, myPos, mySpd, myRemoveController, false, myHideOnPlanet);
+        return new DrawableObject(myDrawables, myPos, mySpeed, myRemoveController, false, myHideOnPlanet);
     }
 
     @Override

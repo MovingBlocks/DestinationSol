@@ -36,7 +36,7 @@ public class PlanetConfig {
     public final PlanetTiles planetTiles;
     public final ShipConfig stationConfig;
     public final SkyConfig skyConfig;
-    public final List<TextureAtlas.AtlasRegion> cloudTexs;
+    public final List<TextureAtlas.AtlasRegion> cloudTextures;
     public final List<ShipConfig> lowOrbitEnemies;
     public final int rowCount;
     public final boolean smoothLandscape;
@@ -45,7 +45,7 @@ public class PlanetConfig {
     public final boolean easyOnly;
 
     public PlanetConfig(String configName, float minGrav, float maxGrav, List<DecoConfig> deco, List<ShipConfig> groundEnemies,
-                        List<ShipConfig> highOrbitEnemies, List<ShipConfig> lowOrbitEnemies, List<TextureAtlas.AtlasRegion> cloudTexs,
+                        List<ShipConfig> highOrbitEnemies, List<ShipConfig> lowOrbitEnemies, List<TextureAtlas.AtlasRegion> cloudTextures,
                         PlanetTiles planetTiles, ShipConfig stationConfig, SkyConfig skyConfig, int rowCount, boolean smoothLandscape,
                         TradeConfig tradeConfig, boolean hardOnly, boolean easyOnly) {
         this.configName = configName;
@@ -55,7 +55,7 @@ public class PlanetConfig {
         this.groundEnemies = groundEnemies;
         this.highOrbitEnemies = highOrbitEnemies;
         this.lowOrbitEnemies = lowOrbitEnemies;
-        this.cloudTexs = cloudTexs;
+        this.cloudTextures = cloudTextures;
         this.planetTiles = planetTiles;
         this.stationConfig = stationConfig;
         this.skyConfig = skyConfig;
@@ -75,7 +75,7 @@ public class PlanetConfig {
         List<ShipConfig> lowOrbitEnemies = ShipConfig.loadList(rootNode.get("lowOrbitEnemies"), hullConfigs, itemManager);
         ShipConfig stationConfig = ShipConfig.load(hullConfigs, rootNode.get("station"), itemManager);
         String cloudPackName = rootNode.getString("cloudTexs");
-        List<TextureAtlas.AtlasRegion> cloudTexs = Assets.listTexturesMatching(cloudPackName + "_.*");
+        List<TextureAtlas.AtlasRegion> cloudTextures = Assets.listTexturesMatching(cloudPackName + "_.*");
         String groundFolder = rootNode.getString("groundTexs");
         PlanetTiles planetTiles = new PlanetTiles(groundFolder);
         SkyConfig skyConfig = SkyConfig.load(rootNode.get("sky"), cols);
@@ -85,7 +85,7 @@ public class PlanetConfig {
         tradeConfig.load(rootNode.get("trading"), hullConfigs, itemManager);
         boolean hardOnly = rootNode.getBoolean("hardOnly", false);
         boolean easyOnly = rootNode.getBoolean("easyOnly", false);
-        return new PlanetConfig(rootNode.name, minGrav, maxGrav, deco, groundEnemies, highOrbitEnemies, lowOrbitEnemies, cloudTexs,
+        return new PlanetConfig(rootNode.name, minGrav, maxGrav, deco, groundEnemies, highOrbitEnemies, lowOrbitEnemies, cloudTextures,
                 planetTiles, stationConfig, skyConfig, rowCount, smoothLandscape, tradeConfig, hardOnly, easyOnly);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,18 +25,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public class IniReader {
-    private final HashMap<String, String> myVals;
+    private final HashMap<String, String> values;
 
     public IniReader(String fileName, SolFileReader reader) {
-        myVals = new HashMap<>();
+        values = new HashMap<>();
         List<String> lines = reader != null ? reader.read(fileName) : fileToLines(fileName);
         initValueMap(lines);
     }
 
     public IniReader(BufferedReader reader) {
-        myVals = new HashMap<>();
+        values = new HashMap<>();
         List<String> lines = new ArrayList<>();
 
         try {
@@ -44,7 +45,8 @@ public class IniReader {
             while ((line = reader.readLine()) != null) {
                 lines.add(line);
             }
-        } catch (IOException e) { }
+        } catch (IOException e) {
+        }
 
         initValueMap(lines);
     }
@@ -82,7 +84,7 @@ public class IniReader {
             }
             String key = sides[0].trim();
             String val = sides[1].trim();
-            myVals.put(key, val);
+            values.put(key, val);
         }
     }
 
@@ -108,23 +110,32 @@ public class IniReader {
     }
 
     public String getString(String key, String defaultValue) {
-        String st = myVals.get(key);
-        return st == null ? defaultValue : st;
+        Optional<String> stringOptional = Optional.ofNullable(values.get(key));
+        return stringOptional.orElse(defaultValue);
     }
 
     public int getInt(String key, int defaultValue) {
-        String st = myVals.get(key);
-        return st == null ? defaultValue : Integer.parseInt(st);
+        Optional<String> stringOptional = Optional.ofNullable(values.get(key));
+        try {
+            return stringOptional.map(Integer::parseInt).orElse(defaultValue);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
     }
 
     public boolean getBoolean(String key, boolean defaultValue) {
-        String st = myVals.get(key);
-        return st == null ? defaultValue : "true".equalsIgnoreCase(st);
+        Optional<String> stringOptional = Optional.ofNullable(values.get(key));
+        Optional<Boolean> booleanOptional = stringOptional.filter(s -> s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false")).map(s -> s.equalsIgnoreCase("true"));
+        return booleanOptional.orElse(defaultValue);
     }
 
     public float getFloat(String key, float defaultValue) {
-        String st = myVals.get(key);
-        return st == null ? defaultValue : Float.parseFloat(st);
+        Optional<String> stringOptional = Optional.ofNullable(values.get(key));
+        try {
+            return stringOptional.map(Float::parseFloat).orElse(defaultValue);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
     }
 
 }

@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResolutionScreen implements SolUiScreen {
-    private final TextureAtlas.AtlasRegion bgTex;
+    private final TextureAtlas.AtlasRegion backgroundTexture;
 
     private final ArrayList<SolUiControl> myControls = new ArrayList<>();
     private final SolUiControl closeControl;
@@ -52,7 +52,7 @@ public class ResolutionScreen implements SolUiScreen {
         closeControl.setDisplayName("Back");
         myControls.add(closeControl);
 
-        bgTex = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
+        backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class ResolutionScreen implements SolUiScreen {
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        SolInputManager inputManager = solApplication.getInputMan();
+        SolInputManager inputManager = solApplication.getInputManager();
         GameOptions options = solApplication.getOptions();
 
         if (closeControl.isJustOff()) {
@@ -73,7 +73,7 @@ public class ResolutionScreen implements SolUiScreen {
 
         resolutionControl.setDisplayName(options.x + "x" + options.y);
         if (resolutionControl.isJustOff()) {
-            options.advanceReso();
+            options.advanceResolution();
         }
 
         fullscreenControl.setDisplayName(options.fullscreen ? "Fullscreen" : "Windowed");
@@ -84,7 +84,7 @@ public class ResolutionScreen implements SolUiScreen {
 
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+        uiDrawer.draw(backgroundTexture, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     @Override

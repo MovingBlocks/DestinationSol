@@ -34,14 +34,14 @@ public class ForceBeacon {
     private final Vector2 myPrevPos;
     private final DSParticleEmitter myEffect;
 
-    public ForceBeacon(SolGame game, Vector2 relPos, Vector2 basePos, Vector2 baseSpd) {
+    public ForceBeacon(SolGame game, Vector2 relPos, Vector2 basePos, Vector2 baseSpeed) {
         myRelPos = relPos;
-        myEffect = game.getSpecialEffects().buildForceBeacon(.6f, game, relPos, basePos, baseSpd);
+        myEffect = game.getSpecialEffects().buildForceBeacon(.6f, game, relPos, basePos, baseSpeed);
         myEffect.setWorking(true);
         myPrevPos = new Vector2();
     }
 
-    public static SolShip pullShips(SolGame game, SolObject owner, Vector2 ownPos, Vector2 ownSpd, Faction faction,
+    public static SolShip pullShips(SolGame game, SolObject owner, Vector2 ownPos, Vector2 ownSpeed, Faction faction,
                                     float maxPullDist) {
         SolShip res = null;
         float minLen = Float.MAX_VALUE;
@@ -67,8 +67,8 @@ public class ForceBeacon {
                 if (toMeLen > 1) {
                     toMe.scl(1 / toMeLen);
                 }
-                if (ownSpd != null) {
-                    toMe.add(ownSpd);
+                if (ownSpeed != null) {
+                    toMe.add(ownSpeed);
                 }
                 ship.getHull().getBody().setLinearVelocity(toMe);
                 game.getSoundManager().play(game, game.getSpecialSounds().forceBeaconWork, null, ship);

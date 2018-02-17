@@ -38,7 +38,7 @@ public class ChooseMercenary implements InventoryOperations {
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
-        SolInputManager inputMan = solApplication.getInputMan();
+        SolInputManager inputMan = solApplication.getInputManager();
         GameScreens screens = game.getScreens();
         SolItem selItem = is.getSelectedItem();
         boolean selNull = selItem != null;

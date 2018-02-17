@@ -26,30 +26,30 @@ import org.destinationsol.game.ship.SolShip;
 
 public class PointProjectileBody implements ProjectileBody {
     private final Vector2 myPos;
-    private final Vector2 mySpd;
+    private final Vector2 mySpeed;
     private final MyRayBack myRayBack;
     private final float myAcc;
 
-    public PointProjectileBody(float angle, Vector2 muzzlePos, Vector2 gunSpd, float speedLen,
+    public PointProjectileBody(float angle, Vector2 muzzlePos, Vector2 gunSpeed, float speedLen,
                                Projectile projectile, SolGame game, float acc) {
         myPos = new Vector2(muzzlePos);
-        mySpd = new Vector2();
-        SolMath.fromAl(mySpd, angle, speedLen);
-        mySpd.add(gunSpd);
+        mySpeed = new Vector2();
+        SolMath.fromAl(mySpeed, angle, speedLen);
+        mySpeed.add(gunSpeed);
         myRayBack = new MyRayBack(projectile, game);
         myAcc = acc;
     }
 
     @Override
     public void update(SolGame game) {
-        if (myAcc > 0 && SolMath.canAccelerate(myAcc, mySpd)) {
-            float speedLen = mySpd.len();
+        if (myAcc > 0 && SolMath.canAccelerate(myAcc, mySpeed)) {
+            float speedLen = mySpeed.len();
             if (speedLen < Const.MAX_MOVE_SPD) {
-                mySpd.scl((speedLen + myAcc) / speedLen);
+                mySpeed.scl((speedLen + myAcc) / speedLen);
             }
         }
         Vector2 prevPos = SolMath.getVec(myPos);
-        Vector2 diff = SolMath.getVec(mySpd);
+        Vector2 diff = SolMath.getVec(mySpeed);
         diff.scl(game.getTimeStep());
         myPos.add(diff);
         SolMath.free(diff);
@@ -68,12 +68,12 @@ public class PointProjectileBody implements ProjectileBody {
         if (!acc) {
             force.scl(10f);
         }
-        mySpd.add(force);
+        mySpeed.add(force);
     }
 
     @Override
-    public Vector2 getSpd() {
-        return mySpd;
+    public Vector2 getSpeed() {
+        return mySpeed;
     }
 
     @Override
@@ -82,12 +82,12 @@ public class PointProjectileBody implements ProjectileBody {
 
     @Override
     public float getAngle() {
-        return SolMath.angle(mySpd);
+        return SolMath.angle(mySpeed);
     }
 
     @Override
     public void changeAngle(float diff) {
-        SolMath.rotate(mySpd, diff);
+        SolMath.rotate(mySpeed, diff);
     }
 
     @Override

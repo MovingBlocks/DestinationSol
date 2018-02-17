@@ -63,7 +63,7 @@ public class SolGun {
         }
         myRelPos = new Vector2(relPos);
         DrawableLevel level = underShip ? DrawableLevel.U_GUNS : DrawableLevel.GUNS;
-        float texLen = myItem.config.gunLength / myItem.config.texLenPerc * 2;
+        float texLen = myItem.config.gunLength / myItem.config.texLenPercentage * 2;
         mySprite = new RectSprite(myItem.config.tex, texLen, 0, 0, new Vector2(relPos), level, 0, 0, SolColor.WHITE, false);
         myDrawables = new ArrayList<>();
         myDrawables.add(mySprite);
@@ -76,15 +76,15 @@ public class SolGun {
         return myDrawables;
     }
 
-    private void shoot(Vector2 gunSpd, SolGame game, float gunAngle, Vector2 muzzlePos, Faction faction, SolObject creator, Hull hull) {
-        Vector2 baseSpd = gunSpd;
+    private void shoot(Vector2 gunSpeed, SolGame game, float gunAngle, Vector2 muzzlePos, Faction faction, SolObject creator, Hull hull) {
+        Vector2 baseSpeed = gunSpeed;
         Clip.Config cc = myItem.config.clipConf;
-        if (cc.projConfig.zeroAbsSpd) {
-            baseSpd = Vector2.Zero;
+        if (cc.projConfig.zeroAbsSpeed) {
+            baseSpeed = Vector2.Zero;
             Planet np = game.getPlanetManager().getNearestPlanet();
             if (np.isNearGround(muzzlePos)) {
-                baseSpd = new Vector2();
-                np.calcSpdAtPos(baseSpd, muzzlePos);
+                baseSpeed = new Vector2();
+                np.calcSpeedAtPos(baseSpeed, muzzlePos);
             }
         }
 
@@ -95,7 +95,7 @@ public class SolGun {
             if (myCurrAngleVar > 0) {
                 bulletAngle += SolMath.rnd(myCurrAngleVar);
             }
-            Projectile proj = new Projectile(game, bulletAngle, muzzlePos, baseSpd, faction, cc.projConfig, multiple);
+            Projectile proj = new Projectile(game, bulletAngle, muzzlePos, baseSpeed, faction, cc.projConfig, multiple);
             game.getObjectManager().addObjDelayed(proj);
         }
         myCoolDown += myItem.config.timeBetweenShots;
@@ -136,8 +136,8 @@ public class SolGun {
 
         boolean shot = shouldShoot && myCoolDown <= 0 && myItem.ammo > 0;
         if (shot) {
-            Vector2 gunSpd = creator.getSpeed();
-            shoot(gunSpd, game, gunAngle, muzzlePos, faction, creator,  hull);
+            Vector2 gunSpeed = creator.getSpeed();
+            shoot(gunSpeed, game, gunAngle, muzzlePos, faction, creator,  hull);
         } else {
             myCurrAngleVar = SolMath.approach(myCurrAngleVar, myItem.config.minAngleVar, myItem.config.angleVarDamp * ts);
         }

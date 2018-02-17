@@ -60,7 +60,7 @@ public class FarPlanetSprites implements FarObject {
         myRelAngleToPlanet += myToPlanetRotationSpeed * game.getTimeStep();
         if (game.getPlanetManager().getNearestPlanet() == myPlanet) {
             SolMath.fromAl(myPos, myPlanet.getAngle() + myRelAngleToPlanet, myDist);
-            myPos.add(myPlanet.getPos());
+            myPos.add(myPlanet.getPosition());
         }
     }
 

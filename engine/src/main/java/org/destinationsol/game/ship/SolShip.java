@@ -370,7 +370,7 @@ public class SolShip implements SolObject {
     }
 
     private void throwLoot(SolGame game, SolItem item, boolean onDeath) {
-        Vector2 lootSpd = new Vector2();
+        Vector2 lootSpeed = new Vector2();
         float speedAngle;
         float speedLen;
         Vector2 position = new Vector2();
@@ -384,10 +384,10 @@ public class SolShip implements SolObject {
             speedLen = 1f;
             SolMath.fromAl(position, speedAngle, myHull.config.getApproxRadius());
         }
-        SolMath.fromAl(lootSpd, speedAngle, speedLen);
-        lootSpd.add(myHull.getSpeed());
+        SolMath.fromAl(lootSpeed, speedAngle, speedLen);
+        lootSpeed.add(myHull.getSpeed());
         position.add(myHull.getPosition());
-        Loot l = game.getLootBuilder().build(game, position, item, lootSpd, Loot.MAX_LIFE, SolMath.rnd(Loot.MAX_ROT_SPD), this);
+        Loot l = game.getLootBuilder().build(game, position, item, lootSpeed, Loot.MAX_LIFE, SolMath.rnd(Loot.MAX_ROT_SPD), this);
         game.getObjectManager().addObjDelayed(l);
         if (!onDeath) {
             game.getSoundManager().play(game, game.getSpecialSounds().lootThrow, position, this);

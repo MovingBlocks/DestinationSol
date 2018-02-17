@@ -58,7 +58,7 @@ public class Sky implements SolObject {
 
     private void updatePos(SolGame game) {
         Vector2 camPos = game.getCam().getPosition();
-        Vector2 planetPos = myPlanet.getPos();
+        Vector2 planetPos = myPlanet.getPosition();
         if (planetPos.dst(camPos) < myPlanet.getGroundHeight() + Const.MAX_SKY_HEIGHT_FROM_GROUND) {
             myPos.set(camPos);
             return;
@@ -70,29 +70,29 @@ public class Sky implements SolObject {
     public void update(SolGame game) {
         updatePos(game);
 
-        Vector2 planetPos = myPlanet.getPos();
+        Vector2 planetPos = myPlanet.getPosition();
         SolCam cam = game.getCam();
         Vector2 camPos = cam.getPosition();
-        float distPerc = 1 - (planetPos.dst(camPos) - myPlanet.getGroundHeight()) / Const.MAX_SKY_HEIGHT_FROM_GROUND;
-        if (distPerc < 0) {
+        float distPercentage = 1 - (planetPos.dst(camPos) - myPlanet.getGroundHeight()) / Const.MAX_SKY_HEIGHT_FROM_GROUND;
+        if (distPercentage < 0) {
             return;
         }
-        if (1 < distPerc) {
-            distPerc = 1;
+        if (1 < distPercentage) {
+            distPercentage = 1;
         }
 
         Vector2 sysPos = myPlanet.getSys().getPosition();
         float angleToCam = SolMath.angle(planetPos, camPos);
         float angleToSun = SolMath.angle(planetPos, sysPos);
-        float dayPerc = 1 - SolMath.angleDiff(angleToCam, angleToSun) / 180;
-        float skyIntensity = SolMath.clamp(1 - ((1 - dayPerc) / .75f));
-        float skyColorPerc = SolMath.clamp((skyIntensity - .5f) * 2f + .5f);
-        mySkySpan.set(skyColorPerc, myGrad.tint);
-        mySkySpan.set(skyColorPerc, myFill.tint);
-        float gradPerc = SolMath.clamp(2 * skyIntensity);
-        float fillPerc = SolMath.clamp(2 * (skyIntensity - .5f));
-        myGrad.tint.a = gradPerc * distPerc;
-        myFill.tint.a = fillPerc * SolMath.clamp(1 - (1 - distPerc) * 2) * .37f;
+        float dayPercentage = 1 - SolMath.angleDiff(angleToCam, angleToSun) / 180;
+        float skyIntensity = SolMath.clamp(1 - ((1 - dayPercentage) / .75f));
+        float skyColorPercentage = SolMath.clamp((skyIntensity - .5f) * 2f + .5f);
+        mySkySpan.set(skyColorPercentage, myGrad.tint);
+        mySkySpan.set(skyColorPercentage, myFill.tint);
+        float gradPercentage = SolMath.clamp(2 * skyIntensity);
+        float fillPercentage = SolMath.clamp(2 * (skyIntensity - .5f));
+        myGrad.tint.a = gradPercentage * distPercentage;
+        myFill.tint.a = fillPercentage * SolMath.clamp(1 - (1 - distPercentage) * 2) * .37f;
 
         float viewDist = cam.getViewDistance();
         float sz = 2 * viewDist;
