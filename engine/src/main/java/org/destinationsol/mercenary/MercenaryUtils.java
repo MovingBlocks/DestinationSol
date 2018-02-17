@@ -19,12 +19,12 @@ import com.badlogic.gdx.math.Vector2;
 public class MercenaryUtils {
 
     /**
-     * Creates a new mercenary, SolShip and all. It also adds the MercItem and SolShip to the
-     * proper registries and sets the proper variables.
+     * Creates a new mercenary, SolShip and all.
+     * This method also adds the MercItem and SolShip to the proper registries and sets the proper variables.
      * @param game The instance of the game we're dealing with
      * @param hero The player
      * @param mercItem The mercenary item to build everything else off of
-     * @return True if the ship could be created, false if not
+     * @return true if the ship could be created, false if not
      */
     public static boolean createMerc(SolGame game, Hero hero, MercItem mercItem) {
         ShipConfig config = mercItem.getConfig();

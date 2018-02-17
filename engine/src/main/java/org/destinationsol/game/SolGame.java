@@ -282,7 +282,6 @@ public class SolGame {
                     new ShipConfig(hullConfigManager.getConfig(node.get("hull")), node.get("items"), Integer.parseInt(node.get("money")), -1f, null, itemManager));
             MercenaryUtils.createMerc(this, hero, mercItems);
         }
-
     }
 
     public void onGameEnd() {
@@ -292,7 +291,7 @@ public class SolGame {
     }
     
     /**
-     * Saves the world's seed so we can regenerate the world the same next time
+     * Saves the world's seed so we can regenerate the same world later
      */
     private void saveWorld() {
         // Make sure the tutorial doesn't overwrite the save
