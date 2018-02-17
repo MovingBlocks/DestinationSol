@@ -46,7 +46,7 @@ public class SolRandom {
      * @param max the maximum number possible to be generated
      */
     public static int seededRandomInt(int max) {
-        return SolRandom.seededRandomInt(0f, max);
+        return SolRandom.seededRandomInt(0, max);
     }
 
     /**
@@ -108,7 +108,7 @@ public class SolRandom {
      * @param max a positive value
      */
     public static int randomInt(int max) {
-        return SolRandom.randomInt(0f, max);
+        return SolRandom.randomInt(0, max);
     }
 
     /**
@@ -133,19 +133,27 @@ public class SolRandom {
     }
 
     /**
-     * @return a random element of a list
+     * Selects a random element from a list.
+     *
+     * @param list The list to select the element from
+     *
+     * @return The randomly selected element
      */
     public static <T> T randomElement(List<T> list) {
-        int idx = randomInt(list.size());
-        return list.get(idx);
+        int index = randomInt(list.size());
+        return list.get(index);
     }
-    
+
     /**
-     * @return a seeded random element of a list
+     * Selects a seeded random element from a list.
+     *
+     * @param list The list to select the element from
+     *
+     * @return The seeded randomly selected element
      */
     public static <T> T seededRandomElement(List<T> list) {
-        int idx = seededRandomInt(list.size());
-        return list.get(idx);
+        int index = seededRandomInt(list.size());
+        return list.get(index);
     }
 
     public static void setSeed(long seed) {
@@ -155,24 +163,29 @@ public class SolRandom {
 
     /**
      * Gets the seed currently in use
-     * @return The seed from seededRandom
+     *
+     * @return The seed from currently in use seeded Random object
      */
     public static long getSeed() {
         return seed;
     }
 
     /**
-     * generates a random number between 0 and 1 and returns true if it is less than v, false otherwise
+     * Returns a random boolean value with unequal probabilities.
+     *
+     * @param value the float between 0 and 1 to test
      */
-    public static boolean test(float v) {
-        return randomFloat(0, 1) < v;
+    public static boolean test(float value) {
+        return randomFloat(0, 1) < value;
     }
-    
+
     /**
-     * generates a seeded random number between 0 and 1 and returns true if it is less than v, false otherwise
+     * Returns a seeded random boolean value with unequal probabilities.
+     *
+     * @param value the float between 0 and 1 to test
      */
-    public static boolean seededTest(float v) {
-        return seededRandomFloat(0, 1) < v;
+    public static boolean seededTest(float value) {
+        return seededRandomFloat(0, 1) < value;
     }
 
 }
