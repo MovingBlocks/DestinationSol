@@ -100,15 +100,20 @@ public class ObjectManager {
 
             if (o.shouldBeRemoved(game)) {
                 removeObjDelayed(o);
+                if (game.getHero().isAlive() && game.getHero().isNonTranscendent() && o == game.getHero().getHero()) {
+                    game.getHero().die();
+                }
                 continue;
             }
             if (isFar(o, camPos)) {
-                FarObj fo = o.toFarObj();
-                if (fo != null) {
-                    addFarObjNow(fo);
+                if (game.getHero().isAlive() && game.getHero().isNonTranscendent() && o != game.getHero().getHero()) {
+                    FarObj fo = o.toFarObj();
+                    if (fo != null) {
+                        addFarObjNow(fo);
+                    }
+                    removeObjDelayed(o);
+                    continue;
                 }
-                removeObjDelayed(o);
-                continue;
             }
             if (recalcRad) {
                 recalcRadius(o);

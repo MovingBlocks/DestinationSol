@@ -28,6 +28,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.FactionManager;
 import org.destinationsol.game.HardnessCalc;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -64,8 +65,10 @@ public class MainScreen implements SolUiScreen {
     public final SolUiControl inventoryControl;
     public final SolUiControl talkControl;
     public final SolUiControl mercControl;
+    public final SolUiControl freeCamControl;
     private final SolUiControl menuControl;
     private final SolUiControl pauseControl;
+    private final CameraKbControl cameraControl;
 
     private final ZoneNameAnnouncer zoneNameAnnouncer;
     private final BorderDrawer borderDrawer;
@@ -122,8 +125,11 @@ public class MainScreen implements SolUiScreen {
         mercControl = new SolUiControl(mercArea, true, gameOptions.getKeyMercenaryInteraction());
         mercControl.setDisplayName("Mercs");
         controls.add(mercControl);
+        freeCamControl = new SolUiControl(null, false, gameOptions.getKeyFreeCameraMovement()); // No button, since on mobile, it should be ideally controlled straightly by dragging.
+        controls.add(freeCamControl);
         pauseControl = new SolUiControl(null, true, gameOptions.getKeyPause());
         controls.add(pauseControl);
+        cameraControl = new CameraKbControl(gameOptions, controls);
 
         warnDrawers.add(new CollisionWarnDrawer(resolutionRatio));
         warnDrawers.add(new SunWarnDrawer(resolutionRatio));
@@ -204,7 +210,7 @@ public class MainScreen implements SolUiScreen {
         SolGame game = solApplication.getGame();
         SolInputManager inputMan = solApplication.getInputMan();
         GameScreens screens = game.getScreens();
-        SolShip hero = game.getHero();
+        Hero hero = game.getHero();
 
         for (WarnDrawer warnDrawer : warnDrawers) {
             warnDrawer.update(game);
@@ -223,8 +229,8 @@ public class MainScreen implements SolUiScreen {
             inputMan.setScreen(solApplication, screens.mapScreen);
         }
 
-        inventoryControl.setEnabled(hero != null);
-        if (hero != null && !inputMan.isScreenOn(screens.inventoryScreen)) {
+        inventoryControl.setEnabled(hero.isNonTranscendent());
+        if (hero.isNonTranscendent() && !inputMan.isScreenOn(screens.inventoryScreen)) {
             if (hero.getItemContainer().hasNew()) {
                 inventoryControl.enableWarn();
             }
@@ -234,14 +240,14 @@ public class MainScreen implements SolUiScreen {
             boolean isOn = inputMan.isScreenOn(is);
             inputMan.setScreen(solApplication, screens.mainScreen);
             if (!isOn) {
-                is.showInventory.setTarget(hero);
+                is.showInventory.setTarget(hero.getHero());
                 is.setOperations(is.showInventory);
                 inputMan.addScreen(solApplication, is);
             }
         }
         
-        mercControl.setEnabled(hero != null);
-        if (hero != null && !inputMan.isScreenOn(screens.inventoryScreen)) {
+        mercControl.setEnabled(hero.isNonTranscendent());
+        if (hero.isNonTranscendent() && !inputMan.isScreenOn(screens.inventoryScreen)) {
             if (hero.getTradeContainer().getMercs().hasNew()) {
                 mercControl.enableWarn();
             }
@@ -258,6 +264,8 @@ public class MainScreen implements SolUiScreen {
             }
         }
 
+        SolCam.DIRECT_CAM_CONTROL = freeCamControl.isOn();
+
         updateTalk(game);
 
         if (pauseControl.isJustOff()) {
@@ -266,8 +274,8 @@ public class MainScreen implements SolUiScreen {
     }
 
     private void updateTalk(SolGame game) {
-        SolShip hero = game.getHero();
-        if (hero == null) {
+        Hero hero = game.getHero();
+        if (hero.isTranscendent()) {
             talkControl.setEnabled(false);
             return;
         }
@@ -282,7 +290,7 @@ public class MainScreen implements SolUiScreen {
                 continue;
             }
             SolShip ship = (SolShip) o;
-            if (factionManager.areEnemies(hero, ship)) {
+            if (factionManager.areEnemies(hero.getHero(), ship)) {
                 continue;
             }
             if (ship.getTradeContainer() == null) {
@@ -310,7 +318,7 @@ public class MainScreen implements SolUiScreen {
         }
     }
 
-    private boolean drawGunStat(UiDrawer uiDrawer, SolShip hero, boolean secondary, float col0, float col1,
+    private boolean drawGunStat(UiDrawer uiDrawer, Hero hero, boolean secondary, float col0, float col1,
                                 float col2, float y) {
         Gun g = hero.getHull().getGun(secondary);
         if (g == null) {
@@ -390,8 +398,8 @@ public class MainScreen implements SolUiScreen {
         borderDrawer.draw(uiDrawer, solApplication);
 
         SolGame game = solApplication.getGame();
-        SolShip hero = game.getHero();
-        if (hero != null) {
+        Hero hero = game.getHero();
+        if (hero.isNonTranscendent()) {
             float row = BorderDrawer.TISHCH_SZ + V_PAD;
             float col0 = BorderDrawer.TISHCH_SZ + H_PAD;
             float col1 = col0 + ICON_SZ + H_PAD;
@@ -503,6 +511,22 @@ public class MainScreen implements SolUiScreen {
         return shipControl.isAbility();
     }
 
+    public boolean isCameraUp(){
+        return cameraControl.isUp();
+    }
+
+    public boolean isCameraDown(){
+        return cameraControl.isDown();
+    }
+
+    public boolean isCameraLeft(){
+        return cameraControl.isLeft();
+    }
+
+    public boolean isCameraRight(){
+        return cameraControl.isRight();
+    }
+
     public static class TextPlace {
         public final Color color;
         public String text;
@@ -527,8 +551,8 @@ public class MainScreen implements SolUiScreen {
         }
 
         protected boolean shouldWarn(SolGame game) {
-            SolShip h = game.getHero();
-            return h != null && h.getShield() == null;
+            Hero hero = game.getHero();
+            return hero.isNonTranscendent() && hero.getShield() == null;
         }
     }
 
@@ -538,8 +562,8 @@ public class MainScreen implements SolUiScreen {
         }
 
         protected boolean shouldWarn(SolGame game) {
-            SolShip h = game.getHero();
-            return h != null && h.getArmor() == null;
+            Hero hero = game.getHero();
+            return hero.isNonTranscendent() && hero.getArmor() == null;
         }
     }
 
@@ -549,12 +573,12 @@ public class MainScreen implements SolUiScreen {
         }
 
         protected boolean shouldWarn(SolGame game) {
-            SolShip h = game.getHero();
-            if (h == null) {
+            Hero hero = game.getHero();
+            if (hero.isTranscendent()) {
                 return false;
             }
 
-            float heroCap = HardnessCalc.getShipDmgCap(h);
+            float heroCap = HardnessCalc.getShipDmgCap(hero.getHero());
             List<SolObject> objs = game.getObjMan().getObjs();
             FactionManager fm = game.getFactionMan();
             SolCam cam = game.getCam();
@@ -568,11 +592,11 @@ public class MainScreen implements SolUiScreen {
 
                 SolShip ship = (SolShip) o;
 
-                if (viewDist < ship.getPosition().dst(h.getPosition())) {
+                if (viewDist < ship.getPosition().dst(hero.getPosition())) {
                     continue;
                 }
 
-                if (!fm.areEnemies(h, ship)) {
+                if (!fm.areEnemies(hero.getHero(), ship)) {
                     continue;
                 }
 
