@@ -38,19 +38,19 @@ class CameraKbControl {
         controls.add(controlRight);
     }
 
-    boolean isDown(){
+    boolean isDown() {
         return controlDown.isOn();
     }
 
-    boolean isUp(){
+    boolean isUp() {
         return controlUp.isOn();
     }
 
-    boolean isLeft(){
+    boolean isLeft() {
         return controlLeft.isOn();
     }
 
-    boolean isRight(){
+    boolean isRight() {
         return controlRight.isOn();
     }
 }

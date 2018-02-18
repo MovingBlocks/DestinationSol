@@ -80,7 +80,6 @@ public class SolCam {
                 myPos.x = SolMath.approach(myPos.x, heroPos.x, moveSpd);
                 myPos.y = SolMath.approach(myPos.y, heroPos.y, moveSpd);
             }
-
         }
 
         if (life < myPrevHeroLife) {
