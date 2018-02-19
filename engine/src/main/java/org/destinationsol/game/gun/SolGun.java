@@ -84,7 +84,7 @@ public class SolGun {
             Planet np = game.getPlanetManager().getNearestPlanet();
             if (np.isNearGround(muzzlePos)) {
                 baseSpeed = new Vector2();
-                np.calcSpeedAtPos(baseSpeed, muzzlePos);
+                np.calculateSpeedAtPosition(baseSpeed, muzzlePos);
             }
         }
 

@@ -25,24 +25,24 @@ import java.util.List;
 
 public class Shard implements SolObject {
 
-    private final Body myBody;
-    private final Vector2 myPos;
-    private final ArrayList<Drawable> myDrawables;
-    private final float myMass;
+    private final Body body;
+    private final Vector2 position;
+    private final ArrayList<Drawable> drawables;
+    private final float mass;
 
-    private float myAngle;
+    private float angle;
 
-    public Shard(Body body, ArrayList<Drawable> drawables) {
-        myDrawables = drawables;
-        myBody = body;
-        myPos = new Vector2();
-        myMass = myBody.getMass();
+    Shard(Body body, ArrayList<Drawable> drawables) {
+        this.drawables = drawables;
+        this.body = body;
+        position = new Vector2();
+        mass = this.body.getMass();
         setParamsFromBody();
     }
 
     @Override
     public Vector2 getPosition() {
-        return myPos;
+        return position;
     }
 
     @Override
@@ -52,12 +52,12 @@ public class Shard implements SolObject {
 
     @Override
     public List<Drawable> getDrawables() {
-        return myDrawables;
+        return drawables;
     }
 
     @Override
     public float getAngle() {
-        return myAngle;
+        return angle;
     }
 
     @Override
@@ -91,8 +91,8 @@ public class Shard implements SolObject {
     }
 
     private void setParamsFromBody() {
-        myPos.set(myBody.getPosition());
-        myAngle = myBody.getAngle() * SolMath.radDeg;
+        position.set(body.getPosition());
+        angle = body.getAngle() * SolMath.radDeg;
     }
 
     @Override
@@ -102,7 +102,7 @@ public class Shard implements SolObject {
 
     @Override
     public void onRemove(SolGame game) {
-        myBody.getWorld().destroyBody(myBody);
+        body.getWorld().destroyBody(body);
     }
 
     @Override
@@ -117,9 +117,9 @@ public class Shard implements SolObject {
     @Override
     public void receiveForce(Vector2 force, SolGame game, boolean acc) {
         if (acc) {
-            force.scl(myMass);
+            force.scl(mass);
         }
-        myBody.applyForceToCenter(force, true);
+        body.applyForceToCenter(force, true);
     }
 
 }

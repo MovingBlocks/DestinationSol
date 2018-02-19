@@ -21,20 +21,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConsumedAngles {
-    private final List<Float> myAngles;
-    private final List<Float> myHalfWidths;
+    private final List<Float> angles;
+    private final List<Float> halfWidths;
 
     public ConsumedAngles() {
-        myAngles = new ArrayList<>();
-        myHalfWidths = new ArrayList<>();
+        angles = new ArrayList<>();
+        halfWidths = new ArrayList<>();
     }
 
     public boolean isConsumed(float angle, float objAngularHalfWidth) {
-        int sz = myAngles.size();
-        for (int i = 0; i < sz; i++) {
-            Float a = myAngles.get(i);
-            Float hw = myHalfWidths.get(i);
-            if (SolMath.angleDiff(angle, a) < hw + objAngularHalfWidth) {
+        int size = angles.size();
+        for (int i = 0; i < size; i++) {
+            Float a = angles.get(i);
+            Float halfWidth = halfWidths.get(i);
+            if (SolMath.angleDiff(angle, a) < halfWidth + objAngularHalfWidth) {
                 return true;
             }
         }
@@ -42,7 +42,7 @@ public class ConsumedAngles {
     }
 
     public void add(float angle, float hw) {
-        myAngles.add(angle);
-        myHalfWidths.add(hw);
+        angles.add(angle);
+        halfWidths.add(hw);
     }
 }

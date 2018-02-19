@@ -26,23 +26,23 @@ import org.destinationsol.game.drawables.DrawableManager;
 import java.util.List;
 
 public class FarPlanetSprites implements FarObject {
-    private final Planet myPlanet;
-    private final float myDist;
-    private final List<Drawable> myDrawables;
-    private final float myRadius;
-    private final float myToPlanetRotationSpeed;
-    private float myRelAngleToPlanet;
-    private Vector2 myPos;
+    private final Planet planet;
+    private final float distance;
+    private final List<Drawable> drawables;
+    private final float radius;
+    private final float RotationSpeedToPlanet;
+    private float relativeAngleToPlanet;
+    private Vector2 position;
 
     public FarPlanetSprites(Planet planet, float relAngleToPlanet, float dist, List<Drawable> drawables,
                             float toPlanetRotationSpeed) {
-        myPlanet = planet;
-        myRelAngleToPlanet = relAngleToPlanet;
-        myDist = dist;
-        myDrawables = drawables;
-        myRadius = DrawableManager.radiusFromDrawables(myDrawables);
-        myToPlanetRotationSpeed = toPlanetRotationSpeed;
-        myPos = new Vector2();
+        this.planet = planet;
+        relativeAngleToPlanet = relAngleToPlanet;
+        distance = dist;
+        this.drawables = drawables;
+        radius = DrawableManager.radiusFromDrawables(this.drawables);
+        RotationSpeedToPlanet = toPlanetRotationSpeed;
+        position = new Vector2();
     }
 
     @Override
@@ -52,26 +52,26 @@ public class FarPlanetSprites implements FarObject {
 
     @Override
     public SolObject toObject(SolGame game) {
-        return new PlanetSprites(myPlanet, myRelAngleToPlanet, myDist, myDrawables, myToPlanetRotationSpeed);
+        return new PlanetSprites(planet, relativeAngleToPlanet, distance, drawables, RotationSpeedToPlanet);
     }
 
     @Override
     public void update(SolGame game) {
-        myRelAngleToPlanet += myToPlanetRotationSpeed * game.getTimeStep();
-        if (game.getPlanetManager().getNearestPlanet() == myPlanet) {
-            SolMath.fromAl(myPos, myPlanet.getAngle() + myRelAngleToPlanet, myDist);
-            myPos.add(myPlanet.getPosition());
+        relativeAngleToPlanet += RotationSpeedToPlanet * game.getTimeStep();
+        if (game.getPlanetManager().getNearestPlanet() == planet) {
+            SolMath.fromAl(position, planet.getAngle() + relativeAngleToPlanet, distance);
+            position.add(planet.getPosition());
         }
     }
 
     @Override
     public float getRadius() {
-        return myRadius;
+        return radius;
     }
 
     @Override
     public Vector2 getPosition() {
-        return myPos;
+        return position;
     }
 
     @Override

@@ -38,21 +38,21 @@ public class UiDrawer {
     public final float r;
     public final TextureRegion whiteTexture;
     public final Rectangle filler;
-    private final CommonDrawer myDrawer;
-    private Boolean myTextMode;
+    private final CommonDrawer drawer;
+    private Boolean isTextMode;
 
     public UiDrawer(CommonDrawer commonDrawer) {
-        myDrawer = commonDrawer;
-        r = myDrawer.dimensionsRatio;
+        drawer = commonDrawer;
+        r = drawer.dimensionsRatio;
         whiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
-        uiLineWidth = 1 / myDrawer.height;
-        straightMtx = new Matrix4().setToOrtho2D(0, 1, myDrawer.dimensionsRatio, -1);
-        myDrawer.setMatrix(straightMtx);
+        uiLineWidth = 1 / drawer.height;
+        straightMtx = new Matrix4().setToOrtho2D(0, 1, drawer.dimensionsRatio, -1);
+        drawer.setMatrix(straightMtx);
         filler = new Rectangle(0, 0, r, 1);
     }
 
     public void updateMtx() {
-        myDrawer.setMatrix(straightMtx);
+        drawer.setMatrix(straightMtx);
     }
 
     public void drawString(String s, float x, float y, float scale, boolean centered, Color tint) {
@@ -60,14 +60,14 @@ public class UiDrawer {
     }
 
     public void drawString(String s, float x, float y, float scale, TextAlignment align, boolean centered, Color tint) {
-        if (myTextMode != null && !myTextMode) {
+        if (isTextMode != null && !isTextMode) {
             throw new AssertionError("drawing text in atlas mode");
         }
-        myDrawer.drawString(s, x, y, scale * FONT_SIZE, align, centered, tint);
+        drawer.drawString(s, x, y, scale * FONT_SIZE, align, centered, tint);
     }
 
     private void check() {
-        if (myTextMode != null && myTextMode) {
+        if (isTextMode != null && isTextMode) {
             throw new AssertionError("drawing atlas in text mode");
         }
     }
@@ -75,30 +75,30 @@ public class UiDrawer {
     public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y,
                      float rot, Color tint) {
         check();
-        myDrawer.draw(tr, width, height, origX, origY, x, y, rot, tint);
+        drawer.draw(tr, width, height, origX, origY, x, y, rot, tint);
     }
 
     public void draw(Rectangle rect, Color tint) {
         check();
-        myDrawer.draw(whiteTexture, rect, tint);
+        drawer.draw(whiteTexture, rect, tint);
     }
 
     public void drawCircle(Vector2 center, float radius, Color col) {
         check();
-        myDrawer.drawCircle(whiteTexture, center, radius, col, uiLineWidth, 1);
+        drawer.drawCircle(whiteTexture, center, radius, col, uiLineWidth, 1);
     }
 
     public void drawLine(float x, float y, float angle, float len, Color col) {
         check();
-        myDrawer.drawLine(whiteTexture, x, y, angle, len, col, uiLineWidth);
+        drawer.drawLine(whiteTexture, x, y, angle, len, col, uiLineWidth);
     }
 
     public void drawLine(Vector2 p1, Vector2 p2, Color col) {
         check();
-        myDrawer.drawLine(whiteTexture, p1, p2, col, uiLineWidth, false);
+        drawer.drawLine(whiteTexture, p1, p2, col, uiLineWidth, false);
     }
 
     public void setTextMode(Boolean textMode) {
-        myTextMode = textMode;
+        isTextMode = textMode;
     }
 }

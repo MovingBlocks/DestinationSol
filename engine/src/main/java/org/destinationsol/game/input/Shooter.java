@@ -65,7 +65,7 @@ public class Shooter {
         return res;
     }
 
-    public void update(SolShip ship, Vector2 enemyPos, boolean dontRotate, boolean canShoot, Vector2 enemySpeed,
+    public void update(SolShip ship, Vector2 enemyPos, boolean notRotate, boolean canShoot, Vector2 enemySpeed,
                        float enemyApproxRad) {
         myLeft = false;
         myRight = false;
@@ -124,7 +124,7 @@ public class Shooter {
             return;
         }
 
-        if (dontRotate) {
+        if (notRotate) {
             return;
         }
         Boolean needsToTurn = Mover.needsToTurn(shipAngle, shootAngle, ship.getRotationSpeed(), ship.getRotationAcceleration(), MIN_SHOOT_AAD);

@@ -350,7 +350,7 @@ public class DSParticleEmitter {
         }
 
         @Override
-        public Vector2 getPos() {
+        public Vector2 getPosition() {
             return position;
         }
 

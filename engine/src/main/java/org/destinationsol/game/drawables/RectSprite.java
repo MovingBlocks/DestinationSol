@@ -112,7 +112,7 @@ public class RectSprite implements Drawable {
     }
 
     @Override
-    public Vector2 getPos() {
+    public Vector2 getPosition() {
         return position;
     }
 

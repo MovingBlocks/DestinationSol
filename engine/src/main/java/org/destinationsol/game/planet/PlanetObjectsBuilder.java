@@ -337,7 +337,7 @@ public class PlanetObjectsBuilder {
         SolMath.fromAl(position, SolMath.rnd(180), height);
         Vector2 planetPosition = planet.getPosition();
         position.add(planetPosition);
-        float speedLen = SolMath.sqrt(planet.getGravConst() / height);
+        float speedLen = SolMath.sqrt(planet.getGravitationConstant() / height);
         boolean clockwise = SolMath.test(.5f);
         if (!clockwise) {
             speedLen *= -1;
