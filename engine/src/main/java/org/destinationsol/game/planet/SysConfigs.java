@@ -32,16 +32,16 @@ import java.util.Map;
 import java.util.Set;
 
 public class SysConfigs {
-    private final Map<String, SysConfig> myConfigs;
-    private final Map<String, SysConfig> myHardConfigs;
-    private final Map<String, SysConfig> myBeltConfigs;
-    private final Map<String, SysConfig> myHardBeltConfigs;
+    private final Map<String, SysConfig> configs;
+    private final Map<String, SysConfig> hardConfigs;
+    private final Map<String, SysConfig> beltConfigs;
+    private final Map<String, SysConfig> hardBeltConfigs;
 
     public SysConfigs(HullConfigManager hullConfigs, ItemManager itemManager) {
-        myConfigs = new HashMap<>();
-        myHardConfigs = new HashMap<>();
-        myBeltConfigs = new HashMap<>();
-        myHardBeltConfigs = new HashMap<>();
+        configs = new HashMap<>();
+        hardConfigs = new HashMap<>();
+        beltConfigs = new HashMap<>();
+        hardBeltConfigs = new HashMap<>();
 
         load("systemsConfig", hullConfigs, false, itemManager);
         load("asteroidBeltsConfig", hullConfigs, true, itemManager);
@@ -55,7 +55,7 @@ public class SysConfigs {
             String name = node.name;
 
             boolean hard = node.getBoolean("hard", false);
-            Map<String, SysConfig> configs = belts ? hard ? myHardBeltConfigs : myBeltConfigs : hard ? myHardConfigs : myConfigs;
+            Map<String, SysConfig> configs = belts ? hard ? hardBeltConfigs : beltConfigs : hard ? hardConfigs : this.configs;
 
             SpaceEnvConfig envConfig = new SpaceEnvConfig(node.get("environment"));
 
@@ -75,7 +75,7 @@ public class SysConfigs {
                 String name = node.name;
 
                 boolean hard = node.getBoolean("hard", false);
-                Map<String, SysConfig> configs = belts ? hard ? myHardBeltConfigs : myBeltConfigs : hard ? myHardConfigs : myConfigs;
+                Map<String, SysConfig> configs = belts ? hard ? hardBeltConfigs : beltConfigs : hard ? hardConfigs : this.configs;
 
                 SysConfig config = configs.get(name);
 
@@ -97,43 +97,43 @@ public class SysConfigs {
     }
 
     public SysConfig getRandomBelt(boolean hard) {
-        Map<String, SysConfig> config = hard ? myHardBeltConfigs : myBeltConfigs;
+        Map<String, SysConfig> config = hard ? hardBeltConfigs : beltConfigs;
         return SolMath.elemRnd(new ArrayList<>(config.values()));
     }
 
     public SysConfig getConfig(String name) {
-        SysConfig res = myConfigs.get(name);
+        SysConfig res = configs.get(name);
         if (res != null) {
             return res;
         }
-        return myHardConfigs.get(name);
+        return hardConfigs.get(name);
     }
 
     public SysConfig getRandomCfg(boolean hard) {
-        Map<String, SysConfig> config = hard ? myHardConfigs : myConfigs;
+        Map<String, SysConfig> config = hard ? hardConfigs : configs;
         return SolMath.elemRnd(new ArrayList<>(config.values()));
     }
 
     public void addAllConfigs(ArrayList<ShipConfig> shipConfigs) {
-        for (SysConfig sc : myConfigs.values()) {
+        for (SysConfig sc : configs.values()) {
             shipConfigs.addAll(sc.constAllies);
             shipConfigs.addAll(sc.constEnemies);
             shipConfigs.addAll(sc.tempEnemies);
             shipConfigs.addAll(sc.innerTempEnemies);
         }
 
-        for (SysConfig sc : myHardConfigs.values()) {
+        for (SysConfig sc : hardConfigs.values()) {
             shipConfigs.addAll(sc.constAllies);
             shipConfigs.addAll(sc.constEnemies);
             shipConfigs.addAll(sc.tempEnemies);
             shipConfigs.addAll(sc.innerTempEnemies);
         }
 
-        for (SysConfig sc : myBeltConfigs.values()) {
+        for (SysConfig sc : beltConfigs.values()) {
             shipConfigs.addAll(sc.tempEnemies);
         }
 
-        for (SysConfig sc : myHardBeltConfigs.values()) {
+        for (SysConfig sc : hardBeltConfigs.values()) {
             shipConfigs.addAll(sc.tempEnemies);
         }
     }

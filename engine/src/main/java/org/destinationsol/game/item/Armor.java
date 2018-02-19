@@ -29,11 +29,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Armor implements SolItem {
-    private final Config myConfig;
+    private final Config config;
     private int myEquipped;
 
     private Armor(Config config) {
-        myConfig = config;
+        this.config = config;
     }
 
     private Armor(Config config, int equipped) {
@@ -43,22 +43,22 @@ public class Armor implements SolItem {
 
     @Override
     public String getDisplayName() {
-        return myConfig.displayName;
+        return config.displayName;
     }
 
     @Override
     public float getPrice() {
-        return myConfig.price;
+        return config.price;
     }
 
     @Override
     public String getDescription() {
-        return myConfig.desc;
+        return config.desc;
     }
 
     @Override
     public SolItem copy() {
-        return new Armor(myConfig, myEquipped);
+        return new Armor(config, myEquipped);
     }
 
     @Override
@@ -68,29 +68,29 @@ public class Armor implements SolItem {
 
     @Override
     public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-        return myConfig.icon;
+        return config.icon;
     }
 
     @Override
     public SolItemType getItemType() {
-        return myConfig.itemType;
+        return config.itemType;
     }
 
     @Override
     public String getCode() {
-        return myConfig.code;
+        return config.code;
     }
 
     public float getPerc() {
-        return myConfig.perc;
+        return config.perc;
     }
 
     public PlayableSound getHitSound(DmgType dmgType) {
         switch (dmgType) {
             case BULLET:
-                return myConfig.bulletHitSound;
+                return config.bulletHitSound;
             case ENERGY:
-                return myConfig.energyHitSound;
+                return config.energyHitSound;
         }
         return null;
     }

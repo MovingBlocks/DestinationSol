@@ -31,56 +31,56 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Engine implements SolItem {
-    private final Config myConfig;
+    private final Config config;
 
     private Engine(Config config) {
-        myConfig = config;
+        this.config = config;
     }
 
     @Override
     public String getDisplayName() {
-        return myConfig.displayName;
+        return config.displayName;
     }
 
     @Override
     public float getPrice() {
-        return myConfig.price;
+        return config.price;
     }
 
     @Override
     public String getDescription() {
-        return myConfig.description;
+        return config.description;
     }
 
     public float getRotationAcceleration() {
-        return myConfig.rotationAcceleration;
+        return config.rotationAcceleration;
     }
 
     public float getAcceleration() {
-        return myConfig.acceleration;
+        return config.acceleration;
     }
 
     public float getMaxRotationSpeed() {
-        return myConfig.maxRotationSpeed;
+        return config.maxRotationSpeed;
     }
 
     public boolean isBig() {
-        return myConfig.isBig;
+        return config.isBig;
     }
 
     @Override
     public Engine copy() {
-        return new Engine(myConfig);
+        return new Engine(config);
     }
 
     @Override
     public boolean isSame(SolItem item) {
-        return item instanceof Engine && ((Engine) item).myConfig == myConfig;
+        return item instanceof Engine && ((Engine) item).config == config;
     }
 
     @Override
     public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-        return myConfig.icon;
+        return config.icon;
     }
 
     @Override
@@ -104,11 +104,11 @@ public class Engine implements SolItem {
     }
 
     public PlayableSound getWorkSound() {
-        return myConfig.workSound;
+        return config.workSound;
     }
 
     public EffectConfig getEffectConfig() {
-        return myConfig.effectConfig;
+        return config.effectConfig;
     }
 
     public static class Config {

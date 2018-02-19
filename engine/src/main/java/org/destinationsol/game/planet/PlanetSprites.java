@@ -28,35 +28,35 @@ import java.util.List;
 
 public class PlanetSprites implements SolObject {
 
-    private final Planet myPlanet;
-    private final float myDist;
-    private final List<Drawable> myDrawables;
-    private final float myToPlanetRotationSpeed;
-    private final Vector2 myPos;
-    private float myRelAngleToPlanet;
-    private float myAngle;
+    private final Planet planet;
+    private final float distance;
+    private final List<Drawable> drawables;
+    private final float RotationSpeedToPlanet;
+    private final Vector2 position;
+    private float relativeAngleToPlanet;
+    private float angle;
 
-    public PlanetSprites(Planet planet, float relAngleToPlanet, float dist, List<Drawable> drawables, float toPlanetRotationSpeed) {
-        myPlanet = planet;
-        myRelAngleToPlanet = relAngleToPlanet;
-        myDist = dist;
-        myDrawables = drawables;
-        myToPlanetRotationSpeed = toPlanetRotationSpeed;
-        myPos = new Vector2();
+    PlanetSprites(Planet planet, float relAngleToPlanet, float dist, List<Drawable> drawables, float toPlanetRotationSpeed) {
+        this.planet = planet;
+        relativeAngleToPlanet = relAngleToPlanet;
+        distance = dist;
+        this.drawables = drawables;
+        RotationSpeedToPlanet = toPlanetRotationSpeed;
+        position = new Vector2();
         setDependentParams();
     }
 
     @Override
     public void update(SolGame game) {
         setDependentParams();
-        myRelAngleToPlanet += myToPlanetRotationSpeed * game.getTimeStep();
+        relativeAngleToPlanet += RotationSpeedToPlanet * game.getTimeStep();
     }
 
     private void setDependentParams() {
-        float angleToPlanet = myPlanet.getAngle() + myRelAngleToPlanet;
-        SolMath.fromAl(myPos, angleToPlanet, myDist, true);
-        myPos.add(myPlanet.getPosition());
-        myAngle = angleToPlanet + 90;
+        float angleToPlanet = planet.getAngle() + relativeAngleToPlanet;
+        SolMath.fromAl(position, angleToPlanet, distance, true);
+        position.add(planet.getPosition());
+        angle = angleToPlanet + 90;
     }
 
     @Override
@@ -83,22 +83,22 @@ public class PlanetSprites implements SolObject {
 
     @Override
     public Vector2 getPosition() {
-        return myPos;
+        return position;
     }
 
     @Override
     public FarObject toFarObject() {
-        return new FarPlanetSprites(myPlanet, myRelAngleToPlanet, myDist, myDrawables, myToPlanetRotationSpeed);
+        return new FarPlanetSprites(planet, relativeAngleToPlanet, distance, drawables, RotationSpeedToPlanet);
     }
 
     @Override
     public List<Drawable> getDrawables() {
-        return myDrawables;
+        return drawables;
     }
 
     @Override
     public float getAngle() {
-        return myAngle;
+        return angle;
     }
 
     @Override
