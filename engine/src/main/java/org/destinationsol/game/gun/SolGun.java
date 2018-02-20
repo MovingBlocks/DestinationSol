@@ -134,7 +134,7 @@ public class SolGun {
         }
 
         boolean shot = shouldShoot && myCoolDown <= 0 && myItem.ammo > 0;
-        game.getPartMan().toggleAllHullEmittersOfType(hull, "shoot", shot);
+        game.getPartMan().updateAllHullEmittersOfType(hull, "shoot", shot);
         if (shot) {
             Vector2 gunSpd = creator.getSpd();
             shoot(gunSpd, game, gunAngle, muzzlePos, faction, creator,  hull);
