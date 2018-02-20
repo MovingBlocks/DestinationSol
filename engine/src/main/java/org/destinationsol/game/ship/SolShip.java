@@ -57,6 +57,7 @@ public class SolShip implements SolObject {
     public static final float MAX_FIRE_AWAIT = 1f;
     private static final int TRADE_AFTER = 3;
     private static final float ENERGY_DMG_FACTOR = .7f;
+    private boolean colliding;
 
     private final Pilot myPilot;
     private final ItemContainer myItemContainer;
@@ -82,6 +83,7 @@ public class SolShip implements SolObject {
     public SolShip(SolGame game, Pilot pilot, Hull hull, RemoveController removeController, List<Drawable> drawables,
                    ItemContainer container, ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
                    Armor armor) {
+        colliding = false;
         myRemoveController = removeController;
         myDrawables = drawables;
         myPilot = pilot;
@@ -126,6 +128,7 @@ public class SolShip implements SolObject {
     @Override
     public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
                               SolGame game, Vector2 collPos) {
+        colliding = true;
         if (tryCollectLoot(other, game)) {
             ((Loot) other).pickedUp(game, this);
             return;
@@ -138,7 +141,6 @@ public class SolShip implements SolObject {
             }
             receiveDmg((int) dmg, game, collPos, DmgType.CRASH);
         }
-        game.getPartMan().fireAllHullEmittersOfType(myHull, "collision");
     }
 
     @Override
@@ -223,6 +225,7 @@ public class SolShip implements SolObject {
         SolShip nearestEnemy = game.getFactionMan().getNearestEnemy(game, this);
         myPilot.update(game, this, nearestEnemy);
         myHull.update(game, myItemContainer, myPilot, this, nearestEnemy);
+        game.getPartMan().toggleAllHullEmittersOfType(myHull, "collision", colliding);
 
         updateAbility(game);
         updateIdleTime(game);
@@ -260,6 +263,8 @@ public class SolShip implements SolObject {
         if (myAbility instanceof Teleport) {
             ((Teleport) myAbility).maybeTeleport(game, this);
         }
+
+        colliding = false;
     }
 
     private void updateAbility(SolGame game) {
