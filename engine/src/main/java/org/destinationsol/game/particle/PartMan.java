@@ -92,13 +92,13 @@ public class PartMan {
     }
 
     /**
-     * This method turns all of the particle emitters on a Hull with the specified trigger on or off
+     * This method updates all of the particle emitters on a Hull with the specified trigger
      *
      * @param hull Hull containing the particle emitters
      * @param triggerType trigger type of the particle emitters
      * @param on boolean where true turns the particle emitters on and false turns it off
      */
-    public void toggleAllHullEmittersOfType(Hull hull, String triggerType, boolean on) {
+    public void updateAllHullEmittersOfType(Hull hull, String triggerType, boolean on) {
         for (DSParticleEmitter particleEmitter : hull.getParticleEmitters()) {
             if (triggerType.equals(particleEmitter.getTrigger())) {
                 particleEmitter.setWorking(on);
