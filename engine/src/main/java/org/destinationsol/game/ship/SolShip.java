@@ -225,7 +225,7 @@ public class SolShip implements SolObject {
         SolShip nearestEnemy = game.getFactionMan().getNearestEnemy(game, this);
         myPilot.update(game, this, nearestEnemy);
         myHull.update(game, myItemContainer, myPilot, this, nearestEnemy);
-        game.getPartMan().toggleAllHullEmittersOfType(myHull, "collision", colliding);
+        game.getPartMan().updateAllHullEmittersOfType(myHull, "collision", colliding);
 
         updateAbility(game);
         updateIdleTime(game);
