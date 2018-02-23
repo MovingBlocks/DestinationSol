@@ -121,7 +121,7 @@ public class Hero {
 
     public float getAcceleration() {
         assertNonTranscendent();
-        return shipHero.getAcc();
+        return shipHero.getAcceleration();
     }
 
     public Vector2 getPosition() {

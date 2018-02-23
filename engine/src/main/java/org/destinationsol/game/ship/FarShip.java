@@ -119,7 +119,7 @@ public class FarShip implements FarObject {
     }
 
     public void setPos(Vector2 position) {
-        position.set(position);
+        this.position.set(position);
     }
 
     @Override
