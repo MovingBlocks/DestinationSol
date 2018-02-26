@@ -101,7 +101,6 @@ public class SolGun {
         myCoolDown += myItem.config.timeBetweenShots;
         myItem.ammo--;
         game.getSoundManager().play(game, myItem.config.shootSound, muzzlePos, creator);
-        game.getPartMan().fireAllHullEmittersOfType(hull, "shoot");
     }
 
     public void update(ItemContainer ic, SolGame game, float gunAngle, SolObject creator, boolean shouldShoot, Faction faction, Hull hull) {
@@ -135,6 +134,7 @@ public class SolGun {
         }
 
         boolean shot = shouldShoot && myCoolDown <= 0 && myItem.ammo > 0;
+        game.getPartMan().updateAllHullEmittersOfType(hull, "shoot", shot);
         if (shot) {
             Vector2 gunSpd = creator.getSpd();
             shoot(gunSpd, game, gunAngle, muzzlePos, faction, creator,  hull);

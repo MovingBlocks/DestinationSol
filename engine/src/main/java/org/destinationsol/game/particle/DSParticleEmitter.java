@@ -218,6 +218,8 @@ public class DSParticleEmitter {
     }
 
     public void setWorking(boolean working) {
+        light.update(working, relativeAngle, game);
+
         if (!isContinuous()) {
             throw new AssertionError("only continuous emitters can start working");
         }
@@ -231,10 +233,6 @@ public class DSParticleEmitter {
         } else {
             particleEmitter.allowCompletion();
         }
-    }
-
-    public void setLightWorking(boolean working) {
-        light.update(working, relativeAngle, game);
     }
 
     private void setSpeed(Vector2 speed) {
