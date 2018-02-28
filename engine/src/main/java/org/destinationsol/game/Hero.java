@@ -32,16 +32,16 @@ import org.destinationsol.game.ship.hulls.Hull;
  * A wrapper class for the Hero, that handles the normal and transcendent ships transparently.
  */
 public class Hero {
-    private SolShip hero;
+    private SolShip shipHero;
     private StarPort.Transcendent transcendentHero;
     private FarShip transcendentHeroShip;
     private boolean isTranscendent;
     private boolean isDead;
 
-    public Hero(SolShip hero) {
-        this.hero = hero;
-        if (hero == null) {
-            throw new SolDescriptiveException("Something tries to create hero, when there is no ship linked to hiim. Please report this..");
+    public Hero(SolShip shipHero) {
+        this.shipHero = shipHero;
+        if (shipHero == null) {
+            throw new SolDescriptiveException("Something tries to create hero, when there is no ship linked to him. Please report this..");
         }
         isTranscendent = false;
     }
@@ -54,7 +54,7 @@ public class Hero {
 
     public void toSolShip(SolShip hero) {
         isDead = false;
-        this.hero = hero;
+        this.shipHero = hero;
         isTranscendent = false;
     }
 
@@ -67,18 +67,18 @@ public class Hero {
     }
 
     public Pilot getPilot() {
-        return isTranscendent ? transcendentHeroShip.getPilot() : hero.getPilot();
+        return isTranscendent ? transcendentHeroShip.getPilot() : shipHero.getPilot();
     }
 
-    public SolShip getHero() {
+    public SolShip getShipHero() {
         if (isTranscendent) {
             throw new SolDescriptiveException("Something is trying to get a SolShip hero while the hero is Transcendent state.");
         }
-        return hero;
+        return shipHero;
     }
 
-    public SolShip getHeroUnchecked() {
-        return hero;
+    public SolShip getShipHeroUnchecked() {
+        return shipHero;
     }
 
     public StarPort.Transcendent getTranscendentHero() {
@@ -89,80 +89,80 @@ public class Hero {
     }
 
     public float getAngle() {
-        return isTranscendent ? transcendentHeroShip.getAngle() : hero.getAngle();
+        return isTranscendent ? transcendentHeroShip.getAngle() : shipHero.getAngle();
     }
 
     public Shield getShield() {
-        return isTranscendent ? transcendentHeroShip.getShield() : hero.getShield();
+        return isTranscendent ? transcendentHeroShip.getShield() : shipHero.getShield();
     }
 
     public Armor getArmor() {
-        return isTranscendent ? transcendentHeroShip.getArmor() : hero.getArmor();
+        return isTranscendent ? transcendentHeroShip.getArmor() : shipHero.getArmor();
     }
 
     public ShipAbility getAbility() {
-        onlySolShipHero();
-        return hero.getAbility();
+        assertNonTranscendent();
+        return shipHero.getAbility();
     }
 
     public float getAbilityAwait() {
-        onlySolShipHero();
-        return hero.getAbilityAwait();
+        assertNonTranscendent();
+        return shipHero.getAbilityAwait();
     }
 
     public boolean canUseAbility() {
-        onlySolShipHero();
-        return hero.canUseAbility();
+        assertNonTranscendent();
+        return shipHero.canUseAbility();
     }
 
     public Vector2 getSpd() {
-        return isTranscendent ? transcendentHero.getSpd() : hero.getSpd();
+        return isTranscendent ? transcendentHero.getSpd() : shipHero.getSpd();
     }
 
     public float getAcc() {
-        onlySolShipHero();
-        return hero.getAcc();
+        assertNonTranscendent();
+        return shipHero.getAcc();
     }
 
     public Vector2 getPosition() {
-        return isTranscendent ? transcendentHero.getPosition() : hero.getPosition();
+        return isTranscendent ? transcendentHero.getPosition() : shipHero.getPosition();
     }
 
     public Hull getHull() {
-        onlySolShipHero();
-        return hero.getHull();
+        assertNonTranscendent();
+        return shipHero.getHull();
     }
 
     public float getLife() {
-        return isTranscendent ? transcendentHeroShip.getLife() : hero.getLife();
+        return isTranscendent ? transcendentHeroShip.getLife() : shipHero.getLife();
     }
 
     public float getRotAcc() {
-        onlySolShipHero();
-        return hero.getRotAcc();
+        assertNonTranscendent();
+        return shipHero.getRotAcc();
     }
 
     public float getRotSpd() {
-        onlySolShipHero();
-        return hero.getRotSpd();
+        assertNonTranscendent();
+        return shipHero.getRotSpd();
     }
 
     public float getMoney() {
-        return isTranscendent ? transcendentHeroShip.getMoney() : hero.getMoney();
+        return isTranscendent ? transcendentHeroShip.getMoney() : shipHero.getMoney();
     }
 
     public void setMoney(float money) {
-        onlySolShipHero();
-        hero.setMoney(money);
+        assertNonTranscendent();
+        shipHero.setMoney(money);
     }
 
     public TradeContainer getTradeContainer() {
-        onlySolShipHero();
-        return hero.getTradeContainer();
+        assertNonTranscendent();
+        return shipHero.getTradeContainer();
     }
 
     public ItemContainer getItemContainer() {
-        return isTranscendent ? transcendentHeroShip.getIc() : hero.getItemContainer();
+        return isTranscendent ? transcendentHeroShip.getIc() : shipHero.getItemContainer();
     }
 
     public void die() {
@@ -170,26 +170,26 @@ public class Hero {
     }
 
     public boolean maybeEquip(SolGame game, SolItem item, boolean equip) {
-        onlySolShipHero();
-        return hero.maybeEquip(game, item, equip);
+        assertNonTranscendent();
+        return shipHero.maybeEquip(game, item, equip);
     }
 
     public boolean maybeEquip(SolGame game, SolItem item, boolean secondarySlot, boolean equip) {
-        onlySolShipHero();
-        return hero.maybeEquip(game, item, secondarySlot, equip);
+        assertNonTranscendent();
+        return shipHero.maybeEquip(game, item, secondarySlot, equip);
     }
 
     public boolean maybeUnequip(SolGame game, SolItem item, boolean equip) {
-        onlySolShipHero();
-        return hero.maybeUnequip(game, item, equip);
+        assertNonTranscendent();
+        return shipHero.maybeUnequip(game, item, equip);
     }
 
     public boolean maybeUnequip(SolGame game, SolItem item, boolean secondarySlot, boolean equip) {
-        onlySolShipHero();
-        return hero.maybeUnequip(game, item, secondarySlot, equip);
+        assertNonTranscendent();
+        return shipHero.maybeUnequip(game, item, secondarySlot, equip);
     }
 
-    private void onlySolShipHero() {
+    private void assertNonTranscendent() {
         if (isTranscendent) {
             throw new SolDescriptiveException("Something is trying to get a property of hero that doesn't exist in transcendent state, while the hero is in transcendent state.");
         }

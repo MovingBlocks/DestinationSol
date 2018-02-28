@@ -155,7 +155,7 @@ public class InventoryScreen implements SolUiScreen {
             
             SolGame game = solApplication.getGame();
             // Make sure the ChooseMercenary screen comes back up when we exit a mercenary related screen
-            if (myOperations == giveItems || myOperations == takeItems || (myOperations == showInventory && showInventory.getTarget() != game.getHero().getHero())) {
+            if (myOperations == giveItems || myOperations == takeItems || (myOperations == showInventory && showInventory.getTarget() != game.getHero().getShipHero())) {
                 SolInputManager inputMan = solApplication.getInputMan();
                 GameScreens screens = game.getScreens();
                 InventoryScreen is = screens.inventoryScreen;
@@ -356,7 +356,7 @@ public class InventoryScreen implements SolUiScreen {
     }
 
     private boolean showingHeroItems(SolApplication application) {
-        return application.getGame().getHero().getHero() == showInventory.getTarget() || myOperations == sellItems;
+        return application.getGame().getHero().getShipHero() == showInventory.getTarget() || myOperations == sellItems;
     }
 
     public Rectangle itemCtrl(int row) {
