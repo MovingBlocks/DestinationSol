@@ -59,15 +59,14 @@ public class SolCam {
     }
 
     public void update(SolGame game) {
-        float life = 0;
 
         Hero hero = game.getHero();
         float ts = game.getTimeStep();
-        life = hero.getLife();
+        float life = hero.getLife();
         if (hero.isDead() || DIRECT_CAM_CONTROL) {
             applyInput(game);
         } else {
-            Vector2 heroPos = hero.getHull().getBody().getWorldCenter();
+            Vector2 heroPos = hero.getPosition();
             if (myZoom * VIEWPORT_HEIGHT < heroPos.dst(myPos)) {
                 myPos.set(heroPos);
                 game.getObjMan().resetDelays();

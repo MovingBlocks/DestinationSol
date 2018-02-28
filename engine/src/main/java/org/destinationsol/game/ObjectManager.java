@@ -98,15 +98,16 @@ public class ObjectManager {
                 drawable.update(game, o);
             }
 
+            final Hero hero = game.getHero();
             if (o.shouldBeRemoved(game)) {
                 removeObjDelayed(o);
-                if (game.getHero().isAlive() && game.getHero().isNonTranscendent() && o == game.getHero().getHero()) {
-                    game.getHero().die();
+                if (hero.isAlive() && hero.isNonTranscendent() && o == hero.getShipHero()) {
+                    hero.die();
                 }
                 continue;
             }
             if (isFar(o, camPos)) {
-                if (game.getHero().isAlive() && game.getHero().isNonTranscendent() && o != game.getHero().getHero()) {
+                if (hero.isAlive() && hero.isNonTranscendent() && o != hero.getShipHero()) {
                     FarObj fo = o.toFarObj();
                     if (fo != null) {
                         addFarObjNow(fo);
