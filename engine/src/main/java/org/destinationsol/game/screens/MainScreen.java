@@ -125,7 +125,8 @@ public class MainScreen implements SolUiScreen {
         mercControl = new SolUiControl(mercArea, true, gameOptions.getKeyMercenaryInteraction());
         mercControl.setDisplayName("Mercs");
         controls.add(mercControl);
-        freeCamControl = new SolUiControl(null, false, gameOptions.getKeyFreeCameraMovement()); // No button, since on mobile, it should be ideally controlled straightly by dragging.
+        // No button, since on mobile, it should be ideally controlled straightly by dragging.
+        freeCamControl = new SolUiControl(null, false, gameOptions.getKeyFreeCameraMovement());
         controls.add(freeCamControl);
         pauseControl = new SolUiControl(null, true, gameOptions.getKeyPause());
         controls.add(pauseControl);
@@ -240,7 +241,7 @@ public class MainScreen implements SolUiScreen {
             boolean isOn = inputMan.isScreenOn(is);
             inputMan.setScreen(solApplication, screens.mainScreen);
             if (!isOn) {
-                is.showInventory.setTarget(hero.getHero());
+                is.showInventory.setTarget(hero.getShipHero());
                 is.setOperations(is.showInventory);
                 inputMan.addScreen(solApplication, is);
             }
@@ -290,7 +291,7 @@ public class MainScreen implements SolUiScreen {
                 continue;
             }
             SolShip ship = (SolShip) o;
-            if (factionManager.areEnemies(hero.getHero(), ship)) {
+            if (factionManager.areEnemies(hero.getShipHero(), ship)) {
                 continue;
             }
             if (ship.getTradeContainer() == null) {
@@ -578,7 +579,7 @@ public class MainScreen implements SolUiScreen {
                 return false;
             }
 
-            float heroCap = HardnessCalc.getShipDmgCap(hero.getHero());
+            float heroCap = HardnessCalc.getShipDmgCap(hero.getShipHero());
             List<SolObject> objs = game.getObjMan().getObjs();
             FactionManager fm = game.getFactionMan();
             SolCam cam = game.getCam();
@@ -596,7 +597,7 @@ public class MainScreen implements SolUiScreen {
                     continue;
                 }
 
-                if (!fm.areEnemies(hero.getHero(), ship)) {
+                if (!fm.areEnemies(hero.getShipHero(), ship)) {
                     continue;
                 }
 

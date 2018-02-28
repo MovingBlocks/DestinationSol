@@ -87,7 +87,7 @@ public class BorderDrawer {
         drawTishches(drawer, g, cam, camPos);
         MapDrawer mapDrawer = g.getMapDrawer();
         FactionManager factionManager = g.getFactionMan();
-        float heroDmgCap = hero.isTranscendent() ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero.getHero());
+        float heroDmgCap = hero.isTranscendent() ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero.getShipHero());
 
         List<SolObject> objs = g.getObjMan().getObjs();
         for (SolObject o : objs) {
