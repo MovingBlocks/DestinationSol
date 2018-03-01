@@ -220,7 +220,7 @@ public class SolGame {
         // Don't change equipped items across load/respawn
         //AiPilot.reEquip(this, myHero);
 
-        objectManager.addObjDelayed(hero.getShipHero());
+        objectManager.addObjDelayed(hero.getShip());
         objectManager.resetDelays();
     }
 
@@ -421,7 +421,7 @@ public class SolGame {
         if (hero.isAlive()) {
             if (hero.isNonTranscendent()) {
                 beforeHeroDeath();
-                objectManager.removeObjDelayed(hero.getShipHero());
+                objectManager.removeObjDelayed(hero.getShip());
             } else {
                 setRespawnState(hero.getMoney(), hero.getItemContainer(), hero.getTranscendentHero().getShip().getHullConfig());
                 objectManager.removeObjDelayed(hero.getTranscendentHero());
