@@ -258,7 +258,7 @@ public class BeaconHandler {
         Hero hero = game.getHero();
         float iconRad = onMap ? game.getMapDrawer().getIconRadius(game.getCam()) : 0;
         for (SolObject o : objectManager.getObjs()) {
-            if (o == hero.getShipHeroUnchecked() || !(o instanceof SolShip)) {
+            if (o == hero.getShipUnchecked() || !(o instanceof SolShip)) {
                 continue;
             }
             SolShip s = (SolShip) o;

@@ -122,7 +122,7 @@ public class MapDrawer {
         Planet np = game.getPlanetMan().getNearestPlanet();
         Vector2 camPos = cam.getPos();
         float camAngle = cam.getAngle();
-        float heroDmgCap = hero.isTranscendent() ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero.getShipHero());
+        float heroDmgCap = hero.isTranscendent() ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero.getShip());
 
         drawer.updateMtx(game);
         game.getGridDrawer().draw(drawer, game, GRID_SZ, myLineTex);

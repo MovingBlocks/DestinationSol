@@ -68,7 +68,7 @@ public class MainScreen implements SolUiScreen {
     public final SolUiControl freeCamControl;
     private final SolUiControl menuControl;
     private final SolUiControl pauseControl;
-    private final CameraKbControl cameraControl;
+    private final CameraKeaboardbControl cameraControl;
 
     private final ZoneNameAnnouncer zoneNameAnnouncer;
     private final BorderDrawer borderDrawer;
@@ -130,7 +130,7 @@ public class MainScreen implements SolUiScreen {
         controls.add(freeCamControl);
         pauseControl = new SolUiControl(null, true, gameOptions.getKeyPause());
         controls.add(pauseControl);
-        cameraControl = new CameraKbControl(gameOptions, controls);
+        cameraControl = new CameraKeaboardbControl(gameOptions, controls);
 
         warnDrawers.add(new CollisionWarnDrawer(resolutionRatio));
         warnDrawers.add(new SunWarnDrawer(resolutionRatio));
@@ -241,12 +241,12 @@ public class MainScreen implements SolUiScreen {
             boolean isOn = inputMan.isScreenOn(is);
             inputMan.setScreen(solApplication, screens.mainScreen);
             if (!isOn) {
-                is.showInventory.setTarget(hero.getShipHero());
+                is.showInventory.setTarget(hero.getShip());
                 is.setOperations(is.showInventory);
                 inputMan.addScreen(solApplication, is);
             }
         }
-        
+
         mercControl.setEnabled(hero.isNonTranscendent());
         if (hero.isNonTranscendent() && !inputMan.isScreenOn(screens.inventoryScreen)) {
             if (hero.getTradeContainer().getMercs().hasNew()) {
@@ -260,7 +260,7 @@ public class MainScreen implements SolUiScreen {
             if (!isOn) {
                 is.setOperations(is.chooseMercenary);
                 inputMan.addScreen(solApplication, is);
-                
+
                 game.getHero().getTradeContainer().getMercs().markAllAsSeen();
             }
         }
@@ -291,7 +291,7 @@ public class MainScreen implements SolUiScreen {
                 continue;
             }
             SolShip ship = (SolShip) o;
-            if (factionManager.areEnemies(hero.getShipHero(), ship)) {
+            if (factionManager.areEnemies(hero.getShip(), ship)) {
                 continue;
             }
             if (ship.getTradeContainer() == null) {
@@ -512,19 +512,19 @@ public class MainScreen implements SolUiScreen {
         return shipControl.isAbility();
     }
 
-    public boolean isCameraUp(){
+    public boolean isCameraUp() {
         return cameraControl.isUp();
     }
 
-    public boolean isCameraDown(){
+    public boolean isCameraDown() {
         return cameraControl.isDown();
     }
 
-    public boolean isCameraLeft(){
+    public boolean isCameraLeft() {
         return cameraControl.isLeft();
     }
 
-    public boolean isCameraRight(){
+    public boolean isCameraRight() {
         return cameraControl.isRight();
     }
 
@@ -579,7 +579,7 @@ public class MainScreen implements SolUiScreen {
                 return false;
             }
 
-            float heroCap = HardnessCalc.getShipDmgCap(hero.getShipHero());
+            float heroCap = HardnessCalc.getShipDmgCap(hero.getShip());
             List<SolObject> objs = game.getObjMan().getObjs();
             FactionManager fm = game.getFactionMan();
             SolCam cam = game.getCam();
@@ -597,7 +597,7 @@ public class MainScreen implements SolUiScreen {
                     continue;
                 }
 
-                if (!fm.areEnemies(hero.getShipHero(), ship)) {
+                if (!fm.areEnemies(hero.getShip(), ship)) {
                     continue;
                 }
 

@@ -89,7 +89,7 @@ public class SaveManager {
     private static void writeMercs(SolGame game) {
         PrintWriter writer;
         
-        ItemContainer mercenaries = game.getHero().getShipHeroUnchecked().getTradeContainer().getMercs();
+        ItemContainer mercenaries = game.getHero().getShipUnchecked().getTradeContainer().getMercs();
         
         List<JsonObject> jsons = new ArrayList<JsonObject>();
         
