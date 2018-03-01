@@ -16,7 +16,7 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.common.SolDescriptiveException;
+import org.destinationsol.common.SolException;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
 import org.destinationsol.game.item.ItemContainer;
@@ -41,18 +41,18 @@ public class Hero {
     public Hero(SolShip shipHero) {
         this.shipHero = shipHero;
         if (shipHero == null) {
-            throw new SolDescriptiveException("Something tries to create hero, when there is no ship linked to him. Please report this..");
+            throw new SolException("Something tries to create hero, when there is no ship linked to him.");
         }
         isTranscendent = false;
     }
 
-    public void toTranscendent(StarPort.Transcendent transcendentHero) {
+    public void setTranscendent(StarPort.Transcendent transcendentHero) {
         this.transcendentHero = transcendentHero;
         transcendentHeroShip = transcendentHero.getShip();
         isTranscendent = true;
     }
 
-    public void toSolShip(SolShip hero) {
+    public void setSolShip(SolShip hero) {
         isDead = false;
         this.shipHero = hero;
         isTranscendent = false;
@@ -70,20 +70,20 @@ public class Hero {
         return isTranscendent ? transcendentHeroShip.getPilot() : shipHero.getPilot();
     }
 
-    public SolShip getShipHero() {
+    public SolShip getShip() {
         if (isTranscendent) {
-            throw new SolDescriptiveException("Something is trying to get a SolShip hero while the hero is Transcendent state.");
+            throw new SolException("Something is trying to get a SolShip hero while the hero is Transcendent state.");
         }
         return shipHero;
     }
 
-    public SolShip getShipHeroUnchecked() {
+    public SolShip getShipUnchecked() {
         return shipHero;
     }
 
     public StarPort.Transcendent getTranscendentHero() {
         if (!isTranscendent) {
-            throw new SolDescriptiveException("Something is trying to get a Transcendent hero while the hero is in SolShip state.");
+            throw new SolException("Something is trying to get a Transcendent hero while the hero is in SolShip state.");
         }
         return transcendentHero;
     }
@@ -191,7 +191,7 @@ public class Hero {
 
     private void assertNonTranscendent() {
         if (isTranscendent) {
-            throw new SolDescriptiveException("Something is trying to get a property of hero that doesn't exist in transcendent state, while the hero is in transcendent state.");
+            throw new SolException("Something is trying to get a property of hero that doesn't exist in transcendent state, while the hero is in transcendent state.");
         }
     }
 

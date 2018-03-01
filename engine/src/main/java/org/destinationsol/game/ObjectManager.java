@@ -101,13 +101,13 @@ public class ObjectManager {
             final Hero hero = game.getHero();
             if (o.shouldBeRemoved(game)) {
                 removeObjDelayed(o);
-                if (hero.isAlive() && hero.isNonTranscendent() && o == hero.getShipHero()) {
+                if (hero.isAlive() && hero.isNonTranscendent() && o == hero.getShip()) {
                     hero.die();
                 }
                 continue;
             }
             if (isFar(o, camPos)) {
-                if (hero.isAlive() && hero.isNonTranscendent() && o != hero.getShipHero()) {
+                if (hero.isAlive() && hero.isNonTranscendent() && o != hero.getShip()) {
                     FarObj fo = o.toFarObj();
                     if (fo != null) {
                         addFarObjNow(fo);

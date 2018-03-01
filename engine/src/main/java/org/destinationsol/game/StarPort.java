@@ -122,7 +122,7 @@ public class StarPort implements SolObject {
             ship.setMoney(ship.getMoney() - FARE);
             Transcendent transcendent = new Transcendent(ship, myFrom, myTo, game);
             if (transcendent.getShip().getPilot().isPlayer()) {
-                game.getHero().toTranscendent(transcendent);
+                game.getHero().setTranscendent(transcendent);
             }
             ObjectManager objectManager = game.getObjMan();
             objectManager.addObjDelayed(transcendent);
@@ -394,7 +394,7 @@ public class StarPort implements SolObject {
                 myShip.setSpd(new Vector2());
                 SolShip ship = myShip.toObj(game);
                 if (ship.getPilot().isPlayer()) {
-                    game.getHero().toSolShip(ship);
+                    game.getHero().setSolShip(ship);
                 }
                 objectManager.addObjDelayed(ship);
                 blip(game, ship);
