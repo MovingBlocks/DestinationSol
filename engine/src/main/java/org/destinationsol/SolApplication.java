@@ -66,6 +66,8 @@ public class SolApplication implements ApplicationListener {
     private String fatalErrorTrace;
     private SolGame solGame;
 
+    public static final String WORLD_SAVE_FILE_NAME = "world.ini";
+
     private float timeAccumulator = 0;
     private boolean isMobile;
 
@@ -201,12 +203,11 @@ public class SolApplication implements ApplicationListener {
     public void play(boolean tut, String shipName, boolean isNewGame) {
         if (isNewGame) {
             beforeNewGame();
-            solGame = new SolGame(this, shipName, tut, isNewGame, commonDrawer);
         } else {
             beforeLoadGame();
-            solGame = new SolGame(this, shipName, tut, isNewGame, commonDrawer);
         }
-        
+
+        solGame = new SolGame(this, shipName, tut, isNewGame, commonDrawer);
         inputManager.setScreen(this, solGame.getScreens().mainScreen);
         musicManager.playGameMusic(options);
     }
@@ -275,9 +276,8 @@ public class SolApplication implements ApplicationListener {
      */
     public void beforeLoadGame() {
         // Set the seed for all the randomness. Very important
-        final String fileName = "world.ini";
-        if (SaveManager.resourceExists(fileName)) {
-            IniReader iniReader = new IniReader(fileName, null);
+        if (SaveManager.resourceExists(WORLD_SAVE_FILE_NAME)) {
+            IniReader iniReader = new IniReader(WORLD_SAVE_FILE_NAME, null);
 
             // Set a fall back for if the seed doesn't exist, just in case someone modified world.ini
             long seed = Long.parseLong(iniReader.getString("seed", "0"));

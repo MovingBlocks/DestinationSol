@@ -17,7 +17,6 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 import com.badlogic.gdx.math.Vector2;
 
 public class MercenaryUtils {
-
     /**
      * Creates a new mercenary, SolShip and all.
      * This method also adds the MercItem and SolShip to the proper registries and sets the proper variables.
