@@ -15,7 +15,7 @@ public class SolRandom {
     /**
      * Returns a seeded random float v such that -minMax <= v < minMax
      *
-     * @param minMax a positive value that is used as the max while the negative value is used as the min
+     * @param minMax The upper bound (exclusive) for magnitude of the generated number. Must be positive.
      */
     public static float seededRandomFloat(float minMax) {
         return SolRandom.seededRandomFloat(-minMax, minMax);
@@ -76,7 +76,7 @@ public class SolRandom {
     /**
      * Returns a random float v such that -minMax <= v < minMax
      *
-     * @param minMax a positive value that is used as the max while the negative value is used as the min
+     * @param minMax The upper bound (exclusive) for magnitude of the generated number. Must be positive.
      */
     public static float randomFloat(float minMax) {
         return SolRandom.randomFloat(-minMax, minMax);
