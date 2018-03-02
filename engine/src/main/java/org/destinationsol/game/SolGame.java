@@ -298,7 +298,7 @@ public class SolGame {
         if (tutorialManager == null) {
             long seed = SolRandom.getSeed();
             
-            String fileName = SaveManager.getResourcePath("world.ini");
+            String fileName = SaveManager.getResourcePath(SolApplication.WORLD_SAVE_FILE_NAME);
             
             String toWrite = "seed=" + Long.toString(seed);
             
