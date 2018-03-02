@@ -48,7 +48,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2D;
 
 public class SolApplication implements ApplicationListener {
-    private static Logger logger = LoggerFactory.getLogger(SolApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(SolApplication.class);
 
     @SuppressWarnings("FieldCanBeLocal")
     private ModuleManager moduleManager;
