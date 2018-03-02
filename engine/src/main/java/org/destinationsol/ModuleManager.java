@@ -41,7 +41,7 @@ import java.nio.file.Paths;
 import java.util.Set;
 
 public class ModuleManager {
-    private static Logger logger = LoggerFactory.getLogger(ModuleManager.class);
+    private static final Logger logger = LoggerFactory.getLogger(ModuleManager.class);
 
     private ModuleEnvironment environment;
     private ModuleRegistry registry;
