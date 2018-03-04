@@ -74,10 +74,12 @@ public class NewGameScreen implements SolUiScreen {
             return;
         }
         if (continueControl.isJustOff()) {
+            solApplication.setisNewGame(false);
             solApplication.loadNewGame(false, null);
             return;
         }
         if (newControl.isJustOff()) {
+            solApplication.setisNewGame(true);
             im.setScreen(solApplication, screens.newShip);
         }
     }

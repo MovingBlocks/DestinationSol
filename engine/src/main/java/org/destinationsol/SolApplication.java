@@ -60,6 +60,8 @@ public class SolApplication implements ApplicationListener {
     private float timeAccumulator = 0;
     private boolean isMobile;
 
+    private boolean isNewGame;
+
     public SolApplication() {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
@@ -232,7 +234,9 @@ public class SolApplication implements ApplicationListener {
         return musicManager;
     }
 
-    public OggSoundManager getSoundManager() {
-        return soundManager;
-    }
+    public OggSoundManager getSoundManager() { return soundManager; }
+
+    public boolean getisNewGame() {return isNewGame;}
+
+    public void setisNewGame(boolean value) {isNewGame = value;}
 }
