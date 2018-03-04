@@ -236,6 +236,9 @@ public class SolGame {
         if (!SaveManager.resourceExists(MERC_SAVE_FILE)) {
             return;
         }
+        if(solApplication.getisNewGame()){
+            return;
+        }
 
         String path = SaveManager.getResourcePath(MERC_SAVE_FILE);
         BufferedReader bufferedReader;
