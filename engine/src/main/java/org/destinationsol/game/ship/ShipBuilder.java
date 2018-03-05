@@ -231,11 +231,12 @@ public class ShipBuilder {
         hull.getBody().setUserData(ship);
         for (Door door : hull.getDoors()) {
             door.getBody().setUserData(ship);
-    }
+        }
+
+        hull.setParticleEmitters(game, ship);
 
         if (engine != null) {
             hull.setEngine(engine);
-            hull.setParticleEmitters(game, ship, engine);
         }
         if (gun1 != null) {
             GunMount gunMount0 = hull.getGunMount(false);
