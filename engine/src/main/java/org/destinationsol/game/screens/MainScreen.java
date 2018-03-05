@@ -68,7 +68,7 @@ public class MainScreen implements SolUiScreen {
     public final SolUiControl freeCamControl;
     private final SolUiControl menuControl;
     private final SolUiControl pauseControl;
-    private final CameraKeaboardbControl cameraControl;
+    private final CameraKeyboardControl cameraControl;
 
     private final ZoneNameAnnouncer zoneNameAnnouncer;
     private final BorderDrawer borderDrawer;
@@ -130,7 +130,7 @@ public class MainScreen implements SolUiScreen {
         controls.add(freeCamControl);
         pauseControl = new SolUiControl(null, true, gameOptions.getKeyPause());
         controls.add(pauseControl);
-        cameraControl = new CameraKeaboardbControl(gameOptions, controls);
+        cameraControl = new CameraKeyboardControl(gameOptions, controls);
 
         warnDrawers.add(new CollisionWarnDrawer(resolutionRatio));
         warnDrawers.add(new SunWarnDrawer(resolutionRatio));
