@@ -120,11 +120,14 @@ public class StarPort implements SolObject {
         SolShip ship = ForceBeacon.pullShips(game, this, myPos, null, null, .4f * SIZE);
         if (ship != null && ship.getMoney() >= FARE && ship.getPosition().dst(myPos) < .05f * SIZE) {
             ship.setMoney(ship.getMoney() - FARE);
-            Transcendent t = new Transcendent(ship, myFrom, myTo, game);
+            Transcendent transcendent = new Transcendent(ship, myFrom, myTo, game);
+            if (transcendent.getShip().getPilot().isPlayer()) {
+                game.getHero().setTranscendent(transcendent);
+            }
             ObjectManager objectManager = game.getObjMan();
-            objectManager.addObjDelayed(t);
+            objectManager.addObjDelayed(transcendent);
             blip(game, ship);
-            game.getSoundManager().play(game, game.getSpecialSounds().transcendentCreated, null, t);
+            game.getSoundManager().play(game, game.getSpecialSounds().transcendentCreated, null, transcendent);
             objectManager.removeObjDelayed(ship);
         }
         for (LightSrc light : myLights) {
@@ -390,6 +393,9 @@ public class StarPort implements SolObject {
                 myShip.setPos(myPos);
                 myShip.setSpd(new Vector2());
                 SolShip ship = myShip.toObj(game);
+                if (ship.getPilot().isPlayer()) {
+                    game.getHero().setSolShip(ship);
+                }
                 objectManager.addObjDelayed(ship);
                 blip(game, ship);
                 game.getSoundManager().play(game, game.getSpecialSounds().transcendentFinished, null, this);
