@@ -234,9 +234,15 @@ public class SolApplication implements ApplicationListener {
         return musicManager;
     }
 
-    public OggSoundManager getSoundManager() { return soundManager; }
+    public OggSoundManager getSoundManager() {
+        return soundManager;
+    }
 
-    public boolean getisNewGame() {return isNewGame;}
+    public boolean getIsNewGame() {
+        return isNewGame;
+    }
 
-    public void setisNewGame(boolean value) {isNewGame = value;}
+    public void setIsNewGame(boolean value) {
+        isNewGame = value;
+    }
 }
