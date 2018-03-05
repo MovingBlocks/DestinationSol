@@ -49,6 +49,7 @@ public class GameOptions {
     public static final String DEFAULT_CHANGE_SHIP = "C";
     public static final String DEFAULT_HIRE_SHIP = "H";
     public static final String DEFAULT_MERCENARY_INTERACTION = "M";
+    public static final String DEFAULT_FREE_CAMERA_MOVEMENT = "V";
     public static final int DEFAULT_AXIS_SHOOT = 1;
     public static final int DEFAULT_AXIS_SHOOT2 = 0;
     public static final int DEFAULT_AXIS_ABILITY = -1;
@@ -91,6 +92,7 @@ public class GameOptions {
     private String keyChangeShipMenuName;
     private String keyHireShipMenuName;
     private String keyMercenaryInteractionName;
+    private String keyFreeCameraMovementName;
     private int controllerAxisShoot;
     private int controllerAxisShoot2;
     private int controllerAxisAbility;
@@ -137,6 +139,7 @@ public class GameOptions {
         keyChangeShipMenuName = r.getString("keyChangeShipMenu", DEFAULT_CHANGE_SHIP);
         keyHireShipMenuName = r.getString("keyHireShipMenu", DEFAULT_HIRE_SHIP);
         keyMercenaryInteractionName = r.getString("keyMercenaryInteraction", DEFAULT_MERCENARY_INTERACTION);
+        keyFreeCameraMovementName = r.getString("keyFreeCameraMovement", DEFAULT_FREE_CAMERA_MOVEMENT);
         controllerAxisShoot = r.getInt("controllerAxisShoot", DEFAULT_AXIS_SHOOT);
         controllerAxisShoot2 = r.getInt("controllerAxisShoot2", DEFAULT_AXIS_SHOOT2);
         controllerAxisAbility = r.getInt("controllerAxisAbility", DEFAULT_AXIS_ABILITY);
@@ -679,6 +682,18 @@ public class GameOptions {
     
     public void setKeyMercenaryInteractionName(String keyMercenaryInteractionName) {
         this.keyMercenaryInteractionName = keyMercenaryInteractionName;
+    }
+
+    public int getKeyFreeCameraMovement() {
+        return Input.Keys.valueOf(getKeyFreeCameraMovementName());
+    }
+
+    public String getKeyFreeCameraMovementName() {
+        return keyFreeCameraMovementName;
+    }
+
+    public void setKeyFreeCameraMovementName(String keyFreeCameraMovementName) {
+        this.keyFreeCameraMovementName = keyFreeCameraMovementName;
     }
 
     /**

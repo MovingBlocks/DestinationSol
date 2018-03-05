@@ -21,6 +21,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
+import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.gun.GunMount;
@@ -106,7 +107,7 @@ public class Hull {
 
     public void update(SolGame game, ItemContainer container, Pilot provider, SolShip ship, SolShip nearestEnemy) {
         setParamsFromBody();
-        boolean controlsEnabled = ship.isControlsEnabled();
+        boolean controlsEnabled = ship.isControlsEnabled() && !SolCam.DIRECT_CAM_CONTROL;
 
         if (engine != null) {
             engine.update(myAngle, game, provider, myBody, mySpd, ship, controlsEnabled, myMass, this);
