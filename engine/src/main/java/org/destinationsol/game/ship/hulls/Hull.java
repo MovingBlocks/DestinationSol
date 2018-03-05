@@ -165,7 +165,7 @@ public class Hull {
         this.engine = new ShipEngine(engine);
     }
 
-    public void setParticleEmitters(SolGame game, SolShip ship, Engine engine) {
+    public void setParticleEmitters(SolGame game, SolShip ship) {
         List<Drawable> drawables = ship.getDrawables();
         // Remove the old particle emitters and their associated drawables
         if (!particleEmitters.isEmpty()) {
@@ -176,13 +176,11 @@ public class Hull {
             particleEmitters.clear();
         }
         // Add the new particle emitters and their associated drawables
-        if (engine != null) {
-            config.getParticleEmitters().forEach(pes -> particleEmitters.add(new DSParticleEmitter(game, pes, ship)));
-            List<Drawable> particleEmitterDrawables = new ArrayList<>();
-            particleEmitters.forEach(pe -> particleEmitterDrawables.addAll(pe.getDrawables()));
-            drawables.addAll(particleEmitterDrawables);
-            game.getDrawableManager().addAll(particleEmitterDrawables);
-        }
+        config.getParticleEmitters().forEach(pes -> particleEmitters.add(new DSParticleEmitter(game, pes, ship)));
+        List<Drawable> particleEmitterDrawables = new ArrayList<>();
+        particleEmitters.forEach(pe -> particleEmitterDrawables.addAll(pe.getDrawables()));
+        drawables.addAll(particleEmitterDrawables);
+        game.getDrawableManager().addAll(particleEmitterDrawables);
     }
 
     public float getAngle() {
