@@ -39,7 +39,6 @@ public class DebugOptions {
     public static float ZOOM_OVERRIDE = 0;
     public static float GRID_SZ = 0;
     public static float GAME_SPEED_MULTIPLIER = 1f;
-    public static boolean DIRECT_CAM_CONTROL = false;
     public static boolean DETAILED_MAP = false;
     public static boolean NO_SOUND = false;
     public static boolean SOUND_IN_SPACE = false;
@@ -70,7 +69,6 @@ public class DebugOptions {
         ZOOM_OVERRIDE = r.getFloat("zoomOverride", ZOOM_OVERRIDE);
         GRID_SZ = r.getFloat("gridSz", GRID_SZ);
         GAME_SPEED_MULTIPLIER = r.getFloat("gameSpeedMultiplier", GAME_SPEED_MULTIPLIER);
-        DIRECT_CAM_CONTROL = r.getBoolean("directCamControl", DIRECT_CAM_CONTROL);
         DETAILED_MAP = r.getBoolean("detailedMap", DETAILED_MAP);
         NO_SOUND = r.getBoolean("noSound", NO_SOUND);
         SOUND_IN_SPACE = r.getBoolean("soundInSpace", SOUND_IN_SPACE);
