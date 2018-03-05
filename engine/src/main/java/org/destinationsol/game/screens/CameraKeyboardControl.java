@@ -20,14 +20,14 @@ import org.destinationsol.ui.SolUiControl;
 
 import java.util.List;
 
-class CameraKeaboardbControl {
+class CameraKeyboardControl {
 
     private static SolUiControl controlUp;
     private static SolUiControl controlDown;
     private static SolUiControl controlLeft;
     private static SolUiControl controlRight;
 
-    CameraKeaboardbControl(GameOptions gameOptions, List<SolUiControl> controls) {
+    CameraKeyboardControl(GameOptions gameOptions, List<SolUiControl> controls) {
         controlUp = new SolUiControl(null, false, gameOptions.getKeyUp()); // Dirty solution, but on mixed controls, it is uncontrollable
         controls.add(controlUp);
         controlDown = new SolUiControl(null, false, gameOptions.getKeyDown());
