@@ -60,8 +60,6 @@ public class SolApplication implements ApplicationListener {
     private float timeAccumulator = 0;
     private boolean isMobile;
 
-    private boolean isNewGame;
-
     public SolApplication() {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
@@ -184,8 +182,8 @@ public class SolApplication implements ApplicationListener {
         musicManager.playGameMusic(options);
     }
 
-    public void startNewGame(boolean tut, String shipName) {
-        solGame = new SolGame(this, shipName, tut, commonDrawer);
+    public void startNewGame(boolean isNewGame, boolean tut, String shipName) {
+        solGame = new SolGame(this, shipName, tut, isNewGame, commonDrawer);
         inputManager.setScreen(this, solGame.getScreens().mainScreen);
         musicManager.playGameMusic(options);
     }
@@ -238,11 +236,4 @@ public class SolApplication implements ApplicationListener {
         return soundManager;
     }
 
-    public boolean getIsNewGame() {
-        return isNewGame;
-    }
-
-    public void setIsNewGame(boolean value) {
-        isNewGame = value;
-    }
 }
