@@ -1,0 +1,10 @@
+{
+  "big": false,
+  "workSounds": [
+    "core:medEngineWork0",
+    "core:medEngineWork1",
+    "core:medEngineWork2",
+    "core:medEngineWork3",
+    "nyan:nyancat"
+  ]
+}
