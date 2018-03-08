@@ -24,18 +24,18 @@ public class SolRandom {
     /**
      * Returns a seeded random float v such that min <= v < max. Min shouldn't equal to max
      *
-     * @param min the minimum value that can possibly be generated
+     * @param min The lower bound (inclusive) for magnitude of the generated number.
+     * @param max The upper bound (exclusive) for magnitude of the generated number.
      */
     public static float seededRandomFloat(float min, float max) {
-        float result = max;
-        if (min == max) {
-            Gdx.app.log("SolMath", "seededRandomFloat was called with bad parameters! Min " + min + " matches max " + max + ", accepting max.");
+        if (min >= max) {
+            Gdx.app.log("SolMath", "seededRandomFloat was called with bad parameters! Min " + min + " >= max " + max + ".");
             Gdx.app.log("SolMath", "Please review appropriate code in the stack dump:");
             for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace()) {
                 Gdx.app.log("SolMath", stackTraceElement.toString());
             }
     
-            return result;
+            return max;
         }
         return seededRandom.nextFloat() * (max - min) + min;
     }
@@ -43,7 +43,7 @@ public class SolRandom {
     /**
      * Returns a seeded random int v such that 0 <= v < max.
      *
-     * @param max the maximum number possible to be generated
+     * @param max The upper bound (exclusive) for magnitude of the generated number. Must be positive.
      */
     public static int seededRandomInt(int max) {
         return SolRandom.seededRandomInt(0, max);
@@ -52,8 +52,8 @@ public class SolRandom {
     /**
      * Returns a seeded random int v such that max*percentage <= v < max.
      *
-     * @param percentage should be >= 0 and < 1
-     * @param max  the maximum number possible to be generated
+     * @param percentage Ratio of lower bound to upper bound.
+     * @param max The upper bound (exclusive) for magnitude of the generated number.
      */
     public static int seededRandomInt(float percentage, int max) {
         int min = (int) (max * percentage);
@@ -66,8 +66,8 @@ public class SolRandom {
     /**
      * Returns a seeded random int v such that min <= v <= max
      *
-     * @param min the minimum possible number to be generated
-     * @param max the maximum possible number to be generated
+     * @param min The lower bound (inclusive) for magnitude of the generated number.
+     * @param max The upper bound (exclusive) for magnitude of the generated number.
      */
     public static int seededRandomInt(int min, int max) {
         return seededRandom.nextInt(max - min) + min;
@@ -85,8 +85,8 @@ public class SolRandom {
     /**
      * Returns a random float v such that min <= v < max. Min shouldn't equal to max
      *
-     * @param min the minimum possible number to be generated
-     * @param max the maximum possible number to be generated
+     * @param min The lower bound (inclusive) for magnitude of the generated number.
+     * @param max The upper bound (exclusive) for magnitude of the generated number.
      */
     public static float randomFloat(float min, float max) {
         float result = max;
@@ -105,7 +105,7 @@ public class SolRandom {
     /**
      * Returns a random int v such that 0 <= v < max.
      *
-     * @param max a positive value
+     * @param max The upper bound (exclusive) for magnitude of the generated number. Must be positive.
      */
     public static int randomInt(int max) {
         return SolRandom.randomInt(0, max);
@@ -114,8 +114,8 @@ public class SolRandom {
     /**
      * Returns a random int v such that max*percentage <= v < max.
      *
-     * @param percentage should be >= 0 and < 1
-     * @param max  a positive value
+     * @param percentage The ratio of lower bound to upper bound.
+     * @param max The upper bound (exclusive) for magnitude of the generated number. Must be positive.
      */
     public static int randomInt(float percentage, int max) {
         int min = (int) (max * percentage);
@@ -173,7 +173,7 @@ public class SolRandom {
     /**
      * Returns a random boolean value with unequal probabilities.
      *
-     * @param value the float between 0 and 1 to test
+     * @param value the probability of returning true.
      */
     public static boolean test(float value) {
         return randomFloat(0, 1) < value;
@@ -182,7 +182,7 @@ public class SolRandom {
     /**
      * Returns a seeded random boolean value with unequal probabilities.
      *
-     * @param value the float between 0 and 1 to test
+     * @param value the probability of returning true.
      */
     public static boolean seededTest(float value) {
         return seededRandomFloat(0, 1) < value;
