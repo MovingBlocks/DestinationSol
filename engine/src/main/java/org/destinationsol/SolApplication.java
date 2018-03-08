@@ -20,9 +20,6 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -32,20 +29,12 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.sound.OggMusicManager;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.menu.MenuScreens;
-import org.destinationsol.ui.DebugCollector;
-import org.destinationsol.ui.FontSize;
-import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolLayouts;
-import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Box2D;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 public class SolApplication implements ApplicationListener {
     private static final Logger logger = LoggerFactory.getLogger(SolApplication.class);

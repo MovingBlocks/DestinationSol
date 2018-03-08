@@ -15,30 +15,25 @@
  */
 package org.destinationsol.game;
 
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.math.Vector2;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import org.destinationsol.IniReader;
+import org.destinationsol.files.HullConfigManager;
+import org.destinationsol.game.item.*;
+import org.destinationsol.game.ship.SolShip;
+import org.destinationsol.game.ship.hulls.HullConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.destinationsol.IniReader;
-import org.destinationsol.files.HullConfigManager;
-import org.destinationsol.game.item.Gun;
-import org.destinationsol.game.item.ItemContainer;
-import org.destinationsol.game.item.ItemManager;
-import org.destinationsol.game.item.MercItem;
-import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.ship.SolShip;
-import org.destinationsol.game.ship.hulls.HullConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.math.Vector2;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
 public class SaveManager {
     private static Logger logger = LoggerFactory.getLogger(SaveManager.class);
@@ -130,7 +125,7 @@ public class SaveManager {
         // And truncation is good because we don't want dead mercs respawning
         try {
             writer = new PrintWriter(MERC_SAVE_FILE, "UTF-8");
-            writer.write(toWrite);
+            writer.write(stringToWrite);
             writer.close();
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             logger.error("Could not save mercenaries, " + e.getMessage());
