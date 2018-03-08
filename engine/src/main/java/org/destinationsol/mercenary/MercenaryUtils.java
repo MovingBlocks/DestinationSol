@@ -27,7 +27,7 @@ public class MercenaryUtils {
      */
     public static boolean createMerc(SolGame game, Hero hero, MercItem mercItem) {
         ShipConfig config = mercItem.getConfig();
-        Guardian guardian = new Guardian(game, config.hull, hero.getPilot(), hero.getPosition(), hero.getHull().config, SolMath.rnd(180));
+        Guardian guardian = new Guardian(game, config.hull, hero.getPilot(), hero.getPosition(), hero.getHull().config, SolRandom.randomFloat(180));
         AiPilot pilot = new AiPilot(guardian, true, Faction.LAANI, false, "Merc", Const.AI_DET_DIST);
         Vector2 pos = getPos(game, hero, config.hull);
         if (pos == null) {
