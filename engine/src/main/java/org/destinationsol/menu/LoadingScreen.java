@@ -49,7 +49,7 @@ public class LoadingScreen implements SolUiScreen {
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        solApplication.startNewGame(isNewGame,loadTutorial, shipName);
+        solApplication.startNewGame(isNewGame, loadTutorial, shipName);
     }
 
     @Override
