@@ -19,21 +19,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
@@ -51,13 +36,7 @@ import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.BeaconDestProvider;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.input.UiControlledPilot;
-import org.destinationsol.game.item.Gun;
-import org.destinationsol.game.item.ItemContainer;
-import org.destinationsol.game.item.ItemManager;
-import org.destinationsol.game.item.LootBuilder;
-import org.destinationsol.game.item.MercItem;
-import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.item.TradeConfig;
+import org.destinationsol.game.item.*;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.particle.PartMan;
 import org.destinationsol.game.particle.SpecialEffects;
@@ -79,10 +58,7 @@ import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -621,7 +597,7 @@ public class SolGame {
         for (List<SolItem> group : ic) {
             for (SolItem item : group) {
                 boolean equipped = hero.isTranscendent() || hero.maybeUnequip(this, item, false);
-                if (equipped || SolMath.test(.75f)) {
+                if (equipped || SolRandom.test(.75f)) {
                     respawnItems.add(0, item);
                 }
             }
