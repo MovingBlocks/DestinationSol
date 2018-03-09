@@ -29,7 +29,11 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.sound.OggMusicManager;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.menu.MenuScreens;
-import org.destinationsol.ui.*;
+import org.destinationsol.ui.DebugCollector;
+import org.destinationsol.ui.FontSize;
+import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolLayouts;
+import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
