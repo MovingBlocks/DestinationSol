@@ -1,8 +1,5 @@
 package org.destinationsol.game.screens;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.SolGame;
@@ -12,6 +9,9 @@ import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChooseMercenary implements InventoryOperations {
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
