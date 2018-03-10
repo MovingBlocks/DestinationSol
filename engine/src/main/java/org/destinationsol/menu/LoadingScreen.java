@@ -68,10 +68,6 @@ public class LoadingScreen implements SolUiScreen {
         uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
     }
 
-    public void setIsNewGame(boolean isNewGame) {
-        this.isNewGame = isNewGame;
-    }
-
     public boolean getIsNewGame() {
         return isNewGame;
     }
