@@ -185,11 +185,7 @@ public class SolApplication implements ApplicationListener {
         }
 
         inputManager.setScreen(this, menuScreens.loading);
-        if (isNewGame) {
-            menuScreens.loading.setMode(tut, shipName, true);
-        } else {
-            menuScreens.loading.setMode(tut, shipName, false);
-        }
+        menuScreens.loading.setMode(tut, shipName, isNewGame);
         musicManager.playGameMusic(options);
     }
 
@@ -253,10 +249,9 @@ public class SolApplication implements ApplicationListener {
         return soundManager;
     }
 
-    /**
-     * This method gets called when the "New Game" button gets pressed
-     */
-    public void beforeNewGame() {
+
+     // This method is called when the "New Game" button gets pressed
+    private void beforeNewGame() {
         // Reset the seed so this galaxy isn't the same as the last
         long seed = System.currentTimeMillis();
         SolRandom.setSeed(seed);
@@ -264,10 +259,9 @@ public class SolApplication implements ApplicationListener {
         logger.info("Set Seed: " + String.valueOf(seed));
     }
 
-    /**
-     * This method gets called when the "Continue" button gets pressed
-     */
-    public void beforeLoadGame() {
+
+     // This method is called when the "Continue" button gets pressed
+    private void beforeLoadGame() {
         // Set the seed for all the randomness. Very important
         if (SaveManager.resourceExists(WORLD_SAVE_FILE_NAME)) {
             IniReader iniReader = new IniReader(WORLD_SAVE_FILE_NAME, null);

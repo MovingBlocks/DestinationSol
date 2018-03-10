@@ -19,6 +19,17 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
@@ -64,22 +75,10 @@ import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 public class SolGame {
     private static Logger logger = LoggerFactory.getLogger(SolGame.class);
 
-    static String MERC_SAVE_FILE = "mercenaries.json";
+    private static final String MERC_SAVE_FILE = "mercenaries.json";
 
     private final GameScreens gameScreens;
     private final SolCam camera;
@@ -115,7 +114,6 @@ public class SolGame {
     private float timeStep;
     private float time;
     private boolean paused;
-    private boolean isNewGame;
     private float timeFactor;
     private float respawnMoney;
     private HullConfig respawnHull;
@@ -157,18 +155,16 @@ public class SolGame {
         mountDetectDrawer = new MountDetectDrawer();
         respawnItems = new ArrayList<>();
         timeFactor = 1;
-        this.isNewGame = isNewGame;
-        
 
         // from this point we're ready!
         planetManager.fill(solNames);
-        createPlayer(shipName);
+        createPlayer(shipName, isNewGame);
         createMercs(isNewGame);
         SolMath.checkVectorsTaken(null);
     }
 
     // uh, this needs refactoring
-    private void createPlayer(String shipName) {
+    private void createPlayer(String shipName, boolean isNewGame) {
         ShipConfig shipConfig = shipName == null ? SaveManager.readShip(hullConfigManager, itemManager, this) : ShipConfig.load(hullConfigManager, shipName, itemManager, this);
 
         // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
@@ -303,7 +299,7 @@ public class SolGame {
         }
     }
 
-    public void saveShip() {
+    private void saveShip() {
         if (tutorialManager != null) {
             return;
         }
@@ -465,7 +461,8 @@ public class SolGame {
                 objectManager.removeObjDelayed(hero.getTranscendentHero());
             }
         }
-        createPlayer(null);
+        // TODO: Consider whether we want to treat respawn as a newGame or not.
+        createPlayer(null, true);
     }
 
     public FactionManager getFactionMan() {
