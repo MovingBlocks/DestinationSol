@@ -182,8 +182,8 @@ public class SolApplication implements ApplicationListener {
         musicManager.playGameMusic(options);
     }
 
-    public void startNewGame(boolean tut, String shipName) {
-        solGame = new SolGame(this, shipName, tut, commonDrawer);
+    public void startNewGame(boolean isNewGame, boolean tut, String shipName) {
+        solGame = new SolGame(this, shipName, tut, isNewGame, commonDrawer);
         inputManager.setScreen(this, solGame.getScreens().mainScreen);
         musicManager.playGameMusic(options);
     }
@@ -235,4 +235,5 @@ public class SolApplication implements ApplicationListener {
     public OggSoundManager getSoundManager() {
         return soundManager;
     }
+
 }
