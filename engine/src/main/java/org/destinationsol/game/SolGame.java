@@ -116,7 +116,7 @@ public class SolGame {
     private HullConfig respawnHull;
     private boolean isPlayerRespawned;
 
-    public SolGame(SolApplication cmp, String shipName, boolean tut, CommonDrawer commonDrawer) {
+    public SolGame(SolApplication cmp, String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer) {
         solApplication = cmp;
         GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
@@ -156,7 +156,7 @@ public class SolGame {
         // from this point we're ready!
         planetManager.fill(solNames);
         createPlayer(shipName);
-        createMercs();
+        createMercs(isNewGame);
         SolMath.checkVectorsTaken(null);
     }
 
@@ -227,9 +227,9 @@ public class SolGame {
     /**
      * Creates and spawns the players mercenaries from their JSON file.
      */
-    private void createMercs() {
+    private void createMercs(boolean isNewGame) {
 
-        if (!SaveManager.resourceExists(MERC_SAVE_FILE)) {
+        if (!SaveManager.resourceExists(MERC_SAVE_FILE) || isNewGame) {
             return;
         }
 
