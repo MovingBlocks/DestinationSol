@@ -35,6 +35,7 @@ public class LoadingScreen implements SolUiScreen {
 
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private boolean loadTutorial;
+    private boolean isNewGame;
     private String shipName;
 
     LoadingScreen() {
@@ -48,7 +49,7 @@ public class LoadingScreen implements SolUiScreen {
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        solApplication.startNewGame(loadTutorial, shipName);
+        solApplication.startNewGame(isNewGame, loadTutorial, shipName);
     }
 
     @Override
@@ -65,4 +66,13 @@ public class LoadingScreen implements SolUiScreen {
     public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
     }
+
+    public void setIsNewGame(boolean isNewGame) {
+        this.isNewGame = isNewGame;
+    }
+
+    public boolean getIsNewGame() {
+        return isNewGame;
+    }
+
 }

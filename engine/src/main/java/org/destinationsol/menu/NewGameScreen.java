@@ -74,6 +74,7 @@ public class NewGameScreen implements SolUiScreen {
             return;
         }
         if (continueControl.isJustOff()) {
+            screens.loading.setIsNewGame(false);
             solApplication.loadNewGame(false, null);
             return;
         }
