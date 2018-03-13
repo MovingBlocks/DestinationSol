@@ -25,6 +25,7 @@ import com.badlogic.gdx.math.collision.BoundingBox;
 import com.google.common.base.Preconditions;
 import org.destinationsol.common.NotNull;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -340,7 +341,7 @@ public class DSParticleEmitter {
                 return;
             }
             timeSinceLastPositionChange = 0;
-            SolMath.fromAl(relativePosition, SolMath.rnd(180), SolMath.rnd(0, areaSize));
+            SolMath.fromAl(relativePosition, SolRandom.randomFloat(180), SolRandom.randomFloat(0, areaSize));
             relativePosition.add(originalRelativePosition);
         }
 

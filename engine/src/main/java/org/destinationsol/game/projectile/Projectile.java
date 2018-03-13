@@ -23,6 +23,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.FactionManager;
@@ -71,7 +72,7 @@ public class Projectile implements SolObject {
         myDrawables.add(drawable);
         float spdLen = myConfig.spdLen;
         if (varySpd) {
-            spdLen *= SolMath.rnd(.9f, 1.1f);
+            spdLen *= SolRandom.randomFloat(.9f, 1.1f);
         }
         if (myConfig.physSize > 0) {
             myBody = new BallProjectileBody(game, muzzlePos, angle, this, gunSpd, spdLen, myConfig);

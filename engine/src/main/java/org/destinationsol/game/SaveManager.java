@@ -15,13 +15,11 @@
  */
 package org.destinationsol.game;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.math.Vector2;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import org.destinationsol.IniReader;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.Gun;
@@ -34,10 +32,12 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.badlogic.gdx.files.FileHandle;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SaveManager {
     private static Logger logger = LoggerFactory.getLogger(SaveManager.class);
@@ -45,18 +45,23 @@ public class SaveManager {
     private static final String SAVE_FILE_NAME = "prevShip.ini";
     static String MERC_SAVE_FILE = getResourcePath("mercenaries.json");
 
-    public static void writeShip(HullConfig hull, float money, ArrayList<SolItem> itemsList, SolGame game) {
+    private static final String FILE_NAME = "prevShip.ini";
+
+    public static void writeShips(HullConfig hull, float money, ArrayList<SolItem> itemsList, SolGame game) {
         String hullName = game.getHullConfigs().getName(hull);
 
         writeMercs(game);
 
         String items = itemsToString(itemsList);
-        IniReader.write(SAVE_FILE_NAME, "hull", hullName, "money", (int) money, "items", items);
+        
+        Vector2 pos = game.getHero().getPosition();
+        
+        IniReader.write(FILE_NAME, "hull", hullName, "money", (int) money, "items", items, "x", pos.x, "y", pos.y);
     }
 
     /**
-     * Converts  list of SolItems to a string of items to be saved.
-     * @param items A list of SolItems to be converted to an item string
+     * Encodes the given list of SolItems as a string.
+     * @param items A list of SolItems to be encoded as a string
      * @return A string of items suitable for saving
      */
     private static String itemsToString(ArrayList<SolItem> items) {
@@ -83,7 +88,7 @@ public class SaveManager {
 
     /**
      * Writes the player's mercenaries to their JSON file.
-     * Will create file if it doesn't exist.
+     * The file will be created if it doesn't exist.
      * @param game The instance of the game we're dealing with
      */
     private static void writeMercs(SolGame game) {
@@ -100,10 +105,10 @@ public class SaveManager {
                 String hullName = game.getHullConfigs().getName(merc.getHull().config);
                 int money = (int) merc.getMoney();
                 
-                ArrayList<SolItem> itemsList = new ArrayList<SolItem>();
-                for (List<SolItem> group1 : merc.getItemContainer()) {
-                    for (SolItem i : group1) {
-                        itemsList.add(0, i);
+                ArrayList<SolItem> itemsList = new ArrayList<>();
+                for (List<SolItem> itemGroup : merc.getItemContainer()) {
+                    for (SolItem itemInGroup : itemGroup) {
+                        itemsList.add(0, itemInGroup);
                     }
                 }
                 String items = itemsToString(itemsList);
@@ -118,13 +123,13 @@ public class SaveManager {
         }
         
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String toWrite = gson.toJson(jsons);
+        String stringToWrite = gson.toJson(jsons);
 
         // Using PrintWriter because it truncates the file if it exists or creates a new one if it doesn't
         // And truncation is good because we don't want dead mercs respawning
         try {
             writer = new PrintWriter(MERC_SAVE_FILE, "UTF-8");
-            writer.write(toWrite);
+            writer.write(stringToWrite);
             writer.close();
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             logger.error("Could not save mercenaries, " + e.getMessage());
@@ -178,7 +183,11 @@ public class SaveManager {
 
         int money = ir.getInt("money", 0);
         String itemsStr = ir.getString("items", "");
+        
+        float x = ir.getFloat("x", 0);
+        float y = ir.getFloat("y", 0);
+        Vector2 spawnPos = new Vector2(x, y);
 
-        return new ShipConfig(hull, itemsStr, money, 1, null, itemManager);
+        return new ShipConfig(hull, itemsStr, money, 1, null, itemManager, spawnPos);
     }
 }

@@ -18,7 +18,7 @@ package org.destinationsol.game.planet;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.DebugOptions;
 
@@ -122,7 +122,7 @@ public class PlanetTiles {
 
     public Tile getGround(SurfaceDirection from, SurfaceDirection to) {
         List<Tile> list = myGroundTiles.get(from).get(to);
-        return SolMath.elemRnd(list);
+        return SolRandom.randomElement(list);
     }
 
     public Tile getDungeonEntrance(boolean down, boolean left, boolean right) {

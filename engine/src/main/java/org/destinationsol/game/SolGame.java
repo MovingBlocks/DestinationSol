@@ -19,12 +19,24 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.chunk.ChunkManager;
@@ -63,19 +75,10 @@ import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 public class SolGame {
     private static Logger logger = LoggerFactory.getLogger(SolGame.class);
 
-    static String MERC_SAVE_FILE = "mercenaries.json";
+    private static final String MERC_SAVE_FILE = "mercenaries.json";
 
     private final GameScreens gameScreens;
     private final SolCam camera;
@@ -155,13 +158,13 @@ public class SolGame {
 
         // from this point we're ready!
         planetManager.fill(solNames);
-        createPlayer(shipName);
+        createPlayer(shipName, isNewGame);
         createMercs(isNewGame);
         SolMath.checkVectorsTaken(null);
     }
 
     // uh, this needs refactoring
-    private void createPlayer(String shipName) {
+    private void createPlayer(String shipName, boolean isNewGame) {
         ShipConfig shipConfig = shipName == null ? SaveManager.readShip(hullConfigManager, itemManager, this) : ShipConfig.load(hullConfigManager, shipName, itemManager, this);
 
         // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
@@ -171,7 +174,13 @@ public class SolGame {
             galaxyFiller.fill(this, hullConfigManager, itemManager);
         }
 
-        Vector2 pos = galaxyFiller.getPlayerSpawnPos(this);
+        // If we continue a game, we should spawn from the same position
+        Vector2 pos;
+        if (isNewGame) {
+            pos = galaxyFiller.getPlayerSpawnPos(this);
+        } else {
+            pos = shipConfig.spawnPos;
+        }
         camera.setPos(pos);
 
         Pilot pilot;
@@ -257,15 +266,40 @@ public class SolGame {
                     new ShipConfig(hullConfigManager.getConfig(node.get("hull")), node.get("items"), Integer.parseInt(node.get("money")), -1f, null, itemManager));
             MercenaryUtils.createMerc(this, hero, mercItems);
         }
-
     }
 
     public void onGameEnd() {
         saveShip();
+        saveWorld();
         objectManager.dispose();
     }
+    
+    /**
+     * Saves the world's seed so we can regenerate the same world later
+     */
+    private void saveWorld() {
+        // Make sure the tutorial doesn't overwrite the save
+        if (tutorialManager == null) {
+            long seed = SolRandom.getSeed();
+            
+            String fileName = SaveManager.getResourcePath(SolApplication.WORLD_SAVE_FILE_NAME);
+            
+            String toWrite = "seed=" + Long.toString(seed);
+            
+            PrintWriter writer;
+            try {
+                writer = new PrintWriter(fileName, "UTF-8");
+                writer.write(toWrite);
+                writer.close();
+            } catch (FileNotFoundException | UnsupportedEncodingException e) {
+                logger.error("Could not save galaxy seed, " + e.getMessage());
+                return;
+            }
+            logger.info("Successfully saved the galaxy seed: " + String.valueOf(seed));
+        }
+    }
 
-    public void saveShip() {
+    private void saveShip() {
         if (tutorialManager != null) {
             return;
         }
@@ -289,7 +323,7 @@ public class SolGame {
             items = respawnItems;
         }
 
-        SaveManager.writeShip(hull, money, items, this);
+        SaveManager.writeShips(hull, money, items, this);
     }
 
     public GameScreens getScreens() {
@@ -427,7 +461,8 @@ public class SolGame {
                 objectManager.removeObjDelayed(hero.getTranscendentHero());
             }
         }
-        createPlayer(null);
+        // TODO: Consider whether we want to treat respawn as a newGame or not.
+        createPlayer(null, true);
     }
 
     public FactionManager getFactionMan() {
@@ -571,7 +606,7 @@ public class SolGame {
         for (List<SolItem> group : ic) {
             for (SolItem item : group) {
                 boolean equipped = hero.isTranscendent() || hero.maybeUnequip(this, item, false);
-                if (equipped || SolMath.test(.75f)) {
+                if (equipped || SolRandom.test(.75f)) {
                     respawnItems.add(0, item);
                 }
             }

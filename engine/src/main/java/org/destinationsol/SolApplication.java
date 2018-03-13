@@ -22,7 +22,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.sound.OggMusicManager;
 import org.destinationsol.game.sound.OggSoundManager;
@@ -39,7 +41,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public class SolApplication implements ApplicationListener {
-    private static Logger logger = LoggerFactory.getLogger(SolApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(SolApplication.class);
 
     @SuppressWarnings("FieldCanBeLocal")
     private ModuleManager moduleManager;
@@ -56,6 +58,8 @@ public class SolApplication implements ApplicationListener {
     private String fatalErrorMsg;
     private String fatalErrorTrace;
     private SolGame solGame;
+
+    public static final String WORLD_SAVE_FILE_NAME = "world.ini";
 
     private float timeAccumulator = 0;
     private boolean isMobile;
@@ -93,7 +97,8 @@ public class SolApplication implements ApplicationListener {
     }
 
     @Override
-    public void resize(int i, int i1) { }
+    public void resize(int newWidth, int newHeight) {
+    }
 
     public void render() {
         timeAccumulator += Gdx.graphics.getDeltaTime();
@@ -107,10 +112,12 @@ public class SolApplication implements ApplicationListener {
     }
 
     @Override
-    public void pause() { }
+    public void pause() {
+    }
 
     @Override
-    public void resume() { }
+    public void resume() {
+    }
 
     private void safeUpdate() {
         if (fatalErrorMsg != null) {
@@ -172,17 +179,23 @@ public class SolApplication implements ApplicationListener {
         commonDrawer.end();
     }
 
-    public void loadNewGame(boolean tut, String shipName) {
+    public void loadGame(boolean tut, String shipName, boolean isNewGame) {
         if (solGame != null) {
             throw new AssertionError("Starting a new game with unfinished current one");
         }
 
         inputManager.setScreen(this, menuScreens.loading);
-        menuScreens.loading.setMode(tut, shipName);
+        menuScreens.loading.setMode(tut, shipName, isNewGame);
         musicManager.playGameMusic(options);
     }
 
-    public void startNewGame(boolean isNewGame, boolean tut, String shipName) {
+    public void play(boolean tut, String shipName, boolean isNewGame) {
+        if (isNewGame) {
+            beforeNewGame();
+        } else {
+            beforeLoadGame();
+        }
+
         solGame = new SolGame(this, shipName, tut, isNewGame, commonDrawer);
         inputManager.setScreen(this, solGame.getScreens().mainScreen);
         musicManager.playGameMusic(options);
@@ -236,4 +249,29 @@ public class SolApplication implements ApplicationListener {
         return soundManager;
     }
 
+
+     // This method is called when the "New Game" button gets pressed
+    private void beforeNewGame() {
+        // Reset the seed so this galaxy isn't the same as the last
+        long seed = System.currentTimeMillis();
+        SolRandom.setSeed(seed);
+        
+        logger.info("Set Seed: " + String.valueOf(seed));
+    }
+
+
+     // This method is called when the "Continue" button gets pressed
+    private void beforeLoadGame() {
+        // Set the seed for all the randomness. Very important
+        if (SaveManager.resourceExists(WORLD_SAVE_FILE_NAME)) {
+            IniReader iniReader = new IniReader(WORLD_SAVE_FILE_NAME, null);
+
+            // Set a fall back for if the seed doesn't exist, just in case someone modified world.ini
+            long seed = Long.parseLong(iniReader.getString("seed", "0"));
+
+            logger.info("Got seed: " + String.valueOf(seed));
+
+            SolRandom.setSeed(seed);
+        }
+    }
 }
