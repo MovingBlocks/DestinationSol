@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
@@ -51,10 +52,10 @@ public class PartMan {
         int count = (int) (SZ_TO_BLINK_COUNT * sz * sz);
         for (int i = 0; i < count; i++) {
             Vector2 lightPos = new Vector2();
-            SolMath.fromAl(lightPos, SolMath.rnd(180), SolMath.rnd(0, sz / 2));
+            SolMath.fromAl(lightPos, SolRandom.randomFloat(180), SolRandom.randomFloat(0, sz / 2));
             lightPos.add(pos);
-            float lightSz = SolMath.rnd(.5f, 1) * EXPL_LIGHT_MAX_SZ;
-            float fadeTime = SolMath.rnd(.5f, 1) * EXPL_LIGHT_MAX_FADE_TIME;
+            float lightSz = SolRandom.randomFloat(.5f, 1) * EXPL_LIGHT_MAX_SZ;
+            float fadeTime = SolRandom.randomFloat(.5f, 1) * EXPL_LIGHT_MAX_FADE_TIME;
             LightObject light = new LightObject(game, lightSz, true, 1, lightPos, fadeTime, game.getCols().fire);
             game.getObjMan().addObjDelayed(light);
         }

@@ -17,6 +17,7 @@
 package org.destinationsol.game.maze;
 
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 
 public class MazeLayoutBuilder {
     public static final float HOLE_PERC = .2f;
@@ -42,8 +43,8 @@ public class MazeLayoutBuilder {
                 boolean inner = myInners[col][row];
                 boolean rInner = col < mySz - 1 && myInners[col + 1][row];
                 boolean dInner = row < mySz - 1 && myInners[col][row + 1];
-                myRight[col][row] = (inner || rInner) && SolMath.test(WALL_PERC);
-                myDown[col][row] = (inner || dInner) && SolMath.test(WALL_PERC);
+                myRight[col][row] = (inner || rInner) && SolRandom.test(WALL_PERC);
+                myDown[col][row] = (inner || dInner) && SolRandom.test(WALL_PERC);
             }
         }
         makeAllAccessible();
@@ -103,7 +104,7 @@ public class MazeLayoutBuilder {
         float[][] vals = new float[mySz][mySz];
         for (int i = 0; i < mySz; i++) {
             for (int j = 0; j < mySz; j++) {
-                vals[i][j] = SolMath.rnd(0, 1);
+                vals[i][j] = SolRandom.seededRandomFloat(0, 1);
             }
         }
         smooth(vals);

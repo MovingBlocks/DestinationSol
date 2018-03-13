@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.SolGame;
 
 public class FlatPlaceFinder {
@@ -46,7 +47,7 @@ public class FlatPlaceFinder {
         float objAngularHalfWidth = SolMath.angularWidthOfSphere(objHalfWidth, p.getGroundHeight());
 
         for (int i = 0; i < 20; i++) {
-            float angle = SolMath.rnd(180);
+            float angle = SolRandom.randomFloat(180);
             if (takenAngles != null && takenAngles.isConsumed(angle, objAngularHalfWidth)) {
                 continue;
             }

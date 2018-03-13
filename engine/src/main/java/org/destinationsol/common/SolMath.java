@@ -15,17 +15,16 @@
  */
 package org.destinationsol.common;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.Pool;
+import java.util.ArrayList;
+
 import org.destinationsol.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.Pool;
 
 /**
  * A class with helpful mathematical functions
@@ -43,7 +42,6 @@ public class SolMath {
     };
     public static int VECTORS_TAKEN;
     public static Vector2 tmp = new Vector2();
-
 
     public static int toInt(boolean b) {
         return b ? 1 : -1;
@@ -93,68 +91,6 @@ public class SolMath {
         while (a > 180)
             a -= 360;
         return a;
-    }
-
-    /**
-     * Returns a random float v such that -minMax <= v && v < minMax
-     *
-     * @param minMax a positive value
-     */
-    public static float rnd(float minMax) {
-        return rnd(-minMax, minMax);
-    }
-
-    /**
-     * Returns a random float v such that min <= v && v < max. Min shouldn't equal to max
-     */
-    public static float rnd(float min, float max) {
-        float result = max;
-        if (min == max) {
-            Gdx.app.log("SolMath", "rnd was called with bad parameters! Min " + min + " matches max " + max + ", accepting max.");
-            Gdx.app.log("SolMath", "Please review appropriate code in the stack dump:");
-            for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
-                Gdx.app.log("SolMath", ste.toString());
-            }
-
-            return result;
-        }
-        while (result == max) {
-            result = MathUtils.random(min, max);
-        }
-        return result;
-    }
-
-    /**
-     * Returns a random int v such that 0 <= v && v < max.
-     *
-     * @param max a positive value
-     */
-    public static int intRnd(int max) {
-        return intRnd(0f, max);
-    }
-
-    /**
-     * Returns a random int v such that max*perc <= v && v < max.
-     *
-     * @param perc should be >= 0 and < 1
-     * @param max  a positive value
-     */
-    public static int intRnd(float perc, int max) {
-        int r = max;
-        int min = (int) (max * perc);
-        if (min == max) {
-            throw new AssertionError("intRnd min equals max " + min);
-        }
-        while (r == max)
-            r = MathUtils.random(min, max);
-        return r;
-    }
-
-    /**
-     * Returns a random int v such that min <= v && v <= max
-     */
-    public static int intRnd(int min, int max) {
-        return MathUtils.random(min, max);
     }
 
     /**
@@ -234,13 +170,6 @@ public class SolMath {
     @Bound
     public static Vector2 getVec() {
         return getVec(0, 0);
-    }
-
-    /**
-     * generates a random number between 0 and 1 and returns true if it is less than v, false otherwise
-     */
-    public static boolean test(float v) {
-        return rnd(0, 1) < v;
     }
 
     /**
@@ -414,14 +343,6 @@ public class SolMath {
 
     public static float angleToArc(float angle, float r) {
         return angle / 180 * PI * r;
-    }
-
-    /**
-     * @return a random element of a list
-     */
-    public static <T> T elemRnd(List<T> list) {
-        int idx = intRnd(list.size());
-        return list.get(idx);
     }
 
     public static void checkVectorsTaken(Object o) {

@@ -22,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.RemoveController;
@@ -353,7 +354,7 @@ public class SolShip implements SolObject {
         for (List<SolItem> group : myItemContainer) {
             for (SolItem item : group) {
                 float dropChance = maybeUnequip(game, item, false) ? .35f : .6f;
-                if (SolMath.test(dropChance)) {
+                if (SolRandom.test(dropChance)) {
                     throwLoot(game, item, true);
                 }
             }
@@ -362,13 +363,13 @@ public class SolShip implements SolObject {
         if (myTradeContainer != null) {
             for (List<SolItem> group : myTradeContainer.getItems()) {
                 for (SolItem item : group) {
-                    if (SolMath.test(.6f)) {
+                    if (SolRandom.test(.6f)) {
                         throwLoot(game, item, true);
                     }
                 }
             }
         }
-        float thrMoney = myMoney * SolMath.rnd(.2f, 1);
+        float thrMoney = myMoney * SolRandom.randomFloat(.2f, 1);
         List<MoneyItem> moneyItems = game.getItemMan().moneyToItems(thrMoney);
         for (MoneyItem mi : moneyItems) {
             throwLoot(game, mi, true);
@@ -381,10 +382,10 @@ public class SolShip implements SolObject {
         float spdLen;
         Vector2 pos = new Vector2();
         if (onDeath) {
-            spdAngle = SolMath.rnd(180);
-            spdLen = SolMath.rnd(0, Loot.MAX_SPD);
+            spdAngle = SolRandom.randomFloat(180);
+            spdLen = SolRandom.randomFloat(0, Loot.MAX_SPD);
             // TODO: This statement previously caused a crash as getApproxRadius returned 0 - where is it meant to be set / loaded from?
-            SolMath.fromAl(pos, spdAngle, SolMath.rnd(myHull.config.getApproxRadius()));
+            SolMath.fromAl(pos, spdAngle, SolRandom.randomFloat(myHull.config.getApproxRadius()));
         } else {
             spdAngle = getAngle();
             spdLen = 1f;
@@ -393,7 +394,7 @@ public class SolShip implements SolObject {
         SolMath.fromAl(lootSpd, spdAngle, spdLen);
         lootSpd.add(myHull.getSpd());
         pos.add(myHull.getPos());
-        Loot l = game.getLootBuilder().build(game, pos, item, lootSpd, Loot.MAX_LIFE, SolMath.rnd(Loot.MAX_ROT_SPD), this);
+        Loot l = game.getLootBuilder().build(game, pos, item, lootSpd, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), this);
         game.getObjMan().addObjDelayed(l);
         if (!onDeath) {
             game.getSoundManager().play(game, game.getSpecialSounds().lootThrow, pos, this);
