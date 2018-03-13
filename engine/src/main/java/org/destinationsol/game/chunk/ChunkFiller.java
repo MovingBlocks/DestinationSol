@@ -22,6 +22,7 @@ import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.RemoveController;
@@ -188,13 +189,13 @@ public class ChunkFiller {
         }
 
         Vector2 spd = new Vector2();
-        SolMath.fromAl(spd, SolMath.rnd(180), SolMath.rnd(0, ENEMY_MAX_SPD));
-        float rotSpd = SolMath.rnd(ENEMY_MAX_ROT_SPD);
+        SolMath.fromAl(spd, SolRandom.randomFloat(180), SolRandom.randomFloat(0, ENEMY_MAX_SPD));
+        float rotSpd = SolRandom.randomFloat(ENEMY_MAX_ROT_SPD);
         MoveDestProvider dp = new StillGuard(pos, game, enemyConf);
         Pilot provider = new AiPilot(dp, false, Faction.EHAR, true, null, Const.AI_DET_DIST);
         HullConfig config = enemyConf.hull;
         int money = enemyConf.money;
-        float angle = SolMath.rnd(180);
+        float angle = SolRandom.randomFloat(180);
         return game.getShipBuilder().buildNewFar(game, pos, spd, angle, rotSpd, provider, enemyConf.items, config,
                 remover, false, money, null, true);
     }
@@ -213,9 +214,9 @@ public class ChunkFiller {
             }
             float minSz = forBelt ? MIN_BELT_A_SZ : MIN_SYS_A_SZ;
             float maxSz = forBelt ? MAX_BELT_A_SZ : MAX_SYS_A_SZ;
-            float sz = SolMath.rnd(minSz, maxSz);
+            float sz = SolRandom.randomFloat(minSz, maxSz);
             Vector2 spd = new Vector2();
-            SolMath.fromAl(spd, SolMath.rnd(180), MAX_A_SPD);
+            SolMath.fromAl(spd, SolRandom.randomFloat(180), MAX_A_SPD);
 
             FarAsteroid a = game.getAsteroidBuilder().buildNewFar(asteroidPos, spd, sz, remover);
             game.getObjMan().addFarObjNow(a);
@@ -249,21 +250,21 @@ public class ChunkFiller {
 
         for (int i = 0; i < count; i++) {
             // Select a random far junk texture
-            TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolMath.elemRnd(conf.farJunkTexs));
+            TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolRandom.randomElement(conf.farJunkTexs));
             // Flip atlas for every other piece of junk
-            if (SolMath.test(.5f)) {
+            if (SolRandom.test(.5f)) {
                 tex.flip(!tex.isFlipX(), !tex.isFlipY());
             }
             // Choose a random size (within a range)
-            float sz = SolMath.rnd(.3f, 1) * FAR_JUNK_MAX_SZ;
+            float sz = SolRandom.randomFloat(.3f, 1) * FAR_JUNK_MAX_SZ;
             // Apply a random rotation speed
-            float rotSpd = SolMath.rnd(FAR_JUNK_MAX_ROT_SPD);
+            float rotSpd = SolRandom.randomFloat(FAR_JUNK_MAX_ROT_SPD);
             // Select a random position in the chunk centered around chCenter, relative to the position of the chunk.
             Vector2 junkPos = getRndPos(chCenter);
             junkPos.sub(chCenter);
 
             // Create the resulting sprite and add it to the list
-            RectSprite s = new RectSprite(tex, sz, 0, 0, junkPos, drawableLevel, SolMath.rnd(180), rotSpd, SolColor.DDG, false);
+            RectSprite s = new RectSprite(tex, sz, 0, 0, junkPos, drawableLevel, SolRandom.randomFloat(180), rotSpd, SolColor.DDG, false);
             drawables.add(s);
         }
 
@@ -298,24 +299,24 @@ public class ChunkFiller {
             Vector2 junkPos = getRndPos(chCenter);
 
             // Select a random junk atlas
-            TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolMath.elemRnd(conf.junkTexs));
+            TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolRandom.randomElement(conf.junkTexs));
             // Flip atlas for every other piece of junk
-            if (SolMath.test(.5f)) {
+            if (SolRandom.test(.5f)) {
                 tex.flip(!tex.isFlipX(), !tex.isFlipY());
             }
             // Choose a random size (within a range)
-            float sz = SolMath.rnd(.3f, 1) * JUNK_MAX_SZ;
+            float sz = SolRandom.randomFloat(.3f, 1) * JUNK_MAX_SZ;
             // Apply a random rotation speed
-            float rotSpd = SolMath.rnd(JUNK_MAX_ROT_SPD);
+            float rotSpd = SolRandom.randomFloat(JUNK_MAX_ROT_SPD);
 
             // Create the resulting sprite and add it to the list as the only element
-            RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DrawableLevel.DECO, SolMath.rnd(180), rotSpd, SolColor.LG, false);
+            RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DrawableLevel.DECO, SolRandom.randomFloat(180), rotSpd, SolColor.LG, false);
             ArrayList<Drawable> drawables = new ArrayList<>();
             drawables.add(s);
 
             // Create a FarDrawable instance for this piece of junk and only allow it to be drawn when it's not hidden by a planet
             Vector2 spd = new Vector2();
-            SolMath.fromAl(spd, SolMath.rnd(180), SolMath.rnd(JUNK_MAX_SPD_LEN));
+            SolMath.fromAl(spd, SolRandom.randomFloat(180), SolRandom.randomFloat(JUNK_MAX_SPD_LEN));
             FarDrawable so = new FarDrawable(drawables, junkPos, spd, remover, true);
             // Add the object to the object manager
             game.getObjMan().addFarObjNow(so);
@@ -380,8 +381,8 @@ public class ChunkFiller {
      */
     private Vector2 getRndPos(Vector2 chCenter) {
         Vector2 pos = new Vector2(chCenter);
-        pos.x += SolMath.rnd(Const.CHUNK_SIZE / 2);
-        pos.y += SolMath.rnd(Const.CHUNK_SIZE / 2);
+        pos.x += SolRandom.randomFloat(Const.CHUNK_SIZE / 2);
+        pos.y += SolRandom.randomFloat(Const.CHUNK_SIZE / 2);
         return pos;
     }
 
@@ -397,7 +398,7 @@ public class ChunkFiller {
         if (amt >= 1) {
             return (int) amt;
         }
-        return SolMath.test(amt) ? 1 : 0;
+        return SolRandom.test(amt) ? 1 : 0;
     }
 
 }

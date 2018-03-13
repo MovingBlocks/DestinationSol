@@ -23,6 +23,7 @@ import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.Nullable;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.Hero;
@@ -120,7 +121,7 @@ public class OggSoundManager {
         }
 
         // Calculate the pitch for the sound
-        float pitch = SolMath.rnd(.97f, 1.03f) * game.getTimeFactor() * playableSound.getBasePitch();
+        float pitch = SolRandom.randomFloat(.97f, 1.03f) * game.getTimeFactor() * playableSound.getBasePitch();
 
         if (skipLooped(source, sound, game.getTime())) {
             return;
