@@ -91,7 +91,12 @@ public class DSParticleEmitter {
         this.trigger = particleEmitter.getTrigger();
         this.position = particleEmitter.getPosition();
         this.config = particleEmitter.getEffectConfig();
-        this.workSoundSet = new OggSoundSet(game.getSoundManager(), particleEmitter.getWorkSounds());
+        if (!particleEmitter.getWorkSounds().isEmpty()) {
+            this.workSoundSet = new OggSoundSet(game.getSoundManager(), particleEmitter.getWorkSounds());
+        }
+        else {
+            this.workSoundSet = null;
+        }
         Vector2 shipPos = ship.getPosition();
         Vector2 shipSpeed = ship.getSpeed();
 

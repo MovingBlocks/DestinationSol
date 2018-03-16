@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ import org.destinationsol.game.ship.hulls.GunSlot;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,7 +138,11 @@ public final class HullConfigManager {
             float angleOffset = particleEmitterNode.getFloat("angleOffset", 0f);
             boolean hasLight = particleEmitterNode.getBoolean("hasLight", false);
             JsonValue particleNode = particleEmitterNode.get("particle");
-            List<String> workSounds = Arrays.asList(particleEmitterNode.get("workSounds").asStringArray());
+
+            List<String> workSounds = new ArrayList<>();
+            if (particleEmitterNode.hasChild("workSounds")) {
+                workSounds = Arrays.asList(particleEmitterNode.get("workSounds").asStringArray());
+            }
 
             configData.particleEmitters.add(new DSParticleEmitter(position, trigger, angleOffset, hasLight, particleNode, workSounds));
         }
