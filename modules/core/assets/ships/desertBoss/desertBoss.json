@@ -134,7 +134,14 @@
                 "size": 0.3,
                 "tex": "core:smoke",
                 "tint": "fire"
-            }
+            },
+            "workSounds": [
+                "core:medEngineWork0",
+                "core:medEngineWork1",
+                "core:medEngineWork2",
+                "core:medEngineWork3",
+                "core:medEngineWork4"
+            ]
         },
         {
             "position": "0 0.75",
@@ -145,7 +152,14 @@
                 "size": 0.3,
                 "tex": "core:smoke",
                 "tint": "fire"
-            }
+            },
+            "workSounds": [
+                "core:medEngineWork0",
+                "core:medEngineWork1",
+                "core:medEngineWork2",
+                "core:medEngineWork3",
+                "core:medEngineWork4"
+            ]
         }
     ]
 }
