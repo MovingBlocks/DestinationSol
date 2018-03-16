@@ -21,12 +21,9 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfigs;
-import org.destinationsol.game.GameColors;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.particle.DSParticleEmitter;
-import org.destinationsol.game.particle.EffectConfig;
-import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.ship.AbilityConfig;
 import org.destinationsol.game.ship.EmWave;
 import org.destinationsol.game.ship.KnockBack;
@@ -36,7 +33,9 @@ import org.destinationsol.game.ship.UnShield;
 import org.destinationsol.game.ship.hulls.GunSlot;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class HullConfigManager {
@@ -127,20 +126,20 @@ public final class HullConfigManager {
         }
     }
 
-    private void parseParticleEmitterSlots(JsonValue containerNode, HullConfig.Data configData) {
+    private void parseParticleEmitters(JsonValue containerNode, HullConfig.Data configData) {
         Vector2 builderOrigin = new Vector2(configData.shipBuilderOrigin);
 
-        for (JsonValue particleEmitterSlotNode : containerNode) {
-            Vector2 position = readVector2(particleEmitterSlotNode, "position", null);
+        for (JsonValue particleEmitterNode : containerNode) {
+            Vector2 position = readVector2(particleEmitterNode, "position", null);
             position.sub(builderOrigin).scl(configData.size);
 
-            String trigger = particleEmitterSlotNode.getString("trigger", null);
-            float angleOffset = particleEmitterSlotNode.getFloat("angleOffset", 0f);
-            boolean hasLight = particleEmitterSlotNode.getBoolean("hasLight", false);
-            JsonValue particleNode = particleEmitterSlotNode.get("particle");
-            EffectConfig effectConfig = EffectConfig.load(particleNode, new EffectTypes(), new GameColors());
+            String trigger = particleEmitterNode.getString("trigger", null);
+            float angleOffset = particleEmitterNode.getFloat("angleOffset", 0f);
+            boolean hasLight = particleEmitterNode.getBoolean("hasLight", false);
+            JsonValue particleNode = particleEmitterNode.get("particle");
+            List<String> workSounds = Arrays.asList(particleEmitterNode.get("workSounds").asStringArray());
 
-            configData.particleEmitters.add(new DSParticleEmitter(position, trigger, angleOffset, hasLight, effectConfig));
+            configData.particleEmitters.add(new DSParticleEmitter(position, trigger, angleOffset, hasLight, particleNode, workSounds));
         }
     }
 
@@ -170,7 +169,7 @@ public final class HullConfigManager {
 
         parseGunSlotList(rootNode.get("gunSlots"), configData);
         if (rootNode.has("particleEmitters")) {
-            parseParticleEmitterSlots(rootNode.get("particleEmitters"), configData);
+            parseParticleEmitters(rootNode.get("particleEmitters"), configData);
         }
     }
 

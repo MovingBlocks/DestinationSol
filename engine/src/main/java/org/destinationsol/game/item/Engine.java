@@ -18,17 +18,8 @@ package org.destinationsol.game.item;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.assets.json.Json;
-import org.destinationsol.game.GameColors;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.particle.EffectConfig;
-import org.destinationsol.game.particle.EffectTypes;
-import org.destinationsol.game.sound.OggSoundManager;
-import org.destinationsol.game.sound.OggSoundSet;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class Engine implements SolItem {
     private final Config config;
@@ -103,14 +94,6 @@ public class Engine implements SolItem {
 
     }
 
-    public PlayableSound getWorkSound() {
-        return config.workSound;
-    }
-
-    public EffectConfig getEffectConfig() {
-        return config.effectConfig;
-    }
-
     public static class Config {
         public final String displayName;
         public final int price;
@@ -120,13 +103,11 @@ public class Engine implements SolItem {
         public final float maxRotationSpeed;
         public final boolean isBig;
         public final Engine exampleEngine;
-        public final PlayableSound workSound;
         public final TextureAtlas.AtlasRegion icon;
-        public final EffectConfig effectConfig;
         public final String code;
 
         private Config(String displayName, int price, String description, float rotationAcceleration, float acceleration, float maxRotationSpeed, boolean isBig,
-                       PlayableSound workSound, TextureAtlas.AtlasRegion icon, EffectConfig effectConfig, String code) {
+                       TextureAtlas.AtlasRegion icon, String code) {
             this.displayName = displayName;
             this.price = price;
             this.description = description;
@@ -134,14 +115,12 @@ public class Engine implements SolItem {
             this.acceleration = acceleration;
             this.maxRotationSpeed = maxRotationSpeed;
             this.isBig = isBig;
-            this.workSound = workSound;
             this.icon = icon;
-            this.effectConfig = effectConfig;
             this.code = code;
             this.exampleEngine = new Engine(this);
         }
 
-        public static Config load(String engineName, OggSoundManager soundManager, EffectTypes effectTypes, GameColors cols) {
+        public static Config load(String engineName) {
             Json json = Assets.getJson(engineName);
             JsonValue rootNode = json.getJsonValue();
 
@@ -149,15 +128,12 @@ public class Engine implements SolItem {
             float rotationAcceleration = isBig ? 100f : 515f;
             float acceleration = 2f;
             float maxRotationSpeed = isBig ? 40f : 230f;
-            List<String> workSoundUrns = Arrays.asList(rootNode.get("workSounds").asStringArray());
-            OggSoundSet workSoundSet = new OggSoundSet(soundManager, workSoundUrns);
-            EffectConfig effectConfig = EffectConfig.load(rootNode.get("effect"), effectTypes, cols);
 
             json.dispose();
 
             // TODO: VAMPCAT: The icon / displayName was initially set to null. Is that correct?
 
-            return new Config(null, 0, null, rotationAcceleration, acceleration, maxRotationSpeed, isBig, workSoundSet, null, effectConfig, engineName);
+            return new Config(null, 0, null, rotationAcceleration, acceleration, maxRotationSpeed, isBig, null, engineName);
         }
     }
 }
