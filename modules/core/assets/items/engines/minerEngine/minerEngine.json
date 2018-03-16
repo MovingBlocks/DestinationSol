@@ -1,8 +1,3 @@
 {
-    "big": false,
-    "workSounds": [
-        "core:diesel",
-        "core:diesel2",
-        "core:diesel3"
-    ]
+    "big": false
 }
