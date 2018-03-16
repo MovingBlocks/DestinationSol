@@ -21,10 +21,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
+import com.badlogic.gdx.utils.JsonValue;
 import com.google.common.base.Preconditions;
 import org.destinationsol.common.NotNull;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.game.GameColors;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -32,6 +34,7 @@ import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.SolShip;
+import org.destinationsol.game.sound.OggSoundSet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +51,8 @@ public class DSParticleEmitter {
     private float angleOffset;
     private boolean hasLight;
     private EffectConfig config;
+    private List<String> workSounds;
+    private OggSoundSet workSoundSet;
 
     private List<Drawable> drawables;
     private ParticleEmitter particleEmitter;
@@ -60,14 +65,17 @@ public class DSParticleEmitter {
     private LightSource light;
     private SolGame game;
 
-    public DSParticleEmitter(@NotNull Vector2 position, @NotNull String trigger, float angleOffset, boolean hasLight, EffectConfig config) {
+    public DSParticleEmitter(@NotNull Vector2 position, @NotNull String trigger, float angleOffset, boolean hasLight,
+                             JsonValue effectConfigNode, List<String> sounds) {
         Preconditions.checkNotNull(position, "position cannot be null");
         this.position = new Vector2(position);
         this.trigger = Preconditions.checkNotNull(trigger, "trigger cannot be null");
         this.angleOffset = angleOffset;
         this.hasLight = hasLight;
-        this.config = config;
+        this.config = EffectConfig.load(effectConfigNode, new EffectTypes(), new GameColors());
+        this.workSounds = sounds;
 
+        workSoundSet = null;
         drawables = null;
         particleEmitter = null;
         drawableLevel = null;
@@ -83,19 +91,24 @@ public class DSParticleEmitter {
         this.trigger = particleEmitter.getTrigger();
         this.position = particleEmitter.getPosition();
         this.config = particleEmitter.getEffectConfig();
+        this.workSoundSet = new OggSoundSet(game.getSoundManager(), particleEmitter.getWorkSounds());
         Vector2 shipPos = ship.getPosition();
         Vector2 shipSpeed = ship.getSpeed();
 
-        initialiseEmitter(config, -1, DrawableLevel.PART_BG_0, position, true, game, shipPos, shipSpeed, angleOffset, hasLight);
+        initialiseEmitter(config, -1, DrawableLevel.PART_BG_0, position, true, game, shipPos, shipSpeed,
+                angleOffset, hasLight);
     }
 
     public DSParticleEmitter(EffectConfig config, float size, DrawableLevel drawableLevel, Vector2 relativePosition,
-                             boolean inheritsSpeed, SolGame game, Vector2 basePosition, Vector2 baseSpeed, float relativeAngle) {
-        initialiseEmitter(config, size, drawableLevel, relativePosition, inheritsSpeed, game, basePosition, baseSpeed, relativeAngle, false);
+                             boolean inheritsSpeed, SolGame game, Vector2 basePosition, Vector2 baseSpeed,
+                             float relativeAngle) {
+        initialiseEmitter(config, size, drawableLevel, relativePosition, inheritsSpeed, game, basePosition, baseSpeed,
+                relativeAngle, false);
     }
 
-    private void initialiseEmitter(EffectConfig config, float size, DrawableLevel drawableLevel, Vector2 relativePosition,
-                                   boolean inheritsSpeed, SolGame game, Vector2 basePosition, Vector2 baseSpeed, float relativeAngle, boolean hasLight) {
+    private void initialiseEmitter(EffectConfig config, float size, DrawableLevel drawableLevel,
+                                   Vector2 relativePosition, boolean inheritsSpeed, SolGame game, Vector2 basePosition,
+                                   Vector2 baseSpeed, float relativeAngle, boolean hasLight) {
 
         drawables = new ArrayList<>();
         ParticleEmitterDrawable drawable = new ParticleEmitterDrawable();
@@ -174,7 +187,8 @@ public class DSParticleEmitter {
         value.setLow(value.getLowMin() * multiplier, value.getLowMax() * multiplier);
     }
 
-    private static void transferAngle(ParticleEmitter.ScaledNumericValue from, ParticleEmitter.ScaledNumericValue to, float diff) {
+    private static void transferAngle(ParticleEmitter.ScaledNumericValue from, ParticleEmitter.ScaledNumericValue to,
+                                      float diff) {
         if (!to.isRelative()) {
             to.setHigh(from.getHighMin() + diff, from.getHighMax() + diff);
         }
@@ -218,6 +232,9 @@ public class DSParticleEmitter {
     }
 
     public void setWorking(boolean working) {
+        if (working && workSoundSet != null) {
+            game.getSoundManager().play(game, workSoundSet, position, null);
+        }
         light.update(working, relativeAngle, game);
 
         if (!isContinuous()) {
@@ -284,12 +301,21 @@ public class DSParticleEmitter {
     }
 
     /**
-     * Returns the name of the Particle Emitter
+     * Returns the effect config of the Particle Emitter
      *
-     * @return The name of the Particle Emitter
+     * @return EffectConfig of the Particle Emitter
      */
     public EffectConfig getEffectConfig() {
         return config;
+    }
+
+    /**
+     * Returns the sound list of the Particle Emitter
+     *
+     * @return List<String> work sounds of the Particle Emitter
+     */
+    public List<String> getWorkSounds() {
+        return workSounds;
     }
 
     /**

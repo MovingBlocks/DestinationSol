@@ -20,7 +20,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.SolObject;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.ship.hulls.Hull;
@@ -37,13 +36,11 @@ public class ShipEngine {
         myItem = engine;
     }
 
-    public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 speed, SolObject owner,
-                       boolean controlsEnabled, float mass, Hull hull) {
+    public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 speed, boolean controlsEnabled,
+                       float mass, Hull hull) {
+
         boolean working = applyInput(game, angle, provider, body, speed, controlsEnabled, mass);
         game.getPartMan().updateAllHullEmittersOfType(hull, "engine", working);
-        if (working) {
-            game.getSoundManager().play(game, myItem.getWorkSound(), owner.getPosition(), owner);
-        }
     }
 
     private boolean applyInput(SolGame cmp, float shipAngle, Pilot provider, Body body, Vector2 speed,
