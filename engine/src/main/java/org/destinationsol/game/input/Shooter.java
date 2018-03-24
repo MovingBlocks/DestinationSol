@@ -25,14 +25,14 @@ import org.destinationsol.game.ship.SolShip;
 
 public class Shooter {
 
-    public static final float E_SPD_PERC = .6f; // 0 means that target speed is not considered, 1 means that it's fully considered
+    private static final float E_SPD_PERC = .6f; // 0 means that target speed is not considered, 1 means that it's fully considered
     public static final float MIN_SHOOT_AAD = 2f;
     private boolean myShoot;
     private boolean myShoot2;
     private boolean myRight;
     private boolean myLeft;
 
-    public Shooter() {
+    Shooter() {
     }
 
     public static float calcShootAngle(Vector2 gunPos, Vector2 gunSpd, Vector2 ePos, Vector2 eSpd, float projSpd,
@@ -45,13 +45,12 @@ public class Shooter {
         SolMath.free(eSpdShortened);
         float rotAngle = SolMath.angle(relESpd);
         float v = relESpd.len();
-        float v2 = projSpd;
         SolMath.free(relESpd);
         Vector2 toE = SolMath.distVec(gunPos, ePos);
         SolMath.rotate(toE, -rotAngle);
         float x = toE.x;
         float y = toE.y;
-        float a = v * v - v2 * v2;
+        float a = v * v - projSpd * projSpd;
         float b = 2 * x * v;
         float c = x * x + y * y;
         float t = SolMath.genQuad(a, b, c);
@@ -88,12 +87,12 @@ public class Shooter {
         Gun g = null;
         if (g1 != null) {
             ProjectileConfig projConfig = g1.config.clipConf.projConfig;
-            projSpd = projConfig.spdLen + projConfig.acc; // for simplicity
+            projSpd = projConfig.speedLen + projConfig.acc; // for simplicity
             g = g1;
         }
         if (g2 != null) {
             ProjectileConfig projConfig = g2.config.clipConf.projConfig;
-            float g2PS = projConfig.spdLen + projConfig.acc; // for simplicity
+            float g2PS = projConfig.speedLen + projConfig.acc; // for simplicity
             if (projSpd < g2PS) {
                 projSpd = g2PS;
                 g = g2;
@@ -116,8 +115,8 @@ public class Shooter {
         float shipAngle = ship.getAngle();
         float maxAngleDiff = SolMath.angularWidthOfSphere(enemyApproxRad, toEnemyDst) + 10f;
         ProjectileConfig projConfig = g.config.clipConf.projConfig;
-        if (projSpd > 0 && projConfig.guideRotSpd > 0) {
-            maxAngleDiff += projConfig.guideRotSpd * toEnemyDst / projSpd;
+        if (projSpd > 0 && projConfig.guideRotationSpeed > 0) {
+            maxAngleDiff += projConfig.guideRotationSpeed * toEnemyDst / projSpd;
         }
         if (SolMath.angleDiff(shootAngle, shipAngle) < maxAngleDiff) {
             myShoot = true;
@@ -149,7 +148,7 @@ public class Shooter {
             return null;
         }
 
-        if (g.config.clipConf.projConfig.zeroAbsSpd || g.config.clipConf.projConfig.guideRotSpd > 0) {
+        if (g.config.clipConf.projConfig.zeroAbsSpd || g.config.clipConf.projConfig.guideRotationSpeed > 0) {
             if (second) {
                 myShoot2 = true;
             } else {

@@ -25,7 +25,7 @@ public class SystemBelt {
     private final SysConfig myConfig;
     private final float myDps;
 
-    public SystemBelt(Float halfWidth, float radius, SolSystem s, SysConfig config) {
+    SystemBelt(Float halfWidth, float radius, SolSystem s, SysConfig config) {
         myHalfWidth = halfWidth;
         myRadius = radius;
         myS = s;
@@ -41,8 +41,8 @@ public class SystemBelt {
         return myHalfWidth;
     }
 
-    public boolean contains(Vector2 pos) {
-        float toCenter = myS.getPosition().dst(pos);
+    public boolean contains(Vector2 position) {
+        float toCenter = myS.getPosition().dst(position);
         return myRadius - myHalfWidth < toCenter && toCenter < myRadius + myHalfWidth;
     }
 

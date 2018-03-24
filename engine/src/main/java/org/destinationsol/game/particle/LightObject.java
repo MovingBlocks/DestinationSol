@@ -33,8 +33,8 @@ public class LightObject implements SolObject {
     private final Vector2 myPos;
 
     // consumes pos
-    public LightObject(SolGame game, float sz, boolean hasHalo, float intensity, Vector2 pos, float fadeTime, Color col) {
-        myPos = pos;
+    public LightObject(SolGame game, float sz, boolean hasHalo, float intensity, Vector2 position, float fadeTime, Color col) {
+        myPos = position;
         myLightSource = new LightSource(sz, hasHalo, intensity, new Vector2(), col);
         myLightSource.setFadeTime(fadeTime);
         myLightSource.setWorking();
@@ -57,7 +57,7 @@ public class LightObject implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
     }
 
     @Override

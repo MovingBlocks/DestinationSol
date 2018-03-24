@@ -44,7 +44,7 @@ public class SunSingleton {
     }
 
     public void draw(SolGame game, GameDrawer drawer) {
-        Vector2 camPos = game.getCam().getPos();
+        Vector2 camPos = game.getCam().getPosition();
         SolSystem sys = game.getPlanetManager().getNearestSystem(camPos);
         Vector2 toCam = SolMath.getVec(camPos);
         toCam.sub(sys.getPosition());
@@ -54,7 +54,7 @@ public class SunSingleton {
             myGradTint.a = SolMath.clamp(closeness * 4, 0, 1);
             myFillTint.a = SolMath.clamp((closeness - .25f) * 4, 0, 1);
 
-            float sz = 2 * game.getCam().getViewDist();
+            float sz = 2 * game.getCam().getViewDistance();
             float gradAngle = SolMath.angle(toCam) + 90;
             drawer.draw(myWhiteTex, sz * 2, sz * 2, sz, sz, camPos.x, camPos.y, 0, myFillTint);
             drawer.draw(myGradTex, sz * 2, sz * 2, sz, sz, camPos.x, camPos.y, gradAngle, myGradTint);

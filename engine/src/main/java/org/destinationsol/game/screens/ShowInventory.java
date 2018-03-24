@@ -15,9 +15,6 @@
  */
 package org.destinationsol.game.screens;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.SolGame;
@@ -26,6 +23,9 @@ import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShowInventory implements InventoryOperations {
     private final List<SolUiControl> controls = new ArrayList<>();
@@ -57,8 +57,8 @@ public class ShowInventory implements InventoryOperations {
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
-        InventoryScreen is = game.getScreens().inventoryScreen;
-        SolItem selItem = is.getSelectedItem();
+        InventoryScreen inventoryScreen = game.getScreens().inventoryScreen;
+        SolItem selItem = inventoryScreen.getSelectedItem();
 
         eq1Control.setDisplayName("---");
         eq1Control.setEnabled(false);
@@ -72,8 +72,8 @@ public class ShowInventory implements InventoryOperations {
         
         dropControl.setEnabled(true);
         if (dropControl.isJustOff()) {
-            ItemContainer ic = target.getItemContainer();
-            is.setSelected(ic.getSelectionAfterRemove(is.getSelected()));
+            ItemContainer itemContainer = target.getItemContainer();
+            inventoryScreen.setSelected(itemContainer.getSelectionAfterRemove(inventoryScreen.getSelected()));
             target.dropItem(solApplication.getGame(), selItem);
             return;
         }

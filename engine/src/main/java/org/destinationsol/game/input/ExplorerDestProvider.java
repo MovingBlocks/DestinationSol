@@ -45,14 +45,14 @@ public class ExplorerDestProvider implements MoveDestProvider {
     private boolean myDestIsLanding;
     private Vector2 myDestSpd;
 
-    public ExplorerDestProvider(SolGame game, Vector2 pos, boolean aggressive, HullConfig config, SolSystem sys) {
+    public ExplorerDestProvider(SolGame game, Vector2 position, boolean aggressive, HullConfig config, SolSystem sys) {
         mySys = sys;
         myDest = new Vector2();
         float minDst = Float.MAX_VALUE;
         ArrayList<Planet> planets = mySys.getPlanets();
         for (int i = 0, sz = allowedSz(); i < sz; i++) {
             Planet p = planets.get(i);
-            float dst = p.getPos().dst(pos);
+            float dst = p.getPos().dst(position);
             if (dst < minDst) {
                 minDst = dst;
                 myPlanet = p;

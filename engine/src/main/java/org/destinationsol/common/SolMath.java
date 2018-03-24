@@ -56,26 +56,26 @@ public class SolMath {
      *
      * @param src actual value
      * @param dst desired value
-     * @param spd speed of change
+     * @param speed speed of change
      * @return a new value that is closer to the desired one
      */
-    public static float approach(float src, float dst, float spd) {
-        if (dst - spd <= src && src <= dst + spd) {
+    public static float approach(float src, float dst, float speed) {
+        if (dst - speed <= src && src <= dst + speed) {
             return dst;
         }
-        return src < dst ? src + spd : src - spd;
+        return src < dst ? src + speed : src - speed;
     }
 
     /**
      * Same as {@code approach()}, but in the radial coordinates. That is, 170 degrees would move to -10 by growing through 175 degrees
      */
-    public static float approachAngle(float src, float dst, float spd) {
+    public static float approachAngle(float src, float dst, float speed) {
         float diff = norm(dst - src);
         float da = abs(diff);
-        if (da <= spd) {
+        if (da <= speed) {
             return dst;
         }
-        return diff > 0 ? src + spd : src - spd;
+        return diff > 0 ? src + speed : src - speed;
     }
 
     /**
@@ -197,30 +197,30 @@ public class SolMath {
     }
 
     /**
-     * converts relPos (a position in a relative coordinate system defined by baseAngle and basePos) to the absolute position (which is written to pos)
+     * converts relPos (a position in a relative coordinate system defined by baseAngle and basePos) to the absolute position (which is written to position)
      */
-    public static void toWorld(Vector2 pos, Vector2 relPos, float baseAngle, Vector2 basePos, boolean precise) {
-        pos.set(relPos);
-        rotate(pos, baseAngle, precise);
-        pos.add(basePos);
+    public static void toWorld(Vector2 position, Vector2 relPos, float baseAngle, Vector2 basePos, boolean precise) {
+        position.set(relPos);
+        rotate(position, baseAngle, precise);
+        position.add(basePos);
     }
 
     /**
-     * converts pos (a position in an absolute coordinate system) to the position in the relative system of coordinates (defined by baseAngle and basePos)
+     * converts position (a position in an absolute coordinate system) to the position in the relative system of coordinates (defined by baseAngle and basePos)
      */
     @Bound
-    public static Vector2 toRel(Vector2 pos, float baseAngle, Vector2 basePos) {
+    public static Vector2 toRel(Vector2 position, float baseAngle, Vector2 basePos) {
         Vector2 v = getVec();
-        toRel(pos, v, baseAngle, basePos);
+        toRel(position, v, baseAngle, basePos);
         return v;
     }
 
     /**
-     * converts pos (a position in an absolute coordinate system) to the position in the relative system of coordinates
+     * converts position (a position in an absolute coordinate system) to the position in the relative system of coordinates
      * (defined by baseAngle and basePos) (which is written to relPos)
      */
-    public static void toRel(Vector2 pos, Vector2 relPos, float baseAngle, Vector2 basePos) {
-        relPos.set(pos);
+    public static void toRel(Vector2 position, Vector2 relPos, float baseAngle, Vector2 basePos) {
+        relPos.set(position);
         relPos.sub(basePos);
         rotate(relPos, -baseAngle);
     }
@@ -409,8 +409,8 @@ public class SolMath {
         return res;
     }
 
-    public static boolean canAccelerate(float accAngle, Vector2 spd) {
-        return spd.len() < Const.MAX_MOVE_SPD || angleDiff(angle(spd), accAngle) > 90;
+    public static boolean canAccelerate(float accAngle, Vector2 speed) {
+        return speed.len() < Const.MAX_MOVE_SPD || angleDiff(angle(speed), accAngle) > 90;
     }
 
     public static String nice(float v) {

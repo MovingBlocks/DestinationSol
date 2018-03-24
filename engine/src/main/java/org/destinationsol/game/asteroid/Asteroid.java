@@ -83,8 +83,8 @@ public class Asteroid implements SolObject {
 
     @Override
     public FarObject toFarObject() {
-        float rotSpd = body.getAngularVelocity();
-        return new FarAsteroid(texture, position, angle, removeController, size, speed, rotSpd);
+        float rotationSpeed = body.getAngularVelocity();
+        return new FarAsteroid(texture, position, angle, removeController, size, speed, rotationSpeed);
     }
 
     @Override
@@ -181,16 +181,16 @@ public class Asteroid implements SolObject {
         }
         float sclSum = 0;
         while (sclSum < .7f * size * size) {
-            float spdAngle = SolRandom.randomFloat(180);
-            Vector2 spd = new Vector2();
-            SolMath.fromAl(spd, spdAngle, SolRandom.randomFloat(0, .5f) * MAX_SPLIT_SPD);
-            spd.add(speed);
+            float speedAngle = SolRandom.randomFloat(180);
+            Vector2 speed = new Vector2();
+            SolMath.fromAl(speed, speedAngle, SolRandom.randomFloat(0, .5f) * MAX_SPLIT_SPD);
+            speed.add(speed);
             Vector2 newPos = new Vector2();
-            SolMath.fromAl(newPos, spdAngle, SolRandom.randomFloat(0, size / 2));
+            SolMath.fromAl(newPos, speedAngle, SolRandom.randomFloat(0, size / 2));
             newPos.add(position);
             float sz = size * SolRandom.randomFloat(.25f, .5f);
-            Asteroid a = game.getAsteroidBuilder().buildNew(game, newPos, spd, sz, removeController);
-            game.getObjMan().addObjDelayed(a);
+            Asteroid a = game.getAsteroidBuilder().buildNew(game, newPos, speed, sz, removeController);
+            game.getObjectManager().addObjDelayed(a);
             sclSum += a.size * a.size;
         }
         float thrMoney = size * 40f * SolRandom.randomFloat(.3f, 1);
@@ -201,21 +201,21 @@ public class Asteroid implements SolObject {
     }
 
     private void throwLoot(SolGame game, SolItem item) {
-        float spdAngle = SolRandom.randomFloat(180);
+        float speedAngle = SolRandom.randomFloat(180);
         Vector2 lootSpd = new Vector2();
-        SolMath.fromAl(lootSpd, spdAngle, SolRandom.randomFloat(0, Loot.MAX_SPD));
+        SolMath.fromAl(lootSpd, speedAngle, SolRandom.randomFloat(0, Loot.MAX_SPD));
         lootSpd.add(speed);
-        Vector2 pos = new Vector2();
-        SolMath.fromAl(pos, spdAngle, SolRandom.randomFloat(0, size / 2));
-        pos.add(position);
-        Loot l = game.getLootBuilder().build(game, pos, item, lootSpd, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), null);
-        game.getObjMan().addObjDelayed(l);
+        Vector2 position = new Vector2();
+        SolMath.fromAl(position, speedAngle, SolRandom.randomFloat(0, size / 2));
+        position.add(position);
+        Loot l = game.getLootBuilder().build(game, position, item, lootSpd, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), null);
+        game.getObjectManager().addObjDelayed(l);
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
         life -= dmg;
-        game.getSpecialSounds().playHit(game, this, pos, dmgType);
+        game.getSpecialSounds().playHit(game, this, position, dmgType);
     }
 
     @Override

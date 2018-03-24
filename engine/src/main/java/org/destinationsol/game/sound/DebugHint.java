@@ -34,9 +34,9 @@ public class DebugHint {
     private SolObject myOwner;
     private String myMsg;
 
-    public DebugHint(SolObject owner, Vector2 pos) {
+    public DebugHint(SolObject owner, Vector2 position) {
         myOwner = owner;
-        myPos = new Vector2(pos);
+        myPos = new Vector2(position);
         myMsgs = new HashMap<>();
     }
 

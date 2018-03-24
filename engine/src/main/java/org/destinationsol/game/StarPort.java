@@ -74,15 +74,15 @@ public class StarPort implements SolObject {
     public static Vector2 getDesiredPos(Planet from, Planet to, boolean percise) {
         Vector2 fromPos = from.getPos();
         float angle = SolMath.angle(fromPos, to.getPos(), percise);
-        Vector2 pos = SolMath.getVec();
-        SolMath.fromAl(pos, angle, from.getFullHeight() + DIST_FROM_PLANET);
-        pos.add(fromPos);
-        return pos;
+        Vector2 position= SolMath.getVec();
+        SolMath.fromAl(position, angle, from.getFullHeight() + DIST_FROM_PLANET);
+        position.add(fromPos);
+        return position;
     }
 
     private static Vector2 adjustDesiredPos(SolGame game, StarPort myPort, Vector2 desired) {
         Vector2 newPos = desired;
-        List<SolObject> objs = game.getObjMan().getObjs();
+        List<SolObject> objs = game.getObjectManager().getObjects();
         for (SolObject o : objs) {
             if (o instanceof StarPort && o != myPort) {
                 StarPort sp = (StarPort) o;
@@ -108,12 +108,12 @@ public class StarPort implements SolObject {
 
         float fps = 1 / game.getTimeStep();
 
-        Vector2 spd = getDesiredPos(myFrom, myTo, true);
+        Vector2 speed = getDesiredPos(myFrom, myTo, true);
         // Adjust position so that StarPorts are not overlapping
-        spd = adjustDesiredPos(game, this, spd);
-        spd.sub(myPos).scl(fps / 4);
-        myBody.setLinearVelocity(spd);
-        SolMath.free(spd);
+        speed = adjustDesiredPos(game, this, speed);
+        speed.sub(myPos).scl(fps / 4);
+        myBody.setLinearVelocity(speed);
+        SolMath.free(speed);
         float desiredAngle = SolMath.angle(myFrom.getPos(), myTo.getPos());
         myBody.setAngularVelocity((desiredAngle - myAngle) * SolMath.degRad * fps / 4);
 
@@ -124,7 +124,7 @@ public class StarPort implements SolObject {
             if (transcendent.getShip().getPilot().isPlayer()) {
                 game.getHero().setTranscendent(transcendent);
             }
-            ObjectManager objectManager = game.getObjMan();
+            ObjectManager objectManager = game.getObjectManager();
             objectManager.addObjDelayed(transcendent);
             blip(game, ship);
             game.getSoundManager().play(game, game.getSpecialSounds().transcendentCreated, null, transcendent);
@@ -152,8 +152,8 @@ public class StarPort implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
-        game.getSpecialSounds().playHit(game, this, pos, dmgType);
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+        game.getSpecialSounds().playHit(game, this, position, dmgType);
     }
 
     @Override
@@ -235,19 +235,19 @@ public class StarPort implements SolObject {
 
         public StarPort build(SolGame game, Planet from, Planet to, boolean secondary) {
             float angle = SolMath.angle(from.getPos(), to.getPos());
-            Vector2 pos = getDesiredPos(from, to, false);
+            Vector2 position = getDesiredPos(from, to, false);
             // Adjust position so that StarPorts are not overlapping
-            pos = adjustDesiredPos(game, null, pos);
+            position = adjustDesiredPos(game, null, position);
             ArrayList<Drawable> drawables = new ArrayList<>();
             Body body = myLoader.getBodyAndSprite(game, Assets.getAtlasRegion("engine:starPort"), SIZE,
-                    BodyDef.BodyType.KinematicBody, new Vector2(pos), angle, drawables, 10f, DrawableLevel.BIG_BODIES);
-            SolMath.free(pos);
+                    BodyDef.BodyType.KinematicBody, new Vector2(position), angle, drawables, 10f, DrawableLevel.BIG_BODIES);
+            SolMath.free(position);
             ArrayList<LightSource> lights = new ArrayList<>();
-            addFlow(game, pos, drawables, 0, lights);
-            addFlow(game, pos, drawables, 90, lights);
-            addFlow(game, pos, drawables, -90, lights);
-            addFlow(game, pos, drawables, 180, lights);
-            DSParticleEmitter force = game.getSpecialEffects().buildForceBeacon(FLOW_DIST * 1.5f, game, new Vector2(), pos, Vector2.Zero);
+            addFlow(game, position, drawables, 0, lights);
+            addFlow(game, position, drawables, 90, lights);
+            addFlow(game, position, drawables, -90, lights);
+            addFlow(game, position, drawables, 180, lights);
+            DSParticleEmitter force = game.getSpecialEffects().buildForceBeacon(FLOW_DIST * 1.5f, game, new Vector2(), position, Vector2.Zero);
             force.setWorking(true);
             drawables.addAll(force.getDrawables());
             StarPort sp = new StarPort(from, to, body, drawables, secondary, lights);
@@ -255,11 +255,11 @@ public class StarPort implements SolObject {
             return sp;
         }
 
-        private void addFlow(SolGame game, Vector2 pos, ArrayList<Drawable> drawables, float angle, ArrayList<LightSource> lights) {
+        private void addFlow(SolGame game, Vector2 position, ArrayList<Drawable> drawables, float angle, ArrayList<LightSource> lights) {
             EffectConfig flow = game.getSpecialEffects().starPortFlow;
             Vector2 relPos = new Vector2();
             SolMath.fromAl(relPos, angle, -FLOW_DIST);
-            DSParticleEmitter f1 = new DSParticleEmitter(flow, FLOW_DIST, DrawableLevel.PART_BG_0, relPos, false, game, pos, Vector2.Zero, angle);
+            DSParticleEmitter f1 = new DSParticleEmitter(flow, FLOW_DIST, DrawableLevel.PART_BG_0, relPos, false, game, position, Vector2.Zero, angle);
             f1.setWorking(true);
             drawables.addAll(f1.getDrawables());
             LightSource light = new LightSource(.6f, true, 1, relPos, flow.tint);
@@ -275,10 +275,10 @@ public class StarPort implements SolObject {
         private final boolean mySecondary;
         private float myAngle;
 
-        public MyFar(Planet from, Planet to, Vector2 pos, boolean secondary) {
+        public MyFar(Planet from, Planet to, Vector2 position, boolean secondary) {
             myFrom = from;
             myTo = to;
-            myPos = new Vector2(pos);
+            myPos = new Vector2(position);
             mySecondary = secondary;
         }
 
@@ -388,7 +388,7 @@ public class StarPort implements SolObject {
             SolMath.free(moveDiff);
 
             if (myPos.dst(myDestPos) < .5f) {
-                ObjectManager objectManager = game.getObjMan();
+                ObjectManager objectManager = game.getObjectManager();
                 objectManager.removeObjDelayed(this);
                 myShip.setPos(myPos);
                 myShip.setSpd(new Vector2());
@@ -399,7 +399,7 @@ public class StarPort implements SolObject {
                 objectManager.addObjDelayed(ship);
                 blip(game, ship);
                 game.getSoundManager().play(game, game.getSpecialSounds().transcendentFinished, null, this);
-                game.getObjMan().resetDelays(); // because of the hacked speed
+                game.getObjectManager().resetDelays(); // because of the hacked speed
             } else {
                 game.getSoundManager().play(game, game.getSpecialSounds().transcendentMove, null, this);
                 myLight.update(true, myAngle, game);
@@ -426,8 +426,8 @@ public class StarPort implements SolObject {
         }
 
         @Override
-        public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
-            game.getSpecialSounds().playHit(game, this, pos, dmgType);
+        public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+            game.getSpecialSounds().playHit(game, this, position, dmgType);
         }
 
         @Override
