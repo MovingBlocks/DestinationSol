@@ -72,11 +72,11 @@ public class FarBackgroundManagerOld {
         private final TextureAtlas.AtlasRegion myTexture;
         private final float mySzPercentage;
         private final Color myTint;
-        private final Vector2 myPos;
+        private final Vector2 position;
 
         private FarBackgroundStar() {
             myShiftPercentage = new Vector2(SolRandom.randomFloat(1), SolRandom.randomFloat(1));
-            myPos = new Vector2();
+            position = new Vector2();
             boolean small = SolRandom.test(.8f);
             myTexture = Assets.getAtlasRegion("engine:farBgBigStar");
             mySzPercentage = (small ? .01f : .04f) * SolRandom.randomFloat(.5f, 1);
@@ -86,8 +86,8 @@ public class FarBackgroundManagerOld {
 
         public void draw(GameDrawer drawer, float vd, Vector2 camPos, float camAngle) {
             float sz = vd * mySzPercentage;
-            myPos.set(myShiftPercentage).scl(vd).add(camPos);
-            drawer.drawAdditive(myTexture, sz, sz, sz / 2, sz / 2, myPos.x, myPos.y, camAngle, myTint);
+            position.set(myShiftPercentage).scl(vd).add(camPos);
+            drawer.drawAdditive(myTexture, sz, sz, sz / 2, sz / 2, position.x, position.y, camAngle, myTint);
         }
     }
 }

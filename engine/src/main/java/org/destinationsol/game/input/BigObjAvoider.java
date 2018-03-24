@@ -51,7 +51,7 @@ public class BigObjAvoider {
                 result = angleToDestination + 45 * SolMath.toInt(myProj.y < 0);
             }
         }
-        Vector2 sunPos = planet.getSys().getPosition();
+        Vector2 sunPos = planet.getSystem().getPosition();
         float sunRad = Const.SUN_RADIUS;
         myProj.set(sunPos);
         myProj.sub(from);

@@ -401,8 +401,8 @@ public class MainScreen implements SolUiScreen {
         SolGame game = solApplication.getGame();
         Hero hero = game.getHero();
         if (hero.isNonTranscendent()) {
-            float row = BorderDrawer.TISHCH_SZ + V_PAD;
-            float col0 = BorderDrawer.TISHCH_SZ + H_PAD;
+            float row = BorderDrawer.PLANET_PROXIMITY_INDICATOR_SIZE + V_PAD;
+            float col0 = BorderDrawer.PLANET_PROXIMITY_INDICATOR_SIZE + H_PAD;
             float col1 = col0 + ICON_SZ + H_PAD;
             float col2 = col1 + BAR_SZ + H_PAD;
 

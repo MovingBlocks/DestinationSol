@@ -22,69 +22,69 @@ import java.util.ArrayList;
 
 public class SolSystem {
 
-    private final Vector2 myPos;
-    private final ArrayList<Planet> myPlanets;
-    private final ArrayList<SystemBelt> myBelts;
-    private final SysConfig myConfig;
-    private final String myName;
-    private final float myRadius;
-    private final float myDps;
-    private final float myInnerDps;
-    private float myInnerRad;
+    private final Vector2 position;
+    private final ArrayList<Planet> planets;
+    private final ArrayList<SystemBelt> belts;
+    private final SysConfig config;
+    private final String name;
+    private final float radius;
+    private final float damagePerSecond;
+    private final float innerDamagePerSecond;
+    private float innerRadius;
 
     public SolSystem(Vector2 position, SysConfig config, String name, float sysRadius) {
-        myConfig = config;
-        myName = name;
-        myPos = new Vector2(position);
-        myPlanets = new ArrayList<>();
-        myBelts = new ArrayList<>();
-        myRadius = sysRadius;
-        myDps = HardnessCalc.getSysDps(config, false);
-        myInnerRad = myRadius / 2;
-        myInnerDps = HardnessCalc.getSysDps(config, true);
+        this.config = config;
+        this.name = name;
+        this.position = new Vector2(position);
+        planets = new ArrayList<>();
+        belts = new ArrayList<>();
+        radius = sysRadius;
+        damagePerSecond = HardnessCalc.getSysDps(config, false);
+        innerRadius = radius / 2;
+        innerDamagePerSecond = HardnessCalc.getSysDps(config, true);
     }
 
     public ArrayList<Planet> getPlanets() {
-        return myPlanets;
+        return planets;
     }
 
     public ArrayList<SystemBelt> getBelts() {
-        return myBelts;
+        return belts;
     }
 
     public Vector2 getPosition() {
-        return myPos;
+        return position;
     }
 
     public float getRadius() {
-        return myRadius;
+        return radius;
     }
 
     public SysConfig getConfig() {
-        return myConfig;
+        return config;
     }
 
     public String getName() {
-        return myName;
+        return name;
     }
 
     public void addBelt(SystemBelt belt) {
         float newInnerRad = belt.getRadius() - belt.getHalfWidth();
-        if (myBelts.size() == 0 || myInnerRad < newInnerRad) {
-            myInnerRad = newInnerRad;
+        if (belts.size() == 0 || innerRadius < newInnerRad) {
+            innerRadius = newInnerRad;
         }
-        myBelts.add(belt);
+        belts.add(belt);
     }
 
     public float getInnerRadius() {
-        return myInnerRad;
+        return innerRadius;
     }
 
     public float getDps() {
-        return myDps;
+        return damagePerSecond;
     }
 
     public float getInnerDps() {
-        return myInnerDps;
+        return innerDamagePerSecond;
     }
 }

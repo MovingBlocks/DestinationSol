@@ -45,36 +45,36 @@ import java.util.List;
 
 public class BorderDrawer {
 
-    public static final float TISHCH_SZ = .02f;
+    public static final float PLANET_PROXIMITY_INDICATOR_SIZE = .02f;
     public static final float BORDER_ICON_SZ = .12f;
     public static final float MAX_ICON_DIST = Const.ATM_HEIGHT;
     private static final float MAX_DRAW_DIST = (Const.MAX_GROUND_HEIGHT + Const.ATM_HEIGHT) * 2;
-    private final ArrayList<Tishch> myTishches;
+    private final ArrayList<PlanetProximityIndicator> planetProximityIndicators;
     private final Vector2 myTmpVec = new Vector2();
 
     BorderDrawer(float dimensionsRatio) {
-        TextureAtlas.AtlasRegion texture = Assets.getAtlasRegion("engine:uiTishch");
-        int hCellCount = (int) (dimensionsRatio / TISHCH_SZ);
-        int vCellCount = (int) (1 / TISHCH_SZ);
+        TextureAtlas.AtlasRegion texture = Assets.getAtlasRegion("engine:uiPlanetProximityIndicator");
+        int hCellCount = (int) (dimensionsRatio / PLANET_PROXIMITY_INDICATOR_SIZE);
+        int vCellCount = (int) (1 / PLANET_PROXIMITY_INDICATOR_SIZE);
         float hStep = dimensionsRatio / hCellCount;
         float vStep = 1f / vCellCount;
         float x = hStep / 2;
         float y = vStep / 2;
-        myTishches = new ArrayList<>();
+        planetProximityIndicators = new ArrayList<>();
         for (int i = 0; i < vCellCount; i++) {
-            Tishch t = new Tishch(x, y, dimensionsRatio, TISHCH_SZ, texture);
-            myTishches.add(t);
-            Tishch t2 = new Tishch(dimensionsRatio - x, y, dimensionsRatio, TISHCH_SZ, texture);
-            myTishches.add(t2);
+            PlanetProximityIndicator t = new PlanetProximityIndicator(x, y, dimensionsRatio, PLANET_PROXIMITY_INDICATOR_SIZE, texture);
+            planetProximityIndicators.add(t);
+            PlanetProximityIndicator t2 = new PlanetProximityIndicator(dimensionsRatio - x, y, dimensionsRatio, PLANET_PROXIMITY_INDICATOR_SIZE, texture);
+            planetProximityIndicators.add(t2);
             y += vStep;
         }
-        x = 1.5f * TISHCH_SZ;
-        y = TISHCH_SZ / 2;
+        x = 1.5f * PLANET_PROXIMITY_INDICATOR_SIZE;
+        y = PLANET_PROXIMITY_INDICATOR_SIZE / 2;
         for (int i = 1; i < hCellCount - 1; i++) {
-            Tishch t = new Tishch(x, y, dimensionsRatio, TISHCH_SZ, texture);
-            myTishches.add(t);
-            Tishch t2 = new Tishch(x, 1 - y, dimensionsRatio, TISHCH_SZ, texture);
-            myTishches.add(t2);
+            PlanetProximityIndicator t = new PlanetProximityIndicator(x, y, dimensionsRatio, PLANET_PROXIMITY_INDICATOR_SIZE, texture);
+            planetProximityIndicators.add(t);
+            PlanetProximityIndicator t2 = new PlanetProximityIndicator(x, 1 - y, dimensionsRatio, PLANET_PROXIMITY_INDICATOR_SIZE, texture);
+            planetProximityIndicators.add(t2);
             x += hStep;
         }
     }
@@ -84,7 +84,7 @@ public class BorderDrawer {
         SolCam cam = game.getCam();
         Vector2 camPosition = cam.getPosition();
         Hero hero = game.getHero();
-        drawTishches(drawer, game, cam, camPosition);
+        drawPlanetProximityIndicators(drawer, game, cam, camPosition);
         MapDrawer mapDrawer = game.getMapDrawer();
         FactionManager factionManager = game.getFactionMan();
         float heroDamageCap = hero.isTranscendent() ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero.getShip());
@@ -113,8 +113,8 @@ public class BorderDrawer {
             float shipAngle = ship.getAngle();
             maybeDrawIcon(drawer, shipPos, cam, shipSize, shipAngle, mapDrawer, factionManager, hero, shipFaction, ship, heroDamageCap, ship.getHullConfig().getIcon());
         }
-        List<StarPort.MyFar> farPorts = game.getObjectManager().getFarPorts();
-        for (StarPort.MyFar starPort : farPorts) {
+        List<StarPort.FarStarPort> farPorts = game.getObjectManager().getFarPorts();
+        for (StarPort.FarStarPort starPort : farPorts) {
             maybeDrawIcon(drawer, starPort.getPosition(), cam, StarPort.SIZE, starPort.getAngle(), mapDrawer, null, null, null, null, -1, mapDrawer.getStarPortTex());
         }
     }
@@ -149,14 +149,14 @@ public class BorderDrawer {
         mapDrawer.drawObjIcon(size, myTmpVec, objAngle - camAngle, factionManager, hero, objFac, heroDmgCap, shipHack, icon, drawer);
     }
 
-    private void drawTishches(UiDrawer drawer, SolGame game, SolCam cam, Vector2 camPosition) {
+    private void drawPlanetProximityIndicators(UiDrawer drawer, SolGame game, SolCam cam, Vector2 camPosition) {
         PlanetManager planetManager = game.getPlanetManager();
         Planet nearestPlanet = planetManager.getNearestPlanet();
         if (nearestPlanet != null && nearestPlanet.getPosition().dst(camPosition) < nearestPlanet.getFullHeight()) {
             return;
         }
-        for (Tishch tishch : myTishches) {
-            tishch.reset();
+        for (PlanetProximityIndicator planetProximityIndicator : planetProximityIndicators) {
+            planetProximityIndicator.reset();
         }
 
         float camAngle = cam.getAngle();
@@ -168,8 +168,8 @@ public class BorderDrawer {
         }
         SolSystem sys = planetManager.getNearestSystem(camPosition);
         apply0(camPosition, camAngle, sys.getPosition(), SunSingleton.SUN_HOT_RAD);
-        for (Tishch tishch : myTishches) {
-            tishch.draw(drawer);
+        for (PlanetProximityIndicator planetProximityIndicator : planetProximityIndicators) {
+            planetProximityIndicator.draw(drawer);
         }
     }
 
@@ -184,14 +184,14 @@ public class BorderDrawer {
     }
 
     private void apply(float distPercentage, float angularWHalf, float relAngle) {
-        for (Tishch tishch : myTishches) {
-            if (SolMath.angleDiff(tishch.myAngle, relAngle) < angularWHalf) {
-                tishch.setDistPerc(distPercentage);
+        for (PlanetProximityIndicator planetProximityIndicator : planetProximityIndicators) {
+            if (SolMath.angleDiff(planetProximityIndicator.myAngle, relAngle) < angularWHalf) {
+                planetProximityIndicator.setDistPerc(distPercentage);
             }
         }
     }
 
-    private static class Tishch {
+    private static class PlanetProximityIndicator {
         private final float myX;
         private final float myY;
         private final TextureAtlas.AtlasRegion myTexture;
@@ -200,7 +200,7 @@ public class BorderDrawer {
         private final float myAngle;
         private float myPercentage;
 
-        public Tishch(float x, float y, float r, float maxSz, TextureAtlas.AtlasRegion tex) {
+        public PlanetProximityIndicator(float x, float y, float r, float maxSz, TextureAtlas.AtlasRegion tex) {
             myX = x;
             myY = y;
             myTexture = tex;

@@ -37,7 +37,7 @@ public class OrbiterDestProvider implements MoveDestProvider {
         myPlanet = planet;
         myHeight = height;
         myCw = cw;
-        myDesiredSpeed = SolMath.sqrt(myPlanet.getGravConst() / myHeight);
+        myDesiredSpeed = SolMath.sqrt(myPlanet.getGravitationConstant() / myHeight);
         myDest = new Vector2();
     }
 

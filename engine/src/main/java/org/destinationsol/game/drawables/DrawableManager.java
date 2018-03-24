@@ -135,7 +135,7 @@ public class DrawableManager {
                     continue;
                 }
                 drawable.prepare(object);
-                Vector2 draPos = drawable.getPos();
+                Vector2 draPos = drawable.getPosition();
                 float rr = drawable.getRadius();
                 boolean draInCam = isVisible(draPos, rr, camPos, drawableLevelViewDistance);
                 if (draInCam) {
@@ -193,7 +193,7 @@ public class DrawableManager {
         SolCam cam = game.getCam();
         float lineWidth = cam.getRealLineWidth();
         Color col = visibleDrawables.contains(drawable) ? DebugCol.DRA : DebugCol.DRA_OUT;
-        Vector2 position = drawable.getPos();
+        Vector2 position = drawable.getPosition();
         drawer.drawCircle(drawer.debugWhiteTexture, position, drawable.getRadius(), col, lineWidth, cam.getViewHeight());
     }
 
@@ -208,7 +208,7 @@ public class DrawableManager {
 
     public void collectTextures(Collection<TextureAtlas.AtlasRegion> collector, Vector2 position) {
         for (Drawable drawable : visibleDrawables) {
-            if (.5f * drawable.getRadius() < drawable.getPos().dst(position)) {
+            if (.5f * drawable.getRadius() < drawable.getPosition().dst(position)) {
                 continue;
             }
             TextureAtlas.AtlasRegion tex = drawable.getTexture();

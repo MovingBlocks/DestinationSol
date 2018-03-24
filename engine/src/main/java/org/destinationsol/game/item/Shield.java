@@ -31,15 +31,15 @@ import org.destinationsol.game.sound.OggSoundManager;
 
 public class Shield implements SolItem {
     public static final float SIZE_PERC = .7f;
-    private final Config myConfig;
+    private final Config config;
     private float myLife;
     private float myIdleTime;
     private int myEquipped;
 
     private Shield(Config config) {
-        myConfig = config;
-        myLife = myConfig.maxLife;
-        myIdleTime = myConfig.idleTime;
+        this.config = config;
+        myLife = config.maxLife;
+        myIdleTime = config.idleTime;
     }
 
     private Shield(Config config, int equipped) {
@@ -49,37 +49,37 @@ public class Shield implements SolItem {
 
     public void update(SolGame game, SolObject owner) {
         float ts = game.getTimeStep();
-        if (myIdleTime >= myConfig.idleTime) {
-            if (myLife < myConfig.maxLife) {
-                float regen = myConfig.regenSpeed * ts;
-                myLife = SolMath.approach(myLife, myConfig.maxLife, regen);
+        if (myIdleTime >= config.idleTime) {
+            if (myLife < config.maxLife) {
+                float regen = config.regenSpeed * ts;
+                myLife = SolMath.approach(myLife, config.maxLife, regen);
             }
         } else {
             myIdleTime += ts;
-            if (myIdleTime >= myConfig.idleTime) {
-                game.getSoundManager().play(game, myConfig.regenSound, null, owner);
+            if (myIdleTime >= config.idleTime) {
+                game.getSoundManager().play(game, config.regenSound, null, owner);
             }
         }
     }
 
     @Override
     public String getDisplayName() {
-        return myConfig.displayName;
+        return config.displayName;
     }
 
     @Override
     public float getPrice() {
-        return myConfig.price;
+        return config.price;
     }
 
     @Override
     public String getDescription() {
-        return myConfig.desc;
+        return config.desc;
     }
 
     @Override
     public SolItem copy() {
-        return new Shield(myConfig, myEquipped);
+        return new Shield(config, myEquipped);
     }
 
     @Override
@@ -89,17 +89,17 @@ public class Shield implements SolItem {
 
     @Override
     public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-        return myConfig.icon;
+        return config.icon;
     }
 
     @Override
     public SolItemType getItemType() {
-        return myConfig.itemType;
+        return config.itemType;
     }
 
     @Override
     public String getCode() {
-        return myConfig.code;
+        return config.code;
     }
 
     public float getLife() {
@@ -107,7 +107,7 @@ public class Shield implements SolItem {
     }
 
     public float getMaxLife() {
-        return myConfig.maxLife;
+        return config.maxLife;
     }
 
     public boolean canAbsorb(DmgType dmgType) {
@@ -120,17 +120,17 @@ public class Shield implements SolItem {
         }
         myIdleTime = 0f;
         if (dmgType == DmgType.BULLET) {
-            dmg *= myConfig.bulletDmgFactor;
+            dmg *= config.bulletDmgFactor;
         } else if (dmgType == DmgType.ENERGY) {
-            dmg *= myConfig.energyDmgFactor;
+            dmg *= config.energyDmgFactor;
         } else if (dmgType == DmgType.EXPLOSION) {
-            dmg *= myConfig.explosionDmgFactor;
+            dmg *= config.explosionDmgFactor;
         }
         myLife -= myLife < dmg ? myLife : dmg;
 
-        game.getPartMan().shieldSpark(game, position, ship.getHull(), myConfig.tex, dmg / myConfig.maxLife);
-        float volMul = SolMath.clamp(4 * dmg / myConfig.maxLife);
-        game.getSoundManager().play(game, myConfig.absorbSound, null, ship, volMul);
+        game.getPartMan().shieldSpark(game, position, ship.getHull(), config.tex, dmg / config.maxLife);
+        float volMul = SolMath.clamp(4 * dmg / config.maxLife);
+        game.getSoundManager().play(game, config.absorbSound, null, ship, volMul);
 
     }
 

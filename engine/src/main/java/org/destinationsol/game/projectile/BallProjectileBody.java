@@ -23,96 +23,96 @@ import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.ship.SolShip;
 
 public class BallProjectileBody implements ProjectileBody {
-    private final Body myBody;
-    private final Vector2 myPos;
-    private final Vector2 mySpeed;
-    private final float myAcc;
-    private final float myMass;
+    private final Body body;
+    private final Vector2 position;
+    private final Vector2 speed;
+    private final float acceleration;
+    private final float mass;
 
-    private float myAngle;
+    private float angle;
 
-    public BallProjectileBody(SolGame game, Vector2 position, float angle, Projectile projectile,
-                              Vector2 gunSpeed, float speedLen, ProjectileConfig config) {
+    BallProjectileBody(SolGame game, Vector2 position, float angle, Projectile projectile,
+                       Vector2 gunSpeed, float speedLen, ProjectileConfig config) {
         float density = config.density == -1 ? 1 : config.density;
-        myBody = AsteroidBuilder.buildBall(game, position, angle, config.physSize / 2, density, config.massless);
+        body = AsteroidBuilder.buildBall(game, position, angle, config.physSize / 2, density, config.massless);
         if (config.zeroAbsSpeed) {
-            myBody.setAngularVelocity(15f * SolMath.degRad);
+            body.setAngularVelocity(15f * SolMath.degRad);
         }
 
-        mySpeed = new Vector2();
-        SolMath.fromAl(mySpeed, angle, speedLen);
-        mySpeed.add(gunSpeed);
-        myBody.setLinearVelocity(mySpeed);
-        myBody.setUserData(projectile);
+        speed = new Vector2();
+        SolMath.fromAl(speed, angle, speedLen);
+        speed.add(gunSpeed);
+        body.setLinearVelocity(speed);
+        body.setUserData(projectile);
 
-        myPos = new Vector2();
-        myAcc = config.acc;
-        myMass = myBody.getMass();
+        this.position = new Vector2();
+        acceleration = config.acc;
+        mass = body.getMass();
         setParamsFromBody();
     }
 
     private void setParamsFromBody() {
-        myPos.set(myBody.getPosition());
-        myAngle = myBody.getAngle() * SolMath.radDeg;
-        mySpeed.set(myBody.getLinearVelocity());
+        position.set(body.getPosition());
+        angle = body.getAngle() * SolMath.radDeg;
+        speed.set(body.getLinearVelocity());
     }
 
     @Override
     public void update(SolGame game) {
         setParamsFromBody();
-        if (myAcc > 0 && SolMath.canAccelerate(myAngle, mySpeed)) {
-            Vector2 force = SolMath.fromAl(myAngle, myAcc * myMass);
-            myBody.applyForceToCenter(force, true);
+        if (acceleration > 0 && SolMath.canAccelerate(angle, speed)) {
+            Vector2 force = SolMath.fromAl(angle, acceleration * mass);
+            body.applyForceToCenter(force, true);
             SolMath.free(force);
         }
     }
 
     @Override
-    public Vector2 getPos() {
-        return myPos;
+    public Vector2 getPosition() {
+        return position;
     }
 
     @Override
     public Vector2 getSpeed() {
-        return mySpeed;
+        return speed;
     }
 
     @Override
     public void receiveForce(Vector2 force, SolGame game, boolean acc) {
         if (acc) {
-            force.scl(myMass);
+            force.scl(mass);
         }
-        myBody.applyForceToCenter(force, true);
+        body.applyForceToCenter(force, true);
     }
 
     @Override
     public void onRemove(SolGame game) {
-        myBody.getWorld().destroyBody(myBody);
+        body.getWorld().destroyBody(body);
     }
 
     @Override
     public float getAngle() {
-        return myAngle;
+        return angle;
     }
 
     @Override
     public void changeAngle(float diff) {
-        myAngle += diff;
-        myBody.setTransform(myPos, myAngle * SolMath.degRad);
-        myBody.setAngularVelocity(0);
+        angle += diff;
+        body.setTransform(position, angle * SolMath.degRad);
+        body.setAngularVelocity(0);
     }
 
     @Override
-    public float getDesiredAngle(SolShip ne) {
-        float speedLen = mySpeed.len();
-        if (speedLen < 3) {
-            speedLen = 3;
+    public float getDesiredAngle(SolShip nearestEnemy) {
+        float speedScalar = speed.len();
+        if (speedScalar < 3) {
+            speedScalar = 3;
         }
-        float toNe = SolMath.angle(myPos, ne.getPosition());
-        Vector2 desiredSpeed = SolMath.fromAl(toNe, speedLen);
-        desiredSpeed.add(ne.getSpeed());
-        float res = SolMath.angle(mySpeed, desiredSpeed);
+        float distanceToNearestEnemy = SolMath.angle(position, nearestEnemy.getPosition());
+        Vector2 desiredSpeed = SolMath.fromAl(distanceToNearestEnemy, speedScalar);
+        desiredSpeed.add(nearestEnemy.getSpeed());
+        float result = SolMath.angle(speed, desiredSpeed);
         SolMath.free(desiredSpeed);
-        return res;
+        return result;
     }
 }

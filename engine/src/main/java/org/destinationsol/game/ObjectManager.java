@@ -39,7 +39,7 @@ public class ObjectManager {
     private final List<SolObject> myToAdd;
     private final List<FarObjData> myFarObjs;
     private final List<FarShip> myFarShips;
-    private final List<StarPort.MyFar> myFarPorts;
+    private final List<StarPort.FarStarPort> myFarPorts;
     private final World myWorld;
     private final Box2DDebugRenderer myDr;
     private final HashMap<SolObject, Float> myRadii;
@@ -149,7 +149,7 @@ public class ObjectManager {
         if (fo instanceof FarShip) {
             myFarShips.remove(fo);
         }
-        if (fo instanceof StarPort.MyFar) {
+        if (fo instanceof StarPort.FarStarPort) {
             myFarPorts.remove(fo);
         }
     }
@@ -323,8 +323,8 @@ public class ObjectManager {
         if (fo instanceof FarShip) {
             myFarShips.add((FarShip) fo);
         }
-        if (fo instanceof StarPort.MyFar) {
-            myFarPorts.add((StarPort.MyFar) fo);
+        if (fo instanceof StarPort.FarStarPort) {
+            myFarPorts.add((StarPort.FarStarPort) fo);
         }
     }
 
@@ -332,7 +332,7 @@ public class ObjectManager {
         return myFarShips;
     }
 
-    public List<StarPort.MyFar> getFarPorts() {
+    public List<StarPort.FarStarPort> getFarPorts() {
         return myFarPorts;
     }
 

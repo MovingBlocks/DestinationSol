@@ -27,21 +27,21 @@ import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.particle.DSParticleEmitter;
 
 public class EmWave implements ShipAbility {
-    public static final int MAX_RADIUS = 4;
-    private final Config myConfig;
+    private static final int MAX_RADIUS = 4;
+    private final Config config;
 
-    public EmWave(Config config) {
-        myConfig = config;
+    EmWave(Config config) {
+        this.config = config;
     }
 
     @Override
     public AbilityConfig getConfig() {
-        return myConfig;
+        return config;
     }
 
     @Override
     public AbilityCommonConfig getCommonConfig() {
-        return myConfig.cc;
+        return config.cc;
     }
 
     @Override
@@ -69,10 +69,10 @@ public class EmWave implements ShipAbility {
             if (perc <= 0) {
                 continue;
             }
-            float duration = perc * myConfig.duration;
+            float duration = perc * config.duration;
             oShip.disableControls(duration, game);
         }
-        DSParticleEmitter src = new DSParticleEmitter(myConfig.cc.effect, MAX_RADIUS, DrawableLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
+        DSParticleEmitter src = new DSParticleEmitter(config.cc.effect, MAX_RADIUS, DrawableLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
         game.getPartMan().finish(game, src, ownerPos);
         return true;
     }

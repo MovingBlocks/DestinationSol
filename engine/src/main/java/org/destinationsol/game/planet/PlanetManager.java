@@ -41,47 +41,47 @@ import java.util.List;
 
 public class PlanetManager {
 
-    private final ArrayList<SolSystem> mySystems;
-    private final ArrayList<Planet> myPlanets;
-    private final ArrayList<SystemBelt> myBelts;
-    private final FlatPlaceFinder myFlatPlaceFinder;
-    private final PlanetConfigs myPlanetConfigs;
-    private final MazeConfigs myMazeConfigs;
-    private final ArrayList<Maze> myMazes;
-    private final SunSingleton mySunSingleton;
-    private final SysConfigs mySysConfigs;
-    private final PlanetCoreSingleton myPlanetCore;
-    private Planet myNearestPlanet;
+    private final ArrayList<SolSystem> systems;
+    private final ArrayList<Planet> planets;
+    private final ArrayList<SystemBelt> belts;
+    private final FlatPlaceFinder flatPlaceFinder;
+    private final PlanetConfigs planetConfigs;
+    private final MazeConfigs mazeConfigs;
+    private final ArrayList<Maze> mazes;
+    private final SunSingleton sunSingleton;
+    private final SysConfigs sysConfigs;
+    private final PlanetCoreSingleton planetCoreSingleton;
+    private Planet nearestPlanet;
 
     public PlanetManager(HullConfigManager hullConfigs, GameColors cols,
                             ItemManager itemManager) {
-        myPlanetConfigs = new PlanetConfigs(hullConfigs, cols, itemManager);
-        mySysConfigs = new SysConfigs(hullConfigs, itemManager);
-        myMazeConfigs = new MazeConfigs(hullConfigs, itemManager);
+        planetConfigs = new PlanetConfigs(hullConfigs, cols, itemManager);
+        sysConfigs = new SysConfigs(hullConfigs, itemManager);
+        mazeConfigs = new MazeConfigs(hullConfigs, itemManager);
 
-        mySystems = new ArrayList<>();
-        myMazes = new ArrayList<>();
-        myPlanets = new ArrayList<>();
-        myBelts = new ArrayList<>();
-        myFlatPlaceFinder = new FlatPlaceFinder();
-        mySunSingleton = new SunSingleton();
-        myPlanetCore = new PlanetCoreSingleton();
+        systems = new ArrayList<>();
+        mazes = new ArrayList<>();
+        planets = new ArrayList<>();
+        belts = new ArrayList<>();
+        flatPlaceFinder = new FlatPlaceFinder();
+        sunSingleton = new SunSingleton();
+        planetCoreSingleton = new PlanetCoreSingleton();
     }
 
     public void fill(SolNames names) {
-        new SystemsBuilder().build(mySystems, myPlanets, myBelts, myPlanetConfigs, myMazeConfigs, myMazes, mySysConfigs, names);
+        new SystemsBuilder().build(systems, planets, belts, planetConfigs, mazeConfigs, mazes, sysConfigs, names);
     }
 
     public void update(SolGame game) {
         Vector2 camPos = game.getCam().getPosition();
-        for (Planet planet : myPlanets) {
+        for (Planet planet : planets) {
             planet.update(game);
         }
-        for (Maze maze : myMazes) {
+        for (Maze maze : mazes) {
             maze.update(game);
         }
 
-        myNearestPlanet = getNearestPlanet(camPos);
+        nearestPlanet = getNearestPlanet(camPos);
 
         SolSystem nearestSys = getNearestSystem(camPos);
         applyGrav(game, nearestSys);
@@ -90,7 +90,7 @@ public class PlanetManager {
     public Planet getNearestPlanet(Vector2 position) {
         float minDst = Float.MAX_VALUE;
         Planet res = null;
-        for (Planet planet : myPlanets) {
+        for (Planet planet : planets) {
             float dst = position.dst(planet.getPosition());
             if (dst < minDst) {
                 minDst = dst;
@@ -101,12 +101,12 @@ public class PlanetManager {
     }
 
     private void applyGrav(SolGame game, SolSystem nearestSys) {
-        float npGh = myNearestPlanet.getGroundHeight();
-        float npFh = myNearestPlanet.getFullHeight();
-        float npMinH = myNearestPlanet.getMinGroundHeight();
-        Vector2 npPos = myNearestPlanet.getPosition();
+        float npGh = nearestPlanet.getGroundHeight();
+        float npFh = nearestPlanet.getFullHeight();
+        float npMinH = nearestPlanet.getMinGroundHeight();
+        Vector2 npPos = nearestPlanet.getPosition();
         Vector2 sysPos = nearestSys.getPosition();
-        float npGravConst = myNearestPlanet.getGravConst();
+        float npGravConst = nearestPlanet.getGravitationConstant();
 
         List<SolObject> objs = game.getObjectManager().getObjects();
         for (SolObject obj : objs) {
@@ -150,7 +150,7 @@ public class PlanetManager {
             obj.receiveForce(grav, game, true);
             SolMath.free(grav);
             if (!onPlanet) {
-                mySunSingleton.doDmg(game, obj, toSys);
+                sunSingleton.doDmg(game, obj, toSys);
             }
         }
 
@@ -168,8 +168,8 @@ public class PlanetManager {
         if (hull.config.getType() == HullConfig.Type.STATION) {
             return false;
         }
-        float fh = myNearestPlanet.getFullHeight();
-        Vector2 npPos = myNearestPlanet.getPosition();
+        float fh = nearestPlanet.getFullHeight();
+        Vector2 npPos = nearestPlanet.getPosition();
         Vector2 toShip = SolMath.distVec(npPos, ship.getPosition());
         float len = toShip.len();
         if (len == 0) {
@@ -186,7 +186,7 @@ public class PlanetManager {
     }
 
     public Planet getNearestPlanet() {
-        return myNearestPlanet;
+        return nearestPlanet;
     }
 
     public void drawDebug(GameDrawer drawer, SolGame game) {
@@ -194,11 +194,11 @@ public class PlanetManager {
             SolCam cam = game.getCam();
             float lineWidth = cam.getRealLineWidth();
             float viewHeight = cam.getViewHeight();
-            for (Planet planet : myPlanets) {
+            for (Planet planet : planets) {
                 Vector2 position = planet.getPosition();
                 float angle = planet.getAngle();
                 float fullHeight = planet.getFullHeight();
-                Color color = planet == myNearestPlanet ? SolColor.WHITE : SolColor.G;
+                Color color = planet == nearestPlanet ? SolColor.WHITE : SolColor.G;
                 drawer.drawCircle(drawer.debugWhiteTexture, position, planet.getGroundHeight(), color, lineWidth, viewHeight);
                 drawer.drawCircle(drawer.debugWhiteTexture, position, fullHeight, color, lineWidth, viewHeight);
                 drawer.drawLine(drawer.debugWhiteTexture, position.x, position.y, angle, fullHeight, color, lineWidth);
@@ -208,30 +208,30 @@ public class PlanetManager {
     }
 
     public ArrayList<Planet> getPlanets() {
-        return myPlanets;
+        return planets;
     }
 
     public ArrayList<SystemBelt> getBelts() {
-        return myBelts;
+        return belts;
     }
 
     public ArrayList<SolSystem> getSystems() {
-        return mySystems;
+        return systems;
     }
 
     public Vector2 findFlatPlace(SolGame game, Planet planet, ConsumedAngles takenAngles,
                                  float objHalfWidth) {
-        return myFlatPlaceFinder.find(game, planet, takenAngles, objHalfWidth);
+        return flatPlaceFinder.find(game, planet, takenAngles, objHalfWidth);
     }
 
     public ArrayList<Maze> getMazes() {
-        return myMazes;
+        return mazes;
     }
 
     public SolSystem getNearestSystem(Vector2 position) {
         float minDst = Float.MAX_VALUE;
         SolSystem res = null;
-        for (SolSystem system : mySystems) {
+        for (SolSystem system : systems) {
             float dst = position.dst(system.getPosition());
             if (dst < minDst) {
                 minDst = dst;
@@ -244,7 +244,7 @@ public class PlanetManager {
     public Maze getNearestMaze(Vector2 position) {
         float minDst = Float.MAX_VALUE;
         Maze res = null;
-        for (Maze maze : myMazes) {
+        for (Maze maze : mazes) {
             float dst = position.dst(maze.getPos());
             if (dst < minDst) {
                 minDst = dst;
@@ -255,10 +255,10 @@ public class PlanetManager {
     }
 
     public void drawSunHack(SolGame game, GameDrawer drawer) {
-        mySunSingleton.draw(game, drawer);
+        sunSingleton.draw(game, drawer);
     }
 
     public void drawPlanetCoreHack(SolGame game, GameDrawer drawer) {
-        myPlanetCore.draw(game, drawer);
+        planetCoreSingleton.draw(game, drawer);
     }
 }
