@@ -70,7 +70,7 @@ public final class HullConfigManager {
     private static void validateEngineConfig(HullConfig.Data hull) {
         if (hull.engineConfig != null) {
             // Stations can't have engines, and the engine size must match the hull size
-            if (hull.type == HullConfig.Type.STATION || hull.engineConfig.big != (hull.type == HullConfig.Type.BIG)) {
+            if (hull.type == HullConfig.Type.STATION || hull.engineConfig.isBig != (hull.type == HullConfig.Type.BIG)) {
                 throw new AssertionError("Incompatible engine in hull " + hull.displayName);
             }
         }

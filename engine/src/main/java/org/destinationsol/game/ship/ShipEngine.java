@@ -54,7 +54,7 @@ public class ShipEngine {
 
         Engine e = myItem;
         if (working) {
-            Vector2 v = SolMath.fromAl(shipAngle, mass * e.getAcc());
+            Vector2 v = SolMath.fromAl(shipAngle, mass * e.getAcceleration());
             body.applyForceToCenter(v, true);
             SolMath.free(v);
         }
@@ -62,12 +62,12 @@ public class ShipEngine {
         float ts = cmp.getTimeStep();
         float rotSpd = body.getAngularVelocity() * SolMath.radDeg;
         float desiredRotSpd = 0;
-        float rotAcc = e.getRotAcc();
+        float rotAcc = e.getRotationAcceleration();
         boolean l = controlsEnabled && provider.isLeft();
         boolean r = controlsEnabled && provider.isRight();
         float absRotSpd = SolMath.abs(rotSpd);
-        if (absRotSpd < e.getMaxRotSpd() && l != r) {
-            desiredRotSpd = SolMath.toInt(r) * e.getMaxRotSpd();
+        if (absRotSpd < e.getMaxRotationSpeed() && l != r) {
+            desiredRotSpd = SolMath.toInt(r) * e.getMaxRotationSpeed();
             if (absRotSpd < MAX_RECOVER_ROT_SPD) {
                 if (myRecoverAwait > 0) {
                     myRecoverAwait -= ts;

@@ -113,7 +113,7 @@ public class SystemsBuilder {
                 SolMath.fromAl(res, angle, dist);
                 boolean good = true;
                 for (SolSystem system : systems) {
-                    if (system.getPos().dst(res) < system.getRadius() + bodyRadius) {
+                    if (system.getPosition().dst(res) < system.getRadius() + bodyRadius) {
                         good = false;
                         break;
                     }

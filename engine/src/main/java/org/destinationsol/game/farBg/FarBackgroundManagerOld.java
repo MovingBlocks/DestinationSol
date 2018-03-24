@@ -54,7 +54,7 @@ public class FarBackgroundManagerOld {
     }
 
     public void draw(GameDrawer drawer, SolCam cam, SolGame game) {
-        Planet np = game.getPlanetMan().getNearestPlanet();
+        Planet np = game.getPlanetManager().getNearestPlanet();
         Vector2 camPos = cam.getPos();
         float nebPerc = (camPos.dst(np.getPos()) - np.getGroundHeight()) / (4 * Const.ATM_HEIGHT);
         nebPerc = SolMath.clamp(nebPerc, 0, 1);

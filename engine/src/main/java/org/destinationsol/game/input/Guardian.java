@@ -79,7 +79,7 @@ public class Guardian implements MoveDestProvider {
             if (myFarTarget == null) {
                 return;
             }
-            targetPos = myFarTarget.getPos();
+            targetPos = myFarTarget.getPosition();
             targetApproxRad = myFarTarget.getHullConfig().getApproxRadius();
         } else {
             targetPos = myTarget.getPosition();
@@ -122,7 +122,7 @@ public class Guardian implements MoveDestProvider {
     }
 
     private void setDest(SolGame game, Vector2 targetPos, float targetApproxRad, HullConfig hullConfig) {
-        Planet np = game.getPlanetMan().getNearestPlanet(targetPos);
+        Planet np = game.getPlanetManager().getNearestPlanet(targetPos);
         float desiredAngle = myRelAngle;
         if (np.isNearGround(targetPos)) {
             desiredAngle = SolMath.angle(np.getPos(), targetPos);
@@ -140,7 +140,7 @@ public class Guardian implements MoveDestProvider {
         if (myTarget != null) {
             targetPos = myTarget.getPosition();
         } else if (myFarTarget != null) {
-            targetPos = myFarTarget.getPos();
+            targetPos = myFarTarget.getPosition();
         }
         float maxManeuverDist = 2 * (nearGround ? Const.CAM_VIEW_DIST_GROUND : Const.CAM_VIEW_DIST_SPACE);
         if (targetPos != null && maxManeuverDist < targetPos.dst(nearestEnemy.getPosition())) {
@@ -151,7 +151,7 @@ public class Guardian implements MoveDestProvider {
 
     @Override
     public Vector2 getDestSpd() {
-        return myTarget == null ? Vector2.Zero : myTarget.getSpd();
+        return myTarget == null ? Vector2.Zero : myTarget.getSpeed();
     }
 
     public float getRelAngle() {

@@ -169,8 +169,8 @@ public class DrawableManager {
             }
             if (drawableLevel == DrawableLevel.ATM) {
                 if (!DebugOptions.NO_DRAS) {
-                    game.getPlanetMan().drawPlanetCoreHack(game, myDrawer);
-                    game.getPlanetMan().drawSunHack(game, myDrawer);
+                    game.getPlanetManager().drawPlanetCoreHack(game, myDrawer);
+                    game.getPlanetManager().drawSunHack(game, myDrawer);
                 }
             }
         }

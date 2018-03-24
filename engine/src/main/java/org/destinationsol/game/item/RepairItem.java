@@ -38,7 +38,7 @@ public class RepairItem implements SolItem {
     }
 
     @Override
-    public String getDesc() {
+    public String getDescription() {
         return "Stay idle to fix " + LIFE_AMT + " dmg";
     }
 

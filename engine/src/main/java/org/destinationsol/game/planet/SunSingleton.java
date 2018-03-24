@@ -45,9 +45,9 @@ public class SunSingleton {
 
     public void draw(SolGame game, GameDrawer drawer) {
         Vector2 camPos = game.getCam().getPos();
-        SolSystem sys = game.getPlanetMan().getNearestSystem(camPos);
+        SolSystem sys = game.getPlanetManager().getNearestSystem(camPos);
         Vector2 toCam = SolMath.getVec(camPos);
-        toCam.sub(sys.getPos());
+        toCam.sub(sys.getPosition());
         float toCamLen = toCam.len();
         if (toCamLen < Const.SUN_RADIUS) {
             float closeness = 1 - toCamLen / Const.SUN_RADIUS;

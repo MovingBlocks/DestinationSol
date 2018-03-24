@@ -55,7 +55,7 @@ public class Teleport implements ShipAbility {
             return false;
         }
         Vector2 nePos = ne.getPosition();
-        Planet np = game.getPlanetMan().getNearestPlanet();
+        Planet np = game.getPlanetManager().getNearestPlanet();
         if (np.isNearGround(nePos)) {
             return false;
         }
@@ -100,7 +100,7 @@ public class Teleport implements ShipAbility {
         game.getPartMan().blip(game, newPos, SolRandom.randomFloat(180), blipSz, 1, Vector2.Zero, tex);
 
         float newAngle = owner.getAngle() + angle;
-        Vector2 newSpd = SolMath.getVec(owner.getSpd());
+        Vector2 newSpd = SolMath.getVec(owner.getSpeed());
         SolMath.rotate(newSpd, angle);
 
         Body body = owner.getHull().getBody();

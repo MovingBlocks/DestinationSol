@@ -107,9 +107,9 @@ public class BeaconHandler {
         Vector2 beaconPos = getPos0();
         if (myTarget != null) {
             SolMath.toWorld(beaconPos, myTargetRelPos, myTarget.getAngle(), myTarget.getPosition(), false);
-            mySpd.set(myTarget.getSpd());
+            mySpd.set(myTarget.getSpeed());
         } else {
-            beaconPos.set(myFarTarget.getPos());
+            beaconPos.set(myFarTarget.getPosition());
         }
         return true;
     }
@@ -167,7 +167,7 @@ public class BeaconHandler {
             }
             myD = null;
             for (FarObjData fod : farObjs) {
-                FarObj fo = fod.fo;
+                FarObject fo = fod.fo;
                 if (!(fo instanceof FarDrawable)) {
                     continue;
                 }
@@ -281,7 +281,7 @@ public class BeaconHandler {
             if (onMap && pilot.getMapHint() == null) {
                 continue;
             }
-            float dst = s.getPos().dst(pos);
+            float dst = s.getPosition().dst(pos);
             float rad = iconRad == 0 ? s.getHullConfig().getApproxRadius() : iconRad;
             if (dst < rad) {
                 if (clicked) {
@@ -300,7 +300,7 @@ public class BeaconHandler {
 
     // returns Vector itself
     private Vector2 getPos0() {
-        return myD == null ? myFarD.getPos() : myD.getPosition();
+        return myD == null ? myFarD.getPosition() : myD.getPosition();
     }
 
     public Action getCurrAction() {

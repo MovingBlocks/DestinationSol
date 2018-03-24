@@ -77,78 +77,79 @@ public class ChunkFiller {
      *
      * @param game    The {@link SolGame} instance to work with
      * @param chunk   The coordinates of the chunk
-     * @param remover
-     * @param farBg   Determines which of the background layers should be filled. <code>true</code> fills the layers furthest away, <code>false</code> fills the closer one.
+     * @param removeController
+     * @param fillFarBackground   Determines which of the background layers should be filled. <code>true</code> fills the layers furthest away, <code>false</code> fills the closer one.
      */
-    public void fill(SolGame game, Vector2 chunk, RemoveController remover, boolean farBg) {
+    public void fill(SolGame game, Vector2 chunk, RemoveController removeController, boolean fillFarBackground) {
         if (DebugOptions.NO_OBJS) {
             return;
         }
 
         // Determine the center of the chunk by multiplying the chunk coordinates with the chunk size and adding half a chunk's size
-        Vector2 chCenter = new Vector2(chunk);
-        chCenter.scl(Const.CHUNK_SIZE);
-        chCenter.add(Const.CHUNK_SIZE / 2, Const.CHUNK_SIZE / 2);
+        Vector2 chunkCenter = new Vector2(chunk);
+        chunkCenter.scl(Const.CHUNK_SIZE);
+        chunkCenter.add(Const.CHUNK_SIZE / 2, Const.CHUNK_SIZE / 2);
 
         // Define the density multiplier for different layers of junk in the far background
-        float[] densityMul = {1};
+        // Dirty hack - since we want to edit this in getConfig(), it needs to be an Object
+        float[] densityMultiplier = {1};
 
         // Get the environment configuration
-        SpaceEnvConfig conf = getConfig(game, chCenter, densityMul, remover, farBg);
+        SpaceEnvConfig config = getConfig(game, chunkCenter, densityMultiplier, removeController, fillFarBackground);
 
-        if (farBg) {
-            fillFarJunk(game, chCenter, remover, DrawableLevel.FAR_DECO_3, conf, densityMul[0]);
-            fillFarJunk(game, chCenter, remover, DrawableLevel.FAR_DECO_2, conf, densityMul[0]);
-            fillFarJunk(game, chCenter, remover, DrawableLevel.FAR_DECO_1, conf, densityMul[0]);
+        if (fillFarBackground) {
+            fillFarJunk(game, chunkCenter, removeController, DrawableLevel.FAR_DECO_3, config, densityMultiplier[0]);
+            fillFarJunk(game, chunkCenter, removeController, DrawableLevel.FAR_DECO_2, config, densityMultiplier[0]);
+            fillFarJunk(game, chunkCenter, removeController, DrawableLevel.FAR_DECO_1, config, densityMultiplier[0]);
         } else {
-            fillDust(game, chCenter, remover);
-            fillJunk(game, remover, conf, chCenter);
+            fillDust(game, chunkCenter, removeController);
+            fillJunk(game, removeController, config, chunkCenter);
         }
     }
 
-    private SpaceEnvConfig getConfig(SolGame game, Vector2 chCenter, float[] densityMul,
-                                     RemoveController remover, boolean farBg) {
-        PlanetManager pm = game.getPlanetMan();
-        SolSystem sys = pm.getNearestSystem(chCenter);
-        float toSys = sys.getPos().dst(chCenter);
-        if (toSys < sys.getRadius()) {
+    private SpaceEnvConfig getConfig(SolGame game, Vector2 chunkCenter, float[] densityMultiplier,
+                                     RemoveController removeController, boolean fillFarBackground) {
+        PlanetManager planetManager = game.getPlanetManager();
+        SolSystem system = planetManager.getNearestSystem(chunkCenter);
+        float toSys = system.getPosition().dst(chunkCenter);
+        if (toSys < system.getRadius()) {
             if (toSys < Const.SUN_RADIUS) {
                 return null;
             }
-            for (SystemBelt belt : sys.getBelts()) {
-                if (belt.contains(chCenter)) {
-                    if (!farBg) {
-                        fillAsteroids(game, remover, true, chCenter);
+            for (SystemBelt belt : system.getBelts()) {
+                if (belt.contains(chunkCenter)) {
+                    if (!fillFarBackground) {
+                        fillAsteroids(game, removeController, true, chunkCenter);
                     }
                     SysConfig beltConfig = belt.getConfig();
                     for (ShipConfig enemyConf : beltConfig.tempEnemies) {
-                        if (!farBg) {
-                            fillEnemies(game, remover, enemyConf, chCenter);
+                        if (!fillFarBackground) {
+                            fillEnemies(game, removeController, enemyConf, chunkCenter);
                         }
                     }
                     return beltConfig.envConfig;
                 }
             }
-            float perc = toSys / sys.getRadius() * 2;
+            float perc = toSys / system.getRadius() * 2;
             if (perc > 1) {
                 perc = 2 - perc;
             }
-            densityMul[0] = perc;
-            if (!farBg) {
-                Planet p = pm.getNearestPlanet(chCenter);
-                float toPlanet = p.getPos().dst(chCenter);
+            densityMultiplier[0] = perc;
+            if (!fillFarBackground) {
+                Planet p = planetManager.getNearestPlanet(chunkCenter);
+                float toPlanet = p.getPos().dst(chunkCenter);
                 boolean planetNear = toPlanet < p.getFullHeight() + Const.CHUNK_SIZE;
                 if (!planetNear) {
-                    fillForSys(game, chCenter, remover, sys);
+                    fillForSys(game, chunkCenter, removeController, system);
                 }
             }
-            return sys.getConfig().envConfig;
+            return system.getConfig().envConfig;
         }
-        Maze m = pm.getNearestMaze(chCenter);
-        float dst = m.getPos().dst(chCenter);
+        Maze m = planetManager.getNearestMaze(chunkCenter);
+        float dst = m.getPos().dst(chunkCenter);
         float zoneRad = m.getRadius() + MAZE_ZONE_BORDER;
         if (dst < zoneRad) {
-            densityMul[0] = 1 - dst / zoneRad;
+            densityMultiplier[0] = 1 - dst / zoneRad;
             return m.getConfig().envConfig;
         }
         return null;
@@ -161,7 +162,7 @@ public class ChunkFiller {
         float dst = chCenter.dst(startPos);
         if (Const.CHUNK_SIZE < dst) {
             fillAsteroids(game, remover, false, chCenter);
-            ArrayList<ShipConfig> enemies = sys.getPos().dst(chCenter) < sys.getInnerRad() ? conf.innerTempEnemies : conf.tempEnemies;
+            ArrayList<ShipConfig> enemies = sys.getPosition().dst(chCenter) < sys.getInnerRad() ? conf.innerTempEnemies : conf.tempEnemies;
             for (ShipConfig enemyConf : enemies) {
                 fillEnemies(game, remover, enemyConf, chCenter);
             }

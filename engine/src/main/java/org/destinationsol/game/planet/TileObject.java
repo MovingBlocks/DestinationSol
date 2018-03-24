@@ -17,10 +17,9 @@ package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DmgType;
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
@@ -116,7 +115,7 @@ public class TileObject implements SolObject {
     }
 
     @Override
-    public FarObj toFarObj() {
+    public FarObject toFarObject() {
         return new FarTileObject(myPlanet, myToPlanetRelAngle, myDist, mySize, myTile);
     }
 
@@ -131,13 +130,12 @@ public class TileObject implements SolObject {
     }
 
     @Override
-    public Vector2 getSpd() {
+    public Vector2 getSpeed() {
         return null;
     }
 
     @Override
-    public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
-                              SolGame game, Vector2 collPos) {
+    public void handleContact(SolObject other, float absImpulse, SolGame game, Vector2 collPos) {
     }
 
     @Override

@@ -33,7 +33,7 @@ public class PlanetCoreSingleton {
     public void draw(SolGame game, GameDrawer drawer) {
         SolCam cam = game.getCam();
         Vector2 camPos = cam.getPos();
-        Planet p = game.getPlanetMan().getNearestPlanet();
+        Planet p = game.getPlanetManager().getNearestPlanet();
         Vector2 pPos = p.getPos();
         float toCamLen = camPos.dst(pPos);
         float vd = cam.getViewDist();
