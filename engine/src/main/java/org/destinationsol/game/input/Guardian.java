@@ -50,22 +50,22 @@ public class Guardian implements MoveDestProvider {
     }
 
     @Override
-    public Vector2 getDest() {
+    public Vector2 getDestination() {
         return myDest;
     }
 
     @Override
-    public boolean shouldAvoidBigObjs() {
+    public boolean shouldAvoidBigObjects() {
         return false;
     }
 
     @Override
-    public float getDesiredSpdLen() {
+    public float getDesiredSpeedScalar() {
         return Const.MAX_MOVE_SPD;
     }
 
     @Override
-    public boolean shouldStopNearDest() {
+    public boolean shouldStopNearDestination() {
         return true;
     }
 
@@ -125,7 +125,7 @@ public class Guardian implements MoveDestProvider {
         Planet np = game.getPlanetManager().getNearestPlanet(targetPos);
         float desiredAngle = myRelAngle;
         if (np.isNearGround(targetPos)) {
-            desiredAngle = SolMath.angle(np.getPos(), targetPos);
+            desiredAngle = SolMath.angle(np.getPosition(), targetPos);
         }
         SolMath.fromAl(myDest, desiredAngle, targetApproxRad + DIST + hullConfig.getApproxRadius());
         myDest.add(targetPos);
@@ -150,7 +150,7 @@ public class Guardian implements MoveDestProvider {
     }
 
     @Override
-    public Vector2 getDestSpd() {
+    public Vector2 getDestinationSpeed() {
         return myTarget == null ? Vector2.Zero : myTarget.getSpeed();
     }
 

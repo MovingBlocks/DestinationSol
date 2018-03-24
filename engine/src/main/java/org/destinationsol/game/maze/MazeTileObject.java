@@ -181,14 +181,14 @@ public class MazeTileObject implements SolObject {
         public MazeTileObject build(SolGame game, MazeTile tile, Vector2 position, float angle, boolean flipped) {
             List<Drawable> drawables = new ArrayList<>();
             TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(tile.tex);
-            TextureAtlas.AtlasRegion bgTex = new TextureAtlas.AtlasRegion(tile.bgTex);
+            TextureAtlas.AtlasRegion backgroundTexture = new TextureAtlas.AtlasRegion(tile.backgroundTexture);
             if (flipped) {
                 tex.flip(!tex.isFlipX(), !tex.isFlipY());
-                bgTex.flip(!bgTex.isFlipX(), !bgTex.isFlipY());
+                backgroundTexture.flip(!backgroundTexture.isFlipX(), !backgroundTexture.isFlipY());
             }
             RectSprite s = new RectSprite(tex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DrawableLevel.GROUND, 0, 0, SolColor.WHITE, false);
             drawables.add(s);
-            RectSprite s2 = new RectSprite(bgTex, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DrawableLevel.DECO, 0, 0, SolColor.WHITE, false);
+            RectSprite s2 = new RectSprite(backgroundTexture, MazeBuilder.TILE_SZ, 0, 0, new Vector2(), DrawableLevel.DECO, 0, 0, SolColor.WHITE, false);
             drawables.add(s2);
             Body body = buildBody(game, angle, position, tile, flipped);
             MazeTileObject res = new MazeTileObject(tile, drawables, body, position, angle, flipped);

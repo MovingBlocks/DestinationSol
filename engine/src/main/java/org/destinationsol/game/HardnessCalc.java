@@ -54,7 +54,7 @@ public class HardnessCalc {
         float projHitChance;
         if (pc.guideRotationSpeed > 0) {
             projHitChance = .9f;
-        } else if (pc.zeroAbsSpd) {
+        } else if (pc.zeroAbsSpeed) {
             projHitChance = 0.1f;
         } else {
             projHitChance = (pc.speedLen + pc.acc) / 6;
@@ -140,7 +140,7 @@ public class HardnessCalc {
     public static float getShipCfgDmgCap(ShipConfig shipConfig, ItemManager itemManager) {
         List<ItemConfig> parsed = itemManager.parseItems(shipConfig.items);
         float meanShieldLife = 0;
-        float meanArmorPerc = 0;
+        float meanArmorPercentage = 0;
         for (ItemConfig itemConfig : parsed) {
             SolItem item = itemConfig.examples.get(0);
             if (meanShieldLife == 0 && item instanceof Shield) {
@@ -150,15 +150,15 @@ public class HardnessCalc {
                 meanShieldLife /= itemConfig.examples.size();
                 meanShieldLife *= itemConfig.chance;
             }
-            if (meanArmorPerc == 0 && item instanceof Armor) {
+            if (meanArmorPercentage == 0 && item instanceof Armor) {
                 for (SolItem example : itemConfig.examples) {
-                    meanArmorPerc += ((Armor) example).getPerc();
+                    meanArmorPercentage += ((Armor) example).getPerc();
                 }
-                meanArmorPerc /= itemConfig.examples.size();
-                meanArmorPerc *= itemConfig.chance;
+                meanArmorPercentage /= itemConfig.examples.size();
+                meanArmorPercentage *= itemConfig.chance;
             }
         }
-        return shipConfig.hull.getMaxLife() / (1 - meanArmorPerc) + meanShieldLife * SHIELD_MUL;
+        return shipConfig.hull.getMaxLife() / (1 - meanArmorPercentage) + meanShieldLife * SHIELD_MUL;
     }
 
     private static float getShipConfListDps(List<ShipConfig> ships) {

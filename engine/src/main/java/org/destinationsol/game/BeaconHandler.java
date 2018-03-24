@@ -37,49 +37,49 @@ public class BeaconHandler {
     private static final float TEX_SZ = .5f;
     private static final float ROT_SPD = 30f;
 
-    private final RectSprite myAttackSprite;
-    private final RectSprite myFollowSprite;
-    private final RectSprite myMoveSprite;
-    private final Vector2 myTargetRelPos;
+    private final RectSprite attackSprite;
+    private final RectSprite followSprite;
+    private final RectSprite moveSprite;
+    private final Vector2 targetRelativePosition;
 
-    private DrawableObject myD;
-    private FarDrawable myFarD;
-    private Pilot myTargetPilot;
-    private SolShip myTarget;
-    private FarShip myFarTarget;
-    private Action myCurrAction;
-    private PlanetBind myPlanetBind;
-    private float myClickTime;
-    private Vector2 mySpd;
-    private boolean myInitialized;
+    private DrawableObject drawable;
+    private FarDrawable farDrawable;
+    private Pilot targetPilot;
+    private SolShip target;
+    private FarShip farTarget;
+    private Action currentAction;
+    private PlanetBind planetBind;
+    private float clickTime;
+    private Vector2 speed;
+    private boolean isInitialized;
 
     public BeaconHandler() {
-        TextureAtlas.AtlasRegion attackTex = Assets.getAtlasRegion("engine:uiBeaconAttack");
-        myAttackSprite = new RectSprite(attackTex, TEX_SZ, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
-        TextureAtlas.AtlasRegion followTex = Assets.getAtlasRegion("engine:uiBeaconFollow");
-        myFollowSprite = new RectSprite(followTex, TEX_SZ, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
-        TextureAtlas.AtlasRegion moveTex = Assets.getAtlasRegion("engine:uiBeaconMove");
-        myMoveSprite = new RectSprite(moveTex, TEX_SZ, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
-        myTargetRelPos = new Vector2();
-        mySpd = new Vector2();
+        TextureAtlas.AtlasRegion attackTexture = Assets.getAtlasRegion("engine:uiBeaconAttack");
+        attackSprite = new RectSprite(attackTexture, TEX_SZ, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
+        TextureAtlas.AtlasRegion followTexture = Assets.getAtlasRegion("engine:uiBeaconFollow");
+        followSprite = new RectSprite(followTexture, TEX_SZ, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
+        TextureAtlas.AtlasRegion moveTexture = Assets.getAtlasRegion("engine:uiBeaconMove");
+        moveSprite = new RectSprite(moveTexture, TEX_SZ, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
+        targetRelativePosition = new Vector2();
+        speed = new Vector2();
     }
 
     public void init(SolGame game, Vector2 position) {
         ArrayList<Drawable> drawables = new ArrayList<>();
-        drawables.add(myAttackSprite);
-        drawables.add(myFollowSprite);
-        drawables.add(myMoveSprite);
-        myD = new DrawableObject(drawables, new Vector2(position), new Vector2(), null, false, false);
-        game.getObjectManager().addObjDelayed(myD);
-        myInitialized = true;
+        drawables.add(attackSprite);
+        drawables.add(followSprite);
+        drawables.add(moveSprite);
+        drawable = new DrawableObject(drawables, new Vector2(position), new Vector2(), null, false, false);
+        game.getObjectManager().addObjDelayed(drawable);
+        isInitialized = true;
     }
 
     public void update(SolGame game) {
-        if (!myInitialized) {
+        if (!isInitialized) {
             return;
         }
         updateD(game);
-        mySpd.set(0, 0);
+        speed.set(0, 0);
         if (maybeUpdateTargetPos(game)) {
             return;
         }
@@ -88,68 +88,68 @@ public class BeaconHandler {
 
     private void maybeUpdatePlanetPos(SolGame game) {
         Vector2 beaconPos = getPos0();
-        if (myPlanetBind == null) {
-            myPlanetBind = PlanetBind.tryBind(game, beaconPos, 0);
+        if (planetBind == null) {
+            planetBind = PlanetBind.tryBind(game, beaconPos, 0);
             return;
         }
         Vector2 vec = SolMath.getVec();
-        myPlanetBind.setDiff(vec, beaconPos, false);
+        planetBind.setDiff(vec, beaconPos, false);
         beaconPos.add(vec);
         SolMath.free(vec);
-        myPlanetBind.getPlanet().calcSpdAtPos(mySpd, beaconPos);
+        planetBind.getPlanet().calcSpeedAtPos(speed, beaconPos);
     }
 
     private boolean maybeUpdateTargetPos(SolGame game) {
         updateTarget(game);
-        if (myTargetPilot == null) {
+        if (targetPilot == null) {
             return false;
         }
         Vector2 beaconPos = getPos0();
-        if (myTarget != null) {
-            SolMath.toWorld(beaconPos, myTargetRelPos, myTarget.getAngle(), myTarget.getPosition(), false);
-            mySpd.set(myTarget.getSpeed());
+        if (target != null) {
+            SolMath.toWorld(beaconPos, targetRelativePosition, target.getAngle(), target.getPosition(), false);
+            speed.set(target.getSpeed());
         } else {
-            beaconPos.set(myFarTarget.getPosition());
+            beaconPos.set(farTarget.getPosition());
         }
         return true;
     }
 
     private void updateTarget(SolGame game) {
-        if (myTargetPilot == null) {
+        if (targetPilot == null) {
             return;
         }
         ObjectManager om = game.getObjectManager();
         List<SolObject> objs = om.getObjects();
         List<FarShip> farShips = om.getFarShips();
-        if (myTarget != null) {
-            if (objs.contains(myTarget)) {
+        if (target != null) {
+            if (objs.contains(target)) {
                 return;
             }
-            myTarget = null;
+            target = null;
             for (FarShip ship : farShips) {
-                if (ship.getPilot() != myTargetPilot) {
+                if (ship.getPilot() != targetPilot) {
                     continue;
                 }
-                myFarTarget = ship;
+                farTarget = ship;
                 return;
             }
             applyAction(Action.MOVE);
             return;
         }
-        if (myFarTarget == null) {
+        if (farTarget == null) {
             throw new AssertionError();
         }
-        if (om.getFarShips().contains(myFarTarget)) {
+        if (om.getFarShips().contains(farTarget)) {
             return;
         }
-        myFarTarget = null;
+        farTarget = null;
         for (SolObject o : objs) {
             if ((o instanceof SolShip)) {
                 SolShip ship = (SolShip) o;
-                if (ship.getPilot() != myTargetPilot) {
+                if (ship.getPilot() != targetPilot) {
                     continue;
                 }
-                myTarget = ship;
+                target = ship;
                 return;
             }
         }
@@ -161,11 +161,11 @@ public class BeaconHandler {
         List<SolObject> objs = om.getObjects();
         List<FarObjData> farObjs = om.getFarObjs();
 
-        if (myD != null) {
-            if (objs.contains(myD)) {
+        if (drawable != null) {
+            if (objs.contains(drawable)) {
                 return;
             }
-            myD = null;
+            drawable = null;
             for (FarObjData fod : farObjs) {
                 FarObject fo = fod.fo;
                 if (!(fo instanceof FarDrawable)) {
@@ -176,21 +176,21 @@ public class BeaconHandler {
                     continue;
                 }
                 Drawable drawable = drawables.get(0);
-                if (drawable != myAttackSprite) {
+                if (drawable != attackSprite) {
                     continue;
                 }
-                myFarD = (FarDrawable) fo;
+                farDrawable = (FarDrawable) fo;
                 return;
             }
             throw new AssertionError();
         }
-        if (myFarD == null) {
+        if (farDrawable == null) {
             throw new AssertionError();
         }
-        if (om.containsFarObj(myFarD)) {
+        if (om.containsFarObj(farDrawable)) {
             return;
         }
-        myFarD = null;
+        farDrawable = null;
         for (SolObject o : objs) {
             if ((o instanceof DrawableObject)) {
                 List<Drawable> drawables = o.getDrawables();
@@ -198,33 +198,33 @@ public class BeaconHandler {
                     continue;
                 }
                 Drawable drawable = drawables.get(0);
-                if (drawable != myAttackSprite) {
+                if (drawable != attackSprite) {
                     continue;
                 }
-                myD = (DrawableObject) o;
+                this.drawable = (DrawableObject) o;
                 return;
             }
         }
         throw new AssertionError();
     }
 
-    public Action processMouse(SolGame g, Vector2 position, boolean clicked, boolean onMap) {
+    public Action processMouse(SolGame game, Vector2 position, boolean clicked, boolean onMap) {
         Action action;
-        Pilot targetPilot = findPilotInPos(g, position, onMap, clicked);
+        Pilot targetPilot = findPilotInPos(game, position, onMap, clicked);
         if (targetPilot != null) {
-            boolean enemies = g.getFactionMan().areEnemies(targetPilot.getFaction(), g.getHero().getPilot().getFaction());
+            boolean enemies = game.getFactionMan().areEnemies(targetPilot.getFaction(), game.getHero().getPilot().getFaction());
             if (enemies) {
                 action = Action.ATTACK;
                 if (clicked) {
-                    myTargetRelPos.set(0, 0);
+                    targetRelativePosition.set(0, 0);
                 }
             } else {
                 action = Action.FOLLOW;
                 if (clicked) {
-                    if (myTarget == null) {
-                        myTargetRelPos.set(0, 0);
+                    if (target == null) {
+                        targetRelativePosition.set(0, 0);
                     } else {
-                        SolMath.toRel(position, myTargetRelPos, myTarget.getAngle(), myTarget.getPosition());
+                        SolMath.toRel(position, targetRelativePosition, target.getAngle(), target.getPosition());
                     }
                 }
             }
@@ -235,21 +235,21 @@ public class BeaconHandler {
         if (clicked) {
             applyAction(action);
             getPos0().set(position);
-            myClickTime = g.getTime();
+            clickTime = game.getTime();
         }
         return action;
     }
 
     private void applyAction(Action action) {
-        myCurrAction = action;
-        myAttackSprite.tint.a = myCurrAction == Action.ATTACK ? 1 : 0;
-        myMoveSprite.tint.a = myCurrAction == Action.MOVE ? 1 : 0;
-        myFollowSprite.tint.a = myCurrAction == Action.FOLLOW ? 1 : 0;
-        myPlanetBind = null;
-        if (myCurrAction == Action.MOVE) {
-            myTargetPilot = null;
-            myTarget = null;
-            myFarTarget = null;
+        currentAction = action;
+        attackSprite.tint.a = currentAction == Action.ATTACK ? 1 : 0;
+        moveSprite.tint.a = currentAction == Action.MOVE ? 1 : 0;
+        followSprite.tint.a = currentAction == Action.FOLLOW ? 1 : 0;
+        planetBind = null;
+        if (currentAction == Action.MOVE) {
+            targetPilot = null;
+            target = null;
+            farTarget = null;
         }
     }
 
@@ -270,8 +270,8 @@ public class BeaconHandler {
             float rad = iconRad == 0 ? s.getHull().config.getSize() : iconRad;
             if (dst < rad) {
                 if (clicked) {
-                    myTargetPilot = pilot;
-                    myTarget = s;
+                    targetPilot = pilot;
+                    target = s;
                 }
                 return pilot;
             }
@@ -285,8 +285,8 @@ public class BeaconHandler {
             float rad = iconRad == 0 ? s.getHullConfig().getApproxRadius() : iconRad;
             if (dst < rad) {
                 if (clicked) {
-                    myTargetPilot = pilot;
-                    myFarTarget = s;
+                    targetPilot = pilot;
+                    farTarget = s;
                 }
                 return pilot;
             }
@@ -300,19 +300,19 @@ public class BeaconHandler {
 
     // returns Vector itself
     private Vector2 getPos0() {
-        return myD == null ? myFarD.getPosition() : myD.getPosition();
+        return drawable == null ? farDrawable.getPosition() : drawable.getPosition();
     }
 
     public Action getCurrAction() {
-        return myCurrAction;
+        return currentAction;
     }
 
     public float getClickTime() {
-        return myClickTime;
+        return clickTime;
     }
 
-    public Vector2 getSpd() {
-        return mySpd;
+    public Vector2 getSpeed() {
+        return speed;
     }
 
     public enum Action {

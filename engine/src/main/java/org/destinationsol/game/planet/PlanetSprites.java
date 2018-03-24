@@ -55,7 +55,7 @@ public class PlanetSprites implements SolObject {
     private void setDependentParams() {
         float angleToPlanet = myPlanet.getAngle() + myRelAngleToPlanet;
         SolMath.fromAl(myPos, angleToPlanet, myDist, true);
-        myPos.add(myPlanet.getPos());
+        myPos.add(myPlanet.getPosition());
         myAngle = angleToPlanet + 90;
     }
 

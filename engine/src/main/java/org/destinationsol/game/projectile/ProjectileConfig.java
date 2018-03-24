@@ -34,8 +34,8 @@ public class ProjectileConfig {
     public final EffectConfig trailEffect;
     public final EffectConfig bodyEffect;
     public final EffectConfig collisionEffect;
-    public final EffectConfig collisionEffectBg;
-    public final boolean zeroAbsSpd;
+    public final EffectConfig collisionEffectBackground;
+    public final boolean zeroAbsSpeed;
     public final Vector2 origin;
     public final float acc;
     public final PlayableSound workSound;
@@ -47,8 +47,8 @@ public class ProjectileConfig {
 
     public ProjectileConfig(TextureAtlas.AtlasRegion tex, float texSz, float speedLen, boolean stretch,
                             float physSize, DmgType dmgType, PlayableSound collisionSound, float lightSz, EffectConfig trailEffect,
-                            EffectConfig bodyEffect, EffectConfig collisionEffect, EffectConfig collisionEffectBg,
-                            boolean zeroAbsSpd, Vector2 origin, float acc, PlayableSound workSound, boolean massless, float density,
+                            EffectConfig bodyEffect, EffectConfig collisionEffect, EffectConfig collisionEffectBackground,
+                            boolean zeroAbsSpeed, Vector2 origin, float acc, PlayableSound workSound, boolean massless, float density,
                             float guideRotationSpeed, float dmg, float emTime) {
         this.tex = tex;
         this.texSz = texSz;
@@ -61,8 +61,8 @@ public class ProjectileConfig {
         this.trailEffect = trailEffect;
         this.bodyEffect = bodyEffect;
         this.collisionEffect = collisionEffect;
-        this.collisionEffectBg = collisionEffectBg;
-        this.zeroAbsSpd = zeroAbsSpd;
+        this.collisionEffectBackground = collisionEffectBackground;
+        this.zeroAbsSpeed = zeroAbsSpeed;
         this.origin = origin;
         this.acc = acc;
         this.workSound = workSound;

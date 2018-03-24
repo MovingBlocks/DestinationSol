@@ -36,7 +36,7 @@ public class UiDrawer {
     private final float uiLineWidth;
 
     public final float r;
-    public final TextureRegion whiteTex;
+    public final TextureRegion whiteTexture;
     public final Rectangle filler;
     private final CommonDrawer myDrawer;
     private Boolean myTextMode;
@@ -44,7 +44,7 @@ public class UiDrawer {
     public UiDrawer(CommonDrawer commonDrawer) {
         myDrawer = commonDrawer;
         r = myDrawer.dimensionsRatio;
-        whiteTex = Assets.getAtlasRegion("engine:uiWhiteTex");
+        whiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
         uiLineWidth = 1 / myDrawer.height;
         straightMtx = new Matrix4().setToOrtho2D(0, 1, myDrawer.dimensionsRatio, -1);
         myDrawer.setMatrix(straightMtx);
@@ -80,22 +80,22 @@ public class UiDrawer {
 
     public void draw(Rectangle rect, Color tint) {
         check();
-        myDrawer.draw(whiteTex, rect, tint);
+        myDrawer.draw(whiteTexture, rect, tint);
     }
 
     public void drawCircle(Vector2 center, float radius, Color col) {
         check();
-        myDrawer.drawCircle(whiteTex, center, radius, col, uiLineWidth, 1);
+        myDrawer.drawCircle(whiteTexture, center, radius, col, uiLineWidth, 1);
     }
 
     public void drawLine(float x, float y, float angle, float len, Color col) {
         check();
-        myDrawer.drawLine(whiteTex, x, y, angle, len, col, uiLineWidth);
+        myDrawer.drawLine(whiteTexture, x, y, angle, len, col, uiLineWidth);
     }
 
     public void drawLine(Vector2 p1, Vector2 p2, Color col) {
         check();
-        myDrawer.drawLine(whiteTex, p1, p2, col, uiLineWidth, false);
+        myDrawer.drawLine(whiteTexture, p1, p2, col, uiLineWidth, false);
     }
 
     public void setTextMode(Boolean textMode) {

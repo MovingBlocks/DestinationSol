@@ -36,26 +36,26 @@ public class ShardBuilder {
     private static final float MAX_ROT_SPD = 5f;
     private static final float MAX_SPD = 4f;
     private final CollisionMeshLoader myCollisionMeshLoader;
-    private final List<TextureAtlas.AtlasRegion> myTexs;
+    private final List<TextureAtlas.AtlasRegion> myTextures;
 
     public ShardBuilder() {
         myCollisionMeshLoader = new CollisionMeshLoader("engine:miscCollisionMeshes");
-        myTexs = Assets.listTexturesMatching("engine:shard_.*");
+        myTextures = Assets.listTexturesMatching("engine:shard_.*");
     }
 
-    public void buildExplosionShards(SolGame game, Vector2 position, Vector2 baseSpd, float size) {
+    public void buildExplosionShards(SolGame game, Vector2 position, Vector2 baseSpeed, float size) {
         int count = (int) (size * SIZE_TO_SHARD_COUNT);
         for (int i = 0; i < count; i++) {
-            Shard s = build(game, position, baseSpd, size);
+            Shard s = build(game, position, baseSpeed, size);
             game.getObjectManager().addObjDelayed(s);
         }
     }
 
-    public Shard build(SolGame game, Vector2 basePos, Vector2 baseSpd, float size) {
+    public Shard build(SolGame game, Vector2 basePos, Vector2 baseSpeed, float size) {
 
         ArrayList<Drawable> drawables = new ArrayList<>();
         float scale = SolRandom.randomFloat(MIN_SCALE, MAX_SCALE);
-        TextureAtlas.AtlasRegion tex = SolRandom.randomElement(myTexs);
+        TextureAtlas.AtlasRegion tex = SolRandom.randomElement(myTextures);
         float speedAngle = SolRandom.randomFloat(180);
         Vector2 position = new Vector2();
         SolMath.fromAl(position, speedAngle, SolRandom.randomFloat(size));
@@ -64,7 +64,7 @@ public class ShardBuilder {
 
         body.setAngularVelocity(SolRandom.randomFloat(MAX_ROT_SPD));
         Vector2 speed = SolMath.fromAl(speedAngle, SolRandom.randomFloat(MAX_SPD));
-        speed.add(baseSpd);
+        speed.add(baseSpeed);
         body.setLinearVelocity(speed);
         SolMath.free(speed);
 

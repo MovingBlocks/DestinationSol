@@ -38,7 +38,7 @@ public class LightSource {
     private final RectSprite myHalo;
     private final float mySz;
     private final float myIntensity;
-    private float myWorkPerc;
+    private float myWorkPercentage;
     private float myFadeTime;
 
     /**
@@ -63,11 +63,11 @@ public class LightSource {
 
     public void update(boolean working, float baseAngle, SolGame game) {
         if (working) {
-            myWorkPerc = 1f;
+            myWorkPercentage = 1f;
         } else {
-            myWorkPerc = SolMath.approach(myWorkPerc, 0, game.getTimeStep() / myFadeTime);
+            myWorkPercentage = SolMath.approach(myWorkPercentage, 0, game.getTimeStep() / myFadeTime);
         }
-        float baseA = SolRandom.randomFloat(.5f, 1) * myWorkPerc * myIntensity;
+        float baseA = SolRandom.randomFloat(.5f, 1) * myWorkPercentage * myIntensity;
         myCircle.tint.a = baseA * A_RATIO;
         float sz = (1 + SolRandom.randomFloat(.2f * myIntensity)) * mySz;
         myCircle.setTextureSize(SZ_RATIO * sz);
@@ -79,7 +79,7 @@ public class LightSource {
     }
 
     public boolean isFinished() {
-        return myWorkPerc <= 0;
+        return myWorkPercentage <= 0;
     }
 
     public void collectDras(List<Drawable> drawables) {
@@ -94,7 +94,7 @@ public class LightSource {
     }
 
     public void setWorking() {
-        myWorkPerc = 1;
+        myWorkPercentage = 1;
     }
 
     public void setRelPos(Vector2 relPos) {

@@ -30,7 +30,7 @@ import java.util.List;
 
 public class DrawableObject implements SolObject {
     private final Vector2 myPos;
-    private final Vector2 mySpd;
+    private final Vector2 mySpeed;
     private final RemoveController myRemoveController;
     private final boolean myHideOnPlanet;
     private final Vector2 myMoveDiff;
@@ -43,7 +43,7 @@ public class DrawableObject implements SolObject {
     public DrawableObject(List<Drawable> drawables, @Consumed Vector2 position, @Consumed Vector2 speed, RemoveController removeController, boolean temporary, boolean hideOnPlanet) {
         myDrawables = drawables;
         myPos = position;
-        mySpd = speed;
+        mySpeed = speed;
         myRemoveController = removeController;
         myHideOnPlanet = hideOnPlanet;
         myMoveDiff = new Vector2();
@@ -55,14 +55,14 @@ public class DrawableObject implements SolObject {
 
     @Override
     public void update(SolGame game) {
-        myMoveDiff.set(mySpd);
+        myMoveDiff.set(mySpeed);
         float ts = game.getTimeStep();
         myMoveDiff.scl(ts);
         myPos.add(myMoveDiff);
         if (myHideOnPlanet) {
             Planet np = game.getPlanetManager().getNearestPlanet();
-            Vector2 npPos = np.getPos();
-            float npgh = np.getGroundHeight();
+            Vector2 npPos = np.getPosition();
+            float npgroundHeight = np.getGroundHeight();
             DrawableManager drawableManager = game.getDrawableManager();
             for (Drawable drawable : myDrawables) {
                 if (!(drawable instanceof RectSprite)) {
@@ -73,19 +73,19 @@ public class DrawableObject implements SolObject {
                 }
                 Vector2 draPos = drawable.getPos();
                 float gradSz = .25f * Const.ATM_HEIGHT;
-                float distPerc = (draPos.dst(npPos) - npgh - Const.ATM_HEIGHT) / gradSz;
-                distPerc = SolMath.clamp(distPerc);
-                ((RectSprite) drawable).tint.a = distPerc;
+                float distPercentage = (draPos.dst(npPos) - npgroundHeight - Const.ATM_HEIGHT) / gradSz;
+                distPercentage = SolMath.clamp(distPercentage);
+                ((RectSprite) drawable).tint.a = distPercentage;
             }
         } else if (myMaxFadeTime > 0) {
             myFadeTime -= ts;
-            float tintPerc = myFadeTime / myMaxFadeTime;
+            float tintPercentage = myFadeTime / myMaxFadeTime;
             for (Drawable drawable : myDrawables) {
                 if (!(drawable instanceof RectSprite)) {
                     continue;
                 }
                 RectSprite rs = (RectSprite) drawable;
-                rs.tint.a = SolMath.clamp(tintPerc * rs.baseAlpha);
+                rs.tint.a = SolMath.clamp(tintPercentage * rs.baseAlpha);
             }
 
         }
@@ -135,7 +135,7 @@ public class DrawableObject implements SolObject {
 
     @Override
     public FarObject toFarObject() {
-        return myTemporary ? null : new FarDrawable(myDrawables, myPos, mySpd, myRemoveController, myHideOnPlanet);
+        return myTemporary ? null : new FarDrawable(myDrawables, myPos, mySpeed, myRemoveController, myHideOnPlanet);
     }
 
     @Override

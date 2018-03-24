@@ -29,11 +29,11 @@ public class BeaconDestProvider implements MoveDestProvider {
 
     private Boolean myShouldManeuver;
     private boolean myShouldStopNearDest;
-    private Vector2 myDestSpd;
+    private Vector2 myDestSpeed;
 
     public BeaconDestProvider() {
         myDest = new Vector2();
-        myDestSpd = new Vector2();
+        myDestSpeed = new Vector2();
     }
 
     @Override
@@ -48,11 +48,11 @@ public class BeaconDestProvider implements MoveDestProvider {
             }
         }
         myShouldStopNearDest = STOP_AWAIT < game.getTime() - bh.getClickTime();
-        myDestSpd.set(bh.getSpd());
+        myDestSpeed.set(bh.getSpeed());
     }
 
     @Override
-    public Vector2 getDest() {
+    public Vector2 getDestination() {
         return myDest;
     }
 
@@ -62,22 +62,22 @@ public class BeaconDestProvider implements MoveDestProvider {
     }
 
     @Override
-    public Vector2 getDestSpd() {
-        return myDestSpd;
+    public Vector2 getDestinationSpeed() {
+        return myDestSpeed;
     }
 
     @Override
-    public boolean shouldAvoidBigObjs() {
+    public boolean shouldAvoidBigObjects() {
         return true;
     }
 
     @Override
-    public float getDesiredSpdLen() {
+    public float getDesiredSpeedScalar() {
         return Const.MAX_MOVE_SPD;
     }
 
     @Override
-    public boolean shouldStopNearDest() {
+    public boolean shouldStopNearDestination() {
         return myShouldStopNearDest;
     }
 }
