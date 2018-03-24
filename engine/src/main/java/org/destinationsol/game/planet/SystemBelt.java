@@ -19,38 +19,38 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.game.HardnessCalc;
 
 public class SystemBelt {
-    private final Float myHalfWidth;
-    private final float myRadius;
-    private final SolSystem myS;
-    private final SysConfig myConfig;
-    private final float myDps;
+    private final Float halfWidth;
+    private final float radius;
+    private final SolSystem system;
+    private final SysConfig config;
+    private final float damagePerSecond;
 
     SystemBelt(Float halfWidth, float radius, SolSystem s, SysConfig config) {
-        myHalfWidth = halfWidth;
-        myRadius = radius;
-        myS = s;
-        myConfig = config;
-        myDps = HardnessCalc.getBeltDps(config);
+        this.halfWidth = halfWidth;
+        this.radius = radius;
+        system = s;
+        this.config = config;
+        damagePerSecond = HardnessCalc.getBeltDps(config);
     }
 
     public float getRadius() {
-        return myRadius;
+        return radius;
     }
 
     public Float getHalfWidth() {
-        return myHalfWidth;
+        return halfWidth;
     }
 
     public boolean contains(Vector2 position) {
-        float toCenter = myS.getPosition().dst(position);
-        return myRadius - myHalfWidth < toCenter && toCenter < myRadius + myHalfWidth;
+        float toCenter = system.getPosition().dst(position);
+        return radius - halfWidth < toCenter && toCenter < radius + halfWidth;
     }
 
     public SysConfig getConfig() {
-        return myConfig;
+        return config;
     }
 
     public float getDps() {
-        return myDps;
+        return damagePerSecond;
     }
 }

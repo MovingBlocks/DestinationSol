@@ -28,28 +28,28 @@ import java.util.List;
 
 public class LightObject implements SolObject {
 
-    private final LightSource myLightSource;
-    private final ArrayList<Drawable> myDrawables;
-    private final Vector2 myPos;
+    private final LightSource lightSource;
+    private final ArrayList<Drawable> drawables;
+    private final Vector2 position;
 
     // consumes pos
-    public LightObject(SolGame game, float sz, boolean hasHalo, float intensity, Vector2 position, float fadeTime, Color col) {
-        myPos = position;
-        myLightSource = new LightSource(sz, hasHalo, intensity, new Vector2(), col);
-        myLightSource.setFadeTime(fadeTime);
-        myLightSource.setWorking();
-        myDrawables = new ArrayList<>();
-        myLightSource.collectDras(myDrawables);
+    LightObject(SolGame game, float size, boolean hasHalo, float intensity, Vector2 position, float fadeTime, Color col) {
+        this.position = position;
+        lightSource = new LightSource(size, hasHalo, intensity, new Vector2(), col);
+        lightSource.setFadeTime(fadeTime);
+        lightSource.setWorking();
+        drawables = new ArrayList<>();
+        lightSource.collectDras(drawables);
     }
 
     @Override
     public void update(SolGame game) {
-        myLightSource.update(false, 0, game);
+        lightSource.update(false, 0, game);
     }
 
     @Override
     public boolean shouldBeRemoved(SolGame game) {
-        return myLightSource.isFinished();
+        return lightSource.isFinished();
     }
 
     @Override
@@ -71,7 +71,7 @@ public class LightObject implements SolObject {
 
     @Override
     public Vector2 getPosition() {
-        return myPos;
+        return position;
     }
 
     @Override
@@ -81,7 +81,7 @@ public class LightObject implements SolObject {
 
     @Override
     public List<Drawable> getDrawables() {
-        return myDrawables;
+        return drawables;
     }
 
     @Override

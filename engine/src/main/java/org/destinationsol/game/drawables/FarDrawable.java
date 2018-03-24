@@ -25,31 +25,31 @@ import org.destinationsol.game.SolObject;
 import java.util.List;
 
 public class FarDrawable implements FarObject {
-    private final List<Drawable> myDrawables;
-    private final Vector2 myPos;
-    private final Vector2 mySpeed;
-    private final RemoveController myRemoveController;
-    private final float myRadius;
-    private final boolean myHideOnPlanet;
+    private final List<Drawable> drawables;
+    private final Vector2 position;
+    private final Vector2 speed;
+    private final RemoveController removeController;
+    private final float radius;
+    private final boolean hideOnPlanet;
 
     public FarDrawable(List<Drawable> drawables, Vector2 position, Vector2 speed, RemoveController removeController,
                        boolean hideOnPlanet) {
-        myDrawables = drawables;
-        myPos = position;
-        mySpeed = speed;
-        myRemoveController = removeController;
-        myRadius = DrawableManager.radiusFromDrawables(myDrawables);
-        myHideOnPlanet = hideOnPlanet;
+        this.drawables = drawables;
+        this.position = position;
+        this.speed = speed;
+        this.removeController = removeController;
+        radius = DrawableManager.radiusFromDrawables(this.drawables);
+        this.hideOnPlanet = hideOnPlanet;
     }
 
     @Override
     public boolean shouldBeRemoved(SolGame game) {
-        return myRemoveController != null && myRemoveController.shouldRemove(myPos);
+        return removeController != null && removeController.shouldRemove(position);
     }
 
     @Override
     public SolObject toObject(SolGame game) {
-        return new DrawableObject(myDrawables, myPos, mySpeed, myRemoveController, false, myHideOnPlanet);
+        return new DrawableObject(drawables, position, speed, removeController, false, hideOnPlanet);
     }
 
     @Override
@@ -58,12 +58,12 @@ public class FarDrawable implements FarObject {
 
     @Override
     public float getRadius() {
-        return myRadius;
+        return radius;
     }
 
     @Override
     public Vector2 getPosition() {
-        return myPos;
+        return position;
     }
 
     @Override
@@ -77,6 +77,6 @@ public class FarDrawable implements FarObject {
     }
 
     public List<Drawable> getDrawables() {
-        return myDrawables;
+        return drawables;
     }
 }

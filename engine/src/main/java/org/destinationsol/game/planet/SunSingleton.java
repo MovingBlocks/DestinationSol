@@ -31,16 +31,16 @@ public class SunSingleton {
     public static final float SUN_HOT_RAD = .75f * Const.SUN_RADIUS;
     public static final float GRAV_CONST = 2000;
     private static final float SUN_DMG = 4f;
-    private final TextureAtlas.AtlasRegion myGradTexture;
-    private final TextureAtlas.AtlasRegion myWhiteTexture;
-    private final Color myGradTint;
-    private final Color myFillTint;
+    private final TextureAtlas.AtlasRegion gradatingTexture;
+    private final TextureAtlas.AtlasRegion whiteTexture;
+    private final Color gradatingTint;
+    private final Color fillTint;
 
-    public SunSingleton() {
-        myGradTexture = Assets.getAtlasRegion("engine:planetStarCommonGrad");
-        myWhiteTexture = Assets.getAtlasRegion("engine:planetStarCommonWhiteTex");
-        myGradTint = SolColor.col(1, 1);
-        myFillTint = SolColor.col(1, 1);
+    SunSingleton() {
+        gradatingTexture = Assets.getAtlasRegion("engine:planetStarCommonGrad");
+        whiteTexture = Assets.getAtlasRegion("engine:planetStarCommonWhiteTex");
+        gradatingTint = SolColor.col(1, 1);
+        fillTint = SolColor.col(1, 1);
     }
 
     public void draw(SolGame game, GameDrawer drawer) {
@@ -51,13 +51,13 @@ public class SunSingleton {
         float toCamLen = toCam.len();
         if (toCamLen < Const.SUN_RADIUS) {
             float closeness = 1 - toCamLen / Const.SUN_RADIUS;
-            myGradTint.a = SolMath.clamp(closeness * 4, 0, 1);
-            myFillTint.a = SolMath.clamp((closeness - .25f) * 4, 0, 1);
+            gradatingTint.a = SolMath.clamp(closeness * 4, 0, 1);
+            fillTint.a = SolMath.clamp((closeness - .25f) * 4, 0, 1);
 
             float sz = 2 * game.getCam().getViewDistance();
             float gradAngle = SolMath.angle(toCam) + 90;
-            drawer.draw(myWhiteTexture, sz * 2, sz * 2, sz, sz, camPos.x, camPos.y, 0, myFillTint);
-            drawer.draw(myGradTexture, sz * 2, sz * 2, sz, sz, camPos.x, camPos.y, gradAngle, myGradTint);
+            drawer.draw(whiteTexture, sz * 2, sz * 2, sz, sz, camPos.x, camPos.y, 0, fillTint);
+            drawer.draw(gradatingTexture, sz * 2, sz * 2, sz, sz, camPos.x, camPos.y, gradAngle, gradatingTint);
         }
         SolMath.free(toCam);
     }

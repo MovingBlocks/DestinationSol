@@ -15,10 +15,9 @@
  */
 package org.destinationsol.game.projectile;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.json.Json;
@@ -30,16 +29,16 @@ import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.terasology.assets.ResourceUrn;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class ProjectileConfigs {
 
-    private final Map<String, ProjectileConfig> myConfigs;
+    private final Map<String, ProjectileConfig> configs;
 
     public ProjectileConfigs(OggSoundManager soundManager, EffectTypes effectTypes, GameColors cols) {
-        myConfigs = new HashMap<>();
+        configs = new HashMap<>();
 
         Set<ResourceUrn> projectileConfigurationFiles = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:projectilesConfig");
 
@@ -51,7 +50,7 @@ public class ProjectileConfigs {
                 String texName = node.getString("tex");
                 TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(texName + "Projectile");
                 float texSz = node.getFloat("texSz");
-                float speedLen = node.getFloat("speedLen");
+                float speedLen = node.getFloat("spdLen");
                 float physSize = node.getFloat("physSize", 0);
                 boolean stretch = node.getBoolean("stretch", false);
                 DmgType dmgType = DmgType.forName(node.getString("dmgType"));
@@ -75,7 +74,7 @@ public class ProjectileConfigs {
                 ProjectileConfig config = new ProjectileConfig(tex, texSz, speedLen, stretch, physSize, dmgType,
                         collisionSound, lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBackground,
                         zeroAbsSpeed, origin, acc, workSound, bodyless, density, guideRotationSpeed, dmg, emTime);
-                myConfigs.put(node.name, config);
+                configs.put(node.name, config);
             }
 
             json.dispose();
@@ -83,6 +82,6 @@ public class ProjectileConfigs {
     }
 
     public ProjectileConfig find(String name) {
-        return myConfigs.get(name);
+        return configs.get(name);
     }
 }

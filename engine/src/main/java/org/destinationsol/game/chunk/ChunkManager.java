@@ -31,40 +31,40 @@ public class ChunkManager {
     private static final int MAX_BG_FILL_DIST = 2;
     private static final int MIN_BG_REMOVE_DIST = MAX_BG_FILL_DIST + 1;
 
-    private final Set<Vector2> myFilledChunks;
-    private final Set<Vector2> myBackgroundFilledChunks;
-    private final RemoveController myRemover;
-    private final RemoveController myBackgroundRemover;
-    private final ChunkFiller myFiller;
+    private final Set<Vector2> filledChunks;
+    private final Set<Vector2> backgroundFilledChunks;
+    private final RemoveController removeController;
+    private final RemoveController backgroundRemoveController;
+    private final ChunkFiller filler;
 
-    private int myX;
-    private int myY;
+    private int X;
+    private int Y;
 
     public ChunkManager() {
-        myFilledChunks = new HashSet<>();
-        myBackgroundFilledChunks = new HashSet<>();
-        myRemover = new MyRemover(MIN_REMOVE_DIST);
-        myBackgroundRemover = new MyRemover(MIN_BG_REMOVE_DIST);
-        myFiller = new ChunkFiller();
+        filledChunks = new HashSet<>();
+        backgroundFilledChunks = new HashSet<>();
+        removeController = new MyRemover(MIN_REMOVE_DIST);
+        backgroundRemoveController = new MyRemover(MIN_BG_REMOVE_DIST);
+        filler = new ChunkFiller();
     }
 
     public void update(SolGame game) {
         Vector2 camPos = game.getCam().getPosition();
         boolean refill = updateCurrChunk(camPos);
         if (refill) {
-            clearFarChunks(myFilledChunks, MIN_REMOVE_DIST);
-            addNewChunks(myFilledChunks, MAX_FILL_DIST, game);
-            clearFarChunks(myBackgroundFilledChunks, MIN_BG_REMOVE_DIST);
-            addNewChunks(myBackgroundFilledChunks, MAX_BG_FILL_DIST, game);
+            clearFarChunks(filledChunks, MIN_REMOVE_DIST);
+            addNewChunks(filledChunks, MAX_FILL_DIST, game);
+            clearFarChunks(backgroundFilledChunks, MIN_BG_REMOVE_DIST);
+            addNewChunks(backgroundFilledChunks, MAX_BG_FILL_DIST, game);
         }
     }
 
     private boolean updateCurrChunk(Vector2 position) {
-        int oldX = myX;
-        int oldY = myY;
-        myX = posToChunkIdx(position.x);
-        myY = posToChunkIdx(position.y);
-        return oldX != myX || oldY != myY;
+        int oldX = X;
+        int oldY = Y;
+        X = posToChunkIdx(position.x);
+        Y = posToChunkIdx(position.y);
+        return oldX != X || oldY != Y;
     }
 
     private int posToChunkIdx(float v) {
@@ -80,7 +80,7 @@ public class ChunkManager {
     }
 
     private boolean isChunkFar(int x, int y, int dist) {
-        return x <= myX - dist || myX + dist <= x || y <= myY - dist || myY + dist <= y;
+        return x <= X - dist || X + dist <= x || y <= Y - dist || Y + dist <= y;
     }
 
     private void addNewChunks(Set<Vector2> chunks, int dist, SolGame game) {
@@ -96,12 +96,12 @@ public class ChunkManager {
     }
 
     private void maybeAddChunk(Set<Vector2> chunks, int oX, int oY, SolGame game) {
-        Vector2 v = SolMath.getVec(myX + oX, myY + oY);
+        Vector2 v = SolMath.getVec(X + oX, Y + oY);
         if (!chunks.contains(v)) {
             Vector2 chunk = new Vector2(v);
             chunks.add(chunk);
-            boolean background = chunks == myBackgroundFilledChunks;
-            myFiller.fill(game, chunk, background ? myBackgroundRemover : myRemover, background);
+            boolean background = chunks == backgroundFilledChunks;
+            filler.fill(game, chunk, background ? backgroundRemoveController : removeController, background);
         }
         SolMath.free(v);
     }

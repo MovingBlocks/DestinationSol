@@ -34,33 +34,33 @@ import java.util.ArrayList;
 public class MazeBuilder {
     public static final float BORDER = 4f;
     public static final float TILE_SZ = 3.5f;
-    private int mySz;
-    private Vector2 myMazePos;
-    private float myMazeAngle;
-    private float myInnerRad;
+    private int size;
+    private Vector2 mazePosition;
+    private float mazeAngle;
+    private float innerRadius;
 
     public void build(SolGame game, Maze maze) {
-        myInnerRad = maze.getRadius() - BORDER;
-        mySz = (int) (myInnerRad * 2 / TILE_SZ);
-        myMazePos = maze.getPos();
-        myMazeAngle = SolRandom.seededRandomFloat(180);
+        innerRadius = maze.getRadius() - BORDER;
+        size = (int) (innerRadius * 2 / TILE_SZ);
+        mazePosition = maze.getPos();
+        mazeAngle = SolRandom.seededRandomFloat(180);
 
         MazeLayout layout = buildMaze(game, maze);
         buildEnemies(game, maze, layout);
     }
 
-    public MazeLayout buildMaze(SolGame game, Maze maze) {
-        MazeLayout layout = new MazeLayoutBuilder(mySz).build();
+    private MazeLayout buildMaze(SolGame game, Maze maze) {
+        MazeLayout layout = new MazeLayoutBuilder(size).build();
         new MazeTileObject.Builder();
         MazeConfig config = maze.getConfig();
-        for (int col = 0; col < mySz; col++) {
-            for (int row = 0; row < mySz; row++) {
+        for (int col = 0; col < size; col++) {
+            for (int row = 0; row < size; row++) {
                 boolean ulInner = col > 0 && row > 0 && layout.inners[col][row];
-                boolean rInner = row > 0 && col < mySz - 1 && layout.inners[col + 1][row];
+                boolean rInner = row > 0 && col < size - 1 && layout.inners[col + 1][row];
                 if (row > 0 && (ulInner || rInner)) {
                     boolean wall = layout.right[col][row];
                     boolean inner = ulInner && rInner;
-                    float tileAngle = myMazeAngle - 90;
+                    float tileAngle = mazeAngle - 90;
                     if (!ulInner) {
                         tileAngle += 180;
                     }
@@ -76,11 +76,11 @@ public class MazeBuilder {
                     game.getObjectManager().addFarObjNow(mto);
                 }
 
-                boolean dInner = col > 0 && row < mySz - 1 && layout.inners[col][row + 1];
+                boolean dInner = col > 0 && row < size - 1 && layout.inners[col][row + 1];
                 if (col > 0 && (ulInner || dInner)) {
                     boolean wall = layout.down[col][row];
                     boolean inner = ulInner && dInner;
-                    float tileAngle = myMazeAngle;
+                    float tileAngle = mazeAngle;
                     if (!ulInner) {
                         tileAngle += 180;
                     }
@@ -101,9 +101,9 @@ public class MazeBuilder {
     }
 
     private Vector2 cellPos(int col, int row, float xOffset, float yOffset) {
-        Vector2 res = new Vector2((col - mySz / 2) * TILE_SZ + xOffset, (row - mySz / 2) * TILE_SZ + yOffset);
-        SolMath.rotate(res, myMazeAngle);
-        res.add(myMazePos);
+        Vector2 res = new Vector2((col - size / 2) * TILE_SZ + xOffset, (row - size / 2) * TILE_SZ + yOffset);
+        SolMath.rotate(res, mazeAngle);
+        res.add(mazePosition);
         return res;
     }
 
@@ -111,20 +111,20 @@ public class MazeBuilder {
         MazeConfig config = maze.getConfig();
         float dist = maze.getRadius() - BORDER / 2;
         float circleLen = dist * SolMath.PI * 2;
-        for (ShipConfig e : config.outerEnemies) {
-            int count = (int) (e.density * circleLen);
+        for (ShipConfig enemy : config.outerEnemies) {
+            int count = (int) (enemy.density * circleLen);
             for (int i = 0; i < count; i++) {
                 Vector2 position = new Vector2();
                 SolMath.fromAl(position, SolRandom.randomFloat(180), dist);
-                position.add(myMazePos);
-                buildEnemy(position, game, e, false);
+                position.add(mazePosition);
+                buildEnemy(position, game, enemy, false);
             }
         }
 
-        boolean[][] occupiedCells = new boolean[mySz][mySz];
-        occupiedCells[mySz / 2][mySz / 2] = true;
+        boolean[][] occupiedCells = new boolean[size][size];
+        occupiedCells[size / 2][size / 2] = true;
         for (ShipConfig e : config.innerEnemies) {
-            int count = (int) (e.density * myInnerRad * myInnerRad * SolMath.PI);
+            int count = (int) (e.density * innerRadius * innerRadius * SolMath.PI);
             for (int i = 0; i < count; i++) {
                 Vector2 position = getFreeCellPos(occupiedCells);
                 if (position != null) {
@@ -133,19 +133,19 @@ public class MazeBuilder {
             }
         }
         ShipConfig bossConfig = SolRandom.randomElement(config.bosses);
-        Vector2 position = cellPos(mySz / 2, mySz / 2, 0f, 0f);
+        Vector2 position = cellPos(size / 2, size / 2, 0f, 0f);
         buildEnemy(position, game, bossConfig, true);
     }
 
     private Vector2 getFreeCellPos(boolean[][] occupiedCells) {
         for (int i = 0; i < 10; i++) {
-            int col = SolRandom.seededRandomInt(mySz);
-            int row = SolRandom.seededRandomInt(mySz);
+            int col = SolRandom.seededRandomInt(size);
+            int row = SolRandom.seededRandomInt(size);
             if (occupiedCells[col][row]) {
                 continue;
             }
             Vector2 position = cellPos(col, row, 0f, 0f);
-            if (.8f * myInnerRad < position.dst(myMazePos)) {
+            if (.8f * innerRadius < position.dst(mazePosition)) {
                 continue;
             }
             occupiedCells[col][row] = true;

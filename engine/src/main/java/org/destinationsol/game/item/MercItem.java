@@ -16,31 +16,29 @@
 
 package org.destinationsol.game.item;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-
 public class MercItem implements SolItem {
-    private final ShipConfig myConfig;
+    private final ShipConfig config;
     private final String myDesc;
     private SolShip solship;
 
     public MercItem(ShipConfig config) {
-        myConfig = config;
-        myDesc = "Has a shield and repairers\n" + ShipItem.makeDesc(myConfig.hull);
+        this.config = config;
+        myDesc = "Has a shield and repairers\n" + ShipItem.makeDesc(config.hull);
     }
 
     @Override
     public String getDisplayName() {
-        return myConfig.hull.getDisplayName();
+        return config.hull.getDisplayName();
     }
 
     @Override
     public float getPrice() {
-        return myConfig.hull.getHirePrice();
+        return config.hull.getHirePrice();
     }
 
     @Override
@@ -50,7 +48,7 @@ public class MercItem implements SolItem {
 
     @Override
     public SolItem copy() {
-        return new MercItem(myConfig);
+        return new MercItem(config);
     }
 
     @Override
@@ -62,7 +60,7 @@ public class MercItem implements SolItem {
 
     @Override
     public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-        return myConfig.hull.getIcon();
+        return config.hull.getIcon();
     }
 
     @Override
@@ -86,7 +84,7 @@ public class MercItem implements SolItem {
     }
 
     public ShipConfig getConfig() {
-        return myConfig;
+        return config;
     }
     
     public void setSolShip(SolShip solship) {

@@ -33,7 +33,7 @@ public class DebugCollector {
     }
 
     public static void draw(UiDrawer drawer) {
-        drawer.drawString(myDebugStrings.toString(), .5f, BorderDrawer.TISHCH_SZ, FontSize.DEBUG, false, SolColor.WHITE);
+        drawer.drawString(myDebugStrings.toString(), .5f, BorderDrawer.PLANET_PROXIMITY_INDICATOR_SIZE, FontSize.DEBUG, false, SolColor.WHITE);
     }
 
     public static void debug(String name, String val) {

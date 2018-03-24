@@ -23,44 +23,44 @@ import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 
 public class Maze {
-    private final MazeConfig myConfig;
-    private final Vector2 myPos;
-    private final float myRadius;
-    private final float myDps;
-    private boolean myObjsCreated;
+    private final MazeConfig config;
+    private final Vector2 position;
+    private final float radius;
+    private final float damagePerSecond;
+    private boolean areObjectsCreated;
 
     public Maze(MazeConfig config, Vector2 position, float radius) {
-        myConfig = config;
-        myPos = position;
-        myRadius = radius;
-        myDps = HardnessCalc.getMazeDps(config);
+        this.config = config;
+        this.position = position;
+        this.radius = radius;
+        damagePerSecond = HardnessCalc.getMazeDps(config);
     }
 
     public void update(SolGame game) {
         SolCam cam = game.getCam();
         Vector2 camPos = cam.getPosition();
-        if (!myObjsCreated && camPos.dst(myPos) < myRadius + Const.CAM_VIEW_DIST_JOURNEY * 2) {
+        if (!areObjectsCreated && camPos.dst(position) < radius + Const.CAM_VIEW_DIST_JOURNEY * 2) {
             new MazeBuilder().build(game, this);
-            myObjsCreated = true;
+            areObjectsCreated = true;
         }
     }
 
     public MazeConfig getConfig() {
-        return myConfig;
+        return config;
     }
 
     public Vector2 getPos() {
-        return myPos;
+        return position;
     }
 
     /**
      * @return the full radius including the exterior border.
      */
     public float getRadius() {
-        return myRadius;
+        return radius;
     }
 
     public float getDps() {
-        return myDps;
+        return damagePerSecond;
     }
 }

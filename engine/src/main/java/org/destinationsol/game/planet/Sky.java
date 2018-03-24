@@ -35,45 +35,45 @@ import java.util.List;
 
 public class Sky implements SolObject {
 
-    private final Planet myPlanet;
-    private final RectSprite myFill;
-    private final RectSprite myGrad;
-    private final ArrayList<Drawable> myDrawables;
-    private final ColorSpan mySkySpan;
-    private final Vector2 myPos;
+    private final Planet planet;
+    private final RectSprite filling;
+    private final RectSprite gradation;
+    private final ArrayList<Drawable> drawables;
+    private final ColorSpan skySpan;
+    private final Vector2 position;
 
     public Sky(SolGame game, Planet planet) {
-        myPlanet = planet;
-        myDrawables = new ArrayList<>();
+        this.planet = planet;
+        drawables = new ArrayList<>();
 
-        myFill = new RectSprite(Assets.getAtlasRegion("engine:planetStarCommonWhiteTex"), 5, 0, 0, new Vector2(), DrawableLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
-        myDrawables.add(myFill);
-        myGrad = new RectSprite(Assets.getAtlasRegion("engine:planetStarCommonGrad"), 5, 0, 0, new Vector2(), DrawableLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
-        myDrawables.add(myGrad);
+        filling = new RectSprite(Assets.getAtlasRegion("engine:planetStarCommonWhiteTex"), 5, 0, 0, new Vector2(), DrawableLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
+        drawables.add(filling);
+        gradation = new RectSprite(Assets.getAtlasRegion("engine:planetStarCommonGrad"), 5, 0, 0, new Vector2(), DrawableLevel.ATM, 0f, 0, SolColor.col(.5f, 0), false);
+        drawables.add(gradation);
         SkyConfig config = planet.getConfig().skyConfig;
-        mySkySpan = ColorSpan.rgb(config.dawn, config.day);
-        myPos = new Vector2();
+        skySpan = ColorSpan.rgb(config.dawn, config.day);
+        position = new Vector2();
         updatePos(game);
     }
 
     private void updatePos(SolGame game) {
         Vector2 camPos = game.getCam().getPosition();
-        Vector2 planetPos = myPlanet.getPosition();
-        if (planetPos.dst(camPos) < myPlanet.getGroundHeight() + Const.MAX_SKY_HEIGHT_FROM_GROUND) {
-            myPos.set(camPos);
+        Vector2 planetPos = planet.getPosition();
+        if (planetPos.dst(camPos) < planet.getGroundHeight() + Const.MAX_SKY_HEIGHT_FROM_GROUND) {
+            position.set(camPos);
             return;
         }
-        myPos.set(planetPos);
+        position.set(planetPos);
     }
 
     @Override
     public void update(SolGame game) {
         updatePos(game);
 
-        Vector2 planetPos = myPlanet.getPosition();
+        Vector2 planetPos = planet.getPosition();
         SolCam cam = game.getCam();
         Vector2 camPos = cam.getPosition();
-        float distPercentage = 1 - (planetPos.dst(camPos) - myPlanet.getGroundHeight()) / Const.MAX_SKY_HEIGHT_FROM_GROUND;
+        float distPercentage = 1 - (planetPos.dst(camPos) - planet.getGroundHeight()) / Const.MAX_SKY_HEIGHT_FROM_GROUND;
         if (distPercentage < 0) {
             return;
         }
@@ -81,23 +81,23 @@ public class Sky implements SolObject {
             distPercentage = 1;
         }
 
-        Vector2 sysPos = myPlanet.getSys().getPosition();
+        Vector2 sysPos = planet.getSystem().getPosition();
         float angleToCam = SolMath.angle(planetPos, camPos);
         float angleToSun = SolMath.angle(planetPos, sysPos);
         float dayPercentage = 1 - SolMath.angleDiff(angleToCam, angleToSun) / 180;
         float skyIntensity = SolMath.clamp(1 - ((1 - dayPercentage) / .75f));
         float skyColorPercentage = SolMath.clamp((skyIntensity - .5f) * 2f + .5f);
-        mySkySpan.set(skyColorPercentage, myGrad.tint);
-        mySkySpan.set(skyColorPercentage, myFill.tint);
+        skySpan.set(skyColorPercentage, gradation.tint);
+        skySpan.set(skyColorPercentage, filling.tint);
         float gradPercentage = SolMath.clamp(2 * skyIntensity);
         float fillPercentage = SolMath.clamp(2 * (skyIntensity - .5f));
-        myGrad.tint.a = gradPercentage * distPercentage;
-        myFill.tint.a = fillPercentage * SolMath.clamp(1 - (1 - distPercentage) * 2) * .37f;
+        gradation.tint.a = gradPercentage * distPercentage;
+        filling.tint.a = fillPercentage * SolMath.clamp(1 - (1 - distPercentage) * 2) * .37f;
 
         float viewDist = cam.getViewDistance();
         float sz = 2 * viewDist;
-        myGrad.setTextureSize(sz);
-        myFill.setTextureSize(sz);
+        gradation.setTextureSize(sz);
+        filling.setTextureSize(sz);
 
         float angleCamToSun = angleToCam - angleToSun;
         float relAngle;
@@ -106,7 +106,7 @@ public class Sky implements SolObject {
         } else {
             relAngle = angleToCam - angleCamToSun;
         }
-        myGrad.relativeAngle = relAngle - 90;
+        gradation.relativeAngle = relAngle - 90;
     }
 
     @Override
@@ -133,17 +133,17 @@ public class Sky implements SolObject {
 
     @Override
     public Vector2 getPosition() {
-        return myPos;
+        return position;
     }
 
     @Override
     public FarObject toFarObject() {
-        return new FarSky(myPlanet);
+        return new FarSky(planet);
     }
 
     @Override
     public List<Drawable> getDrawables() {
-        return myDrawables;
+        return drawables;
     }
 
     @Override
