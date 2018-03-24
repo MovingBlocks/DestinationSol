@@ -171,7 +171,7 @@ public class MainScreen implements SolUiScreen {
 
     private void maybeDrawHeight(UiDrawer drawer, SolApplication solApplication) {
         SolGame game = solApplication.getGame();
-        Planet np = game.getPlanetMan().getNearestPlanet();
+        Planet np = game.getPlanetManager().getNearestPlanet();
         SolCam cam = game.getCam();
         Vector2 camPos = cam.getPos();
         if (np != null && np.getPos().dst(camPos) < np.getFullHeight()) {

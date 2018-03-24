@@ -32,7 +32,7 @@ public class ZoneNameAnnouncer {
     private String myText;
 
     public void update(SolGame game) {
-        PlanetManager pm = game.getPlanetMan();
+        PlanetManager pm = game.getPlanetManager();
         String zone = null;
         String pref = null;
         Vector2 camPos = game.getCam().getPos();
@@ -42,7 +42,7 @@ public class ZoneNameAnnouncer {
             pref = "Planet";
         } else {
             SolSystem s = pm.getNearestSystem(camPos);
-            if (s.getPos().dst(camPos) < s.getRadius()) {
+            if (s.getPosition().dst(camPos) < s.getRadius()) {
                 zone = s.getName();
                 pref = "System";
             }

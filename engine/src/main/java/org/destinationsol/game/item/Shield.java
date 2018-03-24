@@ -73,7 +73,7 @@ public class Shield implements SolItem {
     }
 
     @Override
-    public String getDesc() {
+    public String getDescription() {
         return myConfig.desc;
     }
 

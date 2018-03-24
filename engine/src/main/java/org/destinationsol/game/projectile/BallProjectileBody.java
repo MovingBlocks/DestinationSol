@@ -110,7 +110,7 @@ public class BallProjectileBody implements ProjectileBody {
         }
         float toNe = SolMath.angle(myPos, ne.getPosition());
         Vector2 desiredSpd = SolMath.fromAl(toNe, spdLen);
-        desiredSpd.add(ne.getSpd());
+        desiredSpd.add(ne.getSpeed());
         float res = SolMath.angle(mySpd, desiredSpd);
         SolMath.free(desiredSpd);
         return res;

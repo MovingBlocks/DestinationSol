@@ -19,7 +19,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -27,7 +26,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.FactionManager;
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -36,7 +35,7 @@ import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.particle.EffectConfig;
-import org.destinationsol.game.particle.LightSrc;
+import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.SolShip;
 
@@ -51,7 +50,7 @@ public class Projectile implements SolObject {
     private final Faction myFaction;
     private final DSParticleEmitter myBodyEffect;
     private final DSParticleEmitter myTrailEffect;
-    private final LightSrc myLightSrc;
+    private final LightSource myLightSource;
     private final ProjectileConfig myConfig;
 
     private boolean myShouldRemove;
@@ -87,10 +86,10 @@ public class Projectile implements SolObject {
             if (myBodyEffect != null) {
                 col = myConfig.bodyEffect.tint;
             }
-            myLightSrc = new LightSrc(myConfig.lightSz, true, 1f, new Vector2(), col);
-            myLightSrc.collectDras(myDrawables);
+            myLightSource = new LightSource(myConfig.lightSz, true, 1f, new Vector2(), col);
+            myLightSource.collectDras(myDrawables);
         } else {
-            myLightSrc = null;
+            myLightSource = null;
         }
     }
 
@@ -126,8 +125,8 @@ public class Projectile implements SolObject {
                 return;
             }
         }
-        if (myLightSrc != null) {
-            myLightSrc.update(true, myBody.getAngle(), game);
+        if (myLightSource != null) {
+            myLightSource.update(true, myBody.getAngle(), game);
         }
         maybeGuide(game);
         game.getSoundManager().play(game, myConfig.workSound, null, this);
@@ -205,7 +204,7 @@ public class Projectile implements SolObject {
     }
 
     @Override
-    public FarObj toFarObj() {
+    public FarObject toFarObject() {
         return null;
     }
 
@@ -220,12 +219,12 @@ public class Projectile implements SolObject {
     }
 
     @Override
-    public Vector2 getSpd() {
+    public Vector2 getSpeed() {
         return myBody.getSpd();
     }
 
     @Override
-    public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
+    public void handleContact(SolObject other, float absImpulse,
                               SolGame game, Vector2 collPos) {
     }
 
@@ -345,11 +344,11 @@ public class Projectile implements SolObject {
                 h = minH;
             }
             Vector2 pos = myProjectile.getPosition();
-            float w = myProjectile.getSpd().len() * game.getTimeStep();
+            float w = myProjectile.getSpeed().len() * game.getTimeStep();
             if (w < 4 * h) {
                 w = 4 * h;
             }
-            drawer.draw(myTex, w, h, w, h / 2, pos.x, pos.y, SolMath.angle(myProjectile.getSpd()), SolColor.LG);
+            drawer.draw(myTex, w, h, w, h / 2, pos.x, pos.y, SolMath.angle(myProjectile.getSpeed()), SolColor.LG);
         }
 
         @Override

@@ -18,14 +18,13 @@ package org.destinationsol.game.item;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DmgType;
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
-import org.destinationsol.game.particle.LightSrc;
+import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.ship.SolShip;
 
 import java.util.List;
@@ -41,7 +40,7 @@ public class Loot implements SolObject {
     public static final float MAX_OWNER_AWAIT = 4f;
     private final SolItem myItem;
     private final List<Drawable> myDrawables;
-    private final LightSrc myLightSrc;
+    private final LightSource myLightSource;
     private final Vector2 myPos;
     private final Body myBody;
     private final float myMass;
@@ -51,12 +50,12 @@ public class Loot implements SolObject {
     private int myLife;
     private float myAngle;
 
-    public Loot(SolItem item, Body body, int life, List<Drawable> drawables, LightSrc ls, SolShip owner) {
+    public Loot(SolItem item, Body body, int life, List<Drawable> drawables, LightSource ls, SolShip owner) {
         myBody = body;
         myLife = life;
         myItem = item;
         myDrawables = drawables;
-        myLightSrc = ls;
+        myLightSource = ls;
         myOwner = owner;
         myOwnerAwait = MAX_OWNER_AWAIT;
         myPos = new Vector2();
@@ -67,7 +66,7 @@ public class Loot implements SolObject {
     @Override
     public void update(SolGame game) {
         setParamsFromBody();
-        myLightSrc.update(true, myAngle, game);
+        myLightSource.update(true, myAngle, game);
         if (myOwnerAwait > 0) {
             myOwnerAwait -= game.getTimeStep();
             if (myOwnerAwait <= 0) {
@@ -140,7 +139,7 @@ public class Loot implements SolObject {
     }
 
     @Override
-    public FarObj toFarObj() {
+    public FarObject toFarObject() {
         return null;
     }
 
@@ -155,12 +154,12 @@ public class Loot implements SolObject {
     }
 
     @Override
-    public Vector2 getSpd() {
+    public Vector2 getSpeed() {
         return null;
     }
 
     @Override
-    public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
+    public void handleContact(SolObject other, float absImpulse,
                               SolGame game, Vector2 collPos) {
         float dmg = absImpulse / myMass / DURABILITY;
         receiveDmg((int) dmg, game, collPos, DmgType.CRASH);
@@ -220,7 +219,7 @@ public class Loot implements SolObject {
         spd.sub(myPos);
         float fadeTime = .25f;
         spd.scl(1 / fadeTime);
-        spd.add(ship.getSpd());
+        spd.add(ship.getSpeed());
         game.getPartMan().blip(game, myPos, myAngle, myItem.getItemType().sz, fadeTime, spd, myItem.getIcon(game));
         game.getSoundManager().play(game, myItem.getItemType().pickUpSound, null, this);
     }

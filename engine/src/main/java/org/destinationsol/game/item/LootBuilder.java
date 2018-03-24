@@ -27,7 +27,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
-import org.destinationsol.game.particle.LightSrc;
+import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.ship.SolShip;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class LootBuilder {
         b.setLinearVelocity(spd);
         b.setAngularVelocity(rotSpd);
         Color col = item.getItemType().color;
-        LightSrc ls = new LightSrc(sz + .18f, false, .5f, new Vector2(), col);
+        LightSource ls = new LightSource(sz + .18f, false, .5f, new Vector2(), col);
         ls.collectDras(drawables);
         Loot loot = new Loot(item, b, life, drawables, ls, owner);
         b.setUserData(loot);

@@ -60,7 +60,7 @@ public class Gun implements SolItem {
     }
 
     @Override
-    public String getDesc() {
+    public String getDescription() {
         return config.desc;
     }
 

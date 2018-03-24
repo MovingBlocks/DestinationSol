@@ -19,7 +19,6 @@ package org.destinationsol.game.ship;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -91,7 +90,7 @@ public class SolShip implements SolObject {
         myHull = hull;
         myItemContainer = container;
         myTradeContainer = tradeContainer;
-        List<DSParticleEmitter> effs = game.getSpecialEffects().buildBodyEffs(myHull.config.getApproxRadius(), game, myHull.getPos(), myHull.getSpd());
+        List<DSParticleEmitter> effs = game.getSpecialEffects().buildBodyEffs(myHull.config.getApproxRadius(), game, myHull.getPosition(), myHull.getSpeed());
         mySmokeSrc = effs.get(0);
         myFireSrc = effs.get(1);
         myElectricitySrc = effs.get(2);
@@ -111,13 +110,13 @@ public class SolShip implements SolObject {
 
     @Override
     public Vector2 getPosition() {
-        return myHull.getPos();
+        return myHull.getPosition();
     }
 
     @Override
-    public FarShip toFarObj() {
+    public FarShip toFarObject() {
         float rotSpd = myHull.getBody().getAngularVelocity() * SolMath.radDeg;
-        return new FarShip(myHull.getPos(), myHull.getSpd(), myHull.getAngle(), rotSpd, myPilot, myItemContainer, myHull.config, myHull.life,
+        return new FarShip(myHull.getPosition(), myHull.getSpeed(), myHull.getAngle(), rotSpd, myPilot, myItemContainer, myHull.config, myHull.life,
                 myHull.getGun(false), myHull.getGun(true), myRemoveController, myHull.getEngine(), myRepairer, myMoney, myTradeContainer, myShield, myArmor);
     }
 
@@ -127,7 +126,7 @@ public class SolShip implements SolObject {
     }
 
     @Override
-    public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
+    public void handleContact(SolObject other, float absImpulse,
                               SolGame game, Vector2 collPos) {
         colliding = true;
         if (tryCollectLoot(other, game)) {
@@ -208,17 +207,17 @@ public class SolShip implements SolObject {
         return true;
     }
 
-    public Vector2 getSpd() {
-        return myHull.getSpd();
+    public Vector2 getSpeed() {
+        return myHull.getSpeed();
     }
 
     public float getAngle() {
         return myHull.getAngle();
     }
 
-    public float getAcc() {
-        Engine e = myHull.getEngine();
-        return e == null ? 0 : e.getAcc();
+    public float getAcceleration() {
+        Engine engine = myHull.getEngine();
+        return engine == null ? 0 : engine.getAcceleration();
     }
 
     @Override
@@ -332,18 +331,18 @@ public class SolShip implements SolObject {
 
     @Override
     public boolean shouldBeRemoved(SolGame game) {
-        return myHull.life <= 0 || myRemoveController != null && myRemoveController.shouldRemove(myHull.getPos());
+        return myHull.life <= 0 || myRemoveController != null && myRemoveController.shouldRemove(myHull.getPosition());
     }
 
     @Override
     public void onRemove(SolGame game) {
         if (myHull.life <= 0) {
-            game.getShardBuilder().buildExplosionShards(game, myHull.getPos(), myHull.getSpd(), myHull.config.getSize());
+            game.getShardBuilder().buildExplosionShards(game, myHull.getPosition(), myHull.getSpeed(), myHull.config.getSize());
             throwAllLoot(game);
         }
         myHull.onRemove(game);
-        game.getPartMan().finish(game, mySmokeSrc, myHull.getPos());
-        game.getPartMan().finish(game, myFireSrc, myHull.getPos());
+        game.getPartMan().finish(game, mySmokeSrc, myHull.getPosition());
+        game.getPartMan().finish(game, myFireSrc, myHull.getPosition());
     }
 
     private void throwAllLoot(SolGame game) {
@@ -392,8 +391,8 @@ public class SolShip implements SolObject {
             SolMath.fromAl(pos, spdAngle, myHull.config.getApproxRadius());
         }
         SolMath.fromAl(lootSpd, spdAngle, spdLen);
-        lootSpd.add(myHull.getSpd());
-        pos.add(myHull.getPos());
+        lootSpd.add(myHull.getSpeed());
+        pos.add(myHull.getPosition());
         Loot l = game.getLootBuilder().build(game, pos, item, lootSpd, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), this);
         game.getObjMan().addObjDelayed(l);
         if (!onDeath) {
@@ -477,13 +476,13 @@ public class SolShip implements SolObject {
         return myPilot;
     }
 
-    public float getRotSpd() {
-        return myHull.getRotSpd();
+    public float getRotationSpeed() {
+        return myHull.getRotationSpeed();
     }
 
-    public float getRotAcc() {
+    public float getRotationAcceleration() {
         Engine e = myHull.getEngine();
-        return e == null ? 0 : e.getRotAcc();
+        return e == null ? 0 : e.getRotationAcceleration();
     }
 
     public Hull getHull() {
@@ -494,7 +493,7 @@ public class SolShip implements SolObject {
         float angle = myHull.getAngle();
         Engine e = myHull.getEngine();
         float ad = SolMath.angleDiff(angle, destAngle);
-        return ad / e.getMaxRotSpd();
+        return ad / e.getMaxRotationSpeed();
     }
 
     public boolean maybeEquip(SolGame game, SolItem item, boolean equip) {

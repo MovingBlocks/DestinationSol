@@ -43,7 +43,7 @@ public class MoneyItem implements SolItem {
     }
 
     @Override
-    public String getDesc() {
+    public String getDescription() {
         return "money";
     }
 

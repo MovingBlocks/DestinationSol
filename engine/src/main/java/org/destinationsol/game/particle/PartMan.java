@@ -65,14 +65,14 @@ public class PartMan {
         if (perc <= 0) {
             return;
         }
-        Vector2 pos = hull.getPos();
+        Vector2 pos = hull.getPosition();
         float angle = SolMath.angle(pos, collPos);
         float sz = hull.config.getSize() * Shield.SIZE_PERC * 2;
         float alphaSum = perc * 3;
         RectSprite s = null;
         int count = (int) alphaSum + 1;
         for (int i = 0; i < count; i++) {
-            s = blip(game, pos, angle, sz, .5f, hull.getSpd(), shieldTex);
+            s = blip(game, pos, angle, sz, .5f, hull.getSpeed(), shieldTex);
         }
         float lastTint = SolMath.clamp(alphaSum - (int) alphaSum);
         if (s != null) {

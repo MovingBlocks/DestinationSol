@@ -52,7 +52,7 @@ public class SolSystem {
         return myBelts;
     }
 
-    public Vector2 getPos() {
+    public Vector2 getPosition() {
         return myPos;
     }
 
