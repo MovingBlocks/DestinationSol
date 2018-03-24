@@ -30,7 +30,7 @@ public interface SolUiScreen {
         // Intentionally left blank
     }
 
-    default boolean isCursorOnBg(SolInputManager.InputPointer inputPointer) {
+    default boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
         return false;
     }
 

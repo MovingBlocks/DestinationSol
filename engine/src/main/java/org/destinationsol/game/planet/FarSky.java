@@ -50,7 +50,7 @@ public class FarSky implements FarObject {
 
     @Override
     public Vector2 getPosition() {
-        return myPlanet.getPos();
+        return myPlanet.getPosition();
     }
 
     @Override

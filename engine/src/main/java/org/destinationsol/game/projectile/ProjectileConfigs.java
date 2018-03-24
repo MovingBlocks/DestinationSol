@@ -61,9 +61,9 @@ public class ProjectileConfigs {
                 EffectConfig trailEffect = EffectConfig.load(node.get("trailEffect"), effectTypes, cols);
                 EffectConfig bodyEffect = EffectConfig.load(node.get("bodyEffect"), effectTypes, cols);
                 EffectConfig collisionEffect = EffectConfig.load(node.get("collisionEffect"), effectTypes, cols);
-                EffectConfig collisionEffectBg = EffectConfig.load(node.get("collisionEffectBg"), effectTypes, cols);
+                EffectConfig collisionEffectBackground = EffectConfig.load(node.get("collisionEffectBg"), effectTypes, cols);
                 float guideRotationSpeed = node.getFloat("guideRotationSpeed", 0);
-                boolean zeroAbsSpd = node.getBoolean("zeroAbsSpd", false);
+                boolean zeroAbsSpeed = node.getBoolean("zeroAbsSpd", false);
                 Vector2 origin = SolMath.readV2(node.getString("texOrig", "0 0"));
                 float acc = node.getFloat("acceleration", 0);
                 String workSoundUrn = node.getString("workSound", "");
@@ -73,8 +73,8 @@ public class ProjectileConfigs {
                 float dmg = node.getFloat("dmg");
                 float emTime = node.getFloat("emTime", 0);
                 ProjectileConfig config = new ProjectileConfig(tex, texSz, speedLen, stretch, physSize, dmgType,
-                        collisionSound, lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBg,
-                        zeroAbsSpd, origin, acc, workSound, bodyless, density, guideRotationSpeed, dmg, emTime);
+                        collisionSound, lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBackground,
+                        zeroAbsSpeed, origin, acc, workSound, bodyless, density, guideRotationSpeed, dmg, emTime);
                 myConfigs.put(node.name, config);
             }
 

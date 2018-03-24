@@ -31,40 +31,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TileObjBuilder {
-    public TileObject build(SolGame game, float sz, float toPlanetRelAngle, float dist, Tile tile, Planet planet) {
-        float spriteSz = sz * 2;
-        RectSprite sprite = new RectSprite(tile.tex, spriteSz, 0, 0, new Vector2(), DrawableLevel.GROUND, 0, 0f, SolColor.WHITE, false);
+    public TileObject build(SolGame game, float size, float toPlanetRelAngle, float distance, Tile tile, Planet planet) {
+        float spriteSize = size * 2;
+        RectSprite sprite = new RectSprite(tile.tex, spriteSize, 0, 0, new Vector2(), DrawableLevel.GROUND, 0, 0f, SolColor.WHITE, false);
         Body body = null;
         if (tile.points.size() > 0) {
-            body = buildBody(game, toPlanetRelAngle, dist, tile, planet, spriteSz);
+            body = buildBody(game, toPlanetRelAngle, distance, tile, planet, spriteSize);
         }
-        TileObject res = new TileObject(planet, toPlanetRelAngle, dist, sz, sprite, body, tile);
+        TileObject res = new TileObject(planet, toPlanetRelAngle, distance, size, sprite, body, tile);
         if (body != null) {
             body.setUserData(res);
         }
         return res;
     }
 
-    private Body buildBody(SolGame game, float toPlanetRelAngle, float dist, Tile tile, Planet planet, float spriteSz) {
-        BodyDef def = new BodyDef();
-        def.type = BodyDef.BodyType.KinematicBody;
+    private Body buildBody(SolGame game, float toPlanetRelAngle, float dist, Tile tile, Planet planet, float spriteSize) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.KinematicBody;
         float toPlanetAngle = planet.getAngle() + toPlanetRelAngle;
-        SolMath.fromAl(def.position, toPlanetAngle, dist, true);
-        def.position.add(planet.getPos());
-        def.angle = (toPlanetAngle + 90) * SolMath.degRad;
-        def.angularDamping = 0;
-        Body body = game.getObjectManager().getWorld().createBody(def);
+        SolMath.fromAl(bodyDef.position, toPlanetAngle, dist, true);
+        bodyDef.position.add(planet.getPosition());
+        bodyDef.angle = (toPlanetAngle + 90) * SolMath.degRad;
+        bodyDef.angularDamping = 0;
+        Body body = game.getObjectManager().getWorld().createBody(bodyDef);
         ChainShape shape = new ChainShape();
         List<Vector2> points = new ArrayList<>();
         for (Vector2 curr : tile.points) {
-            Vector2 v = new Vector2(curr);
-            v.scl(spriteSz);
-            points.add(v);
+            points.add(new Vector2(curr).scl(spriteSize));
         }
-        Vector2[] v = points.toArray(new Vector2[] {});
-        shape.createLoop(v);
-        Fixture f = body.createFixture(shape, 0);
-        f.setFriction(Const.FRICTION);
+        shape.createLoop(points.toArray(new Vector2[] {}));
+        Fixture fixture = body.createFixture(shape, 0);
+        fixture.setFriction(Const.FRICTION);
         shape.dispose();
         return body;
     }

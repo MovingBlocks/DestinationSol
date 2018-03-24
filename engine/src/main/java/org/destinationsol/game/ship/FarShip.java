@@ -31,7 +31,7 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 
 public class FarShip implements FarObject {
     private final Vector2 myPos;
-    private final Vector2 mySpd;
+    private final Vector2 mySpeed;
     private final Shield myShield;
     private final Armor myArmor;
     private final float myRotationSpeed;
@@ -53,7 +53,7 @@ public class FarShip implements FarObject {
                    Gun gun1, Gun gun2, RemoveController removeController, Engine engine,
                    ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield, Armor armor) {
         myPos = position;
-        mySpd = speed;
+        mySpeed = speed;
         myAngle = angle;
         myRotationSpeed = rotationSpeed;
         myPilot = pilot;
@@ -93,7 +93,7 @@ public class FarShip implements FarObject {
 
     @Override
     public SolShip toObject(SolGame game) {
-        return game.getShipBuilder().build(game, myPos, mySpd, myAngle, myRotationSpeed, myPilot, myContainer, myHullConfig, myLife, myGun1,
+        return game.getShipBuilder().build(game, myPos, mySpeed, myAngle, myRotationSpeed, myPilot, myContainer, myHullConfig, myLife, myGun1,
                 myGun2, myRemoveController, myEngine, myRepairer, myMoney, myTradeContainer, myShield, myArmor);
     }
 
@@ -148,12 +148,12 @@ public class FarShip implements FarObject {
         myAngle = angle;
     }
 
-    public Vector2 getSpd() {
-        return mySpd;
+    public Vector2 getSpeed() {
+        return mySpeed;
     }
 
-    public void setSpd(Vector2 speed) {
-        mySpd.set(speed);
+    public void setSpeed(Vector2 speed) {
+        mySpeed.set(speed);
     }
 
     public Engine getEngine() {

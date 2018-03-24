@@ -45,19 +45,19 @@ import java.util.ArrayList;
 
 public class GalaxyFiller {
     private static final float STATION_CONSUME_SECTOR = 45f;
-    private Vector2 myMainStationPos = new Vector2();
-    private HullConfig myMainStationHc;
+    private Vector2 mainStationPos = new Vector2();
+    private HullConfig mainStationHc;
 
     private Vector2 getPosForStation(SolSystem sys, boolean mainStation, ConsumedAngles angles) {
-        Planet p;
+        Planet planet;
         ArrayList<Planet> planets = sys.getPlanets();
         float angleToSun;
         if (mainStation) {
-            p = planets.get(planets.size() - 2);
-            angleToSun = p.getAngleToSys() + 20 * SolMath.toInt(p.getToSysRotationSpeed() > 0);
+            planet = planets.get(planets.size() - 2);
+            angleToSun = planet.getAngleToSys() + 20 * SolMath.toInt(planet.getToSysRotationSpeed() > 0);
         } else {
-            int pIdx = SolRandom.seededRandomInt(planets.size() - 1);
-            p = planets.get(pIdx);
+            int planetIndex = SolRandom.seededRandomInt(planets.size() - 1);
+            planet = planets.get(planetIndex);
             angleToSun = 0;
             for (int i = 0; i < 10; i++) {
                 angleToSun = SolRandom.seededRandomFloat(180);
@@ -67,60 +67,60 @@ public class GalaxyFiller {
             }
         }
         angles.add(angleToSun, STATION_CONSUME_SECTOR);
-        float stationDist = p.getDist() + p.getFullHeight() + Const.PLANET_GAP;
+        float stationDist = planet.getDist() + planet.getFullHeight() + Const.PLANET_GAP;
         Vector2 stationPos = new Vector2();
         SolMath.fromAl(stationPos, angleToSun, stationDist);
-        stationPos.add(p.getSys().getPosition());
+        stationPos.add(planet.getSys().getPosition());
         return stationPos;
     }
 
-    private FarShip build(SolGame game, ShipConfig cfg, Faction faction, boolean mainStation, SolSystem sys,
+    private FarShip build(SolGame game, ShipConfig config, Faction faction, boolean mainStation, SolSystem system,
                           ConsumedAngles angles) {
-        HullConfig hullConf = cfg.hull;
+        HullConfig hullConf = config.hull;
 
-        MoveDestProvider dp;
+        MoveDestProvider destProvider;
         Vector2 position;
         float detectionDist = Const.AI_DET_DIST;
         TradeConfig tradeConfig = null;
         if (hullConf.getType() == HullConfig.Type.STATION) {
-            position = getPosForStation(sys, mainStation, angles);
-            dp = new NoDestProvider();
-            tradeConfig = sys.getConfig().tradeConfig;
+            position = getPosForStation(system, mainStation, angles);
+            destProvider = new NoDestProvider();
+            tradeConfig = system.getConfig().tradeConfig;
         } else {
-            position = getEmptySpace(game, sys);
+            position = getEmptySpace(game, system);
             boolean isBig = hullConf.getType() == HullConfig.Type.BIG;
-            dp = new ExplorerDestProvider(game, position, !isBig, hullConf, sys);
+            destProvider = new ExplorerDestProvider(position, !isBig, hullConf, system);
             if (isBig) {
                 if (faction == Faction.LAANI) {
-                    tradeConfig = sys.getConfig().tradeConfig;
+                    tradeConfig = system.getConfig().tradeConfig;
                 }
             } else {
                 detectionDist *= 1.5;
             }
         }
-        Pilot pilot = new AiPilot(dp, true, faction, true, "something", detectionDist);
+        Pilot pilot = new AiPilot(destProvider, true, faction, true, "something", detectionDist);
         float angle = mainStation ? 0 : SolRandom.seededRandomFloat(180);
         boolean hasRepairer;
         hasRepairer = faction == Faction.LAANI;
-        int money = cfg.money;
-        FarShip s = game.getShipBuilder().buildNewFar(game, position, null, angle, 0, pilot, cfg.items, hullConf, null, hasRepairer, money, tradeConfig, true);
-        game.getObjectManager().addFarObjNow(s);
-        ShipConfig guardConf = cfg.guard;
+        int money = config.money;
+        FarShip ship = game.getShipBuilder().buildNewFar(game, position, null, angle, 0, pilot, config.items, hullConf, null, hasRepairer, money, tradeConfig, true);
+        game.getObjectManager().addFarObjNow(ship);
+        ShipConfig guardConf = config.guard;
         if (guardConf != null) {
-            ConsumedAngles ca = new ConsumedAngles();
+            ConsumedAngles consumedAngles = new ConsumedAngles();
             for (int i = 0; i < guardConf.density; i++) {
                 float guardianAngle = 0;
                 for (int j = 0; j < 5; j++) {
                     guardianAngle = SolRandom.randomFloat(180);
-                    if (!ca.isConsumed(guardianAngle, guardConf.hull.getApproxRadius())) {
-                        ca.add(guardianAngle, guardConf.hull.getApproxRadius());
+                    if (!consumedAngles.isConsumed(guardianAngle, guardConf.hull.getApproxRadius())) {
+                        consumedAngles.add(guardianAngle, guardConf.hull.getApproxRadius());
                         break;
                     }
                 }
-                createGuard(game, s, guardConf, faction, guardianAngle);
+                createGuard(game, ship, guardConf, faction, guardianAngle);
             }
         }
-        return s;
+        return ship;
     }
     
     public JsonValue getRootNode(Json json) {
@@ -151,23 +151,23 @@ public class GalaxyFiller {
 
         ConsumedAngles angles = new ConsumedAngles();
         FarShip mainStation = build(game, mainStationCfg, Faction.LAANI, true, systems.get(0), angles);
-        myMainStationPos.set(mainStation.getPosition());
-        myMainStationHc = mainStation.getHullConfig();
+        mainStationPos.set(mainStation.getPosition());
+        mainStationHc = mainStation.getHullConfig();
 
-        for (SolSystem sys : systems) {
-            SysConfig sysConfig = sys.getConfig();
+        for (SolSystem system : systems) {
+            SysConfig sysConfig = system.getConfig();
 
             for (ShipConfig shipConfig : sysConfig.constAllies) {
                 int count = (int) (shipConfig.density);
                 for (int i = 0; i < count; i++) {
-                    build(game, shipConfig, Faction.LAANI, false, sys, angles);
+                    build(game, shipConfig, Faction.LAANI, false, system, angles);
                 }
             }
 
             for (ShipConfig shipConfig : sysConfig.constEnemies) {
                 int count = (int) (shipConfig.density);
                 for (int i = 0; i < count; i++) {
-                    build(game, shipConfig, Faction.EHAR, false, sys, angles);
+                    build(game, shipConfig, Faction.EHAR, false, system, angles);
                 }
             }
 
@@ -179,74 +179,74 @@ public class GalaxyFiller {
         PlanetManager planetManager = game.getPlanetManager();
         ArrayList<Planet> biggest = new ArrayList<>();
 
-        for (SolSystem s : planetManager.getSystems()) {
-            float minH = 0;
-            Planet biggestP = null;
-            int bi = -1;
-            ArrayList<Planet> ps = s.getPlanets();
+        for (SolSystem system : planetManager.getSystems()) {
+            float minHeight = 0;
+            Planet biggestPlanet = null;
+            int biggestPlanetIndex = -1;
+            ArrayList<Planet> planets = system.getPlanets();
 
-            for (int i = 0; i < ps.size(); i++) {
-                Planet p = ps.get(i);
-                float gh = p.getGroundHeight();
-                if (minH < gh) {
-                    minH = gh;
-                    biggestP = p;
-                    bi = i;
+            for (int i = 0; i < planets.size(); i++) {
+                Planet planet = planets.get(i);
+                float groundHeight = planet.getGroundHeight();
+                if (minHeight < groundHeight) {
+                    minHeight = groundHeight;
+                    biggestPlanet = planet;
+                    biggestPlanetIndex = i;
                 }
             }
 
-            for (int i = 0; i < ps.size(); i++) {
-                if (bi == i || bi == i - 1 || bi == i + 1) {
+            for (int i = 0; i < planets.size(); i++) {
+                if (biggestPlanetIndex == i || biggestPlanetIndex == i - 1 || biggestPlanetIndex == i + 1) {
                     continue;
                 }
 
-                Planet p = ps.get(i);
-                link(game, p, biggestP);
+                Planet planet = planets.get(i);
+                link(game, planet, biggestPlanet);
             }
 
-            for (Planet p : biggest) {
-                link(game, p, biggestP);
+            for (Planet planet : biggest) {
+                link(game, planet, biggestPlanet);
             }
 
-            biggest.add(biggestP);
+            biggest.add(biggestPlanet);
         }
 
     }
 
-    private void link(SolGame game, Planet a, Planet b) {
-        if (a == b) {
+    private void link(SolGame game, Planet firstPlanet, Planet secondPlanet) {
+        if (firstPlanet == secondPlanet) {
             throw new AssertionError("Linking planet to itself");
         }
-        Vector2 aPos = StarPort.getDesiredPos(a, b, false);
-        StarPort.MyFar sp = new StarPort.MyFar(a, b, aPos, false);
-        SolMath.free(aPos);
-        game.getObjectManager().addFarObjNow(sp);
-        Vector2 bPos = StarPort.getDesiredPos(b, a, false);
-        sp = new StarPort.MyFar(b, a, bPos, false);
-        SolMath.free(bPos);
-        game.getObjectManager().addFarObjNow(sp);
+        Vector2 firstPlanetPosition = StarPort.getDesiredPos(firstPlanet, secondPlanet, false);
+        StarPort.MyFar starPort = new StarPort.MyFar(firstPlanet, secondPlanet, firstPlanetPosition, false);
+        SolMath.free(firstPlanetPosition);
+        game.getObjectManager().addFarObjNow(starPort);
+        Vector2 secondPlanetPosition = StarPort.getDesiredPos(secondPlanet, firstPlanet, false);
+        starPort = new StarPort.MyFar(secondPlanet, firstPlanet, secondPlanetPosition, false);
+        SolMath.free(secondPlanetPosition);
+        game.getObjectManager().addFarObjNow(starPort);
     }
 
-    private void createGuard(SolGame game, FarShip target, ShipConfig guardConf, Faction faction, float guardRelAngle) {
-        Guardian dp = new Guardian(game, guardConf.hull, target.getPilot(), target.getPosition(), target.getHullConfig(), guardRelAngle);
+    private void createGuard(SolGame game, FarShip target, ShipConfig guardConfig, Faction faction, float guardRelAngle) {
+        Guardian dp = new Guardian(game, guardConfig.hull, target.getPilot(), target.getPosition(), target.getHullConfig(), guardRelAngle);
         Pilot pilot = new AiPilot(dp, true, faction, false, null, Const.AI_DET_DIST);
         boolean hasRepairer = faction == Faction.LAANI;
-        int money = guardConf.money;
-        FarShip e = game.getShipBuilder().buildNewFar(game, dp.getDest(), null, guardRelAngle, 0, pilot, guardConf.items,
-                guardConf.hull, null, hasRepairer, money, null, true);
-        game.getObjectManager().addFarObjNow(e);
+        int money = guardConfig.money;
+        FarShip enemy = game.getShipBuilder().buildNewFar(game, dp.getDestination(), null, guardRelAngle, 0, pilot, guardConfig.items,
+                guardConfig.hull, null, hasRepairer, money, null, true);
+        game.getObjectManager().addFarObjNow(enemy);
     }
 
-    private Vector2 getEmptySpace(SolGame game, SolSystem s) {
-        Vector2 res = new Vector2();
-        Vector2 sPos = s.getPosition();
-        float sRadius = s.getConfig().hard ? s.getRadius() : s.getInnerRadius();
+    private Vector2 getEmptySpace(SolGame game, SolSystem system) {
+        Vector2 result = new Vector2();
+        Vector2 systemPosition = system.getPosition();
+        float systemRadius = system.getConfig().hard ? system.getRadius() : system.getInnerRadius();
 
         for (int i = 0; i < 100; i++) {
-            SolMath.fromAl(res, SolRandom.seededRandomFloat(180), SolRandom.seededRandomFloat(sRadius));
-            res.add(sPos);
-            if (game.isPlaceEmpty(res, true)) {
-                return res;
+            SolMath.fromAl(result, SolRandom.seededRandomFloat(180), SolRandom.seededRandomFloat(systemRadius));
+            result.add(systemPosition);
+            if (game.isPlaceEmpty(result, true)) {
+                return result;
             }
         }
         throw new AssertionError("could not generate ship position");
@@ -256,28 +256,28 @@ public class GalaxyFiller {
         Vector2 position = new Vector2(Const.SUN_RADIUS * 2, 0);
 
         if ("planet".equals(DebugOptions.SPAWN_PLACE)) {
-            Planet p = game.getPlanetManager().getPlanets().get(0);
-            position.set(p.getPos());
-            position.x += p.getFullHeight();
-        } else if (DebugOptions.SPAWN_PLACE.isEmpty() && myMainStationPos != null) {
-            SolMath.fromAl(position, 90, myMainStationHc.getSize() / 2);
-            position.add(myMainStationPos);
+            Planet planet = game.getPlanetManager().getPlanets().get(0);
+            position.set(planet.getPosition());
+            position.x += planet.getFullHeight();
+        } else if (DebugOptions.SPAWN_PLACE.isEmpty() && mainStationPos != null) {
+            SolMath.fromAl(position, 90, mainStationHc.getSize() / 2);
+            position.add(mainStationPos);
         } else if ("maze".equals(DebugOptions.SPAWN_PLACE)) {
-            Maze m = game.getPlanetManager().getMazes().get(0);
-            position.set(m.getPos());
-            position.x += m.getRadius();
+            Maze maze = game.getPlanetManager().getMazes().get(0);
+            position.set(maze.getPos());
+            position.x += maze.getRadius();
         } else if ("trader".equals(DebugOptions.SPAWN_PLACE)) {
-            HullConfig cfg = game.getHullConfigs().getConfig("core:bus");
-            for (FarObjData fod : game.getObjectManager().getFarObjs()) {
-                FarObject fo = fod.fo;
-                if (!(fo instanceof FarShip)) {
+            HullConfig config = game.getHullConfigs().getConfig("core:bus");
+            for (FarObjData farObjData : game.getObjectManager().getFarObjs()) {
+                FarObject farObject = farObjData.fo;
+                if (!(farObject instanceof FarShip)) {
                     continue;
                 }
-                if (((FarShip) fo).getHullConfig() != cfg) {
+                if (((FarShip) farObject).getHullConfig() != config) {
                     continue;
                 }
-                position.set(fo.getPosition());
-                position.add(cfg.getApproxRadius() * 2, 0);
+                position.set(farObject.getPosition());
+                position.add(config.getApproxRadius() * 2, 0);
                 break;
             }
         }
@@ -285,7 +285,7 @@ public class GalaxyFiller {
     }
 
     public Vector2 getMainStationPosition() {
-        return myMainStationPos;
+        return mainStationPos;
     }
 
 }

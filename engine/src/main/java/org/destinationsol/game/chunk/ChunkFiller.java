@@ -137,7 +137,7 @@ public class ChunkFiller {
             densityMultiplier[0] = percentage;
             if (!fillFarBackground) {
                 Planet planet = planetManager.getNearestPlanet(chunkCenter);
-                float distanceToPlanet = planet.getPos().dst(chunkCenter);
+                float distanceToPlanet = planet.getPosition().dst(chunkCenter);
                 boolean isPlanetNear = distanceToPlanet < planet.getFullHeight() + Const.CHUNK_SIZE;
                 if (!isPlanetNear) {
                     fillForSys(game, chunkCenter, removeController, system);
@@ -251,7 +251,7 @@ public class ChunkFiller {
 
         for (int i = 0; i < count; i++) {
             // Select a random far junk texture
-            TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolRandom.randomElement(conf.farJunkTexs));
+            TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolRandom.randomElement(conf.farJunkTextures));
             // Flip atlas for every other piece of junk
             if (SolRandom.test(.5f)) {
                 tex.flip(!tex.isFlipX(), !tex.isFlipY());
@@ -300,7 +300,11 @@ public class ChunkFiller {
             Vector2 junkPos = getRndPos(chunkCenter);
 
             // Select a random junk atlas
+<<<<<<< HEAD
             TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolRandom.randomElement(conf.junkTexs));
+=======
+            TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolMath.elemRnd(conf.junkTextures));
+>>>>>>> 4df19c3... Some renaming and refactoring of basically everything, yet another round
             // Flip atlas for every other piece of junk
             if (SolRandom.test(.5f)) {
                 tex.flip(!tex.isFlipX(), !tex.isFlipY());

@@ -51,7 +51,7 @@ public class Shield implements SolItem {
         float ts = game.getTimeStep();
         if (myIdleTime >= myConfig.idleTime) {
             if (myLife < myConfig.maxLife) {
-                float regen = myConfig.regenSpd * ts;
+                float regen = myConfig.regenSpeed * ts;
                 myLife = SolMath.approach(myLife, myConfig.maxLife, regen);
             }
         } else {
@@ -151,7 +151,7 @@ public class Shield implements SolItem {
         public final Shield example;
         public final float maxLife;
         public final float idleTime;
-        public final float regenSpd;
+        public final float regenSpeed;
         public final float bulletDmgFactor;
         public final float energyDmgFactor;
         public final float explosionDmgFactor;
@@ -160,12 +160,12 @@ public class Shield implements SolItem {
         public final String code;
         public TextureAtlas.AtlasRegion tex;
 
-        private Config(int maxLife, float idleTime, float regenSpd, float bulletDmgFactor, float energyDmgFactor, float explosionDmgFactor, String displayName, int price,
+        private Config(int maxLife, float idleTime, float regenSpeed, float bulletDmgFactor, float energyDmgFactor, float explosionDmgFactor, String displayName, int price,
                 PlayableSound absorbSound, PlayableSound regenSound,
                 TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, SolItemType itemType, String code) {
             this.maxLife = maxLife;
             this.idleTime = idleTime;
-            this.regenSpd = regenSpd;
+            this.regenSpeed = regenSpeed;
             this.bulletDmgFactor = bulletDmgFactor;
             this.energyDmgFactor = energyDmgFactor;
             this.explosionDmgFactor = explosionDmgFactor;
@@ -187,7 +187,7 @@ public class Shield implements SolItem {
 
             int maxLife = rootNode.getInt("maxLife");
             float idleTime = rootNode.getFloat("idleTime");
-            float regenSpd = rootNode.getFloat("regenSpd");
+            float regenSpeed = rootNode.getFloat("regenSpd");
             float bulletDmgFactor = rootNode.getFloat("bulletDmgFactor");
             float energyDmgFactor = rootNode.getFloat("energyDmgFactor");
             float explosionDmgFactor = rootNode.getFloat("explosionDmgFactor");
@@ -204,7 +204,7 @@ public class Shield implements SolItem {
             TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(shieldName);
             TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(shieldName + "Icon");
 
-            Config config = new Config(maxLife, idleTime, regenSpd, bulletDmgFactor, energyDmgFactor, explosionDmgFactor, displayName, price, absorbSound, regenSound, icon, tex,
+            Config config = new Config(maxLife, idleTime, regenSpeed, bulletDmgFactor, energyDmgFactor, explosionDmgFactor, displayName, price, absorbSound, regenSound, icon, tex,
                     types.shield, shieldName);
             itemManager.registerItem(config.example);
         }
@@ -213,7 +213,7 @@ public class Shield implements SolItem {
             StringBuilder sb = new StringBuilder();
             sb.append("Takes ").append(SolMath.nice(maxLife)).append(" dmg\n");
             sb.append("Needs ").append(SolMath.nice(idleTime)).append("s to start regeneration\n");
-            sb.append("Regenerates ").append(SolMath.nice(regenSpd)).append(" shield points per s\n");
+            sb.append("Regenerates ").append(SolMath.nice(regenSpeed)).append(" shield points per s\n");
             sb.append("Bullet Dmg resist: ").append(100 - (bulletDmgFactor * 100)).append("%\n");
             sb.append("Energy Dmg resist: ").append(100 - (energyDmgFactor * 100)).append("%\n");
             sb.append("Explosion Dmg resist: ").append(100 - (explosionDmgFactor * 100)).append("%\n");

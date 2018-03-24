@@ -56,8 +56,8 @@ public class Projectile implements SolObject {
     private SolObject myObstacle;
     private boolean myDamageDealt;
 
-    public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpd, Faction faction,
-                      ProjectileConfig config, boolean varySpd) {
+    public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpeed, Faction faction,
+                      ProjectileConfig config, boolean varySpeed) {
         myDrawables = new ArrayList<>();
         myConfig = config;
 
@@ -69,13 +69,13 @@ public class Projectile implements SolObject {
         }
         myDrawables.add(drawable);
         float speedLen = myConfig.speedLen;
-        if (varySpd) {
+        if (varySpeed) {
             speedLen *= SolRandom.randomFloat(.9f, 1.1f);
         }
         if (myConfig.physSize > 0) {
-            myBody = new BallProjectileBody(game, muzzlePos, angle, this, gunSpd, speedLen, myConfig);
+            myBody = new BallProjectileBody(game, muzzlePos, angle, this, gunSpeed, speedLen, myConfig);
         } else {
-            myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, speedLen, this, game, myConfig.acc);
+            myBody = new PointProjectileBody(angle, muzzlePos, gunSpeed, speedLen, this, game, myConfig.acc);
         }
         myFaction = faction;
         myBodyEffect = buildEffect(game, myConfig.bodyEffect, DrawableLevel.PART_BG_0, null, true);
@@ -92,11 +92,11 @@ public class Projectile implements SolObject {
         }
     }
 
-    private DSParticleEmitter buildEffect(SolGame game, EffectConfig ec, DrawableLevel drawableLevel, Vector2 position, boolean inheritsSpd) {
+    private DSParticleEmitter buildEffect(SolGame game, EffectConfig ec, DrawableLevel drawableLevel, Vector2 position, boolean inheritsSpeed) {
         if (ec == null) {
             return null;
         }
-        DSParticleEmitter res = new DSParticleEmitter(ec, -1, drawableLevel, new Vector2(), inheritsSpd, game, position, myBody.getSpd(), 0);
+        DSParticleEmitter res = new DSParticleEmitter(ec, -1, drawableLevel, new Vector2(), inheritsSpeed, game, position, myBody.getSpeed(), 0);
         if (res.isContinuous()) {
             res.setWorking(true);
             myDrawables.addAll(res.getDrawables());
@@ -155,9 +155,9 @@ public class Projectile implements SolObject {
         myShouldRemove = true;
         Vector2 position = myBody.getPos();
         buildEffect(game, myConfig.collisionEffect, DrawableLevel.PART_FG_1, position, false);
-        buildEffect(game, myConfig.collisionEffectBg, DrawableLevel.PART_FG_0, position, false);
-        if (myConfig.collisionEffectBg != null) {
-            game.getPartMan().blinks(position, game, myConfig.collisionEffectBg.size);
+        buildEffect(game, myConfig.collisionEffectBackground, DrawableLevel.PART_FG_0, position, false);
+        if (myConfig.collisionEffectBackground != null) {
+            game.getPartMan().blinks(position, game, myConfig.collisionEffectBackground.size);
         }
         game.getSoundManager().play(game, myConfig.collisionSound, null, this);
     }
@@ -219,7 +219,7 @@ public class Projectile implements SolObject {
 
     @Override
     public Vector2 getSpeed() {
-        return myBody.getSpd();
+        return myBody.getSpeed();
     }
 
     @Override
@@ -288,18 +288,18 @@ public class Projectile implements SolObject {
 
     private static class MyDrawable implements Drawable {
         private final Projectile myProjectile;
-        private final TextureAtlas.AtlasRegion myTex;
+        private final TextureAtlas.AtlasRegion myTexture;
         private final float myWidth;
 
         public MyDrawable(Projectile projectile, TextureAtlas.AtlasRegion tex, float width) {
             myProjectile = projectile;
-            myTex = tex;
+            myTexture = tex;
             myWidth = width;
         }
 
         @Override
         public TextureAtlas.AtlasRegion getTexture() {
-            return myTex;
+            return myTexture;
         }
 
         @Override
@@ -342,7 +342,7 @@ public class Projectile implements SolObject {
             if (w < 4 * h) {
                 w = 4 * h;
             }
-            drawer.draw(myTex, w, h, w, h / 2, position.x, position.y, SolMath.angle(myProjectile.getSpeed()), SolColor.LG);
+            drawer.draw(myTexture, w, h, w, h / 2, position.x, position.y, SolMath.angle(myProjectile.getSpeed()), SolColor.LG);
         }
 
         @Override

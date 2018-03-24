@@ -72,8 +72,8 @@ public class StarPort implements SolObject {
 
     @Bound
     public static Vector2 getDesiredPos(Planet from, Planet to, boolean percise) {
-        Vector2 fromPos = from.getPos();
-        float angle = SolMath.angle(fromPos, to.getPos(), percise);
+        Vector2 fromPos = from.getPosition();
+        float angle = SolMath.angle(fromPos, to.getPosition(), percise);
         Vector2 position= SolMath.getVec();
         SolMath.fromAl(position, angle, from.getFullHeight() + DIST_FROM_PLANET);
         position.add(fromPos);
@@ -114,7 +114,7 @@ public class StarPort implements SolObject {
         speed.sub(myPos).scl(fps / 4);
         myBody.setLinearVelocity(speed);
         SolMath.free(speed);
-        float desiredAngle = SolMath.angle(myFrom.getPos(), myTo.getPos());
+        float desiredAngle = SolMath.angle(myFrom.getPosition(), myTo.getPosition());
         myBody.setAngularVelocity((desiredAngle - myAngle) * SolMath.degRad * fps / 4);
 
         SolShip ship = ForceBeacon.pullShips(game, this, myPos, null, null, .4f * SIZE);
@@ -234,7 +234,7 @@ public class StarPort implements SolObject {
         }
 
         public StarPort build(SolGame game, Planet from, Planet to, boolean secondary) {
-            float angle = SolMath.angle(from.getPos(), to.getPos());
+            float angle = SolMath.angle(from.getPosition(), to.getPosition());
             Vector2 position = getDesiredPos(from, to, false);
             // Adjust position so that StarPorts are not overlapping
             position = adjustDesiredPos(game, null, position);
@@ -298,7 +298,7 @@ public class StarPort implements SolObject {
             Vector2 dp = getDesiredPos(myFrom, myTo, false);
             myPos.set(dp);
             SolMath.free(dp);
-            myAngle = SolMath.angle(myFrom.getPos(), myTo.getPos());
+            myAngle = SolMath.angle(myFrom.getPosition(), myTo.getPosition());
         }
 
         @Override
@@ -346,7 +346,7 @@ public class StarPort implements SolObject {
         private final Vector2 myDestPos;
         private final ArrayList<Drawable> myDrawables;
         private final FarShip myShip;
-        private final Vector2 mySpd;
+        private final Vector2 mySpeed;
         private final LightSource myLight;
         private final DSParticleEmitter myEff;
         private float myAngle;
@@ -356,7 +356,7 @@ public class StarPort implements SolObject {
             myFrom = from;
             myTo = to;
             myPos = new Vector2(ship.getPosition());
-            mySpd = new Vector2();
+            mySpeed = new Vector2();
             myDestPos = new Vector2();
 
             RectSprite s = new RectSprite(Assets.getAtlasRegion("engine:transcendent"), TRAN_SZ, .3f,
@@ -382,7 +382,7 @@ public class StarPort implements SolObject {
             setDependentParams();
 
             float ts = game.getTimeStep();
-            Vector2 moveDiff = SolMath.getVec(mySpd);
+            Vector2 moveDiff = SolMath.getVec(mySpeed);
             moveDiff.scl(ts);
             myPos.add(moveDiff);
             SolMath.free(moveDiff);
@@ -391,7 +391,7 @@ public class StarPort implements SolObject {
                 ObjectManager objectManager = game.getObjectManager();
                 objectManager.removeObjDelayed(this);
                 myShip.setPos(myPos);
-                myShip.setSpd(new Vector2());
+                myShip.setSpeed(new Vector2());
                 SolShip ship = myShip.toObject(game);
                 if (ship.getPilot().isPlayer()) {
                     game.getHero().setSolShip(ship);
@@ -407,12 +407,12 @@ public class StarPort implements SolObject {
         }
 
         private void setDependentParams() {
-            Vector2 toPos = myTo.getPos();
-            float nodeAngle = SolMath.angle(toPos, myFrom.getPos());
+            Vector2 toPos = myTo.getPosition();
+            float nodeAngle = SolMath.angle(toPos, myFrom.getPosition());
             SolMath.fromAl(myDestPos, nodeAngle, myTo.getFullHeight() + DIST_FROM_PLANET + SIZE / 2);
             myDestPos.add(toPos);
             myAngle = SolMath.angle(myPos, myDestPos);
-            SolMath.fromAl(mySpd, myAngle, Const.MAX_MOVE_SPD * 2); //hack again : (
+            SolMath.fromAl(mySpeed, myAngle, Const.MAX_MOVE_SPD * 2); //hack again : (
         }
 
         @Override
@@ -461,7 +461,7 @@ public class StarPort implements SolObject {
 
         @Override
         public Vector2 getSpeed() {
-            return mySpd;
+            return mySpeed;
         }
 
         @Override

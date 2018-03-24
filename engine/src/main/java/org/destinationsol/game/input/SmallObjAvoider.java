@@ -42,9 +42,9 @@ public class SmallObjAvoider {
     public float avoid(SolGame game, SolShip ship, float toDestAngle, Planet np) {
         myShip = ship;
         Vector2 shipPos = ship.getPosition();
-        float shipSpdLen = ship.getSpeed().len();
+        float shipSpeedLen = ship.getSpeed().len();
         float ttt = ship.calcTimeToTurn(toDestAngle + 45);
-        float raycastLen = shipSpdLen * (ttt + MANEUVER_TIME);
+        float raycastLen = shipSpeedLen * (ttt + MANEUVER_TIME);
         if (raycastLen < MIN_RAYCAST_LEN) {
             raycastLen = MIN_RAYCAST_LEN;
         }
@@ -76,10 +76,10 @@ public class SmallObjAvoider {
             return toDestAngle;
         }
 
-        if (np.getFullHeight() < np.getPos().dst(shipPos)) {
+        if (np.getFullHeight() < np.getPosition().dst(shipPos)) {
             return toDestAngle - 45;
         }
-        return SolMath.angle(np.getPos(), shipPos);
+        return SolMath.angle(np.getPosition(), shipPos);
     }
 
     private class MyRayBack implements RayCastCallback {
