@@ -23,10 +23,10 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 
 public class FarSky implements FarObject {
-    private final Planet myPlanet;
+    private final Planet planet;
 
-    public FarSky(Planet planet) {
-        myPlanet = planet;
+    FarSky(Planet planet) {
+        this.planet = planet;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class FarSky implements FarObject {
 
     @Override
     public SolObject toObject(SolGame game) {
-        return new Sky(game, myPlanet);
+        return new Sky(game, planet);
     }
 
     @Override
@@ -45,12 +45,12 @@ public class FarSky implements FarObject {
 
     @Override
     public float getRadius() {
-        return myPlanet.getGroundHeight() + Const.MAX_SKY_HEIGHT_FROM_GROUND;
+        return planet.getGroundHeight() + Const.MAX_SKY_HEIGHT_FROM_GROUND;
     }
 
     @Override
     public Vector2 getPosition() {
-        return myPlanet.getPosition();
+        return planet.getPosition();
     }
 
     @Override

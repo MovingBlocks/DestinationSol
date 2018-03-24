@@ -96,7 +96,7 @@ public class BeaconHandler {
         planetBind.setDiff(vec, beaconPos, false);
         beaconPos.add(vec);
         SolMath.free(vec);
-        planetBind.getPlanet().calcSpeedAtPos(speed, beaconPos);
+        planetBind.getPlanet().calculateSpeedAtPosition(speed, beaconPos);
     }
 
     private boolean maybeUpdateTargetPos(SolGame game) {

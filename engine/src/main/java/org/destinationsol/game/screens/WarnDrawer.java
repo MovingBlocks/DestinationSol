@@ -26,20 +26,20 @@ import org.destinationsol.ui.UiDrawer;
 
 public abstract class WarnDrawer {
     private static final float FADE_TIME = 1f;
-    private final Rectangle myWarn;
-    private final Color myBackgroundCol;
-    private final Color myTextCol;
-    private final float myBackgroundOrigA;
-    private final String myText;
+    private final Rectangle warningRectangle;
+    private final Color backgroundColor;
+    private final Color textColor;
+    private final float backgroundOriginA;
+    private final String text;
 
     float drawPercentage;
 
     WarnDrawer(float resolutionRatio, String text) {
-        myWarn = rect(resolutionRatio);
-        myText = text;
-        myBackgroundCol = new Color(SolColor.UI_WARN);
-        myBackgroundOrigA = myBackgroundCol.a;
-        myTextCol = new Color(SolColor.WHITE);
+        warningRectangle = rect(resolutionRatio);
+        this.text = text;
+        backgroundColor = new Color(SolColor.UI_WARN);
+        backgroundOriginA = backgroundColor.a;
+        textColor = new Color(SolColor.WHITE);
     }
 
     private static Rectangle rect(float resolutionRatio) {
@@ -52,17 +52,17 @@ public abstract class WarnDrawer {
         } else {
             drawPercentage = SolMath.approach(drawPercentage, 0, Const.REAL_TIME_STEP / FADE_TIME);
         }
-        myBackgroundCol.a = myBackgroundOrigA * drawPercentage;
-        myTextCol.a = drawPercentage;
+        backgroundColor.a = backgroundOriginA * drawPercentage;
+        textColor.a = drawPercentage;
     }
 
     protected abstract boolean shouldWarn(SolGame game);
 
     public void draw(UiDrawer uiDrawer) {
-        uiDrawer.draw(myWarn, myBackgroundCol);
+        uiDrawer.draw(warningRectangle, backgroundColor);
     }
 
     public void drawText(UiDrawer uiDrawer) {
-        uiDrawer.drawString(myText, myWarn.x + myWarn.width / 2, myWarn.y + myWarn.height / 2, FontSize.MENU, true, myTextCol);
+        uiDrawer.drawString(text, warningRectangle.x + warningRectangle.width / 2, warningRectangle.y + warningRectangle.height / 2, FontSize.MENU, true, textColor);
     }
 }

@@ -27,7 +27,7 @@ public class FarTileObject implements FarObject {
     private final float myDist;
     private final float mySize;
     private final Tile myTile;
-    private final Vector2 myPos;
+    private final Vector2 position;
     private final float myRadius;
 
     public FarTileObject(Planet planet, float toPlanetAngle, float dist, float size, Tile tile) {
@@ -37,7 +37,7 @@ public class FarTileObject implements FarObject {
         mySize = size;
         myRadius = SolMath.sqrt(2) * mySize;
         myTile = tile;
-        myPos = new Vector2();
+        position = new Vector2();
     }
 
     @Override
@@ -53,8 +53,8 @@ public class FarTileObject implements FarObject {
     @Override
     public void update(SolGame game) {
         if (game.getPlanetManager().getNearestPlanet() == myPlanet) {
-            SolMath.fromAl(myPos, myPlanet.getAngle() + myToPlanetAngle, myDist);
-            myPos.add(myPlanet.getPosition());
+            SolMath.fromAl(position, myPlanet.getAngle() + myToPlanetAngle, myDist);
+            position.add(myPlanet.getPosition());
         }
     }
 
@@ -65,7 +65,7 @@ public class FarTileObject implements FarObject {
 
     @Override
     public Vector2 getPosition() {
-        return myPos;
+        return position;
     }
 
     @Override

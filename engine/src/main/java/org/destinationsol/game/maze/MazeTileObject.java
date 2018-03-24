@@ -37,20 +37,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MazeTileObject implements SolObject {
-    private final List<Drawable> myDrawables;
-    private final Body myBody;
-    private final Vector2 myPos;
-    private final float myAngle;
-    private final MazeTile myTile;
-    private final boolean myFlipped;
+    private final List<Drawable> drawables;
+    private final Body body;
+    private final Vector2 position;
+    private final float angle;
+    private final MazeTile tile;
+    private final boolean isFlipped;
 
     public MazeTileObject(MazeTile tile, List<Drawable> drawables, Body body, Vector2 position, float angle, boolean flipped) {
-        myTile = tile;
-        myDrawables = drawables;
-        myBody = body;
-        myPos = position;
-        myAngle = angle;
-        myFlipped = flipped;
+        this.tile = tile;
+        this.drawables = drawables;
+        this.body = body;
+        this.position = position;
+        this.angle = angle;
+        isFlipped = flipped;
     }
 
     @Override
@@ -64,8 +64,8 @@ public class MazeTileObject implements SolObject {
 
     @Override
     public void onRemove(SolGame game) {
-        if (myBody != null) {
-            myBody.getWorld().destroyBody(myBody);
+        if (body != null) {
+            body.getWorld().destroyBody(body);
         }
     }
 
@@ -85,22 +85,22 @@ public class MazeTileObject implements SolObject {
 
     @Override
     public Vector2 getPosition() {
-        return myPos;
+        return position;
     }
 
     @Override
     public FarObject toFarObject() {
-        return new MyFar(myTile, myAngle, myPos, myFlipped);
+        return new MyFar(tile, angle, position, isFlipped);
     }
 
     @Override
     public List<Drawable> getDrawables() {
-        return myDrawables;
+        return drawables;
     }
 
     @Override
     public float getAngle() {
-        return myAngle;
+        return angle;
     }
 
     @Override
@@ -120,7 +120,7 @@ public class MazeTileObject implements SolObject {
 
     @Override
     public Boolean isMetal() {
-        return myTile.metal;
+        return tile.metal;
     }
 
     @Override
@@ -130,16 +130,16 @@ public class MazeTileObject implements SolObject {
 
     public static class MyFar implements FarObject {
 
-        private final MazeTile myTile;
-        private final float myAngle;
-        private final Vector2 myPos;
-        private final boolean myFlipped;
+        private final MazeTile tile;
+        private final float angle;
+        private final Vector2 position;
+        private final boolean isFlipped;
 
         public MyFar(MazeTile tile, float angle, Vector2 position, boolean flipped) {
-            myTile = tile;
-            myAngle = angle;
-            myPos = position;
-            myFlipped = flipped;
+            this.tile = tile;
+            this.angle = angle;
+            this.position = position;
+            isFlipped = flipped;
         }
 
         @Override
@@ -149,7 +149,7 @@ public class MazeTileObject implements SolObject {
 
         @Override
         public SolObject toObject(SolGame game) {
-            return new Builder().build(game, myTile, myPos, myAngle, myFlipped);
+            return new Builder().build(game, tile, position, angle, isFlipped);
         }
 
         @Override
@@ -163,7 +163,7 @@ public class MazeTileObject implements SolObject {
 
         @Override
         public Vector2 getPosition() {
-            return myPos;
+            return position;
         }
 
         @Override

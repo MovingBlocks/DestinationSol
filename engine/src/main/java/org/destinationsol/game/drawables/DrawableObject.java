@@ -29,63 +29,63 @@ import org.destinationsol.game.planet.Planet;
 import java.util.List;
 
 public class DrawableObject implements SolObject {
-    private final Vector2 myPos;
-    private final Vector2 mySpeed;
-    private final RemoveController myRemoveController;
-    private final boolean myHideOnPlanet;
-    private final Vector2 myMoveDiff;
-    private final List<Drawable> myDrawables;
-    private final boolean myTemporary;
+    private final Vector2 position;
+    private final Vector2 speed;
+    private final RemoveController removeController;
+    private final boolean hideOnPlanet;
+    private final Vector2 moveDifference;
+    private final List<Drawable> drawables;
+    private final boolean isTemporary;
 
-    private float myMaxFadeTime;
-    private float myFadeTime;
+    private float maxFadeTime;
+    private float fadeTime;
 
     public DrawableObject(List<Drawable> drawables, @Consumed Vector2 position, @Consumed Vector2 speed, RemoveController removeController, boolean temporary, boolean hideOnPlanet) {
-        myDrawables = drawables;
-        myPos = position;
-        mySpeed = speed;
-        myRemoveController = removeController;
-        myHideOnPlanet = hideOnPlanet;
-        myMoveDiff = new Vector2();
-        myTemporary = temporary;
+        this.drawables = drawables;
+        this.position = position;
+        this.speed = speed;
+        this.removeController = removeController;
+        this.hideOnPlanet = hideOnPlanet;
+        moveDifference = new Vector2();
+        isTemporary = temporary;
 
-        myMaxFadeTime = -1;
-        myFadeTime = -1;
+        maxFadeTime = -1;
+        fadeTime = -1;
     }
 
     @Override
     public void update(SolGame game) {
-        myMoveDiff.set(mySpeed);
-        float ts = game.getTimeStep();
-        myMoveDiff.scl(ts);
-        myPos.add(myMoveDiff);
-        if (myHideOnPlanet) {
-            Planet np = game.getPlanetManager().getNearestPlanet();
-            Vector2 npPos = np.getPosition();
-            float npgroundHeight = np.getGroundHeight();
+        moveDifference.set(speed);
+        float timeStep = game.getTimeStep();
+        moveDifference.scl(timeStep);
+        position.add(moveDifference);
+        if (hideOnPlanet) {
+            Planet planet = game.getPlanetManager().getNearestPlanet();
+            Vector2 planetPosition = planet.getPosition();
+            float planetGroundHeight = planet.getGroundHeight();
             DrawableManager drawableManager = game.getDrawableManager();
-            for (Drawable drawable : myDrawables) {
+            for (Drawable drawable : drawables) {
                 if (!(drawable instanceof RectSprite)) {
                     continue;
                 }
                 if (!drawableManager.isVisible(drawable)) {
                     continue;
                 }
-                Vector2 draPos = drawable.getPos();
+                Vector2 drawablePosition = drawable.getPosition();
                 float gradSz = .25f * Const.ATM_HEIGHT;
-                float distPercentage = (draPos.dst(npPos) - npgroundHeight - Const.ATM_HEIGHT) / gradSz;
+                float distPercentage = (drawablePosition.dst(planetPosition) - planetGroundHeight - Const.ATM_HEIGHT) / gradSz;
                 distPercentage = SolMath.clamp(distPercentage);
                 ((RectSprite) drawable).tint.a = distPercentage;
             }
-        } else if (myMaxFadeTime > 0) {
-            myFadeTime -= ts;
-            float tintPercentage = myFadeTime / myMaxFadeTime;
-            for (Drawable drawable : myDrawables) {
+        } else if (maxFadeTime > 0) {
+            fadeTime -= timeStep;
+            float tintPercentage = fadeTime / maxFadeTime;
+            for (Drawable drawable : drawables) {
                 if (!(drawable instanceof RectSprite)) {
                     continue;
                 }
-                RectSprite rs = (RectSprite) drawable;
-                rs.tint.a = SolMath.clamp(tintPercentage * rs.baseAlpha);
+                RectSprite rectSprite = (RectSprite) drawable;
+                rectSprite.tint.a = SolMath.clamp(tintPercentage * rectSprite.baseAlpha);
             }
 
         }
@@ -93,12 +93,12 @@ public class DrawableObject implements SolObject {
 
     @Override
     public boolean shouldBeRemoved(SolGame game) {
-        if (myMaxFadeTime > 0 && myFadeTime <= 0) {
+        if (maxFadeTime > 0 && fadeTime <= 0) {
             return true;
         }
-        if (myTemporary) {
+        if (isTemporary) {
             boolean rem = true;
-            for (Drawable drawable : myDrawables) {
+            for (Drawable drawable : drawables) {
                 if (!drawable.okToRemove()) {
                     rem = false;
                     break;
@@ -108,7 +108,7 @@ public class DrawableObject implements SolObject {
                 return true;
             }
         }
-        return myRemoveController != null && myRemoveController.shouldRemove(myPos);
+        return removeController != null && removeController.shouldRemove(position);
     }
 
     @Override
@@ -130,17 +130,17 @@ public class DrawableObject implements SolObject {
 
     @Override
     public Vector2 getPosition() {
-        return myPos;
+        return position;
     }
 
     @Override
     public FarObject toFarObject() {
-        return myTemporary ? null : new FarDrawable(myDrawables, myPos, mySpeed, myRemoveController, myHideOnPlanet);
+        return isTemporary ? null : new FarDrawable(drawables, position, speed, removeController, hideOnPlanet);
     }
 
     @Override
     public List<Drawable> getDrawables() {
-        return myDrawables;
+        return drawables;
     }
 
     @Override
@@ -174,7 +174,7 @@ public class DrawableObject implements SolObject {
     }
 
     public void fade(float fadeTime) {
-        myMaxFadeTime = fadeTime;
-        myFadeTime = fadeTime;
+        maxFadeTime = fadeTime;
+        this.fadeTime = fadeTime;
     }
 }

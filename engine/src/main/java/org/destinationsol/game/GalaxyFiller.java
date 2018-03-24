@@ -54,7 +54,7 @@ public class GalaxyFiller {
         float angleToSun;
         if (mainStation) {
             planet = planets.get(planets.size() - 2);
-            angleToSun = planet.getAngleToSys() + 20 * SolMath.toInt(planet.getToSysRotationSpeed() > 0);
+            angleToSun = planet.getAngleInSystem() + 20 * SolMath.toInt(planet.getRotationSpeedInSystem() > 0);
         } else {
             int planetIndex = SolRandom.seededRandomInt(planets.size() - 1);
             planet = planets.get(planetIndex);
@@ -67,10 +67,10 @@ public class GalaxyFiller {
             }
         }
         angles.add(angleToSun, STATION_CONSUME_SECTOR);
-        float stationDist = planet.getDist() + planet.getFullHeight() + Const.PLANET_GAP;
+        float stationDist = planet.getDistance() + planet.getFullHeight() + Const.PLANET_GAP;
         Vector2 stationPos = new Vector2();
         SolMath.fromAl(stationPos, angleToSun, stationDist);
-        stationPos.add(planet.getSys().getPosition());
+        stationPos.add(planet.getSystem().getPosition());
         return stationPos;
     }
 
@@ -217,12 +217,12 @@ public class GalaxyFiller {
         if (firstPlanet == secondPlanet) {
             throw new AssertionError("Linking planet to itself");
         }
-        Vector2 firstPlanetPosition = StarPort.getDesiredPos(firstPlanet, secondPlanet, false);
-        StarPort.MyFar starPort = new StarPort.MyFar(firstPlanet, secondPlanet, firstPlanetPosition, false);
+        Vector2 firstPlanetPosition = StarPort.getDesiredPosition(firstPlanet, secondPlanet, false);
+        StarPort.FarStarPort starPort = new StarPort.FarStarPort(firstPlanet, secondPlanet, firstPlanetPosition, false);
         SolMath.free(firstPlanetPosition);
         game.getObjectManager().addFarObjNow(starPort);
-        Vector2 secondPlanetPosition = StarPort.getDesiredPos(secondPlanet, firstPlanet, false);
-        starPort = new StarPort.MyFar(secondPlanet, firstPlanet, secondPlanetPosition, false);
+        Vector2 secondPlanetPosition = StarPort.getDesiredPosition(secondPlanet, firstPlanet, false);
+        starPort = new StarPort.FarStarPort(secondPlanet, firstPlanet, secondPlanetPosition, false);
         SolMath.free(secondPlanetPosition);
         game.getObjectManager().addFarObjNow(starPort);
     }

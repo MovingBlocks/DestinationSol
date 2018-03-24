@@ -34,7 +34,7 @@ public interface Drawable {
     // called on every draw from manager. after that, this drawable should be able to return correct position & radius
     void prepare(SolObject o);
 
-    Vector2 getPos();
+    Vector2 getPosition();
 
     Vector2 getRelativePosition();
 
