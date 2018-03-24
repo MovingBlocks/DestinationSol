@@ -57,7 +57,7 @@ public class Sky implements SolObject {
     }
 
     private void updatePos(SolGame game) {
-        Vector2 camPos = game.getCam().getPos();
+        Vector2 camPos = game.getCam().getPosition();
         Vector2 planetPos = myPlanet.getPos();
         if (planetPos.dst(camPos) < myPlanet.getGroundHeight() + Const.MAX_SKY_HEIGHT_FROM_GROUND) {
             myPos.set(camPos);
@@ -72,7 +72,7 @@ public class Sky implements SolObject {
 
         Vector2 planetPos = myPlanet.getPos();
         SolCam cam = game.getCam();
-        Vector2 camPos = cam.getPos();
+        Vector2 camPos = cam.getPosition();
         float distPerc = 1 - (planetPos.dst(camPos) - myPlanet.getGroundHeight()) / Const.MAX_SKY_HEIGHT_FROM_GROUND;
         if (distPerc < 0) {
             return;
@@ -94,10 +94,10 @@ public class Sky implements SolObject {
         myGrad.tint.a = gradPerc * distPerc;
         myFill.tint.a = fillPerc * SolMath.clamp(1 - (1 - distPerc) * 2) * .37f;
 
-        float viewDist = cam.getViewDist();
+        float viewDist = cam.getViewDistance();
         float sz = 2 * viewDist;
-        myGrad.setTexSz(sz);
-        myFill.setTexSz(sz);
+        myGrad.setTextureSize(sz);
+        myFill.setTextureSize(sz);
 
         float angleCamToSun = angleToCam - angleToSun;
         float relAngle;
@@ -106,7 +106,7 @@ public class Sky implements SolObject {
         } else {
             relAngle = angleToCam - angleCamToSun;
         }
-        myGrad.relAngle = relAngle - 90;
+        myGrad.relativeAngle = relAngle - 90;
     }
 
     @Override
@@ -119,7 +119,7 @@ public class Sky implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
     }
 
     @Override

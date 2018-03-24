@@ -70,7 +70,7 @@ public class SolCam {
             Vector2 heroPos = hero.getPosition();
             if (myZoom * VIEWPORT_HEIGHT < heroPos.dst(myPos)) {
                 myPos.set(heroPos);
-                game.getObjMan().resetDelays();
+                game.getObjectManager().resetDelays();
             } else {
                 Vector2 moveDiff = SolMath.getVec(hero.getSpeed());
                 moveDiff.scl(ts);
@@ -90,14 +90,14 @@ public class SolCam {
         }
         myPrevHeroLife = life;
 
-        Vector2 pos = SolMath.fromAl(SolRandom.randomFloat(180), myShake);
-        pos.add(myPos);
-        applyPos(pos.x, pos.y);
-        SolMath.free(pos);
+        Vector2 position = SolMath.fromAl(SolRandom.randomFloat(180), myShake);
+        position.add(myPos);
+        applyPos(position.x, position.y);
+        SolMath.free(position);
 
         float desiredAngle = myCamRotStrategy.getRotation(myPos, game);
-        float rotSpd = CAM_ROT_SPD * ts;
-        myAngle = SolMath.approachAngle(myAngle, desiredAngle, rotSpd);
+        float rotationSpeed = CAM_ROT_SPD * ts;
+        myAngle = SolMath.approachAngle(myAngle, desiredAngle, rotationSpeed);
         applyAngle();
 
         updateMap(game);
@@ -179,11 +179,11 @@ public class SolCam {
         SolMath.free(v);
     }
 
-    public float getViewDist() {
-        return getViewDist(myZoom);
+    public float getViewDistance() {
+        return getViewDistance(myZoom);
     }
 
-    public float getViewDist(float zoom) {
+    public float getViewDistance(float zoom) {
         float r = myCam.viewportWidth / myCam.viewportHeight;
         return .5f * VIEWPORT_HEIGHT * SolMath.sqrt(1 + r * r) * zoom;
     }
@@ -195,12 +195,12 @@ public class SolCam {
         return myAngle;
     }
 
-    public Vector2 getPos() {
+    public Vector2 getPosition() {
         return myPos;
     }
 
-    public void setPos(Vector2 pos) {
-        myPos.set(pos);
+    public void setPos(Vector2 position) {
+        myPos.set(position);
     }
 
     public void drawDebug(GameDrawer drawer) {
@@ -259,8 +259,8 @@ public class SolCam {
         return myCam.zoom;
     }
 
-    public boolean isVisible(Vector2 pos) {
-        Vector2 rp = SolMath.toRel(pos, myAngle, myPos);
+    public boolean isVisible(Vector2 position) {
+        Vector2 rp = SolMath.toRel(position, myAngle, myPos);
         boolean res = isRelVisible(rp);
         SolMath.free(rp);
         return res;
@@ -282,10 +282,10 @@ public class SolCam {
         return .04f * getRealZoom();
     }
 
-    public void screenToWorld(Vector2 pos) {
-        myTmpVec.set(pos, 0);
+    public void screenToWorld(Vector2 position) {
+        myTmpVec.set(position, 0);
         myCam.unproject(myTmpVec);
-        pos.x = myTmpVec.x;
-        pos.y = myTmpVec.y;
+        position.x = myTmpVec.x;
+        position.y = myTmpVec.y;
     }
 }

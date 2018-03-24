@@ -98,7 +98,7 @@ public class MenuScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.draw(uiDrawer.filler, SolColor.UI_BG);
     }
 

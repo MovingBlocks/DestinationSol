@@ -22,27 +22,27 @@ import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.SolSystem;
 
 public interface CamRotStrategy {
-    public float getRotation(Vector2 pos, SolGame game);
+    float getRotation(Vector2 position, SolGame game);
 
-    public static class Static implements CamRotStrategy {
-        public float getRotation(Vector2 pos, SolGame game) {
+    class Static implements CamRotStrategy {
+        public float getRotation(Vector2 position, SolGame game) {
             return 0;
         }
     }
 
-    public static class ToPlanet implements CamRotStrategy {
+    class ToPlanet implements CamRotStrategy {
 
-        public float getRotation(Vector2 pos, SolGame game) {
+        public float getRotation(Vector2 position, SolGame game) {
             Planet np = game.getPlanetManager().getNearestPlanet();
             float fh = np.getFullHeight();
             Vector2 npPos = np.getPos();
-            if (npPos.dst(pos) < fh) {
-                return SolMath.angle(pos, npPos, true) - 90;
+            if (npPos.dst(position) < fh) {
+                return SolMath.angle(position, npPos, true) - 90;
             }
-            SolSystem sys = game.getPlanetManager().getNearestSystem(pos);
+            SolSystem sys = game.getPlanetManager().getNearestSystem(position);
             Vector2 sysPos = sys.getPosition();
-            if (sysPos.dst(pos) < Const.SUN_RADIUS) {
-                return SolMath.angle(pos, sysPos, true) - 90;
+            if (sysPos.dst(position) < Const.SUN_RADIUS) {
+                return SolMath.angle(position, sysPos, true) - 90;
             }
             return 0;
         }

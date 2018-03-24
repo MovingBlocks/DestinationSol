@@ -65,11 +65,11 @@ public class TileObject implements SolObject {
 
         if (myBody != null) {
             float ts = game.getTimeStep();
-            Vector2 spd = SolMath.getVec(myPos);
-            spd.sub(myBody.getPosition());
-            spd.scl(1f / ts);
-            myBody.setLinearVelocity(spd);
-            SolMath.free(spd);
+            Vector2 speed = SolMath.getVec(myPos);
+            speed.sub(myBody.getPosition());
+            speed.scl(1f / ts);
+            myBody.setLinearVelocity(speed);
+            SolMath.free(speed);
             float bodyAngle = myBody.getAngle() * SolMath.radDeg;
             float av = SolMath.norm(myAngle - bodyAngle) * SolMath.degRad / ts;
             myBody.setAngularVelocity(av);
@@ -96,8 +96,8 @@ public class TileObject implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
-        game.getSpecialSounds().playHit(game, this, pos, dmgType);
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+        game.getSpecialSounds().playHit(game, this, position, dmgType);
     }
 
     @Override

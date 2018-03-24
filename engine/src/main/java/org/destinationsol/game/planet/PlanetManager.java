@@ -73,7 +73,7 @@ public class PlanetManager {
     }
 
     public void update(SolGame game) {
-        Vector2 camPos = game.getCam().getPos();
+        Vector2 camPos = game.getCam().getPosition();
         for (Planet planet : myPlanets) {
             planet.update(game);
         }
@@ -87,11 +87,11 @@ public class PlanetManager {
         applyGrav(game, nearestSys);
     }
 
-    public Planet getNearestPlanet(Vector2 pos) {
+    public Planet getNearestPlanet(Vector2 position) {
         float minDst = Float.MAX_VALUE;
         Planet res = null;
         for (Planet planet : myPlanets) {
-            float dst = pos.dst(planet.getPos());
+            float dst = position.dst(planet.getPos());
             if (dst < minDst) {
                 minDst = dst;
                 res = planet;
@@ -108,7 +108,7 @@ public class PlanetManager {
         Vector2 sysPos = nearestSys.getPosition();
         float npGravConst = myNearestPlanet.getGravConst();
 
-        List<SolObject> objs = game.getObjMan().getObjs();
+        List<SolObject> objs = game.getObjectManager().getObjects();
         for (SolObject obj : objs) {
             if (!obj.receivesGravity()) {
                 continue;
@@ -195,13 +195,13 @@ public class PlanetManager {
             float lineWidth = cam.getRealLineWidth();
             float vh = cam.getViewHeight();
             for (Planet p : myPlanets) {
-                Vector2 pos = p.getPos();
+                Vector2 position = p.getPos();
                 float angle = p.getAngle();
                 float fh = p.getFullHeight();
                 Color col = p == myNearestPlanet ? SolColor.WHITE : SolColor.G;
-                drawer.drawCircle(drawer.debugWhiteTex, pos, p.getGroundHeight(), col, lineWidth, vh);
-                drawer.drawCircle(drawer.debugWhiteTex, pos, fh, col, lineWidth, vh);
-                drawer.drawLine(drawer.debugWhiteTex, pos.x, pos.y, angle, fh, col, lineWidth);
+                drawer.drawCircle(drawer.debugWhiteTex, position, p.getGroundHeight(), col, lineWidth, vh);
+                drawer.drawCircle(drawer.debugWhiteTex, position, fh, col, lineWidth, vh);
+                drawer.drawLine(drawer.debugWhiteTex, position.x, position.y, angle, fh, col, lineWidth);
             }
 
         }
@@ -228,11 +228,11 @@ public class PlanetManager {
         return myMazes;
     }
 
-    public SolSystem getNearestSystem(Vector2 pos) {
+    public SolSystem getNearestSystem(Vector2 position) {
         float minDst = Float.MAX_VALUE;
         SolSystem res = null;
         for (SolSystem system : mySystems) {
-            float dst = pos.dst(system.getPosition());
+            float dst = position.dst(system.getPosition());
             if (dst < minDst) {
                 minDst = dst;
                 res = system;
@@ -241,11 +241,11 @@ public class PlanetManager {
         return res;
     }
 
-    public Maze getNearestMaze(Vector2 pos) {
+    public Maze getNearestMaze(Vector2 position) {
         float minDst = Float.MAX_VALUE;
         Maze res = null;
         for (Maze maze : myMazes) {
-            float dst = pos.dst(maze.getPos());
+            float dst = position.dst(maze.getPos());
             if (dst < minDst) {
                 minDst = dst;
                 res = maze;

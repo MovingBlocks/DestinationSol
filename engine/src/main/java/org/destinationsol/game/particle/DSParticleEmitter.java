@@ -15,7 +15,6 @@
  */
 package org.destinationsol.game.particle;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -355,7 +354,7 @@ public class DSParticleEmitter {
         }
 
         @Override
-        public Vector2 getRelPos() {
+        public Vector2 getRelativePosition() {
             return relativePosition;
         }
 
@@ -389,12 +388,7 @@ public class DSParticleEmitter {
         }
 
         @Override
-        public Texture getTex0() {
-            return config.tex.getTexture();
-        }
-
-        @Override
-        public TextureAtlas.AtlasRegion getTex() {
+        public TextureAtlas.AtlasRegion getTexture() {
             return config.tex;
         }
     }

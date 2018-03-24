@@ -30,11 +30,11 @@ public class PointProjectileBody implements ProjectileBody {
     private final MyRayBack myRayBack;
     private final float myAcc;
 
-    public PointProjectileBody(float angle, Vector2 muzzlePos, Vector2 gunSpd, float spdLen,
+    public PointProjectileBody(float angle, Vector2 muzzlePos, Vector2 gunSpd, float speedLen,
                                Projectile projectile, SolGame game, float acc) {
         myPos = new Vector2(muzzlePos);
         mySpd = new Vector2();
-        SolMath.fromAl(mySpd, angle, spdLen);
+        SolMath.fromAl(mySpd, angle, speedLen);
         mySpd.add(gunSpd);
         myRayBack = new MyRayBack(projectile, game);
         myAcc = acc;
@@ -43,9 +43,9 @@ public class PointProjectileBody implements ProjectileBody {
     @Override
     public void update(SolGame game) {
         if (myAcc > 0 && SolMath.canAccelerate(myAcc, mySpd)) {
-            float spdLen = mySpd.len();
-            if (spdLen < Const.MAX_MOVE_SPD) {
-                mySpd.scl((spdLen + myAcc) / spdLen);
+            float speedLen = mySpd.len();
+            if (speedLen < Const.MAX_MOVE_SPD) {
+                mySpd.scl((speedLen + myAcc) / speedLen);
             }
         }
         Vector2 prevPos = SolMath.getVec(myPos);
@@ -53,7 +53,7 @@ public class PointProjectileBody implements ProjectileBody {
         diff.scl(game.getTimeStep());
         myPos.add(diff);
         SolMath.free(diff);
-        game.getObjMan().getWorld().rayCast(myRayBack, prevPos, myPos);
+        game.getObjectManager().getWorld().rayCast(myRayBack, prevPos, myPos);
         SolMath.free(prevPos);
     }
 

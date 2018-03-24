@@ -16,7 +16,6 @@
 
 package org.destinationsol.game.drawables;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.game.GameDrawer;
@@ -24,21 +23,20 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 
 public interface Drawable {
-    Texture getTex0();
 
-    TextureAtlas.AtlasRegion getTex();
+    TextureAtlas.AtlasRegion getTexture();
 
     DrawableLevel getLevel();
 
     // called on every update from manager
     void update(SolGame game, SolObject o);
 
-    // called on every draw from manager. after that, this drawable should be able to return correct pos & radius
+    // called on every draw from manager. after that, this drawable should be able to return correct position & radius
     void prepare(SolObject o);
 
     Vector2 getPos();
 
-    Vector2 getRelPos();
+    Vector2 getRelativePosition();
 
     float getRadius();
 

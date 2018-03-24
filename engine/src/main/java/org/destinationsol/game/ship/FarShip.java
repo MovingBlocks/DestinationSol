@@ -34,7 +34,7 @@ public class FarShip implements FarObject {
     private final Vector2 mySpd;
     private final Shield myShield;
     private final Armor myArmor;
-    private final float myRotSpd;
+    private final float myRotationSpeed;
     private final Pilot myPilot;
     private final ItemContainer myContainer;
     private final HullConfig myHullConfig;
@@ -48,14 +48,14 @@ public class FarShip implements FarObject {
     private ShipRepairer myRepairer;
     private float myMoney;
 
-    public FarShip(Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot, ItemContainer container,
+    public FarShip(Vector2 position, Vector2 speed, float angle, float rotationSpeed, Pilot pilot, ItemContainer container,
                    HullConfig hullConfig, float life,
                    Gun gun1, Gun gun2, RemoveController removeController, Engine engine,
                    ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield, Armor armor) {
-        myPos = pos;
-        mySpd = spd;
+        myPos = position;
+        mySpd = speed;
         myAngle = angle;
-        myRotSpd = rotSpd;
+        myRotationSpeed = rotationSpeed;
         myPilot = pilot;
         myContainer = container;
         myHullConfig = hullConfig;
@@ -93,7 +93,7 @@ public class FarShip implements FarObject {
 
     @Override
     public SolShip toObject(SolGame game) {
-        return game.getShipBuilder().build(game, myPos, mySpd, myAngle, myRotSpd, myPilot, myContainer, myHullConfig, myLife, myGun1,
+        return game.getShipBuilder().build(game, myPos, mySpd, myAngle, myRotationSpeed, myPilot, myContainer, myHullConfig, myLife, myGun1,
                 myGun2, myRemoveController, myEngine, myRepairer, myMoney, myTradeContainer, myShield, myArmor);
     }
 
@@ -118,8 +118,8 @@ public class FarShip implements FarObject {
         return myPos;
     }
 
-    public void setPos(Vector2 pos) {
-        myPos.set(pos);
+    public void setPos(Vector2 position) {
+        myPos.set(position);
     }
 
     @Override
@@ -152,8 +152,8 @@ public class FarShip implements FarObject {
         return mySpd;
     }
 
-    public void setSpd(Vector2 spd) {
-        mySpd.set(spd);
+    public void setSpd(Vector2 speed) {
+        mySpd.set(speed);
     }
 
     public Engine getEngine() {

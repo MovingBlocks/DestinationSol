@@ -95,7 +95,7 @@ public class OggSoundManager {
             return;
         }
 
-        Vector2 cameraPosition = game.getCam().getPos();
+        Vector2 cameraPosition = game.getCam().getPosition();
         Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();
 
         float airPerc = 0;

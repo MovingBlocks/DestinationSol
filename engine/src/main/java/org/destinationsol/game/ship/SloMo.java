@@ -56,9 +56,9 @@ public class SloMo implements ShipAbility {
     public boolean update(SolGame game, SolShip owner, boolean tryToUse) {
         if (tryToUse) {
             myFactor = myConfig.factor;
-            Vector2 pos = owner.getPosition();
-            DSParticleEmitter src = new DSParticleEmitter(myConfig.cc.effect, -1, DrawableLevel.PART_BG_0, new Vector2(), true, game, pos, owner.getSpeed(), 0);
-            game.getPartMan().finish(game, src, pos);
+            Vector2 position = owner.getPosition();
+            DSParticleEmitter src = new DSParticleEmitter(myConfig.cc.effect, -1, DrawableLevel.PART_BG_0, new Vector2(), true, game, position, owner.getSpeed(), 0);
+            game.getPartMan().finish(game, src, position);
             return true;
         }
         float ts = game.getTimeStep();

@@ -70,11 +70,11 @@ public class LightSource {
         float baseA = SolRandom.randomFloat(.5f, 1) * myWorkPerc * myIntensity;
         myCircle.tint.a = baseA * A_RATIO;
         float sz = (1 + SolRandom.randomFloat(.2f * myIntensity)) * mySz;
-        myCircle.setTexSz(SZ_RATIO * sz);
+        myCircle.setTextureSize(SZ_RATIO * sz);
         if (myHalo != null) {
             myHalo.tint.a = baseA;
-            myHalo.relAngle = game.getCam().getAngle() - baseAngle;
-            myHalo.setTexSz(sz);
+            myHalo.relativeAngle = game.getCam().getAngle() - baseAngle;
+            myHalo.setTextureSize(sz);
         }
     }
 
@@ -98,6 +98,6 @@ public class LightSource {
     }
 
     public void setRelPos(Vector2 relPos) {
-        myCircle.relPos.set(relPos);
+        myCircle.relativePosition.set(relPos);
     }
 }

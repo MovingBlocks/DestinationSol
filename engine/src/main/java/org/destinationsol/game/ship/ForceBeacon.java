@@ -45,7 +45,7 @@ public class ForceBeacon {
                                     float maxPullDist) {
         SolShip res = null;
         float minLen = Float.MAX_VALUE;
-        List<SolObject> objs = game.getObjMan().getObjs();
+        List<SolObject> objs = game.getObjectManager().getObjects();
         for (SolObject o : objs) {
             if (o == owner) {
                 continue;
@@ -87,12 +87,12 @@ public class ForceBeacon {
     }
 
     public void update(SolGame game, Vector2 basePos, float baseAngle, SolShip ship) {
-        Vector2 pos = SolMath.toWorld(myRelPos, baseAngle, basePos);
-        Vector2 spd = SolMath.distVec(myPrevPos, pos).scl(1 / game.getTimeStep());
+        Vector2 position = SolMath.toWorld(myRelPos, baseAngle, basePos);
+        Vector2 speed = SolMath.distVec(myPrevPos, position).scl(1 / game.getTimeStep());
         Faction faction = ship.getPilot().getFaction();
-        pullShips(game, ship, pos, spd, faction, MAX_PULL_DIST);
-        SolMath.free(spd);
-        myPrevPos.set(pos);
-        SolMath.free(pos);
+        pullShips(game, ship, position, speed, faction, MAX_PULL_DIST);
+        SolMath.free(speed);
+        myPrevPos.set(position);
+        SolMath.free(position);
     }
 }

@@ -78,8 +78,8 @@ public class ObjectManager {
         myWorld.step(ts, 6, 2);
 
         SolCam cam = game.getCam();
-        Vector2 camPos = cam.getPos();
-        myFarEndDist = 1.5f * cam.getViewDist();
+        Vector2 camPos = cam.getPosition();
+        myFarEndDist = 1.5f * cam.getViewDistance();
         myFarBeginDist = 1.33f * myFarEndDist;
 
         boolean recalcRad = false;
@@ -155,7 +155,7 @@ public class ObjectManager {
     }
 
     private void recalcRadius(SolObject o) {
-        float rad = DrawableManager.radiusFromDras(o.getDrawables());
+        float rad = DrawableManager.radiusFromDrawables(o.getDrawables());
         myRadii.put(o, rad);
     }
 
@@ -188,7 +188,7 @@ public class ObjectManager {
         myObjs.remove(o);
         myRadii.remove(o);
         o.onRemove(game);
-        game.getDrawableManager().objRemoved(o);
+        game.getDrawableManager().removeObject(o);
     }
 
     public void addObjNow(SolGame game, SolObject o) {
@@ -197,7 +197,7 @@ public class ObjectManager {
         }
         myObjs.add(o);
         recalcRadius(o);
-        game.getDrawableManager().objAdded(o);
+        game.getDrawableManager().addObject(o);
     }
 
     private boolean isNear(FarObjData fod, Vector2 camPos, float ts) {
@@ -243,18 +243,18 @@ public class ObjectManager {
     private void drawDebugStrings(GameDrawer drawer, SolGame game) {
         float fontSize = game.getCam().getDebugFontSize();
         for (SolObject o : myObjs) {
-            Vector2 pos = o.getPosition();
+            Vector2 position = o.getPosition();
             String ds = o.toDebugString();
             if (ds != null) {
-                drawer.drawString(ds, pos.x, pos.y, fontSize, true, SolColor.WHITE);
+                drawer.drawString(ds, position.x, position.y, fontSize, true, SolColor.WHITE);
             }
         }
         for (FarObjData fod : myFarObjs) {
             FarObject fo = fod.fo;
-            Vector2 pos = fo.getPosition();
+            Vector2 position = fo.getPosition();
             String ds = fo.toDebugString();
             if (ds != null) {
-                drawer.drawString(ds, pos.x, pos.y, fontSize, true, SolColor.G);
+                drawer.drawString(ds, position.x, position.y, fontSize, true, SolColor.G);
             }
         }
     }
@@ -264,20 +264,20 @@ public class ObjectManager {
         float lineWidth = cam.getRealLineWidth();
         float vh = cam.getViewHeight();
         for (SolObject o : myObjs) {
-            Vector2 pos = o.getPosition();
+            Vector2 position = o.getPosition();
             float r = getRadius(o);
-            drawer.drawCircle(drawer.debugWhiteTex, pos, r, DebugCol.OBJ, lineWidth, vh);
-            drawer.drawLine(drawer.debugWhiteTex, pos.x, pos.y, o.getAngle(), r, DebugCol.OBJ, lineWidth);
+            drawer.drawCircle(drawer.debugWhiteTex, position, r, DebugCol.OBJ, lineWidth, vh);
+            drawer.drawLine(drawer.debugWhiteTex, position.x, position.y, o.getAngle(), r, DebugCol.OBJ, lineWidth);
         }
         for (FarObjData fod : myFarObjs) {
             FarObject fo = fod.fo;
             drawer.drawCircle(drawer.debugWhiteTex, fo.getPosition(), fo.getRadius(), DebugCol.OBJ_FAR, lineWidth, vh);
         }
-        drawer.drawCircle(drawer.debugWhiteTex, cam.getPos(), myFarBeginDist, SolColor.WHITE, lineWidth, vh);
-        drawer.drawCircle(drawer.debugWhiteTex, cam.getPos(), myFarEndDist, SolColor.WHITE, lineWidth, vh);
+        drawer.drawCircle(drawer.debugWhiteTex, cam.getPosition(), myFarBeginDist, SolColor.WHITE, lineWidth, vh);
+        drawer.drawCircle(drawer.debugWhiteTex, cam.getPosition(), myFarEndDist, SolColor.WHITE, lineWidth, vh);
     }
 
-    public List<SolObject> getObjs() {
+    public List<SolObject> getObjects() {
         return myObjs;
     }
 

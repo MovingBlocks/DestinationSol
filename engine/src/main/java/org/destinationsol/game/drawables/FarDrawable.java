@@ -32,13 +32,13 @@ public class FarDrawable implements FarObject {
     private final float myRadius;
     private final boolean myHideOnPlanet;
 
-    public FarDrawable(List<Drawable> drawables, Vector2 pos, Vector2 spd, RemoveController removeController,
+    public FarDrawable(List<Drawable> drawables, Vector2 position, Vector2 speed, RemoveController removeController,
                        boolean hideOnPlanet) {
         myDrawables = drawables;
-        myPos = pos;
-        mySpd = spd;
+        myPos = position;
+        mySpd = speed;
         myRemoveController = removeController;
-        myRadius = DrawableManager.radiusFromDras(myDrawables);
+        myRadius = DrawableManager.radiusFromDrawables(myDrawables);
         myHideOnPlanet = hideOnPlanet;
     }
 

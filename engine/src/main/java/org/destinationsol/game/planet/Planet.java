@@ -30,8 +30,8 @@ public class Planet {
     private final SolSystem mySys;
     private final Vector2 myPos;
     private final float myDist;
-    private final float myToSysRotSpd;
-    private final float myRotSpd;
+    private final float myToSysRotationSpeed;
+    private final float myRotationSpeed;
     private final float myGroundHeight;
     private final PlanetConfig myConfig;
     private final String myName;
@@ -46,14 +46,14 @@ public class Planet {
     private float myMinGroundHeight;
     private Vector2 mySpd;
 
-    public Planet(SolSystem sys, float angleToSys, float dist, float angle, float toSysRotSpd, float rotSpd,
+    public Planet(SolSystem sys, float angleToSys, float dist, float angle, float toSysRotationSpeed, float rotationSpeed,
                   float groundHeight, boolean objsCreated, PlanetConfig config, String name) {
         mySys = sys;
         myAngleToSys = angleToSys;
         myDist = dist;
         myAngle = angle;
-        myToSysRotSpd = toSysRotSpd;
-        myRotSpd = rotSpd;
+        myToSysRotationSpeed = toSysRotationSpeed;
+        myRotationSpeed = rotationSpeed;
         myGroundHeight = groundHeight;
         myConfig = config;
         myName = name;
@@ -71,11 +71,11 @@ public class Planet {
 
     public void update(SolGame game) {
         float ts = game.getTimeStep();
-        myAngleToSys += myToSysRotSpd * ts;
-        myAngle += myRotSpd * ts;
+        myAngleToSys += myToSysRotationSpeed * ts;
+        myAngle += myRotationSpeed * ts;
 
         setSecondaryParams();
-        Vector2 camPos = game.getCam().getPos();
+        Vector2 camPos = game.getCam().getPosition();
         if (!myObjsCreated && camPos.dst(myPos) < getGroundHeight() + Const.MAX_SKY_HEIGHT_FROM_GROUND) {
             myMinGroundHeight = new PlanetObjectsBuilder().createPlanetObjs(game, this);
             fillLangingPlaces(game);
@@ -86,9 +86,9 @@ public class Planet {
     private void setSecondaryParams() {
         SolMath.fromAl(myPos, myAngleToSys, myDist, true);
         myPos.add(mySys.getPosition());
-        float spdLen = SolMath.angleToArc(myToSysRotSpd, myDist);
-        float spdAngle = myAngleToSys + 90;
-        SolMath.fromAl(mySpd, spdAngle, spdLen);
+        float speedLen = SolMath.angleToArc(myToSysRotationSpeed, myDist);
+        float speedAngle = myAngleToSys + 90;
+        SolMath.fromAl(mySpd, speedAngle, speedLen);
     }
 
     private void fillLangingPlaces(SolGame game) {
@@ -119,12 +119,12 @@ public class Planet {
     }
 
     @Bound
-    public Vector2 getAdjustedEffectSpd(Vector2 pos, Vector2 spd) {
-        Vector2 r = SolMath.getVec(spd);
+    public Vector2 getAdjustedEffectSpd(Vector2 position, Vector2 speed) {
+        Vector2 r = SolMath.getVec(speed);
         if (myConfig.skyConfig == null) {
             return r;
         }
-        Vector2 up = SolMath.distVec(myPos, pos);
+        Vector2 up = SolMath.distVec(myPos, position);
         float dst = up.len();
         if (dst == 0 || getFullHeight() < dst) {
             SolMath.free(up);
@@ -137,8 +137,8 @@ public class Planet {
             SolMath.free(up);
             return r;
         }
-        float spdPerc = (dst - myGroundHeight) / Const.ATM_HEIGHT;
-        r.scl(spdPerc);
+        float speedPerc = (dst - myGroundHeight) / Const.ATM_HEIGHT;
+        r.scl(speedPerc);
         up.scl(smokeConst / dst / dst / dst);
         r.add(up);
         SolMath.free(up);
@@ -157,8 +157,8 @@ public class Planet {
         return myAngleToSys;
     }
 
-    public float getRotSpd() {
-        return myRotSpd;
+    public float getRotationSpeed() {
+        return myRotationSpeed;
     }
 
     public boolean isObjsCreated() {
@@ -173,29 +173,29 @@ public class Planet {
         return myMinGroundHeight;
     }
 
-    public boolean isNearGround(Vector2 pos) {
-        return myPos.dst(pos) - myGroundHeight < .25f * Const.ATM_HEIGHT;
+    public boolean isNearGround(Vector2 position) {
+        return myPos.dst(position) - myGroundHeight < .25f * Const.ATM_HEIGHT;
     }
 
     public PlanetConfig getConfig() {
         return myConfig;
     }
 
-    public float getToSysRotSpd() {
-        return myToSysRotSpd;
+    public float getToSysRotationSpeed() {
+        return myToSysRotationSpeed;
     }
 
     public String getName() {
         return myName;
     }
 
-    public void calcSpdAtPos(Vector2 spd, Vector2 pos) {
-        Vector2 toPos = SolMath.distVec(myPos, pos);
+    public void calcSpdAtPos(Vector2 speed, Vector2 position) {
+        Vector2 toPos = SolMath.distVec(myPos, position);
         float fromPlanetAngle = SolMath.angle(toPos);
-        float hSpdLen = SolMath.angleToArc(myRotSpd, toPos.len());
+        float hSpdLen = SolMath.angleToArc(myRotationSpeed, toPos.len());
         SolMath.free(toPos);
-        SolMath.fromAl(spd, fromPlanetAngle + 90, hSpdLen);
-        spd.add(mySpd);
+        SolMath.fromAl(speed, fromPlanetAngle + 90, hSpdLen);
+        speed.add(mySpd);
     }
 
     public float getAtmDps() {
