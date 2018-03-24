@@ -67,7 +67,7 @@ public class MenuScreen implements SolUiScreen {
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         game.setPaused(true);
-        SolInputManager im = solApplication.getInputMan();
+        SolInputManager im = solApplication.getInputManager();
         GameOptions options = solApplication.getOptions();
         soundVolControl.setDisplayName("Sound Volume: " + options.getSFXVolumeAsText());
         if (soundVolControl.isJustOff()) {
@@ -103,7 +103,7 @@ public class MenuScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.InputPointer inputPointer) {
+    public boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
         return true;
     }
 }

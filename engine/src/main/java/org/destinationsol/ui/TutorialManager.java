@@ -30,15 +30,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TutorialManager {
-    private final Rectangle myBg;
+    private final Rectangle myBackground;
     private final ArrayList<Step> mySteps;
 
     private int myStepIdx;
 
     public TutorialManager(float r, GameScreens screens, boolean mobile, GameOptions gameOptions, SolGame game) {
-        float bgW = r * .5f;
-        float bgH = .2f;
-        myBg = new Rectangle(r / 2 - bgW / 2, 1 - bgH, bgW, bgH);
+        float backgroundW = r * .5f;
+        float backgroundH = .2f;
+        myBackground = new Rectangle(r / 2 - backgroundW / 2, 1 - backgroundH, backgroundW, backgroundH);
         mySteps = new ArrayList<>();
         myStepIdx = 0;
 
@@ -238,11 +238,11 @@ public class TutorialManager {
             return;
         }
         Step step = mySteps.get(myStepIdx);
-        uiDrawer.draw(myBg, SolColor.UI_BG_LIGHT);
-        uiDrawer.drawLine(myBg.x, myBg.y, 0, myBg.width, SolColor.WHITE);
-        uiDrawer.drawLine(myBg.x + myBg.width, myBg.y, 90, myBg.height, SolColor.WHITE);
-        uiDrawer.drawLine(myBg.x, myBg.y, 90, myBg.height, SolColor.WHITE);
-        uiDrawer.drawString(step.text, uiDrawer.r / 2, myBg.y + myBg.height / 2, FontSize.TUT, true, SolColor.WHITE);
+        uiDrawer.draw(myBackground, SolColor.UI_BG_LIGHT);
+        uiDrawer.drawLine(myBackground.x, myBackground.y, 0, myBackground.width, SolColor.WHITE);
+        uiDrawer.drawLine(myBackground.x + myBackground.width, myBackground.y, 90, myBackground.height, SolColor.WHITE);
+        uiDrawer.drawLine(myBackground.x, myBackground.y, 90, myBackground.height, SolColor.WHITE);
+        uiDrawer.drawString(step.text, uiDrawer.r / 2, myBackground.y + myBackground.height / 2, FontSize.TUT, true, SolColor.WHITE);
     }
 
     public boolean isFinished() {

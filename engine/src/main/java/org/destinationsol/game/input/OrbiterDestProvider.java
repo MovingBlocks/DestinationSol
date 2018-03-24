@@ -28,7 +28,7 @@ import org.destinationsol.game.ship.hulls.HullConfig;
  */
 public class OrbiterDestProvider implements MoveDestProvider {
     private final Planet myPlanet;
-    private final float myDesiredSpd;
+    private final float myDesiredSpeed;
     private final float myHeight;
     private final boolean myCw;
     private final Vector2 myDest;
@@ -37,33 +37,33 @@ public class OrbiterDestProvider implements MoveDestProvider {
         myPlanet = planet;
         myHeight = height;
         myCw = cw;
-        myDesiredSpd = SolMath.sqrt(myPlanet.getGravConst() / myHeight);
+        myDesiredSpeed = SolMath.sqrt(myPlanet.getGravConst() / myHeight);
         myDest = new Vector2();
     }
 
     @Override
-    public Vector2 getDest() {
+    public Vector2 getDestination() {
         return myDest;
     }
 
     @Override
-    public boolean shouldAvoidBigObjs() {
+    public boolean shouldAvoidBigObjects() {
         return false;
     }
 
     @Override
-    public float getDesiredSpdLen() {
-        return myDesiredSpd;
+    public float getDesiredSpeedScalar() {
+        return myDesiredSpeed;
     }
 
     @Override
-    public boolean shouldStopNearDest() {
+    public boolean shouldStopNearDestination() {
         return false;
     }
 
     @Override
     public void update(SolGame game, Vector2 shipPos, float maxIdleDist, HullConfig hullConfig, SolShip nearestEnemy) {
-        Vector2 pPos = myPlanet.getPos();
+        Vector2 pPos = myPlanet.getPosition();
         float destAngle = SolMath.angle(pPos, shipPos) + 5 * SolMath.toInt(myCw);
         SolMath.fromAl(myDest, destAngle, myHeight);
         myDest.add(pPos);
@@ -75,7 +75,7 @@ public class OrbiterDestProvider implements MoveDestProvider {
     }
 
     @Override
-    public Vector2 getDestSpd() {
+    public Vector2 getDestinationSpeed() {
         return Vector2.Zero;
     }
 }

@@ -27,18 +27,18 @@ import org.destinationsol.ui.UiDrawer;
 public abstract class WarnDrawer {
     private static final float FADE_TIME = 1f;
     private final Rectangle myWarn;
-    private final Color myBgCol;
+    private final Color myBackgroundCol;
     private final Color myTextCol;
-    private final float myBgOrigA;
+    private final float myBackgroundOrigA;
     private final String myText;
 
-    float drawPerc;
+    float drawPercentage;
 
     WarnDrawer(float resolutionRatio, String text) {
         myWarn = rect(resolutionRatio);
         myText = text;
-        myBgCol = new Color(SolColor.UI_WARN);
-        myBgOrigA = myBgCol.a;
+        myBackgroundCol = new Color(SolColor.UI_WARN);
+        myBackgroundOrigA = myBackgroundCol.a;
         myTextCol = new Color(SolColor.WHITE);
     }
 
@@ -48,18 +48,18 @@ public abstract class WarnDrawer {
 
     public void update(SolGame game) {
         if (shouldWarn(game)) {
-            drawPerc = 1;
+            drawPercentage = 1;
         } else {
-            drawPerc = SolMath.approach(drawPerc, 0, Const.REAL_TIME_STEP / FADE_TIME);
+            drawPercentage = SolMath.approach(drawPercentage, 0, Const.REAL_TIME_STEP / FADE_TIME);
         }
-        myBgCol.a = myBgOrigA * drawPerc;
-        myTextCol.a = drawPerc;
+        myBackgroundCol.a = myBackgroundOrigA * drawPercentage;
+        myTextCol.a = drawPercentage;
     }
 
     protected abstract boolean shouldWarn(SolGame game);
 
     public void draw(UiDrawer uiDrawer) {
-        uiDrawer.draw(myWarn, myBgCol);
+        uiDrawer.draw(myWarn, myBackgroundCol);
     }
 
     public void drawText(UiDrawer uiDrawer) {

@@ -98,16 +98,16 @@ public class OggSoundManager {
         Vector2 cameraPosition = game.getCam().getPosition();
         Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();
 
-        float airPerc = 0;
+        float airPercentage = 0;
         if (nearestPlanet.getConfig().skyConfig != null) {
-            float distanceToAtmosphere = cameraPosition.dst(nearestPlanet.getPos()) - nearestPlanet.getGroundHeight() - Const.ATM_HEIGHT / 2;
-            airPerc = SolMath.clamp(1 - distanceToAtmosphere / (Const.ATM_HEIGHT / 2));
+            float distanceToAtmosphere = cameraPosition.dst(nearestPlanet.getPosition()) - nearestPlanet.getGroundHeight() - Const.ATM_HEIGHT / 2;
+            airPercentage = SolMath.clamp(1 - distanceToAtmosphere / (Const.ATM_HEIGHT / 2));
         }
         if (DebugOptions.SOUND_IN_SPACE) {
-            airPerc = 1;
+            airPercentage = 1;
         }
 
-        float maxSoundDist = 1 + 1.5f * Const.CAM_VIEW_DIST_GROUND * airPerc;
+        float maxSoundDist = 1 + 1.5f * Const.CAM_VIEW_DIST_GROUND * airPercentage;
 
         Hero hero = game.getHero();
         float soundRadius = hero.isTranscendent() ? 0 : hero.getHull().config.getApproxRadius();

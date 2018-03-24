@@ -35,7 +35,7 @@ public interface CamRotStrategy {
         public float getRotation(Vector2 position, SolGame game) {
             Planet np = game.getPlanetManager().getNearestPlanet();
             float fh = np.getFullHeight();
-            Vector2 npPos = np.getPos();
+            Vector2 npPos = np.getPosition();
             if (npPos.dst(position) < fh) {
                 return SolMath.angle(position, npPos, true) - 90;
             }

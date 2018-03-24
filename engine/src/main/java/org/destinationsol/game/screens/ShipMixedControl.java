@@ -66,7 +66,7 @@ public class ShipMixedControl implements ShipUiControl {
         if (!enabled) {
             return;
         }
-        SolInputManager im = solApplication.getInputMan();
+        SolInputManager im = solApplication.getInputManager();
         SolGame game = solApplication.getGame();
         Hero hero = game.getHero();
         if (hero.isNonTranscendent()) {

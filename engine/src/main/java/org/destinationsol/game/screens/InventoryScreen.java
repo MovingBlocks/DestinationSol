@@ -80,7 +80,7 @@ public class InventoryScreen implements SolUiScreen {
         float col0 = resolutionRatio / 2 - contentW / 2;
         float row0 = .2f;
         float row = row0;
-        float bgGap = MenuLayout.BG_BORDER;
+        float backgroundGap = MenuLayout.BG_BORDER;
         float bigGap = SMALL_GAP * 6;
         float headerH = .03f;
 
@@ -120,7 +120,7 @@ public class InventoryScreen implements SolUiScreen {
         row += myDetailArea.height;
 
         // whole
-        myArea = new Rectangle(col0 - bgGap, row0 - bgGap, contentW + bgGap * 2, row - row0 + bgGap * 2);
+        myArea = new Rectangle(col0 - backgroundGap, row0 - backgroundGap, contentW + backgroundGap * 2, row - row0 + backgroundGap * 2);
 
         closeControl = new SolUiControl(itemCtrl(3), true, gameOptions.getKeyClose());
         closeControl.setDisplayName("Close");
@@ -156,7 +156,7 @@ public class InventoryScreen implements SolUiScreen {
             SolGame game = solApplication.getGame();
             // Make sure the ChooseMercenary screen comes back up when we exit a mercenary related screen
             if (myOperations == giveItems || myOperations == takeItems || (myOperations == showInventory && showInventory.getTarget() != game.getHero().getShip())) {
-                SolInputManager inputMan = solApplication.getInputMan();
+                SolInputManager inputMan = solApplication.getInputManager();
                 GameScreens screens = game.getScreens();
                 InventoryScreen is = screens.inventoryScreen;
                 
@@ -164,7 +164,7 @@ public class InventoryScreen implements SolUiScreen {
                 is.setOperations(is.chooseMercenary);
                 inputMan.addScreen(solApplication, is);
             }
-            solApplication.getInputMan().setScreen(solApplication, solApplication.getGame().getScreens().mainScreen);
+            solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().mainScreen);
             return;
         }
         if (previousControl.isJustOff()) {
@@ -241,14 +241,14 @@ public class InventoryScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.InputPointer inputPointer) {
+    public boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
         return myArea.contains(inputPointer.x, inputPointer.y);
     }
 
     @Override
     public void onAdd(SolApplication solApplication) {
         if (myOperations != null) {
-            solApplication.getInputMan().addScreen(solApplication, myOperations);
+            solApplication.getInputManager().addScreen(solApplication, myOperations);
         }
         myPage = 0;
         mySelected = null;
@@ -284,7 +284,7 @@ public class InventoryScreen implements SolUiScreen {
             TextureAtlas.AtlasRegion tex = item.getIcon(game);
             Rectangle rect = itemCtrl.getScreenArea();
             float rowCenterY = rect.y + rect.height / 2;
-            uiDrawer.draw(uiDrawer.whiteTex, imgSz, imgSz, imgSz / 2, imgSz / 2, rect.x + imgColW / 2, rowCenterY, 0, item.getItemType().uiColor);
+            uiDrawer.draw(uiDrawer.whiteTexture, imgSz, imgSz, imgSz / 2, imgSz / 2, rect.x + imgColW / 2, rowCenterY, 0, item.getItemType().uiColor);
             uiDrawer.draw(tex, imgSz, imgSz, imgSz / 2, imgSz / 2, rect.x + imgColW / 2, rowCenterY, 0, SolColor.WHITE);
         }
     }

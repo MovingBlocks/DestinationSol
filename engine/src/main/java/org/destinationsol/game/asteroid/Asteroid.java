@@ -138,7 +138,7 @@ public class Asteroid implements SolObject {
 
     private boolean updateInAtm(SolGame game) {
         Planet np = game.getPlanetManager().getNearestPlanet();
-        float dst = np.getPos().dst(position);
+        float dst = np.getPosition().dst(position);
         if (np.getFullHeight() < dst) {
             return false;
         }
@@ -202,13 +202,13 @@ public class Asteroid implements SolObject {
 
     private void throwLoot(SolGame game, SolItem item) {
         float speedAngle = SolRandom.randomFloat(180);
-        Vector2 lootSpd = new Vector2();
-        SolMath.fromAl(lootSpd, speedAngle, SolRandom.randomFloat(0, Loot.MAX_SPD));
-        lootSpd.add(speed);
+        Vector2 lootSpeed = new Vector2();
+        SolMath.fromAl(lootSpeed, speedAngle, SolRandom.randomFloat(0, Loot.MAX_SPD));
+        lootSpeed.add(speed);
         Vector2 position = new Vector2();
         SolMath.fromAl(position, speedAngle, SolRandom.randomFloat(0, size / 2));
         position.add(position);
-        Loot l = game.getLootBuilder().build(game, position, item, lootSpd, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), null);
+        Loot l = game.getLootBuilder().build(game, position, item, lootSpeed, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), null);
         game.getObjectManager().addObjDelayed(l);
     }
 
