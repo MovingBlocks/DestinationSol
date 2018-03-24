@@ -80,7 +80,7 @@ public class AiPilot implements Pilot {
         if (canShootUnfixed) {
             canShoot = true;
         }
-        Planet np = game.getPlanetMan().getNearestPlanet();
+        Planet np = game.getPlanetManager().getNearestPlanet();
         boolean nearGround = np.isNearGround(shipPos);
 
         Vector2 dest = null;
@@ -97,7 +97,7 @@ public class AiPilot implements Pilot {
             if (battle != null) {
                 dest = myBattleDestProvider.getDest(ship, nearestEnemy, np, battle, game.getTimeStep(), canShootUnfixed, nearGround);
                 shouldStopNearDest = myBattleDestProvider.shouldStopNearDest();
-                destSpd = nearestEnemy.getSpd();
+                destSpd = nearestEnemy.getSpeed();
                 boolean big = hullConfig.getType() == HullConfig.Type.BIG;
                 float maxBattleSpd = nearGround ? MAX_GROUND_BATTLE_SPD : big ? MAX_BATTLE_SPD_BIG : MAX_BATTLE_SPD;
                 if (maxBattleSpd < desiredSpdLen) {
@@ -118,7 +118,7 @@ public class AiPilot implements Pilot {
         boolean moverActive = myMover.isActive();
 
         Vector2 enemyPos = nearestEnemy == null ? null : nearestEnemy.getPosition();
-        Vector2 enemySpd = nearestEnemy == null ? null : nearestEnemy.getSpd();
+        Vector2 enemySpd = nearestEnemy == null ? null : nearestEnemy.getSpeed();
         float enemyApproxRad = nearestEnemy == null ? 0 : nearestEnemy.getHull().config.getApproxRadius();
         myShooter.update(ship, enemyPos, moverActive, canShoot, enemySpd, enemyApproxRad);
         if (hasEngine && !moverActive && !isShooterRotated()) {
@@ -213,7 +213,7 @@ public class AiPilot implements Pilot {
 
     @Override
     public void updateFar(SolGame game, FarShip farShip) {
-        Vector2 shipPos = farShip.getPos();
+        Vector2 shipPos = farShip.getPosition();
         HullConfig hullConfig = farShip.getHullConfig();
         float maxIdleDist = getMaxIdleDist(hullConfig);
         myDestProvider.update(game, shipPos, maxIdleDist, hullConfig, null);
@@ -250,14 +250,14 @@ public class AiPilot implements Pilot {
                     desiredAngle = myMover.getBigObjAvoider().avoid(game, shipPos, dest, desiredAngle);
                 }
                 float desiredSpdLen = myDestProvider.getDesiredSpdLen();
-                float spdLenDiff = engine.getAcc() * ts;
+                float spdLenDiff = engine.getAcceleration() * ts;
                 float spdLen = SolMath.approach(spd.len(), desiredSpdLen, spdLenDiff);
                 if (toDestLen < spdLen) {
                     spdLen = toDestLen;
                 }
                 SolMath.fromAl(spd, desiredAngle, spdLen);
             }
-            angle = SolMath.approachAngle(angle, desiredAngle, engine.getMaxRotSpd() * ts);
+            angle = SolMath.approachAngle(angle, desiredAngle, engine.getMaxRotationSpeed() * ts);
         }
 
         farShip.setSpd(spd);

@@ -19,7 +19,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.Bound;
@@ -30,7 +29,7 @@ import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.particle.EffectConfig;
-import org.destinationsol.game.particle.LightSrc;
+import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.FarShip;
@@ -46,7 +45,7 @@ public class StarPort implements SolObject {
     private static final float DIST_FROM_PLANET = Const.PLANET_GAP * .5f;
     private static final float FARE = 10f;
     private final Body myBody;
-    private final ArrayList<LightSrc> myLights;
+    private final ArrayList<LightSource> myLights;
     private final Vector2 myPos;
     private final Planet myFrom;
     private final Planet myTo;
@@ -54,7 +53,7 @@ public class StarPort implements SolObject {
     private final boolean mySecondary;
     private float myAngle;
 
-    public StarPort(Planet from, Planet to, Body body, ArrayList<Drawable> drawables, boolean secondary, ArrayList<LightSrc> lights) {
+    public StarPort(Planet from, Planet to, Body body, ArrayList<Drawable> drawables, boolean secondary, ArrayList<LightSource> lights) {
         myFrom = from;
         myTo = to;
         myDrawables = drawables;
@@ -131,7 +130,7 @@ public class StarPort implements SolObject {
             game.getSoundManager().play(game, game.getSpecialSounds().transcendentCreated, null, transcendent);
             objectManager.removeObjDelayed(ship);
         }
-        for (LightSrc light : myLights) {
+        for (LightSource light : myLights) {
             light.update(true, myAngle, game);
         }
 
@@ -173,7 +172,7 @@ public class StarPort implements SolObject {
     }
 
     @Override
-    public FarObj toFarObj() {
+    public FarObject toFarObject() {
         return new MyFar(myFrom, myTo, myPos, mySecondary);
     }
 
@@ -188,12 +187,12 @@ public class StarPort implements SolObject {
     }
 
     @Override
-    public Vector2 getSpd() {
+    public Vector2 getSpeed() {
         return null;
     }
 
     @Override
-    public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
+    public void handleContact(SolObject other, float absImpulse,
                               SolGame game, Vector2 collPos) {
 
     }
@@ -243,7 +242,7 @@ public class StarPort implements SolObject {
             Body body = myLoader.getBodyAndSprite(game, Assets.getAtlasRegion("engine:starPort"), SIZE,
                     BodyDef.BodyType.KinematicBody, new Vector2(pos), angle, drawables, 10f, DrawableLevel.BIG_BODIES);
             SolMath.free(pos);
-            ArrayList<LightSrc> lights = new ArrayList<>();
+            ArrayList<LightSource> lights = new ArrayList<>();
             addFlow(game, pos, drawables, 0, lights);
             addFlow(game, pos, drawables, 90, lights);
             addFlow(game, pos, drawables, -90, lights);
@@ -256,20 +255,20 @@ public class StarPort implements SolObject {
             return sp;
         }
 
-        private void addFlow(SolGame game, Vector2 pos, ArrayList<Drawable> drawables, float angle, ArrayList<LightSrc> lights) {
+        private void addFlow(SolGame game, Vector2 pos, ArrayList<Drawable> drawables, float angle, ArrayList<LightSource> lights) {
             EffectConfig flow = game.getSpecialEffects().starPortFlow;
             Vector2 relPos = new Vector2();
             SolMath.fromAl(relPos, angle, -FLOW_DIST);
             DSParticleEmitter f1 = new DSParticleEmitter(flow, FLOW_DIST, DrawableLevel.PART_BG_0, relPos, false, game, pos, Vector2.Zero, angle);
             f1.setWorking(true);
             drawables.addAll(f1.getDrawables());
-            LightSrc light = new LightSrc(.6f, true, 1, relPos, flow.tint);
+            LightSource light = new LightSource(.6f, true, 1, relPos, flow.tint);
             light.collectDras(drawables);
             lights.add(light);
         }
     }
 
-    public static class MyFar implements FarObj {
+    public static class MyFar implements FarObject {
         private final Planet myFrom;
         private final Planet myTo;
         private final Vector2 myPos;
@@ -289,7 +288,7 @@ public class StarPort implements SolObject {
         }
 
         @Override
-        public SolObject toObj(SolGame game) {
+        public SolObject toObject(SolGame game) {
             return game.getStarPortBuilder().build(game, myFrom, myTo, mySecondary);
         }
 
@@ -308,7 +307,7 @@ public class StarPort implements SolObject {
         }
 
         @Override
-        public Vector2 getPos() {
+        public Vector2 getPosition() {
             return myPos;
         }
 
@@ -348,12 +347,12 @@ public class StarPort implements SolObject {
         private final ArrayList<Drawable> myDrawables;
         private final FarShip myShip;
         private final Vector2 mySpd;
-        private final LightSrc myLight;
+        private final LightSource myLight;
         private final DSParticleEmitter myEff;
         private float myAngle;
 
         public Transcendent(SolShip ship, Planet from, Planet to, SolGame game) {
-            myShip = ship.toFarObj();
+            myShip = ship.toFarObject();
             myFrom = from;
             myTo = to;
             myPos = new Vector2(ship.getPosition());
@@ -369,7 +368,7 @@ public class StarPort implements SolObject {
             myEff = new DSParticleEmitter(eff, TRAN_SZ, DrawableLevel.PART_BG_0, new Vector2(), true, game, myPos, Vector2.Zero, 0);
             myEff.setWorking(true);
             myDrawables.addAll(myEff.getDrawables());
-            myLight = new LightSrc(.6f * TRAN_SZ, true, .5f, new Vector2(), eff.tint);
+            myLight = new LightSource(.6f * TRAN_SZ, true, .5f, new Vector2(), eff.tint);
             myLight.collectDras(myDrawables);
             setDependentParams();
         }
@@ -393,7 +392,7 @@ public class StarPort implements SolObject {
                 objectManager.removeObjDelayed(this);
                 myShip.setPos(myPos);
                 myShip.setSpd(new Vector2());
-                SolShip ship = myShip.toObj(game);
+                SolShip ship = myShip.toObject(game);
                 if (ship.getPilot().isPlayer()) {
                     game.getHero().setSolShip(ship);
                 }
@@ -446,7 +445,7 @@ public class StarPort implements SolObject {
         }
 
         @Override
-        public FarObj toFarObj() {
+        public FarObject toFarObject() {
             return null;
         }
 
@@ -461,12 +460,12 @@ public class StarPort implements SolObject {
         }
 
         @Override
-        public Vector2 getSpd() {
+        public Vector2 getSpeed() {
             return mySpd;
         }
 
         @Override
-        public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
+        public void handleContact(SolObject other, float absImpulse,
                                   SolGame game, Vector2 collPos) {
         }
 

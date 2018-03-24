@@ -39,8 +39,8 @@ public class AbilityCharge implements SolItem {
     }
 
     @Override
-    public String getDesc() {
-        return myConfig.desc;
+    public String getDescription() {
+        return myConfig.description;
     }
 
     @Override
@@ -82,15 +82,15 @@ public class AbilityCharge implements SolItem {
         public final TextureAtlas.AtlasRegion icon;
         public final float price;
         public final String displayName;
-        public final String desc;
+        public final String description;
         public final AbilityCharge example;
 
-        public Config(TextureAtlas.AtlasRegion icon, float price, String displayName, String desc, SolItemType itemType,
+        public Config(TextureAtlas.AtlasRegion icon, float price, String displayName, String description, SolItemType itemType,
                       String code) {
             this.icon = icon;
             this.price = price;
             this.displayName = displayName;
-            this.desc = desc;
+            this.description = description;
             this.itemType = itemType;
             this.code = code;
             this.example = new AbilityCharge(this);

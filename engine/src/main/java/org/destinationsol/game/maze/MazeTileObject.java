@@ -21,13 +21,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DmgType;
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
@@ -90,7 +89,7 @@ public class MazeTileObject implements SolObject {
     }
 
     @Override
-    public FarObj toFarObj() {
+    public FarObject toFarObject() {
         return new MyFar(myTile, myAngle, myPos, myFlipped);
     }
 
@@ -105,12 +104,12 @@ public class MazeTileObject implements SolObject {
     }
 
     @Override
-    public Vector2 getSpd() {
+    public Vector2 getSpeed() {
         return null;
     }
 
     @Override
-    public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
+    public void handleContact(SolObject other, float absImpulse,
                               SolGame game, Vector2 collPos) {
     }
 
@@ -129,7 +128,7 @@ public class MazeTileObject implements SolObject {
         return true;
     }
 
-    public static class MyFar implements FarObj {
+    public static class MyFar implements FarObject {
 
         private final MazeTile myTile;
         private final float myAngle;
@@ -149,7 +148,7 @@ public class MazeTileObject implements SolObject {
         }
 
         @Override
-        public SolObject toObj(SolGame game) {
+        public SolObject toObject(SolGame game) {
             return new Builder().build(game, myTile, myPos, myAngle, myFlipped);
         }
 
@@ -163,7 +162,7 @@ public class MazeTileObject implements SolObject {
         }
 
         @Override
-        public Vector2 getPos() {
+        public Vector2 getPosition() {
             return myPos;
         }
 

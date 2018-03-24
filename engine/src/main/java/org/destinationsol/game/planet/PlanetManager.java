@@ -105,7 +105,7 @@ public class PlanetManager {
         float npFh = myNearestPlanet.getFullHeight();
         float npMinH = myNearestPlanet.getMinGroundHeight();
         Vector2 npPos = myNearestPlanet.getPos();
-        Vector2 sysPos = nearestSys.getPos();
+        Vector2 sysPos = nearestSys.getPosition();
         float npGravConst = myNearestPlanet.getGravConst();
 
         List<SolObject> objs = game.getObjMan().getObjs();
@@ -232,7 +232,7 @@ public class PlanetManager {
         float minDst = Float.MAX_VALUE;
         SolSystem res = null;
         for (SolSystem system : mySystems) {
-            float dst = pos.dst(system.getPos());
+            float dst = pos.dst(system.getPosition());
             if (dst < minDst) {
                 minDst = dst;
                 res = system;

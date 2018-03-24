@@ -29,7 +29,7 @@ import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
-import org.destinationsol.game.particle.LightSrc;
+import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.planet.PlanetBind;
 import org.destinationsol.game.ship.Door;
@@ -43,66 +43,66 @@ import java.util.List;
 public class Hull {
 
     public final HullConfig config;
-    private final Body myBody;
-    private final GunMount myGunMount1;
-    private final GunMount myGunMount2;
-    private final Fixture myBase;
-    private final List<LightSrc> myLightSrcs;
-    private final Vector2 myPos;
-    private final Vector2 mySpd;
-    private final ArrayList<ForceBeacon> myBeacons;
-    private final PlanetBind myPlanetBind;
-    private final float myMass;
-    private final ArrayList<Door> myDoors;
-    private final Fixture myShieldFixture;
+    private final Body body;
+    private final GunMount gunMount1;
+    private final GunMount gunMount2;
+    private final Fixture base;
+    private final List<LightSource> lightSources;
+    private final Vector2 position;
+    private final Vector2 speed;
+    private final ArrayList<ForceBeacon> beacons;
+    private final PlanetBind planetBind;
+    private final float mass;
+    private final ArrayList<Door> doors;
+    private final Fixture shieldFixture;
     public float life;
-    private float myAngle;
-    private float myRotSpd;
+    private float angle;
+    private float rotationSpeed;
     private ShipEngine engine;
     private List<DSParticleEmitter> particleEmitters;
 
     public Hull(SolGame game, HullConfig hullConfig, Body body, GunMount gunMount1, GunMount gunMount2, Fixture base,
-                List<LightSrc> lightSrcs, float life, ArrayList<ForceBeacon> forceBeacons,
+                List<LightSource> lightSources, float life, ArrayList<ForceBeacon> forceBeacons,
                 ArrayList<Door> doors, Fixture shieldFixture) {
         config = hullConfig;
-        myBody = body;
-        myGunMount1 = gunMount1;
-        myGunMount2 = gunMount2;
-        myBase = base;
-        myLightSrcs = lightSrcs;
+        this.body = body;
+        this.gunMount1 = gunMount1;
+        this.gunMount2 = gunMount2;
+        this.base = base;
+        this.lightSources = lightSources;
         this.life = life;
-        myDoors = doors;
-        myShieldFixture = shieldFixture;
-        myPos = new Vector2();
-        mySpd = new Vector2();
-        myBeacons = forceBeacons;
+        this.doors = doors;
+        this.shieldFixture = shieldFixture;
+        position = new Vector2();
+        speed = new Vector2();
+        beacons = forceBeacons;
 
-        myMass = myBody.getMass();
+        mass = this.body.getMass();
         setParamsFromBody();
 
-        myPlanetBind = config.getType() == HullConfig.Type.STATION ? PlanetBind.tryBind(game, myPos, myAngle) : null;
+        planetBind = config.getType() == HullConfig.Type.STATION ? PlanetBind.tryBind(game, position, angle) : null;
 
         particleEmitters = new ArrayList<>();
     }
 
     public Body getBody() {
-        return myBody;
+        return body;
     }
 
     public Fixture getBase() {
-        return myBase;
+        return base;
     }
 
     public GunMount getGunMount(boolean second) {
-        return second ? myGunMount2 : myGunMount1;
+        return second ? gunMount2 : gunMount1;
     }
 
     public Gun getGun(boolean second) {
-        GunMount m = getGunMount(second);
-        if (m == null) {
+        GunMount mount = getGunMount(second);
+        if (mount == null) {
             return null;
         }
-        return m.getGun();
+        return mount.getGun();
     }
 
     public void update(SolGame game, ItemContainer container, Pilot provider, SolShip ship, SolShip nearestEnemy) {
@@ -110,54 +110,54 @@ public class Hull {
         boolean controlsEnabled = ship.isControlsEnabled() && !SolCam.DIRECT_CAM_CONTROL;
 
         if (engine != null) {
-            engine.update(myAngle, game, provider, myBody, mySpd, ship, controlsEnabled, myMass, this);
+            engine.update(angle, game, provider, body, speed, ship, controlsEnabled, mass, this);
         }
 
         Faction faction = ship.getPilot().getFaction();
-        myGunMount1.update(container, game, myAngle, ship, controlsEnabled && provider.isShoot(), nearestEnemy, faction);
-        if (myGunMount2 != null) {
-            myGunMount2.update(container, game, myAngle, ship, controlsEnabled && provider.isShoot2(), nearestEnemy, faction);
+        gunMount1.update(container, game, angle, ship, controlsEnabled && provider.isShoot(), nearestEnemy, faction);
+        if (gunMount2 != null) {
+            gunMount2.update(container, game, angle, ship, controlsEnabled && provider.isShoot2(), nearestEnemy, faction);
         }
 
-        for (LightSrc src : myLightSrcs) {
-            src.update(true, myAngle, game);
+        for (LightSource src : lightSources) {
+            src.update(true, angle, game);
         }
 
-        for (ForceBeacon b : myBeacons) {
-            b.update(game, myPos, myAngle, ship);
+        for (ForceBeacon b : beacons) {
+            b.update(game, position, angle, ship);
         }
 
-        for (Door door : myDoors) {
+        for (Door door : doors) {
             door.update(game, ship);
         }
 
-        if (myPlanetBind != null) {
+        if (planetBind != null) {
             Vector2 spd = SolMath.getVec();
-            myPlanetBind.setDiff(spd, myPos, true);
+            planetBind.setDiff(spd, position, true);
             float fps = 1 / game.getTimeStep();
             spd.scl(fps);
-            myBody.setLinearVelocity(spd);
+            body.setLinearVelocity(spd);
             SolMath.free(spd);
-            float angleDiff = myPlanetBind.getDesiredAngle() - myAngle;
-            myBody.setAngularVelocity(angleDiff * SolMath.degRad * fps);
+            float angleDiff = planetBind.getDesiredAngle() - angle;
+            body.setAngularVelocity(angleDiff * SolMath.degRad * fps);
         }
 
         game.getPartMan().updateAllHullEmittersOfType(this, "none", true);
     }
 
     private void setParamsFromBody() {
-        myPos.set(myBody.getPosition());
-        myAngle = myBody.getAngle() * SolMath.radDeg;
-        myRotSpd = myBody.getAngularVelocity() * SolMath.radDeg;
-        mySpd.set(myBody.getLinearVelocity());
+        position.set(body.getPosition());
+        angle = body.getAngle() * SolMath.radDeg;
+        rotationSpeed = body.getAngularVelocity() * SolMath.radDeg;
+        speed.set(body.getLinearVelocity());
     }
 
     public void onRemove(SolGame game) {
-        for (Door door : myDoors) {
+        for (Door door : doors) {
             door.onRemove(game);
         }
-        myBody.getWorld().destroyBody(myBody);
-        particleEmitters.forEach(pe -> pe.onRemove(game, myPos));
+        body.getWorld().destroyBody(body);
+        particleEmitters.forEach(pe -> pe.onRemove(game, position));
 
     }
 
@@ -184,35 +184,35 @@ public class Hull {
     }
 
     public float getAngle() {
-        return myAngle;
+        return angle;
     }
 
-    public Vector2 getPos() {
-        return myPos;
+    public Vector2 getPosition() {
+        return position;
     }
 
-    public Vector2 getSpd() {
-        return mySpd;
+    public Vector2 getSpeed() {
+        return speed;
     }
 
     public Engine getEngine() {
         return engine == null ? null : engine.getItem();
     }
 
-    public float getRotSpd() {
-        return myRotSpd;
+    public float getRotationSpeed() {
+        return rotationSpeed;
     }
 
     public ArrayList<Door> getDoors() {
-        return myDoors;
+        return doors;
     }
 
     public Fixture getShieldFixture() {
-        return myShieldFixture;
+        return shieldFixture;
     }
 
     public float getMass() {
-        return myMass;
+        return mass;
     }
 
     public HullConfig getHullConfig() {

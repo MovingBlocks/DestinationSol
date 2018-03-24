@@ -49,53 +49,53 @@ public class AsteroidBuilder {
     }
 
     public static Body buildBall(SolGame game, Vector2 pos, float angle, float rad, float density, boolean sensor) {
-        BodyDef bd = new BodyDef();
-        bd.type = BodyDef.BodyType.DynamicBody;
-        bd.angle = angle * SolMath.degRad;
-        bd.angularDamping = 0;
-        bd.position.set(pos);
-        bd.linearDamping = 0;
-        Body body = game.getObjMan().getWorld().createBody(bd);
-        FixtureDef fd = new FixtureDef();
-        fd.density = density;
-        fd.friction = Const.FRICTION;
-        fd.shape = new CircleShape();
-        fd.shape.setRadius(rad);
-        fd.isSensor = sensor;
-        body.createFixture(fd);
-        fd.shape.dispose();
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.angle = angle * SolMath.degRad;
+        bodyDef.angularDamping = 0;
+        bodyDef.position.set(pos);
+        bodyDef.linearDamping = 0;
+        Body body = game.getObjMan().getWorld().createBody(bodyDef);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.density = density;
+        fixtureDef.friction = Const.FRICTION;
+        fixtureDef.shape = new CircleShape();
+        fixtureDef.shape.setRadius(rad);
+        fixtureDef.isSensor = sensor;
+        body.createFixture(fixtureDef);
+        fixtureDef.shape.dispose();
         return body;
     }
 
-    // doesn't consume pos
-    public Asteroid buildNew(SolGame game, Vector2 pos, Vector2 spd, float sz, RemoveController removeController) {
-        float rotSpd = SolRandom.randomFloat(MAX_A_ROT_SPD);
-        return build(game, pos, SolRandom.randomElement(textures), sz, SolRandom.randomFloat(180), rotSpd, spd, removeController);
+    // doesn't consume position
+    public Asteroid buildNew(SolGame game, Vector2 position, Vector2 speed, float size, RemoveController removeController) {
+        float rotationSpeed = SolRandom.randomFloat(MAX_A_ROT_SPD);
+        return build(game, position, SolRandom.randomElement(textures), size, SolRandom.randomFloat(180), rotationSpeed, speed, removeController);
     }
 
-    // doesn't consume pos
-    public FarAsteroid buildNewFar(Vector2 pos, Vector2 spd, float sz, RemoveController removeController) {
-        float rotSpd = SolRandom.randomFloat(MAX_A_ROT_SPD);
-        return new FarAsteroid(SolRandom.randomElement(textures), new Vector2(pos), SolRandom.randomFloat(180), removeController, sz, new Vector2(spd), rotSpd);
+    // doesn't consume position
+    public FarAsteroid buildNewFar(Vector2 position, Vector2 speed, float size, RemoveController removeController) {
+        float rotationSpeed = SolRandom.randomFloat(MAX_A_ROT_SPD);
+        return new FarAsteroid(SolRandom.randomElement(textures), new Vector2(position), SolRandom.randomFloat(180), removeController, size, new Vector2(speed), rotationSpeed);
     }
 
-    // doesn't consume pos
-    public Asteroid build(SolGame game, Vector2 pos, TextureAtlas.AtlasRegion tex, float sz, float angle, float rotSpd, Vector2 spd, RemoveController removeController) {
+    // doesn't consume position
+    public Asteroid build(SolGame game, Vector2 position, TextureAtlas.AtlasRegion texture, float size, float angle, float rotationSpeed, Vector2 speed, RemoveController removeController) {
 
         ArrayList<Drawable> drawables = new ArrayList<>();
         Body body;
-        if (MAX_BALL_SZ < sz) {
-            body = collisionMeshLoader.getBodyAndSprite(game, tex, sz, BodyDef.BodyType.DynamicBody, pos, angle, drawables, DENSITY, DrawableLevel.BODIES);
+        if (MAX_BALL_SZ < size) {
+            body = collisionMeshLoader.getBodyAndSprite(game, texture, size, BodyDef.BodyType.DynamicBody, position, angle, drawables, DENSITY, DrawableLevel.BODIES);
         } else {
-            body = buildBall(game, pos, angle, sz / 2, DENSITY, false);
-            RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DrawableLevel.BODIES, 0, 0, SolColor.WHITE, false);
+            body = buildBall(game, position, angle, size / 2, DENSITY, false);
+            RectSprite s = new RectSprite(texture, size, 0, 0, new Vector2(), DrawableLevel.BODIES, 0, 0, SolColor.WHITE, false);
             drawables.add(s);
         }
-        body.setAngularVelocity(rotSpd);
-        body.setLinearVelocity(spd);
+        body.setAngularVelocity(rotationSpeed);
+        body.setLinearVelocity(speed);
 
-        Asteroid res = new Asteroid(game, tex, body, sz, removeController, drawables);
-        body.setUserData(res);
-        return res;
+        Asteroid asteroid = new Asteroid(game, texture, body, size, removeController, drawables);
+        body.setUserData(asteroid);
+        return asteroid;
     }
 }
