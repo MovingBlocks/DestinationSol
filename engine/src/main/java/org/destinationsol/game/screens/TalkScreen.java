@@ -113,7 +113,7 @@ public class TalkScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.draw(bg, SolColor.UI_BG);
     }
 

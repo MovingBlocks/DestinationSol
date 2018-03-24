@@ -89,8 +89,8 @@ public class Guardian implements MoveDestProvider {
     }
 
     public void updateTarget(SolGame game) {
-        ObjectManager om = game.getObjMan();
-        List<SolObject> objs = om.getObjs();
+        ObjectManager om = game.getObjectManager();
+        List<SolObject> objs = om.getObjects();
         if (myTarget != null && objs.contains(myTarget)) {
             return;
         }

@@ -250,12 +250,12 @@ public class InputMapScreen implements SolUiScreen {
         operations.setSelectedIndex(selectedIndex);
     }
 
-    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void drawImages(UiDrawer uiDrawer, SolApplication solApplication) {
 
     }
 

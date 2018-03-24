@@ -64,13 +64,13 @@ public class BeaconHandler {
         mySpd = new Vector2();
     }
 
-    public void init(SolGame game, Vector2 pos) {
+    public void init(SolGame game, Vector2 position) {
         ArrayList<Drawable> drawables = new ArrayList<>();
         drawables.add(myAttackSprite);
         drawables.add(myFollowSprite);
         drawables.add(myMoveSprite);
-        myD = new DrawableObject(drawables, new Vector2(pos), new Vector2(), null, false, false);
-        game.getObjMan().addObjDelayed(myD);
+        myD = new DrawableObject(drawables, new Vector2(position), new Vector2(), null, false, false);
+        game.getObjectManager().addObjDelayed(myD);
         myInitialized = true;
     }
 
@@ -118,8 +118,8 @@ public class BeaconHandler {
         if (myTargetPilot == null) {
             return;
         }
-        ObjectManager om = game.getObjMan();
-        List<SolObject> objs = om.getObjs();
+        ObjectManager om = game.getObjectManager();
+        List<SolObject> objs = om.getObjects();
         List<FarShip> farShips = om.getFarShips();
         if (myTarget != null) {
             if (objs.contains(myTarget)) {
@@ -157,8 +157,8 @@ public class BeaconHandler {
     }
 
     private void updateD(SolGame game) {
-        ObjectManager om = game.getObjMan();
-        List<SolObject> objs = om.getObjs();
+        ObjectManager om = game.getObjectManager();
+        List<SolObject> objs = om.getObjects();
         List<FarObjData> farObjs = om.getFarObjs();
 
         if (myD != null) {
@@ -208,9 +208,9 @@ public class BeaconHandler {
         throw new AssertionError();
     }
 
-    public Action processMouse(SolGame g, Vector2 pos, boolean clicked, boolean onMap) {
+    public Action processMouse(SolGame g, Vector2 position, boolean clicked, boolean onMap) {
         Action action;
-        Pilot targetPilot = findPilotInPos(g, pos, onMap, clicked);
+        Pilot targetPilot = findPilotInPos(g, position, onMap, clicked);
         if (targetPilot != null) {
             boolean enemies = g.getFactionMan().areEnemies(targetPilot.getFaction(), g.getHero().getPilot().getFaction());
             if (enemies) {
@@ -224,7 +224,7 @@ public class BeaconHandler {
                     if (myTarget == null) {
                         myTargetRelPos.set(0, 0);
                     } else {
-                        SolMath.toRel(pos, myTargetRelPos, myTarget.getAngle(), myTarget.getPosition());
+                        SolMath.toRel(position, myTargetRelPos, myTarget.getAngle(), myTarget.getPosition());
                     }
                 }
             }
@@ -234,7 +234,7 @@ public class BeaconHandler {
 
         if (clicked) {
             applyAction(action);
-            getPos0().set(pos);
+            getPos0().set(position);
             myClickTime = g.getTime();
         }
         return action;
@@ -253,11 +253,11 @@ public class BeaconHandler {
         }
     }
 
-    private Pilot findPilotInPos(SolGame game, Vector2 pos, boolean onMap, boolean clicked) {
-        ObjectManager objectManager = game.getObjMan();
+    private Pilot findPilotInPos(SolGame game, Vector2 position, boolean onMap, boolean clicked) {
+        ObjectManager objectManager = game.getObjectManager();
         Hero hero = game.getHero();
         float iconRad = onMap ? game.getMapDrawer().getIconRadius(game.getCam()) : 0;
-        for (SolObject o : objectManager.getObjs()) {
+        for (SolObject o : objectManager.getObjects()) {
             if (o == hero.getShipUnchecked() || !(o instanceof SolShip)) {
                 continue;
             }
@@ -266,7 +266,7 @@ public class BeaconHandler {
             if (onMap && pilot.getMapHint() == null) {
                 continue;
             }
-            float dst = o.getPosition().dst(pos);
+            float dst = o.getPosition().dst(position);
             float rad = iconRad == 0 ? s.getHull().config.getSize() : iconRad;
             if (dst < rad) {
                 if (clicked) {
@@ -281,7 +281,7 @@ public class BeaconHandler {
             if (onMap && pilot.getMapHint() == null) {
                 continue;
             }
-            float dst = s.getPosition().dst(pos);
+            float dst = s.getPosition().dst(position);
             float rad = iconRad == 0 ? s.getHullConfig().getApproxRadius() : iconRad;
             if (dst < rad) {
                 if (clicked) {

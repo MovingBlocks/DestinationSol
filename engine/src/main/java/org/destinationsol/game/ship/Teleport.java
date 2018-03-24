@@ -48,9 +48,9 @@ public class Teleport implements ShipAbility {
         if (!tryToUse) {
             return false;
         }
-        Vector2 pos = owner.getPosition();
+        Vector2 position = owner.getPosition();
         Faction faction = owner.getPilot().getFaction();
-        SolShip ne = game.getFactionMan().getNearestEnemy(game, MAX_RADIUS, faction, pos);
+        SolShip ne = game.getFactionMan().getNearestEnemy(game, MAX_RADIUS, faction, position);
         if (ne == null) {
             return false;
         }
@@ -60,7 +60,7 @@ public class Teleport implements ShipAbility {
             return false;
         }
         for (int i = 0; i < 5; i++) {
-            newPos.set(pos);
+            newPos.set(position);
             newPos.sub(nePos);
             angle = config.angle * SolRandom.randomFloat(.5f, 1) * SolMath.toInt(SolRandom.test(.5f));
             SolMath.rotate(newPos, angle);

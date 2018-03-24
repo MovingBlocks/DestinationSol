@@ -114,7 +114,7 @@ public class Shield implements SolItem {
         return myLife > 0 && dmgType != DmgType.FIRE && dmgType != DmgType.CRASH;
     }
 
-    public void absorb(SolGame game, float dmg, Vector2 pos, SolShip ship, DmgType dmgType) {
+    public void absorb(SolGame game, float dmg, Vector2 position, SolShip ship, DmgType dmgType) {
         if (!canAbsorb(dmgType) || dmg <= 0) {
             throw new AssertionError("illegal call to absorb");
         }
@@ -128,7 +128,7 @@ public class Shield implements SolItem {
         }
         myLife -= myLife < dmg ? myLife : dmg;
 
-        game.getPartMan().shieldSpark(game, pos, ship.getHull(), myConfig.tex, dmg / myConfig.maxLife);
+        game.getPartMan().shieldSpark(game, position, ship.getHull(), myConfig.tex, dmg / myConfig.maxLife);
         float volMul = SolMath.clamp(4 * dmg / myConfig.maxLife);
         game.getSoundManager().play(game, myConfig.absorbSound, null, ship, volMul);
 

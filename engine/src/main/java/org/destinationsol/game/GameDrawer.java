@@ -33,7 +33,7 @@ public class GameDrawer {
 
     public GameDrawer(CommonDrawer commonDrawer) {
         myDrawer = commonDrawer;
-        r = myDrawer.r;
+        r = myDrawer.dimensionsRatio;
         debugWhiteTex = Assets.getAtlasRegion("engine:uiWhiteTex");
     }
 
@@ -41,8 +41,8 @@ public class GameDrawer {
         myDrawer.begin();
     }
 
-    public void updateMtx(SolGame game) {
-        myDrawer.setMtx(game.getCam().getMtx());
+    public void updateMatrix(SolGame game) {
+        myDrawer.setMatrix(game.getCam().getMtx());
     }
 
     public void end() {

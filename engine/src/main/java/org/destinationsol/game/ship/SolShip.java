@@ -115,8 +115,8 @@ public class SolShip implements SolObject {
 
     @Override
     public FarShip toFarObject() {
-        float rotSpd = myHull.getBody().getAngularVelocity() * SolMath.radDeg;
-        return new FarShip(myHull.getPosition(), myHull.getSpeed(), myHull.getAngle(), rotSpd, myPilot, myItemContainer, myHull.config, myHull.life,
+        float rotationSpeed = myHull.getBody().getAngularVelocity() * SolMath.radDeg;
+        return new FarShip(myHull.getPosition(), myHull.getSpeed(), myHull.getAngle(), rotationSpeed, myPilot, myItemContainer, myHull.config, myHull.life,
                 myHull.getGun(false), myHull.getGun(true), myRemoveController, myHull.getEngine(), myRepairer, myMoney, myTradeContainer, myShield, myArmor);
     }
 
@@ -377,36 +377,36 @@ public class SolShip implements SolObject {
 
     private void throwLoot(SolGame game, SolItem item, boolean onDeath) {
         Vector2 lootSpd = new Vector2();
-        float spdAngle;
-        float spdLen;
-        Vector2 pos = new Vector2();
+        float speedAngle;
+        float speedLen;
+        Vector2 position = new Vector2();
         if (onDeath) {
-            spdAngle = SolRandom.randomFloat(180);
-            spdLen = SolRandom.randomFloat(0, Loot.MAX_SPD);
+            speedAngle = SolRandom.randomFloat(180);
+            speedLen = SolRandom.randomFloat(0, Loot.MAX_SPD);
             // TODO: This statement previously caused a crash as getApproxRadius returned 0 - where is it meant to be set / loaded from?
-            SolMath.fromAl(pos, spdAngle, SolRandom.randomFloat(myHull.config.getApproxRadius()));
+            SolMath.fromAl(position, speedAngle, SolRandom.randomFloat(myHull.config.getApproxRadius()));
         } else {
-            spdAngle = getAngle();
-            spdLen = 1f;
-            SolMath.fromAl(pos, spdAngle, myHull.config.getApproxRadius());
+            speedAngle = getAngle();
+            speedLen = 1f;
+            SolMath.fromAl(position, speedAngle, myHull.config.getApproxRadius());
         }
-        SolMath.fromAl(lootSpd, spdAngle, spdLen);
+        SolMath.fromAl(lootSpd, speedAngle, speedLen);
         lootSpd.add(myHull.getSpeed());
-        pos.add(myHull.getPosition());
-        Loot l = game.getLootBuilder().build(game, pos, item, lootSpd, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), this);
-        game.getObjMan().addObjDelayed(l);
+        position.add(myHull.getPosition());
+        Loot l = game.getLootBuilder().build(game, position, item, lootSpd, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), this);
+        game.getObjectManager().addObjDelayed(l);
         if (!onDeath) {
-            game.getSoundManager().play(game, game.getSpecialSounds().lootThrow, pos, this);
+            game.getSoundManager().play(game, game.getSpecialSounds().lootThrow, position, this);
         }
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
         if (dmg <= 0) {
             return;
         }
         if (myShield != null && myShield.canAbsorb(dmgType)) {
-            myShield.absorb(game, dmg, pos, this, dmgType);
+            myShield.absorb(game, dmg, position, this, dmgType);
             return;
         }
         if (myArmor != null) {
@@ -415,7 +415,7 @@ public class SolShip implements SolObject {
             }
             dmg *= (1 - myArmor.getPerc());
         }
-        playHitSound(game, pos, dmgType);
+        playHitSound(game, position, dmgType);
 
         boolean wasAlive = myHull.life > 0;
         myHull.life -= dmg;
@@ -442,11 +442,11 @@ public class SolShip implements SolObject {
         }
     }
 
-    private void playHitSound(SolGame game, Vector2 pos, DmgType dmgType) {
+    private void playHitSound(SolGame game, Vector2 position, DmgType dmgType) {
         if (myArmor != null) {
-            game.getSoundManager().play(game, myArmor.getHitSound(dmgType), pos, this);
+            game.getSoundManager().play(game, myArmor.getHitSound(dmgType), position, this);
         } else {
-            game.getSpecialSounds().playHit(game, this, pos, dmgType);
+            game.getSpecialSounds().playHit(game, this, position, dmgType);
         }
     }
 

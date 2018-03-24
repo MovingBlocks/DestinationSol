@@ -27,7 +27,7 @@ public interface MoveDestProvider {
     boolean shouldAvoidBigObjs();
 
     /**
-     * @return the desired spd lenght both for peaceful movement and for maneuvering
+     * @return the desired speed lenght both for peaceful movement and for maneuvering
      */
     float getDesiredSpdLen();
 

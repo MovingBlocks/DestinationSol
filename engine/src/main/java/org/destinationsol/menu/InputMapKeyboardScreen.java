@@ -198,12 +198,12 @@ public class InputMapKeyboardScreen implements InputMapOperations {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
+    public void drawBackground(UiDrawer uiDrawer, SolApplication cmp) {
 
     }
 
     @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
+    public void drawImages(UiDrawer uiDrawer, SolApplication cmp) {
 
     }
 

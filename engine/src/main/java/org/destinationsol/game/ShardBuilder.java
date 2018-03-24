@@ -43,11 +43,11 @@ public class ShardBuilder {
         myTexs = Assets.listTexturesMatching("engine:shard_.*");
     }
 
-    public void buildExplosionShards(SolGame game, Vector2 pos, Vector2 baseSpd, float size) {
+    public void buildExplosionShards(SolGame game, Vector2 position, Vector2 baseSpd, float size) {
         int count = (int) (size * SIZE_TO_SHARD_COUNT);
         for (int i = 0; i < count; i++) {
-            Shard s = build(game, pos, baseSpd, size);
-            game.getObjMan().addObjDelayed(s);
+            Shard s = build(game, position, baseSpd, size);
+            game.getObjectManager().addObjDelayed(s);
         }
     }
 
@@ -56,17 +56,17 @@ public class ShardBuilder {
         ArrayList<Drawable> drawables = new ArrayList<>();
         float scale = SolRandom.randomFloat(MIN_SCALE, MAX_SCALE);
         TextureAtlas.AtlasRegion tex = SolRandom.randomElement(myTexs);
-        float spdAngle = SolRandom.randomFloat(180);
-        Vector2 pos = new Vector2();
-        SolMath.fromAl(pos, spdAngle, SolRandom.randomFloat(size));
-        pos.add(basePos);
-        Body body = myCollisionMeshLoader.getBodyAndSprite(game, tex, scale, BodyDef.BodyType.DynamicBody, pos, SolRandom.randomFloat(180), drawables, ShipBuilder.SHIP_DENSITY, DrawableLevel.PROJECTILES);
+        float speedAngle = SolRandom.randomFloat(180);
+        Vector2 position = new Vector2();
+        SolMath.fromAl(position, speedAngle, SolRandom.randomFloat(size));
+        position.add(basePos);
+        Body body = myCollisionMeshLoader.getBodyAndSprite(game, tex, scale, BodyDef.BodyType.DynamicBody, position, SolRandom.randomFloat(180), drawables, ShipBuilder.SHIP_DENSITY, DrawableLevel.PROJECTILES);
 
         body.setAngularVelocity(SolRandom.randomFloat(MAX_ROT_SPD));
-        Vector2 spd = SolMath.fromAl(spdAngle, SolRandom.randomFloat(MAX_SPD));
-        spd.add(baseSpd);
-        body.setLinearVelocity(spd);
-        SolMath.free(spd);
+        Vector2 speed = SolMath.fromAl(speedAngle, SolRandom.randomFloat(MAX_SPD));
+        speed.add(baseSpd);
+        body.setLinearVelocity(speed);
+        SolMath.free(speed);
 
         Shard shard = new Shard(body, drawables);
         body.setUserData(shard);

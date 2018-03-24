@@ -30,18 +30,18 @@ public class FarPlanetSprites implements FarObject {
     private final float myDist;
     private final List<Drawable> myDrawables;
     private final float myRadius;
-    private final float myToPlanetRotSpd;
+    private final float myToPlanetRotationSpeed;
     private float myRelAngleToPlanet;
     private Vector2 myPos;
 
     public FarPlanetSprites(Planet planet, float relAngleToPlanet, float dist, List<Drawable> drawables,
-                            float toPlanetRotSpd) {
+                            float toPlanetRotationSpeed) {
         myPlanet = planet;
         myRelAngleToPlanet = relAngleToPlanet;
         myDist = dist;
         myDrawables = drawables;
-        myRadius = DrawableManager.radiusFromDras(myDrawables);
-        myToPlanetRotSpd = toPlanetRotSpd;
+        myRadius = DrawableManager.radiusFromDrawables(myDrawables);
+        myToPlanetRotationSpeed = toPlanetRotationSpeed;
         myPos = new Vector2();
     }
 
@@ -52,12 +52,12 @@ public class FarPlanetSprites implements FarObject {
 
     @Override
     public SolObject toObject(SolGame game) {
-        return new PlanetSprites(myPlanet, myRelAngleToPlanet, myDist, myDrawables, myToPlanetRotSpd);
+        return new PlanetSprites(myPlanet, myRelAngleToPlanet, myDist, myDrawables, myToPlanetRotationSpeed);
     }
 
     @Override
     public void update(SolGame game) {
-        myRelAngleToPlanet += myToPlanetRotSpd * game.getTimeStep();
+        myRelAngleToPlanet += myToPlanetRotationSpeed * game.getTimeStep();
         if (game.getPlanetManager().getNearestPlanet() == myPlanet) {
             SolMath.fromAl(myPos, myPlanet.getAngle() + myRelAngleToPlanet, myDist);
             myPos.add(myPlanet.getPos());

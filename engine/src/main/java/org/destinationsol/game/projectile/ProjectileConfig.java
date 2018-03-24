@@ -25,7 +25,7 @@ public class ProjectileConfig {
 
     public final TextureAtlas.AtlasRegion tex;
     public final float texSz;
-    public final float spdLen;
+    public final float speedLen;
     public final float physSize;
     public final boolean stretch;
     public final DmgType dmgType;
@@ -41,18 +41,18 @@ public class ProjectileConfig {
     public final PlayableSound workSound;
     public final boolean massless;
     public final float density;
-    public final float guideRotSpd;
+    public final float guideRotationSpeed;
     public final float dmg;
     public final float emTime;
 
-    public ProjectileConfig(TextureAtlas.AtlasRegion tex, float texSz, float spdLen, boolean stretch,
+    public ProjectileConfig(TextureAtlas.AtlasRegion tex, float texSz, float speedLen, boolean stretch,
                             float physSize, DmgType dmgType, PlayableSound collisionSound, float lightSz, EffectConfig trailEffect,
                             EffectConfig bodyEffect, EffectConfig collisionEffect, EffectConfig collisionEffectBg,
                             boolean zeroAbsSpd, Vector2 origin, float acc, PlayableSound workSound, boolean massless, float density,
-                            float guideRotSpd, float dmg, float emTime) {
+                            float guideRotationSpeed, float dmg, float emTime) {
         this.tex = tex;
         this.texSz = texSz;
-        this.spdLen = spdLen;
+        this.speedLen = speedLen;
         this.stretch = stretch;
         this.physSize = physSize;
         this.dmgType = dmgType;
@@ -68,7 +68,7 @@ public class ProjectileConfig {
         this.workSound = workSound;
         this.massless = massless;
         this.density = density;
-        this.guideRotSpd = guideRotSpd;
+        this.guideRotationSpeed = guideRotationSpeed;
         this.dmg = dmg;
         this.emTime = emTime;
         if (physSize == 0 && massless) {

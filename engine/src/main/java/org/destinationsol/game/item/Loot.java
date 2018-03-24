@@ -75,7 +75,7 @@ public class Loot implements SolObject {
         }
         SolShip puller = null;
         float minDist = Float.MAX_VALUE;
-        List<SolObject> objs = game.getObjMan().getObjs();
+        List<SolObject> objs = game.getObjectManager().getObjects();
         for (SolObject o : objs) {
             if (!(o instanceof SolShip)) {
                 continue;
@@ -115,9 +115,9 @@ public class Loot implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
         myLife -= dmg;
-        game.getSpecialSounds().playHit(game, this, pos, dmgType);
+        game.getSpecialSounds().playHit(game, this, position, dmgType);
     }
 
     @Override
@@ -189,14 +189,14 @@ public class Loot implements SolObject {
         float pullerDist = toPuller.len();
         if (0 < pullerDist && pullerDist < radius) {
             toPuller.scl(PULL_DESIRED_SPD / pullerDist);
-            Vector2 spd = myBody.getLinearVelocity();
-            Vector2 spdDiff = SolMath.distVec(spd, toPuller);
-            float spdDiffLen = spdDiff.len();
-            if (spdDiffLen > 0) {
-                spdDiff.scl(PULL_FORCE / spdDiffLen);
-                myBody.applyForceToCenter(spdDiff, true);
+            Vector2 speed = myBody.getLinearVelocity();
+            Vector2 speedDiff = SolMath.distVec(speed, toPuller);
+            float speedDiffLen = speedDiff.len();
+            if (speedDiffLen > 0) {
+                speedDiff.scl(PULL_FORCE / speedDiffLen);
+                myBody.applyForceToCenter(speedDiff, true);
             }
-            SolMath.free(spdDiff);
+            SolMath.free(speedDiff);
         }
         SolMath.free(toPuller);
     }
@@ -215,12 +215,12 @@ public class Loot implements SolObject {
 
     public void pickedUp(SolGame game, SolShip ship) {
         myLife = 0;
-        Vector2 spd = new Vector2(ship.getPosition());
-        spd.sub(myPos);
+        Vector2 speed = new Vector2(ship.getPosition());
+        speed.sub(myPos);
         float fadeTime = .25f;
-        spd.scl(1 / fadeTime);
-        spd.add(ship.getSpeed());
-        game.getPartMan().blip(game, myPos, myAngle, myItem.getItemType().sz, fadeTime, spd, myItem.getIcon(game));
+        speed.scl(1 / fadeTime);
+        speed.add(ship.getSpeed());
+        game.getPartMan().blip(game, myPos, myAngle, myItem.getItemType().sz, fadeTime, speed, myItem.getIcon(game));
         game.getSoundManager().play(game, myItem.getItemType().pickUpSound, null, this);
     }
 }
