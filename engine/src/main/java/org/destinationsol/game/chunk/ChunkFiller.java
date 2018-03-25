@@ -300,11 +300,7 @@ public class ChunkFiller {
             Vector2 junkPos = getRndPos(chunkCenter);
 
             // Select a random junk atlas
-<<<<<<< HEAD
-            TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolRandom.randomElement(conf.junkTexs));
-=======
-            TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolMath.elemRnd(conf.junkTextures));
->>>>>>> 4df19c3... Some renaming and refactoring of basically everything, yet another round
+            TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolRandom.randomElement(conf.junkTextures));
             // Flip atlas for every other piece of junk
             if (SolRandom.test(.5f)) {
                 tex.flip(!tex.isFlipX(), !tex.isFlipY());

@@ -42,7 +42,7 @@ import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.chunk.ChunkManager;
 import org.destinationsol.game.drawables.DrawableDebugger;
 import org.destinationsol.game.drawables.DrawableManager;
-import org.destinationsol.game.farBackground.FarBackgroundManagerOld;
+import org.destinationsol.game.farBg.FarBackgroundManagerOld;
 import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.BeaconDestProvider;
 import org.destinationsol.game.input.Pilot;
