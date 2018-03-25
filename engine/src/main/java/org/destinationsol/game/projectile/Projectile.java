@@ -16,10 +16,8 @@
 package org.destinationsol.game.projectile;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
@@ -27,7 +25,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.FactionManager;
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -36,7 +34,7 @@ import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.particle.EffectConfig;
-import org.destinationsol.game.particle.LightSrc;
+import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.SolShip;
 
@@ -46,95 +44,95 @@ import java.util.List;
 public class Projectile implements SolObject {
 
     private static final float MIN_ANGLE_TO_GUIDE = 2f;
-    private final ArrayList<Drawable> myDrawables;
-    private final ProjectileBody myBody;
-    private final Faction myFaction;
-    private final DSParticleEmitter myBodyEffect;
-    private final DSParticleEmitter myTrailEffect;
-    private final LightSrc myLightSrc;
-    private final ProjectileConfig myConfig;
+    private final ArrayList<Drawable> drawables;
+    private final ProjectileBody body;
+    private final Faction faction;
+    private final DSParticleEmitter bodyEffect;
+    private final DSParticleEmitter trailEffect;
+    private final LightSource lightSource;
+    private final ProjectileConfig config;
 
-    private boolean myShouldRemove;
-    private SolObject myObstacle;
-    private boolean myDamageDealt;
+    private boolean shouldBeRemoved;
+    private SolObject obstacle;
+    private boolean wasDamageDealt;
 
-    public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpd, Faction faction,
-                      ProjectileConfig config, boolean varySpd) {
-        myDrawables = new ArrayList<>();
-        myConfig = config;
+    public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpeed, Faction faction,
+                      ProjectileConfig config, boolean varySpeed) {
+        drawables = new ArrayList<>();
+        this.config = config;
 
         Drawable drawable;
-        if (myConfig.stretch) {
-            drawable = new MyDrawable(this, myConfig.tex, myConfig.texSz);
+        if (config.stretch) {
+            drawable = new ProjectileDrawable(this, config.tex, config.texSz);
         } else {
-            drawable = new RectSprite(myConfig.tex, myConfig.texSz, myConfig.origin.x, myConfig.origin.y, new Vector2(), DrawableLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
+            drawable = new RectSprite(config.tex, config.texSz, config.origin.x, config.origin.y, new Vector2(), DrawableLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
         }
-        myDrawables.add(drawable);
-        float spdLen = myConfig.spdLen;
-        if (varySpd) {
-            spdLen *= SolRandom.randomFloat(.9f, 1.1f);
+        drawables.add(drawable);
+        float speedLen = config.speedLen;
+        if (varySpeed) {
+            speedLen *= SolRandom.randomFloat(.9f, 1.1f);
         }
-        if (myConfig.physSize > 0) {
-            myBody = new BallProjectileBody(game, muzzlePos, angle, this, gunSpd, spdLen, myConfig);
+        if (config.physSize > 0) {
+            body = new BallProjectileBody(game, muzzlePos, angle, this, gunSpeed, speedLen, config);
         } else {
-            myBody = new PointProjectileBody(angle, muzzlePos, gunSpd, spdLen, this, game, myConfig.acc);
+            body = new PointProjectileBody(angle, muzzlePos, gunSpeed, speedLen, this, game, config.acc);
         }
-        myFaction = faction;
-        myBodyEffect = buildEffect(game, myConfig.bodyEffect, DrawableLevel.PART_BG_0, null, true);
-        myTrailEffect = buildEffect(game, myConfig.trailEffect, DrawableLevel.PART_BG_0, null, false);
-        if (myConfig.lightSz > 0) {
+        this.faction = faction;
+        bodyEffect = buildEffect(game, config.bodyEffect, DrawableLevel.PART_BG_0, null, true);
+        trailEffect = buildEffect(game, config.trailEffect, DrawableLevel.PART_BG_0, null, false);
+        if (config.lightSz > 0) {
             Color col = SolColor.WHITE;
-            if (myBodyEffect != null) {
-                col = myConfig.bodyEffect.tint;
+            if (bodyEffect != null) {
+                col = config.bodyEffect.tint;
             }
-            myLightSrc = new LightSrc(myConfig.lightSz, true, 1f, new Vector2(), col);
-            myLightSrc.collectDras(myDrawables);
+            lightSource = new LightSource(config.lightSz, true, 1f, new Vector2(), col);
+            lightSource.collectDras(drawables);
         } else {
-            myLightSrc = null;
+            lightSource = null;
         }
     }
 
-    private DSParticleEmitter buildEffect(SolGame game, EffectConfig ec, DrawableLevel drawableLevel, Vector2 pos, boolean inheritsSpd) {
+    private DSParticleEmitter buildEffect(SolGame game, EffectConfig ec, DrawableLevel drawableLevel, Vector2 position, boolean inheritsSpeed) {
         if (ec == null) {
             return null;
         }
-        DSParticleEmitter res = new DSParticleEmitter(ec, -1, drawableLevel, new Vector2(), inheritsSpd, game, pos, myBody.getSpd(), 0);
+        DSParticleEmitter res = new DSParticleEmitter(ec, -1, drawableLevel, new Vector2(), inheritsSpeed, game, position, body.getSpeed(), 0);
         if (res.isContinuous()) {
             res.setWorking(true);
-            myDrawables.addAll(res.getDrawables());
+            drawables.addAll(res.getDrawables());
         } else {
-            game.getPartMan().finish(game, res, pos);
+            game.getPartMan().finish(game, res, position);
         }
         return res;
     }
 
     @Override
     public void update(SolGame game) {
-        myBody.update(game);
-        if (myObstacle != null) {
-            if (!myDamageDealt) {
-                myObstacle.receiveDmg(myConfig.dmg, game, myBody.getPos(), myConfig.dmgType);
+        body.update(game);
+        if (obstacle != null) {
+            if (!wasDamageDealt) {
+                obstacle.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType);
             }
-            if (myConfig.density > 0) {
-                myObstacle = null;
-                myDamageDealt = true;
+            if (config.density > 0) {
+                obstacle = null;
+                wasDamageDealt = true;
             } else {
                 collided(game);
-                if (myConfig.emTime > 0 && myObstacle instanceof SolShip) {
-                    ((SolShip) myObstacle).disableControls(myConfig.emTime, game);
+                if (config.emTime > 0 && obstacle instanceof SolShip) {
+                    ((SolShip) obstacle).disableControls(config.emTime, game);
                 }
                 return;
             }
         }
-        if (myLightSrc != null) {
-            myLightSrc.update(true, myBody.getAngle(), game);
+        if (lightSource != null) {
+            lightSource.update(true, body.getAngle(), game);
         }
         maybeGuide(game);
-        game.getSoundManager().play(game, myConfig.workSound, null, this);
+        game.getSoundManager().play(game, config.workSound, null, this);
     }
 
     private void maybeGuide(SolGame game) {
-        if (myConfig.guideRotSpd == 0) {
+        if (config.guideRotationSpeed == 0) {
             return;
         }
         float ts = game.getTimeStep();
@@ -142,48 +140,48 @@ public class Projectile implements SolObject {
         if (ne == null) {
             return;
         }
-        float desiredAngle = myBody.getDesiredAngle(ne);
+        float desiredAngle = body.getDesiredAngle(ne);
         float angle = getAngle();
         float diffAngle = SolMath.norm(desiredAngle - angle);
         if (SolMath.abs(diffAngle) < MIN_ANGLE_TO_GUIDE) {
             return;
         }
-        float rot = ts * myConfig.guideRotSpd;
+        float rot = ts * config.guideRotationSpeed;
         diffAngle = SolMath.clamp(diffAngle, -rot, rot);
-        myBody.changeAngle(diffAngle);
+        body.changeAngle(diffAngle);
     }
 
     private void collided(SolGame game) {
-        myShouldRemove = true;
-        Vector2 pos = myBody.getPos();
-        buildEffect(game, myConfig.collisionEffect, DrawableLevel.PART_FG_1, pos, false);
-        buildEffect(game, myConfig.collisionEffectBg, DrawableLevel.PART_FG_0, pos, false);
-        if (myConfig.collisionEffectBg != null) {
-            game.getPartMan().blinks(pos, game, myConfig.collisionEffectBg.size);
+        shouldBeRemoved = true;
+        Vector2 position = body.getPosition();
+        buildEffect(game, config.collisionEffect, DrawableLevel.PART_FG_1, position, false);
+        buildEffect(game, config.collisionEffectBackground, DrawableLevel.PART_FG_0, position, false);
+        if (config.collisionEffectBackground != null) {
+            game.getPartMan().blinks(position, game, config.collisionEffectBackground.size);
         }
-        game.getSoundManager().play(game, myConfig.collisionSound, null, this);
+        game.getSoundManager().play(game, config.collisionSound, null, this);
     }
 
     @Override
     public boolean shouldBeRemoved(SolGame game) {
-        return myShouldRemove;
+        return shouldBeRemoved;
     }
 
     @Override
     public void onRemove(SolGame game) {
-        Vector2 pos = myBody.getPos();
-        if (myBodyEffect != null) {
-            game.getPartMan().finish(game, myBodyEffect, pos);
+        Vector2 position = body.getPosition();
+        if (bodyEffect != null) {
+            game.getPartMan().finish(game, bodyEffect, position);
         }
-        if (myTrailEffect != null) {
-            game.getPartMan().finish(game, myTrailEffect, pos);
+        if (trailEffect != null) {
+            game.getPartMan().finish(game, trailEffect, position);
         }
-        myBody.onRemove(game);
+        body.onRemove(game);
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
-        if (myConfig.density > 0) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+        if (config.density > 0) {
             return;
         }
         collided(game);
@@ -191,41 +189,41 @@ public class Projectile implements SolObject {
 
     @Override
     public boolean receivesGravity() {
-        return !myConfig.massless;
+        return !config.massless;
     }
 
     @Override
     public void receiveForce(Vector2 force, SolGame game, boolean acc) {
-        myBody.receiveForce(force, game, acc);
+        body.receiveForce(force, game, acc);
     }
 
     @Override
     public Vector2 getPosition() {
-        return myBody.getPos();
+        return body.getPosition();
     }
 
     @Override
-    public FarObj toFarObj() {
+    public FarObject toFarObject() {
         return null;
     }
 
     @Override
     public List<Drawable> getDrawables() {
-        return myDrawables;
+        return drawables;
     }
 
     @Override
     public float getAngle() {
-        return myBody.getAngle();
+        return body.getAngle();
     }
 
     @Override
-    public Vector2 getSpd() {
-        return myBody.getSpd();
+    public Vector2 getSpeed() {
+        return body.getSpeed();
     }
 
     @Override
-    public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
+    public void handleContact(SolObject other, float absImpulse,
                               SolGame game, Vector2 collPos) {
     }
 
@@ -245,68 +243,59 @@ public class Projectile implements SolObject {
     }
 
     public Faction getFaction() {
-        return myFaction;
+        return faction;
     }
 
-    public boolean shouldCollide(SolObject o, Fixture f, FactionManager factionManager) {
-        if (o instanceof SolShip) {
-            SolShip s = (SolShip) o;
-            if (!factionManager.areEnemies(s.getPilot().getFaction(), myFaction)) {
+    public boolean shouldCollide(SolObject object, Fixture fixture, FactionManager factionManager) {
+        if (object instanceof SolShip) {
+            SolShip ship = (SolShip) object;
+            if (!factionManager.areEnemies(ship.getPilot().getFaction(), faction)) {
                 return false;
             }
-            if (s.getHull().getShieldFixture() == f) {
-                if (myConfig.density > 0) {
+            if (ship.getHull().getShieldFixture() == fixture) {
+                if (config.density > 0) {
                     return false;
                 }
-                Shield shield = s.getShield();
-                if (shield == null || !shield.canAbsorb(myConfig.dmgType)) {
-                    return false;
-                }
+                Shield shield = ship.getShield();
+                return shield != null && shield.canAbsorb(config.dmgType);
             }
             return true;
         }
-        if (o instanceof Projectile) {
-            if (!factionManager.areEnemies(((Projectile) o).myFaction, myFaction)) {
-                return false;
-            }
+        if (object instanceof Projectile) {
+            return factionManager.areEnemies(((Projectile) object).faction, faction);
         }
         return true;
     }
 
-    public void setObstacle(SolObject o, SolGame game) {
-        if (!shouldCollide(o, null, game.getFactionMan())) {
+    public void setObstacle(SolObject object, SolGame game) {
+        if (!shouldCollide(object, null, game.getFactionMan())) {
             return; // happens for some reason when projectile is just created
         }
-        myObstacle = o;
+        obstacle = object;
     }
 
     public boolean isMassless() {
-        return myConfig.massless;
+        return config.massless;
     }
 
     public ProjectileConfig getConfig() {
-        return myConfig;
+        return config;
     }
 
-    private static class MyDrawable implements Drawable {
-        private final Projectile myProjectile;
-        private final TextureAtlas.AtlasRegion myTex;
-        private final float myWidth;
+    private static class ProjectileDrawable implements Drawable {
+        private final Projectile projectile;
+        private final TextureAtlas.AtlasRegion texture;
+        private final float width;
 
-        public MyDrawable(Projectile projectile, TextureAtlas.AtlasRegion tex, float width) {
-            myProjectile = projectile;
-            myTex = tex;
-            myWidth = width;
+        ProjectileDrawable(Projectile projectile, TextureAtlas.AtlasRegion texture, float width) {
+            this.projectile = projectile;
+            this.texture = texture;
+            this.width = width;
         }
 
         @Override
-        public Texture getTex0() {
-            return myTex.getTexture();
-        }
-
-        @Override
-        public TextureAtlas.AtlasRegion getTex() {
-            return myTex;
+        public TextureAtlas.AtlasRegion getTexture() {
+            return texture;
         }
 
         @Override
@@ -323,33 +312,33 @@ public class Projectile implements SolObject {
         }
 
         @Override
-        public Vector2 getPos() {
-            return myProjectile.getPosition();
+        public Vector2 getPosition() {
+            return projectile.getPosition();
         }
 
         @Override
-        public Vector2 getRelPos() {
+        public Vector2 getRelativePosition() {
             return Vector2.Zero;
         }
 
         @Override
         public float getRadius() {
-            return myProjectile.myConfig.texSz / 2;
+            return projectile.config.texSz / 2;
         }
 
         @Override
         public void draw(GameDrawer drawer, SolGame game) {
-            float h = myWidth;
+            float h = width;
             float minH = game.getCam().getRealLineWidth() * 3;
             if (h < minH) {
                 h = minH;
             }
-            Vector2 pos = myProjectile.getPosition();
-            float w = myProjectile.getSpd().len() * game.getTimeStep();
+            Vector2 position = projectile.getPosition();
+            float w = projectile.getSpeed().len() * game.getTimeStep();
             if (w < 4 * h) {
                 w = 4 * h;
             }
-            drawer.draw(myTex, w, h, w, h / 2, pos.x, pos.y, SolMath.angle(myProjectile.getSpd()), SolColor.LG);
+            drawer.draw(texture, w, h, w, h / 2, position.x, position.y, SolMath.angle(projectile.getSpeed()), SolColor.LG);
         }
 
         @Override

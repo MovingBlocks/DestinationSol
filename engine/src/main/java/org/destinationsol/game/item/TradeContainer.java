@@ -23,13 +23,13 @@ import java.util.List;
 public class TradeContainer {
     private static final float MAX_AWAIT = 180f;
 
-    private final TradeConfig myConfig;
+    private final TradeConfig config;
     private final ItemContainer myItems;
 
     private float myAwait;
 
     public TradeContainer(TradeConfig config) {
-        myConfig = config;
+        this.config = config;
         myItems = new ItemContainer();
     }
 
@@ -41,7 +41,7 @@ public class TradeContainer {
 
         myAwait = MAX_AWAIT;
         myItems.clear();
-        List<ItemConfig> items = myConfig.items;
+        List<ItemConfig> items = config.items;
         for (ItemConfig i : items) {
             SolItem ex = i.examples.get(0);
             int amt = ex.isSame(ex) ? 16 : 1;
@@ -58,10 +58,10 @@ public class TradeContainer {
     }
 
     public ItemContainer getShips() {
-        return myConfig.hulls;
+        return config.hulls;
     }
 
     public ItemContainer getMercs() {
-        return myConfig.mercs;
+        return config.mercs;
     }
 }

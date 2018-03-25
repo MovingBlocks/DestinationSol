@@ -19,15 +19,15 @@ import com.badlogic.gdx.InputProcessor;
 
 public class SolInputProcessor implements InputProcessor {
 
-    private final SolInputManager myInputMan;
+    private final SolInputManager inputManager;
 
-    public SolInputProcessor(SolInputManager inputMan) {
-        myInputMan = inputMan;
+    SolInputProcessor(SolInputManager inputMan) {
+        inputManager = inputMan;
     }
 
     @Override
     public boolean keyDown(int keyCode) {
-        myInputMan.maybeFlashPressed(keyCode);
+        inputManager.maybeFlashPressed(keyCode);
         return false;
     }
 
@@ -43,7 +43,7 @@ public class SolInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        myInputMan.maybeFlashPressed(screenX, screenY);
+        inputManager.maybeFlashPressed(screenX, screenY);
         return false;
     }
 
@@ -64,7 +64,7 @@ public class SolInputProcessor implements InputProcessor {
 
     @Override
     public boolean scrolled(int amount) {
-        myInputMan.scrolled(amount > 0);
+        inputManager.scrolled(amount > 0);
         return false;
     }
 }

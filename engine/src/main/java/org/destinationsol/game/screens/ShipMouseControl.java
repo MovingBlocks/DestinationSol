@@ -48,7 +48,7 @@ public class ShipMouseControl implements ShipUiControl {
         if (hero.isNonTranscendent()) {
             myMouseWorldPos.set(Gdx.input.getX(), Gdx.input.getY());
             game.getCam().screenToWorld(myMouseWorldPos);
-            SolInputManager im = solApplication.getInputMan();
+            SolInputManager im = solApplication.getInputManager();
             boolean clicked = im.getPtrs()[0].pressed;
             boolean onMap = im.isScreenOn(game.getScreens().mapScreen);
             BeaconHandler.Action a = game.getBeaconHandler().processMouse(game, myMouseWorldPos, clicked, onMap);

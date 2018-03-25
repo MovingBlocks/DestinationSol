@@ -22,13 +22,13 @@ import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.SolShip;
 
 public class AbilityUpdater {
-    private final float myAbilityUseStartPerc;
+    private final float myAbilityUseStartPercentage;
     private final int myChargesToKeep;
 
     private boolean myAbility;
 
     public AbilityUpdater() {
-        myAbilityUseStartPerc = SolRandom.randomFloat(.3f, .7f);
+        myAbilityUseStartPercentage = SolRandom.randomFloat(.3f, .7f);
         myChargesToKeep = SolRandom.randomInt(1, 2);
     }
 
@@ -41,7 +41,7 @@ public class AbilityUpdater {
         if (ability == null) {
             return;
         }
-        if (ship.getHull().config.getMaxLife() * myAbilityUseStartPerc < ship.getLife()) {
+        if (ship.getHull().config.getMaxLife() * myAbilityUseStartPercentage < ship.getLife()) {
             return;
         }
         SolItem ex = ability.getConfig().getChargeExample();

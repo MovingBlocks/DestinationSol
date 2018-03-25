@@ -52,15 +52,15 @@ public class SystemsBuilder {
             if (createSys) {
                 List<Float> ghs = generatePlanetGhs();
                 float sysRadius = calcSysRadius(ghs);
-                Vector2 pos = getBodyPos(systems, mazes, sysRadius);
-                SolSystem s = createSystem(ghs, pos, planets, belts, planetConfigs, sysRadius, sysConfigs, names, systems.isEmpty());
+                Vector2 position = getBodyPos(systems, mazes, sysRadius);
+                SolSystem s = createSystem(ghs, position, planets, belts, planetConfigs, sysRadius, sysConfigs, names, systems.isEmpty());
                 systems.add(s);
                 sysLeft--;
             } else {
                 MazeConfig mc = SolRandom.seededRandomElement(mazeConfigs.configs);
-                float mazeRadius = SolRandom.randomFloat(.7f, 1) * MAX_MAZE_RADIUS;
-                Vector2 pos = getBodyPos(systems, mazes, mazeRadius + MAZE_GAP);
-                Maze m = new Maze(mc, pos, mazeRadius);
+                float mazeRadius = SolRandom.seededRandomFloat(.7f, 1) * MAX_MAZE_RADIUS;
+                Vector2 position = getBodyPos(systems, mazes, mazeRadius + MAZE_GAP);
+                Maze m = new Maze(mc, position, mazeRadius);
                 mazes.add(m);
                 mazesLeft--;
             }
@@ -73,14 +73,14 @@ public class SystemsBuilder {
         boolean beltCreated = false;
         for (int i = 0; i < PLANET_COUNT; i++) {
             boolean createBelt = !beltCreated && 0 < i && i < .5f * PLANET_COUNT && SolRandom.seededTest(.6f);
-            float gh;
+            float groundHeight;
             if (!createBelt) {
-                gh = SolRandom.seededRandomFloat(.5f, 1) * Const.MAX_GROUND_HEIGHT;
+                groundHeight = SolRandom.seededRandomFloat(.5f, 1) * Const.MAX_GROUND_HEIGHT;
             } else {
-                gh = -BELT_HALF_WIDTH;
+                groundHeight = -BELT_HALF_WIDTH;
                 beltCreated = true;
             }
-            res.add(gh);
+            res.add(groundHeight);
         }
         return res;
     }
@@ -88,16 +88,16 @@ public class SystemsBuilder {
     private float calcSysRadius(List<Float> ghs) {
         float r = 0;
         r += Const.SUN_RADIUS;
-        for (Float gh : ghs) {
+        for (Float groundHeight : ghs) {
             r += Const.PLANET_GAP;
-            if (gh > 0) {
+            if (groundHeight > 0) {
                 r += Const.ATM_HEIGHT;
-                r += gh;
-                r += gh;
+                r += groundHeight;
+                r += groundHeight;
                 r += Const.ATM_HEIGHT;
             } else {
-                r -= gh;
-                r -= gh;
+                r -= groundHeight;
+                r -= groundHeight;
             }
             r += Const.PLANET_GAP;
         }
@@ -113,7 +113,7 @@ public class SystemsBuilder {
                 SolMath.fromAl(res, angle, dist);
                 boolean good = true;
                 for (SolSystem system : systems) {
-                    if (system.getPos().dst(res) < system.getRadius() + bodyRadius) {
+                    if (system.getPosition().dst(res) < system.getRadius() + bodyRadius) {
                         good = false;
                         break;
                     }
@@ -132,59 +132,59 @@ public class SystemsBuilder {
         }
     }
 
-    private SolSystem createSystem(List<Float> ghs, Vector2 sysPos, List<Planet> planets, ArrayList<SystemBelt> belts,
+    private SolSystem createSystem(List<Float> groundHeights, Vector2 systemPosition, List<Planet> planets, ArrayList<SystemBelt> belts,
                                    PlanetConfigs planetConfigs,
-                                   float sysRadius, SysConfigs sysConfigs, SolNames names, boolean firstSys) {
+                                   float systemRadius, SysConfigs sysConfigs, SolNames names, boolean firstSys) {
         boolean hard = !firstSys;
-        String st = DebugOptions.FORCE_SYSTEM_TYPE;
+        String systemType = DebugOptions.FORCE_SYSTEM_TYPE;
         SysConfig sysConfig;
-        if (st.isEmpty()) {
+        if (systemType.isEmpty()) {
             sysConfig = sysConfigs.getRandomCfg(hard);
         } else {
-            sysConfig = sysConfigs.getConfig(st);
+            sysConfig = sysConfigs.getConfig(systemType);
         }
         String name = firstSys ? SolRandom.seededRandomElement(names.systems) : "Sol"; //hack
-        SolSystem s = new SolSystem(sysPos, sysConfig, name, sysRadius);
+        SolSystem system = new SolSystem(systemPosition, sysConfig, name, systemRadius);
         float planetDist = Const.SUN_RADIUS;
-        for (Float gh : ghs) {
+        for (Float groundHeight : groundHeights) {
             float reserved;
-            if (gh > 0) {
-                reserved = Const.PLANET_GAP + Const.ATM_HEIGHT + gh;
+            if (groundHeight > 0) {
+                reserved = Const.PLANET_GAP + Const.ATM_HEIGHT + groundHeight;
             } else {
-                reserved = Const.PLANET_GAP - gh;
+                reserved = Const.PLANET_GAP - groundHeight;
             }
             planetDist += reserved;
-            if (gh > 0) {
+            if (groundHeight > 0) {
                 String pt = DebugOptions.FORCE_PLANET_TYPE;
                 PlanetConfig planetConfig;
                 if (pt.isEmpty()) {
-                    boolean inner = planetDist < sysRadius / 2;
+                    boolean inner = planetDist < systemRadius / 2;
                     planetConfig = planetConfigs.getRandom(!inner && !hard, inner && hard);
                 } else {
                     planetConfig = planetConfigs.getConfig(pt);
                 }
-                Planet p = createPlanet(planetDist, s, gh, planetConfig, names);
-                planets.add(p);
-                s.getPlanets().add(p);
+                Planet planet = createPlanet(planetDist, system, groundHeight, planetConfig, names);
+                planets.add(planet);
+                system.getPlanets().add(planet);
             } else {
                 SysConfig beltConfig = sysConfigs.getRandomBelt(hard);
-                SystemBelt belt = new SystemBelt(-gh, planetDist, s, beltConfig);
+                SystemBelt belt = new SystemBelt(-groundHeight, planetDist, system, beltConfig);
                 belts.add(belt);
-                s.addBelt(belt);
+                system.addBelt(belt);
             }
             planetDist += reserved;
         }
-        if (SolMath.abs(sysRadius - planetDist) > .1f) {
-            throw new AssertionError(sysRadius + " " + planetDist);
+        if (SolMath.abs(systemRadius - planetDist) > .1f) {
+            throw new AssertionError(systemRadius + " " + planetDist);
         }
-        return s;
+        return system;
     }
 
     private Planet createPlanet(float planetDist, SolSystem s, float groundHeight, PlanetConfig planetConfig,
                                 SolNames names) {
-        float toSysRotSpd = SolMath.arcToAngle(PLANET_SPD, planetDist) * SolMath.toInt(SolRandom.seededTest(.5f));
-        float rotSpd = SolMath.arcToAngle(GROUND_SPD, groundHeight) * SolMath.toInt(SolRandom.seededTest(.5f));
+        float toSysRotationSpeed = SolMath.arcToAngle(PLANET_SPD, planetDist) * SolMath.toInt(SolRandom.seededTest(.5f));
+        float rotationSpeed = SolMath.arcToAngle(GROUND_SPD, groundHeight) * SolMath.toInt(SolRandom.seededTest(.5f));
         String name = SolRandom.seededRandomElement(names.planets);
-        return new Planet(s, SolRandom.seededRandomFloat(180), planetDist, SolRandom.seededRandomFloat(180), toSysRotSpd, rotSpd, groundHeight, false, planetConfig, name);
+        return new Planet(s, SolRandom.seededRandomFloat(180), planetDist, SolRandom.seededRandomFloat(180), toSysRotationSpeed, rotationSpeed, groundHeight, false, planetConfig, name);
     }
 }

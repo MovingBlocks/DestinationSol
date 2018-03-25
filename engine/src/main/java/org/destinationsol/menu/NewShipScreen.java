@@ -38,7 +38,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
 
 public class NewShipScreen implements SolUiScreen {
-    private final TextureAtlas.AtlasRegion bgTex;
+    private final TextureAtlas.AtlasRegion backgroundTexture;
 
     private final List<SolUiControl> controls = new ArrayList<>();
     private SolUiControl okControl;
@@ -68,7 +68,7 @@ public class NewShipScreen implements SolUiScreen {
         cancelControl.setDisplayName("Cancel");
         controls.add(cancelControl);
 
-        bgTex = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
+        backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class NewShipScreen implements SolUiScreen {
         }
 
         if (cancelControl.isJustOff()) {
-            solApplication.getInputMan().setScreen(solApplication, solApplication.getMenuScreens().newGame);
+            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().newGame);
             return;
         }
 
@@ -109,8 +109,8 @@ public class NewShipScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(backgroundTexture, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     private void loadPlayerSpawnConfigs() {

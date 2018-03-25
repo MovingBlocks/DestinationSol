@@ -29,16 +29,16 @@ import java.util.List;
 import java.util.Map;
 
 public class PlanetConfigs {
-    private final Map<String, PlanetConfig> myAllConfigs;
-    private final List<PlanetConfig> myEasy;
-    private final List<PlanetConfig> myMedium;
-    private final List<PlanetConfig> myHard;
+    private final Map<String, PlanetConfig> allConfigs;
+    private final List<PlanetConfig> easy;
+    private final List<PlanetConfig> medium;
+    private final List<PlanetConfig> hard;
 
     public PlanetConfigs(HullConfigManager hullConfigs, GameColors cols, ItemManager itemManager) {
-        myAllConfigs = new HashMap<>();
-        myEasy = new ArrayList<>();
-        myMedium = new ArrayList<>();
-        myHard = new ArrayList<>();
+        allConfigs = new HashMap<>();
+        easy = new ArrayList<>();
+        medium = new ArrayList<>();
+        hard = new ArrayList<>();
 
         Assets.cacheLists();
 
@@ -47,13 +47,13 @@ public class PlanetConfigs {
 
         for (JsonValue node : rootNode) {
             PlanetConfig planetConfig = PlanetConfig.load(node, hullConfigs, cols, itemManager);
-            myAllConfigs.put(node.name, planetConfig);
+            allConfigs.put(node.name, planetConfig);
             if (planetConfig.hardOnly) {
-                myHard.add(planetConfig);
+                hard.add(planetConfig);
             } else if (planetConfig.easyOnly) {
-                myEasy.add(planetConfig);
+                easy.add(planetConfig);
             } else {
-                myMedium.add(planetConfig);
+                medium.add(planetConfig);
             }
         }
 
@@ -63,15 +63,15 @@ public class PlanetConfigs {
     }
 
     public PlanetConfig getConfig(String name) {
-        return myAllConfigs.get(name);
+        return allConfigs.get(name);
     }
 
     public PlanetConfig getRandom(boolean easy, boolean hard) {
-        List<PlanetConfig> cfg = easy ? myEasy : hard ? myHard : myMedium;
+        List<PlanetConfig> cfg = easy ? this.easy : hard ? this.hard : medium;
         return SolRandom.seededRandomElement(cfg);
     }
 
     public Map<String, PlanetConfig> getAllConfigs() {
-        return myAllConfigs;
+        return allConfigs;
     }
 }

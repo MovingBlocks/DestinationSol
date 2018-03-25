@@ -28,10 +28,10 @@ import java.util.List;
 import java.util.Map;
 
 public class PlanetTiles {
-    private final Map<SurfaceDirection, Map<SurfaceDirection, List<Tile>>> myGroundTiles;
+    private final Map<SurfaceDirection, Map<SurfaceDirection, List<Tile>>> groundTiles;
 
-    public PlanetTiles(String groundName) {
-        myGroundTiles = new HashMap<>();
+    PlanetTiles(String groundName) {
+        groundTiles = new HashMap<>();
         loadGround(groundName);
     }
 
@@ -41,7 +41,7 @@ public class PlanetTiles {
 
         for (SurfaceDirection from : SurfaceDirection.values()) {
             HashMap<SurfaceDirection, List<Tile>> fromMap = new HashMap<>();
-            myGroundTiles.put(from, fromMap);
+            groundTiles.put(from, fromMap);
             for (SurfaceDirection to : SurfaceDirection.values()) {
                 if (from == SurfaceDirection.DOWN && to == SurfaceDirection.DOWN) {
                     continue;
@@ -91,37 +91,37 @@ public class PlanetTiles {
     }
 
     private List<Vector2> getDefaultRawPoints(SurfaceDirection from, SurfaceDirection to, String tileName) {
-        ArrayList<Vector2> res = new ArrayList<>();
+        ArrayList<Vector2> result = new ArrayList<>();
 
         if (from == SurfaceDirection.UP && to == SurfaceDirection.UP) {
-            return res;
+            return result;
         }
 
         DebugOptions.MISSING_PHYSICS_ACTION.handle("no path found for " + tileName);
 
-        res.add(new Vector2(.25f, .75f));
+        result.add(new Vector2(.25f, .75f));
 
         if (from == SurfaceDirection.FWD) {
-            res.add(new Vector2(.25f, .5f));
+            result.add(new Vector2(.25f, .5f));
         } else {
-            res.add(new Vector2(.25f, .25f));
-            res.add(new Vector2(.5f, .25f));
+            result.add(new Vector2(.25f, .25f));
+            result.add(new Vector2(.5f, .25f));
         }
 
-        res.add(new Vector2(.5f, .5f));
+        result.add(new Vector2(.5f, .5f));
 
         if (to == SurfaceDirection.FWD) {
-            res.add(new Vector2(.75f, .5f));
-            res.add(new Vector2(.75f, .75f));
+            result.add(new Vector2(.75f, .5f));
+            result.add(new Vector2(.75f, .75f));
         } else {
-            res.add(new Vector2(.5f, .75f));
+            result.add(new Vector2(.5f, .75f));
         }
 
-        return res;
+        return result;
     }
 
     public Tile getGround(SurfaceDirection from, SurfaceDirection to) {
-        List<Tile> list = myGroundTiles.get(from).get(to);
+        List<Tile> list = groundTiles.get(from).get(to);
         return SolRandom.randomElement(list);
     }
 

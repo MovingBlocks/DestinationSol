@@ -36,23 +36,23 @@ public class CollisionWarnDrawer extends WarnDrawer {
         if (hero.isTranscendent()) {
             return false;
         }
-        Vector2 pos = hero.getPosition();
-        Vector2 spd = hero.getSpd();
-        float acc = hero.getAcc();
-        float spdLen = spd.len();
-        float spdAngle = SolMath.angle(spd);
-        if (acc <= 0 || spdLen < 2 * acc) {
+        Vector2 position = hero.getPosition();
+        Vector2 speed = hero.getSpeed();
+        float acc = hero.getAcceleration();
+        float speedLen = speed.len();
+        float speedAngle = SolMath.angle(speed);
+        if (acc <= 0 || speedLen < 2 * acc) {
             return false;
         }
         // t = v/a;
         // s = att/2 = vv/a/2;
-        float breakWay = spdLen * spdLen / acc / 2;
-        breakWay += 2 * spdLen;
+        float breakWay = speedLen * speedLen / acc / 2;
+        breakWay += 2 * speedLen;
         Vector2 finalPos = SolMath.getVec(0, 0);
-        SolMath.fromAl(finalPos, spdAngle, breakWay);
-        finalPos.add(pos);
+        SolMath.fromAl(finalPos, speedAngle, breakWay);
+        finalPos.add(position);
         warnCallback.show = false;
-        game.getObjMan().getWorld().rayCast(warnCallback, pos, finalPos);
+        game.getObjectManager().getWorld().rayCast(warnCallback, position, finalPos);
         SolMath.free(finalPos);
         return warnCallback.show;
     }

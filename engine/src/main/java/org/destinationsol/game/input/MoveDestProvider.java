@@ -22,16 +22,16 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
 public interface MoveDestProvider {
-    Vector2 getDest();
+    Vector2 getDestination();
 
-    boolean shouldAvoidBigObjs();
+    boolean shouldAvoidBigObjects();
 
     /**
-     * @return the desired spd lenght both for peaceful movement and for maneuvering
+     * @return the desired speed lenght both for peaceful movement and for maneuvering
      */
-    float getDesiredSpdLen();
+    float getDesiredSpeedScalar();
 
-    boolean shouldStopNearDest();
+    boolean shouldStopNearDestination();
 
     void update(SolGame game, Vector2 shipPos, float maxIdleDist, HullConfig hullConfig, SolShip nearestEnemy);
 
@@ -43,5 +43,5 @@ public interface MoveDestProvider {
      */
     Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround);
 
-    Vector2 getDestSpd();
+    Vector2 getDestinationSpeed();
 }

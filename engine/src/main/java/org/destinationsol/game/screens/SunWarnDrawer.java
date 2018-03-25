@@ -31,8 +31,8 @@ public class SunWarnDrawer extends WarnDrawer {
         if (hero.isTranscendent()) {
             return false;
         }
-        Vector2 pos = hero.getPosition();
-        float toCenter = game.getPlanetMan().getNearestSystem(pos).getPos().dst(pos);
+        Vector2 position = hero.getPosition();
+        float toCenter = game.getPlanetManager().getNearestSystem(position).getPosition().dst(position);
         return toCenter < Const.SUN_RADIUS;
     }
 }
