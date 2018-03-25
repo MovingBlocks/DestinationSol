@@ -61,13 +61,13 @@ public class ItemManager {
         myL.addAll(myM.values());
     }
 
-    public void fillContainer(ItemContainer c, String items) {
+    public void fillContainer(ItemContainer itemContainer, String items) {
         List<ItemConfig> list = parseItems(items);
-        for (ItemConfig ic : list) {
-            for (int i = 0; i < ic.amt; i++) {
-                if (SolRandom.test(ic.chance)) {
-                    SolItem item = SolRandom.randomElement(ic.examples).copy();
-                    c.add(item);
+        for (ItemConfig itemConfig : list) {
+            for (int i = 0; i < itemConfig.amount; i++) {
+                if (SolRandom.test(itemConfig.chance)) {
+                    SolItem item = SolRandom.randomElement(itemConfig.examples).copy();
+                    itemContainer.add(item);
                 }
             }
         }
@@ -162,8 +162,8 @@ public class ItemManager {
                 throw new AssertionError("No item specified @ " + parts[0] + " @ " + rec + " @ " + items);
             }
 
-            ItemConfig ic = new ItemConfig(examples, amt, chance);
-            result.add(ic);
+            ItemConfig itemConfig = new ItemConfig(examples, amt, chance);
+            result.add(itemConfig);
         }
 
         return result;

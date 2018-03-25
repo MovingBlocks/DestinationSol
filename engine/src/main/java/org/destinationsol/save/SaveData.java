@@ -16,7 +16,7 @@
 
 package org.destinationsol.save;
 
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.SolSystem;
 
@@ -24,12 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SaveData {
-    public final List<FarObj> farObjs;
+    public final List<FarObject> farObjects;
     public final List<SolSystem> systems;
     public final List<Planet> planets;
 
     public SaveData() {
-        farObjs = new ArrayList<>();
+        farObjects = new ArrayList<>();
         planets = new ArrayList<>();
         systems = new ArrayList<>();
     }

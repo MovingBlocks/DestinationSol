@@ -17,10 +17,9 @@
 package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DmgType;
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
@@ -29,35 +28,35 @@ import java.util.List;
 
 public class PlanetSprites implements SolObject {
 
-    private final Planet myPlanet;
-    private final float myDist;
-    private final List<Drawable> myDrawables;
-    private final float myToPlanetRotSpd;
-    private final Vector2 myPos;
-    private float myRelAngleToPlanet;
-    private float myAngle;
+    private final Planet planet;
+    private final float distance;
+    private final List<Drawable> drawables;
+    private final float RotationSpeedToPlanet;
+    private final Vector2 position;
+    private float relativeAngleToPlanet;
+    private float angle;
 
-    public PlanetSprites(Planet planet, float relAngleToPlanet, float dist, List<Drawable> drawables, float toPlanetRotSpd) {
-        myPlanet = planet;
-        myRelAngleToPlanet = relAngleToPlanet;
-        myDist = dist;
-        myDrawables = drawables;
-        myToPlanetRotSpd = toPlanetRotSpd;
-        myPos = new Vector2();
+    PlanetSprites(Planet planet, float relAngleToPlanet, float dist, List<Drawable> drawables, float toPlanetRotationSpeed) {
+        this.planet = planet;
+        relativeAngleToPlanet = relAngleToPlanet;
+        distance = dist;
+        this.drawables = drawables;
+        RotationSpeedToPlanet = toPlanetRotationSpeed;
+        position = new Vector2();
         setDependentParams();
     }
 
     @Override
     public void update(SolGame game) {
         setDependentParams();
-        myRelAngleToPlanet += myToPlanetRotSpd * game.getTimeStep();
+        relativeAngleToPlanet += RotationSpeedToPlanet * game.getTimeStep();
     }
 
     private void setDependentParams() {
-        float angleToPlanet = myPlanet.getAngle() + myRelAngleToPlanet;
-        SolMath.fromAl(myPos, angleToPlanet, myDist, true);
-        myPos.add(myPlanet.getPos());
-        myAngle = angleToPlanet + 90;
+        float angleToPlanet = planet.getAngle() + relativeAngleToPlanet;
+        SolMath.fromAl(position, angleToPlanet, distance, true);
+        position.add(planet.getPosition());
+        angle = angleToPlanet + 90;
     }
 
     @Override
@@ -70,7 +69,7 @@ public class PlanetSprites implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
     }
 
     @Override
@@ -84,31 +83,31 @@ public class PlanetSprites implements SolObject {
 
     @Override
     public Vector2 getPosition() {
-        return myPos;
+        return position;
     }
 
     @Override
-    public FarObj toFarObj() {
-        return new FarPlanetSprites(myPlanet, myRelAngleToPlanet, myDist, myDrawables, myToPlanetRotSpd);
+    public FarObject toFarObject() {
+        return new FarPlanetSprites(planet, relativeAngleToPlanet, distance, drawables, RotationSpeedToPlanet);
     }
 
     @Override
     public List<Drawable> getDrawables() {
-        return myDrawables;
+        return drawables;
     }
 
     @Override
     public float getAngle() {
-        return myAngle;
+        return angle;
     }
 
     @Override
-    public Vector2 getSpd() {
+    public Vector2 getSpeed() {
         return null;
     }
 
     @Override
-    public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
+    public void handleContact(SolObject other, float absImpulse,
                               SolGame game, Vector2 collPos) {
     }
 

@@ -61,42 +61,42 @@ public class PlanetObjectsBuilder {
         if (DebugOptions.NO_OBJS) {
             return 0;
         }
-        float minR = createGround(game, planet);
+        float minRadius = createGround(game, planet);
         createClouds(game, planet);
-        createDeco(game, planet);
+        createDecorations(game, planet);
         if (planet.getConfig().skyConfig != null) {
             Sky sky = new Sky(game, planet);
-            game.getObjMan().addObjDelayed(sky);
+            game.getObjectManager().addObjDelayed(sky);
         }
         createShips(game, planet);
-        return minR;
+        return minRadius;
     }
 
     private void createShips(SolGame game, Planet planet) {
         ConsumedAngles takenAngles = new ConsumedAngles();
 
-        ShipConfig cfg = planet.getConfig().stationConfig;
-        if (cfg != null) {
-            FarShip b = buildGroundShip(game, planet, cfg, planet.getConfig().tradeConfig, Faction.LAANI, takenAngles, "Station");
-            game.getObjMan().addFarObjNow(b);
+        ShipConfig stationConfig = planet.getConfig().stationConfig;
+        if (stationConfig != null) {
+            FarShip station = buildGroundShip(game, planet, stationConfig, planet.getConfig().tradeConfig, Faction.LAANI, takenAngles, "Station");
+            game.getObjectManager().addFarObjNow(station);
         }
 
-        float gh = planet.getGroundHeight();
+        float groundHeight = planet.getGroundHeight();
 
         PlanetConfig config = planet.getConfig();
-        for (ShipConfig ge : config.groundEnemies) {
-            int count = (int) (ge.density * gh);
+        for (ShipConfig groundEnemy : config.groundEnemies) {
+            int count = (int) (groundEnemy.density * groundHeight);
             for (int i = 0; i < count; i++) {
-                FarShip e = buildGroundShip(game, planet, ge, null, Faction.EHAR, takenAngles, null);
-                game.getObjMan().addFarObjNow(e);
+                FarShip enemy = buildGroundShip(game, planet, groundEnemy, null, Faction.EHAR, takenAngles, null);
+                game.getObjectManager().addFarObjNow(enemy);
             }
         }
 
-        buildOrbitEnemies(game, planet, gh, 0, .1f, config.lowOrbitEnemies, Const.AUTO_SHOOT_SPACE);
-        buildOrbitEnemies(game, planet, gh, .1f, .6f, config.highOrbitEnemies, Const.AI_DET_DIST);
+        buildOrbitEnemies(game, planet, groundHeight, 0, .1f, config.lowOrbitEnemies, Const.AUTO_SHOOT_SPACE);
+        buildOrbitEnemies(game, planet, groundHeight, .1f, .6f, config.highOrbitEnemies, Const.AI_DET_DIST);
     }
 
-    private void buildOrbitEnemies(SolGame game, Planet planet, float gh, float offsetPerc, float atmPerc, List<ShipConfig> configs, float detDist) {
+    private void buildOrbitEnemies(SolGame game, Planet planet, float groundHeight, float offsetPercentage, float atmPercentage, List<ShipConfig> configs, float detDist) {
         if (configs.isEmpty()) {
             return;
         }
@@ -104,153 +104,153 @@ public class PlanetObjectsBuilder {
         HashMap<ShipConfig, Integer> counts = new HashMap<>();
         int totalCount = 0;
         for (ShipConfig oe : configs) {
-            int count = (int) (atmPerc * oe.density * gh * Const.ATM_HEIGHT);
+            int count = (int) (atmPercentage * oe.density * groundHeight * Const.ATM_HEIGHT);
             counts.put(oe, count);
             totalCount += count;
         }
 
-        float stepPerc = atmPerc / totalCount;
-        float heightPerc = offsetPerc;
+        float stepPercentage = atmPercentage / totalCount;
+        float heightPercentage = offsetPercentage;
 
-        for (ShipConfig oe : configs) {
-            int count = counts.get(oe);
+        for (ShipConfig shipConfig : configs) {
+            int count = counts.get(shipConfig);
             for (int i = 0; i < count; i++) {
-                FarShip e = buildOrbitEnemy(game, planet, heightPerc, oe, detDist);
-                game.getObjMan().addFarObjNow(e);
-                heightPerc += stepPerc;
+                FarShip enemy = buildOrbitEnemy(game, planet, heightPercentage, shipConfig, detDist);
+                game.getObjectManager().addFarObjNow(enemy);
+                heightPercentage += stepPercentage;
             }
         }
     }
 
     private float createGround(SolGame game, Planet planet) {
         // helper values
-        float maxR = planet.getGroundHeight() - TOP_TILE_SZ / 2;
-        int cols = (int) (2 * SolMath.PI * maxR / TOP_TILE_SZ);
-        if (cols <= 0) {
+        float maxRadius = planet.getGroundHeight() - TOP_TILE_SZ / 2;
+        int columns = (int) (2 * SolMath.PI * maxRadius / TOP_TILE_SZ);
+        if (columns <= 0) {
             throw new AssertionError("Error creating planet ground!");
         }
         int rows = planet.getConfig().rowCount;
 
         // helper arrays
-        float[] radii = new float[rows];
+        float[] radii = new float[rows]; // Plural of radius https://dictionary.cambridge.org/dictionary/english/radius
         float[] tileSizes = new float[rows];
-        float currRadius = maxR;
+        float currentRadius = maxRadius;
         for (int row = 0; row < rows; row++) {
-            float tileSize = 2 * SolMath.PI * currRadius / cols;
-            radii[row] = currRadius;
+            float tileSize = 2 * SolMath.PI * currentRadius / columns;
+            radii[row] = currentRadius;
             tileSizes[row] = tileSize;
-            currRadius -= tileSize;
+            currentRadius -= tileSize;
         }
-        float minR = radii[rows - 1] - tileSizes[rows - 1] / 2;
+        float minRadius = radii[rows - 1] - tileSizes[rows - 1] / 2;
 
-        Tile[][] tileMap = new GroundBuilder(planet.getConfig(), cols, rows).build();
+        Tile[][] tileMap = new GroundBuilder(planet.getConfig(), columns, rows).build();
 
         // create ground
         for (int row = 0; row < rows; row++) {
-            float tileDist = radii[row];
+            float tileDistance = radii[row];
             float tileSize = tileSizes[row];
-            for (int col = 0; col < cols; col++) {
+            for (int col = 0; col < columns; col++) {
                 Tile tile = tileMap[col][row];
                 if (tile == null) {
                     continue;
                 }
-                float toPlanetRelAngle = 360f * col / cols;
+                float toPlanetRelAngle = 360f * col / columns;
                 if (tile.points.isEmpty()) {
-                    FarTileObject fto = new FarTileObject(planet, toPlanetRelAngle, tileDist, tileSize, tile);
-                    game.getObjMan().addFarObjNow(fto);
+                    FarTileObject farTileObject = new FarTileObject(planet, toPlanetRelAngle, tileDistance, tileSize, tile);
+                    game.getObjectManager().addFarObjNow(farTileObject);
                 } else {
-                    TileObject to = new TileObjBuilder().build(game, tileSize, toPlanetRelAngle, tileDist, tile, planet);
-                    game.getObjMan().addObjNow(game, to);
+                    TileObject tileObject = new TileObjBuilder().build(game, tileSize, toPlanetRelAngle, tileDistance, tile, planet);
+                    game.getObjectManager().addObjNow(game, tileObject);
                 }
             }
         }
 
-        return minR;
+        return minRadius;
     }
 
     private void createClouds(SolGame game, Planet planet) {
-        List<TextureAtlas.AtlasRegion> cloudTexs = planet.getConfig().cloudTexs;
-        if (cloudTexs.isEmpty()) {
+        List<TextureAtlas.AtlasRegion> cloudTextures = planet.getConfig().cloudTextures;
+        if (cloudTextures.isEmpty()) {
             return;
         }
         int cloudCount = SolRandom.randomInt(.7f, (int) (CLOUD_DENSITY * Const.ATM_HEIGHT * planet.getGroundHeight()));
         for (int i = 0; i < cloudCount; i++) {
-            FarPlanetSprites cloud = createCloud(planet, cloudTexs);
-            game.getObjMan().addFarObjNow(cloud);
+            FarPlanetSprites cloud = createCloud(planet, cloudTextures);
+            game.getObjectManager().addFarObjNow(cloud);
         }
     }
 
-    private FarPlanetSprites createCloud(Planet planet, List<TextureAtlas.AtlasRegion> cloudTexs) {
-        float distPerc = SolRandom.randomFloat(0, 1);
-        float dist = planet.getGroundHeight() - TOP_TILE_SZ + .9f * Const.ATM_HEIGHT * distPerc;
+    private FarPlanetSprites createCloud(Planet planet, List<TextureAtlas.AtlasRegion> cloudTextures) {
+        float distancePercentage = SolRandom.randomFloat(0, 1);
+        float distance = planet.getGroundHeight() - TOP_TILE_SZ + .9f * Const.ATM_HEIGHT * distancePercentage;
         float angle = SolRandom.randomFloat(180);
 
         List<Drawable> drawables = new ArrayList<>();
-        float sizePerc = SolRandom.randomFloat(.2f, 1);
-        float linearWidth = sizePerc * (distPerc + .5f) * AVG_CLOUD_LINEAR_WIDTH;
-        float maxAngleShift = SolMath.arcToAngle(linearWidth, dist);
-        float maxDistShift = (1 - distPerc) * MAX_CLOUD_PIECE_DIST_SHIFT;
+        float sizePercentage = SolRandom.randomFloat(.2f, 1);
+        float linearWidth = sizePercentage * (distancePercentage + .5f) * AVG_CLOUD_LINEAR_WIDTH;
+        float maxAngleShift = SolMath.arcToAngle(linearWidth, distance);
+        float maxDistanceShift = (1 - distancePercentage) * MAX_CLOUD_PIECE_DIST_SHIFT;
 
-        int pieceCount = (int) (sizePerc * MAX_CLOUD_PIECE_COUNT);
+        int pieceCount = (int) (sizePercentage * MAX_CLOUD_PIECE_COUNT);
         for (int i = 0; i < pieceCount; i++) {
-            RectSprite s = createCloudSprite(cloudTexs, maxAngleShift, maxDistShift, dist);
-            drawables.add(s);
+            RectSprite cloudSprite = createCloudSprite(cloudTextures, maxAngleShift, maxDistanceShift, distance);
+            drawables.add(cloudSprite);
         }
-        float rotSpd = SolRandom.randomFloat(.1f, 1) * SolMath.arcToAngle(MAX_CLOUD_LINEAR_SPD, dist);
+        float rotationSpeed = SolRandom.randomFloat(.1f, 1) * SolMath.arcToAngle(MAX_CLOUD_LINEAR_SPD, distance);
 
-        return new FarPlanetSprites(planet, angle, dist, drawables, rotSpd);
+        return new FarPlanetSprites(planet, angle, distance, drawables, rotationSpeed);
     }
 
-    private RectSprite createCloudSprite(List<TextureAtlas.AtlasRegion> cloudTexs, float maxAngleShift, float maxDistShift, float baseDist) {
-        TextureAtlas.AtlasRegion tex = new TextureAtlas.AtlasRegion(SolRandom.randomElement(cloudTexs));
+    private RectSprite createCloudSprite(List<TextureAtlas.AtlasRegion> cloudTextures, float maxAngleShift, float maxDistanceShift, float baseDistance) {
+        TextureAtlas.AtlasRegion texture = new TextureAtlas.AtlasRegion(SolRandom.randomElement(cloudTextures));
         if (SolRandom.test(.5f)) {
-            tex.flip(!tex.isFlipX(), !tex.isFlipY());
+            texture.flip(!texture.isFlipX(), !texture.isFlipY());
         }
-        float angleShiftRel = SolRandom.randomFloat(1);
-        float distPerc = 1 - SolMath.abs(angleShiftRel);
-        float sz = .5f * (1 + distPerc) * MAX_CLOUD_PIECE_SZ;
+        float relativeAngleShift = SolRandom.randomFloat(1);
+        float distancePercentage = 1 - SolMath.abs(relativeAngleShift);
+        float size = .5f * (1 + distancePercentage) * MAX_CLOUD_PIECE_SZ;
 
-        float relAngle = SolRandom.randomFloat(30);
-        float rotSpd = SolRandom.randomFloat(MAX_CLOUT_PIECE_ROT_SPD);
-        float angleShift = angleShiftRel * maxAngleShift;
-        float distShift = maxDistShift == 0 ? 0 : distPerc * SolRandom.randomFloat(0, maxDistShift);
-        float dist = baseDist + distShift;
-        Vector2 basePos = SolMath.getVec(0, -baseDist);
-        Vector2 relPos = new Vector2(0, -dist);
-        SolMath.rotate(relPos, angleShift, true);
-        relPos.sub(basePos);
-        SolMath.free(basePos);
+        float relativeAngle = SolRandom.randomFloat(30);
+        float rotationSpeed = SolRandom.randomFloat(MAX_CLOUT_PIECE_ROT_SPD);
+        float angleShift = relativeAngleShift * maxAngleShift;
+        float distanceShift = maxDistanceShift == 0 ? 0 : distancePercentage * SolRandom.randomFloat(0, maxDistanceShift);
+        float distance = baseDistance + distanceShift;
+        Vector2 basePosition = SolMath.getVec(0, -baseDistance);
+        Vector2 relativePosition = new Vector2(0, -distance);
+        SolMath.rotate(relativePosition, angleShift, true);
+        relativePosition.sub(basePosition);
+        SolMath.free(basePosition);
 
-        return new RectSprite(tex, sz, 0, 0, relPos, DrawableLevel.CLOUDS, relAngle, rotSpd, SolColor.WHITE, false);
+        return new RectSprite(texture, size, 0, 0, relativePosition, DrawableLevel.CLOUDS, relativeAngle, rotationSpeed, SolColor.WHITE, false);
     }
 
-    private void createDeco(SolGame game, Planet planet) {
+    private void createDecorations(SolGame game, Planet planet) {
         float groundHeight = planet.getGroundHeight();
-        Vector2 planetPos = planet.getPos();
+        Vector2 planetPos = planet.getPosition();
         float planetAngle = planet.getAngle();
         Map<Vector2, List<Drawable>> collector = new HashMap<>();
         PlanetConfig config = planet.getConfig();
-        for (DecoConfig dc : config.deco) {
-            addDeco0(game, groundHeight, planetPos, collector, dc);
+        for (DecoConfig decoConfig : config.deco) {
+            addDeco(game, groundHeight, planetPos, collector, decoConfig);
         }
 
-        for (Map.Entry<Vector2, List<Drawable>> e : collector.entrySet()) {
-            Vector2 packPos = e.getKey();
-            List<Drawable> ss = e.getValue();
-            float packAngle = SolMath.angle(planetPos, packPos, true) - planetAngle;
-            float packDist = packPos.dst(planetPos);
-            FarPlanetSprites ps = new FarPlanetSprites(planet, packAngle, packDist, ss, 0);
-            game.getObjMan().addFarObjNow(ps);
+        for (Map.Entry<Vector2, List<Drawable>> entry : collector.entrySet()) {
+            Vector2 position = entry.getKey();
+            List<Drawable> drawables = entry.getValue();
+            float angle = SolMath.angle(planetPos, position, true) - planetAngle;
+            float distance = position.dst(planetPos);
+            FarPlanetSprites planetSprites = new FarPlanetSprites(planet, angle, distance, drawables, 0);
+            game.getObjectManager().addFarObjNow(planetSprites);
         }
     }
 
-    private void addDeco0(SolGame game, float groundHeight, Vector2 planetPos,
-                          Map<Vector2, List<Drawable>> collector, DecoConfig dc) {
-        World w = game.getObjMan().getWorld();
+    private void addDeco(SolGame game, float groundHeight, Vector2 planetPos,
+                         Map<Vector2, List<Drawable>> collector, DecoConfig decoConfig) {
+        World world = game.getObjectManager().getWorld();
         ConsumedAngles consumed = new ConsumedAngles();
 
         final Vector2 rayCasted = new Vector2();
-        RayCastCallback rcc = (fixture, point, normal, fraction) -> {
+        RayCastCallback rayCastCallback = (fixture, point, normal, fraction) -> {
             if (!(fixture.getBody().getUserData() instanceof TileObject)) {
                     return -1;
                 }
@@ -258,102 +258,102 @@ public class PlanetObjectsBuilder {
                 return fraction;
             };
 
-        int decoCount = (int) (2 * SolMath.PI * groundHeight * dc.density);
-        for (int i = 0; i < decoCount; i++) {
-            float decoSz = SolRandom.randomFloat(dc.szMin, dc.szMax);
-            float angularHalfWidth = SolMath.angularWidthOfSphere(decoSz / 2, groundHeight);
+        int decorationCount = (int) (2 * SolMath.PI * groundHeight * decoConfig.density);
+        for (int i = 0; i < decorationCount; i++) {
+            float decorationSize = SolRandom.randomFloat(decoConfig.szMin, decoConfig.szMax);
+            float angularHalfWidth = SolMath.angularWidthOfSphere(decorationSize / 2, groundHeight);
 
-            float decoAngle = 0;
+            float decorationAngle = 0;
             for (int j = 0; j < 5; j++) {
-                decoAngle = SolRandom.randomFloat(180);
-                if (!consumed.isConsumed(decoAngle, angularHalfWidth)) {
-                    consumed.add(decoAngle, angularHalfWidth);
+                decorationAngle = SolRandom.randomFloat(180);
+                if (!consumed.isConsumed(decorationAngle, angularHalfWidth)) {
+                    consumed.add(decorationAngle, angularHalfWidth);
                     break;
                 }
             }
 
-            SolMath.fromAl(rayCasted, decoAngle, groundHeight, true);
+            SolMath.fromAl(rayCasted, decorationAngle, groundHeight, true);
             rayCasted.add(planetPos);
-            w.rayCast(rcc, rayCasted, planetPos);
-            float decoDist = rayCasted.dst(planetPos);
+            world.rayCast(rayCastCallback, rayCasted, planetPos);
+            float decorationDistance = rayCasted.dst(planetPos);
 
-            float baseAngle = SolMath.windowCenter(decoAngle, DECO_PACK_ANGULAR_WIDTH);
-            float baseDist = SolMath.windowCenter(decoDist, DECO_PACK_SZ);
-            Vector2 basePos = SolMath.fromAl(baseAngle, baseDist).add(planetPos);
-            Vector2 decoRelPos = new Vector2(rayCasted).sub(basePos);
-            SolMath.rotate(decoRelPos, -baseAngle - 90, true);
-            float decoRelAngle = decoAngle - baseAngle;
+            float baseAngle = SolMath.windowCenter(decorationAngle, DECO_PACK_ANGULAR_WIDTH);
+            float baseDistance = SolMath.windowCenter(decorationDistance, DECO_PACK_SZ);
+            Vector2 basePosition = SolMath.fromAl(baseAngle, baseDistance).add(planetPos);
+            Vector2 decoRelativePosition = new Vector2(rayCasted).sub(basePosition);
+            SolMath.rotate(decoRelativePosition, -baseAngle - 90, true);
+            float decorationRelativeAngle = decorationAngle - baseAngle;
 
-            TextureAtlas.AtlasRegion decoTex = new TextureAtlas.AtlasRegion(SolRandom.randomElement(dc.texs));
-            if (dc.allowFlip && SolRandom.test(.5f)) {
-                decoTex.flip(!decoTex.isFlipX(), !decoTex.isFlipY());
+            TextureAtlas.AtlasRegion decorationTexture = new TextureAtlas.AtlasRegion(SolRandom.randomElement(decoConfig.texs));
+            if (decoConfig.allowFlip && SolRandom.test(.5f)) {
+                decorationTexture.flip(!decorationTexture.isFlipX(), !decorationTexture.isFlipY());
             }
 
-            RectSprite s = new RectSprite(decoTex, decoSz, dc.orig.x, dc.orig.y, decoRelPos, DrawableLevel.DECO, decoRelAngle, 0, SolColor.WHITE, false);
-            List<Drawable> ss = collector.get(basePos);
-            if (ss == null) {
-                ss = new ArrayList<>();
-                collector.put(new Vector2(basePos), ss);
+            RectSprite sprite = new RectSprite(decorationTexture, decorationSize, decoConfig.orig.x, decoConfig.orig.y, decoRelativePosition, DrawableLevel.DECO, decorationRelativeAngle, 0, SolColor.WHITE, false);
+            List<Drawable> drawables = collector.get(basePosition);
+            if (drawables == null) {
+                drawables = new ArrayList<>();
+                collector.put(new Vector2(basePosition), drawables);
             }
-            ss.add(s);
-            SolMath.free(basePos);
+            drawables.add(sprite);
+            SolMath.free(basePosition);
         }
     }
 
     private FarShip buildGroundShip(SolGame game, Planet planet, ShipConfig shipConfig, TradeConfig tradeConfig,
                                    Faction faction, ConsumedAngles takenAngles, String mapHint) {
-        Vector2 pos = game.getPlanetMan().findFlatPlace(game, planet, takenAngles, shipConfig.hull.getApproxRadius());
+        Vector2 position = game.getPlanetManager().findFlatPlace(game, planet, takenAngles, shipConfig.hull.getApproxRadius());
         boolean station = shipConfig.hull.getType() == HullConfig.Type.STATION;
-        String ic = shipConfig.items;
+        String shipItems = shipConfig.items;
         boolean hasRepairer;
         hasRepairer = faction == Faction.LAANI;
         int money = shipConfig.money;
-        float height = pos.len();
+        float height = position.len();
         float aboveGround;
         if (station) {
             aboveGround = shipConfig.hull.getSize() * .75f - shipConfig.hull.getOrigin().y;
         } else {
             aboveGround = shipConfig.hull.getSize();
         }
-        pos.scl((height + aboveGround) / height);
-        SolMath.toWorld(pos, pos, planet.getAngle(), planet.getPos(), false);
+        position.scl((height + aboveGround) / height);
+        SolMath.toWorld(position, position, planet.getAngle(), planet.getPosition(), false);
 
-        Vector2 toPlanet = SolMath.getVec(planet.getPos()).sub(pos);
-        float angle = SolMath.angle(toPlanet) - 180;
+        Vector2 distanceToPlanet = SolMath.getVec(planet.getPosition()).sub(position);
+        float angle = SolMath.angle(distanceToPlanet) - 180;
         if (station) {
             angle += 90;
         }
-        Vector2 spd = new Vector2(toPlanet).nor();
-        SolMath.free(toPlanet);
+        Vector2 speed = new Vector2(distanceToPlanet).nor();
+        SolMath.free(distanceToPlanet);
 
-        Pilot provider = new AiPilot(new StillGuard(pos, game, shipConfig), false, faction, true, mapHint, Const.AI_DET_DIST);
+        Pilot provider = new AiPilot(new StillGuard(position, game, shipConfig), false, faction, true, mapHint, Const.AI_DET_DIST);
 
-        return game.getShipBuilder().buildNewFar(game, pos, spd, angle, 0, provider, ic, shipConfig.hull,
+        return game.getShipBuilder().buildNewFar(game, position, speed, angle, 0, provider, shipItems, shipConfig.hull,
                 null, hasRepairer, money, tradeConfig, true);
     }
 
-    private FarShip buildOrbitEnemy(SolGame game, Planet planet, float heightPerc, ShipConfig oe, float detDist) {
-        float height = planet.getGroundHeight() + heightPerc * Const.ATM_HEIGHT;
-        Vector2 pos = new Vector2();
-        SolMath.fromAl(pos, SolRandom.randomFloat(180), height);
-        Vector2 planetPos = planet.getPos();
-        pos.add(planetPos);
-        float spdLen = SolMath.sqrt(planet.getGravConst() / height);
-        boolean cw = SolRandom.test(.5f);
-        if (!cw) {
-            spdLen *= -1;
+    private FarShip buildOrbitEnemy(SolGame game, Planet planet, float heightPercentage, ShipConfig shipConfig, float detectionDistance) {
+        float height = planet.getGroundHeight() + heightPercentage * Const.ATM_HEIGHT;
+        Vector2 position = new Vector2();
+        SolMath.fromAl(position, SolRandom.randomFloat(180), height);
+        Vector2 planetPosition = planet.getPosition();
+        position.add(planetPosition);
+        float speedLen = SolMath.sqrt(planet.getGravitationConstant() / height);
+        boolean clockwise = SolRandom.test(.5f);
+        if (!clockwise) {
+            speedLen *= -1;
         }
-        Vector2 spd = new Vector2(0, -spdLen);
-        Vector2 v = SolMath.distVec(pos, planetPos);
-        SolMath.rotate(spd, SolMath.angle(v));
-        SolMath.free(v);
+        Vector2 speed = new Vector2(0, -speedLen);
+        Vector2 directionToPlanet = SolMath.distVec(position, planetPosition);
+        SolMath.rotate(speed, SolMath.angle(directionToPlanet));
+        SolMath.free(directionToPlanet);
 
-        OrbiterDestProvider dp = new OrbiterDestProvider(planet, height, cw);
-        Pilot provider = new AiPilot(dp, false, Faction.EHAR, true, null, detDist);
+        OrbiterDestProvider destProvider = new OrbiterDestProvider(planet, height, clockwise);
+        Pilot provider = new AiPilot(destProvider, false, Faction.EHAR, true, null, detectionDistance);
 
-        int money = oe.money;
+        int money = shipConfig.money;
 
-        return game.getShipBuilder().buildNewFar(game, pos, spd, 0, 0, provider, oe.items, oe.hull,
+        return game.getShipBuilder().buildNewFar(game, position, speed, 0, 0, provider, shipConfig.items, shipConfig.hull,
                 null, false, money, null, true);
     }
 

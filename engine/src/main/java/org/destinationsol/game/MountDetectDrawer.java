@@ -23,24 +23,24 @@ import org.destinationsol.game.ship.SolShip;
 
 public class MountDetectDrawer {
     private final Vector2 myNePos;
-    private final TextureAtlas.AtlasRegion myTex;
+    private final TextureAtlas.AtlasRegion myTexture;
 
     private boolean myShouldDraw;
     private float myBaseRad;
-    private float myAnimPerc;
+    private float myAnimPercentage;
     private float myAngle;
 
     public MountDetectDrawer() {
         myNePos = new Vector2();
-        myTex = Assets.getAtlasRegion("engine:targetDetected");
+        myTexture = Assets.getAtlasRegion("engine:targetDetected");
     }
 
     public void update(SolGame game) {
         myShouldDraw = false;
         float ts = game.getTimeStep();
-        myAnimPerc += ts / 2f;
-        if (myAnimPerc > 1) {
-            myAnimPerc = 0;
+        myAnimPercentage += ts / 2f;
+        if (myAnimPercentage > 1) {
+            myAnimPercentage = 0;
         }
         myAngle += 30f * ts;
         if (myAngle > 180) {
@@ -58,11 +58,11 @@ public class MountDetectDrawer {
         if (!myShouldDraw) {
             return;
         }
-        float radPerc = myAnimPerc * 2;
-        if (radPerc > 1) {
-            radPerc = 2 - radPerc;
+        float radPercentage = myAnimPercentage * 2;
+        if (radPercentage > 1) {
+            radPercentage = 2 - radPercentage;
         }
-        float rad = myBaseRad * (1 + .5f * radPerc);
-        drawer.draw(myTex, rad * 2, rad * 2, rad, rad, myNePos.x, myNePos.y, myAngle, SolColor.WHITE);
+        float rad = myBaseRad * (1 + .5f * radPercentage);
+        drawer.draw(myTexture, rad * 2, rad * 2, rad, rad, myNePos.x, myNePos.y, myAngle, SolColor.WHITE);
     }
 }

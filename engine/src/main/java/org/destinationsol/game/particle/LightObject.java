@@ -17,9 +17,8 @@ package org.destinationsol.game.particle;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import org.destinationsol.game.DmgType;
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
@@ -29,28 +28,28 @@ import java.util.List;
 
 public class LightObject implements SolObject {
 
-    private final LightSrc myLightSrc;
-    private final ArrayList<Drawable> myDrawables;
-    private final Vector2 myPos;
+    private final LightSource lightSource;
+    private final ArrayList<Drawable> drawables;
+    private final Vector2 position;
 
     // consumes pos
-    public LightObject(SolGame game, float sz, boolean hasHalo, float intensity, Vector2 pos, float fadeTime, Color col) {
-        myPos = pos;
-        myLightSrc = new LightSrc(sz, hasHalo, intensity, new Vector2(), col);
-        myLightSrc.setFadeTime(fadeTime);
-        myLightSrc.setWorking();
-        myDrawables = new ArrayList<>();
-        myLightSrc.collectDras(myDrawables);
+    LightObject(SolGame game, float size, boolean hasHalo, float intensity, Vector2 position, float fadeTime, Color col) {
+        this.position = position;
+        lightSource = new LightSource(size, hasHalo, intensity, new Vector2(), col);
+        lightSource.setFadeTime(fadeTime);
+        lightSource.setWorking();
+        drawables = new ArrayList<>();
+        lightSource.collectDras(drawables);
     }
 
     @Override
     public void update(SolGame game) {
-        myLightSrc.update(false, 0, game);
+        lightSource.update(false, 0, game);
     }
 
     @Override
     public boolean shouldBeRemoved(SolGame game) {
-        return myLightSrc.isFinished();
+        return lightSource.isFinished();
     }
 
     @Override
@@ -58,7 +57,7 @@ public class LightObject implements SolObject {
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
     }
 
     @Override
@@ -72,17 +71,17 @@ public class LightObject implements SolObject {
 
     @Override
     public Vector2 getPosition() {
-        return myPos;
+        return position;
     }
 
     @Override
-    public FarObj toFarObj() {
+    public FarObject toFarObject() {
         return null;
     }
 
     @Override
     public List<Drawable> getDrawables() {
-        return myDrawables;
+        return drawables;
     }
 
     @Override
@@ -91,12 +90,12 @@ public class LightObject implements SolObject {
     }
 
     @Override
-    public Vector2 getSpd() {
+    public Vector2 getSpeed() {
         return null;
     }
 
     @Override
-    public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
+    public void handleContact(SolObject other, float absImpulse,
                               SolGame game, Vector2 collPos) {
     }
 

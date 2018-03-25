@@ -42,7 +42,7 @@ public class TalkScreen implements SolUiScreen {
     private final SolUiControl shipsControl;
     private final SolUiControl hireControl;
 
-    private final Rectangle bg;
+    private final Rectangle background;
     private SolShip target;
 
     TalkScreen(MenuLayout menuLayout, GameOptions gameOptions) {
@@ -66,7 +66,7 @@ public class TalkScreen implements SolUiScreen {
         closeControl.setDisplayName("Close");
         controls.add(closeControl);
 
-        bg = menuLayout.bg(-1, 0, 5);
+        background = menuLayout.background(-1, 0, 5);
     }
 
     @Override
@@ -80,11 +80,11 @@ public class TalkScreen implements SolUiScreen {
             closeControl.maybeFlashPressed(solApplication.getOptions().getKeyClose());
             return;
         }
-        SolGame g = solApplication.getGame();
-        Hero hero = g.getHero();
-        SolInputManager inputMan = solApplication.getInputMan();
+        SolGame game = solApplication.getGame();
+        Hero hero = game.getHero();
+        SolInputManager inputManager = solApplication.getInputManager();
         if (closeControl.isJustOff() || isTargetFar(hero)) {
-            inputMan.setScreen(solApplication, g.getScreens().mainScreen);
+            inputManager.setScreen(solApplication, game.getScreens().mainScreen);
             return;
         }
 
@@ -92,15 +92,15 @@ public class TalkScreen implements SolUiScreen {
         shipsControl.setEnabled(station);
         hireControl.setEnabled(station);
 
-        InventoryScreen is = g.getScreens().inventoryScreen;
+        InventoryScreen inventoryScreen = game.getScreens().inventoryScreen;
         boolean sell = sellControl.isJustOff();
         boolean buy = buyControl.isJustOff();
         boolean sellShips = shipsControl.isJustOff();
         boolean hire = hireControl.isJustOff();
         if (sell || buy || sellShips || hire) {
-            is.setOperations(sell ? is.sellItems : buy ? is.buyItems : sellShips ? is.changeShip : is.hireShips);
-            inputMan.setScreen(solApplication, g.getScreens().mainScreen);
-            inputMan.addScreen(solApplication, is);
+            inventoryScreen.setOperations(sell ? inventoryScreen.sellItems : buy ? inventoryScreen.buyItems : sellShips ? inventoryScreen.changeShip : inventoryScreen.hireShips);
+            inputManager.setScreen(solApplication, game.getScreens().mainScreen);
+            inputManager.addScreen(solApplication, inventoryScreen);
         }
     }
 
@@ -113,8 +113,8 @@ public class TalkScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(bg, SolColor.UI_BG);
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(background, SolColor.UI_BG);
     }
 
     @Override
@@ -123,8 +123,8 @@ public class TalkScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.InputPointer inputPointer) {
-        return bg.contains(inputPointer.x, inputPointer.y);
+    public boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
+        return background.contains(inputPointer.x, inputPointer.y);
     }
 
     public SolShip getTarget() {
