@@ -30,38 +30,38 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.ui.UiDrawer;
 
 public class CommonDrawer {
-    public final float w;
-    public final float h;
-    public final float r;
+    public final float width;
+    public final float height;
+    public final float dimensionsRatio;
 
-    private final SpriteBatch mySpriteBatch;
-    private final BitmapFont myFont;
-    private final float myOrigFontHeight;
+    private final SpriteBatch spriteBatch;
+    private final BitmapFont font;
+    private final float originalFontHeight;
     private final GlyphLayout layout;
 
-    public CommonDrawer() {
-        w = Gdx.graphics.getWidth();
-        h = Gdx.graphics.getHeight();
-        r = w / h;
-        mySpriteBatch = new SpriteBatch();
+    CommonDrawer() {
+        width = Gdx.graphics.getWidth();
+        height = Gdx.graphics.getHeight();
+        dimensionsRatio = width / height;
+        spriteBatch = new SpriteBatch();
 
-        myFont = Assets.getFont("engine:main").getBitmapFont();
+        font = Assets.getFont("engine:main").getBitmapFont();
 
-        myOrigFontHeight = myFont.getXHeight();
+        originalFontHeight = font.getXHeight();
 
         layout = new GlyphLayout();
     }
 
-    public void setMtx(Matrix4 mtx) {
-        mySpriteBatch.setProjectionMatrix(mtx);
+    public void setMatrix(Matrix4 matrix) {
+        spriteBatch.setProjectionMatrix(matrix);
     }
 
     public void begin() {
-        mySpriteBatch.begin();
+        spriteBatch.begin();
     }
 
     public void end() {
-        mySpriteBatch.end();
+        spriteBatch.end();
     }
 
     public void drawString(String s, float x, float y, float fontSize, boolean centered, Color col) {
@@ -73,11 +73,11 @@ public class CommonDrawer {
             return;
         }
 
-        myFont.setColor(col);
-        myFont.getData().setScale(fontSize / myOrigFontHeight);
+        font.setColor(col);
+        font.getData().setScale(fontSize / originalFontHeight);
         // http://www.badlogicgames.com/wordpress/?p=3658
         layout.reset();
-        layout.setText(myFont, s);
+        layout.setText(font, s);
 
         switch (align) {
             case LEFT:
@@ -94,17 +94,17 @@ public class CommonDrawer {
             y -= layout.height / 2;
         }
 
-        myFont.draw(mySpriteBatch, layout, x, y);
+        font.draw(spriteBatch, layout, x, y);
     }
 
     public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y,
                      float rot, Color tint) {
         setTint(tint);
-        mySpriteBatch.draw(tr, x - origX, y - origY, origX, origY, width, height, 1, 1, rot);
+        spriteBatch.draw(tr, x - origX, y - origY, origX, origY, width, height, 1, 1, rot);
     }
 
     private void setTint(Color tint) {
-        mySpriteBatch.setColor(tint);
+        spriteBatch.setColor(tint);
     }
 
     public void draw(TextureRegion tex, Rectangle rect, Color tint) {
@@ -114,7 +114,7 @@ public class CommonDrawer {
     public void drawCircle(TextureRegion tex, Vector2 center, float radius, Color col, float width, float vh) {
         float relRad = radius / vh;
         int pointCount = (int) (160 * relRad);
-        Vector2 pos = SolMath.getVec();
+        Vector2 position = SolMath.getVec();
         if (pointCount < 8) {
             pointCount = 8;
         }
@@ -123,35 +123,35 @@ public class CommonDrawer {
         float angleStepH = angleStep / 2;
         for (int i = 0; i < pointCount; i++) {
             float angle = angleStep * i;
-            SolMath.fromAl(pos, angle, radius);
-            pos.add(center);
-            draw(tex, width, lineLen, (float) 0, (float) 0, pos.x, pos.y, angle + angleStepH, col);
+            SolMath.fromAl(position, angle, radius);
+            position.add(center);
+            draw(tex, width, lineLen, (float) 0, (float) 0, position.x, position.y, angle + angleStepH, col);
         }
-        SolMath.free(pos);
+        SolMath.free(position);
     }
 
     public void drawLine(TextureRegion tex, float x, float y, float angle, float len, Color col, float width) {
         draw(tex, len, width, 0, width / 2, x, y, angle, col);
     }
 
-    public void drawLine(TextureRegion tex, Vector2 p1, Vector2 p2, Color col, float width, boolean precise) {
-        Vector2 v = SolMath.getVec(p2);
-        v.sub(p1);
-        drawLine(tex, p1.x, p1.y, SolMath.angle(v, precise), v.len(), col, width);
-        SolMath.free(v);
+    public void drawLine(TextureRegion tex, Vector2 startPoint, Vector2 endPoint, Color color, float width, boolean precise) {
+        Vector2 endPointCopy = SolMath.getVec(endPoint);
+        endPointCopy.sub(startPoint);
+        drawLine(tex, startPoint.x, startPoint.y, SolMath.angle(endPointCopy, precise), endPointCopy.len(), color, width);
+        SolMath.free(endPointCopy);
     }
 
     public void dispose() {
-        mySpriteBatch.dispose();
-        myFont.dispose();
+        spriteBatch.dispose();
+        font.dispose();
     }
 
     public SpriteBatch getSpriteBatch() {
-        return mySpriteBatch;
+        return spriteBatch;
     }
 
     public void setAdditive(boolean additive) {
         int dstFunc = additive ? GL20.GL_ONE : GL20.GL_ONE_MINUS_SRC_ALPHA;
-        mySpriteBatch.setBlendFunction(GL20.GL_SRC_ALPHA, dstFunc);
+        spriteBatch.setBlendFunction(GL20.GL_SRC_ALPHA, dstFunc);
     }
 }

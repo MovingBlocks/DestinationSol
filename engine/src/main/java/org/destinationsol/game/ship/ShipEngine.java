@@ -37,38 +37,37 @@ public class ShipEngine {
         myItem = engine;
     }
 
-    public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 spd, SolObject owner,
+    public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 speed, SolObject owner,
                        boolean controlsEnabled, float mass, Hull hull) {
-
-        boolean working = applyInput(game, angle, provider, body, spd, controlsEnabled, mass);
+        boolean working = applyInput(game, angle, provider, body, speed, controlsEnabled, mass);
         game.getPartMan().updateAllHullEmittersOfType(hull, "engine", working);
         if (working) {
             game.getSoundManager().play(game, myItem.getWorkSound(), owner.getPosition(), owner);
         }
     }
 
-    private boolean applyInput(SolGame cmp, float shipAngle, Pilot provider, Body body, Vector2 spd,
+    private boolean applyInput(SolGame cmp, float shipAngle, Pilot provider, Body body, Vector2 speed,
                                boolean controlsEnabled, float mass) {
-        boolean spdOk = SolMath.canAccelerate(shipAngle, spd);
-        boolean working = controlsEnabled && provider.isUp() && spdOk;
+        boolean speedOk = SolMath.canAccelerate(shipAngle, speed);
+        boolean working = controlsEnabled && provider.isUp() && speedOk;
 
         Engine e = myItem;
         if (working) {
-            Vector2 v = SolMath.fromAl(shipAngle, mass * e.getAcc());
+            Vector2 v = SolMath.fromAl(shipAngle, mass * e.getAcceleration());
             body.applyForceToCenter(v, true);
             SolMath.free(v);
         }
 
         float ts = cmp.getTimeStep();
-        float rotSpd = body.getAngularVelocity() * SolMath.radDeg;
-        float desiredRotSpd = 0;
-        float rotAcc = e.getRotAcc();
+        float rotationSpeed = body.getAngularVelocity() * SolMath.radDeg;
+        float desiredRotationSpeed = 0;
+        float rotAcc = e.getRotationAcceleration();
         boolean l = controlsEnabled && provider.isLeft();
         boolean r = controlsEnabled && provider.isRight();
-        float absRotSpd = SolMath.abs(rotSpd);
-        if (absRotSpd < e.getMaxRotSpd() && l != r) {
-            desiredRotSpd = SolMath.toInt(r) * e.getMaxRotSpd();
-            if (absRotSpd < MAX_RECOVER_ROT_SPD) {
+        float absRotationSpeed = SolMath.abs(rotationSpeed);
+        if (absRotationSpeed < e.getMaxRotationSpeed() && l != r) {
+            desiredRotationSpeed = SolMath.toInt(r) * e.getMaxRotationSpeed();
+            if (absRotationSpeed < MAX_RECOVER_ROT_SPD) {
                 if (myRecoverAwait > 0) {
                     myRecoverAwait -= ts;
                 }
@@ -79,7 +78,7 @@ public class ShipEngine {
         } else {
             myRecoverAwait = RECOVER_AWAIT;
         }
-        body.setAngularVelocity(SolMath.degRad * SolMath.approach(rotSpd, desiredRotSpd, rotAcc * ts));
+        body.setAngularVelocity(SolMath.degRad * SolMath.approach(rotationSpeed, desiredRotationSpeed, rotAcc * ts));
         return working;
     }
 

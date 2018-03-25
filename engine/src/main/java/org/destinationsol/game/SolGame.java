@@ -128,7 +128,7 @@ public class SolGame {
         drawableManager = new DrawableManager(drawer);
         camera = new SolCam(drawer.r);
         gameScreens = new GameScreens(drawer.r, cmp);
-        tutorialManager = tut ? new TutorialManager(commonDrawer.r, gameScreens, cmp.isMobile(), cmp.getOptions(), this) : null;
+        tutorialManager = tut ? new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, cmp.isMobile(), cmp.getOptions(), this) : null;
         farBackgroundManagerOld = new FarBackgroundManagerOld();
         shipBuilder = new ShipBuilder();
         EffectTypes effectTypes = new EffectTypes();
@@ -146,7 +146,7 @@ public class SolGame {
         partMan = new PartMan();
         asteroidBuilder = new AsteroidBuilder();
         lootBuilder = new LootBuilder();
-        mapDrawer = new MapDrawer(commonDrawer.h);
+        mapDrawer = new MapDrawer(commonDrawer.height);
         shardBuilder = new ShardBuilder();
         galaxyFiller = new GalaxyFiller();
         starPortBuilder = new StarPort.Builder();
@@ -175,17 +175,17 @@ public class SolGame {
         }
 
         // If we continue a game, we should spawn from the same position
-        Vector2 pos;
+        Vector2 position;
         if (isNewGame) {
-            pos = galaxyFiller.getPlayerSpawnPos(this);
+            position = galaxyFiller.getPlayerSpawnPos(this);
         } else {
-            pos = shipConfig.spawnPos;
+            position = shipConfig.spawnPos;
         }
-        camera.setPos(pos);
+        camera.setPos(position);
 
         Pilot pilot;
         if (solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE) {
-            beaconHandler.init(this, pos);
+            beaconHandler.init(this, position);
             pilot = new AiPilot(new BeaconDestProvider(), true, Faction.LAANI, false, "you", Const.AI_DET_DIST);
         } else {
             pilot = new UiControlledPilot(gameScreens.mainScreen);
@@ -198,12 +198,12 @@ public class SolGame {
         String itemsStr = !respawnItems.isEmpty() ? "" : shipConfig.items;
 
         boolean giveAmmo = shipName != null && respawnItems.isEmpty();
-        hero = new Hero(shipBuilder.buildNewFar(this, new Vector2(pos), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObj(this));
+        hero = new Hero(shipBuilder.buildNewFar(this, new Vector2(position), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObject(this));
 
-        ItemContainer ic = hero.getItemContainer();
+        ItemContainer itemContainer = hero.getItemContainer();
         if (!respawnItems.isEmpty()) {
             for (SolItem item : respawnItems) {
-                ic.add(item);
+                itemContainer.add(item);
                 // Ensure that previously equipped items stay equipped
                 if (item.isEquipped() > 0) {
                     if (item instanceof Gun) {
@@ -215,16 +215,16 @@ public class SolGame {
             }
         } else if (tutorialManager != null) {
             for (int i = 0; i < 50; i++) {
-                if (ic.groupCount() > 1.5f * Const.ITEM_GROUPS_PER_PAGE) {
+                if (itemContainer.groupCount() > 1.5f * Const.ITEM_GROUPS_PER_PAGE) {
                     break;
                 }
                 SolItem it = itemManager.random();
-                if (!(it instanceof Gun) && it.getIcon(this) != null && ic.canAdd(it)) {
-                    ic.add(it.copy());
+                if (!(it instanceof Gun) && it.getIcon(this) != null && itemContainer.canAdd(it)) {
+                    itemContainer.add(it.copy());
                 }
             }
         }
-        ic.markAllAsSeen();
+        itemContainer.markAllAsSeen();
 
         // Don't change equipped items across load/respawn
         //AiPilot.reEquip(this, myHero);
@@ -355,7 +355,6 @@ public class SolGame {
         chunkManager.update(this);
         mountDetectDrawer.update(this);
         objectManager.update(this);
-        drawableManager.update(this);
         mapDrawer.update(this);
         soundManager.update(this);
         beaconHandler.update(this);
@@ -371,7 +370,7 @@ public class SolGame {
 
     public void drawDebug(GameDrawer drawer) {
         if (DebugOptions.GRID_SZ > 0) {
-            gridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTex);
+            gridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTexture);
         }
         planetManager.drawDebug(drawer, this);
         objectManager.drawDebug(drawer, this);
@@ -386,7 +385,7 @@ public class SolGame {
     private void drawDebugPoint(GameDrawer drawer, Vector2 dp, Color col) {
         if (dp.x != 0 || dp.y != 0) {
             float sz = camera.getRealLineWidth() * 5;
-            drawer.draw(drawer.debugWhiteTex, sz, sz, sz / 2, sz / 2, dp.x, dp.y, 0, col);
+            drawer.draw(drawer.debugWhiteTexture, sz, sz, sz / 2, sz / 2, dp.x, dp.y, 0, col);
         }
     }
 
@@ -406,11 +405,11 @@ public class SolGame {
         return drawableManager;
     }
 
-    public ObjectManager getObjMan() {
+    public ObjectManager getObjectManager() {
         return objectManager;
     }
 
-    public PlanetManager getPlanetMan() {
+    public PlanetManager getPlanetManager() {
         return planetManager;
     }
 
@@ -469,40 +468,40 @@ public class SolGame {
         return factionManager;
     }
 
-    public boolean isPlaceEmpty(Vector2 pos, boolean considerPlanets) {
+    public boolean isPlaceEmpty(Vector2 position, boolean considerPlanets) {
         if (considerPlanets) {
-            Planet np = planetManager.getNearestPlanet(pos);
-            boolean inPlanet = np.getPos().dst(pos) < np.getFullHeight();
+            Planet np = planetManager.getNearestPlanet(position);
+            boolean inPlanet = np.getPosition().dst(position) < np.getFullHeight();
 
             if (inPlanet) {
                 return false;
             }
         }
 
-        SolSystem ns = planetManager.getNearestSystem(pos);
-        if (ns.getPos().dst(pos) < SunSingleton.SUN_HOT_RAD) {
+        SolSystem ns = planetManager.getNearestSystem(position);
+        if (ns.getPosition().dst(position) < SunSingleton.SUN_HOT_RAD) {
             return false;
         }
 
-        List<SolObject> objs = objectManager.getObjs();
+        List<SolObject> objs = objectManager.getObjects();
         for (SolObject o : objs) {
             if (!o.hasBody()) {
                 continue;
             }
 
-            if (pos.dst(o.getPosition()) < objectManager.getRadius(o)) {
+            if (position.dst(o.getPosition()) < objectManager.getRadius(o)) {
                 return false;
             }
         }
 
         for (FarObjData fod : objectManager.getFarObjs()) {
-            FarObj o = fod.fo;
+            FarObject o = fod.fo;
 
             if (!o.hasBody()) {
                 continue;
             }
 
-            if (pos.dst(o.getPos()) < o.getRadius()) {
+            if (position.dst(o.getPosition()) < o.getRadius()) {
                 return false;
             }
         }
@@ -518,7 +517,7 @@ public class SolGame {
         return shardBuilder;
     }
 
-    public FarBackgroundManagerOld getFarBgManOld() {
+    public FarBackgroundManagerOld getFarBackgroundgManagerOld() {
         return farBackgroundManagerOld;
     }
 
@@ -588,13 +587,13 @@ public class SolGame {
         }
 
         float money = hero.getMoney();
-        ItemContainer ic = hero.getItemContainer();
+        ItemContainer itemContainer = hero.getItemContainer();
 
-        setRespawnState(money, ic, hero.getHull().config);
+        setRespawnState(money, itemContainer, hero.getHull().config);
 
         hero.setMoney(money - respawnMoney);
         for (SolItem item : respawnItems) {
-            ic.remove(item);
+            itemContainer.remove(item);
         }
     }
 

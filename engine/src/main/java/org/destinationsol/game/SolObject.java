@@ -16,7 +16,6 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import org.destinationsol.common.Nullable;
 import org.destinationsol.game.drawables.Drawable;
 
@@ -29,7 +28,7 @@ public interface SolObject {
 
     void onRemove(SolGame game);
 
-    void receiveDmg(float dmg, SolGame game, @Nullable Vector2 pos, DmgType dmgType);
+    void receiveDmg(float dmg, SolGame game, @Nullable Vector2 position, DmgType dmgType);
 
     boolean receivesGravity();
 
@@ -37,16 +36,15 @@ public interface SolObject {
 
     Vector2 getPosition();
 
-    FarObj toFarObj();
+    FarObject toFarObject();
 
     List<Drawable> getDrawables();
 
     float getAngle();
 
-    Vector2 getSpd();
+    Vector2 getSpeed();
 
-    void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse, SolGame game,
-                       Vector2 collPos);
+    void handleContact(SolObject other, float absImpulse, SolGame game, Vector2 collPos);
 
     String toDebugString();
 

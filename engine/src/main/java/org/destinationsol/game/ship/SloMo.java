@@ -28,23 +28,23 @@ import org.destinationsol.game.particle.DSParticleEmitter;
 
 public class SloMo implements ShipAbility {
     private static final float SLO_MO_CHG_SPD = .03f;
-    private final Config myConfig;
+    private final Config config;
 
-    private float myFactor;
+    private float factor;
 
-    public SloMo(Config config) {
-        myConfig = config;
-        myFactor = 1;
+    SloMo(Config config) {
+        this.config = config;
+        factor = 1;
     }
 
     @Override
     public AbilityConfig getConfig() {
-        return myConfig;
+        return config;
     }
 
     @Override
     public AbilityCommonConfig getCommonConfig() {
-        return myConfig.cc;
+        return config.cc;
     }
 
     @Override
@@ -55,19 +55,19 @@ public class SloMo implements ShipAbility {
     @Override
     public boolean update(SolGame game, SolShip owner, boolean tryToUse) {
         if (tryToUse) {
-            myFactor = myConfig.factor;
-            Vector2 pos = owner.getPosition();
-            DSParticleEmitter src = new DSParticleEmitter(myConfig.cc.effect, -1, DrawableLevel.PART_BG_0, new Vector2(), true, game, pos, owner.getSpd(), 0);
-            game.getPartMan().finish(game, src, pos);
+            factor = config.factor;
+            Vector2 position = owner.getPosition();
+            DSParticleEmitter src = new DSParticleEmitter(config.cc.effect, -1, DrawableLevel.PART_BG_0, new Vector2(), true, game, position, owner.getSpeed(), 0);
+            game.getPartMan().finish(game, src, position);
             return true;
         }
         float ts = game.getTimeStep();
-        myFactor = SolMath.approach(myFactor, 1, SLO_MO_CHG_SPD * ts);
+        factor = SolMath.approach(factor, 1, SLO_MO_CHG_SPD * ts);
         return false;
     }
 
     public float getFactor() {
-        return myFactor;
+        return factor;
     }
 
     public static class Config implements AbilityConfig {

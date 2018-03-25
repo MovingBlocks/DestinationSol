@@ -33,19 +33,19 @@ import org.destinationsol.game.planet.Planet;
 import java.util.ArrayList;
 
 public class FarBackgroundManagerOld {
-    private final TextureAtlas.AtlasRegion nebulaTex;
-    private final ArrayList<FarBgStar> stars = new ArrayList<>();
+    private final TextureAtlas.AtlasRegion nebulaTexture;
+    private final ArrayList<FarBackgroundStar> stars = new ArrayList<>();
     private final float nebulaAngle;
     private final Color nebulaTint;
 
     public FarBackgroundManagerOld() {
-        nebulaTex = Assets.getAtlasRegion("engine:farBgNebulae");
+        nebulaTexture = Assets.getAtlasRegion("engine:farBgNebulae");
         if (SolRandom.test(.5f)) {
-            nebulaTex.flip(nebulaTex.isFlipX(), !nebulaTex.isFlipY());
+            nebulaTexture.flip(nebulaTexture.isFlipX(), !nebulaTexture.isFlipY());
         }
 
         for (int i = 0; i < 400; i++) {
-            FarBgStar star = new FarBgStar();
+            FarBackgroundStar star = new FarBackgroundStar();
             stars.add(star);
         }
 
@@ -54,40 +54,40 @@ public class FarBackgroundManagerOld {
     }
 
     public void draw(GameDrawer drawer, SolCam cam, SolGame game) {
-        Planet np = game.getPlanetMan().getNearestPlanet();
-        Vector2 camPos = cam.getPos();
-        float nebPerc = (camPos.dst(np.getPos()) - np.getGroundHeight()) / (4 * Const.ATM_HEIGHT);
-        nebPerc = SolMath.clamp(nebPerc, 0, 1);
-        nebulaTint.a = nebPerc;
+        Planet np = game.getPlanetManager().getNearestPlanet();
+        Vector2 camPos = cam.getPosition();
+        float nebPercentage = (camPos.dst(np.getPosition()) - np.getGroundHeight()) / (4 * Const.ATM_HEIGHT);
+        nebPercentage = SolMath.clamp(nebPercentage, 0, 1);
+        nebulaTint.a = nebPercentage;
 
-        float vd = cam.getViewDist();
-        drawer.draw(nebulaTex, vd * 2, vd * 2, vd, vd, camPos.x, camPos.y, nebulaAngle, nebulaTint);
-        for (FarBgStar star : stars) {
+        float vd = cam.getViewDistance();
+        drawer.draw(nebulaTexture, vd * 2, vd * 2, vd, vd, camPos.x, camPos.y, nebulaAngle, nebulaTint);
+        for (FarBackgroundStar star : stars) {
             star.draw(drawer, vd, camPos, cam.getAngle());
         }
     }
 
-    private static class FarBgStar {
-        private final Vector2 myShiftPerc;
-        private final TextureAtlas.AtlasRegion myTex;
-        private final float mySzPerc;
+    private static class FarBackgroundStar {
+        private final Vector2 myShiftPercentage;
+        private final TextureAtlas.AtlasRegion myTexture;
+        private final float mySzPercentage;
         private final Color myTint;
-        private final Vector2 myPos;
+        private final Vector2 position;
 
-        private FarBgStar() {
-            myShiftPerc = new Vector2(SolRandom.randomFloat(1), SolRandom.randomFloat(1));
-            myPos = new Vector2();
+        private FarBackgroundStar() {
+            myShiftPercentage = new Vector2(SolRandom.randomFloat(1), SolRandom.randomFloat(1));
+            position = new Vector2();
             boolean small = SolRandom.test(.8f);
-            myTex = Assets.getAtlasRegion("engine:farBgBigStar");
-            mySzPerc = (small ? .01f : .04f) * SolRandom.randomFloat(.5f, 1);
+            myTexture = Assets.getAtlasRegion("engine:farBgBigStar");
+            mySzPercentage = (small ? .01f : .04f) * SolRandom.randomFloat(.5f, 1);
             myTint = new Color();
             SolColorUtil.fromHSB(SolRandom.randomFloat(0, 1), .25f, 1, .7f, myTint);
         }
 
         public void draw(GameDrawer drawer, float vd, Vector2 camPos, float camAngle) {
-            float sz = vd * mySzPerc;
-            myPos.set(myShiftPerc).scl(vd).add(camPos);
-            drawer.drawAdditive(myTex, sz, sz, sz / 2, sz / 2, myPos.x, myPos.y, camAngle, myTint);
+            float sz = vd * mySzPercentage;
+            position.set(myShiftPercentage).scl(vd).add(camPos);
+            drawer.drawAdditive(myTexture, sz, sz, sz / 2, sz / 2, position.x, position.y, camAngle, myTint);
         }
     }
 }

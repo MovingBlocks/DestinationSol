@@ -48,19 +48,19 @@ public class Teleport implements ShipAbility {
         if (!tryToUse) {
             return false;
         }
-        Vector2 pos = owner.getPosition();
+        Vector2 position = owner.getPosition();
         Faction faction = owner.getPilot().getFaction();
-        SolShip ne = game.getFactionMan().getNearestEnemy(game, MAX_RADIUS, faction, pos);
+        SolShip ne = game.getFactionMan().getNearestEnemy(game, MAX_RADIUS, faction, position);
         if (ne == null) {
             return false;
         }
         Vector2 nePos = ne.getPosition();
-        Planet np = game.getPlanetMan().getNearestPlanet();
+        Planet np = game.getPlanetManager().getNearestPlanet();
         if (np.isNearGround(nePos)) {
             return false;
         }
         for (int i = 0; i < 5; i++) {
-            newPos.set(pos);
+            newPos.set(position);
             newPos.sub(nePos);
             angle = config.angle * SolRandom.randomFloat(.5f, 1) * SolMath.toInt(SolRandom.test(.5f));
             SolMath.rotate(newPos, angle);
@@ -100,14 +100,14 @@ public class Teleport implements ShipAbility {
         game.getPartMan().blip(game, newPos, SolRandom.randomFloat(180), blipSz, 1, Vector2.Zero, tex);
 
         float newAngle = owner.getAngle() + angle;
-        Vector2 newSpd = SolMath.getVec(owner.getSpd());
-        SolMath.rotate(newSpd, angle);
+        Vector2 newSpeed = SolMath.getVec(owner.getSpeed());
+        SolMath.rotate(newSpeed, angle);
 
         Body body = owner.getHull().getBody();
         body.setTransform(newPos, newAngle * SolMath.degRad);
-        body.setLinearVelocity(newSpd);
+        body.setLinearVelocity(newSpeed);
 
-        SolMath.free(newSpd);
+        SolMath.free(newSpeed);
     }
 
     public static class Config implements AbilityConfig {

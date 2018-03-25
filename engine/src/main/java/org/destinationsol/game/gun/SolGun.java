@@ -30,7 +30,7 @@ import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.item.Clip;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
-import org.destinationsol.game.particle.LightSrc;
+import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.projectile.Projectile;
 import org.destinationsol.game.projectile.ProjectileConfig;
@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SolGun {
-    private final LightSrc myLightSrc;
+    private final LightSource myLightSource;
     private final Vector2 myRelPos;
     private final RectSprite mySprite;
     private final Gun myItem;
@@ -58,18 +58,18 @@ public class SolGun {
             } else if (projConfig.collisionEffect != null) {
                 lightCol = projConfig.collisionEffect.tint;
             }
-            myLightSrc = new LightSrc(.25f, true, 1f, Vector2.Zero, lightCol);
+            myLightSource = new LightSource(.25f, true, 1f, Vector2.Zero, lightCol);
         } else {
-            myLightSrc = null;
+            myLightSource = null;
         }
         myRelPos = new Vector2(relPos);
         DrawableLevel level = underShip ? DrawableLevel.U_GUNS : DrawableLevel.GUNS;
-        float texLen = myItem.config.gunLength / myItem.config.texLenPerc * 2;
+        float texLen = myItem.config.gunLength / myItem.config.texLenPercentage * 2;
         mySprite = new RectSprite(myItem.config.tex, texLen, 0, 0, new Vector2(relPos), level, 0, 0, SolColor.WHITE, false);
         myDrawables = new ArrayList<>();
         myDrawables.add(mySprite);
-        if (myLightSrc != null) {
-            myLightSrc.collectDras(myDrawables);
+        if (myLightSource != null) {
+            myLightSource.collectDras(myDrawables);
         }
     }
 
@@ -77,15 +77,15 @@ public class SolGun {
         return myDrawables;
     }
 
-    private void shoot(Vector2 gunSpd, SolGame game, float gunAngle, Vector2 muzzlePos, Faction faction, SolObject creator, Hull hull) {
-        Vector2 baseSpd = gunSpd;
+    private void shoot(Vector2 gunSpeed, SolGame game, float gunAngle, Vector2 muzzlePos, Faction faction, SolObject creator, Hull hull) {
+        Vector2 baseSpeed = gunSpeed;
         Clip.Config cc = myItem.config.clipConf;
-        if (cc.projConfig.zeroAbsSpd) {
-            baseSpd = Vector2.Zero;
-            Planet np = game.getPlanetMan().getNearestPlanet();
+        if (cc.projConfig.zeroAbsSpeed) {
+            baseSpeed = Vector2.Zero;
+            Planet np = game.getPlanetManager().getNearestPlanet();
             if (np.isNearGround(muzzlePos)) {
-                baseSpd = new Vector2();
-                np.calcSpdAtPos(baseSpd, muzzlePos);
+                baseSpeed = new Vector2();
+                np.calculateSpeedAtPosition(baseSpeed, muzzlePos);
             }
         }
 
@@ -96,30 +96,30 @@ public class SolGun {
             if (myCurrAngleVar > 0) {
                 bulletAngle += SolRandom.randomFloat(myCurrAngleVar);
             }
-            Projectile proj = new Projectile(game, bulletAngle, muzzlePos, baseSpd, faction, cc.projConfig, multiple);
-            game.getObjMan().addObjDelayed(proj);
+            Projectile proj = new Projectile(game, bulletAngle, muzzlePos, baseSpeed, faction, cc.projConfig, multiple);
+            game.getObjectManager().addObjDelayed(proj);
         }
         myCoolDown += myItem.config.timeBetweenShots;
         myItem.ammo--;
         game.getSoundManager().play(game, myItem.config.shootSound, muzzlePos, creator);
     }
 
-    public void update(ItemContainer ic, SolGame game, float gunAngle, SolObject creator, boolean shouldShoot, Faction faction, Hull hull) {
+    public void update(ItemContainer itemContainer, SolGame game, float gunAngle, SolObject creator, boolean shouldShoot, Faction faction, Hull hull) {
         float baseAngle = creator.getAngle();
         Vector2 basePos = creator.getPosition();
         float gunRelAngle = gunAngle - baseAngle;
-        mySprite.relAngle = gunRelAngle;
+        mySprite.relativeAngle = gunRelAngle;
         Vector2 muzzleRelPos = SolMath.fromAl(gunRelAngle, myItem.config.gunLength);
         muzzleRelPos.add(myRelPos);
-        if (myLightSrc != null) {
-            myLightSrc.setRelPos(muzzleRelPos);
+        if (myLightSource != null) {
+            myLightSource.setRelPos(muzzleRelPos);
         }
         Vector2 muzzlePos = SolMath.toWorld(muzzleRelPos, baseAngle, basePos);
         SolMath.free(muzzleRelPos);
 
         float ts = game.getTimeStep();
         if (myItem.ammo <= 0 && myItem.reloadAwait <= 0) {
-            if (myItem.config.clipConf.infinite || ic != null && ic.tryConsumeItem(myItem.config.clipConf.example)) {
+            if (myItem.config.clipConf.infinite || itemContainer != null && itemContainer.tryConsumeItem(myItem.config.clipConf.example)) {
                 myItem.reloadAwait = myItem.config.reloadTime + .0001f;
                 game.getSoundManager().play(game, myItem.config.reloadSound, null, creator);
             }
@@ -137,13 +137,13 @@ public class SolGun {
         boolean shot = shouldShoot && myCoolDown <= 0 && myItem.ammo > 0;
         game.getPartMan().updateAllHullEmittersOfType(hull, "shoot", shot);
         if (shot) {
-            Vector2 gunSpd = creator.getSpd();
-            shoot(gunSpd, game, gunAngle, muzzlePos, faction, creator,  hull);
+            Vector2 gunSpeed = creator.getSpeed();
+            shoot(gunSpeed, game, gunAngle, muzzlePos, faction, creator,  hull);
         } else {
             myCurrAngleVar = SolMath.approach(myCurrAngleVar, myItem.config.minAngleVar, myItem.config.angleVarDamp * ts);
         }
-        if (myLightSrc != null) {
-            myLightSrc.update(shot, baseAngle, game);
+        if (myLightSource != null) {
+            myLightSource.update(shot, baseAngle, game);
         }
         SolMath.free(muzzlePos);
     }

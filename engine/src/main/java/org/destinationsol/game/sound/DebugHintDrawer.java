@@ -34,10 +34,10 @@ public class DebugHintDrawer {
         myFreeNotes = new HashMap<>();
     }
 
-    public void add(@Nullable SolObject owner, Vector2 pos, String value) {
+    public void add(@Nullable SolObject owner, Vector2 position, String value) {
         DebugHint dh;
         if (owner == null) {
-            dh = myFreeNotes.computeIfAbsent(pos, p -> new DebugHint(null, p));
+            dh = myFreeNotes.computeIfAbsent(position, p -> new DebugHint(null, p));
         } else {
             dh = myTracedNotes.computeIfAbsent(owner, o -> new DebugHint(o, o.getPosition()));
         }

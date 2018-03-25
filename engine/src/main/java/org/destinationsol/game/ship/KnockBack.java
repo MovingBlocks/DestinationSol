@@ -28,11 +28,11 @@ import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.particle.DSParticleEmitter;
 
 public class KnockBack implements ShipAbility {
-    public static final int MAX_RADIUS = 8;
-    private final Config myConfig;
+    private static final int MAX_RADIUS = 8;
+    private final Config config;
 
-    public KnockBack(Config config) {
-        myConfig = config;
+    KnockBack(Config config) {
+        this.config = config;
     }
 
     public static float getPerc(float dst, float radius) {
@@ -48,12 +48,12 @@ public class KnockBack implements ShipAbility {
 
     @Override
     public AbilityConfig getConfig() {
-        return myConfig;
+        return config;
     }
 
     @Override
     public AbilityCommonConfig getCommonConfig() {
-        return myConfig.cc;
+        return config.cc;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class KnockBack implements ShipAbility {
             return false;
         }
         Vector2 ownerPos = owner.getPosition();
-        for (SolObject o : game.getObjMan().getObjs()) {
+        for (SolObject o : game.getObjectManager().getObjects()) {
             if (o == owner || !o.receivesGravity()) {
                 continue;
             }
@@ -81,12 +81,12 @@ public class KnockBack implements ShipAbility {
                 continue;
             }
             Vector2 toO = SolMath.distVec(ownerPos, oPos);
-            float accLen = myConfig.force * perc;
+            float accLen = config.force * perc;
             toO.scl(accLen / dst);
             o.receiveForce(toO, game, false);
             SolMath.free(toO);
         }
-        DSParticleEmitter src = new DSParticleEmitter(myConfig.cc.effect, MAX_RADIUS, DrawableLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
+        DSParticleEmitter src = new DSParticleEmitter(config.cc.effect, MAX_RADIUS, DrawableLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
         game.getPartMan().finish(game, src, ownerPos);
         return true;
     }

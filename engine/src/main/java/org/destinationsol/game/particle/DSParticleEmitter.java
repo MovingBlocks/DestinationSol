@@ -15,7 +15,6 @@
  */
 package org.destinationsol.game.particle;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -58,7 +57,7 @@ public class DSParticleEmitter {
     private ParticleEmitter.ScaledNumericValue originalSpeedAngle, originalRotation;
     private boolean inheritsSpeed, working, floatedUp;
     private BoundingBox boundingBox;
-    private LightSrc light;
+    private LightSource light;
     private SolGame game;
 
     public DSParticleEmitter(@NotNull Vector2 position, @NotNull String trigger, float angleOffset, boolean hasLight, EffectConfig config) {
@@ -85,7 +84,7 @@ public class DSParticleEmitter {
         this.position = particleEmitter.getPosition();
         this.config = particleEmitter.getEffectConfig();
         Vector2 shipPos = ship.getPosition();
-        Vector2 shipSpeed = ship.getSpd();
+        Vector2 shipSpeed = ship.getSpeed();
 
         initialiseEmitter(config, -1, DrawableLevel.PART_BG_0, position, true, game, shipPos, shipSpeed, angleOffset, hasLight);
     }
@@ -111,7 +110,7 @@ public class DSParticleEmitter {
         this.relativeAngle = relativeAngle;
         this.game = game;
 
-        light = new LightSrc(config.size * 2.5f, true, 0.7f, relativePosition, config.tint);
+        light = new LightSource(config.size * 2.5f, true, 0.7f, relativePosition, config.tint);
         if (hasLight) {
             light.collectDras(drawables);
         }
@@ -195,8 +194,8 @@ public class DSParticleEmitter {
             setSpeed(baseSpeed);
             return;
         }
-        Planet nearestPlanet = game.getPlanetMan().getNearestPlanet();
-        Vector2 speed = nearestPlanet.getAdjustedEffectSpd(basePosition, baseSpeed);
+        Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();
+        Vector2 speed = nearestPlanet.getAdjustedEffectSpeed(basePosition, baseSpeed);
         setSpeed(speed);
         SolMath.free(speed);
     }
@@ -320,7 +319,7 @@ public class DSParticleEmitter {
             transferAngle(originalSpeedAngle, particleEmitter.getAngle(), baseAngle + relativeAngle);
             transferAngle(originalRotation, particleEmitter.getRotation(), baseAngle + relativeAngle);
 
-            updateSpeed(game, object.getSpd(), object.getPosition());
+            updateSpeed(game, object.getSpeed(), object.getPosition());
             particleEmitter.update(timeStep);
 
             if (boundingBoxRecalcAwait > 0) {
@@ -350,12 +349,12 @@ public class DSParticleEmitter {
         }
 
         @Override
-        public Vector2 getPos() {
+        public Vector2 getPosition() {
             return position;
         }
 
         @Override
-        public Vector2 getRelPos() {
+        public Vector2 getRelativePosition() {
             return relativePosition;
         }
 
@@ -389,12 +388,7 @@ public class DSParticleEmitter {
         }
 
         @Override
-        public Texture getTex0() {
-            return config.tex.getTexture();
-        }
-
-        @Override
-        public TextureAtlas.AtlasRegion getTex() {
+        public TextureAtlas.AtlasRegion getTexture() {
             return config.tex;
         }
     }
