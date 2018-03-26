@@ -28,7 +28,7 @@ public class RectSprite implements Drawable {
     public final Vector2 relativePosition;
     public final Color tint;
     private final float originalPercentageX;
-    private final float originalPrcentageY;
+    private final float originalPercentageY;
     private final TextureAtlas.AtlasRegion texture;
     private final DrawableLevel level;
     private final Vector2 position;
@@ -54,7 +54,7 @@ public class RectSprite implements Drawable {
         }
         texture = tex;
         originalPercentageX = origPercX;
-        originalPrcentageY = origPercY;
+        originalPercentageY = origPercY;
 
         this.relativePosition = relativePosition;
         position = new Vector2();
@@ -81,10 +81,10 @@ public class RectSprite implements Drawable {
             textureSizeY = textureSize;
         }
         originalX = textureSizeX / 2 + textureSize * originalPercentageX;
-        originalY = textureSizeY / 2 + textureSize * originalPrcentageY;
+        originalY = textureSizeY / 2 + textureSize * originalPercentageY;
 
         float relativeX = textureSizeX / 2 + textureSize * SolMath.abs(originalPercentageX);
-        float relativeY = textureSizeY / 2 + textureSize * SolMath.abs(originalPrcentageY);
+        float relativeY = textureSizeY / 2 + textureSize * SolMath.abs(originalPercentageY);
         radius = SolMath.sqrt(relativeX * relativeX + relativeY * relativeY);
     }
 

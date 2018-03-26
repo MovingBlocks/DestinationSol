@@ -11,6 +11,15 @@ dependencies {
     compile "org.terasology:gestalt-asset-core:6.0.0"
     compile "org.terasology:gestalt-entity-system:6.0.0"
 
+
+    //TODO inserted by someone who has no idea how the gradle thing works. Inspect whether necessary (for tests)
+    compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+    compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
+
+
     // Test lib dependencies
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.7.22'
