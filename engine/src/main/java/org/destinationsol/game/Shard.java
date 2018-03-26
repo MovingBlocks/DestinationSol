@@ -71,11 +71,6 @@ public class Shard implements SolObject {
     }
 
     @Override
-    public String toDebugString() {
-        return null;
-    }
-
-    @Override
     public Boolean isMetal() {
         return null;
     }
