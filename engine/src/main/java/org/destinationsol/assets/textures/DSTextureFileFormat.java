@@ -38,6 +38,7 @@ public class DSTextureFileFormat extends AbstractAssetFileFormat<DSTextureData> 
         String path = AssetHelper.resolveToPath(inputs);
 
         FileHandle handle = new FileHandle(Paths.get(path).toFile());
+        System.out.println(handle.toString());
         Texture texture = new Texture(handle);
         return new DSTextureData(texture);
     }
