@@ -15,6 +15,9 @@
  */
 package org.destinationsol.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.RectSprite;
@@ -24,10 +27,15 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class ShardTest {
+
+    private static ArrayList<Drawable> drawables;
 
     private static void init() {
         InitializationUtilities.init();
@@ -41,10 +49,9 @@ public class ShardTest {
     }
 
     private static SolObject createShard() {
-        BodyUtilities utilities = new BodyUtilities();
-        ArrayList<Drawable> drawables = new ArrayList<>(1);
-        drawables.add(new RectSprite(Assets.listTexturesMatching("engine:shard_.*").get(0), 1, 1, 1, null, null, 0, 0, null, false));
-        return new Shard(utilities.createDummyBody(), drawables);
+        drawables = new ArrayList<>(1);
+        Gdx.app.postRunnable(() -> drawables.add(new RectSprite(Assets.listTexturesMatching("engine:shard_.*").get(0), 1, 1, 1, null, null, 0, 0, null, false)));
+        return new Shard(BodyUtilities.createDummyBody(), drawables);
     }
 
     @Test
@@ -63,18 +70,28 @@ public class ShardTest {
 
     @Test
     public void getDrawables() {
+        assertEquals(constantShard.getDrawables(), drawables);
     }
 
     @Test
     public void getAngle() {
+        // 30° is the default angle of dummyBody
+        assertEquals(constantShard.getAngle(), 30f, 0.25f);
     }
 
     @Test
     public void getSpeed() {
+        Body body = BodyUtilities.createDummyBody();
+        body.setLinearVelocity(1f, 2f);
+        final Shard shard = new Shard(body, drawables);
+        assertTrue(shard.getSpeed().epsilonEquals(1f, 2f, 0.01f));
+        assertTrue(constantShard.getSpeed().epsilonEquals(0f, 0f, 0.01f));
     }
 
     @Test
     public void handleContact() {
+        // Shards are not big enough to cause damage or get damage or anything, so this just shouldn't crash
+        constantShard.handleContact(new Shard(BodyUtilities.createDummyBody(), drawables), 10f, InitializationUtilities.game, new Vector2(0f, 0f));
     }
 
     @Test
@@ -85,29 +102,43 @@ public class ShardTest {
 
     @Test
     public void hasBody() {
+        assertTrue(constantShard.hasBody());
     }
 
     @Test
     public void update() {
+        // Just should not throw exception - all the moving and stuff is handled by body, this has just to exist
+        constantShard.update(InitializationUtilities.game);
     }
 
     @Test
     public void shouldBeRemoved() {
+        // This should persist for as long as seen/loaded
+        assertFalse(constantShard.shouldBeRemoved(InitializationUtilities.game));
     }
 
     @Test
     public void onRemove() {
+        // TODO onRemove() should free its resources. How to test that?
+        // I guess this just should not crash
+        new Shard(BodyUtilities.createDummyBody(), drawables).onRemove(InitializationUtilities.game);
     }
 
     @Test
     public void receiveDmg() {
+        // Shards have no health, and thus receiveDamage() just should not crash
+        constantShard.receiveDmg(100, InitializationUtilities.game, null, DmgType.BULLET);
     }
 
     @Test
     public void receivesGravity() {
+        // When ship is shattered in gravity, its shards should fall to the ground
+        assertTrue(constantShard.receivesGravity());
     }
 
     @Test
     public void receiveForce() {
+        // TODO I don't quite know what does this even do, so better leave this for sb else
+        fail("Implement this test!");
     }
 }

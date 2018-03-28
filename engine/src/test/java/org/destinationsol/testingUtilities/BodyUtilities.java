@@ -31,7 +31,7 @@ public final class BodyUtilities {
      * Creates a new rectangular body with fixture of size {@code (1.0, 1.0)},at position {@code (1.0, 0.0)}, rotated by 30°
      * @return The created body
      */
-    public final Body createDummyBody() {
+    public static Body createDummyBody() {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(1f, 0f);
