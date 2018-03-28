@@ -62,7 +62,7 @@ public class Shard implements SolObject {
 
     @Override
     public Vector2 getSpeed() {
-        return null;
+        return body.getLinearVelocity();
     }
 
     @Override
