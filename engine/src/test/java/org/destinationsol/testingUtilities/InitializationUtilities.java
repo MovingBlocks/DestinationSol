@@ -15,16 +15,28 @@
  */
 package org.destinationsol.testingUtilities;
 
-import com.badlogic.gdx.backends.lwjgl.LwjglNativesLoader;
-import com.badlogic.gdx.physics.box2d.Box2D;
-import org.destinationsol.ModuleManager;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import org.destinationsol.SolApplication;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.SolGame;
 
 public class InitializationUtilities {
+
+    public static SolGame game;
+    private static boolean initialized = false;
+
     public static void init() {
-        Box2D.init();
-        LwjglNativesLoader.load();
-        ModuleManager manager = new ModuleManager();
+        if (initialized) {
+            return;
+        }
+        initialized = true;
         DebugOptions.DEV_ROOT_PATH = "engine/src/main/resources/";
+        final LwjglApplication application = new LwjglApplication(new SolApplication());
+        try {
+            Thread.sleep(10000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        game = ((SolApplication) application.getApplicationListener()).getGame();
     }
 }
