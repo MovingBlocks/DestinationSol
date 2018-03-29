@@ -15,6 +15,7 @@
  */
 package org.destinationsol;
 
+import com.google.common.base.Charsets;
 import com.google.common.collect.Sets;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.Assets;
@@ -27,17 +28,16 @@ import org.destinationsol.game.DebugOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.assets.ResourceUrn;
-import org.terasology.module.Module;
-import org.terasology.module.ModuleEnvironment;
-import org.terasology.module.ModuleFactory;
-import org.terasology.module.ModulePathScanner;
-import org.terasology.module.ModuleRegistry;
-import org.terasology.module.TableModuleRegistry;
+import org.terasology.module.*;
 import org.terasology.module.sandbox.StandardPermissionProviderFactory;
 
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class ModuleManager {
@@ -49,7 +49,11 @@ public class ModuleManager {
     public ModuleManager() {
         try {
             URI engineClasspath = getClass().getProtectionDomain().getCodeSource().getLocation().toURI();
-            Module engineModule = new ModuleFactory().createModule(Paths.get(engineClasspath));
+            Reader reader = new InputStreamReader(getClass().getResourceAsStream("/module.json"), Charsets.UTF_8);
+            ModuleMetadata metadata = new ModuleMetadataJsonAdapter().read(reader);
+            List<Path> paths = new ArrayList<>();
+            paths.add(Paths.get(engineClasspath));
+            Module engineModule = new ModuleFactory().createClasspathModule(paths, metadata);
 
             registry = new TableModuleRegistry();
             Path modulesRoot;
