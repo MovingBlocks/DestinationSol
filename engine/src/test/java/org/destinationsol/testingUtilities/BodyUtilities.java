@@ -25,7 +25,9 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public final class BodyUtilities {
 
-    private static final World world = new World(new Vector2(0, 0), true);
+    private static final World WORLD = new World(new Vector2(0, 0), true);
+
+    private BodyUtilities() { } // empty private constructor for utility class
 
     /**
      * Creates a new rectangular body with fixture of size {@code (1.0, 1.0)},at position {@code (1.0, 0.0)}, rotated by 30°
@@ -36,7 +38,7 @@ public final class BodyUtilities {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(1f, 0f);
         bodyDef.angle = 30 * MathUtils.degreesToRadians;
-        Body body = world.createBody(bodyDef);
+        Body body = WORLD.createBody(bodyDef);
         PolygonShape rectangle = new PolygonShape();
         rectangle.setAsBox(0.5f, 0.5f, new Vector2(0, 0), 30 * MathUtils.degreesToRadians);
         FixtureDef fixtureDef = new FixtureDef();
