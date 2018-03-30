@@ -47,7 +47,7 @@ public interface SolObject {
     void update(SolGame game);
 
     /**
-     * Whether the object should be removed as of the time of calling.
+     * Denotes whether the object should be removed as of the time of calling.
      * <p>
      * Object should usually be removed when its health reaches zero, or, for instance, if the object is projectile, it
      * reaches its target. This method should not handle removal of object for optimization purposes when it gets too
@@ -91,7 +91,7 @@ public interface SolObject {
     }
 
     /**
-     * Whether this object is affected by gravity, this is usually constant.
+     * Denotes whether this object is affected by gravity, this is usually constant.
      *
      * @return True if object is affected by gravity, false otherwise.
      */
@@ -187,7 +187,7 @@ public interface SolObject {
     String toDebugString();
 
     /**
-     * Whether this object is meant to behave as if made from metallic material.
+     * Denotes whether this object is meant to behave as if made from metallic material.
      * <p>
      * This method is used mainly for choosing the sound to play after collision. Value true will play metallic sound,
      * false will play rocky sound. Value of null means no sound will be played.
@@ -200,7 +200,7 @@ public interface SolObject {
     }
 
     /**
-     * Whether this object has a {@link Body} associated with it.
+     * Denotes whether this object has a {@link Body} associated with it.
      * <p>
      * Generally, everything that can be touched has its {@code Body}.
      *
