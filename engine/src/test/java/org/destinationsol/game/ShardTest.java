@@ -23,6 +23,7 @@ import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.testingUtilities.BodyUtilities;
 import org.destinationsol.testingUtilities.InitializationUtilities;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -37,15 +38,11 @@ public class ShardTest {
 
     private static ArrayList<Drawable> drawables;
 
-    private static void init() {
-        InitializationUtilities.init();
-    }
-
-    private static final SolObject constantShard;
+    private static final SolObject SHARD_CONSTANT;
 
     static {
-        init();
-        constantShard = createShard();
+        InitializationUtilities.init();
+        SHARD_CONSTANT = createShard();
     }
 
     private static SolObject createShard() {
@@ -58,25 +55,25 @@ public class ShardTest {
     public void getPosition() {
         // Default position of dummy bodies is (1f, 0f)
         // Epsilon testing because of float accuracy
-        assertTrue(constantShard.getPosition().epsilonEquals(1f, 0f, 0.01f));
+        assertTrue(SHARD_CONSTANT.getPosition().epsilonEquals(1f, 0f, 0.01f));
     }
 
     @Test
     public void toFarObject() {
         // For performance reasons, shards should not persist while offscreen.
         // They are pretty tiny in terms of gameplay, after all, so they don't even need to persist
-        assertNull(constantShard.toFarObject());
+        assertNull(SHARD_CONSTANT.toFarObject());
     }
 
     @Test
     public void getDrawables() {
-        assertEquals(constantShard.getDrawables(), drawables);
+        assertEquals(SHARD_CONSTANT.getDrawables(), drawables);
     }
 
     @Test
     public void getAngle() {
         // 30° is the default angle of dummyBody
-        assertEquals(constantShard.getAngle(), 30f, 0.25f);
+        assertEquals(SHARD_CONSTANT.getAngle(), 30f, 0.25f);
     }
 
     @Test
@@ -85,36 +82,36 @@ public class ShardTest {
         body.setLinearVelocity(1f, 2f);
         final Shard shard = new Shard(body, drawables);
         assertTrue(shard.getSpeed().epsilonEquals(1f, 2f, 0.01f));
-        assertTrue(constantShard.getSpeed().epsilonEquals(0f, 0f, 0.01f));
+        assertTrue(SHARD_CONSTANT.getSpeed().epsilonEquals(0f, 0f, 0.01f));
     }
 
     @Test
     public void handleContact() {
         // Shards are not big enough to cause damage or get damage or anything, so this just shouldn't crash
-        constantShard.handleContact(new Shard(BodyUtilities.createDummyBody(), drawables), 10f, InitializationUtilities.game, new Vector2(0f, 0f));
+        SHARD_CONSTANT.handleContact(new Shard(BodyUtilities.createDummyBody(), drawables), 10f, InitializationUtilities.game, new Vector2(0f, 0f));
     }
 
     @Test
     public void isMetal() {
         // Shards are so tiny that no sound should be played when one hits anything
-        assertNull(constantShard.isMetal());
+        assertNull(SHARD_CONSTANT.isMetal());
     }
 
     @Test
     public void hasBody() {
-        assertTrue(constantShard.hasBody());
+        assertTrue(SHARD_CONSTANT.hasBody());
     }
 
     @Test
     public void update() {
         // Just should not throw exception - all the moving and stuff is handled by body, this has just to exist
-        constantShard.update(InitializationUtilities.game);
+        SHARD_CONSTANT.update(InitializationUtilities.game);
     }
 
     @Test
     public void shouldBeRemoved() {
         // This should persist for as long as seen/loaded
-        assertFalse(constantShard.shouldBeRemoved(InitializationUtilities.game));
+        assertFalse(SHARD_CONSTANT.shouldBeRemoved(InitializationUtilities.game));
     }
 
     @Test
@@ -127,15 +124,16 @@ public class ShardTest {
     @Test
     public void receiveDmg() {
         // Shards have no health, and thus receiveDamage() just should not crash
-        constantShard.receiveDmg(100, InitializationUtilities.game, null, DmgType.BULLET);
+        SHARD_CONSTANT.receiveDmg(100, InitializationUtilities.game, null, DmgType.BULLET);
     }
 
     @Test
     public void receivesGravity() {
         // When ship is shattered in gravity, its shards should fall to the ground
-        assertTrue(constantShard.receivesGravity());
+        assertTrue(SHARD_CONSTANT.receivesGravity());
     }
 
+    @Ignore
     @Test
     public void receiveForce() {
         // TODO I don't quite know what does this even do, so better leave this for sb else
