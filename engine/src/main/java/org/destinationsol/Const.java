@@ -15,7 +15,8 @@
  */
 package org.destinationsol;
 
-public class Const {
+public final class Const {
+
     public static final float ATM_HEIGHT = 14f;
     public static final float MAX_SKY_HEIGHT_FROM_GROUND = 1.5f * ATM_HEIGHT;
     public static final float MAX_GROUND_HEIGHT = 25f;
@@ -25,11 +26,10 @@ public class Const {
     public static final float CHUNK_SIZE = 20f;
     public static final int ITEM_GROUPS_PER_PAGE = 8;
     public static final float PLANET_GAP = 8f;
-    public static final String VERSION = "2.0.0";
     public static final float FRICTION = .5f;
     public static final float IMPULSE_TO_COLL_VOL = 2f;
-
     public static final float CAM_VIEW_DIST_GROUND = 2.8f;
+
     public static final float AUTO_SHOOT_GROUND = CAM_VIEW_DIST_GROUND * .4f;
     public static final float CAM_VIEW_DIST_SPACE = 4.5f;
     public static final float AUTO_SHOOT_SPACE = CAM_VIEW_DIST_SPACE * .8f;
@@ -37,4 +37,8 @@ public class Const {
     public static final float CAM_VIEW_DIST_JOURNEY = 8.6f;
     public static final float DEFAULT_AI_SPD = 4f;
     public static final float BIG_AI_SPD = 2f;
+
+    static final String VERSION = "2.0.0";
+
+    private Const() { }
 }

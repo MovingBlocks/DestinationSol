@@ -42,8 +42,8 @@ import java.util.List;
 
 public class MapDrawer {
     public static final float MIN_ZOOM = 8f;
-    private static final float MUL_FACTOR = 2f;
     public static final float MAX_ZOOM = 512f;
+    private static final float MUL_FACTOR = 2f;
     private static final float ICON_RAD = .02f;
     private static final float STAR_NODE_SZ = .003f;
     private static final float INNER_ICON_PERC = .6f;
@@ -134,7 +134,7 @@ public class MapDrawer {
         drawIcons(drawer, game, iconSz, viewDist, factionManager, hero, camPos, heroDmgCap);
     }
 
-    public float getIconRadius(SolCam cam) {
+    float getIconRadius(SolCam cam) {
         return cam.getViewHeight(zoom) * iconRadius;
     }
 
@@ -250,7 +250,7 @@ public class MapDrawer {
             if ((o instanceof SolShip)) {
                 SolShip ship = (SolShip) o;
                 String hint = ship.getPilot().getMapHint();
-                if (hint == null && !DebugOptions.DETAILED_MAP) {
+                if (hint == null && !DebugOptions.detailedMap) {
                     continue;
                 }
                 drawObjIcon(iconSz, oPos, ship.getAngle(), factionManager, hero, ship.getPilot().getFaction(), heroDmgCap, o, ship.getHull().config.getIcon(), drawer);
@@ -277,7 +277,7 @@ public class MapDrawer {
                 continue;
             }
             String hint = ship.getPilot().getMapHint();
-            if (hint == null && !DebugOptions.DETAILED_MAP) {
+            if (hint == null && !DebugOptions.detailedMap) {
                 continue;
             }
             drawObjIcon(iconSz, oPos, ship.getAngle(), factionManager, hero, ship.getPilot().getFaction(), heroDmgCap, ship, ship.getHullConfig().getIcon(), drawer);
@@ -303,7 +303,7 @@ public class MapDrawer {
     }
 
     //TODO Don't pass null hero to drawObjIcon(). Then remove the annotation from drawObjIcon and remove the hero nullcheck
-    public void drawStarPortIcon(GameDrawer drawer, float iconSz, Planet from, Planet to) {
+    private void drawStarPortIcon(GameDrawer drawer, float iconSz, Planet from, Planet to) {
         float angle = SolMath.angle(from.getPosition(), to.getPosition());
         Vector2 position = StarPort.getDesiredPosition(from, to, false);
         drawObjIcon(iconSz, position, angle, null, null, null, -1, null, starPortTexture, drawer);

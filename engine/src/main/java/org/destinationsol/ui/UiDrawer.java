@@ -32,14 +32,15 @@ public class UiDrawer {
 
     private static final float FONT_SIZE = .02f;
 
-    private final Matrix4 straightMtx;
-    private final float uiLineWidth;
-
     public final float r;
     public final TextureRegion whiteTexture;
     public final Rectangle filler;
     private final CommonDrawer drawer;
     private Boolean isTextMode;
+
+    private final Matrix4 straightMtx;
+    private final float uiLineWidth;
+
 
     public UiDrawer(CommonDrawer commonDrawer) {
         drawer = commonDrawer;
@@ -88,7 +89,7 @@ public class UiDrawer {
         drawer.drawCircle(whiteTexture, center, radius, col, uiLineWidth, 1);
     }
 
-    public void drawLine(float x, float y, float angle, float len, Color col) {
+    void drawLine(float x, float y, float angle, float len, Color col) {
         check();
         drawer.drawLine(whiteTexture, x, y, angle, len, col, uiLineWidth);
     }
@@ -98,7 +99,7 @@ public class UiDrawer {
         drawer.drawLine(whiteTexture, p1, p2, col, uiLineWidth, false);
     }
 
-    public void setTextMode(Boolean textMode) {
+    void setTextMode(Boolean textMode) {
         isTextMode = textMode;
     }
 }

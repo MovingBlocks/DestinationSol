@@ -67,7 +67,7 @@ public class FarBackgroundManagerOld {
         }
     }
 
-    private static class FarBackgroundStar {
+    private static final class FarBackgroundStar {
         private final Vector2 myShiftPercentage;
         private final TextureAtlas.AtlasRegion myTexture;
         private final float mySzPercentage;

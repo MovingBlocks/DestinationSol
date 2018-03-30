@@ -131,8 +131,8 @@ public class TutorialManager {
         }
 
         // Extra step to make sure an equipped item is selected before asking player to unequip
-        if (screens.inventoryScreen.getSelectedItem() == null ||
-            (screens.inventoryScreen.getSelectedItem() != null && screens.inventoryScreen.getSelectedItem().isEquipped() == 0)) {
+        if (screens.inventoryScreen.getSelectedItem() == null
+                || (screens.inventoryScreen.getSelectedItem() != null && screens.inventoryScreen.getSelectedItem().isEquipped() == 0)) {
             addStep(new SelectEquippedItemStep(
                     "Select an equipped item\n(note the text \"using\")", screens.inventoryScreen, game));
         }
@@ -245,16 +245,16 @@ public class TutorialManager {
         uiDrawer.drawString(step.text, uiDrawer.r / 2, background.y + background.height / 2, FontSize.TUT, true, SolColor.WHITE);
     }
 
-    public boolean isFinished() {
+    boolean isFinished() {
         return stepIndex == steps.size();
     }
 
     public static class Step {
-        public final String text;
-        public final SolUiControl ctrl;
-        public final boolean checkOn;
+        final String text;
+        final SolUiControl ctrl;
+        final boolean checkOn;
 
-        public Step(String text, SolUiControl ctrl, boolean checkOn) {
+        Step(String text, SolUiControl ctrl, boolean checkOn) {
             this.text = text;
             this.ctrl = ctrl;
             this.checkOn = checkOn;
@@ -280,7 +280,7 @@ public class TutorialManager {
         InventoryScreen inventoryScreen;
         SolGame game;
 
-        public SelectEquippedItemStep(String text, InventoryScreen inventoryScreen, SolGame game) {
+        SelectEquippedItemStep(String text, InventoryScreen inventoryScreen, SolGame game) {
             super(text, null, true);
             this.inventoryScreen = inventoryScreen;
             this.game = game;
@@ -289,10 +289,7 @@ public class TutorialManager {
         @Override
         public boolean canProgressToNextStep() {
             SolItem selected = inventoryScreen.getSelectedItem();
-            if (selected != null && selected.isEquipped() != 0) {
-                return true;
-            }
-            return false;
+            return selected != null && selected.isEquipped() != 0;
         }
 
         // Highlight all equipped items on opened inventory page

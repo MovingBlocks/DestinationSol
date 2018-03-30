@@ -33,11 +33,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainScreen implements SolUiScreen {
+    public final TextureAtlas.AtlasRegion backgroundTexture;
+    private final TextureAtlas.AtlasRegion logoTexture;
+
     private final boolean isMobile;
     private final GameOptions gameOptions;
-
-    private final TextureAtlas.AtlasRegion logoTexture;
-    public final TextureAtlas.AtlasRegion backgroundTexture;
 
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl tutorialControl;

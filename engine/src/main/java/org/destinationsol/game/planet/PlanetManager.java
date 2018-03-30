@@ -190,7 +190,7 @@ public class PlanetManager {
     }
 
     public void drawDebug(GameDrawer drawer, SolGame game) {
-        if (DebugOptions.DRAW_PLANET_BORDERS) {
+        if (DebugOptions.drawPlanetBorders) {
             SolCam cam = game.getCam();
             float lineWidth = cam.getRealLineWidth();
             float viewHeight = cam.getViewHeight();

@@ -89,7 +89,7 @@ public class CollisionMeshLoader {
      * @param fd    The fixture parameters to apply to the created body fixture.
      * @param scale The desired scale of the body. The default width is 1.
      */
-    public boolean attachFixture(Body body, String name, FixtureDef fd, float scale) {
+    private boolean attachFixture(Body body, String name, FixtureDef fd, float scale) {
         RigidBodyModel rbModel = model.rigidBodies.get(name);
         if (rbModel == null) {
             return false;
@@ -163,7 +163,7 @@ public class CollisionMeshLoader {
         }
     }
 
-    public void readRigidBody(JsonValue rbNode) {
+    private void readRigidBody(JsonValue rbNode) {
         readRigidBody(rbNode, rbNode.getString("name"));
     }
 
@@ -240,7 +240,7 @@ public class CollisionMeshLoader {
     }
 
     /**
-     * This needs refactoring...
+     * TODO This needs refactoring...
      *
      * @param drawables a atlas will be added here
      */
@@ -261,7 +261,7 @@ public class CollisionMeshLoader {
         Vector2 orig;
         boolean found = attachFixture(body, name, fd, scale);
         if (!found) {
-            DebugOptions.MISSING_PHYSICS_ACTION.handle("Could not find physics data for " + name);
+            DebugOptions.missingPhysicsAction.handle("Could not find physics data for " + name);
             fd.shape = new CircleShape();
             fd.shape.setRadius(scale / 2);
             body.createFixture(fd);
@@ -278,7 +278,7 @@ public class CollisionMeshLoader {
     }
 
     /**
-     * This needs refactoring...
+     * TODO This needs refactoring...
      *
      * @param drawables a atlas will be added here
      */
@@ -297,7 +297,7 @@ public class CollisionMeshLoader {
         Vector2 orig;
         boolean found = attachFixture(body, tex.name, fd, scale);
         if (!found) {
-            DebugOptions.MISSING_PHYSICS_ACTION.handle("Could not find physics data for " + tex.name);
+            DebugOptions.missingPhysicsAction.handle("Could not find physics data for " + tex.name);
             fd.shape = new CircleShape();
             fd.shape.setRadius(scale / 2);
             body.createFixture(fd);
@@ -319,8 +319,8 @@ public class CollisionMeshLoader {
         public final Vector2 origin = new Vector2();
         public final List<PolygonModel> polygons = new ArrayList<>();
         public final List<PolygonModel> shapes = new ArrayList<>();
-        public final List<CircleModel> circles = new ArrayList<>();
         public String name;
+        final List<CircleModel> circles = new ArrayList<>();
     }
 
     public static class PolygonModel {
@@ -329,7 +329,7 @@ public class CollisionMeshLoader {
     }
 
     public static class CircleModel {
-        public final Vector2 center = new Vector2();
         public float radius;
+        final Vector2 center = new Vector2();
     }
 }

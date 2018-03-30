@@ -26,13 +26,15 @@ import org.destinationsol.ui.UiDrawer;
 
 public abstract class WarnDrawer {
     private static final float FADE_TIME = 1f;
+
+    float drawPercentage;
+
     private final Rectangle warningRectangle;
     private final Color backgroundColor;
     private final Color textColor;
     private final float backgroundOriginA;
     private final String text;
 
-    float drawPercentage;
 
     WarnDrawer(float resolutionRatio, String text) {
         warningRectangle = rect(resolutionRatio);

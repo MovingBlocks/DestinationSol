@@ -141,8 +141,8 @@ public class SaveManager {
      * @return The path in the resource folder to the given file
      */
     public static String getResourcePath(String fileName) {
-        if (DebugOptions.DEV_ROOT_PATH != null) {
-            return DebugOptions.DEV_ROOT_PATH + fileName;
+        if (DebugOptions.developmentRootPath != null) {
+            return DebugOptions.developmentRootPath + fileName;
         } else {
             return "src/main/resources/" + fileName;
         }

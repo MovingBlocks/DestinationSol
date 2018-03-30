@@ -136,7 +136,7 @@ public class SystemsBuilder {
                                    PlanetConfigs planetConfigs,
                                    float systemRadius, SysConfigs sysConfigs, SolNames names, boolean firstSys) {
         boolean hard = !firstSys;
-        String systemType = DebugOptions.FORCE_SYSTEM_TYPE;
+        String systemType = DebugOptions.forceSystemType;
         SysConfig sysConfig;
         if (systemType.isEmpty()) {
             sysConfig = sysConfigs.getRandomCfg(hard);
@@ -155,7 +155,7 @@ public class SystemsBuilder {
             }
             planetDist += reserved;
             if (groundHeight > 0) {
-                String pt = DebugOptions.FORCE_PLANET_TYPE;
+                String pt = DebugOptions.forcePlanetType;
                 PlanetConfig planetConfig;
                 if (pt.isEmpty()) {
                     boolean inner = planetDist < systemRadius / 2;

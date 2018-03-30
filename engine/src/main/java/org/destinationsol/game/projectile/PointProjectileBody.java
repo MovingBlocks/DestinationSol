@@ -30,8 +30,8 @@ public class PointProjectileBody implements ProjectileBody {
     private final ProjectileRayBack rayBack;
     private final float acceleration;
 
-    public PointProjectileBody(float angle, Vector2 muzzlePos, Vector2 gunSpeed, float speedLen,
-                               Projectile projectile, SolGame game, float acceleration) {
+    PointProjectileBody(float angle, Vector2 muzzlePos, Vector2 gunSpeed, float speedLen,
+                        Projectile projectile, SolGame game, float acceleration) {
         position = new Vector2(muzzlePos);
         speed = new Vector2();
         SolMath.fromAl(speed, angle, speedLen);
@@ -95,7 +95,7 @@ public class PointProjectileBody implements ProjectileBody {
         return SolMath.angle(position, ne.getPosition());
     }
 
-    private class ProjectileRayBack implements RayCastCallback {
+    private final class ProjectileRayBack implements RayCastCallback {
 
         private final Projectile projectile;
         private final SolGame game;

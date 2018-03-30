@@ -158,7 +158,7 @@ public class DrawableManager {
                 List<Drawable> drawables = map.get(tex);
                 for (Drawable drawable : drawables) {
                     if (visibleDrawables.contains(drawable)) {
-                        if (!DebugOptions.NO_DRAS) {
+                        if (!DebugOptions.noDras) {
                             drawable.draw(drawer, game);
                         }
                     }
@@ -168,14 +168,14 @@ public class DrawableManager {
                 game.drawDebug(drawer);
             }
             if (drawableLevel == DrawableLevel.ATM) {
-                if (!DebugOptions.NO_DRAS) {
+                if (!DebugOptions.noDras) {
                     game.getPlanetManager().drawPlanetCoreHack(game, drawer);
                     game.getPlanetManager().drawSunHack(game, drawer);
                 }
             }
         }
 
-        if (DebugOptions.DRAW_DRA_BORDERS) {
+        if (DebugOptions.drawDraBorders) {
             for (OrderedMap<Texture, List<Drawable>> map : drawables) {
                 for (List<Drawable> drawables : map.values()) {
                     for (Drawable drawable : drawables) {

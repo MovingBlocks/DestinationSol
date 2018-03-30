@@ -48,7 +48,7 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 
 import java.util.ArrayList;
 
-public class ChunkFiller {
+class ChunkFiller {
     private static final float DUST_DENSITY = .2f;
     private static final float ASTEROID_DENSITY = .008f;
     private static final float MIN_SYS_A_SZ = .5f;
@@ -68,7 +68,7 @@ public class ChunkFiller {
     private static final float MAZE_ZONE_BORDER = 20;
     private final TextureAtlas.AtlasRegion dustTexture;
 
-    public ChunkFiller() {
+    ChunkFiller() {
         dustTexture = Assets.getAtlasRegion("engine:spaceDecorationDust");
     }
 
@@ -78,10 +78,10 @@ public class ChunkFiller {
      * @param game    The {@link SolGame} instance to work with
      * @param chunk   The coordinates of the chunk
      * @param removeController
-     * @param fillFarBackground   Determines which of the background layers should be filled. <code>true</code> fills the layers furthest away, <code>false</code> fills the closer one.
+     * @param fillFarBackground   Determines which of the background layers should be filled. Value of true fills the layers furthest away, false fills the closer one.
      */
-    public void fill(SolGame game, Vector2 chunk, RemoveController removeController, boolean fillFarBackground) {
-        if (DebugOptions.NO_OBJS) {
+    void fill(SolGame game, Vector2 chunk, RemoveController removeController, boolean fillFarBackground) {
+        if (DebugOptions.noObjects) {
             return;
         }
 
@@ -226,7 +226,7 @@ public class ChunkFiller {
 
     /**
      * Add a bunch of a certain type of junk to the background layers furthest away.
-     * <p/>
+     * <p>
      * This type of junk does not move on its own, it merely changes position as the camera moves, simulating different
      * depths relative to the camera.
      *
@@ -277,7 +277,7 @@ public class ChunkFiller {
 
     /**
      * Add a bunch of a certain type of junk to the background layer closest to the front.
-     * <p/>
+     * <p>
      * This type of junk moves at the same speed as the camera (similar to the dust) but additionally has its own floating
      * direction and angle for every individual piece of junk.
      *
@@ -326,7 +326,7 @@ public class ChunkFiller {
 
     /**
      * Add specks of dust to the background layer closest to the front.
-     * <p/>
+     * <p>
      * Dust is fixed in the world and therefore moves opposite to the cameras movement.
      *
      * @param game     The {@link SolGame} instance to work with
@@ -357,12 +357,12 @@ public class ChunkFiller {
     /**
      * Find a random position in a chunk centered around chunkCenter, relative to the entire map, and make sure it is not yet
      * occupied by another entity.
-     * <p/>
-     * Up to 100 tries will be made to find an unoccupied position; if by then none has been found, <code>null</code> will be returned.
+     * <p>
+     * Up to 100 tries will be made to find an unoccupied position; if by then none has been found, null will be returned.
      *
      * @param game        The {@link SolGame} instance to work with
      * @param chunkCenter The center of a chunk in which a random position should be found
-     * @return A random, unoccupied position in a chunk centered around chunkCenter, relative to the entire map, or <code>null</code> if within 100 tries no unoccupied position has been found
+     * @return A random, unoccupied position in a chunk centered around chunkCenter, relative to the entire map, or null if none found within 100 tries
      */
     private Vector2 getFreeRndPos(SolGame game, Vector2 chunkCenter) {
         for (int i = 0; i < 100; i++) {
@@ -376,7 +376,7 @@ public class ChunkFiller {
 
     /**
      * Returns a random position in a chunk centered around chunkCenter, relative to the entire map.
-     *
+     * <p>
      * The random position is returned in new object.
      *
      * @param chunkCenter The center of a chunk in which a random position should be found
@@ -391,6 +391,7 @@ public class ChunkFiller {
 
     /**
      * Determine the number of objects per chunk for a given density, based on the chunk size.
+     * <p>
      * If the number turns out to be less than 1, 1 will be returned randomly with a probability of the resulting number, otherwise 0.
      *
      * @param density The density of the objects per chunk

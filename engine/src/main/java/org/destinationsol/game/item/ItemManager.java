@@ -26,16 +26,17 @@ import org.destinationsol.game.sound.OggSoundManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ItemManager {
-    public final ProjectileConfigs projConfigs;
     public final TextureAtlas.AtlasRegion moneyIcon;
-    public final TextureAtlas.AtlasRegion medMoneyIcon;
-    public final TextureAtlas.AtlasRegion bigMoneyIcon;
     public final TextureAtlas.AtlasRegion repairIcon;
-    private final HashMap<String, SolItem> myM = new HashMap<>();
-    private final ArrayList<SolItem> myL= new ArrayList<>();
-    private final HashMap<String, Engine.Config> engineConfigs = new HashMap<>();
+    final ProjectileConfigs projConfigs;
+    final TextureAtlas.AtlasRegion medMoneyIcon;
+    final TextureAtlas.AtlasRegion bigMoneyIcon;
+    private final Map<String, SolItem> myM = new HashMap<>();
+    private final ArrayList<SolItem> myL = new ArrayList<>();
+    private final Map<String, Engine.Config> engineConfigs = new HashMap<>();
     private final SolItemTypes myTypes;
     private final RepairItem myRepairExample;
     private final OggSoundManager soundManager;
@@ -181,7 +182,7 @@ public class ItemManager {
         return myL.get(SolRandom.randomInt(myM.size())).copy();
     }
 
-    public void registerItem(SolItem example) {
+    void registerItem(SolItem example) {
         String code = example.getCode();
         SolItem existing = getExample(code);
         if (existing != null) {
@@ -191,7 +192,7 @@ public class ItemManager {
         myL.add(example);
     }
 
-    public MoneyItem moneyItem(float amt) {
+    private MoneyItem moneyItem(float amt) {
         SolItemType t;
         if (amt == MoneyItem.BIG_AMT) {
             t = myTypes.bigMoney;

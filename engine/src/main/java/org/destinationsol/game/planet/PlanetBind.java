@@ -19,7 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 
-public class PlanetBind {
+public final class PlanetBind {
     private final Planet planet;
     private final Vector2 relativePosition;
     private final float relativeAngle;

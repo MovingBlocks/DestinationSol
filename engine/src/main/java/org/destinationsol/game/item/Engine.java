@@ -30,7 +30,7 @@ import org.destinationsol.game.sound.OggSoundSet;
 import java.util.Arrays;
 import java.util.List;
 
-public class Engine implements SolItem {
+public final class Engine implements SolItem {
     private final Config config;
 
     private Engine(Config config) {
@@ -111,19 +111,19 @@ public class Engine implements SolItem {
         return config.effectConfig;
     }
 
-    public static class Config {
+    public static final class Config {
         public final String displayName;
-        public final int price;
-        public final String description;
-        public final float rotationAcceleration;
-        public final float acceleration;
-        public final float maxRotationSpeed;
         public final boolean isBig;
         public final Engine exampleEngine;
-        public final PlayableSound workSound;
         public final TextureAtlas.AtlasRegion icon;
-        public final EffectConfig effectConfig;
         public final String code;
+        final int price;
+        final String description;
+        final float rotationAcceleration;
+        final float acceleration;
+        final float maxRotationSpeed;
+        final PlayableSound workSound;
+        final EffectConfig effectConfig;
 
         private Config(String displayName, int price, String description, float rotationAcceleration, float acceleration, float maxRotationSpeed, boolean isBig,
                        PlayableSound workSound, TextureAtlas.AtlasRegion icon, EffectConfig effectConfig, String code) {

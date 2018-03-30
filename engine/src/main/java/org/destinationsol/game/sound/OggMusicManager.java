@@ -23,15 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class that is responsible for playing all music throughout the game.
- *
- * @author SimonC4
- * @author Rulasmur
+ * Class responsible for playing all music throughout the game.
  */
 public class OggMusicManager {
     private final Music menuMusic;
     private final List<Music> gameMusic;
-    private Music currentlyPlaying = null;
+    private Music currentlyPlaying;
 
     public OggMusicManager() {
         menuMusic = Assets.getMusic("engine:dreadnaught").getMusic();

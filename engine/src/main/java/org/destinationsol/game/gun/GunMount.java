@@ -65,7 +65,8 @@ public class GunMount {
             if (dst < detDst) {
                 Vector2 mountPos = SolMath.toWorld(myRelPos, shipAngle, creatorPos);
                 boolean player = creator.getPilot().isPlayer();
-                float shootAngle = Shooter.calcShootAngle(mountPos, creator.getSpeed(), nePos, nearestEnemy.getSpeed(), myGun.getConfig().clipConf.projConfig.speedLen, player);
+                float shootAngle = Shooter.calcShootAngle(mountPos, creator.getSpeed(), nePos, nearestEnemy.getSpeed(),
+                        myGun.getConfig().clipConf.projConfig.speedLen, player);
                 if (shootAngle == shootAngle) {
                     myRelGunAngle = shootAngle - shipAngle;
                     myDetected = true;

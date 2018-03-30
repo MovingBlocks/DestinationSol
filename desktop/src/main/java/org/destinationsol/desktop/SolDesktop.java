@@ -73,10 +73,10 @@ public final class SolDesktop {
 
         // Set the application's title, icon...
         applicationConfig.title = "Destination Sol";
-        if (DebugOptions.DEV_ROOT_PATH == null) {
+        if (DebugOptions.developmentRootPath == null) {
             applicationConfig.addIcon("src/main/resources/icon.png", Files.FileType.Internal);
         } else {
-            applicationConfig.addIcon(DebugOptions.DEV_ROOT_PATH + "/icon.png", Files.FileType.Absolute);
+            applicationConfig.addIcon(DebugOptions.developmentRootPath + "/icon.png", Files.FileType.Absolute);
         }
 
         handleCrashReporting(argv);
@@ -100,7 +100,7 @@ public final class SolDesktop {
     private static void handleDevBuild(LwjglApplicationConfiguration applicationConfig) {
         boolean devBuild = java.nio.file.Files.exists(Paths.get("devBuild"));
         if (devBuild) {
-            DebugOptions.DEV_ROOT_PATH = "engine/src/main/resources/"; // Lets the game run from source without a tweaked working directory
+            DebugOptions.developmentRootPath = "engine/src/main/resources/"; // Lets the game run from source without a tweaked working directory
             applicationConfig.vSyncEnabled = false; // Setting to false disables vertical sync
             applicationConfig.foregroundFPS = 100; // Use 0 to disable foreground fps throttling
             applicationConfig.backgroundFPS = 10; // Use 0 to disable background fps throttling
@@ -137,14 +137,14 @@ public final class SolDesktop {
     /**
      * Set up window resolution.
      *
-     * When flag {@link DebugOptions#EMULATE_MOBILE} is set, make the app window the size of mobile screen. Otherwise,
+     * When flag {@link DebugOptions#emulateMobile} is set, make the app window the size of mobile screen. Otherwise,
      * load the window resolution from game options.
      *
      * @param applicationConfig App config to configure
      * @param reader {@link SolFileReader} to read stored settings with.
      */
     private static void setScreenDimensions(LwjglApplicationConfiguration applicationConfig, MyReader reader) {
-        if (DebugOptions.EMULATE_MOBILE) {
+        if (DebugOptions.emulateMobile) {
             applicationConfig.width = 640;
             applicationConfig.height = 480;
             applicationConfig.fullscreen = false;
@@ -164,8 +164,8 @@ public final class SolDesktop {
         @Override
         public Path create(String fileName, List<String> lines) {
             String path;
-            if (DebugOptions.DEV_ROOT_PATH != null) {
-                path = DebugOptions.DEV_ROOT_PATH;
+            if (DebugOptions.developmentRootPath != null) {
+                path = DebugOptions.developmentRootPath;
             } else {
                 path = "src/main/resources/";
             }
@@ -183,8 +183,8 @@ public final class SolDesktop {
         @Override
         public List<String> read(String fileName) {
             String path;
-            if (DebugOptions.DEV_ROOT_PATH != null) {
-                path = DebugOptions.DEV_ROOT_PATH;
+            if (DebugOptions.developmentRootPath != null) {
+                path = DebugOptions.developmentRootPath;
             } else {
                 path = "src/main/resources/";
             }

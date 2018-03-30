@@ -17,6 +17,8 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
@@ -67,6 +69,17 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class SolGame {
@@ -312,7 +325,7 @@ public class SolGame {
             return;
         }
 
-        timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
+        timeFactor = DebugOptions.gameSpeedMultiplier;
         if (hero.isAlive() && hero.isNonTranscendent()) {
             ShipAbility ability = hero.getAbility();
             if (ability instanceof SloMo) {
@@ -342,12 +355,12 @@ public class SolGame {
     }
 
     public void drawDebug(GameDrawer drawer) {
-        if (DebugOptions.GRID_SZ > 0) {
-            gridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTexture);
+        if (DebugOptions.gridSize > 0) {
+            gridDrawer.draw(drawer, this, DebugOptions.gridSize, drawer.debugWhiteTexture);
         }
         planetManager.drawDebug(drawer, this);
         objectManager.drawDebug(drawer, this);
-        if (DebugOptions.ZOOM_OVERRIDE != 0) {
+        if (DebugOptions.zoomOverride != 0) {
             camera.drawDebug(drawer);
         }
         drawDebugPoint(drawer, DebugOptions.DEBUG_POINT, DebugCol.POINT);

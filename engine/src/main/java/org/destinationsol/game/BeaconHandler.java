@@ -53,7 +53,7 @@ public class BeaconHandler {
     private Vector2 speed;
     private boolean isInitialized;
 
-    public BeaconHandler() {
+    BeaconHandler() {
         TextureAtlas.AtlasRegion attackTexture = Assets.getAtlasRegion("engine:uiBeaconAttack");
         attackSprite = new RectSprite(attackTexture, TEX_SZ, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, 0, ROT_SPD, new Color(1, 1, 1, 0), true);
         TextureAtlas.AtlasRegion followTexture = Assets.getAtlasRegion("engine:uiBeaconFollow");
@@ -64,7 +64,7 @@ public class BeaconHandler {
         speed = new Vector2();
     }
 
-    public void init(SolGame game, Vector2 position) {
+    void init(SolGame game, Vector2 position) {
         ArrayList<Drawable> drawables = new ArrayList<>();
         drawables.add(attackSprite);
         drawables.add(followSprite);

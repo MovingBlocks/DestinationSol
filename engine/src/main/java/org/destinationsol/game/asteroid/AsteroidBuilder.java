@@ -68,7 +68,7 @@ public class AsteroidBuilder {
     }
 
     // doesn't consume position
-    public Asteroid buildNew(SolGame game, Vector2 position, Vector2 speed, float size, RemoveController removeController) {
+    Asteroid buildNew(SolGame game, Vector2 position, Vector2 speed, float size, RemoveController removeController) {
         float rotationSpeed = SolRandom.randomFloat(MAX_A_ROT_SPD);
         return build(game, position, SolRandom.randomElement(textures), size, SolRandom.randomFloat(180), rotationSpeed, speed, removeController);
     }
@@ -76,11 +76,13 @@ public class AsteroidBuilder {
     // doesn't consume position
     public FarAsteroid buildNewFar(Vector2 position, Vector2 speed, float size, RemoveController removeController) {
         float rotationSpeed = SolRandom.randomFloat(MAX_A_ROT_SPD);
-        return new FarAsteroid(SolRandom.randomElement(textures), new Vector2(position), SolRandom.randomFloat(180), removeController, size, new Vector2(speed), rotationSpeed);
+        return new FarAsteroid(SolRandom.randomElement(textures), new Vector2(position), SolRandom.randomFloat(180),
+                removeController, size, new Vector2(speed), rotationSpeed);
     }
 
     // doesn't consume position
-    public Asteroid build(SolGame game, Vector2 position, TextureAtlas.AtlasRegion texture, float size, float angle, float rotationSpeed, Vector2 speed, RemoveController removeController) {
+    public Asteroid build(SolGame game, Vector2 position, TextureAtlas.AtlasRegion texture, float size, float angle, float rotationSpeed,
+                          Vector2 speed, RemoveController removeController) {
 
         ArrayList<Drawable> drawables = new ArrayList<>();
         Body body;

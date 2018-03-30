@@ -284,7 +284,8 @@ public class InputMapScreen implements SolUiScreen {
             float rowCenterY = rect.y + rect.height / 2;
 
             // Draw the name of in the input and the key it is mapped to
-            uiDrawer.drawString(displayName, rect.x + equiColW + imgColW + nameWidth / 2, rowCenterY, FontSize.WINDOW, true, selectedIndex == groupIdx ? SolColor.WHITE : SolColor.G);
+            uiDrawer.drawString(displayName, rect.x + equiColW + imgColW + nameWidth / 2, rowCenterY, FontSize.WINDOW,
+                    true, selectedIndex == groupIdx ? SolColor.WHITE : SolColor.G);
             uiDrawer.drawString(inputKey, rect.x + rect.width - amtWidth - priceWidth / 2, rowCenterY, FontSize.WINDOW, true, SolColor.LG);
         }
 

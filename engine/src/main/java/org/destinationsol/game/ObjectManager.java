@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class ObjectManager {
     private static final float MAX_RADIUS_RECALC_AWAIT = 1f;
@@ -42,13 +43,13 @@ public class ObjectManager {
     private final List<StarPort.FarStarPort> myFarPorts;
     private final World myWorld;
     private final Box2DDebugRenderer myDr;
-    private final HashMap<SolObject, Float> myRadii;
+    private final Map<SolObject, Float> myRadii;
 
     private float myFarEndDist;
     private float myFarBeginDist;
     private float myRadiusRecalcAwait;
 
-    public ObjectManager(SolContactListener contactListener, FactionManager factionManager) {
+    ObjectManager(SolContactListener contactListener, FactionManager factionManager) {
         myObjs = new ArrayList<>();
         myToRemove = new ArrayList<>();
         myToAdd = new ArrayList<>();
@@ -62,7 +63,7 @@ public class ObjectManager {
         myRadii = new HashMap<>();
     }
 
-    public boolean containsFarObj(FarObject fo) {
+    boolean containsFarObj(FarObject fo) {
         for (FarObjData fod : myFarObjs) {
             if (fod.fo == fo) {
                 return true;
@@ -121,7 +122,7 @@ public class ObjectManager {
             }
         }
 
-        for (Iterator<FarObjData> it = myFarObjs.iterator(); it.hasNext(); ) {
+        for (Iterator<FarObjData> it = myFarObjs.iterator(); it.hasNext();) {
             FarObjData fod = it.next();
             FarObject fo = fod.fo;
             fo.update(game);
@@ -225,15 +226,15 @@ public class ObjectManager {
         return myFarBeginDist < dst;
     }
 
-    public void drawDebug(GameDrawer drawer, SolGame game) {
-        if (DebugOptions.DRAW_OBJ_BORDERS) {
+    void drawDebug(GameDrawer drawer, SolGame game) {
+        if (DebugOptions.drawObjBorders) {
             drawDebug0(drawer, game);
         }
-        if (DebugOptions.OBJ_INFO) {
+        if (DebugOptions.objInfo) {
             drawDebugStrings(drawer, game);
         }
 
-        if (DebugOptions.DRAW_PHYSIC_BORDERS) {
+        if (DebugOptions.drawPhysicBorders) {
             drawer.end();
             myDr.render(myWorld, game.getCam().getMtx());
             drawer.begin();
@@ -299,14 +300,14 @@ public class ObjectManager {
         return myWorld;
     }
 
-    public void resetDelays() {
+    void resetDelays() {
         for (FarObjData data : myFarObjs) {
             data.delay = 0;
         }
 
     }
 
-    public List<FarObjData> getFarObjs() {
+    List<FarObjData> getFarObjs() {
         return myFarObjs;
     }
 

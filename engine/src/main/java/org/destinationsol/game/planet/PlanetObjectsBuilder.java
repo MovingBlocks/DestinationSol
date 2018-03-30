@@ -43,7 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PlanetObjectsBuilder {
+class PlanetObjectsBuilder {
     private static final float TOP_TILE_SZ = 2f;
 
     private static final float MAX_CLOUD_PIECE_SZ = 1.5f;
@@ -57,8 +57,8 @@ public class PlanetObjectsBuilder {
     private static final float DECO_PACK_SZ = 5f;
     private static final float DECO_PACK_ANGULAR_WIDTH = 360 * DECO_PACK_SZ / (2 * SolMath.PI * Const.MAX_GROUND_HEIGHT);
 
-    public float createPlanetObjs(SolGame game, Planet planet) {
-        if (DebugOptions.NO_OBJS) {
+    float createPlanetObjs(SolGame game, Planet planet) {
+        if (DebugOptions.noObjects) {
             return 0;
         }
         float minRadius = createGround(game, planet);
@@ -101,7 +101,7 @@ public class PlanetObjectsBuilder {
             return;
         }
 
-        HashMap<ShipConfig, Integer> counts = new HashMap<>();
+        Map<ShipConfig, Integer> counts = new HashMap<>();
         int totalCount = 0;
         for (ShipConfig oe : configs) {
             int count = (int) (atmPercentage * oe.density * groundHeight * Const.ATM_HEIGHT);
@@ -289,7 +289,8 @@ public class PlanetObjectsBuilder {
                 decorationTexture.flip(!decorationTexture.isFlipX(), !decorationTexture.isFlipY());
             }
 
-            RectSprite sprite = new RectSprite(decorationTexture, decorationSize, decoConfig.orig.x, decoConfig.orig.y, decoRelativePosition, DrawableLevel.DECO, decorationRelativeAngle, 0, SolColor.WHITE, false);
+            RectSprite sprite = new RectSprite(decorationTexture, decorationSize, decoConfig.orig.x, decoConfig.orig.y,
+                    decoRelativePosition, DrawableLevel.DECO, decorationRelativeAngle, 0, SolColor.WHITE, false);
             List<Drawable> drawables = collector.get(basePosition);
             if (drawables == null) {
                 drawables = new ArrayList<>();

@@ -38,7 +38,7 @@ public class DrawableDebugger {
     }
 
     public void update(SolGame game) {
-        if (!DebugOptions.TEX_INFO) {
+        if (!DebugOptions.textureInfo) {
             return;
         }
         maybeCollectTextures(game);
@@ -55,7 +55,7 @@ public class DrawableDebugger {
     }
 
     public void draw(UiDrawer uiDrawer) {
-        if (!DebugOptions.TEX_INFO) {
+        if (!DebugOptions.textureInfo) {
             return;
         }
         float y = GAP;

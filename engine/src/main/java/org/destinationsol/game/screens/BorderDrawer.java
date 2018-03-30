@@ -46,8 +46,8 @@ import java.util.List;
 public class BorderDrawer {
 
     public static final float PLANET_PROXIMITY_INDICATOR_SIZE = .02f;
-    public static final float BORDER_ICON_SZ = .12f;
-    public static final float MAX_ICON_DIST = Const.ATM_HEIGHT;
+    private static final float BORDER_ICON_SZ = .12f;
+    private static final float MAX_ICON_DIST = Const.ATM_HEIGHT;
     private static final float MAX_DRAW_DIST = (Const.MAX_GROUND_HEIGHT + Const.ATM_HEIGHT) * 2;
     private final ArrayList<PlanetProximityIndicator> planetProximityIndicators;
     private final Vector2 myTmpVec = new Vector2();
@@ -97,7 +97,8 @@ public class BorderDrawer {
                 Faction shipFaction = ship.getPilot().getFaction();
                 float shipSize = ship.getHull().config.getSize();
                 float shipAngle = ship.getAngle();
-                maybeDrawIcon(drawer, shipPosition, cam, shipSize, shipAngle, mapDrawer, factionManager, hero, shipFaction, object, heroDamageCap, ship.getHull().config.getIcon());
+                maybeDrawIcon(drawer, shipPosition, cam, shipSize, shipAngle, mapDrawer, factionManager, hero,
+                        shipFaction, object, heroDamageCap, ship.getHull().config.getIcon());
             }
             if ((object instanceof StarPort)) {
                 StarPort starPort = (StarPort) object;
@@ -200,7 +201,7 @@ public class BorderDrawer {
         private final float myAngle;
         private float myPercentage;
 
-        public PlanetProximityIndicator(float x, float y, float r, float maxSz, TextureAtlas.AtlasRegion tex) {
+        PlanetProximityIndicator(float x, float y, float r, float maxSz, TextureAtlas.AtlasRegion tex) {
             myX = x;
             myY = y;
             myTexture = tex;
@@ -217,7 +218,7 @@ public class BorderDrawer {
             drawer.draw(myTexture, sz, sz, sz / 2, sz / 2, myX, myY, 0, myCol);
         }
 
-        public void setDistPerc(float distPercentage) {
+        void setDistPerc(float distPercentage) {
             float closeness = 1 - distPercentage;
             if (closeness < myPercentage) {
                 return;
@@ -225,7 +226,7 @@ public class BorderDrawer {
             myPercentage = closeness;
         }
 
-        public void reset() {
+        void reset() {
             myPercentage = 0;
         }
     }
