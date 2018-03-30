@@ -207,6 +207,7 @@ public class SolShip implements SolObject {
         return true;
     }
 
+    @Override
     public Vector2 getSpeed() {
         return myHull.getSpeed();
     }
