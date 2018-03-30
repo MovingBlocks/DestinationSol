@@ -37,7 +37,7 @@ import java.util.List;
 public interface SolObject {
 
     /**
-     * This method is called on every game's frame, and allows for handling object-specific runtime needs.
+     * Called on every game's frame, allows for handling of object-specific runtime needs.
      * <p>
      * This method can be used for instance for handling pull of loot towards ships, flickering of lights, aiming
      * crosses for ships and stuff alike.
@@ -47,7 +47,7 @@ public interface SolObject {
     void update(SolGame game);
 
     /**
-     * This method denotes whether the object should be removed as of the time of calling.
+     * Whether the object should be removed as of the time of calling.
      * <p>
      * Object should usually be removed when its health reaches zero, or, for instance, if the object is projectile, it
      * reaches its target. This method should not handle removal of object for optimization purposes when it gets too
@@ -62,7 +62,7 @@ public interface SolObject {
     }
 
     /**
-     * This method is called whenever an object is due to be removed from game.
+     * Called whenever an object is due to be removed from game.
      * <p>
      * This method should handle things like throwing out {@link Loot} when ships are destroyed, or creating smaller
      * asteroids when a big {@link Asteroid} is destroyed. This method is also responsible for freeing its resources,
@@ -75,7 +75,7 @@ public interface SolObject {
     void onRemove(SolGame game);
 
     /**
-     * This method is called whenever object should receive damage.
+     * Called whenever this object should receive damage.
      * <p>
      * Whenever the object is hit by some projectile or other sort of damage dealing thing, this method is called on the
      * object to allow it to perform its damage handling. This usually means just subtracting the damage from object's
@@ -91,7 +91,7 @@ public interface SolObject {
     }
 
     /**
-     * Denotes whether this object is affected by gravity, usually constant.
+     * Whether this object is affected by gravity, this is usually constant.
      *
      * @return True if object is affected by gravity, false otherwise.
      */
@@ -121,7 +121,7 @@ public interface SolObject {
     Vector2 getPosition();
 
     /**
-     * This method is called when an object is too far from player/camera, and is thus to be converted to {@link FarObject}.
+     * Called when an object is too far from player/camera, and is thus to be converted to {@link FarObject}.
      * <p>
      * This method is used for optimization of game's objects, by converting to their more resource friendly versions
      * when they get too far from player/camera. The {@code FarObject} returned by this method should be usable to get
@@ -135,7 +135,7 @@ public interface SolObject {
     }
 
     /**
-     * This method returns list of all {@link Drawable Drawables} this object has assigned.
+     * Returns list of all {@link Drawable Drawables} this object has assigned.
      *
      * @return List of drawables this object has.
      */
@@ -160,7 +160,7 @@ public interface SolObject {
     Vector2 getSpeed();
 
     /**
-     * This method is called whenever this object touches another object, and can be used for custom collisions.
+     * Called whenever this object touches another object, and can be used for custom collisions.
      * <p>
      * This method is for instance used for collecting {@link Loot} by ships when these two touch. This method is not to
      * be used for handling of applying force between the two objects nor playing any collision sounds, unless the
@@ -176,8 +176,8 @@ public interface SolObject {
     }
 
     /**
-     * This method is used for retrieval of object's debug string.
-     *
+     * Used for retrieval of object's debug string.
+     * <p>
      * Any kind of information can be used in the debug string, if you don't need/want to display any debug information,
      * you can freely have this method return null. To display debug strings in-game, set the flag {@link DebugOptions#OBJ_INFO}.
      * These strings should then be rendered in the proximity of their objects.
@@ -187,8 +187,8 @@ public interface SolObject {
     String toDebugString();
 
     /**
-     * Denotes whether this object is meant to behave as if made from metallic material.
-     *
+     * Whether this object is meant to behave as if made from metallic material.
+     * <p>
      * This method is used mainly for choosing the sound to play after collision. Value true will play metallic sound,
      * false will play rocky sound. Value of null means no sound will be played.
      *
@@ -200,8 +200,8 @@ public interface SolObject {
     }
 
     /**
-     * Denotes whether this object has a {@link Body} associated with it.
-     *
+     * Whether this object has a {@link Body} associated with it.
+     * <p>
      * Generally, everything that can be touched has its {@code Body}.
      *
      * @return True if this object has {@code Body} associated, false otherwise.
