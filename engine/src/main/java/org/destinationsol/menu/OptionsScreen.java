@@ -83,17 +83,7 @@ public class OptionsScreen implements SolUiScreen {
             inputManager.setScreen(solApplication, screens.resolutionScreen);
         }
 
-        int controlType = solApplication.getOptions().controlType;
-        String controlName = "Keyboard";
-        if (controlType == GameOptions.CONTROL_MIXED) {
-            controlName = "KB + Mouse";
-        }
-        if (controlType == GameOptions.CONTROL_MOUSE) {
-            controlName = "Mouse";
-        }
-        if (controlType == GameOptions.CONTROL_CONTROLLER) {
-            controlName = "Controller";
-        }
+        String controlName = solApplication.getOptions().controlType.getHumanName();
         inputTypeControl.setDisplayName("Input: " + controlName);
         if (inputTypeControl.isJustOff()) {
             solApplication.getOptions().advanceControlType(false);
@@ -104,12 +94,15 @@ public class OptionsScreen implements SolUiScreen {
         }
 
         if (inputMapControl.isJustOff()) {
-            if (controlType == GameOptions.CONTROL_MIXED) {
-                screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapMixedScreen);
-            } else if (controlType == GameOptions.CONTROL_KB) {
-                screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapKeyboardScreen);
-            } else if (controlType == GameOptions.CONTROL_CONTROLLER) {
-                screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapControllerScreen);
+            switch (solApplication.getOptions().controlType) {
+                case KEYBOARD:
+                    screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapKeyboardScreen);
+                    break;
+                case MIXED:
+                    screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapMixedScreen);
+                    break;
+                case CONTROLLER:
+                    screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapControllerScreen);
             }
             inputManager.setScreen(solApplication, screens.inputMapScreen);
         }
