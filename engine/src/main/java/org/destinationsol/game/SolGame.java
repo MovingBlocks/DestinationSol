@@ -19,19 +19,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
@@ -49,13 +36,7 @@ import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.BeaconDestProvider;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.input.UiControlledPilot;
-import org.destinationsol.game.item.Gun;
-import org.destinationsol.game.item.ItemContainer;
-import org.destinationsol.game.item.ItemManager;
-import org.destinationsol.game.item.LootBuilder;
-import org.destinationsol.game.item.MercItem;
-import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.item.TradeConfig;
+import org.destinationsol.game.item.*;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.particle.PartMan;
 import org.destinationsol.game.particle.SpecialEffects;
@@ -76,6 +57,14 @@ import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import static java.util.Collections.emptyList;
 
 public class SolGame {
     private static Logger logger = LoggerFactory.getLogger(SolGame.class);
@@ -239,22 +228,21 @@ public class SolGame {
 
     private void createAndSpawnMercenariesFromSave() {
         List<MercItem> mercenaryItems = loadMercenariesFromSave();
-        if (mercenaryItems == null) return;
         for (MercItem mercenaryItem : mercenaryItems) {
             MercenaryUtils.createMerc(this, hero, mercenaryItem);
         }
     }
 
     private List<MercItem> loadMercenariesFromSave() {
-        List<MercItem> mercenaryItems = new ArrayList<>();
         if (!SaveManager.resourceExists(MERC_SAVE_FILE)) {
-            return null;
+            return emptyList();
         }
 
         String path = SaveManager.getResourcePath(MERC_SAVE_FILE);
         if (new File(path).length() == 0) {
-            return null;
+            return emptyList();
         }
+        List<MercItem> mercenaryItems = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {
