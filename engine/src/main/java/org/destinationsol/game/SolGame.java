@@ -243,29 +243,24 @@ public class SolGame {
         }
 
         String path = SaveManager.getResourcePath(MERC_SAVE_FILE);
-        BufferedReader bufferedReader;
-        try {
-            bufferedReader = new BufferedReader(new FileReader(path));
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
             if (new File(path).length() == 0) {
-                bufferedReader.close();
                 return;
+            }
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {
+            }.getType();
+            ArrayList<HashMap<String, String>> mercs = gson.fromJson(bufferedReader, type);
+
+            MercItem mercItems;
+            for (HashMap<String, String> node : mercs) {
+                mercItems = new MercItem(
+                        new ShipConfig(hullConfigManager.getConfig(node.get("hull")), node.get("items"), Integer.parseInt(node.get("money")), -1f, null, itemManager));
+                MercenaryUtils.createMerc(this, hero, mercItems);
             }
         } catch (IOException e) {
             logger.error("Could not save mercenaries!");
             e.printStackTrace();
-            return;
-        }
-
-        Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {
-        }.getType();
-        ArrayList<HashMap<String, String>> mercs = gson.fromJson(bufferedReader, type);
-
-        MercItem mercItems;
-        for (HashMap<String, String> node : mercs) {
-            mercItems = new MercItem(
-                    new ShipConfig(hullConfigManager.getConfig(node.get("hull")), node.get("items"), Integer.parseInt(node.get("money")), -1f, null, itemManager));
-            MercenaryUtils.createMerc(this, hero, mercItems);
         }
     }
 
