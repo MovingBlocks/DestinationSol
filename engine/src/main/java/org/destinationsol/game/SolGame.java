@@ -67,6 +67,8 @@ import java.util.List;
 import static java.util.Collections.emptyList;
 
 public class SolGame {
+
+    private static final String MERC_SAVE_FILE = "mercenaries.json";
     private static Logger logger = LoggerFactory.getLogger(SolGame.class);
 
 
@@ -226,7 +228,8 @@ public class SolGame {
     }
 
     private void createAndSpawnMercenariesFromSave() {
-        List<MercItem> mercenaryItems = new MercenarySaveLoader().loadMercenariesFromSave(hullConfigManager, itemManager);
+        List<MercItem> mercenaryItems = new MercenarySaveLoader()
+                .loadMercenariesFromSave(hullConfigManager, itemManager, MERC_SAVE_FILE);
         for (MercItem mercenaryItem : mercenaryItems) {
             MercenaryUtils.createMerc(this, hero, mercenaryItem);
         }
