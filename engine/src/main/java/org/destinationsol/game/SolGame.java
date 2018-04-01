@@ -238,14 +238,22 @@ public class SolGame {
     }
 
     private void createAndSpawnMercenariesFromSave() {
+        List<MercItem> mercenaryItems = loadMercenariesFromSave();
+        if (mercenaryItems == null) return;
+        for (MercItem mercenaryItem : mercenaryItems) {
+            MercenaryUtils.createMerc(this, hero, mercenaryItem);
+        }
+    }
+
+    private List<MercItem> loadMercenariesFromSave() {
         List<MercItem> mercenaryItems = new ArrayList<>();
         if (!SaveManager.resourceExists(MERC_SAVE_FILE)) {
-            return;
+            return null;
         }
 
         String path = SaveManager.getResourcePath(MERC_SAVE_FILE);
         if (new File(path).length() == 0) {
-            return;
+            return null;
         }
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
             Gson gson = new Gson();
@@ -261,9 +269,7 @@ public class SolGame {
         } catch (IOException e) {
             logger.error("Could not save mercenaries!", e);
         }
-        for (MercItem mercenaryItem : mercenaryItems) {
-            MercenaryUtils.createMerc(this, hero, mercenaryItem);
-        }
+        return mercenaryItems;
     }
 
     public void onGameEnd() {
