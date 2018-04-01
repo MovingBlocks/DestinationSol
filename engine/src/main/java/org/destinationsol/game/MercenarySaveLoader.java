@@ -49,13 +49,7 @@ class MercenarySaveLoader {
             return emptyList();
         }
         ArrayList<HashMap<String, String>> mercenaries = loadMercenariesDataFromJson(path);
-        List<MercItem> mercenaryItems = new ArrayList<>();
-        for (HashMap<String, String> node : mercenaries) {
-            MercItem mercenaryItem = new MercItem(
-                    new ShipConfig(hullConfigManager.getConfig(node.get("hull")), node.get("items"), Integer.parseInt(node.get("money")), -1f, null, itemManager));
-            mercenaryItems.add(mercenaryItem);
-        }
-        return mercenaryItems;
+        return toMercenaryItems(mercenaries, hullConfigManager, itemManager);
     }
 
     private ArrayList<HashMap<String, String>> loadMercenariesDataFromJson(String path) {
@@ -70,5 +64,15 @@ class MercenarySaveLoader {
             logger.error("Could not load mercenaries!", e);
         }
         return mercenaries;
+    }
+
+    private List<MercItem> toMercenaryItems(ArrayList<HashMap<String, String>> mercenaries, HullConfigManager hullConfigManager, ItemManager itemManager) {
+        List<MercItem> mercenaryItems = new ArrayList<>();
+        for (HashMap<String, String> node : mercenaries) {
+            MercItem mercenaryItem = new MercItem(
+                    new ShipConfig(hullConfigManager.getConfig(node.get("hull")), node.get("items"), Integer.parseInt(node.get("money")), -1f, null, itemManager));
+            mercenaryItems.add(mercenaryItem);
+        }
+        return mercenaryItems;
     }
 }
