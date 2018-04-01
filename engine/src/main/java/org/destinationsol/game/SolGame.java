@@ -238,6 +238,7 @@ public class SolGame {
     }
 
     private void createAndSpawnMercenariesFromSave() {
+        List<MercItem> mercenaryItems = new ArrayList<>();
         if (!SaveManager.resourceExists(MERC_SAVE_FILE)) {
             return;
         }
@@ -253,12 +254,15 @@ public class SolGame {
             ArrayList<HashMap<String, String>> mercenaries = gson.fromJson(bufferedReader, type);
 
             for (HashMap<String, String> node : mercenaries) {
-                MercItem mercenaryItems = new MercItem(
+                MercItem mercenaryItem = new MercItem(
                         new ShipConfig(hullConfigManager.getConfig(node.get("hull")), node.get("items"), Integer.parseInt(node.get("money")), -1f, null, itemManager));
-                MercenaryUtils.createMerc(this, hero, mercenaryItems);
+                mercenaryItems.add(mercenaryItem);
             }
         } catch (IOException e) {
-            logger.error("Could not save mercenaries!",e);
+            logger.error("Could not save mercenaries!", e);
+        }
+        for (MercItem mercenaryItem : mercenaryItems) {
+            MercenaryUtils.createMerc(this, hero, mercenaryItem);
         }
     }
 
