@@ -42,7 +42,7 @@ configurations {
 
 dependencies {
     // Config for our code analytics lives in a centralized repo: https://github.com/MovingBlocks/TeraConfig
-    codeMetrics group: 'org.terasology.config', name: 'codemetrics', version: '1.1.0', ext: 'zip'
+    codeMetrics group: 'org.terasology.config', name: 'codemetrics', version: '1.2.0', ext: 'zip'
 }
 
 task extractConfig(type: Copy) {
