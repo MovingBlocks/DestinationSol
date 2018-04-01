@@ -250,12 +250,12 @@ public class SolGame {
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {
             }.getType();
-            ArrayList<HashMap<String, String>> mercs = gson.fromJson(bufferedReader, type);
+            ArrayList<HashMap<String, String>> mercenaries = gson.fromJson(bufferedReader, type);
 
-            for (HashMap<String, String> node : mercs) {
-                MercItem mercItems = new MercItem(
+            for (HashMap<String, String> node : mercenaries) {
+                MercItem mercenaryItems = new MercItem(
                         new ShipConfig(hullConfigManager.getConfig(node.get("hull")), node.get("items"), Integer.parseInt(node.get("money")), -1f, null, itemManager));
-                MercenaryUtils.createMerc(this, hero, mercItems);
+                MercenaryUtils.createMerc(this, hero, mercenaryItems);
             }
         } catch (IOException e) {
             logger.error("Could not save mercenaries!",e);
