@@ -255,7 +255,7 @@ public class SolGame {
                 mercenaryItems.add(mercenaryItem);
             }
         } catch (IOException e) {
-            logger.error("Could not save mercenaries!", e);
+            logger.error("Could not load mercenaries!", e);
         }
         return mercenaryItems;
     }
