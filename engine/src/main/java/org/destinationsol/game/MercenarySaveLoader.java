@@ -20,6 +20,7 @@ import com.google.gson.reflect.TypeToken;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.MercItem;
+import org.destinationsol.game.ship.hulls.HullConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,15 +37,17 @@ import static java.util.Collections.emptyList;
 
 
 class MercenarySaveLoader {
-    private static final String MERC_SAVE_FILE = "mercenaries.json";
+    private static final float MERCENARY_SHIP_DENSITY = -1f;
+    private static final String NODE_HULL = "hull";
+    private static final String NODE_ITEMS = "items";
+    private static final String NODE_MONEY = "money";
     private static Logger logger = LoggerFactory.getLogger(MercenarySaveLoader.class);
 
-    public List<MercItem> loadMercenariesFromSave(HullConfigManager hullConfigManager, ItemManager itemManager) {
-        if (!SaveManager.resourceExists(MERC_SAVE_FILE)) {
+    List<MercItem> loadMercenariesFromSave(HullConfigManager hullConfigManager, ItemManager itemManager, String fileName) {
+        if (!SaveManager.resourceExists(fileName)) {
             return emptyList();
         }
-
-        String path = SaveManager.getResourcePath(MERC_SAVE_FILE);
+        String path = SaveManager.getResourcePath(fileName);
         if (new File(path).length() == 0) {
             return emptyList();
         }
@@ -59,7 +62,6 @@ class MercenarySaveLoader {
             Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {
             }.getType();
             mercenaries = gson.fromJson(bufferedReader, type);
-
         } catch (IOException e) {
             logger.error("Could not load mercenaries!", e);
         }
@@ -69,10 +71,16 @@ class MercenarySaveLoader {
     private List<MercItem> toMercenaryItems(ArrayList<HashMap<String, String>> mercenaries, HullConfigManager hullConfigManager, ItemManager itemManager) {
         List<MercItem> mercenaryItems = new ArrayList<>();
         for (HashMap<String, String> node : mercenaries) {
-            MercItem mercenaryItem = new MercItem(
-                    new ShipConfig(hullConfigManager.getConfig(node.get("hull")), node.get("items"), Integer.parseInt(node.get("money")), -1f, null, itemManager));
+            HullConfig hullConfig = hullConfigManager.getConfig(node.get(NODE_HULL));
+            String items = node.get(NODE_ITEMS);
+            int money = Integer.parseInt(node.get(NODE_MONEY));
+            MercItem mercenaryItem = new MercItem(createShipConfig(hullConfig, items, money, itemManager));
             mercenaryItems.add(mercenaryItem);
         }
         return mercenaryItems;
+    }
+
+    private ShipConfig createShipConfig(HullConfig hullConfig, String items, int money, ItemManager itemManager) {
+        return new ShipConfig(hullConfig, items, money, MERCENARY_SHIP_DENSITY, null, itemManager);
     }
 }
