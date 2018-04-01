@@ -227,13 +227,13 @@ public class SolGame {
     }
 
     private void createAndSpawnMercenariesFromSave() {
-        List<MercItem> mercenaryItems = loadMercenariesFromSave();
+        List<MercItem> mercenaryItems = loadMercenariesFromSave(hullConfigManager, itemManager);
         for (MercItem mercenaryItem : mercenaryItems) {
             MercenaryUtils.createMerc(this, hero, mercenaryItem);
         }
     }
 
-    private List<MercItem> loadMercenariesFromSave() {
+    private List<MercItem> loadMercenariesFromSave(HullConfigManager hullConfigManager, ItemManager itemManager) {
         if (!SaveManager.resourceExists(MERC_SAVE_FILE)) {
             return emptyList();
         }
