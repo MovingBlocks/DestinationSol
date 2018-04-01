@@ -161,7 +161,9 @@ public class SolGame {
         // from this point we're ready!
         planetManager.fill(solNames);
         createPlayer(shipName, isNewGame);
-        createMercs(isNewGame);
+        if (!isNewGame) {
+            createMercs();
+        }
         SolMath.checkVectorsTaken(null);
     }
 
@@ -238,9 +240,9 @@ public class SolGame {
     /**
      * Creates and spawns the players mercenaries from their JSON file.
      */
-    private void createMercs(boolean isNewGame) {
+    private void createMercs() {
 
-        if (!SaveManager.resourceExists(MERC_SAVE_FILE) || isNewGame) {
+        if (!SaveManager.resourceExists(MERC_SAVE_FILE)) {
             return;
         }
 
