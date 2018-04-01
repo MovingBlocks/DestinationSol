@@ -69,7 +69,6 @@ import static java.util.Collections.emptyList;
 public class SolGame {
     private static Logger logger = LoggerFactory.getLogger(SolGame.class);
 
-    private static final String MERC_SAVE_FILE = "mercenaries.json";
 
     private final GameScreens gameScreens;
     private final SolCam camera;
@@ -227,37 +226,10 @@ public class SolGame {
     }
 
     private void createAndSpawnMercenariesFromSave() {
-        List<MercItem> mercenaryItems = loadMercenariesFromSave(hullConfigManager, itemManager);
+        List<MercItem> mercenaryItems = new MercenarySaveLoader().loadMercenariesFromSave(hullConfigManager, itemManager);
         for (MercItem mercenaryItem : mercenaryItems) {
             MercenaryUtils.createMerc(this, hero, mercenaryItem);
         }
-    }
-
-    private List<MercItem> loadMercenariesFromSave(HullConfigManager hullConfigManager, ItemManager itemManager) {
-        if (!SaveManager.resourceExists(MERC_SAVE_FILE)) {
-            return emptyList();
-        }
-
-        String path = SaveManager.getResourcePath(MERC_SAVE_FILE);
-        if (new File(path).length() == 0) {
-            return emptyList();
-        }
-        List<MercItem> mercenaryItems = new ArrayList<>();
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
-            Gson gson = new Gson();
-            Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {
-            }.getType();
-            ArrayList<HashMap<String, String>> mercenaries = gson.fromJson(bufferedReader, type);
-
-            for (HashMap<String, String> node : mercenaries) {
-                MercItem mercenaryItem = new MercItem(
-                        new ShipConfig(hullConfigManager.getConfig(node.get("hull")), node.get("items"), Integer.parseInt(node.get("money")), -1f, null, itemManager));
-                mercenaryItems.add(mercenaryItem);
-            }
-        } catch (IOException e) {
-            logger.error("Could not load mercenaries!", e);
-        }
-        return mercenaryItems;
     }
 
     public void onGameEnd() {
