@@ -1,0 +1,68 @@
+/*
+ * Copyright 2017 MovingBlocks
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.destinationsol.game;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import org.destinationsol.files.HullConfigManager;
+import org.destinationsol.game.item.ItemManager;
+import org.destinationsol.game.item.MercItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import static java.util.Collections.emptyList;
+
+
+class MercenarySaveLoader {
+    private static final String MERC_SAVE_FILE = "mercenaries.json";
+    private static Logger logger = LoggerFactory.getLogger(MercenarySaveLoader.class);
+
+    public List<MercItem> loadMercenariesFromSave(HullConfigManager hullConfigManager, ItemManager itemManager) {
+        if (!SaveManager.resourceExists(MERC_SAVE_FILE)) {
+            return emptyList();
+        }
+
+        String path = SaveManager.getResourcePath(MERC_SAVE_FILE);
+        if (new File(path).length() == 0) {
+            return emptyList();
+        }
+        List<MercItem> mercenaryItems = new ArrayList<>();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {
+            }.getType();
+            ArrayList<HashMap<String, String>> mercenaries = gson.fromJson(bufferedReader, type);
+
+            for (HashMap<String, String> node : mercenaries) {
+                MercItem mercenaryItem = new MercItem(
+                        new ShipConfig(hullConfigManager.getConfig(node.get("hull")), node.get("items"), Integer.parseInt(node.get("money")), -1f, null, itemManager));
+                mercenaryItems.add(mercenaryItem);
+            }
+        } catch (IOException e) {
+            logger.error("Could not load mercenaries!", e);
+        }
+        return mercenaryItems;
+    }
+}
