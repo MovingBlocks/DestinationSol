@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,6 +31,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
@@ -257,7 +259,8 @@ public class SolGame {
         }
 
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {}.getType();
+        Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {
+        }.getType();
         ArrayList<HashMap<String, String>> mercs = gson.fromJson(bufferedReader, type);
 
         MercItem mercItems;
@@ -273,7 +276,7 @@ public class SolGame {
         saveWorld();
         objectManager.dispose();
     }
-    
+
     /**
      * Saves the world's seed so we can regenerate the same world later
      */
@@ -281,11 +284,11 @@ public class SolGame {
         // Make sure the tutorial doesn't overwrite the save
         if (tutorialManager == null) {
             long seed = SolRandom.getSeed();
-            
+
             String fileName = SaveManager.getResourcePath(SolApplication.WORLD_SAVE_FILE_NAME);
-            
+
             String toWrite = "seed=" + Long.toString(seed);
-            
+
             PrintWriter writer;
             try {
                 writer = new PrintWriter(fileName, "UTF-8");
