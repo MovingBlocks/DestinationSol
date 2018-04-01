@@ -48,21 +48,27 @@ class MercenarySaveLoader {
         if (new File(path).length() == 0) {
             return emptyList();
         }
+        ArrayList<HashMap<String, String>> mercenaries = loadMercenariesDataFromJson(path);
         List<MercItem> mercenaryItems = new ArrayList<>();
+        for (HashMap<String, String> node : mercenaries) {
+            MercItem mercenaryItem = new MercItem(
+                    new ShipConfig(hullConfigManager.getConfig(node.get("hull")), node.get("items"), Integer.parseInt(node.get("money")), -1f, null, itemManager));
+            mercenaryItems.add(mercenaryItem);
+        }
+        return mercenaryItems;
+    }
+
+    private ArrayList<HashMap<String, String>> loadMercenariesDataFromJson(String path) {
+        ArrayList<HashMap<String, String>> mercenaries = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {
             }.getType();
-            ArrayList<HashMap<String, String>> mercenaries = gson.fromJson(bufferedReader, type);
+            mercenaries = gson.fromJson(bufferedReader, type);
 
-            for (HashMap<String, String> node : mercenaries) {
-                MercItem mercenaryItem = new MercItem(
-                        new ShipConfig(hullConfigManager.getConfig(node.get("hull")), node.get("items"), Integer.parseInt(node.get("money")), -1f, null, itemManager));
-                mercenaryItems.add(mercenaryItem);
-            }
         } catch (IOException e) {
             logger.error("Could not load mercenaries!", e);
         }
-        return mercenaryItems;
+        return mercenaries;
     }
 }
