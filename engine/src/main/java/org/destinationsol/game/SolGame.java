@@ -258,8 +258,7 @@ public class SolGame {
                 MercenaryUtils.createMerc(this, hero, mercItems);
             }
         } catch (IOException e) {
-            logger.error("Could not save mercenaries!");
-            e.printStackTrace();
+            logger.error("Could not save mercenaries!",e);
         }
     }
 
