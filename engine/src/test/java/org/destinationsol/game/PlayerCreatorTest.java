@@ -20,6 +20,7 @@ import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.input.UiControlledPilot;
 import org.destinationsol.game.item.ItemContainer;
+import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SolShip;
@@ -36,6 +37,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.intThat;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -178,6 +180,13 @@ public class PlayerCreatorTest {
         verifyBuildNewFar(shipConfiguration().withHullConfig(hullConfig));
     }
 
+    @Test
+    public void testUseEmptyItemsIfRespawnItemsNotEmpty() throws Exception {
+        respawnState.getRespawnItems().add(mock(SolItem.class));
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        verifyBuildNewFar(shipConfiguration().withItems(""));
+    }
+
     private void verifyBuildNewFar(FarShipBuildConfiguration verification) {
         verify(shipBuilder).buildNewFar(any(),
                 any(),
@@ -185,7 +194,7 @@ public class PlayerCreatorTest {
                 anyFloat(),
                 anyFloat(),
                 verification.pilot(),
-                any(),
+                verification.items(),
                 verification.hullConfig(),
                 any(),
                 anyBoolean(),
@@ -198,6 +207,7 @@ public class PlayerCreatorTest {
         Float money;
         Class<? extends Pilot> pilotClazz;
         HullConfig hullConfig;
+        String items;
 
         FarShipBuildConfiguration withMoney(float money) {
             this.money = money;
@@ -214,6 +224,11 @@ public class PlayerCreatorTest {
             return this;
         }
 
+        FarShipBuildConfiguration withItems(String items){
+            this.items = items;
+            return this;
+        }
+
         float money() {
             return money == null ? anyFloat() : eq(money.floatValue());
         }
@@ -224,6 +239,10 @@ public class PlayerCreatorTest {
 
         HullConfig hullConfig() {
             return hullConfig == null ? any() : same(hullConfig);
+        }
+
+        String items(){
+            return items == null ? any() : eq(items);
         }
     }
 
