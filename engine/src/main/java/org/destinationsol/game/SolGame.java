@@ -152,11 +152,22 @@ public class SolGame {
 
         // from this point we're ready!
         planetManager.fill(solNames);
-        createPlayer(shipName, isNewGame, isPlayerRespawned, this, solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE, respawnMoney, respawnHull, respawnItems);
+        createGame(shipName, isNewGame);
         if (!isNewGame) {
             createAndSpawnMercenariesFromSave();
         }
         SolMath.checkVectorsTaken(null);
+    }
+
+    private void createGame(String shipName, boolean isNewGame) {
+        createPlayer(shipName,
+                isNewGame,
+                isPlayerRespawned,
+                this,
+                solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE,
+                respawnMoney,
+                respawnHull,
+                respawnItems);
     }
 
     // uh, this needs refactoring
@@ -430,7 +441,7 @@ public class SolGame {
             }
         }
         // TODO: Consider whether we want to treat respawn as a newGame or not.
-        createPlayer(null, true, isPlayerRespawned, this, solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE, respawnMoney, respawnHull, respawnItems);
+        createGame(null, true);
     }
 
     public FactionManager getFactionMan() {
