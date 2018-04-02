@@ -128,4 +128,12 @@ public class PlayerCreatorTest {
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
         verify(shipBuilder).buildNewFar(any(), any(), any(), anyFloat(), anyFloat(), any(UiControlledPilot.class), any(), any(), any(), anyBoolean(), anyFloat(), any(), anyBoolean());
     }
+
+    @Test
+    public void testUseRespawnMoneyIfNotZero(){
+        float respawnMoney = 42f;
+        respawnState.setRespawnMoney(respawnMoney);
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        verify(shipBuilder).buildNewFar(any(), any(), any(), anyFloat(), anyFloat(), any(), any(), any(), any(), anyBoolean(), eq(respawnMoney), any(), anyBoolean());
+    }
 }
