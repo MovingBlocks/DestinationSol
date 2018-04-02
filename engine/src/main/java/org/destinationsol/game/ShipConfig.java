@@ -55,6 +55,10 @@ public class ShipConfig {
         return spawnPos;
     }
 
+    public int getMoney(){
+        return money;
+    }
+
     public static ArrayList<ShipConfig> loadList(JsonValue shipListJson, HullConfigManager hullConfigs, ItemManager itemManager) {
         ArrayList<ShipConfig> res = new ArrayList<>();
         if (shipListJson == null) {
