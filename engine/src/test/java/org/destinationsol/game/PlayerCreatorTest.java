@@ -63,6 +63,7 @@ public class PlayerCreatorTest {
     private FarShip farShip;
     @Mock
     private SolShip solShip;
+    private ItemContainer shipItemContainer;
 
     @Before
     public void setUp() {
@@ -81,7 +82,8 @@ public class PlayerCreatorTest {
         when(solGame.getShipBuilder()).thenReturn(shipBuilder);
         when(shipBuilder.buildNewFar(any(), any(), any(), anyFloat(), anyFloat(), any(), any(), any(), any(), anyBoolean(), anyFloat(), any(), anyBoolean())).thenReturn(farShip);
         when(farShip.toObject(any())).thenReturn(solShip);
-        when(solShip.getItemContainer()).thenReturn(new ItemContainer());
+        shipItemContainer = new ItemContainer();
+        when(solShip.getItemContainer()).thenReturn(shipItemContainer);
     }
 
     @Test
@@ -221,6 +223,18 @@ public class PlayerCreatorTest {
     public void testShipIsUsedToCreateHero() {
         Hero hero = playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
         assertThat(hero.getShip()).isSameAs(solShip);
+    }
+
+    @Test
+    public void testAddRespawnItems() {
+        SolItem item0 = mock(SolItem.class);
+        respawnState.getRespawnItems().add(item0);
+        SolItem item1 = mock(SolItem.class);
+        respawnState.getRespawnItems().add(item1);
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        //new item groups are created at the start of the container, therefore item1 ends in group 0
+        assertThat(shipItemContainer.getGroup(0)).containsExactly(item1);
+        assertThat(shipItemContainer.getGroup(1)).containsExactly(item0);
     }
 
     private void verifyBuildNewFar(FarShipBuildConfiguration verification) {
