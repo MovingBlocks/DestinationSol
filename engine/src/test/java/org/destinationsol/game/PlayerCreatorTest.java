@@ -63,10 +63,10 @@ public class PlayerCreatorTest {
         when(solGame.getGalaxyFiller().getPlayerSpawnPos(any())).thenReturn(galaxySpawnPosition);
         when(shipConfig.getSpawnPos()).thenReturn(shipConfigSpawnPosition);
         mockShipBuilding();
+        when(solGame.getTutMan()).thenReturn(null);
     }
 
     private void mockShipBuilding() {
-        when(solGame.getTutMan()).thenReturn(null);
         when(solGame.getShipBuilder()).thenReturn(shipBuilder);
         when(shipBuilder.buildNewFar(any(), any(), any(), anyFloat(), anyFloat(), any(), any(), any(), any(), anyBoolean(), anyFloat(), any(), anyBoolean())).thenReturn(farShip);
         when(farShip.toObject(any())).thenReturn(solShip);
@@ -81,28 +81,24 @@ public class PlayerCreatorTest {
 
     @Test
     public void testSpawnOnGalaxySpawnPositionSetsCameraPosition() {
-        when(solGame.getTutMan()).thenReturn(null);
         playerCreator.createPlayer(shipConfig, true, respawnState, solGame, false, false);
         verify(solGame.getCam()).setPos(eq(galaxySpawnPosition));
     }
 
     @Test
     public void testSpawnOnShipConfigSpawnPositionSetsShipPosition() {
-        when(solGame.getTutMan()).thenReturn(null);
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
         verify(shipBuilder).buildNewFar(any(), eq(shipConfigSpawnPosition), any(), anyFloat(), anyFloat(), any(), any(), any(), any(), anyBoolean(), anyFloat(), any(), anyBoolean());
     }
 
     @Test
     public void testSpawnOnShipConfigSpawnPositionSetsCameraPosition() {
-        when(solGame.getTutMan()).thenReturn(null);
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
         verify(solGame.getCam()).setPos(eq(shipConfigSpawnPosition));
     }
 
     @Test
     public void testBeaconHandlerNotInitializedIfNotMouseControl() {
-        when(solGame.getTutMan()).thenReturn(null);
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
         verify(solGame.getBeaconHandler(),never()).init(any(),any());
     }
