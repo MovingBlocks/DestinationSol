@@ -49,7 +49,7 @@ class PlayerCreator {
 
         float money = respawnState.getRespawnMoney() != 0 ? respawnState.getRespawnMoney() : game.getTutMan() != null ? 200 : shipConfig.getMoney();
 
-        HullConfig hull = respawnState.getRespawnHull() != null ? respawnState.getRespawnHull() : shipConfig.hull;
+        HullConfig hull = respawnState.getRespawnHull() != null ? respawnState.getRespawnHull() : shipConfig.getHull();
 
         String itemsStr = !respawnState.getRespawnItems().isEmpty() ? "" : shipConfig.items;
 
