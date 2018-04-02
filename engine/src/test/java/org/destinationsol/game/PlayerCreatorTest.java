@@ -254,7 +254,7 @@ public class PlayerCreatorTest {
         when(gun.isEquipped()).thenReturn(1);
         respawnState.getRespawnItems().add(gun);
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
-        verify(solShip).maybeEquip(any(), eq(gun), eq(false),eq(true));
+        verify(solShip).maybeEquip(any(), eq(gun), eq(false), eq(true));
     }
 
     @Test
@@ -263,7 +263,7 @@ public class PlayerCreatorTest {
         when(gun.isEquipped()).thenReturn(2);
         respawnState.getRespawnItems().add(gun);
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
-        verify(solShip).maybeEquip(any(), eq(gun), eq(true),eq(true));
+        verify(solShip).maybeEquip(any(), eq(gun), eq(true), eq(true));
     }
 
     @Test
@@ -280,6 +280,12 @@ public class PlayerCreatorTest {
     public void testAddShipDelayed() {
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
         verify(solGame.getObjectManager()).addObjDelayed(solShip);
+    }
+
+    @Test
+    public void testResetObjectDelays() {
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        verify(solGame.getObjectManager()).resetDelays();
     }
 
     private void verifyBuildNewFar(FarShipBuildConfiguration verification) {
