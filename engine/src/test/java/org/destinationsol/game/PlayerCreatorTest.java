@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.input.UiControlledPilot;
+import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.FarShip;
@@ -244,6 +245,15 @@ public class PlayerCreatorTest {
         respawnState.getRespawnItems().add(item);
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
         verify(solShip).maybeEquip(any(), eq(item), eq(true));
+    }
+
+    @Test
+    public void testReEquipRespawnItemGunsPrimarySlot() {
+        Gun gun = mock(Gun.class);
+        when(gun.isEquipped()).thenReturn(1);
+        respawnState.getRespawnItems().add(gun);
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        verify(solShip).maybeEquip(any(), eq(gun), eq(false),eq(true));
     }
 
     private void verifyBuildNewFar(FarShipBuildConfiguration verification) {
