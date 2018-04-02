@@ -161,13 +161,13 @@ public class SolGame {
 
     // uh, this needs refactoring
     private void createPlayer(String shipName, boolean isNewGame, SolGame game) {
-        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(game.getHullConfigs(), itemManager, this) : ShipConfig.load(game.getHullConfigs(), shipName, itemManager, this);
+        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(game.getHullConfigs(), game.getItemMan(), this) : ShipConfig.load(game.getHullConfigs(), shipName, itemManager, this);
 
         // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
         assert shipConfig != null;
 
         if (!isPlayerRespawned) {
-            galaxyFiller.fill(this, game.getHullConfigs(), itemManager);
+            galaxyFiller.fill(this, game.getHullConfigs(), game.getItemMan());
         }
 
         // If we continue a game, we should spawn from the same position
@@ -214,7 +214,7 @@ public class SolGame {
                 if (itemContainer.groupCount() > 1.5f * Const.ITEM_GROUPS_PER_PAGE) {
                     break;
                 }
-                SolItem it = itemManager.random();
+                SolItem it = game.getItemMan().random();
                 if (!(it instanceof Gun) && it.getIcon(this) != null && itemContainer.canAdd(it)) {
                     itemContainer.add(it.copy());
                 }
