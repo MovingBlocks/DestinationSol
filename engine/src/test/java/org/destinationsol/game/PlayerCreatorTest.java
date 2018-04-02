@@ -256,6 +256,15 @@ public class PlayerCreatorTest {
         verify(solShip).maybeEquip(any(), eq(gun), eq(false),eq(true));
     }
 
+    @Test
+    public void testReEquipRespawnItemGunsSecondarySlot() {
+        Gun gun = mock(Gun.class);
+        when(gun.isEquipped()).thenReturn(2);
+        respawnState.getRespawnItems().add(gun);
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        verify(solShip).maybeEquip(any(), eq(gun), eq(true),eq(true));
+    }
+
     private void verifyBuildNewFar(FarShipBuildConfiguration verification) {
         verify(shipBuilder).buildNewFar(any(),
                 verification.position(),
