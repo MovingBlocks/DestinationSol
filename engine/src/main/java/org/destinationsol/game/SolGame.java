@@ -19,17 +19,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
@@ -74,6 +63,18 @@ import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class SolGame {
     private static Logger logger = LoggerFactory.getLogger(SolGame.class);
@@ -452,16 +453,14 @@ public class SolGame {
 
     public void respawn() {
         if (hero.isAlive()) {
+            hero.die(this);
             if (hero.isNonTranscendent()) {
-                beforeHeroDeath();
                 objectManager.removeObjDelayed(hero.getShip());
             } else {
-                setRespawnState(hero.getMoney(), hero.getItemContainer(), hero.getTranscendentHero().getShip().getHullConfig());
                 objectManager.removeObjDelayed(hero.getTranscendentHero());
             }
         }
-        // TODO: Consider whether we want to treat respawn as a newGame or not.
-        createPlayer(null, true);
+        hero.respawn(this);
     }
 
     public FactionManager getFactionMan() {
@@ -581,34 +580,4 @@ public class SolGame {
         shipName = newName;
     }
 
-    public void beforeHeroDeath() {
-        if (hero.isDead() || hero.isTranscendent()) {
-            return;
-        }
-
-        float money = hero.getMoney();
-        ItemContainer itemContainer = hero.getItemContainer();
-
-        setRespawnState(money, itemContainer, hero.getHull().config);
-
-        hero.setMoney(money - respawnMoney);
-        for (SolItem item : respawnItems) {
-            itemContainer.remove(item);
-        }
-    }
-
-    private void setRespawnState(float money, ItemContainer ic, HullConfig hullConfig) {
-        respawnMoney = .75f * money;
-        respawnHull = hullConfig;
-        respawnItems.clear();
-        isPlayerRespawned = true;
-        for (List<SolItem> group : ic) {
-            for (SolItem item : group) {
-                boolean equipped = hero.isTranscendent() || hero.maybeUnequip(this, item, false);
-                if (equipped || SolRandom.test(.75f)) {
-                    respawnItems.add(0, item);
-                }
-            }
-        }
-    }
 }

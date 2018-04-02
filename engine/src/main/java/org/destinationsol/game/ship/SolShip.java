@@ -346,10 +346,6 @@ public class SolShip implements SolObject {
     }
 
     private void throwAllLoot(SolGame game) {
-        if (myPilot.isPlayer()) {
-            game.beforeHeroDeath();
-        }
-
         for (List<SolItem> group : myItemContainer) {
             for (SolItem item : group) {
                 float dropChance = maybeUnequip(game, item, false) ? .35f : .6f;
@@ -432,7 +428,6 @@ public class SolShip implements SolObject {
     
     /** 
      * Method to be called on the death of a SolShip
-     * Note: Use {@link SolGame#beforeHeroDeath()} for the death of the player specifically
      * @param game The SolGame currently in progress.
      */
     private void onDeath(SolGame game) {

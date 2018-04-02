@@ -102,7 +102,7 @@ public class ObjectManager {
             if (o.shouldBeRemoved(game)) {
                 removeObjDelayed(o);
                 if (hero.isAlive() && hero.isNonTranscendent() && o == hero.getShip()) {
-                    hero.die();
+                    hero.die(game);
                 }
                 continue;
             }

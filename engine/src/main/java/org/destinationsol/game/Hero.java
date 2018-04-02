@@ -17,16 +17,22 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolException;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
+import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.SolItem;
+import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.item.TradeContainer;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A wrapper class for the Hero, that handles the normal and transcendent ships transparently.
@@ -35,8 +41,10 @@ public class Hero {
     private SolShip shipHero;
     private StarPort.Transcendent transcendentHero;
     private FarShip transcendentHeroShip;
+    private final List<SolItem> respawnItems = new ArrayList<>();
     private boolean isTranscendent;
     private boolean isDead;
+    private float respawnMoney;
 
     public Hero(SolShip shipHero) {
         this.shipHero = shipHero;
@@ -165,8 +173,33 @@ public class Hero {
         return isTranscendent ? transcendentHeroShip.getIc() : shipHero.getItemContainer();
     }
 
-    public void die() {
+    public void die(SolGame game) {
+        if (isDead) {
+            return;
+        }
         isDead = true;
+        float money = getMoney();
+        ItemContainer itemContainer = getItemContainer();
+
+        setRespawnState(money, itemContainer, game);
+
+        setMoney(money - respawnMoney);
+        for (SolItem item : respawnItems) {
+            itemContainer.remove(item);
+        }
+    }
+
+    private void setRespawnState(float money, ItemContainer ic, SolGame game) {
+        respawnMoney = .75f * money;
+        respawnItems.clear();
+        for (List<SolItem> group : ic) {
+            for (SolItem item : group) {
+                boolean equipped = isTranscendent() || maybeUnequip(game, item, false);
+                if (equipped || SolRandom.test(.75f)) {
+                    respawnItems.add(0, item);
+                }
+            }
+        }
     }
 
     public boolean maybeEquip(SolGame game, SolItem item, boolean equip) {
@@ -201,5 +234,31 @@ public class Hero {
 
     public boolean isAlive() {
         return !isDead;
+    }
+
+    public void respawn(SolGame game) {
+        setSolShip(game.getShipBuilder().buildNewFar(
+                game, new Vector2(game.getGalaxyFiller().getPlayerSpawnPos(game)), null, 0, 0, getPilot(), "",
+                shipHero.getHull().getHullConfig(), null, true, respawnMoney, new TradeConfig(), false
+        ).toObject(game));
+
+        game.getCam().setPos(game.getGalaxyFiller().getPlayerSpawnPos(game));
+
+        ItemContainer itemContainer = shipHero.getItemContainer();
+        for (SolItem item : respawnItems) {
+            itemContainer.add(item);
+            // Ensure that previously equipped items stay equipped
+            if (item.isEquipped() > 0) {
+                if (item instanceof Gun) {
+                    maybeEquip(game, item, item.isEquipped() == 2, true);
+                } else {
+                    maybeEquip(game, item, true);
+                }
+            }
+        }
+        itemContainer.markAllAsSeen();
+
+        game.getObjectManager().addObjDelayed(getShip());
+        game.getObjectManager().resetDelays();
     }
 }
