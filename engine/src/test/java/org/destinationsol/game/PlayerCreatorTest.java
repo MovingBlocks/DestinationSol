@@ -87,7 +87,7 @@ public class PlayerCreatorTest {
     @Test
     public void testSpawnOnGalaxySpawnPositionSetsShipPosition() {
         playerCreator.createPlayer(shipConfig, true, respawnState, solGame, false, false);
-        verify(shipBuilder).buildNewFar(any(), eq(galaxySpawnPosition), any(), anyFloat(), anyFloat(), any(), any(), any(), any(), anyBoolean(), anyFloat(), any(), anyBoolean());
+        verifyBuildNewFar(shipConfiguration().withPosition(galaxySpawnPosition));
     }
 
     @Test
@@ -99,7 +99,7 @@ public class PlayerCreatorTest {
     @Test
     public void testSpawnOnShipConfigSpawnPositionSetsShipPosition() {
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
-        verify(shipBuilder).buildNewFar(any(), eq(shipConfigSpawnPosition), any(), anyFloat(), anyFloat(), any(), any(), any(), any(), anyBoolean(), anyFloat(), any(), anyBoolean());
+        verifyBuildNewFar(shipConfiguration().withPosition(shipConfigSpawnPosition));
     }
 
     @Test
@@ -225,7 +225,7 @@ public class PlayerCreatorTest {
 
     private void verifyBuildNewFar(FarShipBuildConfiguration verification) {
         verify(shipBuilder).buildNewFar(any(),
-                any(),
+                verification.position(),
                 any(),
                 anyFloat(),
                 anyFloat(),
@@ -240,11 +240,17 @@ public class PlayerCreatorTest {
     }
 
     private static class FarShipBuildConfiguration {
+        Vector2 position;
         Float money;
         Class<? extends Pilot> pilotClazz;
         HullConfig hullConfig;
         String items;
         Boolean giveAmmo;
+
+        FarShipBuildConfiguration withPosition(Vector2 position) {
+            this.position = position;
+            return this;
+        }
 
         FarShipBuildConfiguration withMoney(float money) {
             this.money = money;
@@ -269,6 +275,10 @@ public class PlayerCreatorTest {
         FarShipBuildConfiguration withGiveAmmo(boolean giveAmmo) {
             this.giveAmmo = giveAmmo;
             return this;
+        }
+
+        Vector2 position() {
+            return position == null ? any() : eq(position);
         }
 
         float money() {
