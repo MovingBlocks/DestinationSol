@@ -205,7 +205,7 @@ public class SolGame {
         String itemsStr = !respawnItems.isEmpty() ? "" : shipConfig.items;
 
         boolean giveAmmo = shipName != null && respawnItems.isEmpty();
-        hero = new Hero(shipBuilder.buildNewFar(game, new Vector2(position), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObject(game));
+        hero = new Hero(game.getShipBuilder().buildNewFar(game, new Vector2(position), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObject(game));
 
         ItemContainer itemContainer = hero.getItemContainer();
         if (!respawnItems.isEmpty()) {
