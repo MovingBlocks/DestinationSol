@@ -176,9 +176,6 @@ public class SolGame {
     // uh, this needs refactoring
     private Hero createPlayer(ShipConfig shipConfig, boolean isNewGame, RespawnState respawnState, SolGame game, boolean isMouseControl) {
 
-        // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
-        assert shipConfig != null;
-
         if (!respawnState.isPlayerRespawned()) {
             game.getGalaxyFiller().fill(game, game.getHullConfigs(), game.getItemMan());
         }
