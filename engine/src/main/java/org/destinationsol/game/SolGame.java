@@ -167,13 +167,13 @@ public class SolGame {
         assert shipConfig != null;
 
         if (!isPlayerRespawned) {
-            galaxyFiller.fill(this, game.getHullConfigs(), game.getItemMan());
+            game.getGalaxyFiller().fill(this, game.getHullConfigs(), game.getItemMan());
         }
 
         // If we continue a game, we should spawn from the same position
         Vector2 position;
         if (isNewGame) {
-            position = galaxyFiller.getPlayerSpawnPos(this);
+            position = game.getGalaxyFiller().getPlayerSpawnPos(this);
         } else {
             position = shipConfig.spawnPos;
         }
