@@ -239,12 +239,13 @@ public class PlayerCreatorTest {
     }
 
     @Test
-    public void testReEquipRespawnItems() {
+    public void testReEquipRespawnItemsSeen() {
         SolItem item = mock(SolItem.class);
         when(item.isEquipped()).thenReturn(1);
         respawnState.getRespawnItems().add(item);
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
         verify(solShip).maybeEquip(any(), eq(item), eq(true));
+        assertThat(shipItemContainer.hasNew()).isFalse();
     }
 
     @Test
@@ -266,12 +267,13 @@ public class PlayerCreatorTest {
     }
 
     @Test
-    public void testTutorialModeAddsItemsIfRespawnItemsAreEmpty() {
+    public void testTutorialModeAddsSeenItemsIfRespawnItemsAreEmpty() {
         respawnState.getRespawnItems().clear();
         when(solGame.getTutMan()).thenReturn(mock(TutorialManager.class));
         int groupCountBefore = shipItemContainer.groupCount();
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
         assertThat(shipItemContainer.groupCount()).isGreaterThan(groupCountBefore);
+        assertThat(shipItemContainer.hasNew()).isFalse();
     }
 
     private void verifyBuildNewFar(FarShipBuildConfiguration verification) {
