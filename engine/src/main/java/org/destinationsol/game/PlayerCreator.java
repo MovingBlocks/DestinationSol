@@ -47,7 +47,7 @@ class PlayerCreator {
 
         String items = findItems(shipConfig, respawnState);
 
-        boolean giveAmmo = isNewShip && respawnState.getRespawnItems().isEmpty();
+        boolean giveAmmo = shouldGiveAmmo(respawnState, isNewShip);
         Hero hero = new Hero(game.getShipBuilder().buildNewFar(game, new Vector2(position), null, 0, 0, pilot, items, hull, null, true, money, new TradeConfig(), giveAmmo).toObject(game));
         ItemContainer itemContainer = hero.getItemContainer();
         if (!respawnState.getRespawnItems().isEmpty()) {
@@ -81,6 +81,10 @@ class PlayerCreator {
         game.getObjectManager().addObjDelayed(hero.getShip());
         game.getObjectManager().resetDelays();
         return hero;
+    }
+
+    private boolean shouldGiveAmmo(RespawnState respawnState, boolean isNewShip) {
+        return isNewShip && respawnState.getRespawnItems().isEmpty();
     }
 
     private String findItems(ShipConfig shipConfig, RespawnState respawnState) {
