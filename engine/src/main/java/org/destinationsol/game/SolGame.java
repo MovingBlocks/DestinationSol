@@ -292,7 +292,7 @@ public class SolGame {
 
         HullConfig hull;
         float money;
-        ArrayList<SolItem> items;
+        List<SolItem> items;
 
         if (hero.isAlive()) {
             hull = hero.isTranscendent() ? hero.getTranscendentHero().getShip().getHullConfig() : hero.getHull().config;
@@ -306,7 +306,7 @@ public class SolGame {
         } else {
             hull = respawnHull;
             money = respawnMoney;
-            items = new ArrayList<>(respawnState.getRespawnItems());
+            items = respawnState.getRespawnItems();
         }
 
         SaveManager.writeShips(hull, money, items, this);
