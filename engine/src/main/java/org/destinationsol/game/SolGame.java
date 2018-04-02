@@ -152,7 +152,7 @@ public class SolGame {
 
         // from this point we're ready!
         planetManager.fill(solNames);
-        createPlayer(shipName, isNewGame);
+        createPlayer(shipName, isNewGame, this);
         if (!isNewGame) {
             createAndSpawnMercenariesFromSave();
         }
@@ -160,14 +160,14 @@ public class SolGame {
     }
 
     // uh, this needs refactoring
-    private void createPlayer(String shipName, boolean isNewGame) {
-        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(hullConfigManager, itemManager, this) : ShipConfig.load(hullConfigManager, shipName, itemManager, this);
+    private void createPlayer(String shipName, boolean isNewGame, SolGame game) {
+        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(game.getHullConfigs(), itemManager, this) : ShipConfig.load(game.getHullConfigs(), shipName, itemManager, this);
 
         // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
         assert shipConfig != null;
 
         if (!isPlayerRespawned) {
-            galaxyFiller.fill(this, hullConfigManager, itemManager);
+            galaxyFiller.fill(this, game.getHullConfigs(), itemManager);
         }
 
         // If we continue a game, we should spawn from the same position
@@ -430,7 +430,7 @@ public class SolGame {
             }
         }
         // TODO: Consider whether we want to treat respawn as a newGame or not.
-        createPlayer(null, true);
+        createPlayer(null, true, this);
     }
 
     public FactionManager getFactionMan() {
