@@ -152,15 +152,16 @@ public class SolGame {
 
         // from this point we're ready!
         planetManager.fill(solNames);
-        createGame(shipName, isNewGame);
+        createGame(shipName, isNewGame, this);
         if (!isNewGame) {
             createAndSpawnMercenariesFromSave();
         }
         SolMath.checkVectorsTaken(null);
     }
 
-    private void createGame(String shipName, boolean isNewGame) {
-        hero = createPlayer(shipName,
+    private void createGame(String shipName, boolean isNewGame, SolGame game) {
+        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(game.getHullConfigs(), game.getItemMan(), game) : ShipConfig.load(game.getHullConfigs(), shipName, game.getItemMan(), game);
+        hero = createPlayer(shipConfig,
                 isNewGame,
                 isPlayerRespawned,
                 this,
@@ -171,8 +172,7 @@ public class SolGame {
     }
 
     // uh, this needs refactoring
-    private Hero createPlayer(String shipName, boolean isNewGame, boolean isPlayerRespawned, SolGame game, boolean isMouseControl, float respawnMoney, HullConfig respawnHull, List<SolItem> respawnItems) {
-        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(game.getHullConfigs(), game.getItemMan(), game) : ShipConfig.load(game.getHullConfigs(), shipName, game.getItemMan(), game);
+    private Hero createPlayer(ShipConfig shipConfig, boolean isNewGame, boolean isPlayerRespawned, SolGame game, boolean isMouseControl, float respawnMoney, HullConfig respawnHull, List<SolItem> respawnItems) {
 
         // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
         assert shipConfig != null;
@@ -441,7 +441,7 @@ public class SolGame {
             }
         }
         // TODO: Consider whether we want to treat respawn as a newGame or not.
-        createGame(null, true);
+        createGame(null, true, this);
     }
 
     public FactionManager getFactionMan() {
