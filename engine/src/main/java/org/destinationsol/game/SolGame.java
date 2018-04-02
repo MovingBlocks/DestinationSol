@@ -235,8 +235,8 @@ public class SolGame {
         // Don't change equipped items across load/respawn
         //AiPilot.reEquip(this, myHero);
 
-        objectManager.addObjDelayed(hero.getShip());
-        objectManager.resetDelays();
+        game.getObjectManager().addObjDelayed(hero.getShip());
+        game.getObjectManager().resetDelays();
         return hero;
     }
 
