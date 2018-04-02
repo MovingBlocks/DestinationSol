@@ -26,6 +26,7 @@ public class RespawnState {
     private boolean isPlayerRespawned;
     private final List<SolItem> respawnItems = new ArrayList<>();
     private HullConfig respawnHull;
+    private float respawnMoney;
 
 
     public boolean isPlayerRespawned() {
@@ -46,5 +47,13 @@ public class RespawnState {
 
     public void setRespawnHull(HullConfig respawnHull) {
         this.respawnHull = respawnHull;
+    }
+
+    public float getRespawnMoney() {
+        return respawnMoney;
+    }
+
+    public void setRespawnMoney(float respawnMoney) {
+        this.respawnMoney = respawnMoney;
     }
 }
