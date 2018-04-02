@@ -89,13 +89,16 @@ class PlayerCreator {
     private void addAndEquipRespawnItems(Hero hero, RespawnState respawnState, ItemContainer itemContainer, SolGame game) {
         for (SolItem item : respawnState.getRespawnItems()) {
             itemContainer.add(item);
-            // Ensure that previously equipped items stay equipped
-            if (item.isEquipped() > 0) {
-                if (item instanceof Gun) {
-                    hero.maybeEquip(game, item, item.isEquipped() == 2, true);
-                } else {
-                    hero.maybeEquip(game, item, true);
-                }
+            ensurePreviouslyEquippedItemStaysEquipped(item, hero, game);
+        }
+    }
+
+    private void ensurePreviouslyEquippedItemStaysEquipped(SolItem item, Hero hero, SolGame game) {
+        if (item.isEquipped() > 0) {
+            if (item instanceof Gun) {
+                hero.maybeEquip(game, item, item.isEquipped() == 2, true);
+            } else {
+                hero.maybeEquip(game, item, true);
             }
         }
     }
