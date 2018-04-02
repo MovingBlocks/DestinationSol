@@ -198,7 +198,7 @@ public class SolGame {
             pilot = new UiControlledPilot(game.getScreens().mainScreen);
         }
 
-        float money = respawnMoney != 0 ? respawnMoney : tutorialManager != null ? 200 : shipConfig.money;
+        float money = respawnMoney != 0 ? respawnMoney : game.getTutMan() != null ? 200 : shipConfig.money;
 
         HullConfig hull = respawnHull != null ? respawnHull : shipConfig.hull;
 
@@ -220,7 +220,7 @@ public class SolGame {
                     }
                 }
             }
-        } else if (tutorialManager != null) {
+        } else if (game.getTutMan() != null) {
             for (int i = 0; i < 50; i++) {
                 if (itemContainer.groupCount() > 1.5f * Const.ITEM_GROUPS_PER_PAGE) {
                     break;
