@@ -265,6 +265,15 @@ public class PlayerCreatorTest {
         verify(solShip).maybeEquip(any(), eq(gun), eq(true),eq(true));
     }
 
+    @Test
+    public void testTutorialModeAddsItemsIfRespawnItemsAreEmpty() {
+        respawnState.getRespawnItems().clear();
+        when(solGame.getTutMan()).thenReturn(mock(TutorialManager.class));
+        int groupCountBefore = shipItemContainer.groupCount();
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        assertThat(shipItemContainer.groupCount()).isGreaterThan(groupCountBefore);
+    }
+
     private void verifyBuildNewFar(FarShipBuildConfiguration verification) {
         verify(shipBuilder).buildNewFar(any(),
                 verification.position(),
