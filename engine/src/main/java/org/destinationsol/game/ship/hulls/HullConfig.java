@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Immutable
-public final class HullConfig {
+public class HullConfig {
     private final Data data;
 
     public HullConfig(Data configData) {
