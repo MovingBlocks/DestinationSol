@@ -276,6 +276,12 @@ public class PlayerCreatorTest {
         assertThat(shipItemContainer.hasNew()).isFalse();
     }
 
+    @Test
+    public void testAddShipDelayed() {
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        verify(solGame.getObjectManager()).addObjDelayed(solShip);
+    }
+
     private void verifyBuildNewFar(FarShipBuildConfiguration verification) {
         verify(shipBuilder).buildNewFar(any(),
                 verification.position(),
