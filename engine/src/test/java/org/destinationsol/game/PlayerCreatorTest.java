@@ -72,16 +72,30 @@ public class PlayerCreatorTest {
     }
 
     @Test
-    public void testSpawnOnGalaxySpawnPosition() {
+    public void testSpawnOnGalaxySpawnPositionSetsShipPosition() {
         when(solGame.getTutMan()).thenReturn(null);
         playerCreator.createPlayer(shipConfig, true, respawnState, solGame, false, false);
         verify(shipBuilder).buildNewFar(any(), eq(galaxySpawnPosition), any(), anyFloat(), anyFloat(), any(), any(), any(), any(), anyBoolean(), anyFloat(), any(), anyBoolean());
     }
 
     @Test
-    public void testSpawnOnShipConfigSpawnPosition() {
+    public void testSpawnOnGalaxySpawnPositionSetsCameraPosition() {
+        when(solGame.getTutMan()).thenReturn(null);
+        playerCreator.createPlayer(shipConfig, true, respawnState, solGame, false, false);
+        verify(solGame.getCam()).setPos(eq(galaxySpawnPosition));
+    }
+
+    @Test
+    public void testSpawnOnShipConfigSpawnPositionSetsShipPosition() {
         when(solGame.getTutMan()).thenReturn(null);
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
         verify(shipBuilder).buildNewFar(any(), eq(shipConfigSpawnPosition), any(), anyFloat(), anyFloat(), any(), any(), any(), any(), anyBoolean(), anyFloat(), any(), anyBoolean());
+    }
+
+    @Test
+    public void testSpawnOnShipConfigSpawnPositionSetsCameraPosition() {
+        when(solGame.getTutMan()).thenReturn(null);
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        verify(solGame.getCam()).setPos(eq(shipConfigSpawnPosition));
     }
 }
