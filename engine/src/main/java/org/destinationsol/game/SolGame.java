@@ -177,7 +177,7 @@ public class SolGame {
         } else {
             position = shipConfig.spawnPos;
         }
-        camera.setPos(position);
+        game.getCam().setPos(position);
 
         Pilot pilot;
         if (solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE) {
