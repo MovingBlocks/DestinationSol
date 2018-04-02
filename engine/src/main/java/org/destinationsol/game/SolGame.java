@@ -160,7 +160,7 @@ public class SolGame {
     }
 
     private void createGame(String shipName, boolean isNewGame) {
-        createPlayer(shipName,
+        hero = createPlayer(shipName,
                 isNewGame,
                 isPlayerRespawned,
                 this,
@@ -171,7 +171,7 @@ public class SolGame {
     }
 
     // uh, this needs refactoring
-    private void createPlayer(String shipName, boolean isNewGame, boolean isPlayerRespawned, SolGame game, boolean isMouseControl, float respawnMoney, HullConfig respawnHull, List<SolItem> respawnItems) {
+    private Hero createPlayer(String shipName, boolean isNewGame, boolean isPlayerRespawned, SolGame game, boolean isMouseControl, float respawnMoney, HullConfig respawnHull, List<SolItem> respawnItems) {
         ShipConfig shipConfig = shipName == null ? SaveManager.readShip(game.getHullConfigs(), game.getItemMan(), game) : ShipConfig.load(game.getHullConfigs(), shipName, game.getItemMan(), game);
 
         // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
@@ -205,8 +205,7 @@ public class SolGame {
         String itemsStr = !respawnItems.isEmpty() ? "" : shipConfig.items;
 
         boolean giveAmmo = shipName != null && respawnItems.isEmpty();
-        hero = new Hero(game.getShipBuilder().buildNewFar(game, new Vector2(position), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObject(game));
-
+        Hero hero = new Hero(game.getShipBuilder().buildNewFar(game, new Vector2(position), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObject(game));
         ItemContainer itemContainer = hero.getItemContainer();
         if (!respawnItems.isEmpty()) {
             for (SolItem item : respawnItems) {
@@ -238,6 +237,7 @@ public class SolGame {
 
         objectManager.addObjDelayed(hero.getShip());
         objectManager.resetDelays();
+        return hero;
     }
 
     private void createAndSpawnMercenariesFromSave() {
