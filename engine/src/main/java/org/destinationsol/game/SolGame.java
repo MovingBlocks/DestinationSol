@@ -238,6 +238,10 @@ public class SolGame {
     }
 
     public void onGameEnd() {
+        // If the hero tries to exit while dead, respawn them first, then save
+        if(hero.isDead()) {
+            respawn();
+        }
         saveShip();
         saveWorld();
         objectManager.dispose();
