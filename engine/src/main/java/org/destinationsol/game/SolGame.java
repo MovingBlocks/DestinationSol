@@ -161,19 +161,19 @@ public class SolGame {
 
     // uh, this needs refactoring
     private void createPlayer(String shipName, boolean isNewGame, boolean isPlayerRespawned, SolGame game) {
-        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(game.getHullConfigs(), game.getItemMan(), this) : ShipConfig.load(game.getHullConfigs(), shipName, itemManager, this);
+        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(game.getHullConfigs(), game.getItemMan(), game) : ShipConfig.load(game.getHullConfigs(), shipName, itemManager, game);
 
         // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
         assert shipConfig != null;
 
         if (!isPlayerRespawned) {
-            game.getGalaxyFiller().fill(this, game.getHullConfigs(), game.getItemMan());
+            game.getGalaxyFiller().fill(game, game.getHullConfigs(), game.getItemMan());
         }
 
         // If we continue a game, we should spawn from the same position
         Vector2 position;
         if (isNewGame) {
-            position = game.getGalaxyFiller().getPlayerSpawnPos(this);
+            position = game.getGalaxyFiller().getPlayerSpawnPos(game);
         } else {
             position = shipConfig.spawnPos;
         }
@@ -181,7 +181,7 @@ public class SolGame {
 
         Pilot pilot;
         if (solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE) {
-            beaconHandler.init(this, position);
+            beaconHandler.init(game, position);
             pilot = new AiPilot(new BeaconDestProvider(), true, Faction.LAANI, false, "you", Const.AI_DET_DIST);
         } else {
             pilot = new UiControlledPilot(gameScreens.mainScreen);
@@ -194,7 +194,7 @@ public class SolGame {
         String itemsStr = !respawnItems.isEmpty() ? "" : shipConfig.items;
 
         boolean giveAmmo = shipName != null && respawnItems.isEmpty();
-        hero = new Hero(shipBuilder.buildNewFar(this, new Vector2(position), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObject(this));
+        hero = new Hero(shipBuilder.buildNewFar(game, new Vector2(position), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObject(game));
 
         ItemContainer itemContainer = hero.getItemContainer();
         if (!respawnItems.isEmpty()) {
@@ -203,9 +203,9 @@ public class SolGame {
                 // Ensure that previously equipped items stay equipped
                 if (item.isEquipped() > 0) {
                     if (item instanceof Gun) {
-                        hero.maybeEquip(this, item, item.isEquipped() == 2, true);
+                        hero.maybeEquip(game, item, item.isEquipped() == 2, true);
                     } else {
-                        hero.maybeEquip(this, item, true);
+                        hero.maybeEquip(game, item, true);
                     }
                 }
             }
@@ -215,7 +215,7 @@ public class SolGame {
                     break;
                 }
                 SolItem it = game.getItemMan().random();
-                if (!(it instanceof Gun) && it.getIcon(this) != null && itemContainer.canAdd(it)) {
+                if (!(it instanceof Gun) && it.getIcon(game) != null && itemContainer.canAdd(it)) {
                     itemContainer.add(it.copy());
                 }
             }
