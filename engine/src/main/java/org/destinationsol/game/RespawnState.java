@@ -16,6 +16,7 @@
 package org.destinationsol.game;
 
 import org.destinationsol.game.item.SolItem;
+import org.destinationsol.game.ship.hulls.HullConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class RespawnState {
 
     private boolean isPlayerRespawned;
     private final List<SolItem> respawnItems = new ArrayList<>();
+    private HullConfig respawnHull;
 
 
     public boolean isPlayerRespawned() {
@@ -36,5 +38,13 @@ public class RespawnState {
 
     public List<SolItem> getRespawnItems() {
         return respawnItems;
+    }
+
+    public HullConfig getRespawnHull() {
+        return respawnHull;
+    }
+
+    public void setRespawnHull(HullConfig respawnHull) {
+        this.respawnHull = respawnHull;
     }
 }
