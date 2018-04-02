@@ -16,6 +16,8 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.game.input.AiPilot;
+import org.destinationsol.game.input.UiControlledPilot;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ShipBuilder;
@@ -113,5 +115,17 @@ public class PlayerCreatorTest {
     public void testSpawnOnShipConfigSpawnPositionInitsBeaconHandlerOnMouseControl() {
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, true, false);
         verify(solGame.getBeaconHandler()).init(any(), eq(shipConfigSpawnPosition));
+    }
+
+    @Test
+    public void testMouseControlCreatesAiPilot() {
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, true, false);
+        verify(shipBuilder).buildNewFar(any(), any(), any(), anyFloat(), anyFloat(), any(AiPilot.class), any(), any(), any(), anyBoolean(), anyFloat(), any(), anyBoolean());
+    }
+
+    @Test
+    public void testNoMouseControlCreatesUiControlledPilot() {
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        verify(shipBuilder).buildNewFar(any(), any(), any(), anyFloat(), anyFloat(), any(UiControlledPilot.class), any(), any(), any(), anyBoolean(), anyFloat(), any(), anyBoolean());
     }
 }
