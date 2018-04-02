@@ -38,30 +38,25 @@ class PlayerCreator {
     private static final float MAX_NUMBER_OF_TUTORIAL_ITEM_GROUPS = 1.5f * Const.ITEM_GROUPS_PER_PAGE;
 
     Hero createPlayer(ShipConfig shipConfig, boolean shouldSpawnOnGalaxySpawnPosition, RespawnState respawnState, SolGame game, boolean isMouseControl, boolean isNewShip) {
-        // If we continue a game, we should spawn from the same position
         Vector2 position = findPlayerSpawnPosition(shipConfig, shouldSpawnOnGalaxySpawnPosition, game);
         game.getCam().setPos(position);
-
         if (isMouseControl) {
             game.getBeaconHandler().init(game, position);
         }
+        Hero hero = configureAndCreateHero(shipConfig, respawnState, game, isMouseControl, isNewShip, position);
+        game.getObjectManager().addObjDelayed(hero.getShip());
+        game.getObjectManager().resetDelays();
+        return hero;
+    }
+
+    private Hero configureAndCreateHero(ShipConfig shipConfig, RespawnState respawnState, SolGame game, boolean isMouseControl, boolean isNewShip, Vector2 position) {
         Pilot pilot = createPilot(game, isMouseControl);
-
         float money = grantPlayerMoney(shipConfig, respawnState, game);
-
         HullConfig hull = findHullConfig(shipConfig, respawnState);
-
         String items = findItems(shipConfig, respawnState);
-
         boolean giveAmmo = shouldGiveAmmo(respawnState, isNewShip);
         Hero hero = createHero(position, pilot, money, hull, items, giveAmmo, game);
         addAndEquipItems(hero, respawnState, game);
-
-        // Don't change equipped items across load/respawn
-        //AiPilot.reEquip(this, myHero);
-
-        game.getObjectManager().addObjDelayed(hero.getShip());
-        game.getObjectManager().resetDelays();
         return hero;
     }
 
