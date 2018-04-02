@@ -156,7 +156,7 @@ public class SolGame {
         SolMath.checkVectorsTaken(null);
     }
 
-    private void createGame(String shipName, boolean isNewGame, SolGame game) {
+    private void createGame(String shipName, boolean shouldSpawnOnGalaxySpawnPosition, SolGame game) {
         /*
          * shipName will be null on respawn and continue, meaning the old ship will be loaded.
          * If shipName is not null then a new ship has to be created.
@@ -167,7 +167,7 @@ public class SolGame {
             game.getGalaxyFiller().fill(game, game.getHullConfigs(), game.getItemMan());
         }
         hero = createPlayer(shipConfig,
-                isNewGame,
+                shouldSpawnOnGalaxySpawnPosition,
                 respawnState,
                 this,
                 solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE,
@@ -183,10 +183,10 @@ public class SolGame {
     }
 
     // uh, this needs refactoring
-    private Hero createPlayer(ShipConfig shipConfig, boolean isNewGame, RespawnState respawnState, SolGame game, boolean isMouseControl, boolean isNewShip) {
+    private Hero createPlayer(ShipConfig shipConfig, boolean shouldSpawnOnGalaxySpawnPosition, RespawnState respawnState, SolGame game, boolean isMouseControl, boolean isNewShip) {
         // If we continue a game, we should spawn from the same position
         Vector2 position;
-        if (isNewGame) {
+        if (shouldSpawnOnGalaxySpawnPosition) {
             position = game.getGalaxyFiller().getPlayerSpawnPos(game);
         } else {
             position = shipConfig.spawnPos;
@@ -443,7 +443,6 @@ public class SolGame {
                 objectManager.removeObjDelayed(hero.getTranscendentHero());
             }
         }
-        // TODO: Consider whether we want to treat respawn as a newGame or not.
         createGame(null, true, this);
     }
 
