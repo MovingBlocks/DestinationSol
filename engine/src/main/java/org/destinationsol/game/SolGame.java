@@ -157,7 +157,12 @@ public class SolGame {
     }
 
     private void createGame(String shipName, boolean isNewGame, SolGame game) {
-        ShipConfig shipConfig = readShipFromConfigOrLoadFromSaveIfNull(shipName, game);
+        /*
+         * shipName will be null on respawn and continue, meaning the old ship will be loaded.
+         * If shipName is not null then a new ship has to be created.
+         */
+        boolean isNewShip = shipName != null;
+        ShipConfig shipConfig = readShipFromConfigOrLoadFromSaveIfNull(shipName, game, isNewShip);
         if (!respawnState.isPlayerRespawned()) {
             game.getGalaxyFiller().fill(game, game.getHullConfigs(), game.getItemMan());
         }
@@ -165,11 +170,12 @@ public class SolGame {
                 isNewGame,
                 respawnState,
                 this,
-                solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE);
+                solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE,
+                isNewShip);
     }
 
-    private ShipConfig readShipFromConfigOrLoadFromSaveIfNull(String shipName, SolGame game) {
-        if (shipName != null) {
+    private ShipConfig readShipFromConfigOrLoadFromSaveIfNull(String shipName, SolGame game, boolean isNewShip) {
+        if (isNewShip) {
             return ShipConfig.load(game.getHullConfigs(), shipName, game.getItemMan(), game);
         } else {
             return SaveManager.readShip(game.getHullConfigs(), game.getItemMan(), game);
@@ -177,7 +183,7 @@ public class SolGame {
     }
 
     // uh, this needs refactoring
-    private Hero createPlayer(ShipConfig shipConfig, boolean isNewGame, RespawnState respawnState, SolGame game, boolean isMouseControl) {
+    private Hero createPlayer(ShipConfig shipConfig, boolean isNewGame, RespawnState respawnState, SolGame game, boolean isMouseControl, boolean isNewShip) {
         // If we continue a game, we should spawn from the same position
         Vector2 position;
         if (isNewGame) {
@@ -201,7 +207,7 @@ public class SolGame {
 
         String itemsStr = !respawnState.getRespawnItems().isEmpty() ? "" : shipConfig.items;
 
-        boolean giveAmmo = shipName != null && respawnState.getRespawnItems().isEmpty();
+        boolean giveAmmo = isNewShip && respawnState.getRespawnItems().isEmpty();
         Hero hero = new Hero(game.getShipBuilder().buildNewFar(game, new Vector2(position), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObject(game));
         ItemContainer itemContainer = hero.getItemContainer();
         if (!respawnState.getRespawnItems().isEmpty()) {
