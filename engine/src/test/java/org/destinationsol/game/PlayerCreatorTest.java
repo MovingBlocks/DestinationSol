@@ -33,6 +33,7 @@ import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyFloat;
@@ -214,6 +215,12 @@ public class PlayerCreatorTest {
         respawnState.getRespawnItems().clear();
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
         verifyBuildNewFar(shipConfiguration().withGiveAmmo(false));
+    }
+
+    @Test
+    public void testShipIsUsedToCreateHero() {
+        Hero hero = playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        assertThat(hero.getShip()).isSameAs(solShip);
     }
 
     private void verifyBuildNewFar(FarShipBuildConfiguration verification) {
