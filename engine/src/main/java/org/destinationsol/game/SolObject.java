@@ -54,9 +54,7 @@ public interface SolObject {
      * @param game Game this object belongs to.
      * @return Boolean denoting whether the object should be removed.
      */
-    default boolean shouldBeRemoved(SolGame game) {
-        return false;
-    }
+     boolean shouldBeRemoved(SolGame game);
 
     /**
      * Called whenever an object is due to be removed from game.
@@ -84,17 +82,14 @@ public interface SolObject {
      * @param position Position the object was hit at, if hit by point-based damage. Null if not applicable, such as fire.
      * @param dmgType  Type of the damage object receives.
      */
-    default void receiveDmg(float dmg, SolGame game, @Nullable Vector2 position, DmgType dmgType) {
-    }
+    void receiveDmg(float dmg, SolGame game, @Nullable Vector2 position, DmgType dmgType);
 
     /**
      * Denotes whether this object is affected by gravity, this is usually constant.
      *
      * @return True if object is affected by gravity, false otherwise.
      */
-    default boolean receivesGravity() {
-        return true;
-    }
+    boolean receivesGravity();
 
     /**
      * Applies external force to object.
@@ -127,9 +122,7 @@ public interface SolObject {
      *
      * @return FarObject representation of this object, or null if object is to be removed.
      */
-    default FarObject toFarObject() {
-        return null;
-    }
+    FarObject toFarObject();
 
     /**
      * Returns list of all {@link Drawable Drawables} this object has assigned.
@@ -169,8 +162,7 @@ public interface SolObject {
      * @param game       Game this object belongs to.
      * @param collPos    Position where the two objects touch.
      */
-    default void handleContact(SolObject other, float absImpulse, SolGame game, Vector2 collPos) {
-    }
+    void handleContact(SolObject other, float absImpulse, SolGame game, Vector2 collPos);
 
     /**
      * Used for retrieval of object's debug string.
@@ -192,9 +184,7 @@ public interface SolObject {
      * @return Whether this object is made from metal.
      */
     //TODO allow for more complex collision sounds. Or even better, completely rework the material system.
-    default Boolean isMetal() {
-        return null;
-    }
+    Boolean isMetal();
 
     /**
      * Denotes whether this object has a {@link Body} associated with it.
@@ -203,7 +193,5 @@ public interface SolObject {
      *
      * @return True if this object has {@code Body} associated, false otherwise.
      */
-    default boolean hasBody() {
-        return true;
-    }
+    boolean hasBody();
 }
