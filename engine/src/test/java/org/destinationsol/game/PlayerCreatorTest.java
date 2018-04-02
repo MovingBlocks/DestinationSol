@@ -22,6 +22,7 @@ import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SolShip;
+import org.destinationsol.ui.TutorialManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,6 +34,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -40,6 +42,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class PlayerCreatorTest {
 
+    public static final float TUTORIAL_MONEY = 200f;
     private PlayerCreator playerCreator;
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -144,5 +147,13 @@ public class PlayerCreatorTest {
         respawnState.setRespawnMoney(0);
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
         verify(shipBuilder).buildNewFar(any(), any(), any(), anyFloat(), anyFloat(), any(), any(), any(), any(), anyBoolean(), eq((float) shipConfigMoney), any(), anyBoolean());
+    }
+
+    @Test
+    public void testUseTutorialMoneyIfNoRespawnMoneyAndTutorialActive() {
+        when(solGame.getTutMan()).thenReturn(mock(TutorialManager.class));
+        respawnState.setRespawnMoney(0);
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        verify(shipBuilder).buildNewFar(any(), any(), any(), anyFloat(), anyFloat(), any(), any(), any(), any(), anyBoolean(), eq(TUTORIAL_MONEY), any(), anyBoolean());
     }
 }
