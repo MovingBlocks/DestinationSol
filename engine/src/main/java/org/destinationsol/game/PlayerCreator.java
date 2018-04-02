@@ -34,6 +34,8 @@ class PlayerCreator {
     private static final int SHIP_SPAWN_ANGLE = 0;
     private static final int SHIP_SPAWN_ROTATION_SPEED = 0;
     private static final boolean SHIP_SPAWN_HAS_REPAIRER = true;
+    private static final int NUMBER_OF_TUTORIAL_ITEM_ADD_ATTEMPTS = 50;
+    private static final float MAX_NUMBER_OF_TUTORIAL_ITEM_GROUPS = 1.5f * Const.ITEM_GROUPS_PER_PAGE;
 
     Hero createPlayer(ShipConfig shipConfig, boolean shouldSpawnOnGalaxySpawnPosition, RespawnState respawnState, SolGame game, boolean isMouseControl, boolean isNewShip) {
         // If we continue a game, we should spawn from the same position
@@ -53,31 +55,7 @@ class PlayerCreator {
 
         boolean giveAmmo = shouldGiveAmmo(respawnState, isNewShip);
         Hero hero = createHero(position, pilot, money, hull, items, giveAmmo, game);
-        ItemContainer itemContainer = hero.getItemContainer();
-        if (!respawnState.getRespawnItems().isEmpty()) {
-            for (SolItem item : respawnState.getRespawnItems()) {
-                itemContainer.add(item);
-                // Ensure that previously equipped items stay equipped
-                if (item.isEquipped() > 0) {
-                    if (item instanceof Gun) {
-                        hero.maybeEquip(game, item, item.isEquipped() == 2, true);
-                    } else {
-                        hero.maybeEquip(game, item, true);
-                    }
-                }
-            }
-        } else if (game.getTutMan() != null) {
-            for (int i = 0; i < 50; i++) {
-                if (itemContainer.groupCount() > 1.5f * Const.ITEM_GROUPS_PER_PAGE) {
-                    break;
-                }
-                SolItem it = game.getItemMan().random();
-                if (!(it instanceof Gun) && it.getIcon(game) != null && itemContainer.canAdd(it)) {
-                    itemContainer.add(it.copy());
-                }
-            }
-        }
-        itemContainer.markAllAsSeen();
+        addAndEquipItems(hero, respawnState, game);
 
         // Don't change equipped items across load/respawn
         //AiPilot.reEquip(this, myHero);
@@ -85,6 +63,46 @@ class PlayerCreator {
         game.getObjectManager().addObjDelayed(hero.getShip());
         game.getObjectManager().resetDelays();
         return hero;
+    }
+
+    private void addAndEquipItems(Hero hero, RespawnState respawnState, SolGame game) {
+        ItemContainer itemContainer = hero.getItemContainer();
+        if (!respawnState.getRespawnItems().isEmpty()) {
+            addAndEquipRespawnItems(hero, respawnState, itemContainer, game);
+        } else if (game.getTutMan() != null) {
+            addRandomTutorialItems(game, itemContainer);
+        }
+        itemContainer.markAllAsSeen();
+    }
+
+    private void addRandomTutorialItems(SolGame game, ItemContainer itemContainer) {
+        for (int i = 0; i < NUMBER_OF_TUTORIAL_ITEM_ADD_ATTEMPTS; i++) {
+            if (itemContainer.groupCount() > MAX_NUMBER_OF_TUTORIAL_ITEM_GROUPS) {
+                return;
+            }
+            SolItem item = game.getItemMan().random();
+            if (isNoGunAndHasIcon(item, game) && itemContainer.canAdd(item)) {
+                itemContainer.add(item.copy());
+            }
+        }
+    }
+
+    private boolean isNoGunAndHasIcon(SolItem it, SolGame game) {
+        return !(it instanceof Gun) && it.getIcon(game) != null;
+    }
+
+    private void addAndEquipRespawnItems(Hero hero, RespawnState respawnState, ItemContainer itemContainer, SolGame game) {
+        for (SolItem item : respawnState.getRespawnItems()) {
+            itemContainer.add(item);
+            // Ensure that previously equipped items stay equipped
+            if (item.isEquipped() > 0) {
+                if (item instanceof Gun) {
+                    hero.maybeEquip(game, item, item.isEquipped() == 2, true);
+                } else {
+                    hero.maybeEquip(game, item, true);
+                }
+            }
+        }
     }
 
     private Hero createHero(Vector2 position, Pilot pilot, float money, HullConfig hull, String items, boolean giveAmmo, SolGame game) {
