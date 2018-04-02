@@ -59,7 +59,7 @@ public class PlayerCreatorTest {
         playerCreator = new PlayerCreator();
         respawnState = new RespawnState();
         galaxySpawnPosition = new Vector2(42, 43);
-        shipConfigSpawnPosition = new Vector2(11,12);
+        shipConfigSpawnPosition = new Vector2(11, 12);
         when(solGame.getGalaxyFiller().getPlayerSpawnPos(any())).thenReturn(galaxySpawnPosition);
         when(shipConfig.getSpawnPos()).thenReturn(shipConfigSpawnPosition);
         mockShipBuilding();
@@ -100,6 +100,18 @@ public class PlayerCreatorTest {
     @Test
     public void testBeaconHandlerNotInitializedIfNotMouseControl() {
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
-        verify(solGame.getBeaconHandler(),never()).init(any(),any());
+        verify(solGame.getBeaconHandler(), never()).init(any(), any());
+    }
+
+    @Test
+    public void testSpawnOnGalaxySpawnPositionInitsBeaconHandlerOnMouseControl() {
+        playerCreator.createPlayer(shipConfig, true, respawnState, solGame, true, false);
+        verify(solGame.getBeaconHandler()).init(any(), eq(galaxySpawnPosition));
+    }
+
+    @Test
+    public void testSpawnOnShipConfigSpawnPositionInitsBeaconHandlerOnMouseControl() {
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, true, false);
+        verify(solGame.getBeaconHandler()).init(any(), eq(shipConfigSpawnPosition));
     }
 }
