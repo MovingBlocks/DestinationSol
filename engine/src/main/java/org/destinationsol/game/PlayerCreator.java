@@ -43,7 +43,7 @@ class PlayerCreator {
 
         float money = grantPlayerMoney(shipConfig, respawnState, game);
 
-        HullConfig hull = respawnState.getRespawnHull() != null ? respawnState.getRespawnHull() : shipConfig.getHull();
+        HullConfig hull = findHullConfig(shipConfig, respawnState);
 
         String itemsStr = !respawnState.getRespawnItems().isEmpty() ? "" : shipConfig.getItems();
 
@@ -81,6 +81,13 @@ class PlayerCreator {
         game.getObjectManager().addObjDelayed(hero.getShip());
         game.getObjectManager().resetDelays();
         return hero;
+    }
+
+    private HullConfig findHullConfig(ShipConfig shipConfig, RespawnState respawnState) {
+        if (respawnState.getRespawnHull() != null) {
+            return respawnState.getRespawnHull();
+        }
+        return shipConfig.getHull();
     }
 
     private float grantPlayerMoney(ShipConfig shipConfig, RespawnState respawnState, SolGame game) {
