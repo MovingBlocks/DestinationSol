@@ -161,7 +161,7 @@ public class SolGame {
 
     // uh, this needs refactoring
     private void createPlayer(String shipName, boolean isNewGame, boolean isPlayerRespawned, SolGame game, boolean isMouseControl) {
-        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(game.getHullConfigs(), game.getItemMan(), game) : ShipConfig.load(game.getHullConfigs(), shipName, itemManager, game);
+        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(game.getHullConfigs(), game.getItemMan(), game) : ShipConfig.load(game.getHullConfigs(), shipName, game.getItemMan(), game);
 
         // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
         assert shipConfig != null;
