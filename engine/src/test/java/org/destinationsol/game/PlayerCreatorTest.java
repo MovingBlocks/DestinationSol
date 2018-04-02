@@ -195,6 +195,26 @@ public class PlayerCreatorTest {
         verifyBuildNewFar(shipConfiguration().withItems(items));
     }
 
+    @Test
+    public void testGiveAmmoIfNewShipAndRespawnItemsIsEmpty() {
+        respawnState.getRespawnItems().clear();
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, true);
+        verifyBuildNewFar(shipConfiguration().withGiveAmmo(true));
+    }
+
+    @Test
+    public void testGiveNoAmmoIfNewShipAndRespawnItemsNotEmpty() {
+        respawnState.getRespawnItems().add(mock(SolItem.class));
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, true);
+        verifyBuildNewFar(shipConfiguration().withGiveAmmo(false));
+    }
+
+    @Test
+    public void testGiveNoAmmoIfNoNewShipAndRespawnItemsEmpty() {
+        respawnState.getRespawnItems().clear();
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        verifyBuildNewFar(shipConfiguration().withGiveAmmo(false));
+    }
 
     private void verifyBuildNewFar(FarShipBuildConfiguration verification) {
         verify(shipBuilder).buildNewFar(any(),
@@ -209,7 +229,7 @@ public class PlayerCreatorTest {
                 anyBoolean(),
                 verification.money(),
                 any(),
-                anyBoolean());
+                verification.giveAmmo());
     }
 
     private static class FarShipBuildConfiguration {
@@ -217,6 +237,7 @@ public class PlayerCreatorTest {
         Class<? extends Pilot> pilotClazz;
         HullConfig hullConfig;
         String items;
+        Boolean giveAmmo;
 
         FarShipBuildConfiguration withMoney(float money) {
             this.money = money;
@@ -238,6 +259,11 @@ public class PlayerCreatorTest {
             return this;
         }
 
+        FarShipBuildConfiguration withGiveAmmo(boolean giveAmmo) {
+            this.giveAmmo = giveAmmo;
+            return this;
+        }
+
         float money() {
             return money == null ? anyFloat() : eq(money.floatValue());
         }
@@ -252,6 +278,10 @@ public class PlayerCreatorTest {
 
         String items() {
             return items == null ? any() : eq(items);
+        }
+
+        boolean giveAmmo() {
+            return giveAmmo == null ? anyBoolean() : eq(giveAmmo.booleanValue());
         }
     }
 
