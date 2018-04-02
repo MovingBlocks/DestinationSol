@@ -20,7 +20,6 @@ import org.destinationsol.game.input.AiPilot;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.input.UiControlledPilot;
 import org.destinationsol.game.item.ItemContainer;
-import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SolShip;
@@ -36,8 +35,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyFloat;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -162,6 +161,14 @@ public class PlayerCreatorTest {
         verifyBuildNewFar(shipConfiguration().withMoney(TUTORIAL_MONEY));
     }
 
+    @Test
+    public void testUseRespawnHullIfNotNull() {
+        HullConfig hullConfig = mock(HullConfig.class);
+        respawnState.setRespawnHull(hullConfig);
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        verifyBuildNewFar(shipConfiguration().withHullConfig(hullConfig));
+    }
+
     private void verifyBuildNewFar(FarShipBuildConfiguration verification) {
         verify(shipBuilder).buildNewFar(any(),
                 any(),
@@ -170,7 +177,7 @@ public class PlayerCreatorTest {
                 anyFloat(),
                 verification.pilot(),
                 any(),
-                any(),
+                verification.hullConfig(),
                 any(),
                 anyBoolean(),
                 verification.money(),
@@ -181,23 +188,33 @@ public class PlayerCreatorTest {
     private static class FarShipBuildConfiguration {
         Float money;
         Class<? extends Pilot> pilotClazz;
+        HullConfig hullConfig;
 
         FarShipBuildConfiguration withMoney(float money) {
             this.money = money;
             return this;
         }
 
-        FarShipBuildConfiguration withPilot(Class<? extends Pilot> pilotClazz){
+        FarShipBuildConfiguration withPilot(Class<? extends Pilot> pilotClazz) {
             this.pilotClazz = pilotClazz;
             return this;
         }
 
-        float money(){
+        FarShipBuildConfiguration withHullConfig(HullConfig hullConfig) {
+            this.hullConfig = hullConfig;
+            return this;
+        }
+
+        float money() {
             return money == null ? anyFloat() : eq(money.floatValue());
         }
 
-        Pilot pilot(){
+        Pilot pilot() {
             return pilotClazz == null ? any() : any(pilotClazz);
+        }
+
+        HullConfig hullConfig() {
+            return hullConfig == null ? any() : same(hullConfig);
         }
     }
 
