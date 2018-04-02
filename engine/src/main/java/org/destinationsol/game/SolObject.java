@@ -16,8 +16,11 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.common.Nullable;
+import org.destinationsol.game.asteroid.Asteroid;
 import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.item.Loot;
 
 import java.util.List;
 
