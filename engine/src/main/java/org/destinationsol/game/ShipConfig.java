@@ -22,6 +22,7 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
+import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.terasology.assets.ResourceUrn;
 
@@ -57,6 +58,10 @@ public class ShipConfig {
 
     public int getMoney(){
         return money;
+    }
+
+    public HullConfig getHull(){
+        return hull;
     }
 
     public static ArrayList<ShipConfig> loadList(JsonValue shipListJson, HullConfigManager hullConfigs, ItemManager itemManager) {

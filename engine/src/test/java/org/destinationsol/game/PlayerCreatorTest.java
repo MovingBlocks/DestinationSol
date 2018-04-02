@@ -169,6 +169,15 @@ public class PlayerCreatorTest {
         verifyBuildNewFar(shipConfiguration().withHullConfig(hullConfig));
     }
 
+    @Test
+    public void testUseShipConfigHullIfRespawnHullIsNull() {
+        HullConfig hullConfig = mock(HullConfig.class);
+        respawnState.setRespawnHull(null);
+        when(shipConfig.getHull()).thenReturn(hullConfig);
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        verifyBuildNewFar(shipConfiguration().withHullConfig(hullConfig));
+    }
+
     private void verifyBuildNewFar(FarShipBuildConfiguration verification) {
         verify(shipBuilder).buildNewFar(any(),
                 any(),
