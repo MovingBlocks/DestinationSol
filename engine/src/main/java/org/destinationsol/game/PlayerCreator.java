@@ -25,11 +25,15 @@ import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.item.TradeConfig;
+import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
 class PlayerCreator {
 
     private static final int TUTORIAL_MONEY_AMOUNT = 200;
+    private static final int SHIP_SPAWN_ANGLE = 0;
+    private static final int SHIP_SPAWN_ROTATION_SPEED = 0;
+    private static final boolean SHIP_SPAWN_HAS_REPAIRER = true;
 
     Hero createPlayer(ShipConfig shipConfig, boolean shouldSpawnOnGalaxySpawnPosition, RespawnState respawnState, SolGame game, boolean isMouseControl, boolean isNewShip) {
         // If we continue a game, we should spawn from the same position
@@ -48,7 +52,7 @@ class PlayerCreator {
         String items = findItems(shipConfig, respawnState);
 
         boolean giveAmmo = shouldGiveAmmo(respawnState, isNewShip);
-        Hero hero = new Hero(game.getShipBuilder().buildNewFar(game, new Vector2(position), null, 0, 0, pilot, items, hull, null, true, money, new TradeConfig(), giveAmmo).toObject(game));
+        Hero hero = createHero(position, pilot, money, hull, items, giveAmmo, game);
         ItemContainer itemContainer = hero.getItemContainer();
         if (!respawnState.getRespawnItems().isEmpty()) {
             for (SolItem item : respawnState.getRespawnItems()) {
@@ -81,6 +85,23 @@ class PlayerCreator {
         game.getObjectManager().addObjDelayed(hero.getShip());
         game.getObjectManager().resetDelays();
         return hero;
+    }
+
+    private Hero createHero(Vector2 position, Pilot pilot, float money, HullConfig hull, String items, boolean giveAmmo, SolGame game) {
+        FarShip farShip = game.getShipBuilder().buildNewFar(game,
+                new Vector2(position),
+                null,
+                SHIP_SPAWN_ANGLE,
+                SHIP_SPAWN_ROTATION_SPEED,
+                pilot,
+                items,
+                hull,
+                null,
+                SHIP_SPAWN_HAS_REPAIRER,
+                money,
+                new TradeConfig(),
+                giveAmmo);
+        return new Hero(farShip.toObject(game));
     }
 
     private boolean shouldGiveAmmo(RespawnState respawnState, boolean isNewShip) {
