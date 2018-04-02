@@ -160,7 +160,7 @@ public class SolGame {
     }
 
     private void createGame(String shipName, boolean isNewGame, SolGame game) {
-        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(game.getHullConfigs(), game.getItemMan(), game) : ShipConfig.load(game.getHullConfigs(), shipName, game.getItemMan(), game);
+        ShipConfig shipConfig = readShipFromConfigOrLoadFromSaveIfNull(shipName, game);
         hero = createPlayer(shipConfig,
                 isNewGame,
                 isPlayerRespawned,
@@ -169,6 +169,14 @@ public class SolGame {
                 respawnMoney,
                 respawnHull,
                 respawnItems);
+    }
+
+    private ShipConfig readShipFromConfigOrLoadFromSaveIfNull(String shipName, SolGame game) {
+        if (shipName != null) {
+            return ShipConfig.load(game.getHullConfigs(), shipName, game.getItemMan(), game);
+        } else {
+            return SaveManager.readShip(game.getHullConfigs(), game.getItemMan(), game);
+        }
     }
 
     // uh, this needs refactoring
