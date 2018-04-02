@@ -158,6 +158,9 @@ public class SolGame {
 
     private void createGame(String shipName, boolean isNewGame, SolGame game) {
         ShipConfig shipConfig = readShipFromConfigOrLoadFromSaveIfNull(shipName, game);
+        if (!respawnState.isPlayerRespawned()) {
+            game.getGalaxyFiller().fill(game, game.getHullConfigs(), game.getItemMan());
+        }
         hero = createPlayer(shipConfig,
                 isNewGame,
                 respawnState,
@@ -175,11 +178,6 @@ public class SolGame {
 
     // uh, this needs refactoring
     private Hero createPlayer(ShipConfig shipConfig, boolean isNewGame, RespawnState respawnState, SolGame game, boolean isMouseControl) {
-
-        if (!respawnState.isPlayerRespawned()) {
-            game.getGalaxyFiller().fill(game, game.getHullConfigs(), game.getItemMan());
-        }
-
         // If we continue a game, we should spawn from the same position
         Vector2 position;
         if (isNewGame) {
