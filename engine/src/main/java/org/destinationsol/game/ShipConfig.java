@@ -64,6 +64,10 @@ public class ShipConfig {
         return hull;
     }
 
+    public String getItems(){
+        return items;
+    }
+
     public static ArrayList<ShipConfig> loadList(JsonValue shipListJson, HullConfigManager hullConfigs, ItemManager itemManager) {
         ArrayList<ShipConfig> res = new ArrayList<>();
         if (shipListJson == null) {
