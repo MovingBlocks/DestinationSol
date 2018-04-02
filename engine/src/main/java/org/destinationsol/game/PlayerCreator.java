@@ -45,10 +45,10 @@ class PlayerCreator {
 
         HullConfig hull = findHullConfig(shipConfig, respawnState);
 
-        String itemsStr = !respawnState.getRespawnItems().isEmpty() ? "" : shipConfig.getItems();
+        String items = findItems(shipConfig, respawnState);
 
         boolean giveAmmo = isNewShip && respawnState.getRespawnItems().isEmpty();
-        Hero hero = new Hero(game.getShipBuilder().buildNewFar(game, new Vector2(position), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObject(game));
+        Hero hero = new Hero(game.getShipBuilder().buildNewFar(game, new Vector2(position), null, 0, 0, pilot, items, hull, null, true, money, new TradeConfig(), giveAmmo).toObject(game));
         ItemContainer itemContainer = hero.getItemContainer();
         if (!respawnState.getRespawnItems().isEmpty()) {
             for (SolItem item : respawnState.getRespawnItems()) {
@@ -81,6 +81,13 @@ class PlayerCreator {
         game.getObjectManager().addObjDelayed(hero.getShip());
         game.getObjectManager().resetDelays();
         return hero;
+    }
+
+    private String findItems(ShipConfig shipConfig, RespawnState respawnState) {
+        if (!respawnState.getRespawnItems().isEmpty()) {
+            return "";
+        }
+        return shipConfig.getItems();
     }
 
     private HullConfig findHullConfig(ShipConfig shipConfig, RespawnState respawnState) {
