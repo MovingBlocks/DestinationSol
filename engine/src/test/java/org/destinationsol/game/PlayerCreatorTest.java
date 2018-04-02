@@ -31,6 +31,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -65,6 +66,7 @@ public class PlayerCreatorTest {
     }
 
     private void mockShipBuilding() {
+        when(solGame.getTutMan()).thenReturn(null);
         when(solGame.getShipBuilder()).thenReturn(shipBuilder);
         when(shipBuilder.buildNewFar(any(), any(), any(), anyFloat(), anyFloat(), any(), any(), any(), any(), anyBoolean(), anyFloat(), any(), anyBoolean())).thenReturn(farShip);
         when(farShip.toObject(any())).thenReturn(solShip);
@@ -73,7 +75,6 @@ public class PlayerCreatorTest {
 
     @Test
     public void testSpawnOnGalaxySpawnPositionSetsShipPosition() {
-        when(solGame.getTutMan()).thenReturn(null);
         playerCreator.createPlayer(shipConfig, true, respawnState, solGame, false, false);
         verify(shipBuilder).buildNewFar(any(), eq(galaxySpawnPosition), any(), anyFloat(), anyFloat(), any(), any(), any(), any(), anyBoolean(), anyFloat(), any(), anyBoolean());
     }
@@ -97,5 +98,12 @@ public class PlayerCreatorTest {
         when(solGame.getTutMan()).thenReturn(null);
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
         verify(solGame.getCam()).setPos(eq(shipConfigSpawnPosition));
+    }
+
+    @Test
+    public void testBeaconHandlerNotInitializedIfNotMouseControl() {
+        when(solGame.getTutMan()).thenReturn(null);
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        verify(solGame.getBeaconHandler(),never()).init(any(),any());
     }
 }
