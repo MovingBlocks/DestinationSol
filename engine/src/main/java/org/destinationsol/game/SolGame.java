@@ -152,7 +152,7 @@ public class SolGame {
 
         // from this point we're ready!
         planetManager.fill(solNames);
-        createPlayer(shipName, isNewGame, isPlayerRespawned, this, solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE, respawnMoney, respawnHull);
+        createPlayer(shipName, isNewGame, isPlayerRespawned, this, solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE, respawnMoney, respawnHull, respawnItems);
         if (!isNewGame) {
             createAndSpawnMercenariesFromSave();
         }
@@ -160,7 +160,7 @@ public class SolGame {
     }
 
     // uh, this needs refactoring
-    private void createPlayer(String shipName, boolean isNewGame, boolean isPlayerRespawned, SolGame game, boolean isMouseControl, float respawnMoney, HullConfig respawnHull) {
+    private void createPlayer(String shipName, boolean isNewGame, boolean isPlayerRespawned, SolGame game, boolean isMouseControl, float respawnMoney, HullConfig respawnHull, List<SolItem> respawnItems) {
         ShipConfig shipConfig = shipName == null ? SaveManager.readShip(game.getHullConfigs(), game.getItemMan(), game) : ShipConfig.load(game.getHullConfigs(), shipName, game.getItemMan(), game);
 
         // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
@@ -430,7 +430,7 @@ public class SolGame {
             }
         }
         // TODO: Consider whether we want to treat respawn as a newGame or not.
-        createPlayer(null, true, isPlayerRespawned, this, solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE, respawnMoney, respawnHull);
+        createPlayer(null, true, isPlayerRespawned, this, solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE, respawnMoney, respawnHull, respawnItems);
     }
 
     public FactionManager getFactionMan() {
