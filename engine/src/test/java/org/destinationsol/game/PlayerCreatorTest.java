@@ -237,6 +237,15 @@ public class PlayerCreatorTest {
         assertThat(shipItemContainer.getGroup(1)).containsExactly(item0);
     }
 
+    @Test
+    public void testReEquipRespawnItems() {
+        SolItem item = mock(SolItem.class);
+        when(item.isEquipped()).thenReturn(1);
+        respawnState.getRespawnItems().add(item);
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        verify(solShip).maybeEquip(any(), eq(item), eq(true));
+    }
+
     private void verifyBuildNewFar(FarShipBuildConfiguration verification) {
         verify(shipBuilder).buildNewFar(any(),
                 verification.position(),
