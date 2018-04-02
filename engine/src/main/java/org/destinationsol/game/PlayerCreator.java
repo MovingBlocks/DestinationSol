@@ -33,13 +33,10 @@ class PlayerCreator {
         Vector2 position = findPlayerSpawnPosition(shipConfig, shouldSpawnOnGalaxySpawnPosition, game);
         game.getCam().setPos(position);
 
-        Pilot pilot;
         if (isMouseControl) {
             game.getBeaconHandler().init(game, position);
-            pilot = new AiPilot(new BeaconDestProvider(), true, Faction.LAANI, false, "you", Const.AI_DET_DIST);
-        } else {
-            pilot = new UiControlledPilot(game.getScreens().mainScreen);
         }
+        Pilot pilot = createPilot(game, isMouseControl);
 
         float money = respawnState.getRespawnMoney() != 0 ? respawnState.getRespawnMoney() : game.getTutMan() != null ? 200 : shipConfig.getMoney();
 
@@ -81,6 +78,14 @@ class PlayerCreator {
         game.getObjectManager().addObjDelayed(hero.getShip());
         game.getObjectManager().resetDelays();
         return hero;
+    }
+
+    private Pilot createPilot(SolGame game, boolean isMouseControl) {
+        if (isMouseControl) {
+            return new AiPilot(new BeaconDestProvider(), true, Faction.LAANI, false, "you", Const.AI_DET_DIST);
+        } else {
+            return new UiControlledPilot(game.getScreens().mainScreen);
+        }
     }
 
     private Vector2 findPlayerSpawnPosition(ShipConfig shipConfig, boolean shouldSpawnOnGalaxySpawnPosition, SolGame game) {
