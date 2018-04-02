@@ -152,7 +152,7 @@ public class SolGame {
 
         // from this point we're ready!
         planetManager.fill(solNames);
-        createPlayer(shipName, isNewGame,isPlayerRespawned, this);
+        createPlayer(shipName, isNewGame, isPlayerRespawned, this, solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE);
         if (!isNewGame) {
             createAndSpawnMercenariesFromSave();
         }
@@ -160,7 +160,7 @@ public class SolGame {
     }
 
     // uh, this needs refactoring
-    private void createPlayer(String shipName, boolean isNewGame, boolean isPlayerRespawned, SolGame game) {
+    private void createPlayer(String shipName, boolean isNewGame, boolean isPlayerRespawned, SolGame game, boolean isMouseControl) {
         ShipConfig shipConfig = shipName == null ? SaveManager.readShip(game.getHullConfigs(), game.getItemMan(), game) : ShipConfig.load(game.getHullConfigs(), shipName, itemManager, game);
 
         // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
@@ -180,7 +180,7 @@ public class SolGame {
         game.getCam().setPos(position);
 
         Pilot pilot;
-        if (solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE) {
+        if (isMouseControl) {
             beaconHandler.init(game, position);
             pilot = new AiPilot(new BeaconDestProvider(), true, Faction.LAANI, false, "you", Const.AI_DET_DIST);
         } else {
@@ -430,7 +430,7 @@ public class SolGame {
             }
         }
         // TODO: Consider whether we want to treat respawn as a newGame or not.
-        createPlayer(null, true, isPlayerRespawned, this);
+        createPlayer(null, true, isPlayerRespawned, this, solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE);
     }
 
     public FactionManager getFactionMan() {
