@@ -28,15 +28,9 @@ import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
 class PlayerCreator {
-    // uh, this needs refactoring
     Hero createPlayer(ShipConfig shipConfig, boolean shouldSpawnOnGalaxySpawnPosition, RespawnState respawnState, SolGame game, boolean isMouseControl, boolean isNewShip) {
         // If we continue a game, we should spawn from the same position
-        Vector2 position;
-        if (shouldSpawnOnGalaxySpawnPosition) {
-            position = game.getGalaxyFiller().getPlayerSpawnPos(game);
-        } else {
-            position = shipConfig.getSpawnPos();
-        }
+        Vector2 position = findPlayerSpawnPosition(shipConfig, shouldSpawnOnGalaxySpawnPosition, game);
         game.getCam().setPos(position);
 
         Pilot pilot;
@@ -87,5 +81,13 @@ class PlayerCreator {
         game.getObjectManager().addObjDelayed(hero.getShip());
         game.getObjectManager().resetDelays();
         return hero;
+    }
+
+    private Vector2 findPlayerSpawnPosition(ShipConfig shipConfig, boolean shouldSpawnOnGalaxySpawnPosition, SolGame game) {
+        if (shouldSpawnOnGalaxySpawnPosition) {
+            return game.getGalaxyFiller().getPlayerSpawnPos(game);
+        } else {
+            return shipConfig.getSpawnPos();
+        }
     }
 }
