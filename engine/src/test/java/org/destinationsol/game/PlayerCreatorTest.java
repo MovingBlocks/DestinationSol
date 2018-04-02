@@ -17,11 +17,14 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.game.input.AiPilot;
+import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.input.UiControlledPilot;
 import org.destinationsol.game.item.ItemContainer;
+import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SolShip;
+import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.ui.TutorialManager;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,6 +36,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyFloat;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -68,6 +72,7 @@ public class PlayerCreatorTest {
         when(solGame.getGalaxyFiller().getPlayerSpawnPos(any())).thenReturn(galaxySpawnPosition);
         when(shipConfig.getSpawnPos()).thenReturn(shipConfigSpawnPosition);
         mockShipBuilding();
+        //no tutorial manager == not in tutorial mode
         when(solGame.getTutMan()).thenReturn(null);
     }
 
@@ -123,13 +128,13 @@ public class PlayerCreatorTest {
     @Test
     public void testMouseControlCreatesAiPilot() {
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, true, false);
-        verify(shipBuilder).buildNewFar(any(), any(), any(), anyFloat(), anyFloat(), any(AiPilot.class), any(), any(), any(), anyBoolean(), anyFloat(), any(), anyBoolean());
+        verifyBuildNewFar(shipConfiguration().withPilot(AiPilot.class));
     }
 
     @Test
     public void testNoMouseControlCreatesUiControlledPilot() {
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
-        verify(shipBuilder).buildNewFar(any(), any(), any(), anyFloat(), anyFloat(), any(UiControlledPilot.class), any(), any(), any(), anyBoolean(), anyFloat(), any(), anyBoolean());
+        verifyBuildNewFar(shipConfiguration().withPilot(UiControlledPilot.class));
     }
 
     @Test
@@ -137,7 +142,7 @@ public class PlayerCreatorTest {
         float respawnMoney = 42f;
         respawnState.setRespawnMoney(respawnMoney);
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
-        verify(shipBuilder).buildNewFar(any(), any(), any(), anyFloat(), anyFloat(), any(), any(), any(), any(), anyBoolean(), eq(respawnMoney), any(), anyBoolean());
+        verifyBuildNewFar(shipConfiguration().withMoney(respawnMoney));
     }
 
     @Test
@@ -146,7 +151,7 @@ public class PlayerCreatorTest {
         when(shipConfig.getMoney()).thenReturn(shipConfigMoney);
         respawnState.setRespawnMoney(0);
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
-        verify(shipBuilder).buildNewFar(any(), any(), any(), anyFloat(), anyFloat(), any(), any(), any(), any(), anyBoolean(), eq((float) shipConfigMoney), any(), anyBoolean());
+        verifyBuildNewFar(shipConfiguration().withMoney(shipConfigMoney));
     }
 
     @Test
@@ -154,6 +159,50 @@ public class PlayerCreatorTest {
         when(solGame.getTutMan()).thenReturn(mock(TutorialManager.class));
         respawnState.setRespawnMoney(0);
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
-        verify(shipBuilder).buildNewFar(any(), any(), any(), anyFloat(), anyFloat(), any(), any(), any(), any(), anyBoolean(), eq(TUTORIAL_MONEY), any(), anyBoolean());
+        verifyBuildNewFar(shipConfiguration().withMoney(TUTORIAL_MONEY));
     }
+
+    private void verifyBuildNewFar(FarShipBuildConfiguration verification) {
+        verify(shipBuilder).buildNewFar(any(),
+                any(),
+                any(),
+                anyFloat(),
+                anyFloat(),
+                verification.pilot(),
+                any(),
+                any(),
+                any(),
+                anyBoolean(),
+                verification.money(),
+                any(),
+                anyBoolean());
+    }
+
+    private static class FarShipBuildConfiguration {
+        Float money;
+        Class<? extends Pilot> pilotClazz;
+
+        FarShipBuildConfiguration withMoney(float money) {
+            this.money = money;
+            return this;
+        }
+
+        FarShipBuildConfiguration withPilot(Class<? extends Pilot> pilotClazz){
+            this.pilotClazz = pilotClazz;
+            return this;
+        }
+
+        float money(){
+            return money == null ? anyFloat() : eq(money.floatValue());
+        }
+
+        Pilot pilot(){
+            return pilotClazz == null ? any() : any(pilotClazz);
+        }
+    }
+
+    private FarShipBuildConfiguration shipConfiguration() {
+        return new FarShipBuildConfiguration();
+    }
+
 }
