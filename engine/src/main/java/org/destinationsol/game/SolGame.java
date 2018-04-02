@@ -109,7 +109,6 @@ public class SolGame {
     private boolean paused;
     private float timeFactor;
     private float respawnMoney;
-    private HullConfig respawnHull;
     private RespawnState respawnState;
 
     public SolGame(SolApplication cmp, String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer) {
@@ -165,8 +164,7 @@ public class SolGame {
                 respawnState,
                 this,
                 solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE,
-                respawnMoney,
-                respawnHull);
+                respawnMoney);
     }
 
     private ShipConfig readShipFromConfigOrLoadFromSaveIfNull(String shipName, SolGame game) {
@@ -178,7 +176,7 @@ public class SolGame {
     }
 
     // uh, this needs refactoring
-    private Hero createPlayer(ShipConfig shipConfig, boolean isNewGame, RespawnState respawnState, SolGame game, boolean isMouseControl, float respawnMoney, HullConfig respawnHull) {
+    private Hero createPlayer(ShipConfig shipConfig, boolean isNewGame, RespawnState respawnState, SolGame game, boolean isMouseControl, float respawnMoney) {
 
         // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
         assert shipConfig != null;
@@ -206,7 +204,7 @@ public class SolGame {
 
         float money = respawnMoney != 0 ? respawnMoney : game.getTutMan() != null ? 200 : shipConfig.money;
 
-        HullConfig hull = respawnHull != null ? respawnHull : shipConfig.hull;
+        HullConfig hull = respawnState.getRespawnHull() != null ? respawnState.getRespawnHull() : shipConfig.hull;
 
         String itemsStr = !respawnState.getRespawnItems().isEmpty() ? "" : shipConfig.items;
 
@@ -304,7 +302,7 @@ public class SolGame {
                 }
             }
         } else {
-            hull = respawnHull;
+            hull = respawnState.getRespawnHull();
             money = respawnMoney;
             items = respawnState.getRespawnItems();
         }
@@ -585,7 +583,7 @@ public class SolGame {
 
     private void setRespawnState(float money, ItemContainer ic, HullConfig hullConfig) {
         respawnMoney = .75f * money;
-        respawnHull = hullConfig;
+        respawnState.setRespawnHull(hullConfig);
         respawnState.getRespawnItems().clear();
         respawnState.setPlayerRespawned(true);
         for (List<SolItem> group : ic) {
