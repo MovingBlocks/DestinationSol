@@ -37,7 +37,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.intThat;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -181,11 +180,21 @@ public class PlayerCreatorTest {
     }
 
     @Test
-    public void testUseEmptyItemsIfRespawnItemsNotEmpty() throws Exception {
+    public void testUseEmptyItemsIfRespawnItemsNotEmpty() {
         respawnState.getRespawnItems().add(mock(SolItem.class));
         playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
         verifyBuildNewFar(shipConfiguration().withItems(""));
     }
+
+    @Test
+    public void testUseShipConfigItemsIfRespawnItemsIsEmpty() {
+        respawnState.getRespawnItems().clear();
+        String items = "core:plasmaGun+core:blaster 0.36|core:smallShield";
+        when(shipConfig.getItems()).thenReturn(items);
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        verifyBuildNewFar(shipConfiguration().withItems(items));
+    }
+
 
     private void verifyBuildNewFar(FarShipBuildConfiguration verification) {
         verify(shipBuilder).buildNewFar(any(),
@@ -224,7 +233,7 @@ public class PlayerCreatorTest {
             return this;
         }
 
-        FarShipBuildConfiguration withItems(String items){
+        FarShipBuildConfiguration withItems(String items) {
             this.items = items;
             return this;
         }
@@ -241,7 +250,7 @@ public class PlayerCreatorTest {
             return hullConfig == null ? any() : same(hullConfig);
         }
 
-        String items(){
+        String items() {
             return items == null ? any() : eq(items);
         }
     }

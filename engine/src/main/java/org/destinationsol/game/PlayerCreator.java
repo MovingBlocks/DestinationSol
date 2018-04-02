@@ -51,7 +51,7 @@ class PlayerCreator {
 
         HullConfig hull = respawnState.getRespawnHull() != null ? respawnState.getRespawnHull() : shipConfig.getHull();
 
-        String itemsStr = !respawnState.getRespawnItems().isEmpty() ? "" : shipConfig.items;
+        String itemsStr = !respawnState.getRespawnItems().isEmpty() ? "" : shipConfig.getItems();
 
         boolean giveAmmo = isNewShip && respawnState.getRespawnItems().isEmpty();
         Hero hero = new Hero(game.getShipBuilder().buildNewFar(game, new Vector2(position), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObject(game));
