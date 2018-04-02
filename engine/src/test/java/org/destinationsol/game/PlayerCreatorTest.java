@@ -47,6 +47,7 @@ public class PlayerCreatorTest {
     private ShipBuilder shipBuilder;
     private RespawnState respawnState;
     private Vector2 galaxySpawnPosition;
+    private Vector2 shipConfigSpawnPosition;
     @Mock
     private FarShip farShip;
     @Mock
@@ -57,7 +58,9 @@ public class PlayerCreatorTest {
         playerCreator = new PlayerCreator();
         respawnState = new RespawnState();
         galaxySpawnPosition = new Vector2(42, 43);
+        shipConfigSpawnPosition = new Vector2(11,12);
         when(solGame.getGalaxyFiller().getPlayerSpawnPos(any())).thenReturn(galaxySpawnPosition);
+        when(shipConfig.getSpawnPos()).thenReturn(shipConfigSpawnPosition);
         mockShipBuilding();
     }
 
@@ -73,5 +76,12 @@ public class PlayerCreatorTest {
         when(solGame.getTutMan()).thenReturn(null);
         playerCreator.createPlayer(shipConfig, true, respawnState, solGame, false, false);
         verify(shipBuilder).buildNewFar(any(), eq(galaxySpawnPosition), any(), anyFloat(), anyFloat(), any(), any(), any(), any(), anyBoolean(), anyFloat(), any(), anyBoolean());
+    }
+
+    @Test
+    public void testSpawnOnShipConfigSpawnPosition() {
+        when(solGame.getTutMan()).thenReturn(null);
+        playerCreator.createPlayer(shipConfig, false, respawnState, solGame, false, false);
+        verify(shipBuilder).buildNewFar(any(), eq(shipConfigSpawnPosition), any(), anyFloat(), anyFloat(), any(), any(), any(), any(), anyBoolean(), anyFloat(), any(), anyBoolean());
     }
 }

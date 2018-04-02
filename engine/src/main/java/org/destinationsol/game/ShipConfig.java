@@ -45,10 +45,14 @@ public class ShipConfig {
         this.guard = guard;
         dps = HardnessCalc.getShipConfDps(this, itemManager);
     }
-    
+
     public ShipConfig(HullConfig hull, String items, int money, float density, ShipConfig guard, ItemManager itemManager, Vector2 spawnPos) {
         this(hull, items, money, density, guard, itemManager);
         this.spawnPos = spawnPos;
+    }
+
+    public Vector2 getSpawnPos() {
+        return spawnPos;
     }
 
     public static ArrayList<ShipConfig> loadList(JsonValue shipListJson, HullConfigManager hullConfigs, ItemManager itemManager) {

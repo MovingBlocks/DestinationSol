@@ -35,7 +35,7 @@ class PlayerCreator {
         if (shouldSpawnOnGalaxySpawnPosition) {
             position = game.getGalaxyFiller().getPlayerSpawnPos(game);
         } else {
-            position = shipConfig.spawnPos;
+            position = shipConfig.getSpawnPos();
         }
         game.getCam().setPos(position);
 
