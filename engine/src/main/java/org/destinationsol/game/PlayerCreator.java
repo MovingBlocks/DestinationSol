@@ -47,7 +47,7 @@ class PlayerCreator {
             pilot = new UiControlledPilot(game.getScreens().mainScreen);
         }
 
-        float money = respawnState.getRespawnMoney() != 0 ? respawnState.getRespawnMoney() : game.getTutMan() != null ? 200 : shipConfig.money;
+        float money = respawnState.getRespawnMoney() != 0 ? respawnState.getRespawnMoney() : game.getTutMan() != null ? 200 : shipConfig.getMoney();
 
         HullConfig hull = respawnState.getRespawnHull() != null ? respawnState.getRespawnHull() : shipConfig.hull;
 
