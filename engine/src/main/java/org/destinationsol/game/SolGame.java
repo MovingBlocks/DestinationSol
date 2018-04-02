@@ -111,7 +111,7 @@ public class SolGame {
     private float timeFactor;
     private float respawnMoney;
     private HullConfig respawnHull;
-    private boolean isPlayerRespawned;
+    private RespawnState respawnState;
 
     public SolGame(SolApplication cmp, String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer) {
         solApplication = cmp;
@@ -152,6 +152,7 @@ public class SolGame {
 
         // from this point we're ready!
         planetManager.fill(solNames);
+        respawnState = new RespawnState();
         createGame(shipName, isNewGame, this);
         if (!isNewGame) {
             createAndSpawnMercenariesFromSave();
@@ -163,7 +164,7 @@ public class SolGame {
         ShipConfig shipConfig = readShipFromConfigOrLoadFromSaveIfNull(shipName, game);
         hero = createPlayer(shipConfig,
                 isNewGame,
-                isPlayerRespawned,
+                respawnState,
                 this,
                 solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE,
                 respawnMoney,
@@ -180,12 +181,12 @@ public class SolGame {
     }
 
     // uh, this needs refactoring
-    private Hero createPlayer(ShipConfig shipConfig, boolean isNewGame, boolean isPlayerRespawned, SolGame game, boolean isMouseControl, float respawnMoney, HullConfig respawnHull, List<SolItem> respawnItems) {
+    private Hero createPlayer(ShipConfig shipConfig, boolean isNewGame, RespawnState respawnState, SolGame game, boolean isMouseControl, float respawnMoney, HullConfig respawnHull, List<SolItem> respawnItems) {
 
         // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
         assert shipConfig != null;
 
-        if (!isPlayerRespawned) {
+        if (!respawnState.isPlayerRespawned()) {
             game.getGalaxyFiller().fill(game, game.getHullConfigs(), game.getItemMan());
         }
 
@@ -589,7 +590,7 @@ public class SolGame {
         respawnMoney = .75f * money;
         respawnHull = hullConfig;
         respawnItems.clear();
-        isPlayerRespawned = true;
+        respawnState.setPlayerRespawned(true);
         for (List<SolItem> group : ic) {
             for (SolItem item : group) {
                 boolean equipped = hero.isTranscendent() || hero.maybeUnequip(this, item, false);
