@@ -28,6 +28,9 @@ import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
 class PlayerCreator {
+
+    private static final int TUTORIAL_MONEY_AMOUNT = 200;
+
     Hero createPlayer(ShipConfig shipConfig, boolean shouldSpawnOnGalaxySpawnPosition, RespawnState respawnState, SolGame game, boolean isMouseControl, boolean isNewShip) {
         // If we continue a game, we should spawn from the same position
         Vector2 position = findPlayerSpawnPosition(shipConfig, shouldSpawnOnGalaxySpawnPosition, game);
@@ -38,7 +41,7 @@ class PlayerCreator {
         }
         Pilot pilot = createPilot(game, isMouseControl);
 
-        float money = respawnState.getRespawnMoney() != 0 ? respawnState.getRespawnMoney() : game.getTutMan() != null ? 200 : shipConfig.getMoney();
+        float money = grantPlayerMoney(shipConfig, respawnState, game);
 
         HullConfig hull = respawnState.getRespawnHull() != null ? respawnState.getRespawnHull() : shipConfig.getHull();
 
@@ -78,6 +81,16 @@ class PlayerCreator {
         game.getObjectManager().addObjDelayed(hero.getShip());
         game.getObjectManager().resetDelays();
         return hero;
+    }
+
+    private float grantPlayerMoney(ShipConfig shipConfig, RespawnState respawnState, SolGame game) {
+        if (respawnState.getRespawnMoney() != 0) {
+            return respawnState.getRespawnMoney();
+        }
+        if (game.getTutMan() != null) {
+            return TUTORIAL_MONEY_AMOUNT;
+        }
+        return shipConfig.getMoney();
     }
 
     private Pilot createPilot(SolGame game, boolean isMouseControl) {
