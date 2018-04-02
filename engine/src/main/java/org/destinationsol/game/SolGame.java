@@ -102,7 +102,6 @@ public class SolGame {
     private final MountDetectDrawer mountDetectDrawer;
     private final TutorialManager tutorialManager;
     private final GalaxyFiller galaxyFiller;
-    private final ArrayList<SolItem> respawnItems;
     private Hero hero;
     private String shipName; // Not updated in-game. Can be changed using setter
     private float timeStep;
@@ -147,7 +146,6 @@ public class SolGame {
         drawableDebugger = new DrawableDebugger();
         beaconHandler = new BeaconHandler();
         mountDetectDrawer = new MountDetectDrawer();
-        respawnItems = new ArrayList<>();
         timeFactor = 1;
 
         // from this point we're ready!
@@ -168,8 +166,7 @@ public class SolGame {
                 this,
                 solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE,
                 respawnMoney,
-                respawnHull,
-                respawnItems);
+                respawnHull);
     }
 
     private ShipConfig readShipFromConfigOrLoadFromSaveIfNull(String shipName, SolGame game) {
@@ -181,7 +178,7 @@ public class SolGame {
     }
 
     // uh, this needs refactoring
-    private Hero createPlayer(ShipConfig shipConfig, boolean isNewGame, RespawnState respawnState, SolGame game, boolean isMouseControl, float respawnMoney, HullConfig respawnHull, List<SolItem> respawnItems) {
+    private Hero createPlayer(ShipConfig shipConfig, boolean isNewGame, RespawnState respawnState, SolGame game, boolean isMouseControl, float respawnMoney, HullConfig respawnHull) {
 
         // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
         assert shipConfig != null;
@@ -211,13 +208,13 @@ public class SolGame {
 
         HullConfig hull = respawnHull != null ? respawnHull : shipConfig.hull;
 
-        String itemsStr = !respawnItems.isEmpty() ? "" : shipConfig.items;
+        String itemsStr = !respawnState.getRespawnItems().isEmpty() ? "" : shipConfig.items;
 
-        boolean giveAmmo = shipName != null && respawnItems.isEmpty();
+        boolean giveAmmo = shipName != null && respawnState.getRespawnItems().isEmpty();
         Hero hero = new Hero(game.getShipBuilder().buildNewFar(game, new Vector2(position), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObject(game));
         ItemContainer itemContainer = hero.getItemContainer();
-        if (!respawnItems.isEmpty()) {
-            for (SolItem item : respawnItems) {
+        if (!respawnState.getRespawnItems().isEmpty()) {
+            for (SolItem item : respawnState.getRespawnItems()) {
                 itemContainer.add(item);
                 // Ensure that previously equipped items stay equipped
                 if (item.isEquipped() > 0) {
@@ -309,7 +306,7 @@ public class SolGame {
         } else {
             hull = respawnHull;
             money = respawnMoney;
-            items = respawnItems;
+            items = new ArrayList<>(respawnState.getRespawnItems());
         }
 
         SaveManager.writeShips(hull, money, items, this);
@@ -581,7 +578,7 @@ public class SolGame {
         setRespawnState(money, itemContainer, hero.getHull().config);
 
         hero.setMoney(money - respawnMoney);
-        for (SolItem item : respawnItems) {
+        for (SolItem item : respawnState.getRespawnItems()) {
             itemContainer.remove(item);
         }
     }
@@ -589,13 +586,13 @@ public class SolGame {
     private void setRespawnState(float money, ItemContainer ic, HullConfig hullConfig) {
         respawnMoney = .75f * money;
         respawnHull = hullConfig;
-        respawnItems.clear();
+        respawnState.getRespawnItems().clear();
         respawnState.setPlayerRespawned(true);
         for (List<SolItem> group : ic) {
             for (SolItem item : group) {
                 boolean equipped = hero.isTranscendent() || hero.maybeUnequip(this, item, false);
                 if (equipped || SolRandom.test(.75f)) {
-                    respawnItems.add(0, item);
+                    respawnState.getRespawnItems().add(0, item);
                 }
             }
         }

@@ -15,9 +15,15 @@
  */
 package org.destinationsol.game;
 
+import org.destinationsol.game.item.SolItem;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class RespawnState {
 
     private boolean isPlayerRespawned;
+    private final List<SolItem> respawnItems = new ArrayList<>();
 
 
     public boolean isPlayerRespawned() {
@@ -26,5 +32,9 @@ public class RespawnState {
 
     public void setPlayerRespawned(boolean playerRespawned) {
         isPlayerRespawned = playerRespawned;
+    }
+
+    public List<SolItem> getRespawnItems() {
+        return respawnItems;
     }
 }
