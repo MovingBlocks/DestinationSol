@@ -74,12 +74,14 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import java.util.List;
 
 public class SolGame {
-    private static Logger logger = LoggerFactory.getLogger(SolGame.class);
 
     private static final String MERC_SAVE_FILE = "mercenaries.json";
+    private static Logger logger = LoggerFactory.getLogger(SolGame.class);
+
 
     private final GameScreens gameScreens;
     private final SolCam camera;
@@ -160,7 +162,9 @@ public class SolGame {
         // from this point we're ready!
         planetManager.fill(solNames);
         createPlayer(shipName, isNewGame);
-        createMercs(isNewGame);
+        if (!isNewGame) {
+            createAndSpawnMercenariesFromSave();
+        }
         SolMath.checkVectorsTaken(null);
     }
 
@@ -234,38 +238,11 @@ public class SolGame {
         objectManager.resetDelays();
     }
 
-    /**
-     * Creates and spawns the players mercenaries from their JSON file.
-     */
-    private void createMercs(boolean isNewGame) {
-
-        if (!SaveManager.resourceExists(MERC_SAVE_FILE) || isNewGame) {
-            return;
-        }
-
-        String path = SaveManager.getResourcePath(MERC_SAVE_FILE);
-        BufferedReader bufferedReader;
-        try {
-            bufferedReader = new BufferedReader(new FileReader(path));
-            if (new File(path).length() == 0) {
-                bufferedReader.close();
-                return;
-            }
-        } catch (IOException e) {
-            logger.error("Could not save mercenaries!");
-            e.printStackTrace();
-            return;
-        }
-
-        Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<HashMap<String, String>>>() {}.getType();
-        ArrayList<HashMap<String, String>> mercs = gson.fromJson(bufferedReader, type);
-
-        MercItem mercItems;
-        for (HashMap<String, String> node : mercs) {
-            mercItems = new MercItem(
-                    new ShipConfig(hullConfigManager.getConfig(node.get("hull")), node.get("items"), Integer.parseInt(node.get("money")), -1f, null, itemManager));
-            MercenaryUtils.createMerc(this, hero, mercItems);
+    private void createAndSpawnMercenariesFromSave() {
+        List<MercItem> mercenaryItems = new MercenarySaveLoader()
+                .loadMercenariesFromSave(hullConfigManager, itemManager, MERC_SAVE_FILE);
+        for (MercItem mercenaryItem : mercenaryItems) {
+            MercenaryUtils.createMerc(this, hero, mercenaryItem);
         }
     }
 
@@ -274,7 +251,7 @@ public class SolGame {
         saveWorld();
         objectManager.dispose();
     }
-    
+
     /**
      * Saves the world's seed so we can regenerate the same world later
      */
@@ -282,11 +259,11 @@ public class SolGame {
         // Make sure the tutorial doesn't overwrite the save
         if (tutorialManager == null) {
             long seed = SolRandom.getSeed();
-            
+
             String fileName = SaveManager.getResourcePath(SolApplication.WORLD_SAVE_FILE_NAME);
-            
+
             String toWrite = "seed=" + Long.toString(seed);
-            
+
             PrintWriter writer;
             try {
                 writer = new PrintWriter(fileName, "UTF-8");
