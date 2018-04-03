@@ -46,7 +46,9 @@ public interface SolObject {
 
     void handleContact(SolObject other, float absImpulse, SolGame game, Vector2 collPos);
 
-    String toDebugString();
+    default String toDebugString() {
+        return null;
+    }
 
     Boolean isMetal();
 

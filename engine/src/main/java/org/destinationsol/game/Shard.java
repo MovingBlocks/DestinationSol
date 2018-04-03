@@ -62,17 +62,12 @@ public class Shard implements SolObject {
 
     @Override
     public Vector2 getSpeed() {
-        return null;
+        return body.getLinearVelocity();
     }
 
     @Override
     public void handleContact(SolObject other, float absImpulse,
                               SolGame game, Vector2 collPos) {
-    }
-
-    @Override
-    public String toDebugString() {
-        return null;
     }
 
     @Override
