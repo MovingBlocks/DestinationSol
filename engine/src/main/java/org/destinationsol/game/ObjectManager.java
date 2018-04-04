@@ -227,10 +227,10 @@ public class ObjectManager {
     }
 
     void drawDebug(GameDrawer drawer, SolGame game) {
-        if (DebugOptions.drawObjBorders) {
+        if (DebugOptions.drawObjectBorders) {
             drawDebug0(drawer, game);
         }
-        if (DebugOptions.objInfo) {
+        if (DebugOptions.objectInfo) {
             drawDebugStrings(drawer, game);
         }
 

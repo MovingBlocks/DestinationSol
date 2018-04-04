@@ -78,7 +78,7 @@ class ChunkFiller {
      * @param game    The {@link SolGame} instance to work with
      * @param chunk   The coordinates of the chunk
      * @param removeController
-     * @param fillFarBackground   Determines which of the background layers should be filled. Value of true fills the layers furthest away, false fills the closer one.
+     * @param fillFarBackground   Determines which of the background layers should be filled. true fills the layers furthest away, false fills the closer one.
      */
     void fill(SolGame game, Vector2 chunk, RemoveController removeController, boolean fillFarBackground) {
         if (DebugOptions.noObjects) {
@@ -362,7 +362,7 @@ class ChunkFiller {
      *
      * @param game        The {@link SolGame} instance to work with
      * @param chunkCenter The center of a chunk in which a random position should be found
-     * @return A random, unoccupied position in a chunk centered around chunkCenter, relative to the entire map, or null if none found within 100 tries
+     * @return The found unoccupied position, or null if no position has been found.
      */
     private Vector2 getFreeRndPos(SolGame game, Vector2 chunkCenter) {
         for (int i = 0; i < 100; i++) {

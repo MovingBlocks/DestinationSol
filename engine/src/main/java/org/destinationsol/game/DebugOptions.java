@@ -37,11 +37,11 @@ public final class DebugOptions {
     static String spawnPlace = "";
 
     // Presentation
-    public static boolean noDras;
+    public static boolean noDrawables;
     public static boolean soundInSpace;
     public static boolean showWarnings;
     public static boolean showFps;
-    public static boolean drawDraBorders;
+    public static boolean drawDrawableBorders;
     public static boolean drawPlanetBorders;
     public static boolean soundInfo;
     public static boolean textureInfo;
@@ -49,9 +49,9 @@ public final class DebugOptions {
     static float gridSize;
     static float gameSpeedMultiplier = 1f;
     static boolean detailedMap;
-    static boolean drawObjBorders;
+    static boolean drawObjectBorders;
     static boolean drawPhysicBorders;
-    static boolean objInfo;
+    static boolean objectInfo;
     private static boolean noSound;
     private static boolean miscInfo;
 
@@ -65,7 +65,7 @@ public final class DebugOptions {
         forcePlanetType = r.getString("forcePlanetType", forcePlanetType);
         forceSystemType = r.getString("forceSystemType", forceSystemType);
         noObjects = r.getBoolean("noObjs", noObjects);
-        noDras = r.getBoolean("noDras", noDras);
+        noDrawables = r.getBoolean("noDras", noDrawables);
         zoomOverride = r.getFloat("zoomOverride", zoomOverride);
         gridSize = r.getFloat("gridSz", gridSize);
         gameSpeedMultiplier = r.getFloat("gameSpeedMultiplier", gameSpeedMultiplier);
@@ -74,12 +74,12 @@ public final class DebugOptions {
         soundInSpace = r.getBoolean("soundInSpace", soundInSpace);
         showWarnings = r.getBoolean("showWarnings", showWarnings);
         showFps = r.getBoolean("showFps", showFps);
-        drawObjBorders = r.getBoolean("drawObjBorders", drawObjBorders);
-        drawDraBorders = r.getBoolean("drawDraBorders", drawDraBorders);
+        drawObjectBorders = r.getBoolean("drawObjBorders", drawObjectBorders);
+        drawDrawableBorders = r.getBoolean("drawDraBorders", drawDrawableBorders);
         drawPhysicBorders = r.getBoolean("drawPhysicBorders", drawPhysicBorders);
         drawPlanetBorders = r.getBoolean("drawPlanetBorders", drawPlanetBorders);
         miscInfo = r.getBoolean("miscInfo", miscInfo);
-        objInfo = r.getBoolean("objInfo", objInfo);
+        objectInfo = r.getBoolean("objInfo", objectInfo);
         soundInfo = r.getBoolean("soundInfo", soundInfo);
         textureInfo = r.getBoolean("texInfo", textureInfo);
         missingPhysicsAction = MissingResourceAction.forName(r.getString("missingPhysicsAction", MissingResourceAction.IGNORE.name));

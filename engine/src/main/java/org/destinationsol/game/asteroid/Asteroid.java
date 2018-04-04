@@ -182,14 +182,14 @@ public class Asteroid implements SolObject {
         float sclSum = 0;
         while (sclSum < .7f * size * size) {
             float speedAngle = SolRandom.randomFloat(180);
-            Vector2 splittedSpeed = new Vector2();
-            SolMath.fromAl(splittedSpeed, speedAngle, SolRandom.randomFloat(0, .5f) * MAX_SPLIT_SPD);
-            splittedSpeed.add(splittedSpeed);
+            Vector2 splitSpeed = new Vector2();
+            SolMath.fromAl(splitSpeed, speedAngle, SolRandom.randomFloat(0, .5f) * MAX_SPLIT_SPD);
+            splitSpeed.add(splitSpeed);
             Vector2 newPos = new Vector2();
             SolMath.fromAl(newPos, speedAngle, SolRandom.randomFloat(0, size / 2));
             newPos.add(position);
             float sz = size * SolRandom.randomFloat(.25f, .5f);
-            Asteroid a = game.getAsteroidBuilder().buildNew(game, newPos, splittedSpeed, sz, removeController);
+            Asteroid a = game.getAsteroidBuilder().buildNew(game, newPos, splitSpeed, sz, removeController);
             game.getObjectManager().addObjDelayed(a);
             sclSum += a.size * a.size;
         }

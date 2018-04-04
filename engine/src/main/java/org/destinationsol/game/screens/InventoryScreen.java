@@ -378,8 +378,16 @@ public class InventoryScreen implements SolUiScreen {
         return mySelected == null || mySelected.isEmpty() ? null : mySelected.get(0);
     }
 
+    public InventoryOperations getOperations() {
+        return myOperations;
+    }
+
     void setOperations(InventoryOperations operations) {
         myOperations = operations;
+    }
+
+    public int getPage() {
+        return myPage;
     }
 
     public List<SolUiControl> getEquippedItemUIControlsForTutorial(SolGame game) {
