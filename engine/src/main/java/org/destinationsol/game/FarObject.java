@@ -48,6 +48,14 @@ public interface FarObject {
      */
     SolObject toObject(SolGame game);
 
+    /**
+     * Called on every game's frame, allows for handling of object-specific runtime needs.
+     * <p>
+     * This method should be much simpler than the {@link SolObject#update(SolGame)}. It can be used for instance for
+     * sort of simplified movement for ships.
+     *
+     * @param game Game this object belongs to.
+     */
     void update(SolGame game);
 
     float getRadius();
