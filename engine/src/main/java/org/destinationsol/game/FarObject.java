@@ -16,6 +16,7 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 
 /**
  * FarObject can be generally considered a {@link SolObject} simplified in terms of runtime code.
@@ -77,7 +78,23 @@ public interface FarObject {
      */
     Vector2 getPosition();
 
+    /**
+     * Used for retrieval of object's debug string.
+     * <p>
+     * Any kind of information can be used in the debug string, if you don't need/want to display any debug information,
+     * you can freely have this method return null. To display debug strings in-game, set the flag {@link DebugOptions#OBJ_INFO}.
+     * These strings should then be rendered in the proximity of their objects.
+     *
+     * @return Debug string with information about the object.
+     */
     String toDebugString();
 
+    /**
+     * Denotes whether the {@link SolObject} corresponding to this object has a {@link Body} associated with it.
+     * <p>
+     * Generally, everything that can be touched has its {@code Body}.
+     *
+     * @return True if the {@code SolObject} has {@code Body} associated, false otherwise.
+     */
     boolean hasBody();
 }
