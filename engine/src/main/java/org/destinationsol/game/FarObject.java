@@ -38,6 +38,14 @@ public interface FarObject {
      */
     boolean shouldBeRemoved(SolGame game);
 
+    /**
+     * Creates a new {@link SolObject} similar to the one used for creation of this object by call to {@link SolObject#toFarObject()}
+     * <p>
+     * The created object should be by all terms similar or same as the {@code SolObject} that created this object.
+     *
+     * @param game Game this object belongs to.
+     * @return SolObject representation of this object.
+     */
     SolObject toObject(SolGame game);
 
     void update(SolGame game);
