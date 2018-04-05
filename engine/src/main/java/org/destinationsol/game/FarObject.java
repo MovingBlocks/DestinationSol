@@ -19,14 +19,23 @@ import com.badlogic.gdx.math.Vector2;
 
 /**
  * FarObject can be generally considered a {@link SolObject} simplified in terms of runtime code.
- *
+ * <p>
  * Generally speaking, every {@code SolObject} that gets too far away from player/camera, is transformed to a
  * {@code FarObject} or deleted, with few specific exceptions. {@code FarObject}s then persist still in the game until
  * the player/camera gets close to them again, at which point they are again transformed into their specific
  * {@code SolObjects}. {@code FarObject}s generally have no body associated with them and do not inetract with the game much.
- *
  */
 public interface FarObject {
+
+    /**
+     * Denotes whether the object should be removed as of the time of calling.
+     * <p>
+     * This method should return false if the object is meant to persist for the whole game, like for instance
+     * {@link StarPort}. Otherwise, it usually checks for its {@link RemoveController} as to whether it should be removed.
+     *
+     * @param game Game this object belongs to.
+     * @return Boolean denoting whether the object should be removed.
+     */
     boolean shouldBeRemoved(SolGame game);
 
     SolObject toObject(SolGame game);
