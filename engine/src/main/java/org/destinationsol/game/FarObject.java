@@ -58,8 +58,23 @@ public interface FarObject {
      */
     void update(SolGame game);
 
+    /**
+     * Returns the approximate radius the object is taking up, computed from the point returned by {@link #getPosition()}.
+     * <p>
+     * This radius can be used for easy checking of space taken by object, and should be taken in account when computing a distance.
+     *
+     * @return Approximate radius of this object.
+     */
     float getRadius();
 
+    /**
+     * Returns a position of the center of this object.
+     * <p>
+     * This can be considered static through the life of the object, unless it specifies a specific movement algorithm in
+     * {@link #update(SolGame)}. This method is used in combination with {@link #getRadius()} to compute distance to this object.
+     *
+     * @return Position of this object.
+     */
     Vector2 getPosition();
 
     String toDebugString();
