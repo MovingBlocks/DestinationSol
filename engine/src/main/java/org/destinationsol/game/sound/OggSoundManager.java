@@ -37,7 +37,14 @@ import java.util.Map;
 /**
  * This class represents the sound manager used in  DestinationSol. It is responsible for handling and playing all
  * sounds in the game. It loads the sound as required from {@link Assets}, all you need to do for your sound to be
- * registered is to place the sound in {@code .ogg} format in one of the asset-scanned directories.
+ * registered is to place the sound in {@code .ogg} format in one of the asset-scanned directories. You can also place
+ * a text file with the same name as the ogg file and {@code .soundinfo} extension, that might optionally contain
+ * lines {@code volume=xxx} and {@code loopTime=xxx}, xxx being a floating point number. {@code volume} specifies the
+ * default volume multiplier for the sound. {@code loopTime} works the following: if a sound has a loopTime of 0, or
+ * loopTime isn't specified, and a request is made to play the sound while the sound is already playing, the sound will
+ * be played again concurrently with itself. On the other side, when loopTime is specified as greater than zero, if
+ * there is a request to play the sound again sooner then the specified time passes from beginning of playing the last
+ * instance of the sound, the request will be silently ignored.
  */
 public class OggSoundManager {
     private final Map<String, OggSound> soundMap;
