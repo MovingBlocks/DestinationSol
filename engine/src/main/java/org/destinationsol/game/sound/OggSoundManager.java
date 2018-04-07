@@ -71,7 +71,9 @@ public class OggSoundManager {
      */
     public OggSound getSound(String path, float basePitch) {
         if (soundMap.containsKey(path)) {
-            return soundMap.get(path);
+            final OggSound sound = soundMap.get(path);
+            sound.setBasePitch(basePitch);
+            return sound;
         }
 
         OggSound sound = Assets.getSound(path);
