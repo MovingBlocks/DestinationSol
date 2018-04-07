@@ -52,10 +52,23 @@ public class OggSoundManager {
         debugHintDrawer = new DebugHintDrawer();
     }
 
+    /**
+     * Returns an {@link OggSound} specified by name.
+     *
+     * @param path Name of the sound in th form "module:soundName"
+     * @return The specified sound object.
+     */
     public OggSound getSound(String path) {
         return getSound(path, 1.0f);
     }
 
+    /**
+     * Returns an {@link OggSound} specified by name and highered/lowered by {@code basePitch}.
+     *
+     * @param path Name of the sound in th form "module:soundName"
+     * @param basePitch Multiplier to higher/lower sound by.
+     * @return The specified sound object.
+     */
     public OggSound getSound(String path, float basePitch) {
         if (soundMap.containsKey(path)) {
             return soundMap.get(path);
