@@ -34,6 +34,11 @@ import org.destinationsol.game.planet.Planet;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class represents the sound manager used in  DestinationSol. It is responsible for handling and playing all
+ * sounds in the game. It loads the sound as required from {@link Assets}, all you need to do for your sound to be
+ * registered is to place the sound in {@code .ogg} format in one of the asset-scanned directories.
+ */
 public class OggSoundManager {
     private final Map<String, OggSound> soundMap;
     private final Map<SolObject, Map<OggSound, Float>> loopedSoundMap;
