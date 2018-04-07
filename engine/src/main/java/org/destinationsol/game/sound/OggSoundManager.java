@@ -35,7 +35,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OggSoundManager {
-    // private static Logger logger = LoggerFactory.getLogger(OggSoundManager.class);
     private final Map<String, OggSound> soundMap;
     private final Map<SolObject, Map<OggSound, Float>> loopedSoundMap;
     private final DebugHintDrawer debugHintDrawer;
@@ -76,7 +75,6 @@ public class OggSoundManager {
         }
 
         OggSound sound = playableSound.getOggSound();
-        // logger.debug("Playing sound: {}", sound.getUrn().toString());
 
         // Perform some initial argument validation
         if (source == null && position == null) {
