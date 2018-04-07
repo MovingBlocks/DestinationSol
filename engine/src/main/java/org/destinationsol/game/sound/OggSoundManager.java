@@ -195,6 +195,12 @@ public class OggSoundManager {
         }
     }
 
+    /**
+     * Draws info about recently played sounds in player proximity when {@link DebugOptions#SOUND_INFO} flag is set.
+     *
+     * @param drawer {@code GameDrawer} to use for drawing
+     * @param game   {@code Game} to draw to.
+     */
     public void drawDebug(GameDrawer drawer, SolGame game) {
         if (DebugOptions.SOUND_INFO) {
             debugHintDrawer.draw(drawer, game);
