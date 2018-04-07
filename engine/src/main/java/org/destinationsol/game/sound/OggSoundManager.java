@@ -89,6 +89,21 @@ public class OggSoundManager {
      * {@code position} must be specified.
      *
      * @param game             Game to play the sound in.
+     * @param sound            The sound to play
+     * @param position         Position to play the sound at. If null, source.getPosition() will be used.
+     * @param source           Bearer of a sound. Must not be null for looped sounds or when {@code position} is null.
+     */
+    public void play(SolGame game, PlayableSound sound, @Nullable Vector2 position, @Nullable SolObject source) {
+        play(game, sound, position, source, 1f);
+    }
+
+    /**
+     * Plays a sound at specified position, or coming from specific source.
+     * <p>
+     * {@code source} must not be null if the sound is specified to loop, and at least one of {@code source} or
+     * {@code position} must be specified.
+     *
+     * @param game             Game to play the sound in.
      * @param playableSound    The sound to play
      * @param position         Position to play the sound at. If null, source.getPosition() will be used.
      * @param source           Bearer of a sound. Must not be null for looped sounds or when {@code position} is null.
@@ -133,7 +148,7 @@ public class OggSoundManager {
         gdxSound.play(volume, pitch, 0);
     }
 
-    private float getVolume(SolGame game, @Nullable Vector2 position, float volumeMultiplier, OggSound sound) {
+    private float getVolume(SolGame game, Vector2 position, float volumeMultiplier, OggSound sound) {
         // Calculate the volume multiplier for the sound
         float globalVolumeMultiplier = game.getCmp().getOptions().sfxVolumeMultiplier;
 
@@ -157,21 +172,6 @@ public class OggSoundManager {
         float distanceMultiplier = SolMath.clamp(1 - distance / maxSoundDist);
 
         return sound.getBaseVolume() * volumeMultiplier * distanceMultiplier * globalVolumeMultiplier;
-    }
-
-    /**
-     * Plays a sound at specified position, or coming from specific source.
-     * <p>
-     * {@code source} must not be null if the sound is specified to loop, and at least one of {@code source} or
-     * {@code position} must be specified.
-     *
-     * @param game             Game to play the sound in.
-     * @param sound            The sound to play
-     * @param position         Position to play the sound at. If null, source.getPosition() will be used.
-     * @param source           Bearer of a sound. Must not be null for looped sounds or when {@code position} is null.
-     */
-    public void play(SolGame game, PlayableSound sound, @Nullable Vector2 position, @Nullable SolObject source) {
-        play(game, sound, position, source, 1f);
     }
 
     private boolean skipLooped(SolObject source, OggSound sound, float time) {
