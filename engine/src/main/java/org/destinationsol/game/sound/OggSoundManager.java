@@ -42,9 +42,9 @@ public class OggSoundManager {
     private float myLoopAwait;
 
     public OggSoundManager() {
-        this.soundMap = new HashMap<>();
-        this.loopedSoundMap = new HashMap<>();
-        this.debugHintDrawer = new DebugHintDrawer();
+        soundMap = new HashMap<>();
+        loopedSoundMap = new HashMap<>();
+        debugHintDrawer = new DebugHintDrawer();
     }
 
     public OggSound getSound(String path) {
@@ -140,7 +140,7 @@ public class OggSoundManager {
      * @param source   bearer of a sound. Must not be null for looped sounds
      */
     public void play(SolGame game, PlayableSound sound, @Nullable Vector2 position, @Nullable SolObject source) {
-        this.play(game, sound, position, source, 1f);
+        play(game, sound, position, source, 1f);
     }
 
     private boolean skipLooped(SolObject source, OggSound sound, float time) {
