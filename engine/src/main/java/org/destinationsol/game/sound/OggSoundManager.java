@@ -207,6 +207,11 @@ public class OggSoundManager {
         }
     }
 
+    /**
+     * Updates drawer used in {@link #drawDebug(GameDrawer, SolGame)} and removes unnecessary objects.
+     *
+     * @param game Game currently at progress.
+     */
     public void update(SolGame game) {
         if (DebugOptions.SOUND_INFO) {
             debugHintDrawer.update(game);
@@ -223,6 +228,9 @@ public class OggSoundManager {
         loopedSoundMap.keySet().removeIf(o -> o.shouldBeRemoved(game));
     }
 
+    /**
+     * Handles deallocation of resources by the libGdx backend.
+     */
     public void dispose() {
         for (OggSound sound : soundMap.values()) {
             sound.doDispose();
