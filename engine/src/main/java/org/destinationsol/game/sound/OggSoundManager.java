@@ -150,22 +150,20 @@ public class OggSoundManager {
             return false;
         }
 
-        boolean playing;
         Map<OggSound, Float> looped = loopedSoundMap.get(source);
         if (looped == null) {
             looped = new HashMap<>();
             loopedSoundMap.put(source, looped);
-            playing = false;
+            return false;
         } else {
             Float endTime = looped.get(sound);
             if (endTime == null || endTime <= time) {
                 looped.put(sound, time + sound.getLoopTime()); // argh, performance loss
-                playing = false;
+                return false;
             } else {
-                playing = time < endTime;
+                return true;
             }
         }
-        return playing;
     }
 
     public void drawDebug(GameDrawer drawer, SolGame game) {
