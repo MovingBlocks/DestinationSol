@@ -87,11 +87,30 @@ public class OggSoundManager {
             position = source.getPosition();
         }
 
-        // Calculate the volume multiplier for the sound
-        float globalVolumeMultiplier = game.getCmp().getOptions().sfxVolumeMultiplier;
-        if (globalVolumeMultiplier == 0) {
+        float volume = getVolume(game, position, volumeMultiplier, sound);
+
+        if (volume <= 0) {
             return;
         }
+
+        // Calculate the pitch for the sound
+        float pitch = SolRandom.randomFloat(.97f, 1.03f) * game.getTimeFactor() * playableSound.getBasePitch();
+
+        if (skipLooped(source, sound, game.getTime())) {
+            return;
+        }
+
+        if (DebugOptions.SOUND_INFO) {
+            debugHintDrawer.add(source, position, sound.toString());
+        }
+
+        Sound gdxSound = sound.getSound();
+        gdxSound.play(volume, pitch, 0);
+    }
+
+    private float getVolume(SolGame game, @Nullable Vector2 position, float volumeMultiplier, OggSound sound) {
+        // Calculate the volume multiplier for the sound
+        float globalVolumeMultiplier = game.getCmp().getOptions().sfxVolumeMultiplier;
 
         Vector2 cameraPosition = game.getCam().getPosition();
         Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();
@@ -112,25 +131,7 @@ public class OggSoundManager {
         float distance = position.dst(cameraPosition) - soundRadius;
         float distanceMultiplier = SolMath.clamp(1 - distance / maxSoundDist);
 
-        float volume = sound.getBaseVolume() * volumeMultiplier * distanceMultiplier * globalVolumeMultiplier;
-
-        if (volume <= 0) {
-            return;
-        }
-
-        // Calculate the pitch for the sound
-        float pitch = SolRandom.randomFloat(.97f, 1.03f) * game.getTimeFactor() * playableSound.getBasePitch();
-
-        if (skipLooped(source, sound, game.getTime())) {
-            return;
-        }
-
-        if (DebugOptions.SOUND_INFO) {
-            debugHintDrawer.add(source, position, sound.toString());
-        }
-
-        Sound gdxSound = sound.getSound();
-        gdxSound.play(volume, pitch, 0);
+        return sound.getBaseVolume() * volumeMultiplier * distanceMultiplier * globalVolumeMultiplier;
     }
 
     /**
