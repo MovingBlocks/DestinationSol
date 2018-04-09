@@ -23,10 +23,10 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.input.Mover;
 import org.destinationsol.game.input.Shooter;
-import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 
@@ -66,14 +66,14 @@ public class ShipMixedControl implements ShipUiControl {
         if (!enabled) {
             return;
         }
-        SolInputManager im = solApplication.getInputMan();
+        SolInputManager im = solApplication.getInputManager();
         SolGame game = solApplication.getGame();
-        SolShip hero = game.getHero();
-        if (hero != null) {
+        Hero hero = game.getHero();
+        if (hero.isNonTranscendent()) {
             myMouseWorldPos.set(Gdx.input.getX(), Gdx.input.getY());
             game.getCam().screenToWorld(myMouseWorldPos);
             float desiredAngle = SolMath.angle(hero.getPosition(), myMouseWorldPos);
-            Boolean ntt = Mover.needsToTurn(hero.getAngle(), desiredAngle, hero.getRotSpd(), hero.getRotAcc(), Shooter.MIN_SHOOT_AAD);
+            Boolean ntt = Mover.needsToTurn(hero.getAngle(), desiredAngle, hero.getRotationSpeed(), hero.getRotationAcceleration(), Shooter.MIN_SHOOT_AAD);
             if (ntt != null) {
                 if (ntt) {
                     myRight = true;

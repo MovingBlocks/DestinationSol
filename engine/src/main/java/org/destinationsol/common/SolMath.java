@@ -15,17 +15,16 @@
  */
 package org.destinationsol.common;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.Pool;
+import java.util.ArrayList;
+
 import org.destinationsol.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.Pool;
 
 /**
  * A class with helpful mathematical functions
@@ -44,7 +43,6 @@ public class SolMath {
     public static int VECTORS_TAKEN;
     public static Vector2 tmp = new Vector2();
 
-
     public static int toInt(boolean b) {
         return b ? 1 : -1;
     }
@@ -58,26 +56,26 @@ public class SolMath {
      *
      * @param src actual value
      * @param dst desired value
-     * @param spd speed of change
+     * @param speed speed of change
      * @return a new value that is closer to the desired one
      */
-    public static float approach(float src, float dst, float spd) {
-        if (dst - spd <= src && src <= dst + spd) {
+    public static float approach(float src, float dst, float speed) {
+        if (dst - speed <= src && src <= dst + speed) {
             return dst;
         }
-        return src < dst ? src + spd : src - spd;
+        return src < dst ? src + speed : src - speed;
     }
 
     /**
      * Same as {@code approach()}, but in the radial coordinates. That is, 170 degrees would move to -10 by growing through 175 degrees
      */
-    public static float approachAngle(float src, float dst, float spd) {
+    public static float approachAngle(float src, float dst, float speed) {
         float diff = norm(dst - src);
         float da = abs(diff);
-        if (da <= spd) {
+        if (da <= speed) {
             return dst;
         }
-        return diff > 0 ? src + spd : src - spd;
+        return diff > 0 ? src + speed : src - speed;
     }
 
     /**
@@ -93,68 +91,6 @@ public class SolMath {
         while (a > 180)
             a -= 360;
         return a;
-    }
-
-    /**
-     * Returns a random float v such that -minMax <= v && v < minMax
-     *
-     * @param minMax a positive value
-     */
-    public static float rnd(float minMax) {
-        return rnd(-minMax, minMax);
-    }
-
-    /**
-     * Returns a random float v such that min <= v && v < max. Min shouldn't equal to max
-     */
-    public static float rnd(float min, float max) {
-        float result = max;
-        if (min == max) {
-            Gdx.app.log("SolMath", "rnd was called with bad parameters! Min " + min + " matches max " + max + ", accepting max.");
-            Gdx.app.log("SolMath", "Please review appropriate code in the stack dump:");
-            for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
-                Gdx.app.log("SolMath", ste.toString());
-            }
-
-            return result;
-        }
-        while (result == max) {
-            result = MathUtils.random(min, max);
-        }
-        return result;
-    }
-
-    /**
-     * Returns a random int v such that 0 <= v && v < max.
-     *
-     * @param max a positive value
-     */
-    public static int intRnd(int max) {
-        return intRnd(0f, max);
-    }
-
-    /**
-     * Returns a random int v such that max*perc <= v && v < max.
-     *
-     * @param perc should be >= 0 and < 1
-     * @param max  a positive value
-     */
-    public static int intRnd(float perc, int max) {
-        int r = max;
-        int min = (int) (max * perc);
-        if (min == max) {
-            throw new AssertionError("intRnd min equals max " + min);
-        }
-        while (r == max)
-            r = MathUtils.random(min, max);
-        return r;
-    }
-
-    /**
-     * Returns a random int v such that min <= v && v <= max
-     */
-    public static int intRnd(int min, int max) {
-        return MathUtils.random(min, max);
     }
 
     /**
@@ -237,13 +173,6 @@ public class SolMath {
     }
 
     /**
-     * generates a random number between 0 and 1 and returns true if it is less than v, false otherwise
-     */
-    public static boolean test(float v) {
-        return rnd(0, 1) < v;
-    }
-
-    /**
      * @return approximate cos of a degrees
      */
     public static float cos(float a) {
@@ -268,30 +197,30 @@ public class SolMath {
     }
 
     /**
-     * converts relPos (a position in a relative coordinate system defined by baseAngle and basePos) to the absolute position (which is written to pos)
+     * converts relPos (a position in a relative coordinate system defined by baseAngle and basePos) to the absolute position (which is written to position)
      */
-    public static void toWorld(Vector2 pos, Vector2 relPos, float baseAngle, Vector2 basePos, boolean precise) {
-        pos.set(relPos);
-        rotate(pos, baseAngle, precise);
-        pos.add(basePos);
+    public static void toWorld(Vector2 position, Vector2 relPos, float baseAngle, Vector2 basePos, boolean precise) {
+        position.set(relPos);
+        rotate(position, baseAngle, precise);
+        position.add(basePos);
     }
 
     /**
-     * converts pos (a position in an absolute coordinate system) to the position in the relative system of coordinates (defined by baseAngle and basePos)
+     * converts position (a position in an absolute coordinate system) to the position in the relative system of coordinates (defined by baseAngle and basePos)
      */
     @Bound
-    public static Vector2 toRel(Vector2 pos, float baseAngle, Vector2 basePos) {
+    public static Vector2 toRel(Vector2 position, float baseAngle, Vector2 basePos) {
         Vector2 v = getVec();
-        toRel(pos, v, baseAngle, basePos);
+        toRel(position, v, baseAngle, basePos);
         return v;
     }
 
     /**
-     * converts pos (a position in an absolute coordinate system) to the position in the relative system of coordinates
+     * converts position (a position in an absolute coordinate system) to the position in the relative system of coordinates
      * (defined by baseAngle and basePos) (which is written to relPos)
      */
-    public static void toRel(Vector2 pos, Vector2 relPos, float baseAngle, Vector2 basePos) {
-        relPos.set(pos);
+    public static void toRel(Vector2 position, Vector2 relPos, float baseAngle, Vector2 basePos) {
+        relPos.set(position);
         relPos.sub(basePos);
         rotate(relPos, -baseAngle);
     }
@@ -416,14 +345,6 @@ public class SolMath {
         return angle / 180 * PI * r;
     }
 
-    /**
-     * @return a random element of a list
-     */
-    public static <T> T elemRnd(List<T> list) {
-        int idx = intRnd(list.size());
-        return list.get(idx);
-    }
-
     public static void checkVectorsTaken(Object o) {
         if (SolMath.VECTORS_TAKEN != 0) {
             throw new AssertionError("vectors " + SolMath.VECTORS_TAKEN + ", blame on " + o);
@@ -488,8 +409,8 @@ public class SolMath {
         return res;
     }
 
-    public static boolean canAccelerate(float accAngle, Vector2 spd) {
-        return spd.len() < Const.MAX_MOVE_SPD || angleDiff(angle(spd), accAngle) > 90;
+    public static boolean canAccelerate(float accAngle, Vector2 speed) {
+        return speed.len() < Const.MAX_MOVE_SPD || angleDiff(angle(speed), accAngle) > 90;
     }
 
     public static String nice(float v) {

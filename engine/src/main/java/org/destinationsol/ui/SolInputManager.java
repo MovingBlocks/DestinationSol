@@ -59,7 +59,7 @@ public class SolInputManager {
     private float mouseIdleTime;
     private TextureAtlas.AtlasRegion currCursor;
     private boolean mouseOnUi;
-    private float warnPerc;
+    private float warnPercentage;
     private boolean warnPercGrows;
     private Boolean scrolledUp;
 
@@ -128,7 +128,7 @@ public class SolInputManager {
                     return;
                 }
             }
-            if (screen.isCursorOnBg(flashInputPointer)) {
+            if (screen.isCursorOnBackground(flashInputPointer)) {
                 return;
             }
         }
@@ -202,13 +202,13 @@ public class SolInputManager {
             boolean clickedOutside = false;
             if (!consumed) {
                 for (InputPointer inputPointer : inputPointers) {
-                    boolean onBg = screen.isCursorOnBg(inputPointer);
-                    if (inputPointer.pressed && onBg) {
+                    boolean onBackground = screen.isCursorOnBackground(inputPointer);
+                    if (inputPointer.pressed && onBackground) {
                         clickedOutside = false;
                         consumed = true;
                         break;
                     }
-                    if (!onBg && inputPointer.isJustUnPressed() && !clickOutsideReacted) {
+                    if (!onBackground && inputPointer.isJustUnPressed() && !clickOutsideReacted) {
                         clickedOutside = true;
                     }
                 }
@@ -216,7 +216,7 @@ public class SolInputManager {
             if (clickedOutside && screen.reactsToClickOutside()) {
                 clickOutsideReacted = true;
             }
-            if (screen.isCursorOnBg(inputPointers[0])) {
+            if (screen.isCursorOnBackground(inputPointers[0])) {
                 mouseOnUi = true;
             }
             screen.updateCustom(solApplication, inputPointers, clickedOutside);
@@ -235,12 +235,12 @@ public class SolInputManager {
 
     private void updateWarnPerc() {
         float dif = SolMath.toInt(warnPercGrows) * Const.REAL_TIME_STEP / WARN_PERC_GROWTH_TIME;
-        warnPerc += dif;
-        if (warnPerc < 0 || 1 < warnPerc) {
-            warnPerc = SolMath.clamp(warnPerc);
+        warnPercentage += dif;
+        if (warnPercentage < 0 || 1 < warnPercentage) {
+            warnPercentage = SolMath.clamp(warnPercentage);
             warnPercGrows = !warnPercGrows;
         }
-        warnColor.a = warnPerc * .5f;
+        warnColor.a = warnPercentage * .5f;
     }
 
     private void addRemoveScreens() {
@@ -310,12 +310,12 @@ public class SolInputManager {
             SolUiScreen screen = screens.get(i);
 
             uiDrawer.setTextMode(false);
-            screen.drawBg(uiDrawer, solApplication);
+            screen.drawBackground(uiDrawer, solApplication);
             List<SolUiControl> controls = screen.getControls();
             for (SolUiControl control : controls) {
                 control.drawButton(uiDrawer, solApplication, warnColor);
             }
-            screen.drawImgs(uiDrawer, solApplication);
+            screen.drawImages(uiDrawer, solApplication);
 
             uiDrawer.setTextMode(true);
             screen.drawText(uiDrawer, solApplication);

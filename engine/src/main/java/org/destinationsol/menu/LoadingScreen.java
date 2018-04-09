@@ -31,14 +31,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoadingScreen implements SolUiScreen {
-    private final TextureAtlas.AtlasRegion bgTex;
+    private final TextureAtlas.AtlasRegion backgroundTexture;
 
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private boolean loadTutorial;
+    private boolean isNewGame;
     private String shipName;
 
     LoadingScreen() {
-        bgTex = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
+        backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class LoadingScreen implements SolUiScreen {
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        solApplication.startNewGame(loadTutorial, shipName);
+        solApplication.play(loadTutorial, shipName, isNewGame);
     }
 
     @Override
@@ -56,13 +57,15 @@ public class LoadingScreen implements SolUiScreen {
         uiDrawer.drawString("Loading...", uiDrawer.r / 2, .5f, FontSize.MENU, true, SolColor.WHITE);
     }
 
-    public void setMode(boolean loadTutorial, String shipName) {
+    public void setMode(boolean loadTutorial, String shipName, boolean isNewGame) {
         this.loadTutorial = loadTutorial;
         this.shipName = shipName;
+        this.isNewGame = isNewGame;
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(backgroundTexture, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
     }
+
 }

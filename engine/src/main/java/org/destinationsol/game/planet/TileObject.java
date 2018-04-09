@@ -17,10 +17,9 @@ package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DmgType;
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
@@ -31,32 +30,32 @@ import java.util.List;
 
 public class TileObject implements SolObject {
 
-    private final Planet myPlanet;
-    private final float myToPlanetRelAngle;
-    private final float myDist;
-    private final List<Drawable> myDrawables;
-    private final Body myBody;
-    private final Vector2 myPos;
+    private final Planet planet;
+    private final float relativeAngleToPlanet;
+    private final float distance;
+    private final List<Drawable> drawables;
+    private final Body body;
+    private final Vector2 position;
 
     // for far objs {
-    private final float mySize;
-    private final Tile myTile;
+    private final float size;
+    private final Tile tile;
     // }
 
-    private float myAngle;
+    private float angle;
 
-    public TileObject(Planet planet, float toPlanetRelAngle, float dist, float size, RectSprite sprite, Body body, Tile tile) {
-        myTile = tile;
-        myDrawables = new ArrayList<>();
+    TileObject(Planet planet, float relativeAngleToPlanet, float distance, float size, RectSprite sprite, Body body, Tile tile) {
+        this.tile = tile;
+        drawables = new ArrayList<>();
 
-        myPlanet = planet;
-        myToPlanetRelAngle = toPlanetRelAngle;
-        myDist = dist;
-        mySize = size;
-        myBody = body;
-        myPos = new Vector2();
+        this.planet = planet;
+        this.relativeAngleToPlanet = relativeAngleToPlanet;
+        this.distance = distance;
+        this.size = size;
+        this.body = body;
+        position = new Vector2();
 
-        myDrawables.add(sprite);
+        drawables.add(sprite);
         setDependentParams();
     }
 
@@ -64,24 +63,24 @@ public class TileObject implements SolObject {
     public void update(SolGame game) {
         setDependentParams();
 
-        if (myBody != null) {
-            float ts = game.getTimeStep();
-            Vector2 spd = SolMath.getVec(myPos);
-            spd.sub(myBody.getPosition());
-            spd.scl(1f / ts);
-            myBody.setLinearVelocity(spd);
-            SolMath.free(spd);
-            float bodyAngle = myBody.getAngle() * SolMath.radDeg;
-            float av = SolMath.norm(myAngle - bodyAngle) * SolMath.degRad / ts;
-            myBody.setAngularVelocity(av);
+        if (body != null) {
+            float timeStep = game.getTimeStep();
+            Vector2 speed = SolMath.getVec(position);
+            speed.sub(body.getPosition());
+            speed.scl(1f / timeStep);
+            body.setLinearVelocity(speed);
+            SolMath.free(speed);
+            float bodyAngle = body.getAngle() * SolMath.radDeg;
+            float angularVelocity = SolMath.norm(angle - bodyAngle) * SolMath.degRad / timeStep;
+            body.setAngularVelocity(angularVelocity);
         }
     }
 
     private void setDependentParams() {
-        float toPlanetAngle = myPlanet.getAngle() + myToPlanetRelAngle;
-        SolMath.fromAl(myPos, toPlanetAngle, myDist, true);
-        myPos.add(myPlanet.getPos());
-        myAngle = toPlanetAngle + 90;
+        float toPlanetAngle = planet.getAngle() + relativeAngleToPlanet;
+        SolMath.fromAl(position, toPlanetAngle, distance, true);
+        position.add(planet.getPosition());
+        angle = toPlanetAngle + 90;
     }
 
     @Override
@@ -91,14 +90,14 @@ public class TileObject implements SolObject {
 
     @Override
     public void onRemove(SolGame game) {
-        if (myBody != null) {
-            myBody.getWorld().destroyBody(myBody);
+        if (body != null) {
+            body.getWorld().destroyBody(body);
         }
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 pos, DmgType dmgType) {
-        game.getSpecialSounds().playHit(game, this, pos, dmgType);
+    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+        game.getSpecialSounds().playHit(game, this, position, dmgType);
     }
 
     @Override
@@ -112,32 +111,31 @@ public class TileObject implements SolObject {
 
     @Override
     public Vector2 getPosition() {
-        return myPos;
+        return position;
     }
 
     @Override
-    public FarObj toFarObj() {
-        return new FarTileObject(myPlanet, myToPlanetRelAngle, myDist, mySize, myTile);
+    public FarObject toFarObject() {
+        return new FarTileObject(planet, relativeAngleToPlanet, distance, size, tile);
     }
 
     @Override
     public List<Drawable> getDrawables() {
-        return myDrawables;
+        return drawables;
     }
 
     @Override
     public float getAngle() {
-        return myAngle;
+        return angle;
     }
 
     @Override
-    public Vector2 getSpd() {
+    public Vector2 getSpeed() {
         return null;
     }
 
     @Override
-    public void handleContact(SolObject other, ContactImpulse impulse, boolean isA, float absImpulse,
-                              SolGame game, Vector2 collPos) {
+    public void handleContact(SolObject other, float absImpulse, SolGame game, Vector2 collPos) {
     }
 
     @Override
@@ -156,14 +154,14 @@ public class TileObject implements SolObject {
     }
 
     public Planet getPlanet() {
-        return myPlanet;
+        return planet;
     }
 
     public float getSz() {
-        return mySize;
+        return size;
     }
 
     public Tile getTile() {
-        return myTile;
+        return tile;
     }
 }

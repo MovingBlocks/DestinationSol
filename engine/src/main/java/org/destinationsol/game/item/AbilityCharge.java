@@ -22,50 +22,50 @@ import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.SolGame;
 
 public class AbilityCharge implements SolItem {
-    private final Config myConfig;
+    private final Config config;
 
-    public AbilityCharge(Config config) {
-        myConfig = config;
+    AbilityCharge(Config config) {
+        this.config = config;
     }
 
     @Override
     public String getDisplayName() {
-        return myConfig.displayName;
+        return config.displayName;
     }
 
     @Override
     public float getPrice() {
-        return myConfig.price;
+        return config.price;
     }
 
     @Override
-    public String getDesc() {
-        return myConfig.desc;
+    public String getDescription() {
+        return config.description;
     }
 
     @Override
     public SolItem copy() {
-        return new AbilityCharge(myConfig);
+        return new AbilityCharge(config);
     }
 
     @Override
     public boolean isSame(SolItem item) {
-        return item instanceof AbilityCharge && ((AbilityCharge) item).myConfig == myConfig;
+        return item instanceof AbilityCharge && ((AbilityCharge) item).config == config;
     }
 
     @Override
     public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-        return myConfig.icon;
+        return config.icon;
     }
 
     @Override
     public SolItemType getItemType() {
-        return myConfig.itemType;
+        return config.itemType;
     }
 
     @Override
     public String getCode() {
-        return myConfig.code;
+        return config.code;
     }
 
     @Override
@@ -82,15 +82,15 @@ public class AbilityCharge implements SolItem {
         public final TextureAtlas.AtlasRegion icon;
         public final float price;
         public final String displayName;
-        public final String desc;
+        public final String description;
         public final AbilityCharge example;
 
-        public Config(TextureAtlas.AtlasRegion icon, float price, String displayName, String desc, SolItemType itemType,
+        public Config(TextureAtlas.AtlasRegion icon, float price, String displayName, String description, SolItemType itemType,
                       String code) {
             this.icon = icon;
             this.price = price;
             this.displayName = displayName;
-            this.desc = desc;
+            this.description = description;
             this.itemType = itemType;
             this.code = code;
             this.example = new AbilityCharge(this);

@@ -17,6 +17,7 @@ package org.destinationsol.game.screens;
 
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
@@ -41,14 +42,14 @@ public class SellItems implements InventoryOperations {
 
     @Override
     public ItemContainer getItems(SolGame game) {
-        SolShip h = game.getHero();
-        return h == null ? null : h.getItemContainer();
+        Hero hero = game.getHero();
+        return hero.isTranscendent() ? null : hero.getItemContainer();
     }
 
     @Override
     public boolean isUsing(SolGame game, SolItem item) {
-        SolShip h = game.getHero();
-        return h != null && h.maybeUnequip(game, item, false);
+        Hero hero = game.getHero();
+        return hero.isNonTranscendent() && hero.maybeUnequip(game, item, false);
     }
 
     @Override
@@ -69,15 +70,15 @@ public class SellItems implements InventoryOperations {
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
-        InventoryScreen is = game.getScreens().inventoryScreen;
+        InventoryScreen inventoryScreen = game.getScreens().inventoryScreen;
         TalkScreen talkScreen = game.getScreens().talkScreen;
         SolShip target = talkScreen.getTarget();
-        SolShip hero = game.getHero();
+        Hero hero = game.getHero();
         if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputMan().setScreen(solApplication, game.getScreens().mainScreen);
+            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainScreen);
             return;
         }
-        SolItem selItem = is.getSelectedItem();
+        SolItem selItem = inventoryScreen.getSelectedItem();
         if (selItem == null) {
             sellControl.setDisplayName("----");
             sellControl.setEnabled(false);
@@ -90,7 +91,7 @@ public class SellItems implements InventoryOperations {
         if (enabled && isWornAndCanBeSold) {
             sellControl.setDisplayName("Sell");
             sellControl.setEnabled(true);
-        } else if (enabled && !isWornAndCanBeSold) {
+        } else if (enabled) {
             sellControl.setDisplayName("Unequip it!");
             sellControl.setEnabled(false);
         } else {
@@ -102,9 +103,9 @@ public class SellItems implements InventoryOperations {
             return;
         }
         if (sellControl.isJustOff()) {
-            ItemContainer ic = hero.getItemContainer();
-            is.setSelected(ic.getSelectionAfterRemove(is.getSelected()));
-            ic.remove(selItem);
+            ItemContainer itemContainer = hero.getItemContainer();
+            inventoryScreen.setSelected(itemContainer.getSelectionAfterRemove(inventoryScreen.getSelected()));
+            itemContainer.remove(selItem);
             target.getTradeContainer().getItems().add(selItem);
             hero.setMoney(hero.getMoney() + selItem.getPrice() * PERC);
         }
