@@ -167,7 +167,7 @@ public class SolGame {
         assert shipConfig != null;
 
         if (!isPlayerRespawned) {
-            galaxyFiller.fill(this, hullConfigManager, itemManager);
+            galaxyFiller.fill(this, hullConfigManager, itemManager, shipConfig.hull.getInternalName().split(":")[0]);
         }
 
         // If we continue a game, we should spawn from the same position
@@ -424,6 +424,7 @@ public class SolGame {
     }
 
     public void respawn() {
+        isPlayerRespawned = true;
         if (hero.isAlive()) {
             if (hero.isNonTranscendent()) {
                 beforeHeroDeath();
@@ -574,7 +575,6 @@ public class SolGame {
         respawnMoney = .75f * money;
         respawnHull = hullConfig;
         respawnItems.clear();
-        isPlayerRespawned = true;
         for (List<SolItem> group : ic) {
             for (SolItem item : group) {
                 boolean equipped = hero.isTranscendent() || hero.maybeUnequip(this, item, false);
