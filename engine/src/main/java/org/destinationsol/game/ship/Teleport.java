@@ -22,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
@@ -47,21 +48,21 @@ public class Teleport implements ShipAbility {
         if (!tryToUse) {
             return false;
         }
-        Vector2 pos = owner.getPosition();
+        Vector2 position = owner.getPosition();
         Faction faction = owner.getPilot().getFaction();
-        SolShip ne = game.getFactionMan().getNearestEnemy(game, MAX_RADIUS, faction, pos);
+        SolShip ne = game.getFactionMan().getNearestEnemy(game, MAX_RADIUS, faction, position);
         if (ne == null) {
             return false;
         }
         Vector2 nePos = ne.getPosition();
-        Planet np = game.getPlanetMan().getNearestPlanet();
+        Planet np = game.getPlanetManager().getNearestPlanet();
         if (np.isNearGround(nePos)) {
             return false;
         }
         for (int i = 0; i < 5; i++) {
-            newPos.set(pos);
+            newPos.set(position);
             newPos.sub(nePos);
-            angle = config.angle * SolMath.rnd(.5f, 1) * SolMath.toInt(SolMath.test(.5f));
+            angle = config.angle * SolRandom.randomFloat(.5f, 1) * SolMath.toInt(SolRandom.test(.5f));
             SolMath.rotate(newPos, angle);
             newPos.add(nePos);
             if (game.isPlaceEmpty(newPos, false)) {
@@ -95,18 +96,18 @@ public class Teleport implements ShipAbility {
 
         TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("engine:teleportBlip");
         float blipSz = owner.getHull().config.getApproxRadius() * 3;
-        game.getPartMan().blip(game, owner.getPosition(), SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
-        game.getPartMan().blip(game, newPos, SolMath.rnd(180), blipSz, 1, Vector2.Zero, tex);
+        game.getPartMan().blip(game, owner.getPosition(), SolRandom.randomFloat(180), blipSz, 1, Vector2.Zero, tex);
+        game.getPartMan().blip(game, newPos, SolRandom.randomFloat(180), blipSz, 1, Vector2.Zero, tex);
 
         float newAngle = owner.getAngle() + angle;
-        Vector2 newSpd = SolMath.getVec(owner.getSpd());
-        SolMath.rotate(newSpd, angle);
+        Vector2 newSpeed = SolMath.getVec(owner.getSpeed());
+        SolMath.rotate(newSpeed, angle);
 
         Body body = owner.getHull().getBody();
         body.setTransform(newPos, newAngle * SolMath.degRad);
-        body.setLinearVelocity(newSpd);
+        body.setLinearVelocity(newSpeed);
 
-        SolMath.free(newSpd);
+        SolMath.free(newSpeed);
     }
 
     public static class Config implements AbilityConfig {

@@ -17,7 +17,7 @@ package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.projectile.ProjectileConfigs;
@@ -61,13 +61,13 @@ public class ItemManager {
         myL.addAll(myM.values());
     }
 
-    public void fillContainer(ItemContainer c, String items) {
+    public void fillContainer(ItemContainer itemContainer, String items) {
         List<ItemConfig> list = parseItems(items);
-        for (ItemConfig ic : list) {
-            for (int i = 0; i < ic.amt; i++) {
-                if (SolMath.test(ic.chance)) {
-                    SolItem item = SolMath.elemRnd(ic.examples).copy();
-                    c.add(item);
+        for (ItemConfig itemConfig : list) {
+            for (int i = 0; i < itemConfig.amount; i++) {
+                if (SolRandom.test(itemConfig.chance)) {
+                    SolItem item = SolRandom.randomElement(itemConfig.examples).copy();
+                    itemContainer.add(item);
                 }
             }
         }
@@ -162,8 +162,8 @@ public class ItemManager {
                 throw new AssertionError("No item specified @ " + parts[0] + " @ " + rec + " @ " + items);
             }
 
-            ItemConfig ic = new ItemConfig(examples, amt, chance);
-            result.add(ic);
+            ItemConfig itemConfig = new ItemConfig(examples, amt, chance);
+            result.add(itemConfig);
         }
 
         return result;
@@ -178,7 +178,7 @@ public class ItemManager {
     }
 
     public SolItem random() {
-        return myL.get(SolMath.intRnd(myM.size())).copy();
+        return myL.get(SolRandom.randomInt(myM.size())).copy();
     }
 
     public void registerItem(SolItem example) {

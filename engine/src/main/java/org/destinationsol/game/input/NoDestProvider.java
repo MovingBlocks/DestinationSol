@@ -31,22 +31,22 @@ public class NoDestProvider implements MoveDestProvider {
     }
 
     @Override
-    public Vector2 getDest() {
+    public Vector2 getDestination() {
         return null;
     }
 
     @Override
-    public boolean shouldAvoidBigObjs() {
+    public boolean shouldAvoidBigObjects() {
         return false;
     }
 
     @Override
-    public float getDesiredSpdLen() {
+    public float getDesiredSpeedScalar() {
         return Const.DEFAULT_AI_SPD;
     }
 
     @Override
-    public boolean shouldStopNearDest() {
+    public boolean shouldStopNearDestination() {
         return false;
     }
 
@@ -60,7 +60,7 @@ public class NoDestProvider implements MoveDestProvider {
     }
 
     @Override
-    public Vector2 getDestSpd() {
+    public Vector2 getDestinationSpeed() {
         return Vector2.Zero;
     }
 }

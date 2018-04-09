@@ -48,7 +48,7 @@ public class InputMapScreen implements SolUiScreen {
     final InputMapKeyboardScreen inputMapKeyboardScreen;
     final InputMapControllerScreen inputMapControllerScreen;
     final InputMapMixedScreen inputMapMixedScreen;
-    private final TextureAtlas.AtlasRegion bgTex;
+    private final TextureAtlas.AtlasRegion backgroundTexture;
     private final List<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl[] itemControls;
     private final SolUiControl previousControl;
@@ -131,7 +131,7 @@ public class InputMapScreen implements SolUiScreen {
         inputMapControllerScreen = new InputMapControllerScreen();
         inputMapMixedScreen = new InputMapMixedScreen();
 
-        bgTex = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
+        backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override
@@ -142,7 +142,7 @@ public class InputMapScreen implements SolUiScreen {
     @Override
     public void updateCustom(SolApplication cmp, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         GameOptions gameOptions = cmp.getOptions();
-        SolInputManager im = cmp.getInputMan();
+        SolInputManager im = cmp.getInputManager();
         MenuScreens screens = cmp.getMenuScreens();
 
         // Save - saves new settings and returns to the options screen
@@ -250,12 +250,12 @@ public class InputMapScreen implements SolUiScreen {
         operations.setSelectedIndex(selectedIndex);
     }
 
-    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(backgroundTexture, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void drawImages(UiDrawer uiDrawer, SolApplication solApplication) {
 
     }
 
@@ -301,7 +301,7 @@ public class InputMapScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.InputPointer inputPointer) {
+    public boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
         return false;
     }
 
@@ -309,7 +309,7 @@ public class InputMapScreen implements SolUiScreen {
     public void onAdd(SolApplication solApplication) {
         // Add any extra screen information as required by the input screens. E.g. buttons
         if (operations != null) {
-            solApplication.getInputMan().addScreen(solApplication, operations);
+            solApplication.getInputManager().addScreen(solApplication, operations);
         }
 
         page = 0;

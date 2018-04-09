@@ -25,7 +25,7 @@ public class ProjectileConfig {
 
     public final TextureAtlas.AtlasRegion tex;
     public final float texSz;
-    public final float spdLen;
+    public final float speedLen;
     public final float physSize;
     public final boolean stretch;
     public final DmgType dmgType;
@@ -34,25 +34,25 @@ public class ProjectileConfig {
     public final EffectConfig trailEffect;
     public final EffectConfig bodyEffect;
     public final EffectConfig collisionEffect;
-    public final EffectConfig collisionEffectBg;
-    public final boolean zeroAbsSpd;
+    public final EffectConfig collisionEffectBackground;
+    public final boolean zeroAbsSpeed;
     public final Vector2 origin;
     public final float acc;
     public final PlayableSound workSound;
     public final boolean massless;
     public final float density;
-    public final float guideRotSpd;
+    public final float guideRotationSpeed;
     public final float dmg;
     public final float emTime;
 
-    public ProjectileConfig(TextureAtlas.AtlasRegion tex, float texSz, float spdLen, boolean stretch,
+    public ProjectileConfig(TextureAtlas.AtlasRegion tex, float texSz, float speedLen, boolean stretch,
                             float physSize, DmgType dmgType, PlayableSound collisionSound, float lightSz, EffectConfig trailEffect,
-                            EffectConfig bodyEffect, EffectConfig collisionEffect, EffectConfig collisionEffectBg,
-                            boolean zeroAbsSpd, Vector2 origin, float acc, PlayableSound workSound, boolean massless, float density,
-                            float guideRotSpd, float dmg, float emTime) {
+                            EffectConfig bodyEffect, EffectConfig collisionEffect, EffectConfig collisionEffectBackground,
+                            boolean zeroAbsSpeed, Vector2 origin, float acc, PlayableSound workSound, boolean massless, float density,
+                            float guideRotationSpeed, float dmg, float emTime) {
         this.tex = tex;
         this.texSz = texSz;
-        this.spdLen = spdLen;
+        this.speedLen = speedLen;
         this.stretch = stretch;
         this.physSize = physSize;
         this.dmgType = dmgType;
@@ -61,14 +61,14 @@ public class ProjectileConfig {
         this.trailEffect = trailEffect;
         this.bodyEffect = bodyEffect;
         this.collisionEffect = collisionEffect;
-        this.collisionEffectBg = collisionEffectBg;
-        this.zeroAbsSpd = zeroAbsSpd;
+        this.collisionEffectBackground = collisionEffectBackground;
+        this.zeroAbsSpeed = zeroAbsSpeed;
         this.origin = origin;
         this.acc = acc;
         this.workSound = workSound;
         this.massless = massless;
         this.density = density;
-        this.guideRotSpd = guideRotSpd;
+        this.guideRotationSpeed = guideRotationSpeed;
         this.dmg = dmg;
         this.emTime = emTime;
         if (physSize == 0 && massless) {

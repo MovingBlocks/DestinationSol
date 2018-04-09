@@ -21,10 +21,10 @@ import org.destinationsol.game.SolGame;
 
 public class RepairItem implements SolItem {
     public static final int LIFE_AMT = 20;
-    private final SolItemType myItemType;
+    private final SolItemType itemType;
 
-    public RepairItem(SolItemType itemType) {
-        myItemType = itemType;
+    RepairItem(SolItemType itemType) {
+        this.itemType = itemType;
     }
 
     @Override
@@ -38,13 +38,13 @@ public class RepairItem implements SolItem {
     }
 
     @Override
-    public String getDesc() {
+    public String getDescription() {
         return "Stay idle to fix " + LIFE_AMT + " dmg";
     }
 
     @Override
     public SolItem copy() {
-        return new RepairItem(myItemType);
+        return new RepairItem(itemType);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class RepairItem implements SolItem {
 
     @Override
     public SolItemType getItemType() {
-        return myItemType;
+        return itemType;
     }
 
     @Override

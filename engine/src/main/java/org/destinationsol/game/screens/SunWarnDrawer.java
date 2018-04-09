@@ -17,8 +17,8 @@ package org.destinationsol.game.screens;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.ship.SolShip;
 
 public class SunWarnDrawer extends WarnDrawer {
 
@@ -27,12 +27,12 @@ public class SunWarnDrawer extends WarnDrawer {
     }
 
     public boolean shouldWarn(SolGame game) {
-        SolShip hero = game.getHero();
-        if (hero == null) {
+        Hero hero = game.getHero();
+        if (hero.isTranscendent()) {
             return false;
         }
-        Vector2 pos = hero.getPosition();
-        float toCenter = game.getPlanetMan().getNearestSystem(pos).getPos().dst(pos);
+        Vector2 position = hero.getPosition();
+        float toCenter = game.getPlanetManager().getNearestSystem(position).getPosition().dst(position);
         return toCenter < Const.SUN_RADIUS;
     }
 }
