@@ -19,6 +19,7 @@ package org.destinationsol.game.input;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.SolSystem;
@@ -34,111 +35,111 @@ import java.util.List;
 public class ExplorerDestProvider implements MoveDestProvider {
     public static final int MAX_AWAIT_ON_PLANET = 30;
     public static final int LAST_PLANETS_TO_AVOID = 2;
-    private final Vector2 myDest;
-    private final boolean myAggressive;
-    private final float myDesiredSpdLen;
-    private final SolSystem mySys;
-    private Vector2 myRelDest;
-    private Planet myPlanet;
-    private float myAwaitOnPlanet;
-    private boolean myDestIsLanding;
-    private Vector2 myDestSpd;
+    private final Vector2 destination;
+    private final boolean isAggressive;
+    private final float desiredSpeedScalar;
+    private final SolSystem system;
+    private Vector2 relativeDestination;
+    private Planet planet;
+    private float awaitOnPlanet;
+    private boolean landInDestination;
+    private Vector2 destinationSpeed;
 
-    public ExplorerDestProvider(SolGame game, Vector2 pos, boolean aggressive, HullConfig config, SolSystem sys) {
-        mySys = sys;
-        myDest = new Vector2();
-        float minDst = Float.MAX_VALUE;
-        ArrayList<Planet> planets = mySys.getPlanets();
-        for (int i = 0, sz = allowedSz(); i < sz; i++) {
-            Planet p = planets.get(i);
-            float dst = p.getPos().dst(pos);
-            if (dst < minDst) {
-                minDst = dst;
-                myPlanet = p;
+    public ExplorerDestProvider(Vector2 position, boolean aggressive, HullConfig config, SolSystem system) {
+        this.system = system;
+        destination = new Vector2();
+        float minDistance = Float.MAX_VALUE;
+        ArrayList<Planet> planets = this.system.getPlanets();
+        for (int i = 0, sz = allowedSize(); i < sz; i++) {
+            Planet planet = planets.get(i);
+            float distance = planet.getPosition().dst(position);
+            if (distance < minDistance) {
+                minDistance = distance;
+                this.planet = planet;
             }
         }
-        calcRelDest(config);
-        myAwaitOnPlanet = MAX_AWAIT_ON_PLANET;
-        myAggressive = aggressive;
-        myDesiredSpdLen = config.getType() == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
-        myDestSpd = new Vector2();
+        calculateRelativeDestination(config);
+        awaitOnPlanet = MAX_AWAIT_ON_PLANET;
+        isAggressive = aggressive;
+        desiredSpeedScalar = config.getType() == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
+        destinationSpeed = new Vector2();
     }
 
-    private int allowedSz() {
-        int sz = mySys.getPlanets().size();
-        if (!mySys.getConfig().hard) {
-            sz -= LAST_PLANETS_TO_AVOID;
+    private int allowedSize() {
+        int size = system.getPlanets().size();
+        if (!system.getConfig().hard) {
+            size -= LAST_PLANETS_TO_AVOID;
         }
-        return sz;
+        return size;
     }
 
-    private void calcRelDest(HullConfig hullConfig) {
-        List<Vector2> lps = myPlanet.getLandingPlaces();
-        if (lps.size() > 0) {
-            myRelDest = new Vector2(SolMath.elemRnd(lps));
-            float len = myRelDest.len();
+    private void calculateRelativeDestination(HullConfig hullConfig) {
+        List<Vector2> landingPlaces = planet.getLandingPlaces();
+        if (landingPlaces.size() > 0) {
+            relativeDestination = new Vector2(SolRandom.randomElement(landingPlaces));
+            float distance = relativeDestination.len();
             float aboveGround = hullConfig.getType() == HullConfig.Type.BIG ? Const.ATM_HEIGHT * .75f : .75f * hullConfig.getSize();
-            myRelDest.scl((len + aboveGround) / len);
-            myDestIsLanding = true;
+            relativeDestination.scl((distance + aboveGround) / distance);
+            landInDestination = true;
         } else {
-            myRelDest = new Vector2();
-            SolMath.fromAl(myRelDest, SolMath.rnd(180), myPlanet.getGroundHeight() + .3f * Const.ATM_HEIGHT);
-            myDestIsLanding = false;
+            relativeDestination = new Vector2();
+            SolMath.fromAl(relativeDestination, SolRandom.randomFloat(180), planet.getGroundHeight() + .3f * Const.ATM_HEIGHT);
+            landInDestination = false;
         }
     }
 
     @Override
-    public Vector2 getDest() {
-        return myDest;
+    public Vector2 getDestination() {
+        return destination;
     }
 
     @Override
-    public boolean shouldStopNearDest() {
+    public boolean shouldStopNearDestination() {
         return true;
     }
 
     @Override
     public void update(SolGame game, Vector2 shipPos, float maxIdleDist, HullConfig hullConfig, SolShip nearestEnemy) {
-        if (myDest.dst(shipPos) < maxIdleDist) {
-            if (myAwaitOnPlanet > 0) {
-                myAwaitOnPlanet -= game.getTimeStep();
+        if (destination.dst(shipPos) < maxIdleDist) {
+            if (awaitOnPlanet > 0) {
+                awaitOnPlanet -= game.getTimeStep();
             } else {
-                ArrayList<Planet> ps = mySys.getPlanets();
-                int pIdx = SolMath.intRnd(allowedSz());
-                myPlanet = ps.get(pIdx);
-                calcRelDest(hullConfig);
-                myAwaitOnPlanet = MAX_AWAIT_ON_PLANET;
+                ArrayList<Planet> planets = system.getPlanets();
+                int planetIndex = SolRandom.randomInt(allowedSize());
+                planet = planets.get(planetIndex);
+                calculateRelativeDestination(hullConfig);
+                awaitOnPlanet = MAX_AWAIT_ON_PLANET;
             }
         }
 
-        if (!myDestIsLanding && !myPlanet.getLandingPlaces().isEmpty()) {
-            calcRelDest(hullConfig);
+        if (!landInDestination && !planet.getLandingPlaces().isEmpty()) {
+            calculateRelativeDestination(hullConfig);
         }
 
-        SolMath.toWorld(myDest, myRelDest, myPlanet.getAngle(), myPlanet.getPos(), false);
-        myPlanet.calcSpdAtPos(myDestSpd, myDest);
+        SolMath.toWorld(destination, relativeDestination, planet.getAngle(), planet.getPosition(), false);
+        planet.calculateSpeedAtPosition(destinationSpeed, destination);
     }
 
     @Override
     public Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround) {
-        if (myAggressive && canShoot) {
+        if (isAggressive && canShoot) {
             return true;
         }
         return null;
     }
 
     @Override
-    public Vector2 getDestSpd() {
-        return myDestSpd;
+    public Vector2 getDestinationSpeed() {
+        return destinationSpeed;
     }
 
     @Override
-    public boolean shouldAvoidBigObjs() {
+    public boolean shouldAvoidBigObjects() {
         return true;
     }
 
     @Override
-    public float getDesiredSpdLen() {
-        return myDesiredSpdLen;
+    public float getDesiredSpeedScalar() {
+        return desiredSpeedScalar;
     }
 }

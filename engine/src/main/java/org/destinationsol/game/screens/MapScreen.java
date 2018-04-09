@@ -62,7 +62,7 @@ public class MapScreen implements SolUiScreen {
         boolean justClosed = closeControl.isJustOff();
         MapDrawer mapDrawer = game.getMapDrawer();
         mapDrawer.setToggled(!justClosed);
-        SolInputManager im = solApplication.getInputMan();
+        SolInputManager im = solApplication.getInputManager();
         if (justClosed) {
             im.setScreen(solApplication, game.getScreens().mainScreen);
         }
@@ -73,9 +73,9 @@ public class MapScreen implements SolUiScreen {
         float mapZoom = mapDrawer.getZoom();
         zoomInControl.setEnabled(mapZoom != MapDrawer.MIN_ZOOM);
         zoomOutControl.setEnabled(mapZoom != MapDrawer.MAX_ZOOM);
-        ShipUiControl sc = game.getScreens().mainScreen.shipControl;
-        if (sc instanceof ShipMouseControl) {
-            sc.update(solApplication, true);
+        ShipUiControl shipControl = game.getScreens().mainScreen.shipControl;
+        if (shipControl instanceof ShipMouseControl) {
+            shipControl.update(solApplication, true);
         }
         Boolean scrolledUp = im.getScrolledUp();
         if (scrolledUp != null) {

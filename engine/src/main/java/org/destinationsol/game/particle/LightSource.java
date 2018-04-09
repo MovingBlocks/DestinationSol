@@ -21,6 +21,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColorUtil;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
@@ -28,7 +29,7 @@ import org.destinationsol.game.drawables.RectSprite;
 
 import java.util.List;
 
-public class LightSrc {
+public class LightSource {
     public static final float DEFAULT_FADE_TIME = .1f;
     public static final float A_RATIO = .5f;
     public static final float SZ_RATIO = .8f;
@@ -37,21 +38,22 @@ public class LightSrc {
     private final RectSprite myHalo;
     private final float mySz;
     private final float myIntensity;
-    private float myWorkPerc;
+    private float myWorkPercentage;
     private float myFadeTime;
 
     /**
      * doesn't consume relPos
      */
-    public LightSrc(float sz, boolean hasHalo, float intensity, Vector2 relPos, Color col) {
+    public LightSource(float sz, boolean hasHalo, float intensity, Vector2 relPos, Color col) {
         TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("core:lightCircleParticle");
         mySz = sz;
-        myCircle = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DrawableLevel.PART_BG_0, 0, 0, col, true);
+        Vector2 relPos1 = new Vector2(relPos);
+        myCircle = new RectSprite(tex, 0, 0, 0, relPos1, DrawableLevel.PART_BG_0, 0, 0, col, true);
         tex = Assets.getAtlasRegion("core:lightHaloParticle");
         if (hasHalo) {
             Color haloCol = new Color(col);
             SolColorUtil.changeBrightness(haloCol, .8f);
-            myHalo = new RectSprite(tex, 0, 0, 0, new Vector2(relPos), DrawableLevel.PART_FG_0, 0, 0, haloCol, true);
+            myHalo = new RectSprite(tex, 0, 0, 0, relPos1, DrawableLevel.PART_FG_0, 0, 0, haloCol, true);
         } else {
             myHalo = null;
         }
@@ -61,23 +63,23 @@ public class LightSrc {
 
     public void update(boolean working, float baseAngle, SolGame game) {
         if (working) {
-            myWorkPerc = 1f;
+            myWorkPercentage = 1f;
         } else {
-            myWorkPerc = SolMath.approach(myWorkPerc, 0, game.getTimeStep() / myFadeTime);
+            myWorkPercentage = SolMath.approach(myWorkPercentage, 0, game.getTimeStep() / myFadeTime);
         }
-        float baseA = SolMath.rnd(.5f, 1) * myWorkPerc * myIntensity;
+        float baseA = SolRandom.randomFloat(.5f, 1) * myWorkPercentage * myIntensity;
         myCircle.tint.a = baseA * A_RATIO;
-        float sz = (1 + SolMath.rnd(.2f * myIntensity)) * mySz;
-        myCircle.setTexSz(SZ_RATIO * sz);
+        float sz = (1 + SolRandom.randomFloat(.2f * myIntensity)) * mySz;
+        myCircle.setTextureSize(SZ_RATIO * sz);
         if (myHalo != null) {
             myHalo.tint.a = baseA;
-            myHalo.relAngle = game.getCam().getAngle() - baseAngle;
-            myHalo.setTexSz(sz);
+            myHalo.relativeAngle = game.getCam().getAngle() - baseAngle;
+            myHalo.setTextureSize(sz);
         }
     }
 
     public boolean isFinished() {
-        return myWorkPerc <= 0;
+        return myWorkPercentage <= 0;
     }
 
     public void collectDras(List<Drawable> drawables) {
@@ -92,13 +94,10 @@ public class LightSrc {
     }
 
     public void setWorking() {
-        myWorkPerc = 1;
+        myWorkPercentage = 1;
     }
 
     public void setRelPos(Vector2 relPos) {
-        myCircle.relPos.set(relPos);
-        if (myHalo != null) {
-            myHalo.relPos.set(relPos);
-        }
+        myCircle.relativePosition.set(relPos);
     }
 }

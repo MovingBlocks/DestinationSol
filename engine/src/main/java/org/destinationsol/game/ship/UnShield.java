@@ -30,21 +30,21 @@ import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.particle.DSParticleEmitter;
 
 public class UnShield implements ShipAbility {
-    public static final int MAX_RADIUS = 6;
-    private final Config myConfig;
+    private static final int MAX_RADIUS = 6;
+    private final Config config;
 
-    public UnShield(Config config) {
-        myConfig = config;
+    UnShield(Config config) {
+        this.config = config;
     }
 
     @Override
     public AbilityConfig getConfig() {
-        return myConfig;
+        return config;
     }
 
     @Override
     public AbilityCommonConfig getCommonConfig() {
-        return myConfig.cc;
+        return config.cc;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class UnShield implements ShipAbility {
             return false;
         }
         Vector2 ownerPos = owner.getPosition();
-        for (SolObject o : game.getObjMan().getObjs()) {
+        for (SolObject o : game.getObjectManager().getObjects()) {
             if (!(o instanceof SolShip) || o == owner) {
                 continue;
             }
@@ -80,13 +80,13 @@ public class UnShield implements ShipAbility {
             if (perc <= 0) {
                 continue;
             }
-            float amount = perc * myConfig.amount;
+            float amount = perc * config.amount;
             if (shieldLife < amount) {
                 amount = shieldLife;
             }
             oShip.receiveDmg(amount, game, ownerPos, DmgType.ENERGY);
         }
-        DSParticleEmitter src = new DSParticleEmitter(myConfig.cc.effect, MAX_RADIUS, DrawableLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
+        DSParticleEmitter src = new DSParticleEmitter(config.cc.effect, MAX_RADIUS, DrawableLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
         game.getPartMan().finish(game, src, ownerPos);
         return true;
     }

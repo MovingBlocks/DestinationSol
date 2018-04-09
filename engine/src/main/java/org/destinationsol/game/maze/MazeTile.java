@@ -28,18 +28,18 @@ public class MazeTile {
     public final TextureAtlas.AtlasRegion tex;
     public final List<List<Vector2>> points;
     public final boolean metal;
-    public final TextureAtlas.AtlasRegion bgTex;
+    public final TextureAtlas.AtlasRegion backgroundTexture;
 
     public MazeTile(TextureAtlas.AtlasRegion tex, List<List<Vector2>> points, boolean metal,
-                    TextureAtlas.AtlasRegion bgTex) {
+                    TextureAtlas.AtlasRegion backgroundTexture) {
         this.tex = tex;
         this.points = points;
         this.metal = metal;
-        this.bgTex = bgTex;
+        this.backgroundTexture = backgroundTexture;
     }
 
     public static MazeTile load(TextureAtlas.AtlasRegion tex, CollisionMeshLoader.RigidBodyModel tilePaths, boolean wall,
-                                boolean metal, TextureAtlas.AtlasRegion bgTex) {
+                                boolean metal, TextureAtlas.AtlasRegion backgroundTexture) {
         ArrayList<List<Vector2>> points = new ArrayList<>();
         List<CollisionMeshLoader.PolygonModel> shapes = tilePaths == null ? new ArrayList<>() : tilePaths.polygons;
         for (CollisionMeshLoader.PolygonModel shape : shapes) {
@@ -55,6 +55,6 @@ public class MazeTile {
             wallPoints.add(new Vector2(0, .6f));
             points.add(wallPoints);
         }
-        return new MazeTile(tex, points, metal, bgTex);
+        return new MazeTile(tex, points, metal, backgroundTexture);
     }
 }

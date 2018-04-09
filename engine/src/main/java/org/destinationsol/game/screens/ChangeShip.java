@@ -18,6 +18,7 @@ package org.destinationsol.game.screens;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.Gun;
@@ -63,10 +64,10 @@ public class ChangeShip implements InventoryOperations {
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
-        SolShip hero = game.getHero();
+        Hero hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
         if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputMan().setScreen(solApplication, game.getScreens().mainScreen);
+            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainScreen);
             return;
         }
         SolItem selItem = is.getSelectedItem();
@@ -95,11 +96,11 @@ public class ChangeShip implements InventoryOperations {
         }
     }
 
-    private boolean hasMoneyToBuyShip(SolShip hero, SolItem shipToBuy) {
+    private boolean hasMoneyToBuyShip(Hero hero, SolItem shipToBuy) {
         return hero.getMoney() >= shipToBuy.getPrice();
     }
 
-    private boolean isSameShip(SolShip hero, SolItem shipToBuy) {
+    private boolean isSameShip(Hero hero, SolItem shipToBuy) {
         if (shipToBuy instanceof ShipItem) {
             ShipItem ship = (ShipItem) shipToBuy;
             HullConfig config1 = ship.getConfig();
@@ -110,16 +111,17 @@ public class ChangeShip implements InventoryOperations {
         }
     }
 
-    private void changeShip(SolGame game, SolShip hero, ShipItem selected) {
+    private void changeShip(SolGame game, Hero hero, ShipItem selected) {
         HullConfig newConfig = selected.getConfig();
         Hull hull = hero.getHull();
         Engine.Config ec = newConfig.getEngineConfig();
-        Engine ei = ec == null ? null : ec.example.copy();
+        Engine ei = ec == null ? null : ec.exampleEngine.copy();
         Gun g2 = hull.getGun(true);
         SolShip newHero = game.getShipBuilder().build(game, hero.getPosition(), new Vector2(), hero.getAngle(), 0, hero.getPilot(),
                 hero.getItemContainer(), newConfig, newConfig.getMaxLife(), hull.getGun(false), g2, null,
                 ei, new ShipRepairer(), hero.getMoney(), hero.getTradeContainer(), hero.getShield(), hero.getArmor());
-        game.getObjMan().removeObjDelayed(hero);
-        game.getObjMan().addObjDelayed(newHero);
+        game.getObjectManager().removeObjDelayed(hero.getShip());
+        game.getObjectManager().addObjDelayed(newHero);
+        game.getHero().setSolShip(newHero);
     }
 }

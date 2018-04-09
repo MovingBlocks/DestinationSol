@@ -16,11 +16,11 @@
 package org.destinationsol.game;
 
 public class FarObjData {
-    public final FarObj fo;
+    public final FarObject fo;
     public final float depth;
     public float delay;
 
-    public FarObjData(FarObj fo, float depth) {
+    public FarObjData(FarObject fo, float depth) {
         this.fo = fo;
         this.depth = depth;
     }

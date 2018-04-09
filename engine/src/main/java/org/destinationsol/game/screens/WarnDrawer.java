@@ -26,20 +26,20 @@ import org.destinationsol.ui.UiDrawer;
 
 public abstract class WarnDrawer {
     private static final float FADE_TIME = 1f;
-    private final Rectangle myWarn;
-    private final Color myBgCol;
-    private final Color myTextCol;
-    private final float myBgOrigA;
-    private final String myText;
+    private final Rectangle warningRectangle;
+    private final Color backgroundColor;
+    private final Color textColor;
+    private final float backgroundOriginA;
+    private final String text;
 
-    float drawPerc;
+    float drawPercentage;
 
     WarnDrawer(float resolutionRatio, String text) {
-        myWarn = rect(resolutionRatio);
-        myText = text;
-        myBgCol = new Color(SolColor.UI_WARN);
-        myBgOrigA = myBgCol.a;
-        myTextCol = new Color(SolColor.WHITE);
+        warningRectangle = rect(resolutionRatio);
+        this.text = text;
+        backgroundColor = new Color(SolColor.UI_WARN);
+        backgroundOriginA = backgroundColor.a;
+        textColor = new Color(SolColor.WHITE);
     }
 
     private static Rectangle rect(float resolutionRatio) {
@@ -48,21 +48,21 @@ public abstract class WarnDrawer {
 
     public void update(SolGame game) {
         if (shouldWarn(game)) {
-            drawPerc = 1;
+            drawPercentage = 1;
         } else {
-            drawPerc = SolMath.approach(drawPerc, 0, Const.REAL_TIME_STEP / FADE_TIME);
+            drawPercentage = SolMath.approach(drawPercentage, 0, Const.REAL_TIME_STEP / FADE_TIME);
         }
-        myBgCol.a = myBgOrigA * drawPerc;
-        myTextCol.a = drawPerc;
+        backgroundColor.a = backgroundOriginA * drawPercentage;
+        textColor.a = drawPercentage;
     }
 
     protected abstract boolean shouldWarn(SolGame game);
 
     public void draw(UiDrawer uiDrawer) {
-        uiDrawer.draw(myWarn, myBgCol);
+        uiDrawer.draw(warningRectangle, backgroundColor);
     }
 
     public void drawText(UiDrawer uiDrawer) {
-        uiDrawer.drawString(myText, myWarn.x + myWarn.width / 2, myWarn.y + myWarn.height / 2, FontSize.MENU, true, myTextCol);
+        uiDrawer.drawString(text, warningRectangle.x + warningRectangle.width / 2, warningRectangle.y + warningRectangle.height / 2, FontSize.MENU, true, textColor);
     }
 }

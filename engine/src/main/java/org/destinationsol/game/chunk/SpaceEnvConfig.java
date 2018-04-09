@@ -23,17 +23,17 @@ import org.destinationsol.assets.Assets;
 import java.util.List;
 
 public class SpaceEnvConfig {
-    public final List<TextureAtlas.AtlasRegion> junkTexs;
+    public final List<TextureAtlas.AtlasRegion> junkTextures;
     public final float junkDensity;
-    public final List<TextureAtlas.AtlasRegion> farJunkTexs;
+    public final List<TextureAtlas.AtlasRegion> farJunkTextures;
     public final float farJunkDensity;
 
     public SpaceEnvConfig(JsonValue json) {
         String junkTexDirStr = json.getString("junkTexs");
-        junkTexs = Assets.listTexturesMatching(junkTexDirStr + "_.*");
+        junkTextures = Assets.listTexturesMatching(junkTexDirStr + "_.*");
         junkDensity = json.getFloat("junkDensity");
         String farJunkTexDirStr = json.getString("farJunkTexs");
-        farJunkTexs = Assets.listTexturesMatching(farJunkTexDirStr + "_.*");
+        farJunkTextures = Assets.listTexturesMatching(farJunkTexDirStr + "_.*");
         farJunkDensity = json.getFloat("farJunkDensity");
     }
 }

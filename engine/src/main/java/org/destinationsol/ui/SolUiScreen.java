@@ -30,7 +30,7 @@ public interface SolUiScreen {
         // Intentionally left blank
     }
 
-    default boolean isCursorOnBg(SolInputManager.InputPointer inputPointer) {
+    default boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
         return false;
     }
 
@@ -38,11 +38,11 @@ public interface SolUiScreen {
         // Intentionally left blank
     }
 
-    default void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
+    default void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         // Intentionally left blank
     }
 
-    default void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) {
+    default void drawImages(UiDrawer uiDrawer, SolApplication solApplication) {
         // Intentionally left blank
     }
 

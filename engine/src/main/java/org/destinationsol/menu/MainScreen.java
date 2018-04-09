@@ -36,8 +36,8 @@ public class MainScreen implements SolUiScreen {
     private final boolean isMobile;
     private final GameOptions gameOptions;
 
-    private final TextureAtlas.AtlasRegion logoTex;
-    public final TextureAtlas.AtlasRegion bgTex;
+    private final TextureAtlas.AtlasRegion logoTexture;
+    public final TextureAtlas.AtlasRegion backgroundTexture;
 
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl tutorialControl;
@@ -70,8 +70,8 @@ public class MainScreen implements SolUiScreen {
         creditsControl.setDisplayName("Credits");
         controls.add(creditsControl);
 
-        bgTex = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
-        logoTex = Assets.getAtlasRegion("engine:mainMenuLogo", Texture.TextureFilter.Linear);
+        backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
+        logoTexture = Assets.getAtlasRegion("engine:mainMenuLogo", Texture.TextureFilter.Linear);
     }
 
     public List<SolUiControl> getControls() {
@@ -87,11 +87,11 @@ public class MainScreen implements SolUiScreen {
         }
 
         if (tutorialControl.isJustOff()) {
-            solApplication.loadNewGame(true, "Imperial Small");
+            solApplication.loadGame(true, "Imperial Small", true); // Tutorials should be new games, methinks
             return;
         }
 
-        SolInputManager inputManager = solApplication.getInputMan();
+        SolInputManager inputManager = solApplication.getInputManager();
         MenuScreens screens = solApplication.getMenuScreens();
 
         if (newGameControl.isJustOff()) {
@@ -124,16 +124,16 @@ public class MainScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(backgroundTexture, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void drawImages(UiDrawer uiDrawer, SolApplication solApplication) {
         final float sy = .35f;
         final float sx = sy * 400 / 218;
         if (!DebugOptions.PRINT_BALANCE) {
-            uiDrawer.draw(logoTex, sx, sy, sx / 2, sy / 2, uiDrawer.r / 2, 0.1f + sy / 2, 0, SolColor.WHITE);
+            uiDrawer.draw(logoTexture, sx, sy, sx / 2, sy / 2, uiDrawer.r / 2, 0.1f + sy / 2, 0, SolColor.WHITE);
         }
     }
 }

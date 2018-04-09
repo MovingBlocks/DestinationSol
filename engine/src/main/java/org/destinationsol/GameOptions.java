@@ -49,6 +49,7 @@ public class GameOptions {
     public static final String DEFAULT_CHANGE_SHIP = "C";
     public static final String DEFAULT_HIRE_SHIP = "H";
     public static final String DEFAULT_MERCENARY_INTERACTION = "M";
+    public static final String DEFAULT_FREE_CAMERA_MOVEMENT = "V";
     public static final int DEFAULT_AXIS_SHOOT = 1;
     public static final int DEFAULT_AXIS_SHOOT2 = 0;
     public static final int DEFAULT_AXIS_ABILITY = -1;
@@ -91,6 +92,7 @@ public class GameOptions {
     private String keyChangeShipMenuName;
     private String keyHireShipMenuName;
     private String keyMercenaryInteractionName;
+    private String keyFreeCameraMovementName;
     private int controllerAxisShoot;
     private int controllerAxisShoot2;
     private int controllerAxisAbility;
@@ -109,58 +111,59 @@ public class GameOptions {
     private SortedSet<String> supportedResolutions = new TreeSet<>();
     private Iterator<String> resolutionIterator = null;
 
-    public GameOptions(boolean mobile, SolFileReader reader) {
-        IniReader r = new IniReader(FILE_NAME, reader);
-        x = r.getInt("x", 800);
-        y = r.getInt("y", 600);
-        fullscreen = r.getBoolean("fullscreen", false);
-        controlType = mobile ? CONTROL_KB : r.getInt("controlType", CONTROL_MIXED);
-        sfxVolumeMultiplier = r.getFloat("sfxVol", 1);
-        musicVolumeMultiplier = r.getFloat("musicVol", 1);
-        keyUpMouseName = r.getString("keyUpMouse", DEFAULT_MOUSE_UP);
-        keyDownMouseName = r.getString("keyDownMouse", DEFAULT_MOUSE_DOWN);
-        keyUpName = r.getString("keyUp", DEFAULT_UP);
-        keyDownName = r.getString("keyDown", DEFAULT_DOWN);
-        keyLeftName = r.getString("keyLeft", DEFAULT_LEFT);
-        keyRightName = r.getString("keyRight", DEFAULT_RIGHT);
-        keyShootName = r.getString("keyShoot", DEFAULT_SHOOT);
-        keyShoot2Name = r.getString("keyShoot2", DEFAULT_SHOOT2);
-        keyAbilityName = r.getString("keyAbility", DEFAULT_ABILITY);
-        keyEscapeName = r.getString("keyEscape", DEFAULT_ESCAPE);
-        keyMapName = r.getString("keyMap", DEFAULT_MAP);
-        keyInventoryName = r.getString("keyInventory", DEFAULT_INVENTORY);
-        keyTalkName = r.getString("keyTalk", DEFAULT_TALK);
-        keyPauseName = r.getString("keyPause", DEFAULT_PAUSE);
-        keyDropName = r.getString("keyDrop", DEFAULT_DROP);
-        keySellMenuName = r.getString("keySellMenu", DEFAULT_SELL);
-        keyBuyMenuName = r.getString("keyBuyMenu", DEFAULT_BUY);
-        keyChangeShipMenuName = r.getString("keyChangeShipMenu", DEFAULT_CHANGE_SHIP);
-        keyHireShipMenuName = r.getString("keyHireShipMenu", DEFAULT_HIRE_SHIP);
-        keyMercenaryInteractionName = r.getString("keyMercenaryInteraction", DEFAULT_MERCENARY_INTERACTION);
-        controllerAxisShoot = r.getInt("controllerAxisShoot", DEFAULT_AXIS_SHOOT);
-        controllerAxisShoot2 = r.getInt("controllerAxisShoot2", DEFAULT_AXIS_SHOOT2);
-        controllerAxisAbility = r.getInt("controllerAxisAbility", DEFAULT_AXIS_ABILITY);
-        controllerAxisLeftRight = r.getInt("controllerAxisLeftRight", DEFAULT_AXIS_LEFT_RIGHT);
-        isControllerAxisLeftRightInverted = r.getBoolean("isControllerAxisLeftRightInverted", DEFAULT_AXIS_LEFT_RIGHT_INVERTED_);
-        controllerAxisUpDown = r.getInt("controllerAxisUpDown", DEFAULT_AXIS_UP_DOWN);
-        isControllerAxisUpDownInverted = r.getBoolean("isControllerAxisUpDownInverted", DEFAULT_AXIS_UP_DOWN_INVERTED_);
-        controllerButtonShoot = r.getInt("controllerButtonShoot", DEFAULT_BUTTON_SHOOT);
-        controllerButtonShoot2 = r.getInt("controllerButtonShoot2", DEFAULT_BUTTON_SHOOT2);
-        controllerButtonAbility = r.getInt("controllerButtonAbility", DEFAULT_BUTTON_ABILITY);
-        controllerButtonLeft = r.getInt("controllerButtonLeft", DEFAULT_BUTTON_LEFT);
-        controllerButtonRight = r.getInt("controllerButtonRight", DEFAULT_BUTTON_RIGHT);
-        controllerButtonUp = r.getInt("controllerButtonUp", DEFAULT_BUTTON_UP);
-        controllerButtonDown = r.getInt("controllerButtonDown", DEFAULT_BUTTON_DOWN);
-        canSellEquippedItems = r.getBoolean("canSellEquippedItems", false);
+    public GameOptions(boolean mobile, SolFileReader solFileReader) {
+        IniReader reader = new IniReader(FILE_NAME, solFileReader);
+        x = reader.getInt("x", 1366);
+        y = reader.getInt("y", 768);
+        fullscreen = reader.getBoolean("fullscreen", false);
+        controlType = mobile ? CONTROL_KB : reader.getInt("controlType", CONTROL_MIXED);
+        sfxVolumeMultiplier = reader.getFloat("sfxVol", 1);
+        musicVolumeMultiplier = reader.getFloat("musicVol", 1);
+        keyUpMouseName = reader.getString("keyUpMouse", DEFAULT_MOUSE_UP);
+        keyDownMouseName = reader.getString("keyDownMouse", DEFAULT_MOUSE_DOWN);
+        keyUpName = reader.getString("keyUp", DEFAULT_UP);
+        keyDownName = reader.getString("keyDown", DEFAULT_DOWN);
+        keyLeftName = reader.getString("keyLeft", DEFAULT_LEFT);
+        keyRightName = reader.getString("keyRight", DEFAULT_RIGHT);
+        keyShootName = reader.getString("keyShoot", DEFAULT_SHOOT);
+        keyShoot2Name = reader.getString("keyShoot2", DEFAULT_SHOOT2);
+        keyAbilityName = reader.getString("keyAbility", DEFAULT_ABILITY);
+        keyEscapeName = reader.getString("keyEscape", DEFAULT_ESCAPE);
+        keyMapName = reader.getString("keyMap", DEFAULT_MAP);
+        keyInventoryName = reader.getString("keyInventory", DEFAULT_INVENTORY);
+        keyTalkName = reader.getString("keyTalk", DEFAULT_TALK);
+        keyPauseName = reader.getString("keyPause", DEFAULT_PAUSE);
+        keyDropName = reader.getString("keyDrop", DEFAULT_DROP);
+        keySellMenuName = reader.getString("keySellMenu", DEFAULT_SELL);
+        keyBuyMenuName = reader.getString("keyBuyMenu", DEFAULT_BUY);
+        keyChangeShipMenuName = reader.getString("keyChangeShipMenu", DEFAULT_CHANGE_SHIP);
+        keyHireShipMenuName = reader.getString("keyHireShipMenu", DEFAULT_HIRE_SHIP);
+        keyMercenaryInteractionName = reader.getString("keyMercenaryInteraction", DEFAULT_MERCENARY_INTERACTION);
+        keyFreeCameraMovementName = reader.getString("keyFreeCameraMovement", DEFAULT_FREE_CAMERA_MOVEMENT);
+        controllerAxisShoot = reader.getInt("controllerAxisShoot", DEFAULT_AXIS_SHOOT);
+        controllerAxisShoot2 = reader.getInt("controllerAxisShoot2", DEFAULT_AXIS_SHOOT2);
+        controllerAxisAbility = reader.getInt("controllerAxisAbility", DEFAULT_AXIS_ABILITY);
+        controllerAxisLeftRight = reader.getInt("controllerAxisLeftRight", DEFAULT_AXIS_LEFT_RIGHT);
+        isControllerAxisLeftRightInverted = reader.getBoolean("isControllerAxisLeftRightInverted", DEFAULT_AXIS_LEFT_RIGHT_INVERTED_);
+        controllerAxisUpDown = reader.getInt("controllerAxisUpDown", DEFAULT_AXIS_UP_DOWN);
+        isControllerAxisUpDownInverted = reader.getBoolean("isControllerAxisUpDownInverted", DEFAULT_AXIS_UP_DOWN_INVERTED_);
+        controllerButtonShoot = reader.getInt("controllerButtonShoot", DEFAULT_BUTTON_SHOOT);
+        controllerButtonShoot2 = reader.getInt("controllerButtonShoot2", DEFAULT_BUTTON_SHOOT2);
+        controllerButtonAbility = reader.getInt("controllerButtonAbility", DEFAULT_BUTTON_ABILITY);
+        controllerButtonLeft = reader.getInt("controllerButtonLeft", DEFAULT_BUTTON_LEFT);
+        controllerButtonRight = reader.getInt("controllerButtonRight", DEFAULT_BUTTON_RIGHT);
+        controllerButtonUp = reader.getInt("controllerButtonUp", DEFAULT_BUTTON_UP);
+        controllerButtonDown = reader.getInt("controllerButtonDown", DEFAULT_BUTTON_DOWN);
+        canSellEquippedItems = reader.getBoolean("canSellEquippedItems", false);
     }
 
-    public void advanceReso() {
+    public void advanceResolution() {
         if (resolutionIterator == null) {
             // Initialize resolution choices - get the resolutions that are supported
             Graphics.DisplayMode displayModes[] = Gdx.graphics.getDisplayModes();
 
-            for (Graphics.DisplayMode d : displayModes) {
-                supportedResolutions.add(d.width + "x" + d.height);
+            for (Graphics.DisplayMode displayMode : displayModes) {
+                supportedResolutions.add(displayMode.width + "x" + displayMode.height);
             }
 
             resolutionIterator = supportedResolutions.iterator();
@@ -679,6 +682,18 @@ public class GameOptions {
     
     public void setKeyMercenaryInteractionName(String keyMercenaryInteractionName) {
         this.keyMercenaryInteractionName = keyMercenaryInteractionName;
+    }
+
+    public int getKeyFreeCameraMovement() {
+        return Input.Keys.valueOf(getKeyFreeCameraMovementName());
+    }
+
+    public String getKeyFreeCameraMovementName() {
+        return keyFreeCameraMovementName;
+    }
+
+    public void setKeyFreeCameraMovementName(String keyFreeCameraMovementName) {
+        this.keyFreeCameraMovementName = keyFreeCameraMovementName;
     }
 
     /**
