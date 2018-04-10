@@ -104,7 +104,6 @@ public class SolGame {
     private final GalaxyFiller galaxyFiller;
     private final ArrayList<SolItem> respawnItems;
     private Hero hero;
-    private String shipName; // Not updated in-game. Can be changed using setter
     private float timeStep;
     private float time;
     private boolean paused;
@@ -545,14 +544,6 @@ public class SolGame {
 
     public TutorialManager getTutMan() {
         return tutorialManager;
-    }
-
-    public String getShipName() {
-        return shipName;
-    }
-
-    public void setShipName(String newName) {
-        shipName = newName;
     }
 
     public void beforeHeroDeath() {
