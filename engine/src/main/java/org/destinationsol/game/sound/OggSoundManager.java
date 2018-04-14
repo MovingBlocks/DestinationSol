@@ -40,11 +40,10 @@ import java.util.Map;
  * registered is to place the sound in {@code .ogg} format in one of the asset-scanned directories. You can also place
  * a text file with the same name as the ogg file and {@code .soundinfo} extension, that might optionally contain
  * lines {@code volume=xxx} and {@code loopTime=xxx}, xxx being a floating point number. {@code volume} specifies the
- * default volume multiplier for the sound. {@code loopTime} works the following: if a sound has a loopTime of 0, or
- * loopTime isn't specified, and a request is made to play the sound while the sound is already playing, the sound will
- * be played again concurrently with itself. On the other side, when loopTime is specified as greater than zero, if
- * there is a request to play the sound again sooner then the specified time passes from beginning of playing the last
- * instance of the sound, the request will be silently ignored.
+ * default volume multiplier for the sound. {@code loopTime} works as follows: if the loopTime is not specified or is
+ * set to 0, any other request to play the sound again will play it again, even concurrently with itself. If the
+ * loopTime is set greater than 0, any other request to play the sound will be accepted only when loopTime has passed
+ * since the beginning of the sound's prior playback, otherwise they will be ignored.
  */
 public class OggSoundManager {
     private final Map<String, OggSound> soundMap;
@@ -95,10 +94,10 @@ public class OggSoundManager {
      * {@code source} must not be null if the sound is specified to loop, and at least one of {@code source} or
      * {@code position} must be specified.
      *
-     * @param game             Game to play the sound in.
-     * @param sound            The sound to play
-     * @param position         Position to play the sound at. If null, source.getPosition() will be used.
-     * @param source           Bearer of a sound. Must not be null for looped sounds or when {@code position} is null.
+     * @param game     Game to play the sound in.
+     * @param sound    The sound to play
+     * @param position Position to play the sound at. If null, source.getPosition() will be used.
+     * @param source   Bearer of a sound. Must not be null for looped sounds or when {@code position} is null.
      */
     public void play(SolGame game, PlayableSound sound, @Nullable Vector2 position, @Nullable SolObject source) {
         play(game, sound, position, source, 1f);
@@ -205,8 +204,8 @@ public class OggSoundManager {
     /**
      * Draws info about recently played sounds in player proximity when {@link DebugOptions#SOUND_INFO} flag is set.
      *
-     * @param drawer {@code GameDrawer} to use for drawing
-     * @param game   {@code Game} to draw to.
+     * @param drawer GameDrawer to use for drawing
+     * @param game   Game to draw to.
      */
     public void drawDebug(GameDrawer drawer, SolGame game) {
         if (DebugOptions.SOUND_INFO) {
@@ -217,7 +216,7 @@ public class OggSoundManager {
     /**
      * Updates drawer used in {@link #drawDebug(GameDrawer, SolGame)} and removes unnecessary objects.
      *
-     * @param game Game currently at progress.
+     * @param game Game currently in progress.
      */
     public void update(SolGame game) {
         if (DebugOptions.SOUND_INFO) {
