@@ -43,13 +43,34 @@ import java.util.Map;
  * default volume multiplier for the sound. {@code loopTime} works as follows: if the loopTime is not specified or is
  * set to 0, any other request to play the sound again will play it again, even concurrently with itself. If the
  * loopTime is set greater than 0, any other request to play the sound will be accepted only when loopTime has passed
- * since the beginning of the sound's prior playback, otherwise they will be ignored.
+ * since the beginning of the sound's prior playback, or is requested from different object, otherwise it will be
+ * ignored.
  */
 public class OggSoundManager {
+    /**
+     * A container for all the sounds that have been so far loaded in the game. Sounds are loaded on as needed basis,
+     * and once loaded, they persist here till the end of game. String is the fully qualified name of the sound
+     * ("module:sound_name").
+     */
     private final Map<String, OggSound> soundMap;
+    /**
+     * A container for working with looping sounds. Looped sounds are stored here per-object, and this map is every
+     * while cleared, on basis provided by calling each object's {@link SolObject#shouldBeRemoved(SolGame)} method.
+     * {@code SolObject} is the object the sound belongs to, inner map's {@code OggSound} is the sound in question,
+     * {@code Float} is an absolute time the sound will stop playing. (Absolute as in not relative to the current time)
+     */
     private final Map<SolObject, Map<OggSound, Float>> loopedSoundMap;
+    /**
+     * Used for drawing debug hints when {@link DebugOptions#SOUND_INFO} flag is set. See
+     * {@link #drawDebug(GameDrawer, SolGame)} for more info.
+     */
     private final DebugHintDrawer debugHintDrawer;
 
+    /**
+     * This is used only in {@link #update(SolGame)}, and is used for ensuring some more resource expensive operations
+     * happen only once in a while. This variable functions as millisecond countdown, with {@code <= 0} values meaning
+     * "Do the operations now".
+     */
     private float myLoopAwait;
 
     public OggSoundManager() {
@@ -154,8 +175,19 @@ public class OggSoundManager {
         gdxSound.play(volume, pitch, 0);
     }
 
+    /**
+     * Calculates the volume a sound should be played at.
+     * This method takes several factors in account, more exactly: global game's volume, spreading of sound in vacuum
+     * (aka distance to atmosphere of a planet), distance to player, sound's volume multiplier, and volume multiplier
+     * passed in as an argument to the method.
+     *
+     * @param game             Game to play this sound in.
+     * @param position         Position to play the sound at.
+     * @param volumeMultiplier Special multiplier to multiply the resulting volume by.
+     * @param sound            Sound to be played with the calculated volume.
+     * @return Volume the sound should play at.
+     */
     private float getVolume(SolGame game, Vector2 position, float volumeMultiplier, OggSound sound) {
-        // Calculate the volume multiplier for the sound
         float globalVolumeMultiplier = game.getCmp().getOptions().sfxVolumeMultiplier;
 
         Vector2 cameraPosition = game.getCam().getPosition();
@@ -180,6 +212,18 @@ public class OggSoundManager {
         return sound.getBaseVolume() * volumeMultiplier * distanceMultiplier * globalVolumeMultiplier;
     }
 
+    /**
+     * Returns true when sound should not be played because of loop, false otherwise.
+     * <p>
+     * Sound should not be played when it's {@code loopTime > 0} and {@code loopTime} milliseconds have not yet passed
+     * since it was last played on the object.
+     * TODO: now handles even adding the sound to the list of looping sounds. Possibly extract that?
+     *
+     * @param source Object playing this sound.
+     * @param sound  Sound to be played.
+     * @param time   Game's current time.
+     * @return true when sound should not be played because of loop, false otherwise.
+     */
     private boolean skipLooped(SolObject source, OggSound sound, float time) {
         if (sound.getLoopTime() == 0) {
             return false;
@@ -230,6 +274,13 @@ public class OggSoundManager {
         }
     }
 
+    /**
+     * Iterates {@link #loopedSoundMap} and removes any entries that are no longer in the game.
+     * <p>
+     * (See {@link SolObject#shouldBeRemoved(SolGame)})
+     *
+     * @param game Game currently in progress.
+     */
     private void cleanLooped(SolGame game) {
         loopedSoundMap.keySet().removeIf(o -> o.shouldBeRemoved(game));
     }
