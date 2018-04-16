@@ -41,10 +41,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-public class SolDesktop {
+public final class SolDesktop {
+
     private static Logger logger = LoggerFactory.getLogger(SolDesktop.class);
 
     private static final String NO_CRASH_REPORT = "-noCrashReport";
+
+    private SolDesktop() { }
 
     public static void main(String[] argv) {
         List<String> commandLineArgs = Arrays.asList(argv);
@@ -115,7 +118,7 @@ public class SolDesktop {
             try {
                 java.nio.file.Files.write(file, lines, Charset.forName("UTF-8"));
             } catch (IOException e) {
-                logger.error("Failed to write to file",e);
+                logger.error("Failed to write to file", e);
             }
             return file;
         }
