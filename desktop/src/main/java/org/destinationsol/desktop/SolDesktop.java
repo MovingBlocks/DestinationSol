@@ -80,16 +80,24 @@ public final class SolDesktop {
             applicationConfig.addIcon(DebugOptions.DEV_ROOT_PATH + "/icon.png", Files.FileType.Absolute);
         }
 
-        /*
-         When flag NO_CRASH_REPORT is NOT passed in, overload the uncaught exception behaviour to create a crash dump
-         report the crash.
-         */
         handleCrashReporting(argv);
 
         // Everything is set up correctly, launch the application
         new LwjglApplication(new SolApplication(), applicationConfig);
     }
 
+    /**
+     * When on dev build, use specific settings.
+     *
+     * Whether a build is a dev build is found out by checking of a file "devBuild" in the root directory of DestSol.
+     * Those specific option means disabling vSync, and increasing foreground FPS throttling to allow for a swifter
+     * game, while lowering it for the background to not eat as much resources. Since game time flow is dependent on
+     * FPS, this also means that on dev build, the game may run faster in foreground than background, which is not
+     * something we exactly want. Also, since the default FPS for non-dev builds is 60, it ensures that the game will
+     * run at the same sane speed in production and the same speed in foreground as well as background.
+     *
+     * @param applicationConfig App config to configure.
+     */
     private static void handleDevBuild(LwjglApplicationConfiguration applicationConfig) {
         boolean devBuild = java.nio.file.Files.exists(Paths.get("devBuild"));
         if (devBuild) {
@@ -100,6 +108,12 @@ public final class SolDesktop {
         }
     }
 
+    /**
+     * When flag {@link #NO_CRASH_REPORT} is NOT passed in, overload the uncaught exception behaviour to create a crash
+     * dump and report the crash.
+     *
+     * @param argv App's cmdline args.
+     */
     private static void handleCrashReporting(String[] argv) {
         if (Stream.of(argv).noneMatch(s -> s.equals(NO_CRASH_REPORT))) {
             Thread.setDefaultUncaughtExceptionHandler((thread, ex) -> {
@@ -121,6 +135,15 @@ public final class SolDesktop {
         }
     }
 
+    /**
+     * Set up window resolution.
+     *
+     * When flag {@link DebugOptions#EMULATE_MOBILE} is set, make the app window the size of mobile screen. Otherwise,
+     * load the window resolution from game options.
+     *
+     * @param applicationConfig App config to configure
+     * @param reader {@link SolFileReader} to read stored settings with.
+     */
     private static void setScreenDimensions(LwjglApplicationConfiguration applicationConfig, MyReader reader) {
         if (DebugOptions.EMULATE_MOBILE) {
             applicationConfig.width = 640;
