@@ -65,27 +65,12 @@ public final class SolDesktop {
     public static void main(String[] argv) {
         LwjglApplicationConfiguration applicationConfig = new LwjglApplicationConfiguration();
         //TODO: Is checking for a presence of the file really the way we want to determine if it is a debug build?
-        boolean devBuild = java.nio.file.Files.exists(Paths.get("devBuild"));
-        if (devBuild) {
-            DebugOptions.DEV_ROOT_PATH = "engine/src/main/resources/"; // Lets the game run from source without a tweaked working directory
-            applicationConfig.vSyncEnabled = false; // Setting to false disables vertical sync
-            applicationConfig.foregroundFPS = 100; // Use 0 to disable foreground fps throttling
-            applicationConfig.backgroundFPS = 10; // Use 0 to disable background fps throttling
-        }
+        handleDevBuild(applicationConfig);
         MyReader reader = new MyReader();
         DebugOptions.read(reader);
 
         // Set screen width, height...
-        if (DebugOptions.EMULATE_MOBILE) {
-            applicationConfig.width = 640;
-            applicationConfig.height = 480;
-            applicationConfig.fullscreen = false;
-        } else {
-            GameOptions d = new GameOptions(false, reader);
-            applicationConfig.width = d.x;
-            applicationConfig.height = d.y;
-            applicationConfig.fullscreen = d.fullscreen;
-        }
+        setScreenDimensions(applicationConfig, reader);
 
         // Set the application's title, icon...
         applicationConfig.title = "Destination Sol";
@@ -99,6 +84,23 @@ public final class SolDesktop {
          When flag NO_CRASH_REPORT is NOT passed in, overload the uncaught exception behaviour to create a crash dump
          report the crash.
          */
+        handleCrashReporting(argv);
+
+        // Everything is set up correctly, launch the application
+        new LwjglApplication(new SolApplication(), applicationConfig);
+    }
+
+    private static void handleDevBuild(LwjglApplicationConfiguration applicationConfig) {
+        boolean devBuild = java.nio.file.Files.exists(Paths.get("devBuild"));
+        if (devBuild) {
+            DebugOptions.DEV_ROOT_PATH = "engine/src/main/resources/"; // Lets the game run from source without a tweaked working directory
+            applicationConfig.vSyncEnabled = false; // Setting to false disables vertical sync
+            applicationConfig.foregroundFPS = 100; // Use 0 to disable foreground fps throttling
+            applicationConfig.backgroundFPS = 10; // Use 0 to disable background fps throttling
+        }
+    }
+
+    private static void handleCrashReporting(String[] argv) {
         if (Stream.of(argv).noneMatch(s -> s.equals(NO_CRASH_REPORT))) {
             Thread.setDefaultUncaughtExceptionHandler((thread, ex) -> {
                 // Get the exception stack trace string
@@ -117,9 +119,19 @@ public final class SolDesktop {
                 new Thread(() -> CrashReporter.report(ex, logPath)).start();
             });
         }
+    }
 
-        // Everything is set up correctly, launch the application
-        new LwjglApplication(new SolApplication(), applicationConfig);
+    private static void setScreenDimensions(LwjglApplicationConfiguration applicationConfig, MyReader reader) {
+        if (DebugOptions.EMULATE_MOBILE) {
+            applicationConfig.width = 640;
+            applicationConfig.height = 480;
+            applicationConfig.fullscreen = false;
+        } else {
+            GameOptions d = new GameOptions(false, reader);
+            applicationConfig.width = d.x;
+            applicationConfig.height = d.y;
+            applicationConfig.fullscreen = d.fullscreen;
+        }
     }
 
     /**
