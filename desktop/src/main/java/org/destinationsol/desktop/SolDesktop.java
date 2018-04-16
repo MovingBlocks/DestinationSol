@@ -49,8 +49,16 @@ public final class SolDesktop {
 
     private static Logger logger = LoggerFactory.getLogger(SolDesktop.class);
 
+    /**
+     * Specifies the commandline option to pass to the application for it to generate no crash reports. Coincidentally,
+     * it is the only commandline option detected by the application.
+     */
     private static final String NO_CRASH_REPORT = "-noCrashReport";
 
+    /**
+     * This class is basically only a holder for the Java's {@code main(String[])} method, thus needs not to be
+     * instantiated.
+     */
     private SolDesktop() { }
 
     public static void main(String[] argv) {
