@@ -41,6 +41,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This class is the desktop entry point for the whole DestinationSol application. It handles the creation and launching
+ * of LwjglApplication from {@link SolApplication}.
+ */
 public final class SolDesktop {
 
     private static Logger logger = LoggerFactory.getLogger(SolDesktop.class);
