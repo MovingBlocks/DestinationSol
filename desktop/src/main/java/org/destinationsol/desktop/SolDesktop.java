@@ -59,10 +59,12 @@ public final class SolDesktop {
      * This class is basically only a holder for the Java's {@code main(String[])} method, thus needs not to be
      * instantiated.
      */
-    private SolDesktop() { }
+    private SolDesktop() {
+    }
 
     public static void main(String[] argv) {
         LwjglApplicationConfiguration applicationConfig = new LwjglApplicationConfiguration();
+        //TODO: Is checking for a presence of the file really the way we want to determine if it is a debug build?
         boolean devBuild = java.nio.file.Files.exists(Paths.get("devBuild"));
         if (devBuild) {
             DebugOptions.DEV_ROOT_PATH = "engine/src/main/resources/"; // Lets the game run from source without a tweaked working directory
@@ -73,6 +75,7 @@ public final class SolDesktop {
         MyReader reader = new MyReader();
         DebugOptions.read(reader);
 
+        // Set screen width, height...
         if (DebugOptions.EMULATE_MOBILE) {
             applicationConfig.width = 640;
             applicationConfig.height = 480;
@@ -84,6 +87,7 @@ public final class SolDesktop {
             applicationConfig.fullscreen = d.fullscreen;
         }
 
+        // Set the application's title, icon...
         applicationConfig.title = "Destination Sol";
         if (DebugOptions.DEV_ROOT_PATH == null) {
             applicationConfig.addIcon("src/main/resources/icon.png", Files.FileType.Internal);
@@ -91,6 +95,10 @@ public final class SolDesktop {
             applicationConfig.addIcon(DebugOptions.DEV_ROOT_PATH + "/icon.png", Files.FileType.Absolute);
         }
 
+        /*
+         When flag NO_CRASH_REPORT is NOT passed in, overload the uncaught exception behaviour to create a crash dump
+         report the crash.
+         */
         if (Stream.of(argv).noneMatch(s -> s.equals(NO_CRASH_REPORT))) {
             Thread.setDefaultUncaughtExceptionHandler((thread, ex) -> {
                 // Get the exception stack trace string
@@ -110,9 +118,13 @@ public final class SolDesktop {
             });
         }
 
+        // Everything is set up correctly, launch the application
         new LwjglApplication(new SolApplication(), applicationConfig);
     }
 
+    /**
+     * Provides the default, and so far only, implementation of SolFileReader.
+     */
     private static class MyReader implements SolFileReader {
         @Override
         public Path create(String fileName, List<String> lines) {
@@ -152,7 +164,8 @@ public final class SolDesktop {
                     lines.add(line);
                 }
                 br.close();
-            } catch (IOException ignore) { }
+            } catch (IOException ignore) {
+            }
 
             return lines;
         }
