@@ -36,10 +36,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * This class is the desktop entry point for the whole DestinationSol application. It handles the creation and launching
@@ -62,8 +62,6 @@ public final class SolDesktop {
     private SolDesktop() { }
 
     public static void main(String[] argv) {
-        List<String> commandLineArgs = Arrays.asList(argv);
-
         LwjglApplicationConfiguration applicationConfig = new LwjglApplicationConfiguration();
         boolean devBuild = java.nio.file.Files.exists(Paths.get("devBuild"));
         if (devBuild) {
@@ -93,7 +91,7 @@ public final class SolDesktop {
             applicationConfig.addIcon(DebugOptions.DEV_ROOT_PATH + "/icon.png", Files.FileType.Absolute);
         }
 
-        if (!commandLineArgs.contains(NO_CRASH_REPORT)) {
+        if (Stream.of(argv).noneMatch(s -> s.equals(NO_CRASH_REPORT))) {
             Thread.setDefaultUncaughtExceptionHandler((thread, ex) -> {
                 // Get the exception stack trace string
                 StringWriter stringWriter = new StringWriter();
