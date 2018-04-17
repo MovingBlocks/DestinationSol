@@ -42,16 +42,15 @@ import java.util.List;
 import java.util.stream.Stream;
 
 /**
- * This class is the desktop entry point for the whole DestinationSol application. It handles the creation and launching
- * of LwjglApplication from {@link SolApplication}.
+ * This class is the desktop (PC) entry point for the whole DestinationSol application. It handles the creation and
+ * launching of LwjglApplication from {@link SolApplication}.
  */
 public final class SolDesktop {
 
     private static Logger logger = LoggerFactory.getLogger(SolDesktop.class);
 
     /**
-     * Specifies the commandline option to pass to the application for it to generate no crash reports. Coincidentally,
-     * it is the only commandline option detected by the application.
+     * Specifies the commandline option to pass to the application for it to generate no crash reports.
      */
     private static final String NO_CRASH_REPORT = "-noCrashReport";
 
@@ -87,7 +86,7 @@ public final class SolDesktop {
     }
 
     /**
-     * When on dev build, use specific settings.
+     * When on dev build, use specific settings for vSync and FPS throttling.
      *
      * Whether a build is a dev build is found out by checking of a file "devBuild" in the root directory of DestSol.
      * Those specific option means disabling vSync, and increasing foreground FPS throttling to allow for a swifter
@@ -158,8 +157,9 @@ public final class SolDesktop {
     }
 
     /**
-     * Provides the default, and so far only, implementation of SolFileReader.
+     * Provides the implementation of SolFileReader used by this class.
      */
+    //TODO Since this is currently the only implementation of SolFileReader, consider making this into a self-standing class with static methods. Also, consider uniting SolFileReader and IniReader.
     private static class MyReader implements SolFileReader {
         @Override
         public Path create(String fileName, List<String> lines) {
