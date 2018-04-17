@@ -36,15 +36,22 @@ import java.util.Map;
 
 /**
  * This class represents the sound manager used in  DestinationSol. It is responsible for handling and playing all
- * sounds in the game. It loads the sound as required from {@link Assets}, all you need to do for your sound to be
- * registered is to place the sound in {@code .ogg} format in one of the asset-scanned directories. You can also place
- * a text file with the same name as the ogg file and {@code .soundinfo} extension, that might optionally contain
- * lines {@code volume=xxx} and {@code loopTime=xxx}, xxx being a floating point number. {@code volume} specifies the
- * default volume multiplier for the sound. {@code loopTime} works as follows: if the loopTime is not specified or is
- * set to 0, any other request to play the sound again will play it again, even concurrently with itself. If the
- * loopTime is set greater than 0, any other request to play the sound will be accepted only when loopTime has passed
- * since the beginning of the sound's prior playback, or is requested from different object, otherwise it will be
- * ignored.
+ * sounds in the game.
+ * <p>
+ * This class loads the sound as required from {@link Assets}, all you need to do for your sound to be registered is to
+ * place the sound in {@code .ogg} format in one of the asset-scanned directories.
+ * <p>
+ * You can also optionally place a text file with the same name as the ogg file and {@code .soundinfo} extension, that
+ * might contain the following: {@code
+ * volume=xxx
+ * loopTime=xxx
+ * }
+ * In there, the {@code xxx} stands for a floating point number.<br>
+ * {@code volume} specifies the default volume multiplier for the sound, with {@code 1.0} being the value unchanged.<br>
+ * {@code loopTime} works as follows: if the loopTime is not specified or set to 0, any new request to play the sound
+ * will play it again, even concurrently with itself. If the loopTime is set greater than 0, new request to play the
+ * sound will be accepted only when loopTime time units has passed since the beginning of the sound's prior playback, or
+ * the request is from different object.
  */
 public class OggSoundManager {
     /**
@@ -215,7 +222,7 @@ public class OggSoundManager {
     /**
      * Returns true when sound should not be played because of loop, false otherwise.
      * <p>
-     * Sound should not be played when it's {@code loopTime > 0} and {@code loopTime} milliseconds have not yet passed
+     * Sound should not be played when its {@code loopTime > 0} and {@code loopTime} time units have not yet passed
      * since it was last played on the object.
      * TODO: now handles even adding the sound to the list of looping sounds. Possibly extract that?
      *
