@@ -47,6 +47,7 @@ import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class ChunkFiller {
     private static final float DUST_DENSITY = .2f;
@@ -176,19 +177,15 @@ public class ChunkFiller {
         }
 
         for (int i = 0; i < enemyCount; i++) {
-            Vector2 enemyPosition = getFreeRndPos(game, chunkCenter);
-            FarShip ship = buildSpaceEnemy(game, enemyPosition, removeController, enemyConfig);
-            if (ship != null) {
+            Optional<Vector2> enemyPosition = getFreeRndPos(game, chunkCenter);
+            enemyPosition.ifPresent(position -> {
+                FarShip ship = buildSpaceEnemy(game, position, removeController, enemyConfig);
                 game.getObjectManager().addFarObjNow(ship);
-            }
+            });
         }
     }
 
     private FarShip buildSpaceEnemy(SolGame game, Vector2 position, RemoveController remover, ShipConfig enemyConf) {
-        if (position == null) {
-            return null;
-        }
-
         Vector2 speed = new Vector2();
         SolMath.fromAl(speed, SolRandom.randomFloat(180), SolRandom.randomFloat(0, ENEMY_MAX_SPD));
         float rotationSpeed = SolRandom.randomFloat(ENEMY_MAX_ROT_SPD);
@@ -209,18 +206,17 @@ public class ChunkFiller {
         }
 
         for (int i = 0; i < count; i++) {
-            Vector2 asteroidPos = getFreeRndPos(game, chunkCenter);
-            if (asteroidPos == null) {
-                continue;
-            }
-            float minSz = forBelt ? MIN_BELT_A_SZ : MIN_SYS_A_SZ;
-            float maxSz = forBelt ? MAX_BELT_A_SZ : MAX_SYS_A_SZ;
-            float sz = SolRandom.randomFloat(minSz, maxSz);
-            Vector2 speed = new Vector2();
-            SolMath.fromAl(speed, SolRandom.randomFloat(180), MAX_A_SPD);
+            Optional<Vector2> asteroidPos = getFreeRndPos(game, chunkCenter);
+            asteroidPos.ifPresent(position -> {
+                float minSz = forBelt ? MIN_BELT_A_SZ : MIN_SYS_A_SZ;
+                float maxSz = forBelt ? MAX_BELT_A_SZ : MAX_SYS_A_SZ;
+                float sz = SolRandom.randomFloat(minSz, maxSz);
+                Vector2 speed = new Vector2();
+                SolMath.fromAl(speed, SolRandom.randomFloat(180), MAX_A_SPD);
 
-            FarAsteroid a = game.getAsteroidBuilder().buildNewFar(asteroidPos, speed, sz, remover);
-            game.getObjectManager().addFarObjNow(a);
+                FarAsteroid a = game.getAsteroidBuilder().buildNewFar(position, speed, sz, remover);
+                game.getObjectManager().addFarObjNow(a);
+            });
         }
     }
 
@@ -364,14 +360,14 @@ public class ChunkFiller {
      * @param chunkCenter The center of a chunk in which a random position should be found
      * @return A random, unoccupied position in a chunk centered around chunkCenter, relative to the entire map, or <code>null</code> if within 100 tries no unoccupied position has been found
      */
-    private Vector2 getFreeRndPos(SolGame game, Vector2 chunkCenter) {
+    private Optional<Vector2> getFreeRndPos(SolGame game, Vector2 chunkCenter) {
         for (int i = 0; i < 100; i++) {
             Vector2 position = getRndPos(chunkCenter);
             if (game.isPlaceEmpty(position, true)) {
-                return position;
+                return Optional.of(position);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     /**
