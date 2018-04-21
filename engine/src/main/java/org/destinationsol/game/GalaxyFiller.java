@@ -124,12 +124,12 @@ public class GalaxyFiller {
     }
     
     public JsonValue getRootNode(Json json) {
-    	JsonValue node = json.getJsonValue();
-    	if (node.isNull()) {
-    		throw new JsonParseException(String.format("Root node was not found in asset %s", node.name, json.toString()));
-    	} else {
-    		return node;
-    	}
+        JsonValue node = json.getJsonValue();
+        if (node.isNull()) {
+            throw new JsonParseException(String.format("Root node was not found in asset %s", node.name, json.toString()));
+        } else {
+            return node;
+        }
     }
 
     public void fill(SolGame game, HullConfigManager hullConfigManager, ItemManager itemManager) {
