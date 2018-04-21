@@ -96,26 +96,28 @@ public class ChunkFiller {
         float[] densityMultiplier = {1};
 
         // Get the environment configuration
-        SpaceEnvConfig config = getConfig(game, chunkCenter, densityMultiplier, removeController, fillFarBackground);
+        Optional<SpaceEnvConfig> config = getConfig(game, chunkCenter, densityMultiplier, removeController, fillFarBackground);
 
         if (fillFarBackground) {
-            fillFarJunk(game, chunkCenter, removeController, DrawableLevel.FAR_DECO_3, config, densityMultiplier[0]);
-            fillFarJunk(game, chunkCenter, removeController, DrawableLevel.FAR_DECO_2, config, densityMultiplier[0]);
-            fillFarJunk(game, chunkCenter, removeController, DrawableLevel.FAR_DECO_1, config, densityMultiplier[0]);
+            config.ifPresent(spaceEnvConfig -> {
+                fillFarJunk(game, chunkCenter, removeController, DrawableLevel.FAR_DECO_3, spaceEnvConfig, densityMultiplier[0]);
+                fillFarJunk(game, chunkCenter, removeController, DrawableLevel.FAR_DECO_1, spaceEnvConfig, densityMultiplier[0]);
+                fillFarJunk(game, chunkCenter, removeController, DrawableLevel.FAR_DECO_2, spaceEnvConfig, densityMultiplier[0]);
+            });
         } else {
             fillDust(game, chunkCenter, removeController);
-            fillJunk(game, removeController, config, chunkCenter);
+            config.ifPresent(spaceEnvConfig -> fillJunk(game, removeController, spaceEnvConfig, chunkCenter));
         }
     }
 
-    private SpaceEnvConfig getConfig(SolGame game, Vector2 chunkCenter, float[] densityMultiplier,
+    private Optional<SpaceEnvConfig> getConfig(SolGame game, Vector2 chunkCenter, float[] densityMultiplier,
                                      RemoveController removeController, boolean fillFarBackground) {
         PlanetManager planetManager = game.getPlanetManager();
         SolSystem system = planetManager.getNearestSystem(chunkCenter);
         float distanceToSystem = system.getPosition().dst(chunkCenter);
         if (distanceToSystem < system.getRadius()) {
             if (distanceToSystem < Const.SUN_RADIUS) {
-                return null;
+                return Optional.empty();
             }
             for (SystemBelt belt : system.getBelts()) {
                 if (belt.contains(chunkCenter)) {
@@ -128,7 +130,7 @@ public class ChunkFiller {
                             fillEnemies(game, removeController, enemyConfig, chunkCenter);
                         }
                     }
-                    return beltConfig.envConfig;
+                    return Optional.of(beltConfig.envConfig);
                 }
             }
             float percentage = distanceToSystem / system.getRadius() * 2;
@@ -144,16 +146,16 @@ public class ChunkFiller {
                     fillForSys(game, chunkCenter, removeController, system);
                 }
             }
-            return system.getConfig().envConfig;
+            return Optional.of(system.getConfig().envConfig);
         }
         Maze maze = planetManager.getNearestMaze(chunkCenter);
         float distanceToMaze = maze.getPos().dst(chunkCenter);
         float zoneRadius = maze.getRadius() + MAZE_ZONE_BORDER;
         if (distanceToMaze < zoneRadius) {
             densityMultiplier[0] = 1 - distanceToMaze / zoneRadius;
-            return maze.getConfig().envConfig;
+            return Optional.of(maze.getConfig().envConfig);
         }
-        return null;
+        return Optional.empty();
     }
 
     private void fillForSys(SolGame game, Vector2 chunkCenter, RemoveController removeController, SolSystem system) {
@@ -235,9 +237,6 @@ public class ChunkFiller {
      */
     private void fillFarJunk(SolGame game, Vector2 chunkCenter, RemoveController remover, DrawableLevel drawableLevel,
                              SpaceEnvConfig conf, float densityMul) {
-        if (conf == null) {
-            return;
-        }
         int count = getEntityCount(conf.farJunkDensity * densityMul);
         if (count == 0) {
             return;
@@ -283,9 +282,6 @@ public class ChunkFiller {
      * @param chunkCenter The center of the chunk
      */
     private void fillJunk(SolGame game, RemoveController remover, SpaceEnvConfig conf, Vector2 chunkCenter) {
-        if (conf == null) {
-            return;
-        }
         int count = getEntityCount(conf.junkDensity);
         if (count == 0) {
             return;
