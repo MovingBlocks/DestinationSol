@@ -32,6 +32,7 @@ import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.Shield;
@@ -58,6 +59,8 @@ public class MainScreen implements SolUiScreen {
     private static final float V_PAD = H_PAD;
     static final float HELPER_ROW_1 = 1 - 3f * CELL_SZ;
     private static final float HELPER_ROW_2 = HELPER_ROW_1 - .5f * CELL_SZ;
+
+    private final Context context;
 
     private final List<SolUiControl> controls = new ArrayList<>();
     public final ShipUiControl shipControl;
@@ -90,7 +93,8 @@ public class MainScreen implements SolUiScreen {
     private final TextPlace myChargesExcessTp;
     private final TextPlace myMoneyExcessTp;
 
-    public MainScreen(float resolutionRatio, RightPaneLayout rightPaneLayout, SolApplication solApplication) {
+    public MainScreen(float resolutionRatio, RightPaneLayout rightPaneLayout, Context context, SolApplication solApplication) {
+        this.context = context;
         GameOptions gameOptions = solApplication.getOptions();
 
         int ct = solApplication.getOptions().controlType;
@@ -308,7 +312,7 @@ public class MainScreen implements SolUiScreen {
         talkControl.setEnabled(target != null);
         if (talkControl.isJustOff()) {
             TalkScreen talkScreen = game.getScreens().talkScreen;
-            SolApplication cmp = game.getCmp();
+            SolApplication cmp = context.get(SolApplication.class);
             SolInputManager inputMan = cmp.getInputManager();
             boolean isOn = inputMan.isScreenOn(talkScreen);
             inputMan.setScreen(cmp, this);
