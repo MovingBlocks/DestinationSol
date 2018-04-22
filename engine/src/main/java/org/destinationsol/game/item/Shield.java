@@ -26,6 +26,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.sound.OggSoundManager;
 
@@ -48,7 +49,7 @@ public class Shield implements SolItem {
     }
 
     public void update(SolGame game, SolObject owner) {
-        float ts = game.getTimeStep();
+        float ts = TimeProvider.getTimeStep();
         if (myIdleTime >= config.idleTime) {
             if (myLife < config.maxLife) {
                 float regen = config.regenSpeed * ts;

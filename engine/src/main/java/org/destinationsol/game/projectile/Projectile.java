@@ -29,13 +29,14 @@ import org.destinationsol.game.FarObject;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.item.Shield;
+import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSource;
-import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.SolShip;
 
 import java.util.ArrayList;
@@ -135,7 +136,7 @@ public class Projectile implements SolObject {
         if (config.guideRotationSpeed == 0) {
             return;
         }
-        float ts = game.getTimeStep();
+        float ts = TimeProvider.getTimeStep();
         SolShip ne = game.getFactionMan().getNearestEnemy(game, this);
         if (ne == null) {
             return;
@@ -334,7 +335,7 @@ public class Projectile implements SolObject {
                 h = minH;
             }
             Vector2 position = projectile.getPosition();
-            float w = projectile.getSpeed().len() * game.getTimeStep();
+            float w = projectile.getSpeed().len() * TimeProvider.getTimeStep();
             if (w < 4 * h) {
                 w = 4 * h;
             }

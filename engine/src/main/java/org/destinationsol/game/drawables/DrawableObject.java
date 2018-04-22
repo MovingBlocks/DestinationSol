@@ -24,6 +24,7 @@ import org.destinationsol.game.FarObject;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.planet.Planet;
 
 import java.util.List;
@@ -56,7 +57,7 @@ public class DrawableObject implements SolObject {
     @Override
     public void update(SolGame game) {
         moveDifference.set(speed);
-        float timeStep = game.getTimeStep();
+        float timeStep = TimeProvider.getTimeStep();
         moveDifference.scl(timeStep);
         position.add(moveDifference);
         if (hideOnPlanet) {

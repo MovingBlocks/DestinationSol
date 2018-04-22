@@ -102,7 +102,6 @@ public class SolGame {
     private final ArrayList<SolItem> respawnItems;
     private Hero hero;
     private String shipName; // Not updated in-game. Can be changed using setter
-    private float timeStep;
     private float respawnMoney;
     private HullConfig respawnHull;
     private boolean isPlayerRespawned;
@@ -302,7 +301,7 @@ public class SolGame {
             return;
         }
 
-        advanceTime();
+        TimeProvider.advanceTime();
 
         planetManager.update(this);
         camera.update(this);
@@ -316,11 +315,6 @@ public class SolGame {
         if (tutorialManager != null) {
             tutorialManager.update();
         }
-    }
-
-    private void advanceTime() {
-        TimeProvider.advanceTime();
-        timeStep = Const.REAL_TIME_STEP * TimeProvider.getTimeFactor();
     }
 
     public void draw() {
@@ -346,10 +340,6 @@ public class SolGame {
             float sz = camera.getRealLineWidth() * 5;
             drawer.draw(drawer.debugWhiteTexture, sz, sz, sz / 2, sz / 2, dp.x, dp.y, 0, col);
         }
-    }
-
-    public float getTimeStep() {
-        return timeStep;
     }
 
     public SolCam getCam() {

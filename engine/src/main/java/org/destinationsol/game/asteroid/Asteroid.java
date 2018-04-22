@@ -25,6 +25,7 @@ import org.destinationsol.game.FarObject;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.item.Loot;
 import org.destinationsol.game.item.MoneyItem;
@@ -146,7 +147,7 @@ public class Asteroid implements SolObject {
             return false;
         }
 
-        float dmg = body.getLinearVelocity().len() * SPD_TO_ATM_DMG * game.getTimeStep();
+        float dmg = body.getLinearVelocity().len() * SPD_TO_ATM_DMG * TimeProvider.getTimeStep();
         receiveDmg(dmg, game, null, DmgType.FIRE);
         return true;
     }

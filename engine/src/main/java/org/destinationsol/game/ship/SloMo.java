@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
@@ -61,7 +62,7 @@ public class SloMo implements ShipAbility {
             game.getPartMan().finish(game, src, position);
             return true;
         }
-        float ts = game.getTimeStep();
+        float ts = TimeProvider.getTimeStep();
         factor = SolMath.approach(factor, 1, SLO_MO_CHG_SPD * ts);
         return false;
     }

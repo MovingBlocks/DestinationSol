@@ -25,6 +25,7 @@ import org.destinationsol.game.Faction;
 import org.destinationsol.game.FactionManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.input.Pilot;
@@ -54,7 +55,7 @@ public class Door {
             myJoint.setMotorSpeed(SPD_LEN);
             game.getSoundManager().play(game, game.getSpecialSounds().doorMove, doorPos, ship);
         } else if (myOpenAwait > 0) {
-            myOpenAwait -= game.getTimeStep();
+            myOpenAwait -= TimeProvider.getTimeStep();
             if (myOpenAwait < 0) {
                 myJoint.setMotorSpeed(-SPD_LEN);
                 game.getSoundManager().play(game, game.getSpecialSounds().doorMove, doorPos, ship);

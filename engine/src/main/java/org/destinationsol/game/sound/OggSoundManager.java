@@ -180,7 +180,7 @@ public class OggSoundManager {
             debugHintDrawer.update(game);
         }
 
-        myLoopAwait -= game.getTimeStep();
+        myLoopAwait -= TimeProvider.getTimeStep();
         if (myLoopAwait <= 0) {
             myLoopAwait = 30;
             cleanLooped(game);

@@ -26,6 +26,7 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.TimeProvider;
 
 public class SunSingleton {
     public static final float SUN_HOT_RAD = .75f * Const.SUN_RADIUS;
@@ -63,7 +64,7 @@ public class SunSingleton {
     }
 
     public void doDmg(SolGame game, SolObject obj, float toSys) {
-        float dmg = SUN_DMG * game.getTimeStep();
+        float dmg = SUN_DMG * TimeProvider.getTimeStep();
         if (SUN_HOT_RAD < toSys) {
             return;
         }

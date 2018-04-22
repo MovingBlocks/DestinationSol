@@ -22,6 +22,7 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.RectSprite;
 
@@ -64,7 +65,7 @@ public class TileObject implements SolObject {
         setDependentParams();
 
         if (body != null) {
-            float timeStep = game.getTimeStep();
+            float timeStep = TimeProvider.getTimeStep();
             Vector2 speed = SolMath.getVec(position);
             speed.sub(body.getPosition());
             speed.scl(1f / timeStep);

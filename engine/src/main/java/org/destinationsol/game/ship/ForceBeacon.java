@@ -21,6 +21,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.particle.DSParticleEmitter;
@@ -88,7 +89,7 @@ public class ForceBeacon {
 
     public void update(SolGame game, Vector2 basePos, float baseAngle, SolShip ship) {
         Vector2 position = SolMath.toWorld(myRelPos, baseAngle, basePos);
-        Vector2 speed = SolMath.distVec(myPrevPos, position).scl(1 / game.getTimeStep());
+        Vector2 speed = SolMath.distVec(myPrevPos, position).scl(1 / TimeProvider.getTimeStep());
         Faction faction = ship.getPilot().getFaction();
         pullShips(game, ship, position, speed, faction, MAX_PULL_DIST);
         SolMath.free(speed);

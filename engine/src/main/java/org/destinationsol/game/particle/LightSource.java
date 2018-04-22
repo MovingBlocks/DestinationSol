@@ -23,6 +23,7 @@ import org.destinationsol.common.SolColorUtil;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
@@ -65,7 +66,7 @@ public class LightSource {
         if (working) {
             myWorkPercentage = 1f;
         } else {
-            myWorkPercentage = SolMath.approach(myWorkPercentage, 0, game.getTimeStep() / myFadeTime);
+            myWorkPercentage = SolMath.approach(myWorkPercentage, 0, TimeProvider.getTimeStep() / myFadeTime);
         }
         float baseA = SolRandom.randomFloat(.5f, 1) * myWorkPercentage * myIntensity;
         myCircle.tint.a = baseA * A_RATIO;

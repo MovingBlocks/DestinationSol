@@ -23,6 +23,7 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.ship.SolShip;
@@ -68,7 +69,7 @@ public class Loot implements SolObject {
         setParamsFromBody();
         lightSource.update(true, angle, game);
         if (ownerAwait > 0) {
-            ownerAwait -= game.getTimeStep();
+            ownerAwait -= TimeProvider.getTimeStep();
             if (ownerAwait <= 0) {
                 owner = null;
             }

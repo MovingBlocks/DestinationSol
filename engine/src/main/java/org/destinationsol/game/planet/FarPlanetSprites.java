@@ -20,6 +20,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableManager;
 
@@ -57,7 +58,7 @@ public class FarPlanetSprites implements FarObject {
 
     @Override
     public void update(SolGame game) {
-        relativeAngleToPlanet += RotationSpeedToPlanet * game.getTimeStep();
+        relativeAngleToPlanet += RotationSpeedToPlanet * TimeProvider.getTimeStep();
         if (game.getPlanetManager().getNearestPlanet() == planet) {
             SolMath.fromAl(position, planet.getAngle() + relativeAngleToPlanet, distance);
             position.add(planet.getPosition());

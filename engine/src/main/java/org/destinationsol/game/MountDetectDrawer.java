@@ -37,7 +37,7 @@ public class MountDetectDrawer {
 
     public void update(SolGame game) {
         myShouldDraw = false;
-        float ts = game.getTimeStep();
+        float ts = TimeProvider.getTimeStep();
         myAnimPercentage += ts / 2f;
         if (myAnimPercentage > 1) {
             myAnimPercentage = 0;

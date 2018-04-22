@@ -28,6 +28,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.planet.Planet;
@@ -309,7 +310,7 @@ public class DSParticleEmitter {
             Vector2 basePos = object.getPosition();
             float baseAngle = object.getAngle();
             SolMath.toWorld(position, relativePosition, baseAngle, basePos, false);
-            float timeStep = game.getTimeStep();
+            float timeStep = TimeProvider.getTimeStep();
 
             // fix speed bug
             position.x -= particleEmitter.getWind().getLowMin() * timeStep;
@@ -323,7 +324,7 @@ public class DSParticleEmitter {
             particleEmitter.update(timeStep);
 
             if (boundingBoxRecalcAwait > 0) {
-                boundingBoxRecalcAwait -= game.getTimeStep();
+                boundingBoxRecalcAwait -= TimeProvider.getTimeStep();
             } else {
                 boundingBoxRecalcAwait = MAX_BOUNDINGBOX_RECALC_AWAIT;
                 particleEmitter.getBoundingBox();
@@ -334,7 +335,7 @@ public class DSParticleEmitter {
             if (areaSize == 0) {
                 return;
             }
-            float timeStep = game.getTimeStep();
+            float timeStep = TimeProvider.getTimeStep();
             timeSinceLastPositionChange += timeStep;
             if (!working || timeSinceLastPositionChange < MAX_TIME_BETWEEN_POSITION_CHANGE) {
                 return;

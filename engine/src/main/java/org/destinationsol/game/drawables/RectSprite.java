@@ -23,6 +23,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.TimeProvider;
 
 public class RectSprite implements Drawable {
     public final Vector2 relativePosition;
@@ -100,7 +101,7 @@ public class RectSprite implements Drawable {
 
     @Override
     public void update(SolGame game, SolObject o) {
-        relativeAngle += rotationSpeed * game.getTimeStep();
+        relativeAngle += rotationSpeed * TimeProvider.getTimeStep();
     }
 
     @Override

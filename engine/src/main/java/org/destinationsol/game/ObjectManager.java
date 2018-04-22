@@ -74,7 +74,7 @@ public class ObjectManager {
     public void update(SolGame game) {
         addRemove(game);
 
-        float ts = game.getTimeStep();
+        float ts = TimeProvider.getTimeStep();
         myWorld.step(ts, 6, 2);
 
         SolCam cam = game.getCam();

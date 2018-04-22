@@ -418,11 +418,11 @@ public class MapDrawer {
     }
 
     public void update(SolGame game) {
-        skullTime += game.getTimeStep();
+        skullTime += TimeProvider.getTimeStep();
         if (skullTime > MAX_SKULL_TIME) {
             skullTime = -MAX_SKULL_TIME;
         }
-        areaSkullTime += game.getTimeStep();
+        areaSkullTime += TimeProvider.getTimeStep();
         if (areaSkullTime > MAX_AREA_SKULL_TIME) {
             areaSkullTime = 0;
         }
