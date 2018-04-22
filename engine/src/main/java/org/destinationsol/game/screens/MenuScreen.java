@@ -19,6 +19,7 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.menu.MenuLayout;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
@@ -66,7 +67,7 @@ public class MenuScreen implements SolUiScreen {
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
-        game.setPaused(true);
+        TimeProvider.setPaused(true);
         SolInputManager im = solApplication.getInputManager();
         GameOptions options = solApplication.getOptions();
         soundVolControl.setDisplayName("Sound Volume: " + options.getSFXVolumeAsText());
@@ -81,13 +82,13 @@ public class MenuScreen implements SolUiScreen {
         if (respawnControl.isJustOff()) {
             game.respawn();
             im.setScreen(solApplication, game.getScreens().mainScreen);
-            game.setPaused(false);
+            TimeProvider.setPaused(false);
         }
         if (exitControl.isJustOff()) {
             solApplication.finishGame();
         }
         if (closeControl.isJustOff()) {
-            game.setPaused(false);
+            TimeProvider.setPaused(false);
             im.setScreen(solApplication, game.getScreens().mainScreen);
         }
         doNotSellEquippedControl.setDisplayName("Can sell used items: " +

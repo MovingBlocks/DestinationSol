@@ -18,6 +18,7 @@ package org.destinationsol.game;
 import org.destinationsol.Const;
 import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.SloMo;
+import org.destinationsol.ui.DebugCollector;
 
 public class TimeProvider {
     private static float time;
@@ -47,6 +48,11 @@ public class TimeProvider {
 
     public static void setHero(Hero hero) {
         TimeProvider.hero = hero;
+    }
+
+    public static void setPaused(boolean paused) {
+        TimeProvider.paused = paused;
+        DebugCollector.warn(TimeProvider.paused ? "game paused" : "game resumed");
     }
 
     public static void advanceTime() {

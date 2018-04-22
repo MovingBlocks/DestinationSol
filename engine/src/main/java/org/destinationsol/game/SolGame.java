@@ -56,7 +56,6 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.game.sound.SpecialSounds;
 import org.destinationsol.mercenary.MercenaryUtils;
-import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
@@ -106,7 +105,6 @@ public class SolGame {
     private Hero hero;
     private String shipName; // Not updated in-game. Can be changed using setter
     private float timeStep;
-    private boolean paused;
     private float timeFactor;
     private float respawnMoney;
     private HullConfig respawnHull;
@@ -302,7 +300,7 @@ public class SolGame {
     public void update() {
         drawableDebugger.update(this);
 
-        if (paused) {
+        if (TimeProvider.isPaused()) {
             camera.updateMap(this); // update zoom only for map
             mapDrawer.update(this); // animate map icons
             return;
@@ -412,15 +410,6 @@ public class SolGame {
 
     public HullConfigManager getHullConfigs() {
         return hullConfigManager;
-    }
-
-    public boolean isPaused() {
-        return paused;
-    }
-
-    public void setPaused(boolean paused) {
-        this.paused = paused;
-        DebugCollector.warn(this.paused ? "game paused" : "game resumed");
     }
 
     public void respawn() {
