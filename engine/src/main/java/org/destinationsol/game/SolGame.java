@@ -49,9 +49,7 @@ import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.planet.SolSystem;
 import org.destinationsol.game.planet.SunSingleton;
 import org.destinationsol.game.screens.GameScreens;
-import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.ShipBuilder;
-import org.destinationsol.game.ship.SloMo;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.game.sound.SpecialSounds;
@@ -105,7 +103,6 @@ public class SolGame {
     private Hero hero;
     private String shipName; // Not updated in-game. Can be changed using setter
     private float timeStep;
-    private float timeFactor;
     private float respawnMoney;
     private HullConfig respawnHull;
     private boolean isPlayerRespawned;
@@ -145,7 +142,6 @@ public class SolGame {
         beaconHandler = new BeaconHandler();
         mountDetectDrawer = new MountDetectDrawer();
         respawnItems = new ArrayList<>();
-        timeFactor = 1;
 
         // from this point we're ready!
         planetManager.fill(solNames);
@@ -323,16 +319,8 @@ public class SolGame {
     }
 
     private void advanceTime() {
-        timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
-        if (hero.isAlive() && hero.isNonTranscendent()) {
-            ShipAbility ability = hero.getAbility();
-            if (ability instanceof SloMo) {
-                float factor = ((SloMo) ability).getFactor();
-                timeFactor *= factor;
-            }
-        }
-        timeStep = Const.REAL_TIME_STEP * timeFactor;
         TimeProvider.advanceTime();
+        timeStep = Const.REAL_TIME_STEP * TimeProvider.getTimeFactor();
     }
 
     public void draw() {
@@ -513,10 +501,6 @@ public class SolGame {
 
     public GameColors getCols() {
         return gameColors;
-    }
-
-    public float getTimeFactor() {
-        return timeFactor;
     }
 
     public BeaconHandler getBeaconHandler() {

@@ -24,7 +24,7 @@ public class TimeProvider {
     private static float time;
     private static float timeStep;
     private static float timeFactor = 1;
-    private static boolean paused = false;
+    private static boolean paused;
     private static Hero hero;
 
     public static boolean isPaused() {
