@@ -24,6 +24,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
@@ -117,7 +118,7 @@ public class SolGun {
         Vector2 muzzlePos = SolMath.toWorld(muzzleRelPos, baseAngle, basePos);
         SolMath.free(muzzleRelPos);
 
-        float ts = game.getTimeStep();
+        float ts = TimeProvider.getTimeStep();
         if (myItem.ammo <= 0 && myItem.reloadAwait <= 0) {
             if (myItem.config.clipConf.infinite || itemContainer != null && itemContainer.tryConsumeItem(myItem.config.clipConf.example)) {
                 myItem.reloadAwait = myItem.config.reloadTime + .0001f;

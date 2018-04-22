@@ -27,6 +27,7 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
@@ -241,7 +242,7 @@ public class SolShip implements SolObject {
             myHull.life += myRepairer.tryRepair(game, myItemContainer, myHull.life, myHull.config);
         }
 
-        float ts = game.getTimeStep();
+        float ts = TimeProvider.getTimeStep();
         if (myFireAwait > 0) {
             myFireAwait -= ts;
         }
@@ -274,7 +275,7 @@ public class SolShip implements SolObject {
         OggSoundManager soundManager = game.getSoundManager();
         SpecialSounds sounds = game.getSpecialSounds();
         if (myAbilityAwait > 0) {
-            myAbilityAwait -= game.getTimeStep();
+            myAbilityAwait -= TimeProvider.getTimeStep();
             if (myAbilityAwait <= 0) {
                 soundManager.play(game, sounds.abilityRecharged, null, this);
             }
@@ -306,7 +307,7 @@ public class SolShip implements SolObject {
     }
 
     private void updateIdleTime(SolGame game) {
-        float ts = game.getTimeStep();
+        float ts = TimeProvider.getTimeStep();
         if (Pilot.Utils.isIdle(myPilot)) {
             myIdleTime += ts;
         } else {

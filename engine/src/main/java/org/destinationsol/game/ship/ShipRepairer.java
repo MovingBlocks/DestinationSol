@@ -18,6 +18,7 @@ package org.destinationsol.game.ship;
 
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.RepairItem;
 import org.destinationsol.game.ship.hulls.HullConfig;
@@ -36,7 +37,7 @@ public class ShipRepairer {
             return 0;
         }
 
-        float ts = game.getTimeStep();
+        float ts = TimeProvider.getTimeStep();
         if (myRepairPoints <= 0 && ic.tryConsumeItem(game.getItemMan().getRepairExample())) {
             myRepairPoints = RepairItem.LIFE_AMT;
         }

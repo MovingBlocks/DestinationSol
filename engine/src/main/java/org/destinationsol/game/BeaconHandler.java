@@ -235,7 +235,7 @@ public class BeaconHandler {
         if (clicked) {
             applyAction(action);
             getPos0().set(position);
-            clickTime = game.getTime();
+            clickTime = TimeProvider.getTime();
         }
         return action;
     }

@@ -20,6 +20,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.game.BeaconHandler;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
@@ -47,7 +48,7 @@ public class BeaconDestProvider implements MoveDestProvider {
                 myShouldManeuver = true;
             }
         }
-        myShouldStopNearDest = STOP_AWAIT < game.getTime() - bh.getClickTime();
+        myShouldStopNearDest = STOP_AWAIT < TimeProvider.getTime() - bh.getClickTime();
         myDestSpeed.set(bh.getSpeed());
     }
 

@@ -20,6 +20,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.planet.Planet;
@@ -95,7 +96,7 @@ public class AiPilot implements Pilot {
                 battle = myDestProvider.shouldManeuver(canShoot, nearestEnemy, nearGround);
             }
             if (battle != null) {
-                dest = myBattleDestProvider.getDest(ship, nearestEnemy, np, battle, game.getTimeStep(), canShootUnfixed, nearGround);
+                dest = myBattleDestProvider.getDest(ship, nearestEnemy, np, battle, TimeProvider.getTimeStep(), canShootUnfixed, nearGround);
                 shouldStopNearDest = myBattleDestProvider.shouldStopNearDest();
                 destSpeed = nearestEnemy.getSpeed();
                 boolean big = hullConfig.getType() == HullConfig.Type.BIG;
@@ -128,7 +129,7 @@ public class AiPilot implements Pilot {
         if (myReEquipAwait <= 0) {
             myReEquipAwait = MAX_RE_EQUIP_AWAIT;
         } else {
-            myReEquipAwait -= game.getTimeStep();
+            myReEquipAwait -= TimeProvider.getTimeStep();
         }
     }
 
@@ -222,7 +223,7 @@ public class AiPilot implements Pilot {
         Vector2 speed = farShip.getSpeed();
         float angle = farShip.getAngle();
         Engine engine = farShip.getEngine();
-        float ts = game.getTimeStep();
+        float ts = TimeProvider.getTimeStep();
         if (dest == null || engine == null) {
             if (myPlanetBind == null) {
                 if (myBindAwait > 0) {

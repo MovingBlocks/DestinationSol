@@ -62,7 +62,7 @@ public class SolCam {
     public void update(SolGame game) {
 
         Hero hero = game.getHero();
-        float ts = game.getTimeStep();
+        float ts = TimeProvider.getTimeStep();
         float life = hero.getLife();
         if (hero.isDead() || DIRECT_CAM_CONTROL) {
             applyInput(game);
@@ -104,7 +104,7 @@ public class SolCam {
     }
 
     public void updateMap(SolGame game) {
-        float ts = game.getTimeStep();
+        float ts = TimeProvider.getTimeStep();
         float desiredViewDistance = getDesiredViewDistance(game);
         float desiredZoom = calcZoom(desiredViewDistance);
         myZoom = SolMath.approach(myZoom, desiredZoom, ZOOM_CHG_SPD * ts);
@@ -166,7 +166,7 @@ public class SolCam {
         if (d != u) {
             v.y = SolMath.toInt(d);
         }
-        v.scl(MOVE_SPD * game.getTimeStep());
+        v.scl(MOVE_SPD * TimeProvider.getTimeStep());
         SolMath.rotate(v, myAngle);
         position.add(v);
         SolMath.free(v);

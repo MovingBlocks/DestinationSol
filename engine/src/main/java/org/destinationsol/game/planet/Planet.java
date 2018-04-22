@@ -22,6 +22,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.HardnessCalc;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.TimeProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +71,7 @@ public class Planet {
     }
 
     public void update(SolGame game) {
-        float ts = game.getTimeStep();
+        float ts = TimeProvider.getTimeStep();
         angleInSystem += rotationSpeedInSystem * ts;
         angle += rotationSpeed * ts;
 

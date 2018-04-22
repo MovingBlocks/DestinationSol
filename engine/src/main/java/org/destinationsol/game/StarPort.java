@@ -28,9 +28,9 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSource;
-import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ForceBeacon;
@@ -104,7 +104,7 @@ public class StarPort implements SolObject {
     public void update(SolGame game) {
         setParamsFromBody();
 
-        float fps = 1 / game.getTimeStep();
+        float fps = 1 / TimeProvider.getTimeStep();
 
         Vector2 speed = getDesiredPosition(fromPlanet, toPlanet, true);
         // Adjust position so that StarPorts are not overlapping
@@ -382,7 +382,7 @@ public class StarPort implements SolObject {
         public void update(SolGame game) {
             setDependentParams();
 
-            float timeStep = game.getTimeStep();
+            float timeStep = TimeProvider.getTimeStep();
             Vector2 moveDiff = SolMath.getVec(speed);
             moveDiff.scl(timeStep);
             position.add(moveDiff);

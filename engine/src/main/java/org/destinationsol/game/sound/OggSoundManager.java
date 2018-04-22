@@ -29,6 +29,7 @@ import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.planet.Planet;
 
 import java.util.HashMap;
@@ -121,9 +122,9 @@ public class OggSoundManager {
         }
 
         // Calculate the pitch for the sound
-        float pitch = SolRandom.randomFloat(.97f, 1.03f) * game.getTimeFactor() * playableSound.getBasePitch();
+        float pitch = SolRandom.randomFloat(.97f, 1.03f) * TimeProvider.getTimeFactor() * playableSound.getBasePitch();
 
-        if (skipLooped(source, sound, game.getTime())) {
+        if (skipLooped(source, sound, TimeProvider.getTime())) {
             return;
         }
 
@@ -179,7 +180,7 @@ public class OggSoundManager {
             debugHintDrawer.update(game);
         }
 
-        myLoopAwait -= game.getTimeStep();
+        myLoopAwait -= TimeProvider.getTimeStep();
         if (myLoopAwait <= 0) {
             myLoopAwait = 30;
             cleanLooped(game);

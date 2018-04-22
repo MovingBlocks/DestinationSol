@@ -49,14 +49,11 @@ import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.planet.SolSystem;
 import org.destinationsol.game.planet.SunSingleton;
 import org.destinationsol.game.screens.GameScreens;
-import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.ShipBuilder;
-import org.destinationsol.game.ship.SloMo;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.game.sound.SpecialSounds;
 import org.destinationsol.mercenary.MercenaryUtils;
-import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
@@ -105,10 +102,6 @@ public class SolGame {
     private final ArrayList<SolItem> respawnItems;
     private Hero hero;
     private String shipName; // Not updated in-game. Can be changed using setter
-    private float timeStep;
-    private float time;
-    private boolean paused;
-    private float timeFactor;
     private float respawnMoney;
     private HullConfig respawnHull;
     private boolean isPlayerRespawned;
@@ -148,7 +141,6 @@ public class SolGame {
         beaconHandler = new BeaconHandler();
         mountDetectDrawer = new MountDetectDrawer();
         respawnItems = new ArrayList<>();
-        timeFactor = 1;
 
         // from this point we're ready!
         planetManager.fill(solNames);
@@ -157,6 +149,7 @@ public class SolGame {
             createAndSpawnMercenariesFromSave();
         }
         SolMath.checkVectorsTaken(null);
+        TimeProvider.setHero(hero);
     }
 
     // uh, this needs refactoring
@@ -302,22 +295,13 @@ public class SolGame {
     public void update() {
         drawableDebugger.update(this);
 
-        if (paused) {
+        if (TimeProvider.isPaused()) {
             camera.updateMap(this); // update zoom only for map
             mapDrawer.update(this); // animate map icons
             return;
         }
 
-        timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
-        if (hero.isAlive() && hero.isNonTranscendent()) {
-            ShipAbility ability = hero.getAbility();
-            if (ability instanceof SloMo) {
-                float factor = ((SloMo) ability).getFactor();
-                timeFactor *= factor;
-            }
-        }
-        timeStep = Const.REAL_TIME_STEP * timeFactor;
-        time += timeStep;
+        TimeProvider.advanceTime();
 
         planetManager.update(this);
         camera.update(this);
@@ -356,10 +340,6 @@ public class SolGame {
             float sz = camera.getRealLineWidth() * 5;
             drawer.draw(drawer.debugWhiteTexture, sz, sz, sz / 2, sz / 2, dp.x, dp.y, 0, col);
         }
-    }
-
-    public float getTimeStep() {
-        return timeStep;
     }
 
     public SolCam getCam() {
@@ -408,15 +388,6 @@ public class SolGame {
 
     public HullConfigManager getHullConfigs() {
         return hullConfigManager;
-    }
-
-    public boolean isPaused() {
-        return paused;
-    }
-
-    public void setPaused(boolean paused) {
-        this.paused = paused;
-        DebugCollector.warn(this.paused ? "game paused" : "game resumed");
     }
 
     public void respawn() {
@@ -506,10 +477,6 @@ public class SolGame {
         return soundManager;
     }
 
-    public float getTime() {
-        return time;
-    }
-
     public void drawDebugUi(UiDrawer uiDrawer) {
         drawableDebugger.draw(uiDrawer);
     }
@@ -524,10 +491,6 @@ public class SolGame {
 
     public GameColors getCols() {
         return gameColors;
-    }
-
-    public float getTimeFactor() {
-        return timeFactor;
     }
 
     public BeaconHandler getBeaconHandler() {

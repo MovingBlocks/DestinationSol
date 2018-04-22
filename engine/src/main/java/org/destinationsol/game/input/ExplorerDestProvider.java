@@ -21,6 +21,7 @@ import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.SolSystem;
 import org.destinationsol.game.ship.SolShip;
@@ -102,7 +103,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
     public void update(SolGame game, Vector2 shipPos, float maxIdleDist, HullConfig hullConfig, SolShip nearestEnemy) {
         if (destination.dst(shipPos) < maxIdleDist) {
             if (awaitOnPlanet > 0) {
-                awaitOnPlanet -= game.getTimeStep();
+                awaitOnPlanet -= TimeProvider.getTimeStep();
             } else {
                 ArrayList<Planet> planets = system.getPlanets();
                 int planetIndex = SolRandom.randomInt(allowedSize());

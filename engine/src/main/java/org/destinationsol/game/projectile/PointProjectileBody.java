@@ -22,6 +22,7 @@ import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.ship.SolShip;
 
 public class PointProjectileBody implements ProjectileBody {
@@ -50,7 +51,7 @@ public class PointProjectileBody implements ProjectileBody {
         }
         Vector2 prevPos = SolMath.getVec(position);
         Vector2 diff = SolMath.getVec(speed);
-        diff.scl(game.getTimeStep());
+        diff.scl(TimeProvider.getTimeStep());
         position.add(diff);
         SolMath.free(diff);
         game.getObjectManager().getWorld().rayCast(rayBack, prevPos, position);
@@ -64,7 +65,7 @@ public class PointProjectileBody implements ProjectileBody {
 
     @Override
     public void receiveForce(Vector2 force, SolGame game, boolean acc) {
-        force.scl(game.getTimeStep());
+        force.scl(TimeProvider.getTimeStep());
         if (!acc) {
             force.scl(10f);
         }

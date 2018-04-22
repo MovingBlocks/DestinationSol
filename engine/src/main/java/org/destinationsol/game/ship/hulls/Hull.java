@@ -23,14 +23,15 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
-import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.particle.DSParticleEmitter;
+import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.planet.PlanetBind;
 import org.destinationsol.game.ship.Door;
 import org.destinationsol.game.ship.ForceBeacon;
@@ -134,7 +135,7 @@ public class Hull {
         if (planetBind != null) {
             Vector2 speed = SolMath.getVec();
             planetBind.setDiff(speed, position, true);
-            float fps = 1 / game.getTimeStep();
+            float fps = 1 / TimeProvider.getTimeStep();
             speed.scl(fps);
             body.setLinearVelocity(speed);
             SolMath.free(speed);

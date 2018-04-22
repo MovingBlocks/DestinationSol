@@ -21,6 +21,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.ship.hulls.Hull;
@@ -58,7 +59,7 @@ public class ShipEngine {
             SolMath.free(v);
         }
 
-        float ts = cmp.getTimeStep();
+        float ts = TimeProvider.getTimeStep();
         float rotationSpeed = body.getAngularVelocity() * SolMath.radDeg;
         float desiredRotationSpeed = 0;
         float rotAcc = e.getRotationAcceleration();

@@ -22,6 +22,7 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.TimeProvider;
 import org.destinationsol.game.drawables.Drawable;
 
 import java.util.List;
@@ -49,7 +50,7 @@ public class PlanetSprites implements SolObject {
     @Override
     public void update(SolGame game) {
         setDependentParams();
-        relativeAngleToPlanet += RotationSpeedToPlanet * game.getTimeStep();
+        relativeAngleToPlanet += RotationSpeedToPlanet * TimeProvider.getTimeStep();
     }
 
     private void setDependentParams() {
