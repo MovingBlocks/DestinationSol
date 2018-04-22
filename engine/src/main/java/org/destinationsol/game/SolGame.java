@@ -27,6 +27,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.chunk.ChunkManager;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.game.drawables.DrawableDebugger;
 import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.farBg.FarBackgroundManagerOld;
@@ -77,7 +78,6 @@ public class SolGame {
     private final GameScreens gameScreens;
     private final SolCam camera;
     private final ObjectManager objectManager;
-    private final SolApplication solApplication;
     private final DrawableManager drawableManager;
     private final PlanetManager planetManager;
     private final ChunkManager chunkManager;
@@ -103,6 +103,7 @@ public class SolGame {
     private final TutorialManager tutorialManager;
     private final GalaxyFiller galaxyFiller;
     private final ArrayList<SolItem> respawnItems;
+    private final Context context;
     private Hero hero;
     private String shipName; // Not updated in-game. Can be changed using setter
     private float timeStep;
@@ -113,15 +114,15 @@ public class SolGame {
     private HullConfig respawnHull;
     private boolean isPlayerRespawned;
 
-    public SolGame(SolApplication cmp, String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer) {
-        solApplication = cmp;
+    public SolGame(SolApplication cmp, String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context) {
+        this.context = context;
         GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
-        soundManager = solApplication.getSoundManager();
+        soundManager = cmp.getSoundManager();
         specialSounds = new SpecialSounds(soundManager);
         drawableManager = new DrawableManager(drawer);
         camera = new SolCam(drawer.r);
-        gameScreens = new GameScreens(drawer.r, cmp);
+        gameScreens = new GameScreens(drawer.r, cmp, this.context);
         tutorialManager = tut ? new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, cmp.isMobile(), cmp.getOptions(), this) : null;
         farBackgroundManagerOld = new FarBackgroundManagerOld();
         shipBuilder = new ShipBuilder();
@@ -180,7 +181,7 @@ public class SolGame {
         camera.setPos(position);
 
         Pilot pilot;
-        if (solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE) {
+        if (context.get(SolApplication.class).getOptions().controlType == GameOptions.CONTROL_MOUSE) {
             beaconHandler.init(this, position);
             pilot = new AiPilot(new BeaconDestProvider(), true, Faction.LAANI, false, "you", Const.AI_DET_DIST);
         } else {
@@ -364,10 +365,6 @@ public class SolGame {
 
     public SolCam getCam() {
         return camera;
-    }
-
-    public SolApplication getCmp() {
-        return solApplication;
     }
 
     public DrawableManager getDrawableManager() {
