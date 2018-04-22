@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ public class RespawnState {
     private final List<SolItem> respawnItems = new ArrayList<>();
     private HullConfig respawnHull;
     private float respawnMoney;
-
 
     public boolean isPlayerRespawned() {
         return isPlayerRespawned;
