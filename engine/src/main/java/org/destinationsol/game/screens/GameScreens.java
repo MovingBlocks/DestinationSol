@@ -16,6 +16,7 @@
 package org.destinationsol.game.screens;
 
 import org.destinationsol.SolApplication;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.SolLayouts;
 
 public class GameScreens {
@@ -25,10 +26,10 @@ public class GameScreens {
     public final InventoryScreen inventoryScreen;
     public final TalkScreen talkScreen;
 
-    public GameScreens(float r, SolApplication cmp) {
+    public GameScreens(float r, SolApplication cmp, Context context) {
         SolLayouts layouts = cmp.getLayouts();
         RightPaneLayout rightPaneLayout = layouts.rightPaneLayout;
-        mainScreen = new MainScreen(r, rightPaneLayout, cmp);
+        mainScreen = new MainScreen(r, rightPaneLayout, context, cmp);
         mapScreen = new MapScreen(rightPaneLayout, cmp.isMobile(), r, cmp.getOptions());
         menuScreen = new MenuScreen(layouts.menuLayout, cmp.getOptions());
         inventoryScreen = new InventoryScreen(r, cmp.getOptions());

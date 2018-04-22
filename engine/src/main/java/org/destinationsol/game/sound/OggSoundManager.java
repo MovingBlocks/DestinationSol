@@ -18,6 +18,7 @@ package org.destinationsol.game.sound;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
+import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.PlayableSound;
@@ -29,6 +30,7 @@ import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.game.planet.Planet;
 
 import java.util.HashMap;
@@ -39,10 +41,12 @@ public class OggSoundManager {
     private final Map<String, OggSound> soundMap;
     private final Map<SolObject, Map<OggSound, Float>> loopedSoundMap;
     private final DebugHintDrawer debugHintDrawer;
+    private final Context context;
 
     private float myLoopAwait;
 
-    public OggSoundManager() {
+    public OggSoundManager(Context context) {
+        this.context = context;
         this.soundMap = new HashMap<>();
         this.loopedSoundMap = new HashMap<>();
         this.debugHintDrawer = new DebugHintDrawer();
@@ -90,7 +94,7 @@ public class OggSoundManager {
         }
 
         // Calculate the volume multiplier for the sound
-        float globalVolumeMultiplier = game.getCmp().getOptions().sfxVolumeMultiplier;
+        float globalVolumeMultiplier = context.get(SolApplication.class).getOptions().sfxVolumeMultiplier;
         if (globalVolumeMultiplier == 0) {
             return;
         }
