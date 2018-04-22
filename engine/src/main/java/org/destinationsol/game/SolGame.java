@@ -106,7 +106,6 @@ public class SolGame {
     private Hero hero;
     private String shipName; // Not updated in-game. Can be changed using setter
     private float timeStep;
-    private float time;
     private boolean paused;
     private float timeFactor;
     private float respawnMoney;
@@ -157,6 +156,7 @@ public class SolGame {
             createAndSpawnMercenariesFromSave();
         }
         SolMath.checkVectorsTaken(null);
+        TimeProvider.setHero(hero);
     }
 
     // uh, this needs refactoring
@@ -334,7 +334,7 @@ public class SolGame {
             }
         }
         timeStep = Const.REAL_TIME_STEP * timeFactor;
-        time += timeStep;
+        TimeProvider.advanceTime();
     }
 
     public void draw() {
@@ -508,10 +508,6 @@ public class SolGame {
 
     public OggSoundManager getSoundManager() {
         return soundManager;
-    }
-
-    public float getTime() {
-        return time;
     }
 
     public void drawDebugUi(UiDrawer uiDrawer) {
