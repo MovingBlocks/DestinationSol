@@ -308,16 +308,7 @@ public class SolGame {
             return;
         }
 
-        timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
-        if (hero.isAlive() && hero.isNonTranscendent()) {
-            ShipAbility ability = hero.getAbility();
-            if (ability instanceof SloMo) {
-                float factor = ((SloMo) ability).getFactor();
-                timeFactor *= factor;
-            }
-        }
-        timeStep = Const.REAL_TIME_STEP * timeFactor;
-        time += timeStep;
+        advanceTime();
 
         planetManager.update(this);
         camera.update(this);
@@ -331,6 +322,19 @@ public class SolGame {
         if (tutorialManager != null) {
             tutorialManager.update();
         }
+    }
+
+    private void advanceTime() {
+        timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
+        if (hero.isAlive() && hero.isNonTranscendent()) {
+            ShipAbility ability = hero.getAbility();
+            if (ability instanceof SloMo) {
+                float factor = ((SloMo) ability).getFactor();
+                timeFactor *= factor;
+            }
+        }
+        timeStep = Const.REAL_TIME_STEP * timeFactor;
+        time += timeStep;
     }
 
     public void draw() {
