@@ -153,13 +153,6 @@ public class SolMath {
      * @param len Length the vector should have
      */
     public static void fromAl(Vector2 vec, float angle, float len) {
-        fromAl(vec, angle, len, false);
-    }
-
-    /**
-     * Modifies the given vector so it has the given angle and length. If not {@code precice}, the resulting vector angle may slightly differ from a given one, in the cost of performance.
-     */
-    public static void fromAl(Vector2 vec, float angle, float len, boolean precise) {
         vec.set(len, 0);
         rotate(vec, angle);
     }
@@ -169,16 +162,8 @@ public class SolMath {
      */
     @Bound
     public static Vector2 fromAl(float angle, float len) {
-        return fromAl(angle, len, false);
-    }
-
-    /**
-     * Builds a bound vector with the given angle and length. If not {@code precice}, the resulting vector angle may slightly differ from a given one, in the cost of performance.
-     */
-    @Bound
-    public static Vector2 fromAl(float angle, float len, boolean precise) {
         Vector2 vec = getVec();
-        fromAl(vec, angle, len, precise);
+        fromAl(vec, angle, len);
         return vec;
     }
 
