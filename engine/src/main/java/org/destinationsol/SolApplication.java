@@ -201,7 +201,7 @@ public class SolApplication implements ApplicationListener {
             beforeLoadGame();
         }
 
-        solGame = new SolGame(this, shipName, tut, isNewGame, commonDrawer, context);
+        solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context);
         inputManager.setScreen(this, solGame.getScreens().mainScreen);
         musicManager.playGameMusic(options);
     }

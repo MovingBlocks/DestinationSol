@@ -29,7 +29,7 @@ public class GameScreens {
     public GameScreens(float r, SolApplication cmp, Context context) {
         SolLayouts layouts = cmp.getLayouts();
         RightPaneLayout rightPaneLayout = layouts.rightPaneLayout;
-        mainScreen = new MainScreen(r, rightPaneLayout, context, cmp);
+        mainScreen = new MainScreen(r, rightPaneLayout, context);
         mapScreen = new MapScreen(rightPaneLayout, cmp.isMobile(), r, cmp.getOptions());
         menuScreen = new MenuScreen(layouts.menuLayout, cmp.getOptions());
         inventoryScreen = new InventoryScreen(r, cmp.getOptions());
