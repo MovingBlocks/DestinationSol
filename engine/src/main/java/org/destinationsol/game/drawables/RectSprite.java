@@ -107,7 +107,7 @@ public class RectSprite implements Drawable {
     public void prepare(SolObject object) {
         float baseAngle = object.getAngle();
         Vector2 basePosition = object.getPosition();
-        SolMath.toWorld(position, relativePosition, baseAngle, basePosition, false);
+        SolMath.toWorld(position, relativePosition, baseAngle, basePosition);
         angle = relativeAngle + baseAngle;
     }
 

@@ -346,7 +346,7 @@ public class ShipBuilder {
         bd.angle = shipAngle * SolMath.degRad;
         bd.angularDamping = 0;
         bd.linearDamping = 0;
-        SolMath.toWorld(bd.position, doorRelPos, shipAngle, shipPos, false);
+        SolMath.toWorld(bd.position, doorRelPos, shipAngle, shipPos);
         Body body = world.createBody(bd);
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(Door.DOOR_LEN / 2, .03f);
