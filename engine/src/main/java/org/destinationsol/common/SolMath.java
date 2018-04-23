@@ -248,7 +248,14 @@ public class SolMath {
     }
 
     /**
-     * converts position (a position in an absolute coordinate system) to the position in the relative system of coordinates (defined by baseAngle and basePos)
+     * Converts absolute position to position in the specified relative coordinate system.
+     * <p>
+     * Be wary that the returned vector is {@link Bound}.
+     *
+     * @param position Position you want to be converted
+     * @param baseAngle Angle of the relative coordinate system to the absolute coordinate system
+     * @param basePos Offset of the relative coordinate system to the absolute coordinate system
+     * @return {@link Bound} vector with the relative position.
      */
     @Bound
     public static Vector2 toRel(Vector2 position, float baseAngle, Vector2 basePos) {
@@ -258,8 +265,12 @@ public class SolMath {
     }
 
     /**
-     * converts position (a position in an absolute coordinate system) to the position in the relative system of coordinates
-     * (defined by baseAngle and basePos) (which is written to relPos)
+     * Sets position to relative position in specified relative coordinate system from absolute position.
+     *
+     * @param position Absolute position you want to have converted
+     * @param relPos Relative position you want to set
+     * @param baseAngle Angle of the relative coordinate system to the absolute coordinate system
+     * @param basePos Offset of the relative coordinate system to the absolute coordinate system
      */
     public static void toRel(Vector2 position, Vector2 relPos, float baseAngle, Vector2 basePos) {
         relPos.set(position);
