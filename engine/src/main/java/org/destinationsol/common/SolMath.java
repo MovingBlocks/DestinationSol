@@ -77,8 +77,8 @@ public class SolMath {
     /**
      * Use this method when you want some value to gradually transform to the desired value.
      *
-     * @param src Current value
-     * @param dst Desired value
+     * @param src   Current value
+     * @param dst   Desired value
      * @param speed Speed of change in value per call
      * @return New value that is closer to the desired one
      */
@@ -92,8 +92,8 @@ public class SolMath {
     /**
      * Use this method when you want some angle to gradually transform to desired angle.
      *
-     * @param src Current angle in degrees
-     * @param dst Desired angle in degrees
+     * @param src   Current angle in degrees
+     * @param dst   Desired angle in degrees
      * @param speed Speed of change in degrees per call
      * @return New angle closer to the desired one
      */
@@ -148,9 +148,9 @@ public class SolMath {
     /**
      * Sets to given {@link Vector2} to specified angle and length.
      *
-     * @param vec Vector to set
+     * @param vec   Vector to set
      * @param angle Angle the vector should have
-     * @param len Length the vector should have
+     * @param len   Length the vector should have
      */
     public static void fromAl(Vector2 vec, float angle, float len) {
         vec.set(len, 0);
@@ -161,7 +161,7 @@ public class SolMath {
      * Builds a {@link Bound} vector with the given angle and length.
      *
      * @param angle Angle the vector should have
-     * @param len Length the vector should have
+     * @param len   Length the vector should have
      */
     @Bound
     public static Vector2 fromAl(float angle, float len) {
@@ -217,7 +217,14 @@ public class SolMath {
     }
 
     /**
-     * converts relPos (a position in a relative coordinate system defined by baseAngle and basePos) to the absolute position
+     * Converts position in the specified relative coordinate system to absolute position.
+     * <p>
+     * Be wary that the returned vector is {@link Bound}.
+     *
+     * @param relPos Position you want to be converted
+     * @param baseAngle Angle of the relative coordinate system to the absolute coordinate system
+     * @param basePos Offset of the relative coordinate system to the absolute coordinate system
+     * @return {@link Bound} vector with the absolute position.
      */
     @Bound
     public static Vector2 toWorld(Vector2 relPos, float baseAngle, Vector2 basePos) {
@@ -227,7 +234,12 @@ public class SolMath {
     }
 
     /**
-     * converts relPos (a position in a relative coordinate system defined by baseAngle and basePos) to the absolute position (which is written to position)
+     * Sets position to absolute position calculated from relative position in specified relative coordinate system.
+     *
+     * @param position Position you want to set
+     * @param relPos Relative position you want to be converted
+     * @param baseAngle Angle of the relative coordinate system to the absolute coordinate system
+     * @param basePos Offset of the relative coordinate system to the absolute coordinate system
      */
     public static void toWorld(Vector2 position, Vector2 relPos, float baseAngle, Vector2 basePos) {
         position.set(relPos);
