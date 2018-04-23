@@ -137,7 +137,7 @@ public class CommonDrawer {
     public void drawLine(TextureRegion tex, Vector2 startPoint, Vector2 endPoint, Color color, float width, boolean precise) {
         Vector2 endPointCopy = SolMath.getVec(endPoint);
         endPointCopy.sub(startPoint);
-        drawLine(tex, startPoint.x, startPoint.y, SolMath.angle(endPointCopy, precise), endPointCopy.len(), color, width);
+        drawLine(tex, startPoint.x, startPoint.y, SolMath.angle(endPointCopy), endPointCopy.len(), color, width);
         SolMath.free(endPointCopy);
     }
 

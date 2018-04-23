@@ -207,7 +207,7 @@ public class BorderDrawer {
             myMaxSz = maxSz * .9f;
             Vector2 position = new Vector2(x, y);
             Vector2 centah = new Vector2(r / 2, .5f);
-            myAngle = SolMath.angle(centah, position, true);
+            myAngle = SolMath.angle(centah, position);
             myCol = new Color(SolColor.UI_DARK);
         }
 
