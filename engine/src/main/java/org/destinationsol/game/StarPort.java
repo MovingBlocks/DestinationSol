@@ -28,9 +28,9 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSource;
-import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ForceBeacon;
@@ -73,7 +73,7 @@ public class StarPort implements SolObject {
     @Bound
     public static Vector2 getDesiredPosition(Planet from, Planet to, boolean precise) {
         Vector2 fromPosition = from.getPosition();
-        float angle = SolMath.angle(fromPosition, to.getPosition(), precise);
+        float angle = SolMath.angle(fromPosition, to.getPosition());
         Vector2 position = SolMath.getVec();
         SolMath.fromAl(position, angle, from.getFullHeight() + DIST_FROM_PLANET);
         position.add(fromPosition);

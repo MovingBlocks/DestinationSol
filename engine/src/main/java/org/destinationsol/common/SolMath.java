@@ -305,55 +305,49 @@ public class SolMath {
     }
 
     /**
-     * @return a length of a projection of a vector onto a line defined by angle
+     * Computes a length of projection of given {@link Vector2} on line under specified angle.
+     *
+     * @param v Vector projection of which to calculate
+     * @param angle Angle of the line to project onto, in degrees
+     * @return Length of the projection
      */
     public static float project(Vector2 v, float angle) {
         float angleDiff = angle - SolMath.angle(v);
         return v.len() * MathUtils.cosDeg(angleDiff);
     }
 
+    /**
+     * Computes a square root of number.
+     *
+     * @param v Number square root of which to calculate
+     * @return Calculated square root
+     */
     public static float sqrt(float v) {
         return (float) Math.sqrt(v);
     }
 
     /**
-     * @return approximate angle between 2 vectors. may be negative.
+     * Computes normalized angle between 2 {@link Vector2 vectors}.
+     *
+     * @param from 1st vector
+     * @param to 2nd vector
+     * @return The computed angle
      */
     public static float angle(Vector2 from, Vector2 to) {
-        return angle(from, to, false);
-    }
-
-    /**
-     * @return angle between 2 vectors. may be negative. if not precise, approximation is returned
-     */
-    public static float angle(Vector2 from, Vector2 to, boolean precise) {
-        Vector2 tmp = getVec(to);
-        tmp.sub(from);
-        final float angle = angle(tmp, precise);
+        Vector2 tmp = distVec(from, to);
+        final float angle = angle(tmp);
         free(tmp);
         return angle;
     }
 
     /**
-     * @return angle of a vector. if not precise, approximation is returned.
-     * (1, 0) is right and 0 degrees
-     * (0, 1) is down and 90 degrees
-     * (-1, 0) is left and 180 degrees
-     * (0, -1) is up and -90 degrees
-     */
-    public static float angle(Vector2 v, boolean precise) {
-        if (precise) {
-            return v.angle();
-        } else {
-            return MathUtils.atan2(v.y, v.x) * radDeg;
-        }
-    }
-
-    /**
-     * @return angle of a vector. approximation is returned.
+     * Computes normalized angle of a {@link Vector2}.
+     *
+     * @param v Vector angle of which to compute
+     * @return The computed angle
      */
     public static float angle(Vector2 v) {
-        return angle(v, false);
+        return norm(MathUtils.atan2(v.y, v.x) * radDeg);
     }
 
     public static float arcSin(float val) {
