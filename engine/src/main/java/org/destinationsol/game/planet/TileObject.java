@@ -78,7 +78,7 @@ public class TileObject implements SolObject {
 
     private void setDependentParams() {
         float toPlanetAngle = planet.getAngle() + relativeAngleToPlanet;
-        SolMath.fromAl(position, toPlanetAngle, distance, true);
+        SolMath.fromAl(position, toPlanetAngle, distance);
         position.add(planet.getPosition());
         angle = toPlanetAngle + 90;
     }
