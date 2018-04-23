@@ -158,7 +158,10 @@ public class SolMath {
     }
 
     /**
-     * Builds a bound vector with the given angle and length.
+     * Builds a {@link Bound} vector with the given angle and length.
+     *
+     * @param angle Angle the vector should have
+     * @param len Length the vector should have
      */
     @Bound
     public static Vector2 fromAl(float angle, float len) {
@@ -168,7 +171,10 @@ public class SolMath {
     }
 
     /**
-     * @return a new bound copy of src
+     * Builds a {@link Bound} vector set to the value of specified vector.
+     *
+     * @param src Vector to copy
+     * @return Bound copy of the vector
      */
     @Bound
     public static Vector2 getVec(Vector2 src) {
@@ -176,7 +182,11 @@ public class SolMath {
     }
 
     /**
-     * @return a new bound vector
+     * Builds a {@link Bound} vector set to the specified value.
+     *
+     * @param x x value to set the vector to
+     * @param y y value to set the vector to
+     * @return Bound copy of the vector
      */
     @Bound
     public static Vector2 getVec(float x, float y) {
@@ -187,7 +197,9 @@ public class SolMath {
     }
 
     /**
-     * frees the bound vector. Don't use this vector after freeing!
+     * Frees the bound vector. The freed vector is meant to be no longer used after freeing.
+     *
+     * @param v Vector to free.
      */
     public static void free(Vector2 v) {
         vectorsTaken--;
@@ -195,7 +207,9 @@ public class SolMath {
     }
 
     /**
-     * @return a new bound vector
+     * Builds a {@link Bound} vector set to the value {@code (0, 0)}.
+     *
+     * @return Bound copy of the vector
      */
     @Bound
     public static Vector2 getVec() {
