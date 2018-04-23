@@ -279,14 +279,23 @@ public class SolMath {
     }
 
     /**
-     * rotates a vector to an angle. if not precise, works faster, but the actual angle might slightly differ from the given one
+     * Rotates {@link Vector2} by the given angle.
+     *
+     * @param angle Angle to rotate by, in degrees
+     * @param v Vector to rotate
      */
     public static void rotate(Vector2 v, float angle) {
         v.rotate(angle);
     }
 
     /**
-     * @return a new bound vector that is a substraction (to - from)
+     * Computes a distance between two {@link Vector2 vectors}.
+     * <p>
+     * Be wary that the returned {@link Vector2} is {@link Bound}.
+     *
+     * @param from 1st vector
+     * @param to 2nd vector
+     * @return {@link Bound} vector representing the distance.
      */
     @Bound
     public static Vector2 distVec(Vector2 from, Vector2 to) {
