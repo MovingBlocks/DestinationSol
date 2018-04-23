@@ -37,18 +37,24 @@ String[] cleanerArgs = args.drop(1)
 excludedItems = common.excludedItems
 targetDirectory = common.targetDirectory
 
+def recurse = false
 switch(cleanerArgs[0]) {
+    case "recurse":
+        recurse = true
+        println "We're retrieving recursively (all the things depended on too)"
+    // We just fall through here to the get logic after setting a boolean
+    //noinspection GroovyFallthrough
     case "get":
         println "Preparing to get $itemType"
         if (cleanerArgs.length == 1) {
             def itemString = common.getUserString("Enter what to get - separate multiple with spaces, CapiTaliZation MatterS): ")
             println "User wants: $itemString"
             String[] itemList = itemString.split("\\s+")
-            common.retrieve itemList
+            common.retrieve itemList, recurse
         } else {
             // Note: processCustomRemote also drops one of the array elements from cleanerArgs
             cleanerArgs = common.processCustomRemote(cleanerArgs)
-            common.retrieve cleanerArgs
+            common.retrieve cleanerArgs, recurse
         }
         break
 
@@ -188,6 +194,7 @@ def printUsage() {
     println ""
     println "Utility script for interacting with modules. Available sub commands:"
     println "- 'get' - retrieves one or more modules in source form (separate with spaces)"
+    println "- 'recurse' - retrieves the given item(s) *and* their dependencies in source form (really only for modules)"
     println "- 'list' - lists items that are available for download or downloaded already."
     println "- 'create' - creates a new module"
     println "- 'update' - updates a module (git pulls latest from current origin, if workspace is clean"
@@ -198,7 +205,7 @@ def printUsage() {
     println ""
     println "Available flags:"
     println "'-remote [someRemote]' to clone from an alternative remote, also adding the upstream org (like MovingBlocks) repo as 'origin'"
-    println "       Note: 'get' only. This will override an alternativeGithubHome set via gradle.properties."
+    println "       Note: 'get' + 'recurse' only. This will override an alternativeGithubHome set via gradle.properties."
     println "'-simple-list-format' to print one item per row for the 'list' sub-command, even for large numbers of items"
     println "'-condensed-list-format' to group items by starting letter for the 'list' sub-command (default with many items)"
     println ""

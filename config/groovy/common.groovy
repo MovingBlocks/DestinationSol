@@ -83,21 +83,23 @@ class common {
     /**
      * Primary entry point for retrieving items, kicks off recursively if needed.
      * @param items the items we want to retrieve
+     * @param recurse whether to also retrieve dependencies of the desired items (only really for modules ...)
      */
-    def retrieve(String[] items) {
-        println "Now inside retrieve, user wants: $items"
+    def retrieve(String[] items, boolean recurse) {
+        println "Now inside retrieve, user (recursively? $recurse) wants: $items"
         for (String itemName: items) {
-            println "Starting retrieval for $itemType $itemName"
+            println "Starting retrieval for $itemType $itemName, are we recursing? $recurse"
             println "Retrieved so far: $itemsRetrieved"
-            retrieveItem(itemName)
+            retrieveItem(itemName, recurse)
         }
     }
 
     /**
      * Retrieves a single item via Git Clone. Considers whether it exists locally first or if it has already been retrieved this execution.
      * @param itemName the target item to retrieve
+     * @param recurse whether to also retrieve its dependencies (if so then recurse back into retrieve)
      */
-    def retrieveItem(String itemName) {
+    def retrieveItem(String itemName, boolean recurse) {
         File targetDir = new File(targetDirectory, itemName)
         println "Request to retrieve $itemType $itemName would store it at $targetDir - exists? " + targetDir.exists()
         if (targetDir.exists()) {
@@ -125,18 +127,20 @@ class common {
             // This step allows the item type to check the newly cloned item and add in extra template stuff
             itemTypeScript.copyInTemplateFiles(targetDir)
 
-            def foundDependencies = itemTypeScript.findDependencies(targetDir)
-            if (foundDependencies.length == 0) {
-                println "The $itemType $itemName did not appear to have any dependencies we need to worry about"
-            } else {
-                println "The $itemType $itemName has the following $itemType dependencies we care about: $foundDependencies"
-                String[] uniqueDependencies = foundDependencies - itemsRetrieved
-                println "After removing dupes already retrieved we have the remaining dependencies left: $uniqueDependencies"
-                if (uniqueDependencies.length > 0) {
-                    retrieve(uniqueDependencies, true)
+            // Handle also retrieving dependencies if the item type cares about that
+            if (recurse) {
+                def foundDependencies = itemTypeScript.findDependencies(targetDir)
+                if (foundDependencies.length == 0) {
+                    println "The $itemType $itemName did not appear to have any dependencies we need to worry about"
+                } else {
+                    println "The $itemType $itemName has the following $itemType dependencies we care about: $foundDependencies"
+                    String[] uniqueDependencies = foundDependencies - itemsRetrieved
+                    println "After removing dupes already retrieved we have the remaining dependencies left: $uniqueDependencies"
+                    if (uniqueDependencies.length > 0) {
+                        retrieve(uniqueDependencies, true)
+                    }
                 }
-            }
-            
+            }    
         }
     }
 
@@ -272,7 +276,7 @@ class common {
     /**
      * Considers given arguments for the presence of a custom remote, setting that up right if found, tidying up the arguments.
      * @param arguments the args passed into the script
-     * @return the adjusted arguments without any found custom remote details and the commmand name itself
+     * @return the adjusted arguments without any found custom remote details and the commmand name itself (get or recurse)
      */
     def processCustomRemote(String[] arguments) {
         def remoteArg = arguments.findLastIndexOf {
