@@ -37,12 +37,12 @@ public interface CamRotStrategy {
             float fh = np.getFullHeight();
             Vector2 npPos = np.getPosition();
             if (npPos.dst(position) < fh) {
-                return SolMath.angle(position, npPos, true) - 90;
+                return SolMath.angle(position, npPos) - 90;
             }
             SolSystem sys = game.getPlanetManager().getNearestSystem(position);
             Vector2 sysPos = sys.getPosition();
             if (sysPos.dst(position) < Const.SUN_RADIUS) {
-                return SolMath.angle(position, sysPos, true) - 90;
+                return SolMath.angle(position, sysPos) - 90;
             }
             return 0;
         }

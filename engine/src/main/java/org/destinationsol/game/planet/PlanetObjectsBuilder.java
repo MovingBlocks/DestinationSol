@@ -237,7 +237,7 @@ public class PlanetObjectsBuilder {
         for (Map.Entry<Vector2, List<Drawable>> entry : collector.entrySet()) {
             Vector2 position = entry.getKey();
             List<Drawable> drawables = entry.getValue();
-            float angle = SolMath.angle(planetPos, position, true) - planetAngle;
+            float angle = SolMath.angle(planetPos, position) - planetAngle;
             float distance = position.dst(planetPos);
             FarPlanetSprites planetSprites = new FarPlanetSprites(planet, angle, distance, drawables, 0);
             game.getObjectManager().addFarObjNow(planetSprites);
