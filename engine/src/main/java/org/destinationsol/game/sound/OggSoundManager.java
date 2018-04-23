@@ -41,15 +41,15 @@ public class OggSoundManager {
     private final Map<String, OggSound> soundMap;
     private final Map<SolObject, Map<OggSound, Float>> loopedSoundMap;
     private final DebugHintDrawer debugHintDrawer;
-    private final Context context;
 
     private float myLoopAwait;
+    private final SolApplication solApplication;
 
     public OggSoundManager(Context context) {
-        this.context = context;
-        this.soundMap = new HashMap<>();
-        this.loopedSoundMap = new HashMap<>();
-        this.debugHintDrawer = new DebugHintDrawer();
+        soundMap = new HashMap<>();
+        loopedSoundMap = new HashMap<>();
+        debugHintDrawer = new DebugHintDrawer();
+        solApplication = context.get(SolApplication.class);
     }
 
     public OggSound getSound(String path) {
@@ -94,7 +94,7 @@ public class OggSoundManager {
         }
 
         // Calculate the volume multiplier for the sound
-        float globalVolumeMultiplier = context.get(SolApplication.class).getOptions().sfxVolumeMultiplier;
+        float globalVolumeMultiplier = solApplication.getOptions().sfxVolumeMultiplier;
         if (globalVolumeMultiplier == 0) {
             return;
         }

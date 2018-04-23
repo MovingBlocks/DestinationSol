@@ -60,8 +60,6 @@ public class MainScreen implements SolUiScreen {
     static final float HELPER_ROW_1 = 1 - 3f * CELL_SZ;
     private static final float HELPER_ROW_2 = HELPER_ROW_1 - .5f * CELL_SZ;
 
-    private final Context context;
-
     private final List<SolUiControl> controls = new ArrayList<>();
     public final ShipUiControl shipControl;
     public final SolUiControl mapControl;
@@ -92,9 +90,10 @@ public class MainScreen implements SolUiScreen {
     private final TextPlace myG2AmmoExcessTp;
     private final TextPlace myChargesExcessTp;
     private final TextPlace myMoneyExcessTp;
+    private final SolApplication solApplication;
 
-    public MainScreen(float resolutionRatio, RightPaneLayout rightPaneLayout, Context context, SolApplication solApplication) {
-        this.context = context;
+    public MainScreen(float resolutionRatio, RightPaneLayout rightPaneLayout, Context context) {
+        solApplication = context.get(SolApplication.class);
         GameOptions gameOptions = solApplication.getOptions();
 
         int ct = solApplication.getOptions().controlType;
@@ -173,7 +172,7 @@ public class MainScreen implements SolUiScreen {
         return new Rectangle(x + gap, y + gap, CELL_SZ - gap * 2, cellH - gap * 2);
     }
 
-    private void maybeDrawHeight(UiDrawer drawer, SolApplication solApplication) {
+    private void maybeDrawHeight(UiDrawer drawer) {
         SolGame game = solApplication.getGame();
         Planet np = game.getPlanetManager().getNearestPlanet();
         SolCam cam = game.getCam();
@@ -312,13 +311,12 @@ public class MainScreen implements SolUiScreen {
         talkControl.setEnabled(target != null);
         if (talkControl.isJustOff()) {
             TalkScreen talkScreen = game.getScreens().talkScreen;
-            SolApplication cmp = context.get(SolApplication.class);
-            SolInputManager inputMan = cmp.getInputManager();
+            SolInputManager inputMan = solApplication.getInputManager();
             boolean isOn = inputMan.isScreenOn(talkScreen);
-            inputMan.setScreen(cmp, this);
+            inputMan.setScreen(solApplication, this);
             if (!isOn) {
                 talkScreen.setTarget(target);
-                inputMan.addScreen(cmp, talkScreen);
+                inputMan.addScreen(solApplication, talkScreen);
             }
         }
     }
@@ -399,7 +397,7 @@ public class MainScreen implements SolUiScreen {
         myChargesExcessTp.text = null;
         myMoneyExcessTp.text = null;
 
-        maybeDrawHeight(uiDrawer, solApplication);
+        maybeDrawHeight(uiDrawer);
         borderDrawer.draw(uiDrawer, solApplication);
 
         SolGame game = solApplication.getGame();

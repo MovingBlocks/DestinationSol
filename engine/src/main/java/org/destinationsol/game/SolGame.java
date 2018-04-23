@@ -103,7 +103,7 @@ public class SolGame {
     private final TutorialManager tutorialManager;
     private final GalaxyFiller galaxyFiller;
     private final ArrayList<SolItem> respawnItems;
-    private final Context context;
+    private final SolApplication solApplication;
     private Hero hero;
     private String shipName; // Not updated in-game. Can be changed using setter
     private float timeStep;
@@ -114,16 +114,16 @@ public class SolGame {
     private HullConfig respawnHull;
     private boolean isPlayerRespawned;
 
-    public SolGame(SolApplication cmp, String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context) {
-        this.context = context;
+    public SolGame(String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context) {
+        solApplication = context.get(SolApplication.class);
         GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
-        soundManager = cmp.getSoundManager();
+        soundManager = solApplication.getSoundManager();
         specialSounds = new SpecialSounds(soundManager);
         drawableManager = new DrawableManager(drawer);
         camera = new SolCam(drawer.r);
-        gameScreens = new GameScreens(drawer.r, cmp, this.context);
-        tutorialManager = tut ? new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, cmp.isMobile(), cmp.getOptions(), this) : null;
+        gameScreens = new GameScreens(drawer.r, solApplication, context);
+        tutorialManager = tut ? new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, solApplication.isMobile(), solApplication.getOptions(), this) : null;
         farBackgroundManagerOld = new FarBackgroundManagerOld();
         shipBuilder = new ShipBuilder();
         EffectTypes effectTypes = new EffectTypes();
@@ -181,7 +181,7 @@ public class SolGame {
         camera.setPos(position);
 
         Pilot pilot;
-        if (context.get(SolApplication.class).getOptions().controlType == GameOptions.CONTROL_MOUSE) {
+        if (solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE) {
             beaconHandler.init(this, position);
             pilot = new AiPilot(new BeaconDestProvider(), true, Faction.LAANI, false, "you", Const.AI_DET_DIST);
         } else {
