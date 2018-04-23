@@ -308,7 +308,7 @@ public class DSParticleEmitter {
             maybeSwitchRelativePosition(game);
             Vector2 basePos = object.getPosition();
             float baseAngle = object.getAngle();
-            SolMath.toWorld(position, relativePosition, baseAngle, basePos, false);
+            SolMath.toWorld(position, relativePosition, baseAngle, basePos);
             float timeStep = game.getTimeStep();
 
             // fix speed bug
