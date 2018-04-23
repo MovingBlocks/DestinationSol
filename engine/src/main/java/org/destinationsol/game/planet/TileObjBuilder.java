@@ -49,7 +49,7 @@ public class TileObjBuilder {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
         float toPlanetAngle = planet.getAngle() + toPlanetRelAngle;
-        SolMath.fromAl(bodyDef.position, toPlanetAngle, dist, true);
+        SolMath.fromAl(bodyDef.position, toPlanetAngle, dist);
         bodyDef.position.add(planet.getPosition());
         bodyDef.angle = (toPlanetAngle + 90) * SolMath.degRad;
         bodyDef.angularDamping = 0;

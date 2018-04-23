@@ -272,7 +272,7 @@ public class PlanetObjectsBuilder {
                 }
             }
 
-            SolMath.fromAl(rayCasted, decorationAngle, groundHeight, true);
+            SolMath.fromAl(rayCasted, decorationAngle, groundHeight);
             rayCasted.add(planetPos);
             world.rayCast(rayCastCallback, rayCasted, planetPos);
             float decorationDistance = rayCasted.dst(planetPos);
