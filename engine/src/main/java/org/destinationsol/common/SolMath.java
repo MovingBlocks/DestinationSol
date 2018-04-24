@@ -350,10 +350,27 @@ public class SolMath {
         return norm(MathUtils.atan2(v.y, v.x) * radDeg);
     }
 
+    /**
+     * Computes asin (inverse function of sin) of value.
+     *
+     * @param val Value asin of which to compute
+     * @return The computed angle, in degrees.
+     */
     public static float arcSin(float val) {
         return (float) Math.asin(val) * radDeg;
     }
 
+    /**
+     * Computes angular diameter for object with given radius and distance.
+     *
+     * Angular diameter works as follows: given a spherical units that has specified {@code radius}, and is {@code dist}
+     * units away from you, result of this function should be the angle the object is taking up in your view.
+     *
+     * @see <a href=https://en.wikipedia.org/wiki/Angular_diameter>https://en.wikipedia.org/wiki/Angular_diameter</a>
+     * @param radius Radius of the object in talk
+     * @param dist Distance from the object in talk
+     * @return Calculated angular diameter, in degrees
+     */
     public static float angularWidthOfSphere(float radius, float dist) {
         return arcSin(radius / dist);
     }
