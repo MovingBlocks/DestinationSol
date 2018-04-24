@@ -412,12 +412,26 @@ public class SolMath {
         return a <= x || x < b;
     }
 
+    /**
+     * Calculates the difference between two angles.
+     *
+     * @param a 1st angle, in degrees
+     * @param b 2nd angle in degrees
+     * @return Difference between those two angles, in degrees
+     */
     public static float angleDiff(float a, float b) {
         return abs(norm(a - b));
     }
 
+    /**
+     * Given a circle of certain radius, calculate the length of arc represented by certain angle in the circle.
+     *
+     * @param angle Angle in the circle, in degrees
+     * @param r Radius of the circle
+     * @return Length of the arc
+     */
     public static float angleToArc(float angle, float r) {
-        return angle / 180 * PI * r;
+        return (angle * degRad) * r;
     }
 
     public static void checkVectorsTaken(Object o) {
