@@ -98,11 +98,10 @@ public class SolMath {
      * @return New angle closer to the desired one
      */
     public static float approachAngle(float src, float dst, float speed) {
-        float diff = norm(dst - src);
-        float absoluteDiff = abs(diff);
-        if (absoluteDiff <= speed) {
+        if (angleDiff(src, dst) <= speed) {
             return dst;
         }
+        float diff = norm(dst - src);
         return norm(diff > 0 ? src + speed : src - speed);
     }
 
@@ -221,9 +220,9 @@ public class SolMath {
      * <p>
      * Be wary that the returned vector is {@link Bound}.
      *
-     * @param relPos Position you want to be converted
+     * @param relPos    Position you want to be converted
      * @param baseAngle Angle of the relative coordinate system to the absolute coordinate system
-     * @param basePos Offset of the relative coordinate system to the absolute coordinate system
+     * @param basePos   Offset of the relative coordinate system to the absolute coordinate system
      * @return {@link Bound} vector with the absolute position.
      */
     @Bound
@@ -236,10 +235,10 @@ public class SolMath {
     /**
      * Sets position to absolute position calculated from relative position in specified relative coordinate system.
      *
-     * @param position Position you want to set
-     * @param relPos Relative position you want to be converted
+     * @param position  Position you want to set
+     * @param relPos    Relative position you want to be converted
      * @param baseAngle Angle of the relative coordinate system to the absolute coordinate system
-     * @param basePos Offset of the relative coordinate system to the absolute coordinate system
+     * @param basePos   Offset of the relative coordinate system to the absolute coordinate system
      */
     public static void toWorld(Vector2 position, Vector2 relPos, float baseAngle, Vector2 basePos) {
         position.set(relPos);
@@ -252,9 +251,9 @@ public class SolMath {
      * <p>
      * Be wary that the returned vector is {@link Bound}.
      *
-     * @param position Position you want to be converted
+     * @param position  Position you want to be converted
      * @param baseAngle Angle of the relative coordinate system to the absolute coordinate system
-     * @param basePos Offset of the relative coordinate system to the absolute coordinate system
+     * @param basePos   Offset of the relative coordinate system to the absolute coordinate system
      * @return {@link Bound} vector with the relative position.
      */
     @Bound
@@ -267,10 +266,10 @@ public class SolMath {
     /**
      * Sets position to relative position in specified relative coordinate system from absolute position.
      *
-     * @param position Absolute position you want to have converted
-     * @param relPos Relative position you want to set
+     * @param position  Absolute position you want to have converted
+     * @param relPos    Relative position you want to set
      * @param baseAngle Angle of the relative coordinate system to the absolute coordinate system
-     * @param basePos Offset of the relative coordinate system to the absolute coordinate system
+     * @param basePos   Offset of the relative coordinate system to the absolute coordinate system
      */
     public static void toRel(Vector2 position, Vector2 relPos, float baseAngle, Vector2 basePos) {
         relPos.set(position);
@@ -282,7 +281,7 @@ public class SolMath {
      * Rotates {@link Vector2} by the given angle.
      *
      * @param angle Angle to rotate by, in degrees
-     * @param v Vector to rotate
+     * @param v     Vector to rotate
      */
     public static void rotate(Vector2 v, float angle) {
         v.rotate(angle);
@@ -294,7 +293,7 @@ public class SolMath {
      * Be wary that the returned {@link Vector2} is {@link Bound}.
      *
      * @param from 1st vector
-     * @param to 2nd vector
+     * @param to   2nd vector
      * @return {@link Bound} vector representing the distance.
      */
     @Bound
@@ -307,7 +306,7 @@ public class SolMath {
     /**
      * Computes a length of projection of given {@link Vector2} on line under specified angle.
      *
-     * @param v Vector projection of which to calculate
+     * @param v     Vector projection of which to calculate
      * @param angle Angle of the line to project onto, in degrees
      * @return Length of the projection
      */
@@ -330,7 +329,7 @@ public class SolMath {
      * Computes normalized angle between 2 {@link Vector2 vectors}.
      *
      * @param from 1st vector
-     * @param to 2nd vector
+     * @param to   2nd vector
      * @return The computed angle
      */
     public static float angle(Vector2 from, Vector2 to) {
@@ -362,23 +361,40 @@ public class SolMath {
 
     /**
      * Computes angular diameter for object with given radius and distance.
-     *
+     * <p>
      * Angular diameter works as follows: given a spherical units that has specified {@code radius}, and is {@code dist}
      * units away from you, result of this function should be the angle the object is taking up in your view.
      *
-     * @see <a href=https://en.wikipedia.org/wiki/Angular_diameter>https://en.wikipedia.org/wiki/Angular_diameter</a>
      * @param radius Radius of the object in talk
-     * @param dist Distance from the object in talk
+     * @param dist   Distance from the object in talk
      * @return Calculated angular diameter, in degrees
+     * @see <a href=https://en.wikipedia.org/wiki/Angular_diameter>https://en.wikipedia.org/wiki/Angular_diameter</a>
      */
     public static float angularWidthOfSphere(float radius, float dist) {
         return arcSin(radius / dist);
     }
 
+    /**
+     * Given an arc of certain length and radius, calculate what angular part of circle it is.
+     *
+     * @param hordeLen Length of the arc
+     * @param radius   Radius of the arc
+     * @return Calculated angle, in degrees
+     */
     public static float arcToAngle(float hordeLen, float radius) {
-        return 180 * hordeLen / (PI * radius);
+        return radDeg * hordeLen / radius;
     }
 
+    /**
+     * Calculate the length hypotenuse from the two other sides in triangle.
+     * <p>
+     * Hypotenuse: the longest side of any triangle that has one angle of 90°
+     * (<a href=https://dictionary.cambridge.org/dictionary/english/hypotenuse>dictionary.cambridge.org</a>)
+     *
+     * @param a 1st side of the triangle
+     * @param b 2nd side of the triangle
+     * @return The calculated length of hypotenuse
+     */
     public static float hypotenuse(float a, float b) {
         return sqrt(a * a + b * b);
     }
