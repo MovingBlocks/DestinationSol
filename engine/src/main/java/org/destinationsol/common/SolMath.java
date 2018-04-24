@@ -216,6 +216,18 @@ public class SolMath {
     }
 
     /**
+     * Check that an object has returned all the vectors he has borrowed.
+     *
+     * @param o Object to blame upon the not returning of vectors.
+     * @throws AssertionError When not all of the vectors were returned
+     */
+    public static void checkVectorsTaken(Object o) {
+        if (SolMath.vectorsTaken != 0) {
+            throw new AssertionError("vectors " + SolMath.vectorsTaken + ", blame on " + o);
+        }
+    }
+
+    /**
      * Converts position in the specified relative coordinate system to absolute position.
      * <p>
      * Be wary that the returned vector is {@link Bound}.
@@ -432,12 +444,6 @@ public class SolMath {
      */
     public static float angleToArc(float angle, float r) {
         return (angle * degRad) * r;
-    }
-
-    public static void checkVectorsTaken(Object o) {
-        if (SolMath.vectorsTaken != 0) {
-            throw new AssertionError("vectors " + SolMath.vectorsTaken + ", blame on " + o);
-        }
     }
 
     /**
