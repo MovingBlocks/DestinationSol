@@ -439,7 +439,7 @@ public class SolMath {
      * Given a circle of certain radius, calculate the length of arc represented by certain angle in the circle.
      *
      * @param angle Angle in the circle, in degrees
-     * @param r Radius of the circle
+     * @param r     Radius of the circle
      * @return Length of the arc
      */
     public static float angleToArc(float angle, float r) {
@@ -447,7 +447,17 @@ public class SolMath {
     }
 
     /**
-     * @return solution of a quadratic equation. if 2 solutions possible, the greater is returned.
+     * Calculates solution to a quadratic equation.
+     * <p>
+     * Quadratic equation has generally this form:
+     * {@code 0 = (a * (x^2)) + (b * x) + c}
+     * , where {@code a}, {@code b}, and {@code c} are known, and {@code x} is the unknown we want to get.
+     *
+     * @param a {@code a} variable in the quadratic equation
+     * @param b {@code b} variable in the quadratic equation
+     * @param c {@code c} variable in the quadratic equation
+     * @return The solution (variable {@code x} of the quadratic equation. When there are two possible solutions, the
+     * greater of them is returned.
      */
     public static float genQuad(float a, float b, float c) {
         if (a == 0) {
@@ -472,7 +482,18 @@ public class SolMath {
         return x1 < x2 ? x1 : x2;
     }
 
-    private static float genLin(float b, float c) {
+    /**
+     * Calculates solution to a linear equation.
+     * <p>
+     * Linear equation has generally this form:
+     * {@code 0 = (b * x) + c}
+     * , where {@code b}, and {@code c} are known, and {@code x} is the unknown we want to get.
+     *
+     * @param b {@code b} variable in the quadratic equation
+     * @param c {@code c} variable in the quadratic equation
+     * @return The solution (variable {@code x}) of the linear equation. When there is no solution possible, NaN is returned.
+     */
+    public static float genLin(float b, float c) {
         if (b == 0) {
             return c == 0 ? 0 : Float.NaN;
         }
