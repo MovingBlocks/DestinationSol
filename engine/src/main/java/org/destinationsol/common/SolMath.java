@@ -115,10 +115,12 @@ public class SolMath {
         if (a != a) {
             throw new AssertionError("normalizing NaN angle");
         }
-        while (a <= -180)
+        while (a <= -180) {
             a += 360;
-        while (a > 180)
+        }
+        while (a > 180) {
             a -= 360;
+        }
         return a;
     }
 
@@ -501,6 +503,7 @@ public class SolMath {
         return res < 0 ? Float.NaN : res;
     }
 
+    //TODO The three following functions aren't as much of mathematical functions as they are input processing functions. Move them somewhere else?
     public static Vector2 readV2(JsonValue v, String name) {
         return readV2(v.getString(name));
     }
@@ -525,10 +528,26 @@ public class SolMath {
         return res;
     }
 
+    /**
+     * Returns whether object can accelerate in direction, based on its current speed.
+     *
+     * Object can accelerate until reaching {@link Const#MAX_MOVE_SPD maximal movement speed}, and afterwards, if it
+     * attempts to accelerate in direction that would not bring its speed further over the maximum speed.
+     *
+     * @param accAngle Angle under which the object tries to accelerate
+     * @param speed Current speed of the object
+     * @return True if object can accelerate further, false otherwise
+     */
     public static boolean canAccelerate(float accAngle, Vector2 speed) {
         return speed.len() < Const.MAX_MOVE_SPD || angleDiff(angle(speed), accAngle) > 90;
     }
 
+    /**
+     * Returns a String representation of float value.
+     *
+     * @param v Value to represent in String
+     * @return String representation of the value
+     */
     public static String nice(float v) {
         int i = (int) (v * 10);
         int whole = i / 10;
