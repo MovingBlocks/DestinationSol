@@ -180,8 +180,8 @@ public class ChunkFiller {
 
         for (int i = 0; i < enemyCount; i++) {
             Optional<Vector2> enemyPosition = getFreeRndPos(game, chunkCenter);
-            enemyPosition.ifPresent(position -> {
-                FarShip ship = buildSpaceEnemy(game, position, removeController, enemyConfig);
+            enemyPosition.ifPresent(enemyPos -> {
+                FarShip ship = buildSpaceEnemy(game, enemyPos, removeController, enemyConfig);
                 game.getObjectManager().addFarObjNow(ship);
             });
         }
@@ -208,15 +208,15 @@ public class ChunkFiller {
         }
 
         for (int i = 0; i < count; i++) {
-            Optional<Vector2> asteroidPos = getFreeRndPos(game, chunkCenter);
-            asteroidPos.ifPresent(position -> {
+            Optional<Vector2> asteroidPosition = getFreeRndPos(game, chunkCenter);
+            asteroidPosition.ifPresent(asteroidPos -> {
                 float minSz = forBelt ? MIN_BELT_A_SZ : MIN_SYS_A_SZ;
                 float maxSz = forBelt ? MAX_BELT_A_SZ : MAX_SYS_A_SZ;
                 float sz = SolRandom.randomFloat(minSz, maxSz);
                 Vector2 speed = new Vector2();
                 SolMath.fromAl(speed, SolRandom.randomFloat(180), MAX_A_SPD);
 
-                FarAsteroid a = game.getAsteroidBuilder().buildNewFar(position, speed, sz, remover);
+                FarAsteroid a = game.getAsteroidBuilder().buildNewFar(asteroidPos, speed, sz, remover);
                 game.getObjectManager().addFarObjNow(a);
             });
         }
