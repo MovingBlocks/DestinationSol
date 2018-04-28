@@ -47,10 +47,10 @@ public interface SolObject {
     void update(SolGame game);
 
     /**
-     * Denotes whether the object should be removed as of the time of calling.
+     * Denotes whether the object, in its current state, should be removed.
      * <p>
-     * Object should usually be removed when its health reaches zero, or, for instance, if the object is projectile, it
-     * reaches its target. This method should not handle removal of object for optimization purposes when it gets too
+     * An object should usually be removed when its health reaches zero, or, for instance, if the object is projectile,
+     * it reaches its target. This method should not handle removal of object for optimization purposes when it gets too
      * far away, unless the object is specifically designed to exist only in close proximity of player, like some sort
      * of kinetic defense. Removal for optimization purposes is handled in {@link #toFarObject()}.
      *
@@ -64,21 +64,21 @@ public interface SolObject {
      * <p>
      * This method should handle things like throwing out {@link Loot} when ships are destroyed, or creating smaller
      * asteroids when a big {@link Asteroid} is destroyed. This method is also responsible for freeing its resources,
-     * when such is applicable. Note that this method is also called when an object is due to be removed for
-     * optimization purposes, and thus you need to explicitly check for {@link #shouldBeRemoved(SolGame)} if you have
-     * some code specific to destruction of object.
+     * when such is applicable. Please note that this method is called after removal due to {@link #shouldBeRemoved(SolGame)}
+     * returning true, as well as after removal after calling {@link #toFarObject()}. As such, if you have any code
+     * specific to removal of object due to its destruction, you need to explicitly check that the object is really
+     * being removed due to destruction.
      *
      * @param game Game this object belongs to.
      */
     void onRemove(SolGame game);
 
     /**
-     * Called whenever this object should receive damage.
+     * Inflicts object with certain amount of damage of specific type.
      * <p>
-     * Whenever the object is hit by some projectile or other sort of damage dealing thing, this method is called on the
-     * object to allow it to perform its damage handling. This usually means just subtracting the damage from object's
-     * health and playing a hit sound, but if the object has no health pool or should be otherwise indestructible, or
-     * invincible against some types of damage, this method can be freely left blank.
+     * This method usually just subtracts the damage from object's health and plays a hit sound, but if the object has
+     * no health pool or should be otherwise indestructible, or invincible against some types of damage, this method can
+     * be freely left blank.
      *
      * @param dmg      Damage the object receives.
      * @param game     Game this object belongs to.
@@ -88,17 +88,18 @@ public interface SolObject {
     void receiveDmg(float dmg, SolGame game, @Nullable Vector2 position, DmgType dmgType);
 
     /**
-     * Denotes whether this object is affected by gravity, this is usually constant.
+     * Denotes whether this object is affected by gravity.
      *
      * @return True if object is affected by gravity, false otherwise.
      */
     boolean receivesGravity();
 
     /**
-     * Applies external force to object.
+     * Applies external force to the object.
      * <p>
-     * This method usually just scales the {@code force} by objects mass if {@code acc} is set, and then passes the
-     * force to object's internal {@link Body}.
+     * If {@code acc} is true, the supplied {@code force} is treated as an acceleration and considered to not have been
+     * scaled by mass. This method usually just performs the scaling as needed, and then passes the force to the
+     * object's internal {@link Body}.
      *
      * @param force Force to apply to the object.
      * @param game  Game this object belongs to.
@@ -107,7 +108,7 @@ public interface SolObject {
     void receiveForce(Vector2 force, SolGame game, boolean acc);
 
     /**
-     * Returns object's position.
+     * Returns the object's position.
      * <p>
      * This method usually just returns the vector retrieved from object's internal {@link Body}.
      *
@@ -116,35 +117,36 @@ public interface SolObject {
     Vector2 getPosition();
 
     /**
-     * Called when an object is too far from player/camera, and is thus to be converted to {@link FarObject}.
+     * Converts this {@link SolObject} to a {@link FarObject}.
      * <p>
-     * This method is used for optimization of game's objects, by converting to their more resource friendly versions
-     * when they get too far from player/camera. The {@code FarObject} returned by this method should be usable to get
-     * copy of this object back in reverse. If null is returned by this method, this object is designated to be removed
-     * when it gets too far from player/camera, and instead of recreating from {@code FarObject}, to be generated again.
+     * This method is used to convert a {@link SolObject} to a more resource friendly {@link FarObject} when it is too
+     * far from the player/camera. The {@link FarObject} returned by this method must contain enough information to
+     * accurately recreate the {@link SolObject} when it gets in range again. If null is returned by this method, this
+     * object is designated to be removed when it gets too far from the player/camera and is regenerated from scratch
+     * (without persistence).
      *
      * @return FarObject representation of this object, or null if object is to be removed.
      */
     FarObject toFarObject();
 
     /**
-     * Returns list of all {@link Drawable Drawables} this object has assigned.
+     * Returns list of all {@link Drawable Drawables} this object has.
      *
      * @return List of drawables this object has.
      */
     List<Drawable> getDrawables();
 
     /**
-     * Returns object's angle.
+     * Returns object's angle, in degrees.
      * <p>
      * This method usually just returns the angle retrieved from object's internal {@link Body}.
      *
-     * @return Angle of this object, in degrees.
+     * @return Angle of this object.
      */
     float getAngle();
 
     /**
-     * Returns object's speed.
+     * Returns the object's speed.
      * <p>
      * This method usually just returns the vector retrieved from object's internal {@link Body}.
      *
@@ -168,7 +170,7 @@ public interface SolObject {
     void handleContact(SolObject other, float absImpulse, SolGame game, Vector2 collPos);
 
     /**
-     * Used for retrieval of object's debug string.
+     * Used for retrieval of object's debug string, comprising of list of its debug-useful properties.
      * <p>
      * Any kind of information can be used in the debug string, if you don't need/want to display any debug information,
      * you can freely have this method return null. To display debug strings in-game, set the flag {@link DebugOptions#OBJ_INFO}.
@@ -176,6 +178,7 @@ public interface SolObject {
      *
      * @return Debug string with information about the object.
      */
+    //TODO - improve/rework debug collection, displaying and related. See discussion in https://github.com/MovingBlocks/DestinationSol/pull/269 for more details
     default String toDebugString() {
         return null;
     }
