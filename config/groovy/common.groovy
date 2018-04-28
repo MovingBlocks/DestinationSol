@@ -157,6 +157,7 @@ class common {
         println "Creating target directory"
         targetDir.mkdir()
 
+        // TODO: For Terasology modules this happens automatically, but DS modules don't have that logic yet. Review when they do
         itemTypeScript.createDirectoryStructure(targetDir)
 
         // For now everything gets the same .gitignore, but beyond that defer to the itemType for specifics
