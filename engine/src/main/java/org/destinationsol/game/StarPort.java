@@ -28,9 +28,9 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSource;
-import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ForceBeacon;
@@ -80,14 +80,13 @@ public class StarPort implements SolObject {
         return position;
     }
 
-    private static Vector2 adjustDesiredPos(SolGame game, StarPort port, Vector2 desired) {
+    private static Vector2 adjustDesiredPos(SolGame game, StarPort targetPort, Vector2 desired) {
         Vector2 newPosition = desired;
-        List<SolObject> objects = game.getObjectManager().getObjects();
-        for (SolObject object : objects) {
-            if (object instanceof StarPort && object != port) {
-                StarPort starPort = (StarPort) object;
+        List<StarPort> objects = game.getObjectManager().getObjects(StarPort.class);
+        for (StarPort port : objects) {
+            if (port != targetPort) {
                 // Check if the positions overlap
-                Vector2 fromPosition = starPort.getPosition();
+                Vector2 fromPosition = port.getPosition();
                 Vector2 distanceVector = SolMath.distVec(fromPosition, desired);
                 float distance = SolMath.hypotenuse(distanceVector.x, distanceVector.y);
                 if (distance <= (float) StarPort.SIZE) {

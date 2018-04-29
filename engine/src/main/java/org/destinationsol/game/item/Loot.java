@@ -75,12 +75,8 @@ public class Loot implements SolObject {
         }
         SolShip puller = null;
         float minDist = Float.MAX_VALUE;
-        List<SolObject> objs = game.getObjectManager().getObjects();
-        for (SolObject o : objs) {
-            if (!(o instanceof SolShip)) {
-                continue;
-            }
-            SolShip ship = (SolShip) o;
+        List<SolShip> objs = game.getObjectManager().getObjects(SolShip.class);
+        for (SolShip ship : objs) {
             if (!ship.getPilot().collectsItems()) {
                 continue;
             }

@@ -452,7 +452,7 @@ public class SolGame {
             return false;
         }
 
-        List<SolObject> objs = objectManager.getObjects();
+        List<SolObject> objs = objectManager.getObjects(SolObject.class);
         for (SolObject o : objs) {
             if (!o.hasBody()) {
                 continue;
