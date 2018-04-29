@@ -30,7 +30,6 @@ import org.destinationsol.game.Hero;
 import org.destinationsol.game.MapDrawer;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.SolObject;
 import org.destinationsol.game.StarPort;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
@@ -89,20 +88,17 @@ public class BorderDrawer {
         FactionManager factionManager = game.getFactionMan();
         float heroDamageCap = hero.isTranscendent() ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero.getShip());
 
-        List<SolObject> objects = game.getObjectManager().getObjects();
-        for (SolObject object : objects) {
-            if ((object instanceof SolShip)) {
-                SolShip ship = (SolShip) object;
-                Vector2 shipPosition = ship.getPosition();
-                Faction shipFaction = ship.getPilot().getFaction();
-                float shipSize = ship.getHull().config.getSize();
-                float shipAngle = ship.getAngle();
-                maybeDrawIcon(drawer, shipPosition, cam, shipSize, shipAngle, mapDrawer, factionManager, hero, shipFaction, object, heroDamageCap, ship.getHull().config.getIcon());
-            }
-            if ((object instanceof StarPort)) {
-                StarPort starPort = (StarPort) object;
-                maybeDrawIcon(drawer, starPort.getPosition(), cam, StarPort.SIZE, starPort.getAngle(), mapDrawer, null, null, null, null, -1, mapDrawer.getStarPortTex());
-            }
+        List<SolShip> solShips = game.getObjectManager().getObjects(SolShip.class);
+        for (SolShip ship : solShips) {
+            Vector2 shipPosition = ship.getPosition();
+            Faction shipFaction = ship.getPilot().getFaction();
+            float shipSize = ship.getHull().config.getSize();
+            float shipAngle = ship.getAngle();
+            maybeDrawIcon(drawer, shipPosition, cam, shipSize, shipAngle, mapDrawer, factionManager, hero, shipFaction, ship, heroDamageCap, ship.getHull().config.getIcon());
+        }
+        List<StarPort> starPorts = game.getObjectManager().getObjects(StarPort.class);
+        for (StarPort starPort : starPorts) {
+            maybeDrawIcon(drawer, starPort.getPosition(), cam, StarPort.SIZE, starPort.getAngle(), mapDrawer, null, null, null, null, -1, mapDrawer.getStarPortTex());
         }
 
         List<FarShip> farShips = game.getObjectManager().getFarShips();

@@ -27,10 +27,11 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSource;
-import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ForceBeacon;
@@ -52,6 +53,7 @@ public class StarPort implements SolObject {
     private final ArrayList<Drawable> drawables;
     private final boolean isSecondary;
     private float angle;
+    private final float radius;
 
     StarPort(Planet from, Planet to, Body body, ArrayList<Drawable> drawables, boolean secondary, ArrayList<LightSource> lights) {
         this.fromPlanet = from;
@@ -62,6 +64,7 @@ public class StarPort implements SolObject {
         position = new Vector2();
         setParamsFromBody();
         isSecondary = secondary;
+        radius = DrawableManager.radiusFromDrawables(getDrawables());
     }
 
     private static void blip(SolGame game, SolShip ship) {
@@ -80,14 +83,13 @@ public class StarPort implements SolObject {
         return position;
     }
 
-    private static Vector2 adjustDesiredPos(SolGame game, StarPort port, Vector2 desired) {
+    private static Vector2 adjustDesiredPos(SolGame game, StarPort targetPort, Vector2 desired) {
         Vector2 newPosition = desired;
-        List<SolObject> objects = game.getObjectManager().getObjects();
-        for (SolObject object : objects) {
-            if (object instanceof StarPort && object != port) {
-                StarPort starPort = (StarPort) object;
+        List<StarPort> objects = game.getObjectManager().getObjects(StarPort.class);
+        for (StarPort port : objects) {
+            if (port != targetPort) {
                 // Check if the positions overlap
-                Vector2 fromPosition = starPort.getPosition();
+                Vector2 fromPosition = port.getPosition();
                 Vector2 distanceVector = SolMath.distVec(fromPosition, desired);
                 float distance = SolMath.hypotenuse(distanceVector.x, distanceVector.y);
                 if (distance <= (float) StarPort.SIZE) {
@@ -208,6 +210,11 @@ public class StarPort implements SolObject {
     @Override
     public boolean hasBody() {
         return true;
+    }
+
+    @Override
+    public float getRadius() {
+        return radius;
     }
 
     private void setParamsFromBody() {
@@ -345,12 +352,13 @@ public class StarPort implements SolObject {
         private final Planet toPlanet;
         private final Vector2 position;
         private final Vector2 destinationPosition;
-        private final ArrayList<Drawable> drawables;
+        private final List<Drawable> drawables;
         private final FarShip ship;
         private final Vector2 speed;
         private final LightSource lightSource;
         private final DSParticleEmitter effect;
         private float angle;
+        private final float radius;
 
         Transcendent(SolShip ship, Planet from, Planet to, SolGame game) {
             this.ship = ship.toFarObject();
@@ -372,6 +380,7 @@ public class StarPort implements SolObject {
             lightSource = new LightSource(.6f * TRAN_SZ, true, .5f, new Vector2(), eff.tint);
             lightSource.collectDras(drawables);
             setDependentParams();
+            radius = DrawableManager.radiusFromDrawables(getDrawables());
         }
 
         public FarShip getShip() {
@@ -483,6 +492,11 @@ public class StarPort implements SolObject {
         @Override
         public boolean hasBody() {
             return false;
+        }
+
+        @Override
+        public float getRadius() {
+            return radius;
         }
     }
 }

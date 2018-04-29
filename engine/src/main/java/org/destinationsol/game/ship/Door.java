@@ -24,7 +24,6 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.FactionManager;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.input.Pilot;
@@ -66,26 +65,22 @@ public class Door {
         SolMath.toRel(doorPos, myS.getRelativePosition(), shipAngle, shipPos);
     }
 
-    private boolean shouldOpen(SolGame game, SolShip ship, Vector2 doorPos) {
-        Faction faction = ship.getPilot().getFaction();
+    private boolean shouldOpen(SolGame game, SolShip parentShip, Vector2 doorPos) {
+        Faction faction = parentShip.getPilot().getFaction();
         FactionManager factionManager = game.getFactionMan();
-        List<SolObject> objs = game.getObjectManager().getObjects();
-        for (SolObject o : objs) {
-            if (o == ship) {
+        List<SolShip> solShips = game.getObjectManager().getObjects(SolShip.class);
+        for (SolShip ship : solShips) {
+            if (ship == parentShip) {
                 continue;
             }
-            if (!(o instanceof SolShip)) {
+            Pilot pilot = ship.getPilot();
+            if (!pilot.isUp()) {
                 continue;
             }
-            SolShip ship2 = (SolShip) o;
-            Pilot pilot2 = ship2.getPilot();
-            if (!pilot2.isUp()) {
+            if (factionManager.areEnemies(pilot.getFaction(), faction)) {
                 continue;
             }
-            if (factionManager.areEnemies(pilot2.getFaction(), faction)) {
-                continue;
-            }
-            if (ship2.getPosition().dst(doorPos) < SENSOR_DIST) {
+            if (ship.getPosition().dst(doorPos) < SENSOR_DIST) {
                 return true;
             }
         }

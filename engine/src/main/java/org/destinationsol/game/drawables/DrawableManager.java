@@ -119,10 +119,10 @@ public class DrawableManager {
         float viewDistance = cam.getViewDistance();
 
         ObjectManager objectManager = game.getObjectManager();
-        List<SolObject> objects = objectManager.getObjects();
+        List<SolObject> objects = objectManager.getObjects(SolObject.class);
         for (SolObject object : objects) {
             Vector2 objectPosition = object.getPosition();
-            float radius = objectManager.getPresenceRadius(object);
+            float radius = object.getRadius();
             List<Drawable> drawables = object.getDrawables();
             float drawableLevelViewDistance = viewDistance;
             if (drawables.size() > 0) {

@@ -452,13 +452,13 @@ public class SolGame {
             return false;
         }
 
-        List<SolObject> objs = objectManager.getObjects();
+        List<SolObject> objs = objectManager.getObjects(SolObject.class);
         for (SolObject o : objs) {
             if (!o.hasBody()) {
                 continue;
             }
 
-            if (position.dst(o.getPosition()) < objectManager.getRadius(o)) {
+            if (position.dst(o.getPosition()) < o.getRadius()) {
                 return false;
             }
         }

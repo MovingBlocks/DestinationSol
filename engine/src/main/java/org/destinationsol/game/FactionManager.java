@@ -73,12 +73,8 @@ public class FactionManager {
     public SolShip getNearestEnemy(SolGame game, float detectionDist, Faction faction, Vector2 position) {
         SolShip nearestEnemyShip = null;
         float minimumDistance = detectionDist;
-        List<SolObject> objects = game.getObjectManager().getObjects();
-        for (SolObject solObject : objects) {
-            if (!(solObject instanceof SolShip)) {
-                continue;
-            }
-            SolShip potentialEnemyShip = (SolShip) solObject;
+        List<SolShip> ships = game.getObjectManager().getObjects(SolShip.class);
+        for (SolShip potentialEnemyShip : ships) {
             if (!areEnemies(faction, potentialEnemyShip.getPilot().getFaction())) {
                 continue;
             }

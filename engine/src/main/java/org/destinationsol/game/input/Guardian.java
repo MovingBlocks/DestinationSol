@@ -20,7 +20,6 @@ import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.ObjectManager;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.SolObject;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
@@ -90,7 +89,7 @@ public class Guardian implements MoveDestProvider {
 
     public void updateTarget(SolGame game) {
         ObjectManager om = game.getObjectManager();
-        List<SolObject> objs = om.getObjects();
+        List<SolShip> objs = om.getObjects(SolShip.class);
         if (myTarget != null && objs.contains(myTarget)) {
             return;
         }
@@ -101,15 +100,11 @@ public class Guardian implements MoveDestProvider {
         }
         myFarTarget = null;
 
-        for (SolObject o : objs) {
-            if (!(o instanceof SolShip)) {
+        for (SolShip otherShip : objs) {
+            if (otherShip.getPilot() != myTargetPilot) {
                 continue;
             }
-            SolShip other = (SolShip) o;
-            if (other.getPilot() != myTargetPilot) {
-                continue;
-            }
-            myTarget = other;
+            myTarget = otherShip;
             return;
         }
         for (FarShip other : farShips) {

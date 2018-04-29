@@ -31,11 +31,12 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.item.Shield;
+import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSource;
-import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.SolShip;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ import java.util.List;
 public class Projectile implements SolObject {
 
     private static final float MIN_ANGLE_TO_GUIDE = 2f;
-    private final ArrayList<Drawable> drawables;
+    private final List<Drawable> drawables;
     private final ProjectileBody body;
     private final Faction faction;
     private final DSParticleEmitter bodyEffect;
@@ -55,6 +56,7 @@ public class Projectile implements SolObject {
     private boolean shouldBeRemoved;
     private SolObject obstacle;
     private boolean wasDamageDealt;
+    private float radius;
 
     public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpeed, Faction faction,
                       ProjectileConfig config, boolean varySpeed) {
@@ -90,6 +92,7 @@ public class Projectile implements SolObject {
         } else {
             lightSource = null;
         }
+        radius = DrawableManager.radiusFromDrawables(getDrawables());
     }
 
     private DSParticleEmitter buildEffect(SolGame game, EffectConfig ec, DrawableLevel drawableLevel, Vector2 position, boolean inheritsSpeed) {
@@ -100,6 +103,7 @@ public class Projectile implements SolObject {
         if (res.isContinuous()) {
             res.setWorking(true);
             drawables.addAll(res.getDrawables());
+            radius = DrawableManager.radiusFromDrawables(getDrawables());
         } else {
             game.getPartMan().finish(game, res, position);
         }
@@ -240,6 +244,11 @@ public class Projectile implements SolObject {
     @Override
     public boolean hasBody() {
         return true;
+    }
+
+    @Override
+    public float getRadius() {
+        return radius;
     }
 
     public Faction getFaction() {

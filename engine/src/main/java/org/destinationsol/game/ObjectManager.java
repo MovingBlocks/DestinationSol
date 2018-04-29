@@ -23,7 +23,6 @@ import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.drawables.Drawable;
-import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.drawables.FarDrawable;
 import org.destinationsol.game.ship.FarShip;
 
@@ -31,10 +30,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ObjectManager {
     private static final float MAX_RADIUS_RECALC_AWAIT = 1f;
-    private final List<SolObject> myObjs;
+    private final Map<Class, List<SolObject>> myObjs;
     private final List<SolObject> myToRemove;
     private final List<SolObject> myToAdd;
     private final List<FarObjData> myFarObjs;
@@ -42,14 +43,13 @@ public class ObjectManager {
     private final List<StarPort.FarStarPort> myFarPorts;
     private final World myWorld;
     private final Box2DDebugRenderer myDr;
-    private final HashMap<SolObject, Float> myRadii;
 
     private float myFarEndDist;
     private float myFarBeginDist;
-    private float myRadiusRecalcAwait;
 
     public ObjectManager(SolContactListener contactListener, FactionManager factionManager) {
-        myObjs = new ArrayList<>();
+        myObjs = new HashMap<>();
+        myObjs.put(SolObject.class, new ArrayList<>());
         myToRemove = new ArrayList<>();
         myToAdd = new ArrayList<>();
         myFarObjs = new ArrayList<>();
@@ -59,7 +59,6 @@ public class ObjectManager {
         myWorld.setContactListener(contactListener);
         myWorld.setContactFilter(new SolContactFilter(factionManager));
         myDr = new Box2DDebugRenderer();
-        myRadii = new HashMap<>();
     }
 
     public boolean containsFarObj(FarObject fo) {
@@ -82,15 +81,8 @@ public class ObjectManager {
         myFarEndDist = 1.5f * cam.getViewDistance();
         myFarBeginDist = 1.33f * myFarEndDist;
 
-        boolean recalcRad = false;
-        if (myRadiusRecalcAwait > 0) {
-            myRadiusRecalcAwait -= ts;
-        } else {
-            myRadiusRecalcAwait = MAX_RADIUS_RECALC_AWAIT;
-            recalcRad = true;
-        }
 
-        for (SolObject o : myObjs) {
+        for (SolObject o : myObjs.get(SolObject.class)) {
             o.update(game);
             SolMath.checkVectorsTaken(o);
             List<Drawable> drawables = o.getDrawables();
@@ -113,11 +105,7 @@ public class ObjectManager {
                         addFarObjNow(fo);
                     }
                     removeObjDelayed(o);
-                    continue;
                 }
-            }
-            if (recalcRad) {
-                recalcRadius(o);
             }
         }
 
@@ -154,24 +142,6 @@ public class ObjectManager {
         }
     }
 
-    private void recalcRadius(SolObject o) {
-        float rad = DrawableManager.radiusFromDrawables(o.getDrawables());
-        myRadii.put(o, rad);
-    }
-
-    public float getPresenceRadius(SolObject o) {
-        Float res = getRadius(o);
-        return res + Const.MAX_MOVE_SPD * (MAX_RADIUS_RECALC_AWAIT - myRadiusRecalcAwait);
-    }
-
-    public Float getRadius(SolObject o) {
-        Float res = myRadii.get(o);
-        if (res == null) {
-            throw new AssertionError("no radius for " + o);
-        }
-        return res;
-    }
-
     private void addRemove(SolGame game) {
         for (SolObject o : myToRemove) {
             removeObjNow(game, o);
@@ -185,18 +155,21 @@ public class ObjectManager {
     }
 
     private void removeObjNow(SolGame game, SolObject o) {
-        myObjs.remove(o);
-        myRadii.remove(o);
+        myObjs.get(SolObject.class).remove(o);
+        myObjs.get(o.getClass()).remove(o);
         o.onRemove(game);
         game.getDrawableManager().removeObject(o);
     }
 
     public void addObjNow(SolGame game, SolObject o) {
-        if (DebugOptions.ASSERTIONS && myObjs.contains(o)) {
+        if (DebugOptions.ASSERTIONS && myObjs.get(SolObject.class).contains(o)) {
             throw new AssertionError();
         }
-        myObjs.add(o);
-        recalcRadius(o);
+        myObjs.get(SolObject.class).add(o);
+        if (!myObjs.containsKey(o.getClass())) {
+            myObjs.put(o.getClass(), new ArrayList<>());
+        }
+        myObjs.get(o.getClass()).add(o);
         game.getDrawableManager().addObject(o);
     }
 
@@ -216,7 +189,7 @@ public class ObjectManager {
     }
 
     private boolean isFar(SolObject o, Vector2 camPos) {
-        float r = getPresenceRadius(o);
+        float r = o.getRadius();
         List<Drawable> drawables = o.getDrawables();
         if (drawables != null && drawables.size() > 0) {
             r *= drawables.get(0).getLevel().depth;
@@ -242,7 +215,7 @@ public class ObjectManager {
 
     private void drawDebugStrings(GameDrawer drawer, SolGame game) {
         float fontSize = game.getCam().getDebugFontSize();
-        for (SolObject o : myObjs) {
+        for (SolObject o : myObjs.get(SolObject.class)) {
             Vector2 position = o.getPosition();
             String ds = o.toDebugString();
             if (ds != null) {
@@ -263,9 +236,9 @@ public class ObjectManager {
         SolCam cam = game.getCam();
         float lineWidth = cam.getRealLineWidth();
         float vh = cam.getViewHeight();
-        for (SolObject o : myObjs) {
+        for (SolObject o : myObjs.get(SolObject.class)) {
             Vector2 position = o.getPosition();
-            float r = getRadius(o);
+            float r = o.getRadius();
             drawer.drawCircle(drawer.debugWhiteTexture, position, r, DebugCol.OBJ, lineWidth, vh);
             drawer.drawLine(drawer.debugWhiteTexture, position.x, position.y, o.getAngle(), r, DebugCol.OBJ, lineWidth);
         }
@@ -277,8 +250,11 @@ public class ObjectManager {
         drawer.drawCircle(drawer.debugWhiteTexture, cam.getPosition(), myFarEndDist, SolColor.WHITE, lineWidth, vh);
     }
 
-    public List<SolObject> getObjects() {
-        return myObjs;
+    public <T extends SolObject> List<T> getObjects(Class<T> clazz) {
+        if (!myObjs.containsKey(clazz)) {
+            myObjs.put(clazz, new ArrayList<>());
+        }
+        return myObjs.get(clazz).stream().map(clazz::cast).collect(Collectors.toList());
     }
 
     public void addObjDelayed(SolObject p) {
