@@ -241,7 +241,7 @@ public class MapDrawer {
 
     private void drawIcons(GameDrawer drawer, SolGame game, float iconSz, float viewDist, FactionManager factionManager,
                            Hero hero, Vector2 camPos, float heroDmgCap) {
-        List<SolObject> objs = game.getObjectManager().getObjects();
+        List<SolObject> objs = game.getObjectManager().getObjects(SolObject.class);
         for (SolObject o : objs) {
             Vector2 oPos = o.getPosition();
             if (viewDist < camPos.dst(oPos)) {
@@ -311,17 +311,13 @@ public class MapDrawer {
     }
 
     private void drawStarNodes(GameDrawer drawer, SolGame game, float viewDist, Vector2 camPos, float starNodeW) {
-        List<SolObject> objs = game.getObjectManager().getObjects();
-        for (SolObject o : objs) {
-            if (!(o instanceof StarPort)) {
-                continue;
-            }
-            Vector2 oPos = o.getPosition();
+        List<StarPort> objs = game.getObjectManager().getObjects(StarPort.class);
+        for (StarPort port : objs) {
+            Vector2 oPos = port.getPosition();
             if (viewDist < camPos.dst(oPos)) {
                 continue;
             }
-            StarPort sp = (StarPort) o;
-            drawStarNode(drawer, sp.getFromPlanet(), sp.getToPlanet(), starNodeW);
+            drawStarNode(drawer, port.getFromPlanet(), port.getToPlanet(), starNodeW);
         }
 
         List<StarPort.FarStarPort> farPorts = game.getObjectManager().getFarPorts();
@@ -346,21 +342,17 @@ public class MapDrawer {
 
     private void drawNpGround(GameDrawer drawer, SolGame game, float viewDist, Planet np, Vector2 camPos) {
         ObjectManager objectManager = game.getObjectManager();
-        List<SolObject> objs = objectManager.getObjects();
-        for (SolObject o : objs) {
-            if (!(o instanceof TileObject)) {
+        List<TileObject> objs = objectManager.getObjects(TileObject.class);
+        for (TileObject tileObject : objs) {
+            if (tileObject.getPlanet() != np) {
                 continue;
             }
-            TileObject to = (TileObject) o;
-            if (to.getPlanet() != np) {
-                continue;
-            }
-            Vector2 oPos = o.getPosition();
+            Vector2 oPos = tileObject.getPosition();
             if (viewDist < camPos.dst(oPos)) {
                 continue;
             }
-            float sz = to.getSz();
-            drawPlanetTile(to.getTile(), sz, drawer, oPos, to.getAngle());
+            float sz = tileObject.getSz();
+            drawPlanetTile(tileObject.getTile(), sz, drawer, oPos, tileObject.getAngle());
         }
 
         List<FarObjData> farObjs = objectManager.getFarObjs();

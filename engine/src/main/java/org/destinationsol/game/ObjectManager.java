@@ -290,6 +290,9 @@ public class ObjectManager {
     }
 
     public <T extends SolObject> List<T> getObjects(Class<T> clazz) {
+        if (!myObjs.containsKey(clazz)) {
+            myObjs.put(clazz, new ArrayList<>());
+        }
         return myObjs.get(clazz).stream().map(clazz::cast).collect(Collectors.toList());
     }
 
