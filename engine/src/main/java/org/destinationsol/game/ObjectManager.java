@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ObjectManager {
     private static final float MAX_RADIUS_RECALC_AWAIT = 1f;
@@ -288,8 +289,8 @@ public class ObjectManager {
         return getObjects(SolObject.class);
     }
 
-    public List<SolObject> getObjects(Class<? extends SolObject> clazz) {
-        return myObjs.get(clazz);
+    public <T extends SolObject> List<T> getObjects(Class<T> clazz) {
+        return myObjs.get(clazz).stream().map(clazz::cast).collect(Collectors.toList());
     }
 
     public void addObjDelayed(SolObject p) {
