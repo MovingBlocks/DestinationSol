@@ -45,15 +45,11 @@ public class ForceBeacon {
                                     float maxPullDist) {
         SolShip res = null;
         float minLen = Float.MAX_VALUE;
-        List<SolObject> objs = game.getObjectManager().getObjects();
-        for (SolObject o : objs) {
-            if (o == owner) {
+        List<SolShip> solShips = game.getObjectManager().getObjects(SolShip.class);
+        for (SolShip ship : solShips) {
+            if (ship == owner) {
                 continue;
             }
-            if (!(o instanceof SolShip)) {
-                continue;
-            }
-            SolShip ship = (SolShip) o;
             Pilot pilot = ship.getPilot();
             if (pilot.isUp() || pilot.isLeft() || pilot.isRight()) {
                 continue;

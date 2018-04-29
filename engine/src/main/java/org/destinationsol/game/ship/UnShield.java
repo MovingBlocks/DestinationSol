@@ -22,12 +22,13 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.particle.DSParticleEmitter;
+
+import java.util.List;
 
 public class UnShield implements ShipAbility {
     private static final int MAX_RADIUS = 6;
@@ -58,12 +59,12 @@ public class UnShield implements ShipAbility {
             return false;
         }
         Vector2 ownerPos = owner.getPosition();
-        for (SolObject o : game.getObjectManager().getObjects()) {
-            if (!(o instanceof SolShip) || o == owner) {
+        final List<SolShip> solShips = game.getObjectManager().getObjects(SolShip.class);
+        for (SolShip ship : solShips) {
+            if (ship == owner) {
                 continue;
             }
-            SolShip oShip = (SolShip) o;
-            Shield shield = oShip.getShield();
+            Shield shield = ship.getShield();
             if (shield == null) {
                 continue;
             }
@@ -71,10 +72,10 @@ public class UnShield implements ShipAbility {
             if (shieldLife <= 0) {
                 continue;
             }
-            if (!game.getFactionMan().areEnemies(oShip, owner)) {
+            if (!game.getFactionMan().areEnemies(ship, owner)) {
                 continue;
             }
-            Vector2 oPos = o.getPosition();
+            Vector2 oPos = ship.getPosition();
             float dst = oPos.dst(ownerPos);
             float perc = KnockBack.getPerc(dst, MAX_RADIUS);
             if (perc <= 0) {
@@ -84,7 +85,7 @@ public class UnShield implements ShipAbility {
             if (shieldLife < amount) {
                 amount = shieldLife;
             }
-            oShip.receiveDmg(amount, game, ownerPos, DmgType.ENERGY);
+            ship.receiveDmg(amount, game, ownerPos, DmgType.ENERGY);
         }
         DSParticleEmitter src = new DSParticleEmitter(config.cc.effect, MAX_RADIUS, DrawableLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
         game.getPartMan().finish(game, src, ownerPos);

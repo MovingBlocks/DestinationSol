@@ -31,7 +31,6 @@ import org.destinationsol.game.HardnessCalc;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.SolObject;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.Shield;
@@ -285,12 +284,8 @@ public class MainScreen implements SolUiScreen {
         SolShip target = null;
         float minDist = TalkScreen.MAX_TALK_DIST;
         float har = hero.getHull().config.getApproxRadius();
-        List<SolObject> objs = game.getObjectManager().getObjects();
-        for (SolObject o : objs) {
-            if (!(o instanceof SolShip)) {
-                continue;
-            }
-            SolShip ship = (SolShip) o;
+        List<SolShip> solShips = game.getObjectManager().getObjects(SolShip.class);
+        for (SolShip ship : solShips) {
             if (factionManager.areEnemies(hero.getShip(), ship)) {
                 continue;
             }
@@ -580,19 +575,13 @@ public class MainScreen implements SolUiScreen {
             }
 
             float heroCap = HardnessCalc.getShipDmgCap(hero.getShip());
-            List<SolObject> objs = game.getObjectManager().getObjects();
+            List<SolShip> solShips = game.getObjectManager().getObjects(SolShip.class);
             FactionManager fm = game.getFactionMan();
             SolCam cam = game.getCam();
             float viewDist = cam.getViewDistance();
             float dps = 0;
 
-            for (SolObject o : objs) {
-                if (!(o instanceof SolShip)) {
-                    continue;
-                }
-
-                SolShip ship = (SolShip) o;
-
+            for (SolShip ship : solShips) {
                 if (viewDist < ship.getPosition().dst(hero.getPosition())) {
                     continue;
                 }

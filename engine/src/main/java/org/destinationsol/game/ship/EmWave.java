@@ -20,11 +20,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.particle.DSParticleEmitter;
+
+import java.util.List;
 
 public class EmWave implements ShipAbility {
     private static final int MAX_RADIUS = 4;
@@ -55,22 +56,22 @@ public class EmWave implements ShipAbility {
             return false;
         }
         Vector2 ownerPos = owner.getPosition();
-        for (SolObject o : game.getObjectManager().getObjects()) {
-            if (!(o instanceof SolShip) || o == owner) {
+        final List<SolShip> solShips = game.getObjectManager().getObjects(SolShip.class);
+        for (SolShip ship : solShips) {
+            if (ship == owner) {
                 continue;
             }
-            SolShip oShip = (SolShip) o;
-            if (!game.getFactionMan().areEnemies(oShip, owner)) {
+            if (!game.getFactionMan().areEnemies(ship, owner)) {
                 continue;
             }
-            Vector2 oPos = o.getPosition();
+            Vector2 oPos = ship.getPosition();
             float dst = oPos.dst(ownerPos);
             float perc = KnockBack.getPerc(dst, MAX_RADIUS);
             if (perc <= 0) {
                 continue;
             }
             float duration = perc * config.duration;
-            oShip.disableControls(duration, game);
+            ship.disableControls(duration, game);
         }
         DSParticleEmitter src = new DSParticleEmitter(config.cc.effect, MAX_RADIUS, DrawableLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
         game.getPartMan().finish(game, src, ownerPos);

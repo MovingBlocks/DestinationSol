@@ -285,10 +285,6 @@ public class ObjectManager {
         drawer.drawCircle(drawer.debugWhiteTexture, cam.getPosition(), myFarEndDist, SolColor.WHITE, lineWidth, vh);
     }
 
-    public List<SolObject> getObjects() {
-        return getObjects(SolObject.class);
-    }
-
     public <T extends SolObject> List<T> getObjects(Class<T> clazz) {
         if (!myObjs.containsKey(clazz)) {
             myObjs.put(clazz, new ArrayList<>());

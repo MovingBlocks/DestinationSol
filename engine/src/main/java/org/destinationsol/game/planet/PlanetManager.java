@@ -108,7 +108,7 @@ public class PlanetManager {
         Vector2 sysPos = nearestSys.getPosition();
         float npGravConst = nearestPlanet.getGravitationConstant();
 
-        List<SolObject> objs = game.getObjectManager().getObjects();
+        List<SolObject> objs = game.getObjectManager().getObjects(SolObject.class);
         for (SolObject obj : objs) {
             if (!obj.receivesGravity()) {
                 continue;

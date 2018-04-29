@@ -27,6 +27,8 @@ import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.particle.DSParticleEmitter;
 
+import java.util.List;
+
 public class KnockBack implements ShipAbility {
     private static final int MAX_RADIUS = 8;
     private final Config config;
@@ -67,7 +69,8 @@ public class KnockBack implements ShipAbility {
             return false;
         }
         Vector2 ownerPos = owner.getPosition();
-        for (SolObject o : game.getObjectManager().getObjects()) {
+        final List<SolObject> objects = game.getObjectManager().getObjects(SolObject.class);
+        for (SolObject o : objects) {
             if (o == owner || !o.receivesGravity()) {
                 continue;
             }
