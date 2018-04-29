@@ -26,6 +26,7 @@ import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.item.Loot;
 import org.destinationsol.game.item.MoneyItem;
 import org.destinationsol.game.item.SolItem;
@@ -53,6 +54,7 @@ public class Asteroid implements SolObject {
     private final DSParticleEmitter smokeSource;
     private final DSParticleEmitter fireSource;
     private final float mass;
+    private final float radius;
 
     private float angle;
     private float life;
@@ -74,6 +76,7 @@ public class Asteroid implements SolObject {
         fireSource = effects.get(1);
         this.drawables.addAll(smokeSource.getDrawables());
         this.drawables.addAll(fireSource.getDrawables());
+        radius = DrawableManager.radiusFromDrawables(getDrawables());
     }
 
     @Override
@@ -126,6 +129,11 @@ public class Asteroid implements SolObject {
     @Override
     public boolean hasBody() {
         return true;
+    }
+
+    @Override
+    public float getRadius() {
+        return radius;
     }
 
     @Override

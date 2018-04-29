@@ -31,6 +31,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.drawables.RectSprite;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class MazeTileObject implements SolObject {
     private final float angle;
     private final MazeTile tile;
     private final boolean isFlipped;
+    private final float radius;
 
     public MazeTileObject(MazeTile tile, List<Drawable> drawables, Body body, Vector2 position, float angle, boolean flipped) {
         this.tile = tile;
@@ -51,6 +53,7 @@ public class MazeTileObject implements SolObject {
         this.position = position;
         this.angle = angle;
         isFlipped = flipped;
+        radius = DrawableManager.radiusFromDrawables(getDrawables());
     }
 
     @Override
@@ -126,6 +129,11 @@ public class MazeTileObject implements SolObject {
     @Override
     public boolean hasBody() {
         return true;
+    }
+
+    @Override
+    public float getRadius() {
+        return radius;
     }
 
     public static class MyFar implements FarObject {

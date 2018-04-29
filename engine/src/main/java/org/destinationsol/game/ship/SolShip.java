@@ -28,6 +28,7 @@ import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
@@ -79,6 +80,7 @@ public class SolShip implements SolObject {
     private float myAbilityAwait;
     private float myControlEnableAwait;
     private MercItem mercItem;
+    private final float radius;
 
     public SolShip(SolGame game, Pilot pilot, Hull hull, RemoveController removeController, List<Drawable> drawables,
                    ItemContainer container, ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
@@ -106,6 +108,7 @@ public class SolShip implements SolObject {
         if (myAbility != null) {
             myAbilityAwait = myAbility.getConfig().getRechargeTime();
         }
+        radius = DrawableManager.radiusFromDrawables(getDrawables());
     }
 
     @Override
@@ -158,6 +161,11 @@ public class SolShip implements SolObject {
         return true;
     }
 
+    @Override
+    public float getRadius() {
+        return radius;
+    }
+
     private boolean tryCollectLoot(SolObject obj, SolGame game) {
         if (!(obj instanceof Loot)) {
             return false;
@@ -182,7 +190,7 @@ public class SolShip implements SolObject {
         boolean canAdd = c.canAdd(i);
         if (canAdd) {
             c.add(i);
-            if (c == myItemContainer && myPilot.getMapHint() == "Merc") {
+            if (c == myItemContainer && myPilot.getMapHint().equals("Merc")) {
                 //insert equip code here, if it's something we want to do
             }
         }

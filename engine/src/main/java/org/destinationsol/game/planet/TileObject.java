@@ -23,6 +23,7 @@ import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.drawables.RectSprite;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class TileObject implements SolObject {
     // }
 
     private float angle;
+    private final float radius;
 
     TileObject(Planet planet, float relativeAngleToPlanet, float distance, float size, RectSprite sprite, Body body, Tile tile) {
         this.tile = tile;
@@ -57,6 +59,7 @@ public class TileObject implements SolObject {
 
         drawables.add(sprite);
         setDependentParams();
+        radius = DrawableManager.radiusFromDrawables(getDrawables());
     }
 
     @Override
@@ -151,6 +154,11 @@ public class TileObject implements SolObject {
     @Override
     public boolean hasBody() {
         return true;
+    }
+
+    @Override
+    public float getRadius() {
+        return radius;
     }
 
     public Planet getPlanet() {

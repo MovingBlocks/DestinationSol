@@ -23,6 +23,7 @@ import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableManager;
 
 import java.util.List;
 
@@ -31,25 +32,27 @@ public class PlanetSprites implements SolObject {
     private final Planet planet;
     private final float distance;
     private final List<Drawable> drawables;
-    private final float RotationSpeedToPlanet;
+    private final float rotationSpeedToPlanet;
     private final Vector2 position;
     private float relativeAngleToPlanet;
     private float angle;
+    private final float radius;
 
     PlanetSprites(Planet planet, float relAngleToPlanet, float dist, List<Drawable> drawables, float toPlanetRotationSpeed) {
         this.planet = planet;
         relativeAngleToPlanet = relAngleToPlanet;
         distance = dist;
         this.drawables = drawables;
-        RotationSpeedToPlanet = toPlanetRotationSpeed;
+        rotationSpeedToPlanet = toPlanetRotationSpeed;
         position = new Vector2();
         setDependentParams();
+        radius = DrawableManager.radiusFromDrawables(getDrawables());
     }
 
     @Override
     public void update(SolGame game) {
         setDependentParams();
-        relativeAngleToPlanet += RotationSpeedToPlanet * game.getTimeStep();
+        relativeAngleToPlanet += rotationSpeedToPlanet * game.getTimeStep();
     }
 
     private void setDependentParams() {
@@ -88,7 +91,7 @@ public class PlanetSprites implements SolObject {
 
     @Override
     public FarObject toFarObject() {
-        return new FarPlanetSprites(planet, relativeAngleToPlanet, distance, drawables, RotationSpeedToPlanet);
+        return new FarPlanetSprites(planet, relativeAngleToPlanet, distance, drawables, rotationSpeedToPlanet);
     }
 
     @Override
@@ -124,6 +127,11 @@ public class PlanetSprites implements SolObject {
     @Override
     public boolean hasBody() {
         return false;
+    }
+
+    @Override
+    public float getRadius() {
+        return radius;
     }
 
 }

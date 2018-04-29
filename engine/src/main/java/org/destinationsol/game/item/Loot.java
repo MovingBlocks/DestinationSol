@@ -24,6 +24,7 @@ import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.ship.SolShip;
 
@@ -49,6 +50,7 @@ public class Loot implements SolObject {
     private float ownerAwait;
     private int life;
     private float angle;
+    private final float radius;
 
     Loot(SolItem item, Body body, int life, List<Drawable> drawables, LightSource ls, SolShip owner) {
         this.body = body;
@@ -61,6 +63,7 @@ public class Loot implements SolObject {
         position = new Vector2();
         mass = this.body.getMass();
         setParamsFromBody();
+        radius = DrawableManager.radiusFromDrawables(getDrawables());
     }
 
     @Override
@@ -174,6 +177,11 @@ public class Loot implements SolObject {
     @Override
     public boolean hasBody() {
         return true;
+    }
+
+    @Override
+    public float getRadius() {
+        return radius;
     }
 
     public void maybePulled(SolShip ship, Vector2 pullerPos, float radius) {

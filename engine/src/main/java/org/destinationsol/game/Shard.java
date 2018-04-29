@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class Shard implements SolObject {
     private final float mass;
 
     private float angle;
+    private final float radius;
 
     Shard(Body body, ArrayList<Drawable> drawables) {
         this.drawables = drawables;
@@ -38,6 +40,7 @@ public class Shard implements SolObject {
         position = new Vector2();
         mass = this.body.getMass();
         setParamsFromBody();
+        radius = DrawableManager.radiusFromDrawables(getDrawables());
     }
 
     @Override
@@ -78,6 +81,11 @@ public class Shard implements SolObject {
     @Override
     public boolean hasBody() {
         return true;
+    }
+
+    @Override
+    public float getRadius() {
+        return radius;
     }
 
     @Override

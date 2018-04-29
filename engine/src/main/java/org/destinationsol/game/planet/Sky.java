@@ -28,6 +28,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
+import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.drawables.RectSprite;
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class Sky implements SolObject {
     private final ArrayList<Drawable> drawables;
     private final ColorSpan skySpan;
     private final Vector2 position;
+    private final float radius;
 
     public Sky(SolGame game, Planet planet) {
         this.planet = planet;
@@ -54,6 +56,7 @@ public class Sky implements SolObject {
         skySpan = ColorSpan.rgb(config.dawn, config.day);
         position = new Vector2();
         updatePos(game);
+        radius = DrawableManager.radiusFromDrawables(getDrawables());
     }
 
     private void updatePos(SolGame game) {
@@ -174,5 +177,10 @@ public class Sky implements SolObject {
     @Override
     public boolean hasBody() {
         return false;
+    }
+
+    @Override
+    public float getRadius() {
+        return radius;
     }
 }

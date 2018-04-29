@@ -22,6 +22,7 @@ import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,15 +32,17 @@ public class LightObject implements SolObject {
     private final LightSource lightSource;
     private final ArrayList<Drawable> drawables;
     private final Vector2 position;
+    private final float radius;
 
     // consumes pos
-    LightObject(SolGame game, float size, boolean hasHalo, float intensity, Vector2 position, float fadeTime, Color col) {
+    LightObject(float size, boolean hasHalo, float intensity, Vector2 position, float fadeTime, Color col) {
         this.position = position;
         lightSource = new LightSource(size, hasHalo, intensity, new Vector2(), col);
         lightSource.setFadeTime(fadeTime);
         lightSource.setWorking();
         drawables = new ArrayList<>();
         lightSource.collectDras(drawables);
+        radius = DrawableManager.radiusFromDrawables(getDrawables());
     }
 
     @Override
@@ -112,5 +115,10 @@ public class LightObject implements SolObject {
     @Override
     public boolean hasBody() {
         return false;
+    }
+
+    @Override
+    public float getRadius() {
+        return radius;
     }
 }

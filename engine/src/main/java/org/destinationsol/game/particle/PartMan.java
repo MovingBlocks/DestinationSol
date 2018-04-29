@@ -56,7 +56,7 @@ public class PartMan {
             lightPos.add(position);
             float lightSz = SolRandom.randomFloat(.5f, 1) * EXPL_LIGHT_MAX_SZ;
             float fadeTime = SolRandom.randomFloat(.5f, 1) * EXPL_LIGHT_MAX_FADE_TIME;
-            LightObject light = new LightObject(game, lightSz, true, 1, lightPos, fadeTime, game.getCols().fire);
+            LightObject light = new LightObject(lightSz, true, 1, lightPos, fadeTime, game.getCols().fire);
             game.getObjectManager().addObjDelayed(light);
         }
     }

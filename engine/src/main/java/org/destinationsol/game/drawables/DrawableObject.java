@@ -36,6 +36,7 @@ public class DrawableObject implements SolObject {
     private final Vector2 moveDifference;
     private final List<Drawable> drawables;
     private final boolean isTemporary;
+    private final float radius;
 
     private float maxFadeTime;
     private float fadeTime;
@@ -48,6 +49,7 @@ public class DrawableObject implements SolObject {
         this.hideOnPlanet = hideOnPlanet;
         moveDifference = new Vector2();
         isTemporary = temporary;
+        radius = DrawableManager.radiusFromDrawables(getDrawables());
 
         maxFadeTime = -1;
         fadeTime = -1;
@@ -171,6 +173,11 @@ public class DrawableObject implements SolObject {
     @Override
     public boolean hasBody() {
         return false;
+    }
+
+    @Override
+    public float getRadius() {
+        return radius;
     }
 
     public void fade(float fadeTime) {

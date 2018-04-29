@@ -23,7 +23,6 @@ import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.drawables.Drawable;
-import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.drawables.FarDrawable;
 import org.destinationsol.game.ship.FarShip;
 
@@ -44,11 +43,9 @@ public class ObjectManager {
     private final List<StarPort.FarStarPort> myFarPorts;
     private final World myWorld;
     private final Box2DDebugRenderer myDr;
-    private final Map<SolObject, Float> myRadii;
 
     private float myFarEndDist;
     private float myFarBeginDist;
-    private float myRadiusRecalcAwait;
 
     public ObjectManager(SolContactListener contactListener, FactionManager factionManager) {
         myObjs = new HashMap<>();
@@ -62,7 +59,6 @@ public class ObjectManager {
         myWorld.setContactListener(contactListener);
         myWorld.setContactFilter(new SolContactFilter(factionManager));
         myDr = new Box2DDebugRenderer();
-        myRadii = new HashMap<>();
     }
 
     public boolean containsFarObj(FarObject fo) {
@@ -85,13 +81,6 @@ public class ObjectManager {
         myFarEndDist = 1.5f * cam.getViewDistance();
         myFarBeginDist = 1.33f * myFarEndDist;
 
-        boolean recalcRad = false;
-        if (myRadiusRecalcAwait > 0) {
-            myRadiusRecalcAwait -= ts;
-        } else {
-            myRadiusRecalcAwait = MAX_RADIUS_RECALC_AWAIT;
-            recalcRad = true;
-        }
 
         for (SolObject o : myObjs.get(SolObject.class)) {
             o.update(game);
@@ -116,11 +105,7 @@ public class ObjectManager {
                         addFarObjNow(fo);
                     }
                     removeObjDelayed(o);
-                    continue;
                 }
-            }
-            if (recalcRad) {
-                recalcRadius(o);
             }
         }
 
@@ -157,24 +142,6 @@ public class ObjectManager {
         }
     }
 
-    private void recalcRadius(SolObject o) {
-        float rad = DrawableManager.radiusFromDrawables(o.getDrawables());
-        myRadii.put(o, rad);
-    }
-
-    public float getPresenceRadius(SolObject o) {
-        Float res = getRadius(o);
-        return res + Const.MAX_MOVE_SPD * (MAX_RADIUS_RECALC_AWAIT - myRadiusRecalcAwait);
-    }
-
-    public Float getRadius(SolObject o) {
-        Float res = myRadii.get(o);
-        if (res == null) {
-            throw new AssertionError("no radius for " + o);
-        }
-        return res;
-    }
-
     private void addRemove(SolGame game) {
         for (SolObject o : myToRemove) {
             removeObjNow(game, o);
@@ -190,7 +157,6 @@ public class ObjectManager {
     private void removeObjNow(SolGame game, SolObject o) {
         myObjs.get(SolObject.class).remove(o);
         myObjs.get(o.getClass()).remove(o);
-        myRadii.remove(o);
         o.onRemove(game);
         game.getDrawableManager().removeObject(o);
     }
@@ -204,7 +170,6 @@ public class ObjectManager {
             myObjs.put(o.getClass(), new ArrayList<>());
         }
         myObjs.get(o.getClass()).add(o);
-        recalcRadius(o);
         game.getDrawableManager().addObject(o);
     }
 
@@ -224,7 +189,7 @@ public class ObjectManager {
     }
 
     private boolean isFar(SolObject o, Vector2 camPos) {
-        float r = getPresenceRadius(o);
+        float r = o.getRadius();
         List<Drawable> drawables = o.getDrawables();
         if (drawables != null && drawables.size() > 0) {
             r *= drawables.get(0).getLevel().depth;
@@ -273,7 +238,7 @@ public class ObjectManager {
         float vh = cam.getViewHeight();
         for (SolObject o : myObjs.get(SolObject.class)) {
             Vector2 position = o.getPosition();
-            float r = getRadius(o);
+            float r = o.getRadius();
             drawer.drawCircle(drawer.debugWhiteTexture, position, r, DebugCol.OBJ, lineWidth, vh);
             drawer.drawLine(drawer.debugWhiteTexture, position.x, position.y, o.getAngle(), r, DebugCol.OBJ, lineWidth);
         }

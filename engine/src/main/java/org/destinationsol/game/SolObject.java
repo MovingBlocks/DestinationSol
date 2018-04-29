@@ -53,4 +53,6 @@ public interface SolObject {
     Boolean isMetal();
 
     boolean hasBody();
+
+    float getRadius();
 }

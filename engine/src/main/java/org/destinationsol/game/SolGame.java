@@ -458,7 +458,7 @@ public class SolGame {
                 continue;
             }
 
-            if (position.dst(o.getPosition()) < objectManager.getRadius(o)) {
+            if (position.dst(o.getPosition()) < o.getRadius()) {
                 return false;
             }
         }
