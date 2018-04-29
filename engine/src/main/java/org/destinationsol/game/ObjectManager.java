@@ -188,6 +188,7 @@ public class ObjectManager {
 
     private void removeObjNow(SolGame game, SolObject o) {
         myObjs.get(SolObject.class).remove(o);
+        myObjs.get(o.getClass()).remove(o);
         myRadii.remove(o);
         o.onRemove(game);
         game.getDrawableManager().removeObject(o);
@@ -198,6 +199,10 @@ public class ObjectManager {
             throw new AssertionError();
         }
         myObjs.get(SolObject.class).add(o);
+        if (!myObjs.containsKey(o.getClass())) {
+            myObjs.put(o.getClass(), new ArrayList<>());
+        }
+        myObjs.get(o.getClass()).add(o);
         recalcRadius(o);
         game.getDrawableManager().addObject(o);
     }
@@ -280,7 +285,11 @@ public class ObjectManager {
     }
 
     public List<SolObject> getObjects() {
-        return myObjs.get(SolObject.class);
+        return getObjects(SolObject.class);
+    }
+
+    public List<SolObject> getObjects(Class<? extends SolObject> clazz) {
+        return myObjs.get(clazz);
     }
 
     public void addObjDelayed(SolObject p) {
