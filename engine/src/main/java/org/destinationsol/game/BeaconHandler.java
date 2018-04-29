@@ -119,7 +119,7 @@ public class BeaconHandler {
             return;
         }
         ObjectManager om = game.getObjectManager();
-        List<SolObject> objs = om.getObjects();
+        List<SolShip> objs = om.getObjects(SolShip.class);
         List<FarShip> farShips = om.getFarShips();
         if (target != null) {
             if (objs.contains(target)) {
@@ -143,22 +143,19 @@ public class BeaconHandler {
             return;
         }
         farTarget = null;
-        for (SolObject o : objs) {
-            if ((o instanceof SolShip)) {
-                SolShip ship = (SolShip) o;
-                if (ship.getPilot() != targetPilot) {
-                    continue;
-                }
-                target = ship;
-                return;
+        for (SolShip ship : objs) {
+            if (ship.getPilot() != targetPilot) {
+                continue;
             }
+            target = ship;
+            return;
         }
         applyAction(Action.MOVE);
     }
 
     private void updateD(SolGame game) {
         ObjectManager om = game.getObjectManager();
-        List<SolObject> objs = om.getObjects();
+        List<DrawableObject> objs = om.getObjects(DrawableObject.class);
         List<FarObjData> farObjs = om.getFarObjs();
 
         if (drawable != null) {
@@ -191,8 +188,7 @@ public class BeaconHandler {
             return;
         }
         farDrawable = null;
-        for (SolObject o : objs) {
-            if ((o instanceof DrawableObject)) {
+        for (DrawableObject o : objs) {
                 List<Drawable> drawables = o.getDrawables();
                 if (drawables.size() != 3) {
                     continue;
@@ -201,9 +197,9 @@ public class BeaconHandler {
                 if (drawable != attackSprite) {
                     continue;
                 }
-                this.drawable = (DrawableObject) o;
+                this.drawable = o;
                 return;
-            }
+
         }
         throw new AssertionError();
     }
@@ -257,21 +253,20 @@ public class BeaconHandler {
         ObjectManager objectManager = game.getObjectManager();
         Hero hero = game.getHero();
         float iconRad = onMap ? game.getMapDrawer().getIconRadius(game.getCam()) : 0;
-        for (SolObject o : objectManager.getObjects()) {
-            if (o == hero.getShipUnchecked() || !(o instanceof SolShip)) {
+        for (SolShip ship : objectManager.getObjects(SolShip.class)) {
+            if (ship == hero.getShipUnchecked()) {
                 continue;
             }
-            SolShip s = (SolShip) o;
-            Pilot pilot = s.getPilot();
+            Pilot pilot = ship.getPilot();
             if (onMap && pilot.getMapHint() == null) {
                 continue;
             }
-            float dst = o.getPosition().dst(position);
-            float rad = iconRad == 0 ? s.getHull().config.getSize() : iconRad;
+            float dst = ship.getPosition().dst(position);
+            float rad = iconRad == 0 ? ship.getHull().config.getSize() : iconRad;
             if (dst < rad) {
                 if (clicked) {
                     targetPilot = pilot;
-                    target = s;
+                    target = ship;
                 }
                 return pilot;
             }
