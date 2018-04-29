@@ -31,10 +31,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class ObjectManager {
     private static final float MAX_RADIUS_RECALC_AWAIT = 1f;
-    private final List<SolObject> myObjs;
+    private final Map<Class, List<SolObject>> myObjs;
     private final List<SolObject> myToRemove;
     private final List<SolObject> myToAdd;
     private final List<FarObjData> myFarObjs;
@@ -42,14 +43,15 @@ public class ObjectManager {
     private final List<StarPort.FarStarPort> myFarPorts;
     private final World myWorld;
     private final Box2DDebugRenderer myDr;
-    private final HashMap<SolObject, Float> myRadii;
+    private final Map<SolObject, Float> myRadii;
 
     private float myFarEndDist;
     private float myFarBeginDist;
     private float myRadiusRecalcAwait;
 
     public ObjectManager(SolContactListener contactListener, FactionManager factionManager) {
-        myObjs = new ArrayList<>();
+        myObjs = new HashMap<>();
+        myObjs.put(SolObject.class, new ArrayList<>());
         myToRemove = new ArrayList<>();
         myToAdd = new ArrayList<>();
         myFarObjs = new ArrayList<>();
@@ -90,7 +92,7 @@ public class ObjectManager {
             recalcRad = true;
         }
 
-        for (SolObject o : myObjs) {
+        for (SolObject o : myObjs.get(SolObject.class)) {
             o.update(game);
             SolMath.checkVectorsTaken(o);
             List<Drawable> drawables = o.getDrawables();
@@ -185,17 +187,17 @@ public class ObjectManager {
     }
 
     private void removeObjNow(SolGame game, SolObject o) {
-        myObjs.remove(o);
+        myObjs.get(SolObject.class).remove(o);
         myRadii.remove(o);
         o.onRemove(game);
         game.getDrawableManager().removeObject(o);
     }
 
     public void addObjNow(SolGame game, SolObject o) {
-        if (DebugOptions.ASSERTIONS && myObjs.contains(o)) {
+        if (DebugOptions.ASSERTIONS && myObjs.get(SolObject.class).contains(o)) {
             throw new AssertionError();
         }
-        myObjs.add(o);
+        myObjs.get(SolObject.class).add(o);
         recalcRadius(o);
         game.getDrawableManager().addObject(o);
     }
@@ -242,7 +244,7 @@ public class ObjectManager {
 
     private void drawDebugStrings(GameDrawer drawer, SolGame game) {
         float fontSize = game.getCam().getDebugFontSize();
-        for (SolObject o : myObjs) {
+        for (SolObject o : myObjs.get(SolObject.class)) {
             Vector2 position = o.getPosition();
             String ds = o.toDebugString();
             if (ds != null) {
@@ -263,7 +265,7 @@ public class ObjectManager {
         SolCam cam = game.getCam();
         float lineWidth = cam.getRealLineWidth();
         float vh = cam.getViewHeight();
-        for (SolObject o : myObjs) {
+        for (SolObject o : myObjs.get(SolObject.class)) {
             Vector2 position = o.getPosition();
             float r = getRadius(o);
             drawer.drawCircle(drawer.debugWhiteTexture, position, r, DebugCol.OBJ, lineWidth, vh);
@@ -278,7 +280,7 @@ public class ObjectManager {
     }
 
     public List<SolObject> getObjects() {
-        return myObjs;
+        return myObjs.get(SolObject.class);
     }
 
     public void addObjDelayed(SolObject p) {
