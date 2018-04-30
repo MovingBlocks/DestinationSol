@@ -132,16 +132,13 @@ public class GalaxyFiller {
     	}
     }
 
-    public void fill(SolGame game, HullConfigManager hullConfigManager, ItemManager itemManager) {
+    public void fill(SolGame game, HullConfigManager hullConfigManager, ItemManager itemManager, String moduleName) {
         if (DebugOptions.NO_OBJS) {
             return;
         }
         createStarPorts(game);
         ArrayList<SolSystem> systems = game.getPlanetManager().getSystems();
-        
-        String shipName = game.getShipName();
-        String moduleName = shipName.split(":")[0];
-        
+
         Json json = Assets.getJson(moduleName + ":startingStation");
         JsonValue rootNode = getRootNode(json);
 
