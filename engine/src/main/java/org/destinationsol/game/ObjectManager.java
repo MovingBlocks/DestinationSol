@@ -29,13 +29,15 @@ import org.destinationsol.game.ship.FarShip;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ObjectManager {
-    private static final float MAX_RADIUS_RECALC_AWAIT = 1f;
     private final Map<Class, List<SolObject>> myObjs;
+    private final Map<Class, List<Class>> inheritanceLists;
     private final List<SolObject> myToRemove;
     private final List<SolObject> myToAdd;
     private final List<FarObjData> myFarObjs;
@@ -50,6 +52,7 @@ public class ObjectManager {
     public ObjectManager(SolContactListener contactListener, FactionManager factionManager) {
         myObjs = new HashMap<>();
         myObjs.put(SolObject.class, new ArrayList<>());
+        inheritanceLists = new HashMap<>();
         myToRemove = new ArrayList<>();
         myToAdd = new ArrayList<>();
         myFarObjs = new ArrayList<>();
@@ -155,8 +158,9 @@ public class ObjectManager {
     }
 
     private void removeObjNow(SolGame game, SolObject o) {
-        myObjs.get(SolObject.class).remove(o);
-        myObjs.get(o.getClass()).remove(o);
+        for (Class clazz : inheritanceLists.get(o.getClass())) {
+            myObjs.get(clazz).remove(o);
+        }
         o.onRemove(game);
         game.getDrawableManager().removeObject(o);
     }
@@ -165,12 +169,51 @@ public class ObjectManager {
         if (DebugOptions.ASSERTIONS && myObjs.get(SolObject.class).contains(o)) {
             throw new AssertionError();
         }
-        myObjs.get(SolObject.class).add(o);
-        if (!myObjs.containsKey(o.getClass())) {
-            myObjs.put(o.getClass(), new ArrayList<>());
+        if (!inheritanceLists.containsKey(o.getClass())) {
+            getInheritanceListFor(o);
         }
-        myObjs.get(o.getClass()).add(o);
+        for (Class clazz : inheritanceLists.get(o.getClass())) {
+            if (!myObjs.containsKey(clazz)) {
+                myObjs.put(clazz, new ArrayList<>());
+            }
+            myObjs.get(clazz).add(o);
+        }
         game.getDrawableManager().addObject(o);
+    }
+
+    private void getInheritanceListFor(SolObject o) {
+        final ArrayList<Class> targetList = new ArrayList<>();
+        inheritanceLists.put(o.getClass(), targetList);
+        final LinkedList<Class> toScanList = new LinkedList<>();
+        targetList.add(o.getClass());
+        for (Class clazz : o.getClass().getInterfaces()) {
+            if (SolObject.class.isAssignableFrom(clazz) && !toScanList.contains(clazz)) {
+                toScanList.add(clazz);
+                targetList.add(clazz);
+            }
+        }
+        final Class<?> superclass = o.getClass().getSuperclass();
+        if (SolObject.class.isAssignableFrom(superclass) && !toScanList.contains(superclass)) {
+            toScanList.add(superclass);
+            targetList.add(superclass);
+        }
+        while (!toScanList.isEmpty()) {
+            Stream stream = toScanList.stream();
+            toScanList.clear();
+            stream.forEach(clazz -> {
+                for (Class clzz : clazz.getClass().getInterfaces()) {
+                    if (SolObject.class.isAssignableFrom(clzz) && !toScanList.contains(clzz) && !targetList.contains(clzz)) {
+                        toScanList.add(clzz);
+                        targetList.add(clzz);
+                    }
+                }
+                final Class<?> superclss = clazz.getClass().getSuperclass();
+                if (SolObject.class.isAssignableFrom(superclss) && !toScanList.contains(superclss)) {
+                    toScanList.add(superclss);
+                    targetList.add(superclss);
+                }
+            });
+        }
     }
 
     private boolean isNear(FarObjData fod, Vector2 camPos, float ts) {
