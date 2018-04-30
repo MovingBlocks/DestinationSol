@@ -15,9 +15,8 @@
  */
 package org.destinationsol.game;
 
-import java.util.ArrayList;
-import java.util.Set;
-
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.HullConfigManager;
@@ -26,8 +25,8 @@ import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.terasology.assets.ResourceUrn;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
+import java.util.ArrayList;
+import java.util.Set;
 
 public class ShipConfig {
     public final HullConfig hull;
@@ -92,7 +91,6 @@ public class ShipConfig {
             for (JsonValue node : rootNode) {
                 if (node.name.equals(shipName)) {
                     shipConfig = load(hullConfigs, node, itemManager);
-                    game.setShipName(node.getString("hull"));
                     break;
                 }
             }
