@@ -29,8 +29,8 @@ import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
-import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.particle.DSParticleEmitter;
+import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.planet.PlanetBind;
 import org.destinationsol.game.ship.Door;
 import org.destinationsol.game.ship.ForceBeacon;
@@ -42,6 +42,7 @@ import java.util.List;
 
 public class Hull {
 
+    public float life;
     public final HullConfig config;
     private final Body body;
     private final GunMount gunMount1;
@@ -55,7 +56,6 @@ public class Hull {
     private final float mass;
     private final ArrayList<Door> doors;
     private final Fixture shieldFixture;
-    public float life;
     private float angle;
     private float rotationSpeed;
     private ShipEngine engine;

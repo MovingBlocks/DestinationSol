@@ -148,7 +148,7 @@ public class SolApplication implements ApplicationListener {
     private void update() {
         DebugCollector.update();
 
-        if (DebugOptions.SHOW_FPS) {
+        if (DebugOptions.showFps) {
             DebugCollector.debug("Fps", Gdx.graphics.getFramesPerSecond());
         }
 
@@ -239,7 +239,7 @@ public class SolApplication implements ApplicationListener {
     }
 
     public boolean isMobile() {
-        return DebugOptions.EMULATE_MOBILE || isMobile;
+        return DebugOptions.emulateMobile || isMobile;
     }
 
     public GameOptions getOptions() {

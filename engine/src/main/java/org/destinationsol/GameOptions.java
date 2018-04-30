@@ -109,7 +109,7 @@ public class GameOptions {
     private int controllerButtonDown;
 
     private SortedSet<String> supportedResolutions = new TreeSet<>();
-    private Iterator<String> resolutionIterator = null;
+    private Iterator<String> resolutionIterator;
 
     public GameOptions(boolean mobile, SolFileReader solFileReader) {
         IniReader reader = new IniReader(FILE_NAME, solFileReader);
@@ -160,7 +160,7 @@ public class GameOptions {
     public void advanceResolution() {
         if (resolutionIterator == null) {
             // Initialize resolution choices - get the resolutions that are supported
-            Graphics.DisplayMode displayModes[] = Gdx.graphics.getDisplayModes();
+            Graphics.DisplayMode[] displayModes = Gdx.graphics.getDisplayModes();
 
             for (Graphics.DisplayMode displayMode : displayModes) {
                 supportedResolutions.add(displayMode.width + "x" + displayMode.height);

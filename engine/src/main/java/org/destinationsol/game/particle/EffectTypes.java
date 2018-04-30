@@ -16,15 +16,16 @@
 package org.destinationsol.game.particle;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class EffectTypes {
-    private final HashMap<String, EffectType> myTypes;
+    private final Map<String, EffectType> myTypes;
 
     public EffectTypes() {
         myTypes = new HashMap<>();
     }
 
-    public EffectType forName(String effectName) {
-        return myTypes.computeIfAbsent(effectName, effect -> new EffectType(effect));
+    EffectType forName(String effectName) {
+        return myTypes.computeIfAbsent(effectName, EffectType::new);
     }
 }

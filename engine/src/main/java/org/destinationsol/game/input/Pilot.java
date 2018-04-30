@@ -22,6 +22,7 @@ import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 
 public interface Pilot {
+
     void update(SolGame game, SolShip ship, SolShip nearestEnemy);
 
     boolean isUp();
@@ -52,7 +53,10 @@ public interface Pilot {
 
     boolean isPlayer();
 
-    public static final class Utils {
+    final class Utils {
+
+        private Utils() { }
+
         public static boolean isIdle(Pilot p) {
             return !(p.isUp() || p.isShoot() || p.isShoot2() || p.isAbility());
         }

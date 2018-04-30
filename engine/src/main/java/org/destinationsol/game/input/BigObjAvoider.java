@@ -21,7 +21,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.planet.Planet;
 
-public class BigObjAvoider {
+class BigObjAvoider {
 
     private static final float MAX_DIST_LEN = 2 * (Const.MAX_GROUND_HEIGHT + Const.ATM_HEIGHT);
     private Vector2 myProj; // TODO replace name with something logical, if you can find out what
@@ -30,7 +30,7 @@ public class BigObjAvoider {
         myProj = new Vector2();
     }
 
-    public float avoid(SolGame game, Vector2 from, Vector2 destination, float angleToDestination) {
+    float avoid(SolGame game, Vector2 from, Vector2 destination, float angleToDestination) {
         float distanceToDestination = from.dst(destination);
         if (distanceToDestination > MAX_DIST_LEN) {
             distanceToDestination = MAX_DIST_LEN;

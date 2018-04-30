@@ -36,9 +36,11 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 import java.util.Iterator;
 import java.util.List;
 
-public class HardnessCalc {
+public final class HardnessCalc {
 
-    public static final float SHIELD_MUL = 1.2f;
+    private static final float SHIELD_MUL = 1.2f;
+
+    private HardnessCalc() { }
 
     public static float getGunMeanDps(Gun.Config gc) {
         Clip.Config cc = gc.clipConf;

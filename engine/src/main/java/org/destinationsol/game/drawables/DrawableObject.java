@@ -40,7 +40,8 @@ public class DrawableObject implements SolObject {
     private float maxFadeTime;
     private float fadeTime;
 
-    public DrawableObject(List<Drawable> drawables, @Consumed Vector2 position, @Consumed Vector2 speed, RemoveController removeController, boolean temporary, boolean hideOnPlanet) {
+    public DrawableObject(List<Drawable> drawables, @Consumed Vector2 position, @Consumed Vector2 speed, RemoveController removeController,
+                          boolean temporary, boolean hideOnPlanet) {
         this.drawables = drawables;
         this.position = position;
         this.speed = speed;

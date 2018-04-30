@@ -37,8 +37,8 @@ public class ChunkManager {
     private final RemoveController backgroundRemoveController;
     private final ChunkFiller filler;
 
-    private int X;
-    private int Y;
+    private int x;
+    private int y;
 
     public ChunkManager() {
         filledChunks = new HashSet<>();
@@ -60,11 +60,11 @@ public class ChunkManager {
     }
 
     private boolean updateCurrChunk(Vector2 position) {
-        int oldX = X;
-        int oldY = Y;
-        X = posToChunkIdx(position.x);
-        Y = posToChunkIdx(position.y);
-        return oldX != X || oldY != Y;
+        int oldX = x;
+        int oldY = y;
+        x = posToChunkIdx(position.x);
+        y = posToChunkIdx(position.y);
+        return oldX != x || oldY != y;
     }
 
     private int posToChunkIdx(float v) {
@@ -79,8 +79,8 @@ public class ChunkManager {
         chunks.removeIf(chunk -> isChunkFar((int) chunk.x, (int) chunk.y, dist));
     }
 
-    private boolean isChunkFar(int x, int y, int dist) {
-        return x <= X - dist || X + dist <= x || y <= Y - dist || Y + dist <= y;
+    private boolean isChunkFar(int otherX, int otherY, int dist) {
+        return otherX <= x - dist || x + dist <= otherX || otherY <= y - dist || y + dist <= otherY;
     }
 
     private void addNewChunks(Set<Vector2> chunks, int dist, SolGame game) {
@@ -96,7 +96,7 @@ public class ChunkManager {
     }
 
     private void maybeAddChunk(Set<Vector2> chunks, int oX, int oY, SolGame game) {
-        Vector2 v = SolMath.getVec(X + oX, Y + oY);
+        Vector2 v = SolMath.getVec(x + oX, y + oY);
         if (!chunks.contains(v)) {
             Vector2 chunk = new Vector2(v);
             chunks.add(chunk);
@@ -106,7 +106,7 @@ public class ChunkManager {
         SolMath.free(v);
     }
 
-    public boolean isInactive(Vector2 position, int dist) {
+    private boolean isInactive(Vector2 position, int dist) {
         int x = posToChunkIdx(position.x);
         int y = posToChunkIdx(position.y);
         return isChunkFar(x, y, dist);
@@ -115,7 +115,7 @@ public class ChunkManager {
     private class MyRemover implements RemoveController {
         private final int myMinRemoveDist;
 
-        public MyRemover(int minRemoveDist) {
+        MyRemover(int minRemoveDist) {
             myMinRemoveDist = minRemoveDist;
         }
 

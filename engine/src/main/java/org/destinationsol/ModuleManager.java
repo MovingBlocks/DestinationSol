@@ -53,7 +53,7 @@ public class ModuleManager {
 
             registry = new TableModuleRegistry();
             Path modulesRoot;
-            if (DebugOptions.DEV_ROOT_PATH != null) {
+            if (DebugOptions.developmentRootPath != null) {
                 modulesRoot = Paths.get(".").resolve("modules");
             } else {
                 modulesRoot = Paths.get(".").resolve("..").resolve("modules");

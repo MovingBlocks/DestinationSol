@@ -39,7 +39,8 @@ public class PlanetCoreSingleton {
         float viewDistance = cam.getViewDistance();
         float minGroundHeight = nearestPlanet.getMinGroundHeight();
         if (distanceToCam < minGroundHeight + viewDistance) {
-            drawer.draw(texture, minGroundHeight * 2, minGroundHeight * 2, minGroundHeight, minGroundHeight, planetPosition.x, planetPosition.y, nearestPlanet.getAngle(), SolColor.WHITE);
+            drawer.draw(texture, minGroundHeight * 2, minGroundHeight * 2, minGroundHeight, minGroundHeight,
+                    planetPosition.x, planetPosition.y, nearestPlanet.getAngle(), SolColor.WHITE);
         }
     }
 }

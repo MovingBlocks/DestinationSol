@@ -35,9 +35,9 @@ import java.util.List;
 public class TalkScreen implements SolUiScreen {
     static final float MAX_TALK_DIST = 1f;
 
-    private final List<SolUiControl> controls = new ArrayList<>();
     public final SolUiControl buyControl;
     public final SolUiControl closeControl;
+    private final List<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl sellControl;
     private final SolUiControl shipsControl;
     private final SolUiControl hireControl;
@@ -98,7 +98,15 @@ public class TalkScreen implements SolUiScreen {
         boolean sellShips = shipsControl.isJustOff();
         boolean hire = hireControl.isJustOff();
         if (sell || buy || sellShips || hire) {
-            inventoryScreen.setOperations(sell ? inventoryScreen.sellItems : buy ? inventoryScreen.buyItems : sellShips ? inventoryScreen.changeShip : inventoryScreen.hireShips);
+            if (sell) {
+                inventoryScreen.setOperations(inventoryScreen.sellItems);
+            } else if (buy) {
+                inventoryScreen.setOperations(inventoryScreen.buyItems);
+            } else if (sellShips) {
+                inventoryScreen.setOperations(inventoryScreen.changeShip);
+            } else {
+                inventoryScreen.setOperations(inventoryScreen.hireShips);
+            }
             inputManager.setScreen(solApplication, game.getScreens().mainScreen);
             inputManager.addScreen(solApplication, inventoryScreen);
         }

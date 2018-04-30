@@ -47,7 +47,7 @@ public class MazeTile {
             points.add(vertices);
         }
         if (points.isEmpty() && wall) {
-            DebugOptions.MISSING_PHYSICS_ACTION.handle("found no paths for " + tex.name);
+            DebugOptions.missingPhysicsAction.handle("found no paths for " + tex.name);
             ArrayList<Vector2> wallPoints = new ArrayList<>();
             wallPoints.add(new Vector2(0, .4f));
             wallPoints.add(new Vector2(1, .45f));

@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PlanetTiles {
+class PlanetTiles {
     private final Map<SurfaceDirection, Map<SurfaceDirection, List<Tile>>> groundTiles;
 
     PlanetTiles(String groundName) {
@@ -40,7 +40,7 @@ public class PlanetTiles {
         CollisionMeshLoader.Model paths = collisionMeshLoader.getInternalModel();
 
         for (SurfaceDirection from : SurfaceDirection.values()) {
-            HashMap<SurfaceDirection, List<Tile>> fromMap = new HashMap<>();
+            Map<SurfaceDirection, List<Tile>> fromMap = new HashMap<>();
             groundTiles.put(from, fromMap);
             for (SurfaceDirection to : SurfaceDirection.values()) {
                 if (from == SurfaceDirection.DOWN && to == SurfaceDirection.DOWN) {
@@ -97,7 +97,7 @@ public class PlanetTiles {
             return result;
         }
 
-        DebugOptions.MISSING_PHYSICS_ACTION.handle("no path found for " + tileName);
+        DebugOptions.missingPhysicsAction.handle("no path found for " + tileName);
 
         result.add(new Vector2(.25f, .75f));
 
@@ -120,12 +120,12 @@ public class PlanetTiles {
         return result;
     }
 
-    public Tile getGround(SurfaceDirection from, SurfaceDirection to) {
+    Tile getGround(SurfaceDirection from, SurfaceDirection to) {
         List<Tile> list = groundTiles.get(from).get(to);
         return SolRandom.randomElement(list);
     }
 
-    public Tile getDungeonEntrance(boolean down, boolean left, boolean right) {
+    Tile getDungeonEntrance(boolean down, boolean left, boolean right) {
         return null;
     }
 }

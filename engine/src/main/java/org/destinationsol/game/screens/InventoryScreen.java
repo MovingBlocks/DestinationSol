@@ -48,21 +48,23 @@ public class InventoryScreen implements SolUiScreen {
 
     public final ShowInventory showInventory;
     public final BuyItems buyItems;
-    public final SellItems sellItems;
-    public final ChangeShip changeShip;
-    public final HireShips hireShips;
-    // The below screens deal with mercenaries
-    public final ChooseMercenary chooseMercenary;
-    public final GiveItems giveItems;
-    public final TakeItems takeItems;
-
-    private final List<SolUiControl> controls = new ArrayList<>();
     public final SolUiControl[] itemControls;
-    private final SolUiControl previousControl;
-    private final SolUiControl upControl;
     public final SolUiControl nextControl;
     public final SolUiControl closeControl;
     public final SolUiControl downControl;
+
+    final SellItems sellItems;
+    final ChangeShip changeShip;
+    final HireShips hireShips;
+    // The below screens deal with mercenaries
+    final ChooseMercenary chooseMercenary;
+    final GiveItems giveItems;
+    final TakeItems takeItems;
+
+    private final List<SolUiControl> controls = new ArrayList<>();
+    private final SolUiControl previousControl;
+    private final SolUiControl upControl;
+
 
     private final Rectangle myArea;
     private final Rectangle myListArea;
@@ -364,11 +366,11 @@ public class InventoryScreen implements SolUiScreen {
         return new Rectangle(myItemCtrlArea.x, myItemCtrlArea.y + (h + SMALL_GAP) * row, myItemCtrlArea.width, h);
     }
 
-    public List<SolItem> getSelected() {
+    List<SolItem> getSelected() {
         return mySelected;
     }
 
-    public void setSelected(List<SolItem> selected) {
+    void setSelected(List<SolItem> selected) {
         mySelected = selected;
     }
 
@@ -380,7 +382,7 @@ public class InventoryScreen implements SolUiScreen {
         return myOperations;
     }
 
-    public void setOperations(InventoryOperations operations) {
+    void setOperations(InventoryOperations operations) {
         myOperations = operations;
     }
 
@@ -389,25 +391,25 @@ public class InventoryScreen implements SolUiScreen {
     }
 
     public List<SolUiControl> getEquippedItemUIControlsForTutorial(SolGame game) {
-        List<SolUiControl> controls = new ArrayList<>();
+        List<SolUiControl> equippedItemControls = new ArrayList<>();
         ItemContainer itemContainer = myOperations.getItems(game);
         if (itemContainer == null) {
-            return controls;
+            return equippedItemControls;
         }
 
-        for (int i = 0; i < itemControls.length; i++) {
+        for (int i = 0; i < this.itemControls.length; i++) {
             int groupIdx = myPage * Const.ITEM_GROUPS_PER_PAGE + i;
             int groupCount = itemContainer.groupCount();
             if (groupCount <= groupIdx) {
                 continue;
             }
-            SolUiControl itemCtrl = itemControls[i];
+            SolUiControl itemCtrl = this.itemControls[i];
             List<SolItem> group = itemContainer.getGroup(groupIdx);
             SolItem item = group.get(0);
             if (myOperations.isUsing(game, item)) {
-                controls.add(itemCtrl);
+                equippedItemControls.add(itemCtrl);
             }
         }
-        return controls;
+        return equippedItemControls;
     }
 }

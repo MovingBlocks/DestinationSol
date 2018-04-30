@@ -70,7 +70,7 @@ public class OggSoundManager {
      */
     private final Map<SolObject, Map<OggSound, Float>> loopedSoundMap;
     /**
-     * Used for drawing debug hints when {@link DebugOptions#SOUND_INFO} flag is set. See
+     * Used for drawing debug hints when {@link DebugOptions#soundInfo} flag is set. See
      * {@link #drawDebug(GameDrawer, SolGame)} for more info.
      */
     private final DebugHintDrawer debugHintDrawer;
@@ -180,7 +180,7 @@ public class OggSoundManager {
             return;
         }
 
-        if (DebugOptions.SOUND_INFO) {
+        if (DebugOptions.soundInfo) {
             debugHintDrawer.add(source, position, sound.toString());
         }
 
@@ -211,7 +211,7 @@ public class OggSoundManager {
             float distanceToAtmosphere = cameraPosition.dst(nearestPlanet.getPosition()) - nearestPlanet.getGroundHeight() - Const.ATM_HEIGHT / 2;
             airPercentage = SolMath.clamp(1 - distanceToAtmosphere / (Const.ATM_HEIGHT / 2));
         }
-        if (DebugOptions.SOUND_IN_SPACE) {
+        if (DebugOptions.soundInSpace) {
             airPercentage = 1;
         }
 
@@ -259,13 +259,13 @@ public class OggSoundManager {
     }
 
     /**
-     * Draws info about recently played sounds in player proximity when {@link DebugOptions#SOUND_INFO} flag is set.
+     * Draws info about recently played sounds in player proximity when {@link DebugOptions#soundInfo} flag is set.
      *
      * @param drawer GameDrawer to use for drawing
      * @param game   Game to draw to.
      */
     public void drawDebug(GameDrawer drawer, SolGame game) {
-        if (DebugOptions.SOUND_INFO) {
+        if (DebugOptions.soundInfo) {
             debugHintDrawer.draw(drawer, game);
         }
     }
@@ -276,7 +276,7 @@ public class OggSoundManager {
      * @param game Game currently in progress.
      */
     public void update(SolGame game) {
-        if (DebugOptions.SOUND_INFO) {
+        if (DebugOptions.soundInfo) {
             debugHintDrawer.update(game);
         }
 

@@ -51,22 +51,22 @@ import java.util.List;
 
 public class MainScreen implements SolUiScreen {
     // TODO: Rename!
+    static final float CELL_SZ = .17f;
+    static final float HELPER_ROW_1 = 1 - 3f * CELL_SZ;
     private static final float ICON_SZ = .03f;
     private static final float BAR_SZ = ICON_SZ * 5;
     private static final int MAX_ICON_COUNT = 3;
-    static final float CELL_SZ = .17f;
     private static final float H_PAD = .005f;
     private static final float V_PAD = H_PAD;
-    static final float HELPER_ROW_1 = 1 - 3f * CELL_SZ;
     private static final float HELPER_ROW_2 = HELPER_ROW_1 - .5f * CELL_SZ;
 
-    private final List<SolUiControl> controls = new ArrayList<>();
     public final ShipUiControl shipControl;
     public final SolUiControl mapControl;
     public final SolUiControl inventoryControl;
     public final SolUiControl talkControl;
-    public final SolUiControl mercControl;
-    public final SolUiControl freeCamControl;
+    private final SolUiControl mercControl;
+    private final SolUiControl freeCamControl;
+    private final List<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl menuControl;
     private final SolUiControl pauseControl;
     private final CameraKeyboardControl cameraControl;
@@ -92,7 +92,7 @@ public class MainScreen implements SolUiScreen {
     private final TextPlace myMoneyExcessTp;
     private final SolApplication solApplication;
 
-    public MainScreen(float resolutionRatio, RightPaneLayout rightPaneLayout, Context context) {
+    MainScreen(float resolutionRatio, RightPaneLayout rightPaneLayout, Context context) {
         solApplication = context.get(SolApplication.class);
         GameOptions gameOptions = solApplication.getOptions();
 
@@ -163,7 +163,7 @@ public class MainScreen implements SolUiScreen {
         myMoneyExcessTp = new TextPlace(SolColor.WHITE);
     }
 
-    public static Rectangle btn(float x, float y, boolean halfHeight) {
+    static Rectangle btn(float x, float y, boolean halfHeight) {
         float gap = .01f;
         float cellH = CELL_SZ;
         if (halfHeight) {
@@ -532,10 +532,10 @@ public class MainScreen implements SolUiScreen {
 
     public static class TextPlace {
         public final Color color;
-        public String text;
         public Vector2 position = new Vector2();
+        String text;
 
-        public TextPlace(Color col) {
+        TextPlace(Color col) {
             color = new Color(col);
         }
 
@@ -549,7 +549,7 @@ public class MainScreen implements SolUiScreen {
     }
 
     private static class NoShieldWarn extends WarnDrawer {
-        public NoShieldWarn(float r) {
+        NoShieldWarn(float r) {
             super(r, "No Shield");
         }
 
@@ -560,7 +560,7 @@ public class MainScreen implements SolUiScreen {
     }
 
     private static class NoArmorWarn extends WarnDrawer {
-        public NoArmorWarn(float r) {
+        NoArmorWarn(float r) {
             super(r, "No Armor");
         }
 
@@ -571,7 +571,7 @@ public class MainScreen implements SolUiScreen {
     }
 
     private static class EnemyWarn extends WarnDrawer {
-        public EnemyWarn(float r) {
+        EnemyWarn(float r) {
             super(r, "Dangerous\nEnemy");
         }
 

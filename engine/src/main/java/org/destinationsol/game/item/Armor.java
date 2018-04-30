@@ -28,7 +28,7 @@ import org.destinationsol.game.sound.OggSoundSet;
 import java.util.Arrays;
 import java.util.List;
 
-public class Armor implements SolItem {
+public final class Armor implements SolItem {
     private final Config config;
     private int myEquipped;
 
@@ -103,17 +103,17 @@ public class Armor implements SolItem {
         myEquipped = equipped;
     }
 
-    public static class Config {
+    public static final class Config {
         public final String displayName;
-        public final int price;
         public final float perc;
-        public final String desc;
-        public final PlayableSound bulletHitSound;
         public final TextureAtlas.AtlasRegion icon;
-        public final PlayableSound energyHitSound;
-        public final SolItemType itemType;
         public final String code;
         public final Armor example;
+        final PlayableSound energyHitSound;
+        final SolItemType itemType;
+        final int price;
+        final String desc;
+        final PlayableSound bulletHitSound;
 
         private Config(String displayName, int price, float perc, PlayableSound bulletHitSound,
                        TextureAtlas.AtlasRegion icon, PlayableSound energyHitSound, SolItemType itemType, String code) {

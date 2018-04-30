@@ -28,10 +28,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapScreen implements SolUiScreen {
-    private final List<SolUiControl> controls = new ArrayList<>();
-    private final SolUiControl zoomOutControl;
     public final SolUiControl closeControl;
     public final SolUiControl zoomInControl;
+    private final List<SolUiControl> controls = new ArrayList<>();
+    private final SolUiControl zoomOutControl;
 
     MapScreen(RightPaneLayout rightPaneLayout, boolean mobile, float r, GameOptions gameOptions) {
         Rectangle closeArea = mobile ? MainScreen.btn(0, MainScreen.HELPER_ROW_1, true) : rightPaneLayout.buttonRect(1);

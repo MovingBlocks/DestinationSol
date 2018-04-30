@@ -182,14 +182,14 @@ public class Asteroid implements SolObject {
         float sclSum = 0;
         while (sclSum < .7f * size * size) {
             float speedAngle = SolRandom.randomFloat(180);
-            Vector2 speed = new Vector2();
-            SolMath.fromAl(speed, speedAngle, SolRandom.randomFloat(0, .5f) * MAX_SPLIT_SPD);
-            speed.add(speed);
+            Vector2 splitSpeed = new Vector2();
+            SolMath.fromAl(splitSpeed, speedAngle, SolRandom.randomFloat(0, .5f) * MAX_SPLIT_SPD);
+            splitSpeed.add(splitSpeed);
             Vector2 newPos = new Vector2();
             SolMath.fromAl(newPos, speedAngle, SolRandom.randomFloat(0, size / 2));
             newPos.add(position);
             float sz = size * SolRandom.randomFloat(.25f, .5f);
-            Asteroid a = game.getAsteroidBuilder().buildNew(game, newPos, speed, sz, removeController);
+            Asteroid a = game.getAsteroidBuilder().buildNew(game, newPos, splitSpeed, sz, removeController);
             game.getObjectManager().addObjDelayed(a);
             sclSum += a.size * a.size;
         }
@@ -205,17 +205,17 @@ public class Asteroid implements SolObject {
         Vector2 lootSpeed = new Vector2();
         SolMath.fromAl(lootSpeed, speedAngle, SolRandom.randomFloat(0, Loot.MAX_SPD));
         lootSpeed.add(speed);
-        Vector2 position = new Vector2();
-        SolMath.fromAl(position, speedAngle, SolRandom.randomFloat(0, size / 2));
-        position.add(position);
-        Loot l = game.getLootBuilder().build(game, position, item, lootSpeed, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), null);
+        Vector2 lootPosition = new Vector2();
+        SolMath.fromAl(lootPosition, speedAngle, SolRandom.randomFloat(0, size / 2));
+        lootPosition.add(lootPosition);
+        Loot l = game.getLootBuilder().build(game, lootPosition, item, lootSpeed, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), null);
         game.getObjectManager().addObjDelayed(l);
     }
 
     @Override
-    public void receiveDmg(float dmg, SolGame game, Vector2 position, DmgType dmgType) {
+    public void receiveDmg(float dmg, SolGame game, Vector2 damagePosition, DmgType dmgType) {
         life -= dmg;
-        game.getSpecialSounds().playHit(game, this, position, dmgType);
+        game.getSpecialSounds().playHit(game, this, damagePosition, dmgType);
     }
 
     @Override
