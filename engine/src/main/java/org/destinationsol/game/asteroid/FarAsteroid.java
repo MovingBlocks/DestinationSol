@@ -17,10 +17,13 @@ package org.destinationsol.game.asteroid;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.common.SolMath;
 import org.destinationsol.game.FarObject;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+
+import java.util.List;
 
 public class FarAsteroid implements FarObject {
     private final Vector2 position;
@@ -49,7 +52,34 @@ public class FarAsteroid implements FarObject {
 
     @Override
     public SolObject toObject(SolGame game) {
+        adjustDesiredPosition(game);
         return game.getAsteroidBuilder().build(game, position, texture, size, angle, rotationSpeed, speed, removeController);
+    }
+
+    /**
+     * Ensures that this asteroid does not overlap any other asteroid, by adjusting its position.
+     */
+    private void adjustDesiredPosition(SolGame game) {
+        List<SolObject> objects = game.getObjMan().getObjs();
+        for (SolObject object : objects) {
+            if (object instanceof Asteroid) {
+                Asteroid asteroid = (Asteroid) object;
+                // Check if the positions overlap
+                Vector2 asteroidPosition = asteroid.getPosition();
+                Vector2 distanceFromAsteroid = SolMath.distVec(asteroidPosition, position);
+                float distance = SolMath.hypotenuse(distanceFromAsteroid.x, distanceFromAsteroid.y);
+                if (distance <= asteroid.getSize() && distance <= size) {
+                    if (asteroid.getSize() > size) {
+                        distanceFromAsteroid.scl((asteroid.getSize() + .5f) / distance);
+                    }
+                    else {
+                        distanceFromAsteroid.scl((size + .5f) / distance);
+                    }
+                    position = asteroidPosition.add(distanceFromAsteroid);
+                }
+                SolMath.free(distanceFromAsteroid);
+            }
+        }
     }
 
     @Override

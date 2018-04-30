@@ -22,6 +22,7 @@ import org.destinationsol.Const;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.game.asteroid.FarAsteroid;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.drawables.FarDrawable;
@@ -131,9 +132,9 @@ public class ObjectManager {
                 continue;
             }
             if (isNear(fod, camPos, ts)) {
-                SolObject o = fo.toObject(game);
-                // Ensure that StarPorts are added straight away so that we can see if they overlap
-                if (o instanceof StarPort) {
+                SolObject o = fo.toObj(game);
+                // Ensure that StarPorts and Asteroids are added straight away so that we can see if they overlap
+                if (o instanceof StarPort || o instanceof FarAsteroid) {
                     addObjNow(game, o);
                 } else {
                     addObjDelayed(o);
