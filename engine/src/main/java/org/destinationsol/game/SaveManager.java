@@ -173,9 +173,7 @@ public class SaveManager {
         if (hullName == null) {
             return null;
         }
-
-        game.setShipName(hullName);
-
+        
         HullConfig hull = hullConfigs.getConfig(hullName);
         if (hull == null) {
             return null;
