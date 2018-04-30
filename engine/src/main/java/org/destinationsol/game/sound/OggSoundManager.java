@@ -18,6 +18,7 @@ package org.destinationsol.game.sound;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
+import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.PlayableSound;
@@ -29,6 +30,7 @@ import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.game.planet.Planet;
 
 import java.util.HashMap;
@@ -79,11 +81,15 @@ public class OggSoundManager {
      * "Do the operations now".
      */
     private float myLoopAwait;
+    private final SolApplication solApplication;
 
-    public OggSoundManager() {
+
+    public OggSoundManager(Context context) {
         soundMap = new HashMap<>();
         loopedSoundMap = new HashMap<>();
         debugHintDrawer = new DebugHintDrawer();
+        solApplication = context.get(SolApplication.class);
+
     }
 
     /**
@@ -195,7 +201,7 @@ public class OggSoundManager {
      * @return Volume the sound should play at.
      */
     private float getVolume(SolGame game, Vector2 position, float volumeMultiplier, OggSound sound) {
-        float globalVolumeMultiplier = game.getCmp().getOptions().sfxVolumeMultiplier;
+        float globalVolumeMultiplier = solApplication.getOptions().sfxVolumeMultiplier;
 
         Vector2 cameraPosition = game.getCam().getPosition();
         Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();
