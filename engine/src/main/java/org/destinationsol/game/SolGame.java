@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.chunk.ChunkManager;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.game.drawables.DrawableDebugger;
 import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.farBg.FarBackgroundManagerOld;
@@ -97,23 +98,22 @@ public class SolGame {
     private final TutorialManager tutorialManager;
     private final GalaxyFiller galaxyFiller;
     private Hero hero;
-    private String shipName; // Not updated in-game. Can be changed using setter
     private float timeStep;
     private float time;
     private boolean paused;
     private float timeFactor;
     private RespawnState respawnState;
 
-    public SolGame(SolApplication cmp, String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer) {
-        solApplication = cmp;
+    public SolGame(String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context) {
+        solApplication = context.get(SolApplication.class);
         GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
         soundManager = solApplication.getSoundManager();
         specialSounds = new SpecialSounds(soundManager);
         drawableManager = new DrawableManager(drawer);
         camera = new SolCam(drawer.r);
-        gameScreens = new GameScreens(drawer.r, cmp);
-        tutorialManager = tut ? new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, cmp.isMobile(), cmp.getOptions(), this) : null;
+        gameScreens = new GameScreens(drawer.r, solApplication, context);
+        tutorialManager = tut ? new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, solApplication.isMobile(), solApplication.getOptions(), this) : null;
         farBackgroundManagerOld = new FarBackgroundManagerOld();
         shipBuilder = new ShipBuilder();
         EffectTypes effectTypes = new EffectTypes();
@@ -158,7 +158,7 @@ public class SolGame {
         boolean isNewShip = shipName != null;
         ShipConfig shipConfig = readShipFromConfigOrLoadFromSaveIfNull(shipName, game, isNewShip);
         if (!respawnState.isPlayerRespawned()) {
-            game.getGalaxyFiller().fill(game, game.getHullConfigs(), game.getItemMan());
+            game.getGalaxyFiller().fill(game, game.getHullConfigs(), game.getItemMan(), shipConfig.hull.getInternalName().split(":")[0]);
         }
         hero = new PlayerCreator().createPlayer(shipConfig,
                 shouldSpawnOnGalaxySpawnPosition,
@@ -185,6 +185,10 @@ public class SolGame {
     }
 
     public void onGameEnd() {
+        // If the hero tries to exit while dead, respawn them first, then save
+        if (hero.isDead()) {
+            respawn();
+        }
         saveShip();
         saveWorld();
         objectManager.dispose();
@@ -313,10 +317,6 @@ public class SolGame {
         return camera;
     }
 
-    public SolApplication getCmp() {
-        return solApplication;
-    }
-
     public DrawableManager getDrawableManager() {
         return drawableManager;
     }
@@ -367,6 +367,7 @@ public class SolGame {
     }
 
     public void respawn() {
+        respawnState.setPlayerRespawned(true);
         if (hero.isAlive()) {
             if (hero.isNonTranscendent()) {
                 beforeHeroDeath();
@@ -486,14 +487,6 @@ public class SolGame {
 
     public TutorialManager getTutMan() {
         return tutorialManager;
-    }
-
-    public String getShipName() {
-        return shipName;
-    }
-
-    public void setShipName(String newName) {
-        shipName = newName;
     }
 
     public void beforeHeroDeath() {
