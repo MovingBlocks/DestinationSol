@@ -105,7 +105,6 @@ public class SolGame {
     private final ArrayList<SolItem> respawnItems;
     private final SolApplication solApplication;
     private Hero hero;
-    private String shipName; // Not updated in-game. Can be changed using setter
     private float timeStep;
     private float time;
     private boolean paused;
@@ -168,7 +167,7 @@ public class SolGame {
         assert shipConfig != null;
 
         if (!isPlayerRespawned) {
-            galaxyFiller.fill(this, hullConfigManager, itemManager);
+            galaxyFiller.fill(this, hullConfigManager, itemManager, shipConfig.hull.getInternalName().split(":")[0]);
         }
 
         // If we continue a game, we should spawn from the same position
@@ -239,6 +238,10 @@ public class SolGame {
     }
 
     public void onGameEnd() {
+        // If the hero tries to exit while dead, respawn them first, then save
+        if(hero.isDead()) {
+            respawn();
+        }
         saveShip();
         saveWorld();
         objectManager.dispose();
@@ -417,6 +420,7 @@ public class SolGame {
     }
 
     public void respawn() {
+        isPlayerRespawned = true;
         if (hero.isAlive()) {
             if (hero.isNonTranscendent()) {
                 beforeHeroDeath();
@@ -539,14 +543,6 @@ public class SolGame {
         return tutorialManager;
     }
 
-    public String getShipName() {
-        return shipName;
-    }
-
-    public void setShipName(String newName) {
-        shipName = newName;
-    }
-
     public void beforeHeroDeath() {
         if (hero.isDead() || hero.isTranscendent()) {
             return;
@@ -567,7 +563,6 @@ public class SolGame {
         respawnMoney = .75f * money;
         respawnHull = hullConfig;
         respawnItems.clear();
-        isPlayerRespawned = true;
         for (List<SolItem> group : ic) {
             for (SolItem item : group) {
                 boolean equipped = hero.isTranscendent() || hero.maybeUnequip(this, item, false);
