@@ -138,9 +138,6 @@ public class GalaxyFiller {
         }
         createStarPorts(game);
         ArrayList<SolSystem> systems = game.getPlanetManager().getSystems();
-        
-//        String shipName = game.getShipName();
-//        String moduleName = shipName.split(":")[0];
 
         Json json = Assets.getJson(moduleName + ":startingStation");
         JsonValue rootNode = getRootNode(json);
