@@ -18,31 +18,31 @@ package org.destinationsol.game.asteroid;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 
 import java.util.List;
 
-public class FarAsteroid implements FarObj {
-    private Vector2 position;
+public class FarAsteroid implements FarObject {
+    private final Vector2 position;
     private final float angle;
     private final RemoveController removeController;
     private final float size;
     private final Vector2 speed;
-    private final float rotateSpeed;
-    private final TextureAtlas.AtlasRegion tex;
+    private final float rotationSpeed;
+    private final TextureAtlas.AtlasRegion texture;
 
-    public FarAsteroid(TextureAtlas.AtlasRegion tex, Vector2 position, float angle, RemoveController removeController,
-                       float size, Vector2 speed, float rotateSpeed) {
-        this.tex = tex;
+    public FarAsteroid(TextureAtlas.AtlasRegion texture, Vector2 position, float angle, RemoveController removeController,
+                       float size, Vector2 speed, float rotationSpeed) {
+        this.texture = texture;
         this.position = position;
         this.angle = angle;
         this.removeController = removeController;
         this.size = size;
         this.speed = speed;
-        this.rotateSpeed = rotateSpeed;
+        this.rotationSpeed = rotationSpeed;
     }
 
     @Override
@@ -51,9 +51,9 @@ public class FarAsteroid implements FarObj {
     }
 
     @Override
-    public SolObject toObj(SolGame game) {
+    public SolObject toObject(SolGame game) {
         adjustDesiredPosition(game);
-        return game.getAsteroidBuilder().build(game, position, tex, size, angle, rotateSpeed, speed, removeController);
+        return game.getAsteroidBuilder().build(game, position, texture, size, angle, rotationSpeed, speed, removeController);
     }
 
     /**
@@ -92,7 +92,7 @@ public class FarAsteroid implements FarObj {
     }
 
     @Override
-    public Vector2 getPos() {
+    public Vector2 getPosition() {
         return position;
     }
 

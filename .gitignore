@@ -65,8 +65,9 @@ Icon
 ehthumbs.db
 Thumbs.db
 
-## Resources
+## Game instance specific settings files
 engine/prevShip.ini
 engine/src/main/resources/prevShip.ini
 engine/src/main/resources/settings.ini
 engine/src/main/resources/mercenaries.json
+engine/src/main/resources/world.ini

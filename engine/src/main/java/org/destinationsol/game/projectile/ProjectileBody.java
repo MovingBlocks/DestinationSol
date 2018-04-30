@@ -22,9 +22,9 @@ import org.destinationsol.game.ship.SolShip;
 public interface ProjectileBody {
     void update(SolGame game);
 
-    Vector2 getPos();
+    Vector2 getPosition();
 
-    Vector2 getSpd();
+    Vector2 getSpeed();
 
     void receiveForce(Vector2 force, SolGame game, boolean acc);
 

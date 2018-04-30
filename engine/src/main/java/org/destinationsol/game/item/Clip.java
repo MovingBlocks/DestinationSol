@@ -23,54 +23,54 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.projectile.ProjectileConfig;
 
 public class Clip implements SolItem {
-    private final Config myConfig;
+    private final Config config;
 
-    public Clip(Config config) {
-        myConfig = config;
+    Clip(Config config) {
+        this.config = config;
     }
 
     @Override
     public String getDisplayName() {
-        return myConfig.displayName;
+        return config.displayName;
     }
 
     @Override
     public float getPrice() {
-        return myConfig.price;
+        return config.price;
     }
 
     @Override
-    public String getDesc() {
-        return myConfig.desc;
+    public String getDescription() {
+        return config.desc;
     }
 
     public Config getConfig() {
-        return myConfig;
+        return config;
     }
 
     @Override
     public SolItem copy() {
-        return new Clip(myConfig);
+        return new Clip(config);
     }
 
     @Override
     public boolean isSame(SolItem item) {
-        return item instanceof Clip && ((Clip) item).myConfig == myConfig;
+        return item instanceof Clip && ((Clip) item).config == config;
     }
 
     @Override
     public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-        return myConfig.icon;
+        return config.icon;
     }
 
     @Override
     public SolItemType getItemType() {
-        return myConfig.itemType;
+        return config.itemType;
     }
 
     @Override
     public String getCode() {
-        return myConfig.code;
+        return config.code;
     }
 
     @Override

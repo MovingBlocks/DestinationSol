@@ -50,22 +50,22 @@ public class Guardian implements MoveDestProvider {
     }
 
     @Override
-    public Vector2 getDest() {
+    public Vector2 getDestination() {
         return myDest;
     }
 
     @Override
-    public boolean shouldAvoidBigObjs() {
+    public boolean shouldAvoidBigObjects() {
         return false;
     }
 
     @Override
-    public float getDesiredSpdLen() {
+    public float getDesiredSpeedScalar() {
         return Const.MAX_MOVE_SPD;
     }
 
     @Override
-    public boolean shouldStopNearDest() {
+    public boolean shouldStopNearDestination() {
         return true;
     }
 
@@ -79,7 +79,7 @@ public class Guardian implements MoveDestProvider {
             if (myFarTarget == null) {
                 return;
             }
-            targetPos = myFarTarget.getPos();
+            targetPos = myFarTarget.getPosition();
             targetApproxRad = myFarTarget.getHullConfig().getApproxRadius();
         } else {
             targetPos = myTarget.getPosition();
@@ -89,8 +89,8 @@ public class Guardian implements MoveDestProvider {
     }
 
     public void updateTarget(SolGame game) {
-        ObjectManager om = game.getObjMan();
-        List<SolObject> objs = om.getObjs();
+        ObjectManager om = game.getObjectManager();
+        List<SolObject> objs = om.getObjects();
         if (myTarget != null && objs.contains(myTarget)) {
             return;
         }
@@ -122,10 +122,10 @@ public class Guardian implements MoveDestProvider {
     }
 
     private void setDest(SolGame game, Vector2 targetPos, float targetApproxRad, HullConfig hullConfig) {
-        Planet np = game.getPlanetMan().getNearestPlanet(targetPos);
+        Planet np = game.getPlanetManager().getNearestPlanet(targetPos);
         float desiredAngle = myRelAngle;
         if (np.isNearGround(targetPos)) {
-            desiredAngle = SolMath.angle(np.getPos(), targetPos);
+            desiredAngle = SolMath.angle(np.getPosition(), targetPos);
         }
         SolMath.fromAl(myDest, desiredAngle, targetApproxRad + DIST + hullConfig.getApproxRadius());
         myDest.add(targetPos);
@@ -140,7 +140,7 @@ public class Guardian implements MoveDestProvider {
         if (myTarget != null) {
             targetPos = myTarget.getPosition();
         } else if (myFarTarget != null) {
-            targetPos = myFarTarget.getPos();
+            targetPos = myFarTarget.getPosition();
         }
         float maxManeuverDist = 2 * (nearGround ? Const.CAM_VIEW_DIST_GROUND : Const.CAM_VIEW_DIST_SPACE);
         if (targetPos != null && maxManeuverDist < targetPos.dst(nearestEnemy.getPosition())) {
@@ -150,8 +150,8 @@ public class Guardian implements MoveDestProvider {
     }
 
     @Override
-    public Vector2 getDestSpd() {
-        return myTarget == null ? Vector2.Zero : myTarget.getSpd();
+    public Vector2 getDestinationSpeed() {
+        return myTarget == null ? Vector2.Zero : myTarget.getSpeed();
     }
 
     public float getRelAngle() {

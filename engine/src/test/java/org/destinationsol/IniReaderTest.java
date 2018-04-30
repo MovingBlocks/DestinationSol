@@ -31,7 +31,7 @@ public class IniReaderTest {
     @Before
     public void initIniReader() {
         String iniFileContents =
-                "# Full line comment\n" +
+                "# Full line comment\n" + // Each of these values is used exactly once in these tests, except for doubleRequestedKey
                         "partLineCommentKey = correctValue1 # Part line comment\n" +
                         "terrible key name        =          terrible key value\n" +
                         "# missingKey = wrongValue\n" +
@@ -51,7 +51,8 @@ public class IniReaderTest {
                         "floatKey = 6\n" +
                         "anotherFloatKey = 7.3f\n" +
                         "invalidFloatKey = 8,6\n" +
-                        "anotherInvalidFloatKey = hi\n"; // Each of these values is used exactly once in these tests, except for doubleRequestedKey
+                        "anotherInvalidFloatKey = hi\n" +
+                        "UnicodeKey çáč🧝 = unicodevalue áśǵj́ḱĺóí⋄«»⋄⋄ǫő";
         iniReader = new IniReader(new BufferedReader(new StringReader(iniFileContents)));
     }
 
@@ -63,6 +64,7 @@ public class IniReaderTest {
         assertEquals(iniReader.getString("doubleRequestedKey", "wrongValue"), "validValue2");
         assertEquals(iniReader.getString("doubleRequestedKey", "wrongValue"), "validValue2");
         assertEquals(iniReader.getString("this shouldn't throw exception", "correctValue"), "correctValue");
+        assertEquals(iniReader.getString("UnicodeKey çáč🧝", "wrongValue"), "unicodevalue áśǵj́ḱĺóí⋄«»⋄⋄ǫő");
     }
 
     @Test

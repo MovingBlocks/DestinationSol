@@ -17,7 +17,7 @@ package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
@@ -25,24 +25,24 @@ import org.destinationsol.game.drawables.DrawableManager;
 
 import java.util.List;
 
-public class FarPlanetSprites implements FarObj {
-    private final Planet myPlanet;
-    private final float myDist;
-    private final List<Drawable> myDrawables;
-    private final float myRadius;
-    private final float myToPlanetRotSpd;
-    private float myRelAngleToPlanet;
-    private Vector2 myPos;
+public class FarPlanetSprites implements FarObject {
+    private final Planet planet;
+    private final float distance;
+    private final List<Drawable> drawables;
+    private final float radius;
+    private final float RotationSpeedToPlanet;
+    private float relativeAngleToPlanet;
+    private Vector2 position;
 
     public FarPlanetSprites(Planet planet, float relAngleToPlanet, float dist, List<Drawable> drawables,
-                            float toPlanetRotSpd) {
-        myPlanet = planet;
-        myRelAngleToPlanet = relAngleToPlanet;
-        myDist = dist;
-        myDrawables = drawables;
-        myRadius = DrawableManager.radiusFromDras(myDrawables);
-        myToPlanetRotSpd = toPlanetRotSpd;
-        myPos = new Vector2();
+                            float toPlanetRotationSpeed) {
+        this.planet = planet;
+        relativeAngleToPlanet = relAngleToPlanet;
+        distance = dist;
+        this.drawables = drawables;
+        radius = DrawableManager.radiusFromDrawables(this.drawables);
+        RotationSpeedToPlanet = toPlanetRotationSpeed;
+        position = new Vector2();
     }
 
     @Override
@@ -51,27 +51,27 @@ public class FarPlanetSprites implements FarObj {
     }
 
     @Override
-    public SolObject toObj(SolGame game) {
-        return new PlanetSprites(myPlanet, myRelAngleToPlanet, myDist, myDrawables, myToPlanetRotSpd);
+    public SolObject toObject(SolGame game) {
+        return new PlanetSprites(planet, relativeAngleToPlanet, distance, drawables, RotationSpeedToPlanet);
     }
 
     @Override
     public void update(SolGame game) {
-        myRelAngleToPlanet += myToPlanetRotSpd * game.getTimeStep();
-        if (game.getPlanetMan().getNearestPlanet() == myPlanet) {
-            SolMath.fromAl(myPos, myPlanet.getAngle() + myRelAngleToPlanet, myDist);
-            myPos.add(myPlanet.getPos());
+        relativeAngleToPlanet += RotationSpeedToPlanet * game.getTimeStep();
+        if (game.getPlanetManager().getNearestPlanet() == planet) {
+            SolMath.fromAl(position, planet.getAngle() + relativeAngleToPlanet, distance);
+            position.add(planet.getPosition());
         }
     }
 
     @Override
     public float getRadius() {
-        return myRadius;
+        return radius;
     }
 
     @Override
-    public Vector2 getPos() {
-        return myPos;
+    public Vector2 getPosition() {
+        return position;
     }
 
     @Override

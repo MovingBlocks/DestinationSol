@@ -35,7 +35,7 @@ import java.util.List;
 
 public class CreditsScreen implements SolUiScreen {
     private static final float MAX_AWAIT = 6f;
-    private final TextureAtlas.AtlasRegion bgTex;
+    private final TextureAtlas.AtlasRegion backgroundTexture;
     private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl closeControl;
 
@@ -112,7 +112,7 @@ public class CreditsScreen implements SolUiScreen {
             myPages.add(page.toString());
         }
 
-        bgTex = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
+        backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override
@@ -130,7 +130,7 @@ public class CreditsScreen implements SolUiScreen {
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         if (closeControl.isJustOff()) {
-            solApplication.getInputMan().setScreen(solApplication, solApplication.getMenuScreens().main);
+            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().main);
             return;
         }
         pageProgressPercent += Const.REAL_TIME_STEP / MAX_AWAIT;
@@ -150,8 +150,8 @@ public class CreditsScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(backgroundTexture, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     @Override

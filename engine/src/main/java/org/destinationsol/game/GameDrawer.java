@@ -26,23 +26,23 @@ import org.destinationsol.assets.Assets;
 public class GameDrawer {
 
     public final float r;
-    public final TextureAtlas.AtlasRegion debugWhiteTex;
+    public final TextureAtlas.AtlasRegion debugWhiteTexture;
     private final CommonDrawer myDrawer;
 
     private boolean myCurrAdditive;
 
     public GameDrawer(CommonDrawer commonDrawer) {
         myDrawer = commonDrawer;
-        r = myDrawer.r;
-        debugWhiteTex = Assets.getAtlasRegion("engine:uiWhiteTex");
+        r = myDrawer.dimensionsRatio;
+        debugWhiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
     }
 
     public void begin() {
         myDrawer.begin();
     }
 
-    public void updateMtx(SolGame game) {
-        myDrawer.setMtx(game.getCam().getMtx());
+    public void updateMatrix(SolGame game) {
+        myDrawer.setMatrix(game.getCam().getMtx());
     }
 
     public void end() {

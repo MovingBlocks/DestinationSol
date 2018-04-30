@@ -23,7 +23,6 @@ import org.terasology.assets.format.AbstractAssetFileFormat;
 import org.terasology.assets.format.AssetDataFile;
 import org.terasology.assets.module.annotations.RegisterAssetFileFormat;
 
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class DSTextureFileFormat extends AbstractAssetFileFormat<DSTextureData> 
     }
 
     @Override
-    public DSTextureData load(ResourceUrn urn, List<AssetDataFile> inputs) throws IOException {
+    public DSTextureData load(ResourceUrn urn, List<AssetDataFile> inputs) {
         String path = AssetHelper.resolveToPath(inputs);
 
         FileHandle handle = new FileHandle(Paths.get(path).toFile());

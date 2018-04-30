@@ -115,13 +115,13 @@ public class Hero {
         return shipHero.canUseAbility();
     }
 
-    public Vector2 getSpd() {
-        return isTranscendent ? transcendentHero.getSpd() : shipHero.getSpd();
+    public Vector2 getSpeed() {
+        return isTranscendent ? transcendentHero.getSpeed() : shipHero.getSpeed();
     }
 
-    public float getAcc() {
+    public float getAcceleration() {
         assertNonTranscendent();
-        return shipHero.getAcc();
+        return shipHero.getAcceleration();
     }
 
     public Vector2 getPosition() {
@@ -137,14 +137,14 @@ public class Hero {
         return isTranscendent ? transcendentHeroShip.getLife() : shipHero.getLife();
     }
 
-    public float getRotAcc() {
+    public float getRotationAcceleration() {
         assertNonTranscendent();
-        return shipHero.getRotAcc();
+        return shipHero.getRotationAcceleration();
     }
 
-    public float getRotSpd() {
+    public float getRotationSpeed() {
         assertNonTranscendent();
-        return shipHero.getRotSpd();
+        return shipHero.getRotationSpeed();
     }
 
     public float getMoney() {

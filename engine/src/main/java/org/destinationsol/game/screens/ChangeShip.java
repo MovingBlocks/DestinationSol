@@ -67,7 +67,7 @@ public class ChangeShip implements InventoryOperations {
         Hero hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
         if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputMan().setScreen(solApplication, game.getScreens().mainScreen);
+            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainScreen);
             return;
         }
         SolItem selItem = is.getSelectedItem();
@@ -115,13 +115,13 @@ public class ChangeShip implements InventoryOperations {
         HullConfig newConfig = selected.getConfig();
         Hull hull = hero.getHull();
         Engine.Config ec = newConfig.getEngineConfig();
-        Engine ei = ec == null ? null : ec.example.copy();
+        Engine ei = ec == null ? null : ec.exampleEngine.copy();
         Gun g2 = hull.getGun(true);
         SolShip newHero = game.getShipBuilder().build(game, hero.getPosition(), new Vector2(), hero.getAngle(), 0, hero.getPilot(),
                 hero.getItemContainer(), newConfig, newConfig.getMaxLife(), hull.getGun(false), g2, null,
                 ei, new ShipRepairer(), hero.getMoney(), hero.getTradeContainer(), hero.getShield(), hero.getArmor());
-        game.getObjMan().removeObjDelayed(hero.getShip());
-        game.getObjMan().addObjDelayed(newHero);
+        game.getObjectManager().removeObjDelayed(hero.getShip());
+        game.getObjectManager().addObjDelayed(newHero);
         game.getHero().setSolShip(newHero);
     }
 }

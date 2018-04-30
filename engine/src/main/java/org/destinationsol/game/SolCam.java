@@ -23,6 +23,7 @@ import com.badlogic.gdx.math.Vector3;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.screens.MainScreen;
 
@@ -44,13 +45,13 @@ public class SolCam {
     private float myShake;
     private float myAngle;
     private float myZoom;
-    private Vector2 myPos;
+    private Vector2 position;
 
     public SolCam(float r) {
         myCamRotStrategy = new CamRotStrategy.ToPlanet();
         myCam = new OrthographicCamera(VIEWPORT_HEIGHT * r, -VIEWPORT_HEIGHT);
         myZoom = calcZoom(Const.CAM_VIEW_DIST_GROUND);
-        myPos = new Vector2();
+        position = new Vector2();
         myTmpVec = new Vector3();
     }
 
@@ -67,17 +68,17 @@ public class SolCam {
             applyInput(game);
         } else {
             Vector2 heroPos = hero.getPosition();
-            if (myZoom * VIEWPORT_HEIGHT < heroPos.dst(myPos)) {
-                myPos.set(heroPos);
-                game.getObjMan().resetDelays();
+            if (myZoom * VIEWPORT_HEIGHT < heroPos.dst(position)) {
+                position.set(heroPos);
+                game.getObjectManager().resetDelays();
             } else {
-                Vector2 moveDiff = SolMath.getVec(hero.getSpd());
+                Vector2 moveDiff = SolMath.getVec(hero.getSpeed());
                 moveDiff.scl(ts);
-                myPos.add(moveDiff);
+                position.add(moveDiff);
                 SolMath.free(moveDiff);
-                float moveSpd = MOVE_SPD * ts;
-                myPos.x = SolMath.approach(myPos.x, heroPos.x, moveSpd);
-                myPos.y = SolMath.approach(myPos.y, heroPos.y, moveSpd);
+                float moveSpeed = MOVE_SPD * ts;
+                position.x = SolMath.approach(position.x, heroPos.x, moveSpeed);
+                position.y = SolMath.approach(position.y, heroPos.y, moveSpeed);
             }
         }
 
@@ -89,14 +90,14 @@ public class SolCam {
         }
         myPrevHeroLife = life;
 
-        Vector2 pos = SolMath.fromAl(SolMath.rnd(180), myShake);
-        pos.add(myPos);
-        applyPos(pos.x, pos.y);
-        SolMath.free(pos);
+        Vector2 position = SolMath.fromAl(SolRandom.randomFloat(180), myShake);
+        position.add(this.position);
+        applyPos(position.x, position.y);
+        SolMath.free(position);
 
-        float desiredAngle = myCamRotStrategy.getRotation(myPos, game);
-        float rotSpd = CAM_ROT_SPD * ts;
-        myAngle = SolMath.approachAngle(myAngle, desiredAngle, rotSpd);
+        float desiredAngle = myCamRotStrategy.getRotation(this.position, game);
+        float rotationSpeed = CAM_ROT_SPD * ts;
+        myAngle = SolMath.approachAngle(myAngle, desiredAngle, rotationSpeed);
         applyAngle();
 
         updateMap(game);
@@ -118,12 +119,12 @@ public class SolCam {
         } else if (hero.isDead()) {
             return Const.CAM_VIEW_DIST_GROUND;
         } else {
-            float speed = hero.getSpd().len();
+            float speed = hero.getSpeed().len();
             float desiredViewDistance = Const.CAM_VIEW_DIST_SPACE;
-            Planet nearestPlanet = game.getPlanetMan().getNearestPlanet(myPos);
-            if (nearestPlanet.getFullHeight() < nearestPlanet.getPos().dst(myPos) && MAX_ZOOM_SPD < speed) {
+            Planet nearestPlanet = game.getPlanetManager().getNearestPlanet(position);
+            if (nearestPlanet.getFullHeight() < nearestPlanet.getPosition().dst(position) && MAX_ZOOM_SPD < speed) {
                 desiredViewDistance = Const.CAM_VIEW_DIST_JOURNEY;
-            } else if (nearestPlanet.isNearGround(myPos) && speed < MED_ZOOM_SPD) {
+            } else if (nearestPlanet.isNearGround(position) && speed < MED_ZOOM_SPD) {
                 desiredViewDistance = Const.CAM_VIEW_DIST_GROUND;
             }
             desiredViewDistance += hero.getHull().config.getApproxRadius();
@@ -167,7 +168,7 @@ public class SolCam {
         }
         v.scl(MOVE_SPD * game.getTimeStep());
         SolMath.rotate(v, myAngle);
-        myPos.add(v);
+        position.add(v);
         SolMath.free(v);
     }
 
@@ -178,11 +179,11 @@ public class SolCam {
         SolMath.free(v);
     }
 
-    public float getViewDist() {
-        return getViewDist(myZoom);
+    public float getViewDistance() {
+        return getViewDistance(myZoom);
     }
 
-    public float getViewDist(float zoom) {
+    public float getViewDistance(float zoom) {
         float r = myCam.viewportWidth / myCam.viewportHeight;
         return .5f * VIEWPORT_HEIGHT * SolMath.sqrt(1 + r * r) * zoom;
     }
@@ -194,12 +195,12 @@ public class SolCam {
         return myAngle;
     }
 
-    public Vector2 getPos() {
-        return myPos;
+    public Vector2 getPosition() {
+        return position;
     }
 
-    public void setPos(Vector2 pos) {
-        myPos.set(pos);
+    public void setPos(Vector2 position) {
+        this.position.set(position);
     }
 
     public void drawDebug(GameDrawer drawer) {
@@ -213,16 +214,16 @@ public class SolCam {
         ul.scl(-1);
         Vector2 ur = SolMath.getVec(dl);
         ur.scl(-1);
-        dr.add(myPos);
-        dl.add(myPos);
-        ul.add(myPos);
-        ur.add(myPos);
+        dr.add(position);
+        dl.add(position);
+        ul.add(position);
+        ur.add(position);
 
         float lw = getRealLineWidth();
-        drawer.drawLine(drawer.debugWhiteTex, dr, dl, SolColor.WHITE, lw, false);
-        drawer.drawLine(drawer.debugWhiteTex, dl, ul, SolColor.WHITE, lw, false);
-        drawer.drawLine(drawer.debugWhiteTex, ul, ur, SolColor.WHITE, lw, false);
-        drawer.drawLine(drawer.debugWhiteTex, ur, dr, SolColor.WHITE, lw, false);
+        drawer.drawLine(drawer.debugWhiteTexture, dr, dl, SolColor.WHITE, lw, false);
+        drawer.drawLine(drawer.debugWhiteTexture, dl, ul, SolColor.WHITE, lw, false);
+        drawer.drawLine(drawer.debugWhiteTexture, ul, ur, SolColor.WHITE, lw, false);
+        drawer.drawLine(drawer.debugWhiteTexture, ur, dr, SolColor.WHITE, lw, false);
 
         SolMath.free(dr);
         SolMath.free(dl);
@@ -258,8 +259,8 @@ public class SolCam {
         return myCam.zoom;
     }
 
-    public boolean isVisible(Vector2 pos) {
-        Vector2 rp = SolMath.toRel(pos, myAngle, myPos);
+    public boolean isVisible(Vector2 position) {
+        Vector2 rp = SolMath.toRel(position, myAngle, this.position);
         boolean res = isRelVisible(rp);
         SolMath.free(rp);
         return res;
@@ -281,10 +282,10 @@ public class SolCam {
         return .04f * getRealZoom();
     }
 
-    public void screenToWorld(Vector2 pos) {
-        myTmpVec.set(pos, 0);
+    public void screenToWorld(Vector2 position) {
+        myTmpVec.set(position, 0);
         myCam.unproject(myTmpVec);
-        pos.x = myTmpVec.x;
-        pos.y = myTmpVec.y;
+        position.x = myTmpVec.x;
+        position.y = myTmpVec.y;
     }
 }

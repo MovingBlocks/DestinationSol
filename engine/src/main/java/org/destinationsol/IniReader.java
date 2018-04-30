@@ -16,7 +16,7 @@
 package org.destinationsol;
 
 import com.badlogic.gdx.files.FileHandle;
-import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.SaveManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,16 +28,16 @@ import java.util.List;
 import java.util.Optional;
 
 public class IniReader {
-    private final HashMap<String, String> myVals;
+    private final HashMap<String, String> values;
 
     public IniReader(String fileName, SolFileReader reader) {
-        myVals = new HashMap<>();
+        values = new HashMap<>();
         List<String> lines = reader != null ? reader.read(fileName) : fileToLines(fileName);
         initValueMap(lines);
     }
 
     public IniReader(BufferedReader reader) {
-        myVals = new HashMap<>();
+        values = new HashMap<>();
         List<String> lines = new ArrayList<>();
 
         try {
@@ -53,24 +53,17 @@ public class IniReader {
 
     public static void write(String fileName, Object... keysVals) {
         boolean second = false;
-        StringBuilder sb = new StringBuilder();
-        for (Object o : keysVals) {
-            String s = o.toString();
-            sb.append(s);
-            sb.append(second ? '\n' : '=');
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Object value : keysVals) {
+            stringBuilder.append(value.toString());
+            stringBuilder.append(second ? '\n' : '=');
             second = !second;
         }
 
-        String path;
-        if (DebugOptions.DEV_ROOT_PATH != null) {
-            path = DebugOptions.DEV_ROOT_PATH;
-        } else {
-            path = "src/main/resources/";
-        }
-        path += fileName;
+        String path = SaveManager.getResourcePath(fileName);
 
         FileHandle file = new FileHandle(Paths.get(path).toFile());
-        file.writeString(sb.toString(), false);
+        file.writeString(stringBuilder.toString(), false);
     }
 
     private void initValueMap(List<String> lines) {
@@ -85,18 +78,12 @@ public class IniReader {
             }
             String key = sides[0].trim();
             String val = sides[1].trim();
-            myVals.put(key, val);
+            values.put(key, val);
         }
     }
 
     private List<String> fileToLines(String fileName) {
-        String path;
-        if (DebugOptions.DEV_ROOT_PATH != null) {
-            path = DebugOptions.DEV_ROOT_PATH;
-        } else {
-            path = "src/main/resources/";
-        }
-        path += fileName;
+        String path = SaveManager.getResourcePath(fileName);
 
         FileHandle file = new FileHandle(Paths.get(path).toFile());
 
@@ -111,12 +98,12 @@ public class IniReader {
     }
 
     public String getString(String key, String defaultValue) {
-        Optional<String> stringOptional = Optional.ofNullable(myVals.get(key));
+        Optional<String> stringOptional = Optional.ofNullable(values.get(key));
         return stringOptional.orElse(defaultValue);
     }
 
     public int getInt(String key, int defaultValue) {
-        Optional<String> stringOptional = Optional.ofNullable(myVals.get(key));
+        Optional<String> stringOptional = Optional.ofNullable(values.get(key));
         try {
             return stringOptional.map(Integer::parseInt).orElse(defaultValue);
         } catch (NumberFormatException e) {
@@ -125,13 +112,13 @@ public class IniReader {
     }
 
     public boolean getBoolean(String key, boolean defaultValue) {
-        Optional<String> stringOptional = Optional.ofNullable(myVals.get(key));
+        Optional<String> stringOptional = Optional.ofNullable(values.get(key));
         Optional<Boolean> booleanOptional = stringOptional.filter(s -> s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false")).map(s -> s.equalsIgnoreCase("true"));
         return booleanOptional.orElse(defaultValue);
     }
 
     public float getFloat(String key, float defaultValue) {
-        Optional<String> stringOptional = Optional.ofNullable(myVals.get(key));
+        Optional<String> stringOptional = Optional.ofNullable(values.get(key));
         try {
             return stringOptional.map(Float::parseFloat).orElse(defaultValue);
         } catch (NumberFormatException e) {
