@@ -30,6 +30,7 @@ import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.game.sound.OggSoundManager;
 
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class SolInputManager {
     private final PlayableSound hoverSound;
     private final TextureAtlas.AtlasRegion uiCursor;
     private final Color warnColor;
+    private final Context context;
     private float mouseIdleTime;
     private TextureAtlas.AtlasRegion currCursor;
     private boolean mouseOnUi;
@@ -63,7 +65,8 @@ public class SolInputManager {
     private boolean warnPercGrows;
     private Boolean scrolledUp;
 
-    public SolInputManager(OggSoundManager soundManager) {
+    public SolInputManager(OggSoundManager soundManager, Context context) {
+        this.context = context;
         inputPointers = new InputPointer[POINTER_COUNT];
         for (int i = 0; i < POINTER_COUNT; i++) {
             inputPointers[i] = new InputPointer();
@@ -222,7 +225,7 @@ public class SolInputManager {
             screen.updateCustom(solApplication, inputPointers, clickedOutside);
         }
 
-        TutorialManager tutorialManager = game == null ? null : game.getTutMan();
+        TutorialManager tutorialManager = game == null ? null : context.get(TutorialManager.class);
         if (tutorialManager != null && tutorialManager.isFinished()) {
             solApplication.finishGame();
         }
@@ -326,7 +329,7 @@ public class SolInputManager {
         uiDrawer.setTextMode(null);
 
         SolGame game = solApplication.getGame();
-        TutorialManager tutorialManager = game == null ? null : game.getTutMan();
+        TutorialManager tutorialManager = game == null ? null : context.get(TutorialManager.class);
         if (tutorialManager != null && getTopScreen() != game.getScreens().menuScreen) {
             tutorialManager.draw(uiDrawer);
         }

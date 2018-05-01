@@ -89,7 +89,7 @@ public class SolApplication implements ApplicationListener {
 
         musicManager = new OggMusicManager();
         soundManager = new OggSoundManager(context);
-        inputManager = new SolInputManager(soundManager);
+        inputManager = new SolInputManager(soundManager, context);
 
         musicManager.playMenuMusic(options);
 
@@ -255,17 +255,17 @@ public class SolApplication implements ApplicationListener {
     }
 
 
-     // This method is called when the "New Game" button gets pressed
+    // This method is called when the "New Game" button gets pressed
     private void beforeNewGame() {
         // Reset the seed so this galaxy isn't the same as the last
         long seed = System.currentTimeMillis();
         SolRandom.setSeed(seed);
-        
+
         logger.info("Set Seed: " + String.valueOf(seed));
     }
 
 
-     // This method is called when the "Continue" button gets pressed
+    // This method is called when the "Continue" button gets pressed
     private void beforeLoadGame() {
         // Set the seed for all the randomness. Very important
         if (SaveManager.resourceExists(WORLD_SAVE_FILE_NAME)) {

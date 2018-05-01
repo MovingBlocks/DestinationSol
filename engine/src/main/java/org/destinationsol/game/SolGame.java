@@ -72,6 +72,7 @@ public class SolGame {
     private final GameScreens gameScreens;
     private final SolCam camera;
     private final ObjectManager objectManager;
+    private final boolean isTutorial;
     private final SolApplication solApplication;
     private final DrawableManager drawableManager;
     private final PlanetManager planetManager;
@@ -104,7 +105,8 @@ public class SolGame {
     private float timeFactor;
     private RespawnState respawnState;
 
-    public SolGame(String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context) {
+    public SolGame(String shipName, boolean isTutorial, boolean isNewGame, CommonDrawer commonDrawer, Context context) {
+        this.isTutorial = isTutorial;
         solApplication = context.get(SolApplication.class);
         GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
@@ -113,7 +115,12 @@ public class SolGame {
         drawableManager = new DrawableManager(drawer);
         camera = new SolCam(drawer.r);
         gameScreens = new GameScreens(drawer.r, solApplication, context);
-        tutorialManager = tut ? new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, solApplication.isMobile(), solApplication.getOptions(), this) : null;
+        if (isTutorial) {
+            tutorialManager = new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, solApplication.isMobile(), solApplication.getOptions(), this);
+            context.put(TutorialManager.class, tutorialManager);
+        }else{
+            tutorialManager=null;
+        }
         farBackgroundManagerOld = new FarBackgroundManagerOld();
         shipBuilder = new ShipBuilder();
         EffectTypes effectTypes = new EffectTypes();
@@ -189,8 +196,10 @@ public class SolGame {
         if (hero.isDead()) {
             respawn();
         }
-        saveShip();
-        saveWorld();
+        if (!isTutorial) {
+            saveShip();
+            saveWorld();
+        }
         objectManager.dispose();
     }
 
@@ -198,32 +207,25 @@ public class SolGame {
      * Saves the world's seed so we can regenerate the same world later
      */
     private void saveWorld() {
-        // Make sure the tutorial doesn't overwrite the save
-        if (tutorialManager == null) {
-            long seed = SolRandom.getSeed();
+        long seed = SolRandom.getSeed();
 
-            String fileName = SaveManager.getResourcePath(SolApplication.WORLD_SAVE_FILE_NAME);
+        String fileName = SaveManager.getResourcePath(SolApplication.WORLD_SAVE_FILE_NAME);
 
-            String toWrite = "seed=" + Long.toString(seed);
+        String toWrite = "seed=" + Long.toString(seed);
 
-            PrintWriter writer;
-            try {
-                writer = new PrintWriter(fileName, "UTF-8");
-                writer.write(toWrite);
-                writer.close();
-            } catch (FileNotFoundException | UnsupportedEncodingException e) {
-                logger.error("Could not save galaxy seed, " + e.getMessage());
-                return;
-            }
-            logger.info("Successfully saved the galaxy seed: " + String.valueOf(seed));
+        PrintWriter writer;
+        try {
+            writer = new PrintWriter(fileName, "UTF-8");
+            writer.write(toWrite);
+            writer.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            logger.error("Could not save galaxy seed, " + e.getMessage());
+            return;
         }
+        logger.info("Successfully saved the galaxy seed: " + String.valueOf(seed));
     }
 
     private void saveShip() {
-        if (tutorialManager != null) {
-            return;
-        }
-
         HullConfig hull;
         float money;
         List<SolItem> items;
@@ -279,7 +281,7 @@ public class SolGame {
         soundManager.update(this);
         beaconHandler.update(this);
 
-        if (tutorialManager != null) {
+        if (isTutorial) {
             tutorialManager.update();
         }
     }
@@ -485,10 +487,6 @@ public class SolGame {
         return mountDetectDrawer;
     }
 
-    public TutorialManager getTutMan() {
-        return tutorialManager;
-    }
-
     public void beforeHeroDeath() {
         if (hero.isDead() || hero.isTranscendent()) {
             return;
@@ -518,5 +516,9 @@ public class SolGame {
                 }
             }
         }
+    }
+
+    public boolean isTutorial() {
+        return isTutorial;
     }
 }
