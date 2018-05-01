@@ -119,6 +119,9 @@ public class SolGame {
         onPausedUpdateSystems.add(camera);
         gameScreens = new GameScreens(drawer.r, solApplication, context);
         tutorialManager = tut ? new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, solApplication.isMobile(), solApplication.getOptions(), this) : null;
+        if (tutorialManager != null) {
+            updateSystems.add(tutorialManager);
+        }
         farBackgroundManagerOld = new FarBackgroundManagerOld();
         shipBuilder = new ShipBuilder();
         EffectTypes effectTypes = new EffectTypes();
@@ -269,12 +272,7 @@ public class SolGame {
             onPausedUpdateSystems.forEach(system -> system.update(this, timeStep));
         } else {
             updateTime();
-
             updateSystems.forEach(system -> system.update(this, timeStep));
-
-            if (tutorialManager != null) {
-                tutorialManager.update();
-            }
         }
     }
 

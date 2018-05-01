@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.GameOptions;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.screens.InventoryScreen;
@@ -29,7 +30,7 @@ import org.destinationsol.game.screens.ShipMixedControl;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TutorialManager {
+public class TutorialManager implements UpdateAwareSystem {
     private final Rectangle background;
     private final ArrayList<Step> steps;
 
@@ -225,7 +226,8 @@ public class TutorialManager {
         steps.add(step);
     }
 
-    public void update() {
+    @Override
+    public void update(SolGame game,float timeStep) {
         Step step = steps.get(stepIndex);
         step.highlight();
         if (step.canProgressToNextStep()) {
