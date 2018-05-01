@@ -60,6 +60,10 @@ public class SolCam {
     }
 
     public void update(SolGame game) {
+        if (game.isPaused()) {
+            updateMapZoom(game, game.getTimeStep());
+            return;
+        }
 
         Hero hero = game.getHero();
         float ts = game.getTimeStep();
@@ -100,14 +104,13 @@ public class SolCam {
         myAngle = SolMath.approachAngle(myAngle, desiredAngle, rotationSpeed);
         applyAngle();
 
-        updateMap(game);
+        updateMapZoom(game, game.getTimeStep());
     }
 
-    public void updateMap(SolGame game) {
-        float ts = game.getTimeStep();
+    private void updateMapZoom(SolGame game, float timeStep) {
         float desiredViewDistance = getDesiredViewDistance(game);
         float desiredZoom = calcZoom(desiredViewDistance);
-        myZoom = SolMath.approach(myZoom, desiredZoom, ZOOM_CHG_SPD * ts);
+        myZoom = SolMath.approach(myZoom, desiredZoom, ZOOM_CHG_SPD * timeStep);
         applyZoom(game.getMapDrawer());
         myCam.update();
     }
