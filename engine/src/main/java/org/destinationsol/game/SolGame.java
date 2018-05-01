@@ -104,6 +104,7 @@ public class SolGame {
     private float timeFactor;
     private RespawnState respawnState;
     private List<UpdateAwareSystem> onPausedUpdateSystems = new ArrayList<>();
+    private List<UpdateAwareSystem> updateSystems = new ArrayList<>();
 
     public SolGame(String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context) {
         solApplication = context.get(SolApplication.class);
@@ -139,6 +140,7 @@ public class SolGame {
         galaxyFiller = new GalaxyFiller();
         starPortBuilder = new StarPort.Builder();
         drawableDebugger = new DrawableDebugger();
+        updateSystems.add(drawableDebugger);
         onPausedUpdateSystems.add(drawableDebugger);
         beaconHandler = new BeaconHandler();
         mountDetectDrawer = new MountDetectDrawer();
@@ -258,7 +260,7 @@ public class SolGame {
         if (paused) {
             onPausedUpdateSystems.forEach(system -> system.update(this, timeStep));
         } else {
-            drawableDebugger.update(this, timeStep);
+            updateSystems.forEach(system -> system.update(this, timeStep));
 
             timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
             if (hero.isAlive() && hero.isNonTranscendent()) {
