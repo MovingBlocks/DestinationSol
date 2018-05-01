@@ -133,6 +133,7 @@ public class SolGame {
         asteroidBuilder = new AsteroidBuilder();
         lootBuilder = new LootBuilder();
         mapDrawer = new MapDrawer(commonDrawer.height);
+        onPausedUpdateSystems.add(mapDrawer);
         shardBuilder = new ShardBuilder();
         galaxyFiller = new GalaxyFiller();
         starPortBuilder = new StarPort.Builder();
@@ -255,7 +256,6 @@ public class SolGame {
         if (paused) {
             drawableDebugger.update(this);
             camera.updateMap(this); // update zoom only for map
-            mapDrawer.update(this); // animate map icons
             onPausedUpdateSystems.forEach(system -> system.update(this, timeStep));
         } else {
             drawableDebugger.update(this);
@@ -276,7 +276,7 @@ public class SolGame {
             chunkManager.update(this);
             mountDetectDrawer.update(this);
             objectManager.update(this);
-            mapDrawer.update(this);
+            mapDrawer.update(this, timeStep);
             soundManager.update(this);
             beaconHandler.update(this);
 
