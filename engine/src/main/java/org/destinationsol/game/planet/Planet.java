@@ -69,10 +69,9 @@ public class Planet {
         setSecondaryParams();
     }
 
-    public void update(SolGame game) {
-        float ts = game.getTimeStep();
-        angleInSystem += rotationSpeedInSystem * ts;
-        angle += rotationSpeed * ts;
+    public void update(SolGame game, float timeStep) {
+        angleInSystem += rotationSpeedInSystem * timeStep;
+        angle += rotationSpeed * timeStep;
 
         setSecondaryParams();
         Vector2 camPos = game.getCam().getPosition();
