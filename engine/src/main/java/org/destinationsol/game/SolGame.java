@@ -260,8 +260,6 @@ public class SolGame {
         if (paused) {
             onPausedUpdateSystems.forEach(system -> system.update(this, timeStep));
         } else {
-            updateSystems.forEach(system -> system.update(this, timeStep));
-
             timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
             if (hero.isAlive() && hero.isNonTranscendent()) {
                 ShipAbility ability = hero.getAbility();
@@ -273,6 +271,7 @@ public class SolGame {
             timeStep = Const.REAL_TIME_STEP * timeFactor;
             time += timeStep;
 
+            updateSystems.forEach(system -> system.update(this, timeStep));
             planetManager.update(this);
             camera.update(this, timeStep);
             chunkManager.update(this);
