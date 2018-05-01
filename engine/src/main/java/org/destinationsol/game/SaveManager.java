@@ -47,7 +47,7 @@ public class SaveManager {
 
     private static final String FILE_NAME = "prevShip.ini";
 
-    public static void writeShips(HullConfig hull, float money, ArrayList<SolItem> itemsList, SolGame game) {
+    public static void writeShips(HullConfig hull, float money, List<SolItem> itemsList, SolGame game) {
         String hullName = game.getHullConfigs().getName(hull);
 
         writeMercs(game);
@@ -64,7 +64,7 @@ public class SaveManager {
      * @param items A list of SolItems to be encoded as a string
      * @return A string of items suitable for saving
      */
-    private static String itemsToString(ArrayList<SolItem> items) {
+    private static String itemsToString(List<SolItem> items) {
         StringBuilder sb = new StringBuilder();
 
         for (SolItem i : items) {

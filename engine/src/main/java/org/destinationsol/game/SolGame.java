@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,17 +31,11 @@ import org.destinationsol.game.context.Context;
 import org.destinationsol.game.drawables.DrawableDebugger;
 import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.farBg.FarBackgroundManagerOld;
-import org.destinationsol.game.input.AiPilot;
-import org.destinationsol.game.input.BeaconDestProvider;
-import org.destinationsol.game.input.Pilot;
-import org.destinationsol.game.input.UiControlledPilot;
-import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.LootBuilder;
 import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.particle.PartMan;
 import org.destinationsol.game.particle.SpecialEffects;
@@ -78,6 +72,7 @@ public class SolGame {
     private final GameScreens gameScreens;
     private final SolCam camera;
     private final ObjectManager objectManager;
+    private final SolApplication solApplication;
     private final DrawableManager drawableManager;
     private final PlanetManager planetManager;
     private final ChunkManager chunkManager;
@@ -102,16 +97,12 @@ public class SolGame {
     private final MountDetectDrawer mountDetectDrawer;
     private final TutorialManager tutorialManager;
     private final GalaxyFiller galaxyFiller;
-    private final ArrayList<SolItem> respawnItems;
-    private final SolApplication solApplication;
     private Hero hero;
     private float timeStep;
     private float time;
     private boolean paused;
     private float timeFactor;
-    private float respawnMoney;
-    private HullConfig respawnHull;
-    private boolean isPlayerRespawned;
+    private RespawnState respawnState;
 
     public SolGame(String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context) {
         solApplication = context.get(SolApplication.class);
@@ -147,86 +138,42 @@ public class SolGame {
         drawableDebugger = new DrawableDebugger();
         beaconHandler = new BeaconHandler();
         mountDetectDrawer = new MountDetectDrawer();
-        respawnItems = new ArrayList<>();
         timeFactor = 1;
 
         // from this point we're ready!
         planetManager.fill(solNames);
-        createPlayer(shipName, isNewGame);
+        respawnState = new RespawnState();
+        createGame(shipName, isNewGame, this);
         if (!isNewGame) {
             createAndSpawnMercenariesFromSave();
         }
         SolMath.checkVectorsTaken(null);
     }
 
-    // uh, this needs refactoring
-    private void createPlayer(String shipName, boolean isNewGame) {
-        ShipConfig shipConfig = shipName == null ? SaveManager.readShip(hullConfigManager, itemManager, this) : ShipConfig.load(hullConfigManager, shipName, itemManager, this);
-
-        // Added temporarily to remove warnings. Handle this more gracefully inside the SaveManager.readShip and the ShipConfig.load methods
-        assert shipConfig != null;
-
-        if (!isPlayerRespawned) {
-            galaxyFiller.fill(this, hullConfigManager, itemManager, shipConfig.hull.getInternalName().split(":")[0]);
+    private void createGame(String shipName, boolean shouldSpawnOnGalaxySpawnPosition, SolGame game) {
+        /*
+         * shipName will be null on respawn and continue, meaning the old ship will be loaded.
+         * If shipName is not null then a new ship has to be created.
+         */
+        boolean isNewShip = shipName != null;
+        ShipConfig shipConfig = readShipFromConfigOrLoadFromSaveIfNull(shipName, game, isNewShip);
+        if (!respawnState.isPlayerRespawned()) {
+            game.getGalaxyFiller().fill(game, game.getHullConfigs(), game.getItemMan(), shipConfig.hull.getInternalName().split(":")[0]);
         }
+        hero = new PlayerCreator().createPlayer(shipConfig,
+                shouldSpawnOnGalaxySpawnPosition,
+                respawnState,
+                this,
+                solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE,
+                isNewShip);
+    }
 
-        // If we continue a game, we should spawn from the same position
-        Vector2 position;
-        if (isNewGame) {
-            position = galaxyFiller.getPlayerSpawnPos(this);
+    private ShipConfig readShipFromConfigOrLoadFromSaveIfNull(String shipName, SolGame game, boolean isNewShip) {
+        if (isNewShip) {
+            return ShipConfig.load(game.getHullConfigs(), shipName, game.getItemMan(), game);
         } else {
-            position = shipConfig.spawnPos;
+            return SaveManager.readShip(game.getHullConfigs(), game.getItemMan(), game);
         }
-        camera.setPos(position);
-
-        Pilot pilot;
-        if (solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE) {
-            beaconHandler.init(this, position);
-            pilot = new AiPilot(new BeaconDestProvider(), true, Faction.LAANI, false, "you", Const.AI_DET_DIST);
-        } else {
-            pilot = new UiControlledPilot(gameScreens.mainScreen);
-        }
-
-        float money = respawnMoney != 0 ? respawnMoney : tutorialManager != null ? 200 : shipConfig.money;
-
-        HullConfig hull = respawnHull != null ? respawnHull : shipConfig.hull;
-
-        String itemsStr = !respawnItems.isEmpty() ? "" : shipConfig.items;
-
-        boolean giveAmmo = shipName != null && respawnItems.isEmpty();
-        hero = new Hero(shipBuilder.buildNewFar(this, new Vector2(position), null, 0, 0, pilot, itemsStr, hull, null, true, money, new TradeConfig(), giveAmmo).toObject(this));
-
-        ItemContainer itemContainer = hero.getItemContainer();
-        if (!respawnItems.isEmpty()) {
-            for (SolItem item : respawnItems) {
-                itemContainer.add(item);
-                // Ensure that previously equipped items stay equipped
-                if (item.isEquipped() > 0) {
-                    if (item instanceof Gun) {
-                        hero.maybeEquip(this, item, item.isEquipped() == 2, true);
-                    } else {
-                        hero.maybeEquip(this, item, true);
-                    }
-                }
-            }
-        } else if (tutorialManager != null) {
-            for (int i = 0; i < 50; i++) {
-                if (itemContainer.groupCount() > 1.5f * Const.ITEM_GROUPS_PER_PAGE) {
-                    break;
-                }
-                SolItem it = itemManager.random();
-                if (!(it instanceof Gun) && it.getIcon(this) != null && itemContainer.canAdd(it)) {
-                    itemContainer.add(it.copy());
-                }
-            }
-        }
-        itemContainer.markAllAsSeen();
-
-        // Don't change equipped items across load/respawn
-        //AiPilot.reEquip(this, myHero);
-
-        objectManager.addObjDelayed(hero.getShip());
-        objectManager.resetDelays();
     }
 
     private void createAndSpawnMercenariesFromSave() {
@@ -239,7 +186,7 @@ public class SolGame {
 
     public void onGameEnd() {
         // If the hero tries to exit while dead, respawn them first, then save
-        if(hero.isDead()) {
+        if (hero.isDead()) {
             respawn();
         }
         saveShip();
@@ -279,7 +226,7 @@ public class SolGame {
 
         HullConfig hull;
         float money;
-        ArrayList<SolItem> items;
+        List<SolItem> items;
 
         if (hero.isAlive()) {
             hull = hero.isTranscendent() ? hero.getTranscendentHero().getShip().getHullConfig() : hero.getHull().config;
@@ -291,9 +238,9 @@ public class SolGame {
                 }
             }
         } else {
-            hull = respawnHull;
-            money = respawnMoney;
-            items = respawnItems;
+            hull = respawnState.getRespawnHull();
+            money = respawnState.getRespawnMoney();
+            items = respawnState.getRespawnItems();
         }
 
         SaveManager.writeShips(hull, money, items, this);
@@ -420,7 +367,7 @@ public class SolGame {
     }
 
     public void respawn() {
-        isPlayerRespawned = true;
+        respawnState.setPlayerRespawned(true);
         if (hero.isAlive()) {
             if (hero.isNonTranscendent()) {
                 beforeHeroDeath();
@@ -430,8 +377,7 @@ public class SolGame {
                 objectManager.removeObjDelayed(hero.getTranscendentHero());
             }
         }
-        // TODO: Consider whether we want to treat respawn as a newGame or not.
-        createPlayer(null, true);
+        createGame(null, true, this);
     }
 
     public FactionManager getFactionMan() {
@@ -553,21 +499,22 @@ public class SolGame {
 
         setRespawnState(money, itemContainer, hero.getHull().config);
 
-        hero.setMoney(money - respawnMoney);
-        for (SolItem item : respawnItems) {
+        hero.setMoney(money - respawnState.getRespawnMoney());
+        for (SolItem item : respawnState.getRespawnItems()) {
             itemContainer.remove(item);
         }
     }
 
     private void setRespawnState(float money, ItemContainer ic, HullConfig hullConfig) {
-        respawnMoney = .75f * money;
-        respawnHull = hullConfig;
-        respawnItems.clear();
+        respawnState.setRespawnMoney(.75f * money);
+        respawnState.setRespawnHull(hullConfig);
+        respawnState.getRespawnItems().clear();
+        respawnState.setPlayerRespawned(true);
         for (List<SolItem> group : ic) {
             for (SolItem item : group) {
                 boolean equipped = hero.isTranscendent() || hero.maybeUnequip(this, item, false);
                 if (equipped || SolRandom.test(.75f)) {
-                    respawnItems.add(0, item);
+                    respawnState.getRespawnItems().add(0, item);
                 }
             }
         }
