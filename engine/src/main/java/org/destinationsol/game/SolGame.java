@@ -110,18 +110,12 @@ public class SolGame {
         solApplication = context.get(SolApplication.class);
         GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
-        soundManager = solApplication.getSoundManager();
-        updateSystems.add(soundManager);
+        soundManager = addUpdateSystem(solApplication.getSoundManager());
         specialSounds = new SpecialSounds(soundManager);
         drawableManager = new DrawableManager(drawer);
-        camera = new SolCam(drawer.r);
-        updateSystems.add(camera);
-        onPausedUpdateSystems.add(camera);
+        camera = addUpdateSystem(addPausedUpdateSystem(new SolCam(drawer.r)));
         gameScreens = new GameScreens(drawer.r, solApplication, context);
-        tutorialManager = tut ? new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, solApplication.isMobile(), solApplication.getOptions(), this) : null;
-        if (tutorialManager != null) {
-            updateSystems.add(tutorialManager);
-        }
+        tutorialManager = tut ? addUpdateSystem(new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, solApplication.isMobile(), solApplication.getOptions(), this)) : null;
         farBackgroundManagerOld = new FarBackgroundManagerOld();
         shipBuilder = new ShipBuilder();
         EffectTypes effectTypes = new EffectTypes();
@@ -130,31 +124,22 @@ public class SolGame {
         AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, gameColors, soundManager);
         hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
         SolNames solNames = new SolNames();
-        planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
-        updateSystems.add(planetManager);
+        planetManager = addUpdateSystem(new PlanetManager(hullConfigManager, gameColors, itemManager));
         SolContactListener contactListener = new SolContactListener(this);
         factionManager = new FactionManager();
-        objectManager = new ObjectManager(contactListener, factionManager);
-        updateSystems.add(objectManager);
+        objectManager = addUpdateSystem(new ObjectManager(contactListener, factionManager));
         gridDrawer = new GridDrawer();
-        chunkManager = new ChunkManager();
-        updateSystems.add(chunkManager);
+        chunkManager = addUpdateSystem(new ChunkManager());
         partMan = new PartMan();
         asteroidBuilder = new AsteroidBuilder();
         lootBuilder = new LootBuilder();
-        mapDrawer = new MapDrawer(commonDrawer.height);
-        updateSystems.add(mapDrawer);
-        onPausedUpdateSystems.add(mapDrawer);
+        mapDrawer = addUpdateSystem(addPausedUpdateSystem(new MapDrawer(commonDrawer.height)));
         shardBuilder = new ShardBuilder();
         galaxyFiller = new GalaxyFiller();
         starPortBuilder = new StarPort.Builder();
-        drawableDebugger = new DrawableDebugger();
-        updateSystems.add(drawableDebugger);
-        onPausedUpdateSystems.add(drawableDebugger);
-        beaconHandler = new BeaconHandler();
-        updateSystems.add(beaconHandler);
-        mountDetectDrawer = new MountDetectDrawer();
-        updateSystems.add(mountDetectDrawer);
+        drawableDebugger = addUpdateSystem(addPausedUpdateSystem(new DrawableDebugger()));
+        beaconHandler = addUpdateSystem(new BeaconHandler());
+        mountDetectDrawer = addUpdateSystem(new MountDetectDrawer());
         timeFactor = 1;
 
         // from this point we're ready!
@@ -527,5 +512,15 @@ public class SolGame {
                 }
             }
         }
+    }
+
+    private <T extends UpdateAwareSystem> T addUpdateSystem(T updateSystem) {
+        updateSystems.add(updateSystem);
+        return updateSystem;
+    }
+
+    private <T extends UpdateAwareSystem> T addPausedUpdateSystem(T updateSystem) {
+        onPausedUpdateSystems.add(updateSystem);
+        return updateSystem;
     }
 }
