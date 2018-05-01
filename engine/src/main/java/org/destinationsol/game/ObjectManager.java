@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-public class ObjectManager {
+public class ObjectManager implements UpdateAwareSystem{
     private static final float MAX_RADIUS_RECALC_AWAIT = 1f;
     private final List<SolObject> myObjs;
     private final List<SolObject> myToRemove;
@@ -71,11 +71,11 @@ public class ObjectManager {
         return false;
     }
 
-    public void update(SolGame game) {
+    @Override
+    public void update(SolGame game, float timeStep) {
         addRemove(game);
 
-        float ts = game.getTimeStep();
-        myWorld.step(ts, 6, 2);
+        myWorld.step(timeStep, 6, 2);
 
         SolCam cam = game.getCam();
         Vector2 camPos = cam.getPosition();
@@ -84,7 +84,7 @@ public class ObjectManager {
 
         boolean recalcRad = false;
         if (myRadiusRecalcAwait > 0) {
-            myRadiusRecalcAwait -= ts;
+            myRadiusRecalcAwait -= timeStep;
         } else {
             myRadiusRecalcAwait = MAX_RADIUS_RECALC_AWAIT;
             recalcRad = true;
@@ -130,7 +130,7 @@ public class ObjectManager {
                 removeFo(it, fo);
                 continue;
             }
-            if (isNear(fod, camPos, ts)) {
+            if (isNear(fod, camPos, timeStep)) {
                 SolObject o = fo.toObject(game);
                 // Ensure that StarPorts are added straight away so that we can see if they overlap
                 if (o instanceof StarPort) {
