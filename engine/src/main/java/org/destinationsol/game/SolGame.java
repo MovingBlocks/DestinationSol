@@ -149,6 +149,7 @@ public class SolGame {
         updateSystems.add(drawableDebugger);
         onPausedUpdateSystems.add(drawableDebugger);
         beaconHandler = new BeaconHandler();
+        updateSystems.add(beaconHandler);
         mountDetectDrawer = new MountDetectDrawer();
         updateSystems.add(mountDetectDrawer);
         timeFactor = 1;
@@ -270,7 +271,6 @@ public class SolGame {
             updateTime();
 
             updateSystems.forEach(system -> system.update(this, timeStep));
-            beaconHandler.update(this);
 
             if (tutorialManager != null) {
                 tutorialManager.update();
