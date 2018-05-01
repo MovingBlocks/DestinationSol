@@ -139,6 +139,7 @@ public class SolGame {
         galaxyFiller = new GalaxyFiller();
         starPortBuilder = new StarPort.Builder();
         drawableDebugger = new DrawableDebugger();
+        onPausedUpdateSystems.add(drawableDebugger);
         beaconHandler = new BeaconHandler();
         mountDetectDrawer = new MountDetectDrawer();
         timeFactor = 1;
@@ -255,10 +256,9 @@ public class SolGame {
 
     public void update() {
         if (paused) {
-            drawableDebugger.update(this);
             onPausedUpdateSystems.forEach(system -> system.update(this, timeStep));
         } else {
-            drawableDebugger.update(this);
+            drawableDebugger.update(this, timeStep);
 
             timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
             if (hero.isAlive() && hero.isNonTranscendent()) {
