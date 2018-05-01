@@ -139,6 +139,7 @@ public class SolGame {
         asteroidBuilder = new AsteroidBuilder();
         lootBuilder = new LootBuilder();
         mapDrawer = new MapDrawer(commonDrawer.height);
+        updateSystems.add(mapDrawer);
         onPausedUpdateSystems.add(mapDrawer);
         shardBuilder = new ShardBuilder();
         galaxyFiller = new GalaxyFiller();
@@ -268,7 +269,6 @@ public class SolGame {
             updateTime();
 
             updateSystems.forEach(system -> system.update(this, timeStep));
-            mapDrawer.update(this, timeStep);
             soundManager.update(this);
             beaconHandler.update(this);
 
