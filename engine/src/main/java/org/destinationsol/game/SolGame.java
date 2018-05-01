@@ -114,6 +114,7 @@ public class SolGame {
         specialSounds = new SpecialSounds(soundManager);
         drawableManager = new DrawableManager(drawer);
         camera = new SolCam(drawer.r);
+        updateSystems.add(camera);
         onPausedUpdateSystems.add(camera);
         gameScreens = new GameScreens(drawer.r, solApplication, context);
         tutorialManager = tut ? new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, solApplication.isMobile(), solApplication.getOptions(), this) : null;
@@ -264,7 +265,6 @@ public class SolGame {
             updateTime();
 
             updateSystems.forEach(system -> system.update(this, timeStep));
-            camera.update(this, timeStep);
             chunkManager.update(this);
             mountDetectDrawer.update(this);
             objectManager.update(this);
