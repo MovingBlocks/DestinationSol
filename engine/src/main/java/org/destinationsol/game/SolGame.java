@@ -133,7 +133,7 @@ public class SolGame {
         lootBuilder = new LootBuilder();
         mapDrawer = new MapDrawer(commonDrawer.height);
         shardBuilder = new ShardBuilder();
-        galaxyFiller = new GalaxyFiller();
+        galaxyFiller = new GalaxyFiller(hullConfigManager);
         starPortBuilder = new StarPort.Builder();
         drawableDebugger = new DrawableDebugger();
         beaconHandler = new BeaconHandler();
@@ -143,22 +143,22 @@ public class SolGame {
         // from this point we're ready!
         planetManager.fill(solNames);
         respawnState = new RespawnState();
-        createGame(shipName, isNewGame, this);
+        createGame(shipName, isNewGame, hullConfigManager);
         if (!isNewGame) {
-            createAndSpawnMercenariesFromSave();
+            createAndSpawnMercenariesFromSave(hullConfigManager);
         }
         SolMath.checkVectorsTaken(null);
     }
 
-    private void createGame(String shipName, boolean shouldSpawnOnGalaxySpawnPosition, SolGame game) {
+    private void createGame(String shipName, boolean shouldSpawnOnGalaxySpawnPosition, HullConfigManager hullConfigManager) {
         /*
          * shipName will be null on respawn and continue, meaning the old ship will be loaded.
          * If shipName is not null then a new ship has to be created.
          */
         boolean isNewShip = shipName != null;
-        ShipConfig shipConfig = readShipFromConfigOrLoadFromSaveIfNull(shipName, game, isNewShip);
+        ShipConfig shipConfig = readShipFromConfigOrLoadFromSaveIfNull(shipName, this, isNewShip, hullConfigManager);
         if (!respawnState.isPlayerRespawned()) {
-            game.getGalaxyFiller().fill(game, game.getHullConfigs(), game.getItemMan(), shipConfig.hull.getInternalName().split(":")[0]);
+            this.getGalaxyFiller().fill(this, hullConfigManager, this.getItemMan(), shipConfig.hull.getInternalName().split(":")[0]);
         }
         hero = new PlayerCreator().createPlayer(shipConfig,
                 shouldSpawnOnGalaxySpawnPosition,
@@ -168,15 +168,15 @@ public class SolGame {
                 isNewShip);
     }
 
-    private ShipConfig readShipFromConfigOrLoadFromSaveIfNull(String shipName, SolGame game, boolean isNewShip) {
+    private ShipConfig readShipFromConfigOrLoadFromSaveIfNull(String shipName, SolGame game, boolean isNewShip, HullConfigManager hullConfigManager) {
         if (isNewShip) {
-            return ShipConfig.load(game.getHullConfigs(), shipName, game.getItemMan(), game);
+            return ShipConfig.load(hullConfigManager, shipName, game.getItemMan(), game);
         } else {
-            return SaveManager.readShip(game.getHullConfigs(), game.getItemMan(), game);
+            return SaveManager.readShip(hullConfigManager, game.getItemMan(), game);
         }
     }
 
-    private void createAndSpawnMercenariesFromSave() {
+    private void createAndSpawnMercenariesFromSave(HullConfigManager hullConfigManager) {
         List<MercItem> mercenaryItems = new MercenarySaveLoader()
                 .loadMercenariesFromSave(hullConfigManager, itemManager, MERC_SAVE_FILE);
         for (MercItem mercenaryItem : mercenaryItems) {
@@ -243,7 +243,7 @@ public class SolGame {
             items = respawnState.getRespawnItems();
         }
 
-        SaveManager.writeShips(hull, money, items, this);
+        SaveManager.writeShips(hull, money, items, this, hullConfigManager);
     }
 
     public GameScreens getScreens() {
@@ -353,10 +353,6 @@ public class SolGame {
         return itemManager;
     }
 
-    public HullConfigManager getHullConfigs() {
-        return hullConfigManager;
-    }
-
     public boolean isPaused() {
         return paused;
     }
@@ -377,7 +373,7 @@ public class SolGame {
                 objectManager.removeObjDelayed(hero.getTranscendentHero());
             }
         }
-        createGame(null, true, this);
+        createGame(null, true, hullConfigManager);
     }
 
     public FactionManager getFactionMan() {
