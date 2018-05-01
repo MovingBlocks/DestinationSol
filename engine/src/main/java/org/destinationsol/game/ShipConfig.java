@@ -21,6 +21,7 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
+import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.terasology.assets.ResourceUrn;
 
@@ -44,10 +45,26 @@ public class ShipConfig {
         this.guard = guard;
         dps = HardnessCalc.getShipConfDps(this, itemManager);
     }
-    
+
     public ShipConfig(HullConfig hull, String items, int money, float density, ShipConfig guard, ItemManager itemManager, Vector2 spawnPos) {
         this(hull, items, money, density, guard, itemManager);
         this.spawnPos = spawnPos;
+    }
+
+    public Vector2 getSpawnPos() {
+        return spawnPos;
+    }
+
+    public int getMoney(){
+        return money;
+    }
+
+    public HullConfig getHull(){
+        return hull;
+    }
+
+    public String getItems(){
+        return items;
     }
 
     public static ArrayList<ShipConfig> loadList(JsonValue shipListJson, HullConfigManager hullConfigs, ItemManager itemManager) {
