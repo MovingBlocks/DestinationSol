@@ -147,6 +147,7 @@ public class SolGame {
         onPausedUpdateSystems.add(drawableDebugger);
         beaconHandler = new BeaconHandler();
         mountDetectDrawer = new MountDetectDrawer();
+        updateSystems.add(mountDetectDrawer);
         timeFactor = 1;
 
         // from this point we're ready!
@@ -266,7 +267,6 @@ public class SolGame {
             updateTime();
 
             updateSystems.forEach(system -> system.update(this, timeStep));
-            mountDetectDrawer.update(this);
             objectManager.update(this);
             mapDrawer.update(this, timeStep);
             soundManager.update(this);
