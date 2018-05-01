@@ -255,32 +255,32 @@ public class SolGame {
             drawableDebugger.update(this);
             camera.updateMap(this); // update zoom only for map
             mapDrawer.update(this); // animate map icons
-            return;
-        }
-        drawableDebugger.update(this);
+        } else {
+            drawableDebugger.update(this);
 
-        timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
-        if (hero.isAlive() && hero.isNonTranscendent()) {
-            ShipAbility ability = hero.getAbility();
-            if (ability instanceof SloMo) {
-                float factor = ((SloMo) ability).getFactor();
-                timeFactor *= factor;
+            timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
+            if (hero.isAlive() && hero.isNonTranscendent()) {
+                ShipAbility ability = hero.getAbility();
+                if (ability instanceof SloMo) {
+                    float factor = ((SloMo) ability).getFactor();
+                    timeFactor *= factor;
+                }
             }
-        }
-        timeStep = Const.REAL_TIME_STEP * timeFactor;
-        time += timeStep;
+            timeStep = Const.REAL_TIME_STEP * timeFactor;
+            time += timeStep;
 
-        planetManager.update(this);
-        camera.update(this);
-        chunkManager.update(this);
-        mountDetectDrawer.update(this);
-        objectManager.update(this);
-        mapDrawer.update(this);
-        soundManager.update(this);
-        beaconHandler.update(this);
+            planetManager.update(this);
+            camera.update(this);
+            chunkManager.update(this);
+            mountDetectDrawer.update(this);
+            objectManager.update(this);
+            mapDrawer.update(this);
+            soundManager.update(this);
+            beaconHandler.update(this);
 
-        if (tutorialManager != null) {
-            tutorialManager.update();
+            if (tutorialManager != null) {
+                tutorialManager.update();
+            }
         }
     }
 
