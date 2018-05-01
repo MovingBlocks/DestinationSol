@@ -111,6 +111,7 @@ public class SolGame {
         GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
         soundManager = solApplication.getSoundManager();
+        updateSystems.add(soundManager);
         specialSounds = new SpecialSounds(soundManager);
         drawableManager = new DrawableManager(drawer);
         camera = new SolCam(drawer.r);
@@ -269,7 +270,6 @@ public class SolGame {
             updateTime();
 
             updateSystems.forEach(system -> system.update(this, timeStep));
-            soundManager.update(this);
             beaconHandler.update(this);
 
             if (tutorialManager != null) {
