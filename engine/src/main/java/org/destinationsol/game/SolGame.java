@@ -68,6 +68,7 @@ public class SolGame {
     private final GameScreens gameScreens;
     private final SolCam camera;
     private final ObjectManager objectManager;
+    private final boolean isTutorial;
     private final SolApplication solApplication;
     private final DrawableManager drawableManager;
     private final PlanetManager planetManager;
@@ -102,7 +103,10 @@ public class SolGame {
     private SortedMap<Integer, List<UpdateAwareSystem>> onPausedUpdateSystems;
     private SortedMap<Integer, List<UpdateAwareSystem>> updateSystems;
 
-    public SolGame(String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context, WorldConfig worldConfig) {
+
+    public SolGame(String shipName, boolean isTutorial, boolean isNewGame, CommonDrawer commonDrawer, Context context,
+                   WorldConfig worldConfig) {
+        this.isTutorial = isTutorial;
         solApplication = context.get(SolApplication.class);
         GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
@@ -111,7 +115,12 @@ public class SolGame {
         drawableManager = new DrawableManager(drawer);
         camera = new SolCam();
         gameScreens = new GameScreens(solApplication, context);
-        tutorialManager = tut ? new TutorialManager(gameScreens, solApplication.isMobile(), solApplication.getOptions(), this) : null;
+        if (isTutorial) {
+            tutorialManager = new TutorialManager(gameScreens, solApplication.isMobile(), solApplication.getOptions(), this);
+            context.put(TutorialManager.class, tutorialManager);
+        } else {
+            tutorialManager = null;
+        }
         farBackgroundManagerOld = new FarBackgroundManagerOld();
         shipBuilder = new ShipBuilder();
         EffectTypes effectTypes = new EffectTypes();
@@ -237,31 +246,17 @@ public class SolGame {
         if (hero.isDead()) {
             respawn();
         }
-
-        //The ship should have been saved when it entered the star-port
-        if (!hero.isTranscendent()) {
-            saveShip();
+        if (!isTutorial) {
+            //The ship should have been saved when it entered the star-port
+            if (!hero.isTranscendent()) {
+                saveShip();
+            }
+            SaveManager.saveWorld(getPlanetManager().getSystems().size());
         }
-        saveWorld();
         objectManager.dispose();
     }
 
-    /**
-     * Saves the world's seed so we can regenerate the same world later
-     */
-    public void saveWorld() {
-        if (tutorialManager != null) {
-            return;
-        }
-
-        SaveManager.saveWorld(getPlanetManager().getSystems().size());
-    }
-
-    public void saveShip() {
-        if (tutorialManager != null) {
-            return;
-        }
-
+    private void saveShip() {
         if (hero.isTranscendent()) {
             throw new SolException("The hero cannot be saved when in a transcendent state.");
         }
@@ -411,7 +406,7 @@ public class SolGame {
         return factionManager;
     }
 
-    public boolean isPlaceEmpty(Vector2 position, boolean considerPlanets) {
+    public boolean isPlaceEmpty(Vector2 position,boolean considerPlanets) {
         if (considerPlanets) {
             Planet np = planetManager.getNearestPlanet(position);
             boolean inPlanet = np.getPosition().dst(position) < np.getFullHeight();
@@ -530,6 +525,10 @@ public class SolGame {
                 }
             }
         }
+    }
+
+    public boolean isTutorial() {
+        return isTutorial;
     }
 
     public SolApplication getSolApplication() {
