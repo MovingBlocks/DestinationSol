@@ -22,13 +22,14 @@ import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.UiDrawer;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class DrawableDebugger {
+public class DrawableDebugger implements UpdateAwareSystem {
     private static final float TEX_SZ = 0.1f;
     private static final float GAP = 0.01f;
     private final Set<TextureAtlas.AtlasRegion> textures;
@@ -37,7 +38,8 @@ public class DrawableDebugger {
         textures = new HashSet<>();
     }
 
-    public void update(SolGame game) {
+    @Override
+    public void update(SolGame game, float timeStep) {
         if (!DebugOptions.TEX_INFO) {
             return;
         }
