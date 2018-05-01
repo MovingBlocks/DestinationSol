@@ -126,6 +126,7 @@ public class SolGame {
         hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
         SolNames solNames = new SolNames();
         planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
+        updateSystems.add(planetManager);
         SolContactListener contactListener = new SolContactListener(this);
         factionManager = new FactionManager();
         objectManager = new ObjectManager(contactListener, factionManager);
@@ -263,7 +264,6 @@ public class SolGame {
             updateTime();
 
             updateSystems.forEach(system -> system.update(this, timeStep));
-            planetManager.update(this);
             camera.update(this, timeStep);
             chunkManager.update(this);
             mountDetectDrawer.update(this);
