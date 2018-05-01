@@ -103,6 +103,7 @@ public class SolGame {
     private boolean paused;
     private float timeFactor;
     private RespawnState respawnState;
+    private List<UpdateAwareSystem> onPausedUpdateSystems = new ArrayList<>();
 
     public SolGame(String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context) {
         solApplication = context.get(SolApplication.class);
@@ -255,6 +256,7 @@ public class SolGame {
             drawableDebugger.update(this);
             camera.updateMap(this); // update zoom only for map
             mapDrawer.update(this); // animate map icons
+            onPausedUpdateSystems.forEach(system -> system.update(this, timeStep));
         } else {
             drawableDebugger.update(this);
 
