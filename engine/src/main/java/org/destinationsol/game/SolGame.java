@@ -131,6 +131,7 @@ public class SolGame {
         SolContactListener contactListener = new SolContactListener(this);
         factionManager = new FactionManager();
         objectManager = new ObjectManager(contactListener, factionManager);
+        updateSystems.add(objectManager);
         gridDrawer = new GridDrawer();
         chunkManager = new ChunkManager();
         updateSystems.add(chunkManager);
@@ -267,7 +268,6 @@ public class SolGame {
             updateTime();
 
             updateSystems.forEach(system -> system.update(this, timeStep));
-            objectManager.update(this);
             mapDrawer.update(this, timeStep);
             soundManager.update(this);
             beaconHandler.update(this);
