@@ -133,6 +133,7 @@ public class SolGame {
         objectManager = new ObjectManager(contactListener, factionManager);
         gridDrawer = new GridDrawer();
         chunkManager = new ChunkManager();
+        updateSystems.add(chunkManager);
         partMan = new PartMan();
         asteroidBuilder = new AsteroidBuilder();
         lootBuilder = new LootBuilder();
@@ -265,7 +266,6 @@ public class SolGame {
             updateTime();
 
             updateSystems.forEach(system -> system.update(this, timeStep));
-            chunkManager.update(this);
             mountDetectDrawer.update(this);
             objectManager.update(this);
             mapDrawer.update(this, timeStep);
