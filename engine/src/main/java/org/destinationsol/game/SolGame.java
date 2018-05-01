@@ -260,16 +260,7 @@ public class SolGame {
         if (paused) {
             onPausedUpdateSystems.forEach(system -> system.update(this, timeStep));
         } else {
-            timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
-            if (hero.isAlive() && hero.isNonTranscendent()) {
-                ShipAbility ability = hero.getAbility();
-                if (ability instanceof SloMo) {
-                    float factor = ((SloMo) ability).getFactor();
-                    timeFactor *= factor;
-                }
-            }
-            timeStep = Const.REAL_TIME_STEP * timeFactor;
-            time += timeStep;
+            updateTime();
 
             updateSystems.forEach(system -> system.update(this, timeStep));
             planetManager.update(this);
@@ -285,6 +276,23 @@ public class SolGame {
                 tutorialManager.update();
             }
         }
+    }
+
+    private void updateTime() {
+        scaleTimeStep();
+        time += timeStep;
+    }
+
+    private void scaleTimeStep() {
+        timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
+        if (hero.isAlive() && hero.isNonTranscendent()) {
+            ShipAbility ability = hero.getAbility();
+            if (ability instanceof SloMo) {
+                float factor = ((SloMo) ability).getFactor();
+                timeFactor *= factor;
+            }
+        }
+        timeStep = Const.REAL_TIME_STEP * timeFactor;
     }
 
     public void draw() {
