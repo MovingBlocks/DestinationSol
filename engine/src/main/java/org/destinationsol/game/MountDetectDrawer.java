@@ -21,7 +21,7 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.ship.SolShip;
 
-public class MountDetectDrawer {
+public class MountDetectDrawer implements UpdateAwareSystem{
     private final Vector2 myNePos;
     private final TextureAtlas.AtlasRegion myTexture;
 
@@ -35,14 +35,14 @@ public class MountDetectDrawer {
         myTexture = Assets.getAtlasRegion("engine:targetDetected");
     }
 
-    public void update(SolGame game) {
+    @Override
+    public void update(SolGame game, float timeStep) {
         myShouldDraw = false;
-        float ts = game.getTimeStep();
-        myAnimPercentage += ts / 2f;
+        myAnimPercentage += timeStep / 2f;
         if (myAnimPercentage > 1) {
             myAnimPercentage = 0;
         }
-        myAngle += 30f * ts;
+        myAngle += 30f * timeStep;
         if (myAngle > 180) {
             myAngle -= 360;
         }
