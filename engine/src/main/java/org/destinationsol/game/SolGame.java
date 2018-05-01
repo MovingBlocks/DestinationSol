@@ -251,13 +251,13 @@ public class SolGame {
     }
 
     public void update() {
-        drawableDebugger.update(this);
-
         if (paused) {
+            drawableDebugger.update(this);
             camera.updateMap(this); // update zoom only for map
             mapDrawer.update(this); // animate map icons
             return;
         }
+        drawableDebugger.update(this);
 
         timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
         if (hero.isAlive() && hero.isNonTranscendent()) {
