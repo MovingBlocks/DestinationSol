@@ -255,7 +255,7 @@ public class SolGame {
     public void update() {
         if (paused) {
             drawableDebugger.update(this);
-            camera.updateMap(this); // update zoom only for map
+            camera.update(this);
             onPausedUpdateSystems.forEach(system -> system.update(this, timeStep));
         } else {
             drawableDebugger.update(this);
