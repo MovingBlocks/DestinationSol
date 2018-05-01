@@ -45,8 +45,13 @@ import java.util.ArrayList;
 
 public class GalaxyFiller {
     private static final float STATION_CONSUME_SECTOR = 45f;
+    private final HullConfigManager hullConfigManager;
     private Vector2 mainStationPos = new Vector2();
     private HullConfig mainStationHc;
+
+    public GalaxyFiller(HullConfigManager hullConfigManager) {
+        this.hullConfigManager = hullConfigManager;
+    }
 
     private Vector2 getPosForStation(SolSystem sys, boolean mainStation, ConsumedAngles angles) {
         Planet planet;
@@ -264,7 +269,7 @@ public class GalaxyFiller {
             position.set(maze.getPos());
             position.x += maze.getRadius();
         } else if ("trader".equals(DebugOptions.SPAWN_PLACE)) {
-            HullConfig config = game.getHullConfigs().getConfig("core:bus");
+            HullConfig config = hullConfigManager.getConfig("core:bus");
             for (FarObjData farObjData : game.getObjectManager().getFarObjs()) {
                 FarObject farObject = farObjData.fo;
                 if (!(farObject instanceof FarShip)) {
