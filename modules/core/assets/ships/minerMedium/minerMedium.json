@@ -94,7 +94,12 @@
                 "size": 0.07,
                 "tex": "core:smoke",
                 "tint": "smoke"
-            }
+            },
+            "workSounds": [
+                "core:diesel",
+                "core:diesel2",
+                "core:diesel3"
+            ]
         },
         {
             "position": "0.2 0.72",
@@ -105,7 +110,12 @@
                 "size": 0.07,
                 "tex": "core:smoke",
                 "tint": "smoke"
-            }
+            },
+            "workSounds": [
+                "core:diesel",
+                "core:diesel2",
+                "core:diesel3"
+            ]
         }
     ]
 }

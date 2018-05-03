@@ -131,7 +131,12 @@
                 "effectFile": "core:techieEngine",
                 "tex": "core:techieTrail",
                 "tint": "white"
-            }
+            },
+            "workSounds": [
+                "core:techie",
+                "core:techie2",
+                "core:techie3"
+            ]
         },
         {
             "position": "0.1 0.5",
@@ -141,7 +146,12 @@
                 "effectFile": "core:techieEngine",
                 "tex": "core:techieTrail",
                 "tint": "white"
-            }
+            },
+            "workSounds": [
+                "core:techie",
+                "core:techie2",
+                "core:techie3"
+            ]
         }
     ]
 }

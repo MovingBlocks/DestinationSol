@@ -174,7 +174,7 @@ public class ItemManager {
     }
 
     public Engine.Config getEngineConfig(String engineName) {
-        return engineConfigs.computeIfAbsent(engineName, engineConfig -> Engine.Config.load(engineConfig, soundManager, effectTypes, gameColors));
+        return engineConfigs.computeIfAbsent(engineName, engineConfig -> Engine.Config.load(engineConfig));
     }
 
     public SolItem random() {
