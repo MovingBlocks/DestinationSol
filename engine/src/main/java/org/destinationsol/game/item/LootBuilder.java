@@ -50,7 +50,7 @@ public class LootBuilder {
         b.setAngularVelocity(rotationSpeed);
         Color col = item.getItemType().color;
         LightSource ls = new LightSource(sz + .18f, false, .5f, new Vector2(), col);
-        ls.collectDras(drawables);
+        ls.collectDrawables(drawables);
         Loot loot = new Loot(item, b, life, drawables, ls, owner);
         b.setUserData(loot);
         return loot;

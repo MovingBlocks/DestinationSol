@@ -133,7 +133,7 @@ public class DSParticleEmitter {
 
         light = new LightSource(config.size * 2.5f, true, 0.7f, relativePosition, config.tint);
         if (hasLight) {
-            light.collectDras(drawables);
+            light.collectDrawables(drawables);
         }
 
         if (size <= 0) {

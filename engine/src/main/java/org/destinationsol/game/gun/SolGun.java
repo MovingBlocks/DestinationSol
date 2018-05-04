@@ -69,7 +69,7 @@ public class SolGun {
         myDrawables = new ArrayList<>();
         myDrawables.add(mySprite);
         if (myLightSource != null) {
-            myLightSource.collectDras(myDrawables);
+            myLightSource.collectDrawables(myDrawables);
         }
     }
 
@@ -112,7 +112,7 @@ public class SolGun {
         Vector2 muzzleRelPos = SolMath.fromAl(gunRelAngle, myItem.config.gunLength);
         muzzleRelPos.add(myRelPos);
         if (myLightSource != null) {
-            myLightSource.setRelPos(muzzleRelPos);
+            myLightSource.setRelativePosition(muzzleRelPos);
         }
         Vector2 muzzlePos = SolMath.toWorld(muzzleRelPos, baseAngle, basePos);
         SolMath.free(muzzleRelPos);
