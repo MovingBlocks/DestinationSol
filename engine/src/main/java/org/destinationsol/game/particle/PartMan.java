@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,25 +38,25 @@ public class PartMan {
     public PartMan() {
     }
 
-    public void finish(SolGame game, DSParticleEmitter emitter, Vector2 basePos) {
+    public void finish(SolGame game, DSParticleEmitter emitter, Vector2 basePosition) {
         if (emitter.isContinuous()) {
             emitter.setWorking(false);
         }
         ArrayList<Drawable> drawables = new ArrayList<>();
         drawables.addAll(emitter.getDrawables());
-        DrawableObject o = new DrawableObject(drawables, new Vector2(basePos), new Vector2(), null, true, false);
-        game.getObjectManager().addObjDelayed(o);
+        DrawableObject drawableObject = new DrawableObject(drawables, new Vector2(basePosition), new Vector2(), null, true, false);
+        game.getObjectManager().addObjDelayed(drawableObject);
     }
 
-    public void blinks(Vector2 position, SolGame game, float sz) {
-        int count = (int) (SZ_TO_BLINK_COUNT * sz * sz);
+    public void blinks(Vector2 position, SolGame game, float size) {
+        int count = (int) (SZ_TO_BLINK_COUNT * size * size);
         for (int i = 0; i < count; i++) {
             Vector2 lightPos = new Vector2();
-            SolMath.fromAl(lightPos, SolRandom.randomFloat(180), SolRandom.randomFloat(0, sz / 2));
+            SolMath.fromAl(lightPos, SolRandom.randomFloat(180), SolRandom.randomFloat(0, size / 2));
             lightPos.add(position);
-            float lightSz = SolRandom.randomFloat(.5f, 1) * EXPL_LIGHT_MAX_SZ;
+            float lightSize = SolRandom.randomFloat(.5f, 1) * EXPL_LIGHT_MAX_SZ;
             float fadeTime = SolRandom.randomFloat(.5f, 1) * EXPL_LIGHT_MAX_FADE_TIME;
-            LightObject light = new LightObject(game, lightSz, true, 1, lightPos, fadeTime, game.getCols().fire);
+            LightObject light = new LightObject(game, lightSize, true, 1, lightPos, fadeTime, game.getCols().fire);
             game.getObjectManager().addObjDelayed(light);
         }
     }
@@ -81,15 +81,14 @@ public class PartMan {
         }
     }
 
-    public RectSprite blip(SolGame game, Vector2 position, float angle, float sz, float fadeTime, Vector2 speed,
-                           TextureAtlas.AtlasRegion tex) {
-        RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, angle, 0, SolColor.WHITE, true);
+    public RectSprite blip(SolGame game, Vector2 position, float angle, float size, float fadeTime, Vector2 speed, TextureAtlas.AtlasRegion texture) {
+        RectSprite sprite = new RectSprite(texture, size, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, angle, 0, SolColor.WHITE, true);
         ArrayList<Drawable> drawables = new ArrayList<>();
-        drawables.add(s);
+        drawables.add(sprite);
         DrawableObject o = new DrawableObject(drawables, new Vector2(position), new Vector2(speed), null, false, false);
         o.fade(fadeTime);
         game.getObjectManager().addObjDelayed(o);
-        return s;
+        return sprite;
     }
 
     /**
