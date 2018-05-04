@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,16 @@
 package org.destinationsol.game.particle;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class EffectTypes {
-    private final HashMap<String, EffectType> myTypes;
+    private final Map<String, EffectType> types;
 
     public EffectTypes() {
-        myTypes = new HashMap<>();
+        types = new HashMap<>();
     }
 
     public EffectType forName(String effectName) {
-        return myTypes.computeIfAbsent(effectName, effect -> new EffectType(effect));
+        return types.computeIfAbsent(effectName, effect -> new EffectType(effect));
     }
 }
