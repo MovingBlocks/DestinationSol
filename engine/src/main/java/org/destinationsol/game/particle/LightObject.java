@@ -39,7 +39,7 @@ public class LightObject implements SolObject {
         lightSource.setFadeTime(fadeTime);
         lightSource.setWorking();
         drawables = new ArrayList<>();
-        lightSource.collectDras(drawables);
+        lightSource.collectDrawables(drawables);
     }
 
     @Override

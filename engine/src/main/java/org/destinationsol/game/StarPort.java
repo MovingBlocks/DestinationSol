@@ -261,7 +261,7 @@ public class StarPort implements SolObject {
             f1.setWorking(true);
             drawables.addAll(f1.getDrawables());
             LightSource light = new LightSource(.6f, true, 1, relPos, flow.tint);
-            light.collectDras(drawables);
+            light.collectDrawables(drawables);
             lights.add(light);
         }
     }
@@ -370,7 +370,7 @@ public class StarPort implements SolObject {
             effect.setWorking(true);
             drawables.addAll(effect.getDrawables());
             lightSource = new LightSource(.6f * TRAN_SZ, true, .5f, new Vector2(), eff.tint);
-            lightSource.collectDras(drawables);
+            lightSource.collectDrawables(drawables);
             setDependentParams();
         }
 

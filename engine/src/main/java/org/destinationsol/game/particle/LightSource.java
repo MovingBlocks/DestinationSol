@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,70 +34,70 @@ public class LightSource {
     public static final float A_RATIO = .5f;
     public static final float SZ_RATIO = .8f;
 
-    private final RectSprite myCircle;
-    private final RectSprite myHalo;
-    private final float mySz;
-    private final float myIntensity;
-    private float myWorkPercentage;
-    private float myFadeTime;
+    private final RectSprite circle;
+    private final RectSprite halo;
+    private final float size;
+    private final float intensity;
+    private float workPercentage;
+    private float fadeTime;
 
     /**
-     * doesn't consume relPos
+     * doesn't consume relativePosition
      */
-    public LightSource(float sz, boolean hasHalo, float intensity, Vector2 relPos, Color col) {
+    public LightSource(float size, boolean hasHalo, float intensity, Vector2 relativePosition, Color colour) {
         TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("core:lightCircleParticle");
-        mySz = sz;
-        Vector2 relPos1 = new Vector2(relPos);
-        myCircle = new RectSprite(tex, 0, 0, 0, relPos1, DrawableLevel.PART_BG_0, 0, 0, col, true);
+        this.size = size;
+        Vector2 relPos1 = new Vector2(relativePosition);
+        circle = new RectSprite(tex, 0, 0, 0, relPos1, DrawableLevel.PART_BG_0, 0, 0, colour, true);
         tex = Assets.getAtlasRegion("core:lightHaloParticle");
         if (hasHalo) {
-            Color haloCol = new Color(col);
+            Color haloCol = new Color(colour);
             SolColorUtil.changeBrightness(haloCol, .8f);
-            myHalo = new RectSprite(tex, 0, 0, 0, relPos1, DrawableLevel.PART_FG_0, 0, 0, haloCol, true);
+            halo = new RectSprite(tex, 0, 0, 0, relPos1, DrawableLevel.PART_FG_0, 0, 0, haloCol, true);
         } else {
-            myHalo = null;
+            halo = null;
         }
-        myIntensity = intensity;
-        myFadeTime = DEFAULT_FADE_TIME;
+        this.intensity = intensity;
+        fadeTime = DEFAULT_FADE_TIME;
     }
 
     public void update(boolean working, float baseAngle, SolGame game) {
         if (working) {
-            myWorkPercentage = 1f;
+            workPercentage = 1f;
         } else {
-            myWorkPercentage = SolMath.approach(myWorkPercentage, 0, game.getTimeStep() / myFadeTime);
+            workPercentage = SolMath.approach(workPercentage, 0, game.getTimeStep() / fadeTime);
         }
-        float baseA = SolRandom.randomFloat(.5f, 1) * myWorkPercentage * myIntensity;
-        myCircle.tint.a = baseA * A_RATIO;
-        float sz = (1 + SolRandom.randomFloat(.2f * myIntensity)) * mySz;
-        myCircle.setTextureSize(SZ_RATIO * sz);
-        if (myHalo != null) {
-            myHalo.tint.a = baseA;
-            myHalo.relativeAngle = game.getCam().getAngle() - baseAngle;
-            myHalo.setTextureSize(sz);
+        float baseA = SolRandom.randomFloat(.5f, 1) * workPercentage * intensity;
+        circle.tint.a = baseA * A_RATIO;
+        float sz = (1 + SolRandom.randomFloat(.2f * intensity)) * size;
+        circle.setTextureSize(SZ_RATIO * sz);
+        if (halo != null) {
+            halo.tint.a = baseA;
+            halo.relativeAngle = game.getCam().getAngle() - baseAngle;
+            halo.setTextureSize(sz);
         }
     }
 
     public boolean isFinished() {
-        return myWorkPercentage <= 0;
+        return workPercentage <= 0;
     }
 
-    public void collectDras(List<Drawable> drawables) {
-        drawables.add(myCircle);
-        if (myHalo != null) {
-            drawables.add(myHalo);
+    public void collectDrawables(List<Drawable> drawables) {
+        drawables.add(circle);
+        if (halo != null) {
+            drawables.add(halo);
         }
     }
 
     public void setFadeTime(float fadeTime) {
-        myFadeTime = fadeTime;
+        this.fadeTime = fadeTime;
     }
 
     public void setWorking() {
-        myWorkPercentage = 1;
+        workPercentage = 1;
     }
 
-    public void setRelPos(Vector2 relPos) {
-        myCircle.relativePosition.set(relPos);
+    public void setRelativePosition(Vector2 relativePosition) {
+        circle.relativePosition.set(relativePosition);
     }
 }

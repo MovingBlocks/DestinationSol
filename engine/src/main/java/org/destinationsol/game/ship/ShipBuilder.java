@@ -282,7 +282,7 @@ public class ShipBuilder {
         List<LightSource> lCs = new ArrayList<>();
         for (Vector2 p : hullConfig.getLightSourcePositions()) {
             LightSource lc = new LightSource(.35f, true, .7f, p, game.getCols().hullLights);
-            lc.collectDras(drawables);
+            lc.collectDrawables(drawables);
             lCs.add(lc);
         }
 
