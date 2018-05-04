@@ -57,16 +57,22 @@ public class DSParticleEmitter {
     private List<Drawable> drawables;
     private ParticleEmitter particleEmitter;
     private DrawableLevel drawableLevel;
-    private Vector2 relativePosition, originalRelativePosition;
-    private float relativeAngle, areaSize, timeSinceLastPositionChange, boundingBoxRecalcAwait;
-    private ParticleEmitter.ScaledNumericValue originalSpeedAngle, originalRotation;
-    private boolean inheritsSpeed, working, floatedUp;
+    private Vector2 relativePosition;
+    private Vector2 originalRelativePosition;
+    private float relativeAngle;
+    private float areaSize;
+    private float timeSinceLastPositionChange;
+    private float boundingBoxRecalcAwait;
+    private ParticleEmitter.ScaledNumericValue originalSpeedAngle;
+    private ParticleEmitter.ScaledNumericValue originalRotation;
+    private boolean inheritsSpeed;
+    private boolean working;
+    private boolean floatedUp;
     private BoundingBox boundingBox;
     private LightSource light;
     private SolGame game;
 
-    public DSParticleEmitter(@NotNull Vector2 position, @NotNull String trigger, float angleOffset, boolean hasLight,
-                             JsonValue effectConfigNode, List<String> sounds) {
+    public DSParticleEmitter(@NotNull Vector2 position, @NotNull String trigger, float angleOffset, boolean hasLight, JsonValue effectConfigNode, List<String> sounds) {
         Preconditions.checkNotNull(position, "position cannot be null");
         this.position = new Vector2(position);
         this.trigger = Preconditions.checkNotNull(trigger, "trigger cannot be null");
@@ -93,15 +99,13 @@ public class DSParticleEmitter {
         this.config = particleEmitter.getEffectConfig();
         if (!particleEmitter.getWorkSounds().isEmpty()) {
             this.workSoundSet = new OggSoundSet(game.getSoundManager(), particleEmitter.getWorkSounds());
-        }
-        else {
+        } else {
             this.workSoundSet = null;
         }
         Vector2 shipPos = ship.getPosition();
         Vector2 shipSpeed = ship.getSpeed();
 
-        initialiseEmitter(config, -1, DrawableLevel.PART_BG_0, position, true, game, shipPos, shipSpeed,
-                angleOffset, hasLight);
+        initialiseEmitter(config, -1, DrawableLevel.PART_BG_0, position, true, game, shipPos, shipSpeed, angleOffset, hasLight);
     }
 
     public DSParticleEmitter(EffectConfig config, float size, DrawableLevel drawableLevel, Vector2 relativePosition,
@@ -111,9 +115,8 @@ public class DSParticleEmitter {
                 relativeAngle, false);
     }
 
-    private void initialiseEmitter(EffectConfig config, float size, DrawableLevel drawableLevel,
-                                   Vector2 relativePosition, boolean inheritsSpeed, SolGame game, Vector2 basePosition,
-                                   Vector2 baseSpeed, float relativeAngle, boolean hasLight) {
+    private void initialiseEmitter(EffectConfig config, float size, DrawableLevel drawableLevel, Vector2 relativePosition, boolean inheritsSpeed,
+                                   SolGame game, Vector2 basePosition, Vector2 baseSpeed, float relativeAngle, boolean hasLight) {
 
         drawables = new ArrayList<>();
         ParticleEmitterDrawable drawable = new ParticleEmitterDrawable();
@@ -137,27 +140,21 @@ public class DSParticleEmitter {
             size = config.size;
         }
 
-        // has area
-        if (particleEmitter.getSpawnShape().getShape() != ParticleEmitter.SpawnShape.point) {
+        if (particleEmitter.getSpawnShape().getShape() != ParticleEmitter.SpawnShape.point) { // has area
             multiplyValue(particleEmitter.getEmission(), size * size);
             multiplyValue(particleEmitter.getSpawnWidth(), size);
             multiplyValue(particleEmitter.getSpawnHeight(), size);
             areaSize = 0;
-        }
-        // moves fast
-        else if (JUMP_SPEED_THRESHOLD < particleEmitter.getVelocity().getHighMax()) {
+        } else if (JUMP_SPEED_THRESHOLD < particleEmitter.getVelocity().getHighMax()) { // moves fast
             multiplyValue(particleEmitter.getEmission(), size * size);
             ParticleEmitter.ScaledNumericValue velocity = particleEmitter.getVelocity();
             velocity.setHigh(velocity.getHighMin() * size, velocity.getHighMax() * size);
             areaSize = 0;
-        }
-        // large scale
-        else if (JUMP_SIZE_THRESHOLD < particleEmitter.getScale().getHighMax()) {
+        } else if (JUMP_SIZE_THRESHOLD < particleEmitter.getScale().getHighMax()) { // large scale
             ParticleEmitter.ScaledNumericValue scale = particleEmitter.getScale();
             scale.setHigh(scale.getHighMin() * size, scale.getHighMax() * size);
             areaSize = 0;
-        }
-        else {
+        } else {
             areaSize = size;
         }
 
@@ -192,8 +189,7 @@ public class DSParticleEmitter {
         value.setLow(value.getLowMin() * multiplier, value.getLowMax() * multiplier);
     }
 
-    private static void transferAngle(ParticleEmitter.ScaledNumericValue from, ParticleEmitter.ScaledNumericValue to,
-                                      float diff) {
+    private static void transferAngle(ParticleEmitter.ScaledNumericValue from, ParticleEmitter.ScaledNumericValue to, float diff) {
         if (!to.isRelative()) {
             to.setHigh(from.getHighMin() + diff, from.getHighMax() + diff);
         }
