@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,35 +31,33 @@ public class EffectConfig {
     public final boolean floatsUp;
     public final Color tint;
 
-    public EffectConfig(EffectType emitter, float size, TextureAtlas.AtlasRegion tex, boolean floatsUp, Color tint) {
+    public EffectConfig(EffectType emitter, float size, TextureAtlas.AtlasRegion texture, boolean floatsUp, Color tint) {
         this.emitter = emitter;
         this.size = size;
-        this.tex = tex;
+        this.tex = texture;
         this.floatsUp = floatsUp;
         this.tint = tint;
     }
 
-    public static EffectConfig load(JsonValue node, EffectTypes types, GameColors cols) {
+    public static EffectConfig load(JsonValue node, EffectTypes types, GameColors colours) {
         if (node == null) {
             return null;
         }
         String emitter = node.getString("effectFile");
         EffectType effectType = types.forName(emitter);
         float size = node.getFloat("size", 0);
-        String texName = node.getString("tex");
+        String textureName = node.getString("tex");
         boolean floatsUp = node.getBoolean("floatsUp", false);
-        Color tint = cols.load(node.getString("tint"));
-        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(texName + "Particle");
+        Color tint = colours.load(node.getString("tint"));
+        TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(textureName + "Particle");
         return new EffectConfig(effectType, size, tex, floatsUp, tint);
     }
 
-    public static List<EffectConfig> loadList(JsonValue listNode, EffectTypes types, GameColors cols) {
-        ArrayList<EffectConfig> res = new ArrayList<>();
+    public static List<EffectConfig> loadList(JsonValue listNode, EffectTypes types, GameColors colours) {
+        ArrayList<EffectConfig> configs = new ArrayList<>();
         for (JsonValue node : listNode) {
-            EffectConfig ec = load(node, types, cols);
-            res.add(ec);
+            configs.add(load(node, types, colours));
         }
-        return res;
+        return configs;
     }
-
 }
