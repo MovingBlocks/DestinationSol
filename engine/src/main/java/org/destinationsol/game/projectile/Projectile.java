@@ -86,7 +86,7 @@ public class Projectile implements SolObject {
                 col = config.bodyEffect.tint;
             }
             lightSource = new LightSource(config.lightSz, true, 1f, new Vector2(), col);
-            lightSource.collectDras(drawables);
+            lightSource.collectDrawables(drawables);
         } else {
             lightSource = null;
         }
