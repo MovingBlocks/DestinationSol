@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,9 +33,9 @@ public class LightObject implements SolObject {
     private final Vector2 position;
 
     // consumes pos
-    LightObject(SolGame game, float size, boolean hasHalo, float intensity, Vector2 position, float fadeTime, Color col) {
+    LightObject(float size, boolean hasHalo, float intensity, Vector2 position, float fadeTime, Color colours) {
         this.position = position;
-        lightSource = new LightSource(size, hasHalo, intensity, new Vector2(), col);
+        lightSource = new LightSource(size, hasHalo, intensity, new Vector2(), colours);
         lightSource.setFadeTime(fadeTime);
         lightSource.setWorking();
         drawables = new ArrayList<>();
@@ -95,8 +95,7 @@ public class LightObject implements SolObject {
     }
 
     @Override
-    public void handleContact(SolObject other, float absImpulse,
-                              SolGame game, Vector2 collPos) {
+    public void handleContact(SolObject other, float absImpulse, SolGame game, Vector2 collPos) {
     }
 
     @Override
