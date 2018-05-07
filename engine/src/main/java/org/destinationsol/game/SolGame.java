@@ -164,7 +164,7 @@ public class SolGame {
                 shouldSpawnOnGalaxySpawnPosition,
                 respawnState,
                 this,
-                solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE,
+                solApplication.getOptions().controlType == GameOptions.ControlType.MOUSE,
                 isNewShip);
     }
 
