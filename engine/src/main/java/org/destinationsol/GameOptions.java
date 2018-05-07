@@ -24,11 +24,37 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 public class GameOptions {
+    public enum ControlType {
+        KEYBOARD("Keyboard"),
+        MIXED("KB + Mouse"),
+        MOUSE("Mouse"),
+        CONTROLLER("Controller");
+
+        private String humanName; // String used in the options menu.
+
+        ControlType(String humanName) {
+            this.humanName = humanName;
+        }
+
+        public String getHumanName() {
+            return this.humanName;
+        }
+
+        public ControlType nextType(boolean isMobile) {
+            switch (this) {
+                case MIXED:
+                    return CONTROLLER;
+                case CONTROLLER:
+                case MOUSE:
+                    return KEYBOARD;
+                case KEYBOARD:
+                default:
+                    return isMobile ? MOUSE : MIXED;
+            }
+        }
+    }
+
     public static final String FILE_NAME = "settings.ini";
-    public static final int CONTROL_KB = 0;
-    public static final int CONTROL_MIXED = 1;
-    public static final int CONTROL_MOUSE = 2;
-    public static final int CONTROL_CONTROLLER = 3;
     public static final String DEFAULT_MOUSE_UP = "W";
     public static final String DEFAULT_MOUSE_DOWN = "S";
     public static final String DEFAULT_UP = "Up";
@@ -68,7 +94,7 @@ public class GameOptions {
     public int x;
     public int y;
     public boolean fullscreen;
-    public int controlType;
+    public ControlType controlType;
     public float sfxVolumeMultiplier;
     public float musicVolumeMultiplier;
     public boolean canSellEquippedItems;
@@ -109,14 +135,14 @@ public class GameOptions {
     private int controllerButtonDown;
 
     private SortedSet<String> supportedResolutions = new TreeSet<>();
-    private Iterator<String> resolutionIterator = null;
+    private Iterator<String> resolutionIterator;
 
     public GameOptions(boolean mobile, SolFileReader solFileReader) {
         IniReader reader = new IniReader(FILE_NAME, solFileReader);
         x = reader.getInt("x", 1366);
         y = reader.getInt("y", 768);
         fullscreen = reader.getBoolean("fullscreen", false);
-        controlType = mobile ? CONTROL_KB : reader.getInt("controlType", CONTROL_MIXED);
+        controlType = mobile ? ControlType.KEYBOARD : ControlType.valueOf(reader.getString("controlType", "MIXED"));
         sfxVolumeMultiplier = reader.getFloat("sfxVol", 1);
         musicVolumeMultiplier = reader.getFloat("musicVol", 1);
         keyUpMouseName = reader.getString("keyUpMouse", DEFAULT_MOUSE_UP);
@@ -160,7 +186,7 @@ public class GameOptions {
     public void advanceResolution() {
         if (resolutionIterator == null) {
             // Initialize resolution choices - get the resolutions that are supported
-            Graphics.DisplayMode displayModes[] = Gdx.graphics.getDisplayModes();
+            Graphics.DisplayMode[] displayModes = Gdx.graphics.getDisplayModes();
 
             for (Graphics.DisplayMode displayMode : displayModes) {
                 supportedResolutions.add(displayMode.width + "x" + displayMode.height);
@@ -186,15 +212,7 @@ public class GameOptions {
     }
 
     public void advanceControlType(boolean mobile) {
-        if (controlType == CONTROL_KB) {
-            controlType = mobile ? CONTROL_MOUSE : CONTROL_MIXED;
-        } else if (controlType == CONTROL_MIXED) {
-            controlType = CONTROL_CONTROLLER;
-            //    } else if (controlType == CONTROL_MIXED) {
-            //      controlType = CONTROL_MOUSE;
-        } else {
-            controlType = CONTROL_KB;
-        }
+        controlType = controlType.nextType(mobile);
         save();
     }
 
@@ -204,31 +222,17 @@ public class GameOptions {
     }
 
     public void advanceSoundVolMul() {
-        if (sfxVolumeMultiplier == 0.f) {
-            sfxVolumeMultiplier = 0.25f;
-        } else if (sfxVolumeMultiplier == 0.25f) {
-            sfxVolumeMultiplier = 0.5f;
-        } else if (sfxVolumeMultiplier == 0.5f) {
-            sfxVolumeMultiplier = 0.75f;
-        } else if (sfxVolumeMultiplier == 0.75f) {
-            sfxVolumeMultiplier = 1.f;
-        } else {
-            sfxVolumeMultiplier = 0.f;
+        sfxVolumeMultiplier += 0.25f;
+        if (sfxVolumeMultiplier > 0.90f) {
+            sfxVolumeMultiplier = 0;
         }
         save();
     }
 
     public void advanceMusicVolMul() {
-        if (musicVolumeMultiplier == 0.f) {
-            musicVolumeMultiplier = 0.25f;
-        } else if (musicVolumeMultiplier == 0.25f) {
-            musicVolumeMultiplier = 0.5f;
-        } else if (musicVolumeMultiplier == 0.5f) {
-            musicVolumeMultiplier = 0.75f;
-        } else if (musicVolumeMultiplier == 0.75f) {
-            musicVolumeMultiplier = 1.f;
-        } else {
-            musicVolumeMultiplier = 0.f;
+        musicVolumeMultiplier += 0.25f;
+        if (musicVolumeMultiplier > 0.90f) {
+            musicVolumeMultiplier = 0f;
         }
         save();
     }

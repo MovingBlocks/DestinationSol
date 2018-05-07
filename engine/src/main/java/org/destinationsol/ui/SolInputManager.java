@@ -166,8 +166,7 @@ public class SolInputManager {
 
         // This keeps the mouse within the window, but only when playing the game with the mouse.
         // All other times the mouse can freely leave and return.
-        if (!mobile && (solApplication.getOptions().controlType == GameOptions.CONTROL_MIXED || solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE) &&
-            game != null && getTopScreen() != game.getScreens().menuScreen) {
+        if (!mobile && solApplication.getOptions().controlType == GameOptions.ControlType.MIXED && game != null && getTopScreen() != game.getScreens().menuScreen) {
             if (!Gdx.input.isCursorCatched()) {
                 Gdx.input.setCursorCatched(true);
             }
@@ -263,7 +262,7 @@ public class SolInputManager {
         SolGame game = solApplication.getGame();
 
         mousePos.set(inputPointers[0].x, inputPointers[0].y);
-        if (solApplication.getOptions().controlType == GameOptions.CONTROL_MIXED || solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE) {
+        if (solApplication.getOptions().controlType == GameOptions.ControlType.MIXED || solApplication.getOptions().controlType == GameOptions.ControlType.MOUSE) {
             if (game == null || mouseOnUi) {
                 currCursor = uiCursor;
             } else {
