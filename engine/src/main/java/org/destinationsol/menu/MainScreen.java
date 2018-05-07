@@ -80,11 +80,7 @@ public class MainScreen implements SolUiScreen {
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        if (solApplication.getOptions().controlType == GameOptions.CONTROL_CONTROLLER) {
-            tutorialControl.setEnabled(false);
-        } else {
-            tutorialControl.setEnabled(true);
-        }
+        tutorialControl.setEnabled(solApplication.getOptions().controlType != GameOptions.ControlType.CONTROLLER);
 
         if (tutorialControl.isJustOff()) {
             solApplication.loadGame(true, "Imperial Small", true); // Tutorials should be new games, methinks
