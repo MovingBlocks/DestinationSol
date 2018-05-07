@@ -156,7 +156,7 @@ public class SolGame {
          * If shipName is not null then a new ship has to be created.
          */
         boolean isNewShip = shipName != null;
-        ShipConfig shipConfig = readShipFromConfigOrLoadFromSaveIfNull(shipName, this, isNewShip, hullConfigManager);
+        ShipConfig shipConfig = readShipFromConfigOrLoadFromSaveIfNull(shipName, itemManager, isNewShip, hullConfigManager);
         if (!respawnState.isPlayerRespawned()) {
             this.getGalaxyFiller().fill(this, hullConfigManager, this.getItemMan(), shipConfig.hull.getInternalName().split(":")[0]);
         }
@@ -168,11 +168,11 @@ public class SolGame {
                 isNewShip);
     }
 
-    private ShipConfig readShipFromConfigOrLoadFromSaveIfNull(String shipName, SolGame game, boolean isNewShip, HullConfigManager hullConfigManager) {
+    private ShipConfig readShipFromConfigOrLoadFromSaveIfNull(String shipName, ItemManager itemManager, boolean isNewShip, HullConfigManager hullConfigManager) {
         if (isNewShip) {
-            return ShipConfig.load(hullConfigManager, shipName, game.getItemMan(), game);
+            return ShipConfig.load(hullConfigManager, shipName, itemManager);
         } else {
-            return SaveManager.readShip(hullConfigManager, game.getItemMan(), game);
+            return SaveManager.readShip(hullConfigManager, itemManager);
         }
     }
 
