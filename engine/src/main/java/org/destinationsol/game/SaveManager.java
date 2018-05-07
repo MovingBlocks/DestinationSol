@@ -169,7 +169,7 @@ public class SaveManager {
         return resourceExists(fileName);
     }
 
-    public static ShipConfig readShip(HullConfigManager hullConfigs, ItemManager itemManager, SolGame game) {
+    public static ShipConfig readShip(HullConfigManager hullConfigs, ItemManager itemManager) {
         IniReader ir = new IniReader(SAVE_FILE_NAME, null);
 
         String hullName = ir.getString("hull", null);
