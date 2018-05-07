@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
@@ -289,8 +290,8 @@ public class SolInputManager {
         int mouseY = Gdx.input.getY();
         int w = Gdx.graphics.getWidth();
         int h = Gdx.graphics.getHeight();
-        mouseX = (int) SolMath.clamp(mouseX, 0, w);
-        mouseY = (int) SolMath.clamp(mouseY, 0, h);
+        mouseX = (int) MathUtils.clamp((float) mouseX, (float) 0, (float) w);
+        mouseY = (int) MathUtils.clamp((float) mouseY, (float) 0, (float) h);
         Gdx.input.setCursorPosition(mouseX, mouseY);
     }
 

@@ -18,6 +18,7 @@ package org.destinationsol.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
@@ -410,7 +411,7 @@ public class MapDrawer {
         } else {
             zoom *= MUL_FACTOR;
         }
-        zoom = SolMath.clamp(zoom, MIN_ZOOM, MAX_ZOOM);
+        zoom = MathUtils.clamp(zoom, MIN_ZOOM, MAX_ZOOM);
     }
 
     public float getZoom() {

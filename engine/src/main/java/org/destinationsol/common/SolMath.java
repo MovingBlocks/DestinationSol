@@ -24,22 +24,11 @@ import org.destinationsol.Const;
 import java.util.ArrayList;
 
 /**
- * This class presents a collection of handy mathematical as well as programmatical functions, for working with angles,
- * distances, speeds, vectors.
+ * This class contains a collection of handy mathematical and programmatical functions for working with angles,
+ * distances, speeds and vectors.
  */
 public class SolMath {
-    /**
-     * The pi number constant.
-     */
-    public static final float PI = MathUtils.PI;
-    /**
-     * Multiply radians by this number to convert them to degrees.
-     */
-    public static float radDeg = MathUtils.radDeg;
-    /**
-     * Multiply degrees by this number to convert them to radians.
-     */
-    public static float degRad = MathUtils.degRad;
+
     /**
      * Stores {@link Vector2 vectors} used for borrowing, see {@link #getVec()} for more info.
      */
@@ -49,6 +38,7 @@ public class SolMath {
             return new Vector2();
         }
     };
+
     /**
      * Represents the amount of {@link Vector2 vectors} currently borrowed by {@link #getVec()}.
      */
@@ -106,7 +96,7 @@ public class SolMath {
     }
 
     /**
-     * Normalizes the angle, ie puts it in the range [-179.999, 180].
+     * Normalizes the angle, ie puts it in the range (-180, 180].
      *
      * @param a Angle in degrees
      * @return Normalizes angle in degrees
@@ -125,25 +115,13 @@ public class SolMath {
     }
 
     /**
-     * Assures the value is in the bounds specified by upper and lower bound, if not, sets it to the upper/lower bound.
-     *
-     * @param val Value to clamp
-     * @param min Lower bound
-     * @param max Higher bound
-     * @return Clamped value
-     */
-    public static float clamp(float val, float min, float max) {
-        return MathUtils.clamp(val, min, max);
-    }
-
-    /**
      * Assures the value is in the range [0, 1], if not, sets it to 0, resp. 1
      *
      * @param val Value to clamp
      * @return Clamped value
      */
     public static float clamp(float val) {
-        return clamp(val, 0, 1);
+        return MathUtils.clamp(val, (float) 0, (float) 1);
     }
 
     /**
@@ -360,7 +338,7 @@ public class SolMath {
      * @return The computed angle
      */
     public static float angle(Vector2 v) {
-        return norm(MathUtils.atan2(v.y, v.x) * radDeg);
+        return norm(MathUtils.atan2(v.y, v.x) * MathUtils.radDeg);
     }
 
     /**
@@ -370,7 +348,7 @@ public class SolMath {
      * @return The computed angle, in degrees.
      */
     public static float arcSin(float val) {
-        return (float) Math.asin(val) * radDeg;
+        return (float) Math.asin(val) * MathUtils.radDeg;
     }
 
     /**
@@ -396,7 +374,7 @@ public class SolMath {
      * @return Calculated angle, in degrees
      */
     public static float arcToAngle(float hordeLen, float radius) {
-        return radDeg * hordeLen / radius;
+        return MathUtils.radDeg * hordeLen / radius;
     }
 
     /**
@@ -445,7 +423,7 @@ public class SolMath {
      * @return Length of the arc
      */
     public static float angleToArc(float angle, float r) {
-        return (angle * degRad) * r;
+        return (angle * MathUtils.degRad) * r;
     }
 
     /**
