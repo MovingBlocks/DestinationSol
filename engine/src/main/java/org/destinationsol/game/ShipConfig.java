@@ -79,7 +79,7 @@ public class ShipConfig {
         return res;
     }
 
-    public static ShipConfig load(HullConfigManager hullConfigs, String shipName, ItemManager itemManager, SolGame game) {
+    public static ShipConfig load(HullConfigManager hullConfigs, String shipName, ItemManager itemManager) {
         Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:playerSpawnConfig");
 
         ShipConfig shipConfig = null;
