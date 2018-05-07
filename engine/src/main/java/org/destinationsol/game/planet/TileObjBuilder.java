@@ -15,6 +15,7 @@
  */
 package org.destinationsol.game.planet;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -51,7 +52,7 @@ public class TileObjBuilder {
         float toPlanetAngle = planet.getAngle() + toPlanetRelAngle;
         SolMath.fromAl(bodyDef.position, toPlanetAngle, dist);
         bodyDef.position.add(planet.getPosition());
-        bodyDef.angle = (toPlanetAngle + 90) * SolMath.degRad;
+        bodyDef.angle = (toPlanetAngle + 90) * MathUtils.degRad;
         bodyDef.angularDamping = 0;
         Body body = game.getObjectManager().getWorld().createBody(bodyDef);
         ChainShape shape = new ChainShape();

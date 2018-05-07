@@ -16,6 +16,7 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -113,7 +114,7 @@ public class StarPort implements SolObject {
         body.setLinearVelocity(speed);
         SolMath.free(speed);
         float desiredAngle = SolMath.angle(fromPlanet.getPosition(), toPlanet.getPosition());
-        body.setAngularVelocity((desiredAngle - angle) * SolMath.degRad * fps / 4);
+        body.setAngularVelocity((desiredAngle - angle) * MathUtils.degRad * fps / 4);
 
         SolShip ship = ForceBeacon.pullShips(game, this, position, null, null, .4f * SIZE);
         if (ship != null && ship.getMoney() >= FARE && ship.getPosition().dst(position) < .05f * SIZE) {
@@ -212,7 +213,7 @@ public class StarPort implements SolObject {
 
     private void setParamsFromBody() {
         position.set(body.getPosition());
-        angle = body.getAngle() * SolMath.radDeg;
+        angle = body.getAngle() * MathUtils.radDeg;
     }
 
     public Planet getFromPlanet() {

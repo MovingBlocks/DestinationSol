@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -118,7 +119,7 @@ public class CommonDrawer {
         if (pointCount < 8) {
             pointCount = 8;
         }
-        float lineLen = radius * SolMath.PI * 2 / pointCount;
+        float lineLen = radius * MathUtils.PI * 2 / pointCount;
         float angleStep = 360f / pointCount;
         float angleStepH = angleStep / 2;
         for (int i = 0; i < pointCount; i++) {
