@@ -41,26 +41,27 @@ import java.util.List;
 
 public class SaveManager {
     private static Logger logger = LoggerFactory.getLogger(SaveManager.class);
-    
+
     private static final String SAVE_FILE_NAME = "prevShip.ini";
     static String MERC_SAVE_FILE = getResourcePath("mercenaries.json");
 
     private static final String FILE_NAME = "prevShip.ini";
 
-    public static void writeShips(HullConfig hull, float money, List<SolItem> itemsList, SolGame game) {
-        String hullName = game.getHullConfigs().getName(hull);
+    public static void writeShips(HullConfig hull, float money, List<SolItem> itemsList, SolGame game, HullConfigManager hullConfigManager) {
+        String hullName = hullConfigManager.getName(hull);
 
-        writeMercs(game);
+        writeMercs(game, hullConfigManager);
 
         String items = itemsToString(itemsList);
-        
+
         Vector2 pos = game.getHero().getPosition();
-        
+
         IniReader.write(FILE_NAME, "hull", hullName, "money", (int) money, "items", items, "x", pos.x, "y", pos.y);
     }
 
     /**
      * Encodes the given list of SolItems as a string.
+     *
      * @param items A list of SolItems to be encoded as a string
      * @return A string of items suitable for saving
      */
@@ -89,22 +90,23 @@ public class SaveManager {
     /**
      * Writes the player's mercenaries to their JSON file.
      * The file will be created if it doesn't exist.
+     *
      * @param game The instance of the game we're dealing with
      */
-    private static void writeMercs(SolGame game) {
+    private static void writeMercs(SolGame game, HullConfigManager hullConfigManager) {
         PrintWriter writer;
-        
+
         ItemContainer mercenaries = game.getHero().getShipUnchecked().getTradeContainer().getMercs();
-        
+
         List<JsonObject> jsons = new ArrayList<JsonObject>();
-        
+
         for (List<SolItem> group : mercenaries) {
             for (SolItem item : group) {
                 SolShip merc = ((MercItem) item).getSolShip();
                 // Json fields
-                String hullName = game.getHullConfigs().getName(merc.getHull().config);
+                String hullName = hullConfigManager.getName(merc.getHull().config);
                 int money = (int) merc.getMoney();
-                
+
                 ArrayList<SolItem> itemsList = new ArrayList<>();
                 for (List<SolItem> itemGroup : merc.getItemContainer()) {
                     for (SolItem itemInGroup : itemGroup) {
@@ -112,16 +114,16 @@ public class SaveManager {
                     }
                 }
                 String items = itemsToString(itemsList);
-                
+
                 JsonObject json = new JsonObject();
                 json.addProperty("hull", hullName);
                 json.addProperty("money", money);
                 json.addProperty("items", items);
-                
+
                 jsons.add(json);
             }
         }
-        
+
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String stringToWrite = gson.toJson(jsons);
 
@@ -150,6 +152,7 @@ public class SaveManager {
 
     /**
      * Checks if a resource exists
+     *
      * @param fileName Just the name of the resource, not the path
      * @return A boolean corresponding to the resources existence
      */
@@ -158,7 +161,7 @@ public class SaveManager {
 
         return new FileHandle(Paths.get(path).toFile()).exists();
     }
-    
+
     /**
      * Tests is the game has a previous ship (a game to continue)
      */
@@ -173,7 +176,7 @@ public class SaveManager {
         if (hullName == null) {
             return null;
         }
-        
+
         HullConfig hull = hullConfigs.getConfig(hullName);
         if (hull == null) {
             return null;
@@ -181,7 +184,7 @@ public class SaveManager {
 
         int money = ir.getInt("money", 0);
         String itemsStr = ir.getString("items", "");
-        
+
         float x = ir.getFloat("x", 0);
         float y = ir.getFloat("y", 0);
         Vector2 spawnPos = new Vector2(x, y);
