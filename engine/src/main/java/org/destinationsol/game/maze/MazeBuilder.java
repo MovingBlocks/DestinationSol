@@ -16,6 +16,7 @@
 
 package org.destinationsol.game.maze;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
@@ -110,7 +111,7 @@ public class MazeBuilder {
     private void buildEnemies(SolGame game, Maze maze, MazeLayout layout) {
         MazeConfig config = maze.getConfig();
         float dist = maze.getRadius() - BORDER / 2;
-        float circleLen = dist * SolMath.PI * 2;
+        float circleLen = dist * MathUtils.PI * 2;
         for (ShipConfig enemy : config.outerEnemies) {
             int count = (int) (enemy.density * circleLen);
             for (int i = 0; i < count; i++) {
@@ -124,7 +125,7 @@ public class MazeBuilder {
         boolean[][] occupiedCells = new boolean[size][size];
         occupiedCells[size / 2][size / 2] = true;
         for (ShipConfig e : config.innerEnemies) {
-            int count = (int) (e.density * innerRadius * innerRadius * SolMath.PI);
+            int count = (int) (e.density * innerRadius * innerRadius * MathUtils.PI);
             for (int i = 0; i < count; i++) {
                 Vector2 position = getFreeCellPos(occupiedCells);
                 if (position != null) {

@@ -16,6 +16,7 @@
 package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
@@ -55,7 +56,7 @@ public class PlanetObjectsBuilder {
     private static final float CLOUD_DENSITY = .2f;
 
     private static final float DECO_PACK_SZ = 5f;
-    private static final float DECO_PACK_ANGULAR_WIDTH = 360 * DECO_PACK_SZ / (2 * SolMath.PI * Const.MAX_GROUND_HEIGHT);
+    private static final float DECO_PACK_ANGULAR_WIDTH = 360 * DECO_PACK_SZ / (2 * MathUtils.PI * Const.MAX_GROUND_HEIGHT);
 
     public float createPlanetObjs(SolGame game, Planet planet) {
         if (DebugOptions.NO_OBJS) {
@@ -125,7 +126,7 @@ public class PlanetObjectsBuilder {
     private float createGround(SolGame game, Planet planet) {
         // helper values
         float maxRadius = planet.getGroundHeight() - TOP_TILE_SZ / 2;
-        int columns = (int) (2 * SolMath.PI * maxRadius / TOP_TILE_SZ);
+        int columns = (int) (2 * MathUtils.PI * maxRadius / TOP_TILE_SZ);
         if (columns <= 0) {
             throw new AssertionError("Error creating planet ground!");
         }
@@ -136,7 +137,7 @@ public class PlanetObjectsBuilder {
         float[] tileSizes = new float[rows];
         float currentRadius = maxRadius;
         for (int row = 0; row < rows; row++) {
-            float tileSize = 2 * SolMath.PI * currentRadius / columns;
+            float tileSize = 2 * MathUtils.PI * currentRadius / columns;
             radii[row] = currentRadius;
             tileSizes[row] = tileSize;
             currentRadius -= tileSize;
@@ -258,7 +259,7 @@ public class PlanetObjectsBuilder {
                 return fraction;
             };
 
-        int decorationCount = (int) (2 * SolMath.PI * groundHeight * decoConfig.density);
+        int decorationCount = (int) (2 * MathUtils.PI * groundHeight * decoConfig.density);
         for (int i = 0; i < decorationCount; i++) {
             float decorationSize = SolRandom.randomFloat(decoConfig.szMin, decoConfig.szMax);
             float angularHalfWidth = SolMath.angularWidthOfSphere(decorationSize / 2, groundHeight);

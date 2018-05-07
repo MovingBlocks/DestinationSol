@@ -15,6 +15,7 @@
  */
 package org.destinationsol.game.projectile;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.common.SolMath;
@@ -36,7 +37,7 @@ public class BallProjectileBody implements ProjectileBody {
         float density = config.density == -1 ? 1 : config.density;
         body = AsteroidBuilder.buildBall(game, position, angle, config.physSize / 2, density, config.massless);
         if (config.zeroAbsSpeed) {
-            body.setAngularVelocity(15f * SolMath.degRad);
+            body.setAngularVelocity(15f * MathUtils.degRad);
         }
 
         speed = new Vector2();
@@ -53,7 +54,7 @@ public class BallProjectileBody implements ProjectileBody {
 
     private void setParamsFromBody() {
         position.set(body.getPosition());
-        angle = body.getAngle() * SolMath.radDeg;
+        angle = body.getAngle() * MathUtils.radDeg;
         speed.set(body.getLinearVelocity());
     }
 
@@ -98,7 +99,7 @@ public class BallProjectileBody implements ProjectileBody {
     @Override
     public void changeAngle(float diff) {
         angle += diff;
-        body.setTransform(position, angle * SolMath.degRad);
+        body.setTransform(position, angle * MathUtils.degRad);
         body.setAngularVelocity(0);
     }
 
