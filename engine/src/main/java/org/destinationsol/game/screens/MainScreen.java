@@ -96,16 +96,22 @@ public class MainScreen implements SolUiScreen {
         solApplication = context.get(SolApplication.class);
         GameOptions gameOptions = solApplication.getOptions();
 
-        int ct = solApplication.getOptions().controlType;
-        if (ct == GameOptions.CONTROL_KB) {
-            shipControl = new ShipKbControl(solApplication, resolutionRatio, controls);
-        } else if (ct == GameOptions.CONTROL_MIXED) {
-            shipControl = new ShipMixedControl(solApplication, controls);
-        } else if (ct == GameOptions.CONTROL_MOUSE) {
-            shipControl = new ShipMouseControl();
-        } else {
-            shipControl = new ShipControllerControl(solApplication);
+        switch (gameOptions.controlType) {
+            case KEYBOARD:
+                shipControl = new ShipKbControl(solApplication, resolutionRatio, controls);
+                break;
+            case MOUSE:
+                shipControl = new ShipMouseControl();
+                break;
+            case CONTROLLER:
+                shipControl = new ShipControllerControl(solApplication);
+                break;
+            case MIXED:
+            default:
+                shipControl = new ShipMixedControl(solApplication, controls);
+                break;
         }
+
         boolean mobile = solApplication.isMobile();
         float lastCol = resolutionRatio - MainScreen.CELL_SZ;
         Rectangle menuArea = mobile ? btn(0, HELPER_ROW_2, true) : rightPaneLayout.buttonRect(0);
