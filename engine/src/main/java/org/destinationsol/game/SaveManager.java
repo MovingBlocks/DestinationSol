@@ -47,14 +47,14 @@ public class SaveManager {
 
     private static final String FILE_NAME = "prevShip.ini";
 
-    public static void writeShips(HullConfig hull, float money, List<SolItem> itemsList, SolGame game, HullConfigManager hullConfigManager) {
+    public static void writeShips(HullConfig hull, float money, List<SolItem> itemsList, Hero hero, HullConfigManager hullConfigManager) {
         String hullName = hullConfigManager.getName(hull);
 
-        writeMercs(game, hullConfigManager);
+        writeMercs(hero, hullConfigManager);
 
         String items = itemsToString(itemsList);
 
-        Vector2 pos = game.getHero().getPosition();
+        Vector2 pos = hero.getPosition();
 
         IniReader.write(FILE_NAME, "hull", hullName, "money", (int) money, "items", items, "x", pos.x, "y", pos.y);
     }
@@ -91,12 +91,12 @@ public class SaveManager {
      * Writes the player's mercenaries to their JSON file.
      * The file will be created if it doesn't exist.
      *
-     * @param game The instance of the game we're dealing with
+     * @param hero The hero we're dealing with
      */
-    private static void writeMercs(SolGame game, HullConfigManager hullConfigManager) {
+    private static void writeMercs(Hero hero, HullConfigManager hullConfigManager) {
         PrintWriter writer;
 
-        ItemContainer mercenaries = game.getHero().getShipUnchecked().getTradeContainer().getMercs();
+        ItemContainer mercenaries = hero.getShipUnchecked().getTradeContainer().getMercs();
 
         List<JsonObject> jsons = new ArrayList<JsonObject>();
 

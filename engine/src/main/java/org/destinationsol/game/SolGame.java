@@ -243,7 +243,7 @@ public class SolGame {
             items = respawnState.getRespawnItems();
         }
 
-        SaveManager.writeShips(hull, money, items, this, hullConfigManager);
+        SaveManager.writeShips(hull, money, items, hero, hullConfigManager);
     }
 
     public GameScreens getScreens() {
