@@ -22,12 +22,25 @@ import java.util.Map;
 
 public class ContextImpl implements Context {
 
+    private final Context parentContext;
+
     private final Map<Class<?>, Object> map = Maps.newConcurrentMap();
+
+    public ContextImpl() {
+        parentContext = null;
+    }
+
+    public ContextImpl(Context parentContext) {
+        this.parentContext = parentContext;
+    }
 
     @Override
     public <T> T get(Class<? extends T> type) {
         if (type == Context.class) {
             return type.cast(this);
+        }
+        if (!map.containsKey(type) && parentContext != null) {
+            return parentContext.get(type);
         }
         return type.cast(map.get(type));
     }
