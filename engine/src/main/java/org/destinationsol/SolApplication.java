@@ -27,7 +27,6 @@ import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.context.Context;
-import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.game.sound.OggMusicManager;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.menu.MenuScreens;
@@ -60,7 +59,6 @@ public class SolApplication implements ApplicationListener {
     private String fatalErrorMsg;
     private String fatalErrorTrace;
     private SolGame solGame;
-    private Context context;
 
     public static final String WORLD_SAVE_FILE_NAME = "world.ini";
 
@@ -74,8 +72,7 @@ public class SolApplication implements ApplicationListener {
 
     @Override
     public void create() {
-        context = new ContextImpl();
-        context.put(SolApplication.class, this);
+        Context.put(SolApplication.class, this);
         isMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
         if (isMobile) {
             DebugOptions.read(null);
@@ -88,7 +85,7 @@ public class SolApplication implements ApplicationListener {
         moduleManager.printAvailableModules();
 
         musicManager = new OggMusicManager();
-        soundManager = new OggSoundManager(context);
+        soundManager = new OggSoundManager();
         inputManager = new SolInputManager(soundManager);
 
         musicManager.playMenuMusic(options);
@@ -201,7 +198,7 @@ public class SolApplication implements ApplicationListener {
             beforeLoadGame();
         }
 
-        solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context);
+        solGame = new SolGame(shipName, tut, isNewGame, commonDrawer);
         inputManager.setScreen(this, solGame.getScreens().mainScreen);
         musicManager.playGameMusic(options);
     }

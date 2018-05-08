@@ -15,24 +15,24 @@
  */
 package org.destinationsol.game.context;
 
-/**
- * Provides classes with the utility objects that belong to the context they are running in.
- *
- * From this class there can be multiple instances. For example we have the option of letting a client and server run
- * concurrently in one VM, by letting them work with two separate context objects.
- *
- * Contexts must be thread safe!
- */
-public interface Context {
+import com.google.common.collect.Maps;
 
-    /**
-     * @return the object that is known in this context for this type.
-     */
-    <T> T get(Class<? extends T> type);
+import java.util.Map;
 
-    /**
-     * Makes the object known in this context to be the object to work with for the given type.
-     */
-    <T, U extends T> void put(Class<T> type, U object);
+public final class Context {
+
+    private static final Map<Class<?>, Object> MAP = Maps.newConcurrentMap();
+
+    private Context() {
+
+    }
+
+    public static <T> T get(Class<? extends T> type) {
+        return type.cast(MAP.get(type));
+    }
+
+    public static <T, U extends T> void put(Class<T> type, U object)  {
+        MAP.put(type, object);
+    }
 
 }

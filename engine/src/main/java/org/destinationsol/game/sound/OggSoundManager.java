@@ -84,12 +84,11 @@ public class OggSoundManager {
     private final SolApplication solApplication;
 
 
-    public OggSoundManager(Context context) {
+    public OggSoundManager() {
         soundMap = new HashMap<>();
         loopedSoundMap = new HashMap<>();
         debugHintDrawer = new DebugHintDrawer();
-        solApplication = context.get(SolApplication.class);
-
+        solApplication = Context.get(SolApplication.class);
     }
 
     /**
