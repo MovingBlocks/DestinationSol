@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.context.internal;
+package org.destinationsol.context.internal;
 
 import com.google.common.collect.Maps;
-import org.destinationsol.game.context.Context;
+import org.destinationsol.context.Context;
 
 import java.util.Map;
 
