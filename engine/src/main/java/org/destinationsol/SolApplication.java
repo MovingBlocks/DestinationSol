@@ -91,6 +91,7 @@ public class SolApplication implements ApplicationListener {
         musicManager.playMenuMusic(options);
 
         commonDrawer = new CommonDrawer();
+        Context.put(CommonDrawer.class, commonDrawer);
         uiDrawer = new UiDrawer(commonDrawer);
         layouts = new SolLayouts(uiDrawer.r);
         menuScreens = new MenuScreens(layouts, isMobile(), uiDrawer.r, options);
@@ -198,7 +199,7 @@ public class SolApplication implements ApplicationListener {
             beforeLoadGame();
         }
 
-        solGame = new SolGame(shipName, tut, isNewGame, commonDrawer);
+        solGame = new SolGame(shipName, tut, isNewGame);
         inputManager.setScreen(this, solGame.getScreens().mainScreen);
         musicManager.playGameMusic(options);
     }

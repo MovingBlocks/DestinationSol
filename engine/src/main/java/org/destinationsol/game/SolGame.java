@@ -104,8 +104,9 @@ public class SolGame {
     private float timeFactor;
     private RespawnState respawnState;
 
-    public SolGame(String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer) {
+    public SolGame(String shipName, boolean tut, boolean isNewGame) {
         solApplication = Context.get(SolApplication.class);
+        CommonDrawer commonDrawer = Context.get(CommonDrawer.class);
         GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
         soundManager = solApplication.getSoundManager();
