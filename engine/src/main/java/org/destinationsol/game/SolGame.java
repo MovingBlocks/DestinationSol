@@ -143,22 +143,22 @@ public class SolGame {
         // from this point we're ready!
         planetManager.fill(solNames);
         respawnState = new RespawnState();
-        createGame(shipName, isNewGame, hullConfigManager);
+        createGame(shipName, isNewGame);
         if (!isNewGame) {
-            createAndSpawnMercenariesFromSave(hullConfigManager);
+            createAndSpawnMercenariesFromSave();
         }
         SolMath.checkVectorsTaken(null);
     }
 
-    private void createGame(String shipName, boolean shouldSpawnOnGalaxySpawnPosition, HullConfigManager hullConfigManager) {
+    private void createGame(String shipName, boolean shouldSpawnOnGalaxySpawnPosition) {
         /*
          * shipName will be null on respawn and continue, meaning the old ship will be loaded.
          * If shipName is not null then a new ship has to be created.
          */
         boolean isNewShip = shipName != null;
-        ShipConfig shipConfig = readShipFromConfigOrLoadFromSaveIfNull(shipName, itemManager, isNewShip, hullConfigManager);
+        ShipConfig shipConfig = readShipFromConfigOrLoadFromSaveIfNull(shipName, isNewShip);
         if (!respawnState.isPlayerRespawned()) {
-            this.getGalaxyFiller().fill(this, hullConfigManager, this.getItemMan(), shipConfig.hull.getInternalName().split(":")[0]);
+            galaxyFiller.fill(this, hullConfigManager, itemManager, shipConfig.hull.getInternalName().split(":")[0]);
         }
         hero = new PlayerCreator().createPlayer(shipConfig,
                 shouldSpawnOnGalaxySpawnPosition,
@@ -168,7 +168,7 @@ public class SolGame {
                 isNewShip);
     }
 
-    private ShipConfig readShipFromConfigOrLoadFromSaveIfNull(String shipName, ItemManager itemManager, boolean isNewShip, HullConfigManager hullConfigManager) {
+    private ShipConfig readShipFromConfigOrLoadFromSaveIfNull(String shipName, boolean isNewShip) {
         if (isNewShip) {
             return ShipConfig.load(hullConfigManager, shipName, itemManager);
         } else {
@@ -176,7 +176,7 @@ public class SolGame {
         }
     }
 
-    private void createAndSpawnMercenariesFromSave(HullConfigManager hullConfigManager) {
+    private void createAndSpawnMercenariesFromSave() {
         List<MercItem> mercenaryItems = new MercenarySaveLoader()
                 .loadMercenariesFromSave(hullConfigManager, itemManager, MERC_SAVE_FILE);
         for (MercItem mercenaryItem : mercenaryItems) {
@@ -373,7 +373,7 @@ public class SolGame {
                 objectManager.removeObjDelayed(hero.getTranscendentHero());
             }
         }
-        createGame(null, true, hullConfigManager);
+        createGame(null, true);
     }
 
     public FactionManager getFactionMan() {
