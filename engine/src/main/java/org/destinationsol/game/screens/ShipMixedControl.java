@@ -33,6 +33,8 @@ import org.destinationsol.ui.SolUiControl;
 import java.util.List;
 
 public class ShipMixedControl implements ShipUiControl {
+    private static final float THROTTLE_INCREMENT = 0.1f;
+
     public final SolUiControl upCtrl;
     public final SolUiControl shootCtrl;
     public final SolUiControl shoot2Ctrl;
@@ -40,8 +42,9 @@ public class ShipMixedControl implements ShipUiControl {
     private final SolUiControl myDownCtrl;
     private final Vector2 myMouseWorldPos;
     private final TextureAtlas.AtlasRegion myCursor;
-    private boolean myRight;
-    private boolean myLeft;
+
+    private float orientation;
+    private float throttle;
 
     ShipMixedControl(SolApplication solApplication, List<SolUiControl> controls) {
         GameOptions gameOptions = solApplication.getOptions();
@@ -72,15 +75,8 @@ public class ShipMixedControl implements ShipUiControl {
         if (hero.isNonTranscendent()) {
             myMouseWorldPos.set(Gdx.input.getX(), Gdx.input.getY());
             game.getCam().screenToWorld(myMouseWorldPos);
-            float desiredAngle = SolMath.angle(hero.getPosition(), myMouseWorldPos);
-            Boolean ntt = Mover.needsToTurn(hero.getAngle(), desiredAngle, hero.getRotationSpeed(), hero.getRotationAcceleration(), Shooter.MIN_SHOOT_AAD);
-            if (ntt != null) {
-                if (ntt) {
-                    myRight = true;
-                } else {
-                    myLeft = true;
-                }
-            }
+            orientation = SolMath.angle(hero.getPosition(), myMouseWorldPos);
+
             if (!im.isMouseOnUi()) {
                 if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                     shootCtrl.maybeFlashPressed(gameOptions.getKeyShoot());
@@ -93,21 +89,26 @@ public class ShipMixedControl implements ShipUiControl {
                 }
             }
         }
+
+        // TODO: Probably make a throttle slider of some sort too
+        if (upCtrl.isJustOff()) {
+            throttle += THROTTLE_INCREMENT;
+        }
+        if (myDownCtrl.isJustOff()) {
+            throttle -= THROTTLE_INCREMENT;
+        }
+
+        throttle = SolMath.clamp(throttle);
     }
 
     @Override
-    public boolean isLeft() {
-        return myLeft;
+    public float getThrottle() {
+        return throttle;
     }
 
     @Override
-    public boolean isRight() {
-        return myRight;
-    }
-
-    @Override
-    public boolean isUp() {
-        return upCtrl.isOn();
+    public float getOrientation() {
+        return orientation;
     }
 
     @Override
@@ -133,11 +134,5 @@ public class ShipMixedControl implements ShipUiControl {
     @Override
     public TextureAtlas.AtlasRegion getInGameTex() {
         return myCursor;
-    }
-
-    @Override
-    public void blur() {
-        myLeft = false;
-        myRight = false;
     }
 }
