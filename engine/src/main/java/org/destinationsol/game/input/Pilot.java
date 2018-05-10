@@ -16,6 +16,7 @@
 
 package org.destinationsol.game.input;
 
+import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.ship.FarShip;
@@ -24,11 +25,9 @@ import org.destinationsol.game.ship.SolShip;
 public interface Pilot {
     void update(SolGame game, SolShip ship, SolShip nearestEnemy);
 
-    boolean isUp();
+    float getThrottle();
 
-    boolean isLeft();
-
-    boolean isRight();
+    float getOrientation();
 
     boolean isShoot();
 
@@ -54,7 +53,7 @@ public interface Pilot {
 
     public static final class Utils {
         public static boolean isIdle(Pilot p) {
-            return !(p.isUp() || p.isShoot() || p.isShoot2() || p.isAbility());
+            return !(p.getThrottle() != 0 || p.isShoot() || p.isShoot2() || p.isAbility());
         }
     }
 }

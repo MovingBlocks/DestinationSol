@@ -23,11 +23,9 @@ public interface ShipUiControl {
         // Intentionally left blank
     }
 
-    boolean isLeft();
+    float getThrottle();
 
-    boolean isRight();
-
-    boolean isUp();
+    float getOrientation();
 
     boolean isDown();
 

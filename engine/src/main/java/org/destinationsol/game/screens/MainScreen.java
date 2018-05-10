@@ -492,18 +492,6 @@ public class MainScreen implements SolUiScreen {
         shipControl.blur();
     }
 
-    public boolean isLeft() {
-        return shipControl.isLeft();
-    }
-
-    public boolean isRight() {
-        return shipControl.isRight();
-    }
-
-    public boolean isUp() {
-        return shipControl.isUp();
-    }
-
     public boolean isDown() {
         return shipControl.isDown();
     }
