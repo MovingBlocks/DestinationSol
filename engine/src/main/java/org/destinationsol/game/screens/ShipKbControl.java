@@ -17,6 +17,7 @@ package org.destinationsol.game.screens;
 
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.ui.SolUiControl;
@@ -24,6 +25,9 @@ import org.destinationsol.ui.SolUiControl;
 import java.util.List;
 
 public class ShipKbControl implements ShipUiControl {
+    private static final float THROTTLE_INCREMENT = 0.1f;
+    private static final float ORIENTATION_INCREMENT = 0.2f * SolMath.radDeg;
+
     public final SolUiControl leftCtrl;
     public final SolUiControl rightCtrl;
     public final SolUiControl upCtrl;
@@ -31,6 +35,9 @@ public class ShipKbControl implements ShipUiControl {
     public final SolUiControl shootCtrl;
     public final SolUiControl shoot2Ctrl;
     public final SolUiControl abilityCtrl;
+
+    private float throttle;
+    private float orientation;
 
     ShipKbControl(SolApplication solApplication, float resolutionRatio, List<SolUiControl> controls) {
         GameOptions gameOptions = solApplication.getOptions();
@@ -86,21 +93,34 @@ public class ShipKbControl implements ShipUiControl {
         Gun g2 = hero.isTranscendent() ? null : hero.getHull().getGun(true);
         shoot2Ctrl.setEnabled(g2 != null && g2.ammo > 0);
         abilityCtrl.setEnabled(hero.isNonTranscendent() && hero.canUseAbility());
+
+        if (upCtrl.isJustOff()) {
+            throttle += THROTTLE_INCREMENT;
+        }
+        if (myDownCtrl.isJustOff()) {
+            throttle -= THROTTLE_INCREMENT;
+        }
+
+        throttle = SolMath.clamp(throttle);
+
+        if (leftCtrl.isJustOff()) {
+            orientation -= ORIENTATION_INCREMENT;
+        }
+        if (rightCtrl.isJustOff()) {
+            orientation += ORIENTATION_INCREMENT;
+        }
+
+        orientation = SolMath.norm(orientation);
     }
 
     @Override
-    public boolean isLeft() {
-        return leftCtrl.isOn();
+    public float getThrottle() {
+        return throttle;
     }
 
     @Override
-    public boolean isRight() {
-        return rightCtrl.isOn();
-    }
-
-    @Override
-    public boolean isUp() {
-        return upCtrl.isOn();
+    public float getOrientation() {
+        return orientation;
     }
 
     @Override
