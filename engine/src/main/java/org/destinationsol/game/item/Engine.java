@@ -126,7 +126,7 @@ public class Engine implements SolItem {
 
             boolean isBig = rootNode.getBoolean("big");
             float rotationAcceleration = isBig ? 100f : 515f;
-            float acceleration = 2f;
+            float acceleration = 7.5f;
             float maxRotationSpeed = isBig ? 40f : 230f;
 
             json.dispose();
