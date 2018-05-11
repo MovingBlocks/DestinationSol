@@ -79,7 +79,7 @@ public class Door {
             }
             SolShip ship2 = (SolShip) o;
             Pilot pilot2 = ship2.getPilot();
-            if (!pilot2.isUp()) {
+            if (pilot2.getThrottle() == 0) {
                 continue;
             }
             if (factionManager.areEnemies(pilot2.getFaction(), faction)) {
