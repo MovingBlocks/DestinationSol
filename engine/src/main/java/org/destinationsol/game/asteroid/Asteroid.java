@@ -20,6 +20,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.common.Vector2Pool;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.FarObject;
 import org.destinationsol.game.RemoveController;
@@ -172,6 +173,8 @@ public class Asteroid implements SolObject {
             float vol = SolMath.clamp(size / .5f);
             game.getSoundManager().play(game, game.getSpecialSounds().asteroidCrack, null, this, vol);
             maybeSplit(game);
+            Vector2Pool.freeVector(position);
+            Vector2Pool.freeVector(speed);
         }
     }
 
@@ -182,10 +185,10 @@ public class Asteroid implements SolObject {
         float sclSum = 0;
         while (sclSum < .7f * size * size) {
             float speedAngle = SolRandom.randomFloat(180);
-            Vector2 speed = new Vector2();
+            Vector2 speed = Vector2Pool.getVector();
             SolMath.fromAl(speed, speedAngle, SolRandom.randomFloat(0, .5f) * MAX_SPLIT_SPD);
             speed.add(speed);
-            Vector2 newPos = new Vector2();
+            Vector2 newPos = Vector2Pool.getVector();
             SolMath.fromAl(newPos, speedAngle, SolRandom.randomFloat(0, size / 2));
             newPos.add(position);
             float sz = size * SolRandom.randomFloat(.25f, .5f);

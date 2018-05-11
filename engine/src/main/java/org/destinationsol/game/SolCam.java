@@ -24,6 +24,7 @@ import org.destinationsol.Const;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.common.Vector2Pool;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.screens.MainScreen;
 
@@ -72,10 +73,10 @@ public class SolCam {
                 position.set(heroPos);
                 game.getObjectManager().resetDelays();
             } else {
-                Vector2 moveDiff = SolMath.getVec(hero.getSpeed());
+                Vector2 moveDiff = Vector2Pool.getVector(hero.getSpeed());
                 moveDiff.scl(ts);
                 position.add(moveDiff);
-                SolMath.free(moveDiff);
+                Vector2Pool.freeVector(moveDiff);
                 float moveSpeed = MOVE_SPD * ts;
                 position.x = SolMath.approach(position.x, heroPos.x, moveSpeed);
                 position.y = SolMath.approach(position.y, heroPos.y, moveSpeed);

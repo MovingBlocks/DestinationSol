@@ -21,15 +21,16 @@ public class Vector2Pool {
     private static final int MAX_VECTORS = 100;
     private static final Vector2[] EBP = new Vector2[MAX_VECTORS];
     private static int esp = -1;
+    private static final Vector2 NULL_VECTOR = new Vector2();
 
-    public Vector2 getVector() {
+    public static Vector2 getVector() {
         if (esp != -1) {
             return EBP[esp--];
         }
         return new Vector2();
     }
 
-    public Vector2 getVector(float x, float y) {
+    public static Vector2 getVector(float x, float y) {
         if (esp != -1) {
             EBP[esp].x = x;
             EBP[esp].y = y;
@@ -38,7 +39,7 @@ public class Vector2Pool {
         return new Vector2(x, y);
     }
 
-    public Vector2 getVector(Vector2 v) {
+    public static Vector2 getVector(Vector2 v) {
         if (esp != -1) {
             EBP[esp].set(v);
             return EBP[esp--];
@@ -46,8 +47,9 @@ public class Vector2Pool {
         return new Vector2(v);
     }
 
-    public void freeVector(Vector2 v) {
+    public static void freeVector(Vector2 v) {
         if (esp != MAX_VECTORS - 1) {
+            v.set(NULL_VECTOR);
             EBP[++esp] = v;
         }
     }
