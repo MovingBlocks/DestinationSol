@@ -25,8 +25,14 @@ import org.destinationsol.game.ship.SolShip;
 public interface Pilot {
     void update(SolGame game, SolShip ship, SolShip nearestEnemy);
 
+    /**
+     * Returns the throttle applied to the engine.
+     */
     float getThrottle();
 
+    /**
+     * Returns the angle at which to orient the ship.
+     */
     float getOrientation();
 
     boolean isShoot();
