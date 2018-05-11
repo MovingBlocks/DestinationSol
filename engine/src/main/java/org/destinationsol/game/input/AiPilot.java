@@ -52,6 +52,9 @@ public class AiPilot implements Pilot {
     private PlanetBind myPlanetBind;
     private float myReEquipAwait;
 
+    private float orientation;
+    private float throttle;
+
     public AiPilot(MoveDestProvider destProvider, boolean collectsItems, Faction faction,
                    boolean shootAtObstacles, String mapHint, float detectionDist) {
         myDestProvider = destProvider;
@@ -121,7 +124,7 @@ public class AiPilot implements Pilot {
         Vector2 enemySpeed = nearestEnemy == null ? null : nearestEnemy.getSpeed();
         float enemyApproxRad = nearestEnemy == null ? 0 : nearestEnemy.getHull().config.getApproxRadius();
         myShooter.update(ship, enemyPos, moverActive, canShoot, enemySpeed, enemyApproxRad);
-        if (hasEngine && !moverActive && !isShooterRotated()) {
+        if (hasEngine && !moverActive && !myShooter.isRotatingTowardsTarget()) {
             myMover.rotateOnIdle(ship, np, dest, shouldStopNearDest, maxIdleDist);
         }
 
@@ -130,6 +133,27 @@ public class AiPilot implements Pilot {
         } else {
             myReEquipAwait -= game.getTimeStep();
         }
+
+        throttle = SolMath.clamp(myMover.getThrottle());
+
+        if (myShooter.isRotatingTowardsTarget()) {
+            orientation = myShooter.getDesiredOrientation();
+        }
+        else {
+            orientation = myMover.getDesiredOrientation();
+        }
+
+        orientation = SolMath.norm(orientation);
+    }
+
+    @Override
+    public float getThrottle() {
+        return throttle;
+    }
+
+    @Override
+    public float getOrientation() {
+        return orientation;
     }
 
     private float getMaxIdleDist(HullConfig hullConfig) {
@@ -150,25 +174,6 @@ public class AiPilot implements Pilot {
             return !g2.config.fixed ? null : true;
         }
         return false;
-    }
-
-    private boolean isShooterRotated() {
-        return myShooter.isLeft() || myShooter.isRight();
-    }
-
-    @Override
-    public boolean isUp() {
-        return myMover.isUp();
-    }
-
-    @Override
-    public boolean isLeft() {
-        return myMover.isLeft() || myShooter.isLeft();
-    }
-
-    @Override
-    public boolean isRight() {
-        return myMover.isRight() || myShooter.isRight();
     }
 
     @Override

@@ -31,10 +31,11 @@ public class Mover {
     private static final float MAX_REL_SPD_DEV = .05f;
     private final BigObjAvoider myBigObjAvoider;
     private final SmallObjAvoider mySmallObjAvoider;
-    private boolean myUp;
-    private boolean myLeft;
-    private boolean myRight;
+    private boolean active;
     private Vector2 myDesiredSpeed;
+
+    private float desiredOrientation;
+    private float throttle;
 
     Mover() {
         myBigObjAvoider = new BigObjAvoider();
@@ -60,9 +61,7 @@ public class Mover {
     public void update(SolGame game, SolShip ship, Vector2 dest, Planet np,
                        float maxIdleDist, boolean hasEngine, boolean avoidBigObjs, float desiredSpeedLen, boolean stopNearDest,
                        Vector2 destSpeed) {
-        myUp = false;
-        myLeft = false;
-        myRight = false;
+        active = false;
 
         if (!hasEngine || dest == null) {
             return;
@@ -87,20 +86,19 @@ public class Mover {
             return;
         }
 
+        active = true;
+
         float shipAngle = ship.getAngle();
         float rotationSpeed = ship.getRotationSpeed();
         float rotAcc = ship.getRotationAcceleration();
 
-        float desiredAngle = SolMath.angle(shipSpeed, myDesiredSpeed);
-        float angleDiff = SolMath.angleDiff(desiredAngle, shipAngle);
-        myUp = angleDiff < MIN_ANGLE_TO_ACC;
-        Boolean ntt = needsToTurn(shipAngle, desiredAngle, rotationSpeed, rotAcc, MIN_MOVE_AAD);
-        if (ntt != null) {
-            if (ntt) {
-                myRight = true;
-            } else {
-                myLeft = true;
-            }
+        desiredOrientation = SolMath.angle(shipSpeed, myDesiredSpeed);
+        float angleDiff = SolMath.angleDiff(desiredOrientation, shipAngle);
+        // TODO: Find a way to calculate intermediate throttle inputs if needed
+        if (angleDiff < MIN_ANGLE_TO_ACC) {
+            throttle = 1;
+        } else {
+            throttle = 0;
         }
     }
 
@@ -127,8 +125,6 @@ public class Mover {
         Vector2 shipPos = ship.getPosition();
         float shipAngle = ship.getAngle();
         float toDestLen = shipPos.dst(dest);
-        float desiredAngle;
-        float allowedAngleDiff;
         boolean nearFinalDest = stopNearDest && toDestLen < maxIdleDist;
         float dstToPlanet = np.getPosition().dst(shipPos);
         if (nearFinalDest) {
@@ -136,25 +132,16 @@ public class Mover {
                 return; // stopping in space, don't care of angle
             }
             // stopping on planet
-            desiredAngle = SolMath.angle(np.getPosition(), shipPos);
-            allowedAngleDiff = MIN_PLANET_MOVE_AAD;
+            desiredOrientation = SolMath.angle(np.getPosition(), shipPos);
         } else {
             // flying somewhere
             if (dstToPlanet < np.getFullHeight() + Const.ATM_HEIGHT) {
                 return; // near planet, don't care of angle
             }
-            desiredAngle = SolMath.angle(ship.getSpeed());
-            allowedAngleDiff = MIN_MOVE_AAD;
+            desiredOrientation = SolMath.angle(ship.getSpeed());
         }
 
-        Boolean ntt = needsToTurn(shipAngle, desiredAngle, ship.getRotationSpeed(), ship.getRotationAcceleration(), allowedAngleDiff);
-        if (ntt != null) {
-            if (ntt) {
-                myRight = true;
-            } else {
-                myLeft = true;
-            }
-        }
+        active = true;
     }
 
     private float getToDestAngle(SolGame game, SolShip ship, Vector2 dest, boolean avoidBigObjs, Planet np) {
@@ -167,23 +154,19 @@ public class Mover {
         return toDestAngle;
     }
 
-    public boolean isUp() {
-        return myUp;
-    }
-
-    public boolean isLeft() {
-        return myLeft;
-    }
-
-    public boolean isRight() {
-        return myRight;
-    }
-
     public boolean isActive() {
-        return myUp || myLeft || myRight;
+        return active;
     }
 
     public BigObjAvoider getBigObjAvoider() {
         return myBigObjAvoider;
+    }
+
+    public float getDesiredOrientation() {
+        return desiredOrientation;
+    }
+
+    public float getThrottle() {
+        return throttle;
     }
 }
