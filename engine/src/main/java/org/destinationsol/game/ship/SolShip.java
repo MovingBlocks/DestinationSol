@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -226,7 +226,7 @@ public class SolShip implements SolObject {
         SolShip nearestEnemy = game.getFactionMan().getNearestEnemy(game, this);
         myPilot.update(game, this, nearestEnemy);
         myHull.update(game, myItemContainer, myPilot, this, nearestEnemy);
-        game.getPartMan().updateAllHullEmittersOfType(myHull, "collision", colliding);
+        game.getPartMan().updateAllHullEmittersOfType(this, "collision", colliding);
 
         updateAbility(game);
         updateIdleTime(game);

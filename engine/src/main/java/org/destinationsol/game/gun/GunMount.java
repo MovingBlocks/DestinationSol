@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -78,7 +78,7 @@ public class GunMount {
         }
 
         float gunAngle = shipAngle + myRelGunAngle;
-        myGun.update(ic, game, gunAngle, creator, shouldShoot, faction, creator.getHull());
+        myGun.update(ic, game, gunAngle, creator, shouldShoot, faction, creator);
     }
 
     public Gun getGun() {

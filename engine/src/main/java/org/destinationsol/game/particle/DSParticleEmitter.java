@@ -233,8 +233,12 @@ public class DSParticleEmitter {
     }
 
     public void setWorking(boolean working) {
+        setWorking(working, null);
+    }
+
+    public void setWorking(boolean working, SolShip ship) {
         if (working && workSoundSet != null) {
-            game.getSoundManager().play(game, workSoundSet, position, null);
+            game.getSoundManager().play(game, workSoundSet, position, ship);
         }
         light.update(working, relativeAngle, game);
 
