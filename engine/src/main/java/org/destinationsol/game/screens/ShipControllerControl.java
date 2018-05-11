@@ -19,6 +19,7 @@ import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
@@ -56,6 +57,7 @@ public class ShipControllerControl implements ShipUiControl {
 
     private static final float THROTTLE_INCREMENT = 0.1f;
     private static final float ORIENTATION_INCREMENT = 0.2f * SolMath.radDeg;
+    private static final float DEADZONE = 0.1f;
 
     private boolean controllerShoot;
     private boolean controllerShoot2;
@@ -67,6 +69,8 @@ public class ShipControllerControl implements ShipUiControl {
 
     private float orientation;
     private float throttle;
+
+    private Vector2 axesInput = new Vector2();
 
     ShipControllerControl(SolApplication solApplication) {
         final GameOptions gameOptions = solApplication.getOptions();
@@ -142,28 +146,10 @@ public class ShipControllerControl implements ShipUiControl {
                     controllerAbility = (value > 0.5f);
                 } else if (axisIndex == gameOptions.getControllerAxisLeftRight()) {
                     boolean invert = gameOptions.isControllerAxisLeftRightInverted();
-                    if (value < -0.5f) {
-                        controllerLeft = !invert;
-                        controllerRight = invert;
-                    } else if (value > 0.5f) {
-                        controllerLeft = invert;
-                        controllerRight = !invert;
-                    } else {
-                        controllerLeft = false;
-                        controllerRight = false;
-                    }
+                    axesInput.x = !invert ? value : -value;
                 } else if (axisIndex == gameOptions.getControllerAxisUpDown()) {
                     boolean invert = gameOptions.isControllerAxisUpDownInverted();
-                    if (value < -0.5f) {
-                        controllerUp = !invert;
-                        controllerDown = invert;
-                    } else if (value > 0.5f) {
-                        controllerUp = invert;
-                        controllerDown = !invert;
-                    } else {
-                        controllerUp = false;
-                        controllerDown = false;
-                    }
+                    axesInput.y = !invert ? value : -value;
                 }
 
                 return true;
@@ -198,21 +184,34 @@ public class ShipControllerControl implements ShipUiControl {
 
     @Override
     public void update(SolApplication solApplication, boolean enabled) {
-        // TODO: Use joystick direction to calculate orientation and throttle
+        float axesInputLen;
+
+        // Dead zone
+        if (axesInput.len2() < DEADZONE * DEADZONE) {
+            axesInput.setZero();
+            axesInputLen = 0;
+        } else {
+            axesInputLen = axesInput.len();
+            axesInput.scl(1 / axesInputLen);
+            axesInputLen = (axesInputLen - DEADZONE) / (1 - DEADZONE);
+        }
+
         if (controllerUp) {
             throttle += THROTTLE_INCREMENT;
-        }
-        if (controllerDown) {
+        } else if (controllerDown) {
             throttle -= THROTTLE_INCREMENT;
+        } else {
+            throttle = axesInputLen;
         }
 
         throttle = SolMath.clamp(throttle);
 
         if (controllerLeft) {
             orientation -= ORIENTATION_INCREMENT;
-        }
-        if (controllerRight) {
+        } else if (controllerRight) {
             orientation += ORIENTATION_INCREMENT;
+        } else if (axesInputLen != 0) {
+            orientation = SolMath.angle(axesInput);
         }
 
         orientation = SolMath.norm(orientation);
