@@ -19,6 +19,7 @@ package org.destinationsol.game.ship;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Transform;
+import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.input.Pilot;
@@ -27,9 +28,7 @@ import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.ship.hulls.Hull;
 
 public class ShipEngine {
-    public static final float MAX_RECOVER_ROT_SPD = 5f;
-    public static final float RECOVER_MUL = 15f;
-    public static final float RECOVER_AWAIT = 2f;
+    private static final float MIN_ACCELERATION_TIME = 0.1f;
 
     private final Engine myItem;
     private float myRecoverAwait;
@@ -44,17 +43,26 @@ public class ShipEngine {
         game.getPartMan().updateAllHullEmittersOfType(hull, "engine", engineRunning);
     }
 
-    private boolean applyInput(SolGame game, float shipAngle, Pilot pilot, Body body, Vector2 speed,
+    private boolean applyInput(SolGame game, float shipAngle, Pilot pilot, Body body, Vector2 velocity,
                                boolean controlsEnabled, float mass) {
-        boolean speedOk = SolMath.canAccelerate(shipAngle, speed);
-        boolean engineRunning = controlsEnabled && pilot.getThrottle() != 0 && speedOk;
+        boolean engineRunning = controlsEnabled && pilot.getThrottle() != 0;
 
         Engine e = myItem;
-        if (engineRunning) {
-            Vector2 v = SolMath.fromAl(shipAngle, pilot.getThrottle() * mass * e.getAcceleration());
-            body.applyForceToCenter(v, true);
-            SolMath.free(v);
+
+        // Apply force so that target velocity is reached
+        // TODO: Maybe vary max speed by engine/ship
+        Vector2 targetVelocity = SolMath.fromAl(shipAngle, pilot.getThrottle() * Const.MAX_MOVE_SPD);
+        Vector2 velocityDelta = targetVelocity.sub(velocity);
+        float speedDelta = velocityDelta.len();
+
+        if (speedDelta != 0) {
+            float maxForceMagnitude = speedDelta * mass / MIN_ACCELERATION_TIME;
+            // TODO: engine should provide thrust, not acceleration
+            float forceMagnitude = Math.min(mass * e.getAcceleration(), maxForceMagnitude);
+            body.applyForceToCenter(velocityDelta.scl(forceMagnitude / speedDelta), true);
         }
+        
+        SolMath.free(targetVelocity);
 
         float orientation = body.getAngle() * SolMath.radDeg;
         float angularVelocity = body.getAngularVelocity() * SolMath.radDeg;
