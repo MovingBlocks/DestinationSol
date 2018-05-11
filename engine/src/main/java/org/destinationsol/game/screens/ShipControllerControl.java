@@ -180,6 +180,11 @@ public class ShipControllerControl implements ShipUiControl {
     public void update(SolApplication solApplication, boolean enabled) {
         retrieveMovementAxesInput(solApplication);
 
+        // Consider input in camera local space so that ship always moves on the screen in
+        // the same (or inverted) direction in which the joystick is moved
+        // Rotate input vector from camera local space to world space
+        SolMath.rotate(movementAxesInput,  solApplication.getGame().getCam().getAngle());
+
         float movementAxesInputLen;
 
         // Dead zone
@@ -215,6 +220,11 @@ public class ShipControllerControl implements ShipUiControl {
     }
 
     private void retrieveMovementAxesInput(SolApplication solApplication) {
+        if (Controllers.getControllers().size == 0) {
+            logger.warn("No controller found!");
+            return;
+        }
+
         final GameOptions gameOptions = solApplication.getOptions();
         Controller controller = Controllers.getControllers().first();
 
