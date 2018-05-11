@@ -63,18 +63,13 @@ public class ShipMouseControl implements ShipUiControl {
     }
 
     @Override
-    public boolean isLeft() {
-        return false;
+    public float getThrottle() {
+        return 0;
     }
 
     @Override
-    public boolean isRight() {
-        return false;
-    }
-
-    @Override
-    public boolean isUp() {
-        return false;
+    public float getOrientation() {
+        return 0;
     }
 
     @Override

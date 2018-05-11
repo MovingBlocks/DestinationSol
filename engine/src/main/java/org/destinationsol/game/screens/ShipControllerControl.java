@@ -22,6 +22,7 @@ import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.common.SolMath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +54,9 @@ import org.slf4j.LoggerFactory;
 public class ShipControllerControl implements ShipUiControl {
     private static Logger logger = LoggerFactory.getLogger(ShipControllerControl.class);
 
+    private static final float THROTTLE_INCREMENT = 0.1f;
+    private static final float ORIENTATION_INCREMENT = 0.2f * SolMath.radDeg;
+
     private boolean controllerShoot;
     private boolean controllerShoot2;
     private boolean controllerAbility;
@@ -60,6 +64,9 @@ public class ShipControllerControl implements ShipUiControl {
     private boolean controllerRight;
     private boolean controllerUp;
     private boolean controllerDown;
+
+    private float orientation;
+    private float throttle;
 
     ShipControllerControl(SolApplication solApplication) {
         final GameOptions gameOptions = solApplication.getOptions();
@@ -190,18 +197,35 @@ public class ShipControllerControl implements ShipUiControl {
     }
 
     @Override
-    public boolean isLeft() {
-        return controllerLeft;
+    public void update(SolApplication solApplication, boolean enabled) {
+        // TODO: Use joystick direction to calculate orientation and throttle
+        if (controllerUp) {
+            throttle += THROTTLE_INCREMENT;
+        }
+        if (controllerDown) {
+            throttle -= THROTTLE_INCREMENT;
+        }
+
+        throttle = SolMath.clamp(throttle);
+
+        if (controllerLeft) {
+            orientation -= ORIENTATION_INCREMENT;
+        }
+        if (controllerRight) {
+            orientation += ORIENTATION_INCREMENT;
+        }
+
+        orientation = SolMath.norm(orientation);
     }
 
     @Override
-    public boolean isRight() {
-        return controllerRight;
+    public float getThrottle() {
+        return throttle;
     }
 
     @Override
-    public boolean isUp() {
-        return controllerUp;
+    public float getOrientation() {
+        return orientation;
     }
 
     @Override
