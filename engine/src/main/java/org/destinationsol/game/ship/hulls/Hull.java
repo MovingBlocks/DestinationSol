@@ -110,7 +110,7 @@ public class Hull {
         boolean controlsEnabled = ship.isControlsEnabled() && !SolCam.DIRECT_CAM_CONTROL;
 
         if (engine != null) {
-            engine.update(angle, game, provider, body, speed, controlsEnabled, mass, this);
+            engine.update(angle, game, provider, body, speed, controlsEnabled, mass, ship);
         }
 
         Faction faction = ship.getPilot().getFaction();
@@ -142,7 +142,7 @@ public class Hull {
             body.setAngularVelocity(angleDiff * SolMath.degRad * fps);
         }
 
-        game.getPartMan().updateAllHullEmittersOfType(this, "none", true);
+        game.getPartMan().updateAllHullEmittersOfType(ship, "none", true);
     }
 
     private void setParamsFromBody() {
