@@ -187,7 +187,7 @@ public class Asteroid implements SolObject {
             float speedAngle = SolRandom.randomFloat(180);
             Vector2 speed = Vector2Pool.getVector();
             SolMath.fromAl(speed, speedAngle, SolRandom.randomFloat(0, .5f) * MAX_SPLIT_SPD);
-            speed.add(speed);
+            speed.add(this.speed);
             Vector2 newPos = Vector2Pool.getVector();
             SolMath.fromAl(newPos, speedAngle, SolRandom.randomFloat(0, size / 2));
             newPos.add(position);
