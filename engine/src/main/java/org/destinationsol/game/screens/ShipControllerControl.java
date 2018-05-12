@@ -19,9 +19,11 @@ import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.common.SolMath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +55,10 @@ import org.slf4j.LoggerFactory;
 public class ShipControllerControl implements ShipUiControl {
     private static Logger logger = LoggerFactory.getLogger(ShipControllerControl.class);
 
+    private static final float THROTTLE_INCREMENT = 0.1f;
+    private static final float ORIENTATION_INCREMENT = 0.2f * SolMath.radDeg;
+    private static final float DEADZONE = 0.1f;
+
     private boolean controllerShoot;
     private boolean controllerShoot2;
     private boolean controllerAbility;
@@ -60,6 +66,11 @@ public class ShipControllerControl implements ShipUiControl {
     private boolean controllerRight;
     private boolean controllerUp;
     private boolean controllerDown;
+
+    private float orientation;
+    private float throttle;
+
+    public Vector2 movementAxesInput = new Vector2();
 
     ShipControllerControl(SolApplication solApplication) {
         final GameOptions gameOptions = solApplication.getOptions();
@@ -133,30 +144,6 @@ public class ShipControllerControl implements ShipUiControl {
                     controllerShoot2 = (value > 0.5f);
                 } else if (axisIndex == gameOptions.getControllerAxisAbility()) {
                     controllerAbility = (value > 0.5f);
-                } else if (axisIndex == gameOptions.getControllerAxisLeftRight()) {
-                    boolean invert = gameOptions.isControllerAxisLeftRightInverted();
-                    if (value < -0.5f) {
-                        controllerLeft = !invert;
-                        controllerRight = invert;
-                    } else if (value > 0.5f) {
-                        controllerLeft = invert;
-                        controllerRight = !invert;
-                    } else {
-                        controllerLeft = false;
-                        controllerRight = false;
-                    }
-                } else if (axisIndex == gameOptions.getControllerAxisUpDown()) {
-                    boolean invert = gameOptions.isControllerAxisUpDownInverted();
-                    if (value < -0.5f) {
-                        controllerUp = !invert;
-                        controllerDown = invert;
-                    } else if (value > 0.5f) {
-                        controllerUp = invert;
-                        controllerDown = !invert;
-                    } else {
-                        controllerUp = false;
-                        controllerDown = false;
-                    }
                 }
 
                 return true;
@@ -190,18 +177,74 @@ public class ShipControllerControl implements ShipUiControl {
     }
 
     @Override
-    public boolean isLeft() {
-        return controllerLeft;
+    public void update(SolApplication solApplication, boolean enabled) {
+        retrieveMovementAxesInput(solApplication);
+
+        // Consider input in camera local space so that ship always moves on the screen in
+        // the same (or inverted) direction in which the joystick is moved
+        // Rotate input vector from camera local space to world space
+        SolMath.rotate(movementAxesInput,  solApplication.getGame().getCam().getAngle());
+
+        float movementAxesInputLen;
+
+        // Dead zone
+        if (movementAxesInput.len2() < DEADZONE * DEADZONE) {
+            movementAxesInput.setZero();
+            movementAxesInputLen = 0;
+        } else {
+            movementAxesInputLen = movementAxesInput.len();
+            movementAxesInput.scl(1 / movementAxesInputLen);
+            movementAxesInputLen = (movementAxesInputLen - DEADZONE) / (1 - DEADZONE);
+            movementAxesInput.scl(movementAxesInputLen);
+        }
+
+        if (controllerUp) {
+            throttle += THROTTLE_INCREMENT;
+        } else if (controllerDown) {
+            throttle -= THROTTLE_INCREMENT;
+        } else {
+            throttle = movementAxesInputLen;
+        }
+
+        throttle = SolMath.clamp(throttle);
+
+        if (controllerLeft) {
+            orientation -= ORIENTATION_INCREMENT;
+        } else if (controllerRight) {
+            orientation += ORIENTATION_INCREMENT;
+        } else if (movementAxesInputLen != 0) {
+            orientation = SolMath.angle(movementAxesInput);
+        }
+
+        orientation = SolMath.norm(orientation);
+    }
+
+    private void retrieveMovementAxesInput(SolApplication solApplication) {
+        if (Controllers.getControllers().size == 0) {
+            logger.warn("No controller found!");
+            return;
+        }
+
+        final GameOptions gameOptions = solApplication.getOptions();
+        Controller controller = Controllers.getControllers().first();
+
+        float leftRightAxisValue = controller.getAxis(gameOptions.getControllerAxisLeftRight());
+        boolean invert = gameOptions.isControllerAxisLeftRightInverted();
+        movementAxesInput.x = !invert ? leftRightAxisValue : -leftRightAxisValue;
+
+        float upDownAxisValue = controller.getAxis(gameOptions.getControllerAxisUpDown());
+        invert = gameOptions.isControllerAxisUpDownInverted();
+        movementAxesInput.y = !invert ? upDownAxisValue : -upDownAxisValue;
     }
 
     @Override
-    public boolean isRight() {
-        return controllerRight;
+    public float getThrottle() {
+        return throttle;
     }
 
     @Override
-    public boolean isUp() {
-        return controllerUp;
+    public float getOrientation() {
+        return orientation;
     }
 
     @Override

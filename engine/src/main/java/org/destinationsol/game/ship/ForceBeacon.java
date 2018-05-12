@@ -55,7 +55,7 @@ public class ForceBeacon {
             }
             SolShip ship = (SolShip) o;
             Pilot pilot = ship.getPilot();
-            if (pilot.isUp() || pilot.isLeft() || pilot.isRight()) {
+            if (pilot.getThrottle() != 0) {
                 continue;
             }
             if (game.getFactionMan().areEnemies(faction, pilot.getFaction())) {

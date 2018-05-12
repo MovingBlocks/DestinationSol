@@ -29,8 +29,9 @@ public class Shooter {
     public static final float MIN_SHOOT_AAD = 2f;
     private boolean myShoot;
     private boolean myShoot2;
-    private boolean myRight;
-    private boolean myLeft;
+
+    private float desiredOrientation;
+    private boolean rotatingTowardsTarget;
 
     Shooter() {
     }
@@ -67,8 +68,7 @@ public class Shooter {
 
     public void update(SolShip ship, Vector2 enemyPos, boolean notRotate, boolean canShoot, Vector2 enemySpeed,
                        float enemyApproxRad) {
-        myLeft = false;
-        myRight = false;
+        rotatingTowardsTarget = false;
         myShoot = false;
         myShoot2 = false;
         Vector2 shipPos = ship.getPosition();
@@ -127,14 +127,10 @@ public class Shooter {
         if (notRotate) {
             return;
         }
-        Boolean needsToTurn = Mover.needsToTurn(shipAngle, shootAngle, ship.getRotationSpeed(), ship.getRotationAcceleration(), MIN_SHOOT_AAD);
-        if (needsToTurn != null) {
-            if (needsToTurn) {
-                myRight = true;
-            } else {
-                myLeft = true;
-            }
-        }
+
+        rotatingTowardsTarget = true;
+
+        desiredOrientation = shootAngle;
     }
 
     // returns gun if it's fixed & can shoot
@@ -179,11 +175,11 @@ public class Shooter {
         return myShoot2;
     }
 
-    public boolean isLeft() {
-        return myLeft;
+    public boolean isRotatingTowardsTarget() {
+        return rotatingTowardsTarget;
     }
 
-    public boolean isRight() {
-        return myRight;
+    public float getDesiredOrientation() {
+        return desiredOrientation;
     }
 }

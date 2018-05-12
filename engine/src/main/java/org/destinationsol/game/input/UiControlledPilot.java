@@ -20,15 +20,15 @@ import org.destinationsol.Const;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.screens.MainScreen;
+import org.destinationsol.game.screens.ShipUiControl;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 
 public class UiControlledPilot implements Pilot {
-
-    private final MainScreen myScreen;
+    private final ShipUiControl uiControl;
 
     public UiControlledPilot(MainScreen screen) {
-        myScreen = screen;
+        uiControl = screen.shipControl;
     }
 
     @Override
@@ -36,28 +36,23 @@ public class UiControlledPilot implements Pilot {
     }
 
     @Override
-    public boolean isUp() {
-        return myScreen.isUp();
+    public float getThrottle() {
+        return uiControl.getThrottle();
     }
 
     @Override
-    public boolean isLeft() {
-        return myScreen.isLeft();
-    }
-
-    @Override
-    public boolean isRight() {
-        return myScreen.isRight();
+    public float getOrientation() {
+        return uiControl.getOrientation();
     }
 
     @Override
     public boolean isShoot() {
-        return myScreen.isShoot();
+        return uiControl.isShoot();
     }
 
     @Override
     public boolean isShoot2() {
-        return myScreen.isShoot2();
+        return uiControl.isShoot2();
     }
 
     @Override
@@ -67,7 +62,7 @@ public class UiControlledPilot implements Pilot {
 
     @Override
     public boolean isAbility() {
-        return myScreen.isAbility();
+        return uiControl.isAbility();
     }
 
     @Override

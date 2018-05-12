@@ -16,67 +16,95 @@
 
 package org.destinationsol.game.ship;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.input.Pilot;
+import org.destinationsol.game.input.Shooter;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.ship.hulls.Hull;
 
 public class ShipEngine {
-    public static final float MAX_RECOVER_ROT_SPD = 5f;
-    public static final float RECOVER_MUL = 15f;
-    public static final float RECOVER_AWAIT = 2f;
+    private static final float MIN_ACCELERATION_TIME = 0.1f;
+    private static final float MIN_ENGINE_SPEED_THRESHOLD = 0.4f;
+    private static final float MAX_THROTTLE_RESPONSE_TIME = 0.4f;
 
     private final Engine myItem;
     private float myRecoverAwait;
+
+    private float smoothedThrottle;
 
     public ShipEngine(Engine engine) {
         myItem = engine;
     }
 
-    public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 speed, boolean controlsEnabled,
+    public void update(float angle, SolGame game, Pilot pilot, Body body, Vector2 speed, boolean controlsEnabled,
                        float mass, Hull hull) {
+        float throttleResponseSpeed = game.getTimeStep() / MAX_THROTTLE_RESPONSE_TIME;
+        if (smoothedThrottle != pilot.getThrottle()) {
+            float t = SolMath.clamp(Math.abs(throttleResponseSpeed / (pilot.getThrottle() - smoothedThrottle)));
+            smoothedThrottle = SolMath.clamp(MathUtils.lerp(smoothedThrottle, pilot.getThrottle(), t));
+        }
 
-        boolean working = applyInput(game, angle, provider, body, speed, controlsEnabled, mass);
-        game.getPartMan().updateAllHullEmittersOfType(hull, "engine", working);
+        boolean engineRunning = applyInput(game, angle, pilot, body, speed, controlsEnabled, mass);
+        game.getPartMan().updateAllHullEmittersOfType(hull, "engine", engineRunning);
     }
 
-    private boolean applyInput(SolGame cmp, float shipAngle, Pilot provider, Body body, Vector2 speed,
+    private boolean applyInput(SolGame game, float shipAngle, Pilot pilot, Body body, Vector2 velocity,
                                boolean controlsEnabled, float mass) {
-        boolean speedOk = SolMath.canAccelerate(shipAngle, speed);
-        boolean working = controlsEnabled && provider.isUp() && speedOk;
-
         Engine e = myItem;
-        if (working) {
-            Vector2 v = SolMath.fromAl(shipAngle, mass * e.getAcceleration());
-            body.applyForceToCenter(v, true);
-            SolMath.free(v);
+
+        // Apply force so that target velocity is reached
+        // TODO: Maybe vary max speed by engine/ship
+        Vector2 targetVelocity = SolMath.fromAl(shipAngle, smoothedThrottle * Const.MAX_MOVE_SPD);
+        Vector2 velocityDelta = targetVelocity.sub(velocity);
+        float speedDelta = velocityDelta.len();
+
+        boolean engineRunning = controlsEnabled &&
+                !(smoothedThrottle == 0 && speedDelta < MIN_ENGINE_SPEED_THRESHOLD);
+
+        if (speedDelta != 0) {
+            float forceMagnitude = speedDelta * mass / MIN_ACCELERATION_TIME;
+            body.applyForceToCenter(velocityDelta.scl(forceMagnitude / speedDelta), true);
+        }
+        
+        SolMath.free(targetVelocity);
+
+        float orientation = body.getAngle() * SolMath.radDeg;
+        float angularVelocity = body.getAngularVelocity() * SolMath.radDeg;
+
+        float targetOrientation = pilot.getOrientation();
+
+        float angularDisplacement = SolMath.norm(targetOrientation - orientation);
+
+        float absAngularAcceleration = e.getRotationAcceleration();
+
+        float maxStoppingDistance = 0.5f * angularVelocity * angularVelocity / absAngularAcceleration;
+
+        float angularAcceleration;
+
+        // If we are close to where we want to aim, stop rotating
+        if (Math.abs(angularDisplacement) <= Shooter.MIN_SHOOT_AAD) {
+            angularAcceleration = -angularVelocity / game.getTimeStep();
+        }
+        // If angular speed is greater than maximum angular speed OR
+        // if angular displacement is just enough to stop the body in time,
+        // accelerate in the opposite direction of angular velocity to slow down
+        else if (Math.abs(angularVelocity) > e.getMaxRotationSpeed()) {
+            angularAcceleration = -Math.signum(angularVelocity) * absAngularAcceleration;
+        } else if (Math.abs(angularDisplacement) <= maxStoppingDistance) {
+            angularAcceleration = -Math.signum(angularVelocity) * absAngularAcceleration;
+        } else {
+            // Otherwise, accelerate in direction of angular displacement
+            angularAcceleration = Math.signum(angularDisplacement) * absAngularAcceleration;
         }
 
-        float ts = cmp.getTimeStep();
-        float rotationSpeed = body.getAngularVelocity() * SolMath.radDeg;
-        float desiredRotationSpeed = 0;
-        float rotAcc = e.getRotationAcceleration();
-        boolean l = controlsEnabled && provider.isLeft();
-        boolean r = controlsEnabled && provider.isRight();
-        float absRotationSpeed = SolMath.abs(rotationSpeed);
-        if (absRotationSpeed < e.getMaxRotationSpeed() && l != r) {
-            desiredRotationSpeed = SolMath.toInt(r) * e.getMaxRotationSpeed();
-            if (absRotationSpeed < MAX_RECOVER_ROT_SPD) {
-                if (myRecoverAwait > 0) {
-                    myRecoverAwait -= ts;
-                }
-                if (myRecoverAwait <= 0) {
-                    rotAcc *= RECOVER_MUL;
-                }
-            }
-        } else {
-            myRecoverAwait = RECOVER_AWAIT;
-        }
-        body.setAngularVelocity(SolMath.degRad * SolMath.approach(rotationSpeed, desiredRotationSpeed, rotAcc * ts));
-        return working;
+        body.applyTorque(body.getInertia() * angularAcceleration * SolMath.degRad, true);
+
+        return engineRunning;
     }
 
     public Engine getItem() {
