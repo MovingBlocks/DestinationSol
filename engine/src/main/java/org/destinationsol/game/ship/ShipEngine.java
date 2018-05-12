@@ -16,9 +16,9 @@
 
 package org.destinationsol.game.ship;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Transform;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
@@ -29,9 +29,13 @@ import org.destinationsol.game.ship.hulls.Hull;
 
 public class ShipEngine {
     private static final float MIN_ACCELERATION_TIME = 0.1f;
+    private static final float MIN_ENGINE_SPEED_THRESHOLD = 0.4f;
+    private static final float MAX_THROTTLE_RESPONSE_TIME = 0.4f;
 
     private final Engine myItem;
     private float myRecoverAwait;
+
+    private float smoothedThrottle;
 
     public ShipEngine(Engine engine) {
         myItem = engine;
@@ -39,26 +43,31 @@ public class ShipEngine {
 
     public void update(float angle, SolGame game, Pilot pilot, Body body, Vector2 speed, boolean controlsEnabled,
                        float mass, Hull hull) {
+        float throttleResponseSpeed = game.getTimeStep() / MAX_THROTTLE_RESPONSE_TIME;
+        if (smoothedThrottle != pilot.getThrottle()) {
+            float t = SolMath.clamp(Math.abs(throttleResponseSpeed / (pilot.getThrottle() - smoothedThrottle)));
+            smoothedThrottle = SolMath.clamp(MathUtils.lerp(smoothedThrottle, pilot.getThrottle(), t));
+        }
+
         boolean engineRunning = applyInput(game, angle, pilot, body, speed, controlsEnabled, mass);
         game.getPartMan().updateAllHullEmittersOfType(hull, "engine", engineRunning);
     }
 
     private boolean applyInput(SolGame game, float shipAngle, Pilot pilot, Body body, Vector2 velocity,
                                boolean controlsEnabled, float mass) {
-        boolean engineRunning = controlsEnabled && pilot.getThrottle() != 0;
-
         Engine e = myItem;
 
         // Apply force so that target velocity is reached
         // TODO: Maybe vary max speed by engine/ship
-        Vector2 targetVelocity = SolMath.fromAl(shipAngle, pilot.getThrottle() * Const.MAX_MOVE_SPD);
+        Vector2 targetVelocity = SolMath.fromAl(shipAngle, smoothedThrottle * Const.MAX_MOVE_SPD);
         Vector2 velocityDelta = targetVelocity.sub(velocity);
         float speedDelta = velocityDelta.len();
 
+        boolean engineRunning = controlsEnabled &&
+                !(smoothedThrottle == 0 && speedDelta < MIN_ENGINE_SPEED_THRESHOLD);
+
         if (speedDelta != 0) {
-            float maxForceMagnitude = speedDelta * mass / MIN_ACCELERATION_TIME;
-            // TODO: engine should provide thrust, not acceleration
-            float forceMagnitude = Math.min(mass * e.getAcceleration(), maxForceMagnitude);
+            float forceMagnitude = speedDelta * mass / MIN_ACCELERATION_TIME;
             body.applyForceToCenter(velocityDelta.scl(forceMagnitude / speedDelta), true);
         }
         
