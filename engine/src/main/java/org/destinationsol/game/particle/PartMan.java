@@ -95,7 +95,7 @@ public class PartMan {
     /**
      * This method updates all of the particle emitters on a Hull with the specified trigger
      *
-     * @param hull Hull containing the particle emitters
+     * @param ship Ship with the {@code Hull} containing the particle emitters
      * @param triggerType trigger type of the particle emitters
      * @param on boolean where true turns the particle emitters on and false turns it off
      */
