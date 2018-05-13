@@ -26,8 +26,9 @@ import java.util.List;
 
 public class ShipKbControl implements ShipUiControl {
     private static final float INITIAL_THROTTLE_INCREMENT_SPEED = 0.2f;
-    private static final float INITIAL_ORIENTATION_INCREMENT_SPEED = 2f * SolMath.radDeg;
+    private static final float INITIAL_ORIENTATION_INCREMENT_SPEED = 3f * SolMath.radDeg;
     private static final float MAX_ORIENTATION_INCREMENT_SPEED = 4f * SolMath.radDeg;
+    private static final float MIN_ORIENTATION_CLAMP_DIFFERENCE = 0.1f * SolMath.radDeg;
 
     public final SolUiControl leftCtrl;
     public final SolUiControl rightCtrl;
@@ -129,6 +130,8 @@ public class ShipKbControl implements ShipUiControl {
             );
             leftControlOnTime += timeStep;
         } else if (leftCtrl.isJustOff()) {
+            clampOrientation(solApplication.getGame().getHero().getAngle());
+
             leftControlOnTime = 0;
         }
 
@@ -139,10 +142,19 @@ public class ShipKbControl implements ShipUiControl {
             );
             rightControlOnTime += timeStep;
         } else if (rightCtrl.isJustOff()) {
+            clampOrientation(solApplication.getGame().getHero().getAngle());
+
             rightControlOnTime = 0;
         }
 
         orientation = SolMath.norm(orientation);
+    }
+
+    private void clampOrientation(float shipOrientation) {
+        shipOrientation = SolMath.norm(shipOrientation);
+        if (SolMath.norm(orientation - shipOrientation) >= MIN_ORIENTATION_CLAMP_DIFFERENCE) {
+            orientation = shipOrientation + MIN_ORIENTATION_CLAMP_DIFFERENCE;
+        }
     }
 
     private float getIncrementForOnTime(float timeStep, float onTime, float initialIncrementSpeed) {
