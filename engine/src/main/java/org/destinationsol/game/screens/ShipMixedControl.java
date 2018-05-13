@@ -18,6 +18,7 @@ package org.destinationsol.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
@@ -25,15 +26,13 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.input.Mover;
-import org.destinationsol.game.input.Shooter;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 
 import java.util.List;
 
 public class ShipMixedControl implements ShipUiControl {
-    private static final float THROTTLE_INCREMENT = 0.1f;
+    private static final float INITIAL_THROTTLE_INCREMENT_SPEED = 0.2f;
 
     public final SolUiControl upCtrl;
     public final SolUiControl shootCtrl;
@@ -42,6 +41,9 @@ public class ShipMixedControl implements ShipUiControl {
     private final SolUiControl myDownCtrl;
     private final Vector2 myMouseWorldPos;
     private final TextureAtlas.AtlasRegion myCursor;
+
+    private float upControlOnTime;
+    private float downControlOnTime;
 
     private float orientation;
     private float throttle;
@@ -90,15 +92,28 @@ public class ShipMixedControl implements ShipUiControl {
             }
         }
 
+        float timeStep = game.getTimeStep();
+
         // TODO: Probably make a throttle slider of some sort too
-        if (upCtrl.isJustOff()) {
-            throttle += THROTTLE_INCREMENT;
+        if (upCtrl.isOn()) {
+            throttle += getThrottleIncrementForOnTime(timeStep, upControlOnTime);
+            upControlOnTime += timeStep;
+        } else if (upCtrl.isJustOff()) {
+            upControlOnTime = 0;
         }
-        if (myDownCtrl.isJustOff()) {
-            throttle -= THROTTLE_INCREMENT;
+
+        if (myDownCtrl.isOn()) {
+            throttle -= getThrottleIncrementForOnTime(timeStep, downControlOnTime);
+            downControlOnTime += timeStep;
+        } else if (myDownCtrl.isJustOff()) {
+            downControlOnTime = 0;
         }
 
         throttle = SolMath.clamp(throttle);
+    }
+
+    private float getThrottleIncrementForOnTime(float timeStep, float onTime) {
+        return (float) (INITIAL_THROTTLE_INCREMENT_SPEED * (1 + Math.pow(onTime, 3.5)) * timeStep);
     }
 
     @Override
