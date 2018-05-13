@@ -25,8 +25,9 @@ import org.destinationsol.ui.SolUiControl;
 import java.util.List;
 
 public class ShipKbControl implements ShipUiControl {
-    private static final float THROTTLE_INCREMENT = 0.1f;
-    private static final float ORIENTATION_INCREMENT = 0.2f * SolMath.radDeg;
+    private static final float INITIAL_THROTTLE_INCREMENT_SPEED = 0.2f;
+    private static final float INITIAL_ORIENTATION_INCREMENT_SPEED = 1f * SolMath.radDeg;
+    private static final float MAX_ORIENTATION_INCREMENT_SPEED = 2f * SolMath.radDeg;
 
     public final SolUiControl leftCtrl;
     public final SolUiControl rightCtrl;
@@ -35,6 +36,11 @@ public class ShipKbControl implements ShipUiControl {
     public final SolUiControl shootCtrl;
     public final SolUiControl shoot2Ctrl;
     public final SolUiControl abilityCtrl;
+
+    private float upControlOnTime;
+    private float downControlOnTime;
+    private float leftControlOnTime;
+    private float rightControlOnTime;
 
     private float throttle;
     private float orientation;
@@ -94,23 +100,49 @@ public class ShipKbControl implements ShipUiControl {
         shoot2Ctrl.setEnabled(g2 != null && g2.ammo > 0);
         abilityCtrl.setEnabled(hero.isNonTranscendent() && hero.canUseAbility());
 
-        if (upCtrl.isJustOff()) {
-            throttle += THROTTLE_INCREMENT;
+        float timeStep = solApplication.getGame().getTimeStep();
+
+        if (upCtrl.isOn()) {
+            throttle += getIncrementForOnTime(timeStep, upControlOnTime, INITIAL_THROTTLE_INCREMENT_SPEED);
+            upControlOnTime += timeStep;
+        } else if (upCtrl.isJustOff()) {
+            upControlOnTime = 0;
         }
-        if (myDownCtrl.isJustOff()) {
-            throttle -= THROTTLE_INCREMENT;
+
+        if (myDownCtrl.isOn()) {
+            throttle -= getIncrementForOnTime(timeStep, downControlOnTime, INITIAL_THROTTLE_INCREMENT_SPEED);
+            downControlOnTime += timeStep;
+        } else if (myDownCtrl.isJustOff()) {
+            downControlOnTime = 0;
         }
 
         throttle = SolMath.clamp(throttle);
 
-        if (leftCtrl.isJustOff()) {
-            orientation -= ORIENTATION_INCREMENT;
+        if (leftCtrl.isOn()) {
+            orientation -= Math.min(
+                    getIncrementForOnTime(timeStep, leftControlOnTime, INITIAL_ORIENTATION_INCREMENT_SPEED),
+                    MAX_ORIENTATION_INCREMENT_SPEED * timeStep
+            );
+            leftControlOnTime += timeStep;
+        } else if (leftCtrl.isJustOff()) {
+            leftControlOnTime = 0;
         }
-        if (rightCtrl.isJustOff()) {
-            orientation += ORIENTATION_INCREMENT;
+
+        if (rightCtrl.isOn()) {
+            orientation += Math.min(
+                    getIncrementForOnTime(timeStep, rightControlOnTime, INITIAL_ORIENTATION_INCREMENT_SPEED),
+                    MAX_ORIENTATION_INCREMENT_SPEED * timeStep
+            );
+            rightControlOnTime += timeStep;
+        } else if (rightCtrl.isJustOff()) {
+            rightControlOnTime = 0;
         }
 
         orientation = SolMath.norm(orientation);
+    }
+
+    private float getIncrementForOnTime(float timeStep, float onTime, float initialIncrementSpeed) {
+        return (float) (initialIncrementSpeed * (1 + Math.pow(onTime, 3.5)) * timeStep);
     }
 
     @Override
