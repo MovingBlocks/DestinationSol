@@ -26,8 +26,8 @@ import java.util.List;
 
 public class ShipKbControl implements ShipUiControl {
     private static final float INITIAL_THROTTLE_INCREMENT_SPEED = 0.2f;
-    private static final float INITIAL_ORIENTATION_INCREMENT_SPEED = 20f * SolMath.radDeg;
-    private static final float MAX_ORIENTATION_INCREMENT_SPEED = 40f * SolMath.radDeg;
+    private static final float INITIAL_ORIENTATION_INCREMENT_SPEED = 2f * SolMath.radDeg;
+    private static final float MAX_ORIENTATION_INCREMENT_SPEED = 4f * SolMath.radDeg;
 
     public final SolUiControl leftCtrl;
     public final SolUiControl rightCtrl;
@@ -118,7 +118,9 @@ public class ShipKbControl implements ShipUiControl {
 
         throttle = SolMath.clamp(throttle);
 
-        orientation = solApplication.getGame().getHero().getAngle();
+        if (SolMath.angleDiff(orientation, solApplication.getGame().getHero().getAngle()) >= 3f * SolMath.radDeg) {
+            return;
+        }
 
         if (leftCtrl.isOn()) {
             orientation -= Math.min(
