@@ -74,6 +74,7 @@ public class MainScreen implements SolUiScreen {
     private final ZoneNameAnnouncer zoneNameAnnouncer;
     private final BorderDrawer borderDrawer;
     private final List<WarnDrawer> warnDrawers = new ArrayList<>();
+    private final ThrottleDrawer throttleDrawer;
 
     private final TextureAtlas.AtlasRegion lifeTexture;
     private final TextureAtlas.AtlasRegion infinityTexture;
@@ -150,6 +151,8 @@ public class MainScreen implements SolUiScreen {
 
         zoneNameAnnouncer = new ZoneNameAnnouncer();
         borderDrawer = new BorderDrawer(resolutionRatio);
+
+        throttleDrawer = new ThrottleDrawer(resolutionRatio);
 
         lifeTexture = Assets.getAtlasRegion("engine:iconLife");
         infinityTexture = Assets.getAtlasRegion("engine:iconInfinity");
@@ -455,6 +458,8 @@ public class MainScreen implements SolUiScreen {
             myMoneyExcessTp.text = Integer.toString(Math.round(hero.getMoney()));
             myMoneyExcessTp.position.set(col1, row + ICON_SZ / 2);
             //updateTextPlace(col1, row, (int) hero.getMoney() + "", myMoneyExcessTp);
+
+            throttleDrawer.draw(uiDrawer, game.getHero().getPilot());
         }
 
         for (WarnDrawer wd : warnDrawers) {
@@ -483,6 +488,8 @@ public class MainScreen implements SolUiScreen {
                 break;
             }
         }
+
+        throttleDrawer.drawText(uiDrawer, solApplication.getGame().getHero().getPilot());
 
         zoneNameAnnouncer.drawText(uiDrawer);
     }
