@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.context;
+package org.destinationsol.context;
 
 /**
  * Provides classes with the utility objects that belong to the context they are running in.
