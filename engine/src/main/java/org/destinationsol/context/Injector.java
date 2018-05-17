@@ -23,7 +23,7 @@ public class Injector {
     public static void inject(Object object, Context context) {
         Stream.of(object.getClass().getDeclaredFields())
                 .filter(field ->
-                        Stream.of(field.getDeclaredAnnotations()).anyMatch(annotation -> annotation.getClass() == In.class))
+                        Stream.of(field.getDeclaredAnnotations()).anyMatch(annotation -> annotation.annotationType() == In.class))
                 .forEach(field -> {
                     field.setAccessible(true);
                     try {

@@ -24,6 +24,8 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.context.Injector;
+import org.destinationsol.context.internal.ContextImpl;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.chunk.ChunkManager;
@@ -68,7 +70,7 @@ public class SolGame {
     private static final String MERC_SAVE_FILE = "mercenaries.json";
     private static Logger logger = LoggerFactory.getLogger(SolGame.class);
 
-
+    private final Context gameContext;
     private final GameScreens gameScreens;
     private final SolCam camera;
     private final ObjectManager objectManager;
@@ -105,6 +107,7 @@ public class SolGame {
     private RespawnState respawnState;
 
     public SolGame(String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context) {
+        gameContext = new ContextImpl();
         solApplication = context.get(SolApplication.class);
         GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
@@ -123,6 +126,7 @@ public class SolGame {
         hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
         SolNames solNames = new SolNames();
         planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
+        gameContext.put(PlanetManager.class, planetManager);
         SolContactListener contactListener = new SolContactListener(this);
         factionManager = new FactionManager();
         objectManager = new ObjectManager(contactListener, factionManager);
@@ -134,6 +138,7 @@ public class SolGame {
         mapDrawer = new MapDrawer(commonDrawer.height);
         shardBuilder = new ShardBuilder();
         galaxyFiller = new GalaxyFiller(hullConfigManager);
+        Injector.inject(galaxyFiller, gameContext);
         starPortBuilder = new StarPort.Builder();
         drawableDebugger = new DrawableDebugger();
         beaconHandler = new BeaconHandler();
