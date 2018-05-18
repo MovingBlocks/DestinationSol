@@ -22,7 +22,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.screens.InventoryScreen;
-import org.destinationsol.game.screens.MainScreen;
+import org.destinationsol.game.screens.MainGameScreen;
 import org.destinationsol.game.screens.ShipKbControl;
 import org.destinationsol.game.screens.ShipMixedControl;
 
@@ -42,7 +42,7 @@ public class TutorialManager {
         steps = new ArrayList<>();
         stepIndex = 0;
 
-        MainScreen main = screens.mainScreen;
+        MainGameScreen main = screens.mainGameScreen;
         boolean mouseCtrl = main.shipControl instanceof ShipMixedControl;
         SolUiControl shootCtrl;
         String shootKey;

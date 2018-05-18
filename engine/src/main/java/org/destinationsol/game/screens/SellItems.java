@@ -75,7 +75,7 @@ public class SellItems implements InventoryOperations {
         SolShip target = talkScreen.getTarget();
         Hero hero = game.getHero();
         if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainScreen);
+            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
             return;
         }
         SolItem selItem = inventoryScreen.getSelectedItem();
