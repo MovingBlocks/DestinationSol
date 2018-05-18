@@ -40,7 +40,7 @@ public interface SolUiScreen {
      * This method can be considered kind of constructor, as it can be used to set up some inner variables, change
      * playing music and perform all other sorts of custom initialization.
      *
-     * @param solApplication {@code SolApplication} displaying this window, usually for retrieving whatever objects needed.
+     * @param solApplication {@code SolApplication} displaying this window.
      */
     default void onAdd(SolApplication solApplication) {
         // Intentionally left blank
@@ -60,26 +60,76 @@ public interface SolUiScreen {
         // Intentionally left blank
     }
 
+    /**
+     * Return true if cursor is in the screen area, false otherwise.
+     *
+     * Should also return false if the screen takes up a whole width of window and does not cover another screen. (???)
+     * TODO whats wrong with this method???
+     *
+     * @param inputPointer Input pointer against which to check.
+     * @return True if pointer in screen area, false otherwise.
+     */
     default boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
         return false;
     }
 
+    /**
+     * Called whenever screen is due to be closed.
+     *
+     * Can be used for clean-up of sorts, as well as other things (marking all items as seen when exiting inventory).
+     *
+     * @param solApplication {@code SolApplication} displaying this window.
+     */
     default void blurCustom(SolApplication solApplication) {
         // Intentionally left blank
     }
 
+    /**
+     * Draws a background of the screen using supplied {@link UiDrawer}.
+     *
+     * This is called before drawing SolUiControls, images ({@link #drawImages(UiDrawer, SolApplication)}), and
+     * text ( {@link #drawText(UiDrawer, SolApplication)}).
+     *
+     * @param uiDrawer Drawer to draw with
+     * @param solApplication {@code SolApplication} displaying this window.
+     */
     default void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         // Intentionally left blank
     }
 
+    /**
+     * Draws additional images screen might be employing.
+     *
+     * NOTE: Not to be used for drawing SolUiControls, those are drawn externally
+     *
+     * This is called after drawing background ({@link #drawBackground(UiDrawer, SolApplication)}) and SolUiControls,
+     * but before text ({@link #drawText(UiDrawer, SolApplication)}).
+     *
+     * @param uiDrawer Drawer to draw with
+     * @param solApplication {@code SolApplication} displaying this window.
+     */
     default void drawImages(UiDrawer uiDrawer, SolApplication solApplication) {
         // Intentionally left blank
     }
 
+    /**
+     * Draws text screen might need.
+     *
+     * This is called after drawing background ({@link #drawBackground(UiDrawer, SolApplication)}), SolUiControls, and
+     * images ({@link #drawImages(UiDrawer, SolApplication)}).
+     *
+     * @param uiDrawer Drawer to draw with
+     * @param solApplication {@code SolApplication} displaying this window.
+     */
     default void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
         // Intentionally left blank
     }
 
+    /**
+     * Returns true if the screen reacts to clicking outside, false otherwise.
+     *
+     * @return True if reacts to clicking outside, false otherwise
+     */
     default boolean reactsToClickOutside() {
         return false;
     }
