@@ -91,7 +91,7 @@ public class SolApplication implements ApplicationListener {
         soundManager = new OggSoundManager(context);
         inputManager = new SolInputManager(soundManager);
 
-        musicManager.playMenuMusic(options);
+        musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
 
         commonDrawer = new CommonDrawer();
         uiDrawer = new UiDrawer(commonDrawer);
@@ -191,7 +191,7 @@ public class SolApplication implements ApplicationListener {
 
         inputManager.setScreen(this, menuScreens.loading);
         menuScreens.loading.setMode(tut, shipName, isNewGame);
-        musicManager.playGameMusic(options);
+        musicManager.playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 
     public void play(boolean tut, String shipName, boolean isNewGame) {
@@ -203,7 +203,7 @@ public class SolApplication implements ApplicationListener {
 
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context);
         inputManager.setScreen(this, solGame.getScreens().mainScreen);
-        musicManager.playGameMusic(options);
+        musicManager.playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 
     public SolInputManager getInputManager() {
