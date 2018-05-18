@@ -23,10 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class that is responsible for playing all music throughout the game.
+ * Class responsible for playing all music throughout the game.
  *
- * @author SimonC4
- * @author Rulasmur
+ * This class does not rely on external updates; once a music set is set to be played, it will play, even looping,
+ * until another is chosen.
  */
 public class OggMusicManager {
     private final Music menuMusic;
