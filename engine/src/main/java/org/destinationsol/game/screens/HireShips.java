@@ -61,7 +61,7 @@ public class HireShips implements InventoryOperations {
         Hero hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
         if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainScreen);
+            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
             return;
         }
         SolItem selItem = is.getSelectedItem();

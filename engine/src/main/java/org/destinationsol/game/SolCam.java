@@ -25,7 +25,7 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.planet.Planet;
-import org.destinationsol.game.screens.MainScreen;
+import org.destinationsol.game.screens.MainGameScreen;
 
 public class SolCam {
     public static final float CAM_ROT_SPD = 90f;
@@ -154,7 +154,7 @@ public class SolCam {
     }
 
     private void applyInput(SolGame game) {
-        MainScreen screen = game.getScreens().mainScreen;
+        MainGameScreen screen = game.getScreens().mainGameScreen;
         boolean d = screen.isCameraDown();
         boolean u = screen.isCameraUp();
         boolean l = screen.isCameraLeft();

@@ -19,13 +19,43 @@ import org.destinationsol.SolApplication;
 
 import java.util.List;
 
+/**
+ * This interface marks "Screens", that is objects designing what's going to be rendered.
+ *
+ * Outside of game, the screen usually takes whole area of window space, and only one screen is rendered at time. During
+ * game, {@link org.destinationsol.game.screens.MainGameScreen} is usually always rendered, and other screens are
+ * rendered atop of it, normally not taking up the whole window space, rather only its part.
+ */
 public interface SolUiScreen {
+
+    /**
+     * Returns all {@link SolUiControl SolUiControls} employed by this screen.
+     * @return {@link List} of all {@code SolUiControls}.
+     */
     List<SolUiControl> getControls();
 
+    /**
+     * This method is called whenever screen goes into focus.
+     *
+     * This method can be considered kind of constructor, as it can be used to set up some inner variables, change
+     * playing music and perform all other sorts of custom initialization.
+     *
+     * @param solApplication {@code SolApplication} displaying this window, usually for retrieving whatever objects needed.
+     */
     default void onAdd(SolApplication solApplication) {
         // Intentionally left blank
     }
 
+    /**
+     * Updates the screen.
+     *
+     * This method is called on active screens on every game's frame, providing the screen with the capability to perform
+     * whatever updating it finds necessary.
+     *
+     * @param solApplication {@code SolApplication} displaying this window.
+     * @param inputPointers Input pointers employed by the input manager.
+     * @param clickedOutside True if click outside of the screen area happened since the last call, false otherwise
+     */
     default void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         // Intentionally left blank
     }
