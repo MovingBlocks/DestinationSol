@@ -21,7 +21,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.projectile.ProjectileConfigs;
-import org.destinationsol.game.sound.OggSoundManager;
+import org.destinationsol.assets.audio.OggSoundManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -34,7 +34,7 @@ import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.SolShip;
-import org.destinationsol.game.sound.OggSoundSet;
+import org.destinationsol.assets.audio.OggSoundSet;
 
 import java.util.ArrayList;
 import java.util.List;
