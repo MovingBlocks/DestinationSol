@@ -22,8 +22,8 @@ import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.sound.OggSoundManager;
-import org.destinationsol.game.sound.OggSoundSet;
+import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.assets.audio.OggSoundSet;
 
 import java.util.Arrays;
 import java.util.List;
