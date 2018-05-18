@@ -92,8 +92,8 @@ public class MainScreen implements SolUiScreen {
     private final TextPlace myMoneyExcessTp;
     private final SolApplication solApplication;
 
-    public MainScreen(float resolutionRatio, RightPaneLayout rightPaneLayout, Context context) {
-        solApplication = context.get(SolApplication.class);
+    public MainScreen(float resolutionRatio, RightPaneLayout rightPaneLayout) {
+        solApplication = Context.get(SolApplication.class);
         GameOptions gameOptions = solApplication.getOptions();
 
         switch (gameOptions.controlType) {

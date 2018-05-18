@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.DebugCol;
@@ -27,7 +28,6 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.chunk.ChunkManager;
-import org.destinationsol.game.context.Context;
 import org.destinationsol.game.drawables.DrawableDebugger;
 import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.farBg.FarBackgroundManagerOld;
@@ -104,15 +104,16 @@ public class SolGame {
     private float timeFactor;
     private RespawnState respawnState;
 
-    public SolGame(String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context) {
-        solApplication = context.get(SolApplication.class);
+    public SolGame(String shipName, boolean tut, boolean isNewGame) {
+        solApplication = Context.get(SolApplication.class);
+        CommonDrawer commonDrawer = Context.get(CommonDrawer.class);
         GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
         soundManager = solApplication.getSoundManager();
         specialSounds = new SpecialSounds(soundManager);
         drawableManager = new DrawableManager(drawer);
         camera = new SolCam(drawer.r);
-        gameScreens = new GameScreens(drawer.r, solApplication, context);
+        gameScreens = new GameScreens(drawer.r, solApplication);
         tutorialManager = tut ? new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, solApplication.isMobile(), solApplication.getOptions(), this) : null;
         farBackgroundManagerOld = new FarBackgroundManagerOld();
         shipBuilder = new ShipBuilder();
