@@ -139,10 +139,6 @@ public class InputMapMixedScreen implements InputMapOperations {
         return controls;
     }
 
-    @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-    }
-
     /**
      * Remove key if it is already assigned to prevent duplicate keys
      *

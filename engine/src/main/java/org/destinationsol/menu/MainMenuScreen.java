@@ -32,7 +32,7 @@ import org.destinationsol.ui.UiDrawer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainScreen implements SolUiScreen {
+public class MainMenuScreen implements SolUiScreen {
     private final boolean isMobile;
     private final GameOptions gameOptions;
 
@@ -46,7 +46,7 @@ public class MainScreen implements SolUiScreen {
     private final SolUiControl newGameControl;
     private final SolUiControl creditsControl;
 
-    MainScreen(MenuLayout menuLayout, boolean isMobile, float resolutionRatio, GameOptions gameOptions) {
+    MainMenuScreen(MenuLayout menuLayout, boolean isMobile, float resolutionRatio, GameOptions gameOptions) {
         this.isMobile = isMobile;
         this.gameOptions = gameOptions;
 

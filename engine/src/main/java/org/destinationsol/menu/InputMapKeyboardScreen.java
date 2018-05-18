@@ -180,10 +180,6 @@ public class InputMapKeyboardScreen implements InputMapOperations {
         return controls;
     }
 
-    @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-    }
-
     /**
      * Remove key if it is already assigned to prevent duplicate keys
      *

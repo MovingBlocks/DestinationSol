@@ -19,7 +19,7 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.ui.SolLayouts;
 
 public class MenuScreens {
-    public final MainScreen main;
+    public final MainMenuScreen main;
     public final OptionsScreen options;
     public final InputMapScreen inputMapScreen;
     public final ResolutionScreen resolutionScreen;
@@ -30,7 +30,7 @@ public class MenuScreens {
 
     public MenuScreens(SolLayouts layouts, boolean mobile, float resolutionRatio, GameOptions gameOptions) {
         MenuLayout menuLayout = layouts.menuLayout;
-        main = new MainScreen(menuLayout, mobile, resolutionRatio, gameOptions);
+        main = new MainMenuScreen(menuLayout, mobile, resolutionRatio, gameOptions);
         options = new OptionsScreen(menuLayout, gameOptions);
         inputMapScreen = new InputMapScreen(resolutionRatio, gameOptions);
         resolutionScreen = new ResolutionScreen(menuLayout, gameOptions);

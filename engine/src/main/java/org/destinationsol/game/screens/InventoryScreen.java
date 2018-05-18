@@ -160,11 +160,11 @@ public class InventoryScreen implements SolUiScreen {
                 GameScreens screens = game.getScreens();
                 InventoryScreen is = screens.inventoryScreen;
                 
-                inputMan.setScreen(solApplication, screens.mainScreen);
+                inputMan.setScreen(solApplication, screens.mainGameScreen);
                 is.setOperations(is.chooseMercenary);
                 inputMan.addScreen(solApplication, is);
             }
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().mainScreen);
+            solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().mainGameScreen);
             return;
         }
         if (previousControl.isJustOff()) {
