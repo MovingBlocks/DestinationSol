@@ -255,11 +255,6 @@ public class InputMapScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawImages(UiDrawer uiDrawer, SolApplication solApplication) {
-
-    }
-
-    @Override
     public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
         GameOptions gameOptions = solApplication.getOptions();
         List<InputConfigItem> list = operations.getItems(gameOptions);
@@ -296,16 +291,6 @@ public class InputMapScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean reactsToClickOutside() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
-        return false;
-    }
-
-    @Override
     public void onAdd(SolApplication solApplication) {
         // Add any extra screen information as required by the input screens. E.g. buttons
         if (operations != null) {
@@ -314,10 +299,6 @@ public class InputMapScreen implements SolUiScreen {
 
         page = 0;
         selectedIndex = 0;
-    }
-
-    @Override
-    public void blurCustom(SolApplication cmp) {
     }
 
     private Rectangle itemControlRectangle(int row) {
