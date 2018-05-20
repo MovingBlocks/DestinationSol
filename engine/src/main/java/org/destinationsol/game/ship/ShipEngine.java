@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Engine;
-import org.destinationsol.game.ship.hulls.Hull;
 
 public class ShipEngine {
     public static final float MAX_RECOVER_ROT_SPD = 5f;
@@ -37,10 +36,10 @@ public class ShipEngine {
     }
 
     public void update(float angle, SolGame game, Pilot provider, Body body, Vector2 speed, boolean controlsEnabled,
-                       float mass, Hull hull) {
+                       float mass, SolShip ship) {
 
         boolean working = applyInput(game, angle, provider, body, speed, controlsEnabled, mass);
-        game.getPartMan().updateAllHullEmittersOfType(hull, "engine", working);
+        game.getPartMan().updateAllHullEmittersOfType(ship, "engine", working);
     }
 
     private boolean applyInput(SolGame cmp, float shipAngle, Pilot provider, Body body, Vector2 speed,
