@@ -26,6 +26,7 @@ import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.DrawableObject;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.item.Shield;
+import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
 
 import java.util.ArrayList;
@@ -94,14 +95,14 @@ public class PartMan {
     /**
      * This method updates all of the particle emitters on a Hull with the specified trigger
      *
-     * @param hull Hull containing the particle emitters
+     * @param ship Ship with the {@code Hull} containing the particle emitters
      * @param triggerType trigger type of the particle emitters
      * @param on boolean where true turns the particle emitters on and false turns it off
      */
-    public void updateAllHullEmittersOfType(Hull hull, String triggerType, boolean on) {
-        for (DSParticleEmitter particleEmitter : hull.getParticleEmitters()) {
+    public void updateAllHullEmittersOfType(SolShip ship, String triggerType, boolean on) {
+        for (DSParticleEmitter particleEmitter : ship.getHull().getParticleEmitters()) {
             if (triggerType.equals(particleEmitter.getTrigger())) {
-                particleEmitter.setWorking(on);
+                particleEmitter.setWorking(on, ship);
             }
         }
     }

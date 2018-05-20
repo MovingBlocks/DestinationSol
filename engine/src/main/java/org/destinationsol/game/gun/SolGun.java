@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.projectile.Projectile;
 import org.destinationsol.game.projectile.ProjectileConfig;
-import org.destinationsol.game.ship.hulls.Hull;
+import org.destinationsol.game.ship.SolShip;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +77,7 @@ public class SolGun {
         return myDrawables;
     }
 
-    private void shoot(Vector2 gunSpeed, SolGame game, float gunAngle, Vector2 muzzlePos, Faction faction, SolObject creator, Hull hull) {
+    private void shoot(Vector2 gunSpeed, SolGame game, float gunAngle, Vector2 muzzlePos, Faction faction, SolObject creator) {
         Vector2 baseSpeed = gunSpeed;
         Clip.Config cc = myItem.config.clipConf;
         if (cc.projConfig.zeroAbsSpeed) {
@@ -104,7 +104,7 @@ public class SolGun {
         game.getSoundManager().play(game, myItem.config.shootSound, muzzlePos, creator);
     }
 
-    public void update(ItemContainer itemContainer, SolGame game, float gunAngle, SolObject creator, boolean shouldShoot, Faction faction, Hull hull) {
+    public void update(ItemContainer itemContainer, SolGame game, float gunAngle, SolObject creator, boolean shouldShoot, Faction faction, SolShip ship) {
         float baseAngle = creator.getAngle();
         Vector2 basePos = creator.getPosition();
         float gunRelAngle = gunAngle - baseAngle;
@@ -135,10 +135,10 @@ public class SolGun {
         }
 
         boolean shot = shouldShoot && myCoolDown <= 0 && myItem.ammo > 0;
-        game.getPartMan().updateAllHullEmittersOfType(hull, "shoot", shot);
+        game.getPartMan().updateAllHullEmittersOfType(ship, "shoot", shot);
         if (shot) {
             Vector2 gunSpeed = creator.getSpeed();
-            shoot(gunSpeed, game, gunAngle, muzzlePos, faction, creator,  hull);
+            shoot(gunSpeed, game, gunAngle, muzzlePos, faction, creator);
         } else {
             myCurrAngleVar = SolMath.approach(myCurrAngleVar, myItem.config.minAngleVar, myItem.config.angleVarDamp * ts);
         }
