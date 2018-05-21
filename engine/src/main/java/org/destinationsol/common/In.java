@@ -13,28 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.context.internal;
+package org.destinationsol.common;
 
-import com.google.common.collect.Maps;
-import org.destinationsol.game.context.Context;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import java.util.Map;
-
-public class ContextImpl implements Context {
-
-    private final Map<Class<?>, Object> map = Maps.newConcurrentMap();
-
-    @Override
-    public <T> T get(Class<? extends T> type) {
-        if (type == Context.class) {
-            return type.cast(this);
-        }
-        return type.cast(map.get(type));
-    }
-
-    @Override
-    public <T, U extends T> void put(Class<T> type, U object)  {
-        map.put(type, object);
-    }
-
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Target(ElementType.FIELD)
+public @interface In {
 }

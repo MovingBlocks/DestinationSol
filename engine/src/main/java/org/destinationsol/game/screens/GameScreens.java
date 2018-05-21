@@ -16,7 +16,7 @@
 package org.destinationsol.game.screens;
 
 import org.destinationsol.SolApplication;
-import org.destinationsol.game.context.Context;
+import org.destinationsol.context.Context;
 import org.destinationsol.ui.SolLayouts;
 
 public class GameScreens {

@@ -21,6 +21,7 @@ import com.google.gson.JsonParseException;
 import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.common.In;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
@@ -48,6 +49,8 @@ public class GalaxyFiller {
     private final HullConfigManager hullConfigManager;
     private Vector2 mainStationPos = new Vector2();
     private HullConfig mainStationHc;
+    @In
+    private PlanetManager planetManager;
 
     public GalaxyFiller(HullConfigManager hullConfigManager) {
         this.hullConfigManager = hullConfigManager;
@@ -178,7 +181,6 @@ public class GalaxyFiller {
     }
 
     private void createStarPorts(SolGame game) {
-        PlanetManager planetManager = game.getPlanetManager();
         ArrayList<Planet> biggest = new ArrayList<>();
 
         for (SolSystem system : planetManager.getSystems()) {

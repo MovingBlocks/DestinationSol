@@ -30,7 +30,7 @@ import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.context.Context;
+import org.destinationsol.context.Context;
 import org.destinationsol.game.planet.Planet;
 
 import java.util.HashMap;
