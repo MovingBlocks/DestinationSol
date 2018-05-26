@@ -18,7 +18,6 @@ package org.destinationsol.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.CommonDrawer;
-import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.DebugCol;
@@ -44,14 +43,11 @@ import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.planet.SolSystem;
 import org.destinationsol.game.planet.SunSingleton;
 import org.destinationsol.game.screens.GameScreens;
-import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.ShipBuilder;
-import org.destinationsol.game.ship.SloMo;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.game.sound.SpecialSounds;
 import org.destinationsol.mercenary.MercenaryUtils;
-import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
@@ -67,7 +63,6 @@ public class SolGame {
 
     private static final String MERC_SAVE_FILE = "mercenaries.json";
     private static Logger logger = LoggerFactory.getLogger(SolGame.class);
-
 
     private final GameScreens gameScreens;
     private final SolCam camera;
@@ -98,10 +93,7 @@ public class SolGame {
     private final TutorialManager tutorialManager;
     private final GalaxyFiller galaxyFiller;
     private Hero hero;
-    private float timeStep;
-    private float time;
-    private boolean paused;
-    private float timeFactor;
+    private TimeProvider timeProvider;
     private RespawnState respawnState;
 
     public SolGame(String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context) {
@@ -138,7 +130,7 @@ public class SolGame {
         drawableDebugger = new DrawableDebugger();
         beaconHandler = new BeaconHandler();
         mountDetectDrawer = new MountDetectDrawer();
-        timeFactor = 1;
+        timeProvider = new TimeProvider();
 
         // from this point we're ready!
         planetManager.fill(solNames);
@@ -166,6 +158,7 @@ public class SolGame {
                 this,
                 solApplication.getOptions().controlType == GameOptions.ControlType.MOUSE,
                 isNewShip);
+        timeProvider.setTrackingHero(hero);
     }
 
     private ShipConfig readShipFromConfigOrLoadFromSaveIfNull(String shipName, boolean isNewShip) {
@@ -253,22 +246,13 @@ public class SolGame {
     public void update() {
         drawableDebugger.update(this);
 
-        if (paused) {
+        if (timeProvider.isPaused()) {
             camera.updateMap(this); // update zoom only for map
             mapDrawer.update(this); // animate map icons
             return;
         }
 
-        timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
-        if (hero.isAlive() && hero.isNonTranscendent()) {
-            ShipAbility ability = hero.getAbility();
-            if (ability instanceof SloMo) {
-                float factor = ((SloMo) ability).getFactor();
-                timeFactor *= factor;
-            }
-        }
-        timeStep = Const.REAL_TIME_STEP * timeFactor;
-        time += timeStep;
+        timeProvider.update();
 
         planetManager.update(this);
         camera.update(this);
@@ -310,7 +294,7 @@ public class SolGame {
     }
 
     public float getTimeStep() {
-        return timeStep;
+        return timeProvider.getTimeStep();
     }
 
     public SolCam getCam() {
@@ -354,12 +338,11 @@ public class SolGame {
     }
 
     public boolean isPaused() {
-        return paused;
+        return timeProvider.isPaused();
     }
 
     public void setPaused(boolean paused) {
-        this.paused = paused;
-        DebugCollector.warn(this.paused ? "game paused" : "game resumed");
+        timeProvider.setPaused(paused);
     }
 
     public void respawn() {
@@ -450,7 +433,7 @@ public class SolGame {
     }
 
     public float getTime() {
-        return time;
+        return timeProvider.getTime();
     }
 
     public void drawDebugUi(UiDrawer uiDrawer) {
@@ -470,7 +453,7 @@ public class SolGame {
     }
 
     public float getTimeFactor() {
-        return timeFactor;
+        return timeProvider.getTimeFactor();
     }
 
     public BeaconHandler getBeaconHandler() {
