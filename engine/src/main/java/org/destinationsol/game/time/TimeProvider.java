@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game;
+package org.destinationsol.game.time;
 
 import org.destinationsol.Const;
-import org.destinationsol.game.ship.ShipAbility;
-import org.destinationsol.game.ship.SloMo;
+import org.destinationsol.game.DebugOptions;
 import org.destinationsol.ui.DebugCollector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TimeProvider {
     private float timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
+    private List<TimeFactor> timeFactorList = new ArrayList<>();
     private float timeStep = Const.REAL_TIME_STEP;
-    private Hero hero;
     private float time;
     private boolean paused;
 
@@ -42,13 +44,11 @@ public class TimeProvider {
 
     public void update() {
         timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
-        if (hero.isAlive() && hero.isNonTranscendent()) {
-            ShipAbility ability = hero.getAbility();
-            if (ability instanceof SloMo) {
-                float factor = ((SloMo) ability).getFactor();
-                timeFactor *= factor;
-            }
+        for (TimeFactor factor : timeFactorList) {
+            timeFactor *= factor.getFactor();
+            factor.update();
         }
+        timeFactorList.removeIf(TimeFactor::canBeRemoved);
         timeStep = Const.REAL_TIME_STEP * timeFactor;
         time += timeStep;
     }
@@ -61,8 +61,7 @@ public class TimeProvider {
         return timeStep;
     }
 
-    // Hack for now while still porting, later should be handled by callbacks
-    public void setTrackingHero(Hero hero) {
-        this.hero = hero;
+    public void registerTimeFactor(TimeFactor factor) {
+        timeFactorList.add(factor);
     }
 }

@@ -47,6 +47,7 @@ import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.game.sound.OggSoundManager;
 import org.destinationsol.game.sound.SpecialSounds;
+import org.destinationsol.game.time.TimeProvider;
 import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
@@ -142,6 +143,10 @@ public class SolGame {
         SolMath.checkVectorsTaken(null);
     }
 
+    public TimeProvider getTimeProvider() {
+        return timeProvider;
+    }
+
     private void createGame(String shipName, boolean shouldSpawnOnGalaxySpawnPosition) {
         /*
          * shipName will be null on respawn and continue, meaning the old ship will be loaded.
@@ -158,7 +163,6 @@ public class SolGame {
                 this,
                 solApplication.getOptions().controlType == GameOptions.ControlType.MOUSE,
                 isNewShip);
-        timeProvider.setTrackingHero(hero);
     }
 
     private ShipConfig readShipFromConfigOrLoadFromSaveIfNull(String shipName, boolean isNewShip) {

@@ -18,23 +18,20 @@ package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
-import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.particle.DSParticleEmitter;
+import org.destinationsol.game.time.DiminishingTimeFactor;
 
 public class SloMo implements ShipAbility {
     private static final float SLO_MO_CHG_SPD = .03f;
     private final Config config;
 
-    private float factor;
-
     SloMo(Config config) {
         this.config = config;
-        factor = 1;
     }
 
     @Override
@@ -55,19 +52,13 @@ public class SloMo implements ShipAbility {
     @Override
     public boolean update(SolGame game, SolShip owner, boolean tryToUse) {
         if (tryToUse) {
-            factor = config.factor;
+            game.getTimeProvider().registerTimeFactor(new DiminishingTimeFactor(config.factor, SLO_MO_CHG_SPD));
             Vector2 position = owner.getPosition();
             DSParticleEmitter src = new DSParticleEmitter(config.cc.effect, -1, DrawableLevel.PART_BG_0, new Vector2(), true, game, position, owner.getSpeed(), 0);
             game.getPartMan().finish(game, src, position);
             return true;
         }
-        float ts = game.getTimeStep();
-        factor = SolMath.approach(factor, 1, SLO_MO_CHG_SPD * ts);
         return false;
-    }
-
-    public float getFactor() {
-        return factor;
     }
 
     public static class Config implements AbilityConfig {
