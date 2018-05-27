@@ -223,15 +223,15 @@ public class GameOptions {
 
     public void advanceSoundVolMul() {
         sfxVolumeMultiplier += 0.25f;
-        if (sfxVolumeMultiplier > 0.90f) {
-            sfxVolumeMultiplier = 0;
+        if (sfxVolumeMultiplier > 1.05f) {
+            sfxVolumeMultiplier = 0f;
         }
         save();
     }
 
     public void advanceMusicVolMul() {
         musicVolumeMultiplier += 0.25f;
-        if (musicVolumeMultiplier > 0.90f) {
+        if (musicVolumeMultiplier > 1.05f) {
             musicVolumeMultiplier = 0f;
         }
         save();
@@ -967,32 +967,32 @@ public class GameOptions {
     }
 
     public String getSFXVolumeAsText() {
-        if (sfxVolumeMultiplier == 0.f) {
+        if (sfxVolumeMultiplier < 0.1f) { // == 0f, but float calculations
             return "Off";
         }
-        if (sfxVolumeMultiplier == 0.25f) {
+        if (sfxVolumeMultiplier < 0.3f) { // == 0.25f, but float calculations
             return "Low";
         }
-        if (sfxVolumeMultiplier == 0.5f) {
+        if (sfxVolumeMultiplier < 0.6f) { // == 0.5f, but float calculations
             return "Medium";
         }
-        if (sfxVolumeMultiplier == 0.75f) {
+        if (sfxVolumeMultiplier < 0.8f) { // == 0.75f, but float calculations
             return "High";
         }
         return "Max";
     }
 
     public String getMusicVolumeAsText() {
-        if (musicVolumeMultiplier == 0.f) {
+        if (musicVolumeMultiplier < 0.1f) { // == 0f, but float calculations
             return "Off";
         }
-        if (musicVolumeMultiplier == 0.25f) {
+        if (musicVolumeMultiplier < 0.3f) { // == 0.25f, but float calculations
             return "Low";
         }
-        if (musicVolumeMultiplier == 0.5f) {
+        if (musicVolumeMultiplier < 0.6f) { // == 0.5f, but float calculations
             return "Medium";
         }
-        if (musicVolumeMultiplier == 0.75f) {
+        if (musicVolumeMultiplier < 0.8f) { // == 0.75f, but float calculations
             return "High";
         }
         return "Max";
