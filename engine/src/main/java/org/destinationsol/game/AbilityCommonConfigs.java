@@ -19,7 +19,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.particle.EffectTypes;
-import org.destinationsol.game.sound.OggSoundManager;
+import org.destinationsol.assets.audio.OggSoundManager;
 
 public class AbilityCommonConfigs {
     public final AbilityCommonConfig teleport;
