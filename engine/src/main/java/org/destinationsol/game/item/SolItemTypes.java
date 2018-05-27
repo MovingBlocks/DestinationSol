@@ -21,7 +21,7 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.GameColors;
-import org.destinationsol.game.sound.OggSoundManager;
+import org.destinationsol.assets.audio.OggSoundManager;
 
 public class SolItemTypes {
     public final SolItemType clip;

@@ -28,8 +28,8 @@ import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
-import org.destinationsol.game.sound.OggMusicManager;
-import org.destinationsol.game.sound.OggSoundManager;
+import org.destinationsol.assets.audio.OggMusicManager;
+import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.menu.MenuScreens;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.FontSize;
@@ -91,7 +91,7 @@ public class SolApplication implements ApplicationListener {
         soundManager = new OggSoundManager(context);
         inputManager = new SolInputManager(soundManager);
 
-        musicManager.playMenuMusic(options);
+        musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
 
         commonDrawer = new CommonDrawer();
         uiDrawer = new UiDrawer(commonDrawer);
@@ -191,7 +191,7 @@ public class SolApplication implements ApplicationListener {
 
         inputManager.setScreen(this, menuScreens.loading);
         menuScreens.loading.setMode(tut, shipName, isNewGame);
-        musicManager.playGameMusic(options);
+        musicManager.playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 
     public void play(boolean tut, String shipName, boolean isNewGame) {
@@ -203,7 +203,7 @@ public class SolApplication implements ApplicationListener {
 
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context);
         inputManager.setScreen(this, solGame.getScreens().mainScreen);
-        musicManager.playGameMusic(options);
+        musicManager.playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 
     public SolInputManager getInputManager() {

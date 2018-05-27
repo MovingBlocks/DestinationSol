@@ -30,7 +30,7 @@ import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.sound.OggSoundManager;
+import org.destinationsol.assets.audio.OggSoundManager;
 
 import java.util.ArrayList;
 import java.util.List;

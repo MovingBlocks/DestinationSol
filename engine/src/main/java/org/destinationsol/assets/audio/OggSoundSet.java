@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.sound;
+package org.destinationsol.assets.audio;
 
-import org.destinationsol.assets.audio.OggSound;
-import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.SolRandom;
 
 import java.util.List;

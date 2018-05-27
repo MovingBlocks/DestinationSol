@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.ui.SolInputManager;
@@ -116,7 +117,7 @@ public class MainScreen implements SolUiScreen {
 
     @Override
     public void onAdd(SolApplication solApplication) {
-        solApplication.getMusicManager().playMenuMusic(gameOptions);
+        solApplication.getMusicManager().playMusic(OggMusicManager.MENU_MUSIC_SET, gameOptions);
     }
 
     @Override
