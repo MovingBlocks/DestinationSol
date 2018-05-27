@@ -27,7 +27,7 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.ship.SolShip;
-import org.destinationsol.game.sound.OggSoundManager;
+import org.destinationsol.assets.audio.OggSoundManager;
 
 public class Shield implements SolItem {
     public static final float SIZE_PERC = .7f;

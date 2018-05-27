@@ -44,8 +44,8 @@ import org.destinationsol.game.item.TradeContainer;
 import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.destinationsol.game.sound.OggSoundManager;
-import org.destinationsol.game.sound.SpecialSounds;
+import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.assets.audio.SpecialSounds;
 
 import java.util.List;
 
