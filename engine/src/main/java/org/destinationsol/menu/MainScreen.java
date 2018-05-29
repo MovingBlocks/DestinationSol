@@ -46,6 +46,7 @@ public class MainScreen implements SolUiScreen {
     private final SolUiControl exitControl;
     private final SolUiControl newGameControl;
     private final SolUiControl creditsControl;
+    private final SolUiControl consoleControl;
 
     MainScreen(MenuLayout menuLayout, boolean isMobile, float resolutionRatio, GameOptions gameOptions) {
         this.isMobile = isMobile;
@@ -70,6 +71,9 @@ public class MainScreen implements SolUiScreen {
         creditsControl = new SolUiControl(MenuLayout.bottomRightFloatingButton(resolutionRatio), true, Input.Keys.C);
         creditsControl.setDisplayName("Credits");
         controls.add(creditsControl);
+
+        consoleControl = new SolUiControl(null, true, Input.Keys.GRAVE);
+        controls.add(consoleControl);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
         logoTexture = Assets.getAtlasRegion("engine:mainMenuLogo", Texture.TextureFilter.Linear);
@@ -112,6 +116,15 @@ public class MainScreen implements SolUiScreen {
 
         if (creditsControl.isJustOff()) {
             inputManager.setScreen(solApplication, screens.credits);
+            return;
+        }
+
+        if (consoleControl.isJustOff()) {
+            if (inputManager.isScreenOn(screens.console)) {
+                inputManager.removeScreen(screens.console, solApplication);
+            } else {
+                inputManager.addScreen(solApplication, screens.console);
+            }
         }
     }
 
