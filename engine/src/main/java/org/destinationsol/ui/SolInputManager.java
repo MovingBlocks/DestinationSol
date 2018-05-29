@@ -147,7 +147,7 @@ public class SolInputManager {
         screen.onAdd(solApplication);
     }
 
-    private void removeScreen(SolUiScreen screen, SolApplication solApplication) {
+    public void removeScreen(SolUiScreen screen, SolApplication solApplication) {
         screenToRemove.add(screen);
         List<SolUiControl> controls = screen.getControls();
         for (SolUiControl control : controls) {
