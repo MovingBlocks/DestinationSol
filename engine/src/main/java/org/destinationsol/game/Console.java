@@ -31,7 +31,7 @@ import java.util.List;
 
 public class Console implements SolUiScreen {
     private static final Vector2 TOP_LEFT = new Vector2(0.03f, 0.03f);
-    private static final Vector2 BOTTOM_RIGHT = new Vector2(0.5f, 0.5f);
+    private static final Vector2 BOTTOM_RIGHT = new Vector2(0.8f, 0.5f);
     private static final float FRAME_WIDTH = 0.02f;
     private final BitmapFont font;
 
@@ -47,23 +47,51 @@ public class Console implements SolUiScreen {
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.draw(new Rectangle(TOP_LEFT.x, TOP_LEFT.y,
-                (BOTTOM_RIGHT.x - TOP_LEFT.x) * uiDrawer.r, BOTTOM_RIGHT.y - TOP_LEFT.y),
+                (BOTTOM_RIGHT.x - TOP_LEFT.x), BOTTOM_RIGHT.y - TOP_LEFT.y),
                 SolColor.UI_LIGHT);
         uiDrawer.draw(new Rectangle(TOP_LEFT.x + FRAME_WIDTH,
                 TOP_LEFT.y + FRAME_WIDTH,
-                (BOTTOM_RIGHT.x - TOP_LEFT.x) * uiDrawer.r - 2 * FRAME_WIDTH,
+                (BOTTOM_RIGHT.x - TOP_LEFT.x) - 2 * FRAME_WIDTH,
                 BOTTOM_RIGHT.y - TOP_LEFT.y - 2 * FRAME_WIDTH),
                 SolColor.UI_BG_LIGHT);
+        // Text area
         uiDrawer.draw(new Rectangle(TOP_LEFT.x + 2 * FRAME_WIDTH,
                 TOP_LEFT.y + 2 * FRAME_WIDTH,
-                (BOTTOM_RIGHT.x - TOP_LEFT.x) * uiDrawer.r - 4 * FRAME_WIDTH,
+                (BOTTOM_RIGHT.x - TOP_LEFT.x) - 4 * FRAME_WIDTH,
                 BOTTOM_RIGHT.y - TOP_LEFT.y - 4 * FRAME_WIDTH),
                 SolColor.UI_BG_LIGHT);
     }
 
     @Override
     public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
-        final String s = "TOTO je hodne dlouhy texttextetexttexttexftfextjh";
+        // Personal notes follow:
+        // 1024 screen width -> 796 text width (text area width 556.3392 (```echo "4k4 3/0.46*0.07-1024*pq" | dc``` - assumes r 4/3))
+        // Text width seems the same for all resolutions with r 4/3, after some testing
+        // r = 1.25 -> 755 text width
+        // r = 1.77777777 (1280x720) -> 1138 text width
+        // screen area width for r=4/3 -> .54333333333333333333 (```echo "20k4 3/0.46*0.07-pq" | dc```)
+        // screen area width for r=1.25 -> .5050 (```echo "20k1.25 0.46*0.07-pq" |dc```)
+        // REWORK - console will be fixed size, for bottom right corner of text area [0.76f, 0.46f] text width 1040. The sketch below no longer fits thus.
+        /*
+        Text area:
+                   0.07f       0.07f
+                     +           +
+                     |           |
+                     |           |
+                     V           V
+         0.07f +---->+-----------+<-----+ 0.46f * r
+                     |           |
+                     |           |
+                     |           |
+                     |           |
+         0.07f +---->+-----------+<-----+ 0.46f * r
+                     ^           ^
+                     |           |
+                     |           |
+                     +           +
+                   0.46f       0.46f
+         */
+        final String s = "";
         int x = 0;
         for (char c : s.toCharArray()) {
             x += font.getData().getGlyph(c).width;
