@@ -39,6 +39,7 @@ public class UiDrawer {
     public final TextureRegion whiteTexture;
     public final Rectangle filler;
     private final CommonDrawer drawer;
+    //TODO WTF is `isTextMode` for? discuss and potentially (=probably) remove
     private Boolean isTextMode;
 
     public UiDrawer(CommonDrawer commonDrawer) {
