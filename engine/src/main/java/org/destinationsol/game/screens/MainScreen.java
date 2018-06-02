@@ -15,6 +15,7 @@
  */
 package org.destinationsol.game.screens;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
@@ -69,6 +70,7 @@ public class MainScreen implements SolUiScreen {
     public final SolUiControl freeCamControl;
     private final SolUiControl menuControl;
     private final SolUiControl pauseControl;
+    private final SolUiControl consoleControl;
     private final CameraKeyboardControl cameraControl;
 
     private final ZoneNameAnnouncer zoneNameAnnouncer;
@@ -140,6 +142,9 @@ public class MainScreen implements SolUiScreen {
         pauseControl = new SolUiControl(null, true, gameOptions.getKeyPause());
         controls.add(pauseControl);
         cameraControl = new CameraKeyboardControl(gameOptions, controls);
+
+        consoleControl = new SolUiControl(null, true, Input.Keys.GRAVE);
+        controls.add(consoleControl);
 
         warnDrawers.add(new CollisionWarnDrawer(resolutionRatio));
         warnDrawers.add(new SunWarnDrawer(resolutionRatio));
@@ -280,6 +285,10 @@ public class MainScreen implements SolUiScreen {
 
         if (pauseControl.isJustOff()) {
             game.setPaused(!game.isPaused());
+        }
+
+        if (consoleControl.isJustOff()) {
+            inputMan.setScreen(solApplication, screens.console);
         }
     }
 
