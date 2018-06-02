@@ -24,6 +24,8 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolException;
+import org.destinationsol.game.console.ConsoleInputHandler;
+import org.destinationsol.game.console.ShellInputHandler;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
@@ -37,12 +39,19 @@ public class Console implements SolUiScreen {
     private static final Vector2 TOP_LEFT = new Vector2(0.03f, 0.03f);
     private static final Vector2 BOTTOM_RIGHT = new Vector2(0.8f, 0.5f);
     private static final float FRAME_WIDTH = 0.02f;
+    private static final int MAX_WIDTH_OF_LINE = 1040;
     private static Console instance;
     private final BitmapFont font;
     private final SolUiControl exitControl;
     private final List<String> linesOfOutput;
-
     private final List<SolUiControl> controls;
+
+    private StringBuilder inputLine;
+    private ConsoleInputHandler inputHandler;
+
+    public void setInputHandler(ConsoleInputHandler inputHandler) {
+        this.inputHandler = inputHandler;
+    }
 
     private boolean isActive;
 
@@ -51,7 +60,9 @@ public class Console implements SolUiScreen {
         exitControl = new SolUiControl(null, true, Input.Keys.ESCAPE);
         controls = Collections.singletonList(exitControl);
         linesOfOutput = new ArrayList<>();
-        println("Welceome to the world of Destination Sol! Your journey begins!");
+        inputLine = new StringBuilder();
+        println("Welcome to the world of Destination Sol! Your journey begins!");
+        setInputHandler(new ShellInputHandler());
     }
 
     public void println(String s) {
@@ -60,7 +71,7 @@ public class Console implements SolUiScreen {
             StringBuilder currentLine = new StringBuilder();
             for (char c : s.toCharArray()) {
                 width += (c == ' ' ? 3 : 1) * font.getData().getGlyph(c).width; // Why is this multiplier here? Well, don't ask, I don't know and I wrote it.
-                if (width > 1040) {
+                if (width > MAX_WIDTH_OF_LINE) {
                     linesOfOutput.add(currentLine.toString());
                     currentLine = new StringBuilder();
                     width = (c == ' ' ? 3 : 1) * font.getData().getGlyph(c).width;
@@ -91,13 +102,16 @@ public class Console implements SolUiScreen {
 
     public void registerCharEntered(char c) {
         if (isActive) {
-            System.out.println(Character.getNumericValue(c));
             if (c == '\r') {
-                System.out.println("newline");
+                inputHandler.handle(inputLine.toString(), this);
+                inputLine = new StringBuilder();
+                return;
             }
             if (c == '\b') {
-                System.out.println("backSpace");
+                inputLine.deleteCharAt(inputLine.length() - 1);
+                return;
             }
+            inputLine.append(c);
         }
     }
 
@@ -156,8 +170,26 @@ public class Console implements SolUiScreen {
                 uiDrawer.drawString(text, textX, getLineY(line), 0.5f, UiDrawer.TextAlignment.LEFT, false, Color.WHITE);
             }
         }
-        uiDrawer.drawString(s, textX, getLineY(20.666f), 0.5f, UiDrawer.TextAlignment.LEFT, false, Color.WHITE);
+        drawInputLine(uiDrawer, textX);
 
+    }
+
+    private void drawInputLine(UiDrawer uiDrawer, float textX) {
+        StringBuilder stringBuilder = new StringBuilder();
+        int width = 0;
+        for (char c : inputLine.reverse().toString().toCharArray()) {
+            try {
+                width += (c == ' ' ? 3 : 1) * font.getData().getGlyph(c).width;
+                if (width > MAX_WIDTH_OF_LINE) {
+                    break;
+                }
+                stringBuilder.append(c);
+            } catch (NullPointerException e) {
+                inputLine.deleteCharAt(0); // when there is character that can't be handled by font, it'll always be the last (first in reversed), since if it was anywhere elsewhere, it'd already be removed earlier.
+            }
+        }
+        uiDrawer.drawString(stringBuilder.reverse().toString(), textX, getLineY(20.666f), 0.5f, UiDrawer.TextAlignment.LEFT, false, Color.WHITE);
+        inputLine.reverse();
     }
 
     private float getLineY(float line) {
