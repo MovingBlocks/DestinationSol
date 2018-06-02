@@ -30,7 +30,7 @@ public class UiDrawer {
         RIGHT
     }
 
-    private static final float FONT_SIZE = .02f;
+    public static final float FONT_SIZE = .02f;
 
     private final Matrix4 straightMtx;
     private final float uiLineWidth;
