@@ -16,7 +16,6 @@
 package org.destinationsol.menu;
 
 import org.destinationsol.GameOptions;
-import org.destinationsol.game.Console;
 import org.destinationsol.ui.SolLayouts;
 
 public class MenuScreens {
@@ -28,7 +27,6 @@ public class MenuScreens {
     public final LoadingScreen loading;
     public final NewGameScreen newGame;
     public final NewShipScreen newShip;
-    public final Console console;
 
     public MenuScreens(SolLayouts layouts, boolean mobile, float resolutionRatio, GameOptions gameOptions) {
         MenuLayout menuLayout = layouts.menuLayout;
@@ -40,6 +38,5 @@ public class MenuScreens {
         loading = new LoadingScreen();
         newGame = new NewGameScreen(menuLayout, gameOptions);
         newShip = new NewShipScreen(menuLayout, gameOptions);
-        console = new Console();
     }
 }
