@@ -35,23 +35,68 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Command console opened by pressing {@code `} in-game. Singleton, until a better way to handle this is developed.
+ * Can be hooked with custom command handlers, thus allowing for custom "programs" of sorts.
+ */
 public class Console implements SolUiScreen {
-    private static final Vector2 TOP_LEFT = new Vector2(0.03f, 0.03f);
-    private static final Vector2 BOTTOM_RIGHT = new Vector2(0.8f, 0.5f);
-    private static final float FRAME_WIDTH = 0.02f;
+
+    /**
+     * Magic happens here.
+     *
+     * Sets the maximum width a line of text can have to fit into the console, in some sort of magical units. If you
+     * change {@link #TOP_LEFT}, {@link #BOTTOM_RIGHT} or {@link #FRAME_WIDTH}, be sure to change this number too. The
+     * only way known to me how to figure out the expected value of this field, is to randomly change it until the text
+     * fits into the console nicely. Be sure to uncomment the block of code in {@link #drawBackground(UiDrawer, SolApplication)}
+     * to clearly see the expected width of the text.
+     */
     private static final int MAX_WIDTH_OF_LINE = 1040;
+
+    /**
+     * Position of top left corner of the outermost frame of the console.
+     *
+     * See also {@link #MAX_WIDTH_OF_LINE}.
+     */
+    private static final Vector2 TOP_LEFT = new Vector2(0.03f, 0.03f);
+
+    /**
+     * Position of bottom right corner of the outermost frame of the console.
+     *
+     * See also {@link #MAX_WIDTH_OF_LINE}.
+     */
+    private static final Vector2 BOTTOM_RIGHT = new Vector2(0.8f, 0.5f);
+
+    /**
+     * Width of the gap between outer, inner and text area frames.
+     *
+     * See laso {@link #MAX_WIDTH_OF_LINE}
+     */
+    private static final float FRAME_WIDTH = 0.02f;
+
     private static Console instance;
+
+    /**
+     * Stores all the lines of output printed to console, each line shorter in rendered text width than {@link #MAX_WIDTH_OF_LINE}.
+     */
+    private final List<String> linesOfOutput;
+    /**
+     * Basically the same font as {@link org.destinationsol.CommonDrawer#font}.
+     *
+     * Required for figuring out char widths.
+     */
     private final BitmapFont font;
     private final SolUiControl exitControl;
-    private final List<String> linesOfOutput;
     private final List<SolUiControl> controls;
 
+    /**
+     * Current line of user input.
+     */
     private StringBuilder inputLine;
-    private ConsoleInputHandler inputHandler;
 
-    public void setInputHandler(ConsoleInputHandler inputHandler) {
-        this.inputHandler = inputHandler;
-    }
+    /**
+     * Handler to which each line entered in console is passed to handle.
+     */
+    private ConsoleInputHandler inputHandler;
 
     private boolean isActive;
 
@@ -65,6 +110,17 @@ public class Console implements SolUiScreen {
         setInputHandler(new ShellInputHandler());
     }
 
+    /**
+     * Registers a line of text to be rendered in console.
+     *
+     * Lines too long will be automatically split into several for each to fit nicely into the console space.
+     *
+     * NOTE: Due to limitations of linGdx {@link BitmapFont}, only ASCII characters are allowed. Newlines are also
+     * prohibited.
+     * TODO allow unicode and newlines. Unicode can be handled by replacing required characters with others, newlines by splitting the input string and recursive calls
+     *
+     * @param s String to print.
+     */
     public void println(String s) {
         try {
             int width = 0;
@@ -84,6 +140,15 @@ public class Console implements SolUiScreen {
         }
     }
 
+    /**
+     * Sets the {@link ConsoleInputHandler} to use for interpreting user input.
+     *
+     * @param inputHandler Handler to use.
+     */
+    public void setInputHandler(ConsoleInputHandler inputHandler) {
+        this.inputHandler = inputHandler;
+    }
+
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         if (exitControl.isJustOff()) {
@@ -91,6 +156,11 @@ public class Console implements SolUiScreen {
         }
     }
 
+    /**
+     * Console is, for now, singleton.
+     *
+     * @return Instance of Console.
+     */
     public static Console getInstance() {
         if (instance != null) {
             return instance;
@@ -100,6 +170,13 @@ public class Console implements SolUiScreen {
         }
     }
 
+    /**
+     * Registers a char entered by user in-game.
+     *
+     * Char is handled only when Console is currently open.
+     *
+     * @param c Char user entered.
+     */
     public void registerCharEntered(char c) {
         if (isActive) {
             if (c == '\r') {
@@ -138,19 +215,30 @@ public class Console implements SolUiScreen {
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         drawFrame(uiDrawer);
-        // Text area
-        uiDrawer.draw(new Rectangle(TOP_LEFT.x + 2 * FRAME_WIDTH,
-                        TOP_LEFT.y + 2 * FRAME_WIDTH,
-                        (BOTTOM_RIGHT.x - TOP_LEFT.x) - 4 * FRAME_WIDTH,
-                        BOTTOM_RIGHT.y - TOP_LEFT.y - 4 * FRAME_WIDTH),
-                SolColor.UI_BG_LIGHT);
+        // Text area - uncomment when you want drawn clear boundary of area meant for text to be in. Don't delete in case there is ever need to resize the console.
+//        uiDrawer.draw(new Rectangle(TOP_LEFT.x + 2 * FRAME_WIDTH,
+//                        TOP_LEFT.y + 2 * FRAME_WIDTH,
+//                        (BOTTOM_RIGHT.x - TOP_LEFT.x) - 4 * FRAME_WIDTH,
+//                        BOTTOM_RIGHT.y - TOP_LEFT.y - 4 * FRAME_WIDTH),
+//                SolColor.UI_BG_LIGHT);
         drawTextEntrySeparator(uiDrawer);
     }
 
+    /**
+     * Draws the separator between the area for user input and the area to render console output into
+     *
+     * @param uiDrawer Drawer to draw to.
+     */
     private void drawTextEntrySeparator(UiDrawer uiDrawer) {
+        // 20.333f - magic constant, change is console is ever resized
         uiDrawer.drawLine(TOP_LEFT.x + 2 * FRAME_WIDTH, getLineY(20.333f), 0, (BOTTOM_RIGHT.x - TOP_LEFT.x) - 4 * FRAME_WIDTH, Color.WHITE);
     }
 
+    /**
+     * Draws the two rectangles making the Console frame.
+     *
+     * @param uiDrawer Drawer to draw to.
+     */
     private void drawFrame(UiDrawer uiDrawer) {
         uiDrawer.draw(new Rectangle(TOP_LEFT.x, TOP_LEFT.y,
                         (BOTTOM_RIGHT.x - TOP_LEFT.x), BOTTOM_RIGHT.y - TOP_LEFT.y),
@@ -162,10 +250,9 @@ public class Console implements SolUiScreen {
 
     @Override
     public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
-        String s = "randomtext";
-        final float textX = TOP_LEFT.x + 2 * FRAME_WIDTH;
-        for (int line = 0; line < 20; line++) {
-            if (linesOfOutput.size() + line > 19) {
+        final float textX = TOP_LEFT.x + 2 * FRAME_WIDTH; // X position of all text
+        for (int line = 0; line < 20; line++) { // Magic constant. Change if Console is resized.
+            if (linesOfOutput.size() + line > 19) { // to prevent IndexOutOfBoundsException
                 final String text = linesOfOutput.get(linesOfOutput.size() - 20 + line);
                 uiDrawer.drawString(text, textX, getLineY(line), 0.5f, UiDrawer.TextAlignment.LEFT, false, Color.WHITE);
             }
@@ -174,6 +261,14 @@ public class Console implements SolUiScreen {
 
     }
 
+    /**
+     * Renders the line of user input.
+     *
+     * When the line is longer than {@link #MAX_WIDTH_OF_LINE}, renders only the last part of it that fits.
+     *
+     * @param uiDrawer Drawer to draw to.
+     * @param textX X position of the text.
+     */
     private void drawInputLine(UiDrawer uiDrawer, float textX) {
         StringBuilder stringBuilder = new StringBuilder();
         int width = 0;
@@ -188,10 +283,19 @@ public class Console implements SolUiScreen {
                 inputLine.deleteCharAt(0); // when there is character that can't be handled by font, it'll always be the last (first in reversed), since if it was anywhere elsewhere, it'd already be removed earlier.
             }
         }
+        // 20.666f - magic constant, change if console is ever resized.
         uiDrawer.drawString(stringBuilder.reverse().toString(), textX, getLineY(20.666f), 0.5f, UiDrawer.TextAlignment.LEFT, false, Color.WHITE);
         inputLine.reverse();
     }
 
+    /**
+     * Returns the Y position of given line.
+     *
+     * Magic constants, change if needed.
+     *
+     * @param line Line Y position of which to return
+     * @return Computed Y position
+     */
     private float getLineY(float line) {
         return TOP_LEFT.y + 2 * FRAME_WIDTH + line * UiDrawer.FONT_SIZE * 0.5f * 1.8f;
     }
