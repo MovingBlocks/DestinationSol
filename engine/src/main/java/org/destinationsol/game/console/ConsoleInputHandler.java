@@ -17,6 +17,15 @@ package org.destinationsol.game.console;
 
 import org.destinationsol.game.Console;
 
+/**
+ * This functional interface provides a handler for user input for {@link Console}.
+ */
 public interface ConsoleInputHandler {
+    /**
+     * Handles user input from console.
+     *
+     * @param input User input from console
+     * @param console Console from where the input originates
+     */
     void handle(String input, Console console);
 }
