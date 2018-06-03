@@ -273,6 +273,7 @@ public class Console implements SolUiScreen {
         StringBuilder stringBuilder = new StringBuilder();
         int width = 0;
         for (char c : inputLine.reverse().toString().toCharArray()) {
+            //TODO better unicode handling (non-ascii chars throw NPE in BitmapFont)
             try {
                 width += (c == ' ' ? 3 : 1) * font.getData().getGlyph(c).width;
                 if (width > MAX_WIDTH_OF_LINE) {
