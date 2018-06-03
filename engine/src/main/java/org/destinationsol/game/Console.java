@@ -87,6 +87,7 @@ public class Console implements SolUiScreen {
     private final BitmapFont font;
     private final SolUiControl exitControl;
     private final List<SolUiControl> controls;
+    private final ShellInputHandler defaultInputHandler;
 
     /**
      * Current line of user input.
@@ -107,7 +108,12 @@ public class Console implements SolUiScreen {
         linesOfOutput = new ArrayList<>();
         inputLine = new StringBuilder();
         println("Welcome to the world of Destination Sol! Your journey begins!");
-        setInputHandler(new ShellInputHandler());
+        defaultInputHandler = new ShellInputHandler();
+        setInputHandler(defaultInputHandler);
+    }
+
+    public ShellInputHandler getDefaultInputHandler() {
+        return defaultInputHandler;
     }
 
     /**
