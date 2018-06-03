@@ -26,11 +26,11 @@ import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.assets.audio.OggSoundManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -147,7 +147,7 @@ public class SolInputManager {
         screen.onAdd(solApplication);
     }
 
-    public void removeScreen(SolUiScreen screen, SolApplication solApplication) {
+    private void removeScreen(SolUiScreen screen, SolApplication solApplication) {
         screenToRemove.add(screen);
         List<SolUiControl> controls = screen.getControls();
         for (SolUiControl control : controls) {
