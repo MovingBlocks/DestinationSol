@@ -15,14 +15,49 @@
  */
 package org.destinationsol.game.console;
 
+import org.destinationsol.common.SolException;
 import org.destinationsol.game.Console;
 
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Default user input handler used by {@link Console}.
+ *
+ * Can register additional accepted commands and handle their params.
+ */
 public class ShellInputHandler implements ConsoleInputHandler {
-    @Override
-    public void handle(String input, Console console) {
-        if (input.startsWith("echo")) {
+
+    private final Map<String, ConsoleInputHandler> commands;
+
+    public ShellInputHandler() {
+        commands = new HashMap<>();
+        registerCommand("echo", (input, console) -> {
             if (input.contains(" ")) {
                 console.println(input.split(" ", 2)[1]);
+            }
+        });
+    }
+
+    /**
+     * Registers a command with this input handler.
+     *
+     * @param cmdName Name, that is first word, of the command
+     * @param callback This callback will be called with the full entered command
+     */
+    public void registerCommand(String cmdName, ConsoleInputHandler callback) {
+        if (commands.keySet().contains(cmdName)) {
+            throw new SolException("Trying to register command with already existent name (" + cmdName + ")");
+        }
+        commands.put(cmdName, callback);
+    }
+
+    @Override
+    public void handle(String input, Console console) {
+        for (String cmdName : commands.keySet()) {
+            if (input.startsWith(cmdName + " ") || input.equals(cmdName)) {
+                commands.get(cmdName).handle(input, console);
+                break;
             }
         }
     }

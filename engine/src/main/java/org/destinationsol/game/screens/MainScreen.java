@@ -93,6 +93,7 @@ public class MainScreen implements SolUiScreen {
     private final TextPlace myChargesExcessTp;
     private final TextPlace myMoneyExcessTp;
     private final SolApplication solApplication;
+    private final SolUiControl consoleControl2;
 
     public MainScreen(float resolutionRatio, RightPaneLayout rightPaneLayout, Context context) {
         solApplication = context.get(SolApplication.class);
@@ -144,7 +145,9 @@ public class MainScreen implements SolUiScreen {
         cameraControl = new CameraKeyboardControl(gameOptions, controls);
 
         consoleControl = new SolUiControl(null, true, Input.Keys.GRAVE);
+        consoleControl2 = new SolUiControl(null, true, Input.Keys.F1);
         controls.add(consoleControl);
+        controls.add(consoleControl2);
 
         warnDrawers.add(new CollisionWarnDrawer(resolutionRatio));
         warnDrawers.add(new SunWarnDrawer(resolutionRatio));
@@ -287,7 +290,7 @@ public class MainScreen implements SolUiScreen {
             game.setPaused(!game.isPaused());
         }
 
-        if (consoleControl.isJustOff()) {
+        if (consoleControl.isJustOff() || consoleControl2.isJustOff()) {
             inputMan.setScreen(solApplication, screens.console);
         }
     }
