@@ -112,7 +112,7 @@ public class OggMusicManager {
      */
     private void playMusicTrack(Music music, GameOptions options) {
         currentlyPlaying = music;
-        currentlyPlaying.setVolume(options.musicVolumeMultiplier);
+        currentlyPlaying.setVolume(options.musicVolume.getVolume());
         currentlyPlaying.play();
     }
 
@@ -131,6 +131,6 @@ public class OggMusicManager {
      * @param options GameOptions containing the requested volume.
      */
     public void changeVolume(GameOptions options) {
-        currentlyPlaying.setVolume(options.musicVolumeMultiplier);
+        currentlyPlaying.setVolume(options.musicVolume.getVolume());
     }
 }
