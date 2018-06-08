@@ -107,12 +107,12 @@ public class OptionsScreen implements SolUiScreen {
             inputManager.setScreen(solApplication, screens.inputMapScreen);
         }
 
-        soundVolumeControl.setDisplayName("Sound Volume: " + options.getSFXVolumeAsText());
+        soundVolumeControl.setDisplayName("Sound Volume: " + options.sfxVolume.getName());
         if (soundVolumeControl.isJustOff()) {
             options.advanceSoundVolMul();
         }
 
-        musicVolumeControl.setDisplayName("Music Volume: " + options.getMusicVolumeAsText());
+        musicVolumeControl.setDisplayName("Music Volume: " + options.musicVolume.getName());
         if (musicVolumeControl.isJustOff()) {
             options.advanceMusicVolMul();
             solApplication.getMusicManager().changeVolume(options);

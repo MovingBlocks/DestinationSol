@@ -20,8 +20,6 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.assets.audio.OggSound;
-import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.Nullable;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -202,7 +200,7 @@ public class OggSoundManager {
      * @return Volume the sound should play at.
      */
     private float getVolume(SolGame game, Vector2 position, float volumeMultiplier, OggSound sound) {
-        float globalVolumeMultiplier = solApplication.getOptions().sfxVolumeMultiplier;
+        float globalVolumeMultiplier = solApplication.getOptions().sfxVolume.getVolume();
 
         Vector2 cameraPosition = game.getCam().getPosition();
         Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();
