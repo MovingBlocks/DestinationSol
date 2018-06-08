@@ -69,11 +69,11 @@ public class MenuScreen implements SolUiScreen {
         game.setPaused(true);
         SolInputManager im = solApplication.getInputManager();
         GameOptions options = solApplication.getOptions();
-        soundVolControl.setDisplayName("Sound Volume: " + options.getSFXVolumeAsText());
+        soundVolControl.setDisplayName("Sound Volume: " + options.sfxVolume.getName());
         if (soundVolControl.isJustOff()) {
             options.advanceSoundVolMul();
         }
-        musicVolumeControl.setDisplayName("Music Volume: " + options.getMusicVolumeAsText());
+        musicVolumeControl.setDisplayName("Music Volume: " + options.musicVolume.getName());
         if (musicVolumeControl.isJustOff()) {
             options.advanceMusicVolMul();
             solApplication.getMusicManager().changeVolume(options);
