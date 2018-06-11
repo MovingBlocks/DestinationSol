@@ -70,7 +70,8 @@ public class MainScreen implements SolUiScreen {
     public final SolUiControl freeCamControl;
     private final SolUiControl menuControl;
     private final SolUiControl pauseControl;
-    private final SolUiControl consoleControl;
+    private final SolUiControl consoleControlGrave;
+    private final SolUiControl consoleControlF1;
     private final CameraKeyboardControl cameraControl;
 
     private final ZoneNameAnnouncer zoneNameAnnouncer;
@@ -93,7 +94,6 @@ public class MainScreen implements SolUiScreen {
     private final TextPlace myChargesExcessTp;
     private final TextPlace myMoneyExcessTp;
     private final SolApplication solApplication;
-    private final SolUiControl consoleControl2;
 
     public MainScreen(float resolutionRatio, RightPaneLayout rightPaneLayout, Context context) {
         solApplication = context.get(SolApplication.class);
@@ -144,10 +144,10 @@ public class MainScreen implements SolUiScreen {
         controls.add(pauseControl);
         cameraControl = new CameraKeyboardControl(gameOptions, controls);
 
-        consoleControl = new SolUiControl(null, true, Input.Keys.GRAVE);
-        consoleControl2 = new SolUiControl(null, true, Input.Keys.F1);
-        controls.add(consoleControl);
-        controls.add(consoleControl2);
+        consoleControlGrave = new SolUiControl(null, true, Input.Keys.GRAVE);
+        consoleControlF1 = new SolUiControl(null, true, Input.Keys.F1);
+        controls.add(consoleControlGrave);
+        controls.add(consoleControlF1);
 
         warnDrawers.add(new CollisionWarnDrawer(resolutionRatio));
         warnDrawers.add(new SunWarnDrawer(resolutionRatio));
@@ -290,7 +290,7 @@ public class MainScreen implements SolUiScreen {
             game.setPaused(!game.isPaused());
         }
 
-        if (consoleControl.isJustOff() || consoleControl2.isJustOff()) {
+        if (consoleControlGrave.isJustOff() || consoleControlF1.isJustOff()) {
             inputMan.setScreen(solApplication, screens.console);
         }
     }
