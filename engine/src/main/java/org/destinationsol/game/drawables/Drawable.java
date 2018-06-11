@@ -94,12 +94,12 @@ public interface Drawable {
     void draw(GameDrawer drawer, SolGame game);
 
     /**
-     * @return True if this drawable shoulb be drawn, false otherwise
+     * @return True if this drawable should be drawn, false otherwise
      */
     boolean isEnabled();
 
     /**
-     * @return True if this drawable is not to be drawn in game more and can be thus removed.
+     * @return True if this drawable is not to be drawn in game more and can thus be removed.
      */
     boolean okToRemove();
 }
