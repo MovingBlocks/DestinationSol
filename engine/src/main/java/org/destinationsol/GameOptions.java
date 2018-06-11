@@ -54,6 +54,42 @@ public class GameOptions {
         }
     }
 
+    public enum Volume {
+        OFF("Off", 0f),
+        LOW("Low", 0.25f),
+        MEDIUM("Medium", 0.5f),
+        HIGH("High", 0.75f),
+        MAX("Max", 1f);
+
+        private final String name;
+
+        private final float volume;
+
+        Volume(String name, float volume) {
+            this.name = name;
+            this.volume = volume;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public float getVolume() {
+            return volume;
+        }
+
+        public Volume advance() {
+            switch (this) {
+                case OFF: return LOW;
+                case LOW: return MEDIUM;
+                case MEDIUM: return HIGH;
+                case HIGH: return MAX;
+                case MAX: return OFF;
+            }
+            return MAX;
+        }
+    }
+
     public static final String FILE_NAME = "settings.ini";
     public static final String DEFAULT_MOUSE_UP = "W";
     public static final String DEFAULT_MOUSE_DOWN = "S";
@@ -80,9 +116,9 @@ public class GameOptions {
     public static final int DEFAULT_AXIS_SHOOT2 = 0;
     public static final int DEFAULT_AXIS_ABILITY = -1;
     public static final int DEFAULT_AXIS_LEFT_RIGHT = 2;
-    public static final boolean DEFAULT_AXIS_LEFT_RIGHT_INVERTED_ = false;
+    public static final boolean DEFAULT_AXIS_LEFT_RIGHT_INVERTED = false;
     public static final int DEFAULT_AXIS_UP_DOWN = 5;
-    public static final boolean DEFAULT_AXIS_UP_DOWN_INVERTED_ = false;
+    public static final boolean DEFAULT_AXIS_UP_DOWN_INVERTED = false;
     public static final int DEFAULT_BUTTON_SHOOT = -1;
     public static final int DEFAULT_BUTTON_SHOOT2 = -1;
     public static final int DEFAULT_BUTTON_ABILITY = 14;
@@ -95,8 +131,8 @@ public class GameOptions {
     public int y;
     public boolean fullscreen;
     public ControlType controlType;
-    public float sfxVolumeMultiplier;
-    public float musicVolumeMultiplier;
+    public Volume sfxVolume;
+    public Volume musicVolume;
     public boolean canSellEquippedItems;
     private String keyUpMouseName;
     private String keyDownMouseName;
@@ -143,8 +179,8 @@ public class GameOptions {
         y = reader.getInt("y", 768);
         fullscreen = reader.getBoolean("fullscreen", false);
         controlType = mobile ? ControlType.KEYBOARD : ControlType.valueOf(reader.getString("controlType", "MIXED"));
-        sfxVolumeMultiplier = reader.getFloat("sfxVol", 1);
-        musicVolumeMultiplier = reader.getFloat("musicVol", 1);
+        sfxVolume = Volume.valueOf(reader.getString("sfxVolume", "MAX"));
+        musicVolume = Volume.valueOf(reader.getString("musicVolume", "MAX"));
         keyUpMouseName = reader.getString("keyUpMouse", DEFAULT_MOUSE_UP);
         keyDownMouseName = reader.getString("keyDownMouse", DEFAULT_MOUSE_DOWN);
         keyUpName = reader.getString("keyUp", DEFAULT_UP);
@@ -170,9 +206,9 @@ public class GameOptions {
         controllerAxisShoot2 = reader.getInt("controllerAxisShoot2", DEFAULT_AXIS_SHOOT2);
         controllerAxisAbility = reader.getInt("controllerAxisAbility", DEFAULT_AXIS_ABILITY);
         controllerAxisLeftRight = reader.getInt("controllerAxisLeftRight", DEFAULT_AXIS_LEFT_RIGHT);
-        isControllerAxisLeftRightInverted = reader.getBoolean("isControllerAxisLeftRightInverted", DEFAULT_AXIS_LEFT_RIGHT_INVERTED_);
+        isControllerAxisLeftRightInverted = reader.getBoolean("isControllerAxisLeftRightInverted", DEFAULT_AXIS_LEFT_RIGHT_INVERTED);
         controllerAxisUpDown = reader.getInt("controllerAxisUpDown", DEFAULT_AXIS_UP_DOWN);
-        isControllerAxisUpDownInverted = reader.getBoolean("isControllerAxisUpDownInverted", DEFAULT_AXIS_UP_DOWN_INVERTED_);
+        isControllerAxisUpDownInverted = reader.getBoolean("isControllerAxisUpDownInverted", DEFAULT_AXIS_UP_DOWN_INVERTED);
         controllerButtonShoot = reader.getInt("controllerButtonShoot", DEFAULT_BUTTON_SHOOT);
         controllerButtonShoot2 = reader.getInt("controllerButtonShoot2", DEFAULT_BUTTON_SHOOT2);
         controllerButtonAbility = reader.getInt("controllerButtonAbility", DEFAULT_BUTTON_ABILITY);
@@ -222,18 +258,12 @@ public class GameOptions {
     }
 
     public void advanceSoundVolMul() {
-        sfxVolumeMultiplier += 0.25f;
-        if (sfxVolumeMultiplier > 1.05f) {
-            sfxVolumeMultiplier = 0f;
-        }
+        sfxVolume = sfxVolume.advance();
         save();
     }
 
     public void advanceMusicVolMul() {
-        musicVolumeMultiplier += 0.25f;
-        if (musicVolumeMultiplier > 1.05f) {
-            musicVolumeMultiplier = 0f;
-        }
+        musicVolume = musicVolume.advance();
         save();
     }
 
@@ -241,8 +271,8 @@ public class GameOptions {
      * Save the configuration settings to file.
      */
     public void save() {
-        IniReader.write(FILE_NAME, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType, "sfxVol", sfxVolumeMultiplier, "musicVol", musicVolumeMultiplier,
-                "canSellEquippedItems", canSellEquippedItems,
+        IniReader.write(FILE_NAME, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType,
+                "sfxVolume", sfxVolume, "musicVolume", musicVolume, "canSellEquippedItems", canSellEquippedItems,
                 "keyUpMouse", getKeyUpMouseName(), "keyDownMouse", getKeyDownMouseName(), "keyUp", getKeyUpName(), "keyDown", keyDownName,
                 "keyLeft", keyLeftName, "keyRight", keyRightName, "keyShoot", keyShootName, "keyShoot2", getKeyShoot2Name(),
                 "keyAbility", getKeyAbilityName(), "keyEscape", getKeyEscapeName(), "keyMap", keyMapName, "keyInventory", keyInventoryName,
@@ -966,35 +996,4 @@ public class GameOptions {
         this.controllerButtonDown = controllerButtonDown;
     }
 
-    public String getSFXVolumeAsText() {
-        if (sfxVolumeMultiplier < 0.1f) { // == 0f, but float calculations
-            return "Off";
-        }
-        if (sfxVolumeMultiplier < 0.3f) { // == 0.25f, but float calculations
-            return "Low";
-        }
-        if (sfxVolumeMultiplier < 0.6f) { // == 0.5f, but float calculations
-            return "Medium";
-        }
-        if (sfxVolumeMultiplier < 0.8f) { // == 0.75f, but float calculations
-            return "High";
-        }
-        return "Max";
-    }
-
-    public String getMusicVolumeAsText() {
-        if (musicVolumeMultiplier < 0.1f) { // == 0f, but float calculations
-            return "Off";
-        }
-        if (musicVolumeMultiplier < 0.3f) { // == 0.25f, but float calculations
-            return "Low";
-        }
-        if (musicVolumeMultiplier < 0.6f) { // == 0.5f, but float calculations
-            return "Medium";
-        }
-        if (musicVolumeMultiplier < 0.8f) { // == 0.75f, but float calculations
-            return "High";
-        }
-        return "Max";
-    }
 }

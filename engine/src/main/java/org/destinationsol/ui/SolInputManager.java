@@ -26,11 +26,11 @@ import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.assets.audio.OggSoundManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -348,11 +348,11 @@ public class SolInputManager {
     }
 
     public void playHover(SolApplication solApplication) {
-        hoverSound.getOggSound().getSound().play(.7f * solApplication.getOptions().sfxVolumeMultiplier, .7f, 0);
+        hoverSound.getOggSound().getSound().play(.7f * solApplication.getOptions().sfxVolume.getVolume(), .7f, 0);
     }
 
     public void playClick(SolApplication solApplication) {
-        hoverSound.getOggSound().getSound().play(.7f * solApplication.getOptions().sfxVolumeMultiplier, .9f, 0);
+        hoverSound.getOggSound().getSound().play(.7f * solApplication.getOptions().sfxVolume.getVolume(), .9f, 0);
     }
 
     public SolUiScreen getTopScreen() {
