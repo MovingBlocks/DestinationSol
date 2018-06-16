@@ -32,7 +32,7 @@ public final class InitializationUtilities {
             return;
         }
         initialized = true;
-        DebugOptions.DEV_ROOT_PATH = "engine/src/main/resources/";
+        DebugOptions.DEV_ROOT_PATH = null; // TODO: change
         final LwjglApplication application = new LwjglApplication(new SolApplication());
         try {
             Thread.sleep(10000L); // Magic happens here. If too much tests fail for you, increase this number.
