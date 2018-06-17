@@ -54,6 +54,11 @@ distributions {
     }
 }
 
+tasks.withType(Tar){
+    compression = Compression.GZIP
+    extension = "tar.gz"
+}
+
 // TODO: LibGDX Generated config for Eclipse. Needs adjustment for assets not being in the Android facade
 eclipse {
     project {
