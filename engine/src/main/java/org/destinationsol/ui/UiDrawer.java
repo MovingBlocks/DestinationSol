@@ -32,11 +32,11 @@ public class UiDrawer {
 
     private static final float FONT_SIZE = .02f;
 
-    private final Matrix4 straightMtx;
+    private Matrix4 straightMtx;
     private final float uiLineWidth;
 
-    public final float r;
-    public final TextureRegion whiteTexture;
+    public float r;
+    public static final TextureRegion whiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
     public final Rectangle filler;
     private final CommonDrawer drawer;
     private Boolean isTextMode;
@@ -44,7 +44,6 @@ public class UiDrawer {
     public UiDrawer(CommonDrawer commonDrawer) {
         drawer = commonDrawer;
         r = drawer.dimensionsRatio;
-        whiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
         uiLineWidth = 1 / drawer.height;
         straightMtx = new Matrix4().setToOrtho2D(0, 1, drawer.dimensionsRatio, -1);
         drawer.setMatrix(straightMtx);
@@ -100,5 +99,10 @@ public class UiDrawer {
 
     public void setTextMode(Boolean textMode) {
         isTextMode = textMode;
+    }
+
+    public void resize() {
+        straightMtx = new Matrix4().setToOrtho2D(0, 1, drawer.dimensionsRatio, -1);
+        r = drawer.dimensionsRatio;
     }
 }

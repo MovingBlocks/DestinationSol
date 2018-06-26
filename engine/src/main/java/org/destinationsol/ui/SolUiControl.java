@@ -154,7 +154,7 @@ public class SolUiControl {
         this.displayName = displayName;
     }
 
-    public void drawButton(UiDrawer uiDrawer, SolApplication cmp, Color warnCol) {
+    public void drawButton(UiDrawer uiDrawer, Color warnCol) {
         if (screenArea == null) {
             return;
         }

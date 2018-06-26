@@ -20,6 +20,8 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import org.destinationsol.assets.audio.OggMusicManager;
+import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -28,19 +30,14 @@ import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
-import org.destinationsol.assets.audio.OggMusicManager;
-import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.menu.MenuScreens;
-import org.destinationsol.ui.DebugCollector;
-import org.destinationsol.ui.FontSize;
-import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolLayouts;
-import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Optional;
 
 public class SolApplication implements ApplicationListener {
     private static final Logger logger = LoggerFactory.getLogger(SolApplication.class);
@@ -53,6 +50,11 @@ public class SolApplication implements ApplicationListener {
     private SolInputManager inputManager;
 
     private UiDrawer uiDrawer;
+
+    public CommonDrawer getCommonDrawer() {
+        return commonDrawer;
+    }
+
     private MenuScreens menuScreens;
     private SolLayouts layouts;
     private GameOptions options;
@@ -103,6 +105,9 @@ public class SolApplication implements ApplicationListener {
 
     @Override
     public void resize(int newWidth, int newHeight) {
+        commonDrawer.resize(newWidth, newHeight);
+        uiDrawer.resize();
+        Optional.ofNullable(solGame).ifPresent(g -> g.getDrawableManager().resize());
     }
 
     public void render() {

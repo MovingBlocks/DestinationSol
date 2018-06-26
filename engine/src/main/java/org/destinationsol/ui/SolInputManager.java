@@ -90,9 +90,8 @@ public class SolInputManager {
 
     private static void setPointerPosition(InputPointer inputPointer, int screenX, int screenY) {
         int h = Gdx.graphics.getHeight();
-        float currentRatio = ((float) Gdx.graphics.getWidth()) / ((float) Gdx.graphics.getHeight());
 
-        inputPointer.x = 1f * screenX / h * (initialRatio / currentRatio);
+        inputPointer.x = 1f * screenX / h;
         inputPointer.y = 1f * screenY / h;
     }
 
@@ -312,7 +311,7 @@ public class SolInputManager {
             screen.drawBackground(uiDrawer, solApplication);
             List<SolUiControl> controls = screen.getControls();
             for (SolUiControl control : controls) {
-                control.drawButton(uiDrawer, solApplication, warnColor);
+                control.drawButton(uiDrawer, warnColor);
             }
             screen.drawImages(uiDrawer, solApplication);
 
