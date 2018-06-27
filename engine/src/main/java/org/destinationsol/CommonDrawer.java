@@ -18,6 +18,7 @@ package org.destinationsol;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,24 +26,31 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.ui.DimensionsRatio;
 import org.destinationsol.ui.UiDrawer;
 
 public class CommonDrawer {
-    public final float width;
-    public final float height;
-    public final float dimensionsRatio;
+    public DimensionsRatio dimensionsRatio;
+    public float width;
+    public float height;
+    public float r;
 
     private final SpriteBatch spriteBatch;
     private final BitmapFont font;
     private final float originalFontHeight;
     private final GlyphLayout layout;
+    public final OrthographicCamera orthographicCamera;
+    public final Viewport screenViewport;
 
-    CommonDrawer() {
+    CommonDrawer(DimensionsRatio dimensionsRatio) {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
-        dimensionsRatio = width / height;
+        this.dimensionsRatio = dimensionsRatio;
+        r = width / height;
         spriteBatch = new SpriteBatch();
 
         font = Assets.getFont("engine:main").getBitmapFont();
@@ -50,6 +58,9 @@ public class CommonDrawer {
         originalFontHeight = font.getXHeight();
 
         layout = new GlyphLayout();
+
+        orthographicCamera = new OrthographicCamera(1024, 768);
+        screenViewport = new ScreenViewport(orthographicCamera);
     }
 
     public void setMatrix(Matrix4 matrix) {
@@ -57,6 +68,8 @@ public class CommonDrawer {
     }
 
     public void begin() {
+        r = dimensionsRatio.getRatio();
+        orthographicCamera.update();
         spriteBatch.begin();
     }
 
@@ -101,6 +114,8 @@ public class CommonDrawer {
                      float rot, Color tint) {
         setTint(tint);
         spriteBatch.draw(tr, x - origX, y - origY, origX, origY, width, height, 1, 1, rot);
+//        setTint(Color.CYAN);
+//        spriteBatch.draw(UiDrawer.whiteTexture, 0, 0, 0.5f, 0.5f); // debug rectangle for render overhaul purpose
     }
 
     private void setTint(Color tint) {
@@ -153,5 +168,11 @@ public class CommonDrawer {
     public void setAdditive(boolean additive) {
         int dstFunc = additive ? GL20.GL_ONE : GL20.GL_ONE_MINUS_SRC_ALPHA;
         spriteBatch.setBlendFunction(GL20.GL_SRC_ALPHA, dstFunc);
+    }
+
+    public void resize(int newWidth, int newHeight) {
+        width = newWidth;
+        height = newHeight;
+        screenViewport.update(newWidth, newHeight, true);
     }
 }

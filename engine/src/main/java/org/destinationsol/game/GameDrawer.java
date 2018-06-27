@@ -25,7 +25,7 @@ import org.destinationsol.assets.Assets;
 
 public class GameDrawer {
 
-    public final float r;
+    public float r;
     public final TextureAtlas.AtlasRegion debugWhiteTexture;
     private final CommonDrawer myDrawer;
 
@@ -33,7 +33,7 @@ public class GameDrawer {
 
     public GameDrawer(CommonDrawer commonDrawer) {
         myDrawer = commonDrawer;
-        r = myDrawer.dimensionsRatio;
+        r = myDrawer.r;
         debugWhiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
     }
 
@@ -92,5 +92,9 @@ public class GameDrawer {
         }
         myCurrAdditive = additive;
         myDrawer.setAdditive(additive);
+    }
+
+    public void resize() {
+        r = myDrawer.r;
     }
 }
