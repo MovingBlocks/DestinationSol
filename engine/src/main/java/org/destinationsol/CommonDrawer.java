@@ -30,12 +30,14 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.ui.DimensionsRatio;
 import org.destinationsol.ui.UiDrawer;
 
 public class CommonDrawer {
+    public DimensionsRatio dimensionsRatio;
     public float width;
     public float height;
-    public float dimensionsRatio;
+    public float r;
 
     private final SpriteBatch spriteBatch;
     private final BitmapFont font;
@@ -44,10 +46,11 @@ public class CommonDrawer {
     public final OrthographicCamera orthographicCamera;
     public final Viewport screenViewport;
 
-    CommonDrawer() {
+    CommonDrawer(DimensionsRatio dimensionsRatio) {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
-        dimensionsRatio = width / height;
+        this.dimensionsRatio = dimensionsRatio;
+        r = width / height;
         spriteBatch = new SpriteBatch();
 
         font = Assets.getFont("engine:main").getBitmapFont();
@@ -65,6 +68,7 @@ public class CommonDrawer {
     }
 
     public void begin() {
+        r = dimensionsRatio.getRatio();
         orthographicCamera.update();
         spriteBatch.begin();
     }
@@ -170,6 +174,5 @@ public class CommonDrawer {
         width = newWidth;
         height = newHeight;
         screenViewport.update(newWidth, newHeight, true);
-        dimensionsRatio = (float) newWidth / (float) newHeight;
     }
 }

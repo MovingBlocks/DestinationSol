@@ -43,9 +43,9 @@ public class UiDrawer {
 
     public UiDrawer(CommonDrawer commonDrawer) {
         drawer = commonDrawer;
-        r = drawer.dimensionsRatio;
+        r = drawer.r;
         uiLineWidth = 1 / drawer.height;
-        straightMtx = new Matrix4().setToOrtho2D(0, 1, drawer.dimensionsRatio, -1);
+        straightMtx = new Matrix4().setToOrtho2D(0, 1, drawer.r, -1);
         drawer.setMatrix(straightMtx);
         filler = new Rectangle(0, 0, r, 1);
     }
@@ -102,7 +102,7 @@ public class UiDrawer {
     }
 
     public void resize() {
-        straightMtx = new Matrix4().setToOrtho2D(0, 1, drawer.dimensionsRatio, -1);
-        r = drawer.dimensionsRatio;
+        straightMtx = new Matrix4().setToOrtho2D(0, 1, drawer.r, -1);
+        r = drawer.r;
     }
 }

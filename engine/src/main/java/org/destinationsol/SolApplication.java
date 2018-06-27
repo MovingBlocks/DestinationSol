@@ -51,10 +51,6 @@ public class SolApplication implements ApplicationListener {
 
     private UiDrawer uiDrawer;
 
-    public CommonDrawer getCommonDrawer() {
-        return commonDrawer;
-    }
-
     private MenuScreens menuScreens;
     private SolLayouts layouts;
     private GameOptions options;
@@ -63,6 +59,7 @@ public class SolApplication implements ApplicationListener {
     private String fatalErrorTrace;
     private SolGame solGame;
     private Context context;
+    private DimensionsRatio ratio;
 
     public static final String WORLD_SAVE_FILE_NAME = "world.ini";
 
@@ -95,7 +92,8 @@ public class SolApplication implements ApplicationListener {
 
         musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
 
-        commonDrawer = new CommonDrawer();
+        ratio = new DimensionsRatio();
+        commonDrawer = new CommonDrawer(ratio);
         uiDrawer = new UiDrawer(commonDrawer);
         layouts = new SolLayouts(uiDrawer.r);
         menuScreens = new MenuScreens(layouts, isMobile(), uiDrawer.r, options);
@@ -105,6 +103,7 @@ public class SolApplication implements ApplicationListener {
 
     @Override
     public void resize(int newWidth, int newHeight) {
+        ratio.setRatio(((float) newWidth) / ((float) newHeight));
         commonDrawer.resize(newWidth, newHeight);
         uiDrawer.resize();
         Optional.ofNullable(solGame).ifPresent(g -> g.getDrawableManager().resize());

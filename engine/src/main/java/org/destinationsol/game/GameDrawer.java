@@ -33,7 +33,7 @@ public class GameDrawer {
 
     public GameDrawer(CommonDrawer commonDrawer) {
         myDrawer = commonDrawer;
-        r = myDrawer.dimensionsRatio;
+        r = myDrawer.r;
         debugWhiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
     }
 
@@ -95,6 +95,6 @@ public class GameDrawer {
     }
 
     public void resize() {
-        r = myDrawer.dimensionsRatio;
+        r = myDrawer.r;
     }
 }
