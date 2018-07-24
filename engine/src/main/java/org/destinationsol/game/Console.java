@@ -69,9 +69,19 @@ public class Console implements SolUiScreen {
     /**
      * Width of the gap between outer, inner and text area frames.
      *
-     * See laso {@link #MAX_WIDTH_OF_LINE}
+     * See also {@link #MAX_WIDTH_OF_LINE}
      */
     private static final float FRAME_WIDTH = 0.02f;
+
+    /**
+     * "Line number" of the input line.
+     */
+    private static final float INPUT_LINE_Y = 20.666f;
+
+    /**
+     * "Line number" of the input line separator.
+     */
+    private static final float INPUT_LINE_SEPARATOR_Y = 20.333f;
 
     private static Console instance;
 
@@ -191,7 +201,9 @@ public class Console implements SolUiScreen {
                 return;
             }
             if (c == '\b') {
-                inputLine.deleteCharAt(inputLine.length() - 1);
+                if (inputLine.length() != 0) {
+                    inputLine.deleteCharAt(inputLine.length() - 1);
+                }
                 return;
             }
             inputLine.append(c);
@@ -237,7 +249,7 @@ public class Console implements SolUiScreen {
      */
     private void drawTextEntrySeparator(UiDrawer uiDrawer) {
         // 20.333f - magic constant, change is console is ever resized
-        uiDrawer.drawLine(TOP_LEFT.x + 2 * FRAME_WIDTH, getLineY(20.333f), 0, (BOTTOM_RIGHT.x - TOP_LEFT.x) - 4 * FRAME_WIDTH, Color.WHITE);
+        uiDrawer.drawLine(TOP_LEFT.x + 2 * FRAME_WIDTH, getLineY(INPUT_LINE_SEPARATOR_Y), 0, (BOTTOM_RIGHT.x - TOP_LEFT.x) - 4 * FRAME_WIDTH, Color.WHITE);
     }
 
     /**
@@ -279,19 +291,20 @@ public class Console implements SolUiScreen {
         StringBuilder stringBuilder = new StringBuilder();
         int width = 0;
         for (char c : inputLine.reverse().toString().toCharArray()) {
-            //TODO better unicode handling (non-ascii chars throw NPE in BitmapFont)
-            try {
-                width += (c == ' ' ? 3 : 1) * font.getData().getGlyph(c).width;
+            final BitmapFont.Glyph glyph = font.getData().getGlyph(c);
+            if (glyph != null) {
+                width += (c == ' ' ? 3 : 1) * glyph.width;
                 if (width > MAX_WIDTH_OF_LINE) {
                     break;
                 }
                 stringBuilder.append(c);
-            } catch (NullPointerException e) {
-                inputLine.deleteCharAt(0); // when there is character that can't be handled by font, it'll always be the last (first in reversed), since if it was anywhere elsewhere, it'd already be removed earlier.
+            }
+            else {
+                inputLine.deleteCharAt(0);
             }
         }
         // 20.666f - magic constant, change if console is ever resized.
-        uiDrawer.drawString(stringBuilder.reverse().toString(), textX, getLineY(20.666f), 0.5f, UiDrawer.TextAlignment.LEFT, false, Color.WHITE);
+        uiDrawer.drawString(stringBuilder.reverse().toString(), textX, getLineY(INPUT_LINE_Y), 0.5f, UiDrawer.TextAlignment.LEFT, false, Color.WHITE);
         inputLine.reverse();
     }
 
