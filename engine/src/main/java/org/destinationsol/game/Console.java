@@ -289,7 +289,10 @@ public class Console implements SolUiScreen {
      */
     private void drawInputLine(UiDrawer uiDrawer, float textX) {
         StringBuilder stringBuilder = new StringBuilder();
-        int width = 0;
+        if (System.currentTimeMillis() % 2000 > 1000) {
+            stringBuilder.append('_');
+        }
+        int width = font.getData().getGlyph('_').width;
         for (char c : inputLine.reverse().toString().toCharArray()) {
             final BitmapFont.Glyph glyph = font.getData().getGlyph(c);
             if (glyph != null) {
