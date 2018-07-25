@@ -16,6 +16,7 @@
 package org.destinationsol.ui;
 
 import com.badlogic.gdx.InputProcessor;
+import org.destinationsol.game.Console;
 
 public class SolInputProcessor implements InputProcessor {
 
@@ -38,6 +39,7 @@ public class SolInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
+        Console.getInstance().registerCharEntered(character);
         return false;
     }
 
