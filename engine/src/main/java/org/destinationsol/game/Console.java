@@ -168,7 +168,7 @@ public class Console implements SolUiScreen {
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         if (exitControl.isJustOff()) {
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().mainScreen);
+            solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().mainGameScreen);
         }
     }
 
@@ -301,8 +301,7 @@ public class Console implements SolUiScreen {
                     break;
                 }
                 stringBuilder.append(c);
-            }
-            else {
+            } else {
                 inputLine.deleteCharAt(0);
             }
         }
