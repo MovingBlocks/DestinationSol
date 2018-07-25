@@ -27,7 +27,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.screens.MainScreen;
 
-public class SolCam {
+public class SolCam implements UpdateAwareSystem {
     public static final float CAM_ROT_SPD = 90f;
     private static final float VIEWPORT_HEIGHT = 5f;
     private static final float MAX_ZOOM_SPD = 5f;
@@ -59,10 +59,14 @@ public class SolCam {
         return myCam.combined;
     }
 
-    public void update(SolGame game) {
+    @Override
+    public void update(SolGame game, float timeStep) {
+        if (game.isPaused()) {
+            updateMapZoom(game, timeStep);
+            return;
+        }
 
         Hero hero = game.getHero();
-        float ts = game.getTimeStep();
         float life = hero.getLife();
         if (hero.isDead() || DIRECT_CAM_CONTROL) {
             applyInput(game);
@@ -73,10 +77,10 @@ public class SolCam {
                 game.getObjectManager().resetDelays();
             } else {
                 Vector2 moveDiff = SolMath.getVec(hero.getSpeed());
-                moveDiff.scl(ts);
+                moveDiff.scl(timeStep);
                 position.add(moveDiff);
                 SolMath.free(moveDiff);
-                float moveSpeed = MOVE_SPD * ts;
+                float moveSpeed = MOVE_SPD * timeStep;
                 position.x = SolMath.approach(position.x, heroPos.x, moveSpeed);
                 position.y = SolMath.approach(position.y, heroPos.y, moveSpeed);
             }
@@ -86,7 +90,7 @@ public class SolCam {
             float shakeDiff = .1f * MAX_SHAKE * (myPrevHeroLife - life);
             myShake = SolMath.approach(myShake, MAX_SHAKE, shakeDiff);
         } else {
-            myShake = SolMath.approach(myShake, 0, SHAKE_DAMP * ts);
+            myShake = SolMath.approach(myShake, 0, SHAKE_DAMP * timeStep);
         }
         myPrevHeroLife = life;
 
@@ -96,18 +100,17 @@ public class SolCam {
         SolMath.free(position);
 
         float desiredAngle = myCamRotStrategy.getRotation(this.position, game);
-        float rotationSpeed = CAM_ROT_SPD * ts;
+        float rotationSpeed = CAM_ROT_SPD * timeStep;
         myAngle = SolMath.approachAngle(myAngle, desiredAngle, rotationSpeed);
         applyAngle();
 
-        updateMap(game);
+        updateMapZoom(game, timeStep);
     }
 
-    public void updateMap(SolGame game) {
-        float ts = game.getTimeStep();
+    private void updateMapZoom(SolGame game, float timeStep) {
         float desiredViewDistance = getDesiredViewDistance(game);
         float desiredZoom = calcZoom(desiredViewDistance);
-        myZoom = SolMath.approach(myZoom, desiredZoom, ZOOM_CHG_SPD * ts);
+        myZoom = SolMath.approach(myZoom, desiredZoom, ZOOM_CHG_SPD * timeStep);
         applyZoom(game.getMapDrawer());
         myCam.update();
     }
