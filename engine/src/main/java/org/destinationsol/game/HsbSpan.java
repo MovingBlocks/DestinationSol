@@ -16,8 +16,8 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import org.destinationsol.common.SolColorUtil;
-import org.destinationsol.common.SolMath;
 
 public class HsbSpan extends ColorSpan {
     private final float[] myHsbaStart;
@@ -30,7 +30,7 @@ public class HsbSpan extends ColorSpan {
 
     @Override
     public void set(float perc, Color col) {
-        perc = SolMath.clamp(perc, 0, 1);
+        perc = MathUtils.clamp(perc, (float) 0, (float) 1);
         float hue = midVal(0, perc);
         float sat = midVal(1, perc);
         float br = midVal(2, perc);

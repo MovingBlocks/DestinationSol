@@ -16,6 +16,7 @@
 package org.destinationsol.game.asteroid;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -24,7 +25,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
-import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.RemoveController;
@@ -51,7 +51,7 @@ public class AsteroidBuilder {
     public static Body buildBall(SolGame game, Vector2 position, float angle, float rad, float density, boolean sensor) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.angle = angle * SolMath.degRad;
+        bodyDef.angle = angle * MathUtils.degRad;
         bodyDef.angularDamping = 0;
         bodyDef.position.set(position);
         bodyDef.linearDamping = 0;
