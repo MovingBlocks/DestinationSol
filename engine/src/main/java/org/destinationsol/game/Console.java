@@ -30,6 +30,7 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -139,6 +140,7 @@ public class Console implements SolUiScreen {
      */
     public void println(String s) {
         try {
+            LoggerFactory.getLogger(this.getClass()).debug(s);
             int width = 0;
             StringBuilder currentLine = new StringBuilder();
             for (char c : s.toCharArray()) {
@@ -167,6 +169,7 @@ public class Console implements SolUiScreen {
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+        inputHandler.update(this);
         if (exitControl.isJustOff()) {
             solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().mainGameScreen);
         }
