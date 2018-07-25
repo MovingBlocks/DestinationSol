@@ -17,6 +17,7 @@
 package org.destinationsol.game.maze;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -24,7 +25,6 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolColor;
-import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.FarObject;
 import org.destinationsol.game.SolGame;
@@ -200,7 +200,7 @@ public class MazeTileObject implements SolObject {
             BodyDef def = new BodyDef();
             def.type = BodyDef.BodyType.KinematicBody;
             def.position.set(position);
-            def.angle = angle * SolMath.degRad;
+            def.angle = angle * MathUtils.degRad;
             def.angularDamping = 0;
             Body body = game.getObjectManager().getWorld().createBody(def);
 
