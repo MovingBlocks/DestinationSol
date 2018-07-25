@@ -41,7 +41,7 @@ import org.destinationsol.ui.UiDrawer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapDrawer {
+public class MapDrawer implements UpdateAwareSystem{
     public static final float MIN_ZOOM = 8f;
     private static final float MUL_FACTOR = 2f;
     public static final float MAX_ZOOM = 512f;
@@ -418,12 +418,13 @@ public class MapDrawer {
         return zoom;
     }
 
-    public void update(SolGame game) {
-        skullTime += game.getTimeStep();
+    @Override
+    public void update(SolGame game, float timeStep) {
+        skullTime += timeStep;
         if (skullTime > MAX_SKULL_TIME) {
             skullTime = -MAX_SKULL_TIME;
         }
-        areaSkullTime += game.getTimeStep();
+        areaSkullTime += timeStep;
         if (areaSkullTime > MAX_AREA_SKULL_TIME) {
             areaSkullTime = 0;
         }

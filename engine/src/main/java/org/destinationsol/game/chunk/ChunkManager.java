@@ -21,11 +21,12 @@ import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.UpdateAwareSystem;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class ChunkManager {
+public class ChunkManager implements UpdateAwareSystem {
     private static final int MAX_FILL_DIST = 1;
     private static final int MIN_REMOVE_DIST = MAX_FILL_DIST + 2;
     private static final int MAX_BG_FILL_DIST = 2;
@@ -48,7 +49,8 @@ public class ChunkManager {
         filler = new ChunkFiller();
     }
 
-    public void update(SolGame game) {
+    @Override
+    public void update(SolGame game, float timeStep) {
         Vector2 camPos = game.getCam().getPosition();
         boolean refill = updateCurrChunk(camPos);
         if (refill) {
