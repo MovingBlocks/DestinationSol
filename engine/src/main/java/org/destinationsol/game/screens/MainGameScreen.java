@@ -50,7 +50,7 @@ import org.destinationsol.ui.UiDrawer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainScreen implements SolUiScreen {
+public class MainGameScreen implements SolUiScreen {
     // TODO: Rename!
     private static final float ICON_SZ = .03f;
     private static final float BAR_SZ = ICON_SZ * 5;
@@ -95,7 +95,7 @@ public class MainScreen implements SolUiScreen {
     private final TextPlace myMoneyExcessTp;
     private final SolApplication solApplication;
 
-    public MainScreen(float resolutionRatio, RightPaneLayout rightPaneLayout, Context context) {
+    public MainGameScreen(float resolutionRatio, RightPaneLayout rightPaneLayout, Context context) {
         solApplication = context.get(SolApplication.class);
         GameOptions gameOptions = solApplication.getOptions();
 
@@ -116,7 +116,7 @@ public class MainScreen implements SolUiScreen {
         }
 
         boolean mobile = solApplication.isMobile();
-        float lastCol = resolutionRatio - MainScreen.CELL_SZ;
+        float lastCol = resolutionRatio - MainGameScreen.CELL_SZ;
         Rectangle menuArea = mobile ? btn(0, HELPER_ROW_2, true) : rightPaneLayout.buttonRect(0);
         menuControl = new SolUiControl(menuArea, true, gameOptions.getKeyMenu());
         menuControl.setDisplayName("Menu");
@@ -256,7 +256,7 @@ public class MainScreen implements SolUiScreen {
         if (inventoryControl.isJustOff()) {
             InventoryScreen is = screens.inventoryScreen;
             boolean isOn = inputMan.isScreenOn(is);
-            inputMan.setScreen(solApplication, screens.mainScreen);
+            inputMan.setScreen(solApplication, screens.mainGameScreen);
             if (!isOn) {
                 is.showInventory.setTarget(hero.getShip());
                 is.setOperations(is.showInventory);
@@ -273,7 +273,7 @@ public class MainScreen implements SolUiScreen {
         if (mercControl.isJustOff()) {
             InventoryScreen is = screens.inventoryScreen;
             boolean isOn = inputMan.isScreenOn(is);
-            inputMan.setScreen(solApplication, screens.mainScreen);
+            inputMan.setScreen(solApplication, screens.mainGameScreen);
             if (!isOn) {
                 is.setOperations(is.chooseMercenary);
                 inputMan.addScreen(solApplication, is);

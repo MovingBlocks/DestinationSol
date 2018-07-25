@@ -139,10 +139,6 @@ public class InputMapMixedScreen implements InputMapOperations {
         return controls;
     }
 
-    @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-    }
-
     /**
      * Remove key if it is already assigned to prevent duplicate keys
      *
@@ -157,36 +153,10 @@ public class InputMapMixedScreen implements InputMapOperations {
     }
 
     @Override
-    public void drawBackground(UiDrawer uiDrawer, SolApplication cmp) {
-    }
-
-    @Override
-    public void drawImages(UiDrawer uiDrawer, SolApplication cmp) {
-    }
-
-    @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-    }
-
-    @Override
-    public boolean reactsToClickOutside() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
-        return false;
-    }
-
-    @Override
     public void onAdd(SolApplication cmp) {
         InitialiseList(cmp.getOptions());
         isEnterNewKey = false;
         selectedIndex = 0;
-    }
-
-    @Override
-    public void blurCustom(SolApplication cmp) {
     }
 
     @Override

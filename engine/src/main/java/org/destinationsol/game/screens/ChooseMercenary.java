@@ -49,19 +49,19 @@ public class ChooseMercenary implements InventoryOperations {
 
         if (giveControl.isJustOff() && selNull) {
             SolShip solship = ((MercItem) selItem).getSolShip();
-            inputMan.setScreen(solApplication, screens.mainScreen);
+            inputMan.setScreen(solApplication, screens.mainGameScreen);
             is.giveItems.setTarget(solship);
             is.setOperations(is.giveItems);
             inputMan.addScreen(solApplication, is);
         } else if (takeControl.isJustOff() && selNull) {
             SolShip solship = ((MercItem) selItem).getSolShip();
-            inputMan.setScreen(solApplication, screens.mainScreen);
+            inputMan.setScreen(solApplication, screens.mainGameScreen);
             is.takeItems.setTarget(solship);
             is.setOperations(is.takeItems);
             inputMan.addScreen(solApplication, is);
         } else if (equipControl.isJustOff() && selNull) {
             SolShip solship = ((MercItem) selItem).getSolShip();
-            inputMan.setScreen(solApplication, screens.mainScreen);
+            inputMan.setScreen(solApplication, screens.mainGameScreen);
             is.showInventory.setTarget(solship);
             is.setOperations(is.showInventory);
             inputMan.addScreen(solApplication, is);
