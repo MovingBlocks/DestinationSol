@@ -30,7 +30,7 @@ public class UiDrawer {
         RIGHT
     }
 
-    private static final float FONT_SIZE = .02f;
+    public static final float FONT_SIZE = .02f;
 
     private final Matrix4 straightMtx;
     private final float uiLineWidth;
@@ -39,6 +39,7 @@ public class UiDrawer {
     public final TextureRegion whiteTexture;
     public final Rectangle filler;
     private final CommonDrawer drawer;
+    //TODO WTF is `isTextMode` for? discuss and potentially (=probably) remove
     private Boolean isTextMode;
 
     public UiDrawer(CommonDrawer commonDrawer) {
