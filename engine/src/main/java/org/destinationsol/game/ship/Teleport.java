@@ -17,6 +17,7 @@
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.JsonValue;
@@ -104,7 +105,7 @@ public class Teleport implements ShipAbility {
         SolMath.rotate(newSpeed, angle);
 
         Body body = owner.getHull().getBody();
-        body.setTransform(newPos, newAngle * SolMath.degRad);
+        body.setTransform(newPos, newAngle * MathUtils.degRad);
         body.setLinearVelocity(newSpeed);
 
         SolMath.free(newSpeed);

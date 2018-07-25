@@ -84,7 +84,7 @@ public class Planet {
     }
 
     private void setSecondaryParams() {
-        SolMath.fromAl(position, angleInSystem, distance, true);
+        SolMath.fromAl(position, angleInSystem, distance);
         position.add(system.getPosition());
         float speedLen = SolMath.angleToArc(rotationSpeedInSystem, distance);
         float speedAngle = angleInSystem + 90;

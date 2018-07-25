@@ -16,6 +16,7 @@
 
 package org.destinationsol.game.item;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.common.SolMath;
@@ -101,7 +102,7 @@ public class Loot implements SolObject {
 
     private void setParamsFromBody() {
         position.set(body.getPosition());
-        angle = body.getAngle() * SolMath.radDeg;
+        angle = body.getAngle() * MathUtils.radDeg;
     }
 
     @Override

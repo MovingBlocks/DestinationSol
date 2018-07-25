@@ -15,9 +15,9 @@
  */
 package org.destinationsol.game;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import org.destinationsol.common.SolMath;
 import org.destinationsol.game.drawables.Drawable;
 
 import java.util.ArrayList;
@@ -87,7 +87,7 @@ public class Shard implements SolObject {
 
     private void setParamsFromBody() {
         position.set(body.getPosition());
-        angle = body.getAngle() * SolMath.radDeg;
+        angle = body.getAngle() * MathUtils.radDeg;
     }
 
     @Override
