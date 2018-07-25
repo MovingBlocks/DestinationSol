@@ -29,6 +29,7 @@ import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolNames;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.maze.Maze;
 import org.destinationsol.game.maze.MazeConfigs;
@@ -39,7 +40,7 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlanetManager {
+public class PlanetManager implements UpdateAwareSystem {
 
     private final ArrayList<SolSystem> systems;
     private final ArrayList<Planet> planets;
@@ -72,10 +73,11 @@ public class PlanetManager {
         new SystemsBuilder().build(systems, planets, belts, planetConfigs, mazeConfigs, mazes, sysConfigs, names);
     }
 
-    public void update(SolGame game) {
+    @Override
+    public void update(SolGame game, float timeStep) {
         Vector2 camPos = game.getCam().getPosition();
         for (Planet planet : planets) {
-            planet.update(game);
+            planet.update(game, timeStep);
         }
         for (Maze maze : mazes) {
             maze.update(game);
