@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ public interface CamRotStrategy {
 
         public float getRotation(Vector2 position, SolGame game) {
             Planet np = game.getPlanetManager().getNearestPlanet();
-            if(np == null){
+            if (np == null) {
                 return 0;
             }
             float fh = np.getFullHeight();
