@@ -23,6 +23,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.JsonValue;
 import com.google.common.base.Preconditions;
+import org.destinationsol.assets.audio.OggSoundSet;
 import org.destinationsol.common.NotNull;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -34,7 +35,6 @@ import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.SolShip;
-import org.destinationsol.assets.audio.OggSoundSet;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -20,6 +20,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSound;
+import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
@@ -27,7 +28,6 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.ship.SolShip;
-import org.destinationsol.assets.audio.OggSoundManager;
 
 public class Shield implements SolItem {
     public static final float SIZE_PERC = .7f;

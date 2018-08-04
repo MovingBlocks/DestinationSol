@@ -34,9 +34,9 @@ import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.item.Shield;
+import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSource;
-import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.SolShip;
 
 import java.util.ArrayList;

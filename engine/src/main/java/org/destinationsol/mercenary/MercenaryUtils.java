@@ -1,5 +1,6 @@
 package org.destinationsol.mercenary;
 
+import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -13,8 +14,6 @@ import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
-
-import com.badlogic.gdx.math.Vector2;
 
 public class MercenaryUtils {
     /**
