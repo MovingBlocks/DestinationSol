@@ -1,9 +1,9 @@
 package org.destinationsol.common;
 
+import com.badlogic.gdx.Gdx;
+
 import java.util.List;
 import java.util.Random;
-
-import com.badlogic.gdx.Gdx;
 
 public class SolRandom {
     // Seeded random is for deterministic processes
