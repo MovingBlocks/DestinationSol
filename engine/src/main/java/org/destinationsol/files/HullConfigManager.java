@@ -33,8 +33,8 @@ import org.destinationsol.game.ship.UnShield;
 import org.destinationsol.game.ship.hulls.GunSlot;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

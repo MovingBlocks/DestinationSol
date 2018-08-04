@@ -15,12 +15,8 @@
  */
 package org.destinationsol.assets;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.assets.audio.OggMusic;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.emitters.Emitter;
@@ -32,8 +28,11 @@ import org.slf4j.LoggerFactory;
 import org.terasology.assets.ResourceUrn;
 import org.terasology.module.ModuleEnvironment;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import static java.lang.System.exit;
 
