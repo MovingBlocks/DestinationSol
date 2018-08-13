@@ -17,7 +17,6 @@ package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
@@ -52,8 +51,8 @@ public class SunSingleton {
         float toCamLen = toCam.len();
         if (toCamLen < Const.SUN_RADIUS) {
             float closeness = 1 - toCamLen / Const.SUN_RADIUS;
-            gradatingTint.a = MathUtils.clamp(closeness * 4, (float) 0, (float) 1);
-            fillTint.a = MathUtils.clamp((closeness - .25f) * 4, (float) 0, (float) 1);
+            gradatingTint.a = SolMath.clamp(closeness * 4, 0, 1);
+            fillTint.a = SolMath.clamp((closeness - .25f) * 4, 0, 1);
 
             float sz = 2 * game.getCam().getViewDistance();
             float gradAngle = SolMath.angle(toCam) + 90;

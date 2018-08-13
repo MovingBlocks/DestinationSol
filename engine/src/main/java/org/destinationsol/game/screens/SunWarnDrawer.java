@@ -19,11 +19,12 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.ui.DisplayDimensions;
 
 public class SunWarnDrawer extends WarnDrawer {
 
-    SunWarnDrawer(float r) {
-        super(r, "Sun Near");
+    SunWarnDrawer() {
+        super("Sun Near");
     }
 
     public boolean shouldWarn(SolGame game) {

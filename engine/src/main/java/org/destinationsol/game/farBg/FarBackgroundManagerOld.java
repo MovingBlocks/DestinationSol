@@ -18,12 +18,12 @@ package org.destinationsol.game.farBg;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolColorUtil;
+import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolCam;
@@ -57,7 +57,7 @@ public class FarBackgroundManagerOld {
         Planet np = game.getPlanetManager().getNearestPlanet();
         Vector2 camPos = cam.getPosition();
         float nebPercentage = (camPos.dst(np.getPosition()) - np.getGroundHeight()) / (4 * Const.ATM_HEIGHT);
-        nebPercentage = MathUtils.clamp(nebPercentage, (float) 0, (float) 1);
+        nebPercentage = SolMath.clamp(nebPercentage, 0, 1);
         nebulaTint.a = nebPercentage;
 
         float vd = cam.getViewDistance();

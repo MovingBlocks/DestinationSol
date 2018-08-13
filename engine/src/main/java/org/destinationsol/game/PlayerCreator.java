@@ -156,7 +156,7 @@ class PlayerCreator {
         if (isMouseControl) {
             return new AiPilot(new BeaconDestProvider(), true, Faction.LAANI, false, "you", Const.AI_DET_DIST);
         } else {
-            return new UiControlledPilot(game.getScreens().mainGameScreen);
+            return new UiControlledPilot(game.getScreens().mainScreen);
         }
     }
 

@@ -28,7 +28,6 @@ import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.sound.DebugHintDrawer;
@@ -55,7 +54,7 @@ import java.util.Map;
  * sound will be accepted only when loopTime time units has passed since the beginning of the sound's prior playback, or
  * the request is from different object.
  */
-public class OggSoundManager implements UpdateAwareSystem {
+public class OggSoundManager {
     /**
      * A container for all the sounds that have been so far loaded in the game. Sounds are loaded on as needed basis,
      * and once loaded, they persist here till the end of game. String is the fully qualified name of the sound
@@ -76,7 +75,7 @@ public class OggSoundManager implements UpdateAwareSystem {
     private final DebugHintDrawer debugHintDrawer;
 
     /**
-     * This is used only in {@link #update(SolGame, float)}, and is used for ensuring some more resource expensive operations
+     * This is used only in {@link #update(SolGame)}, and is used for ensuring some more resource expensive operations
      * happen only once in a while. This variable functions as millisecond countdown, with {@code <= 0} values meaning
      * "Do the operations now".
      */
@@ -275,13 +274,12 @@ public class OggSoundManager implements UpdateAwareSystem {
      *
      * @param game Game currently in progress.
      */
-    @Override
-    public void update(SolGame game, float timeStep) {
+    public void update(SolGame game) {
         if (DebugOptions.SOUND_INFO) {
             debugHintDrawer.update(game);
         }
 
-        myLoopAwait -= timeStep;
+        myLoopAwait -= game.getTimeStep();
         if (myLoopAwait <= 0) {
             myLoopAwait = 30;
             cleanLooped(game);

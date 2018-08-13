@@ -16,10 +16,11 @@
 package org.destinationsol.menu;
 
 import org.destinationsol.GameOptions;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolLayouts;
 
 public class MenuScreens {
-    public final MainMenuScreen main;
+    public final MainScreen main;
     public final OptionsScreen options;
     public final InputMapScreen inputMapScreen;
     public final ResolutionScreen resolutionScreen;
@@ -28,13 +29,13 @@ public class MenuScreens {
     public final NewGameScreen newGame;
     public final NewShipScreen newShip;
 
-    public MenuScreens(SolLayouts layouts, boolean mobile, float resolutionRatio, GameOptions gameOptions) {
+    public MenuScreens(SolLayouts layouts, boolean mobile, GameOptions gameOptions) {
         MenuLayout menuLayout = layouts.menuLayout;
-        main = new MainMenuScreen(menuLayout, mobile, resolutionRatio, gameOptions);
+        main = new MainScreen(menuLayout, mobile, gameOptions);
         options = new OptionsScreen(menuLayout, gameOptions);
-        inputMapScreen = new InputMapScreen(resolutionRatio, gameOptions);
+        inputMapScreen = new InputMapScreen(gameOptions);
         resolutionScreen = new ResolutionScreen(menuLayout, gameOptions);
-        credits = new CreditsScreen(resolutionRatio, gameOptions);
+        credits = new CreditsScreen(gameOptions);
         loading = new LoadingScreen();
         newGame = new NewGameScreen(menuLayout, gameOptions);
         newShip = new NewShipScreen(menuLayout, gameOptions);

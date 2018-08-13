@@ -17,10 +17,11 @@ package org.destinationsol.game.screens;
 
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.ui.DisplayDimensions;
 
 public class DmgWarnDrawer extends WarnDrawer {
-    DmgWarnDrawer(float r) {
-        super(r, "Heavily Damaged");
+    DmgWarnDrawer() {
+        super("Heavily Damaged");
     }
 
     @Override

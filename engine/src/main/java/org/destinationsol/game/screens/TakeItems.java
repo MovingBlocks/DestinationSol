@@ -29,9 +29,8 @@ import org.destinationsol.ui.SolUiControl;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TakeItems implements InventoryOperations {
+public class TakeItems extends InventoryOperationsScreen {
     public final SolUiControl takeControl;
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private SolShip target;
 
     TakeItems(InventoryScreen inventoryScreen, GameOptions gameOptions) {
@@ -48,11 +47,6 @@ public class TakeItems implements InventoryOperations {
     @Override
     public String getHeader() {
         return "Take:";
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
     }
 
     @Override

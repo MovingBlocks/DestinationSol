@@ -24,8 +24,10 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
@@ -37,7 +39,7 @@ import java.util.List;
  * <h1>Config Screen to Change Input Mapping</h1>
  * The input mapping screen is based on the inventory screen used within the game.
  */
-public class InputMapScreen implements SolUiScreen {
+public class InputMapScreen extends SolUiBaseScreen {
     private static final float IMG_COL_PERC = .1f;
     private static final float EQUI_COL_PERC = .1f;
     private static final float PRICE_COL_PERC = .1f;
@@ -49,7 +51,6 @@ public class InputMapScreen implements SolUiScreen {
     final InputMapControllerScreen inputMapControllerScreen;
     final InputMapMixedScreen inputMapMixedScreen;
     private final TextureAtlas.AtlasRegion backgroundTexture;
-    private final List<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl[] itemControls;
     private final SolUiControl previousControl;
     private final SolUiControl nextControl;
@@ -59,6 +60,8 @@ public class InputMapScreen implements SolUiScreen {
     private final SolUiControl upControl;
     private final SolUiControl downControl;
 
+    private DisplayDimensions displayDimensions;
+
     private final Vector2 listHeaderPos;
     private final Rectangle listArea;
     private final Rectangle detailsArea;
@@ -67,9 +70,11 @@ public class InputMapScreen implements SolUiScreen {
     private int page;
     private int selectedIndex;
 
-    InputMapScreen(float resolutionRatio, GameOptions gameOptions) {
+    InputMapScreen(GameOptions gameOptions) {
+        displayDimensions = SolApplication.displayDimensions;
+
         float contentW = .8f;
-        float col0 = resolutionRatio / 2 - contentW / 2;
+        float col0 = displayDimensions.getRatio() / 2 - contentW / 2;
         float row = 0.2f;
         float bigGap = SMALL_GAP * 6;
         float headerH = .03f;
@@ -127,16 +132,11 @@ public class InputMapScreen implements SolUiScreen {
         controls.add(downControl);
 
         // Create the input screens
-        inputMapKeyboardScreen = new InputMapKeyboardScreen(this, gameOptions);
+        inputMapKeyboardScreen = new InputMapKeyboardScreen();
         inputMapControllerScreen = new InputMapControllerScreen();
         inputMapMixedScreen = new InputMapMixedScreen();
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
     }
 
     @Override
@@ -251,7 +251,12 @@ public class InputMapScreen implements SolUiScreen {
     }
 
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(backgroundTexture, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+        uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
+    }
+
+    @Override
+    public void drawImages(UiDrawer uiDrawer, SolApplication solApplication) {
+
     }
 
     @Override
@@ -291,6 +296,16 @@ public class InputMapScreen implements SolUiScreen {
     }
 
     @Override
+    public boolean reactsToClickOutside() {
+        return false;
+    }
+
+    @Override
+    public boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
+        return false;
+    }
+
+    @Override
     public void onAdd(SolApplication solApplication) {
         // Add any extra screen information as required by the input screens. E.g. buttons
         if (operations != null) {
@@ -299,6 +314,10 @@ public class InputMapScreen implements SolUiScreen {
 
         page = 0;
         selectedIndex = 0;
+    }
+
+    @Override
+    public void blurCustom(SolApplication cmp) {
     }
 
     private Rectangle itemControlRectangle(int row) {

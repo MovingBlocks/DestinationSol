@@ -17,7 +17,6 @@
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -116,7 +115,7 @@ public class SolShip implements SolObject {
 
     @Override
     public FarShip toFarObject() {
-        float rotationSpeed = myHull.getBody().getAngularVelocity() * MathUtils.radDeg;
+        float rotationSpeed = myHull.getBody().getAngularVelocity() * SolMath.radDeg;
         return new FarShip(myHull.getPosition(), myHull.getSpeed(), myHull.getAngle(), rotationSpeed, myPilot, myItemContainer, myHull.config, myHull.life,
                 myHull.getGun(false), myHull.getGun(true), myRemoveController, myHull.getEngine(), myRepairer, myMoney, myTradeContainer, myShield, myArmor);
     }

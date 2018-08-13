@@ -17,6 +17,11 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
@@ -57,17 +62,9 @@ import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-
 public class SolGame {
-
     private static final String MERC_SAVE_FILE = "mercenaries.json";
     private static Logger logger = LoggerFactory.getLogger(SolGame.class);
-
 
     private final GameScreens gameScreens;
     private final SolCam camera;
@@ -103,19 +100,17 @@ public class SolGame {
     private boolean paused;
     private float timeFactor;
     private RespawnState respawnState;
-    private List<UpdateAwareSystem> onPausedUpdateSystems = new ArrayList<>();
-    private List<UpdateAwareSystem> updateSystems = new ArrayList<>();
 
     public SolGame(String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context) {
         solApplication = context.get(SolApplication.class);
         GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
-        soundManager = addUpdateSystem(solApplication.getSoundManager());
+        soundManager = solApplication.getSoundManager();
         specialSounds = new SpecialSounds(soundManager);
         drawableManager = new DrawableManager(drawer);
-        camera = addUpdateSystem(addPausedUpdateSystem(new SolCam(drawer.r)));
-        gameScreens = new GameScreens(drawer.r, solApplication, context);
-        tutorialManager = tut ? addUpdateSystem(new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, solApplication.isMobile(), solApplication.getOptions(), this)) : null;
+        camera = new SolCam();
+        gameScreens = new GameScreens(solApplication, context);
+        tutorialManager = tut ? new TutorialManager(gameScreens, solApplication.isMobile(), solApplication.getOptions(), this) : null;
         farBackgroundManagerOld = new FarBackgroundManagerOld();
         shipBuilder = new ShipBuilder();
         EffectTypes effectTypes = new EffectTypes();
@@ -124,22 +119,22 @@ public class SolGame {
         AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, gameColors, soundManager);
         hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
         SolNames solNames = new SolNames();
-        planetManager = addUpdateSystem(new PlanetManager(hullConfigManager, gameColors, itemManager));
+        planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
         SolContactListener contactListener = new SolContactListener(this);
         factionManager = new FactionManager();
-        objectManager = addUpdateSystem(new ObjectManager(contactListener, factionManager));
+        objectManager = new ObjectManager(contactListener, factionManager);
         gridDrawer = new GridDrawer();
-        chunkManager = addUpdateSystem(new ChunkManager());
+        chunkManager = new ChunkManager();
         partMan = new PartMan();
         asteroidBuilder = new AsteroidBuilder();
         lootBuilder = new LootBuilder();
-        mapDrawer = addUpdateSystem(addPausedUpdateSystem(new MapDrawer(commonDrawer.height)));
+        mapDrawer = new MapDrawer();
         shardBuilder = new ShardBuilder();
         galaxyFiller = new GalaxyFiller(hullConfigManager);
         starPortBuilder = new StarPort.Builder();
-        drawableDebugger = addUpdateSystem(addPausedUpdateSystem(new DrawableDebugger()));
-        beaconHandler = addUpdateSystem(new BeaconHandler());
-        mountDetectDrawer = addUpdateSystem(new MountDetectDrawer());
+        drawableDebugger = new DrawableDebugger();
+        beaconHandler = new BeaconHandler();
+        mountDetectDrawer = new MountDetectDrawer();
         timeFactor = 1;
 
         // from this point we're ready!
@@ -253,20 +248,14 @@ public class SolGame {
     }
 
     public void update() {
+        drawableDebugger.update(this);
+
         if (paused) {
-            onPausedUpdateSystems.forEach(system -> system.update(this, timeStep));
-        } else {
-            updateTime();
-            updateSystems.forEach(system -> system.update(this, timeStep));
+            camera.updateMap(this); // update zoom only for map
+            mapDrawer.update(this); // animate map icons
+            return;
         }
-    }
 
-    private void updateTime() {
-        scaleTimeStep();
-        time += timeStep;
-    }
-
-    private void scaleTimeStep() {
         timeFactor = DebugOptions.GAME_SPEED_MULTIPLIER;
         if (hero.isAlive() && hero.isNonTranscendent()) {
             ShipAbility ability = hero.getAbility();
@@ -276,6 +265,20 @@ public class SolGame {
             }
         }
         timeStep = Const.REAL_TIME_STEP * timeFactor;
+        time += timeStep;
+
+        planetManager.update(this);
+        camera.update(this);
+        chunkManager.update(this);
+        mountDetectDrawer.update(this);
+        objectManager.update(this);
+        mapDrawer.update(this);
+        soundManager.update(this);
+        beaconHandler.update(this);
+
+        if (tutorialManager != null) {
+            tutorialManager.update();
+        }
     }
 
     public void draw() {
@@ -510,13 +513,7 @@ public class SolGame {
         }
     }
 
-    private <T extends UpdateAwareSystem> T addUpdateSystem(T updateSystem) {
-        updateSystems.add(updateSystem);
-        return updateSystem;
-    }
-
-    private <T extends UpdateAwareSystem> T addPausedUpdateSystem(T updateSystem) {
-        onPausedUpdateSystems.add(updateSystem);
-        return updateSystem;
+    public SolApplication getSolApplication() {
+        return solApplication;
     }
 }

@@ -16,7 +16,6 @@
 
 package org.destinationsol.game.ship;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.common.SolMath;
@@ -56,7 +55,7 @@ public class ShipEngine {
         }
 
         float ts = cmp.getTimeStep();
-        float rotationSpeed = body.getAngularVelocity() * MathUtils.radDeg;
+        float rotationSpeed = body.getAngularVelocity() * SolMath.radDeg;
         float desiredRotationSpeed = 0;
         float rotAcc = e.getRotationAcceleration();
         boolean l = controlsEnabled && provider.isLeft();
@@ -75,7 +74,7 @@ public class ShipEngine {
         } else {
             myRecoverAwait = RECOVER_AWAIT;
         }
-        body.setAngularVelocity(MathUtils.degRad * SolMath.approach(rotationSpeed, desiredRotationSpeed, rotAcc * ts));
+        body.setAngularVelocity(SolMath.degRad * SolMath.approach(rotationSpeed, desiredRotationSpeed, rotAcc * ts));
         return working;
     }
 

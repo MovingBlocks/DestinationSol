@@ -16,7 +16,6 @@
 
 package org.destinationsol.game.ship.hulls;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -140,7 +139,7 @@ public class Hull {
             body.setLinearVelocity(speed);
             SolMath.free(speed);
             float angleDiff = planetBind.getDesiredAngle() - angle;
-            body.setAngularVelocity(angleDiff * MathUtils.degRad * fps);
+            body.setAngularVelocity(angleDiff * SolMath.degRad * fps);
         }
 
         game.getPartMan().updateAllHullEmittersOfType(ship, "none", true);
@@ -148,8 +147,8 @@ public class Hull {
 
     private void setParamsFromBody() {
         position.set(body.getPosition());
-        angle = body.getAngle() * MathUtils.radDeg;
-        rotationSpeed = body.getAngularVelocity() * MathUtils.radDeg;
+        angle = body.getAngle() * SolMath.radDeg;
+        rotationSpeed = body.getAngularVelocity() * SolMath.radDeg;
         speed.set(body.getLinearVelocity());
     }
 

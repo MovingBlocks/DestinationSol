@@ -28,10 +28,9 @@ import org.destinationsol.ui.SolUiControl;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SellItems implements InventoryOperations {
+public class SellItems extends InventoryOperationsScreen {
     private static float PERC = .8f;
 
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl sellControl;
 
     SellItems(InventoryScreen inventoryScreen, GameOptions gameOptions) {
@@ -63,11 +62,6 @@ public class SellItems implements InventoryOperations {
     }
 
     @Override
-    public List<SolUiControl> getControls() {
-        return controls;
-    }
-
-    @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         InventoryScreen inventoryScreen = game.getScreens().inventoryScreen;
@@ -75,7 +69,7 @@ public class SellItems implements InventoryOperations {
         SolShip target = talkScreen.getTarget();
         Hero hero = game.getHero();
         if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
+            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainScreen);
             return;
         }
         SolItem selItem = inventoryScreen.getSelectedItem();

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 MovingBlocks
+ * Copyright 2017 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,18 +34,15 @@ public interface CamRotStrategy {
 
         public float getRotation(Vector2 position, SolGame game) {
             Planet np = game.getPlanetManager().getNearestPlanet();
-            if (np == null) {
-                return 0;
-            }
             float fh = np.getFullHeight();
             Vector2 npPos = np.getPosition();
             if (npPos.dst(position) < fh) {
-                return SolMath.angle(position, npPos) - 90;
+                return SolMath.angle(position, npPos, true) - 90;
             }
             SolSystem sys = game.getPlanetManager().getNearestSystem(position);
             Vector2 sysPos = sys.getPosition();
             if (sysPos.dst(position) < Const.SUN_RADIUS) {
-                return SolMath.angle(position, sysPos) - 90;
+                return SolMath.angle(position, sysPos, true) - 90;
             }
             return 0;
         }
