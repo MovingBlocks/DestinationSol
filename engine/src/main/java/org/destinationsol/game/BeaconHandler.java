@@ -33,7 +33,7 @@ import org.destinationsol.game.ship.SolShip;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BeaconHandler implements UpdateAwareSystem{
+public class BeaconHandler {
     private static final float TEX_SZ = .5f;
     private static final float ROT_SPD = 30f;
 
@@ -74,8 +74,7 @@ public class BeaconHandler implements UpdateAwareSystem{
         isInitialized = true;
     }
 
-    @Override
-    public void update(SolGame game, float timeStep) {
+    public void update(SolGame game) {
         if (!isInitialized) {
             return;
         }
@@ -107,7 +106,7 @@ public class BeaconHandler implements UpdateAwareSystem{
         }
         Vector2 beaconPos = getPos0();
         if (target != null) {
-            SolMath.toWorld(beaconPos, targetRelativePosition, target.getAngle(), target.getPosition());
+            SolMath.toWorld(beaconPos, targetRelativePosition, target.getAngle(), target.getPosition(), false);
             speed.set(target.getSpeed());
         } else {
             beaconPos.set(farTarget.getPosition());

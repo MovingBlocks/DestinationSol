@@ -29,11 +29,10 @@ import org.destinationsol.ui.SolUiControl;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuyItems implements InventoryOperations {
+public class BuyItemsScreen extends InventoryOperationsScreen {
     public final SolUiControl buyControl;
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
 
-    BuyItems(InventoryScreen inventoryScreen, GameOptions gameOptions) {
+    BuyItemsScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
         buyControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyBuyItem());
         buyControl.setDisplayName("Buy");
         controls.add(buyControl);
@@ -50,11 +49,6 @@ public class BuyItems implements InventoryOperations {
     }
 
     @Override
-    public List<SolUiControl> getControls() {
-        return controls;
-    }
-
-    @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
@@ -62,7 +56,7 @@ public class BuyItems implements InventoryOperations {
         TalkScreen talkScreen = game.getScreens().talkScreen;
         SolShip target = talkScreen.getTarget();
         if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
+            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainScreen);
             return;
         }
         SolItem selItem = is.getSelectedItem();

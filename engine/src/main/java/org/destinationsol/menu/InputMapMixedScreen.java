@@ -28,9 +28,8 @@ import org.destinationsol.ui.UiDrawer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputMapMixedScreen implements InputMapOperations {
+public class InputMapMixedScreen extends InputMapOperations {
     private static final String HEADER_TEXT = "Keyboard and Mouse Inputs";
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private List<InputConfigItem> itemsList = new ArrayList<>();
     private boolean isEnterNewKey;
     private int selectedIndex;
@@ -135,8 +134,7 @@ public class InputMapMixedScreen implements InputMapOperations {
     }
 
     @Override
-    public List<SolUiControl> getControls() {
-        return controls;
+    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
     }
 
     /**
@@ -153,10 +151,36 @@ public class InputMapMixedScreen implements InputMapOperations {
     }
 
     @Override
+    public void drawBackground(UiDrawer uiDrawer, SolApplication cmp) {
+    }
+
+    @Override
+    public void drawImages(UiDrawer uiDrawer, SolApplication cmp) {
+    }
+
+    @Override
+    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
+    }
+
+    @Override
+    public boolean reactsToClickOutside() {
+        return false;
+    }
+
+    @Override
+    public boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
+        return false;
+    }
+
+    @Override
     public void onAdd(SolApplication cmp) {
         InitialiseList(cmp.getOptions());
         isEnterNewKey = false;
         selectedIndex = 0;
+    }
+
+    @Override
+    public void blurCustom(SolApplication cmp) {
     }
 
     @Override

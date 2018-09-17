@@ -22,7 +22,9 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
@@ -30,10 +32,11 @@ import org.destinationsol.ui.UiDrawer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OptionsScreen implements SolUiScreen {
+public class OptionsScreen extends SolUiBaseScreen {
+    private DisplayDimensions displayDimensions;
+
     private final TextureAtlas.AtlasRegion backgroundTexture;
 
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl backControl;
     private final SolUiControl resolutionControl;
     private final SolUiControl inputTypeControl;
@@ -42,6 +45,8 @@ public class OptionsScreen implements SolUiScreen {
     private final SolUiControl musicVolumeControl;
 
     OptionsScreen(MenuLayout menuLayout, GameOptions gameOptions) {
+        displayDimensions = SolApplication.displayDimensions;
+
         resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
         resolutionControl.setDisplayName("Resolution");
         controls.add(resolutionControl);
@@ -67,11 +72,6 @@ public class OptionsScreen implements SolUiScreen {
         controls.add(musicVolumeControl);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
     }
 
     @Override
@@ -121,6 +121,6 @@ public class OptionsScreen implements SolUiScreen {
 
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(backgroundTexture, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+        uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
     }
 }

@@ -19,6 +19,7 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.item.Gun;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolUiControl;
 
 import java.util.List;
@@ -32,34 +33,36 @@ public class ShipKbControl implements ShipUiControl {
     public final SolUiControl shoot2Ctrl;
     public final SolUiControl abilityCtrl;
 
-    ShipKbControl(SolApplication solApplication, float resolutionRatio, List<SolUiControl> controls) {
+    ShipKbControl(SolApplication solApplication, List<SolUiControl> controls) {
+        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+
         GameOptions gameOptions = solApplication.getOptions();
         boolean showButtons = solApplication.isMobile();
         float col0 = 0;
-        float col1 = col0 + MainGameScreen.CELL_SZ;
-        float colN0 = resolutionRatio - MainGameScreen.CELL_SZ;
-        float colN1 = colN0 - MainGameScreen.CELL_SZ;
-        float rowN0 = 1 - MainGameScreen.CELL_SZ;
-        float rowN1 = rowN0 - MainGameScreen.CELL_SZ;
+        float col1 = col0 + MainScreen.CELL_SZ;
+        float colN0 = displayDimensions.getRatio() - MainScreen.CELL_SZ;
+        float colN1 = colN0 - MainScreen.CELL_SZ;
+        float rowN0 = 1 - MainScreen.CELL_SZ;
+        float rowN1 = rowN0 - MainScreen.CELL_SZ;
 
-        leftCtrl = new SolUiControl(showButtons ? MainGameScreen.btn(colN1, rowN0, false) : null, false, gameOptions.getKeyLeft());
+        leftCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN1, rowN0, false) : null, false, gameOptions.getKeyLeft());
         leftCtrl.setDisplayName("Left");
         controls.add(leftCtrl);
-        rightCtrl = new SolUiControl(showButtons ? MainGameScreen.btn(colN0, rowN0, false) : null, false, gameOptions.getKeyRight());
+        rightCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN0, rowN0, false) : null, false, gameOptions.getKeyRight());
         rightCtrl.setDisplayName("Right");
         controls.add(rightCtrl);
-        upCtrl = new SolUiControl(showButtons ? MainGameScreen.btn(col0, rowN0, false) : null, false, gameOptions.getKeyUp());
+        upCtrl = new SolUiControl(showButtons ? MainScreen.btn(col0, rowN0, false) : null, false, gameOptions.getKeyUp());
         upCtrl.setDisplayName("Fwd");
         controls.add(upCtrl);
         myDownCtrl = new SolUiControl(null, true, gameOptions.getKeyDown());
         controls.add(myDownCtrl);
-        shootCtrl = new SolUiControl(showButtons ? MainGameScreen.btn(col0, rowN1, false) : null, false, gameOptions.getKeyShoot());
+        shootCtrl = new SolUiControl(showButtons ? MainScreen.btn(col0, rowN1, false) : null, false, gameOptions.getKeyShoot());
         shootCtrl.setDisplayName("Gun 1");
         controls.add(shootCtrl);
-        shoot2Ctrl = new SolUiControl(showButtons ? MainGameScreen.btn(col1, rowN0, false) : null, false, gameOptions.getKeyShoot2());
+        shoot2Ctrl = new SolUiControl(showButtons ? MainScreen.btn(col1, rowN0, false) : null, false, gameOptions.getKeyShoot2());
         shoot2Ctrl.setDisplayName("Gun 2");
         controls.add(shoot2Ctrl);
-        abilityCtrl = new SolUiControl(showButtons ? MainGameScreen.btn(colN0, rowN1, false) : null, false, gameOptions.getKeyAbility());
+        abilityCtrl = new SolUiControl(showButtons ? MainScreen.btn(colN0, rowN1, false) : null, false, gameOptions.getKeyAbility());
         abilityCtrl.setDisplayName("Ability");
         controls.add(abilityCtrl);
     }

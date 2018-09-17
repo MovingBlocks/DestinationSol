@@ -16,34 +16,37 @@
 package org.destinationsol.ui;
 
 import com.badlogic.gdx.math.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
 import org.destinationsol.GameOptions;
+import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.screens.InventoryScreen;
-import org.destinationsol.game.screens.MainGameScreen;
+import org.destinationsol.game.screens.MainScreen;
 import org.destinationsol.game.screens.ShipKbControl;
 import org.destinationsol.game.screens.ShipMixedControl;
 
-import java.util.ArrayList;
-import java.util.List;
+public class TutorialManager {
+    private DisplayDimensions displayDimensions;
 
-public class TutorialManager implements UpdateAwareSystem {
     private final Rectangle background;
     private final ArrayList<Step> steps;
 
     private int stepIndex;
 
-    public TutorialManager(float r, GameScreens screens, boolean mobile, GameOptions gameOptions, SolGame game) {
-        float backgroundW = r * .5f;
+    public TutorialManager(GameScreens screens, boolean mobile, GameOptions gameOptions, SolGame game) {
+        displayDimensions = SolApplication.displayDimensions;
+
+        float backgroundW = displayDimensions.getRatio() * .5f;
         float backgroundH = .2f;
-        background = new Rectangle(r / 2 - backgroundW / 2, 1 - backgroundH, backgroundW, backgroundH);
+        background = new Rectangle(displayDimensions.getRatio() / 2 - backgroundW / 2, 1 - backgroundH, backgroundW, backgroundH);
         steps = new ArrayList<>();
         stepIndex = 0;
 
-        MainGameScreen main = screens.mainGameScreen;
+        MainScreen main = screens.mainScreen;
         boolean mouseCtrl = main.shipControl instanceof ShipMixedControl;
         SolUiControl shootCtrl;
         String shootKey;
@@ -178,9 +181,9 @@ public class TutorialManager implements UpdateAwareSystem {
         }
 
         if (mobile) {
-            addStep("Buy some item", screens.inventoryScreen.buyItems.buyControl);
+            addStep("Buy some item", screens.inventoryScreen.buyItemsScreen.buyControl);
         } else {
-            addStep("Buy some item\n(" + gameOptions.getKeyBuyItemName() + " key)", screens.inventoryScreen.buyItems.buyControl);
+            addStep("Buy some item\n(" + gameOptions.getKeyBuyItemName() + " key)", screens.inventoryScreen.buyItemsScreen.buyControl);
         }
 
         if (mobile) {
@@ -226,8 +229,7 @@ public class TutorialManager implements UpdateAwareSystem {
         steps.add(step);
     }
 
-    @Override
-    public void update(SolGame game,float timeStep) {
+    public void update() {
         Step step = steps.get(stepIndex);
         step.highlight();
         if (step.canProgressToNextStep()) {
@@ -244,7 +246,7 @@ public class TutorialManager implements UpdateAwareSystem {
         uiDrawer.drawLine(background.x, background.y, 0, background.width, SolColor.WHITE);
         uiDrawer.drawLine(background.x + background.width, background.y, 90, background.height, SolColor.WHITE);
         uiDrawer.drawLine(background.x, background.y, 90, background.height, SolColor.WHITE);
-        uiDrawer.drawString(step.text, uiDrawer.r / 2, background.y + background.height / 2, FontSize.TUT, true, SolColor.WHITE);
+        uiDrawer.drawString(step.text, displayDimensions.getRatio() / 2, background.y + background.height / 2, FontSize.TUT, true, SolColor.WHITE);
     }
 
     public boolean isFinished() {

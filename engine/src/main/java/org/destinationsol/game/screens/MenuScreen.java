@@ -21,6 +21,7 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.menu.MenuLayout;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
@@ -28,8 +29,7 @@ import org.destinationsol.ui.UiDrawer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuScreen implements SolUiScreen {
-    private final List<SolUiControl> controls = new ArrayList<>();
+public class MenuScreen extends SolUiBaseScreen {
     private final SolUiControl closeControl;
     private final SolUiControl exitControl;
     private final SolUiControl respawnControl;
@@ -59,11 +59,6 @@ public class MenuScreen implements SolUiScreen {
     }
 
     @Override
-    public List<SolUiControl> getControls() {
-        return controls;
-    }
-
-    @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         game.setPaused(true);
@@ -80,7 +75,7 @@ public class MenuScreen implements SolUiScreen {
         }
         if (respawnControl.isJustOff()) {
             game.respawn();
-            im.setScreen(solApplication, game.getScreens().mainGameScreen);
+            im.setScreen(solApplication, game.getScreens().mainScreen);
             game.setPaused(false);
         }
         if (exitControl.isJustOff()) {
@@ -88,7 +83,7 @@ public class MenuScreen implements SolUiScreen {
         }
         if (closeControl.isJustOff()) {
             game.setPaused(false);
-            im.setScreen(solApplication, game.getScreens().mainGameScreen);
+            im.setScreen(solApplication, game.getScreens().mainScreen);
         }
         doNotSellEquippedControl.setDisplayName("Can sell used items: " +
                                                   (options.canSellEquippedItems ? "Yes" : "No"));

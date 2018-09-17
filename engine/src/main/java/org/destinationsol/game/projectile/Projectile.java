@@ -17,7 +17,6 @@ package org.destinationsol.game.projectile;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.destinationsol.common.SolColor;
@@ -148,8 +147,7 @@ public class Projectile implements SolObject {
             return;
         }
         float rot = ts * config.guideRotationSpeed;
-        float min = -rot;
-        diffAngle = MathUtils.clamp(diffAngle, min, rot);
+        diffAngle = SolMath.clamp(diffAngle, -rot, rot);
         body.changeAngle(diffAngle);
     }
 

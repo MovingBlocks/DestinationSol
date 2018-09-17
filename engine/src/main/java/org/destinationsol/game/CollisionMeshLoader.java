@@ -16,7 +16,6 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -28,6 +27,7 @@ import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.common.SolMath;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
@@ -250,7 +250,7 @@ public class CollisionMeshLoader {
 
         BodyDef bd = new BodyDef();
         bd.type = type;
-        bd.angle = angle * MathUtils.degRad;
+        bd.angle = angle * SolMath.degRad;
         bd.angularDamping = 0;
         bd.position.set(position);
         bd.linearDamping = 0;
@@ -286,7 +286,7 @@ public class CollisionMeshLoader {
                                  Vector2 position, float angle, List<Drawable> drawables, float density, DrawableLevel level) {
         BodyDef bd = new BodyDef();
         bd.type = type;
-        bd.angle = angle * MathUtils.degRad;
+        bd.angle = angle * SolMath.degRad;
         bd.angularDamping = 0;
         bd.position.set(position);
         bd.linearDamping = 0;

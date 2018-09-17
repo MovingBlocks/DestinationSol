@@ -28,13 +28,11 @@ import org.destinationsol.ui.SolUiControl;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GiveItems implements InventoryOperations {
-
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
+public class GiveItemsScreen extends InventoryOperationsScreen {
     private final SolUiControl giveControl;
     private SolShip target;
 
-    GiveItems(InventoryScreen inventoryScreen, GameOptions gameOptions) {
+    GiveItemsScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
         giveControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeySellItem());
         giveControl.setDisplayName("Give");
         controls.add(giveControl);
@@ -55,11 +53,6 @@ public class GiveItems implements InventoryOperations {
     @Override
     public String getHeader() {
         return "Give:";
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
     }
 
     @Override

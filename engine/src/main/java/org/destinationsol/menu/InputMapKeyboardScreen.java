@@ -28,17 +28,12 @@ import org.destinationsol.ui.UiDrawer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputMapKeyboardScreen implements InputMapOperations {
+public class InputMapKeyboardScreen extends InputMapOperations {
     private static final String HEADER_TEXT = "Keyboard Inputs";
 
-    private final ArrayList<SolUiControl> controls;
     private boolean isEnterNewKey;
     private List<InputConfigItem> itemsList = new ArrayList<>();
     private int selectedIndex;
-
-    public InputMapKeyboardScreen(InputMapScreen inputMapScreen, GameOptions gameOptions) {
-        controls = new ArrayList<>();
-    }
 
     private void InitialiseList(GameOptions gameOptions) {
         itemsList.clear();
@@ -176,8 +171,7 @@ public class InputMapKeyboardScreen implements InputMapOperations {
     }
 
     @Override
-    public List<SolUiControl> getControls() {
-        return controls;
+    public void updateCustom(SolApplication cmp, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
     }
 
     /**
@@ -194,10 +188,39 @@ public class InputMapKeyboardScreen implements InputMapOperations {
     }
 
     @Override
+    public void drawBackground(UiDrawer uiDrawer, SolApplication cmp) {
+
+    }
+
+    @Override
+    public void drawImages(UiDrawer uiDrawer, SolApplication cmp) {
+
+    }
+
+    @Override
+    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
+    }
+
+    @Override
+    public boolean reactsToClickOutside() {
+        return false;
+    }
+
+    @Override
+    public boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
+        return false;
+    }
+
+    @Override
     public void onAdd(SolApplication cmp) {
         InitialiseList(cmp.getOptions());
         isEnterNewKey = false;
         selectedIndex = 0;
+    }
+
+    @Override
+    public void blurCustom(SolApplication cmp) {
+
     }
 
     @Override

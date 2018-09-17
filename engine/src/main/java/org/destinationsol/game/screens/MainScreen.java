@@ -15,11 +15,12 @@
  */
 package org.destinationsol.game.screens;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import java.util.ArrayList;
+import java.util.List;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
@@ -41,16 +42,14 @@ import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.SolShip;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MainGameScreen implements SolUiScreen {
+public class MainScreen extends SolUiBaseScreen {
     // TODO: Rename!
     private static final float ICON_SZ = .03f;
     private static final float BAR_SZ = ICON_SZ * 5;
@@ -61,17 +60,14 @@ public class MainGameScreen implements SolUiScreen {
     static final float HELPER_ROW_1 = 1 - 3f * CELL_SZ;
     private static final float HELPER_ROW_2 = HELPER_ROW_1 - .5f * CELL_SZ;
 
-    private final List<SolUiControl> controls = new ArrayList<>();
     public final ShipUiControl shipControl;
     public final SolUiControl mapControl;
     public final SolUiControl inventoryControl;
     public final SolUiControl talkControl;
-    public final SolUiControl mercControl;
-    public final SolUiControl freeCamControl;
+    private final SolUiControl mercControl;
+    private final SolUiControl freeCamControl;
     private final SolUiControl menuControl;
     private final SolUiControl pauseControl;
-    private final SolUiControl consoleControlGrave;
-    private final SolUiControl consoleControlF1;
     private final CameraKeyboardControl cameraControl;
 
     private final ZoneNameAnnouncer zoneNameAnnouncer;
@@ -95,13 +91,15 @@ public class MainGameScreen implements SolUiScreen {
     private final TextPlace myMoneyExcessTp;
     private final SolApplication solApplication;
 
-    public MainGameScreen(float resolutionRatio, RightPaneLayout rightPaneLayout, Context context) {
+    MainScreen(RightPaneLayout rightPaneLayout, Context context) {
+        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+
         solApplication = context.get(SolApplication.class);
         GameOptions gameOptions = solApplication.getOptions();
 
         switch (gameOptions.controlType) {
             case KEYBOARD:
-                shipControl = new ShipKbControl(solApplication, resolutionRatio, controls);
+                shipControl = new ShipKbControl(solApplication, controls);
                 break;
             case MOUSE:
                 shipControl = new ShipMouseControl();
@@ -116,7 +114,7 @@ public class MainGameScreen implements SolUiScreen {
         }
 
         boolean mobile = solApplication.isMobile();
-        float lastCol = resolutionRatio - MainGameScreen.CELL_SZ;
+        float lastCol = displayDimensions.getRatio() - MainScreen.CELL_SZ;
         Rectangle menuArea = mobile ? btn(0, HELPER_ROW_2, true) : rightPaneLayout.buttonRect(0);
         menuControl = new SolUiControl(menuArea, true, gameOptions.getKeyMenu());
         menuControl.setDisplayName("Menu");
@@ -144,20 +142,15 @@ public class MainGameScreen implements SolUiScreen {
         controls.add(pauseControl);
         cameraControl = new CameraKeyboardControl(gameOptions, controls);
 
-        consoleControlGrave = new SolUiControl(null, true, Input.Keys.GRAVE);
-        consoleControlF1 = new SolUiControl(null, true, Input.Keys.F1);
-        controls.add(consoleControlGrave);
-        controls.add(consoleControlF1);
-
-        warnDrawers.add(new CollisionWarnDrawer(resolutionRatio));
-        warnDrawers.add(new SunWarnDrawer(resolutionRatio));
-        warnDrawers.add(new EnemyWarn(resolutionRatio));
-        warnDrawers.add(new DmgWarnDrawer(resolutionRatio));
-        warnDrawers.add(new NoShieldWarn(resolutionRatio));
-        warnDrawers.add(new NoArmorWarn(resolutionRatio));
+        warnDrawers.add(new CollisionWarnDrawer());
+        warnDrawers.add(new SunWarnDrawer());
+        warnDrawers.add(new EnemyWarn());
+        warnDrawers.add(new DmgWarnDrawer());
+        warnDrawers.add(new NoShieldWarn());
+        warnDrawers.add(new NoArmorWarn());
 
         zoneNameAnnouncer = new ZoneNameAnnouncer();
-        borderDrawer = new BorderDrawer(resolutionRatio);
+        borderDrawer = new BorderDrawer();
 
         lifeTexture = Assets.getAtlasRegion("engine:iconLife");
         infinityTexture = Assets.getAtlasRegion("engine:iconInfinity");
@@ -215,11 +208,6 @@ public class MainGameScreen implements SolUiScreen {
     }
 
     @Override
-    public List<SolUiControl> getControls() {
-        return controls;
-    }
-
-    @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         if (DebugOptions.PRINT_BALANCE) {
             solApplication.finishGame();
@@ -256,7 +244,7 @@ public class MainGameScreen implements SolUiScreen {
         if (inventoryControl.isJustOff()) {
             InventoryScreen is = screens.inventoryScreen;
             boolean isOn = inputMan.isScreenOn(is);
-            inputMan.setScreen(solApplication, screens.mainGameScreen);
+            inputMan.setScreen(solApplication, screens.mainScreen);
             if (!isOn) {
                 is.showInventory.setTarget(hero.getShip());
                 is.setOperations(is.showInventory);
@@ -273,9 +261,9 @@ public class MainGameScreen implements SolUiScreen {
         if (mercControl.isJustOff()) {
             InventoryScreen is = screens.inventoryScreen;
             boolean isOn = inputMan.isScreenOn(is);
-            inputMan.setScreen(solApplication, screens.mainGameScreen);
+            inputMan.setScreen(solApplication, screens.mainScreen);
             if (!isOn) {
-                is.setOperations(is.chooseMercenary);
+                is.setOperations(is.chooseMercenaryScreen);
                 inputMan.addScreen(solApplication, is);
                 
                 game.getHero().getTradeContainer().getMercs().markAllAsSeen();
@@ -288,10 +276,6 @@ public class MainGameScreen implements SolUiScreen {
 
         if (pauseControl.isJustOff()) {
             game.setPaused(!game.isPaused());
-        }
-
-        if (consoleControlGrave.isJustOff() || consoleControlF1.isJustOff()) {
-            inputMan.setScreen(solApplication, screens.console);
         }
     }
 
@@ -553,7 +537,7 @@ public class MainGameScreen implements SolUiScreen {
         public String text;
         public Vector2 position = new Vector2();
 
-        public TextPlace(Color col) {
+        TextPlace(Color col) {
             color = new Color(col);
         }
 
@@ -567,8 +551,8 @@ public class MainGameScreen implements SolUiScreen {
     }
 
     private static class NoShieldWarn extends WarnDrawer {
-        public NoShieldWarn(float r) {
-            super(r, "No Shield");
+        NoShieldWarn() {
+            super("No Shield");
         }
 
         protected boolean shouldWarn(SolGame game) {
@@ -578,8 +562,8 @@ public class MainGameScreen implements SolUiScreen {
     }
 
     private static class NoArmorWarn extends WarnDrawer {
-        public NoArmorWarn(float r) {
-            super(r, "No Armor");
+        NoArmorWarn() {
+            super("No Armor");
         }
 
         protected boolean shouldWarn(SolGame game) {
@@ -589,8 +573,8 @@ public class MainGameScreen implements SolUiScreen {
     }
 
     private static class EnemyWarn extends WarnDrawer {
-        public EnemyWarn(float r) {
-            super(r, "Dangerous\nEnemy");
+        EnemyWarn() {
+            super("Dangerous\nEnemy");
         }
 
         protected boolean shouldWarn(SolGame game) {

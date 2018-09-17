@@ -15,9 +15,6 @@
  */
 package org.destinationsol.game.screens;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.Hero;
@@ -29,11 +26,10 @@ import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 
-public class HireShips implements InventoryOperations {
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
+public class HireShipsScreen extends InventoryOperationsScreen {
     private final SolUiControl hireControl;
 
-    HireShips(InventoryScreen inventoryScreen, GameOptions gameOptions) {
+    HireShipsScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
         hireControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyHireShip());
         hireControl.setDisplayName("Hire");
         controls.add(hireControl);
@@ -50,18 +46,13 @@ public class HireShips implements InventoryOperations {
     }
 
     @Override
-    public List<SolUiControl> getControls() {
-        return controls;
-    }
-
-    @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
         Hero hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
         if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
+            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainScreen);
             return;
         }
         SolItem selItem = is.getSelectedItem();

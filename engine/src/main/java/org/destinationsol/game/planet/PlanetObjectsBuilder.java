@@ -16,7 +16,6 @@
 package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
@@ -56,7 +55,7 @@ public class PlanetObjectsBuilder {
     private static final float CLOUD_DENSITY = .2f;
 
     private static final float DECO_PACK_SZ = 5f;
-    private static final float DECO_PACK_ANGULAR_WIDTH = 360 * DECO_PACK_SZ / (2 * MathUtils.PI * Const.MAX_GROUND_HEIGHT);
+    private static final float DECO_PACK_ANGULAR_WIDTH = 360 * DECO_PACK_SZ / (2 * SolMath.PI * Const.MAX_GROUND_HEIGHT);
 
     public float createPlanetObjs(SolGame game, Planet planet) {
         if (DebugOptions.NO_OBJS) {
@@ -126,7 +125,7 @@ public class PlanetObjectsBuilder {
     private float createGround(SolGame game, Planet planet) {
         // helper values
         float maxRadius = planet.getGroundHeight() - TOP_TILE_SZ / 2;
-        int columns = (int) (2 * MathUtils.PI * maxRadius / TOP_TILE_SZ);
+        int columns = (int) (2 * SolMath.PI * maxRadius / TOP_TILE_SZ);
         if (columns <= 0) {
             throw new AssertionError("Error creating planet ground!");
         }
@@ -137,7 +136,7 @@ public class PlanetObjectsBuilder {
         float[] tileSizes = new float[rows];
         float currentRadius = maxRadius;
         for (int row = 0; row < rows; row++) {
-            float tileSize = 2 * MathUtils.PI * currentRadius / columns;
+            float tileSize = 2 * SolMath.PI * currentRadius / columns;
             radii[row] = currentRadius;
             tileSizes[row] = tileSize;
             currentRadius -= tileSize;
@@ -218,7 +217,7 @@ public class PlanetObjectsBuilder {
         float distance = baseDistance + distanceShift;
         Vector2 basePosition = SolMath.getVec(0, -baseDistance);
         Vector2 relativePosition = new Vector2(0, -distance);
-        SolMath.rotate(relativePosition, angleShift);
+        SolMath.rotate(relativePosition, angleShift, true);
         relativePosition.sub(basePosition);
         SolMath.free(basePosition);
 
@@ -238,7 +237,7 @@ public class PlanetObjectsBuilder {
         for (Map.Entry<Vector2, List<Drawable>> entry : collector.entrySet()) {
             Vector2 position = entry.getKey();
             List<Drawable> drawables = entry.getValue();
-            float angle = SolMath.angle(planetPos, position) - planetAngle;
+            float angle = SolMath.angle(planetPos, position, true) - planetAngle;
             float distance = position.dst(planetPos);
             FarPlanetSprites planetSprites = new FarPlanetSprites(planet, angle, distance, drawables, 0);
             game.getObjectManager().addFarObjNow(planetSprites);
@@ -259,7 +258,7 @@ public class PlanetObjectsBuilder {
                 return fraction;
             };
 
-        int decorationCount = (int) (2 * MathUtils.PI * groundHeight * decoConfig.density);
+        int decorationCount = (int) (2 * SolMath.PI * groundHeight * decoConfig.density);
         for (int i = 0; i < decorationCount; i++) {
             float decorationSize = SolRandom.randomFloat(decoConfig.szMin, decoConfig.szMax);
             float angularHalfWidth = SolMath.angularWidthOfSphere(decorationSize / 2, groundHeight);
@@ -273,7 +272,7 @@ public class PlanetObjectsBuilder {
                 }
             }
 
-            SolMath.fromAl(rayCasted, decorationAngle, groundHeight);
+            SolMath.fromAl(rayCasted, decorationAngle, groundHeight, true);
             rayCasted.add(planetPos);
             world.rayCast(rayCastCallback, rayCasted, planetPos);
             float decorationDistance = rayCasted.dst(planetPos);
@@ -282,7 +281,7 @@ public class PlanetObjectsBuilder {
             float baseDistance = SolMath.windowCenter(decorationDistance, DECO_PACK_SZ);
             Vector2 basePosition = SolMath.fromAl(baseAngle, baseDistance).add(planetPos);
             Vector2 decoRelativePosition = new Vector2(rayCasted).sub(basePosition);
-            SolMath.rotate(decoRelativePosition, -baseAngle - 90);
+            SolMath.rotate(decoRelativePosition, -baseAngle - 90, true);
             float decorationRelativeAngle = decorationAngle - baseAngle;
 
             TextureAtlas.AtlasRegion decorationTexture = new TextureAtlas.AtlasRegion(SolRandom.randomElement(decoConfig.texs));
@@ -317,7 +316,7 @@ public class PlanetObjectsBuilder {
             aboveGround = shipConfig.hull.getSize();
         }
         position.scl((height + aboveGround) / height);
-        SolMath.toWorld(position, position, planet.getAngle(), planet.getPosition());
+        SolMath.toWorld(position, position, planet.getAngle(), planet.getPosition(), false);
 
         Vector2 distanceToPlanet = SolMath.getVec(planet.getPosition()).sub(position);
         float angle = SolMath.angle(distanceToPlanet) - 180;

@@ -16,7 +16,6 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -29,9 +28,9 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
-import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSource;
+import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ForceBeacon;
@@ -74,7 +73,7 @@ public class StarPort implements SolObject {
     @Bound
     public static Vector2 getDesiredPosition(Planet from, Planet to, boolean precise) {
         Vector2 fromPosition = from.getPosition();
-        float angle = SolMath.angle(fromPosition, to.getPosition());
+        float angle = SolMath.angle(fromPosition, to.getPosition(), precise);
         Vector2 position = SolMath.getVec();
         SolMath.fromAl(position, angle, from.getFullHeight() + DIST_FROM_PLANET);
         position.add(fromPosition);
@@ -114,7 +113,7 @@ public class StarPort implements SolObject {
         body.setLinearVelocity(speed);
         SolMath.free(speed);
         float desiredAngle = SolMath.angle(fromPlanet.getPosition(), toPlanet.getPosition());
-        body.setAngularVelocity((desiredAngle - angle) * MathUtils.degRad * fps / 4);
+        body.setAngularVelocity((desiredAngle - angle) * SolMath.degRad * fps / 4);
 
         SolShip ship = ForceBeacon.pullShips(game, this, position, null, null, .4f * SIZE);
         if (ship != null && ship.getMoney() >= FARE && ship.getPosition().dst(position) < .05f * SIZE) {
@@ -213,7 +212,7 @@ public class StarPort implements SolObject {
 
     private void setParamsFromBody() {
         position.set(body.getPosition());
-        angle = body.getAngle() * MathUtils.radDeg;
+        angle = body.getAngle() * SolMath.radDeg;
     }
 
     public Planet getFromPlanet() {

@@ -18,9 +18,9 @@ package org.destinationsol.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
+import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.Nullable;
 import org.destinationsol.common.SolColor;
@@ -36,12 +36,13 @@ import org.destinationsol.game.planet.Tile;
 import org.destinationsol.game.planet.TileObject;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapDrawer implements UpdateAwareSystem{
+public class MapDrawer {
     public static final float MIN_ZOOM = 8f;
     private static final float MUL_FACTOR = 2f;
     public static final float MAX_ZOOM = 512f;
@@ -78,9 +79,11 @@ public class MapDrawer implements UpdateAwareSystem{
     private float skullTime;
     private float areaSkullTime;
 
-    MapDrawer(float screenHeight) {
+    MapDrawer() {
+        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+
         zoom = MAX_ZOOM / MUL_FACTOR / MUL_FACTOR;
-        float minIconRad = MIN_ICON_RAD_PX / screenHeight;
+        float minIconRad = MIN_ICON_RAD_PX / displayDimensions.getHeight();
         iconRadius = ICON_RAD < minIconRad ? minIconRad : ICON_RAD;
 
         areaWarningColor = new Color(SolColor.WHITE);
@@ -411,20 +414,19 @@ public class MapDrawer implements UpdateAwareSystem{
         } else {
             zoom *= MUL_FACTOR;
         }
-        zoom = MathUtils.clamp(zoom, MIN_ZOOM, MAX_ZOOM);
+        zoom = SolMath.clamp(zoom, MIN_ZOOM, MAX_ZOOM);
     }
 
     public float getZoom() {
         return zoom;
     }
 
-    @Override
-    public void update(SolGame game, float timeStep) {
-        skullTime += timeStep;
+    public void update(SolGame game) {
+        skullTime += game.getTimeStep();
         if (skullTime > MAX_SKULL_TIME) {
             skullTime = -MAX_SKULL_TIME;
         }
-        areaSkullTime += timeStep;
+        areaSkullTime += game.getTimeStep();
         if (areaSkullTime > MAX_AREA_SKULL_TIME) {
             areaSkullTime = 0;
         }

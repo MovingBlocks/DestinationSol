@@ -35,11 +35,10 @@ import org.destinationsol.ui.SolUiControl;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChangeShip implements InventoryOperations {
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
+public class ChangeShipScreen extends InventoryOperationsScreen {
     private final SolUiControl changeControl;
 
-    ChangeShip(InventoryScreen inventoryScreen, GameOptions gameOptions) {
+    ChangeShipScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
         changeControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyChangeShip());
         changeControl.setDisplayName("Change");
         controls.add(changeControl);
@@ -56,18 +55,13 @@ public class ChangeShip implements InventoryOperations {
     }
 
     @Override
-    public List<SolUiControl> getControls() {
-        return controls;
-    }
-
-    @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         InventoryScreen is = game.getScreens().inventoryScreen;
         Hero hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
         if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
+            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainScreen);
             return;
         }
         SolItem selItem = is.getSelectedItem();
@@ -107,7 +101,7 @@ public class ChangeShip implements InventoryOperations {
             HullConfig config2 = hero.getHull().getHullConfig();
             return config1.equals(config2);
         } else {
-            throw new IllegalArgumentException("ChangeShip:isSameShip received " + shipToBuy.getClass() + " argument instead of ShipItem!");
+            throw new IllegalArgumentException("ChangeShipScreen:isSameShip received " + shipToBuy.getClass() + " argument instead of ShipItem!");
         }
     }
 

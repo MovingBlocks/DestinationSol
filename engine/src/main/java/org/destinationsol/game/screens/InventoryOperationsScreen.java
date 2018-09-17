@@ -15,25 +15,21 @@
  */
 package org.destinationsol.game.screens;
 
-import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.Const;
-import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.ui.DisplayDimensions;
+import org.destinationsol.game.item.ItemContainer;
+import org.destinationsol.game.item.SolItem;
+import org.destinationsol.ui.SolUiBaseScreen;
 
-public class SunWarnDrawer extends WarnDrawer {
+public abstract class InventoryOperationsScreen extends SolUiBaseScreen {
+    abstract ItemContainer getItems(SolGame game);
 
-    SunWarnDrawer() {
-        super("Sun Near");
+    boolean isUsing(SolGame game, SolItem item) {
+        return false;
     }
 
-    public boolean shouldWarn(SolGame game) {
-        Hero hero = game.getHero();
-        if (hero.isTranscendent()) {
-            return false;
-        }
-        Vector2 position = hero.getPosition();
-        float toCenter = game.getPlanetManager().getNearestSystem(position).getPosition().dst(position);
-        return toCenter < Const.SUN_RADIUS;
+    float getPriceMul() {
+        return 1;
     }
+
+    abstract String getHeader();
 }

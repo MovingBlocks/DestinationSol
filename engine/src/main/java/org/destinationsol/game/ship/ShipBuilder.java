@@ -16,7 +16,6 @@
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -304,7 +303,7 @@ public class ShipBuilder {
         Fixture base = getBase(hullConfig.hasBase(), body);
         Hull hull = new Hull(game, hullConfig, body, gunMount0, gunMount1, base, lCs, life, beacons, doors, shieldFixture);
         body.setLinearVelocity(speed);
-        body.setAngularVelocity(rotationSpeed * MathUtils.degRad);
+        body.setAngularVelocity(rotationSpeed * SolMath.degRad);
         return hull;
     }
 
@@ -344,10 +343,10 @@ public class ShipBuilder {
     private Body createDoorBody(World world, Vector2 shipPos, Vector2 doorRelPos, float shipAngle) {
         BodyDef bd = new BodyDef();
         bd.type = BodyDef.BodyType.DynamicBody;
-        bd.angle = shipAngle * MathUtils.degRad;
+        bd.angle = shipAngle * SolMath.degRad;
         bd.angularDamping = 0;
         bd.linearDamping = 0;
-        SolMath.toWorld(bd.position, doorRelPos, shipAngle, shipPos);
+        SolMath.toWorld(bd.position, doorRelPos, shipAngle, shipPos, false);
         Body body = world.createBody(bd);
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(Door.DOOR_LEN / 2, .03f);

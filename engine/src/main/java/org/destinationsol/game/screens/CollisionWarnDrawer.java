@@ -22,13 +22,14 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
+import org.destinationsol.ui.DisplayDimensions;
 
 public class CollisionWarnDrawer extends WarnDrawer {
     private final CollisionRayCastCallback warnCallback = new CollisionRayCastCallback();
     private Hero hero;
 
-    CollisionWarnDrawer(float r) {
-        super(r, "Object Near");
+    CollisionWarnDrawer() {
+        super("Object Near");
     }
 
     public boolean shouldWarn(SolGame game) {

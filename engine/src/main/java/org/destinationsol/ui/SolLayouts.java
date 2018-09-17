@@ -22,8 +22,8 @@ public class SolLayouts {
     public final RightPaneLayout rightPaneLayout;
     public final MenuLayout menuLayout;
 
-    public SolLayouts(float r) {
-        rightPaneLayout = new RightPaneLayout(r);
-        menuLayout = new MenuLayout(r);
+    public SolLayouts() {
+        rightPaneLayout = new RightPaneLayout();
+        menuLayout = new MenuLayout();
     }
 }

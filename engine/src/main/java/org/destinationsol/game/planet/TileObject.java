@@ -15,7 +15,6 @@
  */
 package org.destinationsol.game.planet;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.common.SolMath;
@@ -71,15 +70,15 @@ public class TileObject implements SolObject {
             speed.scl(1f / timeStep);
             body.setLinearVelocity(speed);
             SolMath.free(speed);
-            float bodyAngle = body.getAngle() * MathUtils.radDeg;
-            float angularVelocity = SolMath.norm(angle - bodyAngle) * MathUtils.degRad / timeStep;
+            float bodyAngle = body.getAngle() * SolMath.radDeg;
+            float angularVelocity = SolMath.norm(angle - bodyAngle) * SolMath.degRad / timeStep;
             body.setAngularVelocity(angularVelocity);
         }
     }
 
     private void setDependentParams() {
         float toPlanetAngle = planet.getAngle() + relativeAngleToPlanet;
-        SolMath.fromAl(position, toPlanetAngle, distance);
+        SolMath.fromAl(position, toPlanetAngle, distance, true);
         position.add(planet.getPosition());
         angle = toPlanetAngle + 90;
     }

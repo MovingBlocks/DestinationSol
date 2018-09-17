@@ -15,7 +15,7 @@
  */
 package org.destinationsol.game;
 
-import com.badlogic.gdx.math.MathUtils;
+import org.destinationsol.common.SolMath;
 import org.destinationsol.game.item.Armor;
 import org.destinationsol.game.item.Clip;
 import org.destinationsol.game.item.Gun;
@@ -61,7 +61,7 @@ public class HardnessCalc {
             if (pc.physSize > 0) {
                 projHitChance += pc.physSize;
             }
-            projHitChance = MathUtils.clamp(projHitChance, .1f, (float) 1);
+            projHitChance = SolMath.clamp(projHitChance, .1f, 1);
             if (gc.fixed) {
                 projHitChance *= .3f;
             }

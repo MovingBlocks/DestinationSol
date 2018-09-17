@@ -23,19 +23,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.OrderedMap;
 import org.destinationsol.common.DebugCol;
-import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.GameDrawer;
-import org.destinationsol.game.MapDrawer;
-import org.destinationsol.game.ObjectManager;
-import org.destinationsol.game.SolCam;
-import org.destinationsol.game.SolGame;
-import org.destinationsol.game.SolObject;
+import org.destinationsol.game.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class DrawableManager {
     private final DrawableLevel[] drawableLevels;

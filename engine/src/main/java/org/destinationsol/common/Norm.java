@@ -13,23 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.screens;
 
-import org.destinationsol.game.SolGame;
-import org.destinationsol.game.item.ItemContainer;
-import org.destinationsol.game.item.SolItem;
-import org.destinationsol.ui.SolUiScreen;
+package org.destinationsol.common;
 
-public interface InventoryOperations extends SolUiScreen {
-    ItemContainer getItems(SolGame game);
+import java.lang.annotation.Documented;
 
-    default boolean isUsing(SolGame game, SolItem item) {
-        return false;
-    }
+/**
+ * When used for annotating methods, indicates that the returned float value is an angle and is normalized (-180 < a && a <= 180)
+ * When used for annotating params, indicates that the param angle must be normalized
+ */
+@Documented
+public @interface Norm {
 
-    default float getPriceMul() {
-        return 1;
-    }
-
-    String getHeader();
 }

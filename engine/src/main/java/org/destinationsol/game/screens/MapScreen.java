@@ -21,38 +21,33 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.game.MapDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapScreen implements SolUiScreen {
-    private final List<SolUiControl> controls = new ArrayList<>();
+public class MapScreen extends SolUiBaseScreen {
     private final SolUiControl zoomOutControl;
     public final SolUiControl closeControl;
     public final SolUiControl zoomInControl;
 
-    MapScreen(RightPaneLayout rightPaneLayout, boolean mobile, float r, GameOptions gameOptions) {
-        Rectangle closeArea = mobile ? MainGameScreen.btn(0, MainGameScreen.HELPER_ROW_1, true) : rightPaneLayout.buttonRect(1);
+    MapScreen(RightPaneLayout rightPaneLayout, boolean mobile, GameOptions gameOptions) {
+        Rectangle closeArea = mobile ? MainScreen.btn(0, MainScreen.HELPER_ROW_1, true) : rightPaneLayout.buttonRect(1);
         closeControl = new SolUiControl(closeArea, true, gameOptions.getKeyMap(), gameOptions.getKeyClose());
         closeControl.setDisplayName("Close");
         controls.add(closeControl);
-        float row0 = 1 - MainGameScreen.CELL_SZ;
-        float row1 = row0 - MainGameScreen.CELL_SZ;
-        Rectangle zoomInArea = mobile ? MainGameScreen.btn(0, row1, false) : rightPaneLayout.buttonRect(2);
+        float row0 = 1 - MainScreen.CELL_SZ;
+        float row1 = row0 - MainScreen.CELL_SZ;
+        Rectangle zoomInArea = mobile ? MainScreen.btn(0, row1, false) : rightPaneLayout.buttonRect(2);
         zoomInControl = new SolUiControl(zoomInArea, true, gameOptions.getKeyZoomIn());
         zoomInControl.setDisplayName("Zoom In");
         controls.add(zoomInControl);
-        Rectangle zoomOutArea = mobile ? MainGameScreen.btn(0, row0, false) : rightPaneLayout.buttonRect(3);
+        Rectangle zoomOutArea = mobile ? MainScreen.btn(0, row0, false) : rightPaneLayout.buttonRect(3);
         zoomOutControl = new SolUiControl(zoomOutArea, true, gameOptions.getKeyZoomOut());
         zoomOutControl.setDisplayName("Zoom Out");
         controls.add(zoomOutControl);
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
     }
 
     @Override
@@ -64,7 +59,7 @@ public class MapScreen implements SolUiScreen {
         mapDrawer.setToggled(!justClosed);
         SolInputManager im = solApplication.getInputManager();
         if (justClosed) {
-            im.setScreen(solApplication, game.getScreens().mainGameScreen);
+            im.setScreen(solApplication, game.getScreens().mainScreen);
         }
         boolean zoomIn = zoomInControl.isJustOff();
         if (zoomIn || zoomOutControl.isJustOff()) {
@@ -73,7 +68,7 @@ public class MapScreen implements SolUiScreen {
         float mapZoom = mapDrawer.getZoom();
         zoomInControl.setEnabled(mapZoom != MapDrawer.MIN_ZOOM);
         zoomOutControl.setEnabled(mapZoom != MapDrawer.MAX_ZOOM);
-        ShipUiControl shipControl = game.getScreens().mainGameScreen.shipControl;
+        ShipUiControl shipControl = game.getScreens().mainScreen.shipControl;
         if (shipControl instanceof ShipMouseControl) {
             shipControl.update(solApplication, true);
         }
