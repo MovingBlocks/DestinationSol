@@ -116,7 +116,7 @@ public class Asteroid implements SolObject {
 
     @Override
     public String toDebugString() {
-        return null;
+        return "Asteroid size: " + size;
     }
 
     @Override
@@ -206,10 +206,10 @@ public class Asteroid implements SolObject {
         Vector2 lootSpeed = new Vector2();
         SolMath.fromAl(lootSpeed, speedAngle, SolRandom.randomFloat(0, Loot.MAX_SPD));
         lootSpeed.add(speed);
-        Vector2 position = new Vector2();
-        SolMath.fromAl(position, speedAngle, SolRandom.randomFloat(0, size / 2));
-        position.add(position);
-        Loot l = game.getLootBuilder().build(game, position, item, lootSpeed, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), null);
+        Vector2 lootPosition = new Vector2();
+        SolMath.fromAl(lootPosition, speedAngle, SolRandom.randomFloat(0, size / 2)); // calculate random offset inside asteroid
+        lootPosition.add(position); // add offset to asteroid's position
+        Loot l = game.getLootBuilder().build(game, lootPosition, item, lootSpeed, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), null);
         game.getObjectManager().addObjDelayed(l);
     }
 
