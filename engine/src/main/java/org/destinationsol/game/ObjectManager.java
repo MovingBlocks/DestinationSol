@@ -283,14 +283,14 @@ public class ObjectManager implements UpdateAwareSystem{
 
     public void addObjDelayed(SolObject p) {
         if (DebugOptions.ASSERTIONS && myToAdd.contains(p)) {
-            throw new AssertionError();
+            throw new AssertionError("This object is already contained in the list of objects to add!");
         }
         myToAdd.add(p);
     }
 
     public void removeObjDelayed(SolObject obj) {
         if (DebugOptions.ASSERTIONS && myToRemove.contains(obj)) {
-            throw new AssertionError();
+            throw new AssertionError("This object is already contained in the list of objects to remove!");
         }
         myToRemove.add(obj);
     }
