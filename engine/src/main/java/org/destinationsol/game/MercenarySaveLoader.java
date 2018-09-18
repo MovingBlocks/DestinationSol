@@ -39,6 +39,7 @@ import static java.util.Collections.emptyList;
  * Loader for mercenary data from a json file in the save directory.
  */
 class MercenarySaveLoader {
+    private static final String MERC_SAVE_FILE = "mercenaries.json";
     private static final float MERCENARY_SHIP_DENSITY = -1f;
     private static final String NODE_HULL = "hull";
     private static final String NODE_ITEMS = "items";
@@ -51,14 +52,13 @@ class MercenarySaveLoader {
      *
      * @param hullConfigManager The config manager to resolve ship hulls.
      * @param itemManager       The item manager to be used in each ship config.
-     * @param fileName          Name of the save file without a path. The file will be resolved using the {@link SaveManager}.
      * @return A list of all loaded mercenaries.
      */
-    List<MercItem> loadMercenariesFromSave(HullConfigManager hullConfigManager, ItemManager itemManager, String fileName) {
-        if (!SaveManager.resourceExists(fileName)) {
+    List<MercItem> loadMercenariesFromSave(HullConfigManager hullConfigManager, ItemManager itemManager) {
+        if (!SaveManager.resourceExists(MERC_SAVE_FILE)) {
             return emptyList();
         }
-        String path = SaveManager.getResourcePath(fileName);
+        String path = SaveManager.getResourcePath(MERC_SAVE_FILE);
         if (new File(path).length() == 0) {
             return emptyList();
         }

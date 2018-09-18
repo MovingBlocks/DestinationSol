@@ -84,7 +84,7 @@ public class MainMenuScreen implements SolUiScreen {
         tutorialControl.setEnabled(solApplication.getOptions().controlType != GameOptions.ControlType.CONTROLLER);
 
         if (tutorialControl.isJustOff()) {
-            solApplication.loadGame(true, "Imperial Small", true); // Tutorials should be new games, methinks
+            solApplication.play(true, "Imperial Small", true);
             return;
         }
 
