@@ -16,26 +16,21 @@
 
 package org.destinationsol.menu;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.planet.SystemsBuilder;
-import org.destinationsol.ui.FontSize;
-import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolUiScreen;
-import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.*;
 import org.terasology.assets.ResourceUrn;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.JsonValue;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class NewShipScreen implements SolUiScreen {
     private final TextureAtlas.AtlasRegion backgroundTexture;
@@ -47,13 +42,14 @@ public class NewShipScreen implements SolUiScreen {
     private SolUiControl playerSpawnConfigControl;
     private int playerSpawnConfigIndex = 0;
     private List<String> playerSpawnConfigNames = new ArrayList<>();
+    private int numberOfSystems = SystemsBuilder.DEFAULT_SYSTEM_COUNT;
 
     NewShipScreen(MenuLayout menuLayout, GameOptions gameOptions) {
         loadPlayerSpawnConfigs();
 
         int row = 1;
         systemCountControl = new SolUiControl(menuLayout.buttonRect(-1, row++), true);
-        systemCountControl.setDisplayName("Systems: " + SystemsBuilder.SYS_COUNT);
+        systemCountControl.setDisplayName("Systems: " + numberOfSystems);
         controls.add(systemCountControl);
 
         playerSpawnConfigControl = new SolUiControl(menuLayout.buttonRect(-1, row++), true);
@@ -79,7 +75,7 @@ public class NewShipScreen implements SolUiScreen {
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         if (okControl.isJustOff()) {
-            solApplication.loadGame(false, playerSpawnConfigNames.get(playerSpawnConfigIndex), true);
+            solApplication.play(false, playerSpawnConfigNames.get(playerSpawnConfigIndex), true);
             return;
         }
 
@@ -89,12 +85,12 @@ public class NewShipScreen implements SolUiScreen {
         }
 
         if (systemCountControl.isJustOff()) {
-            int systemCount = (SystemsBuilder.SYS_COUNT + 1) % 10;
+            int systemCount = (numberOfSystems + 1) % 10;
             if (systemCount < 2) {
                 systemCount = 2;
             }
-            SystemsBuilder.SYS_COUNT = systemCount;
-            systemCountControl.setDisplayName("Systems: " + SystemsBuilder.SYS_COUNT);
+            numberOfSystems = systemCount;
+            systemCountControl.setDisplayName("Systems: " + numberOfSystems);
         }
 
         if (playerSpawnConfigControl.isJustOff()) {
@@ -126,5 +122,9 @@ public class NewShipScreen implements SolUiScreen {
 
             json.dispose();
         }
+    }
+
+    public int getNumberOfSystems() {
+        return numberOfSystems;
     }
 }
