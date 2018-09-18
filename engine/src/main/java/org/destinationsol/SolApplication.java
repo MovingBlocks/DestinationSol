@@ -20,22 +20,19 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import org.destinationsol.assets.audio.OggMusicManager;
+import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
-import org.destinationsol.assets.audio.OggMusicManager;
-import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.menu.MenuScreens;
-import org.destinationsol.ui.DebugCollector;
-import org.destinationsol.ui.FontSize;
-import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolLayouts;
-import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,8 +59,7 @@ public class SolApplication implements ApplicationListener {
     private SolGame solGame;
     private Context context;
 
-    public static final String WORLD_SAVE_FILE_NAME = "world.ini";
-
+    private WorldConfig worldConfig;
     private float timeAccumulator = 0;
     private boolean isMobile;
 
@@ -76,6 +72,7 @@ public class SolApplication implements ApplicationListener {
     public void create() {
         context = new ContextImpl();
         context.put(SolApplication.class, this);
+        worldConfig = new WorldConfig();
         isMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
         if (isMobile) {
             DebugOptions.read(null);
@@ -201,7 +198,7 @@ public class SolApplication implements ApplicationListener {
             beforeLoadGame();
         }
 
-        solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context);
+        solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
         musicManager.playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
@@ -254,29 +251,21 @@ public class SolApplication implements ApplicationListener {
         return soundManager;
     }
 
-
-     // This method is called when the "New Game" button gets pressed
+    /**  This method is called when the "New Game" button gets pressed. It sets the seed for random generation, and the number of systems */
     private void beforeNewGame() {
         // Reset the seed so this galaxy isn't the same as the last
-        long seed = System.currentTimeMillis();
-        SolRandom.setSeed(seed);
-        
-        logger.info("Set Seed: " + String.valueOf(seed));
+        worldConfig.setSeed(System.currentTimeMillis());
+        SolRandom.setSeed(worldConfig.getSeed());
+
+        worldConfig.setNumberOfSystems(getMenuScreens().newShip.getNumberOfSystems());
     }
 
-
-     // This method is called when the "Continue" button gets pressed
+     /** This method is called when the "Continue" button gets pressed. It loads the world file to get the seed used for the world generation, and the number of systems */
     private void beforeLoadGame() {
-        // Set the seed for all the randomness. Very important
-        if (SaveManager.resourceExists(WORLD_SAVE_FILE_NAME)) {
-            IniReader iniReader = new IniReader(WORLD_SAVE_FILE_NAME, null);
-
-            // Set a fall back for if the seed doesn't exist, just in case someone modified world.ini
-            long seed = Long.parseLong(iniReader.getString("seed", "0"));
-
-            logger.info("Got seed: " + String.valueOf(seed));
-
-            SolRandom.setSeed(seed);
+        WorldConfig config = SaveManager.loadWorld();
+        if(config != null) {
+            worldConfig = config;
+            SolRandom.setSeed(worldConfig.getSeed());
         }
     }
 }

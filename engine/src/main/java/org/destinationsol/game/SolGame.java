@@ -33,11 +33,7 @@ import org.destinationsol.game.context.Context;
 import org.destinationsol.game.drawables.DrawableDebugger;
 import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.farBg.FarBackgroundManagerOld;
-import org.destinationsol.game.item.ItemContainer;
-import org.destinationsol.game.item.ItemManager;
-import org.destinationsol.game.item.LootBuilder;
-import org.destinationsol.game.item.MercItem;
-import org.destinationsol.game.item.SolItem;
+import org.destinationsol.game.item.*;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.particle.PartMan;
 import org.destinationsol.game.particle.SpecialEffects;
@@ -57,17 +53,11 @@ import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SolGame {
-
-    private static final String MERC_SAVE_FILE = "mercenaries.json";
     private static Logger logger = LoggerFactory.getLogger(SolGame.class);
-
 
     private final GameScreens gameScreens;
     private final SolCam camera;
@@ -106,7 +96,7 @@ public class SolGame {
     private List<UpdateAwareSystem> onPausedUpdateSystems = new ArrayList<>();
     private List<UpdateAwareSystem> updateSystems = new ArrayList<>();
 
-    public SolGame(String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context) {
+    public SolGame(String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context, WorldConfig worldConfig) {
         solApplication = context.get(SolApplication.class);
         GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
@@ -143,8 +133,8 @@ public class SolGame {
         timeFactor = 1;
 
         // from this point we're ready!
-        planetManager.fill(solNames);
         respawnState = new RespawnState();
+        planetManager.fill(solNames, worldConfig.getNumberOfSystems());
         createGame(shipName, isNewGame);
         if (!isNewGame) {
             createAndSpawnMercenariesFromSave();
@@ -179,8 +169,7 @@ public class SolGame {
     }
 
     private void createAndSpawnMercenariesFromSave() {
-        List<MercItem> mercenaryItems = new MercenarySaveLoader()
-                .loadMercenariesFromSave(hullConfigManager, itemManager, MERC_SAVE_FILE);
+        List<MercItem> mercenaryItems = new MercenarySaveLoader().loadMercenariesFromSave(hullConfigManager, itemManager);
         for (MercItem mercenaryItem : mercenaryItems) {
             MercenaryUtils.createMerc(this, hero, mercenaryItem);
         }
@@ -199,26 +188,12 @@ public class SolGame {
     /**
      * Saves the world's seed so we can regenerate the same world later
      */
-    private void saveWorld() {
-        // Make sure the tutorial doesn't overwrite the save
-        if (tutorialManager == null) {
-            long seed = SolRandom.getSeed();
-
-            String fileName = SaveManager.getResourcePath(SolApplication.WORLD_SAVE_FILE_NAME);
-
-            String toWrite = "seed=" + Long.toString(seed);
-
-            PrintWriter writer;
-            try {
-                writer = new PrintWriter(fileName, "UTF-8");
-                writer.write(toWrite);
-                writer.close();
-            } catch (FileNotFoundException | UnsupportedEncodingException e) {
-                logger.error("Could not save galaxy seed, " + e.getMessage());
-                return;
-            }
-            logger.info("Successfully saved the galaxy seed: " + String.valueOf(seed));
+    public void saveWorld() {
+        if (tutorialManager != null) {
+            return;
         }
+
+        SaveManager.saveWorld(getPlanetManager().getSystems().size());
     }
 
     private void saveShip() {

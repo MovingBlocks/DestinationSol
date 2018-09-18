@@ -29,8 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SystemsBuilder {
-    public static int SYS_COUNT = 2;
-    public static final int MAZE_COUNT = SYS_COUNT * 2;
+    public static final int DEFAULT_SYSTEM_COUNT = 2;
     public static final int PLANET_COUNT = 5;
     public static final float PLANET_SPD = .2f;
     private static final float GROUND_SPD = .2f;
@@ -38,12 +37,11 @@ public class SystemsBuilder {
     private static final float MAZE_GAP = 10f;
     private static final float BELT_HALF_WIDTH = 20f;
 
-    public List<SolSystem> build(List<SolSystem> systems, List<Planet> planets, ArrayList<SystemBelt> belts,
-                                 PlanetConfigs planetConfigs,
-                                 MazeConfigs mazeConfigs, ArrayList<Maze> mazes, SysConfigs sysConfigs, SolNames names) {
+    public List<SolSystem> build(List<SolSystem> systems, List<Planet> planets, ArrayList<SystemBelt> belts, PlanetConfigs planetConfigs,
+                                 MazeConfigs mazeConfigs, ArrayList<Maze> mazes, SysConfigs sysConfigs, SolNames names, int systemCount) {
         
-        int sysLeft = SYS_COUNT;
-        int mazesLeft = MAZE_COUNT;
+        int sysLeft = systemCount;
+        int mazesLeft = systemCount * 2;
         while (sysLeft > 0 || mazesLeft > 0) {
             boolean createSys = sysLeft > 0;
             if (createSys && mazesLeft > 0 && !systems.isEmpty()) {

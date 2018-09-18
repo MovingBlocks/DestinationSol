@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlanetManager implements UpdateAwareSystem {
-
     private final ArrayList<SolSystem> systems;
     private final ArrayList<Planet> planets;
     private final ArrayList<SystemBelt> belts;
@@ -69,8 +68,8 @@ public class PlanetManager implements UpdateAwareSystem {
         planetCoreSingleton = new PlanetCoreSingleton();
     }
 
-    public void fill(SolNames names) {
-        new SystemsBuilder().build(systems, planets, belts, planetConfigs, mazeConfigs, mazes, sysConfigs, names);
+    public void fill(SolNames names, int numberOfSystems) {
+        new SystemsBuilder().build(systems, planets, belts, planetConfigs, mazeConfigs, mazes, sysConfigs, names, numberOfSystems);
     }
 
     @Override

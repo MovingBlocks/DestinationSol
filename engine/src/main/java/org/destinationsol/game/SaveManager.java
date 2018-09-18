@@ -20,21 +20,18 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 import org.destinationsol.IniReader;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
-import org.destinationsol.game.item.Gun;
-import org.destinationsol.game.item.ItemContainer;
-import org.destinationsol.game.item.ItemManager;
-import org.destinationsol.game.item.MercItem;
-import org.destinationsol.game.item.SolItem;
+import org.destinationsol.game.item.*;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +39,9 @@ import java.util.List;
 public class SaveManager {
     private static Logger logger = LoggerFactory.getLogger(SaveManager.class);
 
-    private static final String SAVE_FILE_NAME = "prevShip.ini";
-    static String MERC_SAVE_FILE = getResourcePath("mercenaries.json");
-
-    private static final String FILE_NAME = "prevShip.ini";
+    protected static final String SAVE_FILE_NAME = "prevShip.ini";
+    protected static final String MERC_SAVE_FILE = "mercenaries.json";
+    protected static final String WORLD_SAVE_FILE_NAME = "world.json";
 
     public static void writeShips(HullConfig hull, float money, List<SolItem> itemsList, Hero hero, HullConfigManager hullConfigManager) {
         String hullName = hullConfigManager.getName(hull);
@@ -56,7 +52,7 @@ public class SaveManager {
 
         Vector2 pos = hero.getPosition();
 
-        IniReader.write(FILE_NAME, "hull", hullName, "money", (int) money, "items", items, "x", pos.x, "y", pos.y);
+        IniReader.write(SAVE_FILE_NAME, "hull", hullName, "money", (int) money, "items", items, "x", pos.x, "y", pos.y);
     }
 
     /**
@@ -130,7 +126,7 @@ public class SaveManager {
         // Using PrintWriter because it truncates the file if it exists or creates a new one if it doesn't
         // And truncation is good because we don't want dead mercs respawning
         try {
-            writer = new PrintWriter(MERC_SAVE_FILE, "UTF-8");
+            writer = new PrintWriter(getResourcePath(MERC_SAVE_FILE), "UTF-8");
             writer.write(stringToWrite);
             writer.close();
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
@@ -169,6 +165,9 @@ public class SaveManager {
         return resourceExists(fileName);
     }
 
+    /**
+     * Load last saved ship from file
+     */
     public static ShipConfig readShip(HullConfigManager hullConfigs, ItemManager itemManager) {
         IniReader ir = new IniReader(SAVE_FILE_NAME, null);
 
@@ -190,5 +189,71 @@ public class SaveManager {
         Vector2 spawnPos = new Vector2(x, y);
 
         return new ShipConfig(hull, itemsStr, money, 1, null, itemManager, spawnPos);
+    }
+
+    /**
+     * Saves the world to a file. Currently stores the seed used to generate the world and the number of systems
+     * @param numberOfSystems
+     */
+    public static void saveWorld(int numberOfSystems) {
+        Long seed = SolRandom.getSeed();
+        String fileName = SaveManager.getResourcePath(WORLD_SAVE_FILE_NAME);
+
+        JsonObject world = new JsonObject();
+        world.addProperty("seed", seed);
+        world.addProperty("systems", numberOfSystems);
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String stringToWrite = gson.toJson(world);
+
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(fileName, "UTF-8");
+            writer.write(stringToWrite);
+            logger.debug("Successfully saved the world file");
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            logger.error("Could not save world file", e);
+            return;
+        } finally {
+            if(writer != null) {
+                writer.close();
+            }
+        }
+    }
+
+    /**
+     * Load the last saved world from file, or returns null if there is no file
+     */
+    public static WorldConfig loadWorld() {
+        if(SaveManager.resourceExists(WORLD_SAVE_FILE_NAME)) {
+            WorldConfig config = new WorldConfig();
+            JsonReader reader = null;
+            try {
+                reader = new com.google.gson.stream.JsonReader(new FileReader(SaveManager.getResourcePath(WORLD_SAVE_FILE_NAME)));
+                reader.setLenient(true); // without this it will fail with strange errors
+                JsonObject world = new JsonParser().parse(reader).getAsJsonObject();
+
+                if(world.has("seed")) {
+                    config.setSeed(world.get("seed").getAsLong());
+                }
+
+                if(world.has("systems")) {
+                    config.setNumberOfSystems(world.get("systems").getAsInt());
+                }
+
+                logger.debug("Successfully loaded the world file");
+                return config;
+            } catch (FileNotFoundException e) {
+                logger.error("Cannot find world file", e);
+            } finally {
+                if(reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {}
+                }
+            }
+        }
+
+        return null;
     }
 }
