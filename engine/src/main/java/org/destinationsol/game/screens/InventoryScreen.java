@@ -26,16 +26,17 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.menu.MenuLayout;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InventoryScreen implements SolUiScreen {
+public class InventoryScreen extends SolUiBaseScreen {
     // TODO: Rename!
     private static final ItemContainer EMPTY_CONTAINER = new ItemContainer();
     private static final float HEADER_TEXT_OFFSET = .005f;
@@ -47,16 +48,15 @@ public class InventoryScreen implements SolUiScreen {
     private static final float AMT_COL_PERC = .1f;
 
     public final ShowInventory showInventory;
-    public final BuyItems buyItems;
+    public final BuyItemsScreen buyItemsScreen;
     public final SellItems sellItems;
-    public final ChangeShip changeShip;
-    public final HireShips hireShips;
+    public final ChangeShipScreen changeShipScreen;
+    public final HireShipsScreen hireShipsScreen;
     // The below screens deal with mercenaries
-    public final ChooseMercenary chooseMercenary;
-    public final GiveItems giveItems;
+    public final ChooseMercenaryScreen chooseMercenaryScreen;
+    public final GiveItemsScreen giveItemsScreen;
     public final TakeItems takeItems;
 
-    private final List<SolUiControl> controls = new ArrayList<>();
     public final SolUiControl[] itemControls;
     private final SolUiControl previousControl;
     private final SolUiControl upControl;
@@ -73,11 +73,13 @@ public class InventoryScreen implements SolUiScreen {
 
     private int myPage;
     private List<SolItem> mySelected;
-    private InventoryOperations myOperations;
+    private InventoryOperationsScreen myOperations;
 
-    public InventoryScreen(float resolutionRatio, GameOptions gameOptions) {
+    public InventoryScreen(GameOptions gameOptions) {
+        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+
         float contentW = .8f;
-        float col0 = resolutionRatio / 2 - contentW / 2;
+        float col0 = displayDimensions.getRatio() / 2 - contentW / 2;
         float row0 = .2f;
         float row = row0;
         float backgroundGap = MenuLayout.BG_BORDER;
@@ -127,22 +129,17 @@ public class InventoryScreen implements SolUiScreen {
         controls.add(closeControl);
 
         showInventory = new ShowInventory(this, gameOptions);
-        buyItems = new BuyItems(this, gameOptions);
+        buyItemsScreen = new BuyItemsScreen(this, gameOptions);
         sellItems = new SellItems(this, gameOptions);
-        changeShip = new ChangeShip(this, gameOptions);
-        hireShips = new HireShips(this, gameOptions);
-        chooseMercenary = new ChooseMercenary(this, gameOptions);
-        giveItems = new GiveItems(this, gameOptions);
+        changeShipScreen = new ChangeShipScreen(this, gameOptions);
+        hireShipsScreen = new HireShipsScreen(this, gameOptions);
+        chooseMercenaryScreen = new ChooseMercenaryScreen(this, gameOptions);
+        giveItemsScreen = new GiveItemsScreen(this, gameOptions);
         takeItems = new TakeItems(this, gameOptions);
         upControl = new SolUiControl(null, true, gameOptions.getKeyUp());
         controls.add(upControl);
         downControl = new SolUiControl(null, true, gameOptions.getKeyDown());
         controls.add(downControl);
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
     }
 
     @Override
@@ -154,14 +151,14 @@ public class InventoryScreen implements SolUiScreen {
         if (closeControl.isJustOff()) {
             
             SolGame game = solApplication.getGame();
-            // Make sure the ChooseMercenary screen comes back up when we exit a mercenary related screen
-            if (myOperations == giveItems || myOperations == takeItems || (myOperations == showInventory && showInventory.getTarget() != game.getHero().getShip())) {
+            // Make sure the ChooseMercenaryScreen screen comes back up when we exit a mercenary related screen
+            if (myOperations == giveItemsScreen || myOperations == takeItems || (myOperations == showInventory && showInventory.getTarget() != game.getHero().getShip())) {
                 SolInputManager inputMan = solApplication.getInputManager();
                 GameScreens screens = game.getScreens();
                 InventoryScreen is = screens.inventoryScreen;
                 
                 inputMan.setScreen(solApplication, screens.mainScreen);
-                is.setOperations(is.chooseMercenary);
+                is.setOperations(is.chooseMercenaryScreen);
                 inputMan.addScreen(solApplication, is);
             }
             solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().mainScreen);
@@ -376,11 +373,11 @@ public class InventoryScreen implements SolUiScreen {
         return mySelected == null || mySelected.isEmpty() ? null : mySelected.get(0);
     }
 
-    public InventoryOperations getOperations() {
+    public InventoryOperationsScreen getOperations() {
         return myOperations;
     }
 
-    public void setOperations(InventoryOperations operations) {
+    public void setOperations(InventoryOperationsScreen operations) {
         myOperations = operations;
     }
 

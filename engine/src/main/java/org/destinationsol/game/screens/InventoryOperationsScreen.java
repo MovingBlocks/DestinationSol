@@ -18,18 +18,18 @@ package org.destinationsol.game.screens;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.ui.SolUiScreen;
+import org.destinationsol.ui.SolUiBaseScreen;
 
-public interface InventoryOperations extends SolUiScreen {
-    ItemContainer getItems(SolGame game);
+public abstract class InventoryOperationsScreen extends SolUiBaseScreen {
+    abstract ItemContainer getItems(SolGame game);
 
-    default boolean isUsing(SolGame game, SolItem item) {
+    boolean isUsing(SolGame game, SolItem item) {
         return false;
     }
 
-    default float getPriceMul() {
+    float getPriceMul() {
         return 1;
     }
 
-    String getHeader();
+    abstract String getHeader();
 }

@@ -18,18 +18,26 @@ package org.destinationsol.game.screens;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
+import org.destinationsol.SolApplication;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.planet.SolSystem;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.UiDrawer;
 
 public class ZoneNameAnnouncer {
+    private DisplayDimensions displayDimensions;
+
     private static final float FADE_TIME = 4f;
     private final Color color = new Color(1, 1, 1, 1);
     private String zone;
     private String text;
+
+    ZoneNameAnnouncer() {
+        displayDimensions = SolApplication.displayDimensions;
+    }
 
     public void update(SolGame game) {
         PlanetManager planetManager = game.getPlanetManager();
@@ -61,6 +69,6 @@ public class ZoneNameAnnouncer {
         if (color.a <= 0) {
             return;
         }
-        uiDrawer.drawString(text, uiDrawer.r / 2, .15f, FontSize.MENU * 1.5f, true, color);
+        uiDrawer.drawString(text, displayDimensions.getRatio() / 2, .15f, FontSize.MENU * 1.5f, true, color);
     }
 }
