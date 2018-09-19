@@ -24,11 +24,7 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ShowInventory implements InventoryOperations {
-    private final List<SolUiControl> controls = new ArrayList<>();
+public class ShowInventory extends InventoryOperationsScreen {
     public final SolUiControl eq1Control;
     private final SolUiControl eq2Control;
     public final SolUiControl dropControl;
@@ -47,11 +43,6 @@ public class ShowInventory implements InventoryOperations {
         dropControl = new SolUiControl(inventoryScreen.itemCtrl(2), true, gameOptions.getKeyDrop());
         dropControl.setDisplayName("Drop");
         controls.add(dropControl);
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
     }
 
     @Override

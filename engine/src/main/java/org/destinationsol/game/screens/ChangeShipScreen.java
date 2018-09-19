@@ -32,14 +32,10 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ChangeShip implements InventoryOperations {
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
+public class ChangeShipScreen extends InventoryOperationsScreen {
     private final SolUiControl changeControl;
 
-    ChangeShip(InventoryScreen inventoryScreen, GameOptions gameOptions) {
+    ChangeShipScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
         changeControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyChangeShip());
         changeControl.setDisplayName("Change");
         controls.add(changeControl);
@@ -53,11 +49,6 @@ public class ChangeShip implements InventoryOperations {
     @Override
     public String getHeader() {
         return "Ships:";
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
     }
 
     @Override
@@ -107,7 +98,7 @@ public class ChangeShip implements InventoryOperations {
             HullConfig config2 = hero.getHull().getHullConfig();
             return config1.equals(config2);
         } else {
-            throw new IllegalArgumentException("ChangeShip:isSameShip received " + shipToBuy.getClass() + " argument instead of ShipItem!");
+            throw new IllegalArgumentException("ChangeShipScreen:isSameShip received " + shipToBuy.getClass() + " argument instead of ShipItem!");
         }
     }
 

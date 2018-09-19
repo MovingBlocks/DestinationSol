@@ -13,45 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.screens;
 
-import java.util.ArrayList;
-import java.util.List;
+package org.destinationsol.game.screens;
 
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
-import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.mercenary.MercenaryUtils;
+import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 
-public class HireShips implements InventoryOperations {
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
-    private final SolUiControl hireControl;
+public class BuyItemsScreen extends InventoryOperationsScreen {
+    public final SolUiControl buyControl;
 
-    HireShips(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        hireControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyHireShip());
-        hireControl.setDisplayName("Hire");
-        controls.add(hireControl);
+    BuyItemsScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
+        buyControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyBuyItem());
+        buyControl.setDisplayName("Buy");
+        controls.add(buyControl);
     }
 
     @Override
     public ItemContainer getItems(SolGame game) {
-        return game.getScreens().talkScreen.getTarget().getTradeContainer().getMercs();
+        return game.getScreens().talkScreen.getTarget().getTradeContainer().getItems();
     }
 
     @Override
     public String getHeader() {
-        return "Mercenaries:";
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
+        return "Buy:";
     }
 
     @Override
@@ -60,22 +51,22 @@ public class HireShips implements InventoryOperations {
         InventoryScreen is = game.getScreens().inventoryScreen;
         Hero hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
+        SolShip target = talkScreen.getTarget();
         if (talkScreen.isTargetFar(hero)) {
             solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainScreen);
             return;
         }
         SolItem selItem = is.getSelectedItem();
-        boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice();
-        hireControl.setDisplayName(enabled ? "Hire" : "---");
-        hireControl.setEnabled(enabled);
+        boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice() && hero.getItemContainer().canAdd(selItem);
+        buyControl.setDisplayName(enabled ? "Buy" : "---");
+        buyControl.setEnabled(enabled);
         if (!enabled) {
             return;
         }
-        if (hireControl.isJustOff()) {
-            boolean hired = MercenaryUtils.createMerc(game, hero, (MercItem) selItem);
-            if (hired) {
-                hero.setMoney(hero.getMoney() - selItem.getPrice());
-            }
+        if (buyControl.isJustOff()) {
+            target.getTradeContainer().getItems().remove(selItem);
+            hero.getItemContainer().add(selItem);
+            hero.setMoney(hero.getMoney() - selItem.getPrice());
         }
     }
 }

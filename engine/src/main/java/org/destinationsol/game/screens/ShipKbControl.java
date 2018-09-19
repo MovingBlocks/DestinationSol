@@ -19,6 +19,7 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.item.Gun;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolUiControl;
 
 import java.util.List;
@@ -32,12 +33,14 @@ public class ShipKbControl implements ShipUiControl {
     public final SolUiControl shoot2Ctrl;
     public final SolUiControl abilityCtrl;
 
-    ShipKbControl(SolApplication solApplication, float resolutionRatio, List<SolUiControl> controls) {
+    ShipKbControl(SolApplication solApplication, List<SolUiControl> controls) {
+        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+
         GameOptions gameOptions = solApplication.getOptions();
         boolean showButtons = solApplication.isMobile();
         float col0 = 0;
         float col1 = col0 + MainScreen.CELL_SZ;
-        float colN0 = resolutionRatio - MainScreen.CELL_SZ;
+        float colN0 = displayDimensions.getRatio() - MainScreen.CELL_SZ;
         float colN1 = colN0 - MainScreen.CELL_SZ;
         float rowN0 = 1 - MainScreen.CELL_SZ;
         float rowN1 = rowN0 - MainScreen.CELL_SZ;

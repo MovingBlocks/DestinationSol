@@ -17,6 +17,7 @@ package org.destinationsol.ui;
 
 import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.GameOptions;
+import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.SolItem;
@@ -30,15 +31,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TutorialManager {
+    private DisplayDimensions displayDimensions;
+
     private final Rectangle background;
     private final ArrayList<Step> steps;
 
     private int stepIndex;
 
-    public TutorialManager(float r, GameScreens screens, boolean mobile, GameOptions gameOptions, SolGame game) {
-        float backgroundW = r * .5f;
+    public TutorialManager(GameScreens screens, boolean mobile, GameOptions gameOptions, SolGame game) {
+        displayDimensions = SolApplication.displayDimensions;
+
+        float backgroundW = displayDimensions.getRatio() * .5f;
         float backgroundH = .2f;
-        background = new Rectangle(r / 2 - backgroundW / 2, 1 - backgroundH, backgroundW, backgroundH);
+        background = new Rectangle(displayDimensions.getRatio() / 2 - backgroundW / 2, 1 - backgroundH, backgroundW, backgroundH);
         steps = new ArrayList<>();
         stepIndex = 0;
 
@@ -177,9 +182,9 @@ public class TutorialManager {
         }
 
         if (mobile) {
-            addStep("Buy some item", screens.inventoryScreen.buyItems.buyControl);
+            addStep("Buy some item", screens.inventoryScreen.buyItemsScreen.buyControl);
         } else {
-            addStep("Buy some item\n(" + gameOptions.getKeyBuyItemName() + " key)", screens.inventoryScreen.buyItems.buyControl);
+            addStep("Buy some item\n(" + gameOptions.getKeyBuyItemName() + " key)", screens.inventoryScreen.buyItemsScreen.buyControl);
         }
 
         if (mobile) {
@@ -242,7 +247,7 @@ public class TutorialManager {
         uiDrawer.drawLine(background.x, background.y, 0, background.width, SolColor.WHITE);
         uiDrawer.drawLine(background.x + background.width, background.y, 90, background.height, SolColor.WHITE);
         uiDrawer.drawLine(background.x, background.y, 90, background.height, SolColor.WHITE);
-        uiDrawer.drawString(step.text, uiDrawer.r / 2, background.y + background.height / 2, FontSize.TUT, true, SolColor.WHITE);
+        uiDrawer.drawString(step.text, displayDimensions.getRatio() / 2, background.y + background.height / 2, FontSize.TUT, true, SolColor.WHITE);
     }
 
     public boolean isFinished() {
