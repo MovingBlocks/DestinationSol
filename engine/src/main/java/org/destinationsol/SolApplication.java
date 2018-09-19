@@ -20,6 +20,8 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import org.destinationsol.assets.audio.OggMusicManager;
+import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -28,11 +30,11 @@ import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
-import org.destinationsol.assets.audio.OggMusicManager;
-import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.menu.MenuScreens;
 import org.destinationsol.ui.DebugCollector;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
+import org.destinationsol.ui.ResizeSubscriber;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
@@ -41,6 +43,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SolApplication implements ApplicationListener {
     private static final Logger logger = LoggerFactory.getLogger(SolApplication.class);
@@ -53,6 +57,7 @@ public class SolApplication implements ApplicationListener {
     private SolInputManager inputManager;
 
     private UiDrawer uiDrawer;
+
     private MenuScreens menuScreens;
     private SolLayouts layouts;
     private GameOptions options;
@@ -62,10 +67,16 @@ public class SolApplication implements ApplicationListener {
     private SolGame solGame;
     private Context context;
 
+    // TODO: Make this non-static.
+    public static DisplayDimensions displayDimensions;
+
     public static final String WORLD_SAVE_FILE_NAME = "world.ini";
 
     private float timeAccumulator = 0;
     private boolean isMobile;
+
+    // TODO: Make this non-static.
+    private static Set<ResizeSubscriber> resizeSubscribers;
 
     public SolApplication() {
         // Initiate Box2D to make sure natives are loaded early enough
@@ -74,6 +85,8 @@ public class SolApplication implements ApplicationListener {
 
     @Override
     public void create() {
+        resizeSubscribers = new HashSet<>();
+
         context = new ContextImpl();
         context.put(SolApplication.class, this);
         isMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
@@ -93,16 +106,22 @@ public class SolApplication implements ApplicationListener {
 
         musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
 
+        displayDimensions = new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         commonDrawer = new CommonDrawer();
         uiDrawer = new UiDrawer(commonDrawer);
-        layouts = new SolLayouts(uiDrawer.r);
-        menuScreens = new MenuScreens(layouts, isMobile(), uiDrawer.r, options);
+        layouts = new SolLayouts();
+        menuScreens = new MenuScreens(layouts, isMobile(), options);
 
         inputManager.setScreen(this, menuScreens.main);
     }
 
     @Override
     public void resize(int newWidth, int newHeight) {
+        displayDimensions.set(newWidth, newHeight);
+
+        for (ResizeSubscriber resizeSubscriber : resizeSubscribers) {
+            resizeSubscriber.resize();
+        }
     }
 
     public void render() {
@@ -173,9 +192,9 @@ public class SolApplication implements ApplicationListener {
             solGame.drawDebugUi(uiDrawer);
         }
         if (fatalErrorMsg != null) {
-            uiDrawer.draw(uiDrawer.whiteTexture, uiDrawer.r, .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
-            uiDrawer.drawString(fatalErrorMsg, uiDrawer.r / 2, .5f, FontSize.MENU, true, SolColor.WHITE);
-            uiDrawer.drawString(fatalErrorTrace, .2f * uiDrawer.r, .6f, FontSize.DEBUG, false, SolColor.WHITE);
+            uiDrawer.draw(uiDrawer.whiteTexture, displayDimensions.getRatio(), .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
+            uiDrawer.drawString(fatalErrorMsg, displayDimensions.getRatio(), .5f, FontSize.MENU, true, SolColor.WHITE);
+            uiDrawer.drawString(fatalErrorTrace, .2f * displayDimensions.getRatio(), .6f, FontSize.DEBUG, false, SolColor.WHITE);
         }
         DebugCollector.draw(uiDrawer);
         if (solGame == null) {
@@ -254,7 +273,6 @@ public class SolApplication implements ApplicationListener {
         return soundManager;
     }
 
-
      // This method is called when the "New Game" button gets pressed
     private void beforeNewGame() {
         // Reset the seed so this galaxy isn't the same as the last
@@ -263,7 +281,6 @@ public class SolApplication implements ApplicationListener {
         
         logger.info("Set Seed: " + String.valueOf(seed));
     }
-
 
      // This method is called when the "Continue" button gets pressed
     private void beforeLoadGame() {
@@ -278,5 +295,10 @@ public class SolApplication implements ApplicationListener {
 
             SolRandom.setSeed(seed);
         }
+    }
+
+    // TODO: Make this non-static.
+    public static void addResizeSubscriber(ResizeSubscriber resizeSubscriber) {
+        resizeSubscribers.add(resizeSubscriber);
     }
 }

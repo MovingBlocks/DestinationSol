@@ -20,12 +20,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.destinationsol.Const;
+import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.screens.MainScreen;
+import org.destinationsol.ui.DisplayDimensions;
 
 public class SolCam {
     public static final float CAM_ROT_SPD = 90f;
@@ -39,6 +42,7 @@ public class SolCam {
     public static boolean DIRECT_CAM_CONTROL = false;
     private final CamRotStrategy myCamRotStrategy;
     private final OrthographicCamera myCam;
+    private final ScreenViewport viewport;
     private final Vector3 myTmpVec;
 
     private float myPrevHeroLife;
@@ -46,10 +50,13 @@ public class SolCam {
     private float myAngle;
     private float myZoom;
     private Vector2 position;
+    private DisplayDimensions displayDimensions;
 
-    public SolCam(float r) {
+    public SolCam() {
+        displayDimensions = SolApplication.displayDimensions;
         myCamRotStrategy = new CamRotStrategy.ToPlanet();
-        myCam = new OrthographicCamera(VIEWPORT_HEIGHT * r, -VIEWPORT_HEIGHT);
+        myCam = new OrthographicCamera(VIEWPORT_HEIGHT * displayDimensions.getRatio(), -VIEWPORT_HEIGHT);
+        viewport = new ScreenViewport(myCam);
         myZoom = calcZoom(Const.CAM_VIEW_DIST_GROUND);
         position = new Vector2();
         myTmpVec = new Vector3();
@@ -110,6 +117,8 @@ public class SolCam {
         myZoom = SolMath.approach(myZoom, desiredZoom, ZOOM_CHG_SPD * ts);
         applyZoom(game.getMapDrawer());
         myCam.update();
+        viewport.update(Gdx.graphics.getWidth(), -Gdx.graphics.getHeight());
+        viewport.setUnitsPerPixel(1 / (Gdx.graphics.getHeight() / VIEWPORT_HEIGHT));
     }
 
     private float getDesiredViewDistance(SolGame game) {
@@ -205,7 +214,7 @@ public class SolCam {
 
     public void drawDebug(GameDrawer drawer) {
         float hOver2 = VIEWPORT_HEIGHT * myZoom / 2;
-        float wOver2 = hOver2 * drawer.r;
+        float wOver2 = hOver2 * displayDimensions.getRatio();
         Vector2 dr = SolMath.getVec(wOver2, hOver2);
         SolMath.rotate(dr, myAngle);
         Vector2 dl = SolMath.getVec(-wOver2, hOver2);

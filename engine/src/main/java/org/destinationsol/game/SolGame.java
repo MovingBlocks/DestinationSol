@@ -21,6 +21,8 @@ import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.assets.audio.SpecialSounds;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -48,8 +50,6 @@ import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SloMo;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.destinationsol.assets.audio.OggSoundManager;
-import org.destinationsol.assets.audio.SpecialSounds;
 import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
@@ -64,10 +64,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SolGame {
-
     private static final String MERC_SAVE_FILE = "mercenaries.json";
     private static Logger logger = LoggerFactory.getLogger(SolGame.class);
-
 
     private final GameScreens gameScreens;
     private final SolCam camera;
@@ -111,9 +109,9 @@ public class SolGame {
         soundManager = solApplication.getSoundManager();
         specialSounds = new SpecialSounds(soundManager);
         drawableManager = new DrawableManager(drawer);
-        camera = new SolCam(drawer.r);
-        gameScreens = new GameScreens(drawer.r, solApplication, context);
-        tutorialManager = tut ? new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, solApplication.isMobile(), solApplication.getOptions(), this) : null;
+        camera = new SolCam();
+        gameScreens = new GameScreens(solApplication, context);
+        tutorialManager = tut ? new TutorialManager(gameScreens, solApplication.isMobile(), solApplication.getOptions(), this) : null;
         farBackgroundManagerOld = new FarBackgroundManagerOld();
         shipBuilder = new ShipBuilder();
         EffectTypes effectTypes = new EffectTypes();
@@ -131,7 +129,7 @@ public class SolGame {
         partMan = new PartMan();
         asteroidBuilder = new AsteroidBuilder();
         lootBuilder = new LootBuilder();
-        mapDrawer = new MapDrawer(commonDrawer.height);
+        mapDrawer = new MapDrawer();
         shardBuilder = new ShardBuilder();
         galaxyFiller = new GalaxyFiller(hullConfigManager);
         starPortBuilder = new StarPort.Builder();
@@ -514,5 +512,9 @@ public class SolGame {
                 }
             }
         }
+    }
+
+    public SolApplication getSolApplication() {
+        return solApplication;
     }
 }

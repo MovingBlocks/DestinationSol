@@ -21,9 +21,13 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.CommonDrawer;
+import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 
-public class UiDrawer {
+import java.util.HashMap;
+import java.util.Map;
+
+public class UiDrawer implements ResizeSubscriber {
     public enum TextAlignment {
         LEFT,
         CENTER,
@@ -32,23 +36,40 @@ public class UiDrawer {
 
     private static final float FONT_SIZE = .02f;
 
-    private final Matrix4 straightMtx;
+    private Matrix4 straightMtx;
     private final float uiLineWidth;
 
-    public final float r;
-    public final TextureRegion whiteTexture;
+    public static final TextureRegion whiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
     public final Rectangle filler;
     private final CommonDrawer drawer;
     private Boolean isTextMode;
 
+    private DisplayDimensions displayDimensions;
+
+    public static Map<String, Position> positions = new HashMap<>();
+
     public UiDrawer(CommonDrawer commonDrawer) {
+        displayDimensions = SolApplication.displayDimensions;
         drawer = commonDrawer;
-        r = drawer.dimensionsRatio;
-        whiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
-        uiLineWidth = 1 / drawer.height;
-        straightMtx = new Matrix4().setToOrtho2D(0, 1, drawer.dimensionsRatio, -1);
+
+        uiLineWidth = 1.0f / displayDimensions.getHeight();
+
+        recomputeStraightMtx();
         drawer.setMatrix(straightMtx);
-        filler = new Rectangle(0, 0, r, 1);
+
+        filler = new Rectangle(0, 0, displayDimensions.getRatio(), 1);
+
+        positions.put("top", new Position(0.5f, 0));
+        positions.put("topRight", new Position(1, 0));
+        positions.put("right", new Position(1, 0.5f));
+        positions.put("bottomRight", new Position(1, 1));
+        positions.put("bottom", new Position(0.5f, 1));
+        positions.put("bottomLeft", new Position(0, 1));
+        positions.put("left", new Position(0, 0.5f));
+        positions.put("topLeft", new Position(0, 0));
+        positions.put("center", new Position(0.5f, 0.5f));
+
+        SolApplication.addResizeSubscriber(this);
     }
 
     public void updateMtx() {
@@ -72,8 +93,7 @@ public class UiDrawer {
         }
     }
 
-    public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y,
-                     float rot, Color tint) {
+    public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y, float rot, Color tint) {
         check();
         drawer.draw(tr, width, height, origX, origY, x, y, rot, tint);
     }
@@ -100,5 +120,14 @@ public class UiDrawer {
 
     public void setTextMode(Boolean textMode) {
         isTextMode = textMode;
+    }
+
+    @Override
+    public void resize() {
+        recomputeStraightMtx();
+    }
+
+    private void recomputeStraightMtx() {
+        straightMtx = new Matrix4().setToOrtho2D(0, 1, displayDimensions.getRatio(), -1);
     }
 }

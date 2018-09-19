@@ -26,17 +26,15 @@ import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.ui.SolUiControl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputMapControllerScreen implements InputMapOperations {
+public class InputMapControllerScreen extends InputMapOperations {
     private static final String HEADER_TEXT = "Controller Inputs";
     private static Logger logger = LoggerFactory.getLogger(InputMapControllerScreen.class);
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private boolean isEnterNewKey;
     private List<InputConfigItem> itemsList = new ArrayList<>();
     private int selectedIndex;
@@ -173,11 +171,6 @@ public class InputMapControllerScreen implements InputMapOperations {
         item = itemsList.get(index);
         item.setInputKey(GameOptions.DEFAULT_HIRE_SHIP);
         itemsList.set(index++, item);
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
     }
 
     /**

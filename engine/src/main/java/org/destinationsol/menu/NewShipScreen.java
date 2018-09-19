@@ -16,31 +16,32 @@
 
 package org.destinationsol.menu;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.planet.SystemsBuilder;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 import org.terasology.assets.ResourceUrn;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.JsonValue;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
-public class NewShipScreen implements SolUiScreen {
+public class NewShipScreen extends SolUiBaseScreen {
+    private DisplayDimensions displayDimensions;
+
     private final TextureAtlas.AtlasRegion backgroundTexture;
 
-    private final List<SolUiControl> controls = new ArrayList<>();
     private SolUiControl okControl;
     private SolUiControl cancelControl;
     private SolUiControl systemCountControl;
@@ -49,6 +50,8 @@ public class NewShipScreen implements SolUiScreen {
     private List<String> playerSpawnConfigNames = new ArrayList<>();
 
     NewShipScreen(MenuLayout menuLayout, GameOptions gameOptions) {
+        displayDimensions = SolApplication.displayDimensions;
+
         loadPlayerSpawnConfigs();
 
         int row = 1;
@@ -69,11 +72,6 @@ public class NewShipScreen implements SolUiScreen {
         controls.add(cancelControl);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
     }
 
     @Override
@@ -105,12 +103,12 @@ public class NewShipScreen implements SolUiScreen {
 
     @Override
     public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.drawString("Warning: This will erase any old ship you might have had!", .5f * uiDrawer.r, .3f, FontSize.MENU, true, SolColor.WHITE);
+        uiDrawer.drawString("Warning: This will erase any old ship you might have had!", .5f * displayDimensions.getRatio(), .3f, FontSize.MENU, true, SolColor.WHITE);
     }
 
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(backgroundTexture, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+        uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     private void loadPlayerSpawnConfigs() {

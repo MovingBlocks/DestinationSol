@@ -21,15 +21,11 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.menu.MenuLayout;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MenuScreen implements SolUiScreen {
-    private final List<SolUiControl> controls = new ArrayList<>();
+public class MenuScreen extends SolUiBaseScreen {
     private final SolUiControl closeControl;
     private final SolUiControl exitControl;
     private final SolUiControl respawnControl;
@@ -56,11 +52,6 @@ public class MenuScreen implements SolUiScreen {
         closeControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyClose());
         closeControl.setDisplayName("Resume");
         controls.add(closeControl);
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
     }
 
     @Override
