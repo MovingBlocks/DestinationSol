@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,11 @@ import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.menu.MenuScreens;
-import org.destinationsol.ui.*;
+import org.destinationsol.ui.DebugCollector;
+import org.destinationsol.ui.FontSize;
+import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolLayouts;
+import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -263,7 +267,7 @@ public class SolApplication implements ApplicationListener {
      /** This method is called when the "Continue" button gets pressed. It loads the world file to get the seed used for the world generation, and the number of systems */
     private void beforeLoadGame() {
         WorldConfig config = SaveManager.loadWorld();
-        if(config != null) {
+        if (config != null) {
             worldConfig = config;
             SolRandom.setSeed(worldConfig.getSeed());
         }

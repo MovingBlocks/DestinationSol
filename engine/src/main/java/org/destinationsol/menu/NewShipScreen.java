@@ -25,7 +25,11 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.planet.SystemsBuilder;
-import org.destinationsol.ui.*;
+import org.destinationsol.ui.FontSize;
+import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiControl;
+import org.destinationsol.ui.SolUiScreen;
+import org.destinationsol.ui.UiDrawer;
 import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
