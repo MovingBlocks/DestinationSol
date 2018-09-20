@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,23 +25,33 @@ import com.google.gson.stream.JsonReader;
 import org.destinationsol.IniReader;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
-import org.destinationsol.game.item.*;
+import org.destinationsol.game.item.Gun;
+import org.destinationsol.game.item.ItemContainer;
+import org.destinationsol.game.item.ItemManager;
+import org.destinationsol.game.item.MercItem;
+import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SaveManager {
-    private static Logger logger = LoggerFactory.getLogger(SaveManager.class);
-
     protected static final String SAVE_FILE_NAME = "prevShip.ini";
     protected static final String MERC_SAVE_FILE = "mercenaries.json";
     protected static final String WORLD_SAVE_FILE_NAME = "world.json";
+
+    private static Logger logger = LoggerFactory.getLogger(SaveManager.class);
+
+    protected SaveManager() { }
 
     public static void writeShips(HullConfig hull, float money, List<SolItem> itemsList, Hero hero, HullConfigManager hullConfigManager) {
         String hullName = hullConfigManager.getName(hull);
@@ -80,7 +90,6 @@ public class SaveManager {
         }
 
         return sb.toString();
-
     }
 
     /**
@@ -215,7 +224,7 @@ public class SaveManager {
             logger.error("Could not save world file", e);
             return;
         } finally {
-            if(writer != null) {
+            if (writer != null) {
                 writer.close();
             }
         }
@@ -225,7 +234,7 @@ public class SaveManager {
      * Load the last saved world from file, or returns null if there is no file
      */
     public static WorldConfig loadWorld() {
-        if(SaveManager.resourceExists(WORLD_SAVE_FILE_NAME)) {
+        if (SaveManager.resourceExists(WORLD_SAVE_FILE_NAME)) {
             WorldConfig config = new WorldConfig();
             JsonReader reader = null;
             try {
@@ -233,11 +242,11 @@ public class SaveManager {
                 reader.setLenient(true); // without this it will fail with strange errors
                 JsonObject world = new JsonParser().parse(reader).getAsJsonObject();
 
-                if(world.has("seed")) {
+                if (world.has("seed")) {
                     config.setSeed(world.get("seed").getAsLong());
                 }
 
-                if(world.has("systems")) {
+                if (world.has("systems")) {
                     config.setNumberOfSystems(world.get("systems").getAsInt());
                 }
 
@@ -246,10 +255,12 @@ public class SaveManager {
             } catch (FileNotFoundException e) {
                 logger.error("Cannot find world file", e);
             } finally {
-                if(reader != null) {
+                if (reader != null) {
                     try {
                         reader.close();
-                    } catch (IOException e) {}
+                    } catch (IOException e) {
+                        // ignore exception
+                    }
                 }
             }
         }

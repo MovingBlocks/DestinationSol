@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Collections.emptyList;
 
@@ -81,7 +82,7 @@ class MercenarySaveLoader {
 
     private List<MercItem> toMercenaryItems(ArrayList<HashMap<String, String>> mercenaries, HullConfigManager hullConfigManager, ItemManager itemManager) {
         List<MercItem> mercenaryItems = new ArrayList<>();
-        for (HashMap<String, String> node : mercenaries) {
+        for (Map<String, String> node : mercenaries) {
             HullConfig hullConfig = hullConfigManager.getConfig(node.get(NODE_HULL));
             String items = node.get(NODE_ITEMS);
             int money = Integer.parseInt(node.get(NODE_MONEY));
