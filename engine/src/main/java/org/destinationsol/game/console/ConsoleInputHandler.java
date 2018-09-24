@@ -28,4 +28,9 @@ public interface ConsoleInputHandler {
      * @param console Console from where the input originates
      */
     void handle(String input, Console console);
+
+    /**
+     * Called every frame, can do whatever needed.
+     */
+    default void update(Console console) { }
 }

@@ -17,6 +17,7 @@ package org.destinationsol.game.console;
 
 import org.destinationsol.common.SolException;
 import org.destinationsol.game.Console;
+import org.destinationsol.game.console.builtins.chat.IRCChat;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +38,7 @@ public class ShellInputHandler implements ConsoleInputHandler {
                 console.println(input.split(" ", 2)[1]);
             }
         });
+        registerCommand("chat", (input, console) -> console.setInputHandler(new IRCChat.ConsoleHandler()));
     }
 
     /**
