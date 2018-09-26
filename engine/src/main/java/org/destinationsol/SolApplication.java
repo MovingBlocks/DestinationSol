@@ -20,7 +20,6 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
-import org.destinationsol.common.Scheduler;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -154,7 +153,6 @@ public class SolApplication implements ApplicationListener {
         }
 
         inputManager.update(this);
-        Scheduler.update();
 
         if (solGame != null) {
             solGame.update();
