@@ -33,8 +33,8 @@ import org.destinationsol.game.ship.UnShield;
 import org.destinationsol.game.ship.hulls.GunSlot;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,7 +101,11 @@ public final class HullConfigManager {
 
         Json json = Assets.getJson(shipName);
 
-        readProperties(json.getJsonValue(), configData);
+        try {
+            readProperties(json.getJsonValue(), configData);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("The JSON of ship " + shipName + " is missing, or has malformed, a required parameter" + e.getMessage().split(":")[1]);
+        }
 
         configData.tex = Assets.getAtlasRegion(shipName);
         configData.icon = Assets.getAtlasRegion(shipName + "Icon");
