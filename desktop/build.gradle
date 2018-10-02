@@ -1,3 +1,6 @@
+plugins {
+    id "net.ltgt.apt" version "0.10"
+}
 apply from: '../config/gradle/common.gradle'
 
 project.ext.mainClassName = "org.destinationsol.desktop.SolDesktop"
@@ -9,6 +12,8 @@ dependencies {
     compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
     compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
+    compile 'com.google.dagger:dagger:2.8'
+    apt 'com.google.dagger:dagger-compiler:2.8'
 
     compile group: 'org.terasology.crashreporter', name: 'cr-destsol', version: '4.0.0'
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'

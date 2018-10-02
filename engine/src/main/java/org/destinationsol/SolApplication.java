@@ -40,6 +40,7 @@ import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -49,7 +50,8 @@ public class SolApplication implements ApplicationListener {
     @SuppressWarnings("FieldCanBeLocal")
     private ModuleManager moduleManager;
 
-    private OggMusicManager musicManager;
+    @Inject
+    OggMusicManager musicManager;
     private OggSoundManager soundManager;
     private SolInputManager inputManager;
 
@@ -88,7 +90,6 @@ public class SolApplication implements ApplicationListener {
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();
 
-        musicManager = new OggMusicManager();
         soundManager = new OggSoundManager(context);
         inputManager = new SolInputManager(soundManager);
 

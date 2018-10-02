@@ -16,9 +16,12 @@
 package org.destinationsol.assets.audio;
 
 import com.badlogic.gdx.audio.Music;
+import dagger.Provides;
 import org.destinationsol.GameOptions;
 import org.destinationsol.assets.Assets;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +43,8 @@ public class OggMusicManager {
      * Registers engine music.
      * TODO Make music registerable from modules, and then register this music through the new way.
      */
-    public OggMusicManager() {
+    @Inject
+    OggMusicManager() {
         musicMap = new HashMap<>();
         registerMusic(MENU_MUSIC_SET, "engine:dreadnaught");
         registerMusic(GAME_MUSIC_SET, "engine:cimmerianDawn");

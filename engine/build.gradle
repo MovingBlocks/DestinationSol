@@ -1,6 +1,11 @@
+plugins {
+    id "net.ltgt.apt" version "0.10"
+}
+
 apply from: '../config/gradle/common.gradle'
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
 
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -10,6 +15,9 @@ dependencies {
     compile "org.terasology:gestalt-module:6.0.0"
     compile "org.terasology:gestalt-asset-core:6.0.0"
     compile "org.terasology:gestalt-entity-system:6.0.0"
+    compile 'com.google.dagger:dagger:2.8'
+    apt 'com.google.dagger:dagger-compiler:2.8'
+    //annotationProcessor 'com.google.dagger:dagger-compiler:2.9'
 
 
     //TODO inserted by someone who has no idea how the gradle thing works. Inspect whether necessary (for tests). Copied rom desktop build.gradle. May break things with android (maybe)
