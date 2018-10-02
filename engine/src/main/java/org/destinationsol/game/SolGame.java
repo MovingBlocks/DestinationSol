@@ -58,6 +58,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SolGame {
@@ -97,19 +98,19 @@ public class SolGame {
     private boolean paused;
     private float timeFactor;
     private RespawnState respawnState;
-    private List<UpdateAwareSystem> onPausedUpdateSystems = new ArrayList<>();
-    private List<UpdateAwareSystem> updateSystems = new ArrayList<>();
+    private List<UpdateAwareSystem> onPausedUpdateSystems;
+    private List<UpdateAwareSystem> updateSystems;
 
     public SolGame(String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context, WorldConfig worldConfig) {
         solApplication = context.get(SolApplication.class);
         GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
-        soundManager = addUpdateSystem(solApplication.getSoundManager());
+        soundManager = solApplication.getSoundManager();
         specialSounds = new SpecialSounds(soundManager);
         drawableManager = new DrawableManager(drawer);
-        camera = addUpdateSystem(addPausedUpdateSystem(new SolCam(drawer.r)));
+        camera = new SolCam(drawer.r);
         gameScreens = new GameScreens(drawer.r, solApplication, context);
-        tutorialManager = tut ? addUpdateSystem(new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, solApplication.isMobile(), solApplication.getOptions(), this)) : null;
+        tutorialManager = tut ? new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, solApplication.isMobile(), solApplication.getOptions(), this) : null;
         farBackgroundManagerOld = new FarBackgroundManagerOld();
         shipBuilder = new ShipBuilder();
         EffectTypes effectTypes = new EffectTypes();
@@ -118,23 +119,31 @@ public class SolGame {
         AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, gameColors, soundManager);
         hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
         SolNames solNames = new SolNames();
-        planetManager = addUpdateSystem(new PlanetManager(hullConfigManager, gameColors, itemManager));
+        planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
         SolContactListener contactListener = new SolContactListener(this);
         factionManager = new FactionManager();
-        objectManager = addUpdateSystem(new ObjectManager(contactListener, factionManager));
+        objectManager = new ObjectManager(contactListener, factionManager);
         gridDrawer = new GridDrawer();
-        chunkManager = addUpdateSystem(new ChunkManager());
+        chunkManager = new ChunkManager();
         partMan = new PartMan();
         asteroidBuilder = new AsteroidBuilder();
         lootBuilder = new LootBuilder();
-        mapDrawer = addUpdateSystem(addPausedUpdateSystem(new MapDrawer(commonDrawer.height)));
+        mapDrawer = new MapDrawer(commonDrawer.height);
         shardBuilder = new ShardBuilder();
         galaxyFiller = new GalaxyFiller(hullConfigManager);
         starPortBuilder = new StarPort.Builder();
-        drawableDebugger = addUpdateSystem(addPausedUpdateSystem(new DrawableDebugger()));
-        beaconHandler = addUpdateSystem(new BeaconHandler());
-        mountDetectDrawer = addUpdateSystem(new MountDetectDrawer());
+        drawableDebugger = new DrawableDebugger();
+        mountDetectDrawer = new MountDetectDrawer();
+        beaconHandler = new BeaconHandler();
         timeFactor = 1;
+
+        // the ordering of update aware systems is very important, switching them up can cause bugs!
+        updateSystems = new ArrayList<>();
+        updateSystems.addAll(Arrays.asList(planetManager, camera, chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler));
+        if(tutorialManager != null) {
+            updateSystems.add(tutorialManager);
+        }
+        onPausedUpdateSystems = Arrays.asList(mapDrawer, camera);
 
         // from this point we're ready!
         respawnState = new RespawnState();
@@ -487,15 +496,5 @@ public class SolGame {
                 }
             }
         }
-    }
-
-    private <T extends UpdateAwareSystem> T addUpdateSystem(T updateSystem) {
-        updateSystems.add(updateSystem);
-        return updateSystem;
-    }
-
-    private <T extends UpdateAwareSystem> T addPausedUpdateSystem(T updateSystem) {
-        onPausedUpdateSystems.add(updateSystem);
-        return updateSystem;
     }
 }
