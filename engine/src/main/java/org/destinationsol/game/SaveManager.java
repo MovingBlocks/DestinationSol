@@ -83,7 +83,7 @@ public class SaveManager {
             // Save gun's loaded ammo
             if (i instanceof Gun) {
                 Gun g = (Gun) i;
-                if (g.ammo > 0 && !g.config.clipConf.infinite) {
+                if ((g.ammo > 0 || g.reloadAwait > 0) && !g.config.clipConf.infinite) {
                     sb.append(g.config.clipConf.code).append(" ");
                 }
             }
