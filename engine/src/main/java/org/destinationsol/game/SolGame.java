@@ -143,7 +143,7 @@ public class SolGame {
         if (tutorialManager != null) {
             updateSystems.add(tutorialManager);
         }
-        onPausedUpdateSystems = Arrays.asList(mapDrawer, camera);
+        onPausedUpdateSystems = Arrays.asList(mapDrawer, camera, drawableDebugger);
 
         // from this point we're ready!
         respawnState = new RespawnState();
