@@ -139,8 +139,8 @@ public class SolGame {
 
         // the ordering of update aware systems is very important, switching them up can cause bugs!
         updateSystems = new ArrayList<>();
-        updateSystems.addAll(Arrays.asList(planetManager, camera, chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler));
-        if(tutorialManager != null) {
+        updateSystems.addAll(Arrays.asList(planetManager, camera, chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger ));
+        if (tutorialManager != null) {
             updateSystems.add(tutorialManager);
         }
         onPausedUpdateSystems = Arrays.asList(mapDrawer, camera);
