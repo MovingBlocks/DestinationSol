@@ -18,10 +18,13 @@ package org.destinationsol.desktop;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import dagger.internal.DaggerCollections;
+import org.destinationsol.DaggerSolApplicationComponent;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.DaggerSolApplication;
+import org.destinationsol.SolApplicationComponent;
 import org.destinationsol.SolFileReader;
+import org.destinationsol.game.DaggerSolGameComponent;
 import org.destinationsol.game.DebugOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,7 +86,8 @@ public final class SolDesktop {
         handleCrashReporting(argv);
 
         // Everything is set up correctly, launch the application
-        new LwjglApplication(DaggerSolApplication.builder().build(), applicationConfig);
+
+        new LwjglApplication(new SolApplication(), applicationConfig);
     }
 
     /**

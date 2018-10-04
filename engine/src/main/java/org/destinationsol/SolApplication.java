@@ -69,13 +69,20 @@ public class SolApplication implements ApplicationListener {
     private float timeAccumulator = 0;
     private boolean isMobile;
 
+    private SolApplicationComponent applicationComponent;
+
     public SolApplication() {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
+        applicationComponent = DaggerSolApplicationComponent.builder().build();
+        applicationComponent.inject(this);
+
+
     }
 
     @Override
     public void create() {
+
         context = new ContextImpl();
         context.put(SolApplication.class, this);
         worldConfig = new WorldConfig();

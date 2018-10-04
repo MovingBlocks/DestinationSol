@@ -44,6 +44,11 @@ sourceSets {
         // This makes the resources (assets, 3d wizardry includes, etc) also go to build/classes
         output.resourcesDir 'build/classes'
     }
+    generator {
+        java {
+            srcDir 'build/generated/source/apt/main/'
+        }
+    }
 }
 
 jar {
