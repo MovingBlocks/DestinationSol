@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@ package org.destinationsol.game.item;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.assets.audio.OggSoundSet;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
@@ -25,8 +27,6 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.HardnessCalc;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.projectile.ProjectileConfig;
-import org.destinationsol.assets.audio.OggSoundManager;
-import org.destinationsol.assets.audio.OggSoundSet;
 
 import java.util.Arrays;
 import java.util.List;

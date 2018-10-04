@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package org.destinationsol.assets;
 import org.destinationsol.assets.audio.OggMusic;
 import org.destinationsol.assets.audio.OggMusicFileFormat;
 import org.destinationsol.assets.audio.OggSound;
-import org.destinationsol.assets.audio.OggSoundData;
 import org.destinationsol.assets.audio.OggSoundFileFormat;
 import org.destinationsol.assets.emitters.Emitter;
 import org.destinationsol.assets.emitters.EmitterFileFormat;
@@ -31,12 +30,10 @@ import org.destinationsol.assets.textures.DSTextureFileFormat;
 import org.destinationsol.game.DebugOptions;
 import org.terasology.assets.Asset;
 import org.terasology.assets.AssetData;
-import org.terasology.assets.AssetDataProducer;
 import org.terasology.assets.ResourceUrn;
 import org.terasology.assets.format.AssetDataFile;
 import org.terasology.assets.format.producer.AssetFileDataProducer;
 import org.terasology.assets.module.ModuleAwareAssetTypeManager;
-import org.terasology.assets.module.ModuleEnvironmentDependencyProvider;
 import org.terasology.module.ModuleEnvironment;
 
 import java.util.HashSet;
