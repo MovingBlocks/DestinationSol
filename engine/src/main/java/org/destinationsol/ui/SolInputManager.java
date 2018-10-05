@@ -33,6 +33,7 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +65,7 @@ public class SolInputManager {
     private boolean warnPercGrows;
     private Boolean scrolledUp;
 
+    @Inject
     public SolInputManager(OggSoundManager soundManager) {
         inputPointers = new InputPointer[POINTER_COUNT];
         for (int i = 0; i < POINTER_COUNT; i++) {

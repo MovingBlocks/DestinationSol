@@ -140,7 +140,7 @@ public class ItemManager {
                     } else if (itemName.endsWith("Clip")) {
                         Clip.Config.load(itemName, this, myTypes);
                     } else if (itemName.endsWith("Shield") || itemName.endsWith("shield")) {
-                        Shield.Config.load(itemName, this, soundManager, myTypes);
+                        Shield.Config.load(itemName,this, soundManager, myTypes);
                     } else {
                         Gun.Config.load(itemName, this, soundManager, myTypes);
                     }

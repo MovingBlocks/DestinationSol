@@ -51,7 +51,7 @@ public class SolApplication implements ApplicationListener {
     private ModuleManager moduleManager;
 
     @Inject
-    OggMusicManager musicManager;
+    private OggMusicManager musicManager;
     private OggSoundManager soundManager;
     private SolInputManager inputManager;
 

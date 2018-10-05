@@ -46,6 +46,10 @@ public class ModuleManager {
     private ModuleEnvironment environment;
     private ModuleRegistry registry;
 
+    public void loadEnvironment(Set<Module> modules) {
+        environment = new ModuleEnvironment(modules, new StandardPermissionProviderFactory());
+    }
+
     public ModuleManager() {
         try {
             URI engineClasspath = getClass().getProtectionDomain().getCodeSource().getLocation().toURI();
@@ -70,10 +74,6 @@ public class ModuleManager {
         }
     }
 
-    public void loadEnvironment(Set<Module> modules) {
-        environment = new ModuleEnvironment(modules, new StandardPermissionProviderFactory());
-        Assets.initialize(environment);
-    }
 
     public ModuleEnvironment getEnvironment() {
         return environment;

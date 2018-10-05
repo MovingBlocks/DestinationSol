@@ -160,6 +160,33 @@ public class Gun implements SolItem {
             example = new Gun(this, 0, 0);
         }
 
+        private String makeDesc() {
+            StringBuilder sb = new StringBuilder();
+            ProjectileConfig pc = clipConf.projConfig;
+            sb.append(fixed ? "Heavy gun (no rotation)\n" : "Light gun (auto rotation)\n");
+            if (pc.dmg > 0) {
+                sb.append("Dmg: ").append(SolMath.nice(dps)).append("/s\n");
+                DmgType dmgType = pc.dmgType;
+                if (dmgType == DmgType.ENERGY) {
+                    sb.append("Weak against armor\n");
+                } else if (dmgType == DmgType.BULLET) {
+                    sb.append("Weak against shields\n");
+                }
+            } else if (pc.emTime > 0) {
+                sb.append("Disables enemy ships for ").append(SolMath.nice(pc.emTime)).append(" s\n");
+            }
+            if (pc.density > 0) {
+                sb.append("Knocks enemies back\n");
+            }
+            sb.append("Reload: ").append(SolMath.nice(reloadTime)).append(" s\n");
+            if (clipConf.infinite) {
+                sb.append("Infinite ammo\n");
+            } else {
+                sb.append("Uses ").append(clipConf.plural).append("\n");
+            }
+            return sb.toString();
+        }
+
         public static void load(String gunName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
             Json json = Assets.getJson(gunName);
             JsonValue rootNode = json.getJsonValue();
@@ -200,36 +227,9 @@ public class Gun implements SolItem {
             TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(gunName + "Icon");
 
             Config gunConfig = new Config(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots,
-                                            reloadTime, gunLength, displayName, lightOnShot, price, clipConf, shootSoundSet,
-                                                reloadSoundSet, tex, icon, fixed, itemType, texLenPercentage, gunName);
+                    reloadTime, gunLength, displayName, lightOnShot, price, clipConf, shootSoundSet,
+                    reloadSoundSet, tex, icon, fixed, itemType, texLenPercentage, gunName);
             itemManager.registerItem(gunConfig.example);
-        }
-
-        private String makeDesc() {
-            StringBuilder sb = new StringBuilder();
-            ProjectileConfig pc = clipConf.projConfig;
-            sb.append(fixed ? "Heavy gun (no rotation)\n" : "Light gun (auto rotation)\n");
-            if (pc.dmg > 0) {
-                sb.append("Dmg: ").append(SolMath.nice(dps)).append("/s\n");
-                DmgType dmgType = pc.dmgType;
-                if (dmgType == DmgType.ENERGY) {
-                    sb.append("Weak against armor\n");
-                } else if (dmgType == DmgType.BULLET) {
-                    sb.append("Weak against shields\n");
-                }
-            } else if (pc.emTime > 0) {
-                sb.append("Disables enemy ships for ").append(SolMath.nice(pc.emTime)).append(" s\n");
-            }
-            if (pc.density > 0) {
-                sb.append("Knocks enemies back\n");
-            }
-            sb.append("Reload: ").append(SolMath.nice(reloadTime)).append(" s\n");
-            if (clipConf.infinite) {
-                sb.append("Infinite ammo\n");
-            } else {
-                sb.append("Uses ").append(clipConf.plural).append("\n");
-            }
-            return sb.toString();
         }
     }
 }
