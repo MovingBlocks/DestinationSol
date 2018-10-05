@@ -31,7 +31,7 @@ import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.UiDrawer;
 
-public class MainMenuScreen implements SolUiBaseScreen {
+public class MainMenuScreen extends SolUiBaseScreen {
     private final boolean isMobile;
     private final GameOptions gameOptions;
 
