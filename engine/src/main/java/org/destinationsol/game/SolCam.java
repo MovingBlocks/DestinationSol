@@ -120,8 +120,8 @@ public class SolCam implements UpdateAwareSystem {
         myZoom = SolMath.approach(myZoom, desiredZoom, ZOOM_CHG_SPD * timeStep);
         applyZoom(game.getMapDrawer());
         myCam.update();
-        viewport.update(Gdx.graphics.getWidth(), -Gdx.graphics.getHeight());
-        viewport.setUnitsPerPixel(1 / (Gdx.graphics.getHeight() / VIEWPORT_HEIGHT));
+        viewport.update(displayDimensions.getWidth(), -displayDimensions.getHeight());
+        viewport.setUnitsPerPixel(1 / (displayDimensions.getHeight() / VIEWPORT_HEIGHT));
     }
 
     private float getDesiredViewDistance(SolGame game) {
