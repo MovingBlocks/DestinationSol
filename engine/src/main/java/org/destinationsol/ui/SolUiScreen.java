@@ -103,7 +103,9 @@ public interface SolUiScreen {
      * @param uiDrawer Drawer to draw with
      * @param solApplication {@code SolApplication} displaying this window.
      */
-    void drawImages(UiDrawer uiDrawer, SolApplication solApplication);
+    default void drawImages(UiDrawer uiDrawer, SolApplication solApplication) {
+        // Intentionally left blank
+    }
 
     /**
      * Draws text screen might need.
@@ -122,5 +124,7 @@ public interface SolUiScreen {
      *
      * @return True if reacts to clicking outside, false otherwise
      */
-    boolean reactsToClickOutside();
+    default boolean reactsToClickOutside() {
+        return false;
+    }
 }

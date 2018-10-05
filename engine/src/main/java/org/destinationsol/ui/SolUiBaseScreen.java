@@ -27,9 +27,8 @@ public abstract class SolUiBaseScreen implements SolUiScreen, ResizeSubscriber {
         SolApplication.addResizeSubscriber(this);
     }
 
-    // TODO: Remove final from here
     @Override
-    public final List<SolUiControl> getControls() {
+    public List<SolUiControl> getControls() {
         return controls;
     }
 
