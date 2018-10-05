@@ -17,6 +17,8 @@
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.math.Rectangle;
+import org.destinationsol.SolApplication;
+import org.destinationsol.ui.DisplayDimensions;
 
 public class MenuLayout {
     public static final float BG_BORDER = .03f;
@@ -28,20 +30,22 @@ public class MenuLayout {
     private final float rowH;
     private final float myPad;
 
-    public MenuLayout(float resolutionRatio) {
-        btnW = .40f * resolutionRatio;
+    public MenuLayout() {
+        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+
+        btnW = .40f * displayDimensions.getRatio();
         btnH = .1f;
         myPad = .1f * btnH;
         rowH = btnH + myPad;
-        colCenter = .5f * resolutionRatio - btnW / 2;
+        colCenter = .5f * displayDimensions.getRatio() - btnW / 2;
         row0 = 1 - myPad - numberOfRowsTotal * rowH;
     }
 
-    static Rectangle bottomRightFloatingButton(float resolutionRatio) {
+    static Rectangle bottomRightFloatingButton(DisplayDimensions aspectRatio) {
         final float BUTTON_WIDTH = .15f;
         final float BUTTON_HEIGHT = .07f;
 
-        return new Rectangle(resolutionRatio - BUTTON_WIDTH, 1 - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
+        return new Rectangle(aspectRatio.getRatio() - BUTTON_WIDTH, 1 - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
     }
 
     public Rectangle buttonRect(int col, int row) {

@@ -26,14 +26,10 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class BuyItems implements InventoryOperations {
+public class BuyItemsScreen extends InventoryOperationsScreen {
     public final SolUiControl buyControl;
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
 
-    BuyItems(InventoryScreen inventoryScreen, GameOptions gameOptions) {
+    BuyItemsScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
         buyControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyBuyItem());
         buyControl.setDisplayName("Buy");
         controls.add(buyControl);
@@ -47,11 +43,6 @@ public class BuyItems implements InventoryOperations {
     @Override
     public String getHeader() {
         return "Buy:";
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
     }
 
     @Override

@@ -22,13 +22,13 @@ import com.badlogic.gdx.InputAdapter;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.ui.SolUiControl;
+import org.destinationsol.ui.SolInputManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputMapMixedScreen implements InputMapOperations {
+public class InputMapMixedScreen extends InputMapOperations {
     private static final String HEADER_TEXT = "Keyboard and Mouse Inputs";
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private List<InputConfigItem> itemsList = new ArrayList<>();
     private boolean isEnterNewKey;
     private int selectedIndex;
@@ -135,6 +135,10 @@ public class InputMapMixedScreen implements InputMapOperations {
     @Override
     public List<SolUiControl> getControls() {
         return controls;
+    }
+
+    @Override
+    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
     }
 
     /**

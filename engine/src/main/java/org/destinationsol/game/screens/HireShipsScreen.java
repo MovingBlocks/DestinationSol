@@ -29,11 +29,10 @@ import org.destinationsol.ui.SolUiControl;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HireShips implements InventoryOperations {
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
+public class HireShipsScreen extends InventoryOperationsScreen {
     private final SolUiControl hireControl;
 
-    HireShips(InventoryScreen inventoryScreen, GameOptions gameOptions) {
+    HireShipsScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
         hireControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyHireShip());
         hireControl.setDisplayName("Hire");
         controls.add(hireControl);
@@ -47,11 +46,6 @@ public class HireShips implements InventoryOperations {
     @Override
     public String getHeader() {
         return "Mercenaries:";
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
     }
 
     @Override

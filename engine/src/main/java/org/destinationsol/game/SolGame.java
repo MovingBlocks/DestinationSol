@@ -54,16 +54,12 @@ import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class SolGame {
-    private static Logger logger = LoggerFactory.getLogger(SolGame.class);
-
     private final GameScreens gameScreens;
     private final SolCam camera;
     private final ObjectManager objectManager;
@@ -108,9 +104,9 @@ public class SolGame {
         soundManager = solApplication.getSoundManager();
         specialSounds = new SpecialSounds(soundManager);
         drawableManager = new DrawableManager(drawer);
-        camera = new SolCam(drawer.r);
-        gameScreens = new GameScreens(drawer.r, solApplication, context);
-        tutorialManager = tut ? new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, solApplication.isMobile(), solApplication.getOptions(), this) : null;
+        camera = new SolCam();
+        gameScreens = new GameScreens(solApplication, context);
+        tutorialManager = tut ? new TutorialManager(gameScreens, solApplication.isMobile(), solApplication.getOptions(), this) : null;
         farBackgroundManagerOld = new FarBackgroundManagerOld();
         shipBuilder = new ShipBuilder();
         EffectTypes effectTypes = new EffectTypes();
@@ -128,7 +124,7 @@ public class SolGame {
         partMan = new PartMan();
         asteroidBuilder = new AsteroidBuilder();
         lootBuilder = new LootBuilder();
-        mapDrawer = new MapDrawer(commonDrawer.height);
+        mapDrawer = new MapDrawer();
         shardBuilder = new ShardBuilder();
         galaxyFiller = new GalaxyFiller(hullConfigManager);
         starPortBuilder = new StarPort.Builder();
@@ -496,5 +492,9 @@ public class SolGame {
                 }
             }
         }
+    }
+
+    public SolApplication getSolApplication() {
+        return solApplication;
     }
 }

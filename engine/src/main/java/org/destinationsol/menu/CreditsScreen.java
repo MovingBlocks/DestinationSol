@@ -24,28 +24,31 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class CreditsScreen implements SolUiScreen {
+public class CreditsScreen extends SolUiBaseScreen {
     private static final float MAX_AWAIT = 6f;
     private final TextureAtlas.AtlasRegion backgroundTexture;
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl closeControl;
+
+    private DisplayDimensions displayDimensions;
 
     private final ArrayList<String> myPages = new ArrayList<>();
     private final Color myColor;
     private int pageIndex;
     private float pageProgressPercent;
 
-    CreditsScreen(float resolutionRatio, GameOptions gameOptions) {
-        closeControl = new SolUiControl(MenuLayout.bottomRightFloatingButton(resolutionRatio), true, gameOptions.getKeyEscape());
+    CreditsScreen(GameOptions gameOptions) {
+        displayDimensions = SolApplication.displayDimensions;
+
+        closeControl = new SolUiControl(MenuLayout.bottomRightFloatingButton(displayDimensions), true, gameOptions.getKeyEscape());
         closeControl.setDisplayName("Close");
         controls.add(closeControl);
         myColor = SolColor.col(1, 1);
@@ -116,11 +119,6 @@ public class CreditsScreen implements SolUiScreen {
     }
 
     @Override
-    public List<SolUiControl> getControls() {
-        return controls;
-    }
-
-    @Override
     public void onAdd(SolApplication solApplication) {
         pageIndex = 0;
         pageProgressPercent = 0;
@@ -151,11 +149,11 @@ public class CreditsScreen implements SolUiScreen {
 
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(backgroundTexture, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+        uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     @Override
     public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.drawString(myPages.get(pageIndex), uiDrawer.r / 2, .5f, FontSize.MENU, true, myColor);
+        uiDrawer.drawString(myPages.get(pageIndex), displayDimensions.getRatio() / 2, .5f, FontSize.MENU, true, myColor);
     }
 }
