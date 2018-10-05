@@ -19,8 +19,8 @@ import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 
 public class DmgWarnDrawer extends WarnDrawer {
-    DmgWarnDrawer(float r) {
-        super(r, "Heavily Damaged");
+    DmgWarnDrawer() {
+        super("Heavily Damaged");
     }
 
     @Override

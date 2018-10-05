@@ -18,9 +18,11 @@ package org.destinationsol.game.screens;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.Const;
+import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.UiDrawer;
 
@@ -34,16 +36,18 @@ public abstract class WarnDrawer {
 
     float drawPercentage;
 
-    WarnDrawer(float resolutionRatio, String text) {
-        warningRectangle = rect(resolutionRatio);
+    WarnDrawer(String text) {
+        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+
+        warningRectangle = rect(displayDimensions.getRatio());
         this.text = text;
         backgroundColor = new Color(SolColor.UI_WARN);
         backgroundOriginA = backgroundColor.a;
         textColor = new Color(SolColor.WHITE);
     }
 
-    private static Rectangle rect(float resolutionRatio) {
-        return new Rectangle(.4f * resolutionRatio, 0, .2f * resolutionRatio, .1f);
+    private static Rectangle rect(float aspectRatio) {
+        return new Rectangle(.4f * aspectRatio, 0, .2f * aspectRatio, .1f);
     }
 
     public void update(SolGame game) {

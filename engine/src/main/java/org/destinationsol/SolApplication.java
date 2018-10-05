@@ -33,7 +33,9 @@ import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.menu.MenuScreens;
 import org.destinationsol.ui.DebugCollector;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
+import org.destinationsol.ui.ResizeSubscriber;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
@@ -42,6 +44,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SolApplication implements ApplicationListener {
     private static final Logger logger = LoggerFactory.getLogger(SolApplication.class);
@@ -54,6 +58,7 @@ public class SolApplication implements ApplicationListener {
     private SolInputManager inputManager;
 
     private UiDrawer uiDrawer;
+
     private MenuScreens menuScreens;
     private SolLayouts layouts;
     private GameOptions options;
@@ -64,8 +69,14 @@ public class SolApplication implements ApplicationListener {
     private Context context;
 
     private WorldConfig worldConfig;
+    // TODO: Make this non-static.
+    public static DisplayDimensions displayDimensions;
+
     private float timeAccumulator = 0;
     private boolean isMobile;
+
+    // TODO: Make this non-static.
+    private static Set<ResizeSubscriber> resizeSubscribers;
 
     public SolApplication() {
         // Initiate Box2D to make sure natives are loaded early enough
@@ -74,6 +85,8 @@ public class SolApplication implements ApplicationListener {
 
     @Override
     public void create() {
+        resizeSubscribers = new HashSet<>();
+
         context = new ContextImpl();
         context.put(SolApplication.class, this);
         worldConfig = new WorldConfig();
@@ -94,16 +107,22 @@ public class SolApplication implements ApplicationListener {
 
         musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
 
+        displayDimensions = new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         commonDrawer = new CommonDrawer();
         uiDrawer = new UiDrawer(commonDrawer);
-        layouts = new SolLayouts(uiDrawer.r);
-        menuScreens = new MenuScreens(layouts, isMobile(), uiDrawer.r, options);
+        layouts = new SolLayouts();
+        menuScreens = new MenuScreens(layouts, isMobile(), options);
 
         inputManager.setScreen(this, menuScreens.main);
     }
 
     @Override
     public void resize(int newWidth, int newHeight) {
+        displayDimensions.set(newWidth, newHeight);
+
+        for (ResizeSubscriber resizeSubscriber : resizeSubscribers) {
+            resizeSubscriber.resize();
+        }
     }
 
     public void render() {
@@ -174,9 +193,9 @@ public class SolApplication implements ApplicationListener {
             solGame.drawDebugUi(uiDrawer);
         }
         if (fatalErrorMsg != null) {
-            uiDrawer.draw(uiDrawer.whiteTexture, uiDrawer.r, .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
-            uiDrawer.drawString(fatalErrorMsg, uiDrawer.r / 2, .5f, FontSize.MENU, true, SolColor.WHITE);
-            uiDrawer.drawString(fatalErrorTrace, .2f * uiDrawer.r, .6f, FontSize.DEBUG, false, SolColor.WHITE);
+            uiDrawer.draw(uiDrawer.whiteTexture, displayDimensions.getRatio(), .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
+            uiDrawer.drawString(fatalErrorMsg, displayDimensions.getRatio(), .5f, FontSize.MENU, true, SolColor.WHITE);
+            uiDrawer.drawString(fatalErrorTrace, .2f * displayDimensions.getRatio(), .6f, FontSize.DEBUG, false, SolColor.WHITE);
         }
         DebugCollector.draw(uiDrawer);
         if (solGame == null) {
@@ -255,7 +274,8 @@ public class SolApplication implements ApplicationListener {
         return soundManager;
     }
 
-    /**  This method is called when the "New Game" button gets pressed. It sets the seed for random generation, and the number of systems */
+
+     /** This method is called when the "New Game" button gets pressed. It sets the seed for random generation, and the number of systems */
     private void beforeNewGame() {
         // Reset the seed so this galaxy isn't the same as the last
         worldConfig.setSeed(System.currentTimeMillis());
@@ -271,5 +291,10 @@ public class SolApplication implements ApplicationListener {
             worldConfig = config;
             SolRandom.setSeed(worldConfig.getSeed());
         }
+    }
+
+    // TODO: Make this non-static.
+    public static void addResizeSubscriber(ResizeSubscriber resizeSubscriber) {
+        resizeSubscribers.add(resizeSubscriber);
     }
 }

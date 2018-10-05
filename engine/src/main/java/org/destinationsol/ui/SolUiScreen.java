@@ -46,9 +46,7 @@ public interface SolUiScreen {
      * @param solApplication {@code SolApplication} displaying this window.
      */
     //TODO maybe rename to onFocus() ? Inspect more whether name is completely fitting.
-    default void onAdd(SolApplication solApplication) {
-        // Intentionally left blank
-    }
+    void onAdd(SolApplication solApplication);
 
     /**
      * Updates the screen.
@@ -59,9 +57,7 @@ public interface SolUiScreen {
      * @param inputPointers Input pointers employed by the input manager.
      * @param clickedOutside True if click outside of the screen area happened since the last call, false otherwise
      */
-    default void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        // Intentionally left blank
-    }
+    void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside);
 
     /**
      * Return true if cursor is in the screen area, false otherwise.
@@ -72,9 +68,7 @@ public interface SolUiScreen {
      * @param inputPointer Input pointer against which to check.
      * @return True if pointer in screen area, false otherwise.
      */
-    default boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
-        return false;
-    }
+    boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer);
 
     /**
      * Called whenever screen is due to be closed.
@@ -84,9 +78,7 @@ public interface SolUiScreen {
      * @param solApplication {@code SolApplication} displaying this window.
      */
     //TODO maybe rename to onClose()/onUnfocus() ? Inspect more whether name is completely fitting.
-    default void blurCustom(SolApplication solApplication) {
-        // Intentionally left blank
-    }
+    void blurCustom(SolApplication solApplication);
 
     /**
      * Draws a background of the screen using supplied {@link UiDrawer}.
@@ -97,9 +89,7 @@ public interface SolUiScreen {
      * @param uiDrawer Drawer to draw with
      * @param solApplication {@code SolApplication} displaying this window.
      */
-    default void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
-        // Intentionally left blank
-    }
+    void drawBackground(UiDrawer uiDrawer, SolApplication solApplication);
 
     /**
      * Draws additional images screen might be employing.
@@ -113,9 +103,7 @@ public interface SolUiScreen {
      * @param uiDrawer Drawer to draw with
      * @param solApplication {@code SolApplication} displaying this window.
      */
-    default void drawImages(UiDrawer uiDrawer, SolApplication solApplication) {
-        // Intentionally left blank
-    }
+    void drawImages(UiDrawer uiDrawer, SolApplication solApplication);
 
     /**
      * Draws text screen might need.
@@ -126,9 +114,7 @@ public interface SolUiScreen {
      * @param uiDrawer Drawer to draw with
      * @param solApplication {@code SolApplication} displaying this window.
      */
-    default void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
-        // Intentionally left blank
-    }
+    void drawText(UiDrawer uiDrawer, SolApplication solApplication);
 
     /**
      * Returns true if the screen reacts to clicking outside (inventory screens -> closed on outside click), false
@@ -136,7 +122,5 @@ public interface SolUiScreen {
      *
      * @return True if reacts to clicking outside, false otherwise
      */
-    default boolean reactsToClickOutside() {
-        return false;
-    }
+    boolean reactsToClickOutside();
 }

@@ -13,23 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.screens;
+package org.destinationsol.ui;
 
-import org.destinationsol.game.SolGame;
-import org.destinationsol.game.item.ItemContainer;
-import org.destinationsol.game.item.SolItem;
-import org.destinationsol.ui.SolUiScreen;
-
-public interface InventoryOperations extends SolUiScreen {
-    ItemContainer getItems(SolGame game);
-
-    default boolean isUsing(SolGame game, SolItem item) {
-        return false;
-    }
-
-    default float getPriceMul() {
-        return 1;
-    }
-
-    String getHeader();
+public interface ResizeSubscriber {
+    void resize();
 }

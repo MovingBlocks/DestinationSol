@@ -695,7 +695,7 @@ public class GameOptions {
     public void setKeyInventoryName(String keyInventoryName) {
         this.keyInventoryName = keyInventoryName;
     }
-    
+
     /**
      * Get the defined key for interacting with mercenaries.
      *
@@ -704,7 +704,7 @@ public class GameOptions {
     public int getKeyMercenaryInteraction() {
         return Input.Keys.valueOf(keyMercenaryInteractionName);
     }
-    
+
     /**
      * Get the readable name of the defined key for interacting with mercenaries.
      *
@@ -713,7 +713,7 @@ public class GameOptions {
     public String getKeyMercenaryInterationName() {
         return keyMercenaryInteractionName;
     }
-    
+
     public void setKeyMercenaryInteractionName(String keyMercenaryInteractionName) {
         this.keyMercenaryInteractionName = keyMercenaryInteractionName;
     }
@@ -995,5 +995,4 @@ public class GameOptions {
     public void setControllerButtonDown(int controllerButtonDown) {
         this.controllerButtonDown = controllerButtonDown;
     }
-
 }

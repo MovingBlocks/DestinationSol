@@ -25,58 +25,68 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MainMenuScreen implements SolUiScreen {
+public class MainMenuScreen implements SolUiBaseScreen {
     private final boolean isMobile;
     private final GameOptions gameOptions;
 
     private final TextureAtlas.AtlasRegion logoTexture;
-    public final TextureAtlas.AtlasRegion backgroundTexture;
+    private final TextureAtlas.AtlasRegion backgroundTexture;
+    private DisplayDimensions displayDimensions;
 
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl tutorialControl;
     private final SolUiControl optionsControl;
     private final SolUiControl exitControl;
     private final SolUiControl newGameControl;
     private final SolUiControl creditsControl;
 
-    MainMenuScreen(MenuLayout menuLayout, boolean isMobile, float resolutionRatio, GameOptions gameOptions) {
+    MainMenuScreen(MenuLayout menuLayout, boolean isMobile, GameOptions gameOptions) {
         this.isMobile = isMobile;
         this.gameOptions = gameOptions;
 
-        tutorialControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, Input.Keys.T);
+        displayDimensions = SolApplication.displayDimensions;
+
+        int w = 300;
+        int h = 75;
+        int padding = 10;
+
+        int offsetY = -(padding + h/2);
+
+        tutorialControl = new SolUiControl(w, h, UiDrawer.positions.get("bottom"), 0, offsetY, true, Input.Keys.T);
         tutorialControl.setDisplayName("Tutorial");
         controls.add(tutorialControl);
 
-        newGameControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, gameOptions.getKeyShoot());
+        offsetY -= padding + h;
+
+        newGameControl = new SolUiControl(w, h, UiDrawer.positions.get("bottom"), 0, offsetY, true, gameOptions.getKeyShoot());
         newGameControl.setDisplayName("Play Game");
         controls.add(newGameControl);
 
-        optionsControl = new SolUiControl(isMobile ? null : menuLayout.buttonRect(-1, 3), true, Input.Keys.O);
+        offsetY -= padding + h;
+
+        // TODO: Temporarily showing on mobile as well. Fix!
+        // optionsControl = new SolUiControl(isMobile ? null : menuLayout.buttonRect(-1, 3), true, Input.Keys.O);
+        optionsControl = new SolUiControl(w, h, UiDrawer.positions.get("bottom"), 0, offsetY, true, Input.Keys.O);
         optionsControl.setDisplayName("Options");
         controls.add(optionsControl);
 
-        exitControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
+        offsetY -= padding + h;
+
+        exitControl = new SolUiControl(w, h, UiDrawer.positions.get("bottom"), 0, offsetY, true, gameOptions.getKeyEscape());
         exitControl.setDisplayName("Exit");
         controls.add(exitControl);
 
-        creditsControl = new SolUiControl(MenuLayout.bottomRightFloatingButton(resolutionRatio), true, Input.Keys.C);
+        creditsControl = new SolUiControl(MenuLayout.bottomRightFloatingButton(displayDimensions), true, Input.Keys.C);
         creditsControl.setDisplayName("Credits");
         controls.add(creditsControl);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
         logoTexture = Assets.getAtlasRegion("engine:mainMenuLogo", Texture.TextureFilter.Linear);
-    }
-
-    public List<SolUiControl> getControls() {
-        return controls;
     }
 
     @Override
@@ -122,7 +132,7 @@ public class MainMenuScreen implements SolUiScreen {
 
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(backgroundTexture, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+        uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     @Override
@@ -130,7 +140,7 @@ public class MainMenuScreen implements SolUiScreen {
         final float sy = .35f;
         final float sx = sy * 400 / 218;
         if (!DebugOptions.PRINT_BALANCE) {
-            uiDrawer.draw(logoTexture, sx, sy, sx / 2, sy / 2, uiDrawer.r / 2, 0.1f + sy / 2, 0, SolColor.WHITE);
+            uiDrawer.draw(logoTexture, sx, sy, sx / 2, sy / 2, displayDimensions.getRatio() / 2, 0.1f + sy / 2, 0, SolColor.WHITE);
         }
     }
 }

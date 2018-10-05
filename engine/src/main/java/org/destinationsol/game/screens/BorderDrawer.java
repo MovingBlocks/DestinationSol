@@ -38,42 +38,46 @@ import org.destinationsol.game.planet.SolSystem;
 import org.destinationsol.game.planet.SunSingleton;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BorderDrawer {
+    private DisplayDimensions displayDimensions;
 
     public static final float PLANET_PROXIMITY_INDICATOR_SIZE = .02f;
-    public static final float BORDER_ICON_SZ = .12f;
-    public static final float MAX_ICON_DIST = Const.ATM_HEIGHT;
+    private static final float BORDER_ICON_SZ = .12f;
+    private static final float MAX_ICON_DIST = Const.ATM_HEIGHT;
     private static final float MAX_DRAW_DIST = (Const.MAX_GROUND_HEIGHT + Const.ATM_HEIGHT) * 2;
     private final ArrayList<PlanetProximityIndicator> planetProximityIndicators;
     private final Vector2 myTmpVec = new Vector2();
 
-    BorderDrawer(float dimensionsRatio) {
+    BorderDrawer() {
+        displayDimensions = SolApplication.displayDimensions;
+
         TextureAtlas.AtlasRegion texture = Assets.getAtlasRegion("engine:uiPlanetProximityIndicator");
-        int hCellCount = (int) (dimensionsRatio / PLANET_PROXIMITY_INDICATOR_SIZE);
+        int hCellCount = (int) (displayDimensions.getRatio() / PLANET_PROXIMITY_INDICATOR_SIZE);
         int vCellCount = (int) (1 / PLANET_PROXIMITY_INDICATOR_SIZE);
-        float hStep = dimensionsRatio / hCellCount;
+        float hStep = displayDimensions.getRatio() / hCellCount;
         float vStep = 1f / vCellCount;
         float x = hStep / 2;
         float y = vStep / 2;
         planetProximityIndicators = new ArrayList<>();
         for (int i = 0; i < vCellCount; i++) {
-            PlanetProximityIndicator t = new PlanetProximityIndicator(x, y, dimensionsRatio, PLANET_PROXIMITY_INDICATOR_SIZE, texture);
+            PlanetProximityIndicator t = new PlanetProximityIndicator(x, y, displayDimensions.getRatio(), PLANET_PROXIMITY_INDICATOR_SIZE, texture);
             planetProximityIndicators.add(t);
-            PlanetProximityIndicator t2 = new PlanetProximityIndicator(dimensionsRatio - x, y, dimensionsRatio, PLANET_PROXIMITY_INDICATOR_SIZE, texture);
+            PlanetProximityIndicator t2 = new PlanetProximityIndicator(displayDimensions.getRatio() - x, y, displayDimensions.getRatio(), PLANET_PROXIMITY_INDICATOR_SIZE, texture);
             planetProximityIndicators.add(t2);
             y += vStep;
         }
         x = 1.5f * PLANET_PROXIMITY_INDICATOR_SIZE;
         y = PLANET_PROXIMITY_INDICATOR_SIZE / 2;
         for (int i = 1; i < hCellCount - 1; i++) {
-            PlanetProximityIndicator t = new PlanetProximityIndicator(x, y, dimensionsRatio, PLANET_PROXIMITY_INDICATOR_SIZE, texture);
+            PlanetProximityIndicator t = new PlanetProximityIndicator(x, y, displayDimensions.getRatio(), PLANET_PROXIMITY_INDICATOR_SIZE, texture);
             planetProximityIndicators.add(t);
-            PlanetProximityIndicator t2 = new PlanetProximityIndicator(x, 1 - y, dimensionsRatio, PLANET_PROXIMITY_INDICATOR_SIZE, texture);
+            PlanetProximityIndicator t2 = new PlanetProximityIndicator(x, 1 - y, displayDimensions.getRatio(), PLANET_PROXIMITY_INDICATOR_SIZE, texture);
             planetProximityIndicators.add(t2);
             x += hStep;
         }
@@ -138,13 +142,13 @@ public class BorderDrawer {
         }
 
         float size = BORDER_ICON_SZ * closeness;
-        float prefX = drawer.r / 2 - size / 2;
+        float prefX = displayDimensions.getRatio() / 2 - size / 2;
         float prefY = .5f - size / 2;
         float dimensionsRatio = prefX / prefY;
         boolean prefXAxis = myTmpVec.y == 0 || dimensionsRatio < SolMath.abs(myTmpVec.x / myTmpVec.y);
         float mul = SolMath.abs(prefXAxis ? (prefX / myTmpVec.x) : (prefY / myTmpVec.y));
         myTmpVec.scl(mul);
-        myTmpVec.add(drawer.r / 2, .5f);
+        myTmpVec.add(displayDimensions.getRatio() / 2, .5f);
 
         mapDrawer.drawObjIcon(size, myTmpVec, objAngle - camAngle, factionManager, hero, objFac, heroDmgCap, shipHack, icon, drawer);
     }
@@ -200,7 +204,7 @@ public class BorderDrawer {
         private final float myAngle;
         private float myPercentage;
 
-        public PlanetProximityIndicator(float x, float y, float r, float maxSz, TextureAtlas.AtlasRegion tex) {
+        private PlanetProximityIndicator(float x, float y, float r, float maxSz, TextureAtlas.AtlasRegion tex) {
             myX = x;
             myY = y;
             myTexture = tex;
@@ -211,13 +215,13 @@ public class BorderDrawer {
             myCol = new Color(SolColor.UI_DARK);
         }
 
-        public void draw(UiDrawer drawer) {
+        private void draw(UiDrawer drawer) {
             float sz = myPercentage * myMaxSz;
             myCol.a = myPercentage;
             drawer.draw(myTexture, sz, sz, sz / 2, sz / 2, myX, myY, 0, myCol);
         }
 
-        public void setDistPerc(float distPercentage) {
+        private void setDistPerc(float distPercentage) {
             float closeness = 1 - distPercentage;
             if (closeness < myPercentage) {
                 return;
@@ -225,7 +229,7 @@ public class BorderDrawer {
             myPercentage = closeness;
         }
 
-        public void reset() {
+        private void reset() {
             myPercentage = 0;
         }
     }
