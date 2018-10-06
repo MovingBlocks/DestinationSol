@@ -30,7 +30,7 @@ public class MenuScreens {
 
     public MenuScreens(SolLayouts layouts, boolean mobile, GameOptions gameOptions) {
         MenuLayout menuLayout = layouts.menuLayout;
-        main = new MainMenuScreen(menuLayout, mobile, gameOptions);
+        main = new MainMenuScreen(mobile, gameOptions);
         options = new OptionsScreen(menuLayout, gameOptions);
         inputMapScreen = new InputMapScreen(gameOptions);
         resolutionScreen = new ResolutionScreen(menuLayout, gameOptions);
