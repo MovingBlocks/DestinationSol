@@ -72,8 +72,6 @@ public class SolApplication implements ApplicationListener {
     UiDrawer uiDrawer;
 
     private MenuScreens menuScreens;
-
-
     private String fatalErrorMsg;
     private String fatalErrorTrace;
     private SolGame solGame;
