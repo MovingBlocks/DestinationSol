@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.Gdx;
@@ -45,39 +46,31 @@ public class MainMenuScreen extends SolUiBaseScreen {
     private final SolUiControl newGameControl;
     private final SolUiControl creditsControl;
 
-    MainMenuScreen(MenuLayout menuLayout, boolean isMobile, GameOptions gameOptions) {
+    private final int buttonWidth = 300;
+    private final int buttonHeight = 75;
+    private final int buttonPadding = 10;
+
+    MainMenuScreen(boolean isMobile, GameOptions gameOptions) {
         this.isMobile = isMobile;
         this.gameOptions = gameOptions;
 
         displayDimensions = SolApplication.displayDimensions;
 
-        int w = 300;
-        int h = 75;
-        int padding = 10;
-
-        int offsetY = -(padding + h/2);
-
-        tutorialControl = new SolUiControl(w, h, UiDrawer.positions.get("bottom"), 0, offsetY, true, Input.Keys.T);
+        tutorialControl = new SolUiControl(buttonWidth, buttonHeight, UiDrawer.positions.get("bottom"), 0, calculateButtonOffsetFromBottom(3), true, Input.Keys.T);
         tutorialControl.setDisplayName("Tutorial");
         controls.add(tutorialControl);
 
-        offsetY -= padding + h;
-
-        newGameControl = new SolUiControl(w, h, UiDrawer.positions.get("bottom"), 0, offsetY, true, gameOptions.getKeyShoot());
+        newGameControl = new SolUiControl(buttonWidth, buttonHeight, UiDrawer.positions.get("bottom"), 0, calculateButtonOffsetFromBottom(2), true, gameOptions.getKeyShoot());
         newGameControl.setDisplayName("Play Game");
         controls.add(newGameControl);
 
-        offsetY -= padding + h;
-
         // TODO: Temporarily showing on mobile as well. Fix!
         // optionsControl = new SolUiControl(isMobile ? null : menuLayout.buttonRect(-1, 3), true, Input.Keys.O);
-        optionsControl = new SolUiControl(w, h, UiDrawer.positions.get("bottom"), 0, offsetY, true, Input.Keys.O);
+        optionsControl = new SolUiControl(buttonWidth, buttonHeight, UiDrawer.positions.get("bottom"), 0, calculateButtonOffsetFromBottom(1), true, Input.Keys.O);
         optionsControl.setDisplayName("Options");
         controls.add(optionsControl);
 
-        offsetY -= padding + h;
-
-        exitControl = new SolUiControl(w, h, UiDrawer.positions.get("bottom"), 0, offsetY, true, gameOptions.getKeyEscape());
+        exitControl = new SolUiControl(buttonWidth, buttonHeight, UiDrawer.positions.get("bottom"), 0, calculateButtonOffsetFromBottom(0), true, gameOptions.getKeyEscape());
         exitControl.setDisplayName("Exit");
         controls.add(exitControl);
 
@@ -142,5 +135,13 @@ public class MainMenuScreen extends SolUiBaseScreen {
         if (!DebugOptions.PRINT_BALANCE) {
             uiDrawer.draw(logoTexture, sx, sy, sx / 2, sy / 2, displayDimensions.getRatio() / 2, 0.1f + sy / 2, 0, SolColor.WHITE);
         }
+    }
+
+    /**
+     * @param buttonIndex the index of the button, starting from 0 for the bottom-most button
+     * @return the number of pixels to go up from the bottom of the screen for the {@code buttonIndex}th button
+     */
+    private int calculateButtonOffsetFromBottom(int buttonIndex) {
+        return -(buttonPadding + buttonHeight / 2) - (buttonIndex * (buttonPadding + buttonHeight));
     }
 }
