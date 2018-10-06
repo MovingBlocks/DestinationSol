@@ -84,6 +84,7 @@ public abstract class Assets {
 
     /**
      * Loads an OggSound (.ogg) from the current environment. Throws an exception if the asset is not found.
+     *
      * @param path A String specifying the desired asset.
      * @return The loaded OggSound.
      */
@@ -181,7 +182,7 @@ public abstract class Assets {
     /**
      * A wrapper function over getDSTexture() that creates an AtlasRegion out of the given Texture, to use in drawing functions.
      *
-     * @param path A String specifying the desired asset.
+     * @param path          A String specifying the desired asset.
      * @param textureFilter The texture filtering method for minification and magnification.
      * @return An AtlasRegion representing the loaded Texture.
      */
@@ -232,7 +233,6 @@ public abstract class Assets {
         if (!listsCached) {
             uncacheLists();
         }
-
         return textures;
     }
 }

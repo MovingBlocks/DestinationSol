@@ -92,13 +92,11 @@ public class SolApplication implements ApplicationListener {
 
     @Override
     public void create() {
-
-
         this.applicationComponent = DaggerSolApplicationComponent.builder()
                 .audioModule(new AudioModule())
                 .inputModule(new InputModule())
                 .moduleManagerModule(new ModuleManagerModule())
-                .optionsModule(new OptionsModule(null ))
+                .optionsModule(new OptionsModule(null))
                 .build();
         Assets.initialize(applicationComponent.moduleEnviroment());
         applicationComponent.inject(this);
@@ -271,7 +269,9 @@ public class SolApplication implements ApplicationListener {
         return soundManager;
     }
 
-    /**  This method is called when the "New Game" button gets pressed. It sets the seed for random generation, and the number of systems */
+    /**
+     * This method is called when the "New Game" button gets pressed. It sets the seed for random generation, and the number of systems
+     */
     private void beforeNewGame() {
         // Reset the seed so this galaxy isn't the same as the last
         worldConfig.setSeed(System.currentTimeMillis());
@@ -280,7 +280,9 @@ public class SolApplication implements ApplicationListener {
         worldConfig.setNumberOfSystems(getMenuScreens().newShip.getNumberOfSystems());
     }
 
-     /** This method is called when the "Continue" button gets pressed. It loads the world file to get the seed used for the world generation, and the number of systems */
+    /**
+     * This method is called when the "Continue" button gets pressed. It loads the world file to get the seed used for the world generation, and the number of systems
+     */
     private void beforeLoadGame() {
         WorldConfig config = SaveManager.loadWorld();
         if (config != null) {

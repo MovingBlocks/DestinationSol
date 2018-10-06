@@ -27,7 +27,6 @@ dependencies {
     testCompile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
     testCompile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
 
-
     // Test lib dependencies
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.7.22'
