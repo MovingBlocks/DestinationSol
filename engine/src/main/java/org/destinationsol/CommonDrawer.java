@@ -40,7 +40,7 @@ public class CommonDrawer {
     private final float originalFontHeight;
     private final GlyphLayout layout;
 
-    CommonDrawer() {
+    public CommonDrawer() {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
         dimensionsRatio = width / height;

@@ -39,15 +39,14 @@ public class OggMusicManager {
     public static final String GAME_MUSIC_SET = "game";
     private final Map<String, List<Music>> musicMap;
     private Music currentlyPlaying;
-//    private Assets assets;
+
 
     /**
      * Registers engine music.
      * TODO Make music registerable from modules, and then register this music through the new way.
      */
     @Inject
-    OggMusicManager() {
-//        this.assets = assets;
+    public OggMusicManager() {
         musicMap = new HashMap<>();
         registerMusic(MENU_MUSIC_SET, "engine:dreadnaught");
         registerMusic(GAME_MUSIC_SET, "engine:cimmerianDawn");

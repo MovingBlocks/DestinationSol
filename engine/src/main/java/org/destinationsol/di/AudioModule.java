@@ -13,29 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol;
+package org.destinationsol.di;
 
-import dagger.Component;
-import org.destinationsol.assets.AssetProvider;
-import org.destinationsol.assets.audio.AudioProvider;
+import dagger.Module;
+import dagger.Provides;
+import org.destinationsol.GameOptions;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.assets.audio.OggSoundManager;
-import org.destinationsol.game.SolGameComponent;
-import org.destinationsol.ui.InputProvider;
-import org.destinationsol.ui.SolInputManager;
-import org.terasology.module.ModuleEnvironment;
 
 import javax.inject.Singleton;
 
+@Module
+public class AudioModule {
 
-@Singleton
-@Component(modules = {InputProvider.class,ModuleManagerProvider.class, AudioProvider.class,GameOptionsProvider.class, AssetProvider.class})
-public interface SolApplicationComponent {
-    void inject(SolApplication solApplication);
+    @Provides
+    @Singleton
+    OggMusicManager proivdeOggMusicManager(){
+        return new OggMusicManager();
+    }
 
-    ModuleEnvironment moduleEnviroment();
-    SolInputManager inputModule();
-    OggSoundManager soundManager();
-    OggMusicManager musicManager();
+
+    @Provides
+    @Singleton
+    OggSoundManager proivdeOggSoundManager(GameOptions gameOptions){
+        return new OggSoundManager(gameOptions);
+    }
 
 }

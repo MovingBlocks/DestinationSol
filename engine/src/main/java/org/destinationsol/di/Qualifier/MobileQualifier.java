@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.chunk;
+package org.destinationsol.di.Qualifier;
 
-import dagger.Module;
-import dagger.Provides;
-import org.destinationsol.di.scope.GameScope;
+import javax.inject.Qualifier;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
 
-@Module
-public class ChunkProvider {
-    @Provides
-    @GameScope
-    public ChunkManager provideChunkManager(){
-        return new ChunkManager();
-    }
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+@Qualifier
+@Documented
+@Retention(RUNTIME)
+public @interface MobileQualifier {
 }

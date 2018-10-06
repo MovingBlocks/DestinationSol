@@ -122,7 +122,7 @@ public class MainMenuScreen implements SolUiScreen {
 
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(backgroundTexture, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+        uiDrawer.draw(backgroundTexture, uiDrawer.ratio, 1, uiDrawer.ratio / 2, 0.5f, uiDrawer.ratio / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     @Override
@@ -130,7 +130,7 @@ public class MainMenuScreen implements SolUiScreen {
         final float sy = .35f;
         final float sx = sy * 400 / 218;
         if (!DebugOptions.PRINT_BALANCE) {
-            uiDrawer.draw(logoTexture, sx, sy, sx / 2, sy / 2, uiDrawer.r / 2, 0.1f + sy / 2, 0, SolColor.WHITE);
+            uiDrawer.draw(logoTexture, sx, sy, sx / 2, sy / 2, uiDrawer.ratio / 2, 0.1f + sy / 2, 0, SolColor.WHITE);
         }
     }
 }

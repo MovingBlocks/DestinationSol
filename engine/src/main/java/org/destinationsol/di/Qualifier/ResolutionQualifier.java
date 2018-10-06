@@ -13,22 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol;
+package org.destinationsol.di.Qualifier;
 
-import dagger.Module;
-import dagger.Provides;
+import javax.inject.Qualifier;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
 
-@Module
-public class GameOptionsProvider {
-    private boolean mobile;
-    private SolFileReader solFileReader;
-    public GameOptionsProvider(boolean mobile, SolFileReader solFileReader){
-        this.mobile = mobile;
-        this.solFileReader = solFileReader;
-    }
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-    @Provides
-    public GameOptions provideGameOptions(){
-        return new GameOptions(mobile,solFileReader);
-    }
+@Qualifier
+@Documented
+@Retention(RUNTIME)
+public @interface ResolutionQualifier {
 }

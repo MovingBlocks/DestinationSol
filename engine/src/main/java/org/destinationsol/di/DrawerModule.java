@@ -13,17 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.chunk;
+package org.destinationsol.di;
 
 import dagger.Module;
 import dagger.Provides;
-import org.destinationsol.di.scope.GameScope;
+import org.destinationsol.CommonDrawer;
+import org.destinationsol.di.Qualifier.ResolutionQualifier;
+import org.destinationsol.ui.SolLayouts;
+import org.destinationsol.ui.UiDrawer;
+
+import javax.inject.Singleton;
 
 @Module
-public class ChunkProvider {
+public class DrawerModule {
+    @Singleton
     @Provides
-    @GameScope
-    public ChunkManager provideChunkManager(){
-        return new ChunkManager();
+    public CommonDrawer provideCommonDrawer(){
+        return new CommonDrawer();
     }
+
+    @Singleton
+    @Provides
+    public UiDrawer provideUiDrawer(CommonDrawer commonDrawer){
+        return new UiDrawer(commonDrawer);
+    }
+
+    @Singleton
+    @Provides
+    public SolLayouts provideSolLayout(UiDrawer uiDrawer){
+        return new SolLayouts(uiDrawer.ratio);
+    }
+
+
+
 }
+

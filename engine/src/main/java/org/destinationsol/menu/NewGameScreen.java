@@ -89,6 +89,6 @@ public class NewGameScreen implements SolUiScreen {
 
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(backgroundTexture, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+        uiDrawer.draw(backgroundTexture, uiDrawer.ratio, 1, uiDrawer.ratio / 2, 0.5f, uiDrawer.ratio / 2, 0.5f, 0, SolColor.WHITE);
     }
 }

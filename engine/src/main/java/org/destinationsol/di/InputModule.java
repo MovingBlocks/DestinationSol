@@ -13,28 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.assets.audio;
+package org.destinationsol.di;
 
 import dagger.Module;
 import dagger.Provides;
-import org.destinationsol.GameOptions;
-
-import javax.inject.Singleton;
+import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.ui.SolInputManager;
 
 @Module
-public class AudioProvider {
-
+public class InputModule {
     @Provides
-    @Singleton
-    OggMusicManager  proivdeOggMusicManager(){
-        return new OggMusicManager();
+    public SolInputManager provideInputManager(OggSoundManager oggSoundManager){
+        return new SolInputManager(oggSoundManager);
     }
-
-
-    @Provides
-    @Singleton
-    OggSoundManager  proivdeOggSoundManager(GameOptions gameOptions){
-        return new OggSoundManager(gameOptions);
-    }
-
 }

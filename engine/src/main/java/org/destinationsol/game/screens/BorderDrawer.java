@@ -138,13 +138,13 @@ public class BorderDrawer {
         }
 
         float size = BORDER_ICON_SZ * closeness;
-        float prefX = drawer.r / 2 - size / 2;
+        float prefX = drawer.ratio / 2 - size / 2;
         float prefY = .5f - size / 2;
         float dimensionsRatio = prefX / prefY;
         boolean prefXAxis = myTmpVec.y == 0 || dimensionsRatio < SolMath.abs(myTmpVec.x / myTmpVec.y);
         float mul = SolMath.abs(prefXAxis ? (prefX / myTmpVec.x) : (prefY / myTmpVec.y));
         myTmpVec.scl(mul);
-        myTmpVec.add(drawer.r / 2, .5f);
+        myTmpVec.add(drawer.ratio / 2, .5f);
 
         mapDrawer.drawObjIcon(size, myTmpVec, objAngle - camAngle, factionManager, hero, objFac, heroDmgCap, shipHack, icon, drawer);
     }

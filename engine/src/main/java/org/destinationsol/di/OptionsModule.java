@@ -13,10 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game;
+package org.destinationsol.di;
 
-import javax.inject.Scope;
+import dagger.Module;
+import dagger.Provides;
+import org.destinationsol.GameOptions;
+import org.destinationsol.SolFileReader;
+import org.destinationsol.di.Qualifier.MobileQualifier;
 
-@Scope
-public @interface GameScope {
+import javax.inject.Singleton;
+
+@Module
+public class OptionsModule {
+    private SolFileReader solFileReader;
+    public OptionsModule(SolFileReader solFileReader){
+        this.solFileReader = solFileReader;
+    }
+
+    @Provides
+    @Singleton
+    public GameOptions provideGameOptions( @MobileQualifier boolean isMobile){
+        return new GameOptions(isMobile,solFileReader);
+    }
+
 }
