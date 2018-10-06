@@ -61,6 +61,6 @@ public class ZoneNameAnnouncer {
         if (color.a <= 0) {
             return;
         }
-        uiDrawer.drawString(text, uiDrawer.ratio / 2, .15f, FontSize.MENU * 1.5f, true, color);
+        uiDrawer.drawString(text, uiDrawer.r / 2, .15f, FontSize.MENU * 1.5f, true, color);
     }
 }

@@ -105,12 +105,12 @@ public class NewShipScreen implements SolUiScreen {
 
     @Override
     public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.drawString("Warning: This will erase any old ship you might have had!", .5f * uiDrawer.ratio, .3f, FontSize.MENU, true, SolColor.WHITE);
+        uiDrawer.drawString("Warning: This will erase any old ship you might have had!", .5f * uiDrawer.r, .3f, FontSize.MENU, true, SolColor.WHITE);
     }
 
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(backgroundTexture, uiDrawer.ratio, 1, uiDrawer.ratio / 2, 0.5f, uiDrawer.ratio / 2, 0.5f, 0, SolColor.WHITE);
+        uiDrawer.draw(backgroundTexture, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     private void loadPlayerSpawnConfigs() {

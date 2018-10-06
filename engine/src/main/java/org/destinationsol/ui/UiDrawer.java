@@ -35,7 +35,7 @@ public class UiDrawer {
     private final Matrix4 straightMtx;
     private final float uiLineWidth;
 
-    public final float ratio;
+    public final float r;
     public final TextureRegion whiteTexture;
     public final Rectangle filler;
     private final CommonDrawer drawer;
@@ -44,12 +44,12 @@ public class UiDrawer {
 
     public UiDrawer(CommonDrawer commonDrawer) {
         drawer = commonDrawer;
-        ratio = drawer.dimensionsRatio;
+        r = drawer.dimensionsRatio;
         whiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
         uiLineWidth = 1 / drawer.height;
         straightMtx = new Matrix4().setToOrtho2D(0, 1, drawer.dimensionsRatio, -1);
         drawer.setMatrix(straightMtx);
-        filler = new Rectangle(0, 0, ratio, 1);
+        filler = new Rectangle(0, 0, r, 1);
     }
 
     public void updateMtx() {

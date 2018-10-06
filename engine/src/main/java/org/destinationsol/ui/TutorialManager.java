@@ -244,7 +244,7 @@ public class TutorialManager implements UpdateAwareSystem {
         uiDrawer.drawLine(background.x, background.y, 0, background.width, SolColor.WHITE);
         uiDrawer.drawLine(background.x + background.width, background.y, 90, background.height, SolColor.WHITE);
         uiDrawer.drawLine(background.x, background.y, 90, background.height, SolColor.WHITE);
-        uiDrawer.drawString(step.text, uiDrawer.ratio / 2, background.y + background.height / 2, FontSize.TUT, true, SolColor.WHITE);
+        uiDrawer.drawString(step.text, uiDrawer.r / 2, background.y + background.height / 2, FontSize.TUT, true, SolColor.WHITE);
     }
 
     public boolean isFinished() {

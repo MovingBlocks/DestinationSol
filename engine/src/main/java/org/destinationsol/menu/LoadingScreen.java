@@ -54,7 +54,7 @@ public class LoadingScreen implements SolUiScreen {
 
     @Override
     public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.drawString("Loading...", uiDrawer.ratio / 2, .5f, FontSize.MENU, true, SolColor.WHITE);
+        uiDrawer.drawString("Loading...", uiDrawer.r / 2, .5f, FontSize.MENU, true, SolColor.WHITE);
     }
 
     public void setMode(boolean loadTutorial, String shipName, boolean isNewGame) {
@@ -65,7 +65,7 @@ public class LoadingScreen implements SolUiScreen {
 
     @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(backgroundTexture, uiDrawer.ratio, 1, uiDrawer.ratio / 2, 0.5f, uiDrawer.ratio / 2, 0.5f, 0, SolColor.WHITE);
+        uiDrawer.draw(backgroundTexture, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
     }
 
 }

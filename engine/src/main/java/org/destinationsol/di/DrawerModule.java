@@ -18,7 +18,6 @@ package org.destinationsol.di;
 import dagger.Module;
 import dagger.Provides;
 import org.destinationsol.CommonDrawer;
-import org.destinationsol.di.Qualifier.ResolutionQualifier;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 
@@ -41,7 +40,7 @@ public class DrawerModule {
     @Singleton
     @Provides
     public SolLayouts provideSolLayout(UiDrawer uiDrawer){
-        return new SolLayouts(uiDrawer.ratio);
+        return new SolLayouts(uiDrawer.r);
     }
 
 

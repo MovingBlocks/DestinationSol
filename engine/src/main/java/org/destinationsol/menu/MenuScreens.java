@@ -35,11 +35,11 @@ public class MenuScreens {
     @Inject
     public MenuScreens(SolLayouts layouts, @MobileQualifier boolean mobile, UiDrawer drawer, GameOptions gameOptions) {
         MenuLayout menuLayout = layouts.menuLayout;
-        main = new MainMenuScreen(menuLayout, mobile, drawer.ratio, gameOptions);
+        main = new MainMenuScreen(menuLayout, mobile, drawer.r, gameOptions);
         options = new OptionsScreen(menuLayout, gameOptions);
-        inputMapScreen = new InputMapScreen(drawer.ratio, gameOptions);
+        inputMapScreen = new InputMapScreen(drawer.r, gameOptions);
         resolutionScreen = new ResolutionScreen(menuLayout, gameOptions);
-        credits = new CreditsScreen(drawer.ratio, gameOptions);
+        credits = new CreditsScreen(drawer.r, gameOptions);
         loading = new LoadingScreen();
         newGame = new NewGameScreen(menuLayout, gameOptions);
         newShip = new NewShipScreen(menuLayout, gameOptions);

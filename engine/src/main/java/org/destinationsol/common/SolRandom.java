@@ -114,7 +114,7 @@ public class SolRandom {
     /**
      * Returns a random int v such that max*percentage <= v < max.
      *
-     * @param percentage The ratio of lower bound to upper bound.
+     * @param percentage The r of lower bound to upper bound.
      * @param max The upper bound (exclusive) for magnitude of the generated number. Must be positive.
      */
     public static int randomInt(float percentage, int max) {

@@ -190,9 +190,9 @@ public class SolApplication implements ApplicationListener {
             solGame.drawDebugUi(uiDrawer);
         }
         if (fatalErrorMsg != null) {
-            uiDrawer.draw(uiDrawer.whiteTexture, uiDrawer.ratio, .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
-            uiDrawer.drawString(fatalErrorMsg, uiDrawer.ratio / 2, .5f, FontSize.MENU, true, SolColor.WHITE);
-            uiDrawer.drawString(fatalErrorTrace, .2f * uiDrawer.ratio, .6f, FontSize.DEBUG, false, SolColor.WHITE);
+            uiDrawer.draw(uiDrawer.whiteTexture, uiDrawer.r, .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
+            uiDrawer.drawString(fatalErrorMsg, uiDrawer.r / 2, .5f, FontSize.MENU, true, SolColor.WHITE);
+            uiDrawer.drawString(fatalErrorTrace, .2f * uiDrawer.r, .6f, FontSize.DEBUG, false, SolColor.WHITE);
         }
         DebugCollector.draw(uiDrawer);
         if (solGame == null) {
