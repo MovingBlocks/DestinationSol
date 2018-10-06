@@ -20,6 +20,8 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.audio.AudioProvider;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.common.SolColor;
@@ -30,10 +32,10 @@ import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.context.Context;
-import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.menu.MenuScreens;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.FontSize;
+import org.destinationsol.ui.InputProvider;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
@@ -47,18 +49,21 @@ import java.io.StringWriter;
 public class SolApplication implements ApplicationListener {
     private static final Logger logger = LoggerFactory.getLogger(SolApplication.class);
 
-    @SuppressWarnings("FieldCanBeLocal")
-    private ModuleManager moduleManager;
-
     @Inject
-    private OggMusicManager musicManager;
-    private OggSoundManager soundManager;
-    private SolInputManager inputManager;
+    ModuleManager moduleManager;
+    @Inject
+    OggMusicManager musicManager;
+    @Inject
+    OggSoundManager soundManager;
+    @Inject
+    SolInputManager inputManager;
+    @Inject
+    GameOptions options;
 
     private UiDrawer uiDrawer;
     private MenuScreens menuScreens;
     private SolLayouts layouts;
-    private GameOptions options;
+
     private CommonDrawer commonDrawer;
     private String fatalErrorMsg;
     private String fatalErrorTrace;
@@ -74,32 +79,30 @@ public class SolApplication implements ApplicationListener {
     public SolApplication() {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
-        applicationComponent = DaggerSolApplicationComponent.builder().build();
-        applicationComponent.inject(this);
-
 
     }
 
     @Override
     public void create() {
 
-        context = new ContextImpl();
-        context.put(SolApplication.class, this);
-        worldConfig = new WorldConfig();
         isMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
         if (isMobile) {
             DebugOptions.read(null);
         }
-        options = new GameOptions(isMobile(), null);
 
-        moduleManager = new ModuleManager();
+        this.applicationComponent = DaggerSolApplicationComponent.builder()
+                .audioProvider(new AudioProvider())
+                .gameOptionsProvider(new GameOptionsProvider(isMobile,null ))
+                .inputProvider(new InputProvider())
+                .moduleManagerProvider(new ModuleManagerProvider())
+                .build();
+        Assets.initialize(applicationComponent.moduleEnviroment());
+        applicationComponent.inject(this);
+
 
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();
-
-        soundManager = new OggSoundManager(context);
-        inputManager = new SolInputManager(soundManager);
-
+        worldConfig = new WorldConfig();
         musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
 
         commonDrawer = new CommonDrawer();

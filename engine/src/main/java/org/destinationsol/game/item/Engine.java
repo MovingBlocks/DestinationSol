@@ -105,11 +105,9 @@ public class Engine implements SolItem {
         public final Engine exampleEngine;
         public final TextureAtlas.AtlasRegion icon;
         public final String code;
-        private final Assets assets;
 
-        private Config(Assets assets,String displayName, int price, String description, float rotationAcceleration, float acceleration, float maxRotationSpeed, boolean isBig,
+        private Config(String displayName, int price, String description, float rotationAcceleration, float acceleration, float maxRotationSpeed, boolean isBig,
                        TextureAtlas.AtlasRegion icon, String code) {
-            this.assets = assets;
             this.displayName = displayName;
             this.price = price;
             this.description = description;
@@ -122,8 +120,8 @@ public class Engine implements SolItem {
             this.exampleEngine = new Engine(this);
         }
 
-        public static Config load(Assets assets,String engineName) {
-            Json json = assets.getJson(engineName);
+        public static Config load(String engineName) {
+            Json json = Assets.getJson(engineName);
             JsonValue rootNode = json.getJsonValue();
 
             boolean isBig = rootNode.getBoolean("big");
@@ -135,7 +133,7 @@ public class Engine implements SolItem {
 
             // TODO: VAMPCAT: The icon / displayName was initially set to null. Is that correct?
 
-            return new Config(assets,null, 0, null, rotationAcceleration, acceleration, maxRotationSpeed, isBig, null, engineName);
+            return new Config(null, 0, null, rotationAcceleration, acceleration, maxRotationSpeed, isBig, null, engineName);
         }
     }
 }

@@ -13,10 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol;
+package org.destinationsol.assets.audio;
 
-import javax.inject.Scope;
+import dagger.Module;
+import dagger.Provides;
+import org.destinationsol.GameOptions;
 
-@Scope
-public @interface ApplicationScope {
+import javax.inject.Singleton;
+
+@Module
+public class AudioProvider {
+
+    @Provides
+    @Singleton
+    OggMusicManager  proivdeOggMusicManager(){
+        return new OggMusicManager();
+    }
+
+
+    @Provides
+    @Singleton
+    OggSoundManager  proivdeOggSoundManager(GameOptions gameOptions){
+        return new OggSoundManager(gameOptions);
+    }
+
 }

@@ -16,13 +16,26 @@
 package org.destinationsol;
 
 import dagger.Component;
-import org.destinationsol.game.SolGame;
+import org.destinationsol.assets.AssetProvider;
+import org.destinationsol.assets.audio.AudioProvider;
+import org.destinationsol.assets.audio.OggMusicManager;
+import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.game.SolGameComponent;
+import org.destinationsol.ui.InputProvider;
+import org.destinationsol.ui.SolInputManager;
+import org.terasology.module.ModuleEnvironment;
 
 import javax.inject.Singleton;
 
-@ApplicationScope
-@Component()
+
+@Singleton
+@Component(modules = {InputProvider.class,ModuleManagerProvider.class, AudioProvider.class,GameOptionsProvider.class, AssetProvider.class})
 public interface SolApplicationComponent {
     void inject(SolApplication solApplication);
+
+    ModuleEnvironment moduleEnviroment();
+    SolInputManager inputModule();
+    OggSoundManager soundManager();
+    OggMusicManager musicManager();
 
 }

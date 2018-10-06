@@ -23,6 +23,7 @@ import org.destinationsol.game.DebugOptions;
 import org.terasology.module.ModuleEnvironment;
 import org.terasology.module.ModuleFactory;
 import org.terasology.module.ModulePathScanner;
+import org.terasology.module.ModuleRegistry;
 import org.terasology.module.TableModuleRegistry;
 import org.terasology.module.sandbox.StandardPermissionProviderFactory;
 
@@ -33,27 +34,28 @@ import java.nio.file.Paths;
 import java.util.Set;
 
 @Module
-public class ProvideModuleManager {
+public class ModuleManagerProvider {
 
-    private ModuleEnvironment moduleEnvironment;
 
-    public ProvideModuleManager(ModuleEnvironment environment){
-        this.moduleEnvironment = environment;
+    public ModuleManagerProvider(){
     }
 
-    @Provides
-    public ModuleManager provideModuleManager(){
-        return new ModuleManager();
-    }
 
     @Provides
     @Singleton
-    public TableModuleRegistry provideTableModuleRegistry(){
+    public ModuleRegistry provideTableModuleRegistry(){
         return new TableModuleRegistry();
     }
 
     @Provides
-    public ModuleEnvironment provideModuleEnviroment(TableModuleRegistry registry){
+    @Singleton
+    public ModuleManager provideModuleManager(ModuleEnvironment moduleEnvironment, ModuleRegistry moduleRegistry){
+        return new ModuleManager(moduleEnvironment,moduleRegistry);
+    }
+
+    @Provides
+    @Singleton
+    public ModuleEnvironment provideModuleEnviroment(ModuleRegistry registry){
 
         try {
             URI engineClasspath = getClass().getProtectionDomain().getCodeSource().getLocation().toURI();

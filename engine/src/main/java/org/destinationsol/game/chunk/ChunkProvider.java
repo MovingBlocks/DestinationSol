@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.assets.audio;
+package org.destinationsol.game.chunk;
 
 import dagger.Module;
 import dagger.Provides;
-
-import javax.inject.Singleton;
+import org.destinationsol.game.GameScope;
 
 @Module
-public class AudioModule {
-    @Singleton
+public class ChunkProvider {
     @Provides
-    public OggMusicManager provideOggMusic(){
-        return new OggMusicManager();
+    @GameScope
+    public ChunkManager provideChunkManager(){
+        return new ChunkManager();
     }
 }

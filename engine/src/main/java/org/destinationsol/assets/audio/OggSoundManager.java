@@ -18,7 +18,7 @@ package org.destinationsol.assets.audio;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
-import org.destinationsol.SolApplication;
+import org.destinationsol.GameOptions;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.Nullable;
 import org.destinationsol.common.SolMath;
@@ -29,10 +29,11 @@ import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.UpdateAwareSystem;
-import org.destinationsol.game.context.Context;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.sound.DebugHintDrawer;
+import org.terasology.assets.Asset;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,15 +82,16 @@ public class OggSoundManager implements UpdateAwareSystem {
      * "Do the operations now".
      */
     private float myLoopAwait;
-    private final SolApplication solApplication;
 
+    final GameOptions gameOptions;
+//    final Assets assets;
 
-    public OggSoundManager(Context context) {
+    public OggSoundManager(GameOptions gameOptions) {
+//        this.assets = assets;
         soundMap = new HashMap<>();
         loopedSoundMap = new HashMap<>();
         debugHintDrawer = new DebugHintDrawer();
-        solApplication = context.get(SolApplication.class);
-
+        this.gameOptions= gameOptions;
     }
 
     /**
@@ -201,7 +203,7 @@ public class OggSoundManager implements UpdateAwareSystem {
      * @return Volume the sound should play at.
      */
     private float getVolume(SolGame game, Vector2 position, float volumeMultiplier, OggSound sound) {
-        float globalVolumeMultiplier = solApplication.getOptions().sfxVolume.getVolume();
+        float globalVolumeMultiplier = gameOptions.sfxVolume.getVolume();
 
         Vector2 cameraPosition = game.getCam().getPosition();
         Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();

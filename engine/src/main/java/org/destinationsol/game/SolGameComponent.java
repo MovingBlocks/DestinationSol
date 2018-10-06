@@ -16,12 +16,22 @@
 package org.destinationsol.game;
 
 import dagger.Component;
+import dagger.Subcomponent;
 import org.destinationsol.SolApplicationComponent;
+import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.audio.OggMusicManager;
+import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.game.chunk.ChunkManager;
+import org.destinationsol.game.chunk.ChunkProvider;
 
 import javax.inject.Scope;
 
-@Component(dependencies = {SolApplicationComponent.class})
+@Component(dependencies = {SolApplicationComponent.class},modules = {ChunkProvider.class})
 @GameScope
 public interface SolGameComponent {
 
+//    Assets assets();
+    OggSoundManager soundManager();
+    OggMusicManager musicManager();
+    ChunkManager chunkManager();
 }

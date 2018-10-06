@@ -13,18 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.assets;
+package org.destinationsol;
 
 import dagger.Module;
 import dagger.Provides;
-import org.terasology.assets.Asset;
-import org.terasology.module.ModuleEnvironment;
 
 @Module
-public class ProvideAssets {
+public class GameOptionsProvider {
+    private boolean mobile;
+    private SolFileReader solFileReader;
+    public GameOptionsProvider(boolean mobile, SolFileReader solFileReader){
+        this.mobile = mobile;
+        this.solFileReader = solFileReader;
+    }
 
     @Provides
-    public Assets provideAssets(ModuleEnvironment moduleEnvironment){
-        return new Assets(moduleEnvironment);
+    public GameOptions provideGameOptions(){
+        return new GameOptions(mobile,solFileReader);
     }
 }
