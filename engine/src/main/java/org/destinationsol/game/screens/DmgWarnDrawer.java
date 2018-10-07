@@ -15,12 +15,13 @@
  */
 package org.destinationsol.game.screens;
 
+import org.destinationsol.common.SolColor;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 
 public class DmgWarnDrawer extends WarnDrawer {
     DmgWarnDrawer() {
-        super("Heavily Damaged");
+        super("Heavily Damaged", SolColor.UI_DANGER);
     }
 
     @Override

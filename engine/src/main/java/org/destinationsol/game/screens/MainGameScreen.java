@@ -151,12 +151,13 @@ public class MainGameScreen extends SolUiBaseScreen {
         controls.add(consoleControlGrave);
         controls.add(consoleControlF1);
 
-        warnDrawers.add(new CollisionWarnDrawer());
+        // possible warning messages in order of importance, so earlier one will be drawn on the center
         warnDrawers.add(new SunWarnDrawer());
-        warnDrawers.add(new EnemyWarn());
         warnDrawers.add(new DmgWarnDrawer());
+        warnDrawers.add(new CollisionWarnDrawer());
         warnDrawers.add(new NoShieldWarn());
         warnDrawers.add(new NoArmorWarn());
+        warnDrawers.add(new EnemyWarn());
 
         zoneNameAnnouncer = new ZoneNameAnnouncer();
         borderDrawer = new BorderDrawer();
@@ -466,10 +467,10 @@ public class MainGameScreen extends SolUiBaseScreen {
             //updateTextPlace(col1, row, (int) hero.getMoney() + "", myMoneyExcessTp);
         }
 
+        int drawPlace = 0;
         for (WarnDrawer wd : warnDrawers) {
             if (wd.drawPercentage > 0) {
-                wd.draw(uiDrawer);
-                break;
+                wd.draw(uiDrawer, drawPlace++);
             }
         }
     }
@@ -486,10 +487,10 @@ public class MainGameScreen extends SolUiBaseScreen {
         myChargesExcessTp.draw(uiDrawer);
         myMoneyExcessTp.draw(uiDrawer, UiDrawer.TextAlignment.LEFT);
 
+        int drawPlace = 0;
         for (WarnDrawer warnDrawer : warnDrawers) {
             if (warnDrawer.drawPercentage > 0) {
-                warnDrawer.drawText(uiDrawer);
-                break;
+                warnDrawer.drawText(uiDrawer, drawPlace++);
             }
         }
 
