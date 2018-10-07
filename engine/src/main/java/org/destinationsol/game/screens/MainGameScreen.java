@@ -18,6 +18,7 @@ package org.destinationsol.game.screens;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
@@ -427,12 +428,12 @@ public class MainGameScreen extends SolUiBaseScreen {
             Shield shield = hero.getShield();
             if (shield != null) {
                 uiDrawer.draw(shield.getIcon(game), ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.WHITE);
-                drawBar(uiDrawer, col1, row, shield.getLife(), shield.getMaxLife(), myShieldLifeTp);
+                drawBar(uiDrawer, col1, row, MathUtils.floor(shield.getLife()), shield.getMaxLife(), myShieldLifeTp);
                 row += ICON_SZ + V_PAD;
             }
 
             uiDrawer.draw(lifeTexture, ICON_SZ, ICON_SZ, 0, 0, col0, row, 0, SolColor.WHITE);
-            drawBar(uiDrawer, col1, row, hero.getLife(), hero.getHull().config.getMaxLife(), myLifeTp);
+            drawBar(uiDrawer, col1, row, MathUtils.floor(hero.getLife()), hero.getHull().config.getMaxLife(), myLifeTp);
             int repairKitCount = hero.getItemContainer().count(game.getItemMan().getRepairExample());
             ItemManager itemManager = game.getItemMan();
             drawIcons(uiDrawer, col2, row, repairKitCount, itemManager.repairIcon, myRepairsExcessTp);
