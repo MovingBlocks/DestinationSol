@@ -188,7 +188,7 @@ public class SolRandom {
     /**
      * Returns a random boolean value with unequal probabilities.
      *
-     * @param value the probability of returning true.
+     * @param value the probability of returning true, in a [0;1] interval.
      */
     public static boolean test(float value) {
         return randomFloat(0, 1) < value;
