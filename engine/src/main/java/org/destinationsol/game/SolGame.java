@@ -156,7 +156,7 @@ public class SolGame {
                 saveShip();
 //                Console.getInstance().println("Game saved");
             }
-        }, 0, 60);
+        }, 0, 30);
     }
 
     private void createGame(String shipName, boolean shouldSpawnOnGalaxySpawnPosition) {
