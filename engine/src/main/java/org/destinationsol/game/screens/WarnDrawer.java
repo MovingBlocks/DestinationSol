@@ -26,28 +26,35 @@ import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.UiDrawer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class WarnDrawer {
     private static final float FADE_TIME = 1f;
-    private final Rectangle warningRectangle;
     private final Color backgroundColor;
     private final Color textColor;
     private final float backgroundOriginA;
     private final String text;
+    private final DisplayDimensions displayDimensions;
+    private final List<Rectangle> rectangles = new ArrayList<>();
 
     float drawPercentage;
 
     WarnDrawer(String text) {
-        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
-
-        warningRectangle = rect(displayDimensions.getRatio());
-        this.text = text;
-        backgroundColor = new Color(SolColor.UI_WARN);
-        backgroundOriginA = backgroundColor.a;
-        textColor = new Color(SolColor.WHITE);
+        this(text, SolColor.UI_WARN);
     }
 
-    private static Rectangle rect(float aspectRatio) {
-        return new Rectangle(.4f * aspectRatio, 0, .2f * aspectRatio, .1f);
+    WarnDrawer(String text, Color backgroundColor) {
+        displayDimensions = SolApplication.displayDimensions;
+
+        this.text = text;
+        this.backgroundColor = new Color(backgroundColor);
+        backgroundOriginA = backgroundColor.a;
+        textColor = new Color(SolColor.WHITE);
+        // create the 3 rectangles where notifications can appear
+        for(int i=0; i<3; i++) {
+            rectangles.add(createRectangle(i));
+        }
     }
 
     public void update(SolGame game) {
@@ -62,11 +69,35 @@ public abstract class WarnDrawer {
 
     protected abstract boolean shouldWarn(SolGame game);
 
-    public void draw(UiDrawer uiDrawer) {
-        uiDrawer.draw(warningRectangle, backgroundColor);
+    public void draw(UiDrawer uiDrawer, int drawIndex) {
+        if(drawIndex >= rectangles.size()) return;
+        uiDrawer.draw(rectangles.get(drawIndex), backgroundColor);
     }
 
-    public void drawText(UiDrawer uiDrawer) {
-        uiDrawer.drawString(text, warningRectangle.x + warningRectangle.width / 2, warningRectangle.y + warningRectangle.height / 2, FontSize.MENU, true, textColor);
+    public void drawText(UiDrawer uiDrawer, int drawIndex) {
+        if(drawIndex >= rectangles.size()) return;
+        Rectangle warningRectangle = rectangles.get(drawIndex);
+        uiDrawer.drawString(text, warningRectangle.x + warningRectangle.width / 2.f, warningRectangle.y + warningRectangle.height / 2.f, FontSize.MENU, true, textColor);
+    }
+
+    /**
+     * Create background rectangle by calculating bounds
+     * @param drawIndex where the rectangle starts on the screen
+     */
+    private Rectangle createRectangle(int drawIndex) {
+        float x;
+        float y = 0.05f;
+        switch(drawIndex) {
+            case 1: // left of center
+                x = 0.18f * displayDimensions.getRatio();
+                break;
+            case 2: // right of center
+                x = 0.62f * displayDimensions.getRatio();
+                break;
+            case 0: // fallthrough to default intended
+            default:
+                x = 0.4f * displayDimensions.getRatio();
+        }
+        return new Rectangle(x, y, .2f * displayDimensions.getRatio(), .1f);
     }
 }
