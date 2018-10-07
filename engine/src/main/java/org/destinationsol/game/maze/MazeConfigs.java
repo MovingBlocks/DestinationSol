@@ -20,24 +20,28 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class MazeConfigs {
     public final List<MazeConfig> configs;
 
     public MazeConfigs(HullConfigManager hullConfigs, ItemManager itemManager) {
         configs = new ArrayList<>();
+        final Set<ResourceUrn> configUrns = Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:mazesConfig");
+        for (ResourceUrn configUrn : configUrns) {
+            Json json = Assets.getJson(configUrn.toString());
+            JsonValue rootNode = json.getJsonValue();
 
-        Json json = Assets.getJson("core:mazesConfig");
-        JsonValue rootNode = json.getJsonValue();
+            for (JsonValue mazeNode : rootNode) {
+                MazeConfig c = MazeConfig.load(mazeNode, hullConfigs, itemManager);
+                configs.add(c);
+            }
 
-        for (JsonValue mazeNode : rootNode) {
-            MazeConfig c = MazeConfig.load(mazeNode, hullConfigs, itemManager);
-            configs.add(c);
+            json.dispose();
         }
-
-        json.dispose();
     }
 }
