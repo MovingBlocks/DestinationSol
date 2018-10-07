@@ -17,6 +17,7 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
@@ -149,6 +150,13 @@ public class SolGame {
             createAndSpawnMercenariesFromSave();
         }
         SolMath.checkVectorsTaken(null);
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                saveShip();
+//                Console.getInstance().println("Game saved");
+            }
+        }, 0, 60);
     }
 
     private void createGame(String shipName, boolean shouldSpawnOnGalaxySpawnPosition) {
