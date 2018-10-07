@@ -29,8 +29,14 @@ public class DmgWarnDrawer extends WarnDrawer {
         if (hero.isTranscendent()) {
             return false;
         }
-        float l = hero.getLife();
-        int ml = hero.getHull().config.getMaxLife();
-        return l < ml * .3f;
+        float currentLife = hero.getLife();
+
+        // already dead
+        if(currentLife <= 0.0) {
+            return false;
+        }
+
+        int maxLife = hero.getHull().config.getMaxLife();
+        return currentLife < maxLife * .3f;
     }
 }
