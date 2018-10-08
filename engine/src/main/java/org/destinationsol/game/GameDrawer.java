@@ -24,8 +24,6 @@ import org.destinationsol.CommonDrawer;
 import org.destinationsol.assets.Assets;
 
 public class GameDrawer {
-
-    public final float r;
     public final TextureAtlas.AtlasRegion debugWhiteTexture;
     private final CommonDrawer myDrawer;
 
@@ -33,7 +31,6 @@ public class GameDrawer {
 
     public GameDrawer(CommonDrawer commonDrawer) {
         myDrawer = commonDrawer;
-        r = myDrawer.dimensionsRatio;
         debugWhiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
     }
 

@@ -13,17 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.ui;
+package org.destinationsol.di;
 
-import org.destinationsol.game.screens.RightPaneLayout;
-import org.destinationsol.menu.MenuLayout;
+import dagger.Module;
+import dagger.Provides;
+import org.destinationsol.GameOptions;
+import org.destinationsol.assets.audio.OggMusicManager;
+import org.destinationsol.assets.audio.OggSoundManager;
 
-public class SolLayouts {
-    public final RightPaneLayout rightPaneLayout;
-    public final MenuLayout menuLayout;
+import javax.inject.Singleton;
 
-    public SolLayouts() {
-        rightPaneLayout = new RightPaneLayout();
-        menuLayout = new MenuLayout();
+@Module
+public class ApplicationAudioModule {
+    @Provides
+    @Singleton
+    static OggMusicManager proivdeOggMusicManager() {
+        return new OggMusicManager();
     }
+
+    @Provides
+    @Singleton
+    static OggSoundManager proivdeOggSoundManager(GameOptions gameOptions) {
+        return new OggSoundManager(gameOptions);
+    }
+
 }

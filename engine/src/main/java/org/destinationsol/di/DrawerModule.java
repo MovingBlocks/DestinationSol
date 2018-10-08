@@ -27,7 +27,11 @@ import org.destinationsol.game.MountDetectDrawer;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.drawables.DrawableDebugger;
 import org.destinationsol.game.drawables.DrawableManager;
+import org.destinationsol.game.farBg.FarBackgroundManagerOld;
+import org.destinationsol.game.particle.EffectType;
+import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.particle.PartMan;
+import org.destinationsol.game.particle.SpecialEffects;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 
@@ -35,9 +39,6 @@ import javax.inject.Singleton;
 
 @Module
 public class DrawerModule {
-    public DrawerModule(){
-
-    }
     @GameScope
     @Provides
     static GameDrawer provideGameDrawer(CommonDrawer commonDrawer) {
@@ -46,8 +47,8 @@ public class DrawerModule {
 
     @GameScope
     @Provides
-    static  MapDrawer provideMapDrawer(CommonDrawer commonDrawer) {
-        return new MapDrawer(commonDrawer.height);
+    static  MapDrawer provideMapDrawer() {
+        return new MapDrawer();
     }
 
     @GameScope
@@ -58,8 +59,8 @@ public class DrawerModule {
 
     @GameScope
     @Provides
-    static  SolCam provideSolCam(GameDrawer drawer) {
-        return new SolCam(drawer.r);
+    static  SolCam provideSolCam() {
+        return new SolCam();
     }
 
     @GameScope
@@ -92,5 +93,22 @@ public class DrawerModule {
         return new DrawableManager(gameDrawer);
     }
 
+    @GameScope
+    @Provides
+    static FarBackgroundManagerOld provideFarBackgroundManager(){
+        return new FarBackgroundManagerOld();
+    }
+
+    @GameScope
+    @Provides
+    static EffectTypes provideEffectTypes(){
+        return new EffectTypes();
+    }
+
+    @GameScope
+    @Provides
+    static SpecialEffects provideSpecialEffects(EffectTypes effectTypes,GameColors colors){
+        return new SpecialEffects(effectTypes,colors);
+    }
 }
 

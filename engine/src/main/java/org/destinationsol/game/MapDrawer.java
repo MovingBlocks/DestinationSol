@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
+import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.Nullable;
 import org.destinationsol.common.SolColor;
@@ -36,6 +37,7 @@ import org.destinationsol.game.planet.Tile;
 import org.destinationsol.game.planet.TileObject;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
@@ -78,9 +80,12 @@ public class MapDrawer implements UpdateAwareSystem{
     private float skullTime;
     private float areaSkullTime;
 
-    public MapDrawer(float screenHeight) {
+
+    public MapDrawer() {
+        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+
         zoom = MAX_ZOOM / MUL_FACTOR / MUL_FACTOR;
-        float minIconRad = MIN_ICON_RAD_PX / screenHeight;
+        float minIconRad = MIN_ICON_RAD_PX / displayDimensions.getHeight();
         iconRadius = ICON_RAD < minIconRad ? minIconRad : ICON_RAD;
 
         areaWarningColor = new Color(SolColor.WHITE);

@@ -13,31 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.di;
+package org.destinationsol.game.screens;
 
-import dagger.Module;
-import dagger.Provides;
-import org.destinationsol.GameOptions;
-import org.destinationsol.SolFileReader;
-import org.destinationsol.di.Qualifier.Mobile;
+import org.destinationsol.game.SolGame;
+import org.destinationsol.game.item.ItemContainer;
+import org.destinationsol.game.item.SolItem;
+import org.destinationsol.ui.SolUiBaseScreen;
 
-import javax.inject.Singleton;
+public abstract class InventoryOperationsScreen extends SolUiBaseScreen {
+    abstract ItemContainer getItems(SolGame game);
 
-@Module
-public class OptionsModule {
-    public OptionsModule(){
-
+    boolean isUsing(SolGame game, SolItem item) {
+        return false;
     }
 
-    private SolFileReader solFileReader;
-    public OptionsModule(SolFileReader solFileReader){
-        this.solFileReader = solFileReader;
+    float getPriceMul() {
+        return 1;
     }
 
-    @Provides
-    @Singleton
-    public GameOptions provideGameOptions( @Mobile boolean isMobile){
-        return new GameOptions(isMobile,solFileReader);
-    }
-
+    abstract String getHeader();
 }

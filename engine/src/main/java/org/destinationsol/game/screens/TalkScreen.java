@@ -25,17 +25,13 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.menu.MenuLayout;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class TalkScreen implements SolUiScreen {
+public class TalkScreen extends SolUiBaseScreen {
     static final float MAX_TALK_DIST = 1f;
 
-    private final List<SolUiControl> controls = new ArrayList<>();
     public final SolUiControl buyControl;
     public final SolUiControl closeControl;
     private final SolUiControl sellControl;
@@ -70,11 +66,6 @@ public class TalkScreen implements SolUiScreen {
     }
 
     @Override
-    public List<SolUiControl> getControls() {
-        return controls;
-    }
-
-    @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         if (clickedOutside) {
             closeControl.maybeFlashPressed(solApplication.getOptions().getKeyClose());
@@ -98,7 +89,7 @@ public class TalkScreen implements SolUiScreen {
         boolean sellShips = shipsControl.isJustOff();
         boolean hire = hireControl.isJustOff();
         if (sell || buy || sellShips || hire) {
-            inventoryScreen.setOperations(sell ? inventoryScreen.sellItems : buy ? inventoryScreen.buyItems : sellShips ? inventoryScreen.changeShip : inventoryScreen.hireShips);
+            inventoryScreen.setOperations(sell ? inventoryScreen.sellItems : buy ? inventoryScreen.buyItemsScreen : sellShips ? inventoryScreen.changeShipScreen : inventoryScreen.hireShipsScreen);
             inputManager.setScreen(solApplication, game.getScreens().mainGameScreen);
             inputManager.addScreen(solApplication, inventoryScreen);
         }

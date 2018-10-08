@@ -26,11 +26,12 @@ import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.di.ApplicationModule;
 import org.destinationsol.di.AudioModule;
 import org.destinationsol.di.InputModule;
 import org.destinationsol.di.ModuleManagerModule;
-import org.destinationsol.di.OptionsModule;
 import org.destinationsol.di.components.DaggerSolApplicationComponent;
+import org.destinationsol.di.components.DaggerSolGameComponent;
 import org.destinationsol.di.components.SolApplicationComponent;
 import org.destinationsol.di.components.SolGameComponent;
 import org.destinationsol.game.DebugOptions;
@@ -41,7 +42,9 @@ import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.menu.MenuScreens;
 import org.destinationsol.ui.DebugCollector;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
+import org.destinationsol.ui.ResizeSubscriber;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
@@ -51,6 +54,8 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SolApplication implements ApplicationListener {
     private static final Logger logger = LoggerFactory.getLogger(SolApplication.class);
@@ -72,16 +77,20 @@ public class SolApplication implements ApplicationListener {
     @Inject
     UiDrawer uiDrawer;
 
-    private MenuScreens menuScreens;
+    SolGame solGame;
+
     private String fatalErrorMsg;
     private String fatalErrorTrace;
-    private SolGame solGame;
-    private Context context;
 
-    private WorldConfig worldConfig;
+    // TODO: Make this non-static.
+    public static DisplayDimensions displayDimensions;
+
     private float timeAccumulator = 0;
 
     private SolApplicationComponent applicationComponent;
+
+    // TODO: Make this non-static.
+    private static Set<ResizeSubscriber> resizeSubscribers;
 
     public SolApplication() {
         // Initiate Box2D to make sure natives are loaded early enough
@@ -91,32 +100,38 @@ public class SolApplication implements ApplicationListener {
 
     @Override
     public void create() {
+        resizeSubscribers = new HashSet<>();
+        displayDimensions = new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        Context context = new ContextImpl();
+        context.put(SolApplication.class, this);
         this.applicationComponent = DaggerSolApplicationComponent.builder()
-                .audioModule(new AudioModule())
-                .inputModule(new InputModule())
                 .moduleManagerModule(new ModuleManagerModule())
-                .optionsModule(new OptionsModule(null))
+                .applicationModule(new ApplicationModule(this,context,null))
                 .build();
         Assets.initialize(applicationComponent.moduleEnviroment());
         applicationComponent.inject(this);
-        if (Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS) {
+
+
+        boolean isMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
+        if (isMobile) {
             DebugOptions.read(null);
         }
 
-        context = new ContextImpl();
-        context.put(SolApplication.class, this);
-
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();
-        worldConfig = new WorldConfig();
         musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
 
-        this.menuScreens = applicationComponent.menuScreens();
-        inputManager.setScreen(this, menuScreens.main);
+        inputManager.setScreen(this, applicationComponent.menuScreens().main);
     }
 
     @Override
     public void resize(int newWidth, int newHeight) {
+        displayDimensions.set(newWidth, newHeight);
+
+        for (ResizeSubscriber resizeSubscriber : resizeSubscribers) {
+            resizeSubscriber.resize();
+        }
     }
 
     public void render() {
@@ -187,9 +202,9 @@ public class SolApplication implements ApplicationListener {
             solGame.drawDebugUi(uiDrawer);
         }
         if (fatalErrorMsg != null) {
-            uiDrawer.draw(uiDrawer.whiteTexture, uiDrawer.r, .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
-            uiDrawer.drawString(fatalErrorMsg, uiDrawer.r / 2, .5f, FontSize.MENU, true, SolColor.WHITE);
-            uiDrawer.drawString(fatalErrorTrace, .2f * uiDrawer.r, .6f, FontSize.DEBUG, false, SolColor.WHITE);
+            uiDrawer.draw(uiDrawer.whiteTexture, displayDimensions.getRatio(), .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
+            uiDrawer.drawString(fatalErrorMsg, displayDimensions.getRatio(), .5f, FontSize.MENU, true, SolColor.WHITE);
+            uiDrawer.drawString(fatalErrorTrace, .2f * displayDimensions.getRatio(), .6f, FontSize.DEBUG, false, SolColor.WHITE);
         }
         DebugCollector.draw(uiDrawer);
         if (solGame == null) {
@@ -203,8 +218,8 @@ public class SolApplication implements ApplicationListener {
             throw new AssertionError("Starting a new game with unfinished current one");
         }
 
-        inputManager.setScreen(this, menuScreens.loading);
-        menuScreens.loading.setMode(tut, shipName, isNewGame);
+        inputManager.setScreen(this, applicationComponent.menuScreens().loading);
+        applicationComponent.menuScreens().loading.setMode(tut, shipName, isNewGame);
         musicManager.playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 
@@ -214,13 +229,13 @@ public class SolApplication implements ApplicationListener {
         } else {
             beforeLoadGame();
         }
-
         SolGameComponent gameComponent =  DaggerSolGameComponent.builder()
                 .newGame(isNewGame)
                 .shipName(shipName)
                 .tutorial(tut)
                 .setApplicationComponent(applicationComponent).build();
         solGame = gameComponent.game();
+        solGame.initilize();
 
 //        solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
@@ -232,7 +247,7 @@ public class SolApplication implements ApplicationListener {
     }
 
     public MenuScreens getMenuScreens() {
-        return menuScreens;
+        return applicationComponent.menuScreens();
     }
 
     public void dispose() {
@@ -256,7 +271,7 @@ public class SolApplication implements ApplicationListener {
     public void finishGame() {
         solGame.onGameEnd();
         solGame = null;
-        inputManager.setScreen(this, menuScreens.main);
+        inputManager.setScreen(this, applicationComponent.menuScreens().main);
     }
 
     public boolean isMobile() {
@@ -275,15 +290,14 @@ public class SolApplication implements ApplicationListener {
         return soundManager;
     }
 
-    /**
-     * This method is called when the "New Game" button gets pressed. It sets the seed for random generation, and the number of systems
-     */
+
+     /** This method is called when the "New Game" button gets pressed. It sets the seed for random generation, and the number of systems */
     private void beforeNewGame() {
         // Reset the seed so this galaxy isn't the same as the last
-        worldConfig.setSeed(System.currentTimeMillis());
-        SolRandom.setSeed(worldConfig.getSeed());
+        applicationComponent.worldConfig().setSeed(System.currentTimeMillis());
+        SolRandom.setSeed(applicationComponent.worldConfig().getSeed());
 
-        worldConfig.setNumberOfSystems(getMenuScreens().newShip.getNumberOfSystems());
+        applicationComponent.worldConfig().setNumberOfSystems(getMenuScreens().newShip.getNumberOfSystems());
     }
 
     /**
@@ -292,8 +306,14 @@ public class SolApplication implements ApplicationListener {
     private void beforeLoadGame() {
         WorldConfig config = SaveManager.loadWorld();
         if (config != null) {
-            worldConfig = config;
-            SolRandom.setSeed(worldConfig.getSeed());
+            //TODO: rework lifecycle for config
+//            worldConfig = config;
+//            SolRandom.setSeed(worldConfig.getSeed());
         }
+    }
+
+    // TODO: Make this non-static.
+    public static void addResizeSubscriber(ResizeSubscriber resizeSubscriber) {
+        resizeSubscribers.add(resizeSubscriber);
     }
 }

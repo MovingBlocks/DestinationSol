@@ -21,19 +21,15 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.game.MapDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolUiScreen;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MapScreen implements SolUiScreen {
-    private final List<SolUiControl> controls = new ArrayList<>();
+public class MapScreen extends SolUiBaseScreen {
     private final SolUiControl zoomOutControl;
     public final SolUiControl closeControl;
     public final SolUiControl zoomInControl;
 
-    MapScreen(RightPaneLayout rightPaneLayout, boolean mobile, float r, GameOptions gameOptions) {
+    MapScreen(RightPaneLayout rightPaneLayout, boolean mobile, GameOptions gameOptions) {
         Rectangle closeArea = mobile ? MainGameScreen.btn(0, MainGameScreen.HELPER_ROW_1, true) : rightPaneLayout.buttonRect(1);
         closeControl = new SolUiControl(closeArea, true, gameOptions.getKeyMap(), gameOptions.getKeyClose());
         closeControl.setDisplayName("Close");
@@ -48,11 +44,6 @@ public class MapScreen implements SolUiScreen {
         zoomOutControl = new SolUiControl(zoomOutArea, true, gameOptions.getKeyZoomOut());
         zoomOutControl.setDisplayName("Zoom Out");
         controls.add(zoomOutControl);
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
     }
 
     @Override

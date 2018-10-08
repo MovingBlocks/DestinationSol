@@ -44,7 +44,6 @@ public class SolInputManager {
     private static final float WARN_PERC_GROWTH_TIME = 1f;
     private static final int POINTER_COUNT = 4;
     private static final float CURSOR_SHOW_TIME = 3;
-    private static final float initialRatio = ((float) Gdx.graphics.getWidth()) / ((float) Gdx.graphics.getHeight());
 
     private static Cursor hiddenCursor;
 
@@ -93,9 +92,8 @@ public class SolInputManager {
 
     private static void setPointerPosition(InputPointer inputPointer, int screenX, int screenY) {
         int h = Gdx.graphics.getHeight();
-        float currentRatio = ((float) Gdx.graphics.getWidth()) / ((float) Gdx.graphics.getHeight());
 
-        inputPointer.x = 1f * screenX / h * (initialRatio / currentRatio);
+        inputPointer.x = 1f * screenX / h;
         inputPointer.y = 1f * screenY / h;
     }
 
@@ -289,6 +287,7 @@ public class SolInputManager {
     private void maybeFixMousePos() {
         int mouseX = Gdx.input.getX();
         int mouseY = Gdx.input.getY();
+        // TODO: look into the usefulness of this, and replace with Gdx.graphics.* with displayDimensions if nothing else
         int w = Gdx.graphics.getWidth();
         int h = Gdx.graphics.getHeight();
         mouseX = (int) MathUtils.clamp((float) mouseX, (float) 0, (float) w);
@@ -315,7 +314,7 @@ public class SolInputManager {
             screen.drawBackground(uiDrawer, solApplication);
             List<SolUiControl> controls = screen.getControls();
             for (SolUiControl control : controls) {
-                control.drawButton(uiDrawer, solApplication, warnColor);
+                control.drawButton(uiDrawer, warnColor);
             }
             screen.drawImages(uiDrawer, solApplication);
 

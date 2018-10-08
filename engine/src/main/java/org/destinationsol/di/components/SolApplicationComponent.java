@@ -15,20 +15,24 @@
  */
 package org.destinationsol.di.components;
 
+import dagger.BindsInstance;
 import dagger.Component;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.di.ApplicationAudioModule;
 import org.destinationsol.di.ApplicationDrawerModule;
+import org.destinationsol.di.ApplicationModule;
 import org.destinationsol.di.AudioModule;
 import org.destinationsol.di.CommonModule;
 import org.destinationsol.di.DrawerModule;
 import org.destinationsol.di.InputModule;
 import org.destinationsol.di.ModuleManagerModule;
-import org.destinationsol.di.OptionsModule;
 import org.destinationsol.di.Qualifier.Mobile;
+import org.destinationsol.game.WorldConfig;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.menu.MenuScreens;
 import org.destinationsol.ui.SolInputManager;
 import org.terasology.module.ModuleEnvironment;
@@ -37,10 +41,10 @@ import javax.inject.Singleton;
 
 
 @Singleton
-@Component(modules = {InputModule.class, ModuleManagerModule.class, AudioModule.class, OptionsModule.class, CommonModule.class, ApplicationDrawerModule.class})
+@Component(modules = {InputModule.class, ModuleManagerModule.class, AudioModule.class, CommonModule.class, ApplicationDrawerModule.class,ApplicationModule.class, ApplicationAudioModule.class})
 public interface SolApplicationComponent {
     void inject(SolApplication solApplication);
-
+    SolApplication solApplication();
     ModuleEnvironment moduleEnviroment();
     SolInputManager inputModule();
     OggSoundManager soundManager();
@@ -50,7 +54,9 @@ public interface SolApplicationComponent {
 
     MenuScreens menuScreens();
 
+    WorldConfig worldConfig();
+    Context context();
+
     @Mobile
     boolean isMobile();
-
 }

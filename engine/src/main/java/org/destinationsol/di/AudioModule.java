@@ -30,24 +30,12 @@ import javax.inject.Singleton;
 @Module
 public class AudioModule {
 
-    public AudioModule(){
-    }
-
-    @Provides
-    @Singleton
-    static OggMusicManager proivdeOggMusicManager() {
-        return new OggMusicManager();
-    }
-
-    @Provides
-    @Singleton
-    static OggSoundManager proivdeOggSoundManager(GameOptions gameOptions) {
-        return new OggSoundManager(gameOptions);
-    }
 
     @Provides
     @GameScope
     static SpecialSounds provideSpecialSounds(OggSoundManager soundManager) {
         return new SpecialSounds(soundManager);
     }
+
+
 }

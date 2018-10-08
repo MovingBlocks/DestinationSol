@@ -22,8 +22,8 @@ import org.destinationsol.game.SolGame;
 
 public class SunWarnDrawer extends WarnDrawer {
 
-    SunWarnDrawer(float r) {
-        super(r, "Sun Near");
+    SunWarnDrawer() {
+        super("Sun Near");
     }
 
     public boolean shouldWarn(SolGame game) {

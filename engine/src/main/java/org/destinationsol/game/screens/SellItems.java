@@ -25,13 +25,9 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class SellItems implements InventoryOperations {
+public class SellItems extends InventoryOperationsScreen {
     private static float PERC = .8f;
 
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl sellControl;
 
     SellItems(InventoryScreen inventoryScreen, GameOptions gameOptions) {
@@ -60,11 +56,6 @@ public class SellItems implements InventoryOperations {
     @Override
     public String getHeader() {
         return "Sell:";
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
     }
 
     @Override

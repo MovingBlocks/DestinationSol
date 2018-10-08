@@ -20,16 +20,26 @@ import dagger.Provides;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.GameOptions;
 import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.di.Qualifier.NewGame;
+import org.destinationsol.di.Qualifier.ShipName;
 import org.destinationsol.di.Qualifier.Tut;
+import org.destinationsol.di.components.SolGameComponent;
 import org.destinationsol.di.scope.GameScope;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.BeaconHandler;
 import org.destinationsol.game.FactionManager;
+import org.destinationsol.game.GalaxyFiller;
 import org.destinationsol.game.GameColors;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.ObjectManager;
+import org.destinationsol.game.PlayerCreator;
+import org.destinationsol.game.RespawnState;
+import org.destinationsol.game.SaveManager;
+import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.SolContactListener;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.chunk.ChunkManager;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.particle.EffectTypes;
@@ -41,8 +51,15 @@ import java.util.Optional;
 
 @Module
 public class WorldModule {
-    public WorldModule() {
 
+
+    @GameScope
+    @Provides
+    public SolGame provideSolGame(SolGameComponent gameComponent,
+                                      @ShipName String shipName,
+                                      @Tut boolean tut,
+                                      @NewGame boolean isNewGame) {
+        return new SolGame(gameComponent, shipName, tut, isNewGame);
     }
 
     @GameScope
@@ -62,11 +79,6 @@ public class WorldModule {
     @Provides
     public AbilityCommonConfigs provideAbilityConfig(EffectTypes effectTypes, GameColors cols, OggSoundManager soundManager) {
         return new AbilityCommonConfigs(effectTypes, cols, soundManager);
-    }
-
-    @Provides
-    public EffectTypes provideEffectTypes() {
-        return new EffectTypes();
     }
 
     @GameScope
@@ -102,11 +114,18 @@ public class WorldModule {
 
     @GameScope
     @Provides
-    public Optional<TutorialManager> provideTutorialManager(@Tut boolean isTut, CommonDrawer commonDrawer, GameScreens gameScreens, GameOptions gameOptions, SolGame solGame) {
+    public Optional<TutorialManager> provideTutorialManager(@Tut boolean isTut, GameScreens gameScreens, GameOptions gameOptions, SolGame solGame) {
         if (isTut)
-            return Optional.of(new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, isTut, gameOptions, solGame));
+            return Optional.of(new TutorialManager(gameScreens, isTut, gameOptions, solGame));
         return Optional.empty();
     }
+
+    @Provides
+    @GameScope
+    public GalaxyFiller provideGalaxyFiller(HullConfigManager hullConfigManager){
+        return new GalaxyFiller(hullConfigManager);
+    }
+
 
     @GameScope
     @Provides

@@ -15,16 +15,19 @@
  */
 package org.destinationsol.di;
 
-import org.destinationsol.GameOptions;
-import org.destinationsol.di.Qualifier.Mobile;
+import dagger.Module;
+import dagger.Provides;
+import org.destinationsol.SolApplication;
+import org.destinationsol.di.scope.GameScope;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.screens.GameScreens;
-import org.destinationsol.ui.SolLayouts;
 
-@Mobile
+@Module
 public class ScreenModule {
-    public static GameScreens provideGameScreens(float r, boolean isMobile, SolLayouts layouts, GameOptions options, Context context){
-        return new GameScreens()
+    @Provides
+    @GameScope
+    static GameScreens provideGameScreens(SolApplication cmp, Context context){
+        return new GameScreens(cmp,context);
     }
 
 }

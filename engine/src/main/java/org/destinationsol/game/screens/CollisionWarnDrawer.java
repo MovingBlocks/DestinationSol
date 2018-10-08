@@ -27,8 +27,8 @@ public class CollisionWarnDrawer extends WarnDrawer {
     private final CollisionRayCastCallback warnCallback = new CollisionRayCastCallback();
     private Hero hero;
 
-    CollisionWarnDrawer(float r) {
-        super(r, "Object Near");
+    CollisionWarnDrawer() {
+        super("Object Near");
     }
 
     public boolean shouldWarn(SolGame game) {

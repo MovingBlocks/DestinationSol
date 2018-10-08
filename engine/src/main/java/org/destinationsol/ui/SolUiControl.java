@@ -23,7 +23,7 @@ import org.destinationsol.common.SolColor;
 
 public class SolUiControl {
     private final int[] keys;
-    private final Rectangle screenArea;
+    private Rectangle screenArea;
     private final boolean isWithSound;
     private String displayName;
     private boolean isEnabled = true;
@@ -36,10 +36,29 @@ public class SolUiControl {
     private boolean doesMouseHover;
     private int warnCount;
 
+    private int width;
+    private int height;
+    private Position referencePosition;
+    private int offsetX;
+    private int offsetY;
+
     public SolUiControl(Rectangle screenArea, boolean isWithSound, int... keys) {
         this.isWithSound = isWithSound;
         this.keys = keys == null ? new int[0] : keys;
         this.screenArea = screenArea;
+    }
+
+    public SolUiControl(int width, int height, Position referencePosition, int offsetX, int offsetY, boolean isWithSound, int... keys) {
+        this.isWithSound = isWithSound;
+        this.keys = keys == null ? new int[0] : keys;
+
+        this.width = width;
+        this.height = height;
+        this.referencePosition = referencePosition;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+
+        computePosition();
     }
 
     public boolean maybeFlashPressed(int keyCode) {
@@ -154,7 +173,7 @@ public class SolUiControl {
         this.displayName = displayName;
     }
 
-    public void drawButton(UiDrawer uiDrawer, SolApplication cmp, Color warnCol) {
+    public void drawButton(UiDrawer uiDrawer, Color warnCol) {
         if (screenArea == null) {
             return;
         }
@@ -208,5 +227,19 @@ public class SolUiControl {
 
     public void enableWarn() {
         warnCount = 2;
+    }
+
+    public void computePosition() {
+        // TODO: Remove this condition once the entire codebase uses the new ui system
+        if (referencePosition == null) {
+            return;
+        }
+
+        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+
+        int x = referencePosition.getX() + offsetX - width/2;
+        int y = referencePosition.getY() + offsetY - height/2;
+
+        screenArea = new Rectangle(x * displayDimensions.getRatio() / displayDimensions.getWidth(), y / (float)displayDimensions.getHeight(), width * displayDimensions.getRatio() / displayDimensions.getWidth(), height / (float)displayDimensions.getHeight());
     }
 }

@@ -25,24 +25,22 @@ import javax.inject.Singleton;
 
 @Module
 public class ApplicationDrawerModule {
-    public ApplicationDrawerModule(){
-    }
     @Singleton
     @Provides
-    public CommonDrawer provideCommonDrawer() {
+    static CommonDrawer provideCommonDrawer() {
         return new CommonDrawer();
     }
 
     @Singleton
     @Provides
-    public UiDrawer provideUiDrawer(CommonDrawer commonDrawer) {
+    static UiDrawer provideUiDrawer(CommonDrawer commonDrawer) {
         return new UiDrawer(commonDrawer);
     }
 
     @Singleton
     @Provides
-    public SolLayouts provideSolLayout(UiDrawer uiDrawer) {
-        return new SolLayouts(uiDrawer.r);
+    static SolLayouts provideSolLayout() {
+        return new SolLayouts();
     }
 
 }

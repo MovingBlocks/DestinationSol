@@ -28,7 +28,7 @@ import org.destinationsol.game.item.TradeConfig;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
-class PlayerCreator {
+public class PlayerCreator {
 
     private static final int TUTORIAL_MONEY_AMOUNT = 200;
     private static final int SHIP_SPAWN_ANGLE = 0;
