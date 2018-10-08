@@ -26,10 +26,7 @@ import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
-import org.destinationsol.di.ApplicationModule;
-import org.destinationsol.di.AudioModule;
-import org.destinationsol.di.InputModule;
-import org.destinationsol.di.ModuleManagerModule;
+import org.destinationsol.di.AppModule;
 import org.destinationsol.di.components.DaggerSolApplicationComponent;
 import org.destinationsol.di.components.DaggerSolGameComponent;
 import org.destinationsol.di.components.SolApplicationComponent;
@@ -106,8 +103,7 @@ public class SolApplication implements ApplicationListener {
         Context context = new ContextImpl();
         context.put(SolApplication.class, this);
         this.applicationComponent = DaggerSolApplicationComponent.builder()
-                .moduleManagerModule(new ModuleManagerModule())
-                .applicationModule(new ApplicationModule(this,context,null))
+                .appModule(new AppModule(this,context,null))
                 .build();
         Assets.initialize(applicationComponent.moduleEnviroment());
         applicationComponent.inject(this);

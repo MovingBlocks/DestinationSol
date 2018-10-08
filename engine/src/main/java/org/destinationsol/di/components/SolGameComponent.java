@@ -21,17 +21,13 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.SpecialSounds;
-import org.destinationsol.di.AudioModule;
-import org.destinationsol.di.DrawerModule;
+import org.destinationsol.di.GameModule;
 import org.destinationsol.di.Qualifier.NewGame;
 import org.destinationsol.di.Qualifier.OnPauseUpdate;
 import org.destinationsol.di.Qualifier.OnUpdate;
 import org.destinationsol.di.Qualifier.ShipName;
-import org.destinationsol.di.Qualifier.Tut;
-import org.destinationsol.di.ScreenModule;
-import org.destinationsol.di.SolObjectFactoryModule;
-import org.destinationsol.di.UpdateModule;
-import org.destinationsol.di.WorldModule;
+import org.destinationsol.di.Qualifier.Tutorial;
+import org.destinationsol.di.SystemsModule;
 import org.destinationsol.di.scope.GameScope;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.BeaconHandler;
@@ -63,12 +59,11 @@ import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.TutorialManager;
 
-import javax.inject.Inject;
 import java.util.Optional;
 import java.util.Set;
 
 @GameScope
-@Component(dependencies = SolApplicationComponent.class,modules = {DrawerModule.class, SolObjectFactoryModule.class, WorldModule.class, UpdateModule.class, ScreenModule.class, AudioModule.class})
+@Component(dependencies = SolApplicationComponent.class,modules = {GameModule.class, SystemsModule.class})
 public interface SolGameComponent {
     WorldConfig worldConfig();
     SolInputManager inputManager();
@@ -112,7 +107,7 @@ public interface SolGameComponent {
     interface Builder{
         SolGameComponent build();
         Builder setApplicationComponent(SolApplicationComponent component);
-        @BindsInstance Builder tutorial(@Tut boolean tutorial);
+        @BindsInstance Builder tutorial(@Tutorial boolean tutorial);
         @BindsInstance Builder newGame(@NewGame boolean newGame);
         @BindsInstance Builder shipName(@ShipName String shipName);
 

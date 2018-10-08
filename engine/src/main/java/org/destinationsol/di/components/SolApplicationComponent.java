@@ -22,14 +22,7 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.assets.audio.OggSoundManager;
-import org.destinationsol.di.ApplicationAudioModule;
-import org.destinationsol.di.ApplicationDrawerModule;
-import org.destinationsol.di.ApplicationModule;
-import org.destinationsol.di.AudioModule;
-import org.destinationsol.di.CommonModule;
-import org.destinationsol.di.DrawerModule;
-import org.destinationsol.di.InputModule;
-import org.destinationsol.di.ModuleManagerModule;
+import org.destinationsol.di.AppModule;
 import org.destinationsol.di.Qualifier.Mobile;
 import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.context.Context;
@@ -41,7 +34,7 @@ import javax.inject.Singleton;
 
 
 @Singleton
-@Component(modules = {InputModule.class, ModuleManagerModule.class, AudioModule.class, CommonModule.class, ApplicationDrawerModule.class,ApplicationModule.class, ApplicationAudioModule.class})
+@Component(modules = {AppModule.class})
 public interface SolApplicationComponent {
     void inject(SolApplication solApplication);
     SolApplication solApplication();

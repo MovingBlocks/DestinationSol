@@ -37,7 +37,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Module
-public class UpdateModule {
+public class SystemsModule {
 
     @OnUpdate
     @Provides

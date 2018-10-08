@@ -26,9 +26,6 @@ import org.destinationsol.assets.audio.SpecialSounds;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
-import org.destinationsol.di.Qualifier.NewGame;
-import org.destinationsol.di.Qualifier.ShipName;
-import org.destinationsol.di.Qualifier.Tut;
 import org.destinationsol.di.components.SolGameComponent;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.drawables.DrawableManager;
@@ -56,7 +53,6 @@ import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

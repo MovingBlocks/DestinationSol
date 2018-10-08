@@ -13,16 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.di.Qualifier;
+package org.destinationsol.di.scope;
 
-import javax.inject.Qualifier;
-import java.lang.annotation.Documented;
+import javax.inject.Scope;
 import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
-@Qualifier
-@Documented
-@Retention(RUNTIME)
-public @interface Tut {
+@Scope
+@Retention(RetentionPolicy.RUNTIME)
+public @interface SolObjectScope {
 }

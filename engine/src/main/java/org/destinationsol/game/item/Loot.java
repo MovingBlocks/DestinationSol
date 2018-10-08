@@ -51,7 +51,7 @@ public class Loot implements SolObject {
     private int life;
     private float angle;
 
-    Loot(SolItem item, Body body, int life, List<Drawable> drawables, LightSource ls, SolShip owner) {
+    public Loot(SolItem item, Body body, int life, List<Drawable> drawables, LightSource ls, SolShip owner) {
         this.body = body;
         this.life = life;
         this.item = item;

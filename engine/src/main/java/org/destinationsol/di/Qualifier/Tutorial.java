@@ -13,20 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.di;
+package org.destinationsol.di.Qualifier;
 
-import dagger.Module;
-import dagger.Provides;
-import org.destinationsol.assets.audio.OggSoundManager;
-import org.destinationsol.ui.SolInputManager;
+import javax.inject.Qualifier;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
 
-@Module
-public class InputModule {
-    public InputModule(){
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-    }
-    @Provides
-    static  SolInputManager provideInputManager(OggSoundManager oggSoundManager){
-        return new SolInputManager(oggSoundManager);
-    }
+@Qualifier
+@Documented
+@Retention(RUNTIME)
+public @interface Tutorial {
 }
