@@ -98,6 +98,8 @@ public interface SolGameComponent {
     SolApplication solApplication();
     SolGame game();
 
+    SolObjectLootComponent.Builder loot();
+
     @OnUpdate
     Set<UpdateAwareSystem> updateSystems();
     @OnPauseUpdate

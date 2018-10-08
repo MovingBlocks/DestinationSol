@@ -18,6 +18,7 @@ package org.destinationsol.di.components;
 import com.badlogic.gdx.math.Vector2;
 import dagger.BindsInstance;
 import dagger.Component;
+import dagger.Subcomponent;
 import org.destinationsol.di.LootModule;
 import org.destinationsol.di.scope.SolObjectScope;
 import org.destinationsol.game.item.Loot;
@@ -27,14 +28,13 @@ import org.destinationsol.game.ship.SolShip;
 import javax.inject.Named;
 
 @SolObjectScope
-@Component(dependencies = SolGameComponent.class, modules = LootModule.class)
+@Subcomponent(modules = LootModule.class)
 public interface SolObjectLootComponent {
     Loot loot();
 
-    @Component.Builder
+    @Subcomponent.Builder
     interface Builder{
         SolObjectLootComponent build();
-        Builder setGameComponent(SolGameComponent component);
         @BindsInstance Builder position(@Named("position") Vector2 position);
         @BindsInstance Builder solItem(SolItem solItem);
         @BindsInstance Builder speed(@Named("speed") Vector2 speed);
