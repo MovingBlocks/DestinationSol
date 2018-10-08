@@ -22,8 +22,11 @@ import org.destinationsol.ui.SolInputManager;
 
 @Module
 public class InputModule {
+    public InputModule(){
+
+    }
     @Provides
-    public SolInputManager provideInputManager(OggSoundManager oggSoundManager){
+    static  SolInputManager provideInputManager(OggSoundManager oggSoundManager){
         return new SolInputManager(oggSoundManager);
     }
 }

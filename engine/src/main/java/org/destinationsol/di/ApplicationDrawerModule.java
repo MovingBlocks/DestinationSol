@@ -17,27 +17,32 @@ package org.destinationsol.di;
 
 import dagger.Module;
 import dagger.Provides;
-import org.destinationsol.GameOptions;
-import org.destinationsol.SolFileReader;
-import org.destinationsol.di.Qualifier.Mobile;
+import org.destinationsol.CommonDrawer;
+import org.destinationsol.ui.SolLayouts;
+import org.destinationsol.ui.UiDrawer;
 
 import javax.inject.Singleton;
 
 @Module
-public class OptionsModule {
-    public OptionsModule(){
-
+public class ApplicationDrawerModule {
+    public ApplicationDrawerModule(){
     }
-
-    private SolFileReader solFileReader;
-    public OptionsModule(SolFileReader solFileReader){
-        this.solFileReader = solFileReader;
-    }
-
-    @Provides
     @Singleton
-    public GameOptions provideGameOptions( @Mobile boolean isMobile){
-        return new GameOptions(isMobile,solFileReader);
+    @Provides
+    public CommonDrawer provideCommonDrawer() {
+        return new CommonDrawer();
+    }
+
+    @Singleton
+    @Provides
+    public UiDrawer provideUiDrawer(CommonDrawer commonDrawer) {
+        return new UiDrawer(commonDrawer);
+    }
+
+    @Singleton
+    @Provides
+    public SolLayouts provideSolLayout(UiDrawer uiDrawer) {
+        return new SolLayouts(uiDrawer.r);
     }
 
 }

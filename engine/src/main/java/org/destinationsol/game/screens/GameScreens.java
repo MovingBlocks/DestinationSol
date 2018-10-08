@@ -15,7 +15,9 @@
  */
 package org.destinationsol.game.screens;
 
+import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.di.Qualifier.Mobile;
 import org.destinationsol.game.Console;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.SolLayouts;
@@ -28,14 +30,13 @@ public class GameScreens {
     public final TalkScreen talkScreen;
     public final Console console;
 
-    public GameScreens(float r, SolApplication cmp, Context context) {
-        SolLayouts layouts = cmp.getLayouts();
+    public GameScreens(float r, boolean isMobile, SolLayouts layouts, GameOptions options, Context context) {
         RightPaneLayout rightPaneLayout = layouts.rightPaneLayout;
         mainGameScreen = new MainGameScreen(r, rightPaneLayout, context);
-        mapScreen = new MapScreen(rightPaneLayout, cmp.isMobile(), r, cmp.getOptions());
-        menuScreen = new MenuScreen(layouts.menuLayout, cmp.getOptions());
-        inventoryScreen = new InventoryScreen(r, cmp.getOptions());
-        talkScreen = new TalkScreen(layouts.menuLayout, cmp.getOptions());
+        mapScreen = new MapScreen(rightPaneLayout, isMobile, r, options);
+        menuScreen = new MenuScreen(layouts.menuLayout,options);
+        inventoryScreen = new InventoryScreen(r, options);
+        talkScreen = new TalkScreen(layouts.menuLayout, options);
         console = Console.getInstance();
     }
 

@@ -44,13 +44,13 @@ public class ModuleManagerModule {
 
     @Provides
     @Singleton
-    public ModuleRegistry provideTableModuleRegistry() {
+    static  ModuleRegistry provideTableModuleRegistry() {
         return new TableModuleRegistry();
     }
 
     @Provides
     @Singleton
-    public ModuleManager provideModuleManager(ModuleEnvironment moduleEnvironment, ModuleRegistry moduleRegistry) {
+    static  ModuleManager provideModuleManager(ModuleEnvironment moduleEnvironment, ModuleRegistry moduleRegistry) {
         return new ModuleManager(moduleEnvironment, moduleRegistry);
     }
 

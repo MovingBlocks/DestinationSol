@@ -18,6 +18,16 @@ package org.destinationsol.di;
 import dagger.Module;
 import dagger.Provides;
 import org.destinationsol.CommonDrawer;
+import org.destinationsol.di.scope.GameScope;
+import org.destinationsol.game.GameColors;
+import org.destinationsol.game.GameDrawer;
+import org.destinationsol.game.GridDrawer;
+import org.destinationsol.game.MapDrawer;
+import org.destinationsol.game.MountDetectDrawer;
+import org.destinationsol.game.SolCam;
+import org.destinationsol.game.drawables.DrawableDebugger;
+import org.destinationsol.game.drawables.DrawableManager;
+import org.destinationsol.game.particle.PartMan;
 import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 
@@ -25,25 +35,62 @@ import javax.inject.Singleton;
 
 @Module
 public class DrawerModule {
-    @Singleton
+    public DrawerModule(){
+
+    }
+    @GameScope
     @Provides
-    public CommonDrawer provideCommonDrawer(){
-        return new CommonDrawer();
+    static GameDrawer provideGameDrawer(CommonDrawer commonDrawer) {
+        return new GameDrawer(commonDrawer);
     }
 
-    @Singleton
+    @GameScope
     @Provides
-    public UiDrawer provideUiDrawer(CommonDrawer commonDrawer){
-        return new UiDrawer(commonDrawer);
+    static  MapDrawer provideMapDrawer(CommonDrawer commonDrawer) {
+        return new MapDrawer(commonDrawer.height);
     }
 
-    @Singleton
+    @GameScope
     @Provides
-    public SolLayouts provideSolLayout(UiDrawer uiDrawer){
-        return new SolLayouts(uiDrawer.r);
+    static  GridDrawer provideGridDrawer() {
+        return new GridDrawer();
     }
 
+    @GameScope
+    @Provides
+    static  SolCam provideSolCam(GameDrawer drawer) {
+        return new SolCam(drawer.r);
+    }
 
+    @GameScope
+    @Provides
+    static  DrawableDebugger provideDrawableDebugger() {
+        return new DrawableDebugger();
+    }
+
+    @GameScope
+    @Provides
+    static  GameColors provideGameColors() {
+        return new GameColors();
+    }
+
+    @GameScope
+    @Provides
+    static  MountDetectDrawer provideMountDetectDrawer() {
+        return new MountDetectDrawer();
+    }
+
+    @GameScope
+    @Provides
+    static  PartMan providePartMan() {
+        return new PartMan();
+    }
+
+    @GameScope
+    @Provides
+    static  DrawableManager provideDrawableManager(GameDrawer gameDrawer){
+        return new DrawableManager(gameDrawer);
+    }
 
 }
 

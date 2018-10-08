@@ -228,7 +228,7 @@ public class StarPort implements SolObject {
         public static final float FLOW_DIST = .26f * SIZE;
         private final CollisionMeshLoader myLoader;
 
-        Builder() {
+        public Builder() {
             myLoader = new CollisionMeshLoader("engine:miscCollisionMeshes");
         }
 

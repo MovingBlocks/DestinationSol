@@ -17,7 +17,6 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
@@ -26,10 +25,16 @@ import org.destinationsol.assets.audio.SpecialSounds;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.di.Qualifier.Mobile;
+import org.destinationsol.di.Qualifier.NewGame;
+import org.destinationsol.di.Qualifier.OnPauseUpdate;
+import org.destinationsol.di.Qualifier.OnUpdate;
+import org.destinationsol.di.Qualifier.ShipName;
+import org.destinationsol.di.Qualifier.Tut;
+import org.destinationsol.di.components.SolGameComponent;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.asteroid.AsteroidBuilder;
 import org.destinationsol.game.chunk.ChunkManager;
-import org.destinationsol.game.context.Context;
 import org.destinationsol.game.drawables.DrawableDebugger;
 import org.destinationsol.game.drawables.DrawableManager;
 import org.destinationsol.game.farBg.FarBackgroundManagerOld;
@@ -57,97 +62,105 @@ import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 public class SolGame {
     private static Logger logger = LoggerFactory.getLogger(SolGame.class);
 
-    private final GameScreens gameScreens;
-    private final SolCam camera;
-    private final ObjectManager objectManager;
-    private final SolApplication solApplication;
-    private final DrawableManager drawableManager;
-    private final PlanetManager planetManager;
-    private final ChunkManager chunkManager;
-    private final PartMan partMan;
-    private final AsteroidBuilder asteroidBuilder;
-    private final LootBuilder lootBuilder;
-    private final ShipBuilder shipBuilder;
-    private final HullConfigManager hullConfigManager;
-    private final GridDrawer gridDrawer;
-    private final FarBackgroundManagerOld farBackgroundManagerOld;
-    private final FactionManager factionManager;
-    private final MapDrawer mapDrawer;
-    private final ShardBuilder shardBuilder;
-    private final ItemManager itemManager;
-    private final StarPort.Builder starPortBuilder;
-    private final OggSoundManager soundManager;
-    private final DrawableDebugger drawableDebugger;
-    private final SpecialSounds specialSounds;
-    private final SpecialEffects specialEffects;
-    private final GameColors gameColors;
-    private final BeaconHandler beaconHandler;
-    private final MountDetectDrawer mountDetectDrawer;
-    private final TutorialManager tutorialManager;
-    private final GalaxyFiller galaxyFiller;
-    private Hero hero;
+
+    GameScreens gameScreens;
+
+    @Inject
+    AsteroidBuilder asteroidBuilder;
+    @Inject
+    SolCam camera;
+    @Inject
+    ObjectManager objectManager;
+    @Inject
+    DrawableManager drawableManager;
+    @Inject
+    PlanetManager planetManager;
+    @Inject
+    ChunkManager chunkManager;
+    @Inject
+    PartMan partMan;
+
+    @Inject
+    LootBuilder lootBuilder;
+    @Inject
+    ShipBuilder shipBuilder;
+    @Inject
+    StarPort.Builder starPortBuilder;
+    @Inject
+    ShardBuilder shardBuilder;
+    @Inject
+    SolGameComponent component;
+
+    @Inject
+    HullConfigManager hullConfigManager;
+    @Inject
+    GridDrawer gridDrawer;
+    FarBackgroundManagerOld farBackgroundManagerOld;
+    @Inject
+    FactionManager factionManager;
+    @Inject
+    MapDrawer mapDrawer;
+    @Inject
+    ItemManager itemManager;
+
+    @Inject
+    OggSoundManager soundManager;
+    @Inject
+    DrawableDebugger drawableDebugger;
+    @Inject
+    SpecialSounds specialSounds;
+    @Inject
+    SpecialEffects specialEffects;
+    @Inject
+    GameColors gameColors;
+    @Inject
+    BeaconHandler beaconHandler;
+    @Inject
+    MountDetectDrawer mountDetectDrawer;
+    @Inject
+    TutorialManager tutorialManager;
+    @Inject
+    GalaxyFiller galaxyFiller;
+    @Inject
+    Hero hero;
+    @Inject
+    GameOptions options;
+    @Inject
+    SolCam solCam;
+
     private float timeStep;
     private float time;
     private boolean paused;
     private float timeFactor;
     private RespawnState respawnState;
-    private List<UpdateAwareSystem> onPausedUpdateSystems;
-    private List<UpdateAwareSystem> updateSystems;
 
-    public SolGame(String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context, WorldConfig worldConfig) {
-        solApplication = context.get(SolApplication.class);
-        GameDrawer drawer = new GameDrawer(commonDrawer);
-        gameColors = new GameColors();
-        soundManager = solApplication.getSoundManager();
-        specialSounds = new SpecialSounds(soundManager);
-        drawableManager = new DrawableManager(drawer);
-        camera = new SolCam(drawer.r);
-        gameScreens = new GameScreens(drawer.r, solApplication, context);
-        tutorialManager = tut ? new TutorialManager(commonDrawer.dimensionsRatio, gameScreens, solApplication.isMobile(), solApplication.getOptions(), this) : null;
+    Set<UpdateAwareSystem> updateSystems;
+    Set<UpdateAwareSystem> onPausedUpdateSystems;
+
+    @Inject
+    public SolGame(SolGameComponent gameComponent,
+                   @ShipName String shipName,
+                   @Tut boolean tut,
+                   @NewGame boolean isNewGame) {
+        gameComponent.inject(this);
         farBackgroundManagerOld = new FarBackgroundManagerOld();
-        shipBuilder = new ShipBuilder();
-        EffectTypes effectTypes = new EffectTypes();
-        specialEffects = new SpecialEffects(effectTypes, gameColors);
-        itemManager = new ItemManager(soundManager, effectTypes, gameColors);
-        AbilityCommonConfigs abilityCommonConfigs = new AbilityCommonConfigs(effectTypes, gameColors, soundManager);
-        hullConfigManager = new HullConfigManager(itemManager, abilityCommonConfigs);
-        SolNames solNames = new SolNames();
-        planetManager = new PlanetManager(hullConfigManager, gameColors, itemManager);
-        SolContactListener contactListener = new SolContactListener(this);
-        factionManager = new FactionManager();
-        objectManager = new ObjectManager(contactListener, factionManager);
-        gridDrawer = new GridDrawer();
-        chunkManager = new ChunkManager();
-        partMan = new PartMan();
-        asteroidBuilder = new AsteroidBuilder();
-        lootBuilder = new LootBuilder();
-        mapDrawer = new MapDrawer(commonDrawer.height);
-        shardBuilder = new ShardBuilder();
-        galaxyFiller = new GalaxyFiller(hullConfigManager);
-        starPortBuilder = new StarPort.Builder();
-        drawableDebugger = new DrawableDebugger();
-        mountDetectDrawer = new MountDetectDrawer();
-        beaconHandler = new BeaconHandler();
-        timeFactor = 1;
+        updateSystems = gameComponent.updateSystems();
+        onPausedUpdateSystems = gameComponent.onPausedUpdateSystems();
 
-        // the ordering of update aware systems is very important, switching them up can cause bugs!
-        updateSystems = new ArrayList<>();
-        updateSystems.addAll(Arrays.asList(planetManager, camera, chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger ));
-        if (tutorialManager != null) {
-            updateSystems.add(tutorialManager);
-        }
-        onPausedUpdateSystems = Arrays.asList(mapDrawer, camera);
+        timeFactor = 1;
 
         // from this point we're ready!
         respawnState = new RespawnState();
-        planetManager.fill(solNames, worldConfig.getNumberOfSystems());
+        planetManager.fill(new SolNames(), gameComponent.worldConfig().numberOfSystems);
         createGame(shipName, isNewGame);
         if (!isNewGame) {
             createAndSpawnMercenariesFromSave();
@@ -169,7 +182,7 @@ public class SolGame {
                 shouldSpawnOnGalaxySpawnPosition,
                 respawnState,
                 this,
-                solApplication.getOptions().controlType == GameOptions.ControlType.MOUSE,
+                options.controlType == GameOptions.ControlType.MOUSE,
                 isNewShip);
     }
 
@@ -272,7 +285,7 @@ public class SolGame {
 
     public void drawDebug(GameDrawer drawer) {
         if (DebugOptions.GRID_SZ > 0) {
-            gridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTexture);
+            gridDrawer.draw(drawer, solCam, DebugOptions.GRID_SZ, drawer.debugWhiteTexture);
         }
         planetManager.drawDebug(drawer, this);
         objectManager.drawDebug(drawer, this);

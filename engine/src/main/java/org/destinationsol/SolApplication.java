@@ -32,6 +32,7 @@ import org.destinationsol.di.ModuleManagerModule;
 import org.destinationsol.di.OptionsModule;
 import org.destinationsol.di.components.DaggerSolApplicationComponent;
 import org.destinationsol.di.components.SolApplicationComponent;
+import org.destinationsol.di.components.SolGameComponent;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
@@ -214,7 +215,14 @@ public class SolApplication implements ApplicationListener {
             beforeLoadGame();
         }
 
-        solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
+        SolGameComponent gameComponent =  DaggerSolGameComponent.builder()
+                .newGame(isNewGame)
+                .shipName(shipName)
+                .tutorial(tut)
+                .setApplicationComponent(applicationComponent).build();
+        solGame = gameComponent.game();
+
+//        solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
         musicManager.playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }

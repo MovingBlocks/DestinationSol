@@ -20,14 +20,15 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import dagger.Module;
 import dagger.Provides;
-import org.destinationsol.di.Qualifier.MobileQualifier;
+import org.destinationsol.di.Qualifier.Mobile;
 import org.destinationsol.game.DebugOptions;
 
 @Module
 public class CommonModule {
+
     @Provides
-    @MobileQualifier
-    public boolean isMobile(){
+    @Mobile
+    static  boolean isMobile(){
         return DebugOptions.EMULATE_MOBILE || Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
     }
 }

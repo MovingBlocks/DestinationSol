@@ -13,13 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.di.scope;
+package org.destinationsol.di;
 
-import javax.inject.Scope;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import org.destinationsol.GameOptions;
+import org.destinationsol.di.Qualifier.Mobile;
+import org.destinationsol.game.context.Context;
+import org.destinationsol.game.screens.GameScreens;
+import org.destinationsol.ui.SolLayouts;
 
-@Scope
-@Retention(RetentionPolicy.RUNTIME)
-public @interface GameScope {
+@Mobile
+public class ScreenModule {
+    public static GameScreens provideGameScreens(float r, boolean isMobile, SolLayouts layouts, GameOptions options, Context context){
+        return new GameScreens()
+    }
+
 }

@@ -46,7 +46,6 @@ public final class HullConfigManager {
     private final Map<String, HullConfig> nameToConfigMap;
     private final Map<HullConfig, String> configToNameMap;
 
-    @Inject
     public HullConfigManager(ItemManager itemManager, AbilityCommonConfigs abilityCommonConfigs) {
         this.itemManager = itemManager;
         this.abilityCommonConfigs = abilityCommonConfigs;

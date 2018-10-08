@@ -20,23 +20,34 @@ import dagger.Provides;
 import org.destinationsol.GameOptions;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.assets.audio.SpecialSounds;
+import org.destinationsol.di.scope.GameScope;
+import org.destinationsol.game.particle.EffectType;
+import org.destinationsol.game.particle.SpecialEffects;
 
 import javax.inject.Singleton;
 
 @Module
 public class AudioModule {
 
+    public AudioModule(){
+    }
+
     @Provides
     @Singleton
-    OggMusicManager proivdeOggMusicManager(){
+    static OggMusicManager proivdeOggMusicManager() {
         return new OggMusicManager();
     }
 
-
     @Provides
     @Singleton
-    OggSoundManager proivdeOggSoundManager(GameOptions gameOptions){
+    static OggSoundManager proivdeOggSoundManager(GameOptions gameOptions) {
         return new OggSoundManager(gameOptions);
     }
 
+    @Provides
+    @GameScope
+    static SpecialSounds provideSpecialSounds(OggSoundManager soundManager) {
+        return new SpecialSounds(soundManager);
+    }
 }
