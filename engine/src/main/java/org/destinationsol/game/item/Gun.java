@@ -200,8 +200,8 @@ public class Gun implements SolItem {
             TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(gunName + "Icon");
 
             Config gunConfig = new Config(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots,
-                                            reloadTime, gunLength, displayName, lightOnShot, price, clipConf, shootSoundSet,
-                                                reloadSoundSet, tex, icon, fixed, itemType, texLenPercentage, gunName);
+                    reloadTime, gunLength, displayName, lightOnShot, price, clipConf, shootSoundSet,
+                    reloadSoundSet, tex, icon, fixed, itemType, texLenPercentage, gunName);
             itemManager.registerItem(gunConfig.example);
         }
 

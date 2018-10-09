@@ -80,7 +80,8 @@ public class MapDrawer implements UpdateAwareSystem{
     private float skullTime;
     private float areaSkullTime;
 
-    MapDrawer() {
+
+    public MapDrawer() {
         DisplayDimensions displayDimensions = SolApplication.displayDimensions;
 
         zoom = MAX_ZOOM / MUL_FACTOR / MUL_FACTOR;
@@ -130,7 +131,7 @@ public class MapDrawer implements UpdateAwareSystem{
         float heroDmgCap = hero.isTranscendent() ? Float.MAX_VALUE : HardnessCalc.getShipDmgCap(hero.getShip());
 
         drawer.updateMatrix(game);
-        game.getGridDrawer().draw(drawer, game, GRID_SZ, lineTexture);
+        game.getGridDrawer().draw(drawer, cam, GRID_SZ, lineTexture);
         drawPlanets(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
         drawMazes(drawer, game, viewDist, np, camPos, heroDmgCap, camAngle);
         drawStarNodes(drawer, game, viewDist, camPos, starNodeW);

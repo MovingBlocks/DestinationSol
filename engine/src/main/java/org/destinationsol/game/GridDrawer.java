@@ -21,8 +21,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolColor;
 
 public class GridDrawer {
-    public void draw(GameDrawer drawer, SolGame game, float gridSz, TextureAtlas.AtlasRegion tex) {
-        SolCam cam = game.getCam();
+    public void draw(GameDrawer drawer, SolCam cam, float gridSz, TextureAtlas.AtlasRegion tex) {
         float lw = 4 * cam.getRealLineWidth();
         Vector2 camPos = cam.getPosition();
         float viewDist = cam.getViewDistance(cam.getRealZoom());

@@ -5,6 +5,7 @@ apply plugin: 'project-report'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
 apply plugin: 'findbugs'
+apply plugin: 'net.ltgt.apt'
 
 // Computes code coverage of (unit) tests
 apply plugin: 'jacoco'

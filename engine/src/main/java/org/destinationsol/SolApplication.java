@@ -20,11 +20,17 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.di.AppModule;
+import org.destinationsol.di.components.DaggerSolApplicationComponent;
+import org.destinationsol.di.components.DaggerSolGameComponent;
+import org.destinationsol.di.components.SolApplicationComponent;
+import org.destinationsol.di.components.SolGameComponent;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
@@ -42,6 +48,7 @@ import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashSet;
@@ -50,30 +57,34 @@ import java.util.Set;
 public class SolApplication implements ApplicationListener {
     private static final Logger logger = LoggerFactory.getLogger(SolApplication.class);
 
-    @SuppressWarnings("FieldCanBeLocal")
-    private ModuleManager moduleManager;
+    @Inject
+    ModuleManager moduleManager;
+    @Inject
+    OggMusicManager musicManager;
+    @Inject
+    OggSoundManager soundManager;
+    @Inject
+    SolInputManager inputManager;
+    @Inject
+    GameOptions options;
+    @Inject
+    CommonDrawer commonDrawer;
+    @Inject
+    SolLayouts layouts;
+    @Inject
+    UiDrawer uiDrawer;
 
-    private OggMusicManager musicManager;
-    private OggSoundManager soundManager;
-    private SolInputManager inputManager;
+    SolGame solGame;
 
-    private UiDrawer uiDrawer;
-
-    private MenuScreens menuScreens;
-    private SolLayouts layouts;
-    private GameOptions options;
-    private CommonDrawer commonDrawer;
     private String fatalErrorMsg;
     private String fatalErrorTrace;
-    private SolGame solGame;
-    private Context context;
 
-    private WorldConfig worldConfig;
     // TODO: Make this non-static.
     public static DisplayDimensions displayDimensions;
 
     private float timeAccumulator = 0;
-    private boolean isMobile;
+
+    private SolApplicationComponent applicationComponent;
 
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
@@ -81,39 +92,33 @@ public class SolApplication implements ApplicationListener {
     public SolApplication() {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
+
     }
 
     @Override
     public void create() {
         resizeSubscribers = new HashSet<>();
+        displayDimensions = new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        context = new ContextImpl();
+        Context context = new ContextImpl();
         context.put(SolApplication.class, this);
-        worldConfig = new WorldConfig();
-        isMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
+        this.applicationComponent = DaggerSolApplicationComponent.builder()
+                .appModule(new AppModule(this,context,null))
+                .build();
+        Assets.initialize(applicationComponent.moduleEnviroment());
+        applicationComponent.inject(this);
+
+
+        boolean isMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
         if (isMobile) {
             DebugOptions.read(null);
         }
-        options = new GameOptions(isMobile(), null);
-
-        moduleManager = new ModuleManager();
 
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();
-
-        musicManager = new OggMusicManager();
-        soundManager = new OggSoundManager(context);
-        inputManager = new SolInputManager(soundManager);
-
         musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
 
-        displayDimensions = new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        commonDrawer = new CommonDrawer();
-        uiDrawer = new UiDrawer(commonDrawer);
-        layouts = new SolLayouts();
-        menuScreens = new MenuScreens(layouts, isMobile(), options);
-
-        inputManager.setScreen(this, menuScreens.main);
+        inputManager.setScreen(this, applicationComponent.menuScreens().main);
     }
 
     @Override
@@ -159,7 +164,7 @@ public class SolApplication implements ApplicationListener {
             t.printStackTrace(pw);
             fatalErrorTrace = sw.toString();
 
-            if (!isMobile) {
+            if (!applicationComponent.isMobile()) {
                 throw t;
             }
         }
@@ -209,8 +214,8 @@ public class SolApplication implements ApplicationListener {
             throw new AssertionError("Starting a new game with unfinished current one");
         }
 
-        inputManager.setScreen(this, menuScreens.loading);
-        menuScreens.loading.setMode(tut, shipName, isNewGame);
+        inputManager.setScreen(this, applicationComponent.menuScreens().loading);
+        applicationComponent.menuScreens().loading.setMode(tut, shipName, isNewGame);
         musicManager.playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 
@@ -220,8 +225,15 @@ public class SolApplication implements ApplicationListener {
         } else {
             beforeLoadGame();
         }
+        SolGameComponent gameComponent =  DaggerSolGameComponent.builder()
+                .newGame(isNewGame)
+                .shipName(shipName)
+                .tutorial(tut)
+                .setApplicationComponent(applicationComponent).build();
+        solGame = gameComponent.game();
+        solGame.initilize();
 
-        solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
+//        solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
         musicManager.playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
@@ -231,7 +243,7 @@ public class SolApplication implements ApplicationListener {
     }
 
     public MenuScreens getMenuScreens() {
-        return menuScreens;
+        return applicationComponent.menuScreens();
     }
 
     public void dispose() {
@@ -255,11 +267,11 @@ public class SolApplication implements ApplicationListener {
     public void finishGame() {
         solGame.onGameEnd();
         solGame = null;
-        inputManager.setScreen(this, menuScreens.main);
+        inputManager.setScreen(this, applicationComponent.menuScreens().main);
     }
 
     public boolean isMobile() {
-        return DebugOptions.EMULATE_MOBILE || isMobile;
+        return applicationComponent.isMobile();
     }
 
     public GameOptions getOptions() {
@@ -278,18 +290,21 @@ public class SolApplication implements ApplicationListener {
      /** This method is called when the "New Game" button gets pressed. It sets the seed for random generation, and the number of systems */
     private void beforeNewGame() {
         // Reset the seed so this galaxy isn't the same as the last
-        worldConfig.setSeed(System.currentTimeMillis());
-        SolRandom.setSeed(worldConfig.getSeed());
+        applicationComponent.worldConfig().setSeed(System.currentTimeMillis());
+        SolRandom.setSeed(applicationComponent.worldConfig().getSeed());
 
-        worldConfig.setNumberOfSystems(getMenuScreens().newShip.getNumberOfSystems());
+        applicationComponent.worldConfig().setNumberOfSystems(getMenuScreens().newShip.getNumberOfSystems());
     }
 
-     /** This method is called when the "Continue" button gets pressed. It loads the world file to get the seed used for the world generation, and the number of systems */
+    /**
+     * This method is called when the "Continue" button gets pressed. It loads the world file to get the seed used for the world generation, and the number of systems
+     */
     private void beforeLoadGame() {
         WorldConfig config = SaveManager.loadWorld();
         if (config != null) {
-            worldConfig = config;
-            SolRandom.setSeed(worldConfig.getSeed());
+            //TODO: rework lifecycle for config
+//            worldConfig = config;
+//            SolRandom.setSeed(worldConfig.getSeed());
         }
     }
 

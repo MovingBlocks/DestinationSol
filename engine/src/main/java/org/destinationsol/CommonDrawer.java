@@ -44,9 +44,8 @@ public class CommonDrawer implements ResizeSubscriber {
 
     private DisplayDimensions displayDimensions;
 
-    CommonDrawer() {
+    public CommonDrawer() {
         displayDimensions = SolApplication.displayDimensions;
-
         spriteBatch = new SpriteBatch();
 
         font = Assets.getFont("engine:main").getBitmapFont();

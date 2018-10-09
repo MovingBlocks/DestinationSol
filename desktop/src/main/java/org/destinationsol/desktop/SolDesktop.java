@@ -87,7 +87,7 @@ public final class SolDesktop {
 
     /**
      * When on dev build, use specific settings for vSync and FPS throttling.
-     *
+     * <p>
      * Whether a build is a dev build is found out by checking of a file "devBuild" in the root directory of DestSol.
      * Those specific option means disabling vSync, and increasing foreground FPS throttling to allow for a swifter
      * game, while lowering it for the background to not eat as much resources. Since game time flow is dependent on
@@ -136,12 +136,12 @@ public final class SolDesktop {
 
     /**
      * Set up window resolution.
-     *
+     * <p>
      * When flag {@link DebugOptions#EMULATE_MOBILE} is set, make the app window the size of mobile screen. Otherwise,
      * load the window resolution from game options.
      *
      * @param applicationConfig App config to configure
-     * @param reader {@link SolFileReader} to read stored settings with.
+     * @param reader            {@link SolFileReader} to read stored settings with.
      */
     private static void setScreenDimensions(LwjglApplicationConfiguration applicationConfig, MyReader reader) {
         if (DebugOptions.EMULATE_MOBILE) {

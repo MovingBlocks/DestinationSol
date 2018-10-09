@@ -19,6 +19,7 @@ import com.badlogic.gdx.audio.Music;
 import org.destinationsol.GameOptions;
 import org.destinationsol.assets.Assets;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,10 +37,12 @@ public class OggMusicManager {
     private final Map<String, List<Music>> musicMap;
     private Music currentlyPlaying;
 
+
     /**
      * Registers engine music.
      * TODO Make music registerable from modules, and then register this music through the new way.
      */
+    @Inject
     public OggMusicManager() {
         musicMap = new HashMap<>();
         registerMusic(MENU_MUSIC_SET, "engine:dreadnaught");
@@ -49,12 +52,13 @@ public class OggMusicManager {
     }
 
     /**
-     *Registers a music track into a music set.
-     *
+     * Registers a music track into a music set.
+     * <p>
      * Once registered, the track may then be played by {@link #playMusic(String, GameOptions)}. The track will be
      * played even if the {@code musicSet} set is already playing.
+     *
      * @param musicSet Name of the set to register to
-     * @param music Fully qualified name of the music to register (eg. {@code "engine:dreadnaught"})
+     * @param music    Fully qualified name of the music to register (eg. {@code "engine:dreadnaught"})
      */
     public void registerMusic(String musicSet, String music) {
         registerMusic(musicSet, Assets.getMusic(music).getMusic());
@@ -62,11 +66,12 @@ public class OggMusicManager {
 
     /**
      * Registers a music track into a music set.
-     *
+     * <p>
      * Once registered, the track may then be played by {@link #playMusic(String, GameOptions)}. The track will be
      * played even if the {@code musicSet} set is already playing.
+     *
      * @param musicSet Name of the set to register to
-     * @param music Music to register
+     * @param music    Music to register
      */
     public void registerMusic(String musicSet, Music music) {
         if (!musicMap.containsKey(musicSet)) {
@@ -78,13 +83,13 @@ public class OggMusicManager {
 
     /**
      * Sets a music set to play music from.
-     *
+     * <p>
      * When end of each of tracks in the music set is reached, a neext song from the set is then played. When there are
      * no more tracks in a set, the first one is played again. When an invalid music set name is passed in, the music
      * just stops playing.
      *
      * @param musicSet Name of the set to play.
-     * @param options GameOptions with volume for the music to have.
+     * @param options  GameOptions with volume for the music to have.
      */
     public void playMusic(final String musicSet, final GameOptions options) {
         stopMusic();
@@ -107,7 +112,7 @@ public class OggMusicManager {
     /**
      * Plays a music track and sets it as current.
      *
-     * @param music Music track to play
+     * @param music   Music track to play
      * @param options Options with volume for the track
      */
     private void playMusicTrack(Music music, GameOptions options) {

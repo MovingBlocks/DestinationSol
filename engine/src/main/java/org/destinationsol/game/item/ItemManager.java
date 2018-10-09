@@ -34,7 +34,7 @@ public class ItemManager {
     public final TextureAtlas.AtlasRegion bigMoneyIcon;
     public final TextureAtlas.AtlasRegion repairIcon;
     private final HashMap<String, SolItem> myM = new HashMap<>();
-    private final ArrayList<SolItem> myL= new ArrayList<>();
+    private final ArrayList<SolItem> myL = new ArrayList<>();
     private final HashMap<String, Engine.Config> engineConfigs = new HashMap<>();
     private final SolItemTypes myTypes;
     private final RepairItem myRepairExample;

@@ -16,7 +16,11 @@
 package org.destinationsol.menu;
 
 import org.destinationsol.GameOptions;
+import org.destinationsol.di.Qualifier.Mobile;
 import org.destinationsol.ui.SolLayouts;
+import org.destinationsol.ui.UiDrawer;
+
+import javax.inject.Inject;
 
 public class MenuScreens {
     public final MainMenuScreen main;
@@ -28,7 +32,8 @@ public class MenuScreens {
     public final NewGameScreen newGame;
     public final NewShipScreen newShip;
 
-    public MenuScreens(SolLayouts layouts, boolean mobile, GameOptions gameOptions) {
+    @Inject
+    public MenuScreens(SolLayouts layouts, @Mobile boolean mobile, UiDrawer drawer, GameOptions gameOptions) {
         MenuLayout menuLayout = layouts.menuLayout;
         main = new MainMenuScreen(mobile, gameOptions);
         options = new OptionsScreen(menuLayout, gameOptions);

@@ -15,7 +15,6 @@
  */
 package org.destinationsol;
 
-import com.google.common.collect.Sets;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggMusic;
@@ -23,21 +22,13 @@ import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.emitters.Emitter;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.textures.DSTexture;
-import org.destinationsol.game.DebugOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.assets.ResourceUrn;
 import org.terasology.module.Module;
 import org.terasology.module.ModuleEnvironment;
-import org.terasology.module.ModuleFactory;
-import org.terasology.module.ModulePathScanner;
 import org.terasology.module.ModuleRegistry;
-import org.terasology.module.TableModuleRegistry;
-import org.terasology.module.sandbox.StandardPermissionProviderFactory;
 
-import java.net.URI;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Set;
 
 public class ModuleManager {
@@ -45,35 +36,11 @@ public class ModuleManager {
 
     private ModuleEnvironment environment;
     private ModuleRegistry registry;
-
-    public ModuleManager() {
-        try {
-            URI engineClasspath = getClass().getProtectionDomain().getCodeSource().getLocation().toURI();
-            Module engineModule = new ModuleFactory().createModule(Paths.get(engineClasspath));
-
-            registry = new TableModuleRegistry();
-            Path modulesRoot;
-            if (DebugOptions.DEV_ROOT_PATH != null) {
-                modulesRoot = Paths.get(".").resolve("modules");
-            } else {
-                modulesRoot = Paths.get(".").resolve("..").resolve("modules");
-            }
-            new ModulePathScanner().scan(registry, modulesRoot);
-
-            Set<Module> requiredModules = Sets.newHashSet();
-            requiredModules.add(engineModule);
-            requiredModules.addAll(registry);
-
-            loadEnvironment(requiredModules);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public ModuleManager(ModuleEnvironment moduleEnvironment,ModuleRegistry moduleRegistry) {
+        this.registry = moduleRegistry;
+        this.environment = moduleEnvironment;
     }
 
-    public void loadEnvironment(Set<Module> modules) {
-        environment = new ModuleEnvironment(modules, new StandardPermissionProviderFactory());
-        Assets.initialize(environment);
-    }
 
     public ModuleEnvironment getEnvironment() {
         return environment;
