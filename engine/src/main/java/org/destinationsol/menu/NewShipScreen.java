@@ -84,7 +84,7 @@ public class NewShipScreen extends SolUiBaseScreen {
         }
 
         if (cancelControl.isJustOff()) {
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().newGame);
+            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().newGameScreen);
             return;
         }
 

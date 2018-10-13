@@ -120,7 +120,7 @@ public class SolApplication implements ApplicationListener {
         layouts = new SolLayouts();
         menuScreens = new MenuScreens(layouts, isMobile(), options);
 
-        inputManager.setScreen(this, menuScreens.main);
+        inputManager.setScreen(this, menuScreens.mainScreen);
     }
 
     @Override
@@ -239,8 +239,8 @@ public class SolApplication implements ApplicationListener {
             throw new AssertionError("Starting a new game with unfinished current one");
         }
 
-        inputManager.setScreen(this, menuScreens.loading);
-        menuScreens.loading.setMode(tut, shipName, isNewGame);
+        inputManager.setScreen(this, menuScreens.loadingScreen);
+        menuScreens.loadingScreen.setMode(tut, shipName, isNewGame);
     }
 
     public void play(boolean tut, String shipName, boolean isNewGame) {
@@ -285,7 +285,7 @@ public class SolApplication implements ApplicationListener {
     public void finishGame() {
         solGame.onGameEnd();
         solGame = null;
-        inputManager.setScreen(this, menuScreens.main);
+        inputManager.setScreen(this, menuScreens.mainScreen);
     }
 
     public boolean isMobile() {
@@ -314,7 +314,7 @@ public class SolApplication implements ApplicationListener {
         SolRandom.setSeed(worldConfig.getSeed());
         FactionInfo.clearValues();
 
-        worldConfig.setNumberOfSystems(getMenuScreens().newShip.getNumberOfSystems());
+        worldConfig.setNumberOfSystems(getMenuScreens().newShipScreen.getNumberOfSystems());
     }
 
     /**

@@ -66,7 +66,7 @@ public class NewGameScreen extends SolUiBaseScreen {
         MenuScreens screens = solApplication.getMenuScreens();
         SolInputManager im = solApplication.getInputManager();
         if (backControl.isJustOff()) {
-            im.setScreen(solApplication, screens.main);
+            im.setScreen(solApplication, screens.mainScreen);
             return;
         }
         if (continueControl.isJustOff()) {
@@ -74,7 +74,7 @@ public class NewGameScreen extends SolUiBaseScreen {
             return;
         }
         if (newControl.isJustOff()) {
-            im.setScreen(solApplication, screens.newShip);
+            im.setScreen(solApplication, screens.newShipScreen);
         }
     }
 
