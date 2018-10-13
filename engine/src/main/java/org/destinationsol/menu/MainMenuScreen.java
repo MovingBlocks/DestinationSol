@@ -95,12 +95,12 @@ public class MainMenuScreen extends SolUiBaseScreen {
         MenuScreens screens = solApplication.getMenuScreens();
 
         if (newGameControl.isJustOff()) {
-            inputManager.setScreen(solApplication, screens.newGame);
+            inputManager.setScreen(solApplication, screens.newGameScreen);
             return;
         }
 
         if (optionsControl.isJustOff()) {
-            inputManager.setScreen(solApplication, screens.options);
+            inputManager.setScreen(solApplication, screens.optionsScreen);
             return;
         }
 
@@ -114,7 +114,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
         }
 
         if (creditsControl.isJustOff()) {
-            inputManager.setScreen(solApplication, screens.credits);
+            inputManager.setScreen(solApplication, screens.creditsScreen);
         }
     }
 

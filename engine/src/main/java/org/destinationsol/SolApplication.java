@@ -113,7 +113,7 @@ public class SolApplication implements ApplicationListener {
         layouts = new SolLayouts();
         menuScreens = new MenuScreens(layouts, isMobile(), options);
 
-        inputManager.setScreen(this, menuScreens.main);
+        inputManager.setScreen(this, menuScreens.mainScreen);
     }
 
     @Override
@@ -209,8 +209,8 @@ public class SolApplication implements ApplicationListener {
             throw new AssertionError("Starting a new game with unfinished current one");
         }
 
-        inputManager.setScreen(this, menuScreens.loading);
-        menuScreens.loading.setMode(tut, shipName, isNewGame);
+        inputManager.setScreen(this, menuScreens.loadingScreen);
+        menuScreens.loadingScreen.setMode(tut, shipName, isNewGame);
         musicManager.playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 
@@ -255,7 +255,7 @@ public class SolApplication implements ApplicationListener {
     public void finishGame() {
         solGame.onGameEnd();
         solGame = null;
-        inputManager.setScreen(this, menuScreens.main);
+        inputManager.setScreen(this, menuScreens.mainScreen);
     }
 
     public boolean isMobile() {
@@ -281,7 +281,7 @@ public class SolApplication implements ApplicationListener {
         worldConfig.setSeed(System.currentTimeMillis());
         SolRandom.setSeed(worldConfig.getSeed());
 
-        worldConfig.setNumberOfSystems(getMenuScreens().newShip.getNumberOfSystems());
+        worldConfig.setNumberOfSystems(getMenuScreens().newShipScreen.getNumberOfSystems());
     }
 
      /** This method is called when the "Continue" button gets pressed. It loads the world file to get the seed used for the world generation, and the number of systems */

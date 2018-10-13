@@ -146,7 +146,7 @@ public class InputMapScreen extends SolUiBaseScreen {
         // Save - saves new settings and returns to the options screen
         if (saveControl.isJustOff()) {
             operations.save(gameOptions);
-            im.setScreen(cmp, screens.options);
+            im.setScreen(cmp, screens.optionsScreen);
         }
 
         if (cancelControl.isJustOff()) {
@@ -155,7 +155,7 @@ public class InputMapScreen extends SolUiBaseScreen {
                 operations.setEnterNewKey(false);
             } else {
                 // Cancel - return to options screen without saving
-                im.setScreen(cmp, screens.options);
+                im.setScreen(cmp, screens.optionsScreen);
             }
         }
 

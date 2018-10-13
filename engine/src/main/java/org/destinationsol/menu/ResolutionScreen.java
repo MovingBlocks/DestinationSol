@@ -63,7 +63,7 @@ public class ResolutionScreen extends SolUiBaseScreen {
 
         if (closeControl.isJustOff()) {
             Gdx.graphics.setDisplayMode(options.x, options.y, options.fullscreen);
-            inputManager.setScreen(solApplication, solApplication.getMenuScreens().options);
+            inputManager.setScreen(solApplication, solApplication.getMenuScreens().optionsScreen);
             return;
         }
 
