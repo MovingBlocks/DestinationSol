@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol;
+package org.destinationsol.menu;
 
 import com.badlogic.gdx.Graphics;
 
@@ -23,12 +23,12 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-class ResolutionProvider {
+public class ResolutionProvider {
 
     private List<Resolution> resolutions;
     private int currentPosition;
 
-    ResolutionProvider(List<Graphics.DisplayMode> displayModes) {
+    public ResolutionProvider(List<Graphics.DisplayMode> displayModes) {
         currentPosition = 0;
 
         Stream<Resolution> allResolutions = displayModes.stream().map((displayMode) -> new Resolution(displayMode.width, displayMode.height));

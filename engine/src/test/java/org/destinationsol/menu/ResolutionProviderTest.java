@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol;
+package org.destinationsol.menu;
 
 import com.badlogic.gdx.Graphics;
-import org.destinationsol.Resolution;
-import org.destinationsol.ResolutionProvider;
+import org.destinationsol.menu.Resolution;
+import org.destinationsol.menu.ResolutionProvider;
 import org.junit.Test;
 
 import java.util.Arrays;
