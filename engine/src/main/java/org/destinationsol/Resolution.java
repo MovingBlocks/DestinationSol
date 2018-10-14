@@ -20,7 +20,6 @@ class Resolution {
     private final int height;
 
     public Resolution(int width, int height) {
-
         this.width = width;
         this.height = height;
     }
@@ -31,5 +30,10 @@ class Resolution {
 
     public int getHeight() {
         return height;
+    }
+
+    @Override
+    public String toString() {
+        return width + "x" + height;
     }
 }
