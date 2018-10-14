@@ -36,7 +36,7 @@ public class ZoneNameAnnouncer {
     private String text;
 
     ZoneNameAnnouncer() {
-        displayDimensions = SolApplication.displayDimensions;
+        displayDimensions = SolApplication.getInstance().getDisplayDimensions();
     }
 
     public void update(SolGame game) {

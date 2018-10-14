@@ -24,7 +24,7 @@ public abstract class SolUiBaseScreen implements SolUiScreen, ResizeSubscriber {
     protected List<SolUiControl> controls = new ArrayList<>();
 
     protected SolUiBaseScreen() {
-        SolApplication.addResizeSubscriber(this);
+        SolApplication.getInstance().addResizeSubscriber(this);
     }
 
     @Override

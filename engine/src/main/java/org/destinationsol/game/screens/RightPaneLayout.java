@@ -27,7 +27,7 @@ public class RightPaneLayout {
     private final float col0;
 
     public RightPaneLayout() {
-        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+        DisplayDimensions displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         btnH = .07f;
         rowH = 1.1f * btnH;

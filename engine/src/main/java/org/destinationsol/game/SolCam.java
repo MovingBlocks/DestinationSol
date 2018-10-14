@@ -53,7 +53,7 @@ public class SolCam implements UpdateAwareSystem {
     private DisplayDimensions displayDimensions;
 
     public SolCam() {
-        displayDimensions = SolApplication.displayDimensions;
+        displayDimensions = SolApplication.getInstance().getDisplayDimensions();
         myCamRotStrategy = new CamRotStrategy.ToPlanet();
         myCam = new OrthographicCamera(VIEWPORT_HEIGHT * displayDimensions.getRatio(), -VIEWPORT_HEIGHT);
         viewport = new ScreenViewport(myCam);

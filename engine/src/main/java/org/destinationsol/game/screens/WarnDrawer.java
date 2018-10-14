@@ -45,7 +45,7 @@ public abstract class WarnDrawer {
     }
 
     WarnDrawer(String text, Color backgroundColor) {
-        displayDimensions = SolApplication.displayDimensions;
+        displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         this.text = text;
         this.backgroundColor = new Color(backgroundColor);

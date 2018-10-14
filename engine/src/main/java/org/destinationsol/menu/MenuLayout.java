@@ -31,7 +31,7 @@ public class MenuLayout {
     private final float myPad;
 
     public MenuLayout() {
-        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+        DisplayDimensions displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         btnW = .40f * displayDimensions.getRatio();
         btnH = .1f;

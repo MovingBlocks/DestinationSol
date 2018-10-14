@@ -39,7 +39,7 @@ public class TutorialManager implements UpdateAwareSystem {
     private int stepIndex;
 
     public TutorialManager(GameScreens screens, boolean mobile, GameOptions gameOptions, SolGame game) {
-        displayDimensions = SolApplication.displayDimensions;
+        displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         float backgroundW = displayDimensions.getRatio() * .5f;
         float backgroundH = .2f;

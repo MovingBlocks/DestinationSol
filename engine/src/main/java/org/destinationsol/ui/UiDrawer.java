@@ -50,7 +50,7 @@ public class UiDrawer implements ResizeSubscriber {
     public static Map<String, Position> positions = new HashMap<>();
 
     public UiDrawer(CommonDrawer commonDrawer) {
-        displayDimensions = SolApplication.displayDimensions;
+        displayDimensions = SolApplication.getInstance().getDisplayDimensions();
         drawer = commonDrawer;
 
         uiLineWidth = 1.0f / displayDimensions.getHeight();
@@ -70,7 +70,7 @@ public class UiDrawer implements ResizeSubscriber {
         positions.put("topLeft", new Position(0, 0));
         positions.put("center", new Position(0.5f, 0.5f));
 
-        SolApplication.addResizeSubscriber(this);
+        SolApplication.getInstance().addResizeSubscriber(this);
     }
 
     public void updateMtx() {

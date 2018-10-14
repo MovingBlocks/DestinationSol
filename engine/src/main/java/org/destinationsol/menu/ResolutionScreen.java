@@ -39,7 +39,7 @@ public class ResolutionScreen extends SolUiBaseScreen {
     private final SolUiControl fullscreenControl;
 
     ResolutionScreen(MenuLayout menuLayout, GameOptions gameOptions) {
-        displayDimensions = SolApplication.displayDimensions;
+        displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
         resolutionControl.setDisplayName("Resolution");

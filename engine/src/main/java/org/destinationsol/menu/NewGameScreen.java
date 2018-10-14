@@ -39,7 +39,7 @@ public class NewGameScreen extends SolUiBaseScreen {
     private final SolUiControl newControl;
 
     NewGameScreen(MenuLayout menuLayout, GameOptions gameOptions) {
-        displayDimensions = SolApplication.displayDimensions;
+        displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         continueControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, gameOptions.getKeyShoot());
         continueControl.setDisplayName("Continue");

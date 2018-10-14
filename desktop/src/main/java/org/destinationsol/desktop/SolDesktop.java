@@ -82,7 +82,7 @@ public final class SolDesktop {
         handleCrashReporting(argv);
 
         // Everything is set up correctly, launch the application
-        new LwjglApplication(new SolApplication(), applicationConfig);
+        new LwjglApplication(SolApplication.getInstance(), applicationConfig);
     }
 
     /**

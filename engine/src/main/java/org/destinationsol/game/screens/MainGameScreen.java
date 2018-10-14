@@ -97,7 +97,7 @@ public class MainGameScreen extends SolUiBaseScreen {
     private final SolApplication solApplication;
 
     MainGameScreen(RightPaneLayout rightPaneLayout, Context context) {
-        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+        DisplayDimensions displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         solApplication = context.get(SolApplication.class);
         GameOptions gameOptions = solApplication.getOptions();

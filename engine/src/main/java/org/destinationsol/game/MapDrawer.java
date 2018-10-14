@@ -81,7 +81,7 @@ public class MapDrawer implements UpdateAwareSystem{
     private float areaSkullTime;
 
     MapDrawer() {
-        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+        DisplayDimensions displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         zoom = MAX_ZOOM / MUL_FACTOR / MUL_FACTOR;
         float minIconRad = MIN_ICON_RAD_PX / displayDimensions.getHeight();

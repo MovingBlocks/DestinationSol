@@ -69,7 +69,7 @@ public class InputMapScreen extends SolUiBaseScreen {
     private int selectedIndex;
 
     InputMapScreen(GameOptions gameOptions) {
-        displayDimensions = SolApplication.displayDimensions;
+        displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         float contentW = .8f;
         float col0 = displayDimensions.getRatio() / 2 - contentW / 2;

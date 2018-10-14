@@ -34,7 +34,7 @@ public class ShipKbControl implements ShipUiControl {
     public final SolUiControl abilityCtrl;
 
     ShipKbControl(SolApplication solApplication, List<SolUiControl> controls) {
-        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+        DisplayDimensions displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         GameOptions gameOptions = solApplication.getOptions();
         boolean showButtons = solApplication.isMobile();

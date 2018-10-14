@@ -37,7 +37,7 @@ public class LoadingScreen extends SolUiBaseScreen {
     private String shipName;
 
     LoadingScreen() {
-        displayDimensions = SolApplication.displayDimensions;
+        displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }

@@ -55,7 +55,7 @@ public class BorderDrawer {
     private final Vector2 myTmpVec = new Vector2();
 
     BorderDrawer() {
-        displayDimensions = SolApplication.displayDimensions;
+        displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         TextureAtlas.AtlasRegion texture = Assets.getAtlasRegion("engine:uiPlanetProximityIndicator");
         int hCellCount = (int) (displayDimensions.getRatio() / PLANET_PROXIMITY_INDICATOR_SIZE);

@@ -69,16 +69,23 @@ public class SolApplication implements ApplicationListener {
     private Context context;
 
     private WorldConfig worldConfig;
-    // TODO: Make this non-static.
-    public static DisplayDimensions displayDimensions;
+    private DisplayDimensions displayDimensions;
 
     private float timeAccumulator = 0;
     private boolean isMobile;
 
-    // TODO: Make this non-static.
-    private static Set<ResizeSubscriber> resizeSubscribers;
+    private Set<ResizeSubscriber> resizeSubscribers;
 
-    public SolApplication() {
+    private static SolApplication solApplication = null;
+
+    public static SolApplication getInstance() {
+        if(solApplication == null) {
+            solApplication = new SolApplication();
+        }
+        return  solApplication;
+    }
+
+    private SolApplication() {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
     }
@@ -293,8 +300,11 @@ public class SolApplication implements ApplicationListener {
         }
     }
 
-    // TODO: Make this non-static.
-    public static void addResizeSubscriber(ResizeSubscriber resizeSubscriber) {
+    public void addResizeSubscriber(ResizeSubscriber resizeSubscriber) {
         resizeSubscribers.add(resizeSubscriber);
+    }
+
+    public DisplayDimensions getDisplayDimensions() {
+        return displayDimensions;
     }
 }

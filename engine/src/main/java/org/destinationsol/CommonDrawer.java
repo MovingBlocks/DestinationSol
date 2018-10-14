@@ -45,7 +45,7 @@ public class CommonDrawer implements ResizeSubscriber {
     private DisplayDimensions displayDimensions;
 
     CommonDrawer() {
-        displayDimensions = SolApplication.displayDimensions;
+        displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         spriteBatch = new SpriteBatch();
 
@@ -57,7 +57,7 @@ public class CommonDrawer implements ResizeSubscriber {
         orthographicCamera = new OrthographicCamera(1024, 768);
         screenViewport = new ScreenViewport(orthographicCamera);
 
-        SolApplication.addResizeSubscriber(this);
+        SolApplication.getInstance().addResizeSubscriber(this);
     }
 
     public void setMatrix(Matrix4 matrix) {

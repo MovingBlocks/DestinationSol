@@ -235,7 +235,7 @@ public class SolUiControl {
             return;
         }
 
-        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+        DisplayDimensions displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         int x = referencePosition.getX() + offsetX - width/2;
         int y = referencePosition.getY() + offsetY - height/2;

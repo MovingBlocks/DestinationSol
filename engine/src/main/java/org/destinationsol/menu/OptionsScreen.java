@@ -41,7 +41,7 @@ public class OptionsScreen extends SolUiBaseScreen {
     private final SolUiControl musicVolumeControl;
 
     OptionsScreen(MenuLayout menuLayout, GameOptions gameOptions) {
-        displayDimensions = SolApplication.displayDimensions;
+        displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
         resolutionControl.setDisplayName("Resolution");

@@ -51,7 +51,7 @@ public class NewShipScreen extends SolUiBaseScreen {
     private int numberOfSystems = SystemsBuilder.DEFAULT_SYSTEM_COUNT;
 
     NewShipScreen(MenuLayout menuLayout, GameOptions gameOptions) {
-        displayDimensions = SolApplication.displayDimensions;
+        displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         loadPlayerSpawnConfigs();
 

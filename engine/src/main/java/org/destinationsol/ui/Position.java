@@ -24,7 +24,7 @@ public class Position {
     private float yNormalized;
 
     public Position(float xNormalized, float yNormalized) {
-        displayDimensions = SolApplication.displayDimensions;
+        displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         set(xNormalized, yNormalized);
     }

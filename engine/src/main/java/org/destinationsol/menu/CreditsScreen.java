@@ -46,7 +46,7 @@ public class CreditsScreen extends SolUiBaseScreen {
     private float pageProgressPercent;
 
     CreditsScreen(GameOptions gameOptions) {
-        displayDimensions = SolApplication.displayDimensions;
+        displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         closeControl = new SolUiControl(MenuLayout.bottomRightFloatingButton(displayDimensions), true, gameOptions.getKeyEscape());
         closeControl.setDisplayName("Close");

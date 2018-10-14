@@ -76,7 +76,7 @@ public class InventoryScreen extends SolUiBaseScreen {
     private InventoryOperationsScreen myOperations;
 
     public InventoryScreen(GameOptions gameOptions) {
-        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+        DisplayDimensions displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         float contentW = .8f;
         float col0 = displayDimensions.getRatio() / 2 - contentW / 2;

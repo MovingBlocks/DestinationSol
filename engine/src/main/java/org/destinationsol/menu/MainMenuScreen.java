@@ -54,7 +54,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
         this.isMobile = isMobile;
         this.gameOptions = gameOptions;
 
-        displayDimensions = SolApplication.displayDimensions;
+        displayDimensions = SolApplication.getInstance().getDisplayDimensions();
 
         tutorialControl = new SolUiControl(buttonWidth, buttonHeight, UiDrawer.positions.get("bottom"), 0, calculateButtonOffsetFromBottom(3), true, Input.Keys.T);
         tutorialControl.setDisplayName("Tutorial");
