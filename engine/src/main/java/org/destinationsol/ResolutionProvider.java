@@ -17,9 +17,11 @@ package org.destinationsol;
 
 import com.badlogic.gdx.Graphics;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class ResolutionProvider {
 
@@ -28,16 +30,24 @@ class ResolutionProvider {
 
     ResolutionProvider(List<Graphics.DisplayMode> displayModes) {
         currentPosition = 0;
-        resolutions = displayModes.stream().map((displayMode) -> new Resolution(displayMode.width, displayMode.height))
+
+        Stream<Resolution> allResolutions = displayModes.stream().map((displayMode) -> new Resolution(displayMode.width, displayMode.height));
+        resolutions = allResolutions.filter(distinctByStringValue())
                 .sorted(Comparator.comparing(Resolution::getWidth).thenComparing(Resolution::getHeight))
                 .collect(Collectors.toList());
     }
 
     public Resolution increase() {
-        return resolutions.get(++currentPosition % resolutions.size());
+        currentPosition = ++currentPosition % resolutions.size();
+        return resolutions.get(currentPosition);
     }
 
     public Resolution getResolution() {
         return resolutions.get(currentPosition);
+    }
+
+    private Predicate<Resolution> distinctByStringValue() {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(t.toString());
     }
 }

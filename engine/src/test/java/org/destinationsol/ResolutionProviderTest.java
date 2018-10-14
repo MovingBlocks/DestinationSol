@@ -25,7 +25,6 @@ import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 public class ResolutionProviderTest {
 
     private ResolutionProvider resolutionProvider;
@@ -62,9 +61,24 @@ public class ResolutionProviderTest {
         assertResolution(resolutionProvider.getResolution(), 200, 100);
     }
 
+    @Test
+    public void testNoDuplicatedResolutions() {
+        TestDisplayMode firstUniqueDisplayMode = new TestDisplayMode(100, 50);
+        TestDisplayMode duplicationOfFirstDisplayMode = new TestDisplayMode(100, 50);
+        TestDisplayMode secondUniqueDisplayMode = new TestDisplayMode(100, 100);
+        resolutionProvider = new ResolutionProvider(Arrays.asList(firstUniqueDisplayMode, duplicationOfFirstDisplayMode, secondUniqueDisplayMode));
+        assertResolution(resolutionProvider.getResolution(), 100, 50);
+        resolutionProvider.increase();
+        assertResolution(resolutionProvider.getResolution(), 100, 100);
+        resolutionProvider.increase();
+        assertResolution(resolutionProvider.getResolution(), 100, 50);
+        resolutionProvider.increase();
+        assertResolution(resolutionProvider.getResolution(), 100, 100);
+    }
+
     class TestDisplayMode extends Graphics.DisplayMode {
 
-        protected TestDisplayMode(int width, int height) {
+        TestDisplayMode(int width, int height) {
             super(width, height, 1, 1);
         }
     }
