@@ -16,13 +16,9 @@
 package org.destinationsol;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
-
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import org.destinationsol.menu.Resolution;
+import org.destinationsol.menu.ResolutionProvider;
 
 import static java.util.Arrays.asList;
 
