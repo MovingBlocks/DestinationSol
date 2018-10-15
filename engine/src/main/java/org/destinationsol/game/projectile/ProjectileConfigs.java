@@ -50,7 +50,7 @@ public class ProjectileConfigs {
                 String texName = node.getString("tex");
                 TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(texName + "Projectile");
                 float texSz = node.getFloat("texSz");
-                float speedLen = node.getFloat("spdLen");
+                float speed = node.getFloat("spdLen");
                 float physSize = node.getFloat("physSize", 0);
                 boolean stretch = node.getBoolean("stretch", false);
                 DmgType dmgType = DmgType.forName(node.getString("dmgType"));
@@ -71,7 +71,7 @@ public class ProjectileConfigs {
                 float density = node.getFloat("density", -1);
                 float dmg = node.getFloat("dmg");
                 float emTime = node.getFloat("emTime", 0);
-                ProjectileConfig config = new ProjectileConfig(tex, texSz, speedLen, stretch, physSize, dmgType,
+                ProjectileConfig config = new ProjectileConfig(tex, texSz, speed, stretch, physSize, dmgType,
                         collisionSound, lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBackground,
                         zeroAbsSpeed, origin, acc, workSound, bodyless, density, guideRotationSpeed, dmg, emTime);
                 configs.put(node.name, config);
