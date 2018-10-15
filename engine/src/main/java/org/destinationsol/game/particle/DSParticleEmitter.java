@@ -210,7 +210,7 @@ public class DSParticleEmitter {
             return;
         }
         Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();
-        Vector2 velocity = nearestPlanet.getAdjustedEffectSpeed(basePosition, baseVelocity);
+        Vector2 velocity = nearestPlanet.getAdjustedEffectVelocity(basePosition, baseVelocity);
         setVelocity(velocity);
         SolMath.free(velocity);
     }
