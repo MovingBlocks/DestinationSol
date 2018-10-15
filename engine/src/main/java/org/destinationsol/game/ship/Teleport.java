@@ -101,7 +101,7 @@ public class Teleport implements ShipAbility {
         game.getPartMan().blip(game, newPos, SolRandom.randomFloat(180), blipSz, 1, Vector2.Zero, tex);
 
         float newAngle = owner.getAngle() + angle;
-        Vector2 newSpeed = SolMath.getVec(owner.getSpeed());
+        Vector2 newSpeed = SolMath.getVec(owner.getVelocity());
         SolMath.rotate(newSpeed, angle);
 
         Body body = owner.getHull().getBody();

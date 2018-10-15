@@ -108,7 +108,7 @@ public class BeaconHandler implements UpdateAwareSystem{
         Vector2 beaconPos = getPos0();
         if (target != null) {
             SolMath.toWorld(beaconPos, targetRelativePosition, target.getAngle(), target.getPosition());
-            speed.set(target.getSpeed());
+            speed.set(target.getVelocity());
         } else {
             beaconPos.set(farTarget.getPosition());
         }

@@ -116,7 +116,7 @@ public class Hero {
     }
 
     public Vector2 getSpeed() {
-        return isTranscendent ? transcendentHero.getSpeed() : shipHero.getSpeed();
+        return isTranscendent ? transcendentHero.getVelocity() : shipHero.getVelocity();
     }
 
     public float getAcceleration() {

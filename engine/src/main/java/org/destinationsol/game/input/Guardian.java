@@ -151,7 +151,7 @@ public class Guardian implements MoveDestProvider {
 
     @Override
     public Vector2 getDestinationSpeed() {
-        return myTarget == null ? Vector2.Zero : myTarget.getSpeed();
+        return myTarget == null ? Vector2.Zero : myTarget.getVelocity();
     }
 
     public float getRelAngle() {

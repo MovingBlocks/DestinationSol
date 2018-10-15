@@ -137,7 +137,7 @@ public class SolGun {
         boolean shot = shouldShoot && myCoolDown <= 0 && myItem.ammo > 0;
         game.getPartMan().updateAllHullEmittersOfType(ship, "shoot", shot);
         if (shot) {
-            Vector2 gunSpeed = creator.getSpeed();
+            Vector2 gunSpeed = creator.getVelocity();
             shoot(gunSpeed, game, gunAngle, muzzlePos, faction, creator);
         } else {
             myCurrAngleVar = SolMath.approach(myCurrAngleVar, myItem.config.minAngleVar, myItem.config.angleVarDamp * ts);

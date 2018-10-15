@@ -97,7 +97,7 @@ public class AiPilot implements Pilot {
             if (battle != null) {
                 dest = myBattleDestProvider.getDest(ship, nearestEnemy, np, battle, game.getTimeStep(), canShootUnfixed, nearGround);
                 shouldStopNearDest = myBattleDestProvider.shouldStopNearDest();
-                destSpeed = nearestEnemy.getSpeed();
+                destSpeed = nearestEnemy.getVelocity();
                 boolean big = hullConfig.getType() == HullConfig.Type.BIG;
                 float maxBattleSpeed = nearGround ? MAX_GROUND_BATTLE_SPD : big ? MAX_BATTLE_SPD_BIG : MAX_BATTLE_SPD;
                 if (maxBattleSpeed < desiredSpeedLen) {
@@ -118,7 +118,7 @@ public class AiPilot implements Pilot {
         boolean moverActive = myMover.isActive();
 
         Vector2 enemyPos = nearestEnemy == null ? null : nearestEnemy.getPosition();
-        Vector2 enemySpeed = nearestEnemy == null ? null : nearestEnemy.getSpeed();
+        Vector2 enemySpeed = nearestEnemy == null ? null : nearestEnemy.getVelocity();
         float enemyApproxRad = nearestEnemy == null ? 0 : nearestEnemy.getHull().config.getApproxRadius();
         myShooter.update(ship, enemyPos, moverActive, canShoot, enemySpeed, enemyApproxRad);
         if (hasEngine && !moverActive && !isShooterRotated()) {

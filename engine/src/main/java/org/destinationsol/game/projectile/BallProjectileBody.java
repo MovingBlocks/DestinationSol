@@ -111,7 +111,7 @@ public class BallProjectileBody implements ProjectileBody {
         }
         float distanceToNearestEnemy = SolMath.angle(position, nearestEnemy.getPosition());
         Vector2 desiredSpeed = SolMath.fromAl(distanceToNearestEnemy, speedScalar);
-        desiredSpeed.add(nearestEnemy.getSpeed());
+        desiredSpeed.add(nearestEnemy.getVelocity());
         float result = SolMath.angle(speed, desiredSpeed);
         SolMath.free(desiredSpeed);
         return result;

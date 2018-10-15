@@ -101,7 +101,7 @@ public class Shooter {
 
         Vector2 gunRelPos = ship.getHull().getGunMount(gun == gun2).getRelPos();
         Vector2 gunPos = SolMath.toWorld(gunRelPos, ship.getAngle(), shipPos);
-        float shootAngle = calcShootAngle(gunPos, ship.getSpeed(), enemyPos, enemySpeed, projSpeed, false);
+        float shootAngle = calcShootAngle(gunPos, ship.getVelocity(), enemyPos, enemySpeed, projSpeed, false);
         SolMath.free(gunPos);
         if (shootAngle != shootAngle) {
             return;
