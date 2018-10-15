@@ -35,17 +35,17 @@ public class Shooter {
     Shooter() {
     }
 
-    public static float calcShootAngle(Vector2 gunPos, Vector2 gunSpeed, Vector2 ePos, Vector2 eSpeed, float projSpeed,
+    public static float calcShootAngle(Vector2 gunPos, Vector2 gunVelocity, Vector2 ePos, Vector2 eVelocity, float projSpeed,
                                        boolean sharp) {
-        Vector2 eSpeedShortened = SolMath.getVec(eSpeed);
+        Vector2 eVelocityShortened = SolMath.getVec(eVelocity);
         if (!sharp) {
-            eSpeedShortened.scl(E_SPD_PERC);
+            eVelocityShortened.scl(E_SPD_PERC);
         }
-        Vector2 relESpeed = SolMath.distVec(gunSpeed, eSpeedShortened);
-        SolMath.free(eSpeedShortened);
-        float rotAngle = SolMath.angle(relESpeed);
-        float v = relESpeed.len();
-        SolMath.free(relESpeed);
+        Vector2 relEVelocity = SolMath.distVec(gunVelocity, eVelocityShortened);
+        SolMath.free(eVelocityShortened);
+        float rotAngle = SolMath.angle(relEVelocity);
+        float v = relEVelocity.len();
+        SolMath.free(relEVelocity);
         Vector2 toE = SolMath.distVec(gunPos, ePos);
         SolMath.rotate(toE, -rotAngle);
         float x = toE.x;
@@ -65,7 +65,7 @@ public class Shooter {
         return res;
     }
 
-    public void update(SolShip ship, Vector2 enemyPos, boolean notRotate, boolean canShoot, Vector2 enemySpeed,
+    public void update(SolShip ship, Vector2 enemyPos, boolean notRotate, boolean canShoot, Vector2 enemyVelocity,
                        float enemyApproxRad) {
         myLeft = false;
         myRight = false;
@@ -101,7 +101,7 @@ public class Shooter {
 
         Vector2 gunRelPos = ship.getHull().getGunMount(gun == gun2).getRelPos();
         Vector2 gunPos = SolMath.toWorld(gunRelPos, ship.getAngle(), shipPos);
-        float shootAngle = calcShootAngle(gunPos, ship.getVelocity(), enemyPos, enemySpeed, projSpeed, false);
+        float shootAngle = calcShootAngle(gunPos, ship.getVelocity(), enemyPos, enemyVelocity, projSpeed, false);
         SolMath.free(gunPos);
         if (shootAngle != shootAngle) {
             return;

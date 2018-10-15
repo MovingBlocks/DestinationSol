@@ -29,7 +29,7 @@ public interface MoveDestProvider {
     /**
      * @return the desired speed lenght both for peaceful movement and for maneuvering
      */
-    float getDesiredSpeedScalar();
+    float getDesiredSpeed();
 
     boolean shouldStopNearDestination();
 
@@ -43,5 +43,5 @@ public interface MoveDestProvider {
      */
     Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround);
 
-    Vector2 getDestinationSpeed();
+    Vector2 getDestinationVelocity();
 }
