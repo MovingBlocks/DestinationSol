@@ -220,7 +220,7 @@ public class Projectile implements SolObject {
     }
 
     @Override
-    public Vector2 getSpeed() {
+    public Vector2 getVelocity() {
         return body.getSpeed();
     }
 
@@ -336,11 +336,11 @@ public class Projectile implements SolObject {
                 h = minH;
             }
             Vector2 position = projectile.getPosition();
-            float w = projectile.getSpeed().len() * game.getTimeStep();
+            float w = projectile.getVelocity().len() * game.getTimeStep();
             if (w < 4 * h) {
                 w = 4 * h;
             }
-            drawer.draw(texture, w, h, w, h / 2, position.x, position.y, SolMath.angle(projectile.getSpeed()), SolColor.LG);
+            drawer.draw(texture, w, h, w, h / 2, position.x, position.y, SolMath.angle(projectile.getVelocity()), SolColor.LG);
         }
 
         @Override

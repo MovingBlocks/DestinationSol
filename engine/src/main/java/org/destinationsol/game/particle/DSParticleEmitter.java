@@ -103,7 +103,7 @@ public class DSParticleEmitter {
             this.workSoundSet = null;
         }
         Vector2 shipPos = ship.getPosition();
-        Vector2 shipSpeed = ship.getSpeed();
+        Vector2 shipSpeed = ship.getVelocity();
 
         initialiseEmitter(config, -1, DrawableLevel.PART_BG_0, position, true, game, shipPos, shipSpeed, angleOffset, hasLight);
     }
@@ -350,7 +350,7 @@ public class DSParticleEmitter {
             transferAngle(originalSpeedAngle, particleEmitter.getAngle(), baseAngle + relativeAngle);
             transferAngle(originalRotation, particleEmitter.getRotation(), baseAngle + relativeAngle);
 
-            updateSpeed(game, object.getSpeed(), object.getPosition());
+            updateSpeed(game, object.getVelocity(), object.getPosition());
             particleEmitter.update(timeStep);
 
             if (boundingBoxRecalcAwait > 0) {

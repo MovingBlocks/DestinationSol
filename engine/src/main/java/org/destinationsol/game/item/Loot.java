@@ -155,7 +155,7 @@ public class Loot implements SolObject {
     }
 
     @Override
-    public Vector2 getSpeed() {
+    public Vector2 getVelocity() {
         return null;
     }
 
@@ -220,7 +220,7 @@ public class Loot implements SolObject {
         speed.sub(position);
         float fadeTime = .25f;
         speed.scl(1 / fadeTime);
-        speed.add(ship.getSpeed());
+        speed.add(ship.getVelocity());
         game.getPartMan().blip(game, position, angle, item.getItemType().sz, fadeTime, speed, item.getIcon(game));
         game.getSoundManager().play(game, item.getItemType().pickUpSound, null, this);
     }

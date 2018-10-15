@@ -81,8 +81,8 @@ public class ShardTest {
         Body body = BodyUtilities.createDummyBody();
         body.setLinearVelocity(1f, 2f);
         final Shard shard = new Shard(body, drawables);
-        assertTrue(shard.getSpeed().epsilonEquals(1f, 2f, 0.01f));
-        assertTrue(SHARD_CONSTANT.getSpeed().epsilonEquals(0f, 0f, 0.01f));
+        assertTrue(shard.getVelocity().epsilonEquals(1f, 2f, 0.01f));
+        assertTrue(SHARD_CONSTANT.getVelocity().epsilonEquals(0f, 0f, 0.01f));
     }
 
     @Test

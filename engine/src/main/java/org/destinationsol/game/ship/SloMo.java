@@ -57,7 +57,7 @@ public class SloMo implements ShipAbility {
         if (tryToUse) {
             factor = config.factor;
             Vector2 position = owner.getPosition();
-            DSParticleEmitter src = new DSParticleEmitter(config.cc.effect, -1, DrawableLevel.PART_BG_0, new Vector2(), true, game, position, owner.getSpeed(), 0);
+            DSParticleEmitter src = new DSParticleEmitter(config.cc.effect, -1, DrawableLevel.PART_BG_0, new Vector2(), true, game, position, owner.getVelocity(), 0);
             game.getPartMan().finish(game, src, position);
             return true;
         }

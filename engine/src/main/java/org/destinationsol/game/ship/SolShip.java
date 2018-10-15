@@ -209,7 +209,7 @@ public class SolShip implements SolObject {
     }
 
     @Override
-    public Vector2 getSpeed() {
+    public Vector2 getVelocity() {
         return myHull.getSpeed();
     }
 
@@ -431,8 +431,8 @@ public class SolShip implements SolObject {
             myFireAwait = MAX_FIRE_AWAIT;
         }
     }
-    
-    /** 
+
+    /**
      * Method to be called on the death of a SolShip
      * Note: Use {@link SolGame#setRespawnState()}} for the death of the player specifically
      * @param game The SolGame currently in progress.
@@ -638,7 +638,7 @@ public class SolShip implements SolObject {
     public float getAbilityAwait() {
         return myAbilityAwait;
     }
-    
+
     /**
      * Each SolShip could be a mercenary. Each mercenary is definitely a SolShip.
      * This method sets the associated MercItem.
@@ -647,7 +647,7 @@ public class SolShip implements SolObject {
     public void setMerc(MercItem mercItem) {
         this.mercItem = mercItem;
     }
-    
+
     /**
      * Each SolShip could be a mercenary. Each mercenary is definitely a SolShip.
      * This method gets the associated MercItem.

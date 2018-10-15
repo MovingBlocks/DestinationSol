@@ -152,7 +152,7 @@ public interface SolObject {
      *
      * @return Speed of this object.
      */
-    Vector2 getSpeed();
+    Vector2 getVelocity();
 
     /**
      * Called whenever this object touches another object, and can be used for custom collisions.

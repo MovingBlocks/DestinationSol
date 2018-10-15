@@ -102,7 +102,7 @@ public class PlanetSprites implements SolObject {
     }
 
     @Override
-    public Vector2 getSpeed() {
+    public Vector2 getVelocity() {
         return null;
     }
 
