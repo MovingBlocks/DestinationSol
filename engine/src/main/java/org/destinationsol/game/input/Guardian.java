@@ -60,7 +60,7 @@ public class Guardian implements MoveDestProvider {
     }
 
     @Override
-    public float getDesiredSpeedScalar() {
+    public float getDesiredSpeed() {
         return Const.MAX_MOVE_SPD;
     }
 
@@ -150,7 +150,7 @@ public class Guardian implements MoveDestProvider {
     }
 
     @Override
-    public Vector2 getDestinationSpeed() {
+    public Vector2 getDestinationVelocity() {
         return myTarget == null ? Vector2.Zero : myTarget.getVelocity();
     }
 
