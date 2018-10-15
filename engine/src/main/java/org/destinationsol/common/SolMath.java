@@ -507,17 +507,17 @@ public class SolMath {
     }
 
     /**
-     * Returns whether object can accelerate in direction, based on its current speed.
+     * Returns whether object can accelerate in direction, based on its current velocity.
      *
      * Object can accelerate until reaching {@link Const#MAX_MOVE_SPD maximal movement speed}, and afterwards, if it
      * attempts to accelerate in direction that would not bring its speed further over the maximum speed.
      *
      * @param accAngle Angle under which the object tries to accelerate
-     * @param speed Current speed of the object
+     * @param velocity Current speed of the object
      * @return True if object can accelerate further, false otherwise
      */
-    public static boolean canAccelerate(float accAngle, Vector2 speed) {
-        return speed.len() < Const.MAX_MOVE_SPD || angleDiff(angle(speed), accAngle) > 90;
+    public static boolean canAccelerate(float accAngle, Vector2 velocity) {
+        return velocity.len() < Const.MAX_MOVE_SPD || angleDiff(angle(velocity), accAngle) > 90;
     }
 
     /**
