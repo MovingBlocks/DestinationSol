@@ -69,7 +69,7 @@ public class Projectile implements SolObject {
             drawable = new RectSprite(config.tex, config.texSz, config.origin.x, config.origin.y, new Vector2(), DrawableLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
         }
         drawables.add(drawable);
-        float speedLen = config.speedLen;
+        float speedLen = config.speed;
         if (varySpeed) {
             speedLen *= SolRandom.randomFloat(.9f, 1.1f);
         }

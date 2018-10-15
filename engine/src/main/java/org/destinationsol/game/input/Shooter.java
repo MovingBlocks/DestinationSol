@@ -87,12 +87,12 @@ public class Shooter {
         Gun gun = null;
         if (gun1 != null) {
             ProjectileConfig projConfig = gun1.config.clipConf.projConfig;
-            projSpeed = projConfig.speedLen + projConfig.acc; // for simplicity
+            projSpeed = projConfig.speed + projConfig.acc; // for simplicity
             gun = gun1;
         }
         if (gun2 != null) {
             ProjectileConfig projConfig = gun2.config.clipConf.projConfig;
-            float g2PS = projConfig.speedLen + projConfig.acc; // for simplicity
+            float g2PS = projConfig.speed + projConfig.acc; // for simplicity
             if (projSpeed < g2PS) {
                 projSpeed = g2PS;
                 gun = gun2;
