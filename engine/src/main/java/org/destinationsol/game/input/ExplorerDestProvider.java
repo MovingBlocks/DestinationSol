@@ -117,7 +117,7 @@ public class ExplorerDestProvider implements MoveDestProvider {
         }
 
         SolMath.toWorld(destination, relativeDestination, planet.getAngle(), planet.getPosition());
-        planet.calculateSpeedAtPosition(destinationVelocity, destination);
+        planet.calculateVelocityAtPosition(destinationVelocity, destination);
     }
 
     @Override

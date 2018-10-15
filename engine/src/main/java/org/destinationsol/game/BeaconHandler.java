@@ -97,7 +97,7 @@ public class BeaconHandler implements UpdateAwareSystem{
         planetBind.setDiff(vec, beaconPos, false);
         beaconPos.add(vec);
         SolMath.free(vec);
-        planetBind.getPlanet().calculateSpeedAtPosition(speed, beaconPos);
+        planetBind.getPlanet().calculateVelocityAtPosition(speed, beaconPos);
     }
 
     private boolean maybeUpdateTargetPos(SolGame game) {

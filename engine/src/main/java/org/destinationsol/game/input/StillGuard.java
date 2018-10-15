@@ -65,7 +65,7 @@ public class StillGuard implements MoveDestProvider {
             myPlanetBind.setDiff(diff, myDest, false);
             myDest.add(diff);
             SolMath.free(diff);
-            myPlanetBind.getPlanet().calculateSpeedAtPosition(myDestVelocity, myDest);
+            myPlanetBind.getPlanet().calculateVelocityAtPosition(myDestVelocity, myDest);
         }
     }
 
