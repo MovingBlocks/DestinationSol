@@ -57,7 +57,7 @@ public class Projectile implements SolObject {
     private SolObject obstacle;
     private boolean wasDamageDealt;
 
-    public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpeed, Faction faction,
+    public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunVelocity, Faction faction,
                       ProjectileConfig config, boolean varySpeed) {
         drawables = new ArrayList<>();
         this.config = config;
@@ -69,14 +69,14 @@ public class Projectile implements SolObject {
             drawable = new RectSprite(config.tex, config.texSz, config.origin.x, config.origin.y, new Vector2(), DrawableLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
         }
         drawables.add(drawable);
-        float speedLen = config.speed;
+        float speed = config.speed;
         if (varySpeed) {
-            speedLen *= SolRandom.randomFloat(.9f, 1.1f);
+            speed *= SolRandom.randomFloat(.9f, 1.1f);
         }
         if (config.physSize > 0) {
-            body = new BallProjectileBody(game, muzzlePos, angle, this, gunSpeed, speedLen, config);
+            body = new BallProjectileBody(game, muzzlePos, angle, this, gunVelocity, speed, config);
         } else {
-            body = new PointProjectileBody(angle, muzzlePos, gunSpeed, speedLen, this, game, config.acc);
+            body = new PointProjectileBody(angle, muzzlePos, gunVelocity, speed, this, game, config.acc);
         }
         this.faction = faction;
         bodyEffect = buildEffect(game, config.bodyEffect, DrawableLevel.PART_BG_0, null, true);
@@ -93,11 +93,11 @@ public class Projectile implements SolObject {
         }
     }
 
-    private DSParticleEmitter buildEffect(SolGame game, EffectConfig ec, DrawableLevel drawableLevel, Vector2 position, boolean inheritsSpeed) {
+    private DSParticleEmitter buildEffect(SolGame game, EffectConfig ec, DrawableLevel drawableLevel, Vector2 position, boolean inheritsVelocity) {
         if (ec == null) {
             return null;
         }
-        DSParticleEmitter res = new DSParticleEmitter(ec, -1, drawableLevel, new Vector2(), inheritsSpeed, game, position, body.getSpeed(), 0);
+        DSParticleEmitter res = new DSParticleEmitter(ec, -1, drawableLevel, new Vector2(), inheritsVelocity, game, position, body.getVelocity(), 0);
         if (res.isContinuous()) {
             res.setWorking(true);
             drawables.addAll(res.getDrawables());
@@ -221,7 +221,7 @@ public class Projectile implements SolObject {
 
     @Override
     public Vector2 getVelocity() {
-        return body.getSpeed();
+        return body.getVelocity();
     }
 
     @Override
