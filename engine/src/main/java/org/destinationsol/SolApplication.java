@@ -20,6 +20,10 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.HashSet;
+import java.util.Set;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.common.SolColor;
@@ -61,9 +65,11 @@ public class SolApplication implements ApplicationListener {
 
     private OggMusicManager musicManager;
     private OggSoundManager soundManager;
-    private SolInputManager inputManager;
+    // TODO: Make this non-static.
+    public static SolInputManager inputManager;
 
-    private UiDrawer uiDrawer;
+    // TODO: Make this non-static.
+    public static UiDrawer uiDrawer;
 
     private FactionDisplay factionDisplay;
     private MenuScreens menuScreens;
@@ -85,11 +91,16 @@ public class SolApplication implements ApplicationListener {
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
 
+    // TODO: Remove.
+    private static SolApplication instance;
+
     public SolApplication(float targetFPS) {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
         this.targetFPS = 1.0f / targetFPS;
         resizeSubscribers = new HashSet<>();
+
+        instance = this;
     }
 
     @Override
@@ -120,7 +131,7 @@ public class SolApplication implements ApplicationListener {
         layouts = new SolLayouts();
         menuScreens = new MenuScreens(layouts, isMobile(), options);
 
-        inputManager.setScreen(this, menuScreens.mainScreen);
+        inputManager.changeScreen(menuScreens.mainScreen);
     }
 
     @Override
@@ -223,7 +234,7 @@ public class SolApplication implements ApplicationListener {
             factionDisplay.drawFactionNames(solGame, uiDrawer, inputManager, solGame.getObjectManager());
         }
         if (fatalErrorMsg != null) {
-            uiDrawer.draw(uiDrawer.whiteTexture, displayDimensions.getRatio(), .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
+            uiDrawer.draw(UiDrawer.whiteTexture, displayDimensions.getRatio(), .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
             uiDrawer.drawString(fatalErrorMsg, displayDimensions.getRatio(), .5f, FontSize.MENU, true, SolColor.WHITE);
             uiDrawer.drawString(fatalErrorTrace, .2f * displayDimensions.getRatio(), .6f, FontSize.DEBUG, false, SolColor.WHITE);
         }
@@ -239,7 +250,7 @@ public class SolApplication implements ApplicationListener {
             throw new AssertionError("Starting a new game with unfinished current one");
         }
 
-        inputManager.setScreen(this, menuScreens.loadingScreen);
+        inputManager.changeScreen(menuScreens.loadingScreen);
         menuScreens.loadingScreen.setMode(tut, shipName, isNewGame);
     }
 
@@ -253,15 +264,27 @@ public class SolApplication implements ApplicationListener {
         FactionInfo factionInfo = new FactionInfo();
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
         factionDisplay = new FactionDisplay(solGame, factionInfo);
-        inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
+        inputManager.changeScreen(solGame.getScreens().mainGameScreen);
     }
 
-    public SolInputManager getInputManager() {
+    // TODO: Make non-static.
+    public static SolInputManager getInputManager() {
         return inputManager;
     }
 
-    public MenuScreens getMenuScreens() {
+    // TODO: Make non-static.
+    public static MenuScreens getMenuScreens() {
         return menuScreens;
+    }
+
+    // TODO: Make non-static.
+    public static UiDrawer getUiDrawer() {
+        return uiDrawer;
+    }
+
+    // TODO: Remove
+    public static SolApplication getInstance() {
+        return instance;
     }
 
     public void dispose() {
@@ -285,7 +308,7 @@ public class SolApplication implements ApplicationListener {
     public void finishGame() {
         solGame.onGameEnd();
         solGame = null;
-        inputManager.setScreen(this, menuScreens.mainScreen);
+        inputManager.changeScreen(menuScreens.mainScreen);
     }
 
     public boolean isMobile() {
@@ -314,7 +337,7 @@ public class SolApplication implements ApplicationListener {
         SolRandom.setSeed(worldConfig.getSeed());
         FactionInfo.clearValues();
 
-        worldConfig.setNumberOfSystems(getMenuScreens().newShipScreen.getNumberOfSystems());
+//        worldConfig.setNumberOfSystems(getMenuScreens().newShipScreen.getNumberOfSystems());
     }
 
     /**

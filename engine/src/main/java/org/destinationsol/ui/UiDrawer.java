@@ -20,12 +20,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import java.util.HashMap;
+import java.util.Map;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.destinationsol.ui.responsiveUi.UiAbsolutePosition;
+import org.destinationsol.ui.responsiveUi.UiPosition;
 
 public class UiDrawer implements ResizeSubscriber {
     public enum TextAlignment {
@@ -42,12 +43,18 @@ public class UiDrawer implements ResizeSubscriber {
     public static final TextureRegion whiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
     public final Rectangle filler;
     private final CommonDrawer drawer;
-    //TODO WTF is `isTextMode` for? discuss and potentially (=probably) remove
-    private Boolean isTextMode;
 
     private DisplayDimensions displayDimensions;
 
-    public static Map<String, Position> positions = new HashMap<>();
+    public static UiPosition UI_POSITION_TOP;
+    public static UiPosition UI_POSITION_TOP_RIGHT;
+    public static UiPosition UI_POSITION_RIGHT;
+    public static UiPosition UI_POSITION_BOTTOM_RIGHT;
+    public static UiPosition UI_POSITION_BOTTOM;
+    public static UiPosition UI_POSITION_BOTTOM_LEFT;
+    public static UiPosition UI_POSITION_LEFT;
+    public static UiPosition UI_POSITION_TOP_LEFT;
+    public static UiPosition UI_POSITION_CENTER;
 
     public UiDrawer(CommonDrawer commonDrawer) {
         displayDimensions = SolApplication.displayDimensions;
@@ -60,15 +67,15 @@ public class UiDrawer implements ResizeSubscriber {
 
         filler = new Rectangle(0, 0, displayDimensions.getRatio(), 1);
 
-        positions.put("top", new Position(0.5f, 0));
-        positions.put("topRight", new Position(1, 0));
-        positions.put("right", new Position(1, 0.5f));
-        positions.put("bottomRight", new Position(1, 1));
-        positions.put("bottom", new Position(0.5f, 1));
-        positions.put("bottomLeft", new Position(0, 1));
-        positions.put("left", new Position(0, 0.5f));
-        positions.put("topLeft", new Position(0, 0));
-        positions.put("center", new Position(0.5f, 0.5f));
+        UI_POSITION_TOP = new UiAbsolutePosition(0.5f, 0);
+        UI_POSITION_TOP_RIGHT = new UiAbsolutePosition(1, 0);
+        UI_POSITION_RIGHT = new UiAbsolutePosition(1, 0.5f);
+        UI_POSITION_BOTTOM_RIGHT = new UiAbsolutePosition(1, 1);
+        UI_POSITION_BOTTOM = new UiAbsolutePosition(0.5f, 1);
+        UI_POSITION_BOTTOM_LEFT = new UiAbsolutePosition(0, 1);
+        UI_POSITION_LEFT = new UiAbsolutePosition(0, 0.5f);
+        UI_POSITION_TOP_LEFT = new UiAbsolutePosition(0, 0);
+        UI_POSITION_CENTER = new UiAbsolutePosition(0.5f, 0.5f);
 
         SolApplication.addResizeSubscriber(this);
     }
@@ -82,45 +89,27 @@ public class UiDrawer implements ResizeSubscriber {
     }
 
     public void drawString(String s, float x, float y, float scale, TextAlignment align, boolean centered, Color tint) {
-        if (isTextMode != null && !isTextMode) {
-            throw new AssertionError("drawing text in atlas mode");
-        }
         drawer.drawString(s, x, y, scale * FONT_SIZE, align, centered, tint);
     }
 
-    private void check() {
-        if (isTextMode != null && isTextMode) {
-            throw new AssertionError("drawing atlas in text mode");
-        }
-    }
-
     public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y, float rot, Color tint) {
-        check();
         drawer.draw(tr, width, height, origX, origY, x, y, rot, tint);
     }
 
     public void draw(Rectangle rect, Color tint) {
-        check();
         drawer.draw(whiteTexture, rect, tint);
     }
 
     public void drawCircle(Vector2 center, float radius, Color col) {
-        check();
         drawer.drawCircle(whiteTexture, center, radius, col, uiLineWidth, 1);
     }
 
     public void drawLine(float x, float y, float angle, float len, Color col) {
-        check();
         drawer.drawLine(whiteTexture, x, y, angle, len, col, uiLineWidth);
     }
 
     public void drawLine(Vector2 p1, Vector2 p2, Color col) {
-        check();
         drawer.drawLine(whiteTexture, p1, p2, col, uiLineWidth, false);
-    }
-
-    public void setTextMode(Boolean textMode) {
-        isTextMode = textMode;
     }
 
     @Override
