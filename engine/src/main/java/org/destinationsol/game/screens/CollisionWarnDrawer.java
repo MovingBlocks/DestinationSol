@@ -37,7 +37,7 @@ public class CollisionWarnDrawer extends WarnDrawer {
             return false;
         }
         Vector2 position = hero.getPosition();
-        Vector2 velocity = hero.getSpeed();
+        Vector2 velocity = hero.getVelocity();
         float acc = hero.getAcceleration();
         float speed = velocity.len();
         float speedAngle = SolMath.angle(velocity);

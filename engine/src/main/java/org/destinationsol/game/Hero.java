@@ -115,7 +115,7 @@ public class Hero {
         return shipHero.canUseAbility();
     }
 
-    public Vector2 getSpeed() {
+    public Vector2 getVelocity() {
         return isTranscendent ? transcendentHero.getVelocity() : shipHero.getVelocity();
     }
 

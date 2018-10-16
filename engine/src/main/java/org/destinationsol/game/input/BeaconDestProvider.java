@@ -48,7 +48,7 @@ public class BeaconDestProvider implements MoveDestProvider {
             }
         }
         myShouldStopNearDest = STOP_AWAIT < game.getTime() - bh.getClickTime();
-        myDestVelocity.set(bh.getSpeed());
+        myDestVelocity.set(bh.getVelocity());
     }
 
     @Override
