@@ -219,7 +219,7 @@ public class AiPilot implements Pilot {
         myDestProvider.update(game, shipPos, maxIdleDist, hullConfig, null);
         Vector2 dest = myDestProvider.getDestination();
 
-        Vector2 velocity = farShip.getSpeed();
+        Vector2 velocity = farShip.getVelocity();
         float angle = farShip.getAngle();
         Engine engine = farShip.getEngine();
         float ts = game.getTimeStep();
@@ -260,7 +260,7 @@ public class AiPilot implements Pilot {
             angle = SolMath.approachAngle(angle, desiredAngle, engine.getMaxRotationSpeed() * ts);
         }
 
-        farShip.setSpeed(velocity);
+        farShip.setVelocity(velocity);
         farShip.setAngle(angle);
 
         Vector2 newPos = SolMath.getVec(velocity);
