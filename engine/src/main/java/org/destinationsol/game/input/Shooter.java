@@ -35,18 +35,18 @@ public class Shooter {
     Shooter() {
     }
 
-    public static float calcShootAngle(Vector2 gunPos, Vector2 gunVelocity, Vector2 ePos, Vector2 eVelocity, float projSpeed,
+    public static float calcShootAngle(Vector2 gunPos, Vector2 gunVelocity, Vector2 enemyPos, Vector2 enemyVelocity, float projSpeed,
                                        boolean sharp) {
-        Vector2 eVelocityShortened = SolMath.getVec(eVelocity);
+        Vector2 enemyVelocityShortened = SolMath.getVec(enemyVelocity);
         if (!sharp) {
-            eVelocityShortened.scl(E_SPD_PERC);
+            enemyVelocityShortened.scl(E_SPD_PERC);
         }
-        Vector2 relEVelocity = SolMath.distVec(gunVelocity, eVelocityShortened);
-        SolMath.free(eVelocityShortened);
+        Vector2 relEVelocity = SolMath.distVec(gunVelocity, enemyVelocityShortened);
+        SolMath.free(enemyVelocityShortened);
         float rotAngle = SolMath.angle(relEVelocity);
         float v = relEVelocity.len();
         SolMath.free(relEVelocity);
-        Vector2 toE = SolMath.distVec(gunPos, ePos);
+        Vector2 toE = SolMath.distVec(gunPos, enemyPos);
         SolMath.rotate(toE, -rotAngle);
         float x = toE.x;
         float y = toE.y;
