@@ -131,12 +131,12 @@ public class SolCam implements UpdateAwareSystem {
         } else if (hero.isDead()) {
             return Const.CAM_VIEW_DIST_GROUND;
         } else {
-            float velocity = hero.getVelocity().len();
+            float speed = hero.getVelocity().len();
             float desiredViewDistance = Const.CAM_VIEW_DIST_SPACE;
             Planet nearestPlanet = game.getPlanetManager().getNearestPlanet(position);
-            if (nearestPlanet.getFullHeight() < nearestPlanet.getPosition().dst(position) && MAX_ZOOM_SPD < velocity) {
+            if (nearestPlanet.getFullHeight() < nearestPlanet.getPosition().dst(position) && MAX_ZOOM_SPD < speed) {
                 desiredViewDistance = Const.CAM_VIEW_DIST_JOURNEY;
-            } else if (nearestPlanet.isNearGround(position) && velocity < MED_ZOOM_SPD) {
+            } else if (nearestPlanet.isNearGround(position) && speed < MED_ZOOM_SPD) {
                 desiredViewDistance = Const.CAM_VIEW_DIST_GROUND;
             }
             desiredViewDistance += hero.getHull().config.getApproxRadius();

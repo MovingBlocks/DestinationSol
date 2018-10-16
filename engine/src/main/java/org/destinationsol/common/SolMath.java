@@ -513,7 +513,7 @@ public class SolMath {
      * attempts to accelerate in direction that would not bring its speed further over the maximum speed.
      *
      * @param accAngle Angle under which the object tries to accelerate
-     * @param velocity Current speed of the object
+     * @param velocity Current velocity of the object
      * @return True if object can accelerate further, false otherwise
      */
     public static boolean canAccelerate(float accAngle, Vector2 velocity) {
