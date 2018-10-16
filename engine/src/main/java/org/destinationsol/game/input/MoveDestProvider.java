@@ -27,7 +27,7 @@ public interface MoveDestProvider {
     boolean shouldAvoidBigObjects();
 
     /**
-     * @return the desired speed lenght both for peaceful movement and for maneuvering
+     * @return the desired speed both for peaceful movement and for maneuvering
      */
     float getDesiredSpeed();
 
