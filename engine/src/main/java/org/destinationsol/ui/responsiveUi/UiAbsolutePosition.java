@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.ui;
+package org.destinationsol.ui.responsiveUi;
 
 import org.destinationsol.SolApplication;
+import org.destinationsol.ui.DisplayDimensions;
 
-public class Position {
+public class UiAbsolutePosition implements UiPosition {
     private DisplayDimensions displayDimensions;
 
     private float xNormalized;
     private float yNormalized;
 
-    public Position(float xNormalized, float yNormalized) {
+    public UiAbsolutePosition(float xNormalized, float yNormalized) {
         displayDimensions = SolApplication.displayDimensions;
 
         set(xNormalized, yNormalized);
@@ -34,10 +35,12 @@ public class Position {
         this.yNormalized = yNormalized;
     }
 
+    @Override
     public int getX() {
         return (int)(xNormalized * displayDimensions.getWidth());
     }
 
+    @Override
     public int getY() {
         return (int)(yNormalized * displayDimensions.getHeight());
     }

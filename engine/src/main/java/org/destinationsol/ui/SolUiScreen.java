@@ -15,10 +15,8 @@
  */
 package org.destinationsol.ui;
 
-import com.badlogic.gdx.graphics.Color;
 import org.destinationsol.SolApplication;
-
-import java.util.List;
+import org.destinationsol.ui.responsiveUi.UiElement;
 
 /**
  * This interface marks "Screens", or "UI Screens", that is objects designing what's going to be rendered.
@@ -30,12 +28,10 @@ import java.util.List;
  * space, rather only its part.
  */
 public interface SolUiScreen {
-
     /**
-     * Returns all {@link SolUiControl SolUiControls} employed by this screen.
-     * @return {@link List} of all {@code SolUiControls}.
+     * @return The root {@code UiElement} used by this screen.
      */
-    List<SolUiControl> getControls();
+    UiElement getRootUiElement();
 
     /**
      * This method is called whenever screen goes into focus.
@@ -83,8 +79,7 @@ public interface SolUiScreen {
     /**
      * Draws a background of the screen using supplied {@link UiDrawer}.
      *
-     * This is called before drawing SolUiControls, images ({@link #drawImages(UiDrawer, SolApplication)}), and
-     * text ({@link #drawText(UiDrawer, SolApplication)}).
+     * This is called before drawing SolUiControls and other items ({@link #draw(UiDrawer, SolApplication)}).
      *
      * @param uiDrawer Drawer to draw with
      * @param solApplication {@code SolApplication} displaying this window.
@@ -92,31 +87,19 @@ public interface SolUiScreen {
     void drawBackground(UiDrawer uiDrawer, SolApplication solApplication);
 
     /**
-     * Draws additional images screen might be employing.
+     * Draws text and images the screen might be employing.
      *
      * NOTE: Not to be used for drawing SolUiControls, those should be drawn higher in the stacktrace by calls to their
-     * respective {@link SolUiControl#drawButton(UiDrawer, SolApplication, Color)}.
+     * respective {@link SolUiControl#draw}.
      *
-     * This is called after drawing background ({@link #drawBackground(UiDrawer, SolApplication)}) and SolUiControls,
-     * but before text ({@link #drawText(UiDrawer, SolApplication)}).
+     * This is called after drawing background ({@link #drawBackground}) and SolUiControls.
      *
      * @param uiDrawer Drawer to draw with
      * @param solApplication {@code SolApplication} displaying this window.
      */
-    default void drawImages(UiDrawer uiDrawer, SolApplication solApplication) {
+    default void draw(UiDrawer uiDrawer, SolApplication solApplication) {
         // Intentionally left blank
     }
-
-    /**
-     * Draws text screen might need.
-     *
-     * This is called after drawing background ({@link #drawBackground(UiDrawer, SolApplication)}), SolUiControls, and
-     * images ({@link #drawImages(UiDrawer, SolApplication)}).
-     *
-     * @param uiDrawer Drawer to draw with
-     * @param solApplication {@code SolApplication} displaying this window.
-     */
-    void drawText(UiDrawer uiDrawer, SolApplication solApplication);
 
     /**
      * Returns true if the screen reacts to clicking outside (inventory screens -> closed on outside click), false

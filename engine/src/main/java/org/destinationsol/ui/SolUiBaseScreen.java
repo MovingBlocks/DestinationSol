@@ -19,17 +19,18 @@ import org.destinationsol.SolApplication;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.destinationsol.ui.responsiveUi.UiElement;
 
 public abstract class SolUiBaseScreen implements SolUiScreen, ResizeSubscriber {
-    protected List<SolUiControl> controls = new ArrayList<>();
+    protected UiElement rootUiElement;
 
     protected SolUiBaseScreen() {
         SolApplication.addResizeSubscriber(this);
     }
 
     @Override
-    public List<SolUiControl> getControls() {
-        return controls;
+    public UiElement getRootUiElement() {
+        return rootUiElement;
     }
 
     @Override
@@ -58,12 +59,7 @@ public abstract class SolUiBaseScreen implements SolUiScreen, ResizeSubscriber {
     }
 
     @Override
-    public void drawImages(UiDrawer uiDrawer, SolApplication solApplication) {
-        // Intentionally left blank
-    }
-
-    @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void draw(UiDrawer uiDrawer, SolApplication solApplication) {
         // Intentionally left blank
     }
 
@@ -74,8 +70,9 @@ public abstract class SolUiBaseScreen implements SolUiScreen, ResizeSubscriber {
 
     @Override
     public void resize() {
-        for (SolUiControl control : controls) {
-            control.computePosition();
+        // TODO: Remove this check.
+        if (rootUiElement != null) {
+            rootUiElement.setPosition(0, 0).finalizeChanges();
         }
     }
 }
