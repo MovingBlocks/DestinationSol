@@ -73,7 +73,7 @@ public class PartMan {
         RectSprite s = null;
         int count = (int) alphaSum + 1;
         for (int i = 0; i < count; i++) {
-            s = blip(game, position, angle, sz, .5f, hull.getSpeed(), shieldTexture);
+            s = blip(game, position, angle, sz, .5f, hull.getVelocity(), shieldTexture);
         }
         float lastTint = SolMath.clamp(alphaSum - (int) alphaSum);
         if (s != null) {

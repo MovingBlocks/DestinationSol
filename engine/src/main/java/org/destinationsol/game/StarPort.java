@@ -393,7 +393,7 @@ public class StarPort implements SolObject {
                 ObjectManager objectManager = game.getObjectManager();
                 objectManager.removeObjDelayed(this);
                 ship.setPos(position);
-                ship.setSpeed(new Vector2());
+                ship.setVelocity(new Vector2());
                 SolShip ship = this.ship.toObject(game);
                 if (ship.getPilot().isPlayer()) {
                     game.getHero().setSolShip(ship);

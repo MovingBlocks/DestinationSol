@@ -91,7 +91,7 @@ public class SolShip implements SolObject {
         myHull = hull;
         myItemContainer = container;
         myTradeContainer = tradeContainer;
-        List<DSParticleEmitter> effs = game.getSpecialEffects().buildBodyEffs(myHull.config.getApproxRadius(), game, myHull.getPosition(), myHull.getSpeed());
+        List<DSParticleEmitter> effs = game.getSpecialEffects().buildBodyEffs(myHull.config.getApproxRadius(), game, myHull.getPosition(), myHull.getVelocity());
         mySmokeSrc = effs.get(0);
         myFireSrc = effs.get(1);
         myElectricitySrc = effs.get(2);
@@ -117,7 +117,7 @@ public class SolShip implements SolObject {
     @Override
     public FarShip toFarObject() {
         float rotationSpeed = myHull.getBody().getAngularVelocity() * MathUtils.radDeg;
-        return new FarShip(myHull.getPosition(), myHull.getSpeed(), myHull.getAngle(), rotationSpeed, myPilot, myItemContainer, myHull.config, myHull.life,
+        return new FarShip(myHull.getPosition(), myHull.getVelocity(), myHull.getAngle(), rotationSpeed, myPilot, myItemContainer, myHull.config, myHull.life,
                 myHull.getGun(false), myHull.getGun(true), myRemoveController, myHull.getEngine(), myRepairer, myMoney, myTradeContainer, myShield, myArmor);
     }
 
@@ -210,7 +210,7 @@ public class SolShip implements SolObject {
 
     @Override
     public Vector2 getVelocity() {
-        return myHull.getSpeed();
+        return myHull.getVelocity();
     }
 
     public float getAngle() {
@@ -339,7 +339,7 @@ public class SolShip implements SolObject {
     @Override
     public void onRemove(SolGame game) {
         if (myHull.life <= 0) {
-            game.getShardBuilder().buildExplosionShards(game, myHull.getPosition(), myHull.getSpeed(), myHull.config.getSize());
+            game.getShardBuilder().buildExplosionShards(game, myHull.getPosition(), myHull.getVelocity(), myHull.config.getSize());
             throwAllLoot(game);
         }
         myHull.onRemove(game);
@@ -378,24 +378,24 @@ public class SolShip implements SolObject {
     }
 
     private void throwLoot(SolGame game, SolItem item, boolean onDeath) {
-        Vector2 lootSpeed = new Vector2();
+        Vector2 lootVelocity = new Vector2();
         float speedAngle;
-        float speedLen;
+        float speed;
         Vector2 position = new Vector2();
         if (onDeath) {
             speedAngle = SolRandom.randomFloat(180);
-            speedLen = SolRandom.randomFloat(0, Loot.MAX_SPD);
+            speed = SolRandom.randomFloat(0, Loot.MAX_SPD);
             // TODO: This statement previously caused a crash as getApproxRadius returned 0 - where is it meant to be set / loaded from?
             SolMath.fromAl(position, speedAngle, SolRandom.randomFloat(myHull.config.getApproxRadius()));
         } else {
             speedAngle = getAngle();
-            speedLen = 1f;
+            speed = 1f;
             SolMath.fromAl(position, speedAngle, myHull.config.getApproxRadius());
         }
-        SolMath.fromAl(lootSpeed, speedAngle, speedLen);
-        lootSpeed.add(myHull.getSpeed());
+        SolMath.fromAl(lootVelocity, speedAngle, speed);
+        lootVelocity.add(myHull.getVelocity());
         position.add(myHull.getPosition());
-        Loot l = game.getLootBuilder().build(game, position, item, lootSpeed, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), this);
+        Loot l = game.getLootBuilder().build(game, position, item, lootVelocity, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), this);
         game.getObjectManager().addObjDelayed(l);
         if (!onDeath) {
             game.getSoundManager().play(game, game.getSpecialSounds().lootThrow, position, this);

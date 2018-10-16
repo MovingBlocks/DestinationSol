@@ -50,7 +50,7 @@ public class Hull {
     private final Fixture base;
     private final List<LightSource> lightSources;
     private final Vector2 position;
-    private final Vector2 speed;
+    private final Vector2 velocity;
     private final ArrayList<ForceBeacon> beacons;
     private final PlanetBind planetBind;
     private final float mass;
@@ -75,7 +75,7 @@ public class Hull {
         this.doors = doors;
         this.shieldFixture = shieldFixture;
         position = new Vector2();
-        speed = new Vector2();
+        velocity = new Vector2();
         beacons = forceBeacons;
 
         mass = this.body.getMass();
@@ -111,7 +111,7 @@ public class Hull {
         boolean controlsEnabled = ship.isControlsEnabled() && !SolCam.DIRECT_CAM_CONTROL;
 
         if (engine != null) {
-            engine.update(angle, game, provider, body, speed, controlsEnabled, mass, ship);
+            engine.update(angle, game, provider, body, velocity, controlsEnabled, mass, ship);
         }
 
         Faction faction = ship.getPilot().getFaction();
@@ -133,12 +133,12 @@ public class Hull {
         }
 
         if (planetBind != null) {
-            Vector2 speed = SolMath.getVec();
-            planetBind.setDiff(speed, position, true);
+            Vector2 velocity = SolMath.getVec();
+            planetBind.setDiff(velocity, position, true);
             float fps = 1 / game.getTimeStep();
-            speed.scl(fps);
-            body.setLinearVelocity(speed);
-            SolMath.free(speed);
+            velocity.scl(fps);
+            body.setLinearVelocity(velocity);
+            SolMath.free(velocity);
             float angleDiff = planetBind.getDesiredAngle() - angle;
             body.setAngularVelocity(angleDiff * MathUtils.degRad * fps);
         }
@@ -150,7 +150,7 @@ public class Hull {
         position.set(body.getPosition());
         angle = body.getAngle() * MathUtils.radDeg;
         rotationSpeed = body.getAngularVelocity() * MathUtils.radDeg;
-        speed.set(body.getLinearVelocity());
+        velocity.set(body.getLinearVelocity());
     }
 
     public void onRemove(SolGame game) {
@@ -192,8 +192,8 @@ public class Hull {
         return position;
     }
 
-    public Vector2 getSpeed() {
-        return speed;
+    public Vector2 getVelocity() {
+        return velocity;
     }
 
     public Engine getEngine() {

@@ -101,14 +101,14 @@ public class Teleport implements ShipAbility {
         game.getPartMan().blip(game, newPos, SolRandom.randomFloat(180), blipSz, 1, Vector2.Zero, tex);
 
         float newAngle = owner.getAngle() + angle;
-        Vector2 newSpeed = SolMath.getVec(owner.getVelocity());
-        SolMath.rotate(newSpeed, angle);
+        Vector2 newVelocity = SolMath.getVec(owner.getVelocity());
+        SolMath.rotate(newVelocity, angle);
 
         Body body = owner.getHull().getBody();
         body.setTransform(newPos, newAngle * MathUtils.degRad);
-        body.setLinearVelocity(newSpeed);
+        body.setLinearVelocity(newVelocity);
 
-        SolMath.free(newSpeed);
+        SolMath.free(newVelocity);
     }
 
     public static class Config implements AbilityConfig {
