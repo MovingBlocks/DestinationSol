@@ -182,12 +182,12 @@ public class Asteroid implements SolObject {
         }
         float sclSum = 0;
         while (sclSum < .7f * size * size) {
-            float speedAngle = SolRandom.randomFloat(180);
+            float velocityAngle = SolRandom.randomFloat(180);
             Vector2 velocity = new Vector2();
-            SolMath.fromAl(velocity, speedAngle, SolRandom.randomFloat(0, .5f) * MAX_SPLIT_SPD);
+            SolMath.fromAl(velocity, velocityAngle, SolRandom.randomFloat(0, .5f) * MAX_SPLIT_SPD);
             velocity.add(velocity);
             Vector2 newPos = new Vector2();
-            SolMath.fromAl(newPos, speedAngle, SolRandom.randomFloat(0, size / 2));
+            SolMath.fromAl(newPos, velocityAngle, SolRandom.randomFloat(0, size / 2));
             newPos.add(position);
             float sz = size * SolRandom.randomFloat(.25f, .5f);
             Asteroid a = game.getAsteroidBuilder().buildNew(game, newPos, velocity, sz, removeController);
@@ -202,12 +202,12 @@ public class Asteroid implements SolObject {
     }
 
     private void throwLoot(SolGame game, SolItem item) {
-        float speedAngle = SolRandom.randomFloat(180);
+        float velocityAngle = SolRandom.randomFloat(180);
         Vector2 lootVelocity = new Vector2();
-        SolMath.fromAl(lootVelocity, speedAngle, SolRandom.randomFloat(0, Loot.MAX_SPD));
+        SolMath.fromAl(lootVelocity, velocityAngle, SolRandom.randomFloat(0, Loot.MAX_SPD));
         lootVelocity.add(velocity);
         Vector2 lootPosition = new Vector2();
-        SolMath.fromAl(lootPosition, speedAngle, SolRandom.randomFloat(0, size / 2)); // calculate random offset inside asteroid
+        SolMath.fromAl(lootPosition, velocityAngle, SolRandom.randomFloat(0, size / 2)); // calculate random offset inside asteroid
         lootPosition.add(position); // add offset to asteroid's position
         Loot l = game.getLootBuilder().build(game, lootPosition, item, lootVelocity, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), null);
         game.getObjectManager().addObjDelayed(l);

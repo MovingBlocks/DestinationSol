@@ -63,7 +63,7 @@ public class DSParticleEmitter {
     private float areaSize;
     private float timeSinceLastPositionChange;
     private float boundingBoxRecalcAwait;
-    private ParticleEmitter.ScaledNumericValue originalSpeedAngle;
+    private ParticleEmitter.ScaledNumericValue originalVelocityAngle;
     private ParticleEmitter.ScaledNumericValue originalRotation;
     private boolean inheritsVelocity;
     private boolean working;
@@ -164,9 +164,9 @@ public class DSParticleEmitter {
         tint[1] = config.tint.g;
         tint[2] = config.tint.b;
 
-        originalSpeedAngle = new ParticleEmitter.ScaledNumericValue();
+        originalVelocityAngle = new ParticleEmitter.ScaledNumericValue();
         originalRotation = new ParticleEmitter.ScaledNumericValue();
-        transferAngle(particleEmitter.getAngle(), originalSpeedAngle, 0f);
+        transferAngle(particleEmitter.getAngle(), originalVelocityAngle, 0f);
         transferAngle(particleEmitter.getRotation(), originalRotation, 0f);
 
         this.inheritsVelocity = inheritsVelocity;
@@ -347,7 +347,7 @@ public class DSParticleEmitter {
             position.y -= particleEmitter.getGravity().getLowMin() * timeStep;
 
             particleEmitter.setPosition(position.x, position.y);
-            transferAngle(originalSpeedAngle, particleEmitter.getAngle(), baseAngle + relativeAngle);
+            transferAngle(originalVelocityAngle, particleEmitter.getAngle(), baseAngle + relativeAngle);
             transferAngle(originalRotation, particleEmitter.getRotation(), baseAngle + relativeAngle);
 
             updateVelocity(game, object.getVelocity(), object.getPosition());
