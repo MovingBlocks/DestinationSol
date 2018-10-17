@@ -118,7 +118,8 @@ public class SolApplication implements ApplicationListener {
         commonDrawer = new CommonDrawer();
         uiDrawer = new UiDrawer(commonDrawer);
         layouts = new SolLayouts();
-        menuScreens = new MenuScreens(layouts, isMobile(), options);
+        menuScreens = new MenuScreens();
+        menuScreens.initialize(layouts, isMobile(), options);
 
         inputManager.changeScreen(menuScreens.mainScreen);
     }

@@ -46,7 +46,7 @@ public class SolInputManager {
     private static Cursor hiddenCursor;
 
     private final List<SolUiScreen> screens = new ArrayList<>();
-    private final List<SolUiScreen> screenToRemove = new ArrayList<>();
+    private final List<SolUiScreen> screensToRemove = new ArrayList<>();
     private final List<SolUiScreen> screensToAdd = new ArrayList<>();
     private final InputPointer[] inputPointers;
     private final InputPointer flashInputPointer;
@@ -134,7 +134,7 @@ public class SolInputManager {
     }
 
     private void removeScreen(SolUiScreen screen) {
-        screenToRemove.add(screen);
+        screensToRemove.add(screen);
     }
 
     public boolean isScreenOn(SolUiScreen screen) {
@@ -229,7 +229,7 @@ public class SolInputManager {
     private void addRemoveScreens() {
         SolApplication solApplication = SolApplication.getInstance();
 
-        for (SolUiScreen screen : screensToAdd) {
+        for (SolUiScreen screen : screensToRemove) {
             if (!isScreenOn(screen)) {
                 continue;
             }
@@ -239,7 +239,7 @@ public class SolInputManager {
 
             screens.remove(screen);
         }
-        screenToRemove.clear();
+        screensToRemove.clear();
 
         for (SolUiScreen screen : screensToAdd) {
             if (isScreenOn(screen)) {

@@ -21,13 +21,12 @@ import java.util.List;
 import org.destinationsol.SolApplication;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_HEIGHT;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_PADDING;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_WIDTH;
 
 // TODO: Only handles UiTextButtons perfectly for now, due to height calculations. Make it more generic.
 public class UiVerticalListLayout implements UiElement {
-    public static final int BUTTON_WIDTH = 300;
-    public static final int BUTTON_HEIGHT = 75;
-    public static final int BUTTON_PADDING = 10;
-
     private List<UiElement> uiElements = new ArrayList<>();
 
     private int x;
