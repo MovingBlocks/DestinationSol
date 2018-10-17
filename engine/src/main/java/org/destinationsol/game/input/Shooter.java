@@ -25,7 +25,7 @@ import org.destinationsol.game.ship.SolShip;
 
 public class Shooter {
 
-    private static final float E_SPD_PERC = .6f; // 0 means that target speed is not considered, 1 means that it's fully considered
+    private static final float ENEMY_SPEED_FACTOR = .6f; // 0 means that target speed is not considered, 1 means that it's fully considered
     public static final float MIN_SHOOT_AAD = 2f;
     private boolean myShoot;
     private boolean myShoot2;
@@ -39,30 +39,30 @@ public class Shooter {
                                        boolean sharp) {
         Vector2 enemyVelocityShortened = SolMath.getVec(enemyVelocity);
         if (!sharp) {
-            enemyVelocityShortened.scl(E_SPD_PERC);
+            enemyVelocityShortened.scl(ENEMY_SPEED_FACTOR);
         }
-        Vector2 relEVelocity = SolMath.distVec(gunVelocity, enemyVelocityShortened);
+        Vector2 relativeEnemyVelocity = SolMath.distVec(gunVelocity, enemyVelocityShortened);
         SolMath.free(enemyVelocityShortened);
-        float rotAngle = SolMath.angle(relEVelocity);
-        float v = relEVelocity.len();
-        SolMath.free(relEVelocity);
-        Vector2 toE = SolMath.distVec(gunPos, enemyPos);
-        SolMath.rotate(toE, -rotAngle);
-        float x = toE.x;
-        float y = toE.y;
-        float a = v * v - projSpeed * projSpeed;
-        float b = 2 * x * v;
+        float rotAngle = SolMath.angle(relativeEnemyVelocity);
+        float relativeEnemySpeed = relativeEnemyVelocity.len();
+        SolMath.free(relativeEnemyVelocity);
+        Vector2 distToEnemy = SolMath.distVec(gunPos, enemyPos);
+        SolMath.rotate(distToEnemy, -rotAngle);
+        float x = distToEnemy.x;
+        float y = distToEnemy.y;
+        float a = relativeEnemySpeed * relativeEnemySpeed - projSpeed * projSpeed;
+        float b = 2 * x * relativeEnemySpeed;
         float c = x * x + y * y;
         float t = SolMath.genQuad(a, b, c);
-        float res;
+        float shootAngle;
         if (t != t) {
-            res = Float.NaN;
+            shootAngle = Float.NaN;
         } else {
-            toE.x += t * v;
-            res = SolMath.angle(toE) + rotAngle;
+            distToEnemy.x += t * relativeEnemySpeed;
+            shootAngle = SolMath.angle(distToEnemy) + rotAngle;
         }
-        SolMath.free(toE);
-        return res;
+        SolMath.free(distToEnemy);
+        return shootAngle;
     }
 
     public void update(SolShip ship, Vector2 enemyPos, boolean notRotate, boolean canShoot, Vector2 enemyVelocity,
