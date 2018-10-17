@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
@@ -29,81 +31,67 @@ import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
-import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
+import org.destinationsol.ui.responsiveUi.UiTextButton;
+import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
 import org.terasology.assets.ResourceUrn;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_PADDING;
 
 public class NewShipScreen extends SolUiBaseScreen {
     private DisplayDimensions displayDimensions;
 
     private final TextureAtlas.AtlasRegion backgroundTexture;
 
-    private SolUiControl okControl;
-    private SolUiControl cancelControl;
-    private SolUiControl systemCountControl;
-    private SolUiControl playerSpawnConfigControl;
     private int playerSpawnConfigIndex = 0;
     private List<String> playerSpawnConfigNames = new ArrayList<>();
     private int numberOfSystems = SystemsBuilder.DEFAULT_SYSTEM_COUNT;
 
-    NewShipScreen(MenuLayout menuLayout, GameOptions gameOptions) {
-        displayDimensions = SolApplication.displayDimensions;
-
+    NewShipScreen(GameOptions gameOptions) {
         loadPlayerSpawnConfigs();
 
-        int row = 1;
-        systemCountControl = new SolUiControl(menuLayout.buttonRect(-1, row++), true);
-        systemCountControl.setDisplayName("Systems: " + numberOfSystems);
-        controls.add(systemCountControl);
+        displayDimensions = SolApplication.displayDimensions;
+        SolInputManager inputManager = SolApplication.getInputManager();
+        MenuScreens screens = SolApplication.getMenuScreens();
+        SolApplication solApplication = SolApplication.getInstance();
 
-        playerSpawnConfigControl = new SolUiControl(menuLayout.buttonRect(-1, row++), true);
-        playerSpawnConfigControl.setDisplayName("Starting Ship: " + playerSpawnConfigNames.get(playerSpawnConfigIndex));
-        controls.add(playerSpawnConfigControl);
+        UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
-        okControl = new SolUiControl(menuLayout.buttonRect(-1, row++), true, gameOptions.getKeyEscape());
-        okControl.setDisplayName("OK");
-        controls.add(okControl);
+        UiTextButton systemCountButton = new UiTextButton().setDisplayName(getNumberOfSystemsString())
+                                                           .enableSound();
+        systemCountButton.setOnReleaseAction(() -> {
+                                                       numberOfSystems = Math.max(2, (numberOfSystems + 1) % 10);
+                                                       systemCountButton.setDisplayName(getNumberOfSystemsString());
+                                                   });
+        buttonList.addElement(systemCountButton);
 
-        cancelControl = new SolUiControl(menuLayout.buttonRect(-1, row), true, gameOptions.getKeyEscape());
-        cancelControl.setDisplayName("Cancel");
-        controls.add(cancelControl);
+        UiTextButton playerSpawnConfigButton = new UiTextButton().setDisplayName(getPlayerSpawnConfigString())
+                                                                 .enableSound();
+        playerSpawnConfigButton.setOnReleaseAction(() -> {
+                                                             playerSpawnConfigIndex = (playerSpawnConfigIndex + 1) % playerSpawnConfigNames.size();
+                                                             playerSpawnConfigButton.setDisplayName(getPlayerSpawnConfigString());
+                                                         });
+        buttonList.addElement(playerSpawnConfigButton);
+
+        buttonList.addElement(new UiTextButton().setDisplayName("Play")
+                                                .setTriggerKey(gameOptions.getKeyShoot())
+                                                .enableSound()
+                                                .setOnReleaseAction(() -> solApplication.play(false, playerSpawnConfigNames.get(playerSpawnConfigIndex), true)));
+
+        buttonList.addElement(new UiTextButton().setDisplayName("Cancel")
+                                                .setTriggerKey(gameOptions.getKeyEscape())
+                                                .enableSound()
+                                                .setOnReleaseAction(() -> inputManager.changeScreen(screens.newGameScreen)));
+
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight()/2 - BUTTON_PADDING)
+                .finalizeChanges();
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        if (okControl.isJustOff()) {
-            solApplication.play(false, playerSpawnConfigNames.get(playerSpawnConfigIndex), true);
-            return;
-        }
-
-        if (cancelControl.isJustOff()) {
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().newGameScreen);
-            return;
-        }
-
-        if (systemCountControl.isJustOff()) {
-            int systemCount = (numberOfSystems + 1) % 10;
-            if (systemCount < 2) {
-                systemCount = 2;
-            }
-            numberOfSystems = systemCount;
-            systemCountControl.setDisplayName("Systems: " + numberOfSystems);
-        }
-
-        if (playerSpawnConfigControl.isJustOff()) {
-            playerSpawnConfigIndex = (playerSpawnConfigIndex + 1) % playerSpawnConfigNames.size();
-            playerSpawnConfigControl.setDisplayName("Starting Ship: " + playerSpawnConfigNames.get(playerSpawnConfigIndex));
-        }
-    }
-
-    @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void draw(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.drawString("Warning: This will erase any old ship you might have had!", .5f * displayDimensions.getRatio(), .3f, FontSize.MENU, true, SolColor.WHITE);
     }
 
@@ -127,7 +115,11 @@ public class NewShipScreen extends SolUiBaseScreen {
         }
     }
 
-    public int getNumberOfSystems() {
-        return numberOfSystems;
+    private String getNumberOfSystemsString() {
+        return "Systems: " + numberOfSystems;
+    }
+
+    private String getPlayerSpawnConfigString() {
+        return "Starting Ship: " + playerSpawnConfigNames.get(playerSpawnConfigIndex);
     }
 }

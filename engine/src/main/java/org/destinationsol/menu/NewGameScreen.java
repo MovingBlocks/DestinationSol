@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -26,56 +25,53 @@ import org.destinationsol.game.SaveManager;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
-import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
+import org.destinationsol.ui.responsiveUi.UiTextButton;
+import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
+import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_PADDING;
 
 public class NewGameScreen extends SolUiBaseScreen {
     private DisplayDimensions displayDimensions;
 
     private final TextureAtlas.AtlasRegion backgroundTexture;
 
-    private final SolUiControl backControl;
-    private final SolUiControl continueControl;
-    private final SolUiControl newControl;
+    private UiTextButton continueButton;
 
-    NewGameScreen(MenuLayout menuLayout, GameOptions gameOptions) {
+    NewGameScreen(GameOptions gameOptions) {
         displayDimensions = SolApplication.displayDimensions;
+        SolInputManager inputManager = SolApplication.getInputManager();
+        MenuScreens screens = SolApplication.getMenuScreens();
+        SolApplication solApplication = SolApplication.getInstance();
 
-        continueControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, gameOptions.getKeyShoot());
-        continueControl.setDisplayName("Continue");
-        controls.add(continueControl);
+        UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
-        newControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
-        newControl.setDisplayName("New game");
-        controls.add(newControl);
+        continueButton = new UiTextButton().setDisplayName("Continue")
+                                           .setTriggerKey(gameOptions.getKeyShoot())
+                                           .enableSound()
+                                           .setOnReleaseAction(() -> solApplication.loadGame(false, null, false));
+        buttonList.addElement(continueButton);
 
-        backControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
-        backControl.setDisplayName("Cancel");
-        controls.add(backControl);
+        buttonList.addElement(new UiTextButton().setDisplayName("New game")
+                                                .setTriggerKey(gameOptions.getKeyShoot())
+                                                .enableSound()
+                                                .setOnReleaseAction(() -> inputManager.changeScreen(screens.newShipScreen)));
+
+        buttonList.addElement(new UiTextButton().setDisplayName("Cancel")
+                                                .setTriggerKey(gameOptions.getKeyEscape())
+                                                .enableSound()
+                                                .setOnReleaseAction(() -> inputManager.changeScreen(screens.mainScreen)));
+
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight()/2 - BUTTON_PADDING)
+                .finalizeChanges();
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override
     public void onAdd(SolApplication solApplication) {
-        continueControl.setEnabled(SaveManager.hasPrevShip("prevShip.ini"));
-    }
-
-    @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        MenuScreens screens = solApplication.getMenuScreens();
-        SolInputManager im = solApplication.getInputManager();
-        if (backControl.isJustOff()) {
-            im.setScreen(solApplication, screens.mainScreen);
-            return;
-        }
-        if (continueControl.isJustOff()) {
-            solApplication.loadGame(false, null, false);
-            return;
-        }
-        if (newControl.isJustOff()) {
-            im.setScreen(solApplication, screens.newShipScreen);
-        }
+        continueButton.setEnabled(SaveManager.hasPrevShip("prevShip.ini"));
     }
 
     @Override

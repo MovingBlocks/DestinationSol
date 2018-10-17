@@ -16,27 +16,25 @@
 package org.destinationsol.menu;
 
 import org.destinationsol.GameOptions;
-import org.destinationsol.ui.SolLayouts;
 
 public class MenuScreens {
-    public final MainMenuScreen mainScreen;
-    public final OptionsScreen optionsScreen;
-    public final InputMapScreen inputMapScreen;
-    public final ResolutionScreen resolutionScreen;
-    public final CreditsScreen creditsScreen;
-    public final LoadingScreen loadingScreen;
-    public final NewGameScreen newGameScreen;
-    public final NewShipScreen newShipScreen;
+    public MainMenuScreen mainScreen;
+    public OptionsScreen optionsScreen;
+    public InputMapScreen inputMapScreen;
+    public ResolutionScreen resolutionScreen;
+    public CreditsScreen creditsScreen;
+    public LoadingScreen loadingScreen;
+    public NewGameScreen newGameScreen;
+    public NewShipScreen newShipScreen;
 
-    public MenuScreens(SolLayouts layouts, boolean mobile, GameOptions gameOptions) {
-        MenuLayout menuLayout = layouts.menuLayout;
+    public void initialize(boolean mobile, GameOptions gameOptions) {
         mainScreen = new MainMenuScreen(mobile, gameOptions);
-        optionsScreen = new OptionsScreen(menuLayout, gameOptions);
+        optionsScreen = new OptionsScreen(gameOptions);
         inputMapScreen = new InputMapScreen(gameOptions);
-        resolutionScreen = new ResolutionScreen(menuLayout, gameOptions);
+        resolutionScreen = new ResolutionScreen(gameOptions);
         creditsScreen = new CreditsScreen(gameOptions);
         loadingScreen = new LoadingScreen();
-        newGameScreen = new NewGameScreen(menuLayout, gameOptions);
-        newShipScreen = new NewShipScreen(menuLayout, gameOptions);
+        newGameScreen = new NewGameScreen(gameOptions);
+        newShipScreen = new NewShipScreen(gameOptions);
     }
 }
