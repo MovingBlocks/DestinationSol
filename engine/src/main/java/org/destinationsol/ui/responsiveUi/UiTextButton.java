@@ -23,10 +23,12 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
-import static org.destinationsol.ui.responsiveUi.UiVerticalListLayout.BUTTON_HEIGHT;
-import static org.destinationsol.ui.responsiveUi.UiVerticalListLayout.BUTTON_WIDTH;
 
 public class UiTextButton implements UiElement {
+    public static final int BUTTON_WIDTH = 300;
+    public static final int BUTTON_HEIGHT = 75;
+    public static final int BUTTON_PADDING = 10;
+
     private Rectangle screenArea;
 
     private String displayName;
