@@ -34,28 +34,24 @@ import org.destinationsol.ui.responsiveUi.UiTextButton;
 import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
 import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM;
 import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM_RIGHT;
-import static org.destinationsol.ui.responsiveUi.UiVerticalListLayout.BUTTON_HEIGHT;
-import static org.destinationsol.ui.responsiveUi.UiVerticalListLayout.BUTTON_PADDING;
-import static org.destinationsol.ui.responsiveUi.UiVerticalListLayout.BUTTON_WIDTH;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_HEIGHT;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_PADDING;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_WIDTH;
 
 public class MainMenuScreen extends SolUiBaseScreen {
-    private final GameOptions gameOptions;
-
     private final TextureAtlas.AtlasRegion logoTexture;
     private final TextureAtlas.AtlasRegion backgroundTexture;
-    private DisplayDimensions displayDimensions;
 
-    private SolInputManager inputManager;
-    private MenuScreens screens;
-    private SolApplication solApplication;
+    private DisplayDimensions displayDimensions;
+    private GameOptions gameOptions;
 
     MainMenuScreen(boolean isMobile, GameOptions gameOptions) {
         this.gameOptions = gameOptions;
 
         displayDimensions = SolApplication.displayDimensions;
-        inputManager = SolApplication.getInputManager();
-        screens = SolApplication.getMenuScreens();
-        solApplication = SolApplication.getInstance();
+        SolInputManager inputManager = SolApplication.getInputManager();
+        MenuScreens screens = SolApplication.getMenuScreens();
+        SolApplication solApplication = SolApplication.getInstance();
 
         UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
@@ -70,6 +66,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
                                                 .setOnReleaseAction(() -> inputManager.changeScreen(screens.newGameScreen)));
 
         // TODO: Temporarily showing on mobile as well. Fix!
+        // TODO: Actually, think about why we don't want it on mobile as well first.
         // optionsControl = new SolUiControl(isMobile ? null : menuLayout.buttonRect(-1, 3), true, Input.Keys.O);
         buttonList.addElement(new UiTextButton().setDisplayName("Options")
                                                 .setTriggerKey(Input.Keys.O)

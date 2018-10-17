@@ -48,7 +48,7 @@ public class LoadingScreen extends SolUiBaseScreen {
     }
 
     @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void draw(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.drawString("Loading...", displayDimensions.getRatio() / 2, .5f, FontSize.MENU, true, SolColor.WHITE);
     }
 

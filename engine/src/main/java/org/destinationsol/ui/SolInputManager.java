@@ -194,9 +194,12 @@ public class SolInputManager {
                     }
                 }
             }
+
             if (clickedOutside && screen.reactsToClickOutside()) {
                 clickOutsideReacted = true;
             }
+
+            // TODO: This does not really make sense. Look into it.
             if (screen.isCursorOnBackground(inputPointers[0])) {
                 mouseOnUi = true;
             }
