@@ -50,7 +50,7 @@ public class ProjectileConfigs {
                 String texName = node.getString("tex");
                 TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(texName + "Projectile");
                 float texSz = node.getFloat("texSz");
-                float speed = node.getFloat("spdLen");
+                float speed = node.getFloat("speed");
                 float physSize = node.getFloat("physSize", 0);
                 boolean stretch = node.getBoolean("stretch", false);
                 DmgType dmgType = DmgType.forName(node.getString("dmgType"));
