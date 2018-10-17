@@ -17,12 +17,19 @@ package org.destinationsol.menu;
 
 import com.badlogic.gdx.Graphics;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * The {@code ResolutionProvider} class provides simple access to the possible
+ * resolutions ({@link Resolution}) extracted from the list of available
+ * display-modes ({@link com.badlogic.gdx.Graphics.DisplayMode}).
+ */
 public class ResolutionProvider {
 
     private List<Resolution> resolutions;
@@ -36,7 +43,7 @@ public class ResolutionProvider {
                 .sorted(Comparator.comparing(Resolution::getWidth).thenComparing(Resolution::getHeight))
                 .collect(Collectors.toList());
     }
-
+    
     public Resolution increase() {
         currentPosition = ++currentPosition % resolutions.size();
         return resolutions.get(currentPosition);
