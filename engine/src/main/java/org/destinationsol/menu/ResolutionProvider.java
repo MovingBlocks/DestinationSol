@@ -27,8 +27,8 @@ import java.util.stream.Stream;
 
 /**
  * The {@code ResolutionProvider} class provides simple access to the possible
- * resolutions ({@link Resolution}) extracted from the list of available
- * display-modes ({@link com.badlogic.gdx.Graphics.DisplayMode}).
+ * {@link Resolution resolutions} extracted from the list of available
+ * {@link com.badlogic.gdx.Graphics.DisplayMode display-modes}.
  */
 public class ResolutionProvider {
 
@@ -43,7 +43,7 @@ public class ResolutionProvider {
                 .sorted(Comparator.comparing(Resolution::getWidth).thenComparing(Resolution::getHeight))
                 .collect(Collectors.toList());
     }
-    
+
     public Resolution increase() {
         currentPosition = ++currentPosition % resolutions.size();
         return resolutions.get(currentPosition);
