@@ -40,7 +40,7 @@ public class CollisionWarnDrawer extends WarnDrawer {
         Vector2 velocity = hero.getVelocity();
         float acc = hero.getAcceleration();
         float speed = velocity.len();
-        float speedAngle = SolMath.angle(velocity);
+        float velocityAngle = SolMath.angle(velocity);
         if (acc <= 0 || speed < 2 * acc) {
             return false;
         }
@@ -49,7 +49,7 @@ public class CollisionWarnDrawer extends WarnDrawer {
         float breakWay = speed * speed / acc / 2;
         breakWay += 2 * speed;
         Vector2 finalPos = SolMath.getVec(0, 0);
-        SolMath.fromAl(finalPos, speedAngle, breakWay);
+        SolMath.fromAl(finalPos, velocityAngle, breakWay);
         finalPos.add(position);
         warnCallback.show = false;
         game.getObjectManager().getWorld().rayCast(warnCallback, position, finalPos);

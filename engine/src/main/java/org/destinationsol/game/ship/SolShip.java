@@ -379,20 +379,20 @@ public class SolShip implements SolObject {
 
     private void throwLoot(SolGame game, SolItem item, boolean onDeath) {
         Vector2 lootVelocity = new Vector2();
-        float speedAngle;
+        float velocityAngle;
         float speed;
         Vector2 position = new Vector2();
         if (onDeath) {
-            speedAngle = SolRandom.randomFloat(180);
+            velocityAngle = SolRandom.randomFloat(180);
             speed = SolRandom.randomFloat(0, Loot.MAX_SPD);
             // TODO: This statement previously caused a crash as getApproxRadius returned 0 - where is it meant to be set / loaded from?
-            SolMath.fromAl(position, speedAngle, SolRandom.randomFloat(myHull.config.getApproxRadius()));
+            SolMath.fromAl(position, velocityAngle, SolRandom.randomFloat(myHull.config.getApproxRadius()));
         } else {
-            speedAngle = getAngle();
+            velocityAngle = getAngle();
             speed = 1f;
-            SolMath.fromAl(position, speedAngle, myHull.config.getApproxRadius());
+            SolMath.fromAl(position, velocityAngle, myHull.config.getApproxRadius());
         }
-        SolMath.fromAl(lootVelocity, speedAngle, speed);
+        SolMath.fromAl(lootVelocity, velocityAngle, speed);
         lootVelocity.add(myHull.getVelocity());
         position.add(myHull.getPosition());
         Loot l = game.getLootBuilder().build(game, position, item, lootVelocity, Loot.MAX_LIFE, SolRandom.randomFloat(Loot.MAX_ROT_SPD), this);

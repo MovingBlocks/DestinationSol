@@ -86,8 +86,8 @@ public class Planet {
         SolMath.fromAl(position, angleInSystem, distance);
         position.add(system.getPosition());
         float speed = SolMath.angleToArc(rotationSpeedInSystem, distance);
-        float speedAngle = angleInSystem + 90;
-        SolMath.fromAl(velocity, speedAngle, speed);
+        float velocityAngle = angleInSystem + 90;
+        SolMath.fromAl(velocity, velocityAngle, speed);
     }
 
     private void fillLangingPlaces(SolGame game) {
