@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import org.destinationsol.GameOptions;
-import org.destinationsol.SolApplication;
-import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolInputManager;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.destinationsol.GameOptions;
+import org.destinationsol.SolApplication;
+import org.destinationsol.ui.SolInputManager;
 
 public class InputMapMixedScreen extends InputMapOperations {
     private static final String HEADER_TEXT = "Keyboard and Mouse Inputs";
@@ -130,11 +127,6 @@ public class InputMapMixedScreen extends InputMapOperations {
         item = itemsList.get(index);
         item.setInputKey(GameOptions.DEFAULT_HIRE_SHIP);
         itemsList.set(index, item);
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
     }
 
     @Override

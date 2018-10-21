@@ -23,91 +23,16 @@ import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolUiControl;
+
 
 public class SellItems extends InventoryOperationsScreen {
-    private static float PERC = .8f;
-
-    private final SolUiControl sellControl;
-
-    SellItems(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        sellControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeySellItem());
-        sellControl.setDisplayName("Sell");
-        controls.add(sellControl);
+    @Override
+    ItemContainer getItems(SolGame game) {
+        return null;
     }
 
     @Override
-    public ItemContainer getItems(SolGame game) {
-        Hero hero = game.getHero();
-        return hero.isTranscendent() ? null : hero.getItemContainer();
-    }
-
-    @Override
-    public boolean isUsing(SolGame game, SolItem item) {
-        Hero hero = game.getHero();
-        return hero.isNonTranscendent() && hero.maybeUnequip(game, item, false);
-    }
-
-    @Override
-    public float getPriceMul() {
-        return PERC;
-    }
-
-    @Override
-    public String getHeader() {
-        return "Sell:";
-    }
-
-    @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        SolGame game = solApplication.getGame();
-        InventoryScreen inventoryScreen = game.getScreens().inventoryScreen;
-        TalkScreen talkScreen = game.getScreens().talkScreen;
-        SolShip target = talkScreen.getTarget();
-        Hero hero = game.getHero();
-        if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
-            return;
-        }
-        SolItem selItem = inventoryScreen.getSelectedItem();
-        if (selItem == null) {
-            sellControl.setDisplayName("----");
-            sellControl.setEnabled(false);
-            return;
-        }
-
-        boolean isWornAndCanBeSold = isItemEquippedAndSellable(selItem, solApplication.getOptions());
-        boolean enabled = isItemSellable(selItem, target);
-
-        if (enabled && isWornAndCanBeSold) {
-            sellControl.setDisplayName("Sell");
-            sellControl.setEnabled(true);
-        } else if (enabled) {
-            sellControl.setDisplayName("Unequip it!");
-            sellControl.setEnabled(false);
-        } else {
-            sellControl.setDisplayName("----");
-            sellControl.setEnabled(false);
-        }
-
-        if (!enabled || !isWornAndCanBeSold) {
-            return;
-        }
-        if (sellControl.isJustOff()) {
-            ItemContainer itemContainer = hero.getItemContainer();
-            inventoryScreen.setSelected(itemContainer.getSelectionAfterRemove(inventoryScreen.getSelected()));
-            itemContainer.remove(selItem);
-            target.getTradeContainer().getItems().add(selItem);
-            hero.setMoney(hero.getMoney() + selItem.getPrice() * PERC);
-        }
-    }
-
-    private boolean isItemSellable(SolItem item, SolShip target) {
-        return target.getTradeContainer().getItems().canAdd(item);
-    }
-
-    // Return true if the item is not worn, or is worn and canSellEquippedItems is true
-    private boolean isItemEquippedAndSellable(SolItem item, GameOptions options) {
-        return (item.isEquipped() == 0 || options.canSellEquippedItems);
+    String getHeader() {
+        return null;
     }
 }

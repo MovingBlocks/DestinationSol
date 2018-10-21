@@ -28,47 +28,57 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.input.Mover;
 import org.destinationsol.game.input.Shooter;
 import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolUiControl;
-
-import java.util.List;
+import org.destinationsol.ui.responsiveUi.UiHeadlessButton;
+import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
 
 public class ShipMixedControl implements ShipUiControl {
-    public final SolUiControl upCtrl;
-    public final SolUiControl shootCtrl;
-    public final SolUiControl shoot2Ctrl;
-    public final SolUiControl abilityCtrl;
-    private final SolUiControl myDownCtrl;
-    private final Vector2 myMouseWorldPos;
-    private final TextureAtlas.AtlasRegion myCursor;
+    private UiHeadlessButton upButton;
+    private UiHeadlessButton downButton;
+    private UiHeadlessButton shootButton;
+    private UiHeadlessButton shoot2Button;
+    private UiHeadlessButton abilityButton;
+
+    private Vector2 myMouseWorldPos;
+    private TextureAtlas.AtlasRegion myCursor;
+
     private boolean myRight;
     private boolean myLeft;
 
-    ShipMixedControl(SolApplication solApplication, List<SolUiControl> controls) {
+    ShipMixedControl(SolApplication solApplication, UiRelativeLayout rootUiElement) {
         GameOptions gameOptions = solApplication.getOptions();
+
+        upButton = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyUpMouse());
+        rootUiElement.addHeadlessElement(upButton);
+
+        downButton = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyDownMouse());
+        rootUiElement.addHeadlessElement(downButton);
+
+        shootButton = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyShoot());
+        rootUiElement.addHeadlessElement(shootButton);
+
+        shoot2Button = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyShoot2());
+        rootUiElement.addHeadlessElement(shoot2Button);
+
+        abilityButton = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyAbility());
+        rootUiElement.addHeadlessElement(abilityButton);
+
         myCursor = Assets.getAtlasRegion("engine:uiCursorTarget");
         myMouseWorldPos = new Vector2();
-        upCtrl = new SolUiControl(null, false, gameOptions.getKeyUpMouse());
-        controls.add(upCtrl);
-        myDownCtrl = new SolUiControl(null, false, gameOptions.getKeyDownMouse());
-        controls.add(myDownCtrl);
-        shootCtrl = new SolUiControl(null, false, gameOptions.getKeyShoot());
-        controls.add(shootCtrl);
-        shoot2Ctrl = new SolUiControl(null, false, gameOptions.getKeyShoot2());
-        controls.add(shoot2Ctrl);
-        abilityCtrl = new SolUiControl(null, false, gameOptions.getKeyAbility());
-        controls.add(abilityCtrl);
     }
 
     @Override
     public void update(SolApplication solApplication, boolean enabled) {
-        GameOptions gameOptions = solApplication.getOptions();
         blur();
+
         if (!enabled) {
             return;
         }
+
+        GameOptions gameOptions = solApplication.getOptions();
         SolInputManager im = solApplication.getInputManager();
         SolGame game = solApplication.getGame();
         Hero hero = game.getHero();
+
         if (hero.isNonTranscendent()) {
             myMouseWorldPos.set(Gdx.input.getX(), Gdx.input.getY());
             game.getCam().screenToWorld(myMouseWorldPos);
@@ -83,13 +93,13 @@ public class ShipMixedControl implements ShipUiControl {
             }
             if (!im.isMouseOnUi()) {
                 if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                    shootCtrl.maybeFlashPressed(gameOptions.getKeyShoot());
+                    shootButton.maybeFlashPressed(gameOptions.getKeyShoot());
                 }
                 if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                    shoot2Ctrl.maybeFlashPressed(gameOptions.getKeyShoot2());
+                    shoot2Button.maybeFlashPressed(gameOptions.getKeyShoot2());
                 }
                 if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
-                    abilityCtrl.maybeFlashPressed(gameOptions.getKeyAbility());
+                    abilityButton.maybeFlashPressed(gameOptions.getKeyAbility());
                 }
             }
         }
@@ -107,27 +117,27 @@ public class ShipMixedControl implements ShipUiControl {
 
     @Override
     public boolean isUp() {
-        return upCtrl.isOn();
+        return upButton.isOn();
     }
 
     @Override
     public boolean isDown() {
-        return myDownCtrl.isOn();
+        return downButton.isOn();
     }
 
     @Override
     public boolean isShoot() {
-        return shootCtrl.isOn();
+        return shootButton.isOn();
     }
 
     @Override
     public boolean isShoot2() {
-        return shoot2Ctrl.isOn();
+        return shoot2Button.isOn();
     }
 
     @Override
     public boolean isAbility() {
-        return abilityCtrl.isOn();
+        return abilityButton.isOn();
     }
 
     @Override

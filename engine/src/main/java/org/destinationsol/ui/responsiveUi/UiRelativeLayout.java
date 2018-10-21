@@ -22,7 +22,7 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.ui.SolInputManager;
 
 public class UiRelativeLayout implements UiElement {
-    public List<UiElementWithProperties> uiElementsWithProperties = new ArrayList<>();
+    private List<UiElementWithProperties> uiElementsWithProperties = new ArrayList<>();
 
     public UiRelativeLayout addElement(UiElement uiElement, UiPosition referencePosition, int xOffset, int yOffset) {
         UiElementWithProperties uiElementWithProperties = new UiElementWithProperties(uiElement, referencePosition, xOffset, yOffset);
@@ -30,6 +30,10 @@ public class UiRelativeLayout implements UiElement {
         uiElementsWithProperties.add(uiElementWithProperties);
 
         return this;
+    }
+
+    public UiRelativeLayout addHeadlessElement(UiElement uiElement) {
+        return addElement(uiElement, null, 0, 0);
     }
 
     @Override
@@ -59,15 +63,19 @@ public class UiRelativeLayout implements UiElement {
 
     @Override
     public int getWidth() {
-        return -1;
+        return 0;
     }
 
     @Override
     public int getHeight() {
-        return -1;
+        return 0;
     }
 
     private void setPosition(UiElementWithProperties uiElementWithProperties) {
+        if (uiElementWithProperties.referencePosition == null) {
+            return;
+        }
+
         int uiElementX = uiElementWithProperties.referencePosition.getX() + uiElementWithProperties.xOffset;
         int uiElementY = uiElementWithProperties.referencePosition.getY() + uiElementWithProperties.yOffset;
 
@@ -117,8 +125,7 @@ public class UiRelativeLayout implements UiElement {
 
     @Override
     public Rectangle getScreenArea() {
-        // TODO: Potentially problematic
-        return new Rectangle(0, 0, 1, 1);
+        return new Rectangle(-1, -1, 0, 0);
     }
 
     @Override
@@ -129,11 +136,10 @@ public class UiRelativeLayout implements UiElement {
     }
 
     public class UiElementWithProperties {
-        public UiElement uiElement;
-
-        UiPosition referencePosition;
-        int xOffset;
-        int yOffset;
+        private UiElement uiElement;
+        private UiPosition referencePosition;
+        private int xOffset;
+        private int yOffset;
 
         UiElementWithProperties(UiElement uiElement, UiPosition referencePosition, int xOffset, int yOffset) {
             this.uiElement = uiElement;

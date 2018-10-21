@@ -18,74 +18,80 @@ package org.destinationsol.game.screens;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
-import org.destinationsol.game.SolGame;
-import org.destinationsol.menu.MenuLayout;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
-import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
+import org.destinationsol.ui.responsiveUi.UiTextButton;
+import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
+import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_PADDING;
 
 public class MenuScreen extends SolUiBaseScreen {
-    private final SolUiControl closeControl;
-    private final SolUiControl exitControl;
-    private final SolUiControl respawnControl;
-    private final SolUiControl soundVolControl;
-    private final SolUiControl musicVolumeControl;
-    private final SolUiControl doNotSellEquippedControl;
+    MenuScreen(GameOptions gameOptions) {
+        UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
-    public MenuScreen(MenuLayout menuLayout, GameOptions gameOptions) {
-        doNotSellEquippedControl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
-        doNotSellEquippedControl.setDisplayName("Can sell used items");
-        controls.add(doNotSellEquippedControl);
-        soundVolControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
-        soundVolControl.setDisplayName("Sound Volume");
-        controls.add(soundVolControl);
-        musicVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, 0), true);
-        musicVolumeControl.setDisplayName("Music Volume");
-        controls.add(musicVolumeControl);
-        respawnControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
-        respawnControl.setDisplayName("Respawn");
-        controls.add(respawnControl);
-        exitControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
-        exitControl.setDisplayName("Exit");
-        controls.add(exitControl);
-        closeControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyClose());
-        closeControl.setDisplayName("Resume");
-        controls.add(closeControl);
+        UiTextButton canSellEquippedItemsButton = new UiTextButton().setDisplayName(getCanSellEquippedItemsString(gameOptions))
+                .enableSound();
+        canSellEquippedItemsButton.setOnReleaseAction(() -> {
+            gameOptions.canSellEquippedItems = !gameOptions.canSellEquippedItems;
+            canSellEquippedItemsButton.setDisplayName(getCanSellEquippedItemsString(gameOptions));
+        });
+        buttonList.addElement(canSellEquippedItemsButton);
+
+        UiTextButton soundVolumeButton = new UiTextButton().setDisplayName(getSoundVolumeString(gameOptions))
+                .enableSound();
+        soundVolumeButton.setOnReleaseAction(() -> {
+            gameOptions.advanceSoundVolMul();
+            // TODO: Check if we need to call soundManager.setVolume() here
+            soundVolumeButton.setDisplayName(getSoundVolumeString(gameOptions));
+        });
+        buttonList.addElement(soundVolumeButton);
+
+        UiTextButton musicVolumeButton = new UiTextButton().setDisplayName(getMusicVolumeString(gameOptions))
+                .enableSound();
+        musicVolumeButton.setOnReleaseAction(() -> {
+            gameOptions.advanceMusicVolMul();
+            // TODO: Check if we need to call musicManager.setVolume() here
+            // solApplication.getMusicManager().changeVolume(options);
+            musicVolumeButton.setDisplayName(getMusicVolumeString(gameOptions));
+        });
+        buttonList.addElement(musicVolumeButton);
+
+        buttonList.addElement(new UiTextButton().setDisplayName("Respawn")
+                .enableSound()
+                .setOnReleaseAction(() -> {
+                    SolApplication.getInstance().getGame().respawn();
+                    SolApplication.changeScreen(SolApplication.getInstance().getGame().getScreens().mainGameScreen);
+                    SolApplication.getInstance().getGame().setPaused(false);
+                }));
+
+        buttonList.addElement(new UiTextButton().setDisplayName("Exit")
+                .enableSound()
+                .setOnReleaseAction(() -> SolApplication.getInstance().finishGame()));
+
+        buttonList.addElement(new UiTextButton().setDisplayName("Resume")
+                .setTriggerKey(gameOptions.getKeyEscape())
+                .enableSound()
+                .setOnReleaseAction(() -> {
+                    SolApplication.getInstance().getGame().setPaused(false);
+                    SolApplication.changeScreen(SolApplication.getInstance().getGame().getScreens().mainGameScreen);
+                }));
+
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
+                .finalizeChanges();
     }
 
-    @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        SolGame game = solApplication.getGame();
-        game.setPaused(true);
-        SolInputManager im = solApplication.getInputManager();
-        GameOptions options = solApplication.getOptions();
-        soundVolControl.setDisplayName("Sound Volume: " + options.sfxVolume.getName());
-        if (soundVolControl.isJustOff()) {
-            options.advanceSoundVolMul();
-        }
-        musicVolumeControl.setDisplayName("Music Volume: " + options.musicVolume.getName());
-        if (musicVolumeControl.isJustOff()) {
-            options.advanceMusicVolMul();
-            solApplication.getMusicManager().changeVolume(options);
-        }
-        if (respawnControl.isJustOff()) {
-            game.respawn();
-            im.setScreen(solApplication, game.getScreens().mainGameScreen);
-            game.setPaused(false);
-        }
-        if (exitControl.isJustOff()) {
-            solApplication.finishGame();
-        }
-        if (closeControl.isJustOff()) {
-            game.setPaused(false);
-            im.setScreen(solApplication, game.getScreens().mainGameScreen);
-        }
-        doNotSellEquippedControl.setDisplayName("Can sell used items: " +
-                                                  (options.canSellEquippedItems ? "Yes" : "No"));
-        if (doNotSellEquippedControl.isJustOff()) {
-            options.canSellEquippedItems = !options.canSellEquippedItems;
-        }
+    private String getCanSellEquippedItemsString(GameOptions gameOptions) {
+        return "Can sell equipped items: " + (gameOptions.canSellEquippedItems ? "Yes" : "No");
+    }
+
+    private String getSoundVolumeString(GameOptions gameOptions) {
+        return "Sound Volume: " + gameOptions.sfxVolume.getName();
+    }
+
+    private String getMusicVolumeString(GameOptions gameOptions) {
+        return "Sound Volume: " + gameOptions.musicVolume.getName();
     }
 
     @Override

@@ -16,26 +16,27 @@
 package org.destinationsol.game.screens;
 
 import org.destinationsol.GameOptions;
-import org.destinationsol.ui.SolUiControl;
-
-import java.util.List;
+import org.destinationsol.ui.responsiveUi.UiHeadlessButton;
+import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
 
 class CameraKeyboardControl {
+    private static UiHeadlessButton controlUp;
+    private static UiHeadlessButton controlDown;
+    private static UiHeadlessButton controlLeft;
+    private static UiHeadlessButton controlRight;
 
-    private static SolUiControl controlUp;
-    private static SolUiControl controlDown;
-    private static SolUiControl controlLeft;
-    private static SolUiControl controlRight;
+    CameraKeyboardControl(GameOptions gameOptions, UiRelativeLayout rootUiElement) {
+        controlUp = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyUp()); // Dirty solution, but on mixed controls, it is uncontrollable
+        rootUiElement.addHeadlessElement(controlUp);
 
-    CameraKeyboardControl(GameOptions gameOptions, List<SolUiControl> controls) {
-        controlUp = new SolUiControl(null, false, gameOptions.getKeyUp()); // Dirty solution, but on mixed controls, it is uncontrollable
-        controls.add(controlUp);
-        controlDown = new SolUiControl(null, false, gameOptions.getKeyDown());
-        controls.add(controlDown);
-        controlLeft = new SolUiControl(null, false, gameOptions.getKeyLeft());
-        controls.add(controlLeft);
-        controlRight = new SolUiControl(null, false, gameOptions.getKeyRight());
-        controls.add(controlRight);
+        controlDown = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyDown());
+        rootUiElement.addHeadlessElement(controlDown);
+
+        controlLeft = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyLeft());
+        rootUiElement.addHeadlessElement(controlLeft);
+
+        controlRight = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyRight());
+        rootUiElement.addHeadlessElement(controlRight);
     }
 
     boolean isDown() {

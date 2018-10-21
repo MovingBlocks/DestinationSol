@@ -42,28 +42,28 @@ public class NewGameScreen extends SolUiBaseScreen {
     NewGameScreen(GameOptions gameOptions) {
         displayDimensions = SolApplication.displayDimensions;
         SolInputManager inputManager = SolApplication.getInputManager();
-        MenuScreens screens = SolApplication.getMenuScreens();
+        MenuScreens menuScreens = SolApplication.getMenuScreens();
         SolApplication solApplication = SolApplication.getInstance();
 
         UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
         continueButton = new UiTextButton().setDisplayName("Continue")
-                                           .setTriggerKey(gameOptions.getKeyShoot())
-                                           .enableSound()
-                                           .setOnReleaseAction(() -> solApplication.loadGame(false, null, false));
+                .setTriggerKey(gameOptions.getKeyShoot())
+                .enableSound()
+                .setOnReleaseAction(() -> solApplication.loadGame(false, null, false));
         buttonList.addElement(continueButton);
 
         buttonList.addElement(new UiTextButton().setDisplayName("New game")
-                                                .setTriggerKey(gameOptions.getKeyShoot())
-                                                .enableSound()
-                                                .setOnReleaseAction(() -> inputManager.changeScreen(screens.newShipScreen)));
+                .setTriggerKey(gameOptions.getKeyShoot())
+                .enableSound()
+                .setOnReleaseAction(() -> inputManager.changeScreen(menuScreens.newShipScreen)));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Cancel")
-                                                .setTriggerKey(gameOptions.getKeyEscape())
-                                                .enableSound()
-                                                .setOnReleaseAction(() -> inputManager.changeScreen(screens.mainScreen)));
+                .setTriggerKey(gameOptions.getKeyEscape())
+                .enableSound()
+                .setOnReleaseAction(() -> inputManager.changeScreen(menuScreens.mainScreen)));
 
-        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight()/2 - BUTTON_PADDING)
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
                 .finalizeChanges();
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);

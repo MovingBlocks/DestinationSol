@@ -20,7 +20,7 @@ import org.destinationsol.ui.responsiveUi.UiElement;
 
 /**
  * This interface marks "Screens", or "UI Screens", that is objects designing what's going to be rendered.
- *
+ * <p>
  * Outside of game, the ui screen usually takes whole area of window space, and only one ui screen is rendered at time.
  * Most notable of the "outside-of-game" ui screens, and the default ui screen presented to player when launching game,
  * is {@link org.destinationsol.menu.MainMenuScreen} During game, {@link org.destinationsol.game.screens.MainGameScreen}
@@ -35,7 +35,7 @@ public interface SolUiScreen {
 
     /**
      * This method is called whenever screen goes into focus.
-     *
+     * <p>
      * This method can be considered kind of constructor, as it can be used to set up some inner variables, change
      * playing music and perform all other sorts of custom initialization.
      *
@@ -46,18 +46,18 @@ public interface SolUiScreen {
 
     /**
      * Updates the screen.
-     *
+     * <p>
      * Called on active screens for every game frame, allowing arbitrary logic to be executed.
      *
      * @param solApplication {@code SolApplication} displaying this window.
-     * @param inputPointers Input pointers employed by the input manager.
+     * @param inputPointers  Input pointers employed by the input manager.
      * @param clickedOutside True if click outside of the screen area happened since the last call, false otherwise
      */
     void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside);
 
     /**
      * Return true if cursor is in the screen area, false otherwise.
-     *
+     * <p>
      * Should also return false if the screen takes up a whole width of window and does not cover another screen. (???)
      * TODO whats wrong with this method??? Create some cleaner algorithm for deciding what this method should output.
      *
@@ -68,7 +68,7 @@ public interface SolUiScreen {
 
     /**
      * Called whenever screen is due to be closed.
-     *
+     * <p>
      * Can be used for clean-up of sorts, as well as other things (marking all items as seen when exiting inventory).
      *
      * @param solApplication {@code SolApplication} displaying this window.
@@ -78,23 +78,23 @@ public interface SolUiScreen {
 
     /**
      * Draws a background of the screen using supplied {@link UiDrawer}.
-     *
+     * <p>
      * This is called before drawing SolUiControls and other items ({@link #draw(UiDrawer, SolApplication)}).
      *
-     * @param uiDrawer Drawer to draw with
+     * @param uiDrawer       Drawer to draw with
      * @param solApplication {@code SolApplication} displaying this window.
      */
     void drawBackground(UiDrawer uiDrawer, SolApplication solApplication);
 
     /**
      * Draws text and images the screen might be employing.
-     *
+     * <p>
      * NOTE: Not to be used for drawing SolUiControls, those should be drawn higher in the stacktrace by calls to their
      * respective {@link SolUiControl#draw}.
-     *
+     * <p>
      * This is called after drawing background ({@link #drawBackground}) and SolUiControls.
      *
-     * @param uiDrawer Drawer to draw with
+     * @param uiDrawer       Drawer to draw with
      * @param solApplication {@code SolApplication} displaying this window.
      */
     default void draw(UiDrawer uiDrawer, SolApplication solApplication) {
