@@ -30,20 +30,21 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolUiControl;
+
 
 public class ChangeShipScreen extends InventoryOperationsScreen {
-    private final SolUiControl changeControl;
+//    private final SolUiControl changeControl;
 
     ChangeShipScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        changeControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyChangeShip());
-        changeControl.setDisplayName("Change");
-        controls.add(changeControl);
+//        changeControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyChangeShip());
+//        changeControl.setDisplayName("Change");
+//        controls.add(changeControl);
     }
 
     @Override
     public ItemContainer getItems(SolGame game) {
-        return game.getScreens().talkScreen.getTarget().getTradeContainer().getShips();
+//        return game.getScreens().talkScreen.getTarget().getTradeContainer().getShips();
+        return null;
     }
 
     @Override
@@ -57,34 +58,34 @@ public class ChangeShipScreen extends InventoryOperationsScreen {
         InventoryScreen is = game.getScreens().inventoryScreen;
         Hero hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
-        if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
-            return;
-        }
+//        if (talkScreen.isTargetFar(hero)) {
+////            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
+//            return;
+//        }
         SolItem selItem = is.getSelectedItem();
         if (selItem == null) {
-            changeControl.setDisplayName("---");
-            changeControl.setEnabled(false);
+//            changeControl.setDisplayName("---");
+//            changeControl.setEnabled(false);
             return;
         }
         boolean enabled = hasMoneyToBuyShip(hero, selItem);
         boolean sameShip = isSameShip(hero, selItem);
-        if (enabled && !sameShip) {
-            changeControl.setDisplayName("Change");
-            changeControl.setEnabled(true);
-        } else if (enabled && sameShip) {
-            changeControl.setDisplayName("Have it");
-            changeControl.setEnabled(false);
-            return;
-        } else {
-            changeControl.setDisplayName("---");
-            changeControl.setEnabled(false);
-            return;
-        }
-        if (changeControl.isJustOff()) {
-            hero.setMoney(hero.getMoney() - selItem.getPrice());
-            changeShip(game, hero, (ShipItem) selItem);
-        }
+//        if (enabled && !sameShip) {
+//            changeControl.setDisplayName("Change");
+//            changeControl.setEnabled(true);
+//        } else if (enabled && sameShip) {
+//            changeControl.setDisplayName("Have it");
+//            changeControl.setEnabled(false);
+//            return;
+//        } else {
+//            changeControl.setDisplayName("---");
+//            changeControl.setEnabled(false);
+//            return;
+//        }
+//        if (changeControl.isJustOff()) {
+//            hero.setMoney(hero.getMoney() - selItem.getPrice());
+//            changeShip(game, hero, (ShipItem) selItem);
+//        }
     }
 
     private boolean hasMoneyToBuyShip(Hero hero, SolItem shipToBuy) {

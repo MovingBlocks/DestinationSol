@@ -20,8 +20,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import java.util.HashMap;
-import java.util.Map;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
@@ -41,7 +39,7 @@ public class UiDrawer implements ResizeSubscriber {
     private final float uiLineWidth;
 
     public static final TextureRegion whiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
-    public final Rectangle filler;
+    public Rectangle filler;
     private final CommonDrawer drawer;
 
     private DisplayDimensions displayDimensions;
@@ -115,6 +113,7 @@ public class UiDrawer implements ResizeSubscriber {
     @Override
     public void resize() {
         recomputeStraightMtx();
+        filler = new Rectangle(0, 0, displayDimensions.getRatio(), 1);
     }
 
     private void recomputeStraightMtx() {

@@ -23,6 +23,7 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.UiDrawer;
 
 public class UiTextButton implements UiElement {
     public static final int BUTTON_WIDTH = 300;
@@ -43,7 +44,10 @@ public class UiTextButton implements UiElement {
     private boolean isAreaFlashed;
     private boolean isAreaJustUnpressed;
     private boolean doesMouseHover;
+
+    // TODO: Warn probably means highlight in this context. Investigate.
     private int warnCount;
+    private Color warnColor = SolColor.WHITE;
 
     private int x;
     private int y;
@@ -106,6 +110,7 @@ public class UiTextButton implements UiElement {
 
         return this;
     }
+
     @Override
     public int getX() {
         return x;
@@ -126,6 +131,7 @@ public class UiTextButton implements UiElement {
         return height;
     }
 
+    @Override
     public boolean maybeFlashPressed(int keyCode) {
         if (!isEnabled) {
             return false;
@@ -141,6 +147,7 @@ public class UiTextButton implements UiElement {
         return false;
     }
 
+    @Override
     public boolean maybeFlashPressed(SolInputManager.InputPointer inputPointer) {
         if (!isEnabled) {
             return false;
@@ -154,6 +161,7 @@ public class UiTextButton implements UiElement {
         return pressed;
     }
 
+    @Override
     public boolean update(SolInputManager.InputPointer[] inputPointers, boolean cursorShown, boolean canBePressed, SolInputManager inputMan, SolApplication cmp) {
         if (!isEnabled) {
             canBePressed = false;
@@ -241,6 +249,7 @@ public class UiTextButton implements UiElement {
         return displayName;
     }
 
+    @Override
     public void draw() {
         if (screenArea == null) {
             return;
@@ -257,16 +266,18 @@ public class UiTextButton implements UiElement {
             }
         }
 
-        SolApplication.getUiDrawer().draw(screenArea, tint);
-//        if (warnCount > 0) {
-//            uiDrawer.draw(screenArea, warnCol);
-//        }
+        UiDrawer uiDrawer = SolApplication.getUiDrawer();
+
+        uiDrawer.draw(screenArea, tint);
+        if (warnCount > 0) {
+            uiDrawer.draw(screenArea, warnColor);
+        }
 
         tint = isEnabled ? SolColor.WHITE : SolColor.G;
-        SolApplication.getUiDrawer().drawString(displayName, screenArea.x + screenArea.width / 2, screenArea.y + screenArea.height / 2,
-                FontSize.MENU, true, tint);
+        uiDrawer.drawString(displayName, screenArea.x + screenArea.width / 2, screenArea.y + screenArea.height / 2, FontSize.MENU, true, tint);
     }
 
+    @Override
     public void blur() {
         isKeyPressed = false;
         wasKeyPressed = false;
@@ -282,6 +293,7 @@ public class UiTextButton implements UiElement {
         isEnabled = enabled;
     }
 
+    @Override
     public Rectangle getScreenArea() {
         return screenArea;
     }

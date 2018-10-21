@@ -45,6 +45,7 @@ public class SolInputManager {
 
     private static Cursor hiddenCursor;
 
+    // TODO: I'm not sure why screens are part of the InputManager. Refactor this out maybe?
     private final List<SolUiScreen> screens = new ArrayList<>();
     private final List<SolUiScreen> screensToRemove = new ArrayList<>();
     private final List<SolUiScreen> screensToAdd = new ArrayList<>();
@@ -63,8 +64,6 @@ public class SolInputManager {
     private float warnPercentage;
     private boolean warnPercGrows;
     private Boolean scrolledUp;
-
-    private SolUiScreen scheduledScreen;
 
     public SolInputManager(OggSoundManager soundManager) {
         inputPointers = new InputPointer[POINTER_COUNT];
@@ -204,11 +203,6 @@ public class SolInputManager {
                 mouseOnUi = true;
             }
             screen.updateCustom(solApplication, inputPointers, clickedOutside);
-
-            if (scheduledScreen != null) {
-                changeScreen(scheduledScreen);
-                scheduledScreen = null;
-            }
         }
 
         TutorialManager tutorialManager = game == null ? null : game.getTutMan();

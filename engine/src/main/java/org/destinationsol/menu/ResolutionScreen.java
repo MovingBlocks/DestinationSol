@@ -46,36 +46,36 @@ public class ResolutionScreen extends SolUiBaseScreen {
         displayDimensions = SolApplication.displayDimensions;
 
         SolInputManager inputManager = SolApplication.getInputManager();
-        MenuScreens screens = SolApplication.getMenuScreens();
+        MenuScreens menuScreens = SolApplication.getMenuScreens();
 
         UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
         UiTextButton resolutionButton = new UiTextButton().setDisplayName(getResolutionString(gameOptions))
-                                                          .enableSound();
+                .enableSound();
         resolutionButton.setOnReleaseAction(() -> {
-                                                      gameOptions.advanceResolution();
-                                                      resolutionButton.setDisplayName(getResolutionString(gameOptions));
-                                                  });
+            gameOptions.advanceResolution();
+            resolutionButton.setDisplayName(getResolutionString(gameOptions));
+        });
         buttonList.addElement(resolutionButton);
 
         UiTextButton fullscreenButton = new UiTextButton().setDisplayName(getFullscreenString(gameOptions))
-                                                          .enableSound();
+                .enableSound();
         fullscreenButton.setOnReleaseAction(() -> {
-                                                      gameOptions.advanceFullscreen();
-                                                      fullscreenButton.setDisplayName(getFullscreenString(gameOptions));
-                                                  });
+            gameOptions.advanceFullscreen();
+            fullscreenButton.setDisplayName(getFullscreenString(gameOptions));
+        });
         buttonList.addElement(fullscreenButton);
 
         buttonList.addElement(new UiTextButton().setDisplayName("Back")
-                                                .setTriggerKey(gameOptions.getKeyEscape())
-                                                .enableSound()
-                                                .setOnReleaseAction(() -> {
-                                                    Gdx.graphics.setDisplayMode(gameOptions.x, gameOptions.y, gameOptions.fullscreen);
-                                                    inputManager.changeScreen(screens.optionsScreen);
-                                                }));
+                .setTriggerKey(gameOptions.getKeyEscape())
+                .enableSound()
+                .setOnReleaseAction(() -> {
+                    Gdx.graphics.setDisplayMode(gameOptions.x, gameOptions.y, gameOptions.fullscreen);
+                    inputManager.changeScreen(menuScreens.optionsScreen);
+                }));
 
-        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight()/2 - BUTTON_PADDING)
-                                              .finalizeChanges();
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
+                .finalizeChanges();
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }

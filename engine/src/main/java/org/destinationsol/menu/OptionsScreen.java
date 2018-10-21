@@ -41,63 +41,65 @@ public class OptionsScreen extends SolUiBaseScreen {
         displayDimensions = SolApplication.displayDimensions;
 
         SolInputManager inputManager = SolApplication.getInputManager();
-        MenuScreens screens = SolApplication.getMenuScreens();
+        MenuScreens menuScreens = SolApplication.getMenuScreens();
 
         UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
         UiTextButton soundVolumeButton = new UiTextButton().setDisplayName(getSoundVolumeString(gameOptions))
-                                                           .enableSound();
+                .enableSound();
         soundVolumeButton.setOnReleaseAction(() -> {
-                                                       gameOptions.advanceSoundVolMul();
-                                                       soundVolumeButton.setDisplayName(getSoundVolumeString(gameOptions));
-                                                   });
+            gameOptions.advanceSoundVolMul();
+            // TODO: Check if we need to call soundManager.setVolume() here
+            soundVolumeButton.setDisplayName(getSoundVolumeString(gameOptions));
+        });
         buttonList.addElement(soundVolumeButton);
 
         UiTextButton musicVolumeButton = new UiTextButton().setDisplayName(getMusicVolumeString(gameOptions))
-                                                           .enableSound();
+                .enableSound();
         musicVolumeButton.setOnReleaseAction(() -> {
-                                                       gameOptions.advanceMusicVolMul();
-                                                       musicVolumeButton.setDisplayName(getMusicVolumeString(gameOptions));
-                                                   });
+            gameOptions.advanceMusicVolMul();
+            // TODO: Check if we need to call musicManager.setVolume() here
+            musicVolumeButton.setDisplayName(getMusicVolumeString(gameOptions));
+        });
         buttonList.addElement(musicVolumeButton);
 
         buttonList.addElement(new UiTextButton().setDisplayName("Resolution")
-                                                .setTriggerKey(Input.Keys.R)
-                                                .enableSound()
-                                                .setOnReleaseAction(() -> inputManager.changeScreen(screens.resolutionScreen)));
+                .setTriggerKey(Input.Keys.R)
+                .enableSound()
+                .setOnReleaseAction(() -> inputManager.changeScreen(menuScreens.resolutionScreen)));
 
         UiTextButton controlTypeButton = new UiTextButton().setDisplayName(getControlTypeString(gameOptions))
-                                                           .setTriggerKey(Input.Keys.C)
-                                                           .enableSound();
+                .setTriggerKey(Input.Keys.C)
+                .enableSound();
         controlTypeButton.setOnReleaseAction(() -> {
-                                                       gameOptions.advanceControlType(false);
-                                                       controlTypeButton.setDisplayName(getControlTypeString(gameOptions));
-                                                   });
+            gameOptions.advanceControlType(false);
+            controlTypeButton.setDisplayName(getControlTypeString(gameOptions));
+        });
         buttonList.addElement(controlTypeButton);
 
         buttonList.addElement(new UiTextButton().setDisplayName("Controls")
-                                                .enableSound()
-                                                .setOnReleaseAction(() -> {
-                                                                              switch (gameOptions.controlType) {
-                                                                                  case KEYBOARD:
-                                                                                      screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapKeyboardScreen);
-                                                                                      break;
-                                                                                  case MIXED:
-                                                                                      screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapMixedScreen);
-                                                                                      break;
-                                                                                  case CONTROLLER:
-                                                                                      screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapControllerScreen);
-                                                                              }
-                                                                              inputManager.changeScreen(screens.inputMapScreen);
-                                                                          }));
+                .enableSound()
+                .setOnReleaseAction(() -> {
+                    switch (gameOptions.controlType) {
+                        case KEYBOARD:
+                            menuScreens.inputMapScreen.setOperations(menuScreens.inputMapScreen.inputMapKeyboardScreen);
+                            break;
+                        case MIXED:
+                            menuScreens.inputMapScreen.setOperations(menuScreens.inputMapScreen.inputMapMixedScreen);
+                            break;
+                        case CONTROLLER:
+                            menuScreens.inputMapScreen.setOperations(menuScreens.inputMapScreen.inputMapControllerScreen);
+                    }
+                    inputManager.changeScreen(menuScreens.inputMapScreen);
+                }));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Back")
-                                                .setTriggerKey(gameOptions.getKeyEscape())
-                                                .enableSound()
-                                                .setOnReleaseAction(() -> inputManager.changeScreen(screens.mainScreen)));
+                .setTriggerKey(gameOptions.getKeyEscape())
+                .enableSound()
+                .setOnReleaseAction(() -> inputManager.changeScreen(menuScreens.mainScreen)));
 
-        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight()/2 - BUTTON_PADDING)
-                                              .finalizeChanges();
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
+                .finalizeChanges();
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }

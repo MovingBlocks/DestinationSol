@@ -25,20 +25,20 @@ import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolUiControl;
+
 
 public class BuyItemsScreen extends InventoryOperationsScreen {
-    public final SolUiControl buyControl;
+//    public final SolUiControl buyControl;
 
     BuyItemsScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        buyControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyBuyItem());
-        buyControl.setDisplayName("Buy");
-        controls.add(buyControl);
+//        buyControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyBuyItem());
+//        buyControl.setDisplayName("Buy");
+//        controls.add(buyControl);
     }
 
     @Override
     public ItemContainer getItems(SolGame game) {
-        return game.getScreens().talkScreen.getTarget().getTradeContainer().getItems();
+        return null;
     }
 
     @Override
@@ -52,23 +52,23 @@ public class BuyItemsScreen extends InventoryOperationsScreen {
         InventoryScreen is = game.getScreens().inventoryScreen;
         Hero hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
-        SolShip target = talkScreen.getTarget();
-        if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
-            return;
-        }
-        SolItem selItem = is.getSelectedItem();
-        boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice() && hero.getItemContainer().canAdd(selItem);
-        buyControl.setDisplayName(enabled ? "Buy" : "---");
-        buyControl.setEnabled(enabled);
-        if (!enabled) {
-            return;
-        }
-        if (buyControl.isJustOff()) {
-            target.getTradeContainer().getItems().remove(selItem);
-            hero.getItemContainer().add(selItem);
-            hero.setMoney(hero.getMoney() - selItem.getPrice());
-            FactionInfo.setDisposition(target.getFactionID(), 1);
-        }
+        SolShip target = null;
+//        if (talkScreen.isTargetFar(hero)) {
+//            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
+//            return;
+//        }
+//        SolItem selItem = is.getSelectedItem();
+//        boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice() && hero.getItemContainer().canAdd(selItem);
+//        buyControl.setDisplayName(enabled ? "Buy" : "---");
+//        buyControl.setEnabled(enabled);
+//        if (!enabled) {
+//            return;
+//        }
+//        if (buyControl.isJustOff()) {
+//            target.getTradeContainer().getItems().remove(selItem);
+//            hero.getItemContainer().add(selItem);
+//            hero.setMoney(hero.getMoney() - selItem.getPrice());
+//        }
+        // faction stuff missing here - rebase
     }
 }

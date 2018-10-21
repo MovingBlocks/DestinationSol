@@ -23,16 +23,16 @@ import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolUiControl;
+
 
 public class GiveItemsScreen extends InventoryOperationsScreen {
-    private final SolUiControl giveControl;
+//    private final SolUiControl giveControl;
     private SolShip target;
 
     GiveItemsScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        giveControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeySellItem());
-        giveControl.setDisplayName("Give");
-        controls.add(giveControl);
+//        giveControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeySellItem());
+//        giveControl.setDisplayName("Give");
+//        controls.add(giveControl);
     }
 
     @Override
@@ -59,35 +59,35 @@ public class GiveItemsScreen extends InventoryOperationsScreen {
         Hero hero = game.getHero();
 
         SolItem selItem = inventoryScreen.getSelectedItem();
-        if (selItem == null) {
-            giveControl.setDisplayName("----");
-            giveControl.setEnabled(false);
-            return;
-        }
+//        if (selItem == null) {
+//            giveControl.setDisplayName("----");
+//            giveControl.setEnabled(false);
+//            return;
+//        }
 
         boolean isWornAndCanBeGiven = isItemEquippedAndGiveable(selItem, solApplication.getOptions());
         boolean enabled = isItemGiveable(selItem, target);
 
-        if (enabled && isWornAndCanBeGiven) {
-            giveControl.setDisplayName("Give");
-            giveControl.setEnabled(true);
-        } else if (enabled) {
-            giveControl.setDisplayName("Unequip it!");
-            giveControl.setEnabled(false);
-        } else {
-            giveControl.setDisplayName("----");
-            giveControl.setEnabled(false);
-        }
+//        if (enabled && isWornAndCanBeGiven) {
+//            giveControl.setDisplayName("Give");
+//            giveControl.setEnabled(true);
+//        } else if (enabled) {
+//            giveControl.setDisplayName("Unequip it!");
+//            giveControl.setEnabled(false);
+//        } else {
+//            giveControl.setDisplayName("----");
+//            giveControl.setEnabled(false);
+//        }
 
         if (!enabled || !isWornAndCanBeGiven) {
             return;
         }
-        if (giveControl.isJustOff()) {
-            ItemContainer itemContainer = hero.getItemContainer();
-            inventoryScreen.setSelected(itemContainer.getSelectionAfterRemove(inventoryScreen.getSelected()));
-            itemContainer.remove(selItem);
-            target.getItemContainer().add(selItem);
-        }
+//        if (giveControl.isJustOff()) {
+//            ItemContainer itemContainer = hero.getItemContainer();
+//            inventoryScreen.setSelected(itemContainer.getSelectionAfterRemove(inventoryScreen.getSelected()));
+//            itemContainer.remove(selItem);
+//            target.getItemContainer().add(selItem);
+//        }
     }
 
     /**

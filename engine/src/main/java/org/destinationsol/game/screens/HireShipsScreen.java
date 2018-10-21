@@ -24,23 +24,23 @@ import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolUiControl;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HireShipsScreen extends InventoryOperationsScreen {
-    private final SolUiControl hireControl;
+//    private final SolUiControl hireControl;
 
     HireShipsScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        hireControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyHireShip());
-        hireControl.setDisplayName("Hire");
-        controls.add(hireControl);
+//        hireControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyHireShip());
+//        hireControl.setDisplayName("Hire");
+//        controls.add(hireControl);
     }
 
     @Override
-    public ItemContainer getItems(SolGame game) {
-        return game.getScreens().talkScreen.getTarget().getTradeContainer().getMercs();
+    ItemContainer getItems(SolGame game) {
+        return null;
     }
 
     @Override
@@ -54,22 +54,22 @@ public class HireShipsScreen extends InventoryOperationsScreen {
         InventoryScreen is = game.getScreens().inventoryScreen;
         Hero hero = game.getHero();
         TalkScreen talkScreen = game.getScreens().talkScreen;
-        if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
-            return;
-        }
-        SolItem selItem = is.getSelectedItem();
-        boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice();
-        hireControl.setDisplayName(enabled ? "Hire" : "---");
-        hireControl.setEnabled(enabled);
-        if (!enabled) {
-            return;
-        }
-        if (hireControl.isJustOff()) {
-            boolean hired = MercenaryUtils.createMerc(game, hero, (MercItem) selItem);
-            if (hired) {
-                hero.setMoney(hero.getMoney() - selItem.getPrice());
-            }
-        }
+//        if (talkScreen.isTargetFar(hero)) {
+//            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
+//            return;
+//        }
+//        SolItem selItem = is.getSelectedItem();
+//        boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice();
+//        hireControl.setDisplayName(enabled ? "Hire" : "---");
+//        hireControl.setEnabled(enabled);
+//        if (!enabled) {
+//            return;
+//        }
+//        if (hireControl.isJustOff()) {
+//            boolean hired = MercenaryUtils.createMerc(game, hero, (MercItem) selItem);
+//            if (hired) {
+//                hero.setMoney(hero.getMoney() - selItem.getPrice());
+//            }
+//        }
     }
 }

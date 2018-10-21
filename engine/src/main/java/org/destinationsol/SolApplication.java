@@ -43,7 +43,7 @@ import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.ResizeSubscriber;
 import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolLayouts;
+import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,7 +73,6 @@ public class SolApplication implements ApplicationListener {
 
     private FactionDisplay factionDisplay;
     private MenuScreens menuScreens;
-    private SolLayouts layouts;
     private GameOptions options;
     private CommonDrawer commonDrawer;
     private String fatalErrorMsg;
@@ -128,7 +127,6 @@ public class SolApplication implements ApplicationListener {
         displayDimensions = new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         commonDrawer = new CommonDrawer();
         uiDrawer = new UiDrawer(commonDrawer);
-        layouts = new SolLayouts();
         menuScreens = new MenuScreens();
         menuScreens.initialize(isMobile(), options);
 
@@ -268,6 +266,11 @@ public class SolApplication implements ApplicationListener {
         inputManager.changeScreen(solGame.getScreens().mainGameScreen);
     }
 
+    // TODO: Make non-static. Also, move to a dedicated ScreenManager class.
+    public static void changeScreen(SolUiScreen screen) {
+        inputManager.changeScreen(screen);
+    }
+
     // TODO: Make non-static.
     public static SolInputManager getInputManager() {
         return inputManager;
@@ -300,10 +303,6 @@ public class SolApplication implements ApplicationListener {
 
     public SolGame getGame() {
         return solGame;
-    }
-
-    public SolLayouts getLayouts() {
-        return layouts;
     }
 
     public void finishGame() {

@@ -23,26 +23,26 @@ import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolUiControl;
+
 
 public class ChooseMercenaryScreen extends InventoryOperationsScreen {
-    private final SolUiControl giveControl;
-    private final SolUiControl takeControl;
-    private final SolUiControl equipControl;
+//    private final SolUiControl giveControl;
+//    private final SolUiControl takeControl;
+//    private final SolUiControl equipControl;
     private final ItemContainer EMPTY_ITEM_CONTAINER = new ItemContainer();
 
     ChooseMercenaryScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-        giveControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyShoot());
-        giveControl.setDisplayName("Give Items");
-        controls.add(giveControl);
-
-        takeControl = new SolUiControl(inventoryScreen.itemCtrl(1), true, gameOptions.getKeyShoot2());
-        takeControl.setDisplayName("Take Items");
-        controls.add(takeControl);
-        
-        equipControl = new SolUiControl(inventoryScreen.itemCtrl(2), true, gameOptions.getKeyDrop());
-        equipControl.setDisplayName("Equip Items");
-        controls.add(equipControl);
+//        giveControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyShoot());
+//        giveControl.setDisplayName("Give Items");
+//        controls.add(giveControl);
+//
+//        takeControl = new SolUiControl(inventoryScreen.itemCtrl(1), true, gameOptions.getKeyShoot2());
+//        takeControl.setDisplayName("Take Items");
+//        controls.add(takeControl);
+//
+//        equipControl = new SolUiControl(inventoryScreen.itemCtrl(2), true, gameOptions.getKeyDrop());
+//        equipControl.setDisplayName("Equip Items");
+//        controls.add(equipControl);
     }
 
     @Override
@@ -54,29 +54,29 @@ public class ChooseMercenaryScreen extends InventoryOperationsScreen {
         SolItem selItem = is.getSelectedItem();
         boolean selNull = selItem != null;
 
-        giveControl.setEnabled(selNull);
-        takeControl.setEnabled(selNull);
-        equipControl.setEnabled(selNull);
-
-        if (giveControl.isJustOff() && selNull) {
-            SolShip solship = ((MercItem) selItem).getSolShip();
-            inputMan.setScreen(solApplication, screens.mainGameScreen);
-            is.giveItemsScreen.setTarget(solship);
-            is.setOperations(is.giveItemsScreen);
-            inputMan.addScreen(solApplication, is);
-        } else if (takeControl.isJustOff() && selNull) {
-            SolShip solship = ((MercItem) selItem).getSolShip();
-            inputMan.setScreen(solApplication, screens.mainGameScreen);
-            is.takeItems.setTarget(solship);
-            is.setOperations(is.takeItems);
-            inputMan.addScreen(solApplication, is);
-        } else if (equipControl.isJustOff() && selNull) {
-            SolShip solship = ((MercItem) selItem).getSolShip();
-            inputMan.setScreen(solApplication, screens.mainGameScreen);
-            is.showInventory.setTarget(solship);
-            is.setOperations(is.showInventory);
-            inputMan.addScreen(solApplication, is);
-        }
+//        giveControl.setEnabled(selNull);
+//        takeControl.setEnabled(selNull);
+//        equipControl.setEnabled(selNull);
+//
+//        if (giveControl.isJustOff() && selNull) {
+//            SolShip solship = ((MercItem) selItem).getSolShip();
+//            inputMan.setScreen(solApplication, screens.mainGameScreen);
+//            is.giveItemsScreen.setTarget(solship);
+//            is.setOperations(is.giveItemsScreen);
+//            inputMan.addScreen(solApplication, is);
+//        } else if (takeControl.isJustOff() && selNull) {
+//            SolShip solship = ((MercItem) selItem).getSolShip();
+//            inputMan.setScreen(solApplication, screens.mainGameScreen);
+//            is.takeItems.setTarget(solship);
+//            is.setOperations(is.takeItems);
+//            inputMan.addScreen(solApplication, is);
+//        } else if (equipControl.isJustOff() && selNull) {
+//            SolShip solship = ((MercItem) selItem).getSolShip();
+//            inputMan.setScreen(solApplication, screens.mainGameScreen);
+//            is.showInventory.setTarget(solship);
+//            is.setOperations(is.showInventory);
+//            inputMan.addScreen(solApplication, is);
+//        }
     }
 
     @Override

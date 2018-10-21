@@ -50,48 +50,48 @@ public class MainMenuScreen extends SolUiBaseScreen {
 
         displayDimensions = SolApplication.displayDimensions;
         SolInputManager inputManager = SolApplication.getInputManager();
-        MenuScreens screens = SolApplication.getMenuScreens();
+        MenuScreens menuScreens = SolApplication.getMenuScreens();
         SolApplication solApplication = SolApplication.getInstance();
 
         UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
         buttonList.addElement(new UiTextButton().setDisplayName("Tutorial")
-                                                .setTriggerKey(Input.Keys.T)
-                                                .enableSound()
-                                                .setOnReleaseAction(() -> solApplication.play(true, "Imperial Small", true)));
+                .setTriggerKey(Input.Keys.T)
+                .enableSound()
+                .setOnReleaseAction(() -> solApplication.play(true, "Imperial Small", true)));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Play Game")
-                                                .setTriggerKey(gameOptions.getKeyShoot())
-                                                .enableSound()
-                                                .setOnReleaseAction(() -> inputManager.changeScreen(screens.newGameScreen)));
+                .setTriggerKey(gameOptions.getKeyShoot())
+                .enableSound()
+                .setOnReleaseAction(() -> inputManager.changeScreen(menuScreens.newGameScreen)));
 
         // TODO: Temporarily showing on mobile as well. Fix!
         // TODO: Actually, think about why we don't want it on mobile as well first.
         // optionsControl = new SolUiControl(isMobile ? null : menuLayout.buttonRect(-1, 3), true, Input.Keys.O);
         buttonList.addElement(new UiTextButton().setDisplayName("Options")
-                                                .setTriggerKey(Input.Keys.O)
-                                                .enableSound()
-                                                .setOnReleaseAction(() -> inputManager.changeScreen(screens.optionsScreen)));
+                .setTriggerKey(Input.Keys.O)
+                .enableSound()
+                .setOnReleaseAction(() -> inputManager.changeScreen(menuScreens.optionsScreen)));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Exit")
-                                                .setTriggerKey(gameOptions.getKeyEscape())
-                                                .enableSound()
-                                                .setOnReleaseAction(() ->   {
-                                                                                // Save the settings on exit, but not on mobile as settings don't exist there.
-                                                                                if (!isMobile) {
-                                                                                    solApplication.getOptions().save();
-                                                                                }
-                                                                                Gdx.app.exit();
-                                                                            }));
+                .setTriggerKey(gameOptions.getKeyEscape())
+                .enableSound()
+                .setOnReleaseAction(() -> {
+                    // Save the settings on exit, but not on mobile as settings don't exist there.
+                    if (!isMobile) {
+                        solApplication.getOptions().save();
+                    }
+                    Gdx.app.exit();
+                }));
 
         UiTextButton creditsButton = new UiTextButton().setDisplayName("Credits")
-                                                       .setTriggerKey(Input.Keys.C)
-                                                       .enableSound()
-                                                       .setOnReleaseAction(() -> inputManager.changeScreen(screens.creditsScreen));
+                .setTriggerKey(Input.Keys.C)
+                .enableSound()
+                .setOnReleaseAction(() -> inputManager.changeScreen(menuScreens.creditsScreen));
 
-        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight()/2 - BUTTON_PADDING)
-                                              .addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -BUTTON_WIDTH/2 - BUTTON_PADDING, -BUTTON_HEIGHT/2 - BUTTON_PADDING)
-                                              .finalizeChanges();
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
+                .addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -BUTTON_WIDTH / 2 - BUTTON_PADDING, -BUTTON_HEIGHT / 2 - BUTTON_PADDING)
+                .finalizeChanges();
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
         logoTexture = Assets.getAtlasRegion("engine:mainMenuLogo", Texture.TextureFilter.Linear);
