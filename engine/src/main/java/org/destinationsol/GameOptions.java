@@ -16,12 +16,11 @@
 package org.destinationsol;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
+import org.destinationsol.menu.Resolution;
+import org.destinationsol.menu.ResolutionProvider;
 
-import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import static java.util.Arrays.asList;
 
 public class GameOptions {
     public enum ControlType {
@@ -170,8 +169,7 @@ public class GameOptions {
     private int controllerButtonUp;
     private int controllerButtonDown;
 
-    private SortedSet<String> supportedResolutions = new TreeSet<>();
-    private Iterator<String> resolutionIterator;
+    private ResolutionProvider resolutionProvider;
 
     public GameOptions(boolean mobile, SolFileReader solFileReader) {
         IniReader reader = new IniReader(FILE_NAME, solFileReader);
@@ -220,29 +218,14 @@ public class GameOptions {
     }
 
     public void advanceResolution() {
-        if (resolutionIterator == null) {
-            // Initialize resolution choices - get the resolutions that are supported
-            Graphics.DisplayMode[] displayModes = Gdx.graphics.getDisplayModes();
-
-            for (Graphics.DisplayMode displayMode : displayModes) {
-                supportedResolutions.add(displayMode.width + "x" + displayMode.height);
-            }
-
-            resolutionIterator = supportedResolutions.iterator();
+        //lazy initialize provider because graphics is not available at the constructor
+        if(resolutionProvider == null){
+            resolutionProvider = new ResolutionProvider(asList(Gdx.graphics.getDisplayModes()));
         }
+        Resolution nextResolution = resolutionProvider.increase();
 
-        String nextResolution;
-        if (resolutionIterator.hasNext()) {
-            nextResolution = resolutionIterator.next();
-        } else {
-            // Probably somehow possible to get no entries at all which would crash, but then we're doomed anyway
-            resolutionIterator = supportedResolutions.iterator();
-            nextResolution = resolutionIterator.next();
-        }
-
-        // TODO: Probably should validate, but then there are still many things we should probably add! :-)
-        x = Integer.parseInt(nextResolution.substring(0, nextResolution.indexOf("x")));
-        y = Integer.parseInt(nextResolution.substring(nextResolution.indexOf("x") + 1, nextResolution.length()));
+        x = nextResolution.getWidth();
+        y = nextResolution.getHeight();
 
         save();
     }
