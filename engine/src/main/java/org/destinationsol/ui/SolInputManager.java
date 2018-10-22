@@ -226,7 +226,9 @@ public class SolInputManager {
     private void addRemoveScreens() {
         SolApplication solApplication = SolApplication.getInstance();
 
-        for (SolUiScreen screen : screensToRemove) {
+        while (!screensToRemove.isEmpty()) {
+            SolUiScreen screen = screensToRemove.remove(0);
+
             if (!isScreenOn(screen)) {
                 continue;
             }
@@ -236,9 +238,10 @@ public class SolInputManager {
 
             screens.remove(screen);
         }
-        screensToRemove.clear();
 
-        for (SolUiScreen screen : screensToAdd) {
+        while (!screensToAdd.isEmpty()) {
+            SolUiScreen screen = screensToAdd.remove(0);
+
             if (isScreenOn(screen)) {
                 continue;
             }
@@ -247,7 +250,6 @@ public class SolInputManager {
 
             screens.add(screen);
         }
-        screensToAdd.clear();
     }
 
     private void updateCursor(SolApplication solApplication) {
