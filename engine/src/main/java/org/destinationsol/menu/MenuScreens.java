@@ -27,7 +27,7 @@ public class MenuScreens {
     public NewGameScreen newGameScreen;
     public NewShipScreen newShipScreen;
 
-    public void initialize(boolean mobile, GameOptions gameOptions) {
+    public MenuScreens(boolean mobile, GameOptions gameOptions) {
         mainScreen = new MainMenuScreen(mobile, gameOptions);
         optionsScreen = new OptionsScreen(gameOptions);
         inputMapScreen = new InputMapScreen(gameOptions);

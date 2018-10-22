@@ -49,21 +49,18 @@ public class MainMenuScreen extends SolUiBaseScreen {
         this.gameOptions = gameOptions;
 
         displayDimensions = SolApplication.displayDimensions;
-        SolInputManager inputManager = SolApplication.getInputManager();
-        MenuScreens menuScreens = SolApplication.getMenuScreens();
-        SolApplication solApplication = SolApplication.getInstance();
 
         UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
         buttonList.addElement(new UiTextButton().setDisplayName("Tutorial")
                 .setTriggerKey(Input.Keys.T)
                 .enableSound()
-                .setOnReleaseAction(() -> solApplication.play(true, "Imperial Small", true)));
+                .setOnReleaseAction(() -> SolApplication.getInstance().play(true, "Imperial Small", true)));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Play Game")
                 .setTriggerKey(gameOptions.getKeyShoot())
                 .enableSound()
-                .setOnReleaseAction(() -> inputManager.changeScreen(menuScreens.newGameScreen)));
+                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().newGameScreen)));
 
         // TODO: Temporarily showing on mobile as well. Fix!
         // TODO: Actually, think about why we don't want it on mobile as well first.
@@ -71,7 +68,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
         buttonList.addElement(new UiTextButton().setDisplayName("Options")
                 .setTriggerKey(Input.Keys.O)
                 .enableSound()
-                .setOnReleaseAction(() -> inputManager.changeScreen(menuScreens.optionsScreen)));
+                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().optionsScreen)));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Exit")
                 .setTriggerKey(gameOptions.getKeyEscape())
@@ -79,7 +76,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
                 .setOnReleaseAction(() -> {
                     // Save the settings on exit, but not on mobile as settings don't exist there.
                     if (!isMobile) {
-                        solApplication.getOptions().save();
+                        SolApplication.getInstance().getOptions().save();
                     }
                     Gdx.app.exit();
                 }));
@@ -87,7 +84,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
         UiTextButton creditsButton = new UiTextButton().setDisplayName("Credits")
                 .setTriggerKey(Input.Keys.C)
                 .enableSound()
-                .setOnReleaseAction(() -> inputManager.changeScreen(menuScreens.creditsScreen));
+                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().creditsScreen));
 
         rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
                 .addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -BUTTON_WIDTH / 2 - BUTTON_PADDING, -BUTTON_HEIGHT / 2 - BUTTON_PADDING)

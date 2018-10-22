@@ -23,7 +23,6 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.ui.DisplayDimensions;
-import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
@@ -39,9 +38,6 @@ public class OptionsScreen extends SolUiBaseScreen {
 
     OptionsScreen(GameOptions gameOptions) {
         displayDimensions = SolApplication.displayDimensions;
-
-        SolInputManager inputManager = SolApplication.getInputManager();
-        MenuScreens menuScreens = SolApplication.getMenuScreens();
 
         UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
@@ -66,7 +62,7 @@ public class OptionsScreen extends SolUiBaseScreen {
         buttonList.addElement(new UiTextButton().setDisplayName("Resolution")
                 .setTriggerKey(Input.Keys.R)
                 .enableSound()
-                .setOnReleaseAction(() -> inputManager.changeScreen(menuScreens.resolutionScreen)));
+                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().resolutionScreen)));
 
         UiTextButton controlTypeButton = new UiTextButton().setDisplayName(getControlTypeString(gameOptions))
                 .setTriggerKey(Input.Keys.C)
@@ -82,21 +78,21 @@ public class OptionsScreen extends SolUiBaseScreen {
                 .setOnReleaseAction(() -> {
                     switch (gameOptions.controlType) {
                         case KEYBOARD:
-                            menuScreens.inputMapScreen.setOperations(menuScreens.inputMapScreen.inputMapKeyboardScreen);
+                            SolApplication.getMenuScreens().inputMapScreen.setOperations(SolApplication.getMenuScreens().inputMapScreen.inputMapKeyboardScreen);
                             break;
                         case MIXED:
-                            menuScreens.inputMapScreen.setOperations(menuScreens.inputMapScreen.inputMapMixedScreen);
+                            SolApplication.getMenuScreens().inputMapScreen.setOperations(SolApplication.getMenuScreens().inputMapScreen.inputMapMixedScreen);
                             break;
                         case CONTROLLER:
-                            menuScreens.inputMapScreen.setOperations(menuScreens.inputMapScreen.inputMapControllerScreen);
+                            SolApplication.getMenuScreens().inputMapScreen.setOperations(SolApplication.getMenuScreens().inputMapScreen.inputMapControllerScreen);
                     }
-                    inputManager.changeScreen(menuScreens.inputMapScreen);
+                    SolApplication.changeScreen(SolApplication.getMenuScreens().inputMapScreen);
                 }));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Back")
                 .setTriggerKey(gameOptions.getKeyEscape())
                 .enableSound()
-                .setOnReleaseAction(() -> inputManager.changeScreen(menuScreens.mainScreen)));
+                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().mainScreen)));
 
         rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
                 .finalizeChanges();
