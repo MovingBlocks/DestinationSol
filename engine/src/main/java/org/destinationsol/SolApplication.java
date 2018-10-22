@@ -116,8 +116,7 @@ public class SolApplication implements ApplicationListener {
         displayDimensions = new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         commonDrawer = new CommonDrawer();
         uiDrawer = new UiDrawer(commonDrawer);
-        menuScreens = new MenuScreens();
-        menuScreens.initialize(isMobile(), options);
+        menuScreens = new MenuScreens(isMobile(), options);
 
         inputManager.changeScreen(menuScreens.mainScreen);
     }

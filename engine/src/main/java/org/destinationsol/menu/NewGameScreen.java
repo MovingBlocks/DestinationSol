@@ -41,27 +41,24 @@ public class NewGameScreen extends SolUiBaseScreen {
 
     NewGameScreen(GameOptions gameOptions) {
         displayDimensions = SolApplication.displayDimensions;
-        SolInputManager inputManager = SolApplication.getInputManager();
-        MenuScreens menuScreens = SolApplication.getMenuScreens();
-        SolApplication solApplication = SolApplication.getInstance();
 
         UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
         continueButton = new UiTextButton().setDisplayName("Continue")
                 .setTriggerKey(gameOptions.getKeyShoot())
                 .enableSound()
-                .setOnReleaseAction(() -> solApplication.loadGame(false, null, false));
+                .setOnReleaseAction(() -> SolApplication.getInstance().loadGame(false, null, false));
         buttonList.addElement(continueButton);
 
         buttonList.addElement(new UiTextButton().setDisplayName("New game")
                 .setTriggerKey(gameOptions.getKeyShoot())
                 .enableSound()
-                .setOnReleaseAction(() -> inputManager.changeScreen(menuScreens.newShipScreen)));
+                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().newShipScreen)));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Cancel")
                 .setTriggerKey(gameOptions.getKeyEscape())
                 .enableSound()
-                .setOnReleaseAction(() -> inputManager.changeScreen(menuScreens.mainScreen)));
+                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().mainScreen)));
 
         rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
                 .finalizeChanges();

@@ -29,7 +29,6 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.game.planet.SystemsBuilder;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
-import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
@@ -52,9 +51,6 @@ public class NewShipScreen extends SolUiBaseScreen {
         loadPlayerSpawnConfigs();
 
         displayDimensions = SolApplication.displayDimensions;
-        SolInputManager inputManager = SolApplication.getInputManager();
-        MenuScreens menuScreens = SolApplication.getMenuScreens();
-        SolApplication solApplication = SolApplication.getInstance();
 
         UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
@@ -77,12 +73,12 @@ public class NewShipScreen extends SolUiBaseScreen {
         buttonList.addElement(new UiTextButton().setDisplayName("Play")
                 .setTriggerKey(gameOptions.getKeyShoot())
                 .enableSound()
-                .setOnReleaseAction(() -> solApplication.play(false, playerSpawnConfigNames.get(playerSpawnConfigIndex), true)));
+                .setOnReleaseAction(() -> SolApplication.getInstance().play(false, playerSpawnConfigNames.get(playerSpawnConfigIndex), true)));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Cancel")
                 .setTriggerKey(gameOptions.getKeyEscape())
                 .enableSound()
-                .setOnReleaseAction(() -> inputManager.changeScreen(menuScreens.newGameScreen)));
+                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().newGameScreen)));
 
         rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
                 .finalizeChanges();

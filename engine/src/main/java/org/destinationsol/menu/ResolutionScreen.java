@@ -24,7 +24,6 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
-import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
@@ -40,9 +39,6 @@ public class ResolutionScreen extends SolUiBaseScreen {
 
     ResolutionScreen(GameOptions gameOptions) {
         displayDimensions = SolApplication.displayDimensions;
-
-        SolInputManager inputManager = SolApplication.getInputManager();
-        MenuScreens menuScreens = SolApplication.getMenuScreens();
 
         UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
@@ -67,7 +63,7 @@ public class ResolutionScreen extends SolUiBaseScreen {
                 .enableSound()
                 .setOnReleaseAction(() -> {
                     Gdx.graphics.setDisplayMode(gameOptions.x, gameOptions.y, gameOptions.fullscreen);
-                    inputManager.changeScreen(menuScreens.optionsScreen);
+                    SolApplication.changeScreen(SolApplication.getMenuScreens().optionsScreen);
                 }));
 
         rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
