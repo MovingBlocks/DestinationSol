@@ -18,14 +18,21 @@ package org.destinationsol.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
+import java.util.ArrayList;
+import java.util.List;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.common.SolColorUtil;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.GameDrawer;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
@@ -39,6 +46,9 @@ public class MainMenuScreen extends SolUiBaseScreen {
     private final TextureAtlas.AtlasRegion logoTexture;
     private final TextureAtlas.AtlasRegion backgroundTexture;
     private DisplayDimensions displayDimensions;
+
+    private List<FloatingObject> floatingObjects = new ArrayList<>();
+    private List<FloatingObject> retainedFloatingObjects = new ArrayList<>();
 
     private final SolUiControl tutorialControl;
     private final SolUiControl optionsControl;
@@ -80,6 +90,10 @@ public class MainMenuScreen extends SolUiBaseScreen {
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
         logoTexture = Assets.getAtlasRegion("engine:mainMenuLogo", Texture.TextureFilter.Linear);
+
+        for (int i = 0; i < 10; i++) {
+            floatingObjects.add(new FloatingObject());
+        }
     }
 
     @Override
@@ -116,6 +130,23 @@ public class MainMenuScreen extends SolUiBaseScreen {
         if (creditsControl.isJustOff()) {
             inputManager.setScreen(solApplication, screens.credits);
         }
+
+        retainedFloatingObjects.clear();
+
+        float radius = (float)Math.sqrt(0.25 + Math.pow(displayDimensions.getRatio()/2, 2));
+        for (FloatingObject floatingObject : floatingObjects) {
+            floatingObject.update();
+
+            float distance = (float)Math.sqrt(Math.pow(floatingObject.position.x - displayDimensions.getRatio()/2, 2) + Math.pow(floatingObject.position.y - 0.5f, 2));
+            if (distance < radius) {
+                retainedFloatingObjects.add(floatingObject);
+            } else {
+                retainedFloatingObjects.add(new FloatingObject());
+            }
+        }
+
+        floatingObjects.clear();
+        floatingObjects.addAll(retainedFloatingObjects);
     }
 
     @Override
@@ -135,6 +166,10 @@ public class MainMenuScreen extends SolUiBaseScreen {
         if (!DebugOptions.PRINT_BALANCE) {
             uiDrawer.draw(logoTexture, sx, sy, sx / 2, sy / 2, displayDimensions.getRatio() / 2, 0.1f + sy / 2, 0, SolColor.WHITE);
         }
+
+        for (FloatingObject floatingObject : floatingObjects) {
+            floatingObject.draw(uiDrawer);
+        }
     }
 
     /**
@@ -143,5 +178,57 @@ public class MainMenuScreen extends SolUiBaseScreen {
      */
     private int calculateButtonOffsetFromBottom(int buttonIndex) {
         return -(buttonPadding + buttonHeight / 2) - (buttonIndex * (buttonPadding + buttonHeight));
+    }
+
+    class FloatingObject {
+        private TextureAtlas.AtlasRegion texture;
+
+        private float scale;
+        private Color tint;
+
+        private Vector2 position;
+        private Vector2 velocity;
+
+        private float angle;
+        private float angularVelocity;
+
+        private float radiusX;
+        private float radiusY;
+
+        private FloatingObject() {
+            texture = Assets.getAtlasRegion(SolRandom.test(0.5f) ? "engine:asteroid_0" : "engine:asteroid_1");
+
+            boolean small = SolRandom.test(.8f);
+            scale = (small ? .1f : .4f) * SolRandom.randomFloat(.5f, 1);
+            tint = new Color();
+            SolColorUtil.fromHSB(SolRandom.randomFloat(0, 1), .25f, 1, .7f, tint);
+
+            radiusX = (float)(texture.originalHeight) / displayDimensions.getWidth() * scale / 2;
+            radiusY = (float)(texture.originalHeight) / displayDimensions.getHeight() * scale / 2;
+
+            velocity = new Vector2((float)Math.pow(SolRandom.randomFloat(0.1f), 2), (float)Math.pow(SolRandom.randomFloat(0.1f), 2));
+            float r = displayDimensions.getRatio();
+            if (SolRandom.test(0.5f)) {
+                // Spawn to the left or right of screen
+                boolean toLeft = SolRandom.test(0.5f);
+                position = new Vector2(r/2 + (toLeft ? -1 : 1) * (r/2 + radiusX) - radiusX, 0.5f + SolRandom.randomFloat(0.5f + radiusY) - radiusY);
+            } else {
+                // Spawn at the top or bottom of screen
+                boolean atTop = SolRandom.test(0.5f);
+                position = new Vector2(r/2 + SolRandom.randomFloat(r/2 + radiusX) - radiusX, 0.5f + (atTop ? -1 : 1) * (0.5f + radiusY) - radiusY);
+            }
+
+            angle = SolRandom.randomFloat((float)Math.PI);
+            angularVelocity = SolRandom.randomFloat(1f);
+        }
+
+        private void update() {
+            position.add(velocity);
+            angle += angularVelocity;
+        }
+
+        private void draw(UiDrawer drawer) {
+            drawer.draw(texture, scale, scale, scale / 2, scale / 2, position.x, position.y, angle, tint);
+        }
     }
 }
