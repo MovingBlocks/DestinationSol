@@ -18,6 +18,7 @@ package org.destinationsol.menu;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import java.util.ArrayList;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
@@ -28,15 +29,17 @@ import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
-import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.UiDrawer;
-
-import java.util.ArrayList;
+import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
+import org.destinationsol.ui.responsiveUi.UiTextButton;
+import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM_RIGHT;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_HEIGHT;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_PADDING;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_WIDTH;
 
 public class CreditsScreen extends SolUiBaseScreen {
     private static final float MAX_AWAIT = 6f;
     private final TextureAtlas.AtlasRegion backgroundTexture;
-    private final SolUiControl closeControl;
 
     private DisplayDimensions displayDimensions;
 
@@ -48,9 +51,17 @@ public class CreditsScreen extends SolUiBaseScreen {
     CreditsScreen(GameOptions gameOptions) {
         displayDimensions = SolApplication.displayDimensions;
 
-        closeControl = new SolUiControl(MenuLayout.bottomRightFloatingButton(displayDimensions), true, gameOptions.getKeyEscape());
-        closeControl.setDisplayName("Close");
-        controls.add(closeControl);
+        SolInputManager inputManager = SolApplication.getInputManager();
+        MenuScreens menuScreens = SolApplication.getMenuScreens();
+
+        UiTextButton creditsButton = new UiTextButton().setDisplayName("Back")
+                .setTriggerKey(gameOptions.getKeyEscape())
+                .enableSound()
+                .setOnReleaseAction(() -> inputManager.changeScreen(menuScreens.mainScreen));
+
+        rootUiElement = new UiRelativeLayout().addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -BUTTON_WIDTH / 2 - BUTTON_PADDING, -BUTTON_HEIGHT / 2 - BUTTON_PADDING)
+                .finalizeChanges();
+
         myColor = SolColor.col(1, 1);
 
         String[][] sss = {
@@ -107,6 +118,7 @@ public class CreditsScreen extends SolUiBaseScreen {
                         "Steveygos93",
                 },
         };
+
         for (String[] ss : sss) {
             StringBuilder page = new StringBuilder();
             for (String s : ss) {
@@ -127,10 +139,6 @@ public class CreditsScreen extends SolUiBaseScreen {
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        if (closeControl.isJustOff()) {
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().main);
-            return;
-        }
         pageProgressPercent += Const.REAL_TIME_STEP / MAX_AWAIT;
         if (pageProgressPercent > 1) {
             pageProgressPercent = 0;
@@ -139,6 +147,7 @@ public class CreditsScreen extends SolUiBaseScreen {
                 pageIndex = 0;
             }
         }
+
         float a = pageProgressPercent * 2;
         if (a > 1) {
             a = 2 - a;
@@ -153,7 +162,7 @@ public class CreditsScreen extends SolUiBaseScreen {
     }
 
     @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void draw(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.drawString(myPages.get(pageIndex), displayDimensions.getRatio() / 2, .5f, FontSize.MENU, true, myColor);
     }
 }

@@ -23,6 +23,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import java.util.ArrayList;
+import java.util.List;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
@@ -32,10 +34,7 @@ import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import org.destinationsol.ui.responsiveUi.UiElement;
 import static com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888;
 
 public class SolInputManager {
@@ -46,8 +45,9 @@ public class SolInputManager {
 
     private static Cursor hiddenCursor;
 
+    // TODO: I'm not sure why screens are part of the InputManager. Refactor this out maybe?
     private final List<SolUiScreen> screens = new ArrayList<>();
-    private final List<SolUiScreen> screenToRemove = new ArrayList<>();
+    private final List<SolUiScreen> screensToRemove = new ArrayList<>();
     private final List<SolUiScreen> screensToAdd = new ArrayList<>();
     private final InputPointer[] inputPointers;
     private final InputPointer flashInputPointer;
@@ -104,14 +104,7 @@ public class SolInputManager {
 
     void maybeFlashPressed(int keyCode) {
         for (SolUiScreen screen : screens) {
-            boolean consumed = false;
-            List<SolUiControl> controls = screen.getControls();
-            for (SolUiControl control : controls) {
-                if (control.maybeFlashPressed(keyCode)) {
-                    consumed = true;
-                }
-            }
-            if (consumed) {
+            if (screen.getRootUiElement().maybeFlashPressed(keyCode)) {
                 return;
             }
         }
@@ -120,39 +113,27 @@ public class SolInputManager {
 
     void maybeFlashPressed(int x, int y) {
         setPointerPosition(flashInputPointer, x, y);
+
         for (SolUiScreen screen : screens) {
-            List<SolUiControl> controls = screen.getControls();
-            for (SolUiControl control : controls) {
-                if (control.maybeFlashPressed(flashInputPointer)) {
-                    return;
-                }
-            }
-            if (screen.isCursorOnBackground(flashInputPointer)) {
+            if (screen.getRootUiElement().maybeFlashPressed(flashInputPointer) || screen.isCursorOnBackground(flashInputPointer)) {
                 return;
             }
         }
-
     }
 
-    public void setScreen(SolApplication solApplication, SolUiScreen screen) {
+    public void changeScreen(SolUiScreen screen) {
         for (SolUiScreen oldScreen : screens) {
-            removeScreen(oldScreen, solApplication);
+            removeScreen(oldScreen);
         }
-        addScreen(solApplication, screen);
+        addScreen(screen);
     }
 
-    public void addScreen(SolApplication solApplication, SolUiScreen screen) {
+    public void addScreen(SolUiScreen screen) {
         screensToAdd.add(screen);
-        screen.onAdd(solApplication);
     }
 
-    private void removeScreen(SolUiScreen screen, SolApplication solApplication) {
-        screenToRemove.add(screen);
-        List<SolUiControl> controls = screen.getControls();
-        for (SolUiControl control : controls) {
-            control.blur();
-        }
-        screen.blurCustom(solApplication);
+    private void removeScreen(SolUiScreen screen) {
+        screensToRemove.add(screen);
     }
 
     public boolean isScreenOn(SolUiScreen screen) {
@@ -182,21 +163,19 @@ public class SolInputManager {
         mouseOnUi = false;
         boolean clickOutsideReacted = false;
         for (SolUiScreen screen : screens) {
-            boolean consumedNow = false;
-            List<SolUiControl> controls = screen.getControls();
-            for (SolUiControl control : controls) {
-                control.update(inputPointers, currCursor != null, !consumed, this, solApplication);
-                if (control.isOn() || control.isJustOff()) {
-                    consumedNow = true;
-                }
-                Rectangle area = control.getScreenArea();
-                if (area != null && area.contains(mousePos)) {
-                    mouseOnUi = true;
-                }
+            UiElement rootUiElement = screen.getRootUiElement();
+
+            boolean consumedNow = rootUiElement.update(inputPointers, currCursor != null, !consumed, this, solApplication);
+
+            Rectangle area = screen.getRootUiElement().getScreenArea();
+            if (area != null && area.contains(mousePos)) {
+                mouseOnUi = true;
             }
+
             if (consumedNow) {
                 consumed = true;
             }
+
             boolean clickedOutside = false;
             if (!consumed) {
                 for (InputPointer inputPointer : inputPointers) {
@@ -211,9 +190,12 @@ public class SolInputManager {
                     }
                 }
             }
+
             if (clickedOutside && screen.reactsToClickOutside()) {
                 clickOutsideReacted = true;
             }
+
+            // TODO: This does not really make sense. Look into it.
             if (screen.isCursorOnBackground(inputPointers[0])) {
                 mouseOnUi = true;
             }
@@ -221,7 +203,7 @@ public class SolInputManager {
         }
 
         TutorialManager tutorialManager = game == null ? null : game.getTutMan();
-        if (tutorialManager != null && tutorialManager.isFinished()) {
+        if (tutorialManager != null) {
             solApplication.finishGame();
         }
 
@@ -242,16 +224,32 @@ public class SolInputManager {
     }
 
     private void addRemoveScreens() {
-        screens.removeAll(screenToRemove);
-        screenToRemove.clear();
+        SolApplication solApplication = SolApplication.getInstance();
 
-        for (SolUiScreen screen : screensToAdd) {
+        while (!screensToRemove.isEmpty()) {
+            SolUiScreen screen = screensToRemove.remove(0);
+
+            if (!isScreenOn(screen)) {
+                continue;
+            }
+
+            screen.getRootUiElement().blur();
+            screen.blurCustom(solApplication);
+
+            screens.remove(screen);
+        }
+
+        while (!screensToAdd.isEmpty()) {
+            SolUiScreen screen = screensToAdd.remove(0);
+
             if (isScreenOn(screen)) {
                 continue;
             }
-            screens.add(0, screen);
+
+            screen.onAdd(solApplication);
+
+            screens.add(screen);
         }
-        screensToAdd.clear();
     }
 
     private void updateCursor(SolApplication solApplication) {
@@ -265,10 +263,10 @@ public class SolInputManager {
             if (game == null || mouseOnUi) {
                 currCursor = uiCursor;
             } else {
-                currCursor = game.getScreens().mainGameScreen.shipControl.getInGameTex();
-                if (currCursor == null) {
-                    currCursor = uiCursor;
-                }
+                // currCursor = game.getScreens().mainGameScreen.shipControl.getInGameTex();
+//                if (currCursor == null) {
+//                    currCursor = uiCursor;
+//                }
             }
             return;
         }
@@ -308,26 +306,16 @@ public class SolInputManager {
         for (int i = screens.size() - 1; i >= 0; i--) {
             SolUiScreen screen = screens.get(i);
 
-            uiDrawer.setTextMode(false);
             screen.drawBackground(uiDrawer, solApplication);
-            List<SolUiControl> controls = screen.getControls();
-            for (SolUiControl control : controls) {
-                control.drawButton(uiDrawer, warnColor);
-            }
-            screen.drawImages(uiDrawer, solApplication);
 
-            uiDrawer.setTextMode(true);
-            screen.drawText(uiDrawer, solApplication);
-            for (SolUiControl control : controls) {
-                control.drawDisplayName(uiDrawer);
-            }
+            screen.draw(uiDrawer, solApplication);
+
+            screen.getRootUiElement().draw();
         }
-        uiDrawer.setTextMode(null);
 
         SolGame game = solApplication.getGame();
         TutorialManager tutorialManager = game == null ? null : game.getTutMan();
         if (tutorialManager != null && getTopScreen() != game.getScreens().menuScreen) {
-            tutorialManager.draw(uiDrawer);
         }
 
         if (currCursor != null) {

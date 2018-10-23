@@ -23,100 +23,97 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.ui.DisplayDimensions;
-import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
-import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
+import org.destinationsol.ui.responsiveUi.UiTextButton;
+import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
+import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_PADDING;
 
 public class OptionsScreen extends SolUiBaseScreen {
-    private DisplayDimensions displayDimensions;
-
     private final TextureAtlas.AtlasRegion backgroundTexture;
 
-    private final SolUiControl backControl;
-    private final SolUiControl resolutionControl;
-    private final SolUiControl inputTypeControl;
-    private final SolUiControl inputMapControl;
-    private final SolUiControl soundVolumeControl;
-    private final SolUiControl musicVolumeControl;
+    private DisplayDimensions displayDimensions;
 
-    OptionsScreen(MenuLayout menuLayout, GameOptions gameOptions) {
+    OptionsScreen(GameOptions gameOptions) {
         displayDimensions = SolApplication.displayDimensions;
 
-        resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
-        resolutionControl.setDisplayName("Resolution");
-        controls.add(resolutionControl);
+        UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
-        inputTypeControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true, Input.Keys.C);
-        inputTypeControl.setDisplayName("Control Type");
-        controls.add(inputTypeControl);
+        UiTextButton soundVolumeButton = new UiTextButton().setDisplayName(getSoundVolumeString(gameOptions))
+                .enableSound();
+        soundVolumeButton.setOnReleaseAction(() -> {
+            gameOptions.advanceSoundVolMul();
+            // TODO: Check if we need to call soundManager.setVolume() here
+            soundVolumeButton.setDisplayName(getSoundVolumeString(gameOptions));
+        });
+        buttonList.addElement(soundVolumeButton);
 
-        inputMapControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true, Input.Keys.M);
-        inputMapControl.setDisplayName("Controls");
-        controls.add(inputMapControl);
+        UiTextButton musicVolumeButton = new UiTextButton().setDisplayName(getMusicVolumeString(gameOptions))
+                .enableSound();
+        musicVolumeButton.setOnReleaseAction(() -> {
+            gameOptions.advanceMusicVolMul();
+            // TODO: Check if we need to call musicManager.setVolume() here
+            musicVolumeButton.setDisplayName(getMusicVolumeString(gameOptions));
+        });
+        buttonList.addElement(musicVolumeButton);
 
-        backControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
-        backControl.setDisplayName("Back");
-        controls.add(backControl);
+        buttonList.addElement(new UiTextButton().setDisplayName("Resolution")
+                .setTriggerKey(Input.Keys.R)
+                .enableSound()
+                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().resolutionScreen)));
 
-        soundVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, 0), true);
-        soundVolumeControl.setDisplayName("Sound Volume");
-        controls.add(soundVolumeControl);
+        UiTextButton controlTypeButton = new UiTextButton().setDisplayName(getControlTypeString(gameOptions))
+                .setTriggerKey(Input.Keys.C)
+                .enableSound();
+        controlTypeButton.setOnReleaseAction(() -> {
+            gameOptions.advanceControlType(false);
+            controlTypeButton.setDisplayName(getControlTypeString(gameOptions));
+        });
+        buttonList.addElement(controlTypeButton);
 
-        musicVolumeControl = new SolUiControl(menuLayout.buttonRect(-1, -1), true);
-        musicVolumeControl.setDisplayName("Music Volume");
-        controls.add(musicVolumeControl);
+        buttonList.addElement(new UiTextButton().setDisplayName("Controls")
+                .enableSound()
+                .setOnReleaseAction(() -> {
+                    switch (gameOptions.controlType) {
+                        case KEYBOARD:
+                            SolApplication.getMenuScreens().inputMapScreen.setOperations(SolApplication.getMenuScreens().inputMapScreen.inputMapKeyboardScreen);
+                            break;
+                        case MIXED:
+                            SolApplication.getMenuScreens().inputMapScreen.setOperations(SolApplication.getMenuScreens().inputMapScreen.inputMapMixedScreen);
+                            break;
+                        case CONTROLLER:
+                            SolApplication.getMenuScreens().inputMapScreen.setOperations(SolApplication.getMenuScreens().inputMapScreen.inputMapControllerScreen);
+                    }
+                    SolApplication.changeScreen(SolApplication.getMenuScreens().inputMapScreen);
+                }));
+
+        buttonList.addElement(new UiTextButton().setDisplayName("Back")
+                .setTriggerKey(gameOptions.getKeyEscape())
+                .enableSound()
+                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().mainScreen)));
+
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
+                .finalizeChanges();
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        SolInputManager inputManager = solApplication.getInputManager();
-        MenuScreens screens = solApplication.getMenuScreens();
-        GameOptions options = solApplication.getOptions();
-        if (resolutionControl.isJustOff()) {
-            inputManager.setScreen(solApplication, screens.resolutionScreen);
-        }
-
-        String controlName = solApplication.getOptions().controlType.getHumanName();
-        inputTypeControl.setDisplayName("Input: " + controlName);
-        if (inputTypeControl.isJustOff()) {
-            solApplication.getOptions().advanceControlType(false);
-        }
-
-        if (backControl.isJustOff()) {
-            inputManager.setScreen(solApplication, screens.main);
-        }
-
-        if (inputMapControl.isJustOff()) {
-            switch (solApplication.getOptions().controlType) {
-                case KEYBOARD:
-                    screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapKeyboardScreen);
-                    break;
-                case MIXED:
-                    screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapMixedScreen);
-                    break;
-                case CONTROLLER:
-                    screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapControllerScreen);
-            }
-            inputManager.setScreen(solApplication, screens.inputMapScreen);
-        }
-
-        soundVolumeControl.setDisplayName("Sound Volume: " + options.sfxVolume.getName());
-        if (soundVolumeControl.isJustOff()) {
-            options.advanceSoundVolMul();
-        }
-
-        musicVolumeControl.setDisplayName("Music Volume: " + options.musicVolume.getName());
-        if (musicVolumeControl.isJustOff()) {
-            options.advanceMusicVolMul();
-            solApplication.getMusicManager().changeVolume(options);
-        }
-    }
-
-    @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
+    }
+
+    private String getControlTypeString(GameOptions gameOptions) {
+        return "Input: " + gameOptions.controlType.getHumanName();
+    }
+
+    private String getSoundVolumeString(GameOptions gameOptions) {
+        return "Sound Volume: " + gameOptions.sfxVolume.getName();
+    }
+
+    private String getMusicVolumeString(GameOptions gameOptions) {
+        return "Sound Volume: " + gameOptions.musicVolume.getName();
     }
 }

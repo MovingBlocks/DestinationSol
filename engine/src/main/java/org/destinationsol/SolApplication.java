@@ -20,6 +20,10 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.HashSet;
+import java.util.Set;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.common.SolColor;
@@ -37,15 +41,10 @@ import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.ResizeSubscriber;
 import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolLayouts;
+import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.HashSet;
-import java.util.Set;
 
 public class SolApplication implements ApplicationListener {
     private static final Logger logger = LoggerFactory.getLogger(SolApplication.class);
@@ -55,12 +54,14 @@ public class SolApplication implements ApplicationListener {
 
     private OggMusicManager musicManager;
     private OggSoundManager soundManager;
-    private SolInputManager inputManager;
+    // TODO: Make this non-static.
+    public static SolInputManager inputManager;
 
-    private UiDrawer uiDrawer;
+    // TODO: Make this non-static.
+    public static UiDrawer uiDrawer;
 
-    private MenuScreens menuScreens;
-    private SolLayouts layouts;
+    // TODO: Make this non-static.
+    private static MenuScreens menuScreens;
     private GameOptions options;
     private CommonDrawer commonDrawer;
     private String fatalErrorMsg;
@@ -78,9 +79,14 @@ public class SolApplication implements ApplicationListener {
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
 
+    // TODO: Remove.
+    private static SolApplication instance;
+
     public SolApplication() {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
+
+        instance = this;
     }
 
     @Override
@@ -110,10 +116,9 @@ public class SolApplication implements ApplicationListener {
         displayDimensions = new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         commonDrawer = new CommonDrawer();
         uiDrawer = new UiDrawer(commonDrawer);
-        layouts = new SolLayouts();
-        menuScreens = new MenuScreens(layouts, isMobile(), options);
+        menuScreens = new MenuScreens(isMobile(), options);
 
-        inputManager.setScreen(this, menuScreens.main);
+        inputManager.changeScreen(menuScreens.mainScreen);
     }
 
     @Override
@@ -193,7 +198,7 @@ public class SolApplication implements ApplicationListener {
             solGame.drawDebugUi(uiDrawer);
         }
         if (fatalErrorMsg != null) {
-            uiDrawer.draw(uiDrawer.whiteTexture, displayDimensions.getRatio(), .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
+            uiDrawer.draw(UiDrawer.whiteTexture, displayDimensions.getRatio(), .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
             uiDrawer.drawString(fatalErrorMsg, displayDimensions.getRatio(), .5f, FontSize.MENU, true, SolColor.WHITE);
             uiDrawer.drawString(fatalErrorTrace, .2f * displayDimensions.getRatio(), .6f, FontSize.DEBUG, false, SolColor.WHITE);
         }
@@ -209,8 +214,8 @@ public class SolApplication implements ApplicationListener {
             throw new AssertionError("Starting a new game with unfinished current one");
         }
 
-        inputManager.setScreen(this, menuScreens.loading);
-        menuScreens.loading.setMode(tut, shipName, isNewGame);
+        inputManager.changeScreen(menuScreens.loadingScreen);
+        menuScreens.loadingScreen.setMode(tut, shipName, isNewGame);
         musicManager.playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 
@@ -222,16 +227,33 @@ public class SolApplication implements ApplicationListener {
         }
 
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
-        inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
+        inputManager.changeScreen(solGame.getScreens().mainGameScreen);
         musicManager.playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 
-    public SolInputManager getInputManager() {
+    // TODO: Make non-static. Also, move to a dedicated ScreenManager class.
+    public static void changeScreen(SolUiScreen screen) {
+        inputManager.changeScreen(screen);
+    }
+
+    // TODO: Make non-static.
+    public static SolInputManager getInputManager() {
         return inputManager;
     }
 
-    public MenuScreens getMenuScreens() {
+    // TODO: Make non-static.
+    public static MenuScreens getMenuScreens() {
         return menuScreens;
+    }
+
+    // TODO: Make non-static.
+    public static UiDrawer getUiDrawer() {
+        return uiDrawer;
+    }
+
+    // TODO: Remove
+    public static SolApplication getInstance() {
+        return instance;
     }
 
     public void dispose() {
@@ -248,14 +270,10 @@ public class SolApplication implements ApplicationListener {
         return solGame;
     }
 
-    public SolLayouts getLayouts() {
-        return layouts;
-    }
-
     public void finishGame() {
         solGame.onGameEnd();
         solGame = null;
-        inputManager.setScreen(this, menuScreens.main);
+        inputManager.changeScreen(menuScreens.mainScreen);
     }
 
     public boolean isMobile() {
@@ -281,7 +299,7 @@ public class SolApplication implements ApplicationListener {
         worldConfig.setSeed(System.currentTimeMillis());
         SolRandom.setSeed(worldConfig.getSeed());
 
-        worldConfig.setNumberOfSystems(getMenuScreens().newShip.getNumberOfSystems());
+//        worldConfig.setNumberOfSystems(getMenuScreens().newShipScreen.getNumberOfSystems());
     }
 
      /** This method is called when the "Continue" button gets pressed. It loads the world file to get the seed used for the world generation, and the number of systems */

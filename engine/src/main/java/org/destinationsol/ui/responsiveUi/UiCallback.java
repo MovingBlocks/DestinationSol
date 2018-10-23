@@ -13,16 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.screens;
+package org.destinationsol.ui.responsiveUi;
 
-import com.badlogic.gdx.math.Rectangle;
-import org.destinationsol.GameOptions;
-import org.destinationsol.SolApplication;
-import org.destinationsol.game.MapDrawer;
-import org.destinationsol.game.SolGame;
-import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolUiBaseScreen;
-
-
-public class MapScreen extends SolUiBaseScreen {
+public interface UiCallback {
+    // TODO: Make this accept one argument (caller)
+    void callback();
 }

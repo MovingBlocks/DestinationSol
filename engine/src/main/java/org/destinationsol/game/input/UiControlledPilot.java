@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.game.input;
 
 import org.destinationsol.Const;
@@ -24,7 +23,6 @@ import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 
 public class UiControlledPilot implements Pilot {
-
     private final MainGameScreen myScreen;
 
     public UiControlledPilot(MainGameScreen screen) {
@@ -32,8 +30,7 @@ public class UiControlledPilot implements Pilot {
     }
 
     @Override
-    public void update(SolGame game, SolShip ship, SolShip nearestEnemy) {
-    }
+    public void update(SolGame game, SolShip ship, SolShip nearestEnemy) { }
 
     @Override
     public boolean isUp() {
@@ -91,8 +88,7 @@ public class UiControlledPilot implements Pilot {
     }
 
     @Override
-    public void updateFar(SolGame game, FarShip farShip) {
-    }
+    public void updateFar(SolGame game, FarShip farShip) { }
 
     @Override
     public String toDebugString() {

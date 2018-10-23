@@ -13,17 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.ui;
+package org.destinationsol.ui.responsiveUi;
 
-import org.destinationsol.game.screens.RightPaneLayout;
-import org.destinationsol.menu.MenuLayout;
-
-public class SolLayouts {
-    public final RightPaneLayout rightPaneLayout;
-    public final MenuLayout menuLayout;
-
-    public SolLayouts() {
-        rightPaneLayout = new RightPaneLayout();
-        menuLayout = new MenuLayout();
-    }
+// TODO: Add javadocs.
+public interface UiPosition {
+    int getX();
+    int getY();
 }

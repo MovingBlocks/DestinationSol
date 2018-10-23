@@ -13,20 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.ui;
+package org.destinationsol.ui.responsiveUi;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.ui.DisplayDimensions;
+import org.destinationsol.ui.FontSize;
+import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.UiDrawer;
 
-public class SolUiControl {
-    private final int[] keys;
+public class UiTextButton implements UiElement {
+    public static final int BUTTON_WIDTH = 300;
+    public static final int BUTTON_HEIGHT = 75;
+    public static final int BUTTON_PADDING = 10;
+
     private Rectangle screenArea;
-    private final boolean isWithSound;
+
     private String displayName;
+    private int triggerKey;
+    private boolean isWithSound;
     private boolean isEnabled = true;
+
     private boolean isKeyPressed;
     private boolean wasKeyPressed;
     private boolean isKeyFlashed;
@@ -34,60 +44,125 @@ public class SolUiControl {
     private boolean isAreaFlashed;
     private boolean isAreaJustUnpressed;
     private boolean doesMouseHover;
+
+    // TODO: Warn probably means highlight in this context. Investigate.
     private int warnCount;
+    private Color warnColor = SolColor.WHITE;
 
-    private int width;
-    private int height;
-    private Position referencePosition;
-    private int offsetX;
-    private int offsetY;
+    private int x;
+    private int y;
+    private int width = BUTTON_WIDTH;
+    private int height = BUTTON_HEIGHT;
 
-    public SolUiControl(Rectangle screenArea, boolean isWithSound, int... keys) {
-        this.isWithSound = isWithSound;
-        this.keys = keys == null ? new int[0] : keys;
-        this.screenArea = screenArea;
+    // TODO: Make these optional?
+    private UiCallback onClickAction; // Called *while* button is pressed
+    private UiCallback onReleaseAction; // Called when button is released
+
+    @Override
+    public UiTextButton setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+
+        return this;
     }
 
-    public SolUiControl(int width, int height, Position referencePosition, int offsetX, int offsetY, boolean isWithSound, int... keys) {
-        this.isWithSound = isWithSound;
-        this.keys = keys == null ? new int[0] : keys;
-
+    public UiTextButton setDimensions(int width, int height) {
         this.width = width;
         this.height = height;
-        this.referencePosition = referencePosition;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
 
-        computePosition();
+        return this;
     }
 
+    public UiTextButton setDisplayName(String displayName) {
+        this.displayName = displayName;
+
+        return this;
+    }
+
+    public UiTextButton setTriggerKey(int triggerKey) {
+        this.triggerKey = triggerKey;
+
+        return this;
+    }
+
+    public UiTextButton setOnClickAction(UiCallback onClickAction) {
+        this.onClickAction = onClickAction;
+
+        return this;
+    }
+
+    public UiTextButton setOnReleaseAction(UiCallback onReleaseAction) {
+        this.onReleaseAction = onReleaseAction;
+
+        return this;
+    }
+
+    public UiTextButton enableSound() {
+        this.isWithSound = true;
+
+        return this;
+    }
+
+    @Override
+    public UiTextButton finalizeChanges() {
+        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+        screenArea = new Rectangle((x - width/2) * displayDimensions.getRatio() / displayDimensions.getWidth(), (y - height/2) / (float)displayDimensions.getHeight(), width * displayDimensions.getRatio() / displayDimensions.getWidth(), height / (float)displayDimensions.getHeight());
+
+        return this;
+    }
+
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    @Override
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
     public boolean maybeFlashPressed(int keyCode) {
         if (!isEnabled) {
             return false;
         }
-        for (int key : keys) {
-            if (key != keyCode) {
-                continue;
-            }
+
+        if (triggerKey == keyCode) {
             isKeyFlashed = true;
             return true;
         }
+
+        // TODO: Not present in original implementation. Examine why it wasn't, and look at consequences of adding it.
+        // isKeyFlashed = false;
         return false;
     }
 
+    @Override
     public boolean maybeFlashPressed(SolInputManager.InputPointer inputPointer) {
         if (!isEnabled) {
             return false;
         }
+
         boolean pressed = screenArea != null && screenArea.contains(inputPointer.x, inputPointer.y);
         if (pressed) {
             isAreaFlashed = true;
         }
+
         return pressed;
     }
 
-    public void update(SolInputManager.InputPointer[] inputPointers, boolean cursorShown, boolean canBePressed, SolInputManager inputMan,
-                       SolApplication cmp) {
+    @Override
+    public boolean update(SolInputManager.InputPointer[] inputPointers, boolean cursorShown, boolean canBePressed, SolInputManager inputMan, SolApplication cmp) {
         if (!isEnabled) {
             canBePressed = false;
         }
@@ -100,6 +175,18 @@ public class SolUiControl {
         if (warnCount > 0) {
             warnCount--;
         }
+
+        if (isOn()) {
+            if (onClickAction != null) {
+                onClickAction.callback();
+            }
+        } else if (isJustOff()) {
+            if (onReleaseAction != null) {
+                onReleaseAction.callback();
+            }
+        }
+
+        return (isOn() || isJustOff());
     }
 
     private void updateHover(SolInputManager.InputPointer[] inputPointers, boolean cursorShown, SolInputManager inputMan, SolApplication cmp) {
@@ -119,15 +206,8 @@ public class SolUiControl {
             isKeyPressed = true;
             isKeyFlashed = false;
         } else {
-            isKeyPressed = false;
             if (canBePressed) {
-                for (int key : keys) {
-                    if (!Gdx.input.isKeyPressed(key)) {
-                        continue;
-                    }
-                    isKeyPressed = true;
-                    break;
-                }
+                isKeyPressed = Gdx.input.isKeyPressed(triggerKey);
             }
         }
     }
@@ -169,14 +249,12 @@ public class SolUiControl {
         return displayName;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public void drawButton(UiDrawer uiDrawer, Color warnCol) {
+    @Override
+    public void draw() {
         if (screenArea == null) {
             return;
         }
+
         Color tint = SolColor.UI_INACTIVE;
         if (isEnabled) {
             if (isOn()) {
@@ -187,21 +265,19 @@ public class SolUiControl {
                 tint = SolColor.UI_DARK;
             }
         }
+
+        UiDrawer uiDrawer = SolApplication.getUiDrawer();
+
         uiDrawer.draw(screenArea, tint);
         if (warnCount > 0) {
-            uiDrawer.draw(screenArea, warnCol);
+            uiDrawer.draw(screenArea, warnColor);
         }
+
+        tint = isEnabled ? SolColor.WHITE : SolColor.G;
+        uiDrawer.drawString(displayName, screenArea.x + screenArea.width / 2, screenArea.y + screenArea.height / 2, FontSize.MENU, true, tint);
     }
 
-    public void drawDisplayName(UiDrawer uiDrawer) {
-        if (screenArea == null) {
-            return;
-        }
-        Color tint = isEnabled ? SolColor.WHITE : SolColor.G;
-        uiDrawer.drawString(displayName, screenArea.x + screenArea.width / 2, screenArea.y + screenArea.height / 2,
-                FontSize.MENU, true, tint);
-    }
-
+    @Override
     public void blur() {
         isKeyPressed = false;
         wasKeyPressed = false;
@@ -217,6 +293,7 @@ public class SolUiControl {
         isEnabled = enabled;
     }
 
+    @Override
     public Rectangle getScreenArea() {
         return screenArea;
     }
@@ -227,19 +304,5 @@ public class SolUiControl {
 
     public void enableWarn() {
         warnCount = 2;
-    }
-
-    public void computePosition() {
-        // TODO: Remove this condition once the entire codebase uses the new ui system
-        if (referencePosition == null) {
-            return;
-        }
-
-        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
-
-        int x = referencePosition.getX() + offsetX - width/2;
-        int y = referencePosition.getY() + offsetY - height/2;
-
-        screenArea = new Rectangle(x * displayDimensions.getRatio() / displayDimensions.getWidth(), y / (float)displayDimensions.getHeight(), width * displayDimensions.getRatio() / displayDimensions.getWidth(), height / (float)displayDimensions.getHeight());
     }
 }

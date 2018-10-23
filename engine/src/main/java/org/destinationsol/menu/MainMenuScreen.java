@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.destinationsol.menu;
 
 import com.badlogic.gdx.Gdx;
@@ -29,54 +28,67 @@ import org.destinationsol.game.DebugOptions;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
-import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
+import org.destinationsol.ui.responsiveUi.UiTextButton;
+import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
+import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM;
+import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM_RIGHT;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_HEIGHT;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_PADDING;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_WIDTH;
 
 public class MainMenuScreen extends SolUiBaseScreen {
-    private final boolean isMobile;
-    private final GameOptions gameOptions;
-
     private final TextureAtlas.AtlasRegion logoTexture;
     private final TextureAtlas.AtlasRegion backgroundTexture;
+
     private DisplayDimensions displayDimensions;
-
-    private final SolUiControl tutorialControl;
-    private final SolUiControl optionsControl;
-    private final SolUiControl exitControl;
-    private final SolUiControl newGameControl;
-    private final SolUiControl creditsControl;
-
-    private final int buttonWidth = 300;
-    private final int buttonHeight = 75;
-    private final int buttonPadding = 10;
+    private GameOptions gameOptions;
 
     MainMenuScreen(boolean isMobile, GameOptions gameOptions) {
-        this.isMobile = isMobile;
         this.gameOptions = gameOptions;
 
         displayDimensions = SolApplication.displayDimensions;
 
-        tutorialControl = new SolUiControl(buttonWidth, buttonHeight, UiDrawer.positions.get("bottom"), 0, calculateButtonOffsetFromBottom(3), true, Input.Keys.T);
-        tutorialControl.setDisplayName("Tutorial");
-        controls.add(tutorialControl);
+        UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
-        newGameControl = new SolUiControl(buttonWidth, buttonHeight, UiDrawer.positions.get("bottom"), 0, calculateButtonOffsetFromBottom(2), true, gameOptions.getKeyShoot());
-        newGameControl.setDisplayName("Play Game");
-        controls.add(newGameControl);
+        buttonList.addElement(new UiTextButton().setDisplayName("Tutorial")
+                .setTriggerKey(Input.Keys.T)
+                .enableSound()
+                .setOnReleaseAction(() -> SolApplication.getInstance().play(true, "Imperial Small", true)));
+
+        buttonList.addElement(new UiTextButton().setDisplayName("Play Game")
+                .setTriggerKey(gameOptions.getKeyShoot())
+                .enableSound()
+                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().newGameScreen)));
 
         // TODO: Temporarily showing on mobile as well. Fix!
+        // TODO: Actually, think about why we don't want it on mobile as well first.
         // optionsControl = new SolUiControl(isMobile ? null : menuLayout.buttonRect(-1, 3), true, Input.Keys.O);
-        optionsControl = new SolUiControl(buttonWidth, buttonHeight, UiDrawer.positions.get("bottom"), 0, calculateButtonOffsetFromBottom(1), true, Input.Keys.O);
-        optionsControl.setDisplayName("Options");
-        controls.add(optionsControl);
+        buttonList.addElement(new UiTextButton().setDisplayName("Options")
+                .setTriggerKey(Input.Keys.O)
+                .enableSound()
+                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().optionsScreen)));
 
-        exitControl = new SolUiControl(buttonWidth, buttonHeight, UiDrawer.positions.get("bottom"), 0, calculateButtonOffsetFromBottom(0), true, gameOptions.getKeyEscape());
-        exitControl.setDisplayName("Exit");
-        controls.add(exitControl);
+        buttonList.addElement(new UiTextButton().setDisplayName("Exit")
+                .setTriggerKey(gameOptions.getKeyEscape())
+                .enableSound()
+                .setOnReleaseAction(() -> {
+                    // Save the settings on exit, but not on mobile as settings don't exist there.
+                    if (!isMobile) {
+                        SolApplication.getInstance().getOptions().save();
+                    }
+                    Gdx.app.exit();
+                }));
 
-        creditsControl = new SolUiControl(MenuLayout.bottomRightFloatingButton(displayDimensions), true, Input.Keys.C);
-        creditsControl.setDisplayName("Credits");
-        controls.add(creditsControl);
+        UiTextButton creditsButton = new UiTextButton().setDisplayName("Credits")
+                .setTriggerKey(Input.Keys.C)
+                .enableSound()
+                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().creditsScreen));
+
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
+                .addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -BUTTON_WIDTH / 2 - BUTTON_PADDING, -BUTTON_HEIGHT / 2 - BUTTON_PADDING)
+                .finalizeChanges();
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
         logoTexture = Assets.getAtlasRegion("engine:mainMenuLogo", Texture.TextureFilter.Linear);
@@ -84,38 +96,8 @@ public class MainMenuScreen extends SolUiBaseScreen {
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        tutorialControl.setEnabled(solApplication.getOptions().controlType != GameOptions.ControlType.CONTROLLER);
-
-        if (tutorialControl.isJustOff()) {
-            solApplication.play(true, "Imperial Small", true);
-            return;
-        }
-
-        SolInputManager inputManager = solApplication.getInputManager();
-        MenuScreens screens = solApplication.getMenuScreens();
-
-        if (newGameControl.isJustOff()) {
-            inputManager.setScreen(solApplication, screens.newGame);
-            return;
-        }
-
-        if (optionsControl.isJustOff()) {
-            inputManager.setScreen(solApplication, screens.options);
-            return;
-        }
-
-        if (exitControl.isJustOff()) {
-            // Save the settings on exit, but not on mobile as settings don't exist there.
-            if (!isMobile) {
-                solApplication.getOptions().save();
-            }
-            Gdx.app.exit();
-            return;
-        }
-
-        if (creditsControl.isJustOff()) {
-            inputManager.setScreen(solApplication, screens.credits);
-        }
+        // TODO: Disabled for now, since I can't figure out why controller players shouldn't be able to play the tutorial.
+        // tutorialControl.setEnabled(solApplication.getOptions().controlType != GameOptions.ControlType.CONTROLLER);
     }
 
     @Override
@@ -129,19 +111,11 @@ public class MainMenuScreen extends SolUiBaseScreen {
     }
 
     @Override
-    public void drawImages(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void draw(UiDrawer uiDrawer, SolApplication solApplication) {
         final float sy = .35f;
         final float sx = sy * 400 / 218;
         if (!DebugOptions.PRINT_BALANCE) {
             uiDrawer.draw(logoTexture, sx, sy, sx / 2, sy / 2, displayDimensions.getRatio() / 2, 0.1f + sy / 2, 0, SolColor.WHITE);
         }
-    }
-
-    /**
-     * @param buttonIndex the index of the button, starting from 0 for the bottom-most button
-     * @return the number of pixels to go up from the bottom of the screen for the {@code buttonIndex}th button
-     */
-    private int calculateButtonOffsetFromBottom(int buttonIndex) {
-        return -(buttonPadding + buttonHeight / 2) - (buttonIndex * (buttonPadding + buttonHeight));
     }
 }

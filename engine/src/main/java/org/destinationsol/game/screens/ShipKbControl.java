@@ -19,110 +19,113 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.item.Gun;
-import org.destinationsol.ui.DisplayDimensions;
-import org.destinationsol.ui.SolUiControl;
-
-import java.util.List;
+import org.destinationsol.ui.responsiveUi.UiHeadlessButton;
+import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
 
 public class ShipKbControl implements ShipUiControl {
-    public final SolUiControl leftCtrl;
-    public final SolUiControl rightCtrl;
-    public final SolUiControl upCtrl;
-    public final SolUiControl myDownCtrl;
-    public final SolUiControl shootCtrl;
-    public final SolUiControl shoot2Ctrl;
-    public final SolUiControl abilityCtrl;
+    private UiHeadlessButton leftButton;
+    private UiHeadlessButton rightButton;
+    private UiHeadlessButton upButton;
+    private UiHeadlessButton downButton;
+    private UiHeadlessButton shootButton;
+    private UiHeadlessButton shoot2Button;
+    private UiHeadlessButton abilityButton;
 
-    ShipKbControl(SolApplication solApplication, List<SolUiControl> controls) {
-        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
-
+    ShipKbControl(SolApplication solApplication, UiRelativeLayout rootUiElement) {
         GameOptions gameOptions = solApplication.getOptions();
-        boolean showButtons = solApplication.isMobile();
-        float col0 = 0;
-        float col1 = col0 + MainGameScreen.CELL_SZ;
-        float colN0 = displayDimensions.getRatio() - MainGameScreen.CELL_SZ;
-        float colN1 = colN0 - MainGameScreen.CELL_SZ;
-        float rowN0 = 1 - MainGameScreen.CELL_SZ;
-        float rowN1 = rowN0 - MainGameScreen.CELL_SZ;
 
-        leftCtrl = new SolUiControl(showButtons ? MainGameScreen.btn(colN1, rowN0, false) : null, false, gameOptions.getKeyLeft());
-        leftCtrl.setDisplayName("Left");
-        controls.add(leftCtrl);
-        rightCtrl = new SolUiControl(showButtons ? MainGameScreen.btn(colN0, rowN0, false) : null, false, gameOptions.getKeyRight());
-        rightCtrl.setDisplayName("Right");
-        controls.add(rightCtrl);
-        upCtrl = new SolUiControl(showButtons ? MainGameScreen.btn(col0, rowN0, false) : null, false, gameOptions.getKeyUp());
-        upCtrl.setDisplayName("Fwd");
-        controls.add(upCtrl);
-        myDownCtrl = new SolUiControl(null, true, gameOptions.getKeyDown());
-        controls.add(myDownCtrl);
-        shootCtrl = new SolUiControl(showButtons ? MainGameScreen.btn(col0, rowN1, false) : null, false, gameOptions.getKeyShoot());
-        shootCtrl.setDisplayName("Gun 1");
-        controls.add(shootCtrl);
-        shoot2Ctrl = new SolUiControl(showButtons ? MainGameScreen.btn(col1, rowN0, false) : null, false, gameOptions.getKeyShoot2());
-        shoot2Ctrl.setDisplayName("Gun 2");
-        controls.add(shoot2Ctrl);
-        abilityCtrl = new SolUiControl(showButtons ? MainGameScreen.btn(colN0, rowN1, false) : null, false, gameOptions.getKeyAbility());
-        abilityCtrl.setDisplayName("Ability");
-        controls.add(abilityCtrl);
+        // TODO: Make the buttons visible for mobile.
+        /*
+        boolean showButtons = solApplication.isMobile();
+        if (showButtons) {
+            leftButton = new UiTextButton(...);
+        } else {
+            leftButton = new UiHeadlessButton(...);
+        }
+        */
+
+        leftButton = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyLeft());
+        rootUiElement.addHeadlessElement(leftButton);
+
+        rightButton = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyRight());
+        rootUiElement.addHeadlessElement(rightButton);
+
+        upButton = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyUp());
+        rootUiElement.addHeadlessElement(upButton);
+
+        downButton = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyDown());
+        rootUiElement.addHeadlessElement(downButton);
+
+        shootButton = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyShoot());
+        rootUiElement.addHeadlessElement(shootButton);
+
+        shoot2Button = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyShoot2());
+        rootUiElement.addHeadlessElement(shoot2Button);
+
+        abilityButton = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyAbility());
+        rootUiElement.addHeadlessElement(abilityButton);
     }
 
     @Override
     public void update(SolApplication solApplication, boolean enabled) {
         if (!enabled) {
-            upCtrl.setEnabled(false);
-            leftCtrl.setEnabled(false);
-            rightCtrl.setEnabled(false);
-            shootCtrl.setEnabled(false);
-            shoot2Ctrl.setEnabled(false);
-            abilityCtrl.setEnabled(false);
+            leftButton.setEnabled(false);
+            rightButton.setEnabled(false);
+            upButton.setEnabled(false);
+            downButton.setEnabled(false);
+            shootButton.setEnabled(false);
+            shoot2Button.setEnabled(false);
+            abilityButton.setEnabled(false);
             return;
         }
+
         Hero hero = solApplication.getGame().getHero();
         boolean hasEngine = hero.isNonTranscendent() && hero.getHull().getEngine() != null;
-        upCtrl.setEnabled(hasEngine);
-        leftCtrl.setEnabled(hasEngine);
-        rightCtrl.setEnabled(hasEngine);
+        leftButton.setEnabled(hasEngine);
+        rightButton.setEnabled(hasEngine);
+        upButton.setEnabled(hasEngine);
+        downButton.setEnabled(hasEngine);
 
-        Gun g1 = hero.isTranscendent() ? null : hero.getHull().getGun(false);
-        shootCtrl.setEnabled(g1 != null && g1.ammo > 0);
-        Gun g2 = hero.isTranscendent() ? null : hero.getHull().getGun(true);
-        shoot2Ctrl.setEnabled(g2 != null && g2.ammo > 0);
-        abilityCtrl.setEnabled(hero.isNonTranscendent() && hero.canUseAbility());
+        Gun gun1 = hero.isTranscendent() ? null : hero.getHull().getGun(false);
+        shootButton.setEnabled(gun1 != null && gun1.ammo > 0);
+        Gun gun2 = hero.isTranscendent() ? null : hero.getHull().getGun(true);
+        shoot2Button.setEnabled(gun2 != null && gun2.ammo > 0);
+
+        abilityButton.setEnabled(hero.isNonTranscendent() && hero.canUseAbility());
     }
 
     @Override
     public boolean isLeft() {
-        return leftCtrl.isOn();
+        return leftButton.isOn();
     }
 
     @Override
     public boolean isRight() {
-        return rightCtrl.isOn();
+        return rightButton.isOn();
     }
 
     @Override
     public boolean isUp() {
-        return upCtrl.isOn();
+        return upButton.isOn();
     }
 
     @Override
     public boolean isDown() {
-        return myDownCtrl.isOn();
+        return downButton.isOn();
     }
 
     @Override
     public boolean isShoot() {
-        return shootCtrl.isOn();
+        return shootButton.isOn();
     }
 
     @Override
     public boolean isShoot2() {
-        return shoot2Ctrl.isOn();
+        return shoot2Button.isOn();
     }
 
     @Override
     public boolean isAbility() {
-        return abilityCtrl.isOn();
+        return abilityButton.isOn();
     }
 }

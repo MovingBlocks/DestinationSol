@@ -693,7 +693,7 @@ public class GameOptions {
      *
      * @return String The readable name as defined in Input.Keys
      */
-    public String getKeyMercenaryInterationName() {
+    public String getKeyMercenaryInteractionName() {
         return keyMercenaryInteractionName;
     }
 

@@ -20,6 +20,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import java.util.ArrayList;
+import java.util.List;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
@@ -27,20 +29,16 @@ import org.destinationsol.common.SolException;
 import org.destinationsol.game.console.ConsoleInputHandler;
 import org.destinationsol.game.console.ShellInputHandler;
 import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolUiScreen;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.UiDrawer;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import org.destinationsol.ui.responsiveUi.UiHeadlessButton;
+import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
 
 /**
  * Command console opened by pressing {@code `} in-game. Singleton, until a better way to handle this is developed.
  * Can be hooked with custom command handlers, thus allowing for custom "programs" of sorts.
  */
-public class Console implements SolUiScreen {
-
+public class Console extends SolUiBaseScreen {
     /**
      * Magic happens here.
      *
@@ -95,8 +93,6 @@ public class Console implements SolUiScreen {
      * Required for figuring out char widths.
      */
     private final BitmapFont font;
-    private final SolUiControl exitControl;
-    private final List<SolUiControl> controls;
     private final ShellInputHandler defaultInputHandler;
 
     /**
@@ -113,8 +109,17 @@ public class Console implements SolUiScreen {
 
     private Console() {
         font = Assets.getFont("engine:main").getBitmapFont();
-        exitControl = new SolUiControl(null, true, Input.Keys.ESCAPE);
-        controls = Collections.singletonList(exitControl);
+
+        UiRelativeLayout relativeLayout = new UiRelativeLayout();
+
+        UiHeadlessButton exitButton = new UiHeadlessButton().setTriggerKey(Input.Keys.ESCAPE)
+                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getInstance().getGame().getScreens().mainGameScreen));
+
+        relativeLayout.addHeadlessElement(exitButton)
+                .finalizeChanges();
+
+        rootUiElement = relativeLayout;
+
         linesOfOutput = new ArrayList<>();
         inputLine = new StringBuilder();
         println("Welcome to the world of Destination Sol! Your journey begins!");
@@ -163,13 +168,6 @@ public class Console implements SolUiScreen {
      */
     public void setInputHandler(ConsoleInputHandler inputHandler) {
         this.inputHandler = inputHandler;
-    }
-
-    @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        if (exitControl.isJustOff()) {
-            solApplication.getInputManager().setScreen(solApplication, solApplication.getGame().getScreens().mainGameScreen);
-        }
     }
 
     /**
@@ -226,11 +224,6 @@ public class Console implements SolUiScreen {
     }
 
     @Override
-    public List<SolUiControl> getControls() {
-        return controls;
-    }
-
-    @Override
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         drawFrame(uiDrawer);
         // Text area - uncomment when you want drawn clear boundary of area meant for text to be in. Don't delete in case there is ever need to resize the console.
@@ -267,7 +260,7 @@ public class Console implements SolUiScreen {
     }
 
     @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void draw(UiDrawer uiDrawer, SolApplication solApplication) {
         final float textX = TOP_LEFT.x + 2 * FRAME_WIDTH; // X position of all text
         for (int line = 0; line < 20; line++) { // Magic constant. Change if Console is resized.
             if (linesOfOutput.size() + line > 19) { // to prevent IndexOutOfBoundsException
