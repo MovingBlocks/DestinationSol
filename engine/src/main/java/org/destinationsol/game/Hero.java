@@ -44,6 +44,10 @@ public class Hero {
             throw new SolException("Something tries to create hero, when there is no ship linked to him.");
         }
         isTranscendent = false;
+
+        Console.getInstance().getDefaultInputHandler().registerCommand("position", (input, console) -> {
+            console.println(getPosition().toString());
+        });
     }
 
     public void setTranscendent(StarPort.Transcendent transcendentHero) {
