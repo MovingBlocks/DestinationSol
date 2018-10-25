@@ -17,6 +17,7 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolException;
+import org.destinationsol.game.console.commands.PositionCommandHandler;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
 import org.destinationsol.game.item.ItemContainer;
@@ -45,9 +46,12 @@ public class Hero {
         }
         isTranscendent = false;
 
-        Console.getInstance().getDefaultInputHandler().registerCommand("position", (input, console) -> {
-            console.println(getPosition().toString());
-        });
+        if (!Console.getInstance().getDefaultInputHandler().commandExists("position")) {
+            Console.getInstance().getDefaultInputHandler().registerCommand("position", new PositionCommandHandler(this));
+        }
+        else {
+            ((PositionCommandHandler) Console.getInstance().getDefaultInputHandler().getRegisteredCommand("position")).hero = this;
+        }
     }
 
     public void setTranscendent(StarPort.Transcendent transcendentHero) {
