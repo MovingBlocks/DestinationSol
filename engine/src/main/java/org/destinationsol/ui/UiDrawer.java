@@ -34,6 +34,7 @@ public class UiDrawer implements ResizeSubscriber {
     }
 
     public static final float FONT_SIZE = .02f;
+    private static final float FONT_SIZE_MULTIPLIER = 1000f;
 
     private Matrix4 straightMtx;
     private final float uiLineWidth;
@@ -87,7 +88,7 @@ public class UiDrawer implements ResizeSubscriber {
     }
 
     public void drawString(String s, float x, float y, float scale, TextAlignment align, boolean centered, Color tint) {
-        drawer.drawString(s, x, y, scale * FONT_SIZE, align, centered, tint);
+        drawer.drawString(s, x, y, scale * FONT_SIZE * FONT_SIZE_MULTIPLIER / displayDimensions.getHeight(), align, centered, tint);
     }
 
     public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y, float rot, Color tint) {
