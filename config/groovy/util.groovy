@@ -54,11 +54,35 @@ switch(cleanerArgs[0]) {
         } else {
             // Note: processCustomRemote also drops one of the array elements from cleanerArgs
             cleanerArgs = common.processCustomRemote(cleanerArgs)
-            if (cleanerArgs[0] == "*") {
-                cleanerArgs = common.retrieveAvailableItems()
+            ArrayList<String> selectedModules = new ArrayList<String>()
+            String[] moduleList = common.retrieveAvailableItems()
+
+            for (String arg : cleanerArgs) {
+                if (!arg.contains('*') && !arg.contains('?')) {
+                    selectedModules.add(arg)
+                } else {
+                    for (String module : moduleList) {
+                        /**
+                         * Forming the regex:
+                         * "\Q" starts an explicit quote (which includes all reserved characters as well)
+                         * "\E" ends an explicit quote
+                         * "\w*" is equivalent to "*" - it selects anything that has the same characters as before or
+                         * after the asterisk
+                         * "\w*" is equivalent to "?" - it selects anything that has the rest of the pattern but any
+                         * character in the "?" symbol's position
+                         * So, "\Q<INPUT_PART1>\E\w*\Q\<INPUT_PART1>E", selects anything that starts with INPUT_PART1
+                         * and ends with INPUT_PART2 - This regex expression is equivalent to the input argument
+                         * "INPUT_PART1*INPUT_PART2"
+                         */
+                        String regex = ("\\Q" + arg.replace("*", "\\E\\w*\\Q").replace("?", "\\E\\w+\\Q") + "\\E")
+                        if (module.matches(regex)) {
+                            selectedModules.add(module)
+                        }
+                    }
+                }
             }
 
-            common.retrieve cleanerArgs, recurse
+            common.retrieve(((String[])selectedModules.toArray()), recurse)
         }
         break
 
@@ -220,6 +244,8 @@ def printUsage() {
     println "Example: 'groovyw module create MySpaceShips' - would create that module"
     println "Example: 'groovyw module get caution - remote vampcat - would retrieve caution module from vampcat's account on github.'"
     println "Example: 'groovyw module get *' - would retrieve all the modules in the DestinationSol organisation on GitHub."
+    println "Example: 'groovyw module get *de*' - would retrieve all the modules in the DestinationSol organisation on GitHub" +
+            " that have the letter-pair \"de\" next somewhere within them."
     println ""
     println "*NOTE*: Item names are case sensitive. If you add items then `gradlew idea` or similar may be needed to refresh your IDE"
     println ""
