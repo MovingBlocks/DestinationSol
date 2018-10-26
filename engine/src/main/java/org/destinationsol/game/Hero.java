@@ -45,11 +45,12 @@ public class Hero {
             throw new SolException("Something tries to create hero, when there is no ship linked to him.");
         }
         isTranscendent = false;
+    }
 
+    public void initialise() {
         if (!Console.getInstance().getDefaultInputHandler().commandExists("position")) {
             Console.getInstance().getDefaultInputHandler().registerCommand("position", new PositionCommandHandler(this));
-        }
-        else {
+        } else {
             ((PositionCommandHandler) Console.getInstance().getDefaultInputHandler().getRegisteredCommand("position")).hero = this;
         }
     }
