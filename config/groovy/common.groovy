@@ -108,20 +108,34 @@ class common {
         } else if (itemsRetrieved.contains(itemName)) {
             println "We already retrieved $itemName - skipping"
         } else {
-            itemsRetrieved << itemName
             def targetUrl = "https://github.com/${githubTargetHome}/${itemName}"
+            def failUrl = "https://github.com/${githubDefaultHome}/${itemName}"
+            def failed = false;
+
             if (!isUrlValid(targetUrl)) {
                 println "Can't retrieve $itemType from $targetUrl - URL appears invalid. Typo? Not created yet?"
-                return
-            }
-            println "Retrieving $itemType $itemName from $targetUrl"
-            if (githubTargetHome != githubDefaultHome) {
+
+                if (isUrlValid(failUrl)) {
+                    println "Failed to retrieve $itemType $itemName, failing over to default modules repository."
+                    Grgit.clone dir: targetDir, uri: failUrl
+                    itemsRetrieved << itemName
+                    failed = true
+                } else {
+                    println "$itemType $itemName does not exist in $githubDefaultHome. Failed to retrieve $itemName."
+                    return
+                }  
+            } 
+
+            if (githubTargetHome != githubDefaultHome && !failed) {
+                println "Retrieving $itemType $itemName from $targetUrl"
                 println "Doing a retrieve from a custom remote: $githubTargetHome - will name it as such plus add the $githubDefaultHome remote as '$defaultRemote'"
                 Grgit.clone dir: targetDir, uri: targetUrl, remote: githubTargetHome
                 println "Primary clone operation complete, about to add the '$defaultRemote' remote for the $githubDefaultHome org address"
                 addRemote(itemName, defaultRemote, "https://github.com/${githubDefaultHome}/${itemName}")
-            } else {
+                itemsRetrieved << itemName
+            } else if (!failed) {
                 Grgit.clone dir: targetDir, uri: targetUrl
+                itemsRetrieved << itemName
             }
 
             // This step allows the item type to check the newly cloned item and add in extra template stuff
