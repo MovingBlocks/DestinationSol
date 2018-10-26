@@ -138,7 +138,7 @@ public class BeaconHandler implements UpdateAwareSystem{
             return;
         }
         if (farTarget == null) {
-            throw new AssertionError();
+            throw new AssertionError("Far target does not exist!");
         }
         if (om.getFarShips().contains(farTarget)) {
             return;
@@ -186,7 +186,7 @@ public class BeaconHandler implements UpdateAwareSystem{
             throw new AssertionError();
         }
         if (farDrawable == null) {
-            throw new AssertionError();
+            throw new AssertionError("Far drawable does not exist!");
         }
         if (om.containsFarObj(farDrawable)) {
             return;

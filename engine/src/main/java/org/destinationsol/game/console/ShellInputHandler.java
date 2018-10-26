@@ -47,7 +47,7 @@ public class ShellInputHandler implements ConsoleInputHandler {
      */
     public void registerCommand(String cmdName, ConsoleInputHandler callback) {
         if (commands.keySet().contains(cmdName)) {
-            throw new SolException("Trying to register command with already existent name (" + cmdName + ")");
+            throw new SolException("Trying to register command that already exists (" + cmdName + ")");
         }
         commands.put(cmdName, callback);
     }
