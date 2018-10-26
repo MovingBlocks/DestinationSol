@@ -124,7 +124,7 @@ class common {
                     println "$itemType $itemName does not exist in $githubDefaultHome. Failed to retrieve $itemName."
                     return
                 }  
-            } 
+            }
 
             if (githubTargetHome != githubDefaultHome && !failed) {
                 println "Retrieving $itemType $itemName from $targetUrl"
@@ -154,7 +154,7 @@ class common {
                         retrieve(uniqueDependencies, true)
                     }
                 }
-            }    
+            }
         }
     }
 
