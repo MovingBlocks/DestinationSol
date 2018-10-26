@@ -33,12 +33,12 @@ public class UiDrawer implements ResizeSubscriber {
         RIGHT
     }
 
-    public static final float FONT_SIZE = .02f;
-    private static final float FONT_SIZE_MULTIPLIER = 1000f;
+    public static final float FONT_SIZE_PX = 20f;
 
     private Matrix4 straightMtx;
     private final float uiLineWidth;
 
+    public static float fontSize;
     public static final TextureRegion whiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
     public Rectangle filler;
     private final CommonDrawer drawer;
@@ -62,6 +62,7 @@ public class UiDrawer implements ResizeSubscriber {
         uiLineWidth = 1.0f / displayDimensions.getHeight();
 
         recomputeStraightMtx();
+        recomputeFontSize();
         drawer.setMatrix(straightMtx);
 
         filler = new Rectangle(0, 0, displayDimensions.getRatio(), 1);
@@ -88,7 +89,7 @@ public class UiDrawer implements ResizeSubscriber {
     }
 
     public void drawString(String s, float x, float y, float scale, TextAlignment align, boolean centered, Color tint) {
-        drawer.drawString(s, x, y, scale * FONT_SIZE * FONT_SIZE_MULTIPLIER / displayDimensions.getHeight(), align, centered, tint);
+        drawer.drawString(s, x, y, scale * fontSize, align, centered, tint);
     }
 
     public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y, float rot, Color tint) {
@@ -114,10 +115,14 @@ public class UiDrawer implements ResizeSubscriber {
     @Override
     public void resize() {
         recomputeStraightMtx();
+        recomputeFontSize();
         filler = new Rectangle(0, 0, displayDimensions.getRatio(), 1);
     }
 
     private void recomputeStraightMtx() {
         straightMtx = new Matrix4().setToOrtho2D(0, 1, displayDimensions.getRatio(), -1);
+    }
+    private void recomputeFontSize() {
+        fontSize = FONT_SIZE_PX / displayDimensions.getHeight();
     }
 }
