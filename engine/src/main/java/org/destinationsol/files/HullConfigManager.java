@@ -17,6 +17,7 @@ package org.destinationsol.files;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.SerializationException;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
@@ -105,6 +106,8 @@ public final class HullConfigManager {
             readProperties(json.getJsonValue(), configData);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("The JSON of ship " + shipName + " is missing, or has malformed, a required parameter" + e.getMessage().split(":")[1]);
+        } catch (SerializationException e) {
+            throw new SerializationException("The JSON of ship " + shipName + " has invalid syntax" + e.getMessage().split(":")[1]);
         }
 
         configData.tex = Assets.getAtlasRegion(shipName);
