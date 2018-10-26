@@ -17,6 +17,7 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolException;
+import org.destinationsol.game.console.commands.PositionCommandHandler;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
 import org.destinationsol.game.item.ItemContainer;
@@ -44,6 +45,14 @@ public class Hero {
             throw new SolException("Something is trying to create the hero when there is no ship linked to him.");
         }
         isTranscendent = false;
+    }
+
+    public void initialise() {
+        if (!Console.getInstance().getDefaultInputHandler().commandExists("position")) {
+            Console.getInstance().getDefaultInputHandler().registerCommand("position", new PositionCommandHandler(this));
+        } else {
+            ((PositionCommandHandler) Console.getInstance().getDefaultInputHandler().getRegisteredCommand("position")).hero = this;
+        }
     }
 
     public void setTranscendent(StarPort.Transcendent transcendentHero) {

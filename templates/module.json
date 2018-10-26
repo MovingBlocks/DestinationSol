@@ -1,0 +1,11 @@
+{
+    "id" : "MODULENAME",
+    "version" : "0.1.0",
+    "displayName" : "MODULENAME Faction",
+    "description" : "Content related to MODULENAME Faction.",
+    "dependencies" :  [
+        {
+            "id" : "core"
+        }
+    ]
+}
