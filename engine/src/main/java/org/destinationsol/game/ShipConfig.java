@@ -115,7 +115,7 @@ public class ShipConfig {
         try {
             hull = hullConfigs.getConfig(hullName);
         } catch (SerializationException e) {
-            throw new SerializationException("The JSON of hull " + hullName + " has invalid syntax");
+            throw new SerializationException("The JSON of hull " + hullName + " has invalid syntax at " + e.getMessage().split(" near")[0].split("on ")[1]);
         }
 
         ShipConfig guard;

@@ -108,7 +108,7 @@ public final class HullConfigManager {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("The JSON of ship " + shipName + " is missing, or has malformed, a required parameter" + e.getMessage().split(":")[1]);
         } catch (SerializationException e) {
-            throw new SerializationException("The JSON of ship " + shipName + " has invalid syntax");
+            throw new SerializationException("The JSON of ship " + shipName + " has invalid syntax at " + e.getMessage().split(" near")[0].split("on ")[1]);
         }
 
         configData.tex = Assets.getAtlasRegion(shipName);

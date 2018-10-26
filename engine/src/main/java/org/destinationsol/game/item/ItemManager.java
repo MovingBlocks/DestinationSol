@@ -149,7 +149,7 @@ public class ItemManager {
                     } catch (IllegalArgumentException e) {
                         throw new IllegalArgumentException("The JSON of " + itemName + " is missing, or has malformed, a required parameter" + e.getMessage().split(":")[1]);
                     } catch (SerializationException e) {
-                        throw new SerializationException("The JSON of " + itemName + " has invalid syntax");
+                        throw new SerializationException("The JSON of " + itemName + " has invalid syntax at " + e.getMessage().split(" near")[0].split("on ")[1]);
                     }
 
                     example = getExample(itemName);
