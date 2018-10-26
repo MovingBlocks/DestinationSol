@@ -193,7 +193,7 @@ public class ObjectManager implements UpdateAwareSystem{
 
     public void addObjNow(SolGame game, SolObject o) {
         if (DebugOptions.ASSERTIONS && myObjs.contains(o)) {
-            throw new AssertionError();
+            throw new AssertionError("This object is already contained in the list of objects to add now!");
         }
         myObjs.add(o);
         recalcRadius(o);
