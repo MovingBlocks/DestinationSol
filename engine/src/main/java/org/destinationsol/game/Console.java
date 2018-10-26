@@ -327,6 +327,6 @@ public class Console extends SolUiBaseScreen {
      * @return Computed Y position
      */
     private float getLineY(float line) {
-        return TOP_LEFT.y + 2 * FRAME_WIDTH + line * UiDrawer.FONT_SIZE * 0.5f * 1.8f;
+        return TOP_LEFT.y + 2 * FRAME_WIDTH + line * UiDrawer.FONT_SIZE_PX / 1000f * 0.5f * 1.8f;
     }
 }
