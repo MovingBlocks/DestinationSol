@@ -15,12 +15,7 @@
  */
 package org.destinationsol;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import org.destinationsol.menu.Resolution;
-import org.destinationsol.menu.ResolutionProvider;
-
-import static java.util.Arrays.asList;
 
 public class GameOptions {
     public enum ControlType {
@@ -169,8 +164,6 @@ public class GameOptions {
     private int controllerButtonUp;
     private int controllerButtonDown;
 
-    private ResolutionProvider resolutionProvider;
-
     public GameOptions(boolean mobile, SolFileReader solFileReader) {
         IniReader reader = new IniReader(FILE_NAME, solFileReader);
         x = reader.getInt("x", 1366);
@@ -215,19 +208,6 @@ public class GameOptions {
         controllerButtonUp = reader.getInt("controllerButtonUp", DEFAULT_BUTTON_UP);
         controllerButtonDown = reader.getInt("controllerButtonDown", DEFAULT_BUTTON_DOWN);
         canSellEquippedItems = reader.getBoolean("canSellEquippedItems", false);
-    }
-
-    public void advanceResolution() {
-        //lazy initialize provider because graphics is not available at the constructor
-        if(resolutionProvider == null){
-            resolutionProvider = new ResolutionProvider(asList(Gdx.graphics.getDisplayModes()));
-        }
-        Resolution nextResolution = resolutionProvider.increase();
-
-        x = nextResolution.getWidth();
-        y = nextResolution.getHeight();
-
-        save();
     }
 
     public void advanceControlType(boolean mobile) {

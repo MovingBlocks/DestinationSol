@@ -21,7 +21,6 @@ public class MenuScreens {
     public MainMenuScreen mainScreen;
     public OptionsScreen optionsScreen;
     public InputMapScreen inputMapScreen;
-    public ResolutionScreen resolutionScreen;
     public CreditsScreen creditsScreen;
     public LoadingScreen loadingScreen;
     public NewGameScreen newGameScreen;
@@ -31,7 +30,6 @@ public class MenuScreens {
         mainScreen = new MainMenuScreen(mobile, gameOptions);
         optionsScreen = new OptionsScreen(gameOptions);
         inputMapScreen = new InputMapScreen(gameOptions);
-        resolutionScreen = new ResolutionScreen(gameOptions);
         creditsScreen = new CreditsScreen(gameOptions);
         loadingScreen = new LoadingScreen();
         newGameScreen = new NewGameScreen(gameOptions);
