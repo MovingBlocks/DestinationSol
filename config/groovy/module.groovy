@@ -12,7 +12,7 @@ class module {
     def itemType = "module"
 
     String[] findDependencies(File targetDir) {
-        def foundDependencies = readModuleDependencies(new File(targetDir, "module.txt"))
+        def foundDependencies = readModuleDependencies(new File(targetDir, "module.json"))
         println "Looked for dependencies, found: " + foundDependencies
         return foundDependencies
     }
