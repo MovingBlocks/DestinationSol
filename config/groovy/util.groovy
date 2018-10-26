@@ -54,6 +54,10 @@ switch(cleanerArgs[0]) {
         } else {
             // Note: processCustomRemote also drops one of the array elements from cleanerArgs
             cleanerArgs = common.processCustomRemote(cleanerArgs)
+            if (cleanerArgs[0] == "*") {
+                cleanerArgs = common.retrieveAvailableItems()
+            }
+
             common.retrieve cleanerArgs, recurse
         }
         break
@@ -215,6 +219,7 @@ def printUsage() {
     println ""
     println "Example: 'groovyw module create MySpaceShips' - would create that module"
     println "Example: 'groovyw module get caution - remote vampcat - would retrieve caution module from vampcat's account on github.'"
+    println "Example: 'groovyw module get *' - would retrieve all the modules in the DestinationSol organisation on GitHub."
     println ""
     println "*NOTE*: Item names are case sensitive. If you add items then `gradlew idea` or similar may be needed to refresh your IDE"
     println ""
