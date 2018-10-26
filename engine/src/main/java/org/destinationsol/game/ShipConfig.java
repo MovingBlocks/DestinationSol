@@ -17,6 +17,7 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.SerializationException;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.HullConfigManager;
@@ -110,7 +111,12 @@ public class ShipConfig {
         }
 
         String hullName = rootNode.getString("hull");
-        HullConfig hull = hullConfigs.getConfig(hullName);
+        HullConfig hull;
+        try {
+            hull = hullConfigs.getConfig(hullName);
+        } catch (SerializationException e) {
+            throw new SerializationException("The JSON of hull " + hullName + " has invalid syntax");
+        }
 
         ShipConfig guard;
         if (rootNode.hasChild("guard")) {
