@@ -42,7 +42,7 @@ public class Hero {
     public Hero(SolShip shipHero) {
         this.shipHero = shipHero;
         if (shipHero == null) {
-            throw new SolException("Something tries to create hero, when there is no ship linked to him.");
+            throw new SolException("Something is trying to create the hero when there is no ship linked to him.");
         }
         isTranscendent = false;
     }
@@ -81,7 +81,7 @@ public class Hero {
 
     public SolShip getShip() {
         if (isTranscendent) {
-            throw new SolException("Something is trying to get a SolShip hero while the hero is Transcendent state.");
+            throw new SolException("Something is trying to get a SolShip hero while the hero is in Transcendent state.");
         }
         return shipHero;
     }
