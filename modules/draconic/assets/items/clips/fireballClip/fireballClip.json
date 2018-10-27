@@ -1,0 +1,8 @@
+{
+  "projectile": "fireball",
+  "size": 50,
+  "price": 25,
+  "iconName": "fireballClip",
+  "displayName": "Fireballs",
+  "plural": "Fireballs"
+}

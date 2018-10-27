@@ -1,0 +1,12 @@
+{
+  "Draconic Medium": {
+    "hull": "draconic:draconicMedium",
+    "items": "6*rep core:mediumArmor-1 core:bigShield-1 core:blaster-1",
+    "money": 300
+  },
+  "Draconic Large": {
+    "hull": "draconic:draconicLarge",
+    "items": "20*rep core:advancedArmor-1 core:advancedShield-1 draconic:scorcher-1 draconic:scorcher-2",
+    "money": 500
+  }
+}

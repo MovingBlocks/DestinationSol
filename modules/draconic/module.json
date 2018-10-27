@@ -1,0 +1,14 @@
+{
+  "id" : "draconic",
+  "version" : "0.0.1",
+  "displayName" : "Draconic Faction",
+  "description" : "Ships and other content to enable the draconic faction in-game.",
+  "dependencies" :  [
+    {
+      "id" : "core"
+    },
+    {
+      "id" : "tribe"
+    }
+  ]
+}

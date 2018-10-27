@@ -1,0 +1,19 @@
+{
+  "fixed": true,
+  "maxAngleVar": 15,
+  "angleVarDamp": 5,
+  "angleVarPerShot": 4,
+  "timeBetweenShots": 1.0,
+  "reloadTime": 2.0,
+  "price": 250,
+  "clipName": "draconic:fireballClip",
+  "gunLength": 0.25,
+  "texLenPerc": 0.87,
+  "displayName": "Scorcher",
+  "shootSounds": [
+    "core:shotGunShoot"
+  ],
+  "reloadSounds": [
+    "core:gunReload"
+  ]
+}

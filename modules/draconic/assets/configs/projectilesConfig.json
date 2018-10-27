@@ -1,0 +1,16 @@
+{
+  "fireball": {
+    "dmg": 35,
+    "dmgType": "energy",
+    "spdLen": 6,
+    "tex": "draconic:fireball",
+    "texSz": 0.40,
+    "collisionEffect": {
+      "effectFile": "core:explFire",
+      "size": 0.1,
+      "tex": "core:fire",
+      "tint": "220 0 0"
+    },
+    "collisionSound": "core:blastCollision"
+  }
+}
