@@ -174,16 +174,16 @@ public class MainGameScreen extends SolUiBaseScreen {
         buttonList.addElement(mercenariesButton);
 
         // Headless button, since on mobile, it should be ideally controlled straightly by dragging.
-        freeCamButton = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyFreeCameraMovement());
-        freeCamButton.setOnReleaseAction(uiElement -> SolCam.DIRECT_CAM_CONTROL = freeCamButton.isOn());
+        freeCamButton = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyFreeCameraMovement())
+                .setOnReleaseAction(uiElement -> SolCam.DIRECT_CAM_CONTROL = freeCamButton.isOn());
         buttonList.addElement(freeCamButton);
 
         pauseButton = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyPause())
-                                            .setOnReleaseAction(uiElement -> SolApplication.getInstance().getGame().setPaused(!SolApplication.getInstance().getGame().isPaused()));
-        buttonList.addElement(mapButton);
+                .setOnReleaseAction(uiElement -> solApplication.getGame().setPaused(!solApplication.getGame().isPaused()));
+        buttonList.addElement(pauseButton);
 
         consoleButton = new UiHeadlessButton().setTriggerKey(Input.Keys.GRAVE)
-                                              .setOnReleaseAction(uiElement -> inputManager.changeScreen(solApplication.getGame().getScreens().console));
+                .setOnReleaseAction(uiElement -> inputManager.changeScreen(solApplication.getGame().getScreens().console));
         buttonList.addElement(consoleButton);
 
         relativeLayout.addElement(buttonList, UI_POSITION_RIGHT, -BUTTON_WIDTH/2, 0);
