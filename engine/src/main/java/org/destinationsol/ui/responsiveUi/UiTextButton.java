@@ -174,11 +174,11 @@ public class UiTextButton implements UiElement {
 
         if (isOn()) {
             if (onClickAction != null) {
-                onClickAction.callback();
+                onClickAction.callback(this);
             }
         } else if (isJustOff()) {
             if (onReleaseAction != null) {
-                onReleaseAction.callback();
+                onReleaseAction.callback(this);
             }
         }
 

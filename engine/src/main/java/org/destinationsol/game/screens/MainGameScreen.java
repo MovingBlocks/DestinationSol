@@ -121,7 +121,7 @@ public class MainGameScreen extends SolUiBaseScreen {
         menuButton = new UiTextButton().setDisplayName("Menu")
                                        .enableSound()
                                        .setTriggerKey(gameOptions.getKeyMenu())
-                                       .setOnReleaseAction(() -> {
+                                       .setOnReleaseAction(uiElement -> {
                                            inputManager.changeScreen(solApplication.getGame().getScreens().menuScreen);
                                            SolApplication.getInstance().getGame().setPaused(true);
                                        });
@@ -130,14 +130,14 @@ public class MainGameScreen extends SolUiBaseScreen {
         mapButton = new UiTextButton().setDisplayName("Map")
                                       .enableSound()
                                       .setTriggerKey(gameOptions.getKeyMap())
-                                      .setOnReleaseAction(() -> inputManager.changeScreen(solApplication.getGame().getScreens().mapScreen));
+                                      .setOnReleaseAction(uiElement -> inputManager.changeScreen(solApplication.getGame().getScreens().mapScreen));
 
         buttonList.addElement(mapButton);
 
         inventoryButton = new UiTextButton().setDisplayName("Inventory")
                                             .enableSound()
                                             .setTriggerKey(gameOptions.getKeyInventory())
-                                            .setOnReleaseAction(() -> {
+                                            .setOnReleaseAction(uiElement -> {
                                                 InventoryScreen inventoryScreen = solApplication.getGame().getScreens().inventoryScreen;
                                                 boolean isOn = inputManager.isScreenOn(inventoryScreen);
                                                 inputManager.changeScreen(solApplication.getGame().getScreens().mainGameScreen);
@@ -162,7 +162,7 @@ public class MainGameScreen extends SolUiBaseScreen {
         mercenariesButton = new UiTextButton().setDisplayName("Mercenaries")
                                               .enableSound()
                                               .setTriggerKey(gameOptions.getKeyMercenaryInteraction())
-                                              .setOnReleaseAction(() -> {
+                                              .setOnReleaseAction(uiElement -> {
                                                   InventoryScreen inventoryScreen = solApplication.getGame().getScreens().inventoryScreen;
                                                   boolean isOn = inputManager.isScreenOn(inventoryScreen);
                                                   inputManager.changeScreen(solApplication.getGame().getScreens().mainGameScreen);
@@ -177,15 +177,15 @@ public class MainGameScreen extends SolUiBaseScreen {
 
         // Headless button, since on mobile, it should be ideally controlled straightly by dragging.
         freeCamButton = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyFreeCameraMovement());
-        freeCamButton.setOnReleaseAction(() -> SolCam.DIRECT_CAM_CONTROL = freeCamButton.isOn());
+        freeCamButton.setOnReleaseAction(uiElement -> SolCam.DIRECT_CAM_CONTROL = freeCamButton.isOn());
         buttonList.addElement(freeCamButton);
 
         pauseButton = new UiHeadlessButton().setTriggerKey(gameOptions.getKeyPause())
-                                            .setOnReleaseAction(() -> SolApplication.getInstance().getGame().setPaused(!SolApplication.getInstance().getGame().isPaused()));
+                                            .setOnReleaseAction(uiElement -> SolApplication.getInstance().getGame().setPaused(!SolApplication.getInstance().getGame().isPaused()));
         buttonList.addElement(mapButton);
 
         consoleButton = new UiHeadlessButton().setTriggerKey(Input.Keys.GRAVE)
-                                              .setOnReleaseAction(() -> inputManager.changeScreen(solApplication.getGame().getScreens().console));
+                                              .setOnReleaseAction(uiElement -> inputManager.changeScreen(solApplication.getGame().getScreens().console));
         buttonList.addElement(consoleButton);
 
         relativeLayout.addElement(buttonList, UI_POSITION_RIGHT, -BUTTON_WIDTH/2, 0);

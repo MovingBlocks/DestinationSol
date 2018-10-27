@@ -16,6 +16,5 @@
 package org.destinationsol.ui.responsiveUi;
 
 public interface UiCallback {
-    // TODO: Make this accept one argument (caller)
-    void callback();
+    void callback(UiElement uiElement);
 }

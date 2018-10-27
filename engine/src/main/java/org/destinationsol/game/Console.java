@@ -119,7 +119,7 @@ public class Console extends SolUiBaseScreen {
         UiRelativeLayout relativeLayout = new UiRelativeLayout();
 
         UiHeadlessButton exitButton = new UiHeadlessButton().setTriggerKey(Input.Keys.ESCAPE)
-                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getInstance().getGame().getScreens().mainGameScreen));
+                .setOnReleaseAction(uiElement -> SolApplication.changeScreen(SolApplication.getInstance().getGame().getScreens().mainGameScreen));
 
         relativeLayout.addHeadlessElement(exitButton);
 

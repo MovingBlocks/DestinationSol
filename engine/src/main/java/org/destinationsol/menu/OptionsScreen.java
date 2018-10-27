@@ -41,36 +41,33 @@ public class OptionsScreen extends SolUiBaseScreen {
 
         UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
-        UiTextButton soundVolumeButton = new UiTextButton().setDisplayName(getSoundVolumeString(gameOptions))
-                .enableSound();
-        soundVolumeButton.setOnReleaseAction(() -> {
-            gameOptions.advanceSoundVolMul();
-            // TODO: Check if we need to call soundManager.setVolume() here
-            soundVolumeButton.setDisplayName(getSoundVolumeString(gameOptions));
-        });
-        buttonList.addElement(soundVolumeButton);
+        buttonList.addElement(new UiTextButton().setDisplayName(getSoundVolumeString(gameOptions))
+                .enableSound()
+                .setOnReleaseAction(uiElement -> {
+                    gameOptions.advanceSoundVolMul();
+                    // TODO: Check if we need to call soundManager.setVolume() here
+                    ((UiTextButton)uiElement).setDisplayName(getSoundVolumeString(gameOptions));
+                }));
 
-        UiTextButton musicVolumeButton = new UiTextButton().setDisplayName(getMusicVolumeString(gameOptions))
-                .enableSound();
-        musicVolumeButton.setOnReleaseAction(() -> {
-            gameOptions.advanceMusicVolMul();
-            // TODO: Check if we need to call musicManager.setVolume() here
-            musicVolumeButton.setDisplayName(getMusicVolumeString(gameOptions));
-        });
-        buttonList.addElement(musicVolumeButton);
+        buttonList.addElement(new UiTextButton().setDisplayName(getMusicVolumeString(gameOptions))
+                .enableSound()
+                .setOnReleaseAction(uiElement -> {
+                    gameOptions.advanceMusicVolMul();
+                    // TODO: Check if we need to call musicManager.setVolume() here
+                    ((UiTextButton)uiElement).setDisplayName(getMusicVolumeString(gameOptions));
+                }));
 
         UiTextButton controlTypeButton = new UiTextButton().setDisplayName(getControlTypeString(gameOptions))
                 .setTriggerKey(Input.Keys.C)
-                .enableSound();
-        controlTypeButton.setOnReleaseAction(() -> {
-            gameOptions.advanceControlType(false);
-            controlTypeButton.setDisplayName(getControlTypeString(gameOptions));
-        });
-        buttonList.addElement(controlTypeButton);
+                .enableSound()
+                .setOnReleaseAction(uiElement -> {
+                    gameOptions.advanceControlType(false);
+                    ((UiTextButton)uiElement).setDisplayName(getControlTypeString(gameOptions));
+                }));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Controls")
                 .enableSound()
-                .setOnReleaseAction(() -> {
+                .setOnReleaseAction(uiElement -> {
                     switch (gameOptions.controlType) {
                         case KEYBOARD:
                             SolApplication.getMenuScreens().inputMapScreen.setOperations(SolApplication.getMenuScreens().inputMapScreen.inputMapKeyboardScreen);
@@ -87,7 +84,7 @@ public class OptionsScreen extends SolUiBaseScreen {
         buttonList.addElement(new UiTextButton().setDisplayName("Back")
                 .setTriggerKey(gameOptions.getKeyEscape())
                 .enableSound()
-                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().mainScreen)));
+                .setOnReleaseAction(uiElement -> SolApplication.changeScreen(SolApplication.getMenuScreens().mainScreen)));
 
         rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING);
 
