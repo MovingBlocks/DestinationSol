@@ -81,8 +81,7 @@ public class NewShipScreen extends SolUiBaseScreen {
                 .enableSound()
                 .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().newGameScreen)));
 
-        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
-                .finalizeChanges();
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }

@@ -72,7 +72,7 @@ public abstract class SolUiBaseScreen implements SolUiScreen, ResizeSubscriber {
     public void resize() {
         // TODO: Remove this check.
         if (rootUiElement != null) {
-            rootUiElement.setPosition(0, 0).finalizeChanges();
+            rootUiElement.setPosition(0, 0);
         }
     }
 }

@@ -23,9 +23,6 @@ public interface UiElement {
     // Set position. Returns UiElement to support Builder Pattern.
     UiElement setPosition(int x, int y);
 
-    // Required to commit the changes made to the element. Present for optimization purposes.
-    UiElement finalizeChanges();
-
     int getX();
 
     int getY();

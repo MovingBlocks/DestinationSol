@@ -78,8 +78,7 @@ public class MenuScreen extends SolUiBaseScreen {
                     SolApplication.changeScreen(SolApplication.getInstance().getGame().getScreens().mainGameScreen);
                 }));
 
-        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
-                .finalizeChanges();
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING);
     }
 
     private String getCanSellEquippedItemsString(GameOptions gameOptions) {
