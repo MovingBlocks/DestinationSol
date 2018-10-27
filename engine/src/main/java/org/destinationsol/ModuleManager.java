@@ -49,8 +49,9 @@ public class ModuleManager {
     public ModuleManager() {
         try {
             URI engineClasspath = getClass().getProtectionDomain().getCodeSource().getLocation().toURI();
+            URI elysiumClasspath = getClass().getProtectionDomain().getCodeSource().getLocation().toURI();
             Module engineModule = new ModuleFactory().createModule(Paths.get(engineClasspath));
-
+            Module elysiumModule = new ModuleFactory().createModule(Paths.get(elysiumClasspath));
             registry = new TableModuleRegistry();
             Path modulesRoot;
             if (DebugOptions.DEV_ROOT_PATH != null) {
@@ -63,7 +64,7 @@ public class ModuleManager {
             Set<Module> requiredModules = Sets.newHashSet();
             requiredModules.add(engineModule);
             requiredModules.addAll(registry);
-
+            requiredModules.add(elysiumModule);
             loadEnvironment(requiredModules);
         } catch (Exception e) {
             e.printStackTrace();
