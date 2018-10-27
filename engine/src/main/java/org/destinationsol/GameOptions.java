@@ -16,8 +16,15 @@
 package org.destinationsol;
 
 import com.badlogic.gdx.Input;
+import org.destinationsol.ui.ResizeSubscriber;
 
-public class GameOptions {
+public class GameOptions implements ResizeSubscriber {
+    @Override
+    public void resize() {
+        x = SolApplication.displayDimensions.getWidth();
+        y = SolApplication.displayDimensions.getHeight();
+    }
+
     public enum ControlType {
         KEYBOARD("Keyboard"),
         MIXED("KB + Mouse"),
@@ -74,11 +81,16 @@ public class GameOptions {
 
         public Volume advance() {
             switch (this) {
-                case OFF: return LOW;
-                case LOW: return MEDIUM;
-                case MEDIUM: return HIGH;
-                case HIGH: return MAX;
-                case MAX: return OFF;
+                case OFF:
+                    return LOW;
+                case LOW:
+                    return MEDIUM;
+                case MEDIUM:
+                    return HIGH;
+                case HIGH:
+                    return MAX;
+                case MAX:
+                    return OFF;
             }
             return MAX;
         }
