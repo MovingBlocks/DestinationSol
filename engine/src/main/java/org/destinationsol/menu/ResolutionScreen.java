@@ -44,30 +44,28 @@ public class ResolutionScreen extends SolUiBaseScreen {
 
         UiTextButton resolutionButton = new UiTextButton().setDisplayName(getResolutionString(gameOptions))
                 .enableSound();
-        resolutionButton.setOnReleaseAction(() -> {
+        resolutionButton.setOnReleaseAction(uiElement -> {
             gameOptions.advanceResolution();
             resolutionButton.setDisplayName(getResolutionString(gameOptions));
         });
         buttonList.addElement(resolutionButton);
 
-        UiTextButton fullscreenButton = new UiTextButton().setDisplayName(getFullscreenString(gameOptions))
-                .enableSound();
-        fullscreenButton.setOnReleaseAction(() -> {
-            gameOptions.advanceFullscreen();
-            fullscreenButton.setDisplayName(getFullscreenString(gameOptions));
-        });
-        buttonList.addElement(fullscreenButton);
+        buttonList.addElement(new UiTextButton().setDisplayName(getFullscreenString(gameOptions))
+                .enableSound()
+                .setOnReleaseAction(uiElement -> {
+                    gameOptions.advanceFullscreen();
+                    ((UiTextButton)uiElement).setDisplayName(getFullscreenString(gameOptions));
+                }));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Back")
                 .setTriggerKey(gameOptions.getKeyEscape())
                 .enableSound()
-                .setOnReleaseAction(() -> {
+                .setOnReleaseAction(uiElement -> {
                     Gdx.graphics.setDisplayMode(gameOptions.x, gameOptions.y, gameOptions.fullscreen);
                     SolApplication.changeScreen(SolApplication.getMenuScreens().optionsScreen);
                 }));
 
-        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
-                .finalizeChanges();
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }

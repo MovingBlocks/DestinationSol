@@ -47,21 +47,20 @@ public class NewGameScreen extends SolUiBaseScreen {
         continueButton = new UiTextButton().setDisplayName("Continue")
                 .setTriggerKey(gameOptions.getKeyShoot())
                 .enableSound()
-                .setOnReleaseAction(() -> SolApplication.getInstance().loadGame(false, null, false));
+                .setOnReleaseAction(uiElement -> SolApplication.getInstance().loadGame(false, null, false));
         buttonList.addElement(continueButton);
 
         buttonList.addElement(new UiTextButton().setDisplayName("New game")
                 .setTriggerKey(gameOptions.getKeyShoot())
                 .enableSound()
-                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().newShipScreen)));
+                .setOnReleaseAction(uiElement -> SolApplication.changeScreen(SolApplication.getMenuScreens().newShipScreen)));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Cancel")
                 .setTriggerKey(gameOptions.getKeyEscape())
                 .enableSound()
-                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().mainScreen)));
+                .setOnReleaseAction(uiElement -> SolApplication.changeScreen(SolApplication.getMenuScreens().mainScreen)));
 
-        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
-                .finalizeChanges();
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
