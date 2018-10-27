@@ -57,10 +57,9 @@ public class CreditsScreen extends SolUiBaseScreen {
         UiTextButton creditsButton = new UiTextButton().setDisplayName("Back")
                 .setTriggerKey(gameOptions.getKeyEscape())
                 .enableSound()
-                .setOnReleaseAction(() -> inputManager.changeScreen(menuScreens.mainScreen));
+                .setOnReleaseAction(uiElement -> inputManager.changeScreen(menuScreens.mainScreen));
 
-        rootUiElement = new UiRelativeLayout().addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -BUTTON_WIDTH / 2 - BUTTON_PADDING, -BUTTON_HEIGHT / 2 - BUTTON_PADDING)
-                .finalizeChanges();
+        rootUiElement = new UiRelativeLayout().addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -BUTTON_WIDTH / 2 - BUTTON_PADDING, -BUTTON_HEIGHT / 2 - BUTTON_PADDING);
 
         myColor = SolColor.col(1, 1);
 

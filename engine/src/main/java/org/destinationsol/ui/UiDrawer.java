@@ -33,7 +33,7 @@ public class UiDrawer implements ResizeSubscriber {
         RIGHT
     }
 
-    public static final float FONT_SIZE_PX = 20f;
+    public static final float FONT_SIZE_PX = 14f;
 
     private Matrix4 straightMtx;
     private final float uiLineWidth;

@@ -55,12 +55,12 @@ public class MainMenuScreen extends SolUiBaseScreen {
         buttonList.addElement(new UiTextButton().setDisplayName("Tutorial")
                 .setTriggerKey(Input.Keys.T)
                 .enableSound()
-                .setOnReleaseAction(() -> SolApplication.getInstance().play(true, "Imperial Small", true)));
+                .setOnReleaseAction(uiElement -> SolApplication.getInstance().play(true, "Imperial Small", true)));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Play Game")
                 .setTriggerKey(gameOptions.getKeyShoot())
                 .enableSound()
-                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().newGameScreen)));
+                .setOnReleaseAction(uiElement -> SolApplication.changeScreen(SolApplication.getMenuScreens().newGameScreen)));
 
         // TODO: Temporarily showing on mobile as well. Fix!
         // TODO: Actually, think about why we don't want it on mobile as well first.
@@ -68,12 +68,12 @@ public class MainMenuScreen extends SolUiBaseScreen {
         buttonList.addElement(new UiTextButton().setDisplayName("Options")
                 .setTriggerKey(Input.Keys.O)
                 .enableSound()
-                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().optionsScreen)));
+                .setOnReleaseAction(uiElement -> SolApplication.changeScreen(SolApplication.getMenuScreens().optionsScreen)));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Exit")
                 .setTriggerKey(gameOptions.getKeyEscape())
                 .enableSound()
-                .setOnReleaseAction(() -> {
+                .setOnReleaseAction(uiElement -> {
                     // Save the settings on exit, but not on mobile as settings don't exist there.
                     if (!isMobile) {
                         SolApplication.getInstance().getOptions().save();
@@ -84,11 +84,10 @@ public class MainMenuScreen extends SolUiBaseScreen {
         UiTextButton creditsButton = new UiTextButton().setDisplayName("Credits")
                 .setTriggerKey(Input.Keys.C)
                 .enableSound()
-                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().creditsScreen));
+                .setOnReleaseAction(uiElement -> SolApplication.changeScreen(SolApplication.getMenuScreens().creditsScreen));
 
         rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
-                .addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -BUTTON_WIDTH / 2 - BUTTON_PADDING, -BUTTON_HEIGHT / 2 - BUTTON_PADDING)
-                .finalizeChanges();
+                .addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -BUTTON_WIDTH / 2 - BUTTON_PADDING, -BUTTON_HEIGHT / 2 - BUTTON_PADDING);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
         logoTexture = Assets.getAtlasRegion("engine:mainMenuLogo", Texture.TextureFilter.Linear);
