@@ -15,8 +15,13 @@
  */
 package org.destinationsol;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import org.destinationsol.ui.ResizeSubscriber;
+
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class GameOptions implements ResizeSubscriber {
     @Override
@@ -230,6 +235,18 @@ public class GameOptions implements ResizeSubscriber {
     public void advanceFullscreen() {
         fullscreen = !fullscreen;
         save();
+        final Graphics.DisplayMode[] displayModes = Gdx.graphics.getDisplayModes();
+        Arrays.stream(displayModes)
+                .min((displayMode1, displayMode2) -> {
+                    int distinction1 = Math.abs(displayMode1.width - x) + Math.abs(displayMode1.height - y);
+                    int distinction2 = Math.abs(displayMode2.width - x) + Math.abs(displayMode2.height - y);
+                    return Integer.compare(distinction1, distinction2);
+                })
+                .ifPresent(displayMode -> {
+                    x = displayMode.width;
+                    y = displayMode.height;
+                });
+        Gdx.graphics.setDisplayMode(x, y, fullscreen);
     }
 
     public void advanceSoundVolMul() {

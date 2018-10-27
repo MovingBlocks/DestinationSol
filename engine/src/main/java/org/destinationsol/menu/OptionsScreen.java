@@ -65,6 +65,13 @@ public class OptionsScreen extends SolUiBaseScreen {
                     ((UiTextButton)uiElement).setDisplayName(getControlTypeString(gameOptions));
                 }));
 
+        buttonList.addElement(new UiTextButton().setDisplayName(getFullscreenString(gameOptions))
+                .enableSound()
+                .setOnReleaseAction(uiElement -> {
+                    gameOptions.advanceFullscreen();
+                    ((UiTextButton)uiElement).setDisplayName(getFullscreenString(gameOptions));
+                }));
+
         buttonList.addElement(new UiTextButton().setDisplayName("Controls")
                 .enableSound()
                 .setOnReleaseAction(uiElement -> {
@@ -105,6 +112,10 @@ public class OptionsScreen extends SolUiBaseScreen {
     }
 
     private String getMusicVolumeString(GameOptions gameOptions) {
-        return "Sound Volume: " + gameOptions.musicVolume.getName();
+        return "Music Volume: " + gameOptions.musicVolume.getName();
+    }
+
+    private String getFullscreenString(GameOptions gameOptions) {
+        return "Fullscreen: " + (gameOptions.fullscreen ? "On" : "Off");
     }
 }
