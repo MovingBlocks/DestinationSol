@@ -58,11 +58,6 @@ public class UiHeadlessButton implements UiElement {
     }
 
     @Override
-    public UiHeadlessButton finalizeChanges() {
-        return this;
-    }
-
-    @Override
     public int getX() {
         return -1;
     }

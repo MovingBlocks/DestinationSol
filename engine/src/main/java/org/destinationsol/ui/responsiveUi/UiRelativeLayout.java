@@ -38,14 +38,8 @@ public class UiRelativeLayout implements UiElement {
 
     @Override
     public UiRelativeLayout setPosition(int x, int y) {
-        return this;
-    }
-
-    @Override
-    public UiRelativeLayout finalizeChanges() {
         for (UiElementWithProperties uiElementWithProperties : uiElementsWithProperties) {
             setPosition(uiElementWithProperties);
-            uiElementWithProperties.uiElement.finalizeChanges();
         }
 
         return this;

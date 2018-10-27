@@ -87,8 +87,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
                 .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().creditsScreen));
 
         rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
-                .addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -BUTTON_WIDTH / 2 - BUTTON_PADDING, -BUTTON_HEIGHT / 2 - BUTTON_PADDING)
-                .finalizeChanges();
+                .addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -BUTTON_WIDTH / 2 - BUTTON_PADDING, -BUTTON_HEIGHT / 2 - BUTTON_PADDING);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
         logoTexture = Assets.getAtlasRegion("engine:mainMenuLogo", Texture.TextureFilter.Linear);

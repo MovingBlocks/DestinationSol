@@ -186,8 +186,7 @@ public class MainGameScreen extends SolUiBaseScreen {
                                               .setOnReleaseAction(() -> inputManager.changeScreen(solApplication.getGame().getScreens().console));
         buttonList.addElement(consoleButton);
 
-        relativeLayout.addElement(buttonList, UI_POSITION_RIGHT, -BUTTON_WIDTH/2, 0)
-                      .finalizeChanges();
+        relativeLayout.addElement(buttonList, UI_POSITION_RIGHT, -BUTTON_WIDTH/2, 0);
 
         rootUiElement = relativeLayout;
 
