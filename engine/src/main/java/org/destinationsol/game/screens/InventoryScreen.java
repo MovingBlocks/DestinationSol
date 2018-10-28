@@ -62,11 +62,6 @@ public class InventoryScreen extends SolUiBaseScreen {
     }
 
     @Override
-    public boolean reactsToClickOutside() {
-        return true;
-    }
-
-    @Override
     public void blurCustom(SolApplication solApplication) {
         if (!showingHeroItems(solApplication)) {
             return;

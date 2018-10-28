@@ -92,6 +92,17 @@ public class UiDrawer implements ResizeSubscriber {
         drawer.drawString(s, x, y, scale * fontSize, align, centered, tint);
     }
 
+    /**
+     * Returns the visible length of a string when drawn.
+     *
+     * @param s The string to measure
+     * @param scale The scale of the string
+     * @return The visible length
+     */
+    public int getStringLength(String s, float scale) {
+        return drawer.getStringLength(s, scale * fontSize);
+    }
+
     public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y, float rot, Color tint) {
         drawer.draw(tr, width, height, origX, origY, x, y, rot, tint);
     }

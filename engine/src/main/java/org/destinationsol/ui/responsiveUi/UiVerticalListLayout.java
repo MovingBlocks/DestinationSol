@@ -35,7 +35,7 @@ public class UiVerticalListLayout implements UiElement {
     public UiVerticalListLayout addElement(UiElement uiElement) {
         uiElements.add(uiElement);
 
-        calculateButtonPositions();
+        recalculateInnerPositions();
 
         return this;
     }
@@ -45,7 +45,7 @@ public class UiVerticalListLayout implements UiElement {
         this.x = x;
         this.y = y;
 
-        calculateButtonPositions();
+        recalculateInnerPositions();
 
         return this;
     }
@@ -130,7 +130,7 @@ public class UiVerticalListLayout implements UiElement {
         }
     }
 
-    private void calculateButtonPositions() {
+    private void recalculateInnerPositions() {
         int currentY = y - getHeight()/2 + BUTTON_HEIGHT/2;
 
         for (UiElement uiElement : uiElements) {
