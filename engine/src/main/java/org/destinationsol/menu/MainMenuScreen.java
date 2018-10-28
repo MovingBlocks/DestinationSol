@@ -36,7 +36,6 @@ import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM;
 import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM_RIGHT;
 import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_HEIGHT;
 import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_PADDING;
-import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_WIDTH;
 
 public class MainMenuScreen extends SolUiBaseScreen {
     private final TextureAtlas.AtlasRegion logoTexture;
@@ -87,7 +86,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
                 .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().creditsScreen));
 
         rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
-                .addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -BUTTON_WIDTH / 2 - BUTTON_PADDING, -BUTTON_HEIGHT / 2 - BUTTON_PADDING)
+                .addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -buttonList.getWidth() / 2 - BUTTON_PADDING, -BUTTON_HEIGHT / 2 - BUTTON_PADDING)
                 .finalizeChanges();
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);

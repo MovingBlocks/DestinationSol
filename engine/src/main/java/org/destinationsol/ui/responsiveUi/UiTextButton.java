@@ -26,9 +26,10 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.UiDrawer;
 
 public class UiTextButton implements UiElement {
-    public static final int BUTTON_WIDTH = 300;
     public static final int BUTTON_HEIGHT = 75;
     public static final int BUTTON_PADDING = 10;
+
+    private UiDrawer uiDrawer = SolApplication.getUiDrawer();
 
     private Rectangle screenArea;
 
@@ -51,7 +52,7 @@ public class UiTextButton implements UiElement {
 
     private int x;
     private int y;
-    private int width = BUTTON_WIDTH;
+    private int width;
     private int height = BUTTON_HEIGHT;
 
     // TODO: Make these optional?
@@ -66,6 +67,7 @@ public class UiTextButton implements UiElement {
         return this;
     }
 
+    @Override
     public UiTextButton setDimensions(int width, int height) {
         this.width = width;
         this.height = height;
@@ -75,6 +77,7 @@ public class UiTextButton implements UiElement {
 
     public UiTextButton setDisplayName(String displayName) {
         this.displayName = displayName;
+        width = uiDrawer.getStringDisplayWidth(displayName, FontSize.MENU)+(BUTTON_PADDING*2);
 
         return this;
     }
@@ -265,8 +268,6 @@ public class UiTextButton implements UiElement {
                 tint = SolColor.UI_DARK;
             }
         }
-
-        UiDrawer uiDrawer = SolApplication.getUiDrawer();
 
         uiDrawer.draw(screenArea, tint);
         if (warnCount > 0) {

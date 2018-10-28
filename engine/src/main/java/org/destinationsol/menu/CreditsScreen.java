@@ -35,7 +35,6 @@ import org.destinationsol.ui.responsiveUi.UiTextButton;
 import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM_RIGHT;
 import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_HEIGHT;
 import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_PADDING;
-import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_WIDTH;
 
 public class CreditsScreen extends SolUiBaseScreen {
     private static final float MAX_AWAIT = 6f;
@@ -59,7 +58,7 @@ public class CreditsScreen extends SolUiBaseScreen {
                 .enableSound()
                 .setOnReleaseAction(() -> inputManager.changeScreen(menuScreens.mainScreen));
 
-        rootUiElement = new UiRelativeLayout().addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -BUTTON_WIDTH / 2 - BUTTON_PADDING, -BUTTON_HEIGHT / 2 - BUTTON_PADDING)
+        rootUiElement = new UiRelativeLayout().addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -creditsButton.getWidth() / 2 - BUTTON_PADDING, -BUTTON_HEIGHT / 2 - BUTTON_PADDING)
                 .finalizeChanges();
 
         myColor = SolColor.col(1, 1);

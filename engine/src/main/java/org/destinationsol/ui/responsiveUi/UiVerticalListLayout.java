@@ -23,7 +23,6 @@ import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
 import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_HEIGHT;
 import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_PADDING;
-import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_WIDTH;
 
 // TODO: Only handles UiTextButtons perfectly for now, due to height calculations. Make it more generic.
 public class UiVerticalListLayout implements UiElement {
@@ -47,11 +46,16 @@ public class UiVerticalListLayout implements UiElement {
     }
 
     @Override
+    public UiVerticalListLayout setDimensions(int width, int height) { return this; }
+
+    @Override
     public UiVerticalListLayout finalizeChanges() {
         int currentY = y - getHeight()/2 + BUTTON_HEIGHT/2;
+        int width = getWidth();
 
         for (UiElement uiElement : uiElements) {
-            uiElement.setPosition(x, currentY).finalizeChanges();
+            uiElement.setPosition(x, currentY).setDimensions(width, uiElement.getHeight());
+            uiElement.finalizeChanges();
 
             currentY += (BUTTON_HEIGHT + BUTTON_PADDING);
         }
@@ -71,7 +75,14 @@ public class UiVerticalListLayout implements UiElement {
 
     @Override
     public int getWidth() {
-        return BUTTON_WIDTH;
+        int width = 0;
+        for (UiElement uiElement :uiElements) { // finds the biggest width out of all UI elements
+            if (uiElement.getWidth() > width) {
+                width = uiElement.getWidth();
+            }
+        }
+
+        return width; // the biggest width is the width of the list.
     }
 
     @Override

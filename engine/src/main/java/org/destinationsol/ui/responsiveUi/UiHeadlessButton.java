@@ -39,6 +39,9 @@ public class UiHeadlessButton implements UiElement {
         return this;
     }
 
+    @Override
+    public UiHeadlessButton setDimensions(int width, int height) { return this; }
+
     public UiHeadlessButton setTriggerKey(int triggerKey) {
         this.triggerKey = triggerKey;
 

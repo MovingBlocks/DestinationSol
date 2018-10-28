@@ -119,6 +119,20 @@ public class UiDrawer implements ResizeSubscriber {
         filler = new Rectangle(0, 0, displayDimensions.getRatio(), 1);
     }
 
+    /**
+     * Returns the screen display width of a provided string in pixels.
+     *
+     * Does not account for padding/spacing.
+     *
+     * @param s The provided string.
+     * @param scale The scale the text would be displayed in.
+     * @return
+     */
+    public int getStringDisplayWidth(String s, float scale){
+        // Kind of a nasty statement, but is needed to convert the float from GlyphLayout.width to a pixel value.
+        return (int) ((drawer.makeFontLayout(s, scale*fontSize).width*displayDimensions.getWidth())/displayDimensions.getRatio());
+    }
+
     private void recomputeStraightMtx() {
         straightMtx = new Matrix4().setToOrtho2D(0, 1, displayDimensions.getRatio(), -1);
     }
