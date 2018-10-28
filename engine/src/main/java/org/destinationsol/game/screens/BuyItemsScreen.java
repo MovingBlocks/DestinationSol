@@ -46,29 +46,29 @@ public class BuyItemsScreen extends InventoryOperationsScreen {
         return "Buy:";
     }
 
-    @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        SolGame game = solApplication.getGame();
-        InventoryScreen is = game.getScreens().inventoryScreen;
-        Hero hero = game.getHero();
-        TalkScreen talkScreen = game.getScreens().talkScreen;
-        SolShip target = null;
-//        if (talkScreen.isTargetFar(hero)) {
-//            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
-//            return;
-//        }
-//        SolItem selItem = is.getSelectedItem();
-//        boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice() && hero.getItemContainer().canAdd(selItem);
-//        buyControl.setDisplayName(enabled ? "Buy" : "---");
-//        buyControl.setEnabled(enabled);
-//        if (!enabled) {
-//            return;
-//        }
-//        if (buyControl.isJustOff()) {
-//            target.getTradeContainer().getItems().remove(selItem);
-//            hero.getItemContainer().add(selItem);
-//            hero.setMoney(hero.getMoney() - selItem.getPrice());
-//        }
+//    @Override
+//    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+//        SolGame game = solApplication.getGame();
+//        InventoryScreen is = game.getScreens().inventoryScreen;
+//        Hero hero = game.getHero();
+//        TalkScreen talkScreen = game.getScreens().talkScreen;
+//        SolShip target = null;
+////        if (talkScreen.isTargetFar(hero)) {
+////            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
+////            return;
+////        }
+////        SolItem selItem = is.getSelectedItem();
+////        boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice() && hero.getItemContainer().canAdd(selItem);
+////        buyControl.setDisplayName(enabled ? "Buy" : "---");
+////        buyControl.setEnabled(enabled);
+////        if (!enabled) {
+////            return;
+////        }
+////        if (buyControl.isJustOff()) {
+////            target.getTradeContainer().getItems().remove(selItem);
+////            hero.getItemContainer().add(selItem);
+////            hero.setMoney(hero.getMoney() - selItem.getPrice());
+////        }
         // faction stuff missing here - rebase
-    }
+//    }
 }

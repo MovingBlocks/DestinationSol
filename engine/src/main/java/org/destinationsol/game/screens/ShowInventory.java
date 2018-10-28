@@ -25,13 +25,23 @@ import org.destinationsol.ui.SolInputManager;
 
 
 public class ShowInventory extends InventoryOperationsScreen {
+    private SolShip target;
+
+    public SolShip getTarget() {
+        return target;
+    }
+
+    public void setTarget(SolShip target) {
+        this.target = target;
+    }
+
     @Override
     ItemContainer getItems(SolGame game) {
-        return null;
+        return target == null ? null : target.getItemContainer();
     }
 
     @Override
     String getHeader() {
-        return null;
+        return "Items: ";
     }
 }

@@ -15,7 +15,6 @@
  */
 package org.destinationsol.game.screens;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
@@ -32,8 +31,9 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.responsiveUi.UiWindow;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class InventoryScreen extends SolUiBaseScreen {
@@ -59,6 +59,7 @@ public class InventoryScreen extends SolUiBaseScreen {
     private final Rectangle myItemCtrlArea;
     private final Vector2 myDetailHeaderPos;
     private final Vector2 myListHeaderPos;
+    public final HashMap<Class<? extends InventoryOperationsScreen>, InventoryOperationsScreen> inventoryOperationsMap;
 
     private int myPage;
     private List<SolItem> mySelected;
@@ -66,6 +67,7 @@ public class InventoryScreen extends SolUiBaseScreen {
 
     public InventoryScreen(GameOptions gameOptions) {
         DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+        rootUiElement = new UiWindow();
 
         float contentW = .8f;
         float col0 = displayDimensions.getRatio() / 2 - contentW / 2;
@@ -106,6 +108,8 @@ public class InventoryScreen extends SolUiBaseScreen {
         // whole
         myArea = new Rectangle(col0 - backgroundGap, row0 - backgroundGap, contentW + backgroundGap * 2, row - row0 + backgroundGap * 2);
 
+        inventoryOperationsMap = new HashMap<>();
+        inventoryOperationsMap.put(ShowInventory.class, new ShowInventory());
 //        closeControl = new SolUiControl(itemCtrl(3), true, gameOptions.getKeyClose());
 //        closeControl.setDisplayName("Close");
 //        controls.add(closeControl);
@@ -199,9 +203,6 @@ public class InventoryScreen extends SolUiBaseScreen {
 
     @Override
     public void onAdd(SolApplication solApplication) {
-        if (myOperations != null) {
-            solApplication.getInputManager().addScreen(myOperations);
-        }
         myPage = 0;
         mySelected = null;
     }
