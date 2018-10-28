@@ -20,7 +20,7 @@ import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.ui.SolUiBaseScreen;
 
-public abstract class InventoryOperationsScreen extends SolUiBaseScreen {
+public abstract class InventoryOperationsScreen {
     abstract ItemContainer getItems(SolGame game);
 
     boolean isUsing(SolGame game, SolItem item) {

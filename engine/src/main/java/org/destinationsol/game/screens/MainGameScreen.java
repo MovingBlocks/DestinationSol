@@ -140,8 +140,8 @@ public class MainGameScreen extends SolUiBaseScreen {
                                                 boolean isOn = inputManager.isScreenOn(inventoryScreen);
                                                 inputManager.changeScreen(solApplication.getGame().getScreens().mainGameScreen);
                                                 if (!isOn) {
-//                                                    inventoryScreen.showInventory.setTarget(hero.getShip());
-//                                                    inventoryScreen.setOperations(inventoryScreen.showInventory);
+                                                    ((ShowInventory) inventoryScreen.inventoryOperationsMap.get(ShowInventory.class)).setTarget(solApplication.getGame().getHero().getShip());
+                                                    inventoryScreen.setOperations(inventoryScreen.inventoryOperationsMap.get(ShowInventory.class));
                                                     inputManager.changeScreen(inventoryScreen);
                                                 }
                                             });
