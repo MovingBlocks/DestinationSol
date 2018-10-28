@@ -77,7 +77,14 @@ public class UiVerticalListLayout implements UiElement {
     @Override
     public void draw() {
         for (UiElement uiElement : uiElements) {
-            uiElement.draw();
+            if (!(uiElement instanceof UiDrawOnTopComponent)) {
+                uiElement.draw();
+            }
+        }
+        for (UiElement uiElement : uiElements) {
+            if (uiElement instanceof UiDrawOnTopComponent) {
+                uiElement.draw();
+            }
         }
     }
 
@@ -105,15 +112,19 @@ public class UiVerticalListLayout implements UiElement {
 
     @Override
     public boolean update(SolInputManager.InputPointer[] inputPointers, boolean cursorShown, boolean canBePressed, SolInputManager inputMan, SolApplication cmp) {
-        boolean consumed = false;
 
         for (UiElement uiElement : uiElements) {
-            if (uiElement.update(inputPointers, cursorShown, canBePressed, inputMan, cmp)) {
-                consumed = true;
+            if (uiElement.update(inputPointers, cursorShown, canBePressed, inputMan, cmp) && uiElement instanceof UiDrawOnTopComponent) {
+                return true;
+            }
+        }
+        for (UiElement uiElement : uiElements) {
+            if (uiElement.update(inputPointers, cursorShown, canBePressed, inputMan, cmp) && !(uiElement instanceof UiDrawOnTopComponent)) {
+                return true;
             }
         }
 
-        return consumed;
+        return false;
     }
 
     @Override
