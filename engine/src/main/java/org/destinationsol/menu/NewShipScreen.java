@@ -54,34 +54,31 @@ public class NewShipScreen extends SolUiBaseScreen {
 
         UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
-        UiTextButton systemCountButton = new UiTextButton().setDisplayName(getNumberOfSystemsString())
-                .enableSound();
-        systemCountButton.setOnReleaseAction(() -> {
-            numberOfSystems = Math.max(2, (numberOfSystems + 1) % 10);
-            systemCountButton.setDisplayName(getNumberOfSystemsString());
-        });
-        buttonList.addElement(systemCountButton);
+        buttonList.addElement(new UiTextButton().setDisplayName(getNumberOfSystemsString())
+                .enableSound()
+                .setOnReleaseAction(uiElement -> {
+                    numberOfSystems = Math.max(2, (numberOfSystems + 1) % 10);
+                    ((UiTextButton)uiElement).setDisplayName(getNumberOfSystemsString());
+                }));
 
-        UiTextButton playerSpawnConfigButton = new UiTextButton().setDisplayName(getPlayerSpawnConfigString())
-                .enableSound();
-        playerSpawnConfigButton.setOnReleaseAction(() -> {
-            playerSpawnConfigIndex = (playerSpawnConfigIndex + 1) % playerSpawnConfigNames.size();
-            playerSpawnConfigButton.setDisplayName(getPlayerSpawnConfigString());
-        });
-        buttonList.addElement(playerSpawnConfigButton);
+        buttonList.addElement(new UiTextButton().setDisplayName(getPlayerSpawnConfigString())
+                .enableSound()
+                .setOnReleaseAction(uiElement -> {
+                    playerSpawnConfigIndex = (playerSpawnConfigIndex + 1) % playerSpawnConfigNames.size();
+                    ((UiTextButton)uiElement).setDisplayName(getPlayerSpawnConfigString());
+                }));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Play")
                 .setTriggerKey(gameOptions.getKeyShoot())
                 .enableSound()
-                .setOnReleaseAction(() -> SolApplication.getInstance().play(false, playerSpawnConfigNames.get(playerSpawnConfigIndex), true)));
+                .setOnReleaseAction(uiElement -> SolApplication.getInstance().play(false, playerSpawnConfigNames.get(playerSpawnConfigIndex), true)));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Cancel")
                 .setTriggerKey(gameOptions.getKeyEscape())
                 .enableSound()
-                .setOnReleaseAction(() -> SolApplication.changeScreen(SolApplication.getMenuScreens().newGameScreen)));
+                .setOnReleaseAction(uiElement -> SolApplication.changeScreen(SolApplication.getMenuScreens().newGameScreen)));
 
-        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
-                .finalizeChanges();
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }

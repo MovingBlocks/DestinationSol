@@ -31,36 +31,33 @@ public class MenuScreen extends SolUiBaseScreen {
     MenuScreen(GameOptions gameOptions) {
         UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
-        UiTextButton canSellEquippedItemsButton = new UiTextButton().setDisplayName(getCanSellEquippedItemsString(gameOptions))
-                .enableSound();
-        canSellEquippedItemsButton.setOnReleaseAction(() -> {
-            gameOptions.canSellEquippedItems = !gameOptions.canSellEquippedItems;
-            canSellEquippedItemsButton.setDisplayName(getCanSellEquippedItemsString(gameOptions));
-        });
-        buttonList.addElement(canSellEquippedItemsButton);
+        buttonList.addElement(new UiTextButton().setDisplayName(getCanSellEquippedItemsString(gameOptions))
+                .enableSound()
+                .setOnReleaseAction(uiElement -> {
+                    gameOptions.canSellEquippedItems = !gameOptions.canSellEquippedItems;
+                    ((UiTextButton)uiElement).setDisplayName(getCanSellEquippedItemsString(gameOptions));
+                }));
 
-        UiTextButton soundVolumeButton = new UiTextButton().setDisplayName(getSoundVolumeString(gameOptions))
-                .enableSound();
-        soundVolumeButton.setOnReleaseAction(() -> {
-            gameOptions.advanceSoundVolMul();
-            // TODO: Check if we need to call soundManager.setVolume() here
-            soundVolumeButton.setDisplayName(getSoundVolumeString(gameOptions));
-        });
-        buttonList.addElement(soundVolumeButton);
+        buttonList.addElement(new UiTextButton().setDisplayName(getSoundVolumeString(gameOptions))
+                .enableSound()
+                .setOnReleaseAction(uiElement -> {
+                    gameOptions.advanceSoundVolMul();
+                    // TODO: Check if we need to call soundManager.setVolume() here
+                    ((UiTextButton)uiElement).setDisplayName(getSoundVolumeString(gameOptions));
+                }));
 
-        UiTextButton musicVolumeButton = new UiTextButton().setDisplayName(getMusicVolumeString(gameOptions))
-                .enableSound();
-        musicVolumeButton.setOnReleaseAction(() -> {
-            gameOptions.advanceMusicVolMul();
-            // TODO: Check if we need to call musicManager.setVolume() here
-            // solApplication.getMusicManager().changeVolume(options);
-            musicVolumeButton.setDisplayName(getMusicVolumeString(gameOptions));
-        });
-        buttonList.addElement(musicVolumeButton);
+        buttonList.addElement(new UiTextButton().setDisplayName(getMusicVolumeString(gameOptions))
+                .enableSound()
+                .setOnReleaseAction(uiElement -> {
+                    gameOptions.advanceMusicVolMul();
+                    // TODO: Check if we need to call musicManager.setVolume() here
+                    // solApplication.getMusicManager().changeVolume(options);
+                    ((UiTextButton)uiElement).setDisplayName(getMusicVolumeString(gameOptions));
+                }));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Respawn")
                 .enableSound()
-                .setOnReleaseAction(() -> {
+                .setOnReleaseAction(uiElement -> {
                     SolApplication.getInstance().getGame().respawn();
                     SolApplication.changeScreen(SolApplication.getInstance().getGame().getScreens().mainGameScreen);
                     SolApplication.getInstance().getGame().setPaused(false);
@@ -68,18 +65,17 @@ public class MenuScreen extends SolUiBaseScreen {
 
         buttonList.addElement(new UiTextButton().setDisplayName("Exit")
                 .enableSound()
-                .setOnReleaseAction(() -> SolApplication.getInstance().finishGame()));
+                .setOnReleaseAction(uiElement -> SolApplication.getInstance().finishGame()));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Resume")
                 .setTriggerKey(gameOptions.getKeyEscape())
                 .enableSound()
-                .setOnReleaseAction(() -> {
+                .setOnReleaseAction(uiElement -> {
                     SolApplication.getInstance().getGame().setPaused(false);
                     SolApplication.changeScreen(SolApplication.getInstance().getGame().getScreens().mainGameScreen);
                 }));
 
-        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
-                .finalizeChanges();
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING);
     }
 
     private String getCanSellEquippedItemsString(GameOptions gameOptions) {

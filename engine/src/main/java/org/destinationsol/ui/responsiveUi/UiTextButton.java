@@ -64,6 +64,8 @@ public class UiTextButton implements UiElement {
         this.x = x;
         this.y = y;
 
+        calculateScreenArea();
+
         return this;
     }
 
@@ -71,6 +73,8 @@ public class UiTextButton implements UiElement {
     public UiTextButton setDimensions(int width, int height) {
         this.width = width;
         this.height = height;
+
+        calculateScreenArea();
 
         return this;
     }
@@ -102,14 +106,6 @@ public class UiTextButton implements UiElement {
 
     public UiTextButton enableSound() {
         this.isWithSound = true;
-
-        return this;
-    }
-
-    @Override
-    public UiTextButton finalizeChanges() {
-        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
-        screenArea = new Rectangle((x - width/2) * displayDimensions.getRatio() / displayDimensions.getWidth(), (y - height/2) / (float)displayDimensions.getHeight(), width * displayDimensions.getRatio() / displayDimensions.getWidth(), height / (float)displayDimensions.getHeight());
 
         return this;
     }
@@ -181,11 +177,11 @@ public class UiTextButton implements UiElement {
 
         if (isOn()) {
             if (onClickAction != null) {
-                onClickAction.callback();
+                onClickAction.callback(this);
             }
         } else if (isJustOff()) {
             if (onReleaseAction != null) {
-                onReleaseAction.callback();
+                onReleaseAction.callback(this);
             }
         }
 
@@ -305,5 +301,10 @@ public class UiTextButton implements UiElement {
 
     public void enableWarn() {
         warnCount = 2;
+    }
+
+    private void calculateScreenArea() {
+        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+        screenArea = new Rectangle((x - width/2) * displayDimensions.getRatio() / displayDimensions.getWidth(), (y - height/2) / (float)displayDimensions.getHeight(), width * displayDimensions.getRatio() / displayDimensions.getWidth(), height / (float)displayDimensions.getHeight());
     }
 }

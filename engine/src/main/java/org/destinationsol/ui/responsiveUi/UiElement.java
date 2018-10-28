@@ -26,9 +26,6 @@ public interface UiElement {
     // Set dimensions. Returns UiElement to support Builder Pattern.
     UiElement setDimensions(int width, int height);
 
-    // Required to commit the changes made to the element. Present for optimization purposes.
-    UiElement finalizeChanges();
-
     int getX();
 
     int getY();
