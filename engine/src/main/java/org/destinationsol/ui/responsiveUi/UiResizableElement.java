@@ -21,6 +21,8 @@ package org.destinationsol.ui.responsiveUi;
  * Depending on the specific {@code UiElement}, it may then retain the set size indefinitely, or resize itself in one or
  * both dimensions to fit its contents or to fulfill other requirements. This should be however always specified in the
  * documentation of specific {@code UiElement}.
+ *
+ * <b>NOTE - even elements not implementing this interface may resize themselves when they deem necessary!</b>
  */
 public interface UiResizableElement extends UiElement {
     /**
@@ -58,4 +60,18 @@ public interface UiResizableElement extends UiElement {
     default int getMinWidth() {
         return 0;
     }
+
+    /**
+     * Returns the default width of this element.
+     *
+     * @return The default width
+     */
+    int getDefaultHeight();
+
+    /**
+     * Returns the default height of this element.
+     *
+     * @return The default height
+     */
+    int getDefaultWidth();
 }

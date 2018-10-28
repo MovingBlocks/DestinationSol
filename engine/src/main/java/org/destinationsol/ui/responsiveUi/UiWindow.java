@@ -22,6 +22,8 @@ import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.ResizeSubscriber;
 import org.destinationsol.ui.SolInputManager;
 
+import java.util.Optional;
+
 public class UiWindow implements UiElement, ResizeSubscriber {
 
     private int x;
@@ -31,6 +33,7 @@ public class UiWindow implements UiElement, ResizeSubscriber {
     private int height;
     private Rectangle screenArea;
     private Rectangle innerArea;
+    private Optional<UiContainerElement> parent;
 
     public UiWindow() {
         SolApplication.addResizeSubscriber(this);
@@ -38,9 +41,20 @@ public class UiWindow implements UiElement, ResizeSubscriber {
     }
 
     @Override
-    public UiElement setPosition(int x, int y) {
+    public UiWindow setPosition(int x, int y) {
         this.x = x;
         this.y = y;
+        return this;
+    }
+
+    @Override
+    public Optional<UiContainerElement> getParent() {
+        return parent;
+    }
+
+    @Override
+    public UiWindow setParent(UiContainerElement parent) {
+        this.parent = Optional.of(parent);
         return this;
     }
 

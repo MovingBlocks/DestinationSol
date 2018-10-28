@@ -16,25 +16,28 @@
 package org.destinationsol.ui.responsiveUi;
 
 import com.badlogic.gdx.math.Rectangle;
-import java.util.ArrayList;
-import java.util.List;
 import org.destinationsol.SolApplication;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
-import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_HEIGHT;
-import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_PADDING;
-import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_WIDTH;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 // TODO: Only handles UiTextButtons perfectly for now, due to height calculations. Make it more generic.
-public class UiVerticalListLayout implements UiElement {
+public class UiVerticalListLayout implements UiElement, UiContainerElement {
     private List<UiElement> uiElements = new ArrayList<>();
 
     private int x;
     private int y;
+    private int width;
+    private int height = 0;
+    private Optional<UiContainerElement> parent;
 
+    @Override
     public UiVerticalListLayout addElement(UiElement uiElement) {
         uiElements.add(uiElement);
-
+        uiElement.setParent(this);
         recalculateInnerPositions();
 
         return this;
@@ -62,16 +65,12 @@ public class UiVerticalListLayout implements UiElement {
 
     @Override
     public int getWidth() {
-        return BUTTON_WIDTH;
+        return width;
     }
 
     @Override
     public int getHeight() {
-        if (uiElements.isEmpty()) {
-            return 0;
-        }
-
-        return uiElements.size() * BUTTON_HEIGHT + (uiElements.size() - 1) * BUTTON_PADDING;
+        return height;
     }
 
     @Override
@@ -130,13 +129,47 @@ public class UiVerticalListLayout implements UiElement {
         }
     }
 
+    @Override
+    public UiVerticalListLayout recalculate() {
+        recalculateInnerPositions();
+        return this;
+    }
+
+    @Override
+    public Optional<UiContainerElement> getParent() {
+        return parent;
+    }
+
+    @Override
+    public UiVerticalListLayout setParent(UiContainerElement parent) {
+        this.parent = Optional.of(parent);
+        return this;
+    }
+
     private void recalculateInnerPositions() {
-        int currentY = y - getHeight()/2 + BUTTON_HEIGHT/2;
-
+        height = 0;
+        width = 0;
         for (UiElement uiElement : uiElements) {
-            uiElement.setPosition(x, currentY);
+            if (uiElement instanceof UiResizableElement) {
+                if (((UiResizableElement) uiElement).getDefaultWidth() > width) {
+                    width = ((UiResizableElement) uiElement).getDefaultWidth();
+                }
+            } else {
+                if (uiElement.getWidth() > width) {
+                    width = uiElement.getWidth();
+                }
+            }
+            height += uiElement.getHeight();
+        }
+        height += (uiElements.size() - 1) * UiConstants.DEFAULT_ELEMENT_PADDING;
 
-            currentY += (BUTTON_HEIGHT + BUTTON_PADDING);
+        int topY = y - (height / 2);
+        for (UiElement uiElement: uiElements) {
+            if (uiElement instanceof UiResizableElement) {
+                ((UiResizableElement) uiElement).setWidth(width);
+            }
+            uiElement.setPosition(x, topY + (uiElement.getHeight() / 2));
+            topY += uiElement.getHeight() + UiConstants.DEFAULT_ELEMENT_PADDING;
         }
     }
 }

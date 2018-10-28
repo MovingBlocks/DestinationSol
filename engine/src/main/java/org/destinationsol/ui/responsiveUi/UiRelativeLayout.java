@@ -18,11 +18,14 @@ package org.destinationsol.ui.responsiveUi;
 import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.destinationsol.SolApplication;
 import org.destinationsol.ui.SolInputManager;
 
 public class UiRelativeLayout implements UiElement {
     private List<UiElementWithProperties> uiElementsWithProperties = new ArrayList<>();
+    private Optional<UiContainerElement> parent;
 
     public UiRelativeLayout addElement(UiElement uiElement, UiPosition referencePosition, int xOffset, int yOffset) {
         UiElementWithProperties uiElementWithProperties = new UiElementWithProperties(uiElement, referencePosition, xOffset, yOffset);
@@ -42,6 +45,17 @@ public class UiRelativeLayout implements UiElement {
             setPosition(uiElementWithProperties);
         }
 
+        return this;
+    }
+
+    @Override
+    public Optional<UiContainerElement> getParent() {
+        return parent;
+    }
+
+    @Override
+    public UiRelativeLayout setParent(UiContainerElement parent) {
+        this.parent = Optional.of(parent);
         return this;
     }
 

@@ -20,6 +20,8 @@ import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.SolApplication;
 import org.destinationsol.ui.SolInputManager;
 
+import java.util.Optional;
+
 public class UiHeadlessButton implements UiElement {
     private int triggerKey;
     private boolean isEnabled = true;
@@ -33,9 +35,21 @@ public class UiHeadlessButton implements UiElement {
     // TODO: Make these optional?
     private UiCallback onClickAction; // Called *while* button is pressed
     private UiCallback onReleaseAction; // Called when button is released
+    private Optional<UiContainerElement> parent;
 
     @Override
     public UiHeadlessButton setPosition(int x, int y) {
+        return this;
+    }
+
+    @Override
+    public Optional<UiContainerElement> getParent() {
+        return parent;
+    }
+
+    @Override
+    public UiHeadlessButton setParent(UiContainerElement parent) {
+        this.parent = Optional.of(parent);
         return this;
     }
 
