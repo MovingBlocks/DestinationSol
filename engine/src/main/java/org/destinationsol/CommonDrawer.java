@@ -29,6 +29,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.fonts.FontData;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.ResizeSubscriber;
@@ -104,6 +105,25 @@ public class CommonDrawer implements ResizeSubscriber {
         }
 
         font.draw(spriteBatch, layout, x, y);
+    }
+
+    /**
+     * Returns the visible length of a string when drawn.
+     *
+     * @param s The string to measure
+     * @param fontSize The size of the font, relative to the string
+     * @return The visible length
+     */
+    public int getStringLength(String s, float fontSize) {
+        BitmapFont.BitmapFontData data = font.getData();
+        data.setScale(fontSize / originalFontHeight);
+        int stringLength = 0;
+        for (char character : s.toCharArray()) {
+            BitmapFont.Glyph charGlyph = data.getGlyph(character);
+            stringLength += charGlyph.width;
+        }
+
+        return stringLength;
     }
 
     public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y,

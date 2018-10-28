@@ -68,6 +68,7 @@ public class UiTextButton implements UiElement {
         return this;
     }
 
+    @Override
     public UiTextButton setDimensions(int width, int height) {
         this.width = width;
         this.height = height;
@@ -79,6 +80,9 @@ public class UiTextButton implements UiElement {
 
     public UiTextButton setDisplayName(String displayName) {
         this.displayName = displayName;
+        UiDrawer drawer = SolApplication.getUiDrawer();
+        int textWidth = drawer.getStringLength(displayName, 1);
+        this.width = textWidth + (BUTTON_PADDING * 2);
 
         return this;
     }
@@ -305,5 +309,11 @@ public class UiTextButton implements UiElement {
     private void calculateScreenArea() {
         DisplayDimensions displayDimensions = SolApplication.displayDimensions;
         screenArea = new Rectangle((x - width/2) * displayDimensions.getRatio() / displayDimensions.getWidth(), (y - height/2) / (float)displayDimensions.getHeight(), width * displayDimensions.getRatio() / displayDimensions.getWidth(), height / (float)displayDimensions.getHeight());
+    }
+
+    @Override
+    public void resetRect() {
+        setPosition(0, 0);
+        setDisplayName(displayName);
     }
 }

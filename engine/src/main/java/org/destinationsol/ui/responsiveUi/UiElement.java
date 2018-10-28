@@ -23,6 +23,8 @@ public interface UiElement {
     // Set position. Returns UiElement to support Builder Pattern.
     UiElement setPosition(int x, int y);
 
+    UiElement setDimensions(int width, int height);
+
     int getX();
 
     int getY();
@@ -32,6 +34,8 @@ public interface UiElement {
     int getHeight();
 
     void draw();
+
+    void resetRect();
 
     // TODO: Ugly, ugly, ugly. Remove.
     boolean maybeFlashPressed(int keyCode);

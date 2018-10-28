@@ -31,6 +31,7 @@ public class UiVerticalListLayout implements UiElement {
 
     private int x;
     private int y;
+    private int buttonWidth = 0;
 
     public UiVerticalListLayout addElement(UiElement uiElement) {
         uiElements.add(uiElement);
@@ -47,6 +48,12 @@ public class UiVerticalListLayout implements UiElement {
 
         calculateButtonPositions();
 
+        return this;
+    }
+
+    @Override
+    public UiElement setDimensions(int width, int height) {
+        //The dimensions of a UiVerticalListLayout are determined by its contents
         return this;
     }
 
@@ -76,6 +83,7 @@ public class UiVerticalListLayout implements UiElement {
 
     @Override
     public void draw() {
+        calculateButtonPositions();
         for (UiElement uiElement : uiElements) {
             uiElement.draw();
         }
@@ -132,11 +140,30 @@ public class UiVerticalListLayout implements UiElement {
 
     private void calculateButtonPositions() {
         int currentY = y - getHeight()/2 + BUTTON_HEIGHT/2;
+        calcuateButtonWidth();
 
         for (UiElement uiElement : uiElements) {
             uiElement.setPosition(x, currentY);
+            uiElement.setDimensions(buttonWidth, BUTTON_HEIGHT);
 
             currentY += (BUTTON_HEIGHT + BUTTON_PADDING);
         }
+    }
+
+    private void calcuateButtonWidth() {
+        buttonWidth = 0;
+        for (UiElement uiElement : uiElements) {
+            uiElement.resetRect();
+            if (uiElement.getWidth() > buttonWidth) {
+                buttonWidth = uiElement.getWidth();
+            }
+        }
+    }
+
+    @Override
+    public void resetRect() {
+        setPosition(0, 0);
+        calcuateButtonWidth();
+        calculateButtonPositions();
     }
 }

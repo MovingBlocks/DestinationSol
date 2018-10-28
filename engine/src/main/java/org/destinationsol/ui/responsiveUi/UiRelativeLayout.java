@@ -76,6 +76,11 @@ public class UiRelativeLayout implements UiElement {
         uiElementWithProperties.uiElement.setPosition(uiElementX, uiElementY);
     }
 
+    @Override
+    public UiElement setDimensions(int width, int height) {
+        return this;
+    }
+
     public void draw() {
         for (UiElementWithProperties uiElementWithProperties : uiElementsWithProperties) {
             uiElementWithProperties.uiElement.draw();
@@ -141,5 +146,10 @@ public class UiRelativeLayout implements UiElement {
             this.xOffset = xOffset;
             this.yOffset = yOffset;
         }
+    }
+
+    @Override
+    public void resetRect() {
+        setPosition(0, 0);
     }
 }

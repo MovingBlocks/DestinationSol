@@ -39,6 +39,11 @@ public class UiHeadlessButton implements UiElement {
         return this;
     }
 
+    @Override
+    public UiElement setDimensions(int width, int height) {
+        return this;
+    }
+
     public UiHeadlessButton setTriggerKey(int triggerKey) {
         this.triggerKey = triggerKey;
 
@@ -162,5 +167,9 @@ public class UiHeadlessButton implements UiElement {
     @Override
     public Rectangle getScreenArea() {
         return new Rectangle(-1, -1, 0, 0);
+    }
+
+    @Override
+    public void resetRect() {
     }
 }
