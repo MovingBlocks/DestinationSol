@@ -30,6 +30,7 @@ public class UiWindow implements UiElement, ResizeSubscriber {
     private int width;
     private int height;
     private Rectangle screenArea;
+    private Rectangle innerArea;
 
     public UiWindow() {
         SolApplication.addResizeSubscriber(this);
@@ -66,6 +67,7 @@ public class UiWindow implements UiElement, ResizeSubscriber {
     @Override
     public void draw() {
         SolApplication.getUiDrawer().draw(screenArea, SolColor.UI_BG_LIGHT);
+        SolApplication.getUiDrawer().draw(innerArea, SolColor.UI_BG_LIGHT);
     }
 
     @Override
@@ -107,5 +109,6 @@ public class UiWindow implements UiElement, ResizeSubscriber {
     private void calculateScreenArea() {
         DisplayDimensions displayDimensions = SolApplication.displayDimensions;
         screenArea = new Rectangle((x - width/2) * displayDimensions.getRatio() / displayDimensions.getWidth(), (y - height/2) / (float)displayDimensions.getHeight(), width * displayDimensions.getRatio() / displayDimensions.getWidth(), height / (float)displayDimensions.getHeight());
+        innerArea = new Rectangle(screenArea.x + 0.02f, screenArea.y + 0.02f, screenArea.width - 0.04f, screenArea.height - 0.04f);
     }
 }

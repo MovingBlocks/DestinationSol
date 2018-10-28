@@ -23,8 +23,20 @@ public interface UiElement {
     // Set position. Returns UiElement to support Builder Pattern.
     UiElement setPosition(int x, int y);
 
+    /**
+     * Returns x position of this element.
+     *
+     * The position should point to the center of this element.
+     * @return X position of this element
+     */
     int getX();
 
+    /**
+     * Returns y position of this element.
+     *
+     * The position should point to the center of this element.
+     * @return Y position of this element
+     */
     int getY();
 
     int getWidth();
@@ -46,5 +58,8 @@ public interface UiElement {
     Rectangle getScreenArea();
 
     // TODO: Ugly, ugly, ugly. Remove.
+    /**
+     * Called when hiding this element.
+     */
     void blur();
 }

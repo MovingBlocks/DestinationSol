@@ -25,10 +25,11 @@ import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.UiDrawer;
 
-public class UiTextButton implements UiElement {
+public class UiTextButton implements UiElement, UiResizableElement {
     public static final int BUTTON_WIDTH = 300;
     public static final int BUTTON_HEIGHT = 75;
     public static final int BUTTON_PADDING = 10;
+    private static final int MIN_BUTTON_HEIGHT = 40;
 
     private Rectangle screenArea;
 
@@ -57,6 +58,7 @@ public class UiTextButton implements UiElement {
     // TODO: Make these optional?
     private UiCallback onClickAction; // Called *while* button is pressed
     private UiCallback onReleaseAction; // Called when button is released
+    private boolean wasResized;
 
     @Override
     public UiTextButton setPosition(int x, int y) {
@@ -68,18 +70,18 @@ public class UiTextButton implements UiElement {
         return this;
     }
 
-    public UiTextButton setDimensions(int width, int height) {
-        this.width = width;
-        this.height = height;
-
-        calculateScreenArea();
-
-        return this;
-    }
-
+    /**
+     * Sets the text this button displays.
+     *
+     * @param displayName Text to display
+     * @return Self for method chaining
+     */
     public UiTextButton setDisplayName(String displayName) {
         this.displayName = displayName;
-
+        if (!wasResized || width < getMinHeight()) {
+            setWidth(Math.max(getMinWidth(), BUTTON_WIDTH));
+            wasResized = false;
+        }
         return this;
     }
 
@@ -305,5 +307,32 @@ public class UiTextButton implements UiElement {
     private void calculateScreenArea() {
         DisplayDimensions displayDimensions = SolApplication.displayDimensions;
         screenArea = new Rectangle((x - width/2) * displayDimensions.getRatio() / displayDimensions.getWidth(), (y - height/2) / (float)displayDimensions.getHeight(), width * displayDimensions.getRatio() / displayDimensions.getWidth(), height / (float)displayDimensions.getHeight());
+    }
+
+    @Override
+    public UiTextButton setWidth(int width) {
+        this.width = width;
+        wasResized = true;
+        calculateScreenArea();
+
+        return this;
+    }
+
+    @Override
+    public UiTextButton setHeight(int height) {
+        this.height = height;
+        calculateScreenArea();
+
+        return this;
+    }
+
+    @Override
+    public int getMinHeight() {
+        return MIN_BUTTON_HEIGHT;
+    }
+
+    @Override
+    public int getMinWidth() {
+        return SolApplication.getUiDrawer().getStringLength(displayName, 1) + BUTTON_PADDING * 2;
     }
 }
