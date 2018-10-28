@@ -25,6 +25,8 @@ import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.UiDrawer;
 
+import java.util.Optional;
+
 public class UiTextButton implements UiElement, UiResizableElement {
     public static final int BUTTON_WIDTH = 300;
     public static final int BUTTON_HEIGHT = 75;
@@ -59,6 +61,7 @@ public class UiTextButton implements UiElement, UiResizableElement {
     private UiCallback onClickAction; // Called *while* button is pressed
     private UiCallback onReleaseAction; // Called when button is released
     private boolean wasResized;
+    private Optional<UiContainerElement> parent = Optional.empty();
 
     @Override
     public UiTextButton setPosition(int x, int y) {
@@ -67,6 +70,17 @@ public class UiTextButton implements UiElement, UiResizableElement {
 
         calculateScreenArea();
 
+        return this;
+    }
+
+    @Override
+    public Optional<UiContainerElement> getParent() {
+        return parent;
+    }
+
+    @Override
+    public UiTextButton setParent(UiContainerElement parent) {
+        this.parent = Optional.of(parent);
         return this;
     }
 
@@ -80,6 +94,7 @@ public class UiTextButton implements UiElement, UiResizableElement {
         this.displayName = displayName;
         if (!wasResized || width < getMinHeight()) {
             setWidth(Math.max(getMinWidth(), BUTTON_WIDTH));
+            getParent().ifPresent(UiElement::recalculate);
             wasResized = false;
         }
         return this;
@@ -312,7 +327,7 @@ public class UiTextButton implements UiElement, UiResizableElement {
     @Override
     public UiTextButton setWidth(int width) {
         this.width = width;
-        wasResized = true;
+        wasResized = width != getMinWidth();
         calculateScreenArea();
 
         return this;
@@ -334,5 +349,15 @@ public class UiTextButton implements UiElement, UiResizableElement {
     @Override
     public int getMinWidth() {
         return SolApplication.getUiDrawer().getStringLength(displayName, 1) + BUTTON_PADDING * 2;
+    }
+
+    @Override
+    public int getDefaultHeight() {
+        return BUTTON_HEIGHT;
+    }
+
+    @Override
+    public int getDefaultWidth() {
+        return Math.max(getMinWidth(), BUTTON_WIDTH);
     }
 }

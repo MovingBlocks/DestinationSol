@@ -19,9 +19,43 @@ import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.SolApplication;
 import org.destinationsol.ui.SolInputManager;
 
+import java.util.Optional;
+
 public interface UiElement {
-    // Set position. Returns UiElement to support Builder Pattern.
+    /**
+     * Sets position of this element.
+     *
+     * @param x X position of the element
+     * @param y Y position of the element.
+     * @return Self for method chaining.
+     */
     UiElement setPosition(int x, int y);
+
+    /**
+     * Used to manually trigger recalculation of the element.
+     *
+     * May be used when something was changed in uncommon way that might require change of the element, or by children
+     * to notify their parent of their change that might require action from the parent.
+     * @return Self for method chaining.
+     */
+    default UiElement recalculate() {
+        return this;
+    }
+
+    /**
+     * Gets parent {@link UiContainerElement element} of this element.
+     * @return Parent element, or {@link Optional#empty()} if topmost element.
+     */
+    Optional<UiContainerElement> getParent();
+
+    /**
+     * Sets parent {@link UiContainerElement} to this element.
+     *
+     * {@link UiContainerElement#addElement(UiElement)} is responsible of calling this method.
+     * @param parent Parent to set
+     * @return Self for method chaining
+     */
+    UiElement setParent(UiContainerElement parent);
 
     /**
      * Returns x position of this element.
