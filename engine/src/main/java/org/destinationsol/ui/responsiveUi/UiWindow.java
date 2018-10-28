@@ -21,7 +21,6 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.ResizeSubscriber;
 import org.destinationsol.ui.SolInputManager;
-import org.destinationsol.ui.UiDrawer;
 
 public class UiWindow implements UiElement, ResizeSubscriber {
 
