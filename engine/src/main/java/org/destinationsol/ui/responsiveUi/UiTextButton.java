@@ -53,6 +53,7 @@ public class UiTextButton implements UiElement {
     private int y;
     private int width = BUTTON_WIDTH;
     private int height = BUTTON_HEIGHT;
+    private float fontSize = FontSize.MENU;
 
     // TODO: Make these optional?
     private UiCallback onClickAction; // Called *while* button is pressed
@@ -81,7 +82,7 @@ public class UiTextButton implements UiElement {
     public UiTextButton setDisplayName(String displayName) {
         this.displayName = displayName;
         UiDrawer drawer = SolApplication.getUiDrawer();
-        int textWidth = drawer.getStringLength(displayName, 1);
+        int textWidth = drawer.getStringLength(displayName, fontSize);
         this.width = textWidth + (BUTTON_PADDING * 2);
 
         return this;
@@ -130,6 +131,10 @@ public class UiTextButton implements UiElement {
     public int getHeight() {
         return height;
     }
+
+    public float getFontSize() { return fontSize; }
+
+    public void setFontSize(float newSize) { fontSize = newSize; }
 
     @Override
     public boolean maybeFlashPressed(int keyCode) {
@@ -274,7 +279,7 @@ public class UiTextButton implements UiElement {
         }
 
         tint = isEnabled ? SolColor.WHITE : SolColor.G;
-        uiDrawer.drawString(displayName, screenArea.x + screenArea.width / 2, screenArea.y + screenArea.height / 2, FontSize.MENU, true, tint);
+        uiDrawer.drawString(displayName, screenArea.x + screenArea.width / 2, screenArea.y + screenArea.height / 2, fontSize, true, tint);
     }
 
     @Override

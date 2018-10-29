@@ -115,15 +115,11 @@ public class CommonDrawer implements ResizeSubscriber {
      * @return The visible length
      */
     public int getStringLength(String s, float fontSize) {
-        BitmapFont.BitmapFontData data = font.getData();
-        data.setScale(fontSize / originalFontHeight);
-        int stringLength = 0;
-        for (char character : s.toCharArray()) {
-            BitmapFont.Glyph charGlyph = data.getGlyph(character);
-            stringLength += charGlyph.width;
-        }
-
-        return stringLength;
+        float fontScale = (fontSize / originalFontHeight);
+        font.getData().setScale(fontScale);
+        layout.reset();
+        layout.setText(font, s);
+        return (int) (layout.width / (displayDimensions.getRatio() / displayDimensions.getWidth()));
     }
 
     public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y,
