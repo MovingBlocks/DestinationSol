@@ -22,11 +22,9 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.item.ItemManager;
+import org.terasology.assets.ResourceUrn;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PlanetConfigs {
     private final Map<String, PlanetConfig> allConfigs;
@@ -40,26 +38,29 @@ public class PlanetConfigs {
         medium = new ArrayList<>();
         hard = new ArrayList<>();
 
-        Assets.cacheLists();
+        Set<ResourceUrn> planetJsonConfigs = Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:planetsConfig");
 
-        Json json = Assets.getJson("core:planetsConfig");
-        JsonValue rootNode = json.getJsonValue();
+        for (ResourceUrn planetConfigJson : planetJsonConfigs) {
+            Assets.cacheLists();
 
-        for (JsonValue node : rootNode) {
-            PlanetConfig planetConfig = PlanetConfig.load(node, hullConfigs, cols, itemManager);
-            allConfigs.put(node.name, planetConfig);
-            if (planetConfig.hardOnly) {
-                hard.add(planetConfig);
-            } else if (planetConfig.easyOnly) {
-                easy.add(planetConfig);
-            } else {
-                medium.add(planetConfig);
+            Json json = Assets.getJson(planetConfigJson.toString());
+            JsonValue rootNode = json.getJsonValue();
+
+            for (JsonValue node : rootNode) {
+                PlanetConfig planetConfig = PlanetConfig.load(node, hullConfigs, cols, itemManager);
+                allConfigs.put(node.name, planetConfig);
+                if (planetConfig.hardOnly) {
+                    hard.add(planetConfig);
+                } else if (planetConfig.easyOnly) {
+                    easy.add(planetConfig);
+                } else {
+                    medium.add(planetConfig);
+                }
             }
+
+            json.dispose();
+            Assets.uncacheLists();
         }
-
-        json.dispose();
-
-        Assets.uncacheLists();
     }
 
     public PlanetConfig getConfig(String name) {
