@@ -82,11 +82,7 @@ public class CommonDrawer implements ResizeSubscriber {
             return;
         }
 
-        font.setColor(col);
-        font.getData().setScale(fontSize / originalFontHeight);
-        // http://www.badlogicgames.com/wordpress/?p=3658
-        layout.reset();
-        layout.setText(font, s);
+        makeFontLayout(s, fontSize, col);
 
         switch (align) {
             case LEFT:
@@ -106,23 +102,32 @@ public class CommonDrawer implements ResizeSubscriber {
         font.draw(spriteBatch, layout, x, y);
     }
 
-    /**
-     * Returns the visible length of a string when drawn.
-     *
-     * @param s The string to measure
-     * @param fontSize The size of the font, relative to the string
-     * @return The visible length
-     */
-    public int getStringLength(String s, float fontSize) {
-        BitmapFont.BitmapFontData data = font.getData();
-        data.setScale(fontSize / originalFontHeight);
-        int stringLength = 0;
-        for (char character : s.toCharArray()) {
-            BitmapFont.Glyph charGlyph = data.getGlyph(character);
-            stringLength += charGlyph.width;
-        }
 
-        return stringLength;
+    /**
+     * Creates a GlyphLayout for a provided string, using the engine font.
+     *
+     * @param s The provided string.
+     * @param fontSize The size of the font.
+     * @param col The color of the font.
+     * @return The final GlyphLayout.
+     */
+    public GlyphLayout makeFontLayout(String s, float fontSize, Color col){
+        font.setColor(col);
+        return makeFontLayout(s, fontSize);
+    }
+    /**
+     * Creates a GlyphLayout for a provided string, using the engine font.
+     *
+     * @param s The provided string.
+     * @param fontSize The size of the font.
+     * @return The final GlyphLayout.
+     */
+    public GlyphLayout makeFontLayout(String s, float fontSize){
+        font.getData().setScale(fontSize / originalFontHeight);
+        // http://www.badlogicgames.com/wordpress/?p=3658
+        layout.reset();
+        layout.setText(font, s);
+        return layout; // returns for width calculations
     }
 
     public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y,

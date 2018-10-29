@@ -34,9 +34,9 @@ import org.destinationsol.ui.responsiveUi.UiTextButton;
 import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
 import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM;
 import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM_RIGHT;
-import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_HEIGHT;
-import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_PADDING;
-import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_WIDTH;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.DEFAULT_BUTTON_HEIGHT;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.DEFAULT_BUTTON_PADDING;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.DEFAULT_BUTTON_WIDTH;
 
 public class MainMenuScreen extends SolUiBaseScreen {
     private final TextureAtlas.AtlasRegion logoTexture;
@@ -86,8 +86,8 @@ public class MainMenuScreen extends SolUiBaseScreen {
                 .enableSound()
                 .setOnReleaseAction(uiElement -> SolApplication.changeScreen(SolApplication.getMenuScreens().creditsScreen));
 
-        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
-                .addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -BUTTON_WIDTH / 2 - BUTTON_PADDING, -BUTTON_HEIGHT / 2 - BUTTON_PADDING);
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - DEFAULT_BUTTON_PADDING)
+                .addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -DEFAULT_BUTTON_WIDTH / 2 - DEFAULT_BUTTON_PADDING, -DEFAULT_BUTTON_HEIGHT / 2 - DEFAULT_BUTTON_PADDING);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
         logoTexture = Assets.getAtlasRegion("engine:mainMenuLogo", Texture.TextureFilter.Linear);

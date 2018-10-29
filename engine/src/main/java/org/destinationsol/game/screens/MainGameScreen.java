@@ -46,7 +46,7 @@ import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
 import org.destinationsol.ui.responsiveUi.UiTextButton;
 import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
 import static org.destinationsol.ui.UiDrawer.UI_POSITION_RIGHT;
-import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_WIDTH;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.DEFAULT_BUTTON_WIDTH;
 
 public class MainGameScreen extends SolUiBaseScreen {
     public ShipUiControl shipControl;
@@ -186,7 +186,7 @@ public class MainGameScreen extends SolUiBaseScreen {
                 .setOnReleaseAction(uiElement -> inputManager.changeScreen(solApplication.getGame().getScreens().console));
         buttonList.addElement(consoleButton);
 
-        relativeLayout.addElement(buttonList, UI_POSITION_RIGHT, -BUTTON_WIDTH/2, 0);
+        relativeLayout.addElement(buttonList, UI_POSITION_RIGHT, -DEFAULT_BUTTON_WIDTH /2, 0);
 
         rootUiElement = relativeLayout;
 
