@@ -17,38 +17,47 @@ package org.destinationsol.ui.responsiveUi;
 
 import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.SolApplication;
-import org.destinationsol.common.SolColor;
-import org.destinationsol.ui.DisplayDimensions;
-import org.destinationsol.ui.ResizeSubscriber;
 import org.destinationsol.ui.SolInputManager;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
-public class UiWindow extends AbstractUiElement implements ResizeSubscriber {
-
+public class UiTextBox extends AbstractUiElement {
     private int x;
     private int y;
-    private boolean isManuallyMoved = false;
-    private int width;
-    private int height;
-    private Rectangle screenArea;
-    private Rectangle innerArea;
-
-    public UiWindow() {
-        SolApplication.addResizeSubscriber(this);
-        resize();
-    }
+    private List<String> lines = new ArrayList<>();
 
     @Override
-    public UiWindow setPosition(int x, int y) {
+    public UiTextBox setPosition(int x, int y) {
         this.x = x;
         this.y = y;
         return this;
     }
 
     @Override
-    public UiWindow setParent(UiContainerElement parent) {
+    public UiTextBox setParent(UiContainerElement parent) {
         this.parent = Optional.of(parent);
+        return this;
+    }
+
+    @Override
+    public UiTextBox recalculate() {
+
+        return this;
+    }
+
+    /**
+     * Sets the contents of this element to the given {@code text}.
+     *
+     * Supports newlines through {@code '\n'} character. No other special characters are supported.
+     * @param text Text to set
+     * @return Self for method chaining
+     */
+    public UiTextBox setText(String text) {
+        lines.clear();
+        lines.addAll(Arrays.asList(text.split("\n")));
         return this;
     }
 
@@ -64,18 +73,17 @@ public class UiWindow extends AbstractUiElement implements ResizeSubscriber {
 
     @Override
     public int getWidth() {
-        return width;
+        return 0;
     }
 
     @Override
     public int getHeight() {
-        return height;
+        return 0;
     }
 
     @Override
     public void draw() {
-        SolApplication.getUiDrawer().draw(screenArea, SolColor.UI_BG_LIGHT);
-        SolApplication.getUiDrawer().draw(innerArea, SolColor.UI_BG_LIGHT);
+
     }
 
     @Override
@@ -95,28 +103,11 @@ public class UiWindow extends AbstractUiElement implements ResizeSubscriber {
 
     @Override
     public Rectangle getScreenArea() {
-        return screenArea;
+        return null;
     }
 
     @Override
     public void blur() {
-        isManuallyMoved = false;
-    }
 
-    @Override
-    public void resize() {
-        final DisplayDimensions displayDimensions = SolApplication.displayDimensions;
-        if (!isManuallyMoved) {
-            setPosition(displayDimensions.getWidth() / 2, displayDimensions.getHeight() / 2);
-        }
-        width = displayDimensions.getWidth() / 2;
-        height = displayDimensions.getHeight() / 2;
-        calculateScreenArea();
-    }
-
-    private void calculateScreenArea() {
-        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
-        screenArea = new Rectangle((x - width/2) * displayDimensions.getRatio() / displayDimensions.getWidth(), (y - height/2) / (float)displayDimensions.getHeight(), width * displayDimensions.getRatio() / displayDimensions.getWidth(), height / (float)displayDimensions.getHeight());
-        innerArea = new Rectangle(screenArea.x + 0.02f, screenArea.y + 0.02f, screenArea.width - 0.04f, screenArea.height - 0.04f);
     }
 }

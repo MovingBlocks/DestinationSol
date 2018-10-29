@@ -27,11 +27,10 @@ import org.destinationsol.ui.UiDrawer;
 
 import java.util.Optional;
 
-public class UiTextButton implements UiElement, UiResizableElement {
-    public static final int BUTTON_WIDTH = 300;
-    public static final int BUTTON_HEIGHT = 75;
-    public static final int BUTTON_PADDING = 10;
-    private static final int MIN_BUTTON_HEIGHT = 40;
+public class UiTextButton extends AbstractUiElement implements UiResizableElement {
+    public static final int DEFAULT_BUTTON_WIDTH = 300;
+    public static final int DEFAULT_BUTTON_HEIGHT = 75;
+    public static final int DEFAULT_BUTTON_PADDING = 10;
 
     private Rectangle screenArea;
 
@@ -54,14 +53,13 @@ public class UiTextButton implements UiElement, UiResizableElement {
 
     private int x;
     private int y;
-    private int width = BUTTON_WIDTH;
-    private int height = BUTTON_HEIGHT;
+    private int width = DEFAULT_BUTTON_WIDTH;
+    private int height = DEFAULT_BUTTON_HEIGHT;
 
     // TODO: Make these optional?
     private UiCallback onClickAction; // Called *while* button is pressed
     private UiCallback onReleaseAction; // Called when button is released
     private boolean wasResized;
-    private Optional<UiContainerElement> parent = Optional.empty();
 
     @Override
     public UiTextButton setPosition(int x, int y) {
@@ -71,11 +69,6 @@ public class UiTextButton implements UiElement, UiResizableElement {
         calculateScreenArea();
 
         return this;
-    }
-
-    @Override
-    public Optional<UiContainerElement> getParent() {
-        return parent;
     }
 
     @Override
@@ -93,10 +86,11 @@ public class UiTextButton implements UiElement, UiResizableElement {
     public UiTextButton setDisplayName(String displayName) {
         this.displayName = displayName;
         if (!wasResized || width < getMinHeight()) {
-            setWidth(Math.max(getMinWidth(), BUTTON_WIDTH));
+            setWidth(getDefaultWidth());
             getParent().ifPresent(UiElement::recalculate);
             wasResized = false;
         }
+        setHeight(getMinHeight());
         return this;
     }
 
@@ -343,21 +337,21 @@ public class UiTextButton implements UiElement, UiResizableElement {
 
     @Override
     public int getMinHeight() {
-        return MIN_BUTTON_HEIGHT;
+        return SolApplication.getUiDrawer().getStringHeight(displayName, FontSize.MENU) + DEFAULT_BUTTON_PADDING * 2;
     }
 
     @Override
     public int getMinWidth() {
-        return SolApplication.getUiDrawer().getStringLength(displayName, 1) + BUTTON_PADDING * 2;
+        return SolApplication.getUiDrawer().getStringLength(displayName, FontSize.MENU) + DEFAULT_BUTTON_PADDING * 2;
     }
 
     @Override
     public int getDefaultHeight() {
-        return BUTTON_HEIGHT;
+        return Math.max(getMinHeight(), DEFAULT_BUTTON_HEIGHT);
     }
 
     @Override
     public int getDefaultWidth() {
-        return Math.max(getMinWidth(), BUTTON_WIDTH);
+        return Math.max(getMinWidth(), DEFAULT_BUTTON_WIDTH);
     }
 }

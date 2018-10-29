@@ -25,7 +25,7 @@ import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
 import org.destinationsol.ui.responsiveUi.UiTextButton;
 import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
 import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM;
-import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_PADDING;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.DEFAULT_BUTTON_PADDING;
 
 public class MenuScreen extends SolUiBaseScreen {
     MenuScreen(GameOptions gameOptions) {
@@ -75,7 +75,7 @@ public class MenuScreen extends SolUiBaseScreen {
                     SolApplication.changeScreen(SolApplication.getInstance().getGame().getScreens().mainGameScreen);
                 }));
 
-        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING);
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - DEFAULT_BUTTON_PADDING);
     }
 
     private String getCanSellEquippedItemsString(GameOptions gameOptions) {

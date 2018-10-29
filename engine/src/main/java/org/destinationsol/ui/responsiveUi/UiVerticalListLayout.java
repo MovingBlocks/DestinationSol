@@ -25,14 +25,13 @@ import java.util.List;
 import java.util.Optional;
 
 // TODO: Only handles UiTextButtons perfectly for now, due to height calculations. Make it more generic.
-public class UiVerticalListLayout implements UiElement, UiContainerElement {
+public class UiVerticalListLayout extends AbstractUiElement implements UiContainerElement {
     private List<UiElement> uiElements = new ArrayList<>();
 
     private int x;
     private int y;
     private int width;
     private int height = 0;
-    private Optional<UiContainerElement> parent;
 
     @Override
     public UiVerticalListLayout addElement(UiElement uiElement) {
@@ -133,11 +132,6 @@ public class UiVerticalListLayout implements UiElement, UiContainerElement {
     public UiVerticalListLayout recalculate() {
         recalculateInnerPositions();
         return this;
-    }
-
-    @Override
-    public Optional<UiContainerElement> getParent() {
-        return parent;
     }
 
     @Override

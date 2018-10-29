@@ -23,9 +23,8 @@ import java.util.Optional;
 import org.destinationsol.SolApplication;
 import org.destinationsol.ui.SolInputManager;
 
-public class UiRelativeLayout implements UiElement {
+public class UiRelativeLayout extends AbstractUiElement {
     private List<UiElementWithProperties> uiElementsWithProperties = new ArrayList<>();
-    private Optional<UiContainerElement> parent;
 
     public UiRelativeLayout addElement(UiElement uiElement, UiPosition referencePosition, int xOffset, int yOffset) {
         UiElementWithProperties uiElementWithProperties = new UiElementWithProperties(uiElement, referencePosition, xOffset, yOffset);
@@ -46,11 +45,6 @@ public class UiRelativeLayout implements UiElement {
         }
 
         return this;
-    }
-
-    @Override
-    public Optional<UiContainerElement> getParent() {
-        return parent;
     }
 
     @Override

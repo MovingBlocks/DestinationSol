@@ -29,7 +29,7 @@ import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
 import org.destinationsol.ui.responsiveUi.UiTextButton;
 import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
 import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM;
-import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_PADDING;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.DEFAULT_BUTTON_PADDING;
 
 public class OptionsScreen extends SolUiBaseScreen {
     private final TextureAtlas.AtlasRegion backgroundTexture;
@@ -93,7 +93,7 @@ public class OptionsScreen extends SolUiBaseScreen {
                 .enableSound()
                 .setOnReleaseAction(uiElement -> SolApplication.changeScreen(SolApplication.getMenuScreens().mainScreen)));
 
-        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING);
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - DEFAULT_BUTTON_PADDING);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
