@@ -115,13 +115,6 @@ public class UiVerticalListLayout extends AbstractUiElement implements UiContain
     }
 
     @Override
-    public Rectangle getScreenArea() {
-        // TODO: Potentially problematic.
-        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
-        return new Rectangle((x - getWidth()/2) * displayDimensions.getRatio() / displayDimensions.getWidth(), (y - getHeight()/2) / (float)displayDimensions.getHeight(), getWidth() * displayDimensions.getRatio() / displayDimensions.getWidth(), getHeight() / (float)displayDimensions.getHeight());
-    }
-
-    @Override
     public void blur() {
         for (UiElement uiElement : uiElements) {
             uiElement.blur();
