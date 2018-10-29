@@ -90,7 +90,6 @@ public class UiTextButton extends AbstractUiElement implements UiResizableElemen
             getParent().ifPresent(UiElement::recalculate);
             wasResized = false;
         }
-        setHeight(getMinHeight());
         return this;
     }
 
@@ -315,7 +314,12 @@ public class UiTextButton extends AbstractUiElement implements UiResizableElemen
 
     private void calculateScreenArea() {
         DisplayDimensions displayDimensions = SolApplication.displayDimensions;
-        screenArea = new Rectangle((x - width/2) * displayDimensions.getRatio() / displayDimensions.getWidth(), (y - height/2) / (float)displayDimensions.getHeight(), width * displayDimensions.getRatio() / displayDimensions.getWidth(), height / (float)displayDimensions.getHeight());
+        screenArea = new Rectangle(
+                displayDimensions.getFloatWidthForPixelWidth(x - width/2),
+                displayDimensions.getFloatHeightForPixelHeight(y - height/2),
+                displayDimensions.getFloatWidthForPixelWidth(width),
+                displayDimensions.getFloatHeightForPixelHeight(height)
+        );
     }
 
     @Override

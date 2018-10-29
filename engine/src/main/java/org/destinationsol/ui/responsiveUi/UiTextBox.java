@@ -15,19 +15,40 @@
  */
 package org.destinationsol.ui.responsiveUi;
 
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.graphics.Color;
 import org.destinationsol.SolApplication;
+import org.destinationsol.common.SolColor;
+import org.destinationsol.ui.DisplayDimensions;
+import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Single as well multi-line textBox for displaying all kinds of text.
+ *
+ * Doesn't add any padding around the text, but inserts spacers between its lines. Aligns the text to the left.
+ */
 public class UiTextBox extends AbstractUiElement {
     private int x;
     private int y;
+    private float fontSize = FontSize.HINT;
+
     private List<String> lines = new ArrayList<>();
+    private int width;
+    private int height;
+    private int lineSpacer;
+    private Color color = SolColor.WHITE;
+
+    public UiTextBox setFontSize(float fontSize) {
+        this.fontSize = fontSize;
+        recalculate();
+        return this;
+    }
 
     @Override
     public UiTextBox setPosition(int x, int y) {
@@ -44,26 +65,35 @@ public class UiTextBox extends AbstractUiElement {
 
     @Override
     public UiTextBox recalculate() {
-
+        width = lines.stream().map(line -> SolApplication.getUiDrawer().getStringLength(line, fontSize)).max(Integer::compareTo).orElse(0);
+        height = lines.stream().map(line -> SolApplication.getUiDrawer().getStringHeight(line, fontSize)).reduce(Integer::sum).orElse(0);
+        lineSpacer = (height / lines.size()) / 2;
+        height += lineSpacer * lines.size() - 1;
         return this;
     }
 
     /**
      * Sets the contents of this element to the given {@code text}.
-     *
+     * <p>
      * Supports newlines through {@code '\n'} character. No other special characters are supported.
+     *
      * @param text Text to set
      * @return Self for method chaining
      */
     public UiTextBox setText(String text) {
         lines.clear();
         lines.addAll(Arrays.asList(text.split("\n")));
+        recalculate();
         return this;
     }
 
     @Override
     public int getX() {
         return x;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     @Override
@@ -73,17 +103,25 @@ public class UiTextBox extends AbstractUiElement {
 
     @Override
     public int getWidth() {
-        return 0;
+        return width;
     }
 
     @Override
     public int getHeight() {
-        return 0;
+        return height;
     }
 
     @Override
     public void draw() {
-
+        final UiDrawer uiDrawer = SolApplication.getUiDrawer();
+        int textY = y - (height / 2);
+        final int textX = x - (width / 2);
+        final int lineHeight = height / lines.size();
+        final DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+        for (String line : lines) {
+            uiDrawer.drawString(line, displayDimensions.getFloatWidthForPixelWidth(textX), displayDimensions.getFloatHeightForPixelHeight(textY), fontSize, UiDrawer.TextAlignment.LEFT,false, color);
+            textY += lineSpacer + lineHeight;
+        }
     }
 
     @Override
@@ -99,11 +137,6 @@ public class UiTextBox extends AbstractUiElement {
     @Override
     public boolean update(SolInputManager.InputPointer[] inputPointers, boolean cursorShown, boolean canBePressed, SolInputManager inputMan, SolApplication cmp) {
         return false;
-    }
-
-    @Override
-    public Rectangle getScreenArea() {
-        return null;
     }
 
     @Override

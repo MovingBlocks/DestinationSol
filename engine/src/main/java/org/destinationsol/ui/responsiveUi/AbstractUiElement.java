@@ -15,6 +15,10 @@
  */
 package org.destinationsol.ui.responsiveUi;
 
+import com.badlogic.gdx.math.Rectangle;
+import org.destinationsol.SolApplication;
+import org.destinationsol.ui.DisplayDimensions;
+
 import java.util.Optional;
 
 public abstract class AbstractUiElement implements UiElement {
@@ -23,5 +27,16 @@ public abstract class AbstractUiElement implements UiElement {
     @Override
     public Optional<UiContainerElement> getParent() {
         return parent;
+    }
+
+    @Override
+    public Rectangle getScreenArea() {
+        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+        return new Rectangle(
+                displayDimensions.getFloatWidthForPixelWidth(getX() - getWidth()/2),
+                displayDimensions.getFloatHeightForPixelHeight(getY() - getHeight()/2),
+                displayDimensions.getFloatWidthForPixelWidth(getWidth()),
+                displayDimensions.getFloatHeightForPixelHeight(getHeight())
+        );
     }
 }

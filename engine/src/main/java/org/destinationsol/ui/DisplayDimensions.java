@@ -47,4 +47,12 @@ public class DisplayDimensions {
     public float getRatio() {
         return ratio;
     }
+
+    public float getFloatWidthForPixelWidth(int width) {
+        return (float) width * ratio / this.width;
+    }
+
+    public float getFloatHeightForPixelHeight(int height) {
+        return (float) height / this.height;
+    }
 }
