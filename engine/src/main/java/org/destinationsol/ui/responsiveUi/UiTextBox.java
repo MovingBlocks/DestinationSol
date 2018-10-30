@@ -92,8 +92,9 @@ public class UiTextBox extends AbstractUiElement {
         return x;
     }
 
-    public void setColor(Color color) {
+    public UiTextBox setColor(Color color) {
         this.color = color;
+        return this;
     }
 
     @Override

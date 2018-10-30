@@ -22,16 +22,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class UiVerticalListLayout extends AbstractUiElement implements UiContainerElement {
+public class UiHorizontalListLayout extends AbstractUiElement implements UiContainerElement {
     private List<UiElement> uiElements = new ArrayList<>();
 
     private int x;
     private int y;
-    private int width;
+    private int width = 0;
     private int height = 0;
+    private int padding = UiConstants.DEFAULT_ELEMENT_PADDING;
+
+    public UiHorizontalListLayout setPadding(int padding) {
+        this.padding = padding;
+        return this;
+    }
 
     @Override
-    public UiVerticalListLayout addElement(UiElement uiElement) {
+    public UiHorizontalListLayout addElement(UiElement uiElement) {
         uiElements.add(uiElement);
         uiElement.setParent(this);
         recalculateInnerPositions();
@@ -40,7 +46,7 @@ public class UiVerticalListLayout extends AbstractUiElement implements UiContain
     }
 
     @Override
-    public UiVerticalListLayout setPosition(int x, int y) {
+    public UiHorizontalListLayout setPosition(int x, int y) {
         this.x = x;
         this.y = y;
 
@@ -119,41 +125,42 @@ public class UiVerticalListLayout extends AbstractUiElement implements UiContain
     }
 
     @Override
-    public UiVerticalListLayout recalculate() {
+    public UiHorizontalListLayout recalculate() {
         recalculateInnerPositions();
         return this;
     }
 
     @Override
-    public UiVerticalListLayout setParent(UiContainerElement parent) {
+    public UiHorizontalListLayout setParent(UiContainerElement parent) {
         this.parent = Optional.of(parent);
         return this;
     }
 
     private void recalculateInnerPositions() {
-        height = 0;
         width = 0;
+        height = 0;
         for (UiElement uiElement : uiElements) {
             if (uiElement instanceof UiResizableElement) {
-                if (((UiResizableElement) uiElement).getDefaultWidth() > width) {
-                    width = ((UiResizableElement) uiElement).getDefaultWidth();
+                if (((UiResizableElement) uiElement).getDefaultHeight() > height) {
+                    height = ((UiResizableElement) uiElement).getDefaultHeight();
                 }
             } else {
-                if (uiElement.getWidth() > width) {
-                    width = uiElement.getWidth();
+                if (uiElement.getHeight() > height) {
+                    height = uiElement.getHeight();
                 }
             }
-            height += uiElement.getHeight();
+            width += uiElement.getWidth();
         }
-        height += (uiElements.size() - 1) * UiConstants.DEFAULT_ELEMENT_PADDING;
+        width += (uiElements.size() - 1) * padding;
 
-        int topY = y - (height / 2);
+
+        int leftX = x - (width / 2);
         for (UiElement uiElement: uiElements) {
             if (uiElement instanceof UiResizableElement) {
-                ((UiResizableElement) uiElement).setWidth(width);
+                ((UiResizableElement) uiElement).setHeight(height);
             }
-            uiElement.setPosition(x, topY + (uiElement.getHeight() / 2));
-            topY += uiElement.getHeight() + UiConstants.DEFAULT_ELEMENT_PADDING;
+            uiElement.setPosition(leftX + (uiElement.getWidth() / 2), y);
+            leftX += uiElement.getWidth() + padding;
         }
     }
 }
