@@ -85,7 +85,7 @@ public class UiImageBox extends AbstractUiElement {
     @Override
     public void draw() {
         final DisplayDimensions displayDimensions = SolApplication.displayDimensions;
-        SolApplication.getUiDrawer().draw(getScreenArea(), Color.WHITE);
+//        SolApplication.getUiDrawer().draw(getScreenArea(), Color.WHITE);
         SolApplication.getUiDrawer().draw(
                 image,
                 displayDimensions.getFloatWidthForPixelWidth(width),
