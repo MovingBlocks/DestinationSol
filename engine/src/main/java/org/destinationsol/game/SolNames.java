@@ -28,7 +28,6 @@ public class SolNames {
     public final ArrayList<String> systems;
 
     public SolNames() {
-
         planets = new ArrayList<String>();
         systems = new ArrayList<String>();
 
