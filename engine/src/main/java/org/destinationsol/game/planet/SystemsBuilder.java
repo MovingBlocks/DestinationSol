@@ -182,7 +182,7 @@ public class SystemsBuilder {
                                 SolNames names) {
         float toSysRotationSpeed = SolMath.arcToAngle(PLANET_SPD, planetDist) * SolMath.toInt(SolRandom.seededTest(.5f));
         float rotationSpeed = SolMath.arcToAngle(GROUND_SPD, groundHeight) * SolMath.toInt(SolRandom.seededTest(.5f));
-        String name = SolRandom.seededRandomElement(names.planets);
+        String name = SolRandom.seededRandomElement(names.planets.get(planetConfig.moduleName));
         return new Planet(s, SolRandom.seededRandomFloat(180), planetDist, SolRandom.seededRandomFloat(180), toSysRotationSpeed, rotationSpeed, groundHeight, false, planetConfig, name);
     }
 }
