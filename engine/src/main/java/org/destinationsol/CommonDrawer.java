@@ -102,6 +102,10 @@ public class CommonDrawer implements ResizeSubscriber {
         font.draw(spriteBatch, layout, x, y);
     }
 
+    public float getLineSpacing(float fontSize) {
+        font.getData().setScale(fontSize / originalFontHeight);
+        return font.getLineHeight();
+    }
 
     /**
      * Creates a GlyphLayout for a provided string, using the engine font.
@@ -115,6 +119,7 @@ public class CommonDrawer implements ResizeSubscriber {
         font.setColor(col);
         return makeFontLayout(s, fontSize);
     }
+
     /**
      * Creates a GlyphLayout for a provided string, using the engine font.
      *

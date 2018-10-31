@@ -17,4 +17,5 @@ package org.destinationsol.ui.responsiveUi;
 
 public class UiConstants {
     public static final int DEFAULT_ELEMENT_PADDING = 10;
+    public static final int DEFAULT_BUTTON_PADDING = 15;
 }

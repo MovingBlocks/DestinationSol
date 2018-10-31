@@ -17,7 +17,8 @@ package org.destinationsol.ui.responsiveUi;
 
 /**
  * Used for {@link UiElement UiElements} that act as container for other {@code UiElements}, for instance vertical
- * and horizontal layouts.
+ * and horizontal layouts. Said element can be capable of holding multiple as well as only the latest passed child
+ * element, this depends on particular implementation.
  */
 public interface UiContainerElement extends UiElement {
     /**
