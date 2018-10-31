@@ -57,6 +57,11 @@ public class OptionsScreen extends SolUiBaseScreen {
                     ((UiTextButton)uiElement).setDisplayName(getMusicVolumeString(gameOptions));
                 }));
 
+        buttonList.addElement(new UiTextButton().setDisplayName("Resolution")
+                .setTriggerKey(Input.Keys.R)
+                .enableSound()
+                .setOnReleaseAction((uiElement) -> SolApplication.changeScreen(SolApplication.getMenuScreens().resolutionScreen)));
+
         buttonList.addElement(new UiTextButton().setDisplayName(getControlTypeString(gameOptions))
                 .setTriggerKey(Input.Keys.C)
                 .enableSound()
