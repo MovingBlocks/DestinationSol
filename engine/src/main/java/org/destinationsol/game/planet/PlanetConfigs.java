@@ -52,7 +52,11 @@ public class PlanetConfigs {
             for (JsonValue node : rootNode) {
                 PlanetConfig planetConfig = PlanetConfig.load(node, hullConfigs, cols, itemManager, moduleName);
                 allConfigs.put(node.name, planetConfig);
-                if (planetConfig.hardOnly) {
+                if (planetConfig.allModes) {
+                    hard.add(planetConfig);
+                    medium.add(planetConfig);
+                    easy.add(planetConfig);
+                } else if (planetConfig.hardOnly) {
                     hard.add(planetConfig);
                 } else if (planetConfig.easyOnly) {
                     easy.add(planetConfig);

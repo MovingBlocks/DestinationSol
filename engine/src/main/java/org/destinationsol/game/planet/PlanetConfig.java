@@ -44,11 +44,12 @@ public class PlanetConfig {
     public final TradeConfig tradeConfig;
     public final boolean hardOnly;
     public final boolean easyOnly;
+    public final boolean allModes;
 
     public PlanetConfig(String configName, float minGrav, float maxGrav, List<DecoConfig> deco, List<ShipConfig> groundEnemies,
                         List<ShipConfig> highOrbitEnemies, List<ShipConfig> lowOrbitEnemies, List<TextureAtlas.AtlasRegion> cloudTextures,
                         PlanetTiles planetTiles, ShipConfig stationConfig, SkyConfig skyConfig, int rowCount, boolean smoothLandscape,
-                        TradeConfig tradeConfig, boolean hardOnly, boolean easyOnly, String moduleName) {
+                        TradeConfig tradeConfig, boolean hardOnly, boolean easyOnly, boolean allModes, String moduleName) {
         this.configName = configName;
         this.minGrav = minGrav;
         this.maxGrav = maxGrav;
@@ -65,6 +66,7 @@ public class PlanetConfig {
         this.tradeConfig = tradeConfig;
         this.hardOnly = hardOnly;
         this.easyOnly = easyOnly;
+        this.allModes = allModes;
         this.moduleName = moduleName;
     }
 
@@ -87,7 +89,8 @@ public class PlanetConfig {
         tradeConfig.load(rootNode.get("trading"), hullConfigs, itemManager);
         boolean hardOnly = rootNode.getBoolean("hardOnly", false);
         boolean easyOnly = rootNode.getBoolean("easyOnly", false);
+        boolean allModes = rootNode.getBoolean("allModes", false);
         return new PlanetConfig(rootNode.name, minGrav, maxGrav, deco, groundEnemies, highOrbitEnemies, lowOrbitEnemies, cloudTextures,
-                planetTiles, stationConfig, skyConfig, rowCount, smoothLandscape, tradeConfig, hardOnly, easyOnly, moduleName);
+                planetTiles, stationConfig, skyConfig, rowCount, smoothLandscape, tradeConfig, hardOnly, easyOnly, allModes, moduleName);
     }
 }
