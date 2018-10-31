@@ -27,6 +27,7 @@ import org.destinationsol.ui.UiDrawer;
 
 import java.util.Optional;
 
+@Deprecated
 public class UiTextButton extends AbstractUiElement implements UiResizableElement {
     public static final int DEFAULT_BUTTON_WIDTH = 300;
     public static final int DEFAULT_BUTTON_HEIGHT = 75;

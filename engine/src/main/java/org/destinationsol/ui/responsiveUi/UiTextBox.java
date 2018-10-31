@@ -115,12 +115,12 @@ public class UiTextBox extends AbstractUiElement {
     @Override
     public void draw() {
         final UiDrawer uiDrawer = SolApplication.getUiDrawer();
-        int textY = y - (height / 2);
+        int textY = y;
         final int textX = x - (width / 2);
         final int lineHeight = height / lines.size();
         final DisplayDimensions displayDimensions = SolApplication.displayDimensions;
         for (String line : lines) {
-            uiDrawer.drawString(line, displayDimensions.getFloatWidthForPixelWidth(textX), displayDimensions.getFloatHeightForPixelHeight(textY), fontSize, UiDrawer.TextAlignment.LEFT,false, color);
+            uiDrawer.drawString(line, displayDimensions.getFloatWidthForPixelWidth(textX), displayDimensions.getFloatHeightForPixelHeight(textY), fontSize, UiDrawer.TextAlignment.LEFT,true, color);
             textY += lineSpacer + lineHeight;
         }
     }

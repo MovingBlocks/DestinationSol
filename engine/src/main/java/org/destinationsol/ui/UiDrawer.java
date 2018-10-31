@@ -107,7 +107,7 @@ public class UiDrawer implements ResizeSubscriber {
 
     public int getStringHeight(String s, float scale) {
         final GlyphLayout layout = drawer.makeFontLayout(s, scale * fontSize);
-        return (int) (layout.height * displayDimensions.getHeight());
+        return (int) ((layout.height) * displayDimensions.getHeight());
     }
 
     public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y, float rot, Color tint) {
