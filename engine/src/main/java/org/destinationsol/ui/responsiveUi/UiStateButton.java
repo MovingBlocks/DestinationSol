@@ -51,7 +51,7 @@ public class UiStateButton<T extends UiEnum> extends AbstractUiElement implement
         recalculate();
     }
 
-    public UiStateButton setCallback(UiCallback callback) {
+    public UiStateButton<T> setCallback(UiCallback callback) {
         this.callback = callback;
         return this;
     }
@@ -68,7 +68,7 @@ public class UiStateButton<T extends UiEnum> extends AbstractUiElement implement
 
     public UiStateButton<T> setState(T state) {
         this.state = state;
-        recalculate();
+        recalculateColorScheme();
         return this;
     }
 
@@ -170,7 +170,7 @@ public class UiStateButton<T extends UiEnum> extends AbstractUiElement implement
         if (wasPressed && !isPressed) {
             inputMan.playClick(cmp);
             state = state.getNext();
-            recalculate();
+            recalculateColorScheme();
             if (callback != null) {
                 callback.callback(this);
             }
@@ -261,7 +261,11 @@ public class UiStateButton<T extends UiEnum> extends AbstractUiElement implement
     public UiStateButton<T> recalculate() {
         setHeight(getDefaultHeight());
         setWidth(getDefaultWidth());
-        colorScheme = state.getColorScheme();
+        recalculateColorScheme();
         return this;
+    }
+
+    private void recalculateColorScheme() {
+        colorScheme = state.getColorScheme();
     }
 }
