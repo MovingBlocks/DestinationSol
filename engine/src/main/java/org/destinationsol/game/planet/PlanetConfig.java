@@ -18,6 +18,7 @@ package org.destinationsol.game.planet;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
+import org.destinationsol.common.SolException;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.ShipConfig;
@@ -83,8 +84,17 @@ public class PlanetConfig {
         boolean smoothLandscape = rootNode.getBoolean("smoothLandscape", false);
         TradeConfig tradeConfig = new TradeConfig();
         tradeConfig.load(rootNode.get("trading"), hullConfigs, itemManager);
-        String[] difficultyLevels = rootNode.get("difficultyLevels").asStringArray();
+        String[] difficultyLevels = PlanetConfig.getDifficultyLevels(rootNode, moduleName);
         return new PlanetConfig(rootNode.name, minGrav, maxGrav, deco, groundEnemies, highOrbitEnemies, lowOrbitEnemies, cloudTextures,
                 planetTiles, stationConfig, skyConfig, rowCount, smoothLandscape, tradeConfig, difficultyLevels, moduleName);
+    }
+
+    static String[] getDifficultyLevels(JsonValue rootNode, String moduleName) {
+        try {
+            return rootNode.get("difficultyLevels").asStringArray();
+        } catch (NullPointerException | IllegalStateException e) {
+            throw new SolException(String.format("Planet \"%s\" in planetsConfig.json of module \"%s\" has no valid \"difficultyLevels\" attribute.\n"
+                    + "\"difficultyLevels\" should be list of strings that is any set of \"easy\", \"medium\", and \"hard\"\n", rootNode.name, moduleName));
+        }
     }
 }
