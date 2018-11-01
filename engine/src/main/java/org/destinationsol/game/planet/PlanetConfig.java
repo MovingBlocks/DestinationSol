@@ -42,14 +42,12 @@ public class PlanetConfig {
     public final int rowCount;
     public final boolean smoothLandscape;
     public final TradeConfig tradeConfig;
-    public final boolean hardOnly;
-    public final boolean easyOnly;
-    public final boolean allModes;
+    public final String[] difficultyLevels;
 
     public PlanetConfig(String configName, float minGrav, float maxGrav, List<DecoConfig> deco, List<ShipConfig> groundEnemies,
                         List<ShipConfig> highOrbitEnemies, List<ShipConfig> lowOrbitEnemies, List<TextureAtlas.AtlasRegion> cloudTextures,
                         PlanetTiles planetTiles, ShipConfig stationConfig, SkyConfig skyConfig, int rowCount, boolean smoothLandscape,
-                        TradeConfig tradeConfig, boolean hardOnly, boolean easyOnly, boolean allModes, String moduleName) {
+                        TradeConfig tradeConfig, String[] difficultyLevels, String moduleName) {
         this.configName = configName;
         this.minGrav = minGrav;
         this.maxGrav = maxGrav;
@@ -64,9 +62,7 @@ public class PlanetConfig {
         this.rowCount = rowCount;
         this.smoothLandscape = smoothLandscape;
         this.tradeConfig = tradeConfig;
-        this.hardOnly = hardOnly;
-        this.easyOnly = easyOnly;
-        this.allModes = allModes;
+        this.difficultyLevels = difficultyLevels;
         this.moduleName = moduleName;
     }
 
@@ -87,10 +83,8 @@ public class PlanetConfig {
         boolean smoothLandscape = rootNode.getBoolean("smoothLandscape", false);
         TradeConfig tradeConfig = new TradeConfig();
         tradeConfig.load(rootNode.get("trading"), hullConfigs, itemManager);
-        boolean hardOnly = rootNode.getBoolean("hardOnly", false);
-        boolean easyOnly = rootNode.getBoolean("easyOnly", false);
-        boolean allModes = rootNode.getBoolean("allModes", false);
+        String[] difficultyLevels = rootNode.get("difficultyLevels").asStringArray();
         return new PlanetConfig(rootNode.name, minGrav, maxGrav, deco, groundEnemies, highOrbitEnemies, lowOrbitEnemies, cloudTextures,
-                planetTiles, stationConfig, skyConfig, rowCount, smoothLandscape, tradeConfig, hardOnly, easyOnly, allModes, moduleName);
+                planetTiles, stationConfig, skyConfig, rowCount, smoothLandscape, tradeConfig, difficultyLevels, moduleName);
     }
 }

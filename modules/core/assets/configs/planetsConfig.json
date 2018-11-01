@@ -1,7 +1,9 @@
 {
     "rocky": {
-        "easyOnly": true,
-        "minGrav": 0.4,
+		"difficultyLevels": [
+			"easy"
+		],
+		"minGrav": 0.4,
         "maxGrav": 0.6,
         "groundTexs": "core:rockyGround",
         "cloudTexs": "core:cloud",
@@ -85,6 +87,9 @@
     },
 
     "desert": {
+		"difficultyLevels": [
+			"medium"
+		],
         "minGrav": 0.6,
         "maxGrav": 0.8,
         "groundTexs": "core:desertGround",
@@ -179,8 +184,10 @@
 
 
     "frozen": {
-        "hardOnly": true,
-        "minGrav": 0.8,
+		"difficultyLevels": [
+			"hard"
+		],
+		"minGrav": 0.8,
         "maxGrav": 1,
         "rowCount": 4,
         "smoothLandscape": true,

@@ -52,16 +52,15 @@ public class PlanetConfigs {
             for (JsonValue node : rootNode) {
                 PlanetConfig planetConfig = PlanetConfig.load(node, hullConfigs, cols, itemManager, moduleName);
                 allConfigs.put(node.name, planetConfig);
-                if (planetConfig.allModes) {
-                    hard.add(planetConfig);
-                    medium.add(planetConfig);
-                    easy.add(planetConfig);
-                } else if (planetConfig.hardOnly) {
-                    hard.add(planetConfig);
-                } else if (planetConfig.easyOnly) {
-                    easy.add(planetConfig);
-                } else {
-                    medium.add(planetConfig);
+                for (String difficulty : planetConfig.difficultyLevels) {
+                    switch (difficulty) {
+                        case "easy":
+                            easy.add(planetConfig);
+                        case "medium":
+                            medium.add(planetConfig);
+                        case "hard":
+                            hard.add(planetConfig);
+                    }
                 }
             }
 
