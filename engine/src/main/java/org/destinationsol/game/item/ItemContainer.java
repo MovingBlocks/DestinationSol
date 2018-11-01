@@ -177,10 +177,12 @@ public class ItemContainer implements Iterable<List<SolItem>> {
     private class ItemContainerIterator implements Iterator<List<SolItem>> {
         int myCur;       // index of next element to return
 
+        @Override
         public boolean hasNext() {
             return myCur != groups.size();
         }
 
+        @Override
         public List<SolItem> next() {
             return groups.get(myCur++);
         }
