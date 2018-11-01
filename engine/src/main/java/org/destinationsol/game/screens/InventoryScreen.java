@@ -15,7 +15,6 @@
  */
 package org.destinationsol.game.screens;
 
-import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
@@ -23,7 +22,6 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.responsiveUi.UiItemBox;
-import org.destinationsol.ui.responsiveUi.UiWindow;
 
 import java.util.HashMap;
 
