@@ -7,7 +7,7 @@
 
     "Loaded Imperial Large": {
         "hull": "core:imperialBig",
-        "items": "99*rep core:advancedArmor-1 core:advancedShield-1 core:fixedGun-1 core:fixedGun-2 99*core:bulletClip",
+        "items": "99*rep core:advancedArmor-1 core:advancedShield-1 core:fixedGun-1 core:fixedGun-2 99*core:bulletClip core:heavyArmor",
         "money": 10000
     }
 }

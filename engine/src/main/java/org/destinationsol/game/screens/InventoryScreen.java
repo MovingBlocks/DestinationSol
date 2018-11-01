@@ -21,7 +21,7 @@ import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.UiDrawer;
-import org.destinationsol.ui.responsiveUi.UiItemBox;
+import org.destinationsol.ui.responsiveUi.UiItemList;
 
 import java.util.HashMap;
 
@@ -31,7 +31,7 @@ public class InventoryScreen extends SolUiBaseScreen {
     private InventoryOperationsScreen myOperation;
 
     public InventoryScreen() {
-        rootUiElement = new UiItemBox().setPosition(500, 200);
+        rootUiElement = new UiItemList().setPosition(500, 200);
 
         inventoryOperationsMap = new HashMap<>();
         inventoryOperationsMap.put(ShowInventory.class, new ShowInventory());
@@ -49,7 +49,7 @@ public class InventoryScreen extends SolUiBaseScreen {
 
     @Override
     public void onAdd(SolApplication solApplication) {
-        ((UiItemBox)rootUiElement).setItem(solApplication.getGame().getHero().getItemContainer().getRandom());
+        ((UiItemList)rootUiElement).setItemContainer(solApplication.getGame().getHero().getItemContainer());
     }
 
     @Override
