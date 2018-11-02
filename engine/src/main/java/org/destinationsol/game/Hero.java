@@ -172,6 +172,7 @@ public class Hero {
     }
 
     public ItemContainer getMercs() {
+        assertNonTranscendent();
         return mercs;
     }
 
