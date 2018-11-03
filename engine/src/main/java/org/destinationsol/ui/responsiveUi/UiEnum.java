@@ -16,7 +16,7 @@
 package org.destinationsol.ui.responsiveUi;
 
 import org.destinationsol.ui.ButtonColorScheme;
-
+//TODO maybe think this more thoroughly and re-implement this/do this totally different way?
 public interface UiEnum<T extends UiEnum<T>> {
     default ButtonColorScheme getColorScheme() {
         return new ButtonColorScheme();

@@ -22,6 +22,7 @@ import org.destinationsol.ui.SolInputManager;
 
 import java.util.Optional;
 
+//TODO icons should be colorfull depending on item type.
 public class UiItemBox extends AbstractUiElement {
     private int x;
     private int y;

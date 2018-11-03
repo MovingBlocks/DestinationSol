@@ -20,6 +20,7 @@ import org.destinationsol.ui.SolInputManager;
 
 import java.util.Optional;
 
+//TODO offer more ways to set dimensions. Optionally make resizable, using supplied dimensions as minimum
 public class UiSpacerElement extends AbstractUiElement {
     private int x;
     private int y;
