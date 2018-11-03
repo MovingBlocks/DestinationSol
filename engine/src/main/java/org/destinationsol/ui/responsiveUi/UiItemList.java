@@ -23,7 +23,7 @@ import org.destinationsol.ui.SolInputManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+//TODO movepage buttons should not be that huge as they are. Also, does not generally work well
 public class UiItemList extends AbstractUiElement {
     private int x;
     private int y;

@@ -16,12 +16,12 @@
 package org.destinationsol.ui.responsiveUi;
 
 import com.badlogic.gdx.math.Rectangle;
+import org.destinationsol.SolApplication;
+import org.destinationsol.ui.SolInputManager;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import org.destinationsol.SolApplication;
-import org.destinationsol.ui.SolInputManager;
 
 public class UiRelativeLayout extends AbstractUiElement {
     private List<UiElementWithProperties> uiElementsWithProperties = new ArrayList<>();

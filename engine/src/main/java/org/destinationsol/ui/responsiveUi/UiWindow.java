@@ -24,6 +24,7 @@ import org.destinationsol.ui.SolInputManager;
 
 import java.util.Optional;
 
+//TODO unfinished. Idea behind this class: fits contents + padding, by default on screen center, can be dragged around by dragging the padding. Meant to be root element.
 public class UiWindow extends AbstractUiElement implements ResizeSubscriber {
 
     private int x;

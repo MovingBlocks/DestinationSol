@@ -24,6 +24,7 @@ import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
 import org.destinationsol.ui.responsiveUi.UiTextBox;
 import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
 
+//TODO quickFix to at least display some buttons. Does not actually work yet.
 public class TalkScreen extends SolUiBaseScreen {
     @Override
     public void onAdd(SolApplication solApplication) {

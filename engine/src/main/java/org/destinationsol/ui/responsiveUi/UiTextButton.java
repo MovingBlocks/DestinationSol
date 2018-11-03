@@ -26,7 +26,7 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.UiDrawer;
 
 import java.util.Optional;
-
+//TODO re-implement using UiTextBox contained within UiActionButton, then un-deprecate
 @Deprecated
 public class UiTextButton extends AbstractUiElement implements UiResizableElement {
     public static final int DEFAULT_BUTTON_WIDTH = 300;
