@@ -20,26 +20,36 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
-import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.responsiveUi.UiActionButton;
+import org.destinationsol.ui.responsiveUi.UiHorizontalListLayout;
 import org.destinationsol.ui.responsiveUi.UiItemList;
+import org.destinationsol.ui.responsiveUi.UiSpacerElement;
+import org.destinationsol.ui.responsiveUi.UiTextBox;
+import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
 
 import java.util.HashMap;
 
 public class InventoryScreen extends SolUiBaseScreen {
     public final HashMap<Class<? extends InventoryOperationsScreen>, InventoryOperationsScreen> inventoryOperationsMap;
+    private final UiTextBox descriptionTextBox;
 
     private InventoryOperationsScreen myOperation;
+    private final UiItemList itemList;
 
     public InventoryScreen() {
-        rootUiElement = new UiItemList().setPosition(500, 200);
+        rootUiElement = new UiVerticalListLayout().setPosition(500, 500);
+        itemList = new UiItemList();
+        ((UiVerticalListLayout) rootUiElement).addElement(itemList);
+        descriptionTextBox = new UiTextBox();
+        final UiSpacerElement descriptionArea = new UiSpacerElement()
+                .setFromElement(new UiTextBox().setText("-------------------------------\n\n\n\n\n\n\n\n\n\n\n\n-"))
+                .setContainedElement(descriptionTextBox);
+        ((UiVerticalListLayout) rootUiElement).addElement(new UiHorizontalListLayout().addElement(descriptionArea)
+        .addElement(new UiVerticalListLayout().addElement(new UiActionButton().addElement(new UiTextBox().setText("Drop")).setAction(uiElement -> {
 
+        }))));
         inventoryOperationsMap = new HashMap<>();
         inventoryOperationsMap.put(ShowInventory.class, new ShowInventory());
-    }
-
-    @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-
     }
 
     @Override
@@ -48,33 +58,23 @@ public class InventoryScreen extends SolUiBaseScreen {
     }
 
     @Override
+    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+        descriptionTextBox.setText(itemList.getSelectedItem().getDescription());
+    }
+
+    @Override
     public void onAdd(SolApplication solApplication) {
-        ((UiItemList)rootUiElement).setItemContainer(solApplication.getGame().getHero().getItemContainer());
-    }
-
-    @Override
-    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
-    }
-
-    @Override
-    public void draw(UiDrawer uiDrawer, SolApplication solApplication) {
-
+        itemList.setItemContainer(myOperation.getItems(solApplication.getGame()));
+        descriptionTextBox.setText(itemList.getSelectedItem().getDescription());
     }
 
     @Override
     public void blurCustom(SolApplication solApplication) {
-        if (!showingHeroItems(solApplication)) {
-            return;
-        }
         SolGame game = solApplication.getGame();
         ItemContainer items = myOperation.getItems(game);
         if (items != null) {
             items.markAllAsSeen();
         }
-    }
-
-    private boolean showingHeroItems(SolApplication application) {
-        return false;
     }
 
     public void setOperations(InventoryOperationsScreen operations) {

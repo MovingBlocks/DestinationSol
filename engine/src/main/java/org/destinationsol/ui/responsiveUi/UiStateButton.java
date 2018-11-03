@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 
 import static org.destinationsol.ui.responsiveUi.UiConstants.DEFAULT_BUTTON_PADDING;
 
-public class UiStateButton<T extends UiEnum> extends AbstractUiElement implements UiResizableElement, UiContainerElement  {
+public class UiStateButton<T extends UiEnum> extends AbstractUiElement implements UiResizableElement, UiContainerElement {
     public static final int DEFAULT_BUTTON_WIDTH = 300;
     public static final int DEFAULT_BUTTON_HEIGHT = 75;
     private int x;
@@ -267,5 +267,12 @@ public class UiStateButton<T extends UiEnum> extends AbstractUiElement implement
 
     private void recalculateColorScheme() {
         colorScheme = state.getColorScheme();
+    }
+
+    public UiStateButton triggerCallback() {
+        if (callback != null) {
+            callback.callback(this);
+        }
+        return this;
     }
 }
