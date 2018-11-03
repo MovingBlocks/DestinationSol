@@ -32,6 +32,7 @@ public class UiItemList extends AbstractUiElement {
     private int page;
     private static final int ITEMS_PER_PAGE = 6;
     private ArrayList<UiStateButton<UiBooleanEnum>> buttons = new ArrayList<>();
+    private SolItem selectedItem;
 
 
     @Override
@@ -72,6 +73,9 @@ public class UiItemList extends AbstractUiElement {
             buttons.add(button);
             layout.addElement(button);
         }
+        if (selectedItem == null) {
+            buttons.get(0).triggerCallback();
+        }
         final UiActionButton moveLeftButton = new UiActionButton().addElement(new UiSpacerElement()
                 .setFromElement(new UiTextBox().setText("justsomespace"))
                 .setContainedElement(new UiTextBox().setText("<")))
@@ -105,6 +109,10 @@ public class UiItemList extends AbstractUiElement {
         }
     }
 
+    public SolItem getSelectedItem() {
+        return selectedItem;
+    }
+
     public UiItemList setItemContainer(ItemContainer container) {
         this.container = container;
         recalculate();
@@ -119,6 +127,7 @@ public class UiItemList extends AbstractUiElement {
                 button.setState(UiBooleanEnum.TRUE);
             }
         }
+        selectedItem = item;
     }
 
     @Override
@@ -158,6 +167,7 @@ public class UiItemList extends AbstractUiElement {
 
     @Override
     public boolean update(SolInputManager.InputPointer[] inputPointers, boolean cursorShown, boolean canBePressed, SolInputManager inputMan, SolApplication cmp) {
+        recalculate();
         return layout.update(inputPointers, cursorShown, canBePressed, inputMan, cmp);
     }
 
