@@ -15,19 +15,45 @@
  */
 package org.destinationsol.game.screens;
 
-import com.badlogic.gdx.math.Rectangle;
-import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.common.SolColor;
-import org.destinationsol.game.Hero;
-import org.destinationsol.game.SolGame;
-import org.destinationsol.game.ship.SolShip;
-import org.destinationsol.game.ship.hulls.HullConfig;
-import org.destinationsol.menu.MenuLayout;
-import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolUiBaseScreen;
-
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.responsiveUi.UiActionButton;
+import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
+import org.destinationsol.ui.responsiveUi.UiTextBox;
+import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
 
 public class TalkScreen extends SolUiBaseScreen {
+    @Override
+    public void onAdd(SolApplication solApplication) {
+        final UiVerticalListLayout verticalListLayout = new UiVerticalListLayout()
+                .addElement(new UiActionButton()
+                        .addElement(new UiTextBox().setText("Sell").setFontSize(FontSize.MENU))
+                        .setAction(uiElement -> {
+                                    SolApplication.getInputManager().addScreen(solApplication.getGame().getScreens().inventoryScreen);
+                                }
+                        ))
+                .addElement(new UiActionButton()
+                        .addElement(new UiTextBox().setText("Buy").setFontSize(FontSize.MENU))
+                        .setAction(uiElement -> {
+                                    SolApplication.getInputManager().addScreen(solApplication.getGame().getScreens().inventoryScreen);
+                                }
+                        ))
+                .addElement(new UiActionButton()
+                        .addElement(new UiTextBox().setText("Change ship").setFontSize(FontSize.MENU))
+                        .setAction(uiElement -> {
+                                    SolApplication.getInputManager().addScreen(solApplication.getGame().getScreens().inventoryScreen);
+                                }
+                        ))
+                .addElement(new UiActionButton()
+                        .addElement(new UiTextBox().setText("Hire").setFontSize(FontSize.MENU))
+                        .setAction(uiElement -> {
+                                    SolApplication.getInputManager().addScreen(solApplication.getGame().getScreens().inventoryScreen);
+                                }
+                        ));
+        rootUiElement = new UiRelativeLayout()
+                .addElement(verticalListLayout, UiDrawer.UI_POSITION_BOTTOM, 0, -verticalListLayout.getHeight() / 2 - 10
+                );
+    }
 }

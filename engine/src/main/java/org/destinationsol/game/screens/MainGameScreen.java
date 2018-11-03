@@ -19,8 +19,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import java.util.ArrayList;
-import java.util.List;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
@@ -45,6 +43,10 @@ import org.destinationsol.ui.responsiveUi.UiHeadlessButton;
 import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
 import org.destinationsol.ui.responsiveUi.UiTextButton;
 import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.destinationsol.ui.UiDrawer.UI_POSITION_RIGHT;
 import static org.destinationsol.ui.responsiveUi.UiTextButton.DEFAULT_BUTTON_WIDTH;
 
@@ -151,7 +153,15 @@ public class MainGameScreen extends SolUiBaseScreen {
 
         talkButton = new UiTextButton().setDisplayName("Talk")
                                        .enableSound()
-                                       .setTriggerKey(gameOptions.getKeyTalk());
+                                       .setTriggerKey(gameOptions.getKeyTalk())
+                                        .setOnReleaseAction(uiElement -> {
+                                                TalkScreen screen = solApplication.getGame().getScreens().talkScreen;
+                                                boolean isOn = inputManager.isScreenOn(screen);
+                                                inputManager.changeScreen(solApplication.getGame().getScreens().mainGameScreen);
+                                                if (!isOn) {
+                                                    inputManager.changeScreen(screen);
+                                                }
+                                            });
         buttonList.addElement(talkButton);
 
         mapButton = new UiTextButton().setDisplayName("Map")
