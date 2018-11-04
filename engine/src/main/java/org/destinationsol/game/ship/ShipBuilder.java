@@ -42,6 +42,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.drawables.SpriteManager;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
 import org.destinationsol.game.item.Armor;
@@ -295,7 +296,7 @@ public class ShipBuilder {
         World w = game.getObjectManager().getWorld();
         TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion("engine:door");
         PrismaticJoint joint = createDoorJoint(body, w, position, doorRelPos, angle);
-        RectSprite s = new RectSprite(tex, Door.DOOR_LEN, 0, 0, new Vector2(doorRelPos), DrawableLevel.BODIES, 0, 0, SolColor.WHITE, false);
+        RectSprite s = SpriteManager.createSprite(tex.name, Door.DOOR_LEN, 0, 0, new Vector2(doorRelPos), DrawableLevel.BODIES, 0, 0, SolColor.WHITE, false);
         return new Door(joint, s);
     }
 

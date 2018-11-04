@@ -27,6 +27,7 @@ import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.drawables.SpriteManager;
 import org.destinationsol.game.item.Clip;
 import org.destinationsol.game.item.Gun;
 import org.destinationsol.game.item.ItemContainer;
@@ -65,7 +66,7 @@ public class SolGun {
         myRelPos = new Vector2(relPos);
         DrawableLevel level = underShip ? DrawableLevel.U_GUNS : DrawableLevel.GUNS;
         float texLen = myItem.config.gunLength / myItem.config.texLenPercentage * 2;
-        mySprite = new RectSprite(myItem.config.tex, texLen, 0, 0, new Vector2(relPos), level, 0, 0, SolColor.WHITE, false);
+        mySprite = SpriteManager.createSprite(myItem.config.tex.name, texLen, 0, 0, new Vector2(relPos), level, 0, 0, SolColor.WHITE, false);
         myDrawables = new ArrayList<>();
         myDrawables.add(mySprite);
         if (myLightSource != null) {

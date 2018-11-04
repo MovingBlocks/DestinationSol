@@ -25,6 +25,7 @@ import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.DrawableObject;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.drawables.SpriteManager;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
@@ -83,7 +84,7 @@ public class PartMan {
     }
 
     public RectSprite blip(SolGame game, Vector2 position, float angle, float size, float fadeTime, Vector2 velocity, TextureAtlas.AtlasRegion texture) {
-        RectSprite sprite = new RectSprite(texture, size, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, angle, 0, SolColor.WHITE, true);
+        RectSprite sprite = SpriteManager.createSprite(texture, size, 0, 0, new Vector2(), DrawableLevel.PART_FG_0, angle, 0, SolColor.WHITE, true);
         ArrayList<Drawable> drawables = new ArrayList<>();
         drawables.add(sprite);
         DrawableObject o = new DrawableObject(drawables, new Vector2(position), new Vector2(velocity), null, false, false);

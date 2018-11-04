@@ -27,6 +27,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.drawables.SpriteManager;
 import org.destinationsol.game.particle.LightSource;
 import org.destinationsol.game.ship.SolShip;
 
@@ -43,7 +44,8 @@ public class LootBuilder {
         List<Drawable> drawables = new ArrayList<>();
         TextureAtlas.AtlasRegion tex = item.getIcon(game);
         float sz = item.getItemType().sz;
-        RectSprite s = new RectSprite(tex, sz, 0, 0, new Vector2(), DrawableLevel.GUNS, 0, 0, SolColor.WHITE, false);
+        //TODO: Should another SpriteManager.createSprite overload be created for this case (whole texture source, smaller game size)
+        RectSprite s = SpriteManager.createSprite(tex.name, sz, 0, 0, new Vector2(), DrawableLevel.GUNS, 0, 0, SolColor.WHITE, false);
         drawables.add(s);
         Body b = buildBody(game, position, sz);
         b.setLinearVelocity(velocity);

@@ -33,6 +33,7 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.drawables.SpriteManager;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
 import java.util.ArrayList;
@@ -283,7 +284,8 @@ public class CollisionMeshLoader {
         if (tex == null) {
             tex = hullConfig.getTexture();
         }
-        RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.WHITE, false);
+
+        RectSprite s = SpriteManager.createSprite(name, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.WHITE, false);
         drawables.add(s);
         return body;
     }
@@ -316,7 +318,7 @@ public class CollisionMeshLoader {
         }
 
         orig = getOrigin(tex.name, 1);
-        RectSprite s = new RectSprite(tex, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.WHITE, false);
+        RectSprite s = SpriteManager.createSprite(tex.name, scale, orig.x - .5f, orig.y - .5f, new Vector2(), level, 0, 0, SolColor.WHITE, false);
         drawables.add(s);
 
         return body;

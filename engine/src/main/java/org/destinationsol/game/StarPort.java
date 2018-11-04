@@ -29,6 +29,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.drawables.SpriteManager;
 import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.LightSource;
@@ -343,6 +344,7 @@ public class StarPort implements SolObject {
      */
     public static class Transcendent implements SolObject {
         private static final float TRAN_SZ = 1f;
+        private static final String TRANSCENDENT_SPRITE_NAME = "engine:transcendent";
         private final Planet fromPlanet;
         private final Planet toPlanet;
         private final Vector2 position;
@@ -361,8 +363,8 @@ public class StarPort implements SolObject {
             position = new Vector2(ship.getPosition());
             velocity = new Vector2();
             destinationPosition = new Vector2();
-
-            RectSprite s = new RectSprite(Assets.getAtlasRegion("engine:transcendent"), TRAN_SZ, .3f,
+            
+            RectSprite s = SpriteManager.createSprite(TRANSCENDENT_SPRITE_NAME, TRAN_SZ, .3f,
                     0, new Vector2(), DrawableLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
 
             drawables = new ArrayList<>();

@@ -136,9 +136,9 @@ public class RectSprite implements Drawable {
             y = (y - camPosition.y) / level.depth + camPosition.y;
         }
         if (isAdditive) {
-            drawer.drawAdditive(texture, textureSizeX, textureSizeY, originalX, originalY, x, y, angle, tint);
+            drawer.drawAdditive(getTexture(), textureSizeX, textureSizeY, originalX, originalY, x, y, angle, tint);
         } else {
-            drawer.draw(texture, textureSizeX, textureSizeY, originalX, originalY, x, y, angle, tint);
+            drawer.draw(getTexture(), textureSizeX, textureSizeY, originalX, originalY, x, y, angle, tint);
         }
     }
 
