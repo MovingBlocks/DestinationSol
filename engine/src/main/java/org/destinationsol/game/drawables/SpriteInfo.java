@@ -18,10 +18,19 @@ package org.destinationsol.game.drawables;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
+/**
+ * This class specifies the information needed to store and construct a sprite
+ */
 public class SpriteInfo {
     public String displayName;
     public Animation<TextureAtlas.AtlasRegion> frames;
 
+    /**
+     * Creates a SpriteInfo instance
+     *
+     * @param displayName The name that the sprite should be known as
+     * @param frames The frames of the sprite (only one frame for static sprites)
+     */
     public SpriteInfo(String displayName, Animation<TextureAtlas.AtlasRegion> frames) {
         this.displayName = displayName;
         this.frames = frames;
