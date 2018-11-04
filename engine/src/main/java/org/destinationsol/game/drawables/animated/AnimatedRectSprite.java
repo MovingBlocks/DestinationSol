@@ -26,6 +26,10 @@ import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
 
 //TODO: Should this allow variable-size frames?
+
+/**
+ * AnimatedRectSprites are a specialised variant of RectSprites that can play a single animation, based off a sprite-sheet texture
+ */
 public class AnimatedRectSprite extends RectSprite {
     private Animation<TextureAtlas.AtlasRegion> spriteAnimation;
     private float animationTime;
