@@ -32,6 +32,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.drawables.SpriteManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +89,7 @@ public class AsteroidBuilder {
             body = collisionMeshLoader.getBodyAndSprite(game, texture, size, BodyDef.BodyType.DynamicBody, position, angle, drawables, DENSITY, DrawableLevel.BODIES);
         } else {
             body = buildBall(game, position, angle, size / 2, DENSITY, false);
-            RectSprite s = new RectSprite(texture, size, 0, 0, new Vector2(), DrawableLevel.BODIES, 0, 0, SolColor.WHITE, false);
+            RectSprite s = SpriteManager.createSprite(texture.name, size, 0, 0, new Vector2(), DrawableLevel.BODIES, 0, 0, SolColor.WHITE, false);
             drawables.add(s);
         }
         body.setAngularVelocity(rotationSpeed);

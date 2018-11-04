@@ -33,6 +33,7 @@ import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
+import org.destinationsol.game.drawables.SpriteManager;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.particle.EffectConfig;
@@ -67,9 +68,10 @@ public class Projectile implements SolObject {
 
         Drawable drawable;
         if (config.stretch) {
+            //TODO: Could this stop animated projectiles from being possible?
             drawable = new ProjectileDrawable(this, config.tex, config.texSz);
         } else {
-            drawable = new RectSprite(config.tex, config.texSz, config.origin.x, config.origin.y, new Vector2(), DrawableLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
+            drawable = SpriteManager.createSprite(config.tex.name, config.texSz, config.origin.x, config.origin.y, new Vector2(), DrawableLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
         }
         drawables.add(drawable);
         float speed = config.speed;
