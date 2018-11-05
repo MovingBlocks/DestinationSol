@@ -92,7 +92,7 @@ public final class SpriteManager {
                                                           float rotateSpeed, Color tint, boolean additive) {
         if (!sprites.containsKey(name)) {
             try {
-                Animation<TextureAtlas.AtlasRegion> frames = Assets.getAnimation(name, name + "Animation");
+                Animation<TextureAtlas.AtlasRegion> frames = Assets.getAnimation(name);
                 if (frames == null) {
                     //This sprite has not defined animations.
                     frames = new Animation<TextureAtlas.AtlasRegion>(Float.MAX_VALUE, Assets.getAtlasRegion(name));

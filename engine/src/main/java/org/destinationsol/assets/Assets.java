@@ -208,11 +208,12 @@ public abstract class Assets {
         return getAtlasRegion(path, Texture.TextureFilter.Nearest);
     }
 
-    public static Animation<TextureAtlas.AtlasRegion> getAnimation(String texturePath, String animationPath) {
+    public static Animation<TextureAtlas.AtlasRegion> getAnimation(String texturePath) {
         if (assetHelper.list(DSTexture.class, texturePath).size() == 0) {
             return null;
         }
 
+        String animationPath = texturePath + "Animation";
         if (assetHelper.list(Json.class, animationPath).size() == 0) {
             return null;
         }
