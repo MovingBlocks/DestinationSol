@@ -363,7 +363,7 @@ public class StarPort implements SolObject {
             position = new Vector2(ship.getPosition());
             velocity = new Vector2();
             destinationPosition = new Vector2();
-            
+
             RectSprite s = SpriteManager.createSprite(TRANSCENDENT_SPRITE_NAME, TRAN_SZ, .3f,
                     0, new Vector2(), DrawableLevel.PROJECTILES, 0, 0, SolColor.WHITE, false);
 

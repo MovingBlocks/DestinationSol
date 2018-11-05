@@ -29,13 +29,13 @@ public class RectSprite implements Drawable {
     public final Color tint;
     private final float originalPercentageX;
     private final float originalPercentageY;
-    private final TextureAtlas.AtlasRegion texture;
     private final DrawableLevel level;
     private final Vector2 position;
     private final float rotationSpeed;
     private final boolean isAdditive;
     public float relativeAngle;
     public float baseAlpha;
+    protected TextureAtlas.AtlasRegion texture;
     private float textureSizeX;
     private float textureSizeY;
     private float originalX;
@@ -136,9 +136,9 @@ public class RectSprite implements Drawable {
             y = (y - camPosition.y) / level.depth + camPosition.y;
         }
         if (isAdditive) {
-            drawer.drawAdditive(getTexture(), textureSizeX, textureSizeY, originalX, originalY, x, y, angle, tint);
+            drawer.drawAdditive(texture, textureSizeX, textureSizeY, originalX, originalY, x, y, angle, tint);
         } else {
-            drawer.draw(getTexture(), textureSizeX, textureSizeY, originalX, originalY, x, y, angle, tint);
+            drawer.draw(texture, textureSizeX, textureSizeY, originalX, originalY, x, y, angle, tint);
         }
     }
 
