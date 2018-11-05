@@ -224,7 +224,7 @@ public abstract class Assets {
         boolean autoGenerateFrames = animationInfo.optBoolean("autoGenerateFrames", false);
         TextureAtlas.AtlasRegion[] frames = new TextureAtlas.AtlasRegion[frameCount];
         if (autoGenerateFrames) {
-            frameCount = originalTexture.getWidth() / frameWidth;
+            frameCount = (originalTexture.getWidth() / frameWidth) * (originalTexture.getHeight() / frameHeight);
             TextureAtlas.AtlasRegion region = new TextureAtlas.AtlasRegion(originalTexture, 0, 0, frameWidth, frameHeight);
             region.name = original.name;
             frames = SpriteManager.getSequentialRegions(region, frameCount, frameWidth, frameHeight);
