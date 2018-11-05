@@ -25,8 +25,6 @@ import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
 
-//TODO: Should this allow variable-size frames?
-
 /**
  * AnimatedRectSprites are a specialised variant of RectSprites that can play a single animation, based off a sprite-sheet texture
  */
@@ -44,11 +42,7 @@ public class AnimatedRectSprite extends RectSprite {
     public void update(SolGame game, SolObject object) {
         super.update(game, object);
         animationTime += game.getTimeStep();
-    }
-
-    @Override
-    public TextureAtlas.AtlasRegion getTexture() {
-        return spriteAnimation.getKeyFrame(animationTime, true);
+        texture = spriteAnimation.getKeyFrame(animationTime, true);
     }
 
     public float getAnimationTime() {

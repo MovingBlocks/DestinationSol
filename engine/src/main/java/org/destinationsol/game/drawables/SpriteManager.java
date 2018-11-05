@@ -92,13 +92,12 @@ public final class SpriteManager {
                                                           float rotateSpeed, Color tint, boolean additive) {
         if (!sprites.containsKey(name)) {
             try {
-                TextureAtlas.AtlasRegion region = Assets.getAtlasRegion(name);
-                Animation<TextureAtlas.AtlasRegion> frames = Assets.getAnimation(region, name + "Animation");
+                Animation<TextureAtlas.AtlasRegion> frames = Assets.getAnimation(name, name + "Animation");
                 if (frames == null) {
                     //This sprite has not defined animations.
-                    frames = new Animation<TextureAtlas.AtlasRegion>(Float.MAX_VALUE, region);
+                    frames = new Animation<TextureAtlas.AtlasRegion>(Float.MAX_VALUE, Assets.getAtlasRegion(name));
                 }
-                sprites.put(region.name, new SpriteInfo(region.name, frames));
+                sprites.put(name, new SpriteInfo(name, frames));
             } catch (Exception e) {
                 throw new IllegalArgumentException("There is no sprite called \"" + name + "\"!");
             }
