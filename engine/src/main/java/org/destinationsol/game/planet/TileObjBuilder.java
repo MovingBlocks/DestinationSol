@@ -27,7 +27,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
-import org.destinationsol.game.drawables.SpriteManager;
+import org.destinationsol.game.drawables.animated.AnimatedRectSprite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +35,7 @@ import java.util.List;
 public class TileObjBuilder {
     public TileObject build(SolGame game, float size, float toPlanetRelAngle, float distance, Tile tile, Planet planet) {
         float spriteSize = size * 2;
-        //HACK: For now, using SpriteManager.createSprite breaks planet formation.
-        RectSprite sprite = SpriteManager.createStaticSprite(tile.tex, spriteSize, 0, 0, new Vector2(), DrawableLevel.GROUND, 0, 0f, SolColor.WHITE, false);
+        RectSprite sprite = new AnimatedRectSprite(tile.sprite.frames, spriteSize, 0, 0, new Vector2(), DrawableLevel.GROUND, 0, 0f, SolColor.WHITE, false);
         Body body = null;
         if (tile.points.size() > 0) {
             body = buildBody(game, toPlanetRelAngle, distance, tile, planet, spriteSize);

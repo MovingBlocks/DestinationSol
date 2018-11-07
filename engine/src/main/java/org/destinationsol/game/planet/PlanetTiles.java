@@ -15,12 +15,14 @@
  */
 package org.destinationsol.game.planet;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.drawables.SpriteInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,7 +87,12 @@ public class PlanetTiles {
                 }
                 points.add(point);
             }
-            tileVariants.add(new Tile(tex, points, from, to));
+            Animation<TextureAtlas.AtlasRegion> animation = Assets.getAnimation(tex.name);
+            if (animation == null) {
+                animation = new Animation<TextureAtlas.AtlasRegion>(0.0f, tex);
+            }
+            SpriteInfo sprite = new SpriteInfo(tex.name, animation);
+            tileVariants.add(new Tile(sprite, points, from, to));
         }
         return tileVariants;
     }
