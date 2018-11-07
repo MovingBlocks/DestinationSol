@@ -34,6 +34,9 @@ repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url "https://oss.sonatype.org/content/repositories/releases/" }
 
+    // Repo for JSON schema lib
+    maven { url "https://jitpack.io" }
+
     // Terasology Artifactory for any shared libs
     maven { url "http://artifactory.terasology.org/artifactory/virtual-repo-live" }
 
