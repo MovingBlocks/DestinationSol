@@ -220,7 +220,7 @@ public abstract class Assets {
 
         Texture originalTexture = getDSTexture(texturePath).getTexture();
 
-        Json animationInfoJson = getJson(texturePath);
+        Json animationInfoJson = getJson(animationPath);
         JSONObject animationInfo = animationInfoJson.getJsonValue();
         int frameWidth = animationInfo.optInt("frameWidth", 256);
         int frameHeight = animationInfo.optInt("frameHeight", 256);
