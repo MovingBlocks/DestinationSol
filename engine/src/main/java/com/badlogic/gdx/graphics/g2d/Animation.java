@@ -1,4 +1,8 @@
-/*Taken from the LibGDX source code from https://github.com/libgdx/libgdx on 03/11/2018*/
+/*
+Taken from the LibGDX source code at https://github.com/libgdx/libgdx on 03/11/2018
+Original Source: https://github.com/libgdx/libgdx/blob/57c466a8d294b74f7ca2377048795415714a9284/gdx/src/com/badlogic/gdx/graphics/g2d/Animation.java
+AUTHORS: https://github.com/libgdx/libgdx/blob/c31fe0ad74a35f4b1e898885615f5b91ee382953/AUTHORS
+*/
 /*******************************************************************************
  * Copyright 2011 See AUTHORS file.
  *
