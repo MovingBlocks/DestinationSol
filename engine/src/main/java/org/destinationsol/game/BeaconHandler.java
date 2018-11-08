@@ -138,7 +138,7 @@ public class BeaconHandler implements UpdateAwareSystem{
             return;
         }
         if (farTarget == null) {
-            throw new AssertionError("Far target does not exist!");
+            throw new AssertionError("Far target " + farTarget + " does not exist!");
         }
         if (om.getFarShips().contains(farTarget)) {
             return;
@@ -183,7 +183,7 @@ public class BeaconHandler implements UpdateAwareSystem{
                 farDrawable = (FarDrawable) fo;
                 return;
             }
-            throw new AssertionError();
+            throw new AssertionError("The far object data in " + game + " is a FarDrawable object, does not contain 3 elements in drawables, or the first drawable isnt attackSprite");
         }
         if (farDrawable == null) {
             throw new AssertionError("Far drawable does not exist!");
@@ -206,7 +206,7 @@ public class BeaconHandler implements UpdateAwareSystem{
                 return;
             }
         }
-        throw new AssertionError();
+        throw new AssertionError("The SolObject in " + game + " is a DrawableObject without 3 elements in drawables or the first drawable element is not an attackSprite");
     }
 
     public Action processMouse(SolGame game, Vector2 position, boolean clicked, boolean onMap) {
