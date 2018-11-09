@@ -28,6 +28,8 @@ import org.destinationsol.assets.json.JsonFileFormat;
 import org.destinationsol.assets.textures.DSTexture;
 import org.destinationsol.assets.textures.DSTextureFileFormat;
 import org.destinationsol.game.DebugOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.assets.Asset;
 import org.terasology.assets.AssetData;
 import org.terasology.assets.ResourceUrn;
@@ -44,28 +46,36 @@ import java.util.Set;
 public class AssetHelper {
     private ModuleAwareAssetTypeManager assetTypeManager;
     private static String[] folders_;
+    private static final Logger logger = LoggerFactory.getLogger(AssetHelper.class);
 
     public AssetHelper(ModuleEnvironment environment) {
         assetTypeManager = new ModuleAwareAssetTypeManager();
 
+        logger.info("Loading sounds...");
         assetTypeManager.createAssetType(OggSound.class, OggSound::new, "sounds");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(OggSound.class).get().getProducers().get(0)).addAssetFormat(new OggSoundFileFormat());
 
+        logger.info("Loading music...");
         assetTypeManager.createAssetType(OggMusic.class, OggMusic::new, "music");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(OggMusic.class).get().getProducers().get(0)).addAssetFormat(new OggMusicFileFormat());
 
+        logger.info("Loading fonts...");
         assetTypeManager.createAssetType(Font.class, Font::new, "fonts");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(Font.class).get().getProducers().get(0)).addAssetFormat(new FontFileFormat());
 
+        logger.info("Loading emitters...");
         assetTypeManager.createAssetType(Emitter.class, Emitter::new, "emitters");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(Emitter.class).get().getProducers().get(0)).addAssetFormat(new EmitterFileFormat());
 
+        logger.info("Loading JSON...");
         assetTypeManager.createAssetType(Json.class, Json::new, "collisionMeshes", "ships", "items", "configs", "grounds", "mazes", "asteroids");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(Json.class).get().getProducers().get(0)).addAssetFormat(new JsonFileFormat());
 
+        logger.info("Loading textures...");
         assetTypeManager.createAssetType(DSTexture.class, DSTexture::new, "textures", "ships", "items", "grounds", "mazes", "asteroids");
         ((AssetFileDataProducer)assetTypeManager.getAssetType(DSTexture.class).get().getProducers().get(0)).addAssetFormat(new DSTextureFileFormat());
 
+        logger.info("Switching to new module environment...");
         assetTypeManager.switchEnvironment(environment);
     }
 

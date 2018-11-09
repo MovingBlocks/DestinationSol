@@ -36,9 +36,9 @@ import org.destinationsol.ui.UiDrawer;
 
 public class CommonDrawer implements ResizeSubscriber {
     private final SpriteBatch spriteBatch;
-    private final BitmapFont font;
-    private final float originalFontHeight;
-    private final GlyphLayout layout;
+    private BitmapFont font;
+    private float originalFontHeight;
+    private GlyphLayout layout;
     private final OrthographicCamera orthographicCamera;
     private final Viewport screenViewport;
 
@@ -49,15 +49,17 @@ public class CommonDrawer implements ResizeSubscriber {
 
         spriteBatch = new SpriteBatch();
 
-        font = Assets.getFont("engine:main").getBitmapFont();
-        originalFontHeight = font.getXHeight();
-
-        layout = new GlyphLayout();
-
         orthographicCamera = new OrthographicCamera(1024, 768);
         screenViewport = new ScreenViewport(orthographicCamera);
 
         SolApplication.addResizeSubscriber(this);
+    }
+
+    public void initialize() {
+        font = Assets.getFont("engine:main").getBitmapFont();
+        originalFontHeight = font.getXHeight();
+
+        layout = new GlyphLayout();
     }
 
     public void setMatrix(Matrix4 matrix) {

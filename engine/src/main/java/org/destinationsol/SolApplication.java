@@ -77,6 +77,9 @@ public class SolApplication implements ApplicationListener {
 
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
+    private static boolean loadFinished = false;
+    private boolean isLoaded = false;
+    private SplashScreen splashScreen;
 
     public SolApplication() {
         // Initiate Box2D to make sure natives are loaded early enough
@@ -96,28 +99,26 @@ public class SolApplication implements ApplicationListener {
         }
         options = new GameOptions(isMobile(), null);
 
-        moduleManager = new ModuleManager();
-
-        logger.info("\n\n ------------------------------------------------------------ \n");
-        moduleManager.printAvailableModules();
-
-        musicManager = new OggMusicManager();
-        soundManager = new OggSoundManager(context);
-        inputManager = new SolInputManager(soundManager);
-
-        musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
+        Gdx.graphics.setTitle("Loading...");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                moduleManager = new ModuleManager();
+                loadFinished = true;
+            }
+        }).start();
 
         displayDimensions = new DisplayDimensions(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         commonDrawer = new CommonDrawer();
-        uiDrawer = new UiDrawer(commonDrawer);
-        layouts = new SolLayouts();
-        menuScreens = new MenuScreens(layouts, isMobile(), options);
-
-        inputManager.setScreen(this, menuScreens.main);
+        splashScreen = new SplashScreen(commonDrawer, displayDimensions);
     }
 
     @Override
     public void resize(int newWidth, int newHeight) {
+        if (!isLoaded) {
+            return;
+        }
+
         displayDimensions.set(newWidth, newHeight);
 
         for (ResizeSubscriber resizeSubscriber : resizeSubscribers) {
@@ -126,6 +127,32 @@ public class SolApplication implements ApplicationListener {
     }
 
     public void render() {
+        if (!loadFinished) {
+            splashScreen.render();
+            return;
+        }
+
+        if (!isLoaded) {
+            Gdx.graphics.setTitle("Destination Sol");
+
+            logger.info("\n\n ------------------------------------------------------------ \n");
+            moduleManager.printAvailableModules();
+
+            musicManager = new OggMusicManager();
+            soundManager = new OggSoundManager(context);
+            inputManager = new SolInputManager(soundManager);
+
+            musicManager.playMusic(OggMusicManager.MENU_MUSIC_SET, options);
+
+            commonDrawer.initialize();
+            uiDrawer = new UiDrawer(commonDrawer);
+            layouts = new SolLayouts();
+            menuScreens = new MenuScreens(layouts, isMobile(), options);
+
+            inputManager.setScreen(this, menuScreens.main);
+            isLoaded = true;
+        }
+
         timeAccumulator += Gdx.graphics.getDeltaTime();
 
         while (timeAccumulator > Const.REAL_TIME_STEP) {
