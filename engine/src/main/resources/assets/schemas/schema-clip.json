@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Clips are the ITEMS loaded into guns. They specify things like buying price, display name...",
+  "type": "object",
+  "required": [
+    "projectile",
+    "size"
+  ],
+  "properties": {
+    "projectile": {
+      "description": "id of the projectile shot by this clip",
+      "type": "string"
+    },
+    "infinite": {
+      "type": "boolean"
+    },
+    "size": {
+      "type": "integer"
+    },
+    "projectilesPerShot": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "anyOf": [
+    {
+      "properties": {
+        "infinite": {
+          "enum": [
+            true
+          ]
+        }
+      },
+      "required": ["infinite"]
+    },
+    {
+      "properties": {
+        "infinite": {
+          "enum": [
+            false
+          ]
+        },
+        "price": {
+          "type": "integer"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "plural": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "price",
+        "displayName",
+        "plural"
+      ]
+    }
+  ]
+}
