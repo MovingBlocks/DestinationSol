@@ -15,7 +15,8 @@
  */
 package org.destinationsol.testingUtilities;
 
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SolGame;
@@ -33,7 +34,7 @@ public final class InitializationUtilities {
         }
         initialized = true;
         DebugOptions.DEV_ROOT_PATH = "engine/src/main/resources/";
-        final LwjglApplication application = new LwjglApplication(new SolApplication());
+        final Lwjgl3Application application = new Lwjgl3Application(new SolApplication(100), new Lwjgl3ApplicationConfiguration());
         try {
             Thread.sleep(10000L); // Magic happens here. If too much tests fail for you, increase this number.
         } catch (InterruptedException e) {
