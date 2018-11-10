@@ -29,10 +29,13 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.UiDrawer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ResolutionScreen extends SolUiBaseScreen {
     private DisplayDimensions displayDimensions;
 
+    private static final Logger logger = LoggerFactory.getLogger(ResolutionScreen.class);
     private final TextureAtlas.AtlasRegion backgroundTexture;
 
     private final SolUiControl closeControl;
@@ -65,7 +68,21 @@ public class ResolutionScreen extends SolUiBaseScreen {
         if (closeControl.isJustOff()) {
             Gdx.graphics.setWindowedMode(options.x, options.y);
             if (options.fullscreen) {
-                Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+                Graphics.DisplayMode mode = null;
+                //HACK: Gdx.graphics.getDisplayMode() always returns the native desktop resolution.
+                //See https://github.com/libgdx/libgdx/blob/5398d46aa082489052fccfaaaff7440e137ba5dc/backends/gdx-backend-lwjgl/src/com/badlogic/gdx/backends/lwjgl/LwjglGraphics.java#L555
+                //and http://legacy.lwjgl.org/javadoc/org/lwjgl/opengl/Display.html#getDisplayMode()
+                //for more details.
+                for (Graphics.DisplayMode displayMode : Gdx.graphics.getDisplayModes()) {
+                    if (displayMode.width == options.x && displayMode.height == options.y) {
+                        mode = displayMode;
+                    }
+                }
+                if (mode != null) {
+                    Gdx.graphics.setFullscreenMode(mode);
+                } else {
+                    logger.warn("The resolution {}x{} is not supported in fullscreen mode!", options.x, options.y);
+                }
             }
             inputManager.setScreen(solApplication, solApplication.getMenuScreens().options);
             return;
