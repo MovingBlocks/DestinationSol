@@ -30,6 +30,8 @@ public class SplashScreen implements ApplicationListener {
     private final DisplayDimensions displayDimensions;
     private static final String LOADING_SCREEN_BACKGROUND_TEX_NAME = "loadScreenBackground.png";
     private static final String LOADING_SCREEN_TEXT_TEX_NAME = "loadScreenText.png";
+    private static final float FADE_MIN_ALPHA = 0.25f;
+    private static final float FADE_MAX_ALPHA = 0.75f;
     private Color loadFadeColour;
     private boolean fadeDirection = true;
 
@@ -58,10 +60,10 @@ public class SplashScreen implements ApplicationListener {
 
         if (fadeDirection) {
             loadFadeColour.lerp(1, 1, 1, 0, Gdx.graphics.getDeltaTime());
-            fadeDirection = (loadFadeColour.a > 0.25f);
+            fadeDirection = (loadFadeColour.a > FADE_MIN_ALPHA);
         } else {
             loadFadeColour.lerp(1, 1, 1, 1, Gdx.graphics.getDeltaTime());
-            fadeDirection = (loadFadeColour.a > 0.75f);
+            fadeDirection = (loadFadeColour.a > FADE_MAX_ALPHA);
         }
     }
 
