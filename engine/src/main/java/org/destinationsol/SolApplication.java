@@ -50,6 +50,8 @@ import java.util.Set;
 public class SolApplication implements ApplicationListener {
     private static final Logger logger = LoggerFactory.getLogger(SolApplication.class);
 
+    private final float targetFPS;
+
     @SuppressWarnings("FieldCanBeLocal")
     private ModuleManager moduleManager;
 
@@ -78,9 +80,10 @@ public class SolApplication implements ApplicationListener {
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
 
-    public SolApplication() {
+    public SolApplication(float targetFPS) {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
+        this.targetFPS = 1.0f / targetFPS;
     }
 
     @Override
@@ -131,6 +134,15 @@ public class SolApplication implements ApplicationListener {
         while (timeAccumulator > Const.REAL_TIME_STEP) {
             safeUpdate();
             timeAccumulator -= Const.REAL_TIME_STEP;
+        }
+
+        //HACK: A crude and primitive frame-limiter...
+        try {
+            if (Gdx.graphics.getDeltaTime() < targetFPS) {
+                Thread.sleep((long) ((targetFPS - Gdx.graphics.getDeltaTime()) * 1000) * 2);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         draw();
