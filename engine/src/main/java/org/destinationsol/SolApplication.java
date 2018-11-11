@@ -78,9 +78,10 @@ public class SolApplication implements ApplicationListener {
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
 
-    public SolApplication() {
+    public SolApplication(ModuleManager moduleManager) {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
+        this.moduleManager = moduleManager;
     }
 
     @Override
@@ -95,8 +96,6 @@ public class SolApplication implements ApplicationListener {
             DebugOptions.read(null);
         }
         options = new GameOptions(isMobile(), null);
-
-        moduleManager = new ModuleManager();
 
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();

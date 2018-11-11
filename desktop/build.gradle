@@ -16,7 +16,7 @@ dependencies {
 
 task run(type: JavaExec) {
     dependsOn classes
-
+    jvmArgs = ["-splash:../engine/src/main/resources/assets/textures/mainMenu/mainMenuLogo.png"]
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
@@ -31,6 +31,7 @@ jar {
         def manifestClasspath = configurations.runtime.collect { it.getName() }.join(" ")
         attributes 'Main-Class': project.mainClassName
         attributes("Class-Path": manifestClasspath)
+        attributes "SplashScreen-Image": "mainMenuLogo.png"
     }
 }
 
