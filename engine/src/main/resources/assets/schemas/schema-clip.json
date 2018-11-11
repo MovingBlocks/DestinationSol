@@ -15,7 +15,8 @@
       "type": "boolean"
     },
     "size": {
-      "type": "integer"
+      "type": "integer",
+      "exclusiveMinimum": 0
     },
     "projectilesPerShot": {
       "type": "integer",

@@ -162,7 +162,6 @@ public final class HullConfigManager {
         configData.maxLife = rootNode.getInt("maxLife");
 
         configData.lightSrcPoss = SolMath.readV2List(rootNode, "lightSrcPoss");
-        configData.hasBase = rootNode.getBoolean("hasBase", false);
         configData.forceBeaconPoss = SolMath.readV2List(rootNode, "forceBeaconPoss");
         configData.doorPoss = SolMath.readV2List(rootNode, "doorPoss");
         configData.type = HullConfig.Type.forName(rootNode.getString("type"));
@@ -171,7 +170,7 @@ public final class HullConfigManager {
         configData.ability = loadAbility(rootNode, itemManager, abilityCommonConfigs);
 
         configData.displayName = rootNode.getString("displayName", "---");
-        configData.price = rootNode.getInt("price", 0);
+        configData.price = rootNode.getFloat("price", 0);
         configData.hirePrice = rootNode.getFloat("hirePrice", 0);
 
         Vector2 tmpV;

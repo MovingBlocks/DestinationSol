@@ -17,7 +17,7 @@
       "type": "integer"
     },
     "perc":{
-      "description": "Values over 1.0 heal the player on hit, values under 0.0 make him even more vulnerable than when unarmored",
+      "description": "Values over 1.0 heal the player on hit, values under 0.0 make him even more vulnerable than when unarmored. The greater the number, the more the damage is reduced.",
       "type": "number"
     },
     "bulletHitSounds":{
@@ -36,7 +36,8 @@
     },
     "baseSoundPitch": {
       "type": "number",
-      "description": "Multiplier of hit sound pitch. Defaults to 1."
+      "description": "Multiplier of hit sound pitch. Defaults to 1.",
+      "minimum": 0;
     }
   }
 }
