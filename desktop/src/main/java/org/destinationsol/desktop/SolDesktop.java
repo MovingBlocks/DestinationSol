@@ -20,21 +20,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowListener;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.SolFileReader;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.ui.ResizeSubscriber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.crashreporter.CrashReporter;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.BufferedReader;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -72,8 +72,9 @@ public final class SolDesktop {
         MyReader reader = new MyReader();
         DebugOptions.read(reader);
 
+        GameOptions options = new GameOptions(false, reader);
         // Set screen width, height...
-        setScreenDimensions(applicationConfig, reader);
+        setScreenDimensions(applicationConfig, options);
 
         // Set the application's title, icon...
         applicationConfig.setTitle("Destination Sol");
@@ -84,9 +85,10 @@ public final class SolDesktop {
         }
 
         handleCrashReporting(argv);
-
+        SolApplication application = new SolApplication(100);
+        SolApplication.addResizeSubscriber(new SolDesktop.FullScreenWindowPositionAdjustment(!options.fullscreen));
         // Everything is set up correctly, launch the application
-        new Lwjgl3Application(new SolApplication(100), applicationConfig);
+        new Lwjgl3Application(application, applicationConfig);
     }
 
     /**
@@ -147,27 +149,26 @@ public final class SolDesktop {
      * load the window resolution from game options.
      *
      * @param applicationConfig App config to configure
-     * @param reader {@link SolFileReader} to read stored settings with.
+     * @param options {@link GameOptions} the configuration to read from.
      */
-    private static void setScreenDimensions(Lwjgl3ApplicationConfiguration applicationConfig, MyReader reader) {
+    private static void setScreenDimensions(Lwjgl3ApplicationConfiguration applicationConfig, GameOptions options) {
         if (DebugOptions.EMULATE_MOBILE) {
             applicationConfig.setWindowedMode(640, 480);
         } else {
-            GameOptions d = new GameOptions(false, reader);
-            if (d.fullscreen) {
+            if (options.fullscreen) {
                 Graphics.DisplayMode mode = null;
                 for (Graphics.DisplayMode displayMode : Lwjgl3ApplicationConfiguration.getDisplayModes()) {
-                    if (displayMode.width == d.x && displayMode.height == d.y) {
+                    if (displayMode.width == options.x && displayMode.height == options.y) {
                         mode = displayMode;
                     }
                 }
                 if (mode != null) {
                     applicationConfig.setFullscreenMode(mode);
                 } else {
-                    logger.warn("The resolution {}x{} is not supported in fullscreen mode!", d.x, d.y);
+                    logger.warn("The resolution {}x{} is not supported in fullscreen mode!", options.x, options.y);
                 }
             } else {
-                applicationConfig.setWindowedMode(d.x, d.y);
+                applicationConfig.setWindowedMode(options.x, options.y);
             }
         }
     }
@@ -219,6 +220,25 @@ public final class SolDesktop {
             }
 
             return lines;
+        }
+    }
+
+    private static final class FullScreenWindowPositionAdjustment implements ResizeSubscriber {
+        private boolean lastFullScreenState;
+
+        public FullScreenWindowPositionAdjustment(boolean lastFullScreenState) {
+            this.lastFullScreenState = lastFullScreenState;
+        }
+
+        @Override
+        public void resize() {
+            //If the game has gone from full-screen to windowed
+            if (lastFullScreenState && !Gdx.graphics.isFullscreen()) {
+                Graphics.DisplayMode mode = Gdx.graphics.getDisplayMode();
+                ((Lwjgl3Graphics) Gdx.graphics).getWindow().setPosition(mode.width / 4, mode.height / 4);
+            }
+
+            lastFullScreenState = Gdx.graphics.isFullscreen();
         }
     }
 }
