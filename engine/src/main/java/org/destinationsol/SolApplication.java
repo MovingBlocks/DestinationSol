@@ -84,12 +84,11 @@ public class SolApplication implements ApplicationListener {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
         this.targetFPS = 1.0f / targetFPS;
+        resizeSubscribers = new HashSet<>();
     }
 
     @Override
     public void create() {
-        resizeSubscribers = new HashSet<>();
-
         context = new ContextImpl();
         context.put(SolApplication.class, this);
         worldConfig = new WorldConfig();
