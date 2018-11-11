@@ -61,7 +61,15 @@ public final class SolDesktop {
      */
     private static final String NO_CRASH_REPORT = "-noCrashReport";
 
+    /**
+     * Specifies the commandline option to pass to the application for it to not show a splash-screen.
+     */
     private static final String NO_SPLASH_SCREEN = "-noSplash";
+
+    /**
+     * The colour for the splash-screen logo to be shown in.
+     */
+    private static final Color LOGO_COLOUR = Color.LIGHT_GRAY;
 
     /**
      * This class is basically only a holder for the Java's {@code main(String[])} method, thus needs not to be
@@ -82,11 +90,9 @@ public final class SolDesktop {
         if (useSplash) {
             Graphics splashScreenGraphics = splash.createGraphics();
             Rectangle splashBounds = splash.getBounds();
-            splashScreenGraphics.setPaintMode();
-            splashScreenGraphics.setColor(Color.BLACK);
+            splashScreenGraphics.setColor(LOGO_COLOUR);
             splashScreenGraphics.setPaintMode();
             splashScreenGraphics.fillRect(0, 0, splashBounds.width, splashBounds.height);
-            splashScreenGraphics.drawRect(0, 0, splashBounds.width, splashBounds.height);
             splash.update();
         }
 
