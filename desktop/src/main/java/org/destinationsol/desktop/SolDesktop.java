@@ -27,7 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.crashreporter.CrashReporter;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.SplashScreen;
 import java.awt.Rectangle;
@@ -88,7 +88,7 @@ public final class SolDesktop {
 
         boolean useSplash = (splash != null) && Stream.of(argv).noneMatch(s -> s.equals(NO_SPLASH_SCREEN));
         if (useSplash) {
-            Graphics splashScreenGraphics = splash.createGraphics();
+            Graphics2D splashScreenGraphics = splash.createGraphics();
             Rectangle splashBounds = splash.getBounds();
             splashScreenGraphics.setColor(LOGO_COLOUR);
             splashScreenGraphics.setPaintMode();
