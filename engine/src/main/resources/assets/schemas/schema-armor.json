@@ -11,10 +11,12 @@
   ],
   "properties": {
     "displayName": {
-      "type": "string"
+      "type": "string",
+      "description": "Name of the armor"
     },
     "price":{
-      "type": "integer"
+      "type": "integer",
+      "description": "Buying price of the armor"
     },
     "perc":{
       "description": "Values over 1.0 heal the player on hit, values under 0.0 make him even more vulnerable than when unarmored. The greater the number, the more the damage is reduced.",

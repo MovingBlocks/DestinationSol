@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "description": "Clips are the ITEMS loaded into guns. They specify things like buying price, display name...",
+  "description": "Describes ship configuration, that is size, health and positions of effect or functional elements. Also describes physical shape of ship.",
   "type": "object",
   "required": [
     "size",
