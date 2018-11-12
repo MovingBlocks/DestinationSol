@@ -5,7 +5,8 @@
   "properties": {
     "hull": {
       "type": "string",
-      "description": "Id of the hull of the station"
+      "description": "Id of the hull of the station",
+      "pattern": "^\\w+:\\w+$"
     },
     "guard": {
       "allOf": [
@@ -17,7 +18,8 @@
       "description": "Ship guarding this station"
     },
     "items": {
-      "type": "string"
+      "type": "string",
+      "description": "Space separated list of items ship possesses. See /docs/items.txt for more detailed explanation."
     },
     "money": {
       "type": "integer",

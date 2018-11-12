@@ -42,7 +42,8 @@
     },
     "engine": {
       "type": "string",
-      "description": "Id of the engine on the ship"
+      "description": "Id of the engine on the ship",
+      "pattern": "^\\w+:\\w+$"
     },
     "ability": {
       "type": "object",
@@ -256,13 +257,15 @@
             ],
             "properties": {
               "effectFile": {
-                "type": "string"
+                "type": "string",
+                "pattern": "^\\w+:\\w+$"
               },
               "size": {
                 "type": "number"
               },
               "tex": {
-                "type": "string"
+                "type": "string",
+                "pattern": "^\\w+:\\w+$"
               },
               "floatsUp": {
                 "type": "boolean"
@@ -276,7 +279,8 @@
           "workSounds": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "pattern": "^\\w+:\\w+$"
             }
           }
         },
