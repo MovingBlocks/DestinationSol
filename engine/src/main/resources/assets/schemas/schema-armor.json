@@ -25,14 +25,16 @@
     "bulletHitSounds":{
       "type": "array",
       "items": {
-        "type": "string"
+        "type": "string",
+        "pattern": "^\\w+:\\w+$"
       },
       "description": "Array of sound ids, one of which is played when hit by bullet."
     },
     "energyHitSounds": {
       "type": "array",
       "items": {
-        "type": "string"
+        "type": "string",
+        "pattern": "^\\w+:\\w+$"
       },
       "description": "Array of sound ids, one of which is played when hit by energy type damage."
     },

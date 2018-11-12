@@ -9,7 +9,8 @@
   "properties": {
     "projectile": {
       "description": "id of the projectile shot by this clip",
-      "type": "string"
+      "type": "string",
+      "pattern": "^\\w+:\\w+$"
     },
     "infinite": {
       "type": "boolean",
