@@ -23,7 +23,6 @@ import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.everit.json.schema.loader.SchemaLoader;
 import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
@@ -110,7 +109,6 @@ public class ShipConfig {
         if (rootNode == null) {
             return null;
         }
-        SchemaLoader.builder().draftV7Support();
 
         String hullName = rootNode.getString("hull");
         HullConfig hull;
