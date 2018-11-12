@@ -28,8 +28,8 @@ dependencies {
 }
 
 sourceSets {
-    // Main is almost everything - the true engine
-    main {
+    // Engine is almost everything - the true engine
+    engine {
         java {
             output.classesDir 'build/classes'
         }
@@ -50,7 +50,7 @@ jar {
 }
 
 eclipse.project {
-    name = appName + "-main"
+    name = appName + "-engine"
 }
 
 // Extra details provided for unit tests
