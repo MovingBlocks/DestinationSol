@@ -15,9 +15,6 @@
  */
 package org.destinationsol.ui.responsiveUi;
 
-import org.destinationsol.SolApplication;
-import org.destinationsol.ui.SolInputManager;
-
 public class UiNoneElement extends AbstractUiElement {
     @Override
     public UiNoneElement setPosition(int x, int y) {
@@ -51,26 +48,6 @@ public class UiNoneElement extends AbstractUiElement {
 
     @Override
     public void draw() {
-
-    }
-
-    @Override
-    public boolean maybeFlashPressed(int keyCode) {
-        return false;
-    }
-
-    @Override
-    public boolean maybeFlashPressed(SolInputManager.InputPointer inputPointer) {
-        return false;
-    }
-
-    @Override
-    public boolean update(SolInputManager.InputPointer[] inputPointers, boolean cursorShown, boolean canBePressed, SolInputManager inputMan, SolApplication cmp) {
-        return false;
-    }
-
-    @Override
-    public void blur() {
 
     }
 }

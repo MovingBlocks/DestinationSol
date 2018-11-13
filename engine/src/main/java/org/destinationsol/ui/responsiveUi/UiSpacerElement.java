@@ -15,17 +15,10 @@
  */
 package org.destinationsol.ui.responsiveUi;
 
-import org.destinationsol.SolApplication;
-import org.destinationsol.ui.SolInputManager;
-
 import java.util.Optional;
 
 //TODO offer more ways to set dimensions. Optionally make resizable, using supplied dimensions as minimum
 public class UiSpacerElement extends AbstractUiElement {
-    private int x;
-    private int y;
-    private int width;
-    private int height;
     private UiElement containedElement;
 
     /**
@@ -61,47 +54,7 @@ public class UiSpacerElement extends AbstractUiElement {
     }
 
     @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
-    }
-
-    @Override
     public void draw() {
         containedElement.draw();
-    }
-
-    @Override
-    public boolean maybeFlashPressed(int keyCode) {
-        return false;
-    }
-
-    @Override
-    public boolean maybeFlashPressed(SolInputManager.InputPointer inputPointer) {
-        return false;
-    }
-
-    @Override
-    public boolean update(SolInputManager.InputPointer[] inputPointers, boolean cursorShown, boolean canBePressed, SolInputManager inputMan, SolApplication cmp) {
-        return false;
-    }
-
-    @Override
-    public void blur() {
-
     }
 }

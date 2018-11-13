@@ -30,11 +30,7 @@ import static org.destinationsol.ui.responsiveUi.UiConstants.DEFAULT_BUTTON_PADD
 public class UiActionButton extends AbstractUiElement implements UiResizableElement, UiContainerElement {
     public static final int DEFAULT_BUTTON_WIDTH = 300;
     public static final int DEFAULT_BUTTON_HEIGHT = 75;
-    private int x;
-    private int y;
     private UiElement containedElement;
-    private int height;
-    private int width;
     private int padding = DEFAULT_BUTTON_PADDING;
     private boolean enabled = true;
     private UiCallback action;
@@ -86,26 +82,6 @@ public class UiActionButton extends AbstractUiElement implements UiResizableElem
     public UiActionButton setParent(UiContainerElement parent) {
         this.parent = Optional.of(parent);
         return this;
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
     }
 
     @Override

@@ -20,7 +20,6 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
-import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
@@ -34,13 +33,9 @@ import java.util.Optional;
  * Doesn't add any padding around the text, but inserts spacers between its lines. Aligns the text to the left.
  */
 public class UiTextBox extends AbstractUiElement {
-    private int x;
-    private int y;
     private float fontSize = FontSize.HINT;
 
     private List<String> lines = new ArrayList<>();
-    private int width;
-    private int height;
     private int lineSpacer;
     private Color color = SolColor.WHITE;
 
@@ -65,6 +60,9 @@ public class UiTextBox extends AbstractUiElement {
 
     @Override
     public UiTextBox recalculate() {
+        if (lines.isEmpty()) {
+            setText(" ");
+        }
         width = lines.stream().map(line -> SolApplication.getUiDrawer().getStringLength(line, fontSize)).max(Integer::compareTo).orElse(0);
         height = lines.stream().map(line -> SolApplication.getUiDrawer().getStringHeight(line, fontSize)).reduce(Integer::sum).orElse(0);
         lineSpacer = (height / lines.size()) / 2;
@@ -87,29 +85,9 @@ public class UiTextBox extends AbstractUiElement {
         return this;
     }
 
-    @Override
-    public int getX() {
-        return x;
-    }
-
     public UiTextBox setColor(Color color) {
         this.color = color;
         return this;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
     }
 
     @Override
@@ -123,25 +101,5 @@ public class UiTextBox extends AbstractUiElement {
             uiDrawer.drawString(line, displayDimensions.getFloatWidthForPixelWidth(textX), displayDimensions.getFloatHeightForPixelHeight(textY), fontSize, UiDrawer.TextAlignment.LEFT,true, color);
             textY += lineSpacer + lineHeight;
         }
-    }
-
-    @Override
-    public boolean maybeFlashPressed(int keyCode) {
-        return false;
-    }
-
-    @Override
-    public boolean maybeFlashPressed(SolInputManager.InputPointer inputPointer) {
-        return false;
-    }
-
-    @Override
-    public boolean update(SolInputManager.InputPointer[] inputPointers, boolean cursorShown, boolean canBePressed, SolInputManager inputMan, SolApplication cmp) {
-        return false;
-    }
-
-    @Override
-    public void blur() {
-
     }
 }

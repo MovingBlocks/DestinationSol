@@ -18,14 +18,11 @@ package org.destinationsol.ui.responsiveUi;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.ui.SolInputManager;
 
 import java.util.Optional;
 
 //TODO icons should be colorfull depending on item type.
 public class UiItemBox extends AbstractUiElement {
-    private int x;
-    private int y;
     private UiImageBox icon = new UiImageBox();
     private SolItem item;
     private UiTextBox statusTextBox = new UiTextBox().setColor(SolColor.W50);
@@ -77,16 +74,6 @@ public class UiItemBox extends AbstractUiElement {
     }
 
     @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
     public int getWidth() {
         return layout.getWidth();
     }
@@ -99,21 +86,6 @@ public class UiItemBox extends AbstractUiElement {
     @Override
     public void draw() {
         layout.draw();
-    }
-
-    @Override
-    public boolean maybeFlashPressed(int keyCode) {
-        return false;
-    }
-
-    @Override
-    public boolean maybeFlashPressed(SolInputManager.InputPointer inputPointer) {
-        return false;
-    }
-
-    @Override
-    public boolean update(SolInputManager.InputPointer[] inputPointers, boolean cursorShown, boolean canBePressed, SolInputManager inputMan, SolApplication cmp) {
-        return false;
     }
 
     @Override
