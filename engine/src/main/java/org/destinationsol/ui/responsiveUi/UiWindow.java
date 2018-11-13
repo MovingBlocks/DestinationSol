@@ -26,12 +26,7 @@ import java.util.Optional;
 
 //TODO unfinished. Idea behind this class: fits contents + padding, by default on screen center, can be dragged around by dragging the padding. Meant to be root element.
 public class UiWindow extends AbstractUiElement implements ResizeSubscriber {
-
-    private int x;
-    private int y;
     private boolean isManuallyMoved = false;
-    private int width;
-    private int height;
     private Rectangle screenArea;
     private Rectangle innerArea;
 
@@ -51,26 +46,6 @@ public class UiWindow extends AbstractUiElement implements ResizeSubscriber {
     public UiWindow setParent(UiContainerElement parent) {
         this.parent = Optional.of(parent);
         return this;
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
     }
 
     @Override

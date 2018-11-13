@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.Optional;
 //TODO movepage buttons should not be that huge as they are. Also, does not generally work well
 public class UiItemList extends AbstractUiElement {
-    private int x;
-    private int y;
     private ItemContainer container;
     private UiVerticalListLayout layout = new UiVerticalListLayout();
     private int page;
@@ -128,16 +126,6 @@ public class UiItemList extends AbstractUiElement {
             }
         }
         selectedItem = item;
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
     }
 
     @Override

@@ -15,27 +15,21 @@
  */
 package org.destinationsol.ui.responsiveUi;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.textures.DSTexture;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.ui.DisplayDimensions;
-import org.destinationsol.ui.SolInputManager;
 
 import java.util.Optional;
 
 /**
  * Thic class is user to display images as part of UI. Please note, that due to scaling issues, this class does not
  * implement {@link UiResizableElement}, although it implements its methods. This allows you to resize the image
- * manually to suit your needs, while preventing unexpected rescaling from parent elements. If you want this element to be automatically resizable, please use {@link Ui}
+ * manually to suit your needs, while preventing unexpected rescaling from parent elements. If you want this element to be automatically resizable, please use {@link UiResizableImageBox}
  */
 public class UiImageBox extends AbstractUiElement {
-    private int x;
-    private int y;
     private TextureRegion image;
-    protected int width;
-    protected int height;
 
     @Override
     public UiImageBox setPosition(int x, int y) {
@@ -63,26 +57,6 @@ public class UiImageBox extends AbstractUiElement {
     }
 
     @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
-    }
-
-    @Override
     public void draw() {
         final DisplayDimensions displayDimensions = SolApplication.displayDimensions;
 //        SolApplication.getUiDrawer().draw(getScreenArea(), Color.WHITE);
@@ -94,26 +68,6 @@ public class UiImageBox extends AbstractUiElement {
                 displayDimensions.getFloatWidthForPixelWidth(x - width / 2),
                 displayDimensions.getFloatHeightForPixelHeight(y - height / 2),
                 0, SolColor.WHITE);
-    }
-
-    @Override
-    public boolean maybeFlashPressed(int keyCode) {
-        return false;
-    }
-
-    @Override
-    public boolean maybeFlashPressed(SolInputManager.InputPointer inputPointer) {
-        return false;
-    }
-
-    @Override
-    public boolean update(SolInputManager.InputPointer[] inputPointers, boolean cursorShown, boolean canBePressed, SolInputManager inputMan, SolApplication cmp) {
-        return false;
-    }
-
-    @Override
-    public void blur() {
-
     }
 
     public UiImageBox setWidth_(int width) {

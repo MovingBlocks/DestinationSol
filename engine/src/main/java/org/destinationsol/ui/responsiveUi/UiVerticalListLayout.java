@@ -25,11 +25,6 @@ import java.util.Optional;
 public class UiVerticalListLayout extends AbstractUiElement implements UiContainerElement {
     private List<UiElement> uiElements = new ArrayList<>();
 
-    private int x;
-    private int y;
-    private int width;
-    private int height = 0;
-
     @Override
     public UiVerticalListLayout addElement(UiElement uiElement) {
         uiElements.add(uiElement);
@@ -47,26 +42,6 @@ public class UiVerticalListLayout extends AbstractUiElement implements UiContain
         recalculateInnerPositions();
 
         return this;
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
     }
 
     @Override

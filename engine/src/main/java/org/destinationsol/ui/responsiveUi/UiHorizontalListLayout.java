@@ -25,10 +25,6 @@ import java.util.Optional;
 public class UiHorizontalListLayout extends AbstractUiElement implements UiContainerElement {
     private List<UiElement> uiElements = new ArrayList<>();
 
-    private int x;
-    private int y;
-    private int width = 0;
-    private int height = 0;
     private int padding = UiConstants.DEFAULT_ELEMENT_PADDING;
 
     public UiHorizontalListLayout setPadding(int padding) {
@@ -53,26 +49,6 @@ public class UiHorizontalListLayout extends AbstractUiElement implements UiConta
         recalculateInnerPositions();
 
         return this;
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
     }
 
     @Override
