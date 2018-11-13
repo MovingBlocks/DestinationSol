@@ -41,7 +41,7 @@
     "baseSoundPitch": {
       "type": "number",
       "description": "Multiplier of hit sound pitch. Defaults to 1.",
-      "minimum": 0;
+      "minimum": 0
     }
   }
 }

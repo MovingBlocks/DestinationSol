@@ -70,9 +70,6 @@ public class ShipBuilder {
         myCollisionMeshLoader = new CollisionMeshLoader();
     }
 
-    private static void getBase() {
-    }
-
     public FarShip buildNewFar(SolGame game, Vector2 position, Vector2 speed, float angle, float rotationSpeed, Pilot pilot,
                                String items, HullConfig hullConfig,
                                RemoveController removeController,
