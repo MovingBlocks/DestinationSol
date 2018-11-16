@@ -23,6 +23,7 @@ import org.destinationsol.assets.emitters.Emitter;
 import org.destinationsol.assets.fonts.Font;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.textures.DSTexture;
+import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.assets.ResourceUrn;
@@ -234,5 +235,20 @@ public abstract class Assets {
         }
 
         return textures;
+    }
+
+    /**
+     * A function that converts a JSONArray into a String ArrayList
+     *
+     * @param arr A JSONArray containing values to be converted into a String List
+     * @return An ArrayList containing all String values of arr
+     */
+
+    public static ArrayList<String> convertToStringList(JSONArray arr) {
+        ArrayList<String> list = new ArrayList<String>();
+        for (int i = 0; i < arr.length(); i++) {
+            list.add(arr.getString(i));
+        }
+        return list;
     }
 }

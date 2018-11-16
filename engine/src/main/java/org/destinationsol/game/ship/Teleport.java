@@ -20,7 +20,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.JsonValue;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -124,10 +124,10 @@ public class Teleport implements ShipAbility {
             this.cc = cc;
         }
 
-        public static AbilityConfig load(JsonValue abNode, ItemManager itemManager, AbilityCommonConfig cc) {
-            float angle = abNode.getFloat("angle");
+        public static AbilityConfig load(JSONObject abNode, ItemManager itemManager, AbilityCommonConfig cc) {
+            float angle = (float) abNode.getDouble("angle");
             SolItem chargeExample = itemManager.getExample("teleportCharge");
-            float rechargeTime = abNode.getFloat("rechargeTime");
+            float rechargeTime = (float) abNode.getDouble("rechargeTime");
             return new Config(angle, chargeExample, rechargeTime, cc);
         }
 

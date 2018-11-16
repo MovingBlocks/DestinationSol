@@ -17,7 +17,8 @@ package org.destinationsol.common;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import com.badlogic.gdx.utils.Pool;
 import org.destinationsol.Const;
 
@@ -482,7 +483,7 @@ public class SolMath {
     }
 
     //TODO The three following functions aren't as much of mathematical functions as they are input processing functions. Move them somewhere else?
-    public static Vector2 readV2(JsonValue v, String name) {
+    public static Vector2 readV2(JSONObject v, String name) {
         return readV2(v.getString(name));
     }
 
@@ -493,14 +494,14 @@ public class SolMath {
         return new Vector2(x, y);
     }
 
-    public static ArrayList<Vector2> readV2List(JsonValue parentNode, String name) {
+    public static ArrayList<Vector2> readV2List(JSONObject parentNode, String name) {
         ArrayList<Vector2> res = new ArrayList<>();
-        JsonValue listNode = parentNode.get(name);
+        JSONArray listNode = parentNode.has(name) ? parentNode.getJSONArray(name) : null;
         if (listNode == null) {
             return res;
         }
-        for (JsonValue vNode : listNode) {
-            Vector2 vec = readV2(vNode.asString());
+        for (int i = 0; i < listNode.length(); i++) {
+            Vector2 vec = readV2(listNode.getString(i));
             res.add(vec);
         }
         return res;
