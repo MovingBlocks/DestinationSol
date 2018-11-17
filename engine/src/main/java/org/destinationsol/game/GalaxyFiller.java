@@ -131,10 +131,6 @@ public class GalaxyFiller {
 
     public JSONObject getRootNode(Json json) {
         JSONObject node = json.getJsonValue();
-        /*if (node == null) {
-            throw new JsonParseException(String.format("Root node was not found in asset %s" ,node.name, json.toString()));
-        } else {
-        */
         return node;
     }
 
