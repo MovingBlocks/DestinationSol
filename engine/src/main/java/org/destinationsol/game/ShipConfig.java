@@ -117,7 +117,7 @@ public class ShipConfig {
 
         ShipConfig guard;
         if (rootNode.has("guard")) {
-            guard = load(hullConfigs, rootNode.has("guard") ? rootNode.getJSONObject("guard") : null, itemManager);
+            guard = load(hullConfigs, rootNode.getJSONObject("guard"), itemManager);
         } else {
             guard = null;
         }
