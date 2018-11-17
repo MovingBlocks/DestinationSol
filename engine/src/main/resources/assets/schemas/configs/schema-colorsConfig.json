@@ -7,7 +7,8 @@
   },
   "additionalProperties": {
     "type": "string",
-    "pattern": "^((hsb (((360)|(3[0-5]\\d)|([012]?\\d?\\d))( ((100)|\\d?\\d)){2})|(((([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5])) ){2}(([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5]))))( (([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5])))?)$",
-    "description": "Color can be defined in the form `rrr ggg bbb`, `rrr ggg bbb aaa`, `hsb hhh sss bbb` or `hsb hhh sss bbb aaa`"
+    "pattern": "^(hsb ([012]?\\d?\\d|3[0-5]\\d|360)( (100|0?\\d?\\d)){2}|((25[0-6]|2[0-4]\\d|[01]?\\d?\\d) ){2}(25[0-6]|2[0-4]\\d|[01]?\\d?\\d))( (100|0?\\d?\\d))?$",
+    "description": "Color can be defined in the form `rrr ggg bbb`, `rrr ggg bbb aaa`, `hsb hhh sss bbb` or `hsb hhh sss bbb aaa`",
+    "$comment": "hsb: `hsb ([012]?\\d?\\d|3[0-5]\\d|360)( (100|0?\\d?\\d)){2}`    rgb: `((25[0-6]|2[0-4]\\d|[01]?\\d?\\d) ){2}(25[0-6]|2[0-4]\\d|[01]?\\d?\\d)`"
   }
 }
