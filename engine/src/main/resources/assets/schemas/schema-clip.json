@@ -8,9 +8,9 @@
   ],
   "properties": {
     "projectile": {
-      "description": "id of the projectile shot by this clip",
+      "description": "name of the projectile shot by this clip, defined in projectilesConfig",
       "type": "string",
-      "pattern": "^\\w+:\\w+$"
+      "pattern": "^\\w+$"
     },
     "infinite": {
       "type": "boolean",
