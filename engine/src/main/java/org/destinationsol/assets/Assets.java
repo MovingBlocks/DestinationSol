@@ -243,7 +243,6 @@ public abstract class Assets {
      * @param arr A JSONArray containing values to be converted into a String List
      * @return An ArrayList containing all String values of arr
      */
-
     public static ArrayList<String> convertToStringList(JSONArray arr) {
         ArrayList<String> list = new ArrayList<String>();
         for (int i = 0; i < arr.length(); i++) {

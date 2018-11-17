@@ -39,9 +39,9 @@ public class GameColors {
 
         Validator.validate(rootNode, "engine:schemaColorsConfig");
 
-        for (String s : rootNode.keySet()) {
-            Color c = load(rootNode.getString(s));
-            colors.put(s, c);
+        for (String key : rootNode.keySet()) {
+            Color c = load(rootNode.getString(key));
+            colors.put(key, c);
         }
 
         json.dispose();

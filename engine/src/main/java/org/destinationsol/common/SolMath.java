@@ -500,9 +500,11 @@ public class SolMath {
         if (listNode == null) {
             return res;
         }
-        for (int i = 0; i < listNode.length(); i++) {
-            Vector2 vec = readV2(listNode.getString(i));
-            res.add(vec);
+        for (Object val : listNode) {
+            if(val instanceof String) {
+                Vector2 vec = readV2((String) val);
+                res.add(vec);
+            }
         }
         return res;
     }
