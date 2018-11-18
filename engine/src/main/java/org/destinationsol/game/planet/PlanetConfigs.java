@@ -48,7 +48,7 @@ public class PlanetConfigs {
         for (ResourceUrn planetConfigJson : planetJsonConfigs) {
             String moduleName = planetConfigJson.getModuleName().toString();
 
-            Json json = Assets.getJson("core:planetsConfig");
+            Json json = Assets.getJson(planetConfigJson.toString());
             JSONObject rootNode = json.getJsonValue();
 
             Validator.validate(rootNode, "engine:schemaPlanetsConfig");
