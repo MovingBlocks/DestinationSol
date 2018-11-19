@@ -10,10 +10,12 @@
   "properties": {
     "price": {
       "type": "integer",
+      "exclusiveMinimum": 0,
       "description": "Buying price of the ability charge"
     },
     "displayName": {
       "type": "string",
+      "minLength": 1,
       "description": "Name of the ability charge"
     },
     "desc": {
