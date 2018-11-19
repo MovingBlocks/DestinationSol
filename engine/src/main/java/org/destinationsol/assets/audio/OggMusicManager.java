@@ -18,11 +18,17 @@ package org.destinationsol.assets.audio;
 import com.badlogic.gdx.audio.Music;
 import org.destinationsol.GameOptions;
 import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.json.Json;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Class responsible for playing all music throughout the game.
@@ -35,6 +41,7 @@ public class OggMusicManager {
     public static final String GAME_MUSIC_SET = "game";
     private final Map<String, List<Music>> musicMap;
     private Music currentlyPlaying;
+    private Logger logger = LoggerFactory.getLogger(OggMusicManager.class);
 
     /**
      * Registers engine music.
@@ -46,15 +53,18 @@ public class OggMusicManager {
         registerMusic(GAME_MUSIC_SET, "engine:cimmerianDawn");
         registerMusic(GAME_MUSIC_SET, "engine:intoTheDark");
         registerMusic(GAME_MUSIC_SET, "engine:spaceTheatre");
+
+        registerAllMenuMusic();
     }
 
     /**
-     *Registers a music track into a music set.
-     *
+     * Registers a music track into a music set.
+     * <p>
      * Once registered, the track may then be played by {@link #playMusic(String, GameOptions)}. The track will be
      * played even if the {@code musicSet} set is already playing.
+     *
      * @param musicSet Name of the set to register to
-     * @param music Fully qualified name of the music to register (eg. {@code "engine:dreadnaught"})
+     * @param music    Fully qualified name of the music to register (eg. {@code "engine:dreadnaught"})
      */
     public void registerMusic(String musicSet, String music) {
         registerMusic(musicSet, Assets.getMusic(music).getMusic());
@@ -62,11 +72,12 @@ public class OggMusicManager {
 
     /**
      * Registers a music track into a music set.
-     *
+     * <p>
      * Once registered, the track may then be played by {@link #playMusic(String, GameOptions)}. The track will be
      * played even if the {@code musicSet} set is already playing.
+     *
      * @param musicSet Name of the set to register to
-     * @param music Music to register
+     * @param music    Music to register
      */
     public void registerMusic(String musicSet, Music music) {
         if (!musicMap.containsKey(musicSet)) {
@@ -78,13 +89,13 @@ public class OggMusicManager {
 
     /**
      * Sets a music set to play music from.
-     *
+     * <p>
      * When end of each of tracks in the music set is reached, a neext song from the set is then played. When there are
      * no more tracks in a set, the first one is played again. When an invalid music set name is passed in, the music
      * just stops playing.
      *
      * @param musicSet Name of the set to play.
-     * @param options GameOptions with volume for the music to have.
+     * @param options  GameOptions with volume for the music to have.
      */
     public void playMusic(final String musicSet, final GameOptions options) {
         stopMusic();
@@ -107,7 +118,7 @@ public class OggMusicManager {
     /**
      * Plays a music track and sets it as current.
      *
-     * @param music Music track to play
+     * @param music   Music track to play
      * @param options Options with volume for the track
      */
     private void playMusicTrack(Music music, GameOptions options) {
@@ -132,5 +143,65 @@ public class OggMusicManager {
      */
     public void changeVolume(GameOptions options) {
         currentlyPlaying.setVolume(options.musicVolume.getVolume());
+    }
+
+    /**
+     * Registers all music from the module of shipName
+     *
+     * @param shipName Name of the ship that is loaded when creating a new game
+     */
+    public void registerModuleMusic(String shipName) {
+        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:playerSpawnConfig");
+
+        for (ResourceUrn configUrn : configUrnList) {
+            Json json = Assets.getJson(configUrn.toString());
+            JSONObject rootNode = json.getJsonValue();
+
+            if (rootNode.keySet().contains(shipName) && rootNode.get(shipName) instanceof JSONObject) {
+                JSONObject shipNode = rootNode.getJSONObject(shipName);
+
+                String moduleName = shipNode.getString("hull").split(":")[0];
+                Json musicJson;
+
+                try {
+                    musicJson = Assets.getJson(moduleName + ":musicConfig");
+                } catch (RuntimeException e) {
+                    logger.warn("Music config not found for module " + moduleName + ":musicConfig");
+                    return;
+                }
+
+                MusicConfig musicConfig = MusicConfig.load(moduleName, musicJson.getJsonValue());
+                Map<String, List<String>> musicMap = musicConfig.getMusicMap();
+
+                for (String music : musicMap.get(MENU_MUSIC_SET)) {
+                    registerMusic(MENU_MUSIC_SET, music);
+                }
+                for (String music : musicMap.get(GAME_MUSIC_SET)) {
+                    registerMusic(GAME_MUSIC_SET, music);
+                }
+            }
+
+            json.dispose();
+        }
+    }
+
+    /**
+     * Registers all module menu music
+     */
+    public void registerAllMenuMusic() {
+        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:musicConfig");
+
+        for (ResourceUrn configUrn : configUrnList) {
+            String urn = configUrn.toString();
+            Json musicJson = Assets.getJson(urn);
+            JSONObject musicNode = musicJson.getJsonValue();
+
+            for (Object o : musicNode.getJSONArray("menuMusic")) {
+                if (!(o instanceof String))
+                    break;
+                String music = (String) o;
+                registerMusic(MENU_MUSIC_SET, urn.split(":")[0] + ":" + music);
+            }
+        }
     }
 }
