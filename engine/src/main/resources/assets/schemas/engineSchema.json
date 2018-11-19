@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Engines are used by ships to move",
+  "type": "object",
+  "required": [
+    "big"
+  ],
+  "properties": {
+    "big":{
+      "type": "boolean",
+      "description": "Whether the size of the engine is `big` - `big` engines are usually used by the larger sized ships"
+    }
+  }
+}
