@@ -30,9 +30,10 @@ import org.destinationsol.game.ship.FarShip;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
-public class ObjectManager implements UpdateAwareSystem{
+public class ObjectManager implements UpdateAwareSystem {
     private static final float MAX_RADIUS_RECALC_AWAIT = 1f;
     private final List<SolObject> myObjs;
     private final List<SolObject> myToRemove;
@@ -279,6 +280,20 @@ public class ObjectManager implements UpdateAwareSystem{
 
     public List<SolObject> getObjects() {
         return myObjs;
+    }
+
+    /**
+     * Returns all {@link SolObject}s whose squared distance to {@code fromObject} is less than {@code squaredDistance}.
+     * @return A {@code LinkedList<SolObject>} containing the matching objects.
+     */
+    public List<SolObject> getAllCloserThan(float squaredDistance, SolObject fromObject) { //Should the non-squared distance be used instead?
+        List<SolObject> result = new LinkedList<>();
+        for(SolObject obj : myObjs) {
+            if(SolMath.squaredScalarDist(fromObject.getPosition(), obj.getPosition()) < squaredDistance) {
+                result.add(obj);
+            }
+        }
+        return result;
     }
 
     public void addObjDelayed(SolObject p) {

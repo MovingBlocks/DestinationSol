@@ -71,9 +71,10 @@ public class ProjectileConfigs {
                 float density = node.getFloat("density", -1);
                 float dmg = node.getFloat("dmg");
                 float emTime = node.getFloat("emTime", 0);
+                float aoeRadius = node.getFloat("aoeRadius", -1);
                 ProjectileConfig config = new ProjectileConfig(tex, texSz, speedLen, stretch, physSize, dmgType,
                         collisionSound, lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBackground,
-                        zeroAbsSpeed, origin, acc, workSound, bodyless, density, guideRotationSpeed, dmg, emTime);
+                        zeroAbsSpeed, origin, acc, workSound, bodyless, density, guideRotationSpeed, dmg, emTime, aoeRadius);
                 configs.put(node.name, config);
             }
 

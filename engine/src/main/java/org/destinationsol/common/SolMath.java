@@ -296,6 +296,13 @@ public class SolMath {
     }
 
     /**
+     * Computes the squared scalar distance between two {@link Vector2 vectors}.
+     */
+    public static float squaredScalarDist(Vector2 from, Vector2 to) {
+        return from.dst2(to);
+    }
+
+    /**
      * Computes a length of projection of given {@link Vector2} on line under specified angle.
      *
      * @param v     Vector projection of which to calculate
