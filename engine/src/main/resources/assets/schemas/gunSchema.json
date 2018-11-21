@@ -48,7 +48,7 @@
     },
     "clipName": {
       "type": "string",
-      "pattern": "^\\w+:\\w$",
+      "pattern": "^\\w+:\\w+$",
       "description": "Module path of the clip the gun uses to fire"
     },
     "gunLength": {
@@ -65,7 +65,7 @@
       "type": "array",
       "items": {
         "type": "string",
-        "pattern": "^\\w+:\\w$"
+        "pattern": "^\\w+:\\w+$"
       },
       "description": "An array to iterate over when firing the gun for audio assets to be played"
     },
@@ -73,7 +73,7 @@
       "type": "array",
       "items": {
         "type": "string",
-        "pattern": "^\\w+:\\w$"
+        "pattern": "^\\w+:\\w+$"
       },
       "description": "An array to iterate over when reloading the gun for audio assets to be played"
     },
