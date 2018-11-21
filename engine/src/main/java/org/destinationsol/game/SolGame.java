@@ -24,6 +24,7 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.SpecialSounds;
 import org.destinationsol.common.DebugCol;
+import org.destinationsol.common.SolException;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.di.components.SolGameComponent;
@@ -103,8 +104,10 @@ public class SolGame {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                saveShip();
-//                Console.getInstance().println("Game saved");
+                if (!hero.isTranscendent()) {
+                    saveShip();
+//                    Console.getInstance().println("Game saved");
+                }
             }
         }, 0, 30);
     }
@@ -126,6 +129,7 @@ public class SolGame {
                 this,
                 component.gameOptions().controlType == GameOptions.ControlType.MOUSE,
                 isNewShip);
+        hero.initialise();
     }
 
     private ShipConfig readShipFromConfigOrLoadFromSaveIfNull(String shipName, boolean isNewShip) {
@@ -148,7 +152,11 @@ public class SolGame {
         if (hero.isDead()) {
             respawn();
         }
-        saveShip();
+
+        //The ship should have been saved when it entered the star-port
+        if (!hero.isTranscendent()) {
+            saveShip();
+        }
         saveWorld();
         component.objectManager().dispose();
     }
@@ -164,9 +172,13 @@ public class SolGame {
         SaveManager.saveWorld(getPlanetManager().getSystems().size());
     }
 
-    private void saveShip() {
+    public void saveShip() {
         if (component.tutorialManager().isPresent()) {
             return;
+        }
+
+        if (hero.isTranscendent()) {
+            throw new SolException("The hero cannot be saved when in a transcendent state.");
         }
 
         HullConfig hull;
@@ -414,6 +426,8 @@ public class SolGame {
     }
 
     public TutorialManager getTutMan() {
+        if(!component.tutorialManager().isPresent())
+            return null;
         return component.tutorialManager().get();
     }
 

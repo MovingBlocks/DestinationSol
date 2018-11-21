@@ -17,8 +17,10 @@ package org.destinationsol.files;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.SerializationException;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.common.SolException;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.item.Engine;
@@ -106,6 +108,8 @@ public final class HullConfigManager {
             readProperties(json.getJsonValue(), configData);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("The JSON of ship " + shipName + " is missing, or has malformed, a required parameter" + e.getMessage().split(":")[1]);
+        } catch (SerializationException e) {
+            throw new SerializationException("The JSON of ship " + shipName + " has invalid syntax at " + e.getMessage().split(" near")[0].split("on ")[1]);
         }
 
         configData.tex = Assets.getAtlasRegion(shipName);
@@ -171,8 +175,15 @@ public final class HullConfigManager {
         configData.price = rootNode.getInt("price", 0);
         configData.hirePrice = rootNode.getFloat("hirePrice", 0);
 
-        Vector2 tmpV = new Vector2(rootNode.get("rigidBody").get("origin").getFloat("x"),
-                1 - rootNode.get("rigidBody").get("origin").getFloat("y"));
+        Vector2 tmpV;
+        if (rootNode.has("rigidBody")) {
+            tmpV = new Vector2(rootNode.get("rigidBody").get("origin").getFloat("x"),
+                    1 - rootNode.get("rigidBody").get("origin").getFloat("y"));
+        } else if (rootNode.has("rigidBodies")) {
+            throw new SolException("Please rename 'rigidBodies' to 'rigidBody' in the JSON of ship " + configData.displayName);
+        } else {
+            throw new SolException("'rigidBody' not found in JSON of ship " + configData.displayName);
+        }
         configData.shipBuilderOrigin.set(tmpV);
 
         process(configData);
