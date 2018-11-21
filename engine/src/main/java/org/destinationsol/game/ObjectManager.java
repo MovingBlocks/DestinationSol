@@ -30,8 +30,8 @@ import org.destinationsol.game.ship.FarShip;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ObjectManager implements UpdateAwareSystem {
     private static final float MAX_RADIUS_RECALC_AWAIT = 1f;
@@ -283,17 +283,20 @@ public class ObjectManager implements UpdateAwareSystem {
     }
 
     /**
-     * Returns all {@link SolObject}s whose squared distance to {@code fromObject} is less than {@code squaredDistance}.
-     * @return A {@code LinkedList<SolObject>} containing the matching objects.
+     * Commits {@code action} to all (non-far) {@link SolObject}s whose squared distance to {@code fromObject} is less than {@code squaredDistance}.
+     *
+     * @param squaredDistance If the distance between any object and {@code fromObject} is less than this,
+     *                        the {@code action} will be executed with that object as the argument.
+     * @param fromObject The point of reference. This is <b>not</b> exempt from the {@code action}.
+     * @param action The action to commit to {@code fromObject}.
      */
-    public List<SolObject> getAllCloserThan(float squaredDistance, SolObject fromObject) { //Should the non-squared distance be used instead?
-        List<SolObject> result = new LinkedList<>();
+    public void doToAllCloserThan(float squaredDistance, SolObject fromObject, Consumer<SolObject> action) {
+        //Should the non-squared distance be used instead?
         for(SolObject obj : myObjs) {
             if(SolMath.squaredScalarDist(fromObject.getPosition(), obj.getPosition()) < squaredDistance) {
-                result.add(obj);
+                action.accept(obj);
             }
         }
-        return result;
     }
 
     public void addObjDelayed(SolObject p) {

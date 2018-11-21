@@ -297,6 +297,10 @@ public class SolMath {
 
     /**
      * Computes the squared scalar distance between two {@link Vector2 vectors}.
+     *
+     * @param from The 1st vector.
+     * @param to The 2nd vector.
+     * @return The distance between the two vectors in {@code float}.
      */
     public static float squaredScalarDist(Vector2 from, Vector2 to) {
         return from.dst2(to);

@@ -113,10 +113,10 @@ public class Projectile implements SolObject {
         if (obstacle != null) {
             if (!wasDamageDealt) {
                 if(config.aoeRadius >= 0) { //If AoE is enabled for this Projectile, damage all within the radius.
-                    for (SolObject obj : game.getObjectManager().getAllCloserThan(config.aoeRadius, this)) {
+                    game.getObjectManager().doToAllCloserThan(config.aoeRadius, this, (SolObject obj) ->
                         //Should the Projectile itself, or the ships in the firing faction, be excluded?
-                        obj.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType);
-                    }
+                        obj.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType)
+                    );
                 } else {
                     obstacle.receiveDmg(config.dmg, game, body.getPosition(), config.dmgType);
                 }
