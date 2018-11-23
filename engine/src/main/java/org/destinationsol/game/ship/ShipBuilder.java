@@ -71,32 +71,6 @@ public class ShipBuilder {
         myCollisionMeshLoader = new CollisionMeshLoader();
     }
 
-    private static Fixture getBase(boolean hasBase, Body body) {
-        if (!hasBase) {
-            return null;
-        }
-        Fixture base = null;
-        Vector2 v = SolMath.getVec();
-        float lowestX = Float.MAX_VALUE;
-        for (Fixture f : body.getFixtureList()) {
-            Shape s = f.getShape();
-            if (!(s instanceof PolygonShape)) {
-                continue;
-            }
-            PolygonShape poly = (PolygonShape) s;
-            int pointCount = poly.getVertexCount();
-            for (int i = 0; i < pointCount; i++) {
-                poly.getVertex(i, v);
-                if (v.x < lowestX) {
-                    base = f;
-                    lowestX = v.x;
-                }
-            }
-        }
-        SolMath.free(v);
-        return base;
-    }
-
     public FarShip buildNewFar(SolGame game, Vector2 position, Vector2 speed, float angle, float rotationSpeed, Pilot pilot,
                                String items, HullConfig hullConfig,
                                RemoveController removeController,
@@ -305,8 +279,7 @@ public class ShipBuilder {
             doors.add(door);
         }
 
-        Fixture base = getBase(hullConfig.hasBase(), body);
-        Hull hull = new Hull(game, hullConfig, body, gunMount0, gunMount1, base, lCs, life, beacons, doors, shieldFixture);
+        Hull hull = new Hull(game, hullConfig, body, gunMount0, gunMount1, lCs, life, beacons, doors, shieldFixture);
         body.setLinearVelocity(speed);
         body.setAngularVelocity(rotationSpeed * MathUtils.degRad);
         return hull;
