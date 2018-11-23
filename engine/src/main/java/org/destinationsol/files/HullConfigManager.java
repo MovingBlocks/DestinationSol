@@ -16,13 +16,9 @@
 package org.destinationsol.files;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import com.badlogic.gdx.utils.SerializationException;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
-import org.destinationsol.common.SolException;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.item.Engine;
@@ -36,9 +32,10 @@ import org.destinationsol.game.ship.Teleport;
 import org.destinationsol.game.ship.UnShield;
 import org.destinationsol.game.ship.hulls.GunSlot;
 import org.destinationsol.game.ship.hulls.HullConfig;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -163,7 +160,6 @@ public final class HullConfigManager {
         configData.maxLife = rootNode.getInt("maxLife");
 
         configData.lightSrcPoss = SolMath.readV2List(rootNode, "lightSrcPoss");
-        configData.hasBase = rootNode.optBoolean("hasBase");
         configData.forceBeaconPoss = SolMath.readV2List(rootNode, "forceBeaconPoss");
         configData.doorPoss = SolMath.readV2List(rootNode, "doorPoss");
         configData.type = HullConfig.Type.forName(rootNode.optString("type"));
@@ -172,7 +168,7 @@ public final class HullConfigManager {
         configData.ability = loadAbility(rootNode, itemManager, abilityCommonConfigs);
 
         configData.displayName = rootNode.optString("displayName", "---");
-        configData.price = rootNode.optInt("price", 0);
+        configData.price = (float) rootNode.optDouble("price", 0);
         configData.hirePrice = (float) rootNode.optDouble("hirePrice", 0);
 
         Vector2 tmpV = new Vector2((float) rootNode.getJSONObject("rigidBody").getJSONObject("origin").getDouble("x"),

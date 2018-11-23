@@ -20,7 +20,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.SpecialSounds;
 import org.destinationsol.common.SolMath;
@@ -135,11 +134,8 @@ public class SolShip implements SolObject {
             return;
         }
         if (myHull.config.getType() != HullConfig.Type.STATION) {
-            Fixture f = null; // restore?
             float dmg = absImpulse / myHull.getMass() / myHull.config.getDurability();
-            if (f == myHull.getBase()) {
-                dmg *= BASE_DUR_MOD;
-            }
+            dmg *= BASE_DUR_MOD;
             receiveDmg((int) dmg, game, collPos, DmgType.CRASH);
         }
     }
