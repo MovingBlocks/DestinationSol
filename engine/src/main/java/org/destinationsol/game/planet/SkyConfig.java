@@ -16,7 +16,7 @@
 package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.utils.JsonValue;
+import org.json.JSONObject;
 import org.destinationsol.game.GameColors;
 
 public class SkyConfig {
@@ -28,7 +28,7 @@ public class SkyConfig {
         this.day = dayHsba;
     }
 
-    public static SkyConfig load(JsonValue skyNode, GameColors cols) {
+    public static SkyConfig load(JSONObject skyNode, GameColors cols) {
         if (skyNode == null) {
             return null;
         }
@@ -36,5 +36,4 @@ public class SkyConfig {
         Color day = cols.load(skyNode.getString("dayColor"));
         return new SkyConfig(dawn, day);
     }
-
 }

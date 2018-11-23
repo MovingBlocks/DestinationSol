@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Provides pre-defined color names",
+  "propertyNames": {
+    "pattern": "^\\w+$",
+    "description": "Color name can be any sequence of basic alphanumeric characters without a space"
+  },
+  "additionalProperties": {
+    "type": "string",
+    "pattern": "^((hsb (((360)|(3[0-5]\\d)|([012]?\\d?\\d))( ((100)|\\d?\\d)){2})|(((([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5])) ){2}(([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5]))))( (([01]?\\d?\\d)|(2[0-4]\\d)|(25[0-5])))?)$",
+    "description": "Color can be defined in the form `rrr ggg bbb`, `rrr ggg bbb aaa`, `hsb hhh sss bbb` or `hsb hhh sss bbb aaa`"
+  }
+}

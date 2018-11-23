@@ -15,7 +15,8 @@
  */
 package org.destinationsol.game.maze;
 
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.HullConfigManager;
@@ -34,10 +35,15 @@ public class MazeConfigs {
         final Set<ResourceUrn> configUrns = Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:mazesConfig");
         for (ResourceUrn configUrn : configUrns) {
             Json json = Assets.getJson(configUrn.toString());
-            JsonValue rootNode = json.getJsonValue();
+            JSONObject rootNode = json.getJsonValue();
 
-            for (JsonValue mazeNode : rootNode) {
-                MazeConfig c = MazeConfig.load(mazeNode, hullConfigs, itemManager);
+            Validator.validate(rootNode, "engine:schemaMazesConfig");
+
+            for (String s : rootNode.keySet()) {
+                if (!(rootNode.get(s) instanceof JSONObject))
+                    continue;
+                JSONObject mazeNode = rootNode.getJSONObject(s);
+                MazeConfig c = MazeConfig.load(s, mazeNode, hullConfigs, itemManager);
                 configs.add(c);
             }
 
