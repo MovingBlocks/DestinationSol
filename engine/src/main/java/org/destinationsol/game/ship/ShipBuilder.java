@@ -28,7 +28,8 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJoint;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColor;
@@ -263,8 +264,11 @@ public class ShipBuilder {
         String shipName = hullConfig.getInternalName();
 
         Json json = Assets.getJson(shipName);
+        JSONObject rootNode = json.getJsonValue();
 
-        JsonValue rigidBodyNode = json.getJsonValue().get("rigidBody");
+        Validator.validate(rootNode, "engine:schemaHullConfig");
+
+        JSONObject rigidBodyNode = rootNode.getJSONObject("rigidBody");
         myCollisionMeshLoader.readRigidBody(rigidBodyNode, hullConfig);
 
         json.dispose();

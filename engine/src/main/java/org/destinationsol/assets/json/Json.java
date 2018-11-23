@@ -15,7 +15,7 @@
  */
 package org.destinationsol.assets.json;
 
-import com.badlogic.gdx.utils.JsonValue;
+import org.json.JSONObject;
 import org.terasology.assets.Asset;
 import org.terasology.assets.AssetType;
 import org.terasology.assets.ResourceUrn;
@@ -33,7 +33,7 @@ public class Json extends Asset<JsonData> {
         this.jsonData = data;
     }
 
-    public JsonValue getJsonValue() {
+    public JSONObject getJsonValue() {
         return jsonData.getJsonValue();
     }
 }
