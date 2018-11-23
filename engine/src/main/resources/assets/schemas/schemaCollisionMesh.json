@@ -14,7 +14,7 @@
             "pattern": "^\\w+:\\w+$"
           },
           "origin": {
-            "description": "The center reference point for the mesh.",
+            "description": "The normalized coordinates of the reference point for this collision mesh.",
             "type": "object",
             "required": [
               "x",
@@ -85,18 +85,13 @@
               "type": "object",
               "properties": {
                 "cx": {
-                  "type": "number",
-                  "properties": {
-                    "cx": {
-                      "type": "number"
-                    },
-                    "cy": {
-                      "type": "number"
-                    },
-                    "r": {
-                      "type": "number"
-                    }
-                  }
+                  "type": "number"
+                },
+                "cy": {
+                  "type": "number"
+                },
+                "r": {
+                  "type": "number"
                 }
               }
             }
