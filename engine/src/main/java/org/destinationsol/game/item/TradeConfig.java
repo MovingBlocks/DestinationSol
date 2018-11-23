@@ -15,7 +15,7 @@
  */
 package org.destinationsol.game.item;
 
-import com.badlogic.gdx.utils.JsonValue;
+import org.json.JSONObject;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.ship.hulls.HullConfig;
@@ -29,7 +29,7 @@ public class TradeConfig {
     public final ItemContainer hulls = new ItemContainer();
     public final ItemContainer mercs = new ItemContainer();
 
-    public void load(JsonValue tradeNode, HullConfigManager hullConfigs, ItemManager itemManager) {
+    public void load(JSONObject tradeNode, HullConfigManager hullConfigs, ItemManager itemManager) {
         if (tradeNode == null) {
             return;
         }
@@ -39,7 +39,7 @@ public class TradeConfig {
         Collections.reverse(itemList); // TODO: Examine why this is required.
         items.addAll(itemList);
 
-        String shipStr = tradeNode.getString("ships", "");
+        String shipStr = tradeNode.optString("ships", "");
         String[] split = shipStr.split(" ");
         for (int i = split.length - 1; i >= 0; i--) {
             String hullName = split[i];
@@ -47,7 +47,7 @@ public class TradeConfig {
             hulls.add(new ShipItem(hull));
         }
 
-        ArrayList<ShipConfig> loadList = ShipConfig.loadList(tradeNode.get("mercenaries"), hullConfigs, itemManager);
+        ArrayList<ShipConfig> loadList = ShipConfig.loadList(tradeNode.getJSONArray("mercenaries"), hullConfigs, itemManager);
         for (int i = loadList.size() - 1; i >= 0; i--) {
             ShipConfig merc = loadList.get(i);
             mercs.add(new MercItem(merc));
