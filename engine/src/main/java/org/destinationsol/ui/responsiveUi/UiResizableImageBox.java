@@ -15,13 +15,16 @@
  */
 package org.destinationsol.ui.responsiveUi;
 
-import java.util.ArrayList;
-import java.util.List;
+public class UiResizableImageBox extends UiImageBox implements UiResizableElement {
+    @Override
+    public UiResizableImageBox setWidth(int width) {
+        this.width = width;
+        return this;
+    }
 
-public class VerticalListLayout {
-    private List<UiElement> elements = new ArrayList<>();
-
-    public void add(UiElement element) {
-        elements.add(element);
+    @Override
+    public UiResizableImageBox setHeight(int height) {
+        this.height = height;
+        return this;
     }
 }

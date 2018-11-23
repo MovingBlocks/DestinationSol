@@ -16,6 +16,7 @@
 package org.destinationsol.ui;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
@@ -33,7 +34,7 @@ public class UiDrawer implements ResizeSubscriber {
         RIGHT
     }
 
-    public static final float FONT_SIZE_PX = 14f;
+    public static final float FONT_SIZE_PX = 19f;
 
     private Matrix4 straightMtx;
     private final float uiLineWidth;
@@ -90,6 +91,23 @@ public class UiDrawer implements ResizeSubscriber {
 
     public void drawString(String s, float x, float y, float scale, TextAlignment align, boolean centered, Color tint) {
         drawer.drawString(s, x, y, scale * fontSize, align, centered, tint);
+    }
+
+    /**
+     * Returns the visible length of a string when drawn.
+     *
+     * @param s The string to measure
+     * @param scale The scale of the string
+     * @return The visible length
+     */
+    public int getStringLength(String s, float scale) {
+        final GlyphLayout layout = drawer.makeFontLayout(s, scale * fontSize);
+        return (int) (layout.width * displayDimensions.getHeight());
+    }
+
+    public int getStringHeight(String s, float scale) {
+        final GlyphLayout layout = drawer.makeFontLayout(s, scale * fontSize);
+        return (int) ((layout.height) * displayDimensions.getHeight());
     }
 
     public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y, float rot, Color tint) {

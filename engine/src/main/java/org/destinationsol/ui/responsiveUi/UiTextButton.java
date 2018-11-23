@@ -25,10 +25,13 @@ import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.UiDrawer;
 
-public class UiTextButton implements UiElement {
-    public static final int BUTTON_WIDTH = 300;
-    public static final int BUTTON_HEIGHT = 75;
-    public static final int BUTTON_PADDING = 10;
+import java.util.Optional;
+//TODO re-implement using UiTextBox contained within UiActionButton, then un-deprecate
+@Deprecated
+public class UiTextButton extends AbstractUiElement implements UiResizableElement {
+    public static final int DEFAULT_BUTTON_WIDTH = 300;
+    public static final int DEFAULT_BUTTON_HEIGHT = 75;
+    public static final int DEFAULT_BUTTON_PADDING = 10;
 
     private Rectangle screenArea;
 
@@ -51,12 +54,13 @@ public class UiTextButton implements UiElement {
 
     private int x;
     private int y;
-    private int width = BUTTON_WIDTH;
-    private int height = BUTTON_HEIGHT;
+    private int width = DEFAULT_BUTTON_WIDTH;
+    private int height = DEFAULT_BUTTON_HEIGHT;
 
     // TODO: Make these optional?
     private UiCallback onClickAction; // Called *while* button is pressed
     private UiCallback onReleaseAction; // Called when button is released
+    private boolean wasResized;
 
     @Override
     public UiTextButton setPosition(int x, int y) {
@@ -68,18 +72,25 @@ public class UiTextButton implements UiElement {
         return this;
     }
 
-    public UiTextButton setDimensions(int width, int height) {
-        this.width = width;
-        this.height = height;
-
-        calculateScreenArea();
-
+    @Override
+    public UiTextButton setParent(UiContainerElement parent) {
+        this.parent = Optional.of(parent);
         return this;
     }
 
+    /**
+     * Sets the text this button displays.
+     *
+     * @param displayName Text to display
+     * @return Self for method chaining
+     */
     public UiTextButton setDisplayName(String displayName) {
         this.displayName = displayName;
-
+        if (!wasResized || width < getMinHeight()) {
+            setWidth(getDefaultWidth());
+            getParent().ifPresent(UiElement::recalculate);
+            wasResized = false;
+        }
         return this;
     }
 
@@ -304,6 +315,48 @@ public class UiTextButton implements UiElement {
 
     private void calculateScreenArea() {
         DisplayDimensions displayDimensions = SolApplication.displayDimensions;
-        screenArea = new Rectangle((x - width/2) * displayDimensions.getRatio() / displayDimensions.getWidth(), (y - height/2) / (float)displayDimensions.getHeight(), width * displayDimensions.getRatio() / displayDimensions.getWidth(), height / (float)displayDimensions.getHeight());
+        screenArea = new Rectangle(
+                displayDimensions.getFloatWidthForPixelWidth(x - width/2),
+                displayDimensions.getFloatHeightForPixelHeight(y - height/2),
+                displayDimensions.getFloatWidthForPixelWidth(width),
+                displayDimensions.getFloatHeightForPixelHeight(height)
+        );
+    }
+
+    @Override
+    public UiTextButton setWidth(int width) {
+        this.width = width;
+        wasResized = width != getMinWidth();
+        calculateScreenArea();
+
+        return this;
+    }
+
+    @Override
+    public UiTextButton setHeight(int height) {
+        this.height = height;
+        calculateScreenArea();
+
+        return this;
+    }
+
+    @Override
+    public int getMinHeight() {
+        return SolApplication.getUiDrawer().getStringHeight(displayName, FontSize.MENU) + DEFAULT_BUTTON_PADDING * 2;
+    }
+
+    @Override
+    public int getMinWidth() {
+        return SolApplication.getUiDrawer().getStringLength(displayName, FontSize.MENU) + DEFAULT_BUTTON_PADDING * 2;
+    }
+
+    @Override
+    public int getDefaultHeight() {
+        return Math.max(getMinHeight(), DEFAULT_BUTTON_HEIGHT);
+    }
+
+    @Override
+    public int getDefaultWidth() {
+        return Math.max(getMinWidth(), DEFAULT_BUTTON_WIDTH);
     }
 }

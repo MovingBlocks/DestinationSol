@@ -13,23 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.screens;
+package org.destinationsol.ui.responsiveUi;
 
-import org.destinationsol.game.SolGame;
-import org.destinationsol.game.item.ItemContainer;
-import org.destinationsol.game.item.SolItem;
-import org.destinationsol.ui.SolUiBaseScreen;
-
-public abstract class InventoryOperationsScreen {
-    abstract ItemContainer getItems(SolGame game);
-
-    boolean isUsing(SolGame game, SolItem item) {
-        return false;
+import org.destinationsol.ui.ButtonColorScheme;
+//TODO maybe think this more thoroughly and re-implement this/do this totally different way?
+public interface UiEnum<T extends UiEnum<T>> {
+    default ButtonColorScheme getColorScheme() {
+        return new ButtonColorScheme();
     }
-
-    float getPriceMul() {
-        return 1;
-    }
-
-    abstract String getHeader();
+    T getNext();
 }

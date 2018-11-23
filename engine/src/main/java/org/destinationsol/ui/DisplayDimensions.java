@@ -15,11 +15,7 @@
  */
 package org.destinationsol.ui;
 
-/**
- * Should be equal to {@code ((float) gameWindowWidth) / ((float) gameWindowHeight)}.
- * <p>
- * Old {@code r} variable in lots of places.
- */
+
 public class DisplayDimensions {
     private int width;
     private int height;
@@ -43,7 +39,20 @@ public class DisplayDimensions {
         return height;
     }
 
+    /**
+     * Should be equal to {@code ((float) gameWindowWidth) / ((float) gameWindowHeight)}.
+     * <p>
+     * Old {@code r} variable in lots of places.
+     */
     public float getRatio() {
         return ratio;
+    }
+
+    public float getFloatWidthForPixelWidth(int width) {
+        return (float) width * ratio / this.width;
+    }
+
+    public float getFloatHeightForPixelHeight(int height) {
+        return (float) height / this.height;
     }
 }

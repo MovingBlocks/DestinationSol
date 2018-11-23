@@ -13,23 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.screens;
+package org.destinationsol.ui.responsiveUi;
 
-import org.destinationsol.game.SolGame;
-import org.destinationsol.game.item.ItemContainer;
-import org.destinationsol.game.item.SolItem;
-import org.destinationsol.ui.SolUiBaseScreen;
-
-public abstract class InventoryOperationsScreen {
-    abstract ItemContainer getItems(SolGame game);
-
-    boolean isUsing(SolGame game, SolItem item) {
-        return false;
+public class UiNoneElement extends AbstractUiElement {
+    @Override
+    public UiNoneElement setPosition(int x, int y) {
+        return this;
     }
 
-    float getPriceMul() {
-        return 1;
+    @Override
+    public UiNoneElement setParent(UiContainerElement parent) {
+        return this;
     }
 
-    abstract String getHeader();
+    @Override
+    public int getX() {
+        return 0;
+    }
+
+    @Override
+    public int getY() {
+        return 0;
+    }
+
+    @Override
+    public int getWidth() {
+        return 0;
+    }
+
+    @Override
+    public int getHeight() {
+        return 0;
+    }
+
+    @Override
+    public void draw() {
+
+    }
 }

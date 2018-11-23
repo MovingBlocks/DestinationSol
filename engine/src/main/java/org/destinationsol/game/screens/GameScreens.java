@@ -31,7 +31,7 @@ public class GameScreens {
         mainGameScreen = new MainGameScreen(context);
         mapScreen = new MapScreen();
         menuScreen = new MenuScreen(cmp.getOptions());
-        inventoryScreen = new InventoryScreen(cmp.getOptions());
+        inventoryScreen = new InventoryScreen();
         talkScreen = new TalkScreen();
         console = Console.getInstance();
     }

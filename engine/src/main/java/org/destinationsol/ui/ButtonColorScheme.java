@@ -13,23 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.game.screens;
+package org.destinationsol.ui;
 
-import org.destinationsol.game.SolGame;
-import org.destinationsol.game.item.ItemContainer;
-import org.destinationsol.game.item.SolItem;
-import org.destinationsol.ui.SolUiBaseScreen;
+import com.badlogic.gdx.graphics.Color;
+import org.destinationsol.common.SolColor;
 
-public abstract class InventoryOperationsScreen {
-    abstract ItemContainer getItems(SolGame game);
-
-    boolean isUsing(SolGame game, SolItem item) {
-        return false;
-    }
-
-    float getPriceMul() {
-        return 1;
-    }
-
-    abstract String getHeader();
+public class ButtonColorScheme {
+    public Color disabled = SolColor.UI_INACTIVE;
+    public Color unselected = SolColor.UI_DARK;
+    public Color mouseOver = SolColor.UI_MED;
+    public Color clicked = SolColor.UI_LIGHT;
 }

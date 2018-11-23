@@ -101,6 +101,7 @@ public class SolApplication implements ApplicationListener {
             DebugOptions.read(null);
         }
         options = new GameOptions(isMobile(), null);
+        addResizeSubscriber(options);
 
         moduleManager = new ModuleManager();
 
@@ -256,12 +257,15 @@ public class SolApplication implements ApplicationListener {
         return instance;
     }
 
+    @Override
     public void dispose() {
         commonDrawer.dispose();
 
         if (solGame != null) {
             solGame.onGameEnd();
         }
+
+        options.save();
 
         inputManager.dispose();
     }

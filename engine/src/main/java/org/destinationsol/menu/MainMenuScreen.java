@@ -26,17 +26,20 @@ import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.ui.DisplayDimensions;
+import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.responsiveUi.UiActionButton;
 import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
+import org.destinationsol.ui.responsiveUi.UiTextBox;
 import org.destinationsol.ui.responsiveUi.UiTextButton;
 import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
 import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM;
 import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM_RIGHT;
-import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_HEIGHT;
-import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_PADDING;
-import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_WIDTH;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.DEFAULT_BUTTON_HEIGHT;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.DEFAULT_BUTTON_PADDING;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.DEFAULT_BUTTON_WIDTH;
 
 public class MainMenuScreen extends SolUiBaseScreen {
     private final TextureAtlas.AtlasRegion logoTexture;
@@ -52,28 +55,28 @@ public class MainMenuScreen extends SolUiBaseScreen {
 
         UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
-        buttonList.addElement(new UiTextButton().setDisplayName("Tutorial")
-                .setTriggerKey(Input.Keys.T)
-                .enableSound()
-                .setOnReleaseAction(uiElement -> SolApplication.getInstance().play(true, "Imperial Small", true)));
+        buttonList.addElement(new UiActionButton().addElement(new UiTextBox().setText("Tutorial").setFontSize(FontSize.MENU))
+                .setKeyCode(Input.Keys.T)
+                .setSoundEnabled(true)
+                .setAction(uiElement -> SolApplication.getInstance().play(true, "Imperial Small", true)));
 
-        buttonList.addElement(new UiTextButton().setDisplayName("Play Game")
-                .setTriggerKey(gameOptions.getKeyShoot())
-                .enableSound()
-                .setOnReleaseAction(uiElement -> SolApplication.changeScreen(SolApplication.getMenuScreens().newGameScreen)));
+        buttonList.addElement(new UiActionButton().addElement(new UiTextBox().setText("Play Game").setFontSize(FontSize.MENU))
+                .setKeyCode(gameOptions.getKeyShoot())
+                .setSoundEnabled(true)
+                .setAction(uiElement -> SolApplication.changeScreen(SolApplication.getMenuScreens().newGameScreen)));
 
         // TODO: Temporarily showing on mobile as well. Fix!
         // TODO: Actually, think about why we don't want it on mobile as well first.
         // optionsControl = new SolUiControl(isMobile ? null : menuLayout.buttonRect(-1, 3), true, Input.Keys.O);
-        buttonList.addElement(new UiTextButton().setDisplayName("Options")
-                .setTriggerKey(Input.Keys.O)
-                .enableSound()
-                .setOnReleaseAction(uiElement -> SolApplication.changeScreen(SolApplication.getMenuScreens().optionsScreen)));
+        buttonList.addElement(new UiActionButton().addElement(new UiTextBox().setText("Options").setFontSize(FontSize.MENU))
+                .setKeyCode(Input.Keys.O)
+                .setSoundEnabled(true)
+                .setAction(uiElement -> SolApplication.changeScreen(SolApplication.getMenuScreens().optionsScreen)));
 
-        buttonList.addElement(new UiTextButton().setDisplayName("Exit")
-                .setTriggerKey(gameOptions.getKeyEscape())
-                .enableSound()
-                .setOnReleaseAction(uiElement -> {
+        buttonList.addElement(new UiActionButton().addElement(new UiTextBox().setText("Exit").setFontSize(FontSize.MENU))
+                .setKeyCode(gameOptions.getKeyEscape())
+                .setSoundEnabled(true)
+                .setAction(uiElement -> {
                     // Save the settings on exit, but not on mobile as settings don't exist there.
                     if (!isMobile) {
                         SolApplication.getInstance().getOptions().save();
@@ -86,8 +89,8 @@ public class MainMenuScreen extends SolUiBaseScreen {
                 .enableSound()
                 .setOnReleaseAction(uiElement -> SolApplication.changeScreen(SolApplication.getMenuScreens().creditsScreen));
 
-        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING)
-                .addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -BUTTON_WIDTH / 2 - BUTTON_PADDING, -BUTTON_HEIGHT / 2 - BUTTON_PADDING);
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - DEFAULT_BUTTON_PADDING)
+                .addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -DEFAULT_BUTTON_WIDTH / 2 - DEFAULT_BUTTON_PADDING, -DEFAULT_BUTTON_HEIGHT / 2 - DEFAULT_BUTTON_PADDING);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
         logoTexture = Assets.getAtlasRegion("engine:mainMenuLogo", Texture.TextureFilter.Linear);

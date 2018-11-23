@@ -48,28 +48,28 @@ public class HireShipsScreen extends InventoryOperationsScreen {
         return "Mercenaries:";
     }
 
-    @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        SolGame game = solApplication.getGame();
-        InventoryScreen is = game.getScreens().inventoryScreen;
-        Hero hero = game.getHero();
-        TalkScreen talkScreen = game.getScreens().talkScreen;
-//        if (talkScreen.isTargetFar(hero)) {
-//            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
-//            return;
-//        }
-//        SolItem selItem = is.getSelectedItem();
-//        boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice();
-//        hireControl.setDisplayName(enabled ? "Hire" : "---");
-//        hireControl.setEnabled(enabled);
-//        if (!enabled) {
-//            return;
-//        }
-//        if (hireControl.isJustOff()) {
-//            boolean hired = MercenaryUtils.createMerc(game, hero, (MercItem) selItem);
-//            if (hired) {
-//                hero.setMoney(hero.getMoney() - selItem.getPrice());
-//            }
-//        }
-    }
+//    @Override
+//    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+//        SolGame game = solApplication.getGame();
+//        InventoryScreen is = game.getScreens().inventoryScreen;
+//        Hero hero = game.getHero();
+//        TalkScreen talkScreen = game.getScreens().talkScreen;
+////        if (talkScreen.isTargetFar(hero)) {
+////            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
+////            return;
+////        }
+////        SolItem selItem = is.getSelectedItem();
+////        boolean enabled = selItem != null && hero.getMoney() >= selItem.getPrice();
+////        hireControl.setDisplayName(enabled ? "Hire" : "---");
+////        hireControl.setEnabled(enabled);
+////        if (!enabled) {
+////            return;
+////        }
+////        if (hireControl.isJustOff()) {
+////            boolean hired = MercenaryUtils.createMerc(game, hero, (MercItem) selItem);
+////            if (hired) {
+////                hero.setMoney(hero.getMoney() - selItem.getPrice());
+////            }
+////        }
+//    }
 }

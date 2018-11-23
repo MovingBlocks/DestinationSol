@@ -29,7 +29,7 @@ import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
 import org.destinationsol.ui.responsiveUi.UiTextButton;
 import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
 import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM;
-import static org.destinationsol.ui.responsiveUi.UiTextButton.BUTTON_PADDING;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.DEFAULT_BUTTON_PADDING;
 
 public class OptionsScreen extends SolUiBaseScreen {
     private final TextureAtlas.AtlasRegion backgroundTexture;
@@ -60,7 +60,7 @@ public class OptionsScreen extends SolUiBaseScreen {
         buttonList.addElement(new UiTextButton().setDisplayName("Resolution")
                 .setTriggerKey(Input.Keys.R)
                 .enableSound()
-                .setOnReleaseAction(uiElement -> SolApplication.changeScreen(SolApplication.getMenuScreens().resolutionScreen)));
+                .setOnReleaseAction((uiElement) -> SolApplication.changeScreen(SolApplication.getMenuScreens().resolutionScreen)));
 
         buttonList.addElement(new UiTextButton().setDisplayName(getControlTypeString(gameOptions))
                 .setTriggerKey(Input.Keys.C)
@@ -68,6 +68,13 @@ public class OptionsScreen extends SolUiBaseScreen {
                 .setOnReleaseAction(uiElement -> {
                     gameOptions.advanceControlType(false);
                     ((UiTextButton)uiElement).setDisplayName(getControlTypeString(gameOptions));
+                }));
+
+        buttonList.addElement(new UiTextButton().setDisplayName(getFullscreenString(gameOptions))
+                .enableSound()
+                .setOnReleaseAction(uiElement -> {
+                    gameOptions.advanceFullscreen();
+                    ((UiTextButton)uiElement).setDisplayName(getFullscreenString(gameOptions));
                 }));
 
         buttonList.addElement(new UiTextButton().setDisplayName("Controls")
@@ -91,7 +98,7 @@ public class OptionsScreen extends SolUiBaseScreen {
                 .enableSound()
                 .setOnReleaseAction(uiElement -> SolApplication.changeScreen(SolApplication.getMenuScreens().mainScreen)));
 
-        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - BUTTON_PADDING);
+        rootUiElement = new UiRelativeLayout().addElement(buttonList, UI_POSITION_BOTTOM, 0, -buttonList.getHeight() / 2 - DEFAULT_BUTTON_PADDING);
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
@@ -110,6 +117,10 @@ public class OptionsScreen extends SolUiBaseScreen {
     }
 
     private String getMusicVolumeString(GameOptions gameOptions) {
-        return "Sound Volume: " + gameOptions.musicVolume.getName();
+        return "Music Volume: " + gameOptions.musicVolume.getName();
+    }
+
+    private String getFullscreenString(GameOptions gameOptions) {
+        return "Fullscreen: " + (gameOptions.fullscreen ? "On" : "Off");
     }
 }

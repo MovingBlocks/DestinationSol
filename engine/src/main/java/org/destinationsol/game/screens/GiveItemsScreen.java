@@ -52,43 +52,43 @@ public class GiveItemsScreen extends InventoryOperationsScreen {
         return "Give:";
     }
 
-    @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        SolGame game = solApplication.getGame();
-        InventoryScreen inventoryScreen = game.getScreens().inventoryScreen;
-        Hero hero = game.getHero();
-
-        SolItem selItem = inventoryScreen.getSelectedItem();
-//        if (selItem == null) {
-//            giveControl.setDisplayName("----");
-//            giveControl.setEnabled(false);
+//    @Override
+//    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+//        SolGame game = solApplication.getGame();
+//        InventoryScreen inventoryScreen = game.getScreens().inventoryScreen;
+//        Hero hero = game.getHero();
+//
+//        SolItem selItem = inventoryScreen.getSelectedItem();
+////        if (selItem == null) {
+////            giveControl.setDisplayName("----");
+////            giveControl.setEnabled(false);
+////            return;
+////        }
+//
+//        boolean isWornAndCanBeGiven = isItemEquippedAndGiveable(selItem, solApplication.getOptions());
+//        boolean enabled = isItemGiveable(selItem, target);
+//
+////        if (enabled && isWornAndCanBeGiven) {
+////            giveControl.setDisplayName("Give");
+////            giveControl.setEnabled(true);
+////        } else if (enabled) {
+////            giveControl.setDisplayName("Unequip it!");
+////            giveControl.setEnabled(false);
+////        } else {
+////            giveControl.setDisplayName("----");
+////            giveControl.setEnabled(false);
+////        }
+//
+//        if (!enabled || !isWornAndCanBeGiven) {
 //            return;
 //        }
-
-        boolean isWornAndCanBeGiven = isItemEquippedAndGiveable(selItem, solApplication.getOptions());
-        boolean enabled = isItemGiveable(selItem, target);
-
-//        if (enabled && isWornAndCanBeGiven) {
-//            giveControl.setDisplayName("Give");
-//            giveControl.setEnabled(true);
-//        } else if (enabled) {
-//            giveControl.setDisplayName("Unequip it!");
-//            giveControl.setEnabled(false);
-//        } else {
-//            giveControl.setDisplayName("----");
-//            giveControl.setEnabled(false);
-//        }
-
-        if (!enabled || !isWornAndCanBeGiven) {
-            return;
-        }
-//        if (giveControl.isJustOff()) {
-//            ItemContainer itemContainer = hero.getItemContainer();
-//            inventoryScreen.setSelected(itemContainer.getSelectionAfterRemove(inventoryScreen.getSelected()));
-//            itemContainer.remove(selItem);
-//            target.getItemContainer().add(selItem);
-//        }
-    }
+////        if (giveControl.isJustOff()) {
+////            ItemContainer itemContainer = hero.getItemContainer();
+////            inventoryScreen.setSelected(itemContainer.getSelectionAfterRemove(inventoryScreen.getSelected()));
+////            itemContainer.remove(selItem);
+////            target.getItemContainer().add(selItem);
+////        }
+//    }
 
     /**
      * Inventories can only carry 24 groups of up to 30 items each,

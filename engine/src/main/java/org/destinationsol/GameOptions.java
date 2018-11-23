@@ -16,13 +16,25 @@
 package org.destinationsol;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import org.destinationsol.menu.Resolution;
 import org.destinationsol.menu.ResolutionProvider;
 
 import static java.util.Arrays.asList;
+import org.destinationsol.ui.ResizeSubscriber;
 
-public class GameOptions {
+import java.util.Arrays;
+import java.util.Comparator;
+
+public class GameOptions implements ResizeSubscriber {
+    @Override
+    public void resize() {
+        x = SolApplication.displayDimensions.getWidth();
+        y = SolApplication.displayDimensions.getHeight();
+    }
+
     public enum ControlType {
         KEYBOARD("Keyboard"),
         MIXED("KB + Mouse"),
@@ -79,11 +91,16 @@ public class GameOptions {
 
         public Volume advance() {
             switch (this) {
-                case OFF: return LOW;
-                case LOW: return MEDIUM;
-                case MEDIUM: return HIGH;
-                case HIGH: return MAX;
-                case MAX: return OFF;
+                case OFF:
+                    return LOW;
+                case LOW:
+                    return MEDIUM;
+                case MEDIUM:
+                    return HIGH;
+                case HIGH:
+                    return MAX;
+                case MAX:
+                    return OFF;
             }
             return MAX;
         }
@@ -238,6 +255,18 @@ public class GameOptions {
     public void advanceFullscreen() {
         fullscreen = !fullscreen;
         save();
+        final Graphics.DisplayMode[] displayModes = Gdx.graphics.getDisplayModes();
+        Arrays.stream(displayModes)
+                .min((displayMode1, displayMode2) -> {
+                    int distinction1 = Math.abs(displayMode1.width - x) + Math.abs(displayMode1.height - y);
+                    int distinction2 = Math.abs(displayMode2.width - x) + Math.abs(displayMode2.height - y);
+                    return Integer.compare(distinction1, distinction2);
+                })
+                .ifPresent(displayMode -> {
+                    x = displayMode.width;
+                    y = displayMode.height;
+                });
+        Gdx.graphics.setDisplayMode(x, y, fullscreen);
     }
 
     public void advanceSoundVolMul() {

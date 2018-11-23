@@ -20,7 +20,9 @@ import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.SolApplication;
 import org.destinationsol.ui.SolInputManager;
 
-public class UiHeadlessButton implements UiElement {
+import java.util.Optional;
+
+public class UiHeadlessButton extends AbstractUiElement {
     private int triggerKey;
     private boolean isEnabled = true;
 
@@ -36,6 +38,12 @@ public class UiHeadlessButton implements UiElement {
 
     @Override
     public UiHeadlessButton setPosition(int x, int y) {
+        return this;
+    }
+
+    @Override
+    public UiHeadlessButton setParent(UiContainerElement parent) {
+        this.parent = Optional.of(parent);
         return this;
     }
 
