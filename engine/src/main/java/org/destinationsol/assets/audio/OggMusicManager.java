@@ -158,9 +158,7 @@ public class OggMusicManager {
             JSONObject rootNode = json.getJsonValue();
 
             if (rootNode.keySet().contains(shipName) && rootNode.get(shipName) instanceof JSONObject) {
-                JSONObject shipNode = rootNode.getJSONObject(shipName);
-
-                String moduleName = shipNode.getString("hull").split(":")[0];
+                String moduleName = configUrn.toString().split(":")[0];
                 Json musicJson;
 
                 try {
@@ -173,6 +171,7 @@ public class OggMusicManager {
                 MusicConfig musicConfig = MusicConfig.load(moduleName, musicJson.getJsonValue());
                 Map<String, List<String>> musicMap = musicConfig.getMusicMap();
 
+                this.musicMap.remove(MENU_MUSIC_SET);
                 for (String music : musicMap.get(MENU_MUSIC_SET)) {
                     registerMusic(MENU_MUSIC_SET, music);
                 }
@@ -196,10 +195,10 @@ public class OggMusicManager {
             Json musicJson = Assets.getJson(urn);
             JSONObject musicNode = musicJson.getJsonValue();
 
-            for (Object o : musicNode.getJSONArray("menuMusic")) {
-                if (!(o instanceof String))
+            for (Object musicFileName : musicNode.getJSONArray("menuMusic")) {
+                if (!(musicFileName instanceof String))
                     break;
-                String music = (String) o;
+                String music = (String) musicFileName;
                 registerMusic(MENU_MUSIC_SET, urn.split(":")[0] + ":" + music);
             }
         }
