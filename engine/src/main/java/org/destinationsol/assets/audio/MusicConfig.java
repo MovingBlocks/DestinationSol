@@ -23,6 +23,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Extracts music files from the musicConfig.json and stores them in a music map.
+ *
+ * A music map contains 2 lists, "gameMusic" and "menuMusic" with the respective music files, it is then passed on to OggMusicManager to be played.
+ */
 public class MusicConfig {
     public final String moduleName;
     public final Map<String, List<String>> musicMap;
@@ -39,15 +44,15 @@ public class MusicConfig {
         JSONArray menuMusicArray = config.getJSONArray("menuMusic");
         JSONArray gameMusicArray = config.getJSONArray("gameMusic");
 
-        for (Object o : menuMusicArray) {
-            if (o instanceof String) {
-                menuMusicSet.add(moduleName + ":" + o);
+        for (Object musicFileName : menuMusicArray) {
+            if (musicFileName instanceof String) {
+                menuMusicSet.add(moduleName + ":" + musicFileName);
             }
         }
 
-        for (Object o : gameMusicArray) {
-            if (o instanceof String) {
-                gameMusicSet.add(moduleName + ":" + o);
+        for (Object musicFileName : gameMusicArray) {
+            if (musicFileName instanceof String) {
+                gameMusicSet.add(moduleName + ":" + musicFileName);
             }
         }
 
