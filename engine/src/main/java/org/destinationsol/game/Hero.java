@@ -23,7 +23,6 @@ import org.destinationsol.game.item.Armor;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.item.TradeContainer;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.SolShip;
