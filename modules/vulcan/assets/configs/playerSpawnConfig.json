@@ -1,0 +1,7 @@
+{
+    "vulcan Medium": {
+	    "hull": "vulcan:vulcanMedium",
+	    "items": "3*rep core:lightArmor-1 core:smallShield-1 federal:dualBlaster-1",
+	    "money": 2000
+    }
+}
