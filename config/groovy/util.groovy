@@ -228,8 +228,11 @@ def printUsage() {
     println "Example: 'groovyw module create MySpaceShips' - would create that module"
     println "Example: 'groovyw module get caution - remote vampcat - would retrieve caution module from vampcat's account on github.'"
     println "Example: 'groovyw module get *' - would retrieve all the modules in the DestinationSol organisation on GitHub."
-    println "Example: 'groovyw module get *de*' - would retrieve all the modules in the DestinationSol organisation on GitHub" +
-            " that have the letter-pair \"de\" next somewhere within them."
+    println "Example: 'groovyw module get ?r*' - would retrieve all the modules in the DestinationSol organisation on GitHub" +
+            " that start with any single character, then an \"r\" and then end with anything else." +
+            " This should retrieve the draconic, organic and tribe repositories from the DestinationSol organisation on GitHub."
+    println ""
+    println "*NOTE*: On UNIX platforms (MacOS and Linux), the wildcard arguments must be escaped with single quotes e.g. groovyw module get '*'."
     println ""
     println "*NOTE*: Item names are case sensitive. If you add items then `gradlew idea` or similar may be needed to refresh your IDE"
     println ""
