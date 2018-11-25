@@ -48,7 +48,7 @@ public class PositionCommandHandler implements ConsoleInputHandler {
         BOLD,
         /**
          * The default formatting of the position, used internally by the engine.
-         * @see Vector2.toString()
+         * @see Vector2#toString()
          */
         INTERNAL
     }
@@ -60,12 +60,12 @@ public class PositionCommandHandler implements ConsoleInputHandler {
     public Hero hero;
     /**
      * The character that the bars will consist of when outputting in the BOLD format
-     * @see PositionFormat.BOLD
+     * @see PositionFormat#BOLD
      */
     private final char boldLineCharacter = '*';
     /**
      * The number of additional characters to add to the bars when outputting in the BOLD format
-     * @see PositionFormat.BOLD
+     * @see PositionFormat#BOLD
      */
     private final int boldExtraCharacters = 6;
     private final PositionFormat defaultFormat = PositionFormat.TERSE;
