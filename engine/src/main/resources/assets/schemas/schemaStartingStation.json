@@ -19,7 +19,8 @@
     },
     "items": {
       "type": "string",
-      "description": "Space separated list of items ship possesses. See /docs/items.txt for more detailed explanation."
+      "description": "Space separated list of items ship possesses. See /docs/items.txt for more detailed explanation.",
+      "pattern": "^(((0(\\.\\d+)?|1\\.0)\\|)?(\\d+\\*)?(\\w+(:\\w+)?(-[12])?)(\\+(\\w+(:\\w+)?(-[12])?))*)( ((0(\\.\\d+)?|1\\.0)\\|)?(\\d+\\*)?(\\w+(:\\w+)?(-[12])?)(\\+(\\w+(:\\w+)?(-[12])?))*)* ?$"
     },
     "money": {
       "type": "integer",

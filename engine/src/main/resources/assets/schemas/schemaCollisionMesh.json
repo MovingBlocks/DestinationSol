@@ -11,7 +11,7 @@
           "name": {
             "type": "string",
             "description": "Identifying id of this collision mesh.",
-            "pattern": "^\\w+:\\w+$"
+            "pattern": "^[\\w:._]+$"
           },
           "origin": {
             "description": "The normalized coordinates of the reference point for this collision mesh.",
