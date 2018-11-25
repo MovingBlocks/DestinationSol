@@ -2,7 +2,6 @@
     "rigidBodies": [
         {
             "name": "fd_0.png",
-            "imagePath": "../../../imgSrcs/grounds/rocky/fd_0.png",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -96,7 +95,6 @@
         },
         {
             "name": "fd_1.png",
-            "imagePath": "../../../imgSrcs/grounds/rocky/fd_1.png",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -190,7 +188,6 @@
         },
         {
             "name": "ff_0.png",
-            "imagePath": "../../../imgSrcs/grounds/rocky/ff_0.png",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -276,7 +273,6 @@
         },
         {
             "name": "ff_1.png",
-            "imagePath": "../../../imgSrcs/grounds/rocky/ff_1.png",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -406,7 +402,6 @@
         },
         {
             "name": "ud_0.png",
-            "imagePath": "../../../imgSrcs/grounds/rocky/ud_0.png",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -518,7 +513,6 @@
         },
         {
             "name": "ud_1.png",
-            "imagePath": "../../../imgSrcs/grounds/rocky/ud_1.png",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -682,7 +676,6 @@
         },
         {
             "name": "uf_0.png",
-            "imagePath": "../../../imgSrcs/grounds/rocky/uf_0.png",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -784,7 +777,6 @@
         },
         {
             "name": "uf_1.png",
-            "imagePath": "../../../imgSrcs/grounds/rocky/uf_1.png",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -910,7 +902,6 @@
         },
         {
             "name": "uu_0.png",
-            "imagePath": "../../../imgSrcs/grounds/rocky/uu_0.png",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -921,7 +912,6 @@
         },
         {
             "name": "uu_1.png",
-            "imagePath": "../../../imgSrcs/grounds/rocky/uu_1.png",
             "origin": {
                 "x": 0,
                 "y": 0

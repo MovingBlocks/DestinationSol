@@ -17,9 +17,10 @@ If you add unit tests we'll love you forever! -->
 > Include any extra notes here
 
 ### Pre Pull Request Checklist:
-<!-- When scanning the code with SonarLint, just don't introduce any new issues, and maybe even fix a few existing ones -->
+<!-- When scanning the code with SonarLint, just don't introduce any new issues, and maybe even fix a few existing ones. 
+If the code looks good to you and you have already at least some experience writing java, you can even completely skip 
+this step -->
 - [ ] Code has been scanned with [SonarLint](http://www.sonarlint.org/intellij/)
-- [ ] Methods have been annotated with @ Nullable and @ Nonnull ([Read more](https://github.com/MovingBlocks/DestinationSol/wiki/@Nullable-&-@Nonnull-Quickstart))
 - [ ] There are no errors present in the project
 - [ ] Code has been formatted and indented
 - [ ] Methods have appropriate Javadoc ([How to write Javadoc](http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html))

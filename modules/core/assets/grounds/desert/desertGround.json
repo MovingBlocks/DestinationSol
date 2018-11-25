@@ -2,7 +2,6 @@
     "rigidBodies": [
         {
             "name": "fd_0.png",
-            "imagePath": "../../../imgSrcs/grounds/desert/fd_0.png",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -54,7 +53,6 @@
         },
         {
             "name": "ff_0.png",
-            "imagePath": "../../../imgSrcs/grounds/desert/ff_0.png",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -132,7 +130,6 @@
         },
         {
             "name": "ff_1.png",
-            "imagePath": "../../../imgSrcs/grounds/desert/ff_1.png",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -236,7 +233,6 @@
         },
         {
             "name": "ff_2.png",
-            "imagePath": "../../../imgSrcs/grounds/desert/ff_2.png",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -304,7 +300,6 @@
         },
         {
             "name": "ud_0.png",
-            "imagePath": "../../../imgSrcs/grounds/desert/ud_0.png",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -382,7 +377,6 @@
         },
         {
             "name": "uf_0.png",
-            "imagePath": "../../../imgSrcs/grounds/desert/uf_0.png",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -460,7 +454,6 @@
         },
         {
             "name": "uu_0.png",
-            "imagePath": "../../../imgSrcs/grounds/desert/uu_0.png",
             "origin": {
                 "x": 0,
                 "y": 0
@@ -471,7 +464,6 @@
         },
         {
             "name": "uu_1.png",
-            "imagePath": "../../../imgSrcs/grounds/desert/uu_1.png",
             "origin": {
                 "x": 0,
                 "y": 0
