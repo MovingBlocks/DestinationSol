@@ -101,7 +101,7 @@ public class SolApplication implements ApplicationListener {
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();
 
-        musicManager = new OggMusicManager();
+        musicManager = new OggMusicManager(options);
         soundManager = new OggSoundManager(context);
         inputManager = new SolInputManager(soundManager);
 
@@ -211,8 +211,6 @@ public class SolApplication implements ApplicationListener {
 
         inputManager.setScreen(this, menuScreens.loading);
         menuScreens.loading.setMode(tut, shipName, isNewGame);
-        musicManager.registerModuleMusic(shipName);
-        musicManager.playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 
     public void play(boolean tut, String shipName, boolean isNewGame) {
@@ -224,8 +222,6 @@ public class SolApplication implements ApplicationListener {
 
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
-        musicManager.registerModuleMusic(shipName);
-        musicManager.playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 
     public SolInputManager getInputManager() {
@@ -277,7 +273,9 @@ public class SolApplication implements ApplicationListener {
     }
 
 
-     /** This method is called when the "New Game" button gets pressed. It sets the seed for random generation, and the number of systems */
+    /**
+     * This method is called when the "New Game" button gets pressed. It sets the seed for random generation, and the number of systems
+     */
     private void beforeNewGame() {
         // Reset the seed so this galaxy isn't the same as the last
         worldConfig.setSeed(System.currentTimeMillis());
@@ -286,7 +284,9 @@ public class SolApplication implements ApplicationListener {
         worldConfig.setNumberOfSystems(getMenuScreens().newShip.getNumberOfSystems());
     }
 
-     /** This method is called when the "Continue" button gets pressed. It loads the world file to get the seed used for the world generation, and the number of systems */
+    /**
+     * This method is called when the "Continue" button gets pressed. It loads the world file to get the seed used for the world generation, and the number of systems
+     */
     private void beforeLoadGame() {
         WorldConfig config = SaveManager.loadWorld();
         if (config != null) {
