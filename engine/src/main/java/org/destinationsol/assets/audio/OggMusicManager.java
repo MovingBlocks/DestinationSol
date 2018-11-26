@@ -213,7 +213,7 @@ public class OggMusicManager {
      * Unregisters all Module Music
      */
     public void unregisterModuleMusic() {
-        musicMap.get(GAME_MUSIC_SET).remove(0);
+        musicMap.get(GAME_MUSIC_SET).clear();
         registerMusic(GAME_MUSIC_SET, "engine:cimmerianDawn");
         registerMusic(GAME_MUSIC_SET, "engine:intoTheDark");
         registerMusic(GAME_MUSIC_SET, "engine:spaceTheatre");
