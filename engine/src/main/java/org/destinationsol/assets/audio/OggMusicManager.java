@@ -50,7 +50,6 @@ public class OggMusicManager {
      */
     public OggMusicManager(GameOptions options) {
         musicMap = new HashMap<>();
-        registerMusic(MENU_MUSIC_SET, "engine:dreadnaught");
         registerMusic(GAME_MUSIC_SET, "engine:cimmerianDawn");
         registerMusic(GAME_MUSIC_SET, "engine:intoTheDark");
         registerMusic(GAME_MUSIC_SET, "engine:spaceTheatre");
@@ -204,6 +203,8 @@ public class OggMusicManager {
                 registerMusic(MENU_MUSIC_SET, urnString.split(":")[0] + ":" + music);
             }
         }
+
+        registerMusic(MENU_MUSIC_SET, "engine:dreadnaught");
         //Skips to module music
         playMusicTrack(musicMap.get(MENU_MUSIC_SET).get(0), options);
     }
@@ -212,16 +213,10 @@ public class OggMusicManager {
      * Unregisters all Module Music
      */
     public void unregisterModuleMusic() {
-        Json musicJson = Assets.getJson(currentlyRegisteredModule + ":musicConfig");
-        MusicConfig musicConfig = MusicConfig.load(currentlyRegisteredModule, musicJson.getJsonValue());
-        Map<String, List<String>> musicMap = musicConfig.getMusicMap();
-
-        int gameMusicSize = musicMap.get(GAME_MUSIC_SET).size();
-        int menuMusicSize = musicMap.get(MENU_MUSIC_SET).size();
-
-        for (int i = 1; i <= gameMusicSize; i++) {
-            this.musicMap.get(GAME_MUSIC_SET).remove(this.musicMap.get(GAME_MUSIC_SET).size() - 1);
-        }
+        musicMap.get(GAME_MUSIC_SET).remove(0);
+        registerMusic(GAME_MUSIC_SET, "engine:cimmerianDawn");
+        registerMusic(GAME_MUSIC_SET, "engine:intoTheDark");
+        registerMusic(GAME_MUSIC_SET, "engine:spaceTheatre");
 
     }
 
