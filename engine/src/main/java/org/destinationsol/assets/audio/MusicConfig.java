@@ -25,7 +25,7 @@ import java.util.Map;
 
 /**
  * Extracts music files from the musicConfig.json and stores them in a music map.
- *
+ * 
  * A music map contains 2 lists, "gameMusic" and "menuMusic" with the respective music files, it is then passed on to OggMusicManager to be played.
  */
 public class MusicConfig {

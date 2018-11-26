@@ -113,6 +113,6 @@ public class ChangeShipScreen extends InventoryOperationsScreen {
                 ei, new ShipRepairer(), hero.getMoney(), null, hero.getShield(), hero.getArmor());
         game.getObjectManager().removeObjDelayed(hero.getShip());
         game.getObjectManager().addObjDelayed(newHero);
-        game.getHero().setSolShip(newHero);
+        game.getHero().setSolShip(newHero, game);
     }
 }
