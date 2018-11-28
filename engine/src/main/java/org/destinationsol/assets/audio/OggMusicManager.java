@@ -164,8 +164,11 @@ public class OggMusicManager {
         }
 
         if (Assets.getAssetHelper().list(Json.class, moduleName + ":musicConfig").isEmpty()) {
-            logger.warn("Music config not found for module " + moduleName + ":musicConfig");
             return;
+        }
+        else
+        {
+            logger.info("Music Config found for module " + moduleName);
         }
 
         Json musicJson = Assets.getJson(moduleName + ":musicConfig");
@@ -197,8 +200,9 @@ public class OggMusicManager {
             JSONObject musicNode = musicJson.getJsonValue();
 
             for (Object musicFileName : musicNode.getJSONArray("menuMusic")) {
-                if (!(musicFileName instanceof String))
+                if (!(musicFileName instanceof String)) {
                     break;
+                }
                 String music = (String) musicFileName;
                 registerMusic(MENU_MUSIC_SET, urnString.split(":")[0] + ":" + music);
             }
