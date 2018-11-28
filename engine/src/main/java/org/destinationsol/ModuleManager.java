@@ -23,21 +23,21 @@ import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.emitters.Emitter;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.textures.DSTexture;
+import org.destinationsol.game.Console;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.console.ConsoleInputHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.assets.ResourceUrn;
-import org.terasology.module.Module;
-import org.terasology.module.ModuleEnvironment;
-import org.terasology.module.ModuleFactory;
-import org.terasology.module.ModulePathScanner;
-import org.terasology.module.ModuleRegistry;
-import org.terasology.module.TableModuleRegistry;
-import org.terasology.module.sandbox.StandardPermissionProviderFactory;
+import org.terasology.module.*;
+import org.terasology.module.sandbox.*;
+import org.terasology.naming.Name;
+import org.terasology.naming.Version;
 
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Policy;
 import java.util.Set;
 
 public class ModuleManager {
@@ -45,11 +45,15 @@ public class ModuleManager {
 
     private ModuleEnvironment environment;
     private ModuleRegistry registry;
+    private Module engineModule;
 
     public ModuleManager() {
         try {
             URI engineClasspath = getClass().getProtectionDomain().getCodeSource().getLocation().toURI();
-            Module engineModule = new ModuleFactory().createModule(Paths.get(engineClasspath));
+            ModuleMetadata engineMetadata = new ModuleMetadata();
+            engineMetadata.setId(new Name("engine"));
+            engineMetadata.setVersion(Version.DEFAULT);
+            engineModule = new ModuleFactory().createClasspathModule(engineMetadata, true, getClass());
 
             registry = new TableModuleRegistry();
             Path modulesRoot;
@@ -71,8 +75,25 @@ public class ModuleManager {
     }
 
     public void loadEnvironment(Set<Module> modules) {
-        environment = new ModuleEnvironment(modules, new StandardPermissionProviderFactory());
+        StandardPermissionProviderFactory permissionFactory = new StandardPermissionProviderFactory();
+        permissionFactory.getBasePermissionSet().addAPIPackage(engineModule.toString());
+        permissionFactory.getBasePermissionSet().addAPIPackage("java.lang");
+        APIScanner scanner = new APIScanner(permissionFactory);
+        scanner.scan(registry);
+        scanner.scan(engineModule);
+        Policy.setPolicy(new ModuleSecurityPolicy());
+        System.setSecurityManager(new ModuleSecurityManager());
+        environment = new ModuleEnvironment(modules, permissionFactory);
         Assets.initialize(environment);
+
+        for (Class commandHandler : environment.getSubtypesOf(ConsoleInputHandler.class)) {
+            String commandName = commandHandler.getSimpleName().replace("Command", "");
+            try {
+                Console.getInstance().getDefaultInputHandler().registerCommand(commandName, (ConsoleInputHandler) commandHandler.newInstance());
+            } catch (Exception e) {
+                logger.error("Error creating instance of class " + commandHandler.getTypeName());
+            }
+        }
     }
 
     public ModuleEnvironment getEnvironment() {
