@@ -76,7 +76,7 @@ public class Hero {
         }
         GameOptions options = solGame.getSolApplication().getOptions();
         //Satisfying unit tests
-        if(hero != null)
+        if(hero.getHull() != null)
             solGame.getSolApplication().getMusicManager().registerModuleMusic(hero.getHull().getHullConfig().getInternalName().split(":")[0], options);
         solGame.getSolApplication().getMusicManager().playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
