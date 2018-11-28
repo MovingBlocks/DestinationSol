@@ -29,6 +29,8 @@ import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A wrapper class for the Hero, that handles the normal and transcendent ships transparently.
@@ -73,7 +75,9 @@ public class Hero {
             throw new SolException("Hero is not supposed to have TradeContainer.");
         }
         GameOptions options = solGame.getSolApplication().getOptions();
-        solGame.getSolApplication().getMusicManager().registerModuleMusic(hero.getHull().getHullConfig().getInternalName().split(":")[0], options);
+        //Satisfying unit tests
+        if(hero.getHull().getHullConfig().getInternalName() != null)
+            solGame.getSolApplication().getMusicManager().registerModuleMusic(hero.getHull().getHullConfig().getInternalName().split(":")[0], options);
         solGame.getSolApplication().getMusicManager().playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 
