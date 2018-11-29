@@ -52,12 +52,11 @@ public class CreditsScreen extends SolUiBaseScreen {
         displayDimensions = SolApplication.displayDimensions;
 
         SolInputManager inputManager = SolApplication.getInputManager();
-        MenuScreens menuScreens = SolApplication.getMenuScreens();
 
         UiTextButton creditsButton = new UiTextButton().setDisplayName("Back")
                 .setTriggerKey(gameOptions.getKeyEscape())
                 .enableSound()
-                .setOnReleaseAction(uiElement -> inputManager.changeScreen(menuScreens.mainScreen));
+                .setOnReleaseAction(uiElement -> inputManager.changeScreen(SolApplication.getMenuScreens().mainScreen));
 
         rootUiElement = new UiRelativeLayout().addElement(creditsButton, UI_POSITION_BOTTOM_RIGHT, -DEFAULT_BUTTON_WIDTH / 2 - DEFAULT_BUTTON_PADDING, -DEFAULT_BUTTON_HEIGHT / 2 - DEFAULT_BUTTON_PADDING);
 

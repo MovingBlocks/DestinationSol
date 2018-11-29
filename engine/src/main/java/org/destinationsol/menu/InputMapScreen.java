@@ -17,9 +17,9 @@ package org.destinationsol.menu;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
+
 import java.util.List;
+
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
@@ -30,100 +30,38 @@ import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.responsiveUi.UiHeadlessButton;
+import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
+import org.destinationsol.ui.responsiveUi.UiTextButton;
+import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
+
+import static org.destinationsol.ui.UiDrawer.UI_POSITION_BOTTOM;
+import static org.destinationsol.ui.UiDrawer.UI_POSITION_TOP;
+import static org.destinationsol.ui.UiDrawer.UI_POSITION_LEFT;
+import static org.destinationsol.ui.UiDrawer.UI_POSITION_RIGHT;
+import static org.destinationsol.ui.responsiveUi.UiTextButton.DEFAULT_BUTTON_PADDING;
 
 /**
  * <h1>Config Screen to Change Input Mapping</h1>
  * The input mapping screen is based on the inventory screen used within the game.
  */
 public class InputMapScreen extends SolUiBaseScreen {
-    private static final float IMG_COL_PERC = .1f;
-    private static final float EQUI_COL_PERC = .1f;
-    private static final float PRICE_COL_PERC = .1f;
-    private static final float AMT_COL_PERC = .1f;
-    private static final float SMALL_GAP = .004f;
-    private static final float HEADER_TEXT_OFFSET = .005f;
-    private static final int BUTTON_ROWS = 4;
+    private static final String BUTTON_STRING_PADDING = "          ";
     final InputMapKeyboardScreen inputMapKeyboardScreen;
     final InputMapControllerScreen inputMapControllerScreen;
     final InputMapMixedScreen inputMapMixedScreen;
     private final TextureAtlas.AtlasRegion backgroundTexture;
-//    private final SolUiControl previousControl;
-//    private final SolUiControl nextControl;
-////    private final SolUiControl cancelControl;
-//    private final SolUiControl saveControl;
-//    private final SolUiControl defaultsControl;
-//    private final SolUiControl upControl;
-//    private final SolUiControl downControl;
 
     private DisplayDimensions displayDimensions;
 
-    private final Vector2 listHeaderPos;
-    private final Rectangle listArea;
-    private final Rectangle detailsArea;
-    private final Rectangle itemControlsArea;
     private InputMapOperations operations;
     private int page;
     private int selectedIndex;
+    private UiVerticalListLayout itemsLayout;
+    private boolean waitingForKey;
 
-    InputMapScreen(GameOptions gameOptions) {
+    InputMapScreen() {
         displayDimensions = SolApplication.displayDimensions;
-
-        float contentW = .8f;
-        float col0 = displayDimensions.getRatio() / 2 - contentW / 2;
-        float row = 0.2f;
-        float bigGap = SMALL_GAP * 6;
-        float headerH = .03f;
-
-        // List header & controls
-        listHeaderPos = new Vector2(col0 + HEADER_TEXT_OFFSET, row + HEADER_TEXT_OFFSET); // offset hack
-        float listCtrlW = contentW * .15f;
-        Rectangle nextArea = new Rectangle(col0 + contentW - listCtrlW, row, listCtrlW, headerH);
-//        nextControl = new SolUiControl(nextArea, true, gameOptions.getKeyRight());
-//        nextControl.setDisplayName(">");
-//        controls.add(nextControl);
-        Rectangle prevArea = new Rectangle(nextArea.x - SMALL_GAP - listCtrlW, row, listCtrlW, headerH);
-//        previousControl = new SolUiControl(prevArea, true, gameOptions.getKeyLeft());
-//        previousControl.setDisplayName("<");
-//        controls.add(previousControl);
-        row += headerH + SMALL_GAP;
-
-        // List
-        float itemRowH = .04f;
-        float listRow0 = row;
-        for (int i = 0; i < Const.ITEM_GROUPS_PER_PAGE; i++) {
-            Rectangle itemR = new Rectangle(col0, row, contentW, itemRowH);
-//            SolUiControl itemCtrl = new SolUiControl(itemR, true);
-//            itemControls[i] = itemCtrl;
-//            controls.add(itemCtrl);
-            row += itemRowH + SMALL_GAP;
-        }
-        listArea = new Rectangle(col0, row, contentW, row - SMALL_GAP - listRow0);
-        row += bigGap;
-
-        // Detail header & area
-        row += headerH + SMALL_GAP;
-        float itemCtrlAreaW = contentW * .4f;
-        itemControlsArea = new Rectangle(col0 + contentW - itemCtrlAreaW, row, itemCtrlAreaW, .2f);
-        detailsArea = new Rectangle(col0, row, contentW - itemCtrlAreaW - SMALL_GAP, itemControlsArea.height);
-        // row += detailsArea.height;
-
-//        // Add the buttons and controls
-//        cancelControl = new SolUiControl(itemControlRectangle(3), true, gameOptions.getKeyClose());
-//        cancelControl.setDisplayName("Cancel");
-//        controls.add(cancelControl);
-//
-//        saveControl = new SolUiControl(itemControlRectangle(2), true);
-//        saveControl.setDisplayName("Save");
-//        controls.add(saveControl);
-//
-//        defaultsControl = new SolUiControl(itemControlRectangle(1), true);
-//        defaultsControl.setDisplayName("Defaults");
-//        controls.add(defaultsControl);
-//
-//        upControl = new SolUiControl(null, true, gameOptions.getKeyUp());
-//        controls.add(upControl);
-//        downControl = new SolUiControl(null, true, gameOptions.getKeyDown());
-//        controls.add(downControl);
 
         // Create the input screens
         inputMapKeyboardScreen = new InputMapKeyboardScreen();
@@ -131,52 +69,12 @@ public class InputMapScreen extends SolUiBaseScreen {
         inputMapMixedScreen = new InputMapMixedScreen();
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
+        rootUiElement = new UiRelativeLayout();
     }
 
     @Override
     public void updateCustom(SolApplication cmp, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         GameOptions gameOptions = cmp.getOptions();
-        SolInputManager im = cmp.getInputManager();
-        MenuScreens menuScreens = cmp.getMenuScreens();
-
-        // Save - saves new settings and returns to the options screen
-//        if (saveControl.isJustOff()) {
-//            operations.save(gameOptions);
-////            im.setScreen(cmp, screens.optionsScreen);
-//        }
-//
-//        if (cancelControl.isJustOff()) {
-//            if (operations.isEnterNewKey()) {
-//                // Cancel - cancel the current key being entered
-//                operations.setEnterNewKey(false);
-//            } else {
-//                // Cancel - return to options screen without saving
-////                im.setScreen(cmp, screens.optionsScreen);
-//            }
-//        }
-//
-//        // Disable handling of key inputs while entering a new input key
-//        if (operations.isEnterNewKey()) {
-//            previousControl.setEnabled(false);
-//            nextControl.setEnabled(false);
-//            upControl.setEnabled(false);
-//            downControl.setEnabled(false);
-//            for (SolUiControl itemControl : itemControls) {
-//                itemControl.setEnabled(false);
-//            }
-//            return;
-//        } else {
-//            upControl.setEnabled(true);
-//            downControl.setEnabled(true);
-//            for (SolUiControl itemControl : itemControls) {
-//                itemControl.setEnabled(true);
-//            }
-//        }
-
-        // Defaults - Reset the input keys back to their default values
-//        if (defaultsControl.isJustOff()) {
-//            operations.resetToDefaults(gameOptions);
-//        }
 
         // Selected Item Control
         List<InputConfigItem> itemsList = operations.getItems(gameOptions);
@@ -186,14 +84,6 @@ public class InputMapScreen extends SolUiBaseScreen {
         // Select the item the mouse clicked
         int offset = page * Const.ITEM_GROUPS_PER_PAGE;
 
-
-        // Left and Right Page Control
-//        if (previousControl.isJustOff()) {
-//            page--;
-//        }
-//        if (nextControl.isJustOff()) {
-//            page++;
-//        }
         if (pageCount == 0 || pageCount * Const.ITEM_GROUPS_PER_PAGE < groupCount) {
             pageCount += 1;
         }
@@ -203,80 +93,148 @@ public class InputMapScreen extends SolUiBaseScreen {
         if (page >= pageCount) {
             page = pageCount - 1;
         }
-//        previousControl.setEnabled(0 < page);
-//        nextControl.setEnabled(page < pageCount - 1);
 
         // Ensure Selected item is on page
         if (selectedIndex < offset || selectedIndex >= offset + Const.ITEM_GROUPS_PER_PAGE) {
             selectedIndex = offset;
         }
 
-        // Up and Down Control
-//        if (upControl.isJustOff()) {
-//            selectedIndex--;
-//            if (selectedIndex < 0) {
-//                selectedIndex = 0;
-//            }
-//            if (selectedIndex < offset) {
-//                page--;
-//            }
-//        }
-//        if (downControl.isJustOff()) {
-//            selectedIndex++;
-//            if (selectedIndex >= groupCount) {
-//                selectedIndex = groupCount - 1;
-//            }
-//            if (selectedIndex >= offset + Const.ITEM_GROUPS_PER_PAGE) {
-//                page++;
-//            }
-//            if (page >= pageCount) {
-//                page = pageCount - 1;
-//            }
-//        }
+        if (waitingForKey && !operations.isEnterNewKey()) {
+            populateItemScreen();
+            waitingForKey = false;
+        }
 
         // Inform the input screen which item is selected
         operations.setSelectedIndex(selectedIndex);
     }
 
     public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
+        uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2,
+                0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     @Override
     public void draw(UiDrawer uiDrawer, SolApplication solApplication) {
-        GameOptions gameOptions = solApplication.getOptions();
-        List<InputConfigItem> list = operations.getItems(gameOptions);
-
-        float imgColW = listArea.width * IMG_COL_PERC;
-        float equiColW = listArea.width * EQUI_COL_PERC;
-        float priceWidth = listArea.width * PRICE_COL_PERC;
-        float amtWidth = listArea.width * AMT_COL_PERC;
-        float nameWidth = listArea.width - imgColW - equiColW - priceWidth - amtWidth;
-
         // Draw the header title
-        uiDrawer.drawString(operations.getHeader(), listHeaderPos.x, listHeaderPos.y, FontSize.WINDOW, false, SolColor.WHITE);
+        uiDrawer.drawString(operations.getHeader(),
+                displayDimensions.getFloatWidthForPixelWidth(uiDrawer.getStringLength(operations.getHeader(), FontSize.WINDOW)) / 2,
+                0.01f, FontSize.WINDOW, false, SolColor.WHITE);
 
         // Draw the detail text
-        uiDrawer.drawString(operations.getDisplayDetail(), detailsArea.x + .015f, detailsArea.y + .015f, FontSize.WINDOW, false, SolColor.WHITE);
+        uiDrawer.drawString(operations.getDisplayDetail(),
+                displayDimensions.getFloatWidthForPixelWidth(uiDrawer.getStringLength(operations.getHeader(), FontSize.WINDOW)) / 2,
+                0.25f, FontSize.WINDOW, false, SolColor.WHITE);
     }
 
     @Override
     public void onAdd(SolApplication solApplication) {
+        rootUiElement = new UiRelativeLayout();
+
         // Add any extra screen information as required by the input screens. E.g. buttons
         if (operations != null) {
             solApplication.getInputManager().addScreen(operations);
+            solApplication.getInputManager().update(solApplication);
+            GameOptions gameOptions = solApplication.getOptions();
+
+            UiVerticalListLayout screenLayout = new UiVerticalListLayout();
+            UiRelativeLayout nextButtonsLayout = new UiRelativeLayout();
+            UiTextButton nextButton = new UiTextButton();
+            UiTextButton lastButton = new UiTextButton();
+            nextButton.setDisplayName(">");
+            nextButton.setOnReleaseAction(uiElement -> {
+                page++;
+                lastButton.setEnabled(page > 0);
+                nextButton.setEnabled(page < operations.getItems(gameOptions).size() / Const.ITEM_GROUPS_PER_PAGE);
+                populateItemScreen();
+            });
+            nextButton.setHeight(30).setWidth(40);
+            lastButton.setDisplayName("<");
+            lastButton.setOnReleaseAction(uiElement -> {
+                page--;
+                lastButton.setEnabled(page > 0);
+                nextButton.setEnabled(page < operations.getItems(gameOptions).size() / Const.ITEM_GROUPS_PER_PAGE);
+                populateItemScreen();
+            });
+            lastButton.setHeight(30).setWidth(40);
+            lastButton.setEnabled(page > 0);
+
+            if (itemsLayout == null) {
+                itemsLayout = new UiVerticalListLayout();
+            } else {
+                itemsLayout.clearElements();
+            }
+            populateItemScreen();
+            screenLayout.addElement(itemsLayout);
+
+            screenLayout.addElement(new UiHeadlessButton());
+
+            UiTextButton defaultsButton = new UiTextButton()
+                    .setDisplayName("Defaults")
+                    .setHeight(30)
+                    .setOnReleaseAction(uiElement -> {
+                        operations.resetToDefaults(gameOptions);
+                        populateItemScreen();
+                    });
+            screenLayout.addElement(defaultsButton);
+
+            UiTextButton saveButton = new UiTextButton()
+                    .setDisplayName("Save")
+                    .setHeight(30)
+                    .setOnReleaseAction(uiElement -> {
+                        operations.save(gameOptions);
+                        SolApplication.changeScreen(SolApplication.getMenuScreens().optionsScreen);
+                    });
+            screenLayout.addElement(saveButton);
+
+            UiTextButton cancelButton = new UiTextButton()
+                    .setDisplayName("Cancel")
+                    .setOnReleaseAction(uiElement -> {
+                        if (waitingForKey) {
+                            operations.setEnterNewKey(false);
+                            return;
+                        }
+                        SolApplication.changeScreen(SolApplication.getMenuScreens().optionsScreen);
+                    });
+            cancelButton.setHeight(30);
+            screenLayout.addElement(cancelButton);
+
+            nextButtonsLayout.addElement(nextButton, UI_POSITION_RIGHT, -nextButton.getWidth(), screenLayout.getY());
+            nextButtonsLayout.addElement(lastButton, UI_POSITION_LEFT, lastButton.getWidth(), screenLayout.getY());
+
+            ((UiRelativeLayout) rootUiElement).addElement(nextButtonsLayout, UI_POSITION_TOP, 0, -nextButtonsLayout.getHeight() / 2 - DEFAULT_BUTTON_PADDING * 2)
+                    .addElement(screenLayout, UI_POSITION_BOTTOM, 0, -screenLayout.getHeight() / 2 - DEFAULT_BUTTON_PADDING);
         }
 
         page = 0;
         selectedIndex = 0;
     }
 
-    private Rectangle itemControlRectangle(int row) {
-        float h = (itemControlsArea.height - SMALL_GAP * (BUTTON_ROWS - 1)) / BUTTON_ROWS;
-        return new Rectangle(itemControlsArea.x, itemControlsArea.y + (h + SMALL_GAP) * row, itemControlsArea.width, h);
-    }
-
     void setOperations(InputMapOperations operations) {
         this.operations = operations;
+    }
+
+    private void populateItemScreen() {
+        itemsLayout.clearElements();
+        List<InputConfigItem> items = operations.getItems(SolApplication.getInstance().getOptions());
+        int startIndex = (page * Const.ITEM_GROUPS_PER_PAGE);
+        for (int i = startIndex; i < startIndex + Const.ITEM_GROUPS_PER_PAGE; i++) {
+            if (items.size() <= i) {
+                break;
+            }
+            final int index = i;
+            UiTextButton itemButton = new UiTextButton()
+                    .setDisplayName(BUTTON_STRING_PADDING + items.get(i).getDisplayName() + ": " +
+                            items.get(i).getInputKey() + BUTTON_STRING_PADDING)
+                    .setHeight(40)
+                    .setOnReleaseAction(uiElement -> {
+                        selectedIndex = index;
+                        operations.setSelectedIndex(index);
+                        operations.setEnterNewKey(true);
+                        waitingForKey = true;
+                    });
+            itemButton.blur();
+            itemsLayout.addElement(itemButton);
+        }
+        itemsLayout.recalculate();
     }
 }

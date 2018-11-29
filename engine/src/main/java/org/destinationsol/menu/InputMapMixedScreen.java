@@ -23,6 +23,7 @@ import java.util.List;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.responsiveUi.UiNoneElement;
 
 public class InputMapMixedScreen extends InputMapOperations {
     private static final String HEADER_TEXT = "Keyboard and Mouse Inputs";
@@ -151,6 +152,7 @@ public class InputMapMixedScreen extends InputMapOperations {
         InitialiseList(cmp.getOptions());
         isEnterNewKey = false;
         selectedIndex = 0;
+        rootUiElement = new UiNoneElement();
     }
 
     @Override

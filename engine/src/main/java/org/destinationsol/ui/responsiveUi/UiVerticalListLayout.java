@@ -25,6 +25,10 @@ import java.util.Optional;
 public class UiVerticalListLayout extends AbstractUiElement implements UiContainerElement {
     private List<UiElement> uiElements = new ArrayList<>();
 
+    public void clearElements() {
+        uiElements.clear();
+    }
+
     @Override
     public UiVerticalListLayout addElement(UiElement uiElement) {
         uiElements.add(uiElement);

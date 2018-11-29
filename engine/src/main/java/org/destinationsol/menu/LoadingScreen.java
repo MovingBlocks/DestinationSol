@@ -26,6 +26,7 @@ import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.UiDrawer;
+import org.destinationsol.ui.responsiveUi.UiNoneElement;
 
 public class LoadingScreen extends SolUiBaseScreen {
     private DisplayDimensions displayDimensions;
@@ -40,6 +41,7 @@ public class LoadingScreen extends SolUiBaseScreen {
         displayDimensions = SolApplication.displayDimensions;
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
+        rootUiElement = new UiNoneElement();
     }
 
     @Override

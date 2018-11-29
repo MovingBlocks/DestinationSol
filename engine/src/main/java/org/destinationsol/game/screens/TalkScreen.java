@@ -44,6 +44,8 @@ public class TalkScreen extends SolUiBaseScreen {
                 .addElement(new UiActionButton()
                         .addElement(new UiTextBox().setText("Change ship").setFontSize(FontSize.MENU))
                         .setAction(uiElement -> {
+                            InventoryScreen inventoryScreen = solApplication.getGame().getScreens().inventoryScreen;
+                                    inventoryScreen.setOperations(new ChangeShipScreen(inventoryScreen, solApplication.getOptions()));
                                     SolApplication.getInputManager().addScreen(solApplication.getGame().getScreens().inventoryScreen);
                                 }
                         ))

@@ -23,6 +23,7 @@ import java.util.List;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.responsiveUi.UiNoneElement;
 
 public class InputMapKeyboardScreen extends InputMapOperations {
     private static final String HEADER_TEXT = "Keyboard Inputs";
@@ -188,6 +189,7 @@ public class InputMapKeyboardScreen extends InputMapOperations {
         InitialiseList(cmp.getOptions());
         isEnterNewKey = false;
         selectedIndex = 0;
+        rootUiElement = new UiNoneElement();
     }
 
     @Override
