@@ -174,9 +174,9 @@ public class OggMusicManager {
         Json musicJson = Assets.getJson(moduleName + ":musicConfig");
 
         MusicConfig musicConfig = MusicConfig.load(moduleName, musicJson.getJsonValue());
-        Map<String, List<String>> musicMap = musicConfig.getMusicMap();
+        Map<String, List<String>> musicSets = musicConfig.getMusicMap();
 
-        for (String music : musicMap.get(GAME_MUSIC_SET)) {
+        for (String music : musicSets.get(GAME_MUSIC_SET)) {
             registerMusic(GAME_MUSIC_SET, music);
             logger.info("Registered " + music);
         }
