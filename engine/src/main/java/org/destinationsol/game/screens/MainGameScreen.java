@@ -130,9 +130,16 @@ public class MainGameScreen extends SolUiBaseScreen {
         buttonList.addElement(menuButton);
 
         mapButton = new UiTextButton().setDisplayName("Map")
-                                      .enableSound()
-                                      .setTriggerKey(gameOptions.getKeyMap())
-                                      .setOnReleaseAction(uiElement -> inputManager.changeScreen(solApplication.getGame().getScreens().mapScreen));
+                .enableSound()
+                .setTriggerKey(gameOptions.getKeyMap())
+                .setOnReleaseAction(uiElement -> {
+                    MapScreen screen = solApplication.getGame().getScreens().mapScreen;
+                    boolean isOn = inputManager.isScreenOn(screen);
+                    inputManager.changeScreen(solApplication.getGame().getScreens().mainGameScreen);
+                    if (!isOn) {
+                        inputManager.changeScreen(screen);
+                    }
+                });
 
         buttonList.addElement(mapButton);
 
@@ -163,11 +170,6 @@ public class MainGameScreen extends SolUiBaseScreen {
                                                 }
                                             });
         buttonList.addElement(talkButton);
-
-        mapButton = new UiTextButton().setDisplayName("Map")
-                                      .enableSound()
-                                      .setTriggerKey(gameOptions.getKeyMap());
-        buttonList.addElement(mapButton);
 
         mercenariesButton = new UiTextButton().setDisplayName("Mercenaries")
                                               .enableSound()
