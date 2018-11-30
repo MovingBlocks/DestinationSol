@@ -31,7 +31,7 @@ public class ChooseMercenaryScreen extends InventoryOperationsScreen {
 //    private final SolUiControl equipControl;
     private final ItemContainer EMPTY_ITEM_CONTAINER = new ItemContainer();
 
-    ChooseMercenaryScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
+    ChooseMercenaryScreen() {
 //        giveControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyShoot());
 //        giveControl.setDisplayName("Give Items");
 //        controls.add(giveControl);
@@ -88,6 +88,19 @@ public class ChooseMercenaryScreen extends InventoryOperationsScreen {
     @Override
     public String getHeader() {
         return "Mercenaries:";
+    }
+
+    @Override
+    void onAdd(InventoryScreen inventoryScreen) {
+        inventoryScreen.setInteractText("---");
+        inventoryScreen.getInteractButton().setAction(uiElement -> {
+        });
+        inventoryScreen.getInteractButton().setEnabled(false);
+    }
+
+    @Override
+    void update(InventoryScreen inventoryScreen, SolApplication solApplication) {
+
     }
 
 }

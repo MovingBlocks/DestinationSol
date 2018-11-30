@@ -15,17 +15,30 @@
  */
 package org.destinationsol.game.screens;
 
-import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.SolShip;
-import org.destinationsol.ui.SolInputManager;
-
 
 public class ShowInventory extends InventoryOperationsScreen {
     private SolShip target;
+
+    @Override
+    public void onAdd(InventoryScreen inventoryScreen) {
+        inventoryScreen.getInteractButton().setAction(uiElement -> {
+            Hero hero = SolApplication.getInstance().getGame().getHero();
+            SolItem item = inventoryScreen.getSelectedItem();
+            hero.getItemContainer().remove(item);
+            inventoryScreen.refresh();
+        });
+    }
+
+    @Override
+    public void update(InventoryScreen inventoryScreen, SolApplication solApplication) {
+        inventoryScreen.setInteractText("Drop");
+    }
 
     public SolShip getTarget() {
         return target;

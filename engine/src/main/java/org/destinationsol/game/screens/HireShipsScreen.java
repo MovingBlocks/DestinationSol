@@ -15,7 +15,6 @@
  */
 package org.destinationsol.game.screens;
 
-import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
@@ -23,24 +22,40 @@ import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.MercItem;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.mercenary.MercenaryUtils;
-import org.destinationsol.ui.SolInputManager;
-
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class HireShipsScreen extends InventoryOperationsScreen {
-//    private final SolUiControl hireControl;
+    @Override
+    public void onAdd(InventoryScreen inventoryScreen) {
+        SolApplication.getInstance().getGame().getScreens().talkScreen.setHidden(false);
+        inventoryScreen.getInteractButton().setAction(uiElement -> {
+            SolGame game = SolApplication.getInstance().getGame();
+            Hero hero = game.getHero();
+            SolItem item = inventoryScreen.getSelectedItem();
 
-    HireShipsScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-//        hireControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyHireShip());
-//        hireControl.setDisplayName("Hire");
-//        controls.add(hireControl);
+            if (!(item instanceof MercItem)) {
+                return;
+            }
+
+            boolean hired = MercenaryUtils.createMerc(game, hero, (MercItem) item);
+            if (hired) {
+                hero.setMoney(hero.getMoney() - item.getPrice());
+            }
+            inventoryScreen.refresh();
+        });
+    }
+
+    @Override
+    void update(InventoryScreen inventoryScreen, SolApplication solApplication) {
+        Hero hero = solApplication.getGame().getHero();
+        SolItem selectedItem = inventoryScreen.getSelectedItem();
+        boolean itemPurchasable = (selectedItem != null && hero.getMoney() >= selectedItem.getPrice());
+        inventoryScreen.getInteractButton().setEnabled(itemPurchasable);
+        inventoryScreen.setInteractText("Hire");
     }
 
     @Override
     ItemContainer getItems(SolGame game) {
-        return null;
+        return game.getScreens().talkScreen.getTarget().getTradeContainer().getMercs();
     }
 
     @Override

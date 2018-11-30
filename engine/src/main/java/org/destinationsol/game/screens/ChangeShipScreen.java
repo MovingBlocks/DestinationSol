@@ -16,7 +16,6 @@
 package org.destinationsol.game.screens;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
@@ -29,22 +28,38 @@ import org.destinationsol.game.ship.ShipRepairer;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.destinationsol.ui.SolInputManager;
-
 
 public class ChangeShipScreen extends InventoryOperationsScreen {
-//    private final SolUiControl changeControl;
 
-    ChangeShipScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
-//        changeControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyChangeShip());
-//        changeControl.setDisplayName("Change");
-//        controls.add(changeControl);
+    @Override
+    public void onAdd(InventoryScreen inventoryScreen) {
+        SolApplication.getInstance().getGame().getScreens().talkScreen.setHidden(false);
+        inventoryScreen.getInteractButton().setAction(uiElement -> {
+            Hero hero = SolApplication.getInstance().getGame().getHero();
+            SolItem item = inventoryScreen.getSelectedItem();
+
+            if (!(item instanceof ShipItem)) {
+                return;
+            }
+
+            hero.setMoney(hero.getMoney() - item.getPrice());
+            changeShip(SolApplication.getInstance().getGame(), hero, (ShipItem) item);
+            inventoryScreen.refresh();
+        });
+    }
+
+    @Override
+    public void update(InventoryScreen inventoryScreen, SolApplication solApplication) {
+        Hero hero = solApplication.getGame().getHero();
+        SolItem selectedItem = inventoryScreen.getSelectedItem();
+        boolean itemPurchasable = (selectedItem != null && hero.getMoney() >= selectedItem.getPrice());
+        inventoryScreen.getInteractButton().setEnabled(itemPurchasable);
+        inventoryScreen.setInteractText("Change");
     }
 
     @Override
     public ItemContainer getItems(SolGame game) {
-//        return game.getScreens().talkScreen.getTarget().getTradeContainer().getShips();
-        return null;
+        return game.getScreens().talkScreen.getTarget().getTradeContainer().getShips();
     }
 
     @Override

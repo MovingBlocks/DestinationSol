@@ -52,6 +52,16 @@ public class GiveItemsScreen extends InventoryOperationsScreen {
         return "Give:";
     }
 
+    @Override
+    void onAdd(InventoryScreen inventoryScreen) {
+
+    }
+
+    @Override
+    void update(InventoryScreen inventoryScreen, SolApplication solApplication) {
+
+    }
+
 //    @Override
 //    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
 //        SolGame game = solApplication.getGame();

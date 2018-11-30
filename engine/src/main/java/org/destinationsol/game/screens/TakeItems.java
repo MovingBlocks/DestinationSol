@@ -36,4 +36,16 @@ public class TakeItems extends InventoryOperationsScreen {
     String getHeader() {
         return null;
     }
+
+    //TODO: Implement this
+
+    @Override
+    void onAdd(InventoryScreen inventoryScreen) {
+
+    }
+
+    @Override
+    void update(InventoryScreen inventoryScreen, SolApplication solApplication) {
+
+    }
 }

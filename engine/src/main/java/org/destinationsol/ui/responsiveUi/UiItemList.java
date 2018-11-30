@@ -56,7 +56,6 @@ public class UiItemList extends AbstractUiElement {
         int addedItems = 0;
         for (List<SolItem> itemList : container) {
             if (skipElements-- > 0) {
-                System.out.println("hi");
                 continue;
             }
             if (addedItems++ == ITEMS_PER_PAGE) {
@@ -71,7 +70,7 @@ public class UiItemList extends AbstractUiElement {
             buttons.add(button);
             layout.addElement(button);
         }
-        if (selectedItem == null) {
+        if (selectedItem == null && buttons.size() != 0) {
             buttons.get(0).triggerCallback();
         }
         final UiActionButton moveLeftButton = new UiActionButton().addElement(new UiSpacerElement()
@@ -155,7 +154,6 @@ public class UiItemList extends AbstractUiElement {
 
     @Override
     public boolean update(SolInputManager.InputPointer[] inputPointers, boolean cursorShown, boolean canBePressed, SolInputManager inputMan, SolApplication cmp) {
-        recalculate();
         return layout.update(inputPointers, cursorShown, canBePressed, inputMan, cmp);
     }
 

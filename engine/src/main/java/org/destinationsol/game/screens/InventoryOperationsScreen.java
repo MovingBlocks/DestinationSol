@@ -15,10 +15,10 @@
  */
 package org.destinationsol.game.screens;
 
+import org.destinationsol.SolApplication;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.ui.SolUiBaseScreen;
 
 public abstract class InventoryOperationsScreen {
     abstract ItemContainer getItems(SolGame game);
@@ -32,4 +32,8 @@ public abstract class InventoryOperationsScreen {
     }
 
     abstract String getHeader();
+
+    abstract void onAdd(InventoryScreen inventoryScreen);
+
+    abstract void update(InventoryScreen inventoryScreen, SolApplication solApplication);
 }

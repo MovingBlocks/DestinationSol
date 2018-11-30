@@ -83,6 +83,8 @@ public class MainGameScreen extends SolUiBaseScreen {
     private final TextPlace myMoneyExcessTp;
     private final SolApplication solApplication;
 
+    private SolShip target;
+
     MainGameScreen(Context context) {
         solApplication = context.get(SolApplication.class);
         GameOptions gameOptions = solApplication.getOptions();
@@ -175,10 +177,9 @@ public class MainGameScreen extends SolUiBaseScreen {
                                                   boolean isOn = inputManager.isScreenOn(inventoryScreen);
                                                   inputManager.changeScreen(solApplication.getGame().getScreens().mainGameScreen);
                                                   if (!isOn) {
-//                                                      inventoryScreen.setOperations(inventoryScreen.chooseMercenaryScreen);
+                                                      inventoryScreen.setOperations(new ChooseMercenaryScreen());
                                                       inputManager.addScreen(inventoryScreen);
-
-//                                                      inputManager.getHero().getTradeContainer().getMercs().markAllAsSeen();
+                                                      solApplication.getGame().getHero().getTradeContainer().getMercs().markAllAsSeen();
                                                   }
                                               });
         buttonList.addElement(mercenariesButton);
@@ -298,47 +299,41 @@ public class MainGameScreen extends SolUiBaseScreen {
     }
 
     private void updateTalk(SolGame game) {
-//        Hero hero = game.getHero();
-//        if (hero.isTranscendent()) {
-//            talkControl.setEnabled(false);
-//            return;
-//        }
-//        FactionManager factionManager = game.getFactionMan();
-//
-//        SolShip target = null;
-//        float minDist = TalkScreen.MAX_TALK_DIST;
-//        float har = hero.getHull().config.getApproxRadius();
-//        List<SolObject> objs = game.getObjectManager().getObjects();
-//        for (SolObject o : objs) {
-//            if (!(o instanceof SolShip)) {
-//                continue;
-//            }
-//            SolShip ship = (SolShip) o;
-//            if (factionManager.areEnemies(hero.getShip(), ship)) {
-//                continue;
-//            }
-//            if (ship.getTradeContainer() == null) {
-//                continue;
-//            }
-//            float dst = ship.getPosition().dst(hero.getPosition());
-//            float ar = ship.getHull().config.getApproxRadius();
-//            if (minDist < dst - har - ar) {
-//                continue;
-//            }
-//            target = ship;
-//            minDist = dst;
-//        }
-//        talkControl.setEnabled(target != null);
-//        if (talkControl.isJustOff()) {
-//            TalkScreen talkScreen = game.getScreens().talkScreen;
-//            SolInputManager inputMan = solApplication.getInputManager();
-//            boolean isOn = inputMan.isScreenOn(talkScreen);
-//            inputMan.setScreen(solApplication, this);
-//            if (!isOn) {
-//                talkScreen.setTarget(target);
-//                inputMan.addScreen(solApplication, talkScreen);
-//            }
-//        }
+        Hero hero = game.getHero();
+        if (hero.isTranscendent()) {
+            talkButton.setEnabled(false);
+            return;
+        }
+        FactionManager factionManager = game.getFactionMan();
+
+        target = null;
+        float minDist = TalkScreen.MAX_TALK_DIST;
+        float har = hero.getHull().config.getApproxRadius();
+        List<SolObject> objs = game.getObjectManager().getObjects();
+        for (SolObject o : objs) {
+            if (!(o instanceof SolShip)) {
+                continue;
+            }
+            SolShip ship = (SolShip) o;
+            if (factionManager.areEnemies(hero.getShip(), ship)) {
+                continue;
+            }
+            if (ship.getTradeContainer() == null) {
+                continue;
+            }
+            if (ship.getPilot().isPlayer()) {
+                continue;
+            }
+            float dst = ship.getPosition().dst(hero.getPosition());
+            float ar = ship.getHull().config.getApproxRadius();
+            if (minDist < dst - har - ar) {
+                continue;
+            }
+            target = ship;
+            minDist = dst;
+            solApplication.getGame().getScreens().talkScreen.setTarget(target);
+        }
+        talkButton.setEnabled(target != null);
     }
 
     private boolean drawGunStat(UiDrawer uiDrawer, Hero hero, boolean secondary, float col0, float col1, float col2, float y) {

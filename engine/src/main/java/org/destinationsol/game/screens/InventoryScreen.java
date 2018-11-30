@@ -18,10 +18,10 @@ package org.destinationsol.game.screens;
 import org.destinationsol.SolApplication;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
+import org.destinationsol.game.item.SolItem;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.responsiveUi.UiActionButton;
-import org.destinationsol.ui.responsiveUi.UiHorizontalListLayout;
 import org.destinationsol.ui.responsiveUi.UiItemList;
 import org.destinationsol.ui.responsiveUi.UiSpacerElement;
 import org.destinationsol.ui.responsiveUi.UiTextBox;
@@ -31,23 +31,19 @@ import java.util.HashMap;
 
 public class InventoryScreen extends SolUiBaseScreen {
     public final HashMap<Class<? extends InventoryOperationsScreen>, InventoryOperationsScreen> inventoryOperationsMap;
-    private final UiTextBox descriptionTextBox;
+    private static final int DESCRIPTION_BOX_LINES_LENGTH = 24;
+    private static final int DESCRIPTION_BOX_LINES_HEIGHT = 12;
+    private UiTextBox descriptionTextBox;
 
     private InventoryOperationsScreen myOperation;
     private final UiItemList itemList;
+    private UiActionButton interactButton;
+    private UiTextBox interactText;
 
     public InventoryScreen() {
-        rootUiElement = new UiVerticalListLayout().setPosition(500, 500);
+        rootUiElement = new UiVerticalListLayout();
         itemList = new UiItemList();
         ((UiVerticalListLayout) rootUiElement).addElement(itemList);
-        descriptionTextBox = new UiTextBox();
-        final UiSpacerElement descriptionArea = new UiSpacerElement()
-                .setFromElement(new UiTextBox().setText("-------------------------------\n\n\n\n\n\n\n\n\n\n\n\n-"))
-                .setContainedElement(descriptionTextBox);
-        ((UiVerticalListLayout) rootUiElement).addElement(new UiHorizontalListLayout().addElement(descriptionArea)
-        .addElement(new UiVerticalListLayout().addElement(new UiActionButton().addElement(new UiTextBox().setText("Drop")).setAction(uiElement -> {
-
-        }))));
         inventoryOperationsMap = new HashMap<>();
         inventoryOperationsMap.put(ShowInventory.class, new ShowInventory());
     }
@@ -59,13 +55,48 @@ public class InventoryScreen extends SolUiBaseScreen {
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        descriptionTextBox.setText(itemList.getSelectedItem().getDescription());
+        SolItem selectedItem = itemList.getSelectedItem();
+        if (myOperation != null) {
+            myOperation.update(this, solApplication);
+        }
+        if (selectedItem != null) {
+            descriptionTextBox.setText(itemList.getSelectedItem().getDescription());
+        } else {
+            descriptionTextBox.setText("No item selected");
+        }
     }
 
     @Override
     public void onAdd(SolApplication solApplication) {
+        rootUiElement.setPosition(SolApplication.displayDimensions.getWidth() / 2, SolApplication.displayDimensions.getHeight() / 2);
         itemList.setItemContainer(myOperation.getItems(solApplication.getGame()));
-        descriptionTextBox.setText(itemList.getSelectedItem().getDescription());
+        if (descriptionTextBox == null) {
+            descriptionTextBox = new UiTextBox();
+            interactText = new UiTextBox().setText("Drop");
+            interactButton = new UiActionButton().addElement(interactText);
+            SolItem selectedItem = itemList.getSelectedItem();
+            if (selectedItem != null) {
+                descriptionTextBox.setText(itemList.getSelectedItem().getDescription());
+            } else {
+                descriptionTextBox.setText("No item selected");
+            }
+            descriptionTextBox.setPosition(0, 0);
+            StringBuilder textPlaceholderBuilder = new StringBuilder(DESCRIPTION_BOX_LINES_LENGTH * DESCRIPTION_BOX_LINES_HEIGHT);
+            for (int lineNo = 0; lineNo < DESCRIPTION_BOX_LINES_HEIGHT; lineNo++) {
+                for (int characterNo = 0; characterNo < DESCRIPTION_BOX_LINES_LENGTH; characterNo++) {
+                    textPlaceholderBuilder.append('-');
+                }
+                textPlaceholderBuilder.append("\n");
+            }
+            final UiSpacerElement descriptionArea = new UiSpacerElement()
+                    .setFromElement(new UiTextBox().setText(textPlaceholderBuilder.toString()))
+                    .setContainedElement(descriptionTextBox);
+            ((UiVerticalListLayout) rootUiElement).addElement(descriptionArea).addElement(interactButton);
+        } else {
+            descriptionTextBox.setText(itemList.getSelectedItem().getDescription());
+        }
+
+        myOperation.onAdd(this);
     }
 
     @Override
@@ -77,7 +108,23 @@ public class InventoryScreen extends SolUiBaseScreen {
         }
     }
 
+    public void refresh() {
+        itemList.recalculate();
+    }
+
     public void setOperations(InventoryOperationsScreen operations) {
         myOperation = operations;
+    }
+
+    public UiActionButton getInteractButton() {
+        return interactButton;
+    }
+
+    public void setInteractText(String text) {
+        interactText.setText(text);
+    }
+
+    public SolItem getSelectedItem() {
+        return itemList.getSelectedItem();
     }
 }
