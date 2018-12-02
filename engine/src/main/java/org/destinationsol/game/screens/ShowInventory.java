@@ -33,11 +33,13 @@ public class ShowInventory extends InventoryOperationsScreen {
             hero.getItemContainer().remove(item);
             inventoryScreen.refresh();
         });
+
+        inventoryScreen.setInteractText("Drop");
     }
 
     @Override
     public void update(InventoryScreen inventoryScreen, SolApplication solApplication) {
-        inventoryScreen.setInteractText("Drop");
+        // There is nothing to update
     }
 
     public SolShip getTarget() {

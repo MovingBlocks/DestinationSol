@@ -42,7 +42,7 @@ public class SellItems extends InventoryOperationsScreen {
 
     @Override
     public void update(InventoryScreen inventoryScreen, SolApplication solApplication) {
-        // There is no nothing to update
+        // There is nothing to update
     }
 
     @Override

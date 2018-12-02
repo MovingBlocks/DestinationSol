@@ -196,8 +196,8 @@ public class InputMapScreen extends SolUiBaseScreen {
                             return;
                         }
                         SolApplication.changeScreen(SolApplication.getMenuScreens().optionsScreen);
-                    });
-            cancelButton.setHeight(30);
+                    })
+                    .setHeight(30);
             screenLayout.addElement(cancelButton);
 
             nextButtonsLayout.addElement(nextButton, UI_POSITION_RIGHT, -nextButton.getWidth(), screenLayout.getY());
