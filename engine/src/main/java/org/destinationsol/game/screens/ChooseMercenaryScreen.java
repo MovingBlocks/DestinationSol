@@ -92,15 +92,15 @@ public class ChooseMercenaryScreen extends InventoryOperationsScreen {
 
     @Override
     void onAdd(InventoryScreen inventoryScreen) {
+        //TODO: Implement this
         inventoryScreen.setInteractText("---");
-        inventoryScreen.getInteractButton().setAction(uiElement -> {
-        });
+        //TODO: Set callback
         inventoryScreen.getInteractButton().setEnabled(false);
     }
 
     @Override
     void update(InventoryScreen inventoryScreen, SolApplication solApplication) {
-
+        //TODO: Implement this
     }
 
 }

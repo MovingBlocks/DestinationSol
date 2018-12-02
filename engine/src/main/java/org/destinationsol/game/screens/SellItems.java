@@ -36,11 +36,13 @@ public class SellItems extends InventoryOperationsScreen {
             hero.setMoney(hero.getMoney() + item.getPrice());
             inventoryScreen.refresh();
         });
+
+        inventoryScreen.setInteractText("Sell");
     }
 
     @Override
     public void update(InventoryScreen inventoryScreen, SolApplication solApplication) {
-        inventoryScreen.setInteractText("Sell");
+        // There is no nothing to update
     }
 
     @Override

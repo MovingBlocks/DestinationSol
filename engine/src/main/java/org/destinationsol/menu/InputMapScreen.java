@@ -59,6 +59,8 @@ public class InputMapScreen extends SolUiBaseScreen {
     private int selectedIndex;
     private UiVerticalListLayout itemsLayout;
     private boolean waitingForKey;
+    private UiTextButton nextButton;
+    private UiTextButton lastButton;
 
     InputMapScreen() {
         displayDimensions = SolApplication.displayDimensions;
@@ -138,24 +140,24 @@ public class InputMapScreen extends SolUiBaseScreen {
 
             UiVerticalListLayout screenLayout = new UiVerticalListLayout();
             UiRelativeLayout nextButtonsLayout = new UiRelativeLayout();
-            UiTextButton nextButton = new UiTextButton();
-            UiTextButton lastButton = new UiTextButton();
-            nextButton.setDisplayName(">");
-            nextButton.setOnReleaseAction(uiElement -> {
-                page++;
-                lastButton.setEnabled(page > 0);
-                nextButton.setEnabled(page < operations.getItems(gameOptions).size() / Const.ITEM_GROUPS_PER_PAGE);
-                populateItemScreen();
-            });
-            nextButton.setHeight(30).setWidth(40);
-            lastButton.setDisplayName("<");
-            lastButton.setOnReleaseAction(uiElement -> {
-                page--;
-                lastButton.setEnabled(page > 0);
-                nextButton.setEnabled(page < operations.getItems(gameOptions).size() / Const.ITEM_GROUPS_PER_PAGE);
-                populateItemScreen();
-            });
-            lastButton.setHeight(30).setWidth(40);
+            nextButton = new UiTextButton()
+                    .setDisplayName(">")
+                    .setOnReleaseAction(uiElement -> {
+                        page++;
+                        updateNavigationButtons();
+                        populateItemScreen();
+                    })
+                    .setHeight(30)
+                    .setWidth(40);
+            lastButton = new UiTextButton()
+                    .setDisplayName("<")
+                    .setOnReleaseAction(uiElement -> {
+                        page--;
+                        updateNavigationButtons();
+                        populateItemScreen();
+                    })
+                    .setHeight(30)
+                    .setWidth(40);
             lastButton.setEnabled(page > 0);
 
             if (itemsLayout == null) {
@@ -236,5 +238,10 @@ public class InputMapScreen extends SolUiBaseScreen {
             itemsLayout.addElement(itemButton);
         }
         itemsLayout.recalculate();
+    }
+
+    private void updateNavigationButtons() {
+        lastButton.setEnabled(page > 0);
+        nextButton.setEnabled(page < operations.getItems(SolApplication.getInstance().getOptions()).size() / Const.ITEM_GROUPS_PER_PAGE);
     }
 }

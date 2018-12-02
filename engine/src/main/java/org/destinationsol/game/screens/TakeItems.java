@@ -37,15 +37,13 @@ public class TakeItems extends InventoryOperationsScreen {
         return null;
     }
 
-    //TODO: Implement this
-
     @Override
     void onAdd(InventoryScreen inventoryScreen) {
-
+        //TODO: Implement this
     }
 
     @Override
     void update(InventoryScreen inventoryScreen, SolApplication solApplication) {
-
+        //TODO: Implement this
     }
 }

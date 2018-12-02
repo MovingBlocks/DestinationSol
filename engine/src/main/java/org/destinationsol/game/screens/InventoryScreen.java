@@ -23,11 +23,14 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.responsiveUi.UiActionButton;
 import org.destinationsol.ui.responsiveUi.UiItemList;
+import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
 import org.destinationsol.ui.responsiveUi.UiSpacerElement;
 import org.destinationsol.ui.responsiveUi.UiTextBox;
 import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
 
 import java.util.HashMap;
+
+import static org.destinationsol.ui.UiDrawer.UI_POSITION_CENTER;
 
 public class InventoryScreen extends SolUiBaseScreen {
     public final HashMap<Class<? extends InventoryOperationsScreen>, InventoryOperationsScreen> inventoryOperationsMap;
@@ -39,11 +42,13 @@ public class InventoryScreen extends SolUiBaseScreen {
     private final UiItemList itemList;
     private UiActionButton interactButton;
     private UiTextBox interactText;
+    private UiVerticalListLayout verticalListLayout;
 
     public InventoryScreen() {
-        rootUiElement = new UiVerticalListLayout();
+        verticalListLayout = new UiVerticalListLayout();
+        rootUiElement = new UiRelativeLayout().addElement(verticalListLayout, UI_POSITION_CENTER, 0, 0);
         itemList = new UiItemList();
-        ((UiVerticalListLayout) rootUiElement).addElement(itemList);
+        verticalListLayout.addElement(itemList);
         inventoryOperationsMap = new HashMap<>();
         inventoryOperationsMap.put(ShowInventory.class, new ShowInventory());
     }
@@ -68,7 +73,6 @@ public class InventoryScreen extends SolUiBaseScreen {
 
     @Override
     public void onAdd(SolApplication solApplication) {
-        rootUiElement.setPosition(SolApplication.displayDimensions.getWidth() / 2, SolApplication.displayDimensions.getHeight() / 2);
         itemList.setItemContainer(myOperation.getItems(solApplication.getGame()));
         if (descriptionTextBox == null) {
             descriptionTextBox = new UiTextBox();
@@ -91,7 +95,7 @@ public class InventoryScreen extends SolUiBaseScreen {
             final UiSpacerElement descriptionArea = new UiSpacerElement()
                     .setFromElement(new UiTextBox().setText(textPlaceholderBuilder.toString()))
                     .setContainedElement(descriptionTextBox);
-            ((UiVerticalListLayout) rootUiElement).addElement(descriptionArea).addElement(interactButton);
+            verticalListLayout.addElement(descriptionArea).addElement(interactButton);
         } else {
             descriptionTextBox.setText(itemList.getSelectedItem().getDescription());
         }

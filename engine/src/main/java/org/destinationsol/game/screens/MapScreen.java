@@ -47,20 +47,14 @@ public class MapScreen extends SolUiBaseScreen {
                 });
         UiHeadlessButton alternateCancelKeyButton = new UiHeadlessButton()
                 .setTriggerKey(solApplication.getOptions().getKeyMap())
-                .setOnReleaseAction(uiElement -> {
-                   cancelButton.maybeFlashPressed(solApplication.getOptions().getKeyClose());
-                });
+                .setOnReleaseAction(uiElement -> cancelButton.maybeFlashPressed(solApplication.getOptions().getKeyClose()));
         zoomOutButton = new UiTextButton()
                 .setDisplayName("Zoom out")
-                .setOnReleaseAction(uiElement -> {
-                    mapDrawer.changeZoom(false);
-                })
+                .setOnReleaseAction(uiElement -> mapDrawer.changeZoom(false))
                 .setTriggerKey(solApplication.getOptions().getKeyZoomOut());
         zoomInButton = new UiTextButton()
                 .setDisplayName("Zoom in")
-                .setOnReleaseAction(uiElement -> {
-                    mapDrawer.changeZoom(true);
-                })
+                .setOnReleaseAction(uiElement -> mapDrawer.changeZoom(true))
                 .setTriggerKey(solApplication.getOptions().getKeyZoomIn());
         verticalListLayout.addElement(cancelButton);
         verticalListLayout.addElement(zoomInButton);
@@ -74,8 +68,7 @@ public class MapScreen extends SolUiBaseScreen {
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         Boolean scrolled = SolApplication.getInputManager().getScrolledUp();
         if (scrolled != null) {
-            // If scrolling upwards
-            if (scrolled) {
+            if (scrolled) { // If scrolling upwards
                 zoomOutButton.maybeFlashPressed(solApplication.getOptions().getKeyZoomOut());
             } else { // If scrolling downwards
                 zoomInButton.maybeFlashPressed(solApplication.getOptions().getKeyZoomIn());

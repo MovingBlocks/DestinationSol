@@ -46,6 +46,8 @@ public class ChangeShipScreen extends InventoryOperationsScreen {
             changeShip(SolApplication.getInstance().getGame(), hero, (ShipItem) item);
             inventoryScreen.refresh();
         });
+
+        inventoryScreen.setInteractText("Change");
     }
 
     @Override
@@ -54,7 +56,6 @@ public class ChangeShipScreen extends InventoryOperationsScreen {
         SolItem selectedItem = inventoryScreen.getSelectedItem();
         boolean itemPurchasable = (selectedItem != null && hero.getMoney() >= selectedItem.getPrice());
         inventoryScreen.getInteractButton().setEnabled(itemPurchasable);
-        inventoryScreen.setInteractText("Change");
     }
 
     @Override

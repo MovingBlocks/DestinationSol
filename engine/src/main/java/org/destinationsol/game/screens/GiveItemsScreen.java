@@ -54,12 +54,12 @@ public class GiveItemsScreen extends InventoryOperationsScreen {
 
     @Override
     void onAdd(InventoryScreen inventoryScreen) {
-
+        //TODO: Implement this
     }
 
     @Override
     void update(InventoryScreen inventoryScreen, SolApplication solApplication) {
-
+        //TODO: Implement this
     }
 
 //    @Override

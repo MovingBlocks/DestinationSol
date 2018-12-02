@@ -30,6 +30,7 @@ import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
 //TODO quickFix to at least display some buttons. Does not actually work yet.
 public class TalkScreen extends SolUiBaseScreen {
     public static final float MAX_TALK_DIST = 1f;
+
     private SolShip target;
     private UiElement hiddenRoot;
 
@@ -42,35 +43,30 @@ public class TalkScreen extends SolUiBaseScreen {
                             InventoryScreen inventoryScreen = solApplication.getGame().getScreens().inventoryScreen;
                             inventoryScreen.setOperations(new SellItems());
                             SolApplication.getInputManager().addScreen(inventoryScreen);
-                                }
-                        ))
+                        }))
                 .addElement(new UiActionButton()
                         .addElement(new UiTextBox().setText("Buy").setFontSize(FontSize.MENU))
                         .setAction(uiElement -> {
                                     InventoryScreen inventoryScreen = solApplication.getGame().getScreens().inventoryScreen;
                                     inventoryScreen.setOperations(new BuyItemsScreen());
                                     SolApplication.getInputManager().addScreen(inventoryScreen);
-                                }
-                        ))
+                        }))
                 .addElement(new UiActionButton()
                         .addElement(new UiTextBox().setText("Change ship").setFontSize(FontSize.MENU))
                         .setAction(uiElement -> {
                                     InventoryScreen inventoryScreen = solApplication.getGame().getScreens().inventoryScreen;
                                     inventoryScreen.setOperations(new ChangeShipScreen());
                                     SolApplication.getInputManager().addScreen(inventoryScreen);
-                                }
-                        ))
+                        }))
                 .addElement(new UiActionButton()
                         .addElement(new UiTextBox().setText("Hire").setFontSize(FontSize.MENU))
                         .setAction(uiElement -> {
                             InventoryScreen inventoryScreen = solApplication.getGame().getScreens().inventoryScreen;
                             inventoryScreen.setOperations(new HireShipsScreen());
                             SolApplication.getInputManager().addScreen(inventoryScreen);
-                                }
-                        ));
+                        }));
         rootUiElement = new UiRelativeLayout()
-                .addElement(verticalListLayout, UiDrawer.UI_POSITION_BOTTOM, 0, -verticalListLayout.getHeight() / 2 - 10
-                );
+                .addElement(verticalListLayout, UiDrawer.UI_POSITION_BOTTOM, 0, -verticalListLayout.getHeight() / 2 - 10);
 
         hiddenRoot = null;
     }
@@ -83,7 +79,7 @@ public class TalkScreen extends SolUiBaseScreen {
         this.target = target;
     }
 
-    //HACk: There should be a better way of doing this
+    //HACK: There should be a better way of doing this
     public void setHidden(boolean value) {
         if (!value && hiddenRoot == null) {
             hiddenRoot = rootUiElement;

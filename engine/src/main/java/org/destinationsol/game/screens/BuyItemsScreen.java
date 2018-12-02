@@ -36,6 +36,8 @@ public class BuyItemsScreen extends InventoryOperationsScreen {
             hero.setMoney(hero.getMoney() - item.getPrice());
             inventoryScreen.refresh();
         });
+
+        inventoryScreen.setInteractText("Buy");
     }
 
     @Override
@@ -46,7 +48,6 @@ public class BuyItemsScreen extends InventoryOperationsScreen {
                 && hero.getMoney() >= selectedItem.getPrice()
                 && hero.getItemContainer().canAdd(selectedItem));
         inventoryScreen.getInteractButton().setEnabled(itemPurchasable);
-        inventoryScreen.setInteractText("Buy");
     }
 
     @Override

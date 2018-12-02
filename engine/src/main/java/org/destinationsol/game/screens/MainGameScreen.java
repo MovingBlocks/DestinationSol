@@ -83,8 +83,6 @@ public class MainGameScreen extends SolUiBaseScreen {
     private final TextPlace myMoneyExcessTp;
     private final SolApplication solApplication;
 
-    private SolShip target;
-
     MainGameScreen(Context context) {
         solApplication = context.get(SolApplication.class);
         GameOptions gameOptions = solApplication.getOptions();
@@ -121,12 +119,12 @@ public class MainGameScreen extends SolUiBaseScreen {
         UiVerticalListLayout buttonList = new UiVerticalListLayout();
 
         menuButton = new UiTextButton().setDisplayName("Menu")
-                                       .enableSound()
-                                       .setTriggerKey(gameOptions.getKeyMenu())
-                                       .setOnReleaseAction(uiElement -> {
-                                           inputManager.changeScreen(solApplication.getGame().getScreens().menuScreen);
-                                           SolApplication.getInstance().getGame().setPaused(true);
-                                       });
+                .enableSound()
+                .setTriggerKey(gameOptions.getKeyMenu())
+                .setOnReleaseAction(uiElement -> {
+                    inputManager.changeScreen(solApplication.getGame().getScreens().menuScreen);
+                    SolApplication.getInstance().getGame().setPaused(true);
+                });
         buttonList.addElement(menuButton);
 
         mapButton = new UiTextButton().setDisplayName("Map")
@@ -140,50 +138,49 @@ public class MainGameScreen extends SolUiBaseScreen {
                         inputManager.changeScreen(screen);
                     }
                 });
-
         buttonList.addElement(mapButton);
 
         inventoryButton = new UiTextButton().setDisplayName("Inventory")
-                                            .enableSound()
-                                            .setTriggerKey(gameOptions.getKeyInventory())
-                                            .setOnReleaseAction(uiElement -> {
-                                                InventoryScreen inventoryScreen = solApplication.getGame().getScreens().inventoryScreen;
-                                                boolean isOn = inputManager.isScreenOn(inventoryScreen);
-                                                inputManager.changeScreen(solApplication.getGame().getScreens().mainGameScreen);
-                                                if (!isOn) {
-                                                    ((ShowInventory) inventoryScreen.inventoryOperationsMap.get(ShowInventory.class)).setTarget(solApplication.getGame().getHero().getShip());
-                                                    inventoryScreen.setOperations(inventoryScreen.inventoryOperationsMap.get(ShowInventory.class));
-                                                    inputManager.changeScreen(inventoryScreen);
-                                                }
-                                            });
+                .enableSound()
+                .setTriggerKey(gameOptions.getKeyInventory())
+                .setOnReleaseAction(uiElement -> {
+                    InventoryScreen inventoryScreen = solApplication.getGame().getScreens().inventoryScreen;
+                    boolean isOn = inputManager.isScreenOn(inventoryScreen);
+                    inputManager.changeScreen(solApplication.getGame().getScreens().mainGameScreen);
+                    if (!isOn) {
+                        ((ShowInventory) inventoryScreen.inventoryOperationsMap.get(ShowInventory.class)).setTarget(solApplication.getGame().getHero().getShip());
+                        inventoryScreen.setOperations(inventoryScreen.inventoryOperationsMap.get(ShowInventory.class));
+                        inputManager.changeScreen(inventoryScreen);
+                    }
+                });
         buttonList.addElement(inventoryButton);
 
         talkButton = new UiTextButton().setDisplayName("Talk")
-                                       .enableSound()
-                                       .setTriggerKey(gameOptions.getKeyTalk())
-                                        .setOnReleaseAction(uiElement -> {
-                                                TalkScreen screen = solApplication.getGame().getScreens().talkScreen;
-                                                boolean isOn = inputManager.isScreenOn(screen);
-                                                inputManager.changeScreen(solApplication.getGame().getScreens().mainGameScreen);
-                                                if (!isOn) {
-                                                    inputManager.changeScreen(screen);
-                                                }
-                                            });
+                .enableSound()
+                .setTriggerKey(gameOptions.getKeyTalk())
+                .setOnReleaseAction(uiElement -> {
+                    TalkScreen screen = solApplication.getGame().getScreens().talkScreen;
+                    boolean isOn = inputManager.isScreenOn(screen);
+                    inputManager.changeScreen(solApplication.getGame().getScreens().mainGameScreen);
+                    if (!isOn) {
+                        inputManager.changeScreen(screen);
+                    }
+                });
         buttonList.addElement(talkButton);
 
         mercenariesButton = new UiTextButton().setDisplayName("Mercenaries")
-                                              .enableSound()
-                                              .setTriggerKey(gameOptions.getKeyMercenaryInteraction())
-                                              .setOnReleaseAction(uiElement -> {
-                                                  InventoryScreen inventoryScreen = solApplication.getGame().getScreens().inventoryScreen;
-                                                  boolean isOn = inputManager.isScreenOn(inventoryScreen);
-                                                  inputManager.changeScreen(solApplication.getGame().getScreens().mainGameScreen);
-                                                  if (!isOn) {
-                                                      inventoryScreen.setOperations(new ChooseMercenaryScreen());
-                                                      inputManager.addScreen(inventoryScreen);
-                                                      solApplication.getGame().getHero().getTradeContainer().getMercs().markAllAsSeen();
-                                                  }
-                                              });
+                .enableSound()
+                .setTriggerKey(gameOptions.getKeyMercenaryInteraction())
+                .setOnReleaseAction(uiElement -> {
+                    InventoryScreen inventoryScreen = solApplication.getGame().getScreens().inventoryScreen;
+                    boolean isOn = inputManager.isScreenOn(inventoryScreen);
+                    inputManager.changeScreen(solApplication.getGame().getScreens().mainGameScreen);
+                    if (!isOn) {
+                        inventoryScreen.setOperations(new ChooseMercenaryScreen());
+                        inputManager.addScreen(inventoryScreen);
+                        solApplication.getGame().getHero().getTradeContainer().getMercs().markAllAsSeen();
+                    }
+                });
         buttonList.addElement(mercenariesButton);
 
         // Headless button, since on mobile, it should be ideally controlled straightly by dragging.
@@ -308,7 +305,7 @@ public class MainGameScreen extends SolUiBaseScreen {
         }
         FactionManager factionManager = game.getFactionMan();
 
-        target = null;
+        SolShip target = null;
         float minDist = TalkScreen.MAX_TALK_DIST;
         float har = hero.getHull().config.getApproxRadius();
         List<SolObject> objs = game.getObjectManager().getObjects();
