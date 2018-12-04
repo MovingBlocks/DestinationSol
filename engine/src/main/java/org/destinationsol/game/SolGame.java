@@ -123,7 +123,7 @@ public class SolGame {
         gridDrawer = new GridDrawer();
         chunkManager = new ChunkManager();
         partMan = new PartMan();
-        asteroidBuilder = new AsteroidBuilder();
+        asteroidBuilder = new AsteroidBuilder(shipName);
         lootBuilder = new LootBuilder();
         mapDrawer = new MapDrawer();
         shardBuilder = new ShardBuilder();
