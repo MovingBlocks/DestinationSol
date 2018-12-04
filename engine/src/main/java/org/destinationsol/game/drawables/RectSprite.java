@@ -1,22 +1,21 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 package org.destinationsol.game.drawables;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.Consumed;
@@ -26,127 +25,130 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 
 public class RectSprite implements Drawable {
-    public final Vector2 relPos;
+    public final Vector2 relativePosition;
     public final Color tint;
-    private final float myOrigPercX;
-    private final float myOrigPercY;
-    private final TextureAtlas.AtlasRegion myTex;
-    private final DrawableLevel myLevel;
-    private final Vector2 myPos;
-    private final float myRotSpd;
-    private final boolean myAdditive;
-    public float relAngle;
+    private final float originalPercentageX;
+    private final float originalPercentageY;
+    private final TextureAtlas.AtlasRegion texture;
+    private final DrawableLevel level;
+    private final Vector2 position;
+    private final float rotationSpeed;
+    private final boolean isAdditive;
+    public float relativeAngle;
     public float baseAlpha;
-    private float myTexSzX;
-    private float myTexSzY;
-    private float myOrigX;
-    private float myOrigY;
-    private float myRadius;
-    private float myAngle;
-    private boolean myEnabled;
+    private float textureSizeX;
+    private float textureSizeY;
+    private float originalX;
+    private float originalY;
+    private float radius;
+    private float angle;
+    private boolean isEnabled;
 
     /**
      * consumes relPos, doesn't consume Color
      */
-    public RectSprite(TextureAtlas.AtlasRegion tex, float texSz, float origPercX, float origPercY, @Consumed Vector2 relPos,
-                        DrawableLevel level, float relAngle, float rotSpd, Color tint, boolean additive) {
+    public RectSprite(TextureAtlas.AtlasRegion tex, float texSz, float origPercX, float origPercY, @Consumed Vector2 relativePosition,
+                      DrawableLevel level, float relativeAngle, float rotationSpeed, Color tint, boolean additive) {
         if (tex == null) {
             throw new AssertionError("tex is null");
         }
-        myTex = tex;
-        myOrigPercX = origPercX;
-        myOrigPercY = origPercY;
+        texture = tex;
+        originalPercentageX = origPercX;
+        originalPercentageY = origPercY;
 
-        this.relPos = relPos;
-        myPos = new Vector2();
-        myLevel = level;
-        this.relAngle = relAngle;
-        myRotSpd = rotSpd;
+        this.relativePosition = relativePosition;
+        position = new Vector2();
+        this.level = level;
+        this.relativeAngle = relativeAngle;
+        this.rotationSpeed = rotationSpeed;
 
-        myEnabled = true;
+        isEnabled = true;
         baseAlpha = tint.a;
         this.tint = new Color(tint);
 
-        setTexSz(texSz);
-        myAdditive = additive;
+        setTextureSize(texSz);
+        isAdditive = additive;
     }
 
-    public void setTexSz(float texSz) {
-        texSz /= myLevel.depth;
-        int r = myTex.getRegionWidth() / myTex.getRegionHeight();
-        if (r > 1) {
-            myTexSzX = texSz;
-            myTexSzY = texSz / r;
+    public void setTextureSize(float textureSize) {
+        textureSize /= level.depth;
+        int dimensionsRatio = texture.getRegionWidth() / texture.getRegionHeight();
+        if (dimensionsRatio > 1) {
+            textureSizeX = textureSize;
+            textureSizeY = textureSize / dimensionsRatio;
         } else {
-            myTexSzX = texSz / r;
-            myTexSzY = texSz;
+            textureSizeX = textureSize / dimensionsRatio;
+            textureSizeY = textureSize;
         }
-        myOrigX = myTexSzX / 2 + texSz * myOrigPercX;
-        myOrigY = myTexSzY / 2 + texSz * myOrigPercY;
+        originalX = textureSizeX / 2 + textureSize * originalPercentageX;
+        originalY = textureSizeY / 2 + textureSize * originalPercentageY;
 
-        float rx = myTexSzX / 2 + texSz * SolMath.abs(myOrigPercX);
-        float ry = myTexSzY / 2 + texSz * SolMath.abs(myOrigPercY);
-        myRadius = SolMath.sqrt(rx * rx + ry * ry);
-    }
-
-    public Texture getTex0() {
-        return myTex.getTexture();
+        float relativeX = textureSizeX / 2 + textureSize * SolMath.abs(originalPercentageX);
+        float relativeY = textureSizeY / 2 + textureSize * SolMath.abs(originalPercentageY);
+        radius = SolMath.sqrt(relativeX * relativeX + relativeY * relativeY);
     }
 
     @Override
-    public TextureAtlas.AtlasRegion getTex() {
-        return myTex;
+    public TextureAtlas.AtlasRegion getTexture() {
+        return texture;
     }
 
+    @Override
     public DrawableLevel getLevel() {
-        return myLevel;
-    }
-
-    public void update(SolGame game, SolObject o) {
-        relAngle += myRotSpd * game.getTimeStep();
-    }
-
-    public void prepare(SolObject o) {
-        float baseAngle = o.getAngle();
-        Vector2 basePos = o.getPosition();
-        SolMath.toWorld(myPos, relPos, baseAngle, basePos, false);
-        myAngle = relAngle + baseAngle;
-    }
-
-    public Vector2 getPos() {
-        return myPos;
+        return level;
     }
 
     @Override
-    public Vector2 getRelPos() {
-        return relPos;
+    public void update(SolGame game, SolObject o) {
+        relativeAngle += rotationSpeed * game.getTimeStep();
     }
 
+    @Override
+    public void prepare(SolObject object) {
+        float baseAngle = object.getAngle();
+        Vector2 basePosition = object.getPosition();
+        SolMath.toWorld(position, relativePosition, baseAngle, basePosition);
+        angle = relativeAngle + baseAngle;
+    }
+
+    @Override
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    @Override
+    public Vector2 getRelativePosition() {
+        return relativePosition;
+    }
+
+    @Override
     public float getRadius() {
-        return myRadius;
+        return radius;
     }
 
+    @Override
     public void draw(GameDrawer drawer, SolGame game) {
-        float x = myPos.x;
-        float y = myPos.y;
-        if (myLevel.depth != 1) {
-            Vector2 camPos = game.getCam().getPos();
-            x = (x - camPos.x) / myLevel.depth + camPos.x;
-            y = (y - camPos.y) / myLevel.depth + camPos.y;
+        float x = position.x;
+        float y = position.y;
+        if (level.depth != 1) {
+            Vector2 camPosition = game.getCam().getPosition();
+            x = (x - camPosition.x) / level.depth + camPosition.x;
+            y = (y - camPosition.y) / level.depth + camPosition.y;
         }
-        if (myAdditive) {
-            drawer.drawAdditive(myTex, myTexSzX, myTexSzY, myOrigX, myOrigY, x, y, myAngle, tint);
+        if (isAdditive) {
+            drawer.drawAdditive(texture, textureSizeX, textureSizeY, originalX, originalY, x, y, angle, tint);
         } else {
-            drawer.draw(myTex, myTexSzX, myTexSzY, myOrigX, myOrigY, x, y, myAngle, tint);
+            drawer.draw(texture, textureSizeX, textureSizeY, originalX, originalY, x, y, angle, tint);
         }
     }
 
+    @Override
     public boolean isEnabled() {
-        return myEnabled;
+        return isEnabled;
     }
 
     public void setEnabled(boolean enabled) {
-        myEnabled = enabled;
+        isEnabled = enabled;
     }
 
     @Override

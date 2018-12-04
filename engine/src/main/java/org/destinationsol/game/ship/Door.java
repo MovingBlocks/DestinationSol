@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -63,13 +63,13 @@ public class Door {
 
         Vector2 shipPos = ship.getPosition();
         float shipAngle = ship.getAngle();
-        SolMath.toRel(doorPos, myS.getRelPos(), shipAngle, shipPos);
+        SolMath.toRel(doorPos, myS.getRelativePosition(), shipAngle, shipPos);
     }
 
     private boolean shouldOpen(SolGame game, SolShip ship, Vector2 doorPos) {
         Faction faction = ship.getPilot().getFaction();
         FactionManager factionManager = game.getFactionMan();
-        List<SolObject> objs = game.getObjMan().getObjs();
+        List<SolObject> objs = game.getObjectManager().getObjects();
         for (SolObject o : objs) {
             if (o == ship) {
                 continue;
@@ -101,7 +101,7 @@ public class Door {
     }
 
     public void onRemove(SolGame game) {
-        World w = game.getObjMan().getWorld();
+        World w = game.getObjectManager().getWorld();
         Body doorBody = getBody();
         w.destroyJoint(myJoint);
         w.destroyBody(doorBody);

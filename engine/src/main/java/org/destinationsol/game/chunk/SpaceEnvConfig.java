@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,23 +17,23 @@
 package org.destinationsol.game.chunk;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.JsonValue;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 
 import java.util.List;
 
 public class SpaceEnvConfig {
-    public final List<TextureAtlas.AtlasRegion> junkTexs;
+    public final List<TextureAtlas.AtlasRegion> junkTextures;
     public final float junkDensity;
-    public final List<TextureAtlas.AtlasRegion> farJunkTexs;
+    public final List<TextureAtlas.AtlasRegion> farJunkTextures;
     public final float farJunkDensity;
 
-    public SpaceEnvConfig(JsonValue json) {
+    public SpaceEnvConfig(JSONObject json) {
         String junkTexDirStr = json.getString("junkTexs");
-        junkTexs = Assets.listTexturesMatching(junkTexDirStr + "_.*");
-        junkDensity = json.getFloat("junkDensity");
+        junkTextures = Assets.listTexturesMatching(junkTexDirStr + "_.*");
+        junkDensity = (float) json.getDouble("junkDensity");
         String farJunkTexDirStr = json.getString("farJunkTexs");
-        farJunkTexs = Assets.listTexturesMatching(farJunkTexDirStr + "_.*");
-        farJunkDensity = json.getFloat("farJunkDensity");
+        farJunkTextures = Assets.listTexturesMatching(farJunkTexDirStr + "_.*");
+        farJunkDensity = (float) json.getDouble("farJunkDensity");
     }
 }

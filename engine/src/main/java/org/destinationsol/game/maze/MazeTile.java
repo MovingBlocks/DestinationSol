@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,18 +28,18 @@ public class MazeTile {
     public final TextureAtlas.AtlasRegion tex;
     public final List<List<Vector2>> points;
     public final boolean metal;
-    public final TextureAtlas.AtlasRegion bgTex;
+    public final TextureAtlas.AtlasRegion backgroundTexture;
 
     public MazeTile(TextureAtlas.AtlasRegion tex, List<List<Vector2>> points, boolean metal,
-                    TextureAtlas.AtlasRegion bgTex) {
+                    TextureAtlas.AtlasRegion backgroundTexture) {
         this.tex = tex;
         this.points = points;
         this.metal = metal;
-        this.bgTex = bgTex;
+        this.backgroundTexture = backgroundTexture;
     }
 
     public static MazeTile load(TextureAtlas.AtlasRegion tex, CollisionMeshLoader.RigidBodyModel tilePaths, boolean wall,
-                                boolean metal, TextureAtlas.AtlasRegion bgTex) {
+                                boolean metal, TextureAtlas.AtlasRegion backgroundTexture) {
         ArrayList<List<Vector2>> points = new ArrayList<>();
         List<CollisionMeshLoader.PolygonModel> shapes = tilePaths == null ? new ArrayList<>() : tilePaths.polygons;
         for (CollisionMeshLoader.PolygonModel shape : shapes) {
@@ -55,6 +55,6 @@ public class MazeTile {
             wallPoints.add(new Vector2(0, .6f));
             points.add(wallPoints);
         }
-        return new MazeTile(tex, points, metal, bgTex);
+        return new MazeTile(tex, points, metal, backgroundTexture);
     }
 }

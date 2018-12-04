@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,20 +24,20 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * <h1>Config Screen to Change Input Mapping</h1>
  * The input mapping screen is based on the inventory screen used within the game.
  */
-public class InputMapScreen implements SolUiScreen {
+public class InputMapScreen extends SolUiBaseScreen {
     private static final float IMG_COL_PERC = .1f;
     private static final float EQUI_COL_PERC = .1f;
     private static final float PRICE_COL_PERC = .1f;
@@ -48,8 +48,7 @@ public class InputMapScreen implements SolUiScreen {
     final InputMapKeyboardScreen inputMapKeyboardScreen;
     final InputMapControllerScreen inputMapControllerScreen;
     final InputMapMixedScreen inputMapMixedScreen;
-    private final TextureAtlas.AtlasRegion bgTex;
-    private final List<SolUiControl> controls = new ArrayList<>();
+    private final TextureAtlas.AtlasRegion backgroundTexture;
     private final SolUiControl[] itemControls;
     private final SolUiControl previousControl;
     private final SolUiControl nextControl;
@@ -59,6 +58,8 @@ public class InputMapScreen implements SolUiScreen {
     private final SolUiControl upControl;
     private final SolUiControl downControl;
 
+    private DisplayDimensions displayDimensions;
+
     private final Vector2 listHeaderPos;
     private final Rectangle listArea;
     private final Rectangle detailsArea;
@@ -67,9 +68,11 @@ public class InputMapScreen implements SolUiScreen {
     private int page;
     private int selectedIndex;
 
-    InputMapScreen(float resolutionRatio, GameOptions gameOptions) {
+    InputMapScreen(GameOptions gameOptions) {
+        displayDimensions = SolApplication.displayDimensions;
+
         float contentW = .8f;
-        float col0 = resolutionRatio / 2 - contentW / 2;
+        float col0 = displayDimensions.getRatio() / 2 - contentW / 2;
         float row = 0.2f;
         float bigGap = SMALL_GAP * 6;
         float headerH = .03f;
@@ -127,22 +130,17 @@ public class InputMapScreen implements SolUiScreen {
         controls.add(downControl);
 
         // Create the input screens
-        inputMapKeyboardScreen = new InputMapKeyboardScreen(this, gameOptions);
+        inputMapKeyboardScreen = new InputMapKeyboardScreen();
         inputMapControllerScreen = new InputMapControllerScreen();
         inputMapMixedScreen = new InputMapMixedScreen();
 
-        bgTex = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
+        backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override
     public void updateCustom(SolApplication cmp, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         GameOptions gameOptions = cmp.getOptions();
-        SolInputManager im = cmp.getInputMan();
+        SolInputManager im = cmp.getInputManager();
         MenuScreens screens = cmp.getMenuScreens();
 
         // Save - saves new settings and returns to the options screen
@@ -250,13 +248,8 @@ public class InputMapScreen implements SolUiScreen {
         operations.setSelectedIndex(selectedIndex);
     }
 
-    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
-    }
-
-    @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication solApplication) {
-
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     @Override
@@ -296,28 +289,14 @@ public class InputMapScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean reactsToClickOutside() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursorOnBg(SolInputManager.InputPointer inputPointer) {
-        return false;
-    }
-
-    @Override
     public void onAdd(SolApplication solApplication) {
         // Add any extra screen information as required by the input screens. E.g. buttons
         if (operations != null) {
-            solApplication.getInputMan().addScreen(solApplication, operations);
+            solApplication.getInputManager().addScreen(solApplication, operations);
         }
 
         page = 0;
         selectedIndex = 0;
-    }
-
-    @Override
-    public void blurCustom(SolApplication cmp) {
     }
 
     private Rectangle itemControlRectangle(int row) {

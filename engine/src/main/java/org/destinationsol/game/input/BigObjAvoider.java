@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,44 +23,44 @@ import org.destinationsol.game.planet.Planet;
 
 public class BigObjAvoider {
 
-    public static final float MAX_DIST_LEN = 2 * (Const.MAX_GROUND_HEIGHT + Const.ATM_HEIGHT);
-    private Vector2 myProj;
+    private static final float MAX_DIST_LEN = 2 * (Const.MAX_GROUND_HEIGHT + Const.ATM_HEIGHT);
+    private Vector2 myProj; // TODO replace name with something logical, if you can find out what
 
-    public BigObjAvoider() {
+    BigObjAvoider() {
         myProj = new Vector2();
     }
 
-    public float avoid(SolGame game, Vector2 from, Vector2 dest, float toDestAngle) {
-        float toDestLen = from.dst(dest);
-        if (toDestLen > MAX_DIST_LEN) {
-            toDestLen = MAX_DIST_LEN;
+    public float avoid(SolGame game, Vector2 from, Vector2 destination, float angleToDestination) {
+        float distanceToDestination = from.dst(destination);
+        if (distanceToDestination > MAX_DIST_LEN) {
+            distanceToDestination = MAX_DIST_LEN;
         }
-        float res = toDestAngle;
-        Planet p = game.getPlanetMan().getNearestPlanet(from);
-        Vector2 pPos = p.getPos();
-        float pRad = p.getFullHeight();
-        if (dest.dst(pPos) < pRad) {
-            pRad = p.getGroundHeight();
+        float result = angleToDestination;
+        Planet planet = game.getPlanetManager().getNearestPlanet(from);
+        Vector2 planetPosition = planet.getPosition();
+        float planetRadius = planet.getFullHeight();
+        if (destination.dst(planetPosition) < planetRadius) {
+            planetRadius = planet.getGroundHeight();
         }
-        myProj.set(pPos);
+        myProj.set(planetPosition);
         myProj.sub(from);
-        SolMath.rotate(myProj, -toDestAngle);
-        if (0 < myProj.x && myProj.x < toDestLen) {
-            if (SolMath.abs(myProj.y) < pRad) {
-                toDestLen = myProj.x;
-                res = toDestAngle + 45 * SolMath.toInt(myProj.y < 0);
+        SolMath.rotate(myProj, -angleToDestination);
+        if (0 < myProj.x && myProj.x < distanceToDestination) {
+            if (SolMath.abs(myProj.y) < planetRadius) {
+                distanceToDestination = myProj.x;
+                result = angleToDestination + 45 * SolMath.toInt(myProj.y < 0);
             }
         }
-        Vector2 sunPos = p.getSys().getPos();
+        Vector2 sunPos = planet.getSystem().getPosition();
         float sunRad = Const.SUN_RADIUS;
         myProj.set(sunPos);
         myProj.sub(from);
-        SolMath.rotate(myProj, -toDestAngle);
-        if (0 < myProj.x && myProj.x < toDestLen) {
+        SolMath.rotate(myProj, -angleToDestination);
+        if (0 < myProj.x && myProj.x < distanceToDestination) {
             if (SolMath.abs(myProj.y) < sunRad) {
-                res = toDestAngle + 45 * SolMath.toInt(myProj.y < 0);
+                result = angleToDestination + 45 * SolMath.toInt(myProj.y < 0);
             }
         }
-        return res;
+        return result;
     }
 }

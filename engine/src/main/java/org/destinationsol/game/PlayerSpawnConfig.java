@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,7 +15,8 @@
  */
 package org.destinationsol.game;
 
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.HullConfigManager;
@@ -34,12 +35,14 @@ public class PlayerSpawnConfig {
 
     public static PlayerSpawnConfig load(HullConfigManager hullConfigs, ItemManager itemManager) {
         Json json = Assets.getJson("engine:playerSpawnConfig");
-        JsonValue rootNode = json.getJsonValue();
+        JSONObject rootNode = json.getJsonValue();
 
-        JsonValue playerNode = rootNode.get("player");
-        ShipConfig shipConfig = ShipConfig.load(hullConfigs, playerNode.get("ship"), itemManager);
-        ShipConfig godShipConfig = ShipConfig.load(hullConfigs, playerNode.get("godModeShip"), itemManager);
-        ShipConfig mainStation = ShipConfig.load(hullConfigs, rootNode.get("mainStation"), itemManager);
+        Validator.validate(rootNode, "engine:schemaPlayerSpawnConfig");
+
+        JSONObject playerNode = rootNode.getJSONObject("player");
+        ShipConfig shipConfig = ShipConfig.load(hullConfigs, playerNode.has("ship") ? playerNode.getJSONObject("ship") : null, itemManager);
+        ShipConfig godShipConfig = ShipConfig.load(hullConfigs, playerNode.has("godModeShip") ? playerNode.getJSONObject("godModeShip") : null, itemManager);
+        ShipConfig mainStation = ShipConfig.load(hullConfigs, rootNode.has("mainStation") ? rootNode.getJSONObject("mainStation") : null, itemManager);
 
         json.dispose();
 

@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,8 +16,8 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import org.destinationsol.common.SolColorUtil;
-import org.destinationsol.common.SolMath;
 
 public abstract class ColorSpan {
 
@@ -54,7 +54,7 @@ public abstract class ColorSpan {
 
         @Override
         public void set(float perc, Color col) {
-            perc = SolMath.clamp(perc, 0, 1);
+            perc = MathUtils.clamp(perc, (float) 0, (float) 1);
             col.r = midVal(myStart.r, myEnd.r, perc);
             col.g = midVal(myStart.g, myEnd.g, perc);
             col.b = midVal(myStart.b, myEnd.b, perc);

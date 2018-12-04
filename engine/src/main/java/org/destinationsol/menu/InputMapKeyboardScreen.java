@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,22 +23,16 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputMapKeyboardScreen implements InputMapOperations {
+public class InputMapKeyboardScreen extends InputMapOperations {
     private static final String HEADER_TEXT = "Keyboard Inputs";
 
-    private final ArrayList<SolUiControl> controls;
     private boolean isEnterNewKey;
     private List<InputConfigItem> itemsList = new ArrayList<>();
     private int selectedIndex;
-
-    public InputMapKeyboardScreen(InputMapScreen inputMapScreen, GameOptions gameOptions) {
-        controls = new ArrayList<>();
-    }
 
     private void InitialiseList(GameOptions gameOptions) {
         itemsList.clear();
@@ -198,39 +192,10 @@ public class InputMapKeyboardScreen implements InputMapOperations {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawImgs(UiDrawer uiDrawer, SolApplication cmp) {
-
-    }
-
-    @Override
-    public void drawText(UiDrawer uiDrawer, SolApplication cmp) {
-    }
-
-    @Override
-    public boolean reactsToClickOutside() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursorOnBg(SolInputManager.InputPointer inputPointer) {
-        return false;
-    }
-
-    @Override
     public void onAdd(SolApplication cmp) {
         InitialiseList(cmp.getOptions());
         isEnterNewKey = false;
         selectedIndex = 0;
-    }
-
-    @Override
-    public void blurCustom(SolApplication cmp) {
-
     }
 
     @Override

@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,9 +42,9 @@ public class SmallObjAvoider {
     public float avoid(SolGame game, SolShip ship, float toDestAngle, Planet np) {
         myShip = ship;
         Vector2 shipPos = ship.getPosition();
-        float shipSpdLen = ship.getSpd().len();
+        float shipSpeedLen = ship.getSpeed().len();
         float ttt = ship.calcTimeToTurn(toDestAngle + 45);
-        float raycastLen = shipSpdLen * (ttt + MANEUVER_TIME);
+        float raycastLen = shipSpeedLen * (ttt + MANEUVER_TIME);
         if (raycastLen < MIN_RAYCAST_LEN) {
             raycastLen = MIN_RAYCAST_LEN;
         }
@@ -52,7 +52,7 @@ public class SmallObjAvoider {
         SolMath.fromAl(myDest, toDestAngle, raycastLen);
         myDest.add(shipPos);
         myCollided = false;
-        World w = game.getObjMan().getWorld();
+        World w = game.getObjectManager().getWorld();
         w.rayCast(myRayBack, shipPos, myDest);
         if (!myCollided) {
             return toDestAngle;
@@ -76,10 +76,10 @@ public class SmallObjAvoider {
             return toDestAngle;
         }
 
-        if (np.getFullHeight() < np.getPos().dst(shipPos)) {
+        if (np.getFullHeight() < np.getPosition().dst(shipPos)) {
             return toDestAngle - 45;
         }
-        return SolMath.angle(np.getPos(), shipPos);
+        return SolMath.angle(np.getPosition(), shipPos);
     }
 
     private class MyRayBack implements RayCastCallback {

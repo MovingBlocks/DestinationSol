@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,18 +22,17 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 
-import java.util.ArrayList;
-import java.util.List;
+public class OptionsScreen extends SolUiBaseScreen {
+    private DisplayDimensions displayDimensions;
 
-public class OptionsScreen implements SolUiScreen {
-    private final TextureAtlas.AtlasRegion bgTex;
+    private final TextureAtlas.AtlasRegion backgroundTexture;
 
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl backControl;
     private final SolUiControl resolutionControl;
     private final SolUiControl inputTypeControl;
@@ -42,6 +41,8 @@ public class OptionsScreen implements SolUiScreen {
     private final SolUiControl musicVolumeControl;
 
     OptionsScreen(MenuLayout menuLayout, GameOptions gameOptions) {
+        displayDimensions = SolApplication.displayDimensions;
+
         resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true);
         resolutionControl.setDisplayName("Resolution");
         controls.add(resolutionControl);
@@ -66,34 +67,19 @@ public class OptionsScreen implements SolUiScreen {
         musicVolumeControl.setDisplayName("Music Volume");
         controls.add(musicVolumeControl);
 
-        bgTex = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
+        backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        SolInputManager inputManager = solApplication.getInputMan();
+        SolInputManager inputManager = solApplication.getInputManager();
         MenuScreens screens = solApplication.getMenuScreens();
         GameOptions options = solApplication.getOptions();
         if (resolutionControl.isJustOff()) {
             inputManager.setScreen(solApplication, screens.resolutionScreen);
         }
 
-        int controlType = solApplication.getOptions().controlType;
-        String controlName = "Keyboard";
-        if (controlType == GameOptions.CONTROL_MIXED) {
-            controlName = "KB + Mouse";
-        }
-        if (controlType == GameOptions.CONTROL_MOUSE) {
-            controlName = "Mouse";
-        }
-        if (controlType == GameOptions.CONTROL_CONTROLLER) {
-            controlName = "Controller";
-        }
+        String controlName = solApplication.getOptions().controlType.getHumanName();
         inputTypeControl.setDisplayName("Input: " + controlName);
         if (inputTypeControl.isJustOff()) {
             solApplication.getOptions().advanceControlType(false);
@@ -104,30 +90,33 @@ public class OptionsScreen implements SolUiScreen {
         }
 
         if (inputMapControl.isJustOff()) {
-            if (controlType == GameOptions.CONTROL_MIXED) {
-                screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapMixedScreen);
-            } else if (controlType == GameOptions.CONTROL_KB) {
-                screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapKeyboardScreen);
-            } else if (controlType == GameOptions.CONTROL_CONTROLLER) {
-                screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapControllerScreen);
+            switch (solApplication.getOptions().controlType) {
+                case KEYBOARD:
+                    screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapKeyboardScreen);
+                    break;
+                case MIXED:
+                    screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapMixedScreen);
+                    break;
+                case CONTROLLER:
+                    screens.inputMapScreen.setOperations(screens.inputMapScreen.inputMapControllerScreen);
             }
             inputManager.setScreen(solApplication, screens.inputMapScreen);
         }
 
-        soundVolumeControl.setDisplayName("Sound Volume: " + options.getSFXVolumeAsText());
+        soundVolumeControl.setDisplayName("Sound Volume: " + options.sfxVolume.getName());
         if (soundVolumeControl.isJustOff()) {
             options.advanceSoundVolMul();
         }
 
-        musicVolumeControl.setDisplayName("Music Volume: " + options.getMusicVolumeAsText());
+        musicVolumeControl.setDisplayName("Music Volume: " + options.musicVolume.getName());
         if (musicVolumeControl.isJustOff()) {
             options.advanceMusicVolMul();
-            solApplication.getMusicManager().resetVolume(options);
+            solApplication.getMusicManager().changeVolume(options);
         }
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
     }
 }

@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,47 +22,43 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 
-import java.util.ArrayList;
-import java.util.List;
+public class ResolutionScreen extends SolUiBaseScreen {
+    private DisplayDimensions displayDimensions;
 
-public class ResolutionScreen implements SolUiScreen {
-    private final TextureAtlas.AtlasRegion bgTex;
+    private final TextureAtlas.AtlasRegion backgroundTexture;
 
-    private final ArrayList<SolUiControl> myControls = new ArrayList<>();
     private final SolUiControl closeControl;
     private final SolUiControl resolutionControl;
     private final SolUiControl fullscreenControl;
 
     ResolutionScreen(MenuLayout menuLayout, GameOptions gameOptions) {
+        displayDimensions = SolApplication.displayDimensions;
+
         resolutionControl = new SolUiControl(menuLayout.buttonRect(-1, 2), true);
         resolutionControl.setDisplayName("Resolution");
-        myControls.add(resolutionControl);
+        controls.add(resolutionControl);
 
         fullscreenControl = new SolUiControl(menuLayout.buttonRect(-1, 3), true);
         fullscreenControl.setDisplayName("Fullscreen");
-        myControls.add(fullscreenControl);
+        controls.add(fullscreenControl);
 
         closeControl = new SolUiControl(menuLayout.buttonRect(-1, 4), true, gameOptions.getKeyEscape());
         closeControl.setDisplayName("Back");
-        myControls.add(closeControl);
+        controls.add(closeControl);
 
-        bgTex = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return myControls;
+        backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        SolInputManager inputManager = solApplication.getInputMan();
+        SolInputManager inputManager = solApplication.getInputManager();
         GameOptions options = solApplication.getOptions();
 
         if (closeControl.isJustOff()) {
@@ -73,7 +69,7 @@ public class ResolutionScreen implements SolUiScreen {
 
         resolutionControl.setDisplayName(options.x + "x" + options.y);
         if (resolutionControl.isJustOff()) {
-            options.advanceReso();
+            options.advanceResolution();
         }
 
         fullscreenControl.setDisplayName(options.fullscreen ? "Fullscreen" : "Windowed");
@@ -83,12 +79,12 @@ public class ResolutionScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     @Override
     public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.drawString("Click 'Back' to apply changes", .5f * uiDrawer.r, .3f, FontSize.MENU, true, SolColor.WHITE);
+        uiDrawer.drawString("Click 'Back' to apply changes", .5f * displayDimensions.getRatio(), .3f, FontSize.MENU, true, SolColor.WHITE);
     }
 }

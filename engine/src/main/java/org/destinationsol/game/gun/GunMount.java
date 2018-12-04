@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -61,11 +61,11 @@ public class GunMount {
             Vector2 creatorPos = creator.getPosition();
             Vector2 nePos = nearestEnemy.getPosition();
             float dst = creatorPos.dst(nePos) - creator.getHull().config.getApproxRadius() - nearestEnemy.getHull().config.getApproxRadius();
-            float detDst = game.getPlanetMan().getNearestPlanet().isNearGround(creatorPos) ? Const.AUTO_SHOOT_GROUND : Const.AUTO_SHOOT_SPACE;
+            float detDst = game.getPlanetManager().getNearestPlanet().isNearGround(creatorPos) ? Const.AUTO_SHOOT_GROUND : Const.AUTO_SHOOT_SPACE;
             if (dst < detDst) {
                 Vector2 mountPos = SolMath.toWorld(myRelPos, shipAngle, creatorPos);
                 boolean player = creator.getPilot().isPlayer();
-                float shootAngle = Shooter.calcShootAngle(mountPos, creator.getSpd(), nePos, nearestEnemy.getSpd(), myGun.getConfig().clipConf.projConfig.spdLen, player);
+                float shootAngle = Shooter.calcShootAngle(mountPos, creator.getSpeed(), nePos, nearestEnemy.getSpeed(), myGun.getConfig().clipConf.projConfig.speedLen, player);
                 if (shootAngle == shootAngle) {
                     myRelGunAngle = shootAngle - shipAngle;
                     myDetected = true;
@@ -78,7 +78,7 @@ public class GunMount {
         }
 
         float gunAngle = shipAngle + myRelGunAngle;
-        myGun.update(ic, game, gunAngle, creator, shouldShoot, faction);
+        myGun.update(ic, game, gunAngle, creator, shouldShoot, faction, creator);
     }
 
     public Gun getGun() {
@@ -98,7 +98,7 @@ public class GunMount {
             if (gun.config.fixed != myFixed) {
                 throw new AssertionError("tried to set gun to incompatible mount");
             }
-            myGun = new SolGun(game, gun, myRelPos, underShip);
+            myGun = new SolGun(gun, myRelPos, underShip);
             myGun.getItem().setEquipped(slotNr);
             List<Drawable> dras1 = myGun.getDrawables();
             drawables.addAll(dras1);

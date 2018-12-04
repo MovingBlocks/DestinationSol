@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,10 +15,11 @@
  */
 package org.destinationsol.game.planet;
 
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
-import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.ShipConfig;
 import org.destinationsol.game.chunk.SpaceEnvConfig;
@@ -32,16 +33,16 @@ import java.util.Map;
 import java.util.Set;
 
 public class SysConfigs {
-    private final Map<String, SysConfig> myConfigs;
-    private final Map<String, SysConfig> myHardConfigs;
-    private final Map<String, SysConfig> myBeltConfigs;
-    private final Map<String, SysConfig> myHardBeltConfigs;
+    private final Map<String, SysConfig> configs;
+    private final Map<String, SysConfig> hardConfigs;
+    private final Map<String, SysConfig> beltConfigs;
+    private final Map<String, SysConfig> hardBeltConfigs;
 
     public SysConfigs(HullConfigManager hullConfigs, ItemManager itemManager) {
-        myConfigs = new HashMap<>();
-        myHardConfigs = new HashMap<>();
-        myBeltConfigs = new HashMap<>();
-        myHardBeltConfigs = new HashMap<>();
+        configs = new HashMap<>();
+        hardConfigs = new HashMap<>();
+        beltConfigs = new HashMap<>();
+        hardBeltConfigs = new HashMap<>();
 
         load("systemsConfig", hullConfigs, false, itemManager);
         load("asteroidBeltsConfig", hullConfigs, true, itemManager);
@@ -49,15 +50,20 @@ public class SysConfigs {
 
     private void load(String configName, HullConfigManager hullConfigs, boolean belts, ItemManager itemManager) {
         Json json = Assets.getJson("engine:" + configName);
-        JsonValue rootNode = json.getJsonValue();
+        JSONObject rootNode = json.getJsonValue();
 
-        for (JsonValue node : rootNode) {
-            String name = node.name;
+        Validator.validate(rootNode, "engine:schemaSystemsConfig");
 
-            boolean hard = node.getBoolean("hard", false);
-            Map<String, SysConfig> configs = belts ? hard ? myHardBeltConfigs : myBeltConfigs : hard ? myHardConfigs : myConfigs;
+        for (String s : rootNode.keySet()) {
+            if (!(rootNode.get(s) instanceof JSONObject))
+                continue;
+            JSONObject node = rootNode.getJSONObject(s);
+            String name = s;
 
-            SpaceEnvConfig envConfig = new SpaceEnvConfig(node.get("environment"));
+            boolean hard = node.optBoolean("hard", false);
+            Map<String, SysConfig> configs = belts ? hard ? hardBeltConfigs : beltConfigs : hard ? hardConfigs : this.configs;
+
+            SpaceEnvConfig envConfig = new SpaceEnvConfig(node.getJSONObject("environment"));
 
             SysConfig config = new SysConfig(name, new ArrayList<>(), envConfig, new ArrayList<>(), new ArrayList<>(), new TradeConfig(), new ArrayList<>(), hard);
             configs.put(name, config);
@@ -71,25 +77,30 @@ public class SysConfigs {
             json = Assets.getJson(configUrn.toString());
             rootNode = json.getJsonValue();
 
-            for (JsonValue node : rootNode) {
-                String name = node.name;
+            Validator.validate(rootNode, "engine:schemaSystemsConfig");
 
-                boolean hard = node.getBoolean("hard", false);
-                Map<String, SysConfig> configs = belts ? hard ? myHardBeltConfigs : myBeltConfigs : hard ? myHardConfigs : myConfigs;
+            for (String s : rootNode.keySet()) {
+                if (!(rootNode.get(s) instanceof JSONObject))
+                    continue;
+                JSONObject node = rootNode.getJSONObject(s);
+                String name = s;
+
+                boolean hard = node.optBoolean("hard", false);
+                Map<String, SysConfig> configs = belts ? hard ? hardBeltConfigs : beltConfigs : hard ? hardConfigs : this.configs;
 
                 SysConfig config = configs.get(name);
 
                 // TODO : Maybe add sanity checks for config?
 
-                config.tempEnemies.addAll(ShipConfig.loadList(node.get("temporaryEnemies"), hullConfigs, itemManager));
-                config.innerTempEnemies.addAll(ShipConfig.loadList(node.get("innerTemporaryEnemies"), hullConfigs, itemManager));
+                config.tempEnemies.addAll(ShipConfig.loadList(node.has("temporaryEnemies") ? node.getJSONArray("temporaryEnemies") : null, hullConfigs, itemManager));
+                config.innerTempEnemies.addAll(ShipConfig.loadList(node.has("innerTemporaryEnemies") ? node.getJSONArray("innerTemporaryEnemies") : null, hullConfigs, itemManager));
 
                 if (!belts) {
-                    config.constEnemies.addAll(ShipConfig.loadList(node.get("constantEnemies"), hullConfigs, itemManager));
-                    config.constAllies.addAll(ShipConfig.loadList(node.get("constantAllies"), hullConfigs, itemManager));
+                    config.constEnemies.addAll(ShipConfig.loadList(node.has("constantEnemies") ? node.getJSONArray("constantEnemies") : null, hullConfigs, itemManager));
+                    config.constAllies.addAll(ShipConfig.loadList(node.has("constantAllies") ? node.getJSONArray("constantAllies") : null, hullConfigs, itemManager));
                 }
 
-                config.tradeConfig.load(node.get("trading"), hullConfigs, itemManager);
+                config.tradeConfig.load(node.has("trading") ? node.getJSONObject("trading") : null, hullConfigs, itemManager);
             }
 
             json.dispose();
@@ -97,43 +108,43 @@ public class SysConfigs {
     }
 
     public SysConfig getRandomBelt(boolean hard) {
-        Map<String, SysConfig> config = hard ? myHardBeltConfigs : myBeltConfigs;
-        return SolMath.elemRnd(new ArrayList<>(config.values()));
+        Map<String, SysConfig> config = hard ? hardBeltConfigs : beltConfigs;
+        return SolRandom.seededRandomElement(new ArrayList<>(config.values()));
     }
 
     public SysConfig getConfig(String name) {
-        SysConfig res = myConfigs.get(name);
+        SysConfig res = configs.get(name);
         if (res != null) {
             return res;
         }
-        return myHardConfigs.get(name);
+        return hardConfigs.get(name);
     }
 
     public SysConfig getRandomCfg(boolean hard) {
-        Map<String, SysConfig> config = hard ? myHardConfigs : myConfigs;
-        return SolMath.elemRnd(new ArrayList<>(config.values()));
+        Map<String, SysConfig> config = hard ? hardConfigs : configs;
+        return SolRandom.seededRandomElement(new ArrayList<>(config.values()));
     }
 
     public void addAllConfigs(ArrayList<ShipConfig> shipConfigs) {
-        for (SysConfig sc : myConfigs.values()) {
+        for (SysConfig sc : configs.values()) {
             shipConfigs.addAll(sc.constAllies);
             shipConfigs.addAll(sc.constEnemies);
             shipConfigs.addAll(sc.tempEnemies);
             shipConfigs.addAll(sc.innerTempEnemies);
         }
 
-        for (SysConfig sc : myHardConfigs.values()) {
+        for (SysConfig sc : hardConfigs.values()) {
             shipConfigs.addAll(sc.constAllies);
             shipConfigs.addAll(sc.constEnemies);
             shipConfigs.addAll(sc.tempEnemies);
             shipConfigs.addAll(sc.innerTempEnemies);
         }
 
-        for (SysConfig sc : myBeltConfigs.values()) {
+        for (SysConfig sc : beltConfigs.values()) {
             shipConfigs.addAll(sc.tempEnemies);
         }
 
-        for (SysConfig sc : myHardBeltConfigs.values()) {
+        for (SysConfig sc : hardBeltConfigs.values()) {
             shipConfigs.addAll(sc.tempEnemies);
         }
     }

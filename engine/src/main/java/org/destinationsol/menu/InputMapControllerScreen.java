@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,17 +26,15 @@ import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
-import org.destinationsol.ui.SolUiControl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputMapControllerScreen implements InputMapOperations {
+public class InputMapControllerScreen extends InputMapOperations {
     private static final String HEADER_TEXT = "Controller Inputs";
     private static Logger logger = LoggerFactory.getLogger(InputMapControllerScreen.class);
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private boolean isEnterNewKey;
     private List<InputConfigItem> itemsList = new ArrayList<>();
     private int selectedIndex;
@@ -173,11 +171,6 @@ public class InputMapControllerScreen implements InputMapOperations {
         item = itemsList.get(index);
         item.setInputKey(GameOptions.DEFAULT_HIRE_SHIP);
         itemsList.set(index++, item);
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
     }
 
     /**

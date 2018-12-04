@@ -1,0 +1,11 @@
+{
+    "id" : "kree",
+    "version" : "0.1.0",
+    "displayName" : "kree Faction",
+    "description" : "Content related to kree Faction.",
+    "dependencies" :  [
+        {
+            "id" : "core"
+        }
+    ]
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,11 @@
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.assets.audio.OggSoundSet;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
@@ -25,8 +28,6 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.HardnessCalc;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.projectile.ProjectileConfig;
-import org.destinationsol.game.sound.OggSoundManager;
-import org.destinationsol.game.sound.OggSoundSet;
 
 import java.util.Arrays;
 import java.util.List;
@@ -60,7 +61,7 @@ public class Gun implements SolItem {
     }
 
     @Override
-    public String getDesc() {
+    public String getDescription() {
         return config.desc;
     }
 
@@ -123,7 +124,7 @@ public class Gun implements SolItem {
         public final boolean fixed;
         public final float meanDps;
         public final SolItemType itemType;
-        public final float texLenPerc;
+        public final float texLenPercentage;
         public final String code;
 
         public Config(float minAngleVar, float maxAngleVar, float angleVarDamp, float angleVarPerShot,
@@ -131,7 +132,7 @@ public class Gun implements SolItem {
                       float reloadTime, float gunLength, String displayName,
                       boolean lightOnShot, int price,
                       Clip.Config clipConf, PlayableSound shootSound, PlayableSound reloadSound, TextureAtlas.AtlasRegion tex,
-                      TextureAtlas.AtlasRegion icon, boolean fixed, SolItemType itemType, float texLenPerc, String code) {
+                      TextureAtlas.AtlasRegion icon, boolean fixed, SolItemType itemType, float texLenPercentage, String code) {
             this.shootSound = shootSound;
             this.reloadSound = reloadSound;
 
@@ -151,7 +152,7 @@ public class Gun implements SolItem {
             this.icon = icon;
             this.fixed = fixed;
             this.itemType = itemType;
-            this.texLenPerc = texLenPerc;
+            this.texLenPercentage = texLenPercentage;
             this.code = code;
 
             dps = HardnessCalc.getShotDps(this, clipConf.projConfig.dmg);
@@ -162,26 +163,28 @@ public class Gun implements SolItem {
 
         public static void load(String gunName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
             Json json = Assets.getJson(gunName);
-            JsonValue rootNode = json.getJsonValue();
+            JSONObject rootNode = json.getJsonValue();
 
-            float minAngleVar = rootNode.getFloat("minAngleVar", 0);
-            float maxAngleVar = rootNode.getFloat("maxAngleVar");
-            float angleVarDamp = rootNode.getFloat("angleVarDamp");
-            float angleVarPerShot = rootNode.getFloat("angleVarPerShot");
-            float timeBetweenShots = rootNode.getFloat("timeBetweenShots");
-            float reloadTime = rootNode.getFloat("reloadTime");
-            float gunLength = rootNode.getFloat("gunLength");
-            float texLenPerc = rootNode.getFloat("texLenPerc", 1);
+            Validator.validate(rootNode, "engine:schemaGun");
+
+            float minAngleVar = (float) rootNode.optDouble("minAngleVar", 0);
+            float maxAngleVar = (float) rootNode.getDouble("maxAngleVar");
+            float angleVarDamp = (float) rootNode.getDouble("angleVarDamp");
+            float angleVarPerShot = (float) rootNode.getDouble("angleVarPerShot");
+            float timeBetweenShots = (float) rootNode.getDouble("timeBetweenShots");
+            float reloadTime = (float) rootNode.getDouble("reloadTime");
+            float gunLength = (float) rootNode.getDouble("gunLength");
+            float texLenPercentage = (float) rootNode.optDouble("texLenPerc", 1);
             String displayName = rootNode.getString("displayName");
-            boolean lightOnShot = rootNode.getBoolean("lightOnShot", false);
+            boolean lightOnShot = rootNode.optBoolean("lightOnShot", false);
             int price = rootNode.getInt("price");
             String clipName = rootNode.getString("clipName");
-            List<String> reloadSoundUrns = Arrays.asList(rootNode.get("reloadSounds").asStringArray());
+            List<String> reloadSoundUrns = Assets.convertToStringList(rootNode.getJSONArray("reloadSounds"));
             OggSoundSet reloadSoundSet = new OggSoundSet(soundManager, reloadSoundUrns, 1.0f);
-            List<String> shootSoundUrns = Arrays.asList(rootNode.get("shootSounds").asStringArray());
-            float shootPitch = rootNode.getFloat("shootSoundPitch", 1);
+            List<String> shootSoundUrns = Assets.convertToStringList(rootNode.getJSONArray("shootSounds"));
+            float shootPitch = (float) rootNode.optDouble("shootSoundPitch", 1);
             OggSoundSet shootSoundSet = new OggSoundSet(soundManager, shootSoundUrns, shootPitch);
-            boolean fixed = rootNode.getBoolean("fixed", false);
+            boolean fixed = rootNode.optBoolean("fixed", false);
             SolItemType itemType = fixed ? types.fixedGun : types.gun;
 
             Clip.Config clipConf = null;
@@ -200,8 +203,8 @@ public class Gun implements SolItem {
             TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(gunName + "Icon");
 
             Config gunConfig = new Config(minAngleVar, maxAngleVar, angleVarDamp, angleVarPerShot, timeBetweenShots,
-                                            reloadTime, gunLength, displayName, lightOnShot, price, clipConf, shootSoundSet,
-                                                reloadSoundSet, tex, icon, fixed, itemType, texLenPerc, gunName);
+                    reloadTime, gunLength, displayName, lightOnShot, price, clipConf, shootSoundSet,
+                    reloadSoundSet, tex, icon, fixed, itemType, texLenPercentage, gunName);
             itemManager.registerItem(gunConfig.example);
         }
 

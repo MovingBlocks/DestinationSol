@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,8 +24,8 @@ public class GridDrawer {
     public void draw(GameDrawer drawer, SolGame game, float gridSz, TextureAtlas.AtlasRegion tex) {
         SolCam cam = game.getCam();
         float lw = 4 * cam.getRealLineWidth();
-        Vector2 camPos = cam.getPos();
-        float viewDist = cam.getViewDist(cam.getRealZoom());
+        Vector2 camPos = cam.getPosition();
+        float viewDist = cam.getViewDistance(cam.getRealZoom());
         float x = (int) ((camPos.x - viewDist) / gridSz) * gridSz;
         float y = (int) ((camPos.y - viewDist) / gridSz) * gridSz;
         int count = (int) (viewDist * 2 / gridSz);

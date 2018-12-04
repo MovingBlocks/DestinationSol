@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,12 +16,13 @@
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.SerializationException;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.common.SolMath;
+import org.destinationsol.assets.audio.OggSoundManager;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.projectile.ProjectileConfigs;
-import org.destinationsol.game.sound.OggSoundManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,13 +62,13 @@ public class ItemManager {
         myL.addAll(myM.values());
     }
 
-    public void fillContainer(ItemContainer c, String items) {
+    public void fillContainer(ItemContainer itemContainer, String items) {
         List<ItemConfig> list = parseItems(items);
-        for (ItemConfig ic : list) {
-            for (int i = 0; i < ic.amt; i++) {
-                if (SolMath.test(ic.chance)) {
-                    SolItem item = SolMath.elemRnd(ic.examples).copy();
-                    c.add(item);
+        for (ItemConfig itemConfig : list) {
+            for (int i = 0; i < itemConfig.amount; i++) {
+                if (SolRandom.test(itemConfig.chance)) {
+                    SolItem item = SolRandom.randomElement(itemConfig.examples).copy();
+                    itemContainer.add(item);
                 }
             }
         }
@@ -133,16 +134,22 @@ public class ItemManager {
 
                 if (example == null) {
                     // TODO: Temporary hacky way!
-                    if (itemName.endsWith("Charge")) {
-                        AbilityCharge.Config.load(itemName, this, myTypes);
-                    } else if (itemName.endsWith("Armor")) {
-                        Armor.Config.load(itemName, this, soundManager, myTypes);
-                    } else if (itemName.endsWith("Clip")) {
-                        Clip.Config.load(itemName, this, myTypes);
-                    } else if (itemName.endsWith("Shield") || itemName.endsWith("shield")) {
-                        Shield.Config.load(itemName, this, soundManager, myTypes);
-                    } else {
-                        Gun.Config.load(itemName, this, soundManager, myTypes);
+                    try {
+                        if (itemName.endsWith("Charge")) {
+                            AbilityCharge.Config.load(itemName, this, myTypes);
+                        } else if (itemName.endsWith("Armor")) {
+                            Armor.Config.load(itemName, this, soundManager, myTypes);
+                        } else if (itemName.endsWith("Clip")) {
+                            Clip.Config.load(itemName, this, myTypes);
+                        } else if (itemName.endsWith("Shield") || itemName.endsWith("shield")) {
+                            Shield.Config.load(itemName, this, soundManager, myTypes);
+                        } else {
+                            Gun.Config.load(itemName, this, soundManager, myTypes);
+                        }
+                    } catch (IllegalArgumentException e) {
+                        throw new IllegalArgumentException("The JSON of " + itemName + " is missing, or has malformed, a required parameter" + e.getMessage().split(":")[1]);
+                    } catch (SerializationException e) {
+                        throw new SerializationException("The JSON of " + itemName + " has invalid syntax at " + e.getMessage().split(" near")[0].split("on ")[1]);
                     }
 
                     example = getExample(itemName);
@@ -162,8 +169,8 @@ public class ItemManager {
                 throw new AssertionError("No item specified @ " + parts[0] + " @ " + rec + " @ " + items);
             }
 
-            ItemConfig ic = new ItemConfig(examples, amt, chance);
-            result.add(ic);
+            ItemConfig itemConfig = new ItemConfig(examples, amt, chance);
+            result.add(itemConfig);
         }
 
         return result;
@@ -174,11 +181,11 @@ public class ItemManager {
     }
 
     public Engine.Config getEngineConfig(String engineName) {
-        return engineConfigs.computeIfAbsent(engineName, engineConfig -> Engine.Config.load(engineConfig, soundManager, effectTypes, gameColors));
+        return engineConfigs.computeIfAbsent(engineName, engineConfig -> Engine.Config.load(engineConfig));
     }
 
     public SolItem random() {
-        return myL.get(SolMath.intRnd(myM.size())).copy();
+        return myL.get(SolRandom.randomInt(myM.size())).copy();
     }
 
     public void registerItem(SolItem example) {

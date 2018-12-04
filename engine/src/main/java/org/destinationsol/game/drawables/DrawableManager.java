@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,118 +38,118 @@ import java.util.List;
 import java.util.Set;
 
 public class DrawableManager {
-    private final DrawableLevel[] myDlVals;
+    private final DrawableLevel[] drawableLevels;
     private final ArrayList<OrderedMap<Texture, List<Drawable>>> drawables;
-    private final Set<Drawable> myInCam = new HashSet<>();
-    private final GameDrawer myDrawer;
+    private final Set<Drawable> visibleDrawables = new HashSet<>();
+    private final GameDrawer drawer;
 
     public DrawableManager(GameDrawer drawer) {
-        myDlVals = DrawableLevel.values();
-        myDrawer = drawer;
+        drawableLevels = DrawableLevel.values();
+        this.drawer = drawer;
         drawables = new ArrayList<>();
-        for (DrawableLevel myDlVal : myDlVals) {
+        for (DrawableLevel ignored : drawableLevels) {
             drawables.add(new OrderedMap<>());
         }
     }
 
-    public static float radiusFromDras(List<Drawable> drawables) {
-        float r = 0;
+    public static float radiusFromDrawables(List<Drawable> drawables) {
+        float radius = 0;
         for (Drawable drawable : drawables) {
-            float rr = drawable.getRelPos().len() + drawable.getRadius();
-            if (r < rr) {
-                r = rr;
+            float relativeRadius = drawable.getRelativePosition().len() + drawable.getRadius();
+            if (radius < relativeRadius) {
+                radius = relativeRadius;
             }
         }
-        return r;
+        return radius;
     }
 
-    public void objRemoved(SolObject o) {
+    public void removeObject(SolObject o) {
         List<Drawable> drawables = o.getDrawables();
         removeAll(drawables);
     }
 
     public void removeAll(List<Drawable> drawables) {
         for (Drawable drawable : drawables) {
-            DrawableLevel l = drawable.getLevel();
-            OrderedMap<Texture, List<Drawable>> map = this.drawables.get(l.ordinal());
-            Texture tex = drawable.getTex0();
-            List<Drawable> set = map.get(tex);
+            DrawableLevel level = drawable.getLevel();
+            OrderedMap<Texture, List<Drawable>> map = this.drawables.get(level.ordinal());
+            Texture texture = drawable.getTexture().getTexture();
+            List<Drawable> set = map.get(texture);
             if (set == null) {
                 continue;
             }
             set.remove(drawable);
-            myInCam.remove(drawable);
+            visibleDrawables.remove(drawable);
         }
     }
 
-    public void objAdded(SolObject o) {
+    public void addObject(SolObject o) {
         List<Drawable> drawables = o.getDrawables();
         addAll(drawables);
     }
 
     public void addAll(List<Drawable> drawables) {
         for (Drawable drawable : drawables) {
-            DrawableLevel l = drawable.getLevel();
-            OrderedMap<Texture, List<Drawable>> map = this.drawables.get(l.ordinal());
-            Texture tex = drawable.getTex0();
-            List<Drawable> set = map.get(tex);
+            DrawableLevel level = drawable.getLevel();
+            OrderedMap<Texture, List<Drawable>> map = this.drawables.get(level.ordinal());
+            Texture texture = drawable.getTexture().getTexture();
+            List<Drawable> set = map.get(texture);
             if (set == null) {
                 set = new ArrayList<>();
-                map.put(tex, set);
+                map.put(texture, set);
             }
             if (set.contains(drawable)) {
                 continue;
             }
             set.add(drawable);
-            myInCam.remove(drawable);
+            visibleDrawables.remove(drawable);
         }
     }
 
     public void draw(SolGame game) {
         MapDrawer mapDrawer = game.getMapDrawer();
         if (mapDrawer.isToggled()) {
-            mapDrawer.draw(myDrawer, game);
+            mapDrawer.draw(drawer, game);
             return;
         }
 
         SolCam cam = game.getCam();
-        myDrawer.updateMtx(game);
-        game.getFarBgManOld().draw(myDrawer, cam, game);
-        Vector2 camPos = cam.getPos();
-        float viewDist = cam.getViewDist();
+        drawer.updateMatrix(game);
+        game.getFarBackgroundgManagerOld().draw(drawer, cam, game);
+        Vector2 camPos = cam.getPosition();
+        float viewDistance = cam.getViewDistance();
 
-        ObjectManager objectManager = game.getObjMan();
-        List<SolObject> objs = objectManager.getObjs();
-        for (SolObject o : objs) {
-            Vector2 objPos = o.getPosition();
-            float r = objectManager.getPresenceRadius(o);
-            List<Drawable> drawables = o.getDrawables();
-            float draLevelViewDist = viewDist;
+        ObjectManager objectManager = game.getObjectManager();
+        List<SolObject> objects = objectManager.getObjects();
+        for (SolObject object : objects) {
+            Vector2 objectPosition = object.getPosition();
+            float radius = objectManager.getPresenceRadius(object);
+            List<Drawable> drawables = object.getDrawables();
+            float drawableLevelViewDistance = viewDistance;
             if (drawables.size() > 0) {
-                draLevelViewDist *= drawables.get(0).getLevel().depth;
+                drawableLevelViewDistance *= drawables.get(0).getLevel().depth;
             }
-            boolean objInCam = isInCam(objPos, r, camPos, draLevelViewDist);
+            boolean isObjectVisible = isVisible(objectPosition, radius, camPos, drawableLevelViewDistance);
             for (Drawable drawable : drawables) {
-                if (!objInCam || !drawable.isEnabled()) {
-                    myInCam.remove(drawable);
+                if (!isObjectVisible || !drawable.isEnabled()) {
+                    visibleDrawables.remove(drawable);
                     continue;
                 }
-                drawable.prepare(o);
-                Vector2 draPos = drawable.getPos();
+                drawable.prepare(object);
+                Vector2 draPos = drawable.getPosition();
                 float rr = drawable.getRadius();
-                boolean draInCam = isInCam(draPos, rr, camPos, draLevelViewDist);
+                boolean draInCam = isVisible(draPos, rr, camPos, drawableLevelViewDistance);
                 if (draInCam) {
-                    myInCam.add(drawable);
+                    visibleDrawables.add(drawable);
                 } else {
-                    myInCam.remove(drawable);
+                    visibleDrawables.remove(drawable);
                 }
             }
         }
 
-        for (int dlIdx = 0, dlCount = myDlVals.length; dlIdx < dlCount; dlIdx++) {
-            DrawableLevel drawableLevel = myDlVals[dlIdx];
+        for (int dlIdx = 0, dlCount = drawableLevels.length; dlIdx < dlCount; dlIdx++) {
+            DrawableLevel drawableLevel = drawableLevels[dlIdx];
             if (drawableLevel == DrawableLevel.PART_FG_0) {
-                game.getMountDetectDrawer().draw(myDrawer);
+                game.getMountDetectDrawer().draw(drawer);
             }
             OrderedMap<Texture, List<Drawable>> map = drawables.get(dlIdx);
             Array<Texture> texs = map.orderedKeys();
@@ -157,20 +157,20 @@ public class DrawableManager {
                 Texture tex = texs.get(texIdx);
                 List<Drawable> drawables = map.get(tex);
                 for (Drawable drawable : drawables) {
-                    if (myInCam.contains(drawable)) {
+                    if (visibleDrawables.contains(drawable)) {
                         if (!DebugOptions.NO_DRAS) {
-                            drawable.draw(myDrawer, game);
+                            drawable.draw(drawer, game);
                         }
                     }
                 }
             }
             if (drawableLevel.depth <= 1) {
-                game.drawDebug(myDrawer);
+                game.drawDebug(drawer);
             }
             if (drawableLevel == DrawableLevel.ATM) {
                 if (!DebugOptions.NO_DRAS) {
-                    game.getPlanetMan().drawPlanetCoreHack(game, myDrawer);
-                    game.getPlanetMan().drawSunHack(game, myDrawer);
+                    game.getPlanetManager().drawPlanetCoreHack(game, drawer);
+                    game.getPlanetManager().drawSunHack(game, drawer);
                 }
             }
         }
@@ -179,41 +179,39 @@ public class DrawableManager {
             for (OrderedMap<Texture, List<Drawable>> map : drawables) {
                 for (List<Drawable> drawables : map.values()) {
                     for (Drawable drawable : drawables) {
-                        drawDebug(myDrawer, game, drawable);
+                        drawDebug(drawer, game, drawable);
                     }
                 }
             }
         }
 
-        game.getSoundManager().drawDebug(myDrawer, game);
-        myDrawer.maybeChangeAdditive(false);
+        game.getSoundManager().drawDebug(drawer, game);
+        drawer.maybeChangeAdditive(false);
     }
 
     private void drawDebug(GameDrawer drawer, SolGame game, Drawable drawable) {
         SolCam cam = game.getCam();
         float lineWidth = cam.getRealLineWidth();
-        Color col = myInCam.contains(drawable) ? DebugCol.DRA : DebugCol.DRA_OUT;
-        Vector2 pos = drawable.getPos();
-        drawer.drawCircle(drawer.debugWhiteTex, pos, drawable.getRadius(), col, lineWidth, cam.getViewHeight());
+        Color col = visibleDrawables.contains(drawable) ? DebugCol.DRA : DebugCol.DRA_OUT;
+        Vector2 position = drawable.getPosition();
+        drawer.drawCircle(drawer.debugWhiteTexture, position, drawable.getRadius(), col, lineWidth, cam.getViewHeight());
     }
 
-    private boolean isInCam(Vector2 pos, float r, Vector2 camPos, float viewDist) {
-        return camPos.dst(pos) - viewDist < r;
+    private boolean isVisible(Vector2 position, float radius, Vector2 camPosition, float viewDistance) {
+        return camPosition.dst(position) - viewDistance < radius;
     }
 
-    public void update(SolGame game) {
+
+    public boolean isVisible(Drawable drawable) {
+        return visibleDrawables.contains(drawable);
     }
 
-    public boolean isInCam(Drawable drawable) {
-        return myInCam.contains(drawable);
-    }
-
-    public void collectTexs(Collection<TextureAtlas.AtlasRegion> collector, Vector2 pos) {
-        for (Drawable drawable : myInCam) {
-            if (.5f * drawable.getRadius() < drawable.getPos().dst(pos)) {
+    public void collectTextures(Collection<TextureAtlas.AtlasRegion> collector, Vector2 position) {
+        for (Drawable drawable : visibleDrawables) {
+            if (.5f * drawable.getRadius() < drawable.getPosition().dst(position)) {
                 continue;
             }
-            TextureAtlas.AtlasRegion tex = drawable.getTex();
+            TextureAtlas.AtlasRegion tex = drawable.getTexture();
             if (tex == null) {
                 continue;
             }

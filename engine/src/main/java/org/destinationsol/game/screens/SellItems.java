@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,6 +17,7 @@ package org.destinationsol.game.screens;
 
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
 import org.destinationsol.game.item.SolItem;
@@ -24,13 +25,9 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class SellItems implements InventoryOperations {
+public class SellItems extends InventoryOperationsScreen {
     private static float PERC = .8f;
 
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl sellControl;
 
     SellItems(InventoryScreen inventoryScreen, GameOptions gameOptions) {
@@ -41,14 +38,14 @@ public class SellItems implements InventoryOperations {
 
     @Override
     public ItemContainer getItems(SolGame game) {
-        SolShip h = game.getHero();
-        return h == null ? null : h.getItemContainer();
+        Hero hero = game.getHero();
+        return hero.isTranscendent() ? null : hero.getItemContainer();
     }
 
     @Override
     public boolean isUsing(SolGame game, SolItem item) {
-        SolShip h = game.getHero();
-        return h != null && h.maybeUnequip(game, item, false);
+        Hero hero = game.getHero();
+        return hero.isNonTranscendent() && hero.maybeUnequip(game, item, false);
     }
 
     @Override
@@ -62,22 +59,17 @@ public class SellItems implements InventoryOperations {
     }
 
     @Override
-    public List<SolUiControl> getControls() {
-        return controls;
-    }
-
-    @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
-        InventoryScreen is = game.getScreens().inventoryScreen;
+        InventoryScreen inventoryScreen = game.getScreens().inventoryScreen;
         TalkScreen talkScreen = game.getScreens().talkScreen;
         SolShip target = talkScreen.getTarget();
-        SolShip hero = game.getHero();
+        Hero hero = game.getHero();
         if (talkScreen.isTargetFar(hero)) {
-            solApplication.getInputMan().setScreen(solApplication, game.getScreens().mainScreen);
+            solApplication.getInputManager().setScreen(solApplication, game.getScreens().mainGameScreen);
             return;
         }
-        SolItem selItem = is.getSelectedItem();
+        SolItem selItem = inventoryScreen.getSelectedItem();
         if (selItem == null) {
             sellControl.setDisplayName("----");
             sellControl.setEnabled(false);
@@ -90,7 +82,7 @@ public class SellItems implements InventoryOperations {
         if (enabled && isWornAndCanBeSold) {
             sellControl.setDisplayName("Sell");
             sellControl.setEnabled(true);
-        } else if (enabled && !isWornAndCanBeSold) {
+        } else if (enabled) {
             sellControl.setDisplayName("Unequip it!");
             sellControl.setEnabled(false);
         } else {
@@ -102,9 +94,9 @@ public class SellItems implements InventoryOperations {
             return;
         }
         if (sellControl.isJustOff()) {
-            ItemContainer ic = hero.getItemContainer();
-            is.setSelected(ic.getSelectionAfterRemove(is.getSelected()));
-            ic.remove(selItem);
+            ItemContainer itemContainer = hero.getItemContainer();
+            inventoryScreen.setSelected(itemContainer.getSelectionAfterRemove(inventoryScreen.getSelected()));
+            itemContainer.remove(selItem);
             target.getTradeContainer().getItems().add(selItem);
             hero.setMoney(hero.getMoney() + selItem.getPrice() * PERC);
         }

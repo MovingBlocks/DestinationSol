@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,49 +18,57 @@ package org.destinationsol.game.screens;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
+import org.destinationsol.SolApplication;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.PlanetManager;
 import org.destinationsol.game.planet.SolSystem;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.UiDrawer;
 
 public class ZoneNameAnnouncer {
+    private DisplayDimensions displayDimensions;
+
     private static final float FADE_TIME = 4f;
-    private final Color myCol = new Color(1, 1, 1, 1);
-    private String myZone;
-    private String myText;
+    private final Color color = new Color(1, 1, 1, 1);
+    private String zone;
+    private String text;
+
+    ZoneNameAnnouncer() {
+        displayDimensions = SolApplication.displayDimensions;
+    }
 
     public void update(SolGame game) {
-        PlanetManager pm = game.getPlanetMan();
+        PlanetManager planetManager = game.getPlanetManager();
         String zone = null;
         String pref = null;
-        Vector2 camPos = game.getCam().getPos();
-        Planet p = pm.getNearestPlanet();
-        if (p.getPos().dst(camPos) < p.getFullHeight()) {
-            zone = p.getName();
+        Vector2 camPosition = game.getCam().getPosition();
+        Planet planet = planetManager.getNearestPlanet();
+        if (planet.getPosition().dst(camPosition) < planet.getFullHeight()) {
+            zone = planet.getName();
             pref = "Planet";
         } else {
-            SolSystem s = pm.getNearestSystem(camPos);
-            if (s.getPos().dst(camPos) < s.getRadius()) {
-                zone = s.getName();
+            SolSystem system = planetManager.getNearestSystem(camPosition);
+            if (system.getPosition().dst(camPosition) < system.getRadius()) {
+                zone = system.getName();
                 pref = "System";
             }
         }
-        boolean reset = zone != null && !zone.equals(myZone);
-        myZone = zone;
+        boolean reset = zone != null && !zone.equals(this.zone);
+        this.zone = zone;
         if (reset) {
-            myCol.a = 1f;
-            myText = pref + ":\n" + myZone;
-        } else if (myCol.a > 0) {
-            myCol.a -= Const.REAL_TIME_STEP / FADE_TIME;
+            color.a = 1f;
+            text = pref + ":\n" + this.zone;
+        } else if (color.a > 0) {
+            color.a -= Const.REAL_TIME_STEP / FADE_TIME;
         }
     }
 
     public void drawText(UiDrawer uiDrawer) {
-        if (myCol.a <= 0) {
+        if (color.a <= 0) {
             return;
         }
-        uiDrawer.drawString(myText, uiDrawer.r / 2, .15f, FontSize.MENU * 1.5f, true, myCol);
+        uiDrawer.drawString(text, displayDimensions.getRatio() / 2, .15f, FontSize.MENU * 1.5f, true, color);
     }
 }

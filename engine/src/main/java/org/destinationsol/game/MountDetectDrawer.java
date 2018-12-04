@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,28 +21,28 @@ import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.ship.SolShip;
 
-public class MountDetectDrawer {
+public class MountDetectDrawer implements UpdateAwareSystem{
     private final Vector2 myNePos;
-    private final TextureAtlas.AtlasRegion myTex;
+    private final TextureAtlas.AtlasRegion myTexture;
 
     private boolean myShouldDraw;
     private float myBaseRad;
-    private float myAnimPerc;
+    private float myAnimPercentage;
     private float myAngle;
 
     public MountDetectDrawer() {
         myNePos = new Vector2();
-        myTex = Assets.getAtlasRegion("engine:targetDetected");
+        myTexture = Assets.getAtlasRegion("engine:targetDetected");
     }
 
-    public void update(SolGame game) {
+    @Override
+    public void update(SolGame game, float timeStep) {
         myShouldDraw = false;
-        float ts = game.getTimeStep();
-        myAnimPerc += ts / 2f;
-        if (myAnimPerc > 1) {
-            myAnimPerc = 0;
+        myAnimPercentage += timeStep / 2f;
+        if (myAnimPercentage > 1) {
+            myAnimPercentage = 0;
         }
-        myAngle += 30f * ts;
+        myAngle += 30f * timeStep;
         if (myAngle > 180) {
             myAngle -= 360;
         }
@@ -58,11 +58,11 @@ public class MountDetectDrawer {
         if (!myShouldDraw) {
             return;
         }
-        float radPerc = myAnimPerc * 2;
-        if (radPerc > 1) {
-            radPerc = 2 - radPerc;
+        float radPercentage = myAnimPercentage * 2;
+        if (radPercentage > 1) {
+            radPercentage = 2 - radPercentage;
         }
-        float rad = myBaseRad * (1 + .5f * radPerc);
-        drawer.draw(myTex, rad * 2, rad * 2, rad, rad, myNePos.x, myNePos.y, myAngle, SolColor.WHITE);
+        float rad = myBaseRad * (1 + .5f * radPercentage);
+        drawer.draw(myTexture, rad * 2, rad * 2, rad, rad, myNePos.x, myNePos.y, myAngle, SolColor.WHITE);
     }
 }

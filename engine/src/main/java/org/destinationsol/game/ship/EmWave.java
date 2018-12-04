@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,31 +17,31 @@
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
+import org.json.JSONObject;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.particle.ParticleSrc;
+import org.destinationsol.game.particle.DSParticleEmitter;
 
 public class EmWave implements ShipAbility {
-    public static final int MAX_RADIUS = 4;
-    private final Config myConfig;
+    private static final int MAX_RADIUS = 4;
+    private final Config config;
 
-    public EmWave(Config config) {
-        myConfig = config;
+    EmWave(Config config) {
+        this.config = config;
     }
 
     @Override
     public AbilityConfig getConfig() {
-        return myConfig;
+        return config;
     }
 
     @Override
     public AbilityCommonConfig getCommonConfig() {
-        return myConfig.cc;
+        return config.cc;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class EmWave implements ShipAbility {
             return false;
         }
         Vector2 ownerPos = owner.getPosition();
-        for (SolObject o : game.getObjMan().getObjs()) {
+        for (SolObject o : game.getObjectManager().getObjects()) {
             if (!(o instanceof SolShip) || o == owner) {
                 continue;
             }
@@ -69,10 +69,10 @@ public class EmWave implements ShipAbility {
             if (perc <= 0) {
                 continue;
             }
-            float duration = perc * myConfig.duration;
+            float duration = perc * config.duration;
             oShip.disableControls(duration, game);
         }
-        ParticleSrc src = new ParticleSrc(myConfig.cc.effect, MAX_RADIUS, DrawableLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
+        DSParticleEmitter src = new DSParticleEmitter(config.cc.effect, MAX_RADIUS, DrawableLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
         game.getPartMan().finish(game, src, ownerPos);
         return true;
     }
@@ -90,9 +90,9 @@ public class EmWave implements ShipAbility {
             this.cc = cc;
         }
 
-        public static AbilityConfig load(JsonValue abNode, ItemManager itemManager, AbilityCommonConfig cc) {
-            float rechargeTime = abNode.getFloat("rechargeTime");
-            float duration = abNode.getFloat("duration");
+        public static AbilityConfig load(JSONObject abNode, ItemManager itemManager, AbilityCommonConfig cc) {
+            float rechargeTime = (float) abNode.getDouble("rechargeTime");
+            float duration = (float) abNode.getDouble("duration");
             SolItem chargeExample = itemManager.getExample("emWaveCharge");
             return new Config(rechargeTime, chargeExample, duration, cc);
         }

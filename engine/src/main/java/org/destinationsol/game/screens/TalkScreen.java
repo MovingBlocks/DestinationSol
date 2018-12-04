@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,29 +19,26 @@ import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.menu.MenuLayout;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class TalkScreen implements SolUiScreen {
+public class TalkScreen extends SolUiBaseScreen {
     static final float MAX_TALK_DIST = 1f;
 
-    private final List<SolUiControl> controls = new ArrayList<>();
     public final SolUiControl buyControl;
     public final SolUiControl closeControl;
     private final SolUiControl sellControl;
     private final SolUiControl shipsControl;
     private final SolUiControl hireControl;
 
-    private final Rectangle bg;
+    private final Rectangle background;
     private SolShip target;
 
     TalkScreen(MenuLayout menuLayout, GameOptions gameOptions) {
@@ -65,12 +62,7 @@ public class TalkScreen implements SolUiScreen {
         closeControl.setDisplayName("Close");
         controls.add(closeControl);
 
-        bg = menuLayout.bg(-1, 0, 5);
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
+        background = menuLayout.background(-1, 0, 5);
     }
 
     @Override
@@ -79,11 +71,11 @@ public class TalkScreen implements SolUiScreen {
             closeControl.maybeFlashPressed(solApplication.getOptions().getKeyClose());
             return;
         }
-        SolGame g = solApplication.getGame();
-        SolShip hero = g.getHero();
-        SolInputManager inputMan = solApplication.getInputMan();
+        SolGame game = solApplication.getGame();
+        Hero hero = game.getHero();
+        SolInputManager inputManager = solApplication.getInputManager();
         if (closeControl.isJustOff() || isTargetFar(hero)) {
-            inputMan.setScreen(solApplication, g.getScreens().mainScreen);
+            inputManager.setScreen(solApplication, game.getScreens().mainGameScreen);
             return;
         }
 
@@ -91,20 +83,20 @@ public class TalkScreen implements SolUiScreen {
         shipsControl.setEnabled(station);
         hireControl.setEnabled(station);
 
-        InventoryScreen is = g.getScreens().inventoryScreen;
+        InventoryScreen inventoryScreen = game.getScreens().inventoryScreen;
         boolean sell = sellControl.isJustOff();
         boolean buy = buyControl.isJustOff();
         boolean sellShips = shipsControl.isJustOff();
         boolean hire = hireControl.isJustOff();
         if (sell || buy || sellShips || hire) {
-            is.setOperations(sell ? is.sellItems : buy ? is.buyItems : sellShips ? is.changeShip : is.hireShips);
-            inputMan.setScreen(solApplication, g.getScreens().mainScreen);
-            inputMan.addScreen(solApplication, is);
+            inventoryScreen.setOperations(sell ? inventoryScreen.sellItems : buy ? inventoryScreen.buyItemsScreen : sellShips ? inventoryScreen.changeShipScreen : inventoryScreen.hireShipsScreen);
+            inputManager.setScreen(solApplication, game.getScreens().mainGameScreen);
+            inputManager.addScreen(solApplication, inventoryScreen);
         }
     }
 
-    boolean isTargetFar(SolShip hero) {
-        if (hero == null || target == null || target.getLife() <= 0) {
+    boolean isTargetFar(Hero hero) {
+        if (hero.isTranscendent() || target == null || target.getLife() <= 0) {
             return true;
         }
         float dst = target.getPosition().dst(hero.getPosition()) - hero.getHull().config.getApproxRadius() - target.getHull().config.getApproxRadius();
@@ -112,8 +104,8 @@ public class TalkScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(bg, SolColor.UI_BG);
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(background, SolColor.UI_BG);
     }
 
     @Override
@@ -122,8 +114,8 @@ public class TalkScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.InputPointer inputPointer) {
-        return bg.contains(inputPointer.x, inputPointer.y);
+    public boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
+        return background.contains(inputPointer.x, inputPointer.y);
     }
 
     public SolShip getTarget() {

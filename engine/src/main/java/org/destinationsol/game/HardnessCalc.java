@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,7 +15,7 @@
  */
 package org.destinationsol.game;
 
-import org.destinationsol.common.SolMath;
+import com.badlogic.gdx.math.MathUtils;
 import org.destinationsol.game.item.Armor;
 import org.destinationsol.game.item.Clip;
 import org.destinationsol.game.item.Gun;
@@ -52,16 +52,16 @@ public class HardnessCalc {
         }
 
         float projHitChance;
-        if (pc.guideRotSpd > 0) {
+        if (pc.guideRotationSpeed > 0) {
             projHitChance = .9f;
-        } else if (pc.zeroAbsSpd) {
+        } else if (pc.zeroAbsSpeed) {
             projHitChance = 0.1f;
         } else {
-            projHitChance = (pc.spdLen + pc.acc) / 6;
+            projHitChance = (pc.speedLen + pc.acc) / 6;
             if (pc.physSize > 0) {
                 projHitChance += pc.physSize;
             }
-            projHitChance = SolMath.clamp(projHitChance, .1f, 1);
+            projHitChance = MathUtils.clamp(projHitChance, .1f, (float) 1);
             if (gc.fixed) {
                 projHitChance *= .3f;
             }
@@ -137,28 +137,28 @@ public class HardnessCalc {
         return dps;
     }
 
-    public static float getShipCfgDmgCap(ShipConfig sc, ItemManager itemManager) {
-        List<ItemConfig> parsed = itemManager.parseItems(sc.items);
+    public static float getShipCfgDmgCap(ShipConfig shipConfig, ItemManager itemManager) {
+        List<ItemConfig> parsed = itemManager.parseItems(shipConfig.items);
         float meanShieldLife = 0;
-        float meanArmorPerc = 0;
-        for (ItemConfig ic : parsed) {
-            SolItem item = ic.examples.get(0);
+        float meanArmorPercentage = 0;
+        for (ItemConfig itemConfig : parsed) {
+            SolItem item = itemConfig.examples.get(0);
             if (meanShieldLife == 0 && item instanceof Shield) {
-                for (SolItem ex : ic.examples) {
-                    meanShieldLife += ((Shield) ex).getLife();
+                for (SolItem example : itemConfig.examples) {
+                    meanShieldLife += ((Shield) example).getLife();
                 }
-                meanShieldLife /= ic.examples.size();
-                meanShieldLife *= ic.chance;
+                meanShieldLife /= itemConfig.examples.size();
+                meanShieldLife *= itemConfig.chance;
             }
-            if (meanArmorPerc == 0 && item instanceof Armor) {
-                for (SolItem ex : ic.examples) {
-                    meanArmorPerc += ((Armor) ex).getPerc();
+            if (meanArmorPercentage == 0 && item instanceof Armor) {
+                for (SolItem example : itemConfig.examples) {
+                    meanArmorPercentage += ((Armor) example).getPerc();
                 }
-                meanArmorPerc /= ic.examples.size();
-                meanArmorPerc *= ic.chance;
+                meanArmorPercentage /= itemConfig.examples.size();
+                meanArmorPercentage *= itemConfig.chance;
             }
         }
-        return sc.hull.getMaxLife() / (1 - meanArmorPerc) + meanShieldLife * SHIELD_MUL;
+        return shipConfig.hull.getMaxLife() / (1 - meanArmorPercentage) + meanShieldLife * SHIELD_MUL;
     }
 
     private static float getShipConfListDps(List<ShipConfig> ships) {

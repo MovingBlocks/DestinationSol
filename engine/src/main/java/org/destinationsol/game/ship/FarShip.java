@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,7 @@
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.input.Pilot;
@@ -29,97 +29,97 @@ import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.item.TradeContainer;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
-public class FarShip implements FarObj {
-    private final Vector2 myPos;
-    private final Vector2 mySpd;
-    private final Shield myShield;
-    private final Armor myArmor;
-    private final float myRotSpd;
-    private final Pilot myPilot;
-    private final ItemContainer myContainer;
-    private final HullConfig myHullConfig;
-    private final Gun myGun1;
-    private final Gun myGun2;
-    private final RemoveController myRemoveController;
-    private final Engine myEngine;
-    private final TradeContainer myTradeContainer;
-    private float myAngle;
-    private float myLife;
-    private ShipRepairer myRepairer;
-    private float myMoney;
+public class FarShip implements FarObject {
+    private final Vector2 position;
+    private final Vector2 speed;
+    private final Shield shield;
+    private final Armor armor;
+    private final float rotationSpeed;
+    private final Pilot pilot;
+    private final ItemContainer container;
+    private final HullConfig hullConfig;
+    private final Gun gun1;
+    private final Gun gun2;
+    private final RemoveController removeController;
+    private final Engine engine;
+    private final TradeContainer tradeContainer;
+    private float angle;
+    private float life;
+    private ShipRepairer repairer;
+    private float money;
 
-    public FarShip(Vector2 pos, Vector2 spd, float angle, float rotSpd, Pilot pilot, ItemContainer container,
+    public FarShip(Vector2 position, Vector2 speed, float angle, float rotationSpeed, Pilot pilot, ItemContainer container,
                    HullConfig hullConfig, float life,
                    Gun gun1, Gun gun2, RemoveController removeController, Engine engine,
                    ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield, Armor armor) {
-        myPos = pos;
-        mySpd = spd;
-        myAngle = angle;
-        myRotSpd = rotSpd;
-        myPilot = pilot;
-        myContainer = container;
-        myHullConfig = hullConfig;
-        myLife = life;
-        myGun1 = gun1;
-        myGun2 = gun2;
-        myRemoveController = removeController;
-        myEngine = engine;
-        myRepairer = repairer;
-        myMoney = money;
-        myTradeContainer = tradeContainer;
-        myShield = shield;
-        myArmor = armor;
+        this.position = position;
+        this.speed = speed;
+        this.angle = angle;
+        this.rotationSpeed = rotationSpeed;
+        this.pilot = pilot;
+        this.container = container;
+        this.hullConfig = hullConfig;
+        this.life = life;
+        this.gun1 = gun1;
+        this.gun2 = gun2;
+        this.removeController = removeController;
+        this.engine = engine;
+        this.repairer = repairer;
+        this.money = money;
+        this.tradeContainer = tradeContainer;
+        this.shield = shield;
+        this.armor = armor;
 
-        if (myPilot.isPlayer()) {
-            if (myShield != null) {
-                myShield.setEquipped(1);
+        if (this.pilot.isPlayer()) {
+            if (this.shield != null) {
+                this.shield.setEquipped(1);
             }
-            if (myArmor != null) {
-                myArmor.setEquipped(1);
+            if (this.armor != null) {
+                this.armor.setEquipped(1);
             }
-            if (myGun1 != null) {
-                myGun1.setEquipped(1);
+            if (this.gun1 != null) {
+                this.gun1.setEquipped(1);
             }
-            if (myGun2 != null) {
-                myGun2.setEquipped(2);
+            if (this.gun2 != null) {
+                this.gun2.setEquipped(2);
             }
         }
     }
 
     @Override
     public boolean shouldBeRemoved(SolGame game) {
-        return myRemoveController != null && myRemoveController.shouldRemove(myPos);
+        return removeController != null && removeController.shouldRemove(position);
     }
 
     @Override
-    public SolShip toObj(SolGame game) {
-        return game.getShipBuilder().build(game, myPos, mySpd, myAngle, myRotSpd, myPilot, myContainer, myHullConfig, myLife, myGun1,
-                myGun2, myRemoveController, myEngine, myRepairer, myMoney, myTradeContainer, myShield, myArmor);
+    public SolShip toObject(SolGame game) {
+        return game.getShipBuilder().build(game, position, speed, angle, rotationSpeed, pilot, container, hullConfig, life, gun1,
+                gun2, removeController, engine, repairer, money, tradeContainer, shield, armor);
     }
 
     @Override
     public void update(SolGame game) {
-        myPilot.updateFar(game, this);
-        if (myTradeContainer != null) {
-            myTradeContainer.update(game);
+        pilot.updateFar(game, this);
+        if (tradeContainer != null) {
+            tradeContainer.update(game);
         }
-        if (myRepairer != null) {
-            myLife += myRepairer.tryRepair(game, myContainer, myLife, myHullConfig);
+        if (repairer != null) {
+            life += repairer.tryRepair(game, container, life, hullConfig);
         }
     }
 
     @Override
     public float getRadius() {
-        return myHullConfig.getApproxRadius();
+        return hullConfig.getApproxRadius();
     }
 
     @Override
-    public Vector2 getPos() {
-        return myPos;
+    public Vector2 getPosition() {
+        return position;
     }
 
-    public void setPos(Vector2 pos) {
-        myPos.set(pos);
+    public void setPos(Vector2 position) {
+        this.position.set(position);
     }
 
     @Override
@@ -133,60 +133,60 @@ public class FarShip implements FarObj {
     }
 
     public Pilot getPilot() {
-        return myPilot;
+        return pilot;
     }
 
     public HullConfig getHullConfig() {
-        return myHullConfig;
+        return hullConfig;
     }
 
     public float getAngle() {
-        return myAngle;
+        return angle;
     }
 
     public void setAngle(float angle) {
-        myAngle = angle;
+        this.angle = angle;
     }
 
-    public Vector2 getSpd() {
-        return mySpd;
+    public Vector2 getSpeed() {
+        return speed;
     }
 
-    public void setSpd(Vector2 spd) {
-        mySpd.set(spd);
+    public void setSpeed(Vector2 speed) {
+        this.speed.set(speed);
     }
 
     public Engine getEngine() {
-        return myEngine;
+        return engine;
     }
 
     public Gun getGun(boolean secondary) {
-        return secondary ? myGun2 : myGun1;
+        return secondary ? gun2 : gun1;
     }
 
     public Shield getShield() {
-        return myShield;
+        return shield;
     }
 
     public Armor getArmor() {
-        return myArmor;
+        return armor;
     }
 
     public float getLife() {
-        return myLife;
+        return life;
     }
 
     public boolean mountCanFix(boolean sec) {
         final int slotNr = (sec) ? 1 : 0;
 
-        return !myHullConfig.getGunSlot(slotNr).allowsRotation();
+        return !hullConfig.getGunSlot(slotNr).allowsRotation();
     }
 
     public float getMoney() {
-        return myMoney;
+        return money;
     }
 
     public ItemContainer getIc() {
-        return myContainer;
+        return container;
     }
 }

@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,16 +22,16 @@ import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
 public interface MoveDestProvider {
-    Vector2 getDest();
+    Vector2 getDestination();
 
-    boolean shouldAvoidBigObjs();
+    boolean shouldAvoidBigObjects();
 
     /**
-     * @return the desired spd lenght both for peaceful movement and for maneuvering
+     * @return the desired speed lenght both for peaceful movement and for maneuvering
      */
-    float getDesiredSpdLen();
+    float getDesiredSpeedScalar();
 
-    boolean shouldStopNearDest();
+    boolean shouldStopNearDestination();
 
     void update(SolGame game, Vector2 shipPos, float maxIdleDist, HullConfig hullConfig, SolShip nearestEnemy);
 
@@ -43,5 +43,5 @@ public interface MoveDestProvider {
      */
     Boolean shouldManeuver(boolean canShoot, SolShip nearestEnemy, boolean nearGround);
 
-    Vector2 getDestSpd();
+    Vector2 getDestinationSpeed();
 }

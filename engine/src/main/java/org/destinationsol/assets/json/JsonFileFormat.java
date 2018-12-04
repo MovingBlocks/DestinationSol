@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ package org.destinationsol.assets.json;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
+import org.json.JSONObject;
 import org.destinationsol.assets.AssetHelper;
 import org.terasology.assets.ResourceUrn;
 import org.terasology.assets.format.AbstractAssetFileFormat;
@@ -39,7 +39,7 @@ public class JsonFileFormat extends AbstractAssetFileFormat<JsonData> {
         String path = AssetHelper.resolveToPath(inputs);
 
         FileHandle handle = new FileHandle(Paths.get(path).toFile());
-        JsonValue jsonValue = new JsonReader().parse(handle.readString());
+        JSONObject jsonValue = new JSONObject(handle.readString());
 
         return new JsonData(jsonValue);
     }

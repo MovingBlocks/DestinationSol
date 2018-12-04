@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ public class OggSound extends Asset<OggSoundData> implements PlayableSound {
     public OggSound(ResourceUrn urn, AssetType<?, OggSoundData> assetType, OggSoundData data) {
         super(urn, assetType);
         reload(data);
-        getDisposalHook().setDisposeAction(this::doDispose);
     }
 
     @Override

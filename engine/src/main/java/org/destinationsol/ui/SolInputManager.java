@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,17 +20,18 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.sound.OggSoundManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,6 @@ public class SolInputManager {
     private static final float WARN_PERC_GROWTH_TIME = 1f;
     private static final int POINTER_COUNT = 4;
     private static final float CURSOR_SHOW_TIME = 3;
-    private static final float initialRatio = ((float) Gdx.graphics.getWidth()) / ((float) Gdx.graphics.getHeight());
 
     private static Cursor hiddenCursor;
 
@@ -59,7 +59,7 @@ public class SolInputManager {
     private float mouseIdleTime;
     private TextureAtlas.AtlasRegion currCursor;
     private boolean mouseOnUi;
-    private float warnPerc;
+    private float warnPercentage;
     private boolean warnPercGrows;
     private Boolean scrolledUp;
 
@@ -90,9 +90,8 @@ public class SolInputManager {
 
     private static void setPointerPosition(InputPointer inputPointer, int screenX, int screenY) {
         int h = Gdx.graphics.getHeight();
-        float currentRatio = ((float) Gdx.graphics.getWidth()) / ((float) Gdx.graphics.getHeight());
 
-        inputPointer.x = 1f * screenX / h * (initialRatio / currentRatio);
+        inputPointer.x = 1f * screenX / h;
         inputPointer.y = 1f * screenY / h;
     }
 
@@ -128,7 +127,7 @@ public class SolInputManager {
                     return;
                 }
             }
-            if (screen.isCursorOnBg(flashInputPointer)) {
+            if (screen.isCursorOnBackground(flashInputPointer)) {
                 return;
             }
         }
@@ -166,8 +165,7 @@ public class SolInputManager {
 
         // This keeps the mouse within the window, but only when playing the game with the mouse.
         // All other times the mouse can freely leave and return.
-        if (!mobile && (solApplication.getOptions().controlType == GameOptions.CONTROL_MIXED || solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE) &&
-            game != null && getTopScreen() != game.getScreens().menuScreen) {
+        if (!mobile && solApplication.getOptions().controlType == GameOptions.ControlType.MIXED && game != null && getTopScreen() != game.getScreens().menuScreen) {
             if (!Gdx.input.isCursorCatched()) {
                 Gdx.input.setCursorCatched(true);
             }
@@ -202,13 +200,13 @@ public class SolInputManager {
             boolean clickedOutside = false;
             if (!consumed) {
                 for (InputPointer inputPointer : inputPointers) {
-                    boolean onBg = screen.isCursorOnBg(inputPointer);
-                    if (inputPointer.pressed && onBg) {
+                    boolean onBackground = screen.isCursorOnBackground(inputPointer);
+                    if (inputPointer.pressed && onBackground) {
                         clickedOutside = false;
                         consumed = true;
                         break;
                     }
-                    if (!onBg && inputPointer.isJustUnPressed() && !clickOutsideReacted) {
+                    if (!onBackground && inputPointer.isJustUnPressed() && !clickOutsideReacted) {
                         clickedOutside = true;
                     }
                 }
@@ -216,7 +214,7 @@ public class SolInputManager {
             if (clickedOutside && screen.reactsToClickOutside()) {
                 clickOutsideReacted = true;
             }
-            if (screen.isCursorOnBg(inputPointers[0])) {
+            if (screen.isCursorOnBackground(inputPointers[0])) {
                 mouseOnUi = true;
             }
             screen.updateCustom(solApplication, inputPointers, clickedOutside);
@@ -235,12 +233,12 @@ public class SolInputManager {
 
     private void updateWarnPerc() {
         float dif = SolMath.toInt(warnPercGrows) * Const.REAL_TIME_STEP / WARN_PERC_GROWTH_TIME;
-        warnPerc += dif;
-        if (warnPerc < 0 || 1 < warnPerc) {
-            warnPerc = SolMath.clamp(warnPerc);
+        warnPercentage += dif;
+        if (warnPercentage < 0 || 1 < warnPercentage) {
+            warnPercentage = SolMath.clamp(warnPercentage);
             warnPercGrows = !warnPercGrows;
         }
-        warnColor.a = warnPerc * .5f;
+        warnColor.a = warnPercentage * .5f;
     }
 
     private void addRemoveScreens() {
@@ -263,11 +261,11 @@ public class SolInputManager {
         SolGame game = solApplication.getGame();
 
         mousePos.set(inputPointers[0].x, inputPointers[0].y);
-        if (solApplication.getOptions().controlType == GameOptions.CONTROL_MIXED || solApplication.getOptions().controlType == GameOptions.CONTROL_MOUSE) {
+        if (solApplication.getOptions().controlType == GameOptions.ControlType.MIXED || solApplication.getOptions().controlType == GameOptions.ControlType.MOUSE) {
             if (game == null || mouseOnUi) {
                 currCursor = uiCursor;
             } else {
-                currCursor = game.getScreens().mainScreen.shipControl.getInGameTex();
+                currCursor = game.getScreens().mainGameScreen.shipControl.getInGameTex();
                 if (currCursor == null) {
                     currCursor = uiCursor;
                 }
@@ -287,10 +285,11 @@ public class SolInputManager {
     private void maybeFixMousePos() {
         int mouseX = Gdx.input.getX();
         int mouseY = Gdx.input.getY();
+        // TODO: look into the usefulness of this, and replace with Gdx.graphics.* with displayDimensions if nothing else
         int w = Gdx.graphics.getWidth();
         int h = Gdx.graphics.getHeight();
-        mouseX = (int) SolMath.clamp(mouseX, 0, w);
-        mouseY = (int) SolMath.clamp(mouseY, 0, h);
+        mouseX = (int) MathUtils.clamp((float) mouseX, (float) 0, (float) w);
+        mouseY = (int) MathUtils.clamp((float) mouseY, (float) 0, (float) h);
         Gdx.input.setCursorPosition(mouseX, mouseY);
     }
 
@@ -310,12 +309,12 @@ public class SolInputManager {
             SolUiScreen screen = screens.get(i);
 
             uiDrawer.setTextMode(false);
-            screen.drawBg(uiDrawer, solApplication);
+            screen.drawBackground(uiDrawer, solApplication);
             List<SolUiControl> controls = screen.getControls();
             for (SolUiControl control : controls) {
-                control.drawButton(uiDrawer, solApplication, warnColor);
+                control.drawButton(uiDrawer, warnColor);
             }
-            screen.drawImgs(uiDrawer, solApplication);
+            screen.drawImages(uiDrawer, solApplication);
 
             uiDrawer.setTextMode(true);
             screen.drawText(uiDrawer, solApplication);
@@ -349,11 +348,11 @@ public class SolInputManager {
     }
 
     public void playHover(SolApplication solApplication) {
-        hoverSound.getOggSound().getSound().play(.7f * solApplication.getOptions().sfxVolumeMultiplier, .7f, 0);
+        hoverSound.getOggSound().getSound().play(.7f * solApplication.getOptions().sfxVolume.getVolume(), .7f, 0);
     }
 
     public void playClick(SolApplication solApplication) {
-        hoverSound.getOggSound().getSound().play(.7f * solApplication.getOptions().sfxVolumeMultiplier, .9f, 0);
+        hoverSound.getOggSound().getSound().play(.7f * solApplication.getOptions().sfxVolume.getVolume(), .9f, 0);
     }
 
     public SolUiScreen getTopScreen() {

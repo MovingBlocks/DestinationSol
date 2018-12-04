@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,15 +28,15 @@ import java.util.Map;
 
 public class DebugHint {
     private static final long MAX_AWAIT = 3000;
-    private final Vector2 myPos;
+    private final Vector2 position;
     private final Map<String, Long> myMsgs;
 
     private SolObject myOwner;
     private String myMsg;
 
-    public DebugHint(SolObject owner, Vector2 pos) {
+    public DebugHint(SolObject owner, Vector2 position) {
         myOwner = owner;
-        myPos = new Vector2(pos);
+        this.position = new Vector2(position);
         myMsgs = new HashMap<>();
     }
 
@@ -61,7 +61,7 @@ public class DebugHint {
             if (myOwner.shouldBeRemoved(game)) {
                 myOwner = null;
             } else {
-                myPos.set(myOwner.getPosition());
+                position.set(myOwner.getPosition());
             }
         }
 
@@ -86,6 +86,6 @@ public class DebugHint {
 
     public void draw(GameDrawer drawer, SolGame game) {
         float fontSz = game.getCam().getDebugFontSize();
-        drawer.drawString(myMsg, myPos.x, myPos.y, fontSz, false, DebugCol.HINT);
+        drawer.drawString(myMsg, position.x, position.y, fontSz, false, DebugCol.HINT);
     }
 }

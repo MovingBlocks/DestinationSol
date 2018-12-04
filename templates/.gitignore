@@ -1,0 +1,69 @@
+## General
+*.log
+hs_err_pid*
+.gradle
+config/metrics
+*log
+
+## Ignored sub-projects with nested Git roots
+android
+gwt
+
+## GWT
+war/
+html/war/gwt_bree/
+html/gwt-unitCache/
+.apt_generated/
+html/war/WEB-INF/deploy/
+html/war/WEB-INF/classes/
+.gwt/
+gwt-unitCache/
+www-test/
+.gwt-tmp/
+
+## Intellij
+.idea/
+*.ipr
+*.iws
+*.iml
+out/
+
+# This prop file contains a sdk.dir meant to point to your local Android SDK
+local.properties
+
+## Eclipse
+.classpath
+.project
+.metadata
+.recommenders
+**/bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+
+.settings/
+.loadpath
+.externalToolBuilders/
+*.launch
+
+## NetBeans
+**/nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+## OS Specific
+.DS_Store
+Icon
+ehthumbs.db
+Thumbs.db
+
+engine/prevShip.ini
+engine/src/main/resources/prevShip.ini
+engine/settings.ini
+engine/src/main/resources/settings.ini

@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.ship.ShipBuilder;
@@ -35,37 +36,37 @@ public class ShardBuilder {
     private static final float MAX_ROT_SPD = 5f;
     private static final float MAX_SPD = 4f;
     private final CollisionMeshLoader myCollisionMeshLoader;
-    private final List<TextureAtlas.AtlasRegion> myTexs;
+    private final List<TextureAtlas.AtlasRegion> myTextures;
 
     public ShardBuilder() {
         myCollisionMeshLoader = new CollisionMeshLoader("engine:miscCollisionMeshes");
-        myTexs = Assets.listTexturesMatching("engine:shard_.*");
+        myTextures = Assets.listTexturesMatching("engine:shard_.*");
     }
 
-    public void buildExplosionShards(SolGame game, Vector2 pos, Vector2 baseSpd, float size) {
+    public void buildExplosionShards(SolGame game, Vector2 position, Vector2 baseSpeed, float size) {
         int count = (int) (size * SIZE_TO_SHARD_COUNT);
         for (int i = 0; i < count; i++) {
-            Shard s = build(game, pos, baseSpd, size);
-            game.getObjMan().addObjDelayed(s);
+            Shard s = build(game, position, baseSpeed, size);
+            game.getObjectManager().addObjDelayed(s);
         }
     }
 
-    public Shard build(SolGame game, Vector2 basePos, Vector2 baseSpd, float size) {
+    public Shard build(SolGame game, Vector2 basePos, Vector2 baseSpeed, float size) {
 
         ArrayList<Drawable> drawables = new ArrayList<>();
-        float scale = SolMath.rnd(MIN_SCALE, MAX_SCALE);
-        TextureAtlas.AtlasRegion tex = SolMath.elemRnd(myTexs);
-        float spdAngle = SolMath.rnd(180);
-        Vector2 pos = new Vector2();
-        SolMath.fromAl(pos, spdAngle, SolMath.rnd(size));
-        pos.add(basePos);
-        Body body = myCollisionMeshLoader.getBodyAndSprite(game, tex, scale, BodyDef.BodyType.DynamicBody, pos, SolMath.rnd(180), drawables, ShipBuilder.SHIP_DENSITY, DrawableLevel.PROJECTILES);
+        float scale = SolRandom.randomFloat(MIN_SCALE, MAX_SCALE);
+        TextureAtlas.AtlasRegion tex = SolRandom.randomElement(myTextures);
+        float speedAngle = SolRandom.randomFloat(180);
+        Vector2 position = new Vector2();
+        SolMath.fromAl(position, speedAngle, SolRandom.randomFloat(size));
+        position.add(basePos);
+        Body body = myCollisionMeshLoader.getBodyAndSprite(game, tex, scale, BodyDef.BodyType.DynamicBody, position, SolRandom.randomFloat(180), drawables, ShipBuilder.SHIP_DENSITY, DrawableLevel.PROJECTILES);
 
-        body.setAngularVelocity(SolMath.rnd(MAX_ROT_SPD));
-        Vector2 spd = SolMath.fromAl(spdAngle, SolMath.rnd(MAX_SPD));
-        spd.add(baseSpd);
-        body.setLinearVelocity(spd);
-        SolMath.free(spd);
+        body.setAngularVelocity(SolRandom.randomFloat(MAX_ROT_SPD));
+        Vector2 speed = SolMath.fromAl(speedAngle, SolRandom.randomFloat(MAX_SPD));
+        speed.add(baseSpeed);
+        body.setLinearVelocity(speed);
+        SolMath.free(speed);
 
         Shard shard = new Shard(body, drawables);
         body.setUserData(shard);

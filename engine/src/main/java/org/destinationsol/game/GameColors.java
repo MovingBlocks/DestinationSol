@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,8 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColorUtil;
@@ -34,11 +35,13 @@ public class GameColors {
 
     public GameColors() {
         Json json = Assets.getJson("core:colorsConfig");
-        JsonValue rootNode = json.getJsonValue();
+        JSONObject rootNode = json.getJsonValue();
 
-        for (JsonValue colVal : rootNode) {
-            Color c = load(colVal.asString());
-            colors.put(colVal.name, c);
+        Validator.validate(rootNode, "engine:schemaColorsConfig");
+
+        for (String key : rootNode.keySet()) {
+            Color c = load(rootNode.getString(key));
+            colors.put(key, c);
         }
 
         json.dispose();

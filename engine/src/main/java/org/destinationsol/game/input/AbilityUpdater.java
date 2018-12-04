@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,20 +16,20 @@
 
 package org.destinationsol.game.input;
 
-import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.SolShip;
 
 public class AbilityUpdater {
-    private final float myAbilityUseStartPerc;
+    private final float myAbilityUseStartPercentage;
     private final int myChargesToKeep;
 
     private boolean myAbility;
 
     public AbilityUpdater() {
-        myAbilityUseStartPerc = SolMath.rnd(.3f, .7f);
-        myChargesToKeep = SolMath.intRnd(1, 2);
+        myAbilityUseStartPercentage = SolRandom.randomFloat(.3f, .7f);
+        myChargesToKeep = SolRandom.randomInt(1, 2);
     }
 
     public void update(SolShip ship, SolShip nearestEnemy) {
@@ -41,7 +41,7 @@ public class AbilityUpdater {
         if (ability == null) {
             return;
         }
-        if (ship.getHull().config.getMaxLife() * myAbilityUseStartPerc < ship.getLife()) {
+        if (ship.getHull().config.getMaxLife() * myAbilityUseStartPercentage < ship.getLife()) {
             return;
         }
         SolItem ex = ability.getConfig().getChargeExample();

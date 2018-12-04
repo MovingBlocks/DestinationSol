@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,19 +16,80 @@
 package org.destinationsol;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
+import org.destinationsol.menu.Resolution;
+import org.destinationsol.menu.ResolutionProvider;
 
-import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import static java.util.Arrays.asList;
 
 public class GameOptions {
+    public enum ControlType {
+        KEYBOARD("Keyboard"),
+        MIXED("KB + Mouse"),
+        MOUSE("Mouse"),
+        CONTROLLER("Controller");
+
+        private String humanName; // String used in the options menu.
+
+        ControlType(String humanName) {
+            this.humanName = humanName;
+        }
+
+        public String getHumanName() {
+            return this.humanName;
+        }
+
+        public ControlType nextType(boolean isMobile) {
+            switch (this) {
+                case MIXED:
+                    return CONTROLLER;
+                case CONTROLLER:
+                case MOUSE:
+                    return KEYBOARD;
+                case KEYBOARD:
+                default:
+                    return isMobile ? MOUSE : MIXED;
+            }
+        }
+    }
+
+    public enum Volume {
+        OFF("Off", 0f),
+        LOW("Low", 0.25f),
+        MEDIUM("Medium", 0.5f),
+        HIGH("High", 0.75f),
+        MAX("Max", 1f);
+
+        private final String name;
+
+        private final float volume;
+
+        Volume(String name, float volume) {
+            this.name = name;
+            this.volume = volume;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public float getVolume() {
+            return volume;
+        }
+
+        public Volume advance() {
+            switch (this) {
+                case OFF: return LOW;
+                case LOW: return MEDIUM;
+                case MEDIUM: return HIGH;
+                case HIGH: return MAX;
+                case MAX: return OFF;
+            }
+            return MAX;
+        }
+    }
+
     public static final String FILE_NAME = "settings.ini";
-    public static final int CONTROL_KB = 0;
-    public static final int CONTROL_MIXED = 1;
-    public static final int CONTROL_MOUSE = 2;
-    public static final int CONTROL_CONTROLLER = 3;
     public static final String DEFAULT_MOUSE_UP = "W";
     public static final String DEFAULT_MOUSE_DOWN = "S";
     public static final String DEFAULT_UP = "Up";
@@ -48,13 +109,15 @@ public class GameOptions {
     public static final String DEFAULT_BUY = "B";
     public static final String DEFAULT_CHANGE_SHIP = "C";
     public static final String DEFAULT_HIRE_SHIP = "H";
+    public static final String DEFAULT_MERCENARY_INTERACTION = "M";
+    public static final String DEFAULT_FREE_CAMERA_MOVEMENT = "V";
     public static final int DEFAULT_AXIS_SHOOT = 1;
     public static final int DEFAULT_AXIS_SHOOT2 = 0;
     public static final int DEFAULT_AXIS_ABILITY = -1;
     public static final int DEFAULT_AXIS_LEFT_RIGHT = 2;
-    public static final boolean DEFAULT_AXIS_LEFT_RIGHT_INVERTED_ = false;
+    public static final boolean DEFAULT_AXIS_LEFT_RIGHT_INVERTED = false;
     public static final int DEFAULT_AXIS_UP_DOWN = 5;
-    public static final boolean DEFAULT_AXIS_UP_DOWN_INVERTED_ = false;
+    public static final boolean DEFAULT_AXIS_UP_DOWN_INVERTED = false;
     public static final int DEFAULT_BUTTON_SHOOT = -1;
     public static final int DEFAULT_BUTTON_SHOOT2 = -1;
     public static final int DEFAULT_BUTTON_ABILITY = 14;
@@ -66,9 +129,9 @@ public class GameOptions {
     public int x;
     public int y;
     public boolean fullscreen;
-    public int controlType;
-    public float sfxVolumeMultiplier;
-    public float musicVolumeMultiplier;
+    public ControlType controlType;
+    public Volume sfxVolume;
+    public Volume musicVolume;
     public boolean canSellEquippedItems;
     private String keyUpMouseName;
     private String keyDownMouseName;
@@ -89,6 +152,8 @@ public class GameOptions {
     private String keyBuyMenuName;
     private String keyChangeShipMenuName;
     private String keyHireShipMenuName;
+    private String keyMercenaryInteractionName;
+    private String keyFreeCameraMovementName;
     private int controllerAxisShoot;
     private int controllerAxisShoot2;
     private int controllerAxisAbility;
@@ -104,91 +169,69 @@ public class GameOptions {
     private int controllerButtonUp;
     private int controllerButtonDown;
 
-    private SortedSet<String> supportedResolutions = new TreeSet<>();
-    private Iterator<String> resolutionIterator = null;
+    private ResolutionProvider resolutionProvider;
 
-    public GameOptions(boolean mobile, SolFileReader reader) {
-        IniReader r = new IniReader(FILE_NAME, reader);
-        x = r.getInt("x", 800);
-        y = r.getInt("y", 600);
-        fullscreen = r.getBoolean("fullscreen", false);
-        controlType = mobile ? CONTROL_KB : r.getInt("controlType", CONTROL_MIXED);
-        sfxVolumeMultiplier = r.getFloat("sfxVol", 1);
-        musicVolumeMultiplier = r.getFloat("musicVol", 1);
-        keyUpMouseName = r.getString("keyUpMouse", DEFAULT_MOUSE_UP);
-        keyDownMouseName = r.getString("keyDownMouse", DEFAULT_MOUSE_DOWN);
-        keyUpName = r.getString("keyUp", DEFAULT_UP);
-        keyDownName = r.getString("keyDown", DEFAULT_DOWN);
-        keyLeftName = r.getString("keyLeft", DEFAULT_LEFT);
-        keyRightName = r.getString("keyRight", DEFAULT_RIGHT);
-        keyShootName = r.getString("keyShoot", DEFAULT_SHOOT);
-        keyShoot2Name = r.getString("keyShoot2", DEFAULT_SHOOT2);
-        keyAbilityName = r.getString("keyAbility", DEFAULT_ABILITY);
-        keyEscapeName = r.getString("keyEscape", DEFAULT_ESCAPE);
-        keyMapName = r.getString("keyMap", DEFAULT_MAP);
-        keyInventoryName = r.getString("keyInventory", DEFAULT_INVENTORY);
-        keyTalkName = r.getString("keyTalk", DEFAULT_TALK);
-        keyPauseName = r.getString("keyPause", DEFAULT_PAUSE);
-        keyDropName = r.getString("keyDrop", DEFAULT_DROP);
-        keySellMenuName = r.getString("keySellMenu", DEFAULT_SELL);
-        keyBuyMenuName = r.getString("keyBuyMenu", DEFAULT_BUY);
-        keyChangeShipMenuName = r.getString("keyChangeShipMenu", DEFAULT_CHANGE_SHIP);
-        keyHireShipMenuName = r.getString("keyHireShipMenu", DEFAULT_HIRE_SHIP);
-        controllerAxisShoot = r.getInt("controllerAxisShoot", DEFAULT_AXIS_SHOOT);
-        controllerAxisShoot2 = r.getInt("controllerAxisShoot2", DEFAULT_AXIS_SHOOT2);
-        controllerAxisAbility = r.getInt("controllerAxisAbility", DEFAULT_AXIS_ABILITY);
-        controllerAxisLeftRight = r.getInt("controllerAxisLeftRight", DEFAULT_AXIS_LEFT_RIGHT);
-        isControllerAxisLeftRightInverted = r.getBoolean("isControllerAxisLeftRightInverted", DEFAULT_AXIS_LEFT_RIGHT_INVERTED_);
-        controllerAxisUpDown = r.getInt("controllerAxisUpDown", DEFAULT_AXIS_UP_DOWN);
-        isControllerAxisUpDownInverted = r.getBoolean("isControllerAxisUpDownInverted", DEFAULT_AXIS_UP_DOWN_INVERTED_);
-        controllerButtonShoot = r.getInt("controllerButtonShoot", DEFAULT_BUTTON_SHOOT);
-        controllerButtonShoot2 = r.getInt("controllerButtonShoot2", DEFAULT_BUTTON_SHOOT2);
-        controllerButtonAbility = r.getInt("controllerButtonAbility", DEFAULT_BUTTON_ABILITY);
-        controllerButtonLeft = r.getInt("controllerButtonLeft", DEFAULT_BUTTON_LEFT);
-        controllerButtonRight = r.getInt("controllerButtonRight", DEFAULT_BUTTON_RIGHT);
-        controllerButtonUp = r.getInt("controllerButtonUp", DEFAULT_BUTTON_UP);
-        controllerButtonDown = r.getInt("controllerButtonDown", DEFAULT_BUTTON_DOWN);
-        canSellEquippedItems = r.getBoolean("canSellEquippedItems", false);
+    public GameOptions(boolean mobile, SolFileReader solFileReader) {
+        IniReader reader = new IniReader(FILE_NAME, solFileReader);
+        x = reader.getInt("x", 1366);
+        y = reader.getInt("y", 768);
+        fullscreen = reader.getBoolean("fullscreen", false);
+        controlType = mobile ? ControlType.KEYBOARD : ControlType.valueOf(reader.getString("controlType", "MIXED"));
+        sfxVolume = Volume.valueOf(reader.getString("sfxVolume", "MAX"));
+        musicVolume = Volume.valueOf(reader.getString("musicVolume", "MAX"));
+        keyUpMouseName = reader.getString("keyUpMouse", DEFAULT_MOUSE_UP);
+        keyDownMouseName = reader.getString("keyDownMouse", DEFAULT_MOUSE_DOWN);
+        keyUpName = reader.getString("keyUp", DEFAULT_UP);
+        keyDownName = reader.getString("keyDown", DEFAULT_DOWN);
+        keyLeftName = reader.getString("keyLeft", DEFAULT_LEFT);
+        keyRightName = reader.getString("keyRight", DEFAULT_RIGHT);
+        keyShootName = reader.getString("keyShoot", DEFAULT_SHOOT);
+        keyShoot2Name = reader.getString("keyShoot2", DEFAULT_SHOOT2);
+        keyAbilityName = reader.getString("keyAbility", DEFAULT_ABILITY);
+        keyEscapeName = reader.getString("keyEscape", DEFAULT_ESCAPE);
+        keyMapName = reader.getString("keyMap", DEFAULT_MAP);
+        keyInventoryName = reader.getString("keyInventory", DEFAULT_INVENTORY);
+        keyTalkName = reader.getString("keyTalk", DEFAULT_TALK);
+        keyPauseName = reader.getString("keyPause", DEFAULT_PAUSE);
+        keyDropName = reader.getString("keyDrop", DEFAULT_DROP);
+        keySellMenuName = reader.getString("keySellMenu", DEFAULT_SELL);
+        keyBuyMenuName = reader.getString("keyBuyMenu", DEFAULT_BUY);
+        keyChangeShipMenuName = reader.getString("keyChangeShipMenu", DEFAULT_CHANGE_SHIP);
+        keyHireShipMenuName = reader.getString("keyHireShipMenu", DEFAULT_HIRE_SHIP);
+        keyMercenaryInteractionName = reader.getString("keyMercenaryInteraction", DEFAULT_MERCENARY_INTERACTION);
+        keyFreeCameraMovementName = reader.getString("keyFreeCameraMovement", DEFAULT_FREE_CAMERA_MOVEMENT);
+        controllerAxisShoot = reader.getInt("controllerAxisShoot", DEFAULT_AXIS_SHOOT);
+        controllerAxisShoot2 = reader.getInt("controllerAxisShoot2", DEFAULT_AXIS_SHOOT2);
+        controllerAxisAbility = reader.getInt("controllerAxisAbility", DEFAULT_AXIS_ABILITY);
+        controllerAxisLeftRight = reader.getInt("controllerAxisLeftRight", DEFAULT_AXIS_LEFT_RIGHT);
+        isControllerAxisLeftRightInverted = reader.getBoolean("isControllerAxisLeftRightInverted", DEFAULT_AXIS_LEFT_RIGHT_INVERTED);
+        controllerAxisUpDown = reader.getInt("controllerAxisUpDown", DEFAULT_AXIS_UP_DOWN);
+        isControllerAxisUpDownInverted = reader.getBoolean("isControllerAxisUpDownInverted", DEFAULT_AXIS_UP_DOWN_INVERTED);
+        controllerButtonShoot = reader.getInt("controllerButtonShoot", DEFAULT_BUTTON_SHOOT);
+        controllerButtonShoot2 = reader.getInt("controllerButtonShoot2", DEFAULT_BUTTON_SHOOT2);
+        controllerButtonAbility = reader.getInt("controllerButtonAbility", DEFAULT_BUTTON_ABILITY);
+        controllerButtonLeft = reader.getInt("controllerButtonLeft", DEFAULT_BUTTON_LEFT);
+        controllerButtonRight = reader.getInt("controllerButtonRight", DEFAULT_BUTTON_RIGHT);
+        controllerButtonUp = reader.getInt("controllerButtonUp", DEFAULT_BUTTON_UP);
+        controllerButtonDown = reader.getInt("controllerButtonDown", DEFAULT_BUTTON_DOWN);
+        canSellEquippedItems = reader.getBoolean("canSellEquippedItems", false);
     }
 
-    public void advanceReso() {
-        if (resolutionIterator == null) {
-            // Initialize resolution choices - get the resolutions that are supported
-            Graphics.DisplayMode displayModes[] = Gdx.graphics.getDisplayModes();
-
-            for (Graphics.DisplayMode d : displayModes) {
-                supportedResolutions.add(d.width + "x" + d.height);
-            }
-
-            resolutionIterator = supportedResolutions.iterator();
+    public void advanceResolution() {
+        //lazy initialize provider because graphics is not available at the constructor
+        if(resolutionProvider == null){
+            resolutionProvider = new ResolutionProvider(asList(Gdx.graphics.getDisplayModes()));
         }
+        Resolution nextResolution = resolutionProvider.increase();
 
-        String nextResolution;
-        if (resolutionIterator.hasNext()) {
-            nextResolution = resolutionIterator.next();
-        } else {
-            // Probably somehow possible to get no entries at all which would crash, but then we're doomed anyway
-            resolutionIterator = supportedResolutions.iterator();
-            nextResolution = resolutionIterator.next();
-        }
-
-        // TODO: Probably should validate, but then there are still many things we should probably add! :-)
-        x = Integer.parseInt(nextResolution.substring(0, nextResolution.indexOf("x")));
-        y = Integer.parseInt(nextResolution.substring(nextResolution.indexOf("x") + 1, nextResolution.length()));
+        x = nextResolution.getWidth();
+        y = nextResolution.getHeight();
 
         save();
     }
 
     public void advanceControlType(boolean mobile) {
-        if (controlType == CONTROL_KB) {
-            controlType = mobile ? CONTROL_MOUSE : CONTROL_MIXED;
-        } else if (controlType == CONTROL_MIXED) {
-            controlType = CONTROL_CONTROLLER;
-            //    } else if (controlType == CONTROL_MIXED) {
-            //      controlType = CONTROL_MOUSE;
-        } else {
-            controlType = CONTROL_KB;
-        }
+        controlType = controlType.nextType(mobile);
         save();
     }
 
@@ -198,32 +241,12 @@ public class GameOptions {
     }
 
     public void advanceSoundVolMul() {
-        if (sfxVolumeMultiplier == 0.f) {
-            sfxVolumeMultiplier = 0.25f;
-        } else if (sfxVolumeMultiplier == 0.25f) {
-            sfxVolumeMultiplier = 0.5f;
-        } else if (sfxVolumeMultiplier == 0.5f) {
-            sfxVolumeMultiplier = 0.75f;
-        } else if (sfxVolumeMultiplier == 0.75f) {
-            sfxVolumeMultiplier = 1.f;
-        } else {
-            sfxVolumeMultiplier = 0.f;
-        }
+        sfxVolume = sfxVolume.advance();
         save();
     }
 
     public void advanceMusicVolMul() {
-        if (musicVolumeMultiplier == 0.f) {
-            musicVolumeMultiplier = 0.25f;
-        } else if (musicVolumeMultiplier == 0.25f) {
-            musicVolumeMultiplier = 0.5f;
-        } else if (musicVolumeMultiplier == 0.5f) {
-            musicVolumeMultiplier = 0.75f;
-        } else if (musicVolumeMultiplier == 0.75f) {
-            musicVolumeMultiplier = 1.f;
-        } else {
-            musicVolumeMultiplier = 0.f;
-        }
+        musicVolume = musicVolume.advance();
         save();
     }
 
@@ -231,8 +254,8 @@ public class GameOptions {
      * Save the configuration settings to file.
      */
     public void save() {
-        IniReader.write(FILE_NAME, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType, "sfxVol", sfxVolumeMultiplier, "musicVol", musicVolumeMultiplier,
-                "canSellEquippedItems", canSellEquippedItems,
+        IniReader.write(FILE_NAME, "x", x, "y", y, "fullscreen", fullscreen, "controlType", controlType,
+                "sfxVolume", sfxVolume, "musicVolume", musicVolume, "canSellEquippedItems", canSellEquippedItems,
                 "keyUpMouse", getKeyUpMouseName(), "keyDownMouse", getKeyDownMouseName(), "keyUp", getKeyUpName(), "keyDown", keyDownName,
                 "keyLeft", keyLeftName, "keyRight", keyRightName, "keyShoot", keyShootName, "keyShoot2", getKeyShoot2Name(),
                 "keyAbility", getKeyAbilityName(), "keyEscape", getKeyEscapeName(), "keyMap", keyMapName, "keyInventory", keyInventoryName,
@@ -657,6 +680,40 @@ public class GameOptions {
     }
 
     /**
+     * Get the defined key for interacting with mercenaries.
+     *
+     * @return int The keycode as defined in Input.Keys
+     */
+    public int getKeyMercenaryInteraction() {
+        return Input.Keys.valueOf(keyMercenaryInteractionName);
+    }
+
+    /**
+     * Get the readable name of the defined key for interacting with mercenaries.
+     *
+     * @return String The readable name as defined in Input.Keys
+     */
+    public String getKeyMercenaryInterationName() {
+        return keyMercenaryInteractionName;
+    }
+
+    public void setKeyMercenaryInteractionName(String keyMercenaryInteractionName) {
+        this.keyMercenaryInteractionName = keyMercenaryInteractionName;
+    }
+
+    public int getKeyFreeCameraMovement() {
+        return Input.Keys.valueOf(getKeyFreeCameraMovementName());
+    }
+
+    public String getKeyFreeCameraMovementName() {
+        return keyFreeCameraMovementName;
+    }
+
+    public void setKeyFreeCameraMovementName(String keyFreeCameraMovementName) {
+        this.keyFreeCameraMovementName = keyFreeCameraMovementName;
+    }
+
+    /**
      * Get the defined key for opening the talk menu.
      *
      * @return int The keycode as defined in Input.Keys
@@ -920,37 +977,5 @@ public class GameOptions {
 
     public void setControllerButtonDown(int controllerButtonDown) {
         this.controllerButtonDown = controllerButtonDown;
-    }
-
-    public String getSFXVolumeAsText() {
-        if (sfxVolumeMultiplier == 0.f) {
-            return "Off";
-        }
-        if (sfxVolumeMultiplier == 0.25f) {
-            return "Low";
-        }
-        if (sfxVolumeMultiplier == 0.5f) {
-            return "Medium";
-        }
-        if (sfxVolumeMultiplier == 0.75f) {
-            return "High";
-        }
-        return "Max";
-    }
-
-    public String getMusicVolumeAsText() {
-        if (musicVolumeMultiplier == 0.f) {
-            return "Off";
-        }
-        if (musicVolumeMultiplier == 0.25f) {
-            return "Low";
-        }
-        if (musicVolumeMultiplier == 0.5f) {
-            return "Medium";
-        }
-        if (musicVolumeMultiplier == 0.75f) {
-            return "High";
-        }
-        return "Max";
     }
 }

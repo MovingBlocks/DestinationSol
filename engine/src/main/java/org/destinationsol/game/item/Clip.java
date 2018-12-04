@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,61 +16,62 @@
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.projectile.ProjectileConfig;
 
 public class Clip implements SolItem {
-    private final Config myConfig;
+    private final Config config;
 
-    public Clip(Config config) {
-        myConfig = config;
+    Clip(Config config) {
+        this.config = config;
     }
 
     @Override
     public String getDisplayName() {
-        return myConfig.displayName;
+        return config.displayName;
     }
 
     @Override
     public float getPrice() {
-        return myConfig.price;
+        return config.price;
     }
 
     @Override
-    public String getDesc() {
-        return myConfig.desc;
+    public String getDescription() {
+        return config.desc;
     }
 
     public Config getConfig() {
-        return myConfig;
+        return config;
     }
 
     @Override
     public SolItem copy() {
-        return new Clip(myConfig);
+        return new Clip(config);
     }
 
     @Override
     public boolean isSame(SolItem item) {
-        return item instanceof Clip && ((Clip) item).myConfig == myConfig;
+        return item instanceof Clip && ((Clip) item).config == config;
     }
 
     @Override
     public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-        return myConfig.icon;
+        return config.icon;
     }
 
     @Override
     public SolItemType getItemType() {
-        return myConfig.itemType;
+        return config.itemType;
     }
 
     @Override
     public String getCode() {
-        return myConfig.code;
+        return config.code;
     }
 
     @Override
@@ -113,13 +114,15 @@ public class Clip implements SolItem {
 
         public static void load(String clipName, ItemManager itemManager, SolItemTypes types) {
             Json json = Assets.getJson(clipName);
-            JsonValue rootNode = json.getJsonValue();
+            JSONObject rootNode = json.getJsonValue();
+
+            Validator.validate(rootNode, "engine:schemaClip");
 
             String projectileName = rootNode.getString("projectile");
             ProjectileConfig projectileConfig = itemManager.projConfigs.find(projectileName);
-            boolean infinite = rootNode.getBoolean("infinite", false);
+            boolean infinite = rootNode.optBoolean("infinite", false);
             int size = rootNode.getInt("size");
-            int projectilesPerShot = rootNode.getInt("projectilesPerShot", 1);
+            int projectilesPerShot = rootNode.optInt("projectilesPerShot", 1);
             if (projectilesPerShot < 1) {
                 throw new AssertionError("Invalid projectilesPerShot for " + clipName);
             }

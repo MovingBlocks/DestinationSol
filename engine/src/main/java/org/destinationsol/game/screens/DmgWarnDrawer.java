@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,22 +15,29 @@
  */
 package org.destinationsol.game.screens;
 
+import org.destinationsol.common.SolColor;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
-import org.destinationsol.game.ship.SolShip;
 
 public class DmgWarnDrawer extends WarnDrawer {
-    DmgWarnDrawer(float r) {
-        super(r, "Heavily Damaged");
+    DmgWarnDrawer() {
+        super("Heavily Damaged", SolColor.UI_DANGER);
     }
 
     @Override
     protected boolean shouldWarn(SolGame game) {
-        SolShip hero = game.getHero();
-        if (hero == null) {
+        Hero hero = game.getHero();
+        if (hero.isTranscendent()) {
             return false;
         }
-        float l = hero.getLife();
-        int ml = hero.getHull().config.getMaxLife();
-        return l < ml * .3f;
+        float currentLife = hero.getLife();
+
+        // already dead
+        if(currentLife <= 0.0) {
+            return false;
+        }
+
+        int maxLife = hero.getHull().config.getMaxLife();
+        return currentLife < maxLife * .3f;
     }
 }

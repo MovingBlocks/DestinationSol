@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,18 +16,19 @@
 package org.destinationsol.ui;
 
 import com.badlogic.gdx.InputProcessor;
+import org.destinationsol.game.Console;
 
 public class SolInputProcessor implements InputProcessor {
 
-    private final SolInputManager myInputMan;
+    private final SolInputManager inputManager;
 
-    public SolInputProcessor(SolInputManager inputMan) {
-        myInputMan = inputMan;
+    SolInputProcessor(SolInputManager inputMan) {
+        inputManager = inputMan;
     }
 
     @Override
     public boolean keyDown(int keyCode) {
-        myInputMan.maybeFlashPressed(keyCode);
+        inputManager.maybeFlashPressed(keyCode);
         return false;
     }
 
@@ -38,12 +39,13 @@ public class SolInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
+        Console.getInstance().registerCharEntered(character);
         return false;
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        myInputMan.maybeFlashPressed(screenX, screenY);
+        inputManager.maybeFlashPressed(screenX, screenY);
         return false;
     }
 
@@ -64,7 +66,7 @@ public class SolInputProcessor implements InputProcessor {
 
     @Override
     public boolean scrolled(int amount) {
-        myInputMan.scrolled(amount > 0);
+        inputManager.scrolled(amount > 0);
         return false;
     }
 }

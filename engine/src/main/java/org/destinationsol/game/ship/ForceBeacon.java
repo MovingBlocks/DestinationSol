@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,7 +23,7 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.input.Pilot;
-import org.destinationsol.game.particle.ParticleSrc;
+import org.destinationsol.game.particle.DSParticleEmitter;
 
 import java.util.List;
 
@@ -32,20 +32,20 @@ public class ForceBeacon {
     public static final float MAX_PULL_DIST = .7f;
     private final Vector2 myRelPos;
     private final Vector2 myPrevPos;
-    private final ParticleSrc myEffect;
+    private final DSParticleEmitter myEffect;
 
-    public ForceBeacon(SolGame game, Vector2 relPos, Vector2 basePos, Vector2 baseSpd) {
+    public ForceBeacon(SolGame game, Vector2 relPos, Vector2 basePos, Vector2 baseSpeed) {
         myRelPos = relPos;
-        myEffect = game.getSpecialEffects().buildForceBeacon(.6f, game, relPos, basePos, baseSpd);
+        myEffect = game.getSpecialEffects().buildForceBeacon(.6f, game, relPos, basePos, baseSpeed);
         myEffect.setWorking(true);
         myPrevPos = new Vector2();
     }
 
-    public static SolShip pullShips(SolGame game, SolObject owner, Vector2 ownPos, Vector2 ownSpd, Faction faction,
+    public static SolShip pullShips(SolGame game, SolObject owner, Vector2 ownPos, Vector2 ownSpeed, Faction faction,
                                     float maxPullDist) {
         SolShip res = null;
         float minLen = Float.MAX_VALUE;
-        List<SolObject> objs = game.getObjMan().getObjs();
+        List<SolObject> objs = game.getObjectManager().getObjects();
         for (SolObject o : objs) {
             if (o == owner) {
                 continue;
@@ -67,8 +67,8 @@ public class ForceBeacon {
                 if (toMeLen > 1) {
                     toMe.scl(1 / toMeLen);
                 }
-                if (ownSpd != null) {
-                    toMe.add(ownSpd);
+                if (ownSpeed != null) {
+                    toMe.add(ownSpeed);
                 }
                 ship.getHull().getBody().setLinearVelocity(toMe);
                 game.getSoundManager().play(game, game.getSpecialSounds().forceBeaconWork, null, ship);
@@ -83,16 +83,16 @@ public class ForceBeacon {
     }
 
     public void collectDras(List<Drawable> drawables) {
-        drawables.add(myEffect);
+        drawables.addAll(myEffect.getDrawables());
     }
 
     public void update(SolGame game, Vector2 basePos, float baseAngle, SolShip ship) {
-        Vector2 pos = SolMath.toWorld(myRelPos, baseAngle, basePos);
-        Vector2 spd = SolMath.distVec(myPrevPos, pos).scl(1 / game.getTimeStep());
+        Vector2 position = SolMath.toWorld(myRelPos, baseAngle, basePos);
+        Vector2 speed = SolMath.distVec(myPrevPos, position).scl(1 / game.getTimeStep());
         Faction faction = ship.getPilot().getFaction();
-        pullShips(game, ship, pos, spd, faction, MAX_PULL_DIST);
-        SolMath.free(spd);
-        myPrevPos.set(pos);
-        SolMath.free(pos);
+        pullShips(game, ship, position, speed, faction, MAX_PULL_DIST);
+        SolMath.free(speed);
+        myPrevPos.set(position);
+        SolMath.free(position);
     }
 }

@@ -23,15 +23,15 @@ import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.common.Nullable;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.GameDrawer;
+import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.planet.Planet;
-import org.destinationsol.game.ship.SolShip;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class OggSoundManager {
@@ -90,27 +90,27 @@ public class OggSoundManager {
         }
 
         // Calculate the volume multiplier for the sound
-        float globalVolumeMultiplier = game.getCmp().getOptions().sfxVolumeMultiplier;
+        float globalVolumeMultiplier = game.getSolApplication().getOptions().sfxVolume.getVolume();
         if (globalVolumeMultiplier == 0) {
             return;
         }
 
-        Vector2 cameraPosition = game.getCam().getPos();
-        Planet nearestPlanet = game.getPlanetMan().getNearestPlanet();
+        Vector2 cameraPosition = game.getCam().getPosition();
+        Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();
 
-        float airPerc = 0;
+        float airPercentage = 0;
         if (nearestPlanet.getConfig().skyConfig != null) {
-            float distanceToAtmosphere = cameraPosition.dst(nearestPlanet.getPos()) - nearestPlanet.getGroundHeight() - Const.ATM_HEIGHT / 2;
-            airPerc = SolMath.clamp(1 - distanceToAtmosphere / (Const.ATM_HEIGHT / 2));
+            float distanceToAtmosphere = cameraPosition.dst(nearestPlanet.getPosition()) - nearestPlanet.getGroundHeight() - Const.ATM_HEIGHT / 2;
+            airPercentage = SolMath.clamp(1 - distanceToAtmosphere / (Const.ATM_HEIGHT / 2));
         }
         if (DebugOptions.SOUND_IN_SPACE) {
-            airPerc = 1;
+            airPercentage = 1;
         }
 
-        float maxSoundDist = 1 + 1.5f * Const.CAM_VIEW_DIST_GROUND * airPerc;
+        float maxSoundDist = 1 + 1.5f * Const.CAM_VIEW_DIST_GROUND * airPercentage;
 
-        SolShip hero = game.getHero();
-        float soundRadius = hero == null ? 0 : hero.getHull().config.getApproxRadius();
+        Hero hero = game.getHero();
+        float soundRadius = hero.isTranscendent() ? 0 : hero.getHull().config.getApproxRadius();
         float distance = position.dst(cameraPosition) - soundRadius;
         float distanceMultiplier = SolMath.clamp(1 - distance / maxSoundDist);
 
@@ -121,7 +121,7 @@ public class OggSoundManager {
         }
 
         // Calculate the pitch for the sound
-        float pitch = SolMath.rnd(.97f, 1.03f) * game.getTimeFactor() * playableSound.getBasePitch();
+        float pitch = SolRandom.randomFloat(.97f, 1.03f) * game.getTimeFactor() * playableSound.getBasePitch();
 
         if (skipLooped(source, sound, game.getTime())) {
             return;
