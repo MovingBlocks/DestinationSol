@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "projectile": {
+      "type": "string"
+    },
+    "size": {
+      "type": "integer"
+    },
+    "price": {
+      "type": "integer"
+    },
+    "displayName": {
+      "type": "string"
+    },
+    "plural": {
+      "type": "string"
+    },
+    "iconName": {
+      "type": "string"
+    },
+    "infinite":{
+      "type: "boolean"
+    }
+  },
+  "required": [
+    "projectile",
+    "size"
+  ]
+}
