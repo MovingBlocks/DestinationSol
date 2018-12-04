@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,9 +17,11 @@ package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSound;
+import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolMath;
@@ -27,19 +29,18 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.ship.SolShip;
-import org.destinationsol.game.sound.OggSoundManager;
 
 public class Shield implements SolItem {
     public static final float SIZE_PERC = .7f;
-    private static final float BULLET_DMG_FACTOR = .7f;
-    private final Config myConfig;
+    private final Config config;
     private float myLife;
     private float myIdleTime;
     private int myEquipped;
 
     private Shield(Config config) {
-        myConfig = config;
-        myLife = myConfig.maxLife;
+        this.config = config;
+        myLife = config.maxLife;
+        myIdleTime = config.idleTime;
     }
 
     private Shield(Config config, int equipped) {
@@ -49,37 +50,37 @@ public class Shield implements SolItem {
 
     public void update(SolGame game, SolObject owner) {
         float ts = game.getTimeStep();
-        if (myIdleTime >= myConfig.myMaxIdleTime) {
-            if (myLife < myConfig.maxLife) {
-                float regen = myConfig.regenSpd * ts;
-                myLife = SolMath.approach(myLife, myConfig.maxLife, regen);
+        if (myIdleTime >= config.idleTime) {
+            if (myLife < config.maxLife) {
+                float regen = config.regenSpeed * ts;
+                myLife = SolMath.approach(myLife, config.maxLife, regen);
             }
         } else {
             myIdleTime += ts;
-            if (myIdleTime >= myConfig.myMaxIdleTime) {
-                game.getSoundManager().play(game, myConfig.regenSound, null, owner);
+            if (myIdleTime >= config.idleTime) {
+                game.getSoundManager().play(game, config.regenSound, null, owner);
             }
         }
     }
 
     @Override
     public String getDisplayName() {
-        return myConfig.displayName;
+        return config.displayName;
     }
 
     @Override
     public float getPrice() {
-        return myConfig.price;
+        return config.price;
     }
 
     @Override
-    public String getDesc() {
-        return myConfig.desc;
+    public String getDescription() {
+        return config.desc;
     }
 
     @Override
     public SolItem copy() {
-        return new Shield(myConfig, myEquipped);
+        return new Shield(config, myEquipped);
     }
 
     @Override
@@ -89,17 +90,17 @@ public class Shield implements SolItem {
 
     @Override
     public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-        return myConfig.icon;
+        return config.icon;
     }
 
     @Override
     public SolItemType getItemType() {
-        return myConfig.itemType;
+        return config.itemType;
     }
 
     @Override
     public String getCode() {
-        return myConfig.code;
+        return config.code;
     }
 
     public float getLife() {
@@ -107,26 +108,30 @@ public class Shield implements SolItem {
     }
 
     public float getMaxLife() {
-        return myConfig.maxLife;
+        return config.maxLife;
     }
 
     public boolean canAbsorb(DmgType dmgType) {
         return myLife > 0 && dmgType != DmgType.FIRE && dmgType != DmgType.CRASH;
     }
 
-    public void absorb(SolGame game, float dmg, Vector2 pos, SolShip ship, DmgType dmgType) {
+    public void absorb(SolGame game, float dmg, Vector2 position, SolShip ship, DmgType dmgType) {
         if (!canAbsorb(dmgType) || dmg <= 0) {
             throw new AssertionError("illegal call to absorb");
         }
         myIdleTime = 0f;
         if (dmgType == DmgType.BULLET) {
-            dmg *= BULLET_DMG_FACTOR;
+            dmg *= config.bulletDmgFactor;
+        } else if (dmgType == DmgType.ENERGY) {
+            dmg *= config.energyDmgFactor;
+        } else if (dmgType == DmgType.EXPLOSION) {
+            dmg *= config.explosionDmgFactor;
         }
         myLife -= myLife < dmg ? myLife : dmg;
 
-        game.getPartMan().shieldSpark(game, pos, ship.getHull(), myConfig.tex, dmg / myConfig.maxLife);
-        float volMul = SolMath.clamp(4 * dmg / myConfig.maxLife);
-        game.getSoundManager().play(game, myConfig.absorbSound, null, ship, volMul);
+        game.getPartMan().shieldSpark(game, position, ship.getHull(), config.tex, dmg / config.maxLife);
+        float volMul = SolMath.clamp(4 * dmg / config.maxLife);
+        game.getSoundManager().play(game, config.absorbSound, null, ship, volMul);
 
     }
 
@@ -146,16 +151,25 @@ public class Shield implements SolItem {
         public final PlayableSound regenSound;
         public final Shield example;
         public final float maxLife;
-        public final float myMaxIdleTime = 2;
-        public final float regenSpd;
+        public final float idleTime;
+        public final float regenSpeed;
+        public final float bulletDmgFactor;
+        public final float energyDmgFactor;
+        public final float explosionDmgFactor;
         public final TextureAtlas.AtlasRegion icon;
         public final SolItemType itemType;
         public final String code;
         public TextureAtlas.AtlasRegion tex;
 
-        private Config(int maxLife, String displayName, int price, PlayableSound absorbSound, PlayableSound regenSound,
-                       TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, SolItemType itemType, String code) {
+        private Config(int maxLife, float idleTime, float regenSpeed, float bulletDmgFactor, float energyDmgFactor, float explosionDmgFactor, String displayName, int price,
+                PlayableSound absorbSound, PlayableSound regenSound,
+                TextureAtlas.AtlasRegion icon, TextureAtlas.AtlasRegion tex, SolItemType itemType, String code) {
             this.maxLife = maxLife;
+            this.idleTime = idleTime;
+            this.regenSpeed = regenSpeed;
+            this.bulletDmgFactor = bulletDmgFactor;
+            this.energyDmgFactor = energyDmgFactor;
+            this.explosionDmgFactor = explosionDmgFactor;
             this.displayName = displayName;
             this.price = price;
             this.absorbSound = absorbSound;
@@ -164,20 +178,26 @@ public class Shield implements SolItem {
             this.tex = tex;
             this.itemType = itemType;
             this.code = code;
-            regenSpd = this.maxLife / 3;
             example = new Shield(this);
             this.desc = makeDesc();
         }
 
         public static void load(String shieldName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
             Json json = Assets.getJson(shieldName);
-            JsonValue rootNode = json.getJsonValue();
+            JSONObject rootNode = json.getJsonValue();
+
+            Validator.validate(rootNode, "engine:schemaShield");
 
             int maxLife = rootNode.getInt("maxLife");
+            float idleTime = (float) rootNode.getDouble("idleTime");
+            float regenSpeed = (float) rootNode.getDouble("regenSpd");
+            float bulletDmgFactor = (float) rootNode.getDouble("bulletDmgFactor");
+            float energyDmgFactor = (float) rootNode.getDouble("energyDmgFactor");
+            float explosionDmgFactor = (float) rootNode.getDouble("explosionDmgFactor");
             String displayName = rootNode.getString("displayName");
             int price = rootNode.getInt("price");
             String absorbUrn = rootNode.getString("absorbSound");
-            float absorbPitch = rootNode.getFloat("absorbSoundPitch", 1);
+            float absorbPitch = (float) rootNode.optDouble("absorbSoundPitch", 1);
             OggSound absorbSound = soundManager.getSound(absorbUrn, absorbPitch);
             String regenUrn = rootNode.getString("regenSound");
             OggSound regenSound = soundManager.getSound(regenUrn);
@@ -187,14 +207,19 @@ public class Shield implements SolItem {
             TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(shieldName);
             TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(shieldName + "Icon");
 
-            Config config = new Config(maxLife, displayName, price, absorbSound, regenSound, icon, tex, types.shield, shieldName);
+            Config config = new Config(maxLife, idleTime, regenSpeed, bulletDmgFactor, energyDmgFactor, explosionDmgFactor, displayName, price, absorbSound, regenSound, icon, tex,
+                    types.shield, shieldName);
             itemManager.registerItem(config.example);
         }
 
         private String makeDesc() {
             StringBuilder sb = new StringBuilder();
             sb.append("Takes ").append(SolMath.nice(maxLife)).append(" dmg\n");
-            sb.append("Strong against bullets\n");
+            sb.append("Needs ").append(SolMath.nice(idleTime)).append("s to start regeneration\n");
+            sb.append("Regenerates ").append(SolMath.nice(regenSpeed)).append(" shield points per s\n");
+            sb.append("Bullet Dmg resist: ").append(100 - (bulletDmgFactor * 100)).append("%\n");
+            sb.append("Energy Dmg resist: ").append(100 - (energyDmgFactor * 100)).append("%\n");
+            sb.append("Explosion Dmg resist: ").append(100 - (explosionDmgFactor * 100)).append("%\n");
             return sb.toString();
         }
     }

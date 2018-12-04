@@ -7,8 +7,6 @@
         "force": 150,
         "rechargeTime": 10
     },
-    "e1Pos": "0.1 0.2",
-    "e2Pos": "0.1 0.8",
     "engine": "core:minerEngine",
     "gunSlots": [
         {
@@ -65,8 +63,7 @@
                 }
             ]
         ],
-        "circles": [
-        ],
+        "circles": [],
         "shapes": [
             {
                 "type": "POLYGON",
@@ -98,5 +95,39 @@
                 ]
             }
         ]
-    }
+    },
+    "particleEmitters": [
+        {
+            "position": "0.1 0.2",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:smokeEngine",
+                "size": 0.07,
+                "tex": "core:smoke",
+                "tint": "smoke"
+            },
+            "workSounds": [
+                "core:diesel",
+                "core:diesel2",
+                "core:diesel3"
+            ]
+        },
+        {
+            "position": "0.1 0.8",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:smokeEngine",
+                "size": 0.07,
+                "tex": "core:smoke",
+                "tint": "smoke"
+            },
+            "workSounds": [
+                "core:diesel",
+                "core:diesel2",
+                "core:diesel3"
+            ]
+        }
+    ]
 }

@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,15 +21,11 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.menu.MenuLayout;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MenuScreen implements SolUiScreen {
-    private final List<SolUiControl> controls = new ArrayList<>();
+public class MenuScreen extends SolUiBaseScreen {
     private final SolUiControl closeControl;
     private final SolUiControl exitControl;
     private final SolUiControl respawnControl;
@@ -59,28 +55,23 @@ public class MenuScreen implements SolUiScreen {
     }
 
     @Override
-    public List<SolUiControl> getControls() {
-        return controls;
-    }
-
-    @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         SolGame game = solApplication.getGame();
         game.setPaused(true);
-        SolInputManager im = solApplication.getInputMan();
+        SolInputManager im = solApplication.getInputManager();
         GameOptions options = solApplication.getOptions();
-        soundVolControl.setDisplayName("Sound Volume: " + options.getSFXVolumeAsText());
+        soundVolControl.setDisplayName("Sound Volume: " + options.sfxVolume.getName());
         if (soundVolControl.isJustOff()) {
             options.advanceSoundVolMul();
         }
-        musicVolumeControl.setDisplayName("Music Volume: " + options.getMusicVolumeAsText());
+        musicVolumeControl.setDisplayName("Music Volume: " + options.musicVolume.getName());
         if (musicVolumeControl.isJustOff()) {
             options.advanceMusicVolMul();
-            solApplication.getMusicManager().resetVolume(options);
+            solApplication.getMusicManager().changeVolume(options);
         }
         if (respawnControl.isJustOff()) {
             game.respawn();
-            im.setScreen(solApplication, game.getScreens().mainScreen);
+            im.setScreen(solApplication, game.getScreens().mainGameScreen);
             game.setPaused(false);
         }
         if (exitControl.isJustOff()) {
@@ -88,7 +79,7 @@ public class MenuScreen implements SolUiScreen {
         }
         if (closeControl.isJustOff()) {
             game.setPaused(false);
-            im.setScreen(solApplication, game.getScreens().mainScreen);
+            im.setScreen(solApplication, game.getScreens().mainGameScreen);
         }
         doNotSellEquippedControl.setDisplayName("Can sell used items: " +
                                                   (options.canSellEquippedItems ? "Yes" : "No"));
@@ -98,12 +89,12 @@ public class MenuScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
         uiDrawer.draw(uiDrawer.filler, SolColor.UI_BG);
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.InputPointer inputPointer) {
+    public boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
         return true;
     }
 }

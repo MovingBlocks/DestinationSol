@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,34 +27,34 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 public class StillGuard implements MoveDestProvider {
 
     private final PlanetBind myPlanetBind;
-    private final float myDesiredSpdLen;
+    private final float myDesiredSpeedLen;
     private Vector2 myDest;
-    private Vector2 myDestSpd;
+    private Vector2 myDestSpeed;
 
     public StillGuard(Vector2 target, SolGame game, ShipConfig sc) {
         myDest = new Vector2(target);
         myPlanetBind = PlanetBind.tryBind(game, myDest, 0);
-        myDesiredSpdLen = sc.hull.getType() == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
-        myDestSpd = new Vector2();
+        myDesiredSpeedLen = sc.hull.getType() == HullConfig.Type.BIG ? Const.BIG_AI_SPD : Const.DEFAULT_AI_SPD;
+        myDestSpeed = new Vector2();
     }
 
     @Override
-    public Vector2 getDest() {
+    public Vector2 getDestination() {
         return myDest;
     }
 
     @Override
-    public boolean shouldAvoidBigObjs() {
+    public boolean shouldAvoidBigObjects() {
         return myPlanetBind != null;
     }
 
     @Override
-    public float getDesiredSpdLen() {
-        return myDesiredSpdLen;
+    public float getDesiredSpeedScalar() {
+        return myDesiredSpeedLen;
     }
 
     @Override
-    public boolean shouldStopNearDest() {
+    public boolean shouldStopNearDestination() {
         return true;
     }
 
@@ -65,7 +65,7 @@ public class StillGuard implements MoveDestProvider {
             myPlanetBind.setDiff(diff, myDest, false);
             myDest.add(diff);
             SolMath.free(diff);
-            myPlanetBind.getPlanet().calcSpdAtPos(myDestSpd, myDest);
+            myPlanetBind.getPlanet().calculateSpeedAtPosition(myDestSpeed, myDest);
         }
     }
 
@@ -75,7 +75,7 @@ public class StillGuard implements MoveDestProvider {
     }
 
     @Override
-    public Vector2 getDestSpd() {
-        return myDestSpd;
+    public Vector2 getDestinationSpeed() {
+        return myDestSpeed;
     }
 }

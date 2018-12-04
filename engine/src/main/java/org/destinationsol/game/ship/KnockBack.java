@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,7 @@
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
+import org.json.JSONObject;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.SolGame;
@@ -25,14 +25,14 @@ import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
-import org.destinationsol.game.particle.ParticleSrc;
+import org.destinationsol.game.particle.DSParticleEmitter;
 
 public class KnockBack implements ShipAbility {
-    public static final int MAX_RADIUS = 8;
-    private final Config myConfig;
+    private static final int MAX_RADIUS = 8;
+    private final Config config;
 
-    public KnockBack(Config config) {
-        myConfig = config;
+    KnockBack(Config config) {
+        this.config = config;
     }
 
     public static float getPerc(float dst, float radius) {
@@ -48,12 +48,12 @@ public class KnockBack implements ShipAbility {
 
     @Override
     public AbilityConfig getConfig() {
-        return myConfig;
+        return config;
     }
 
     @Override
     public AbilityCommonConfig getCommonConfig() {
-        return myConfig.cc;
+        return config.cc;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class KnockBack implements ShipAbility {
             return false;
         }
         Vector2 ownerPos = owner.getPosition();
-        for (SolObject o : game.getObjMan().getObjs()) {
+        for (SolObject o : game.getObjectManager().getObjects()) {
             if (o == owner || !o.receivesGravity()) {
                 continue;
             }
@@ -81,12 +81,12 @@ public class KnockBack implements ShipAbility {
                 continue;
             }
             Vector2 toO = SolMath.distVec(ownerPos, oPos);
-            float accLen = myConfig.force * perc;
+            float accLen = config.force * perc;
             toO.scl(accLen / dst);
             o.receiveForce(toO, game, false);
             SolMath.free(toO);
         }
-        ParticleSrc src = new ParticleSrc(myConfig.cc.effect, MAX_RADIUS, DrawableLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
+        DSParticleEmitter src = new DSParticleEmitter(config.cc.effect, MAX_RADIUS, DrawableLevel.PART_BG_0, new Vector2(), true, game, ownerPos, Vector2.Zero, 0);
         game.getPartMan().finish(game, src, ownerPos);
         return true;
     }
@@ -104,12 +104,13 @@ public class KnockBack implements ShipAbility {
             this.cc = cc;
         }
 
-        public static AbilityConfig load(JsonValue abNode, ItemManager itemManager, AbilityCommonConfig cc) {
-            float rechargeTime = abNode.getFloat("rechargeTime");
-            float force = abNode.getFloat("force");
+        public static AbilityConfig load(JSONObject abNode, ItemManager itemManager, AbilityCommonConfig cc) {
+            float rechargeTime = (float) abNode.getDouble("rechargeTime");
+            float force = (float) abNode.getDouble("force");
             SolItem chargeExample = itemManager.getExample("knockBackCharge");
             return new Config(rechargeTime, chargeExample, force, cc);
         }
+
 
         @Override
         public ShipAbility build() {

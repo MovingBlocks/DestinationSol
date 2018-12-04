@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,39 +17,39 @@
 package org.destinationsol.game.drawables;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.game.FarObj;
+import org.destinationsol.game.FarObject;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 
 import java.util.List;
 
-public class FarDrawable implements FarObj {
-    private final List<Drawable> myDrawables;
-    private final Vector2 myPos;
-    private final Vector2 mySpd;
-    private final RemoveController myRemoveController;
-    private final float myRadius;
-    private final boolean myHideOnPlanet;
+public class FarDrawable implements FarObject {
+    private final List<Drawable> drawables;
+    private final Vector2 position;
+    private final Vector2 speed;
+    private final RemoveController removeController;
+    private final float radius;
+    private final boolean hideOnPlanet;
 
-    public FarDrawable(List<Drawable> drawables, Vector2 pos, Vector2 spd, RemoveController removeController,
+    public FarDrawable(List<Drawable> drawables, Vector2 position, Vector2 speed, RemoveController removeController,
                        boolean hideOnPlanet) {
-        myDrawables = drawables;
-        myPos = pos;
-        mySpd = spd;
-        myRemoveController = removeController;
-        myRadius = DrawableManager.radiusFromDras(myDrawables);
-        myHideOnPlanet = hideOnPlanet;
+        this.drawables = drawables;
+        this.position = position;
+        this.speed = speed;
+        this.removeController = removeController;
+        radius = DrawableManager.radiusFromDrawables(this.drawables);
+        this.hideOnPlanet = hideOnPlanet;
     }
 
     @Override
     public boolean shouldBeRemoved(SolGame game) {
-        return myRemoveController != null && myRemoveController.shouldRemove(myPos);
+        return removeController != null && removeController.shouldRemove(position);
     }
 
     @Override
-    public SolObject toObj(SolGame game) {
-        return new DrawableObject(myDrawables, myPos, mySpd, myRemoveController, false, myHideOnPlanet);
+    public SolObject toObject(SolGame game) {
+        return new DrawableObject(drawables, position, speed, removeController, false, hideOnPlanet);
     }
 
     @Override
@@ -58,12 +58,12 @@ public class FarDrawable implements FarObj {
 
     @Override
     public float getRadius() {
-        return myRadius;
+        return radius;
     }
 
     @Override
-    public Vector2 getPos() {
-        return myPos;
+    public Vector2 getPosition() {
+        return position;
     }
 
     @Override
@@ -77,6 +77,6 @@ public class FarDrawable implements FarObj {
     }
 
     public List<Drawable> getDrawables() {
-        return myDrawables;
+        return drawables;
     }
 }

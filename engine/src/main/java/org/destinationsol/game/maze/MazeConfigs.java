@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,29 +15,39 @@
  */
 package org.destinationsol.game.maze;
 
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.item.ItemManager;
+import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class MazeConfigs {
     public final List<MazeConfig> configs;
 
     public MazeConfigs(HullConfigManager hullConfigs, ItemManager itemManager) {
         configs = new ArrayList<>();
+        final Set<ResourceUrn> configUrns = Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:mazesConfig");
+        for (ResourceUrn configUrn : configUrns) {
+            Json json = Assets.getJson(configUrn.toString());
+            JSONObject rootNode = json.getJsonValue();
 
-        Json json = Assets.getJson("core:mazesConfig");
-        JsonValue rootNode = json.getJsonValue();
+            Validator.validate(rootNode, "engine:schemaMazesConfig");
 
-        for (JsonValue mazeNode : rootNode) {
-            MazeConfig c = MazeConfig.load(mazeNode, hullConfigs, itemManager);
-            configs.add(c);
+            for (String s : rootNode.keySet()) {
+                if (!(rootNode.get(s) instanceof JSONObject))
+                    continue;
+                JSONObject mazeNode = rootNode.getJSONObject(s);
+                MazeConfig c = MazeConfig.load(s, mazeNode, hullConfigs, itemManager);
+                configs.add(c);
+            }
+
+            json.dispose();
         }
-
-        json.dispose();
     }
 }

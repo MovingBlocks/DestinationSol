@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,32 +17,37 @@ package org.destinationsol.ui;
 
 import com.badlogic.gdx.math.Rectangle;
 import org.destinationsol.GameOptions;
+import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.SolGame;
+import org.destinationsol.game.UpdateAwareSystem;
 import org.destinationsol.game.item.SolItem;
 import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.screens.InventoryScreen;
-import org.destinationsol.game.screens.MainScreen;
+import org.destinationsol.game.screens.MainGameScreen;
 import org.destinationsol.game.screens.ShipKbControl;
 import org.destinationsol.game.screens.ShipMixedControl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TutorialManager {
-    private final Rectangle myBg;
-    private final ArrayList<Step> mySteps;
+public class TutorialManager implements UpdateAwareSystem {
+    private DisplayDimensions displayDimensions;
+    private final Rectangle background;
+    private final ArrayList<Step> steps;
 
-    private int myStepIdx;
+    private int stepIndex;
 
-    public TutorialManager(float r, GameScreens screens, boolean mobile, GameOptions gameOptions, SolGame game) {
-        float bgW = r * .5f;
-        float bgH = .2f;
-        myBg = new Rectangle(r / 2 - bgW / 2, 1 - bgH, bgW, bgH);
-        mySteps = new ArrayList<>();
-        myStepIdx = 0;
+    public TutorialManager(GameScreens screens, boolean mobile, GameOptions gameOptions, SolGame game) {
+        displayDimensions = SolApplication.displayDimensions;
 
-        MainScreen main = screens.mainScreen;
+        float backgroundW = displayDimensions.getRatio() * .5f;
+        float backgroundH = .2f;
+        background = new Rectangle(displayDimensions.getRatio() / 2 - backgroundW / 2, 1 - backgroundH, backgroundW, backgroundH);
+        steps = new ArrayList<>();
+        stepIndex = 0;
+
+        MainGameScreen main = screens.mainGameScreen;
         boolean mouseCtrl = main.shipControl instanceof ShipMixedControl;
         SolUiControl shootCtrl;
         String shootKey;
@@ -177,9 +182,9 @@ public class TutorialManager {
         }
 
         if (mobile) {
-            addStep("Buy some item", screens.inventoryScreen.buyItems.buyControl);
+            addStep("Buy some item", screens.inventoryScreen.buyItemsScreen.buyControl);
         } else {
-            addStep("Buy some item\n(" + gameOptions.getKeyBuyItemName() + " key)", screens.inventoryScreen.buyItems.buyControl);
+            addStep("Buy some item\n(" + gameOptions.getKeyBuyItemName() + " key)", screens.inventoryScreen.buyItemsScreen.buyControl);
         }
 
         if (mobile) {
@@ -218,18 +223,19 @@ public class TutorialManager {
     }
 
     private void addStep(String text, SolUiControl ctrl, boolean checkOn) {
-        mySteps.add(new Step(text, ctrl, checkOn));
+        steps.add(new Step(text, ctrl, checkOn));
     }
 
     private void addStep(Step step) {
-        mySteps.add(step);
+        steps.add(step);
     }
 
-    public void update() {
-        Step step = mySteps.get(myStepIdx);
+    @Override
+    public void update(SolGame game,float timeStep) {
+        Step step = steps.get(stepIndex);
         step.highlight();
         if (step.canProgressToNextStep()) {
-            myStepIdx++;
+            stepIndex++;
         }
     }
 
@@ -237,16 +243,16 @@ public class TutorialManager {
         if (isFinished()) {
             return;
         }
-        Step step = mySteps.get(myStepIdx);
-        uiDrawer.draw(myBg, SolColor.UI_BG_LIGHT);
-        uiDrawer.drawLine(myBg.x, myBg.y, 0, myBg.width, SolColor.WHITE);
-        uiDrawer.drawLine(myBg.x + myBg.width, myBg.y, 90, myBg.height, SolColor.WHITE);
-        uiDrawer.drawLine(myBg.x, myBg.y, 90, myBg.height, SolColor.WHITE);
-        uiDrawer.drawString(step.text, uiDrawer.r / 2, myBg.y + myBg.height / 2, FontSize.TUT, true, SolColor.WHITE);
+        Step step = steps.get(stepIndex);
+        uiDrawer.draw(background, SolColor.UI_BG_LIGHT);
+        uiDrawer.drawLine(background.x, background.y, 0, background.width, SolColor.WHITE);
+        uiDrawer.drawLine(background.x + background.width, background.y, 90, background.height, SolColor.WHITE);
+        uiDrawer.drawLine(background.x, background.y, 90, background.height, SolColor.WHITE);
+        uiDrawer.drawString(step.text, displayDimensions.getRatio() / 2, background.y + background.height / 2, FontSize.TUT, true, SolColor.WHITE);
     }
 
     public boolean isFinished() {
-        return myStepIdx == mySteps.size();
+        return stepIndex == steps.size();
     }
 
     public static class Step {

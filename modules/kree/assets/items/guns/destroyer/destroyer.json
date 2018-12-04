@@ -1,0 +1,19 @@
+{
+    "fixed": false,
+    "maxAngleVar": 30,
+    "angleVarDamp": 6,
+    "angleVarPerShot": 3,
+    "timeBetweenShots": 0.6,
+    "reloadTime": 0.5,
+    "price": 3000,
+    "clipName": "core:missileClip",
+    "gunLength": 0.2,
+    "texLenPerc": 0.87,
+    "displayName": "destroyer",
+    "shootSounds": [
+        "core:rocketLauncherShoot"
+    ],
+    "reloadSounds": [
+        "core:rocketLauncherReload"
+    ]
+}

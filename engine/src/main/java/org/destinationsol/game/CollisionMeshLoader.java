@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,18 +16,20 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColor;
-import org.destinationsol.common.SolMath;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.drawables.RectSprite;
@@ -59,8 +61,11 @@ public class CollisionMeshLoader {
      */
     public CollisionMeshLoader(String fileName) {
         Json json = Assets.getJson(fileName);
+        JSONObject rootNode = json.getJsonValue();
 
-        readModel(json.getJsonValue());
+        Validator.validate(rootNode, "engine:schemaCollisionMesh");
+
+        readModel(rootNode);
 
         json.dispose();
     }
@@ -157,37 +162,41 @@ public class CollisionMeshLoader {
         return model;
     }
 
-    private void readModel(JsonValue rootNode) {
-        for (JsonValue rbNode = rootNode.getChild("rigidBodies"); rbNode != null; rbNode = rbNode.next()) {
-            readRigidBody(rbNode);
+    private void readModel(JSONObject rootNode) {
+        JSONArray rbNode = rootNode.getJSONArray("rigidBodies");
+        for (int i = 0; i < rbNode.length(); i++) {
+            readRigidBody(rbNode.getJSONObject(i));
         }
     }
 
-    public void readRigidBody(JsonValue rbNode) {
+    public void readRigidBody(JSONObject rbNode) {
         readRigidBody(rbNode, rbNode.getString("name"));
     }
 
-    public void readRigidBody(JsonValue rbNode, HullConfig hullConfig) {
-        String shipName =  hullConfig.getInternalName();
+    public void readRigidBody(JSONObject rbNode, HullConfig hullConfig) {
+        String shipName = hullConfig.getInternalName();
         readRigidBody(rbNode, shipName);
     }
 
-    private void readRigidBody(JsonValue rbNode, String shipName) {
+    private void readRigidBody(JSONObject rbNode, String shipName) {
         RigidBodyModel rbModel = new RigidBodyModel();
         rbModel.name = shipName;
 
-        JsonValue originNode = rbNode.get("origin");
-        rbModel.origin.x = originNode.getFloat("x");
-        rbModel.origin.y = 1 - originNode.getFloat("y");
+        JSONObject originNode = rbNode.getJSONObject("origin");
+        rbModel.origin.x = (float) originNode.getDouble("x");
+        rbModel.origin.y = 1 - (float) originNode.getDouble("y");
 
         // Polygons
-        for (JsonValue polygonNode = rbNode.get("polygons").child(); polygonNode != null; polygonNode = polygonNode.next()) {
+        JSONArray polygonNodeArray = rbNode.getJSONArray("polygons");
+        for (int i = 0; i < polygonNodeArray.length(); i++) {
+            JSONArray polygonNode = polygonNodeArray.getJSONArray(i);
             PolygonModel polygonModel = new PolygonModel();
             rbModel.polygons.add(polygonModel);
 
-            for (JsonValue vertexNode = polygonNode.child(); vertexNode != null; vertexNode = vertexNode.next()) {
-                float x = vertexNode.get("x").asFloat();
-                float y = 1 - vertexNode.get("y").asFloat();
+            for (int j = 0; j < polygonNode.length(); j++) {
+                JSONObject vertexNode = polygonNode.getJSONObject(j);
+                float x = (float) vertexNode.getDouble("x");
+                float y = 1 - (float) vertexNode.getDouble("y");
                 polygonModel.vertices.add(new Vector2(x, y));
             }
 
@@ -196,7 +205,9 @@ public class CollisionMeshLoader {
         }
 
         // Shapes
-        for (JsonValue shapeNode = rbNode.get("shapes").child(); shapeNode != null; shapeNode = shapeNode.next()) {
+        JSONArray shapeNodeArray = rbNode.getJSONArray("shapes");
+        for (int i = 0; i < shapeNodeArray.length(); i++) {
+            JSONObject shapeNode = shapeNodeArray.getJSONObject(i);
             String type = shapeNode.getString("type");
             if (!type.equals("POLYGON")) {
                 continue;
@@ -204,9 +215,11 @@ public class CollisionMeshLoader {
 
             PolygonModel shapeModel = new PolygonModel();
             rbModel.shapes.add(shapeModel);
-            for (JsonValue vertexNode = shapeNode.getChild("vertices"); vertexNode != null; vertexNode = vertexNode.next()) {
-                float x = vertexNode.get("x").asFloat();
-                float y = 1 - vertexNode.get("y").asFloat();
+            JSONArray vertices = shapeNode.getJSONArray("vertices");
+            for (int j = 0; j < vertices.length(); j++) {
+                JSONObject vertexNode = vertices.getJSONObject(j);
+                float x = (float) vertexNode.getDouble("x");
+                float y = 1 - (float) vertexNode.getDouble("y");
                 shapeModel.vertices.add(new Vector2(x, y));
             }
 
@@ -215,13 +228,16 @@ public class CollisionMeshLoader {
         }
 
         // Circles
-        for (JsonValue circleNode = rbNode.get("circles").child(); circleNode != null; circleNode = circleNode.next()) {
+        JSONArray circles = rbNode.getJSONArray("circles");
+        for (int i = 0; i < circles.length(); i++) {
             CircleModel circleModel = new CircleModel();
             rbModel.circles.add(circleModel);
 
-            circleModel.center.x = circleNode.getFloat("cx");
-            circleModel.center.y = 1 - circleNode.getFloat("cy");
-            circleModel.radius = circleNode.getFloat("r");
+            JSONObject circleNode = circles.getJSONObject(i);
+
+            circleModel.center.x = (float) circleNode.getDouble("cx");
+            circleModel.center.y = 1 - (float) circleNode.getDouble("cy");
+            circleModel.radius = (float) circleNode.getDouble("r");
         }
 
         model.rigidBodies.put(rbModel.name, rbModel);
@@ -245,16 +261,16 @@ public class CollisionMeshLoader {
      * @param drawables a atlas will be added here
      */
     public Body getBodyAndSprite(SolGame game, HullConfig hullConfig, float scale, BodyDef.BodyType type,
-                                 Vector2 pos, float angle, List<Drawable> drawables, float density, DrawableLevel level, TextureAtlas.AtlasRegion tex) {
+                                 Vector2 position, float angle, List<Drawable> drawables, float density, DrawableLevel level, TextureAtlas.AtlasRegion tex) {
         final String name = hullConfig.getInternalName();
 
         BodyDef bd = new BodyDef();
         bd.type = type;
-        bd.angle = angle * SolMath.degRad;
+        bd.angle = angle * MathUtils.degRad;
         bd.angularDamping = 0;
-        bd.position.set(pos);
+        bd.position.set(position);
         bd.linearDamping = 0;
-        Body body = game.getObjMan().getWorld().createBody(bd);
+        Body body = game.getObjectManager().getWorld().createBody(bd);
         FixtureDef fd = new FixtureDef();
         fd.density = density;
         fd.friction = Const.FRICTION;
@@ -283,14 +299,14 @@ public class CollisionMeshLoader {
      * @param drawables a atlas will be added here
      */
     public Body getBodyAndSprite(SolGame game, TextureAtlas.AtlasRegion tex, float scale, BodyDef.BodyType type,
-                                 Vector2 pos, float angle, List<Drawable> drawables, float density, DrawableLevel level) {
+                                 Vector2 position, float angle, List<Drawable> drawables, float density, DrawableLevel level) {
         BodyDef bd = new BodyDef();
         bd.type = type;
-        bd.angle = angle * SolMath.degRad;
+        bd.angle = angle * MathUtils.degRad;
         bd.angularDamping = 0;
-        bd.position.set(pos);
+        bd.position.set(position);
         bd.linearDamping = 0;
-        Body body = game.getObjMan().getWorld().createBody(bd);
+        Body body = game.getObjectManager().getWorld().createBody(bd);
         FixtureDef fd = new FixtureDef();
         fd.density = density;
         fd.friction = Const.FRICTION;

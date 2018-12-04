@@ -1,0 +1,8 @@
+{
+    "projectile": "electric",
+    "size": 100,
+    "price": 50,
+    "displayName": "electric",
+    "plural": "electrics",
+    "iconName": "electricClip"
+}

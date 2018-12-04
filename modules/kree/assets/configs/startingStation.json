@@ -1,0 +1,10 @@
+{
+    "hull": "kree:kreestation",
+    "items": "core:gun core:gun",
+
+    "guard": {
+        "hull": "core:imperialBig",
+        "items": "kree:destroyer core:fixedShotGun core:mediumArmor+core:heavyArmor core:shield+core:bigShield",
+        "density": 3
+    }
+}

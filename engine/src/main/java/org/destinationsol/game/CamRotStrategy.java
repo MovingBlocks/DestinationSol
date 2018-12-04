@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,27 +22,30 @@ import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.planet.SolSystem;
 
 public interface CamRotStrategy {
-    public float getRotation(Vector2 pos, SolGame game);
+    float getRotation(Vector2 position, SolGame game);
 
-    public static class Static implements CamRotStrategy {
-        public float getRotation(Vector2 pos, SolGame game) {
+    class Static implements CamRotStrategy {
+        public float getRotation(Vector2 position, SolGame game) {
             return 0;
         }
     }
 
-    public static class ToPlanet implements CamRotStrategy {
+    class ToPlanet implements CamRotStrategy {
 
-        public float getRotation(Vector2 pos, SolGame game) {
-            Planet np = game.getPlanetMan().getNearestPlanet();
-            float fh = np.getFullHeight();
-            Vector2 npPos = np.getPos();
-            if (npPos.dst(pos) < fh) {
-                return SolMath.angle(pos, npPos, true) - 90;
+        public float getRotation(Vector2 position, SolGame game) {
+            Planet np = game.getPlanetManager().getNearestPlanet();
+            if (np == null) {
+                return 0;
             }
-            SolSystem sys = game.getPlanetMan().getNearestSystem(pos);
-            Vector2 sysPos = sys.getPos();
-            if (sysPos.dst(pos) < Const.SUN_RADIUS) {
-                return SolMath.angle(pos, sysPos, true) - 90;
+            float fh = np.getFullHeight();
+            Vector2 npPos = np.getPosition();
+            if (npPos.dst(position) < fh) {
+                return SolMath.angle(position, npPos) - 90;
+            }
+            SolSystem sys = game.getPlanetManager().getNearestSystem(position);
+            Vector2 sysPos = sys.getPosition();
+            if (sysPos.dst(position) < Const.SUN_RADIUS) {
+                return SolMath.angle(position, sysPos) - 90;
             }
             return 0;
         }

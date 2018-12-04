@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,12 +24,12 @@ public class MoneyItem implements SolItem {
     public static final int MED_AMT = 3 * AMT;
     public static final int BIG_AMT = 10 * AMT;
 
-    private final float myAmt;
-    private final SolItemType myItemType;
+    private final float amount;
+    private final SolItemType itemType;
 
-    public MoneyItem(float amt, SolItemType itemType) {
-        myAmt = amt;
-        myItemType = itemType;
+    MoneyItem(float amt, SolItemType itemType) {
+        amount = amt;
+        this.itemType = itemType;
     }
 
     @Override
@@ -39,31 +39,31 @@ public class MoneyItem implements SolItem {
 
     @Override
     public float getPrice() {
-        return myAmt;
+        return amount;
     }
 
     @Override
-    public String getDesc() {
+    public String getDescription() {
         return "money";
     }
 
     @Override
     public MoneyItem copy() {
-        return new MoneyItem(myAmt, myItemType);
+        return new MoneyItem(amount, itemType);
     }
 
     @Override
     public boolean isSame(SolItem item) {
-        return item instanceof MoneyItem && ((MoneyItem) item).myAmt == myAmt;
+        return item instanceof MoneyItem && ((MoneyItem) item).amount == amount;
     }
 
     @Override
     public TextureAtlas.AtlasRegion getIcon(SolGame game) {
         ItemManager im = game.getItemMan();
-        if (myAmt == BIG_AMT) {
+        if (amount == BIG_AMT) {
             return im.bigMoneyIcon;
         }
-        if (myAmt == MED_AMT) {
+        if (amount == MED_AMT) {
             return im.medMoneyIcon;
         }
         return im.moneyIcon;
@@ -71,7 +71,7 @@ public class MoneyItem implements SolItem {
 
     @Override
     public SolItemType getItemType() {
-        return myItemType;
+        return itemType;
     }
 
     @Override

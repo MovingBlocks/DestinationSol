@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,23 +16,27 @@
 package org.destinationsol.game.screens;
 
 import org.destinationsol.SolApplication;
+import org.destinationsol.game.Console;
+import org.destinationsol.game.context.Context;
 import org.destinationsol.ui.SolLayouts;
 
 public class GameScreens {
-    public final MainScreen mainScreen;
+    public final MainGameScreen mainGameScreen;
     public final MapScreen mapScreen;
     public final MenuScreen menuScreen;
     public final InventoryScreen inventoryScreen;
     public final TalkScreen talkScreen;
+    public final Console console;
 
-    public GameScreens(float r, SolApplication cmp) {
+    public GameScreens(SolApplication cmp, Context context) {
         SolLayouts layouts = cmp.getLayouts();
         RightPaneLayout rightPaneLayout = layouts.rightPaneLayout;
-        mainScreen = new MainScreen(r, rightPaneLayout, cmp);
-        mapScreen = new MapScreen(rightPaneLayout, cmp.isMobile(), r, cmp.getOptions());
+        mainGameScreen = new MainGameScreen(rightPaneLayout, context);
+        mapScreen = new MapScreen(rightPaneLayout, cmp.isMobile(), cmp.getOptions());
         menuScreen = new MenuScreen(layouts.menuLayout, cmp.getOptions());
-        inventoryScreen = new InventoryScreen(r, cmp.getOptions());
+        inventoryScreen = new InventoryScreen(cmp.getOptions());
         talkScreen = new TalkScreen(layouts.menuLayout, cmp.getOptions());
+        console = Console.getInstance();
     }
 
 }

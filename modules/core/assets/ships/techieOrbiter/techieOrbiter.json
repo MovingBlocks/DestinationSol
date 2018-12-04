@@ -2,8 +2,6 @@
     "size": 0.65,
     "maxLife": 65,
     "type": "std",
-    "e1Pos": "0.16 0.38",
-    "e2Pos": "0.16 0.62",
     "gunSlots": [
         {
             "position": ".54 0.12",
@@ -66,8 +64,7 @@
                 }
             ]
         ],
-        "circles": [
-        ],
+        "circles": [],
         "shapes": [
             {
                 "type": "POLYGON",
@@ -108,5 +105,37 @@
                 ]
             }
         ]
-    }
+    },
+    "particleEmitters": [
+        {
+            "position": "0.16 0.38",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:techieEngine",
+                "tex": "core:techieTrail",
+                "tint": "white"
+            },
+            "workSounds": [
+                "core:techie",
+                "core:techie2",
+                "core:techie3"
+            ]
+        },
+        {
+            "position": "0.16 0.62",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:techieEngine",
+                "tex": "core:techieTrail",
+                "tint": "white"
+            },
+            "workSounds": [
+                "core:techie",
+                "core:techie2",
+                "core:techie3"
+            ]
+        }
+    ]
 }

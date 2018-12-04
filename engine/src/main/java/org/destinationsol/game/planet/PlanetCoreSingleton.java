@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,22 +24,22 @@ import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 
 public class PlanetCoreSingleton {
-    private final TextureAtlas.AtlasRegion myTex;
+    private final TextureAtlas.AtlasRegion texture;
 
-    public PlanetCoreSingleton() {
-        myTex = Assets.getAtlasRegion("engine:planetStarCommonPlanetCore");
+    PlanetCoreSingleton() {
+        texture = Assets.getAtlasRegion("engine:planetStarCommonPlanetCore");
     }
 
     public void draw(SolGame game, GameDrawer drawer) {
         SolCam cam = game.getCam();
-        Vector2 camPos = cam.getPos();
-        Planet p = game.getPlanetMan().getNearestPlanet();
-        Vector2 pPos = p.getPos();
-        float toCamLen = camPos.dst(pPos);
-        float vd = cam.getViewDist();
-        float gh = p.getMinGroundHeight();
-        if (toCamLen < gh + vd) {
-            drawer.draw(myTex, gh * 2, gh * 2, gh, gh, pPos.x, pPos.y, p.getAngle(), SolColor.WHITE);
+        Vector2 camPosition = cam.getPosition();
+        Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();
+        Vector2 planetPosition = nearestPlanet.getPosition();
+        float distanceToCam = camPosition.dst(planetPosition);
+        float viewDistance = cam.getViewDistance();
+        float minGroundHeight = nearestPlanet.getMinGroundHeight();
+        if (distanceToCam < minGroundHeight + viewDistance) {
+            drawer.draw(texture, minGroundHeight * 2, minGroundHeight * 2, minGroundHeight, minGroundHeight, planetPosition.x, planetPosition.y, nearestPlanet.getAngle(), SolColor.WHITE);
         }
     }
 }

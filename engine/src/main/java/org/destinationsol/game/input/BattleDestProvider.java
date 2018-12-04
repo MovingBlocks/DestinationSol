@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,7 @@ package org.destinationsol.game.input;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.SolShip;
 
@@ -33,16 +34,16 @@ public class BattleDestProvider {
 
     public BattleDestProvider() {
         myDest = new Vector2();
-        myCw = SolMath.test(.5f);
+        myCw = SolRandom.test(.5f);
     }
 
     public Vector2 getDest(SolShip ship, SolShip enemy, Planet np, boolean battle, float ts,
                            boolean canShootUnfixed, boolean nearGround) {
         myDirChangeAwait -= ts;
         if (myDirChangeAwait <= 0) {
-            int rnd = SolMath.intRnd(0, 2);
+            int rnd = SolRandom.randomInt(0, 2);
             myCw = rnd == 0 ? null : rnd == 1;
-            myDirChangeAwait = SolMath.rnd(MIN_DIR_CHANGE_AWAIT, MAX_DIR_CHANGE_AWAIT);
+            myDirChangeAwait = SolRandom.randomFloat(MIN_DIR_CHANGE_AWAIT, MAX_DIR_CHANGE_AWAIT);
         }
         if (!battle) {
             throw new AssertionError("can't flee yet!");
@@ -53,7 +54,7 @@ public class BattleDestProvider {
         float enemyApproxRad = enemy.getHull().config.getApproxRadius();
 
         if (nearGround) {
-            prefAngle = SolMath.angle(np.getPos(), enemyPos);
+            prefAngle = SolMath.angle(np.getPosition(), enemyPos);
             myStopNearDest = false;
             float dist = canShootUnfixed ? .9f * Const.AUTO_SHOOT_GROUND : .75f * Const.CAM_VIEW_DIST_GROUND;
             dist += approxRad + enemyApproxRad;

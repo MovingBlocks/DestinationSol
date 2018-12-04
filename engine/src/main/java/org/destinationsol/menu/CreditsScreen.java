@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,28 +24,31 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class CreditsScreen implements SolUiScreen {
+public class CreditsScreen extends SolUiBaseScreen {
     private static final float MAX_AWAIT = 6f;
-    private final TextureAtlas.AtlasRegion bgTex;
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
+    private final TextureAtlas.AtlasRegion backgroundTexture;
     private final SolUiControl closeControl;
+
+    private DisplayDimensions displayDimensions;
 
     private final ArrayList<String> myPages = new ArrayList<>();
     private final Color myColor;
     private int pageIndex;
     private float pageProgressPercent;
 
-    CreditsScreen(float resolutionRatio, GameOptions gameOptions) {
-        closeControl = new SolUiControl(MenuLayout.bottomRightFloatingButton(resolutionRatio), true, gameOptions.getKeyEscape());
+    CreditsScreen(GameOptions gameOptions) {
+        displayDimensions = SolApplication.displayDimensions;
+
+        closeControl = new SolUiControl(MenuLayout.bottomRightFloatingButton(displayDimensions), true, gameOptions.getKeyEscape());
         closeControl.setDisplayName("Close");
         controls.add(closeControl);
         myColor = SolColor.col(1, 1);
@@ -112,12 +115,7 @@ public class CreditsScreen implements SolUiScreen {
             myPages.add(page.toString());
         }
 
-        bgTex = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
+        backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override
@@ -130,7 +128,7 @@ public class CreditsScreen implements SolUiScreen {
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         if (closeControl.isJustOff()) {
-            solApplication.getInputMan().setScreen(solApplication, solApplication.getMenuScreens().main);
+            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().main);
             return;
         }
         pageProgressPercent += Const.REAL_TIME_STEP / MAX_AWAIT;
@@ -150,12 +148,12 @@ public class CreditsScreen implements SolUiScreen {
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     @Override
     public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.drawString(myPages.get(pageIndex), uiDrawer.r / 2, .5f, FontSize.MENU, true, myColor);
+        uiDrawer.drawString(myPages.get(pageIndex), displayDimensions.getRatio() / 2, .5f, FontSize.MENU, true, myColor);
     }
 }

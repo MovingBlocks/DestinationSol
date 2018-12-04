@@ -8,8 +8,6 @@
         "angle": 180,
         "rechargeTime": 4
     },
-    "e1Pos": "0.02 0.31",
-    "e2Pos": "0.02 0.69",
     "displayName": "Hunter",
     "engine": "core:desertEngine",
     "gunSlots": [
@@ -131,5 +129,43 @@
                 ]
             }
         ]
-    }
+    },
+    "particleEmitters": [
+        {
+            "position": "0.02 0.31",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:flame",
+                "size": 0.07,
+                "tex": "core:smoke",
+                "tint": "fire"
+            },
+            "workSounds": [
+                "core:medEngineWork0",
+                "core:medEngineWork1",
+                "core:medEngineWork2",
+                "core:medEngineWork3",
+                "core:medEngineWork4"
+            ]
+        },
+        {
+            "position": "0.02 0.69",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:flame",
+                "size": 0.07,
+                "tex": "core:smoke",
+                "tint": "fire"
+            },
+            "workSounds": [
+                "core:medEngineWork0",
+                "core:medEngineWork1",
+                "core:medEngineWork2",
+                "core:medEngineWork3",
+                "core:medEngineWork4"
+            ]
+        }
+    ]
 }

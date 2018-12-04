@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "maxLife": {
+      "type": "integer"
+    },
+    "idleTime": {
+      "type": "number"
+    },
+    "regenSpd": {
+      "type": "number"
+    },
+    "bulletDmgFactor": {
+      "type": "number"
+    },
+    "energyDmgFactor": {
+      "type": "number"
+    },
+    "explosionDmgFactor": {
+      "type": "number"
+    },
+    "price": {
+      "type": "integer"
+    },
+    "displayName": {
+      "type": "string"
+    },
+    "absorbSound": {
+      "type": "string"
+    },
+    "absorbSoundPitch": {
+      "type": "number"
+    },
+    "regenSound": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "maxLife",
+    "idleTime",
+    "regenSpd",
+    "bulletDmgFactor",
+    "energyDmgFactor",
+    "explosionDmgFactor",
+    "price",
+    "displayName",
+    "absorbSound",
+    "absorbSoundPitch",
+    "regenSound"
+  ]
+}

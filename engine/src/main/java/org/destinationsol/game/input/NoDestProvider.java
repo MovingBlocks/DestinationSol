@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,22 +31,22 @@ public class NoDestProvider implements MoveDestProvider {
     }
 
     @Override
-    public Vector2 getDest() {
+    public Vector2 getDestination() {
         return null;
     }
 
     @Override
-    public boolean shouldAvoidBigObjs() {
+    public boolean shouldAvoidBigObjects() {
         return false;
     }
 
     @Override
-    public float getDesiredSpdLen() {
+    public float getDesiredSpeedScalar() {
         return Const.DEFAULT_AI_SPD;
     }
 
     @Override
-    public boolean shouldStopNearDest() {
+    public boolean shouldStopNearDestination() {
         return false;
     }
 
@@ -60,7 +60,7 @@ public class NoDestProvider implements MoveDestProvider {
     }
 
     @Override
-    public Vector2 getDestSpd() {
+    public Vector2 getDestinationSpeed() {
         return Vector2.Zero;
     }
 }

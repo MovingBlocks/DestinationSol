@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,41 +25,41 @@ import org.destinationsol.game.SolObject;
 import org.destinationsol.game.ship.SolShip;
 
 public class PointProjectileBody implements ProjectileBody {
-    private final Vector2 myPos;
-    private final Vector2 mySpd;
-    private final MyRayBack myRayBack;
-    private final float myAcc;
+    private final Vector2 position;
+    private final Vector2 speed;
+    private final ProjectileRayBack rayBack;
+    private final float acceleration;
 
-    public PointProjectileBody(float angle, Vector2 muzzlePos, Vector2 gunSpd, float spdLen,
-                               Projectile projectile, SolGame game, float acc) {
-        myPos = new Vector2(muzzlePos);
-        mySpd = new Vector2();
-        SolMath.fromAl(mySpd, angle, spdLen);
-        mySpd.add(gunSpd);
-        myRayBack = new MyRayBack(projectile, game);
-        myAcc = acc;
+    public PointProjectileBody(float angle, Vector2 muzzlePos, Vector2 gunSpeed, float speedLen,
+                               Projectile projectile, SolGame game, float acceleration) {
+        position = new Vector2(muzzlePos);
+        speed = new Vector2();
+        SolMath.fromAl(speed, angle, speedLen);
+        speed.add(gunSpeed);
+        rayBack = new ProjectileRayBack(projectile, game);
+        this.acceleration = acceleration;
     }
 
     @Override
     public void update(SolGame game) {
-        if (myAcc > 0 && SolMath.canAccelerate(myAcc, mySpd)) {
-            float spdLen = mySpd.len();
-            if (spdLen < Const.MAX_MOVE_SPD) {
-                mySpd.scl((spdLen + myAcc) / spdLen);
+        if (acceleration > 0 && SolMath.canAccelerate(acceleration, speed)) {
+            float speedLen = speed.len();
+            if (speedLen < Const.MAX_MOVE_SPD) {
+                speed.scl((speedLen + acceleration) / speedLen);
             }
         }
-        Vector2 prevPos = SolMath.getVec(myPos);
-        Vector2 diff = SolMath.getVec(mySpd);
+        Vector2 prevPos = SolMath.getVec(position);
+        Vector2 diff = SolMath.getVec(speed);
         diff.scl(game.getTimeStep());
-        myPos.add(diff);
+        position.add(diff);
         SolMath.free(diff);
-        game.getObjMan().getWorld().rayCast(myRayBack, prevPos, myPos);
+        game.getObjectManager().getWorld().rayCast(rayBack, prevPos, position);
         SolMath.free(prevPos);
     }
 
     @Override
-    public Vector2 getPos() {
-        return myPos;
+    public Vector2 getPosition() {
+        return position;
     }
 
     @Override
@@ -68,12 +68,12 @@ public class PointProjectileBody implements ProjectileBody {
         if (!acc) {
             force.scl(10f);
         }
-        mySpd.add(force);
+        speed.add(force);
     }
 
     @Override
-    public Vector2 getSpd() {
-        return mySpd;
+    public Vector2 getSpeed() {
+        return speed;
     }
 
     @Override
@@ -82,36 +82,36 @@ public class PointProjectileBody implements ProjectileBody {
 
     @Override
     public float getAngle() {
-        return SolMath.angle(mySpd);
+        return SolMath.angle(speed);
     }
 
     @Override
     public void changeAngle(float diff) {
-        SolMath.rotate(mySpd, diff);
+        SolMath.rotate(speed, diff);
     }
 
     @Override
     public float getDesiredAngle(SolShip ne) {
-        return SolMath.angle(myPos, ne.getPosition());
+        return SolMath.angle(position, ne.getPosition());
     }
 
-    private class MyRayBack implements RayCastCallback {
+    private class ProjectileRayBack implements RayCastCallback {
 
-        private final Projectile myProjectile;
-        private final SolGame myGame;
+        private final Projectile projectile;
+        private final SolGame game;
 
-        private MyRayBack(Projectile projectile, SolGame game) {
-            myProjectile = projectile;
-            myGame = game;
+        private ProjectileRayBack(Projectile projectile, SolGame game) {
+            this.projectile = projectile;
+            this.game = game;
         }
 
         @Override
         public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
             SolObject o = (SolObject) fixture.getBody().getUserData();
             boolean oIsMassless = o instanceof Projectile && ((Projectile) o).isMassless();
-            if (!oIsMassless && myProjectile.shouldCollide(o, fixture, myGame.getFactionMan())) {
-                myPos.set(point);
-                myProjectile.setObstacle(o, myGame);
+            if (!oIsMassless && projectile.shouldCollide(o, fixture, game.getFactionMan())) {
+                position.set(point);
+                projectile.setObstacle(o, game);
                 return 0;
             }
             return -1;

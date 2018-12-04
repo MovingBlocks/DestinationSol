@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.Const;
 import org.destinationsol.common.Bound;
 import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.HardnessCalc;
 import org.destinationsol.game.SolGame;
 
@@ -26,182 +27,181 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Planet {
-    private final SolSystem mySys;
-    private final Vector2 myPos;
-    private final float myDist;
-    private final float myToSysRotSpd;
-    private final float myRotSpd;
-    private final float myGroundHeight;
-    private final PlanetConfig myConfig;
-    private final String myName;
-    private final float myGravConst;
-    private final List<Vector2> myLps;
-    private final float myGroundDps;
-    private final float myAtmDps;
-    private boolean myObjsCreated;
+    private final SolSystem system;
+    private final Vector2 position;
+    private final float distance;
+    private final float rotationSpeedInSystem;
+    private final float rotationSpeed;
+    private final float groundHeight;
+    private final PlanetConfig config;
+    private final String name;
+    private final float gravitationConstant;
+    private final List<Vector2> landingPlaces;
+    private final float groundDamagePerSecond;
+    private final float atmosphereDamagePerSecond;
+    private boolean areObjectsCreated;
 
-    private float myAngleToSys;
-    private float myAngle;
-    private float myMinGroundHeight;
-    private Vector2 mySpd;
+    private float angleInSystem;
+    private float angle;
+    private float minGroundHeight;
+    private Vector2 speed;
 
-    public Planet(SolSystem sys, float angleToSys, float dist, float angle, float toSysRotSpd, float rotSpd,
+    public Planet(SolSystem sys, float angleToSys, float dist, float angle, float toSysRotationSpeed, float rotationSpeed,
                   float groundHeight, boolean objsCreated, PlanetConfig config, String name) {
-        mySys = sys;
-        myAngleToSys = angleToSys;
-        myDist = dist;
-        myAngle = angle;
-        myToSysRotSpd = toSysRotSpd;
-        myRotSpd = rotSpd;
-        myGroundHeight = groundHeight;
-        myConfig = config;
-        myName = name;
-        myMinGroundHeight = myGroundHeight;
-        myObjsCreated = objsCreated;
-        myPos = new Vector2();
-        mySpd = new Vector2();
-        float grav = SolMath.rnd(config.minGrav, config.maxGrav);
-        myGravConst = grav * myGroundHeight * myGroundHeight;
-        myGroundDps = HardnessCalc.getGroundDps(myConfig, grav);
-        myAtmDps = HardnessCalc.getAtmDps(myConfig);
-        myLps = new ArrayList<>();
+        system = sys;
+        angleInSystem = angleToSys;
+        distance = dist;
+        this.angle = angle;
+        rotationSpeedInSystem = toSysRotationSpeed;
+        this.rotationSpeed = rotationSpeed;
+        this.groundHeight = groundHeight;
+        this.config = config;
+        this.name = name;
+        minGroundHeight = this.groundHeight;
+        areObjectsCreated = objsCreated;
+        position = new Vector2();
+        speed = new Vector2();
+        float grav = SolRandom.randomFloat(config.minGrav, config.maxGrav);
+        gravitationConstant = grav * this.groundHeight * this.groundHeight;
+        groundDamagePerSecond = HardnessCalc.getGroundDps(config, grav);
+        atmosphereDamagePerSecond = HardnessCalc.getAtmDps(config);
+        landingPlaces = new ArrayList<>();
         setSecondaryParams();
     }
 
-    public void update(SolGame game) {
-        float ts = game.getTimeStep();
-        myAngleToSys += myToSysRotSpd * ts;
-        myAngle += myRotSpd * ts;
+    public void update(SolGame game, float timeStep) {
+        angleInSystem += rotationSpeedInSystem * timeStep;
+        angle += rotationSpeed * timeStep;
 
         setSecondaryParams();
-        Vector2 camPos = game.getCam().getPos();
-        if (!myObjsCreated && camPos.dst(myPos) < getGroundHeight() + Const.MAX_SKY_HEIGHT_FROM_GROUND) {
-            myMinGroundHeight = new PlanetObjectsBuilder().createPlanetObjs(game, this);
+        Vector2 camPos = game.getCam().getPosition();
+        if (!areObjectsCreated && camPos.dst(position) < getGroundHeight() + Const.MAX_SKY_HEIGHT_FROM_GROUND) {
+            minGroundHeight = new PlanetObjectsBuilder().createPlanetObjs(game, this);
             fillLangingPlaces(game);
-            myObjsCreated = true;
+            areObjectsCreated = true;
         }
     }
 
     private void setSecondaryParams() {
-        SolMath.fromAl(myPos, myAngleToSys, myDist, true);
-        myPos.add(mySys.getPos());
-        float spdLen = SolMath.angleToArc(myToSysRotSpd, myDist);
-        float spdAngle = myAngleToSys + 90;
-        SolMath.fromAl(mySpd, spdAngle, spdLen);
+        SolMath.fromAl(position, angleInSystem, distance);
+        position.add(system.getPosition());
+        float speedLen = SolMath.angleToArc(rotationSpeedInSystem, distance);
+        float speedAngle = angleInSystem + 90;
+        SolMath.fromAl(speed, speedAngle, speedLen);
     }
 
     private void fillLangingPlaces(SolGame game) {
         for (int i = 0; i < 10; i++) {
-            Vector2 lp = game.getPlanetMan().findFlatPlace(game, this, null, 0);
-            myLps.add(lp);
+            Vector2 landingPlace = game.getPlanetManager().findFlatPlace(game, this, null, 0);
+            landingPlaces.add(landingPlace);
         }
     }
 
     public float getAngle() {
-        return myAngle;
+        return angle;
     }
 
-    public Vector2 getPos() {
-        return myPos;
+    public Vector2 getPosition() {
+        return position;
     }
 
     public float getFullHeight() {
-        return myGroundHeight + Const.ATM_HEIGHT;
+        return groundHeight + Const.ATM_HEIGHT;
     }
 
     public float getGroundHeight() {
-        return myGroundHeight;
+        return groundHeight;
     }
 
-    public SolSystem getSys() {
-        return mySys;
+    public SolSystem getSystem() {
+        return system;
     }
 
     @Bound
-    public Vector2 getAdjustedEffectSpd(Vector2 pos, Vector2 spd) {
-        Vector2 r = SolMath.getVec(spd);
-        if (myConfig.skyConfig == null) {
+    public Vector2 getAdjustedEffectSpeed(Vector2 position, Vector2 speed) {
+        Vector2 r = SolMath.getVec(speed);
+        if (config.skyConfig == null) {
             return r;
         }
-        Vector2 up = SolMath.distVec(myPos, pos);
+        Vector2 up = SolMath.distVec(this.position, position);
         float dst = up.len();
         if (dst == 0 || getFullHeight() < dst) {
             SolMath.free(up);
             return r;
         }
-        float smokeConst = 1.2f * myGravConst;
-        if (dst < myGroundHeight) {
-            up.scl(smokeConst / dst / myGroundHeight / myGroundHeight);
+        float smokeConst = 1.2f * gravitationConstant;
+        if (dst < groundHeight) {
+            up.scl(smokeConst / dst / groundHeight / groundHeight);
             r.set(up);
             SolMath.free(up);
             return r;
         }
-        float spdPerc = (dst - myGroundHeight) / Const.ATM_HEIGHT;
-        r.scl(spdPerc);
+        float speedPercentage = (dst - groundHeight) / Const.ATM_HEIGHT;
+        r.scl(speedPercentage);
         up.scl(smokeConst / dst / dst / dst);
         r.add(up);
         SolMath.free(up);
         return r;
     }
 
-    public float getGravConst() {
-        return myGravConst;
+    public float getGravitationConstant() {
+        return gravitationConstant;
     }
 
-    public float getDist() {
-        return myDist;
+    public float getDistance() {
+        return distance;
     }
 
-    public float getAngleToSys() {
-        return myAngleToSys;
+    public float getAngleInSystem() {
+        return angleInSystem;
     }
 
-    public float getRotSpd() {
-        return myRotSpd;
+    public float getRotationSpeed() {
+        return rotationSpeed;
     }
 
-    public boolean isObjsCreated() {
-        return myObjsCreated;
+    public boolean areObjectsCreated() {
+        return areObjectsCreated;
     }
 
     public List<Vector2> getLandingPlaces() {
-        return myLps;
+        return landingPlaces;
     }
 
     public float getMinGroundHeight() {
-        return myMinGroundHeight;
+        return minGroundHeight;
     }
 
-    public boolean isNearGround(Vector2 pos) {
-        return myPos.dst(pos) - myGroundHeight < .25f * Const.ATM_HEIGHT;
+    public boolean isNearGround(Vector2 position) {
+        return this.position.dst(position) - groundHeight < .25f * Const.ATM_HEIGHT;
     }
 
     public PlanetConfig getConfig() {
-        return myConfig;
+        return config;
     }
 
-    public float getToSysRotSpd() {
-        return myToSysRotSpd;
+    public float getRotationSpeedInSystem() {
+        return rotationSpeedInSystem;
     }
 
     public String getName() {
-        return myName;
+        return name;
     }
 
-    public void calcSpdAtPos(Vector2 spd, Vector2 pos) {
-        Vector2 toPos = SolMath.distVec(myPos, pos);
+    public void calculateSpeedAtPosition(Vector2 speed, Vector2 position) {
+        Vector2 toPos = SolMath.distVec(this.position, position);
         float fromPlanetAngle = SolMath.angle(toPos);
-        float hSpdLen = SolMath.angleToArc(myRotSpd, toPos.len());
+        float hSpeedLen = SolMath.angleToArc(rotationSpeed, toPos.len());
         SolMath.free(toPos);
-        SolMath.fromAl(spd, fromPlanetAngle + 90, hSpdLen);
-        spd.add(mySpd);
+        SolMath.fromAl(speed, fromPlanetAngle + 90, hSpeedLen);
+        speed.add(this.speed);
     }
 
-    public float getAtmDps() {
-        return myAtmDps;
+    public float getAtmosphereDamagePerSecond() {
+        return atmosphereDamagePerSecond;
     }
 
-    public float getGroundDps() {
-        return myGroundDps;
+    public float getGroundDamagePerSecond() {
+        return groundDamagePerSecond;
     }
 }

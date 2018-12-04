@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,7 +18,7 @@ package org.destinationsol.game.planet;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.assets.Assets;
-import org.destinationsol.common.SolMath;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.CollisionMeshLoader;
 import org.destinationsol.game.DebugOptions;
 
@@ -28,10 +28,10 @@ import java.util.List;
 import java.util.Map;
 
 public class PlanetTiles {
-    private final Map<SurfaceDirection, Map<SurfaceDirection, List<Tile>>> myGroundTiles;
+    private final Map<SurfaceDirection, Map<SurfaceDirection, List<Tile>>> groundTiles;
 
-    public PlanetTiles(String groundName) {
-        myGroundTiles = new HashMap<>();
+    PlanetTiles(String groundName) {
+        groundTiles = new HashMap<>();
         loadGround(groundName);
     }
 
@@ -41,7 +41,7 @@ public class PlanetTiles {
 
         for (SurfaceDirection from : SurfaceDirection.values()) {
             HashMap<SurfaceDirection, List<Tile>> fromMap = new HashMap<>();
-            myGroundTiles.put(from, fromMap);
+            groundTiles.put(from, fromMap);
             for (SurfaceDirection to : SurfaceDirection.values()) {
                 if (from == SurfaceDirection.DOWN && to == SurfaceDirection.DOWN) {
                     continue;
@@ -91,38 +91,38 @@ public class PlanetTiles {
     }
 
     private List<Vector2> getDefaultRawPoints(SurfaceDirection from, SurfaceDirection to, String tileName) {
-        ArrayList<Vector2> res = new ArrayList<>();
+        ArrayList<Vector2> result = new ArrayList<>();
 
         if (from == SurfaceDirection.UP && to == SurfaceDirection.UP) {
-            return res;
+            return result;
         }
 
         DebugOptions.MISSING_PHYSICS_ACTION.handle("no path found for " + tileName);
 
-        res.add(new Vector2(.25f, .75f));
+        result.add(new Vector2(.25f, .75f));
 
         if (from == SurfaceDirection.FWD) {
-            res.add(new Vector2(.25f, .5f));
+            result.add(new Vector2(.25f, .5f));
         } else {
-            res.add(new Vector2(.25f, .25f));
-            res.add(new Vector2(.5f, .25f));
+            result.add(new Vector2(.25f, .25f));
+            result.add(new Vector2(.5f, .25f));
         }
 
-        res.add(new Vector2(.5f, .5f));
+        result.add(new Vector2(.5f, .5f));
 
         if (to == SurfaceDirection.FWD) {
-            res.add(new Vector2(.75f, .5f));
-            res.add(new Vector2(.75f, .75f));
+            result.add(new Vector2(.75f, .5f));
+            result.add(new Vector2(.75f, .75f));
         } else {
-            res.add(new Vector2(.5f, .75f));
+            result.add(new Vector2(.5f, .75f));
         }
 
-        return res;
+        return result;
     }
 
     public Tile getGround(SurfaceDirection from, SurfaceDirection to) {
-        List<Tile> list = myGroundTiles.get(from).get(to);
-        return SolMath.elemRnd(list);
+        List<Tile> list = groundTiles.get(from).get(to);
+        return SolRandom.randomElement(list);
     }
 
     public Tile getDungeonEntrance(boolean down, boolean left, boolean right) {

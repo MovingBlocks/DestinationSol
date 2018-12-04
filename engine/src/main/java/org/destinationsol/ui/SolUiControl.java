@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,91 +22,110 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
 
 public class SolUiControl {
-    private final int[] myKeys;
-    private final Rectangle myScreenArea;
-    private final boolean myWithSound;
-    private String myDisplayName;
-    private boolean myEnabled = true;
-    private boolean myKeyPressed;
-    private boolean myKeyPressedPrev;
-    private boolean myKeyFlash;
-    private boolean myAreaPressed;
-    private boolean myAreaFlash;
-    private boolean myAreaJustUnpressed;
-    private boolean myMouseHover;
-    private int myWarnCount;
+    private final int[] keys;
+    private Rectangle screenArea;
+    private final boolean isWithSound;
+    private String displayName;
+    private boolean isEnabled = true;
+    private boolean isKeyPressed;
+    private boolean wasKeyPressed;
+    private boolean isKeyFlashed;
+    private boolean isAreaPressed;
+    private boolean isAreaFlashed;
+    private boolean isAreaJustUnpressed;
+    private boolean doesMouseHover;
+    private int warnCount;
 
-    public SolUiControl(Rectangle screenArea, boolean withSound, int... keys) {
-        myWithSound = withSound;
-        myKeys = keys == null ? new int[0] : keys;
-        myScreenArea = screenArea;
+    private int width;
+    private int height;
+    private Position referencePosition;
+    private int offsetX;
+    private int offsetY;
+
+    public SolUiControl(Rectangle screenArea, boolean isWithSound, int... keys) {
+        this.isWithSound = isWithSound;
+        this.keys = keys == null ? new int[0] : keys;
+        this.screenArea = screenArea;
+    }
+
+    public SolUiControl(int width, int height, Position referencePosition, int offsetX, int offsetY, boolean isWithSound, int... keys) {
+        this.isWithSound = isWithSound;
+        this.keys = keys == null ? new int[0] : keys;
+
+        this.width = width;
+        this.height = height;
+        this.referencePosition = referencePosition;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+
+        computePosition();
     }
 
     public boolean maybeFlashPressed(int keyCode) {
-        if (!myEnabled) {
+        if (!isEnabled) {
             return false;
         }
-        for (int key : myKeys) {
+        for (int key : keys) {
             if (key != keyCode) {
                 continue;
             }
-            myKeyFlash = true;
+            isKeyFlashed = true;
             return true;
         }
         return false;
     }
 
     public boolean maybeFlashPressed(SolInputManager.InputPointer inputPointer) {
-        if (!myEnabled) {
+        if (!isEnabled) {
             return false;
         }
-        boolean pressed = myScreenArea != null && myScreenArea.contains(inputPointer.x, inputPointer.y);
+        boolean pressed = screenArea != null && screenArea.contains(inputPointer.x, inputPointer.y);
         if (pressed) {
-            myAreaFlash = true;
+            isAreaFlashed = true;
         }
         return pressed;
     }
 
     public void update(SolInputManager.InputPointer[] inputPointers, boolean cursorShown, boolean canBePressed, SolInputManager inputMan,
                        SolApplication cmp) {
-        if (!myEnabled) {
+        if (!isEnabled) {
             canBePressed = false;
         }
         updateKeys(canBePressed);
         updateArea(inputPointers, canBePressed);
         updateHover(inputPointers, cursorShown, inputMan, cmp);
-        if (myWithSound && isJustOff()) {
+        if (isWithSound && isJustOff()) {
             inputMan.playClick(cmp);
         }
-        if (myWarnCount > 0) {
-            myWarnCount--;
+        if (warnCount > 0) {
+            warnCount--;
         }
     }
 
     private void updateHover(SolInputManager.InputPointer[] inputPointers, boolean cursorShown, SolInputManager inputMan, SolApplication cmp) {
-        if (myScreenArea == null || myAreaPressed || inputPointers[0].pressed) {
+        if (screenArea == null || isAreaPressed || inputPointers[0].pressed) {
             return;
         }
-        boolean prev = myMouseHover;
-        myMouseHover = cursorShown && myScreenArea.contains(inputPointers[0].x, inputPointers[0].y);
-        if (myWithSound && myMouseHover && !prev) {
+        boolean prev = doesMouseHover;
+        doesMouseHover = cursorShown && screenArea.contains(inputPointers[0].x, inputPointers[0].y);
+        if (isWithSound && doesMouseHover && !prev) {
             inputMan.playHover(cmp);
         }
     }
 
     private void updateKeys(boolean canBePressed) {
-        myKeyPressedPrev = myKeyPressed;
-        if (myKeyFlash) {
-            myKeyPressed = true;
-            myKeyFlash = false;
+        wasKeyPressed = isKeyPressed;
+        if (isKeyFlashed) {
+            isKeyPressed = true;
+            isKeyFlashed = false;
         } else {
-            myKeyPressed = false;
+            isKeyPressed = false;
             if (canBePressed) {
-                for (int key : myKeys) {
+                for (int key : keys) {
                     if (!Gdx.input.isKeyPressed(key)) {
                         continue;
                     }
-                    myKeyPressed = true;
+                    isKeyPressed = true;
                     break;
                 }
             }
@@ -114,22 +133,22 @@ public class SolUiControl {
     }
 
     private void updateArea(SolInputManager.InputPointer[] inputPointers, boolean canBePressed) {
-        if (myScreenArea == null) {
+        if (screenArea == null) {
             return;
         }
-        myAreaJustUnpressed = false;
-        if (myAreaFlash) {
-            myAreaPressed = true;
-            myAreaFlash = false;
+        isAreaJustUnpressed = false;
+        if (isAreaFlashed) {
+            isAreaPressed = true;
+            isAreaFlashed = false;
         } else {
-            myAreaPressed = false;
+            isAreaPressed = false;
             if (canBePressed) {
                 for (SolInputManager.InputPointer inputPointer : inputPointers) {
-                    if (!myScreenArea.contains(inputPointer.x, inputPointer.y)) {
+                    if (!screenArea.contains(inputPointer.x, inputPointer.y)) {
                         continue;
                     }
-                    myAreaPressed = inputPointer.pressed;
-                    myAreaJustUnpressed = !inputPointer.pressed && inputPointer.prevPressed;
+                    isAreaPressed = inputPointer.pressed;
+                    isAreaJustUnpressed = !inputPointer.pressed && inputPointer.prevPressed;
                     break;
                 }
             }
@@ -138,75 +157,89 @@ public class SolUiControl {
 
     // poll to perform continuous actions
     public boolean isOn() {
-        return myEnabled && (myKeyPressed || myAreaPressed);
+        return isEnabled && (isKeyPressed || isAreaPressed);
     }
 
     // poll to perform one-off actions
     public boolean isJustOff() {
-        return myEnabled && (!myKeyPressed && myKeyPressedPrev || myAreaJustUnpressed);
+        return isEnabled && (!isKeyPressed && wasKeyPressed || isAreaJustUnpressed);
     }
 
     public String getDisplayName() {
-        return myDisplayName;
+        return displayName;
     }
 
     public void setDisplayName(String displayName) {
-        myDisplayName = displayName;
+        this.displayName = displayName;
     }
 
-    public void drawButton(UiDrawer uiDrawer, SolApplication cmp, Color warnCol) {
-        if (myScreenArea == null) {
+    public void drawButton(UiDrawer uiDrawer, Color warnCol) {
+        if (screenArea == null) {
             return;
         }
         Color tint = SolColor.UI_INACTIVE;
-        if (myEnabled) {
+        if (isEnabled) {
             if (isOn()) {
                 tint = SolColor.UI_LIGHT;
-            } else if (myMouseHover) {
+            } else if (doesMouseHover) {
                 tint = SolColor.UI_MED;
             } else {
                 tint = SolColor.UI_DARK;
             }
         }
-        uiDrawer.draw(myScreenArea, tint);
-        if (myWarnCount > 0) {
-            uiDrawer.draw(myScreenArea, warnCol);
+        uiDrawer.draw(screenArea, tint);
+        if (warnCount > 0) {
+            uiDrawer.draw(screenArea, warnCol);
         }
     }
 
     public void drawDisplayName(UiDrawer uiDrawer) {
-        if (myScreenArea == null) {
+        if (screenArea == null) {
             return;
         }
-        Color tint = myEnabled ? SolColor.WHITE : SolColor.G;
-        uiDrawer.drawString(myDisplayName, myScreenArea.x + myScreenArea.width / 2, myScreenArea.y + myScreenArea.height / 2,
+        Color tint = isEnabled ? SolColor.WHITE : SolColor.G;
+        uiDrawer.drawString(displayName, screenArea.x + screenArea.width / 2, screenArea.y + screenArea.height / 2,
                 FontSize.MENU, true, tint);
     }
 
     public void blur() {
-        myKeyPressed = false;
-        myKeyPressedPrev = false;
-        myAreaPressed = false;
-        myAreaJustUnpressed = false;
+        isKeyPressed = false;
+        wasKeyPressed = false;
+        isAreaPressed = false;
+        isAreaJustUnpressed = false;
     }
 
     public boolean isEnabled() {
-        return myEnabled;
+        return isEnabled;
     }
 
     public void setEnabled(boolean enabled) {
-        myEnabled = enabled;
+        isEnabled = enabled;
     }
 
     public Rectangle getScreenArea() {
-        return myScreenArea;
+        return screenArea;
     }
 
     public boolean isMouseHover() {
-        return myMouseHover;
+        return doesMouseHover;
     }
 
     public void enableWarn() {
-        myWarnCount = 2;
+        warnCount = 2;
+    }
+
+    public void computePosition() {
+        // TODO: Remove this condition once the entire codebase uses the new ui system
+        if (referencePosition == null) {
+            return;
+        }
+
+        DisplayDimensions displayDimensions = SolApplication.displayDimensions;
+
+        int x = referencePosition.getX() + offsetX - width/2;
+        int y = referencePosition.getY() + offsetY - height/2;
+
+        screenArea = new Rectangle(x * displayDimensions.getRatio() / displayDimensions.getWidth(), y / (float)displayDimensions.getHeight(), width * displayDimensions.getRatio() / displayDimensions.getWidth(), height / (float)displayDimensions.getHeight());
     }
 }

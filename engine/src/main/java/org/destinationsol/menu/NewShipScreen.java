@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,44 +16,49 @@
 
 package org.destinationsol.menu;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.planet.SystemsBuilder;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 import org.terasology.assets.ResourceUrn;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.JsonValue;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
-public class NewShipScreen implements SolUiScreen {
-    private final TextureAtlas.AtlasRegion bgTex;
+public class NewShipScreen extends SolUiBaseScreen {
+    private DisplayDimensions displayDimensions;
 
-    private final List<SolUiControl> controls = new ArrayList<>();
+    private final TextureAtlas.AtlasRegion backgroundTexture;
+
     private SolUiControl okControl;
     private SolUiControl cancelControl;
     private SolUiControl systemCountControl;
     private SolUiControl playerSpawnConfigControl;
     private int playerSpawnConfigIndex = 0;
     private List<String> playerSpawnConfigNames = new ArrayList<>();
+    private int numberOfSystems = SystemsBuilder.DEFAULT_SYSTEM_COUNT;
 
     NewShipScreen(MenuLayout menuLayout, GameOptions gameOptions) {
+        displayDimensions = SolApplication.displayDimensions;
+
         loadPlayerSpawnConfigs();
 
         int row = 1;
         systemCountControl = new SolUiControl(menuLayout.buttonRect(-1, row++), true);
-        systemCountControl.setDisplayName("Systems: " + SystemsBuilder.SYS_COUNT);
+        systemCountControl.setDisplayName("Systems: " + numberOfSystems);
         controls.add(systemCountControl);
 
         playerSpawnConfigControl = new SolUiControl(menuLayout.buttonRect(-1, row++), true);
@@ -68,33 +73,28 @@ public class NewShipScreen implements SolUiScreen {
         cancelControl.setDisplayName("Cancel");
         controls.add(cancelControl);
 
-        bgTex = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
+        backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         if (okControl.isJustOff()) {
-            solApplication.loadNewGame(false, playerSpawnConfigNames.get(playerSpawnConfigIndex));
+            solApplication.play(false, playerSpawnConfigNames.get(playerSpawnConfigIndex), true);
             return;
         }
 
         if (cancelControl.isJustOff()) {
-            solApplication.getInputMan().setScreen(solApplication, solApplication.getMenuScreens().newGame);
+            solApplication.getInputManager().setScreen(solApplication, solApplication.getMenuScreens().newGame);
             return;
         }
 
         if (systemCountControl.isJustOff()) {
-            int systemCount = (SystemsBuilder.SYS_COUNT + 1) % 10;
+            int systemCount = (numberOfSystems + 1) % 10;
             if (systemCount < 2) {
                 systemCount = 2;
             }
-            SystemsBuilder.SYS_COUNT = systemCount;
-            systemCountControl.setDisplayName("Systems: " + SystemsBuilder.SYS_COUNT);
+            numberOfSystems = systemCount;
+            systemCountControl.setDisplayName("Systems: " + numberOfSystems);
         }
 
         if (playerSpawnConfigControl.isJustOff()) {
@@ -105,26 +105,32 @@ public class NewShipScreen implements SolUiScreen {
 
     @Override
     public void drawText(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.drawString("Warning: This will erase any old ship you might have had!", .5f * uiDrawer.r, .3f, FontSize.MENU, true, SolColor.WHITE);
+        uiDrawer.drawString("Warning: This will erase any old ship you might have had!", .5f * displayDimensions.getRatio(), .3f, FontSize.MENU, true, SolColor.WHITE);
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     private void loadPlayerSpawnConfigs() {
-        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-z]*:playerSpawnConfig");
+        Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:playerSpawnConfig");
 
         for (ResourceUrn configUrn : configUrnList) {
             Json json = Assets.getJson(configUrn.toString());
-            JsonValue rootNode = json.getJsonValue();
+            JSONObject rootNode = json.getJsonValue();
 
-            for (JsonValue node : rootNode) {
-                playerSpawnConfigNames.add(node.name);
+            Validator.validate(rootNode, "engine:schemaPlayerSpawnConfig");
+
+            for (String s : rootNode.keySet()) {
+                playerSpawnConfigNames.add(s);
             }
 
             json.dispose();
         }
+    }
+
+    public int getNumberOfSystems() {
+        return numberOfSystems;
     }
 }

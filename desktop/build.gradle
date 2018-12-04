@@ -59,6 +59,18 @@ eclipse {
         name = appName + "-desktop"
         linkedResource name: 'assets', type: '2', location: 'PARENT-1-PROJECT_LOC/android/assets'
     }
+    // Hack to allow the game to run via eclipse. See #209 for more information.
+    classpath {
+        file {
+            withXml { xml ->
+                def node = xml.asNode()
+                node.appendNode('classpathentry', [kind: 'src', path: '/engine' ])
+            }
+            whenMerged {
+                entries.removeAll { it.kind == 'src' && it.path == '/DestinationSol-main' }
+            }
+        }
+    }
 }
 
 task afterEclipseImport(description: "Post processing after project generation", group: "IDE") {

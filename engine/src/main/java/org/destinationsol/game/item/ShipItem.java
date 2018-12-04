@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,62 +24,62 @@ import org.destinationsol.game.ship.hulls.HullConfig;
 public class ShipItem implements SolItem {
 
     public static final SolItemType EMPTY = new SolItemType(new Color(), null, 1);
-    private final HullConfig myConfig;
-    private final String myDesc;
+    private final HullConfig config;
+    private final String description;
 
-    public ShipItem(HullConfig config) {
-        myConfig = config;
-        myDesc = makeDesc(myConfig);
+    ShipItem(HullConfig config) {
+        this.config = config;
+        description = makeDesc(config);
     }
 
     public static String makeDesc(HullConfig hull) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Takes ").append(hull.getMaxLife()).append(" dmg\n");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Takes ").append(hull.getMaxLife()).append(" dmg\n");
         boolean secondGunSlot = hull.getNrOfGunSlots() > 1;
         if (!secondGunSlot || hull.getGunSlot(0).allowsRotation() != hull.getGunSlot(1).allowsRotation()) {
             if (!secondGunSlot) {
-                sb.append(!hull.getGunSlot(0).allowsRotation() ? "1 heavy gun slot\n" : "1 light gun slot\n");
+                stringBuilder.append(!hull.getGunSlot(0).allowsRotation() ? "1 heavy gun slot\n" : "1 light gun slot\n");
             } else {
-                sb.append("1 heavy + 1 light gun slots\n");
+                stringBuilder.append("1 heavy + 1 light gun slots\n");
             }
         } else {
-            sb.append(!hull.getGunSlot(0).allowsRotation() ? "2 heavy gun slots\n" : "2 light gun slots\n");
+            stringBuilder.append(!hull.getGunSlot(0).allowsRotation() ? "2 heavy gun slots\n" : "2 light gun slots\n");
         }
         if (hull.getAbility() != null) {
-            sb.append("Ability:\n");
-            hull.getAbility().appendDesc(sb);
+            stringBuilder.append("Ability:\n");
+            hull.getAbility().appendDesc(stringBuilder);
         }
-        return sb.toString();
+        return stringBuilder.toString();
     }
 
     @Override
     public String getDisplayName() {
-        return myConfig.getDisplayName();
+        return config.getDisplayName();
     }
 
     @Override
     public float getPrice() {
-        return myConfig.getPrice();
+        return config.getPrice();
     }
 
     @Override
-    public String getDesc() {
-        return myDesc;
+    public String getDescription() {
+        return description;
     }
 
     @Override
     public SolItem copy() {
-        return new ShipItem(myConfig);
+        return new ShipItem(config);
     }
 
     @Override
     public boolean isSame(SolItem item) {
-        return item instanceof ShipItem && ((ShipItem) item).myConfig == myConfig;
+        return item instanceof ShipItem && ((ShipItem) item).config == config;
     }
 
     @Override
     public TextureAtlas.AtlasRegion getIcon(SolGame game) {
-        return myConfig.getIcon();
+        return config.getIcon();
     }
 
     @Override
@@ -103,6 +103,6 @@ public class ShipItem implements SolItem {
     }
 
     public HullConfig getConfig() {
-        return myConfig;
+        return config;
     }
 }

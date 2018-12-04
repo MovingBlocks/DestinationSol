@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,23 +23,24 @@ import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.SaveManager;
+import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
+import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
-import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 
-import java.util.ArrayList;
-import java.util.List;
+public class NewGameScreen extends SolUiBaseScreen {
+    private DisplayDimensions displayDimensions;
 
-public class NewGameScreen implements SolUiScreen {
-    private final TextureAtlas.AtlasRegion bgTex;
+    private final TextureAtlas.AtlasRegion backgroundTexture;
 
-    private final ArrayList<SolUiControl> controls = new ArrayList<>();
     private final SolUiControl backControl;
     private final SolUiControl continueControl;
     private final SolUiControl newControl;
 
     NewGameScreen(MenuLayout menuLayout, GameOptions gameOptions) {
+        displayDimensions = SolApplication.displayDimensions;
+
         continueControl = new SolUiControl(menuLayout.buttonRect(-1, 1), true, gameOptions.getKeyShoot());
         continueControl.setDisplayName("Continue");
         controls.add(continueControl);
@@ -52,29 +53,24 @@ public class NewGameScreen implements SolUiScreen {
         backControl.setDisplayName("Cancel");
         controls.add(backControl);
 
-        bgTex = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
-    }
-
-    @Override
-    public List<SolUiControl> getControls() {
-        return controls;
+        backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
     @Override
     public void onAdd(SolApplication solApplication) {
-        continueControl.setEnabled(SaveManager.hasPrevShip());
+        continueControl.setEnabled(SaveManager.hasPrevShip("prevShip.ini"));
     }
 
     @Override
     public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         MenuScreens screens = solApplication.getMenuScreens();
-        SolInputManager im = solApplication.getInputMan();
+        SolInputManager im = solApplication.getInputManager();
         if (backControl.isJustOff()) {
             im.setScreen(solApplication, screens.main);
             return;
         }
         if (continueControl.isJustOff()) {
-            solApplication.loadNewGame(false, null);
+            solApplication.loadGame(false, null, false);
             return;
         }
         if (newControl.isJustOff()) {
@@ -83,12 +79,12 @@ public class NewGameScreen implements SolUiScreen {
     }
 
     @Override
-    public boolean isCursorOnBg(SolInputManager.InputPointer inputPointer) {
+    public boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
         return true;
     }
 
     @Override
-    public void drawBg(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(bgTex, uiDrawer.r, 1, uiDrawer.r / 2, 0.5f, uiDrawer.r / 2, 0.5f, 0, SolColor.WHITE);
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
     }
 }

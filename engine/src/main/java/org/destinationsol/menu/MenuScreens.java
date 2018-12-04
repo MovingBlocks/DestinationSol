@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,7 +19,7 @@ import org.destinationsol.GameOptions;
 import org.destinationsol.ui.SolLayouts;
 
 public class MenuScreens {
-    public final MainScreen main;
+    public final MainMenuScreen main;
     public final OptionsScreen options;
     public final InputMapScreen inputMapScreen;
     public final ResolutionScreen resolutionScreen;
@@ -28,13 +28,13 @@ public class MenuScreens {
     public final NewGameScreen newGame;
     public final NewShipScreen newShip;
 
-    public MenuScreens(SolLayouts layouts, boolean mobile, float resolutionRatio, GameOptions gameOptions) {
+    public MenuScreens(SolLayouts layouts, boolean mobile, GameOptions gameOptions) {
         MenuLayout menuLayout = layouts.menuLayout;
-        main = new MainScreen(menuLayout, mobile, resolutionRatio, gameOptions);
+        main = new MainMenuScreen(mobile, gameOptions);
         options = new OptionsScreen(menuLayout, gameOptions);
-        inputMapScreen = new InputMapScreen(resolutionRatio, gameOptions);
+        inputMapScreen = new InputMapScreen(gameOptions);
         resolutionScreen = new ResolutionScreen(menuLayout, gameOptions);
-        credits = new CreditsScreen(resolutionRatio, gameOptions);
+        credits = new CreditsScreen(gameOptions);
         loading = new LoadingScreen();
         newGame = new NewGameScreen(menuLayout, gameOptions);
         newShip = new NewShipScreen(menuLayout, gameOptions);

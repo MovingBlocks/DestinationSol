@@ -1,0 +1,23 @@
+{
+    "Kree Medium": {
+	    "hull": "kree:kreeMedium",
+	    "items": "9*rep core:lightArmor-1 core:smallShield-1 core:waveGun-1 core:waveGun-2",
+	    "money": 20
+    },
+
+    "Kree Large": {
+            "hull":"kree:kreeLarge",
+            "items":"99*rep core:advancedArmor-1 core:advancedShield-1 core:missilePad-1 kree:destroyer-2 99*core:bulletClip", 
+            "money":200
+    }, 
+    "Kree Capital": {
+            "hull":"kree:kreeCapital",
+            "items":"999*rep core:advancedArmor-1 core:advancedShield-1 core:missilePad-1 kree:destroyer-2 99*core:bulletClip", 
+            "money":200
+    },
+    "Kree Small": {
+            "hull":"kree:kreeSmall",
+            "items":"3*rep core:advancedArmor-1 core:advancedShield-1 core:blaster-1 99*core:bulletClip", 
+            "money":200
+    },     
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 MovingBlocks
+ * Copyright 2018 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,25 +15,27 @@
  */
 package org.destinationsol.assets;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.assets.audio.OggMusic;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.emitters.Emitter;
 import org.destinationsol.assets.fonts.Font;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.textures.DSTexture;
+import org.json.JSONArray;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.assets.ResourceUrn;
 import org.terasology.module.ModuleEnvironment;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import static java.lang.System.exit;
 
 /**
  * A high-level wrapper over the AssetHelper class.
@@ -44,9 +46,12 @@ public abstract class Assets {
     private static AssetHelper assetHelper;
     private static Set<ResourceUrn> textureList;
 
+    private static Logger logger = LoggerFactory.getLogger(Assets.class);
+
     /**
      * Initializes the class for loading assets using the given environment.
      * This function -has- to be called upon startup, and whenever the environment is changed.
+     *
      * @param environment The ModuleEnvironment to load assets from.
      */
     public static void initialize(ModuleEnvironment environment) {
@@ -60,7 +65,11 @@ public abstract class Assets {
     private static ResourceUrn parsePath(String path) {
         String[] strings = path.split(":");
 
-        assert(strings.length == 2); // Too strict?
+        if (strings.length < 2) {
+            logger.error("Invalid resource name " + path);
+            exit(-1);
+        }
+
         String module = strings[0];
         String file = strings[1];
 
@@ -92,6 +101,7 @@ public abstract class Assets {
 
     /**
      * Loads an OggMusic (.ogg) from the current environment. Throws an exception if the asset is not found.
+     *
      * @param path A String specifying the desired asset.
      * @return The loaded OggMusic.
      */
@@ -107,6 +117,7 @@ public abstract class Assets {
 
     /**
      * Loads a BitmapFont (.font) from the current environment. Throws an exception if the asset is not found.
+     *
      * @param path A String specifying the desired asset.
      * @return The loaded Font.
      */
@@ -122,6 +133,7 @@ public abstract class Assets {
 
     /**
      * Loads an emitter (.emitter) from the current environment. Throws an exception if the asset is not found.
+     *
      * @param path A String specifying the desired asset.
      * @return The loaded Emitter.
      */
@@ -137,6 +149,7 @@ public abstract class Assets {
 
     /**
      * Loads a Json (.json) from the current environment. Throws an exception if the asset is not found.
+     *
      * @param path A String specifying the desired asset.
      * @return The loaded Json.
      */
@@ -152,6 +165,7 @@ public abstract class Assets {
 
     /**
      * Loads a Texture (.png) from the current environment. Throws an exception if the asset is not found.
+     *
      * @param path A String specifying the desired asset.
      * @return The loaded Texture.
      */
@@ -167,6 +181,7 @@ public abstract class Assets {
 
     /**
      * A wrapper function over getDSTexture() that creates an AtlasRegion out of the given Texture, to use in drawing functions.
+     *
      * @param path A String specifying the desired asset.
      * @param textureFilter The texture filtering method for minification and magnification.
      * @return An AtlasRegion representing the loaded Texture.
@@ -183,6 +198,7 @@ public abstract class Assets {
     /**
      * A wrapper function over getDSTexture() that creates an AtlasRegion out of the given Texture, to use in drawing functions.
      * This overloaded variant of the function defaults to the Nearest texture filtering method, which is the default for DestSol.
+     *
      * @param path A String specifying the desired asset.
      * @return An AtlasRegion representing the loaded Texture.
      */
@@ -219,5 +235,19 @@ public abstract class Assets {
         }
 
         return textures;
+    }
+
+    /**
+     * A function that converts a JSONArray into a String ArrayList
+     *
+     * @param arr A JSONArray containing values to be converted into a String List
+     * @return An ArrayList containing all String values of arr
+     */
+    public static ArrayList<String> convertToStringList(JSONArray arr) {
+        ArrayList<String> list = new ArrayList<String>();
+        for (int i = 0; i < arr.length(); i++) {
+            list.add(arr.getString(i));
+        }
+        return list;
     }
 }

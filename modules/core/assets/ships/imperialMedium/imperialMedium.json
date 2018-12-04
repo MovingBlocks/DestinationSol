@@ -9,8 +9,6 @@
         "factor": 0.4,
         "rechargeTime": 5
     },
-    "e1Pos": "0.15 0.52",
-    "e2Pos": "0.15 0.62",
     "displayName": "Fighter",
     "engine": "core:imperialEngine",
     "gunSlots": [
@@ -96,5 +94,43 @@
                 ]
             }
         ]
-    }
+    },
+    "particleEmitters": [
+        {
+            "position": "0.15 0.52",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:flame",
+                "size": 0.07,
+                "tex": "core:fire",
+                "tint": "hsb 140 20 65"
+            },
+            "workSounds": [
+                "core:medEngineWork0",
+                "core:medEngineWork1",
+                "core:medEngineWork2",
+                "core:medEngineWork3",
+                "core:medEngineWork4"
+            ]
+        },
+        {
+            "position": "0.15 0.62",
+            "trigger": "engine",
+            "hasLight": true,
+            "particle": {
+                "effectFile": "core:flame",
+                "size": 0.07,
+                "tex": "core:fire",
+                "tint": "hsb 140 20 65"
+            },
+            "workSounds": [
+                "core:medEngineWork0",
+                "core:medEngineWork1",
+                "core:medEngineWork2",
+                "core:medEngineWork3",
+                "core:medEngineWork4"
+            ]
+        }
+    ]
 }
