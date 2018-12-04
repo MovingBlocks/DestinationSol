@@ -21,7 +21,7 @@
       "type": "string"
     },
     "infinite":{
-      "type": "string"
+      "type": "boolean"
     }
   },
   "required": [
