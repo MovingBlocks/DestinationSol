@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol;
+package org.destinationsol.modules;
 
+import com.google.common.base.Charsets;
 import com.google.common.collect.Sets;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.Assets;
@@ -29,11 +30,21 @@ import org.destinationsol.game.console.ConsoleInputHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.assets.ResourceUrn;
-import org.terasology.module.*;
-import org.terasology.module.sandbox.*;
-import org.terasology.naming.Name;
-import org.terasology.naming.Version;
+import org.terasology.module.Module;
+import org.terasology.module.ModuleEnvironment;
+import org.terasology.module.ModuleFactory;
+import org.terasology.module.ModuleMetadata;
+import org.terasology.module.ModuleMetadataJsonAdapter;
+import org.terasology.module.ModulePathScanner;
+import org.terasology.module.ModuleRegistry;
+import org.terasology.module.TableModuleRegistry;
+import org.terasology.module.sandbox.APIScanner;
+import org.terasology.module.sandbox.ModuleSecurityManager;
+import org.terasology.module.sandbox.ModuleSecurityPolicy;
+import org.terasology.module.sandbox.StandardPermissionProviderFactory;
 
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -50,10 +61,11 @@ public class ModuleManager {
     public ModuleManager() {
         try {
             URI engineClasspath = getClass().getProtectionDomain().getCodeSource().getLocation().toURI();
-            ModuleMetadata engineMetadata = new ModuleMetadata();
-            engineMetadata.setId(new Name("engine"));
-            engineMetadata.setVersion(Version.DEFAULT);
-            engineModule = new ModuleFactory().createClasspathModule(engineMetadata, true, getClass());
+            Reader engineModuleReader = new InputStreamReader(getClass().getResourceAsStream("/module.json"), Charsets.UTF_8);
+            ModuleMetadata engineMetadata = new ModuleMetadataJsonAdapter().read(engineModuleReader);
+            engineModuleReader.close();
+            ModuleFactory moduleFactory = new DestinationSolModuleFactory();
+            engineModule = moduleFactory.createClasspathModule(engineMetadata, false, getClass());
 
             registry = new TableModuleRegistry();
             Path modulesRoot;
@@ -62,7 +74,8 @@ public class ModuleManager {
             } else {
                 modulesRoot = Paths.get(".").resolve("..").resolve("modules");
             }
-            new ModulePathScanner().scan(registry, modulesRoot);
+            ModulePathScanner scanner = new ModulePathScanner(moduleFactory);
+            scanner.scan(registry, modulesRoot);
 
             Set<Module> requiredModules = Sets.newHashSet();
             requiredModules.add(engineModule);
