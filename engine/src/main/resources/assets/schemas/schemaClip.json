@@ -3,25 +3,34 @@
   "type": "object",
   "properties": {
     "projectile": {
-      "type": "string"
+      "type": "string",
+      "description":"name of projectile of gun"
     },
     "size": {
-      "type": "integer"
+      "type": "integer",
+      "minimum":0,
+      "description":"size of clip"
     },
     "price": {
-      "type": "integer"
+      "type": "integer",
+      "minimum":0,
+      "description":"Price of clip"
     },
     "displayName": {
-      "type": "string"
+      "type": "string",
+      "description":"name of clip"
     },
     "plural": {
-      "type": "string"
+      "type": "string",
+      "description":"plural name of clip"
     },
     "iconName": {
-      "type": "string"
+      "type": "string",
+      "description":"name of icon name of clip"
     },
     "infinite":{
       "type": "boolean"
+      "description":"if the gun will have infinite guns or not"
     }
   },
   "required": [
