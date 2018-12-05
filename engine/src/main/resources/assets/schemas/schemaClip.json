@@ -30,7 +30,7 @@
       "description":"name of icon name of clip"
     },
     "infinite":{
-      "type": "boolean"
+      "type": "boolean",
       "description":"if the gun will have infinite guns or not"
     }
   },
