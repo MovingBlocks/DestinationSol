@@ -1,39 +1,59 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "description":"Shields and major properties"
   "type": "object",
   "properties": {
     "maxLife": {
       "type": "integer"
+      "minimum":0,
+      "description":"maxlife of shield"
     },
     "idleTime": {
-      "type": "number"
+      "type": "number",
+      "minimum":0,
+      "description":"idle time of shield"
     },
     "regenSpd": {
-      "type": "number"
+      "type": "number",
+      "minimum":0,
+      "description":"regenSpd of shield"
     },
     "bulletDmgFactor": {
-      "type": "number"
+      "type": "number",
+      "minimum":0,
+      "description":"bullet damage factor"
     },
     "energyDmgFactor": {
-      "type": "number"
+      "type": "number",
+      "minimum":0,
+      "description":"Damage factor - energy"
     },
     "explosionDmgFactor": {
-      "type": "number"
+      "type": "number",
+      "minimum":0,
+      "description":"explosion damage factor"
     },
     "price": {
-      "type": "integer"
+      "type": "integer",
+      "minimum":0,
+      "description":"price of shield"
     },
     "displayName": {
-      "type": "string"
+      "type": "string",
+      "description":"name of shield"
     },
     "absorbSound": {
-      "type": "string"
+      "type": "string",
+      "description":"absorb sound"  
     },
     "absorbSoundPitch": {
-      "type": "number"
+      "type": "number",
+      "minimum":0,
+      "description":"absorb sound pitch"
     },
     "regenSound": {
       "type": "string"
+      "description":"regeneration sound"
     }
   },
   "required": [
