@@ -52,7 +52,7 @@
       "description":"absorb sound pitch"
     },
     "regenSound": {
-      "type": "string"
+      "type": "string",
       "description":"regeneration sound"
     }
   },
