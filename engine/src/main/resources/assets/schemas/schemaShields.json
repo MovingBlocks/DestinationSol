@@ -4,7 +4,7 @@
   "type": "object",
   "properties": {
     "maxLife": {
-      "type": "integer"
+      "type": "integer",
       "minimum":0,
       "description":"maxlife of shield"
     },
