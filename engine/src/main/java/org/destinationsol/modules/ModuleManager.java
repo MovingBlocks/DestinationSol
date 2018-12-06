@@ -55,7 +55,7 @@ public class ModuleManager {
     private static final Logger logger = LoggerFactory.getLogger(ModuleManager.class);
 
     private ModuleEnvironment environment;
-    private ModuleRegistry registry;
+    private static ModuleRegistry registry;
     private Module engineModule;
 
     public ModuleManager() {
@@ -80,6 +80,7 @@ public class ModuleManager {
             Set<Module> requiredModules = Sets.newHashSet();
             requiredModules.add(engineModule);
             requiredModules.addAll(registry);
+            registry.add(engineModule);
 
             loadEnvironment(requiredModules);
         } catch (Exception e) {
@@ -96,7 +97,7 @@ public class ModuleManager {
         scanner.scan(engineModule);
         Policy.setPolicy(new ModuleSecurityPolicy());
         System.setSecurityManager(new ModuleSecurityManager());
-        environment = new ModuleEnvironment(modules, permissionFactory);
+        environment = new ModuleEnvironment(registry, permissionFactory);
         Assets.initialize(environment);
 
         for (Class commandHandler : environment.getSubtypesOf(ConsoleInputHandler.class)) {
@@ -111,6 +112,10 @@ public class ModuleManager {
 
     public ModuleEnvironment getEnvironment() {
         return environment;
+    }
+
+    public static ModuleRegistry getRegistry() {
+        return registry;
     }
 
     public void printAvailableModules() {
