@@ -15,9 +15,12 @@
  */
 package org.destinationsol.assets.audio;
 
+import org.terasology.module.sandbox.API;
+
 /**
  * A class that stores an OggSound or a set of OggSounds.
  */
+@API
 public interface PlayableSound {
 
     /**

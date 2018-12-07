@@ -28,9 +28,11 @@ import org.destinationsol.game.drawables.RectSprite;
 import org.destinationsol.game.item.Shield;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
+import org.terasology.module.sandbox.API;
 
 import java.util.ArrayList;
 
+@API
 public class PartMan {
     public static final float EXPL_LIGHT_MAX_SZ = .4f;
     public static final float EXPL_LIGHT_MAX_FADE_TIME = .8f;
