@@ -38,12 +38,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Asteroid implements SolObject {
-    private static final float MIN_SPLIT_SZ = .25f;
-    private static final float MIN_BURN_SZ = .3f;
-    private static final float SZ_TO_LIFE = 20f;
-    private static final float SPD_TO_ATM_DMG = SZ_TO_LIFE * .11f;
-    private static final float MAX_SPLIT_SPD = 1f;
-    private static final float DUR = .5f;
+    private final float MIN_SPLIT_SZ;
+    private final float MIN_BURN_SZ;
+    private final float SZ_TO_LIFE;
+    private final float SPD_TO_ATM_DMG;
+    private final float MAX_SPLIT_SPD;
+    private final float DUR;
 
     private final Body body;
     private final Vector2 position;
@@ -59,7 +59,15 @@ public class Asteroid implements SolObject {
     private float life;
     private float size;
 
-    Asteroid(SolGame game, TextureAtlas.AtlasRegion tex, Body body, float size, RemoveController removeController, ArrayList<Drawable> drawables) {
+    Asteroid(SolGame game, TextureAtlas.AtlasRegion tex, Body body, float size, RemoveController removeController, ArrayList<Drawable> drawables, String moduleName) {
+        AsteroidConfig asteroidConfig = AsteroidConfig.load(moduleName);
+        this.MIN_SPLIT_SZ = asteroidConfig.MIN_SPLIT_SZ;
+        this.MIN_BURN_SZ = asteroidConfig.MIN_BURN_SZ;
+        this.SZ_TO_LIFE = asteroidConfig.SZ_TO_LIFE;
+        this.SPD_TO_ATM_DMG = asteroidConfig.SPD_TO_ATM_DMG;
+        this.MAX_SPLIT_SPD = asteroidConfig.MAX_SPLIT_SPD;
+        this.DUR = asteroidConfig.DUR;
+
         texture = tex;
         this.removeController = removeController;
         this.drawables = drawables;

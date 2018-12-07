@@ -46,17 +46,27 @@ public class AsteroidBuilder {
     private static final float MAX_BALL_SZ = .2f;
     private final CollisionMeshLoader collisionMeshLoader;
     private final List<TextureAtlas.AtlasRegion> textures;
+    private final String moduleName;
 
     public AsteroidBuilder(String shipName) {
-        collisionMeshLoader = new CollisionMeshLoader(getModule(shipName)+":asteroids");// THIS WORKS
-        textures = Assets.listTexturesMatching(getModule(shipName)+":asteroid_.*"); //THIS WORKS*/
+        moduleName = getModule(shipName);
+        CollisionMeshLoader tempCML;
+        List<TextureAtlas.AtlasRegion> tempTextures;
+        try{
+            tempCML = new CollisionMeshLoader(moduleName+":asteroids");// THIS WORKS
+            tempTextures = Assets.listTexturesMatching(moduleName+":asteroid_.*"); //THIS WORKS
+        }catch(RuntimeException e){
+            tempCML = new CollisionMeshLoader("engine:asteroids");// THIS WORKS
+            tempTextures = Assets.listTexturesMatching("engine:asteroid_.*"); //THIS WORKS
+        }
+        collisionMeshLoader = tempCML;
+        textures = tempTextures;
     }
 
     private String getModule(String shipName){
         Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:playerSpawnConfig");
 
-        for (ResourceUrn configUrn : configUrnList) {
-            Json json = Assets.getJson(configUrn.toString());
+        for (ResourceUrn configUrn : configUrnList) {Json json = Assets.getJson(configUrn.toString());
             JSONObject rootNode = json.getJsonValue();
 
             if (rootNode.keySet().contains(shipName) && rootNode.get(shipName) instanceof JSONObject) {
@@ -95,9 +105,6 @@ public class AsteroidBuilder {
     // doesn't consume position
     public FarAsteroid buildNewFar(Vector2 position, Vector2 speed, float size, RemoveController removeController) {
         float rotationSpeed = SolRandom.randomFloat(MAX_A_ROT_SPD);
-        /*if(textures.size() < 1){
-            throw new IllegalArgumentException("Could not find any textures");
-        }*/
         return new FarAsteroid(SolRandom.randomElement(textures), new Vector2(position), SolRandom.randomFloat(180), removeController, size, new Vector2(speed), rotationSpeed);
     }
 
@@ -116,7 +123,7 @@ public class AsteroidBuilder {
         body.setAngularVelocity(rotationSpeed);
         body.setLinearVelocity(speed);
 
-        Asteroid asteroid = new Asteroid(game, texture, body, size, removeController, drawables);
+        Asteroid asteroid = new Asteroid(game, texture, body, size, removeController, drawables, moduleName);
         body.setUserData(asteroid);
         return asteroid;
     }

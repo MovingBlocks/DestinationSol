@@ -1,0 +1,7 @@
+{
+  "MIN_SPLIT_SZ": ".25f",
+  "MIN_BURN_SZ": ".3f",
+  "SZ_TO_LIFE": "20f",
+  "MAX_SPLIT_SPD": "1f",
+  "DUR": ".5f"
+}
