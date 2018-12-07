@@ -55,11 +55,13 @@ import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.TutorialManager;
 import org.destinationsol.ui.UiDrawer;
+import org.terasology.module.sandbox.API;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@API
 public class SolGame {
     private final GameScreens gameScreens;
     private final SolCam camera;

@@ -20,10 +20,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.game.GameColors;
+import org.terasology.module.sandbox.API;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@API
 public class EffectConfig {
     public final EffectType emitter;
     public final float size;

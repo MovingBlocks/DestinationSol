@@ -29,7 +29,9 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.ship.SolShip;
+import org.terasology.module.sandbox.API;
 
+@API
 public class Shield implements SolItem {
     public static final float SIZE_PERC = .7f;
     private final Config config;

@@ -40,7 +40,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 public final class HullConfigManager {
     private final ItemManager itemManager;
@@ -52,12 +51,11 @@ public final class HullConfigManager {
 
     static {
         abilityClasses = new HashMap<String, Class<AbilityConfig>>();
-        for (Name moduleName : ModuleManager.getRegistry().getModuleIds()) {
-            Module gameModule = ModuleManager.getRegistry().getLatestModuleVersion(moduleName);
-            if (gameModule.isCodeModule()) {
-                for (Class abilityClass : gameModule.getReflectionsFragment().getSubTypesOf(AbilityConfig.class)) {
-                    abilityClasses.put(abilityClass.getSimpleName().replace("Config", "").toLowerCase(Locale.ENGLISH), abilityClass);
-                }
+        for (Class abilityClass : ModuleManager.getEnvironment().getSubtypesOf(AbilityConfig.class)) {
+            try {
+                abilityClasses.put(abilityClass.getSimpleName().replace("Config", "").toLowerCase(Locale.ENGLISH), abilityClass);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

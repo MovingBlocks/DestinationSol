@@ -23,11 +23,13 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.GameColors;
 import org.destinationsol.game.particle.EffectTypes;
 import org.destinationsol.game.projectile.ProjectileConfigs;
+import org.terasology.module.sandbox.API;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@API
 public class ItemManager {
     public final ProjectileConfigs projConfigs;
     public final TextureAtlas.AtlasRegion moneyIcon;

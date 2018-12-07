@@ -18,7 +18,9 @@ package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.destinationsol.game.SolGame;
+import org.terasology.module.sandbox.API;
 
+@API
 public interface SolItem {
     String getDisplayName();
 

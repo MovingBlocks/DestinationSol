@@ -18,6 +18,7 @@ package org.destinationsol.game.item;
 
 import org.destinationsol.Const;
 import org.destinationsol.common.SolRandom;
+import org.terasology.module.sandbox.API;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+@API
 public class ItemContainer implements Iterable<List<SolItem>> {
     private static final int MAX_INVENTORY_PAGES = 4;
     private static final int MAX_GROUP_COUNT = MAX_INVENTORY_PAGES * Const.ITEM_GROUPS_PER_PAGE;

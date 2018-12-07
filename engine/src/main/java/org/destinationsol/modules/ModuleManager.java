@@ -53,9 +53,15 @@ import java.util.Set;
 
 public class ModuleManager {
     private static final Logger logger = LoggerFactory.getLogger(ModuleManager.class);
+    private static final String[] API_WHITELIST = new String[] {
+            "java.lang",
+            "java.util",
+            "org.json",
+            "com.badlogic.gdx.math"
+    };
 
-    private ModuleEnvironment environment;
-    private static ModuleRegistry registry;
+    private static ModuleEnvironment environment;
+    private ModuleRegistry registry;
     private Module engineModule;
 
     public ModuleManager() {
@@ -90,8 +96,9 @@ public class ModuleManager {
 
     public void loadEnvironment(Set<Module> modules) {
         StandardPermissionProviderFactory permissionFactory = new StandardPermissionProviderFactory();
-        permissionFactory.getBasePermissionSet().addAPIPackage(engineModule.toString());
-        permissionFactory.getBasePermissionSet().addAPIPackage("java.lang");
+        for (String Api : API_WHITELIST) {
+            permissionFactory.getBasePermissionSet().addAPIPackage(Api);
+        }
         APIScanner scanner = new APIScanner(permissionFactory);
         scanner.scan(registry);
         scanner.scan(engineModule);
@@ -110,12 +117,8 @@ public class ModuleManager {
         }
     }
 
-    public ModuleEnvironment getEnvironment() {
+    public static ModuleEnvironment getEnvironment() {
         return environment;
-    }
-
-    public static ModuleRegistry getRegistry() {
-        return registry;
     }
 
     public void printAvailableModules() {
