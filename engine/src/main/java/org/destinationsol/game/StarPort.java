@@ -354,7 +354,7 @@ public class StarPort implements SolObject {
         private final DSParticleEmitter effect;
         private float angle;
 
-        Transcendent(SolShip ship, Planet from, Planet to, SolGame game) {
+        public Transcendent(SolShip ship, Planet from, Planet to, SolGame game) {
             this.ship = ship.toFarObject();
             fromPlanet = from;
             toPlanet = to;
