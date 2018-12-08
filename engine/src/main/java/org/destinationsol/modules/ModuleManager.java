@@ -26,6 +26,7 @@ import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.textures.DSTexture;
 import org.destinationsol.game.Console;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.console.ConsoleInputHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,9 +44,11 @@ import org.terasology.module.sandbox.ModuleSecurityManager;
 import org.terasology.module.sandbox.ModuleSecurityPolicy;
 import org.terasology.module.sandbox.StandardPermissionProviderFactory;
 
+import java.io.FilePermission;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ReflectPermission;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -201,6 +204,21 @@ public class ModuleManager {
         for (Class<?> apiClass : CLASS_WHITELIST) {
             permissionFactory.getBasePermissionSet().addAPIClass(apiClass);
         }
+
+        // The JSON serializers need to reflect classes to discover what exists
+        permissionFactory.getBasePermissionSet().grantPermission("com.google.gson", ReflectPermission.class);
+        permissionFactory.getBasePermissionSet().grantPermission("com.google.gson.internal", ReflectPermission.class);
+        permissionFactory.getBasePermissionSet().grantPermission("com.google.gson", RuntimePermission.class);
+        permissionFactory.getBasePermissionSet().grantPermission("com.google.gson.internal", RuntimePermission.class);
+
+        permissionFactory.getBasePermissionSet().grantPermission(SaveManager.class, FilePermission.class);
+        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets", FilePermission.class);
+        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.audio", FilePermission.class);
+        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.emitters", FilePermission.class);
+        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.fonts", FilePermission.class);
+        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.json", FilePermission.class);
+        permissionFactory.getBasePermissionSet().grantPermission("org.destinationsol.assets.textures", FilePermission.class);
+
         APIScanner scanner = new APIScanner(permissionFactory);
         scanner.scan(registry);
         scanner.scan(engineModule);
