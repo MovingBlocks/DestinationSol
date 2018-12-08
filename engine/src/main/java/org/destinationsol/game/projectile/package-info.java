@@ -13,24 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.assets.audio;
+@API package org.destinationsol.game.projectile;
 
-/**
- * A class that stores an OggSound or a set of OggSounds.
- */
-public interface PlayableSound {
-
-    /**
-     * Returns an OggSound selected from the sound set.
-     *
-     * @return
-     */
-    OggSound getOggSound();
-
-    /**
-     * Returns the common pitch value for all the stored OggSound.
-     *
-     * @return
-     */
-    float getBasePitch();
-}
+import org.terasology.module.sandbox.API;

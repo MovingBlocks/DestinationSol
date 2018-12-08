@@ -20,9 +20,7 @@ import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.item.SolItem;
 import org.json.JSONObject;
-import org.terasology.module.sandbox.API;
 
-@API
 public interface AbilityConfig {
     public ShipAbility build();
 

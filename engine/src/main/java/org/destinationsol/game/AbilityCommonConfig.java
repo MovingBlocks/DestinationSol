@@ -21,9 +21,7 @@ import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.PlayableSound;
 import org.destinationsol.game.particle.EffectConfig;
 import org.destinationsol.game.particle.EffectTypes;
-import org.terasology.module.sandbox.API;
 
-@API
 public class AbilityCommonConfig {
     public final EffectConfig effect;
     public final PlayableSound activatedSound;

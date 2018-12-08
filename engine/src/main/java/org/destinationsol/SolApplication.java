@@ -42,12 +42,14 @@ import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.module.sandbox.API;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Set;
 
+@API
 public class SolApplication implements ApplicationListener {
     private static final Logger logger = LoggerFactory.getLogger(SolApplication.class);
 
@@ -134,7 +136,20 @@ public class SolApplication implements ApplicationListener {
             timeAccumulator -= Const.REAL_TIME_STEP;
         }
 
-        draw();
+        try {
+            draw();
+        } catch (Throwable t) {
+            logger.error("Fatal Error:", t);
+            fatalErrorMsg = "A fatal error occurred:\n" + t.getMessage();
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            t.printStackTrace(pw);
+            fatalErrorTrace = sw.toString();
+
+            if (!isMobile) {
+                throw t;
+            }
+        }
     }
 
     @Override
