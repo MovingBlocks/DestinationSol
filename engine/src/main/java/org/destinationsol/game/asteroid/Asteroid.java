@@ -61,12 +61,12 @@ public class Asteroid implements SolObject {
 
     Asteroid(SolGame game, TextureAtlas.AtlasRegion tex, Body body, float size, RemoveController removeController, ArrayList<Drawable> drawables, String moduleName) {
         AsteroidConfig asteroidConfig = AsteroidConfig.load(moduleName);
-        this.MIN_SPLIT_SZ = asteroidConfig.MIN_SPLIT_SZ;
-        this.MIN_BURN_SZ = asteroidConfig.MIN_BURN_SZ;
-        this.SZ_TO_LIFE = asteroidConfig.SZ_TO_LIFE;
-        this.SPD_TO_ATM_DMG = asteroidConfig.SPD_TO_ATM_DMG;
-        this.MAX_SPLIT_SPD = asteroidConfig.MAX_SPLIT_SPD;
-        this.DUR = asteroidConfig.DUR;
+        this.MIN_SPLIT_SZ = asteroidConfig.minSplitSize;
+        this.MIN_BURN_SZ = asteroidConfig.minBurnSize;
+        this.SZ_TO_LIFE = asteroidConfig.sizeToLife;
+        this.SPD_TO_ATM_DMG = asteroidConfig.speedToAtmDamage;
+        this.MAX_SPLIT_SPD = asteroidConfig.maxSplitSpeed;
+        this.DUR = asteroidConfig.dur;
 
         texture = tex;
         this.removeController = removeController;

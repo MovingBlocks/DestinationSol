@@ -19,34 +19,34 @@ import org.destinationsol.assets.Assets;
 import org.json.JSONObject;
 
 public class AsteroidConfig {
-    public final float MIN_SPLIT_SZ;
-    public final float MIN_BURN_SZ;
-    public final float SZ_TO_LIFE;
-    public final float SPD_TO_ATM_DMG;
-    public final float MAX_SPLIT_SPD;
-    public final float DUR;
+    public final float minSplitSize;
+    public final float minBurnSize;
+    public final float sizeToLife;
+    public final float speedToAtmDamage;
+    public final float maxSplitSpeed;
+    public final float dur;
 
-    public AsteroidConfig(float min_split_sz,float min_burn_sz,float sz_to_life,float max_split_spd,float dur) {
-        this.MIN_SPLIT_SZ = min_split_sz;
-        this.MIN_BURN_SZ = min_burn_sz;
-        this.SZ_TO_LIFE = sz_to_life;
-        this.SPD_TO_ATM_DMG = sz_to_life * .11f;
-        this.MAX_SPLIT_SPD = max_split_spd;
-        this.DUR = dur;
+    public AsteroidConfig(float minSplitSize,float minBurnSize,float sizeToLife,float maxSplitSpeed,float dur) {
+        this.minSplitSize = minSplitSize;
+        this.minBurnSize = minBurnSize;
+        this.sizeToLife = sizeToLife;
+        this.speedToAtmDamage = sizeToLife * .11f;
+        this.maxSplitSpeed = maxSplitSpeed;
+        this.dur = dur;
     }
 
-    static AsteroidConfig load(String moduleName){
+    static AsteroidConfig load(String moduleName) {
         JSONObject asteroidConfigs;
         try{
             asteroidConfigs = Assets.getJson(moduleName + ":asteroidsConfig").getJsonValue();
         }catch (RuntimeException e){
             asteroidConfigs = Assets.getJson("engine:asteroidsConfig").getJsonValue();
         }
-        float MIN_SPLIT_SZ = asteroidConfigs.getFloat("MIN_SPLIT_SZ");
-        float MIN_BURN_SZ = asteroidConfigs.getFloat("MIN_BURN_SZ");
-        float SZ_TO_LIFE = asteroidConfigs.getFloat("SZ_TO_LIFE");
-        float MAX_SPLIT_SPD = asteroidConfigs.getFloat("MAX_SPLIT_SPD");
-        float DUR = asteroidConfigs.getFloat("DUR");
-        return new AsteroidConfig(MIN_SPLIT_SZ, MIN_BURN_SZ, SZ_TO_LIFE, MAX_SPLIT_SPD, DUR);
+        float minSplitSz = asteroidConfigs.getFloat("MIN_SPLIT_SZ");
+        float minBurnSz = asteroidConfigs.getFloat("MIN_BURN_SZ");
+        float szToLife = asteroidConfigs.getFloat("SZ_TO_LIFE");
+        float maxSplitSpd = asteroidConfigs.getFloat("MAX_SPLIT_SPD");
+        float dur = asteroidConfigs.getFloat("DUR");
+        return new AsteroidConfig(minSplitSz, minBurnSz, szToLife, maxSplitSpd, dur);
     }
 }
