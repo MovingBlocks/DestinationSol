@@ -98,7 +98,11 @@ dependencies {
                 println "*** Identified source: " + dependency
                 // Note: if artifactoryPublish is used in a multi-project workspace including modules the .pom gets hard version refs
                 // Normally they're expected to run in Jenkins standalone where they'll instead match the else and get version '+'
-                compile project(':modules:' + dependency)
+                Project dependencyProject = findProject(':modules:' + dependency)
+                // Note: It is possible for a module to have assets but no code in DestinationSol, so we must check if the module project exists
+                if (dependencyProject != null) {
+                    compile dependencyProject
+                }
             } else {
                 println "*** Seeking as binary: " + dependency
                 // The '+' is satisfied by any version. "changing" triggers better checking for updated snapshots
@@ -171,25 +175,12 @@ sourceSets {
 // Generate the module directory structure if missing
 task createSkeleton() {
     mkdir('assets')
-    mkdir('assets/animations')
-    mkdir('assets/atlas')
-    mkdir('assets/behaviors')
-    mkdir('assets/blocks')
-    mkdir('assets/blockSounds')
-    mkdir('assets/blockTiles')
-    mkdir('assets/fonts')
-    mkdir('assets/i18n')
-    mkdir('assets/materials')
-    mkdir('assets/mesh')
     mkdir('assets/music')
-    mkdir('assets/prefabs')
-    mkdir('assets/shaders')
-    mkdir('assets/shapes')
-    mkdir('assets/skeletalMesh')
-    mkdir('assets/skins')
     mkdir('assets/sounds')
     mkdir('assets/textures')
-    mkdir('assets/ui')
+    mkdir('assets/configs')
+    mkdir('assets/asteroids')
+    mkdir('assets/schemas')
     mkdir('overrides')
     mkdir('deltas')
     mkdir('src/main/java')
