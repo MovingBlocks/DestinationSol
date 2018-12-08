@@ -52,26 +52,25 @@ public class AsteroidBuilder {
         moduleName = getModule(shipName);
         CollisionMeshLoader tempCML;
         List<TextureAtlas.AtlasRegion> tempTextures;
-        try{
-            tempCML = new CollisionMeshLoader(moduleName+":asteroids");// THIS WORKS
-            tempTextures = Assets.listTexturesMatching(moduleName+":asteroid_.*"); //THIS WORKS
-        }catch(RuntimeException e){
-            tempCML = new CollisionMeshLoader("engine:asteroids");// THIS WORKS
-            tempTextures = Assets.listTexturesMatching("engine:asteroid_.*"); //THIS WORKS
+        try {
+            tempCML = new CollisionMeshLoader(moduleName +":asteroids");
+            tempTextures = Assets.listTexturesMatching(moduleName +":asteroid_.*");
+        } catch (RuntimeException e) {
+            tempCML = new CollisionMeshLoader("engine:asteroids");
+            tempTextures = Assets.listTexturesMatching("engine:asteroid_.*");
         }
         collisionMeshLoader = tempCML;
         textures = tempTextures;
     }
 
-    private String getModule(String shipName){
+    private String getModule(String shipName) {
         Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:playerSpawnConfig");
 
         for (ResourceUrn configUrn : configUrnList) {Json json = Assets.getJson(configUrn.toString());
             JSONObject rootNode = json.getJsonValue();
 
             if (rootNode.keySet().contains(shipName) && rootNode.get(shipName) instanceof JSONObject) {
-                String moduleName = configUrn.toString().split(":")[0];
-                return moduleName;
+                return configUrn.toString().split(":")[0];
             }
         }
         return "engine";
