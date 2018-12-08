@@ -35,12 +35,10 @@ import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.ship.SolShip;
-import org.terasology.module.sandbox.API;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@API
 public class DSParticleEmitter {
 
     private static final float JUMP_SPEED_THRESHOLD = 0.9f;

@@ -16,12 +16,10 @@
 package org.destinationsol.game.console;
 
 import org.destinationsol.game.Console;
-import org.terasology.module.sandbox.API;
 
 /**
  * This functional interface provides a handler for user input for {@link Console}.
  */
-@API
 public interface ConsoleInputHandler {
     /**
      * Handles user input from console.

@@ -16,9 +16,6 @@
 
 package org.destinationsol.game.drawables;
 
-import org.terasology.module.sandbox.API;
-
-@API
 public enum DrawableLevel {
     NEBULAE(11), STARS(10),
     FAR_DECO_3(2.5f), FAR_DECO_2(2f), FAR_DECO_1(1.5f),

@@ -30,7 +30,6 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiControl;
 import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
-import org.terasology.module.sandbox.API;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,7 +39,6 @@ import java.util.List;
  * Command console opened by pressing {@code `} in-game. Singleton, until a better way to handle this is developed.
  * Can be hooked with custom command handlers, thus allowing for custom "programs" of sorts.
  */
-@API
 public class Console implements SolUiScreen {
 
     /**

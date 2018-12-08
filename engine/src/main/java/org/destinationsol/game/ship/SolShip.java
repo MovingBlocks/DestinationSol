@@ -47,11 +47,9 @@ import org.destinationsol.game.item.TradeContainer;
 import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.terasology.module.sandbox.API;
 
 import java.util.List;
 
-@API
 public class SolShip implements SolObject {
     public static final float BASE_DUR_MOD = .3f;
     public static final float PULL_DIST = 2f;

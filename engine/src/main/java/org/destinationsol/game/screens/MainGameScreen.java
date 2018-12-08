@@ -77,7 +77,6 @@ public class MainGameScreen extends SolUiBaseScreen {
 
     private final ZoneNameAnnouncer zoneNameAnnouncer;
     private final BorderDrawer borderDrawer;
-    private final List<WarnDrawer> warnDrawers = new ArrayList<>();
 
     private final TextureAtlas.AtlasRegion lifeTexture;
     private final TextureAtlas.AtlasRegion infinityTexture;
@@ -95,6 +94,8 @@ public class MainGameScreen extends SolUiBaseScreen {
     private final TextPlace myChargesExcessTp;
     private final TextPlace myMoneyExcessTp;
     private final SolApplication solApplication;
+
+    public List<WarnDrawer> warnDrawers = new ArrayList<>();
 
     MainGameScreen(RightPaneLayout rightPaneLayout, Context context) {
         DisplayDimensions displayDimensions = SolApplication.displayDimensions;

@@ -13,24 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.destinationsol.assets.audio;
+package org.destinationsol.game.attributes;
 
-/**
- * A class that stores an OggSound or a set of OggSounds.
- */
-public interface PlayableSound {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-    /**
-     * Returns an OggSound selected from the sound set.
-     *
-     * @return
-     */
-    OggSound getOggSound();
-
-    /**
-     * Returns the common pitch value for all the stored OggSound.
-     *
-     * @return
-     */
-    float getBasePitch();
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface RegisterUpdateSystem {
+    int priority() default 0;
+    boolean paused() default false;
 }

@@ -16,11 +16,8 @@
 
 package org.destinationsol.game.item;
 
-import org.terasology.module.sandbox.API;
-
 import java.util.List;
 
-@API
 public class ItemConfig {
     public final List<SolItem> examples;
     public final int amount;
