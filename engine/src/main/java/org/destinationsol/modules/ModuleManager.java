@@ -107,7 +107,9 @@ public class ModuleManager {
             "sun.reflect",
             "org.json",
             "com.badlogic.gdx.math",
-            "com.badlogic.gdx.graphics"
+            "com.badlogic.gdx.graphics",
+            "com.badlogic.gdx.physics",
+            "com.badlogic.gdx.physics.box2d"
     };
     private static final Class<?>[] CLASS_WHITELIST = new Class<?>[] {
             com.esotericsoftware.reflectasm.MethodAccess.class,
