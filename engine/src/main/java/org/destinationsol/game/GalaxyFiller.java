@@ -50,7 +50,7 @@ public class GalaxyFiller {
     private static final float MAX_STATION_PLANET_DISTANCE = 600;
     private static final float MIN_STATION_MAZE_DISTANCE = 300;
     private static final float MAX_STATION_MAZE_DISTANCE = 800;
-    private static final float MODIFIER_CONSTANT = Math.min(MIN_STATION_MAZE_DISTANCE, MIN_STATION_PLANET_DISTANCE)/10;
+    private static final float MODIFIER_CONSTANT = 20;
 
     private static final float STATION_CONSUME_SECTOR = 45f;
     private final HullConfigManager hullConfigManager;
@@ -59,7 +59,6 @@ public class GalaxyFiller {
 
     private ArrayList<Vector2> planetPositions;
     private ArrayList<Vector2> mazePositions;
-    private ArrayList<Vector2> systemPositions;
 
     public GalaxyFiller(HullConfigManager hullConfigManager) {
         this.hullConfigManager = hullConfigManager;
@@ -88,142 +87,13 @@ public class GalaxyFiller {
         Vector2 stationPos = new Vector2();
         SolMath.fromAl(stationPos, angleToSun, stationDist);
         stationPos.add(planet.getSystem().getPosition());
-        Logger logger = LoggerFactory.getLogger("");
 
         Vector2 nearPlanet = getNearestVector(stationPos, planetPositions);
         Vector2 nearMaze = getNearestVector(stationPos, mazePositions);
-        logger.info("near: "+nearPlanet);
-        logger.info("nearM: "+nearMaze);
-        logger.info("stationPos: "+stationPos);
-        boolean wrongPlanetDist = stationPos.dst(nearPlanet) > MAX_STATION_PLANET_DISTANCE || stationPos.dst(nearPlanet) < MIN_STATION_PLANET_DISTANCE;
-        boolean wrongMazeDist = stationPos.dst(nearMaze) > MAX_STATION_MAZE_DISTANCE || stationPos.dst(nearMaze) < MIN_STATION_MAZE_DISTANCE;
 
-        int timesTryingAgain = 0;
-        int timesAdding = 0;
-        int timeSubtracting = 0;
+        stationPos = computePositionWithConstraints(MIN_STATION_MAZE_DISTANCE, MAX_STATION_MAZE_DISTANCE, stationPos, nearMaze);
+        stationPos = computePositionWithConstraints(MIN_STATION_PLANET_DISTANCE, MAX_STATION_PLANET_DISTANCE, stationPos, nearPlanet);
 
-        boolean planetsDone = false;
-
-        float modifier = MIN_STATION_PLANET_DISTANCE/MODIFIER_CONSTANT;
-
-        while ((wrongPlanetDist || wrongMazeDist) && timesTryingAgain < 4) {
-
-            //to stop infinite loops if the number is borderline
-            if (timesAdding > 3 && timeSubtracting > 3) {
-                timesAdding = 0;
-                timeSubtracting = 0;
-                modifier /= MODIFIER_CONSTANT;
-            }
-
-            if (wrongPlanetDist && !planetsDone) {
-
-                nearPlanet = getNearestVector(stationPos, planetPositions);
-
-                float gapXPlanet = Math.abs(stationPos.x - nearPlanet.x);
-                float gapYPlanet = Math.abs(stationPos.y - nearPlanet.y);
-                float goalRangePlanet = MAX_STATION_PLANET_DISTANCE - MIN_STATION_PLANET_DISTANCE;
-
-                if (gapXPlanet * Math.sqrt(2) >= MAX_STATION_PLANET_DISTANCE) {
-                    if (stationPos.x > nearPlanet.x) {
-                        timeSubtracting++;
-                        stationPos.sub(modifier, 0);
-                    } else {
-                        timesAdding++;
-                        stationPos.add(modifier, 0);
-                    }
-                } else if (gapXPlanet <= MIN_STATION_MAZE_DISTANCE * Math.sqrt(2)) {
-                    if (stationPos.x > nearPlanet.x) {
-                        timesAdding++;
-                        stationPos.add(modifier, 0);
-                    } else {
-                        timeSubtracting++;
-                        stationPos.sub(modifier, 0);
-                    }
-                }
-
-                if (gapYPlanet * Math.sqrt(2) >= MAX_STATION_PLANET_DISTANCE) {
-                    if (stationPos.y > nearPlanet.y) {
-                        timeSubtracting++;
-                        stationPos.sub(0, modifier);
-                    } else {
-                        timesAdding++;
-                        stationPos.add(0, modifier);
-                    }
-                } else if (gapYPlanet <= MIN_STATION_PLANET_DISTANCE * Math.sqrt(2)) {
-                    if (stationPos.y > nearPlanet.y) {
-                        timeSubtracting++;
-                        stationPos.add(0, modifier);
-                    } else {
-                        timesAdding++;
-                        stationPos.sub(0, modifier);
-                    }
-                }
-
-            } else if (!planetsDone) {
-                modifier = MIN_STATION_MAZE_DISTANCE/MODIFIER_CONSTANT;
-
-                timesAdding = 0;
-                timeSubtracting = 0;
-                logger.info("modifier: "+modifier);
-                planetsDone = true;
-            }
-
-            if (planetsDone) {
-
-                nearMaze = getNearestVector(stationPos, mazePositions);
-
-                float gapXMaze = Math.abs(stationPos.x - nearMaze.x);
-                float gapYMaze = Math.abs(stationPos.y - nearMaze.y);
-                float goalRangeMaze = MAX_STATION_MAZE_DISTANCE - MIN_STATION_MAZE_DISTANCE;
-
-                if (gapXMaze * Math.sqrt(2) >= MAX_STATION_MAZE_DISTANCE) {
-                    if (stationPos.x > nearMaze.x) {
-                        timeSubtracting++;
-                        stationPos.sub(modifier, 0);
-                    } else {
-                        timesAdding++;
-                        stationPos.add(modifier, 0);
-                    }
-                } else if (gapXMaze <= MIN_STATION_MAZE_DISTANCE * Math.sqrt(2)) {
-                    if (stationPos.x > nearMaze.x) {
-                        timesAdding++;
-                        stationPos.add(modifier, 0);
-                    } else {
-                        timeSubtracting++;
-                        stationPos.sub(modifier, 0);
-                    }
-                }
-
-                if (gapYMaze * Math.sqrt(2) >= MAX_STATION_MAZE_DISTANCE) {
-                    if (stationPos.y > nearMaze.y) {
-                        timeSubtracting++;
-                        stationPos.sub(0, modifier);
-                    } else {
-                        timesAdding++;
-                        stationPos.add(0, modifier);
-                    }
-                } else if (gapYMaze <= MIN_STATION_MAZE_DISTANCE * Math.sqrt(2)) {
-                    if (stationPos.y > nearMaze.y) {
-                        timesAdding++;
-                        stationPos.add(0, modifier);
-                    } else {
-                        timeSubtracting++;
-                        stationPos.sub(0, modifier);
-                    }
-                }
-            }
-
-            wrongPlanetDist = stationPos.dst(nearPlanet) > MAX_STATION_PLANET_DISTANCE || stationPos.dst(nearPlanet) < MIN_STATION_PLANET_DISTANCE;
-            wrongMazeDist = stationPos.dst(nearMaze) > MAX_STATION_MAZE_DISTANCE || stationPos.dst(nearMaze) < MIN_STATION_MAZE_DISTANCE;
-
-            if (!wrongMazeDist && wrongPlanetDist) {
-                timesTryingAgain++;
-                stationPos = getEmptySpace(game, sys);
-            }
-        }
-        if (timesTryingAgain > 3) {
-            throw new AssertionError("Cannot find place for station to spawn");
-        }
         return stationPos;
     }
 
@@ -304,22 +174,11 @@ public class GalaxyFiller {
         mainStationPos.set(mainStation.getPosition());
         mainStationHc = mainStation.getHullConfig();
 
-       /* Map<String, Map<ShipConfig, Integer>> alliesMap = new HashMap<>();*/
-
         for (SolSystem system : systems) {
             SysConfig sysConfig = system.getConfig();
+
             for (ShipConfig shipConfig : sysConfig.constAllies) {
                 int count = (int) (shipConfig.density);
-/*
-                Map<ShipConfig, Integer> map = new HashMap<>();
-                map.put(shipConfig, count);
-                String name = shipConfig.getHull().getInternalName().split(":")[0].trim();
-
-                if (!alliesMap.containsKey(name)) {
-                    alliesMap.put(name, map);
-                } else {
-                    alliesMap.get(name).put(shipConfig, count);
-                }*/
 
                 for (int i = 0; i < count; i++) {
                     build(game, shipConfig, Faction.LAANI, false, system, angles);
@@ -341,9 +200,6 @@ public class GalaxyFiller {
 
         planetPositions = new ArrayList<>();
         mazePositions = new ArrayList<>();
-        systemPositions = new ArrayList<>();
-        //TODO: fill in system positions, add min/max, move into function at bottom
-
         PlanetManager planetManager = game.getPlanetManager();
         ArrayList<Planet> biggest = new ArrayList<>();
 
@@ -383,11 +239,6 @@ public class GalaxyFiller {
         for (Maze maze : planetManager.getMazes()) {
             mazePositions.add(maze.getPos());
         }
-
-        for (SolSystem system : planetManager.getSystems()) {
-            systemPositions.add(system.getPosition());
-        }
-
     }
 
     private void link(SolGame game, Planet firstPlanet, Planet secondPlanet) {
@@ -478,7 +329,62 @@ public class GalaxyFiller {
         return nearest;
     }
 
-    private Vector2 computePositionWithConstraints(float min, float max, Vector2 current) {
-        return Vector2.Zero;
+    private Vector2 computePositionWithConstraints(float min, float max, Vector2 stationPos, Vector2 nearest) {
+        boolean wrongDistance = stationPos.dst(nearest) > max || stationPos.dst(nearest) < min;
+
+        int timesAdding = 0;
+        int timeSubtracting = 0;
+        float modifier = min / MODIFIER_CONSTANT;
+
+        while (wrongDistance) {
+
+            //to stop infinite loops if the number is borderline
+            if (timesAdding > 3 && timeSubtracting > 3) {
+                timesAdding = 0;
+                timeSubtracting = 0;
+                modifier += 1 / MODIFIER_CONSTANT;
+            }
+
+            float gapX = Math.abs(stationPos.x - nearest.x);
+            float gapY = Math.abs(stationPos.y - nearest.y);
+
+            if (gapX * Math.sqrt(2) >= max) {
+                if (stationPos.x > nearest.x) {
+                    timeSubtracting++;
+                    stationPos.sub(modifier, 0);
+                } else {
+                    timesAdding++;
+                    stationPos.add(modifier, 0);
+                }
+            } else if (gapX <= min * Math.sqrt(2)) {
+                if (stationPos.x > nearest.x) {
+                    timesAdding++;
+                    stationPos.add(modifier, 0);
+                } else {
+                    timeSubtracting++;
+                    stationPos.sub(modifier, 0);
+                }
+            }
+
+            if (gapY * Math.sqrt(2) >= max) {
+                if (stationPos.y > nearest.y) {
+                    timeSubtracting++;
+                    stationPos.sub(0, modifier);
+                } else {
+                    timesAdding++;
+                    stationPos.add(0, modifier);
+                }
+            } else if (gapY <= min * Math.sqrt(2)) {
+                if (stationPos.y > nearest.y) {
+                    timeSubtracting++;
+                    stationPos.add(0, modifier);
+                } else {
+                    timesAdding++;
+                    stationPos.sub(0, modifier);
+                }
+            }
+            wrongDistance = stationPos.dst(nearest) > max || stationPos.dst(nearest) < min;
+        }
+        return stationPos;
     }
 }
