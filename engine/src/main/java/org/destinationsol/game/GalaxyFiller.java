@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 
 public class GalaxyFiller {
+    private static final int LOOP_TIMES = 1000000;
     private static final float MIN_STATION_PLANET_DISTANCE = 200;
     private static final float MAX_STATION_PLANET_DISTANCE = 600;
     private static final float MIN_STATION_MAZE_DISTANCE = 300;
@@ -64,7 +65,7 @@ public class GalaxyFiller {
         this.hullConfigManager = hullConfigManager;
     }
 
-    private Vector2 getPosForStation(SolGame game, SolSystem sys, boolean mainStation, ConsumedAngles angles) {
+    private Vector2 getPosForStation(SolSystem sys, boolean mainStation, ConsumedAngles angles) {
         Planet planet;
         ArrayList<Planet> planets = sys.getPlanets();
         float angleToSun;
@@ -106,7 +107,7 @@ public class GalaxyFiller {
         float detectionDist = Const.AI_DET_DIST;
         TradeConfig tradeConfig = null;
         if (hullConf.getType() == HullConfig.Type.STATION) {
-            position = getPosForStation(game, system, mainStation, angles);
+            position = getPosForStation(system, mainStation, angles);
             destProvider = new NoDestProvider();
             tradeConfig = system.getConfig().tradeConfig;
         } else {
@@ -345,55 +346,37 @@ public class GalaxyFiller {
      */
     private Vector2 computePositionWithConstraints(float min, float max, Vector2 stationPos, Vector2 nearest) {
         boolean wrongDistance = stationPos.dst(nearest) > max || stationPos.dst(nearest) < min;
-
-        int timesAdding = 0;
-        int timeSubtracting = 0;
         float modifier = min / MODIFIER_CONSTANT;
 
         while (wrongDistance) {
-
-            //to stop infinite loops if the number is borderline
-            if (timesAdding > 3 && timeSubtracting > 3) {
-                timesAdding = 0;
-                timeSubtracting = 0;
-                modifier += 1 / MODIFIER_CONSTANT;
-            }
 
             float gapX = Math.abs(stationPos.x - nearest.x);
             float gapY = Math.abs(stationPos.y - nearest.y);
 
             if (gapX * Math.sqrt(2) >= max) {
                 if (stationPos.x > nearest.x) {
-                    timeSubtracting++;
                     stationPos.sub(modifier, 0);
                 } else {
-                    timesAdding++;
                     stationPos.add(modifier, 0);
                 }
-            } else if (gapX <= min * Math.sqrt(2)) {
+            } else if (gapX * Math.sqrt(2) <= min) {
                 if (stationPos.x > nearest.x) {
-                    timesAdding++;
                     stationPos.add(modifier, 0);
                 } else {
-                    timeSubtracting++;
                     stationPos.sub(modifier, 0);
                 }
             }
 
             if (gapY * Math.sqrt(2) >= max) {
                 if (stationPos.y > nearest.y) {
-                    timeSubtracting++;
                     stationPos.sub(0, modifier);
                 } else {
-                    timesAdding++;
                     stationPos.add(0, modifier);
                 }
-            } else if (gapY <= min * Math.sqrt(2)) {
+            } else if (gapY * Math.sqrt(2) <= min) {
                 if (stationPos.y > nearest.y) {
-                    timeSubtracting++;
                     stationPos.add(0, modifier);
                 } else {
-                    timesAdding++;
                     stationPos.sub(0, modifier);
                 }
             }
