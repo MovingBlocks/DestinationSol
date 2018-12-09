@@ -316,6 +316,12 @@ public class GalaxyFiller {
         return mainStationPos;
     }
 
+    /**
+     * Returns the closest vector to a position from an ArrayList.
+     * @param position The vector that others should be close to.
+     * @param others The array list of other vectors.
+     * @return The nearest vector from others.
+     */
     private Vector2 getNearestVector(Vector2 position, ArrayList<Vector2> others) {
         float minDst = Float.MAX_VALUE;
         Vector2 nearest = null;
@@ -329,6 +335,14 @@ public class GalaxyFiller {
         return nearest;
     }
 
+    /**
+     * Adjusts positions of the given vector so that it complies with the given constraints.
+     * @param min The minimum distance from the "nearest" vector.
+     * @param max The maximum distance from the "nearest" vector.
+     * @param stationPos The current position that will be changed.
+     * @param nearest The vector that "stationPos" should be min to max distance away.
+     * @return The new position.
+     */
     private Vector2 computePositionWithConstraints(float min, float max, Vector2 stationPos, Vector2 nearest) {
         boolean wrongDistance = stationPos.dst(nearest) > max || stationPos.dst(nearest) < min;
 
