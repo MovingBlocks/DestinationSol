@@ -46,12 +46,11 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 
 public class GalaxyFiller {
-    private static final int LOOP_TIMES = 1000000;
     private static final float MIN_STATION_PLANET_DISTANCE = 200;
     private static final float MAX_STATION_PLANET_DISTANCE = 600;
     private static final float MIN_STATION_MAZE_DISTANCE = 300;
     private static final float MAX_STATION_MAZE_DISTANCE = 800;
-    private static final float MODIFIER_CONSTANT = 20;
+    private static final float MODIFIER_CONSTANT = 100;
 
     private static final float STATION_CONSUME_SECTOR = 45f;
     private final HullConfigManager hullConfigManager;
@@ -346,7 +345,7 @@ public class GalaxyFiller {
      */
     private Vector2 computePositionWithConstraints(float min, float max, Vector2 stationPos, Vector2 nearest) {
         boolean wrongDistance = stationPos.dst(nearest) > max || stationPos.dst(nearest) < min;
-        float modifier = min / MODIFIER_CONSTANT;
+        float modifier = (max-min)/MODIFIER_CONSTANT;
 
         while (wrongDistance) {
 
@@ -365,19 +364,19 @@ public class GalaxyFiller {
                 } else {
                     stationPos.sub(modifier, 0);
                 }
-            }
-
-            if (gapY * Math.sqrt(2) >= max) {
-                if (stationPos.y > nearest.y) {
-                    stationPos.sub(0, modifier);
-                } else {
-                    stationPos.add(0, modifier);
-                }
-            } else if (gapY * Math.sqrt(2) <= min) {
-                if (stationPos.y > nearest.y) {
-                    stationPos.add(0, modifier);
-                } else {
-                    stationPos.sub(0, modifier);
+            } else {
+                if (gapY * Math.sqrt(2) >= max) {
+                    if (stationPos.y > nearest.y) {
+                        stationPos.sub(0, modifier);
+                    } else {
+                        stationPos.add(0, modifier);
+                    }
+                } else if (gapY * Math.sqrt(2) <= min) {
+                    if (stationPos.y > nearest.y) {
+                        stationPos.add(0, modifier);
+                    } else {
+                        stationPos.sub(0, modifier);
+                    }
                 }
             }
             wrongDistance = stationPos.dst(nearest) > max || stationPos.dst(nearest) < min;
