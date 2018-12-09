@@ -24,10 +24,8 @@ import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.emitters.Emitter;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.assets.textures.DSTexture;
-import org.destinationsol.game.Console;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SaveManager;
-import org.destinationsol.game.console.ConsoleInputHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.assets.ResourceUrn;
@@ -226,15 +224,6 @@ public class ModuleManager {
         System.setSecurityManager(new ModuleSecurityManager());
         environment = new ModuleEnvironment(registry, permissionFactory);
         Assets.initialize(environment);
-
-        for (Class commandHandler : environment.getSubtypesOf(ConsoleInputHandler.class)) {
-            String commandName = commandHandler.getSimpleName().replace("Command", "");
-            try {
-                Console.getInstance().getDefaultInputHandler().registerCommand(commandName, (ConsoleInputHandler) commandHandler.newInstance());
-            } catch (Exception e) {
-                logger.error("Error creating instance of class " + commandHandler.getTypeName());
-            }
-        }
     }
 
     public static ModuleEnvironment getEnvironment() {
