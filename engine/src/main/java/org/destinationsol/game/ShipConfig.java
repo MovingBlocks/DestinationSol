@@ -16,9 +16,7 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.SerializationException;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
@@ -69,13 +67,12 @@ public class ShipConfig {
         return items;
     }
 
-    public static ArrayList<ShipConfig> loadList(JSONArray shipListJson, HullConfigManager hullConfigs, ItemManager itemManager) {
+    public static ArrayList<ShipConfig> loadList(JsonValue shipListJson, HullConfigManager hullConfigs, ItemManager itemManager) {
         ArrayList<ShipConfig> res = new ArrayList<>();
         if (shipListJson == null) {
             return res;
         }
-        for (int i = 0; i < shipListJson.length(); i++) {
-            JSONObject shipNode = shipListJson.getJSONObject(i);
+        for (JsonValue shipNode : shipListJson) {
             ShipConfig c = load(hullConfigs, shipNode, itemManager);
             res.add(c);
         }
@@ -89,12 +86,13 @@ public class ShipConfig {
 
         for (ResourceUrn configUrn : configUrnList) {
             Json json = Assets.getJson(configUrn.toString());
-            JSONObject rootNode = json.getJsonValue();
+            JsonValue rootNode = json.getJsonValue();
 
-            Validator.validate(rootNode, "engine:schemaPlayerSpawnConfig");
-
-            if (rootNode.keySet().contains(shipName) && rootNode.get(shipName) instanceof JSONObject) {
-                shipConfig = load(hullConfigs, rootNode.has(shipName) ? rootNode.getJSONObject(shipName) : null, itemManager);
+            for (JsonValue node : rootNode) {
+                if (node.name.equals(shipName)) {
+                    shipConfig = load(hullConfigs, node, itemManager);
+                    break;
+                }
             }
 
             json.dispose();
@@ -107,24 +105,29 @@ public class ShipConfig {
         return shipConfig;
     }
 
-    public static ShipConfig load(HullConfigManager hullConfigs, JSONObject rootNode, ItemManager itemManager) {
+    public static ShipConfig load(HullConfigManager hullConfigs, JsonValue rootNode, ItemManager itemManager) {
         if (rootNode == null) {
             return null;
         }
 
         String hullName = rootNode.getString("hull");
-        HullConfig hull = hullConfigs.getConfig(hullName);
+        HullConfig hull;
+        try {
+            hull = hullConfigs.getConfig(hullName);
+        } catch (SerializationException e) {
+            throw new SerializationException("The JSON of hull " + hullName + " has invalid syntax at " + e.getMessage().split(" near")[0].split("on ")[1]);
+        }
 
         ShipConfig guard;
-        if (rootNode.has("guard")) {
-            guard = load(hullConfigs, rootNode.getJSONObject("guard"), itemManager);
+        if (rootNode.hasChild("guard")) {
+            guard = load(hullConfigs, rootNode.get("guard"), itemManager);
         } else {
             guard = null;
         }
 
         String items = rootNode.getString("items");
-        int money = rootNode.optInt("money", 0);
-        float density = (float) rootNode.optDouble("density", -1);
+        int money = rootNode.getInt("money", 0);
+        float density = rootNode.getFloat("density", -1);
 
         return new ShipConfig(hull, items, money, density, guard, itemManager);
     }

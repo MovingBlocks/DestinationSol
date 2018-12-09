@@ -16,8 +16,7 @@
 package org.destinationsol.game.particle;
 
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.GameColors;
@@ -41,19 +40,17 @@ public class SpecialEffects {
 
     public SpecialEffects(EffectTypes effectTypes, GameColors colours) {
         Json json = Assets.getJson("core:specialEffectsConfig");
-        JSONObject rootNode = json.getJsonValue();
+        JsonValue rootNode = json.getJsonValue();
 
-        Validator.validate(rootNode, "engine:schemaSpecialEffectsConfig");
-
-        smoke = EffectConfig.load(rootNode.getJSONObject("smoke"), effectTypes, colours);
-        fire = EffectConfig.load(rootNode.getJSONObject("fire"), effectTypes, colours);
-        electricity = EffectConfig.load(rootNode.getJSONObject("electricity"), effectTypes, colours);
-        shipExplosionSmoke = EffectConfig.load(rootNode.getJSONObject("shipExplosionSmoke"), effectTypes, colours);
-        shipExplosionFire = EffectConfig.load(rootNode.getJSONObject("shipExplosionFire"), effectTypes, colours);
-        asteroidDust = EffectConfig.load(rootNode.getJSONObject("asteroidDust"), effectTypes, colours);
-        forceBeacon = EffectConfig.load(rootNode.getJSONObject("forceBeacon"), effectTypes, colours);
-        starPortFlow = EffectConfig.load(rootNode.getJSONObject("starPortFlow"), effectTypes, colours);
-        transcendentWork = EffectConfig.load(rootNode.getJSONObject("transcendentWork"), effectTypes, colours);
+        smoke = EffectConfig.load(rootNode.get("smoke"), effectTypes, colours);
+        fire = EffectConfig.load(rootNode.get("fire"), effectTypes, colours);
+        electricity = EffectConfig.load(rootNode.get("electricity"), effectTypes, colours);
+        shipExplosionSmoke = EffectConfig.load(rootNode.get("shipExplosionSmoke"), effectTypes, colours);
+        shipExplosionFire = EffectConfig.load(rootNode.get("shipExplosionFire"), effectTypes, colours);
+        asteroidDust = EffectConfig.load(rootNode.get("asteroidDust"), effectTypes, colours);
+        forceBeacon = EffectConfig.load(rootNode.get("forceBeacon"), effectTypes, colours);
+        starPortFlow = EffectConfig.load(rootNode.get("starPortFlow"), effectTypes, colours);
+        transcendentWork = EffectConfig.load(rootNode.get("transcendentWork"), effectTypes, colours);
 
         json.dispose();
     }

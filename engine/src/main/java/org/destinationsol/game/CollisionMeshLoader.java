@@ -23,9 +23,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
@@ -61,11 +59,8 @@ public class CollisionMeshLoader {
      */
     public CollisionMeshLoader(String fileName) {
         Json json = Assets.getJson(fileName);
-        JSONObject rootNode = json.getJsonValue();
 
-        Validator.validate(rootNode, "engine:schemaCollisionMesh");
-
-        readModel(rootNode);
+        readModel(json.getJsonValue());
 
         json.dispose();
     }
@@ -162,41 +157,37 @@ public class CollisionMeshLoader {
         return model;
     }
 
-    private void readModel(JSONObject rootNode) {
-        JSONArray rbNode = rootNode.getJSONArray("rigidBodies");
-        for (int i = 0; i < rbNode.length(); i++) {
-            readRigidBody(rbNode.getJSONObject(i));
+    private void readModel(JsonValue rootNode) {
+        for (JsonValue rbNode = rootNode.getChild("rigidBodies"); rbNode != null; rbNode = rbNode.next()) {
+            readRigidBody(rbNode);
         }
     }
 
-    public void readRigidBody(JSONObject rbNode) {
+    public void readRigidBody(JsonValue rbNode) {
         readRigidBody(rbNode, rbNode.getString("name"));
     }
 
-    public void readRigidBody(JSONObject rbNode, HullConfig hullConfig) {
-        String shipName = hullConfig.getInternalName();
+    public void readRigidBody(JsonValue rbNode, HullConfig hullConfig) {
+        String shipName =  hullConfig.getInternalName();
         readRigidBody(rbNode, shipName);
     }
 
-    private void readRigidBody(JSONObject rbNode, String shipName) {
+    private void readRigidBody(JsonValue rbNode, String shipName) {
         RigidBodyModel rbModel = new RigidBodyModel();
         rbModel.name = shipName;
 
-        JSONObject originNode = rbNode.getJSONObject("origin");
-        rbModel.origin.x = (float) originNode.getDouble("x");
-        rbModel.origin.y = 1 - (float) originNode.getDouble("y");
+        JsonValue originNode = rbNode.get("origin");
+        rbModel.origin.x = originNode.getFloat("x");
+        rbModel.origin.y = 1 - originNode.getFloat("y");
 
         // Polygons
-        JSONArray polygonNodeArray = rbNode.getJSONArray("polygons");
-        for (int i = 0; i < polygonNodeArray.length(); i++) {
-            JSONArray polygonNode = polygonNodeArray.getJSONArray(i);
+        for (JsonValue polygonNode = rbNode.get("polygons").child(); polygonNode != null; polygonNode = polygonNode.next()) {
             PolygonModel polygonModel = new PolygonModel();
             rbModel.polygons.add(polygonModel);
 
-            for (int j = 0; j < polygonNode.length(); j++) {
-                JSONObject vertexNode = polygonNode.getJSONObject(j);
-                float x = (float) vertexNode.getDouble("x");
-                float y = 1 - (float) vertexNode.getDouble("y");
+            for (JsonValue vertexNode = polygonNode.child(); vertexNode != null; vertexNode = vertexNode.next()) {
+                float x = vertexNode.get("x").asFloat();
+                float y = 1 - vertexNode.get("y").asFloat();
                 polygonModel.vertices.add(new Vector2(x, y));
             }
 
@@ -205,9 +196,7 @@ public class CollisionMeshLoader {
         }
 
         // Shapes
-        JSONArray shapeNodeArray = rbNode.getJSONArray("shapes");
-        for (int i = 0; i < shapeNodeArray.length(); i++) {
-            JSONObject shapeNode = shapeNodeArray.getJSONObject(i);
+        for (JsonValue shapeNode = rbNode.get("shapes").child(); shapeNode != null; shapeNode = shapeNode.next()) {
             String type = shapeNode.getString("type");
             if (!type.equals("POLYGON")) {
                 continue;
@@ -215,11 +204,9 @@ public class CollisionMeshLoader {
 
             PolygonModel shapeModel = new PolygonModel();
             rbModel.shapes.add(shapeModel);
-            JSONArray vertices = shapeNode.getJSONArray("vertices");
-            for (int j = 0; j < vertices.length(); j++) {
-                JSONObject vertexNode = vertices.getJSONObject(j);
-                float x = (float) vertexNode.getDouble("x");
-                float y = 1 - (float) vertexNode.getDouble("y");
+            for (JsonValue vertexNode = shapeNode.getChild("vertices"); vertexNode != null; vertexNode = vertexNode.next()) {
+                float x = vertexNode.get("x").asFloat();
+                float y = 1 - vertexNode.get("y").asFloat();
                 shapeModel.vertices.add(new Vector2(x, y));
             }
 
@@ -228,16 +215,13 @@ public class CollisionMeshLoader {
         }
 
         // Circles
-        JSONArray circles = rbNode.getJSONArray("circles");
-        for (int i = 0; i < circles.length(); i++) {
+        for (JsonValue circleNode = rbNode.get("circles").child(); circleNode != null; circleNode = circleNode.next()) {
             CircleModel circleModel = new CircleModel();
             rbModel.circles.add(circleModel);
 
-            JSONObject circleNode = circles.getJSONObject(i);
-
-            circleModel.center.x = (float) circleNode.getDouble("cx");
-            circleModel.center.y = 1 - (float) circleNode.getDouble("cy");
-            circleModel.radius = (float) circleNode.getDouble("r");
+            circleModel.center.x = circleNode.getFloat("cx");
+            circleModel.center.y = 1 - circleNode.getFloat("cy");
+            circleModel.radius = circleNode.getFloat("r");
         }
 
         model.rigidBodies.put(rbModel.name, rbModel);

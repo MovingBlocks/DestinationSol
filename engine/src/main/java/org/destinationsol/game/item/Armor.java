@@ -16,8 +16,7 @@
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.OggSoundSet;
@@ -132,16 +131,14 @@ public class Armor implements SolItem {
 
         public static void load(String armorName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
             Json json = Assets.getJson(armorName);
-            JSONObject rootNode = json.getJsonValue();
-
-            Validator.validate(rootNode, "engine:schemaArmor");
+            JsonValue rootNode = json.getJsonValue();
 
             String displayName = rootNode.getString("displayName");
             int price = rootNode.getInt("price");
-            float perc = (float) rootNode.getDouble("perc");
-            List<String> bulletDamageSoundUrns = Assets.convertToStringList(rootNode.getJSONArray("bulletHitSounds"));
-            List<String> energyDamageSoundUrns = Assets.convertToStringList(rootNode.getJSONArray("energyHitSounds"));
-            float basePitch = (float) rootNode.getDouble("baseSoundPitch");
+            float perc = rootNode.getFloat("perc");
+            List<String> bulletDamageSoundUrns = Arrays.asList(rootNode.get("bulletHitSounds").asStringArray());
+            List<String> energyDamageSoundUrns = Arrays.asList(rootNode.get("energyHitSounds").asStringArray());
+            float basePitch = rootNode.getFloat("baseSoundPitch", 1);
             OggSoundSet bulletDmgSound = new OggSoundSet(soundManager, bulletDamageSoundUrns, basePitch);
             OggSoundSet energyDmgSound = new OggSoundSet(soundManager, energyDamageSoundUrns, basePitch);
 

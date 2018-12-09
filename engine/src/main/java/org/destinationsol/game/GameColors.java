@@ -16,8 +16,7 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.Color;
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolColorUtil;
@@ -35,13 +34,11 @@ public class GameColors {
 
     public GameColors() {
         Json json = Assets.getJson("core:colorsConfig");
-        JSONObject rootNode = json.getJsonValue();
+        JsonValue rootNode = json.getJsonValue();
 
-        Validator.validate(rootNode, "engine:schemaColorsConfig");
-
-        for (String key : rootNode.keySet()) {
-            Color c = load(rootNode.getString(key));
-            colors.put(key, c);
+        for (JsonValue colVal : rootNode) {
+            Color c = load(colVal.asString());
+            colors.put(colVal.name, c);
         }
 
         json.dispose();

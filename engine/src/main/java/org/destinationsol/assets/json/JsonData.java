@@ -15,17 +15,17 @@
  */
 package org.destinationsol.assets.json;
 
-import org.json.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
 import org.terasology.assets.AssetData;
 
 public class JsonData implements AssetData {
-    private JSONObject jsonValue;
+    private JsonValue jsonValue;
 
-    public JsonData(JSONObject jsonValue) {
+    public JsonData(JsonValue jsonValue) {
         this.jsonValue = jsonValue;
     }
 
-    public JSONObject getJsonValue() {
+    public JsonValue getJsonValue() {
         return jsonValue;
     }
 }

@@ -15,8 +15,7 @@
  */
 package org.destinationsol.game;
 
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.files.HullConfigManager;
@@ -35,14 +34,12 @@ public class PlayerSpawnConfig {
 
     public static PlayerSpawnConfig load(HullConfigManager hullConfigs, ItemManager itemManager) {
         Json json = Assets.getJson("engine:playerSpawnConfig");
-        JSONObject rootNode = json.getJsonValue();
+        JsonValue rootNode = json.getJsonValue();
 
-        Validator.validate(rootNode, "engine:schemaPlayerSpawnConfig");
-
-        JSONObject playerNode = rootNode.getJSONObject("player");
-        ShipConfig shipConfig = ShipConfig.load(hullConfigs, playerNode.has("ship") ? playerNode.getJSONObject("ship") : null, itemManager);
-        ShipConfig godShipConfig = ShipConfig.load(hullConfigs, playerNode.has("godModeShip") ? playerNode.getJSONObject("godModeShip") : null, itemManager);
-        ShipConfig mainStation = ShipConfig.load(hullConfigs, rootNode.has("mainStation") ? rootNode.getJSONObject("mainStation") : null, itemManager);
+        JsonValue playerNode = rootNode.get("player");
+        ShipConfig shipConfig = ShipConfig.load(hullConfigs, playerNode.get("ship"), itemManager);
+        ShipConfig godShipConfig = ShipConfig.load(hullConfigs, playerNode.get("godModeShip"), itemManager);
+        ShipConfig mainStation = ShipConfig.load(hullConfigs, rootNode.get("mainStation"), itemManager);
 
         json.dispose();
 

@@ -16,8 +16,7 @@
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.SolGame;
@@ -123,9 +122,7 @@ public class Engine implements SolItem {
 
         public static Config load(String engineName) {
             Json json = Assets.getJson(engineName);
-            JSONObject rootNode = json.getJsonValue();
-
-            Validator.validate(rootNode, "engine:schemaEngine");
+            JsonValue rootNode = json.getJsonValue();
 
             boolean isBig = rootNode.getBoolean("big");
             float rotationAcceleration = isBig ? 100f : 515f;

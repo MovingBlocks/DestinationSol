@@ -17,7 +17,7 @@
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
-import org.json.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -90,9 +90,9 @@ public class EmWave implements ShipAbility {
             this.cc = cc;
         }
 
-        public static AbilityConfig load(JSONObject abNode, ItemManager itemManager, AbilityCommonConfig cc) {
-            float rechargeTime = (float) abNode.getDouble("rechargeTime");
-            float duration = (float) abNode.getDouble("duration");
+        public static AbilityConfig load(JsonValue abNode, ItemManager itemManager, AbilityCommonConfig cc) {
+            float rechargeTime = abNode.getFloat("rechargeTime");
+            float duration = abNode.getFloat("duration");
             SolItem chargeExample = itemManager.getExample("emWaveCharge");
             return new Config(rechargeTime, chargeExample, duration, cc);
         }

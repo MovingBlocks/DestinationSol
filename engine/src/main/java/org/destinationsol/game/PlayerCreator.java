@@ -121,7 +121,7 @@ class PlayerCreator {
                 money,
                 null,
                 giveAmmo);
-        return new Hero(farShip.toObject(game), game);
+        return new Hero(farShip.toObject(game));
     }
 
     private boolean shouldGiveAmmo(RespawnState respawnState, boolean isNewShip) {

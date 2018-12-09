@@ -16,8 +16,7 @@
 package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.SolGame;
@@ -99,11 +98,9 @@ public class AbilityCharge implements SolItem {
 
         public static void load(String abilityName, ItemManager itemManager, SolItemTypes types) {
             Json json = Assets.getJson(abilityName);
-            JSONObject rootNode = json.getJsonValue();
+            JsonValue rootNode = json.getJsonValue();
 
-            Validator.validate(rootNode, "engine:schemaAbilityCharges");
-
-            float price = (float) rootNode.getDouble("price");
+            float price = rootNode.getFloat("price");
             String displayName = rootNode.getString("displayName");
             String desc = rootNode.getString("desc");
 

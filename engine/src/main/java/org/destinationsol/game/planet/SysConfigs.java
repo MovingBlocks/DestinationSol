@@ -15,8 +15,7 @@
  */
 package org.destinationsol.game.planet;
 
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolRandom;
@@ -50,20 +49,15 @@ public class SysConfigs {
 
     private void load(String configName, HullConfigManager hullConfigs, boolean belts, ItemManager itemManager) {
         Json json = Assets.getJson("engine:" + configName);
-        JSONObject rootNode = json.getJsonValue();
+        JsonValue rootNode = json.getJsonValue();
 
-        Validator.validate(rootNode, "engine:schemaSystemsConfig");
+        for (JsonValue node : rootNode) {
+            String name = node.name;
 
-        for (String s : rootNode.keySet()) {
-            if (!(rootNode.get(s) instanceof JSONObject))
-                continue;
-            JSONObject node = rootNode.getJSONObject(s);
-            String name = s;
-
-            boolean hard = node.optBoolean("hard", false);
+            boolean hard = node.getBoolean("hard", false);
             Map<String, SysConfig> configs = belts ? hard ? hardBeltConfigs : beltConfigs : hard ? hardConfigs : this.configs;
 
-            SpaceEnvConfig envConfig = new SpaceEnvConfig(node.getJSONObject("environment"));
+            SpaceEnvConfig envConfig = new SpaceEnvConfig(node.get("environment"));
 
             SysConfig config = new SysConfig(name, new ArrayList<>(), envConfig, new ArrayList<>(), new ArrayList<>(), new TradeConfig(), new ArrayList<>(), hard);
             configs.put(name, config);
@@ -77,30 +71,25 @@ public class SysConfigs {
             json = Assets.getJson(configUrn.toString());
             rootNode = json.getJsonValue();
 
-            Validator.validate(rootNode, "engine:schemaSystemsConfig");
+            for (JsonValue node : rootNode) {
+                String name = node.name;
 
-            for (String s : rootNode.keySet()) {
-                if (!(rootNode.get(s) instanceof JSONObject))
-                    continue;
-                JSONObject node = rootNode.getJSONObject(s);
-                String name = s;
-
-                boolean hard = node.optBoolean("hard", false);
+                boolean hard = node.getBoolean("hard", false);
                 Map<String, SysConfig> configs = belts ? hard ? hardBeltConfigs : beltConfigs : hard ? hardConfigs : this.configs;
 
                 SysConfig config = configs.get(name);
 
                 // TODO : Maybe add sanity checks for config?
 
-                config.tempEnemies.addAll(ShipConfig.loadList(node.has("temporaryEnemies") ? node.getJSONArray("temporaryEnemies") : null, hullConfigs, itemManager));
-                config.innerTempEnemies.addAll(ShipConfig.loadList(node.has("innerTemporaryEnemies") ? node.getJSONArray("innerTemporaryEnemies") : null, hullConfigs, itemManager));
+                config.tempEnemies.addAll(ShipConfig.loadList(node.get("temporaryEnemies"), hullConfigs, itemManager));
+                config.innerTempEnemies.addAll(ShipConfig.loadList(node.get("innerTemporaryEnemies"), hullConfigs, itemManager));
 
                 if (!belts) {
-                    config.constEnemies.addAll(ShipConfig.loadList(node.has("constantEnemies") ? node.getJSONArray("constantEnemies") : null, hullConfigs, itemManager));
-                    config.constAllies.addAll(ShipConfig.loadList(node.has("constantAllies") ? node.getJSONArray("constantAllies") : null, hullConfigs, itemManager));
+                    config.constEnemies.addAll(ShipConfig.loadList(node.get("constantEnemies"), hullConfigs, itemManager));
+                    config.constAllies.addAll(ShipConfig.loadList(node.get("constantAllies"), hullConfigs, itemManager));
                 }
 
-                config.tradeConfig.load(node.has("trading") ? node.getJSONObject("trading") : null, hullConfigs, itemManager);
+                config.tradeConfig.load(node.get("trading"), hullConfigs, itemManager);
             }
 
             json.dispose();

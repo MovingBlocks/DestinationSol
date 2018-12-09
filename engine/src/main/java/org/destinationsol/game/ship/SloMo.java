@@ -17,7 +17,7 @@
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
-import org.json.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.SolGame;
@@ -83,9 +83,9 @@ public class SloMo implements ShipAbility {
             this.cc = cc;
         }
 
-        public static AbilityConfig load(JSONObject abNode, ItemManager itemManager, AbilityCommonConfig cc) {
-            float factor = (float) abNode.getDouble("factor");
-            float rechargeTime = (float) abNode.getDouble("rechargeTime");
+        public static AbilityConfig load(JsonValue abNode, ItemManager itemManager, AbilityCommonConfig cc) {
+            float factor = abNode.getFloat("factor");
+            float rechargeTime = abNode.getFloat("rechargeTime");
             SolItem chargeExample = itemManager.getExample("sloMoCharge");
             return new Config(factor, rechargeTime, chargeExample, cc);
         }

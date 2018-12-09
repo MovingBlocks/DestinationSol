@@ -17,7 +17,7 @@
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
-import org.json.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.SolGame;
@@ -104,13 +104,12 @@ public class KnockBack implements ShipAbility {
             this.cc = cc;
         }
 
-        public static AbilityConfig load(JSONObject abNode, ItemManager itemManager, AbilityCommonConfig cc) {
-            float rechargeTime = (float) abNode.getDouble("rechargeTime");
-            float force = (float) abNode.getDouble("force");
+        public static AbilityConfig load(JsonValue abNode, ItemManager itemManager, AbilityCommonConfig cc) {
+            float rechargeTime = abNode.getFloat("rechargeTime");
+            float force = abNode.getFloat("force");
             SolItem chargeExample = itemManager.getExample("knockBackCharge");
             return new Config(rechargeTime, chargeExample, force, cc);
         }
-
 
         @Override
         public ShipAbility build() {

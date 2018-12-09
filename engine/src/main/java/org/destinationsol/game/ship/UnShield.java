@@ -17,7 +17,7 @@
 package org.destinationsol.game.ship;
 
 import com.badlogic.gdx.math.Vector2;
-import org.json.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.DmgType;
@@ -104,9 +104,9 @@ public class UnShield implements ShipAbility {
             this.cc = cc;
         }
 
-        public static AbilityConfig load(JSONObject abNode, ItemManager itemManager, AbilityCommonConfig cc) {
-            float rechargeTime = (float) abNode.getDouble("rechargeTime");
-            float amount = (float) abNode.getDouble("amount");
+        public static AbilityConfig load(JsonValue abNode, ItemManager itemManager, AbilityCommonConfig cc) {
+            float rechargeTime = abNode.getFloat("rechargeTime");
+            float amount = abNode.getFloat("amount");
             SolItem chargeExample = itemManager.getExample("unShieldCharge");
             return new Config(rechargeTime, chargeExample, amount, cc);
         }

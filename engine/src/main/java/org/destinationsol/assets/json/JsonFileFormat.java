@@ -17,7 +17,7 @@ package org.destinationsol.assets.json;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
-import org.json.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.AssetHelper;
 import org.terasology.assets.ResourceUrn;
 import org.terasology.assets.format.AbstractAssetFileFormat;
@@ -39,7 +39,7 @@ public class JsonFileFormat extends AbstractAssetFileFormat<JsonData> {
         String path = AssetHelper.resolveToPath(inputs);
 
         FileHandle handle = new FileHandle(Paths.get(path).toFile());
-        JSONObject jsonValue = new JSONObject(handle.readString());
+        JsonValue jsonValue = new JsonReader().parse(handle.readString());
 
         return new JsonData(jsonValue);
     }

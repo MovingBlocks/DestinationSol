@@ -17,8 +17,7 @@ package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.assets.json.Validator;
-import org.json.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.OggSoundManager;
@@ -184,20 +183,18 @@ public class Shield implements SolItem {
 
         public static void load(String shieldName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
             Json json = Assets.getJson(shieldName);
-            JSONObject rootNode = json.getJsonValue();
-
-            Validator.validate(rootNode, "engine:schemaShield");
+            JsonValue rootNode = json.getJsonValue();
 
             int maxLife = rootNode.getInt("maxLife");
-            float idleTime = (float) rootNode.getDouble("idleTime");
-            float regenSpeed = (float) rootNode.getDouble("regenSpd");
-            float bulletDmgFactor = (float) rootNode.getDouble("bulletDmgFactor");
-            float energyDmgFactor = (float) rootNode.getDouble("energyDmgFactor");
-            float explosionDmgFactor = (float) rootNode.getDouble("explosionDmgFactor");
+            float idleTime = rootNode.getFloat("idleTime");
+            float regenSpeed = rootNode.getFloat("regenSpd");
+            float bulletDmgFactor = rootNode.getFloat("bulletDmgFactor");
+            float energyDmgFactor = rootNode.getFloat("energyDmgFactor");
+            float explosionDmgFactor = rootNode.getFloat("explosionDmgFactor");
             String displayName = rootNode.getString("displayName");
             int price = rootNode.getInt("price");
             String absorbUrn = rootNode.getString("absorbSound");
-            float absorbPitch = (float) rootNode.optDouble("absorbSoundPitch", 1);
+            float absorbPitch = rootNode.getFloat("absorbSoundPitch", 1);
             OggSound absorbSound = soundManager.getSound(absorbUrn, absorbPitch);
             String regenUrn = rootNode.getString("regenSound");
             OggSound regenSound = soundManager.getSound(regenUrn);
