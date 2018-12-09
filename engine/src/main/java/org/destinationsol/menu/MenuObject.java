@@ -17,5 +17,6 @@ package org.destinationsol.menu;
 
 public interface MenuObject {
 
+    void update();
 
 }

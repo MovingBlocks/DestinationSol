@@ -100,9 +100,6 @@ public class MainMenuScreen extends SolUiBaseScreen {
 
         backgroundManager = new MenuBackgroundManager("engine:asteroids", displayDimensions);
 
-        for (int i = 0; i < 10; i++) {
-            BackgroundAsteroids.add(backgroundManager.buildAsteroid());
-        }
     }
 
     @Override
@@ -140,22 +137,6 @@ public class MainMenuScreen extends SolUiBaseScreen {
             inputManager.setScreen(solApplication, screens.credits);
         }
 
-        retainedBackgroundAsteroids.clear();
-
-        float radius = (float)Math.sqrt(0.25 + Math.pow(displayDimensions.getRatio()/2, 2));
-        for (BackgroundAsteroid BackgroundAsteroid : BackgroundAsteroids) {
-            BackgroundAsteroid.update();
-
-            float distance = (float)Math.sqrt(Math.pow(BackgroundAsteroid.getPosition().x - displayDimensions.getRatio()/2, 2) + Math.pow(BackgroundAsteroid.getPosition().y - 0.5f, 2));
-            if (distance < radius) {
-                retainedBackgroundAsteroids.add(BackgroundAsteroid);
-            } else {
-                retainedBackgroundAsteroids.add(backgroundManager.buildAsteroid());
-            }
-        }
-
-        BackgroundAsteroids.clear();
-        BackgroundAsteroids.addAll(retainedBackgroundAsteroids);
 
         backgroundManager.update();
     }
@@ -178,9 +159,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
             uiDrawer.draw(logoTexture, sx, sy, sx / 2, sy / 2, displayDimensions.getRatio() / 2, 0.1f + sy / 2, 0, SolColor.WHITE);
         }
 
-        for (BackgroundAsteroid BackgroundAsteroid : BackgroundAsteroids) {
-            BackgroundAsteroid.draw(uiDrawer);
-        }
+        backgroundManager.draw(uiDrawer);
     }
 
     /**

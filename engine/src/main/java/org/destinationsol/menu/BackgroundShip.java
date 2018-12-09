@@ -15,12 +15,23 @@
  */
 package org.destinationsol.menu;
 
-import org.destinationsol.game.input.Pilot;
+import com.badlogic.gdx.physics.box2d.World;
+import org.destinationsol.ui.DisplayDimensions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BackgroundShip implements MenuObject {
-    //private final Pilot pilot;
+    private static final Logger logger = LoggerFactory.getLogger(BackgroundShip.class);
 
-    public BackgroundShip() {
+    private final DisplayDimensions displayDimensions;
+
+    public BackgroundShip(DisplayDimensions displayDimensions, World world) {
+        MenuMeshLoader shipMesh = new MenuMeshLoader("engine:menuships", world);
+        this.displayDimensions = displayDimensions;
+    }
+
+    @Override
+    public void update() {
 
     }
 
