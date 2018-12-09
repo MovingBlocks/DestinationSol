@@ -535,4 +535,8 @@ public class SolGame {
     public SolApplication getSolApplication() {
         return solApplication;
     }
+
+    public HullConfigManager getHullConfigManager() {
+        return hullConfigManager;
+    }
 }
