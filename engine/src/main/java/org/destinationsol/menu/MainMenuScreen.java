@@ -18,14 +18,26 @@ package org.destinationsol.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.common.SolColorUtil;
+import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.GameDrawer;
+import org.destinationsol.game.drawables.Drawable;
+import org.destinationsol.game.drawables.DrawableLevel;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
@@ -40,11 +52,16 @@ public class MainMenuScreen extends SolUiBaseScreen {
     private final TextureAtlas.AtlasRegion backgroundTexture;
     private DisplayDimensions displayDimensions;
 
+    private List<BackgroundAsteroid> BackgroundAsteroids = new ArrayList<>();
+    private List<BackgroundAsteroid> retainedBackgroundAsteroids = new ArrayList<>();
+
     private final SolUiControl tutorialControl;
     private final SolUiControl optionsControl;
     private final SolUiControl exitControl;
     private final SolUiControl newGameControl;
     private final SolUiControl creditsControl;
+
+    private final MenuBackgroundManager backgroundManager;
 
     private final int buttonWidth = 300;
     private final int buttonHeight = 75;
@@ -80,6 +97,12 @@ public class MainMenuScreen extends SolUiBaseScreen {
 
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
         logoTexture = Assets.getAtlasRegion("engine:mainMenuLogo", Texture.TextureFilter.Linear);
+
+        backgroundManager = new MenuBackgroundManager("engine:asteroids", displayDimensions);
+
+        for (int i = 0; i < 10; i++) {
+            BackgroundAsteroids.add(backgroundManager.buildAsteroid());
+        }
     }
 
     @Override
@@ -116,6 +139,25 @@ public class MainMenuScreen extends SolUiBaseScreen {
         if (creditsControl.isJustOff()) {
             inputManager.setScreen(solApplication, screens.credits);
         }
+
+        retainedBackgroundAsteroids.clear();
+
+        float radius = (float)Math.sqrt(0.25 + Math.pow(displayDimensions.getRatio()/2, 2));
+        for (BackgroundAsteroid BackgroundAsteroid : BackgroundAsteroids) {
+            BackgroundAsteroid.update();
+
+            float distance = (float)Math.sqrt(Math.pow(BackgroundAsteroid.getPosition().x - displayDimensions.getRatio()/2, 2) + Math.pow(BackgroundAsteroid.getPosition().y - 0.5f, 2));
+            if (distance < radius) {
+                retainedBackgroundAsteroids.add(BackgroundAsteroid);
+            } else {
+                retainedBackgroundAsteroids.add(backgroundManager.buildAsteroid());
+            }
+        }
+
+        BackgroundAsteroids.clear();
+        BackgroundAsteroids.addAll(retainedBackgroundAsteroids);
+
+        backgroundManager.update();
     }
 
     @Override
@@ -135,6 +177,10 @@ public class MainMenuScreen extends SolUiBaseScreen {
         if (!DebugOptions.PRINT_BALANCE) {
             uiDrawer.draw(logoTexture, sx, sy, sx / 2, sy / 2, displayDimensions.getRatio() / 2, 0.1f + sy / 2, 0, SolColor.WHITE);
         }
+
+        for (BackgroundAsteroid BackgroundAsteroid : BackgroundAsteroids) {
+            BackgroundAsteroid.draw(uiDrawer);
+        }
     }
 
     /**
@@ -144,4 +190,5 @@ public class MainMenuScreen extends SolUiBaseScreen {
     private int calculateButtonOffsetFromBottom(int buttonIndex) {
         return -(buttonPadding + buttonHeight / 2) - (buttonIndex * (buttonPadding + buttonHeight));
     }
+    
 }
