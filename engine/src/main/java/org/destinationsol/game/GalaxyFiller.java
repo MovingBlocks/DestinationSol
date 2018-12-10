@@ -49,7 +49,9 @@ public class GalaxyFiller {
     private static final float MIN_STATION_PLANET_DISTANCE = 200;
     private static final float MAX_STATION_PLANET_DISTANCE = 600;
     private static final float MIN_STATION_MAZE_DISTANCE = 300;
-    private static final float MAX_STATION_MAZE_DISTANCE = 800;
+    private static final float MAX_STATION_MAZE_DISTANCE = 700;
+    private static final float MIN_STATION_SYSTEM_DISTANCE = 400;
+    private static final float MAX_STATION_SYSTEM_DISTANCE = 800;
     private static final float MODIFIER_CONSTANT = 100;
 
     private static final float STATION_CONSUME_SECTOR = 45f;
@@ -59,6 +61,7 @@ public class GalaxyFiller {
 
     private ArrayList<Vector2> planetPositions;
     private ArrayList<Vector2> mazePositions;
+    private ArrayList<Vector2> systemPositions;
 
     public GalaxyFiller(HullConfigManager hullConfigManager) {
         this.hullConfigManager = hullConfigManager;
@@ -88,11 +91,9 @@ public class GalaxyFiller {
         SolMath.fromAl(stationPos, angleToSun, stationDist);
         stationPos.add(planet.getSystem().getPosition());
 
-        Vector2 nearPlanet = getNearestVector(stationPos, planetPositions);
-        Vector2 nearMaze = getNearestVector(stationPos, mazePositions);
-
-        stationPos = computePositionWithConstraints(MIN_STATION_MAZE_DISTANCE, MAX_STATION_MAZE_DISTANCE, stationPos, nearMaze);
-        stationPos = computePositionWithConstraints(MIN_STATION_PLANET_DISTANCE, MAX_STATION_PLANET_DISTANCE, stationPos, nearPlanet);
+        stationPos = computePositionWithConstraints(MIN_STATION_MAZE_DISTANCE, MAX_STATION_MAZE_DISTANCE, stationPos, getNearestVector(stationPos, mazePositions));
+        stationPos = computePositionWithConstraints(MIN_STATION_PLANET_DISTANCE, MAX_STATION_PLANET_DISTANCE, stationPos, getNearestVector(stationPos, planetPositions));
+        stationPos = computePositionWithConstraints(MIN_STATION_SYSTEM_DISTANCE, MAX_STATION_SYSTEM_DISTANCE, stationPos, getNearestVector(stationPos, systemPositions));
 
         return stationPos;
     }
@@ -200,6 +201,8 @@ public class GalaxyFiller {
 
         planetPositions = new ArrayList<>();
         mazePositions = new ArrayList<>();
+        systemPositions = new ArrayList<>();
+
         PlanetManager planetManager = game.getPlanetManager();
         ArrayList<Planet> biggest = new ArrayList<>();
 
@@ -238,6 +241,10 @@ public class GalaxyFiller {
 
         for (Maze maze : planetManager.getMazes()) {
             mazePositions.add(maze.getPos());
+        }
+
+        for (SolSystem system : planetManager.getSystems()) {
+            systemPositions.add(system.getPosition());
         }
     }
 
