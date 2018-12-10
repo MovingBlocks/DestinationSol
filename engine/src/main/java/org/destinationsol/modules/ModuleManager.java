@@ -107,7 +107,10 @@ public class ModuleManager {
             "sun.reflect",
             "org.json",
             "com.badlogic.gdx.math",
+            // Many classes still use LibGDX directly
             "com.badlogic.gdx.graphics",
+            "com.badlogic.gdx.graphics.g2d",
+            // The hull config exposes a box2d body instance
             "com.badlogic.gdx.physics",
             "com.badlogic.gdx.physics.box2d"
     };
