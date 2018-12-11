@@ -15,24 +15,60 @@
  */
 package org.destinationsol.menu;
 
-import com.badlogic.gdx.physics.box2d.World;
-import org.destinationsol.ui.DisplayDimensions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import org.destinationsol.common.SolColor;
+import org.destinationsol.ui.UiDrawer;
 
-public class BackgroundShip implements MenuObject {
-    private static final Logger logger = LoggerFactory.getLogger(BackgroundShip.class);
+public class BackgroundShip {
+    private TextureAtlas.AtlasRegion texture;
 
-    private final DisplayDimensions displayDimensions;
+    private float scale;
 
-    public BackgroundShip(DisplayDimensions displayDimensions, World world) {
-        MenuMeshLoader shipMesh = new MenuMeshLoader("engine:menuships", world);
-        this.displayDimensions = displayDimensions;
+    private Vector2 position;
+    private Vector2 velocity;
+
+    private float angle;
+
+    private float orgX;
+    private float orgY;
+
+    private Color tint;
+
+    private Body body;
+
+
+    public BackgroundShip (TextureAtlas.AtlasRegion texture, float scale, Vector2 position, Vector2 velocity, float angle, float orgX, float orgY, Body body) {
+        this.texture = texture;
+        this.scale = scale;
+        this.position = position;
+        this.velocity = velocity;
+        this.angle = angle;
+        this.orgX = orgX;
+        this.orgY = orgY;
+        this.body = body;
+        tint = SolColor.WHITE;
     }
 
-    @Override
-    public void update() {
+    public void setParamsFromBody() {
+        position.set(body.getPosition());
+        velocity.set(body.getLinearVelocity());
+        angle = body.getAngle() * MathUtils.radDeg;
+    }
 
+    public void update() {
+        setParamsFromBody();
+    }
+
+    public void draw(UiDrawer drawer) {
+        drawer.draw(texture, scale, scale, orgX, orgY, position.x, position.y, angle, tint);
+    }
+
+    public Vector2 getPosition() {
+        return position;
     }
 
 }

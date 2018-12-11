@@ -22,7 +22,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import org.destinationsol.ui.UiDrawer;
 
-public class BackgroundAsteroid implements MenuObject {
+public class BackgroundAsteroid {
 
     private TextureAtlas.AtlasRegion texture;
 
@@ -33,18 +33,16 @@ public class BackgroundAsteroid implements MenuObject {
     private Vector2 velocity;
 
     private float angle;
-    private float angularVelocity;
 
     private Body body;
 
-    public BackgroundAsteroid(TextureAtlas.AtlasRegion texture, float scale, Color tint, Vector2 position, Vector2 velocity, float angle, float angularVelocity, Body body) {
+    public BackgroundAsteroid(TextureAtlas.AtlasRegion texture, float scale, Color tint, Vector2 position, Vector2 velocity, float angle, Body body) {
         this.texture = texture;
         this.scale = scale;
         this.tint = tint;
         this.position = position;
         this.velocity = velocity;
         this.angle = angle;
-        this.angularVelocity = angularVelocity;
         this.body = body;
     }
 

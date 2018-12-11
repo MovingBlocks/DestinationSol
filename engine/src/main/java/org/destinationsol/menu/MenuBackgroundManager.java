@@ -26,6 +26,7 @@ public class MenuBackgroundManager {
 
     private final DisplayDimensions displayDimensions;
     private final BackgroundAsteroidManager asteroidManager;
+    private final BackgroundShipManager shipManager;
 
     public MenuBackgroundManager(String fileName, DisplayDimensions displayDimensions) {
         world = new World(new Vector2(0, 0), true);
@@ -34,15 +35,18 @@ public class MenuBackgroundManager {
         this.displayDimensions = displayDimensions;
 
         asteroidManager = new BackgroundAsteroidManager(displayDimensions, world);
+        shipManager = new BackgroundShipManager(displayDimensions, world);
     }
 
     public void update() {
         asteroidManager.update();
+        shipManager.update();
         world.step(Const.REAL_TIME_STEP, 6, 2);
     }
 
     public void draw(UiDrawer uiDrawer) {
         asteroidManager.draw(uiDrawer);
+        shipManager.draw(uiDrawer);
     }
 
 }
