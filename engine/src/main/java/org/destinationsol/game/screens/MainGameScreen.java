@@ -47,6 +47,7 @@ import org.destinationsol.ui.FontSize;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.SolUiControl;
+import org.destinationsol.ui.SolUiScreen;
 import org.destinationsol.ui.UiDrawer;
 
 import java.util.ArrayList;
@@ -95,7 +96,8 @@ public class MainGameScreen extends SolUiBaseScreen {
     private final TextPlace myMoneyExcessTp;
     private final SolApplication solApplication;
 
-    public List<WarnDrawer> warnDrawers = new ArrayList<>();
+    private List<SolUiScreen> gameOverlayScreens = new ArrayList<>();
+    private List<WarnDrawer> warnDrawers = new ArrayList<>();
 
     MainGameScreen(RightPaneLayout rightPaneLayout, Context context) {
         DisplayDimensions displayDimensions = SolApplication.displayDimensions;
@@ -293,6 +295,10 @@ public class MainGameScreen extends SolUiBaseScreen {
         if (consoleControlGrave.isJustOff() || consoleControlF1.isJustOff()) {
             inputMan.setScreen(solApplication, screens.console);
         }
+
+        for (SolUiScreen screen : gameOverlayScreens) {
+            screen.updateCustom(solApplication, inputPointers, clickedOutside);
+        }
     }
 
     private void updateTalk(SolGame game) {
@@ -475,6 +481,10 @@ public class MainGameScreen extends SolUiBaseScreen {
                 wd.draw(uiDrawer, drawPlace++);
             }
         }
+
+        for (SolUiScreen screen : gameOverlayScreens) {
+            screen.drawImages(uiDrawer, solApplication);
+        }
     }
 
     @Override
@@ -497,11 +507,19 @@ public class MainGameScreen extends SolUiBaseScreen {
         }
 
         zoneNameAnnouncer.drawText(uiDrawer);
+
+        for (SolUiScreen screen : gameOverlayScreens) {
+            screen.drawText(uiDrawer, solApplication);
+        }
     }
 
     @Override
     public void blurCustom(SolApplication solApplication) {
         shipControl.blur();
+
+        for (SolUiScreen screen : gameOverlayScreens) {
+            screen.blurCustom(solApplication);
+        }
     }
 
     public boolean isLeft() {
@@ -546,6 +564,35 @@ public class MainGameScreen extends SolUiBaseScreen {
 
     public boolean isCameraRight() {
         return cameraControl.isRight();
+    }
+
+    public void addOverlayScreen(SolUiScreen screen) {
+        gameOverlayScreens.add(screen);
+        screen.onAdd(solApplication);
+        controls.addAll(screen.getControls());
+    }
+
+    public void removeOverlayScreen(SolUiScreen screen) {
+        gameOverlayScreens.remove(screen);
+        controls.removeAll(screen.getControls());
+    }
+
+    public boolean hasOverlay(SolUiScreen screen) {
+        return gameOverlayScreens.contains(screen);
+    }
+
+    public void addWarnDrawer(WarnDrawer drawer) {
+        if (!warnDrawers.contains(drawer)) {
+            warnDrawers.add(drawer);
+        }
+    }
+
+    public void removeWarnDrawer(WarnDrawer drawer) {
+        warnDrawers.remove(drawer);
+    }
+
+    public boolean hasWarnDrawer(WarnDrawer drawer) {
+        return warnDrawers.contains(drawer);
     }
 
     public static class TextPlace {
