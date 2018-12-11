@@ -196,21 +196,21 @@ public class MainMenuScreen extends SolUiBaseScreen {
         private float radiusY;
 
         private FloatingObject() {
-            texture = Assets.getAtlasRegion(SolRandom.test(0.5f) ? "engine:farSpaceDecoration_1" : "engine:farSpaceDecoration_3");
+            texture = Assets.getAtlasRegion(SolRandom.test(0.3f) ? "engine:desertBoss" : "engine:desertSmall");
 
-            boolean small = SolRandom.test(.8f);
-            scale = (small ? .1f : .4f) * SolRandom.randomFloat(.5f, 1);
+            boolean small = SolRandom.test(.7f);
+            scale = (small ? .1f : .2f) * SolRandom.randomFloat(.4f, 1);
             tint = new Color();
-            SolColorUtil.fromHSB(SolRandom.randomFloat(0, 1), .25f, 1, .7f, tint);
+            SolColorUtil.fromHSB(SolRandom.randomFloat(0, 1), .2f, 1, .7f, tint);
 
             radiusX = (float)(texture.originalHeight) / displayDimensions.getWidth() * scale / 2;
             radiusY = (float)(texture.originalHeight) / displayDimensions.getHeight() * scale / 2;
 
-            velocity = new Vector2((float)Math.pow(SolRandom.randomFloat(0.1f), 2), (float)Math.pow(SolRandom.randomFloat(0.1f), 2));
+            velocity = new Vector2((float)Math.pow(SolRandom.randomFloat(0.3f), 2), (float)Math.pow(SolRandom.randomFloat(0.1f), 2));
             float r = displayDimensions.getRatio();
             if (SolRandom.test(0.5f)) {
                 // Spawn to the left or right of screen
-                boolean toLeft = SolRandom.test(0.5f);
+                boolean toLeft = SolRandom.test(0.1f);
                 position = new Vector2(r/2 + (toLeft ? -1 : 1) * (r/2 + radiusX) - radiusX, 0.5f + SolRandom.randomFloat(0.5f + radiusY) - radiusY);
             } else {
                 // Spawn at the top or bottom of screen
@@ -219,7 +219,7 @@ public class MainMenuScreen extends SolUiBaseScreen {
             }
 
             angle = SolRandom.randomFloat((float)Math.PI);
-            angularVelocity = SolRandom.randomFloat(1f);
+            angularVelocity = SolRandom.randomFloat(.1f);
         }
 
         private void update() {
