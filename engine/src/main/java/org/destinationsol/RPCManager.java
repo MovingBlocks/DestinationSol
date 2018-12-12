@@ -15,9 +15,13 @@
  */
 package org.destinationsol;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.LoggerContext;
 import com.jagrosh.discordipc.IPCClient;
 import com.jagrosh.discordipc.IPCListener;
 import com.jagrosh.discordipc.entities.RichPresence;
+import com.jagrosh.discordipc.entities.pipe.Pipe;
+import com.jagrosh.discordipc.entities.pipe.WindowsPipe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,6 +62,9 @@ public class RPCManager implements Runnable, IPCListener {
         thread.setName("DISCORD-RPC-THREAD");
         alive = true;
         thread.start();
+        disableLogger(IPCClient.class);
+        disableLogger(WindowsPipe.class);
+        disableLogger(Pipe.class);
     }
 
     /**
@@ -149,6 +156,18 @@ public class RPCManager implements Runnable, IPCListener {
                 ex.printStackTrace();
             }
         }
+    }
+
+    /**
+     * To avoid from spamming from some classes
+     * because of reconnect functionality
+     *
+     * @param clazz The class to disable the log from it
+     */
+    private void disableLogger(Class<?> clazz) {
+        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        Logger l = loggerContext.getLogger(clazz);
+        ((ch.qos.logback.classic.Logger) l).setLevel(Level.OFF);
     }
 
     /**
