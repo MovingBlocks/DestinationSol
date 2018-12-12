@@ -34,8 +34,8 @@ public class RPCManager implements Runnable, IPCListener {
 
     private static RPCManager instance;
     private static final Logger logger = LoggerFactory.getLogger(RPCManager.class);
-    private static final String DISCORD_APP_LARGE_IMAGE = "";
-    private static final long DISCORD_CLIENT_ID = 0L;
+    private static final String DISCORD_APP_LARGE_IMAGE = "mainmenubg";
+    private static final long DISCORD_CLIENT_ID = 522438873742311427L;
     private static final int RECONNECT_MAX_TRIES = 5;
     private static final int RECONNECT_TIMEOUT = 2000;
 
@@ -96,6 +96,7 @@ public class RPCManager implements Runnable, IPCListener {
             RichPresence.Builder builder = new RichPresence.Builder();
             builder.setStartTimestamp(OffsetDateTime.now());
             builder.setLargeImage(DISCORD_APP_LARGE_IMAGE);
+            builder.setStartTimestamp(OffsetDateTime.now());
             RichPresence presence = builder.build();
             sendRichPresence(presence);
         } else {
