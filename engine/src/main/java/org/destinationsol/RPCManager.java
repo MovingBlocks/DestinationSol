@@ -28,7 +28,7 @@ import java.time.OffsetDateTime;
  */
 public class RPCManager implements Runnable, IPCListener {
 
-    private static RPCManager instance = null;
+    private static RPCManager instance;
     private static final Logger logger = LoggerFactory.getLogger(RPCManager.class);
     private static final long DISCORD_CLIENT_ID = 0L;
     private static final int RECONNECT_MAX_TRIES = 5;
@@ -103,7 +103,7 @@ public class RPCManager implements Runnable, IPCListener {
 
     @Override
     public void run() {
-        while(alive) {
+        while (alive) {
             try {
                 if (firstConnect) {
                     client.connect();
