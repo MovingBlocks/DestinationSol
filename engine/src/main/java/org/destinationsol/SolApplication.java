@@ -56,6 +56,7 @@ public class SolApplication implements ApplicationListener {
     private OggMusicManager musicManager;
     private OggSoundManager soundManager;
     private SolInputManager inputManager;
+    private RPCManager rpcManager;
 
     private UiDrawer uiDrawer;
 
@@ -114,6 +115,8 @@ public class SolApplication implements ApplicationListener {
         menuScreens = new MenuScreens(layouts, isMobile(), options);
 
         inputManager.setScreen(this, menuScreens.main);
+
+        rpcManager = new RPCManager();
     }
 
     @Override
