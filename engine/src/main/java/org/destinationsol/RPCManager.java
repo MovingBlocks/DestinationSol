@@ -48,13 +48,16 @@ public class RPCManager implements Runnable, IPCListener {
      * Initial the rpc connection
      */
     public RPCManager() {
+        if (instance != null) {
+            throw new RuntimeException("More then one instance for the rpc manager.");
+        }
+        instance = this;
         client = new IPCClient(DISCORD_CLIENT_ID);
         client.setListener(this);
         thread = new Thread(this);
         thread.setName("DISCORD-RPC-THREAD");
         alive = true;
         thread.start();
-        instance = this;
     }
 
     /**
