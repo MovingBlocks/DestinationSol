@@ -227,4 +227,16 @@ public class RPCManager implements Runnable, IPCListener {
             getInstance().client.close();
         }
     }
+
+    /**
+     * Get if the rpc is on or off
+     *
+     * @return boolean
+     */
+    public static boolean isEnable() {
+        if (getInstance() == null) {
+            return false;
+        }
+        return getInstance().enabled;
+    }
 }
