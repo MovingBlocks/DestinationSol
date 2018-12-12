@@ -2,6 +2,10 @@ apply from: '../config/gradle/common.gradle'
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
+repositories {
+    jcenter()
+}
+
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
