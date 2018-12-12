@@ -34,6 +34,7 @@ public class RPCManager implements Runnable, IPCListener {
 
     private static RPCManager instance;
     private static final Logger logger = LoggerFactory.getLogger(RPCManager.class);
+    private static final String DISCORD_APP_LARGE_IMAGE = "";
     private static final long DISCORD_CLIENT_ID = 0L;
     private static final int RECONNECT_MAX_TRIES = 5;
     private static final int RECONNECT_TIMEOUT = 2000;
@@ -92,6 +93,11 @@ public class RPCManager implements Runnable, IPCListener {
         ready = true;
         if (firstConnect) {
             logger.info("Successfully! Connected to the rpc.");
+            RichPresence.Builder builder = new RichPresence.Builder();
+            builder.setStartTimestamp(OffsetDateTime.now());
+            builder.setLargeImage(DISCORD_APP_LARGE_IMAGE);
+            RichPresence presence = builder.build();
+            sendRichPresence(presence);
         } else {
             logger.info("Successfully! Reconnected to the rpc.");
         }
@@ -182,20 +188,43 @@ public class RPCManager implements Runnable, IPCListener {
     /**
      * Set a state a game with/out timestamp
      *
-     * @param status The state of the game that the manager will change to it
+     * @param state The state of the game that the manager will change to it
      * @param timestamp Show the timestamp ( now Time ) or not
      */
-    public static void setStatus(String status, boolean timestamp) {
+    public static void setState(String state, boolean timestamp) {
         if (getInstance() == null) {
             return;
         }
         RichPresence.Builder builder = new RichPresence.Builder();
-        builder.setDetails("Details");
-        builder.setState("State");
+        builder.setState(state);
+        builder.setLargeImage(DISCORD_APP_LARGE_IMAGE);
         if (timestamp) {
             builder.setStartTimestamp(OffsetDateTime.now());
         }
         RichPresence presence = builder.build();
         getInstance().sendRichPresence(presence);
+    }
+
+    /**
+     * To enable the RPC
+     */
+    public static void enable() {
+        if (getInstance() == null) {
+            return;
+        }
+        getInstance().enabled = true;
+    }
+
+    /**
+     * To disable the RPC
+     */
+    public static void disable() {
+        if (getInstance() == null) {
+            return;
+        }
+        getInstance().enabled = false;
+        if (getInstance().ready) {
+            getInstance().client.close();
+        }
     }
 }
