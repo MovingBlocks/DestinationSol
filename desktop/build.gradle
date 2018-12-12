@@ -2,6 +2,10 @@ apply from: '../config/gradle/common.gradle'
 
 project.ext.mainClassName = "org.destinationsol.desktop.SolDesktop"
 
+repositories {
+    jcenter()
+}
+
 dependencies {
     compile project(":engine")
     compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
