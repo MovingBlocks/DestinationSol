@@ -34,12 +34,8 @@ public final class InitializationUtilities {
         }
         initialized = true;
         DebugOptions.DEV_ROOT_PATH = "engine/src/main/resources/";
-        final LwjglApplication application = new LwjglApplication(new SolApplication(new ModuleManager()));
-        try {
-            Thread.sleep(10000L); // Magic happens here. If too much tests fail for you, increase this number.
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        ModuleManager moduleManager = new ModuleManager();
+        final LwjglApplication application = new LwjglApplication(new SolApplication(moduleManager));
         game = ((SolApplication) application.getApplicationListener()).getGame();
     }
 }

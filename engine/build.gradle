@@ -28,8 +28,8 @@ dependencies {
 }
 
 sourceSets {
-    // Engine is almost everything - the true engine
-    engine {
+    // Main is almost everything - the true engine
+    main {
         java {
             output.classesDir 'build/classes'
         }
