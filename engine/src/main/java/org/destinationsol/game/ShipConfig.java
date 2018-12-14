@@ -39,6 +39,7 @@ public class ShipConfig {
     public final float dps;
     public Vector2 spawnPos;
 
+
     public ShipConfig(HullConfig hull, String items, int money, float density, ShipConfig guard, ItemManager itemManager) {
         this.hull = hull;
         this.items = items;
@@ -46,6 +47,8 @@ public class ShipConfig {
         this.density = density;
         this.guard = guard;
         dps = HardnessCalc.getShipConfDps(this, itemManager);
+
+
     }
 
     public ShipConfig(HullConfig hull, String items, int money, float density, ShipConfig guard, ItemManager itemManager, Vector2 spawnPos) {

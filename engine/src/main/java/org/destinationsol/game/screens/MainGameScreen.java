@@ -140,6 +140,7 @@ public class MainGameScreen extends SolUiBaseScreen {
         mercControl = new SolUiControl(mercArea, true, gameOptions.getKeyMercenaryInteraction());
         mercControl.setDisplayName("Mercs");
         controls.add(mercControl);
+
         // No button, since on mobile, it should be ideally controlled straightly by dragging.
         freeCamControl = new SolUiControl(null, false, gameOptions.getKeyFreeCameraMovement());
         controls.add(freeCamControl);
@@ -280,6 +281,10 @@ public class MainGameScreen extends SolUiBaseScreen {
                 game.getHero().getMercs().markAllAsSeen();
             }
         }
+
+
+
+
 
         SolCam.DIRECT_CAM_CONTROL = freeCamControl.isOn();
 

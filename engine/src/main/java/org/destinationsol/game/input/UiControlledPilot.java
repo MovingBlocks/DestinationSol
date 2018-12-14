@@ -18,6 +18,7 @@ package org.destinationsol.game.input;
 
 import org.destinationsol.Const;
 import org.destinationsol.game.Faction;
+import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.screens.MainGameScreen;
 import org.destinationsol.game.ship.FarShip;
@@ -26,7 +27,6 @@ import org.destinationsol.game.ship.SolShip;
 public class UiControlledPilot implements Pilot {
 
     private final MainGameScreen myScreen;
-
     public UiControlledPilot(MainGameScreen screen) {
         myScreen = screen;
     }
@@ -73,6 +73,11 @@ public class UiControlledPilot implements Pilot {
     @Override
     public Faction getFaction() {
         return Faction.LAANI;
+    }
+
+    @Override
+    public void setFaction(String faction) {
+
     }
 
     @Override

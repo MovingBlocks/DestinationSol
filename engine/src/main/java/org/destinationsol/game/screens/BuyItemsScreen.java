@@ -18,6 +18,7 @@ package org.destinationsol.game.screens;
 
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.ItemContainer;
@@ -28,6 +29,7 @@ import org.destinationsol.ui.SolUiControl;
 
 public class BuyItemsScreen extends InventoryOperationsScreen {
     public final SolUiControl buyControl;
+    private FactionInfo factionInfo;
 
     BuyItemsScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
         buyControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyBuyItem());
@@ -67,6 +69,7 @@ public class BuyItemsScreen extends InventoryOperationsScreen {
             target.getTradeContainer().getItems().remove(selItem);
             hero.getItemContainer().add(selItem);
             hero.setMoney(hero.getMoney() - selItem.getPrice());
+            factionInfo.setDisposition(target.getFactionID(), 1);
         }
     }
 }

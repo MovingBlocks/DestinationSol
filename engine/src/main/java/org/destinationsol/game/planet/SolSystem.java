@@ -42,6 +42,7 @@ public class SolSystem {
         damagePerSecond = HardnessCalc.getSysDps(config, false);
         innerRadius = radius / 2;
         innerDamagePerSecond = HardnessCalc.getSysDps(config, true);
+
     }
 
     public ArrayList<Planet> getPlanets() {
