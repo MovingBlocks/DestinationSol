@@ -18,10 +18,7 @@ package org.destinationsol.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
-import org.destinationsol.CommonDrawer;
-import org.destinationsol.Const;
-import org.destinationsol.GameOptions;
-import org.destinationsol.SolApplication;
+import org.destinationsol.*;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.SpecialSounds;
 import org.destinationsol.common.DebugCol;
@@ -50,6 +47,7 @@ import org.destinationsol.game.screens.GameScreens;
 import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.ShipBuilder;
 import org.destinationsol.game.ship.SloMo;
+import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 import org.destinationsol.mercenary.MercenaryUtils;
 import org.destinationsol.ui.DebugCollector;
@@ -166,6 +164,7 @@ public class SolGame {
          * shipName will be null on respawn and continue, meaning the old ship will be loaded.
          * If shipName is not null then a new ship has to be created.
          */
+        SolShip.shipList.clear();
         boolean isNewShip = shipName != null;
         ShipConfig shipConfig = readShipFromConfigOrLoadFromSaveIfNull(shipName, isNewShip);
         if (!respawnState.isPlayerRespawned()) {
@@ -178,6 +177,7 @@ public class SolGame {
                 solApplication.getOptions().controlType == GameOptions.ControlType.MOUSE,
                 isNewShip);
         hero.initialise();
+
     }
 
     private ShipConfig readShipFromConfigOrLoadFromSaveIfNull(String shipName, boolean isNewShip) {

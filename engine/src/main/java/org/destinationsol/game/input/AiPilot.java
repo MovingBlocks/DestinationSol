@@ -19,6 +19,7 @@ package org.destinationsol.game.input;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
+import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.Gun;
@@ -41,7 +42,7 @@ public class AiPilot implements Pilot {
     private final boolean myCollectsItems;
     private final Mover myMover;
     private final Shooter myShooter;
-    private final Faction myFaction;
+    private Faction myFaction;
     private final boolean myShootAtObstacles;
     private final String myMapHint;
     private final BattleDestProvider myBattleDestProvider;
@@ -51,6 +52,7 @@ public class AiPilot implements Pilot {
     private float myBindAwait;
     private PlanetBind myPlanetBind;
     private float myReEquipAwait;
+    private FactionInfo factionInfo;
 
     public AiPilot(MoveDestProvider destProvider, boolean collectsItems, Faction faction,
                    boolean shootAtObstacles, String mapHint, float detectionDist) {
@@ -194,6 +196,14 @@ public class AiPilot implements Pilot {
     @Override
     public Faction getFaction() {
         return myFaction;
+    }
+
+    @Override
+    public void setFaction(String faction) {
+        if(faction.equals("laani"))
+            myFaction = Faction.LAANI;
+        if(faction.equals("ehar"))
+            myFaction = Faction.EHAR;
     }
 
     @Override

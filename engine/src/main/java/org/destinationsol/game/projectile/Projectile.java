@@ -55,12 +55,15 @@ public class Projectile implements SolObject {
 
     private boolean shouldBeRemoved;
     private SolObject obstacle;
+    private SolShip ship;
     private boolean wasDamageDealt;
 
     public Projectile(SolGame game, float angle, Vector2 muzzlePos, Vector2 gunSpeed, Faction faction,
-                      ProjectileConfig config, boolean varySpeed) {
+                      ProjectileConfig config, boolean varySpeed, SolShip ship) {
         drawables = new ArrayList<>();
         this.config = config;
+
+        this.ship = ship;
 
         Drawable drawable;
         if (config.stretch) {
@@ -161,6 +164,9 @@ public class Projectile implements SolObject {
         if (config.collisionEffectBackground != null) {
             game.getPartMan().blinks(position, game, config.collisionEffectBackground.size);
         }
+        if(ship.getPilot().isPlayer() && obstacle instanceof SolShip)
+            ship.changeDisposition(((SolShip) obstacle).getFactionID());
+
         game.getSoundManager().play(game, config.collisionSound, null, this);
     }
 
@@ -251,9 +257,7 @@ public class Projectile implements SolObject {
     public boolean shouldCollide(SolObject object, Fixture fixture, FactionManager factionManager) {
         if (object instanceof SolShip) {
             SolShip ship = (SolShip) object;
-            if (!factionManager.areEnemies(ship.getPilot().getFaction(), faction)) {
-                return false;
-            }
+
             if (ship.getHull().getShieldFixture() == fixture) {
                 if (config.density > 0) {
                     return false;
@@ -263,9 +267,7 @@ public class Projectile implements SolObject {
             }
             return true;
         }
-        if (object instanceof Projectile) {
-            return factionManager.areEnemies(((Projectile) object).faction, faction);
-        }
+
         return true;
     }
 

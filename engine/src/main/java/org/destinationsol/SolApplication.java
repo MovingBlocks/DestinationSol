@@ -25,10 +25,7 @@ import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
-import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.SaveManager;
-import org.destinationsol.game.SolGame;
-import org.destinationsol.game.WorldConfig;
+import org.destinationsol.game.*;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.menu.MenuScreens;
@@ -58,6 +55,9 @@ public class SolApplication implements ApplicationListener {
     private SolInputManager inputManager;
 
     private UiDrawer uiDrawer;
+
+    private FactionDisplay factionDisplay;
+    private FactionInfo factionInfo;
 
     private MenuScreens menuScreens;
     private SolLayouts layouts;
@@ -112,8 +112,8 @@ public class SolApplication implements ApplicationListener {
         uiDrawer = new UiDrawer(commonDrawer);
         layouts = new SolLayouts();
         menuScreens = new MenuScreens(layouts, isMobile(), options);
-
         inputManager.setScreen(this, menuScreens.main);
+
     }
 
     @Override
@@ -191,6 +191,7 @@ public class SolApplication implements ApplicationListener {
         inputManager.draw(uiDrawer, this);
         if (solGame != null) {
             solGame.drawDebugUi(uiDrawer);
+            factionDisplay.drawFactionNames(uiDrawer);
         }
         if (fatalErrorMsg != null) {
             uiDrawer.draw(uiDrawer.whiteTexture, displayDimensions.getRatio(), .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
@@ -200,6 +201,7 @@ public class SolApplication implements ApplicationListener {
         DebugCollector.draw(uiDrawer);
         if (solGame == null) {
             uiDrawer.drawString("v" + Const.VERSION, 0.01f, .974f, FontSize.DEBUG, UiDrawer.TextAlignment.LEFT, false, SolColor.WHITE);
+
         }
         commonDrawer.end();
     }
@@ -220,7 +222,9 @@ public class SolApplication implements ApplicationListener {
             beforeLoadGame();
         }
 
+        factionInfo = new FactionInfo();
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
+        factionDisplay = new FactionDisplay(solGame, factionInfo);
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
     }
 
@@ -299,4 +303,7 @@ public class SolApplication implements ApplicationListener {
     public static void addResizeSubscriber(ResizeSubscriber resizeSubscriber) {
         resizeSubscribers.add(resizeSubscriber);
     }
+
+
+
 }

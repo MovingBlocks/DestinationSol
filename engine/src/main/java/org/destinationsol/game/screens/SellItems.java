@@ -99,6 +99,7 @@ public class SellItems extends InventoryOperationsScreen {
             itemContainer.remove(selItem);
             target.getTradeContainer().getItems().add(selItem);
             hero.setMoney(hero.getMoney() + selItem.getPrice() * PERC);
+
         }
     }
 

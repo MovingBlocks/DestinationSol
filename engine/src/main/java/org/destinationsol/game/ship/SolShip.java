@@ -25,11 +25,7 @@ import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.SpecialSounds;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
-import org.destinationsol.game.AbilityCommonConfig;
-import org.destinationsol.game.DmgType;
-import org.destinationsol.game.RemoveController;
-import org.destinationsol.game.SolGame;
-import org.destinationsol.game.SolObject;
+import org.destinationsol.game.*;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
@@ -48,6 +44,7 @@ import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SolShip implements SolObject {
@@ -60,6 +57,9 @@ public class SolShip implements SolObject {
     private static final float ENERGY_DMG_FACTOR = .7f;
     private boolean colliding;
 
+    private FactionInfo factionInfo;
+    private String factionName;
+    private int factionID;
     private final Pilot myPilot;
     private final ItemContainer myItemContainer;
     private final TradeContainer myTradeContainer;
@@ -81,6 +81,8 @@ public class SolShip implements SolObject {
     private float myControlEnableAwait;
     private MercItem mercItem;
 
+    public static ArrayList<SolShip> shipList = new  ArrayList<SolShip>();
+
     public SolShip(SolGame game, Pilot pilot, Hull hull, RemoveController removeController, List<Drawable> drawables,
                    ItemContainer container, ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
                    Armor armor) {
@@ -89,6 +91,7 @@ public class SolShip implements SolObject {
         myDrawables = drawables;
         myPilot = pilot;
         myHull = hull;
+
         myItemContainer = container;
         myTradeContainer = tradeContainer;
         List<DSParticleEmitter> effs = game.getSpecialEffects().buildBodyEffs(myHull.config.getApproxRadius(), game, myHull.getPosition(), myHull.getSpeed());
@@ -107,6 +110,9 @@ public class SolShip implements SolObject {
         if (myAbility != null) {
             myAbilityAwait = myAbility.getConfig().getRechargeTime();
         }
+        shipList.add(this);
+       factionID = factionInfo.getFactionID(this);
+       factionName = factionInfo.getFactionNames().get(factionID).toString();
     }
 
     @Override
@@ -141,6 +147,8 @@ public class SolShip implements SolObject {
                 dmg *= BASE_DUR_MOD;
             }
             receiveDmg((int) dmg, game, collPos, DmgType.CRASH);
+
+
         }
     }
 
@@ -232,6 +240,14 @@ public class SolShip implements SolObject {
         updateAbility(game);
         updateIdleTime(game);
         updateShield(game);
+
+        if(factionInfo.getDisposition().get(factionID) < -5)
+            getPilot().setFaction("ehar");
+        else
+            getPilot().setFaction("laani");
+
+
+
         if (myArmor != null && !myItemContainer.contains(myArmor)) {
             myArmor = null;
         }
@@ -340,11 +356,13 @@ public class SolShip implements SolObject {
     public void onRemove(SolGame game) {
         if (myHull.life <= 0) {
             game.getShardBuilder().buildExplosionShards(game, myHull.getPosition(), myHull.getSpeed(), myHull.config.getSize());
+
             throwAllLoot(game);
         }
         myHull.onRemove(game);
         game.getPartMan().finish(game, mySmokeSrc, myHull.getPosition());
         game.getPartMan().finish(game, myFireSrc, myHull.getPosition());
+        SolShip.shipList.remove(this);
     }
 
     private void throwAllLoot(SolGame game) {
@@ -442,6 +460,7 @@ public class SolShip implements SolObject {
         if (merc != null) {
             game.getHero().getMercs().remove(merc);
         }
+
     }
 
     private void playHitSound(SolGame game, Vector2 position, DmgType dmgType) {
@@ -656,4 +675,17 @@ public class SolShip implements SolObject {
     public MercItem getMerc() {
         return this.mercItem;
     }
+
+    public String getFactionName(){
+        return factionName;
+    }
+
+    public int getFactionID(){
+        return factionID;
+    }
+
+    public void changeDisposition(int id){
+        factionInfo.setDisposition(id, -1);
+    }
+
 }
