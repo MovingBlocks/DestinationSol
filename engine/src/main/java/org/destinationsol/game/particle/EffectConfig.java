@@ -17,7 +17,7 @@ package org.destinationsol.game.particle;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.JsonValue;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.game.GameColors;
 
@@ -39,23 +39,23 @@ public class EffectConfig {
         this.tint = tint;
     }
 
-    public static EffectConfig load(JsonValue node, EffectTypes types, GameColors colours) {
+    public static EffectConfig load(JSONObject node, EffectTypes types, GameColors colours) {
         if (node == null) {
             return null;
         }
         String emitter = node.getString("effectFile");
         EffectType effectType = types.forName(emitter);
-        float size = node.getFloat("size", 0);
+        float size = (float) node.optDouble("size", 0);
         String textureName = node.getString("tex");
-        boolean floatsUp = node.getBoolean("floatsUp", false);
+        boolean floatsUp = node.optBoolean("floatsUp", false);
         Color tint = colours.load(node.getString("tint"));
         TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(textureName + "Particle");
         return new EffectConfig(effectType, size, tex, floatsUp, tint);
     }
 
-    public static List<EffectConfig> loadList(JsonValue listNode, EffectTypes types, GameColors colours) {
+    public static List<EffectConfig> loadList(ArrayList<JSONObject> listNode, EffectTypes types, GameColors colours) {
         ArrayList<EffectConfig> configs = new ArrayList<>();
-        for (JsonValue node : listNode) {
+        for (JSONObject node : listNode) {
             configs.add(load(node, types, colours));
         }
         return configs;

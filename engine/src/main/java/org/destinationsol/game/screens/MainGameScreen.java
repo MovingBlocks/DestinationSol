@@ -265,7 +265,7 @@ public class MainGameScreen extends SolUiBaseScreen {
 
         mercControl.setEnabled(hero.isNonTranscendent());
         if (hero.isNonTranscendent() && !inputMan.isScreenOn(screens.inventoryScreen)) {
-            if (hero.getTradeContainer().getMercs().hasNew()) {
+            if (hero.getMercs().hasNew()) {
                 mercControl.enableWarn();
             }
         }
@@ -277,7 +277,7 @@ public class MainGameScreen extends SolUiBaseScreen {
                 is.setOperations(is.chooseMercenaryScreen);
                 inputMan.addScreen(solApplication, is);
                 
-                game.getHero().getTradeContainer().getMercs().markAllAsSeen();
+                game.getHero().getMercs().markAllAsSeen();
             }
         }
 

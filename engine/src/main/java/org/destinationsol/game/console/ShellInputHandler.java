@@ -46,10 +46,31 @@ public class ShellInputHandler implements ConsoleInputHandler {
      * @param callback This callback will be called with the full entered command
      */
     public void registerCommand(String cmdName, ConsoleInputHandler callback) {
-        if (commands.keySet().contains(cmdName)) {
-            throw new SolException("Trying to register command with already existent name (" + cmdName + ")");
+        if (commandExists(cmdName)) {
+            throw new SolException("Trying to register command that already exists (" + cmdName + ")");
         }
         commands.put(cmdName, callback);
+    }
+
+    /**
+     * Checks if a command has already been registered.
+     *
+     * @param cmdName Name, that is first word, of the command
+     */
+    public boolean commandExists(String cmdName) {
+        return commands.keySet().contains(cmdName);
+    }
+
+    /**
+     * Gets the input handler for a registered command
+     *
+     * @param cmdName Name, that is first word, of the command
+     */
+    public ConsoleInputHandler getRegisteredCommand(String cmdName) {
+        if (!commandExists(cmdName)) {
+            throw new SolException("Trying to access command with non-existent name (" + cmdName + ")");
+        }
+        return commands.get(cmdName);
     }
 
     @Override

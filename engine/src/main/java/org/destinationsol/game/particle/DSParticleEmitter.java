@@ -21,7 +21,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
-import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.Array;
+import org.json.JSONObject;
 import com.google.common.base.Preconditions;
 import org.destinationsol.assets.audio.OggSoundSet;
 import org.destinationsol.common.NotNull;
@@ -72,7 +73,7 @@ public class DSParticleEmitter {
     private LightSource light;
     private SolGame game;
 
-    public DSParticleEmitter(@NotNull Vector2 position, @NotNull String trigger, float angleOffset, boolean hasLight, JsonValue effectConfigNode, List<String> sounds) {
+    public DSParticleEmitter(@NotNull Vector2 position, @NotNull String trigger, float angleOffset, boolean hasLight, JSONObject effectConfigNode, List<String> sounds) {
         Preconditions.checkNotNull(position, "position cannot be null");
         this.position = new Vector2(position);
         this.trigger = Preconditions.checkNotNull(trigger, "trigger cannot be null");
@@ -150,15 +151,15 @@ public class DSParticleEmitter {
             ParticleEmitter.ScaledNumericValue velocity = particleEmitter.getVelocity();
             velocity.setHigh(velocity.getHighMin() * size, velocity.getHighMax() * size);
             areaSize = 0;
-        } else if (JUMP_SIZE_THRESHOLD < particleEmitter.getScale().getHighMax()) { // large scale
-            ParticleEmitter.ScaledNumericValue scale = particleEmitter.getScale();
+        } else if (JUMP_SIZE_THRESHOLD < particleEmitter.getXScale().getHighMax()) { // large scale
+            ParticleEmitter.ScaledNumericValue scale = particleEmitter.getXScale();
             scale.setHigh(scale.getHighMin() * size, scale.getHighMax() * size);
             areaSize = 0;
         } else {
             areaSize = size;
         }
 
-        particleEmitter.setSprite(new Sprite(config.tex));
+        particleEmitter.setSprites(new Array<Sprite>(new Sprite[] { new Sprite(config.tex)}));
         float[] tint = particleEmitter.getTint().getColors();
         tint[0] = config.tint.r;
         tint[1] = config.tint.g;

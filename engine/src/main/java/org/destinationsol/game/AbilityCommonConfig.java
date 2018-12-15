@@ -15,7 +15,7 @@
  */
 package org.destinationsol.game;
 
-import com.badlogic.gdx.utils.JsonValue;
+import org.json.JSONObject;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.PlayableSound;
@@ -31,8 +31,8 @@ public class AbilityCommonConfig {
         this.activatedSound = activatedSound;
     }
 
-    public static AbilityCommonConfig load(JsonValue node, EffectTypes types, GameColors cols, OggSoundManager soundManager) {
-        EffectConfig ec = EffectConfig.load(node.get("effect"), types, cols);
+    public static AbilityCommonConfig load(JSONObject node, EffectTypes types, GameColors cols, OggSoundManager soundManager) {
+        EffectConfig ec = EffectConfig.load(node.has("effect") ? node.getJSONObject("effect") : null, types, cols);
         OggSound activatedSound = soundManager.getSound(node.getString("activatedSound"));
         return new AbilityCommonConfig(ec, activatedSound);
     }
