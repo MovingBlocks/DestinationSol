@@ -45,9 +45,6 @@ public class FactionDisplay {
         dimensions = SolApplication.displayDimensions;
         cam = game.getCam();
         info = factionInfo;
-
-
-
     }
 
     public void drawFactionNames(UiDrawer uiDrawer){
@@ -65,14 +62,11 @@ public class FactionDisplay {
                 Vector2 drawPosition = getDrawPosition(ship);
                 uiDrawer.drawString(ship.getFactionName(), drawPosition.x * dimensions.getRatio(), drawPosition.y, 1, false, Color.valueOf(info.getFactionColors().get(ship.getFactionID()).toString()));
             }
-
         }
-
         }
 
 
     public Vector2 getDrawPosition(SolShip ship){
-
         Vector2 distanceDifference = new Vector2(cam.getPosition());
         distanceDifference.sub(ship.getPosition());
         //don't mess with any of this please for the love of god
@@ -81,10 +75,6 @@ public class FactionDisplay {
         distanceDifference.y /= cam.getViewHeight();
         distanceDifference.y = .5f - distanceDifference.y;
         distanceDifference.y -= .1f;
-
         return distanceDifference;
     }
-
-
-
 }

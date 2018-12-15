@@ -25,7 +25,11 @@ import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
-import org.destinationsol.game.*;
+import org.destinationsol.game.DebugOptions;
+import org.destinationsol.game.FactionInfo;
+import org.destinationsol.game.SaveManager;
+import org.destinationsol.game.SolGame;
+import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.menu.MenuScreens;
@@ -38,7 +42,6 @@ import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashSet;
@@ -303,7 +306,4 @@ public class SolApplication implements ApplicationListener {
     public static void addResizeSubscriber(ResizeSubscriber resizeSubscriber) {
         resizeSubscribers.add(resizeSubscriber);
     }
-
-
-
 }
