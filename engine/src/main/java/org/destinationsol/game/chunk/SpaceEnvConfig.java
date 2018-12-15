@@ -17,7 +17,7 @@
 package org.destinationsol.game.chunk;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.JsonValue;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 
 import java.util.List;
@@ -28,12 +28,12 @@ public class SpaceEnvConfig {
     public final List<TextureAtlas.AtlasRegion> farJunkTextures;
     public final float farJunkDensity;
 
-    public SpaceEnvConfig(JsonValue json) {
+    public SpaceEnvConfig(JSONObject json) {
         String junkTexDirStr = json.getString("junkTexs");
         junkTextures = Assets.listTexturesMatching(junkTexDirStr + "_.*");
-        junkDensity = json.getFloat("junkDensity");
+        junkDensity = (float) json.getDouble("junkDensity");
         String farJunkTexDirStr = json.getString("farJunkTexs");
         farJunkTextures = Assets.listTexturesMatching(farJunkTexDirStr + "_.*");
-        farJunkDensity = json.getFloat("farJunkDensity");
+        farJunkDensity = (float) json.getDouble("farJunkDensity");
     }
 }

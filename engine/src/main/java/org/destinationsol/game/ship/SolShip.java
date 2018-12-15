@@ -440,7 +440,7 @@ public class SolShip implements SolObject {
     private void onDeath(SolGame game) {
         MercItem merc = getMerc();
         if (merc != null) {
-            game.getHero().getTradeContainer().getMercs().remove(merc);
+            game.getHero().getMercs().remove(merc);
         }
     }
 
