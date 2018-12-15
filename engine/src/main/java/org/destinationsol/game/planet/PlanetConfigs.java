@@ -15,7 +15,8 @@
  */
 package org.destinationsol.game.planet;
 
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolRandom;
@@ -46,20 +47,27 @@ public class PlanetConfigs {
 
         for (ResourceUrn planetConfigJson : planetJsonConfigs) {
             String moduleName = planetConfigJson.getModuleName().toString();
-            Json json = Assets.getJson(planetConfigJson.toString());
-            JsonValue rootNode = json.getJsonValue();
 
-            for (JsonValue node : rootNode) {
-                PlanetConfig planetConfig = PlanetConfig.load(node, hullConfigs, cols, itemManager, moduleName);
-                allConfigs.put(node.name, planetConfig);
+            Json json = Assets.getJson(planetConfigJson.toString());
+            JSONObject rootNode = json.getJsonValue();
+
+            Validator.validate(rootNode, "engine:schemaPlanetsConfig");
+
+            for (String s : rootNode.keySet()) {
+                JSONObject node = rootNode.getJSONObject(s);
+                PlanetConfig planetConfig = PlanetConfig.load(s, node, hullConfigs, cols, itemManager, moduleName);
+                allConfigs.put(s, planetConfig);
                 for (String difficulty : planetConfig.difficultyLevels) {
                     switch (difficulty) {
                         case "easy":
                             easy.add(planetConfig);
+                            break;
                         case "medium":
                             medium.add(planetConfig);
+                            break;
                         case "hard":
                             hard.add(planetConfig);
+                            break;
                     }
                 }
             }
