@@ -117,9 +117,4 @@ public class FactionInfo {
              factionDisposition.set(n, factionDisposition.get(n) + num);
     }
 
-
 }
-
-
-
-

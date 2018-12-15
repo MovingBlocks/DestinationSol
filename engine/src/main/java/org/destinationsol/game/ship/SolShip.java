@@ -246,8 +246,6 @@ public class SolShip implements SolObject {
         else
             getPilot().setFaction("laani");
 
-
-
         if (myArmor != null && !myItemContainer.contains(myArmor)) {
             myArmor = null;
         }

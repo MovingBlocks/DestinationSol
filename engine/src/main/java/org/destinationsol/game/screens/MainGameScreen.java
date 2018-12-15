@@ -282,10 +282,6 @@ public class MainGameScreen extends SolUiBaseScreen {
             }
         }
 
-
-
-
-
         SolCam.DIRECT_CAM_CONTROL = freeCamControl.isOn();
 
         updateTalk(game);
