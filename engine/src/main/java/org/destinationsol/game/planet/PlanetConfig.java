@@ -17,6 +17,7 @@ package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.json.JSONObject;
+import org.json.JSONArray;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolException;
 import org.destinationsol.files.HullConfigManager;
