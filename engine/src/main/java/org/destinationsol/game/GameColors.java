@@ -37,7 +37,7 @@ public class GameColors {
         Json json = Assets.getJson("core:colorsConfig");
         JSONObject rootNode = json.getJsonValue();
 
-        Validator.validate(rootNode, "engine:schemaColorsConfig");
+        Validator.validate("core:colorsConfig", "engine:schemaColorsConfig");
 
         for (String key : rootNode.keySet()) {
             Color c = load(rootNode.getString(key));

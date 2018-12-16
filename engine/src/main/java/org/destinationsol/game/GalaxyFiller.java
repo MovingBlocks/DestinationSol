@@ -144,7 +144,7 @@ public class GalaxyFiller {
         Json json = Assets.getJson(moduleName + ":startingStation");
         JSONObject rootNode = getRootNode(json);
 
-        Validator.validate(rootNode, "engine:schemaStartingStation");
+        Validator.validate(moduleName + ":startingStation", "engine:schemaStartingStation");
 
         ShipConfig mainStationCfg = ShipConfig.load(hullConfigManager, rootNode, itemManager);
 

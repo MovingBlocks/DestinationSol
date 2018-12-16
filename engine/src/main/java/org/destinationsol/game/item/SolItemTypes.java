@@ -40,7 +40,7 @@ public class SolItemTypes {
         Json json = Assets.getJson("core:types");
         JSONObject rootNode = json.getJsonValue();
 
-        Validator.validate(rootNode, "engine:schemaTypes");
+        Validator.validate("core:types", "engine:schemaTypes");
 
         clip = load(rootNode.getJSONObject("clip"), soundManager, cols);
         shield = load(rootNode.getJSONObject("shield"), soundManager, cols);

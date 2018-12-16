@@ -43,7 +43,7 @@ public class SpecialEffects {
         Json json = Assets.getJson("core:specialEffectsConfig");
         JSONObject rootNode = json.getJsonValue();
 
-        Validator.validate(rootNode, "engine:schemaSpecialEffectsConfig");
+        Validator.validate("core:specialEffectsConfig", "engine:schemaSpecialEffectsConfig");
 
         smoke = EffectConfig.load(rootNode.getJSONObject("smoke"), effectTypes, colours);
         fire = EffectConfig.load(rootNode.getJSONObject("fire"), effectTypes, colours);

@@ -48,7 +48,7 @@ public class SolNames {
         Json json = Assets.getJson(fileName);
         JSONObject rootNode = json.getJsonValue();
 
-        Validator.validate(rootNode, "engine:schemaSolNames");
+        Validator.validate(fileName, "engine:schemaSolNames");
 
         ArrayList<String> list = new ArrayList<>();
         for (String s : rootNode.keySet()) {

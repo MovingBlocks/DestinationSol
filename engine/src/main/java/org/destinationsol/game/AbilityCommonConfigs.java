@@ -33,7 +33,7 @@ public class AbilityCommonConfigs {
         Json json = Assets.getJson("core:abilitiesConfig");
         JSONObject rootNode = json.getJsonValue();
 
-        Validator.validate(rootNode, "engine:schemaAbilitiesConfig");
+        Validator.validate("core:abilitiesConfig", "engine:schemaAbilitiesConfig");
 
         teleport = AbilityCommonConfig.load(rootNode.getJSONObject("teleport"), effectTypes, cols, soundManager);
         emWave = AbilityCommonConfig.load(rootNode.getJSONObject("emWave"), effectTypes, cols, soundManager);

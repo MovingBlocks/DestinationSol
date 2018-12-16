@@ -47,7 +47,7 @@ public class ProjectileConfigs {
             Json json = Assets.getJson(configUrn.toString());
             JSONObject rootNode = json.getJsonValue();
 
-            Validator.validate(rootNode, "engine:schemaProjectileConfig");
+            Validator.validate(configUrn.toString(), "engine:schemaProjectileConfig");
 
             for (String s : rootNode.keySet()) {
                 if (!(rootNode.get(s) instanceof JSONObject))

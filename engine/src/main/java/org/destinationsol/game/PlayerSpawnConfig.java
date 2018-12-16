@@ -37,7 +37,7 @@ public class PlayerSpawnConfig {
         Json json = Assets.getJson("engine:playerSpawnConfig");
         JSONObject rootNode = json.getJsonValue();
 
-        Validator.validate(rootNode, "engine:schemaPlayerSpawnConfig");
+        Validator.validate("engine:playerSpawnConfig", "engine:schemaPlayerSpawnConfig");
 
         JSONObject playerNode = rootNode.getJSONObject("player");
         ShipConfig shipConfig = ShipConfig.load(hullConfigs, playerNode.has("ship") ? playerNode.getJSONObject("ship") : null, itemManager);

@@ -116,7 +116,7 @@ public class Clip implements SolItem {
             Json json = Assets.getJson(clipName);
             JSONObject rootNode = json.getJsonValue();
 
-            Validator.validate(rootNode, "engine:schemaClip");
+            Validator.validate(clipName, "engine:schemaClip");
 
             String projectileName = rootNode.getString("projectile");
             ProjectileConfig projectileConfig = itemManager.projConfigs.find(projectileName);

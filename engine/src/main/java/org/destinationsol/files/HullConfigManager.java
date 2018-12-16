@@ -106,7 +106,7 @@ public final class HullConfigManager {
         Json json = Assets.getJson(shipName);
         JSONObject rootNode = json.getJsonValue();
 
-        Validator.validate(rootNode, "engine:schemaHullConfig");
+        Validator.validate(shipName, "engine:schemaHullConfig");
 
         readProperties(rootNode, configData);
 

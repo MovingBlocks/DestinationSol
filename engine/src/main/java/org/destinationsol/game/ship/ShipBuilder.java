@@ -266,7 +266,7 @@ public class ShipBuilder {
         Json json = Assets.getJson(shipName);
         JSONObject rootNode = json.getJsonValue();
 
-        Validator.validate(rootNode, "engine:schemaHullConfig");
+        Validator.validate(shipName, "engine:schemaHullConfig");
 
         JSONObject rigidBodyNode = rootNode.getJSONObject("rigidBody");
         myCollisionMeshLoader.readRigidBody(rigidBodyNode, hullConfig);

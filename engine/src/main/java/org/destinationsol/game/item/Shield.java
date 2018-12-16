@@ -186,7 +186,7 @@ public class Shield implements SolItem {
             Json json = Assets.getJson(shieldName);
             JSONObject rootNode = json.getJsonValue();
 
-            Validator.validate(rootNode, "engine:schemaShield");
+            Validator.validate(shieldName, "engine:schemaShield");
 
             int maxLife = rootNode.getInt("maxLife");
             float idleTime = (float) rootNode.getDouble("idleTime");

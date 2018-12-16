@@ -165,7 +165,7 @@ public class Gun implements SolItem {
             Json json = Assets.getJson(gunName);
             JSONObject rootNode = json.getJsonValue();
 
-            Validator.validate(rootNode, "engine:schemaGun");
+            Validator.validate(gunName, "engine:schemaGun");
 
             float minAngleVar = (float) rootNode.optDouble("minAngleVar", 0);
             float maxAngleVar = (float) rootNode.getDouble("maxAngleVar");
