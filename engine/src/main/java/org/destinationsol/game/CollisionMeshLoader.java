@@ -63,7 +63,7 @@ public class CollisionMeshLoader {
         Json json = Assets.getJson(fileName);
         JSONObject rootNode = json.getJsonValue();
 
-        Validator.validate(rootNode, "engine:schemaCollisionMesh");
+        Validator.validate(fileName, "engine:schemaCollisionMesh");
 
         readModel(rootNode);
 

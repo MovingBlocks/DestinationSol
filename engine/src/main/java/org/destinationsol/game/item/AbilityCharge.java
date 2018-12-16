@@ -101,7 +101,7 @@ public class AbilityCharge implements SolItem {
             Json json = Assets.getJson(abilityName);
             JSONObject rootNode = json.getJsonValue();
 
-            Validator.validate(rootNode, "engine:schemaAbilityCharges");
+            Validator.validate(abilityName, "engine:schemaAbilityCharges");
 
             float price = (float) rootNode.getDouble("price");
             String displayName = rootNode.getString("displayName");

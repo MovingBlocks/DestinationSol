@@ -134,7 +134,7 @@ public class Armor implements SolItem {
             Json json = Assets.getJson(armorName);
             JSONObject rootNode = json.getJsonValue();
 
-            Validator.validate(rootNode, "engine:schemaArmor");
+            Validator.validate(armorName, "engine:schemaArmor");
 
             String displayName = rootNode.getString("displayName");
             int price = rootNode.getInt("price");

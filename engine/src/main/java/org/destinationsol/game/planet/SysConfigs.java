@@ -52,7 +52,7 @@ public class SysConfigs {
         Json json = Assets.getJson("engine:" + configName);
         JSONObject rootNode = json.getJsonValue();
 
-        Validator.validate(rootNode, "engine:schemaSystemsConfig");
+        Validator.validate("engine:" + configName, "engine:schemaSystemsConfig");
 
         for (String s : rootNode.keySet()) {
             if (!(rootNode.get(s) instanceof JSONObject))
@@ -77,7 +77,7 @@ public class SysConfigs {
             json = Assets.getJson(configUrn.toString());
             rootNode = json.getJsonValue();
 
-            Validator.validate(rootNode, "engine:schemaSystemsConfig");
+            Validator.validate(configUrn.toString(), "engine:schemaSystemsConfig");
 
             for (String s : rootNode.keySet()) {
                 if (!(rootNode.get(s) instanceof JSONObject))

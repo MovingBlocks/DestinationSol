@@ -37,7 +37,7 @@ public class MazeConfigs {
             Json json = Assets.getJson(configUrn.toString());
             JSONObject rootNode = json.getJsonValue();
 
-            Validator.validate(rootNode, "engine:schemaMazesConfig");
+            Validator.validate(configUrn.toString(), "engine:schemaMazesConfig");
 
             for (String s : rootNode.keySet()) {
                 if (!(rootNode.get(s) instanceof JSONObject))

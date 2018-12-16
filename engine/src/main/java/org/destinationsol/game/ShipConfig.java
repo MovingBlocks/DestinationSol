@@ -91,7 +91,7 @@ public class ShipConfig {
             Json json = Assets.getJson(configUrn.toString());
             JSONObject rootNode = json.getJsonValue();
 
-            Validator.validate(rootNode, "engine:schemaPlayerSpawnConfig");
+            Validator.validate(configUrn.toString(), "engine:schemaPlayerSpawnConfig");
 
             if (rootNode.keySet().contains(shipName) && rootNode.get(shipName) instanceof JSONObject) {
                 shipConfig = load(hullConfigs, rootNode.has(shipName) ? rootNode.getJSONObject(shipName) : null, itemManager);
