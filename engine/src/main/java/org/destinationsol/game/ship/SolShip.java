@@ -81,8 +81,6 @@ public class SolShip implements SolObject {
     private float myControlEnableAwait;
     private MercItem mercItem;
 
-    public static ArrayList<SolShip> shipList = new  ArrayList<SolShip>();
-
     public SolShip(SolGame game, Pilot pilot, Hull hull, RemoveController removeController, List<Drawable> drawables,
                    ItemContainer container, ShipRepairer repairer, float money, TradeContainer tradeContainer, Shield shield,
                    Armor armor) {
@@ -110,7 +108,6 @@ public class SolShip implements SolObject {
         if (myAbility != null) {
             myAbilityAwait = myAbility.getConfig().getRechargeTime();
         }
-        shipList.add(this);
        factionID = factionInfo.getFactionID(this);
        factionName = factionInfo.getFactionNames().get(factionID).toString();
     }
@@ -354,13 +351,11 @@ public class SolShip implements SolObject {
     public void onRemove(SolGame game) {
         if (myHull.life <= 0) {
             game.getShardBuilder().buildExplosionShards(game, myHull.getPosition(), myHull.getSpeed(), myHull.config.getSize());
-
             throwAllLoot(game);
         }
         myHull.onRemove(game);
         game.getPartMan().finish(game, mySmokeSrc, myHull.getPosition());
         game.getPartMan().finish(game, myFireSrc, myHull.getPosition());
-        SolShip.shipList.remove(this);
     }
 
     private void throwAllLoot(SolGame game) {
@@ -458,7 +453,6 @@ public class SolShip implements SolObject {
         if (merc != null) {
             game.getHero().getMercs().remove(merc);
         }
-
     }
 
     private void playHitSound(SolGame game, Vector2 position, DmgType dmgType) {
@@ -673,17 +667,14 @@ public class SolShip implements SolObject {
     public MercItem getMerc() {
         return this.mercItem;
     }
-
-    public String getFactionName(){
+    public String getFactionName() {
         return factionName;
     }
-
-    public int getFactionID(){
+    public int getFactionID() {
         return factionID;
     }
 
-    public void changeDisposition(int id){
+    public void changeDisposition(int id) {
         factionInfo.setDisposition(id, -1);
     }
-
 }

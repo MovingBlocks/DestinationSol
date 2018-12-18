@@ -27,6 +27,7 @@ import org.destinationsol.game.ship.SolShip;
 public class UiControlledPilot implements Pilot {
 
     private final MainGameScreen myScreen;
+
     public UiControlledPilot(MainGameScreen screen) {
         myScreen = screen;
     }
@@ -77,7 +78,7 @@ public class UiControlledPilot implements Pilot {
 
     @Override
     public void setFaction(String faction) {
-
+    // TODO
     }
 
     @Override

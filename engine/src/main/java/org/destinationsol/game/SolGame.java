@@ -167,7 +167,6 @@ public class SolGame {
          * shipName will be null on respawn and continue, meaning the old ship will be loaded.
          * If shipName is not null then a new ship has to be created.
          */
-        SolShip.shipList.clear();
         boolean isNewShip = shipName != null;
         ShipConfig shipConfig = readShipFromConfigOrLoadFromSaveIfNull(shipName, isNewShip);
         if (!respawnState.isPlayerRespawned()) {

@@ -28,6 +28,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.planet.Planet;
 import org.destinationsol.game.screens.MainGameScreen;
+import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.DisplayDimensions;
 
 public class SolCam implements UpdateAwareSystem {
@@ -299,5 +300,16 @@ public class SolCam implements UpdateAwareSystem {
         myCam.unproject(myTmpVec);
         position.x = myTmpVec.x;
         position.y = myTmpVec.y;
+    }
+
+    public Vector2 worldToScreen(SolShip ship) {
+        Vector2 distanceDifference = new Vector2(this.getPosition());
+        distanceDifference.sub(ship.getPosition());
+        distanceDifference.x /= this.getViewWidth();
+        distanceDifference.x = .5f - distanceDifference.x;
+        distanceDifference.y /= this.getViewHeight();
+        distanceDifference.y = .5f - distanceDifference.y;
+        distanceDifference.y -= .1f;
+        return distanceDifference;
     }
 }
