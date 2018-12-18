@@ -16,6 +16,7 @@
 package org.destinationsol.assets.json;
 
 import org.destinationsol.assets.Assets;
+import org.destinationsol.common.SolException;
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.ValidationException;
 import org.everit.json.schema.loader.SchemaLoader;
@@ -27,7 +28,7 @@ public class Validator {
 
     static Logger logger = LoggerFactory.getLogger(Validator.class);
 
-    public static void validate(String jsonPath, String schemaPath) {
+    public static JSONObject getValidatedJSON(String jsonPath, String schemaPath) {
         JSONObject json = Assets.getJson(jsonPath).getJsonValue();
         JSONObject schema;
 
@@ -35,16 +36,18 @@ public class Validator {
             schema = Assets.getJson(schemaPath).getJsonValue();
         } catch (RuntimeException e) {
             logger.warn("Json Schema " + schemaPath + " not found!");
-            return;
+            return json;
         }
 
         Schema schemaValidator = SchemaLoader.load(schema);
         try {
             schemaValidator.validate(json);
-        }
-        catch(ValidationException e) {
+        } catch (ValidationException e) {
             logger.warn("JSON \"" + jsonPath + "\" could not be validated against schema \"" + schemaPath + "\"." + e.getErrorMessage());
+            throw new SolException("JSON \"" + jsonPath + "\" could not be validated against schema \"" + schemaPath + "\"." + e.getErrorMessage());
         }
+
+        return json;
     }
 
 }

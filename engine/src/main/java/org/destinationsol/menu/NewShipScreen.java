@@ -117,16 +117,12 @@ public class NewShipScreen extends SolUiBaseScreen {
         Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:playerSpawnConfig");
 
         for (ResourceUrn configUrn : configUrnList) {
-            Json json = Assets.getJson(configUrn.toString());
-            JSONObject rootNode = json.getJsonValue();
-
-            Validator.validate(configUrn.toString(), "engine:schemaPlayerSpawnConfig");
+            JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaPlayerSpawnConfig");
 
             for (String s : rootNode.keySet()) {
                 playerSpawnConfigNames.add(s);
             }
 
-            json.dispose();
         }
     }
 

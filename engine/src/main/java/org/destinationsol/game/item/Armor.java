@@ -131,10 +131,7 @@ public class Armor implements SolItem {
         }
 
         public static void load(String armorName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
-            Json json = Assets.getJson(armorName);
-            JSONObject rootNode = json.getJsonValue();
-
-            Validator.validate(armorName, "engine:schemaArmor");
+            JSONObject rootNode = Validator.getValidatedJSON(armorName, "engine:schemaArmor");
 
             String displayName = rootNode.getString("displayName");
             int price = rootNode.getInt("price");
@@ -144,8 +141,6 @@ public class Armor implements SolItem {
             float basePitch = (float) rootNode.getDouble("baseSoundPitch");
             OggSoundSet bulletDmgSound = new OggSoundSet(soundManager, bulletDamageSoundUrns, basePitch);
             OggSoundSet energyDmgSound = new OggSoundSet(soundManager, energyDamageSoundUrns, basePitch);
-
-            json.dispose();
 
             TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(armorName + "Icon");
 

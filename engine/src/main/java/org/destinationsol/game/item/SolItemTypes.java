@@ -37,10 +37,7 @@ public class SolItemTypes {
     public final SolItemType fixedGun;
 
     public SolItemTypes(OggSoundManager soundManager, GameColors cols) {
-        Json json = Assets.getJson("core:types");
-        JSONObject rootNode = json.getJsonValue();
-
-        Validator.validate("core:types", "engine:schemaTypes");
+        JSONObject rootNode = Validator.getValidatedJSON("core:types", "engine:schemaTypes");
 
         clip = load(rootNode.getJSONObject("clip"), soundManager, cols);
         shield = load(rootNode.getJSONObject("shield"), soundManager, cols);
@@ -52,8 +49,6 @@ public class SolItemTypes {
         medMoney = load(rootNode.getJSONObject("medMoney"), soundManager, cols);
         bigMoney = load(rootNode.getJSONObject("bigMoney"), soundManager, cols);
         repair = load(rootNode.getJSONObject("repair"), soundManager, cols);
-
-        json.dispose();
     }
 
     private SolItemType load(JSONObject itemNode, OggSoundManager soundManager, GameColors cols) {

@@ -30,10 +30,7 @@ public class AbilityCommonConfigs {
     public final AbilityCommonConfig sloMo;
 
     public AbilityCommonConfigs(EffectTypes effectTypes, GameColors cols, OggSoundManager soundManager) {
-        Json json = Assets.getJson("core:abilitiesConfig");
-        JSONObject rootNode = json.getJsonValue();
-
-        Validator.validate("core:abilitiesConfig", "engine:schemaAbilitiesConfig");
+        JSONObject rootNode = Validator.getValidatedJSON("core:abilitiesConfig", "engine:schemaAbilitiesConfig");
 
         teleport = AbilityCommonConfig.load(rootNode.getJSONObject("teleport"), effectTypes, cols, soundManager);
         emWave = AbilityCommonConfig.load(rootNode.getJSONObject("emWave"), effectTypes, cols, soundManager);
@@ -41,6 +38,5 @@ public class AbilityCommonConfigs {
         knockBack = AbilityCommonConfig.load(rootNode.getJSONObject("knockBack"), effectTypes, cols, soundManager);
         sloMo = AbilityCommonConfig.load(rootNode.getJSONObject("sloMo"), effectTypes, cols, soundManager);
 
-        json.dispose();
     }
 }
