@@ -46,7 +46,6 @@ public class Validator {
         try {
             schemaValidator.validate(jsonObject);
         } catch (ValidationException e) {
-            logger.warn("JSON \"" + jsonPath + "\" could not be validated against schema \"" + schemaPath + "\"." + e.getErrorMessage());
             throw new SolException("JSON \"" + jsonPath + "\" could not be validated against schema \"" + schemaPath + "\"." + e.getErrorMessage());
         }
 
