@@ -164,8 +164,9 @@ public class Projectile implements SolObject {
         if (config.collisionEffectBackground != null) {
             game.getPartMan().blinks(position, game, config.collisionEffectBackground.size);
         }
-        if(ship.getPilot().isPlayer() && obstacle instanceof SolShip)
+        if (ship.getPilot().isPlayer() && obstacle instanceof SolShip) {
             ship.changeDisposition(((SolShip) obstacle).getFactionID());
+        }
 
         game.getSoundManager().play(game, config.collisionSound, null, this);
     }

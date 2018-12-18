@@ -42,6 +42,7 @@ import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashSet;
@@ -60,8 +61,6 @@ public class SolApplication implements ApplicationListener {
     private UiDrawer uiDrawer;
 
     private FactionDisplay factionDisplay;
-    private FactionInfo factionInfo;
-
     private MenuScreens menuScreens;
     private SolLayouts layouts;
     private GameOptions options;
@@ -115,8 +114,8 @@ public class SolApplication implements ApplicationListener {
         uiDrawer = new UiDrawer(commonDrawer);
         layouts = new SolLayouts();
         menuScreens = new MenuScreens(layouts, isMobile(), options);
-        inputManager.setScreen(this, menuScreens.main);
 
+        inputManager.setScreen(this, menuScreens.main);
     }
 
     @Override
@@ -191,10 +190,11 @@ public class SolApplication implements ApplicationListener {
             solGame.draw();
         }
         uiDrawer.updateMtx();
+        uiDrawer.updateMtx();
         inputManager.draw(uiDrawer, this);
         if (solGame != null) {
             solGame.drawDebugUi(uiDrawer);
-            factionDisplay.drawFactionNames(uiDrawer);
+            factionDisplay.drawFactionNames(uiDrawer, inputManager, solGame.getObjectManager());
         }
         if (fatalErrorMsg != null) {
             uiDrawer.draw(uiDrawer.whiteTexture, displayDimensions.getRatio(), .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);
@@ -204,7 +204,6 @@ public class SolApplication implements ApplicationListener {
         DebugCollector.draw(uiDrawer);
         if (solGame == null) {
             uiDrawer.drawString("v" + Const.VERSION, 0.01f, .974f, FontSize.DEBUG, UiDrawer.TextAlignment.LEFT, false, SolColor.WHITE);
-
         }
         commonDrawer.end();
     }
@@ -225,7 +224,7 @@ public class SolApplication implements ApplicationListener {
             beforeLoadGame();
         }
 
-        factionInfo = new FactionInfo();
+        FactionInfo factionInfo = new FactionInfo();
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
         factionDisplay = new FactionDisplay(solGame, factionInfo);
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);

@@ -15,15 +15,18 @@
  */
 package org.destinationsol.game;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
-import org.destinationsol.game.input.Pilot;
+import org.destinationsol.assets.Assets;
+import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.ship.SolShip;
+import org.json.JSONArray;
+import org.json.JSONTokener;
+import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FilenameFilter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class FactionInfo {
@@ -31,88 +34,71 @@ public class FactionInfo {
     private static ArrayList<String> factionName = new ArrayList<String>();
     private static ArrayList<String> factionColor = new ArrayList<String>();
     private static ArrayList<Integer> factionDisposition = new ArrayList<Integer>();
+
     public FactionInfo() {
         createFactionList();
-
     }
 
-    private void createFactionList(){
-        String[] folderList = getFolderList();
-
-        for(int i = 0; i < folderList.length; i++) {
-            File factionFile = new File("modules/" + folderList[i] + "/assets/configs/factions.JSON");
-
-            JsonParser parser = new JsonParser();
-            try {
-                FileReader fileReader = new FileReader(factionFile);
-                JsonArray factionJSON = parser.parse(fileReader).getAsJsonArray();
-                for(int n = 0; n < factionJSON.size(); n++) {
-                    factionName.add(factionJSON.get(n).getAsJsonObject().get("name").toString().replace("\"", ""));
-                    factionColor.add(factionJSON.get(n).getAsJsonObject().get("color").toString().replace("\"", ""));
-                    factionDisposition.add(factionJSON.get(n).getAsJsonObject().get("disposition").getAsInt());
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+    private void createFactionList() {
+        String[] moduleList = getModuleList();
+        for(String module: moduleList) {
+            String path =  module + ":factions";
+            System.out.println(path.equals("case:factions"));
+            System.out.println("core:factions");
+            Json factionJSON = Assets.getJson("core:factions");
+            for(int n = 0; n < factionJSON.getJsonValue().getJSONArray("factions").length(); n++) {
+                factionName.add(factionJSON.getJsonValue().getJSONArray("factions").getJSONObject(n).getString("name").replace("\"", ""));
+                factionColor.add(factionJSON.getJsonValue().getJSONArray("factions").getJSONObject(n).getString("color").replace("\"", ""));
+                factionDisposition.add(factionJSON.getJsonValue().getJSONArray("factions").getJSONObject(n).getInt("disposition"));
             }
         }
-
-
     }
 
-
-    private static String[] getFolderList(){
-
+    private static String[] getModuleList() {
         File file = new File("modules/");
-        String[] folderList = file.list(new FilenameFilter() {
+        String[] moduleList = file.list(new FilenameFilter() {
             @Override
             public boolean accept(File current, String name) {
                 return new File(current, name).isDirectory();
             }
         });
-        return folderList;
+        return moduleList;
     }
 
 
-    public static ArrayList getFactionNames(){
+    public static ArrayList getFactionNames() {
         return factionName;
     }
 
-    public static ArrayList getFactionColors(){
+    public static ArrayList getFactionColors() {
         return factionColor;
     }
 
-    public static int getFactionID(SolShip ship){
+    public static int getFactionID(SolShip ship) {
         String shipName = ship.getHull().getHullConfig().getInternalName();
-        String[] folderList = getFolderList();
-
-        for(int i = 0; i < folderList.length; i++) {
-            File factionFile = new File("modules/" + folderList[i] + "/assets/configs/factions.JSON");
-            JsonParser parser = new JsonParser();
-            shipName = shipName.replaceFirst(folderList[i], "");
-            shipName = shipName.replace(":", "");
-            try {
-                FileReader fileReader = new FileReader(factionFile);
-                JsonArray factionJSON = parser.parse(fileReader).getAsJsonArray();
-
-                for(int n = 0; n < factionJSON.size(); n++) {
-                    for(int z = 0; z < factionJSON.get(n).getAsJsonObject().get("ships").getAsJsonArray().size(); z++)
-                        if(shipName.equals(factionJSON.get(n).getAsJsonObject().get("ships").getAsJsonArray().get(z).getAsString())) {
+        String[] moduleList = getModuleList();
+        for(String module: moduleList) {
+            String path =  module + ":factions";
+            Json factionJSON = Assets.getJson(path);
+                shipName = shipName.replaceFirst(module, "");
+                shipName = shipName.replace(":", "");
+                for(int n = 0; n < factionJSON.getJsonValue().length(); n++) {
+                    for(int z = 0; z < factionJSON.getJsonValue().getJSONArray("factions").getJSONObject(n).getJSONArray("ships").length(); z++) {
+                        if(shipName.equals(factionJSON.getJsonValue().getJSONArray("factions").getJSONObject(n).getJSONArray("ships").get(z))) {
                             return n;
                         }
-
+                    }
                 }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+
         }
         return 0;
     }
 
-    public static ArrayList<Integer> getDisposition(){
+    public static ArrayList<Integer> getDisposition() {
         return factionDisposition;
     }
 
-    public static void setDisposition(int n, int num){
+    public static void setDisposition(int n, int num) {
         if(factionDisposition.get(n) <= 100)
              factionDisposition.set(n, factionDisposition.get(n) + num);
     }
