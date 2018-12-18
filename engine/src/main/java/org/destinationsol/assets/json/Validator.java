@@ -29,25 +29,30 @@ public class Validator {
     static Logger logger = LoggerFactory.getLogger(Validator.class);
 
     public static JSONObject getValidatedJSON(String jsonPath, String schemaPath) {
-        JSONObject json = Assets.getJson(jsonPath).getJsonValue();
+        Json json = Assets.getJson(jsonPath);
+        JSONObject jsonObject = json.getJsonValue();
         JSONObject schema;
 
         try {
             schema = Assets.getJson(schemaPath).getJsonValue();
         } catch (RuntimeException e) {
             logger.warn("Json Schema " + schemaPath + " not found!");
-            return json;
+
+            json.dispose();
+            return jsonObject;
         }
 
         Schema schemaValidator = SchemaLoader.load(schema);
         try {
-            schemaValidator.validate(json);
+            schemaValidator.validate(jsonObject);
         } catch (ValidationException e) {
             logger.warn("JSON \"" + jsonPath + "\" could not be validated against schema \"" + schemaPath + "\"." + e.getErrorMessage());
             throw new SolException("JSON \"" + jsonPath + "\" could not be validated against schema \"" + schemaPath + "\"." + e.getErrorMessage());
         }
 
-        return json;
+        json.dispose();
+
+        return jsonObject;
     }
 
 }
