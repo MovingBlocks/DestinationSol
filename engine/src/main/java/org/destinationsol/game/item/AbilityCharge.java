@@ -98,16 +98,11 @@ public class AbilityCharge implements SolItem {
         }
 
         public static void load(String abilityName, ItemManager itemManager, SolItemTypes types) {
-            Json json = Assets.getJson(abilityName);
-            JSONObject rootNode = json.getJsonValue();
-
-            Validator.validate(abilityName, "engine:schemaAbilityCharges");
+            JSONObject rootNode = Validator.getValidatedJSON(abilityName, "engine:schemaAbilityCharges");
 
             float price = (float) rootNode.getDouble("price");
             String displayName = rootNode.getString("displayName");
             String desc = rootNode.getString("desc");
-
-            json.dispose();
 
             TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(abilityName + "Icon");
 

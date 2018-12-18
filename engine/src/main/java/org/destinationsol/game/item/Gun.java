@@ -162,10 +162,7 @@ public class Gun implements SolItem {
         }
 
         public static void load(String gunName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
-            Json json = Assets.getJson(gunName);
-            JSONObject rootNode = json.getJsonValue();
-
-            Validator.validate(gunName, "engine:schemaGun");
+            JSONObject rootNode = Validator.getValidatedJSON(gunName, "engine:schemaGun");
 
             float minAngleVar = (float) rootNode.optDouble("minAngleVar", 0);
             float maxAngleVar = (float) rootNode.getDouble("maxAngleVar");
@@ -196,8 +193,6 @@ public class Gun implements SolItem {
                 }
                 clipConf = clip.getConfig();
             }
-
-            json.dispose();
 
             TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(gunName);
             TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(gunName + "Icon");

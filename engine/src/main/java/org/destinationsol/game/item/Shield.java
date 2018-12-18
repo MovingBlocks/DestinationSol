@@ -183,10 +183,7 @@ public class Shield implements SolItem {
         }
 
         public static void load(String shieldName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
-            Json json = Assets.getJson(shieldName);
-            JSONObject rootNode = json.getJsonValue();
-
-            Validator.validate(shieldName, "engine:schemaShield");
+            JSONObject rootNode = Validator.getValidatedJSON(shieldName, "engine:schemaShield");
 
             int maxLife = rootNode.getInt("maxLife");
             float idleTime = (float) rootNode.getDouble("idleTime");
@@ -201,8 +198,6 @@ public class Shield implements SolItem {
             OggSound absorbSound = soundManager.getSound(absorbUrn, absorbPitch);
             String regenUrn = rootNode.getString("regenSound");
             OggSound regenSound = soundManager.getSound(regenUrn);
-
-            json.dispose();
 
             TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(shieldName);
             TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(shieldName + "Icon");

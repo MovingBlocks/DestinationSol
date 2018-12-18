@@ -103,10 +103,7 @@ public final class HullConfigManager {
 
         configData.internalName = shipName;
 
-        Json json = Assets.getJson(shipName);
-        JSONObject rootNode = json.getJsonValue();
-
-        Validator.validate(shipName, "engine:schemaHullConfig");
+        JSONObject rootNode = Validator.getValidatedJSON(shipName, "engine:schemaHullConfig");
 
         readProperties(rootNode, configData);
 
@@ -114,8 +111,6 @@ public final class HullConfigManager {
         configData.icon = Assets.getAtlasRegion(shipName + "Icon");
 
         validateEngineConfig(configData);
-
-        json.dispose();
 
         return new HullConfig(configData);
     }
