@@ -43,8 +43,7 @@ public class Validator {
                 json.dispose();
                 return jsonObject;
             }
-            logger.warn(e.getMessage());
-            return jsonObject;
+            throw e;
         }
 
         Schema schemaValidator = SchemaLoader.load(schema);
