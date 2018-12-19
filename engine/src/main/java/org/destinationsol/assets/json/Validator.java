@@ -36,9 +36,14 @@ public class Validator {
         try {
             schema = Assets.getJson(schemaPath).getJsonValue();
         } catch (RuntimeException e) {
-            logger.warn("Json Schema " + schemaPath + " not found!");
+            //Checks if the RTE is for file not found
+            if (e.getMessage().equals("Json " + schemaPath + " not found!")) {
+                logger.warn("Json Schema " + schemaPath + " not found!");
 
-            json.dispose();
+                json.dispose();
+                return jsonObject;
+            }
+            logger.warn(e.getMessage());
             return jsonObject;
         }
 

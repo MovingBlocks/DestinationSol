@@ -124,8 +124,6 @@ public class Engine implements SolItem {
         public static Config load(String engineName) {
             JSONObject rootNode = Validator.getValidatedJSON(engineName, "engine:schemaEngine");
 
-            Validator.getValidatedJSON(engineName, "engine:schemaEngine");
-
             boolean isBig = rootNode.getBoolean("big");
             float rotationAcceleration = isBig ? 100f : 515f;
             float acceleration = 2f;

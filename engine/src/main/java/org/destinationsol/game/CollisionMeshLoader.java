@@ -62,7 +62,7 @@ public class CollisionMeshLoader {
     public CollisionMeshLoader(String fileName) {
         JSONObject rootNode = Validator.getValidatedJSON(fileName, "engine:schemaCollisionMesh");
 
-        readModel(rootNode);;
+        readModel(rootNode);
     }
 
     /**
