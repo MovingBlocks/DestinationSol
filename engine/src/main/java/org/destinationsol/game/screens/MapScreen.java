@@ -28,6 +28,7 @@ public class MapScreen extends SolUiBaseScreen {
     private final SolUiControl zoomOutControl;
     public final SolUiControl closeControl;
     public final SolUiControl zoomInControl;
+
     MapScreen(RightPaneLayout rightPaneLayout, boolean mobile, GameOptions gameOptions) {
         Rectangle closeArea = mobile ? MainGameScreen.btn(0, MainGameScreen.HELPER_ROW_1, true) : rightPaneLayout.buttonRect(1);
         closeControl = new SolUiControl(closeArea, true, gameOptions.getKeyMap(), gameOptions.getKeyClose());
@@ -43,7 +44,6 @@ public class MapScreen extends SolUiBaseScreen {
         zoomOutControl = new SolUiControl(zoomOutArea, true, gameOptions.getKeyZoomOut());
         zoomOutControl.setDisplayName("Zoom Out");
         controls.add(zoomOutControl);
-
     }
 
     @Override

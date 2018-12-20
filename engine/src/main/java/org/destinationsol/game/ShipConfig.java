@@ -39,7 +39,6 @@ public class ShipConfig {
     public final float dps;
     public Vector2 spawnPos;
 
-
     public ShipConfig(HullConfig hull, String items, int money, float density, ShipConfig guard, ItemManager itemManager) {
         this.hull = hull;
         this.items = items;
