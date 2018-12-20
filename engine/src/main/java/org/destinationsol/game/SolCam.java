@@ -309,7 +309,6 @@ public class SolCam implements UpdateAwareSystem {
         distanceDifference.x = .5f - distanceDifference.x;
         distanceDifference.y /= this.getViewHeight();
         distanceDifference.y = .5f - distanceDifference.y;
-        distanceDifference.y -= .1f;
         return distanceDifference;
     }
 }

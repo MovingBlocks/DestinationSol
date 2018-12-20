@@ -179,7 +179,6 @@ public class SolGame {
                 solApplication.getOptions().controlType == GameOptions.ControlType.MOUSE,
                 isNewShip);
         hero.initialise();
-
     }
 
     private ShipConfig readShipFromConfigOrLoadFromSaveIfNull(String shipName, boolean isNewShip) {

@@ -25,7 +25,12 @@ import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.SpecialSounds;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
-import org.destinationsol.game.*;
+import org.destinationsol.game.AbilityCommonConfig;
+import org.destinationsol.game.DmgType;
+import org.destinationsol.game.FactionInfo;
+import org.destinationsol.game.RemoveController;
+import org.destinationsol.game.SolGame;
+import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
 import org.destinationsol.game.gun.GunMount;
 import org.destinationsol.game.input.Pilot;
@@ -44,7 +49,6 @@ import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.hulls.Hull;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SolShip implements SolObject {
@@ -57,7 +61,6 @@ public class SolShip implements SolObject {
     private static final float ENERGY_DMG_FACTOR = .7f;
     private boolean colliding;
 
-    private FactionInfo factionInfo;
     private String factionName;
     private int factionID;
     private final Pilot myPilot;
@@ -89,7 +92,6 @@ public class SolShip implements SolObject {
         myDrawables = drawables;
         myPilot = pilot;
         myHull = hull;
-
         myItemContainer = container;
         myTradeContainer = tradeContainer;
         List<DSParticleEmitter> effs = game.getSpecialEffects().buildBodyEffs(myHull.config.getApproxRadius(), game, myHull.getPosition(), myHull.getSpeed());
@@ -108,8 +110,8 @@ public class SolShip implements SolObject {
         if (myAbility != null) {
             myAbilityAwait = myAbility.getConfig().getRechargeTime();
         }
-       factionID = factionInfo.getFactionID(this);
-       factionName = factionInfo.getFactionNames().get(factionID).toString();
+        factionID = FactionInfo.getFactionID(this);
+        factionName = FactionInfo.getFactionNames().get(factionID).toString();
     }
 
     @Override
@@ -144,8 +146,6 @@ public class SolShip implements SolObject {
                 dmg *= BASE_DUR_MOD;
             }
             receiveDmg((int) dmg, game, collPos, DmgType.CRASH);
-
-
         }
     }
 
@@ -238,7 +238,7 @@ public class SolShip implements SolObject {
         updateIdleTime(game);
         updateShield(game);
 
-        if(factionInfo.getDisposition().get(factionID) < -5)
+        if(FactionInfo.getDisposition().get(factionID) < -5)
             getPilot().setFaction("ehar");
         else
             getPilot().setFaction("laani");
@@ -667,14 +667,16 @@ public class SolShip implements SolObject {
     public MercItem getMerc() {
         return this.mercItem;
     }
+
     public String getFactionName() {
         return factionName;
     }
+
     public int getFactionID() {
         return factionID;
     }
 
     public void changeDisposition(int id) {
-        factionInfo.setDisposition(id, -1);
+        FactionInfo.setDisposition(id, -1);
     }
 }

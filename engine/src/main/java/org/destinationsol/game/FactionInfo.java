@@ -18,16 +18,10 @@ package org.destinationsol.game;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.ship.SolShip;
-import org.json.JSONArray;
-import org.json.JSONTokener;
-import org.json.JSONObject;
+import org.terasology.assets.ResourceUrn;
 
-import java.io.FilenameFilter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class FactionInfo {
 
@@ -40,31 +34,25 @@ public class FactionInfo {
     }
 
     private void createFactionList() {
-        String[] moduleList = getModuleList();
-        for(String module: moduleList) {
-            String path =  module + ":factions";
-            System.out.println(path.equals("case:factions"));
-            System.out.println("core:factions");
-            Json factionJSON = Assets.getJson("core:factions");
-            for(int n = 0; n < factionJSON.getJsonValue().getJSONArray("factions").length(); n++) {
-                factionName.add(factionJSON.getJsonValue().getJSONArray("factions").getJSONObject(n).getString("name").replace("\"", ""));
-                factionColor.add(factionJSON.getJsonValue().getJSONArray("factions").getJSONObject(n).getString("color").replace("\"", ""));
-                factionDisposition.add(factionJSON.getJsonValue().getJSONArray("factions").getJSONObject(n).getInt("disposition"));
+        for (String module : getModuleList()) {
+            String path = module.replaceAll("[[, ]]", "") + ":factions";
+            Json factionJson = Assets.getJson(path);
+            for (int n = 0; n < factionJson.getJsonValue().getJSONArray("factions").length(); n++) {
+                factionName.add(factionJson.getJsonValue().getJSONArray("factions").getJSONObject(n).getString("name").replace("\"", ""));
+                factionColor.add(factionJson.getJsonValue().getJSONArray("factions").getJSONObject(n).getString("color").replace("\"", ""));
+                factionDisposition.add(factionJson.getJsonValue().getJSONArray("factions").getJSONObject(n).getInt("disposition"));
             }
         }
     }
 
-    private static String[] getModuleList() {
-        File file = new File("modules/");
-        String[] moduleList = file.list(new FilenameFilter() {
-            @Override
-            public boolean accept(File current, String name) {
-                return new File(current, name).isDirectory();
-            }
-        });
+    private static ArrayList<String> getModuleList() {
+        ArrayList<String> moduleList = new ArrayList<String>();
+        Set<ResourceUrn> moduleUrn = Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:factions");
+        for(ResourceUrn module : moduleUrn) {
+            moduleList.add(module.getModuleName().toString());
+        }
         return moduleList;
     }
-
 
     public static ArrayList getFactionNames() {
         return factionName;
@@ -76,20 +64,18 @@ public class FactionInfo {
 
     public static int getFactionID(SolShip ship) {
         String shipName = ship.getHull().getHullConfig().getInternalName();
-        String[] moduleList = getModuleList();
-        for(String module: moduleList) {
-            String path =  module + ":factions";
-            Json factionJSON = Assets.getJson(path);
-                shipName = shipName.replaceFirst(module, "");
-                shipName = shipName.replace(":", "");
-                for(int n = 0; n < factionJSON.getJsonValue().length(); n++) {
-                    for(int z = 0; z < factionJSON.getJsonValue().getJSONArray("factions").getJSONObject(n).getJSONArray("ships").length(); z++) {
-                        if(shipName.equals(factionJSON.getJsonValue().getJSONArray("factions").getJSONObject(n).getJSONArray("ships").get(z))) {
-                            return n;
-                        }
+        for(String module: getModuleList()) {
+            String path =  module.replaceAll("[[, ]]", "") + ":factions";
+            Json factionJson = Assets.getJson(path);
+            shipName = shipName.replaceFirst(module, "");
+            shipName = shipName.replace(":", "");
+            for(int n = 0; n < factionJson.getJsonValue().length(); n++) {
+                for(int z = 0; z < factionJson.getJsonValue().getJSONArray("factions").getJSONObject(n).getJSONArray("ships").length(); z++) {
+                    if(shipName.equals(factionJson.getJsonValue().getJSONArray("factions").getJSONObject(n).getJSONArray("ships").get(z))) {
+                        return n;
                     }
                 }
-
+            }
         }
         return 0;
     }
@@ -99,8 +85,8 @@ public class FactionInfo {
     }
 
     public static void setDisposition(int n, int num) {
-        if(factionDisposition.get(n) <= 100)
-             factionDisposition.set(n, factionDisposition.get(n) + num);
+        if(factionDisposition.get(n) <= 100) {
+            factionDisposition.set(n, factionDisposition.get(n) + num);
+        }
     }
-
 }
