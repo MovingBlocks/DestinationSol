@@ -18,6 +18,7 @@ package org.destinationsol.game;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.game.ship.SolShip;
+import org.json.JSONArray;
 import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
@@ -34,9 +35,8 @@ public class FactionInfo {
     }
 
     private void createFactionList() {
-        for (String module : getModuleList()) {
-            String path = module.replaceAll("[[, ]]", "") + ":factions";
-            Json factionJson = Assets.getJson(path);
+        for (String modulePath : getModuleList()) {
+            Json factionJson = Assets.getJson(modulePath);
             for (int n = 0; n < factionJson.getJsonValue().getJSONArray("factions").length(); n++) {
                 factionName.add(factionJson.getJsonValue().getJSONArray("factions").getJSONObject(n).getString("name").replace("\"", ""));
                 factionColor.add(factionJson.getJsonValue().getJSONArray("factions").getJSONObject(n).getString("color").replace("\"", ""));
@@ -49,7 +49,7 @@ public class FactionInfo {
         ArrayList<String> moduleList = new ArrayList<String>();
         Set<ResourceUrn> moduleUrn = Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:factions");
         for(ResourceUrn module : moduleUrn) {
-            moduleList.add(module.getModuleName().toString());
+            moduleList.add(module.toString());
         }
         return moduleList;
     }
@@ -64,14 +64,13 @@ public class FactionInfo {
 
     public static int getFactionID(SolShip ship) {
         String shipName = ship.getHull().getHullConfig().getInternalName();
-        for(String module: getModuleList()) {
-            String path =  module.replaceAll("[[, ]]", "") + ":factions";
-            Json factionJson = Assets.getJson(path);
-            shipName = shipName.replaceFirst(module, "");
-            shipName = shipName.replace(":", "");
+        for(String modulePath: getModuleList()) {
+            Json factionJson = Assets.getJson(modulePath);
+            JSONArray factionJsonArray = factionJson.getJsonValue().getJSONArray("factions");
+            shipName = shipName.replaceAll(".*:", "");
             for(int n = 0; n < factionJson.getJsonValue().length(); n++) {
-                for(int z = 0; z < factionJson.getJsonValue().getJSONArray("factions").getJSONObject(n).getJSONArray("ships").length(); z++) {
-                    if(shipName.equals(factionJson.getJsonValue().getJSONArray("factions").getJSONObject(n).getJSONArray("ships").get(z))) {
+                for(int z = 0; z < factionJsonArray.getJSONObject(n).getJSONArray("ships").length(); z++) {
+                    if(shipName.equals(factionJsonArray.getJSONObject(n).getJSONArray("ships").get(z))) {
                         return n;
                     }
                 }
@@ -85,7 +84,7 @@ public class FactionInfo {
     }
 
     public static void setDisposition(int n, int num) {
-        if(factionDisposition.get(n) <= 100) {
+        if (factionDisposition.get(n) <= 100) {
             factionDisposition.set(n, factionDisposition.get(n) + num);
         }
     }
