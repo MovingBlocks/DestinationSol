@@ -37,10 +37,11 @@ public class FactionInfo {
     private void createFactionList() {
         for (String modulePath : getModuleList()) {
             Json factionJson = Assets.getJson(modulePath);
-            for (int n = 0; n < factionJson.getJsonValue().getJSONArray("factions").length(); n++) {
-                factionName.add(factionJson.getJsonValue().getJSONArray("factions").getJSONObject(n).getString("name").replace("\"", ""));
-                factionColor.add(factionJson.getJsonValue().getJSONArray("factions").getJSONObject(n).getString("color").replace("\"", ""));
-                factionDisposition.add(factionJson.getJsonValue().getJSONArray("factions").getJSONObject(n).getInt("disposition"));
+            JSONArray factionJsonArray = factionJson.getJsonValue().getJSONArray("factions");
+            for (int n = 0; n < factionJsonArray.length(); n++) {
+                factionName.add(factionJsonArray.getJSONObject(n).getString("name").replace("\"", ""));
+                factionColor.add(factionJsonArray.getJSONObject(n).getString("color").replace("\"", ""));
+                factionDisposition.add(factionJsonArray.getJSONObject(n).getInt("disposition"));
             }
         }
     }
