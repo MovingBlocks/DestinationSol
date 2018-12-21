@@ -45,7 +45,7 @@ public class FactionDisplay {
         if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
             isPressed = !isPressed;
         }
-        // angle has to be zero because the planet angles mess up the text display
+        // angle must be zero as the camera angles on planets mess up the text display
         if (isPressed && cam.getAngle() == 0 && !inputManager.isScreenOn(mapScreen)) {
             for(SolObject obj: objManager.getObjects()) {
                 if (obj instanceof SolShip) {
