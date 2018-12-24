@@ -57,6 +57,8 @@ public class SolInputManager {
     private final TextureAtlas.AtlasRegion uiCursor;
     private final Color warnColor;
     private float mouseIdleTime;
+    //HACK: Mouse locking is currently broken on Linux
+    private final boolean osIsLinux;
     private TextureAtlas.AtlasRegion currCursor;
     private boolean mouseOnUi;
     private float warnPercentage;
@@ -86,6 +88,7 @@ public class SolInputManager {
         warnColor = new Color(SolColor.UI_WARN);
 
         hoverSound = soundManager.getSound("engine:uiHover");
+        osIsLinux = System.getProperty("os.name").equals("Linux");
     }
 
     private static void setPointerPosition(InputPointer inputPointer, int screenX, int screenY) {
@@ -166,7 +169,7 @@ public class SolInputManager {
         // This keeps the mouse within the window, but only when playing the game with the mouse.
         // All other times the mouse can freely leave and return.
         if (!mobile && solApplication.getOptions().controlType == GameOptions.ControlType.MIXED && game != null && getTopScreen() != game.getScreens().menuScreen) {
-            if (!Gdx.input.isCursorCatched()) {
+            if (!Gdx.input.isCursorCatched() && !osIsLinux) {
                 Gdx.input.setCursorCatched(true);
             }
             maybeFixMousePos();
@@ -283,6 +286,11 @@ public class SolInputManager {
     }
 
     private void maybeFixMousePos() {
+        if (osIsLinux) {
+            //Mouse locking is broken on Linux
+            return;
+        }
+
         int mouseX = Gdx.input.getX();
         int mouseY = Gdx.input.getY();
         // TODO: look into the usefulness of this, and replace with Gdx.graphics.* with displayDimensions if nothing else

@@ -33,7 +33,7 @@ dependencies {
     compile "com.github.everit-org.json-schema:org.everit.json.schema:1.9.2"
 
     //TODO inserted by someone who has no idea how the gradle thing works. Inspect whether necessary (for tests). Copied rom desktop build.gradle. May break things with android (maybe)
-    testCompile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+    testCompile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
     testCompile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     testCompile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
     testCompile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
