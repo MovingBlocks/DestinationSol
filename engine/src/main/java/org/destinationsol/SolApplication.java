@@ -32,6 +32,7 @@ import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.menu.MenuScreens;
+import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
@@ -41,14 +42,18 @@ import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.module.sandbox.API;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Set;
 
+@API
 public class SolApplication implements ApplicationListener {
     private static final Logger logger = LoggerFactory.getLogger(SolApplication.class);
+
+    private final float targetFPS;
 
     @SuppressWarnings("FieldCanBeLocal")
     private ModuleManager moduleManager;
@@ -78,16 +83,16 @@ public class SolApplication implements ApplicationListener {
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
 
-    public SolApplication(ModuleManager moduleManager) {
+    public SolApplication(ModuleManager moduleManager, float targetFPS) {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
         this.moduleManager = moduleManager;
+        this.targetFPS = 1.0f / targetFPS;
+        resizeSubscribers = new HashSet<>();
     }
 
     @Override
     public void create() {
-        resizeSubscribers = new HashSet<>();
-
         context = new ContextImpl();
         context.put(SolApplication.class, this);
         worldConfig = new WorldConfig();
@@ -132,7 +137,29 @@ public class SolApplication implements ApplicationListener {
             timeAccumulator -= Const.REAL_TIME_STEP;
         }
 
-        draw();
+        //HACK: A crude and primitive frame-limiter...
+        try {
+            if (Gdx.graphics.getDeltaTime() < targetFPS) {
+                Thread.sleep((long) ((targetFPS - Gdx.graphics.getDeltaTime()) * 1000) * 2);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            draw();
+        } catch (Throwable t) {
+            logger.error("Fatal Error:", t);
+            fatalErrorMsg = "A fatal error occurred:\n" + t.getMessage();
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            t.printStackTrace(pw);
+            fatalErrorTrace = sw.toString();
+
+            if (!isMobile) {
+                throw t;
+            }
+        }
     }
 
     @Override

@@ -13,24 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@API package org.destinationsol.game.asteroid;
 
-package org.destinationsol.game.ship;
-
-import org.destinationsol.game.AbilityCommonConfig;
-import org.destinationsol.game.item.ItemManager;
-import org.destinationsol.game.item.SolItem;
-import org.json.JSONObject;
-
-public interface AbilityConfig {
-    public ShipAbility build();
-
-    public SolItem getChargeExample();
-
-    public float getRechargeTime();
-
-    void appendDesc(StringBuilder sb);
-
-    public static AbilityConfig load(JSONObject abNode, ItemManager itemManager, AbilityCommonConfig cc) {
-        return null;
-    }
-}
+import org.terasology.module.sandbox.API;
