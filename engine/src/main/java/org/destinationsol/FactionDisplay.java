@@ -36,7 +36,6 @@ import org.destinationsol.ui.UiDrawer;
  * from each of the ships and prints the appropiate values
  * above the ship
  */
-
 public class FactionDisplay {
     private SolCam cam;
     private FactionInfo info;
