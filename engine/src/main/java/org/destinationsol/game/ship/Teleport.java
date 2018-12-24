@@ -34,11 +34,11 @@ import org.destinationsol.game.planet.Planet;
 public class Teleport implements ShipAbility {
     private static final int MAX_RADIUS = 4;
     private final Vector2 newPos;
-    private final Config config;
+    private final TeleportConfig config;
     private boolean shouldTeleport;
     private float angle;
 
-    public Teleport(Config config) {
+    public Teleport(TeleportConfig config) {
         this.config = config;
         newPos = new Vector2();
     }
@@ -111,13 +111,13 @@ public class Teleport implements ShipAbility {
         SolMath.free(newSpeed);
     }
 
-    public static class Config implements AbilityConfig {
+    public static class TeleportConfig implements AbilityConfig {
         private final float angle;
         private final SolItem chargeExample;
         private final float rechargeTime;
         private final AbilityCommonConfig cc;
 
-        public Config(float angle, SolItem chargeExample, float rechargeTime, AbilityCommonConfig cc) {
+        public TeleportConfig(float angle, SolItem chargeExample, float rechargeTime, AbilityCommonConfig cc) {
             this.angle = angle;
             this.chargeExample = chargeExample;
             this.rechargeTime = rechargeTime;
@@ -128,7 +128,7 @@ public class Teleport implements ShipAbility {
             float angle = (float) abNode.getDouble("angle");
             SolItem chargeExample = itemManager.getExample("teleportCharge");
             float rechargeTime = (float) abNode.getDouble("rechargeTime");
-            return new Config(angle, chargeExample, rechargeTime, cc);
+            return new TeleportConfig(angle, chargeExample, rechargeTime, cc);
         }
 
         public ShipAbility build() {
