@@ -190,11 +190,10 @@ public class SolApplication implements ApplicationListener {
             solGame.draw();
         }
         uiDrawer.updateMtx();
-        uiDrawer.updateMtx();
         inputManager.draw(uiDrawer, this);
         if (solGame != null) {
             solGame.drawDebugUi(uiDrawer);
-            factionDisplay.drawFactionNames(uiDrawer, inputManager, solGame.getObjectManager());
+            factionDisplay.drawFactionNames(solGame, uiDrawer, inputManager, solGame.getObjectManager());
         }
         if (fatalErrorMsg != null) {
             uiDrawer.draw(uiDrawer.whiteTexture, displayDimensions.getRatio(), .5f, 0, 0, 0, .25f, 0, SolColor.UI_BG);

@@ -24,29 +24,35 @@ import org.destinationsol.game.SolGame;
 import org.destinationsol.game.ObjectManager;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolObject;
-import org.destinationsol.game.screens.MapScreen;
 import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.UiDrawer;
 
+/**
+ * @author Pendi
+ *
+ * Essentially this class acquires the necessary information
+ * from each of the ships and prints the appropiate values
+ * above the ship
+ */
+
 public class FactionDisplay {
     private SolCam cam;
     private FactionInfo info;
     private boolean isPressed = false;
-    private MapScreen mapScreen;
 
     public FactionDisplay(SolGame game, FactionInfo factionInfo) {
         cam = game.getCam();
         info = factionInfo;
     }
 
-    public void drawFactionNames(UiDrawer uiDrawer, SolInputManager inputManager, ObjectManager objManager) {
+    public void drawFactionNames(SolGame game, UiDrawer uiDrawer, SolInputManager inputManager, ObjectManager objManager) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
             isPressed = !isPressed;
         }
         // angle must be zero as the camera angles on planets mess up the text display
-        if (isPressed && cam.getAngle() == 0 && !inputManager.isScreenOn(mapScreen)) {
+        if (isPressed && cam.getAngle() == 0 && !inputManager.isScreenOn(game.getScreens().mapScreen)) {
             for(SolObject obj: objManager.getObjects()) {
                 if (obj instanceof SolShip) {
                     SolShip ship = (SolShip) obj;

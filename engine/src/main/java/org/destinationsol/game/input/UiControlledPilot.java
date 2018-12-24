@@ -78,7 +78,7 @@ public class UiControlledPilot implements Pilot {
 
     @Override
     public void setFaction(String faction) {
-    // TODO
+    // TODO Create values outside of laani and ehar, making this necessary
     }
 
     @Override

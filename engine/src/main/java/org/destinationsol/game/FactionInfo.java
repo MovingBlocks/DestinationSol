@@ -24,8 +24,14 @@ import org.terasology.assets.ResourceUrn;
 import java.util.ArrayList;
 import java.util.Set;
 
+/**
+ * @author Pendi
+ *
+ * This class reads the information from the jsons
+ * and sends it to an array that can be accessed by
+ * each ship within the game
+ */
 public class FactionInfo {
-
     private static ArrayList<String> factionName = new ArrayList<String>();
     private static ArrayList<String> factionColor = new ArrayList<String>();
     private static ArrayList<Integer> factionDisposition = new ArrayList<Integer>();
@@ -69,7 +75,7 @@ public class FactionInfo {
             Json factionJson = Assets.getJson(modulePath);
             JSONArray factionJsonArray = factionJson.getJsonValue().getJSONArray("factions");
             shipName = shipName.replaceAll(".*:", "");
-            for(int n = 0; n < factionJson.getJsonValue().length(); n++) {
+            for(int n = 0; n < factionJsonArray.length(); n++) {
                 for(int z = 0; z < factionJsonArray.getJSONObject(n).getJSONArray("ships").length(); z++) {
                     if(shipName.equals(factionJsonArray.getJSONObject(n).getJSONArray("ships").get(z))) {
                         return n;
