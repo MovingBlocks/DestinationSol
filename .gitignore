@@ -10,6 +10,7 @@ android
 gwt
 modules/*
 !modules/core
+!modules/subprojects.gradle
 
 ## GWT
 war/

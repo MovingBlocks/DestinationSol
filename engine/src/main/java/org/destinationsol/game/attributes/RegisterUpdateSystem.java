@@ -13,24 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.destinationsol.game.attributes;
 
-package org.destinationsol.game.ship;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import org.destinationsol.game.AbilityCommonConfig;
-import org.destinationsol.game.item.ItemManager;
-import org.destinationsol.game.item.SolItem;
-import org.json.JSONObject;
-
-public interface AbilityConfig {
-    public ShipAbility build();
-
-    public SolItem getChargeExample();
-
-    public float getRechargeTime();
-
-    void appendDesc(StringBuilder sb);
-
-    public static AbilityConfig load(JSONObject abNode, ItemManager itemManager, AbilityCommonConfig cc) {
-        return null;
-    }
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface RegisterUpdateSystem {
+    int priority() default 0;
+    boolean paused() default false;
 }

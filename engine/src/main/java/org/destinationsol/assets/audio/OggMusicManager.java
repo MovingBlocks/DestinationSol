@@ -165,9 +165,7 @@ public class OggMusicManager {
 
         if (Assets.getAssetHelper().list(Json.class, moduleName + ":musicConfig").isEmpty()) {
             return;
-        }
-        else
-        {
+        } else {
             logger.info("Music Config found for module " + moduleName);
         }
 
