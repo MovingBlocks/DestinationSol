@@ -66,7 +66,6 @@ public class ResolutionScreen extends SolUiBaseScreen {
         GameOptions options = solApplication.getOptions();
 
         if (closeControl.isJustOff()) {
-            Gdx.graphics.setWindowedMode(options.x, options.y);
             if (options.fullscreen) {
                 Graphics.DisplayMode mode = null;
                 //HACK: Gdx.graphics.getDisplayMode() always returns the native desktop resolution.
@@ -83,6 +82,8 @@ public class ResolutionScreen extends SolUiBaseScreen {
                 } else {
                     logger.warn("The resolution {}x{} is not supported in fullscreen mode!", options.x, options.y);
                 }
+            } else {
+                Gdx.graphics.setWindowedMode(options.x, options.y);
             }
             inputManager.setScreen(solApplication, solApplication.getMenuScreens().options);
             return;
