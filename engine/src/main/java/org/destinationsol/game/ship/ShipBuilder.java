@@ -263,15 +263,10 @@ public class ShipBuilder {
         //TODO: This logic belongs in the HullConfigManager/HullConfig
         String shipName = hullConfig.getInternalName();
 
-        Json json = Assets.getJson(shipName);
-        JSONObject rootNode = json.getJsonValue();
-
-        Validator.validate(rootNode, "engine:schemaHullConfig");
+        JSONObject rootNode = Validator.getValidatedJSON(shipName, "engine:schemaHullConfig");
 
         JSONObject rigidBodyNode = rootNode.getJSONObject("rigidBody");
         myCollisionMeshLoader.readRigidBody(rigidBodyNode, hullConfig);
-
-        json.dispose();
 
         BodyDef.BodyType bodyType = hullConfig.getType() == HullConfig.Type.STATION ? BodyDef.BodyType.KinematicBody : BodyDef.BodyType.DynamicBody;
         DrawableLevel level = hullConfig.getType() == HullConfig.Type.STD ? DrawableLevel.BODIES : hullConfig.getType() == HullConfig.Type.BIG ? DrawableLevel.BIG_BODIES : DrawableLevel.STATIONS;

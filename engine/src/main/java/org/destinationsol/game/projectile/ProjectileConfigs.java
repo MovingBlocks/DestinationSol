@@ -44,10 +44,7 @@ public class ProjectileConfigs {
         Set<ResourceUrn> projectileConfigurationFiles = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:projectilesConfig");
 
         for (ResourceUrn configUrn : projectileConfigurationFiles) {
-            Json json = Assets.getJson(configUrn.toString());
-            JSONObject rootNode = json.getJsonValue();
-
-            Validator.validate(rootNode, "engine:schemaProjectileConfig");
+            JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaProjectileConfig");
 
             for (String s : rootNode.keySet()) {
                 if (!(rootNode.get(s) instanceof JSONObject))
@@ -83,8 +80,6 @@ public class ProjectileConfigs {
                         zeroAbsSpeed, origin, acc, workSound, bodyless, density, guideRotationSpeed, dmg, emTime);
                 configs.put(name, config);
             }
-
-            json.dispose();
         }
     }
 

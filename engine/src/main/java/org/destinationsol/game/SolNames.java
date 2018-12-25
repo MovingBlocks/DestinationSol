@@ -45,18 +45,13 @@ public class SolNames {
     }
 
     private ArrayList<String> readList(String fileName) {
-        Json json = Assets.getJson(fileName);
-        JSONObject rootNode = json.getJsonValue();
-
-        Validator.validate(rootNode, "engine:schemaSolNames");
+        JSONObject rootNode = Validator.getValidatedJSON(fileName, "engine:schemaSolNames");
 
         ArrayList<String> list = new ArrayList<>();
         for (String s : rootNode.keySet()) {
             list.add(s);
         }
-
-        json.dispose();
-
+        
         return list;
     }
 }
