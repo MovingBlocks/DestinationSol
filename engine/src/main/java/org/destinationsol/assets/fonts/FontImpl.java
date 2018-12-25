@@ -15,35 +15,36 @@
  */
 package org.destinationsol.assets.fonts;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import org.terasology.assets.Asset;
 import org.terasology.assets.AssetType;
 import org.terasology.assets.ResourceUrn;
 
 import java.util.List;
 
-public abstract class Font extends Asset<FontData> {
-    protected Font(ResourceUrn urn, AssetType<?, FontData> assetType) {
+public class FontImpl extends Asset<FontData> {
+    private FontData fontData;
+
+    public FontImpl(ResourceUrn urn, AssetType<?, FontData> assetType, FontData data) {
         super(urn, assetType);
+        reload(data);
     }
 
-    public abstract int getWidth(String text);
+    @Override
+    protected void doReload(FontData data) {
+        this.fontData = data;
+    }
 
-    public abstract int getWidth(Character c);
+    public BitmapFont getBitmapFont() {
+        return fontData.getBitmapFont();
+    }
 
-    public abstract int getHeight(String text);
+    public int getWidth(String text){
+        GlyphLayout layout = new GlyphLayout();
+        layout.setText(getBitmapFont(),text);
+        return (int) layout.width;
 
-    public abstract int getLineHeight();
+    }
 
-    public abstract int getBaseHeight();
-
-    public abstract Vector2 getSize(List<String> lines);
-
-    public abstract boolean hasCharacter(Character c);
-
-//    public abstract FontCharacter getCharacterData(Character c);
-
-    public abstract int getUnderlineOffset();
-
-    public abstract int getUnderlineThickness();
 }

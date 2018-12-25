@@ -42,7 +42,12 @@ import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.entitysystem.component.CodeGenComponentManager;
+import org.terasology.entitysystem.core.EntityManager;
+import org.terasology.entitysystem.entity.inmemory.InMemoryEntityManager;
+import org.terasology.entitysystem.transaction.TransactionManager;
 import org.terasology.module.sandbox.API;
+import org.terasology.valuetype.TypeLibrary;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -93,6 +98,12 @@ public class SolApplication implements ApplicationListener {
     @Override
     public void create() {
         context = new ContextImpl();
+
+        TransactionManager transactionManager = new TransactionManager();
+        context.put(EntityManager.class,new InMemoryEntityManager(new CodeGenComponentManager(new TypeLibrary()),transactionManager));
+
+
+
         context.put(SolApplication.class, this);
         worldConfig = new WorldConfig();
         isMobile = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;

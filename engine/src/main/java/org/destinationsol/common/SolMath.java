@@ -16,6 +16,7 @@
 package org.destinationsol.common;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -537,5 +538,18 @@ public class SolMath {
             dec = -dec;
         }
         return whole + "." + dec;
+    }
+
+
+    /**
+     * a + b, but if the result exceeds Integer.MAX_VALUE then the result will be Integer.MAX_VALUE rather than overflowing.
+     *
+     * @param a
+     * @param b
+     * @return min(a + b, Integer.MAX_VALUE)
+     */
+    public static int addClampAtMax(int a, int b) {
+        long result = (long) a + (long) b;
+        return (int) Math.min(result, Integer.MAX_VALUE);
     }
 }
