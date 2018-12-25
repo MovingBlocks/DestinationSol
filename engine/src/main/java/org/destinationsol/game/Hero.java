@@ -16,6 +16,8 @@
 package org.destinationsol.game;
 
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.GameOptions;
+import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.common.SolException;
 import org.destinationsol.game.console.commands.PositionCommandHandler;
 import org.destinationsol.game.input.Pilot;
@@ -27,6 +29,8 @@ import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.ShipAbility;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.Hull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A wrapper class for the Hero, that handles the normal and transcendent ships transparently.
@@ -39,11 +43,11 @@ public class Hero {
     private boolean isTranscendent;
     private boolean isDead;
 
-    public Hero(SolShip shipHero) {
+    public Hero(SolShip shipHero, SolGame solGame) {
         if (shipHero == null) {
             throw new SolException("Something is trying to create the hero when there is no ship linked to him.");
         }
-        setSolShip(shipHero);
+        setSolShip(shipHero, solGame);
     }
 
     public void initialise() {
@@ -60,7 +64,7 @@ public class Hero {
         isTranscendent = true;
     }
 
-    public void setSolShip(SolShip hero) {
+    public void setSolShip(SolShip hero, SolGame solGame) {
         isDead = false;
         if (hero != shipHero) {
             mercs = new ItemContainer();
@@ -70,6 +74,11 @@ public class Hero {
         if (shipHero.getTradeContainer() != null) {
             throw new SolException("Hero is not supposed to have TradeContainer.");
         }
+        GameOptions options = solGame.getSolApplication().getOptions();
+        //Satisfying unit tests
+        if(hero.getHull() != null)
+            solGame.getSolApplication().getMusicManager().registerModuleMusic(hero.getHull().getHullConfig().getInternalName().split(":")[0], options);
+        solGame.getSolApplication().getMusicManager().playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 
     public boolean isTranscendent() {

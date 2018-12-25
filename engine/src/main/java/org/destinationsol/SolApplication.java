@@ -32,6 +32,7 @@ import org.destinationsol.game.WorldConfig;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.game.context.internal.ContextImpl;
 import org.destinationsol.menu.MenuScreens;
+import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.DebugCollector;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
@@ -41,14 +42,18 @@ import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.module.sandbox.API;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Set;
 
+@API
 public class SolApplication implements ApplicationListener {
     private static final Logger logger = LoggerFactory.getLogger(SolApplication.class);
+
+    private final float targetFPS;
 
     @SuppressWarnings("FieldCanBeLocal")
     private ModuleManager moduleManager;
@@ -78,15 +83,15 @@ public class SolApplication implements ApplicationListener {
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
 
-    public SolApplication() {
+    public SolApplication(float targetFPS) {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
+        this.targetFPS = 1.0f / targetFPS;
+        resizeSubscribers = new HashSet<>();
     }
 
     @Override
     public void create() {
-        resizeSubscribers = new HashSet<>();
-
         context = new ContextImpl();
         context.put(SolApplication.class, this);
         worldConfig = new WorldConfig();
@@ -101,7 +106,7 @@ public class SolApplication implements ApplicationListener {
         logger.info("\n\n ------------------------------------------------------------ \n");
         moduleManager.printAvailableModules();
 
-        musicManager = new OggMusicManager();
+        musicManager = new OggMusicManager(options);
         soundManager = new OggSoundManager(context);
         inputManager = new SolInputManager(soundManager);
 
@@ -133,7 +138,29 @@ public class SolApplication implements ApplicationListener {
             timeAccumulator -= Const.REAL_TIME_STEP;
         }
 
-        draw();
+        //HACK: A crude and primitive frame-limiter...
+        try {
+            if (Gdx.graphics.getDeltaTime() < targetFPS) {
+                Thread.sleep((long) ((targetFPS - Gdx.graphics.getDeltaTime()) * 1000) * 2);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            draw();
+        } catch (Throwable t) {
+            logger.error("Fatal Error:", t);
+            fatalErrorMsg = "A fatal error occurred:\n" + t.getMessage();
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            t.printStackTrace(pw);
+            fatalErrorTrace = sw.toString();
+
+            if (!isMobile) {
+                throw t;
+            }
+        }
     }
 
     @Override
@@ -211,7 +238,6 @@ public class SolApplication implements ApplicationListener {
 
         inputManager.setScreen(this, menuScreens.loading);
         menuScreens.loading.setMode(tut, shipName, isNewGame);
-        musicManager.playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 
     public void play(boolean tut, String shipName, boolean isNewGame) {
@@ -223,7 +249,6 @@ public class SolApplication implements ApplicationListener {
 
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
-        musicManager.playMusic(OggMusicManager.GAME_MUSIC_SET, options);
     }
 
     public SolInputManager getInputManager() {
@@ -275,7 +300,9 @@ public class SolApplication implements ApplicationListener {
     }
 
 
-     /** This method is called when the "New Game" button gets pressed. It sets the seed for random generation, and the number of systems */
+    /**
+     * This method is called when the "New Game" button gets pressed. It sets the seed for random generation, and the number of systems
+     */
     private void beforeNewGame() {
         // Reset the seed so this galaxy isn't the same as the last
         worldConfig.setSeed(System.currentTimeMillis());
@@ -284,7 +311,9 @@ public class SolApplication implements ApplicationListener {
         worldConfig.setNumberOfSystems(getMenuScreens().newShip.getNumberOfSystems());
     }
 
-     /** This method is called when the "Continue" button gets pressed. It loads the world file to get the seed used for the world generation, and the number of systems */
+    /**
+     * This method is called when the "Continue" button gets pressed. It loads the world file to get the seed used for the world generation, and the number of systems
+     */
     private void beforeLoadGame() {
         WorldConfig config = SaveManager.loadWorld();
         if (config != null) {

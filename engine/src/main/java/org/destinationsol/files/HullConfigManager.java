@@ -16,28 +16,29 @@
 package org.destinationsol.files;
 
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.assets.json.Validator;
+import org.destinationsol.game.AbilityCommonConfig;
+import org.destinationsol.modules.ModuleManager;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
-import org.destinationsol.assets.json.Validator;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.AbilityCommonConfigs;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.ItemManager;
 import org.destinationsol.game.particle.DSParticleEmitter;
 import org.destinationsol.game.ship.AbilityConfig;
-import org.destinationsol.game.ship.EmWave;
-import org.destinationsol.game.ship.KnockBack;
-import org.destinationsol.game.ship.SloMo;
-import org.destinationsol.game.ship.Teleport;
-import org.destinationsol.game.ship.UnShield;
 import org.destinationsol.game.ship.hulls.GunSlot;
 import org.destinationsol.game.ship.hulls.HullConfig;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.terasology.module.Module;
+import org.terasology.naming.Name;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public final class HullConfigManager {
@@ -45,6 +46,19 @@ public final class HullConfigManager {
     private final AbilityCommonConfigs abilityCommonConfigs;
     private final Map<String, HullConfig> nameToConfigMap;
     private final Map<HullConfig, String> configToNameMap;
+    private static final Map<String, Class<AbilityConfig>> abilityClasses;
+    private static final String LOAD_JSON_METHOD_NAME = "load";
+
+    static {
+        abilityClasses = new HashMap<String, Class<AbilityConfig>>();
+        for (Class abilityClass : ModuleManager.getEnvironment().getSubtypesOf(AbilityConfig.class)) {
+            try {
+                abilityClasses.put(abilityClass.getSimpleName().replace("Config", "").toLowerCase(Locale.ENGLISH), abilityClass);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public HullConfigManager(ItemManager itemManager, AbilityCommonConfigs abilityCommonConfigs) {
         this.itemManager = itemManager;
@@ -62,8 +76,9 @@ public final class HullConfigManager {
     }
 
     private static Engine.Config readEngineConfig(String engineName, ItemManager itemManager) {
-        if (engineName == null)
+        if (engineName == null) {
             return null;
+        }
 
         return itemManager.getEngineConfig(engineName);
     }
@@ -192,22 +207,17 @@ public final class HullConfigManager {
         if (abNode == null) {
             return null;
         }
-        String type = abNode.optString("type");
-        if ("sloMo".equals(type)) {
-            return SloMo.Config.load(abNode, manager, commonConfigs.sloMo);
+        String type = abNode.optString("type").toLowerCase(Locale.ENGLISH);
+
+        if (abilityClasses.containsKey(type)) {
+            try {
+                Method loadMethod = abilityClasses.get(type).getDeclaredMethod(LOAD_JSON_METHOD_NAME, JSONObject.class, ItemManager.class, AbilityCommonConfig.class);
+                return (AbilityConfig) loadMethod.invoke(null, abNode, manager, commonConfigs.abilityConfigs.get(type));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        if ("teleport".equals(type)) {
-            return Teleport.Config.load(abNode, manager, commonConfigs.teleport);
-        }
-        if ("knockBack".equals(type)) {
-            return KnockBack.Config.load(abNode, manager, commonConfigs.knockBack);
-        }
-        if ("emWave".equals(type)) {
-            return EmWave.Config.load(abNode, manager, commonConfigs.emWave);
-        }
-        if ("unShield".equals(type)) {
-            return UnShield.Config.load(abNode, manager, commonConfigs.unShield);
-        }
+
         return null;
     }
 

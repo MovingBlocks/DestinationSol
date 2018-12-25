@@ -50,80 +50,14 @@
       "properties": {
         "type": {
           "type": "string",
-          "description": "Type of ship's ability - one of 'sloMo', 'knockBack', 'teleport', 'emWave', 'unShield'"
+          "description": "Type of ship's ability"
         },
         "rechargeTime": {
           "type": "number",
           "minimum": 0,
           "description": "Recharge time of ability in seconds."
         }
-      },
-      "anyOf": [
-        {
-          "properties": {
-            "type": {
-              "enum": [
-                "sloMo"
-              ]
-            },
-            "factor": {
-              "type": "number",
-              "description": "Multiplier of time speed - 1 is normal speed, lower values slow down time, higher speed up time."
-            }
-          }
-        },
-        {
-          "properties": {
-            "type": {
-              "enum": [
-                "teleport"
-              ]
-            },
-            "angle": {
-              "type": "number"
-            }
-          }
-        },
-        {
-          "properties": {
-            "type": {
-              "enum": [
-                "knockBack"
-              ]
-            },
-            "force": {
-              "type": "number",
-              "description": "Denotes how hard everything within radius is pushed away."
-            }
-          }
-        },
-        {
-          "properties": {
-            "type": {
-              "enum": [
-                "emWave"
-              ]
-            },
-            "duration": {
-              "type": "number",
-              "description": "For how long controls of ships in range will be disabled, in seconds."
-            }
-          }
-        },
-        {
-          "properties": {
-            "type": {
-              "enum": [
-                "unShield"
-              ]
-            },
-            "amount": {
-              "type": "number",
-              "description": "Damage to deal to enemy shields."
-            }
-          }
-        }
-      ]
+      }
     },
     "displayName": {
       "type": "string",
