@@ -16,7 +16,9 @@
 package org.destinationsol.assets.json;
 
 import org.destinationsol.assets.Assets;
+import org.destinationsol.common.SolException;
 import org.everit.json.schema.Schema;
+import org.everit.json.schema.ValidationException;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -26,18 +28,34 @@ public class Validator {
 
     static Logger logger = LoggerFactory.getLogger(Validator.class);
 
-    public static void validate(JSONObject json, String schemaPath) {
+    public static JSONObject getValidatedJSON(String jsonPath, String schemaPath) {
+        Json json = Assets.getJson(jsonPath);
+        JSONObject jsonObject = json.getJsonValue();
         JSONObject schema;
 
         try {
             schema = Assets.getJson(schemaPath).getJsonValue();
         } catch (RuntimeException e) {
-            logger.warn("Json Schema " + schemaPath + " not found!", e);
-            return;
+            //Checks if the RTE is for file not found
+            if (e.getMessage().equals("Json " + schemaPath + " not found!")) {
+                logger.warn("Json Schema " + schemaPath + " not found!");
+
+                json.dispose();
+                return jsonObject;
+            }
+            throw e;
         }
 
         Schema schemaValidator = SchemaLoader.load(schema);
-        schemaValidator.validate(json);
+        try {
+            schemaValidator.validate(jsonObject);
+        } catch (ValidationException e) {
+            throw new SolException("JSON \"" + jsonPath + "\" could not be validated against schema \"" + schemaPath + "\"." + e.getErrorMessage());
+        }
+
+        json.dispose();
+
+        return jsonObject;
     }
 
 }

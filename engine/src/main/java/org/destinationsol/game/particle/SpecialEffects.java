@@ -40,10 +40,7 @@ public class SpecialEffects {
     private final EffectConfig forceBeacon;
 
     public SpecialEffects(EffectTypes effectTypes, GameColors colours) {
-        Json json = Assets.getJson("core:specialEffectsConfig");
-        JSONObject rootNode = json.getJsonValue();
-
-        Validator.validate(rootNode, "engine:schemaSpecialEffectsConfig");
+        JSONObject rootNode = Validator.getValidatedJSON("core:specialEffectsConfig", "engine:schemaSpecialEffectsConfig");
 
         smoke = EffectConfig.load(rootNode.getJSONObject("smoke"), effectTypes, colours);
         fire = EffectConfig.load(rootNode.getJSONObject("fire"), effectTypes, colours);
@@ -54,8 +51,6 @@ public class SpecialEffects {
         forceBeacon = EffectConfig.load(rootNode.getJSONObject("forceBeacon"), effectTypes, colours);
         starPortFlow = EffectConfig.load(rootNode.getJSONObject("starPortFlow"), effectTypes, colours);
         transcendentWork = EffectConfig.load(rootNode.getJSONObject("transcendentWork"), effectTypes, colours);
-
-        json.dispose();
     }
 
     public List<DSParticleEmitter> buildBodyEffs(float objRad, SolGame game, Vector2 position, Vector2 speed) {
