@@ -66,8 +66,7 @@ public abstract class Assets {
         String[] strings = path.split(":");
 
         if (strings.length < 2) {
-            logger.error("Invalid resource name " + path);
-            exit(-1);
+            throw new RuntimeException("Invalid resource name (missing namespace?) `" + path + "`");
         }
 
         String module = strings[0];

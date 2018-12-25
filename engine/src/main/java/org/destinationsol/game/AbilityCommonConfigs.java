@@ -44,6 +44,6 @@ public class AbilityCommonConfigs {
                     abilityConfigs.put(normalisedName, AbilityCommonConfig.load(rootNode.getJSONObject(abilityName), effectTypes, cols, soundManager));
                 }
             }
-
+        }
     }
 }
