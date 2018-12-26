@@ -18,13 +18,14 @@ package org.destinationsol.game.planet;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.files.HullConfigManager;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.GameColors;
-import org.destinationsol.game.GameDrawer;
+
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolNames;
@@ -190,7 +191,7 @@ public class PlanetManager implements UpdateAwareSystem {
         return nearestPlanet;
     }
 
-    public void drawDebug(GameDrawer drawer, SolGame game) {
+    public void drawDebug(CommonDrawer drawer, SolGame game) {
         if (DebugOptions.DRAW_PLANET_BORDERS) {
             SolCam cam = game.getCam();
             float lineWidth = cam.getRealLineWidth();
@@ -200,9 +201,9 @@ public class PlanetManager implements UpdateAwareSystem {
                 float angle = planet.getAngle();
                 float fullHeight = planet.getFullHeight();
                 Color color = planet == nearestPlanet ? SolColor.WHITE : SolColor.G;
-                drawer.drawCircle(drawer.debugWhiteTexture, position, planet.getGroundHeight(), color, lineWidth, viewHeight);
-                drawer.drawCircle(drawer.debugWhiteTexture, position, fullHeight, color, lineWidth, viewHeight);
-                drawer.drawLine(drawer.debugWhiteTexture, position.x, position.y, angle, fullHeight, color, lineWidth);
+                drawer.drawCircle(drawer.debugWhiteTexture, position, planet.getGroundHeight(), color, lineWidth, viewHeight,false);
+                drawer.drawCircle(drawer.debugWhiteTexture, position, fullHeight, color, lineWidth, viewHeight,false);
+                drawer.drawLine(drawer.debugWhiteTexture, position.x, position.y, angle, fullHeight, color, lineWidth,false);
             }
 
         }
@@ -255,11 +256,11 @@ public class PlanetManager implements UpdateAwareSystem {
         return res;
     }
 
-    public void drawSunHack(SolGame game, GameDrawer drawer) {
+    public void drawSunHack(SolGame game, CommonDrawer drawer) {
         sunSingleton.draw(game, drawer);
     }
 
-    public void drawPlanetCoreHack(SolGame game, GameDrawer drawer) {
+    public void drawPlanetCoreHack(SolGame game, CommonDrawer drawer) {
         planetCoreSingleton.draw(game, drawer);
     }
 }

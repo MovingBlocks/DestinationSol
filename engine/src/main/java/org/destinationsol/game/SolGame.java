@@ -99,11 +99,10 @@ public class SolGame {
 
     public SolGame(String shipName, boolean tut, boolean isNewGame, CommonDrawer commonDrawer, Context context, WorldConfig worldConfig) {
         solApplication = context.get(SolApplication.class);
-        GameDrawer drawer = new GameDrawer(commonDrawer);
         gameColors = new GameColors();
         soundManager = solApplication.getSoundManager();
         specialSounds = new SpecialSounds(soundManager);
-        drawableManager = new DrawableManager(drawer);
+        drawableManager = new DrawableManager(commonDrawer);
         camera = new SolCam();
         gameScreens = new GameScreens(solApplication, context);
         tutorialManager = tut ? new TutorialManager(gameScreens, solApplication.isMobile(), solApplication.getOptions(), this) : null;
@@ -273,7 +272,7 @@ public class SolGame {
         drawableManager.draw(this);
     }
 
-    public void drawDebug(GameDrawer drawer) {
+    public void drawDebug(CommonDrawer drawer) {
         if (DebugOptions.GRID_SZ > 0) {
             gridDrawer.draw(drawer, this, DebugOptions.GRID_SZ, drawer.debugWhiteTexture);
         }
@@ -287,10 +286,10 @@ public class SolGame {
         drawDebugPoint(drawer, DebugOptions.DEBUG_POINT3, DebugCol.POINT3);
     }
 
-    private void drawDebugPoint(GameDrawer drawer, Vector2 dp, Color col) {
+    private void drawDebugPoint(CommonDrawer drawer, Vector2 dp, Color col) {
         if (dp.x != 0 || dp.y != 0) {
             float sz = camera.getRealLineWidth() * 5;
-            drawer.draw(drawer.debugWhiteTexture, sz, sz, sz / 2, sz / 2, dp.x, dp.y, 0, col);
+            drawer.draw(drawer.debugWhiteTexture, sz, sz, sz / 2, sz / 2, dp.x, dp.y, 0, col,false);
         }
     }
 

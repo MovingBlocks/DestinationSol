@@ -20,12 +20,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolColorUtil;
 import org.destinationsol.common.SolRandom;
-import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.planet.Planet;
@@ -53,7 +53,7 @@ public class FarBackgroundManagerOld {
         nebulaTint = SolColor.col(.5f, 1);
     }
 
-    public void draw(GameDrawer drawer, SolCam cam, SolGame game) {
+    public void draw(CommonDrawer drawer, SolCam cam, SolGame game) {
         Planet np = game.getPlanetManager().getNearestPlanet();
         Vector2 camPos = cam.getPosition();
         float nebPercentage = (camPos.dst(np.getPosition()) - np.getGroundHeight()) / (4 * Const.ATM_HEIGHT);
@@ -61,7 +61,7 @@ public class FarBackgroundManagerOld {
         nebulaTint.a = nebPercentage;
 
         float vd = cam.getViewDistance();
-        drawer.draw(nebulaTexture, vd * 2, vd * 2, vd, vd, camPos.x, camPos.y, nebulaAngle, nebulaTint);
+        drawer.draw(nebulaTexture, vd * 2, vd * 2, vd, vd, camPos.x, camPos.y, nebulaAngle, nebulaTint,false);
         for (FarBackgroundStar star : stars) {
             star.draw(drawer, vd, camPos, cam.getAngle());
         }
@@ -84,10 +84,10 @@ public class FarBackgroundManagerOld {
             SolColorUtil.fromHSB(SolRandom.randomFloat(0, 1), .25f, 1, .7f, myTint);
         }
 
-        public void draw(GameDrawer drawer, float vd, Vector2 camPos, float camAngle) {
+        public void draw(CommonDrawer drawer, float vd, Vector2 camPos, float camAngle) {
             float sz = vd * mySzPercentage;
             position.set(myShiftPercentage).scl(vd).add(camPos);
-            drawer.drawAdditive(myTexture, sz, sz, sz / 2, sz / 2, position.x, position.y, camAngle, myTint);
+            drawer.draw(myTexture, sz, sz, sz / 2, sz / 2, position.x, position.y, camAngle, myTint,true);
         }
     }
 }

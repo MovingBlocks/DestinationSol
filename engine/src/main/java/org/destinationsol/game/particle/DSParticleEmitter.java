@@ -23,12 +23,13 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.JsonValue;
 import com.google.common.base.Preconditions;
+import org.destinationsol.CommonDrawer;
 import org.destinationsol.assets.audio.OggSoundSet;
 import org.destinationsol.common.NotNull;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.GameColors;
-import org.destinationsol.game.GameDrawer;
+
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
@@ -399,7 +400,7 @@ public class DSParticleEmitter {
         }
 
         @Override
-        public void draw(GameDrawer drawer, SolGame game) {
+        public void draw(CommonDrawer drawer, SolGame game) {
             drawer.draw(particleEmitter, config.tex, config.emitter.additive);
         }
 

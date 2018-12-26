@@ -17,9 +17,10 @@ package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.CommonDrawer;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
-import org.destinationsol.game.GameDrawer;
+
 import org.destinationsol.game.SolCam;
 import org.destinationsol.game.SolGame;
 
@@ -30,7 +31,7 @@ public class PlanetCoreSingleton {
         texture = Assets.getAtlasRegion("engine:planetStarCommonPlanetCore");
     }
 
-    public void draw(SolGame game, GameDrawer drawer) {
+    public void draw(SolGame game, CommonDrawer drawer) {
         SolCam cam = game.getCam();
         Vector2 camPosition = cam.getPosition();
         Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();
@@ -39,7 +40,7 @@ public class PlanetCoreSingleton {
         float viewDistance = cam.getViewDistance();
         float minGroundHeight = nearestPlanet.getMinGroundHeight();
         if (distanceToCam < minGroundHeight + viewDistance) {
-            drawer.draw(texture, minGroundHeight * 2, minGroundHeight * 2, minGroundHeight, minGroundHeight, planetPosition.x, planetPosition.y, nearestPlanet.getAngle(), SolColor.WHITE);
+            drawer.draw(texture, minGroundHeight * 2, minGroundHeight * 2, minGroundHeight, minGroundHeight, planetPosition.x, planetPosition.y, nearestPlanet.getAngle(), SolColor.WHITE,false);
         }
     }
 }

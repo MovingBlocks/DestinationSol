@@ -18,9 +18,9 @@ package org.destinationsol.game.drawables;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.CommonDrawer;
 import org.destinationsol.common.Consumed;
 import org.destinationsol.common.SolMath;
-import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 
@@ -127,7 +127,7 @@ public class RectSprite implements Drawable {
     }
 
     @Override
-    public void draw(GameDrawer drawer, SolGame game) {
+    public void draw(CommonDrawer drawer, SolGame game) {
         float x = position.x;
         float y = position.y;
         if (level.depth != 1) {
@@ -135,11 +135,7 @@ public class RectSprite implements Drawable {
             x = (x - camPosition.x) / level.depth + camPosition.x;
             y = (y - camPosition.y) / level.depth + camPosition.y;
         }
-        if (isAdditive) {
-            drawer.drawAdditive(texture, textureSizeX, textureSizeY, originalX, originalY, x, y, angle, tint);
-        } else {
-            drawer.draw(texture, textureSizeX, textureSizeY, originalX, originalY, x, y, angle, tint);
-        }
+        drawer.draw(texture, textureSizeX, textureSizeY, originalX, originalY, x, y, angle, tint,isAdditive);
     }
 
     @Override

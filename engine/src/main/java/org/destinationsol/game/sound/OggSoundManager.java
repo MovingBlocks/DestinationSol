@@ -17,6 +17,7 @@ package org.destinationsol.game.sound;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSound;
@@ -25,7 +26,7 @@ import org.destinationsol.common.Nullable;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.GameDrawer;
+
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -168,7 +169,7 @@ public class OggSoundManager {
         return playing;
     }
 
-    public void drawDebug(GameDrawer drawer, SolGame game) {
+    public void drawDebug(CommonDrawer drawer, SolGame game) {
         if (DebugOptions.SOUND_INFO) {
             debugHintDrawer.draw(drawer, game);
         }

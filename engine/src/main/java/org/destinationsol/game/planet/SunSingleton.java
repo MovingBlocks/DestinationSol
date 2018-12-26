@@ -19,12 +19,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.DmgType;
-import org.destinationsol.game.GameDrawer;
+
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 
@@ -44,7 +45,7 @@ public class SunSingleton {
         fillTint = SolColor.col(1, 1);
     }
 
-    public void draw(SolGame game, GameDrawer drawer) {
+    public void draw(SolGame game, CommonDrawer drawer) {
         Vector2 camPos = game.getCam().getPosition();
         SolSystem sys = game.getPlanetManager().getNearestSystem(camPos);
         Vector2 toCam = SolMath.getVec(camPos);
@@ -57,8 +58,8 @@ public class SunSingleton {
 
             float sz = 2 * game.getCam().getViewDistance();
             float gradAngle = SolMath.angle(toCam) + 90;
-            drawer.draw(whiteTexture, sz * 2, sz * 2, sz, sz, camPos.x, camPos.y, 0, fillTint);
-            drawer.draw(gradatingTexture, sz * 2, sz * 2, sz, sz, camPos.x, camPos.y, gradAngle, gradatingTint);
+            drawer.draw(whiteTexture, sz * 2, sz * 2, sz, sz, camPos.x, camPos.y, 0, fillTint,false);
+            drawer.draw(gradatingTexture, sz * 2, sz * 2, sz, sz, camPos.x, camPos.y, gradAngle, gradatingTint,false);
         }
         SolMath.free(toCam);
     }

@@ -17,6 +17,7 @@ package org.destinationsol.assets.audio;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
@@ -24,7 +25,6 @@ import org.destinationsol.common.Nullable;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.Hero;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -71,7 +71,7 @@ public class OggSoundManager implements UpdateAwareSystem {
     private final Map<SolObject, Map<OggSound, Float>> loopedSoundMap;
     /**
      * Used for drawing debug hints when {@link DebugOptions#SOUND_INFO} flag is set. See
-     * {@link #drawDebug(GameDrawer, SolGame)} for more info.
+     * {@link #drawDebug(CommonDrawer, SolGame)} for more info.
      */
     private final DebugHintDrawer debugHintDrawer;
 
@@ -261,17 +261,17 @@ public class OggSoundManager implements UpdateAwareSystem {
     /**
      * Draws info about recently played sounds in player proximity when {@link DebugOptions#SOUND_INFO} flag is set.
      *
-     * @param drawer GameDrawer to use for drawing
+     * @param drawer CommonDrawer to use for drawing
      * @param game   Game to draw to.
      */
-    public void drawDebug(GameDrawer drawer, SolGame game) {
+    public void drawDebug(CommonDrawer drawer, SolGame game) {
         if (DebugOptions.SOUND_INFO) {
             debugHintDrawer.draw(drawer, game);
         }
     }
 
     /**
-     * Updates drawer used in {@link #drawDebug(GameDrawer, SolGame)} and removes unnecessary objects.
+     * Updates drawer used in {@link #drawDebug(CommonDrawer, SolGame)} and removes unnecessary objects.
      *
      * @param game Game currently in progress.
      */

@@ -17,6 +17,7 @@ package org.destinationsol.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import org.destinationsol.CommonDrawer;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.game.ship.SolShip;
@@ -54,7 +55,7 @@ public class MountDetectDrawer implements UpdateAwareSystem{
         myShouldDraw = true;
     }
 
-    public void draw(GameDrawer drawer) {
+    public void draw(CommonDrawer drawer) {
         if (!myShouldDraw) {
             return;
         }
@@ -63,6 +64,6 @@ public class MountDetectDrawer implements UpdateAwareSystem{
             radPercentage = 2 - radPercentage;
         }
         float rad = myBaseRad * (1 + .5f * radPercentage);
-        drawer.draw(myTexture, rad * 2, rad * 2, rad, rad, myNePos.x, myNePos.y, myAngle, SolColor.WHITE);
+        drawer.draw(myTexture, rad * 2, rad * 2, rad, rad, myNePos.x, myNePos.y, myAngle, SolColor.WHITE,false);
     }
 }

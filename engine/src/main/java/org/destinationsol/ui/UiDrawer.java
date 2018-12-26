@@ -111,23 +111,23 @@ public class UiDrawer implements ResizeSubscriber {
     }
 
     public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y, float rot, Color tint) {
-        drawer.draw(tr, width, height, origX, origY, x, y, rot, tint);
+        drawer.draw(tr, width, height, origX, origY, x, y, rot, tint,false);
     }
 
     public void draw(Rectangle rect, Color tint) {
-        drawer.draw(whiteTexture, rect, tint);
+        drawer.draw(whiteTexture, rect, tint,false);
     }
 
     public void drawCircle(Vector2 center, float radius, Color col) {
-        drawer.drawCircle(whiteTexture, center, radius, col, uiLineWidth, 1);
+        drawer.drawCircle(whiteTexture, center, radius, col, uiLineWidth, 1,false);
     }
 
     public void drawLine(float x, float y, float angle, float len, Color col) {
-        drawer.drawLine(whiteTexture, x, y, angle, len, col, uiLineWidth);
+        drawer.drawLine(whiteTexture, x, y, angle, len, col, uiLineWidth,false);
     }
 
     public void drawLine(Vector2 p1, Vector2 p2, Color col) {
-        drawer.drawLine(whiteTexture, p1, p2, col, uiLineWidth, false);
+        drawer.drawLine(whiteTexture, p1, p2, col, uiLineWidth, false,false);
     }
 
     @Override

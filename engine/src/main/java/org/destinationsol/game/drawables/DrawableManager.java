@@ -22,9 +22,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.OrderedMap;
+import org.destinationsol.CommonDrawer;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.game.DebugOptions;
-import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.MapDrawer;
 import org.destinationsol.game.ObjectManager;
 import org.destinationsol.game.SolCam;
@@ -41,9 +41,9 @@ public class DrawableManager {
     private final DrawableLevel[] drawableLevels;
     private final ArrayList<OrderedMap<Texture, List<Drawable>>> drawables;
     private final Set<Drawable> visibleDrawables = new HashSet<>();
-    private final GameDrawer drawer;
+    private final CommonDrawer drawer;
 
-    public DrawableManager(GameDrawer drawer) {
+    public DrawableManager(CommonDrawer drawer) {
         drawableLevels = DrawableLevel.values();
         this.drawer = drawer;
         drawables = new ArrayList<>();
@@ -113,7 +113,7 @@ public class DrawableManager {
         }
 
         SolCam cam = game.getCam();
-        drawer.updateMatrix(game);
+        drawer.setMatrix(game.getCam().getMtx());
         game.getFarBackgroundgManagerOld().draw(drawer, cam, game);
         Vector2 camPos = cam.getPosition();
         float viewDistance = cam.getViewDistance();
@@ -186,15 +186,14 @@ public class DrawableManager {
         }
 
         game.getSoundManager().drawDebug(drawer, game);
-        drawer.maybeChangeAdditive(false);
     }
 
-    private void drawDebug(GameDrawer drawer, SolGame game, Drawable drawable) {
+    private void drawDebug(CommonDrawer drawer, SolGame game, Drawable drawable) {
         SolCam cam = game.getCam();
         float lineWidth = cam.getRealLineWidth();
         Color col = visibleDrawables.contains(drawable) ? DebugCol.DRA : DebugCol.DRA_OUT;
         Vector2 position = drawable.getPosition();
-        drawer.drawCircle(drawer.debugWhiteTexture, position, drawable.getRadius(), col, lineWidth, cam.getViewHeight());
+        drawer.drawCircle(drawer.debugWhiteTexture, position, drawable.getRadius(), col, lineWidth, cam.getViewHeight(),false);
     }
 
     private boolean isVisible(Vector2 position, float radius, Vector2 camPosition, float viewDistance) {

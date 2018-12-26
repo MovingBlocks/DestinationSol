@@ -20,7 +20,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
@@ -43,12 +45,14 @@ public class CommonDrawer implements ResizeSubscriber {
     private final Viewport screenViewport;
 
     private DisplayDimensions displayDimensions;
+    public final TextureAtlas.AtlasRegion debugWhiteTexture;
 
     CommonDrawer() {
         displayDimensions = SolApplication.displayDimensions;
 
         spriteBatch = new SpriteBatch();
 
+        debugWhiteTexture = Assets.getAtlasRegion("engine:uiWhiteTex");
         font = Assets.getFont("engine:main").getBitmapFont();
         originalFontHeight = font.getXHeight();
 
@@ -73,7 +77,8 @@ public class CommonDrawer implements ResizeSubscriber {
         spriteBatch.end();
     }
 
-    public void drawString(String s, float x, float y, float fontSize, boolean centered, Color col) {
+    public void drawString(String s, float x, float y, float fontSize, boolean centered, Color col, boolean additive) {
+        setAdditive(additive);
         drawString(s, x, y, fontSize, UiDrawer.TextAlignment.CENTER, centered, col);
     }
 
@@ -136,7 +141,8 @@ public class CommonDrawer implements ResizeSubscriber {
     }
 
     public void draw(TextureRegion tr, float width, float height, float origX, float origY, float x, float y,
-                     float rot, Color tint) {
+                     float rot, Color tint,boolean additive) {
+        setAdditive(additive);
         setTint(tint);
         spriteBatch.draw(tr, x - origX, y - origY, origX, origY, width, height, 1, 1, rot);
 //        setTint(Color.CYAN);
@@ -147,11 +153,11 @@ public class CommonDrawer implements ResizeSubscriber {
         spriteBatch.setColor(tint);
     }
 
-    public void draw(TextureRegion tex, Rectangle rect, Color tint) {
-        draw(tex, rect.width, rect.height, (float) 0, (float) 0, rect.x, rect.y, (float) 0, tint);
+    public void draw(TextureRegion tex, Rectangle rect, Color tint,boolean addative) {
+        draw(tex, rect.width, rect.height, (float) 0, (float) 0, rect.x, rect.y, (float) 0, tint,addative);
     }
 
-    public void drawCircle(TextureRegion tex, Vector2 center, float radius, Color col, float width, float vh) {
+    public void drawCircle(TextureRegion tex, Vector2 center, float radius, Color col, float width, float vh,boolean addative) {
         float relRad = radius / vh;
         int pointCount = (int) (160 * relRad);
         Vector2 position = SolMath.getVec();
@@ -165,19 +171,24 @@ public class CommonDrawer implements ResizeSubscriber {
             float angle = angleStep * i;
             SolMath.fromAl(position, angle, radius);
             position.add(center);
-            draw(tex, width, lineLen, (float) 0, (float) 0, position.x, position.y, angle + angleStepH, col);
+            draw(tex, width, lineLen, (float) 0, (float) 0, position.x, position.y, angle + angleStepH, col,addative);
         }
         SolMath.free(position);
     }
 
-    public void drawLine(TextureRegion tex, float x, float y, float angle, float len, Color col, float width) {
-        draw(tex, len, width, 0, width / 2, x, y, angle, col);
+    public void drawLine(TextureRegion tex, float x, float y, float angle, float len, Color col, float width,boolean additive) {
+        draw(tex, len, width, 0, width / 2, x, y, angle, col,additive);
     }
 
-    public void drawLine(TextureRegion tex, Vector2 startPoint, Vector2 endPoint, Color color, float width, boolean precise) {
+    public void draw(ParticleEmitter emitter, TextureAtlas.AtlasRegion tex, boolean additive) {
+        setAdditive(additive);
+        emitter.draw(getSpriteBatch());
+    }
+
+    public void drawLine(TextureRegion tex, Vector2 startPoint, Vector2 endPoint, Color color, float width, boolean precise,boolean additive) {
         Vector2 endPointCopy = SolMath.getVec(endPoint);
         endPointCopy.sub(startPoint);
-        drawLine(tex, startPoint.x, startPoint.y, SolMath.angle(endPointCopy), endPointCopy.len(), color, width);
+        drawLine(tex, startPoint.x, startPoint.y, SolMath.angle(endPointCopy), endPointCopy.len(), color, width,additive);
         SolMath.free(endPointCopy);
     }
 
@@ -190,7 +201,7 @@ public class CommonDrawer implements ResizeSubscriber {
         return spriteBatch;
     }
 
-    public void setAdditive(boolean additive) {
+    private void setAdditive(boolean additive) {
         int dstFunc = additive ? GL20.GL_ONE : GL20.GL_ONE_MINUS_SRC_ALPHA;
         spriteBatch.setBlendFunction(GL20.GL_SRC_ALPHA, dstFunc);
     }

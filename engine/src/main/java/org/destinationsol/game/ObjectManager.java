@@ -18,6 +18,7 @@ package org.destinationsol.game;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.common.DebugCol;
 import org.destinationsol.common.SolColor;
@@ -225,7 +226,7 @@ public class ObjectManager implements UpdateAwareSystem{
         return myFarBeginDist < dst;
     }
 
-    public void drawDebug(GameDrawer drawer, SolGame game) {
+    public void drawDebug(CommonDrawer drawer, SolGame game) {
         if (DebugOptions.DRAW_OBJ_BORDERS) {
             drawDebug0(drawer, game);
         }
@@ -240,13 +241,13 @@ public class ObjectManager implements UpdateAwareSystem{
         }
     }
 
-    private void drawDebugStrings(GameDrawer drawer, SolGame game) {
+    private void drawDebugStrings(CommonDrawer drawer, SolGame game) {
         float fontSize = game.getCam().getDebugFontSize();
         for (SolObject o : myObjs) {
             Vector2 position = o.getPosition();
             String ds = o.toDebugString();
             if (ds != null) {
-                drawer.drawString(ds, position.x, position.y, fontSize, true, SolColor.WHITE);
+                drawer.drawString(ds, position.x, position.y, fontSize, true, SolColor.WHITE,false);
             }
         }
         for (FarObjData fod : myFarObjs) {
@@ -254,27 +255,27 @@ public class ObjectManager implements UpdateAwareSystem{
             Vector2 position = fo.getPosition();
             String ds = fo.toDebugString();
             if (ds != null) {
-                drawer.drawString(ds, position.x, position.y, fontSize, true, SolColor.G);
+                drawer.drawString(ds, position.x, position.y, fontSize, true, SolColor.G,false);
             }
         }
     }
 
-    private void drawDebug0(GameDrawer drawer, SolGame game) {
+    private void drawDebug0(CommonDrawer drawer, SolGame game) {
         SolCam cam = game.getCam();
         float lineWidth = cam.getRealLineWidth();
         float vh = cam.getViewHeight();
         for (SolObject o : myObjs) {
             Vector2 position = o.getPosition();
             float r = getRadius(o);
-            drawer.drawCircle(drawer.debugWhiteTexture, position, r, DebugCol.OBJ, lineWidth, vh);
-            drawer.drawLine(drawer.debugWhiteTexture, position.x, position.y, o.getAngle(), r, DebugCol.OBJ, lineWidth);
+            drawer.drawCircle(drawer.debugWhiteTexture, position, r, DebugCol.OBJ, lineWidth, vh,false);
+            drawer.drawLine(drawer.debugWhiteTexture, position.x, position.y, o.getAngle(), r, DebugCol.OBJ, lineWidth,false);
         }
         for (FarObjData fod : myFarObjs) {
             FarObject fo = fod.fo;
-            drawer.drawCircle(drawer.debugWhiteTexture, fo.getPosition(), fo.getRadius(), DebugCol.OBJ_FAR, lineWidth, vh);
+            drawer.drawCircle(drawer.debugWhiteTexture, fo.getPosition(), fo.getRadius(), DebugCol.OBJ_FAR, lineWidth, vh,false);
         }
-        drawer.drawCircle(drawer.debugWhiteTexture, cam.getPosition(), myFarBeginDist, SolColor.WHITE, lineWidth, vh);
-        drawer.drawCircle(drawer.debugWhiteTexture, cam.getPosition(), myFarEndDist, SolColor.WHITE, lineWidth, vh);
+        drawer.drawCircle(drawer.debugWhiteTexture, cam.getPosition(), myFarBeginDist, SolColor.WHITE, lineWidth, vh,false);
+        drawer.drawCircle(drawer.debugWhiteTexture, cam.getPosition(), myFarEndDist, SolColor.WHITE, lineWidth, vh,false);
     }
 
     public List<SolObject> getObjects() {

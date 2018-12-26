@@ -21,6 +21,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.SolApplication;
 import org.destinationsol.common.SolColor;
@@ -215,7 +216,7 @@ public class SolCam implements UpdateAwareSystem {
         this.position.set(position);
     }
 
-    public void drawDebug(GameDrawer drawer) {
+    public void drawDebug(CommonDrawer drawer) {
         float hOver2 = VIEWPORT_HEIGHT * myZoom / 2;
         float wOver2 = hOver2 * displayDimensions.getRatio();
         Vector2 dr = SolMath.getVec(wOver2, hOver2);
@@ -232,10 +233,10 @@ public class SolCam implements UpdateAwareSystem {
         ur.add(position);
 
         float lw = getRealLineWidth();
-        drawer.drawLine(drawer.debugWhiteTexture, dr, dl, SolColor.WHITE, lw, false);
-        drawer.drawLine(drawer.debugWhiteTexture, dl, ul, SolColor.WHITE, lw, false);
-        drawer.drawLine(drawer.debugWhiteTexture, ul, ur, SolColor.WHITE, lw, false);
-        drawer.drawLine(drawer.debugWhiteTexture, ur, dr, SolColor.WHITE, lw, false);
+        drawer.drawLine(drawer.debugWhiteTexture, dr, dl, SolColor.WHITE, lw, false,false);
+        drawer.drawLine(drawer.debugWhiteTexture, dl, ul, SolColor.WHITE, lw, false,false);
+        drawer.drawLine(drawer.debugWhiteTexture, ul, ur, SolColor.WHITE, lw, false,false);
+        drawer.drawLine(drawer.debugWhiteTexture, ur, dr, SolColor.WHITE, lw, false,false);
 
         SolMath.free(dr);
         SolMath.free(dl);

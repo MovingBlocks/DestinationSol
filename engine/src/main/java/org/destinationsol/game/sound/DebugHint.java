@@ -17,8 +17,8 @@ package org.destinationsol.game.sound;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import org.destinationsol.CommonDrawer;
 import org.destinationsol.common.DebugCol;
-import org.destinationsol.game.GameDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 
@@ -84,8 +84,8 @@ public class DebugHint {
         return myMsgs.isEmpty();
     }
 
-    public void draw(GameDrawer drawer, SolGame game) {
+    public void draw(CommonDrawer drawer, SolGame game) {
         float fontSz = game.getCam().getDebugFontSize();
-        drawer.drawString(myMsg, position.x, position.y, fontSz, false, DebugCol.HINT);
+        drawer.drawString(myMsg, position.x, position.y, fontSz, false, DebugCol.HINT,false);
     }
 }

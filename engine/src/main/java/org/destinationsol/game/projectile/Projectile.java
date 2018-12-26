@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import org.destinationsol.CommonDrawer;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
@@ -27,7 +28,7 @@ import org.destinationsol.game.DmgType;
 import org.destinationsol.game.Faction;
 import org.destinationsol.game.FactionManager;
 import org.destinationsol.game.FarObject;
-import org.destinationsol.game.GameDrawer;
+
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
@@ -329,7 +330,7 @@ public class Projectile implements SolObject {
         }
 
         @Override
-        public void draw(GameDrawer drawer, SolGame game) {
+        public void draw(CommonDrawer drawer, SolGame game) {
             float h = width;
             float minH = game.getCam().getRealLineWidth() * 3;
             if (h < minH) {
@@ -340,7 +341,7 @@ public class Projectile implements SolObject {
             if (w < 4 * h) {
                 w = 4 * h;
             }
-            drawer.draw(texture, w, h, w, h / 2, position.x, position.y, SolMath.angle(projectile.getSpeed()), SolColor.LG);
+            drawer.draw(texture, w, h, w, h / 2, position.x, position.y, SolMath.angle(projectile.getSpeed()), SolColor.LG,false);
         }
 
         @Override

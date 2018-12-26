@@ -18,7 +18,8 @@ package org.destinationsol.game.drawables;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import org.destinationsol.game.GameDrawer;
+
+import org.destinationsol.CommonDrawer;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 
@@ -86,12 +87,12 @@ public interface Drawable {
     float getRadius();
 
     /**
-     * Draws this drawable to the supplied GameDrawer.
+     * Draws this drawable to the supplied CommonDrawer.
      *
-     * @param drawer GameDrawer to which to draw
+     * @param drawer CommonDrawer to which to draw
      * @param game Game this drawable belongs in
      */
-    void draw(GameDrawer drawer, SolGame game);
+    void draw(CommonDrawer drawer, SolGame game);
 
     /**
      * @return True if this drawable should be drawn, false otherwise
