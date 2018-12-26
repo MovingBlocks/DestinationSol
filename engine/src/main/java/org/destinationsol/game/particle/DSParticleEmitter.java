@@ -64,9 +64,9 @@ public class DSParticleEmitter {
     private float areaSize;
     private float timeSinceLastPositionChange;
     private float boundingBoxRecalcAwait;
-    private ParticleEmitter.ScaledNumericValue originalSpeedAngle;
+    private ParticleEmitter.ScaledNumericValue originalVelocityAngle;
     private ParticleEmitter.ScaledNumericValue originalRotation;
-    private boolean inheritsSpeed;
+    private boolean inheritsVelocity;
     private boolean working;
     private boolean floatedUp;
     private BoundingBox boundingBox;
@@ -104,20 +104,20 @@ public class DSParticleEmitter {
             this.workSoundSet = null;
         }
         Vector2 shipPos = ship.getPosition();
-        Vector2 shipSpeed = ship.getSpeed();
+        Vector2 shipVelocity = ship.getVelocity();
 
-        initialiseEmitter(config, -1, DrawableLevel.PART_BG_0, position, true, game, shipPos, shipSpeed, angleOffset, hasLight);
+        initialiseEmitter(config, -1, DrawableLevel.PART_BG_0, position, true, game, shipPos, shipVelocity, angleOffset, hasLight);
     }
 
     public DSParticleEmitter(EffectConfig config, float size, DrawableLevel drawableLevel, Vector2 relativePosition,
-                             boolean inheritsSpeed, SolGame game, Vector2 basePosition, Vector2 baseSpeed,
+                             boolean inheritsVelocity, SolGame game, Vector2 basePosition, Vector2 baseVelocity,
                              float relativeAngle) {
-        initialiseEmitter(config, size, drawableLevel, relativePosition, inheritsSpeed, game, basePosition, baseSpeed,
+        initialiseEmitter(config, size, drawableLevel, relativePosition, inheritsVelocity, game, basePosition, baseVelocity,
                 relativeAngle, false);
     }
 
-    private void initialiseEmitter(EffectConfig config, float size, DrawableLevel drawableLevel, Vector2 relativePosition, boolean inheritsSpeed,
-                                   SolGame game, Vector2 basePosition, Vector2 baseSpeed, float relativeAngle, boolean hasLight) {
+    private void initialiseEmitter(EffectConfig config, float size, DrawableLevel drawableLevel, Vector2 relativePosition, boolean inheritsVelocity,
+                                   SolGame game, Vector2 basePosition, Vector2 baseVelocity, float relativeAngle, boolean hasLight) {
 
         drawables = new ArrayList<>();
         ParticleEmitterDrawable drawable = new ParticleEmitterDrawable();
@@ -165,20 +165,20 @@ public class DSParticleEmitter {
         tint[1] = config.tint.g;
         tint[2] = config.tint.b;
 
-        originalSpeedAngle = new ParticleEmitter.ScaledNumericValue();
+        originalVelocityAngle = new ParticleEmitter.ScaledNumericValue();
         originalRotation = new ParticleEmitter.ScaledNumericValue();
-        transferAngle(particleEmitter.getAngle(), originalSpeedAngle, 0f);
+        transferAngle(particleEmitter.getAngle(), originalVelocityAngle, 0f);
         transferAngle(particleEmitter.getRotation(), originalRotation, 0f);
 
-        this.inheritsSpeed = inheritsSpeed;
-        updateSpeed(game, baseSpeed, basePosition);
+        this.inheritsVelocity = inheritsVelocity;
+        updateVelocity(game, baseVelocity, basePosition);
 
         if (config.emitter.continuous) {
-            // making it continuous after setting initial speed
+            // making it continuous after setting initial velocity
             particleEmitter.setContinuous(true);
             // this is needed because making effect continuous starts it
             particleEmitter.allowCompletion();
-            // ... and still initial speed is not applied : (
+            // ... and still initial velocity is not applied : (
         } else {
             particleEmitter.start();
         }
@@ -197,23 +197,23 @@ public class DSParticleEmitter {
         to.setLow(from.getLowMin() + diff, from.getLowMax() + diff);
     }
 
-    private void updateSpeed(SolGame game, Vector2 baseSpeed, Vector2 basePosition) {
+    private void updateVelocity(SolGame game, Vector2 baseVelocity, Vector2 basePosition) {
         if ((isContinuous() && !isWorking()) || floatedUp) {
             return;
         } else {
             floatedUp = true;
         }
-        if (!inheritsSpeed) {
-            baseSpeed = Vector2.Zero;
+        if (!inheritsVelocity) {
+            baseVelocity = Vector2.Zero;
         }
         if (!config.floatsUp) {
-            setSpeed(baseSpeed);
+            setVelocity(baseVelocity);
             return;
         }
         Planet nearestPlanet = game.getPlanetManager().getNearestPlanet();
-        Vector2 speed = nearestPlanet.getAdjustedEffectSpeed(basePosition, baseSpeed);
-        setSpeed(speed);
-        SolMath.free(speed);
+        Vector2 velocity = nearestPlanet.getAdjustedEffectVelocity(basePosition, baseVelocity);
+        setVelocity(velocity);
+        SolMath.free(velocity);
     }
 
     public void onRemove(SolGame game, Vector2 basePos) {
@@ -258,16 +258,16 @@ public class DSParticleEmitter {
         }
     }
 
-    private void setSpeed(Vector2 speed) {
+    private void setVelocity(Vector2 velocity) {
         ParticleEmitter.ScaledNumericValue wind = particleEmitter.getWind();
         wind.setActive(true);
-        wind.setHigh(speed.x);
-        wind.setLow(speed.x);
+        wind.setHigh(velocity.x);
+        wind.setLow(velocity.x);
 
         ParticleEmitter.ScaledNumericValue gravity = particleEmitter.getGravity();
         gravity.setActive(true);
-        gravity.setHigh(speed.y);
-        gravity.setLow(speed.y);
+        gravity.setHigh(velocity.y);
+        gravity.setLow(velocity.y);
     }
 
     /**
@@ -348,10 +348,10 @@ public class DSParticleEmitter {
             position.y -= particleEmitter.getGravity().getLowMin() * timeStep;
 
             particleEmitter.setPosition(position.x, position.y);
-            transferAngle(originalSpeedAngle, particleEmitter.getAngle(), baseAngle + relativeAngle);
+            transferAngle(originalVelocityAngle, particleEmitter.getAngle(), baseAngle + relativeAngle);
             transferAngle(originalRotation, particleEmitter.getRotation(), baseAngle + relativeAngle);
 
-            updateSpeed(game, object.getSpeed(), object.getPosition());
+            updateVelocity(game, object.getVelocity(), object.getPosition());
             particleEmitter.update(timeStep);
 
             if (boundingBoxRecalcAwait > 0) {

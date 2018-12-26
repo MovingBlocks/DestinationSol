@@ -44,10 +44,7 @@ public class ProjectileConfigs {
         Set<ResourceUrn> projectileConfigurationFiles = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:projectilesConfig");
 
         for (ResourceUrn configUrn : projectileConfigurationFiles) {
-            Json json = Assets.getJson(configUrn.toString());
-            JSONObject rootNode = json.getJsonValue();
-
-            Validator.validate(rootNode, "engine:schemaProjectileConfig");
+            JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaProjectileConfig");
 
             for (String s : rootNode.keySet()) {
                 if (!(rootNode.get(s) instanceof JSONObject))
@@ -57,7 +54,7 @@ public class ProjectileConfigs {
                 String texName = node.getString("tex");
                 TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(texName + "Projectile");
                 float texSz = (float) node.getDouble("texSz");
-                float speedLen = (float) node.getDouble("spdLen");
+                float speed = (float) node.getDouble("speed");
                 float physSize = (float) node.optDouble("physSize", 0);
                 boolean stretch = node.optBoolean("stretch", false);
                 DmgType dmgType = DmgType.forName(node.getString("dmgType"));
@@ -78,13 +75,11 @@ public class ProjectileConfigs {
                 float density = (float) node.optDouble("density", -1);
                 float dmg = (float) node.getDouble("dmg");
                 float emTime = (float) node.optDouble("emTime", 0);
-                ProjectileConfig config = new ProjectileConfig(tex, texSz, speedLen, stretch, physSize, dmgType,
+                ProjectileConfig config = new ProjectileConfig(tex, texSz, speed, stretch, physSize, dmgType,
                         collisionSound, lightSz, trailEffect, bodyEffect, collisionEffect, collisionEffectBackground,
                         zeroAbsSpeed, origin, acc, workSound, bodyless, density, guideRotationSpeed, dmg, emTime);
                 configs.put(name, config);
             }
-
-            json.dispose();
         }
     }
 
