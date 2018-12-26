@@ -57,6 +57,7 @@
         "plural": {
           "type": "string",
           "description": "Plural form of 'displayName'"
+          "pattern": "^[ -~]+$"
         }
       },
       "required": [
