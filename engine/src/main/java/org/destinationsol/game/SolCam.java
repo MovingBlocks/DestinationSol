@@ -83,7 +83,7 @@ public class SolCam implements UpdateAwareSystem {
                 position.set(heroPos);
                 game.getObjectManager().resetDelays();
             } else {
-                Vector2 moveDiff = SolMath.getVec(hero.getSpeed());
+                Vector2 moveDiff = SolMath.getVec(hero.getVelocity());
                 moveDiff.scl(timeStep);
                 position.add(moveDiff);
                 SolMath.free(moveDiff);
@@ -131,7 +131,7 @@ public class SolCam implements UpdateAwareSystem {
         } else if (hero.isDead()) {
             return Const.CAM_VIEW_DIST_GROUND;
         } else {
-            float speed = hero.getSpeed().len();
+            float speed = hero.getVelocity().len();
             float desiredViewDistance = Const.CAM_VIEW_DIST_SPACE;
             Planet nearestPlanet = game.getPlanetManager().getNearestPlanet(position);
             if (nearestPlanet.getFullHeight() < nearestPlanet.getPosition().dst(position) && MAX_ZOOM_SPD < speed) {

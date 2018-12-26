@@ -57,7 +57,7 @@ public class HardnessCalc {
         } else if (pc.zeroAbsSpeed) {
             projHitChance = 0.1f;
         } else {
-            projHitChance = (pc.speedLen + pc.acc) / 6;
+            projHitChance = (pc.speed + pc.acc) / 6;
             if (pc.physSize > 0) {
                 projHitChance += pc.physSize;
             }
