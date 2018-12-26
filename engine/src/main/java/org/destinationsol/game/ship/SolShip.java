@@ -239,10 +239,10 @@ public class SolShip implements SolObject {
         updateShield(game);
 
         if (FactionInfo.getDisposition().get(factionID) < -5) {
-            getPilot().setFaction("ehar");
+            getPilot().stringToFaction("ehar");
         }
         else {
-            getPilot().setFaction("laani");
+            getPilot().stringToFaction("laani");
         }
 
         if (myArmor != null && !myItemContainer.contains(myArmor)) {

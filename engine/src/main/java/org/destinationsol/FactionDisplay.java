@@ -30,11 +30,7 @@ import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.UiDrawer;
 
 /**
- * @author Pendi
- *
- * Essentially this class acquires the necessary information
- * from each of the ships and prints the appropiate values
- * above the ship
+ * Acquires faction information fromm all the ships and draws it above them.
  */
 public class FactionDisplay {
     private SolCam cam;

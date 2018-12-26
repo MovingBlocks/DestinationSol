@@ -29,7 +29,6 @@ import org.destinationsol.ui.SolUiControl;
 
 public class BuyItemsScreen extends InventoryOperationsScreen {
     public final SolUiControl buyControl;
-    private FactionInfo factionInfo;
 
     BuyItemsScreen(InventoryScreen inventoryScreen, GameOptions gameOptions) {
         buyControl = new SolUiControl(inventoryScreen.itemCtrl(0), true, gameOptions.getKeyBuyItem());
@@ -69,7 +68,7 @@ public class BuyItemsScreen extends InventoryOperationsScreen {
             target.getTradeContainer().getItems().remove(selItem);
             hero.getItemContainer().add(selItem);
             hero.setMoney(hero.getMoney() - selItem.getPrice());
-            factionInfo.setDisposition(target.getFactionID(), 1);
+            FactionInfo.setDisposition(target.getFactionID(), 1);
         }
     }
 }
