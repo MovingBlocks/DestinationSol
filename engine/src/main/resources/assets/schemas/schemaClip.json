@@ -52,6 +52,7 @@
         "displayName": {
           "type": "string",
           "description": "Name of the clip"
+          "pattern": "^[ -~]+$"
         },
         "plural": {
           "type": "string",
