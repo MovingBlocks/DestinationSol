@@ -17,19 +17,17 @@ package org.destinationsol.game;
 
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
+import org.destinationsol.assets.json.Validator;
 import org.destinationsol.game.ship.SolShip;
 import org.json.JSONArray;
 import org.terasology.assets.ResourceUrn;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @author Pendi
- *
- * This class reads the information from the jsons
- * and sends it to an array that can be accessed by
- * each ship within the game
+ * Loads ands stores faction data
  */
 public class FactionInfo {
     private static ArrayList<String> factionName = new ArrayList<String>();
@@ -41,8 +39,9 @@ public class FactionInfo {
     }
 
     private void createFactionList() {
-        for (String modulePath : getModuleList()) {
+        for (String modulePath : getModuleSet()) {
             Json factionJson = Assets.getJson(modulePath);
+            Validator.validate(factionJson.getJsonValue(), modulePath);
             JSONArray factionJsonArray = factionJson.getJsonValue().getJSONArray("factions");
             for (int n = 0; n < factionJsonArray.length(); n++) {
                 factionName.add(factionJsonArray.getJSONObject(n).getString("name").replace("\"", ""));
@@ -52,13 +51,13 @@ public class FactionInfo {
         }
     }
 
-    private static ArrayList<String> getModuleList() {
-        ArrayList<String> moduleList = new ArrayList<String>();
+    private static Set<String> getModuleSet() {
+        Set<String> moduleSet = new HashSet<String>();
         Set<ResourceUrn> moduleUrn = Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:factions");
         for(ResourceUrn module : moduleUrn) {
-            moduleList.add(module.toString());
+            moduleSet.add(module.toString());
         }
-        return moduleList;
+        return moduleSet;
     }
 
     public static ArrayList getFactionNames() {
@@ -71,8 +70,9 @@ public class FactionInfo {
 
     public static int getFactionID(SolShip ship) {
         String shipName = ship.getHull().getHullConfig().getInternalName();
-        for(String modulePath: getModuleList()) {
+        for(String modulePath: getModuleSet()) {
             Json factionJson = Assets.getJson(modulePath);
+            Validator.validate(factionJson.getJsonValue(), modulePath);
             JSONArray factionJsonArray = factionJson.getJsonValue().getJSONArray("factions");
             shipName = shipName.replaceAll(".*:", "");
             for(int n = 0; n < factionJsonArray.length(); n++) {

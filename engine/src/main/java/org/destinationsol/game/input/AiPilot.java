@@ -19,7 +19,6 @@ package org.destinationsol.game.input;
 import com.badlogic.gdx.math.Vector2;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.game.Faction;
-import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.item.Engine;
 import org.destinationsol.game.item.Gun;
@@ -28,6 +27,9 @@ import org.destinationsol.game.planet.PlanetBind;
 import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AiPilot implements Pilot {
 
@@ -52,7 +54,6 @@ public class AiPilot implements Pilot {
     private float myBindAwait;
     private PlanetBind myPlanetBind;
     private float myReEquipAwait;
-    private FactionInfo factionInfo;
 
     public AiPilot(MoveDestProvider destProvider, boolean collectsItems, Faction faction,
                    boolean shootAtObstacles, String mapHint, float detectionDist) {
@@ -199,11 +200,15 @@ public class AiPilot implements Pilot {
     }
 
     @Override
-    public void setFaction(String faction) {
-        if(faction.equals("laani"))
-            myFaction = Faction.LAANI;
-        if(faction.equals("ehar"))
-            myFaction = Faction.EHAR;
+    public void stringToFaction(String faction) {
+        Map<String, Faction> factionMap = new HashMap<>();
+        if (faction.equals("laani")) {
+            factionMap.put(faction, Faction.LAANI);
+        }
+        if (faction.equals("ehar")) {
+            factionMap.put(faction, Faction.EHAR);
+        }
+        myFaction = factionMap.get(faction);
     }
 
     @Override

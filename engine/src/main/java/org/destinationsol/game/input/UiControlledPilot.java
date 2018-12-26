@@ -18,7 +18,6 @@ package org.destinationsol.game.input;
 
 import org.destinationsol.Const;
 import org.destinationsol.game.Faction;
-import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.screens.MainGameScreen;
 import org.destinationsol.game.ship.FarShip;
@@ -77,7 +76,7 @@ public class UiControlledPilot implements Pilot {
     }
 
     @Override
-    public void setFaction(String faction) {
+    public void stringToFaction(String faction) {
     // TODO Create values outside of laani and ehar, making this necessary
     }
 
