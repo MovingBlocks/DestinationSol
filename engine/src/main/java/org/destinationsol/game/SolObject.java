@@ -146,13 +146,13 @@ public interface SolObject {
     float getAngle();
 
     /**
-     * Returns the object's speed.
+     * Returns the object's velocity.
      * <p>
      * This method usually just returns the vector retrieved from object's internal {@link Body}.
      *
-     * @return Speed of this object.
+     * @return Velocity of this object.
      */
-    Vector2 getSpeed();
+    Vector2 getVelocity();
 
     /**
      * Called whenever this object touches another object, and can be used for custom collisions.
