@@ -28,6 +28,7 @@ import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.DmgType;
 import org.destinationsol.game.RemoveController;
+import org.destinationsol.game.Shard;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
 import org.destinationsol.game.drawables.Drawable;
@@ -339,7 +340,7 @@ public class SolShip implements SolObject {
     @Override
     public void onRemove(SolGame game) {
         if (myHull.life <= 0) {
-            game.getShardBuilder().buildExplosionShards(game, myHull.getPosition(), myHull.getSpeed(), myHull.config.getSize());
+            Shard.Factory.buildExplosionShards(game, myHull.getPosition(), myHull.getSpeed(), myHull.config.getSize());
             throwAllLoot(game);
         }
         myHull.onRemove(game);

@@ -76,7 +76,6 @@ public class SolGame {
     private final FarBackgroundManagerOld farBackgroundManagerOld;
     private final FactionManager factionManager;
     private final MapDrawer mapDrawer;
-    private final ShardBuilder shardBuilder;
     private final ItemManager itemManager;
     private final StarPort.Builder starPortBuilder;
     private final OggSoundManager soundManager;
@@ -125,7 +124,6 @@ public class SolGame {
         asteroidBuilder = new AsteroidBuilder();
         lootBuilder = new LootBuilder();
         mapDrawer = new MapDrawer();
-        shardBuilder = new ShardBuilder();
         galaxyFiller = new GalaxyFiller(hullConfigManager);
         starPortBuilder = new StarPort.Builder();
         drawableDebugger = new DrawableDebugger();
@@ -403,10 +401,6 @@ public class SolGame {
 
     public MapDrawer getMapDrawer() {
         return mapDrawer;
-    }
-
-    public ShardBuilder getShardBuilder() {
-        return shardBuilder;
     }
 
     public FarBackgroundManagerOld getFarBackgroundgManagerOld() {
