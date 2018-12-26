@@ -61,7 +61,8 @@
     },
     "displayName": {
       "type": "string",
-      "description": "Human friendly name of the ship"
+      "description": "Human friendly name of the ship",
+      "pattern": "^[ -~]+$"
     },
     "price": {
       "type": "number",
