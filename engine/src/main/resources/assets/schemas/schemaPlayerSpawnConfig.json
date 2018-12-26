@@ -3,8 +3,8 @@
   "description": "Settings for different ships, classifying the hull and items/money given to the player on spawn.",
   "propertyNames": {
     "type": "string",
-    "pattern": "^\\w+( \\w+)*$",
-    "description": "Ship names can be any non-blank string of basic alphanumeric characters with or without single spaces. Spaces cannot be at the beginning or end of the ship name."
+    "pattern": "^[ -~]+$",
+    "description": "Ship names can be any non-blank string of ascii characters."
   },
   "additionalProperties": {
     "type": "object",
