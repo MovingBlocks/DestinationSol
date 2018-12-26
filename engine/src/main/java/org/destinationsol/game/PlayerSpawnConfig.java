@@ -34,17 +34,12 @@ public class PlayerSpawnConfig {
     }
 
     public static PlayerSpawnConfig load(HullConfigManager hullConfigs, ItemManager itemManager) {
-        Json json = Assets.getJson("engine:playerSpawnConfig");
-        JSONObject rootNode = json.getJsonValue();
-
-        Validator.validate(rootNode, "engine:schemaPlayerSpawnConfig");
+        JSONObject rootNode = Validator.getValidatedJSON("engine:playerSpawnConfig", "engine:schemaPlayerSpawnConfig");
 
         JSONObject playerNode = rootNode.getJSONObject("player");
         ShipConfig shipConfig = ShipConfig.load(hullConfigs, playerNode.has("ship") ? playerNode.getJSONObject("ship") : null, itemManager);
         ShipConfig godShipConfig = ShipConfig.load(hullConfigs, playerNode.has("godModeShip") ? playerNode.getJSONObject("godModeShip") : null, itemManager);
         ShipConfig mainStation = ShipConfig.load(hullConfigs, rootNode.has("mainStation") ? rootNode.getJSONObject("mainStation") : null, itemManager);
-
-        json.dispose();
 
         return new PlayerSpawnConfig(shipConfig, mainStation, godShipConfig);
     }

@@ -35,9 +35,8 @@ public class AbilityCommonConfigs {
 
         for (ResourceUrn resource : Assets.getAssetHelper().list(Json.class, "[a-zA-Z0-9]*:abilitiesConfig")) {
             Json json = Assets.getJson(resource.toString());
-            JSONObject rootNode = json.getJsonValue();
 
-            Validator.validate(rootNode, "engine:schemaAbilitiesConfig");
+            JSONObject rootNode = Validator.getValidatedJSON(resource.toString(), "engine:schemaAbilitiesConfig");
 
             for (String abilityName : rootNode.keySet()) {
                 String normalisedName = abilityName.toLowerCase(Locale.ENGLISH);
@@ -45,8 +44,6 @@ public class AbilityCommonConfigs {
                     abilityConfigs.put(normalisedName, AbilityCommonConfig.load(rootNode.getJSONObject(abilityName), effectTypes, cols, soundManager));
                 }
             }
-
-            json.dispose();
         }
     }
 }

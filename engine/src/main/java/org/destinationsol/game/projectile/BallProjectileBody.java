@@ -26,24 +26,24 @@ import org.destinationsol.game.ship.SolShip;
 public class BallProjectileBody implements ProjectileBody {
     private final Body body;
     private final Vector2 position;
-    private final Vector2 speed;
+    private final Vector2 velocity;
     private final float acceleration;
     private final float mass;
 
     private float angle;
 
     BallProjectileBody(SolGame game, Vector2 position, float angle, Projectile projectile,
-                       Vector2 gunSpeed, float speedLen, ProjectileConfig config) {
+                       Vector2 gunVelocity, float speed, ProjectileConfig config) {
         float density = config.density == -1 ? 1 : config.density;
         body = AsteroidBuilder.buildBall(game, position, angle, config.physSize / 2, density, config.massless);
         if (config.zeroAbsSpeed) {
             body.setAngularVelocity(15f * MathUtils.degRad);
         }
 
-        speed = new Vector2();
-        SolMath.fromAl(speed, angle, speedLen);
-        speed.add(gunSpeed);
-        body.setLinearVelocity(speed);
+        velocity = new Vector2();
+        SolMath.fromAl(velocity, angle, speed);
+        velocity.add(gunVelocity);
+        body.setLinearVelocity(velocity);
         body.setUserData(projectile);
 
         this.position = new Vector2();
@@ -55,13 +55,13 @@ public class BallProjectileBody implements ProjectileBody {
     private void setParamsFromBody() {
         position.set(body.getPosition());
         angle = body.getAngle() * MathUtils.radDeg;
-        speed.set(body.getLinearVelocity());
+        velocity.set(body.getLinearVelocity());
     }
 
     @Override
     public void update(SolGame game) {
         setParamsFromBody();
-        if (acceleration > 0 && SolMath.canAccelerate(angle, speed)) {
+        if (acceleration > 0 && SolMath.canAccelerate(angle, velocity)) {
             Vector2 force = SolMath.fromAl(angle, acceleration * mass);
             body.applyForceToCenter(force, true);
             SolMath.free(force);
@@ -74,8 +74,8 @@ public class BallProjectileBody implements ProjectileBody {
     }
 
     @Override
-    public Vector2 getSpeed() {
-        return speed;
+    public Vector2 getVelocity() {
+        return velocity;
     }
 
     @Override
@@ -105,15 +105,15 @@ public class BallProjectileBody implements ProjectileBody {
 
     @Override
     public float getDesiredAngle(SolShip nearestEnemy) {
-        float speedScalar = speed.len();
-        if (speedScalar < 3) {
-            speedScalar = 3;
+        float speed = velocity.len();
+        if (speed < 3) {
+            speed = 3;
         }
         float distanceToNearestEnemy = SolMath.angle(position, nearestEnemy.getPosition());
-        Vector2 desiredSpeed = SolMath.fromAl(distanceToNearestEnemy, speedScalar);
-        desiredSpeed.add(nearestEnemy.getSpeed());
-        float result = SolMath.angle(speed, desiredSpeed);
-        SolMath.free(desiredSpeed);
+        Vector2 desiredVelocity = SolMath.fromAl(distanceToNearestEnemy, speed);
+        desiredVelocity.add(nearestEnemy.getVelocity());
+        float result = SolMath.angle(velocity, desiredVelocity);
+        SolMath.free(desiredVelocity);
         return result;
     }
 }

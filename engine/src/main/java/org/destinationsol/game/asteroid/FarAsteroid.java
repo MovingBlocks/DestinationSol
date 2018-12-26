@@ -27,18 +27,18 @@ public class FarAsteroid implements FarObject {
     private final float angle;
     private final RemoveController removeController;
     private final float size;
-    private final Vector2 speed;
+    private final Vector2 velocity;
     private final float rotationSpeed;
     private final TextureAtlas.AtlasRegion texture;
 
     public FarAsteroid(TextureAtlas.AtlasRegion texture, Vector2 position, float angle, RemoveController removeController,
-                       float size, Vector2 speed, float rotationSpeed) {
+                       float size, Vector2 velocity, float rotationSpeed) {
         this.texture = texture;
         this.position = position;
         this.angle = angle;
         this.removeController = removeController;
         this.size = size;
-        this.speed = speed;
+        this.velocity = velocity;
         this.rotationSpeed = rotationSpeed;
     }
 
@@ -49,7 +49,7 @@ public class FarAsteroid implements FarObject {
 
     @Override
     public SolObject toObject(SolGame game) {
-        return game.getAsteroidBuilder().build(game, position, texture, size, angle, rotationSpeed, speed, removeController);
+        return game.getAsteroidBuilder().build(game, position, texture, size, angle, rotationSpeed, velocity, removeController);
     }
 
     @Override
