@@ -77,7 +77,7 @@ public class SolGun {
         return myDrawables;
     }
 
-    private void shoot(Vector2 gunVelocity, SolGame game, float gunAngle, Vector2 muzzlePos, Faction faction, SolObject creator) {
+    private void shoot(Vector2 gunVelocity, SolGame game, float gunAngle, Vector2 muzzlePos, Faction faction, SolObject creator, SolShip ship) {
         Vector2 baseVelocity = gunVelocity;
         Clip.Config cc = myItem.config.clipConf;
         if (cc.projConfig.zeroAbsSpeed) {
@@ -96,7 +96,7 @@ public class SolGun {
             if (myCurrAngleVar > 0) {
                 bulletAngle += SolRandom.randomFloat(myCurrAngleVar);
             }
-            Projectile proj = new Projectile(game, bulletAngle, muzzlePos, baseVelocity, faction, cc.projConfig, multiple);
+            Projectile proj = new Projectile(game, bulletAngle, muzzlePos, baseVelocity, faction, cc.projConfig, multiple, ship);
             game.getObjectManager().addObjDelayed(proj);
         }
         myCoolDown += myItem.config.timeBetweenShots;
@@ -138,7 +138,7 @@ public class SolGun {
         game.getPartMan().updateAllHullEmittersOfType(ship, "shoot", shot);
         if (shot) {
             Vector2 gunVelocity = creator.getVelocity();
-            shoot(gunVelocity, game, gunAngle, muzzlePos, faction, creator);
+            shoot(gunVelocity, game, gunAngle, muzzlePos, faction, creator, ship);
         } else {
             myCurrAngleVar = SolMath.approach(myCurrAngleVar, myItem.config.minAngleVar, myItem.config.angleVarDamp * ts);
         }

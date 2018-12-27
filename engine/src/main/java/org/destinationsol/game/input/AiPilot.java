@@ -28,6 +28,9 @@ import org.destinationsol.game.ship.FarShip;
 import org.destinationsol.game.ship.SolShip;
 import org.destinationsol.game.ship.hulls.HullConfig;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AiPilot implements Pilot {
 
     public static final float MIN_IDLE_DIST = .8f;
@@ -41,7 +44,7 @@ public class AiPilot implements Pilot {
     private final boolean myCollectsItems;
     private final Mover myMover;
     private final Shooter myShooter;
-    private final Faction myFaction;
+    private Faction myFaction;
     private final boolean myShootAtObstacles;
     private final String myMapHint;
     private final BattleDestProvider myBattleDestProvider;
@@ -194,6 +197,18 @@ public class AiPilot implements Pilot {
     @Override
     public Faction getFaction() {
         return myFaction;
+    }
+
+    @Override
+    public void stringToFaction(String faction) {
+        Map<String, Faction> factionMap = new HashMap<>();
+        if (faction.equals("laani")) {
+            factionMap.put(faction, Faction.LAANI);
+        }
+        if (faction.equals("ehar")) {
+            factionMap.put(faction, Faction.EHAR);
+        }
+        myFaction = factionMap.get(faction);
     }
 
     @Override
