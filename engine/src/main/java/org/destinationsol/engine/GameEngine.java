@@ -20,7 +20,7 @@ import org.destinationsol.game.context.Context;
 
 public interface GameEngine {
 
-    void initialize();
+    void initialize(EngineFactory factory);
 
     void changeState(GameState state);
 

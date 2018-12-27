@@ -27,13 +27,39 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Set;
 
-public interface EngineFactory {
+public class HeadlessEngine implements EngineFactory {
+    @Override
+    public CanvasRenderer canvas() {
+        return null;
+    }
 
-    CanvasRenderer canvas();
-    EntityManager entityManager();
-    DelayedEventSystem delayedEventSystem();
-    ImmediateEventSystem immediateEventSystem();
-    AssetTypeManager assetTypeManager();
-    Context context();
-    Set<Module> modules() throws IOException, URISyntaxException;
+    @Override
+    public EntityManager entityManager() {
+        return null;
+    }
+
+    @Override
+    public DelayedEventSystem delayedEventSystem() {
+        return null;
+    }
+
+    @Override
+    public ImmediateEventSystem immediateEventSystem() {
+        return null;
+    }
+
+    @Override
+    public AssetTypeManager assetTypeManager() {
+        return null;
+    }
+
+    @Override
+    public Context context() {
+        return null;
+    }
+
+    @Override
+    public Set<Module> modules() throws IOException, URISyntaxException {
+        return null;
+    }
 }

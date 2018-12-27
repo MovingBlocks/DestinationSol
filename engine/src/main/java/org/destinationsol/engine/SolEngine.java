@@ -18,42 +18,34 @@ package org.destinationsol.engine;
 import com.badlogic.gdx.Gdx;
 import org.destinationsol.Const;
 import org.destinationsol.GameState;
-import org.destinationsol.ModuleManager;
-import org.destinationsol.SolApplication;
 import org.destinationsol.game.context.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.assets.management.AssetTypeManager;
 import org.terasology.entitysystem.core.EntityManager;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 public class SolEngine implements GameEngine {
     private static final Logger logger = LoggerFactory.getLogger(SolEngine.class);
 
-    private final EntityManager entityManager;
-    private final Context context;
     private float timeAccumulator = 0;
     private float timeStep = 1;
     private float epoch = 0;
     private GameState currentState;
 
     public SolEngine(EngineFactory engineFactory){
-        this.entityManager = engineFactory.entityManager();
-        this.context = engineFactory.context();
-        configureModules(engineFactory.assetTypeManager());
         setScaleStep(1.0f);
     }
 
-    private void configureModules(AssetTypeManager assetTypeManager){
-        ModuleManager moduleManager = new ModuleManager();
-
-    }
 
     @Override
-    public void initialize() {
+    public void initialize(EngineFactory factory) {
+        EntityManager entityManager = factory.entityManager();
+        try {
 
+
+        }catch (RuntimeException e){
+            logger.error("Failed to initialise DestinationSol",e);
+            throw e;
+        }
     }
 
     @Override
