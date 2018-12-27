@@ -27,6 +27,7 @@ import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.AbilityCommonConfig;
 import org.destinationsol.game.DmgType;
+import org.destinationsol.game.FactionInfo;
 import org.destinationsol.game.RemoveController;
 import org.destinationsol.game.SolGame;
 import org.destinationsol.game.SolObject;
@@ -60,6 +61,8 @@ public class SolShip implements SolObject {
     private static final float ENERGY_DMG_FACTOR = .7f;
     private boolean colliding;
 
+    private String factionName;
+    private int factionID;
     private final Pilot myPilot;
     private final ItemContainer myItemContainer;
     private final TradeContainer myTradeContainer;
@@ -107,6 +110,8 @@ public class SolShip implements SolObject {
         if (myAbility != null) {
             myAbilityAwait = myAbility.getConfig().getRechargeTime();
         }
+        factionID = FactionInfo.getFactionID(this);
+        factionName = FactionInfo.getFactionNames().get(factionID).toString();
     }
 
     @Override
@@ -232,6 +237,14 @@ public class SolShip implements SolObject {
         updateAbility(game);
         updateIdleTime(game);
         updateShield(game);
+
+        if (FactionInfo.getDisposition().get(factionID) < -5) {
+            getPilot().stringToFaction("ehar");
+        }
+        else {
+            getPilot().stringToFaction("laani");
+        }
+
         if (myArmor != null && !myItemContainer.contains(myArmor)) {
             myArmor = null;
         }
@@ -655,5 +668,17 @@ public class SolShip implements SolObject {
      */
     public MercItem getMerc() {
         return this.mercItem;
+    }
+
+    public String getFactionName() {
+        return factionName;
+    }
+
+    public int getFactionID() {
+        return factionID;
+    }
+
+    public void changeDisposition(int id) {
+        FactionInfo.setDisposition(id, -1);
     }
 }
