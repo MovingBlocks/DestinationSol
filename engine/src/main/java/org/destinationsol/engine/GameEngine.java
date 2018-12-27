@@ -16,6 +16,7 @@
 package org.destinationsol.engine;
 
 import org.destinationsol.GameState;
+import org.destinationsol.game.context.Context;
 
 public interface GameEngine {
 
@@ -23,9 +24,7 @@ public interface GameEngine {
 
     void changeState(GameState state);
 
-    void update();
-
-    void draw();
+    boolean update();
 
     /**
      * Request the engine to stop running
@@ -37,5 +36,5 @@ public interface GameEngine {
      */
     GameState getState();
 
-
+    Context context();
 }

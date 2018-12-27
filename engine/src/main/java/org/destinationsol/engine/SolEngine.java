@@ -15,20 +15,35 @@
  */
 package org.destinationsol.engine;
 
+import com.badlogic.gdx.Gdx;
+import org.destinationsol.Const;
 import org.destinationsol.GameState;
 import org.destinationsol.ModuleManager;
+import org.destinationsol.SolApplication;
 import org.destinationsol.game.context.Context;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.assets.management.AssetTypeManager;
 import org.terasology.entitysystem.core.EntityManager;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 public class SolEngine implements GameEngine {
+    private static final Logger logger = LoggerFactory.getLogger(SolEngine.class);
 
     private final EntityManager entityManager;
     private final Context context;
+    private float timeAccumulator = 0;
+    private float timeStep = 1;
+    private float epoch = 0;
+    private GameState currentState;
+
     public SolEngine(EngineFactory engineFactory){
         this.entityManager = engineFactory.entityManager();
         this.context = engineFactory.context();
         configureModules(engineFactory.assetTypeManager());
+        setScaleStep(1.0f);
     }
 
     private void configureModules(AssetTypeManager assetTypeManager){
@@ -42,18 +57,32 @@ public class SolEngine implements GameEngine {
     }
 
     @Override
-    public void changeState(GameState state) {
+    public void changeState(GameState newState) {
+        if (currentState != null) {
+            currentState.dispose();
+        }
+        currentState = newState;
+        newState.init(this);
 
     }
 
-    @Override
-    public void update() {
-
+    public void setScaleStep(float timeFactor){
+        timeStep = Const.REAL_TIME_STEP * timeFactor;
     }
 
     @Override
-    public void draw() {
+    public boolean update() {
+        if(currentState == null){
+            return false;
+        }
+        timeAccumulator += Gdx.graphics.getDeltaTime();
 
+        while (timeAccumulator > Const.REAL_TIME_STEP) {
+            epoch += timeStep;
+            currentState.update(timeStep);
+            timeAccumulator -= Const.REAL_TIME_STEP;
+        }
+        return true;
     }
 
     @Override
@@ -63,6 +92,11 @@ public class SolEngine implements GameEngine {
 
     @Override
     public GameState getState() {
+        return currentState;
+    }
+
+    @Override
+    public Context context() {
         return null;
     }
 

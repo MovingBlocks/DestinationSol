@@ -18,7 +18,6 @@ package org.destinationsol.engine;
 import org.destinationsol.game.context.Context;
 import org.destinationsol.rendering.CanvasRenderer;
 import org.terasology.assets.management.AssetTypeManager;
-import org.terasology.assets.module.ModuleAwareAssetTypeManager;
 import org.terasology.entitysystem.core.EntityManager;
 
 public interface EngineFactory {
