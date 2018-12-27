@@ -29,6 +29,8 @@ import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.common.SolColor;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
+import org.destinationsol.engine.DefaultEngine;
+import org.destinationsol.engine.SolEngine;
 import org.destinationsol.game.DebugOptions;
 import org.destinationsol.game.SaveManager;
 import org.destinationsol.game.SolGame;
@@ -82,6 +84,8 @@ public class SolApplication implements ApplicationListener {
     // TODO: Remove.
     private static SolApplication instance;
 
+    private SolEngine solEngine;
+
     public SolApplication() {
         // Initiate Box2D to make sure natives are loaded early enough
         Box2D.init();
@@ -92,6 +96,10 @@ public class SolApplication implements ApplicationListener {
     @Override
     public void create() {
         resizeSubscribers = new HashSet<>();
+
+        this.solEngine = new SolEngine(new DefaultEngine());
+
+
 
         context = new ContextImpl();
         context.put(SolApplication.class, this);
