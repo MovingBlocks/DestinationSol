@@ -97,9 +97,8 @@ public class SolApplication implements ApplicationListener {
     public void create() {
         resizeSubscribers = new HashSet<>();
 
-        this.solEngine = new SolEngine(new DefaultEngine());
-
-
+        this.solEngine = new SolEngine();
+        solEngine.initialize(new DefaultEngine());
 
         context = new ContextImpl();
         context.put(SolApplication.class, this);

@@ -23,6 +23,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.entitysystem.core.EntityManager;
 
+/**
+ * Core engine for the Destination Sol
+ */
 public class SolEngine implements GameEngine {
     private static final Logger logger = LoggerFactory.getLogger(SolEngine.class);
 
@@ -31,7 +34,7 @@ public class SolEngine implements GameEngine {
     private float epoch = 0;
     private GameState currentState;
 
-    public SolEngine(EngineFactory engineFactory){
+    public SolEngine(){
         setScaleStep(1.0f);
     }
 

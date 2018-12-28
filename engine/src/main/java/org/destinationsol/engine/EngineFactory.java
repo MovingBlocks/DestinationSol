@@ -27,6 +27,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Set;
 
+/**
+ * A factory provider that builds the core systems for the engine. 
+ */
 public interface EngineFactory {
 
     CanvasRenderer canvas();
