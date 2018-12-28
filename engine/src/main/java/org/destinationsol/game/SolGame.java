@@ -21,7 +21,9 @@ import com.badlogic.gdx.utils.Timer;
 import org.destinationsol.CommonDrawer;
 import org.destinationsol.Const;
 import org.destinationsol.GameOptions;
+import org.destinationsol.LoopCounterComponent;
 import org.destinationsol.SolApplication;
+import org.destinationsol.SolEntityManager;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.assets.audio.SpecialSounds;
 import org.destinationsol.common.DebugCol;
@@ -139,7 +141,7 @@ public class SolGame {
         timeFactor = 1;
 
         // the ordering of update aware systems is very important, switching them up can cause bugs!
-        updateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
+        updateSystems = new TreeMap<>();
         List<UpdateAwareSystem> defaultSystems = new ArrayList<UpdateAwareSystem>();
         defaultSystems.addAll(Arrays.asList(planetManager, camera, chunkManager, mountDetectDrawer, objectManager, mapDrawer, soundManager, beaconHandler, drawableDebugger));
         if (tutorialManager != null) {
@@ -150,8 +152,10 @@ public class SolGame {
         List<UpdateAwareSystem> defaultPausedSystems = new ArrayList<UpdateAwareSystem>();
         defaultPausedSystems.addAll(Arrays.asList(mapDrawer, camera, drawableDebugger));
 
-        onPausedUpdateSystems = new TreeMap<Integer, List<UpdateAwareSystem>>();
+        onPausedUpdateSystems = new TreeMap<>();
         onPausedUpdateSystems.put(0, defaultPausedSystems);
+
+        SolEntityManager.createEntity(LoopCounterComponent.class).getComponent(LoopCounterComponent.class).get().setLoopCount(0);
 
         try {
             for (Class<?> updateSystemClass : ModuleManager.getEnvironment().getSubtypesOf(UpdateAwareSystem.class, element -> element.isAnnotationPresent(RegisterUpdateSystem.class))) {
@@ -293,6 +297,10 @@ public class SolGame {
     }
 
     public void update() {
+        SolEntityManager.getEntitiesWith(LoopCounterComponent.class)
+                .stream()
+                .map(entityRef -> entityRef.getComponent(LoopCounterComponent.class).orElseThrow(() -> new SolException("Missing loop counter")))
+                .forEach(loopCounterComponent -> loopCounterComponent.setLoopCount(loopCounterComponent.getLoopCount() + 1));
         if (paused) {
             onPausedUpdateSystems.keySet().forEach(key -> onPausedUpdateSystems.get(key).forEach(system -> system.update(this, timeStep)));
         } else {

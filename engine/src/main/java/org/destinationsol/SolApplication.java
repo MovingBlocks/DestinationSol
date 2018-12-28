@@ -43,6 +43,8 @@ import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.entitysystem.entity.inmemory.InMemoryEntityManager;
+import org.terasology.entitysystem.transaction.TransactionManager;
 import org.terasology.module.sandbox.API;
 
 import java.io.PrintWriter;
@@ -84,6 +86,8 @@ public class SolApplication implements ApplicationListener {
 
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
+    private InMemoryEntityManager entityManager;
+    private TransactionManager transactionManager;
 
     public SolApplication(float targetFPS) {
         // Initiate Box2D to make sure natives are loaded early enough
@@ -121,6 +125,7 @@ public class SolApplication implements ApplicationListener {
         menuScreens = new MenuScreens(layouts, isMobile(), options);
 
         inputManager.setScreen(this, menuScreens.main);
+        SolEntityManager.setup();
     }
 
     @Override
@@ -132,6 +137,7 @@ public class SolApplication implements ApplicationListener {
         }
     }
 
+    @Override
     public void render() {
         timeAccumulator += Gdx.graphics.getDeltaTime();
 
@@ -204,7 +210,9 @@ public class SolApplication implements ApplicationListener {
         inputManager.update(this);
 
         if (solGame != null) {
+            SolEntityManager.begin();
             solGame.update();
+            SolEntityManager.end();
         }
 
         SolMath.checkVectorsTaken(null);
@@ -251,7 +259,9 @@ public class SolApplication implements ApplicationListener {
         }
 
         FactionInfo factionInfo = new FactionInfo();
+        SolEntityManager.begin();
         solGame = new SolGame(shipName, tut, isNewGame, commonDrawer, context, worldConfig);
+        SolEntityManager.end();
         factionDisplay = new FactionDisplay(solGame, factionInfo);
         inputManager.setScreen(this, solGame.getScreens().mainGameScreen);
     }

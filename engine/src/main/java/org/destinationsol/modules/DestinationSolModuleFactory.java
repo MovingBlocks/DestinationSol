@@ -15,9 +15,6 @@
  */
 package org.destinationsol.modules;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Predicate;
-import com.google.common.collect.ImmutableList;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
@@ -25,18 +22,11 @@ import org.reflections.util.ConfigurationBuilder;
 import org.terasology.module.Module;
 import org.terasology.module.ModuleFactory;
 import org.terasology.module.ModuleMetadata;
-import org.terasology.module.exceptions.InvalidModulePathException;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.function.Predicate;
 
 public class DestinationSolModuleFactory extends ModuleFactory {
     /**
@@ -59,7 +49,7 @@ public class DestinationSolModuleFactory extends ModuleFactory {
                 ConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
                         .addUrls(path.toUri().toURL(), codePath.toUri().toURL())
                         .addScanners(new TypeAnnotationsScanner(), new SubTypesScanner());
-                configurationBuilder.setInputsFilter(classFilter);
+                configurationBuilder.setInputsFilter(classFilter::test);
                 reflections = new Reflections(configurationBuilder);
             } catch (Exception ignore) {
             }
@@ -88,7 +78,7 @@ public class DestinationSolModuleFactory extends ModuleFactory {
                 ConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
                         .addUrls(path.toUri().toURL())
                         .addScanners(new TypeAnnotationsScanner(), new SubTypesScanner());
-                configurationBuilder.setInputsFilter(classFilter);
+                configurationBuilder.setInputsFilter(classFilter::test);
                 reflections = new Reflections(configurationBuilder);
             } catch (Exception ignore) {
             }
@@ -110,13 +100,13 @@ public class DestinationSolModuleFactory extends ModuleFactory {
     public Module createClasspathModule(Collection<Path> paths, ModuleMetadata metadata) {
         Module originalModule = super.createClasspathModule(paths, metadata);
 
-        if (originalModule.isCodeModule() && !reflectionCacheExists(paths.toArray(new Path[paths.size()]))) {
+        if (originalModule.isCodeModule() && !reflectionCacheExists(paths.toArray(new Path[0]))) {
             Reflections reflections = null;
             try {
                 Predicate<String> classFilter = filePath -> filePath != null && filePath.endsWith(".class");
                 ConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
                         .addScanners(new TypeAnnotationsScanner(), new SubTypesScanner());
-                configurationBuilder.setInputsFilter(classFilter);
+                configurationBuilder.setInputsFilter(classFilter::test);
                 for (Path path : paths) {
                     configurationBuilder.addUrls(path.toUri().toURL());
                 }

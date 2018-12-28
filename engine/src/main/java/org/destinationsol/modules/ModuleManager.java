@@ -47,7 +47,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ReflectPermission;
-import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Policy;
@@ -170,7 +169,6 @@ public class ModuleManager {
 
     public ModuleManager() {
         try {
-            URI engineClasspath = getClass().getProtectionDomain().getCodeSource().getLocation().toURI();
             Reader engineModuleReader = new InputStreamReader(getClass().getResourceAsStream("/module.json"), Charsets.UTF_8);
             ModuleMetadata engineMetadata = new ModuleMetadataJsonAdapter().read(engineModuleReader);
             engineModuleReader.close();
