@@ -297,10 +297,6 @@ public class SolGame {
     }
 
     public void update() {
-        SolEntityManager.getEntitiesWith(LoopCounterComponent.class)
-                .stream()
-                .map(entityRef -> entityRef.getComponent(LoopCounterComponent.class).orElseThrow(() -> new SolException("Missing loop counter")))
-                .forEach(loopCounterComponent -> loopCounterComponent.setLoopCount(loopCounterComponent.getLoopCount() + 1));
         if (paused) {
             onPausedUpdateSystems.keySet().forEach(key -> onPausedUpdateSystems.get(key).forEach(system -> system.update(this, timeStep)));
         } else {

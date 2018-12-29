@@ -36,10 +36,10 @@ public class SolEntityManager {
     private static InMemoryEntityManager entityManager;
     private static boolean isTransaction;
 
-    static void setup() {
+    static void setup(TransactionManager transactionManager) {
         final TypeLibrary typeLibrary = new TypeLibrary();
         typeLibrary.addHandler(new TypeHandler<>(Integer.class, ImmutableCopy.create()));
-        transactionManager = new TransactionManager();
+        SolEntityManager.transactionManager = transactionManager;
         final CodeGenComponentManager library = new CodeGenComponentManager(typeLibrary);
         entityManager = new InMemoryEntityManager(library, transactionManager);
         isTransaction = false;

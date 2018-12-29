@@ -23,6 +23,7 @@ import com.badlogic.gdx.physics.box2d.Box2D;
 import org.destinationsol.assets.audio.OggMusicManager;
 import org.destinationsol.assets.audio.OggSoundManager;
 import org.destinationsol.common.SolColor;
+import org.destinationsol.common.SolException;
 import org.destinationsol.common.SolMath;
 import org.destinationsol.common.SolRandom;
 import org.destinationsol.game.DebugOptions;
@@ -43,12 +44,16 @@ import org.destinationsol.ui.SolLayouts;
 import org.destinationsol.ui.UiDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.entitysystem.entity.inmemory.InMemoryEntityManager;
+import org.terasology.entitysystem.event.impl.DelayedEventSystem;
+import org.terasology.entitysystem.event.impl.EventProcessor;
+import org.terasology.entitysystem.event.impl.EventProcessorBuilder;
+import org.terasology.entitysystem.event.impl.EventReceiverMethodSupport;
 import org.terasology.entitysystem.transaction.TransactionManager;
 import org.terasology.module.sandbox.API;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -86,8 +91,9 @@ public class SolApplication implements ApplicationListener {
 
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
-    private InMemoryEntityManager entityManager;
+    private DelayedEventSystem delayedEventSystem;
     private TransactionManager transactionManager;
+    private HashMap<Class<?>, Object> systemsMap;
 
     public SolApplication(float targetFPS) {
         // Initiate Box2D to make sure natives are loaded early enough
@@ -125,7 +131,19 @@ public class SolApplication implements ApplicationListener {
         menuScreens = new MenuScreens(layouts, isMobile(), options);
 
         inputManager.setScreen(this, menuScreens.main);
-        SolEntityManager.setup();
+        transactionManager = new TransactionManager();
+        SolEntityManager.setup(this.transactionManager);
+        final EventProcessorBuilder eventProcessorBuilder = EventProcessor.newBuilder();
+        systemsMap = new HashMap<>();
+        ModuleManager.getEnvironment().getTypesAnnotatedWith(RegisterSystem.class).forEach(clazz -> {
+            try {
+                systemsMap.put(clazz, clazz.newInstance());
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new SolException("Error instantiating system " + clazz.getSimpleName());
+            }
+        });
+        systemsMap.values().forEach(o -> EventReceiverMethodSupport.register(o, eventProcessorBuilder));
+        delayedEventSystem = new DelayedEventSystem(transactionManager, eventProcessorBuilder.build());
     }
 
     @Override
@@ -213,6 +231,14 @@ public class SolApplication implements ApplicationListener {
             SolEntityManager.begin();
             solGame.update();
             SolEntityManager.end();
+            SolEntityManager.begin();
+            SolEntityManager.getEntitiesWith(LoopCounterComponent.class).forEach(entityRef -> delayedEventSystem.send(new GameLoopUpdateEvent(), entityRef));
+            SolEntityManager.end();
+            try {
+                delayedEventSystem.processEvents();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         SolMath.checkVectorsTaken(null);

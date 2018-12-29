@@ -16,7 +16,6 @@
 package org.destinationsol.modules;
 
 import com.google.common.base.Charsets;
-import com.google.common.collect.Sets;
 import org.destinationsol.assets.AssetHelper;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggMusic;
@@ -185,18 +184,15 @@ public class ModuleManager {
             ModulePathScanner scanner = new ModulePathScanner(moduleFactory);
             scanner.scan(registry, modulesRoot);
 
-            Set<Module> requiredModules = Sets.newHashSet();
-            requiredModules.add(engineModule);
-            requiredModules.addAll(registry);
             registry.add(engineModule);
 
-            loadEnvironment(requiredModules);
+            loadEnvironment();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void loadEnvironment(Set<Module> modules) {
+    private void loadEnvironment() {
         StandardPermissionProviderFactory permissionFactory = new StandardPermissionProviderFactory();
         for (String api : API_WHITELIST) {
             permissionFactory.getBasePermissionSet().addAPIPackage(api);
