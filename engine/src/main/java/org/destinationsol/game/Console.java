@@ -218,12 +218,12 @@ public class Console extends SolUiBaseScreen {
     }
 
     @Override
-    public void onAdd(SolApplication solApplication) {
+    public void onAdd() {
         isActive = true;
     }
 
     @Override
-    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void drawBackground(UiDrawer uiDrawer) {
         drawFrame(uiDrawer);
         // Text area - uncomment when you want drawn clear boundary of area meant for text to be in. Don't delete in case there is ever need to resize the console.
 //        uiDrawer.draw(new Rectangle(TOP_LEFT.x + 2 * FRAME_WIDTH,
@@ -259,7 +259,7 @@ public class Console extends SolUiBaseScreen {
     }
 
     @Override
-    public void draw(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void draw(UiDrawer uiDrawer) {
         final float textX = TOP_LEFT.x + 2 * FRAME_WIDTH; // X position of all text
         for (int line = 0; line < 20; line++) { // Magic constant. Change if Console is resized.
             if (linesOfOutput.size() + line > 19) { // to prevent IndexOutOfBoundsException

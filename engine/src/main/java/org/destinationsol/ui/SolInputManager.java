@@ -199,7 +199,7 @@ public class SolInputManager {
             if (screen.isCursorOnBackground(inputPointers[0])) {
                 mouseOnUi = true;
             }
-            screen.updateCustom(solApplication, inputPointers, clickedOutside);
+            screen.update(this.getPtrs(), clickedOutside);
         }
 
         TutorialManager tutorialManager = game == null ? null : game.getTutMan();
@@ -246,7 +246,7 @@ public class SolInputManager {
                 continue;
             }
 
-            screen.onAdd(solApplication);
+            screen.onAdd();
 
             screens.add(screen);
         }
@@ -306,9 +306,9 @@ public class SolInputManager {
         for (int i = screens.size() - 1; i >= 0; i--) {
             SolUiScreen screen = screens.get(i);
 
-            screen.drawBackground(uiDrawer, solApplication);
+            screen.drawBackground(uiDrawer);
 
-            screen.draw(uiDrawer, solApplication);
+            screen.draw(uiDrawer);
 
             screen.getRootUiElement().draw();
         }

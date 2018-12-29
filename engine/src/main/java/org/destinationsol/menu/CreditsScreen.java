@@ -130,14 +130,14 @@ public class CreditsScreen extends SolUiBaseScreen {
     }
 
     @Override
-    public void onAdd(SolApplication solApplication) {
+    public void onAdd() {
         pageIndex = 0;
         pageProgressPercent = 0;
         myColor.a = 0;
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+    public void update(SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         pageProgressPercent += Const.REAL_TIME_STEP / MAX_AWAIT;
         if (pageProgressPercent > 1) {
             pageProgressPercent = 0;
@@ -155,13 +155,14 @@ public class CreditsScreen extends SolUiBaseScreen {
         myColor.a = SolMath.clamp(a);
     }
 
+
     @Override
-    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void drawBackground(UiDrawer uiDrawer) {
         uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     @Override
-    public void draw(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void draw(UiDrawer uiDrawer) {
         uiDrawer.drawString(myPages.get(pageIndex), displayDimensions.getRatio() / 2, .5f, FontSize.MENU, true, myColor);
     }
 }

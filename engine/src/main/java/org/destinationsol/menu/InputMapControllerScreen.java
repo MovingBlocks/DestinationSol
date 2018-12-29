@@ -26,6 +26,7 @@ import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
+import org.destinationsol.ui.SolInputManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -201,11 +202,16 @@ public class InputMapControllerScreen extends InputMapOperations {
     }
 
     @Override
-    public void onAdd(SolApplication solApplication) {
-        InitialiseList(solApplication.getOptions());
+    public void onAdd() {
+        InitialiseList(SolApplication.getInstance().getOptions());
         Controllers.clearListeners();
         isEnterNewKey = false;
         selectedIndex = 0;
+    }
+
+    @Override
+    public void update(SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+
     }
 
     @Override

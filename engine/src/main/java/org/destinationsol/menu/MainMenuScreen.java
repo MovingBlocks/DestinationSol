@@ -96,28 +96,28 @@ public class MainMenuScreen extends SolUiBaseScreen {
         logoTexture = Assets.getAtlasRegion("engine:mainMenuLogo", Texture.TextureFilter.Linear);
     }
 
+
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        // TODO: Disabled for now, since I can't figure out why controller players shouldn't be able to play the tutorial.
-        // tutorialControl.setEnabled(solApplication.getOptions().controlType != GameOptions.ControlType.CONTROLLER);
+    public void onAdd() {
+        SolApplication.getInstance().getMusicManager().playMusic(OggMusicManager.MENU_MUSIC_SET, gameOptions);
     }
 
     @Override
-    public void onAdd(SolApplication solApplication) {
-        solApplication.getMusicManager().playMusic(OggMusicManager.MENU_MUSIC_SET, gameOptions);
-    }
-
-    @Override
-    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void drawBackground(UiDrawer uiDrawer) {
         uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
     }
 
     @Override
-    public void draw(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void draw(UiDrawer uiDrawer) {
         final float sy = .35f;
         final float sx = sy * 400 / 218;
         if (!DebugOptions.PRINT_BALANCE) {
             uiDrawer.draw(logoTexture, sx, sy, sx / 2, sy / 2, displayDimensions.getRatio() / 2, 0.1f + sy / 2, 0, SolColor.WHITE);
         }
+    }
+
+    @Override
+    public void update(SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+
     }
 }

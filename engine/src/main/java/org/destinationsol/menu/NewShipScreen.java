@@ -29,6 +29,7 @@ import org.destinationsol.common.SolColor;
 import org.destinationsol.game.planet.SystemsBuilder;
 import org.destinationsol.ui.DisplayDimensions;
 import org.destinationsol.ui.FontSize;
+import org.destinationsol.ui.SolInputManager;
 import org.destinationsol.ui.SolUiBaseScreen;
 import org.destinationsol.ui.UiDrawer;
 import org.destinationsol.ui.responsiveUi.UiRelativeLayout;
@@ -84,12 +85,17 @@ public class NewShipScreen extends SolUiBaseScreen {
     }
 
     @Override
-    public void draw(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void draw(UiDrawer uiDrawer) {
         uiDrawer.drawString("Warning: This will erase any old ship you might have had!", .5f * displayDimensions.getRatio(), .3f, FontSize.MENU, true, SolColor.WHITE);
     }
 
     @Override
-    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void update(SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+
+    }
+
+    @Override
+    public void drawBackground(UiDrawer uiDrawer) {
         uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
     }
 

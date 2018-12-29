@@ -34,14 +34,15 @@ public abstract class SolUiBaseScreen implements SolUiScreen, ResizeSubscriber {
     }
 
     @Override
-    public void onAdd(SolApplication solApplication) {
+    public void onAdd() {
         // Intentionally left blank
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+    public void update(SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         // Intentionally left blank
     }
+
 
     @Override
     public boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
@@ -54,12 +55,12 @@ public abstract class SolUiBaseScreen implements SolUiScreen, ResizeSubscriber {
     }
 
     @Override
-    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void drawBackground(UiDrawer uiDrawer) {
         // Intentionally left blank
     }
 
     @Override
-    public void draw(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void draw(UiDrawer uiDrawer) {
         // Intentionally left blank
     }
 

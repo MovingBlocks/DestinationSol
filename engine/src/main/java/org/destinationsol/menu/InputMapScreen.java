@@ -133,11 +133,45 @@ public class InputMapScreen extends SolUiBaseScreen {
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
+
+    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+        uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
+    }
+
     @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-        GameOptions gameOptions = cmp.getOptions();
-        SolInputManager im = cmp.getInputManager();
-        MenuScreens menuScreens = cmp.getMenuScreens();
+    public void draw(UiDrawer uiDrawer) {
+        GameOptions gameOptions = SolApplication.getInstance().getOptions();
+        List<InputConfigItem> list = operations.getItems(gameOptions);
+
+        float imgColW = listArea.width * IMG_COL_PERC;
+        float equiColW = listArea.width * EQUI_COL_PERC;
+        float priceWidth = listArea.width * PRICE_COL_PERC;
+        float amtWidth = listArea.width * AMT_COL_PERC;
+        float nameWidth = listArea.width - imgColW - equiColW - priceWidth - amtWidth;
+
+        // Draw the header title
+        uiDrawer.drawString(operations.getHeader(), listHeaderPos.x, listHeaderPos.y, FontSize.WINDOW, false, SolColor.WHITE);
+
+        // Draw the detail text
+        uiDrawer.drawString(operations.getDisplayDetail(), detailsArea.x + .015f, detailsArea.y + .015f, FontSize.WINDOW, false, SolColor.WHITE);
+    }
+
+    @Override
+    public void onAdd() {
+        // Add any extra screen information as required by the input screens. E.g. buttons
+        if (operations != null) {
+            SolApplication.getInstance().getInputManager().addScreen(operations);
+        }
+
+        page = 0;
+        selectedIndex = 0;
+    }
+
+    @Override
+    public void update(SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+//        GameOptions gameOptions = cmp.getOptions();
+//        SolInputManager im = cmp.getInputManager();
+//        MenuScreens menuScreens = cmp.getMenuScreens();
 
         // Save - saves new settings and returns to the options screen
 //        if (saveControl.isJustOff()) {
@@ -179,7 +213,7 @@ public class InputMapScreen extends SolUiBaseScreen {
 //        }
 
         // Selected Item Control
-        List<InputConfigItem> itemsList = operations.getItems(gameOptions);
+        List<InputConfigItem> itemsList = operations.getItems(SolApplication.getInstance().getOptions());
         int groupCount = itemsList.size();
         int pageCount = groupCount / Const.ITEM_GROUPS_PER_PAGE;
 
@@ -236,39 +270,6 @@ public class InputMapScreen extends SolUiBaseScreen {
 
         // Inform the input screen which item is selected
         operations.setSelectedIndex(selectedIndex);
-    }
-
-    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
-        uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
-    }
-
-    @Override
-    public void draw(UiDrawer uiDrawer, SolApplication solApplication) {
-        GameOptions gameOptions = solApplication.getOptions();
-        List<InputConfigItem> list = operations.getItems(gameOptions);
-
-        float imgColW = listArea.width * IMG_COL_PERC;
-        float equiColW = listArea.width * EQUI_COL_PERC;
-        float priceWidth = listArea.width * PRICE_COL_PERC;
-        float amtWidth = listArea.width * AMT_COL_PERC;
-        float nameWidth = listArea.width - imgColW - equiColW - priceWidth - amtWidth;
-
-        // Draw the header title
-        uiDrawer.drawString(operations.getHeader(), listHeaderPos.x, listHeaderPos.y, FontSize.WINDOW, false, SolColor.WHITE);
-
-        // Draw the detail text
-        uiDrawer.drawString(operations.getDisplayDetail(), detailsArea.x + .015f, detailsArea.y + .015f, FontSize.WINDOW, false, SolColor.WHITE);
-    }
-
-    @Override
-    public void onAdd(SolApplication solApplication) {
-        // Add any extra screen information as required by the input screens. E.g. buttons
-        if (operations != null) {
-            solApplication.getInputManager().addScreen(operations);
-        }
-
-        page = 0;
-        selectedIndex = 0;
     }
 
     private Rectangle itemControlRectangle(int row) {

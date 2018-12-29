@@ -129,9 +129,6 @@ public class InputMapMixedScreen extends InputMapOperations {
         itemsList.set(index, item);
     }
 
-    @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-    }
 
     /**
      * Remove key if it is already assigned to prevent duplicate keys
@@ -145,12 +142,16 @@ public class InputMapMixedScreen extends InputMapOperations {
             }
         }
     }
-
     @Override
-    public void onAdd(SolApplication cmp) {
-        InitialiseList(cmp.getOptions());
+    public void onAdd() {
+        InitialiseList(SolApplication.getInstance().getOptions());
         isEnterNewKey = false;
         selectedIndex = 0;
+    }
+
+    @Override
+    public void update(SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+
     }
 
     @Override

@@ -27,30 +27,30 @@ import org.destinationsol.ui.responsiveUi.UiVerticalListLayout;
 //TODO quickFix to at least display some buttons. Does not actually work yet.
 public class TalkScreen extends SolUiBaseScreen {
     @Override
-    public void onAdd(SolApplication solApplication) {
+    public void onAdd() {
         final UiVerticalListLayout verticalListLayout = new UiVerticalListLayout()
                 .addElement(new UiActionButton()
                         .addElement(new UiTextBox().setText("Sell").setFontSize(FontSize.MENU))
                         .setAction(uiElement -> {
-                                    SolApplication.getInputManager().addScreen(solApplication.getGame().getScreens().inventoryScreen);
+                                    SolApplication.getInputManager().addScreen(SolApplication.getInstance().getGame().getScreens().inventoryScreen);
                                 }
                         ))
                 .addElement(new UiActionButton()
                         .addElement(new UiTextBox().setText("Buy").setFontSize(FontSize.MENU))
                         .setAction(uiElement -> {
-                                    SolApplication.getInputManager().addScreen(solApplication.getGame().getScreens().inventoryScreen);
+                                    SolApplication.getInputManager().addScreen(SolApplication.getInstance().getGame().getScreens().inventoryScreen);
                                 }
                         ))
                 .addElement(new UiActionButton()
                         .addElement(new UiTextBox().setText("Change ship").setFontSize(FontSize.MENU))
                         .setAction(uiElement -> {
-                                    SolApplication.getInputManager().addScreen(solApplication.getGame().getScreens().inventoryScreen);
+                                    SolApplication.getInputManager().addScreen(SolApplication.getInstance().getGame().getScreens().inventoryScreen);
                                 }
                         ))
                 .addElement(new UiActionButton()
                         .addElement(new UiTextBox().setText("Hire").setFontSize(FontSize.MENU))
                         .setAction(uiElement -> {
-                                    SolApplication.getInputManager().addScreen(solApplication.getGame().getScreens().inventoryScreen);
+                                    SolApplication.getInputManager().addScreen(SolApplication.getInstance().getGame().getScreens().inventoryScreen);
                                 }
                         ));
         rootUiElement = new UiRelativeLayout()

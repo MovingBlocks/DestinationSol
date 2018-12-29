@@ -166,9 +166,7 @@ public class InputMapKeyboardScreen extends InputMapOperations {
         itemsList.set(index++, item);
     }
 
-    @Override
-    public void updateCustom(SolApplication cmp, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
-    }
+
 
     /**
      * Remove key if it is already assigned to prevent duplicate keys
@@ -184,10 +182,15 @@ public class InputMapKeyboardScreen extends InputMapOperations {
     }
 
     @Override
-    public void onAdd(SolApplication cmp) {
-        InitialiseList(cmp.getOptions());
+    public void onAdd() {
+        InitialiseList(SolApplication.getInstance().getOptions());
         isEnterNewKey = false;
         selectedIndex = 0;
+    }
+
+    @Override
+    public void update(SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+
     }
 
     @Override

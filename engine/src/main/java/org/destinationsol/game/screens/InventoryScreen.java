@@ -53,18 +53,19 @@ public class InventoryScreen extends SolUiBaseScreen {
     }
 
     @Override
-    public boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
-        return rootUiElement.getScreenArea().contains(inputPointer.x, inputPointer.y);
-    }
-
-    @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+    public void update(SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         descriptionTextBox.setText(itemList.getSelectedItem().getDescription());
     }
 
     @Override
-    public void onAdd(SolApplication solApplication) {
-        itemList.setItemContainer(myOperation.getItems(solApplication.getGame()));
+    public boolean isCursorOnBackground(SolInputManager.InputPointer inputPointer) {
+        return rootUiElement.getScreenArea().contains(inputPointer.x, inputPointer.y);
+    }
+
+
+    @Override
+    public void onAdd() {
+        itemList.setItemContainer(myOperation.getItems(SolApplication.getInstance().getGame()));
         descriptionTextBox.setText(itemList.getSelectedItem().getDescription());
     }
 

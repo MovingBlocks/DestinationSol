@@ -53,7 +53,7 @@ public class ChangeShipScreen extends InventoryOperationsScreen {
     }
 
 //    @Override
-//    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+//    public void update(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
 //        SolGame game = solApplication.getGame();
 //        InventoryScreen is = game.getScreens().inventoryScreen;
 //        Hero hero = game.getHero();

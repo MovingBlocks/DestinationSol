@@ -46,7 +46,7 @@ public class ChooseMercenaryScreen extends InventoryOperationsScreen {
     }
 
 //    @Override
-//    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+//    public void update(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
 //        SolGame game = solApplication.getGame();
 //        InventoryScreen is = game.getScreens().inventoryScreen;
 //        SolInputManager inputMan = solApplication.getInputManager();

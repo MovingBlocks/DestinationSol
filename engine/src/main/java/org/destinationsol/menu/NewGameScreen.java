@@ -65,8 +65,9 @@ public class NewGameScreen extends SolUiBaseScreen {
         backgroundTexture = Assets.getAtlasRegion("engine:mainMenuBg", Texture.TextureFilter.Linear);
     }
 
+
     @Override
-    public void onAdd(SolApplication solApplication) {
+    public void update(SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         continueButton.setEnabled(SaveManager.hasPrevShip("prevShip.ini"));
     }
 
@@ -76,7 +77,7 @@ public class NewGameScreen extends SolUiBaseScreen {
     }
 
     @Override
-    public void drawBackground(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void drawBackground(UiDrawer uiDrawer) {
         uiDrawer.draw(backgroundTexture, displayDimensions.getRatio(), 1, displayDimensions.getRatio() / 2, 0.5f, displayDimensions.getRatio() / 2, 0.5f, 0, SolColor.WHITE);
     }
 }

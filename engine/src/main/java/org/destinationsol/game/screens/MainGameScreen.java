@@ -260,7 +260,7 @@ public class MainGameScreen extends SolUiBaseScreen {
     }
 
     @Override
-    public void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
+    public void update(SolInputManager.InputPointer[] inputPointers, boolean clickedOutside) {
         if (DebugOptions.PRINT_BALANCE) {
             solApplication.finishGame();
             return;
@@ -404,7 +404,7 @@ public class MainGameScreen extends SolUiBaseScreen {
     }
 
     @Override
-    public void draw(UiDrawer uiDrawer, SolApplication solApplication) {
+    public void draw(UiDrawer uiDrawer) {
 //        myLifeTp.text = null;
 //        myRepairsExcessTp.text = null;
 //        myShieldLifeTp.text = null;

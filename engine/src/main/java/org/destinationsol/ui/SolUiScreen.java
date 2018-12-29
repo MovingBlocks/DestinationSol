@@ -39,21 +39,19 @@ public interface SolUiScreen {
      * This method can be considered kind of constructor, as it can be used to set up some inner variables, change
      * playing music and perform all other sorts of custom initialization.
      *
-     * @param solApplication {@code SolApplication} displaying this window.
      */
     //TODO maybe rename to onFocus() ? Inspect more whether name is completely fitting.
-    void onAdd(SolApplication solApplication);
+    void onAdd();
 
     /**
      * Updates the screen.
      * <p>
      * Called on active screens for every game frame, allowing arbitrary logic to be executed.
      *
-     * @param solApplication {@code SolApplication} displaying this window.
      * @param inputPointers  Input pointers employed by the input manager.
      * @param clickedOutside True if click outside of the screen area happened since the last call, false otherwise
      */
-    void updateCustom(SolApplication solApplication, SolInputManager.InputPointer[] inputPointers, boolean clickedOutside);
+    void update( SolInputManager.InputPointer[] inputPointers, boolean clickedOutside);
 
     /**
      * Return true if cursor is in the screen area, false otherwise.
@@ -82,9 +80,8 @@ public interface SolUiScreen {
      * This is called before drawing SolUiControls and other items ({@link #draw(UiDrawer, SolApplication)}).
      *
      * @param uiDrawer       Drawer to draw with
-     * @param solApplication {@code SolApplication} displaying this window.
      */
-    void drawBackground(UiDrawer uiDrawer, SolApplication solApplication);
+    void drawBackground(UiDrawer uiDrawer);
 
     /**
      * Draws text and images the screen might be employing.
@@ -95,9 +92,8 @@ public interface SolUiScreen {
      * This is called after drawing background ({@link #drawBackground}) and SolUiControls.
      *
      * @param uiDrawer       Drawer to draw with
-     * @param solApplication {@code SolApplication} displaying this window.
      */
-    default void draw(UiDrawer uiDrawer, SolApplication solApplication) {
+    default void draw(UiDrawer uiDrawer) {
         // Intentionally left blank
     }
 
