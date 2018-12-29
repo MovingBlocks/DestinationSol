@@ -93,7 +93,7 @@ public class SolApplication implements ApplicationListener {
     private static Set<ResizeSubscriber> resizeSubscribers;
     private DelayedEventSystem delayedEventSystem;
     private TransactionManager transactionManager;
-    private HashMap<Class<?>, Object> systemsMap;
+    private  HashMap<Class<?>, Object> systemsMap;
 
     public SolApplication(float targetFPS) {
         // Initiate Box2D to make sure natives are loaded early enough
@@ -134,16 +134,22 @@ public class SolApplication implements ApplicationListener {
         transactionManager = new TransactionManager();
         SolEntityManager.setup(this.transactionManager);
         final EventProcessorBuilder eventProcessorBuilder = EventProcessor.newBuilder();
+        initSystemsStuff(eventProcessorBuilder);
+        delayedEventSystem = new DelayedEventSystem(transactionManager, eventProcessorBuilder.build());
+    }
+
+    private void initSystemsStuff(EventProcessorBuilder eventProcessorBuilder) {
         systemsMap = new HashMap<>();
         ModuleManager.getEnvironment().getTypesAnnotatedWith(RegisterSystem.class).forEach(clazz -> {
             try {
-                systemsMap.put(clazz, clazz.newInstance());
+                final Object o = clazz.newInstance();
+                systemsMap.put(clazz, o);
+                context.put((Class) clazz, clazz.cast(o));
             } catch (InstantiationException | IllegalAccessException e) {
                 throw new SolException("Error instantiating system " + clazz.getSimpleName());
             }
         });
         systemsMap.values().forEach(o -> EventReceiverMethodSupport.register(o, eventProcessorBuilder));
-        delayedEventSystem = new DelayedEventSystem(transactionManager, eventProcessorBuilder.build());
     }
 
     @Override

@@ -15,7 +15,7 @@
  */
 package org.destinationsol;
 
-import org.terasology.entitysystem.event.ReceiveEvent;
+import org.destinationsol.game.context.Context;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -24,13 +24,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Any classes with this annotation will be instantiated and scanned for {@link ReceiveEvent}-marked methods.
- * For this reason, any class annotated with this must have a public constructor with no parameters.
- * The instantiated classes will also be shared in the Context, and {@link In}-annotated fields will be injected
- * with classes from context.
+ * Fields annotated with this annotation in {@link RegisterSystem}-annotated classes will be injected from
+ * {@link Context}. Please note that the injection happens only after construction.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Target(ElementType.TYPE)
-public @interface RegisterSystem {
+@Target(ElementType.FIELD)
+public @interface In {
 }
