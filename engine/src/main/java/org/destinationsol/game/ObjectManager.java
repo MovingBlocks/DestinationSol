@@ -291,9 +291,8 @@ public class ObjectManager implements UpdateAwareSystem {
      * @param action The action to commit to {@code fromObject}.
      */
     public void doToAllCloserThan(float squaredDistance, SolObject fromObject, Consumer<SolObject> action) {
-        //Should the non-squared distance be used instead?
         for(SolObject obj : myObjs) {
-            if(SolMath.squaredScalarDist(fromObject.getPosition(), obj.getPosition()) < squaredDistance) {
+            if(fromObject.getPosition().dst2(obj.getPosition()) < squaredDistance) {
                 action.accept(obj);
             }
         }
