@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Specifies the starting station for the module. Every module must have this, and which station is used is determined by the module to which the starting ship belongs.",
+  "type": "object",
+  "properties": {
+    "hull": {
+      "type": "string",
+      "description": "Id of the hull of the station",
+      "pattern": "^\\w+:\\w+$"
+    },
+    "guard": {
+      "allOf": [
+        {
+          "$ref": "#"
+        }
+      ],
+      "$comment": "^^dirty hack to allow comment as per https://stackoverflow.com/questions/33565090/json-schema-property-description-and-ref-usage",
+      "description": "Ship guarding this station"
+    },
+    "items": {
+      "type": "string",
+      "description": "Space separated list of items ship possesses. See /docs/items.txt for more detailed explanation.",
+      "pattern": "^((((0(\\.\\d+)?|1\\.0)\\|)?(\\d+\\*)?(\\w+(:\\w+)?(-[12])?)(\\+(\\w+(:\\w+)?(-[12])?))*)( ((0(\\.\\d+)?|1\\.0)\\|)?(\\d+\\*)?(\\w+(:\\w+)?(-[12])?)(\\+(\\w+(:\\w+)?(-[12])?))*)* ?)?$"
+    },
+    "money": {
+      "type": "integer",
+      "description": "Starting money of the ship"
+    },
+    "density": {
+      "type": "number",
+      "description": "Unused. On guard, denotes how many of the ship is to spawn"
+    }
+  }
+}

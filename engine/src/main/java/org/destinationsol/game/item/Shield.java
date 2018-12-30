@@ -17,7 +17,8 @@ package org.destinationsol.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.audio.OggSound;
 import org.destinationsol.assets.audio.OggSoundManager;
@@ -182,24 +183,21 @@ public class Shield implements SolItem {
         }
 
         public static void load(String shieldName, ItemManager itemManager, OggSoundManager soundManager, SolItemTypes types) {
-            Json json = Assets.getJson(shieldName);
-            JsonValue rootNode = json.getJsonValue();
+            JSONObject rootNode = Validator.getValidatedJSON(shieldName, "engine:schemaShield");
 
             int maxLife = rootNode.getInt("maxLife");
-            float idleTime = rootNode.getFloat("idleTime");
-            float regenSpeed = rootNode.getFloat("regenSpd");
-            float bulletDmgFactor = rootNode.getFloat("bulletDmgFactor");
-            float energyDmgFactor = rootNode.getFloat("energyDmgFactor");
-            float explosionDmgFactor = rootNode.getFloat("explosionDmgFactor");
+            float idleTime = (float) rootNode.getDouble("idleTime");
+            float regenSpeed = (float) rootNode.getDouble("regenSpd");
+            float bulletDmgFactor = (float) rootNode.getDouble("bulletDmgFactor");
+            float energyDmgFactor = (float) rootNode.getDouble("energyDmgFactor");
+            float explosionDmgFactor = (float) rootNode.getDouble("explosionDmgFactor");
             String displayName = rootNode.getString("displayName");
             int price = rootNode.getInt("price");
             String absorbUrn = rootNode.getString("absorbSound");
-            float absorbPitch = rootNode.getFloat("absorbSoundPitch", 1);
+            float absorbPitch = (float) rootNode.optDouble("absorbSoundPitch", 1);
             OggSound absorbSound = soundManager.getSound(absorbUrn, absorbPitch);
             String regenUrn = rootNode.getString("regenSound");
             OggSound regenSound = soundManager.getSound(regenUrn);
-
-            json.dispose();
 
             TextureAtlas.AtlasRegion tex = Assets.getAtlasRegion(shieldName);
             TextureAtlas.AtlasRegion icon = Assets.getAtlasRegion(shieldName + "Icon");

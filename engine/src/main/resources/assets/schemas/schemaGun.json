@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Guns are the primary weapons for ships",
+  "type": "object",
+  "required": [
+    "maxAngleVar",
+    "angleVarDamp",
+    "angleVarPerShot",
+    "timeBetweenShots",
+    "reloadTime",
+    "price",
+    "clipName",
+    "gunLength",
+    "displayName",
+    "shootSounds",
+    "reloadSounds"
+  ],
+  "properties": {
+    "maxAngleVar": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Maximum angle variation for a shot from the center of the gun"
+    },
+    "minAngleVar": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Minimum angle variation for a shot from the center of a gun"
+    },
+    "angleVarDamp": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Puts a damper or delay on the angle variation"
+    },
+    "angleVarPerShot": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Controls how much the angle of the bullet can vary from shot to shot"
+    },
+    "timeBetweenShots": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Controls how fast the gun fires"
+    },
+    "reloadTime": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Amount of time in seconds it takes for the gun to reload"
+    },
+    "price": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "description": "Amount the gun costs to buy at a station"
+    },
+    "clipName": {
+      "type": "string",
+      "pattern": "^\\w+:\\w+$",
+      "description": "Module path of the clip the gun uses to fire"
+    },
+    "gunLength": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "Multiplier used to scale the gun length"
+    },
+    "displayName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Name to be displayed in inventories and trading stations",
+      "pattern": "^[ -~]+$"
+    },
+    "shootSounds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^\\w+:\\w+$"
+      },
+      "description": "An array to iterate over when firing the gun for audio assets to be played"
+    },
+    "reloadSounds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^\\w+:\\w+$"
+      },
+      "description": "An array to iterate over when reloading the gun for audio assets to be played"
+    },
+    "fixed": {
+      "type": "boolean",
+      "description": "Controls whether the gun is fixed in place"
+    },
+    "texLenPerc": {
+      "type": "number",
+      "description": "Multiplier to scale the length of the projetile's texture"
+    },
+    "lightOnShot": {
+      "type": "boolean",
+      "description": "Whether the gun should show a light at the muzzle when it fires"
+    }
+  }
+}

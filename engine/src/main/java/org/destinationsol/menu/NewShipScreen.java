@@ -18,7 +18,8 @@ package org.destinationsol.menu;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.GameOptions;
 import org.destinationsol.SolApplication;
 import org.destinationsol.assets.Assets;
@@ -116,14 +117,12 @@ public class NewShipScreen extends SolUiBaseScreen {
         Set<ResourceUrn> configUrnList = Assets.getAssetHelper().list(Json.class, "[a-zA-Z]*:playerSpawnConfig");
 
         for (ResourceUrn configUrn : configUrnList) {
-            Json json = Assets.getJson(configUrn.toString());
-            JsonValue rootNode = json.getJsonValue();
+            JSONObject rootNode = Validator.getValidatedJSON(configUrn.toString(), "engine:schemaPlayerSpawnConfig");
 
-            for (JsonValue node : rootNode) {
-                playerSpawnConfigNames.add(node.name);
+            for (String s : rootNode.keySet()) {
+                playerSpawnConfigNames.add(s);
             }
 
-            json.dispose();
         }
     }
 

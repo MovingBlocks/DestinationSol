@@ -2,6 +2,26 @@ apply from: '../config/gradle/common.gradle'
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.util.ConfigurationBuilder;
+
+// Dependencies needed for what our Gradle scripts themselves use. It cannot be included via an external Gradle file :-(
+buildscript {
+    repositories {
+        // External libs - jcenter is Bintray and is supposed to be a superset of Maven Central, but do both just in case
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        // Needed for caching reflected data during builds
+        classpath 'org.reflections:reflections:0.9.10'
+        classpath 'dom4j:dom4j:1.6.1'
+    }
+}
+
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
@@ -10,10 +30,10 @@ dependencies {
     compile "org.terasology:gestalt-module:6.0.0"
     compile "org.terasology:gestalt-asset-core:6.0.0"
     compile "org.terasology:gestalt-entity-system:6.0.0"
-
+    compile "com.github.everit-org.json-schema:org.everit.json.schema:1.9.2"
 
     //TODO inserted by someone who has no idea how the gradle thing works. Inspect whether necessary (for tests). Copied rom desktop build.gradle. May break things with android (maybe)
-    testCompile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+    testCompile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
     testCompile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     testCompile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
     testCompile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
@@ -38,7 +58,27 @@ sourceSets {
     }
 }
 
+task cacheReflections {
+    description = 'Caches reflection output to make regular startup faster. May go stale and need cleanup at times.'
+    // TODO: The extra "org" qualifier excludes test classes otherwise sucked up in Jenkins, causing issues. Redo later
+    File dirToReflect = new File(sourceSets.main.output.classesDir, "org")
+    inputs.files dirToReflect
+    outputs.file file(sourceSets.main.output.classesDir.toString() + "/reflections.cache")
+    dependsOn classes
+    doFirst {
+        // Without the .mkdirs() we might hit a scenario where the classes dir doesn't exist yet
+        dirToReflect.mkdirs()
+        Reflections reflections = new Reflections(new ConfigurationBuilder()
+                .addUrls(dirToReflect.toURI().toURL())
+                .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner()))
+        reflections.save(sourceSets.main.output.classesDir.toString() + "/reflections.cache")
+    }
+}
+
 jar {
+    // This prevents the assets from being scanned as code files
+    dependsOn cacheReflections
+
     archiveName = "sol.jar"
 
     doFirst {

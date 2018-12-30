@@ -15,7 +15,8 @@
  */
 package org.destinationsol.game.planet;
 
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.destinationsol.common.SolRandom;
@@ -46,12 +47,12 @@ public class PlanetConfigs {
 
         for (ResourceUrn planetConfigJson : planetJsonConfigs) {
             String moduleName = planetConfigJson.getModuleName().toString();
-            Json json = Assets.getJson(planetConfigJson.toString());
-            JsonValue rootNode = json.getJsonValue();
+            JSONObject rootNode = Validator.getValidatedJSON(planetConfigJson.toString(), "engine:schemaPlanetsConfig");
 
-            for (JsonValue node : rootNode) {
-                PlanetConfig planetConfig = PlanetConfig.load(node, hullConfigs, cols, itemManager, moduleName);
-                allConfigs.put(node.name, planetConfig);
+            for (String s : rootNode.keySet()) {
+                JSONObject node = rootNode.getJSONObject(s);
+                PlanetConfig planetConfig = PlanetConfig.load(s, node, hullConfigs, cols, itemManager, moduleName);
+                allConfigs.put(s, planetConfig);
                 if (planetConfig.hardOnly) {
                     hard.add(planetConfig);
                 } else if (planetConfig.easyOnly) {
@@ -60,8 +61,6 @@ public class PlanetConfigs {
                     medium.add(planetConfig);
                 }
             }
-
-            json.dispose();
         }
     }
 

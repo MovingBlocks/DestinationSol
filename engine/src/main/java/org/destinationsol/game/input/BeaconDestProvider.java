@@ -29,11 +29,11 @@ public class BeaconDestProvider implements MoveDestProvider {
 
     private Boolean myShouldManeuver;
     private boolean myShouldStopNearDest;
-    private Vector2 myDestSpeed;
+    private Vector2 myDestVelocity;
 
     public BeaconDestProvider() {
         myDest = new Vector2();
-        myDestSpeed = new Vector2();
+        myDestVelocity = new Vector2();
     }
 
     @Override
@@ -48,7 +48,7 @@ public class BeaconDestProvider implements MoveDestProvider {
             }
         }
         myShouldStopNearDest = STOP_AWAIT < game.getTime() - bh.getClickTime();
-        myDestSpeed.set(bh.getSpeed());
+        myDestVelocity.set(bh.getVelocity());
     }
 
     @Override
@@ -62,8 +62,8 @@ public class BeaconDestProvider implements MoveDestProvider {
     }
 
     @Override
-    public Vector2 getDestinationSpeed() {
-        return myDestSpeed;
+    public Vector2 getDestinationVelocity() {
+        return myDestVelocity;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class BeaconDestProvider implements MoveDestProvider {
     }
 
     @Override
-    public float getDesiredSpeedScalar() {
+    public float getDesiredSpeed() {
         return Const.MAX_MOVE_SPD;
     }
 

@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Physical configuration of a collision mesh, used for in-game collision physics.",
+  "type": "object",
+  "properties": {
+    "rigidBodies": {
+      "description": "Model representing the collision bounds of an object. Intended to be exported from utility applications",
+      "type": "array",
+      "items": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Identifying id of this collision mesh.",
+            "pattern": "^[\\w:._]+$"
+          },
+          "origin": {
+            "description": "The normalized coordinates of the reference point for this collision mesh.",
+            "type": "object",
+            "required": [
+              "x",
+              "y"
+            ],
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              }
+            }
+          },
+          "polygons": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "x",
+                  "y"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          },
+          "shapes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "vertices": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "x",
+                      "y"
+                    ],
+                    "properties": {
+                      "x": {
+                        "type": "number"
+                      },
+                      "y": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "circles": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "cx": {
+                  "type": "number"
+                },
+                "cy": {
+                  "type": "number"
+                },
+                "r": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "name",
+          "origin",
+          "polygons",
+          "shapes",
+          "circles"
+        ]
+      }
+    },
+    "dynamicObjects": {}
+  }
+}

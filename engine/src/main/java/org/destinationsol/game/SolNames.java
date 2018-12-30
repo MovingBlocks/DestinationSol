@@ -15,7 +15,8 @@
  */
 package org.destinationsol.game;
 
-import com.badlogic.gdx.utils.JsonValue;
+import org.destinationsol.assets.json.Validator;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.assets.json.Json;
 import org.terasology.assets.ResourceUrn;
@@ -44,16 +45,13 @@ public class SolNames {
     }
 
     private ArrayList<String> readList(String fileName) {
-        Json json = Assets.getJson(fileName);
-        JsonValue rootNode = json.getJsonValue();
+        JSONObject rootNode = Validator.getValidatedJSON(fileName, "engine:schemaSolNames");
 
         ArrayList<String> list = new ArrayList<>();
-        for (JsonValue node : rootNode) {
-            list.add(node.name());
+        for (String s : rootNode.keySet()) {
+            list.add(s);
         }
-
-        json.dispose();
-
+        
         return list;
     }
 }

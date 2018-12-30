@@ -17,7 +17,7 @@ package org.destinationsol.game.planet;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
+import org.json.JSONObject;
 import org.destinationsol.assets.Assets;
 import org.destinationsol.common.SolMath;
 
@@ -41,15 +41,19 @@ public class DecoConfig {
         this.texs = texs;
     }
 
-    static List<DecoConfig> load(JsonValue planetConfig) {
+    static List<DecoConfig> load(JSONObject planetConfig) {
         ArrayList<DecoConfig> res = new ArrayList<>();
-        for (JsonValue deco : planetConfig.get("decorations")) {
-            float density = deco.getFloat("density");
-            float szMin = deco.getFloat("szMin");
-            float szMax = deco.getFloat("szMax");
+        JSONObject decorations = planetConfig.getJSONObject("decorations");
+        for (String s : decorations.keySet()) {
+            if (!(decorations.get(s) instanceof JSONObject))
+                continue;
+            JSONObject deco = decorations.getJSONObject(s);
+            float density = (float) deco.getDouble("density");
+            float szMin = (float) deco.getDouble("szMin");
+            float szMax = (float) deco.getDouble("szMax");
             Vector2 orig = SolMath.readV2(deco, "orig");
             boolean allowFlip = deco.getBoolean("allowFlip");
-            String texName = deco.name;
+            String texName = s;
             List<TextureAtlas.AtlasRegion> texs = Assets.listTexturesMatching(texName + "_.*");
             DecoConfig c = new DecoConfig(density, szMin, szMax, orig, allowFlip, texs);
             res.add(c);
