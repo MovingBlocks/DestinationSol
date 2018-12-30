@@ -56,6 +56,7 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @API
 public class SolApplication implements ApplicationListener {
@@ -92,7 +93,6 @@ public class SolApplication implements ApplicationListener {
     // TODO: Make this non-static.
     private static Set<ResizeSubscriber> resizeSubscribers;
     private DelayedEventSystem delayedEventSystem;
-    private TransactionManager transactionManager;
     private  HashMap<Class<?>, Object> systemsMap;
 
     public SolApplication(float targetFPS) {
@@ -131,11 +131,12 @@ public class SolApplication implements ApplicationListener {
         menuScreens = new MenuScreens(layouts, isMobile(), options);
 
         inputManager.setScreen(this, menuScreens.main);
-        transactionManager = new TransactionManager();
-        SolEntityManager.setup(this.transactionManager);
+        TransactionManager transactionManager = new TransactionManager();
+        SolEntityManager.setup(transactionManager);
         final EventProcessorBuilder eventProcessorBuilder = EventProcessor.newBuilder();
         initSystemsStuff(eventProcessorBuilder);
         delayedEventSystem = new DelayedEventSystem(transactionManager, eventProcessorBuilder.build());
+        context.put(SolEventSystem.class, new SolEventSystem(delayedEventSystem));
     }
 
     private void initSystemsStuff(EventProcessorBuilder eventProcessorBuilder) {
@@ -150,6 +151,18 @@ public class SolApplication implements ApplicationListener {
             }
         });
         systemsMap.values().forEach(o -> EventReceiverMethodSupport.register(o, eventProcessorBuilder));
+        systemsMap.values().forEach(this::inject);
+    }
+
+    private void inject(Object o) {
+        Stream.of(o.getClass().getDeclaredFields())
+                .filter(field -> Stream.of(field.getDeclaredAnnotations()).anyMatch(annotation -> annotation.getClass() == In.class))
+                .forEach(field -> {
+                    field.setAccessible(true);
+                    try {
+                        field.set(o, context.get(field.getType()));
+                    } catch (IllegalAccessException ignore) { }
+                });
     }
 
     @Override
